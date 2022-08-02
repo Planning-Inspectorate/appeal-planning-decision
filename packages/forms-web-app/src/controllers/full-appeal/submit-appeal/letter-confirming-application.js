@@ -8,7 +8,8 @@ const {
 const logger = require('../../../lib/logger');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
-const { COMPLETED } = require('../../../services/task-status/task-statuses');
+const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
+const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = documentTypes.letterConfirmingApplication.name;
@@ -68,8 +69,15 @@ const postLetterConfirmingApplication = async (req, res) => {
 			};
 		}
 
-		appeal.sectionStates[sectionName][taskName] = COMPLETED;
-		req.session.appeal = await createOrUpdateAppeal(appeal);
+		if (req.body['save-and-return'] !== '') {
+			appeal.sectionStates[sectionName][taskName] = COMPLETED;
+			req.session.appeal = await createOrUpdateAppeal(appeal);
+
+			return res.redirect(`/${TASK_LIST}`);
+		} else {
+			appeal.sectionStates[sectionName][taskName] = IN_PROGRESS;
+			return await postSaveAndReturn(req, res);
+		}
 	} catch (err) {
 		logger.error(err);
 		return res.render(LETTER_CONFIRMING_APPLICATION, {
@@ -78,8 +86,6 @@ const postLetterConfirmingApplication = async (req, res) => {
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});
 	}
-
-	return res.redirect(`/${TASK_LIST}`);
 };
 
 module.exports = {
