@@ -20,7 +20,7 @@ router.post(
 	optionsValidationRules({
 		fieldName: 'description-development-correct',
 		emptyError:
-			"Select yes if your proposed development haven't changed after you submitted your application"
+			"Select yes if your proposed development hasn't changed after you submitted your application"
 	}),
 	textfieldValidationRules({
 		fieldName: 'description-development-correct-details',
