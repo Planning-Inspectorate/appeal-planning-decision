@@ -24,7 +24,8 @@ const postProposedDevelopmentChanged = async (req, res) => {
 	const { appeal } = req.session;
 
 	const descriptionDevelopmentCorrect = {
-		isCorrect: body['description-development-correct'] === 'yes',
+		isCorrect:
+			body['description-development-correct'] && body['description-development-correct'] === 'yes',
 		details:
 			body['description-development-correct'] === 'no'
 				? body['description-development-correct-details']
