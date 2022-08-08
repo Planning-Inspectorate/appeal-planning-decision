@@ -9,16 +9,6 @@
 {% set title = "Do you plan to submit a planning obligation to support your appeal? - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
-{% block backButton %}
-  {{ govukBackLink({
-    text: 'Back',
-    href: backLink,
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
-{% endblock %}
-
 {% block content %}
 
 <div class="govuk-grid-row">
@@ -30,7 +20,7 @@
         errorList: errorSummary
       }) }}
     {% endif %}
-    
+
     <span class="govuk-caption-l">Upload documents for your appeal</span>
 
     <form action="" method="post" novalidate>
@@ -46,7 +36,7 @@
           legend: {
             html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
               <h1 class="govuk-fieldset__heading">
-                Do you plan to submit a planning obligation to support your appeal? 
+                Do you plan to submit a planning obligation to support your appeal?
               </h1>
               </legend>',
             isPageHeading: true,
@@ -68,7 +58,7 @@
           }
         ]
       }) }}
-      <div class="govuk-button-group">        
+      <div class="govuk-button-group">
         {{ govukButton({
           text: "Continue",
           type: "submit",

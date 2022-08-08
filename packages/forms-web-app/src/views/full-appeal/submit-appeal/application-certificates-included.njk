@@ -9,16 +9,6 @@
 {% set title = "Did you submit a separate ownership certificate and agricultural land declaration with your application? - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
-{% block backButton %}
-  {{ govukBackLink({
-    text: 'Back',
-    href: backLink,
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
-{% endblock %}
-
 {% block content %}
 
 <div class="govuk-grid-row">
@@ -32,9 +22,9 @@
     {% endif %}
 
     <span class="govuk-caption-l">Upload documents from your planning application</span>
-    
+
     <form action="" method="post" novalidate>
-      
+
       {{ govukRadios({
         classes: "govuk-radios",
         id: "did-you-submit-separate-certificate",

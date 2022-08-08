@@ -16,10 +16,7 @@ const buildVariables = (isTenant, tellingTheTenants) => {
 	const isOther = isTenant;
 	return {
 		tellingTheTenants: toArray(tellingTheTenants),
-		isOther,
-		backLink: isOther
-			? '/full-appeal/submit-appeal/other-tenants'
-			: '/full-appeal/submit-appeal/are-you-a-tenant'
+		isOther
 	};
 };
 

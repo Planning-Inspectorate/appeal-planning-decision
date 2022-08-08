@@ -24,8 +24,7 @@ const buildVariables = (ownsSomeOfTheLand, knowsTheOwners, advertisingYourAppeal
 	return {
 		advertisingYourAppeal: toArray(advertisingYourAppeal),
 		isOther,
-		isAll,
-		backLink: `/${IDENTIFYING_THE_OWNERS}`
+		isAll
 	};
 };
 
