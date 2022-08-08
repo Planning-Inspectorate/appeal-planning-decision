@@ -94,7 +94,9 @@ describe('lib/views', () => {
 
 			MESSAGES: {
 				COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully'
-			}
+			},
+
+			ACCESSIBILITY_STATEMENT: 'accessibility-statement/accessibility-statement'
 		});
 	});
 });
