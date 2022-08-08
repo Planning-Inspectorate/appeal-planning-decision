@@ -1,6 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
 const v8 = require('v8');
-const anyOfFollowingController = require('../../../../src/controllers/full-appeal/any-of-following');
+const {
+	postAnyOfFollowing,
+	getAnyOfFollowing
+} = require('../../../../src/controllers/full-appeal/any-of-following');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
@@ -24,7 +27,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 	});
 
 	it('should render any of following page', () => {
-		anyOfFollowingController.getAnyOfFollowing(req, res);
+		getAnyOfFollowing(req, res);
 
 		expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ANY_OF_FOLLOWING, {
 			applicationCategories: ['none_of_these'],
@@ -46,7 +49,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 				}
 			};
 
-			await anyOfFollowingController.postAnyOfFollowing(mockRequest, res);
+			await postAnyOfFollowing(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ANY_OF_FOLLOWING, {
 				applicationCategories: undefined,
@@ -68,7 +71,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 				}
 			};
 
-			await anyOfFollowingController.postAnyOfFollowing(mockRequest, res);
+			await postAnyOfFollowing(mockRequest, res);
 			expect(res.redirect).toHaveBeenCalledWith(
 				'/before-you-start/use-existing-service-development-type'
 			);
@@ -82,7 +85,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 				}
 			};
 
-			await anyOfFollowingController.postAnyOfFollowing(mockRequest, res);
+			await postAnyOfFollowing(mockRequest, res);
 			expect(res.redirect).toHaveBeenCalledWith(
 				'/before-you-start/use-existing-service-development-type'
 			);
@@ -96,7 +99,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 				}
 			};
 
-			await anyOfFollowingController.postAnyOfFollowing(mockRequest, res);
+			await postAnyOfFollowing(mockRequest, res);
 			expect(res.redirect).toHaveBeenCalledWith(
 				'/before-you-start/use-existing-service-development-type'
 			);
@@ -110,7 +113,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 				}
 			};
 
-			await anyOfFollowingController.postAnyOfFollowing(mockRequest, res);
+			await postAnyOfFollowing(mockRequest, res);
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/granted-or-refused');
 		});
 
@@ -126,7 +129,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 				throw error;
 			});
 
-			await anyOfFollowingController.postAnyOfFollowing(req, res);
+			await postAnyOfFollowing(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledTimes(1);

@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const planningApplicationNumberController = require('../../../../../src/controllers/full-appeal/submit-appeal/planning-application-number');
+const {
+	postPlanningApplicationNumber,
+	getPlanningApplicationNumber
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/planning-application-number');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
@@ -31,7 +34,7 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 
 	describe('getPlanningApplicationNumber', () => {
 		it('should call the correct template', () => {
-			planningApplicationNumberController.getPlanningApplicationNumber(req, res);
+			getPlanningApplicationNumber(req, res);
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
 				planningApplicationNumber: applicationNumber,
 				backLink
@@ -48,7 +51,7 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await planningApplicationNumberController.postPlanningApplicationNumber(mockRequest, res);
+			await postPlanningApplicationNumber(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
@@ -67,7 +70,7 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 				...req,
 				body: { 'application-number': '123456' }
 			};
-			await planningApplicationNumberController.postPlanningApplicationNumber(mockRequest, res);
+			await postPlanningApplicationNumber(mockRequest, res);
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
@@ -91,7 +94,7 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 				}
 			};
 
-			await planningApplicationNumberController.postPlanningApplicationNumber(mockRequest, res);
+			await postPlanningApplicationNumber(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

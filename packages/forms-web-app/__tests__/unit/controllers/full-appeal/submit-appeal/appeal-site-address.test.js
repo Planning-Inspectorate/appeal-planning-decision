@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const appealSiteAddressController = require('../../../../../src/controllers/full-appeal/submit-appeal/appeal-site-address');
+const {
+	getAppealSiteAddress,
+	postAppealSiteAddress
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/appeal-site-address');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
@@ -30,7 +33,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
 
 	describe('getAppealSiteAddress', () => {
 		it('should call the correct template', () => {
-			appealSiteAddressController.getAppealSiteAddress(req, res);
+			getAppealSiteAddress(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(currentPage, {
 				appeal: req.session.appeal
@@ -47,7 +50,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await appealSiteAddressController.postAppealSiteAddress(mockRequest, res);
+			await postAppealSiteAddress(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(currentPage, {
@@ -76,7 +79,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
 				...req,
 				body: {}
 			};
-			await appealSiteAddressController.postAppealSiteAddress(mockRequest, res);
+			await postAppealSiteAddress(mockRequest, res);
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
@@ -107,7 +110,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
 					'site-postcode': fakePostcode
 				}
 			};
-			await appealSiteAddressController.postAppealSiteAddress(mockRequest, res);
+			await postAppealSiteAddress(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

@@ -1,4 +1,6 @@
-const useExistingServiceLocalPlanningDepartment = require('../../../../src/controllers/full-appeal/use-existing-service-local-planning-department');
+const {
+	getUseExistingServiceLocalPlanningDepartment
+} = require('../../../../src/controllers/full-appeal/use-existing-service-local-planning-department');
 
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
@@ -8,10 +10,7 @@ describe('controllers/full-appeal/use-existing-service-local-planning-department
 	const res = mockRes();
 
 	it('Test getUseExistingServiceLocalPlanningDepartment method calls the correct template', async () => {
-		await useExistingServiceLocalPlanningDepartment.getUseExistingServiceLocalPlanningDepartment(
-			req,
-			res
-		);
+		await getUseExistingServiceLocalPlanningDepartment(req, res);
 
 		expect(res.render).toBeCalledWith(
 			VIEW.FULL_APPEAL.USE_EXISTING_SERVICE_LOCAL_PLANNING_DEPARTMENT,

@@ -1,6 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const v8 = require('v8');
-const grantedOrRefusedHouseholderController = require('../../../../../src/controllers/householder-planning/eligibility/granted-or-refused-householder');
+const {
+	getGrantedOrRefusedHouseholder,
+	postGrantedOrRefusedHouseholder
+} = require('../../../../../src/controllers/householder-planning/eligibility/granted-or-refused-householder');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const {
 	VIEW: {
@@ -33,7 +36,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 
 	describe('getGrantedOrRefusedHouseholder', () => {
 		it('should call the correct template', () => {
-			grantedOrRefusedHouseholderController.getGrantedOrRefusedHouseholder(req, res);
+			getGrantedOrRefusedHouseholder(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED_HOUSEHOLDER, {
 				appeal: req.session.appeal
@@ -51,7 +54,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(mockRequest, res);
+			await postGrantedOrRefusedHouseholder(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -76,7 +79,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(req, res);
+			await postGrantedOrRefusedHouseholder(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -98,7 +101,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 				'granted-or-refused': applicationDecision
 			};
 
-			await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(req, res);
+			await postGrantedOrRefusedHouseholder(req, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
@@ -114,7 +117,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 				'granted-or-refused': applicationDecision
 			};
 
-			await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(req, res);
+			await postGrantedOrRefusedHouseholder(req, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
@@ -128,7 +131,7 @@ describe('controllers/householder-planning/eligibility/granted-or-refused-househ
 				'granted-or-refused': applicationDecision
 			};
 
-			await grantedOrRefusedHouseholderController.postGrantedOrRefusedHouseholder(req, res);
+			await postGrantedOrRefusedHouseholder(req, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/date-decision-due');

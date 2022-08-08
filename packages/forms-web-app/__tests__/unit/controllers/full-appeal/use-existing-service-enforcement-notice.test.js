@@ -1,4 +1,6 @@
-const useExistingServiceEnforcementNotice = require('../../../../src/controllers/full-appeal/use-existing-service-enforcement-notice');
+const {
+	getUseExistingServiceEnforcementNotice
+} = require('../../../../src/controllers/full-appeal/use-existing-service-enforcement-notice');
 
 const { VIEW } = require('../../../../src/lib/views');
 
@@ -9,7 +11,7 @@ describe('controllers/full-appeal/use-existing-service-enforcement-notice', () =
 	const res = mockRes();
 
 	it('Test the getUseExistingServiceEnforcementNotice method calls the correct template', async () => {
-		await useExistingServiceEnforcementNotice.getUseExistingServiceEnforcementNotice(req, res);
+		await getUseExistingServiceEnforcementNotice(req, res);
 
 		expect(res.render).toBeCalledWith(
 			VIEW.BEFORE_YOU_START.USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE,
