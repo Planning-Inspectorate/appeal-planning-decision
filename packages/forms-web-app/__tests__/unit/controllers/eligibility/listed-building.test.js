@@ -1,5 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const listedBuildingController = require('../../../../src/controllers/eligibility/listed-building');
+const {
+	getServiceNotAvailableForListedBuildings,
+	getListedBuilding,
+	postListedBuilding
+} = require('../../../../src/controllers/eligibility/listed-building');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
@@ -24,7 +28,7 @@ describe('controllers/eligibility/listed-building', () => {
 
 	describe('getServiceNotAvailableForListedBuildings', () => {
 		it('calls the correct template', () => {
-			listedBuildingController.getServiceNotAvailableForListedBuildings(req, res);
+			getServiceNotAvailableForListedBuildings(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_OUT);
 		});
@@ -32,11 +36,10 @@ describe('controllers/eligibility/listed-building', () => {
 
 	describe('getListedBuilding', () => {
 		it('calls the correct template', () => {
-			listedBuildingController.getListedBuilding(req, res);
+			getListedBuilding(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
-				appeal: req.session.appeal,
-				FORM_FIELD: listedBuildingController.FORM_FIELD
+				appeal: req.session.appeal
 			});
 		});
 	});
@@ -51,7 +54,7 @@ describe('controllers/eligibility/listed-building', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await listedBuildingController.postListedBuilding(mockRequest, res);
+			await postListedBuilding(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -78,7 +81,7 @@ describe('controllers/eligibility/listed-building', () => {
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await listedBuildingController.postListedBuilding(mockRequest, res);
+			await postListedBuilding(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -96,7 +99,7 @@ describe('controllers/eligibility/listed-building', () => {
 					'is-your-appeal-about-a-listed-building': 'yes'
 				}
 			};
-			await listedBuildingController.postListedBuilding(mockRequest, res);
+			await postListedBuilding(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -118,7 +121,7 @@ describe('controllers/eligibility/listed-building', () => {
 					'is-your-appeal-about-a-listed-building': 'no'
 				}
 			};
-			await listedBuildingController.postListedBuilding(mockRequest, res);
+			await postListedBuilding(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

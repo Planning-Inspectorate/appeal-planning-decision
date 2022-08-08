@@ -1,5 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const costsController = require('../../../../src/controllers/eligibility/costs');
+const {
+	getCosts,
+	getCostsOut,
+	postCosts
+} = require('../../../../src/controllers/eligibility/costs');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -22,7 +26,7 @@ describe('controllers/appellant-submission/claim-costs', () => {
 
 	describe('getCosts', () => {
 		it('should call the correct template', () => {
-			costsController.getCosts(req, res);
+			getCosts(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.COSTS, {
 				appeal: req.session.appeal
@@ -32,7 +36,7 @@ describe('controllers/appellant-submission/claim-costs', () => {
 
 	describe('getCostsOut', () => {
 		it('should call the correct template', () => {
-			costsController.getCostsOut(req, res);
+			getCostsOut(req, res);
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.COSTS_OUT);
 		});
 	});
@@ -47,7 +51,7 @@ describe('controllers/appellant-submission/claim-costs', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await costsController.postCosts(mockRequest, res);
+			await postCosts(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.COSTS, {
@@ -72,7 +76,7 @@ describe('controllers/appellant-submission/claim-costs', () => {
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await costsController.postCosts(mockRequest, res);
+			await postCosts(mockRequest, res);
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
@@ -93,7 +97,7 @@ describe('controllers/appellant-submission/claim-costs', () => {
 				}
 			};
 
-			await costsController.postCosts(mockRequest, res);
+			await postCosts(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -115,7 +119,7 @@ describe('controllers/appellant-submission/claim-costs', () => {
 				}
 			};
 
-			await costsController.postCosts(mockRequest, res);
+			await postCosts(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
