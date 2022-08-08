@@ -1,4 +1,4 @@
-const BusinessRulesError = require('./business-rules-error');
+const BusinessRulesError = require('../src/lib/business-rules-error');
 
 describe('lib/business-rules-error', () => {
 	it('should return an object with the correct params', () => {

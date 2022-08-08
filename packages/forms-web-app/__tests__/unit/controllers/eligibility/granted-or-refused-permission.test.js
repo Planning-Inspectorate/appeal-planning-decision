@@ -1,5 +1,11 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const grantedOrRefusedPlanningPermissionController = require('../../../../src/controllers/eligibility/granted-or-refused-permission');
+const {
+	getNoDecision,
+	getGrantedOrRefusedPermission,
+	getGrantedOrRefusedPermissionOut,
+	forwardPage,
+	postGrantedOrRefusedPermission
+} = require('../../../../src/controllers/eligibility/granted-or-refused-permission');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -21,14 +27,14 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
 
 	describe('getNoDecision', () => {
 		it('should call the correct template', () => {
-			grantedOrRefusedPlanningPermissionController.getNoDecision(req, res);
+			getNoDecision(req, res);
 			expect(res.render).toHaveBeenCalledWith('eligibility/no-decision');
 		});
 	});
 
 	describe('getGrantedOrRefusedPlanningPermission', () => {
 		it('should call the correct template', () => {
-			grantedOrRefusedPlanningPermissionController.getGrantedOrRefusedPermission(req, res);
+			getGrantedOrRefusedPermission(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION, {
 				appeal: req.session.appeal
@@ -38,7 +44,7 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
 
 	describe('getGrantedOrRefusedPlanningPermissionOut', () => {
 		it('should call the permission out template', () => {
-			grantedOrRefusedPlanningPermissionController.getGrantedOrRefusedPermissionOut(req, res);
+			getGrantedOrRefusedPermissionOut(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT);
 		});
@@ -46,32 +52,31 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
 
 	describe('forwardPage', () => {
 		it(`should return '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT}' if passed 'permissionStatus' is 'granted'`, async () => {
-			const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('granted');
+			const pageRedirect = forwardPage('granted');
 
 			expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT);
 		});
 
 		it(`should return '/${VIEW.ELIGIBILITY.DECISION_DATE}' if passed 'permissionStatus' is 'refused'`, async () => {
-			const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('refused');
+			const pageRedirect = forwardPage('refused');
 
 			expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.DECISION_DATE);
 		});
 
 		it(`should return '/${VIEW.ELIGIBILITY.NO_DECISION}' if passed 'permissionStatus' is 'nodecisionreceived'`, async () => {
-			const pageRedirect =
-				grantedOrRefusedPlanningPermissionController.forwardPage('nodecisionreceived');
+			const pageRedirect = forwardPage('nodecisionreceived');
 
 			expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.NO_DECISION);
 		});
 
 		it(`should return '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION}' if passed 'permissionStatus' is 'default'`, async () => {
-			const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage('default');
+			const pageRedirect = forwardPage('default');
 
 			expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION);
 		});
 
 		it(`should return '/${VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION}' if 'permissionStatus' is not passed`, async () => {
-			const pageRedirect = grantedOrRefusedPlanningPermissionController.forwardPage();
+			const pageRedirect = forwardPage();
 
 			expect(pageRedirect).toEqual(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION);
 		});
@@ -87,10 +92,7 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await grantedOrRefusedPlanningPermissionController.postGrantedOrRefusedPermission(
-				mockRequest,
-				res
-			);
+			await postGrantedOrRefusedPermission(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -118,10 +120,7 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
 			const error = new Error('Api call error');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await grantedOrRefusedPlanningPermissionController.postGrantedOrRefusedPermission(
-				mockRequest,
-				res
-			);
+			await postGrantedOrRefusedPermission(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -142,10 +141,7 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
 					'granted-or-refused-permission': planningPermissionStatus
 				}
 			};
-			await grantedOrRefusedPlanningPermissionController.postGrantedOrRefusedPermission(
-				mockRequest,
-				res
-			);
+			await postGrantedOrRefusedPermission(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -164,10 +160,7 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
 				...req,
 				body: { 'granted-or-refused-permission': planningPermissionStatus }
 			};
-			await grantedOrRefusedPlanningPermissionController.postGrantedOrRefusedPermission(
-				mockRequest,
-				res
-			);
+			await postGrantedOrRefusedPermission(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -188,10 +181,7 @@ describe('controllers/eligibility/granted-or-refused-permission', () => {
 				...req,
 				body: { 'granted-or-refused-permission': planningPermissionStatus }
 			};
-			await grantedOrRefusedPlanningPermissionController.postGrantedOrRefusedPermission(
-				mockRequest,
-				res
-			);
+			await postGrantedOrRefusedPermission(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

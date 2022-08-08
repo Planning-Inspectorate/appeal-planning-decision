@@ -10,7 +10,7 @@ const {
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { mockReq, mockRes } = require('../../../mocks');
 const { getSavedAppeal, getExistingAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { calculateDeadline } = require('../../../../../src/lib/calculate-deadline');
+const { hasDeadlineDatePassed } = require('../../../../../src/lib/calculate-deadline');
 const { isTokenExpired } = require('../../../../../src/lib/is-token-expired');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
@@ -28,7 +28,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	describe('getEnterCode', () => {
 		it('should render enter code page when receiving the token from email', async () => {
 			const url = '/full-appeal/submit-appeal/request-new-code';
-			calculateDeadline.hasDeadlineDatePassed.mockReturnValue(false);
+			hasDeadlineDatePassed.mockReturnValue(false);
 			getSavedAppeal.mockReturnValue({
 				token: '12312'
 			});
