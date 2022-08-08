@@ -65,5 +65,8 @@ module.exports = {
 	},
 	featureFlag: {
 		googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true'
-	}
+	},
+	accessibilityLinkUrl:
+		`${process.env.HOST_URL}/accessibility-stamenent` ||
+		'http://localhost:9003/accessibility-statement'
 };

@@ -1,0 +1,198 @@
+{% extends "layouts/full-appeal-banner/main.njk" %}
+
+{% set title="This accessibility statement applies to Appeal a planning decision -  GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-xl">
+        Accessibility statement
+      </h1>
+    </div>
+    <div class="govuk-grid-column-two-thirds">
+
+      <p class="govuk-body">
+        This service is part of the wider GOV.UK website. There’s a separate <a href="https://www.gov.uk/help/accessibility-statement" class="govuk-link">accessibility statement for the main GOV.UK website</a>.
+      </p>
+
+      <p class="govuk-body">
+        This statement only applies to the Appeal a planning decision service, available at <a href="https://appeal-planning-decision.service.gov.uk/" class="govuk-link">https://appeal-planning-decision.service.gov.uk/</a>
+      </p>
+
+      <h2 class="govuk-heading-m">
+        Using this service
+      </h2>
+
+      <p class="govuk-body">
+        This service is run by the Planning Inspectorate. We want as many people as possible to be able to use this service. For example, that means you should be able to:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          change colours, contrast levels and fonts
+        </li>
+        <li>
+          zoom in up to 300% without the text spilling off the screen
+        </li>
+        <li>
+          get from the start of the service to the end just a keyboard
+        </li>
+        <li>
+          get from the start of the service to the end just a keyboard
+        </li>
+        <li>
+          get from the start of the service to the end using speech recognition software
+        </li>
+        <li>
+          get from the start of the service to the end using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)
+        </li>
+        <li>
+          get from the start of the service to the end just a keyboard
+        </li>
+      </ul>
+
+      <p class="govuk-body">
+        We’ve also made the text in this service as simple as possible to understand.
+      </p>
+
+      <p class="govuk-body">
+        <a href="https://www.abilitynet.org.uk/" class="govuk-link">AbilityNet</a> has advice on making your device easier to use if you have a disability.
+      </p>
+
+      <h2 class="govuk-heading-m">
+        How accessible this service is
+      </h2>
+
+      <p class="govuk-body">
+        This service is partially compliant with the <a href="https://www.w3.org/TR/WCAG21/" class="govuk-link">Web Content Accessibility Guidelines version 2.1</a> AA standard.
+      </p>
+
+      <p class="govuk-body">
+        Some people may find parts of the service difficult to use:
+      </p>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          there may be some links which do not provide enough context
+        </li>
+        <li>
+          people using assistive technology may find some parts of the site difficult to navigate
+        </li>
+      </ul>
+
+      <p class="govuk-body">
+        The compliance status section below gives more detail on the areas of the site that are not fully accessible.
+      </p>
+
+      <h2 class="govuk-heading-m">
+        Feedback and contact information
+      </h2>
+
+      <p class="govuk-body">
+        If you need information on this service in a different format like accessible PDF, large print, easy read, audio recording or braille:
+      </p>
+
+      <p class="govuk-body">
+        Email: pcs@planninginspectorate.gov.uk
+      </p>
+
+      <p class="govuk-body">
+        Call: 0303 444 5000
+      </p>
+
+      <p class="govuk-body">
+        We’ll consider your request and get back to you in 10 working days.
+      </p>
+
+      <h2 class="govuk-heading-m">
+        Reporting accessibility problems with this service
+      </h2>
+
+      <p class="govuk-body">
+        We’re always looking to improve the accessibility of this service. If you find any problems not listed on this page or think we’re not meeting accessibility requirements, <a href="pcs@planninginspectorate.gov.uk">email us at pcs@planninginspectorate.gov.uk</a>
+      </p>
+
+      <h2 class="govuk-heading-m">
+        Enforcement procedure
+      </h2>
+
+      <p class="govuk-body">
+        The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint, <a href="https://www.equalityadvisoryservice.com/" class="govuk-link">contact the Equality Advisory and Support Service (EASS)</a>.
+      </p>
+
+      <h2 class="govuk-heading-m">
+        Technical information about this service's accessibility
+      </h2>
+
+      <p class="govuk-body">
+        The Planning Inspectorate is committed to making this service accessible, In accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.
+      </p>
+
+      <h2 class="govuk-heading-m">
+        Compliance status
+      </h2>
+
+      <p class="govuk-body">
+        This service is partially compliant with the Web Content Accessibility Guidelines version 2.1 AA standard. The non-compliances are listed below.
+      </p>
+
+      <h2 class="govuk-heading-m">
+        Non-accessible content
+      </h2>
+
+      <p class="govuk-body">
+        The content listed below is non-accessible for the following reasons.
+      </p>
+
+      <h2 class="govuk-heading-m">
+        Non-Compliance with the accessibility regulations
+      </h2>
+
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          Some pages are not coded in the right way, meaning that navigating with assistive technology could cause errors. This does not comply with WCAG Level A 2.1: 1.3.1 (Info and Relationships). This will be fixed by December 2022.
+        </li>
+        <li>
+          When navigating using Dragon Naturally Speaking, users cannot upload files using voice commands. This means the content within the accordion cannot be accessed. This does not comply with WCAG Level A 2.1: 4.1.2 (Name, Role, Value). This will be fixed by December 2022
+        </li>
+        <li>
+          When navigating using Dragon Naturally Speaking, the accordion cannot be expanded using voice commands. This means the content within the accordion cannot be accessed. This does not comply with WCAG Level A 2.1: 4.1.2 (Name, Role, Value). This will be fixed by December 2022
+        </li>
+        <li>
+          When navigating with assistive technology on iOS devices users are taken to the top of the page. This does not comply with WCAG Level A 2.1: 4.1.2 (Name, Role, Value). This will be fixed by December 2022.
+        </li>
+        <li>
+          When navigating using TalkBack on Android devices, the screen reader reads the word ‘section’ before the main content. This does not comply with WCAG Level A 2.1: 4.1.2 (Name, Role, Value). This will be fixed by December 2022.
+        </li>
+        <li>
+          When navigating using TalkBack on Android devices, the screen reader reads the question title after scrolling past the ‘change’ link. This does not comply with WCAG Level A 2.1: 4.1.2 (Name, Role, Value). This will be fixed by December 2022.
+        </li>
+        <li>
+          Some pages are not coded in the right way, meaning that navigating with assistive technology could be difficult. This does not comply with WCAG Level A 2.1: 4.1.1 (Parsing). This will be fixed by December 2022.
+        </li>
+        <li>
+          Autocomplete is not present in some form fields. This means the form files will need to be filled in manually, which can cause difficulty for people with access needs. This does not comply with WCAG Level A 2.1: 1.3.5 (Identify Input Purpose). This will be fixed by December 2022.
+        </li>
+        <li>
+          On some pages the CSS outline or border can make it difficult to identify if the element is in focus. This does not comply with WCAG Level AA 2.1: 2.4.7 (Focus Visible). This will be fixed by December 2022.
+        </li>
+      </ul>
+
+      <h2 class="govuk-heading-m">
+        Preparation of this accessibility statement
+      </h2>
+
+      <p class="govuk-body">
+        An accessibility report of the service took place in May 2022. This statement was prepared and last reviewed on 27 July 2022.
+      </p>
+
+    </div>
+  </div>
+{% endblock %}
