@@ -19,33 +19,10 @@ const navigationPages = {
 	shutterPage: '/before-you-start/use-existing-service-enforcement-notice'
 };
 
-const decisionDateEnforcementNoticeMapper = (key) => {
-	const pages = {
-		[`${APPEAL_ID.HOUSEHOLDER}_${APPLICATION_DECISION.GRANTED}`]:
-			'/before-you-start/decision-date-householder',
-		[`${APPEAL_ID.HOUSEHOLDER}_${APPLICATION_DECISION.REFUSED}`]:
-			'/before-you-start/decision-date-householder',
-		[`${APPEAL_ID.HOUSEHOLDER}_${APPLICATION_DECISION.NODECISIONRECEIVED}`]:
-			'/before-you-start/date-decision-due-householder'
-	};
-
-	return pages[key];
-};
-
-const getPreviousPagePath = (appealType, applicationDecision) => {
-	return decisionDateEnforcementNoticeMapper(`${appealType}_${applicationDecision}`);
-};
-
 exports.getEnforcementNoticeHouseholder = (req, res) => {
 	const { appeal } = req.session;
-
-	navigationPages.previousPage = getPreviousPagePath(
-		appeal.appealType,
-		appeal.eligibility?.applicationDecision
-	);
 	res.render(currentPage, {
-		enforcementNotice: appeal.eligibility.enforcementNotice,
-		previousPage: navigationPages.previousPage
+		enforcementNotice: appeal.eligibility.enforcementNotice
 	});
 };
 
@@ -53,11 +30,6 @@ exports.postEnforcementNoticeHouseholder = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 	const { appeal } = req.session;
-
-	navigationPages.previousPage = getPreviousPagePath(
-		appeal.appealType,
-		appeal.eligibility?.applicationDecision
-	);
 
 	let hasReceivedEnforcementNoticeHouseholder = null;
 	if (validEnforcementNoticeHouseholderOptions.includes(req.body['enforcement-notice'])) {
@@ -68,8 +40,7 @@ exports.postEnforcementNoticeHouseholder = async (req, res) => {
 		res.render(currentPage, {
 			enforcementNotice: appeal.eligibility.enforcementNotice,
 			errors,
-			errorSummary,
-			previousPage: navigationPages.previousPage
+			errorSummary
 		});
 		return;
 	}
@@ -83,8 +54,7 @@ exports.postEnforcementNoticeHouseholder = async (req, res) => {
 		res.render(currentPage, {
 			enforcementNotice: appeal.eligibility.enforcementNotice,
 			errors,
-			errorSummary: [{ text: e.toString(), href: '#' }],
-			previousPage: navigationPages.previousPage
+			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
 		return;
 	}

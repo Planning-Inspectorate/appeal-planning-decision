@@ -19,33 +19,10 @@ const navigationPages = {
 
 // /full-appeal/submit-appeal/task-list
 
-const decisionDateEnforcementNoticeMapper = (key) => {
-	const pages = {
-		[`${APPEAL_ID.PLANNING_SECTION_78}_${APPLICATION_DECISION.GRANTED}`]:
-			'/before-you-start/decision-date',
-		[`${APPEAL_ID.PLANNING_SECTION_78}_${APPLICATION_DECISION.REFUSED}`]:
-			'/before-you-start/decision-date',
-		[`${APPEAL_ID.PLANNING_SECTION_78}_${APPLICATION_DECISION.NODECISIONRECEIVED}`]:
-			'/before-you-start/date-decision-due'
-	};
-
-	return pages[key];
-};
-
-const getPreviousPagePath = (appealType, applicationDecision) => {
-	return decisionDateEnforcementNoticeMapper(`${appealType}_${applicationDecision}`);
-};
-
 exports.getEnforcementNotice = (req, res) => {
 	const { appeal } = req.session;
-
-	navigationPages.previousPage = getPreviousPagePath(
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
 	res.render(currentPage, {
-		appeal,
-		previousPage: navigationPages.previousPage
+		appeal
 	});
 };
 
@@ -53,11 +30,6 @@ exports.postEnforcementNotice = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 	const { appeal } = req.session;
-
-	navigationPages.previousPage = getPreviousPagePath(
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
 
 	let hasReceivedEnforcementNotice = null;
 	if (validEnforcementNoticeOptions.includes(req.body['enforcement-notice'])) {
@@ -74,8 +46,7 @@ exports.postEnforcementNotice = async (req, res) => {
 				}
 			},
 			errors,
-			errorSummary,
-			previousPage: navigationPages.previousPage
+			errorSummary
 		});
 		return;
 	}
@@ -94,8 +65,7 @@ exports.postEnforcementNotice = async (req, res) => {
 		res.render(currentPage, {
 			appeal,
 			errors,
-			errorSummary: [{ text: e.toString(), href: '#' }],
-			previousPage: navigationPages.previousPage
+			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
 		return;
 	}

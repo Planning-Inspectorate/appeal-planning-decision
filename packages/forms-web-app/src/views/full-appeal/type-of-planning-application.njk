@@ -12,13 +12,6 @@
   {{ title }}
 {% endblock %}
 
-{% block backButton %}
-    {{ govukBackLink({
-    text: "Back",
-    href: "/before-you-start/local-planning-department"
- })}}
-{% endblock %}
-
 {% block content %}
 
   {% if errorSummary %}

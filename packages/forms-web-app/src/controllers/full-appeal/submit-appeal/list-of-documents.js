@@ -5,10 +5,9 @@ const {
 	}
 } = require('../../../lib/full-appeal/views');
 const { postSaveAndReturn } = require('../../save');
-const backLink = `/${EMAIL_CONFIRMED}`;
 
 const getListOfDocuments = (_, res) => {
-	res.render(currentPage, { backLink });
+	res.render(currentPage);
 };
 
 const postListOfDocuments = async (req, res) => {
@@ -23,7 +22,6 @@ const postListOfDocuments = async (req, res) => {
 	} catch (e) {
 		logger.error(e);
 		return res.render(currentPage, {
-			backLink,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
