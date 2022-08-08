@@ -1,4 +1,6 @@
-const appealSubmittedController = require('../../../../../src/controllers/full-appeal/submit-appeal/appeal-submitted');
+const {
+	getAppealSubmitted
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/appeal-submitted');
 const { mockReq, mockRes } = require('../../../mocks');
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
 
@@ -34,13 +36,13 @@ describe('controllers/full-appeal/submit-appeal/appeal-submitted', () => {
 		it('should ensure req.session.appeal is reset', () => {
 			expect(req.session.appeal).not.toBeNull();
 
-			appealSubmittedController.getAppealSubmitted(req, res);
+			getAppealSubmitted(req, res);
 
 			expect(req.session.appeal).toBeNull();
 		});
 
 		it('should call the correct template', () => {
-			appealSubmittedController.getAppealSubmitted(req, res);
+			getAppealSubmitted(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPEAL_SUBMITTED, {
 				appellantEmail,

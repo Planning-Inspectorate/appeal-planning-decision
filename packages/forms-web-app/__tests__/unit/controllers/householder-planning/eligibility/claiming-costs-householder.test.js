@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const claimingCostsController = require('../../../../../src/controllers/householder-planning/eligibility/claiming-costs-householder');
+const {
+	getClaimingCostsHouseholder,
+	postClaimingCostsHouseholder
+} = require('../../../../../src/controllers/householder-planning/eligibility/claiming-costs-householder');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
 
@@ -30,7 +33,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 
 	describe('Claiming Costs Tests', () => {
 		it('should call the correct template on getClaimingCostsHouseholder', async () => {
-			await claimingCostsController.getClaimingCostsHouseholder(req, res);
+			await getClaimingCostsHouseholder(req, res);
 
 			expect(res.render).toBeCalledWith(claimingCosts, {
 				isClaimingCosts: appeal.eligibility.isClaimingCosts,
@@ -44,7 +47,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 				body: { 'claiming-costs-householder': 'yes' }
 			};
 
-			await claimingCostsController.postClaimingCostsHouseholder(mockRequest, res);
+			await postClaimingCostsHouseholder(mockRequest, res);
 
 			expect(appeal.eligibility.isClaimingCosts).toEqual(true);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({ ...appeal });
@@ -58,7 +61,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 				body: { 'claiming-costs-householder': 'no' }
 			};
 
-			await claimingCostsController.postClaimingCostsHouseholder(mockRequest, res);
+			await postClaimingCostsHouseholder(mockRequest, res);
 
 			expect(appeal.eligibility.isClaimingCosts).toEqual(false);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
@@ -80,7 +83,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 				}
 			};
 
-			await claimingCostsController.postClaimingCostsHouseholder(mockRequest, res);
+			await postClaimingCostsHouseholder(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -106,7 +109,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await claimingCostsController.postClaimingCostsHouseholder(mockRequest, res);
+			await postClaimingCostsHouseholder(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(logger.error).toHaveBeenCalledWith(error);

@@ -1,5 +1,7 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const proposedDevelopmentController = require('../../../../../src/controllers/full-appeal/submit-appeal/proposed-development-changed');
+const {
+	postProposedDevelopmentChanged
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/proposed-development-changed');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
@@ -36,7 +38,7 @@ describe('controllers/full-appeal/submit-appeal/proposed-development-changed', (
 
 	describe('getProposedDevelopmentChanged', () => {
 		it('should call the correct template', () => {
-			proposedDevelopmentController.postProposedDevelopmentChanged(req, res);
+			postProposedDevelopmentChanged(req, res);
 			expect(res.render).toHaveBeenCalledWith(PROPOSED_DEVELOPMENT_CHANGED, {
 				proposedDevelopmentChanged
 			});
@@ -52,7 +54,7 @@ describe('controllers/full-appeal/submit-appeal/proposed-development-changed', (
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await proposedDevelopmentController.postProposedDevelopmentChanged(mockRequest, res);
+			await postProposedDevelopmentChanged(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(PROPOSED_DEVELOPMENT_CHANGED, {
@@ -70,7 +72,7 @@ describe('controllers/full-appeal/submit-appeal/proposed-development-changed', (
 				...req,
 				body: {}
 			};
-			await proposedDevelopmentController.postProposedDevelopmentChanged(mockRequest, res);
+			await postProposedDevelopmentChanged(mockRequest, res);
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
@@ -93,7 +95,7 @@ describe('controllers/full-appeal/submit-appeal/proposed-development-changed', (
 				}
 			};
 
-			await proposedDevelopmentController.postProposedDevelopmentChanged(mockRequest, res);
+			await postProposedDevelopmentChanged(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

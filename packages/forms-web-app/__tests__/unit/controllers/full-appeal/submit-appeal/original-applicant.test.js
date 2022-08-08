@@ -1,5 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const originalApplicantController = require('../../../../../src/controllers/full-appeal/submit-appeal/original-applicant');
+const {
+	getOriginalApplicant,
+	FORM_FIELD,
+	postOriginalApplicant
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/original-applicant');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
@@ -8,8 +12,6 @@ const { mockReq, mockRes } = require('../../../mocks');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
 jest.mock('../../../../../src/lib/logger');
-
-const { FORM_FIELD } = originalApplicantController;
 
 const sectionName = 'contactDetailsSection';
 const taskName = 'isOriginalApplicant';
@@ -27,7 +29,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 
 	describe('getOriginalApplicant', () => {
 		it('should call the correct template', () => {
-			originalApplicantController.getOriginalApplicant(req, res);
+			getOriginalApplicant(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ORIGINAL_APPLICANT, {
 				FORM_FIELD,
@@ -49,7 +51,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 				}
 			};
 
-			await originalApplicantController.postOriginalApplicant(mockRequest, res);
+			await postOriginalApplicant(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -81,7 +83,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 				}
 			};
 
-			await originalApplicantController.postOriginalApplicant(mockRequest, res);
+			await postOriginalApplicant(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
@@ -97,7 +99,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await originalApplicantController.postOriginalApplicant(mockRequest, res);
+			await postOriginalApplicant(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -123,7 +125,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 			const error = new Error('Internal Server Error');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await originalApplicantController.postOriginalApplicant(mockRequest, res);
+			await postOriginalApplicant(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 

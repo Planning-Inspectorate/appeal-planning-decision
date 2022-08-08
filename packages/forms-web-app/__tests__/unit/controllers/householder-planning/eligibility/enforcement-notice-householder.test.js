@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const enforcementNoticeController = require('../../../../../src/controllers/householder-planning/eligibility/enforcement-notice-householder');
+const {
+	getEnforcementNoticeHouseholder,
+	postEnforcementNoticeHouseholder
+} = require('../../../../../src/controllers/householder-planning/eligibility/enforcement-notice-householder');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const {
 	VIEW: {
@@ -47,7 +50,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 			req.session.appeal.appealType = '1001';
 			req.session.appeal.eligibility.applicationDecision = 'granted';
 
-			enforcementNoticeController.getEnforcementNoticeHouseholder(req, res);
+			getEnforcementNoticeHouseholder(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(currentPage, {
 				enforcementNotice: appeal.eligibility.enforcementNotice,
@@ -67,7 +70,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 				}
 			};
 
-			await enforcementNoticeController.postEnforcementNoticeHouseholder(mockRequest, res);
+			await postEnforcementNoticeHouseholder(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -91,7 +94,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await enforcementNoticeController.postEnforcementNoticeHouseholder(mockRequest, res);
+			await postEnforcementNoticeHouseholder(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -112,7 +115,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 					'enforcement-notice': 'yes'
 				}
 			};
-			await enforcementNoticeController.postEnforcementNoticeHouseholder(mockRequest, res);
+			await postEnforcementNoticeHouseholder(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -132,7 +135,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 					'enforcement-notice': 'no'
 				}
 			};
-			await enforcementNoticeController.postEnforcementNoticeHouseholder(mockRequest, res);
+			await postEnforcementNoticeHouseholder(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

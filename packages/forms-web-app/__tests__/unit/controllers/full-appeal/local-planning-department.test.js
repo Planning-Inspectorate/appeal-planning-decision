@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const localPlanningDepartmentController = require('../../../../src/controllers/full-appeal/local-planning-department');
+const {
+	getPlanningDepartment,
+	postPlanningDepartment
+} = require('../../../../src/controllers/full-appeal/local-planning-department');
 const { getDepartmentFromId } = require('../../../../src/services/department.service');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { getDepartmentFromName } = require('../../../../src/services/department.service');
@@ -54,7 +57,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 			getRefreshedDepartmentData.mockResolvedValue(departmentsData);
 
 			appeal.lpaCode = '';
-			await localPlanningDepartmentController.getPlanningDepartment(req, res);
+			await getPlanningDepartment(req, res);
 
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
@@ -71,7 +74,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 			getDepartmentFromId.mockResolvedValue(undefined);
 
 			appeal.lpaCode = 'unknown';
-			await localPlanningDepartmentController.getPlanningDepartment(req, res);
+			await getPlanningDepartment(req, res);
 
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
@@ -88,7 +91,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 			getDepartmentFromId.mockResolvedValue({ name: 'lpdName' });
 
 			appeal.lpaCode = 'lpdCode';
-			await localPlanningDepartmentController.getPlanningDepartment(req, res);
+			await getPlanningDepartment(req, res);
 
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
@@ -109,7 +112,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 				body: { 'local-planning-department': 'lpa1' }
 			};
 
-			await localPlanningDepartmentController.postPlanningDepartment(mockRequest, res);
+			await postPlanningDepartment(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -126,7 +129,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 				body: { errors: { 'local-planning-department': { msg: 'Ineligible Department' } } }
 			};
 
-			await localPlanningDepartmentController.postPlanningDepartment(mockRequest, res);
+			await postPlanningDepartment(mockRequest, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(
 				'/before-you-start/use-existing-service-local-planning-department'
@@ -141,7 +144,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 				body: { errors: { 'local-planning-department': { msg: 'Invalid Value' } } }
 			};
 
-			await localPlanningDepartmentController.postPlanningDepartment(mockRequest, res);
+			await postPlanningDepartment(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
@@ -162,7 +165,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 				...req,
 				body: { 'local-planning-department': 'lpa1' }
 			};
-			await localPlanningDepartmentController.postPlanningDepartment(mockRequest, res);
+			await postPlanningDepartment(mockRequest, res);
 			expect(res.redirect).not.toHaveBeenCalled();
 
 			expect(logger.error).toHaveBeenCalledWith(error);

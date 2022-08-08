@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const declarationInformationController = require('../../../../../src/controllers/full-appeal/submit-appeal/declaration-information');
+const {
+	getDeclarationInformation
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/declaration-information');
 const { mockReq, mockRes } = require('../../../mocks');
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
 
@@ -30,7 +32,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
 		it('should return 400 if appeal id not provided', async () => {
 			req.params.appealId = null;
 
-			await declarationInformationController.getDeclarationInformation(req, res);
+			await getDeclarationInformation(req, res);
 
 			expect(res.status).toHaveBeenCalledWith(400);
 			expect(res.render).toHaveBeenCalledWith('error/400', {
@@ -40,7 +42,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
 		it('should return 400 if appealLPD does not exist in sesion', async () => {
 			req.params.appealId = 'some-id';
 			req.session.appeal = {};
-			await declarationInformationController.getDeclarationInformation(req, res);
+			await getDeclarationInformation(req, res);
 
 			expect(res.status).toHaveBeenCalledWith(400);
 			expect(res.render).toHaveBeenCalledWith('error/400', {
@@ -50,7 +52,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
 		it('should return 404 if appeal not found', async () => {
 			req.params.appealId = 'some-id';
 
-			await declarationInformationController.getDeclarationInformation(req, res);
+			await getDeclarationInformation(req, res);
 
 			expect(res.status).toHaveBeenCalledWith(404);
 			expect(res.render).toHaveBeenCalledWith('error/not-found');
@@ -74,7 +76,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
 				}
 			};
 
-			await declarationInformationController.getDeclarationInformation(req, res);
+			await getDeclarationInformation(req, res);
 
 			expect(req.session.appeal.submissionDate).not.toBeNull();
 		});
@@ -98,7 +100,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
 				}
 			};
 
-			await declarationInformationController.getDeclarationInformation(req, res);
+			await getDeclarationInformation(req, res);
 
 			const css = fs.readFileSync(
 				path.resolve(__dirname, '../../../../../src/public/stylesheets/main.css'),
