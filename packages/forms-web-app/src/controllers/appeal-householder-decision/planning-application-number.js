@@ -1,12 +1,10 @@
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
-const backLink = '/before-you-start/can-use-service';
 
 const getPlanningApplicationNumber = (req, res) => {
 	const { planningApplicationNumber } = req.session.appeal;
 	return res.render('appeal-householder-decision/planning-application-number', {
-		planningApplicationNumber,
-		backLink
+		planningApplicationNumber
 	});
 };
 
@@ -22,7 +20,6 @@ const postPlanningApplicationNumber = async (req, res) => {
 	if (Object.keys(errors).length > 0) {
 		return res.render('appeal-householder-decision/planning-application-number', {
 			planningApplicationNumber,
-			backLink,
 			errors,
 			errorSummary
 		});
@@ -35,7 +32,6 @@ const postPlanningApplicationNumber = async (req, res) => {
 		logger.error(e);
 		return res.render('appeal-householder-decision/planning-application-number', {
 			planningApplicationNumber,
-			backLink,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});

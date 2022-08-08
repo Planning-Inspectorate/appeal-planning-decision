@@ -7,20 +7,8 @@
 {% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% set labelText = "Drag and drop or choose a file" %}
-{% set backLink = '/full-appeal/submit-appeal/' %}
-{% set backLink = backLink + 'why-hearing' if procedureType === 'Hearing' else backLink + 'expect-inquiry-last' %}
 {% set title = "Upload your draft statement of common ground - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
-
-{% block backButton %}
-  {{ govukBackLink({
-    text: 'Back',
-    href: backLink,
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
-{% endblock %}
 
 {% block content %}
   <div class="govuk-grid-row">

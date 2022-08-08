@@ -5,27 +5,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
-{% set backLink = '/full-appeal/submit-appeal' %}
-{% if ownsAllTheLand %}
-  {% set backLink = backLink + '/own-all-the-land' %}
-{% elif knowsTheOwners === 'no' %}
-  {% set backLink = backLink + '/advertising-your-appeal' %}
-{% else %}
-  {% set backLink = backLink + '/telling-the-landowners' %}
-{% endif %}
-{% set title = "Is the appeal site part of an agricultural holding? - Appeal a planning decision - GOV.UK" %}
-{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
-
-{% block backButton %}
-  {{ govukBackLink({
-    text: 'Back',
-    href: backLink,
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
-{% endblock %}
-
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

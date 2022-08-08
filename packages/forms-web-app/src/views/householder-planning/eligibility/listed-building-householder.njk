@@ -4,29 +4,12 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set title = "Is your appeal about a listed building? - Before you start - Appeal a planning decision - GOV.UK" %}
-{% set backLink = '/before-you-start' %}
-
-{% switch typeOfPlanningApplication %}
-  {% case 'prior-approval' %}
-    {% set backLink = backLink + '/prior-approval-existing-home' %}
-  {% case 'removal-or-variation-of-conditions' %}
-    {% set backLink = backLink + '/conditions-householder-permission' %}
-  {% default %}
-    {% set backLink = backLink + '/type-of-planning-application' %}
-{% endswitch %}
 
 {% block pageTitle %}
   {% if errors %}
     {% set title = "Error: " + title %}
   {% endif %}
   {{ title }}
-{% endblock %}
-
-{% block backButton %}
-    {{ govukBackLink({
-    text: "Back",
-    href: backLink
- })}}
 {% endblock %}
 
 {% block content %}

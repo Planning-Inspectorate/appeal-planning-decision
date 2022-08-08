@@ -10,16 +10,6 @@
 {% set title = "Other supporting documents - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
-{% block backButton %}
-  {{ govukBackLink({
-    text: 'Back',
-    href: '/full-appeal/submit-appeal/new-documents',
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
-{% endblock %}
-
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -73,7 +63,7 @@
                 </p>'
         }) }}
 
-        <div class="govuk-button-group">        
+        <div class="govuk-button-group">
           {{ govukButton({
             text: "Continue",
             type: "submit",

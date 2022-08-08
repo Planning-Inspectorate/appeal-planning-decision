@@ -5,13 +5,11 @@ const {
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
-const backLink = '/before-you-start/can-use-service';
 
 exports.getPlanningApplicationNumber = (req, res) => {
 	const { planningApplicationNumber } = req.session.appeal;
 	res.render(PLANNING_APPLICATION_NUMBER, {
-		planningApplicationNumber,
-		backLink
+		planningApplicationNumber
 	});
 };
 
@@ -27,7 +25,6 @@ exports.postPlanningApplicationNumber = async (req, res) => {
 	if (Object.keys(errors).length > 0) {
 		return res.render(PLANNING_APPLICATION_NUMBER, {
 			planningApplicationNumber,
-			backLink,
 			errors,
 			errorSummary
 		});
@@ -40,7 +37,6 @@ exports.postPlanningApplicationNumber = async (req, res) => {
 		logger.error(e);
 		res.render(PLANNING_APPLICATION_NUMBER, {
 			planningApplicationNumber,
-			backLink,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});

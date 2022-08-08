@@ -9,15 +9,13 @@ const {
 	}
 } = require('../../../lib/householder-planning/views');
 
-const backLink = `/before-you-start/enforcement-notice-householder`;
 const nextPage = `/before-you-start/can-use-service`;
 
 exports.getClaimingCostsHouseholder = async (req, res) => {
 	const { appeal } = req.session;
 
 	res.render(claimingCosts, {
-		isClaimingCosts: appeal.eligibility.isClaimingCosts,
-		backLink
+		isClaimingCosts: appeal.eligibility.isClaimingCosts
 	});
 };
 
@@ -41,8 +39,7 @@ exports.postClaimingCostsHouseholder = async (req, res) => {
 		return res.render(claimingCosts, {
 			isClaimingCosts: appeal.eligibility.isClaimingCosts,
 			errors,
-			errorSummary,
-			backLink
+			errorSummary
 		});
 	}
 
@@ -60,8 +57,7 @@ exports.postClaimingCostsHouseholder = async (req, res) => {
 		return res.render(claimingCosts, {
 			isClaimingCosts: appeal.eligibility.isClaimingCosts,
 			errors,
-			errorSummary: [{ text: e.toString(), href: 'pageId' }],
-			backLink
+			errorSummary: [{ text: e.toString(), href: 'pageId' }]
 		});
 	}
 };

@@ -1,4 +1,4 @@
-{% extends "../../layouts/full-appeal-banner/main.njk" %}
+{% extends "../../layouts/full-appeal-banner/main-no-back-link.njk" %}
 
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../../macros/bool-to-sentence-case.njk" import boolToSentenceCaseField %}
@@ -28,9 +28,6 @@
 {% endblock %}
 
 {% block phaseBanner %}
-{% endblock %}
-
-{% block backButton %}
 {% endblock %}
 
 {% switch(appeal.eligibility.applicationDecision) %}

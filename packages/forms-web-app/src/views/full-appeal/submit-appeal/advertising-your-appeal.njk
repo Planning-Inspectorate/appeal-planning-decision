@@ -13,16 +13,6 @@
 {% set pdfUrl = "https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/994918/eHow_To_-_Planning_18_ANNEX.pdf" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
-{% block backButton %}
-  {{ govukBackLink({
-    text: 'Back',
-    href: backLink ,
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
-{% endblock %}
-
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

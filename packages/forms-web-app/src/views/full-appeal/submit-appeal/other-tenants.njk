@@ -8,16 +8,6 @@
 {% set title = "Are there any other tenants? - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
-{% block backButton %}
-  {{ govukBackLink({
-    text: 'Back',
-    href: '/full-appeal/submit-appeal/are-you-a-tenant',
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
-{% endblock %}
-
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

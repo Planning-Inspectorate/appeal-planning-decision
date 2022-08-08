@@ -11,16 +11,6 @@
 {% set title = "Your appeal statement - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
-{% block backButton %}
-  {{ govukBackLink({
-    text: 'Back',
-    href: '/full-appeal/submit-appeal/task-list',
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
-{% endblock %}
-
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -40,7 +30,7 @@
         If you refer to any documents in your appeal statement, for example photographs, you can upload them in the next step.
       </p>
       <p class="govuk-body">
-        You should avoid including sensitive information (also called special category information) if it's not relevant to your appeal. Any sensitive information you share may be shared publicly if the Planning Inspectorate agrees that it's relevant to your appeal. 
+        You should avoid including sensitive information (also called special category information) if it's not relevant to your appeal. Any sensitive information you share may be shared publicly if the Planning Inspectorate agrees that it's relevant to your appeal.
       </p>
       <p class='govuk-body'>
         You must not include inflammatory or abusive language.
@@ -51,9 +41,9 @@
                   <li>comments relating to children</li>
                   <li>personal data revealing racial or ethnic origin</li>
                   <li>personal data revealing political opinions</li>
-                  <li>personal data revealing religious or philosophical beliefs</li> 
+                  <li>personal data revealing religious or philosophical beliefs</li>
                   <li>personal data revealing trade union membership</li>
-                  <li>genetic data</li> 
+                  <li>genetic data</li>
                   <li>biometric data (where used for identification purposes)</li>
                   <li>data concerning health</li>
                   <li>data concerning a person’s sex life</li>
@@ -109,7 +99,7 @@
             text: errors['does-not-include-sensitive-information'].msg
           }
         }) }}
-        <div class="govuk-button-group">        
+        <div class="govuk-button-group">
           {{ govukButton({
             text: "Continue",
             type: "submit",
