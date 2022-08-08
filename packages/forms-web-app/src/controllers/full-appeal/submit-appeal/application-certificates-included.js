@@ -5,14 +5,12 @@ const { postSaveAndReturn } = require('../../save');
 
 const logger = require('../../../lib/logger');
 
-const backLink = `/${VIEW.FULL_APPEAL.APPLICATION_FORM}`;
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'ownershipCertificate';
 
 const getApplicationCertificatesIncluded = async (req, res) => {
 	const { submittedSeparateCertificate } = req.session.appeal[sectionName][taskName];
 	res.render(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
-		backLink,
 		submittedSeparateCertificate
 	});
 };
@@ -27,8 +25,7 @@ const postApplicationCertificatesIncluded = async (req, res) => {
 	if (Object.keys(errors).length > 0) {
 		return res.render(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
 			errors,
-			errorSummary,
-			backLink
+			errorSummary
 		});
 	}
 

@@ -17,10 +17,8 @@ const getNewSupportingDocuments = (req, res) => {
 			[taskName]: { hasSupportingDocuments }
 		}
 	} = req.session.appeal;
-	const backLink = req.headers.referer;
 
 	res.render(NEW_DOCUMENTS, {
-		backLink,
 		hasSupportingDocuments
 	});
 };
@@ -31,11 +29,9 @@ const postNewSupportingDocuments = async (req, res) => {
 		body: { errors = {}, errorSummary = [] },
 		session: { appeal }
 	} = req;
-	const backLink = req.headers.referer;
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(NEW_DOCUMENTS, {
-			backLink,
 			errors,
 			errorSummary
 		});
@@ -61,7 +57,6 @@ const postNewSupportingDocuments = async (req, res) => {
 
 		return res.render(NEW_DOCUMENTS, {
 			hasSupportingDocuments,
-			backLink,
 			errors,
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});

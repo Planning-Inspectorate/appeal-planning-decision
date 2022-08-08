@@ -16,8 +16,7 @@ const buildVariables = (ownsSomeOfTheLand, knowsTheOwners, hasIdentifiedTheOwner
 	return {
 		ownsSomeOfTheLand,
 		knowsTheOwners,
-		hasIdentifiedTheOwners,
-		backLink: '/full-appeal/submit-appeal/know-the-owners'
+		hasIdentifiedTheOwners
 	};
 };
 

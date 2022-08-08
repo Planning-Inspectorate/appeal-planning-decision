@@ -17,7 +17,6 @@ exports.forwardPage = (status) => {
 		[APPLICATION_DECISION.GRANTED]: '/before-you-start/decision-date',
 		[APPLICATION_DECISION.NODECISIONRECEIVED]: '/before-you-start/date-decision-due',
 		[APPLICATION_DECISION.REFUSED]: '/before-you-start/decision-date',
-		previousPage: '/before-you-start/any-of-following',
 
 		default: currentPage
 	};
@@ -28,7 +27,6 @@ exports.forwardPage = (status) => {
 exports.getGrantedOrRefused = async (req, res) => {
 	res.render(currentPage, {
 		appeal: req.session.appeal,
-		previousPage: this.forwardPage('previousPage')
 	});
 };
 
@@ -51,8 +49,7 @@ exports.postGrantedOrRefused = async (req, res) => {
 		res.render(currentPage, {
 			appeal,
 			errors,
-			errorSummary,
-			previousPage: this.forwardPage('previousPage')
+			errorSummary
 		});
 		return;
 	}
@@ -65,8 +62,7 @@ exports.postGrantedOrRefused = async (req, res) => {
 		res.render(currentPage, {
 			appeal,
 			errors,
-			errorSummary: [{ text: e.toString(), href: '#' }],
-			previousPage: this.forwardPage('previousPage')
+			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
 		return;
 	}
