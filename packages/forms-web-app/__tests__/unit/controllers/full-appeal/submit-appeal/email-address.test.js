@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const emailAddressController = require('../../../../../src/controllers/full-appeal/submit-appeal/email-address');
+const {
+	getEmailAddress,
+	postEmailAddress
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/email-address');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
@@ -31,7 +34,7 @@ describe('controllers/full-appeal/submit-appeal/email-address', () => {
 
 	describe('getEmailAddress', () => {
 		it('should call the correct template', () => {
-			emailAddressController.getEmailAddress(req, res);
+			getEmailAddress(req, res);
 			expect(res.render).toHaveBeenCalledWith(EMAIL_ADDRESS, {
 				email
 			});
@@ -47,7 +50,7 @@ describe('controllers/full-appeal/submit-appeal/email-address', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await emailAddressController.postEmailAddress(mockRequest, res);
+			await postEmailAddress(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(EMAIL_ADDRESS, {
@@ -65,7 +68,7 @@ describe('controllers/full-appeal/submit-appeal/email-address', () => {
 				...req,
 				body: {}
 			};
-			await emailAddressController.postEmailAddress(mockRequest, res);
+			await postEmailAddress(mockRequest, res);
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
@@ -88,7 +91,7 @@ describe('controllers/full-appeal/submit-appeal/email-address', () => {
 				}
 			};
 
-			await emailAddressController.postEmailAddress(mockRequest, res);
+			await postEmailAddress(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

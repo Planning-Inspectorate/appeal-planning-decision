@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const declarationController = require('../../../../../src/controllers/full-appeal/submit-appeal/declaration');
+const {
+	getDeclaration,
+	postDeclaration
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/declaration');
 const { submitAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { storePdfAppeal } = require('../../../../../src/services/pdf.service');
 const { mockReq, mockRes } = require('../../../mocks');
@@ -32,7 +35,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 	describe('getDeclaration', () => {
 		it('should call the correct template', () => {
-			declarationController.getDeclaration(req, res);
+			getDeclaration(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECLARATION);
 		});
@@ -52,7 +55,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 			const error = new Error('Cheers');
 			submitAppeal.mockImplementation(() => Promise.reject(error));
 
-			await declarationController.postDeclaration(mockRequest, res);
+			await postDeclaration(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -89,7 +92,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 			const error = new Error('Cheers');
 			storePdfAppeal.mockImplementation(() => Promise.reject(error));
 
-			await declarationController.postDeclaration(mockRequest, res);
+			await postDeclaration(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -114,7 +117,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			req.session.appeal.decisionDate = decisionDate;
 
-			await declarationController.postDeclaration(mockRequest, res);
+			await postDeclaration(mockRequest, res);
 
 			expect(submitAppeal).toHaveBeenCalledWith({
 				...appeal,

@@ -1,6 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const contactDetailsController = require('../../../../../src/controllers/full-appeal/submit-appeal/contact-details');
+const {
+	getContactDetails,
+	postContactDetails
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/contact-details');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
 	VIEW: {
@@ -30,7 +33,7 @@ describe('controllers/full-appeal/submit-appeal/contact-details', () => {
 
 	describe('getContactDetails', () => {
 		it('should call the correct template', () => {
-			contactDetailsController.getContactDetails(req, res);
+			getContactDetails(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(CONTACT_DETAILS, {
 				appeal: req.session.appeal
@@ -47,7 +50,7 @@ describe('controllers/full-appeal/submit-appeal/contact-details', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await contactDetailsController.postContactDetails(mockRequest, res);
+			await postContactDetails(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(CONTACT_DETAILS, {
@@ -76,7 +79,7 @@ describe('controllers/full-appeal/submit-appeal/contact-details', () => {
 				body: {}
 			};
 
-			await contactDetailsController.postContactDetails(mockRequest, res);
+			await postContactDetails(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -112,7 +115,7 @@ describe('controllers/full-appeal/submit-appeal/contact-details', () => {
 				}
 			};
 
-			await contactDetailsController.postContactDetails(mockRequest, res);
+			await postContactDetails(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

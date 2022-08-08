@@ -1,5 +1,7 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const taskListController = require('../../../../../src/controllers/full-appeal/submit-appeal/task-list');
+const {
+	getTaskList
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/task-list');
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
 const { mockReq, mockRes } = require('../../../mocks');
 
@@ -12,7 +14,7 @@ describe('controllers/full-appeal/submit-appeal/task-list', () => {
 			});
 			const res = mockRes();
 
-			taskListController.getTaskList(req, res);
+			getTaskList(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.TASK_LIST, {
 				applicationStatus: 'Appeal incomplete',

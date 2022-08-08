@@ -1,4 +1,6 @@
-const outOfTimeShutterPageController = require('../../../../src/controllers/full-appeal/out-of-time-shutter-page');
+const {
+	getOutOfTimeShutterPage
+} = require('../../../../src/controllers/full-appeal/out-of-time-shutter-page');
 const { mockReq, mockRes } = require('../../mocks');
 
 const {
@@ -31,7 +33,7 @@ describe('controllers/full-appeal/out-of-time-shutter-page', () => {
 				}
 			};
 
-			await outOfTimeShutterPageController.getOutOfTimeShutterPage(mockRequest, res);
+			await getOutOfTimeShutterPage(mockRequest, res);
 			expect(res.render).toHaveBeenCalledWith(OUT_OF_TIME_SHUTTER_PAGE, {
 				appealDeadline,
 				appealPeriodToBeDisplayed
