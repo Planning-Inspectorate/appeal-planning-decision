@@ -3,21 +3,18 @@ const {
 		APPELLANT_SUBMISSION: { CANNOT_APPEAL }
 	}
 } = require('../../lib/views');
-const { calculateDeadline } = require('../../lib/calculate-deadline');
+const { businessRulesDeadline, getDeadlinePeriod } = require('../../lib/calculate-deadline');
 const { arraysEqual } = require('../../lib/arrays-equal');
 
 const getCannotAppeal = (req, res) => {
 	const { appeal } = req.session;
 	const beforeYouStartFirstPage = '/before-you-start';
-	const deadlineDate = calculateDeadline.businessRulesDeadline(
+	const deadlineDate = businessRulesDeadline(
 		appeal.decisionDate,
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);
-	let deadlinePeriod = calculateDeadline.getDeadlinePeriod(
-		appeal.appealType,
-		appeal.eligibility.applicationDecision
-	);
+	let deadlinePeriod = getDeadlinePeriod(appeal.appealType, appeal.eligibility.applicationDecision);
 
 	if (arraysEqual(Object.values(deadlinePeriod), ['days', 181])) {
 		deadlinePeriod = {

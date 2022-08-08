@@ -1,11 +1,11 @@
 const express = require('express');
-const lpaController = require('../controllers/local-planning-authorities');
+const { list, get } = require('../controllers/local-planning-authorities');
 
 const router = express.Router();
 
-router.get('/', lpaController.list);
+router.get('/', list);
 
-router.get('/:id', lpaController.get);
+router.get('/:id', get);
 
 router.post('/', lpaController.create);
 

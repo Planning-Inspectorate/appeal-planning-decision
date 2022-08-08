@@ -1,5 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const enforcementNoticeController = require('../../../../src/controllers/eligibility/enforcement-notice');
+const {
+	getServiceNotAvailableWhenReceivedEnforcementNotice,
+	getEnforcementNotice,
+	postEnforcementNotice
+} = require('../../../../src/controllers/eligibility/enforcement-notice');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -21,7 +25,7 @@ describe('controllers/eligibility/enforcement-notice', () => {
 
 	describe('getServiceNotAvailableWhenReceivedEnforcementNotice', () => {
 		it('calls the correct template', () => {
-			enforcementNoticeController.getServiceNotAvailableWhenReceivedEnforcementNotice(req, res);
+			getServiceNotAvailableWhenReceivedEnforcementNotice(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE_OUT);
 		});
@@ -29,7 +33,7 @@ describe('controllers/eligibility/enforcement-notice', () => {
 
 	describe('getEnforcementNotice', () => {
 		it('should call the correct template', () => {
-			enforcementNoticeController.getEnforcementNotice(req, res);
+			getEnforcementNotice(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE, {
 				appeal: req.session.appeal
@@ -47,7 +51,7 @@ describe('controllers/eligibility/enforcement-notice', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await enforcementNoticeController.postEnforcementNotice(mockRequest, res);
+			await postEnforcementNotice(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -74,7 +78,7 @@ describe('controllers/eligibility/enforcement-notice', () => {
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await enforcementNoticeController.postEnforcementNotice(mockRequest, res);
+			await postEnforcementNotice(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -94,7 +98,7 @@ describe('controllers/eligibility/enforcement-notice', () => {
 					'enforcement-notice': 'yes'
 				}
 			};
-			await enforcementNoticeController.postEnforcementNotice(mockRequest, res);
+			await postEnforcementNotice(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -114,7 +118,7 @@ describe('controllers/eligibility/enforcement-notice', () => {
 					'enforcement-notice': 'no'
 				}
 			};
-			await enforcementNoticeController.postEnforcementNotice(mockRequest, res);
+			await postEnforcementNotice(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
