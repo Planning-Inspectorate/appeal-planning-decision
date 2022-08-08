@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const applicationNumberController = require('../../../../../src/controllers/full-appeal/submit-appeal/application-number');
+const {
+	getApplicationNumber,
+	postApplicationNumber
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/application-number');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
@@ -32,7 +35,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
 
 	describe('getApplicationNumber', () => {
 		it('should call the correct template', () => {
-			applicationNumberController.getApplicationNumber(req, res);
+			getApplicationNumber(req, res);
 			expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
 				applicationNumber
 			});
@@ -48,7 +51,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await applicationNumberController.postApplicationNumber(mockRequest, res);
+			await postApplicationNumber(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
@@ -66,7 +69,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
 				...req,
 				body: {}
 			};
-			await applicationNumberController.postApplicationNumber(mockRequest, res);
+			await postApplicationNumber(mockRequest, res);
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
@@ -90,7 +93,7 @@ describe('controllers/full-appeal/submit-appeal/application-number', () => {
 				}
 			};
 
-			await applicationNumberController.postApplicationNumber(mockRequest, res);
+			await postApplicationNumber(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

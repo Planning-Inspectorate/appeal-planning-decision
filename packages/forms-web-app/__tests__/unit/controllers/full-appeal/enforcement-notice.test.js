@@ -1,5 +1,8 @@
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
-const enforcementNoticeController = require('../../../../src/controllers/full-appeal/enforcement-notice');
+const {
+	postEnforcementNotice,
+	getEnforcementNotice
+} = require('../../../../src/controllers/full-appeal/enforcement-notice');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const {
 	VIEW: {
@@ -45,7 +48,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 	describe('getEnforcementNotice', () => {
 		it('should call the correct template', () => {
 			req.session.appeal.eligibility.applicationDecision = 'granted';
-			enforcementNoticeController.getEnforcementNotice(req, res);
+			getEnforcementNotice(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(currentPage, {
 				appeal: req.session.appeal,
@@ -66,7 +69,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 			};
 			mockRequest.session.appeal.eligibility.applicationDecision = 'granted';
 
-			await enforcementNoticeController.postEnforcementNotice(mockRequest, res);
+			await postEnforcementNotice(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -96,7 +99,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await enforcementNoticeController.postEnforcementNotice(mockRequest, res);
+			await postEnforcementNotice(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -117,7 +120,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 					'enforcement-notice': 'yes'
 				}
 			};
-			await enforcementNoticeController.postEnforcementNotice(mockRequest, res);
+			await postEnforcementNotice(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -137,7 +140,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 					'enforcement-notice': 'no'
 				}
 			};
-			await enforcementNoticeController.postEnforcementNotice(mockRequest, res);
+			await postEnforcementNotice(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

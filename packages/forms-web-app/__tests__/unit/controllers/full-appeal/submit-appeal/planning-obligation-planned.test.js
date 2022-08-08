@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const planningObligationPlannedController = require('../../../../../src/controllers/full-appeal/submit-appeal/planning-obligation-planned');
+const {
+	getPlanningObligationPlanned,
+	postPlanningObligationPlanned
+} = require('../../../../../src/controllers/full-appeal/submit-appeal/planning-obligation-planned');
 const v8 = require('v8');
 
 const { VIEW } = require('../../../../../src/lib/full-appeal/views');
@@ -44,7 +47,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
 			req.session.appeal.appealDocumentsSection.plansDrawings.hasPlansDrawings = true;
 			req.session.appeal.appealDocumentsSection.planningObligations.plansPlanningObligation = null;
 			const backLink = `/${VIEW.FULL_APPEAL.PLANS_DRAWINGS}`;
-			await planningObligationPlannedController.getPlanningObligationPlanned(req, res);
+			await getPlanningObligationPlanned(req, res);
 
 			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_PLANNED, {
 				backLink,
@@ -55,7 +58,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
 			req.session.appeal.appealDocumentsSection.plansDrawings.hasPlansDrawings = false;
 			req.session.appeal.appealDocumentsSection.planningObligations.plansPlanningObligation = null;
 			const backLink = `/${VIEW.FULL_APPEAL.NEW_PLANS_DRAWINGS}`;
-			await planningObligationPlannedController.getPlanningObligationPlanned(req, res);
+			await getPlanningObligationPlanned(req, res);
 
 			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_PLANNED, {
 				backLink,
@@ -81,7 +84,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
 				}
 			};
 			const backLink = `/${VIEW.FULL_APPEAL.PLANS_DRAWINGS}`;
-			await planningObligationPlannedController.postPlanningObligationPlanned(req, res);
+			await postPlanningObligationPlanned(req, res);
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_PLANNED, {
 				errors,
@@ -106,7 +109,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
 				}
 			};
 			const backLink = `/${VIEW.FULL_APPEAL.NEW_PLANS_DRAWINGS}`;
-			await planningObligationPlannedController.postPlanningObligationPlanned(req, res);
+			await postPlanningObligationPlanned(req, res);
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_PLANNED, {
 				errors,
@@ -120,7 +123,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
 
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await planningObligationPlannedController.postPlanningObligationPlanned(req, res);
+			await postPlanningObligationPlanned(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledTimes(1);
@@ -138,7 +141,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
 					'plan-to-submit-planning-obligation': 'yes'
 				}
 			};
-			await planningObligationPlannedController.postPlanningObligationPlanned(req, res);
+			await postPlanningObligationPlanned(req, res);
 			expect(res.render).not.toHaveBeenCalled();
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.PLANNING_OBLIGATION_STATUS}`);
 		});
@@ -150,7 +153,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
 					'plan-to-submit-planning-obligation': 'no'
 				}
 			};
-			await planningObligationPlannedController.postPlanningObligationPlanned(req, res);
+			await postPlanningObligationPlanned(req, res);
 			expect(res.render).not.toHaveBeenCalled();
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.NEW_DOCUMENTS}`);
 		});

@@ -1,5 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/full-appeal');
-const grantedOrRefusedPlanningApplicationController = require('../../../../src/controllers/full-appeal/granted-or-refused');
+const {
+	getGrantedOrRefused,
+	postGrantedOrRefused,
+	forwardPage
+} = require('../../../../src/controllers/full-appeal/granted-or-refused');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -21,7 +25,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 
 	describe('getGrantedOrRefusedPlanningApplication', () => {
 		it('should call the correct template', () => {
-			grantedOrRefusedPlanningApplicationController.getGrantedOrRefused(req, res);
+			getGrantedOrRefused(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.GRANTED_OR_REFUSED, {
 				appeal: req.session.appeal,
@@ -32,39 +36,37 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 
 	describe('forwardPage', () => {
 		it(`should return '/${VIEW.FULL_APPEAL.DECISION_DATE}' if passed 'permissionStatus' is 'granted'`, async () => {
-			const pageRedirect = grantedOrRefusedPlanningApplicationController.forwardPage('granted');
+			const pageRedirect = forwardPage('granted');
 
 			expect(pageRedirect).toEqual('/before-you-start/decision-date');
 		});
 
 		it(`should return '/${VIEW.FULL_APPEAL.DECISION_DATE}' if passed 'permissionStatus' is 'refused'`, async () => {
-			const pageRedirect = grantedOrRefusedPlanningApplicationController.forwardPage('refused');
+			const pageRedirect = forwardPage('refused');
 
 			expect(pageRedirect).toEqual('/before-you-start/decision-date');
 		});
 
 		it(`should return '/${VIEW.FULL_APPEAL.DATE_DECISION_DUE}' if passed 'permissionStatus' is 'nodecisionreceived'`, async () => {
-			const pageRedirect =
-				grantedOrRefusedPlanningApplicationController.forwardPage('nodecisionreceived');
+			const pageRedirect = forwardPage('nodecisionreceived');
 
 			expect(pageRedirect).toEqual('/before-you-start/date-decision-due');
 		});
 
 		it(`should return '/${VIEW.FULL_APPEAL.ANY_OF_FOLLOWING}' if passed 'permissionStatus' is 'previousPage'`, async () => {
-			const pageRedirect =
-				grantedOrRefusedPlanningApplicationController.forwardPage('previousPage');
+			const pageRedirect = forwardPage('previousPage');
 
 			expect(pageRedirect).toEqual('/before-you-start/any-of-following');
 		});
 
 		it(`should return '/${VIEW.FULL_APPEAL.GRANTED_OR_REFUSED}' if passed 'permissionStatus' is 'default'`, async () => {
-			const pageRedirect = grantedOrRefusedPlanningApplicationController.forwardPage('default');
+			const pageRedirect = forwardPage('default');
 
 			expect(pageRedirect).toEqual(VIEW.FULL_APPEAL.GRANTED_OR_REFUSED);
 		});
 
 		it(`should return '/${VIEW.FULL_APPEAL.GRANTED_OR_REFUSED}' if 'permissionStatus' is not passed`, async () => {
-			const pageRedirect = grantedOrRefusedPlanningApplicationController.forwardPage();
+			const pageRedirect = forwardPage();
 
 			expect(pageRedirect).toEqual(VIEW.FULL_APPEAL.GRANTED_OR_REFUSED);
 		});
@@ -80,7 +82,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
+			await postGrantedOrRefused(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -109,7 +111,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			const error = new Error('Api call error');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
+			await postGrantedOrRefused(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -131,7 +133,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 					'granted-or-refused': applicationDecision
 				}
 			};
-			await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
+			await postGrantedOrRefused(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
@@ -144,7 +146,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 				...req,
 				body: { 'granted-or-refused': applicationDecision }
 			};
-			await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
+			await postGrantedOrRefused(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
@@ -157,7 +159,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 				...req,
 				body: { 'granted-or-refused': applicationDecision }
 			};
-			await grantedOrRefusedPlanningApplicationController.postGrantedOrRefused(mockRequest, res);
+			await postGrantedOrRefused(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
