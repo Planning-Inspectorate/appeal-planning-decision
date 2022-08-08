@@ -1,6 +1,6 @@
 const express = require('express');
 
-const appealsController = require('../controllers/appeals');
+const { updateAppeal, getAppeal, createAppeal } = require('../controllers/appeals');
 const {
 	appealInsertValidationRules,
 	appealUpdateValidationRules
@@ -8,12 +8,12 @@ const {
 
 const router = express.Router();
 
-router.get('/:id', appealsController.getAppeal);
+router.get('/:id', getAppeal);
 
-router.post('/', appealsController.createAppeal);
+router.post('/', createAppeal);
 
-router.put('/:id', appealInsertValidationRules, appealsController.updateAppeal);
+router.put('/:id', appealInsertValidationRules, updateAppeal);
 
-router.patch('/:id', appealUpdateValidationRules, appealsController.updateAppeal);
+router.patch('/:id', appealUpdateValidationRules, updateAppeal);
 
 module.exports = router;

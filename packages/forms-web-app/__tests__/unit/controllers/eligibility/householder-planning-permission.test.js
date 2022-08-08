@@ -1,5 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const householderPlanningPermissionController = require('../../../../src/controllers/eligibility/householder-planning-permission');
+const {
+	getServiceOnlyForHouseholderPlanningPermission,
+	getHouseholderPlanningPermission,
+	postHouseholderPlanningPermission
+} = require('../../../../src/controllers/eligibility/householder-planning-permission');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -21,10 +25,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
 
 	describe('getServiceOnlyForHouseholderPlanningPermission', () => {
 		it('calls the correct template', () => {
-			householderPlanningPermissionController.getServiceOnlyForHouseholderPlanningPermission(
-				req,
-				res
-			);
+			getServiceOnlyForHouseholderPlanningPermission(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION_OUT);
 		});
@@ -32,7 +33,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
 
 	describe('getHouseholderPlanningPermission', () => {
 		it('should call the correct template', () => {
-			householderPlanningPermissionController.getHouseholderPlanningPermission(req, res);
+			getHouseholderPlanningPermission(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION, {
 				appeal: req.session.appeal
@@ -50,10 +51,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await householderPlanningPermissionController.postHouseholderPlanningPermission(
-				mockRequest,
-				res
-			);
+			await postHouseholderPlanningPermission(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -80,10 +78,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await householderPlanningPermissionController.postHouseholderPlanningPermission(
-				mockRequest,
-				res
-			);
+			await postHouseholderPlanningPermission(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -103,10 +98,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
 					'householder-planning-permission': 'yes'
 				}
 			};
-			await householderPlanningPermissionController.postHouseholderPlanningPermission(
-				mockRequest,
-				res
-			);
+			await postHouseholderPlanningPermission(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -126,10 +118,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
 					'householder-planning-permission': 'no'
 				}
 			};
-			await householderPlanningPermissionController.postHouseholderPlanningPermission(
-				mockRequest,
-				res
-			);
+			await postHouseholderPlanningPermission(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

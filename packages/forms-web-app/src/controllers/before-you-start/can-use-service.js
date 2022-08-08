@@ -1,5 +1,5 @@
 const { extractAppealProps } = require('../../lib/extract-appeal-props');
-const { calculateDeadline } = require('../../lib/calculate-deadline');
+const { businessRulesDeadline } = require('../../lib/calculate-deadline');
 const {
 	VIEW: {
 		HOUSEHOLDER_PLANNING: {
@@ -38,7 +38,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 
 	const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
-	const deadlineDate = calculateDeadline.businessRulesDeadline(
+	const deadlineDate = businessRulesDeadline(
 		appeal.decisionDate,
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
@@ -72,7 +72,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 		nextPageUrl
 	} = await extractAppealProps(appeal);
 
-	const deadlineDate = calculateDeadline.businessRulesDeadline(
+	const deadlineDate = businessRulesDeadline(
 		appeal.decisionDate,
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
@@ -109,7 +109,7 @@ const canUseServicePriorApproval = async (req, res) => {
 	if (appeal.eligibility.hasPriorApprovalForExistingHome) {
 		const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
-		const deadlineDate = calculateDeadline.businessRulesDeadline(
+		const deadlineDate = businessRulesDeadline(
 			appeal.decisionDate,
 			appeal.appealType,
 			appeal.eligibility.applicationDecision
@@ -131,7 +131,7 @@ const canUseServicePriorApproval = async (req, res) => {
 			nextPageUrl
 		});
 	} else {
-		const deadlineDate = calculateDeadline.businessRulesDeadline(
+		const deadlineDate = businessRulesDeadline(
 			appeal.decisionDate,
 			appeal.appealType,
 			appeal.eligibility.applicationDecision
@@ -170,7 +170,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 	if (appeal.eligibility.hasHouseholderPermissionConditions) {
 		const isListedBuilding = appeal.eligibility.isListedBuilding ? 'Yes' : 'No';
 
-		const deadlineDate = calculateDeadline.businessRulesDeadline(
+		const deadlineDate = businessRulesDeadline(
 			appeal.decisionDate,
 			appeal.appealType,
 			appeal.eligibility.applicationDecision
@@ -192,7 +192,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			nextPageUrl
 		});
 	} else {
-		const deadlineDate = calculateDeadline.businessRulesDeadline(
+		const deadlineDate = businessRulesDeadline(
 			appeal.decisionDate,
 			appeal.appealType,
 			appeal.eligibility.applicationDecision

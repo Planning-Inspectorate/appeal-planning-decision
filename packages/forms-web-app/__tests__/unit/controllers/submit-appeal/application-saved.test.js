@@ -1,4 +1,6 @@
-const applicationSavedController = require('../../../../src/controllers/submit-appeal/application-saved');
+const {
+	getApplicationSaved
+} = require('../../../../src/controllers/submit-appeal/application-saved');
 
 const { VIEW } = require('../../../../src/lib/submit-appeal/views');
 const { mockReq, mockRes } = require('../../mocks');
@@ -17,7 +19,7 @@ describe('controllers/submit-appeal/application-saved', () => {
 				}
 			}
 		};
-		await applicationSavedController.getApplicationSaved(req, res);
+		await getApplicationSaved(req, res);
 
 		expect(res.render).toBeCalledWith(VIEW.SUBMIT_APPEAL.APPLICATION_SAVED, {
 			applicationNumber: '123456',

@@ -1,6 +1,8 @@
 const fullAppeal = require('../../../mockData/full-appeal');
 const householderAppeal = require('../../../mockData/householder-appeal');
-const canUseServiceController = require('../../../../src/controllers/before-you-start/can-use-service');
+const {
+	getCanUseService
+} = require('../../../../src/controllers/before-you-start/can-use-service');
 const priorApprovalFPAppeal = require('../../../mockData/prior-approval/prior-approval-fp-route');
 const priorApprovalHASAppeal = require('../../../mockData/prior-approval/prior-approval-has-route');
 const removalOrVariationOfConditionsFPAppeal = require('../../../mockData/removal-or-variation-of-conditions/removal-or-variation-of-conditions-fp-route');
@@ -13,7 +15,8 @@ const {
 			ELIGIBILITY: {
 				CAN_USE_SERVICE_HOUSEHOLDER: canUseServiceHouseholder,
 				CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalHouseholder,
-				CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS: canUseServiceRemovalOrVariationOfConditionsHouseholder
+				CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
+					canUseServiceRemovalOrVariationOfConditionsHouseholder
 			}
 		}
 	}
@@ -23,7 +26,8 @@ const {
 		FULL_APPEAL: {
 			CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealUrl,
 			CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalFull,
-			CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS: canUseServiceRemovalOrVariationOfConditionsFullAppeal
+			CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
+				canUseServiceRemovalOrVariationOfConditionsFullAppeal
 		}
 	}
 } = require('../../../../src/lib/full-appeal/views');
@@ -46,7 +50,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 		it('Test getCanUseService method calls the HAS Check Your Answers page - HAS conditions', async () => {
 			req = mockReq(removalOrVariationOfConditionsHASAppeal);
 
-			await canUseServiceController.getCanUseService(req, res);
+			await getCanUseService(req, res);
 
 			expect(res.render).toBeCalledWith(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
 				appealLPD: 'Bradford',
@@ -66,7 +70,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 		it('Test getCanUseService method calls the HP Check Your Answers page when typeOfPlanningApplication is householder-planning - date of decision', async () => {
 			req = mockReq(householderAppeal);
 
-			await canUseServiceController.getCanUseService(req, res);
+			await getCanUseService(req, res);
 
 			expect(res.render).toBeCalledWith(canUseServiceHouseholder, {
 				appealLPD: 'Bradford',
@@ -87,7 +91,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			householderAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
 			req = mockReq(householderAppealNoDecisionReceived);
 
-			await canUseServiceController.getCanUseService(req, res);
+			await getCanUseService(req, res);
 
 			expect(res.render).toBeCalledWith(canUseServiceHouseholder, {
 				appealLPD: 'Bradford',
@@ -108,7 +112,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 		it('Test getCanUseService method calls the Full Appeal Check Your Answers page - no prior approval', async () => {
 			req = mockReq(priorApprovalFPAppeal);
 
-			await canUseServiceController.getCanUseService(req, res);
+			await getCanUseService(req, res);
 
 			expect(res.render).toBeCalledWith(canUseServicePriorApprovalFull, {
 				appealLPD: 'Bradford',
@@ -126,7 +130,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 		it('Test getCanUseService method calls the HAS Check Your Answers page - prior approval', async () => {
 			req = mockReq(priorApprovalHASAppeal);
 
-			await canUseServiceController.getCanUseService(req, res);
+			await getCanUseService(req, res);
 
 			expect(res.render).toBeCalledWith(canUseServicePriorApprovalHouseholder, {
 				appealLPD: 'Bradford',
@@ -148,7 +152,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 		it('Test getCanUseService method calls the Full Appeal Check Your Answers page - no HAS conditions', async () => {
 			req = mockReq(removalOrVariationOfConditionsFPAppeal);
 
-			await canUseServiceController.getCanUseService(req, res);
+			await getCanUseService(req, res);
 
 			expect(res.render).toBeCalledWith(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
 				appealLPD: 'Bradford',
@@ -168,7 +172,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 		it('Test getCanUseService method calls the Full Appeal Check Your Answers page when typeOfPlanningApplication is full-appeal', async () => {
 			req = mockReq(fullAppeal);
 
-			await canUseServiceController.getCanUseService(req, res);
+			await getCanUseService(req, res);
 
 			expect(res.render).toBeCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',
@@ -184,7 +188,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 		it('Test getCanUseService method calls the Full Appeal Check Your Answers page when typeOfPlanningApplication is full-appeal - date of decision', async () => {
 			req = mockReq(fullAppeal);
 
-			await canUseServiceController.getCanUseService(req, res);
+			await getCanUseService(req, res);
 
 			expect(res.render).toBeCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',
@@ -203,7 +207,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 			fullAppealNoDecisionReceived.eligibility.applicationDecision = 'nodecisionreceived';
 			req = mockReq(fullAppealNoDecisionReceived);
 
-			await canUseServiceController.getCanUseService(req, res);
+			await getCanUseService(req, res);
 
 			expect(res.render).toBeCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',

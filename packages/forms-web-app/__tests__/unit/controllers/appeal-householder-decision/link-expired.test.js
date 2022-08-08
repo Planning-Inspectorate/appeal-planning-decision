@@ -1,4 +1,6 @@
-const linkExpiredController = require('../../../../src/controllers/appeal-householder-decision/link-expired');
+const {
+	getLinkExpired
+} = require('../../../../src/controllers/appeal-householder-decision/link-expired');
 
 const { mockReq, mockRes } = require('../../mocks');
 
@@ -7,7 +9,7 @@ describe('controllers/submit-appeal/link-expired', () => {
 	let res = mockRes();
 	it('getLinkExpired method calls the correct template', async () => {
 		req.session.appeal.appealType = '1005';
-		linkExpiredController.getLinkExpired(req, res);
+		getLinkExpired(req, res);
 
 		expect(res.render).toBeCalledWith('appeal-householder-decision/link-expired', {
 			sendNewLinkUrl: '/appeal-householder-decision/sent-another-link'
