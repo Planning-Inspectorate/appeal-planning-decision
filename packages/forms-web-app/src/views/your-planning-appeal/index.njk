@@ -1,10 +1,8 @@
-{% extends "layouts/main.njk" %}
+{% extends "layouts/main-no-back-link.njk" %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../macros/summary-field.njk" import summaryField %}
 
 {% set title="Your planning appeal - Appeal a planning decision - GOV.UK" %}
-
-{% block backButton %}{% endblock %}
 
 {% block pageTitle %}
   {% if errors %}

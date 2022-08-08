@@ -12,13 +12,6 @@
   {{ title }}
 {% endblock %}
 
-{% block backButton %}
-    {{ govukBackLink({
-    text: "Back",
-    href: "/before-you-start/granted-or-refused-householder"
- })}}
-{% endblock %}
-
 {% block content %}
 
   {% if errors %}

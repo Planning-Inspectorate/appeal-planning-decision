@@ -7,16 +7,6 @@
 {% set title = "Are the conditions for householder planning permission? - Before you start - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
-{% block backButton %}
-  {{ govukBackLink({
-    text: 'Back',
-    href: '/before-you-start/type-of-planning-application',
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
-{% endblock %}
-
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
