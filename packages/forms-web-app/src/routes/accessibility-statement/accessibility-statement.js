@@ -1,8 +1,10 @@
 const express = require('express');
-const accessibilityStatementController = require('../../controllers/accessibility-statement/accessibility-statement');
+const {
+	getAccessibilityStatement
+} = require('../../controllers/accessibility-statement/accessibility-statement');
 
 const router = express.Router();
 
-router.get('/', accessibilityStatementController.getAccessibilityStatement);
+router.get('/', getAccessibilityStatement);
 
 module.exports = router;
