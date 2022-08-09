@@ -62,8 +62,7 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
-				hasSupportingDocuments: true,
-				backLink: `/${PLANNING_OBLIGATION_PLANNED}`
+				hasSupportingDocuments: true
 			});
 		});
 
@@ -83,8 +82,7 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
-				hasSupportingDocuments: true,
-				backLink: `/${PLANNING_OBLIGATION_DOCUMENTS}`
+				hasSupportingDocuments: true
 			});
 		});
 
@@ -104,8 +102,7 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
-				hasSupportingDocuments: true,
-				backLink: `/${DRAFT_PLANNING_OBLIGATION}`
+				hasSupportingDocuments: true
 			});
 		});
 
@@ -125,8 +122,7 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
-				hasSupportingDocuments: true,
-				backLink: `/${PLANNING_OBLIGATION_DEADLINE}`
+				hasSupportingDocuments: true
 			});
 		});
 	});
@@ -151,7 +147,6 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
-				backLink: `/${PLANNING_OBLIGATION_PLANNED}`,
 				errors,
 				errorSummary
 			});
@@ -179,7 +174,6 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
-				backLink: `/${PLANNING_OBLIGATION_DOCUMENTS}`,
 				errors,
 				errorSummary
 			});
@@ -207,7 +201,6 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
-				backLink: `/${DRAFT_PLANNING_OBLIGATION}`,
 				errors,
 				errorSummary
 			});
@@ -235,7 +228,6 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
-				backLink: `/${PLANNING_OBLIGATION_DEADLINE}`,
 				errors,
 				errorSummary
 			});
@@ -262,7 +254,6 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
 				hasSupportingDocuments: false,
-				backLink: `/${PLANNING_OBLIGATION_PLANNED}`,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
@@ -293,7 +284,6 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
 				hasSupportingDocuments: false,
-				backLink: `/${PLANNING_OBLIGATION_DOCUMENTS}`,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
@@ -324,7 +314,6 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
 				hasSupportingDocuments: false,
-				backLink: `/${DRAFT_PLANNING_OBLIGATION}`,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
@@ -355,7 +344,6 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(NEW_DOCUMENTS, {
 				hasSupportingDocuments: false,
-				backLink: `/${PLANNING_OBLIGATION_DEADLINE}`,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});

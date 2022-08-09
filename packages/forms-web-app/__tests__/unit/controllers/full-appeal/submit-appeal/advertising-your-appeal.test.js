@@ -49,8 +49,7 @@ describe('controllers/full-appeal/submit-appeal/advertising-your-appeal', () => 
 			expect(res.render).toHaveBeenCalledWith(ADVERTISING_YOUR_APPEAL, {
 				advertisingYourAppeal: STANDARD_TRIPLE_CONFIRM_OPTIONS,
 				isOther: false,
-				isAll: false,
-				backLink: '/full-appeal/submit-appeal/identifying-the-owners'
+				isAll: false
 			});
 		});
 
@@ -62,8 +61,7 @@ describe('controllers/full-appeal/submit-appeal/advertising-your-appeal', () => 
 			expect(res.render).toHaveBeenCalledWith(ADVERTISING_YOUR_APPEAL, {
 				advertisingYourAppeal: STANDARD_TRIPLE_CONFIRM_OPTIONS,
 				isOther: true,
-				isAll: false,
-				backLink: '/full-appeal/submit-appeal/identifying-the-owners'
+				isAll: false
 			});
 		});
 
@@ -75,8 +73,7 @@ describe('controllers/full-appeal/submit-appeal/advertising-your-appeal', () => 
 			expect(res.render).toHaveBeenCalledWith(ADVERTISING_YOUR_APPEAL, {
 				advertisingYourAppeal: STANDARD_TRIPLE_CONFIRM_OPTIONS,
 				isOther: false,
-				isAll: true,
-				backLink: '/full-appeal/submit-appeal/identifying-the-owners'
+				isAll: true
 			});
 		});
 	});
@@ -102,8 +99,7 @@ describe('controllers/full-appeal/submit-appeal/advertising-your-appeal', () => 
 				errors,
 				errorSummary,
 				isOther: false,
-				isAll: false,
-				backLink: '/full-appeal/submit-appeal/identifying-the-owners'
+				isAll: false
 			});
 		});
 
@@ -130,8 +126,7 @@ describe('controllers/full-appeal/submit-appeal/advertising-your-appeal', () => 
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }],
 				isOther: false,
-				isAll: false,
-				backLink: '/full-appeal/submit-appeal/identifying-the-owners'
+				isAll: false
 			});
 		});
 

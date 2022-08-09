@@ -26,9 +26,7 @@ describe('controllers/full-appeal/submit-appeal/list-of-documents', () => {
 		it('should call the correct template', () => {
 			getListOfDocuments(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS, {
-				backLink: url
-			});
+			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS);
 		});
 	});
 
