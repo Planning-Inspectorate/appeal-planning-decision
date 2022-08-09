@@ -18,8 +18,6 @@ const { mockReq, mockRes } = require('../../../mocks');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
 
-const backLink = '/before-you-start/enforcement-notice-householder';
-
 describe('controllers/householder-planning/claiming-costs-householder', () => {
 	let req;
 	let res;
@@ -36,8 +34,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 			await getClaimingCostsHouseholder(req, res);
 
 			expect(res.render).toBeCalledWith(claimingCosts, {
-				isClaimingCosts: appeal.eligibility.isClaimingCosts,
-				backLink
+				isClaimingCosts: appeal.eligibility.isClaimingCosts
 			});
 		});
 
@@ -94,8 +91,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 						msg: 'Select yes if you are claiming costs as part of your appeal'
 					}
 				},
-				errorSummary: [],
-				backLink
+				errorSummary: []
 			});
 		});
 
@@ -117,8 +113,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 			expect(res.render).toHaveBeenCalledWith(`${claimingCosts}`, {
 				isClaimingCosts: appeal.eligibility.isClaimingCosts,
 				errors: {},
-				errorSummary: [{ text: error.toString(), href: 'pageId' }],
-				backLink
+				errorSummary: [{ text: error.toString(), href: 'pageId' }]
 			});
 		});
 	});

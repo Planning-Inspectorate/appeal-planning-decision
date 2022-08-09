@@ -50,8 +50,7 @@ describe('controllers/full-appeal/submit-appeal/identifying-the-owners', () => {
 
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(IDENTIFYING_THE_OWNERS, {
-				knowsTheOwners: 'some',
-				backLink: '/full-appeal/submit-appeal/know-the-owners'
+				knowsTheOwners: 'some'
 			});
 		});
 	});
@@ -75,7 +74,6 @@ describe('controllers/full-appeal/submit-appeal/identifying-the-owners', () => {
 			expect(res.render).toHaveBeenCalledWith(IDENTIFYING_THE_OWNERS, {
 				hasIdentifiedTheOwners: false,
 				knowsTheOwners: 'some',
-				backLink: '/full-appeal/submit-appeal/know-the-owners',
 				errors,
 				errorSummary
 			});
@@ -101,7 +99,6 @@ describe('controllers/full-appeal/submit-appeal/identifying-the-owners', () => {
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(IDENTIFYING_THE_OWNERS, {
 				knowsTheOwners: 'some',
-				backLink: '/full-appeal/submit-appeal/know-the-owners',
 				hasIdentifiedTheOwners: true,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
