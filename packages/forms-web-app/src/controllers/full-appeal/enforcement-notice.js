@@ -1,6 +1,3 @@
-const {
-	constants: { APPEAL_ID, APPLICATION_DECISION }
-} = require('@pins/business-rules');
 const logger = require('../../lib/logger');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
