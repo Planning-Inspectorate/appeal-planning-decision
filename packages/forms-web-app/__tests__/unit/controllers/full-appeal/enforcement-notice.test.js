@@ -6,19 +6,16 @@ const {
 		FULL_APPEAL: { ENFORCEMENT_NOTICE: currentPage }
 	}
 } = require('../../../../src/lib/views');
-const getPreviousPagePath = require('../../../../src/lib/get-previous-page-path');
 
 const navigationPages = {
 	nextPage: '/before-you-start/can-use-service',
-	shutterPage: '/before-you-start/use-existing-service-enforcement-notice',
-	previousPage: '/before-you-start/decision-date'
+	shutterPage: '/before-you-start/use-existing-service-enforcement-notice'
 };
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
-jest.mock('../../../../src/lib/get-previous-page-path');
 
 describe('controllers/full-appeal/enforcement-notice', () => {
 	let req;
@@ -32,10 +29,6 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 	beforeEach(() => {
 		req = mockReq(appeal);
 		res = mockRes();
-
-		getPreviousPagePath.mockImplementation(() => {
-			return '/before-you-start/decision-date';
-		});
 	});
 
 	afterEach(() => {
@@ -48,8 +41,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 			enforcementNoticeController.getEnforcementNotice(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(currentPage, {
-				appeal: req.session.appeal,
-				previousPage: navigationPages.previousPage
+				appeal: req.session.appeal
 			});
 		});
 	});
@@ -80,8 +72,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 					}
 				},
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
-				errors: { a: 'b' },
-				previousPage: navigationPages.previousPage
+				errors: { a: 'b' }
 			});
 		});
 
@@ -105,10 +96,9 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 			expect(res.render).toHaveBeenCalledWith(currentPage, {
 				appeal: req.session.appeal,
 				errors: {},
-				errorSummary: [{ text: error.toString(), href: '#' }],
-				previousPage: navigationPages.previousPage
-			});
+				errorSummary: [{ text: error.toString(), href: '#' }]
 		});
+	});
 
 		it('should redirect to `/full-appeal/use-a-different-service` if `enforcement-notice` is `yes`', async () => {
 			const mockRequest = {

@@ -24,8 +24,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			grantedOrRefusedPlanningApplicationController.getGrantedOrRefused(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.GRANTED_OR_REFUSED, {
-				appeal: req.session.appeal,
-				previousPage: '/before-you-start/any-of-following'
+				appeal: req.session.appeal
 			});
 		});
 	});
@@ -48,13 +47,6 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 				grantedOrRefusedPlanningApplicationController.forwardPage('nodecisionreceived');
 
 			expect(pageRedirect).toEqual('/before-you-start/date-decision-due');
-		});
-
-		it(`should return '/${VIEW.FULL_APPEAL.ANY_OF_FOLLOWING}' if passed 'permissionStatus' is 'previousPage'`, async () => {
-			const pageRedirect =
-				grantedOrRefusedPlanningApplicationController.forwardPage('previousPage');
-
-			expect(pageRedirect).toEqual('/before-you-start/any-of-following');
 		});
 
 		it(`should return '/${VIEW.FULL_APPEAL.GRANTED_OR_REFUSED}' if passed 'permissionStatus' is 'default'`, async () => {
@@ -95,8 +87,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 					}
 				},
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
-				errors: { a: 'b' },
-				previousPage: '/before-you-start/any-of-following'
+				errors: { a: 'b' }
 			});
 		});
 
@@ -118,8 +109,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.GRANTED_OR_REFUSED, {
 				appeal: req.session.appeal,
 				errors: {},
-				errorSummary: [{ text: error.toString(), href: '#' }],
-				previousPage: '/before-you-start/any-of-following'
+				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
 		});
 
