@@ -17,7 +17,6 @@ jest.mock('../../../../../src/services/task.service');
 jest.mock('../../../../../src/lib/logger');
 
 const applicationNumber = 'ABCDE12345';
-const backLink = '/before-you-start/can-use-service';
 
 describe('controllers/full-appeal/submit-appeal/planning-application-number', () => {
 	let req;
@@ -36,8 +35,7 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 		it('should call the correct template', () => {
 			getPlanningApplicationNumber(req, res);
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
-				planningApplicationNumber: applicationNumber,
-				backLink
+				planningApplicationNumber: applicationNumber
 			});
 		});
 	});
@@ -56,7 +54,6 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
 				planningApplicationNumber: applicationNumber,
-				backLink,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
 			});
@@ -78,7 +75,6 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
 				planningApplicationNumber: applicationNumber,
-				backLink,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});

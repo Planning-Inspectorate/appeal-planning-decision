@@ -23,7 +23,6 @@ const errorSummary = [
 		href: '#did-you-submit-separate-certificate'
 	}
 ];
-const backLink = `/${VIEW.FULL_APPEAL.APPLICATION_FORM}`;
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -50,7 +49,6 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
 				null;
 			await getApplicationCertificatesIncluded(req, res);
 			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
-				backLink,
 				submittedSeparateCertificate: null
 			});
 		});
@@ -78,8 +76,7 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
 				errors,
-				errorSummary,
-				backLink
+				errorSummary
 			});
 		});
 

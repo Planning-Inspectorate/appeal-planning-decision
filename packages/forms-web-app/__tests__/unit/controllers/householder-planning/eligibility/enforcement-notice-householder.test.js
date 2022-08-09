@@ -11,19 +11,16 @@ const {
 		}
 	}
 } = require('../../../../../src/lib/householder-planning/views');
-const getPreviousPagePath = require('../../../../../src/lib/get-previous-page-path');
 const logger = require('../../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../../mocks');
 
 const navigationPages = {
 	nextPage: '/before-you-start/claiming-costs-householder',
-	shutterPage: '/before-you-start/use-existing-service-enforcement-notice',
-	previousPage: '/before-you-start/decision-date-householder'
+	shutterPage: '/before-you-start/use-existing-service-enforcement-notice'
 };
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
-jest.mock('../../../../../src/lib/get-previous-page-path');
 
 describe('controllers/householder-planning/eligibility/enforcement-notice-householder', () => {
 	let req;
@@ -35,10 +32,6 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 
 		appeal.eligibility.appealType = '1001';
 		appeal.eligibility.applicationDecision = 'granted';
-
-		getPreviousPagePath.mockImplementation(() => {
-			return '/before-you-start/decision-date-householder';
-		});
 	});
 
 	afterEach(() => {
@@ -53,8 +46,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 			getEnforcementNoticeHouseholder(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(currentPage, {
-				enforcementNotice: appeal.eligibility.enforcementNotice,
-				previousPage: navigationPages.previousPage
+				enforcementNotice: appeal.eligibility.enforcementNotice
 			});
 		});
 	});
@@ -78,8 +70,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 			expect(res.render).toHaveBeenCalledWith(currentPage, {
 				enforcementNotice: appeal.eligibility.enforcementNotice,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
-				errors: { a: 'b' },
-				previousPage: navigationPages.previousPage
+				errors: { a: 'b' }
 			});
 		});
 
@@ -103,8 +94,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 			expect(res.render).toHaveBeenCalledWith(currentPage, {
 				enforcementNotice: appeal.eligibility.enforcementNotice,
 				errors: {},
-				errorSummary: [{ text: error.toString(), href: '#' }],
-				previousPage: navigationPages.previousPage
+				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
 		});
 
