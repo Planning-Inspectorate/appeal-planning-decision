@@ -13,7 +13,6 @@ const {
 describe('controllers/full-appeal/submit-appeal/list-of-documents', () => {
 	let req;
 	let res;
-	const url = '/full-appeal/submit-appeal/email-address-confirmed';
 
 	beforeEach(() => {
 		req = mockReq();

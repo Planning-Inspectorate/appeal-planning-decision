@@ -1,7 +1,7 @@
 const logger = require('../../../lib/logger');
 const {
 	VIEW: {
-		FULL_APPEAL: { LIST_OF_DOCUMENTS: currentPage, TASK_LIST, EMAIL_CONFIRMED }
+		FULL_APPEAL: { LIST_OF_DOCUMENTS: currentPage, TASK_LIST }
 	}
 } = require('../../../lib/full-appeal/views');
 const { postSaveAndReturn } = require('../../save');
