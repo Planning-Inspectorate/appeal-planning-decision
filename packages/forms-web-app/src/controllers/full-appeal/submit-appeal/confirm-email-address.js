@@ -1,7 +1,7 @@
 const { createConfirmEmail } = require('../../../lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS, EMAIL_ADDRESS }
+		FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS }
 	}
 } = require('../../../lib/full-appeal/views');
 
