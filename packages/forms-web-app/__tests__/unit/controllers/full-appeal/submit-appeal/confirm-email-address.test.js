@@ -32,8 +32,7 @@ describe('controllers/full-appeal/submit-appeal/confirm-email-address', () => {
 			await getConfirmEmailAddress(req, res);
 			expect(createConfirmEmail).toBeCalledWith(appeal);
 			expect(res.render).toBeCalledWith(CONFIRM_EMAIL_ADDRESS, {
-				emailAddress: 'test@example.com',
-				backLink: `/${EMAIL_ADDRESS}`
+				emailAddress: 'test@example.com'
 			});
 		});
 	});

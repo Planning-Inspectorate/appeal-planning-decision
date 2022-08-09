@@ -48,20 +48,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-tenants', () => {
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(TELLING_THE_TENANTS, {
 				tellingTheTenants: STANDARD_TRIPLE_CONFIRM_OPTIONS,
-				isOther: true,
-				backLink: '/full-appeal/submit-appeal/other-tenants'
-			});
-		});
-
-		it('should set correct backLink if agriculturalHolding.isTenant is false', () => {
-			req.session.appeal.appealSiteSection.agriculturalHolding.isTenant = false;
-			getTellingTheTenants(req, res);
-
-			expect(res.render).toHaveBeenCalledTimes(1);
-			expect(res.render).toHaveBeenCalledWith(TELLING_THE_TENANTS, {
-				tellingTheTenants: STANDARD_TRIPLE_CONFIRM_OPTIONS,
-				isOther: false,
-				backLink: '/full-appeal/submit-appeal/are-you-a-tenant'
+				isOther: true
 			});
 		});
 	});
@@ -86,8 +73,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-tenants', () => {
 				tellingTheTenants: [],
 				errors,
 				errorSummary,
-				isOther: true,
-				backLink: '/full-appeal/submit-appeal/other-tenants'
+				isOther: true
 			});
 		});
 
@@ -113,8 +99,7 @@ describe('controllers/full-appeal/submit-appeal/telling-the-tenants', () => {
 				tellingTheTenants: [STANDARD_TRIPLE_CONFIRM_OPTIONS[0]],
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }],
-				isOther: true,
-				backLink: '/full-appeal/submit-appeal/other-tenants'
+				isOther: true
 			});
 		});
 
