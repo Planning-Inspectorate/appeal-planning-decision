@@ -1,4 +1,8 @@
-{% extends "../layouts/householder-banner/main.njk" %}
+{% if typeOfPlanningApplication == 'householder-planning' %}
+  {% extends "layouts/full-appeal-banner/main.njk" %}
+{% elif typeOfPlanningApplication == 'full-appeal' %}
+  {% extends "layouts/householder-banner/main.njk" %}
+{% endif %}
 
 {% set title="Confirm your email address - Appeal a planning decision - GOV.UK" %}
 

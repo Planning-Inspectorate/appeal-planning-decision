@@ -1,9 +1,13 @@
+const {
+	VIEW: { EMAIL_ADDRESS, CONFIRM_EMAIL_ADDRESS }
+} = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 
 const getEmailAddress = (req, res) => {
-	const { email } = req.session.appeal;
-	return res.render('appeal-householder-decision/email-address', {
+	const { email, typeOfPlanningApplication } = req.session.appeal;
+	res.render(EMAIL_ADDRESS, {
+		typeOfPlanningApplication,
 		email
 	});
 };
@@ -18,7 +22,7 @@ const postEmailAddress = async (req, res) => {
 	} = req.session;
 
 	if (Object.keys(errors).length > 0) {
-		return res.render('appeal-householder-decision/email-address', {
+		return res.render(EMAIL_ADDRESS, {
 			email,
 			errors,
 			errorSummary
@@ -30,15 +34,14 @@ const postEmailAddress = async (req, res) => {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (e) {
 		logger.error(e);
-		return res.render('appeal-householder-decision/email-address', {
+		return res.render(EMAIL_ADDRESS, {
 			email,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
 	}
 
-	res.redirect('/appeal-householder-decision/confirm-email-address');
-
+	res.redirect(`${CONFIRM_EMAIL_ADDRESS}`);
 };
 
 module.exports = {

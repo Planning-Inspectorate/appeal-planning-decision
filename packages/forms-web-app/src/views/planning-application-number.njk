@@ -1,4 +1,8 @@
-{% extends "../layouts/householder-banner/main.njk" %}
+{% if typeOfPlanningApplication == 'householder-planning' %}
+  {% extends "layouts/full-appeal-banner/main.njk" %}
+{% elif typeOfPlanningApplication == 'full-appeal' %}
+  {% extends "layouts/householder-banner/main.njk" %}
+{% endif %}
 
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
@@ -11,6 +15,16 @@
     {% set title="Error: " + title %}
   {% endif %}
   {{ title }}
+{% endblock %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: 'Back',
+    href: '/before-you-start/can-use-service',
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
 {% endblock %}
 
 {% block content %}

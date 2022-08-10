@@ -1,14 +1,13 @@
 const {
-	VIEW: {
-		FULL_APPEAL: { EMAIL_ADDRESS, CONFIRM_EMAIL_ADDRESS }
-	}
-} = require('../../../lib/full-appeal/views');
+	VIEW: { EMAIL_ADDRESS, CONFIRM_EMAIL_ADDRESS }
+} = require('../../../lib/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
 
 const getEmailAddress = (req, res) => {
-	const { email } = req.session.appeal;
+	const { email, typeOfPlanningApplication } = req.session.appeal;
 	res.render(EMAIL_ADDRESS, {
+		typeOfPlanningApplication,
 		email
 	});
 };
@@ -45,7 +44,7 @@ const postEmailAddress = async (req, res) => {
 		return;
 	}
 
-	res.redirect(`/${CONFIRM_EMAIL_ADDRESS}`);
+	res.redirect(`${CONFIRM_EMAIL_ADDRESS}`);
 };
 
 module.exports = {

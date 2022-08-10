@@ -1,15 +1,17 @@
 const {
-	VIEW: {
-		FULL_APPEAL: { PLANNING_APPLICATION_NUMBER, EMAIL_ADDRESS }
-	}
-} = require('../../../lib/full-appeal/views');
+	VIEW: { PLANNING_APPLICATION_NUMBER, EMAIL_ADDRESS }
+} = require('../../../lib/views');
+
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
 
 exports.getPlanningApplicationNumber = (req, res) => {
-	const { planningApplicationNumber } = req.session.appeal;
+	const { planningApplicationNumber, typeOfPlanningApplication } = req.session.appeal;
+
 	res.render(PLANNING_APPLICATION_NUMBER, {
-		planningApplicationNumber
+		typeOfPlanningApplication,
+		planningApplicationNumber,
+		backLink
 	});
 };
 
@@ -43,5 +45,5 @@ exports.postPlanningApplicationNumber = async (req, res) => {
 		return;
 	}
 
-	res.redirect(`/${EMAIL_ADDRESS}`);
+	res.redirect(`${EMAIL_ADDRESS}`);
 };

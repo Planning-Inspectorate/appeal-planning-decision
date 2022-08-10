@@ -1,10 +1,17 @@
+const {
+	VIEW: { EMAIL_ADDRESS, PLANNING_APPLICATION_NUMBER }
+} = require('../../lib/views');
+
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 
 const getPlanningApplicationNumber = (req, res) => {
-	const { planningApplicationNumber } = req.session.appeal;
-	return res.render('appeal-householder-decision/planning-application-number', {
-		planningApplicationNumber
+	const { planningApplicationNumber, typeOfPlanningApplication } = req.session.appeal;
+
+	return res.render(PLANNING_APPLICATION_NUMBER, {
+		typeOfPlanningApplication,
+		planningApplicationNumber,
+		backLink
 	});
 };
 
@@ -18,7 +25,7 @@ const postPlanningApplicationNumber = async (req, res) => {
 	} = req.session;
 
 	if (Object.keys(errors).length > 0) {
-		return res.render('appeal-householder-decision/planning-application-number', {
+		return res.render(PLANNING_APPLICATION_NUMBER, {
 			planningApplicationNumber,
 			errors,
 			errorSummary
@@ -30,14 +37,14 @@ const postPlanningApplicationNumber = async (req, res) => {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (e) {
 		logger.error(e);
-		return res.render('appeal-householder-decision/planning-application-number', {
+		return res.render(PLANNING_APPLICATION_NUMBER, {
 			planningApplicationNumber,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
 	}
 
-	return res.redirect('/appeal-householder-decision/email-address');
+	return res.redirect(`${EMAIL_ADDRESS}`);
 };
 
 module.exports = {

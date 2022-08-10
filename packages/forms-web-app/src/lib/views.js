@@ -14,12 +14,14 @@ const VIEW = {
 	PLANNING_APPLICATION_NUMBER: 'planning-application-number',
 	SENT_ANOTHER_LINK: 'sent-another-link',
 	TASK_LIST: 'task-list',
+	PLANNING_APPLICATION_NUMBER: 'planning-application-number',
+	EMAIL_ADDRESS: 'email-address',
+	CONFIRM_EMAIL_ADDRESS: 'confirm-email-address',
 
 	BEFORE_YOU_START: {
 		FIRST_PAGE: 'before-you-start/first-page',
 		USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
 			'before-you-start/use-existing-service-enforcement-notice',
-
 		USE_EXISTING_SERVICE_DEVELOPMENT_TYPE: 'before-you-start/use-existing-service-development-type',
 		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building'
 	},
@@ -109,23 +111,8 @@ const VIEW = {
 
 	FULL_APPEAL: {
 		ADVERTISING_YOUR_APPEAL: 'full-appeal/submit-appeal/advertising-your-appeal',
-		ANY_OF_FOLLOWING: 'full-appeal/any-of-following',
 		AGRICULTURAL_HOLDING: 'full-appeal/submit-appeal/agricultural-holding',
-		APPLICANT_NAME: 'full-appeal/submit-appeal/applicant-name',
-		APPEAL_STATEMENT: 'full-appeal/submit-appeal/appeal-statement',
-		APPLICATION_CERTIFICATES_INCLUDED:
-			'full-appeal/submit-appeal/application-certificates-included',
-		APPEAL_SUBMITTED: 'full-appeal/submit-appeal/appeal-submitted',
-		APPEAL_ALREADY_SUBMITTED: 'full-appeal/submit-appeal/appeal-already-submitted',
-		APPEAL_SITE_ADDRESS: 'full-appeal/submit-appeal/appeal-site-address',
-		APPLICATION_FORM: 'full-appeal/submit-appeal/application-form',
-		ARE_YOU_A_TENANT: 'full-appeal/submit-appeal/are-you-a-tenant',
-		CANNOT_APPEAL: 'full-appeal/submit-appeal/cannot-appeal',
-		CODE_EXPIRED: 'full-appeal/submit-appeal/code-expired',
-		CAN_USE_SERVICE_FULL_APPEAL: 'full-appeal/can-use-service',
-		CAN_USE_SERVICE_PRIOR_APPROVAL: 'full-appeal/prior-approval/can-use-service',
-		CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
-			'full-appeal/removal-or-variation-of-conditions/can-use-service',
+		ANY_OF_FOLLOWING: 'full-appeal/any-of-following',
 		APPEAL_SITE_ADDRESS: 'full-appeal/submit-appeal/appeal-site-address',
 		APPLICATION_CERTIFICATES_INCLUDED:
 			'full-appeal/submit-appeal/application-certificates-included',
@@ -139,24 +126,13 @@ const VIEW = {
 		CONFIRM_EMAIL_ADDRESS: 'full-appeal/submit-appeal/confirm-email-address',
 		CONTACT_DETAILS: 'full-appeal/submit-appeal/contact-details',
 		CHECK_YOUR_ANSWERS: 'full-appeal/submit-appeal/check-your-answers',
-		DATE_DECISION_DUE: 'full-appeal/date-decision-due',
-		DESIGN_ACCESS_STATEMENT: 'full-appeal/submit-appeal/design-access-statement',
-		DESIGN_ACCESS_STATEMENT_SUBMITTED:
-			'full-appeal/submit-appeal/design-access-statement-submitted',
-		DECISION_LETTER: 'full-appeal/submit-appeal/decision-letter',
-		DECISION_DATE: 'full-appeal/decision-date',
-		DECLARATION: 'full-appeal/submit-appeal/declaration',
-		DECLARATION_INFORMATION: 'full-appeal/submit-appeal/declaration-information',
-		DRAFT_PLANNING_OBLIGATION: 'full-appeal/submit-appeal/draft-planning-obligation',
-		DRAFT_STATEMENT_COMMON_GROUND: 'full-appeal/submit-appeal/draft-statement-common-ground',
-		EMAIL_ADDRESS: 'full-appeal/submit-appeal/email-address',
-		ENTER_CODE: 'full-appeal/submit-appeal/enter-code',
-		EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-address-confirmed',
-		ENFORCEMENT_NOTICE: 'full-appeal/enforcement-notice',
 		CAN_USE_SERVICE_FULL_APPEAL: 'full-appeal/can-use-service',
 		CAN_USE_SERVICE_PRIOR_APPROVAL: 'full-appeal/prior-approval/can-use-service',
 		CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
 			'full-appeal/removal-or-variation-of-conditions/can-use-service',
+		CERTIFICATES: 'full-appeal/submit-appeal/certificates',
+		CHECK_YOUR_ANSWERS: 'full-appeal/submit-appeal/check-your-answers',
+		CONTACT_DETAILS: 'full-appeal/submit-appeal/contact-details',
 		CANNOT_APPEAL: 'full-appeal/submit-appeal/cannot-appeal',
 		CODE_EXPIRED: 'full-appeal/submit-appeal/code-expired',
 		DATE_DECISION_DUE: 'full-appeal/date-decision-due',
