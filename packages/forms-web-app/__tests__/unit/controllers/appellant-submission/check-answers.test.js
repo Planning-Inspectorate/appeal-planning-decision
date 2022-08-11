@@ -1,5 +1,7 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const checkAnswersController = require('../../../../src/controllers/appellant-submission/check-answers');
+const {
+	getCheckAnswers
+} = require('../../../../src/controllers/appellant-submission/check-answers');
 const { getDepartmentFromId } = require('../../../../src/services/department.service');
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
@@ -20,7 +22,7 @@ describe('controllers/appellant-submission/check-answers', () => {
 	describe('getCheckAnswers', () => {
 		it('should call the correct template with empty local planning department', () => {
 			delete req.session.appeal.lpaCode;
-			checkAnswersController.getCheckAnswers(req, res);
+			getCheckAnswers(req, res);
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
 				appealLPD: '',
 				appeal
@@ -30,7 +32,7 @@ describe('controllers/appellant-submission/check-answers', () => {
 			await getDepartmentFromId.mockResolvedValue(undefined);
 
 			appeal.lpaCode = 'lpdCode';
-			await checkAnswersController.getCheckAnswers(req, res);
+			await getCheckAnswers(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
 				appealLPD: '',
@@ -41,7 +43,7 @@ describe('controllers/appellant-submission/check-answers', () => {
 			await getDepartmentFromId.mockResolvedValue({ name: 'lpdName' });
 
 			appeal.lpaCode = 'lpdCode';
-			await checkAnswersController.getCheckAnswers(req, res);
+			await getCheckAnswers(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS, {
 				appealLPD: 'lpdName',

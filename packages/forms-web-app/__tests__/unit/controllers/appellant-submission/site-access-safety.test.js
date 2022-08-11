@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const siteAccessSafetyController = require('../../../../src/controllers/appellant-submission/site-access-safety');
+const {
+	getSiteAccessSafety,
+	postSiteAccessSafety
+} = require('../../../../src/controllers/appellant-submission/site-access-safety');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -27,7 +30,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 
 	describe('getSiteAccessSafety', () => {
 		it('should call the correct template', () => {
-			siteAccessSafetyController.getSiteAccessSafety(req, res);
+			getSiteAccessSafety(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY, {
 				appeal: req.session.appeal
@@ -45,7 +48,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await siteAccessSafetyController.postSiteAccessSafety(mockRequest, res);
+			await postSiteAccessSafety(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY, {
@@ -64,7 +67,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await siteAccessSafetyController.postSiteAccessSafety(mockRequest, res);
+			await postSiteAccessSafety(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(logger.error).toHaveBeenCalledWith(error);
@@ -89,7 +92,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 					'site-access-safety-concerns': 'some concerns noted here'
 				}
 			};
-			await siteAccessSafetyController.postSiteAccessSafety(mockRequest, res);
+			await postSiteAccessSafety(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -142,7 +145,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 					...mockReq(appeal),
 					body
 				};
-				await siteAccessSafetyController.postSiteAccessSafety(mockRequest, res);
+				await postSiteAccessSafety(mockRequest, res);
 
 				expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 

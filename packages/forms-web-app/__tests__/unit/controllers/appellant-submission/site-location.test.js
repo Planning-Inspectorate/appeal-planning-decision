@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const siteLocationController = require('../../../../src/controllers/appellant-submission/site-location');
+const {
+	getSiteLocation,
+	postSiteLocation
+} = require('../../../../src/controllers/appellant-submission/site-location');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
@@ -26,7 +29,7 @@ describe('controllers/appellant-submission/site-location', () => {
 
 	describe('getSiteLocation', () => {
 		it('should call the correct template', () => {
-			siteLocationController.getSiteLocation(req, res);
+			getSiteLocation(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
 				appeal: req.session.appeal
@@ -43,7 +46,7 @@ describe('controllers/appellant-submission/site-location', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await siteLocationController.postSiteLocation(mockRequest, res);
+			await postSiteLocation(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
@@ -72,7 +75,7 @@ describe('controllers/appellant-submission/site-location', () => {
 				...req,
 				body: {}
 			};
-			await siteLocationController.postSiteLocation(mockRequest, res);
+			await postSiteLocation(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -110,7 +113,7 @@ describe('controllers/appellant-submission/site-location', () => {
 					'site-postcode': fakePostcode
 				}
 			};
-			await siteLocationController.postSiteLocation(mockRequest, res);
+			await postSiteLocation(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 

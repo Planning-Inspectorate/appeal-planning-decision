@@ -1,6 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const { documentTypes } = require('@pins/common');
-const appealStatementController = require('../../../../src/controllers/appellant-submission/appeal-statement');
+const {
+	getAppealStatement,
+	postAppealStatement
+} = require('../../../../src/controllers/appellant-submission/appeal-statement');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
 const { mockReq, mockRes } = require('../../mocks');
@@ -30,7 +33,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 
 	describe('getAppealStatement', () => {
 		it('should call the correct template', async () => {
-			await appealStatementController.getAppealStatement(req, res);
+			await getAppealStatement(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
 				appeal: req.session.appeal
@@ -47,7 +50,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await appealStatementController.postAppealStatement(mockRequest, res);
+			await postAppealStatement(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
@@ -67,7 +70,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 					'appeal-upload': {}
 				}
 			};
-			await appealStatementController.postAppealStatement(mockRequest, res);
+			await postAppealStatement(mockRequest, res);
 
 			expect(getTaskStatus).not.toHaveBeenCalled();
 
@@ -84,7 +87,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 				},
 				files: {}
 			};
-			await appealStatementController.postAppealStatement(mockRequest, res);
+			await postAppealStatement(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -111,7 +114,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 					'does-not-include-sensitive-information': 'i-confirm'
 				}
 			};
-			await appealStatementController.postAppealStatement(mockRequest, res);
+			await postAppealStatement(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -161,7 +164,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 					}
 				}
 			};
-			await appealStatementController.postAppealStatement(mockRequest, res);
+			await postAppealStatement(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 

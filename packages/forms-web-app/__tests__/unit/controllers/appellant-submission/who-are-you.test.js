@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const whoAreYouController = require('../../../../src/controllers/appellant-submission/who-are-you');
+const {
+	getWhoAreYou,
+	postWhoAreYou
+} = require('../../../../src/controllers/appellant-submission/who-are-you');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { FORM_FIELD } = require('../../../../src/controllers/appellant-submission/who-are-you');
 const logger = require('../../../../src/lib/logger');
@@ -27,7 +30,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
 
 	describe('getWhoAreYou', () => {
 		it('should call the correct template', () => {
-			whoAreYouController.getWhoAreYou(req, res);
+			getWhoAreYou(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU, {
 				FORM_FIELD,
@@ -51,7 +54,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
 				}
 			};
 
-			await whoAreYouController.postWhoAreYou(mockRequest, res);
+			await postWhoAreYou(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -79,7 +82,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
 				}
 			};
 
-			await whoAreYouController.postWhoAreYou(mockRequest, res);
+			await postWhoAreYou(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
@@ -95,7 +98,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await whoAreYouController.postWhoAreYou(mockRequest, res);
+			await postWhoAreYou(mockRequest, res);
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
@@ -121,7 +124,7 @@ describe('controllers/appellant-submission/who-are-you', () => {
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await whoAreYouController.postWhoAreYou(mockRequest, res);
+			await postWhoAreYou(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 

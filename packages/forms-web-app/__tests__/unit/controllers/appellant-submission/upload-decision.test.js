@@ -1,6 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const { documentTypes } = require('@pins/common');
-const uploadDecisionController = require('../../../../src/controllers/appellant-submission/upload-decision');
+const {
+	getUploadDecision,
+	postUploadDecision
+} = require('../../../../src/controllers/appellant-submission/upload-decision');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
@@ -29,7 +32,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 
 	describe('getUploadDecision', () => {
 		it('should call the correct template', () => {
-			uploadDecisionController.getUploadDecision(req, res);
+			getUploadDecision(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
 				appeal: req.session.appeal
@@ -49,7 +52,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 					'decision-upload': {}
 				}
 			};
-			await uploadDecisionController.postUploadDecision(req, res);
+			await postUploadDecision(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
@@ -69,7 +72,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 				files: {}
 			};
 
-			await uploadDecisionController.postUploadDecision(req, res);
+			await postUploadDecision(req, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -98,7 +101,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 				...mockReq(appeal),
 				body: {}
 			};
-			await uploadDecisionController.postUploadDecision(req, res);
+			await postUploadDecision(req, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -143,7 +146,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 					}
 				}
 			};
-			await uploadDecisionController.postUploadDecision(req, res);
+			await postUploadDecision(req, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

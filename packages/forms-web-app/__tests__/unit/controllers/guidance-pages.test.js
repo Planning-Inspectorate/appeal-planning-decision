@@ -1,4 +1,10 @@
-const guidancePagesController = require('../../../src/controllers/guidance-pages');
+const {
+	getBeforeAppeal,
+	getWhenAppeal,
+	getStartAppeal,
+	getAfterAppeal,
+	getStagesAppeal
+} = require('../../../src/controllers/guidance-pages');
 const { mockReq, mockRes } = require('../mocks');
 const { VIEW } = require('../../../src/lib/views');
 
@@ -14,7 +20,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 
 	describe('getBeforeAppeal', () => {
 		it('should call the correct template', async () => {
-			await guidancePagesController.getBeforeAppeal(req, res);
+			await getBeforeAppeal(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.GUIDANCE_PAGES.BEFORE_APPEAL, {
 				currentUrl: '/before-you-appeal',
@@ -29,7 +35,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 
 	describe('getWhenAppeal', () => {
 		it('should call the correct template', async () => {
-			await guidancePagesController.getWhenAppeal(req, res);
+			await getWhenAppeal(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.GUIDANCE_PAGES.WHEN_APPEAL, {
 				currentUrl: '/when-you-can-appeal',
@@ -48,7 +54,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 
 	describe('getAfterAppeal', () => {
 		it('should call the correct template', async () => {
-			await guidancePagesController.getAfterAppeal(req, res);
+			await getAfterAppeal(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.GUIDANCE_PAGES.AFTER_APPEAL, {
 				currentUrl: '/after-you-appeal',
@@ -67,7 +73,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 
 	describe('getStagesAppeal', () => {
 		it('should call the correct template', async () => {
-			await guidancePagesController.getStagesAppeal(req, res);
+			await getStagesAppeal(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.GUIDANCE_PAGES.STAGES_APPEAL, {
 				currentUrl: '/stages-of-an-appeal',
@@ -86,7 +92,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 
 	describe('getStartAppeal', () => {
 		it('should call the correct template', async () => {
-			await guidancePagesController.getStartAppeal(req, res);
+			await getStartAppeal(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.GUIDANCE_PAGES.START_APPEAL, {
 				hideNavigation: true,

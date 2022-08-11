@@ -1,6 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const { documentTypes } = require('@pins/common');
-const uploadApplicationController = require('../../../../src/controllers/appellant-submission/upload-application');
+const {
+	getUploadApplication,
+	postUploadApplication
+} = require('../../../../src/controllers/appellant-submission/upload-application');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
@@ -29,7 +32,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 
 	describe('getUploadApplication', () => {
 		it('should call the correct template', () => {
-			uploadApplicationController.getUploadApplication(req, res);
+			getUploadApplication(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION, {
 				appeal: req.session.appeal
@@ -49,7 +52,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 					'application-upload': {}
 				}
 			};
-			await uploadApplicationController.postUploadApplication(mockRequest, res);
+			await postUploadApplication(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION, {
@@ -68,7 +71,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 				body: {},
 				files: {}
 			};
-			await uploadApplicationController.postUploadApplication(mockRequest, res);
+			await postUploadApplication(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -97,7 +100,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 				...mockReq(appeal),
 				body: {}
 			};
-			await uploadApplicationController.postUploadApplication(req, res);
+			await postUploadApplication(req, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
@@ -132,7 +135,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 					}
 				}
 			};
-			await uploadApplicationController.postUploadApplication(req, res);
+			await postUploadApplication(req, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
