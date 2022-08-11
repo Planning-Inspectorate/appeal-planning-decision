@@ -89,6 +89,7 @@ exports.postSupportingDocuments = async (req, res) => {
 		appeal.sectionStates[sectionName][taskName] = setTaskStatusComplete();
 		if (req.body['save-and-return'] !== '') {
 			req.session.appeal = await createOrUpdateAppeal(appeal);
+			console.log(appeal);
 			return res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 		}
 		req.session.appeal = await createOrUpdateAppeal(appeal);

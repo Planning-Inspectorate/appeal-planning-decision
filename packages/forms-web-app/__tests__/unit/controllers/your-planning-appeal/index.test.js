@@ -1,4 +1,4 @@
-const yourPlanningAppealController = require('../../../../src/controllers/your-planning-appeal');
+const { getYourPlanningAppeal } = require('../../../../src/controllers/your-planning-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 
@@ -33,7 +33,7 @@ describe('controllers/your-planning-appeal/index', () => {
 					appealLPD: lpd
 				}
 			};
-			await yourPlanningAppealController.getYourPlanningAppeal(req, res, next);
+			await getYourPlanningAppeal(req, res, next);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_PLANNING_APPEAL.INDEX, {
 				appeal,
@@ -49,13 +49,13 @@ describe('controllers/your-planning-appeal/index', () => {
 					appeal
 				}
 			};
-			await yourPlanningAppealController.getYourPlanningAppeal(req, res, next);
+			await getYourPlanningAppeal(req, res, next);
 
 			expect(next).toHaveBeenCalledWith();
 		});
 
 		it('should call next() when appeal data is not in session', async () => {
-			await yourPlanningAppealController.getYourPlanningAppeal(req, res, next);
+			await getYourPlanningAppeal(req, res, next);
 
 			expect(next).toHaveBeenCalledWith();
 		});

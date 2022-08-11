@@ -1,4 +1,6 @@
-const taskListController = require('../../../../src/controllers/appeal-householder-decision/task-list');
+const {
+	getTaskList
+} = require('../../../../src/controllers/appeal-householder-decision/task-list');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
@@ -8,7 +10,7 @@ describe('controllers/appellant-submission/task-list', () => {
 			const req = mockReq();
 			const res = mockRes();
 
-			taskListController.getTaskList(req, res);
+			getTaskList(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
 				applicationStatus: 'Application incomplete',
@@ -207,7 +209,7 @@ describe('controllers/appellant-submission/task-list', () => {
 			});
 			const res = mockRes();
 
-			taskListController.getTaskList(req, res);
+			getTaskList(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
 				applicationStatus: 'Application incomplete',
@@ -406,7 +408,7 @@ describe('controllers/appellant-submission/task-list', () => {
 			});
 			const res = mockRes();
 
-			taskListController.getTaskList(req, res);
+			getTaskList(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
 				applicationStatus: 'Application incomplete',

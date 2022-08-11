@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const siteAccessController = require('../../../../src/controllers/appellant-submission/site-access');
+const {
+	getSiteAccess,
+	postSiteAccess
+} = require('../../../../src/controllers/appellant-submission/site-access');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -26,7 +29,7 @@ describe('controllers/appellant-submission/site-access', () => {
 
 	describe('getSiteAccess', () => {
 		it('should call the correct template', () => {
-			siteAccessController.getSiteAccess(req, res);
+			getSiteAccess(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {
 				appeal: req.session.appeal
@@ -44,7 +47,7 @@ describe('controllers/appellant-submission/site-access', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await siteAccessController.postSiteAccess(mockRequest, res);
+			await postSiteAccess(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {
@@ -72,7 +75,7 @@ describe('controllers/appellant-submission/site-access', () => {
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await siteAccessController.postSiteAccess(mockRequest, res);
+			await postSiteAccess(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -98,7 +101,7 @@ describe('controllers/appellant-submission/site-access', () => {
 					'site-access': 'yes'
 				}
 			};
-			await siteAccessController.postSiteAccess(mockRequest, res);
+			await postSiteAccess(mockRequest, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`);
 
@@ -127,7 +130,7 @@ describe('controllers/appellant-submission/site-access', () => {
 					'site-access-more-detail': fakeHowIsSiteAccessRestricted
 				}
 			};
-			await siteAccessController.postSiteAccess(mockRequest, res);
+			await postSiteAccess(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 

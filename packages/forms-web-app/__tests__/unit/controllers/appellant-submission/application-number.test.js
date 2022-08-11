@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const applicationNumberController = require('../../../../src/controllers/appellant-submission/application-number');
+const {
+	getApplicationNumber,
+	postApplicationNumber
+} = require('../../../../src/controllers/appellant-submission/application-number');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
@@ -26,7 +29,7 @@ describe('controllers/appellant-submission/application-number', () => {
 
 	describe('getApplicationNumber', () => {
 		it('should call the correct template', () => {
-			applicationNumberController.getApplicationNumber(req, res);
+			getApplicationNumber(req, res);
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
 				appeal: req.session.appeal
 			});
@@ -42,7 +45,7 @@ describe('controllers/appellant-submission/application-number', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await applicationNumberController.postApplicationNumber(mockRequest, res);
+			await postApplicationNumber(mockRequest, res);
 
 			expect(getTaskStatus).not.toHaveBeenCalled();
 
@@ -62,7 +65,7 @@ describe('controllers/appellant-submission/application-number', () => {
 				...req,
 				body: {}
 			};
-			await applicationNumberController.postApplicationNumber(mockRequest, res);
+			await postApplicationNumber(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -94,7 +97,7 @@ describe('controllers/appellant-submission/application-number', () => {
 				}
 			};
 
-			await applicationNumberController.postApplicationNumber(mockRequest, res);
+			await postApplicationNumber(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 

@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const applicantNameController = require('../../../../src/controllers/appellant-submission/applicant-name');
+const {
+	getApplicantName,
+	postApplicantName
+} = require('../../../../src/controllers/appellant-submission/applicant-name');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -26,7 +29,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
 
 	describe('getApplicantName', () => {
 		it('should call the correct template', () => {
-			applicantNameController.getApplicantName(req, res);
+			getApplicantName(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
 				appeal: req.session.appeal
@@ -46,7 +49,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
 				}
 			};
 
-			await applicantNameController.postApplicantName(mockRequest, res);
+			await postApplicantName(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -66,7 +69,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
 			const error = new Error('Cheers');
 			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 
-			await applicantNameController.postApplicantName(mockRequest, res);
+			await postApplicantName(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -96,7 +99,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
 				}
 			};
 
-			await applicantNameController.postApplicantName(mockRequest, res);
+			await postApplicantName(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
