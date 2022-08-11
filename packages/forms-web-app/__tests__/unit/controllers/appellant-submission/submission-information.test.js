@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
-const submissionInformationController = require('../../../../src/controllers/appellant-submission/submission-information');
+const {
+	getSubmissionInformation
+} = require('../../../../src/controllers/appellant-submission/submission-information');
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 
@@ -30,7 +32,7 @@ describe('controllers/appellant-submission/submission-information', () => {
 		it('should return 400 if appeal id not provided', async () => {
 			req.params.appealId = null;
 
-			await submissionInformationController.getSubmissionInformation(req, res);
+			await getSubmissionInformation(req, res);
 
 			expect(res.status).toHaveBeenCalledWith(400);
 			expect(res.render).toHaveBeenCalledWith('error/400', {
@@ -40,7 +42,7 @@ describe('controllers/appellant-submission/submission-information', () => {
 		it('should return 404 if appeal not found', async () => {
 			req.params.appealId = 'some-id';
 
-			await submissionInformationController.getSubmissionInformation(req, res);
+			await getSubmissionInformation(req, res);
 
 			expect(res.status).toHaveBeenCalledWith(404);
 			expect(res.render).toHaveBeenCalledWith('error/not-found');
@@ -56,7 +58,7 @@ describe('controllers/appellant-submission/submission-information', () => {
 				}
 			};
 
-			await submissionInformationController.getSubmissionInformation(req, res);
+			await getSubmissionInformation(req, res);
 
 			expect(res.status).toHaveBeenCalledWith(400);
 			expect(res.render).toHaveBeenCalledWith('error/400', {
@@ -81,7 +83,7 @@ describe('controllers/appellant-submission/submission-information', () => {
 				}
 			};
 
-			await submissionInformationController.getSubmissionInformation(req, res);
+			await getSubmissionInformation(req, res);
 
 			expect(req.session.appeal.submissionDate).not.toBeNull();
 		});
@@ -104,7 +106,7 @@ describe('controllers/appellant-submission/submission-information', () => {
 				}
 			};
 
-			await submissionInformationController.getSubmissionInformation(req, res);
+			await getSubmissionInformation(req, res);
 
 			const css = fs.readFileSync(
 				path.resolve(__dirname, '../../../../src/public/stylesheets/main.css'),

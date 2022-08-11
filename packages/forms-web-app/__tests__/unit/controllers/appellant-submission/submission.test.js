@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const submissionController = require('../../../../src/controllers/appellant-submission/submission');
+const {
+	getSubmission,
+	postSubmission
+} = require('../../../../src/controllers/appellant-submission/submission');
 const { submitAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { storePdfAppeal } = require('../../../../src/services/pdf.service');
 const { mockReq, mockRes } = require('../../mocks');
@@ -30,7 +33,7 @@ describe('controllers/appellant-submission/submission', () => {
 
 	describe('getSubmission', () => {
 		it('should call the correct template', () => {
-			submissionController.getSubmission(req, res);
+			getSubmission(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION);
 		});
@@ -45,7 +48,7 @@ describe('controllers/appellant-submission/submission', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await submissionController.postSubmission(mockRequest, res);
+			await postSubmission(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
@@ -69,7 +72,7 @@ describe('controllers/appellant-submission/submission', () => {
 			const error = new Error('Cheers');
 			submitAppeal.mockImplementation(() => Promise.reject(error));
 
-			await submissionController.postSubmission(mockRequest, res);
+			await postSubmission(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -108,7 +111,7 @@ describe('controllers/appellant-submission/submission', () => {
 			const error = new Error('Cheers');
 			storePdfAppeal.mockImplementation(() => Promise.reject(error));
 
-			await submissionController.postSubmission(mockRequest, res);
+			await postSubmission(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
@@ -129,7 +132,7 @@ describe('controllers/appellant-submission/submission', () => {
 					'appellant-confirmation': 'anything here - not valid'
 				}
 			};
-			submissionController.postSubmission(mockRequest, res);
+			postSubmission(mockRequest, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SUBMISSION}`);
 		});
@@ -146,7 +149,7 @@ describe('controllers/appellant-submission/submission', () => {
 					}
 				}
 			};
-			submissionController.postSubmission(mockRequest, res);
+			postSubmission(mockRequest, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
 		});
@@ -164,7 +167,7 @@ describe('controllers/appellant-submission/submission', () => {
 
 			req.session.appeal.decisionDate = decisionDate;
 
-			await submissionController.postSubmission(mockRequest, res);
+			await postSubmission(mockRequest, res);
 
 			expect(submitAppeal).toHaveBeenCalledWith({
 				...appeal,

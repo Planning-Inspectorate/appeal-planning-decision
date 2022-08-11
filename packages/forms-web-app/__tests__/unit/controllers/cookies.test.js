@@ -1,4 +1,4 @@
-const cookiesController = require('../../../src/controllers/cookies');
+const { getCookies, postCookies } = require('../../../src/controllers/cookies');
 const cookieConfig = require('../../../src/lib/client-side/cookie/cookie-config');
 const appConfig = require('../../../src/config');
 const getPreviousPagePath = require('../../../src/lib/get-previous-page-path');
@@ -49,7 +49,7 @@ describe('controllers/cookies', () => {
 		it('should not throw if cannot parse req.cookies value', () => {
 			req.cookies[cookieConfig.COOKIE_POLICY_KEY] = 'blurgh';
 
-			cookiesController.getCookies(req, res);
+			getCookies(req, res);
 
 			expect(req.log.warn).toHaveBeenCalledWith(
 				new SyntaxError('Unexpected token b in JSON at position 0'),
@@ -64,7 +64,7 @@ describe('controllers/cookies', () => {
 		});
 
 		it('should call the correct template', () => {
-			cookiesController.getCookies(req, res);
+			getCookies(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.COOKIES, {
 				cookiePolicy: undefined,
@@ -76,7 +76,7 @@ describe('controllers/cookies', () => {
 
 	describe('postCookies', () => {
 		it('should redirect on the happy path - no data submitted', () => {
-			cookiesController.postCookies(req, res);
+			postCookies(req, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.COOKIES}`);
 
@@ -91,7 +91,7 @@ describe('controllers/cookies', () => {
 				}
 			};
 
-			cookiesController.postCookies(req, res);
+			postCookies(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.COOKIES, {
 				cookiePolicy: undefined,
@@ -190,7 +190,7 @@ describe('controllers/cookies', () => {
 						before();
 						req = setupReq();
 
-						cookiesController.postCookies(req, res);
+						postCookies(req, res);
 
 						expect(addFlashMessage).toHaveBeenCalledWith(req, {
 							type: 'success',
