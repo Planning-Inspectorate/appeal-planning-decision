@@ -1,6 +1,9 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const yourDetailsController = require('../../../../src/controllers/appellant-submission/your-details');
+const {
+	getYourDetails,
+	postYourDetails
+} = require('../../../../src/controllers/appellant-submission/your-details');
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -26,7 +29,7 @@ describe('controllers/appellant-submission/your-details', () => {
 
 	describe('getYourDetails', () => {
 		it('should call the correct template', () => {
-			yourDetailsController.getYourDetails(req, res);
+			getYourDetails(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
 				appeal: req.session.appeal
@@ -43,7 +46,7 @@ describe('controllers/appellant-submission/your-details', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await yourDetailsController.postYourDetails(mockRequest, res);
+			await postYourDetails(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
@@ -64,7 +67,7 @@ describe('controllers/appellant-submission/your-details', () => {
 				body: {}
 			};
 
-			await yourDetailsController.postYourDetails(mockRequest, res);
+			await postYourDetails(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -115,7 +118,7 @@ describe('controllers/appellant-submission/your-details', () => {
 				}
 			};
 
-			await yourDetailsController.postYourDetails(mockRequest, res);
+			await postYourDetails(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
@@ -161,7 +164,7 @@ describe('controllers/appellant-submission/your-details', () => {
 			mockRequest.session.appeal[sectionName][taskName].appealingOnBehalfOf = '';
 			mockRequest.session.appeal[sectionName][taskName].isOriginalApplicant = false;
 
-			await yourDetailsController.postYourDetails(mockRequest, res);
+			await postYourDetails(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,

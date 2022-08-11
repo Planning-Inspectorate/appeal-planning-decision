@@ -1,5 +1,8 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const siteOwnershipController = require('../../../../src/controllers/appellant-submission/site-ownership');
+const {
+	getSiteOwnership,
+	postSiteOwnership
+} = require('../../../../src/controllers/appellant-submission/site-ownership');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -26,7 +29,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
 	describe('getSiteOwnership', () => {
 		it('should call the correct template', () => {
-			siteOwnershipController.getSiteOwnership(req, res);
+			getSiteOwnership(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
 				appeal: req.session.appeal
@@ -44,7 +47,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await siteOwnershipController.postSiteOwnership(mockRequest, res);
+			await postSiteOwnership(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
@@ -63,7 +66,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 		// 	const error = new Error('Cheers');
 		// 	createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
 		//
-		// 	await siteOwnershipController.postSiteOwnership(mockRequest, res);
+		// 	await postSiteOwnership(mockRequest, res);
 		//
 		// 	expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 		//
@@ -95,7 +98,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
 			getTaskStatus.mockReturnValue(fakeTaskStatus);
 
-			await siteOwnershipController.postSiteOwnership(mockRequest, res);
+			await postSiteOwnership(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -133,7 +136,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
 			getTaskStatus.mockReturnValue(fakeTaskStatus);
 
-			await siteOwnershipController.postSiteOwnership(mockRequest, res);
+			await postSiteOwnership(mockRequest, res);
 
 			//expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -180,7 +183,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 			mockRequest.session.appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold =
 				haveOtherOwnersBeenTold;
 
-			await siteOwnershipController.postSiteOwnership(mockRequest, res);
+			await postSiteOwnership(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -221,7 +224,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 			mockRequest.session.appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold =
 				haveOtherOwnersBeenTold;
 
-			await siteOwnershipController.postSiteOwnership(mockRequest, res);
+			await postSiteOwnership(mockRequest, res);
 
 			//expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
