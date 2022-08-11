@@ -1,15 +1,14 @@
 const { createConfirmEmail } = require('../../../lib/appeals-api-wrapper');
 const {
-	VIEW: {
-		FULL_APPEAL: { SENT_ANOTHER_LINK: currentPage }
-	}
-} = require('../../../lib/full-appeal/views');
+	VIEW: { SENT_ANOTHER_LINK }
+} = require('../../../lib/views');
 
 const getSentAnotherLink = async (req, res) => {
-	const appeal = req.session.appeal;
+	const { appeal, typeOfApplication } = req.session.appeal;
 	createConfirmEmail(appeal);
-	res.render(currentPage, {
-		appeal: appeal
+	res.render(SENT_ANOTHER_LINK, {
+		appeal: appeal,
+		typeOfApplication
 	});
 };
 

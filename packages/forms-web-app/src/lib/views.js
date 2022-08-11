@@ -8,15 +8,14 @@ const VIEW = {
 	CANNOT_APPEAL: 'cannot-appeal',
 	CONFIRM_EMAIL_ADDRESS: 'confirm-email-address',
 	EMAIL_ADDRESS: 'email-address',
+	EMAIL_ADDRESS: 'email-address',
 	EMAIL_ADDRESS_CONFIRMED: 'email-address-confirmed',
 	LIST_OF_DOCUMENTS: 'list-of-documents',
 	LINK_EXPIRED: 'link-expired',
 	PLANNING_APPLICATION_NUMBER: 'planning-application-number',
+	PLANNING_APPLICATION_NUMBER: 'planning-application-number',
 	SENT_ANOTHER_LINK: 'sent-another-link',
 	TASK_LIST: 'task-list',
-	PLANNING_APPLICATION_NUMBER: 'planning-application-number',
-	EMAIL_ADDRESS: 'email-address',
-	CONFIRM_EMAIL_ADDRESS: 'confirm-email-address',
 
 	BEFORE_YOU_START: {
 		FIRST_PAGE: 'before-you-start/first-page',
@@ -133,7 +132,6 @@ const VIEW = {
 		CERTIFICATES: 'full-appeal/submit-appeal/certificates',
 		CHECK_YOUR_ANSWERS: 'full-appeal/submit-appeal/check-your-answers',
 		CONTACT_DETAILS: 'full-appeal/submit-appeal/contact-details',
-		CANNOT_APPEAL: 'full-appeal/submit-appeal/cannot-appeal',
 		CODE_EXPIRED: 'full-appeal/submit-appeal/code-expired',
 		DATE_DECISION_DUE: 'full-appeal/date-decision-due',
 		DECLARATION: 'full-appeal/submit-appeal/declaration',
@@ -156,7 +154,6 @@ const VIEW = {
 		IDENTIFYING_THE_OWNERS: 'full-appeal/submit-appeal/identifying-the-owners',
 		KNOW_THE_OWNERS: 'full-appeal/submit-appeal/know-the-owners',
 		LETTER_CONFIRMING_APPLICATION: 'full-appeal/submit-appeal/letter-confirming-application',
-		LIST_OF_DOCUMENTS: 'full-appeal/submit-appeal/list-of-documents',
 		LOCAL_PLANNING_DEPARTMENT: 'full-appeal/local-planning-department',
 		NEW_PLANS_DRAWINGS: 'full-appeal/submit-appeal/new-plans-drawings',
 		NEW_DOCUMENTS: 'full-appeal/submit-appeal/new-documents',
@@ -178,7 +175,6 @@ const VIEW = {
 		ORIGINAL_DECISION_NOTICE: 'full-appeal/submit-appeal/original-decision-notice',
 		PRIOR_APPROVAL_EXISTING_HOME: 'full-appeal/prior-approval-existing-home',
 		PLANS_DRAWINGS_DOCUMENTS: 'full-appeal/submit-appeal/plans-drawings-documents',
-		PLANNING_APPLICATION_NUMBER: 'full-appeal/submit-appeal/planning-application-number',
 		PLANS_DRAWINGS: 'full-appeal/submit-appeal/plans-drawings',
 		PLANNING_OBLIGATION_PLANNED: 'full-appeal/submit-appeal/planning-obligation-planned',
 		PLANNING_OBLIGATION_STATUS: 'full-appeal/submit-appeal/planning-obligation-status',
@@ -188,7 +184,6 @@ const VIEW = {
 		PLANNING_APPLICATION_NUMBER: 'full-appeal/submit-appeal/planning-application-number',
 		PROPOSED_DEVELOPMENT_CHANGED: 'full-appeal/submit-appeal/proposed-development-changed',
 		REQUEST_NEW_CODE: 'full-appeal/submit-appeal/request-new-code',
-		SENT_ANOTHER_LINK: 'full-appeal/submit-appeal/sent-another-link',
 		TASK_LIST: 'full-appeal/submit-appeal/task-list',
 		TELLING_THE_LANDOWNERS: 'full-appeal/submit-appeal/telling-the-landowners',
 		TELLING_THE_TENANTS: 'full-appeal/submit-appeal/telling-the-tenants',
@@ -199,8 +194,7 @@ const VIEW = {
 			'full-appeal/use-existing-service-local-planning-department',
 		VISIBLE_FROM_ROAD: 'full-appeal/submit-appeal/visible-from-road',
 		WHY_HEARING: 'full-appeal/submit-appeal/why-hearing',
-		WHY_INQUIRY: 'full-appeal/submit-appeal/why-inquiry',
-		YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal'
+		WHY_INQUIRY: 'full-appeal/submit-appeal/why-inquiry'
 	},
 
 	SUBMIT_APPEAL: {

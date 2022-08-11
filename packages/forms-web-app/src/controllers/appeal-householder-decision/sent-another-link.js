@@ -1,10 +1,15 @@
 const { createConfirmEmail } = require('../../lib/appeals-api-wrapper');
 
+const {
+	VIEW: { SENT_ANOTHER_LINK }
+} = require('../../lib/views');
+
 const getSentAnotherLink = async (req, res) => {
-	const appeal = req.session.appeal;
+	const { appeal, typeOfApplication } = req.session.appeal;
 	createConfirmEmail(appeal);
-	res.render('appeal-householder-decision/sent-another-link', {
-		appeal: appeal
+	res.render(SENT_ANOTHER_LINK, {
+		appeal: appeal,
+		typeOfApplication
 	});
 };
 

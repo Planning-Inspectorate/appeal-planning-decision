@@ -1,4 +1,13 @@
 {% extends "../../layouts/full-appeal-banner/main-no-back-link.njk" %}
+
+{# 
+{% if typeOfPlanningApplication == 'householder-planning' %}
+  {% extends "layouts/full-appeal-banner/main-no-back-link.njk" %}
+{% elif typeOfPlanningApplication == 'full-appeal' %}
+  {% extends "layouts/householder-banner/main-no-back-link.njk" %}
+{% endif %}
+#}
+
 {% set resendCode="/full-appeal/submit-appeal/enter-code"%}
 
 {% set title="Code Expired - Appeal a planning decision - GOV.UK" %}

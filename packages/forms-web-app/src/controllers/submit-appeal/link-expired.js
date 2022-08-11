@@ -1,8 +1,6 @@
 const {
-	VIEW: {
-		SUBMIT_APPEAL: { LINK_EXPIRED }
-	}
-} = require('../../lib/submit-appeal/views');
+	VIEW: { LINK_EXPIRED }
+} = require('../../lib/views');
 
 const getLinkExpired = (req, res) => {
 	const newLinkUrl = '/full-appeal/submit-appeal/sent-another-link';

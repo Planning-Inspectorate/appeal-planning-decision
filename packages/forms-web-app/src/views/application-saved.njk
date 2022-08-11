@@ -1,8 +1,11 @@
-{% extends "../layouts/householder-banner/main.njk" %}
+{% if typeOfPlanningApplication == 'householder-planning' %}
+  {% extends "layouts/full-appeal-banner/main.njk" %}
+{% elif typeOfPlanningApplication == 'full-appeal' %}
+  {% extends "layouts/householder-banner/main.njk" %}
+{% endif %}
 
 {% set title = "Your appeal for application " + applicationNumber + " has been saved - Appeal a planning decision - GOV.UK" %}
-{% block pageTitle %}{{ title }}
-{% endblock %}
+{% block pageTitle %}{{ title }}{% endblock %}
 
 {% block content %}
 

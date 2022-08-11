@@ -1,13 +1,12 @@
 const {
-	VIEW: {
-		APPELLANT_SUBMISSION: { CANNOT_APPEAL }
-	}
+	VIEW: { CANNOT_APPEAL }
 } = require('../../lib/views');
 const { businessRulesDeadline, getDeadlinePeriod } = require('../../lib/calculate-deadline');
 const { arraysEqual } = require('../../lib/arrays-equal');
 
 const getCannotAppeal = (req, res) => {
 	const { appeal } = req.session;
+	const { typeOfApplication } = req.session.appeal;
 	const beforeYouStartFirstPage = '/before-you-start';
 	const deadlineDate = businessRulesDeadline(
 		appeal.decisionDate,
@@ -31,7 +30,8 @@ const getCannotAppeal = (req, res) => {
 	res.render(CANNOT_APPEAL, {
 		beforeYouStartFirstPage,
 		deadlineDate,
-		deadlinePeriod
+		deadlinePeriod,
+		typeOfApplication
 	});
 };
 

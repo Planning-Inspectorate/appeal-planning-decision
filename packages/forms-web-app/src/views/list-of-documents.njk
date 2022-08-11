@@ -1,4 +1,9 @@
-{% extends "../layouts/householder-banner/main.njk" %}
+{% if typeOfPlanningApplication == 'householder-planning' %}
+  {% extends "layouts/full-appeal-banner/main.njk" %}
+{% elif typeOfPlanningApplication == 'full-appeal' %}
+  {% extends "layouts/householder-banner/main.njk" %}
+{% endif %}
+
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 

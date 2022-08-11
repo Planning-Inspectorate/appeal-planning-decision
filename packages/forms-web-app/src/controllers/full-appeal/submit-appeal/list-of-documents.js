@@ -1,13 +1,13 @@
 const logger = require('../../../lib/logger');
 const {
 	VIEW: {
-		FULL_APPEAL: { LIST_OF_DOCUMENTS: currentPage, TASK_LIST }
+		FULL_APPEAL: { LIST_OF_DOCUMENTS, TASK_LIST }
 	}
 } = require('../../../lib/full-appeal/views');
 const { postSaveAndReturn } = require('../../save');
 
 const getListOfDocuments = (_, res) => {
-	res.render(currentPage);
+	res.render(LIST_OF_DOCUMENTS);
 };
 
 const postListOfDocuments = async (req, res) => {
@@ -21,7 +21,7 @@ const postListOfDocuments = async (req, res) => {
 		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
-		return res.render(currentPage, {
+		return res.render(LIST_OF_DOCUMENTS, {
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});

@@ -1,5 +1,7 @@
 const { FULL_APPEAL_SECTIONS } = require('../../../services/task.service');
-const { VIEW } = require('../../../lib/full-appeal/views');
+const {
+	VIEW: { TASK_LIST }
+} = require('../../../lib/views');
 const { getHref } = require('../../../lib/get-route-for-special-cases');
 
 const HEADERS = {
@@ -52,7 +54,7 @@ exports.getTaskList = (req, res) => {
 
 	const sectionInfo = countTasks(sections);
 
-	res.render(VIEW.FULL_APPEAL.TASK_LIST, {
+	res.render(TASK_LIST, {
 		applicationStatus,
 		sectionInfo,
 		sections

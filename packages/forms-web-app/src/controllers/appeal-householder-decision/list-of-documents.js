@@ -1,8 +1,16 @@
+const {
+	VIEW: { LIST_OF_DOCUMENTS }
+} = require('../../lib/views');
+
 const logger = require('../../lib/logger');
 const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 
 const getListOfDocuments = (req, res) => {
-	res.render('appeal-householder-decision/list-of-documents');
+	const { typeOfPlanningApplication } = req.session.appeal;
+
+	res.render(LIST_OF_DOCUMENTS, {
+		typeOfPlanningApplication
+	});
 };
 
 const postListOfDocuments = async (req, res) => {
@@ -16,7 +24,7 @@ const postListOfDocuments = async (req, res) => {
 		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
-		return res.render('appeal-householder-decision/list-of-documents', {
+		return res.render(LIST_OF_DOCUMENTS, {
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});

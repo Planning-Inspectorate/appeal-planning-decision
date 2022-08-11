@@ -1,10 +1,17 @@
-{% extends "../../layouts/full-appeal-banner/main-no-back-link.njk" %}
+{% if typeOfPlanningApplication == 'householder-planning' %}
+  {% extends "layouts/full-appeal-banner/main.njk" %}
+{% elif typeOfPlanningApplication == 'full-appeal' %}
+{% endif %}
+  {% extends "layouts/householder-banner/main.njk" %}
 
+{%- from "components/task-list/macro.njk" import mojTaskList -%}
 {%- from "govuk/components/tag/macro.njk" import govukTag -%}
 {% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
 
 {% block pageTitle %}
-  Appeal a planning decision - Appeal a planning decision - GOV.UK
+  'Appeal a planning decision - Appeal a planning decision - GOV.UK'
+
+{% block backButton %}
 {% endblock %}
 
 {% block content %}
@@ -13,7 +20,23 @@
   <div class="govuk-grid-column-two-thirds">
     <h1 data-cy="heading" class="govuk-heading-xl">
       Appeal a planning decision
+
+      Appeal a householder planning decision
     </h1>
+
+    {% if typeOfPlanningApplication == 'householder-planning' %}
+
+    <p>A householder appeal must be received by the Planning Inspectorate within 12 weeks of the decision date.</p>
+    <p>If you do not submit it in time, you will lose your right to appeal.</p>
+    <h2 class="govuk-heading-s govuk-!-margin-bottom-2">{{ applicationStatus }}</h2>
+    <p class="govuk-body govuk-!-margin-bottom-7">You have completed {{ sectionInfo.sections.completed }} of {{sectionInfo.sections.count}} sections.</p>
+
+    {{ mojTaskList({
+      sections: sections
+    }) }}
+
+    {% else %}
+
     <h2 data-cy="application-status" class="govuk-heading-s govuk-!-margin-bottom-2">{{ applicationStatus }}</h2>
     <p data-cy="application-status-detailed" class="govuk-body govuk-!-margin-bottom-7">You have completed {{ sectionInfo.nbCompleted }} of {{sectionInfo.nbTasks}} tasks.</p>
 
@@ -55,6 +78,8 @@
     {% endfor -%}
     </ol>
 
+  {% endif %}
+
   </div>
 </div>
 <div class="govuk-grid-row">
@@ -64,4 +89,5 @@
     </form>
   </div>
 </div>
+
 {% endblock %}
