@@ -1,5 +1,5 @@
 const pinsYup = require('../../../../../lib/pins-yup');
-const sectionStateValidation = require('../../../generic-validators/section-state-validation');
+const sectionStateValidation = require('../../../../components/section-state-validation');
 
 const yourAppealStateValidation = () => {
 	return pinsYup
