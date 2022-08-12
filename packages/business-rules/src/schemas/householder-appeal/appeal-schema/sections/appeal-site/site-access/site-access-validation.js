@@ -1,5 +1,5 @@
 const pinsYup = require('../../../../../../lib/pins-yup');
-const booleanValidation = require('../../../../generic-validators/boolean-validation');
+const booleanValidation = require('../../../../../components/boolean-validation');
 
 const siteAccessValidation = () => {
 	return pinsYup

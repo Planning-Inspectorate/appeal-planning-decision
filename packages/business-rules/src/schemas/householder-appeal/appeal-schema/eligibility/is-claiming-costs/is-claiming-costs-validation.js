@@ -1,4 +1,4 @@
-const booleanValidation = require('../../../generic-validators/boolean-validation');
+const booleanValidation = require('../../../../components/boolean-validation');
 
 const isClaimingCostsValidation = () => {
 	return booleanValidation();
