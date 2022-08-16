@@ -87,7 +87,8 @@
 	},
 	"release": {
 		"branches": [
-			"main"
+			"main",
+			"release/*"
 		],
 		"plugins": [
 			"@semantic-release/commit-analyzer",
