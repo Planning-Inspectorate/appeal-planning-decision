@@ -7,12 +7,8 @@ const {
 	VIEW: {
 		FULL_APPEAL: { CANNOT_APPEAL }
 	}
-} = require('../../../../../src/lib/views');
-const {
-	hasDeadlineDatePassed,
-	getDeadlinePeriod,
-	businessRulesDeadline
-} = require('../../../../../src/lib/calculate-deadline');
+} = require('../../../../../src/lib/full-appeal/views');
+const { calculateDeadline } = require('../../../../../src/lib/calculate-deadline');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -38,9 +34,10 @@ describe('controllers/full-appeal/submit-appeal/cannot-appeal', () => {
 			});
 			getCannotAppeal(req, res);
 			const { appeal } = req.session;
+			const { typeOfPlanningApplication } = req.session.appeal;
 			const beforeYouStartFirstPage = '/before-you-start';
 			console.log(appeal.decisionDate, appeal.eligibility.applicationDecision);
-			const deadlineDate = businessRulesDeadline(
+			const deadlineDate = calculateDeadline.businessRulesDeadline(
 				appeal.decisionDate,
 				appeal.appealType,
 				appeal.eligibility.applicationDecision
@@ -53,7 +50,8 @@ describe('controllers/full-appeal/submit-appeal/cannot-appeal', () => {
 			expect(res.render).toHaveBeenCalledWith(CANNOT_APPEAL, {
 				beforeYouStartFirstPage,
 				deadlineDate,
-				deadlinePeriod
+				deadlinePeriod,
+				typeOfPlanningApplication
 			});
 		});
 	});

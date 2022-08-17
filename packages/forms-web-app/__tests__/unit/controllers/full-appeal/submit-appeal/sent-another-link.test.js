@@ -27,10 +27,14 @@ describe('controllers/full-appeal/submit-appeal/sent-another-link', () => {
 	describe('getSentAnotherLink', () => {
 		it('calls correct template', async () => {
 			const fakeAppeal = { appeal: 'fake-appeal' };
+			const typeOfPlanningApplication = req.session.appeal;
 			req.session.appeal = fakeAppeal;
 			await getSentAnotherLink(req, res);
 			expect(createConfirmEmail).toBeCalledWith(fakeAppeal);
-			expect(res.render).toBeCalledWith(SENT_ANOTHER_LINK, { appeal: fakeAppeal });
+			expect(res.render).toBeCalledWith(SENT_ANOTHER_LINK, { 
+				appeal: fakeAppeal, 
+				typeOfPlanningApplication 
+			});
 		});
 	});
 });

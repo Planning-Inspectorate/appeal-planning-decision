@@ -3,11 +3,8 @@ const {
 } = require('../../../../src/controllers/appeal-householder-decision/email-address-confirmed');
 const { getConfirmEmail } = require('../../../../src/lib/appeals-api-wrapper');
 const { isTokenExpired } = require('../../../../src/lib/is-token-expired');
-
 const {
-	VIEW: {
-		APPELLANT_SUBMISSION: { EMAIL_ADDRESS_CONFIRMED, LINK_EXPIRED }
-	}
+	VIEW: { EMAIL_ADDRESS_CONFIRMED, LINK_EXPIRED }
 } = require('../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../mocks');

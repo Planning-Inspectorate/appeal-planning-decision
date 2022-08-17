@@ -48,6 +48,7 @@ function countTasks(sections) {
 
 exports.getTaskList = (req, res) => {
 	const { appeal } = req.session;
+
 	const sections = buildTaskLists(appeal);
 
 	const applicationStatus = 'Appeal incomplete';
@@ -55,6 +56,7 @@ exports.getTaskList = (req, res) => {
 	const sectionInfo = countTasks(sections);
 
 	res.render(TASK_LIST, {
+		appeal,
 		applicationStatus,
 		sectionInfo,
 		sections

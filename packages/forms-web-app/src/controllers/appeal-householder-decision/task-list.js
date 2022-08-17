@@ -1,5 +1,5 @@
 const { getTaskStatus, SECTIONS } = require('../../services/task.service');
-const { VIEW } = require('../../lib/views');
+const { VIEW } = require('../../../src/lib/views');
 const countTasks = require('../../lib/count-task');
 
 const HEADERS = {

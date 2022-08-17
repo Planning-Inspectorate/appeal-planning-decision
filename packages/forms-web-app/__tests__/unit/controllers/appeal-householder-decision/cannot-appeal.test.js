@@ -8,9 +8,7 @@ const {
 } = require('../../../../src/lib/calculate-deadline');
 const { mockReq, mockRes } = require('../../mocks');
 const {
-	VIEW: {
-		APPELLANT_SUBMISSION: { CANNOT_APPEAL }
-	}
+	VIEW: { CANNOT_APPEAL }
 } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -37,6 +35,7 @@ describe('controllers/appeal-householder-decision/cannot-appeal', () => {
 			});
 			getCannotAppeal(req, res);
 			const { appeal } = req.session;
+			const { typeOfPlanningApplication } = req.session.appeal;
 			const beforeYouStartFirstPage = '/before-you-start';
 			console.log(appeal.decisionDate, appeal.eligibility.applicationDecision);
 			const deadlineDate = businessRulesDeadline(
@@ -52,7 +51,8 @@ describe('controllers/appeal-householder-decision/cannot-appeal', () => {
 			expect(res.render).toHaveBeenCalledWith(CANNOT_APPEAL, {
 				beforeYouStartFirstPage,
 				deadlineDate,
-				deadlinePeriod
+				deadlinePeriod,
+				typeOfPlanningApplication
 			});
 		});
 	});

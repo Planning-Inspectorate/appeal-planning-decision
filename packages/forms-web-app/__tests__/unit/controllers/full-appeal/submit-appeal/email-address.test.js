@@ -34,9 +34,12 @@ describe('controllers/full-appeal/submit-appeal/email-address', () => {
 
 	describe('getEmailAddress', () => {
 		it('should call the correct template', () => {
-			getEmailAddress(req, res);
+			emailAddressController.getEmailAddress(req, res);
+			const { typeOfPlanningApplication } = req.session.appeal;
+
 			expect(res.render).toHaveBeenCalledWith(EMAIL_ADDRESS, {
-				email
+				email,
+				typeOfPlanningApplication
 			});
 		});
 	});
@@ -98,7 +101,7 @@ describe('controllers/full-appeal/submit-appeal/email-address', () => {
 				[taskName]: fakeEmail
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${CONFIRM_EMAIL_ADDRESS}`);
+			expect(res.redirect).toHaveBeenCalledWith(`${CONFIRM_EMAIL_ADDRESS}`);
 		});
 	});
 });

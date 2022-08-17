@@ -34,6 +34,7 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 	describe('getPlanningApplicationNumber', () => {
 		it('should call the correct template', () => {
 			getPlanningApplicationNumber(req, res);
+
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
 				planningApplicationNumber: applicationNumber
 			});
@@ -97,7 +98,7 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 				planningApplicationNumber: fakeApplicationNumber
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${EMAIL_ADDRESS}`);
+			expect(res.redirect).toHaveBeenCalledWith(`${EMAIL_ADDRESS}`);
 		});
 	});
 });

@@ -2,7 +2,9 @@ const {
 	getConfirmEmailAddress
 } = require('../../../../src/controllers/appeal-householder-decision/confirm-email-address');
 const { createConfirmEmail } = require('../../../../src/lib/appeals-api-wrapper');
-
+const {
+	VIEW: { CONFIRM_EMAIL_ADDRESS }
+} = require('../../../../src/lib/views');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 
 const {

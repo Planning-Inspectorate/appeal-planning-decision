@@ -2,7 +2,7 @@ const {
 	getApplicationSaved
 } = require('../../../../src/controllers/submit-appeal/application-saved');
 
-const { VIEW } = require('../../../../src/lib/submit-appeal/views');
+const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 describe('controllers/submit-appeal/application-saved', () => {
@@ -21,7 +21,7 @@ describe('controllers/submit-appeal/application-saved', () => {
 		};
 		await getApplicationSaved(req, res);
 
-		expect(res.render).toBeCalledWith(VIEW.SUBMIT_APPEAL.APPLICATION_SAVED, {
+		expect(res.render).toBeCalledWith(VIEW.APPLICATION_SAVED, {
 			applicationNumber: '123456',
 			deadline: { date: 20, day: 'Saturday', month: 'August', year: 2022 }
 		});

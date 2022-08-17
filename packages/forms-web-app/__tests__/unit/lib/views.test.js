@@ -17,6 +17,7 @@ describe('lib/views', () => {
 			LINK_EXPIRED: 'link-expired',
 			PLANNING_APPLICATION_NUMBER: 'planning-application-number',
 			SENT_ANOTHER_LINK: 'sent-another-link',
+			TASK_LIST: 'task-list',
 
 			BEFORE_YOU_START: {
 				FIRST_PAGE: 'before-you-start/first-page',
