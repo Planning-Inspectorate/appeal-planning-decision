@@ -34,7 +34,6 @@ describe('controllers/full-appeal/submit-appeal/sent-another-link', () => {
 			expect(res.render).toBeCalledWith(SENT_ANOTHER_LINK, { 
 				appeal: fakeAppeal, 
 				typeOfPlanningApplication 
-			});
 		});
 	});
 });

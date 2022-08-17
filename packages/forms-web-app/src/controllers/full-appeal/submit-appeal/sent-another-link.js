@@ -4,11 +4,11 @@ const {
 } = require('../../../lib/views');
 
 const getSentAnotherLink = async (req, res) => {
-	const { appeal, typeOfApplication } = req.session.appeal;
+	const { appeal, typeOfPlanningApplication } = req.session.appeal;
 	createConfirmEmail(appeal);
 	res.render(SENT_ANOTHER_LINK, {
 		appeal: appeal,
-		typeOfApplication
+		typeOfPlanningApplication
 	});
 };
 
