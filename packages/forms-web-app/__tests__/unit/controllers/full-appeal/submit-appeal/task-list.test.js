@@ -27,8 +27,10 @@ describe('controllers/full-appeal/submit-appeal/task-list', () => {
 			const res = mockRes();
 
 			getTaskList(req, res);
+			const { typeOfPlanningApplication } = req.session.appeal;
 
 			expect(res.render).toHaveBeenCalledWith(TASK_LIST, {
+
 				applicationStatus: 'Appeal incomplete',
 				sectionInfo: {
 					nbTasks: 6,
@@ -89,7 +91,8 @@ describe('controllers/full-appeal/submit-appeal/task-list', () => {
 							name: 'submitYourAppealSection'
 						}
 					}
-				]
+				],
+				typeOfPlanningApplication
 			});
 		});
 	});

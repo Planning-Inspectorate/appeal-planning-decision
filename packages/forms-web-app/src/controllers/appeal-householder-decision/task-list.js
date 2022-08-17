@@ -56,6 +56,7 @@ function buildTaskLists(appeal) {
 
 exports.getTaskList = (req, res) => {
 	const { appeal } = req.session;
+	const typeOfPlanningApplication = 'householder-planning';
 	const sections = buildTaskLists(appeal);
 
 	const applicationStatus = 'Application incomplete';
@@ -65,6 +66,7 @@ exports.getTaskList = (req, res) => {
 	res.render(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
 		applicationStatus,
 		sectionInfo,
-		sections
+		sections,
+		typeOfPlanningApplication
 	});
 };

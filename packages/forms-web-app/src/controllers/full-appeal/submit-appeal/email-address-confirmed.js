@@ -2,15 +2,8 @@ const { getConfirmEmail } = require('../../../lib/appeals-api-wrapper');
 const { isTokenExpired } = require('../../../lib/is-token-expired');
 
 const {
-	VIEW: {
-		FULL_APPEAL: { EMAIL_CONFIRMED, LIST_OF_DOCUMENTS }
-	}
-} = require('../../../lib/full-appeal/views');
-const {
-	VIEW: {
-		SUBMIT_APPEAL: { LINK_EXPIRED }
-	}
-} = require('../../../lib/submit-appeal/views');
+	VIEW: { EMAIL_CONFIRMED, LIST_OF_DOCUMENTS, LINK_EXPIRED }
+} = require('../../../lib/views');
 
 const getEmailConfirmed = async (req, res) => {
 	const retrievedEmailConfirmation = await getConfirmEmail(req.session.appeal.id);

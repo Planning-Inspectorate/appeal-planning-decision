@@ -48,7 +48,7 @@ function countTasks(sections) {
 
 exports.getTaskList = (req, res) => {
 	const { appeal } = req.session;
-
+	const { typeOfPlanningApplication } = req.session.appeal;
 	const sections = buildTaskLists(appeal);
 
 	const applicationStatus = 'Appeal incomplete';
@@ -59,6 +59,7 @@ exports.getTaskList = (req, res) => {
 		appeal,
 		applicationStatus,
 		sectionInfo,
-		sections
+		sections,
+		typeOfPlanningApplication
 	});
 };

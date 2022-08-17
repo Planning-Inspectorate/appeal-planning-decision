@@ -1,10 +1,9 @@
 const { mockReq, mockRes } = require('../../../mocks');
 
 const {
-	VIEW: {
-		FULL_APPEAL: { LIST_OF_DOCUMENTS, TASK_LIST }
-	}
-} = require('../../../../../src/lib/views');
+	const {
+		VIEW: { LIST_OF_DOCUMENTS, TASK_LIST }
+	} = require('../../../../../src/lib/views');
 const {
 	getListOfDocuments,
 	postListOfDocuments
@@ -24,8 +23,11 @@ describe('controllers/full-appeal/submit-appeal/list-of-documents', () => {
 	describe('getListOfDocuments', () => {
 		it('should call the correct template', () => {
 			getListOfDocuments(req, res);
+			const typeOfPlanningApplication = 'full-appeal';
 
-			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS);
+			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS, {
+				typeOfPlanningApplication
+			});
 		});
 	});
 

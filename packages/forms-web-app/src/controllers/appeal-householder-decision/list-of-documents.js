@@ -6,7 +6,7 @@ const logger = require('../../lib/logger');
 const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 
 const getListOfDocuments = (req, res) => {
-	const { typeOfPlanningApplication } = req.session.appeal;
+	const typeOfPlanningApplication = 'householder-planning';
 
 	res.render(LIST_OF_DOCUMENTS, {
 		typeOfPlanningApplication

@@ -5,14 +5,7 @@ const { getConfirmEmail } = require('../../../../../src/lib/appeals-api-wrapper'
 const { isTokenExpired } = require('../../../../../src/lib/is-token-expired');
 
 const {
-	VIEW: {
-		FULL_APPEAL: { EMAIL_CONFIRMED }
-	}
-} = require('../../../../../src/lib/full-appeal/views');
-const {
-	VIEW: {
-		SUBMIT_APPEAL: { LINK_EXPIRED }
-	}
+	VIEW: { EMAIL_CONFIRMED, LINK_EXPIRED, LIST_OF_DOCUMENTS }
 } = require('../../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
@@ -39,7 +32,7 @@ describe('controllers/full-appeal/submit-appeal/email-address-confirmed', () => 
 			expect(getConfirmEmail).toBeCalledWith('12345-abc');
 			expect(isTokenExpired).toBeCalledWith(30, date);
 			expect(res.render).toBeCalledWith(EMAIL_CONFIRMED, {
-				listOfDocumentsUrl: '/full-appeal/submit-appeal/list-of-documents'
+				listOfDocumentsUrl: `/${LIST_OF_DOCUMENTS}`
 			});
 		});
 

@@ -1,13 +1,15 @@
 const logger = require('../../../lib/logger');
 const {
-	VIEW: {
-		FULL_APPEAL: { LIST_OF_DOCUMENTS, TASK_LIST }
-	}
-} = require('../../../lib/full-appeal/views');
+	VIEW: { LIST_OF_DOCUMENTS, TASK_LIST, EMAIL_ADDRESS_CONFIRMED }
+} = require('../../../lib/views');
 const { postSaveAndReturn } = require('../../save');
 
 const getListOfDocuments = (_, res) => {
-	res.render(LIST_OF_DOCUMENTS);
+	const typeOfPlanningApplication = 'full-appeal';
+
+	res.render(LIST_OF_DOCUMENTS, {
+		typeOfPlanningApplication
+	});
 };
 
 const postListOfDocuments = async (req, res) => {

@@ -25,8 +25,10 @@ describe('controllers/appellant-submission/task-list', () => {
 			const res = mockRes();
 
 			getTaskList(req, res);
+			const { typeOfPlanningApplication } = req.session.appeal;
 
 			expect(res.render).toHaveBeenCalledWith(TASK_LIST, {
+
 				applicationStatus: 'Application incomplete',
 				sectionInfo: {
 					nbTasks: 10,
@@ -163,7 +165,8 @@ describe('controllers/appellant-submission/task-list', () => {
 							}
 						]
 					}
-				]
+				],
+				typeOfPlanningApplication
 			});
 		});
 
