@@ -1,7 +1,7 @@
-const pinsYup = require('../../../../lib/pins-yup');
+const emailStringValidation = require('../../../components/string-validators/string-email-validation');
 
 const emailValidation = () => {
-	return pinsYup.string().email().max(255).nullable();
+	return emailStringValidation();
 };
 
 module.exports = emailValidation;

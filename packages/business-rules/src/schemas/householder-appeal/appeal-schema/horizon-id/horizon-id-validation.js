@@ -1,7 +1,7 @@
-const pinsYup = require('../../../../lib/pins-yup');
+const stringMaxCharsValidation = require('../../../components/string-validators/string-max-chars-validation');
 
 const horizonIdValidation = () => {
-	return pinsYup.string().trim().max(20).nullable();
+	return stringMaxCharsValidation(20);
 };
 
 module.exports = horizonIdValidation;
