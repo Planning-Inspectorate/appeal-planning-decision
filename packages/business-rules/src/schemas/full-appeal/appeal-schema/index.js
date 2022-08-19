@@ -12,13 +12,14 @@ const {
 	STANDARD_TRIPLE_CONFIRM_OPTIONS,
 	PLANNING_OBLIGATION_STATUS_OPTION
 } = require('../../../constants');
+const idValidation = require('./id/id-validation');
 
 const appealValidationSchema = () => {
 	return pinsYup
 		.object()
 		.noUnknown(true)
 		.shape({
-			id: pinsYup.string().trim().uuid().required(),
+			id: idValidation(),
 			horizonId: pinsYup.string().trim().max(20).nullable(),
 			lpaCode: pinsYup.string().trim().max(20).nullable(),
 			planningApplicationNumber: pinsYup.string().max(30).nullable(),
