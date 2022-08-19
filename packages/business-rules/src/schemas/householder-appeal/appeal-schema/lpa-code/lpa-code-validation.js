@@ -1,6 +1,6 @@
 const stringMaxCharsValidation = require('../../../components/string-validators/string-max-chars-validation');
 
-const lpaCodeValidation = (valAction) => {
+const lpaCodeValidation = () => {
 	return stringMaxCharsValidation(20);
 };
 
