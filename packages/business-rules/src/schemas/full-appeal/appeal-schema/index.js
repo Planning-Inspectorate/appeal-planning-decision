@@ -1,7 +1,5 @@
 const pinsYup = require('../../../lib/pins-yup');
 const {
-	APPLICATION_DECISION,
-	APPLICATION_CATEGORIES,
 	KNOW_THE_OWNERS,
 	PROCEDURE_TYPE,
 	SECTION_STATE,
@@ -9,6 +7,7 @@ const {
 	PLANNING_OBLIGATION_STATUS_OPTION
 } = require('../../../constants');
 const appealDetails = require('../../components/appeal-details-validation/appeal-details-validation');
+const eligibilityValidation = require('./eligibility/eligibility-validation');
 
 const appealValidationSchema = () => {
 	return pinsYup
@@ -16,31 +15,7 @@ const appealValidationSchema = () => {
 		.noUnknown(true)
 		.shape({
 			...appealDetails(),
-			eligibility: pinsYup
-				.object()
-				.shape({
-					applicationCategories: pinsYup.lazy((applicationCategories) => {
-						if (applicationCategories) {
-							return pinsYup
-								.array()
-								.allOfSelectedOptions(
-									'applicationCategories',
-									Object.values(APPLICATION_CATEGORIES)
-								);
-						}
-						return pinsYup.object().nullable();
-					}),
-					applicationDecision: pinsYup.lazy((applicationDecision) => {
-						if (applicationDecision) {
-							return pinsYup.string().oneOf(Object.values(APPLICATION_DECISION));
-						}
-						return pinsYup.string().nullable();
-					}),
-					enforcementNotice: pinsYup.bool().nullable(),
-					hasPriorApprovalForExistingHome: pinsYup.bool().nullable(),
-					hasHouseholderPermissionConditions: pinsYup.bool().nullable()
-				})
-				.noUnknown(true),
+			eligibility: eligibilityValidation(),
 			contactDetailsSection: pinsYup
 				.object()
 				.shape({
