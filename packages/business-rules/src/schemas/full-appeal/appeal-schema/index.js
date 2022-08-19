@@ -8,7 +8,7 @@ const {
 	STANDARD_TRIPLE_CONFIRM_OPTIONS,
 	PLANNING_OBLIGATION_STATUS_OPTION
 } = require('../../../constants');
-const appealDetails = require('../../components/insert/appeal-details/appeal-details');
+const appealDetails = require('../../components/appeal-details-validation/appeal-details-validation');
 
 const appealValidationSchema = () => {
 	return pinsYup

@@ -1,4 +1,4 @@
-const emailStringValidation = require('../../../string-validators/string-email-validation');
+const emailStringValidation = require('../../string-validators/string-email-validation');
 
 const emailValidation = () => {
 	return emailStringValidation();

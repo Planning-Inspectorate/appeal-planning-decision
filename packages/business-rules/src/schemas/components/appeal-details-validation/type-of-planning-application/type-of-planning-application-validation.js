@@ -1,5 +1,5 @@
-const pinsYup = require('../../../../../lib/pins-yup');
-const { TYPE_OF_PLANNING_APPLICATION } = require('../../../../../constants');
+const pinsYup = require('../../../../lib/pins-yup');
+const { TYPE_OF_PLANNING_APPLICATION } = require('../../../../constants');
 
 const typeOfPlanningApplicationValidation = () => {
 	return pinsYup.lazy((typeOfPlanningApplication) => {
