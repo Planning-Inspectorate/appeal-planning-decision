@@ -1,4 +1,4 @@
-const stringMaxCharsValidation = require('../../../string-validators/string-max-chars-validation');
+const stringMaxCharsValidation = require('../../string-validators/string-max-chars-validation');
 
 stringMaxCharsValidation;
 

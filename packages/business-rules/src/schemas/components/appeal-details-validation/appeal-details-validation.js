@@ -1,4 +1,4 @@
-const dateValidation = require('../../date-validation');
+const dateValidation = require('../date-validation');
 const appealTypeValidation = require('./appeal-type/appeal-type-validation');
 const emailValidation = require('./email/email-validation');
 const horizonIdValidation = require('./horizon-id/horizon-id-validation');
@@ -8,11 +8,11 @@ const planningApplicationNumberValidation = require('./planning-application-numb
 const stateValidation = require('./state/state-validation');
 const typeOfPlanningApplicationValidation = require('./type-of-planning-application/type-of-planning-application-validation');
 
-const appealDetails = (valAction) => {
+const appealDetailsValidation = () => {
 	return {
 		id: idValidation(),
 		horizonId: horizonIdValidation(),
-		lpaCode: lpaCodeValidation(valAction),
+		lpaCode: lpaCodeValidation(),
 		planningApplicationNumber: planningApplicationNumberValidation(),
 		decisionDate: dateValidation(),
 		createdAt: dateValidation(true),
@@ -25,4 +25,4 @@ const appealDetails = (valAction) => {
 	};
 };
 
-module.exports = appealDetails;
+module.exports = appealDetailsValidation;
