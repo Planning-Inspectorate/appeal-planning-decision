@@ -1,46 +1,21 @@
 const pinsYup = require('../../../lib/pins-yup');
-const parseDateString = require('../../../utils/parse-date-string');
 const {
-	APPEAL_ID,
-	APPEAL_STATE,
 	APPLICATION_DECISION,
 	APPLICATION_CATEGORIES,
 	KNOW_THE_OWNERS,
 	PROCEDURE_TYPE,
 	SECTION_STATE,
-	TYPE_OF_PLANNING_APPLICATION,
 	STANDARD_TRIPLE_CONFIRM_OPTIONS,
 	PLANNING_OBLIGATION_STATUS_OPTION
 } = require('../../../constants');
-const idValidation = require('./id/id-validation');
+const appealDetails = require('../../components/insert/appeal-details/appeal-details');
 
 const appealValidationSchema = () => {
 	return pinsYup
 		.object()
 		.noUnknown(true)
 		.shape({
-			id: idValidation(),
-			horizonId: pinsYup.string().trim().max(20).nullable(),
-			lpaCode: pinsYup.string().trim().max(20).nullable(),
-			planningApplicationNumber: pinsYup.string().max(30).nullable(),
-			decisionDate: pinsYup.date().transform(parseDateString).nullable(),
-			createdAt: pinsYup.date().transform(parseDateString).required(),
-			updatedAt: pinsYup.date().transform(parseDateString).required(),
-			submissionDate: pinsYup.date().transform(parseDateString).nullable(),
-			state: pinsYup.string().oneOf(Object.values(APPEAL_STATE)).default(APPEAL_STATE.DRAFT),
-			appealType: pinsYup.lazy((appealType) => {
-				if (appealType) {
-					return pinsYup.string().oneOf(Object.values(APPEAL_ID));
-				}
-				return pinsYup.string().nullable();
-			}),
-			typeOfPlanningApplication: pinsYup.lazy((typeOfPlanningApplication) => {
-				if (typeOfPlanningApplication) {
-					return pinsYup.string().oneOf(Object.values(TYPE_OF_PLANNING_APPLICATION));
-				}
-				return pinsYup.string().nullable();
-			}),
-			email: pinsYup.string().email().max(255).nullable(),
+			...appealDetails(),
 			eligibility: pinsYup
 				.object()
 				.shape({
