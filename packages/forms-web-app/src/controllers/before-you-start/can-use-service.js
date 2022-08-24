@@ -9,11 +9,7 @@ const {
 				CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
 					canUseServiceRemovalOrVariationOfConditionsHouseholder
 			}
-		}
-	}
-} = require('../../lib/householder-planning/views');
-const {
-	VIEW: {
+		},
 		FULL_APPEAL: {
 			CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealUrl,
 			CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalFull,
@@ -21,7 +17,7 @@ const {
 				canUseServiceRemovalOrVariationOfConditionsFullAppeal
 		}
 	}
-} = require('../../lib/full-appeal/views');
+} = require('../../lib/views');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
 	const { appeal } = req.session;

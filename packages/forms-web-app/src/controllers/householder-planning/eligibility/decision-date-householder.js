@@ -9,7 +9,7 @@ const {
 			ELIGIBILITY: { DECISION_DATE_HOUSEHOLDER: currentPage }
 		}
 	}
-} = require('../../../lib/householder-planning/views');
+} = require('../../../lib/views');
 
 const shutter = `/before-you-start/you-cannot-appeal`;
 const enforcementNoticeHouseholder = `/before-you-start/enforcement-notice-householder`;

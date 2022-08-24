@@ -5,6 +5,12 @@ const { createConfirmEmail } = require('../../../../src/lib/appeals-api-wrapper'
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { SENT_ANOTHER_LINK, CONFIRM_EMAIL_ADDRESS }
+	}
+} = require('../../../../src/lib/views');
+
 const { mockReq, mockRes } = require('../../mocks');
 
 describe('controllers/appeal-householder-decision/confirm-email-address', () => {
@@ -22,9 +28,9 @@ describe('controllers/appeal-householder-decision/confirm-email-address', () => 
 			req.session.appeal.email = 'test@example.com';
 			await getConfirmEmailAddress(req, res);
 			expect(createConfirmEmail).toBeCalledWith(req.session.appeal);
-			expect(res.render).toBeCalledWith('appeal-householder-decision/confirm-email-address', {
+			expect(res.render).toBeCalledWith(`${CONFIRM_EMAIL_ADDRESS}`, {
 				emailAddress: 'test@example.com',
-				resendLink: '/appeal-householder-decision/sent-another-link'
+				resendLink: SENT_ANOTHER_LINK
 			});
 		});
 	});

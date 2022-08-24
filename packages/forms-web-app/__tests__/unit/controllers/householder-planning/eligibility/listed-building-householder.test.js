@@ -5,7 +5,13 @@ const {
 } = require('../../../../../src/controllers/householder-planning/eligibility/listed-building-householder');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
-const { VIEW } = require('../../../../../src/lib/householder-planning/views');
+const {
+	VIEW: {
+		HOUSEHOLDER_PLANNING: {
+			ELIGIBILITY: { LISTED_BUILDING_HOUSEHOLDER }
+		}
+	}
+} = require('../../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
 
@@ -23,20 +29,19 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 		jest.resetAllMocks();
 	});
 
-	describe('Listed Building Tests', () => {
+	describe('getListedBuildingHouseholder', () => {
 		it('should call the correct template on getListedBuildingHouseholder', async () => {
 			await getListedBuildingHouseholder(req, res);
 
-			expect(res.render).toBeCalledWith(
-				VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
-				{
-					isListedBuilding: appeal.eligibility.isListedBuilding,
-					typeOfPlanningApplication: 'householder-planning'
-				}
-			);
+			expect(res.render).toBeCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
+				isListedBuilding: appeal.eligibility.isListedBuilding,
+				typeOfPlanningApplication: 'householder-planning'
+			});
 		});
+	});
 
-		it('should redirect to the use-existing-service-listed-building page', async () => {
+	describe('postListedBuildingHouseholder', () => {
+		it(`should redirect to the use-existing-service-listed-building page if 'yes' is selected`, async () => {
 			const mockRequest = {
 				...req,
 				body: { 'listed-building-householder': 'yes' }
@@ -50,7 +55,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 			expect(res.redirect).toBeCalledWith('/before-you-start/use-existing-service-listed-building');
 		});
 
-		it('should redirect to the granted-or-refused-householder page', async () => {
+		it(`should redirect to the granted-or-refused-householder page if 'no' is selected`, async () => {
 			const mockRequest = {
 				...req,
 				body: { 'listed-building-householder': 'no' }
@@ -66,7 +71,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 			expect(res.redirect).toBeCalledWith('/before-you-start/granted-or-refused-householder');
 		});
 
-		it('should render errors on the page', async () => {
+		it('should re-render the template with errors if there is any validation error', async () => {
 			const mockRequest = {
 				...req,
 				body: {
@@ -82,22 +87,19 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
-			expect(res.render).toBeCalledWith(
-				VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
-				{
-					isListedBuilding: appeal.eligibility.isListedBuilding,
-					typeOfPlanningApplication: 'householder-planning',
-					errors: {
-						'listed-building-householder': {
-							msg: 'Select yes if your appeal about a listed building'
-						}
-					},
-					errorSummary: []
-				}
-			);
+			expect(res.render).toBeCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
+				isListedBuilding: appeal.eligibility.isListedBuilding,
+				typeOfPlanningApplication: 'householder-planning',
+				errors: {
+					'listed-building-householder': {
+						msg: 'Select yes if your appeal about a listed building'
+					}
+				},
+				errorSummary: []
+			});
 		});
 
-		it('should render page with failed appeal update message', async () => {
+		it('should re-render the template with errors if there is any api call error', async () => {
 			const error = new Error('API is down');
 
 			const mockRequest = {
@@ -112,15 +114,12 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(
-				VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.LISTED_BUILDING_HOUSEHOLDER,
-				{
-					isListedBuilding: appeal.eligibility.isListedBuilding,
-					typeOfPlanningApplication: 'householder-planning',
-					errors: {},
-					errorSummary: [{ text: error.toString(), href: '#' }]
-				}
-			);
+			expect(res.render).toHaveBeenCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
+				isListedBuilding: appeal.eligibility.isListedBuilding,
+				typeOfPlanningApplication: 'householder-planning',
+				errors: {},
+				errorSummary: [{ text: error.toString(), href: '#' }]
+			});
 		});
 	});
 });

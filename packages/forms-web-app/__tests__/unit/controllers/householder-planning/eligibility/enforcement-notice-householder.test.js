@@ -7,10 +7,10 @@ const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wra
 const {
 	VIEW: {
 		HOUSEHOLDER_PLANNING: {
-			ELIGIBILITY: { ENFORCEMENT_NOTICE_HOUSEHOLDER: currentPage }
+			ELIGIBILITY: { ENFORCEMENT_NOTICE_HOUSEHOLDER }
 		}
 	}
-} = require('../../../../../src/lib/householder-planning/views');
+} = require('../../../../../src/lib/views');
 const logger = require('../../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../../mocks');
 
@@ -45,8 +45,9 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 
 			getEnforcementNoticeHouseholder(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
-				enforcementNotice: appeal.eligibility.enforcementNotice
+			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE_HOUSEHOLDER, {
+				enforcementNotice: appeal.eligibility.enforcementNotice,
+				previousPage: navigationPages.previousPage
 			});
 		});
 	});
@@ -67,7 +68,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE_HOUSEHOLDER, {
 				enforcementNotice: appeal.eligibility.enforcementNotice,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
@@ -91,7 +92,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE_HOUSEHOLDER, {
 				enforcementNotice: appeal.eligibility.enforcementNotice,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

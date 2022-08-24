@@ -7,7 +7,7 @@ const {
 			ELIGIBILITY: { CLAIMING_COSTS: claimingCosts }
 		}
 	}
-} = require('../../../lib/householder-planning/views');
+} = require('../../../lib/views');
 
 const nextPage = `/before-you-start/can-use-service`;
 

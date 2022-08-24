@@ -4,11 +4,15 @@ const {
 	postSiteAccessSafety
 } = require('../../../../src/controllers/appellant-submission/site-access-safety');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { SITE_ACCESS_SAFETY, TASK_LIST }
+	}
+} = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
-const { getNextTask } = require('../../../../src/services/task.service');
+
+const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../mocks');
-const { getTaskStatus } = require('../../../../src/services/task.service');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
@@ -32,7 +36,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 		it('should call the correct template', () => {
 			getSiteAccessSafety(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY, {
+			expect(res.render).toHaveBeenCalledWith(SITE_ACCESS_SAFETY, {
 				appeal: req.session.appeal
 			});
 		});
@@ -51,7 +55,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 			await postSiteAccessSafety(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY, {
+			expect(res.render).toHaveBeenCalledWith(SITE_ACCESS_SAFETY, {
 				appeal: req.session.appeal,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
@@ -71,7 +75,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(logger.error).toHaveBeenCalledWith(error);
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY, {
+			expect(res.render).toHaveBeenCalledWith(SITE_ACCESS_SAFETY, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -83,7 +87,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
 			getNextTask.mockReturnValue({
-				href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`
+				href: `/${TASK_LIST}`
 			});
 			const mockRequest = {
 				...req,
@@ -114,7 +118,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 				}
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
 		});
 
 		[
@@ -139,7 +143,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 				getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
 				getNextTask.mockReturnValue({
-					href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`
+					href: `/${TASK_LIST}`
 				});
 				const mockRequest = {
 					...mockReq(appeal),
@@ -167,7 +171,7 @@ describe('controllers/appellant-submission/site-access-safety', () => {
 					}
 				});
 
-				expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
+				expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
 			});
 		});
 	});

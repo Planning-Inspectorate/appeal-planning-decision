@@ -9,10 +9,10 @@ const logger = require('../../../../../src/lib/logger');
 const {
 	VIEW: {
 		HOUSEHOLDER_PLANNING: {
-			ELIGIBILITY: { CLAIMING_COSTS: claimingCosts }
+			ELIGIBILITY: { CLAIMING_COSTS }
 		}
 	}
-} = require('../../../../../src/lib/householder-planning/views');
+} = require('../../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../../mocks');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
@@ -29,16 +29,18 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 		jest.resetAllMocks();
 	});
 
-	describe('Claiming Costs Tests', () => {
+	describe('getClaimingCostsHouseholder', () => {
 		it('should call the correct template on getClaimingCostsHouseholder', async () => {
 			await getClaimingCostsHouseholder(req, res);
 
 			expect(res.render).toBeCalledWith(claimingCosts, {
-				isClaimingCosts: appeal.eligibility.isClaimingCosts
+				isClaimingCosts: appeal.eligibility.isClaimingCosts,
+				backLink
 			});
 		});
 
-		it('should redirect to the use-a-different-service page', async () => {
+	describe('postClaimingCostsHouseholder', () => {
+		it(`should redirect to the use-a-different-service page if 'yes' is selected`, async () => {
 			const mockRequest = {
 				...req,
 				body: { 'claiming-costs-householder': 'yes' }
@@ -52,7 +54,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 			expect(res.redirect).toBeCalledWith(`/before-you-start/use-existing-service-costs`);
 		});
 
-		it('should redirect to the results-householder page', async () => {
+		it(`should redirect to the results-householder page if 'no' is selected`, async () => {
 			const mockRequest = {
 				...req,
 				body: { 'claiming-costs-householder': 'no' }
@@ -68,7 +70,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 			expect(res.redirect).toBeCalledWith('/before-you-start/can-use-service');
 		});
 
-		it('should render errors on the page', async () => {
+		it('should render errors on the page if there are validation errors', async () => {
 			const mockRequest = {
 				...req,
 				body: {
@@ -84,7 +86,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
-			expect(res.render).toBeCalledWith(`${claimingCosts}`, {
+			expect(res.render).toBeCalledWith(`${CLAIMING_COSTS}`, {
 				isClaimingCosts: appeal.eligibility.isClaimingCosts,
 				errors: {
 					'claiming-costs-householder': {
@@ -95,7 +97,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 			});
 		});
 
-		it('should render page with failed appeal update message', async () => {
+		it('should re-render the template with errors if there is any api call error', async () => {
 			const error = new Error('API is down');
 
 			const mockRequest = {
@@ -110,7 +112,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(`${claimingCosts}`, {
+			expect(res.render).toHaveBeenCalledWith(`${CLAIMING_COSTS}`, {
 				isClaimingCosts: appeal.eligibility.isClaimingCosts,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: 'pageId' }]

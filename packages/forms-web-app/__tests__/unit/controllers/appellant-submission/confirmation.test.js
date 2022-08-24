@@ -2,8 +2,11 @@ const {
 	getConfirmation
 } = require('../../../../src/controllers/appellant-submission/confirmation');
 const { mockReq, mockRes } = require('../../mocks');
-const { VIEW } = require('../../../../src/lib/views');
-
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { CONFIRMATION }
+	}
+} = require('../../../../src/lib/views');
 describe('controllers/appellant-submission/confirmation', () => {
 	let req;
 	let res;
@@ -44,7 +47,7 @@ describe('controllers/appellant-submission/confirmation', () => {
 		it('should call the correct template', () => {
 			getConfirmation(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.CONFIRMATION, {
+			expect(res.render).toHaveBeenCalledWith(CONFIRMATION, {
 				appellantEmail,
 				appealId
 			});

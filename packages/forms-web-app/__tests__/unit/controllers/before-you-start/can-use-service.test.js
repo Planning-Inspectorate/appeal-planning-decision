@@ -18,11 +18,7 @@ const {
 				CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
 					canUseServiceRemovalOrVariationOfConditionsHouseholder
 			}
-		}
-	}
-} = require('../../../../src/lib/householder-planning/views');
-const {
-	VIEW: {
+		},
 		FULL_APPEAL: {
 			CAN_USE_SERVICE_FULL_APPEAL: canUseServiceFullAppealUrl,
 			CAN_USE_SERVICE_PRIOR_APPROVAL: canUseServicePriorApprovalFull,
@@ -30,7 +26,7 @@ const {
 				canUseServiceRemovalOrVariationOfConditionsFullAppeal
 		}
 	}
-} = require('../../../../src/lib/full-appeal/views');
+} = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/services/department.service');
 
