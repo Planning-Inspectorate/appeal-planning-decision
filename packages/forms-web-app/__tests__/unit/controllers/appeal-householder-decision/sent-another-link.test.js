@@ -4,6 +4,11 @@ const {
 const { createConfirmEmail } = require('../../../../src/lib/appeals-api-wrapper');
 
 const { mockReq, mockRes } = require('../../mocks');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { SENT_ANOTHER_LINK }
+	}
+} = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 
@@ -24,7 +29,7 @@ describe('controllers/appeal-householder-decision/sent-another-link', () => {
 			req.session.appeal = fakeAppeal;
 			await getSentAnotherLink(req, res);
 			expect(createConfirmEmail).toBeCalledWith(fakeAppeal);
-			expect(res.render).toBeCalledWith('appeal-householder-decision/sent-another-link', {
+			expect(res.render).toBeCalledWith(SENT_ANOTHER_LINK, {
 				appeal: fakeAppeal
 			});
 		});

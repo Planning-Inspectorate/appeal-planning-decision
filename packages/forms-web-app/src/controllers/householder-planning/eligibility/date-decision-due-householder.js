@@ -8,7 +8,7 @@ const {
 			ELIGIBILITY: { DATE_DECISION_DUE_HOUSEHOLDER: currentPage }
 		}
 	}
-} = require('../../../lib/householder-planning/views');
+} = require('../../../lib/views');
 
 const shutterPage = '/before-you-start/you-cannot-appeal';
 const enforcementNoticeHouseholder = `/before-you-start/enforcement-notice-householder`;

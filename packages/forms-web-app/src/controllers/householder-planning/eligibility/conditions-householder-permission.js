@@ -9,7 +9,7 @@ const {
 			ELIGIBILITY: { CONDITIONS_HOUSEHOLDER_PERMISSION }
 		}
 	}
-} = require('../../../lib/householder-planning/views');
+} = require('../../../lib/views');
 
 const sectionName = 'eligibility';
 

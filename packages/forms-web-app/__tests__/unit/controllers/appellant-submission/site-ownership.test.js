@@ -1,10 +1,11 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
-const {
-	getSiteOwnership,
-	postSiteOwnership
-} = require('../../../../src/controllers/appellant-submission/site-ownership');
+const siteOwnershipController = require('../../../../src/controllers/appellant-submission/site-ownership');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { SITE_OWNERSHIP, SITE_OWNERSHIP_CERTB }
+	}
+} = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../mocks');
@@ -31,7 +32,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 		it('should call the correct template', () => {
 			getSiteOwnership(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
+			expect(res.render).toHaveBeenCalledWith(SITE_OWNERSHIP, {
 				appeal: req.session.appeal
 			});
 		});
@@ -47,39 +48,15 @@ describe('controllers/appellant-submission/site-ownership', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				}
 			};
-			await postSiteOwnership(mockRequest, res);
+			await siteOwnershipController.postSiteOwnership(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
+			expect(res.render).toHaveBeenCalledWith(SITE_OWNERSHIP, {
 				appeal: req.session.appeal,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
 			});
 		});
-
-		// it('should re-render the template with errors if there is any api call error', async () => {
-		// 	const mockRequest = {
-		// 		...req,
-		// 		body: {}
-		// 	};
-		//
-		// 	const error = new Error('Cheers');
-		// 	createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
-		//
-		// 	await postSiteOwnership(mockRequest, res);
-		//
-		// 	expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-		//
-		// 	expect(logger.error).toHaveBeenCalledWith(error);
-		//
-		// 	expect(res.redirect).not.toHaveBeenCalled();
-		//
-		// 	expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP, {
-		// 		appeal: req.session.appeal,
-		// 		errors: {},
-		// 		errorSummary: [{ text: error.toString(), href: '#' }]
-		// 	});
-		// });
 
 		it('should redirect to the next valid url if ownsWholeSite', async () => {
 			const fakeTaskStatus = 'FAKE_STATUS';
@@ -98,7 +75,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
 			getTaskStatus.mockReturnValue(fakeTaskStatus);
 
-			await postSiteOwnership(mockRequest, res);
+			await siteOwnershipController.postSiteOwnership(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -124,7 +101,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 			expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);
 		});
 
-		it(`should redirect to /${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB} if does not ownsWholeSite`, async () => {
+		it(`should redirect to /${SITE_OWNERSHIP_CERTB} if does not ownsWholeSite`, async () => {
 			const fakeTaskStatus = 'FAKE_STATUS';
 
 			const mockRequest = {
@@ -136,33 +113,9 @@ describe('controllers/appellant-submission/site-ownership', () => {
 
 			getTaskStatus.mockReturnValue(fakeTaskStatus);
 
-			await postSiteOwnership(mockRequest, res);
+			await siteOwnershipController.postSiteOwnership(mockRequest, res);
 
-			//expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-
-			// expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-			// 	...appeal,
-			// 	[sectionName]: {
-			// 		...appeal.appealSiteSection,
-			// 		[taskName]: {
-			// 			...appeal.appealSiteSection.siteOwnership
-			// 		}
-			// 	},
-			// 	sectionStates: {
-			// 		...appeal.sectionStates,
-			// 		[sectionName]: {
-			// 			...appeal.sectionStates.appealSiteSection,
-			// 			[taskName]: fakeTaskStatus
-			// 		}
-			// 	}
-			// });
-
-			//expect(logger.error).not.toHaveBeenCalled();
 			expect(getNextTask).not.toHaveBeenCalledWith();
-
-			// expect(res.redirect).toHaveBeenCalledWith(
-			// 	`/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB}`
-			// );
 		});
 	});
 
@@ -183,7 +136,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 			mockRequest.session.appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold =
 				haveOtherOwnersBeenTold;
 
-			await postSiteOwnership(mockRequest, res);
+			await siteOwnershipController.postSiteOwnership(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 
@@ -224,27 +177,7 @@ describe('controllers/appellant-submission/site-ownership', () => {
 			mockRequest.session.appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold =
 				haveOtherOwnersBeenTold;
 
-			await postSiteOwnership(mockRequest, res);
-
-			//expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-
-			// expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-			// 	...appeal,
-			// 	appealSiteSection: {
-			// 		...appeal.appealSiteSection,
-			// 		[taskName]: {
-			// 			ownsWholeSite: false,
-			// 			haveOtherOwnersBeenTold
-			// 		}
-			// 	},
-			// 	sectionStates: {
-			// 		...appeal.sectionStates,
-			// 		[sectionName]: {
-			// 			...appeal.sectionStates.appealSiteSection,
-			// 			[taskName]: fakeTaskStatus
-			// 		}
-			// 	}
-			// });
+			await siteOwnershipController.postSiteOwnership(mockRequest, res);
 		});
 	});
 });

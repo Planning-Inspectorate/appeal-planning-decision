@@ -4,6 +4,12 @@ const {
 
 const { mockReq, mockRes } = require('../../mocks');
 
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { LINK_EXPIRED, SENT_ANOTHER_LINK }
+	}
+} = require('../../../../src/lib/views');
+
 describe('controllers/submit-appeal/link-expired', () => {
 	let req = mockReq();
 	let res = mockRes();
@@ -11,8 +17,8 @@ describe('controllers/submit-appeal/link-expired', () => {
 		req.session.appeal.appealType = '1005';
 		getLinkExpired(req, res);
 
-		expect(res.render).toBeCalledWith('appeal-householder-decision/link-expired', {
-			sendNewLinkUrl: '/appeal-householder-decision/sent-another-link'
+		expect(res.render).toBeCalledWith(`${LINK_EXPIRED}`, {
+			sendNewLinkUrl: `/${SENT_ANOTHER_LINK}`
 		});
 	});
 });

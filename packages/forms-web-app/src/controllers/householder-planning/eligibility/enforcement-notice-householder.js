@@ -6,7 +6,7 @@ const {
 			ELIGIBILITY: { ENFORCEMENT_NOTICE_HOUSEHOLDER: currentPage }
 		}
 	}
-} = require('../../../lib/householder-planning/views');
+} = require('../../../lib/views');
 const {
 	validEnforcementNoticeHouseholderOptions
 } = require('../../../validators/householder-planning/eligibility/enforcement-notice-householder');

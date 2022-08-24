@@ -4,8 +4,11 @@ const {
 	getSubmissionInformation
 } = require('../../../../src/controllers/appellant-submission/submission-information');
 const { mockReq, mockRes } = require('../../mocks');
-const { VIEW } = require('../../../../src/lib/views');
-
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { SUBMISSION_INFORMATION }
+	}
+} = require('../../../../src/lib/views');
 jest.mock('../../../../src/services/department.service');
 const mockLogger = jest.fn();
 
@@ -68,7 +71,6 @@ describe('controllers/appellant-submission/submission-information', () => {
 
 		it('should define default value if appeal submission date is not defined', async () => {
 			const fakeLpdName = 'fake lpd name here';
-
 			req = {
 				...req,
 				params: { appealId: 'some-id' },
@@ -113,7 +115,7 @@ describe('controllers/appellant-submission/submission-information', () => {
 				'utf8'
 			);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION, {
+			expect(res.render).toHaveBeenCalledWith(SUBMISSION_INFORMATION, {
 				appealLPD: fakeLpdName,
 				appeal: req.session.appeal,
 				css,

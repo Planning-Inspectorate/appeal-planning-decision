@@ -4,7 +4,7 @@ const {
 			ELIGIBILITY: { USE_EXISTING_SERVICE_COSTS: useExistingServiceCosts }
 		}
 	}
-} = require('../../../lib/householder-planning/views');
+} = require('../../../lib/views');
 
 exports.getUseExistingServiceCosts = async (_, res) => {
 	res.render(useExistingServiceCosts, {

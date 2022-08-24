@@ -5,7 +5,11 @@ const {
 	postYourDetails
 } = require('../../../../src/controllers/appellant-submission/your-details');
 const { mockReq, mockRes } = require('../../mocks');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { YOUR_DETAILS, APPLICANT_NAME }
+	}
+} = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { getTaskStatus, getNextTask } = require('../../../../src/services/task.service');
 
@@ -31,7 +35,7 @@ describe('controllers/appellant-submission/your-details', () => {
 		it('should call the correct template', () => {
 			getYourDetails(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
+			expect(res.render).toHaveBeenCalledWith(YOUR_DETAILS, {
 				appeal: req.session.appeal
 			});
 		});
@@ -49,7 +53,7 @@ describe('controllers/appellant-submission/your-details', () => {
 			await postYourDetails(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
+			expect(res.render).toHaveBeenCalledWith(YOUR_DETAILS, {
 				appeal: req.session.appeal,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
@@ -75,7 +79,7 @@ describe('controllers/appellant-submission/your-details', () => {
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.YOUR_DETAILS, {
+			expect(res.render).toHaveBeenCalledWith(YOUR_DETAILS, {
 				appeal: req.session.appeal,
 				errorSummary: [{ text: error.toString(), href: '#' }],
 				errors: {}
@@ -150,7 +154,7 @@ describe('controllers/appellant-submission/your-details', () => {
 
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 			getNextTask.mockImplementation(() => ({
-				href: `/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`
+				href: `/${APPLICANT_NAME}`
 			}));
 
 			const mockRequest = {
@@ -185,7 +189,7 @@ describe('controllers/appellant-submission/your-details', () => {
 				}
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${APPLICANT_NAME}`);
 
 			expect(getNextTask).not.toHaveBeenCalled();
 		});

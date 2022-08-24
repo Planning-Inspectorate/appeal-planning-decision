@@ -4,7 +4,11 @@ const {
 	postSiteOwnershipCertB
 } = require('../../../../src/controllers/appellant-submission/site-ownership-certb');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { SITE_OWNERSHIP_CERTB }
+	}
+} = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../mocks');
@@ -31,7 +35,7 @@ describe('controllers/appellant-submission/site-ownership-certb', () => {
 		it('should call the correct template', () => {
 			getSiteOwnershipCertB(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
+			expect(res.render).toHaveBeenCalledWith(SITE_OWNERSHIP_CERTB, {
 				appeal: req.session.appeal
 			});
 		});
@@ -50,7 +54,7 @@ describe('controllers/appellant-submission/site-ownership-certb', () => {
 			await postSiteOwnershipCertB(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
+			expect(res.render).toHaveBeenCalledWith(SITE_OWNERSHIP_CERTB, {
 				appeal: req.session.appeal,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
@@ -74,7 +78,7 @@ describe('controllers/appellant-submission/site-ownership-certb', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP_CERTB, {
+			expect(res.render).toHaveBeenCalledWith(SITE_OWNERSHIP_CERTB, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -98,10 +102,9 @@ describe('controllers/appellant-submission/site-ownership-certb', () => {
 				}
 			};
 
-			await postSiteOwnershipCertB(mockRequest, res);
+			await siteOwnershipCertBController(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
 				sectionStates: {
