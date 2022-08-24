@@ -8,7 +8,7 @@ const {
 			ELIGIBILITY: { GRANTED_OR_REFUSED_HOUSEHOLDER }
 		}
 	}
-} = require('../../../lib/householder-planning/views');
+} = require('../../../lib/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 
 const getGrantedOrRefusedHouseholder = async (req, res) => {

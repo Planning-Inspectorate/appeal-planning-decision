@@ -1,6 +1,5 @@
 const v8 = require('v8');
 const appeal = require('../../../../mockData/householder-appeal');
-const appealFP = require('../../../../mockData/full-appeal');
 
 const {
 	getConditionsHouseholderPermission,
@@ -14,7 +13,7 @@ const {
 			ELIGIBILITY: { CONDITIONS_HOUSEHOLDER_PERMISSION }
 		}
 	}
-} = require('../../../../../src/lib/householder-planning/views');
+} = require('../../../../../src/lib/views');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -96,12 +95,12 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 		});
 
 		it('should redirect to the correct page if `yes` has been selected', async () => {
-			const appealFPDeepCopy = JSON.parse(JSON.stringify(appealFP));
-			appealFPDeepCopy[sectionName].hasHouseholderPermissionConditions = true;
-			appealFPDeepCopy.appealType = '1001';
+			const appealDeepCopy = JSON.parse(JSON.stringify(appeal));
+			appealDeepCopy[sectionName].hasHouseholderPermissionConditions = true;
+			appealDeepCopy.appealType = '1001';
 
 			const submittedAppeal = {
-				...appealFPDeepCopy,
+				...appealDeepCopy,
 				state: 'SUBMITTED'
 			};
 
@@ -122,11 +121,11 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 		});
 
 		it('should redirect to the correct page if `no` has been selected', async () => {
-			appealFP[sectionName].hasHouseholderPermissionConditions = false;
-			appealFP.appealType = '1005';
+			appeal[sectionName].hasHouseholderPermissionConditions = false;
+			appeal.appealType = '1005';
 
 			const submittedAppeal = {
-				...appealFP,
+				...appeal,
 				state: 'SUBMITTED'
 			};
 
@@ -141,7 +140,6 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 
 			await postConditionsHouseholderPermission(req, res);
 
-			// expect(createOrUpdateAppeal).toHaveBeenCalledWith(tempAppeal);
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/any-of-following');
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});

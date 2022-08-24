@@ -6,8 +6,12 @@ const {
 const { submitAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { storePdfAppeal } = require('../../../../src/services/pdf.service');
 const { mockReq, mockRes } = require('../../mocks');
-const { VIEW } = require('../../../../src/lib/views');
-
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { SUBMISSION, CONFIRMATION },
+		ELIGIBILITY: { DECISION_DATE_PASSED }
+	}
+} = require('../../../../src/lib/views');
 jest.mock('../../../../src/services/pdf.service');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 
@@ -35,7 +39,7 @@ describe('controllers/appellant-submission/submission', () => {
 		it('should call the correct template', () => {
 			getSubmission(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION);
+			expect(res.render).toHaveBeenCalledWith(SUBMISSION);
 		});
 	});
 
@@ -51,7 +55,7 @@ describe('controllers/appellant-submission/submission', () => {
 			await postSubmission(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
+			expect(res.render).toHaveBeenCalledWith(SUBMISSION, {
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
 			});
@@ -92,7 +96,7 @@ describe('controllers/appellant-submission/submission', () => {
 				state: 'SUBMITTED'
 			});
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
+			expect(res.render).toHaveBeenCalledWith(SUBMISSION, {
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
@@ -119,7 +123,7 @@ describe('controllers/appellant-submission/submission', () => {
 
 			expect(storePdfAppeal).toHaveBeenCalledWith(appeal);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SUBMISSION, {
+			expect(res.render).toHaveBeenCalledWith(SUBMISSION, {
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
@@ -134,7 +138,7 @@ describe('controllers/appellant-submission/submission', () => {
 			};
 			postSubmission(mockRequest, res);
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SUBMISSION}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${SUBMISSION}`);
 		});
 
 		it('should redirect back to /eligibility/decision-date-passed if validation passes but deadline date has passed', async () => {
@@ -151,7 +155,7 @@ describe('controllers/appellant-submission/submission', () => {
 			};
 			postSubmission(mockRequest, res);
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_DATE_PASSED}`);
 		});
 
 		it('should redirect if valid', async () => {
@@ -184,7 +188,7 @@ describe('controllers/appellant-submission/submission', () => {
 				state: 'SUBMITTED'
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.CONFIRMATION}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${CONFIRMATION}`);
 		});
 	});
 });

@@ -4,7 +4,11 @@ const {
 	postSiteAccess
 } = require('../../../../src/controllers/appellant-submission/site-access');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { SITE_ACCESS, SITE_ACCESS_SAFETY }
+	}
+} = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../mocks');
@@ -31,7 +35,7 @@ describe('controllers/appellant-submission/site-access', () => {
 		it('should call the correct template', () => {
 			getSiteAccess(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {
+			expect(res.render).toHaveBeenCalledWith(SITE_ACCESS, {
 				appeal: req.session.appeal
 			});
 		});
@@ -50,7 +54,7 @@ describe('controllers/appellant-submission/site-access', () => {
 			await postSiteAccess(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {
+			expect(res.render).toHaveBeenCalledWith(SITE_ACCESS, {
 				appeal: {
 					...req.session.appeal,
 					appealSiteSection: {
@@ -83,7 +87,7 @@ describe('controllers/appellant-submission/site-access', () => {
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_ACCESS, {
+			expect(res.render).toHaveBeenCalledWith(SITE_ACCESS, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -93,7 +97,7 @@ describe('controllers/appellant-submission/site-access', () => {
 		it('should redirect to `/appellant-submission/site-access-safety` if `site-access` is `yes`', async () => {
 			createOrUpdateAppeal.mockImplementation(() => JSON.stringify({ good: 'data' }));
 			getNextTask.mockReturnValue({
-				href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`
+				href: `/${SITE_ACCESS_SAFETY}`
 			});
 			const mockRequest = {
 				...req,
@@ -103,7 +107,7 @@ describe('controllers/appellant-submission/site-access', () => {
 			};
 			await postSiteAccess(mockRequest, res);
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${SITE_ACCESS_SAFETY}`);
 
 			const goodAppeal = appeal;
 			goodAppeal[sectionName][taskName].canInspectorSeeWholeSiteFromPublicRoad = true;
@@ -121,7 +125,7 @@ describe('controllers/appellant-submission/site-access', () => {
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
 			getNextTask.mockReturnValue({
-				href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`
+				href: `/${SITE_ACCESS_SAFETY}`
 			});
 			const mockRequest = {
 				...req,
@@ -152,7 +156,7 @@ describe('controllers/appellant-submission/site-access', () => {
 				}
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${SITE_ACCESS_SAFETY}`);
 		});
 	});
 });

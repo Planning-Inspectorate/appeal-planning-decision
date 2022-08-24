@@ -4,7 +4,13 @@ const {
 } = require('../../../../src/controllers/appeal-householder-decision/enter-code');
 const {
 	VIEW: {
-		APPELLANT_SUBMISSION: { TASK_LIST, ENTER_CODE, CODE_EXPIRED, APPEAL_ALREADY_SUBMITTED }
+		APPELLANT_SUBMISSION: {
+			TASK_LIST,
+			ENTER_CODE,
+			CODE_EXPIRED,
+			APPEAL_ALREADY_SUBMITTED,
+			REQUEST_NEW_CODE
+		}
 	}
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
@@ -25,12 +31,14 @@ describe('controllers/appeal-householder-decision/enter-code', () => {
 	});
 	describe('getEnterCode', () => {
 		it('should render enter code page when receiving the token from email', async () => {
-			const url = '/appeal-householder-decision/request-new-code';
+			const url = `/${REQUEST_NEW_CODE}`;
 			getSavedAppeal.mockReturnValue({
 				token: '12312'
 			});
 			await getEnterCode(req, res);
-			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, { requestNewCodeLink: url });
+			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, {
+				requestNewCodeLink: url
+			});
 		});
 	});
 	describe('postEnterCode', () => {

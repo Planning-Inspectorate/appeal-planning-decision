@@ -9,8 +9,11 @@ const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrappe
 const logger = require('../../../../src/lib/logger');
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
-const { VIEW } = require('../../../../src/lib/views');
-
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { UPLOAD_DECISION }
+	}
+} = require('../../../../src/lib/views');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/documents-api-wrapper');
 jest.mock('../../../../src/services/task.service');
@@ -34,7 +37,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 		it('should call the correct template', () => {
 			getUploadDecision(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
+			expect(res.render).toHaveBeenCalledWith(UPLOAD_DECISION, {
 				appeal: req.session.appeal
 			});
 		});
@@ -55,7 +58,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 			await postUploadDecision(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
+			expect(res.render).toHaveBeenCalledWith(UPLOAD_DECISION, {
 				appeal: req.session.appeal,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
@@ -80,7 +83,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
+			expect(res.render).toHaveBeenCalledWith(UPLOAD_DECISION, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

@@ -4,6 +4,12 @@ const {
 const { getConfirmEmail } = require('../../../../src/lib/appeals-api-wrapper');
 const { isTokenExpired } = require('../../../../src/lib/is-token-expired');
 
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { EMAIL_ADDRESS_CONFIRMED, LINK_EXPIRED }
+	}
+} = require('../../../../src/lib/views');
+
 const { mockReq, mockRes } = require('../../mocks');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-expired');
@@ -27,7 +33,7 @@ describe('controllers/appeal-householder-decision/email-address-confirmed', () =
 			await getEmailConfirmed(req, res);
 			expect(getConfirmEmail).toBeCalledWith('12345-abc');
 			expect(isTokenExpired).toBeCalledWith(30, date);
-			expect(res.render).toBeCalledWith('appeal-householder-decision/email-address-confirmed', {
+			expect(res.render).toBeCalledWith(EMAIL_ADDRESS_CONFIRMED, {
 				listOfDocumentsUrl: 'list-of-documents'
 			});
 		});
@@ -44,7 +50,7 @@ describe('controllers/appeal-householder-decision/email-address-confirmed', () =
 			expect(getConfirmEmail).toBeCalledWith('12345-def');
 			expect(isTokenExpired).toBeCalledWith(30, date);
 			expect(res.render).not.toBeCalled();
-			expect(res.redirect).toBeCalledWith('/appeal-householder-decision/link-expired');
+			expect(res.redirect).toBeCalledWith(`/${LINK_EXPIRED}`);
 		});
 	});
 });
