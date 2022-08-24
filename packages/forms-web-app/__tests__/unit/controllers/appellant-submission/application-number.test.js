@@ -6,7 +6,12 @@ const {
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { APPLICATION_NUMBER, UPLOAD_APPLICATION }
+	}
+} = require('../../../../src/lib/views');
+
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -30,7 +35,7 @@ describe('controllers/appellant-submission/application-number', () => {
 	describe('getApplicationNumber', () => {
 		it('should call the correct template', () => {
 			getApplicationNumber(req, res);
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
+			expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
 				appeal: req.session.appeal
 			});
 		});
@@ -50,7 +55,7 @@ describe('controllers/appellant-submission/application-number', () => {
 			expect(getTaskStatus).not.toHaveBeenCalled();
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
+			expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
 				appeal: req.session.appeal,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
@@ -73,7 +78,7 @@ describe('controllers/appellant-submission/application-number', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICATION_NUMBER, {
+			expect(res.render).toHaveBeenCalledWith(APPLICATION_NUMBER, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -87,7 +92,7 @@ describe('controllers/appellant-submission/application-number', () => {
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
 			getNextTask.mockReturnValue({
-				href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`
+				href: `/${UPLOAD_APPLICATION}`
 			});
 
 			const mockRequest = {
@@ -112,7 +117,7 @@ describe('controllers/appellant-submission/application-number', () => {
 				}
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${UPLOAD_APPLICATION}`);
 		});
 	});
 });

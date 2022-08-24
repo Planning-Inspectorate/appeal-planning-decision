@@ -4,10 +4,14 @@ const {
 	postApplicantName
 } = require('../../../../src/controllers/appellant-submission/applicant-name');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { getTaskStatus, getNextTask } = require('../../../../src/services/task.service');
 const { mockReq, mockRes } = require('../../mocks');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { APPLICANT_NAME, TASK_LIST }
+	}
+} = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
@@ -31,7 +35,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
 		it('should call the correct template', () => {
 			getApplicantName(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
+			expect(res.render).toHaveBeenCalledWith(APPLICANT_NAME, {
 				appeal: req.session.appeal
 			});
 		});
@@ -53,7 +57,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
+			expect(res.render).toHaveBeenCalledWith(APPLICANT_NAME, {
 				appeal: req.session.appeal,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
@@ -77,7 +81,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPLICANT_NAME, {
+			expect(res.render).toHaveBeenCalledWith(APPLICANT_NAME, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -90,7 +94,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
 			getNextTask.mockReturnValue({
-				href: `/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`
+				href: `/${TASK_LIST}`
 			});
 			const mockRequest = {
 				...req,
@@ -114,7 +118,7 @@ describe('controllers/appellant-submission/applicant-name', () => {
 				}
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.TASK_LIST}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
 		});
 	});
 });

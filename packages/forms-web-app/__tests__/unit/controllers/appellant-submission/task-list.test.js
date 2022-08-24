@@ -1,8 +1,22 @@
 const {
 	getTaskList
-} = require('../../../../src/controllers/appeal-householder-decision/task-list');
-const { VIEW } = require('../../../../src/lib/views');
-const { mockReq, mockRes } = require('../../mocks');
+} = require('../../../../src/controllers/appeal-householder-decision/task-list');const {
+	VIEW: {
+		APPELLANT_SUBMISSION: {
+			TASK_LIST,
+			WHO_ARE_YOU,
+			UPLOAD_APPLICATION,
+			UPLOAD_DECISION,
+			APPEAL_STATEMENT,
+			SUPPORTING_DOCUMENTS,
+			SITE_ACCESS,
+			SITE_LOCATION,
+			SITE_OWNERSHIP,
+			SITE_ACCESS_SAFETY,
+			CHECK_ANSWERS
+		}
+	}
+} = require('../../../../src/lib/views');const { mockReq, mockRes } = require('../../mocks');
 
 describe('controllers/appellant-submission/task-list', () => {
 	describe('getTaskList', () => {
@@ -12,7 +26,7 @@ describe('controllers/appellant-submission/task-list', () => {
 
 			getTaskList(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
+			expect(res.render).toHaveBeenCalledWith(TASK_LIST, {
 				applicationStatus: 'Application incomplete',
 				sectionInfo: {
 					nbTasks: 10,
@@ -29,7 +43,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						},
 						items: [
 							{
-								href: `/${VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU}`,
+								href: `/${WHO_ARE_YOU}`,
 								text: 'Your details',
 								status: 'COMPLETED',
 								attributes: {
@@ -46,7 +60,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Upload the original planning application form',
-								href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
+								href: `/${UPLOAD_APPLICATION}`,
 								status: 'COMPLETED',
 								attributes: {
 									'originalApplication-status': 'COMPLETED',
@@ -55,7 +69,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Upload the decision letter',
-								href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
+								href: `/${UPLOAD_DECISION}`,
 								status: 'COMPLETED',
 								attributes: {
 									'decisionLetter-status': 'COMPLETED',
@@ -71,7 +85,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Your appeal statement',
-								href: `/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`,
+								href: `/${APPEAL_STATEMENT}`,
 								status: 'COMPLETED',
 								attributes: {
 									'appealStatement-status': 'COMPLETED',
@@ -80,7 +94,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Any other documents to support your appeal',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
+								href: `/${SUPPORTING_DOCUMENTS}`,
 								status: 'COMPLETED',
 								attributes: {
 									'otherDocuments-status': 'COMPLETED',
@@ -96,7 +110,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Address of the appeal site',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
+								href: `/${SITE_LOCATION}`,
 								status: 'COMPLETED',
 								attributes: {
 									'siteAddress-status': 'COMPLETED',
@@ -105,7 +119,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Ownership of the appeal site',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+								href: `/${SITE_OWNERSHIP}`,
 								status: 'COMPLETED',
 								attributes: {
 									'siteOwnership-status': 'COMPLETED',
@@ -114,7 +128,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Access to the appeal site',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
+								href: `/${SITE_ACCESS}`,
 								status: 'COMPLETED',
 								attributes: {
 									'siteAccess-status': 'COMPLETED',
@@ -123,7 +137,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Any health and safety issues',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
+								href: `/${SITE_ACCESS_SAFETY}`,
 								status: 'COMPLETED',
 								attributes: {
 									'healthAndSafety-status': 'COMPLETED',
@@ -140,7 +154,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Check your answers',
-								href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
+								href: `/${CHECK_ANSWERS}`,
 								status: 'NOT STARTED',
 								attributes: {
 									'checkYourAnswers-status': 'NOT STARTED',
@@ -211,7 +225,7 @@ describe('controllers/appellant-submission/task-list', () => {
 
 			getTaskList(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
+			expect(res.render).toHaveBeenCalledWith(TASK_LIST, {
 				applicationStatus: 'Application incomplete',
 				sectionInfo: {
 					nbTasks: 10,
@@ -228,7 +242,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						},
 						items: [
 							{
-								href: `/${VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU}`,
+								href: `/${WHO_ARE_YOU}`,
 								text: 'Your details',
 								status: 'IN PROGRESS',
 								attributes: {
@@ -245,7 +259,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Upload the original planning application form',
-								href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
+								href: `/${UPLOAD_APPLICATION}`,
 								status: 'COMPLETED',
 								attributes: {
 									'originalApplication-status': 'COMPLETED',
@@ -254,7 +268,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Upload the decision letter',
-								href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
+								href: `/${UPLOAD_DECISION}`,
 								status: 'COMPLETED',
 								attributes: {
 									'decisionLetter-status': 'COMPLETED',
@@ -270,7 +284,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Your appeal statement',
-								href: `/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`,
+								href: `/${APPEAL_STATEMENT}`,
 								status: 'COMPLETED',
 								attributes: {
 									'appealStatement-status': 'COMPLETED',
@@ -279,7 +293,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Any other documents to support your appeal',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
+								href: `/${SUPPORTING_DOCUMENTS}`,
 								status: 'COMPLETED',
 								attributes: {
 									'otherDocuments-status': 'COMPLETED',
@@ -295,7 +309,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Address of the appeal site',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
+								href: `/${SITE_LOCATION}`,
 								status: 'COMPLETED',
 								attributes: {
 									'siteAddress-status': 'COMPLETED',
@@ -304,7 +318,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Ownership of the appeal site',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+								href: `/${SITE_OWNERSHIP}`,
 								status: 'COMPLETED',
 								attributes: {
 									'siteOwnership-status': 'COMPLETED',
@@ -313,7 +327,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Access to the appeal site',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
+								href: `/${SITE_ACCESS}`,
 								status: 'COMPLETED',
 								attributes: {
 									'siteAccess-status': 'COMPLETED',
@@ -322,7 +336,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Any health and safety issues',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
+								href: `/${SITE_ACCESS_SAFETY}`,
 								status: 'NOT STARTED',
 								attributes: {
 									'healthAndSafety-status': 'NOT STARTED',
@@ -339,7 +353,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Check your answers',
-								href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
+								href: `/${CHECK_ANSWERS}`,
 								status: 'CANNOT START YET',
 								attributes: {
 									'checkYourAnswers-status': 'CANNOT START YET',
@@ -410,7 +424,7 @@ describe('controllers/appellant-submission/task-list', () => {
 
 			getTaskList(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.TASK_LIST, {
+			expect(res.render).toHaveBeenCalledWith(TASK_LIST, {
 				applicationStatus: 'Application incomplete',
 				sectionInfo: {
 					nbTasks: 10,
@@ -427,7 +441,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						},
 						items: [
 							{
-								href: `/${VIEW.APPELLANT_SUBMISSION.WHO_ARE_YOU}`,
+								href: `/${WHO_ARE_YOU}`,
 								text: 'Your details',
 								status: 'COMPLETED',
 								attributes: {
@@ -444,7 +458,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Upload the original planning application form',
-								href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION}`,
+								href: `/${UPLOAD_APPLICATION}`,
 								status: 'COMPLETED',
 								attributes: {
 									'originalApplication-status': 'COMPLETED',
@@ -453,7 +467,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Upload the decision letter',
-								href: `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`,
+								href: `/${UPLOAD_DECISION}`,
 								status: 'COMPLETED',
 								attributes: {
 									'decisionLetter-status': 'COMPLETED',
@@ -469,7 +483,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Your appeal statement',
-								href: `/${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}`,
+								href: `/${APPEAL_STATEMENT}`,
 								status: 'COMPLETED',
 								attributes: {
 									'appealStatement-status': 'COMPLETED',
@@ -478,7 +492,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Any other documents to support your appeal',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`,
+								href: `/${SUPPORTING_DOCUMENTS}`,
 								status: 'NOT STARTED',
 								attributes: {
 									'otherDocuments-status': 'NOT STARTED',
@@ -494,7 +508,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Address of the appeal site',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_LOCATION}`,
+								href: `/${SITE_LOCATION}`,
 								status: 'COMPLETED',
 								attributes: {
 									'siteAddress-status': 'COMPLETED',
@@ -503,7 +517,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Ownership of the appeal site',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`,
+								href: `/${SITE_OWNERSHIP}`,
 								status: 'COMPLETED',
 								attributes: {
 									'siteOwnership-status': 'COMPLETED',
@@ -512,7 +526,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Access to the appeal site',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS}`,
+								href: `/${SITE_ACCESS}`,
 								status: 'COMPLETED',
 								attributes: {
 									'siteAccess-status': 'COMPLETED',
@@ -521,7 +535,7 @@ describe('controllers/appellant-submission/task-list', () => {
 							},
 							{
 								text: 'Any health and safety issues',
-								href: `/${VIEW.APPELLANT_SUBMISSION.SITE_ACCESS_SAFETY}`,
+								href: `/${SITE_ACCESS_SAFETY}`,
 								status: 'COMPLETED',
 								attributes: {
 									'healthAndSafety-status': 'COMPLETED',
@@ -538,7 +552,7 @@ describe('controllers/appellant-submission/task-list', () => {
 						items: [
 							{
 								text: 'Check your answers',
-								href: `/${VIEW.APPELLANT_SUBMISSION.CHECK_ANSWERS}`,
+								href: `/${CHECK_ANSWERS}`,
 								status: 'NOT STARTED',
 								attributes: {
 									'checkYourAnswers-status': 'NOT STARTED',

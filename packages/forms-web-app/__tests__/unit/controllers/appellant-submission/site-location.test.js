@@ -7,7 +7,11 @@ const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { SITE_LOCATION, SITE_OWNERSHIP }
+	}
+} = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
@@ -31,7 +35,7 @@ describe('controllers/appellant-submission/site-location', () => {
 		it('should call the correct template', () => {
 			getSiteLocation(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
+			expect(res.render).toHaveBeenCalledWith(SITE_LOCATION, {
 				appeal: req.session.appeal
 			});
 		});
@@ -49,7 +53,7 @@ describe('controllers/appellant-submission/site-location', () => {
 			await postSiteLocation(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
+			expect(res.render).toHaveBeenCalledWith(SITE_LOCATION, {
 				appeal: {
 					...req.session.appeal,
 					[sectionName]: {
@@ -83,7 +87,7 @@ describe('controllers/appellant-submission/site-location', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.SITE_LOCATION, {
+			expect(res.render).toHaveBeenCalledWith(SITE_LOCATION, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -101,7 +105,7 @@ describe('controllers/appellant-submission/site-location', () => {
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
 			getNextTask.mockReturnValue({
-				href: `/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`
+				href: `/${SITE_OWNERSHIP}`
 			});
 			const mockRequest = {
 				...req,
@@ -138,7 +142,7 @@ describe('controllers/appellant-submission/site-location', () => {
 				}
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.APPELLANT_SUBMISSION.SITE_OWNERSHIP}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${SITE_OWNERSHIP}`);
 		});
 	});
 });

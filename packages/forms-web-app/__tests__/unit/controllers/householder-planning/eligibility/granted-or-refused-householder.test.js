@@ -11,7 +11,7 @@ const {
 			ELIGIBILITY: { GRANTED_OR_REFUSED_HOUSEHOLDER }
 		}
 	}
-} = require('../../../../../src/lib/householder-planning/views');
+} = require('../../../../../src/lib/views');
 const logger = require('../../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../../mocks');
 

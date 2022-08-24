@@ -8,9 +8,12 @@ const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrappe
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
 const { mockReq, mockRes } = require('../../mocks');
 const logger = require('../../../../src/lib/logger');
-const { getNextTask } = require('../../../../src/services/task.service');
-const { getTaskStatus } = require('../../../../src/services/task.service');
-const { VIEW } = require('../../../../src/lib/views');
+const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { APPEAL_STATEMENT, SUPPORTING_DOCUMENTS }
+	}
+} = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/documents-api-wrapper');
@@ -35,7 +38,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 		it('should call the correct template', async () => {
 			await getAppealStatement(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
+			expect(res.render).toHaveBeenCalledWith(APPEAL_STATEMENT, {
 				appeal: req.session.appeal
 			});
 		});
@@ -53,7 +56,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 			await postAppealStatement(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
+			expect(res.render).toHaveBeenCalledWith(APPEAL_STATEMENT, {
 				appeal,
 				errors: { a: 'b' },
 				errorSummary: [{ text: 'There were errors here', href: '#' }]
@@ -73,7 +76,6 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 			await postAppealStatement(mockRequest, res);
 
 			expect(getTaskStatus).not.toHaveBeenCalled();
-
 			expect(res.redirect).toHaveBeenCalledWith('/appellant-submission/appeal-statement');
 		});
 
@@ -90,10 +92,9 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 			await postAppealStatement(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(logger.error).toHaveBeenCalledWith(error);
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT, {
+			expect(res.render).toHaveBeenCalledWith(APPEAL_STATEMENT, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -105,7 +106,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
 			getNextTask.mockReturnValue({
-				href: `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`
+				href: `/${SUPPORTING_DOCUMENTS}`
 			});
 
 			const mockRequest = {
@@ -117,9 +118,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 			await postAppealStatement(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
-
 			expect(createDocument).not.toHaveBeenCalled();
-
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
 				...appeal,
 				sectionStates: {
@@ -131,19 +130,16 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 				}
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`
-			);
+			expect(res.redirect).toHaveBeenCalledWith(`/${SUPPORTING_DOCUMENTS}`);
 		});
 
 		it('should redirect to `/appellant-submission/supporting-documents` if valid', async () => {
 			const fakeFileId = '123-abc';
 			const fakeFileName = 'some name.jpg';
 			const fakeTaskStatus = 'ANOTHER_FAKE_STATUS';
-			const fakeNextUrl = `/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`;
+			const fakeNextUrl = `/${SUPPORTING_DOCUMENTS}`;
 
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
-
 			createDocument.mockImplementation(() => ({
 				id: fakeFileId,
 				location: '00aa11bb22cc',

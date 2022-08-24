@@ -13,12 +13,17 @@ jest.mock('../../../../../src/config', () => ({
 		}
 	}
 }));
-
 const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const dateDecisionDueHouseholderController = require('../../../../../src/controllers/householder-planning/eligibility/date-decision-due-householder');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../../src/lib/householder-planning/views');
+const {
+	VIEW: {
+		HOUSEHOLDER_PLANNING: {
+			ELIGIBILITY: { DATE_DECISION_DUE_HOUSEHOLDER }
+		}
+	}
+} = require('../../../../../src/lib/views');
 
 describe('controllers/householder-planning/date-decision-due-householder', () => {
 	let req;
@@ -39,13 +44,9 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
 	describe('getDateDecisionDueHouseholder', () => {
 		it('should call the correct template with no decision date given', () => {
 			dateDecisionDueHouseholderController.getDateDecisionDueHouseholder(req, res);
-
-			expect(res.render).toHaveBeenCalledWith(
-				VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER,
-				{
-					decisionDate: null
-				}
-			);
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE_HOUSEHOLDER, {
+				decisionDate: null
+			});
 		});
 
 		it('should call the correct template with a decision date given', () => {
@@ -53,16 +54,13 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
 
 			dateDecisionDueHouseholderController.getDateDecisionDueHouseholder(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(
-				VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER,
-				{
-					decisionDate: {
-						day: '04',
-						month: '03',
-						year: '2022'
-					}
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE_HOUSEHOLDER, {
+				decisionDate: {
+					day: '04',
+					month: '03',
+					year: '2022'
 				}
-			);
+			});
 		});
 	});
 
@@ -120,22 +118,19 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
 
 			await dateDecisionDueHouseholderController.postDateDecisionDueHouseholder(mockRequest, res);
 
-			expect(res.render).toHaveBeenCalledWith(
-				VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER,
-				{
-					decisionDate: {
-						day: undefined,
-						month: undefined,
-						year: undefined
-					},
-					errorSummary: [],
-					errors: {
-						'date-decision-due-householder-day': {
-							msg: 'You need to provide a date'
-						}
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE_HOUSEHOLDER, {
+				decisionDate: {
+					day: undefined,
+					month: undefined,
+					year: undefined
+				},
+				errorSummary: [],
+				errors: {
+					'date-decision-due-householder-day': {
+						msg: 'You need to provide a date'
 					}
 				}
-			);
+			});
 		});
 
 		it('should re-render the template with errors if there is any api call error', async () => {
@@ -155,22 +150,19 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(res.render).toHaveBeenCalledWith(
-				VIEW.HOUSEHOLDER_PLANNING.ELIGIBILITY.DATE_DECISION_DUE_HOUSEHOLDER,
-				{
-					decisionDate: {
-						day: undefined,
-						month: undefined,
-						year: undefined
-					},
-					errorSummary: [],
-					errors: {
-						'date-decision-due-householder-day': {
-							msg: 'You need to provide a date'
-						}
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE_HOUSEHOLDER, {
+				decisionDate: {
+					day: undefined,
+					month: undefined,
+					year: undefined
+				},
+				errorSummary: [],
+				errors: {
+					'date-decision-due-householder-day': {
+						msg: 'You need to provide a date'
 					}
 				}
-			);
+			});
 		});
 	});
 });

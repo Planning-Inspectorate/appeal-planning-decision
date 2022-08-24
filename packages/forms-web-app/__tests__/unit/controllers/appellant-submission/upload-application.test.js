@@ -9,7 +9,11 @@ const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrappe
 const logger = require('../../../../src/lib/logger');
 const { createDocument } = require('../../../../src/lib/documents-api-wrapper');
 const { getNextTask, getTaskStatus } = require('../../../../src/services/task.service');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		APPELLANT_SUBMISSION: { UPLOAD_APPLICATION, UPLOAD_DECISION }
+	}
+} = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/documents-api-wrapper');
@@ -34,7 +38,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 		it('should call the correct template', () => {
 			getUploadApplication(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION, {
+			expect(res.render).toHaveBeenCalledWith(UPLOAD_APPLICATION, {
 				appeal: req.session.appeal
 			});
 		});
@@ -55,7 +59,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 			await postUploadApplication(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION, {
+			expect(res.render).toHaveBeenCalledWith(UPLOAD_APPLICATION, {
 				appeal: req.session.appeal,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
@@ -79,7 +83,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.APPELLANT_SUBMISSION.UPLOAD_APPLICATION, {
+			expect(res.render).toHaveBeenCalledWith(UPLOAD_APPLICATION, {
 				appeal: mockRequest.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -88,7 +92,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 
 		it('should not require req.files to be valid', async () => {
 			const fakeTaskStatus = 'FAKE_STATUS';
-			const fakeNextUrl = `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`;
+			const fakeNextUrl = `/${UPLOAD_DECISION}`;
 
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
@@ -113,7 +117,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 			const fakeFileId = '123-abc';
 			const fakeFileName = 'some name.jpg';
 			const fakeTaskStatus = 'FAKE_STATUS';
-			const fakeNextUrl = `/${VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION}`;
+			const fakeNextUrl = `/${UPLOAD_DECISION}`;
 
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
