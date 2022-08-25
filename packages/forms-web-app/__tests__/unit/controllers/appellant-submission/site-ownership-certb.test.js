@@ -102,7 +102,7 @@ describe('controllers/appellant-submission/site-ownership-certb', () => {
 				}
 			};
 
-			await siteOwnershipCertBController(mockRequest, res);
+			await postSiteOwnershipCertB(mockRequest, res);
 
 			expect(getTaskStatus).toHaveBeenCalledWith(appeal, sectionName, taskName);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
