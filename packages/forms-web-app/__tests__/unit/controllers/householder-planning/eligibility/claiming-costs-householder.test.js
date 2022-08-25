@@ -33,11 +33,11 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 		it('should call the correct template on getClaimingCostsHouseholder', async () => {
 			await getClaimingCostsHouseholder(req, res);
 
-			expect(res.render).toBeCalledWith(claimingCosts, {
-				isClaimingCosts: appeal.eligibility.isClaimingCosts,
-				backLink
+			expect(res.render).toBeCalledWith(CLAIMING_COSTS, {
+				isClaimingCosts: appeal.eligibility.isClaimingCosts
 			});
 		});
+	});
 
 	describe('postClaimingCostsHouseholder', () => {
 		it(`should redirect to the use-a-different-service page if 'yes' is selected`, async () => {

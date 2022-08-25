@@ -30,7 +30,7 @@ describe('controllers/appeal-householder-decision/confirm-email-address', () => 
 			expect(createConfirmEmail).toBeCalledWith(req.session.appeal);
 			expect(res.render).toBeCalledWith(`${CONFIRM_EMAIL_ADDRESS}`, {
 				emailAddress: 'test@example.com',
-				resendLink: SENT_ANOTHER_LINK
+				resendLink: `/${SENT_ANOTHER_LINK}`
 			});
 		});
 	});
