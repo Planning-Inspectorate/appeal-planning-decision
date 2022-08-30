@@ -5,7 +5,11 @@ const {
 	getApplicationCertificatesIncluded,
 	postApplicationCertificatesIncluded
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/application-certificates-included');
-const { VIEW } = require('../../../../../src/lib/full-appeal/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { APPLICATION_CERTIFICATES_INCLUDED, CERTIFICATES, PROPOSED_DEVELOPMENT_CHANGED }
+	}
+} = require('../../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 
@@ -48,7 +52,7 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
 			req.session.appeal.planningApplicationDocumentsSection.ownershipCertificate.submittedSeparateCertificate =
 				null;
 			await getApplicationCertificatesIncluded(req, res);
-			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
+			expect(res.render).toBeCalledWith(APPLICATION_CERTIFICATES_INCLUDED, {
 				submittedSeparateCertificate: null
 			});
 		});
@@ -74,7 +78,7 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
 			};
 			await postApplicationCertificatesIncluded(req, res);
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
+			expect(res.render).toHaveBeenCalledWith(APPLICATION_CERTIFICATES_INCLUDED, {
 				errors,
 				errorSummary
 			});
@@ -89,7 +93,7 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledTimes(1);
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICATION_CERTIFICATES_INCLUDED, {
+			expect(res.render).toHaveBeenCalledWith(APPLICATION_CERTIFICATES_INCLUDED, {
 				submittedSeparateCertificate: false,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -105,7 +109,7 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
 			};
 			await postApplicationCertificatesIncluded(req, res);
 			expect(res.render).not.toHaveBeenCalled();
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.CERTIFICATES}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${CERTIFICATES}`);
 		});
 
 		it('it should redirect to the correct page if did-you-submit-separate-certificate is no', async () => {
@@ -117,9 +121,7 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
 			};
 			await postApplicationCertificatesIncluded(req, res);
 			expect(res.render).not.toHaveBeenCalled();
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`
-			);
+			expect(res.redirect).toHaveBeenCalledWith(`/${PROPOSED_DEVELOPMENT_CHANGED}`);
 		});
 	});
 });

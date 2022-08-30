@@ -173,6 +173,12 @@ const VIEW = {
 		YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal'
 	},
 
+	SUBMIT_APPEAL: {
+		APPLICATION_SAVED: 'submit-appeal/application-saved',
+		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details',
+		LINK_EXPIRED: 'submit-appeal/link-expired'
+	},
+
 	YOUR_PLANNING_APPEAL: {
 		INDEX: 'your-planning-appeal/index',
 		YOUR_APPEAL_DETAILS: 'your-planning-appeal/your-appeal-details'

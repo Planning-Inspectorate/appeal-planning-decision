@@ -10,7 +10,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: { PLANNING_OBLIGATION_DEADLINE, NEW_DOCUMENTS }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');

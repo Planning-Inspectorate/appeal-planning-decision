@@ -2,7 +2,11 @@ const {
 	getAppealSubmitted
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/appeal-submitted');
 const { mockReq, mockRes } = require('../../../mocks');
-const { VIEW } = require('../../../../../src/lib/full-appeal/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { APPEAL_SUBMITTED }
+	}
+} = require('../../../../../src/lib/views');
 
 describe('controllers/full-appeal/submit-appeal/appeal-submitted', () => {
 	let req;
@@ -44,7 +48,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-submitted', () => {
 		it('should call the correct template', () => {
 			getAppealSubmitted(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPEAL_SUBMITTED, {
+			expect(res.render).toHaveBeenCalledWith(APPEAL_SUBMITTED, {
 				appellantEmail,
 				appealId
 			});

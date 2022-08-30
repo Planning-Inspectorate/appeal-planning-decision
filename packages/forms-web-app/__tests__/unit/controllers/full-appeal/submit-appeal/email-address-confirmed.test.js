@@ -13,7 +13,7 @@ const {
 	VIEW: {
 		SUBMIT_APPEAL: { LINK_EXPIRED }
 	}
-} = require('../../../../../src/lib/submit-appeal/views');
+} = require('../../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
