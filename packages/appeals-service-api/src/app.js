@@ -14,6 +14,7 @@ const app = express();
 prometheus.init(app);
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app
 	.use(

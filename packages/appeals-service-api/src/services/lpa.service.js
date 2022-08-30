@@ -1,5 +1,6 @@
 const LPASchema = require('../schemas/lpa');
 const logger = require('../lib/logger');
+const mongodb = require('../db/db');
 
 const getLpa = async (id) => {
 	let lpa;
@@ -20,6 +21,63 @@ const getLpa = async (id) => {
 	throw new Error(`Unable to find LPA email or name for code ${id}`);
 };
 
+function transformCSV(body) {
+	const data = body.trim().split(/\r?\\n/);
+
+	data.shift();
+	for (let i in data) {
+		data[i] = data[i].trim().split(',');
+	}
+	const lpas = [];
+	for (let row in data) {
+		lpas.push({
+			objectId: data[row][0],
+			lpa19CD: data[row][1],
+			lpa19NM: data[row][2],
+			email: data[row][3],
+			domain: data[row][4],
+			inTrial: data[row][5]
+		});
+	}
+
+	return lpas;
+}
+
+const createLpaList = async (csv) => {
+	const trimmed = JSON.stringify(csv).replace('{', '').replace('}', '').replace(':""', '');
+	const trimmed1 = trimmed.replace('OBJECTID,LPA19CD,LPA19NM,EMAIL,DOMAIN', '');
+	try {
+		const tcsv = transformCSV(trimmed1);
+		await mongodb.get().collection('lpa').remove({});
+		await mongodb.get().collection('lpa').insertMany(tcsv);
+	} catch (err) {
+		logger.debug(err);
+	}
+};
+
+const getLpaList = async () => {
+	const lpaList = [];
+	try {
+		const cursor = await mongodb.get().collection('lpa').find().sort({ lpa19NM: 1 });
+		if ((await cursor.count()) === 0) {
+			console.log('No documents found!');
+		}
+
+		await cursor.forEach((doc) => {
+			lpaList.push({
+				name: doc.lpa19NM,
+				inTrial: doc.inTrial
+			});
+		});
+	} catch (err) {
+		logger.error(err);
+	}
+
+	return lpaList;
+};
+
 module.exports = {
-	getLpa
+	getLpa,
+	createLpaList,
+	getLpaList
 };

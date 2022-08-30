@@ -6,7 +6,7 @@ parameters:
   - name: buildClamAv
     displayName: Build ClamAV API
     type: boolean
-    default: true  
+    default: true
   - name: buildDocumentsApi
     displayName: Build Documents Service API
     type: boolean
@@ -17,6 +17,10 @@ parameters:
     default: true
   - name: buildPdfApi
     displayName: Build PDF Service API
+    type: boolean
+    default: true
+  - name: buildLpaApi
+    displayName: Build LPA API
     type: boolean
     default: true
   - name: buildWeb
@@ -212,6 +216,34 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.Repository.LocalPath)/packages/pdf-service-api/Dockerfile
               repository: appeal-planning-decision/pdf-service-api
+
+      - name: Build LPA API
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              and(
+                eq(variables['Build.Reason'], 'Manual'),
+                eq(${{ parameters.buildLpaApi }}, 'true')
+              ),
+              and(
+                ne(variables['Build.Reason'], 'Manual'),
+                or(
+                  eq(variables['Build.SourceBranchName'], 'main'),
+                  eq(dependencies.run_linting_and_tests.outputs['check_files.lpa-api'], 'true')
+                )
+              )
+            )
+          )
+        dependsOn:
+          - Run Linting & Tests
+        steps:
+          - template: ../steps/azure_web_app_docker_build_push.yml@templates
+            parameters:
+              azurecrName: $(azurecrName)
+              dockerfilePath: $(Build.SourcesDirectory)/packages/lpa-api/Dockerfile
+              repository: appeal-planning-decision/appeals-service-api
+
       - name: Build Web
         condition: >-
           and(
@@ -222,7 +254,7 @@ extends:
                 eq(${{ parameters.buildWeb }}, 'true')
               ),
               and(
-                ne(variables['Build.Reason'], 'Manual'),  
+                ne(variables['Build.Reason'], 'Manual'),
                 or(
                   eq(variables['Build.SourceBranchName'], 'main'),
                   eq(dependencies.run_linting_and_tests.outputs['check_files.business-rules'], 'true'),
