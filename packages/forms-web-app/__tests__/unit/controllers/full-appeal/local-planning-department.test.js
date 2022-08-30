@@ -8,7 +8,11 @@ const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrappe
 const { getDepartmentFromName } = require('../../../../src/services/department.service');
 const { getRefreshedDepartmentData } = require('../../../../src/services/department.service');
 const logger = require('../../../../src/lib/logger');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { LOCAL_PLANNING_DEPARTMENT }
+	}
+} = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/services/department.service');
@@ -61,7 +65,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
-			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+			expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
 				appealLPD: '',
 				departments: departmentList,
 				eligibleDepartments,
@@ -78,7 +82,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
-			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+			expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
 				appealLPD: '',
 				departments: departmentList,
 				eligibleDepartments,
@@ -95,7 +99,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
-			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+			expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
 				appealLPD: 'lpdName',
 				departments: departmentList,
 				eligibleDepartments,
@@ -147,7 +151,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 			await postPlanningDepartment(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+			expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_DEPARTMENT, {
 				appealLPD: '',
 				departments: departmentList,
 				errors: { 'local-planning-department': { msg: 'Invalid Value' } },
@@ -170,7 +174,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+			expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_DEPARTMENT, {
 				appeal,
 				departments: [
 					departmentList[0],

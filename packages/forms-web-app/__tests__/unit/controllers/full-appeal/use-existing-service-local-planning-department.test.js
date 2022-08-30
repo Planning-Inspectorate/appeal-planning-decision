@@ -2,7 +2,11 @@ const {
 	getUseExistingServiceLocalPlanningDepartment
 } = require('../../../../src/controllers/full-appeal/use-existing-service-local-planning-department');
 
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { USE_EXISTING_SERVICE_LOCAL_PLANNING_DEPARTMENT }
+	}
+} = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 describe('controllers/full-appeal/use-existing-service-local-planning-department', () => {
@@ -12,11 +16,8 @@ describe('controllers/full-appeal/use-existing-service-local-planning-department
 	it('Test getUseExistingServiceLocalPlanningDepartment method calls the correct template', async () => {
 		await getUseExistingServiceLocalPlanningDepartment(req, res);
 
-		expect(res.render).toBeCalledWith(
-			VIEW.FULL_APPEAL.USE_EXISTING_SERVICE_LOCAL_PLANNING_DEPARTMENT,
-			{
-				acpLink: 'https://acp.planninginspectorate.gov.uk/'
-			}
-		);
+		expect(res.render).toBeCalledWith(USE_EXISTING_SERVICE_LOCAL_PLANNING_DEPARTMENT, {
+			acpLink: 'https://acp.planninginspectorate.gov.uk/'
+		});
 	});
 });

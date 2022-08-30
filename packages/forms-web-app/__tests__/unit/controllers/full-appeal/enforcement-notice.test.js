@@ -6,7 +6,7 @@ const {
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		FULL_APPEAL: { ENFORCEMENT_NOTICE: currentPage }
+		FULL_APPEAL: { ENFORCEMENT_NOTICE }
 	}
 } = require('../../../../src/lib/views');
 
@@ -43,7 +43,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 			req.session.appeal.eligibility.applicationDecision = 'granted';
 			getEnforcementNotice(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE, {
 				appeal: req.session.appeal
 			});
 		});
@@ -66,7 +66,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE, {
 				appeal: {
 					...req.session.appeal,
 					eligibility: {
@@ -96,12 +96,12 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
+			});
 		});
-	});
 
 		it('should redirect to `/full-appeal/use-a-different-service` if `enforcement-notice` is `yes`', async () => {
 			const mockRequest = {

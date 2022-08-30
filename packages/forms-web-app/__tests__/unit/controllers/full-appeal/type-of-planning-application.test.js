@@ -6,7 +6,11 @@ const {
 } = require('../../../../src/controllers/full-appeal/type-of-planning-application');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../src/lib/logger');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { TYPE_OF_PLANNING_APPLICATION }
+	}
+} = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 const mapPlanningApplication = require('../../../../src/lib/full-appeal/map-planning-application');
 
@@ -28,7 +32,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 		it('should call the correct template on getTypeOfPlanningApplication', async () => {
 			await getTypeOfPlanningApplication(req, res);
 
-			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
+			expect(res.render).toBeCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				typeOfPlanningApplication: 'full-appeal'
 			});
 		});
@@ -179,7 +183,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
-			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
+			expect(res.render).toBeCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				typeOfPlanningApplication: undefined,
 				errors: {
 					'type-of-planning-application': {
@@ -206,7 +210,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.TYPE_OF_PLANNING_APPLICATION, {
+			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
 				typeOfPlanningApplication: 'outline-planning',
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
