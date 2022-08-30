@@ -1,5 +1,5 @@
 const { constants, rules, validation } = require('@pins/business-rules');
-const { subMonths, addDays, startOfDay, getYear, getMonth, getDate } = require('date-fns');
+const { subDays, addDays, startOfDay, getYear, getMonth, getDate } = require('date-fns');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -64,7 +64,7 @@ describe('controllers/full-appeal/decision-date', () => {
 
 	describe('postDecisionDate', () => {
 		it('should save the appeal and redirect to enforcement-notice if date is within six months', async () => {
-			const decisionDate = addDays(subMonths(startOfDay(new Date()), 6), 1);
+			const decisionDate = addDays(subDays(startOfDay(new Date()), 181), 1);
 			const mockRequest = {
 				...req,
 				body: {
