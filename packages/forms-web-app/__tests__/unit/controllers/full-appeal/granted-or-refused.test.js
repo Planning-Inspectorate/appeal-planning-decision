@@ -5,7 +5,11 @@ const {
 	forwardPage
 } = require('../../../../src/controllers/full-appeal/granted-or-refused');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { GRANTED_OR_REFUSED, DECISION_DATE, DATE_DECISION_DUE }
+	}
+} = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
 
@@ -27,40 +31,40 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 		it('should call the correct template', () => {
 			getGrantedOrRefused(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.GRANTED_OR_REFUSED, {
+			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED, {
 				appeal: req.session.appeal
 			});
 		});
 	});
 
 	describe('forwardPage', () => {
-		it(`should return '/${VIEW.FULL_APPEAL.DECISION_DATE}' if passed 'permissionStatus' is 'granted'`, async () => {
+		it(`should return '/${DECISION_DATE}' if passed 'permissionStatus' is 'granted'`, async () => {
 			const pageRedirect = forwardPage('granted');
 
 			expect(pageRedirect).toEqual('/before-you-start/decision-date');
 		});
 
-		it(`should return '/${VIEW.FULL_APPEAL.DECISION_DATE}' if passed 'permissionStatus' is 'refused'`, async () => {
+		it(`should return '/${DECISION_DATE}' if passed 'permissionStatus' is 'refused'`, async () => {
 			const pageRedirect = forwardPage('refused');
 
 			expect(pageRedirect).toEqual('/before-you-start/decision-date');
 		});
 
-		it(`should return '/${VIEW.FULL_APPEAL.DATE_DECISION_DUE}' if passed 'permissionStatus' is 'nodecisionreceived'`, async () => {
+		it(`should return '/${DATE_DECISION_DUE}' if passed 'permissionStatus' is 'nodecisionreceived'`, async () => {
 			const pageRedirect = forwardPage('nodecisionreceived');
 
 			expect(pageRedirect).toEqual('/before-you-start/date-decision-due');
 		});
-		it(`should return '/${VIEW.FULL_APPEAL.GRANTED_OR_REFUSED}' if passed 'permissionStatus' is 'default'`, async () => {
+		it(`should return '/${GRANTED_OR_REFUSED}' if passed 'permissionStatus' is 'default'`, async () => {
 			const pageRedirect = forwardPage('default');
 
-			expect(pageRedirect).toEqual(VIEW.FULL_APPEAL.GRANTED_OR_REFUSED);
+			expect(pageRedirect).toEqual(GRANTED_OR_REFUSED);
 		});
 
-		it(`should return '/${VIEW.FULL_APPEAL.GRANTED_OR_REFUSED}' if 'permissionStatus' is not passed`, async () => {
+		it(`should return '/${GRANTED_OR_REFUSED}' if 'permissionStatus' is not passed`, async () => {
 			const pageRedirect = forwardPage();
 
-			expect(pageRedirect).toEqual(VIEW.FULL_APPEAL.GRANTED_OR_REFUSED);
+			expect(pageRedirect).toEqual(GRANTED_OR_REFUSED);
 		});
 	});
 
@@ -80,7 +84,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.GRANTED_OR_REFUSED, {
+			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED, {
 				appeal: {
 					...req.session.appeal,
 					eligibility: {
@@ -108,14 +112,14 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.GRANTED_OR_REFUSED, {
+			expect(res.render).toHaveBeenCalledWith(GRANTED_OR_REFUSED, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
 		});
 
-		it(`'should redirect to '/${VIEW.FULL_APPEAL.DECISION_DATE}' if 'applicationDecision' is 'refused'`, async () => {
+		it(`'should redirect to '/${DECISION_DATE}' if 'applicationDecision' is 'refused'`, async () => {
 			const applicationDecision = 'refused';
 			const mockRequest = {
 				...req,
@@ -130,7 +134,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
 		});
 
-		it(`should redirect to '/${VIEW.FULL_APPEAL.DECISION_DATE}' if 'applicationDecision' is 'granted'`, async () => {
+		it(`should redirect to '/${DECISION_DATE}' if 'applicationDecision' is 'granted'`, async () => {
 			const applicationDecision = 'granted';
 			const mockRequest = {
 				...req,
@@ -143,7 +147,7 @@ describe('controllers/full-appeal/granted-or-refused', () => {
 			expect(res.redirect).toHaveBeenCalledWith('/before-you-start/decision-date');
 		});
 
-		it(`should redirect to '/${VIEW.FULL_APPEAL.DATE_DECISION_DUE}' if 'applicationDecision' is 'nodecisionreceived'`, async () => {
+		it(`should redirect to '/${DATE_DECISION_DUE}' if 'applicationDecision' is 'nodecisionreceived'`, async () => {
 			const applicationDecision = 'nodecisionreceived';
 			const mockRequest = {
 				...req,

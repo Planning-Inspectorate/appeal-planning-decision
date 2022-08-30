@@ -20,7 +20,7 @@ const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		FULL_APPEAL: { DATE_DECISION_DUE: currentPage }
+		FULL_APPEAL: { DATE_DECISION_DUE }
 	}
 } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
@@ -54,7 +54,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 		it('should call the correct template date decision due unevaluated', () => {
 			dateDecisionDueController.getDateDecisionDue(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
 				decisionDate: null
 			});
 		});
@@ -68,7 +68,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 
 			dateDecisionDueController.getDateDecisionDue(mockRequest, res);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
 				decisionDate: {
 					day: '01',
 					month: '01',
@@ -114,7 +114,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 
 			await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
 				decisionDate: {
 					day: undefined,
 					month: undefined,
@@ -133,7 +133,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 
 			await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
 				decisionDate: {
 					day: '01',
 					month: '01',
@@ -184,7 +184,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 
 			await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
 				decisionDate: {
 					day: '45',
 					month: '15',
@@ -237,7 +237,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 
 			await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
 				decisionDate: {
 					day: '45',
 					month: '01',
@@ -294,7 +294,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 				}
 			};
 			await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
 				decisionDate: {
 					day: 1,
 					month: '',
@@ -394,7 +394,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
 				decisionDate: {
 					day: undefined,
 					month: undefined,
