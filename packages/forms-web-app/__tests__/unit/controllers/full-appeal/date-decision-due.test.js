@@ -323,7 +323,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 			});
 		});
 
-		it('should redirect to enforceent notice as deadline date is not passed', async () => {
+		it('should redirect to enforcement notice as deadline date is not passed', async () => {
 			const decisionDate = addDays(subMonths(endOfDay(new Date()), 6), 1);
 
 			const mockRequest = {

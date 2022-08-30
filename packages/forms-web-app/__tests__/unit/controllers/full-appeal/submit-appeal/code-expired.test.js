@@ -7,7 +7,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: { CODE_EXPIRED, ENTER_CODE }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 
 const { mockRes, mockReq } = require('../../../mocks');
 

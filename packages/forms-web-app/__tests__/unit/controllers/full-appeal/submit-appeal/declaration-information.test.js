@@ -4,7 +4,11 @@ const {
 	getDeclarationInformation
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/declaration-information');
 const { mockReq, mockRes } = require('../../../mocks');
-const { VIEW } = require('../../../../../src/lib/full-appeal/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { DECLARATION_INFORMATION }
+	}
+} = require('../../../../../src/lib/views');
 
 jest.mock('../../../../../src/services/department.service');
 const mockLogger = jest.fn();
@@ -107,7 +111,7 @@ describe('controllers/full-appeal/submit-appeal/declaration-information', () => 
 				'utf8'
 			);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECLARATION_INFORMATION, {
+			expect(res.render).toHaveBeenCalledWith(DECLARATION_INFORMATION, {
 				appealLPD: lpdName,
 				appeal: req.session.appeal,
 				css,
