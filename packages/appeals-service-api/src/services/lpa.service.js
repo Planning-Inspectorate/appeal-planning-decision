@@ -70,6 +70,7 @@ const createLpaList = async (csv) => {
 			logger.debug('=====================');
 			logger.debug(chunks[chunk]);
 			logger.debug('======================');
+			await new Promise((res) => setTimeout(res, 1000));
 			await mongodb.get().collection('lpa').insertMany(chunks[chunk]);
 		}
 	} catch (err) {
