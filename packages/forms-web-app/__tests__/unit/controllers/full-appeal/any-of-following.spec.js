@@ -6,7 +6,11 @@ const {
 } = require('../../../../src/controllers/full-appeal/any-of-following');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { ANY_OF_FOLLOWING }
+	}
+} = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/logger');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -29,7 +33,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 	it('should render any of following page', () => {
 		getAnyOfFollowing(req, res);
 
-		expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ANY_OF_FOLLOWING, {
+		expect(res.render).toHaveBeenCalledWith(ANY_OF_FOLLOWING, {
 			applicationCategories: ['none_of_these'],
 			typeOfPlanningApplication: 'full-appeal'
 		});
@@ -51,7 +55,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 
 			await postAnyOfFollowing(mockRequest, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ANY_OF_FOLLOWING, {
+			expect(res.render).toHaveBeenCalledWith(ANY_OF_FOLLOWING, {
 				applicationCategories: undefined,
 				typeOfPlanningApplication: 'full-appeal',
 				errorSummary: [{ text: 'Select if your appeal is about any of the following' }],
@@ -133,7 +137,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledTimes(1);
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ANY_OF_FOLLOWING, {
+			expect(res.render).toHaveBeenCalledWith(ANY_OF_FOLLOWING, {
 				applicationCategories: 'none_of_these',
 				typeOfPlanningApplication: 'full-appeal',
 				errors: {},

@@ -19,7 +19,11 @@ const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const decisionDateController = require('../../../../src/controllers/full-appeal/decision-date');
 const { mockReq, mockRes } = require('../../mocks');
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { DECISION_DATE }
+	}
+} = require('../../../../src/lib/views');
 
 describe('controllers/full-appeal/decision-date', () => {
 	let req;
@@ -42,7 +46,7 @@ describe('controllers/full-appeal/decision-date', () => {
 		it('should call the correct template with no decision date given', () => {
 			decisionDateController.getDecisionDate(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECISION_DATE, {
+			expect(res.render).toHaveBeenCalledWith(DECISION_DATE, {
 				decisionDate: null
 			});
 		});
@@ -52,7 +56,7 @@ describe('controllers/full-appeal/decision-date', () => {
 
 			decisionDateController.getDecisionDate(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECISION_DATE, {
+			expect(res.render).toHaveBeenCalledWith(DECISION_DATE, {
 				decisionDate: {
 					day: '04',
 					month: '03',
@@ -116,7 +120,7 @@ describe('controllers/full-appeal/decision-date', () => {
 
 			await decisionDateController.postDecisionDate(mockRequest, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECISION_DATE, {
+			expect(res.render).toHaveBeenCalledWith(DECISION_DATE, {
 				decisionDate: {
 					day: undefined,
 					month: undefined,
@@ -148,7 +152,7 @@ describe('controllers/full-appeal/decision-date', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECISION_DATE, {
+			expect(res.render).toHaveBeenCalledWith(DECISION_DATE, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: 'decision-date' }]
