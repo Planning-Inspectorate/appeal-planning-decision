@@ -64,12 +64,12 @@ const createLpaList = async (csv) => {
 		const lpaList = transformCSV(trimmed1);
 		await mongodb.get().collection('lpa').remove({});
 
-		const chunks = chunkArray(lpaList, 40);
+		const chunks = chunkArray(lpaList, 10);
 
 		for (let chunk in chunks) {
-			logger.debug('kkkkkkkkkkkk');
+			logger.debug('=====================');
 			logger.debug(chunks[chunk]);
-			logger.debug('kkkkkkkkkkkk');
+			logger.debug('======================');
 			await mongodb.get().collection('lpa').insertMany(chunks[chunk]);
 		}
 	} catch (err) {
