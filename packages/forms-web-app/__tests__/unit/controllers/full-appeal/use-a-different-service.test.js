@@ -2,7 +2,11 @@ const {
 	getUseADifferentService
 } = require('../../../../src/controllers/full-appeal/use-a-different-service');
 
-const { VIEW } = require('../../../../src/lib/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { USE_A_DIFFERENT_SERVICE }
+	}
+} = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 describe('controllers/full-appeal/use-a-different-service', () => {
@@ -12,7 +16,7 @@ describe('controllers/full-appeal/use-a-different-service', () => {
 	it('Test the getPlanningDepartment method calls the correct template', async () => {
 		await getUseADifferentService(req, res);
 
-		expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.USE_A_DIFFERENT_SERVICE, {
+		expect(res.render).toBeCalledWith(USE_A_DIFFERENT_SERVICE, {
 			acpLink: 'https://acp.planninginspectorate.gov.uk/'
 		});
 	});
