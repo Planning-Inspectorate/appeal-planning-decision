@@ -43,18 +43,35 @@ function transformCSV(body) {
 	return lpas;
 }
 
+function chunkArray(myArray, chunk_size) {
+	let index = 0;
+	const arrayLength = myArray.length;
+	const tempArray = [];
+
+	for (index = 0; index < arrayLength; index += chunk_size) {
+		const myChunk = myArray.slice(index, index + chunk_size);
+		// Do something if you want with the group
+		tempArray.push(myChunk);
+	}
+
+	return tempArray;
+}
+
 const createLpaList = async (csv) => {
 	const trimmed = JSON.stringify(csv).replace('{', '').replace('}', '').replace(':""', '');
 	const trimmed1 = trimmed.replace('OBJECTID,LPA19CD,LPA19NM,EMAIL,DOMAIN', '');
 	try {
 		const lpaList = transformCSV(trimmed1);
 		await mongodb.get().collection('lpa').remove({});
-		const half = Math.ceil(lpaList.length / 2);
 
-		const firstHalf = lpaList.slice(0, half);
-		const secondHalf = lpaList.slice(half);
-		await mongodb.get().collection('lpa').insertMany(firstHalf);
-		await mongodb.get().collection('lpa').insertMany(secondHalf);
+		const chunks = chunkArray(lpaList, 40);
+
+		for (let chunk in chunks) {
+			logger.debug('kkkkkkkkkkkk');
+			logger.debug(chunks[chunk]);
+			logger.debug('kkkkkkkkkkkk');
+			await mongodb.get().collection('lpa').insertMany(chunks[chunk]);
+		}
 	} catch (err) {
 		logger.debug(err);
 	}
