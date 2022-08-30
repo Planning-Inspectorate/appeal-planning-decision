@@ -17,7 +17,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: { DRAFT_STATEMENT_COMMON_GROUND, TASK_LIST }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/documents-api-wrapper');

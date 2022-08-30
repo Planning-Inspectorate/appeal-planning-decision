@@ -4,7 +4,11 @@ const {
 	getPlanningObligationStatus
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/planning-obligation-status');
 
-const { VIEW } = require('../../../../../src/lib/full-appeal/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { PLANNING_OBLIGATION_STATUS }
+	}
+} = require('../../../../../src/lib/full-appeal/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
 
@@ -30,7 +34,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-status', () 
 				planningObligationStatus: 'not_started'
 			};
 			await getPlanningObligationStatus(req, res);
-			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION_STATUS, {
+			expect(res.render).toBeCalledWith(PLANNING_OBLIGATION_STATUS, {
 				planningObligationStatus: 'not_started'
 			});
 		});

@@ -4,7 +4,11 @@ const {
 	postApplicantName
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/applicant-name');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { VIEW } = require('../../../../../src/lib/full-appeal/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { APPLICANT_NAME, CONTACT_DETAILS }
+	}
+} = require('../../../../../src/lib/views');
 const logger = require('../../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../../mocks');
 
@@ -30,7 +34,7 @@ describe('controllers/full-appeal/submit-appeal/applicant-name', () => {
 		it('should call the correct template', () => {
 			getApplicantName(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICANT_NAME, {
+			expect(res.render).toHaveBeenCalledWith(APPLICANT_NAME, {
 				appeal: req.session.appeal
 			});
 		});
@@ -52,7 +56,7 @@ describe('controllers/full-appeal/submit-appeal/applicant-name', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICANT_NAME, {
+			expect(res.render).toHaveBeenCalledWith(APPLICANT_NAME, {
 				appeal: {
 					...req.session.appeal,
 					[sectionName]: {
@@ -82,7 +86,7 @@ describe('controllers/full-appeal/submit-appeal/applicant-name', () => {
 
 			expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.APPLICANT_NAME, {
+			expect(res.render).toHaveBeenCalledWith(APPLICANT_NAME, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -122,7 +126,7 @@ describe('controllers/full-appeal/submit-appeal/applicant-name', () => {
 				}
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.CONTACT_DETAILS}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${CONTACT_DETAILS}`);
 		});
 	});
 });

@@ -16,7 +16,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: { PLANNING_OBLIGATION_DOCUMENTS, NEW_DOCUMENTS }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/documents-api-wrapper');

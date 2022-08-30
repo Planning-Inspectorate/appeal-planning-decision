@@ -4,7 +4,11 @@ const {
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/check-your-answers');
 const { getDepartmentFromId } = require('../../../../../src/services/department.service');
 const { mockReq, mockRes } = require('../../../mocks');
-const { VIEW } = require('../../../../../src/lib/full-appeal/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { CHECK_YOUR_ANSWERS }
+	}
+} = require('../../../../../src/lib/views');
 
 jest.mock('../../../../../src/services/department.service');
 
@@ -23,7 +27,7 @@ describe('controllers/full-appeal/submit-appeal/check-your-answers', () => {
 		it('should call the correct template with empty local planning department', () => {
 			req.session.appeal.lpaCode = null;
 			getCheckYourAnswers(req, res);
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CHECK_YOUR_ANSWERS, {
+			expect(res.render).toHaveBeenCalledWith(CHECK_YOUR_ANSWERS, {
 				appealLPD: '',
 				appeal
 			});
@@ -34,7 +38,7 @@ describe('controllers/full-appeal/submit-appeal/check-your-answers', () => {
 			appeal.lpaCode = 'lpdCode';
 			await getCheckYourAnswers(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CHECK_YOUR_ANSWERS, {
+			expect(res.render).toHaveBeenCalledWith(CHECK_YOUR_ANSWERS, {
 				appealLPD: '',
 				appeal
 			});
@@ -45,7 +49,7 @@ describe('controllers/full-appeal/submit-appeal/check-your-answers', () => {
 			appeal.lpaCode = 'lpdCode';
 			await getCheckYourAnswers(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CHECK_YOUR_ANSWERS, {
+			expect(res.render).toHaveBeenCalledWith(CHECK_YOUR_ANSWERS, {
 				appealLPD: 'lpdName',
 				appeal
 			});

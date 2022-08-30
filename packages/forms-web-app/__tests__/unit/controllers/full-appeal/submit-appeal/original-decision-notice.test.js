@@ -13,7 +13,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: { ORIGINAL_DECISION_NOTICE, APPLICATION_FORM }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/documents-api-wrapper');

@@ -6,7 +6,11 @@ const {
 const { submitAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { storePdfAppeal } = require('../../../../../src/services/pdf.service');
 const { mockReq, mockRes } = require('../../../mocks');
-const { VIEW } = require('../../../../../src/lib/full-appeal/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { DECLARATION, APPEAL_SUBMITTED }
+	}
+} = require('../../../../../src/lib/views');
 
 jest.mock('../../../../../src/services/pdf.service');
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
@@ -37,7 +41,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 		it('should call the correct template', () => {
 			getDeclaration(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECLARATION);
+			expect(res.render).toHaveBeenCalledWith(DECLARATION);
 		});
 	});
 
@@ -75,7 +79,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 				state: 'SUBMITTED'
 			});
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECLARATION, {
+			expect(res.render).toHaveBeenCalledWith(DECLARATION, {
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
@@ -100,7 +104,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.DECLARATION, {
+			expect(res.render).toHaveBeenCalledWith(DECLARATION, {
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]
 			});
@@ -134,7 +138,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 				state: 'SUBMITTED'
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.APPEAL_SUBMITTED}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${APPEAL_SUBMITTED}`);
 		});
 	});
 });

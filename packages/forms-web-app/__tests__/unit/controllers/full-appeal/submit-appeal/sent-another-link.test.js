@@ -5,9 +5,9 @@ const { createConfirmEmail } = require('../../../../../src/lib/appeals-api-wrapp
 
 const {
 	VIEW: {
-		FULL_APPEAL: { SENT_ANOTHER_LINK: currentPage }
+		FULL_APPEAL: { SENT_ANOTHER_LINK }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
 
@@ -30,7 +30,7 @@ describe('controllers/full-appeal/submit-appeal/sent-another-link', () => {
 			req.session.appeal = fakeAppeal;
 			await getSentAnotherLink(req, res);
 			expect(createConfirmEmail).toBeCalledWith(fakeAppeal);
-			expect(res.render).toBeCalledWith(currentPage, { appeal: fakeAppeal });
+			expect(res.render).toBeCalledWith(SENT_ANOTHER_LINK, { appeal: fakeAppeal });
 		});
 	});
 });
