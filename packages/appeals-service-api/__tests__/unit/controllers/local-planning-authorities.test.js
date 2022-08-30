@@ -1,7 +1,7 @@
-jest.mock('../../../src/schemas/lpa');
-
-const LPA = require('../../../src/schemas/lpa');
+const service = require('../../../src/services/lpa.service');
 const lpas = require('../../../src/controllers/local-planning-authorities');
+
+jest.mock('../../../src/services/lpa.service');
 
 let req;
 let res;
@@ -24,54 +24,14 @@ describe('LPAs controller test', () => {
 		res.status.mockReturnValue(res);
 	});
 
-	describe('#get', () => {
-		it('should trigger next if there is no LPA found', async () => {
-			const id = 'someInvalidId';
-			req.params = {
-				id
-			};
-
-			LPA.find.mockResolvedValue();
-
-			const next = jest.fn();
-
-			await lpas.get(req, res, next);
-
-			expect(LPA.findOne).toBeCalledWith({
-				id: new RegExp(id, 'i')
-			});
-
-			expect(res.send).not.toBeCalled();
-			expect(next).toBeCalledWith();
-		});
-
-		it('should return the LPA if one found', async () => {
-			const id = 'someValidId';
-			const target = 'some-data';
-			req.params = {
-				id
-			};
-
-			LPA.findOne.mockResolvedValue(target);
-
-			await lpas.get(req, res);
-
-			expect(LPA.findOne).toBeCalledWith({
-				id: new RegExp(id, 'i')
-			});
-
-			expect(res.send).toBeCalledWith(target);
-		});
-	});
-
 	describe('#list', () => {
 		it('should return all LPAs sorted if no filter applied', async () => {
 			const data = ['some-array'];
-			LPA.find.mockResolvedValue(data);
+			service.getLpaList.mockResolvedValue(data);
 
 			await lpas.list(req, res);
 
-			expect(LPA.find).toBeCalledWith({});
+			expect(service.getLpaList).toBeCalled();
 
 			expect(res.send).toBeCalledWith({
 				data,
@@ -88,13 +48,11 @@ describe('LPAs controller test', () => {
 				name: filter
 			};
 			const data = ['some-filtered-array'];
-			LPA.find.mockResolvedValue(data);
+			service.getLpaList.mockResolvedValue(data);
 
 			await lpas.list(req, res);
 
-			expect(LPA.find).toBeCalledWith({
-				name: new RegExp(filter, 'i')
-			});
+			expect(service.getLpaList).toBeCalled();
 
 			expect(res.send).toBeCalledWith({
 				data,

@@ -9,6 +9,10 @@
 
 const LPASchema = require('../schemas/lpa');
 
+const service = require('../services/lpa.service');
+
+const logger = require('../lib/logger');
+
 module.exports = {
 	async get(req, res, next) {
 		const { id } = req.params;
@@ -37,7 +41,11 @@ module.exports = {
 			filter.name = new RegExp(name, 'i');
 		}
 
-		const data = await LPASchema.find(filter);
+		const data = await service.getLpaList();
+
+		logger.debug('+++++++++++');
+		logger.debug(data);
+		logger.debug('+++++++++++');
 
 		/* Use a paginated output in case we wish to put data into database in future */
 		const output = {
@@ -49,5 +57,10 @@ module.exports = {
 		};
 
 		res.send(output);
+	},
+
+	async create(req, res) {
+		await service.createLpaList(req.body);
+		res.status(200).send('');
 	}
 };

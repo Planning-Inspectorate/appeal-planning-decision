@@ -7,6 +7,8 @@ router.get('/', lpaController.list);
 
 router.get('/:id', lpaController.get);
 
+router.post('/', lpaController.create);
+
 module.exports = router;
 
 /**

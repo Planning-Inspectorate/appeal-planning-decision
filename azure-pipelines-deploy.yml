@@ -6,7 +6,7 @@ parameters:
   - name: deployClamAv
     displayName: Deploy ClamAV API
     type: boolean
-    default: true  
+    default: true
   - name: deployDocumentsApi
     displayName: Deploy Documents Service API
     type: boolean
@@ -21,6 +21,10 @@ parameters:
     default: true
   - name: deployWeb
     displayName: Deploy Web
+    type: boolean
+    default: true
+  - name: lpaApi
+    displayName: Deploy LPA Service API
     type: boolean
     default: true
   - name: region
