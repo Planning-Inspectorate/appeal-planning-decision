@@ -47,7 +47,7 @@ describe('controllers/appeal-householder-decision/email-address-confirmed', () =
 			expect(getConfirmEmail).toBeCalledWith('12345-def');
 			expect(isTokenExpired).toBeCalledWith(30, date);
 			expect(res.render).not.toBeCalled();
-			expect(res.redirect).toBeCalledWith(`/${LINK_EXPIRED}`);
+			expect(res.redirect).toBeCalledWith(`${LINK_EXPIRED}`);
 		});
 	});
 });

@@ -1,10 +1,8 @@
 const { getLinkExpired } = require('../../../../src/controllers/submit-appeal/link-expired');
 
-const { 
-	VIEW: {
-		LINK_EXPIRED
-	}
-} = require('../../../../src/lib/submit-appeal/views');
+const {
+	VIEW: { LINK_EXPIRED }
+} = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 describe('controllers/submit-appeal/link-expired', () => {

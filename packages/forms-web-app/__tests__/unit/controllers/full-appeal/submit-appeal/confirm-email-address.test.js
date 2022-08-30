@@ -6,9 +6,9 @@ const appeal = require('@pins/business-rules/test/data/full-appeal');
 
 const {
 	VIEW: {
-		FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS, EMAIL_ADDRESS }
+		FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
 
@@ -34,8 +34,7 @@ describe('controllers/full-appeal/submit-appeal/confirm-email-address', () => {
 			expect(createConfirmEmail).toBeCalledWith(appeal);
 			expect(res.render).toBeCalledWith(CONFIRM_EMAIL_ADDRESS, {
 				typeOfPlanningApplication,
-				emailAddress: 'test@example.com',
-				backLink: `/${EMAIL_ADDRESS}`
+				emailAddress: 'test@example.com'
 			});
 		});
 	});

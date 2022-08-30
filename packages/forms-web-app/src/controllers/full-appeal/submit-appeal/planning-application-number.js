@@ -8,10 +8,9 @@ const logger = require('../../../lib/logger');
 exports.getPlanningApplicationNumber = (req, res) => {
 	const { planningApplicationNumber, typeOfPlanningApplication } = req.session.appeal;
 
-	res.render(PLANNING_APPLICATION_NUMBER, {
+	res.render(`full-appeal/submit-appeal/${PLANNING_APPLICATION_NUMBER}`, {
 		typeOfPlanningApplication,
-		planningApplicationNumber,
-		backLink
+		planningApplicationNumber
 	});
 };
 
@@ -25,7 +24,7 @@ exports.postPlanningApplicationNumber = async (req, res) => {
 	} = req.session;
 
 	if (Object.keys(errors).length > 0) {
-		return res.render(PLANNING_APPLICATION_NUMBER, {
+		return res.render(`full-appeal/submit-appeal/${PLANNING_APPLICATION_NUMBER}`, {
 			planningApplicationNumber,
 			errors,
 			errorSummary
@@ -37,7 +36,7 @@ exports.postPlanningApplicationNumber = async (req, res) => {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (e) {
 		logger.error(e);
-		res.render(PLANNING_APPLICATION_NUMBER, {
+		res.render(`full-appeal/submit-appeal/${PLANNING_APPLICATION_NUMBER}`, {
 			planningApplicationNumber,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
@@ -45,5 +44,5 @@ exports.postPlanningApplicationNumber = async (req, res) => {
 		return;
 	}
 
-	res.redirect(`${EMAIL_ADDRESS}`);
+	res.redirect(`full-appeal/submit-appeal/${EMAIL_ADDRESS}`);
 };

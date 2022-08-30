@@ -1,9 +1,8 @@
 const { mockReq, mockRes } = require('../../../mocks');
 
 const {
-	const {
-		VIEW: { LIST_OF_DOCUMENTS, TASK_LIST }
-	} = require('../../../../../src/lib/views');
+	VIEW: { LIST_OF_DOCUMENTS, TASK_LIST }
+} = require('../../../../../src/lib/views');
 const {
 	getListOfDocuments,
 	postListOfDocuments

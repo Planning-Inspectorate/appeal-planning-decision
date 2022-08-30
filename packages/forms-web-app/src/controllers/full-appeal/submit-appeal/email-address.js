@@ -6,7 +6,7 @@ const logger = require('../../../lib/logger');
 
 const getEmailAddress = (req, res) => {
 	const { email, typeOfPlanningApplication } = req.session.appeal;
-	res.render(EMAIL_ADDRESS, {
+	res.render(`${EMAIL_ADDRESS}`, {
 		typeOfPlanningApplication,
 		email
 	});
@@ -24,7 +24,7 @@ const postEmailAddress = async (req, res) => {
 	appeal.email = body['email-address'];
 
 	if (Object.keys(errors).length > 0) {
-		res.render(EMAIL_ADDRESS, {
+		res.render(`${EMAIL_ADDRESS}`, {
 			email,
 			errors,
 			errorSummary
@@ -36,7 +36,7 @@ const postEmailAddress = async (req, res) => {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (e) {
 		logger.error(e);
-		res.render(EMAIL_ADDRESS, {
+		res.render(`${EMAIL_ADDRESS}`, {
 			email,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]

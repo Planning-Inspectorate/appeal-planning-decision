@@ -68,7 +68,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 				...appeal
 			});
 
-			expect(res.redirect).toBeCalledWith('/before-you-start/granted-or-refused-householder');
+			expect(res.redirect).toBeCalledWith(LISTED_BUILDING_HOUSEHOLDER);
 		});
 
 		it('should re-render the template with errors if there is any validation error', async () => {

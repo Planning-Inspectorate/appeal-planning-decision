@@ -34,9 +34,11 @@ describe('controllers/full-appeal/submit-appeal/planning-application-number', ()
 	describe('getPlanningApplicationNumber', () => {
 		it('should call the correct template', () => {
 			getPlanningApplicationNumber(req, res);
+			const { typeOfPlanningApplication } = req.session.appeal;
 
 			expect(res.render).toHaveBeenCalledWith(PLANNING_APPLICATION_NUMBER, {
-				planningApplicationNumber: applicationNumber
+				planningApplicationNumber: applicationNumber,
+				typeOfPlanningApplication
 			});
 		});
 	});
