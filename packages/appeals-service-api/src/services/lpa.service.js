@@ -55,10 +55,20 @@ const createLpaList = async (csv) => {
 	}
 };
 
+function compare(a, b) {
+	if (a.name < b.name) {
+		return -1;
+	}
+	if (a.name > b.name) {
+		return 1;
+	}
+	return 0;
+}
+
 const getLpaList = async () => {
 	const lpaList = [];
 	try {
-		const cursor = await mongodb.get().collection('lpa').find().sort({ lpa19NM: 1 });
+		const cursor = await mongodb.get().collection('lpa').find();
 		if ((await cursor.count()) === 0) {
 			console.log('No documents found!');
 		}
@@ -72,6 +82,8 @@ const getLpaList = async () => {
 	} catch (err) {
 		logger.error(err);
 	}
+
+	lpaList.sort(compare);
 
 	return lpaList;
 };
