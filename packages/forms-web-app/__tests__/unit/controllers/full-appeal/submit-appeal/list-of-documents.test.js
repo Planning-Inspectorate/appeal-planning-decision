@@ -4,7 +4,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: { LIST_OF_DOCUMENTS, TASK_LIST }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 const {
 	getListOfDocuments,
 	postListOfDocuments

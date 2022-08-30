@@ -7,7 +7,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: { CANNOT_APPEAL }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 const {
 	hasDeadlineDatePassed,
 	getDeadlinePeriod,

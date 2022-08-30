@@ -9,9 +9,9 @@ const logger = require('../../../../../src/lib/logger');
 
 const {
 	VIEW: {
-		FULL_APPEAL: { APPEAL_SITE_ADDRESS: currentPage, OWN_ALL_THE_LAND }
+		FULL_APPEAL: { APPEAL_SITE_ADDRESS, OWN_ALL_THE_LAND }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -35,7 +35,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
 		it('should call the correct template', () => {
 			getAppealSiteAddress(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(APPEAL_SITE_ADDRESS, {
 				appeal: req.session.appeal
 			});
 		});
@@ -53,7 +53,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
 			await postAppealSiteAddress(mockRequest, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(APPEAL_SITE_ADDRESS, {
 				appeal: {
 					...req.session.appeal,
 					[sectionName]: {
@@ -85,7 +85,7 @@ describe('controllers/full-appeal/submit-appeal/appeal-site-address', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(res.render).toHaveBeenCalledWith(currentPage, {
+			expect(res.render).toHaveBeenCalledWith(APPEAL_SITE_ADDRESS, {
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

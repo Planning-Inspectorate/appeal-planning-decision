@@ -6,9 +6,9 @@ const appeal = require('@pins/business-rules/test/data/full-appeal');
 
 const {
 	VIEW: {
-		FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS}
+		FULL_APPEAL: { CONFIRM_EMAIL_ADDRESS }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
 

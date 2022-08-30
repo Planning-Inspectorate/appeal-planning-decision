@@ -3,7 +3,11 @@ const {
 	postCertificates
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/certificates');
 const { documentTypes } = require('@pins/common');
-const { VIEW } = require('../../../../../src/lib/full-appeal/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { CERTIFICATES, PROPOSED_DEVELOPMENT_CHANGED }
+	}
+} = require('../../../../../src/lib/views');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const { createDocument } = require('../../../../../src/lib/documents-api-wrapper');
 
@@ -43,7 +47,7 @@ describe('controllers/full-appeal/submit-appeal/certificates', () => {
 	describe('getCertificates', () => {
 		it('calls correct template', async () => {
 			await getCertificates(req, res);
-			expect(res.render).toBeCalledWith(VIEW.FULL_APPEAL.CERTIFICATES, {
+			expect(res.render).toBeCalledWith(CERTIFICATES, {
 				appealId: appeal.id,
 				uploadedFile: appeal[sectionName][taskName].uploadedFile
 			});
@@ -66,7 +70,7 @@ describe('controllers/full-appeal/submit-appeal/certificates', () => {
 			await postCertificates(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CERTIFICATES, {
+			expect(res.render).toHaveBeenCalledWith(CERTIFICATES, {
 				appealId: appeal.id,
 				uploadedFile: appeal[sectionName][taskName].uploadedFile,
 				errorSummary,
@@ -82,7 +86,7 @@ describe('controllers/full-appeal/submit-appeal/certificates', () => {
 			await postCertificates(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.CERTIFICATES, {
+			expect(res.render).toHaveBeenCalledWith(CERTIFICATES, {
 				appealId: appeal.id,
 				uploadedFile: appeal[sectionName][taskName].uploadedFile,
 				errorSummary: [{ text: error.toString(), href: '#' }]
@@ -117,9 +121,7 @@ describe('controllers/full-appeal/submit-appeal/certificates', () => {
 				taskName
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`
-			);
+			expect(res.redirect).toHaveBeenCalledWith(`/${PROPOSED_DEVELOPMENT_CHANGED}`);
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
 
@@ -137,9 +139,7 @@ describe('controllers/full-appeal/submit-appeal/certificates', () => {
 
 			expect(createDocument).not.toHaveBeenCalled();
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/${VIEW.FULL_APPEAL.PROPOSED_DEVELOPMENT_CHANGED}`
-			);
+			expect(res.redirect).toHaveBeenCalledWith(`/${PROPOSED_DEVELOPMENT_CHANGED}`);
 			expect(req.session.appeal).toEqual(submittedAppeal);
 		});
 	});

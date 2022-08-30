@@ -21,7 +21,7 @@ const {
 			PLANNING_OBLIGATION_DEADLINE
 		}
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');

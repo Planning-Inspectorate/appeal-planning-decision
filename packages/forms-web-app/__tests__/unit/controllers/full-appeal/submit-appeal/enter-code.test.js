@@ -6,7 +6,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: { TASK_LIST, ENTER_CODE, CODE_EXPIRED, APPEAL_ALREADY_SUBMITTED }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { mockReq, mockRes } = require('../../../mocks');
 const { getSavedAppeal, getExistingAppeal } = require('../../../../../src/lib/appeals-api-wrapper');

@@ -9,7 +9,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: { CONTACT_DETAILS, TASK_LIST }
 	}
-} = require('../../../../../src/lib/full-appeal/views');
+} = require('../../../../../src/lib/views');
 const logger = require('../../../../../src/lib/logger');
 const TASK_STATUS = require('../../../../../src/services/task-status/task-statuses');
 

@@ -6,7 +6,11 @@ const {
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/original-applicant');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
 const logger = require('../../../../../src/lib/logger');
-const { VIEW } = require('../../../../../src/lib/full-appeal/views');
+const {
+	VIEW: {
+		FULL_APPEAL: { ORIGINAL_APPLICANT, CONTACT_DETAILS, APPLICANT_NAME }
+	}
+} = require('../../../../../src/lib/full-appeal/views');
 const { mockReq, mockRes } = require('../../../mocks');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
@@ -31,7 +35,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 		it('should call the correct template', () => {
 			getOriginalApplicant(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ORIGINAL_APPLICANT, {
+			expect(res.render).toHaveBeenCalledWith(ORIGINAL_APPLICANT, {
 				FORM_FIELD,
 				appeal: req.session.appeal
 			});
@@ -70,7 +74,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 
 			expect(res.render).not.toHaveBeenCalled();
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.CONTACT_DETAILS}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${CONTACT_DETAILS}`);
 		});
 
 		it('should redirect with original-appellant set to false', async () => {
@@ -87,7 +91,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.FULL_APPEAL.APPLICANT_NAME}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${APPLICANT_NAME}`);
 		});
 
 		it('should re-render the template with errors if there is any validator error', async () => {
@@ -104,7 +108,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ORIGINAL_APPLICANT, {
+			expect(res.render).toHaveBeenCalledWith(ORIGINAL_APPLICANT, {
 				FORM_FIELD,
 				appeal,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
@@ -146,7 +150,7 @@ describe('controllers/full-appeal/submit-appeal/original-applicant', () => {
 				}
 			});
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.FULL_APPEAL.ORIGINAL_APPLICANT, {
+			expect(res.render).toHaveBeenCalledWith(ORIGINAL_APPLICANT, {
 				FORM_FIELD,
 				appeal: mockRequest.session.appeal,
 				errorSummary: [{ text: error.toString(), href: '#' }],
