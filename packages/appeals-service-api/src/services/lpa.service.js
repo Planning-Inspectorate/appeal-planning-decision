@@ -47,9 +47,14 @@ const createLpaList = async (csv) => {
 	const trimmed = JSON.stringify(csv).replace('{', '').replace('}', '').replace(':""', '');
 	const trimmed1 = trimmed.replace('OBJECTID,LPA19CD,LPA19NM,EMAIL,DOMAIN', '');
 	try {
-		const tcsv = transformCSV(trimmed1);
+		const lpaList = transformCSV(trimmed1);
 		await mongodb.get().collection('lpa').remove({});
-		await mongodb.get().collection('lpa').insertMany(tcsv);
+		const half = Math.ceil(lpaList.length / 2);
+
+		const firstHalf = lpaList.slice(0, half);
+		const secondHalf = lpaList.slice(half);
+		await mongodb.get().collection('lpa').insertMany(firstHalf);
+		await mongodb.get().collection('lpa').insertMany(secondHalf);
 	} catch (err) {
 		logger.debug(err);
 	}
