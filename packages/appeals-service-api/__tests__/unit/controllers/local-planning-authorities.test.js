@@ -1,5 +1,5 @@
-const service = require('../../../src/services/lpa.service');
-const lpas = require('../../../src/controllers/local-planning-authorities');
+const { getLpaList } = require('../../../src/services/lpa.service');
+const { list } = require('../../../src/controllers/local-planning-authorities');
 
 jest.mock('../../../src/services/lpa.service');
 
@@ -27,11 +27,11 @@ describe('LPAs controller test', () => {
 	describe('#list', () => {
 		it('should return all LPAs sorted if no filter applied', async () => {
 			const data = ['some-array'];
-			service.getLpaList.mockResolvedValue(data);
+			getLpaList.mockResolvedValue(data);
 
-			await lpas.list(req, res);
+			await list(req, res);
 
-			expect(service.getLpaList).toBeCalled();
+			expect(getLpaList).toBeCalled();
 
 			expect(res.send).toBeCalledWith({
 				data,
@@ -48,11 +48,11 @@ describe('LPAs controller test', () => {
 				name: filter
 			};
 			const data = ['some-filtered-array'];
-			service.getLpaList.mockResolvedValue(data);
+			getLpaList.mockResolvedValue(data);
 
-			await lpas.list(req, res);
+			await list(req, res);
 
-			expect(service.getLpaList).toBeCalled();
+			expect(getLpaList).toBeCalled();
 
 			expect(res.send).toBeCalledWith({
 				data,
