@@ -39,7 +39,6 @@ function transformCSV(body) {
 			inTrial: data[row][5]
 		});
 	}
-
 	return lpas;
 }
 
@@ -50,7 +49,6 @@ function chunkArray(myArray, chunk_size) {
 
 	for (index = 0; index < arrayLength; index += chunk_size) {
 		const myChunk = myArray.slice(index, index + chunk_size);
-		// Do something if you want with the group
 		tempArray.push(myChunk);
 	}
 
@@ -67,9 +65,6 @@ const createLpaList = async (csv) => {
 		const chunks = chunkArray(lpaList, 10);
 
 		for (let chunk in chunks) {
-			logger.debug('=====================');
-			logger.debug(chunks[chunk]);
-			logger.debug('======================');
 			await new Promise((res) => setTimeout(res, 1000));
 			await mongodb.get().collection('lpa').insertMany(chunks[chunk]);
 		}
@@ -93,7 +88,7 @@ const getLpaList = async () => {
 	try {
 		const cursor = await mongodb.get().collection('lpa').find();
 		if ((await cursor.count()) === 0) {
-			console.log('No documents found!');
+			logger.info('No documents found!');
 		}
 
 		await cursor.forEach((doc) => {

@@ -343,23 +343,3 @@ services:
     image: "redis:alpine"
     ports:
       - 4007:6379
-
-  lpa-api:
-    image: node:14-alpine
-    environment:
-      MONGODB_AUTO_INDEX: 'true'
-      MONGODB_DB_NAME: lpa-api
-      MONGODB_URL: mongodb://mongodb:27017
-      SERVER_SHOW_ERRORS: 'true'
-      LOGGER_LEVEL: 'debug'
-    ports:
-      - 3008:3000
-    working_dir: /opt/app
-    links:
-      - mongodb
-    depends_on:
-      - mongodb
-    volumes:
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/lpa-api:/opt/app
-    command: npm run start:dev
