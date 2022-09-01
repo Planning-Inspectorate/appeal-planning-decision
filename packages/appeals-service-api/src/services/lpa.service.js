@@ -66,7 +66,6 @@ const createLpaList = async (csv) => {
 
 	try {
 		lpaList = transformCSV(trimmed1);
-		console.log(lpaList);
 		await mongodb.get().collection('lpa').remove({});
 		const lpaChunks = chunkArray(lpaList, 10);
 
