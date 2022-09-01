@@ -1,7 +1,5 @@
 const { getLPAList } = require('../lib/appeals-api-wrapper');
 
-const logger = require('../lib/logger');
-
 let departmentsById = {};
 let departmentsByName = {};
 let departments = [];
@@ -11,11 +9,6 @@ let ineligibleDepartments = [];
 async function initLPALists() {
 	const lpaList = await getLPAList();
 	const { data } = lpaList;
-
-	logger.debug('========');
-	logger.debug(lpaList);
-	logger.debug('========');
-
 	eligibleDepartments = [];
 	ineligibleDepartments = [];
 	departments = data.map((department) => {

@@ -33,10 +33,11 @@ function transformCSV(body) {
 		lpas.push({
 			objectId: data[row][0],
 			lpa19CD: data[row][1],
-			lpa19NM: data[row][2],
-			email: data[row][3],
-			domain: data[row][4],
-			inTrial: data[row][5]
+			lpaCode: data[row][2],
+			lpa19NM: data[row][3],
+			email: data[row][4],
+			domain: data[row][5],
+			inTrial: data[row][6] && !!data[row][6].includes('TRUE')
 		});
 	}
 	return lpas;
@@ -57,20 +58,26 @@ function chunkArray(myArray, chunk_size) {
 
 const createLpaList = async (csv) => {
 	const trimmed = JSON.stringify(csv).replace('{', '').replace('}', '').replace(':""', '');
-	const trimmed1 = trimmed.replace('OBJECTID,LPA19CD,LPA19NM,EMAIL,DOMAIN', '');
+	const trimmed1 = trimmed.replace(
+		'OBJECTID,LPA19CD,LPA CODE,LPA19NM,EMAIL,DOMAIN,LPA ONBOARDED',
+		''
+	);
+	let lpaList;
+
 	try {
-		const lpaList = transformCSV(trimmed1);
+		lpaList = transformCSV(trimmed1);
+		console.log(lpaList);
 		await mongodb.get().collection('lpa').remove({});
+		const lpaChunks = chunkArray(lpaList, 10);
 
-		const chunks = chunkArray(lpaList, 10);
-
-		for (let chunk in chunks) {
+		for (let chunk in lpaChunks) {
 			await new Promise((res) => setTimeout(res, 1000));
-			await mongodb.get().collection('lpa').insertMany(chunks[chunk]);
+			await mongodb.get().collection('lpa').insertMany(lpaChunks[chunk]);
 		}
 	} catch (err) {
 		logger.debug(err);
 	}
+	return lpaList;
 };
 
 function compare(a, b) {
