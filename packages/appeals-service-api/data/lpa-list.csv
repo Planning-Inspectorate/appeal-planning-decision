@@ -1,326 +1,324 @@
-﻿
-OBJECTID,LPA19CD,LPA19NM,EMAIL,DOMAIN,IN_TRIAL\n
-1,E60000001,County Durham,,\n
-2,E60000002,Darlington,,\n
-3,E60000003,Hartlepool,,\n
-4,E60000004,Middlesbrough,,\n
-5,E60000005,Northumberland,,\n
-6,E60000006,Redcar and Cleveland,,\n
-7,E60000007,Stockton-on-Tees,,\n
-8,E60000008,Gateshead,,\n
-9,E60000009,Newcastle upon Tyne,,\n
-10,E60000010,North Tyneside,,\n
-11,E60000011,South Tyneside,,\n
-12,E60000012,Sunderland,,\n
-13,E60000013,Blackburn with Darwen,,\n
-14,E60000014,Blackpool,,\n
-15,E60000015,Cheshire East,,\n
-16,E60000016,Cheshire West and Chester,,\n
-17,E60000017,Halton,,\n
-18,E60000018,Warrington,,\n
-19,E60000019,Allerdale,,\n
-20,E60000020,Barrow-in-Furness,,\n
-21,E60000021,Carlisle,,\n
-22,E60000022,Copeland,,\n
-23,E60000023,Eden,,\n
-24,E60000024,South Lakeland,,\n
-25,E60000025,Bolton,,\n
-26,E60000026,Bury,,\n
-27,E60000027,Manchester,,\n
-28,E60000028,Oldham,,\n
-29,E60000029,Rochdale,,\n
-30,E60000030,Salford,,\n
-31,E60000031,Stockport,,\n
-32,E60000032,Tameside,,\n
-33,E60000033,Trafford,,\n
-34,E60000034,Wigan,,\n
-35,E60000035,Burnley,,\n
-36,E60000036,Chorley,,\n
-37,E60000037,Fylde,,\n
-38,E60000038,Hyndburn,,\n
-39,E60000039,Lancaster,,\n
-40,E60000040,Pendle,,\n
-41,E60000041,Preston,,\n
-42,E60000042,Ribble Valley,,\n
-43,E60000043,Rossendale,,\n
-44,E60000044,South Ribble,,\n
-45,E60000045,West Lancashire,,\n
-46,E60000046,Wyre,,\n
-47,E60000047,Knowsley,,\n
-48,E60000048,Liverpool,,\n
-49,E60000049,Sefton,,\n
-50,E60000050,St. Helens,,\n
-51,E60000051,Wirral,,\n
-52,E60000052,East Riding of Yorkshire,,\n
-53,E60000053,Kingston upon Hull, City of,,\n
-54,E60000054,North East Lincolnshire,,\n
-55,E60000055,North Lincolnshire,,\n
-56,E60000056,York,,\n
-57,E60000057,Craven,,\n
-58,E60000058,Hambleton,,\n
-59,E60000059,Harrogate,planning.appeals@harrogate.gov.uk,harrogate.gov.uk\n
-60,E60000060,Richmondshire,,\n
-61,E60000061,Ryedale,,\n
-62,E60000062,Scarborough,,\n
-63,E60000063,Selby,,\n
-64,E60000064,Barnsley,,\n
-65,E60000065,Doncaster,,\n
-66,E60000066,Rotherham,,\n
-67,E60000067,Sheffield,,\n
-68,E60000068,Bradford,appealsplanning@bradford.gov.uk,bradford.gov.uk\n
-69,E60000069,Calderdale,,\n
-70,E60000070,Kirklees,,\n
-71,E60000071,Leeds,,\n
-72,E60000072,Wakefield,,\n
-73,E60000073,Derby,,\n
-74,E60000074,Leicester,,\n
-75,E60000075,Nottingham,,\n
-76,E60000076,Rutland,,\n
-77,E60000077,Amber Valley,,\n
-78,E60000078,Bolsover,,\n
-79,E60000079,Chesterfield,,\n
-80,E60000080,Derbyshire Dales,,\n
-81,E60000081,Erewash,,\n
-82,E60000082,High Peak,,\n
-83,E60000083,North East Derbyshire,,\n
-84,E60000084,South Derbyshire,,\n
-85,E60000085,Blaby,,\n
-86,E60000086,Charnwood,,\n
-87,E60000087,Harborough,,\n
-88,E60000088,Hinckley and Bosworth,,\n
-89,E60000089,Melton,,\n
-90,E60000090,North West Leicestershire,,\n
-91,E60000091,Oadby and Wigston,,\n
-92,E60000092,Boston,,\n
-93,E60000093,East Lindsey,,\n
-94,E60000094,Lincoln,,\n
-95,E60000095,North Kesteven,,\n
-96,E60000096,South Holland,,\n
-97,E60000097,South Kesteven,,\n
-98,E60000098,West Lindsey,,\n
-99,E60000106,Ashfield,,\n
-100,E60000107,Bassetlaw,,\n
-101,E60000108,Broxtowe,,\n
-102,E60000109,Gedling,,\n
-103,E60000110,Mansfield,,\n
-104,E60000111,Newark and Sherwood,,\n
-105,E60000112,Rushcliffe,,\n
-106,E60000113,Herefordshire, County of,,\n
-107,E60000114,Shropshire,,\n
-108,E60000115,Stoke-on-Trent,,\n
-109,E60000116,Telford and Wrekin,,\n
-110,E60000117,Cannock Chase,,\n
-111,E60000118,East Staffordshire,,\n
-112,E60000119,Lichfield,,\n
-113,E60000120,Newcastle-under-Lyme,,\n
-114,E60000121,South Staffordshire,,\n
-115,E60000122,Stafford,,\n
-116,E60000123,Staffordshire Moorlands,,\n
-117,E60000124,Tamworth,,\n
-118,E60000125,North Warwickshire,,\n
-119,E60000126,Nuneaton and Bedworth,,\n
-120,E60000127,Rugby,,\n
-121,E60000128,Stratford-on-Avon,,\n
-122,E60000129,Warwick,,\n
-123,E60000130,Birmingham,,\n
-124,E60000131,Coventry,,\n
-125,E60000132,Dudley,,\n
-126,E60000133,Sandwell,,\n
-127,E60000134,Solihull,,\n
-128,E60000135,Walsall,,\n
-129,E60000136,Wolverhampton,,\n
-130,E60000137,Bromsgrove,,\n
-131,E60000138,Malvern Hills,,\n
-132,E60000139,Redditch,,\n
-133,E60000140,Worcester,,\n
-134,E60000141,Wychavon,,\n
-135,E60000142,Wyre Forest,,\n
-136,E60000143,Bedford,,\n
-137,E60000144,Central Bedfordshire,,\n
-138,E60000145,Luton,,\n
-139,E60000146,Peterborough,,\n
-140,E60000147,Southend-on-Sea,,\n
-141,E60000148,Thurrock,,\n
-142,E60000149,Cambridge,,\n
-143,E60000150,East Cambridgeshire,,\n
-144,E60000151,Fenland,,\n
-145,E60000152,Huntingdonshire,,\n
-146,E60000153,South Cambridgeshire,,\n
-147,E60000154,Basildon,,\n
-148,E60000155,Braintree,,\n
-149,E60000156,Brentwood,,\n
-150,E60000157,Castle Point,,\n
-151,E60000158,Chelmsford,,\n
-152,E60000159,Colchester,,\n
-153,E60000160,Epping Forest,,\n
-154,E60000161,Harlow,,\n
-155,E60000162,Maldon,,\n
-156,E60000163,Rochford,,\n
-157,E60000164,Tendring,,\n
-158,E60000165,Uttlesford,,\n
-159,E60000166,Broxbourne,,\n
-160,E60000167,Dacorum,,\n
-161,E60000168,East Hertfordshire,,\n
-162,E60000169,Hertsmere,,\n
-163,E60000170,North Hertfordshire,,\n
-164,E60000171,St Albans,,\n
-165,E60000172,Stevenage,,\n
-166,E60000173,Three Rivers,,\n
-167,E60000174,Watford,,\n
-168,E60000175,Welwyn Hatfield,,\n
-169,E60000176,Breckland,,\n
-170,E60000177,Broadland,,\n
-171,E60000178,Great Yarmouth,,\n
-172,E60000179,King's Lynn and West Norfolk,,\n
-173,E60000180,North Norfolk,,\n
-174,E60000181,Norwich,,\n
-175,E60000182,South Norfolk,,\n
-176,E60000183,Babergh,,\n
-177,E60000184,East Suffolk,,\n
-178,E60000185,Ipswich,,\n
-179,E60000186,Mid Suffolk,,\n
-180,E60000187,West Suffolk,,\n
-181,E60000188,Camden,,\n
-182,E60000189,City of London,,\n
-183,E60000190,Hackney,,\n
-184,E60000191,Hammersmith and Fulham,,\n
-185,E60000192,Haringey,,\n
-186,E60000193,Islington,,\n
-187,E60000194,Kensington and Chelsea,,\n
-188,E60000195,Lambeth,,\n
-189,E60000196,Lewisham,,\n
-190,E60000197,Newham,,\n
-191,E60000198,Southwark,,\n
-192,E60000199,Tower Hamlets,,\n
-193,E60000200,Wandsworth,,\n
-194,E60000201,Westminster,,\n
-195,E60000202,Barking and Dagenham,,\n
-196,E60000203,Barnet,,\n
-197,E60000204,Bexley,,\n
-198,E60000205,Brent,,\n
-199,E60000206,Bromley,,\n
-200,E60000207,Croydon,,\n
-201,E60000208,Ealing,,\n
-202,E60000209,Enfield,,\n
-203,E60000210,Greenwich,,\n
-204,E60000211,Harrow,,\n
-205,E60000212,Havering,,\n
-206,E60000213,Hillingdon,PlanningAppeals@Hillingdon.gov.uk,Hillingdon.gov.uk\n
-207,E60000214,Hounslow,,\n
-208,E60000215,Kingston upon Thames,,\n
-209,E60000216,Merton,,\n
-210,E60000217,Redbridge,,\n
-211,E60000218,Richmond upon Thames,,\n
-212,E60000219,Sutton,,\n
-213,E60000220,Waltham Forest,,\n
-214,E60000221,Bracknell Forest,,\n
-215,E60000222,Brighton and Hove,,\n
-216,E60000223,Isle of Wight,,\n
-217,E60000224,Medway,,\n
-218,E60000225,Milton Keynes,,\n
-219,E60000226,Portsmouth,,\n
-220,E60000227,Reading,,\n
-221,E60000228,Slough,,\n
-222,E60000229,Southampton,,\n
-223,E60000230,West Berkshire,,\n
-224,E60000231,Windsor and Maidenhead,,\n
-225,E60000232,Wokingham,,\n
-226,E60000237,Eastbourne,,\n
-227,E60000238,Hastings,,\n
-228,E60000239,Lewes,,\n
-229,E60000240,Rother,,\n
-230,E60000241,Wealden,,\n
-231,E60000242,Basingstoke and Deane,,\n
-232,E60000243,East Hampshire,,\n
-233,E60000244,Eastleigh,,\n
-234,E60000245,Fareham,,\n
-235,E60000246,Gosport,,\n
-236,E60000247,Hart,,\n
-237,E60000248,Havant,,\n
-238,E60000249,New Forest,,\n
-239,E60000250,Rushmoor,,\n
-240,E60000251,Test Valley,,\n
-241,E60000252,Winchester,,\n
-242,E60000253,Ashford,,\n
-243,E60000254,Canterbury,,\n
-244,E60000255,Dartford,,\n
-245,E60000256,Dover,,\n
-246,E60000257,Folkestone and Hythe,,\n
-247,E60000258,Gravesham,,\n
-248,E60000259,Maidstone,,\n
-249,E60000260,Sevenoaks,,\n
-250,E60000261,Swale,,\n
-251,E60000262,Thanet,,\n
-252,E60000263,Tonbridge and Malling,,\n
-253,E60000264,Tunbridge Wells,,\n
-254,E60000265,Cherwell,,\n
-255,E60000266,Oxford,,\n
-256,E60000267,South Oxfordshire,,\n
-257,E60000268,Vale of White Horse,,\n
-258,E60000269,West Oxfordshire,,\n
-259,E60000270,Elmbridge,,\n
-260,E60000271,Epsom and Ewell,,\n
-261,E60000272,Guildford,,\n
-262,E60000273,Mole Valley,,\n
-263,E60000274,Reigate and Banstead,,\n
-264,E60000275,Runnymede,,\n
-265,E60000276,Spelthorne,,\n
-266,E60000277,Surrey Heath,,\n
-267,E60000278,Tandridge,,\n
-268,E60000279,Waverley,,\n
-269,E60000280,Woking,,\n
-270,E60000281,Adur,,\n
-271,E60000282,Arun,,\n
-272,E60000283,Chichester,,\n
-273,E60000284,Crawley,,\n
-274,E60000285,Horsham,,\n
-275,E60000286,Mid Sussex,,\n
-276,E60000287,Worthing,,\n
-277,E60000288,Bath and North East Somerset,,\n
-278,E60000289,Bournemouth, Christchurch and Poole,,\n
-279,E60000290,Bristol, City of,,\n
-280,E60000291,Cornwall,,\n
-281,E60000292,Dorset,,\n
-282,E60000293,Isles of Scilly,,\n
-283,E60000294,North Somerset,,\n
-284,E60000295,Plymouth,,\n
-285,E60000296,South Gloucestershire,,\n
-286,E60000297,Swindon,,\n
-287,E60000298,Torbay,,\n
-288,E60000299,Wiltshire,,\n
-289,E60000300,East Devon,,\n
-290,E60000301,Exeter,,\n
-291,E60000302,Mid Devon,,\n
-292,E60000303,North Devon,,\n
-293,E60000304,South Hams,,\n
-294,E60000305,Teignbridge,,\n
-295,E60000306,Torridge,,\n
-296,E60000307,West Devon,,\n
-297,E60000308,Cheltenham,,\n
-298,E60000309,Cotswold,,\n
-299,E60000310,Forest of Dean,,\n
-300,E60000311,Gloucester,,\n
-301,E60000312,Stroud,,\n
-302,E60000313,Tewkesbury,,\n
-303,E60000314,Mendip,,\n
-304,E60000315,Sedgemoor,,\n
-305,E60000316,Somerset West and Taunton,,\n
-306,E60000317,South Somerset,,\n
-307,E60000318,Dartmoor National Park,,\n
-308,E60000319,Exmoor National Park,,\n
-309,E60000320,Lake District National Park,,\n
-310,E60000321,New Forest National Park,,\n
-311,E60000322,North York Moors National Park,,\n
-312,E60000323,Northumberland National Park,,\n
-313,E60000324,Peak District National Park,,\n
-314,E60000325,South Downs National Park,,\n
-315,E60000326,The Broads Authority,,\n
-316,E60000327,Yorkshire Dales National Park,,\n
-317,E60000328,Ebbsfleet Development Corporation,,\n
-318,E60000329,London Legacy Development Corporation,,\n
-319,E60000330,Old Oak and Park Royal Development Corporation,,\n
-320,E60000331,Buckinghamshire,,\n
-321,E60000332,North Northamptonshire,,\n
-322,E60000333,West Northamptonshire,,\n
-323,E69999999,System Test Borough Council,appealplanningdecisiontest@planninginspectorate.gov.uk,planninginspectorate.gov.uk,Y\n
-
+﻿OBJECTID,LPA19CD,LPA CODE,LPA19NM,EMAIL,DOMAIN,LPA ONBOARDED\n
+1,E60000001,X1355,County Durham,planning@durham.gov.uk,durham.gov.uk,TRUE\n
+2,E60000002,N1350,Darlington,planning.enquiries@darlington.gov.uk,darlington.gov.uk,TRUE\n
+3,E60000003,H0724,Hartlepool,developmentcontrol@hartlepool.gov.uk,hartlepool.gov.uk,TRUE\n
+4,E60000004,W0734,Middlesbrough,developmentcontrol@middlesbrough.gov.uk,middlesbrough.gov.uk,TRUE\n
+5,E60000005,P2935,Northumberland,planning@northumberland.gov.uk,northumberland.gov.uk,TRUE\n
+6,E60000006,V0728,Redcar and Cleveland,planning_admin@redcar-cleveland.gov.uk,redcar-cleveland.gov.uk,TRUE\n
+7,E60000007,H0738,Stockton-on-Tees,planning.administration@stockton.gov.uk,stockton.gov.uk,TRUE\n
+8,E60000008,H4505,Gateshead,planning@gateshead.gov.uk,gateshead.gov.uk,TRUE\n
+9,E60000009,M4510,Newcastle upon Tyne,planning.appeals@newcastle.gov.uk,newcastle.gov.uk,TRUE\n
+10,E60000010,W4515,North Tyneside,development.control@northtyneside.gov.uk,my.northtyneside.gov.uk,TRUE\n
+11,E60000011,A4520,South Tyneside,planningapplications@southtyneside.gov.uk,southtyneside.gov.uk,TRUE\n
+12,E60000012,J4525,Sunderland,dc@sunderland.gov.uk,sunderland.gov.uk,TRUE\n
+13,E60000013,M2372,Blackburn with Darwen,,,FALSE\n
+14,E60000014,J2373,Blackpool,,,FALSE\n
+15,E60000015,R0660,Cheshire East,planningappeals@cheshireeast@gov.uk,cheshireeast.gov.uk,TRUE\n
+16,E60000016,A0665,Cheshire West and Chester,planning.appeals@cheshirewestandchester.gov.uk,cheshirewestandchester.gov.uk,TRUE\n
+17,E60000017,D0650,Halton,,,FALSE\n
+18,E60000018,M0655,Warrington,,,FALSE\n
+19,E60000019,G0908,Allerdale,,,FALSE\n
+20,E60000020,W0910,Barrow-in-Furness,,,FALSE\n
+21,E60000021,E0915,Carlisle,,,FALSE\n
+22,E60000022,Z0923,Copeland,,,FALSE\n
+23,E60000023,H0928,Eden,,,FALSE\n
+24,E60000024,M0933,South Lakeland,,,FALSE\n
+25,E60000025,N4205,Bolton,,,FALSE\n
+26,E60000026,T4210,Bury,,,FALSE\n
+27,E60000027,B4215,Manchester,,,FALSE\n
+28,E60000028,W4223,Oldham,,,FALSE\n
+29,E60000029,P4225,Rochdale,,,FALSE\n
+30,E60000030,U4230,Salford,,,FALSE\n
+31,E60000031,C4235,Stockport,,,FALSE\n
+32,E60000032,G4240,Tameside,,,FALSE\n
+33,E60000033,Q4245,Trafford,,,FALSE\n
+34,E60000034,V4250,Wigan,,,FALSE\n
+35,E60000035,Z2315,Burnley,,,FALSE\n
+36,E60000036,D2320,Chorley,,,FALSE\n
+37,E60000037,M2325,Fylde,,,FALSE\n
+38,E60000038,R2330,Hyndburn,,,FALSE\n
+39,E60000039,A2335,Lancaster,,,FALSE\n
+40,E60000040,E2340,Pendle,,,FALSE\n
+41,E60000041,N2345,Preston,,,FALSE\n
+42,E60000042,T2350,Ribble Valley,,,FALSE\n
+43,E60000043,B2355,Rossendale,,,FALSE\n
+44,E60000044,F2360,South Ribble,,,FALSE\n
+45,E60000045,P2365,West Lancashire,,,FALSE\n
+46,E60000046,U2370,Wyre,,,FALSE\n
+47,E60000047,V4305,Knowsley,,,FALSE\n
+48,E60000048,Z4310,Liverpool,,,FALSE\n
+49,E60000049,M4320,Sefton,,,FALSE\n
+50,E60000050,H4315,St. Helens,,,FALSE\n
+51,E60000051,W4325,Wirral,,,FALSE\n
+52,E60000052,E2001,East Riding of Yorkshire,planning.appeals@eastriding.gov.uk,eastriding.gov.uk,TRUE\n
+53,E60000053,V2004,"Kingston upon Hull, City of",,,FALSE\n
+54,E60000054,B2002,North East Lincolnshire,,,FALSE\n
+55,E60000055,Y2003,North Lincolnshire,,,FALSE\n
+56,E60000056,C2741,York,,,FALSE\n
+57,E60000057,C2708,Craven,,,FALSE\n
+58,E60000058,G2713,Hambleton,,,FALSE\n
+59,E60000059,E2734,Harrogate,planning.appeals@harrogate.gov.uk,harrogate.gov.uk,FALSE\n
+60,E60000060,V2723,Richmondshire,,,FALSE\n
+61,E60000061,Y2736,Ryedale,,,FALSE\n
+62,E60000062,H2733,Scarborough,,,FALSE\n
+63,E60000063,N2739,Selby,,,FALSE\n
+64,E60000064,R4408,Barnsley,,,FALSE\n
+65,E60000065,F4410,Doncaster,,,FALSE\n
+66,E60000066,P4415,Rotherham,,,FALSE\n
+67,E60000067,J4423,Sheffield,,,FALSE\n
+68,E60000068,W4705,Bradford,appealsplanning@bradford.gov.uk,bradford.gov.uk,TRUE\n
+69,E60000069,A4710,Calderdale,,,FALSE\n
+70,E60000070,Z4718,Kirklees,dc.admin@kirklees.gov.uk,kirklees.gov.uk,TRUE\n
+71,E60000071,N4720,Leeds,planning.appeals@leeds.gov.uk,leeds.gov.uk,TRUE\n
+72,E60000072,X4725,Wakefield,appeals@wakefield.gov.uk,wakefield.gov.uk,TRUE\n
+73,E60000073,C1055,Derby,,,FALSE\n
+74,E60000074,W2465,Leicester,,,FALSE\n
+75,E60000075,Q3060,Nottingham,,,FALSE\n
+76,E60000076,A2470,Rutland,,,FALSE\n
+77,E60000077,M1005,Amber Valley,,,FALSE\n
+78,E60000078,R1010,Bolsover,,,FALSE\n
+79,E60000079,A1015,Chesterfield,,,FALSE\n
+80,E60000080,P1045,Derbyshire Dales,,,FALSE\n
+81,E60000081,N1025,Erewash,,,FALSE\n
+82,E60000082,H1033,High Peak,,,FALSE\n
+83,E60000083,R1038,North East Derbyshire,,,FALSE\n
+84,E60000084,F1040,South Derbyshire,,,FALSE\n
+85,E60000085,T2405,Blaby,,,FALSE\n
+86,E60000086,X2410,Charnwood,,,FALSE\n
+87,E60000087,F2415,Harborough,,,FALSE\n
+88,E60000088,K2420,Hinckley and Bosworth,,,FALSE\n
+89,E60000089,Y2430,Melton,,,FALSE\n
+90,E60000090,G2435,North West Leicestershire,,,FALSE\n
+91,E60000091,L2440,Oadby and Wigston,,,FALSE\n
+92,E60000092,Z2505,Boston,,,FALSE\n
+93,E60000093,D2510,East Lindsey,,,FALSE\n
+94,E60000094,Q2500,Lincoln,,,FALSE\n
+95,E60000095,R2520,North Kesteven,,,FALSE\n
+96,E60000096,A2525,South Holland,,,FALSE\n
+97,E60000097,E2530,South Kesteven,,,FALSE\n
+98,E60000098,N2535,West Lindsey,,,FALSE\n
+99,E60000106,W3005,Ashfield,,,FALSE\n
+100,E60000107,A3010,Bassetlaw,,,FALSE\n
+101,E60000108,J3015,Broxtowe,,,FALSE\n
+102,E60000109,N3020,Gedling,,,FALSE\n
+103,E60000110,X3025,Mansfield,,,FALSE\n
+104,E60000111,B3030,Newark and Sherwood,,,FALSE\n
+105,E60000112,P3040,Rushcliffe,,,FALSE\n
+106,E60000113,W1850,"Herefordshire, County of",,,FALSE\n
+107,E60000114,L3245,Shropshire,,,FALSE\n
+108,E60000115,M3455,Stoke-on-Trent,,,FALSE\n
+109,E60000116,C3240,Telford and Wrekin,,,FALSE\n
+110,E60000117,X3405,Cannock Chase,,,FALSE\n
+111,E60000118,B3410,East Staffordshire,,,FALSE\n
+112,E60000119,K3415,Lichfield,,,FALSE\n
+113,E60000120,P3420,Newcastle-under-Lyme,,,FALSE\n
+114,E60000121,C3430,South Staffordshire,,,FALSE\n
+115,E60000122,Y3425,Stafford,,,FALSE\n
+116,E60000123,B3438,Staffordshire Moorlands,,,FALSE\n
+117,E60000124,Z3445,Tamworth,,,FALSE\n
+118,E60000125,R3705,North Warwickshire,,,FALSE\n
+119,E60000126,W3710,Nuneaton and Bedworth,,,FALSE\n
+120,E60000127,E3715,Rugby,,,FALSE\n
+121,E60000128,J3720,Stratford-on-Avon,,,FALSE\n
+122,E60000129,T3725,Warwick,,,FALSE\n
+123,E60000130,P4605,Birmingham,planning.appeals@birmingham.gov.uk,birmingham.gov.uk,TRUE\n
+124,E60000131,U4610,Coventry,,,FALSE\n
+125,E60000132,C4615,Dudley,,,FALSE\n
+126,E60000133,G4620,Sandwell,,,FALSE\n
+127,E60000134,Q4625,Solihull,,,FALSE\n
+128,E60000135,V4630,Walsall,,,FALSE\n
+129,E60000136,D4635,Wolverhampton,,,FALSE\n
+130,E60000137,P1805,Bromsgrove,,,FALSE\n
+131,E60000138,J1860,Malvern Hills,,,FALSE\n
+132,E60000139,Q1825,Redditch,,,FALSE\n
+133,E60000140,D1835,Worcester,,,FALSE\n
+134,E60000141,H1840,Wychavon,,,FALSE\n
+135,E60000142,R1845,Wyre Forest,,,FALSE\n
+136,E60000143,K0235,Bedford,,,FALSE\n
+137,E60000144,P0240,Central Bedfordshire,,,FALSE\n
+138,E60000145,B0230,Luton,,,FALSE\n
+139,E60000146,J0540,Peterborough,,,FALSE\n
+140,E60000147,D1590,Southend-on-Sea,,,FALSE\n
+141,E60000148,M1595,Thurrock,,,FALSE\n
+142,E60000149,Q0505,Cambridge,,,FALSE\n
+143,E60000150,V0510,East Cambridgeshire,,,FALSE\n
+144,E60000151,D0515,Fenland,,,FALSE\n
+145,E60000152,H0520,Huntingdonshire,,,FALSE\n
+146,E60000153,W0530,South Cambridgeshire,,,FALSE\n
+147,E60000154,V1505,Basildon,,,FALSE\n
+148,E60000155,Z1510,Braintree,,,FALSE\n
+149,E60000156,H1515,Brentwood,,,FALSE\n
+150,E60000157,M1520,Castle Point,,,FALSE\n
+151,E60000158,W1525,Chelmsford,,,FALSE\n
+152,E60000159,A1530,Colchester,,,FALSE\n
+153,E60000160,J1535,Epping Forest,,,FALSE\n
+154,E60000161,N1540,Harlow,,,FALSE\n
+155,E60000162,X1545,Maldon,,,FALSE\n
+156,E60000163,B1550,Rochford,,,FALSE\n
+157,E60000164,P1560,Tendring,,,FALSE\n
+158,E60000165,C1570,Uttlesford,,,FALSE\n
+159,E60000166,W1905,Broxbourne,,,FALSE\n
+160,E60000167,A1910,Dacorum,,,FALSE\n
+161,E60000168,J1915,East Hertfordshire,,,FALSE\n
+162,E60000169,N1920,Hertsmere,,,FALSE\n
+163,E60000170,X1925,North Hertfordshire,,,FALSE\n
+164,E60000171,B1930,St Albans,,,FALSE\n
+165,E60000172,K1935,Stevenage,,,FALSE\n
+166,E60000173,P1940,Three Rivers,,,FALSE\n
+167,E60000174,Y1945,Watford,,,FALSE\n
+168,E60000175,C1950,Welwyn Hatfield,,,FALSE\n
+169,E60000176,F2605,Breckland,,,FALSE\n
+170,E60000177,K2610,Broadland,,,FALSE\n
+171,E60000178,U2615,Great Yarmouth,,,FALSE\n
+172,E60000179,V2635,King's Lynn and West Norfolk,,,FALSE\n
+173,E60000180,Y2620,North Norfolk,,,FALSE\n
+174,E60000181,G2625,Norwich,,,FALSE\n
+175,E60000182,L2630,South Norfolk,,,FALSE\n
+176,E60000183,D3505,Babergh,,,FALSE\n
+177,E60000184,X3540,East Suffolk,,,FALSE\n
+178,E60000185,R3515,Ipswich,,,FALSE\n
+179,E60000186,W3520,Mid Suffolk,,,FALSE\n
+180,E60000187,F3545,West Suffolk,,,FALSE\n
+181,E60000188,X5210,Camden,planning.appeals@camden.gov.uk,camden.gov.uk,TRUE\n
+182,E60000189,K5030,City of London,,,FALSE\n
+183,E60000190,U5360,Hackney,,,FALSE\n
+184,E60000191,H5390,Hammersmith and Fulham,,,FALSE\n
+185,E60000192,Y5420,Haringey,,,FALSE\n
+186,E60000193,V5570,Islington,planningappeals@islington.gov.uk,islington.gov.uk,TRUE\n
+187,E60000194,K5600,Kensington and Chelsea,planningappeals@rbkc.gov.uk,rbkc.gov.uk,TRUE\n
+188,E60000195,N5660,Lambeth,planningappeals@lambeth.gov.uk,beta.lambeth.gov.uk,TRUE\n
+189,E60000196,C5690,Lewisham,,,FALSE\n
+190,E60000197,G5750,Newham,,,FALSE\n
+191,E60000198,A5840,Southwark,,,FALSE\n
+192,E60000199,E5900,Tower Hamlets,,,FALSE\n
+193,E60000200,H5960,Wandsworth,,,FALSE\n
+194,E60000201,X5990,Westminster,,,FALSE\n
+195,E60000202,Z5060,Barking and Dagenham,,,FALSE\n
+196,E60000203,N5090,Barnet,planning.appeals@barnet.gov.uk,barnet.gov.uk,TRUE\n
+197,E60000204,D5120,Bexley,,,FALSE\n
+198,E60000205,T5150,Brent,appeals@brent.gov.uk,brent.gov.uk,TRUE\n
+199,E60000206,G5180,Bromley,planningappeals@bromley.gov.uk,bromley.gov.uk,TRUE\n
+200,E60000207,L5240,Croydon,,,FALSE\n
+201,E60000208,A5270,Ealing,,,FALSE\n
+202,E60000209,Q5300,Enfield,,,FALSE\n
+203,E60000210,E5330,Greenwich,,,FALSE\n
+204,E60000211,M5450,Harrow,,,FALSE\n
+205,E60000212,B5480,Havering,,,FALSE\n
+206,E60000213,R5510,Hillingdon,PlanningAppeals@Hillingdon.gov.uk,,FALSE\n
+207,E60000214,F5540,Hounslow,,,FALSE\n
+208,E60000215,Z5630,Kingston upon Thames,,,FALSE\n
+209,E60000216,T5720,Merton,,,FALSE\n
+210,E60000217,W5780,Redbridge,,,FALSE\n
+211,E60000218,L5810,Richmond upon Thames,,,FALSE\n
+212,E60000219,P5870,Sutton,,,FALSE\n
+213,E60000220,U5930,Waltham Forest,,,FALSE\n
+214,E60000221,R0335,Bracknell Forest,,,FALSE\n
+215,E60000222,Q1445,Brighton and Hove,,,FALSE\n
+216,E60000223,P2114,Isle of Wight,,,FALSE\n
+217,E60000224,A2280,Medway,,,FALSE\n
+218,E60000225,Y0435,Milton Keynes,,,FALSE\n
+219,E60000226,Z1775,Portsmouth,,,FALSE\n
+220,E60000227,E0345,Reading,,,FALSE\n
+221,E60000228,J0350,Slough,,,FALSE\n
+222,E60000229,D1780,Southampton,,,FALSE\n
+223,E60000230,W0340,West Berkshire,,,FALSE\n
+224,E60000231,T0355,Windsor and Maidenhead,,,FALSE\n
+225,E60000232,X0360,Wokingham,,,FALSE\n
+226,E60000237,T1410,Eastbourne,,,FALSE\n
+227,E60000238,B1415,Hastings,,,FALSE\n
+228,E60000239,P1425,Lewes,,,FALSE\n
+229,E60000240,U1430,Rother,,,FALSE\n
+230,E60000241,C1435,Wealden,planning.appeals@wealden.gov.uk,wealden.gov.uk,TRUE\n
+231,E60000242,H1705,Basingstoke and Deane,,,FALSE\n
+232,E60000243,M1710,East Hampshire,,,FALSE\n
+233,E60000244,W1715,Eastleigh,,,FALSE\n
+234,E60000245,A1720,Fareham,,,FALSE\n
+235,E60000246,J1725,Gosport,,,FALSE\n
+236,E60000247,N1730,Hart,,,FALSE\n
+237,E60000248,X1735,Havant,,,FALSE\n
+238,E60000249,B1740,New Forest,,,FALSE\n
+239,E60000250,P1750,Rushmoor,,,FALSE\n
+240,E60000251,C1760,Test Valley,,,FALSE\n
+241,E60000252,L1765,Winchester,,,FALSE\n
+242,E60000253,E2205,Ashford,,,FALSE\n
+243,E60000254,J2210,Canterbury,,,FALSE\n
+244,E60000255,T2215,Dartford,,,FALSE\n
+245,E60000256,X2220,Dover,,,FALSE\n
+246,E60000257,L2250,Folkestone and Hythe,,,FALSE\n
+247,E60000258,K2230,Gravesham,,,FALSE\n
+248,E60000259,U2235,Maidstone,,,FALSE\n
+249,E60000260,G2245,Sevenoaks,,,FALSE\n
+250,E60000261,V2255,Swale,,,FALSE\n
+251,E60000262,Z2260,Thanet,,,FALSE\n
+252,E60000263,H2265,Tonbridge and Malling,,,FALSE\n
+253,E60000264,M2270,Tunbridge Wells,,,FALSE\n
+254,E60000265,C3105,Cherwell,,,FALSE\n
+255,E60000266,G3110,Oxford,,,FALSE\n
+256,E60000267,Q3115,South Oxfordshire,,,FALSE\n
+257,E60000268,V3120,Vale of White Horse,,,FALSE\n
+258,E60000269,D3125,West Oxfordshire,,,FALSE\n
+259,E60000270,K3605,Elmbridge,,,FALSE\n
+260,E60000271,P3610,Epsom and Ewell,,,FALSE\n
+261,E60000272,Y3615,Guildford,,,FALSE\n
+262,E60000273,C3620,Mole Valley,,,FALSE\n
+263,E60000274,L3625,Reigate and Banstead,,,FALSE\n
+264,E60000275,Q3630,Runnymede,,,FALSE\n
+265,E60000276,Z3635,Spelthorne,,,FALSE\n
+266,E60000277,D3640,Surrey Heath,,,FALSE\n
+267,E60000278,M3645,Tandridge,,,FALSE\n
+268,E60000279,R3650,Waverley,,,FALSE\n
+269,E60000280,A3655,Woking,,,FALSE\n
+270,E60000281,Y3805,Adur,,,FALSE\n
+271,E60000282,C3810,Arun,,,FALSE\n
+272,E60000283,L3815,Chichester,,,FALSE\n
+273,E60000284,Q3820,Crawley,,,FALSE\n
+274,E60000285,Z3825,Horsham,,,FALSE\n
+275,E60000286,D3830,Mid Sussex,,,FALSE\n
+276,E60000287,M3835,Worthing,,,FALSE\n
+277,E60000288,F0114,Bath and North East Somerset,,,FALSE\n
+278,E60000289,V1260,"Bournemouth, Christchurch and Poole",,,FALSE\n
+279,E60000290,Z0116,"Bristol, City of",development.management@bristol.gov.uk,bristol.gov.uk,TRUE\n
+280,E60000291,D0840,Cornwall,planningappeals@cornwall.gov.uk,cornwall.gov.uk,TRUE\n
+281,E60000292,D1265,Dorset,,,FALSE\n
+282,E60000293,Z0835,Isles of Scilly,,,FALSE\n
+283,E60000294,D0121,North Somerset,,,FALSE\n
+284,E60000295,N1160,Plymouth,,,FALSE\n
+285,E60000296,P0119,South Gloucestershire,,,FALSE\n
+286,E60000297,U3935,Swindon,,,FALSE\n
+287,E60000298,X1165,Torbay,,,FALSE\n
+288,E60000299,Y3940,Wiltshire,planningappeals@wiltshire.gov.uk,wiltshire.gov.uk,TRUE\n
+289,E60000300,U1105,East Devon,,,FALSE\n
+290,E60000301,Y1110,Exeter,,,FALSE\n
+291,E60000302,Y1138,Mid Devon,,,FALSE\n
+292,E60000303,X1118,North Devon,,,FALSE\n
+293,E60000304,K1128,South Hams,,,FALSE\n
+294,E60000305,P1133,Teignbridge,,,FALSE\n
+295,E60000306,W1145,Torridge,,,FALSE\n
+296,E60000307,Q1153,West Devon,,,FALSE\n
+297,E60000308,B1605,Cheltenham,,,FALSE\n
+298,E60000309,F1610,Cotswold,,,FALSE\n
+299,E60000310,P1615,Forest of Dean,,,FALSE\n
+300,E60000311,U1620,Gloucester,,,FALSE\n
+301,E60000312,C1625,Stroud,,,FALSE\n
+302,E60000313,G1630,Tewkesbury,,,FALSE\n
+303,E60000314,Q3305,Mendip,,,FALSE\n
+304,E60000315,V3310,Sedgemoor,,,FALSE\n
+305,E60000316,W3330,Somerset West and Taunton,,,FALSE\n
+306,E60000317,R3325,South Somerset,,,FALSE\n
+307,E60000318,J9497,Dartmoor National Park,,,FALSE\n
+308,E60000319,F9498,Exmoor National Park,,,FALSE\n
+309,E60000320,Q9495,Lake District National Park,,,FALSE\n
+310,E60000321,B9506,New Forest National Park,,,FALSE\n
+311,E60000322,W9500,North York Moors National Park,,,FALSE\n
+312,E60000323,T9501,Northumberland National Park,,,FALSE\n
+313,E60000324,M9496,Peak District National Park,,,FALSE\n
+314,E60000325,Y9507,South Downs National Park,,,FALSE\n
+315,E60000326,,The Broads Authority,,,FALSE\n
+316,E60000327,C9499,Yorkshire Dales National Park,,,FALSE\n
+317,E60000328,,Ebbsfleet Development Corporation,,,FALSE\n
+318,E60000329,M9584,London Legacy Development Corporation,,,FALSE\n
+319,E60000330,,Old Oak and Park Royal Development Corporation,,,FALSE\n
+320,E60000331,P0430,Buckinghamshire,,,FALSE\n
+321,E60000332,,North Northamptonshire,,,FALSE\n
+322,E60000333,M9570,West Northamptonshire,,,FALSE\n
+323,E69999999,,System Test Borough Council,appealplanningdecisiontest@planninginspectorate.gov.uk,,FALSE\n
