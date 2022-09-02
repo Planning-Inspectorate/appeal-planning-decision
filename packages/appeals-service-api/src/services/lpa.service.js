@@ -99,6 +99,7 @@ const getLpaList = async () => {
 
 		await cursor.forEach((doc) => {
 			lpaList.push({
+				id: doc.lpa19CD,
 				name: doc.lpa19NM,
 				inTrial: doc.inTrial
 			});
