@@ -51,7 +51,7 @@
 50,E60000050,H4315,St. Helens,,,FALSE\n
 51,E60000051,W4325,Wirral,,,FALSE\n
 52,E60000052,E2001,East Riding of Yorkshire,planning.appeals@eastriding.gov.uk,eastriding.gov.uk,TRUE\n
-53,E60000053,V2004,"Kingston upon Hull, City of",,,FALSE\n
+53,E60000053,V2004,Kingston upon Hull, City of,,,FALSE\n
 54,E60000054,B2002,North East Lincolnshire,,,FALSE\n
 55,E60000055,Y2003,North Lincolnshire,,,FALSE\n
 56,E60000056,C2741,York,,,FALSE\n
@@ -104,7 +104,7 @@
 103,E60000110,X3025,Mansfield,,,FALSE\n
 104,E60000111,B3030,Newark and Sherwood,,,FALSE\n
 105,E60000112,P3040,Rushcliffe,,,FALSE\n
-106,E60000113,W1850,"Herefordshire, County of",,,FALSE\n
+106,E60000113,W1850,Herefordshire, County of,,,FALSE\n
 107,E60000114,L3245,Shropshire,,,FALSE\n
 108,E60000115,M3455,Stoke-on-Trent,,,FALSE\n
 109,E60000116,C3240,Telford and Wrekin,,,FALSE\n
@@ -276,8 +276,8 @@
 275,E60000286,D3830,Mid Sussex,,,FALSE\n
 276,E60000287,M3835,Worthing,,,FALSE\n
 277,E60000288,F0114,Bath and North East Somerset,,,FALSE\n
-278,E60000289,V1260,"Bournemouth, Christchurch and Poole",,,FALSE\n
-279,E60000290,Z0116,"Bristol, City of",development.management@bristol.gov.uk,bristol.gov.uk,TRUE\n
+278,E60000289,V1260,Bournemouth, Christchurch and Poole,,,FALSE\n
+279,E60000290,Z0116,Bristol, City of,development.management@bristol.gov.uk,bristol.gov.uk,TRUE\n
 280,E60000291,D0840,Cornwall,planningappeals@cornwall.gov.uk,cornwall.gov.uk,TRUE\n
 281,E60000292,D1265,Dorset,,,FALSE\n
 282,E60000293,Z0835,Isles of Scilly,,,FALSE\n

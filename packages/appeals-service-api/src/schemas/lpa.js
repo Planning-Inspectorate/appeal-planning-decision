@@ -12,6 +12,7 @@ const { promises: fs } = require('fs');
 const csvParser = require('neat-csv');
 const config = require('../lib/config');
 const logger = require('../lib/logger');
+const { getLpaList } = require('../services/lpa.service');
 
 module.exports = class LPA {
 	constructor({ id, name, inTrial, email, domain, england, wales, horizonId }) {
@@ -27,7 +28,7 @@ module.exports = class LPA {
 	}
 
 	static async find(filter = {}) {
-		const data = await LPA.loadData();
+		const data = await getLpaList();
 
 		if (filter) {
 			return data.filter((item) =>
