@@ -101,7 +101,9 @@ const getLpaList = async () => {
 			lpaList.push({
 				id: doc.lpa19CD,
 				name: doc.lpa19NM,
-				inTrial: doc.inTrial
+				inTrial: doc.inTrial,
+				email: doc.email,
+				domain: doc.domain
 			});
 		});
 	} catch (err) {
