@@ -1,24 +1,21 @@
-const LPASchema = require('../schemas/lpa');
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 
 const getLpa = async (id) => {
-	let lpa;
-
-	try {
-		lpa = await LPASchema.findOne({ id });
-	} catch (err) {
-		logger.error({ err, id }, `Unable to find LPA for code ${id}`);
-	}
-
-	logger.debug({ lpa }, 'LPA found');
-
-	if (lpa && lpa.email && lpa.name) {
-		logger.debug({ lpa }, 'LPA found');
-		return lpa;
-	}
-
-	throw new Error(`Unable to find LPA email or name for code ${id}`);
+	let saved;
+	await mongodb
+		.get()
+		.collection('lpa')
+		.findOne({ lpa19CD: id })
+		.then((doc) => {
+			logger.debug(doc);
+			saved = doc;
+		})
+		.catch((err) => {
+			logger.error({ err, id }, `Unable to find LPA for code ${id}`);
+			throw new Error(err);
+		});
+	return saved;
 };
 
 function transformCSV(body) {
