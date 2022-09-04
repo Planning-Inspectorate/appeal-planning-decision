@@ -1,21 +1,21 @@
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 
-const getLpa = async (id) => {
-	let saved;
+const getLpaById = async (id) => {
+	let lpa;
 	await mongodb
 		.get()
 		.collection('lpa')
 		.findOne({ lpa19CD: id })
 		.then((doc) => {
 			logger.debug(doc);
-			saved = doc;
+			lpa = doc;
 		})
 		.catch((err) => {
 			logger.error({ err, id }, `Unable to find LPA for code ${id}`);
 			throw new Error(err);
 		});
-	return saved;
+	return lpa;
 };
 
 function transformCSV(body) {
@@ -113,7 +113,7 @@ const getLpaList = async () => {
 };
 
 module.exports = {
-	getLpa,
+	getLpaById,
 	createLpaList,
 	getLpaList
 };
