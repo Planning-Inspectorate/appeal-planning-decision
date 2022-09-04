@@ -18,7 +18,7 @@ jest.mock('@pins/common/src/lib/notify/notify-builder', () => ({
 	sendEmail: jest.fn().mockReturnThis()
 }));
 jest.mock('../../../src/services/lpa.service', () => ({
-	getLpa: jest
+	getLpaById: jest
 		.fn()
 		.mockImplementationOnce(() => ({
 			email: 'AppealPlanningDecisionTest@planninginspectorate.gov.uk',
