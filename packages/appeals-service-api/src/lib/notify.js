@@ -7,14 +7,14 @@ const {
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const config = require('./config');
 const logger = require('./logger');
-const { getLpa } = require('../services/lpa.service');
+const { getLpaById } = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
 
 const { templates } = config.services.notify;
 
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
-		const lpa = await getLpa(appeal.lpaCode);
+		const lpa = await getLpaById(appeal.lpaCode);
 		const { recipientEmail, variables, reference } = appealTypeConfig[
 			appeal.appealType
 		].email.appellant(appeal, lpa);
@@ -37,7 +37,7 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 
 const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 	try {
-		const lpa = await getLpa(appeal.lpaCode);
+		const lpa = await getLpaById(appeal.lpaCode);
 		const { recipientEmail, variables, reference } = appealTypeConfig[appeal.appealType].email.lpa(
 			appeal,
 			lpa
