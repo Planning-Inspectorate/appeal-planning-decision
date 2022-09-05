@@ -61,7 +61,9 @@ describe('services/lpa.service', () => {
 					lpa19NM: 'County Durham',
 					email: 'planning@durham.gov.uk',
 					domain: 'durham.gov.uk',
-					inTrial: true
+					inTrial: true,
+					england: true,
+					wales: false
 				},
 				{
 					objectId: '2',
@@ -70,7 +72,9 @@ describe('services/lpa.service', () => {
 					lpa19NM: 'Darlington',
 					email: 'planning.enquiries@darlington.gov.uk',
 					domain: 'darlington.gov.uk',
-					inTrial: false
+					inTrial: false,
+					england: true,
+					wales: false
 				},
 				{
 					objectId: '3',
@@ -79,7 +83,9 @@ describe('services/lpa.service', () => {
 					lpa19NM: 'Hartlepool',
 					email: 'developmentcontrol@hartlepool.gov.uk',
 					domain: 'hartlepool.gov.uk',
-					inTrial: false
+					inTrial: false,
+					england: true,
+					wales: false
 				}
 			];
 
