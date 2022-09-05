@@ -15,7 +15,7 @@ const getLpaById = async (id) => {
 			logger.error({ err, id }, `Unable to find LPA for code ${id}`);
 			throw new Error(err);
 		});
-	return lpa;
+	return { ...lpa, name: lpa.lpa19NM };
 };
 
 function transformCSV(body) {
