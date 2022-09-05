@@ -34,7 +34,9 @@ function transformCSV(body) {
 			lpa19NM: data[row][3],
 			email: data[row][4],
 			domain: data[row][5],
-			inTrial: data[row][6] && !!data[row][6].includes('TRUE')
+			inTrial: data[row][6] && !!data[row][6].includes('TRUE'),
+			england: data[row][1].startsWith('E'),
+			wales: data[row][1].startsWith('W')
 		});
 	}
 	return lpas;
