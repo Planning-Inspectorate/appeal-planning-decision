@@ -29,11 +29,6 @@ module.exports = class LPA {
 
 	static async find(filter = {}) {
 		const data = await getLpaList();
-
-		logger.debug('==============');
-		logger.debug(data);
-		logger.debug('==============');
-
 		if (filter) {
 			return data.filter((item) =>
 				Object.keys(filter).every((key) => {
