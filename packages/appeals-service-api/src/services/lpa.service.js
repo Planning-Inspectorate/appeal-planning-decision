@@ -3,6 +3,9 @@ const mongodb = require('../db/db');
 
 const getLpaById = async (id) => {
 	let lpa;
+	logger.debug('==========');
+	logger.debug(id);
+	logger.debug('==========');
 	await mongodb
 		.get()
 		.collection('lpa')
@@ -15,7 +18,7 @@ const getLpaById = async (id) => {
 			logger.error({ err, id }, `Unable to find LPA for code ${id}`);
 			throw new Error(err);
 		});
-	return { ...lpa, name: lpa.lpa19NM, horizonId: lpa.lpaCode };
+	return { ...lpa, name: lpa?.lpa19NM, horizonId: lpa?.lpaCode };
 };
 
 function transformCSV(body) {
@@ -35,8 +38,8 @@ function transformCSV(body) {
 			email: data[row][4],
 			domain: data[row][5],
 			inTrial: data[row][6] && !!data[row][6].includes('TRUE'),
-			england: data[row][1].startsWith('E'),
-			wales: data[row][1].startsWith('W')
+			england: data[row][1] && data[row][1].startsWith('E'),
+			wales: data[row][1] && data[row][1].startsWith('W')
 		});
 	}
 	return lpas;
