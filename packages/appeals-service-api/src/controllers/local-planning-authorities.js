@@ -6,9 +6,7 @@
  *
  * Trialist LPAs is our own data
  */
-
-const LPASchema = require('../schemas/lpa');
-const { getLpaList, createLpaList } = require('../services/lpa.service');
+const { getLpaList, createLpaList, getLpaById } = require('../services/lpa.service');
 
 module.exports = {
 	async get(req, res, next) {
@@ -16,17 +14,17 @@ module.exports = {
 
 		req.log.info({ id }, 'Retrieving LPA');
 
-		const data = await LPASchema.findOne({
+		const lpa = await getLpaById({
 			id: new RegExp(id, 'i')
 		});
 
-		if (!data) {
+		if (!lpa) {
 			req.log.debug({ id }, 'No LPA found');
 			next();
 			return;
 		}
 
-		res.send(data);
+		res.send(lpa);
 	},
 
 	async list(req, res) {
