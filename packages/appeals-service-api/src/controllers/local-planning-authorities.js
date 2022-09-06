@@ -9,22 +9,15 @@
 const { getLpaList, createLpaList, getLpaById } = require('../services/lpa.service');
 
 module.exports = {
-	async get(req, res, next) {
-		const { id } = req.params;
+	async get(req, res) {
+		req.log.info(req.params.id, 'Retrieving LPA');
+		const lpa = await getLpaById(req.params.id);
 
-		req.log.info({ id }, 'Retrieving LPA');
-
-		const lpa = await getLpaById({
-			id: new RegExp(id, 'i')
-		});
-
-		if (!lpa) {
-			req.log.debug({ id }, 'No LPA found');
-			next();
-			return;
+		if (lpa) {
+			res.send(lpa);
+		} else {
+			req.log.debug(req.params.id, 'No LPA found');
 		}
-
-		res.send(lpa);
 	},
 
 	async list(req, res) {
@@ -49,7 +42,7 @@ module.exports = {
 	},
 
 	async create(req, res) {
-		await createLpaList(req.body);
-		res.status(200).send('');
+		const lpaList = await createLpaList(req.body);
+		res.status(200).send(lpaList);
 	}
 };
