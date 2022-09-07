@@ -3,9 +3,6 @@ const mongodb = require('../db/db');
 
 const getLpaById = async (id) => {
 	let lpa;
-	logger.debug('==========');
-	logger.debug(id);
-	logger.debug('==========');
 	await mongodb
 		.get()
 		.collection('lpa')
