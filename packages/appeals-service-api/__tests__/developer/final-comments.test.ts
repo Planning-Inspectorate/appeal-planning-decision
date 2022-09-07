@@ -1,62 +1,65 @@
 import { env } from 'node:process';
 import { MongoDBContainer, StartedMongoDBContainer } from 'testcontainers/';
 import mongoose from 'mongoose';
+import { application, request, response } from 'express';
 
-// env.FINAL_COMMENT_FEATURE_ACTIVE = true;
+if (env.FINAL_COMMENT_FEATURE_ACTIVE) {
+	describe('AS-5408', () => {
+		it('should be possible to upload final comments to an appeal if this is attempted during the final comments window', async () => {
+			//Given
+			// I am appellant who has submitted an application post /application
+			// Aquire relevant appeals object from horizon
+			requestDate = // some date
+				horizonApplication.finalCommentsWindowStart = // request date - 1 day
+				horizonApplication.finalCommentsWindowEnd = // request date + 1 day
+					horizonMock.get('case/' + application.id).shouldReturn(horizonApplication); // Make work good
 
-if (true) {
-	//Given
-	// I am appellant who has submitted an application post /application
-	// Aquire relevant appeals object from horizon
-	//
+			//When: the appellent uploads final comments within the final comments window
+			application.finalComments = // ¯\_(ツ)_/¯
+				request.post('application/{id}/final_comments');
 
-	//When
-	// the final comments window is open
-	// drag in information
-
-	//Then
-	// I should be able to add final comments to my application
-	// Check the state of the applicaiton in the db that backs the appeals service api
-	// Post final comments to horizon
-
-	describe('MongodbContainer', () => {
-		jest.setTimeout(240_000);
-
-		it('should work using default version 4.0.1', async () => {
-			const mongodbContainer = await new MongoDBContainer().start();
-
-			await checkMongo(mongodbContainer);
-
-			await mongoose.disconnect();
-			await mongodbContainer.stop();
+			//Then: the application with final comments should appear on the Horizon input queue for processing
+			queue.getFirst() == application;
 		});
 
-		it('should work using version 6.0.1', async () => {
-			const mongodbContainer = await new MongoDBContainer('mongo:6.0.1').start();
+		it('should not be possible to upload final comments to an appeal if this is attempted before the final comments window', async () => {
+			//Given
+			// I am appellant who has submitted an application post /application
+			// Aquire relevant appeals object from horizon
+			requestDate = // some date
+				horizonApplication.finalCommentsWindowStart = // request date + 1 day
+				horizonApplication.finalCommentsWindowEnd = // request date + 2 day
+					horizonMock.get('case/' + application.id).shouldReturn(horizonApplication); // Make work good
 
-			await checkMongo(mongodbContainer);
+			//When: the appellent uploads final comments within the final comments window
+			application.finalComments = // ¯\_(ツ)_/¯
+				response = request.post('application/{id}/final_comments');
 
-			await mongoose.disconnect();
-			await mongodbContainer.stop();
+			//Then: we should get a 4xx in the response
+			response.status().shouldEqual('4xx');
+
+			// And: the application with final comments should not appear on the Horizon input queue for processing
+			queue.isEmpty();
 		});
 
-		async function checkMongo(mongodbContainer: StartedMongoDBContainer, port = 27017) {
-			const db = await mongoose.createConnection(mongodbContainer.getConnectionString(), {
-				directConnection: true
-			});
-			const fooCollection = db.collection('foo');
-			const obj = { value: 1 };
+		it('should not be possible to upload final comments to an appeal if this is attempted after the final comments window', async () => {
+			//Given
+			// I am appellant who has submitted an application post /application
+			// Aquire relevant appeals object from horizon
+			requestDate = // some date
+				horizonApplication.finalCommentsWindowStart = // request date - 2 day
+				horizonApplication.finalCommentsWindowEnd = // request date - 1 day
+					horizonMock.get('case/' + application.id).shouldReturn(horizonApplication); // Make work good
 
-			const session = await db.startSession();
-			await session.withTransaction(async () => {
-				await fooCollection.insertOne(obj);
-			});
+			//When: the appellent uploads final comments within the final comments window
+			application.finalComments = // ¯\_(ツ)_/¯
+				response = request.post('application/{id}/final_comments');
 
-			expect(
-				await fooCollection.findOne({
-					value: 1
-				})
-			).toEqual(obj);
-		}
+			//Then: we should get a 4xx in the response
+			response.status().shouldEqual('4xx');
+
+			// And: the application with final comments should not appear on the Horizon input queue for processing
+			queue.isEmpty();
+		});
 	});
 }
