@@ -54,6 +54,9 @@ function isValidAppeal(appeal) {
 	return errors.length === 0;
 }
 
+// TODO: Rename to "submitAppeal" or something similar. This is essentially
+// committing the appeal stored as part of a user's session into something that will
+// be used as part of their appeals process moving forwards (can be viewed by case workers).
 const updateAppeal = async (appeal, isFirstSubmission = false) => {
 	isValidAppeal(appeal);
 
