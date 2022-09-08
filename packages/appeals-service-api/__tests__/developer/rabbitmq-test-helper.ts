@@ -1,31 +1,21 @@
+/**
+ * Functions are ordered top to bottom in the way you should interact with them, i.e:
+ *
+ * 1. Start a container
+ * 2. Connect to the container
+ * 3. Send messages
+ * 4. Expect messages and then disconnect from the container (go back to 2 if you still want to interact with the container)
+ * 5. Stop the container
+ *
+ */
+
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
 import { connect, Connection, Channel, ConsumeMessage } from 'amqplib';
 
 let startedContainer: StartedTestContainer;
 let channel: Channel;
-let messages: string[] = [];
 let amqpConnection: Connection;
-
-const sendMessageToQueue = (msg) => {
-	console.log('sending message');
-	channel.sendToQueue('test', Buffer.from(msg));
-	console.log('sent messages');
-};
-
-const expectMessages =
-	(expectedMessages: string[]) =>
-	(msg: ConsumeMessage | null): void => {
-		if (msg) {
-			messages.push(msg.content.toString());
-			channel.ack(msg);
-		}
-
-		if (messages.length == expectedMessages.length) {
-			expectedMessages.forEach((expectedMessage) => messages.includes(expectedMessage));
-			console.log('Closing connection');
-			amqpConnection.close();
-		}
-	};
+let messages: string[] = [];
 
 const startContainer = async () => {
 	startedContainer = await new GenericContainer('rabbitmq:3.10-management')
@@ -35,20 +25,39 @@ const startContainer = async () => {
 		.start();
 
 	await startedContainer.exec(['rabbitmq-plugins', 'enable', 'rabbitmq_amqp1_0']);
-
-	let url = 'amqp://guest:guest@localhost:' + startedContainer.getMappedPort(5672);
-	amqpConnection = await connect(url);
+	amqpConnection = await connect(
+		'amqp://guest:guest@localhost:' + startedContainer.getMappedPort(5672)
+	);
 	channel = await amqpConnection.createChannel();
 	await channel.assertQueue('test');
 };
 
+const sendMessage = (msg) => {
+	channel.sendToQueue('test', Buffer.from(msg));
+};
+
+const getMessages =
+	(numberOfExpectedMessages: Number) =>
+	async (msg: ConsumeMessage | null): Promise<string[]> => {
+		if (msg) {
+			messages.push(msg.content.toString());
+			channel.ack(msg);
+		}
+
+		if (messages.length == numberOfExpectedMessages) {
+			return messages;
+		}
+	};
+
 const stopContainer = async () => {
-	startedContainer.stop();
+	await channel.close();
+	await amqpConnection.close();
+	await startedContainer.stop();
 };
 
 module.exports = {
-	expectMessages,
 	startContainer,
-	stopContainer,
-	sendMessageToQueue
+	sendMessage,
+	getMessages,
+	stopContainer
 };
