@@ -19,15 +19,15 @@ if (env.FINAL_COMMENT_FEATURE_ACTIVE) {
 
 	describe('AS-5408', () => {
 		it('works', async () => {
-			sendMessage(`message`);
-			let messages: Promise<string[]> = getMessages(1);
-			expect((await messages).length).toBe(1);
+			sendMessage(`message1`);
+			let message = await getMessages();
+			expect(message).toBe(`message1`);
 		});
 
 		it('works again', async () => {
-			sendMessage(`message`);
-			let messages: Promise<string[]> = getMessages(1);
-			expect((await messages).length).toBe(1);
+			sendMessage(`message2`);
+			let message = await getMessages();
+			expect(message).toBe(`message2`);
 		});
 
 		// it('should be possible to upload final comments to an appeal if this is attempted during the final comments window', async () => {

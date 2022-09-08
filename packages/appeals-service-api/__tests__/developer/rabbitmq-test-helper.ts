@@ -2,12 +2,11 @@
  * Functions are ordered top to bottom in the way you should interact with them, i.e:
  */
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
-import { connect, Connection, Channel, ConsumeMessage } from 'amqplib';
+import { connect, Connection, Channel } from 'amqplib';
 
 let startedContainer: StartedTestContainer;
 let channel: Channel;
 let amqpConnection: Connection;
-let messages: string[] = [];
 
 const startContainer = async () => {
 	startedContainer = await new GenericContainer('rabbitmq:3.10-management')
@@ -28,18 +27,13 @@ const sendMessage = (msg) => {
 	channel.sendToQueue('test', Buffer.from(msg));
 };
 
-const getMessages =
-	(numberOfExpectedMessages: Number) =>
-	async (msg: ConsumeMessage | null): Promise<string[]> => {
-		if (msg) {
-			messages.push(msg.content.toString());
-			channel.ack(msg);
-		}
-
-		if (messages.length == numberOfExpectedMessages) {
-			return messages;
-		}
-	};
+const getMessages = async () => {
+	let message;
+	await channel.get('test').then((msg) => {
+		message = msg;
+	});
+	return message.content.toString();
+};
 
 const stopContainer = async () => {
 	await channel.close();
