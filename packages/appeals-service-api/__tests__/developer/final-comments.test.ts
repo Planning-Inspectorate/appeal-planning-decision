@@ -3,11 +3,11 @@ const {
 	startContainer,
 	stopContainer,
 	sendMessage,
-	expectMessages
+	getMessages
 } = require('./rabbitmq-test-helper');
 
 if (env.FINAL_COMMENT_FEATURE_ACTIVE) {
-	jest.setTimeout(120000);
+	jest.setTimeout(60000);
 
 	beforeAll(async () => {
 		await startContainer();
@@ -19,9 +19,15 @@ if (env.FINAL_COMMENT_FEATURE_ACTIVE) {
 
 	describe('AS-5408', () => {
 		it('works', async () => {
-			expectMessages(['message']);
 			sendMessage(`message`);
-			expect(true).toBe(true);
+			let messages: Promise<string[]> = getMessages(1);
+			expect((await messages).length).toBe(1);
+		});
+
+		it('works again', async () => {
+			sendMessage(`message`);
+			let messages: Promise<string[]> = getMessages(1);
+			expect((await messages).length).toBe(1);
 		});
 
 		// it('should be possible to upload final comments to an appeal if this is attempted during the final comments window', async () => {
