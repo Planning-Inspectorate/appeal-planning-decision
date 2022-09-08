@@ -1,3 +1,5 @@
+// TODO: Delete since appears to be no longer used?
+
 const container = require('rhea');
 const config = require('./config');
 const logger = require('./logger');
