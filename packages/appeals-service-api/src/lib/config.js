@@ -48,18 +48,18 @@ const config = {
 	messageQueue: {
 		horizonHASPublisher: {
 			connection: {
-				host: process.env.HORIZON_HAS_PUBLISHER_HOST,
-				hostname: process.env.HORIZON_HAS_PUBLISHER_HOSTNAME,
+				host: process.env.HORIZON_HAS_PUBLISHER_HOST || 'localhost',
+				hostname: process.env.HORIZON_HAS_PUBLISHER_HOSTNAME || 'local',
 				reconnect_limit: Number(process.env.HORIZON_HAS_PUBLISHER_RECONNECT_LIMIT || 1),
-				password: process.env.HORIZON_HAS_PUBLISHER_PASSWORD,
+				password: process.env.HORIZON_HAS_PUBLISHER_PASSWORD || 'guest',
 				port: Number(process.env.HORIZON_HAS_PUBLISHER_PORT || 5672),
 				reconnect: process.env.HORIZON_HAS_PUBLISHER_ATTEMPT_RECONNECTION !== 'false',
-				transport: process.env.HORIZON_HAS_PUBLISHER_TRANSPORT,
-				username: process.env.HORIZON_HAS_PUBLISHER_USERNAME
+				transport: process.env.HORIZON_HAS_PUBLISHER_TRANSPORT || 'tcp',
+				username: process.env.HORIZON_HAS_PUBLISHER_USERNAME || 'guest'
 			},
-			queue: process.env.HORIZON_HAS_PUBLISHER_QUEUE
+			queue: process.env.HORIZON_HAS_PUBLISHER_QUEUE || 'test'
 		}
-		// TODO: Delete: not used at all
+		// TODO: Delete since it doesn't appear to be used
 		// sqlHASAppealsPublisher: {
 		// 	connection: {
 		// 		host: process.env.SQL_HASAPPEALS_PUBLISHER_HOST,
