@@ -1,14 +1,6 @@
 /**
  * Functions are ordered top to bottom in the way you should interact with them, i.e:
- *
- * 1. Start a container
- * 2. Connect to the container
- * 3. Send messages
- * 4. Expect messages and then disconnect from the container (go back to 2 if you still want to interact with the container)
- * 5. Stop the container
- *
  */
-
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
 import { connect, Connection, Channel, ConsumeMessage } from 'amqplib';
 
