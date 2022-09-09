@@ -3,7 +3,7 @@ const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const {
 	VIEW: {
 		HOUSEHOLDER_PLANNING: {
-			ELIGIBILITY: { LISTED_BUILDING_HOUSEHOLDER, GRANTED_OR_REFUSED_HOUSEHOLDER }
+			ELIGIBILITY: { LISTED_BUILDING_HOUSEHOLDER }
 		}
 	}
 } = require('../../../lib/views');
@@ -56,7 +56,7 @@ const postListedBuildingHouseholder = async (req, res) => {
 
 	return isListedBuilding
 		? res.redirect(`/before-you-start/use-existing-service-listed-building`)
-		: res.redirect(`/before-you-start/${GRANTED_OR_REFUSED_HOUSEHOLDER}`);
+		: res.redirect(`/before-you-start/granted-or-refused-householder`);
 };
 
 module.exports = {
