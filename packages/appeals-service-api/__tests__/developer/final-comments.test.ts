@@ -1,32 +1,32 @@
 import { env } from 'node:process';
 const {
-	startContainer,
-	stopContainer,
-	sendMessage,
-	getMessages
-} = require('./rabbitmq-test-helper');
+	createAMQPTestQueue,
+	sendMessageToAMQPTestQueue,
+	getMessageFromAMQPTestQueue,
+	destroyAMQPTestQueue
+} = require('./amqp-external-system-test-helper');
 
 if (env.FINAL_COMMENT_FEATURE_ACTIVE) {
 	jest.setTimeout(60000);
 
 	beforeAll(async () => {
-		await startContainer();
+		await createAMQPTestQueue();
 	});
 
 	afterAll(async () => {
-		await stopContainer();
+		await destroyAMQPTestQueue();
 	});
 
 	describe('AS-5408', () => {
 		it('works', async () => {
-			sendMessage(`message1`);
-			let message = await getMessages();
+			sendMessageToAMQPTestQueue(`message1`);
+			let message = await getMessageFromAMQPTestQueue();
 			expect(message).toBe(`message1`);
 		});
 
 		it('works again', async () => {
-			sendMessage(`message2`);
-			let message = await getMessages();
+			sendMessageToAMQPTestQueue(`message2`);
+			let message = await getMessageFromAMQPTestQueue();
 			expect(message).toBe(`message2`);
 		});
 
