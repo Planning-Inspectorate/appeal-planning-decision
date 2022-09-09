@@ -56,10 +56,5 @@ should be the instance used for logging.
 
 We prefer to use integration testing where possible in order to ensure we have maximum
 confidence that the appeals API works in the way intended, with the least amount of testing
-effort!
-
-However, since we need to interact with an AMQP broker, the testing strategy is a little...odd.
-Due to Javascript being monothreaded, the execution thread during testing has to both run the 
-test code and also listen for messages on queues. This means that there needs to be an "always true"
-verification in the main test code, but verifications must be passed to the cionsumer function.  We 
-know its odd but, so is JS ¯\_(ツ)_/¯ It works though!
+effort! You can find these tests in `__tests__/developer` since its all just developer testing,
+no need to discriminate between integration and unit ;p
