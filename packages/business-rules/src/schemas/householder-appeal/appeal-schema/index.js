@@ -15,17 +15,15 @@ const horizonIdValidation = require('./horizon-id/horizon-id-validation');
 const idValidation = require('./id/id-validation');
 const eligibilityValidation = require('./eligibility/eligibility-validation');
 const dateValidation = require('../../components/date-validation');
-const SchemaModel = require('../../schema-model');
 
 const appealValidationSchema = () => {
-	const valAction = SchemaModel.getValidationAction;
 	return pinsYup
 		.object()
 		.noUnknown(true)
 		.shape({
 			id: idValidation(),
 			horizonId: horizonIdValidation(),
-			lpaCode: lpaCodeValidation(valAction),
+			lpaCode: lpaCodeValidation(),
 			planningApplicationNumber: planningApplicationNumberValidation(),
 			decisionDate: dateValidation(),
 			createdAt: dateValidation(true),
