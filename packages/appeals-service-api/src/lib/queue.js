@@ -13,7 +13,6 @@ function addAppeal(appeal, configuration) {
 		config = defaultConfig.messageQueue.horizonHASPublisher;
 	}
 
-	console.log(config);
 	let connectionQueue;
 	try {
 		connectionQueue = container.connect(config.connection).open_sender(config.queue);
