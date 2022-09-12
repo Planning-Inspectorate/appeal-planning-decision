@@ -48,6 +48,7 @@
 		"@types/amqplib": "^0.8.2",
 		"@types/jest": "^29.0.0",
 		"@types/mocha": "^9.1.1",
+		"axios": "^0.27.2",
 		"eslint": "^8.17.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-jest": "^24.4.0",
@@ -56,6 +57,7 @@
 		"jest-when": "^3.5.0",
 		"nodemon": "^2.0.15",
 		"pino-pretty": "^4.8.0",
-		"testcontainers": "^8.13.1"
+		"testcontainers": "^8.13.1",
+		"testcontainers-mongoose": "^0.2.3"
 	}
 }
