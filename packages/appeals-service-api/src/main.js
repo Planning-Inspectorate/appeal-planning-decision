@@ -8,6 +8,7 @@ const server = require('./server');
 const mongodb = require('./db/db');
 
 async function main() {
+	console.log('STARTING THE APPPPPP!!!!');
 	await mongodb.connect(() => {
 		server();
 	});
@@ -16,3 +17,5 @@ async function main() {
 main().catch((err) => {
 	logger.fatal({ err }, 'Unable to start application');
 });
+
+module.exports = main;
