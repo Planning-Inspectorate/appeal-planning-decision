@@ -1,4 +1,4 @@
-const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
+const householderAppeal = require('../../../src/business-rules/test/data/householder-appeal');
 const { MongoClient } = require('mongodb');
 const uuid = require('uuid');
 const { createAppeal, getAppeal, updateAppeal } = require('../../../src/controllers/appeals');

@@ -8,7 +8,7 @@
 
 const {
 	constants: { APPEAL_ID }
-} = require('@pins/business-rules');
+} = require('../business-rules/src');
 const path = require('path');
 
 const config = {

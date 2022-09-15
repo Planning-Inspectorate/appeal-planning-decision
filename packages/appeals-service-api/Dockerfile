@@ -1,27 +1,21 @@
-# Stage 1/2: Build
-FROM node:14-alpine AS build
+#######################
+### Stage 1 : Build ###
+#######################
 
-WORKDIR /opt/app
+FROM mhart/alpine-node:14 AS build 
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --production
 
-COPY packages/common ../common
-COPY packages/business-rules ../business-rules
-COPY packages/appeals-service-api/package*.json ./
-COPY packages/appeals-service-api/data/lpa-trialists.json ./data/lpa-trialists.json
-COPY packages/appeals-service-api/data/lpa-list.csv ./data/lpa-list.csv
-COPY packages/appeals-service-api/api ./api
-COPY packages/appeals-service-api/src ./src
+COPY . .
 
-RUN npm ci
+#########################
+### Stage 2 : App Run ###
+#########################
 
-# Stage 2/2: App Run
-FROM build AS app
-
-WORKDIR /opt/app
-
-RUN npm prune --production
-
+FROM mhart/alpine-node:slim-14
+WORKDIR /app
+COPY --from=0 /app .
+COPY . .
 EXPOSE 3000
-
-USER node
-
-CMD [ "npm", "start" ]
+CMD ["node", "src/main.js"]

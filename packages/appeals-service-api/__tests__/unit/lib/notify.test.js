@@ -1,6 +1,6 @@
-const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
-const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
-const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
+const householderAppeal = require('../../../src/business-rules/test/data/householder-appeal');
+const fullAppeal = require('../../../src/business-rules/test/data/full-appeal');
+const NotifyBuilder = require('../../../common/src/lib/notify/notify-builder');
 const {
 	sendSubmissionReceivedEmailToLpa,
 	sendSubmissionConfirmationEmailToAppellant,
@@ -9,7 +9,7 @@ const {
 } = require('../../../src/lib/notify');
 const logger = require('../../../src/lib/logger');
 
-jest.mock('@pins/common/src/lib/notify/notify-builder', () => ({
+jest.mock('../../../common/src/lib/notify/notify-builder', () => ({
 	reset: jest.fn().mockReturnThis(),
 	setTemplateId: jest.fn().mockReturnThis(),
 	setDestinationEmailAddress: jest.fn().mockReturnThis(),
