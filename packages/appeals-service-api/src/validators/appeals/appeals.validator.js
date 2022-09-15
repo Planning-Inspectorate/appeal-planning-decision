@@ -1,6 +1,6 @@
 const {
 	schemas: { validate }
-} = require('@pins/business-rules');
+} = require('../../business-rules/src');
 const { isAppealSubmitted } = require('../../services/appeal.service');
 const logger = require('../../lib/logger');
 const ApiError = require('../../error/apiError');

@@ -1,8 +1,8 @@
-const common = require('@pins/common');
+const common = require('../../../src/common');
 const healthcheck = require('../../../src/lib/healthchecks');
 const mongodb = require('../../../src/db/db');
 
-jest.mock('@pins/common');
+jest.mock('../../../src/common');
 
 mongodb.get = jest.fn(() => ({
 	admin: jest.fn(() => ({

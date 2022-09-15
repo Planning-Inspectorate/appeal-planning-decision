@@ -8,7 +8,6 @@ const server = require('./server');
 const mongodb = require('./db/db');
 
 async function main() {
-	console.log('STARTING THE APPPPPP!!!!');
 	await mongodb.connect(() => {
 		server();
 	});
