@@ -1,4 +1,4 @@
-const { healthcheck } = require('@pins/common');
+const { healthcheck } = require('../common/src');
 const config = require('./config');
 const logger = require('./logger');
 const mongodb = require('../db/db');

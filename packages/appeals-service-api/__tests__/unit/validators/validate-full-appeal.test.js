@@ -1,7 +1,7 @@
-const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
+const fullAppeal = require('../../../src/business-rules/test/data/full-appeal');
 const {
 	constants: { APPEAL_STATE, APPLICATION_DECISION, KNOW_THE_OWNERS, PROCEDURE_TYPE }
-} = require('@pins/business-rules');
+} = require('../../../src/business-rules');
 const v8 = require('v8');
 const validateFullAppeal = require('../../../src/validators/validate-full-appeal');
 

@@ -1,6 +1,6 @@
 const {
 	constants: { APPEAL_STATE, APPLICATION_DECISION, KNOW_THE_OWNERS, PROCEDURE_TYPE }
-} = require('@pins/business-rules');
+} = require('../business-rules/src');
 
 const validateFullAppeal = (appeal) => {
 	const {
