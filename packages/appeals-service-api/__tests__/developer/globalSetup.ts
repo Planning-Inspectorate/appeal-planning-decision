@@ -11,5 +11,5 @@ module.exports = async () => {
 	} = require('./amqp-container-helper');
 
 	await createMongoContainer();
-	await createAMQPTestQueue();
+	// await createAMQPTestQueue();
 };

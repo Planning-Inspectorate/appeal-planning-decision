@@ -1,6 +1,6 @@
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
 
-var startedContainer: StartedTestContainer;
+let startedContainer: StartedTestContainer;
 
 const createMongoContainer = async () => {
 	startedContainer = await new GenericContainer('mongo')
@@ -16,7 +16,9 @@ const createMongoContainer = async () => {
 };
 
 const destroyMongoContainer = async () => {
-	await startedContainer.stop();
+	if (startedContainer) {
+		await startedContainer.stop();
+	}
 };
 
 module.exports = {
