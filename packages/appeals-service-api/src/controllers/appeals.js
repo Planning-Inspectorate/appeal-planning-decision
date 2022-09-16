@@ -35,7 +35,7 @@ module.exports = {
 	async getAppeal(req, res) {
 		const idParam = req.params.id;
 
-		logger.debug(`Retrieving appeal ${idParam} ...`);
+		logger.info(`Retrieving appeal ${idParam} ...`);
 		try {
 			const document = await getAppealFromAppealApiService(idParam);
 
@@ -43,15 +43,15 @@ module.exports = {
 				throw ApiError.appealNotFound(idParam);
 			}
 
-			logger.debug(`Appeal ${idParam} retrieved`);
+			logger.info(`Appeal ${idParam} retrieved`);
 			res.status(200).send(document.appeal);
 		} catch (e) {
 			if (e instanceof ApiError) {
-				logger.debug(e.message);
+				logger.info(e.message);
 				res.status(e.code).send({ code: e.code, errors: e.message.errors });
 				return;
 			}
-			logger.error(e.message);
+			logger.info(e.message);
 			res.status(500).send(`Problem getting the appeal ${idParam}\n${e}`);
 		}
 	},
