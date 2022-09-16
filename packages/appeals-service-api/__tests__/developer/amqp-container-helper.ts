@@ -10,10 +10,12 @@
  */
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
 import { connect, Connection, Channel } from 'amqplib';
+import { env } from 'node:process';
 
 let startedContainer: StartedTestContainer;
 let channel: Channel;
 let amqpConnection: Connection;
+let port: Number;
 
 const createAMQPTestQueue = async () => {
 	// We used the rabbitmq image rather than rabbit-mq-management image since we don't
@@ -29,12 +31,13 @@ const createAMQPTestQueue = async () => {
 	// API to communicate with RabbitMQ during tests.
 	await startedContainer.exec(['rabbitmq-plugins', 'enable', 'rabbitmq_amqp1_0']);
 
+	port = startedContainer.getMappedPort(5672);
+	env['HORIZON_HAS_PUBLISHER_PORT'] = port.toString();
+
 	// We need to get the exact port number since Testcontainers assigns a random port
 	// (by design) on the host machine to map to the one you expose in the container
 	// itself. See here for more https://www.testcontainers.org/features/networking/
-	amqpConnection = await connect(
-		'amqp://guest:guest@localhost:' + startedContainer.getMappedPort(5672)
-	);
+	amqpConnection = await connect(`amqp://guest:guest@localhost:${port}`);
 
 	channel = await amqpConnection.createChannel();
 	await channel.assertQueue('test');
@@ -55,7 +58,7 @@ const getMessageFromAMQPTestQueue = async () => {
 };
 
 const destroyAMQPTestQueue = async () => {
-	await channel.close();
+	// await channel.close();
 	await amqpConnection.close();
 	await startedContainer.stop();
 };

@@ -17,6 +17,7 @@ module.exports = {
 			statements: 50
 		}
 	},
+	globalSetup: '<rootDir>/__tests__/developer/globalSetup.ts',
 	preset: '@shelf/jest-mongodb',
 	setupFiles: ['<rootDir>/__tests__/setup-jest.js'],
 	roots: ['<rootDir>/__tests__/developer/'],
