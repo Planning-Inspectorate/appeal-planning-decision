@@ -1,18 +1,18 @@
-// const app = require('../../src/app');
-// const http = require('http');
-// const supertest = require('supertest');
+const app = require('../../src/app');
+const http = require('http');
+const supertest = require('supertest');
 // const householderAppeal = require('../../src/business-rules/test/data/householder-appeal');
 const { MongoClient } = require('mongodb');
 // const { destroyMongoContainer } = require('./mongodb-container-helper');
 // const { destroyAMQPTestQueue } = require('./amqp-container-helper');
-// const appDbConnection = require('../../src/db/db');
+const appDbConnection = require('../../src/db/db');
 
-// jest.mock('../../src/db/db');
+jest.mock('../../src/db/db');
 // jest.mock('axios');
 jest.setTimeout(120000);
 
 if (process.env.FINAL_COMMENT_FEATURE_ACTIVE) {
-	// let request;
+	let request;
 	let db;
 
 	beforeAll(async () => {
@@ -22,10 +22,9 @@ if (process.env.FINAL_COMMENT_FEATURE_ACTIVE) {
 		});
 		db = await connection.db('foo');
 
-		// appDbConnection.get.mockReturnValue(db);
-		// console.log('Setup mock!');
-		// let server = http.createServer(app);
-		// request = supertest(server);
+		appDbConnection.get.mockReturnValue(db);
+		let server = http.createServer(app);
+		request = supertest(server);
 	});
 
 	afterAll(async () => {
@@ -42,18 +41,11 @@ if (process.env.FINAL_COMMENT_FEATURE_ACTIVE) {
 			// const appeal = JSON.parse(JSON.stringify(householderAppeal));
 			// const caseRef = '1234567'; // This will be used to get the submission window
 			// appeal.horizonId = caseRef;
-			// const appealCreated = await request.post(`/api/v1/appeals/`).send(appeal);
-			// console.log(appealCreated);
-
-			// const response = await request.get(`/api/v1/appeals/${appealCreated.id}`);
-
-			const foo = db.collection('foo');
-			const fooInserted = await foo.insertOne({ value: 'test' });
-			const fooInsertedId = fooInserted.insertedId;
-			const fooReturned = await foo.findOne({ _id: fooInsertedId }, {});
-			console.log(fooInsertedId);
-
-			expect(fooReturned).toEqual({ _id: fooInsertedId, value: 'test' });
+			const postAppealResponse = await request.post(`/api/v1/appeals/`).send({});
+			const appealCreated = postAppealResponse.body;
+			const getAppealResponse = await request.get(`/api/v1/appeals/${appealCreated.id}`);
+			const appealRetrieved = getAppealResponse.body;
+			expect(appealCreated).toStrictEqual(appealRetrieved);
 
 			// // And: the appeal's final comments window closes on 16th September 2022
 			// axios.post.mockResolvedValue(createHorizonResponse('2022-09-16T00:00:00+00:00'));
