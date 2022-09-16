@@ -33,7 +33,7 @@ if (process.env.FINAL_COMMENT_FEATURE_ACTIVE) {
 	});
 
 	describe('AS-5408', () => {
-		it('should return true when the final comments submission date has been specified for the appeal, and is later than the current date', async () => {
+		it('should return 200 for a GET request to `api/v1/appeals/{appeal_id}/final-comments` when the final comments submission date has been specified for the appeal, and is later than the current date', async () => {
 			// Given: the current date is 15th September 2022
 			// jest.useFakeTimers().setSystemTime(new Date(2022, 9, 15));
 
@@ -55,66 +55,69 @@ if (process.env.FINAL_COMMENT_FEATURE_ACTIVE) {
 			// 	.get(`/api/v1/appeals/${appealCreated.id}/`)
 			// 	.set('Accept', 'application/json');
 
-			// // Then: we should get a 200 in the response and the body should say that the window is open
+			// // Then: we should get a 200 in the response and no body
 			// expect(response.statusCode).toBe(200); // Accepted for processing later
-			// expect(response.body).toEqual({open: true})
+			// expect(response.body).toEqual()
 		});
 
-		// it('should be possible to upload final comments to an appeal during the final comments window', async () => {
-		// 	// // Given: the current date is 15th September 2022
-		// 	jest.useFakeTimers().setSystemTime(new Date(2022, 9, 15));
+		it('should return 403 and a helpful message in the response body for a GET request to `api/v1/appeals/{appeal_id}/final-comments` if the final comments submission date has not been set', async () => {});
+		it('should return 403 and a helpful message in the response body for a GET request to `api/v1/appeals/{appeal_id}/final-comments` if the final comments submission date has been set and is earlier than the date the request is made', async () => {});
+		it('should return 403 and a helpful message in the response body for a GET request to `api/v1/appeals/{appeal_id}/final-comments` if the appeal already has final comments', async () => {});
 
-		// 	// // And: there is an appeal in the database that is to have its final comments updated
-		// 	// const appeal = JSON.parse(JSON.stringify(householderAppeal));
-		// 	// const caseRef = '1234567'; // This will be used to get the submission window
-		// 	// appeal.horizonId = caseRef;
-		// 	// appeal.id = uuid.v4();
-		// 	// let createdAppeal = await createAppeal(appeal)
-		// 	// console.log(createdAppeal)
+		it('should be possible to upload final comments to an appeal before the final comments submission date', async () => {
+			// 	// // Given: the current date is 15th September 2022
+			// 	jest.useFakeTimers().setSystemTime(new Date(2022, 9, 15));
+			// 	// // And: there is an appeal in the database that is to have its final comments updated
+			// 	// const appeal = JSON.parse(JSON.stringify(householderAppeal));
+			// 	// const caseRef = '1234567'; // This will be used to get the submission window
+			// 	// appeal.horizonId = caseRef;
+			// 	// appeal.id = uuid.v4();
+			// 	// let createdAppeal = await createAppeal(appeal)
+			// 	// console.log(createdAppeal)
+			// 	// // And: the appeal's final comments window closes on 16th September 2022
+			// 	// axios.patch.mockResolvedValue(createHorizonResponse('2022-09-16T00:00:00+00:00')); // TODO: we should also specify the URL so we know the implementation is calling the expected URL
+			// 	// // When: the appellent attempts to upload final comments to their appeal
+			// 	// let finalCommentsFreeTextJson = {
+			// 	// 	id: '14986758-8hj4-30q7-76gd-4bv5n41ge1xz',
+			// 	// 	name: 'mock.jpg',
+			// 	// 	location: 'tgeajghd87f6ty5432hjti8787rg',
+			// 	// 	size: '1899543'
+			// 	// };
+			// 	// let finalCommentsDoc1Json = {
+			// 	// 	id: '59c55221-ddaa-4ef8-ba48-c2570b3418e8',
+			// 	// 	name: 'attinghamparkbees.jpg',
+			// 	// 	location: '36d62a0dcb32c3648c8b0f023383464f',
+			// 	// 	size: '189549'
+			// 	// };
+			// 	// let finalCommentsDoc2Json = {
+			// 	// 	id: '61024954-2dd7-41c2-95ea-0fc2e35fa9bb',
+			// 	// 	name: 'attinghamparkbees.jpg',
+			// 	// 	location: '0d6f62cf1fa8d0797060e5eb6b8dad8f',
+			// 	// 	size: '189549'
+			// 	// };
+			// 	// let finalComments = {
+			// 	// 	freeText: 'This is some text to upload as a final comment',
+			// 	// 	documents: [finalCommentsDoc1Json, finalCommentsDoc2Json]
+			// 	// };
+			// 	// axios.post.mockResolvedValue(finalCommentsFreeTextJson)
+			// 	// const response = await request(appealsApi).patch(`/api/v1/appeals/${appealCreated.id}/final-comments`).send(finalComments);
+			// 	// // Then: we should get a 202 in the response and no body
+			// 	// expect(response.statusCode).toBe(202); // Accepted for processing later
+			// 	// expect(response.body).toEqual({})
+			// 	// // And: the application with final comments should appear on the Horizon input queue for processing
+			// 	// appealCreated.finalComments = [
+			// 	// 	finalCommentsDoc1Json,
+			// 	// 	finalCommentsDoc2Json,
+			// 	// 	finalCommentsFreeTextJson
+			// 	// ];
+			// 	// let message = getMessageFromAMQPTestQueue();
+			// 	// expect(message).toBe(appealCreated);
+			// 	expect(true).toBe(true);
+		});
 
-		// 	// // And: the appeal's final comments window closes on 16th September 2022
-		// 	// axios.patch.mockResolvedValue(createHorizonResponse('2022-09-16T00:00:00+00:00')); // TODO: we should also specify the URL so we know the implementation is calling the expected URL
-
-		// 	// // When: the appellent attempts to upload final comments to their appeal
-		// 	// let finalCommentsFreeTextJson = {
-		// 	// 	id: '14986758-8hj4-30q7-76gd-4bv5n41ge1xz',
-		// 	// 	name: 'mock.jpg',
-		// 	// 	location: 'tgeajghd87f6ty5432hjti8787rg',
-		// 	// 	size: '1899543'
-		// 	// };
-		// 	// let finalCommentsDoc1Json = {
-		// 	// 	id: '59c55221-ddaa-4ef8-ba48-c2570b3418e8',
-		// 	// 	name: 'attinghamparkbees.jpg',
-		// 	// 	location: '36d62a0dcb32c3648c8b0f023383464f',
-		// 	// 	size: '189549'
-		// 	// };
-		// 	// let finalCommentsDoc2Json = {
-		// 	// 	id: '61024954-2dd7-41c2-95ea-0fc2e35fa9bb',
-		// 	// 	name: 'attinghamparkbees.jpg',
-		// 	// 	location: '0d6f62cf1fa8d0797060e5eb6b8dad8f',
-		// 	// 	size: '189549'
-		// 	// };
-		// 	// let finalComments = {
-		// 	// 	freeText: 'This is some text to upload as a final comment',
-		// 	// 	documents: [finalCommentsDoc1Json, finalCommentsDoc2Json]
-		// 	// };
-		// 	// axios.post.mockResolvedValue(finalCommentsFreeTextJson)
-		// 	// const response = await request(appealsApi).patch(`/api/v1/appeals/${appealCreated.id}/final-comments`).send(finalComments);
-
-		// 	// // Then: we should get a 202 in the response and no body
-		// 	// expect(response.statusCode).toBe(202); // Accepted for processing later
-		// 	// expect(response.body).toEqual({})
-
-		// 	// // And: the application with final comments should appear on the Horizon input queue for processing
-		// 	// appealCreated.finalComments = [
-		// 	// 	finalCommentsDoc1Json,
-		// 	// 	finalCommentsDoc2Json,
-		// 	// 	finalCommentsFreeTextJson
-		// 	// ];
-		// 	// let message = getMessageFromAMQPTestQueue();
-		// 	// expect(message).toBe(appealCreated);
-		// 	expect(true).toBe(true);
-		// });
+		it('should return 403 and a helpful message in the response body for a PATCH request to `api/v1/appeals/{appeal_id}/final-comments` if the final comments submission date has not been set', async () => {});
+		it('should return 403 and a helpful message in the response body for a PATCH request to `api/v1/appeals/{appeal_id}/final-comments` if the final comments submission date has been set and is earlier than the date the request is made', async () => {});
+		it('should return 403 and a helpful message in the response body for a PATCH request to `api/v1/appeals/{appeal_id}/final-comments` if the appeal already has final comments', async () => {});
 	});
 }
 
