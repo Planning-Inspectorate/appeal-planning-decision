@@ -9,6 +9,7 @@ const logger = require('../../../lib/logger');
 
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = documentTypes.ownershipCertificate.name;
+const sectionTag = 'OWNERSHIP CERTIFICATE';
 
 const getCertificates = async (req, res) => {
 	const {
@@ -50,7 +51,13 @@ const postCertificates = async (req, res) => {
 
 	try {
 		if (files) {
-			const document = await createDocument(appeal, files['file-upload'], null, taskName);
+			const document = await createDocument(
+				appeal,
+				files['file-upload'],
+				null,
+				taskName,
+				sectionTag
+			);
 
 			appeal[sectionName][taskName].uploadedFile = {
 				id: document.id,

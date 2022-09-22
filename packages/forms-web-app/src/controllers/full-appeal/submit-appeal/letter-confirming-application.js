@@ -13,6 +13,7 @@ const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = documentTypes.letterConfirmingApplication.name;
+const sectionTag = 'LPA ACKNOWLEDGEMENT';
 
 const getLetterConfirmingApplication = (req, res) => {
 	const {
@@ -57,7 +58,13 @@ const postLetterConfirmingApplication = async (req, res) => {
 
 	try {
 		if (files) {
-			const document = await createDocument(appeal, files['file-upload'], null, taskName);
+			const document = await createDocument(
+				appeal,
+				files['file-upload'],
+				null,
+				taskName,
+				sectionTag
+			);
 
 			appeal[sectionName][taskName].uploadedFile = {
 				id: document.id,

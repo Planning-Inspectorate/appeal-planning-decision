@@ -30,6 +30,7 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-documents', 
 	const taskName = documentType;
 	const errors = { 'file-upload': 'Select a file upload' };
 	const errorSummary = [{ text: 'There was an error', href: '#' }];
+	const sectionTag = 'PLANNING OBLIGATION';
 
 	beforeEach(() => {
 		req = v8.deserialize(
@@ -124,7 +125,8 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-documents', 
 				appealData,
 				appealData[sectionName][taskName].uploadedFiles[0],
 				null,
-				documentType
+				documentType,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
 			expect(res.redirect).toHaveBeenCalledWith(`/${NEW_DOCUMENTS}`);
@@ -159,13 +161,15 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-documents', 
 				appealData,
 				appealData[sectionName][taskName].uploadedFiles[0],
 				null,
-				documentType
+				documentType,
+				sectionTag
 			);
 			expect(createDocument).toHaveBeenCalledWith(
 				appealData,
 				appealData[sectionName][taskName].uploadedFiles[1],
 				null,
-				documentType
+				documentType,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
 			expect(res.redirect).toHaveBeenCalledWith(`/${NEW_DOCUMENTS}`);
@@ -224,7 +228,13 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-documents', 
 
 			await postPlanningObligationDocuments(req, res);
 
-			expect(createDocument).toHaveBeenCalledWith(appealData, newFile, null, documentType);
+			expect(createDocument).toHaveBeenCalledWith(
+				appealData,
+				newFile,
+				null,
+				documentType,
+				sectionTag
+			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
 			expect(res.redirect).toHaveBeenCalledWith(`/${NEW_DOCUMENTS}`);
 			expect(req.session.appeal).toEqual(submittedAppeal);

@@ -31,6 +31,7 @@ describe('controllers/full-appeal/submit-appeal/certificates', () => {
 		'file-upload': 'Select your ownership certificate and agricultural land declaration'
 	};
 	const errorSummary = [{ text: 'There was an error', href: '#' }];
+	const sectionTag = 'OWNERSHIP CERTIFICATE';
 
 	beforeEach(() => {
 		req = v8.deserialize(
@@ -118,7 +119,8 @@ describe('controllers/full-appeal/submit-appeal/certificates', () => {
 				appeal,
 				appeal[sectionName][taskName].uploadedFile,
 				null,
-				taskName
+				taskName,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 			expect(res.redirect).toHaveBeenCalledWith(`/${PROPOSED_DEVELOPMENT_CHANGED}`);

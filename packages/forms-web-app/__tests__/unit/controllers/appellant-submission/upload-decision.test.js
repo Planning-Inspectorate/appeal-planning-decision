@@ -127,6 +127,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 			const fakeFileName = 'a name.jpg';
 			const fakeTaskStatus = 'FAKE_STATUS';
 			const fakeNextUrl = `/fake/next/url`;
+			const sectionTag = 'LPA DECISION NOTICE';
 
 			getTaskStatus.mockImplementation(() => fakeTaskStatus);
 
@@ -179,7 +180,8 @@ describe('controllers/appellant-submission/upload-decision', () => {
 				appeal,
 				{ name: fakeFileName },
 				null,
-				documentTypes.decisionLetter.name
+				documentTypes.decisionLetter.name,
+				sectionTag
 			);
 
 			expect(res.redirect).toHaveBeenCalledWith(fakeNextUrl);

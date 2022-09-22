@@ -27,6 +27,7 @@ describe('controllers/full-appeal/submit-appeal/letter-confirming-application ',
 	const taskName = documentTypes.letterConfirmingApplication.name;
 	const errors = { 'file-upload': 'Select your letter confirming application file' };
 	const errorSummary = [{ text: 'There was an error', href: '#' }];
+	const sectionTag = 'LPA ACKNOWLEDGEMENT';
 
 	beforeEach(() => {
 		req = v8.deserialize(
@@ -114,7 +115,8 @@ describe('controllers/full-appeal/submit-appeal/letter-confirming-application ',
 				appeal,
 				appeal[sectionName][taskName].uploadedFile,
 				null,
-				taskName
+				taskName,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 			expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);

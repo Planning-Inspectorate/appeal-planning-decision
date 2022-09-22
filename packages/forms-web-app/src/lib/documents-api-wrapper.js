@@ -50,13 +50,20 @@ const handler = async (url, method = 'GET', data = {}) => {
 	return apiResponse;
 };
 
-const createDocument = async (appeal, data, fileName, documentType) => {
+const createDocument = async (appeal, data, fileName, documentType, sectionTag = '') => {
 	const body = new FormData();
 
 	if (isTheFormDataBuffer(data)) {
-		const documentName = fileName || data.name;
+		let documentName = fileName || data.name;
+		documentName = documentName.replace(
+			/^/,
+			`${sectionTag} - ${appeal.planningApplicationNumber} - `
+		);
+		console.log(documentName);
 		body.append('file', fs.createReadStream(data.tempFilePath), documentName);
 	} else if (isDataBuffer(data)) {
+		fileName = fileName.replace(/^/, `${sectionTag} - ${appeal.planningApplicationNumber} - `);
+		console.log(fileName);
 		body.append('file', data, fileName);
 	} else {
 		throw new Error('The type of provided data to create a document with is wrong');

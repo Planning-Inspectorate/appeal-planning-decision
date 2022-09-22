@@ -30,6 +30,7 @@ describe('controllers/full-appeal/submit-appeal/draft-statement-common-ground', 
 	const sectionName = 'appealDecisionSection';
 	const errors = { 'file-upload': 'Select a file upload' };
 	const errorSummary = [{ text: 'There was an error', href: '#' }];
+	const sectionTag = 'DRAFT STATEMENT OF COMMON GROUND';
 
 	beforeEach(() => {
 		req = v8.deserialize(
@@ -124,7 +125,8 @@ describe('controllers/full-appeal/submit-appeal/draft-statement-common-ground', 
 				appeal,
 				appeal[sectionName][taskName].uploadedFile,
 				null,
-				taskName
+				taskName,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 			expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
