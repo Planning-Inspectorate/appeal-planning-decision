@@ -11,6 +11,7 @@ const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'originalApplication';
+const sectionTag = 'APPLICATION FORM';
 
 const getApplicationForm = (req, res) => {
 	const {
@@ -55,7 +56,13 @@ const postApplicationForm = async (req, res) => {
 
 	try {
 		if (files) {
-			const document = await createDocument(appeal, files['file-upload'], null, taskName);
+			const document = await createDocument(
+				appeal,
+				files['file-upload'],
+				null,
+				taskName,
+				sectionTag
+			);
 
 			appeal[sectionName][taskName].uploadedFile = {
 				id: document.id,

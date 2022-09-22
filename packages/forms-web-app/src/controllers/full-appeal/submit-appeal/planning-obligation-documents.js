@@ -16,6 +16,7 @@ const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'planningObligations';
+const sectionTag = 'PLANNING OBLIGATION';
 
 const getPlanningObligationDocuments = (req, res) => {
 	const {
@@ -64,7 +65,8 @@ const postPlanningObligationDocuments = async (req, res) => {
 						appeal,
 						file,
 						null,
-						planningObligations
+						planningObligations,
+						sectionTag
 					);
 					appeal[sectionName][taskName].uploadedFiles.push({
 						id,

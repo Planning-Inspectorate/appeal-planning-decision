@@ -15,6 +15,7 @@ const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-s
 const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDecisionSection';
+const sectionTag = 'DRAFT STATEMENT OF COMMON GROUND';
 
 const getDraftStatementCommonGround = (req, res) => {
 	const {
@@ -67,7 +68,8 @@ const postDraftStatementCommonGround = async (req, res) => {
 				appeal,
 				files['file-upload'],
 				null,
-				taskName
+				taskName,
+				sectionTag
 			);
 
 			appeal[sectionName][taskName].uploadedFile = {

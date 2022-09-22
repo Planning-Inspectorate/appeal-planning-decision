@@ -27,6 +27,7 @@ describe('controllers/full-appeal/submit-appeal/application-form', () => {
 	const taskName = documentTypes.originalApplication.name;
 	const errors = { 'file-upload': 'Select a file upload' };
 	const errorSummary = [{ text: 'There was an error', href: '#' }];
+	const sectionTag = 'APPLICATION FORM';
 
 	beforeEach(() => {
 		req = v8.deserialize(
@@ -114,7 +115,8 @@ describe('controllers/full-appeal/submit-appeal/application-form', () => {
 				appeal,
 				appeal[sectionName][taskName].uploadedFile,
 				null,
-				taskName
+				taskName,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 			expect(res.redirect).toHaveBeenCalledWith(`/${APPLICATION_CERTIFICATES_INCLUDED}`);

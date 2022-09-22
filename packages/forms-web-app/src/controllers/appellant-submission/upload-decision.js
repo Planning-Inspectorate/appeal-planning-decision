@@ -9,6 +9,7 @@ const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 
 const sectionName = 'requiredDocumentsSection';
 const taskName = 'decisionLetter';
+const sectionTag = 'LPA DECISION NOTICE';
 
 exports.getUploadDecision = (req, res) => {
 	res.render(VIEW.APPELLANT_SUBMISSION.UPLOAD_DECISION, {
@@ -39,7 +40,8 @@ exports.postUploadDecision = async (req, res) => {
 					appeal,
 					req.files['decision-upload'],
 					null,
-					documentTypes.decisionLetter.name
+					documentTypes.decisionLetter.name,
+					sectionTag
 				);
 
 				appeal[sectionName][taskName].uploadedFile = {

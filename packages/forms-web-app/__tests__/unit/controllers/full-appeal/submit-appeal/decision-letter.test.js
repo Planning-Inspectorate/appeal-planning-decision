@@ -28,6 +28,7 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
 	const errors = { 'file-upload': 'Select a file upload' };
 	const errorSummary = [{ text: 'There was an error', href: '#' }];
 	const isSubmitted = true;
+	const sectionTag = 'LPA DECISION NOTICE';
 
 	beforeEach(() => {
 		req = v8.deserialize(
@@ -122,7 +123,8 @@ describe('controllers/full-appeal/submit-appeal/decision-letter', () => {
 				appeal,
 				appeal[sectionName][taskName].uploadedFile,
 				null,
-				documentTypes.decisionLetter.name
+				documentTypes.decisionLetter.name,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appeal);
 			expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);

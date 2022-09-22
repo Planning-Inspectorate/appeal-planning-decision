@@ -165,8 +165,6 @@ module.exports = async (context, event) => {
 
 		context.log({ caseworkReason }, 'Case Work Reason');
 
-		console.log(event.appeal);
-
 		let attributeData;
 		let appealType;
 

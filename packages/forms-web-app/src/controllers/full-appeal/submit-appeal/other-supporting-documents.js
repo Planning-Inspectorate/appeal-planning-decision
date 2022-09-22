@@ -16,6 +16,7 @@ const { postSaveAndReturn } = require('../../save');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'supportingDocuments';
+const sectionTag = 'CORRESPONDENCE WITH LPA';
 
 const getOtherSupportingDocuments = (req, res) => {
 	const {
@@ -60,7 +61,13 @@ const postOtherSupportingDocuments = async (req, res) => {
 			const uploadedFiles = Array.isArray(fileUpload) ? fileUpload : [fileUpload];
 			await Promise.all(
 				uploadedFiles.map(async (file) => {
-					const { id, location, size } = await createDocument(appeal, file, null, documentType);
+					const { id, location, size } = await createDocument(
+						appeal,
+						file,
+						null,
+						documentType,
+						sectionTag
+					);
 					appeal[sectionName][taskName].uploadedFiles.push({
 						id,
 						name: file.name,

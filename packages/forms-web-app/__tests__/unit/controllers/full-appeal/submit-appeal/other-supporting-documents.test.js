@@ -28,6 +28,7 @@ describe('controllers/full-appeal/submit-appeal/other-supporting-documents', () 
 	const taskName = 'supportingDocuments';
 	const errors = { 'file-upload': 'Select a file upload' };
 	const errorSummary = [{ text: 'There was an error', href: '#' }];
+	const sectionTag = 'CORRESPONDENCE WITH LPA';
 
 	beforeEach(() => {
 		req = v8.deserialize(
@@ -123,7 +124,8 @@ describe('controllers/full-appeal/submit-appeal/other-supporting-documents', () 
 				appealData,
 				appealData[sectionName][taskName].uploadedFiles[0],
 				null,
-				documentTypes.otherDocuments.name
+				documentTypes.otherDocuments.name,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
 			expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
@@ -159,13 +161,15 @@ describe('controllers/full-appeal/submit-appeal/other-supporting-documents', () 
 				appealData,
 				appealData[sectionName][taskName].uploadedFiles[0],
 				null,
-				documentTypes.otherDocuments.name
+				documentTypes.otherDocuments.name,
+				sectionTag
 			);
 			expect(createDocument).toHaveBeenCalledWith(
 				appealData,
 				appealData[sectionName][taskName].uploadedFiles[1],
 				null,
-				documentTypes.otherDocuments.name
+				documentTypes.otherDocuments.name,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
 			expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
@@ -229,7 +233,8 @@ describe('controllers/full-appeal/submit-appeal/other-supporting-documents', () 
 				appealData,
 				newFile,
 				null,
-				documentTypes.otherDocuments.name
+				documentTypes.otherDocuments.name,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
 			expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);

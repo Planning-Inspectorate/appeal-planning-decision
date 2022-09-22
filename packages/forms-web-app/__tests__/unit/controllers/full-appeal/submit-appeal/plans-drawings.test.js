@@ -28,6 +28,7 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
 	const taskName = 'plansDrawings';
 	const errors = { 'file-upload': 'Select a file upload' };
 	const errorSummary = [{ text: 'There was an error', href: '#' }];
+	const sectionTag = 'LIST OF PLANS SUBMITTED AFTER LPA DECISION';
 
 	beforeEach(() => {
 		req = v8.deserialize(
@@ -122,7 +123,8 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
 				appealData,
 				appealData[sectionName][taskName].uploadedFiles[0],
 				null,
-				documentTypes.decisionPlans.name
+				documentTypes.decisionPlans.name,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
 			expect(res.redirect).toHaveBeenCalledWith(`/${PLANNING_OBLIGATION_PLANNED}`);
@@ -157,13 +159,15 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
 				appealData,
 				appealData[sectionName][taskName].uploadedFiles[0],
 				null,
-				documentTypes.decisionPlans.name
+				documentTypes.decisionPlans.name,
+				sectionTag
 			);
 			expect(createDocument).toHaveBeenCalledWith(
 				appealData,
 				appealData[sectionName][taskName].uploadedFiles[1],
 				null,
-				documentTypes.decisionPlans.name
+				documentTypes.decisionPlans.name,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
 			expect(res.redirect).toHaveBeenCalledWith(`/${PLANNING_OBLIGATION_PLANNED}`);
@@ -225,7 +229,8 @@ describe('controllers/full-appeal/submit-appeal/plans-drawings', () => {
 				appealData,
 				newFile,
 				null,
-				documentTypes.decisionPlans.name
+				documentTypes.decisionPlans.name,
+				sectionTag
 			);
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith(appealData);
 			expect(res.redirect).toHaveBeenCalledWith(`/${PLANNING_OBLIGATION_PLANNED}`);
