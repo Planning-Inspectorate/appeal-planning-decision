@@ -55,15 +55,13 @@ const createDocument = async (appeal, data, fileName, documentType, sectionTag =
 
 	if (isTheFormDataBuffer(data)) {
 		let documentName = fileName || data.name;
-		documentName = documentName.replace(
+		documentName = documentName?.replace(
 			/^/,
 			`${sectionTag} - ${appeal.planningApplicationNumber} - `
 		);
-		console.log(documentName);
 		body.append('file', fs.createReadStream(data.tempFilePath), documentName);
 	} else if (isDataBuffer(data)) {
-		fileName = fileName.replace(/^/, `${sectionTag} - ${appeal.planningApplicationNumber} - `);
-		console.log(fileName);
+		fileName = fileName?.replace(/^/, `${sectionTag} - ${appeal.planningApplicationNumber} - `);
 		body.append('file', data, fileName);
 	} else {
 		throw new Error('The type of provided data to create a document with is wrong');
