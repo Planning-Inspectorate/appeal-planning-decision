@@ -2,12 +2,14 @@ const documentTypes = {
 	originalApplication: {
 		name: 'originalApplication',
 		multiple: false,
-		displayName: 'Planning application form'
+		displayName: 'Planning application form',
+		groupType: 'Evidence'
 	},
 	decisionLetter: {
 		name: 'decisionLetter',
 		multiple: false,
-		displayName: 'Decision notice'
+		displayName: 'Decision notice',
+		groupType: 'Initial Documents'
 	},
 	appealStatement: {
 		name: 'appealStatement',
@@ -17,22 +19,26 @@ const documentTypes = {
 	otherDocuments: {
 		name: 'otherDocuments',
 		multiple: true,
-		displayName: 'Supporting Documents'
+		displayName: 'Supporting Documents',
+		groupType: 'Initial Documents'
 	},
 	designAccessStatement: {
 		name: 'designAccessStatement',
 		multiple: false,
-		displayName: 'Design and access statement'
+		displayName: 'Design and access statement',
+		groupType: 'Initial Documents'
 	},
 	draftStatementOfCommonGround: {
 		name: 'draftStatementOfCommonGround',
 		multiple: false,
-		displayName: 'Draft statement of common ground'
+		displayName: 'Draft statement of common ground',
+		groupType: 'Evidence'
 	},
 	plansDrawingsSupportingDocuments: {
 		name: 'plansDrawingsSupportingDocuments',
 		multiple: true,
-		displayName: 'Plans, drawings and supporting documents'
+		displayName: 'Plans, drawings and supporting documents',
+		groupType: 'Initial Documents'
 	},
 	appealPdf: {
 		name: 'appealPdf',
@@ -102,27 +108,32 @@ const documentTypes = {
 	originalDecisionNotice: {
 		name: 'originalDecisionNotice',
 		multiple: false,
-		displayName: 'Original Decision Notice'
+		displayName: 'Original Decision Notice',
+		groupType: 'Initial Documents'
 	},
 	ownershipCertificate: {
 		name: 'ownershipCertificate',
 		multiple: false,
-		displayName: 'Ownership certificate and agricultural land declaration'
+		displayName: 'Ownership certificate and agricultural land declaration',
+		groupType: 'Evidence'
 	},
 	planningObligations: {
 		name: 'planningObligations',
 		multiple: true,
-		displayName: 'Planning obligation'
+		displayName: 'Planning obligation',
+		groupType: 'Initial Documents'
 	},
 	letterConfirmingApplication: {
 		name: 'letterConfirmingApplication',
 		multiple: false,
-		displayName: 'Letter Confirming Application'
+		displayName: 'Letter Confirming Application',
+		groupType: 'Initial Documents'
 	},
 	draftPlanningObligations: {
 		name: 'draftPlanningObligations',
 		multiple: true,
-		displayName: 'Draft planning obligation'
+		displayName: 'Draft planning obligation',
+		groupType: 'Initial Documents'
 	}
 };
 
