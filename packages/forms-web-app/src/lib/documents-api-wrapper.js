@@ -2,7 +2,6 @@ const fs = require('fs');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const uuid = require('uuid');
-const { documentTypes } = require('@pins/common');
 
 const config = require('../config');
 const parentLogger = require('./logger');
@@ -68,16 +67,7 @@ const createDocument = async (appeal, data, fileName, documentType, sectionTag =
 		throw new Error('The type of provided data to create a document with is wrong');
 	}
 
-	//This is currently set to @documentTypes.name, which will never line up with the documentTypes mappings file, due to this using
-	//documentTypes object in common to map this value to the display name will allow the values to match correctly
-	const docType = documentTypes.documentType.displayName;
-	body.append('documentType', docType);
-
-	//If there is an associated GroupType for the documentType append this to the body
-	if (documentTypes[documentType].groupType) {
-		const documentGroupType = documentTypes[documentType].groupType;
-		body.append('documentGroupType', documentGroupType);
-	}
+	body.append('documentType', documentType);
 
 	const apiResponse = await handler(`${config.documents.url}/api/v1/${appeal.id}`, 'POST', {
 		body
