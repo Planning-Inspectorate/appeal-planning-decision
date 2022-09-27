@@ -4,15 +4,7 @@ const appealDocumentTypes = {
 	'Decision Notice': 'LPA Decision Notice',
 	'Appeal Statement': 'Appellant Grounds of Appeal',
 	'Any supporting docs': 'Appellant Grounds of Appeal',
-	'Submission information file PDF': 'Appellant Initial Documents',
-	'Draft statement of common ground': 'Statement of Common Ground',
-	'Decision notice from your original planning application': 'LPA Decision Notice',
-	'Ownership certificate and agricultural land declaration': 'Appellant Statement and Appendices',
-	'The letter confirming your planning application': 'Appellant Initial Documents',
-	'Plans and drawing (Appeal docs)': 'Plans Post LPA Decision',
-	'Planning obligation': 'Planning Obligation',
-	'Draft planning obligation': 'Planning Obligation',
-	'Other supporting documents': 'Other Evidence from Appellant/Agent'
+	'Submission information file PDF': 'Appellant Initial Documents'
 };
 
 const replyDocumentTypes = {

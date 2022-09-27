@@ -21,7 +21,8 @@ function createDataObject(data, body) {
 	const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
 	const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
 	const documentInvolvementValue = isAppeal(body.documentType) ? 'Appellant' : 'LPA';
-	const documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
+	const documentGroupTypeValue = body.documentGroupTypeValue || 'Evidence';
+
 
 	return {
 		// The order of this object is important
