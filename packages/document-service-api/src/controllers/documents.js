@@ -10,6 +10,7 @@ const deleteLocalFile = require('../lib/deleteLocalFile');
 const { documentTypes } = require('@pins/common');
 
 const getDocumentsForApplication = async (req, res) => {
+	console.log('hey')
 	const { applicationId } = req.params;
 
 	try {
@@ -150,6 +151,7 @@ const uploadDocument = async (req, res) => {
 		);
 
 		const metadata = await uploadFile(containerClient, document);
+
 		await deleteLocalFile(file);
 
 		res.status(202).send(metadata);

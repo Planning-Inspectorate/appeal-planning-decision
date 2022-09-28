@@ -20,9 +20,9 @@ module.exports = () => {
 
 	prometheus.init(app);
 
-	const server = http.createServer(app);
+	// const server = http.createServer(app);
 
-	healthChecks(server);
+	// healthChecks(server);
 
 	app
 		.use(
@@ -33,6 +33,9 @@ module.exports = () => {
 		)
 		.use(bodyParser.json())
 		.use('/', routes)
+		.use((req, res, next) => {
+			console.log(req)
+		})
 		.use((req, res) => {
 			/* Handle 404 error */
 			res.status(404).json({
@@ -52,7 +55,7 @@ module.exports = () => {
 			next();
 		});
 
-	server.listen(config.server.port, () => {
-		logger.info({ config }, 'Listening');
-	});
+	// server.listen(config.server.port, () => {
+	// 	logger.info({ config }, 'Listening');
+	// });
 };
