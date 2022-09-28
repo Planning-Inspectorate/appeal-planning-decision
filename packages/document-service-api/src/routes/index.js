@@ -14,5 +14,6 @@ const router = Router();
 router.use('/api-docs', apiDocs);
 router.use('/api/v1/migrate-metadata', migrateMetadata);
 router.use('/api/v1/:applicationId', application);
+router.use('/test', () => {body: "hey"});
 
 module.exports = router;
