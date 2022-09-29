@@ -13,7 +13,8 @@ module.exports = {
 		}
 	},
 	roots: ['<rootDir>/test/developer/'],
-	globalSetup: '<rootDir>/test/developer/globalSetup.ts',
+	// globalSetup: '<rootDir>/test/developer/globalSetup.ts',
+	// globalTeardown: '<rootDir>/test/developer/globalTeardown.ts',
 	transform: {
 		'^.+\\.ts?$': 'ts-jest',
 		'\\.[jt]sx?$': 'babel-jest'
