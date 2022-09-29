@@ -9,10 +9,10 @@ const createMongoContainer = async () => {
 		.withWaitStrategy(Wait.forLogMessage('Waiting for connections'))
 		.start();
 
-	let dbName = 'documents-api-integration-test';
-	process.env.INTEGRATION_TEST_DB_URL = `mongodb://localhost:${startedContainer.getMappedPort(
-		27017
-	)}/${dbName}`;
+	process.env.MONGODB_DB_NAME = 'documents-api-integration-test';
+	process.env.MONGODB_URL = `mongodb://localhost:${startedContainer.getMappedPort(27017)}/${
+		process.env.MONGODB_DB_NAME
+	}`;
 };
 
 const destroyMongoContainer = async () => {

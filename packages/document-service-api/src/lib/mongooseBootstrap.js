@@ -12,6 +12,7 @@ const config = require('./config');
 
 module.exports = async () => {
 	try {
+		console.log(config.db.mongodb.url);
 		/* Mongoose is a singleton internally, so connect before accepting connections */
 		logger.info('Attempting to create Mongoose connection');
 		await mongoose.connect(config.db.mongodb.url, config.db.mongodb.opts);
