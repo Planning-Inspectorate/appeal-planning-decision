@@ -10,7 +10,6 @@ const deleteLocalFile = require('../lib/deleteLocalFile');
 const { documentTypes } = require('@pins/common');
 
 const getDocumentsForApplication = async (req, res) => {
-	console.log('hey')
 	const { applicationId } = req.params;
 
 	try {
@@ -104,18 +103,15 @@ const serveDocumentById = async (req, res) => {
 	}
 };
 
-const addHorizonMetadata = async (req, res) => {
-	// //This is currently set to @documentTypes.name, which will never line up with the documentTypes mappings file, due to this using
-	// //documentTypes object in common to map this value to the display name will allow the values to match correctly
-	// const documentName = documentTypes.documentType.displayName;
-	// body.append('documentName', documentName);
+//TODO: put this in lib/addFileMetadata.js
+const getHorizonMetadata = (documentType) => {
+	let horizonMetadata = {
+		horizon_document_type: documentTypes[documentType].horizonDocumentType,
+		horizon_document_group_type: documentTypes[documentType].horizonDocumentGroupType
+	};
 
-	// //If there is an associated GroupType for the documentType append this to the body
-	// if (documentTypes[documentType].groupType) {
-	// 	const documentGroupTypeValue = documentTypes[documentType].groupType;
-	// 	body.append('documentGroupTypeValue', documentGroupTypeValue);
-	// }
-}
+	return horizonMetadata;
+};
 
 const uploadDocument = async (req, res) => {
 	const {
@@ -130,7 +126,7 @@ const uploadDocument = async (req, res) => {
 
 		req.log.info({ file, applicationId }, 'Uploading new file');
 
-		const document = {
+		let document = {
 			application_id: applicationId,
 			name: originalname,
 			filename,
@@ -141,6 +137,12 @@ const uploadDocument = async (req, res) => {
 			id,
 			document_type: documentType
 		};
+
+		// We could do this in lib/addFileMetadata.addFileMetadata(), but then we'd need to map those values over above,
+		// We want to minimize Horizon references so when its eventually removed, the less references there are, the
+		// easier the removal will be!
+		let horizonMetadata = getHorizonMetadata(documentType);
+		document = { ...document, ...horizonMetadata };
 
 		req.log.info(
 			{
