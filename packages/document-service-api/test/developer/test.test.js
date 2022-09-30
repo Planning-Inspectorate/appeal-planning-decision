@@ -1,96 +1,38 @@
-// const { BlobServiceClient } = require('@azure/storage-blob');
-// const supertest = require('supertest');
-// const app = require('../../src/server');
-// const http = require('http');
-
-// // jest.mock('mongoose', () => {
-// // 	// Auto-mocking isn't quite right on the virtual - doesn't return "get"
-// // 	return {
-// // 		model: jest.fn(),
-// // 		Schema: jest.fn(),
-// // 		DocumentsSchema: { index: jest.fn()}
-// // 	};
-// // });
-
-// const mongoose = require('mongoose');
-
-// // mongoose.Schema.mockImplementation(() => ({
-// // 	index: jest.fn(),
-// // 	loadClass: jest.fn(),
-// // 	set: jest.fn(),
-// // 	virtual: virtualMock
-// // }));
-
 // //@TODO add feature flag here
 // // if (true) {
-// let request;
-// const applicationId = 'be046963-6cdd-4958-bd58-11be56304329';
-// const documentId = '72c188c7-d034-48a9-b712-c94a1c571f9d';
-
-// // const mockGetContainerClient = {
-// // 	createIfNotExists: () => true
-// // };
-
-// // jest.mock('@azure/storage-blob', () => ({
-// // 	BlobServiceClient: {
-// // 		fromConnectionString: () => ({
-// // 			getContainerClient: () => mockGetContainerClient
-// // 		})
-// // 	}
-// // }));
-
-//jest.setTimeout(30000);
-
-// beforeAll(async () => {
-// 	// let server = http.createServer(app);
-// 	// console.log(server);
-// 	request = supertest(app);
-// });
-
-// 	describe('test', () => {
-// 		it('when', async () => {
-// 			// Given: a file
-// 			const fileOne = {
-// 				params: {},
-// 				log: {
-// 					debug: jest.fn(),
-// 					info: jest.fn(),
-// 					error: jest.fn(),
-// 					warn: jest.fn()
-// 				},
-// 				query: {
-// 					base64: 'false'
-// 				},
-// 				file: {
-// 					mimetype: 'application/pdf',
-// 					originalname: '',
-// 					filename: 'document-one.pdf',
-// 					size: 1000,
-// 					id: '72c188c7-d034-48a9-b712-c94a1c571f9d',
-// 					date: new Date().toISOString()
-// 				}
-// 			};
-
-// 			//When -> Someone uploads doc
-// 			// const result = await request.post('/api/v1/12345').send(fileOne)
-// 			const result = await request.get('/test')
-// 			console.log(result)
-// 		})
-// 		// it('Then', async () => {
-
-// 		// })
-// 		//Then -> Response should be as expected
-// 		//
-// 	})
-// // }
-
+const { documentTypes } = require('@pins/common');
 const supertest = require('supertest');
 const app = require('../../src/app');
 const api = supertest(app);
-describe('test', () => {
-	it('will do something', async () => {
-		const response = await api.get('/api/v1/12345');
-		expect(response.statusCode).toBe(200);
-		expect(response.text).toBe('{"name":"john"}');
-	});
+const path = require('path');
+const each = require('jest-each').default;
+
+describe('document-service-api', () => {
+	// To prevent this test being brittle (since it inherently relies on the @pins/common NPM module),
+	// we're constructing the parameters for the test based on introspecting what is in that
+	// @pins/common module. By doing this we don't need to update this test if that module changes.
+	let parameters = [];
+	for (const key in documentTypes) {
+		parameters.push([
+			key,
+			documentTypes[key].horizonDocumentType,
+			documentTypes[key].horizonDocumentGroupType
+		]);
+	}
+
+	each(parameters).test(
+		'Given a "%s" document type, when a document of this type is uploaded via the API, the response will state that the Horizon document type and group type are "%s" and "%s"',
+		async (documentType, expectedHorizonDocumentType, expectedHorizonDocumentGroupType) => {
+			// When
+			const response = await api
+				.post('/api/v1/12345')
+				.field('documentType', documentType)
+				.attach('file', path.join(__dirname, 'sample.pdf'));
+
+			// Then
+			expect(response.statusCode).toBe(202);
+			expect(response.body.horizon_document_type).toBe(expectedHorizonDocumentType);
+			expect(response.body.horizon_document_group_type).toBe(expectedHorizonDocumentGroupType);
+		}
+	);
 });

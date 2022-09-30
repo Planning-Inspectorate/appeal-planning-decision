@@ -1,4 +1,4 @@
-const config = require('../lib/config');
+const config = require('./lib/config');
 const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');

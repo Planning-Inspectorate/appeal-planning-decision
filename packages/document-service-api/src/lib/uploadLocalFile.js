@@ -15,7 +15,6 @@ const multerConfig = {
 };
 
 const uploadLocalFile = (req, res, next) => {
-	console.log('HERE')
 	multer(multerConfig).single('file')(req, res, (err) => {
 		if (err) {
 			if (err.code === 'LIMIT_FILE_SIZE') {
