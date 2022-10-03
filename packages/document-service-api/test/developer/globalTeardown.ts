@@ -1,6 +1,6 @@
 module.exports = async () => {
-	const { destroyMongoContainer } = require('./mongodb-container-helper');
-	const { destroyAzuriteContainer } = require('./azurite-container-helper');
+	const { destroyMongoContainer } = require('./testcontainer-helpers/mongodb-container-helper');
+	const { destroyAzuriteContainer } = require('./testcontainer-helpers/azurite-container-helper');
 	await destroyMongoContainer();
 	await destroyAzuriteContainer();
 };

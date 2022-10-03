@@ -1,6 +1,6 @@
 module.exports = async () => {
-	const { createMongoContainer } = require('./mongodb-container-helper');
-	const { createAzuriteContainer } = require('./azurite-container-helper');
+	const { createMongoContainer } = require('./testcontainer-helpers/mongodb-container-helper');
+	const { createAzuriteContainer } = require('./testcontainer-helpers/azurite-container-helper');
 	await createMongoContainer();
 	await createAzuriteContainer();
 };
