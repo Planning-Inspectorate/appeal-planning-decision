@@ -8,8 +8,9 @@ const uuid = require('uuid');
 const logger = require('./lib/logger');
 const routes = require('./routes');
 require('express-async-errors');
-
 const app = express();
+const { AsyncLocalStorage } = require('node:async_hooks');
+const asyncLocalStorage = new AsyncLocalStorage();
 
 prometheus.init(app);
 
@@ -21,6 +22,12 @@ app
 		})
 	)
 	.use(bodyParser.json())
+	.use((req, res, next) => {
+		asyncLocalStorage.run(new Map(), () => {
+			asyncLocalStorage.getStore().set("request", req);
+			next();
+		  });
+	})
 	.use('/', routes)
 	.use((req, res) => {
 		/* Handle 404 error */
