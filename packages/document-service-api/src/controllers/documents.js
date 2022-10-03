@@ -8,6 +8,7 @@ const {
 } = require('../lib/blobStorage');
 const deleteLocalFile = require('../lib/deleteLocalFile');
 const { documentTypes } = require('@pins/common');
+const { featureFlag } = require('../../config/featureFlag')
 
 const getDocumentsForApplication = async (req, res) => {
 	const { applicationId } = req.params;
@@ -138,11 +139,15 @@ const uploadDocument = async (req, res) => {
 			document_type: documentType
 		};
 
+		//TODO add feature flag here? Or just put a check here to ensure data exists/was added above. 
+
 		// We could do this in lib/addFileMetadata.addFileMetadata(), but then we'd need to map those values over above,
 		// We want to minimize Horizon references so when its eventually removed, the less references there are, the
 		// easier the removal will be!
-		let horizonMetadata = getHorizonMetadata(documentType);
-		document = { ...document, ...horizonMetadata };
+		// if () {
+		// 	let horizonMetadata = getHorizonMetadata(documentType);
+		// 	document = { ...document, ...horizonMetadata };
+		// }
 
 		req.log.info(
 			{
@@ -153,7 +158,6 @@ const uploadDocument = async (req, res) => {
 		);
 
 		const metadata = await uploadFile(containerClient, document);
-
 		await deleteLocalFile(file);
 
 		res.status(202).send(metadata);

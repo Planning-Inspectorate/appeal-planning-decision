@@ -6,12 +6,13 @@
  * values are required
  */
 
+
 const path = require('path');
 
 module.exports = {
 	db: {
 		mongodb: {
-			url: process.env.MONGODB_URL,
+			url: process.env.MONGODB_URL || 'mongodb://localhost:27017/document-service-api',
 			opts: {
 				autoIndex: process.env.MONGODB_AUTO_INDEX !== 'false',
 				dbName: process.env.MONGODB_DB_NAME,
@@ -28,7 +29,7 @@ module.exports = {
 		}
 	},
 	fileUpload: {
-		maxSizeInBytes: Number(process.env.FILE_MAX_SIZE_IN_BYTES || 1000),
+		maxSizeInBytes: Number(process.env.FILE_MAX_SIZE_IN_BYTES || 15000000),
 		mimeTypes: [
 			'application/pdf', // pdf
 			'application/msword', // doc
@@ -37,7 +38,7 @@ module.exports = {
 			'image/jpeg', // jpeg
 			'image/png' // png
 		],
-		path: process.env.FILE_UPLOAD_PATH
+		path: process.env.FILE_UPLOAD_PATH || '/tmp/upload'
 	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || /* istanbul ignore next */ 'info',
@@ -48,8 +49,8 @@ module.exports = {
 		showErrors: process.env.SERVER_SHOW_ERRORS === 'true'
 	},
 	storage: {
-		container: process.env.STORAGE_CONTAINER_NAME,
-		connectionString: process.env.BLOB_STORAGE_CONNECTION_STRING,
+		container: process.env.STORAGE_CONTAINER_NAME || 'document-service-uploads',
+		connectionString: process.env.BLOB_STORAGE_CONNECTION_STRING || 'DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1',
 		processMaxAttempts: Number(process.env.STORAGE_UPLOAD_MAX_ATTEMPTS || 3),
 		processQueryLimit: Number(process.env.STORAGE_UPLOAD_QUERY_LIMIT || 5)
 	}
