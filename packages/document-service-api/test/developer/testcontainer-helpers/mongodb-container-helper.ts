@@ -1,4 +1,4 @@
-import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
+import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers';
 
 let startedContainer: StartedTestContainer;
 

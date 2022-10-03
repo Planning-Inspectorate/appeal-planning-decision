@@ -27,7 +27,7 @@ describe('document-service-api', () => {
 			const response = await api
 				.post('/api/v1/12345')
 				.field('documentType', documentType)
-				.attach('file', path.join(__dirname, 'sample.pdf'));
+				.attach('file', path.join(__dirname, './test-files/sample.pdf'));
 
 			// Then
 			expect(response.statusCode).toBe(202);
