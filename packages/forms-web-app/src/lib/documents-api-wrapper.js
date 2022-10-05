@@ -68,6 +68,7 @@ const createDocument = async (appeal, data, fileName, documentType, sectionTag =
 	}
 
 	body.append('documentType', documentType);
+	body.append('appeal', appeal);
 
 	const apiResponse = await handler(`${config.documents.url}/api/v1/${appeal.id}`, 'POST', {
 		body
@@ -84,7 +85,7 @@ const createDocument = async (appeal, data, fileName, documentType, sectionTag =
 };
 
 const fetchDocument = (appealOrQuestionnaireId, documentId) =>
-	handler(`${config.documents.url}/api/v1/${appealOrQuestionnaireId}/${documentId}/file`);
+	handler(`${config.documents.url}/api/v1/${documentId}/file`);
 
 module.exports = {
 	createDocument,
