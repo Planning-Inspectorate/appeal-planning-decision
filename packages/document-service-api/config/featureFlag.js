@@ -6,12 +6,7 @@ const connectionString =
 const appConfigClient = new AppConfigurationClient(connectionString);
 
 const isFeatureActive = async (featureFlagName) => {
-	// TODO: grab a user/user-group identifier from this and pass it along to the
-	// request sent to the feature flag server so it can target the user/user-group
-	// when assessing if thefeature is active.
-	const request = getAsyncLocalStorage().getStore().get('request');
-	console.log(request);
-
+	const lpaCode = getAsyncLocalStorage().getStore().get('request').appeal.lpaCode;
 	let flagName = featureFlagName.toString().trim();
 
 	if (!flagName) {
@@ -19,7 +14,21 @@ const isFeatureActive = async (featureFlagName) => {
 	} else {
 		try {
 			const result = await appConfigClient.getConfigurationSetting({
-				key: `.appconfig.featureflag/${flagName}`
+				key: `.appconfig.featureflag/${flagName}`,
+				value: {
+					conditions: {
+						clientFilters: [
+							{
+								name: 'Microsoft.Targeting',
+								parameters: {
+									Audience: {
+										Groups: [{ Name: lpaCode }]
+									}
+								}
+							}
+						]
+					}
+				}
 			});
 
 			if (result && typeof result === 'object') {
@@ -31,7 +40,6 @@ const isFeatureActive = async (featureFlagName) => {
 			return false;
 		}
 	}
-
 	return false;
 };
 

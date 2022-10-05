@@ -27,6 +27,7 @@ describe('document-service-api', () => {
 			const response = await api
 				.post('/api/v1/12345')
 				.field('documentType', documentType)
+				.field('appeal', { lpaCode: 'DEV_TEST' })
 				.attach('file', path.join(__dirname, './test-files/sample.pdf'));
 
 			// Then
