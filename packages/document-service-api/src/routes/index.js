@@ -8,20 +8,12 @@ const { Router } = require('express');
 const apiDocs = require('./apiDocs');
 const application = require('./application');
 const migrateMetadata = require('./migrateMetadata');
-const isFeatureActive = require('../../config/featureFlag');
 
 const router = Router();
 
 router.use('/api-docs', apiDocs);
 router.use('/api/v1/migrate-metadata', migrateMetadata);
 //TODO: remove applicationId here since there isn't any notion of an appeal (its named incorrectly as well...) on any data store backing this API
-router.use('/api/v1/:applicationId', application);
-router.post('/api/v1/featureFlag', async (_, res) => {
-	if (await isFeatureActive('test-flag')) {
-		res.send('Flag on');
-	} else {
-		res.send('Flag off');
-	}
-});
+router.use('/api/v1/:applicationId/:lpaId', application);
 
 module.exports = router;

@@ -25,9 +25,8 @@ describe('document-service-api', () => {
 		async (documentType, expectedHorizonDocumentType, expectedHorizonDocumentGroupType) => {
 			// When
 			const response = await api
-				.post('/api/v1/12345')
+				.post('/api/v1/12345/E69999999')
 				.field('documentType', documentType)
-				.field('appeal', { lpaCode: 'DEV_TEST' })
 				.attach('file', path.join(__dirname, './test-files/sample.pdf'));
 
 			// Then
