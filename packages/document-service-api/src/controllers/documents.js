@@ -8,7 +8,7 @@ const {
 } = require('../lib/blobStorage');
 const deleteLocalFile = require('../lib/deleteLocalFile');
 const { documentTypes } = require('@pins/common');
-const { featureFlag } = require('../../config/featureFlag')
+const isFeatureActive = require('../../config/featureFlag');
 
 const getDocumentsForApplication = async (req, res) => {
 	const { applicationId } = req.params;
@@ -119,7 +119,7 @@ const uploadDocument = async (req, res) => {
 		file,
 		file: { mimetype, originalname, filename, size, id, uploadDate } = {},
 		body: { documentType },
-		params: { applicationId }
+		params: { applicationId, lpaId }
 	} = req;
 
 	try {
@@ -139,15 +139,18 @@ const uploadDocument = async (req, res) => {
 			document_type: documentType
 		};
 
-		//TODO add feature flag here? Or just put a check here to ensure data exists/was added above. 
+		//TODO add feature flag here? Or just put a check here to ensure data exists/was added above.
 
 		// We could do this in lib/addFileMetadata.addFileMetadata(), but then we'd need to map those values over above,
 		// We want to minimize Horizon references so when its eventually removed, the less references there are, the
 		// easier the removal will be!
-		// if () {
-		// 	let horizonMetadata = getHorizonMetadata(documentType);
-		// 	document = { ...document, ...horizonMetadata };
-		// }
+
+		if (await isFeatureActive('test-flag')) {
+			console.log(lpaId);
+			//TODO if lpaId is in user group... :
+			let horizonMetadata = getHorizonMetadata(documentType);
+			document = { ...document, ...horizonMetadata };
+		}
 
 		req.log.info(
 			{
