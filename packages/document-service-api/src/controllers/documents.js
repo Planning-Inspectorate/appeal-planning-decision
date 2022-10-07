@@ -145,9 +145,7 @@ const uploadDocument = async (req, res) => {
 		// We want to minimize Horizon references so when its eventually removed, the less references there are, the
 		// easier the removal will be!
 
-		if (await isFeatureActive('test-flag')) {
-			console.log(lpaId);
-			//TODO if lpaId is in user group... :
+		if (await isFeatureActive('test-flag', lpaId)) {
 			let horizonMetadata = getHorizonMetadata(documentType);
 			document = { ...document, ...horizonMetadata };
 		}
