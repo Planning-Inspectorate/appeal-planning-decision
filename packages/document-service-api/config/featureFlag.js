@@ -5,7 +5,7 @@ const connectionString =
 	'Endpoint=https://pins-asc-appeals-service-dev-ukw-001.azconfig.io;Id=xbZ0-ln-s0:DSk9gGngBpWQ2wivO6nB;Secret=tMBrLU5G3geDGvVUeteY3tQXZDY7SBbCAnSwYzLg1cg=';
 const appConfigClient = new AppConfigurationClient(connectionString);
 
-const isFeatureActive = async (featureFlagName) => {
+const isFeatureActive = async (featureFlagName, user) => {
 	//const lpaCode = getAsyncLocalStorage().getStore().get('request'); //.body.lpaCode;
 	let flagName = featureFlagName.toString().trim();
 
@@ -19,8 +19,11 @@ const isFeatureActive = async (featureFlagName) => {
 			//{fields: {conditions: clientFilters: {name: 'Microsoft.Targeting', parameters: Group}}});
 
 			if (result && typeof result === 'object') {
-				console.debug('Feature: ' + JSON.parse(result.value).id, JSON.parse(result.value).enabled);
-				return JSON.parse(result.value).enabled;
+				const parsedResult = JSON.parse(result.value);
+				const userGroup = parsedResult.conditions.client_filters[0].parameters.Audience.Users;
+				const isUserInUserGroup = userGroup.includes(user);
+				console.debug('Feature: ' + parsedResult.id, parsedResult.enabled);
+				return parsedResult.enabled && isUserInUserGroup;
 			}
 		} catch (error) {
 			console.error(error);
@@ -29,6 +32,17 @@ const isFeatureActive = async (featureFlagName) => {
 	}
 	return false;
 };
+
+// const setUpTestFeatureFlag = async (featureFlagName, testUser) => {
+// 	let flagName = featureFlagName.toString().trim();
+
+// 	const getResponse = await appConfigClient.getConfigurationSetting({
+// 		key: `.appconfig.featureflag/${flagName}`
+// 	});
+// 	const testFeatureFlag = parseFeatureFlag(getResponse);
+// 	const userGroup = testFeatureFlag.value.conditions.clientFilters[0].parameters.Audience.Users;
+// 	console.log('USER GROUP:', userGroup);
+// };
 
 module.exports = isFeatureActive;
 

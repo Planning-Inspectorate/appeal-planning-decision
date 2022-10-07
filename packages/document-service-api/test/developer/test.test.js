@@ -6,11 +6,13 @@ const app = require('../../src/app');
 const api = supertest(app);
 const path = require('path');
 const each = require('jest-each').default;
+//const { setUpTestFeatureFlag } = require('../../config/featureFlag');
 
 describe('document-service-api', () => {
 	// To prevent this test being brittle (since it inherently relies on the @pins/common NPM module),
 	// we're constructing the parameters for the test based on introspecting what is in that
 	// @pins/common module. By doing this we don't need to update this test if that module changes.
+
 	let parameters = [];
 	for (const key in documentTypes) {
 		parameters.push([
@@ -23,6 +25,8 @@ describe('document-service-api', () => {
 	each(parameters).test(
 		'Given a "%s" document type, when a document of this type is uploaded via the API, the response will state that the Horizon document type and group type are "%s" and "%s"',
 		async (documentType, expectedHorizonDocumentType, expectedHorizonDocumentGroupType) => {
+			//await setUpTestFeatureFlag('test-flag', 'E69999999');
+
 			// When
 			const response = await api
 				.post('/api/v1/12345/E69999999')
