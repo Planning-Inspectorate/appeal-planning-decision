@@ -1,12 +1,9 @@
-// //@TODO add feature flag here
-// // if (true) {
 const { documentTypes } = require('@pins/common');
 const supertest = require('supertest');
 const app = require('../../src/app');
 const api = supertest(app);
 const path = require('path');
 const each = require('jest-each').default;
-//const { setUpTestFeatureFlag } = require('../../config/featureFlag');
 
 describe('document-service-api', () => {
 	// To prevent this test being brittle (since it inherently relies on the @pins/common NPM module),
@@ -25,11 +22,10 @@ describe('document-service-api', () => {
 	each(parameters).test(
 		'Given a "%s" document type, when a document of this type is uploaded via the API, the response will state that the Horizon document type and group type are "%s" and "%s"',
 		async (documentType, expectedHorizonDocumentType, expectedHorizonDocumentGroupType) => {
-			//await setUpTestFeatureFlag('test-flag', 'E69999999');
-
 			// When
 			const response = await api
-				.post('/api/v1/12345/E69999999')
+				.post('/api/v1/12345')
+				.field('lpaCode', 'DEV_TEST')
 				.field('documentType', documentType)
 				.attach('file', path.join(__dirname, './test-files/sample.pdf'));
 

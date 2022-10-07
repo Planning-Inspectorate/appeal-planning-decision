@@ -16,13 +16,13 @@ const isFeatureActive = async (featureFlagName, user) => {
 			const result = await appConfigClient.getConfigurationSetting({
 				key: `.appconfig.featureflag/${flagName}`
 			});
-			//{fields: {conditions: clientFilters: {name: 'Microsoft.Targeting', parameters: Group}}});
 
 			if (result && typeof result === 'object') {
 				const parsedResult = JSON.parse(result.value);
 				const userGroup = parsedResult.conditions.client_filters[0].parameters.Audience.Users;
 				const isUserInUserGroup = userGroup.includes(user);
-				console.debug('Feature: ' + parsedResult.id, parsedResult.enabled);
+				console.debug('Feature flag: ' + parsedResult.id, parsedResult.enabled);
+				console.debug('User in feature flag user group: ' + isUserInUserGroup);
 				return parsedResult.enabled && isUserInUserGroup;
 			}
 		} catch (error) {
@@ -33,18 +33,7 @@ const isFeatureActive = async (featureFlagName, user) => {
 	return false;
 };
 
-// const setUpTestFeatureFlag = async (featureFlagName, testUser) => {
-// 	let flagName = featureFlagName.toString().trim();
-
-// 	const getResponse = await appConfigClient.getConfigurationSetting({
-// 		key: `.appconfig.featureflag/${flagName}`
-// 	});
-// 	const testFeatureFlag = parseFeatureFlag(getResponse);
-// 	const userGroup = testFeatureFlag.value.conditions.clientFilters[0].parameters.Audience.Users;
-// 	console.log('USER GROUP:', userGroup);
-// };
-
-module.exports = isFeatureActive;
+module.exports = { isFeatureActive };
 
 // /**
 //  * typeguard - for targeting client filter

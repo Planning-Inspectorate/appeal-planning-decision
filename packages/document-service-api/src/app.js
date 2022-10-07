@@ -9,11 +9,13 @@ const logger = require('./lib/logger');
 const routes = require('./routes');
 require('express-async-errors');
 const app = express();
+
 //const getAsyncLocalStorage = require('../config/asyncLocalStorage');
 
 prometheus.init(app);
 
 app
+	.use(bodyParser.json())
 	.use(
 		pinoExpress({
 			logger,
@@ -26,7 +28,7 @@ app
 	// 		next();
 	// 	});
 	// })
-	.use(bodyParser.json())
+
 	.use('/', routes)
 	.use((req, res) => {
 		/* Handle 404 error */

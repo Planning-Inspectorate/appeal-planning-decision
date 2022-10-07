@@ -68,7 +68,7 @@ const createDocument = async (appeal, data, fileName, documentType, sectionTag =
 	}
 
 	body.append('documentType', documentType);
-	//body.append('appeal', appeal); TODO: add appeal as JSON to POST payload, *not* appending here
+	body.append('lpaCode', appeal.lpaCode); // TODO: add appeal as JSON to POST payload, *not* appending here
 
 	const apiResponse = await handler(`${config.documents.url}/api/v1/${appeal.id}`, 'POST', {
 		body
@@ -85,7 +85,7 @@ const createDocument = async (appeal, data, fileName, documentType, sectionTag =
 };
 
 const fetchDocument = (appealOrQuestionnaireId, documentId) =>
-	handler(`${config.documents.url}/api/v1/${documentId}/file`);
+	handler(`${config.documents.url}/api/v1/${appealOrQuestionnaireId}/${documentId}/file`);
 
 module.exports = {
 	createDocument,
