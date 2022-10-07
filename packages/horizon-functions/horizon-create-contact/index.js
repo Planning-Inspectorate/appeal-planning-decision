@@ -9,6 +9,10 @@ module.exports = async (context, req) => {
 
 	context.log('Receiving create contact request');
 
+	context.log('=================');
+	context.log(req);
+	context.log('=================');
+
 	const { body } = req;
 
 	/* The order of this appears to be important - first and last name's are required by Horizon */
