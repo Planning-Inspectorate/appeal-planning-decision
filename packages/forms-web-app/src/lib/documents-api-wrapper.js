@@ -14,7 +14,7 @@ function isTheFormDataBuffer(data) {
 	return isDataBuffer(data) && data.tempFilePath;
 }
 
-const handler = async (url, method = 'GET', data = {}) => {
+const handler = async (url, method = 'GET', data = {}, localPlanningAuthorityCode = '') => {
 	const correlationId = uuid.v4();
 	const logger = parentLogger.child({
 		correlationId,
@@ -27,7 +27,8 @@ const handler = async (url, method = 'GET', data = {}) => {
 		apiResponse = await fetch(url, {
 			method,
 			headers: {
-				'X-Correlation-ID': correlationId
+				'X-Correlation-ID': correlationId,
+				'local-planning-authority-code': localPlanningAuthorityCode
 			},
 			...data
 		});
@@ -68,11 +69,15 @@ const createDocument = async (appeal, data, fileName, documentType, sectionTag =
 	}
 
 	body.append('documentType', documentType);
-	body.append('lpaCode', appeal.lpaCode); // TODO: add appeal as JSON to POST payload, *not* appending here
 
-	const apiResponse = await handler(`${config.documents.url}/api/v1/${appeal.id}`, 'POST', {
-		body
-	});
+	const apiResponse = await handler(
+		`${config.documents.url}/api/v1/${appeal.id}`,
+		'POST',
+		{
+			body
+		},
+		appeal.lpaCode
+	);
 
 	const response = await apiResponse.json();
 

@@ -1,4 +1,5 @@
 // TODO: Make an abstract "Document" class and implement concrete classes accordingly. See https://stackoverflow.com/questions/597769/how-do-i-create-an-abstract-base-class-in-javascript
+// TODO: Make these accessible via a GET on the documents-service-api endpoint since this means any updates can be retrieved immediately by all teams.
 /**
  * Each document type below has a Horizon group type and document type so that, when the document lands in Horizon,
  * it is shuffled into the correct directory in the case worker's UI. Most documents have the defaults of

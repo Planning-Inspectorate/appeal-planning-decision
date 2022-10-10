@@ -5,6 +5,10 @@ const api = supertest(app);
 const path = require('path');
 const each = require('jest-each').default;
 
+jest.mock('../../src/lib/featureFlag', () => ({
+	isFeatureActive: () => true
+}));
+
 describe('document-service-api', () => {
 	// To prevent this test being brittle (since it inherently relies on the @pins/common NPM module),
 	// we're constructing the parameters for the test based on introspecting what is in that
@@ -25,7 +29,7 @@ describe('document-service-api', () => {
 			// When
 			const response = await api
 				.post('/api/v1/12345')
-				.field('lpaCode', 'DEV_TEST')
+				.set('local-planning-authority-code', 'DEV_TEST')
 				.field('documentType', documentType)
 				.attach('file', path.join(__dirname, './test-files/sample.pdf'));
 
