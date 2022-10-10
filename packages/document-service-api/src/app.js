@@ -10,8 +10,6 @@ const routes = require('./routes');
 require('express-async-errors');
 const app = express();
 
-//const getAsyncLocalStorage = require('../config/asyncLocalStorage');
-
 prometheus.init(app);
 
 app
@@ -22,13 +20,6 @@ app
 			genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4()
 		})
 	)
-	// .use((req, res, next) => {
-	// 	getAsyncLocalStorage().run(new Map(), () => {
-	// 		getAsyncLocalStorage().getStore().set('request', req);
-	// 		next();
-	// 	});
-	// })
-
 	.use('/', routes)
 	.use((req, res) => {
 		/* Handle 404 error */

@@ -6,7 +6,6 @@
  * values are required
  */
 
-
 const path = require('path');
 
 module.exports = {
@@ -27,6 +26,10 @@ module.exports = {
 		api: {
 			path: process.env.DOCS_API_PATH || path.join(__dirname, '..', 'api')
 		}
+	},
+	featureFlagging: {
+		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_ENDPOINT,
+		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
 	},
 	fileUpload: {
 		maxSizeInBytes: Number(process.env.FILE_MAX_SIZE_IN_BYTES || 15000000),
@@ -50,7 +53,9 @@ module.exports = {
 	},
 	storage: {
 		container: process.env.STORAGE_CONTAINER_NAME || 'document-service-uploads',
-		connectionString: process.env.BLOB_STORAGE_CONNECTION_STRING || 'DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1',
+		connectionString:
+			process.env.BLOB_STORAGE_CONNECTION_STRING ||
+			'DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1',
 		processMaxAttempts: Number(process.env.STORAGE_UPLOAD_MAX_ATTEMPTS || 3),
 		processQueryLimit: Number(process.env.STORAGE_UPLOAD_QUERY_LIMIT || 5)
 	}

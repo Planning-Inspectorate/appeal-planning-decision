@@ -8,7 +8,7 @@ const {
 } = require('../lib/blobStorage');
 const deleteLocalFile = require('../lib/deleteLocalFile');
 const { documentTypes } = require('@pins/common');
-const { isFeatureActive } = require('../../config/featureFlag');
+const { isFeatureActive } = require('../lib/featureFlag');
 
 const getDocumentsForApplication = async (req, res) => {
 	const { applicationId } = req.params;
@@ -118,7 +118,7 @@ const uploadDocument = async (req, res) => {
 	const {
 		file,
 		file: { mimetype, originalname, filename, size, id, uploadDate } = {},
-		body: { documentType, lpaCode },
+		body: { documentType },
 		params: { applicationId }
 	} = req;
 
@@ -145,7 +145,7 @@ const uploadDocument = async (req, res) => {
 		// We want to minimize Horizon references so when its eventually removed, the less references there are, the
 		// easier the removal will be!
 
-		if (await isFeatureActive('test-flag', lpaCode)) {
+		if (await isFeatureActive('test-flag', req.headers['local-planning-authority-code'])) {
 			let horizonMetadata = getHorizonMetadata(documentType);
 			document = { ...document, ...horizonMetadata };
 		}

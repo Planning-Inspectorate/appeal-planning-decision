@@ -14,6 +14,52 @@ All these are to be run with `npm run <command>`.
 - `test:cov`: runs the unit test suite and tests coverage
 - `test:watch`: runs the unit test suite and watches for changes
 
+## Feature Development and Rollout
+
+We are currently using feature flags (provided by Azure, see [here](https://learn.microsoft.com/en-us/azure/azure-app-configuration/manage-feature-flags)) to develop new features and roll them out. The reasons for this are:
+
+1. We can phase release new features easily, reducing their "blast radius". This reduces the workload associated with
+triaging bugs
+
+2. We can do load testing "in the wild", reducing the burden on QAs and preventing over-engineering.
+
+3. We can A/B test new features, making designers' lives easier.
+
+4. We can reduce the number of intermediate environments between local development and pushing to production.
+
+5. Enables trunk-based development since parallel work can be done in feature isolation on the code base.
+
+6. Can do cross-team work in a more coordinated fashion since all services that need modifying can point to the same feature flag during development, and all associated code can be enabled across services at the same time.
+
+### Developing using feature flags
+
+This service uses a `local planning authority code`, which should be derived from the headers of requests coming through to the API,
+to control what users can access features. This is because we do not need to go to the level of individual users in the project! This
+information should be included as a header since headers are intended to hold request-specific context information, and this information
+may not be used for every request. This is opposed to including this information in the request body where all information should be used
+as part of the request.
+
+Due to the single-threaded nature of Node, it's very difficult to get thread-local contexts per request in order to use request-specific 
+information to determine is a feature flag is enabled or not. For example, our attempts to access a local planning authority code without
+passing that parameter through the method calls to where we wanted to add the feature flag were ultimately fruitless. Instead, we have
+decided to pass the `local planning authority code` through the relevant call stack until the feature flag check is performed.
+
+The following process should be used to develop features in this code-base:
+
+1. Set-up the feature flag on Azure: ensure its disabled, and has a `User` with value `E69999999` ('System Test Borough Council') added to it. 
+This is the local planning authority that QAs use for end-to-end testing!
+1. Mock the feature flag method to build out the new feature so that we don't incur a dependency on the Azure feature manager during
+development (this can lead to false negatives/positives). It also ensures that we don't hit the rate limit for Azure! We only want to hit
+the Azure feature manager when running code in production. The feature flag can be mocked in Jest with the following code: `jest.mock('../../src/lib/featureFlag', () => ({ isFeatureActive: () => true }));`
+1. As engineers are satisfied that the feature is complete, enable the feature-flag on Azure, and start to run E2E tests with QAs.
+1. If the feature passes QA validation, add in more and more `local planning authority code`s to the feature's configuration in the Azure 
+feature management portal, according to the rollout plan for the project.
+1. When the feature has been entirely rolled out:
+  1. Remove the feature flag references for the feature throughout the code base, and all `local planning authority code` references for the 
+  feature in the call stack.
+  1. Remove feature flag mocks from feature tests.
+  1. Remove the feature flag from Azure.
+
 ## Project Structure
 
 This application will be deployed as a separate, non-publicly exposed service.

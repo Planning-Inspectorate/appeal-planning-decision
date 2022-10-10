@@ -144,6 +144,7 @@ services:
       MONGODB_AUTO_INDEX: 'true'
       MONGODB_URL: mongodb://mongodb:27017/document-service-api
       SERVER_SHOW_ERRORS: 'true'
+      PINS_FEATURE_FLAG_AZURE_ENDPOINT: 
     ports:
       - 3001:3000
     working_dir: /opt/app
