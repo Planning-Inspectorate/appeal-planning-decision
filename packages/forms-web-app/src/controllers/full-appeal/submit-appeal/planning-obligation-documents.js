@@ -61,21 +61,14 @@ const postPlanningObligationDocuments = async (req, res) => {
 			const uploadedFiles = Array.isArray(fileUpload) ? fileUpload : [fileUpload];
 			await Promise.all(
 				uploadedFiles.map(async (file) => {
-					const { id, location, size } = await createDocument(
+					const document = await createDocument(
 						appeal,
 						file,
 						null,
 						planningObligations,
 						sectionTag
 					);
-					appeal[sectionName][taskName].uploadedFiles.push({
-						id,
-						name: file.name,
-						fileName: file.name,
-						originalFileName: file.name,
-						location,
-						size
-					});
+					appeal[sectionName][taskName].uploadedFiles.push(mapDocumentToSavedDocument(document, file.name, req));
 				})
 			);
 		}

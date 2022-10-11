@@ -1,5 +1,6 @@
 const { AppConfigurationClient } = require('@azure/app-configuration');
 const config = require('./config');
+const logger = require('../lib/logger')
 
 const appConfigClient = new AppConfigurationClient(config.featureFlagging.endpoint);
 const cacheTimeToLiveInMinutes = config.featureFlagging.timeToLiveInMinutes;
@@ -36,8 +37,8 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 	const result = featureFlagCache[featureFlagName];
 	const userGroup = result.conditions.client_filters[0].parameters.Audience.Users;
 	const isUserInUserGroup = userGroup.includes(localPlanningAuthorityCode);
-	console.debug('Feature flag: ' + result.id, result.enabled);
-	console.debug(
+	logger.debug('Feature flag: ' + result.id, result.enabled);
+	logger.debug(
 		'Is local planning authority code in feature flag user group: ' + isUserInUserGroup
 	);
 	return result.enabled && isUserInUserGroup;

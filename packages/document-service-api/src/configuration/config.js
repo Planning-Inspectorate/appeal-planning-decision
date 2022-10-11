@@ -32,7 +32,7 @@ module.exports = {
 		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
 	},
 	fileUpload: {
-		maxSizeInBytes: Number(process.env.FILE_MAX_SIZE_IN_BYTES || 15000000),
+		maxSizeInBytes: Number(process.env.FILE_MAX_SIZE_IN_BYTES || 1000),
 		mimeTypes: [
 			'application/pdf', // pdf
 			'application/msword', // doc

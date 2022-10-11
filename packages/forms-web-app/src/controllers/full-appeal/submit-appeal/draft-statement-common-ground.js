@@ -64,7 +64,7 @@ const postDraftStatementCommonGround = async (req, res) => {
 
 	try {
 		if (files) {
-			const { id, location, size } = await createDocument(
+			const document = await createDocument(
 				appeal,
 				files['file-upload'],
 				null,
@@ -72,14 +72,7 @@ const postDraftStatementCommonGround = async (req, res) => {
 				sectionTag
 			);
 
-			appeal[sectionName][taskName].uploadedFile = {
-				id,
-				name: files['file-upload'].name,
-				fileName: files['file-upload'].name,
-				originalFileName: files['file-upload'].name,
-				location,
-				size
-			};
+			appeal[sectionName][taskName].uploadedFile = mapDocumentToSavedDocument(document, files['file-upload'].name, req)
 		}
 
 		if (req.body['save-and-return'] !== '') {
