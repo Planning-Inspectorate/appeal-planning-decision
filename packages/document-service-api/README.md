@@ -7,7 +7,7 @@ The microservice API for the document service
 1. Remove tests: there are lot of tests that are overly mocked so have little value, and actively work against us improving the
 codebase. Where possible, try to move to high-level testsing as demonstrated in `test/developer/eveloper.test.js`. See
 [🚀 TDD, Where Did It All Go Wrong?](https://www.youtube.com/watch?v=EZ05e7EMOLM) for an explanation of why we're taking this approach.
-  1. Remove `test/utils`: largely useless without the overly-mocked tests plus [Utility classes are evil]().
+  1. Remove `test/utils`: largely useless without the overly-mocked tests plus [Utility classes are evil](https://www.vojtechruzicka.com/avoid-utility-classes/).
 1. Break dependencies on packages outside of this one so that the API is self=contained and can then be owned by a more appropriate team.
 1. Clean-up architecture
   1. Files in `controllers` aren't controllers, whereas files in `routes` are. Files in `controllers` look like services?
