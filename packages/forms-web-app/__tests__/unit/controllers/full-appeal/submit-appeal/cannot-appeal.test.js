@@ -39,7 +39,7 @@ describe('controllers/full-appeal/submit-appeal/cannot-appeal', () => {
 			getCannotAppeal(req, res);
 			const { appeal } = req.session;
 			const beforeYouStartFirstPage = '/before-you-start';
-			console.log(appeal.decisionDate, appeal.eligibility.applicationDecision);
+
 			const deadlineDate = businessRulesDeadline(
 				appeal.decisionDate,
 				appeal.appealType,

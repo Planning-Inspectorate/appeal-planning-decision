@@ -13,6 +13,7 @@ const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
 const { postSaveAndReturn } = require('../../save');
+const mapDocumentToSavedDocument = require('../../../mappers/document-mapper');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'supportingDocuments';
@@ -61,14 +62,10 @@ const postOtherSupportingDocuments = async (req, res) => {
 			const uploadedFiles = Array.isArray(fileUpload) ? fileUpload : [fileUpload];
 			await Promise.all(
 				uploadedFiles.map(async (file) => {
-					const document = await createDocument(
-						appeal,
-						file,
-						null,
-						documentType,
-						sectionTag
+					const document = await createDocument(appeal, file, null, documentType, sectionTag);
+					appeal[sectionName][taskName].uploadedFiles.push(
+						mapDocumentToSavedDocument(document, file.name, appeal.lpaCode)
 					);
-					appeal[sectionName][taskName].uploadedFiles.push(mapDocumentToSavedDocument(document, file.name, req));
 				})
 			);
 		}
