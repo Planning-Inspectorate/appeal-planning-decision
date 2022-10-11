@@ -5,7 +5,7 @@ const api = supertest(app);
 const path = require('path');
 const each = require('jest-each').default;
 
-jest.mock('../../src/lib/featureFlag', () => ({
+jest.mock('../../src/configuration/featureFlag', () => ({
 	isFeatureActive: () => true
 }));
 

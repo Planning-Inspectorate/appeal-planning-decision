@@ -1,7 +1,7 @@
 const fs = require('fs');
 const deleteLocalFile = require('./deleteLocalFile');
 
-jest.mock('./config', () => ({
+jest.mock('../configuration/config', () => ({
 	fileUpload: {
 		path: '/path/to/file/'
 	},
