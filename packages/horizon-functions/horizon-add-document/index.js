@@ -21,12 +21,12 @@ function createDataObject(data, body) {
 	const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
 	const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
 	const documentInvolvementValue = isAppeal(body.documentType) ? 'Appellant' : 'LPA';
-	const documentGroupTypeValue = body.horizon_document_group_type;
+	const documentGroupTypeValue = body.horizonDocumentGroupType;
 	return {
 		// The order of this object is important
 		'a:HorizonAPIDocument': {
 			'a:Content': data.data,
-			'a:DocumentType': body.horizon_document_type,
+			'a:DocumentType': body.horizonDocumentType,
 			'a:Filename': data.name,
 			'a:IsPublished': 'false',
 			'a:Metadata': {

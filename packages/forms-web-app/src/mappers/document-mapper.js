@@ -14,8 +14,8 @@ const mapDocumentToSavedDocument = (document, documentName, req) => {
     if (req.headers && isFeatureFlagActive('horizon-document-labelling', req.headers['local-planning-authority-code'])) {
         savedDocument = { 
             ...savedDocument, 
-            horizonDocumentType: document.horizonDocumentType,
-            horizonGroupType: document.horizonDocumentGroupType
+            horizonDocumentType: document.horizon_document_type,
+            horizonGroupType: document.horizon_document_group_type
         }
     }
 
