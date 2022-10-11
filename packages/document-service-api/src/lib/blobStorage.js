@@ -2,7 +2,7 @@ const { BlobServiceClient } = require('@azure/storage-blob');
 const fs = require('fs');
 const path = require('path');
 const logger = require('./logger');
-const config = require('./config');
+const config = require('../configuration/config');
 
 const initContainerClient = async () => {
 	logger.info('Connecting to blob storage');

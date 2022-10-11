@@ -36,7 +36,7 @@ const mockGetContainerClient = {
 
 let containerClient;
 
-jest.mock('./config', () => ({
+jest.mock('../configuration/config', () => ({
 	fileUpload: {
 		path: ''
 	},

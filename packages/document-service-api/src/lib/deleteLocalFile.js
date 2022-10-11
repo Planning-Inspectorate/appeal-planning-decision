@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const logger = require('./logger');
-const config = require('./config');
+const config = require('../configuration/config');
 
 const deleteLocalFile = async (file) => {
 	const { fileUpload } = config;

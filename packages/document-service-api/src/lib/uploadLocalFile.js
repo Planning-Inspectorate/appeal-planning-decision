@@ -1,5 +1,5 @@
 const multer = require('multer');
-const config = require('./config');
+const config = require('../configuration/config');
 
 const {
 	fileUpload: { maxSizeInBytes, path, mimeTypes }

@@ -1,7 +1,7 @@
 const multer = require('multer');
 const uploadLocalFile = require('./uploadLocalFile');
 const { mockReq, mockRes, mockNext } = require('../../test/utils/mocks');
-const config = require('./config');
+const config = require('../configuration/config');
 
 jest.mock('multer');
 

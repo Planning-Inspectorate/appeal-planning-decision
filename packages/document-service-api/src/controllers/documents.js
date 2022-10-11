@@ -8,7 +8,7 @@ const {
 } = require('../lib/blobStorage');
 const deleteLocalFile = require('../lib/deleteLocalFile');
 const { documentTypes } = require('@pins/common');
-const { isFeatureActive } = require('../lib/featureFlag');
+const { isFeatureActive } = require('../configuration/featureFlag');
 
 const getDocumentsForApplication = async (req, res) => {
 	const { applicationId } = req.params;
@@ -104,16 +104,6 @@ const serveDocumentById = async (req, res) => {
 	}
 };
 
-//TODO: put this in lib/addFileMetadata.js
-const getHorizonMetadata = (documentType) => {
-	let horizonMetadata = {
-		horizon_document_type: documentTypes[documentType].horizonDocumentType,
-		horizon_document_group_type: documentTypes[documentType].horizonDocumentGroupType
-	};
-
-	return horizonMetadata;
-};
-
 const uploadDocument = async (req, res) => {
 	const {
 		file,
@@ -139,13 +129,13 @@ const uploadDocument = async (req, res) => {
 			document_type: documentType
 		};
 
-		//TODO add feature flag here? Or just put a check here to ensure data exists/was added above.
-
 		// We could do this in lib/addFileMetadata.addFileMetadata(), but then we'd need to map those values over above,
 		// We want to minimize Horizon references so when its eventually removed, the less references there are, the
 		// easier the removal will be!
-
-		if (await isFeatureActive('test-flag', req.headers['local-planning-authority-code'])) {
+		if (
+			req.headers &&
+			(await isFeatureActive('test-flag', req.headers['local-planning-authority-code']))
+		) {
 			let horizonMetadata = getHorizonMetadata(documentType);
 			document = { ...document, ...horizonMetadata };
 		}
@@ -205,6 +195,15 @@ const deleteDocument = async (req, res) => {
 			message: err.message
 		});
 	}
+};
+
+const getHorizonMetadata = (documentType) => {
+	let horizonMetadata = {
+		horizon_document_type: documentTypes[documentType].horizonDocumentType,
+		horizon_document_group_type: documentTypes[documentType].horizonDocumentGroupType
+	};
+
+	return horizonMetadata;
 };
 
 module.exports = {

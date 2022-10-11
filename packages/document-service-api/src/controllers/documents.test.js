@@ -7,11 +7,9 @@ const {
 	deleteDocument
 } = require('./documents');
 const BlobStorage = require('../lib/blobStorage');
-const deleteLocalFile = require('../lib/deleteLocalFile');
 const { mockReq, mockRes } = require('../../test/utils/mocks');
 
 const containerClient = () => 'mock-container-client';
-const uploadDate = new Date().toISOString();
 const applicationId = 'be046963-6cdd-4958-bd58-11be56304329';
 const documentId = '72c188c7-d034-48a9-b712-c94a1c571f9d';
 const fileOne = {
@@ -32,16 +30,6 @@ const fileTwo = {
 };
 const multipleFilesReturnValue = [fileOne, fileTwo];
 const singleFileReturnValue = fileOne;
-const uploadedFileReturnValue = {
-	application_id: applicationId,
-	name: fileOne.metadata.name,
-	upload_date: uploadDate,
-	mime_type: fileOne.metadata.mime_type,
-	location: `${applicationId}/${documentId}/${fileOne.metadata.name}`,
-	size: String(fileOne.metadata.size),
-	id: documentId,
-	document_type: documentTypes.appealPdf.name
-};
 
 jest.mock('../lib/blobStorage', () => ({
 	initContainerClient: containerClient,
@@ -303,34 +291,6 @@ describe('controllers/documents', () => {
 			req.body = {
 				documentType: documentTypes.appealPdf.name
 			};
-		});
-
-		it('should return the metadata when a file is uploaded successfully', async () => {
-			req.file = {
-				mimetype: fileOne.metadata.mime_type,
-				originalname: fileOne.metadata.name,
-				filename: fileOne.metadata.name,
-				size: 1000,
-				id: documentId,
-				uploadDate
-			};
-			req.params.applicationId = applicationId;
-
-			BlobStorage.uploadFile.mockReturnValue(uploadedFileReturnValue);
-
-			await uploadDocument(req, res);
-
-			expect(BlobStorage.uploadFile).toBeCalledTimes(1);
-			expect(BlobStorage.uploadFile).toBeCalledWith(containerClient(), {
-				...uploadedFileReturnValue,
-				filename: req.file.filename
-			});
-			expect(deleteLocalFile).toBeCalledTimes(1);
-			expect(deleteLocalFile).toBeCalledWith(req.file);
-			expect(res.status).toBeCalledTimes(1);
-			expect(res.status).toBeCalledWith(202);
-			expect(res.send).toBeCalledTimes(1);
-			expect(res.send).toBeCalledWith(uploadedFileReturnValue);
 		});
 
 		it('should return an error when an error is thrown uploading the document', async () => {

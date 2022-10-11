@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
-const config = require('../lib/config');
+const config = require('../configuration/config');
 const getYamlAsJson = require('../lib/getYamlAsJson');
 
 const {
