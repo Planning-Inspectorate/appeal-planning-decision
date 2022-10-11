@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { healthcheck } = require('@pins/common');
-const config = require('./config');
+const config = require('../configuration/config');
 const logger = require('./logger');
 
 const tasks = [

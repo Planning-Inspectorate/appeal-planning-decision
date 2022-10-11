@@ -8,7 +8,7 @@
 const mongoose = require('mongoose');
 
 const logger = require('./logger');
-const config = require('./config');
+const config = require('../configuration/config');
 
 module.exports = async () => {
 	try {
