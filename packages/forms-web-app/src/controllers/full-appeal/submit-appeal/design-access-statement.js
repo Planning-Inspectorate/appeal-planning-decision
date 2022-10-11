@@ -13,6 +13,7 @@ const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
 const { postSaveAndReturn } = require('../../save');
+const mapDocumentToSavedDocument = require('../../../mappers/document-mapper');
 
 const sectionName = 'planningApplicationDocumentsSection';
 const taskName = 'designAccessStatement';
@@ -63,7 +64,11 @@ const postDesignAccessStatement = async (req, res) => {
 	try {
 		if (files) {
 			const document = await createDocument(appeal, files['file-upload'], null, taskName);
-			appeal[sectionName][taskName].uploadedFile = mapDocumentToSavedDocument(document, files['file-upload'].name, req)
+			appeal[sectionName][taskName].uploadedFile = mapDocumentToSavedDocument(
+				document,
+				files['file-upload'].name,
+				appeal.lpaCode
+			);
 		}
 
 		if (req.body['save-and-return'] !== '') {

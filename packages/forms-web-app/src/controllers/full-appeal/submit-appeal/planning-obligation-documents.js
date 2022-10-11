@@ -13,6 +13,7 @@ const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
 const { COMPLETED, IN_PROGRESS } = require('../../../services/task-status/task-statuses');
 const { postSaveAndReturn } = require('../../save');
+const mapDocumentToSavedDocument = require('../../../mappers/document-mapper');
 
 const sectionName = 'appealDocumentsSection';
 const taskName = 'planningObligations';
@@ -68,7 +69,9 @@ const postPlanningObligationDocuments = async (req, res) => {
 						planningObligations,
 						sectionTag
 					);
-					appeal[sectionName][taskName].uploadedFiles.push(mapDocumentToSavedDocument(document, file.name, req));
+					appeal[sectionName][taskName].uploadedFiles.push(
+						mapDocumentToSavedDocument(document, file.name, appeal.lpaCode)
+					);
 				})
 			);
 		}
