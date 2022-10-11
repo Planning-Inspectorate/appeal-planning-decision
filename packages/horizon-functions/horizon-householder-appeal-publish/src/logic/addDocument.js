@@ -28,7 +28,7 @@ function createDataObject(data, body) {
 		// The order of this object is important
 		'a:HorizonAPIDocument': {
 			'a:Content': data.data,
-			'a:DocumentType': body.horizon_document_type,
+			'a:DocumentType': body.horizonDocumentType,
 			'a:Filename': data.name,
 			'a:IsPublished': 'false',
 			'a:Metadata': {
