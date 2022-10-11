@@ -21,7 +21,7 @@ function createDataObject(data, body) {
 	const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
 	const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
 	const documentInvolvementValue = isAppeal(body.documentType) ? 'Appellant' : 'LPA';
-	const documentGroupTypeValue = body.horizon_document_group_type;
+	const documentGroupTypeValue = body.horizonDocumentGroupType;
 
 
 	return {
