@@ -44,15 +44,15 @@ extends:
     validationJobs:
       - name: Run Linting & Tests
         steps:
-          - template: ../steps/node_script.yml
-            parameters:
-              nodeVersion: 14
-              script: make install
-          - template: ../steps/node_script.yml
-            parameters:
-              condition: ne(variables['Build.SourceBranchName'], 'main')
-              nodeVersion: 14
-              script: npm run commitlint
+          # - template: ../steps/node_script.yml
+          #   parameters:
+          #     nodeVersion: 14
+          #     script: make install
+          # - template: ../steps/node_script.yml
+          #   parameters:
+          #     condition: ne(variables['Build.SourceBranchName'], 'main')
+          #     nodeVersion: 14
+          #     script: npm run commitlint
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
