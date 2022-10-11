@@ -10,6 +10,14 @@ and run`npm install`.
 "@pins/common": "file:../common",
 ```
 
+## Engineering Backlog
+
+1. Move `lib/documentTypes.js` behind a `GET` request in the Documents API: this allows for automated
+Pact testing to be established around these domain objects, and improves cohesion for the domain concept.
+1. Remove this package: the code within could be placed in something like a Cookiecutter template to enable 
+"Golden path" development. Each project should own its own version of the code here too since changes to this
+code requires coordination any way, and its preferable to allow each team to change at their own pace.
+
 ## Docker
 
 ## Modules
