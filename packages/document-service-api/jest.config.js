@@ -8,7 +8,8 @@ module.exports = {
 		'<rootDir>/src/app.js',
 		'<rootDir>/src/main.js',
 		'<rootDir>/src/server.js',
-		'<rootDir>/src/configuration'
+		'<rootDir>/src/configuration',
+		'<rootDir>/src/routes'
 	],
 	coverageThreshold: {
 		global: {
