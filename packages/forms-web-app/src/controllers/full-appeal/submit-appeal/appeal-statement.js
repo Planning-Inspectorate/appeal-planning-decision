@@ -57,14 +57,7 @@ const postAppealStatement = async (req, res) => {
 	try {
 		if (files) {
 			const document = await createDocument(appeal, files['file-upload'], null, taskName);
-			appeal[sectionName][taskName].uploadedFile = {
-				id: document.id,
-				name: files['file-upload'].name,
-				fileName: files['file-upload'].name,
-				originalFileName: files['file-upload'].name,
-				location: document.location,
-				size: document.size
-			};
+			appeal[sectionName][taskName].uploadedFile = mapDocumentToSavedDocument(document, files['file-upload'].name, req)
 		}
 
 		if (req.body['save-and-return'] !== '') {

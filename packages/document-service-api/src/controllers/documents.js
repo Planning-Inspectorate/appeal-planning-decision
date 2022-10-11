@@ -129,14 +129,11 @@ const uploadDocument = async (req, res) => {
 			document_type: documentType
 		};
 
-		// We could do this in lib/addFileMetadata.addFileMetadata(), but then we'd need to map those values over above,
-		// We want to minimize Horizon references so when its eventually removed, the less references there are, the
-		// easier the removal will be!
 		if (
 			req.headers &&
 			(await isFeatureActive('test-flag', req.headers['local-planning-authority-code']))
 		) {
-			let horizonMetadata = getHorizonMetadata(documentType);
+			let horizonMetadata = _getHorizonMetadata(documentType);
 			document = { ...document, ...horizonMetadata };
 		}
 
@@ -197,7 +194,7 @@ const deleteDocument = async (req, res) => {
 	}
 };
 
-const getHorizonMetadata = (documentType) => {
+const _getHorizonMetadata = (documentType) => {
 	let horizonMetadata = {
 		horizon_document_type: documentTypes[documentType].horizonDocumentType,
 		horizon_document_group_type: documentTypes[documentType].horizonDocumentGroupType
