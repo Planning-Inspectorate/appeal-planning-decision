@@ -10,176 +10,176 @@ const documentTypes = {
 		name: 'originalApplication',
 		multiple: false,
 		displayName: 'Planning application form',
-		horizonDocumentGroupType: 'Evidence',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Application Form',
+		horizonDocumentGroupType: 'Evidence'
 	},
 	decisionLetter: {
 		name: 'decisionLetter',
 		multiple: false,
 		displayName: 'Decision notice',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	appealStatement: {
 		name: 'appealStatement',
 		multiple: false,
 		displayName: 'Appeal Statement',
-		horizonDocumentGroupType: 'Evidence',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Evidence'
 	},
 	otherDocuments: {
 		name: 'otherDocuments',
 		multiple: true,
 		displayName: 'Supporting Documents',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Other Evidence from Appellant/Agent'
+		horizonDocumentType: 'Other Evidence from Appellant/Agent',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	designAccessStatement: {
 		name: 'designAccessStatement',
 		multiple: false,
 		displayName: 'Design and access statement',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	draftStatementOfCommonGround: {
 		name: 'draftStatementOfCommonGround',
 		multiple: false,
 		displayName: 'Draft statement of common ground',
-		horizonDocumentGroupType: 'Evidence',
-		horizonDocumentType: 'Statement of Common Ground'
+		horizonDocumentType: 'Statement of Common Ground',
+		horizonDocumentGroupType: 'Important Information'
 	},
 	plansDrawingsSupportingDocuments: {
 		name: 'plansDrawingsSupportingDocuments',
 		multiple: true,
 		displayName: 'Plans, drawings and supporting documents',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Plans Post LPA Decision'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	appealPdf: {
 		name: 'appealPdf',
 		multiple: false,
 		displayName: '',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	decisionPlans: {
 		name: 'decisionPlans',
 		multiple: true,
 		displayName: 'Plans used to reach decision',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Plans Post LPA Decision',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	officersReport: {
 		name: 'officersReport',
 		multiple: true,
 		displayName: 'Planning Officers report',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	interestedParties: {
 		name: 'interestedParties',
 		multiple: true,
 		displayName: 'Application publicity',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	representations: {
 		name: 'representations',
 		multiple: true,
 		displayName: 'Representations',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	notifyingParties: {
 		name: 'notifyingParties',
 		multiple: true,
 		displayName: 'Application notification',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	siteNotices: {
 		name: 'siteNotices',
 		multiple: true,
 		displayName: '',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	conservationAreaMap: {
 		name: 'conservationAreaMap',
 		multiple: true,
 		displayName: '',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	planningHistory: {
 		name: 'planningHistory',
 		multiple: true,
 		displayName: 'Details of planning history',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	otherPolicies: {
 		name: 'otherPolicies',
 		multiple: true,
 		displayName: 'Other relevant polices',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	statutoryDevelopment: {
 		name: 'statutoryDevelopment',
 		multiple: true,
 		displayName: 'Statutory development plan policy',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	supplementaryDocuments: {
 		name: 'supplementaryDocuments',
 		multiple: true,
 		displayName: 'Supplementary Planning Documents',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	questionnairePdf: {
 		name: 'questionnairePdf',
 		multiple: false,
 		displayName: '',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	originalDecisionNotice: {
 		name: 'originalDecisionNotice',
 		multiple: false,
 		displayName: 'Original Decision Notice',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'LPA Decision Notice'
+		horizonDocumentType: 'LPA Decision Notice',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	ownershipCertificate: {
 		name: 'ownershipCertificate',
 		multiple: false,
 		displayName: 'Ownership certificate and agricultural land declaration',
-		horizonDocumentGroupType: 'Evidence',
-		horizonDocumentType: 'Appellant Statement and Appendices'
+		horizonDocumentType: 'Appellant Statement and Appendices',
+		horizonDocumentGroupType: 'Evidence'
 	},
 	planningObligations: {
 		name: 'planningObligations',
 		multiple: true,
 		displayName: 'Planning obligation',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Planning Obligation'
+		horizonDocumentType: 'Planning Obligation',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	letterConfirmingApplication: {
 		name: 'letterConfirmingApplication',
 		multiple: false,
 		displayName: 'Letter Confirming Application',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Appellant Initial Documents'
+		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentGroupType: 'Initial Documents'
 	},
 	draftPlanningObligations: {
 		name: 'draftPlanningObligations',
 		multiple: true,
 		displayName: 'Draft planning obligation',
-		horizonDocumentGroupType: 'Initial Documents',
-		horizonDocumentType: 'Planning Obligation'
+		horizonDocumentType: 'Planning Obligation',
+		horizonDocumentGroupType: 'Initial Documents'
 	}
 };
 
