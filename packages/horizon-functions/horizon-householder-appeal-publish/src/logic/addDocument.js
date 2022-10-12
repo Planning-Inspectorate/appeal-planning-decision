@@ -21,14 +21,36 @@ function createDataObject(data, body) {
 	const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
 	const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
 	const documentInvolvementValue = isAppeal(body.documentType) ? 'Appellant' : 'LPA';
-	const documentGroupTypeValue = body.horizonDocumentGroupType;
 
+	/**
+	 * TODO: When the AS-5031 feature flag is removed remove the if statement
+	 * amd its contents below
+	 *
+	 * We're using a check on these values being falsely i.e. "undefined" here
+	 * to prevent misalignment on feature flag settings. Since we cache
+	 * feature flag configs, we should try to only use the flag in one app
+	 * so that we don't have two caches in two apps, which can cause obvious
+	 * issues!
+	 *
+	 * The `horizonDocumentType` and `horizonDocumentGroupType` on `body` below
+	 * should only be set if the AS-5031 feature flag is on :) By doing this check
+	 * we avoid the need to do a feature flag check across two separate services!
+	 *
+	 * If they're not set, we fall back to the way the `documentTypeValue` and
+	 * `documentGroupTypeValue` values were set previously!
+	 */
+	let documentTypeValue = body.horizonDocumentType;
+	let documentGroupTypeValue = body.horizonDocumentGroupType;
+	if ((documentTypeValue && documentGroupTypeValue) == false) {
+		documentTypeValue = body.documentType;
+		documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
+	}
 
 	return {
 		// The order of this object is important
 		'a:HorizonAPIDocument': {
 			'a:Content': data.data,
-			'a:DocumentType': body.horizonDocumentType,
+			'a:DocumentType': documentTypeValue,
 			'a:Filename': data.name,
 			'a:IsPublished': 'false',
 			'a:Metadata': {
