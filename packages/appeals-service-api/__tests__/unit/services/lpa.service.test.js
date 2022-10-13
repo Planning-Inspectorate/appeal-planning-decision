@@ -89,10 +89,10 @@ describe('services/lpa.service', () => {
 				}
 			];
 
-			const csv = `OBJECTID,LPA19CD,LPA CODE,LPA19NM,EMAIL,DOMAIN,LPA ONBOARDED
-1,E60000001,X1355,County Durham,planning@durham.gov.uk,durham.gov.uk,TRUE
-2,E60000002,N1350,Darlington,planning.enquiries@darlington.gov.uk,darlington.gov.uk,FALSE
-3,E60000003,H0724,Hartlepool,developmentcontrol@hartlepool.gov.uk,hartlepool.gov.uk,FALSE`;
+			const csv = `OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED
+1;E60000001;X1355;County Durham;planning@durham.gov.uk;durham.gov.uk;TRUE
+2;E60000002;N1350;Darlington;planning.enquiries@darlington.gov.uk;darlington.gov.uk;FALSE
+3;E60000003;H0724;Hartlepool;developmentcontrol@hartlepool.gov.uk;hartlepool.gov.uk;FALSE`;
 
 			expect(await createLpaList(csv)).toEqual(result);
 		});
