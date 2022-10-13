@@ -9,6 +9,7 @@ const {
 const deleteLocalFile = require('../lib/deleteLocalFile');
 const { documentTypes } = require('@pins/common');
 const { isFeatureActive } = require('../configuration/featureFlag');
+const { logger } = require('../lib/logger');
 
 const getDocumentsForApplication = async (req, res) => {
 	const { applicationId } = req.params;
@@ -131,10 +132,17 @@ const uploadDocument = async (req, res) => {
 
 		if (
 			req.headers &&
-			(await isFeatureActive('test-flag', req.headers['local-planning-authority-code']))
+			(await isFeatureActive(
+				'horizon-document-labelling',
+				req.headers['local-planning-authority-code']
+			))
 		) {
+			logger.info('Adding horizon metadata to document');
 			let horizonMetadata = _getHorizonMetadata(documentType);
 			document = { ...document, ...horizonMetadata };
+			logger.info('--- Document with horizon metadata addition ---');
+			logger.info(document);
+			logger.info('-----------------------------------------------');
 		}
 
 		req.log.info(
