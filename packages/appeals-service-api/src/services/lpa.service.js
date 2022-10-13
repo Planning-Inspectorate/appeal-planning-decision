@@ -1,6 +1,8 @@
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 
+const CSV_SEPARATOR = ';';
+
 const getLpaById = async (id) => {
 	let lpa;
 	await mongodb
@@ -23,7 +25,7 @@ function transformCSV(body) {
 
 	data.shift();
 	for (let i in data) {
-		data[i] = data[i].trim().split(',');
+		data[i] = data[i].trim().split(CSV_SEPARATOR);
 	}
 	const lpas = [];
 	for (let row in data) {
