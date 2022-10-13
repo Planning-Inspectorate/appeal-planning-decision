@@ -51,7 +51,9 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 	const featureFlagConfiguration = featureFlagCache[featureFlagName];
 	const userGroup = featureFlagConfiguration.conditions.client_filters[0].parameters.Audience.Users;
 	const isUserInUserGroup = userGroup.includes(localPlanningAuthorityCode);
-	logger.info('Feature flag: ' + featureFlagConfiguration.id, featureFlagConfiguration.enabled);
+	logger.info(
+		'Feature flag: ' + featureFlagConfiguration.id + ' ' + featureFlagConfiguration.enabled
+	);
 	logger.info('Is local planning authority code in feature flag user group: ' + isUserInUserGroup);
 	return featureFlagConfiguration.enabled && isUserInUserGroup;
 };
