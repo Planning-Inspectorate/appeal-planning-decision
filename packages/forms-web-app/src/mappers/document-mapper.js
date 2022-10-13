@@ -1,4 +1,4 @@
-const logger = require('../lib/logger');
+const { logger } = require('../lib/logger');
 
 // TODO: note in each file where this is called in context of full planning that a big refactor could be done...
 const mapDocumentToSavedDocument = (document, documentName) => {
