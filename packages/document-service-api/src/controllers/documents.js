@@ -9,7 +9,7 @@ const {
 const deleteLocalFile = require('../lib/deleteLocalFile');
 const { documentTypes } = require('@pins/common');
 const { isFeatureActive } = require('../configuration/featureFlag');
-const { logger } = require('../lib/logger');
+const logger = require('../lib/logger');
 
 const getDocumentsForApplication = async (req, res) => {
 	const { applicationId } = req.params;
