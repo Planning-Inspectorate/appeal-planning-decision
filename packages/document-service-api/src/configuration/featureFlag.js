@@ -20,10 +20,17 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 	logger.info(featureFlagCache);
 	logger.info(`--------------------------`);
 
-	if (
-		featureFlagCache[featureFlagName] === undefined ||
-		Date.now() >= featureFlagCache[featureFlagName].timeToLive
-	) {
+	const currentTime = Date.now();
+	const timeToLive = featureFlagCache[flagName]?.timeToLive;
+
+	logger.info('Current time: ' + currentTime);
+	logger.info('Time to live: ' + timeToLive);
+
+	const timeToLiveEvaluation = currentTime >= timeToLive;
+
+	logger.info('Time to live evaluation: ' + timeToLiveEvaluation);
+
+	if (featureFlagCache[flagName] === undefined || timeToLiveEvaluation) {
 		logger.info('Retrieving feature flag configuration from Azure');
 		try {
 			const azureFeatureFlagConfiguration = await appConfigClient.getConfigurationSetting({
@@ -32,8 +39,8 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 
 			if (azureFeatureFlagConfiguration && typeof azureFeatureFlagConfiguration === 'object') {
 				logger.info(`Retrieved valid feature flag configuration, updating cache...`);
-				featureFlagCache[featureFlagName] = JSON.parse(azureFeatureFlagConfiguration.value);
-				featureFlagCache.timeToLive = Date.now() + cacheTimeToLiveInMinutes * 60000;
+				featureFlagCache[flagName] = JSON.parse(azureFeatureFlagConfiguration.value);
+				featureFlagCache[flagName].timeToLive = Date.now() + cacheTimeToLiveInMinutes * 60000;
 			} else {
 				logger.info(`Retrieved invalid feature flag configuration; retrieved value follows...`);
 				logger.info(azureFeatureFlagConfiguration);
@@ -48,7 +55,7 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 	logger.info(featureFlagCache);
 	logger.info(`--------------------------`);
 
-	const featureFlagConfiguration = featureFlagCache[featureFlagName];
+	const featureFlagConfiguration = featureFlagCache[flagName];
 	const userGroup = featureFlagConfiguration.conditions.client_filters[0].parameters.Audience.Users;
 	const isUserInUserGroup = userGroup.includes(localPlanningAuthorityCode);
 	logger.info(
