@@ -17,7 +17,8 @@ const isAppeal = (documentType) => {
 	return Object.values(appealDocumentTypes).indexOf(documentType) > -1;
 };
 
-function createDataObject(data, body) {
+function createDataObject(data, body, log) {
+	// TODO: remove `log` parameter when AS-5031 is complete
 	const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
 	const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
 	const documentInvolvementValue = isAppeal(body.documentType) ? 'Appellant' : 'LPA';
@@ -46,7 +47,7 @@ function createDataObject(data, body) {
 		documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
 	}
 
-	return {
+	const dataObject = {
 		// The order of this object is important
 		'a:HorizonAPIDocument': {
 			'a:Content': data.data,
@@ -88,9 +89,16 @@ function createDataObject(data, body) {
 			'a:NodeId': '0'
 		}
 	};
+
+	// TODO: remove this when AS-5031 is complete
+	log('--- Data object to send to Horizon ---');
+	log(dataObject);
+	log('--------------------------------------');
+	return dataObject;
 }
 
-async function parseFile({ body }) {
+async function parseFile({ body }, log) {
+	// TODO: remove `log` parameter when AS-5031 is complete
 	const { documentId, applicationId } = body;
 
 	const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
@@ -100,7 +108,7 @@ async function parseFile({ body }) {
 		}
 	});
 
-	const object = createDataObject(data, body);
+	const object = createDataObject(data, body, log); // TODO: remove `log` parameter when AS-5031 is complete
 
 	return object;
 }
@@ -119,7 +127,7 @@ module.exports = async (log, body) => {
 				documents: [
 					{ '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
 					{ '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
-					await parseFile({ body })
+					await parseFile({ body }, log) // TODO: remove `log` parameter when AS-5031 is complete
 				]
 			}
 		};
