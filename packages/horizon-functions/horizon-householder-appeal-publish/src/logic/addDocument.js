@@ -39,8 +39,8 @@ function createDataObject(data, body) {
 	 * If they're not set, we fall back to the way the `documentTypeValue` and
 	 * `documentGroupTypeValue` values were set previously!
 	 */
-	let documentTypeValue = body.horizonDocumentType;
-	let documentGroupTypeValue = body.horizonDocumentGroupType;
+	let documentTypeValue = body?.horizonDocumentType;
+	let documentGroupTypeValue = body?.horizonDocumentGroupType;
 	if ((documentTypeValue && documentGroupTypeValue) == false) {
 		documentTypeValue = body.documentType;
 		documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
