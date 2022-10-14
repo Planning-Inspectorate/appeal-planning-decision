@@ -39,7 +39,7 @@ const mapDocumentToSavedDocument = (document, documentName) => {
 		savedDocument = {
 			...savedDocument,
 			horizonDocumentType: horizonDocumentType,
-			horizonGroupType: horizonDocumentGroupType
+			horizonDocumentGroupType: horizonDocumentGroupType
 		};
 	}
 
