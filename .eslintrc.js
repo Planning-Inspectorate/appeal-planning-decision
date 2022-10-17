@@ -4,7 +4,7 @@ module.exports = {
 		jest: true,
 		node: true
 	},
-	extends: ['eslint:recommended', 'prettier'],
+	extends: ['eslint:recommended', 'prettier', 'plugin:cypress/recommended'],
 	ignorePatterns: ['node_modules/**', 'dist/**', 'webpack.**', '*.bundle.js'],
 	parserOptions: {
 		ecmaVersion: 2020,
