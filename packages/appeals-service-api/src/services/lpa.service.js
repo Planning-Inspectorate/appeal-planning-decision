@@ -60,7 +60,7 @@ function chunkArray(myArray, chunk_size) {
 const createLpaList = async (csv) => {
 	const trimmed = JSON.stringify(csv).replace('{', '').replace('}', '').replace(':""', '');
 	const trimmed1 = trimmed.replace(
-		'OBJECTID,LPA19CD,LPA CODE,LPA19NM,EMAIL,DOMAIN,LPA ONBOARDED',
+		'OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED',
 		''
 	);
 	let lpaList;
