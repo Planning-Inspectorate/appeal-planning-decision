@@ -124,15 +124,4 @@ describe('schemas/components/update/document', () => {
 			}
 		});
 	});
-
-	describe('horizonDocumentType and horizonGroupType', () => {
-		it('should not throw an error when the fields are provided', async () => {
-			data.horizonDocumentType = 'Application';
-			data.horizonDocumentGroupType = 'Initial Documents';
-
-			const result = await document().validate(data, config);
-
-			expect(result).toEqual(data);
-		});
-	});
 });
