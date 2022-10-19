@@ -16,7 +16,9 @@ const appealDocumentsValidation = () => {
 							fileName: pinsYup.string().trim().max(255).ensure(),
 							originalFileName: pinsYup.string().trim().max(255).ensure(),
 							location: pinsYup.string().trim().nullable(),
-							size: pinsYup.number().nullable()
+							size: pinsYup.number().nullable(),
+							horizonDocumentType: pinsYup.string().notRequired(),
+							horizonDocumentGroupType: pinsYup.string().notRequired()
 						})
 						.noUnknown(true),
 					hasSensitiveInformation: pinsYup.bool().nullable().default(null)
@@ -37,7 +39,9 @@ const appealDocumentsValidation = () => {
 									fileName: pinsYup.string().trim().max(255).ensure(),
 									originalFileName: pinsYup.string().trim().max(255).ensure(),
 									location: pinsYup.string().trim().nullable(),
-									size: pinsYup.number().nullable()
+									size: pinsYup.number().nullable(),
+									horizonDocumentType: pinsYup.string().notRequired(),
+									horizonDocumentGroupType: pinsYup.string().notRequired()
 								})
 								.noUnknown(true)
 						)
@@ -87,7 +91,9 @@ const appealDocumentsValidation = () => {
 									fileName: pinsYup.string().trim().max(255).ensure(),
 									originalFileName: pinsYup.string().trim().max(255).ensure(),
 									location: pinsYup.string().trim().nullable(),
-									size: pinsYup.number().nullable()
+									size: pinsYup.number().nullable(),
+									horizonDocumentType: pinsYup.string().notRequired(),
+									horizonDocumentGroupType: pinsYup.string().notRequired()
 								})
 								.noUnknown(true)
 						)

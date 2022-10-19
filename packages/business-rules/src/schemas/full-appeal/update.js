@@ -189,9 +189,7 @@ const update = pinsYup
 								fileName: pinsYup.string().trim().max(255).ensure(),
 								originalFileName: pinsYup.string().trim().max(255).ensure(),
 								location: pinsYup.string().trim().nullable(),
-								size: pinsYup.number().nullable(),
-								horizonDocumentType: pinsYup.string().notRequired(),
-								horizonDocumentGroupType: pinsYup.string().notRequired()
+								size: pinsYup.number().nullable()
 							})
 							.noUnknown(true)
 					})
@@ -213,9 +211,7 @@ const update = pinsYup
 								fileName: pinsYup.string().trim().max(255).nullable(),
 								originalFileName: pinsYup.string().trim().max(255).nullable(),
 								location: pinsYup.string().trim().nullable(),
-								size: pinsYup.number().nullable(),
-								horizonDocumentType: pinsYup.string().notRequired(),
-								horizonDocumentGroupType: pinsYup.string().notRequired()
+								size: pinsYup.number().nullable()
 							})
 							.noUnknown(true)
 					})
@@ -251,9 +247,7 @@ const update = pinsYup
 										fileName: pinsYup.string().trim().max(255).required(),
 										originalFileName: pinsYup.string().trim().max(255).required(),
 										location: pinsYup.string().trim().required(),
-										size: pinsYup.number().required(),
-										horizonDocumentType: pinsYup.string().notRequired(),
-										horizonDocumentGroupType: pinsYup.string().notRequired()
+										size: pinsYup.number().required()
 									})
 									.noUnknown(true)
 							)
@@ -271,9 +265,7 @@ const update = pinsYup
 								fileName: pinsYup.string().trim().max(255).required(),
 								originalFileName: pinsYup.string().trim().max(255).required(),
 								location: pinsYup.string().trim().required(),
-								size: pinsYup.number().required(),
-								horizonDocumentType: pinsYup.string().notRequired(),
-								horizonDocumentGroupType: pinsYup.string().notRequired()
+								size: pinsYup.number().required()
 							})
 							.noUnknown(true)
 					})
@@ -289,9 +281,7 @@ const update = pinsYup
 								fileName: pinsYup.string().trim().max(255).nullable(),
 								originalFileName: pinsYup.string().trim().max(255).nullable(),
 								location: pinsYup.string().trim().nullable(),
-								size: pinsYup.number().nullable(),
-								horizonDocumentType: pinsYup.string().notRequired(),
-								horizonDocumentGroupType: pinsYup.string().notRequired()
+								size: pinsYup.number().nullable()
 							})
 							.noUnknown(true)
 					})
@@ -308,9 +298,7 @@ const update = pinsYup
 								fileName: pinsYup.string().trim().max(255).nullable(),
 								originalFileName: pinsYup.string().trim().max(255).nullable(),
 								location: pinsYup.string().trim().nullable(),
-								size: pinsYup.number().nullable(),
-								horizonDocumentType: pinsYup.string().notRequired(),
-								horizonDocumentGroupType: pinsYup.string().notRequired()
+								size: pinsYup.number().nullable()
 							})
 							.noUnknown(true)
 					})
@@ -326,9 +314,7 @@ const update = pinsYup
 								fileName: pinsYup.string().trim().max(255).nullable(),
 								originalFileName: pinsYup.string().trim().max(255).nullable(),
 								location: pinsYup.string().trim().nullable(),
-								size: pinsYup.number().nullable(),
-								horizonDocumentType: pinsYup.string().notRequired(),
-								horizonDocumentGroupType: pinsYup.string().notRequired()
+								size: pinsYup.number().nullable()
 							})
 							.noUnknown(true)
 					})
@@ -344,9 +330,7 @@ const update = pinsYup
 								fileName: pinsYup.string().trim().max(255).nullable(),
 								originalFileName: pinsYup.string().trim().max(255).nullable(),
 								location: pinsYup.string().trim().nullable(),
-								size: pinsYup.number().nullable(),
-								horizonDocumentType: pinsYup.string().notRequired(),
-								horizonDocumentGroupType: pinsYup.string().notRequired()
+								size: pinsYup.number().nullable()
 							})
 							.noUnknown(true)
 					})
@@ -367,9 +351,7 @@ const update = pinsYup
 								fileName: pinsYup.string().trim().max(255).required(),
 								originalFileName: pinsYup.string().trim().max(255).required(),
 								location: pinsYup.string().trim().required(),
-								size: pinsYup.number().required(),
-								horizonDocumentType: pinsYup.string().notRequired(),
-								horizonDocumentGroupType: pinsYup.string().notRequired()
+								size: pinsYup.number().required()
 							})
 							.noUnknown(true),
 						hasSensitiveInformation: pinsYup.bool().required()
@@ -390,9 +372,7 @@ const update = pinsYup
 										fileName: pinsYup.string().trim().max(255).nullable(),
 										originalFileName: pinsYup.string().trim().max(255).nullable(),
 										location: pinsYup.string().trim().nullable(),
-										size: pinsYup.number().nullable(),
-										horizonDocumentType: pinsYup.string().notRequired(),
-										horizonDocumentGroupType: pinsYup.string().notRequired()
+										size: pinsYup.number().nullable()
 									})
 									.noUnknown(true)
 							)
@@ -442,9 +422,7 @@ const update = pinsYup
 										fileName: pinsYup.string().trim().max(255).nullable(),
 										originalFileName: pinsYup.string().trim().max(255).nullable(),
 										location: pinsYup.string().trim().nullable(),
-										size: pinsYup.number().nullable(),
-										horizonDocumentType: pinsYup.string().notRequired(),
-										horizonDocumentGroupType: pinsYup.string().notRequired()
+										size: pinsYup.number().nullable()
 									})
 									.noUnknown(true)
 							)
@@ -467,9 +445,7 @@ const update = pinsYup
 								fileName: pinsYup.string().trim().max(255).required(),
 								originalFileName: pinsYup.string().trim().max(255).required(),
 								location: pinsYup.string().trim().required(),
-								size: pinsYup.number().required(),
-								horizonDocumentType: pinsYup.string().notRequired(),
-								horizonDocumentGroupType: pinsYup.string().notRequired()
+								size: pinsYup.number().required()
 							})
 							.noUnknown(true)
 					})
