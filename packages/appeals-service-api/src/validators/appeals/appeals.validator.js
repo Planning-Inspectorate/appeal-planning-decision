@@ -1,9 +1,15 @@
+const {
+	schemas: { validate }
+} = require('@pins/business-rules');
 const { isAppealSubmitted } = require('../../services/appeal.service');
 const logger = require('../../lib/logger');
 const ApiError = require('../../error/apiError');
 
 const appealUpdateValidationRules = async (req, res, next) => {
 	try {
+		req.body = await validate.update(req.body);
+		logger.debug('Valid input format');
+
 		const appealId = req.body.id;
 		const pathId = req.params.id;
 
@@ -23,10 +29,13 @@ const appealInsertValidationRules = async (req, res, next) => {
 		//   { appeal: req.body },
 		//   'Appeal data before validation in appealInsertValidationRules'
 		// );
+		req.body = await validate.insert(req.body);
 		// logger.debug(
 		//   { appeal: req.body },
 		//   'Appeal data after validation in appealInsertValidationRules'
 		// );
+		logger.debug('Valid input format');
+
 		const appealId = req.body.id;
 		const pathId = req.params.id;
 
