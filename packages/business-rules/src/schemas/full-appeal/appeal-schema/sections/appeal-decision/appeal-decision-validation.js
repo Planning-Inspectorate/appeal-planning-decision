@@ -36,8 +36,8 @@ const appealDecisionValidation = () => {
 							originalFileName: pinsYup.string().trim().max(255).ensure(),
 							location: pinsYup.string().trim().nullable(),
 							size: pinsYup.number().nullable(),
-							horizonDocumentType: pinsYup.string().notRequired(),
-							horizonDocumentGroupType: pinsYup.string().notRequired()
+							horizonDocumentType: pinsYup.string().nullable(),
+							horizonDocumentGroupType: pinsYup.string().nullable()
 						})
 						.noUnknown(true)
 				})
