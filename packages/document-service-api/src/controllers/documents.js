@@ -137,12 +137,9 @@ const uploadDocument = async (req, res) => {
 				req.headers['local-planning-authority-code']
 			))
 		) {
-			logger.info('Adding horizon metadata to document');
 			let horizonMetadata = _getHorizonMetadata(documentType);
 			document = { ...document, ...horizonMetadata };
-			logger.info('--- Document with horizon metadata addition ---');
-			logger.info(document);
-			logger.info('-----------------------------------------------');
+			logger.info(document, 'Document');
 		}
 
 		req.log.info(

@@ -91,9 +91,7 @@ function createDataObject(data, body, log) {
 	};
 
 	// TODO: remove this when AS-5031 is complete
-	log('--- Data object to send to Horizon ---');
-	log(dataObject);
-	log('--------------------------------------');
+	log(JSON.stringify(dataObject), 'Data object (horizon-householder-appeal-publish)');
 	return dataObject;
 }
 
