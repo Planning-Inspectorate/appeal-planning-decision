@@ -17,9 +17,7 @@ const isAppeal = (documentType) => {
 	return Object.values(appealDocumentTypes).indexOf(documentType) > -1;
 };
 
-function createDataObject(data, body, log) {
-	log(JSON.stringify(body), 'Body in createDataObject');
-
+function getHorizonDocumentXmlInJsonFormat(documentData, body) {
 	//TODO: remove 'log' parameter when AS-5031 is complete
 	const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
 	const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
@@ -35,26 +33,26 @@ function createDataObject(data, body, log) {
 	 * so that we don't have two caches in two apps, which can cause obvious
 	 * issues!
 	 *
-	 * The `horizonDocumentType` and `horizonDocumentGroupType` on `body` below
+	 * The `horizon_document_type` and `horizon_document_group_type` on `documentData` below
 	 * should only be set if the AS-5031 feature flag is on :) By doing this check
 	 * we avoid the need to do a feature flag check across two separate services!
 	 *
 	 * If they're not set, we fall back to the way the `documentTypeValue` and
 	 * `documentGroupTypeValue` values were set previously!
 	 */
-	let documentTypeValue = body?.horizonDocumentType;
-	let documentGroupTypeValue = body?.horizonDocumentGroupType;
+	let documentTypeValue = documentData?.horizon_document_type;
+	let documentGroupTypeValue = documentData?.horizon_document_group_type;
 	if ((documentTypeValue && documentGroupTypeValue) == false) {
 		documentTypeValue = body.documentType;
 		documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
 	}
 
-	const dataObject = {
+	const horizonDocumentXmlInJsonFormat = {
 		// The order of this object is important
 		'a:HorizonAPIDocument': {
-			'a:Content': data.data,
+			'a:Content': documentData.data,
 			'a:DocumentType': documentTypeValue,
-			'a:Filename': data.name,
+			'a:Filename': documentData.name,
 			'a:IsPublished': 'false',
 			'a:Metadata': {
 				'a:Attributes': [
@@ -83,7 +81,7 @@ function createDataObject(data, body, log) {
 						'a:AttributeValue': {
 							'__i:type': 'a:DateAttributeValue',
 							'a:Name': 'Document:Received/Sent Date',
-							'a:Value': data?.upload_date
+							'a:Value': documentData?.upload_date
 						}
 					}
 				]
@@ -92,45 +90,43 @@ function createDataObject(data, body, log) {
 		}
 	};
 
-	// TODO: remove this when AS-5031 is complete
-	log(JSON.stringify(dataObject), 'Data object (horizon-householder-appeal-publish)');
-	return dataObject;
+	return horizonDocumentXmlInJsonFormat;
 }
 
-async function parseFile(body, log) {
-	// TODO: remove `log` parameter when AS-5031 is complete
-	const { data } = await axios.get(`/api/v1/${body.applicationId}/${body.documentId}/file`, {
+async function downloadDocumentFromDocumentsApi({ body }) {
+	const { documentId, applicationId } = body;
+
+	return await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
 		baseURL: config.documents.url,
 		params: {
 			base64: true
 		}
 	});
-
-	log(JSON.stringify(body), 'Body in parseFile');
-
-	const object = createDataObject(data, body, log); // TODO: remove `log` parameter when AS-5031 is complete
-
-	return object;
 }
 
-module.exports = async (log, body, horizonCaseId) => {
-	log(JSON.stringify(body), 'Receiving add document request');
+module.exports = async (log, body) => {
+	log('Receiving add document request');
 
 	try {
+		const { caseReference } = body;
+
+		const document = await downloadDocumentFromDocumentsApi({ body });
+		const horizonDocumentXmlInJsonFormat = getHorizonDocumentXmlInJsonFormat(document, body, log);
+
 		const input = {
 			AddDocuments: {
 				__soap_op: 'http://tempuri.org/IHorizon/AddDocuments',
 				__xmlns: 'http://tempuri.org/',
-				horizonCaseId,
+				caseReference,
 				documents: [
 					{ '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
 					{ '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
-					await parseFile(body, log) // TODO: remove `log` parameter when AS-5031 is complete
+					horizonDocumentXmlInJsonFormat
 				]
 			}
 		};
 
-		log('Uploading documents to Horizon');
+		log(JSON.stringify(input), 'Uploading documents to Horizon');
 
 		const { data } = await axios.post('/horizon', input, {
 			baseURL: config.horizon.url,
@@ -139,7 +135,7 @@ module.exports = async (log, body, horizonCaseId) => {
 		});
 
 		return {
-			horizonCaseId,
+			caseReference,
 			data
 		};
 	} catch (err) {
@@ -169,4 +165,4 @@ module.exports = async (log, body, horizonCaseId) => {
 	}
 };
 
-module.exports.createDataObject = createDataObject;
+module.exports.createDataObject = getHorizonDocumentXmlInJsonFormat;
