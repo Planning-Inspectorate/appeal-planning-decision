@@ -396,7 +396,7 @@ module.exports = async (context, event) => {
 					);
 				}
 
-				await publishDocuments(context.log, documents, appealId, horizonCaseId);
+				await publishDocuments(context.log, documents, horizonCaseId);
 
 				break;
 			}

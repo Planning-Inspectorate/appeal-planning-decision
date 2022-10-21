@@ -97,39 +97,35 @@ function createDataObject(data, body, log) {
 	return dataObject;
 }
 
-async function parseFile({ body }, log) {
+async function parseFile(body, log) {
 	// TODO: remove `log` parameter when AS-5031 is complete
-	const { documentId, applicationId } = body;
-
-	const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
+	const { data } = await axios.get(`/api/v1/${body.applicationId}/${body.documentId}/file`, {
 		baseURL: config.documents.url,
 		params: {
 			base64: true
 		}
 	});
 
-	log(body, 'Body in parseFile');
+	log(JSON.stringify(body), 'Body in parseFile');
 
 	const object = createDataObject(data, body, log); // TODO: remove `log` parameter when AS-5031 is complete
 
 	return object;
 }
 
-module.exports = async (log, body) => {
-	log(body, 'Receiving add document request');
+module.exports = async (log, body, horizonCaseId) => {
+	log(JSON.stringify(body), 'Receiving add document request');
 
 	try {
-		const { caseReference } = body;
-
 		const input = {
 			AddDocuments: {
 				__soap_op: 'http://tempuri.org/IHorizon/AddDocuments',
 				__xmlns: 'http://tempuri.org/',
-				caseReference,
+				horizonCaseId,
 				documents: [
 					{ '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
 					{ '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
-					await parseFile({ body }, log) // TODO: remove `log` parameter when AS-5031 is complete
+					await parseFile(body, log) // TODO: remove `log` parameter when AS-5031 is complete
 				]
 			}
 		};
@@ -143,7 +139,7 @@ module.exports = async (log, body) => {
 		});
 
 		return {
-			caseReference,
+			horizonCaseId,
 			data
 		};
 	} catch (err) {

@@ -11,29 +11,16 @@ const addDocument = require('./logic/addDocument');
  * @param {string} serviceId
  * @param {string} horizonId
  */
-const publishDocuments = async (log, documents, serviceId, horizonId) => {
-	log(JSON.stringify(documents), 'Documents to process before sending to Horizon');
+const publishDocuments = async (log, documents, horizonCaseId) => {
+	log(JSON.stringify(documents), 'Documents in publishDocuments');
 	await Promise.all(
 		documents
 			/* Remove any undefined keys */
 			.filter(({ id }) => id)
-			.map(async ({ id: documentId, type: documentType }) => {
-				log(
-					{
-						documentId,
-						documentType,
-						horizonId,
-						serviceId
-					},
-					'Publish document to Horizon'
-				);
+			.map(async (document) => {
+				log(document, 'Publish document to Horizon');
 
-				await addDocument(log, {
-					documentId,
-					documentType,
-					caseReference: horizonId,
-					applicationId: serviceId
-				});
+				await addDocument(log, document, horizonCaseId);
 
 				log('Publish document request accepted');
 			})
