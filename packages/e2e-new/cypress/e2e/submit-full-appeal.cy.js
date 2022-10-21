@@ -1,7 +1,7 @@
 describe('empty spec', () => {
 	it('passes', () => {
 		///// START: initialise full appeal /////
-		cy.visit('https://appeals-service-test.planninginspectorate.gov.uk/before-you-start');
+		cy.visit('before-you-start');
 		advanceToNextPage();
 		cy.get('#local-planning-department')
 			.type('System Test Borough Council')
@@ -32,9 +32,7 @@ describe('empty spec', () => {
 		cy.get('#email-address').type('test@example.com');
 		advanceToNextPage();
 
-		cy.visit(
-			'https://appeals-service-test.planninginspectorate.gov.uk/full-appeal/submit-appeal/email-address-confirmed'
-		);
+		cy.visit('full-appeal/submit-appeal/email-address-confirmed');
 		advanceToNextPage();
 
 		advanceToNextPage();

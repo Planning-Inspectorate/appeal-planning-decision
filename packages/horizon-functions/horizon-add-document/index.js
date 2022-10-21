@@ -91,9 +91,7 @@ function createDataObject(data, body, context) {
 	};
 
 	// TODO: remove this when AS-5031 is complete
-	context.log('--- Data object to send to Horizon ---');
-	context.log(dataObject);
-	context.log('--------------------------------------');
+	context.log(JSON.stringify(dataObject), 'Data object (horizon-add-document)');
 	return dataObject;
 }
 

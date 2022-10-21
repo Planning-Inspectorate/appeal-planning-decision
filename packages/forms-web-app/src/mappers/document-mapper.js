@@ -2,10 +2,7 @@ const logger = require('../lib/logger');
 
 // TODO: note in each file where this is called in context of full planning that a big refactor could be done...
 const mapDocumentToSavedDocument = (document, documentName) => {
-	logger.info('Mapping document to a saved document');
-	logger.info('--- Document ---');
-	logger.info(document);
-	logger.info('----------------');
+	logger.info(document, 'mapDocumentToSavedDocument: document');
 
 	let savedDocument = {
 		id: document.id,
@@ -43,9 +40,7 @@ const mapDocumentToSavedDocument = (document, documentName) => {
 		};
 	}
 
-	logger.info('--- Saved Document ---');
-	logger.info(savedDocument);
-	logger.info('----------------');
+	logger.info(savedDocument, 'mapDocumentToSavedDocument: savedDocument');
 
 	return savedDocument;
 };
