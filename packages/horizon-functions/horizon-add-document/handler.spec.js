@@ -38,6 +38,61 @@ describe('createDataObject', () => {
 		eventBody = { ...mockEventBody };
 	});
 
+	// TODO: The eventBody shape at the end of the `Given` step should become standard when AS-5031 becomes a stable feature
+	it('uses the `horizonDocumentType` and `horizonDocumentGroupType` fields from the input body as expected', () => {
+		//Given
+		eventBody.horizonDocumentType = 'Horizon Doc Type';
+		eventBody.horizonDocumentGroupType = 'Horizon Doc Group Type';
+
+		// When
+		const result = createDataObject(data, eventBody);
+
+		// Then
+		const expected = {
+			'a:HorizonAPIDocument': {
+				'a:Content': 'some-data',
+				'a:DocumentType': 'Horizon Doc Type',
+				'a:Filename': 'some-data-name',
+				'a:IsPublished': 'false',
+				'a:Metadata': {
+					'a:Attributes': [
+						{
+							'a:AttributeValue': {
+								'__i:type': 'a:StringAttributeValue',
+								'a:Name': 'some-doc-involvement',
+								'a:Value': 'Appellant'
+							}
+						},
+						{
+							'a:AttributeValue': {
+								'__i:type': 'a:StringAttributeValue',
+								'a:Name': 'some-doc-group-type',
+								'a:Value': 'Horizon Doc Group Type'
+							}
+						},
+						{
+							'a:AttributeValue': {
+								'__i:type': 'a:StringAttributeValue',
+								'a:Name': 'Document:Incoming/Outgoing/Internal',
+								'a:Value': 'Incoming'
+							}
+						},
+						{
+							'a:AttributeValue': {
+								'__i:type': 'a:DateAttributeValue',
+								'a:Name': 'Document:Received/Sent Date',
+								'a:Value': 'some-data-createdAt'
+							}
+						}
+					]
+				},
+				'a:NodeId': '0'
+			}
+		};
+
+		expect(result).toEqual(expected);
+	});
+
 	it('documentInvolvementValue should be "LPA", if reply', () => {
 		const expectedItem = {
 			'a:AttributeValue': {
