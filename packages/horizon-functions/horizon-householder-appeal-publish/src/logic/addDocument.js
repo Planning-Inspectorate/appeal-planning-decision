@@ -18,6 +18,8 @@ const isAppeal = (documentType) => {
 };
 
 function createDataObject(data, body, log) {
+	log(JSON.stringify(body), 'Body in createDataObject');
+
 	//TODO: remove 'log' parameter when AS-5031 is complete
 	const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
 	const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
@@ -106,13 +108,15 @@ async function parseFile({ body }, log) {
 		}
 	});
 
+	log(body, 'Body in parseFile');
+
 	const object = createDataObject(data, body, log); // TODO: remove `log` parameter when AS-5031 is complete
 
 	return object;
 }
 
 module.exports = async (log, body) => {
-	log('Receiving add document request');
+	log(body, 'Receiving add document request');
 
 	try {
 		const { caseReference } = body;

@@ -12,6 +12,7 @@ const addDocument = require('./logic/addDocument');
  * @param {string} horizonId
  */
 const publishDocuments = async (log, documents, serviceId, horizonId) => {
+	log(JSON.stringify(documents), 'Documents to process before sending to Horizon');
 	await Promise.all(
 		documents
 			/* Remove any undefined keys */
