@@ -28,13 +28,6 @@ describe('schemas/full-appeal/update', () => {
 			expect(result).toEqual(appeal);
 		});
 
-		it('should remove unknown fields', async () => {
-			appeal2.unknownField = 'unknown field';
-
-			const result = await update.validate(appeal2, config);
-			expect(result).toEqual(appeal);
-		});
-
 		describe('id', () => {
 			it('should strip leading/trailing spaces', async () => {
 				appeal2.id = '  271c9b5b-af90-4b45-b0e7-0a7882da1e03  ';
@@ -336,13 +329,6 @@ describe('schemas/full-appeal/update', () => {
 		});
 
 		describe('eligibility', () => {
-			it('should remove unknown fields', async () => {
-				appeal2.eligibility.unknownField = 'unknown field';
-
-				const result = await update.validate(appeal2, config);
-				expect(result).toEqual(appeal);
-			});
-
 			it('should throw an error when given a null value', async () => {
 				appeal.eligibility = null;
 
@@ -507,13 +493,6 @@ describe('schemas/full-appeal/update', () => {
 		});
 
 		describe('appealDocumentsSection', () => {
-			it('should remove unknown fields', async () => {
-				appeal2.appealDocumentsSection.unknownField = 'unknown field';
-
-				const result = await update.validate(appeal2, config);
-				expect(result).toEqual(appeal);
-			});
-
 			it('should throw an error when given a null value', async () => {
 				appeal.appealDocumentsSection = null;
 
@@ -523,13 +502,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealDocumentsSection.appealStatement', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealDocumentsSection.appealStatement.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealDocumentsSection.appealStatement = null;
 
@@ -539,14 +511,6 @@ describe('schemas/full-appeal/update', () => {
 				});
 
 				describe('appealDocumentsSection.appealStatement.uploadedFile', () => {
-					it('should remove unknown fields', async () => {
-						appeal2.appealDocumentsSection.appealStatement.uploadedFile.unknownField =
-							'unknown field';
-
-						const result = await update.validate(appeal2, config);
-						expect(result).toEqual(appeal);
-					});
-
 					it('should throw an error when given a null value', async () => {
 						appeal.appealDocumentsSection.appealStatement.uploadedFile = null;
 
@@ -659,13 +623,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealDocumentsSection.plansDrawings', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealDocumentsSection.plansDrawings.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealDocumentsSection.plansDrawings = null;
 
@@ -850,13 +807,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealDocumentsSection.supportingDocuments', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealDocumentsSection.supportingDocuments.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealDocumentsSection.supportingDocuments = null;
 
@@ -1046,13 +996,6 @@ describe('schemas/full-appeal/update', () => {
 		});
 
 		describe('contactDetailsSection', () => {
-			it('should remove unknown fields', async () => {
-				appeal2.contactDetailsSection.unknownField = 'unknown field';
-
-				const result = await update.validate(appeal2, config);
-				expect(result).toEqual(appeal);
-			});
-
 			it('should throw an error when given a null value', async () => {
 				appeal.contactDetailsSection = null;
 
@@ -1090,13 +1033,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('contactDetailsSection.contact', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.contactDetailsSection.contact.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.contactDetailsSection.contact = null;
 
@@ -1192,13 +1128,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('contactDetailsSection.appealingOnBehalfOf', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.contactDetailsSection.appealingOnBehalfOf.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.contactDetailsSection.appealingOnBehalfOf = null;
 
@@ -1252,13 +1181,6 @@ describe('schemas/full-appeal/update', () => {
 		});
 
 		describe('appealSiteSection', () => {
-			it('should remove unknown fields', async () => {
-				appeal2.appealSiteSection.unknownField = 'unknown field';
-
-				const result = await update.validate(appeal2, config);
-				expect(result).toEqual(appeal);
-			});
-
 			it('should throw an error when given a null value', async () => {
 				appeal.appealSiteSection = null;
 
@@ -1268,13 +1190,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealSiteSection.siteAddress', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealSiteSection.siteAddress.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealSiteSection.siteAddress = null;
 
@@ -1388,13 +1303,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealSiteSection.siteOwnership', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealSiteSection.siteOwnership.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealSiteSection.siteOwnership = null;
 
@@ -1559,13 +1467,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealSiteSection.agriculturalHolding', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealSiteSection.agriculturalHolding.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealSiteSection.agriculturalHolding = null;
 
@@ -1673,13 +1574,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealSiteSection.visibleFromRoad', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealSiteSection.visibleFromRoad.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealSiteSection.visibleFromRoad = null;
 
@@ -1736,13 +1630,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealSiteSection.healthAndSafety', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealSiteSection.healthAndSafety.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealSiteSection.healthAndSafety = null;
 
@@ -1800,13 +1687,6 @@ describe('schemas/full-appeal/update', () => {
 		});
 
 		describe('appealDecisionSection', () => {
-			it('should remove unknown fields', async () => {
-				appeal2.appealDecisionSection.unknownField = 'unknown field';
-
-				const result = await update.validate(appeal2, config);
-				expect(result).toEqual(appeal);
-			});
-
 			it('should throw an error when given a null value', async () => {
 				appeal.appealDecisionSection = null;
 
@@ -1836,13 +1716,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealDecisionSection.hearing', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealDecisionSection.hearing.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealDecisionSection.hearing = null;
 
@@ -1878,13 +1751,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealDecisionSection.inquiry', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealDecisionSection.inquiry.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealDecisionSection.inquiry = null;
 
@@ -1961,13 +1827,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealDecisionSection.draftStatementOfCommonGround', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealDecisionSection.draftStatementOfCommonGround.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealDecisionSection.draftStatementOfCommonGround = null;
 
@@ -1977,14 +1836,6 @@ describe('schemas/full-appeal/update', () => {
 				});
 
 				describe('appealDecisionSection.draftStatementOfCommonGround.uploadedFile', () => {
-					it('should remove unknown fields', async () => {
-						appeal2.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.unknownField =
-							'unknown field';
-
-						const result = await update.validate(appeal2, config);
-						expect(result).toEqual(appeal);
-					});
-
 					it('should throw an error when given a null value', async () => {
 						appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile = null;
 
@@ -2147,13 +1998,6 @@ describe('schemas/full-appeal/update', () => {
 		});
 
 		describe('planningApplicationDocumentsSection', () => {
-			it('should remove unknown fields', async () => {
-				appeal2.planningApplicationDocumentsSection.unknownField = 'unknown field';
-
-				const result = await update.validate(appeal2, config);
-				expect(result).toEqual(appeal);
-			});
-
 			it('should throw an error when given a null value', async () => {
 				appeal.planningApplicationDocumentsSection = null;
 
@@ -2163,14 +2007,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('planningApplicationDocumentsSection.plansDrawingsSupportingDocuments', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments.unknownField =
-						'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.planningApplicationDocumentsSection.plansDrawingsSupportingDocuments = null;
 
@@ -2354,14 +2190,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('planningApplicationDocumentsSection.originalApplication', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.planningApplicationDocumentsSection.originalApplication.unknownField =
-						'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.planningApplicationDocumentsSection.originalApplication = null;
 
@@ -2371,14 +2199,6 @@ describe('schemas/full-appeal/update', () => {
 				});
 
 				describe('planningApplicationDocumentsSection.originalApplication.uploadedFile', () => {
-					it('should remove unknown fields', async () => {
-						appeal2.planningApplicationDocumentsSection.originalApplication.uploadedFile.unknownField =
-							'unknown field';
-
-						const result = await update.validate(appeal2, config);
-						expect(result).toEqual(appeal);
-					});
-
 					it('should throw an error when given a null value', async () => {
 						appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile = null;
 
@@ -2479,13 +2299,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('planningApplicationDocumentsSection.decisionLetter', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.planningApplicationDocumentsSection.decisionLetter.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.planningApplicationDocumentsSection.decisionLetter = null;
 
@@ -2495,14 +2308,6 @@ describe('schemas/full-appeal/update', () => {
 				});
 
 				describe('planningApplicationDocumentsSection.decisionLetter.uploadedFile', () => {
-					it('should remove unknown fields', async () => {
-						appeal2.planningApplicationDocumentsSection.decisionLetter.uploadedFile.unknownField =
-							'unknown field';
-
-						const result = await update.validate(appeal2, config);
-						expect(result).toEqual(appeal);
-					});
-
 					it('should throw an error when given a null value', async () => {
 						appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile = null;
 
@@ -2665,14 +2470,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('planningApplicationDocumentsSection.designAccessStatement', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.planningApplicationDocumentsSection.designAccessStatement.unknownField =
-						'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.planningApplicationDocumentsSection.designAccessStatement = null;
 
@@ -2710,14 +2507,6 @@ describe('schemas/full-appeal/update', () => {
 				});
 
 				describe('planningApplicationDocumentsSection.designAccessStatement.uploadedFile', () => {
-					it('should remove unknown fields', async () => {
-						appeal2.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.unknownField =
-							'unknown field';
-
-						const result = await update.validate(appeal2, config);
-						expect(result).toEqual(appeal);
-					});
-
 					it('should throw an error when given a null value', async () => {
 						appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile = null;
 
@@ -2885,13 +2674,6 @@ describe('schemas/full-appeal/update', () => {
 		});
 
 		describe('appealSubmission', () => {
-			it('should remove unknown fields', async () => {
-				appeal2.appealSubmission.unknownField = 'unknown field';
-
-				const result = await update.validate(appeal2, config);
-				expect(result).toEqual(appeal);
-			});
-
 			it('should throw an error when given a null value', async () => {
 				appeal.appealSubmission = null;
 
@@ -2901,13 +2683,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('appealSubmission.appealPDFStatement', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.appealSubmission.appealPDFStatement.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.appealSubmission.appealPDFStatement = null;
 
@@ -2917,13 +2692,6 @@ describe('schemas/full-appeal/update', () => {
 				});
 
 				describe('appealSubmission.appealPDFStatement.uploadedFile', () => {
-					it('should remove unknown fields', async () => {
-						appeal2.appealSubmission.appealPDFStatement.uploadedFile.unknownField = 'unknown field';
-
-						const result = await update.validate(appeal2, config);
-						expect(result).toEqual(appeal);
-					});
-
 					it('should throw an error when given a null value', async () => {
 						appeal.appealSubmission.appealPDFStatement.uploadedFile = null;
 
@@ -3020,13 +2788,6 @@ describe('schemas/full-appeal/update', () => {
 		});
 
 		describe('sectionStates', () => {
-			it('should remove unknown fields', async () => {
-				appeal2.sectionStates.unknownField = 'unknown field';
-
-				const result = await update.validate(appeal2, config);
-				expect(result).toEqual(appeal);
-			});
-
 			it('should throw an error when given a null value', async () => {
 				appeal.sectionStates = null;
 
@@ -3036,13 +2797,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('sectionStates.contactDetailsSection', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.sectionStates.contactDetailsSection.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.sectionStates.contactDetailsSection = null;
 
@@ -3113,13 +2867,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('sectionStates.appealSiteSection', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.sectionStates.appealSiteSection.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.sectionStates.appealSiteSection = null;
 
@@ -3166,13 +2913,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('sectionStates.appealDecisionSection', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.sectionStates.appealDecisionSection.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.sectionStates.appealDecisionSection = null;
 
@@ -3211,13 +2951,6 @@ describe('schemas/full-appeal/update', () => {
 			});
 
 			describe('sectionStates.planningApplicationDocumentsSection', () => {
-				it('should remove unknown fields', async () => {
-					appeal2.sectionStates.planningApplicationDocumentsSection.unknownField = 'unknown field';
-
-					const result = await update.validate(appeal2, config);
-					expect(result).toEqual(appeal);
-				});
-
 				it('should throw an error when given a null value', async () => {
 					appeal.sectionStates.planningApplicationDocumentsSection = null;
 
