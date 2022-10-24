@@ -153,6 +153,7 @@ const uploadDocument = async (req, res) => {
 		const metadata = await uploadFile(containerClient, document);
 		await deleteLocalFile(file);
 
+<<<<<<< HEAD
 		// TODO: this should only be sending back the document's `id`; all other data is superfluous.
 		// Its also very confusing and thre us for a week on AS-5031: since this returns all the metadata
 		// for a document, we thought this was the only place we could get it, so transferred this data
@@ -160,6 +161,9 @@ const uploadDocument = async (req, res) => {
 		// this data via `serveDocumentById()` above, and the other data used from the return value here is
 		// only used because "needed for Cypress testing" in other systems :/
 		res.status(202).send(metadata); 
+=======
+		res.status(202).send(metadata.id);
+>>>>>>> fix(as-5031): initial cleanup commit
 	} catch (err) {
 		req.log.error({ err }, 'Failed to upload document');
 		res.status(500).send({
