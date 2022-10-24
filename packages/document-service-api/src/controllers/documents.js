@@ -153,7 +153,7 @@ const uploadDocument = async (req, res) => {
 		const metadata = await uploadFile(containerClient, document);
 		await deleteLocalFile(file);
 
-		res.status(202).send(metadata);
+		res.status(202).send(metadata.id);
 	} catch (err) {
 		req.log.error({ err }, 'Failed to upload document');
 		res.status(500).send({
