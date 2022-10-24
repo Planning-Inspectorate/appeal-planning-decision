@@ -50,7 +50,7 @@ function getHorizonDocumentXmlInJsonFormat(documentData, body) {
 	const horizonDocumentXmlInJsonFormat = {
 		// The order of this object is important
 		'a:HorizonAPIDocument': {
-			'a:Content': documentData.data,
+			'a:Content': documentData,
 			'a:DocumentType': documentTypeValue,
 			'a:Filename': documentData.name,
 			'a:IsPublished': 'false',
@@ -111,7 +111,11 @@ module.exports = async (log, body) => {
 		const { caseReference } = body;
 
 		const document = await downloadDocumentFromDocumentsApi({ body });
-		const horizonDocumentXmlInJsonFormat = getHorizonDocumentXmlInJsonFormat(document, body, log);
+		const horizonDocumentXmlInJsonFormat = getHorizonDocumentXmlInJsonFormat(
+			document.data,
+			body,
+			log
+		);
 
 		const input = {
 			AddDocuments: {
