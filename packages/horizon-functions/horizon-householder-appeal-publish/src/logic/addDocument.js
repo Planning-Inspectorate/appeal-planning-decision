@@ -25,32 +25,37 @@ function getHorizonDocumentXmlInJsonFormat(documentData, body) {
 
 	/**
 	 * TODO: When the AS-5031 feature flag is removed remove the if statement
-	 * amd its contents below
+	 * and the lines above it below
 	 *
-	 * We're using a check on these values being falsely i.e. "undefined" here
-	 * to prevent misalignment on feature flag settings. Since we cache
-	 * feature flag configs, we should try to only use the flag in one app
-	 * so that we don't have two caches in two apps, which can cause obvious
-	 * issues!
-	 *
-	 * The `horizon_document_type` and `horizon_document_group_type` on `documentData` below
-	 * should only be set if the AS-5031 feature flag is on :) By doing this check
-	 * we avoid the need to do a feature flag check across two separate services!
-	 *
-	 * If they're not set, we fall back to the way the `documentTypeValue` and
-	 * `documentGroupTypeValue` values were set previously!
+	 * We're using a check on these values being truthy here to prevent misalignment 
+	 * on feature flag settings between apps. Since we cache feature flag configs,
+	 * we should try to only use the flag in one app so that we don't have two caches 
+	 * in two apps, which can cause obvious issues! So, the `horizon_document_type` 
+	 * and `horizon_document_group_type` on `documentData` below should only be set 
+	 * if the AS-5031 feature flag is on :) By doing this check we avoid the need to 
+	 * do a feature flag check across two separate services! If they're not set, we 
+	 * fall back to the way the `documentTypeValue` and `documentGroupTypeValue` values 
+	 * were set previously!
+	 * 
+	 * Also note that we have to remove those fields from `documentData` since, if we don't,
+	 * they're included in the `a:Content` node below, and this causes Horizon to not upload
+	 * the document since the schema isn't correct ¯\_(ツ)_/¯ (it was like this before we got
+	 * here)
 	 */
-	let documentTypeValue = documentData?.horizon_document_type;
-	let documentGroupTypeValue = documentData?.horizon_document_group_type;
-	if ((documentTypeValue && documentGroupTypeValue) == false) {
-		documentTypeValue = body.documentType;
-		documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
+	let documentTypeValue = body.documentType;
+	let documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
+	
+	if (documentData?.horizon_document_type && documentData?.horizon_document_group_type) {
+		documentTypeValue = documentData.horizon_document_type;
+		documentGroupTypeValue = documentData.horizon_document_group_type;
+		delete documentData['horizon_document_type'];
+		delete documentData['horizon_document_group_type'];
 	}
 
 	const horizonDocumentXmlInJsonFormat = {
 		// The order of this object is important
 		'a:HorizonAPIDocument': {
-			'a:Content': documentData,
+			'a:Content': documentData, // TODO: this should not be happening. Its coupling Horizon and Azure Blob storage together!!!
 			'a:DocumentType': documentTypeValue,
 			'a:Filename': documentData.name,
 			'a:IsPublished': 'false',
