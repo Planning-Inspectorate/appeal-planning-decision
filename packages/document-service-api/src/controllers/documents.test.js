@@ -1,11 +1,4 @@
-const { documentTypes } = require('@pins/common');
-const {
-	getDocumentsForApplication,
-	getDocumentById,
-	serveDocumentById,
-	uploadDocument,
-	deleteDocument
-} = require('./documents');
+const { getDocumentsForApplication, getDocumentById, deleteDocument } = require('./documents');
 const BlobStorage = require('../lib/blobStorage');
 const { mockReq, mockRes } = require('../../test/utils/mocks');
 
