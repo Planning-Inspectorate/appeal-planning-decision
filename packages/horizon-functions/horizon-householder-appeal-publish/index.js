@@ -489,25 +489,46 @@ module.exports = async (context, event) => {
 				}
 
 				// Add Ownership Certificate document
-				if (event?.appeal?.ownershipCertificate?.uploadedFile?.id !== null) {
+				if (
+					event?.appeal?.planningApplicationDocumentsSection?.ownershipCertificate?.uploadedFile
+						?.id !== null
+				) {
 					documents.push({
-						id: event?.appeal?.ownershipCertificate?.uploadedFile.id
+						id: event?.appeal?.planningApplicationDocumentsSection?.ownershipCertificate
+							?.uploadedFile.id
 					});
 
 					context.log('Added Ownership Certificate document');
 				}
 
 				// Add Letter Confirming Application document
-				if (event?.appeal?.letterConfirmingApplication?.uploadedFile?.id !== null) {
+				if (
+					event?.appeal?.planningApplicationDocumentsSection?.letterConfirmingApplication
+						?.uploadedFile?.id !== null
+				) {
 					documents.push({
-						id: event?.appeal?.letterConfirmingApplication?.uploadedFile.id
+						id: event?.appeal?.planningApplicationDocumentsSection?.letterConfirmingApplication
+							?.uploadedFile?.id
 					});
 
 					context.log('Added Letter Confirming Application document');
 				}
 
-				// Add multiple Old Plans & Drawings documents to the list - Mandatory
-				const planningObligationFiles = event?.appeal?.planningObligations?.uploadedFiles;
+				// Add multiple draft Planning obligation files
+				const draftPlanningObligationFiles = event?.appeal?.draftPlanningObligations?.uploadedFiles;
+				if (Array.isArray(draftPlanningObligationFiles)) {
+					documents.push(
+						...draftPlanningObligationFiles.map(({ id }) => ({
+							id,
+							type: 'Appellant Initial Documents'
+						}))
+					);
+
+					context.log('Added Draft Planning Obligation documents');
+				}
+
+				// Add multiple Planning obligation files
+				const planningObligationFiles = event?.appeal?.PlanningObligations?.uploadedFiles;
 				if (Array.isArray(planningObligationFiles)) {
 					documents.push(
 						...planningObligationFiles.map(({ id }) => ({
@@ -516,7 +537,7 @@ module.exports = async (context, event) => {
 						}))
 					);
 
-					context.log('Added Old Plans & Drawings documents');
+					context.log('Added Planning Obligation documents');
 				}
 
 				// Add multiple Old Plans & Drawings documents to the list - Mandatory
