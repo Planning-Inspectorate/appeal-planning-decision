@@ -466,20 +466,57 @@ module.exports = async (context, event) => {
 				const procType = event.appeal.appealDecisionSection.procedureType;
 
 				context.log({ procType }, 'Procedure Type');
+				context.log({ event }, 'submission data');
+				context.log(
+					event.appeal.planningApplicationDocumentsSection,
+					'planningApplicationDocumentsSection'
+				);
+				context.log(event.appeal.appealDecisionSection, 'appealDecisionSection');
 
 				if (procType === 'Hearing' || procType === 'Inquiry') {
 					if (
-						event?.appeal?.planningApplicationDocumentsSection?.draftStatementOfCommonGround
-							?.uploadedFile?.id !== null
+						event?.appeal?.appealDecisionSection?.draftStatementOfCommonGround?.uploadedFile?.id !==
+						null
 					) {
 						documents.push({
-							id: event?.appeal?.planningApplicationDocumentsSection?.draftStatementOfCommonGround
-								?.uploadedFile?.id,
+							id: event?.appeal?.appealDecisionSection?.draftStatementOfCommonGround?.uploadedFile
+								?.id,
 							type: 'Statement of Common Ground'
 						});
 
 						context.log('Added Statement of Common Ground document');
 					}
+				}
+
+				// Add Ownership Certificate document
+				if (event?.appeal?.ownershipCertificate?.uploadedFile?.id !== null) {
+					documents.push({
+						id: event?.appeal?.ownershipCertificate?.uploadedFile.id
+					});
+
+					context.log('Added Ownership Certificate document');
+				}
+
+				// Add Letter Confirming Application document
+				if (event?.appeal?.letterConfirmingApplication?.uploadedFile?.id !== null) {
+					documents.push({
+						id: event?.appeal?.letterConfirmingApplication?.uploadedFile.id
+					});
+
+					context.log('Added Letter Confirming Application document');
+				}
+
+				// Add multiple Old Plans & Drawings documents to the list - Mandatory
+				const planningObligationFiles = event?.appeal?.planningObligations?.uploadedFiles;
+				if (Array.isArray(planningObligationFiles)) {
+					documents.push(
+						...planningObligationFiles.map(({ id }) => ({
+							id,
+							type: 'Appellant Initial Documents'
+						}))
+					);
+
+					context.log('Added Old Plans & Drawings documents');
 				}
 
 				// Add multiple Old Plans & Drawings documents to the list - Mandatory
@@ -532,7 +569,7 @@ module.exports = async (context, event) => {
 						context.log('Added Supporting documents');
 					}
 				}
-
+				context.log('documents sent to publish function', documents);
 				await publishDocuments(context.log, documents, appealId, horizonCaseId);
 
 				break;
