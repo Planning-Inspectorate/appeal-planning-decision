@@ -529,7 +529,7 @@ module.exports = async (context, event) => {
 
 				// Add multiple Planning obligation files
 				const planningObligationFiles =
-					event?.appeal?.appealDocumentsSection?.PlanningObligations?.uploadedFiles;
+					event?.appeal?.appealDocumentsSection?.planningObligations?.uploadedFiles;
 				if (Array.isArray(planningObligationFiles)) {
 					documents.push(
 						...planningObligationFiles.map(({ id }) => ({
