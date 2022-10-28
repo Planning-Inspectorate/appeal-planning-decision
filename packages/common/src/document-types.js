@@ -52,7 +52,7 @@ const documentTypes = {
 		name: 'plansDrawingsSupportingDocuments',
 		multiple: true,
 		displayName: 'Plans, drawings and supporting documents',
-		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentType: 'Application Plans',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
 	appealPdf: {
