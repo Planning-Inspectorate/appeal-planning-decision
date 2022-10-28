@@ -515,12 +515,12 @@ module.exports = async (context, event) => {
 				}
 
 				// Add multiple draft Planning obligation files
-				const draftPlanningObligationFiles = event?.appeal?.draftPlanningObligations?.uploadedFiles;
+				const draftPlanningObligationFiles =
+					event?.appeal?.appealDocumentsSection?.draftPlanningObligations?.uploadedFiles;
 				if (Array.isArray(draftPlanningObligationFiles)) {
 					documents.push(
 						...draftPlanningObligationFiles.map(({ id }) => ({
-							id,
-							type: 'Appellant Initial Documents'
+							id
 						}))
 					);
 
@@ -528,12 +528,12 @@ module.exports = async (context, event) => {
 				}
 
 				// Add multiple Planning obligation files
-				const planningObligationFiles = event?.appeal?.PlanningObligations?.uploadedFiles;
+				const planningObligationFiles =
+					event?.appeal?.appealDocumentsSection?.PlanningObligations?.uploadedFiles;
 				if (Array.isArray(planningObligationFiles)) {
 					documents.push(
 						...planningObligationFiles.map(({ id }) => ({
-							id,
-							type: 'Appellant Initial Documents'
+							id
 						}))
 					);
 
