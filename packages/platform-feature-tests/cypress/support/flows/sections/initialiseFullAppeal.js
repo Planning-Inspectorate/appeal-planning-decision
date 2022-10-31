@@ -31,7 +31,7 @@ module.exports = (statusOfOriginalApplication) => {
 
 	cy.advanceToNextPage('Continue to my appeal');
 
-	cy.get('#application-number').type('12345');
+	cy.get('#application-number').type(`TEST-${Date.now()}`);
 	cy.advanceToNextPage();
 
 	cy.get('#email-address').type('test@example.com');

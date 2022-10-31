@@ -33,6 +33,7 @@ Cypress.Commands.add('goToAppealSection', (sectionName) => {
 });
 
 Cypress.Commands.add('uploadFileFromFixturesDirectory', (filename) => {
-	cy.fixture(filename, { encoding: null }).as('file');
-	cy.get('#file-upload').selectFile('@file', { action: 'drag-drop' });
+	// BEWARE! If you use `cy.fixtures()` instead, its caching will cause
+	// issues on tests that use the same fixtures as ones run before!!
+	cy.get('#file-upload').selectFile(`cypress/fixtures/${filename}`);
 });
