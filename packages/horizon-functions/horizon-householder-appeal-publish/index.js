@@ -366,6 +366,7 @@ module.exports = async (context, event) => {
 		switch (appealTypeID) {
 			case '1001': {
 				// Householder (HAS) Appeal
+				context.log({ event }, 'householder submission data');
 				const documents = [
 					{
 						id: event?.appeal?.yourAppealSection?.appealStatement?.uploadedFile?.id,
@@ -396,8 +397,8 @@ module.exports = async (context, event) => {
 					);
 				}
 
+				context.log('Householder documents sent to publish function', documents);
 				await publishDocuments(context.log, documents, appealId, horizonCaseId);
-
 				break;
 			}
 

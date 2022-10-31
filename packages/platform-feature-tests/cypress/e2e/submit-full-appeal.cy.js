@@ -2,8 +2,8 @@ const { submitAppealFlow } = require('../support/flows/appeal');
 
 describe('Appeal uploads', () => {
 	[
-		// ['refused', 'written', 'finalised'],
-		['no decision', 'hearing', 'in draft']
+		['no decision', 'hearing', 'in draft'],
+		['refused', 'written', 'finalised']
 	].forEach((context) => {
 		it(`sends a householder planning application successfully to Horizon where the original application status is "${context[0]}", the decision type requested is "${context[1]}" and the planning obligation status is "${context[2]}"`, () => {
 			submitAppealFlow({
