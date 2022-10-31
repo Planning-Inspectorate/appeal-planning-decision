@@ -466,20 +466,78 @@ module.exports = async (context, event) => {
 				const procType = event.appeal.appealDecisionSection.procedureType;
 
 				context.log({ procType }, 'Procedure Type');
+				context.log({ event }, 'submission data');
+				context.log(
+					event.appeal.planningApplicationDocumentsSection,
+					'planningApplicationDocumentsSection'
+				);
+				context.log(event.appeal.appealDecisionSection, 'appealDecisionSection');
 
 				if (procType === 'Hearing' || procType === 'Inquiry') {
 					if (
-						event?.appeal?.planningApplicationDocumentsSection?.draftStatementOfCommonGround
-							?.uploadedFile?.id !== null
+						event?.appeal?.appealDecisionSection?.draftStatementOfCommonGround?.uploadedFile?.id !==
+						null
 					) {
 						documents.push({
-							id: event?.appeal?.planningApplicationDocumentsSection?.draftStatementOfCommonGround
-								?.uploadedFile?.id,
+							id: event?.appeal?.appealDecisionSection?.draftStatementOfCommonGround?.uploadedFile
+								?.id,
 							type: 'Statement of Common Ground'
 						});
 
 						context.log('Added Statement of Common Ground document');
 					}
+				}
+
+				// Add Ownership Certificate document
+				if (
+					event?.appeal?.planningApplicationDocumentsSection?.ownershipCertificate?.uploadedFile
+						?.id !== null
+				) {
+					documents.push({
+						id: event?.appeal?.planningApplicationDocumentsSection?.ownershipCertificate
+							?.uploadedFile.id
+					});
+
+					context.log('Added Ownership Certificate document');
+				}
+
+				// Add Letter Confirming Application document
+				if (
+					event?.appeal?.planningApplicationDocumentsSection?.letterConfirmingApplication
+						?.uploadedFile?.id !== null
+				) {
+					documents.push({
+						id: event?.appeal?.planningApplicationDocumentsSection?.letterConfirmingApplication
+							?.uploadedFile?.id
+					});
+
+					context.log('Added Letter Confirming Application document');
+				}
+
+				// Add multiple draft Planning obligation files
+				const draftPlanningObligationFiles =
+					event?.appeal?.appealDocumentsSection?.draftPlanningObligations?.uploadedFiles;
+				if (Array.isArray(draftPlanningObligationFiles)) {
+					documents.push(
+						...draftPlanningObligationFiles.map(({ id }) => ({
+							id
+						}))
+					);
+
+					context.log('Added Draft Planning Obligation documents');
+				}
+
+				// Add multiple Planning obligation files
+				const planningObligationFiles =
+					event?.appeal?.appealDocumentsSection?.planningObligations?.uploadedFiles;
+				if (Array.isArray(planningObligationFiles)) {
+					documents.push(
+						...planningObligationFiles.map(({ id }) => ({
+							id
+						}))
+					);
+
+					context.log('Added Planning Obligation documents');
 				}
 
 				// Add multiple Old Plans & Drawings documents to the list - Mandatory
@@ -532,7 +590,7 @@ module.exports = async (context, event) => {
 						context.log('Added Supporting documents');
 					}
 				}
-
+				context.log('documents sent to publish function', documents);
 				await publishDocuments(context.log, documents, appealId, horizonCaseId);
 
 				break;
