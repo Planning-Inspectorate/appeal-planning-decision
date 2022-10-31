@@ -27,9 +27,16 @@ local planning authority is used as a user in these tests, and this is always th
 planning authority that a new feature is exposed to (see feature flag set-up on Azure and our 
 general process flow).
 
+## Can you explain your structure?
+
+Sure! Start off looking in the `e2e` directory, this directory contains the main test driver functions.
+Then, if you want to dig into details, check out `support/flows`, the files in here are flows through the
+platform. These flows are composed of sections, which can be found in `support/flows/sections`. Finally,
+sections can contain somewhat repetitive actions, which are defined in `support/commands.js`.
+
 ## What conventions are used here?
 
-- We organize tests around user flows, rather than features too since a user flow may contain 
+- We organize tests around user flows, rather than features since a user flow may contain 
 multiple features, so this results in less tests (more efficient tests, essentially).
 
 ## How do I run these tests?

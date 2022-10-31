@@ -23,3 +23,16 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
+	cy.get('.govuk-button').contains(text).click();
+});
+
+Cypress.Commands.add('goToAppealSection', (sectionName) => {
+	cy.get('.moj-task-list__task-name').contains(sectionName).click();
+});
+
+Cypress.Commands.add('uploadFileFromFixturesDirectory', (filename) => {
+	cy.fixture(filename, { encoding: null }).as('file');
+	cy.get('#file-upload').selectFile('@file', { action: 'drag-drop' });
+});
