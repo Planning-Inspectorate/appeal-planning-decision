@@ -21,7 +21,6 @@ function getHorizonDocumentXmlInJsonFormat(documentData, body) {
 	//TODO: remove 'log' parameter when AS-5031 is complete
 	const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
 	const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
-	const documentInvolvementValue = isAppeal(body.documentType) ? 'Appellant' : 'LPA';
 
 	/**
 	 * TODO: When the AS-5031 feature flag is removed remove the if statement
@@ -42,8 +41,9 @@ function getHorizonDocumentXmlInJsonFormat(documentData, body) {
 	 * the document since the schema isn't correct ¯\_(ツ)_/¯ (it was like this before we got
 	 * here)
 	 */
-	let documentTypeValue = body.documentType;
-	let documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
+	let documentTypeValue = documentData.document_type;
+	let documentGroupTypeValue = isAppeal(documentTypeValue) ? 'Initial Documents' : 'Evidence';
+	const documentInvolvementValue = isAppeal(documentTypeValue) ? 'Appellant' : 'LPA';
 
 	if (documentData?.horizon_document_type && documentData?.horizon_document_group_type) {
 		documentTypeValue = documentData.horizon_document_type;
