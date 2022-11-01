@@ -7,7 +7,7 @@ const { createContacts } = require('./src/createContacts');
 const { getLpaData } = require('./src/getLpaData');
 const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
-const { uploadedDocumentMapper } = require('./uploadedDocumentMapper');
+const uploadedDocumentMapper = require('./uploadedDocumentMapper');
 
 module.exports = async (context, event) => {
 	if (!event.appeal) return handlerReply(context, event);
