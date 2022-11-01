@@ -1,4 +1,4 @@
-const _findKey = (obj, keys, array) => {
+const _populateArrayWithIdsFromKeysFoundInObject = (obj, keys, array) => {
 	for (let [k, v] of Object.entries(obj)) {
 		if (keys.includes(k)) {
 			if (Array.isArray(v)) {
@@ -9,17 +9,15 @@ const _findKey = (obj, keys, array) => {
 		}
 
 		if (typeof v === 'object' && v !== null) {
-			let found = _findKey(v, keys, array);
+			let found = _populateArrayWithIdsFromKeysFoundInObject(v, keys, array);
 			if (found) return found;
 		}
 	}
 };
 
-const uploadedDocumentMapper = (event) => {
+module.exports = (event) => {
 	let documents = [];
-	_findKey(event, ['uploadedFile', 'uploadedFiles'], documents);
+	_populateArrayWithIdsFromKeysFoundInObject(event, ['uploadedFile', 'uploadedFiles'], documents);
 	documents = documents.filter((document) => document.id !== null);
 	return documents;
 };
-
-module.exports = uploadedDocumentMapper;
