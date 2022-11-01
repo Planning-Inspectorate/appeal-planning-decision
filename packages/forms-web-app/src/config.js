@@ -31,10 +31,6 @@ module.exports = {
 	pdf: {
 		url: process.env.PDF_SERVICE_API_URL
 	},
-	featureFlagging: {
-		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_ENDPOINT,
-		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
-	},
 	fileUpload: {
 		debug: process.env.FILE_UPLOAD_DEBUG === 'true',
 		pins: {

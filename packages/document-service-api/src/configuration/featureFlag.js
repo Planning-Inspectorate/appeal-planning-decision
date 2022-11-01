@@ -16,15 +16,12 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 		return false;
 	}
 
-	logger.info(`--- Feature flag cache pre-cache check ---`);
-	logger.info(featureFlagCache);
-	logger.info(`--------------------------`);
+	logger.info('Feature flag cache pre-cache check:', featureFlagCache);
 
 	const currentTime = Date.now();
 	const timeToLive = featureFlagCache[flagName]?.timeToLive;
 
-	logger.info('Current time: ' + currentTime);
-	logger.info('Time to live: ' + timeToLive);
+	logger.info('Current time: ' + currentTime + '// Time to live: ' + timeToLive);
 
 	const timeToLiveEvaluation = currentTime >= timeToLive;
 
@@ -51,9 +48,7 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 		}
 	}
 
-	logger.info(`--- Feature flag cache post-cache check---`);
-	logger.info(featureFlagCache);
-	logger.info(`--------------------------`);
+	logger.info('Feature flag cache post-cache check:', featureFlagCache);
 
 	const featureFlagConfiguration = featureFlagCache[flagName];
 	const userGroup = featureFlagConfiguration.conditions.client_filters[0].parameters.Audience.Users;
