@@ -17,20 +17,18 @@ const isAppeal = (documentType) => {
 	return Object.values(appealDocumentTypes).indexOf(documentType) > -1;
 };
 
-function createDataObject(data, body, context) {
-	// TODO: remove 'context' parameter when AS-5031 is complete
+function createDataObject(data, body) {
 	const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
 	const documentGroupTypeName = body.documentGroupType || 'Document:Document Group Type';
 	const documentInvolvementValue = isAppeal(body.documentType) ? 'Appellant' : 'LPA';
 
-	const documentTypeValue = body.documentType;
 	const documentGroupTypeValue = isAppeal(body.documentType) ? 'Initial Documents' : 'Evidence';
 
-	const dataObject = {
+	return {
 		// The order of this object is important
 		'a:HorizonAPIDocument': {
 			'a:Content': data.data,
-			'a:DocumentType': documentTypeValue,
+			'a:DocumentType': body.documentType,
 			'a:Filename': data.name,
 			'a:IsPublished': 'false',
 			'a:Metadata': {
@@ -68,14 +66,9 @@ function createDataObject(data, body, context) {
 			'a:NodeId': '0'
 		}
 	};
-
-	// TODO: remove this when AS-5031 is complete
-	context.log(JSON.stringify(dataObject), 'Data object (horizon-add-document)');
-	return dataObject;
 }
 
-async function parseFile({ body }, context) {
-	// TODO: remove context parameter when AS-5031 is complete
+async function parseFile({ body }) {
 	const { documentId, applicationId } = body;
 
 	const { data } = await axios.get(`/api/v1/${applicationId}/${documentId}/file`, {
@@ -85,7 +78,7 @@ async function parseFile({ body }, context) {
 		}
 	});
 
-	const object = createDataObject(data, body, context); // TODO: remove 'context' parameter when AS-5031 is complete;
+	const object = createDataObject(data, body);
 
 	return object;
 }
@@ -104,7 +97,7 @@ module.exports = async (context, req) => {
 				documents: [
 					{ '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business' },
 					{ '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance' },
-					await parseFile(req, context) // TODO: remove 'context' parameter when AS-5031 is complete
+					await parseFile(req)
 				]
 			}
 		};

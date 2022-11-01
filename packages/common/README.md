@@ -12,8 +12,8 @@ and run`npm install`.
 
 ## Engineering Backlog
 
-1. Move `lib/documentTypes.js` behind a `GET` request in the Documents API: this allows for automated
-Pact testing to be established around these domain objects, and improves cohesion for the domain concept.
+1. Move `lib/documentTypes.js` behind a `GET` request in the Documents API: this improves cohesion for the domain concept, and
+updates will be immediate for all consumers of the API.
 1. Remove this package: the code within could be placed in something like a Cookiecutter template to enable 
 "Golden path" development. Each project should own its own version of the code here too since changes to this
 code requires coordination any way, and its preferable to allow each team to change at their own pace.
