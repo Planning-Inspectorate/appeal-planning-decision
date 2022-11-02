@@ -21,7 +21,7 @@ module.exports = (statusOfOriginalApplication) => {
 	cy.advanceToNextPage();
 
 	let currentDate = new Date();
-	cy.get('#decision-date-day').type(currentDate.getDay());
+	cy.get('#decision-date-day').type(currentDate.getDate());
 	cy.get('#decision-date-month').type(currentDate.getMonth() + 1);
 	cy.get('#decision-date-year').type(currentDate.getFullYear());
 	cy.advanceToNextPage();
