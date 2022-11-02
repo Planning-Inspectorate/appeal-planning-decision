@@ -17,7 +17,7 @@ const documentTypes = {
 		name: 'decisionLetter',
 		multiple: false,
 		displayName: 'Decision notice',
-		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentType: 'LPA Decision Notice',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
 	appealStatement: {
