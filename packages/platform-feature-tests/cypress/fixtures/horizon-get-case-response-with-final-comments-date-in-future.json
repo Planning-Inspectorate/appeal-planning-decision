@@ -1,0 +1,92 @@
+{
+	"Envelope": {
+		"Body": {
+			"GetCaseResponse": {
+				"GetCaseResult": {
+					"CaseId": {
+						"value": "740428"
+					},
+					"CaseOfficer": {
+						"Email": {
+							"value": "North2@pins.gsi.gov.uk"
+						},
+						"Name": {
+							"value": "Chris Nash"
+						}
+					},
+					"CaseReference": {
+						"value": "APP/G5180/W/14/123456"
+					},
+					"CaseType": {
+						"value": "Planning Appeal (W)"
+					},
+					"LPACode": {
+						"value": "G5180"
+					},
+					"LinkedCases": {},
+					"Metadata": {
+						"Attributes": {
+							"AttributeValue": {
+								"Name": {
+									"value": "Planning Application:Development Description"
+								},
+								"Value": {
+									"value": "DEVELOPMENT FOR 9 FLATS (5no 2/3 bedroom and 4no 2 bedroom flats) REVISED SCHEME TO APPROVED SCHEME FOR 8no FLATS REF DC/13/04067/FULL DATED 12 FEB 2014"
+								}
+							},
+							"AttributeValue": {
+								"Name": {
+									"value": "Case Document Dates:Final Comments Due Date"
+								},
+								"Value": {
+									"value": "2050-12-31T00:00:00+00:00"
+								}
+							}
+						}
+					},
+					"ProcedureType": {
+						"value": "Written representations"
+					},
+					"PublishedDocuments": {
+						"HorizonSearchDocument": {
+							"Content": {},
+							"DateCreated": {
+								"value": "2015-03-23T09:30:41+00:00"
+							},
+							"DateModified": {
+								"value": "2015-05-09T06:49:10+00:00"
+							},
+							"DatePublished": {
+								"value": "2015-03-23T00:00:00+00:00"
+							},
+							"FileSize": {
+								"value": "145047"
+							},
+							"Filename": {
+								"value": "Decision.pdf"
+							},
+							"Metadata": {
+								"Attributes": {
+									"AttributeValue": {
+										"Name": {
+											"value": "Document:Received/Sent Date"
+										},
+										"Value": {
+											"value": "2015-03-23T00:00:00+00:00"
+										}
+									}
+								}
+							},
+							"MimeType": {
+								"value": "application/pdf"
+							},
+							"NodeId": {
+								"value": "2482510"
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
