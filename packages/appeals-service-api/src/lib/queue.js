@@ -4,7 +4,7 @@
  * to commit appeals to a permenant data store.
  */
 const container = require('rhea');
-const defaultConfig = require('./config');
+const defaultConfig = require('../configuration/config');
 const logger = require('./logger');
 
 function addAppeal(appeal, configuration) {

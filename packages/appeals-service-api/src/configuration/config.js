@@ -37,6 +37,10 @@ const config = {
 		timeout: parseInt(process.env.DOCUMENTS_SERVICE_API_TIMEOUT, 10) || 10000,
 		url: process.env.DOCUMENTS_SERVICE_API_URL
 	},
+	featureFlagging: {
+		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_ENDPOINT,
+		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
+	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
 		redact: [

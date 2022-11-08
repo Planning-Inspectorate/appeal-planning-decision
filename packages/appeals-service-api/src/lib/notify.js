@@ -5,7 +5,7 @@ const {
 	rules
 } = require('../business-rules/src');
 const NotifyBuilder = require('../common/src/lib/notify/notify-builder');
-const config = require('./config');
+const config = require('../configuration/config');
 const logger = require('./logger');
 const { getLpaById } = require('../services/lpa.service');
 const { parseISO } = require('date-fns');

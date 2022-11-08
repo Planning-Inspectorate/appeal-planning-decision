@@ -25,7 +25,7 @@ const createAMQPTestQueue = async () => {
 		.withWaitStrategy(Wait.forLogMessage('Server startup complete'))
 		.start();
 
-	// We need to enable this since the permenant application repository uses "rhea"
+	// We need to enable this since the permanent application repository uses "rhea"
 	// to interact with queues, and "rhea" uses version 1.0 of AMQP. RabbitMQ,
 	// out-of-the-box, uses 0.9.1. So, we need to enable this plugin to allow the Appeals
 	// API to communicate with RabbitMQ during tests.
