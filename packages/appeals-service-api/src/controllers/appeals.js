@@ -57,9 +57,8 @@ module.exports = {
 	},
 
 	async updateAppeal(req, res) {
-		logger.debug(req);
 		const idParam = req.params.id;
-		logger.debug(`Updating appeal ${idParam} ...`);
+		logger.debug(`Updating appeal ${idParam}`, req.body);
 
 		try {
 			const document = await getAppealFromAppealApiService(idParam);

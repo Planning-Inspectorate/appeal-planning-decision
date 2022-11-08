@@ -1,7 +1,7 @@
 // TODO: Delete since appears to be no longer used?
 
 const container = require('rhea');
-const config = require('./config');
+const config = require('../configuration/config');
 const logger = require('./logger');
 
 const options = config.messageQueue.sqlHASAppealsPublisher.connection;

@@ -6,7 +6,7 @@
  */
 
 const pino = require('pino');
-const config = require('./config');
+const config = require('../configuration/config');
 
 module.exports = pino({
 	level: config.logger.level,
