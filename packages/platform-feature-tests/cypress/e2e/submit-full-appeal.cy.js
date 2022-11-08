@@ -167,7 +167,7 @@ describe('Appeal uploads', () => {
 			typeOfDecisionRequested,
 			statusOfPlanningObligation,
 			finalComments
-			// , expectedFilesAndFoldersInHorizon
+			// , expectedFilesAndFoldersInHorizon // NOTE: commented out since this variable isn't used yet, so linting will be angry!
 		} = context;
 
 		it(`sends a householder planning application successfully to Horizon where the original application status is "${statusOfOriginalApplication}", 
@@ -278,51 +278,86 @@ describe('Appeal uploads', () => {
 				cy.fixture('final-comments-text-just-right').then((text) => {
 					cy.get('[data-cy="final-comments-input"]').type(text);
 				});
+
+				// Check what happens when the sensitive info checkbox isn't checked
 				cy.get('[data-cy="continue"]').click(); // TODO: check if this is the correct selector!
+				expect('[data-cy="error"]').to.be.visible; // TODO: check if this is correct
 
-				// TODO: what happens if the appellant hasn't clicked the tick box on this page? Question has been submitted in JIRA
+				// Click the sensitive info checkbox and progress
+				cy.get('[data-cy="sensitive-info-checkbox"]').click();
+				cy.get('[data-cy="continue"]').click();
 
-				//////////////////////////////////////
-				///// Upload additional comments /////
-				//////////////////////////////////////
+				///////////////////////////////////////
+				///// Upload additional documents /////
+				///////////////////////////////////////
 
 				if (finalComments.uploadAdditionalDocuments) {
 					cy.get('[data-cy="upload-additional-documents"]').click();
 					cy.get('[data-cy="continue"]').click(); // TODO: check if this is the correct selector!
 
+					// Press continue without uploading files
+					cy.get('[data-cy="continue"]').click(); // TODO: check if this is the correct selector!
+					// TODO: check error message is visible on page (and check if Abby/Kehinde has updated AS-5433 with correct error message): 'Select your final comments'
+
+					// TODO: Upload .txt (should fail)
+					// TODO: Upload file greater than 15mb
+					// TODO: Upload valid DOC/DOCX/TIF/JPEG/PNG files
 					cy.uploadFileFromFixturesDirectory('additional-final-comments-1.pdf');
 					cy.uploadFileFromFixturesDirectory('additional-final-comments-2.pdf');
+
+					cy.get('[data-cy="continue"]').click(); // TODO: check if this is the correct selector!
+					// TODO: check that error messages are visible on page:
+					//   - '{file name} must be a DOC, DOCX, PDF, TIF, JPG or PNG' is shown
+					//   - '{file name} must be smaller than 15mb'
+					// TODO: remove the invalid files
+					cy.get('[data-cy="continue"]').click(); // TODO: check if this is the correct selector!
 				} else {
 					cy.get('[data-cy="do-not-upload-additional-documents"]').click();
+					cy.get('[data-cy="continue"]').click(); // TODO: check if this is the correct selector!
 				}
-				cy.get('[data-cy="continue"]').click(); // TODO: check if this is the correct selector!
 
 				////////////////////////////////////
 				///// Check Answers and Submit /////
 				////////////////////////////////////
 
 				// TODO: we want to verify that the final comments text is as we expect when we first load this screen
+
 				// TODO: we want to verify that the file names are as expected when we first load this screen
+				if (finalComments.uploadAdditionalDocuments) {
+					// Check for the correct file names
+				} else {
+					// Check there's no file names
+				}
 
 				// TODO: we want to change both the text and additional docs (if applicable) and check if the stuff above updates
+				if (finalComments.uploadAdditionalDocuments) {
+					// TODO: go back and add additional document and check if change is reflected on this page
+				}
+
+				// TODO: Go back to "Add final comments screen" using back buttons, then come back here (check if selector used below is correct)
+				cy.get('[data-cy="back"]').click();
+				cy.get('[data-cy="back"]').click();
+				cy.get('[data-cy="back"]').click();
+				cy.get('[data-cy="continue"]').click();
+				cy.get('[data-cy="continue"]').click();
+				cy.get('[data-cy="continue"]').click();
+
+				// Submit
+				cy.get('[data-cy="continue"]').click();
 
 				/////////////////////////
 				///// On submission /////
 				/////////////////////////
 
-				// TODO: verify that the email was sent
+				// TODO: verify that the submission email is sent
+				// TODO: verify that Horizon add documents call is made with expected files
 
 				////////////////////////////
 				///// After submission /////
 				////////////////////////////
 
-				//TODO: try to add final comments to the same case reference: should get the "appeal closed for final comments" window
-
-				////////////////
-				///// Misc /////
-				////////////////
-
-				// TODO: check the back button on each screen
+				//TODO: access each screen directly again, should get the "appeal closed for final comments" window every time.
+				// TODO: there should be no further interactions with email/Horizon
 			}
 
 			// TODO: this code below needs testing with Horizon when we get automated test access!
