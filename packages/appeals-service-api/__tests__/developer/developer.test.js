@@ -32,7 +32,16 @@ if (process.env.FINAL_COMMENT_FEATURE_ACTIVE) {
 		// await destroyAMQPTestQueue();
 	});
 
-	describe('AS-5408', () => {
+	describe('The API', () => {
+		it('should submit an appeal to the message queue, send emails, and create a final comment entity when we make a PATCH request to /api/v1/appeals/{appeal_id}', () => {
+			// Given: an appeal
+			// When: the appeal is submitted
+			// Then: the expected appeal data should be output on the output message queue
+			// And: a "submitted" email should be sent to the appellant
+			// And: a "received" email should be sent to the case worker
+			// And: a final comments entity should be created in the database
+		});
+
 		it('should return 200 for a GET request to `api/v1/appeals/{appeal_id}/final-comments` when the final comments submission date has been specified for the appeal, and is later than the current date', async () => {
 			// Given: the current date is 15th September 2022
 			// jest.useFakeTimers().setSystemTime(new Date(2022, 9, 15));
