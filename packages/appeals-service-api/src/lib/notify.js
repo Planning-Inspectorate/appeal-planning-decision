@@ -3,8 +3,8 @@ const {
 		appeal: { type: appealTypeConfig }
 	},
 	rules
-} = require('@pins/business-rules');
-const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
+} = require('../business-rules/src');
+const NotifyBuilder = require('../common/src/lib/notify/notify-builder');
 const config = require('./config');
 const logger = require('./logger');
 const { getLpaById } = require('../services/lpa.service');

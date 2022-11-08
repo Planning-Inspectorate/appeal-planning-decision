@@ -1,15 +1,21 @@
+/**
+ * This is a repository implementation which uses rhea (https://www.npmjs.com/package/rhea),
+ * a reactive library for the AMQP protocol for easy development of both clients and servers,
+ * to commit appeals to a permenant data store.
+ */
 const container = require('rhea');
-const config = require('./config');
+const defaultConfig = require('./config');
 const logger = require('./logger');
 
-const options = config.messageQueue.horizonHASPublisher.connection;
+function addAppeal(appeal, configuration) {
+	let config = configuration;
+	if (!config) {
+		config = defaultConfig.messageQueue.horizonHASPublisher;
+	}
 
-function addAppeal(appeal) {
 	let connectionQueue;
 	try {
-		connectionQueue = container
-			.connect(options)
-			.open_sender(config.messageQueue.horizonHASPublisher.queue);
+		connectionQueue = container.connect(config.connection).open_sender(config.queue);
 		logger.info(connectionQueue);
 	} catch (err) {
 		logger.error({ err }, 'Cannot connect to the queue');

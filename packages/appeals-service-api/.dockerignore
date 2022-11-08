@@ -1,1 +1,10 @@
 **/*.spec.js
+.git
+/__tests__
+/jest-reports
+/node_modules
+/tests
+.npmrc
+CHANGELOG.md
+jest*
+README.md

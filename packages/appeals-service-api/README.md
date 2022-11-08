@@ -51,3 +51,10 @@ Also installed is `express-pino-logger` which add `req.log` to the incoming
 HTTP request. This automatically logs incoming HTTP requests and apply a unique
 correlation ID to make tracing errors through easier. For the most part, this
 should be the instance used for logging.
+
+## Testing
+
+We prefer to use integration testing where possible in order to ensure we have maximum
+confidence that the appeals API works in the way intended, with the least amount of testing
+effort! You can find these tests in `__tests__/developer` since its all just developer testing,
+no need to discriminate between integration and unit ;p

@@ -1,5 +1,5 @@
-const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
-const fullAppealData = require('@pins/business-rules/test/data/full-appeal');
+const householderAppeal = require('../../../src/business-rules/test/data/householder-appeal');
+const fullAppealData = require('../../../src/business-rules/test/data/full-appeal');
 const { updateAppeal, validateAppeal } = require('../../../src/services/appeal.service');
 const mongodb = require('../../../src/db/db');
 const queue = require('../../../src/lib/queue');
