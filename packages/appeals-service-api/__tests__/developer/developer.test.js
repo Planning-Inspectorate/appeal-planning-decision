@@ -105,6 +105,44 @@ describe('The API', () => {
 		// const result = await // hitting the API we're going to build with ID from above appeal --> case/{caseRef}/final_comments ?
 		// expect(result).toEqual(finalCommentsEntity)
 	});
+	db = await connection.db('foo');
+
+	appDbConnection.get.mockReturnValue(db);
+	let server = http.createServer(app);
+	request = supertest(server);
+});
+
+describe('The API', () => {
+	it('should submit an appeal to the message queue, send emails, and create a final comment entity when we make a PATCH request to /api/v1/appeals/{appeal_id}', async () => {
+		// const finalCommentsEntity = {
+		// 	case_reference: "",
+		// 	secure_code: {
+		// 		expires: 15431543126,
+		// 		code: 1234,
+		// 	},
+		// 	documents:[{"id": ""}],
+		// 	submitted_date: 15431543126,
+		// 	created: "",
+		// 	updated: ""
+		// 	}
+
+		// Given: an appeal
+		//const appeal = JSON.parse(JSON.stringify(householderAppeal));
+		const appealCreated = await request.post('/api/v1/appeals');
+
+		// When: the appeal is submitted
+		householderAppeal.id = appealCreated.body.id;
+		await request.patch(`/api/v1/appeals/${appealCreated.body.id}`).send(householderAppeal);
+
+		// Then: the expected appeal data should be output on the output message queue
+		// const queueMessage = await getMessageFromAMQPTestQueue()
+		// TODO: fix the above, or use a mock!
+
+		// And: a "submitted" email should be sent to the appellant
+		// expect(notify.sendSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(householderAppeal);
+
+		// And: a "received" email should be sent to the case worker
+		// expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(householderAppeal);
 
 	it('should return 200 for a GET request to `api/v1/appeals/{appeal_id}/final-comments` when the final comments submission date has been specified for the appeal, and is later than the current date', async () => {
 		// Given: the current date is 15th September 2022
