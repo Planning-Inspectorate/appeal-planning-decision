@@ -32,7 +32,7 @@ const createAMQPTestQueue = async () => {
 	await startedContainer.exec(['rabbitmq-plugins', 'enable', 'rabbitmq_amqp1_0']);
 
 	port = startedContainer.getMappedPort(5672);
-	env['HORIZON_HAS_PUBLISHER_PORT'] = port.toString();
+	process.env.HORIZON_HAS_PUBLISHER_PORT = port.toString();
 
 	// We need to get the exact port number since Testcontainers assigns a random port
 	// (by design) on the host machine to map to the one you expose in the container
