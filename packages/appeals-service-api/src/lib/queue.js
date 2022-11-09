@@ -8,13 +8,22 @@ const defaultConfig = require('../configuration/config');
 const logger = require('./logger');
 
 function addAppeal(appeal, configuration) {
+	console.log('ENV before:', process.env.HORIZON_HAS_PUBLISHER_PORT);
 	let config = configuration;
 	if (!config) {
 		config = defaultConfig.messageQueue.horizonHASPublisher;
 	}
 
+	/////
+	//console.log('ENV after:', process.env.HORIZON_HAS_PUBLISHER_PORT);
+	//config.connection.port = process.env.HORIZON_HAS_PUBLISHER_PORT; // todo: for test - remove
+	/////
+
 	let connectionQueue;
 	try {
+		////
+		console.log('QUEUE CONFIG (APP)', config.connection);
+		////
 		connectionQueue = container.connect(config.connection).open_sender(config.queue);
 		logger.info(connectionQueue);
 	} catch (err) {

@@ -5,7 +5,9 @@ const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
 const appDbConnection = require('../../src/db/db');
 
-// const { getMessageFromAMQPTestQueue } = require('./amqp-container-helper');
+const AMQPTestQueue = require('./amqp-container-helper');
+
+//const { getMessageFromAMQPTestQueue } = require('./amqp-container-helper');
 // const notify = require('../../src/lib/notify')
 
 jest.mock('../../src/lib/notify');
@@ -29,12 +31,16 @@ beforeAll(async () => {
 	db = await connection.db('foo');
 
 	appDbConnection.get.mockReturnValue(db);
+
+	await AMQPTestQueue.createAMQPTestQueue();
+
 	let server = http.createServer(app);
 	request = supertest(server);
 });
 
 afterAll(async () => {
 	await connection.close();
+	AMQPTestQueue.destroyAMQPTestQueue();
 });
 
 describe('The API', () => {
@@ -60,7 +66,7 @@ describe('The API', () => {
 		await request.patch(`/api/v1/appeals/${appealCreated.body.id}`).send(householderAppeal);
 
 		// Then: the expected appeal data should be output on the output message queue
-		// const queueMessage = await getMessageFromAMQPTestQueue()
+		await AMQPTestQueue.getMessageFromAMQPTestQueue();
 		// TODO: fix the above, or use a mock!
 
 		// And: a "submitted" email should be sent to the appellant
