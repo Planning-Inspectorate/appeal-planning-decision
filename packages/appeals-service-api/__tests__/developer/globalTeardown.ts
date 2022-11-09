@@ -11,5 +11,5 @@ module.exports = async () => {
 	} = require('./amqp-container-helper');
 
 	await destroyMongoContainer();
-	await destroyAMQPTestQueue();
+	//await destroyAMQPTestQueue();
 };
