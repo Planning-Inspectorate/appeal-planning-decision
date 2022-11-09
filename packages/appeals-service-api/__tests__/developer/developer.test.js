@@ -112,6 +112,10 @@ describe('The API', () => {
 	request = supertest(server);
 });
 
+afterAll(async () => {
+	await connection.close();
+});
+
 describe('The API', () => {
 	it('should submit an appeal to the message queue, send emails, and create a final comment entity when we make a PATCH request to /api/v1/appeals/{appeal_id}', async () => {
 		// const finalCommentsEntity = {
