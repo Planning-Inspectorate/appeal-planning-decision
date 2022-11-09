@@ -18,10 +18,11 @@ jest.mock('../../src/configuration/featureFlag', () => ({
 }));
 
 let request;
+let connection;
 let db;
 
 beforeAll(async () => {
-	let connection = await MongoClient.connect(process.env.INTEGRATION_TEST_DB_URL, {
+	connection = await MongoClient.connect(process.env.INTEGRATION_TEST_DB_URL, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	});
@@ -30,6 +31,10 @@ beforeAll(async () => {
 	appDbConnection.get.mockReturnValue(db);
 	let server = http.createServer(app);
 	request = supertest(server);
+});
+
+afterAll(async () => {
+	await connection.close();
 });
 
 describe('The API', () => {
