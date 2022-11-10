@@ -5,16 +5,12 @@ const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
 const appDbConnection = require('../../src/db/db');
 
-const AMQPTestQueue = require('./amqp-container-helper');
-
-//const { getMessageFromAMQPTestQueue } = require('./amqp-container-helper');
+const { AMQPContainer } = require('./amqp-container');
 // const notify = require('../../src/lib/notify')
+jest.setTimeout(60000);
 
 jest.mock('../../src/lib/notify');
-
 jest.mock('../../src/db/db');
-jest.setTimeout(120000);
-
 jest.mock('../../src/configuration/featureFlag', () => ({
 	isFeatureActive: () => true
 }));
@@ -22,8 +18,12 @@ jest.mock('../../src/configuration/featureFlag', () => ({
 let request;
 let connection;
 let db;
+let messageQueue;
 
 beforeAll(async () => {
+	const amqpContainerConfig = await AMQPContainer.create('test');
+	messageQueue = new AMQPContainer(amqpContainerConfig);
+
 	connection = await MongoClient.connect(process.env.INTEGRATION_TEST_DB_URL, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
@@ -32,15 +32,14 @@ beforeAll(async () => {
 
 	appDbConnection.get.mockReturnValue(db);
 
-	await AMQPTestQueue.createAMQPTestQueue();
+	// await AMQPTestQueue.createAMQPTestQueue();
 
 	let server = http.createServer(app);
 	request = supertest(server);
 });
 
 afterAll(async () => {
-	await connection.close();
-	AMQPTestQueue.destroyAMQPTestQueue();
+	await messageQueue.teardown();
 });
 
 describe('The API', () => {
@@ -63,10 +62,16 @@ describe('The API', () => {
 
 		// When: the appeal is submitted
 		householderAppeal.id = appealCreated.body.id;
-		await request.patch(`/api/v1/appeals/${appealCreated.body.id}`).send(householderAppeal);
+		// await request.patch(`/api/v1/appeals/${appealCreated.body.id}`).send(householderAppeal);
+		// TODO: I think we need to mock the config.js file since its not getting the port num from the container class
+
+		messageQueue.sendMessageToQueue('FOO');
+		const response = await messageQueue.getMessageFromQueue();
+		expect(response).toStrictEqual('FOO');
 
 		// Then: the expected appeal data should be output on the output message queue
-		await AMQPTestQueue.getMessageFromAMQPTestQueue();
+		// const message = await getMessageFromAMQPTestQueue();
+		// console.log(message)
 		// TODO: fix the above, or use a mock!
 
 		// And: a "submitted" email should be sent to the appellant

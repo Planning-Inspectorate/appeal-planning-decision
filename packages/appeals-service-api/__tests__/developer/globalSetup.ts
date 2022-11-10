@@ -1,15 +1,8 @@
+import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
+import { AMQPContainer } from './amqp-container';
+
 module.exports = async () => {
-	const {
-		createMongoContainer,
-		destroyMongoContainer,
-		containerNotSpunUp
-	} = require('./mongodb-container-helper');
-	const {
-		createAMQPTestQueue,
-		getMessageFromAMQPTestQueue,
-		destroyAMQPTestQueue
-	} = require('./amqp-container-helper');
+	const { createMongoContainer } = require('./mongodb-container-helper');
 
 	await createMongoContainer();
-	//await createAMQPTestQueue();
 };
