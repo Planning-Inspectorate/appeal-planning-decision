@@ -69,17 +69,13 @@ module.exports = {
 
 			const newAppeal = req.body;
 			const oldAppeal = document.appeal;
-			// TODO: setting values below required for test to go to queue - need to fix them in test and remove lines
-			// oldAppeal.state = 'DRAFT'; // todo: remove this line and fix in test
-			// newAppeal.state = 'SUBMITTED'; // todo: remove this line and fix in test
 
 			logger.debug({ newAppeal }, 'New appeal data in updateAppeal');
 
 			const isFirstSubmission = oldAppeal.state === 'DRAFT' && newAppeal.state === 'SUBMITTED';
 
-			console.log('Updating appeal');
 			const updatedDocument = await updateAppeal(newAppeal, isFirstSubmission);
-			// logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
+			logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
 
 			res.status(200).send(updatedDocument.appeal);
 		} catch (e) {
