@@ -73,7 +73,8 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 
 	if (isFirstSubmission) {
 		try {
-			await queue.addAppeal(updatedDocument.value);
+			console.log('Adding appeal');
+			await queue.publishMessage(updatedDocument.value);
 		} catch (err) {
 			logger.error({ err, appealId: appeal.id }, 'Unable to queue confirmation email to appellant');
 		}
