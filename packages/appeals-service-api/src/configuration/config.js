@@ -11,6 +11,9 @@ const {
 } = require('../business-rules/src');
 const path = require('path');
 
+// NOTE: it is not a mistake that this variable is decalred via `let` since we need to update the state
+//       in tests, so declaring as `const`, makes this very tricky.
+// TODO: find some way to enable profile-specific configs to remove the `let` here.
 let config = {
 	data: {
 		lpa: {

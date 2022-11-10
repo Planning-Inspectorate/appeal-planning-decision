@@ -16,17 +16,11 @@ export class AMQPTestConfiguration {
 			.withWaitStrategy(Wait.forLogMessage('Server startup complete'))
 			.start();
 
-		// We need to enable this since the permanent application repository uses "rhea"
-		// to interact with queues, and "rhea" uses version 1.0 of AMQP. RabbitMQ,
-		// out-of-the-box, uses 0.9.1. So, we need to enable this plugin to allow the Appeals
-		// API to communicate with RabbitMQ during tests.
-		container.exec(['rabbitmq-plugins', 'enable', 'rabbitmq_amqp1_0']);
-
-		let port = container.getMappedPort(5672);
-
 		// We need to get the exact port number since Testcontainers assigns a random port
 		// (by design) on the host machine to map to the one you expose in the container
 		// itself. See here for more https://www.testcontainers.org/features/networking/
+		let port = container.getMappedPort(5672);
+
 		let connection = await new AMQPClient(`amqp://guest:guest@localhost:${port}`).connect();
 		let channel = await connection.channel();
 		let queue = await channel.queue(queueName);
@@ -54,6 +48,27 @@ export class AMQPTestConfiguration {
 
 	getPort(): Number {
 		return this.port;
+	}
+
+	/**
+	 *
+	 * @returns A fragment of JSON that can be used in the relevant section of JSON that can be
+	 * used in the main app's configuration
+	 */
+	getTestConfigurationSettingsJSON() {
+		return {
+			connection: {
+				host: 'localhost',
+				hostname: 'local',
+				reconnect_limit: 1,
+				password: 'guest',
+				port: this.port,
+				reconnect: 'false',
+				transport: 'tcp',
+				username: 'guest'
+			},
+			queue: this.queue.name
+		};
 	}
 
 	async teardown() {
