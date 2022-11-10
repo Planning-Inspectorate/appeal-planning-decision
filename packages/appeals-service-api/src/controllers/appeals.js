@@ -77,6 +77,7 @@ module.exports = {
 
 			const isFirstSubmission = oldAppeal.state === 'DRAFT' && newAppeal.state === 'SUBMITTED';
 
+			console.log('Updating appeal');
 			const updatedDocument = await updateAppeal(newAppeal, isFirstSubmission);
 			// logger.debug({ updatedDocument }, 'Updated appeal data in updateAppeal');
 

@@ -4,9 +4,10 @@ const http = require('http');
 const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
 const appDbConnection = require('../../src/db/db');
+const appConfiguration = require('../../src/configuration/config');
 
-const { AMQPContainer } = require('./amqp-container');
-// const notify = require('../../src/lib/notify')
+const { AMQPTestMessageQueue } = require('./amqp-test-message-queue');
+const { AMQPTestConfiguration } = require('./amqp-test-configuration');
 jest.setTimeout(60000);
 
 jest.mock('../../src/lib/notify');
@@ -21,8 +22,30 @@ let db;
 let messageQueue;
 
 beforeAll(async () => {
-	const amqpContainerConfig = await AMQPContainer.create('test');
-	messageQueue = new AMQPContainer(amqpContainerConfig);
+	////////////////////////////
+	///// SETUP TEST QUEUE /////
+	////////////////////////////
+
+	const amqpTestConfig = await AMQPTestConfiguration.create('test');
+	messageQueue = new AMQPTestMessageQueue(amqpTestConfig);
+
+	appConfiguration.messageQueue.horizonHASPublisher = {
+		connection: {
+			host: 'localhost',
+			hostname: 'local',
+			reconnect_limit: 1,
+			password: 'guest',
+			port: amqpTestConfig.getPort().toString(),
+			reconnect: 'false',
+			transport: 'tcp',
+			username: 'guest'
+		},
+		queue: 'test'
+	};
+
+	///////////////////////////////
+	///// SETUP TEST DATABASE /////
+	///////////////////////////////
 
 	connection = await MongoClient.connect(process.env.INTEGRATION_TEST_DB_URL, {
 		useNewUrlParser: true,
@@ -31,6 +54,10 @@ beforeAll(async () => {
 	db = await connection.db('foo');
 
 	appDbConnection.get.mockReturnValue(db);
+
+	/////////////////////
+	///// SETUP APP /////
+	/////////////////////
 
 	let server = http.createServer(app);
 	request = supertest(server);
@@ -61,13 +88,12 @@ describe('The API', () => {
 
 		// When: the appeal is submitted
 		householderAppeal.id = appealCreated.body.id;
-		// await request.patch(`/api/v1/appeals/${appealCreated.body.id}`).send(householderAppeal);
-		// TODO: I think we need to mock the config.js file since its not getting the port num from the container class
+		await request.patch(`/api/v1/appeals/${appealCreated.body.id}`).send(householderAppeal);
 
-		messageQueue.sendMessageToQueue('FOO');
+		//messageQueue.sendMessageToQueue('FOO');
 		const response = await messageQueue.getMessageFromQueue();
-		expect(response).toStrictEqual('FOO');
-
+		// expect(response).toStrictEqual('FOO');
+		console.log(response);
 		// Then: the expected appeal data should be output on the output message queue
 		// const message = await getMessageFromAMQPTestQueue();
 		// console.log(message)
