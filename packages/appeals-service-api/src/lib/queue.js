@@ -1,49 +1,15 @@
-/**
- * This is a repository implementation which uses rhea (https://www.npmjs.com/package/rhea),
- * a reactive library for the AMQP protocol for easy development of both clients and servers,
- * to commit appeals to a permenant data store.
- */
-const container = require('rhea');
+const { AMQPClient } = require('@cloudamqp/amqp-client');
 const config = require('../configuration/config');
-const logger = require('./logger');
 
-function addAppeal(appeal) {
-	console.log('ENV port:', process.env.HORIZON_HAS_PUBLISHER_PORT);
-
-	/////
-	//console.log('ENV after:', process.env.HORIZON_HAS_PUBLISHER_PORT);
-	//config.connection.port = process.env.HORIZON_HAS_PUBLISHER_PORT; // todo: for test - remove
-	/////
-
-	let connectionQueue;
-	try {
-		////
-		console.log('QUEUE CONFIG (APP)', config.connection);
-		////
-		connectionQueue = container.connect(config.connection).open_sender(config.queue);
-		logger.info(connectionQueue);
-	} catch (err) {
-		logger.error({ err }, 'Cannot connect to the queue');
-	}
-
-	container.once('sendable', (context) => {
-		context.sender.send({
-			body: container.message.data_section(Buffer.from(JSON.stringify(appeal), 'utf-8')),
-			content_type: 'application/json'
-		});
-		logger.info({ message: appeal }, 'Appeal message placed on queue');
-	});
-
-	container.on('accepted', (context) => {
-		context.connection.close();
-		logger.info(`Queue closed on message accepted`);
-	});
-
-	container.on('error', (err) => {
-		logger.error({ err }, 'There was a problem with the queue');
-	});
+async function publishMessage(message) {
+	const queueConfig = config.messageQueue.horizonHASPublisher;
+	const url = `amqp://${queueConfig.connection.username}:${queueConfig.connection.password}@${queueConfig.connection.host}:${queueConfig.connection.port}`;
+	let connection = await new AMQPClient(url).connect();
+	let channel = await connection.channel();
+	let queue = await channel.queue(queueConfig.queue);
+	await queue.publish(JSON.stringify(message));
 }
 
 module.exports = {
-	addAppeal
+	publishMessage
 };

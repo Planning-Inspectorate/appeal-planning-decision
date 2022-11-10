@@ -11,7 +11,7 @@ const {
 } = require('../business-rules/src');
 const path = require('path');
 
-const config = {
+let config = {
 	data: {
 		lpa: {
 			listPath: process.env.LPA_DATA_PATH,
