@@ -5,9 +5,10 @@ const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
+const notify = require('../../src/lib/notify');
 
-const { AMQPTestMessageQueue } = require('./amqp-test-message-queue');
-const { AMQPTestConfiguration } = require('./amqp-test-configuration');
+const { AMQPTestMessageQueue } = require('./amqp/amqp-test-message-queue');
+const { AMQPTestConfiguration } = require('./amqp/amqp-test-configuration');
 jest.setTimeout(60000);
 
 jest.mock('../../src/lib/notify');
@@ -28,20 +29,8 @@ beforeAll(async () => {
 
 	const amqpTestConfig = await AMQPTestConfiguration.create('test');
 	messageQueue = new AMQPTestMessageQueue(amqpTestConfig);
-
-	appConfiguration.messageQueue.horizonHASPublisher = {
-		connection: {
-			host: 'localhost',
-			hostname: 'local',
-			reconnect_limit: 1,
-			password: 'guest',
-			port: amqpTestConfig.getPort().toString(),
-			reconnect: 'false',
-			transport: 'tcp',
-			username: 'guest'
-		},
-		queue: 'test'
-	};
+	appConfiguration.messageQueue.horizonHASPublisher =
+		amqpTestConfig.getTestConfigurationSettingsJSON();
 
 	///////////////////////////////
 	///// SETUP TEST DATABASE /////
@@ -52,7 +41,6 @@ beforeAll(async () => {
 		useUnifiedTopology: true
 	});
 	db = await connection.db('foo');
-
 	appDbConnection.get.mockReturnValue(db);
 
 	/////////////////////
@@ -83,27 +71,35 @@ describe('The API', () => {
 		// 	}
 
 		// Given: an appeal
-		//const appeal = JSON.parse(JSON.stringify(householderAppeal));
 		const appealCreated = await request.post('/api/v1/appeals');
+		householderAppeal.id = appealCreated.body.id;
+		const savedAppeal = await request
+			.put(`/api/v1/appeals/${appealCreated.body.id}`)
+			.send(householderAppeal);
 
 		// When: the appeal is submitted
-		householderAppeal.id = appealCreated.body.id;
-		await request.patch(`/api/v1/appeals/${appealCreated.body.id}`).send(householderAppeal);
+		savedAppeal.body.state = 'SUBMITTED';
+		await request.patch(`/api/v1/appeals/${appealCreated.body.id}`).send(savedAppeal.body);
 
-		//messageQueue.sendMessageToQueue('FOO');
-		const response = await messageQueue.getMessageFromQueue();
-		// expect(response).toStrictEqual('FOO');
-		console.log(response);
 		// Then: the expected appeal data should be output on the output message queue
-		// const message = await getMessageFromAMQPTestQueue();
-		// console.log(message)
-		// TODO: fix the above, or use a mock!
+		const response = await messageQueue.getMessageFromQueue();
+		let appealObject = JSON.parse(response);
+		savedAppeal.body.submissionDate = appealObject.appeal.submissionDate;
+		savedAppeal.body.updatedAt = appealObject.appeal.updatedAt;
+
+		expect(appealObject.appeal).toMatchObject(savedAppeal.body);
 
 		// And: a "submitted" email should be sent to the appellant
-		// expect(notify.sendSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(householderAppeal);
+		savedAppeal.body.createdAt = new Date(savedAppeal.body.createdAt);
+		savedAppeal.body.decisionDate = new Date(savedAppeal.body.decisionDate);
+		savedAppeal.body.submissionDate = new Date(savedAppeal.body.submissionDate);
+		savedAppeal.body.updatedAt = new Date(savedAppeal.body.updatedAt);
+		expect(notify.sendSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(
+			savedAppeal.body
+		);
 
 		// And: a "received" email should be sent to the case worker
-		// expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(householderAppeal);
+		expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(savedAppeal.body);
 
 		// And: a final comments entity should be created in the database
 		// const result = await // hitting the API we're going to build with ID from above appeal --> case/{caseRef}/final_comments ?
