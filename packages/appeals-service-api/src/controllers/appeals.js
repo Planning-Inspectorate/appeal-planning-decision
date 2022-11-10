@@ -69,7 +69,7 @@ module.exports = {
 
 			const newAppeal = req.body;
 			const oldAppeal = document.appeal;
-			// setting values below required for test to go to queue - need to fix them in test and remove lines
+			// TODO: setting values below required for test to go to queue - need to fix them in test and remove lines
 			// oldAppeal.state = 'DRAFT'; // todo: remove this line and fix in test
 			// newAppeal.state = 'SUBMITTED'; // todo: remove this line and fix in test
 
