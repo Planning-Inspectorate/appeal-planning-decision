@@ -11,12 +11,9 @@ const {
 } = require('../business-rules/src');
 const path = require('path');
 
-<<<<<<< HEAD
 // NOTE: it is not a mistake that this variable is decalred via `let` since we need to update the state
 //       in tests, so declaring as `const`, makes this very tricky.
 // TODO: find some way to enable profile-specific configs to remove the `let` here.
-=======
->>>>>>> 44653222fe (test(as-5559): make message queue testable, remove use of AMQP protocol 1.0)
 let config = {
 	data: {
 		lpa: {

@@ -137,27 +137,35 @@ describe('The API', () => {
 		// 	}
 
 		// Given: an appeal
-		//const appeal = JSON.parse(JSON.stringify(householderAppeal));
 		const appealCreated = await request.post('/api/v1/appeals');
+		householderAppeal.id = appealCreated.body.id;
+		const savedAppeal = await request
+			.put(`/api/v1/appeals/${appealCreated.body.id}`)
+			.send(householderAppeal);
 
 		// When: the appeal is submitted
-		householderAppeal.id = appealCreated.body.id;
-		await request.patch(`/api/v1/appeals/${appealCreated.body.id}`).send(householderAppeal);
+		savedAppeal.body.state = 'SUBMITTED';
+		await request.patch(`/api/v1/appeals/${appealCreated.body.id}`).send(savedAppeal.body);
 
-		//messageQueue.sendMessageToQueue('FOO');
-		const response = await messageQueue.getMessageFromQueue();
-		// expect(response).toStrictEqual('FOO');
-		console.log(response);
 		// Then: the expected appeal data should be output on the output message queue
-		// const message = await getMessageFromAMQPTestQueue();
-		// console.log(message)
-		// TODO: fix the above, or use a mock!
+		const response = await messageQueue.getMessageFromQueue();
+		let appealObject = JSON.parse(response);
+		savedAppeal.body.submissionDate = appealObject.appeal.submissionDate;
+		savedAppeal.body.updatedAt = appealObject.appeal.updatedAt;
+
+		expect(appealObject.appeal).toMatchObject(savedAppeal.body);
 
 		// And: a "submitted" email should be sent to the appellant
-		// expect(notify.sendSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(householderAppeal);
+		savedAppeal.body.createdAt = new Date(savedAppeal.body.createdAt);
+		savedAppeal.body.decisionDate = new Date(savedAppeal.body.decisionDate);
+		savedAppeal.body.submissionDate = new Date(savedAppeal.body.submissionDate);
+		savedAppeal.body.updatedAt = new Date(savedAppeal.body.updatedAt);
+		expect(notify.sendSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(
+			savedAppeal.body
+		);
 
 		// And: a "received" email should be sent to the case worker
-		// expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(householderAppeal);
+		expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(savedAppeal.body);
 
 	it('should return 200 for a GET request to `api/v1/appeals/{appeal_id}/final-comments` when the final comments submission date has been specified for the appeal, and is later than the current date', async () => {
 		// Given: the current date is 15th September 2022
