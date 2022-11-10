@@ -109,8 +109,6 @@ describe('The API', () => {
 
 	appDbConnection.get.mockReturnValue(db);
 
-	// await AMQPTestQueue.createAMQPTestQueue();
-
 	let server = http.createServer(app);
 	request = supertest(server);
 });
