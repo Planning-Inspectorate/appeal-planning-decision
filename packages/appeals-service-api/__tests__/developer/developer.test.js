@@ -114,6 +114,7 @@ describe('The API', () => {
 });
 
 afterAll(async () => {
+	await connection.close();
 	await messageQueue.teardown();
 });
 
