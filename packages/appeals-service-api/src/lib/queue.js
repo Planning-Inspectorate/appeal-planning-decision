@@ -4,15 +4,11 @@
  * to commit appeals to a permenant data store.
  */
 const container = require('rhea');
-const defaultConfig = require('../configuration/config');
+const config = require('../configuration/config');
 const logger = require('./logger');
 
-function addAppeal(appeal, configuration) {
+function addAppeal(appeal) {
 	console.log('ENV before:', process.env.HORIZON_HAS_PUBLISHER_PORT);
-	let config = configuration;
-	if (!config) {
-		config = defaultConfig.messageQueue.horizonHASPublisher;
-	}
 
 	/////
 	//console.log('ENV after:', process.env.HORIZON_HAS_PUBLISHER_PORT);
