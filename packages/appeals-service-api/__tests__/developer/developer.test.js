@@ -37,6 +37,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
+	await connection.close();
 	await messageQueue.teardown();
 });
 

@@ -8,7 +8,7 @@ const config = require('../configuration/config');
 const logger = require('./logger');
 
 function addAppeal(appeal) {
-	console.log('ENV before:', process.env.HORIZON_HAS_PUBLISHER_PORT);
+	console.log('ENV port:', process.env.HORIZON_HAS_PUBLISHER_PORT);
 
 	/////
 	//console.log('ENV after:', process.env.HORIZON_HAS_PUBLISHER_PORT);
