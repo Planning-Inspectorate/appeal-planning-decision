@@ -1,7 +1,6 @@
 const {
 	constants: { APPEAL_ID }
 } = require('../business-rules/src');
-const mongodb = require('../db/db');
 const { BackOfficeRepository } = require('../repositories/back-office/back-office-repository');
 const logger = require('../lib/logger');
 const ApiError = require('../error/apiError');
@@ -11,29 +10,10 @@ const {
 } = require('../lib/notify');
 const validateFullAppeal = require('../validators/validate-full-appeal');
 const { validateAppeal } = require('../validators/validate-appeal');
+const { AppealsRepository } = require('../repositories/appeals-repository');
 
-const APPEALS = 'appeals';
-
+const appealsRepository = new AppealsRepository();
 const backOfficeRepository = new BackOfficeRepository();
-
-const getAppeal = async (id) => {
-	return mongodb.get().collection(APPEALS).findOne({ _id: id });
-};
-
-const insertAppeal = async (appeal) => {
-	return mongodb.get().collection('appeals').insertOne({ _id: appeal.id, uuid: appeal.id, appeal });
-};
-
-const replaceAppeal = async (appeal) => {
-	return mongodb
-		.get()
-		.collection(APPEALS)
-		.findOneAndUpdate(
-			{ _id: appeal.id },
-			{ $set: { uuid: appeal.id, appeal } },
-			{ returnOriginal: false, upsert: false }
-		);
-};
 
 function isValidAppeal(appeal) {
 	if (!appeal.appealType) {
@@ -71,7 +51,7 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 		appeal.submissionDate = now;
 	}
 
-	const updatedDocument = await replaceAppeal(appeal);
+	const updatedDocument = await appealsRepository.replace(appeal);
 
 	if (isFirstSubmission) {
 		try {
@@ -89,22 +69,12 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 };
 
 const isAppealSubmitted = async (appealId) => {
-	return mongodb
-		.get()
-		.collection(APPEALS)
-		.find({ _id: appealId, 'appeal.state': 'SUBMITTED' })
-		.limit(1)
-		.count()
-		.then((n) => {
-			return n === 1;
-		});
+	const appeal = appealsRepository.get(appealId);
+	return appeal.state == 'SUBMITTED';
 };
 
 module.exports = {
-	getAppeal,
-	insertAppeal,
 	updateAppeal,
 	validateAppeal,
-	isAppealSubmitted,
-	replaceAppeal
+	isAppealSubmitted
 };
