@@ -11,6 +11,8 @@ export class AMQPTestConfiguration {
 	static async create(queueName: string) {
 		// We used the rabbitmq image rather than rabbitmq:management image since we don't
 		// need any management of queues via a browser as part of tests.
+		// TODO: it may be worth us trying to use the Azurite queue, since this is what's used in production?
+		//       See here for more info: https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json&tabs=docker-hub
 		let container = await new GenericContainer('rabbitmq')
 			.withExposedPorts(5672)
 			.withWaitStrategy(Wait.forLogMessage('Server startup complete'))

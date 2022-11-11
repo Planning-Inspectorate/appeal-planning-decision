@@ -2,7 +2,7 @@ const {
 	constants: { APPEAL_ID }
 } = require('../business-rules/src');
 const mongodb = require('../db/db');
-const queue = require('../lib/queue');
+const { BackOfficeRepository } = require('../repositories/back-office/back-office-repository');
 const logger = require('../lib/logger');
 const ApiError = require('../error/apiError');
 const {
@@ -13,6 +13,8 @@ const validateFullAppeal = require('../validators/validate-full-appeal');
 const { validateAppeal } = require('../validators/validate-appeal');
 
 const APPEALS = 'appeals';
+
+const backOfficeRepository = new BackOfficeRepository();
 
 const getAppeal = async (id) => {
 	return mongodb.get().collection(APPEALS).findOne({ _id: id });
@@ -73,7 +75,7 @@ const updateAppeal = async (appeal, isFirstSubmission = false) => {
 
 	if (isFirstSubmission) {
 		try {
-			await queue.publishMessage(updatedDocument.value);
+			await backOfficeRepository.save(updatedDocument.value);
 		} catch (err) {
 			logger.error({ err, appealId: appeal.id }, 'Unable to queue confirmation email to appellant');
 		}
