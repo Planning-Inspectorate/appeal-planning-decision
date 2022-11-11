@@ -102,5 +102,8 @@
 				}
 			]
 		]
+	},
+	"dependencies": {
+		"secure-pin": "^1.0.14"
 	}
 }

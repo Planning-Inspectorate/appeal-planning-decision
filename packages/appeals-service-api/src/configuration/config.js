@@ -81,6 +81,12 @@ let config = {
 		// 	queue: process.env.SQL_HASAPPEALS_PUBLISHER_QUEUE
 		// }
 	},
+	secureCodes: {
+		finalComments: {
+			length: process.env.FINAL_COMMENTS_PIN_LENGTH,
+			expirationTimeInMinutes: process.env.FINAL_COMMENTS_PIN_EXPIRATION_TIME_IN_MINUTES
+		}
+	},
 	server: {
 		port: Number(process.env.SERVER_PORT || 3000),
 		showErrors: process.env.SERVER_SHOW_ERRORS === 'true',
