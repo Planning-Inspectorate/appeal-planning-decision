@@ -1,5 +1,3 @@
-import { Model } from '../model';
-
-export class DocumentEntity extends Model {
+export class DocumentEntity {
 	readonly id: string;
 }

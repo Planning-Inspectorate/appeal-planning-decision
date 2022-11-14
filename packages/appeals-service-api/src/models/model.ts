@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb');
 export abstract class Model {
-	id: string;
+	constructor(public _id?: typeof ObjectId) {}
 }

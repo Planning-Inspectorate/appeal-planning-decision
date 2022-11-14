@@ -6,22 +6,24 @@ const router = express.Router();
 const finalCommentsService = new FinalCommentsService();
 
 router.post('/', async (req, res) => {
-	const caseReference = req.body.caseReference;
+	const caseReference = req.body.case_reference;
 	const appellantEmail = req.body.appellant_email;
+	let statusCode = 409;
 	if (await finalCommentsService.createFinalComments(caseReference, appellantEmail)) {
-		return res.status(204);
+		statusCode = 204;
 	}
 
-	return res.status(409);
+	res.status(statusCode).send();
 });
 
 router.get('/:case_reference', async (req, res) => {
-	const caseReference = req.query.case_reference;
+	const caseReference = req.params.case_reference;
+	let statusCode = 404;
 	if (await finalCommentsService.checkFinalCommentExists(caseReference)) {
-		return res.status(200);
+		statusCode = 200;
 	}
 
-	return 404;
+	res.status(statusCode).send();
 });
 
 module.exports = router;
