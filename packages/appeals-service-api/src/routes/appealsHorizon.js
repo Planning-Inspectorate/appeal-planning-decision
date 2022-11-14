@@ -1,9 +1,9 @@
 const express = require('express');
 
-const { patchAppeal } = require('../controllers/appeals');
+const { updateAppeal } = require('../services/appeal.service');
 
 const router = express.Router();
 
-router.patch('/:id', patchAppeal);
+router.patch('/:id', updateAppeal);
 
 module.exports = router;

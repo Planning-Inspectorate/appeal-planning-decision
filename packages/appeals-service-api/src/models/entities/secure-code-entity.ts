@@ -1,14 +1,11 @@
-import { Model } from '../model';
-
 const securePin = require('secure-pin');
 const config = require('../../configuration/config');
 
-export class SecureCodeEntity extends Model {
+export class SecureCodeEntity {
 	private pin: number;
 	private expiration: number;
 
 	constructor() {
-		super();
 		this.setPin();
 	}
 

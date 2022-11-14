@@ -39,13 +39,13 @@
 		"prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
 		"release": "multi-semantic-release --ignore-packages=\"packages/appeal-reply-service-api,packages/common,packages/business-rules,packages/ping,packages/queue-retry\"",
 		"test": "run-s --continue-on-error --print-label \"test:*\"",
-		"test:appeals-api": "cd packages/appeals-service-api; npm run test:cov",
-		"test:business-rules": "cd packages/business-rules; npm run test:cov",
-		"test:clamav-rest-server": "cd packages/clamav-rest-server; npm run test:cov",
-		"test:common": "cd packages/common; npm run test:cov",
-		"test:documents-api": "cd packages/document-service-api; npm run test:cov",
-		"test:pdf-api": "cd packages/pdf-service-api; npm run test:cov",
-		"test:web": "cd packages/forms-web-app; npm run test:cov"
+		"test:appeals-api": "cd packages/appeals-service-api; npm run test",
+		"test:business-rules": "cd packages/business-rules; npm run test",
+		"test:clamav-rest-server": "cd packages/clamav-rest-server; npm run test",
+		"test:common": "cd packages/common; npm run test",
+		"test:documents-api": "cd packages/document-service-api; npm run test",
+		"test:pdf-api": "cd packages/pdf-service-api; npm run test",
+		"test:web": "cd packages/forms-web-app; npm run test"
 	},
 	"repository": {
 		"type": "git",

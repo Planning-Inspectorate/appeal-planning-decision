@@ -1,13 +1,13 @@
 import { AMQPClient, AMQPQueue } from '@cloudamqp/amqp-client';
-const config = require('../../configuration/config');
-const logger = require('../../lib/logger');
+const config = require('../configuration/config');
+const logger = require('../lib/logger');
 
 export class BackOfficeRepository {
 	private queue: AMQPQueue;
 
 	constructor() {}
 
-	async save(message: string): Promise<void> {
+	async create(message: string): Promise<void> {
 		await this.setupQueue();
 		await this.queue.publish(JSON.stringify(message));
 	}

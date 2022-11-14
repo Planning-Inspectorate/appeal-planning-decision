@@ -11,14 +11,6 @@ module.exports = {
 		'<rootDir>/src/configuration',
 		'<rootDir>/src/routes'
 	],
-	coverageThreshold: {
-		global: {
-			branches: 60,
-			functions: 60,
-			lines: 60,
-			statements: 60
-		}
-	},
 	globalSetup: '<rootDir>/test/developer/globalSetup.ts',
 	globalTeardown: '<rootDir>/test/developer/globalTeardown.ts',
 	transform: {

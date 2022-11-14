@@ -1,4 +1,4 @@
-const householderAppeal = require('../../src/business-rules/test/data/householder-appeal');
+const { householderAppeal } = require('./fixtures/householder-appeal');
 const app = require('../../src/app');
 const http = require('http');
 const supertest = require('supertest');
@@ -6,10 +6,11 @@ const { MongoClient } = require('mongodb');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
 const notify = require('../../src/lib/notify');
+const uuid = require('uuid');
 
 const { AMQPTestMessageQueue } = require('./amqp/amqp-test-message-queue');
 const { AMQPTestConfiguration } = require('./amqp/amqp-test-configuration');
-jest.setTimeout(60000);
+jest.setTimeout(120000);
 
 jest.mock('../../src/lib/notify');
 jest.mock('../../src/db/db');
@@ -17,9 +18,8 @@ jest.mock('../../src/configuration/featureFlag', () => ({
 	isFeatureActive: () => true
 }));
 
-let request;
-let connection;
-let db;
+let appealsApi;
+let databaseConnection;
 let messageQueue;
 
 beforeAll(async () => {
@@ -36,42 +36,43 @@ beforeAll(async () => {
 	///// SETUP TEST DATABASE /////
 	///////////////////////////////
 
-	connection = await MongoClient.connect(process.env.INTEGRATION_TEST_DB_URL, {
+	databaseConnection = await MongoClient.connect(process.env.INTEGRATION_TEST_DB_URL, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	});
-	db = await connection.db('foo');
-	appDbConnection.get.mockReturnValue(db);
+	let mockedDatabase = await databaseConnection.db('foo');
+	appDbConnection.get.mockReturnValue(mockedDatabase);
 
 	/////////////////////
 	///// SETUP APP /////
 	/////////////////////
 
 	let server = http.createServer(app);
-	request = supertest(server);
+	appealsApi = supertest(server);
 });
 
 afterAll(async () => {
-	await connection.close();
+	await databaseConnection.close();
 	await messageQueue.teardown();
 });
 
-describe('Appeals API', () => {
-	it('should submit an appeal to the message queue and send emails to the appellant and case worker when we make a PATCH request to /api/v1/appeals/{appeal_id}', async () => {
-		// Given: an appeal
-		const appealCreated = await request.post('/api/v1/appeals').body;
-		householderAppeal.id = appealCreated.id;
-		const savedAppeal = await request
-			.put(`/api/v1/appeals/${appealCreated.id}`)
-			.send(householderAppeal).body;
+afterEach(() => {
+	jest.clearAllMocks(); // We need to do this so that mock interactions are reset correctly between tests :)
+});
+
+describe('Appeals', () => {
+	it('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal', async () => {
+		// Given an appeal is saved and when that appeal is submitted
+		const savedAppealResponse = await _createAppeal();
+		const savedAppeal = savedAppealResponse.body;
 
 		// When: the appeal is submitted
 		savedAppeal.state = 'SUBMITTED';
-		await request.patch(`/api/v1/appeals/${appealCreated.id}`).send(savedAppeal);
+		await appealsApi.patch(`/api/v1/appeals/${savedAppeal.id}`).send(savedAppeal);
 
 		// Then: the expected appeal data should be output on the output message queue
-		const response = await messageQueue.getMessageFromQueue();
-		let appeal = JSON.parse(response).appeal;
+		const messageQueueData = await messageQueue.getMessageFromQueue();
+		let appeal = JSON.parse(messageQueueData).appeal;
 		savedAppeal.submissionDate = appeal.submissionDate;
 		savedAppeal.updatedAt = appeal.updatedAt;
 		expect(appeal).toMatchObject(savedAppeal);
@@ -152,13 +153,26 @@ describe('Final comments API', () => {
 		const caseReference = 'FOO/BAR/BAZ12345';
 		await request.post('/api/v1/final_comments').send({ case_reference: caseReference });
 
-		// When: we try to see if the final comments entity exists given a known case reference
-		const response = await request.get(`/api/v1/final_comments/${caseReference}`);
+	it('should return an error when requesting a final comment entity that does not exist', async () => {
+		// When: we try to get a final comment entry using a case reference that does not exist
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/DOES_NOT_EXIST`);
 
-		// Then: we should get true in the response
-		expect(response.status).toBe(200);
+		// Then: we get 404 in the response
+		expect(getResponse.status).toBe(404);
 	});
 });
+
+const _createAppeal = async () => {
+	const appealCreatedResponse = await appealsApi.post('/api/v1/appeals');
+	const appealCreated = appealCreatedResponse.body;
+
+	householderAppeal.id = appealCreated.id;
+	const savedAppealResponse = await appealsApi
+		.put(`/api/v1/appeals/${appealCreated.id}`)
+		.send(householderAppeal);
+
+	return savedAppealResponse;
+};
 
 // function createHorizonResponse(finalCommentsDueDate) {
 // 	return {
