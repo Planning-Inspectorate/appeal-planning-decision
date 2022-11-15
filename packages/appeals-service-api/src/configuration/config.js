@@ -11,7 +11,10 @@ const {
 } = require('@pins/business-rules');
 const path = require('path');
 
-const config = {
+// NOTE: it is not a mistake that this variable is decalred via `let` since we need to update the state
+//       in tests, so declaring as `const`, makes this very tricky.
+// TODO: find some way to enable profile-specific configs to remove the `let` here.
+let config = {
 	data: {
 		lpa: {
 			listPath: process.env.LPA_DATA_PATH,
@@ -45,6 +48,10 @@ const config = {
 			'config.services.notify.apiKey'
 		]
 	},
+	featureFlagging: {
+		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_ENDPOINT,
+		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
+	},
 	messageQueue: {
 		horizonHASPublisher: {
 			connection: {
@@ -59,18 +66,25 @@ const config = {
 			},
 			queue: process.env.HORIZON_HAS_PUBLISHER_QUEUE
 		},
-		sqlHASAppealsPublisher: {
-			connection: {
-				host: process.env.SQL_HASAPPEALS_PUBLISHER_HOST,
-				hostname: process.env.SQL_HASAPPEALS_PUBLISHER_HOSTNAME,
-				reconnect_limit: Number(process.env.SQL_HASAPPEALS_PUBLISHER_RECONNECT_LIMIT || 1),
-				password: process.env.SQL_HASAPPEALS_PUBLISHER_PASSWORD,
-				port: Number(process.env.SQL_HASAPPEALS_PUBLISHER_PORT || 5672),
-				reconnect: process.env.SQL_HASAPPEALS_PUBLISHER_ATTEMPT_RECONNECTION !== 'false',
-				transport: process.env.SQL_HASAPPEALS_PUBLISHER_TRANSPORT,
-				username: process.env.SQL_HASAPPEALS_PUBLISHER_USERNAME
-			},
-			queue: process.env.SQL_HASAPPEALS_PUBLISHER_QUEUE
+		// TODO: Delete since it doesn't appear to be used
+		// sqlHASAppealsPublisher: {
+		// 	connection: {
+		// 		host: process.env.SQL_HASAPPEALS_PUBLISHER_HOST,
+		// 		hostname: process.env.SQL_HASAPPEALS_PUBLISHER_HOSTNAME,
+		// 		reconnect_limit: Number(process.env.SQL_HASAPPEALS_PUBLISHER_RECONNECT_LIMIT || 1),
+		// 		password: process.env.SQL_HASAPPEALS_PUBLISHER_PASSWORD,
+		// 		port: Number(process.env.SQL_HASAPPEALS_PUBLISHER_PORT || 5672),
+		// 		reconnect: process.env.SQL_HASAPPEALS_PUBLISHER_ATTEMPT_RECONNECTION !== 'false',
+		// 		transport: process.env.SQL_HASAPPEALS_PUBLISHER_TRANSPORT,
+		// 		username: process.env.SQL_HASAPPEALS_PUBLISHER_USERNAME
+		// 	},
+		// 	queue: process.env.SQL_HASAPPEALS_PUBLISHER_QUEUE
+		// }
+	},
+	secureCodes: {
+		finalComments: {
+			length: process.env.FINAL_COMMENTS_PIN_LENGTH,
+			expirationTimeInMinutes: process.env.FINAL_COMMENTS_PIN_EXPIRATION_TIME_IN_MINUTES
 		}
 	},
 	server: {

@@ -18,6 +18,8 @@
 	},
 	"author": "Foundry4 <www.foundry4.com>",
 	"dependencies": {
+		"@azure/app-configuration": "^1.3.1",
+		"@cloudamqp/amqp-client": "^2.1.0",
 		"@pins/business-rules": "file:../business-rules",
 		"@pins/common": "file:../common",
 		"body-parser": "^1.19.1",
@@ -35,6 +37,7 @@
 		"neat-csv": "^5.2.0",
 		"pino": "^6.13.4",
 		"rhea": "^1.0.24",
+		"secure-pin": "^1.0.14",
 		"supertest": "^6.2.2",
 		"swagger-ui-express": "^4.3.0",
 		"uuid": "^8.3.1"
@@ -48,6 +51,8 @@
 		"jest-junit": "^13.2.0",
 		"jest-when": "^3.5.0",
 		"nodemon": "^2.0.15",
-		"pino-pretty": "^4.8.0"
+		"pino-pretty": "^4.8.0",
+		"testcontainers": "^9.0.0",
+		"ts-jest": "^29.0.3"
 	}
 }

@@ -1,6 +1,6 @@
 exports.appealDocument = {
 	id: null,
-	horizonId: null,
+	horizonId: null, // TODO: rename this to `caseReference` since this matches the business domain.
 	lpaCode: null,
 	decisionDate: null,
 	submissionDate: null,
