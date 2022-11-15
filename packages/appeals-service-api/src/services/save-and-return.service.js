@@ -67,8 +67,11 @@ const saveAndReturnNotifyContinue = async (saved) => {
 	await sendSaveAndReturnContinueWithAppealEmail(saved);
 };
 
-const saveAndReturnNotifyCode = async (saved, token) => {
-	await sendSaveAndReturnEnterCodeIntoServiceEmail(saved, token);
+const saveAndReturnNotifyCode = async (appeal) => {
+	const appealSaveData = await saveAndReturnTokenService(appeal.id);
+	const savedAppeal = await getAppeal(appeal.id);
+	await saveAndReturnNotifyCode(savedAppeal.email, appealSaveData.token, savedAppeal.id);
+	await sendSaveAndReturnEnterCodeIntoServiceEmail(recipientEmail, code, identifier);
 };
 
 const saveAndReturnTokenService = async (appealId) => {

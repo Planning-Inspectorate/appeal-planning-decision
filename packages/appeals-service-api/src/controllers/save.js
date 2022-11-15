@@ -26,9 +26,7 @@ async function saveAndReturnGet(req, res) {
 
 async function saveAndReturnToken(req, res) {
 	const appeal = req.body;
-	const appealSaveData = await saveAndReturnTokenService(appeal.id);
-	const savedAppeal = await getAppeal(appeal.id);
-	await saveAndReturnNotifyCode(savedAppeal, appealSaveData.token);
+	await saveAndReturnNotifyCode(appeal)
 	res.status(200).send({});
 }
 

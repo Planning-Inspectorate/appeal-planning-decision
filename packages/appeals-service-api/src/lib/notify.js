@@ -87,20 +87,19 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	}
 };
 
-const sendSaveAndReturnEnterCodeIntoServiceEmail = async (saved, token) => {
-	const { appeal } = saved;
+const sendSaveAndReturnEnterCodeIntoServiceEmail = async (recipientEmail, code, identifier) => {
 	try {
-		const { recipientEmail, variables, reference } = appealTypeConfig[
-			appeal.appealType
-		].email.saveAndReturnEnterCodeIntoService(appeal, token);
+		const variables = {
+			'unique code': code
+		}
 
-		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
+		logger.debug({ recipientEmail, variables, identifier }, 'Sending email to appellant');
 
 		await NotifyBuilder.reset()
 			.setTemplateId(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
+			.setReference(identifier)
 			.sendEmail();
 	} catch (err) {
 		logger.error(
