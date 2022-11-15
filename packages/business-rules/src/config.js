@@ -75,6 +75,7 @@ const config = {
 						},
 						reference: appeal.id
 					}),
+					// TODO: check if this is called anywhere else. If not, delete
 					saveAndReturnEnterCodeIntoService: (appeal, token) => ({
 						recipientEmail: appeal.email,
 						variables: {

@@ -3,16 +3,16 @@ import { SecureCodeEntity } from '../entities/secure-code-entity';
 import { Model } from '../model';
 
 export class FinalCommentsAggregate extends Model {
-	private caseReference: string;
-	private secureCode: SecureCodeEntity;
-	private appellant_email: string;
+	readonly caseReference: string;
+	readonly appellantEmail: string;
+	readonly secureCode: SecureCodeEntity;
 	private documents: Array<DocumentEntity>;
 	private submittedToBackOffice: number;
 
-	constructor(caseReference: string, appellant_email: string) {
+	constructor(caseReference: string, appellantEmail: string) {
 		super();
 		this.caseReference = caseReference;
+		this.appellantEmail = appellantEmail;
 		this.secureCode = new SecureCodeEntity();
-		this.appellant_email = appellant_email;
 	}
 }

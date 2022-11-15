@@ -7,20 +7,25 @@ const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
 const notify = require('../../src/lib/notify');
 const uuid = require('uuid');
+const axios = require("axios");
+const MockAdapter = require("axios-mock-adapter")
 
 const { AMQPTestMessageQueue } = require('./amqp/amqp-test-message-queue');
 const { AMQPTestConfiguration } = require('./amqp/amqp-test-configuration');
-jest.setTimeout(120000);
+let mockAxios = new MockAdapter(axios);
 
+let appealsApi;
+let databaseConnection;
+let messageQueue;
+let finalCommentsEndDate;
+
+jest.setTimeout(120000);
 jest.mock('../../src/lib/notify');
 jest.mock('../../src/db/db');
 jest.mock('../../src/configuration/featureFlag', () => ({
 	isFeatureActive: () => true
 }));
-
-let appealsApi;
-let databaseConnection;
-let messageQueue;
+jest.mock("axios");
 
 beforeAll(async () => {
 	////////////////////////////
@@ -49,6 +54,7 @@ beforeAll(async () => {
 
     appConfiguration.secureCodes.finalComments.length = 4
     appConfiguration.secureCodes.finalComments.expirationTimeInMinutes = 30
+	appConfiguration.services.horizon.url = "http://foo.com"
 
 	/////////////////////
 	///// SETUP APP /////
@@ -57,6 +63,12 @@ beforeAll(async () => {
 	let server = http.createServer(app);
 	appealsApi = supertest(server);
 });
+
+beforeEach(() => {
+	// Clear all instances and calls to constructor and all methods:
+	//HorizonGateway.mockClear();
+	//mockGetFinalCommentsDueDate.mockClear();
+  });
 
 afterAll(async () => {
 	await databaseConnection.close();
@@ -141,15 +153,20 @@ describe('Appeals', () => {
 });
 
 describe('Final comments', () => {
-	it('should return a final comment entity after creating it', async () => {
+	it.only('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {
+		
 		// Given: a request to create a final comments entry for a case
 		const caseReference = 'BAZ12345';
-		const appellant_email = 'foo@bar.com';
+		const appellantEmail = 'foo@bar.com';
+
+		// And: the final comments end date is set in the future
+		finalCommentsEndDate = new Date()
+		finalCommentsEndDate.setDate(finalCommentsEndDate.getDate() + 2); // 2 days in future
+		finalCommentsEndDate = finalCommentsEndDate.toISOString();
+		mockAxios.onPost(appConfiguration.services.horizon.url).reply(200, createHorizonResponse(finalCommentsEndDate));
 
 		// When: we issue the request and try to see if it exists afterwards
-		const postResponse = await appealsApi
-			.post('/api/v1/final_comments')
-			.send({ case_reference: caseReference, appellant_email: appellant_email });
+		const postResponse = await _createFinalComment(caseReference, appellantEmail)
 		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
 
 		// Then: we should get 204 in the POST response
@@ -157,31 +174,80 @@ describe('Final comments', () => {
 
 		// And: we should get 200 in the GET response
 		expect(getResponse.status).toBe(200);
+
+		// And: it should send an email to the appellant with the final comments entity secure code
+		expect(notify.sendSaveAndReturnEnterCodeIntoServiceEmail).toHaveBeenCalledWith(new RegExp(appConfiguration.secureCodes.finalComments.length));
 	});
 
 	it('should return an error when requesting to create a final comment that has the same case reference as one already created', async () => {
 		// Given: a request to create a final comments entry for a case is made
 		const caseReference = 'BAZ12345';
-		const appellant_email = 'foo@bar.com';
-		await appealsApi
-			.post('/api/v1/final_comments')
-			.send({ case_reference: caseReference, appellant_email: appellant_email });
+		const appellantEmail = 'foo@bar.com';
+		await _createFinalComment(caseReference, appellantEmail)
 
 		// When: we issue the request again
-		const postResponse = await appealsApi
-			.post('/api/v1/final_comments')
-			.send({ case_reference: caseReference, appellant_email: appellant_email });
+		const postResponse = _createFinalComment(caseReference, appellantEmail)
 
 		// Then: we should get 409 in the POST response
 		expect(postResponse.status).toBe(409);
 	});
 
-	it('should return an error when requesting a final comment entity that does not exist', async () => {
+	it('should return an error when requesting a final comment entity that does not exist, not contact Horizon for a final comment end date, and not send an email to the appellant', async () => {
+		
 		// When: we try to get a final comment entry using a case reference that does not exist
 		const getResponse = await appealsApi.get(`/api/v1/final_comments/DOES_NOT_EXIST`);
 
 		// Then: we get 404 in the response
 		expect(getResponse.status).toBe(404);
+
+		// And: Horizon is not contacted for a final comments end date
+		expect(axios.post).not.toHaveBeenCalled();
+
+		// And: no email is sent to the appellant containing the final comment's secure code
+		expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
+	});
+
+	it('should return an error when requesting a final comment entity that does exist, but its end date has not been set', async () => {
+		
+		// Given: there is a valid final comment entity
+		const caseReference = 'BAZ12345';
+		const appellantEmail = 'foo@bar.com';
+		await _createFinalComment(caseReference, appellantEmail)
+		
+		// And: the final comments end date has not been set
+		finalCommentsEndDate = undefined;
+		axios.post.mockResolvedValueOnce(createHorizonResponse(finalCommentsEndDate))
+
+		// When: we try to get that final comment entity
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
+
+		// Then: we should get a 403 in the response
+		expect(getResponse.status).toEqual(403);
+		
+		// And: no email is sent to the appellant containing the final comment's secure code
+		expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
+	});
+	
+	it('should return an error when requesting a final comment entity that does exist, but the date of the request is after its end date', async () => {
+		
+		// Given: there is a valid final comment entity
+		const caseReference = 'BAZ12345';
+		const appellantEmail = 'foo@bar.com';
+		await _createFinalComment(caseReference, appellantEmail)
+
+		// And: the final comments end date has passed
+		finalCommentsEndDate = new Date()
+		finalCommentsEndDate.setDate(finalCommentsEndDate.getDate() - 2); // Two days in the past
+		finalCommentsEndDate = finalCommentsEndDate.toISOString();
+
+		// When: we try to get that final comment entity
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
+
+		// Then: we should get a 403 in the response
+		expect(getResponse.status).toEqual(403);
+
+		// And: no email is sent to the appellant containing the final comment's secure code
+		expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
 	});
 });
 
@@ -197,34 +263,35 @@ const _createAppeal = async () => {
 	return savedAppealResponse;
 };
 
-// function createHorizonResponse(finalCommentsDueDate) {
-// 	return {
-// 		Envelope: {
-// 			Body: {
-// 				GetCaseResponse: {
-// 					GetCaseResult: {
-// 						Metadata: {
-// 							Attributes: [
-// 								{
-// 									Name: {
-// 										value: 'Case Document Dates:Final Comments Due Date'
-// 									},
-// 									Value: {
-// 										value: finalCommentsDueDate
-// 									}
-// 								},
-// 								{
-// 									Name: {
-// 										value: 'Curb your enthusiasm'
-// 									},
-// 									Value: {
-// 										value: 'frolic'
-// 									}
-// 								}
-// 							]
-// 						}
-// 					}
-// 				}
-// 			}
-// 		}
-// 	};
+const _createFinalComment = async (caseReference, appellantEmail) => {
+	return await appealsApi
+		.post('/api/v1/final_comments')
+		.send({ case_reference: caseReference, appellant_email: appellantEmail });
+}
+
+const createHorizonResponse = (finalCommentsDueDate) => {
+	return {
+		body: {
+			Envelope: {
+				Body: {
+					GetCaseResponse: {
+						GetCaseResult: {
+							Metadata: {
+								Attributes: [
+									{
+										Name: {
+											value: 'Case Document Dates:Final Comments Due Date'
+										},
+										Value: {
+											value: finalCommentsDueDate
+										}
+									}
+								]
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
