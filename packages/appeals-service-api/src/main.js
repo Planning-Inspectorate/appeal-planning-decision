@@ -16,3 +16,5 @@ async function main() {
 main().catch((err) => {
 	logger.fatal({ err }, 'Unable to start application');
 });
+
+module.exports = main;

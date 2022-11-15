@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { updateAppeal, getAppeal, createAppeal } = require('../controllers/appeals');
+const { updateAppeal, getAppeal, createAppeal } = require('../services/appeal.service');
 const {
 	appealInsertValidationRules,
 	appealUpdateValidationRules

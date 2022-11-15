@@ -1,5 +1,5 @@
 const mongoClient = require('mongodb').MongoClient;
-const config = require('../lib/config');
+const config = require('../configuration/config');
 const logger = require('../lib/logger');
 
 let mongodb;
