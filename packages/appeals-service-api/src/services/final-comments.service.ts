@@ -9,7 +9,7 @@ export class FinalCommentsService {
 
 	constructor() {
 		this.finalCommentsRepository = new FinalCommentsRepository();
-		this.horizonGateway = new HorizonGateway;
+		this.horizonGateway = new HorizonGateway();
 	}
 
 	async createFinalComments(caseReference: string, appellantEmail: string): Promise<boolean> {
@@ -32,12 +32,18 @@ export class FinalCommentsService {
 		}
 
 		const finalCommentsDueDate = await this.horizonGateway.getFinalCommentsDueDate(caseReference);
-		console.log("final comments due date:", finalCommentsDueDate)
-		if (finalCommentsDueDate == undefined || new Date().getTime() < finalCommentsDueDate.getTime()) {
+		if (
+			finalCommentsDueDate == undefined ||
+			new Date().valueOf() >= finalCommentsDueDate.valueOf()
+		) {
 			return false;
 		}
-		
-		sendSaveAndReturnEnterCodeIntoServiceEmail(finalCommentsFound.caseReference, finalCommentsFound.appellantEmail, finalCommentsFound.secureCode)
+
+		sendSaveAndReturnEnterCodeIntoServiceEmail(
+			finalCommentsFound.caseReference,
+			finalCommentsFound.appellantEmail,
+			finalCommentsFound.secureCode
+		);
 		return true;
 	}
 }
