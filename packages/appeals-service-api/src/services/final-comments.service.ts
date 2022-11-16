@@ -39,12 +39,10 @@ export class FinalCommentsService {
 			return false;
 		}
 
-		console.log(finalCommentsDueDate);
-		console.log(finalCommentsFound.secureCode);
 		sendSaveAndReturnEnterCodeIntoServiceEmail(
 			finalCommentsFound.caseReference,
 			finalCommentsFound.appellantEmail,
-			finalCommentsFound.secureCode.getPin()
+			finalCommentsFound.getSecureCodeEntity().getPin()
 		);
 		return true;
 	}
