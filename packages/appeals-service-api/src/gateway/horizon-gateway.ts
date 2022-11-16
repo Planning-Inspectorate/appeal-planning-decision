@@ -12,7 +12,6 @@ export class HorizonGateway {
 			}
 		};
 
-		console.log(config.services.horizon.url, requestBody);
 		const caseDetails = await axios.post(config.services.horizon.url, requestBody);
 
 		// Here be dragons! This bit is complicated because of the Horizon response shape
