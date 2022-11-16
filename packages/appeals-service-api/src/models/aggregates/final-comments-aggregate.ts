@@ -5,7 +5,7 @@ import { Model } from '../model';
 export class FinalCommentsAggregate extends Model {
 	readonly caseReference: string;
 	readonly appellantEmail: string;
-	readonly secureCode: SecureCodeEntity;
+	private secureCode: SecureCodeEntity;
 	private documents: Array<DocumentEntity>;
 	private submittedToBackOffice: number;
 
@@ -14,5 +14,9 @@ export class FinalCommentsAggregate extends Model {
 		this.caseReference = caseReference;
 		this.appellantEmail = appellantEmail;
 		this.secureCode = new SecureCodeEntity();
+	}
+
+	getSecureCodeEntity() {
+		return this.secureCode;
 	}
 }
