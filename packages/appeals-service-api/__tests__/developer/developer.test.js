@@ -7,17 +7,18 @@ const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
 const notify = require('../../src/lib/notify');
 const uuid = require('uuid');
-const axios = require("axios");
-const MockAdapter = require("axios-mock-adapter")
 
 const { AMQPTestMessageQueue } = require('./amqp/amqp-test-message-queue');
 const { AMQPTestConfiguration } = require('./amqp/amqp-test-configuration');
-let mockAxios = new MockAdapter(axios);
+const mockserver = require('mockserver-node');
+var mockServer = require('mockserver-client'),
+    mockServerClient = mockServer.mockServerClient
 
 let appealsApi;
 let databaseConnection;
 let messageQueue;
 let finalCommentsEndDate;
+let mockserverContainer;
 
 jest.setTimeout(120000);
 jest.mock('../../src/lib/notify');
@@ -25,9 +26,15 @@ jest.mock('../../src/db/db');
 jest.mock('../../src/configuration/featureFlag', () => ({
 	isFeatureActive: () => true
 }));
-jest.mock("axios");
 
 beforeAll(async () => {
+	
+	////////////////////////////
+	///// SETUP MOCKSERVER /////
+	////////////////////////////
+
+	mockserver.start_mockserver({serverPort: 1080});
+
 	////////////////////////////
 	///// SETUP TEST QUEUE /////
 	////////////////////////////
@@ -54,7 +61,7 @@ beforeAll(async () => {
 
     appConfiguration.secureCodes.finalComments.length = 4
     appConfiguration.secureCodes.finalComments.expirationTimeInMinutes = 30
-	appConfiguration.services.horizon.url = "http://foo.com"
+	appConfiguration.services.horizon.url = "http://localhost:1080/horizon"
 
 	/////////////////////
 	///// SETUP APP /////
@@ -73,6 +80,7 @@ beforeEach(() => {
 afterAll(async () => {
 	await databaseConnection.close();
 	await messageQueue.teardown();
+	mockserver.stop_mockserver({ serverPort: 1080 });
 });
 
 afterEach(() => {
@@ -160,10 +168,11 @@ describe('Final comments', () => {
 		const appellantEmail = 'foo@bar.com';
 
 		// And: the final comments end date is set in the future
-		finalCommentsEndDate = new Date()
-		finalCommentsEndDate.setDate(finalCommentsEndDate.getDate() + 2); // 2 days in future
-		finalCommentsEndDate = finalCommentsEndDate.toISOString();
-		mockAxios.onPost(appConfiguration.services.horizon.url).reply(200, createHorizonResponse(finalCommentsEndDate));
+		mockServerClient("localhost", 1080).mockSimpleResponse("http://localhost:1080/horizon", { test: "ok"}, 203)
+		// finalCommentsEndDate = new Date()
+		// finalCommentsEndDate.setDate(finalCommentsEndDate.getDate() + 2); // 2 days in future
+		// finalCommentsEndDate = finalCommentsEndDate.toISOString();
+		// mockAxios.onPost(appConfiguration.services.horizon.url).reply(200, createHorizonResponse(finalCommentsEndDate));
 
 		// When: we issue the request and try to see if it exists afterwards
 		const postResponse = await _createFinalComment(caseReference, appellantEmail)
@@ -201,7 +210,7 @@ describe('Final comments', () => {
 		expect(getResponse.status).toBe(404);
 
 		// And: Horizon is not contacted for a final comments end date
-		expect(axios.post).not.toHaveBeenCalled();
+		// expect(axios.post).not.toHaveBeenCalled();
 
 		// And: no email is sent to the appellant containing the final comment's secure code
 		expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
@@ -216,7 +225,7 @@ describe('Final comments', () => {
 		
 		// And: the final comments end date has not been set
 		finalCommentsEndDate = undefined;
-		axios.post.mockResolvedValueOnce(createHorizonResponse(finalCommentsEndDate))
+		// axios.post.mockResolvedValueOnce(createHorizonResponse(finalCommentsEndDate))
 
 		// When: we try to get that final comment entity
 		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
@@ -231,14 +240,9 @@ describe('Final comments', () => {
 	it('should return an error when requesting a final comment entity that does exist, but the date of the request is after its end date', async () => {
 		
 		// Given: there is a valid final comment entity
-		const caseReference = 'BAZ12345';
+		const caseReference = 'BAZ12345'; // TODO: use this case ref in wiremock to return the end date in future response
 		const appellantEmail = 'foo@bar.com';
 		await _createFinalComment(caseReference, appellantEmail)
-
-		// And: the final comments end date has passed
-		finalCommentsEndDate = new Date()
-		finalCommentsEndDate.setDate(finalCommentsEndDate.getDate() - 2); // Two days in the past
-		finalCommentsEndDate = finalCommentsEndDate.toISOString();
 
 		// When: we try to get that final comment entity
 		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
@@ -267,31 +271,4 @@ const _createFinalComment = async (caseReference, appellantEmail) => {
 	return await appealsApi
 		.post('/api/v1/final_comments')
 		.send({ case_reference: caseReference, appellant_email: appellantEmail });
-}
-
-const createHorizonResponse = (finalCommentsDueDate) => {
-	return {
-		body: {
-			Envelope: {
-				Body: {
-					GetCaseResponse: {
-						GetCaseResult: {
-							Metadata: {
-								Attributes: [
-									{
-										Name: {
-											value: 'Case Document Dates:Final Comments Due Date'
-										},
-										Value: {
-											value: finalCommentsDueDate
-										}
-									}
-								]
-							}
-						}
-					}
-				}
-			}
-		}
-	}
 }
