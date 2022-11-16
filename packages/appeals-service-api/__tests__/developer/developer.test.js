@@ -158,7 +158,7 @@ describe('Appeals', () => {
 });
 
 describe('Final comments', () => {
-	it('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {
+	it.only('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {
 		// Given: a request to create a final comments entry for a case
 		const caseReference = 'BAZ12345';
 		const appellantEmail = 'foo@bar.com';
@@ -182,6 +182,8 @@ describe('Final comments', () => {
 
 		// And: it should send an email to the appellant with the final comments entity secure code
 		expect(notify.sendSaveAndReturnEnterCodeIntoServiceEmail).toHaveBeenCalledWith(
+			caseReference,
+			appellantEmail,
 			new RegExp(appConfiguration.secureCodes.finalComments.length)
 		);
 	});
