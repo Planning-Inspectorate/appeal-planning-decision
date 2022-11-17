@@ -17,7 +17,7 @@ export class HorizonGateway {
 		// Here be dragons! This bit is complicated because of the Horizon response shape
 		// (sorry to anyone who has to work on this).
 		const attributes = jp.query(caseDetails.data, '$..Metadata.Attributes[*]');
-		const attributesModified = attributes.map((attribute) => {
+		const attributesModified = attributes.map((attribute: any) => {
 			return { Name: attribute.Name.value, Value: attribute.Value.value };
 		});
 		const finalCommentsDueDate = jp.query(

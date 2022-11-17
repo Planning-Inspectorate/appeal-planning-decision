@@ -6,8 +6,6 @@ export class FinalCommentsAggregate extends Model {
 	readonly caseReference: string;
 	readonly appellantEmail: string;
 	private secureCode: SecureCodeEntity;
-	private documents: Array<DocumentEntity>;
-	private submittedToBackOffice: number;
 
 	constructor(caseReference: string, appellantEmail: string) {
 		super();

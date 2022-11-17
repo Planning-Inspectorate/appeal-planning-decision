@@ -13,15 +13,9 @@ function getNotifyClientArguments(baseUrl, serviceId, apiKey) {
 	return args;
 }
 
-function createNotifyClient({ baseUrl, serviceId, apiKey } = config.services.notify) {
-	const activeBaseUrl = baseUrl || config.services.notify.baseUrl;
-	const activeServiceId = serviceId || config.services.notify.serviceId;
-	const activeApiKey = apiKey || config.services.notify.apiKey;
-
-	console.log(config.services.notify.baseUrl);
-
+function createNotifyClient(notifyUrl, serviceId, apiKey) {
 	return new NotifyClient(
-		...getNotifyClientArguments(activeBaseUrl, activeServiceId, activeApiKey)
+		...getNotifyClientArguments(notifyUrl, serviceId, apiKey)
 	);
 }
 

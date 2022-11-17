@@ -16,6 +16,7 @@ var mockServer = require('mockserver-client'),
 let appealsApi;
 let databaseConnection;
 let messageQueue;
+let saveAndReturnTemplateId = 1234;
 
 jest.setTimeout(120000);
 jest.mock('../../src/db/db');
@@ -28,7 +29,8 @@ beforeAll(async () => {
 	///// SETUP MOCKSERVER /////
 	////////////////////////////
 
-	mockserver.start_mockserver({ serverPort: 1080 });
+	await mockserver.start_mockserver({ serverPort: 1080 });
+	await mockServerClient('localhost', 1080).mockSimpleResponse('/notify/v2/notifications/email', {}, 200);
 
 	////////////////////////////
 	///// SETUP TEST QUEUE /////
@@ -50,12 +52,6 @@ beforeAll(async () => {
 	let mockedDatabase = await databaseConnection.db('foo');
 	appDbConnection.get.mockReturnValue(mockedDatabase);
 
-	////////////////////////////////////////
-	///// SETUP MOCK SERVER FOR NOTIFY /////
-	////////////////////////////////////////
-
-	await mockServerClient('localhost', 1080).mockSimpleResponse('/notify', {}, 200);
-
 	/////////////////////////////
 	///// SETUP TEST CONFIG /////
 	/////////////////////////////
@@ -63,8 +59,10 @@ beforeAll(async () => {
 	appConfiguration.secureCodes.finalComments.length = 4;
 	appConfiguration.secureCodes.finalComments.expirationTimeInMinutes = 30;
 	appConfiguration.services.horizon.url = 'http://localhost:1080/horizon';
+	appConfiguration.services.notify.apiKey = 'hasserviceapikey-u89q754j-s87j-1n35-s351-789245as890k-1545v789-8s79-0124-qwe7-j2vfds34w5nm'
 	appConfiguration.services.notify.baseUrl = 'http://localhost:1080/notify';
-	appConfiguration.services.notify.serviceId = 1234;
+	appConfiguration.services.notify.serviceId = 'g09j298f-q59t-9a34-f123-782342hj910l'
+	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant = saveAndReturnTemplateId
 
 	/////////////////////
 	///// SETUP APP /////
@@ -186,20 +184,18 @@ describe('Final comments', () => {
 		// And: we should get 200 in the GET response
 		expect(getResponse.status).toBe(200);
 
-		// And: it should send an email to the appellant with the final comments entity secure code
-		// expect(notify.sendSaveAndReturnEnterCodeIntoServiceEmail.mock.calls[0][2]).toMatch(
-		// 	new RegExp(`[0-9]{${appConfiguration.secureCodes.finalComments.length}}`)
-		// );
-
+		// And: it should send a request to the Notify service with the expected body 
 		await mockServerClient('localhost', 1080).verify({
-			method: 'POST',
-			path: '/notify',
-			body: {
-				template_id: '17fa62a6-81f6-49f7-87f0-b7a67d9ec5a0'
+			"method": 'POST',
+			"path": '/notify/v2/notifications/email',
+			"body": {
+				"type": "JSON",
+				"value": `{template_id: '${saveAndReturnTemplateId}', email_address: '${appellantEmail}', reference: '${caseReference}'}`,
+				"matchType": "ONLY_MATCHING_FIELDS"
 			}
 		});
 
-		// expect(notify.sendSaveAndReturnEnterCodeIntoServiceEmail).toHaveBeenCalled();
+		
 	});
 
 	it('should return an error when requesting to create a final comment that has the same case reference as one already created', async () => {

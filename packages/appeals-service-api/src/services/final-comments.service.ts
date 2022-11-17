@@ -40,9 +40,9 @@ export class FinalCommentsService {
 		}
 
 		sendSaveAndReturnEnterCodeIntoServiceEmail(
-			finalCommentsFound.caseReference,
 			finalCommentsFound.appellantEmail,
-			finalCommentsFound.secureCode.pin
+			finalCommentsFound.secureCode.pin,
+			finalCommentsFound.caseReference
 		);
 		return true;
 	}

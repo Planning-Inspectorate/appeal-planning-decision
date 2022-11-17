@@ -43,9 +43,9 @@ let config = {
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
 		redact: [
-			'config.db.mongodb',
+			'config.db.mongodb', 
 			'config.messageQueue.horizonHASPublisher.connection.password',
-			'config.services.notify.apiKey'
+			'config.services.notify.apiKey' 
 		]
 	},
 	featureFlagging: {
@@ -102,8 +102,6 @@ let config = {
 			baseUrl: process.env.SRV_NOTIFY_BASE_URL,
 			serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
 			apiKey: process.env.SRV_NOTIFY_API_KEY,
-			// deprecated, see `sendEmail` inside `./notify`
-			templateId: process.env.SRV_NOTIFY_TEMPLATE_ID,
 			templates: {
 				[APPEAL_ID.HOUSEHOLDER]: {
 					appealSubmissionConfirmationEmailToAppellant:

@@ -3,13 +3,17 @@ const config = require('../configuration/config');
 const logger = require('../lib/logger');
 
 export class BackOfficeRepository {
-	private queue: AMQPQueue;
+	private queue: AMQPQueue | null;
 
-	constructor() {}
+	constructor() {
+		this.queue = null;
+	}
 
 	async create(message: string): Promise<void> {
 		await this.setupQueue();
-		await this.queue.publish(JSON.stringify(message));
+		if (this.queue !== null) {
+			await this.queue.publish(JSON.stringify(message));
+		}
 	}
 
 	/**
@@ -18,7 +22,7 @@ export class BackOfficeRepository {
 	 * is called.
 	 */
 	private async setupQueue(): Promise<void> {
-		if (this.queue === undefined) {
+		if (this.queue == null) {
 			const queueConnectionConfig = config.messageQueue.horizonHASPublisher.connection;
 			const url = `amqp://${queueConnectionConfig.username}:${queueConnectionConfig.password}@${queueConnectionConfig.host}:${queueConnectionConfig.port}`;
 			logger.debug('AMQP URL', url);
