@@ -24,10 +24,11 @@ module.exports = {
 	 *
 	 * @returns {*}
 	 */
-	getNotifyClient() {
+	getNotifyClient(notifyUrl, serviceId, apiKey) {
+
 		if (!this.notifyClient) {
-			logger.info('Notify client was not set. Creating...');
-			this.setNotifyClient(createNotifyClient());
+			logger.info('Notify client was not set. Creating...');	
+			this.setNotifyClient(createNotifyClient(notifyUrl, serviceId, apiKey));
 		}
 
 		return this.notifyClient;
@@ -148,11 +149,11 @@ module.exports = {
 	 * @see https://docs.notifications.service.gov.uk/node.html#send-an-email-method
 	 * @returns {Promise<void>}
 	 */
-	async sendEmail() {
+	async sendEmail(notifyUrl, serviceId, apiKey) {
 		logger.info(`Sending email via notify`);
 
 		logger.debug({
-			notifyClient: this.getNotifyClient(),
+			notifyClient: this.notifyClient,
 			templateId: this.templateId,
 			destinationEmail: this.destinationEmail,
 			templatePersonalisation: `Has ${
@@ -160,15 +161,15 @@ module.exports = {
 			} value(s) set.`,
 			emailReplyToId: typeof this.emailReplyToId !== 'undefined' ? this.emailReplyToId : ''
 		});
-
+		
 		if (!this.templateId) {
 			throw new Error('Template ID must be set before an email can be sent.');
 		}
-
+		
 		if (!this.destinationEmail) {
 			throw new Error('A destination email address must be set before an email can be sent.');
 		}
-
+		
 		if (!this.reference) {
 			throw new Error('A reference must be set before an email can be sent.');
 		}
@@ -183,7 +184,9 @@ module.exports = {
 				requestData.emailReplyToId = this.emailReplyToId;
 			}
 
-			await this.getNotifyClient().sendEmail(this.templateId, this.destinationEmail, requestData);
+			await this
+				.getNotifyClient(notifyUrl, serviceId, apiKey)
+				.sendEmail(this.templateId, this.destinationEmail, requestData);
 		} catch (err) {
 			const message = 'Problem sending email';
 			if (err.response) {

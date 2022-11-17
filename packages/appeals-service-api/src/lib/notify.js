@@ -26,7 +26,11 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(reference)
-			.sendEmail();
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
 	} catch (err) {
 		logger.error(
 			{ err, appealId: appeal.id },
@@ -50,7 +54,11 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(reference)
-			.sendEmail();
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
 	} catch (err) {
 		logger.error(
 			{ err, lpaCode: appeal.lpaCode },
@@ -78,7 +86,11 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(reference)
-			.sendEmail();
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
 	} catch (err) {
 		logger.error(
 			{ err, appealId: appeal.id },
@@ -93,18 +105,22 @@ const sendSaveAndReturnEnterCodeIntoServiceEmail = async (recipientEmail, code, 
 			'unique code': code
 		}
 
-		logger.debug({ recipientEmail, variables, identifier }, 'Sending email to appellant');
+		logger.debug({ recipientEmail, variables, identifier }, 'Sending secure code email to appellant');
 
 		await NotifyBuilder.reset()
 			.setTemplateId(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(identifier)
-			.sendEmail();
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
 	} catch (err) {
 		logger.error(
-			{ err, appealId: appeal.id },
-			'Unable to send submission confirmation email to appellant'
+			{ err, appealId: identifier }, // TODO: change `appealId` to something more generic
+			'Unable to send secure code email to appellant'
 		);
 	}
 };
@@ -122,7 +138,11 @@ const sendConfirmEmailAddressEmail = async (appeal) => {
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(reference)
-			.sendEmail();
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
 	} catch (err) {
 		logger.error(
 			{ err, appealId: appeal.id },

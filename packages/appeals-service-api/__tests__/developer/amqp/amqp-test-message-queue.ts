@@ -11,8 +11,8 @@ export class AMQPTestMessageQueue {
 		this.amqpTestConfiguration.getQueue().publish(msg);
 	}
 
-	async getMessageFromQueue(): Promise<string> {
-		let message;
+	async getMessageFromQueue(): Promise<string | null| undefined> {
+		let message: string | null| undefined;
 		await this.amqpTestConfiguration
 			.getQueue()
 			.get()

@@ -8,11 +8,11 @@ export abstract class MongoRepository {
 		this.collectionName = collectionName;
 	}
 
-	protected async findOneByQuery(query) {
+	protected async findOneByQuery(query: any): Promise<Model> {
 		return await mongodb.get().collection(this.collectionName).findOne(query);
 	}
 
-	async create(model: Model) {
+	async create(model: Model): Promise<Model> {
 		return await mongodb.get().collection(this.collectionName).insertOne(model);
 	}
 }

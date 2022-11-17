@@ -6,15 +6,15 @@ export class SecureCodeEntity {
 	private expiration: number;
 
 	constructor() {
-		this.setPin();
+		this.pin = this.generatePin();
+		this.expiration = this.generateExpiration();
 	}
 
-	setPin(): void {
-		this.pin = generatePinSync(Number(config.secureCodes.finalComments.length));
-		this.expiration =
-			new Date().valueOf() + config.secureCodes.finalComments.expirationTimeInMinutes * 60000;
+	private generatePin(): string {
+		return generatePinSync(Number(config.secureCodes.finalComments.length));
 	}
-	getPin(): string {
-		return this.pin;
+
+	private generateExpiration(): number {
+		return new Date().valueOf() + config.secureCodes.finalComments.expirationTimeInMinutes * 60000;
 	}
 }

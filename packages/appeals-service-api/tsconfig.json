@@ -1,0 +1,14 @@
+{
+    "extends": "@tsconfig/node14/tsconfig.json",
+    "compilerOptions": {
+        "allowJs": true,
+        "checkJs": false
+    },
+    "include": [
+        "./src/**/*.ts", "./src/**/*.tsx"
+    ],
+    "exclude": [
+        "src/**/*.js",
+        "src/**/*.jsx",
+    ]
+}
