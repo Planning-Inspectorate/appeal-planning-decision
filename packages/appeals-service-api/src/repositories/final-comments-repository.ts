@@ -6,7 +6,7 @@ export class FinalCommentsRepository extends MongoRepository {
 		super('final-comments');
 	}
 
-	async getByCaseReference(caseReference: string): Promise<FinalCommentsAggregate> {
-		return await this.findOneByQuery({ caseReference: caseReference }) as FinalCommentsAggregate;
+	async getByCaseReference(caseReference: string): Promise<any> {
+		return await this.findOneByQuery({ caseReference: caseReference });
 	}
 }

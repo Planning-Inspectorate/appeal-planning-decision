@@ -42,7 +42,7 @@ export class FinalCommentsService {
 		sendSaveAndReturnEnterCodeIntoServiceEmail(
 			finalCommentsFound.caseReference,
 			finalCommentsFound.appellantEmail,
-			finalCommentsFound.getSecureCodeEntity().getPin()
+			finalCommentsFound.secureCode.pin
 		);
 		return true;
 	}
