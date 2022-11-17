@@ -18,6 +18,8 @@ function createNotifyClient({ baseUrl, serviceId, apiKey } = config.services.not
 	const activeServiceId = serviceId || config.services.notify.serviceId;
 	const activeApiKey = apiKey || config.services.notify.apiKey;
 
+	console.log(config.services.notify.baseUrl);
+
 	return new NotifyClient(
 		...getNotifyClientArguments(activeBaseUrl, activeServiceId, activeApiKey)
 	);

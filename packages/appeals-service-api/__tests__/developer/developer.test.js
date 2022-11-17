@@ -5,7 +5,6 @@ const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
-const notify = require('../../src/lib/notify');
 const uuid = require('uuid');
 
 const { AMQPTestMessageQueue } = require('./amqp/amqp-test-message-queue');
@@ -19,7 +18,6 @@ let databaseConnection;
 let messageQueue;
 
 jest.setTimeout(120000);
-jest.mock('../../src/lib/notify');
 jest.mock('../../src/db/db');
 jest.mock('../../src/configuration/featureFlag', () => ({
 	isFeatureActive: () => true
@@ -52,6 +50,12 @@ beforeAll(async () => {
 	let mockedDatabase = await databaseConnection.db('foo');
 	appDbConnection.get.mockReturnValue(mockedDatabase);
 
+	////////////////////////////////////////
+	///// SETUP MOCK SERVER FOR NOTIFY /////
+	////////////////////////////////////////
+
+	await mockServerClient('localhost', 1080).mockSimpleResponse('/notify', {}, 200);
+
 	/////////////////////////////
 	///// SETUP TEST CONFIG /////
 	/////////////////////////////
@@ -59,6 +63,8 @@ beforeAll(async () => {
 	appConfiguration.secureCodes.finalComments.length = 4;
 	appConfiguration.secureCodes.finalComments.expirationTimeInMinutes = 30;
 	appConfiguration.services.horizon.url = 'http://localhost:1080/horizon';
+	appConfiguration.services.notify.baseUrl = 'http://localhost:1080/notify';
+	appConfiguration.services.notify.serviceId = 1234;
 
 	/////////////////////
 	///// SETUP APP /////
@@ -106,8 +112,8 @@ describe('Appeals', () => {
 		savedAppeal.decisionDate = new Date(savedAppeal.decisionDate);
 		savedAppeal.submissionDate = new Date(savedAppeal.submissionDate);
 		savedAppeal.updatedAt = new Date(savedAppeal.updatedAt);
-		expect(notify.sendSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(savedAppeal);
-		expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(savedAppeal);
+		// expect(notify.sendSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(savedAppeal);
+		// expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(savedAppeal);
 	});
 
 	it(`should return an error if we try to update an appeal that doesn't exist`, async () => {
@@ -130,8 +136,8 @@ describe('Appeals', () => {
 		expect(messageQueueData).toBe(undefined);
 
 		// And: there should be no interactions with the email sender
-		expect(notify.sendSubmissionConfirmationEmailToAppellant).not.toHaveBeenCalled();
-		expect(notify.sendSubmissionReceivedEmailToLpa).not.toHaveBeenCalled();
+		// expect(notify.sendSubmissionConfirmationEmailToAppellant).not.toHaveBeenCalled();
+		// expect(notify.sendSubmissionReceivedEmailToLpa).not.toHaveBeenCalled();
 	});
 
 	it('should return the relevant appeal when requested after the appeal has been saved', async () => {
@@ -181,11 +187,19 @@ describe('Final comments', () => {
 		expect(getResponse.status).toBe(200);
 
 		// And: it should send an email to the appellant with the final comments entity secure code
-		expect(notify.sendSaveAndReturnEnterCodeIntoServiceEmail).toHaveBeenCalledWith(
-			caseReference,
-			appellantEmail,
-			new RegExp(appConfiguration.secureCodes.finalComments.length)
-		);
+		// expect(notify.sendSaveAndReturnEnterCodeIntoServiceEmail.mock.calls[0][2]).toMatch(
+		// 	new RegExp(`[0-9]{${appConfiguration.secureCodes.finalComments.length}}`)
+		// );
+
+		await mockServerClient('localhost', 1080).verify({
+			method: 'POST',
+			path: '/notify',
+			body: {
+				template_id: '17fa62a6-81f6-49f7-87f0-b7a67d9ec5a0'
+			}
+		});
+
+		// expect(notify.sendSaveAndReturnEnterCodeIntoServiceEmail).toHaveBeenCalled();
 	});
 
 	it('should return an error when requesting to create a final comment that has the same case reference as one already created', async () => {
@@ -212,7 +226,7 @@ describe('Final comments', () => {
 		// expect(axios.post).not.toHaveBeenCalled();
 
 		// And: no email is sent to the appellant containing the final comment's secure code
-		expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
+		// expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
 	});
 
 	it('should return an error when requesting a final comment entity that does exist, but its end date has not been set', async () => {
@@ -232,7 +246,7 @@ describe('Final comments', () => {
 		expect(getResponse.status).toEqual(403);
 
 		// And: no email is sent to the appellant containing the final comment's secure code
-		expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
+		// expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
 	});
 
 	it('should return an error when requesting a final comment entity that does exist, but the date of the request is after its end date', async () => {
@@ -248,7 +262,7 @@ describe('Final comments', () => {
 		expect(getResponse.status).toEqual(403);
 
 		// And: no email is sent to the appellant containing the final comment's secure code
-		expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
+		// expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
 	});
 });
 
