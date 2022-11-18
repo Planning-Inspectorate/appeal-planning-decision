@@ -9,14 +9,11 @@ const uuid = require('uuid');
 
 const { AMQPTestMessageQueue } = require('./amqp/amqp-test-message-queue');
 const { AMQPTestConfiguration } = require('./amqp/amqp-test-configuration');
-const mockserver = require('mockserver-node');
-var mockServer = require('mockserver-client'),
-	mockServerClient = mockServer.mockServerClient;
+const { MockServer } = require('./mockserver/mockserver')
 
 let appealsApi;
 let databaseConnection;
 let messageQueue;
-let saveAndReturnTemplateId = 1234;
 
 jest.setTimeout(120000);
 jest.mock('../../src/db/db');
@@ -25,12 +22,12 @@ jest.mock('../../src/configuration/featureFlag', () => ({
 }));
 
 beforeAll(async () => {
+	
 	////////////////////////////
 	///// SETUP MOCKSERVER /////
 	////////////////////////////
 
-	await mockserver.start_mockserver({ serverPort: 1080 });
-	await mockServerClient('localhost', 1080).mockSimpleResponse('/notify/v2/notifications/email', {}, 200);
+	await MockServer.setup()
 
 	////////////////////////////
 	///// SETUP TEST QUEUE /////
@@ -60,9 +57,9 @@ beforeAll(async () => {
 	appConfiguration.secureCodes.finalComments.expirationTimeInMinutes = 30;
 	appConfiguration.services.horizon.url = 'http://localhost:1080/horizon';
 	appConfiguration.services.notify.apiKey = 'hasserviceapikey-u89q754j-s87j-1n35-s351-789245as890k-1545v789-8s79-0124-qwe7-j2vfds34w5nm'
-	appConfiguration.services.notify.baseUrl = 'http://localhost:1080/notify';
+	appConfiguration.services.notify.baseUrl = MockServer.notifyBaseUrl;
 	appConfiguration.services.notify.serviceId = 'g09j298f-q59t-9a34-f123-782342hj910l'
-	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant = saveAndReturnTemplateId
+	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant = 54236
 
 	/////////////////////
 	///// SETUP APP /////
@@ -81,7 +78,7 @@ beforeEach(() => {
 afterAll(async () => {
 	await databaseConnection.close();
 	await messageQueue.teardown();
-	mockserver.stop_mockserver({ serverPort: 1080 });
+	await MockServer.teardown();
 });
 
 afterEach(() => {
@@ -168,12 +165,11 @@ describe('Final comments', () => {
 		const appellantEmail = 'foo@bar.com';
 
 		// And: the final comments end date is set in the future
-		await mockServerClient('localhost', 1080).mockSimpleResponse(
-			'/horizon',
-			finalCommentsEndDateInTheFutureJson,
-			200
-		);
+		await MockServer.mockHorizonResponse(finalCommentsEndDateInTheFutureJson, 200)
 
+		// And: setup a mocked response for Notify
+		await MockServer.mockNotifyResponse({}, 200)
+		
 		// When: we issue the request and try to see if it exists afterwards
 		const postResponse = await _createFinalComment(caseReference, appellantEmail);
 		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
@@ -185,17 +181,22 @@ describe('Final comments', () => {
 		expect(getResponse.status).toBe(200);
 
 		// And: it should send a request to the Notify service with the expected body 
-		await mockServerClient('localhost', 1080).verify({
-			"method": 'POST',
-			"path": '/notify/v2/notifications/email',
-			"body": {
-				"type": "JSON",
-				"value": `{template_id: '${saveAndReturnTemplateId}', email_address: '${appellantEmail}', reference: '${caseReference}'}`,
-				"matchType": "ONLY_MATCHING_FIELDS"
-			}
-		});
+		const recordedRequestsForNotify = await MockServer.getRecordedRequestsForNotify();
+		const notifyRequestsJson = MockServer.getBodiesFromNotifyRecordedRequests(recordedRequestsForNotify);
+			
+		expect(notifyRequestsJson.length).toEqual(1)
+		const notifyRequestJson = notifyRequestsJson[0];
+		const notifyRequestJsonKeys = getAllKeysFromJson(notifyRequestJson)
+		expect(notifyRequestJsonKeys.length).toEqual(5)
 
-		
+		expect(Object.keys(notifyRequestJson).length).toEqual(4)
+		expect(notifyRequestJson.template_id).toEqual(appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
+		expect(notifyRequestJson.email_address).toEqual(appellantEmail)
+		expect(notifyRequestJson.reference).toEqual(caseReference)
+
+		const notifyRequestPersonalisationJson = notifyRequestJson.personalisation;
+		expect(Object.keys(notifyRequestPersonalisationJson).length).toEqual(1)
+		expect(notifyRequestPersonalisationJson['unique code'].toString()).toMatch(new RegExp(`[0-9]{${appConfiguration.secureCodes.finalComments.length}}`))
 	});
 
 	it('should return an error when requesting to create a final comment that has the same case reference as one already created', async () => {
@@ -279,6 +280,16 @@ const _createFinalComment = async (caseReference, appellantEmail) => {
 		.post('/api/v1/final_comments')
 		.send({ case_reference: caseReference, appellant_email: appellantEmail });
 };
+
+const getAllKeysFromJson = (json, keys = []) => {
+	for (const key of Object.keys(json)) {
+		keys.push(key)
+		if (typeof json[key] == 'object'){
+			getAllKeysFromJson(json[key], keys)
+		}
+	}
+	return keys
+}
 
 const finalCommentsEndDateInTheFutureJson = {
 	Envelope: {
