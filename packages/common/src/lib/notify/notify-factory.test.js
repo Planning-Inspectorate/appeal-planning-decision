@@ -1,6 +1,4 @@
-const { NotifyClient } = require('notifications-node-client');
-const { createNotifyClient, getNotifyClientArguments } = require('./notify-factory');
-const config = require('../../config');
+const { getNotifyClientArguments } = require('./notify-factory');
 
 jest.mock('../../config');
 
