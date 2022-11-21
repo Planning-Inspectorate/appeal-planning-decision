@@ -4,15 +4,8 @@ import jp from 'jsonpath';
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/'
 import axios from 'axios';
 
-const mockserver = require('mockserver-node');
-var mockServer = require('mockserver-client'),
-	mockServerClient = mockServer.mockServerClient;
-
 export class MockedExternalApis {
 
-    // private host: string = 'localhost';
-    // private host: string;
-    // private port: number;
     private baseUrl: string;
     private container: StartedTestContainer;
 
@@ -25,19 +18,11 @@ export class MockedExternalApis {
     private notifyUrl: string;
     
     static async setup(): Promise<MockedExternalApis> {
-        // await mockserver.start_mockserver({ serverPort: 1080, log_level: 'trace' });
-        // return new MockedExternalApis(1080);
         const startedContainer = await new GenericContainer('mockserver/mockserver')
             .withName('mockserver-for-appeals-api-test')
             .withExposedPorts(1080)
             .withWaitStrategy(Wait.forLogMessage(/.*started on port: 1080.*/))
             .start();
-
-        // const stream = await startedContainer.logs();
-        // stream
-        //     .on("data", line => console.log(line))
-        //     .on("err", line => console.error(line))
-        //     .on("end", () => console.log("Stream closed"));
 
         return new MockedExternalApis(startedContainer)
     }
@@ -50,21 +35,14 @@ export class MockedExternalApis {
     ///// GENERAL /////
     ///////////////////
     
-    // private constructor(port: number) {
     private constructor(container: StartedTestContainer) {
-        // this.host = container.getHost();
-        // this.port = container.getMappedPort(1080)
         this.baseUrl = `http://${container.getHost()}:${container.getMappedPort(1080)}`
         this.container = container;
-        // this.port = port;
-        // this.horizonBaseUrl = `http://${this.host}:${this.port}/${this.horizon}`
-        // this.notifyBaseUrl = `http://${this.host}:${this.port}/${this.notify}`
         this.horizonUrl = `${this.baseUrl}${this.horizonEndpoint}`
         this.notifyUrl = `${this.baseUrl}/${this.notify}`
     }
 
     async clearAllMockedResponsesAndRecordedInteractions(): Promise<void> {
-        // await mockServerClient(this.host, this.port).reset()
         await axios.put(`${this.baseUrl}/mockserver/reset`)
     }
 
@@ -77,7 +55,6 @@ export class MockedExternalApis {
     }
     
     async teardown(): Promise<void> {
-        // await mockserver.stop_mockserver({ serverPort: this.port });
         await this.container.stop();
     }
 
@@ -105,11 +82,6 @@ export class MockedExternalApis {
     }
     
     private async getResponsesForEndpoint(endpoint: string): Promise<Array<any>> {
-        // return await mockServerClient(this.host, this.port).retrieveRecordedRequests({
-        //     "path": endpoint,
-        //     "method": "POST"
-        // })
-
         const data = {
             "path": endpoint,
             "method": "POST"
@@ -141,11 +113,6 @@ export class MockedExternalApis {
     }
  
     async mockHorizonResponse(body: any, statusCode: number): Promise<void>{
-        // await mockServerClient(this.host, this.port).mockSimpleResponse(
-        //     this.horizonEndpoint,
-		// 	body,
-		// 	statusCode
-        // );
         const data = {
             "httpRequest" : {
                 "method" : "POST",
@@ -172,7 +139,6 @@ export class MockedExternalApis {
     }
 
     async mockNotifyResponse(body: any, statusCode: number): Promise<void> {
-        // await mockServerClient(this.host, this.port).mockSimpleResponse(this.notifyEndpoint, body, statusCode);
         const data = {
             "httpRequest" : {
                 "method" : "POST",
