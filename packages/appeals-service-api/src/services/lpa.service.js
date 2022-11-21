@@ -10,7 +10,6 @@ const getLpaById = async (id) => {
 		.collection('lpa')
 		.findOne({ lpa19CD: id })
 		.then((doc) => {
-			logger.debug(doc);
 			lpa = doc;
 		})
 		.catch((err) => {

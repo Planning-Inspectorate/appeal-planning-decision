@@ -22,6 +22,7 @@
 		"@cloudamqp/amqp-client": "^2.1.0",
 		"@pins/business-rules": "file:../business-rules",
 		"@pins/common": "file:../common",
+		"@types/jsonpath": "^0.2.0",
 		"axios": "^1.1.3",
 		"body-parser": "^1.19.1",
 		"body-parser-csv": "^1.1.0",
