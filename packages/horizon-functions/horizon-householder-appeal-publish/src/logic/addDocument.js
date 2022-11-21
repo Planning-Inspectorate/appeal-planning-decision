@@ -41,9 +41,9 @@ function getHorizonDocumentXmlInJsonFormat(documentData, body) {
 	 * the document since the schema isn't correct ¯\_(ツ)_/¯ (it was like this before we got
 	 * here)
 	 */
-	let documentTypeValue = documentData.document_type;
-	let documentGroupTypeValue = isAppeal(documentTypeValue) ? 'Initial Documents' : 'Evidence';
-	const documentInvolvementValue = isAppeal(documentTypeValue) ? 'Appellant' : 'LPA';
+	let documentTypeValue = 'Appellant Initial Documents'
+	let documentGroupTypeValue = 'Initial Documents';
+	const documentInvolvementValue = documentData.involvement;
 
 	if (documentData?.horizon_document_type && documentData?.horizon_document_group_type) {
 		documentTypeValue = documentData.horizon_document_type;

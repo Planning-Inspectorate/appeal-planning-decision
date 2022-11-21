@@ -10,6 +10,7 @@ const documentTypes = {
 		name: 'originalApplication',
 		multiple: false,
 		displayName: 'Planning application form',
+		involvement: 'LPA',
 		horizonDocumentType: 'Application Form',
 		horizonDocumentGroupType: 'Evidence'
 	},
@@ -17,6 +18,7 @@ const documentTypes = {
 		name: 'decisionLetter',
 		multiple: false,
 		displayName: 'Decision notice',
+		involvement: 'Appellant',
 		horizonDocumentType: 'LPA Decision Notice',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -24,6 +26,7 @@ const documentTypes = {
 		name: 'appealStatement',
 		multiple: false,
 		displayName: 'Appeal Statement',
+		involvement: 'LPA',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Evidence'
 	},
@@ -31,6 +34,7 @@ const documentTypes = {
 		name: 'otherDocuments',
 		multiple: true,
 		displayName: 'Supporting Documents',
+		involvement: 'Appellant',
 		horizonDocumentType: 'Other Evidence from Appellant/Agent',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -38,6 +42,7 @@ const documentTypes = {
 		name: 'designAccessStatement',
 		multiple: false,
 		displayName: 'Design and access statement',
+		involvement: 'Appellant',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -45,6 +50,7 @@ const documentTypes = {
 		name: 'draftStatementOfCommonGround',
 		multiple: false,
 		displayName: 'Draft statement of common ground',
+		involvement: '',
 		horizonDocumentType: 'Statement of Common Ground',
 		horizonDocumentGroupType: 'Important Information'
 	},
@@ -52,6 +58,7 @@ const documentTypes = {
 		name: 'plansDrawingsSupportingDocuments',
 		multiple: true,
 		displayName: 'Plans, drawings and supporting documents',
+		involvement: 'Appellant',
 		horizonDocumentType: 'Application Plans',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -59,6 +66,7 @@ const documentTypes = {
 		name: 'appealPdf',
 		multiple: false,
 		displayName: '',
+		involvement: 'Appellant',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -66,6 +74,7 @@ const documentTypes = {
 		name: 'decisionPlans',
 		multiple: true,
 		displayName: 'Plans used to reach decision',
+		involvement: '',
 		horizonDocumentType: 'Plans Post LPA Decision',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -73,6 +82,7 @@ const documentTypes = {
 		name: 'officersReport',
 		multiple: true,
 		displayName: 'Planning Officers report',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -80,6 +90,7 @@ const documentTypes = {
 		name: 'interestedParties',
 		multiple: true,
 		displayName: 'Application publicity',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -87,6 +98,7 @@ const documentTypes = {
 		name: 'representations',
 		multiple: true,
 		displayName: 'Representations',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -94,6 +106,7 @@ const documentTypes = {
 		name: 'notifyingParties',
 		multiple: true,
 		displayName: 'Application notification',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -101,6 +114,7 @@ const documentTypes = {
 		name: 'siteNotices',
 		multiple: true,
 		displayName: '',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -108,6 +122,7 @@ const documentTypes = {
 		name: 'conservationAreaMap',
 		multiple: true,
 		displayName: '',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -115,6 +130,7 @@ const documentTypes = {
 		name: 'planningHistory',
 		multiple: true,
 		displayName: 'Details of planning history',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -122,6 +138,7 @@ const documentTypes = {
 		name: 'otherPolicies',
 		multiple: true,
 		displayName: 'Other relevant polices',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -129,6 +146,7 @@ const documentTypes = {
 		name: 'statutoryDevelopment',
 		multiple: true,
 		displayName: 'Statutory development plan policy',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -136,6 +154,7 @@ const documentTypes = {
 		name: 'supplementaryDocuments',
 		multiple: true,
 		displayName: 'Supplementary Planning Documents',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -143,6 +162,7 @@ const documentTypes = {
 		name: 'questionnairePdf',
 		multiple: false,
 		displayName: '',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -150,6 +170,7 @@ const documentTypes = {
 		name: 'originalDecisionNotice',
 		multiple: false,
 		displayName: 'Original Decision Notice',
+		involvement: '',
 		horizonDocumentType: 'LPA Decision Notice',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -157,6 +178,7 @@ const documentTypes = {
 		name: 'ownershipCertificate',
 		multiple: false,
 		displayName: 'Ownership certificate and agricultural land declaration',
+		involvement: '',
 		horizonDocumentType: 'Appellant Statement and Appendices',
 		horizonDocumentGroupType: 'Evidence'
 	},
@@ -164,6 +186,7 @@ const documentTypes = {
 		name: 'planningObligations',
 		multiple: true,
 		displayName: 'Planning obligation',
+		involvement: '',
 		horizonDocumentType: 'Planning Obligation',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -171,6 +194,7 @@ const documentTypes = {
 		name: 'letterConfirmingApplication',
 		multiple: false,
 		displayName: 'Letter Confirming Application',
+		involvement: '',
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -178,6 +202,7 @@ const documentTypes = {
 		name: 'draftPlanningObligations',
 		multiple: true,
 		displayName: 'Draft planning obligation',
+		involvement: '',
 		horizonDocumentType: 'Planning Obligation',
 		horizonDocumentGroupType: 'Initial Documents'
 	}

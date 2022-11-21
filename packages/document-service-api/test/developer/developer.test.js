@@ -50,8 +50,10 @@ describe('document-service-api', () => {
 				location: `12345/${returnedId}/sample.pdf`,
 				size: '3028',
 				id: `${returnedId}`,
-				document_type: documentType
+				document_type: documentType,
+				involvement: documentTypes[documentType].involvement
 			};
+
 			expect(response.body).toStrictEqual(expectedResponseBody);
 
 			// And
@@ -86,7 +88,8 @@ describe('document-service-api', () => {
 				horizon_document_type: expectedHorizonDocumentType,
 				horizon_document_group_type: expectedHorizonDocumentGroupType,
 				dataSize: 4040,
-				data: response.body.data // We can't infer this prior to the upload
+				data: response.body.data, // We can't infer this prior to the upload
+				involvement: documentTypes[documentType].involvement
 			};
 			expect(response.body).toStrictEqual(expectedResponseBody);
 		}
