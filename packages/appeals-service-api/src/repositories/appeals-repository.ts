@@ -25,8 +25,8 @@ export class AppealsRepository extends MongoRepository {
 			.collection(this.collectionName)
 			.findOneAndUpdate(
 				{ _id: appeal.id },
-				{ $set: { uuid: appeal.id, appeal } },
-				{ returnOriginal: false, upsert: false }
+				{ $set: { uuid: appeal.uuid, appeal } },
+				{ returnDocument: "after" }
 			);
 	}
 }

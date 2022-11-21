@@ -9,11 +9,18 @@ const uuid = require('uuid');
 
 const { AMQPTestMessageQueue } = require('./amqp/amqp-test-message-queue');
 const { AMQPTestConfiguration } = require('./amqp/amqp-test-configuration');
-const { MockServer } = require('./mockserver/mockserver')
+const { MockedExternalApis } = require('./mocked-external-apis/mocked-external-apis');
+const { Interaction } = require('./mocked-external-apis/interaction');
+const { JsonPathExpression } = require('./mocked-external-apis/json-path-expression');
 
 let appealsApi;
 let databaseConnection;
 let messageQueue;
+let mockedExternalApis;
+let expectedHorizonInteractions;
+let expectedNotifyInteractions;
+let testLpaEmail = 'appealplanningdecisiontest@planninginspectorate.gov.uk'
+let testLpaName = 'System Test Borough Council'
 
 jest.setTimeout(120000);
 jest.mock('../../src/db/db');
@@ -23,11 +30,11 @@ jest.mock('../../src/configuration/featureFlag', () => ({
 
 beforeAll(async () => {
 	
-	////////////////////////////
-	///// SETUP MOCKSERVER /////
-	////////////////////////////
+	///////////////////////////////
+	///// SETUP EXTERNAL APIs /////
+	///////////////////////////////
 
-	await MockServer.setup()
+	mockedExternalApis = await MockedExternalApis.setup()
 
 	////////////////////////////
 	///// SETUP TEST QUEUE /////
@@ -57,9 +64,11 @@ beforeAll(async () => {
 	appConfiguration.secureCodes.finalComments.expirationTimeInMinutes = 30;
 	appConfiguration.services.horizon.url = 'http://localhost:1080/horizon';
 	appConfiguration.services.notify.apiKey = 'hasserviceapikey-u89q754j-s87j-1n35-s351-789245as890k-1545v789-8s79-0124-qwe7-j2vfds34w5nm'
-	appConfiguration.services.notify.baseUrl = MockServer.notifyBaseUrl;
+	appConfiguration.services.notify.baseUrl = mockedExternalApis.notifyBaseUrl;
 	appConfiguration.services.notify.serviceId = 'g09j298f-q59t-9a34-f123-782342hj910l'
-	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant = 54236
+	appConfiguration.services.notify.templates['1001'].appealSubmissionConfirmationEmailToAppellant = 1
+	appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa = 2
+	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant = 3
 
 	/////////////////////
 	///// SETUP APP /////
@@ -67,18 +76,29 @@ beforeAll(async () => {
 
 	let server = http.createServer(app);
 	appealsApi = supertest(server);
+
+	/////////////////////////
+	///// POPULATE LPAS /////
+	/////////////////////////
+
+	// TODO: the database needs this CSV row putting into it so that emails work X__X
+	const testLpaJson = `{OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n323;E69999999;;${testLpaName};${testLpaEmail};;TRUE}`
+	await appealsApi.post('/api/v1/local-planning-authorities').send(testLpaJson)
 });
 
-beforeEach(() => {
-	// Clear all instances and calls to constructor and all methods:
-	//HorizonGateway.mockClear();
-	//mockGetFinalCommentsDueDate.mockClear();
+beforeEach(async () => {
+	await mockedExternalApis.mockNotifyResponse({}, 200)
+})
+
+afterEach(async () => {
+	await mockedExternalApis.checkInteractions(expectedHorizonInteractions, expectedNotifyInteractions)
+	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions()
 });
 
 afterAll(async () => {
 	await databaseConnection.close();
 	await messageQueue.teardown();
-	await MockServer.teardown();
+	await mockedExternalApis.teardown();
 });
 
 afterEach(() => {
@@ -86,7 +106,7 @@ afterEach(() => {
 });
 
 describe('Appeals', () => {
-	it('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal', async () => {
+	it.only('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal', async () => {
 		// Given an appeal is saved and when that appeal is submitted
 		const savedAppealResponse = await _createAppeal();
 		const savedAppeal = savedAppealResponse.body;
@@ -97,21 +117,55 @@ describe('Appeals', () => {
 
 		// Then: the expected appeal data should be output on the output message queue
 		const messageQueueData = await messageQueue.getMessageFromQueue();
-		let appeal = JSON.parse(messageQueueData).appeal;
-		savedAppeal.submissionDate = appeal.submissionDate;
-		savedAppeal.updatedAt = appeal.updatedAt;
-		expect(appeal).toMatchObject(savedAppeal);
+		let submittedAppeal = JSON.parse(messageQueueData).appeal;
+		savedAppeal.submissionDate = submittedAppeal.submissionDate;
+		savedAppeal.updatedAt = submittedAppeal.updatedAt;
+		expect(submittedAppeal).toMatchObject(savedAppeal);
 
-		// And: a "submitted" email should be sent to the appellant and case worker
-		savedAppeal.createdAt = new Date(savedAppeal.createdAt);
-		savedAppeal.decisionDate = new Date(savedAppeal.decisionDate);
-		savedAppeal.submissionDate = new Date(savedAppeal.submissionDate);
-		savedAppeal.updatedAt = new Date(savedAppeal.updatedAt);
-		// expect(notify.sendSubmissionConfirmationEmailToAppellant).toHaveBeenCalledWith(savedAppeal);
-		// expect(notify.sendSubmissionReceivedEmailToLpa).toHaveBeenCalledWith(savedAppeal);
+		// And: external APIs should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [
+			new Interaction(
+				8, 
+				new Map([
+					[ new JsonPathExpression("$.template_id"), appConfiguration.services.notify.templates['1001'].appealSubmissionConfirmationEmailToAppellant ],
+					[ new JsonPathExpression("$.email_address"), householderAppeal.email ],
+					[ new JsonPathExpression("$.reference"), householderAppeal.id ],
+					[ new JsonPathExpression("$.personalisation.name"), householderAppeal.aboutYouSection.yourDetails.name ],
+					[ new JsonPathExpression("$.personalisation['appeal site address']"), 
+						householderAppeal.appealSiteSection.siteAddress.addressLine1 + '\n' + 
+						householderAppeal.appealSiteSection.siteAddress.addressLine2 + '\n' +
+						householderAppeal.appealSiteSection.siteAddress.town + '\n' +
+						householderAppeal.appealSiteSection.siteAddress.county + '\n' +
+						householderAppeal.appealSiteSection.siteAddress.postcode
+					],
+					[ new JsonPathExpression("$.personalisation['local planning department']"), testLpaName ],
+					[ new JsonPathExpression("$.personalisation['pdf copy URL']"), `${process.env.APP_APPEALS_BASE_URL}/document/${householderAppeal.id}/${householderAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`]
+				])
+			),
+			new Interaction(
+				8,
+				new Map([
+					[ new JsonPathExpression("$.template_id"), appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa ],
+					[ new JsonPathExpression("$.email_address"), testLpaEmail ],
+					[ new JsonPathExpression("$.reference"), householderAppeal.id ],
+					[ new JsonPathExpression("$.personalisation.LPA"), testLpaName ],
+					[ new JsonPathExpression("$.personalisation['site address']"), 
+						householderAppeal.appealSiteSection.siteAddress.addressLine1 + '\n' + 
+						householderAppeal.appealSiteSection.siteAddress.addressLine2 + '\n' +
+						householderAppeal.appealSiteSection.siteAddress.town + '\n' +
+						householderAppeal.appealSiteSection.siteAddress.county + '\n' +
+						householderAppeal.appealSiteSection.siteAddress.postcode
+					],
+					[ new JsonPathExpression("$.personalisation.date"), householderAppeal.submissionDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) ],
+					[ new JsonPathExpression("$.personalisation['planning application number']"), householderAppeal.planningApplicationNumber ]
+				])
+			)
+		];
+		
 	});
 
-	it(`should return an error if we try to update an appeal that doesn't exist`, async () => {
+	it.only(`should return an error if we try to update an appeal that doesn't exist`, async () => {
 		// When: an appeal is sent via a PUT or PATCH request, but hasn't yet been created
 		householderAppeal.id = uuid.v4();
 		const putResponse = await appealsApi
@@ -130,12 +184,12 @@ describe('Appeals', () => {
 		const messageQueueData = await messageQueue.getMessageFromQueue();
 		expect(messageQueueData).toBe(undefined);
 
-		// And: there should be no interactions with the email sender
-		// expect(notify.sendSubmissionConfirmationEmailToAppellant).not.toHaveBeenCalled();
-		// expect(notify.sendSubmissionReceivedEmailToLpa).not.toHaveBeenCalled();
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
 	});
 
-	it('should return the relevant appeal when requested after the appeal has been saved', async () => {
+	it.only('should return the relevant appeal when requested after the appeal has been saved', async () => {
 		// Given: an appeal is created
 		const savedAppeal = await _createAppeal();
 
@@ -147,14 +201,22 @@ describe('Appeals', () => {
 
 		// And: the correct appeal should be returned
 		expect(requestedAppeal.body.id).toEqual(savedAppeal.body.id);
+
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
 	});
 
-	it(`should return an error if an appeal is requested that doesn't exist`, async () => {
+	it.only(`should return an error if an appeal is requested that doesn't exist`, async () => {
 		// When: we try to access a non-existent appeal
 		const getAppealResponse = await appealsApi.get(`/api/v1/appeals/${uuid.v4()}`);
 
 		// Then: we should get a 400 status
 		expect(getAppealResponse.status).toEqual(404);
+
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
 	});
 });
 
@@ -165,10 +227,10 @@ describe('Final comments', () => {
 		const appellantEmail = 'foo@bar.com';
 
 		// And: the final comments end date is set in the future
-		await MockServer.mockHorizonResponse(finalCommentsEndDateInTheFutureJson, 200)
+		await mockedExternalApis.mockHorizonResponse(finalCommentsEndDateInTheFutureJson, 200)
 
 		// And: setup a mocked response for Notify
-		await MockServer.mockNotifyResponse({}, 200)
+		await mockedExternalApis.mockNotifyResponse({}, 200)
 		
 		// When: we issue the request and try to see if it exists afterwards
 		const postResponse = await _createFinalComment(caseReference, appellantEmail);
@@ -180,23 +242,29 @@ describe('Final comments', () => {
 		// And: we should get 200 in the GET response
 		expect(getResponse.status).toBe(200);
 
-		// And: it should send a request to the Notify service with the expected body 
-		const recordedRequestsForNotify = await MockServer.getRecordedRequestsForNotify();
-		const notifyRequestsJson = MockServer.getBodiesFromNotifyRecordedRequests(recordedRequestsForNotify);
-			
-		expect(notifyRequestsJson.length).toEqual(1)
-		const notifyRequestJson = notifyRequestsJson[0];
-		const notifyRequestJsonKeys = getAllKeysFromJson(notifyRequestJson)
-		expect(notifyRequestJsonKeys.length).toEqual(5)
-
-		expect(Object.keys(notifyRequestJson).length).toEqual(4)
-		expect(notifyRequestJson.template_id).toEqual(appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
-		expect(notifyRequestJson.email_address).toEqual(appellantEmail)
-		expect(notifyRequestJson.reference).toEqual(caseReference)
-
-		const notifyRequestPersonalisationJson = notifyRequestJson.personalisation;
-		expect(Object.keys(notifyRequestPersonalisationJson).length).toEqual(1)
-		expect(notifyRequestPersonalisationJson['unique code'].toString()).toMatch(new RegExp(`[0-9]{${appConfiguration.secureCodes.finalComments.length}}`))
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [
+			new Interaction(
+				4,
+				new Map([
+					[ new JsonPathExpression("$.GetCase.__soap_op"), 'http://tempuri.org/IHorizon/GetCase'],
+					[ new JsonPathExpression("$.GetCase.__xmlns"),  'http://tempuri.org/'],
+					[ new JsonPathExpression("GetCase.caseReference"), caseReference ]
+				])
+			)
+		];
+		
+		expectedNotifyInteractions = [
+			new Interaction(
+				5,
+				new Map([
+					[ new JsonPathExpression("$.template_id"), appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant ],
+					[ new JsonPathExpression("$.email_address"), appellantEmail ],
+					[ new JsonPathExpression("$.reference"), caseReference ],
+					[ new JsonPathExpression("$.personalisation['unique code']"), new RegExp(`[0-9]{${appConfiguration.secureCodes.finalComments.length}}`) ]
+				])
+			)
+		];
 	});
 
 	it('should return an error when requesting to create a final comment that has the same case reference as one already created', async () => {
@@ -210,6 +278,10 @@ describe('Final comments', () => {
 
 		// Then: we should get 409 in the POST response
 		expect(postResponse.status).toBe(409);
+
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
 	});
 
 	it('should return an error when requesting a final comment entity that does not exist, not contact Horizon for a final comment end date, and not send an email to the appellant', async () => {
@@ -219,11 +291,9 @@ describe('Final comments', () => {
 		// Then: we get 404 in the response
 		expect(getResponse.status).toBe(404);
 
-		// And: Horizon is not contacted for a final comments end date
-		// expect(axios.post).not.toHaveBeenCalled();
-
-		// And: no email is sent to the appellant containing the final comment's secure code
-		// expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
 	});
 
 	it('should return an error when requesting a final comment entity that does exist, but its end date has not been set', async () => {
@@ -242,8 +312,9 @@ describe('Final comments', () => {
 		// Then: we should get a 403 in the response
 		expect(getResponse.status).toEqual(403);
 
-		// And: no email is sent to the appellant containing the final comment's secure code
-		// expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
 	});
 
 	it('should return an error when requesting a final comment entity that does exist, but the date of the request is after its end date', async () => {
@@ -258,8 +329,9 @@ describe('Final comments', () => {
 		// Then: we should get a 403 in the response
 		expect(getResponse.status).toEqual(403);
 
-		// And: no email is sent to the appellant containing the final comment's secure code
-		// expect(notify.sendFinalCommentsSecureCodeEmailToAppellant).not.toHaveBeenCalled();
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
 	});
 });
 
@@ -280,16 +352,6 @@ const _createFinalComment = async (caseReference, appellantEmail) => {
 		.post('/api/v1/final_comments')
 		.send({ case_reference: caseReference, appellant_email: appellantEmail });
 };
-
-const getAllKeysFromJson = (json, keys = []) => {
-	for (const key of Object.keys(json)) {
-		keys.push(key)
-		if (typeof json[key] == 'object'){
-			getAllKeysFromJson(json[key], keys)
-		}
-	}
-	return keys
-}
 
 const finalCommentsEndDateInTheFutureJson = {
 	Envelope: {

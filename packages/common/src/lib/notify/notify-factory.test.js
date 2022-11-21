@@ -42,47 +42,4 @@ describe('lib/notify/notify-factory', () => {
 			});
 		});
 	});
-
-	describe('createNotifyClient', () => {
-		test('can explicitly specify config', () => {
-			expect(
-				createNotifyClient({
-					baseUrl,
-					serviceId,
-					apiKey
-				})
-			).toEqual(new NotifyClient(...getNotifyClientArguments(baseUrl, serviceId, apiKey)));
-		});
-
-		test('works without overriding the config', () => {
-			const { baseUrl: url, serviceId: sid, apiKey: key } = config.services.notify;
-			expect(createNotifyClient()).toEqual(
-				new NotifyClient(...getNotifyClientArguments(url, sid, key))
-			);
-		});
-
-		test('allow override of base url', () => {
-			const override = 'overidden value here 1';
-			const { serviceId: sid, apiKey: key } = config.services.notify;
-			expect(createNotifyClient({ baseUrl: override, serviceId: sid })).toEqual(
-				new NotifyClient(...getNotifyClientArguments(override, sid, key))
-			);
-		});
-
-		test('allow override of serviceId', () => {
-			const override = 'overidden value here 2';
-			const { baseUrl: url, apiKey: key } = config.services.notify;
-			expect(createNotifyClient({ serviceId: override })).toEqual(
-				new NotifyClient(...getNotifyClientArguments(url, override, key))
-			);
-		});
-
-		test('allow override of apiKey', () => {
-			const override = 'overidden value here 3';
-			const { baseUrl: url, serviceId: sid } = config.services.notify;
-			expect(createNotifyClient({ apiKey: override })).toEqual(
-				new NotifyClient(...getNotifyClientArguments(url, sid, override))
-			);
-		});
-	});
 });
