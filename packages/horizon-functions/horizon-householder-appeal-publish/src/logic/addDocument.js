@@ -1,5 +1,4 @@
 const axios = require('axios');
-const { appealDocumentTypes } = require('./documentTypes');
 
 const config = {
 	documents: {
@@ -8,13 +7,6 @@ const config = {
 	horizon: {
 		url: process.env.HORIZON_URL
 	}
-};
-
-// body.documentType is tested instead of passing in a new 'is this an appeal or reply' parameter
-// from packages/horizon-householder-appeal-publish/src/publishDocuments.js.
-// This is because doing so breaks the tests for horizon-householder-appeal-publish
-const isAppeal = (documentType) => {
-	return Object.values(appealDocumentTypes).indexOf(documentType) > -1;
 };
 
 function getHorizonDocumentXmlInJsonFormat(documentData, body) {
