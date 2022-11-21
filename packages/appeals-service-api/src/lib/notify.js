@@ -72,24 +72,15 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 				'planning application number': appeal.planningApplicationNumber,
 				'site address': _formatAddress(appeal.appealSiteSection.siteAddress)
 			}
-		} else if (appeal.appealType = '1005') {
+		} else if (appeal.appealType == '1005') {
 			variables = {
 				'loca planning department': lpa.name,
 				'submission date': format(appeal.submissionDate, 'dd MMMM yyyy'),
 				'planning application number': appeal.planningApplicationNumber,
 				'site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-				refused:
-					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED
-						? 'yes'
-						: 'no',
-				granted:
-					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED
-						? 'yes'
-						: 'no',
-				'non-determination':
-					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.NODECISIONRECEIVED
-						? 'yes'
-						: 'no'
+				refused: _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED),
+				granted: _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED),
+				'non-determination': _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.NODECISIONRECEIVED)
 			}
 		}
 
@@ -215,6 +206,10 @@ const _formatAddress = (addressJson) => {
 	address += addressJson.county && `\n${addressJson.county}`;
 	address += `\n${addressJson.postcode}`;
 	return address;
+}
+
+const _getYesOrNoForBoolean = (booleanToUse) => {
+	return booleanToUse ? 'yes' : 'no'
 }
 
 module.exports = {
