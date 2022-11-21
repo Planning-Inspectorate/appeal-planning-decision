@@ -5,6 +5,7 @@ const {
 	sendSaveAndReturnEnterCodeIntoServiceEmail,
 	createToken
 } = require('../lib/notify');
+const { getAppeal } = require('./appeal.service')
 
 const saveAndReturnCreateService = async (appeal) => {
 	const query = { appealId: appeal.id };
