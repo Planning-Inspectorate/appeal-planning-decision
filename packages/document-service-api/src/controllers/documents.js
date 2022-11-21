@@ -127,7 +127,8 @@ const uploadDocument = async (req, res) => {
 			location: `${applicationId}/${id}/${originalname}`,
 			size: String(size),
 			id,
-			document_type: documentType
+			document_type: documentType,
+			involvement: documentTypes[documentType].involvement
 		};
 
 		if (
