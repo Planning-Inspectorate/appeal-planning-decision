@@ -8,6 +8,9 @@ import axios from 'axios';
  * This class is intended to act as a mocking interface for all external APIs that the 
  * Appeals API relies upon in order to deliver its functionality.
  * 
+ * We did try to use the npm server (https://www.npmjs.com/package/mockserver) and client 
+ * (https://www.npmjs.com/package/mockserver-client) for this however, when the tests run 
+ * on the Azure build pipeline, `localhost` can not be resolved, so the tests fail.
  */
 export class MockedExternalApis {
 
