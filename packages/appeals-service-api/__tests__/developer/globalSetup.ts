@@ -1,5 +1,5 @@
 module.exports = async () => {
-	const { createMongoContainer } = require('./mongodb-container-helper');
+	const { create } = require('./external-dependencies/database/test-database');
 
-	await createMongoContainer();
+	await create();
 };

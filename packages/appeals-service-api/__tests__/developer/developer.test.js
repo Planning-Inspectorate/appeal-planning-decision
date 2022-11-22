@@ -7,11 +7,11 @@ const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
 const uuid = require('uuid');
 
-const { AMQPTestMessageQueue } = require('./amqp/amqp-test-message-queue');
-const { AMQPTestConfiguration } = require('./amqp/amqp-test-configuration');
-const { MockedExternalApis } = require('./mocked-external-apis/mocked-external-apis');
-const { Interaction } = require('./mocked-external-apis/interaction');
-const { JsonPathExpression } = require('./mocked-external-apis/json-path-expression');
+const { TestMessageQueue } = require('./external-dependencies/message-queue/test-message-queue');
+const { TestMessageQueueConfiguration } = require('./external-dependencies/message-queue/test-message-queue-configuration');
+const { MockedExternalApis } = require('./external-dependencies/rest-apis/mocked-external-apis');
+const { Interaction } = require('./external-dependencies/rest-apis/interaction');
+const { JsonPathExpression } = require('./external-dependencies/rest-apis/json-path-expression');
 
 let appealsApi;
 let databaseConnection;
@@ -40,8 +40,8 @@ beforeAll(async () => {
 	///// SETUP TEST QUEUE /////
 	////////////////////////////
 
-	const amqpTestConfig = await AMQPTestConfiguration.create('test');
-	messageQueue = new AMQPTestMessageQueue(amqpTestConfig);
+	const amqpTestConfig = await TestMessageQueueConfiguration.create('test');
+	messageQueue = new TestMessageQueue(amqpTestConfig);
 	appConfiguration.messageQueue.horizonHASPublisher =
 		amqpTestConfig.getTestConfigurationSettingsJSON();
 
@@ -123,46 +123,40 @@ describe('Appeals', () => {
 		expect(submittedAppeal).toMatchObject(savedAppeal);
 
 		// And: external APIs should be interacted with in the following ways
-		expectedHorizonInteractions = [];
-		expectedNotifyInteractions = [
-			new Interaction(
-				8, 
-				new Map([
-					[ new JsonPathExpression("$.template_id"), appConfiguration.services.notify.templates['1001'].appealSubmissionConfirmationEmailToAppellant ],
-					[ new JsonPathExpression("$.email_address"), householderAppeal.email ],
-					[ new JsonPathExpression("$.reference"), householderAppeal.id ],
-					[ new JsonPathExpression("$.personalisation.name"), householderAppeal.aboutYouSection.yourDetails.name ],
-					[ new JsonPathExpression("$.personalisation['appeal site address']"), 
-						householderAppeal.appealSiteSection.siteAddress.addressLine1 + '\n' + 
-						householderAppeal.appealSiteSection.siteAddress.addressLine2 + '\n' +
-						householderAppeal.appealSiteSection.siteAddress.town + '\n' +
-						householderAppeal.appealSiteSection.siteAddress.county + '\n' +
-						householderAppeal.appealSiteSection.siteAddress.postcode
-					],
-					[ new JsonPathExpression("$.personalisation['local planning department']"), testLpaName ],
-					[ new JsonPathExpression("$.personalisation['pdf copy URL']"), `${process.env.APP_APPEALS_BASE_URL}/document/${householderAppeal.id}/${householderAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`]
-				])
-			),
-			new Interaction(
-				8,
-				new Map([
-					[ new JsonPathExpression("$.template_id"), appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa ],
-					[ new JsonPathExpression("$.email_address"), testLpaEmail ],
-					[ new JsonPathExpression("$.reference"), householderAppeal.id ],
-					[ new JsonPathExpression("$.personalisation.LPA"), testLpaName ],
-					[ new JsonPathExpression("$.personalisation['site address']"), 
-						householderAppeal.appealSiteSection.siteAddress.addressLine1 + '\n' + 
-						householderAppeal.appealSiteSection.siteAddress.addressLine2 + '\n' +
-						householderAppeal.appealSiteSection.siteAddress.town + '\n' +
-						householderAppeal.appealSiteSection.siteAddress.county + '\n' +
-						householderAppeal.appealSiteSection.siteAddress.postcode
-					],
-					[ new JsonPathExpression("$.personalisation.date"), householderAppeal.submissionDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }) ],
-					[ new JsonPathExpression("$.personalisation['planning application number']"), householderAppeal.planningApplicationNumber ]
-				])
+		const emailToAppellantInteraction = new Interaction()
+			.setNumberOfKeysExpectedInJson(8)
+			.addJsonValueExpectation(JsonPathExpression.create("$.template_id"), appConfiguration.services.notify.templates['1001'].appealSubmissionConfirmationEmailToAppellant)
+			.addJsonValueExpectation(JsonPathExpression.create("$.email_address"), householderAppeal.email)
+			.addJsonValueExpectation(JsonPathExpression.create("$.reference"), householderAppeal.id)
+			.addJsonValueExpectation(JsonPathExpression.create("$.personalisation.name"), householderAppeal.aboutYouSection.yourDetails.name)
+			.addJsonValueExpectation(JsonPathExpression.create("$.personalisation['appeal site address']"), 
+				householderAppeal.appealSiteSection.siteAddress.addressLine1 + '\n' + 
+				householderAppeal.appealSiteSection.siteAddress.addressLine2 + '\n' +
+				householderAppeal.appealSiteSection.siteAddress.town + '\n' +
+				householderAppeal.appealSiteSection.siteAddress.county + '\n' +
+				householderAppeal.appealSiteSection.siteAddress.postcode
 			)
-		];
-		
+			.addJsonValueExpectation(JsonPathExpression.create("$.personalisation['local planning department']"), testLpaName)
+			.addJsonValueExpectation(JsonPathExpression.create("$.personalisation['pdf copy URL']"), `${process.env.APP_APPEALS_BASE_URL}/document/${householderAppeal.id}/${householderAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`)
+
+		const emailToLpaInteraction = new Interaction()
+			.setNumberOfKeysExpectedInJson(8)
+			.addJsonValueExpectation(JsonPathExpression.create("$.template_id"), appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa)
+			.addJsonValueExpectation(JsonPathExpression.create("$.email_address"), testLpaEmail)
+			.addJsonValueExpectation(JsonPathExpression.create("$.reference"), householderAppeal.id)
+			.addJsonValueExpectation(JsonPathExpression.create("$.personalisation.LPA"), testLpaName)
+			.addJsonValueExpectation(JsonPathExpression.create("$.personalisation['site address']"), 
+				householderAppeal.appealSiteSection.siteAddress.addressLine1 + '\n' + 
+				householderAppeal.appealSiteSection.siteAddress.addressLine2 + '\n' +
+				householderAppeal.appealSiteSection.siteAddress.town + '\n' +
+				householderAppeal.appealSiteSection.siteAddress.county + '\n' +
+				householderAppeal.appealSiteSection.siteAddress.postcode
+			)
+			.addJsonValueExpectation(JsonPathExpression.create("$.personalisation.date"), householderAppeal.submissionDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' }))
+			.addJsonValueExpectation(JsonPathExpression.create("$.personalisation['planning application number']"), householderAppeal.planningApplicationNumber)
+
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
 	});
 
 	it.only(`should return an error if we try to update an appeal that doesn't exist`, async () => {
@@ -243,28 +237,21 @@ describe('Final comments', () => {
 		expect(getResponse.status).toBe(200);
 
 		// And: external systems should be interacted with in the following ways
-		expectedHorizonInteractions = [
-			new Interaction(
-				4,
-				new Map([
-					[ new JsonPathExpression("$.GetCase.__soap_op"), 'http://tempuri.org/IHorizon/GetCase'],
-					[ new JsonPathExpression("$.GetCase.__xmlns"),  'http://tempuri.org/'],
-					[ new JsonPathExpression("GetCase.caseReference"), caseReference ]
-				])
-			)
-		];
-		
-		expectedNotifyInteractions = [
-			new Interaction(
-				5,
-				new Map([
-					[ new JsonPathExpression("$.template_id"), appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant ],
-					[ new JsonPathExpression("$.email_address"), appellantEmail ],
-					[ new JsonPathExpression("$.reference"), caseReference ],
-					[ new JsonPathExpression("$.personalisation['unique code']"), new RegExp(`[0-9]{${appConfiguration.secureCodes.finalComments.length}}`) ]
-				])
-			)
-		];
+		const expectedGetCaseRefInteraction = new Interaction()
+			.setNumberOfKeysExpectedInJson(4)
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__soap_op"), 'http://tempuri.org/IHorizon/GetCase')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__xmlns"), 'http://tempuri.org/')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.caseReference"), caseReference)
+
+		const expectedSecureCodeEmailSentToAppellantInteraction = new Interaction()
+			.setNumberOfKeysExpectedInJson(5)
+			.addJsonValueExpectation(JsonPathExpression.create("$.template_id"), appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
+			.addJsonValueExpectation(JsonPathExpression.create("$.email_address"), appellantEmail)
+			.addJsonValueExpectation(JsonPathExpression.create("$.reference"), caseReference)
+			.addJsonValueExpectation(JsonPathExpression.create("$.personalisation['unique code']"), new RegExp(`[0-9]{${appConfiguration.secureCodes.finalComments.length}}`))
+
+		expectedHorizonInteractions = [ expectedGetCaseRefInteraction ]; 
+		expectedNotifyInteractions = [expectedSecureCodeEmailSentToAppellantInteraction ];
 	});
 
 	it('should return an error when requesting to create a final comment that has the same case reference as one already created', async () => {

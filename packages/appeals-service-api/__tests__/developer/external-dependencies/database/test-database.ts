@@ -2,7 +2,7 @@ import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
 
 let startedContainer: StartedTestContainer;
 
-const createMongoContainer = async () => {
+const create = async () => {
 	startedContainer = await new GenericContainer('mongo')
 		.withName('appeals-api-it-mongodb')
 		.withExposedPorts(27017)
@@ -15,13 +15,13 @@ const createMongoContainer = async () => {
 	)}/${dbName}`;
 };
 
-const destroyMongoContainer = async () => {
+const teardown = async () => {
 	if (startedContainer) {
 		await startedContainer.stop();
 	}
 };
 
 module.exports = {
-	createMongoContainer,
-	destroyMongoContainer
+	create,
+	teardown
 };

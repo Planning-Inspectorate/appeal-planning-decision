@@ -1,9 +1,9 @@
-import { AMQPTestConfiguration } from './amqp-test-configuration';
+import { TestMessageQueueConfiguration } from './test-message-queue-configuration';
 
-export class AMQPTestMessageQueue {
-	private amqpTestConfiguration: AMQPTestConfiguration;
+export class TestMessageQueue {
+	private amqpTestConfiguration: TestMessageQueueConfiguration;
 
-	constructor(config: AMQPTestConfiguration) {
+	constructor(config: TestMessageQueueConfiguration) {
 		this.amqpTestConfiguration = config;
 	}
 
