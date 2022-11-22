@@ -1,7 +1,7 @@
 import { AMQPClient, AMQPChannel, AMQPQueue } from '@cloudamqp/amqp-client';
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
 
-export class AMQPTestConfiguration {
+export class TestMessageQueueConfiguration {
 	private startedContainer: StartedTestContainer;
 	private amqpConnection: AMQPClient;
 	private channel: AMQPChannel;
@@ -27,7 +27,7 @@ export class AMQPTestConfiguration {
 		let channel = await connection.channel();
 		let queue = await channel.queue(queueName);
 
-		return new AMQPTestConfiguration(container, connection as AMQPClient, channel, queue, port);
+		return new TestMessageQueueConfiguration(container, connection as AMQPClient, channel, queue, port);
 	}
 
 	constructor(

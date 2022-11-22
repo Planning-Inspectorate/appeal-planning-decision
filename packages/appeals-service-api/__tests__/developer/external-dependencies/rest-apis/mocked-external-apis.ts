@@ -4,6 +4,11 @@ import jp from 'jsonpath';
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/'
 import axios from 'axios';
 
+/**
+ * This class is intended to act as a mocking interface for all external APIs that the 
+ * Appeals API relies upon in order to deliver its functionality.
+ * 
+ */
 export class MockedExternalApis {
 
     private baseUrl: string;
@@ -17,6 +22,11 @@ export class MockedExternalApis {
     private notifyEndpoint: string = `/${this.notify}/v2/notifications/email`; // Note that this is the full URL, known only to the Notify client which is provided by the Government
     private notifyUrl: string;
     
+    
+    ///////////////////
+    ///// GENERAL /////
+    ///////////////////
+    
     static async setup(): Promise<MockedExternalApis> {
         const startedContainer = await new GenericContainer('mockserver/mockserver')
             .withName('mockserver-for-appeals-api-test')
@@ -27,19 +37,15 @@ export class MockedExternalApis {
         return new MockedExternalApis(startedContainer)
     }
 
-    getBaseUrl(): string {
-        return `http://${this.baseUrl}`;
-    }
-
-    ///////////////////
-    ///// GENERAL /////
-    ///////////////////
-    
     private constructor(container: StartedTestContainer) {
         this.baseUrl = `http://${container.getHost()}:${container.getMappedPort(1080)}`
         this.container = container;
         this.horizonUrl = `${this.baseUrl}${this.horizonEndpoint}`
         this.notifyUrl = `${this.baseUrl}/${this.notify}`
+    }
+    
+    getBaseUrl(): string {
+        return `http://${this.baseUrl}`;
     }
 
     async clearAllMockedResponsesAndRecordedInteractions(): Promise<void> {
