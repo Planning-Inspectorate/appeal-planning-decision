@@ -120,7 +120,7 @@ async function updateAppeal(req, res) {
 		if (isFirstSubmission) {
 			try {
 				// TODO: I have no idea why we need to send this, rather than just the appeal data :/
-				await backOfficeRepository.create(updatedAppealWithIdUUIDAndAppeal);
+				backOfficeRepository.create(updatedAppealWithIdUUIDAndAppeal);
 			} catch (err) {
 				logger.error(
 					{ err, appealId: updatedAppeal.id },

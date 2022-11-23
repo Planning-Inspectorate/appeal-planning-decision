@@ -1,12 +1,20 @@
-const { AMQPClient } = require('@cloudamqp/amqp-client');
-const config = require('../configuration/config');
-const logger = require('../lib/logger');
-
+// This class uses rhea since it enables us to use AMQP protocol version 1.0 which Azure Service Bus uses.
+// Azure Service Bus doesn't support AMQP protocols less than 1.0, see https://github.com/Azure/azure-service-bus/issues/288
+// ¯\_(ツ)_/¯
+const container = require('rhea');
+const config = require('./config');
+const logger = require('./logger');
 class BackOfficeRepository {
-	#queue;
 
 	constructor() {
-		this.#queue = null;
+		try{
+			this.connectionQueue = container
+				.connect(options)
+				.open_sender(config.messageQueue.horizonHASPublisher.queue);
+			logger.info(connectionQueue);
+       } catch (err) {
+			logger.error({ err }, 'Cannot connect to the queue');
+       }
 	}
 
 	/**
@@ -14,29 +22,23 @@ class BackOfficeRepository {
 	 * @param {string} message
 	 * @return {Promise<void>}
 	 */
-	async create(message) {
-		await this.#setupQueue();
-		if (this.#queue !== null) {
-			await this.#queue.publish(JSON.stringify(message));
-		}
-	}
+	create(message) {
+       this.container.once('sendable', (context) => {
+			context.sender.send({
+				body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
+				content_type: 'application/json'
+			});
+			logger.info({ message: appeal }, 'Appeal message placed on queue');
+       });
 
-	/**
-	 * 
-	 * @return {Promise<void>}
-	 */
-	async #setupQueue() {
-		//  We could implement this via a static `create` method which returns a `BackOfficeRepository` object but
-		//  in some cases e.g. testing, the URL parts may not be known until after the static initialiser lifecycle
-		//  is called.
-		if (this.#queue == null) {
-			const queueConnectionConfig = config.messageQueue.horizonHASPublisher.connection;
-			const url = `amqp://${queueConnectionConfig.username}:${queueConnectionConfig.password}@${queueConnectionConfig.host}:${queueConnectionConfig.port}`;
-			logger.debug('AMQP URL', url);
-			const connection = await new AMQPClient(url).connect();
-			const channel = await connection.channel();
-			this.#queue = await channel.queue(config.messageQueue.horizonHASPublisher.queue);
-		}
+       this.container.on('accepted', (context) => {
+			context.connection.close();
+			logger.info(`Queue closed on message accepted`);
+       });
+
+       this.container.on('error', (err) => {
+			logger.error({ err }, 'There was a problem with the queue');
+       });
 	}
 }
 
