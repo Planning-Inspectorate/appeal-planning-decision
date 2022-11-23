@@ -5,7 +5,7 @@
 const http = require('http');
 require('express-async-errors');
 
-const config = require('./lib/config');
+const config = require('./configuration/config');
 const healthChecks = require('./lib/healthchecks');
 const logger = require('./lib/logger');
 const app = require('./app');

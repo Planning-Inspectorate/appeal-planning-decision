@@ -35,7 +35,7 @@ jest.mock('../../../src/services/lpa.service', () => ({
 			throw new Error('Internal Server Error');
 		})
 }));
-jest.mock('../../../src/lib/config', () => ({
+jest.mock('../../../src/configuration/config', () => ({
 	services: {
 		notify: {
 			templates: {

@@ -32,8 +32,6 @@ It exists to allow the Forms Web App to interact with the database
 
 ### Config
 
-See `/src/lib/config.js`
-
 This application is built to the [12 Factor App](https://12factor.net/)
 standards. This means that there is a single configuration file and any specific
 variables required are declared as environment variables.
