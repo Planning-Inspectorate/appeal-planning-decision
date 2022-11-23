@@ -7,7 +7,7 @@ module.exports = {
 	extends: ['eslint:recommended', 'prettier', 'plugin:cypress/recommended'],
 	ignorePatterns: ['node_modules/**', 'dist/**', 'webpack.**', '*.bundle.js'],
 	parserOptions: {
-		ecmaVersion: 2020,
+		ecmaVersion: 13,
 		sourceType: 'module'
 	},
 	plugins: ['jest'],
