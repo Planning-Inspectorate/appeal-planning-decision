@@ -34,7 +34,7 @@ module.exports = (statusOfOriginalApplication) => {
 	cy.get('#application-number').type(`TEST-${Date.now()}`);
 	cy.advanceToNextPage();
 
-	cy.get('#email-address').type('test@example.com');
+	cy.get('#email-address').type('appealplanningdecisiontest@planninginspectorate.gov.uk');
 	cy.advanceToNextPage();
 
 	cy.visit(
