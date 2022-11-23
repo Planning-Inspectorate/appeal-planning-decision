@@ -1,4 +1,3 @@
-const { Model } = require('../models/model');
 const mongodb = require('../db/db');
 
 /**
