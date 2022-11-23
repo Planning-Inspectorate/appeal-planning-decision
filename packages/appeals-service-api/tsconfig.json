@@ -6,7 +6,7 @@
     },
     "include": [
         "./src/**/*.ts", "./src/**/*.tsx"
-    ],
+, "src/models/entities/document-entity.js", "src/models/model.js", "src/repositories/final-comments-repository.js", "src/repositories/mongo-repository.js", "src/services/final-comments.service.js"    ],
     "exclude": [
         "src/**/*.js",
         "src/**/*.jsx",
