@@ -18,6 +18,8 @@ export class TestMessageQueueConfiguration {
 			.withWaitStrategy(Wait.forLogMessage('Server startup complete'))
 			.start();
 
+			//  /.*Apache ActiveMQ 5.15.6 .* started/
+
 		// We need to get the exact port number since Testcontainers assigns a random port
 		// (by design) on the host machine to map to the one you expose in the container
 		// itself. See here for more https://www.testcontainers.org/features/networking/
@@ -57,19 +59,19 @@ export class TestMessageQueueConfiguration {
 	 * @returns A fragment of JSON that can be used in the relevant section of JSON that can be
 	 * used in the main app's configuration
 	 */
-	getTestConfigurationSettingsJSON() {
+	static getTestConfigurationSettingsJSON() {
 		return {
 			connection: {
 				host: 'localhost',
 				hostname: 'local',
 				reconnect_limit: 1,
 				password: 'guest',
-				port: this.port,
+				port: 5672,
 				reconnect: 'false',
 				transport: 'tcp',
 				username: 'guest'
 			},
-			queue: this.queue.name
+			queue: 'test'
 		};
 	}
 
