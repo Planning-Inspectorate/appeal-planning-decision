@@ -7,11 +7,13 @@ const logger = require('./logger');
 class BackOfficeRepository {
 
 	constructor() {
+		const options = config.messageQueue.horizonHASPublisher.connection;
+
 		try{
 			this.connectionQueue = container
 				.connect(options)
 				.open_sender(config.messageQueue.horizonHASPublisher.queue);
-			logger.info(connectionQueue);
+			logger.info(this.connectionQueue);
        } catch (err) {
 			logger.error({ err }, 'Cannot connect to the queue');
        }
@@ -28,7 +30,7 @@ class BackOfficeRepository {
 				body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
 				content_type: 'application/json'
 			});
-			logger.info({ message: appeal }, 'Appeal message placed on queue');
+			logger.info('Appeal message placed on queue:', message);
        });
 
        this.container.on('accepted', (context) => {
