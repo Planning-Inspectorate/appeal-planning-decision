@@ -1,26 +1,28 @@
-import { TestMessageQueueConfiguration } from './test-message-queue-configuration';
+import { StringSchema } from "@pins/business-rules/src/lib/pins-yup";
+
+// import { TestMessageQueueConfiguration } from './test-message-queue-configuration';
+var container = require('rhea');
+// import { expect } from '@jest/globals'
+
+	// private amqpTestConfiguration: TestMessageQueueConfiguration;
 
 export class TestMessageQueue {
-	private amqpTestConfiguration: TestMessageQueueConfiguration;
 
-	constructor(config: TestMessageQueueConfiguration) {
-		this.amqpTestConfiguration = config;
+	constructor(){
+
 	}
 
-	async sendMessageToQueue(msg: string) {
-		this.amqpTestConfiguration.getQueue().publish(msg);
-	}
+	verifyMessagesAreOnQueue(queueName: StringSchema) {
 
-	async getMessageFromQueue(): Promise<string | null| undefined> {
-		let message: string | null| undefined;
-		await this.amqpTestConfiguration
-			.getQueue()
-			.get()
-			.then((msg) => (message = msg?.bodyToString()));
-		return message;
-	}
-
-	async teardown() {
-		await this.amqpTestConfiguration.teardown();
+		container.connect().open_receiver(queueName);
+		
+		container.on('message', (context: any) => {
+			const output = context.message.body.content;
+			// expect(JSON.parse(output.toString())).toMatchObject(expectations[index]);
+			// index++;
+			console.log(output.toString())
+			context.receiver.detach();
+			context.connection.close();
+		});
 	}
 }
