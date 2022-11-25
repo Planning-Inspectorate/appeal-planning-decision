@@ -9,7 +9,6 @@ const router = express.Router();
 
 const appealsRouter = require('./appeals');
 const saveRouter = require('./save');
-const appealsHorizonRouter = require('./appealsHorizon');
 const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
 const apiDocsRouter = require('./api-docs');
 const confirmEmailRouter = require('./confirm-email');
@@ -17,7 +16,6 @@ const finalCommentsRouter = require('./final-comments');
 const { isFeatureActive } = require('../configuration/featureFlag');
 
 router.use('/api/v1/appeals', appealsRouter);
-router.use('/api/v1/appeals-horizon', appealsHorizonRouter);
 router.use('/api/v1/local-planning-authorities', localPlanningAuthoritiesRouter);
 router.use('/api-docs', apiDocsRouter);
 router.use('/api/v1/save', saveRouter);
