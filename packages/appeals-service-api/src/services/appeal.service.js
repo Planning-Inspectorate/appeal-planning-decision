@@ -92,28 +92,29 @@ async function updateAppeal(req, res) {
 	logger.debug(`Updating appeal ${idParam}`, req.body);
 	const proposedAppealUpdate = req.body;
 	logger.debug({ proposedAppealUpdate }, 'Proposed appeal update');
-	isValidAppeal(proposedAppealUpdate);
-
+	
 	try {
 		const savedAppealEntity = await appealsRepository.getById(idParam);
-
+		
 		if (savedAppealEntity === null) {
 			throw ApiError.appealNotFound(idParam);
 		}
-
-		const savedAppeal = savedAppealEntity.appeal;
+		
+		let appeal = savedAppealEntity.appeal;
+		const appealStateBeforeUpdate = appeal.state;
+		Object.assign(appeal, proposedAppealUpdate)
+		isValidAppeal(appeal);
+		
 		const now = new Date(new Date().toISOString());
-
 		/* eslint no-param-reassign: ["error", { "props": false }] */
-		proposedAppealUpdate.updatedAt = now;
+		appeal.updatedAt = now;
+		let isFirstSubmission = (appealStateBeforeUpdate === 'DRAFT' && appeal.state === 'SUBMITTED')
 
-		const isFirstSubmission =
-			savedAppeal.state === 'DRAFT' && proposedAppealUpdate.state === 'SUBMITTED';
 		if (isFirstSubmission) {
-			proposedAppealUpdate.submissionDate = now;
+			appeal.submissionDate = now;
 		}
 
-		const updatedAppealEntity = await appealsRepository.update(proposedAppealUpdate);
+		const updatedAppealEntity = await appealsRepository.update(appeal);
 		const updatedAppealWithIdUUIDAndAppeal = updatedAppealEntity.value;
 		const updatedAppeal = updatedAppealWithIdUUIDAndAppeal.appeal;
 

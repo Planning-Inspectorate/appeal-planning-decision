@@ -125,8 +125,9 @@ afterAll(async () => {
 });
 
 describe('Appeals', () => {
+
 	it.only('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal', async () => {
-		// Given an appeal is saved and when that appeal is submitted
+		// Given: an appeal is created 
 		const savedAppealResponse = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
 
@@ -197,6 +198,27 @@ describe('Appeals', () => {
 		expectedMessages = []
 
 		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
+	});
+
+	it.only("should apply patch updates correctly when data to patch-in isn't a full appeal", async () => {
+		// Given: an appeal is created 
+		const savedAppealResponse = await _createAppeal();
+		let savedAppeal = savedAppealResponse.body;
+
+		// When: the appeal is patched
+		const patchedAppealResponse = await appealsApi.patch(`/api/v1/appeals/${savedAppeal.id}`).send({ horizonId: 'foo' })
+
+		// Then: when we retrieve the appeal, it should have the patch applied
+		savedAppeal.horizonId = 'foo';
+		savedAppeal.updatedAt = patchedAppealResponse.body.updatedAt;
+		expect(patchedAppealResponse.body).toMatchObject(savedAppeal)
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
+
+		// And: no external systems should be interacted with
 		expectedHorizonInteractions = [];
 		expectedNotifyInteractions = [];
 	});

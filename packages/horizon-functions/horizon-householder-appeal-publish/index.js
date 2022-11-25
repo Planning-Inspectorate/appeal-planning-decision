@@ -346,7 +346,7 @@ module.exports = async (context, event) => {
 		context.log({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
 
 		await axios.patch(
-			`/api/v1/appeals-horizon/${appealId}`,
+			`/api/v1/appeals/${appealId}`,
 			{
 				horizonId: horizonCaseId
 			},
