@@ -15,10 +15,8 @@ class BackOfficeRepository {
 	 */
 	create(message) {
 
-		const options = config.messageQueue.horizonHASPublisher.connection;
-
 		container
-			.connect(options)
+			.connect(config.messageQueue.horizonHASPublisher.connection)
 			.open_sender(config.messageQueue.horizonHASPublisher.queue);
 
        	container.on('sendable', (context) => {

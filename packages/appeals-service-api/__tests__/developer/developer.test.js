@@ -1,21 +1,24 @@
-const { householderAppeal } = require('./fixtures/householder-appeal');
-const app = require('../../src/app');
 const http = require('http');
 const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
+const uuid = require('uuid');
+const container = require('rhea');
+
+const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
-const uuid = require('uuid');
-
-// const { TestMessageQueue } = require('./external-dependencies/message-queue/test-message-queue');
-// const { TestMessageQueueConfiguration } = require('./external-dependencies/message-queue/test-message-queue-configuration');
+const { householderAppeal } = require('./fixtures/householder-appeal');
+const { TestMessageQueue } = require('./external-dependencies/message-queue/test-message-queue');
 const { MockedExternalApis } = require('./external-dependencies/rest-apis/mocked-external-apis');
 const { Interaction } = require('./external-dependencies/rest-apis/interaction');
 const { JsonPathExpression } = require('./external-dependencies/rest-apis/json-path-expression');
+const waitFor = require("./utils/waitFor")
 
 let appealsApi;
 let databaseConnection;
 let messageQueue;
+let messages = [];
+let expectedMessages;
 let mockedExternalApis;
 let expectedHorizonInteractions;
 let expectedNotifyInteractions;
@@ -40,8 +43,19 @@ beforeAll(async () => {
 	///// SETUP TEST QUEUE /////
 	////////////////////////////
 
-	// const amqpTestConfig = await TestMessageQueueConfiguration.create('test');
-	// messageQueue = new TestMessageQueue('test');
+	messageQueue = await TestMessageQueue.create();
+	const test_listener = container.create_container();
+
+	test_listener
+		.connect(messageQueue.getTestConfigurationSettingsJSON().connection)
+		.open_receiver(messageQueue.getTestConfigurationSettingsJSON().queue);
+
+	test_listener.on('message', (context) => {
+		const output = context.message.body.content;
+		messages.push(JSON.parse(output.toString()))
+		context.receiver.detach();
+		context.connection.close();
+	});
 
 	///////////////////////////////
 	///// SETUP TEST DATABASE /////
@@ -58,7 +72,7 @@ beforeAll(async () => {
 	///// SETUP TEST CONFIG /////
 	/////////////////////////////
 
-	// appConfiguration.messageQueue.horizonHASPublisher = TestMessageQueueConfiguration.getTestConfigurationSettingsJSON();
+	appConfiguration.messageQueue.horizonHASPublisher = messageQueue.getTestConfigurationSettingsJSON();
 	appConfiguration.secureCodes.finalComments.length = 4;
 	appConfiguration.secureCodes.finalComments.expirationTimeInMinutes = 30;
 	appConfiguration.services.horizon.url = mockedExternalApis.getHorizonUrl();
@@ -89,42 +103,43 @@ beforeEach(async () => {
 	await mockedExternalApis.mockNotifyResponse({}, 200)
 })
 
+// We check mock and message interactions consistently here so that they're not forgotten for each test :)
 afterEach(async () => {
 	await mockedExternalApis.checkInteractions(expectedHorizonInteractions, expectedNotifyInteractions)
 	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions()
+	jest.clearAllMocks(); // We need to do this so that mock interactions are reset correctly between tests :)
+	
+	// THE LINE BELOW IS CRUCIAL: without it, you can get a race condition where a message is produced by the API,
+	// but isn't read in time for the test to make a solid assertion, i.e. you can get false negatives without this.
+	await waitFor(() => messages.length === expectedMessages.length) 
+	for (const index in expectedMessages) {
+		expect(messages[index].appeal).toMatchObject(expectedMessages[index])
+	}
+	messages = []
 });
 
 afterAll(async () => {
 	await databaseConnection.close();
-	// await messageQueue.teardown();
+	await messageQueue.teardown();
 	await mockedExternalApis.teardown();
-});
-
-afterEach(() => {
-	jest.clearAllMocks(); // We need to do this so that mock interactions are reset correctly between tests :)
 });
 
 describe('Appeals', () => {
 	it.only('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal', async () => {
 		// Given an appeal is saved and when that appeal is submitted
 		const savedAppealResponse = await _createAppeal();
-		const savedAppeal = savedAppealResponse.body;
+		let savedAppeal = savedAppealResponse.body;
 
 		// When: the appeal is submitted
 		savedAppeal.state = 'SUBMITTED';
-		await appealsApi.patch(`/api/v1/appeals/${savedAppeal.id}`).send(savedAppeal);		
+		const submittedAppealResponse = await appealsApi.patch(`/api/v1/appeals/${savedAppeal.id}`).send(savedAppeal);
+		const submittedAppeal = submittedAppealResponse.body
 
-		// Then: the expected appeal data should be output on the output message queue
-		// savedAppeal.submissionDate = submittedAppeal.submissionDate;
-		// savedAppeal.updatedAt = submittedAppeal.updatedAt;
-		// const queue = new TestMessageQueue()
-		// queue.verifyMessagesAreOnQueue('test', [savedAppeal]);
-		
-		// console.log(messageQueueData)
-		// let submittedAppeal = JSON.parse(messageQueueData[0]).appeal;
-		// savedAppeal.submissionDate = submittedAppeal.submissionDate;
-		// savedAppeal.updatedAt = submittedAppeal.updatedAt;
-		// expect(submittedAppeal).toMatchObject(savedAppeal);
+		// Then: the saved appeal data with an additional `submissionDate` and updated `updatedAt` field 
+		// should be output on the output message queue
+		savedAppeal.submissionDate = submittedAppeal.submissionDate;
+		savedAppeal.updatedAt = submittedAppeal.updatedAt;
+		expectedMessages = [ savedAppeal ]
 
 		// And: external APIs should be interacted with in the following ways
 		const emailToAppellantInteraction = new Interaction()
@@ -163,7 +178,7 @@ describe('Appeals', () => {
 		expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
 	});
 
-	it(`should return an error if we try to update an appeal that doesn't exist`, async () => {
+	it.only(`should return an error if we try to update an appeal that doesn't exist`, async () => {
 		// When: an appeal is sent via a PUT or PATCH request, but hasn't yet been created
 		householderAppeal.id = uuid.v4();
 		const putResponse = await appealsApi
@@ -179,15 +194,14 @@ describe('Appeals', () => {
 		expect(patchResponse.status).toBe(404);
 
 		// And: there should be no data on the message queue
-		const messageQueueData = await messageQueue.getMessageFromQueue();
-		expect(messageQueueData).toBe(undefined);
+		expectedMessages = []
 
 		// And: external systems should be interacted with in the following ways
 		expectedHorizonInteractions = [];
 		expectedNotifyInteractions = [];
 	});
 
-	it('should return the relevant appeal when requested after the appeal has been saved', async () => {
+	it.only('should return the relevant appeal when requested after the appeal has been saved', async () => {
 		// Given: an appeal is created
 		const savedAppeal = await _createAppeal();
 
@@ -200,17 +214,23 @@ describe('Appeals', () => {
 		// And: the correct appeal should be returned
 		expect(requestedAppeal.body.id).toEqual(savedAppeal.body.id);
 
+		// And: there should be no data on the message queue
+		expectedMessages = []
+
 		// And: external systems should be interacted with in the following ways
 		expectedHorizonInteractions = [];
 		expectedNotifyInteractions = [];
 	});
 
-	it(`should return an error if an appeal is requested that doesn't exist`, async () => {
+	it.only(`should return an error if an appeal is requested that doesn't exist`, async () => {
 		// When: we try to access a non-existent appeal
 		const getAppealResponse = await appealsApi.get(`/api/v1/appeals/${uuid.v4()}`);
 
 		// Then: we should get a 400 status
 		expect(getAppealResponse.status).toEqual(404);
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
 
 		// And: external systems should be interacted with in the following ways
 		expectedHorizonInteractions = [];
@@ -219,7 +239,7 @@ describe('Appeals', () => {
 });
 
 describe('Final comments', () => {
-	it('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {
+	it.only('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {
 		// Given: a request to create a final comments entry for a case
 		const caseReference = 'BAZ12345';
 		const appellantEmail = 'foo@bar.com';
@@ -239,6 +259,9 @@ describe('Final comments', () => {
 
 		// And: we should get 200 in the GET response
 		expect(getResponse.status).toBe(200);
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
 
 		// And: external systems should be interacted with in the following ways
 		const expectedGetCaseRefInteraction = new Interaction()
@@ -269,6 +292,9 @@ describe('Final comments', () => {
 
 		// Then: we should get 409 in the POST response
 		expect(postResponse.status).toBe(409);
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
 
 		// And: external systems should be interacted with in the following ways
 		expectedHorizonInteractions = [];

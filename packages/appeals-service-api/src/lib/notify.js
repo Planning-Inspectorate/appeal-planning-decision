@@ -10,7 +10,7 @@ const logger = require('./logger');
 const { getLpaById } = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
 const { format } = require('date-fns');
-const { constants } = require('@pins/business-rules/src/constants')
+const constants = require('@pins/business-rules/src/constants')
 
 const { templates } = config.services.notify;
 
