@@ -4,7 +4,7 @@ const {
 	saveAndReturnGet,
 	saveAndReturnToken
 } = require('../../../src/controllers/save');
-const { replaceAppeal, getAppeal } = require('../../../src/services/appeal.service');
+const { updateAppeal, getAppeal } = require('../../../src/services/appeal.service');
 const {
 	saveAndReturnNotifyContinue,
 	saveAndReturnCreateService,
@@ -37,7 +37,7 @@ describe('Save And Return API', () => {
 			};
 			req.body = appealStub;
 
-			replaceAppeal.mockReturnValue(appealStub);
+			updateAppeal.mockReturnValue(appealStub);
 			saveAndReturnNotifyContinue.mockReturnValue('');
 			saveAndReturnCreateService.mockReturnValue('12345');
 

@@ -42,28 +42,17 @@ async function createAppeal(req, res) {
 	res.status(500).send(appeal);
 }
 
-async function getAppeal(req, res) {
-	const idParam = req.params.id;
-
+async function getAppeal(idParam) {
 	logger.info(`Retrieving appeal ${idParam} ...`);
-	try {
-		const document = await appealsRepository.getById(idParam);
+	const document = await appealsRepository.getById(idParam);
 
-		if (document === null) {
-			throw ApiError.appealNotFound(idParam);
-		}
-
-		logger.info(`Appeal ${idParam} retrieved`);
-		res.status(200).send(document.appeal);
-	} catch (e) {
-		if (e instanceof ApiError) {
-			logger.info(e.message);
-			res.status(e.code).send({ code: e.code, errors: e.message.errors });
-			return;
-		}
-		logger.info(e.message);
-		res.status(500).send(`Problem getting the appeal ${idParam}\n${e}`);
+	if (document === null) {
+		logger.info(`Appeal ${idParam} not found`);
+		throw ApiError.appealNotFound(idParam);
 	}
+
+	logger.info(`Appeal ${idParam} retrieved`);
+	return document.appeal;
 }
 
 function isValidAppeal(appeal) {
@@ -92,23 +81,23 @@ async function updateAppeal(req, res) {
 	logger.debug(`Updating appeal ${idParam}`, req.body);
 	const proposedAppealUpdate = req.body;
 	logger.debug({ proposedAppealUpdate }, 'Proposed appeal update');
-	
+
 	try {
 		const savedAppealEntity = await appealsRepository.getById(idParam);
-		
+
 		if (savedAppealEntity === null) {
 			throw ApiError.appealNotFound(idParam);
 		}
-		
+
 		let appeal = savedAppealEntity.appeal;
 		const appealStateBeforeUpdate = appeal.state;
-		Object.assign(appeal, proposedAppealUpdate)
+		Object.assign(appeal, proposedAppealUpdate);
 		isValidAppeal(appeal);
-		
+
 		const now = new Date(new Date().toISOString());
 		/* eslint no-param-reassign: ["error", { "props": false }] */
 		appeal.updatedAt = now;
-		let isFirstSubmission = (appealStateBeforeUpdate === 'DRAFT' && appeal.state === 'SUBMITTED')
+		let isFirstSubmission = appealStateBeforeUpdate === 'DRAFT' && appeal.state === 'SUBMITTED';
 
 		if (isFirstSubmission) {
 			appeal.submissionDate = now;
@@ -147,7 +136,7 @@ async function updateAppeal(req, res) {
 const isAppealSubmitted = async (appealId) => {
 	const appeal = appealsRepository.getById(appealId);
 	return appeal.state == 'SUBMITTED';
-}
+};
 
 module.exports = {
 	createAppeal,
