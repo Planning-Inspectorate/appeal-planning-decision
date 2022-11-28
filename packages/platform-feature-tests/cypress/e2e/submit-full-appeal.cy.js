@@ -75,92 +75,93 @@ describe('Appeal uploads', () => {
 					expectedFileName: 'final-comments.pdf'
 				}
 			]
-		},
-		{
-			statusOfOriginalApplication: 'refused',
-			typeOfDecisionRequested: 'written',
-			statusOfPlanningObligation: 'finalised',
-			finalComments: {
-				check: false, // TODO: set these to true after feature flag introduced
-				uploadAdditionalDocuments: true
-			},
-			expectedFilesAndFoldersInHorizon: [
-				{
-					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
-					expectedFileName: 'planning-application-form.pdf'
-				},
-				{
-					expectedFolderHierarchy: [
-						'0 Inspector File',
-						"01 Appelant's Initial Documents",
-						'05 Plans',
-						'01 Application Plans'
-					],
-					expectedFileName: 'plans-drawings-and-supporting-documents.pdf'
-				},
-				{
-					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
-					expectedFileName: 'design-and-access-statement.pdf'
-				},
-				{
-					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
-					expectedFileName: 'decision-letter.pdf'
-				},
-				{
-					expectedFolderHierarchy: [
-						'0 Inspector File',
-						"01 Appelant's Initial Documents",
-						'02 Statement and appendicies'
-					],
-					expectedFileName: 'ownership-certificate-and-agricultural-land-declaration.pdf'
-				},
-				{
-					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
-					expectedFileName: 'letter-confirming-planning-obligation.pdf'
-				},
-				{
-					expectedFolderHierarchy: [
-						'0 Inspector File',
-						"01 Appelant's Initial Documents",
-						'05 Plans',
-						'02 Plans submitted after LPA decision'
-					],
-					expectedFileName: 'plans-drawings.jpeg'
-				},
-				{
-					expectedFolderHierarchy: ['0 Inspector File', '07 Planning Obligation'],
-					expectedFileName: 'planning-obligation.pdf'
-				},
-				{
-					expectedFolderHierarchy: ['1 Main Party', 'Appellant/Agent/Applicant'],
-					expectedFileName: 'other-supporting-documents.pdf'
-				},
-				{
-					expectedFolderHierarchy: [
-						'0 Inspector File',
-						'05 Final comments',
-						'Appellant final comments'
-					],
-					expectedFileName: 'final-comments.pdf'
-				},
-				{
-					expectedFolderHierarchy: [
-						'0 Inspector File',
-						'05 Final comments',
-						'Appellant final comments'
-					],
-					expectedFileName: 'additional-final-comments-1.pdf'
-				},
-				{
-					expectedFolderHierarchy: [
-						'0 Inspector File',
-						'05 Final comments',
-						'Appellant final comments'
-					],
-					expectedFileName: 'additional-final-comments-2.pdf'
-				}
-			]
 		}
+		// ,
+		// {
+		// 	statusOfOriginalApplication: 'refused',
+		// 	typeOfDecisionRequested: 'written',
+		// 	statusOfPlanningObligation: 'finalised',
+		// 	finalComments: {
+		// 		check: false, // TODO: set these to true after feature flag introduced
+		// 		uploadAdditionalDocuments: true
+		// 	},
+		// 	expectedFilesAndFoldersInHorizon: [
+		// 		{
+		// 			expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+		// 			expectedFileName: 'planning-application-form.pdf'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: [
+		// 				'0 Inspector File',
+		// 				"01 Appelant's Initial Documents",
+		// 				'05 Plans',
+		// 				'01 Application Plans'
+		// 			],
+		// 			expectedFileName: 'plans-drawings-and-supporting-documents.pdf'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+		// 			expectedFileName: 'design-and-access-statement.pdf'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+		// 			expectedFileName: 'decision-letter.pdf'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: [
+		// 				'0 Inspector File',
+		// 				"01 Appelant's Initial Documents",
+		// 				'02 Statement and appendicies'
+		// 			],
+		// 			expectedFileName: 'ownership-certificate-and-agricultural-land-declaration.pdf'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+		// 			expectedFileName: 'letter-confirming-planning-obligation.pdf'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: [
+		// 				'0 Inspector File',
+		// 				"01 Appelant's Initial Documents",
+		// 				'05 Plans',
+		// 				'02 Plans submitted after LPA decision'
+		// 			],
+		// 			expectedFileName: 'plans-drawings.jpeg'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: ['0 Inspector File', '07 Planning Obligation'],
+		// 			expectedFileName: 'planning-obligation.pdf'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: ['1 Main Party', 'Appellant/Agent/Applicant'],
+		// 			expectedFileName: 'other-supporting-documents.pdf'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: [
+		// 				'0 Inspector File',
+		// 				'05 Final comments',
+		// 				'Appellant final comments'
+		// 			],
+		// 			expectedFileName: 'final-comments.pdf'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: [
+		// 				'0 Inspector File',
+		// 				'05 Final comments',
+		// 				'Appellant final comments'
+		// 			],
+		// 			expectedFileName: 'additional-final-comments-1.pdf'
+		// 		},
+		// 		{
+		// 			expectedFolderHierarchy: [
+		// 				'0 Inspector File',
+		// 				'05 Final comments',
+		// 				'Appellant final comments'
+		// 			],
+		// 			expectedFileName: 'additional-final-comments-2.pdf'
+		// 		}
+		// 	]
+		// }
 	].forEach((context) => {
 		const {
 			statusOfOriginalApplication,

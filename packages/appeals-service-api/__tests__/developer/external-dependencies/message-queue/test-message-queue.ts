@@ -40,7 +40,7 @@ export class TestMessageQueue {
 				hostname: 'local',
 				port: this.startedContainer.getMappedPort(5672),
 				transport: 'tcp',
-				reconnect: 'true',
+				reconnect: false,
 				reconnect_limit: 1,
 				username: 'admin',
 				password: 'admin'

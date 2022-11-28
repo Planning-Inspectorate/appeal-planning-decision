@@ -5,7 +5,7 @@ const {
 	constants: { APPEAL_ID }
 } = require('@pins/business-rules');
 const logger = require('../lib/logger');
-const ApiError = require('../error/apiError');
+const ApiError = require('../errors/apiError');
 const {
 	sendSubmissionReceivedEmailToLpa,
 	sendSubmissionConfirmationEmailToAppellant
