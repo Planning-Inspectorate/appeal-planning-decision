@@ -8,7 +8,18 @@ const {
 
 const router = express.Router();
 
-router.get('/:id', getAppeal);
+router.get('/:id', async (req, res) => {
+	let statusCode = 200;
+	let body = '';
+	try {
+		body = await getAppeal(req.params.id);
+	} catch (error) {
+		statusCode = error.statusCode;
+		body = { error: body.message.errors };
+	} finally {
+		res.status(statusCode).send(body);
+	}
+});
 
 router.post('/', createAppeal);
 

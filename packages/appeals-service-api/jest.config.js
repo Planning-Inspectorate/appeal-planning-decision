@@ -21,7 +21,7 @@ module.exports = {
 	globalTeardown: '<rootDir>/__tests__/developer/globalTeardown.ts',
 	preset: '@shelf/jest-mongodb',
 	setupFiles: ['<rootDir>/__tests__/setup-jest.js'],
-	roots: ['<rootDir>/__tests__/developer/'],
+	roots: ['<rootDir>/__tests__/developer/', '<rootDir>/__tests__/unit/'],
 	transform: {
 		'^.+\\.ts?$': 'ts-jest',
 		'\\.[jt]sx?$': 'babel-jest'
