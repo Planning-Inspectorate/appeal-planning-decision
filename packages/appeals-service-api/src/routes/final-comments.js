@@ -16,14 +16,18 @@ router.post('/', async (req, res) => {
 	res.status(statusCode).send();
 });
 
-router.get('/:case_reference', async (req, res) => {
-	const caseReference = req.params.case_reference;
-	let statusCode = 404;
-	if (await finalCommentsService.checkFinalCommentExists(caseReference)) {
-		statusCode = 200;
+router.get('/:case_reference/secure_code', async (req, res) => {
+	let statusCode = 200;
+	let message = "";
+	
+	try {
+		await finalCommentsService.sendSecureCodeForFinalComment(req.params.case_reference)
+	} catch(error) {
+		statusCode = error.code
+		message = { error: message };
+	} finally {
+		res.status(statusCode).send(message);
 	}
-
-	res.status(statusCode).send();
 });
 
 module.exports = router;

@@ -1,6 +1,7 @@
 const jp = require('jsonpath');
 const config = require('../configuration/config');
 const axios = require('axios');
+const logger = require('../lib/logger');
 
 class HorizonGateway {
 	
@@ -18,7 +19,13 @@ class HorizonGateway {
 			}
 		};
 
-		const caseDetails = await axios.post(config.services.horizon.url, requestBody);
+		let caseDetails;
+		try {
+			caseDetails = await axios.post(config.services.horizon.url, requestBody);
+		} catch(error) {
+			logger.error(`Horizon responded with status ${error.status} and body ${error.body}`);
+			return undefined;
+		}
 
 		// Here be dragons! This bit is complicated because of the Horizon response shape
 		// (sorry to anyone who has to work on this).

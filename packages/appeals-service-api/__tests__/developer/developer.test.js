@@ -126,8 +126,8 @@ afterAll(async () => {
 
 describe('Appeals', () => {
 
-	it.only('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal', async () => {
-		// Given: an appeal is created 
+	it('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal', async () => {
+		// Given an appeal is saved and when that appeal is submitted
 		const savedAppealResponse = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
 
@@ -179,7 +179,7 @@ describe('Appeals', () => {
 		expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
 	});
 
-	it.only(`should return an error if we try to update an appeal that doesn't exist`, async () => {
+	it(`should return an error if we try to update an appeal that doesn't exist`, async () => {
 		// When: an appeal is sent via a PUT or PATCH request, but hasn't yet been created
 		householderAppeal.id = uuid.v4();
 		const putResponse = await appealsApi
@@ -202,7 +202,7 @@ describe('Appeals', () => {
 		expectedNotifyInteractions = [];
 	});
 
-	it.only("should apply patch updates correctly when data to patch-in isn't a full appeal", async () => {
+	it("should apply patch updates correctly when data to patch-in isn't a full appeal", async () => {
 		// Given: an appeal is created 
 		const savedAppealResponse = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
@@ -223,7 +223,7 @@ describe('Appeals', () => {
 		expectedNotifyInteractions = [];
 	});
 
-	it.only('should return the relevant appeal when requested after the appeal has been saved', async () => {
+	it('should return the relevant appeal when requested after the appeal has been saved', async () => {
 		// Given: an appeal is created
 		const savedAppeal = await _createAppeal();
 
@@ -244,7 +244,7 @@ describe('Appeals', () => {
 		expectedNotifyInteractions = [];
 	});
 
-	it.only(`should return an error if an appeal is requested that doesn't exist`, async () => {
+	it(`should return an error if an appeal is requested that doesn't exist`, async () => {
 		// When: we try to access a non-existent appeal
 		const getAppealResponse = await appealsApi.get(`/api/v1/appeals/${uuid.v4()}`);
 
@@ -261,25 +261,27 @@ describe('Appeals', () => {
 });
 
 describe('Final comments', () => {
-	it.only('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {
+	it('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {
 		// Given: a request to create a final comments entry for a case
 		const caseReference = 'BAZ12345';
 		const appellantEmail = 'foo@bar.com';
 
 		// And: the final comments end date is set in the future
-		await mockedExternalApis.mockHorizonResponse(finalCommentsEndDateInTheFutureJson, 200)
+		await mockedExternalApis.mockHorizonGetCaseResponse(new Date(2100, 12, 31, 0, 0, 0), 200)
 
 		// And: setup a mocked response for Notify
 		await mockedExternalApis.mockNotifyResponse({}, 200)
 		
-		// When: we issue the request and try to see if it exists afterwards
+		// When: we issue the create final comment request
 		const postResponse = await _createFinalComment(caseReference, appellantEmail);
-		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
 
-		// Then: we should get 204 in the POST response
+		// And: we try to get a secure code for it afterwards
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}/secure_code`);
+
+		// Then: we should get 204 in the create final comment response
 		expect(postResponse.status).toBe(204);
 
-		// And: we should get 200 in the GET response
+		// And: we should get 200 in the get secure code response
 		expect(getResponse.status).toBe(200);
 
 		// And: there should be no data on the message queue
@@ -310,7 +312,7 @@ describe('Final comments', () => {
 		await _createFinalComment(caseReference, appellantEmail);
 
 		// When: we issue the request again
-		const postResponse = _createFinalComment(caseReference, appellantEmail);
+		const postResponse = await _createFinalComment(caseReference, appellantEmail);
 
 		// Then: we should get 409 in the POST response
 		expect(postResponse.status).toBe(409);
@@ -323,9 +325,13 @@ describe('Final comments', () => {
 		expectedNotifyInteractions = [];
 	});
 
-	it('should return an error when requesting a final comment entity that does not exist, not contact Horizon for a final comment end date, and not send an email to the appellant', async () => {
-		// When: we try to get a final comment entry using a case reference that does not exist
-		const getResponse = await appealsApi.get(`/api/v1/final_comments/DOES_NOT_EXIST`);
+	it(
+		'should return an error when requesting a secure code for a final comment entity that does not exist, ' +
+		'not contact Horizon for a final comment end date, not send an email to the appellant, and not produce ' + 
+		'any message on the message queue', 
+	async () => {
+		// When: we try to get a secure code for a final comment entry using a case reference that does not exist
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/DOES_NOT_EXIST/secure_code`);
 
 		// Then: we get 404 in the response
 		expect(getResponse.status).toBe(404);
@@ -333,44 +339,104 @@ describe('Final comments', () => {
 		// And: external systems should be interacted with in the following ways
 		expectedHorizonInteractions = [];
 		expectedNotifyInteractions = [];
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
 	});
 
-	it('should return an error when requesting a final comment entity that does exist, but its end date has not been set', async () => {
+	it(
+		'should return an error when requesting a secure code for a final comment entity that does exist, but its ' +
+		'final comments end date has not been set. It should contact Horizon for a final comment end date, but not ' +
+		'send an email to the appellant, and not produce any message on the message queue',
+	async () => {
 		// Given: there is a valid final comment entity
 		const caseReference = 'BAZ12345';
 		const appellantEmail = 'foo@bar.com';
 		await _createFinalComment(caseReference, appellantEmail);
 
 		// And: the final comments end date has not been set
-		// finalCommentsEndDate = undefined;
-		// axios.post.mockResolvedValueOnce(createHorizonResponse(finalCommentsEndDate))
+		await mockedExternalApis.mockHorizonGetCaseResponse(undefined, 200)
 
-		// When: we try to get that final comment entity
-		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
+		// When: we try to get the secure code for the final comment entity
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}/secure_code`);
 
 		// Then: we should get a 403 in the response
 		expect(getResponse.status).toEqual(403);
 
 		// And: external systems should be interacted with in the following ways
-		expectedHorizonInteractions = [];
+		const expectedGetCaseRefInteraction = new Interaction()
+			.setNumberOfKeysExpectedInJson(4)
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__soap_op"), 'http://tempuri.org/IHorizon/GetCase')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__xmlns"), 'http://tempuri.org/')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.caseReference"), caseReference)
+
+		expectedHorizonInteractions = [expectedGetCaseRefInteraction];
 		expectedNotifyInteractions = [];
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
 	});
 
-	it('should return an error when requesting a final comment entity that does exist, but the date of the request is after its end date', async () => {
+	it(
+		'should return an error when requesting a secure code for a final comment entity that does exist, but its ' +
+		'final comments end date is in the past. It should contact Horizon for a final comment end date, but not ' +
+		'send an email to the appellant, and not produce any message on the message queue',
+	async () => {
 		// Given: there is a valid final comment entity
-		const caseReference = 'BAZ12345'; // TODO: use this case ref in wiremock to return the end date in future response
+		const caseReference = 'BAZ12345';
 		const appellantEmail = 'foo@bar.com';
 		await _createFinalComment(caseReference, appellantEmail);
 
-		// When: we try to get that final comment entity
-		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
+		// And: the final comments end date is in the past
+		await mockedExternalApis.mockHorizonGetCaseResponse(new Date(1981, 9, 14, 0, 0, 0), 200)
+
+		// When: we try to get the secure code for the final comment entity
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}/secure_code`);
 
 		// Then: we should get a 403 in the response
 		expect(getResponse.status).toEqual(403);
 
 		// And: external systems should be interacted with in the following ways
-		expectedHorizonInteractions = [];
+		const expectedGetCaseRefInteraction = new Interaction()
+			.setNumberOfKeysExpectedInJson(4)
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__soap_op"), 'http://tempuri.org/IHorizon/GetCase')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__xmlns"), 'http://tempuri.org/')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.caseReference"), caseReference)
+
+		expectedHorizonInteractions = [expectedGetCaseRefInteraction];
 		expectedNotifyInteractions = [];
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
+	});
+
+	it('should throw an error if horizon does not return a 200 response', async () => {
+		// Given: a request to create a final comments entry for a case
+		const caseReference = 'BAZ12345';
+		const appellantEmail = 'foo@bar.com';
+		await _createFinalComment(caseReference, appellantEmail);
+
+		// And: Horizon returns a 500
+		await mockedExternalApis.mockHorizonGetCaseResponse(undefined, 500)
+
+		// When: we try to get the secure code for the final comment entity
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}/secure_code`);
+
+		// Then: we should get a 403 in the response
+		expect(getResponse.status).toEqual(403);
+
+		// And: external systems should be interacted with in the following ways
+		const expectedGetCaseRefInteraction = new Interaction()
+			.setNumberOfKeysExpectedInJson(4)
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__soap_op"), 'http://tempuri.org/IHorizon/GetCase')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__xmlns"), 'http://tempuri.org/')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.caseReference"), caseReference)
+
+		expectedHorizonInteractions = [expectedGetCaseRefInteraction];
+		expectedNotifyInteractions = [];
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
 	});
 });
 
@@ -392,33 +458,4 @@ const _createFinalComment = async (caseReference, appellantEmail) => {
 		.send({ case_reference: caseReference, appellant_email: appellantEmail });
 };
 
-const finalCommentsEndDateInTheFutureJson = {
-	Envelope: {
-		Body: {
-			GetCaseResponse: {
-				GetCaseResult: {
-					Metadata: {
-						Attributes: [
-							{
-								Name: {
-									value: 'Case Document Dates:Final Comments Due Date'
-								},
-								Value: {
-									value: '2100-12-31T00:00:00+00:00'
-								}
-							},
-							{
-								Name: {
-									value: 'Curb your'
-								},
-								Value: {
-									value: 'enthusiasm'
-								}
-							}
-						]
-					}
-				}
-			}
-		}
-	}
-};
+

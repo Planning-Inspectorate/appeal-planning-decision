@@ -6,7 +6,7 @@ const uuid = require('uuid');
 const { prometheus } = require('@pins/common');
 const logger = require('./lib/logger');
 const routes = require('./routes');
-const apiErrorHandler = require('./error/apiErrorHandler');
+const apiErrorHandler = require('./errors/apiErrorHandler');
 require('express-async-errors');
 
 const app = express();

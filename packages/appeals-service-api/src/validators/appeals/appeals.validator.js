@@ -3,7 +3,7 @@ const {
 } = require('@pins/business-rules');
 const { isAppealSubmitted } = require('../../services/appeal.service');
 const logger = require('../../lib/logger');
-const ApiError = require('../../error/apiError');
+const ApiError = require('../../errors/apiError');
 
 const appealUpdateValidationRules = async (req, res, next) => {
 	try {

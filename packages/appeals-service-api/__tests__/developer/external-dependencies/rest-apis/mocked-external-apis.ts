@@ -68,7 +68,7 @@ export class MockedExternalApis {
     }
 
     private verifyInteractions(expectedInteractions: Array<Interaction>, actualInteractions: any): void {
-        expect(expectedInteractions.length).toEqual(actualInteractions.length);
+        expect(actualInteractions.length).toEqual(expectedInteractions.length);
 
         for (let i in expectedInteractions){
             const expectedInteraction = expectedInteractions[i];
@@ -121,7 +121,47 @@ export class MockedExternalApis {
         return this.horizonUrl;
     }
  
-    async mockHorizonResponse(body: any, statusCode: number): Promise<void>{
+    async mockHorizonGetCaseResponse(finalCommentsDueDate: Date | undefined, statusCode: number): Promise<void>{
+
+        let body;
+        
+        if (statusCode == 200) {
+            body = { "Envelope": { "Body": { "GetCaseResponse": { "GetCaseResult": { "Metadata": { "Attributes": [ { 
+                "Name": { "value": 'Curb your' },
+                "Value": { "value": 'enthusiasm'}
+            }]}}}}}};
+    
+
+            if (finalCommentsDueDate) {
+                body.Envelope.Body.GetCaseResponse.GetCaseResult.Metadata.Attributes.push({
+                    "Name": {  "value": 'Case Document Dates:Final Comments Due Date' },
+                    "Value": { "value": finalCommentsDueDate.toISOString() }
+                });
+            }
+        } else {
+            body = { "Envelope": { "Body": { "Fault": {
+                "faultcode": {
+                    "value": "a:InternalServiceFault"
+                },
+                "faultstring": {
+                    "value": "The case with reference 3218461 is not published and therefore, cannot be returned"
+                },
+                "detail": { "ExceptionDetail": {
+                    "HelpLink": {},
+                    "InnerException": {},
+                    "Message": {
+                        "value": "The case with reference 3218461 is not published and therefore, cannot be returned"
+                    },
+                    "StackTrace": {
+                        "value": "   at Horizon.API.Horizon.GetCase(String caseReference)\r\n   at SyncInvokeGetCase(Object , Object[] , Object[] )\r\n   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)"
+                    },
+                    "Type": {
+                        "value": "System.Exception"
+                    }
+                }}
+            }}}};
+        }
+
         const data = {
             "httpRequest" : {
                 "method" : "POST",
@@ -130,7 +170,7 @@ export class MockedExternalApis {
               "httpResponse" : {
                 "statusCode": statusCode,
                 "body" : body
-              }
+            }
         }
         await axios.put(`${this.baseUrl}/mockserver/expectation`, data)
     }

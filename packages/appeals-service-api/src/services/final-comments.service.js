@@ -1,9 +1,13 @@
+const logger = require('../lib/logger');
 const { HorizonGateway } = require('../gateway/horizon-gateway');
 const { FinalCommentsAggregate } = require('../models/aggregates/final-comments-aggregate');
 const { FinalCommentsRepository } = require('../repositories/final-comments-repository');
 const { sendSaveAndReturnEnterCodeIntoServiceEmail } = require('../lib/notify');
+const { FinalCommentsNotEnabledError } = require('../errors/final-comments/final-comments-not-enabled-error')
+const { FinalCommentsWindowNotOpenError } = require ('../errors/final-comments/final-comments-window-not-open-error')
 
 class FinalCommentsService {
+
 	#finalCommentsRepository;
 	#horizonGateway;
 
@@ -34,12 +38,13 @@ class FinalCommentsService {
 	/**
 	 * 
 	 * @param {string} caseReference 
-	 * @returns {Promise<boolean>}
+	 * @returns
 	 */
-	async checkFinalCommentExists(caseReference) {
+	async sendSecureCodeForFinalComment(caseReference) {
 		const finalCommentsFound = await this.#finalCommentsRepository.getByCaseReference(caseReference);
 		if (finalCommentsFound == null) {
-			return false;
+			logger.info(`Final comments not found for appeal with case reference ${caseReference}.`)
+			throw new FinalCommentsNotEnabledError(caseReference);
 		}
 
 		const finalCommentsDueDate = await this.#horizonGateway.getFinalCommentsDueDate(caseReference);
@@ -47,7 +52,8 @@ class FinalCommentsService {
 			finalCommentsDueDate == undefined ||
 			new Date().valueOf() >= finalCommentsDueDate.valueOf()
 		) {
-			return false;
+			logger.info(`Final comments window is not open for appeal with case reference ${caseReference}. End date is set to be: '${finalCommentsDueDate}'`)
+			throw new FinalCommentsWindowNotOpenError();
 		}
 
 		sendSaveAndReturnEnterCodeIntoServiceEmail(
@@ -55,7 +61,6 @@ class FinalCommentsService {
 			finalCommentsFound.secureCode.pin,
 			finalCommentsFound.caseReference
 		);
-		return true;
 	}
 }
 
