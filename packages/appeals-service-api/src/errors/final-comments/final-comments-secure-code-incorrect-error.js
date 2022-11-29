@@ -1,4 +1,4 @@
-const { ApiError } = require('../apiError');
+const ApiError = require('../apiError');
 
 class FinalCommentSecureCodeIncorrectError extends ApiError {
 	constructor() {
