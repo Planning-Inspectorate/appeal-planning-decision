@@ -1,8 +1,6 @@
-const crypto = require('crypto');
-
-const config = require('../configuration/config');
 const logger = require('../lib/logger');
 const { HorizonGateway } = require('../gateway/horizon-gateway');
+const { DecryptionService } = require('./decryption.service');
 const { FinalCommentsAggregate } = require('../models/aggregates/final-comments-aggregate');
 const { FinalCommentsRepository } = require('../repositories/final-comments-repository');
 const { sendSaveAndReturnEnterCodeIntoServiceEmail } = require('../lib/notify');
@@ -22,10 +20,12 @@ const {
 class FinalCommentsService {
 	#finalCommentsRepository;
 	#horizonGateway;
+	#decryptionService;
 
 	constructor() {
 		this.#finalCommentsRepository = new FinalCommentsRepository();
 		this.#horizonGateway = new HorizonGateway();
+		this.#decryptionService = new DecryptionService();
 	}
 
 	/**
@@ -65,6 +65,10 @@ class FinalCommentsService {
 		);
 	}
 
+	/**
+	 * @param {string} caseReference
+	 * @param {string} encryptedSecureCode
+	 */
 	async getFinalComment(caseReference, encryptedSecureCode) {
 		const finalCommentsFound = await this.#retrieveFinalCommentOrThrowErrorIfNotFound(
 			caseReference
@@ -75,22 +79,10 @@ class FinalCommentsService {
 			throw new FinalCommentsSecureCodeExpired();
 		}
 
-		let decipher = crypto.createDecipheriv(
-			config.secureCodes.finalComments.decipher.algorithm,
-			config.secureCodes.finalComments.decipher.securityKey,
-			config.secureCodes.finalComments.decipher.initVector
-		);
-
-		let decryptedSecureCode = decipher.update(
-			encryptedSecureCode,
-			config.secureCodes.finalComments.decipher.inputEncoding,
-			config.secureCodes.finalComments.decipher.outputEncoding
-		);
-		decryptedSecureCode += decipher.final(config.secureCodes.finalComments.decipher.outputEncoding);
-
+		let decryptedSecureCode =
+			this.#decryptionService.decryptFinalCommentsSecureCode(encryptedSecureCode);
 		if (decryptedSecureCode !== finalCommentsFound.getSecureCode().getPin()) {
-			console.log("HEYOOOOO")
-			// throw new FinalCommentSecureCodeIncorrectError();
+			throw new FinalCommentSecureCodeIncorrectError();
 		}
 	}
 
