@@ -438,6 +438,122 @@ describe('Final comments', () => {
 		// And: there should be no data on the message queue
 		expectedMessages = []
 	});
+
+	////////////////////////////////////////////////
+	///// GET `final_comments/{caseReference}` /////
+	////////////////////////////////////////////////
+
+	it.only('should return 404 if the case reference specified does not map to a known final comment', async () => {
+		
+		// When: we try to get a final comment entry using a case reference that does not exist
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/DOES_NOT_EXIST`);
+
+		// Then: we get 404 in the response
+		expect(getResponse.status).toBe(404);
+
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
+	});
+	
+	it('should return 403 if the case reference specified does map to a known final comment, but the final comment window has not been specified', async () => {
+		
+		// Given: a request to create a final comments entry for a case
+		const caseReference = uuid.v4();
+		const appellantEmail = 'foo@bar.com';
+		await _createFinalComment(caseReference, appellantEmail);
+
+		// And: the final comments end date has not been set
+		await mockedExternalApis.mockHorizonGetCaseResponse(undefined, 200)
+
+		// When: we try to get the secure code for the final comment entity
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
+
+		// Then: we should get a 403 in the response
+		expect(getResponse.status).toEqual(403);
+
+		// And: external systems should be interacted with in the following ways
+		const expectedGetCaseRefInteraction = new Interaction()
+			.setNumberOfKeysExpectedInJson(4)
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__soap_op"), 'http://tempuri.org/IHorizon/GetCase')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__xmlns"), 'http://tempuri.org/')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.caseReference"), caseReference)
+
+		expectedHorizonInteractions = [expectedGetCaseRefInteraction];
+		expectedNotifyInteractions = [];
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
+	});
+	it('should return 403 if the case reference specified does map to a known final comment, but the final comment window is no longer open', async () => {
+		
+		// Given: a request to create a final comments entry for a case
+		const caseReference = uuid.v4();
+		const appellantEmail = 'foo@bar.com';
+		await _createFinalComment(caseReference, appellantEmail);
+
+		// And: the final comments end date has not been set
+		await mockedExternalApis.mockHorizonGetCaseResponse(new Date(1986, 8, 26, 0, 0, 0), 200)
+
+		// When: we try to get the secure code for the final comment entity
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
+
+		// Then: we should get a 403 in the response
+		expect(getResponse.status).toEqual(403);
+
+		// And: external systems should be interacted with in the following ways
+		const expectedGetCaseRefInteraction = new Interaction()
+			.setNumberOfKeysExpectedInJson(4)
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__soap_op"), 'http://tempuri.org/IHorizon/GetCase')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__xmlns"), 'http://tempuri.org/')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.caseReference"), caseReference)
+
+		expectedHorizonInteractions = [expectedGetCaseRefInteraction];
+		expectedNotifyInteractions = [];
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
+	});
+
+	it('should return 301 if the case reference specified does map to a known final comment, and the final comment window is open, but the secure code has expired', async () => {
+		
+		// Given: a request to create a final comments entry for a case
+		const originalSecureCodeExpirationTime = appConfiguration.secureCodes.finalComments.expirationTimeInMinutes;
+		appConfiguration.secureCodes.finalComments.expirationTimeInMinutes = 0.000001
+		const caseReference = uuid.v4();
+		const appellantEmail = 'foo@bar.com';
+		await _createFinalComment(caseReference, appellantEmail);
+		appConfiguration.secureCodes.finalComments.expirationTimeInMinutes = originalSecureCodeExpirationTime
+
+		// And: the final comments end date is set in the future
+		await mockedExternalApis.mockHorizonGetCaseResponse(new Date(2100, 1, 1, 0, 0, 0), 200)
+
+		// When: we try to get the secure code for the final comment entity
+		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}`);
+
+		// Then: we should get a 301 in the response (we can redirect the user to GET `final_comments/{caseReference}/secure_code)
+		expect(getResponse.status).toEqual(301);
+
+		// And: external systems should be interacted with in the following ways
+		const expectedGetCaseRefInteraction = new Interaction()
+			.setNumberOfKeysExpectedInJson(4)
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__soap_op"), 'http://tempuri.org/IHorizon/GetCase')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.__xmlns"), 'http://tempuri.org/')
+			.addJsonValueExpectation(JsonPathExpression.create("$.GetCase.caseReference"), caseReference)
+
+		expectedHorizonInteractions = [expectedGetCaseRefInteraction];
+		expectedNotifyInteractions = [];
+
+		// And: there should be no data on the message queue
+		expectedMessages = []
+	});
+
+	it('should return 403 if the case reference specified does map to a known final comment, and the final comment window is open, and the secure code is active, but the secure code is incorrect', async () => {});
+
+	it('should return 200 if the case reference specified does map to a known final comment, and the final comment window is open, and the secure code is active, and the secure code is correct', async () => {});
 });
 
 const _createAppeal = async () => {

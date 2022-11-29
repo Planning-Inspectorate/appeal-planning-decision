@@ -1,6 +1,12 @@
+const { FinalCommentsMapper } = require('../mappers/final-comments-mapper');
+// eslint-disable-next-line no-unused-vars
+const { FinalCommentsAggregate } = require('../models/aggregates/final-comments-aggregate');
 const { MongoRepository } = require('./mongo-repository');
 
 class FinalCommentsRepository extends MongoRepository {
+
+	#finalCommentsMapper = new FinalCommentsMapper();
+
 	constructor() {
 		super('final-comments');
 	}
@@ -8,10 +14,13 @@ class FinalCommentsRepository extends MongoRepository {
 	/**
 	 * 
 	 * @param {string} caseReference
-	 * @return {Promise<any>}
+	 * @return {Promise<FinalCommentsAggregate | null>}
 	 */
 	async getByCaseReference(caseReference) {
-		return await this.findOneByQuery({ caseReference: caseReference });
+		const finalCommentFoundJson = await this.findOneByQuery({ caseReference: caseReference });
+		if (finalCommentFoundJson) {
+            return this.#finalCommentsMapper.fromJson(finalCommentFoundJson);
+		}
 	}
 }
 
