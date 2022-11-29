@@ -43,9 +43,9 @@ let config = {
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
 		redact: [
-			'config.db.mongodb', 
+			'config.db.mongodb',
 			'config.messageQueue.horizonHASPublisher.connection.password',
-			'config.services.notify.apiKey' 
+			'config.services.notify.apiKey'
 		]
 	},
 	featureFlagging: {
@@ -65,7 +65,7 @@ let config = {
 				username: process.env.HORIZON_HAS_PUBLISHER_USERNAME
 			},
 			queue: process.env.HORIZON_HAS_PUBLISHER_QUEUE
-		},
+		}
 		// TODO: Delete since it doesn't appear to be used
 		// sqlHASAppealsPublisher: {
 		// 	connection: {
@@ -84,7 +84,14 @@ let config = {
 	secureCodes: {
 		finalComments: {
 			length: process.env.FINAL_COMMENTS_PIN_LENGTH,
-			expirationTimeInMinutes: process.env.FINAL_COMMENTS_PIN_EXPIRATION_TIME_IN_MINUTES
+			expirationTimeInMinutes: process.env.FINAL_COMMENTS_PIN_EXPIRATION_TIME_IN_MINUTES,
+			decipher: {
+				algorithm: process.env.FINAL_COMMENTS_SECURE_CODE_DECIPHER_ALGORITHM,
+				initVector: process.env.FINAL_COMMENTS_SECURE_CODE_DECIPHER_INIT_VECTOR,
+				securityKey: process.env.FINAL_COMMENTS_SECURE_CODE_DECIPHER_SECURITY_KEY,
+				inputEncoding: process.env.FINAL_COMMENTS_SECURE_CODE_DECIPHER_INPUT_ENCODING,
+				outputEncoding: process.env.FINAL_COMMENTS_SECURE_CODE_DECIPHER_OUTPUT_ENCODING
+			}
 		}
 	},
 	server: {
