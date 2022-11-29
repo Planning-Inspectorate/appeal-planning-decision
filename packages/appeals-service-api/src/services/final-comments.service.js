@@ -4,7 +4,8 @@ const { FinalCommentsAggregate } = require('../models/aggregates/final-comments-
 const { FinalCommentsRepository } = require('../repositories/final-comments-repository');
 const { sendSaveAndReturnEnterCodeIntoServiceEmail } = require('../lib/notify');
 const { FinalCommentsNotEnabledError } = require('../errors/final-comments/final-comments-not-enabled-error')
-const { FinalCommentsWindowNotOpenError } = require ('../errors/final-comments/final-comments-window-not-open-error')
+const { FinalCommentsWindowNotOpenError } = require ('../errors/final-comments/final-comments-window-not-open-error');
+const { FinalCommentsSecureCodeExpired } = require('../errors/final-comments/final-comments-secure-code-expired');
 
 class FinalCommentsService {
 
@@ -41,12 +42,37 @@ class FinalCommentsService {
 	 * @returns
 	 */
 	async sendSecureCodeForFinalComment(caseReference) {
+		const finalCommentsFound = await this.#retrieveFinalCommentOrThrowErrorIfNotFound(caseReference);
+		await this.#checkFinalCommentWindowAndThrowErrorIfNotOpen(caseReference);
+
+		sendSaveAndReturnEnterCodeIntoServiceEmail(
+			finalCommentsFound.getAppellantEmail(),
+			finalCommentsFound.getSecureCode().getPin(),
+			finalCommentsFound.getCaseReference()
+		);
+	}
+
+	async getFinalComment(caseReference) {
+		const finalCommentsFound = await this.#retrieveFinalCommentOrThrowErrorIfNotFound(caseReference);
+		await this.#checkFinalCommentWindowAndThrowErrorIfNotOpen(caseReference);
+
+		const currentTime = new Date().valueOf()
+		const secureCodeExpiration = finalCommentsFound.getSecureCode().getExpiration()
+		if (currentTime > secureCodeExpiration){
+			throw new FinalCommentsSecureCodeExpired();
+		}
+	}
+
+	async #retrieveFinalCommentOrThrowErrorIfNotFound(caseReference){
 		const finalCommentsFound = await this.#finalCommentsRepository.getByCaseReference(caseReference);
 		if (finalCommentsFound == null) {
 			logger.info(`Final comments not found for appeal with case reference ${caseReference}.`)
 			throw new FinalCommentsNotEnabledError(caseReference);
 		}
+		return finalCommentsFound;
+	}
 
+	async #checkFinalCommentWindowAndThrowErrorIfNotOpen(caseReference){
 		const finalCommentsDueDate = await this.#horizonGateway.getFinalCommentsDueDate(caseReference);
 		if (
 			finalCommentsDueDate == undefined ||
@@ -55,12 +81,6 @@ class FinalCommentsService {
 			logger.info(`Final comments window is not open for appeal with case reference ${caseReference}. End date is set to be: '${finalCommentsDueDate}'`)
 			throw new FinalCommentsWindowNotOpenError();
 		}
-
-		sendSaveAndReturnEnterCodeIntoServiceEmail(
-			finalCommentsFound.appellantEmail,
-			finalCommentsFound.secureCode.pin,
-			finalCommentsFound.caseReference
-		);
 	}
 }
 

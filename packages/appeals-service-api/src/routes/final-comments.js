@@ -30,4 +30,18 @@ router.get('/:case_reference/secure_code', async (req, res) => {
 	}
 });
 
+router.get('/:case_reference', async (req, res) => {
+	let statusCode = 200;
+	let message = "";
+	
+	try {
+		await finalCommentsService.getFinalComment(req.params.case_reference)
+	} catch(error) {
+		statusCode = error.code
+		message = { error: message };
+	} finally {
+		res.status(statusCode).send(message);
+	}
+});
+
 module.exports = router;

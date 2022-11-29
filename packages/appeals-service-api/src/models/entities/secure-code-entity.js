@@ -3,10 +3,21 @@ const config = require('../../configuration/config');
 
 class SecureCodeEntity {
 
-	constructor() {
-		this.pin = this.#generatePin();
-		this.expiration = this.#generateExpiration();
+	constructor(
+		pin = this.#generatePin(), 
+		expiration = this.#generateExpiration()
+	) {
+		this.pin = pin;
+		this.expiration = expiration;
 	}
+
+	getPin() {
+        return this.pin;
+    }
+
+	getExpiration() {
+        return this.expiration;
+    }
 
 	/**
 	 * 
@@ -21,6 +32,7 @@ class SecureCodeEntity {
 	 * @return {number}
 	 */
 	#generateExpiration() {
+		console.log(config.secureCodes.finalComments.expirationTimeInMinutes)
 		return new Date().valueOf() + config.secureCodes.finalComments.expirationTimeInMinutes * 60000;
 	}
 }

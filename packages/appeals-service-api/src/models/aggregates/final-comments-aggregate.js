@@ -2,9 +2,6 @@ const { SecureCodeEntity } = require ('../entities/secure-code-entity');
 const { Model } = require('../model');
 
 class FinalCommentsAggregate extends Model {
-	// caseReference;
-	// appellantEmail;
-	// secureCode;
 
 	/**
 	 * When called, a {@link SecureCodeEntity} will be created internal to the instance.
@@ -14,18 +11,18 @@ class FinalCommentsAggregate extends Model {
 	 * 
 	 * @return {FinalCommentsAggregate}
 	 */
-	constructor(caseReference, appellantEmail) {
+	constructor(caseReference, appellantEmail, secureCode = new SecureCodeEntity()) {
 		super();
 		this.caseReference = caseReference;
 		this.appellantEmail = appellantEmail;
-		this.secureCode = new SecureCodeEntity();
+		this.secureCode = secureCode;
 	}
 
 	/**
 	 * 
 	 * @returns {SecureCodeEntity}
 	 */
-	getSecureCodeEntity() {
+	getSecureCode() {
 		return this.secureCode;
 	}
 
