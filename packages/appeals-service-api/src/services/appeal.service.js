@@ -42,16 +42,16 @@ async function createAppeal(req, res) {
 	res.status(500).send(appeal);
 }
 
-async function getAppeal(idParam) {
-	logger.info(`Retrieving appeal ${idParam} ...`);
-	const document = await appealsRepository.getById(idParam);
+async function getAppeal(id) {
+	logger.info(`Retrieving appeal ${id} ...`);
+	const document = await appealsRepository.getById(id);
 
 	if (document === null) {
-		logger.info(`Appeal ${idParam} not found`);
-		throw ApiError.appealNotFound(idParam);
+		logger.info(`Appeal ${id} not found`);
+		throw ApiError.appealNotFound(id);
 	}
 
-	logger.info(`Appeal ${idParam} retrieved`);
+	logger.info(`Appeal ${id} retrieved`);
 	return document.appeal;
 }
 

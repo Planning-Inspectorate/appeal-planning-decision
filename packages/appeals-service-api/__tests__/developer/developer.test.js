@@ -248,7 +248,7 @@ describe('Appeals', () => {
 		// When: we try to access a non-existent appeal
 		const getAppealResponse = await appealsApi.get(`/api/v1/appeals/${uuid.v4()}`);
 
-		// Then: we should get a 400 status
+		// Then: we should get a 404 status
 		expect(getAppealResponse.status).toEqual(404);
 
 		// And: there should be no data on the message queue
