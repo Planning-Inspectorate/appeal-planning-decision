@@ -327,16 +327,28 @@ describe('Final comments', () => {
 		await mockedExternalApis.mockNotifyResponse({}, 200);
 
 		// When: we issue the create final comment request
-		const postResponse = await _createFinalComment(caseReference, appellantEmail);
+		const createFinalCommentResponse = await _createFinalComment(caseReference, appellantEmail);
 
 		// And: we try to get a secure code for it afterwards
-		const getResponse = await appealsApi.get(`/api/v1/final_comments/${caseReference}/secure_code`);
+		const getSecureCodeResponse = await appealsApi.get(
+			`/api/v1/final_comments/${caseReference}/secure_code`
+		);
+
+		// And: we encrypt the secure code and send it to `/final_comments/{case_reference}
+		const notifyRequests = await mockedExternalApis.getRecordedRequestsForNotify();
+		const secureCode = notifyRequests[0].body.json.personalisation['unique code'].toString();
+		const getFinalCommentsResponse = await appealsApi
+			.get(`/api/v1/final_comments/${caseReference}`)
+			.set('secure_code', _encryptValue(secureCode));
 
 		// Then: we should get 204 in the create final comment response
-		expect(postResponse.status).toBe(204);
+		expect(createFinalCommentResponse.status).toBe(204);
 
 		// And: we should get 200 in the get secure code response
-		expect(getResponse.status).toBe(200);
+		expect(getSecureCodeResponse.status).toBe(200);
+
+		// And: we should get 200 in the final comments response
+		expect(getFinalCommentsResponse.status).toBe(200);
 
 		// And: there should be no data on the message queue
 		expectedMessages = [];
@@ -368,7 +380,7 @@ describe('Final comments', () => {
 				new RegExp(`[0-9]{${appConfiguration.secureCodes.finalComments.length}}`)
 			);
 
-		expectedHorizonInteractions = [expectedGetCaseRefInteraction];
+		expectedHorizonInteractions = [expectedGetCaseRefInteraction, expectedGetCaseRefInteraction];
 		expectedNotifyInteractions = [expectedSecureCodeEmailSentToAppellantInteraction];
 	});
 
@@ -665,7 +677,7 @@ describe('Final comments', () => {
 		expectedMessages = [];
 	});
 
-	it.only('should return 403 if the case reference specified does map to a known final comment, and the final comment window is open, and the secure code is active, but the secure code is incorrect', async () => {
+	it('should return 403 if the case reference specified does map to a known final comment, and the final comment window is open, and the secure code is active, but the secure code is incorrect', async () => {
 		// Given: a request to create a final comments entry for a case
 		const caseReference = uuid.v4();
 		const appellantEmail = 'foo@bar.com';
@@ -704,8 +716,6 @@ describe('Final comments', () => {
 		// And: there should be no data on the message queue
 		expectedMessages = [];
 	});
-
-	it('should return 200 if the case reference specified does map to a known final comment, and the final comment window is open, and the secure code is active, and the secure code is correct', async () => {});
 });
 
 const _createAppeal = async () => {
