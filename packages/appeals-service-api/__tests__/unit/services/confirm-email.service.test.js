@@ -21,16 +21,6 @@ describe('confirm-email services', () => {
 
 			expect(savedRes).toEqual(saved);
 		});
-
-		it('should throw error', () => {
-			mongodb.get = jest.fn(() => ({
-				collection: jest.fn(() => ({
-					findOne: jest.fn().mockRejectedValue(new Error('Some error'))
-				}))
-			}));
-
-			expect(() => confirmEmailGetService('12345')).rejects.toThrowError('Some error');
-		});
 	});
 	describe('confirmEmailCreateService', () => {
 		it('should record data', async () => {
@@ -56,14 +46,5 @@ describe('confirm-email services', () => {
 
 			expect(result).toEqual(saved.appealId);
 		});
-	});
-	it('should throw error', () => {
-		mongodb.get = jest.fn(() => ({
-			collection: jest.fn(() => ({
-				updateOne: jest.fn().mockRejectedValue(new Error('Some error'))
-			}))
-		}));
-
-		expect(() => confirmEmailCreateService()).rejects.toThrowError('Some error');
 	});
 });

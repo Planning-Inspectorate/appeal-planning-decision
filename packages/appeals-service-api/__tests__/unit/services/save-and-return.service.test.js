@@ -30,16 +30,6 @@ describe('save-and-return services', () => {
 
 				expect(savedRes).toEqual(saved.value);
 			});
-
-			it('should throw error', () => {
-				mongodb.get = jest.fn(() => ({
-					collection: jest.fn(() => ({
-						findOne: jest.fn().mockRejectedValue(new Error('Some error'))
-					}))
-				}));
-
-				expect(() => saveAndReturnGetService()).rejects.toThrowError('Some error');
-			});
 		});
 
 		describe('saveAndReturnCreateService', () => {
@@ -67,15 +57,6 @@ describe('save-and-return services', () => {
 
 				expect(createAppealSaveData).toEqual({ appealId: saved.appealId });
 			});
-		});
-		it('should throw error', () => {
-			mongodb.get = jest.fn(() => ({
-				collection: jest.fn(() => ({
-					updateOne: jest.fn().mockRejectedValue(new Error('Some error'))
-				}))
-			}));
-
-			expect(() => saveAndReturnCreateService()).rejects.toThrowError('Some error');
 		});
 	});
 });

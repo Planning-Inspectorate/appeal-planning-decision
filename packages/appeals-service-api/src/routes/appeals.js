@@ -14,8 +14,8 @@ router.get('/:id', async (req, res) => {
 	try {
 		body = await getAppeal(req.params.id);
 	} catch (error) {
-		statusCode = error.statusCode;
-		body = { error: body.message.errors };
+		statusCode = error.code;
+		body = error.message.errors;
 	} finally {
 		res.status(statusCode).send(body);
 	}
