@@ -10,7 +10,7 @@ const logger = require('./logger');
 const { getLpaById } = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
 const { format } = require('date-fns');
-const constants = require('@pins/business-rules/src/constants')
+const constants = require('@pins/business-rules/src/constants');
 
 const { templates } = config.services.notify;
 
@@ -19,24 +19,24 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 		const lpa = await getLpaById(appeal.lpaCode);
 
 		const recipientEmail = appeal.email;
-		let variables = {}
-		if(appeal.appealType == '1001') {
+		let variables = {};
+		if (appeal.appealType == '1001') {
 			variables = {
 				name: appeal.aboutYouSection.yourDetails.name,
 				'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
 				'local planning department': lpa.name,
 				'pdf copy URL': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
-			}
-		} else if(appeal.appealType == '1005') {
+			};
+		} else if (appeal.appealType == '1005') {
 			variables = {
 				name: appeal.contactDetailsSection.contact.name,
 				'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
 				'local planning department': lpa.name,
 				'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
-			}
+			};
 		}
-		
-		const reference = appeal.id
+
+		const reference = appeal.id;
 
 		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
 
@@ -65,26 +65,33 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 
 		// TODO: put inside an appeal model
 		let variables = {};
-		if(appeal.appealType == '1001') {
+		if (appeal.appealType == '1001') {
 			variables = {
 				LPA: lpa.name,
 				date: format(appeal.submissionDate, 'dd MMMM yyyy'),
 				'planning application number': appeal.planningApplicationNumber,
 				'site address': _formatAddress(appeal.appealSiteSection.siteAddress)
-			}
+			};
 		} else if (appeal.appealType == '1005') {
 			variables = {
 				'loca planning department': lpa.name,
 				'submission date': format(appeal.submissionDate, 'dd MMMM yyyy'),
 				'planning application number': appeal.planningApplicationNumber,
 				'site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-				refused: _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED),
-				granted: _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED),
-				'non-determination': _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.NODECISIONRECEIVED)
-			}
+				refused: _getYesOrNoForBoolean(
+					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED
+				),
+				granted: _getYesOrNoForBoolean(
+					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED
+				),
+				'non-determination': _getYesOrNoForBoolean(
+					appeal.eligibility.applicationDecision ===
+						constants.APPLICATION_DECISION.NODECISIONRECEIVED
+				)
+			};
 		}
 
-		const reference = appeal.id
+		const reference = appeal.id;
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
 
@@ -142,10 +149,16 @@ const sendSaveAndReturnEnterCodeIntoServiceEmail = async (recipientEmail, code, 
 	try {
 		const variables = {
 			'unique code': code
-		}
+		};
 
-		logger.debug({ recipientEmail, variables, identifier }, 'Sending secure code email to appellant');
-
+		logger.debug(
+			{ recipientEmail, variables, identifier },
+			'Sending secure code email to appellant'
+		);
+		logger.info('Entering notifybuilder');
+		logger.info(
+			`NOTIFY CONFIGS: baseUrl: ${config.services.notify.baseUrl}, serviceId: ${config.services.notify.serviceId}, apiKey: ${config.services.notify.apiKey} `
+		);
 		await NotifyBuilder.reset()
 			.setTemplateId(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
 			.setDestinationEmailAddress(recipientEmail)
@@ -156,6 +169,7 @@ const sendSaveAndReturnEnterCodeIntoServiceEmail = async (recipientEmail, code, 
 				config.services.notify.serviceId,
 				config.services.notify.apiKey
 			);
+		logger.info('Exiting notifybuilder');
 	} catch (err) {
 		logger.error(
 			{ err, appealId: identifier }, // TODO: change `appealId` to something more generic
@@ -206,11 +220,11 @@ const _formatAddress = (addressJson) => {
 	address += addressJson.county && `\n${addressJson.county}`;
 	address += `\n${addressJson.postcode}`;
 	return address;
-}
+};
 
 const _getYesOrNoForBoolean = (booleanToUse) => {
-	return booleanToUse ? 'yes' : 'no'
-}
+	return booleanToUse ? 'yes' : 'no';
+};
 
 module.exports = {
 	sendSubmissionReceivedEmailToLpa,

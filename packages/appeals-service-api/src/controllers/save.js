@@ -1,3 +1,4 @@
+const { logger } = require('../configuration/config');
 const {
 	saveAndReturnCreateService,
 	saveAndReturnNotifyContinue,
@@ -24,7 +25,10 @@ async function saveAndReturnGet(req, res) {
 
 async function saveAndReturnToken(req, res) {
 	const appeal = req.body;
-	await saveAndReturnNotifyCode(appeal)
+	logger.info(`appeal in controller: ${appeal}`);
+	logger.info('calling saveAndReturnNotifyCode');
+	await saveAndReturnNotifyCode(appeal);
+	logger.info('exiting saveAndReturnNotifyCode');
 	res.status(200).send({});
 }
 
