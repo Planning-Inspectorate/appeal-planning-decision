@@ -5,7 +5,7 @@ const {
 	sendSaveAndReturnEnterCodeIntoServiceEmail,
 	createToken
 } = require('../lib/notify');
-const { getAppeal } = require('./appeal.service')
+const { getAppeal } = require('./appeal.service');
 
 const saveAndReturnCreateService = async (appeal) => {
 	const query = { appealId: appeal.id };
@@ -69,9 +69,21 @@ const saveAndReturnNotifyContinue = async (saved) => {
 };
 
 const saveAndReturnNotifyCode = async (appeal) => {
+	logger.info('APPEAL ID:', appeal.id);
+	logger.info('Entering saveAndReturnTokenService...');
 	const appealSaveData = await saveAndReturnTokenService(appeal.id);
+	logger.info('saveAndReturnTokenService complete');
+	logger.info('Entering getAppeal...');
 	const savedAppeal = await getAppeal(appeal.id);
-	await sendSaveAndReturnEnterCodeIntoServiceEmail(savedAppeal.email, appealSaveData.token, savedAppeal.id);
+	logger.info('getAppeal complete');
+	logger.info('email:', savedAppeal.email);
+	logger.info('token:', appealSaveData.token);
+	logger.info('id', savedAppeal.id);
+	await sendSaveAndReturnEnterCodeIntoServiceEmail(
+		savedAppeal.email,
+		appealSaveData.token,
+		savedAppeal.id
+	);
 };
 
 const saveAndReturnTokenService = async (appealId) => {
