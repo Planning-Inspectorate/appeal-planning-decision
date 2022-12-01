@@ -69,7 +69,7 @@ const saveAndReturnNotifyContinue = async (saved) => {
 };
 
 const saveAndReturnNotifyCode = async (appeal) => {
-	logger.info('APPEAL ID:', appeal.id);
+	logger.info(`APPEAL ID: ${appeal.id}`);
 	logger.info('Entering saveAndReturnTokenService...');
 	const appealSaveData = await saveAndReturnTokenService(appeal.id);
 	logger.info('saveAndReturnTokenService complete');
