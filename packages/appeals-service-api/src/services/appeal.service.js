@@ -52,7 +52,7 @@ async function getAppeal(id) {
 	}
 
 	logger.info(`Appeal ${id} retrieved`);
-	logger.info('DOCUMENT APPEAL:', document.appeal);
+	logger.info(`DOCUMENT APPEAL: ${document.appeal}`);
 	return document.appeal;
 }
 
