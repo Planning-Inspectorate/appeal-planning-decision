@@ -69,17 +69,8 @@ const saveAndReturnNotifyContinue = async (saved) => {
 };
 
 const saveAndReturnNotifyCode = async (appeal) => {
-	logger.info(`APPEAL ID: ${appeal.id}`);
-	logger.info('Entering saveAndReturnTokenService...');
 	const appealSaveData = await saveAndReturnTokenService(appeal.id);
-	logger.info('saveAndReturnTokenService complete');
-	logger.info('Entering getAppeal...');
 	const savedAppeal = await getAppeal(appeal.id);
-	logger.info('getAppeal complete');
-	logger.info(`email ${savedAppeal.email}`);
-	logger.info(`token: ${appealSaveData.token}`);
-	logger.info(`id: ${savedAppeal.id}`);
-	//issue is below here:
 	await sendSaveAndReturnEnterCodeIntoServiceEmail(
 		savedAppeal.email,
 		appealSaveData.token,
