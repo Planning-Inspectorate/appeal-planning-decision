@@ -155,10 +155,6 @@ const sendSaveAndReturnEnterCodeIntoServiceEmail = async (recipientEmail, code, 
 			{ recipientEmail, variables, identifier },
 			'Sending secure code email to appellant'
 		);
-		logger.info('Entering notifybuilder');
-		logger.info(
-			`NOTIFY CONFIGS: baseUrl: ${config.services.notify.baseUrl}, serviceId: ${config.services.notify.serviceId}, apiKey: ${config.services.notify.apiKey} `
-		);
 		await NotifyBuilder.reset()
 			.setTemplateId(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
 			.setDestinationEmailAddress(recipientEmail)
@@ -169,7 +165,6 @@ const sendSaveAndReturnEnterCodeIntoServiceEmail = async (recipientEmail, code, 
 				config.services.notify.serviceId,
 				config.services.notify.apiKey
 			);
-		logger.info('Exiting notifybuilder');
 	} catch (err) {
 		logger.error(
 			{ err, appealId: identifier }, // TODO: change `appealId` to something more generic
