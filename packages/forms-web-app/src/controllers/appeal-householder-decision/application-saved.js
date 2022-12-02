@@ -1,11 +1,12 @@
-const { calculateDeadline } = require('../../lib/calculate-deadline');
+//TODO refactor to eliminate duplication with controllers/submit-appeal/application-saved.js
+const { businessRulesDeadline } = require('../../lib/calculate-deadline');
 
 exports.getApplicationSaved = async (req, res) => {
 	const { appeal } = req.session;
 
 	const applicationNumber = appeal.planningApplicationNumber;
 
-	const deadlineData = calculateDeadline.businessRulesDeadline(
+	const deadlineData = businessRulesDeadline(
 		appeal.decisionDate,
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
@@ -13,6 +14,6 @@ exports.getApplicationSaved = async (req, res) => {
 
 	res.render('appeal-householder-decision/application-saved', {
 		applicationNumber: applicationNumber,
-		deadline: deadlineData,
+		deadline: deadlineData
 	});
 };
