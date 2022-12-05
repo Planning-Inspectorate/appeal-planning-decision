@@ -125,7 +125,7 @@ afterEach(async () => {
 	// but isn't read in time for the test to make a solid assertion, i.e. you can get false negatives without this.
 	await waitFor(() => messages.length === expectedMessages.length);
 	for (const index in expectedMessages) {
-		expect(messages[index].appeal).toMatchObject(expectedMessages[index]);
+		expect(messages[index]).toMatchObject(expectedMessages[index]);
 	}
 	messages = [];
 });
@@ -137,15 +137,16 @@ afterAll(async () => {
 });
 
 describe('Appeals', () => {
-	it.only('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal', async () => {
-		
+	it('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal to the back office', async () => {
 		// Given: an appeal is created and not known to the back office
-		householderAppeal.horizonId = ''
+		householderAppeal.horizonId = '';
 		const savedAppealResponse = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
 
-		// When: the appeal is submitted
-		const submittedAppealResponse = await appealsApi.put(`/api/v1/appeals/${savedAppeal.id}/back_office`);
+		// When: the appeal is submitted to the back office
+		const submittedAppealResponse = await appealsApi.post(
+			`/api/v1/back-office/appeals/${savedAppeal.id}`
+		);
 
 		// Then: the status code should be 204
 		expect(submittedAppealResponse.status).toBe(200);
@@ -233,7 +234,7 @@ describe('Appeals', () => {
 		expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
 	});
 
-	it.only(`should return an error if we try to update an appeal that doesn't exist`, async () => {
+	it(`should return an error if we try to update an appeal that doesn't exist`, async () => {
 		// When: an appeal is sent via a PUT or PATCH request, but hasn't yet been created
 		householderAppeal.id = uuid.v4();
 		const putResponse = await appealsApi
@@ -256,7 +257,7 @@ describe('Appeals', () => {
 		expectedNotifyInteractions = [];
 	});
 
-	it.only("should apply patch updates correctly when data to patch-in isn't a full appeal", async () => {
+	it("should apply patch updates correctly when data to patch-in isn't a full appeal", async () => {
 		// Given: an appeal is created
 		const savedAppealResponse = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
@@ -279,7 +280,7 @@ describe('Appeals', () => {
 		expectedNotifyInteractions = [];
 	});
 
-	it.only('should return the relevant appeal when requested after the appeal has been saved', async () => {
+	it('should return the relevant appeal when requested after the appeal has been saved', async () => {
 		// Given: an appeal is created
 		const savedAppeal = await _createAppeal();
 
@@ -300,7 +301,7 @@ describe('Appeals', () => {
 		expectedNotifyInteractions = [];
 	});
 
-	it.only(`should return an error if an appeal is requested that doesn't exist`, async () => {
+	it(`should return an error if an appeal is requested that doesn't exist`, async () => {
 		// When: we try to access a non-existent appeal
 		const getAppealResponse = await appealsApi.get(`/api/v1/appeals/${uuid.v4()}`);
 
@@ -317,7 +318,7 @@ describe('Appeals', () => {
 });
 
 describe('Final comments', () => {
-	it.only('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {
+	it('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {
 		// Given: a request to create a final comments entry for a case
 		const caseReference = uuid.v4();
 		const appellantEmail = 'foo@bar.com';
@@ -386,7 +387,7 @@ describe('Final comments', () => {
 		expectedNotifyInteractions = [expectedSecureCodeEmailSentToAppellantInteraction];
 	});
 
-	it.only('should return an error when requesting to create a final comment that has the same case reference as one already created', async () => {
+	it('should return an error when requesting to create a final comment that has the same case reference as one already created', async () => {
 		// Given: a request to create a final comments entry for a case is made
 		const caseReference = uuid.v4();
 		const appellantEmail = 'foo@bar.com';
@@ -406,7 +407,7 @@ describe('Final comments', () => {
 		expectedNotifyInteractions = [];
 	});
 
-	it.only(
+	it(
 		'should return an error when requesting a secure code for a final comment entity that does not exist, ' +
 			'not contact Horizon for a final comment end date, not send an email to the appellant, and not produce ' +
 			'any message on the message queue',
@@ -426,7 +427,7 @@ describe('Final comments', () => {
 		}
 	);
 
-	it.only(
+	it(
 		'should return an error when requesting a secure code for a final comment entity that does exist, but its ' +
 			'final comments end date has not been set. It should contact Horizon for a final comment end date, but not ' +
 			'send an email to the appellant, and not produce any message on the message queue',

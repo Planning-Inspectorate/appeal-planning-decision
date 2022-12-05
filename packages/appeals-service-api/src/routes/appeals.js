@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { updateAppeal, getAppeal, createAppeal, submitToBackOffice } = require('../services/appeal.service');
+const { updateAppeal, getAppeal, createAppeal } = require('../services/appeal.service');
 const {
 	appealInsertValidationRules,
 	appealUpdateValidationRules
@@ -27,7 +27,7 @@ router.put('/:id', appealInsertValidationRules, async (req, res) => {
 	let statusCode = 200;
 	let body = '';
 	try {
-		body = await updateAppeal(req.params.id, req.body)
+		body = await updateAppeal(req.params.id, req.body);
 	} catch (error) {
 		statusCode = error.code;
 		body = error.message.errors;
@@ -40,7 +40,7 @@ router.patch('/:id', appealUpdateValidationRules, async (req, res) => {
 	let statusCode = 200;
 	let body = '';
 	try {
-		body = await updateAppeal(req.params.id, req.body)
+		body = await updateAppeal(req.params.id, req.body);
 	} catch (error) {
 		statusCode = error.code;
 		body = error.message.errors;
@@ -48,18 +48,5 @@ router.patch('/:id', appealUpdateValidationRules, async (req, res) => {
 		res.status(statusCode).send(body);
 	}
 });
-
-router.put('/:id/back_office', async (req, res) => {
-	let statusCode = 200;
-	let body = '';
-	try { 
-		body = await submitToBackOffice(req.params.id)
-	} catch (error) {
-		statusCode = error.code;
-		body = error.message.errors;
-	} finally {
-		res.status(statusCode).send(body);
-	}
-})
 
 module.exports = router;
