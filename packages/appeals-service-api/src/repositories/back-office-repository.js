@@ -19,17 +19,17 @@ class BackOfficeRepository {
 			.connect(config.messageQueue.horizonHASPublisher.connection)
 			.open_sender(config.messageQueue.horizonHASPublisher.queue);
 
-       	container.on('sendable', (context) => {
+       	container.on('sendable', async (context) => {
 			context.sender.send({
 				body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
 				content_type: 'application/json'
 			});
-			logger.info('Appeal message placed on queue:', message);
+			logger.debug(`Appeal message placed on queue: ${JSON.stringify(message)}`);
        });
 
        container.on('accepted', (context) => {
 			context.connection.close();
-			logger.info(`Queue closed on message accepted`);
+			logger.debug(`Queue closed on message accepted`);
        });
 
        container.on('error', (err) => {

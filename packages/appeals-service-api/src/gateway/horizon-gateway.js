@@ -1,16 +1,21 @@
-const jp = require('jsonpath');
+
 const config = require('../configuration/config');
 const axios = require('axios');
 const logger = require('../lib/logger');
 
+
 class HorizonGateway {
-	
-	/**
-	 * 
-	 * @param {string} caseReference
-	 * @return {Promise<Date | undefined>}
-	 */
-	async getFinalCommentsDueDate(caseReference) {
+
+	//TODO: this should return an as-of-yet non-existent `HorizonAppealDto` instance.
+	async getAppeal(caseReference){
+
+		logger.debug(`Getting case with reference '${caseReference}' from Horizon`)
+		
+		if(caseReference == false) {
+			logger.debug(`No case reference specified for Horizon case retrieval`);
+			return undefined;
+		}
+
 		const requestBody = {
 			GetCase: {
 				__soap_op: 'http://tempuri.org/IHorizon/GetCase',
@@ -19,46 +24,20 @@ class HorizonGateway {
 			}
 		};
 
-		let caseDetails;
-		try {
-			caseDetails = await axios.post(config.services.horizon.url, requestBody);
-		} catch(error) {
-			logger.error(`Horizon responded with status ${error.status} and body ${error.body}`);
-			return undefined;
+		logger.debug(`Horizon request: ${JSON.stringify(requestBody)}`);
+		
+		const horizonAppeal = await axios
+			.post(config.services.horizon.url, requestBody)
+			.catch(function (error) {
+				logger.error(`Horizon responded with error ${JSON.stringify(error)}`);
+			})
+
+		if (horizonAppeal) {
+			logger.debug(`Case found in Horizon: ${JSON.stringify(horizonAppeal.data)}`)
+			return horizonAppeal.data;
 		}
 
-		// Here be dragons! This bit is complicated because of the Horizon response shape
-		// (sorry to anyone who has to work on this).
-		const attributes = jp.query(caseDetails.data, '$..Metadata.Attributes[*]');
-
-		// Here we're simplifying the returned data structure so that the JSON Path expression
-		// is easier to read. Essentially it changes this structure:
-		//
-		// {
-		//   Name: { value: ""},
-		//   Value: { value: "" }	
-		// }
-		//
-		// into
-		//
-		// {
-		//   Name: "",
-		//   Value: ""	
-		// }
-		const attributesModified = attributes.map((attribute) => {
-			return { Name: attribute.Name.value, Value: attribute.Value.value };
-		});
-
-		const finalCommentsDueDate = jp.query(
-			attributesModified,
-			'$..[?(@.Name == "Case Document Dates:Final Comments Due Date")].Value'
-		);
-
-		if (finalCommentsDueDate == false) {
-			return undefined;
-		}
-
-		return new Date(Date.parse(finalCommentsDueDate));
+		return {};
 	}
 }
 

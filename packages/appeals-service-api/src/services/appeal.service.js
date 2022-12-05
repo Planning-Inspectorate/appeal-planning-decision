@@ -15,9 +15,11 @@ const { validateAppeal } = require('../validators/validate-appeal');
 const { BackOfficeRepository } = require('../repositories/back-office-repository');
 const { AppealsRepository } = require('../repositories/appeals-repository');
 const uuid = require('uuid');
+const { HorizonService } = require('./horizon.service');
 
 const appealsRepository = new AppealsRepository();
 const backOfficeRepository = new BackOfficeRepository();
+const horizonService = new HorizonService();
 
 async function createAppeal(req, res) {
 	const appeal = {};
@@ -76,72 +78,65 @@ function isValidAppeal(appeal) {
 	return errors.length === 0;
 }
 
-async function updateAppeal(req, res) {
-	const idParam = req.params.id;
-	logger.debug(`Updating appeal ${idParam}`, req.body);
-	const proposedAppealUpdate = req.body;
-	logger.debug({ proposedAppealUpdate }, 'Proposed appeal update');
+async function updateAppeal(id, appealUpdate) {
+	
+	logger.debug(`Attempting to update appeal with ID ${id} with data`, appealUpdate);
 
-	try {
-		const savedAppealEntity = await appealsRepository.getById(idParam);
+	const savedAppealEntity = await appealsRepository.getById(id);
 
-		if (savedAppealEntity === null) {
-			throw ApiError.appealNotFound(idParam);
-		}
-
-		let appeal = savedAppealEntity.appeal;
-		const appealStateBeforeUpdate = appeal.state;
-		Object.assign(appeal, proposedAppealUpdate);
-		isValidAppeal(appeal);
-
-		const now = new Date(new Date().toISOString());
-		/* eslint no-param-reassign: ["error", { "props": false }] */
-		appeal.updatedAt = now;
-		let isFirstSubmission = appealStateBeforeUpdate === 'DRAFT' && appeal.state === 'SUBMITTED';
-
-		if (isFirstSubmission) {
-			appeal.submissionDate = now;
-		}
-
-		const updatedAppealEntity = await appealsRepository.update(appeal);
-		const updatedAppealWithIdUUIDAndAppeal = updatedAppealEntity.value;
-		const updatedAppeal = updatedAppealWithIdUUIDAndAppeal.appeal;
-
-		if (isFirstSubmission) {
-			try {
-				// TODO: I have no idea why we need to send this, rather than just the appeal data :/
-				backOfficeRepository.create(updatedAppealWithIdUUIDAndAppeal);
-			} catch (err) {
-				logger.error(
-					{ err, appealId: updatedAppeal.id },
-					'Unable to queue confirmation email to appellant'
-				);
-			}
-			await sendSubmissionConfirmationEmailToAppellant(updatedAppeal);
-			await sendSubmissionReceivedEmailToLpa(updatedAppeal);
-		}
-
-		logger.debug({ updatedAppeal }, 'Updated appeal data in updateAppeal');
-		res.status(200).send(updatedAppeal);
-	} catch (e) {
-		if (e instanceof ApiError) {
-			res.status(e.code).send({ code: e.code, errors: e.message.errors });
-			return;
-		}
-
-		res.status(500).send(`Problem updating appeal ${idParam}\n${e}`);
+	if (savedAppealEntity === null) {
+		throw ApiError.appealNotFound(id);
 	}
+
+	let appeal = savedAppealEntity.appeal;
+	Object.assign(appeal, appealUpdate);
+	isValidAppeal(appeal);
+
+	/* eslint no-param-reassign: ["error", { "props": false }] */
+	appeal.updatedAt = new Date(new Date().toISOString());
+	const updatedAppealEntity = await appealsRepository.update(appeal);
+	const updatedAppeal = updatedAppealEntity.value.appeal;
+	logger.debug({ updatedAppeal }, 'Updated appeal data in updateAppeal');
+	return updatedAppeal;
 }
 
-const isAppealSubmitted = async (appealId) => {
-	const appeal = appealsRepository.getById(appealId);
-	return appeal.state == 'SUBMITTED';
-};
+/**
+ * Will submit the appeal with `id` specified to the Back Office system, iff 
+ * @param {string} id 
+ */
+async function submitToBackOffice(id) {
+	logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
+
+    const savedAppealEntity = await appealsRepository.getById(id);
+    if (savedAppealEntity === null) {
+        throw ApiError.appealNotFound(id);
+	}
+
+	let appeal = savedAppealEntity.appeal;
+	logger.debug(`Appeal found in repository: ${JSON.stringify(appeal)}`);
+
+	const appealInBackOffice = await horizonService.getAppeal(appeal.horizonId);
+	if ( (appeal.horizonId && appealInBackOffice) == false) {
+		appeal.submissionDate = new Date(new Date().toISOString());
+		appeal.state = 'SUBMITTED'
+		const updatedAppealEntity = await appealsRepository.update(appeal);
+		const updatedAppeal = updatedAppealEntity.value;
+		backOfficeRepository.create(updatedAppeal);
+		// TODO: put the next two function calls in the Horizon Azure function when we have 
+		// DEFINITE confirmation that the appeal has been submitted
+		await sendSubmissionConfirmationEmailToAppellant(updatedAppeal.appeal);
+		await sendSubmissionReceivedEmailToLpa(updatedAppeal.appeal);
+		return updatedAppeal.appeal;
+	} else {
+		logger.debug('Appeal has already been submitted to the back-office');
+		throw ApiError.appealAlreadySubmitted();
+	}
+}
 
 module.exports = {
 	createAppeal,
 	getAppeal,
 	updateAppeal,
 	validateAppeal,
-	isAppealSubmitted
+	submitToBackOffice
 };

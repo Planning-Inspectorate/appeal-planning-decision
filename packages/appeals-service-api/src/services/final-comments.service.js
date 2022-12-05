@@ -1,5 +1,5 @@
 const logger = require('../lib/logger');
-const { HorizonGateway } = require('../gateway/horizon-gateway');
+const { HorizonService } = require('./horizon.service');
 const { DecryptionService } = require('./decryption.service');
 const { FinalCommentsAggregate } = require('../models/aggregates/final-comments-aggregate');
 const { FinalCommentsRepository } = require('../repositories/final-comments-repository');
@@ -19,12 +19,12 @@ const {
 
 class FinalCommentsService {
 	#finalCommentsRepository;
-	#horizonGateway;
+	#horizonService;
 	#decryptionService;
 
 	constructor() {
 		this.#finalCommentsRepository = new FinalCommentsRepository();
-		this.#horizonGateway = new HorizonGateway();
+		this.#horizonService = new HorizonService();
 		this.#decryptionService = new DecryptionService();
 	}
 
@@ -98,7 +98,9 @@ class FinalCommentsService {
 	}
 
 	async #checkFinalCommentWindowAndThrowErrorIfNotOpen(caseReference) {
-		const finalCommentsDueDate = await this.#horizonGateway.getFinalCommentsDueDate(caseReference);
+	
+		const finalCommentsDueDate = await this.#horizonService.getFinalCommentsDueDate(caseReference);
+
 		if (
 			finalCommentsDueDate == undefined ||
 			new Date().valueOf() >= finalCommentsDueDate.valueOf()
