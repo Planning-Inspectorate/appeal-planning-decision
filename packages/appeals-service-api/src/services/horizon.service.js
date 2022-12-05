@@ -1,33 +1,77 @@
 const jp = require('jsonpath');
+const logger = require('../lib/logger');
+const ApiError = require('../errors/apiError');
+const {
+	sendSubmissionReceivedEmailToLpa,
+	sendSubmissionConfirmationEmailToAppellant
+} = require('../lib/notify');
+const { BackOfficeRepository } = require('../repositories/back-office-repository');
 const { HorizonGateway } = require('../gateway/horizon-gateway');
+const { getAppeal, updateAppeal } = require('./appeal.service');
 
 class HorizonService {
+	#horizonGateway;
+	#backOfficeRepository;
 
-    #horizonGateway
+	constructor() {
+		this.#horizonGateway = new HorizonGateway();
+		this.#backOfficeRepository = new BackOfficeRepository();
+	}
 
-    constructor(){
-        this.#horizonGateway = new HorizonGateway();
-    }
+	/**
+	 * Will submit the appeal with `id` specified to the Back Office system, iff
+	 *
+	 * 1. The appeal with the ID specified exists in the database
+	 * 2. The appeal does not have a non-blank Horizon ID
+	 * 3. The appeal does not already exist in Horizon
+	 *
+	 * @param {string} id
+	 */
+	async submitAppeal(id) {
+		logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
 
-    async getAppeal(caseReference){
-        return await this.#horizonGateway.getAppeal(caseReference);
-    }
+		const savedAppeal = await getAppeal(id);
+		logger.debug(`Appeal found in repository: ${JSON.stringify(savedAppeal)}`);
+		if (savedAppeal === null) {
+			throw ApiError.appealNotFound(id);
+		}
 
-    /**
-	 * 
+		const appealInBackOffice = await this.#horizonGateway.getAppeal(savedAppeal.horizonId);
+		if ((savedAppeal.horizonId && appealInBackOffice) == false) {
+			savedAppeal.submissionDate = new Date(new Date().toISOString());
+			savedAppeal.state = 'SUBMITTED';
+			const updatedAppeal = await updateAppeal(id, savedAppeal);
+			logger.debug(
+				`Appeal after being updated with back office submission details: ${updatedAppeal}`
+			);
+
+			this.#backOfficeRepository.create(updatedAppeal);
+
+			// TODO: put the next two function calls in the Horizon Azure function when we have
+			// DEFINITE confirmation that the appeal has been submitted
+			await sendSubmissionConfirmationEmailToAppellant(updatedAppeal);
+			await sendSubmissionReceivedEmailToLpa(updatedAppeal);
+			return updatedAppeal;
+		} else {
+			logger.debug('Appeal has already been submitted to the back-office');
+			throw ApiError.appealAlreadySubmitted();
+		}
+	}
+
+	/**
+	 *
 	 * @param {string} caseReference
 	 * @return {Promise<Date | undefined>}
 	 */
 	async getFinalCommentsDueDate(caseReference) {
+		const horizonAppeal = await this.#horizonGateway.getAppeal(caseReference);
 
-        const horizonAppeal = await this.#horizonGateway.getAppeal(caseReference);
-		
 		// Here be dragons! This bit is complicated because of the Horizon appeal data structure
 		// (sorry to anyone who has to work on this).
 		const attributes = jp.query(horizonAppeal, '$..Metadata.Attributes[*]');
 
 		if (attributes.length === 0) {
-            return undefined;
+			return undefined;
 		}
 
 		// Here we're simplifying the returned data structure so that the JSON Path expression
@@ -35,14 +79,14 @@ class HorizonService {
 		//
 		// {
 		//   Name: { value: ""},
-		//   Value: { value: "" }	
+		//   Value: { value: "" }
 		// }
 		//
 		// into
 		//
 		// {
 		//   Name: "",
-		//   Value: ""	
+		//   Value: ""
 		// }
 		const attributesModified = attributes.map((attribute) => {
 			return { Name: attribute.Name.value, Value: attribute.Value.value };
@@ -61,4 +105,4 @@ class HorizonService {
 	}
 }
 
-module.exports = { HorizonService }
+module.exports = { HorizonService };
