@@ -39,11 +39,6 @@ const appealInsertValidationRules = async (req, res, next) => {
 		const appealId = req.body.id;
 		const pathId = req.params.id;
 
-		if (await isAppealSubmitted(appealId)) {
-			logger.debug('Appeal is already submitted so end processing request with 409 response');
-			return next(ApiError.appealAlreadySubmitted());
-		}
-
 		if (appealId && pathId !== appealId) {
 			return next(ApiError.notSameId());
 		}

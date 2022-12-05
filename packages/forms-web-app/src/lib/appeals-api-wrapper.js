@@ -82,7 +82,7 @@ exports.createOrUpdateAppeal = (appeal) => {
 };
 
 exports.submitAppeal = (appeal) => {
-	return handler(`/api/v1/appeals/${appeal.id}`, 'PATCH', {
+	return handler(`/api/v1/appeals/${appeal.id}/back_office`, 'PUT', {
 		body: JSON.stringify(appeal)
 	});
 };
