@@ -137,6 +137,91 @@ afterAll(async () => {
 });
 
 describe('Appeals', () => {
+
+	it(`should return an error if we try to update an appeal that doesn't exist`, async () => {
+		// When: an appeal is sent via a PUT or PATCH request, but hasn't yet been created
+		householderAppeal.id = uuid.v4();
+		const putResponse = await appealsApi
+			.put(`/api/v1/appeals/${householderAppeal.id}`)
+			.send(householderAppeal);
+
+		const patchResponse = await appealsApi
+			.patch(`/api/v1/appeals/${householderAppeal.id}`)
+			.send(householderAppeal);
+
+		// Then: we should get a 404 status code for both requests
+		expect(putResponse.status).toBe(404);
+		expect(patchResponse.status).toBe(404);
+
+		// And: there should be no data on the message queue
+		expectedMessages = [];
+
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
+	});
+
+	it("should apply patch updates correctly when data to patch-in isn't a full appeal", async () => {
+		// Given: an appeal is created
+		const savedAppealResponse = await _createAppeal();
+		let savedAppeal = savedAppealResponse.body;
+
+		// When: the appeal is patched
+		const patchedAppealResponse = await appealsApi
+			.patch(`/api/v1/appeals/${savedAppeal.id}`)
+			.send({ horizonId: 'foo' });
+
+		// Then: when we retrieve the appeal, it should have the patch applied
+		savedAppeal.horizonId = 'foo';
+		savedAppeal.updatedAt = patchedAppealResponse.body.updatedAt;
+		expect(patchedAppealResponse.body).toMatchObject(savedAppeal);
+
+		// And: there should be no data on the message queue
+		expectedMessages = [];
+
+		// And: no external systems should be interacted with
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
+	});
+
+	it('should return the relevant appeal when requested after the appeal has been saved', async () => {
+		// Given: an appeal is created
+		const savedAppeal = await _createAppeal();
+
+		// When: we try to request that appeal
+		const requestedAppeal = await appealsApi.get(`/api/v1/appeals/${savedAppeal.body.id}`);
+
+		// Then: we should get a 200 status
+		expect(requestedAppeal.status).toEqual(200);
+
+		// And: the correct appeal should be returned
+		expect(requestedAppeal.body.id).toEqual(savedAppeal.body.id);
+
+		// And: there should be no data on the message queue
+		expectedMessages = [];
+
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
+	});
+
+	it(`should return an error if an appeal is requested that doesn't exist`, async () => {
+		// When: we try to access a non-existent appeal
+		const getAppealResponse = await appealsApi.get(`/api/v1/appeals/${uuid.v4()}`);
+
+		// Then: we should get a 404 status
+		expect(getAppealResponse.status).toEqual(404);
+
+		// And: there should be no data on the message queue
+		expectedMessages = [];
+
+		// And: external systems should be interacted with in the following ways
+		expectedHorizonInteractions = [];
+		expectedNotifyInteractions = [];
+	});
+});
+
+describe('Back Office', () => {
 	it('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal to the back office', async () => {
 		// Given: an appeal is created and not known to the back office
 		householderAppeal.horizonId = '';
@@ -234,88 +319,47 @@ describe('Appeals', () => {
 		expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
 	});
 
-	it(`should return an error if we try to update an appeal that doesn't exist`, async () => {
-		// When: an appeal is sent via a PUT or PATCH request, but hasn't yet been created
-		householderAppeal.id = uuid.v4();
-		const putResponse = await appealsApi
-			.put(`/api/v1/appeals/${householderAppeal.id}`)
-			.send(householderAppeal);
+	it.only('should not submit an appeal to the back office if the appeal specified does not exist', async () => {
 
-		const patchResponse = await appealsApi
-			.patch(`/api/v1/appeals/${householderAppeal.id}`)
-			.send(householderAppeal);
+		// When: an unknown appeal is submitted to the back office
+		const submittedAppealResponse = await appealsApi.put(
+			`/api/v1/back-office/appeals/NOT_KNOWN`
+		);
 
-		// Then: we should get a 404 status code for both requests
-		expect(putResponse.status).toBe(404);
-		expect(patchResponse.status).toBe(404);
+		// Then: the status code should be 404
+		expect(submittedAppealResponse.status).toBe(404);
 
-		// And: there should be no data on the message queue
+		// And: there should be no interactions with the message queue
 		expectedMessages = [];
 
-		// And: external systems should be interacted with in the following ways
+		// And: external APIs should not be interacted with
 		expectedHorizonInteractions = [];
 		expectedNotifyInteractions = [];
-	});
+	})
 
-	it("should apply patch updates correctly when data to patch-in isn't a full appeal", async () => {
-		// Given: an appeal is created
+	it.only('should not submit an appeal to the back office, if the appeal is known and has a Horizon ID', async () => {
+		
+		// Given: an appeal is created and known to the back office
+		householderAppeal.horizonId = 'itisknown';
 		const savedAppealResponse = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
 
-		// When: the appeal is patched
-		const patchedAppealResponse = await appealsApi
-			.patch(`/api/v1/appeals/${savedAppeal.id}`)
-			.send({ horizonId: 'foo' });
+		// When: an unknown appeal is submitted to the back office
+		const submittedAppealResponse = await appealsApi.put(
+			`/api/v1/back-office/appeals/${savedAppeal.id}`
+		);
 
-		// Then: when we retrieve the appeal, it should have the patch applied
-		savedAppeal.horizonId = 'foo';
-		savedAppeal.updatedAt = patchedAppealResponse.body.updatedAt;
-		expect(patchedAppealResponse.body).toMatchObject(savedAppeal);
+		// Then: the status code should be 409
+		expect(submittedAppealResponse.status).toBe(409);
 
-		// And: there should be no data on the message queue
+		// And: there should be no interactions with the message queue
 		expectedMessages = [];
 
-		// And: no external systems should be interacted with
+		// And: external APIs should not be interacted with
 		expectedHorizonInteractions = [];
 		expectedNotifyInteractions = [];
 	});
-
-	it('should return the relevant appeal when requested after the appeal has been saved', async () => {
-		// Given: an appeal is created
-		const savedAppeal = await _createAppeal();
-
-		// When: we try to request that appeal
-		const requestedAppeal = await appealsApi.get(`/api/v1/appeals/${savedAppeal.body.id}`);
-
-		// Then: we should get a 200 status
-		expect(requestedAppeal.status).toEqual(200);
-
-		// And: the correct appeal should be returned
-		expect(requestedAppeal.body.id).toEqual(savedAppeal.body.id);
-
-		// And: there should be no data on the message queue
-		expectedMessages = [];
-
-		// And: external systems should be interacted with in the following ways
-		expectedHorizonInteractions = [];
-		expectedNotifyInteractions = [];
-	});
-
-	it(`should return an error if an appeal is requested that doesn't exist`, async () => {
-		// When: we try to access a non-existent appeal
-		const getAppealResponse = await appealsApi.get(`/api/v1/appeals/${uuid.v4()}`);
-
-		// Then: we should get a 404 status
-		expect(getAppealResponse.status).toEqual(404);
-
-		// And: there should be no data on the message queue
-		expectedMessages = [];
-
-		// And: external systems should be interacted with in the following ways
-		expectedHorizonInteractions = [];
-		expectedNotifyInteractions = [];
-	});
-});
+})
 
 describe('Final comments', () => {
 	it('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {
