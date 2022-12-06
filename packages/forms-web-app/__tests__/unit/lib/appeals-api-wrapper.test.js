@@ -4,7 +4,6 @@ const fetch = require('node-fetch');
 const uuid = require('uuid');
 const {
 	createOrUpdateAppeal,
-	submitAppeal,
 	getExistingAppeal,
 	getLPAList,
 	saveAppeal,
@@ -106,23 +105,6 @@ describe('lib/appeals-api-wrapper', () => {
 			} catch (e) {
 				expect(e.toString()).toEqual('Error: something went wrong');
 			}
-		});
-	});
-
-	describe('submitAppeal', () => {
-		it(`should call the expected URL`, async () => {
-			fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
-			const appealsApiResponse = await submitAppeal({ id: '123-abc' });
-
-			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/appeals/123-abc`, {
-				body: '{"id":"123-abc"}',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-Correlation-ID': uuid.v4()
-				},
-				method: 'PATCH'
-			});
-			expect(appealsApiResponse).toEqual({ shouldBe: 'valid' });
 		});
 	});
 
