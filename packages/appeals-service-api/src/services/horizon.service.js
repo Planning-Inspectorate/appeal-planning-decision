@@ -36,8 +36,7 @@ class HorizonService {
 			throw ApiError.appealNotFound(id);
 		}
 
-		const appealInBackOffice = await this.#horizonGateway.getAppeal(savedAppeal.horizonId);
-		if ((savedAppeal.horizonId && appealInBackOffice) == false) {
+		if (savedAppeal.horizonId == false) {
 			savedAppeal.submissionDate = new Date(new Date().toISOString());
 			savedAppeal.state = 'SUBMITTED';
 			const updatedAppeal = await updateAppeal(id, savedAppeal);
@@ -52,10 +51,10 @@ class HorizonService {
 			await sendSubmissionConfirmationEmailToAppellant(updatedAppeal);
 			await sendSubmissionReceivedEmailToLpa(updatedAppeal);
 			return updatedAppeal;
-		} else {
-			logger.debug('Appeal has already been submitted to the back-office');
-			throw ApiError.appealAlreadySubmitted();
 		}
+
+		logger.debug('Appeal has already been submitted to the back-office');
+		throw ApiError.appealAlreadySubmitted();
 	}
 
 	/**

@@ -9,7 +9,6 @@ router.put('/appeals/:id', async (req, res) => {
 	let statusCode = 200;
 	let body = '';
 	try {
-		console.log(req.params.id);
 		body = await horizonService.submitAppeal(req.params.id);
 	} catch (error) {
 		statusCode = error.code;
