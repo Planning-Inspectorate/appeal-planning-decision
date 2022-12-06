@@ -144,7 +144,7 @@ describe('Appeals', () => {
 		let savedAppeal = savedAppealResponse.body;
 
 		// When: the appeal is submitted to the back office
-		const submittedAppealResponse = await appealsApi.post(
+		const submittedAppealResponse = await appealsApi.put(
 			`/api/v1/back-office/appeals/${savedAppeal.id}`
 		);
 

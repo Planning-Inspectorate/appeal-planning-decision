@@ -5,7 +5,7 @@ const { HorizonService } = require('../services/horizon.service');
 
 const horizonService = new HorizonService();
 
-router.post('/appeals/:id', async (req, res) => {
+router.put('/appeals/:id', async (req, res) => {
 	let statusCode = 200;
 	let body = '';
 	try {

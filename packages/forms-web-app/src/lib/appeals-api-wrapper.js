@@ -81,10 +81,10 @@ exports.createOrUpdateAppeal = (appeal) => {
 	});
 };
 
-exports.submitAppeal = (appeal) => {
-	return handler(`/api/v1/appeals/${appeal.id}/back_office`, 'PUT', {
-		body: JSON.stringify(appeal)
-	});
+exports.submitAppeal = async (appeal) => {
+	const savedAppeal = await handler(`/api/v1/appeals/${appeal.id}`, 'PUT', { body: JSON.stringify(appeal) });
+	await handler(`/api/v1/back-office/appeals/${appeal.id}`, 'PUT');
+	return savedAppeal;
 };
 
 exports.getExistingAppeal = async (sessionId) => {
