@@ -4,31 +4,31 @@ const createOrganisation = require('./logic/createOrganisation');
 /**
  * Create Contacts
  *
- * Takes the body data, parses it into agent/appellant, creates the
+ * Takes an appeal, parses it into agent/appellant, creates the
  * contact inside Horizon and returns the data that is in the format
  * that can be used by the CreateCase endpoint.
  *
  * @param {*} log
- * @param {*} body
+ * @param {*} appeal
  * @returns {Promise}
  */
-const createContacts = async (log, body) => {
+const createContacts = async (log, appeal) => {
 	const contacts = [];
 	let logMessage;
 
 	// if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
-	const appealTypeID = body.appeal.appealType == null ? '1001' : body.appeal.appealType;
+	const appealTypeID = appeal.appealType == null ? '1001' : appeal.appealType;
 
 	switch (appealTypeID) {
 		case '1001': {
 			// Householder (HAS) Appeal
-			if (body.appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
+			if (appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
 				/* User is original applicant - just add appellant */
 				logMessage = 'User is original applicant';
 				contacts.push({
 					type: 'Appellant',
-					email: body.appeal.email,
-					name: body.appeal.aboutYouSection.yourDetails.name
+					email: appeal.email,
+					name: appeal.aboutYouSection.yourDetails.name
 				});
 			} else {
 				/* User is agent - add both agent and OP */
@@ -36,14 +36,14 @@ const createContacts = async (log, body) => {
 				contacts.push(
 					{
 						type: 'Agent',
-						email: body.appeal.email,
-						name: body.appeal.aboutYouSection.yourDetails.name,
+						email: appeal.email,
+						name: appeal.aboutYouSection.yourDetails.name,
 						company: null
 					},
 					{
 						/* Email not collected here */
 						type: 'Appellant',
-						name: body.appeal.aboutYouSection.yourDetails.appealingOnBehalfOf,
+						name: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf,
 						company: null
 					}
 				);
@@ -53,14 +53,14 @@ const createContacts = async (log, body) => {
 		}
 
 		case '1005': {
-			if (body.appeal.contactDetailsSection.isOriginalApplicant) {
+			if (appeal.contactDetailsSection.isOriginalApplicant) {
 				/* User is original applicant - just add appellant */
 				logMessage = 'User is original applicant';
 				contacts.push({
 					type: 'Appellant',
-					email: body.appeal.email,
-					name: body.appeal.contactDetailsSection.contact.name,
-					company: body.appeal.contactDetailsSection.contact.companyName
+					email: appeal.email,
+					name: appeal.contactDetailsSection.contact.name,
+					company: appeal.contactDetailsSection.contact.companyName
 				});
 			} else {
 				/* User is agent - add both agent and OP */
@@ -69,15 +69,15 @@ const createContacts = async (log, body) => {
 				contacts.push(
 					{
 						type: 'Agent',
-						email: body.appeal.email,
-						name: body.appeal.contactDetailsSection.contact.name,
-						company: body.appeal.contactDetailsSection.contact.companyName
+						email: appeal.email,
+						name: appeal.contactDetailsSection.contact.name,
+						company: appeal.contactDetailsSection.contact.companyName
 					},
 					{
 						/* Email not collected here */
 						type: 'Appellant',
-						name: body.appeal.contactDetailsSection.appealingOnBehalfOf.name,
-						company: body.appeal.contactDetailsSection.appealingOnBehalfOf.companyName
+						name: appeal.contactDetailsSection.appealingOnBehalfOf.name,
+						company: appeal.contactDetailsSection.appealingOnBehalfOf.companyName
 					}
 				);
 			}

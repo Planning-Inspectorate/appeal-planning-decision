@@ -83,7 +83,7 @@ const populateDocuments = (log, body) => {
  * Handler Reply
  * Publishes the documents to Horizon
  *
- * @param {object} event contains body.reply
+ * @param {object} appeal contains body.reply
  * @param {string} horizonCaseId
  * @param {string} context contains the httpStatusCode
  *
@@ -92,19 +92,19 @@ const populateDocuments = (log, body) => {
  *
  * @returns {horizonCaseId | errorMessage}
  */
-const handlerReply = async (context, event) => {
+const handlerReply = async (context, appeal) => {
 	context.log({ config }, 'Received householder reply publish request');
 	let horizonId;
 
 	try {
-		horizonId = await getHorizonId(event?.appealId);
+		horizonId = await getHorizonId(appeal?.appealId);
 	} catch (err) {
 		const message = 'Horizon failed due to non-existant horizonId';
 		context.httpStatus = 500;
 		context.log(
 			{
 				message,
-				data: event?.appealId,
+				data: appeal?.appealId,
 				status: 500,
 				headers: null
 			},
@@ -113,7 +113,7 @@ const handlerReply = async (context, event) => {
 		context.log(
 			{
 				message,
-				data: event?.appealId,
+				data: appeal?.appealId,
 				status: 500,
 				headers: null
 			},
@@ -126,9 +126,9 @@ const handlerReply = async (context, event) => {
 	}
 
 	try {
-		const replyId = event.id;
+		const replyId = appeal.id;
 		context.log(`publishing documents with reply id: ${replyId}`);
-		await publishDocuments(context.log, populateDocuments(context.log, event), replyId, horizonId);
+		await publishDocuments(context.log, populateDocuments(context.log, appeal), replyId, horizonId);
 		context.done();
 		return {
 			id: horizonId

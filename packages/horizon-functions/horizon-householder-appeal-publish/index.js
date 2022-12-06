@@ -9,18 +9,18 @@ const { publishDocuments } = require('./src/publishDocuments');
 const { catchErrorHandling } = require('./src/catchErrorHandling');
 const uploadedDocumentMapper = require('./uploadedDocumentMapper');
 
-module.exports = async (context, event) => {
-	if (!event.appeal) return handlerReply(context, event);
-	context.log('Received householder appeal publish request', event);
+module.exports = async (context, appeal) => {
+	if (!appeal || Object.keys(appeal).length == 0) return handlerReply(context, appeal);
+	context.log('Received householder appeal publish request', appeal);
 
 	try {
-		const { _id: appealId } = event;
+		const { _id: appealId } = appeal;
 
 		context.log('JSON information');
-		context.log(JSON.stringify(event));
+		context.log(JSON.stringify(appeal));
 
 		/* Get the LPA associated with this appeal */
-		const lpa = await getLpaData(context.log, event.appeal.lpaCode);
+		const lpa = await getLpaData(context.log, appeal.lpaCode);
 
 		context.log({ lpa }, 'LPA detail');
 
@@ -35,13 +35,13 @@ module.exports = async (context, event) => {
 		}
 
 		// if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
-		const appealTypeID = event.appeal.appealType == null ? '1001' : event.appeal.appealType;
+		const appealTypeID = appeal.appealType == null ? '1001' : appeal.appealType;
 
 		context.log({ appealTypeID }, 'Appeal Type');
 
 		// Case:Casework Reason logic
-		const decision = event.appeal.eligibility.applicationDecision;
-		const typePlanningApplication = event.appeal.typeOfPlanningApplication;
+		const decision = appeal.eligibility.applicationDecision;
+		const typePlanningApplication = appeal.typeOfPlanningApplication;
 
 		context.log({ decision }, 'Application Decision');
 		context.log({ typePlanningApplication }, 'Planning Application Type');
@@ -181,7 +181,7 @@ module.exports = async (context, event) => {
 					{
 						key: 'Case Dates:Receipt Date',
 						// This is the last time the record was updated
-						value: new Date(event.appeal.updatedAt)
+						value: new Date(appeal.updatedAt)
 					},
 					{
 						key: 'Case:Source Indicator',
@@ -193,7 +193,7 @@ module.exports = async (context, event) => {
 					},
 					{
 						key: 'Planning Application:Date Of LPA Decision',
-						value: new Date(event.appeal.decisionDate)
+						value: new Date(appeal.decisionDate)
 					},
 					{
 						key: 'Case:Procedure (Appellant)',
@@ -201,41 +201,41 @@ module.exports = async (context, event) => {
 					},
 					{
 						key: 'Planning Application:LPA Application Reference',
-						value: event.appeal.planningApplicationNumber
+						value: appeal.planningApplicationNumber
 					},
 					{
 						key: 'Case Site:Site Address Line 1',
-						value: event.appeal.appealSiteSection.siteAddress.addressLine1
+						value: appeal.appealSiteSection.siteAddress.addressLine1
 					},
 					{
 						key: 'Case Site:Site Address Line 2',
-						value: event.appeal.appealSiteSection.siteAddress.addressLine2
+						value: appeal.appealSiteSection.siteAddress.addressLine2
 					},
 					{
 						key: 'Case Site:Site Address Town',
-						value: event.appeal.appealSiteSection.siteAddress.town
+						value: appeal.appealSiteSection.siteAddress.town
 					},
 					{
 						key: 'Case Site:Site Address County',
-						value: event.appeal.appealSiteSection.siteAddress.county
+						value: appeal.appealSiteSection.siteAddress.county
 					},
 					{
 						key: 'Case Site:Site Address Postcode',
-						value: event.appeal.appealSiteSection.siteAddress.postcode
+						value: appeal.appealSiteSection.siteAddress.postcode
 					},
 					{
 						key: 'Case Site:Ownership Certificate',
-						value: event.appeal.appealSiteSection.siteOwnership.ownsWholeSite
+						value: appeal.appealSiteSection.siteOwnership.ownsWholeSite
 							? 'Certificate A'
 							: null
 					},
 					{
 						key: 'Case Site:Site Viewable From Road',
-						value: event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
+						value: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
 					},
 					{
 						key: 'Case Site:Inspector Need To Enter Site',
-						value: !event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
+						value: !appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
 					}
 				];
 
@@ -250,7 +250,7 @@ module.exports = async (context, event) => {
 					{
 						key: 'Case Dates:Receipt Date',
 						// This is the last time the record was updated
-						value: new Date(event.appeal.updatedAt)
+						value: new Date(appeal.updatedAt)
 					},
 					{
 						key: 'Case:Source Indicator',
@@ -262,49 +262,49 @@ module.exports = async (context, event) => {
 					},
 					{
 						key: 'Planning Application:Date Of LPA Decision',
-						value: new Date(event.appeal.decisionDate)
+						value: new Date(appeal.decisionDate)
 					},
 					{
 						key: 'Case:Procedure (Appellant)',
-						value: event.appeal.appealDecisionSection.procedureType
+						value: appeal.appealDecisionSection.procedureType
 					},
 					{
 						key: 'Planning Application:LPA Application Reference',
-						value: event.appeal.planningApplicationDocumentsSection.applicationNumber
+						value: appeal.planningApplicationDocumentsSection.applicationNumber
 					},
 					{
 						key: 'Case Site:Site Address Line 1',
-						value: event.appeal.appealSiteSection.siteAddress.addressLine1
+						value: appeal.appealSiteSection.siteAddress.addressLine1
 					},
 					{
 						key: 'Case Site:Site Address Line 2',
-						value: event.appeal.appealSiteSection.siteAddress.addressLine2
+						value: appeal.appealSiteSection.siteAddress.addressLine2
 					},
 					{
 						key: 'Case Site:Site Address Town',
-						value: event.appeal.appealSiteSection.siteAddress.town
+						value: appeal.appealSiteSection.siteAddress.town
 					},
 					{
 						key: 'Case Site:Site Address County',
-						value: event.appeal.appealSiteSection.siteAddress.county
+						value: appeal.appealSiteSection.siteAddress.county
 					},
 					{
 						key: 'Case Site:Site Address Postcode',
-						value: event.appeal.appealSiteSection.siteAddress.postcode
+						value: appeal.appealSiteSection.siteAddress.postcode
 					},
 					{
 						key: 'Case Site:Ownership Certificate',
-						value: event.appeal.appealSiteSection.siteOwnership.ownsAllTheLand
+						value: appeal.appealSiteSection.siteOwnership.ownsAllTheLand
 							? 'Certificate A'
 							: null
 					},
 					{
 						key: 'Case Site:Site Viewable From Road',
-						value: event.appeal.appealSiteSection.visibleFromRoad.isVisible
+						value: appeal.appealSiteSection.visibleFromRoad.isVisible
 					}
 					// {
 					//   key: 'Case Site:Inspector Need To Enter Site',
-					//   value: !event.appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+					//   value: !appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
 					// },
 				];
 
@@ -319,7 +319,7 @@ module.exports = async (context, event) => {
 		}
 
 		/* Create the contacts and add to attribute data */
-		attributeData.push(...(await createContacts(context.log, event)));
+		attributeData.push(...(await createContacts(context.log, appeal)));
 
 		const input = {
 			CreateCase: {
@@ -364,7 +364,7 @@ module.exports = async (context, event) => {
     */
 		context.log('Add documents to Horizon');
 
-		let documents = uploadedDocumentMapper(event, decision);
+		let documents = uploadedDocumentMapper(appeal, decision);
 
 		context.log('documents sent to publish function', documents);
 		await publishDocuments(context.log, documents, appealId, horizonCaseId);

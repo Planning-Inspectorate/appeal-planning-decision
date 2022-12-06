@@ -9,21 +9,19 @@ module.exports = async (context, req) => {
 
 	context.log('Receiving create contact request');
 
-	const { body } = req;
-
 	/* The order of this appears to be important - first and last name's are required by Horizon */
 	const contactData = [
 		{
 			key: 'a:Email',
-			value: body?.email
+			value: req?.email
 		},
 		{
 			key: 'a:FirstName',
-			value: body?.firstName || '<Not provided>'
+			value: req?.firstName || '<Not provided>'
 		},
 		{
 			key: 'a:LastName',
-			value: body?.lastName || '<Not provided>'
+			value: req?.lastName || '<Not provided>'
 		}
 	];
 

@@ -6,18 +6,15 @@ const handler = require('./index');
 describe('handler', () => {
 	const envvars = process.env;
 	let context;
-	let logMock;
 
 	beforeEach(() => {
 		jest.resetModules();
 		process.env = { ...envvars };
 
-		logMock = {
-			info: jest.fn(),
-			error: jest.fn()
-		};
-
 		context = {
+			log: jest.fn(),
+			info: jest.fn(),
+			error: jest.fn(),
 			httpStatus: 200
 		};
 	});
@@ -50,7 +47,7 @@ describe('handler', () => {
 			}
 		});
 
-		expect(await handler({ body, log: logMock }, context)).toEqual({
+		expect(await handler(context, body)).toEqual({
 			id: horizonId
 		});
 
@@ -71,9 +68,7 @@ describe('handler', () => {
 			}
 		});
 
-		expect(context).toEqual({
-			httpStatus: 200
-		});
+		expect(context.httpStatus).toEqual(200);
 	});
 
 	it('should simulate a successful call without a last name', async () => {
@@ -100,7 +95,7 @@ describe('handler', () => {
 			}
 		});
 
-		expect(await handler({ body, log: logMock }, context)).toEqual({
+		expect(await handler(context, body)).toEqual({
 			id: horizonId
 		});
 
@@ -121,9 +116,7 @@ describe('handler', () => {
 			}
 		});
 
-		expect(context).toEqual({
-			httpStatus: 200
-		});
+		expect(context.httpStatus).toEqual(200);
 	});
 
 	it('should simulate a successful call with no optional data', async () => {
@@ -150,7 +143,7 @@ describe('handler', () => {
 			}
 		});
 
-		expect(await handler({ body, log: logMock }, context)).toEqual({
+		expect(await handler(context, body)).toEqual({
 			id: horizonId
 		});
 
@@ -171,9 +164,7 @@ describe('handler', () => {
 			}
 		});
 
-		expect(context).toEqual({
-			httpStatus: 200
-		});
+		expect(context.httpStatus).toEqual(200);
 	});
 
 	it('should simulate a successful call with optional data', async () => {
@@ -201,7 +192,7 @@ describe('handler', () => {
 			}
 		});
 
-		expect(await handler({ body, log: logMock }, context)).toEqual({
+		expect(await handler(context, body)).toEqual({
 			id: horizonId
 		});
 
@@ -230,9 +221,7 @@ describe('handler', () => {
 			'a:LastName'
 		]);
 
-		expect(context).toEqual({
-			httpStatus: 200
-		});
+		expect(context.httpStatus).toEqual(200);
 	});
 
 	it('should simulate a failed response from Horizon', async () => {
@@ -256,13 +245,11 @@ describe('handler', () => {
 			response
 		});
 
-		expect(await handler({ body, log: logMock }, context)).toEqual({
+		expect(await handler(context, body)).toEqual({
 			message: 'No response received from Horizon'
 		});
 
-		expect(context).toEqual({
-			httpStatus: 500
-		});
+		expect(context.httpStatus).toEqual(500);
 	});
 
 	it('should simulate a failed call to Horizon', async () => {
@@ -282,13 +269,11 @@ describe('handler', () => {
 			request
 		});
 
-		expect(await handler({ body, log: logMock }, context)).toEqual({
+		expect(await handler(context, body)).toEqual({
 			message: 'Error sending to Horizon'
 		});
 
-		expect(context).toEqual({
-			httpStatus: 400
-		});
+		expect(context.httpStatus).toEqual(400);
 	});
 
 	it('should simulate a general exception', async () => {
@@ -306,12 +291,10 @@ describe('handler', () => {
 			message
 		});
 
-		expect(await handler({ body, log: logMock }, context)).toEqual({
+		expect(await handler(context, body)).toEqual({
 			message: 'General error'
 		});
 
-		expect(context).toEqual({
-			httpStatus: 500
-		});
+		expect(context.httpStatus).toEqual(500);
 	});
 });
