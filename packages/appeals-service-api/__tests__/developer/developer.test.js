@@ -53,9 +53,11 @@ beforeAll(async () => {
 	test_listener.on('message', (context) => {
 		const output = context.message.body.content;
 		messages.push(JSON.parse(output.toString()));
-		context.receiver.detach();
-		context.connection.close();
 	});
+
+	test_listener.on('disconnected', (context) => {
+		context.connection.close();
+	})
 
 	///////////////////////////////
 	///// SETUP TEST DATABASE /////
@@ -222,9 +224,14 @@ describe('Appeals', () => {
 });
 
 describe('Back Office', () => {
-	it('should submit an appeal to the message queue and send emails to the appellant and case worker when we create and submit an appeal to the back office', async () => {
+	it.each([
+		["a blank Horizon ID field", (appeal) => appeal.horizonId = ''],
+		["no Horizon ID field", (appeal) => {delete appeal.horizonId}]
+	])
+	('should submit an appeal to the back office and send emails to the appellant and case worker when we create and submit an appeal that has %p.', async (horizonIdContext, setHorizonIdOnAppeal) => {
+		
 		// Given: an appeal is created and not known to the back office
-		householderAppeal.horizonId = '';
+		setHorizonIdOnAppeal(householderAppeal);
 		const savedAppealResponse = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
 
@@ -319,7 +326,7 @@ describe('Back Office', () => {
 		expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
 	});
 
-	it.only('should not submit an appeal to the back office if the appeal specified does not exist', async () => {
+	it('should not submit an appeal to the back office if the appeal specified does not exist', async () => {
 
 		// When: an unknown appeal is submitted to the back office
 		const submittedAppealResponse = await appealsApi.put(
@@ -337,7 +344,7 @@ describe('Back Office', () => {
 		expectedNotifyInteractions = [];
 	})
 
-	it.only('should not submit an appeal to the back office, if the appeal is known and has a Horizon ID', async () => {
+	it('should not submit an appeal to the back office, if the appeal is known and has a Horizon ID', async () => {
 		
 		// Given: an appeal is created and known to the back office
 		householderAppeal.horizonId = 'itisknown';

@@ -3,7 +3,7 @@ const sleep = require('./sleep')
 
 module.exports = (
   fn,
-  { delay = 50, maxWait = 10000, timeoutMessage = 'Timeout', ignoreTimeout = false } = {}
+  { delay = 50, maxWait = 10000, timeoutMessage = 'Timeout from __tests__/developer/utils/waitFor.js', ignoreTimeout = false } = {}
 ) => {
   let timeoutId
   let totalWait = 0
