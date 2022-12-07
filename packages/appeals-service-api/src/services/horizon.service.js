@@ -36,7 +36,7 @@ class HorizonService {
 			throw ApiError.appealNotFound(id);
 		}
 
-		if (savedAppeal.horizonId == false) {
+		if (savedAppeal.horizonId == undefined || savedAppeal.horizonId == false) {
 			savedAppeal.submissionDate = new Date(new Date().toISOString());
 			savedAppeal.state = 'SUBMITTED';
 			const updatedAppeal = await updateAppeal(id, savedAppeal);

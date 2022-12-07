@@ -6,6 +6,8 @@ const config = require('../configuration/config');
 const logger = require('../lib/logger');
 class BackOfficeRepository {
 
+	#sender = null
+
 	constructor() {}
 
 	/**
@@ -14,27 +16,30 @@ class BackOfficeRepository {
 	 * @return {Promise<void>}
 	 */
 	create(message) {
+		logger.debug(`Attempting to send the following message to the back-office ${message}`)
 
-		container
-			.connect(config.messageQueue.horizonHASPublisher.connection)
-			.open_sender(config.messageQueue.horizonHASPublisher.queue);
+		// We don't do this set up in the constructor because, if we do, the message queue to connect
+		// to may not be available, and the app blows up due to timeout exceptions thrown by rhea.
+		// Note that we only want one sender, hence this block of code!
+		if (this.#sender == null) {
+			this.#sender = container
+				.connect(config.messageQueue.horizonHASPublisher.connection)
+				.open_sender(config.messageQueue.horizonHASPublisher.queue);
+		}
 
-       	container.on('sendable', async (context) => {
-			context.sender.send({
-				body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
-				content_type: 'application/json'
-			});
-			logger.debug(`Appeal message placed on queue: ${JSON.stringify(message)}`);
-       });
+		this.#sender.send({
+			body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
+			content_type: 'application/json'
+		});
+		logger.debug(`Message sent to the queue`);
 
-       container.on('accepted', (context) => {
-			context.connection.close();
-			logger.debug(`Queue closed on message accepted`);
-       });
-
-       container.on('error', (err) => {
+		container.on('error', (err) => {
 			logger.error({ err }, 'There was a problem with the queue');
-       });
+       	});
+
+		container.on('disconnected', (context) => {
+			context.connection.close();
+		})
 	}
 }
 
