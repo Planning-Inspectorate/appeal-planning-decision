@@ -71,7 +71,7 @@ function isValidAppeal(appeal) {
 }
 
 async function updateAppeal(id, appealUpdate) {
-	logger.debug(`Attempting to update appeal with ID ${id} with data`, appealUpdate);
+	logger.debug(`Attempting to update appeal with ID ${id} with ${appealUpdate}`);
 
 	const savedAppealEntity = await appealsRepository.getById(id);
 
@@ -87,7 +87,7 @@ async function updateAppeal(id, appealUpdate) {
 	appeal.updatedAt = new Date(new Date().toISOString());
 	const updatedAppealEntity = await appealsRepository.update(appeal);
 	const updatedAppeal = updatedAppealEntity.value.appeal;
-	logger.debug({ updatedAppeal }, 'Updated appeal data in updateAppeal');
+	logger.debug(`Updated appeal data in updateAppeal to be ${updatedAppeal}`);
 	return updatedAppeal;
 }
 

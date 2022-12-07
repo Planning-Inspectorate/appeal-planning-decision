@@ -14,10 +14,6 @@ module.exports = async (context, appeal) => {
 	context.log('Received householder appeal publish request', appeal);
 
 	try {
-		const { _id: appealId } = appeal;
-
-		context.log('JSON information');
-		context.log(JSON.stringify(appeal));
 
 		/* Get the LPA associated with this appeal */
 		const lpa = await getLpaData(context.log, appeal.lpaCode);
@@ -339,14 +335,13 @@ module.exports = async (context, appeal) => {
 			}
 		};
 
-		context.log('Horizon input:');
-		context.log(input);
+		context.log('Horizon input', input);
 
 		const horizonCaseId = await callHorizon(context.log, input);
 		context.log({ horizonId: horizonCaseId }, 'Adding Horizon ID to Appeal');
 
 		await axios.patch(
-			`/api/v1/appeals/${appealId}`,
+			`/api/v1/appeals/${appeal.id}`,
 			{
 				horizonId: horizonCaseId
 			},
@@ -367,7 +362,7 @@ module.exports = async (context, appeal) => {
 		let documents = uploadedDocumentMapper(appeal, decision);
 
 		context.log('documents sent to publish function', documents);
-		await publishDocuments(context.log, documents, appealId, horizonCaseId);
+		await publishDocuments(context.log, documents, appeal.id, horizonCaseId);
 
 		context.log('Finish add documents to Horizon');
 		context.log({ horizonCaseId }, 'Successful call to Horizon');
