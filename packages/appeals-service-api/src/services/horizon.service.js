@@ -1,3 +1,4 @@
+const { isFeatureActive } = require('../configuration/featureFlag')
 const jp = require('jsonpath');
 const logger = require('../lib/logger');
 const ApiError = require('../errors/apiError');
@@ -6,7 +7,7 @@ const {
 	sendSubmissionConfirmationEmailToAppellant
 } = require('../lib/notify');
 const { BackOfficeRepository } = require('../repositories/back-office-repository');
-const { HorizonGateway } = require('../gateway/horizon-gateway');
+const { HorizonGateway } = require('../gateway/horizon-gateway/horizon-gateway');
 const { getAppeal, updateAppeal } = require('./appeal.service');
 
 class HorizonService {
@@ -30,24 +31,29 @@ class HorizonService {
 	async submitAppeal(id) {
 		logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
 
-		const savedAppeal = await getAppeal(id);
+		let savedAppeal = await getAppeal(id);
 		logger.debug(`Appeal found in repository: ${JSON.stringify(savedAppeal)}`);
 		if (savedAppeal === null) {
 			throw ApiError.appealNotFound(id);
 		}
 
 		if (savedAppeal.horizonId == undefined || savedAppeal.horizonId == false) {
+
+			if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
+				const createdOrganisations = await this.#horizonGateway.createOrganisations(savedAppeal);
+				const createdContacts = await this.#horizonGateway.createContacts(savedAppeal, createdOrganisations);
+				const horizonCaseReferenceForAppeal = await this.#horizonGateway.createAppeal(savedAppeal, createdContacts);
+
+				// TODO: add a call to the new DocumentService.getDocumentsData() method here and send the result to the method below
+				await this.#horizonGateway.uploadAppealDocumentsToAppealInHorizon(savedAppeal, horizonCaseReferenceForAppeal);
+				savedAppeal.horizonId = horizonCaseReferenceForAppeal
+			} else {
+				this.#backOfficeRepository.create(savedAppeal);
+			}
+
 			savedAppeal.submissionDate = new Date(new Date().toISOString());
 			savedAppeal.state = 'SUBMITTED';
 			const updatedAppeal = await updateAppeal(id, savedAppeal);
-			logger.debug(
-				`Appeal after being updated with back office submission details: ${updatedAppeal}`
-			);
-
-			this.#backOfficeRepository.create(updatedAppeal);
-
-			// TODO: put the next two function calls in the Horizon Azure function when we have
-			// DEFINITE confirmation that the appeal has been submitted
 			await sendSubmissionConfirmationEmailToAppellant(updatedAppeal);
 			await sendSubmissionReceivedEmailToLpa(updatedAppeal);
 			return updatedAppeal;

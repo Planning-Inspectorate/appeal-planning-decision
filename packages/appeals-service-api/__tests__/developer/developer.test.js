@@ -240,7 +240,7 @@ describe('Back Office', () => {
 			`/api/v1/back-office/appeals/${savedAppeal.id}`
 		);
 
-		// Then: the status code should be 204
+		// Then: the status code should be 200
 		expect(submittedAppealResponse.status).toBe(200);
 
 		// And: the saved appeal data with an additional `submissionDate` and updated `updatedAt` field
