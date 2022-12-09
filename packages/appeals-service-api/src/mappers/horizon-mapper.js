@@ -1,0 +1,563 @@
+const logger = require('../lib/logger');
+const { getLpaById } = require('../../services/lpa.service')
+const { createContacts } = require('./helpers/create-contacts')
+
+
+class HorizonMapper {
+
+    /**
+     * @return {any} Structure is:
+     * { 
+     *  appellant: { value: {} },
+     *  agent: { value: {} } // optional
+     * }
+     */
+    appealToCreateOrganisationRequests(appeal){
+        let organisations = { appellant: { value: {'__i:nil': 'true'} } };
+
+        const appealTypeID = appeal.appealType == null ? '1001' : appeal.appealType;
+	    if (appealTypeID == '1005') {
+            organisations.appellant.value = {
+                AddContact: {
+                    __soap_op: 'http://tempuri.org/IContacts/AddContact',
+                    __xmlns: 'http://tempuri.org/',
+                    contact: {
+                        '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
+                        '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
+                        '__i:type': 'a:HorizonAPIOrganisation',
+                        'a:Name': appeal.contactDetailsSection.contact.companyName
+                    }
+                }
+            }
+
+			if (!appeal.contactDetailsSection.isOriginalApplicant) {	
+				organisations.agent.value = {
+                        AddContact: {
+                            __soap_op: 'http://tempuri.org/IContacts/AddContact',
+                            __xmlns: 'http://tempuri.org/',
+                            contact: {
+                                '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
+                                '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '__i:type': 'a:HorizonAPIOrganisation',
+                                'a:Name': appeal.contactDetailsSection.appealingOnBehalfOf.companyName
+                            }
+                        }
+                }
+			}
+		}
+        
+        return organisations;
+    }
+
+    /**
+     * 
+     * @param {*} appeal 
+     * @param {*} organisations Structure expected is:
+     * { 
+     *  appellant: { value: '<appellant-organisation-id-in-horizon>' },
+     *  agent: { value: '<agent-organisation-id-in-horizon> } // optional: only if the appeal references an agent.
+     * }
+     * @returns JSON with structure:
+     * [
+     *  { 
+     *      name: '',
+     *      type: '',
+     *      requestBody: {}
+     *  }
+     */
+    createContactRequests(appeal, organisations){
+        // if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
+	    const appealTypeID = appeal.appealType == null ? '1001' : appeal.appealType;
+
+        let contacts = []
+	    if (appealTypeID == '1001') {
+			if (appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
+				/* User is original applicant - just add appellant */
+				contacts.push({
+					type: 'Appellant',
+					email: appeal.email,
+					name: appeal.aboutYouSection.yourDetails.name,
+                    organisationId: organisations.appellant
+				});
+			} else {
+				/* User is agent - add both agent and OP */
+				contacts.push(
+					{
+						type: 'Agent',
+						email: appeal.email,
+						name: appeal.aboutYouSection.yourDetails.name,
+                        organisationId: organisations.agent
+					},
+					{
+						/* Email not collected here */
+						type: 'Appellant',
+						name: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf,
+                        organisationId: organisations.appellant
+					}
+				);
+			}
+		} else if (appealTypeID == '1005') {
+			if (appeal.contactDetailsSection.isOriginalApplicant) {
+				/* User is original applicant - just add appellant */
+				contacts.push({
+					type: 'Appellant',
+					email: appeal.email,
+					name: appeal.contactDetailsSection.contact.name,
+                    organisationId: organisations.appellant
+				});
+			} else {
+				/* User is agent - add both agent and OP */
+				contacts.push(
+					{
+						type: 'Agent',
+						email: appeal.email,
+						name: appeal.contactDetailsSection.contact.name,
+                        organisationId: organisations.agent
+					},
+					{
+						/* Email not collected here */
+						type: 'Appellant',
+						name: appeal.contactDetailsSection.appealingOnBehalfOf.name,
+                        organisationId: organisations.appellant
+					}
+				);
+			}
+		}
+
+        return contacts.map(contact => {
+
+            let [firstName, ...lastName] = contact.name.split(' ');
+
+			if (contact.name.split(' ').length <= 1) {
+				firstName = ',';
+				// eslint-disable-next-line prefer-destructuring
+				lastName = contact.name.split(' ')[0];
+			} else {
+				// eslint-disable-next-line prefer-destructuring
+				firstName = contact.name.split(' ')[0];
+				lastName = lastName.join(' ');
+			}
+
+            return {
+                name: contact.name,
+                type: contact.type,
+                requestBody: {
+                    AddContact: {
+                        __soap_op: 'http://tempuri.org/IContacts/AddContact',
+                        __xmlns: 'http://tempuri.org/',
+                        contact: {
+                            '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
+                            '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
+                            '__i:type': 'a:HorizonAPIPerson',
+                            'a:Email': contact?.email || { "__i:nil": "true" },
+                            'a:FirstName': firstName || '<Not provided>',
+                            'a:LastName': lastName || '<Not provided>',
+                            'a:OrganisationID': contact.organisationId
+                        }
+                    }
+                }
+            }
+        });
+	}
+
+    async appealToHorizonCreateAppealRequest(appeal, contacts){
+
+        // TODO: Do we really need the LPA check code below? Surely there'll only be English 
+        // and Welsh LPAs in the database any way if this is such a high-level requirement! 
+        // Also, it means that the code layer stratifications are broken by calling an appeal 
+        // service method this far down the Horizon domin stack so we'd need to pass the LPA 
+        // code through from the caller if this were to be included.
+
+        // /* Get the LPA associated with this appeal */
+		//  const lpa = await getLpaById(appeal.lpaCode);
+
+		//  logger.debug({ lpa }, 'LPA detail');
+ 
+		//  let location;
+		//  /* PINS only supports England and Wales */
+		//  if (lpa.england) {
+		// 	 location = 'England';
+		//  } else if (lpa.wales) {
+		// 	 location = 'Wales';
+		//  } else {
+		// 	 throw new Error('LPA neither English nor Welsh');
+		//  }
+
+        // if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
+        const appealTypeId = appeal.appealType == null ? '1001' : appeal.appealType;
+        const decision = appeal.eligibility.applicationDecision;
+        const typePlanningApplication = appeal.typeOfPlanningApplication;
+        logger.debug({ appealType: appealTypeId }, 'Appeal Type');
+        logger.debug({ decision }, 'Application Decision');
+        logger.debug({ typePlanningApplication }, 'Planning Application Type');
+        
+        const caseworkReason = this.#getCaseworkReason(appealTypeId, decision, typePlanningApplication);
+		logger.debug({ caseworkReason }, 'Case Work Reason');
+ 
+		let attributes = this.#getAttributes();
+		attributes.push(...(contacts));
+
+        const input = {
+            CreateCase: {
+                __soap_op: 'http://tempuri.org/IHorizon/CreateCase',
+                __xmlns: 'http://tempuri.org/',
+                caseType: this.#getAppealType(appealTypeId),
+                LPACode: appeal.lpaCode,
+                dateOfReceipt: new Date(),
+                location,
+                category: {
+                    '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business',
+                    '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
+                    'a:Attributes': attributes.map(({ key, value }) =>
+                        this.#convertToSoapKVPair(key, value)
+                    )
+                }
+            }
+        };
+
+        logger.debug('Horizon input', input);
+    }
+
+    appealToDocumentIds(appeal) {
+        let result = [];
+        this.#populateArrayWithIdsFromKeysFoundInObject(appeal, ['uploadedFile', 'uploadedFiles'], result);
+        result = result.filter((document) => document.id !== null);
+        return result;
+    }
+
+    // TODO: this could be refactored so its easier to understand by coding it in a way that says:
+    //       "I should return casework reason 1 if the following applies, I should return casework 
+    //       2 if the following applies..." etc. Then, the casework reason is defined once, so there
+    //       is less chance of an issue with casework values being incorrect.
+    #getCaseworkReason(appealTypeID, decision, typePlanningApplication) {
+ 
+		 switch (appealTypeID) {
+            case '1001': {
+                // Householder (HAS) Appeal
+                if (decision === 'refused') {
+                    if (typePlanningApplication === 'householder-planning') {
+                        return '1. Refused planning permission for the development';
+                    } else if (typePlanningApplication === 'removal-or-variation-of-conditions') {
+                        return '2. Refused permission to vary or remove a condition(s)';
+                    } else if (typePlanningApplication === 'prior-approval') {
+                        return '3. Refused prior approval of permitted development rights';
+                    }
+                }
+
+                break;
+            }
+
+            case '1005': {
+                // Full Planning Appeal
+                switch (typePlanningApplication) {
+                    case 'householder-planning': {
+                        if (decision === 'granted') {
+                            return '4. Granted planning permission for the development subject to conditions to which you object';
+                        } else if (decision === 'nodecisionreceived') {
+                            return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+                        }
+
+                        break;
+                    }
+
+                    case 'full-appeal': {
+                        if (decision === 'granted') {
+                            return '4. Granted planning permission for the development subject to conditions to which you object';
+                        } else if (decision === 'refused') {
+                            return '1. Refused planning permission for the development';
+                        } else if (decision === 'nodecisionreceived') {
+                            return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+                        }
+
+                        break;
+                    }
+
+                    case 'outline-planning': {
+                        if (decision === 'granted') {
+                            return '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
+                        } else if (decision === 'refused') {
+                            return '5. Refused approval of the matters reserved under an outline planning permission';
+                        } else if (decision === 'nodecisionreceived') {
+                            return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+                        }
+
+                        break;
+                    }
+
+                    case 'prior-approval': {
+                        if (decision === 'granted') {
+                            return '4. Granted planning permission for the development subject to conditions to which you object';
+                        } else if (decision === 'refused') {
+                            return '3. Refused prior approval of permitted development rights';
+                        } else if (decision === 'nodecisionreceived') {
+                            return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+                        }
+
+                        break;
+                    }
+
+                    case 'reserved-matters': {
+                        if (decision === 'granted') {
+                            return '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
+                        } else if (decision === 'refused') {
+                            return '5. Refused approval of the matters reserved under an outline planning permission';
+                        } else if (decision === 'nodecisionreceived') {
+                            return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+                        }
+
+                        break;
+                    }
+
+                    case 'removal-or-variation-of-conditions': {
+                        if (decision === 'granted') {
+                            return '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
+                        } else if (decision === 'refused') {
+                            return '2. Refused permission to vary or remove a condition(s)';
+                        } else if (decision === 'nodecisionreceived') {
+                            return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+                        }
+
+                        break;
+                    }
+
+                    default: {
+                        break;
+                    }
+                }
+
+                break;
+            }
+ 
+            default: {
+                break;
+            }
+        }
+
+        return null;
+    }
+
+    #getAppealType(appealTypeId){
+         if (appealTypeId == '1001') return 'Householder (HAS) Appeal'
+         else if (appealTypeId == '1005') return 'Planning Appeal (W)'
+         else return '';
+    }
+
+    #getAttributes(appealTypeId, appeal, caseworkReason){
+        if (appealTypeId == '1001') {
+            return [
+                {
+                    key: 'Case:Casework Reason',
+                    // This is the last time the record was updated
+                    value: caseworkReason
+                },
+                {
+                    key: 'Case Dates:Receipt Date',
+                    // This is the last time the record was updated
+                    value: new Date(appeal.updatedAt)
+                },
+                {
+                    key: 'Case:Source Indicator',
+                    value: 'Other'
+                },
+                {
+                    key: 'Case:Case Publish Flag',
+                    value: false
+                },
+                {
+                    key: 'Planning Application:Date Of LPA Decision',
+                    value: new Date(appeal.decisionDate)
+                },
+                {
+                    key: 'Case:Procedure (Appellant)',
+                    value: 'Written Representations'
+                },
+                {
+                    key: 'Planning Application:LPA Application Reference',
+                    value: appeal.planningApplicationNumber
+                },
+                {
+                    key: 'Case Site:Site Address Line 1',
+                    value: appeal.appealSiteSection.siteAddress.addressLine1
+                },
+                {
+                    key: 'Case Site:Site Address Line 2',
+                    value: appeal.appealSiteSection.siteAddress.addressLine2
+                },
+                {
+                    key: 'Case Site:Site Address Town',
+                    value: appeal.appealSiteSection.siteAddress.town
+                },
+                {
+                    key: 'Case Site:Site Address County',
+                    value: appeal.appealSiteSection.siteAddress.county
+                },
+                {
+                    key: 'Case Site:Site Address Postcode',
+                    value: appeal.appealSiteSection.siteAddress.postcode
+                },
+                {
+                    key: 'Case Site:Ownership Certificate',
+                    value: appeal.appealSiteSection.siteOwnership.ownsWholeSite
+                        ? 'Certificate A'
+                        : null
+                },
+                {
+                    key: 'Case Site:Site Viewable From Road',
+                    value: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
+                },
+                {
+                    key: 'Case Site:Inspector Need To Enter Site',
+                    value: !appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
+                }
+            ];
+        } else if (appealTypeId == '1005') {
+            return [
+                {
+                    key: 'Case Dates:Receipt Date',
+                    // This is the last time the record was updated
+                    value: new Date(appeal.updatedAt)
+                },
+                {
+                    key: 'Case:Source Indicator',
+                    value: 'Other'
+                },
+                {
+                    key: 'Case:Case Publish Flag',
+                    value: false
+                },
+                {
+                    key: 'Planning Application:Date Of LPA Decision',
+                    value: new Date(appeal.decisionDate)
+                },
+                {
+                    key: 'Case:Procedure (Appellant)',
+                    value: appeal.appealDecisionSection.procedureType
+                },
+                {
+                    key: 'Planning Application:LPA Application Reference',
+                    value: appeal.planningApplicationDocumentsSection.applicationNumber
+                },
+                {
+                    key: 'Case Site:Site Address Line 1',
+                    value: appeal.appealSiteSection.siteAddress.addressLine1
+                },
+                {
+                    key: 'Case Site:Site Address Line 2',
+                    value: appeal.appealSiteSection.siteAddress.addressLine2
+                },
+                {
+                    key: 'Case Site:Site Address Town',
+                    value: appeal.appealSiteSection.siteAddress.town
+                },
+                {
+                    key: 'Case Site:Site Address County',
+                    value: appeal.appealSiteSection.siteAddress.county
+                },
+                {
+                    key: 'Case Site:Site Address Postcode',
+                    value: appeal.appealSiteSection.siteAddress.postcode
+                },
+                {
+                    key: 'Case Site:Ownership Certificate',
+                    value: appeal.appealSiteSection.siteOwnership.ownsAllTheLand
+                        ? 'Certificate A'
+                        : null
+                },
+                {
+                    key: 'Case Site:Site Viewable From Road',
+                    value: appeal.appealSiteSection.visibleFromRoad.isVisible
+                }
+                // {
+                //   key: 'Case Site:Inspector Need To Enter Site',
+                //   value: !appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
+                // },
+            ];
+        }
+
+        else {
+            return [];
+        }
+    }
+
+    #convertToSoapKVPair(key, value) {
+        logger.debug(
+            {
+                key,
+                value
+            },
+            'Parsing soap key/value pair'
+        );
+    
+        if (Array.isArray(value)) {
+            logger.debug('Parsing as array');
+            return {
+                'a:AttributeValue': {
+                    '__i:type': 'a:SetAttributeValue',
+                    'a:Name': key,
+                    'a:Values': value.map((item) => convertToSoapKVPair(item.key, item.value))
+                }
+            };
+        }
+    
+        if (value == null) {
+            logger.debug('Parsing as null');
+            return {
+                'a:AttributeValue': {
+                    '__i:type': 'a:StringAttributeValue',
+                    'a:Name': key,
+                    'a:Value': null
+                }
+            };
+        }
+    
+        if (value.toISOString) {
+            /* Value is a date */
+            logger.debug('Parsing as date');
+            return {
+                'a:AttributeValue': {
+                    '__i:type': 'a:DateAttributeValue',
+                    'a:Name': key,
+                    'a:Value': value.toISOString()
+                }
+            };
+        }
+    
+        let cleanValue = value;
+    
+        /* Check for booleans - convert to "Yes" or "No" */
+        if (cleanValue === true) {
+            cleanValue = 'Yes';
+        } else if (cleanValue === false) {
+            cleanValue = 'No';
+        }
+    
+        /* Everything else is a string */
+        logger.debug('Parsing as string');
+        return {
+            'a:AttributeValue': {
+                '__i:type': 'a:StringAttributeValue',
+                'a:Name': key,
+                'a:Value': `${cleanValue}` // Ensure value a string
+            }
+        };
+    }
+
+    #populateArrayWithIdsFromKeysFoundInObject(obj, keys, array) {
+        for (let [k, v] of Object.entries(obj)) {
+            if (keys.includes(k)) {
+                if (Array.isArray(v)) {
+                    v.map((value) => array.push({ id: value.id }));
+                } else {
+                    array.push({ id: v.id });
+                }
+            }
+    
+            if (typeof v === 'object' && v !== null) {
+                let found = this.#populateArrayWithIdsFromKeysFoundInObject(v, keys, array);
+                if (found) return found;
+            }
+        }
+    }
+}
+
+module.exports = { HorizonMapper }
