@@ -102,7 +102,7 @@ class HorizonGateway {
 		return caseReference;
 	}
 	
-	async attachDocumentsToAppeal(appeal, appealCaseReference){
+	async uploadAppealDocumentsToAppealInHorizon(appeal, appealCaseReference){
 		// We treat these as non-mandatory for add documents, even though
         // they are mandatory in the appeal. This is to avoid any unhelpful
         // errors at this point
