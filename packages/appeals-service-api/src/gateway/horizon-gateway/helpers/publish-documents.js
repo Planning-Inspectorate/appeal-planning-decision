@@ -13,6 +13,8 @@ const addDocument = require('./add-document');
  */
 const publishDocuments = async (log, documents, serviceId, horizonId) => {
 	await Promise.all(
+
+		//TODO: move this into the Document service "get documents" method
 		documents
 			/* Remove any undefined keys */
 			.filter(({ id }) => id)

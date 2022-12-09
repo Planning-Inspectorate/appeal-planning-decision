@@ -2,6 +2,7 @@ const axios = require('axios');
 const config = require('../configuration/config');
 const logger = require('../lib/logger');
 
+// TODO: move into Horizon Mapper as a function called by HorizonGateway.uploadDocumentsToAppeal()
 function getHorizonDocumentXmlInJsonFormat(documentData, body) {
 	//TODO: remove 'log' parameter when AS-5031 is complete
 	const documentInvolvementName = body.documentInvolvement || 'Document:Involvement';
@@ -83,6 +84,7 @@ function getHorizonDocumentXmlInJsonFormat(documentData, body) {
 	return horizonDocumentXmlInJsonFormat;
 }
 
+// Move to a new DocumentGateway object, which is accessed via a new DocumentService object
 async function downloadDocumentFromDocumentsApi({ body }) {
 	const { documentId, applicationId } = body;
 
@@ -109,6 +111,7 @@ module.exports = async (body) => {
 			body
 		);
 
+		// TODO: Move this fragment the getHorizonDocumentXmlInJsonFormat() method above
 		const input = {
 			AddDocuments: {
 				__soap_op: 'http://tempuri.org/IHorizon/AddDocuments',
@@ -124,6 +127,7 @@ module.exports = async (body) => {
 
 		logger.info(JSON.stringify(input), 'Uploading documents to Horizon');
 
+		// TODO: move this into the Horizon Gateway uploadAppealDocumentsToAppealInHorizon() method
 		const { data } = await axios.post('/horizon', input, {
 			baseURL: config.horizon.url,
 			/* Needs to be infinity as Horizon doesn't support multipart uploads */
@@ -134,6 +138,7 @@ module.exports = async (body) => {
 			caseReference,
 			data
 		};
+	// TODO: we can delete this try/catch structure
 	} catch (err) {
 		logger.info(err, 'Error');
 		let message;
