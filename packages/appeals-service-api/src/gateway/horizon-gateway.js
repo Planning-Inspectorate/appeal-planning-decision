@@ -1,9 +1,8 @@
 
-const config = require('../../configuration/config');
+const config = require('../configuration/config');
 const axios = require('axios');
-const logger = require('../../lib/logger');
-const { HorizonMapper } = require('../../mappers/horizon-mapper');
-const { publishDocuments } = require('./helpers/publish-documents');
+const logger = require('../lib/logger');
+const { HorizonMapper } = require('../mappers/horizon-mapper');
 
 class HorizonGateway {
 
@@ -102,15 +101,18 @@ class HorizonGateway {
 		return caseReference;
 	}
 	
-	async uploadAppealDocumentsToAppealInHorizon(appeal, appealCaseReference){
-		// We treat these as non-mandatory for add documents, even though
-        // they are mandatory in the appeal. This is to avoid any unhelpful
-        // errors at this point
-        logger.debug('Add documents to Horizon');
-		let appealDocumentIds = this.#horizonMapper.appealToDocumentIds(appeal);
-        await publishDocuments(appealDocumentIds, appeal.id, appealCaseReference);
-
-        logger.debug('Finish add documents to Horizon');
+	async uploadAppealDocumentsToAppealInHorizon(appealId, documents, appealCaseReference){
+		documents.forEach(async document => {
+			await axios.post(
+				'/horizon', 
+				this.#horizonMapper.toCreateDocumentRequest(document, appealCaseReference), 
+				{
+					baseURL: config.horizon.url,
+					/* Needs to be infinity as Horizon doesn't support multipart uploads */
+					maxBodyLength: Infinity
+				}
+			);
+		});
 	}
 
 	//TODO: this should return an as-of-yet non-existent `HorizonAppealDto` instance.

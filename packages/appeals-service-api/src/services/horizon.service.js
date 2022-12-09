@@ -7,8 +7,8 @@ const {
 	sendSubmissionConfirmationEmailToAppellant
 } = require('../lib/notify');
 const { BackOfficeRepository } = require('../repositories/back-office-repository');
-const { HorizonGateway } = require('../gateway/horizon-gateway/horizon-gateway');
-const { getAppeal, updateAppeal } = require('./appeal.service');
+const { HorizonGateway } = require('../gateway/horizon-gateway');
+const { getAppeal, updateAppeal, getDocumentsInBase64Encoding } = require('./appeal.service');
 
 class HorizonService {
 	#horizonGateway;
@@ -43,9 +43,7 @@ class HorizonService {
 				const createdOrganisations = await this.#horizonGateway.createOrganisations(savedAppeal);
 				const createdContacts = await this.#horizonGateway.createContacts(savedAppeal, createdOrganisations);
 				const horizonCaseReferenceForAppeal = await this.#horizonGateway.createAppeal(savedAppeal, createdContacts);
-
-				// TODO: add a call to the new DocumentService.getDocumentsData() method here and send the result to the method below
-				await this.#horizonGateway.uploadAppealDocumentsToAppealInHorizon(savedAppeal, horizonCaseReferenceForAppeal);
+				await this.#horizonGateway.uploadAppealDocumentsToAppealInHorizon(id, getDocumentsInBase64Encoding(savedAppeal));
 				savedAppeal.horizonId = horizonCaseReferenceForAppeal
 			} else {
 				this.#backOfficeRepository.create(savedAppeal);

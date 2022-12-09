@@ -10,8 +10,10 @@ const validateFullAppeal = require('../validators/validate-full-appeal');
 const { validateAppeal } = require('../validators/validate-appeal');
 const { AppealsRepository } = require('../repositories/appeals-repository');
 const uuid = require('uuid');
+const { DocumentService } = require('./document.service')
 
 const appealsRepository = new AppealsRepository();
+const documentService = new DocumentService();
 
 async function createAppeal(req, res) {
 	const appeal = {};
@@ -91,9 +93,34 @@ async function updateAppeal(id, appealUpdate) {
 	return updatedAppeal;
 }
 
+function getDocumentsInBase64Encoding(appeal) {
+	let documentIds = [];
+	populateArrayWithIdsFromKeysFoundInObject(appeal, ['uploadedFile', 'uploadedFiles'], documentIds);
+	documentIds = documentIds.filter((document) => document.id !== null);
+	return documentService.getAppealDocumentsInBase64Encoding(appeal.id, documentIds)
+}
+
+function populateArrayWithIdsFromKeysFoundInObject(obj, keys, array) {
+	for (let [k, v] of Object.entries(obj)) {
+		if (keys.includes(k)) {
+			if (Array.isArray(v)) {
+				v.map((value) => array.push({ id: value.id }));
+			} else {
+				array.push({ id: v.id });
+			}
+		}
+
+		if (typeof v === 'object' && v !== null) {
+			let found = populateArrayWithIdsFromKeysFoundInObject(v, keys, array);
+			if (found) return found;
+		}
+	}
+}
+
 module.exports = {
 	createAppeal,
 	getAppeal,
 	updateAppeal,
-	validateAppeal
+	validateAppeal,
+	getDocumentsInBase64Encoding
 };
