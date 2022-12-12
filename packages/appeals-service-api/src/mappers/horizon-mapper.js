@@ -28,16 +28,16 @@ class HorizonMapper {
 
 			if (!appeal.contactDetailsSection.isOriginalApplicant) {	
 				organisations.agent.value = {
-                        AddContact: {
-                            __soap_op: 'http://tempuri.org/IContacts/AddContact',
-                            __xmlns: 'http://tempuri.org/',
-                            contact: {
-                                '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
-                                '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
-                                '__i:type': 'a:HorizonAPIOrganisation',
-                                'a:Name': appeal.contactDetailsSection.appealingOnBehalfOf.companyName
-                            }
+                    AddContact: {
+                        __soap_op: 'http://tempuri.org/IContacts/AddContact',
+                        __xmlns: 'http://tempuri.org/',
+                        contact: {
+                            '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
+                            '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
+                            '__i:type': 'a:HorizonAPIOrganisation',
+                            'a:Name': appeal.contactDetailsSection.appealingOnBehalfOf.companyName
                         }
+                    }
                 }
 			}
 		}
@@ -156,28 +156,19 @@ class HorizonMapper {
         });
 	}
 
-    async appealToHorizonCreateAppealRequest(appeal, contacts){
+    async appealToHorizonCreateAppealRequest(appeal, contacts, lpa){
 
-        // TODO: Do we really need the LPA check code below? Surely there'll only be English 
-        // and Welsh LPAs in the database any way if this is such a high-level requirement! 
-        // Also, it means that the code layer stratifications are broken by calling an appeal 
-        // service method this far down the Horizon domin stack so we'd need to pass the LPA 
-        // code through from the caller if this were to be included.
-
-        // /* Get the LPA associated with this appeal */
-		//  const lpa = await getLpaById(appeal.lpaCode);
-
-		//  logger.debug({ lpa }, 'LPA detail');
+		 logger.debug({ lpa }, 'LPA detail');
  
-		//  let location;
-		//  /* PINS only supports England and Wales */
-		//  if (lpa.england) {
-		// 	 location = 'England';
-		//  } else if (lpa.wales) {
-		// 	 location = 'Wales';
-		//  } else {
-		// 	 throw new Error('LPA neither English nor Welsh');
-		//  }
+		 let locationValue;
+		 /* PINS only supports England and Wales */
+		 if (lpa.england) {
+            locationValue = 'England';
+		 } else if (lpa.wales) {
+            locationValue = 'Wales';
+		 } else {
+			 throw new Error('LPA neither English nor Welsh');
+		 }
 
         // if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
         const appealTypeId = appeal.appealType == null ? '1001' : appeal.appealType;
@@ -190,7 +181,7 @@ class HorizonMapper {
         const caseworkReason = this.#getCaseworkReason(appealTypeId, decision, typePlanningApplication);
 		logger.debug({ caseworkReason }, 'Case Work Reason');
  
-		let attributes = this.#getAttributes();
+		let attributes = this.#getAttributes(appealTypeId, appeal, caseworkReason);
 		attributes.push(...(contacts));
 
         const input = {
@@ -200,7 +191,7 @@ class HorizonMapper {
                 caseType: this.#getAppealType(appealTypeId),
                 LPACode: appeal.lpaCode,
                 dateOfReceipt: new Date(),
-                location,
+                location: locationValue,
                 category: {
                     '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business',
                     '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',

@@ -3,6 +3,8 @@ const config = require('../configuration/config');
 
 class DocumentApiGateway {
 
+    constructor(){}
+
     async getDocumentInBase64Encoding(appealId, documentId){
         const documentResponse = await axios.get(`/api/v1/${appealId}/${documentId}/file`, {
             baseURL: config.documents.url,
@@ -15,4 +17,4 @@ class DocumentApiGateway {
     }
 }
 
-module.exports = { DocumentApiGateway }
+module.exports = DocumentApiGateway

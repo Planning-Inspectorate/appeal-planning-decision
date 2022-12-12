@@ -33,6 +33,7 @@ jest.mock('../../src/configuration/featureFlag', () => ({
 }));
 
 beforeAll(async () => {
+
 	///////////////////////////////
 	///// SETUP EXTERNAL APIs /////
 	///////////////////////////////
@@ -224,12 +225,15 @@ describe('Appeals', () => {
 });
 
 describe('Back Office', () => {
-	it.each([
+	it.only.each([
 		["a blank Horizon ID field", (appeal) => appeal.horizonId = ''],
 		["no Horizon ID field", (appeal) => {delete appeal.horizonId}]
 	])
-	('should submit an appeal to the back office and send emails to the appellant and case worker when we create and submit an appeal that has %p.', async (horizonIdContext, setHorizonIdOnAppeal) => {
+	('should submit an appeal to the back office message queue and send emails to the appellant and case worker when we create and submit an appeal that has %p.', async (horizonIdContext, setHorizonIdOnAppeal) => {
 		
+		// Given: that we use the standard back-office message queue integration
+		// TODO: make the feature flag mock return false for this test only
+
 		// Given: an appeal is created and not known to the back office
 		setHorizonIdOnAppeal(householderAppeal);
 		const savedAppealResponse = await _createAppeal();

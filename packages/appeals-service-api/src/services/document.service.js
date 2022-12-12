@@ -1,4 +1,4 @@
-const { DocumentGateway } = require('../gateway/document.gateway')
+const DocumentGateway = require('../gateway/document.gateway')
 
 class DocumentService { 
 
