@@ -10,7 +10,7 @@ const validateFullAppeal = require('../validators/validate-full-appeal');
 const { validateAppeal } = require('../validators/validate-appeal');
 const { AppealsRepository } = require('../repositories/appeals-repository');
 const uuid = require('uuid');
-const { DocumentService } = require('./document.service')
+const { DocumentService } = require('./document.service');
 
 const appealsRepository = new AppealsRepository();
 const documentService = new DocumentService();
@@ -89,7 +89,7 @@ async function updateAppeal(id, appealUpdate) {
 	appeal.updatedAt = new Date(new Date().toISOString());
 	const updatedAppealEntity = await appealsRepository.update(appeal);
 	const updatedAppeal = updatedAppealEntity.value.appeal;
-	logger.debug(`Updated appeal data in updateAppeal to be ${updatedAppeal}`);
+	logger.debug(`Updated appeal data in updateAppeal to be ${JSON.stringify(updatedAppeal)}`);
 	return updatedAppeal;
 }
 
@@ -97,7 +97,7 @@ function getDocumentsInBase64Encoding(appeal) {
 	let documentIds = [];
 	populateArrayWithIdsFromKeysFoundInObject(appeal, ['uploadedFile', 'uploadedFiles'], documentIds);
 	documentIds = documentIds.filter((document) => document.id !== null);
-	return documentService.getAppealDocumentsInBase64Encoding(appeal.id, documentIds)
+	return documentService.getAppealDocumentsInBase64Encoding(appeal.id, documentIds);
 }
 
 function populateArrayWithIdsFromKeysFoundInObject(obj, keys, array) {
@@ -117,10 +117,18 @@ function populateArrayWithIdsFromKeysFoundInObject(obj, keys, array) {
 	}
 }
 
+async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference = '') {
+	appeal.submissionDate = new Date(new Date().toISOString());
+	appeal.state = 'SUBMITTED';
+	appeal.horizonId = horizonCaseReference;
+	return await updateAppeal(appeal.id, appeal);
+}
+
 module.exports = {
 	createAppeal,
 	getAppeal,
 	updateAppeal,
 	validateAppeal,
-	getDocumentsInBase64Encoding
+	getDocumentsInBase64Encoding,
+	saveAppealAsSubmittedToBackOffice
 };
