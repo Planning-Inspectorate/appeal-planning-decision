@@ -14,6 +14,7 @@ const { MockedExternalApis } = require('./external-dependencies/rest-apis/mocked
 const { Interaction } = require('./external-dependencies/rest-apis/interaction');
 const { JsonPathExpression } = require('./external-dependencies/rest-apis/json-path-expression');
 const waitFor = require('./utils/waitFor');
+const { isFeatureActive } = require('../../src/configuration/featureFlag');
 
 let appealsApi;
 let databaseConnection;
@@ -28,12 +29,9 @@ let testLpaName = 'System Test Borough Council';
 
 jest.setTimeout(120000);
 jest.mock('../../src/db/db');
-jest.mock('../../src/configuration/featureFlag', () => ({
-	isFeatureActive: () => true
-}));
+jest.mock('../../src/configuration/featureFlag');
 
 beforeAll(async () => {
-
 	///////////////////////////////
 	///// SETUP EXTERNAL APIs /////
 	///////////////////////////////
@@ -58,7 +56,7 @@ beforeAll(async () => {
 
 	test_listener.on('disconnected', (context) => {
 		context.connection.close();
-	})
+	});
 
 	///////////////////////////////
 	///// SETUP TEST DATABASE /////
@@ -113,6 +111,9 @@ beforeAll(async () => {
 
 beforeEach(async () => {
 	await mockedExternalApis.mockNotifyResponse({}, 200);
+	isFeatureActive.mockImplementation(() => {
+		return true;
+	});
 });
 
 // We check mock and message interactions consistently here so that they're not forgotten for each test :)
@@ -140,7 +141,6 @@ afterAll(async () => {
 });
 
 describe('Appeals', () => {
-
 	it(`should return an error if we try to update an appeal that doesn't exist`, async () => {
 		// When: an appeal is sent via a PUT or PATCH request, but hasn't yet been created
 		householderAppeal.id = uuid.v4();
@@ -225,117 +225,123 @@ describe('Appeals', () => {
 });
 
 describe('Back Office', () => {
-	it.only.each([
-		["a blank Horizon ID field", (appeal) => appeal.horizonId = ''],
-		["no Horizon ID field", (appeal) => {delete appeal.horizonId}]
-	])
-	('should submit an appeal to the back office message queue and send emails to the appellant and case worker when we create and submit an appeal that has %p.', async (horizonIdContext, setHorizonIdOnAppeal) => {
-		
-		// Given: that we use the standard back-office message queue integration
-		// TODO: make the feature flag mock return false for this test only
+	it.each([
+		['a blank Horizon ID field', (appeal) => (appeal.horizonId = '')],
+		[
+			'no Horizon ID field',
+			(appeal) => {
+				delete appeal.horizonId;
+			}
+		]
+	])(
+		'should submit an appeal to the back office message queue and send emails to the appellant and case worker when we create and submit an appeal that has %p.',
+		async (horizonIdContext, setHorizonIdOnAppeal) => {
+			// Given: that we use the standard back-office message queue integration
+			// make the feature flag mock return false for this test only
+			isFeatureActive.mockImplementation(() => {
+				return false;
+			});
 
-		// Given: an appeal is created and not known to the back office
-		setHorizonIdOnAppeal(householderAppeal);
-		const savedAppealResponse = await _createAppeal();
-		let savedAppeal = savedAppealResponse.body;
+			// Given: an appeal is created and not known to the back office
+			setHorizonIdOnAppeal(householderAppeal);
+			const savedAppealResponse = await _createAppeal();
+			let savedAppeal = savedAppealResponse.body;
 
-		// When: the appeal is submitted to the back office
-		const submittedAppealResponse = await appealsApi.put(
-			`/api/v1/back-office/appeals/${savedAppeal.id}`
-		);
-
-		// Then: the status code should be 200
-		expect(submittedAppealResponse.status).toBe(200);
-
-		// And: the saved appeal data with an additional `submissionDate` and updated `updatedAt` field
-		// should be output on the output message queue
-		savedAppeal.state = 'SUBMITTED';
-		savedAppeal.submissionDate = submittedAppealResponse.body.submissionDate;
-		savedAppeal.updatedAt = submittedAppealResponse.body.updatedAt;
-		expectedMessages = [savedAppeal];
-
-		// And: external APIs should be interacted with in the following ways
-		const emailToAppellantInteraction = new Interaction()
-			.setNumberOfKeysExpectedInJson(8)
-			.addJsonValueExpectation(
-				JsonPathExpression.create('$.template_id'),
-				appConfiguration.services.notify.templates['1001']
-					.appealSubmissionConfirmationEmailToAppellant
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create('$.email_address'),
-				householderAppeal.email
-			)
-			.addJsonValueExpectation(JsonPathExpression.create('$.reference'), householderAppeal.id)
-			.addJsonValueExpectation(
-				JsonPathExpression.create('$.personalisation.name'),
-				householderAppeal.aboutYouSection.yourDetails.name
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create("$.personalisation['appeal site address']"),
-				householderAppeal.appealSiteSection.siteAddress.addressLine1 +
-					'\n' +
-					householderAppeal.appealSiteSection.siteAddress.addressLine2 +
-					'\n' +
-					householderAppeal.appealSiteSection.siteAddress.town +
-					'\n' +
-					householderAppeal.appealSiteSection.siteAddress.county +
-					'\n' +
-					householderAppeal.appealSiteSection.siteAddress.postcode
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create("$.personalisation['local planning department']"),
-				testLpaName
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create("$.personalisation['pdf copy URL']"),
-				`${process.env.APP_APPEALS_BASE_URL}/document/${householderAppeal.id}/${householderAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+			// When: the appeal is submitted to the back office
+			const submittedAppealResponse = await appealsApi.put(
+				`/api/v1/back-office/appeals/${savedAppeal.id}`
 			);
 
-		const emailToLpaInteraction = new Interaction()
-			.setNumberOfKeysExpectedInJson(8)
-			.addJsonValueExpectation(
-				JsonPathExpression.create('$.template_id'),
-				appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa
-			)
-			.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), testLpaEmail)
-			.addJsonValueExpectation(JsonPathExpression.create('$.reference'), householderAppeal.id)
-			.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.LPA'), testLpaName)
-			.addJsonValueExpectation(
-				JsonPathExpression.create("$.personalisation['site address']"),
-				householderAppeal.appealSiteSection.siteAddress.addressLine1 +
-					'\n' +
-					householderAppeal.appealSiteSection.siteAddress.addressLine2 +
-					'\n' +
-					householderAppeal.appealSiteSection.siteAddress.town +
-					'\n' +
-					householderAppeal.appealSiteSection.siteAddress.county +
-					'\n' +
-					householderAppeal.appealSiteSection.siteAddress.postcode
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create('$.personalisation.date'),
-				householderAppeal.submissionDate.toLocaleDateString('en-GB', {
-					day: '2-digit',
-					month: 'long',
-					year: 'numeric'
-				})
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create("$.personalisation['planning application number']"),
-				householderAppeal.planningApplicationNumber
-			);
+			// Then: the status code should be 200
+			expect(submittedAppealResponse.status).toBe(200);
 
-		expectedHorizonInteractions = [];
-		expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
-	});
+			// And: the saved appeal data with an additional `submissionDate` and updated `updatedAt` field
+			// should be output on the output message queue
+			savedAppeal.state = 'SUBMITTED';
+			savedAppeal.submissionDate = submittedAppealResponse.body.submissionDate;
+			savedAppeal.updatedAt = submittedAppealResponse.body.updatedAt;
+			expectedMessages = [savedAppeal];
+
+			// And: external APIs should be interacted with in the following ways
+			const emailToAppellantInteraction = new Interaction()
+				.setNumberOfKeysExpectedInJson(8)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.template_id'),
+					appConfiguration.services.notify.templates['1001']
+						.appealSubmissionConfirmationEmailToAppellant
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.email_address'),
+					householderAppeal.email
+				)
+				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), householderAppeal.id)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.personalisation.name'),
+					householderAppeal.aboutYouSection.yourDetails.name
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['appeal site address']"),
+					householderAppeal.appealSiteSection.siteAddress.addressLine1 +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.addressLine2 +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.town +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.county +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.postcode
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['local planning department']"),
+					testLpaName
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['pdf copy URL']"),
+					`${process.env.APP_APPEALS_BASE_URL}/document/${householderAppeal.id}/${householderAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+				);
+
+			const emailToLpaInteraction = new Interaction()
+				.setNumberOfKeysExpectedInJson(8)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.template_id'),
+					appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa
+				)
+				.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), testLpaEmail)
+				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), householderAppeal.id)
+				.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.LPA'), testLpaName)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['site address']"),
+					householderAppeal.appealSiteSection.siteAddress.addressLine1 +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.addressLine2 +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.town +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.county +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.postcode
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.personalisation.date'),
+					householderAppeal.submissionDate.toLocaleDateString('en-GB', {
+						day: '2-digit',
+						month: 'long',
+						year: 'numeric'
+					})
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['planning application number']"),
+					householderAppeal.planningApplicationNumber
+				);
+
+			expectedHorizonInteractions = [];
+			expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
+		}
+	);
 
 	it('should not submit an appeal to the back office if the appeal specified does not exist', async () => {
-
 		// When: an unknown appeal is submitted to the back office
-		const submittedAppealResponse = await appealsApi.put(
-			`/api/v1/back-office/appeals/NOT_KNOWN`
-		);
+		const submittedAppealResponse = await appealsApi.put(`/api/v1/back-office/appeals/NOT_KNOWN`);
 
 		// Then: the status code should be 404
 		expect(submittedAppealResponse.status).toBe(404);
@@ -346,10 +352,9 @@ describe('Back Office', () => {
 		// And: external APIs should not be interacted with
 		expectedHorizonInteractions = [];
 		expectedNotifyInteractions = [];
-	})
+	});
 
 	it('should not submit an appeal to the back office, if the appeal is known and has a Horizon ID', async () => {
-		
 		// Given: an appeal is created and known to the back office
 		householderAppeal.horizonId = 'itisknown';
 		const savedAppealResponse = await _createAppeal();
@@ -370,7 +375,7 @@ describe('Back Office', () => {
 		expectedHorizonInteractions = [];
 		expectedNotifyInteractions = [];
 	});
-})
+});
 
 describe('Final comments', () => {
 	it('should return a final comment entity and email the secure code for it to the appellant when requested, after creating the entity', async () => {

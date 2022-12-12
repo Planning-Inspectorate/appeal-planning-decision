@@ -1,4 +1,4 @@
-const { isFeatureActive } = require('../configuration/featureFlag')
+const { isFeatureActive } = require('../configuration/featureFlag');
 const jp = require('jsonpath');
 const logger = require('../lib/logger');
 const ApiError = require('../errors/apiError');
@@ -8,7 +8,11 @@ const {
 } = require('../lib/notify');
 const { BackOfficeRepository } = require('../repositories/back-office-repository');
 const { HorizonGateway } = require('../gateway/horizon-gateway');
-const { getAppeal, updateAppeal, getDocumentsInBase64Encoding } = require('./appeal.service');
+const {
+	getAppeal,
+	getDocumentsInBase64Encoding,
+	saveAppealAsSubmittedToBackOffice
+} = require('./appeal.service');
 const { getLpaById } = require('../services/lpa.service');
 
 class BackOfficeService {
@@ -39,22 +43,33 @@ class BackOfficeService {
 		}
 
 		if (savedAppeal.horizonId == undefined || savedAppeal.horizonId == false) {
-
+			let updatedAppeal;
 			if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
 				console.log('Using direct Horizon integration');
 				const createdOrganisations = await this.#horizonGateway.createOrganisations(savedAppeal);
-				const createdContacts = await this.#horizonGateway.createContacts(savedAppeal, createdOrganisations);
-				const horizonCaseReferenceForAppeal = await this.#horizonGateway.createAppeal(savedAppeal, createdContacts, await getLpaById(savedAppeal.lpaCode));
-				await this.#horizonGateway.uploadAppealDocumentsToAppealInHorizon(id, getDocumentsInBase64Encoding(savedAppeal));
-				savedAppeal.horizonId = horizonCaseReferenceForAppeal
+				const createdContacts = await this.#horizonGateway.createContacts(
+					savedAppeal,
+					createdOrganisations
+				);
+				const horizonCaseReferenceForAppeal = await this.#horizonGateway.createAppeal(
+					savedAppeal,
+					createdContacts,
+					await getLpaById(savedAppeal.lpaCode)
+				);
+				await this.#horizonGateway.uploadAppealDocumentsToAppealInHorizon(
+					id,
+					getDocumentsInBase64Encoding(savedAppeal)
+				);
+				updatedAppeal = await saveAppealAsSubmittedToBackOffice(
+					savedAppeal,
+					horizonCaseReferenceForAppeal
+				);
 			} else {
 				console.log('Using message queue integration');
-				this.#backOfficeRepository.create(savedAppeal);
+				updatedAppeal = await saveAppealAsSubmittedToBackOffice(savedAppeal);
+				this.#backOfficeRepository.create(updatedAppeal);
 			}
 
-			savedAppeal.submissionDate = new Date(new Date().toISOString());
-			savedAppeal.state = 'SUBMITTED';
-			const updatedAppeal = await updateAppeal(id, savedAppeal);
 			await sendSubmissionConfirmationEmailToAppellant(updatedAppeal);
 			await sendSubmissionReceivedEmailToLpa(updatedAppeal);
 			return updatedAppeal;
