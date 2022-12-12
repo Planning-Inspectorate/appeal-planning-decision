@@ -9,6 +9,7 @@ const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
 const { householderAppeal } = require('./fixtures/householder-appeal');
+// const { expectedCreateOrganisationHorizonRequest } = require('./fixtures/horizon-inputs') //TODO: UNCOMMENT
 const { TestMessageQueue } = require('./external-dependencies/message-queue/test-message-queue');
 const { MockedExternalApis } = require('./external-dependencies/rest-apis/mocked-external-apis');
 const { Interaction } = require('./external-dependencies/rest-apis/interaction');
@@ -234,15 +235,343 @@ describe('Back Office', () => {
 			}
 		]
 	])(
+		'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload',
+		async () => {
+			// Given: that we use the Horizon integration back office strategy
+			isFeatureActive.mockImplementation(() => {
+				return true;
+			});
+
+			// And: an appeal is created that is not known to the back office
+			//setHorizonIdOnAppeal(householderAppeal); //TODO: UNCOMMENT
+			const createAppealResponse = await _createAppeal();
+			let createdAppeal = createAppealResponse.body;
+
+			// When: the appeal is submitted to the back office
+			const submittedToBackOfficeResponse = await appealsApi.put(
+				`/api/v1/back-office/appeals/${createdAppeal.id}`
+			);
+
+			// And: the appeal is then retrieved from the appeals API
+			const retrievedAppealResponse = await appealsApi.get(`/api/v1/appeals/${createdAppeal.id}`);
+
+			// Then: the status code for the submission request should be 200
+			expect(submittedToBackOfficeResponse.status).toBe(200);
+
+			// And: the status code for the retrieval request should be 200
+			expect(retrievedAppealResponse.status).toBe(200);
+
+			// And: the appeal should have been updated in the following ways:
+			//      - Its `state` field should be updated
+			//      - Its `submissionDate` field should be set
+			//      - Its `updatedAt` field should be updated
+			//      - Its `horizonId` field should be set
+			createdAppeal.state = 'SUBMITTED';
+			createdAppeal.submissionDate = submittedToBackOfficeResponse.body.submissionDate;
+			createdAppeal.updatedAt = submittedToBackOfficeResponse.body.updatedAt;
+			//createdAppeal.horizonId = mockedHorizonId //TODO: UNCOMMENT
+			expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
+
+			// And: Horizon has been interacted with as expected
+			const createOrganisationInteraction = new Interaction()
+				.setNumberOfKeysExpectedInJson(10) // This value will change
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.__soap_op'),
+					'http://tempuri.org/IContacts/AddContact'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.__xmlns'),
+					'http://tempuri.org/'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.contact.__xmlns:a'),
+					'http://schemas.datacontract.org/2004/07/Contacts.API'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.contact.__xmlns:i'),
+					'http://www.w3.org/2001/XMLSchema-instance'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.contact.a:Name.appellant.value.__i:nil'),
+					'true'
+				); // This line will change
+
+			const createContactsInteraction = new Interaction()
+				.setNumberOfKeysExpectedInJson(11) // This value will change
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.__soap_op'),
+					'http://tempuri.org/IContacts/AddContact'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.__xmlns'),
+					'http://tempuri.org/'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.contact.__xmlns:a'),
+					'http://schemas.datacontract.org/2004/07/Contacts.API'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.contact.__xmlns:i'),
+					'http://www.w3.org/2001/XMLSchema-instance'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.contact.__i:type'),
+					'a:HorizonAPIPerson'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.contact.a:Email'),
+					'test@pins.com'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.contact.a:FirstName'),
+					'Appellant'
+				) // This will change
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.AddContact.contact.a:LastName'),
+					'Name'
+				); // This will change
+			//.addJsonValueExpectation(JsonPathExpression.create('$.AddContact.contact.a:OrganisationID'), mockedOrganisationId) // This will change //TODO: UNCOMMENT
+
+			//TODO: uncomment below
+			// const createAppealInteraction = new Interaction()
+			// 	.setNumberOfKeysExpectedInJson(160) // 43 (static) + (48: string conv) + (12: date + null conv) + (27: contact array with static) + (20: contact array expanded)
+			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.__soap_op'), 'http://tempuri.org/IHorizon/CreateCase')
+			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.__xmlns'), 'http://tempuri.org/')
+			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.caseType'), 'http://tempuri.org/') // this will change
+			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.LPACode'), 'E69999999')
+			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.dateOfReceipt'), new RegExp(`.+`))
+			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.location'), 'England') // this will change
+			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.category.__xlns:a'), 'http://schemas.datacontract.org/2004/07/Horizon.Business')
+			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.category.__xlns:i'), 'http://www.w3.org/2001/XMLSchema-instance')
+			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.category.a:Attributes[0].key'), 'Case:Casework Reason')
+			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.category.a:Attributes[0].value'), )
+
+			// TODO: UNCOMMENT BELOW
+			// CreateCase: {
+			// 	__soap_op: 'http://tempuri.org/IHorizon/CreateCase',
+			// 	__xmlns: 'http://tempuri.org/',
+			// 	caseType: this.#getAppealType(appealTypeId),
+			// 	LPACode: appeal.lpaCode,
+			// 	dateOfReceipt: new Date(),
+			// 	location: locationValue,
+			// 	category: {
+			// 		'__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business',
+			// 		'__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
+			// 		'a:Attributes': // 11
+			// 			{
+			// 				key: 'Case:Casework Reason',
+			// 				value: caseworkReason
+			// 			},
+			// 			{
+			// 				key: 'Case Dates:Receipt Date',
+			// 				value: {
+			// 					'a:AttributeValue': {
+			// 						'__i:type': 'a:DateAttributeValue',
+			// 						'a:Name': key,
+			// 						'a:Value': appeal.updatedAt.toISOString()
+			// 					}
+			// 				}
+			// 			},
+			// 			{
+			// 				key: 'Case:Source Indicator',
+			// 				value: 'Other'
+			// 			},
+			// 			{
+			// 				key: 'Case:Case Publish Flag',
+			// 				value: false // boolean conversion, so "No"
+			// 			},
+			// 			{
+			// 				key: 'Planning Application:Date Of LPA Decision', //20
+			// 				value: {
+			// 					'a:AttributeValue': {
+			// 						'__i:type': 'a:DateAttributeValue',
+			// 						'a:Name': key,
+			// 						'a:Value': appeal.decisionDate.toISOString()
+			// 					}
+			// 				}
+			// 			},
+			// 			{
+			// 				key: 'Case:Procedure (Appellant)',
+			// 				value: 'Written Representations'
+			// 			},
+			// 			{
+			// 				key: 'Planning Application:LPA Application Reference',
+			// 				value: appeal.planningApplicationNumber
+			// 			},
+			// 			{
+			// 				key: 'Case Site:Site Address Line 1',
+			// 				value: appeal.appealSiteSection.siteAddress.addressLine1
+			// 			},
+			// 			{
+			// 				key: 'Case Site:Site Address Line 2',
+			// 				value: appeal.appealSiteSection.siteAddress.addressLine2
+			// 			},
+			// 			{
+			// 				key: 'Case Site:Site Address Town',
+			// 				value: appeal.appealSiteSection.siteAddress.town
+			// 			},
+			// 			{
+			// 				key: 'Case Site:Site Address County',
+			// 				value: appeal.appealSiteSection.siteAddress.county
+			// 			},
+			// 			{
+			// 				key: 'Case Site:Site Address Postcode',
+			// 				value: appeal.appealSiteSection.siteAddress.postcode
+			// 			},
+			// 			{
+			// 				key: 'Case Site:Ownership Certificate', // 36
+			// 				value: {
+			// 					'a:AttributeValue': {
+			// 						'__i:type': 'a:StringAttributeValue',
+			// 						'a:Name': key,
+			// 						'a:Value': null
+			// 					}
+			// 				}
+			// 			},
+			// 			{
+			// 				key: 'Case Site:Site Viewable From Road', // 42
+			// 				value: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad // boolean conversion: "No"
+			// 			},
+			// 			{
+			// 				key: 'Case Site:Inspector Need To Enter Site',
+			// 				value: !appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad // boolean conversion: "True"
+			// 			},
+			// 			{
+			// 				key: 'Case Involvement:Case Involvement',
+			// 				value: 'a:AttributeValue': {
+			// 					'__i:type': 'a:SetAttributeValue',
+			// 					'a:Name': key,
+			// 					'a:Values': [
+			// 						{
+			// 							key: 'Case Involvement:Case Involvement:ContactID',
+			// 							value: createContactRequestResponse.data?.Envelope?.Body?.AddContactResponse?.AddContactResult?.value // A string, from the mocked createContactRequest value
+			// 						},
+			// 						{
+			// 							key: 'Case Involvement:Case Involvement:Contact Details', // 50
+			// 							value: createContactRequest.name
+			// 						},
+			// 						{
+			// 							key: 'Case Involvement:Case Involvement:Involvement Start Date',
+			// 							value: {
+			// 								'a:AttributeValue': {
+			// 									'__i:type': 'a:DateAttributeValue',
+			// 									'a:Name': key,
+			// 									'a:Value': new Date().toISOString()
+			// 								}
+			// 							}
+			// 						},
+			// 						{
+			// 							key: 'Case Involvement:Case Involvement:Communication Preference',
+			// 							value: 'e-mail'
+			// 						},
+			// 						{
+			// 							key: 'Case Involvement:Case Involvement:Type Of Involvement',
+			// 							value: createContactRequest.type
+			// 						}
+			// 					]
+			// 				}
+			// 			}
+			// 		]
+			// 	}
+			// }
+
+			expectedHorizonInteractions = [createOrganisationInteraction, createContactsInteraction];
+
+			// And: Notify has been interacted with as expected
+			const emailToAppellantInteraction = new Interaction()
+				.setNumberOfKeysExpectedInJson(8)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.template_id'),
+					appConfiguration.services.notify.templates['1001']
+						.appealSubmissionConfirmationEmailToAppellant
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.email_address'),
+					householderAppeal.email
+				)
+				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), householderAppeal.id)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.personalisation.name'),
+					householderAppeal.aboutYouSection.yourDetails.name
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['appeal site address']"),
+					householderAppeal.appealSiteSection.siteAddress.addressLine1 +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.addressLine2 +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.town +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.county +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.postcode
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['local planning department']"),
+					testLpaName
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['pdf copy URL']"),
+					`${process.env.APP_APPEALS_BASE_URL}/document/${householderAppeal.id}/${householderAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+				);
+
+			const emailToLpaInteraction = new Interaction()
+				.setNumberOfKeysExpectedInJson(8)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.template_id'),
+					appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa
+				)
+				.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), testLpaEmail)
+				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), householderAppeal.id)
+				.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.LPA'), testLpaName)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['site address']"),
+					householderAppeal.appealSiteSection.siteAddress.addressLine1 +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.addressLine2 +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.town +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.county +
+						'\n' +
+						householderAppeal.appealSiteSection.siteAddress.postcode
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.personalisation.date'),
+					householderAppeal.submissionDate.toLocaleDateString('en-GB', {
+						day: '2-digit',
+						month: 'long',
+						year: 'numeric'
+					})
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['planning application number']"),
+					householderAppeal.planningApplicationNumber
+				);
+			expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
+
+			// And: there are no messages on the message queue
+			expectedMessages = [];
+		}
+	);
+
+	it.each([
+		['a blank Horizon ID field', (appeal) => (appeal.horizonId = '')],
+		[
+			'no Horizon ID field',
+			(appeal) => {
+				delete appeal.horizonId;
+			}
+		]
+	])(
 		'should submit an appeal to the back office message queue and send emails to the appellant and case worker when we create and submit an appeal that has %p.',
 		async (horizonIdContext, setHorizonIdOnAppeal) => {
-			// Given: that we use the standard back-office message queue integration
-			// make the feature flag mock return false for this test only
+			// Given: that we use the message queue back-office strategy
 			isFeatureActive.mockImplementation(() => {
 				return false;
 			});
 
-			// Given: an appeal is created and not known to the back office
+			// And: an appeal is created that is not known to the back office
 			setHorizonIdOnAppeal(householderAppeal);
 			const savedAppealResponse = await _createAppeal();
 			let savedAppeal = savedAppealResponse.body;

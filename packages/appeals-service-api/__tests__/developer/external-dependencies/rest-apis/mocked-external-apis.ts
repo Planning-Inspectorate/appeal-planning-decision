@@ -1,4 +1,5 @@
 import { Interaction } from './interaction';
+import { JsonPathExpression } from './json-path-expression';
 import { expect } from '@jest/globals';
 import jp from 'jsonpath';
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
@@ -205,6 +206,140 @@ export class MockedExternalApis {
 			}
 		};
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+	}
+
+	addJsonValueExpectationsForStringAttributeInHorizonCreateAppealInteraction(
+		interaction: Interaction,
+		attributeNumber: number,
+		key: string,
+		value: string
+	) {
+		interaction
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.__i:type`
+				),
+				'a:StringAttributeValue'
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.a:Name`
+				),
+				key
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.a:Value`
+				),
+				value
+			);
+
+		return interaction;
+	}
+
+	addJsonValueExpectationsForDateAttributeInHorizonCreateAppealInteraction(
+		interaction: Interaction,
+		attributeNumber: number,
+		key: string,
+		value: string
+	) {
+		interaction
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.__i:type`
+				),
+				'a:DateAttributeValue'
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.a:Name`
+				),
+				key
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.a:Value`
+				),
+				value
+			);
+
+		return interaction;
+	}
+
+	addJsonValueExpectationsForArrayAttributeInHorizonCreateAppealInteraction(
+		interaction: Interaction,
+		attributeNumber: number,
+		key: string
+	) {
+		interaction
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.__i:type`
+				),
+				'a:SetAttributeValue'
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.a:Name`
+				),
+				key
+			);
+
+		return interaction;
+	}
+
+	addJsonValueExpectationsForContactsArrayStringAttributeInHorizonCreateAppealInteraction(
+		interaction: Interaction,
+		attributeNumber: number,
+		key: string,
+		value: string
+	) {
+		interaction
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.__i:type`
+				),
+				'a:StringAttributeValue'
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.a:Name`
+				),
+				key
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.a:Value`
+				),
+				value
+			);
+	}
+
+	addJsonValueExpectationsForContactsArrayDateAttributeInHorizonCreateAppealInteraction(
+		interaction: Interaction,
+		attributeNumber: number,
+		key: string,
+		value: string
+	) {
+		interaction
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.__i:type`
+				),
+				'a:DateAttributeValue'
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.a:Name`
+				),
+				key
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create(
+					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.a:Value`
+				),
+				value
+			);
 	}
 
 	private async getRecordedRequestsForHorizon(): Promise<Array<any>> {
