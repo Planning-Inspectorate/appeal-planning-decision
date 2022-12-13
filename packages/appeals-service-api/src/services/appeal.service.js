@@ -11,6 +11,7 @@ const { validateAppeal } = require('../validators/validate-appeal');
 const { AppealsRepository } = require('../repositories/appeals-repository');
 const uuid = require('uuid');
 const { DocumentService } = require('./document.service');
+const { getLpaCountry, getLpaById } = require('../services/lpa.service');
 
 const appealsRepository = new AppealsRepository();
 const documentService = new DocumentService();
@@ -124,11 +125,17 @@ async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference = 
 	return await updateAppeal(appeal.id, appeal);
 }
 
+async function getAppealCountry(appeal){
+	const appealLPA = getLpaById(appeal.lpaCode)
+	return getLpaCountry(appealLPA);
+}
+
 module.exports = {
 	createAppeal,
 	getAppeal,
 	updateAppeal,
 	validateAppeal,
 	getDocumentsInBase64Encoding,
-	saveAppealAsSubmittedToBackOffice
+	saveAppealAsSubmittedToBackOffice,
+	getAppealCountry
 };

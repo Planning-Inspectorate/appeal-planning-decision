@@ -115,8 +115,19 @@ const getLpaList = async () => {
 	return lpaList;
 };
 
+const getLpaCountry = (lpa) => {
+	if (lpa.england) {
+		return 'England';
+	} else if (lpa.wales) {
+		return 'Wales';
+	} else {
+		throw new Error('LPA neither English nor Welsh');
+	}
+}
+
 module.exports = {
 	getLpaById,
 	createLpaList,
-	getLpaList
+	getLpaList,
+	getLpaCountry
 };

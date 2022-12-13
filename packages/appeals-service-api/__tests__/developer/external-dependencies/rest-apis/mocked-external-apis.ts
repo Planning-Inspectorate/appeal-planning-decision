@@ -128,6 +128,136 @@ export class MockedExternalApis {
 		return this.horizonUrl;
 	}
 
+	async mockHorizonCreateOrganisationResponse(statusCode: number, organisationIdToReturn: string){
+		let body = {
+			"Envelope": {
+				"Body": {
+					"AddContactResponse": {
+						"AddContactResult": {
+							"value": organisationIdToReturn
+						}
+					}
+				}
+			}
+		}
+		
+		const data = {
+			httpRequest: {
+				method: 'POST',
+				path: `${this.horizonEndpoint}/contacts`
+			},
+			httpResponse: {
+				statusCode: statusCode,
+				body: body
+			}
+		};
+		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+	}
+
+	async mockHorizonCreateContactResponse(statusCode: number, contactIdToReturn: string){
+		let body = {
+			"Envelope": {
+				"Body": {
+					"AddContactResponse": {
+						"AddContactResult": {
+							"value": contactIdToReturn
+						}
+					}
+				}
+			}
+		}
+		
+		const data = {
+			httpRequest: {
+				method: 'POST',
+				path: `${this.horizonEndpoint}/contacts`
+			},
+			httpResponse: {
+				statusCode: statusCode,
+				body: body
+			}
+		};
+		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+	}
+
+	async mockHorizonCreateAppealResponse(statusCode: number, caseReferenceToReturn: string){
+		let body = {
+			"Envelope": {
+				"Body": {
+					"CreateCaseResponse": {
+						"CreateCaseResult": {
+							"value": caseReferenceToReturn
+						}
+					}
+				}
+			}
+		}
+		
+		const data = {
+			httpRequest: {
+				method: 'POST',
+				path: `${this.horizonEndpoint}/horizon`
+			},
+			httpResponse: {
+				statusCode: statusCode,
+				body: body
+			}
+		};
+		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+	}
+
+	async mockHorizonUploadDocumentResponse(statusCode: number){
+		let body = {
+			"Envelope": {
+				"Body": {
+					"AddDocumentsResponse": {
+						"AddDocumentsResult": {
+							"HorizonAPIDocument": {
+								"Content": {},
+								"DocumentType": {
+									"value": "Mocked DocType"
+								},
+								"Filename": {
+									"value": "MockedFileName"
+								},
+								"IsPublished": {
+									"value": "true"
+								},
+								"Metadata": {
+									"Attributes": {
+										"AttributeValue": {
+											"Name": {
+												"value": "Document:Document Type"
+											},
+											"Value": {
+												"value": "Initial Documents"
+											}
+										}
+									}
+								},
+								"NodeId": {
+									"value": "123MOCK"
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		const data = {
+			httpRequest: {
+				method: 'POST',
+				path: `${this.horizonEndpoint}/horizon`
+			},
+			httpResponse: {
+				statusCode: statusCode,
+				body: body
+			}
+		};
+		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+	}
+
 	async mockHorizonGetCaseResponse(
 		finalCommentsDueDate: Date | undefined,
 		statusCode: number
@@ -208,140 +338,6 @@ export class MockedExternalApis {
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
-	addJsonValueExpectationsForStringAttributeInHorizonCreateAppealInteraction(
-		interaction: Interaction,
-		attributeNumber: number,
-		key: string,
-		value: string
-	) {
-		interaction
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.__i:type`
-				),
-				'a:StringAttributeValue'
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.a:Name`
-				),
-				key
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.a:Value`
-				),
-				value
-			);
-
-		return interaction;
-	}
-
-	addJsonValueExpectationsForDateAttributeInHorizonCreateAppealInteraction(
-		interaction: Interaction,
-		attributeNumber: number,
-		key: string,
-		value: string
-	) {
-		interaction
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.__i:type`
-				),
-				'a:DateAttributeValue'
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.a:Name`
-				),
-				key
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.a:Value`
-				),
-				value
-			);
-
-		return interaction;
-	}
-
-	addJsonValueExpectationsForArrayAttributeInHorizonCreateAppealInteraction(
-		interaction: Interaction,
-		attributeNumber: number,
-		key: string
-	) {
-		interaction
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.__i:type`
-				),
-				'a:SetAttributeValue'
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[${attributeNumber}].value.a:Name`
-				),
-				key
-			);
-
-		return interaction;
-	}
-
-	addJsonValueExpectationsForContactsArrayStringAttributeInHorizonCreateAppealInteraction(
-		interaction: Interaction,
-		attributeNumber: number,
-		key: string,
-		value: string
-	) {
-		interaction
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.__i:type`
-				),
-				'a:StringAttributeValue'
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.a:Name`
-				),
-				key
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.a:Value`
-				),
-				value
-			);
-	}
-
-	addJsonValueExpectationsForContactsArrayDateAttributeInHorizonCreateAppealInteraction(
-		interaction: Interaction,
-		attributeNumber: number,
-		key: string,
-		value: string
-	) {
-		interaction
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.__i:type`
-				),
-				'a:DateAttributeValue'
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.a:Name`
-				),
-				key
-			)
-			.addJsonValueExpectation(
-				JsonPathExpression.create(
-					`$.CreateContact.category.a:Attributes[15].value.a:Values[${attributeNumber}].a:AttributeValue.a:Value`
-				),
-				value
-			);
-	}
-
 	private async getRecordedRequestsForHorizon(): Promise<Array<any>> {
 		return await this.getResponsesForEndpoint(this.horizonEndpoint);
 	}
@@ -371,4 +367,11 @@ export class MockedExternalApis {
 	async getRecordedRequestsForNotify(): Promise<Array<any>> {
 		return await this.getResponsesForEndpoint(this.notifyEndpoint);
 	}
+
+	/////////////////////////
+	///// DOCUMENTS API /////
+	/////////////////////////
+
+	// TODO: add a way to mock responses for the `get/appealId/documentId` endpoint
+	// TODO: add a way to easily verify ineractions (like with Horizon above)
 }
