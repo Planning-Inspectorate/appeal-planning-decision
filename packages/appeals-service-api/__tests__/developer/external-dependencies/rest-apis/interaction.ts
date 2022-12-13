@@ -1,84 +1,101 @@
-import { JsonPathExpression } from "./json-path-expression";
+import { JsonPathExpression } from './json-path-expression';
 
 export class Interaction {
+	private numberOfKeysExpectedInJson: number = 0;
+	private jsonPathStringsToExpectedValues: Map<JsonPathExpression, RegExp | number | string> =
+		new Map([]);
 
-    private numberOfKeysExpectedInJson: number = 0;
-    private jsonPathStringsToExpectedValues: Map<JsonPathExpression, RegExp | number | string> = new Map([]);
+	getNumberOfKeysExpectedInJson(): number {
+		return this.numberOfKeysExpectedInJson;
+	}
 
-    getNumberOfKeysExpectedInJson(): number{
-        return this.numberOfKeysExpectedInJson;
-    }
+	getJsonPathStringsToExpectedValues(): Map<JsonPathExpression, any> {
+		return this.jsonPathStringsToExpectedValues;
+	}
 
-    getJsonPathStringsToExpectedValues(): Map<JsonPathExpression, any> {
-        return this.jsonPathStringsToExpectedValues;
-    }
+	setNumberOfKeysExpectedInJson(numberOfKeysExpected: number): Interaction {
+		this.numberOfKeysExpectedInJson = numberOfKeysExpected;
+		return this;
+	}
 
-    setNumberOfKeysExpectedInJson(numberOfKeysExpected: number): Interaction {
-        this.numberOfKeysExpectedInJson = numberOfKeysExpected;
-        return this;
-    }
+	addJsonValueExpectation(
+		expression: JsonPathExpression,
+		value: RegExp | number | string
+	): Interaction {
+		this.jsonPathStringsToExpectedValues.set(expression, value);
+		return this;
+	}
 
-    addJsonValueExpectation(expression: JsonPathExpression, value: RegExp | number | string): Interaction {
-        this.jsonPathStringsToExpectedValues.set(expression, value);
-        return this;
-    }
-
-    addStringAttributeExpectationForHorizonCreateAppealInteraction(
+	addStringAttributeExpectationForHorizonCreateAppealInteraction(
 		attributeNumber: number,
 		key: string,
 		value: string
 	) {
 		this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['__i:type']`),
-            'a:StringAttributeValue'
-        );
-
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['a:Name']`),
-            key
-        );
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['__i:type']`
+			),
+			'a:StringAttributeValue'
+		);
 
 		this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['a:Value']`),
-            value
-        );
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['a:Name']`
+			),
+			key
+		);
+
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['a:Value']`
+			),
+			value
+		);
 
 		return this;
 	}
 
-    addDateAttributeExpectationForHorizonCreateAppealInteraction(
+	addDateAttributeExpectationForHorizonCreateAppealInteraction(
 		attributeNumber: number,
 		key: string,
-        value?: string
+		value?: string
 	) {
 		this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['__i:type']`),
-            'a:DateAttributeValue'
-        );
-
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['a:Name']`),
-            key
-        );
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['__i:type']`
+			),
+			'a:DateAttributeValue'
+		);
 
 		this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['a:Value']`),
-            value ? value : RegExp('.+')
-        );
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['a:Name']`
+			),
+			key
+		);
+
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['a:Value']`
+			),
+			value ? value : RegExp('.+')
+		);
 
 		return this;
 	}
 
-	addContactAttributeExpectationForHorizonCreateAppealInteraction(
-        attributeNumber: number
-	) {
+	addContactAttributeExpectationForHorizonCreateAppealInteraction(attributeNumber: number) {
 		this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${attributeNumber}].['a:AttributeValue'].['__i:type']`),
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].['a:AttributeValue'].['__i:type']`
+			),
 			'a:SetAttributeValue'
 		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${attributeNumber}].['a:AttributeValue'].['a:Name']`),
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].['a:AttributeValue'].['a:Name']`
+			),
 			'Case Involvement:Case Involvement'
 		);
 
@@ -87,149 +104,191 @@ export class Interaction {
 
 	addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
 		contactArrayAttributeNumber: number,
-        attributeNumber: number,
+		attributeNumber: number,
 		key: string,
 		value: string
 	) {
 		this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].__i:type`),
-            'a:StringAttributeValue'
-        );
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].__i:type`
+			),
+			'a:StringAttributeValue'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['a:Name']`),
-            key
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['a:Name']`
+			),
+			key
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['a:Value']`),
-            value
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['a:Value']`
+			),
+			value
+		);
 
 		return this;
 	}
 
 	addDateAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
 		contactArrayAttributeNumber: number,
-        attributeNumber: number,
+		attributeNumber: number,
 		key: string,
 		value?: string
 	) {
 		this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['__i:type']`),
-            'a:DateAttributeValue'
-        );
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['__i:type']`
+			),
+			'a:DateAttributeValue'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['a:Name']`),
-            key
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['a:Name']`
+			),
+			key
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['a:Value']`),
-            value ? value : RegExp('.+')
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['a:Value']`
+			),
+			value ? value : RegExp('.+')
+		);
 
 		return this;
 	}
 
-    addExpectationForHorizonCreateDocumentInteraction(
-        documentNumber: number,
-        data: string,
-        type: string,
-        filename: string,
-        involvement: string,
-        groupType: string,
-        uploadDate: string
-    ){
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].['__xmlns:a']`),
-            'http://schemas.datacontract.org/2004/07/Horizon.Business'
-        );
+	addExpectationForHorizonCreateDocumentInteraction(
+		documentNumber: number,
+		document: any,
+		validateDocumentGroupType: boolean
+	) {
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].['__xmlns:a']`),
+			'http://schemas.datacontract.org/2004/07/Horizon.Business'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].['__xmlns:i']`),
-            'http://www.w3.org/2001/XMLSchema-instance'
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].['__xmlns:i']`),
+			'http://www.w3.org/2001/XMLSchema-instance'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Content]`),
-            data,
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Content]`
+			),
+			document.data
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:DocumentType]`),
-            type,
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:DocumentType]`
+			),
+			document.document_type
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Filename]`),
-            filename,
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Filename]`
+			),
+			document.filename
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:IsPublished]`),
-            'false',
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:IsPublished]`
+			),
+			'false'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][0].['a:AttributeValue']['__i:type']`),
-            'a:StringAttributeValue',
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][0].['a:AttributeValue']['__i:type']`
+			),
+			'a:StringAttributeValue'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][0].['a:AttributeValue']['a:Name']`),
-            'Document:Involvement',
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][0].['a:AttributeValue']['a:Name']`
+			),
+			'Document:Involvement'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][0].['a:AttributeValue']['a:Value']`),
-            involvement,
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][0].['a:AttributeValue']['a:Value']`
+			),
+			document.involvement
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][1].['a:AttributeValue']['__i:type']`),
-            'a:StringAttributeValue',
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][1].['a:AttributeValue']['__i:type']`
+			),
+			'a:StringAttributeValue'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][1].['a:AttributeValue']['a:Name']`),
-            'Document:Document Group Type',
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][1].['a:AttributeValue']['a:Name']`
+			),
+			'Document:Document Group Type'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][1].['a:AttributeValue']['a:Value']`),
-            groupType,
-        );
+		if (validateDocumentGroupType) {
+			this.jsonPathStringsToExpectedValues.set(
+				JsonPathExpression.create(
+					`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][1].['a:AttributeValue']['a:Value']`
+				),
+				document.document_group_type
+			);
+		}
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['__i:type']`),
-            'a:StringAttributeValue',
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['__i:type']`
+			),
+			'a:StringAttributeValue'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['a:Name']`),
-            'Document:Incoming/Outgoing/Internal',
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['a:Name']`
+			),
+			'Document:Incoming/Outgoing/Internal'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['a:Value']`),
-            'Incoming',
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['a:Value']`
+			),
+			'Incoming'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['__i:type']`),
-            'a:DateAttributeValue',
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['__i:type']`
+			),
+			'a:DateAttributeValue'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['a:Name']`),
-            'Document:Received/Sent Date',
-        );
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['a:Name']`
+			),
+			'Document:Received/Sent Date'
+		);
 
-        this.jsonPathStringsToExpectedValues.set(
-            JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['a:Value']`),
-            uploadDate,
-        );
-    }
+		this.jsonPathStringsToExpectedValues.set(
+			JsonPathExpression.create(
+				`$.AddDocuments.documents[${documentNumber}].[''a:HorizonAPIDocument'].['a:Metadata].['Attributes][2].['a:AttributeValue']['a:Value']`
+			),
+			document.uploadDate
+		);
+	}
 }
