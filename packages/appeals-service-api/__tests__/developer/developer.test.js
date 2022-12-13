@@ -236,14 +236,39 @@ describe('Back Office', () => {
 		]
 	])(
 		'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload',
-		async () => {
+		async (condition, setHorizonIdOnAppeal) => {
 			// Given: that we use the Horizon integration back office strategy
 			isFeatureActive.mockImplementation(() => {
 				return true;
 			});
 
+			// TODO: mock the responses for the 6 householder appeal documents
+			// And: the documents API is mocked
+			// const documentMock1 = 
+			// const documentMock2 = 
+			// const documentMock3 = 
+			// const documentMock4 = 
+			// const documentMock5 = 
+			// const documentMock6 = 
+
+			// And: Horizon's create organisation endpoint is mocked
+			const mockedOrganisationId = 'O_1234';
+			await mockedExternalApis.mockHorizonCreateOrganisationResponse(200, mockedOrganisationId)
+			
+			// And: Horizon's create contact endpoint is mocked
+			const mockedContactId = 'P_1234'
+			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId)
+
+			// And: Horizon's create appeal endpoint is mocked
+			const mockedCaseReference = "APP/Z0116/D/20/3218465"
+			await mockedExternalApis.mockHorizonCreateAppealResponse(200, mockedCaseReference)
+
+			// And: Horizon's upload documents endpoint is mocked
+			await mockedExternalApis.mockHorizonUploadDocumentResponse(200)
+			await mockedExternalApis.mockHorizonUploadDocumentResponse(200)
+
 			// And: an appeal is created that is not known to the back office
-			//setHorizonIdOnAppeal(householderAppeal); //TODO: UNCOMMENT
+			setHorizonIdOnAppeal(householderAppeal);
 			const createAppealResponse = await _createAppeal();
 			let createdAppeal = createAppealResponse.body;
 
@@ -269,8 +294,17 @@ describe('Back Office', () => {
 			createdAppeal.state = 'SUBMITTED';
 			createdAppeal.submissionDate = submittedToBackOfficeResponse.body.submissionDate;
 			createdAppeal.updatedAt = submittedToBackOfficeResponse.body.updatedAt;
-			//createdAppeal.horizonId = mockedHorizonId //TODO: UNCOMMENT
+			createdAppeal.horizonId = mockedCaseReference
 			expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
+
+			// TODO: verify the document API interactions
+			// And: the documents API has been interacted with as expected
+			// const createDocumentInteraction1 = new Interaction().setNumberOfKeysExpectedInJson();
+			// const createDocumentInteraction2 = new Interaction().setNumberOfKeysExpectedInJson();
+			// const createDocumentInteraction3 = new Interaction().setNumberOfKeysExpectedInJson();
+			// const createDocumentInteraction4 = new Interaction().setNumberOfKeysExpectedInJson();
+			// const createDocumentInteraction5 = new Interaction().setNumberOfKeysExpectedInJson();
+			// const createDocumentInteraction6 = new Interaction().setNumberOfKeysExpectedInJson();
 
 			// And: Horizon has been interacted with as expected
 			const createOrganisationInteraction = new Interaction()
@@ -284,15 +318,15 @@ describe('Back Office', () => {
 					'http://tempuri.org/'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.contact.__xmlns:a'),
+					JsonPathExpression.create("$.AddContact.contact.['__xmlns:a']"),
 					'http://schemas.datacontract.org/2004/07/Contacts.API'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.contact.__xmlns:i'),
+					JsonPathExpression.create("$.AddContact.contact.['__xmlns:i']"),
 					'http://www.w3.org/2001/XMLSchema-instance'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.contact.a:Name.appellant.value.__i:nil'),
+					JsonPathExpression.create("$.AddContact.contact.['a:Name'].appellant.value.['__i:nil']"),
 					'true'
 				); // This line will change
 
@@ -307,175 +341,78 @@ describe('Back Office', () => {
 					'http://tempuri.org/'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.contact.__xmlns:a'),
+					JsonPathExpression.create("$.AddContact.contact.['__xmlns:a']"),
 					'http://schemas.datacontract.org/2004/07/Contacts.API'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.contact.__xmlns:i'),
+					JsonPathExpression.create("$.AddContact.contact.['__xmlns:i']"),
 					'http://www.w3.org/2001/XMLSchema-instance'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.contact.__i:type'),
+					JsonPathExpression.create("$.AddContact.contact.['__i:type']"),
 					'a:HorizonAPIPerson'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.contact.a:Email'),
+					JsonPathExpression.create("$.AddContact.contact.['a:Email']"),
 					'test@pins.com'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.contact.a:FirstName'),
+					JsonPathExpression.create("$.AddContact.contact.['a:FirstName']"),
 					'Appellant'
 				) // This will change
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.contact.a:LastName'),
+					JsonPathExpression.create("$.AddContact.contact.['a:LastName']"),
 					'Name'
 				); // This will change
 			//.addJsonValueExpectation(JsonPathExpression.create('$.AddContact.contact.a:OrganisationID'), mockedOrganisationId) // This will change //TODO: UNCOMMENT
 
-			//TODO: uncomment below
-			// const createAppealInteraction = new Interaction()
-			// 	.setNumberOfKeysExpectedInJson(160) // 43 (static) + (48: string conv) + (12: date + null conv) + (27: contact array with static) + (20: contact array expanded)
-			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.__soap_op'), 'http://tempuri.org/IHorizon/CreateCase')
-			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.__xmlns'), 'http://tempuri.org/')
-			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.caseType'), 'http://tempuri.org/') // this will change
-			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.LPACode'), 'E69999999')
-			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.dateOfReceipt'), new RegExp(`.+`))
-			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.location'), 'England') // this will change
-			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.category.__xlns:a'), 'http://schemas.datacontract.org/2004/07/Horizon.Business')
-			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.category.__xlns:i'), 'http://www.w3.org/2001/XMLSchema-instance')
-			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.category.a:Attributes[0].key'), 'Case:Casework Reason')
-			// 	.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.category.a:Attributes[0].value'), )
+			const createAppealInteraction = new Interaction()
+				.setNumberOfKeysExpectedInJson(95) // This will change depending on the number of contacts
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.__soap_op'), 'http://tempuri.org/IHorizon/CreateCase')
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.__xmlns'), 'http://tempuri.org/')
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.caseType'), 'Householder (HAS) Appeal') // this will change
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.LPACode'), 'E69999999')
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.dateOfReceipt'), new RegExp(`.+`))
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.location'), 'England') // this will change
+				.addJsonValueExpectation(JsonPathExpression.create("$.CreateContact.category.['__xlns:a']"), 'http://schemas.datacontract.org/2004/07/Horizon.Business')
+				.addJsonValueExpectation(JsonPathExpression.create("$.CreateContact.category.['__xlns:i']"), 'http://www.w3.org/2001/XMLSchema-instance')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(0, "['Case:Casework Reason']", '') // this will change
+				.addDateAttributeExpectationForHorizonCreateAppealInteraction(1, "['Case Dates:Receipt Date']")
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(2, "['Case:Source Indicator']", 'Other')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(3, "['Case:Case Publish Flag']", 'No')
+				.addDateAttributeExpectationForHorizonCreateAppealInteraction(4, "['Planning Application:Date Of LPA Decision']", householderAppeal.decisionDate.toISOString())
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(5, "['Case:Procedure (Appellant)']", 'Written Representations')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(6, "['Planning Application:LPA Application Reference']", '12345')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(7, "['Case Site:Site Address Line 1']", 'Site Address 1')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(8, "['Case Site:Site Address Line 2']", 'Site Address 2')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(9, "['Case Site:Site Address Town']", 'Site Town')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(10, "['Case Site:Site Address Country']", 'Site County')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(11, "['Case Site:Site Address Postcode']", 'SW1 1AA')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(12, "['Case Site:Ownership Certificate']", 'null')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(13, "['Case Site:Site Viewable From Road']", 'No')
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(14, "['Case Site:Inspector Need To Enter Site']", 'Yes')
+				.addContactAttributeExpectationForHorizonCreateAppealInteraction(15)
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(15, 0, "['Case Involvement:Case Involvement:ContactID']", mockedContactId)
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(15, 1, "['Case Involvement:Case Involvement:Contact Details']", 'Appellant Name')
+				.addDateAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(15, 2, "['Case Involvement:Case Involvement:Involvement Start Date']")
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(15, 3, "['Case Involvement:Case Involvement:Communication Preference']", 'e-mail')
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(15, 4, "['Case Involvement:Case Involvement:Type Of Involvement']", 'Appellant')
+				// there may be more contact atrtributes here if the appeal is made on behalf of an appellant
 
-			// TODO: UNCOMMENT BELOW
-			// CreateCase: {
-			// 	__soap_op: 'http://tempuri.org/IHorizon/CreateCase',
-			// 	__xmlns: 'http://tempuri.org/',
-			// 	caseType: this.#getAppealType(appealTypeId),
-			// 	LPACode: appeal.lpaCode,
-			// 	dateOfReceipt: new Date(),
-			// 	location: locationValue,
-			// 	category: {
-			// 		'__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business',
-			// 		'__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
-			// 		'a:Attributes': // 11
-			// 			{
-			// 				key: 'Case:Casework Reason',
-			// 				value: caseworkReason
-			// 			},
-			// 			{
-			// 				key: 'Case Dates:Receipt Date',
-			// 				value: {
-			// 					'a:AttributeValue': {
-			// 						'__i:type': 'a:DateAttributeValue',
-			// 						'a:Name': key,
-			// 						'a:Value': appeal.updatedAt.toISOString()
-			// 					}
-			// 				}
-			// 			},
-			// 			{
-			// 				key: 'Case:Source Indicator',
-			// 				value: 'Other'
-			// 			},
-			// 			{
-			// 				key: 'Case:Case Publish Flag',
-			// 				value: false // boolean conversion, so "No"
-			// 			},
-			// 			{
-			// 				key: 'Planning Application:Date Of LPA Decision', //20
-			// 				value: {
-			// 					'a:AttributeValue': {
-			// 						'__i:type': 'a:DateAttributeValue',
-			// 						'a:Name': key,
-			// 						'a:Value': appeal.decisionDate.toISOString()
-			// 					}
-			// 				}
-			// 			},
-			// 			{
-			// 				key: 'Case:Procedure (Appellant)',
-			// 				value: 'Written Representations'
-			// 			},
-			// 			{
-			// 				key: 'Planning Application:LPA Application Reference',
-			// 				value: appeal.planningApplicationNumber
-			// 			},
-			// 			{
-			// 				key: 'Case Site:Site Address Line 1',
-			// 				value: appeal.appealSiteSection.siteAddress.addressLine1
-			// 			},
-			// 			{
-			// 				key: 'Case Site:Site Address Line 2',
-			// 				value: appeal.appealSiteSection.siteAddress.addressLine2
-			// 			},
-			// 			{
-			// 				key: 'Case Site:Site Address Town',
-			// 				value: appeal.appealSiteSection.siteAddress.town
-			// 			},
-			// 			{
-			// 				key: 'Case Site:Site Address County',
-			// 				value: appeal.appealSiteSection.siteAddress.county
-			// 			},
-			// 			{
-			// 				key: 'Case Site:Site Address Postcode',
-			// 				value: appeal.appealSiteSection.siteAddress.postcode
-			// 			},
-			// 			{
-			// 				key: 'Case Site:Ownership Certificate', // 36
-			// 				value: {
-			// 					'a:AttributeValue': {
-			// 						'__i:type': 'a:StringAttributeValue',
-			// 						'a:Name': key,
-			// 						'a:Value': null
-			// 					}
-			// 				}
-			// 			},
-			// 			{
-			// 				key: 'Case Site:Site Viewable From Road', // 42
-			// 				value: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad // boolean conversion: "No"
-			// 			},
-			// 			{
-			// 				key: 'Case Site:Inspector Need To Enter Site',
-			// 				value: !appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad // boolean conversion: "True"
-			// 			},
-			// 			{
-			// 				key: 'Case Involvement:Case Involvement',
-			// 				value: 'a:AttributeValue': {
-			// 					'__i:type': 'a:SetAttributeValue',
-			// 					'a:Name': key,
-			// 					'a:Values': [
-			// 						{
-			// 							key: 'Case Involvement:Case Involvement:ContactID',
-			// 							value: createContactRequestResponse.data?.Envelope?.Body?.AddContactResponse?.AddContactResult?.value // A string, from the mocked createContactRequest value
-			// 						},
-			// 						{
-			// 							key: 'Case Involvement:Case Involvement:Contact Details', // 50
-			// 							value: createContactRequest.name
-			// 						},
-			// 						{
-			// 							key: 'Case Involvement:Case Involvement:Involvement Start Date',
-			// 							value: {
-			// 								'a:AttributeValue': {
-			// 									'__i:type': 'a:DateAttributeValue',
-			// 									'a:Name': key,
-			// 									'a:Value': new Date().toISOString()
-			// 								}
-			// 							}
-			// 						},
-			// 						{
-			// 							key: 'Case Involvement:Case Involvement:Communication Preference',
-			// 							value: 'e-mail'
-			// 						},
-			// 						{
-			// 							key: 'Case Involvement:Case Involvement:Type Of Involvement',
-			// 							value: createContactRequest.type
-			// 						}
-			// 					]
-			// 				}
-			// 			}
-			// 		]
-			// 	}
-			// }
+			const uploadDoumentsInteraction = new Interaction()
+				.setNumberOfKeysExpectedInJson(57) // 5 + (26 * n: where n is number of documents)
+				.addJsonValueExpectation(JsonPathExpression.create('$.AddDocuments.__soap_op'), 'http://tempuri.org/IHorizon/AddDocuments')
+				.addJsonValueExpectation(JsonPathExpression.create('$.AddDocuments.__xmlns'), 'http://tempuri.org/')
+				.addJsonValueExpectation(JsonPathExpression.create('$.AddDocuments.caseReference'), '3218465')
+				.addExpectationForHorizonCreateDocumentInteraction(0, 'doc1data', 'doc1type', 'doc1filename', 'doc1involvement', 'doc1grouptype', 'doc1uploaddate')
+				.addExpectationForHorizonCreateDocumentInteraction(1, 'doc2data', 'doc2type', 'doc2filename', 'doc2involvement', 'doc2grouptype', 'doc2uploaddate')
 
-			expectedHorizonInteractions = [createOrganisationInteraction, createContactsInteraction];
+			expectedHorizonInteractions = [
+				createOrganisationInteraction, 
+				createContactsInteraction, 
+				createAppealInteraction,
+				uploadDoumentsInteraction
+			];
 
 			// And: Notify has been interacted with as expected
 			const emailToAppellantInteraction = new Interaction()

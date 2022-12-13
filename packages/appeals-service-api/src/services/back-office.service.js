@@ -11,9 +11,9 @@ const { HorizonGateway } = require('../gateway/horizon-gateway');
 const {
 	getAppeal,
 	getDocumentsInBase64Encoding,
-	saveAppealAsSubmittedToBackOffice
+	saveAppealAsSubmittedToBackOffice,
+	getAppealCountry
 } = require('./appeal.service');
-const { getLpaById } = require('../services/lpa.service');
 
 class BackOfficeService {
 	#horizonGateway;
@@ -51,10 +51,13 @@ class BackOfficeService {
 					savedAppeal,
 					createdOrganisations
 				);
+
+				// TODO: According to Postman, we should be able to upload documents in the
+				//       "create appeal" request? We could do this to speed things up?
 				const horizonCaseReferenceForAppeal = await this.#horizonGateway.createAppeal(
 					savedAppeal,
 					createdContacts,
-					await getLpaById(savedAppeal.lpaCode)
+					await getAppealCountry(savedAppeal)
 				);
 				await this.#horizonGateway.uploadAppealDocumentsToAppealInHorizon(
 					id,

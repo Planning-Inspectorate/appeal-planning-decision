@@ -156,19 +156,7 @@ class HorizonMapper {
         });
 	}
 
-    async appealToHorizonCreateAppealRequest(appeal, contacts, lpa){
-
-		 logger.debug({ lpa }, 'LPA detail');
- 
-		 let locationValue;
-		 /* PINS only supports England and Wales */
-		 if (lpa.england) {
-            locationValue = 'England';
-		 } else if (lpa.wales) {
-            locationValue = 'Wales';
-		 } else {
-			 throw new Error('LPA neither English nor Welsh');
-		 }
+    async appealToHorizonCreateAppealRequest(appeal, contacts, lpaCountry){
 
         // if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
         const appealTypeId = appeal.appealType == null ? '1001' : appeal.appealType;
@@ -191,7 +179,7 @@ class HorizonMapper {
                 caseType: this.#getAppealType(appealTypeId),
                 LPACode: appeal.lpaCode,
                 dateOfReceipt: new Date(),
-                location: locationValue,
+                location: lpaCountry,
                 category: {
                     '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business',
                     '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',

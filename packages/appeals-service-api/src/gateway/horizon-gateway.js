@@ -78,8 +78,8 @@ class HorizonGateway {
 	 * @param {*} lpa
 	 * @returns {string} The appeal's case reference (horizon ID) after successful submission to Horizon
 	 */
-	async createAppeal(appeal, contacts, lpa) {
-		const appealCreationRequest = await this.#horizonMapper.appealToHorizonCreateAppealRequest(appeal, contacts, lpa);
+	async createAppeal(appeal, contacts, lpaCountry) {
+		const appealCreationRequest = await this.#horizonMapper.appealToHorizonCreateAppealRequest(appeal, contacts, lpaCountry);
 	
 		const { data } = await axios.post('/horizon', appealCreationRequest, {
 			baseURL: config.horizon.url
