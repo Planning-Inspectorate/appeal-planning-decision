@@ -25,8 +25,8 @@ export class MockedExternalApis {
 	private notifyEndpoint: string = `/${this.notify}/v2/notifications/email`; // Note that this is the full URL, known only to the Notify client which is provided by the Government
 	private notifyUrl: string;
 
-	private documentsApi: string = '?'; //TODO - api/v1/{applicationId}/{documentId} ???
-	private documentsApiEndpoint: string = `/${this.documentsApi}/)`; //TODO - correct endpoint
+	private documentsApi: string = 'documents';
+	private documentsApiEndpoint: string = `/${this.documentsApi}`;
 	private documentsApiUrl: string;
 
 	///////////////////
@@ -48,6 +48,7 @@ export class MockedExternalApis {
 		this.container = container;
 		this.horizonUrl = `${this.baseUrl}${this.horizonEndpoint}`;
 		this.notifyUrl = `${this.baseUrl}/${this.notify}`;
+		this.documentsApiUrl = `${this.baseUrl}/${this.documentsApi}`;
 	}
 
 	getBaseUrl(): string {
@@ -382,11 +383,42 @@ export class MockedExternalApis {
 	getDocumentsAPIUrl(): string {
 		return this.documentsApiUrl;
 	}
-	// TODO: add a way to mock responses for the `get/appealId/documentId` endpoint
-	async mockDocumentsApiResponse(): Promise<void> {
-		const data = {
-			//todo: add data
+	async mockDocumentsApiResponse(
+		statusCode: number,
+		appealId: string,
+		document: any,
+		addDocumentGroupTypeToBody: boolean
+	): Promise<void> {
+		//TODO: remove includeUpdatedDocumentMetadata param when 5031 feature flag is removed
+		let data: any = {
+			httpRequest: {
+				method: 'POST',
+				path: `${this.documentsApiEndpoint}/api/v1/${appealId}/${document.id}/file`
+			},
+			httpResponse: {
+				statusCode: statusCode,
+				body: {
+					application_id: appealId,
+					name: document.originalFileName,
+					filename: document.fileName,
+					upload_date: new Date(),
+					mime_type: 'application/pdf',
+					location: `mock_location`,
+					size: 8334,
+					id: document.id,
+					document_type: 'documentType',
+					involvement: 'documentInvolvement',
+					dataSize: 667,
+					data: 'eW91IG93ZSBtZSBtb25leQ==',
+					document_group_type: 'documentGroupType'
+				}
+			}
 		};
+
+		if (addDocumentGroupTypeToBody === false) {
+			delete data.httpResponse.body.document_group_type;
+		}
+
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 

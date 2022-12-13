@@ -226,7 +226,7 @@ describe('Appeals', () => {
 });
 
 describe('Back Office', () => {
-	it.each([
+	it.only.each([
 		['a blank Horizon ID field', (appeal) => (appeal.horizonId = '')],
 		[
 			'no Horizon ID field',
@@ -242,30 +242,32 @@ describe('Back Office', () => {
 				return true;
 			});
 
-			// TODO: mock the responses for the 6 householder appeal documents
 			// And: the documents API is mocked
-			// const documentMock1 = 
-			// const documentMock2 = 
-			// const documentMock3 = 
-			// const documentMock4 = 
-			// const documentMock5 = 
-			// const documentMock6 = 
+			const appealDocuments = [
+				householderAppeal.requiredDocumentsSection.originalApplication.uploadedFile,
+				householderAppeal.requiredDocumentsSection.decisionLetter.uploadedFile,
+				householderAppeal.yourAppealSection.appealStatement.uploadedFile,
+				...householderAppeal.yourAppealSection.otherDocuments.uploadedFiles,
+				householderAppeal.appealSubmission.appealPDFStatement.uploadedFile
+			].forEach(async (document) => {
+				await mockedExternalApis.mockDocumentsApiResponse(200, householderAppeal.id, document);
+			});
 
 			// And: Horizon's create organisation endpoint is mocked
 			const mockedOrganisationId = 'O_1234';
-			await mockedExternalApis.mockHorizonCreateOrganisationResponse(200, mockedOrganisationId)
-			
+			await mockedExternalApis.mockHorizonCreateOrganisationResponse(200, mockedOrganisationId);
+
 			// And: Horizon's create contact endpoint is mocked
-			const mockedContactId = 'P_1234'
-			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId)
+			const mockedContactId = 'P_1234';
+			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId);
 
 			// And: Horizon's create appeal endpoint is mocked
-			const mockedCaseReference = "APP/Z0116/D/20/3218465"
-			await mockedExternalApis.mockHorizonCreateAppealResponse(200, mockedCaseReference)
+			const mockedCaseReference = 'APP/Z0116/D/20/3218465';
+			await mockedExternalApis.mockHorizonCreateAppealResponse(200, mockedCaseReference);
 
 			// And: Horizon's upload documents endpoint is mocked
-			await mockedExternalApis.mockHorizonUploadDocumentResponse(200)
-			await mockedExternalApis.mockHorizonUploadDocumentResponse(200)
+			await mockedExternalApis.mockHorizonUploadDocumentResponse(200);
+			await mockedExternalApis.mockHorizonUploadDocumentResponse(200);
 
 			// And: an appeal is created that is not known to the back office
 			setHorizonIdOnAppeal(householderAppeal);
@@ -294,17 +296,8 @@ describe('Back Office', () => {
 			createdAppeal.state = 'SUBMITTED';
 			createdAppeal.submissionDate = submittedToBackOfficeResponse.body.submissionDate;
 			createdAppeal.updatedAt = submittedToBackOfficeResponse.body.updatedAt;
-			createdAppeal.horizonId = mockedCaseReference
+			createdAppeal.horizonId = mockedCaseReference;
 			expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
-
-			// TODO: verify the document API interactions
-			// And: the documents API has been interacted with as expected
-			// const createDocumentInteraction1 = new Interaction().setNumberOfKeysExpectedInJson();
-			// const createDocumentInteraction2 = new Interaction().setNumberOfKeysExpectedInJson();
-			// const createDocumentInteraction3 = new Interaction().setNumberOfKeysExpectedInJson();
-			// const createDocumentInteraction4 = new Interaction().setNumberOfKeysExpectedInJson();
-			// const createDocumentInteraction5 = new Interaction().setNumberOfKeysExpectedInJson();
-			// const createDocumentInteraction6 = new Interaction().setNumberOfKeysExpectedInJson();
 
 			// And: Horizon has been interacted with as expected
 			const createOrganisationInteraction = new Interaction()
@@ -368,50 +361,162 @@ describe('Back Office', () => {
 
 			const createAppealInteraction = new Interaction()
 				.setNumberOfKeysExpectedInJson(95) // This will change depending on the number of contacts
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.__soap_op'), 'http://tempuri.org/IHorizon/CreateCase')
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.__xmlns'), 'http://tempuri.org/')
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.caseType'), 'Householder (HAS) Appeal') // this will change
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.CreateContact.__soap_op'),
+					'http://tempuri.org/IHorizon/CreateCase'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.CreateContact.__xmlns'),
+					'http://tempuri.org/'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.CreateContact.caseType'),
+					'Householder (HAS) Appeal'
+				) // this will change
 				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.LPACode'), 'E69999999')
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.dateOfReceipt'), new RegExp(`.+`))
+				.addJsonValueExpectation(
+					JsonPathExpression.create('$.CreateContact.dateOfReceipt'),
+					new RegExp(`.+`)
+				)
 				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.location'), 'England') // this will change
-				.addJsonValueExpectation(JsonPathExpression.create("$.CreateContact.category.['__xlns:a']"), 'http://schemas.datacontract.org/2004/07/Horizon.Business')
-				.addJsonValueExpectation(JsonPathExpression.create("$.CreateContact.category.['__xlns:i']"), 'http://www.w3.org/2001/XMLSchema-instance')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(0, "['Case:Casework Reason']", '') // this will change
-				.addDateAttributeExpectationForHorizonCreateAppealInteraction(1, "['Case Dates:Receipt Date']")
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(2, "['Case:Source Indicator']", 'Other')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(3, "['Case:Case Publish Flag']", 'No')
-				.addDateAttributeExpectationForHorizonCreateAppealInteraction(4, "['Planning Application:Date Of LPA Decision']", householderAppeal.decisionDate.toISOString())
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(5, "['Case:Procedure (Appellant)']", 'Written Representations')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(6, "['Planning Application:LPA Application Reference']", '12345')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(7, "['Case Site:Site Address Line 1']", 'Site Address 1')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(8, "['Case Site:Site Address Line 2']", 'Site Address 2')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(9, "['Case Site:Site Address Town']", 'Site Town')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(10, "['Case Site:Site Address Country']", 'Site County')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(11, "['Case Site:Site Address Postcode']", 'SW1 1AA')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(12, "['Case Site:Ownership Certificate']", 'null')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(13, "['Case Site:Site Viewable From Road']", 'No')
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(14, "['Case Site:Inspector Need To Enter Site']", 'Yes')
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.CreateContact.category.['__xlns:a']"),
+					'http://schemas.datacontract.org/2004/07/Horizon.Business'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.CreateContact.category.['__xlns:i']"),
+					'http://www.w3.org/2001/XMLSchema-instance'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					0,
+					"['Case:Casework Reason']",
+					''
+				) // this will change
+				.addDateAttributeExpectationForHorizonCreateAppealInteraction(
+					1,
+					"['Case Dates:Receipt Date']"
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					2,
+					"['Case:Source Indicator']",
+					'Other'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					3,
+					"['Case:Case Publish Flag']",
+					'No'
+				)
+				.addDateAttributeExpectationForHorizonCreateAppealInteraction(
+					4,
+					"['Planning Application:Date Of LPA Decision']",
+					householderAppeal.decisionDate.toISOString()
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					5,
+					"['Case:Procedure (Appellant)']",
+					'Written Representations'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					6,
+					"['Planning Application:LPA Application Reference']",
+					'12345'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					7,
+					"['Case Site:Site Address Line 1']",
+					'Site Address 1'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					8,
+					"['Case Site:Site Address Line 2']",
+					'Site Address 2'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					9,
+					"['Case Site:Site Address Town']",
+					'Site Town'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					10,
+					"['Case Site:Site Address Country']",
+					'Site County'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					11,
+					"['Case Site:Site Address Postcode']",
+					'SW1 1AA'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					12,
+					"['Case Site:Ownership Certificate']",
+					'null'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					13,
+					"['Case Site:Site Viewable From Road']",
+					'No'
+				)
+				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
+					14,
+					"['Case Site:Inspector Need To Enter Site']",
+					'Yes'
+				)
 				.addContactAttributeExpectationForHorizonCreateAppealInteraction(15)
-				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(15, 0, "['Case Involvement:Case Involvement:ContactID']", mockedContactId)
-				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(15, 1, "['Case Involvement:Case Involvement:Contact Details']", 'Appellant Name')
-				.addDateAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(15, 2, "['Case Involvement:Case Involvement:Involvement Start Date']")
-				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(15, 3, "['Case Involvement:Case Involvement:Communication Preference']", 'e-mail')
-				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(15, 4, "['Case Involvement:Case Involvement:Type Of Involvement']", 'Appellant')
-				// there may be more contact atrtributes here if the appeal is made on behalf of an appellant
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
+					15,
+					0,
+					"['Case Involvement:Case Involvement:ContactID']",
+					mockedContactId
+				)
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
+					15,
+					1,
+					"['Case Involvement:Case Involvement:Contact Details']",
+					'Appellant Name'
+				)
+				.addDateAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
+					15,
+					2,
+					"['Case Involvement:Case Involvement:Involvement Start Date']"
+				)
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
+					15,
+					3,
+					"['Case Involvement:Case Involvement:Communication Preference']",
+					'e-mail'
+				)
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
+					15,
+					4,
+					"['Case Involvement:Case Involvement:Type Of Involvement']",
+					'Appellant'
+				);
+			// there may be more contact attributes here if the appeal is made on behalf of an appellant
 
-			const uploadDoumentsInteraction = new Interaction()
-				.setNumberOfKeysExpectedInJson(57) // 5 + (26 * n: where n is number of documents)
-				.addJsonValueExpectation(JsonPathExpression.create('$.AddDocuments.__soap_op'), 'http://tempuri.org/IHorizon/AddDocuments')
-				.addJsonValueExpectation(JsonPathExpression.create('$.AddDocuments.__xmlns'), 'http://tempuri.org/')
-				.addJsonValueExpectation(JsonPathExpression.create('$.AddDocuments.caseReference'), '3218465')
-				.addExpectationForHorizonCreateDocumentInteraction(0, 'doc1data', 'doc1type', 'doc1filename', 'doc1involvement', 'doc1grouptype', 'doc1uploaddate')
-				.addExpectationForHorizonCreateDocumentInteraction(1, 'doc2data', 'doc2type', 'doc2filename', 'doc2involvement', 'doc2grouptype', 'doc2uploaddate')
+			let documentIndex = 0;
+			const uploadDocumentInteractions = appealDocuments.map((document) => {
+				return new Interaction()
+					.setNumberOfKeysExpectedInJson(31)
+					.addJsonValueExpectation(
+						JsonPathExpression.create('$.AddDocuments.__soap_op'),
+						'http://tempuri.org/IHorizon/AddDocuments'
+					)
+					.addJsonValueExpectation(
+						JsonPathExpression.create('$.AddDocuments.__xmlns'),
+						'http://tempuri.org/'
+					)
+					.addJsonValueExpectation(
+						JsonPathExpression.create('$.AddDocuments.caseReference'),
+						'3218465'
+					) // Last 7 digits of mockedCaseReference
+					.addExpectationForHorizonCreateDocumentInteraction(documentIndex++, document, true);
+			});
 
 			expectedHorizonInteractions = [
-				createOrganisationInteraction, 
-				createContactsInteraction, 
+				createOrganisationInteraction,
+				createContactsInteraction,
 				createAppealInteraction,
-				uploadDoumentsInteraction
+				...uploadDocumentInteractions
 			];
 
 			// And: Notify has been interacted with as expected
