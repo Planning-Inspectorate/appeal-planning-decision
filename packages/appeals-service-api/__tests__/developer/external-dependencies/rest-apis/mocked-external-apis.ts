@@ -25,6 +25,10 @@ export class MockedExternalApis {
 	private notifyEndpoint: string = `/${this.notify}/v2/notifications/email`; // Note that this is the full URL, known only to the Notify client which is provided by the Government
 	private notifyUrl: string;
 
+	private documentsApi: string = '?'; //TODO - api/v1/{applicationId}/{documentId} ???
+	private documentsApiEndpoint: string = `/${this.documentsApi}/)`; //TODO - correct endpoint
+	private documentsApiUrl: string;
+
 	///////////////////
 	///// GENERAL /////
 	///////////////////
@@ -56,13 +60,16 @@ export class MockedExternalApis {
 
 	async checkInteractions(
 		expectedHorizonInteractions: Array<Interaction>,
-		expectedNotifyInteractions: Array<Interaction>
+		expectedNotifyInteractions: Array<Interaction>,
+		expectedDocumentsApiInteractions: Array<Interaction>
 	) {
 		const actualHorizonInteractions = await this.getRecordedRequestsForHorizon();
 		const actualNotifyInteractions = await this.getRecordedRequestsForNotify();
+		const actualDocumentsApiInteractions = await this.getRecordedRequestsFordocumentsApi();
 
 		this.verifyInteractions(expectedHorizonInteractions, actualHorizonInteractions);
 		this.verifyInteractions(expectedNotifyInteractions, actualNotifyInteractions);
+		this.verifyInteractions(expectedDocumentsApiInteractions, actualDocumentsApiInteractions);
 	}
 
 	async teardown(): Promise<void> {
@@ -128,19 +135,19 @@ export class MockedExternalApis {
 		return this.horizonUrl;
 	}
 
-	async mockHorizonCreateOrganisationResponse(statusCode: number, organisationIdToReturn: string){
+	async mockHorizonCreateOrganisationResponse(statusCode: number, organisationIdToReturn: string) {
 		let body = {
-			"Envelope": {
-				"Body": {
-					"AddContactResponse": {
-						"AddContactResult": {
-							"value": organisationIdToReturn
+			Envelope: {
+				Body: {
+					AddContactResponse: {
+						AddContactResult: {
+							value: organisationIdToReturn
 						}
 					}
 				}
 			}
-		}
-		
+		};
+
 		const data = {
 			httpRequest: {
 				method: 'POST',
@@ -154,19 +161,19 @@ export class MockedExternalApis {
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
-	async mockHorizonCreateContactResponse(statusCode: number, contactIdToReturn: string){
+	async mockHorizonCreateContactResponse(statusCode: number, contactIdToReturn: string) {
 		let body = {
-			"Envelope": {
-				"Body": {
-					"AddContactResponse": {
-						"AddContactResult": {
-							"value": contactIdToReturn
+			Envelope: {
+				Body: {
+					AddContactResponse: {
+						AddContactResult: {
+							value: contactIdToReturn
 						}
 					}
 				}
 			}
-		}
-		
+		};
+
 		const data = {
 			httpRequest: {
 				method: 'POST',
@@ -180,19 +187,19 @@ export class MockedExternalApis {
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
-	async mockHorizonCreateAppealResponse(statusCode: number, caseReferenceToReturn: string){
+	async mockHorizonCreateAppealResponse(statusCode: number, caseReferenceToReturn: string) {
 		let body = {
-			"Envelope": {
-				"Body": {
-					"CreateCaseResponse": {
-						"CreateCaseResult": {
-							"value": caseReferenceToReturn
+			Envelope: {
+				Body: {
+					CreateCaseResponse: {
+						CreateCaseResult: {
+							value: caseReferenceToReturn
 						}
 					}
 				}
 			}
-		}
-		
+		};
+
 		const data = {
 			httpRequest: {
 				method: 'POST',
@@ -206,45 +213,45 @@ export class MockedExternalApis {
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
-	async mockHorizonUploadDocumentResponse(statusCode: number){
+	async mockHorizonUploadDocumentResponse(statusCode: number) {
 		let body = {
-			"Envelope": {
-				"Body": {
-					"AddDocumentsResponse": {
-						"AddDocumentsResult": {
-							"HorizonAPIDocument": {
-								"Content": {},
-								"DocumentType": {
-									"value": "Mocked DocType"
+			Envelope: {
+				Body: {
+					AddDocumentsResponse: {
+						AddDocumentsResult: {
+							HorizonAPIDocument: {
+								Content: {},
+								DocumentType: {
+									value: 'Mocked DocType'
 								},
-								"Filename": {
-									"value": "MockedFileName"
+								Filename: {
+									value: 'MockedFileName'
 								},
-								"IsPublished": {
-									"value": "true"
+								IsPublished: {
+									value: 'true'
 								},
-								"Metadata": {
-									"Attributes": {
-										"AttributeValue": {
-											"Name": {
-												"value": "Document:Document Type"
+								Metadata: {
+									Attributes: {
+										AttributeValue: {
+											Name: {
+												value: 'Document:Document Type'
 											},
-											"Value": {
-												"value": "Initial Documents"
+											Value: {
+												value: 'Initial Documents'
 											}
 										}
 									}
 								},
-								"NodeId": {
-									"value": "123MOCK"
+								NodeId: {
+									value: '123MOCK'
 								}
 							}
 						}
 					}
 				}
 			}
-		}
-		
+		};
+
 		const data = {
 			httpRequest: {
 				method: 'POST',
@@ -372,6 +379,19 @@ export class MockedExternalApis {
 	///// DOCUMENTS API /////
 	/////////////////////////
 
+	getDocumentsAPIUrl(): string {
+		return this.documentsApiUrl;
+	}
 	// TODO: add a way to mock responses for the `get/appealId/documentId` endpoint
-	// TODO: add a way to easily verify ineractions (like with Horizon above)
+	async mockDocumentsApiResponse(): Promise<void> {
+		const data = {
+			//todo: add data
+		};
+		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+	}
+
+	// TODO: add a way to easily verify interactions (like with Horizon above)
+	async getRecordedRequestsFordocumentsApi(): Promise<Array<any>> {
+		return await this.getResponsesForEndpoint(this.documentsApiEndpoint);
+	}
 }
