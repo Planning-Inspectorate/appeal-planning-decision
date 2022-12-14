@@ -1,5 +1,5 @@
 const logger = require('../lib/logger');
-const HorizonService = require('./back-office.service');
+const HorizonService = require('./horizon.service');
 const { DecryptionService } = require('./decryption.service');
 const { FinalCommentsAggregate } = require('../models/aggregates/final-comments-aggregate');
 const { FinalCommentsRepository } = require('../repositories/final-comments-repository');

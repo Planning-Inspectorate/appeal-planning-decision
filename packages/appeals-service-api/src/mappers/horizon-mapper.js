@@ -1,6 +1,19 @@
 const logger = require('../lib/logger');
 class HorizonMapper {
 
+    #createOrganisationRequestJson = {
+        AddContact: {
+            __soap_op: 'http://tempuri.org/IContacts/AddContact',
+            __xmlns: 'http://tempuri.org/',
+            contact: {
+                '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
+                '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
+                '__i:type': 'a:HorizonAPIOrganisation',
+                'a:Name': {'__i:nil': 'true'}
+            }
+        }
+    }
+
     /**
      * @return {any} Structure is:
      * { 
@@ -9,36 +22,15 @@ class HorizonMapper {
      * }
      */
     appealToCreateOrganisationRequests(appeal){
-        let organisations = { appellant: { value: {'__i:nil': 'true'} } };
+        let organisations = { appellant: { value: this.#createOrganisationRequestJson } }
 
         const appealTypeID = appeal.appealType == null ? '1001' : appeal.appealType;
 	    if (appealTypeID == '1005') {
-            organisations.appellant.value = {
-                AddContact: {
-                    __soap_op: 'http://tempuri.org/IContacts/AddContact',
-                    __xmlns: 'http://tempuri.org/',
-                    contact: {
-                        '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
-                        '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
-                        '__i:type': 'a:HorizonAPIOrganisation',
-                        'a:Name': appeal.contactDetailsSection.contact.companyName
-                    }
-                }
-            }
+            organisations.appellant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName
 
 			if (!appeal.contactDetailsSection.isOriginalApplicant) {	
-				organisations.agent.value = {
-                    AddContact: {
-                        __soap_op: 'http://tempuri.org/IContacts/AddContact',
-                        __xmlns: 'http://tempuri.org/',
-                        contact: {
-                            '__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
-                            '__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
-                            '__i:type': 'a:HorizonAPIOrganisation',
-                            'a:Name': appeal.contactDetailsSection.appealingOnBehalfOf.companyName
-                        }
-                    }
-                }
+				organisations.agent.value = this.#createOrganisationRequestJson
+                organisations.agent.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.appealingOnBehalfOf.companyName
 			}
 		}
         
@@ -61,12 +53,13 @@ class HorizonMapper {
      *      requestBody: {}
      *  }
      */
-    createContactRequests(appeal, organisations){
+     createContactRequests(appeal, organisations){
 
 	    const appealTypeID = appeal.appealType == null ? '1001' : appeal.appealType;
 
         let contacts = []
 	    if (appealTypeID == '1001') {
+            logger.debug(`Extracting contcts from householder appeal`)
 			if (appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
 				/* User is original applicant - just add appellant */
 				contacts.push({
@@ -120,6 +113,8 @@ class HorizonMapper {
 			}
 		}
 
+        logger.debug(`Contacts to map into Horizon request: ${JSON.stringify(contacts)}`)
+
         return contacts.map(contact => {
 
             let [firstName, ...lastName] = contact.name.split(' ');
@@ -156,7 +151,7 @@ class HorizonMapper {
         });
 	}
 
-    async appealToHorizonCreateAppealRequest(appeal, contacts, lpaCountry){
+    appealToHorizonCreateAppealRequest(appeal, contacts, lpaCountry){
 
         // if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
         const appealTypeId = appeal.appealType == null ? '1001' : appeal.appealType;

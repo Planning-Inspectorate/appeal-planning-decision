@@ -256,10 +256,11 @@ describe('Back Office', () => {
 			// And: Horizon's create organisation endpoint is mocked
 			const mockedOrganisationId = 'O_1234';
 			await mockedExternalApis.mockHorizonCreateOrganisationResponse(200, mockedOrganisationId);
+			console.log(mockedExternalApis.getHorizonUrl())
 
 			// And: Horizon's create contact endpoint is mocked
 			const mockedContactId = 'P_1234';
-			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId);
+			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedContactId);
 
 			// And: Horizon's create appeal endpoint is mocked
 			const mockedCaseReference = 'APP/Z0116/D/20/3218465';

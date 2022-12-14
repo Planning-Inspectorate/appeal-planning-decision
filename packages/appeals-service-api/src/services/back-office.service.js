@@ -1,5 +1,4 @@
 const { isFeatureActive } = require('../configuration/featureFlag');
-const jp = require('jsonpath');
 const logger = require('../lib/logger');
 const ApiError = require('../errors/apiError');
 const {
@@ -7,20 +6,18 @@ const {
 	sendSubmissionConfirmationEmailToAppellant
 } = require('../lib/notify');
 const { BackOfficeRepository } = require('../repositories/back-office-repository');
-const { HorizonGateway } = require('../gateway/horizon-gateway');
+const HorizonService = require('../services/horizon.service');
 const {
 	getAppeal,
-	getDocumentsInBase64Encoding,
 	saveAppealAsSubmittedToBackOffice,
-	getAppealCountry
 } = require('./appeal.service');
 
 class BackOfficeService {
-	#horizonGateway;
+	#horizonService;
 	#backOfficeRepository;
 
 	constructor() {
-		this.#horizonGateway = new HorizonGateway();
+		this.#horizonService = new HorizonService();
 		this.#backOfficeRepository = new BackOfficeRepository();
 	}
 
@@ -45,30 +42,10 @@ class BackOfficeService {
 		if (savedAppeal.horizonId == undefined || savedAppeal.horizonId == false) {
 			let updatedAppeal;
 			if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
-				console.log('Using direct Horizon integration');
-				const createdOrganisations = await this.#horizonGateway.createOrganisations(savedAppeal);
-				const createdContacts = await this.#horizonGateway.createContacts(
-					savedAppeal,
-					createdOrganisations
-				);
-
-				// TODO: According to Postman, we should be able to upload documents in the
-				//       "create appeal" request? We could do this to speed things up?
-				const horizonCaseReferenceForAppeal = await this.#horizonGateway.createAppeal(
-					savedAppeal,
-					createdContacts,
-					await getAppealCountry(savedAppeal)
-				);
-				await this.#horizonGateway.uploadAppealDocumentsToAppealInHorizon(
-					id,
-					getDocumentsInBase64Encoding(savedAppeal)
-				);
-				updatedAppeal = await saveAppealAsSubmittedToBackOffice(
-					savedAppeal,
-					horizonCaseReferenceForAppeal
-				);
+				logger.debug('Using direct Horizon integration');
+				this.#horizonService.createAppeal(savedAppeal);
 			} else {
-				console.log('Using message queue integration');
+				logger.debug('Using message queue integration');
 				updatedAppeal = await saveAppealAsSubmittedToBackOffice(savedAppeal);
 				this.#backOfficeRepository.create(updatedAppeal);
 			}
@@ -80,52 +57,6 @@ class BackOfficeService {
 
 		logger.debug('Appeal has already been submitted to the back-office');
 		throw ApiError.appealAlreadySubmitted();
-	}
-
-	/**
-	 *
-	 * @param {string} caseReference
-	 * @return {Promise<Date | undefined>}
-	 */
-	async getFinalCommentsDueDate(caseReference) {
-		const horizonAppeal = await this.#horizonGateway.getAppeal(caseReference);
-
-		// Here be dragons! This bit is complicated because of the Horizon appeal data structure
-		// (sorry to anyone who has to work on this).
-		const attributes = jp.query(horizonAppeal, '$..Metadata.Attributes[*]');
-
-		if (attributes.length === 0) {
-			return undefined;
-		}
-
-		// Here we're simplifying the returned data structure so that the JSON Path expression
-		// is easier to read. Essentially it changes this structure:
-		//
-		// {
-		//   Name: { value: ""},
-		//   Value: { value: "" }
-		// }
-		//
-		// into
-		//
-		// {
-		//   Name: "",
-		//   Value: ""
-		// }
-		const attributesModified = attributes.map((attribute) => {
-			return { Name: attribute.Name.value, Value: attribute.Value.value };
-		});
-
-		const finalCommentsDueDate = jp.query(
-			attributesModified,
-			'$..[?(@.Name == "Case Document Dates:Final Comments Due Date")].Value'
-		);
-
-		if (finalCommentsDueDate == false) {
-			return undefined;
-		}
-
-		return new Date(Date.parse(finalCommentsDueDate));
 	}
 }
 
