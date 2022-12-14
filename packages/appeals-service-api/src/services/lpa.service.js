@@ -16,7 +16,9 @@ const getLpaById = async (id) => {
 			logger.error({ err, id }, `Unable to find LPA for code ${id}`);
 			throw new Error(err);
 		});
-	return { ...lpa, name: lpa?.lpa19NM, horizonId: lpa?.lpaCode };
+	const result = { ...lpa, name: lpa?.lpa19NM, horizonId: lpa?.lpaCode };
+	logger.debug(`Appeal LPA retrieved: ${result}`);
+	return result;
 };
 
 function transformCSV(body) {
@@ -123,7 +125,7 @@ const getLpaCountry = (lpa) => {
 	} else {
 		throw new Error('LPA neither English nor Welsh');
 	}
-}
+};
 
 module.exports = {
 	getLpaById,

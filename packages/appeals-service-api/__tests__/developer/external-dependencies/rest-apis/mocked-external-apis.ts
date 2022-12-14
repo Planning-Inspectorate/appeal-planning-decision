@@ -26,7 +26,7 @@ export class MockedExternalApis {
 	private notifyUrl: string;
 
 	private documentsApi: string = 'documents';
-	private documentsApiEndpoint: string = `/${this.documentsApi}`;
+	private documentsApiEndpoint: string = `/${this.documentsApi}/api/v1`;
 	private documentsApiUrl: string;
 
 	///////////////////
@@ -154,7 +154,7 @@ export class MockedExternalApis {
 				method: 'POST',
 				path: `${this.horizonEndpoint}/contacts`,
 				body: {
-					type: "JSON",
+					type: 'JSON',
 					value: '{"AddContact": { "contact": { "__i:type": "a:HorizonAPIOrganisation"}}}'
 				}
 			},
@@ -182,9 +182,9 @@ export class MockedExternalApis {
 		const data = {
 			httpRequest: {
 				method: 'POST',
-				path: `${this.horizonEndpoint}/contacts`,
+				path: `${this.horizonEndpoint}/foo`,
 				body: {
-					type: "JSON",
+					type: 'JSON',
 					value: '{"AddContact": { "contact": { "__i:type": "a:HorizonAPIPerson"}}}'
 				}
 			},
@@ -391,35 +391,39 @@ export class MockedExternalApis {
 	getDocumentsAPIUrl(): string {
 		return this.documentsApiUrl;
 	}
+
 	async mockDocumentsApiResponse(
 		statusCode: number,
 		appealId: string,
 		document: any,
 		addDocumentGroupTypeToBody: boolean
 	): Promise<void> {
+		const body = {
+			application_id: appealId,
+			name: document.originalFileName,
+			filename: document.fileName,
+			upload_date: new Date(),
+			mime_type: 'application/pdf',
+			location: `mock_location`,
+			size: 8334,
+			id: document.id,
+			document_type: 'documentType',
+			involvement: 'documentInvolvement',
+			dataSize: 667,
+			data: 'eW91IG93ZSBtZSBtb25leQ==',
+			document_group_type: 'documentGroupType'
+		};
+
 		//TODO: remove includeUpdatedDocumentMetadata param when 5031 feature flag is removed
 		let data: any = {
 			httpRequest: {
-				method: 'POST',
-				path: `${this.documentsApiEndpoint}/api/v1/${appealId}/${document.id}/file`
+				method: 'GET',
+				path: `${this.documentsApiEndpoint}/${appealId}/${document.id}/file`,
+				queryStringParameters: [{ name: 'base64', values: ['true'] }]
 			},
 			httpResponse: {
 				statusCode: statusCode,
-				body: {
-					application_id: appealId,
-					name: document.originalFileName,
-					filename: document.fileName,
-					upload_date: new Date(),
-					mime_type: 'application/pdf',
-					location: `mock_location`,
-					size: 8334,
-					id: document.id,
-					document_type: 'documentType',
-					involvement: 'documentInvolvement',
-					dataSize: 667,
-					data: 'eW91IG93ZSBtZSBtb25leQ==',
-					document_group_type: 'documentGroupType'
-				}
+				body: body
 			}
 		};
 

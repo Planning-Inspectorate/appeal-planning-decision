@@ -1,36 +1,38 @@
 const jp = require('jsonpath');
 
 const { HorizonGateway } = require('../gateway/horizon-gateway');
-const {
-	getDocumentsInBase64Encoding,
-	saveAppealAsSubmittedToBackOffice,
-	getAppealCountry
-} = require('./appeal.service');
+// uncomment
+// const {
+// 	getDocumentsInBase64Encoding,
+// 	saveAppealAsSubmittedToBackOffice,
+// 	getAppealCountry
+// } = require('./appeal.service');
 
 class HorizonService {
+	#horizonGateway;
 
-    #horizonGateway
+	constructor() {
+		this.#horizonGateway = new HorizonGateway();
+	}
 
-    constructor() {
-        this.#horizonGateway = new HorizonGateway();
-    }
+	async createAppeal(appeal) {
+		//todo: delete next line
+		console.log(appeal);
+		//uncomment//const createdOrganisations = await this.#horizonGateway.createOrganisations(appeal);
+		//uncomment//const createdContacts = await this.#horizonGateway.createContacts(appeal, createdOrganisations);
 
-    async createAppeal(appeal){
-        const createdOrganisations = await this.#horizonGateway.createOrganisations(appeal);
-        const createdContacts = await this.#horizonGateway.createContacts(appeal, createdOrganisations);
+		// TODO: According to Postman, we should be able to upload documents in the
+		//       "create appeal" request? We could do this to speed things up?
+		//uncomment//const appealCountry = await getAppealCountry(appeal);
+		//uncomment//const horizonCaseReferenceForAppeal = await this.#horizonGateway.createAppeal(appeal, createdContacts, appealCountry);
 
-        // TODO: According to Postman, we should be able to upload documents in the
-        //       "create appeal" request? We could do this to speed things up?
-        const appealCounty = await getAppealCountry(appeal);
-        const horizonCaseReferenceForAppeal = await this.#horizonGateway.createAppeal(appeal, createdContacts, appealCounty);
+		//uncomment//const appealDocumentsInBase64Encoding = await getDocumentsInBase64Encoding(appeal);
+		// await this.#horizonGateway.uploadAppealDocuments(appealDocumentsInBase64Encoding, horizonCaseReferenceForAppeal);
 
-        const appealDocumentsInBase64Encoding = getDocumentsInBase64Encoding(appeal)
-        await this.#horizonGateway.uploadAppealDocuments(appealDocumentsInBase64Encoding, horizonCaseReferenceForAppeal);
-        
-        await saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReferenceForAppeal);
-    }
+		// await saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReferenceForAppeal);
+	}
 
-    /**
+	/**
 	 *
 	 * @param {string} caseReference
 	 * @return {Promise<Date | undefined>}
@@ -77,4 +79,4 @@ class HorizonService {
 	}
 }
 
-module.exports = HorizonService
+module.exports = HorizonService;
