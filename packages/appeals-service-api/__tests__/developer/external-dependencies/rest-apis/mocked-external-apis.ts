@@ -46,7 +46,7 @@ export class MockedExternalApis {
 	private constructor(container: StartedTestContainer) {
 		this.baseUrl = `http://${container.getHost()}:${container.getMappedPort(1080)}`;
 		this.container = container;
-		this.horizonUrl = `${this.baseUrl}${this.horizonEndpoint}`;
+		this.horizonUrl = `${this.baseUrl}/${this.horizon}`;
 		this.notifyUrl = `${this.baseUrl}/${this.notify}`;
 		this.documentsApiUrl = `${this.baseUrl}/${this.documentsApi}`;
 	}
@@ -152,14 +152,18 @@ export class MockedExternalApis {
 		const data = {
 			httpRequest: {
 				method: 'POST',
-				path: `${this.horizonEndpoint}/contacts`
+				path: `${this.horizonEndpoint}/contacts`,
+				body: {
+					type: "JSON",
+					value: '{"AddContact": { "contact": { "__i:type": "a:HorizonAPIOrganisation"}}}'
+				}
 			},
 			httpResponse: {
 				statusCode: statusCode,
 				body: body
 			}
 		};
-		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+		return await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
 	async mockHorizonCreateContactResponse(statusCode: number, contactIdToReturn: string) {
@@ -178,14 +182,18 @@ export class MockedExternalApis {
 		const data = {
 			httpRequest: {
 				method: 'POST',
-				path: `${this.horizonEndpoint}/contacts`
+				path: `${this.horizonEndpoint}/contacts`,
+				body: {
+					type: "JSON",
+					value: '{"AddContact": { "contact": { "__i:type": "a:HorizonAPIPerson"}}}'
+				}
 			},
 			httpResponse: {
 				statusCode: statusCode,
 				body: body
 			}
 		};
-		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+		return await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
 	async mockHorizonCreateAppealResponse(statusCode: number, caseReferenceToReturn: string) {

@@ -22,32 +22,42 @@ class HorizonGateway {
      * }
 	 */
 	async createOrganisations(appeal){
-		const result = {};
+		logger.debug('Creating organisations in Horizon')
+		const createOrganisationUrl = `${config.services.horizon.url}/contacts`
 		const createOrganisationRequestJson = this.#horizonMapper.appealToCreateOrganisationRequests(appeal)
-
-		const createAppellantOrganisationResponse = await axios.post(`${config.horizon.url}/contacts`, createOrganisationRequestJson.appellant.value);
-		result.appellant = createAppellantOrganisationResponse.data?.Envelope?.Body?.AddContactResponse?.AddContactResult?.value
-
-		if (Object.hasOwn(createOrganisationRequestJson, 'agent')){
-			const createAgentOrganisationResponse = await axios.post(`${config.horizon.url}/contacts`, createOrganisationRequestJson.agent.value);
-			result.agent = createAgentOrganisationResponse.data?.Envelope?.Body?.AddContactResponse?.AddContactResult?.value
+		logger.debug(`Create organisation request: ${JSON.stringify(createOrganisationRequestJson)}`)
+		
+		const result = {};
+		for (const key in createOrganisationRequestJson) {
+			const request = createOrganisationRequestJson[key].value;
+			logger.debug(`Sending following create organisation request to '${createOrganisationUrl}': ${JSON.stringify(request)}`)
+			const createOrganisationResponse = await axios.post(createOrganisationUrl, request);
+			result[key] = createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value
 		}
 
+		logger.debug(`Create organisation result: ${JSON.stringify(result)}`)
 		return result;
 	}
 
 	async createContacts(appeal, organisations){
+		logger.debug(`Creating contacts in Horizon`)
+		const createContactUrl = `${config.services.horizon.url}/contacts`
+
 		return this.#horizonMapper
 			.createContactRequests(appeal, organisations)
 			.map(async createContactRequest => {
-				const createContactRequestResponse = await axios.post(`${config.horizon.url}/contacts`, createContactRequest.requestBody);
+				const createContactRequestBody = createContactRequest.requestBody;
+				logger.debug(`Sending the following create contact request to '${createContactUrl}': ${JSON.stringify(createContactRequestBody)}`)
+				const createContactRequestResponse = await axios.post(createContactUrl, createContactRequestBody);
+				const personId = createContactRequestResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value
+				
 				return {
 					/* Add user contact details */
 					key: 'Case Involvement:Case Involvement',
 					value: [
 						{
 							key: 'Case Involvement:Case Involvement:ContactID',
-							value: createContactRequestResponse.data?.Envelope?.Body?.AddContactResponse?.AddContactResult?.value
+							value: personId
 						},
 						{
 							key: 'Case Involvement:Case Involvement:Contact Details',
@@ -79,16 +89,14 @@ class HorizonGateway {
 	 * @returns {string} The appeal's case reference (horizon ID) after successful submission to Horizon
 	 */
 	async createAppeal(appeal, contacts, lpaCountry) {
-		const appealCreationRequest = await this.#horizonMapper.appealToHorizonCreateAppealRequest(appeal, contacts, lpaCountry);
+		logger.debug('Creating appeal in Horizon')
+		const appealCreationRequest = this.#horizonMapper.appealToHorizonCreateAppealRequest(appeal, contacts, lpaCountry);
+		logger.debug(`Create appeal request: ${JSON.stringify(appealCreationRequest)}`)
 	
-		const { data } = await axios.post('/horizon', appealCreationRequest, {
-			baseURL: config.horizon.url
-		});
-	
-		logger.debug(`Horizon response: ${data}`);
+		const createAppealResponse = await axios.post(`${config.services.horizon.url}/horizon`, appealCreationRequest);
 
 		// case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
-		const horizonFullCaseId = data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
+		const horizonFullCaseId = createAppealResponse.data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
 	
 		if (!horizonFullCaseId) {
 			logger.debug('Horizon ID malformed');
@@ -102,17 +110,20 @@ class HorizonGateway {
 		return caseReference;
 	}
 	
-	async uploadAppealDocumentsToAppealInHorizon(appealId, documents, appealCaseReference){
+	async uploadAppealDocuments(documents, appealCaseReference){
+		logger.debug(`Uploading following documents to appeal with case reference ${appealCaseReference}: ${JSON.stringify(documents)}`)
 		documents.forEach(async document => {
-			await axios.post(
-				'/horizon', 
+			logger.debug(`Uploading document: ${JSON.stringify(document)}`)
+			const response = await axios.post(
+				`${config.services.horizon.url}/horizon`, 
 				this.#horizonMapper.toCreateDocumentRequest(document, appealCaseReference), 
 				{
-					baseURL: config.horizon.url,
 					/* Needs to be infinity as Horizon doesn't support multipart uploads */
 					maxBodyLength: Infinity
 				}
 			);
+
+			logger.debug(`Upload document response: ${JSON.stringify(response)}`)
 		});
 	}
 
