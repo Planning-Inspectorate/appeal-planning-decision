@@ -93,6 +93,7 @@ beforeAll(async () => {
 	].appealSubmissionConfirmationEmailToAppellant = 1;
 	appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa = 2;
 	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant = 3;
+	appConfiguration.documents.url = mockedExternalApis.getDocumentsAPIUrl();
 
 	/////////////////////
 	///// SETUP APP /////
@@ -250,13 +251,17 @@ describe('Back Office', () => {
 				...householderAppeal.yourAppealSection.otherDocuments.uploadedFiles,
 				householderAppeal.appealSubmission.appealPDFStatement.uploadedFile
 			].forEach(async (document) => {
-				await mockedExternalApis.mockDocumentsApiResponse(200, householderAppeal.id, document);
+				await mockedExternalApis.mockDocumentsApiResponse(
+					200,
+					householderAppeal.id,
+					document,
+					true
+				);
 			});
 
 			// And: Horizon's create organisation endpoint is mocked
 			const mockedOrganisationId = 'O_1234';
 			await mockedExternalApis.mockHorizonCreateOrganisationResponse(200, mockedOrganisationId);
-			console.log(mockedExternalApis.getHorizonUrl())
 
 			// And: Horizon's create contact endpoint is mocked
 			const mockedContactId = 'P_1234';

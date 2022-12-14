@@ -10,7 +10,7 @@ const validateFullAppeal = require('../validators/validate-full-appeal');
 const { validateAppeal } = require('../validators/validate-appeal');
 const { AppealsRepository } = require('../repositories/appeals-repository');
 const uuid = require('uuid');
-const { DocumentService } = require('./document.service');
+const DocumentService = require('./document.service');
 const { getLpaCountry, getLpaById } = require('../services/lpa.service');
 
 const appealsRepository = new AppealsRepository();
@@ -94,11 +94,14 @@ async function updateAppeal(id, appealUpdate) {
 	return updatedAppeal;
 }
 
-function getDocumentsInBase64Encoding(appeal) {
+async function getDocumentsInBase64Encoding(appeal) {
+	logger.debug(`Getting documents for ${JSON.stringify(appeal)}`);
 	let documentIds = [];
 	populateArrayWithIdsFromKeysFoundInObject(appeal, ['uploadedFile', 'uploadedFiles'], documentIds);
-	documentIds = documentIds.filter((document) => document.id !== null);
-	return documentService.getAppealDocumentsInBase64Encoding(appeal.id, documentIds);
+	documentIds = documentIds
+		.filter((document) => document.id !== null)
+		.map((documentIdJson) => documentIdJson.id);
+	return await documentService.getAppealDocumentsInBase64Encoding(appeal.id, documentIds);
 }
 
 function populateArrayWithIdsFromKeysFoundInObject(obj, keys, array) {
@@ -125,8 +128,8 @@ async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference = 
 	return await updateAppeal(appeal.id, appeal);
 }
 
-async function getAppealCountry(appeal){
-	const appealLPA = getLpaById(appeal.lpaCode)
+async function getAppealCountry(appeal) {
+	const appealLPA = await getLpaById(appeal.lpaCode);
 	return getLpaCountry(appealLPA);
 }
 
