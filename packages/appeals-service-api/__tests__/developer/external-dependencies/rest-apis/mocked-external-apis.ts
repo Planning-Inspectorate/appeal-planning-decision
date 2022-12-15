@@ -78,7 +78,7 @@ export class MockedExternalApis {
 		expectedInteractions: Array<Interaction>,
 		actualInteractions: any
 	): void {
-		expect(actualInteractions.length).toEqual(expectedInteractions.length);
+		expect(expectedInteractions.length).toEqual(actualInteractions.length);
 
 		for (let i in expectedInteractions) {
 			const expectedInteraction = expectedInteractions[i];
@@ -94,9 +94,9 @@ export class MockedExternalApis {
 				.forEach((expectation, jsonPathExpression) => {
 					const jsonKeyValue = jp.query(actualInteractionBody, jsonPathExpression.get())[0];
 					if (expectation instanceof RegExp) {
-						expect(jsonKeyValue).toMatch(expectation);
+						expect(expectation).toMatch(jsonKeyValue);
 					} else {
-						expect(jsonKeyValue).toEqual(expectation);
+						expect(expectation).toEqual(jsonKeyValue);
 					}
 				});
 		}
@@ -149,18 +149,18 @@ export class MockedExternalApis {
 		const data = {
 			httpRequest: {
 				method: 'POST',
-				path: `${this.horizonEndpoint}/contacts`,
+				path: `${this.horizonEndpoint}/contacts`
 			},
 			httpResponse: {
 				statusCode: statusCode,
 				body: body
 			},
-			times : {
-				"remainingTimes" : 1,
-				"unlimited" : false
+			times: {
+				remainingTimes: 1,
+				unlimited: false
 			},
-			"timeToLive" : {
-				"unlimited" : true
+			timeToLive: {
+				unlimited: true
 			}
 		};
 		return await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
@@ -325,13 +325,14 @@ export class MockedExternalApis {
 	}
 
 	private async getRecordedRequestsForHorizon(): Promise<Array<any>> {
-		const contactAndOrgInteractions = await this.getResponsesForEndpoint(`${this.horizonEndpoint}/contacts`);
-		const appealAndDocInteractions = await this.getResponsesForEndpoint(`${this.horizonEndpoint}/horizon`);
+		const contactAndOrgInteractions = await this.getResponsesForEndpoint(
+			`${this.horizonEndpoint}/contacts`
+		);
+		const appealAndDocInteractions = await this.getResponsesForEndpoint(
+			`${this.horizonEndpoint}/horizon`
+		);
 
-		return [
-			...contactAndOrgInteractions,
-			...appealAndDocInteractions
-		]
+		return [...contactAndOrgInteractions, ...appealAndDocInteractions];
 	}
 
 	//////////////////
