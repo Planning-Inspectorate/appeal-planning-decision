@@ -312,15 +312,19 @@ describe('Back Office', () => {
 					'http://tempuri.org/'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact.['__xmlns:a']"),
+					JsonPathExpression.create("$.AddContact.contact['__xmlns:a']"),
 					'http://schemas.datacontract.org/2004/07/Contacts.API'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact.['__xmlns:i']"),
+					JsonPathExpression.create("$.AddContact.contact['__xmlns:i']"),
 					'http://www.w3.org/2001/XMLSchema-instance'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact.['a:Name'].appellant.value.['__i:nil']"),
+					JsonPathExpression.create("$.AddContact.contact['__i:type']"),
+					'a:HorizonAPIOrganisation'
+				)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.AddContact.contact['a:Name']['__i:nil']"),
 					'true'
 				); // This line will change
 
@@ -335,57 +339,57 @@ describe('Back Office', () => {
 					'http://tempuri.org/'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact.['__xmlns:a']"),
+					JsonPathExpression.create("$.AddContact.contact['__xmlns:a']"),
 					'http://schemas.datacontract.org/2004/07/Contacts.API'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact.['__xmlns:i']"),
+					JsonPathExpression.create("$.AddContact.contact['__xmlns:i']"),
 					'http://www.w3.org/2001/XMLSchema-instance'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact.['__i:type']"),
+					JsonPathExpression.create("$.AddContact.contact['__i:type']"),
 					'a:HorizonAPIPerson'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact.['a:Email']"),
+					JsonPathExpression.create("$.AddContact.contact['a:Email']"),
 					'test@pins.com'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact.['a:FirstName']"),
+					JsonPathExpression.create("$.AddContact.contact['a:FirstName']"),
 					'Appellant'
 				) // This will change
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact.['a:LastName']"),
+					JsonPathExpression.create("$.AddContact.contact['a:LastName']"),
 					'Name'
-				); // This will change
-			//.addJsonValueExpectation(JsonPathExpression.create('$.AddContact.contact.a:OrganisationID'), mockedOrganisationId) // This will change //TODO: UNCOMMENT
+				) // This will change
+				.addJsonValueExpectation(JsonPathExpression.create("$.AddContact.contact['a:OrganisationID']"), mockedOrganisationId) // This will change
 
 			const createAppealInteraction = new Interaction()
 				.setNumberOfKeysExpectedInJson(95) // This will change depending on the number of contacts
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.CreateContact.__soap_op'),
+					JsonPathExpression.create('$.CreateCase.__soap_op'),
 					'http://tempuri.org/IHorizon/CreateCase'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.CreateContact.__xmlns'),
+					JsonPathExpression.create('$.CreateCase.__xmlns'),
 					'http://tempuri.org/'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.CreateContact.caseType'),
+					JsonPathExpression.create('$.CreateCase.caseType'),
 					'Householder (HAS) Appeal'
 				) // this will change
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.LPACode'), 'E69999999')
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.LPACode'), 'E69999999')
 				.addJsonValueExpectation(
-					JsonPathExpression.create('$.CreateContact.dateOfReceipt'),
+					JsonPathExpression.create('$.CreateCase.dateOfReceipt'),
 					new RegExp(`.+`)
 				)
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.location'), 'England') // this will change
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.location'), 'England') // this will change
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.CreateContact.category['__xmlns:a']"),
+					JsonPathExpression.create("$.CreateCase.category['__xmlns:a']"),
 					'http://schemas.datacontract.org/2004/07/Horizon.Business'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.CreateContact.category['__xmlns:i']"),
+					JsonPathExpression.create("$.CreateCase.category['__xmlns:i']"),
 					'http://www.w3.org/2001/XMLSchema-instance'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
@@ -495,7 +499,6 @@ describe('Back Office', () => {
 			// there may be more contact attributes here if the appeal is made on behalf of an appellant
 
 			const uploadDocumentInteractions = appealDocuments.map((document, index) => {
-				console.log(document);
 				return new Interaction()
 					.setNumberOfKeysExpectedInJson(31)
 					.addJsonValueExpectation(

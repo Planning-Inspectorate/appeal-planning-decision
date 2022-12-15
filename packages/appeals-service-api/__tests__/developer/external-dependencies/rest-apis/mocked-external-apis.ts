@@ -1,9 +1,9 @@
 import { Interaction } from './interaction';
-import { JsonPathExpression } from './json-path-expression';
 import { expect } from '@jest/globals';
 import jp from 'jsonpath';
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
 import axios from 'axios';
+import logger from '../../../logger'
 
 /**
  * This class is intended to act as a mocking interface for all external APIs that the
@@ -85,6 +85,7 @@ export class MockedExternalApis {
 			const actualInteraction = actualInteractions[i];
 
 			const actualInteractionBody = this.getJsonFromRecordedRequest(actualInteraction);
+			logger.debug(actualInteractionBody, 'Getting JSON keys from this')
 			expect(expectedInteraction.getNumberOfKeysExpectedInJson()).toEqual(
 				this.getAllKeysFromJson(actualInteractionBody).length
 			);
@@ -94,9 +95,10 @@ export class MockedExternalApis {
 				.forEach((expectation, jsonPathExpression) => {
 					const jsonKeyValue = jp.query(actualInteractionBody, jsonPathExpression.get())[0];
 					if (expectation instanceof RegExp) {
-						expect(expectation).toMatch(jsonKeyValue);
+						expect(jsonKeyValue).toMatch(expectation);
 					} else {
-						expect(expectation).toEqual(jsonKeyValue);
+						// logger.debug(`Checking if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`)
+						expect(jsonKeyValue).toEqual(expectation);
 					}
 				});
 		}
