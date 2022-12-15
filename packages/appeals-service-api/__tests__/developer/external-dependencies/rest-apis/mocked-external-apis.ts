@@ -85,9 +85,7 @@ export class MockedExternalApis {
 			const actualInteraction = actualInteractions[i];
 
 			const actualInteractionBody = this.getJsonFromRecordedRequest(actualInteraction);
-			logger.debug(actualInteractionBody, 'Getting JSON keys from this');
 			const allKeysFromActualInteractionBody = this.getAllKeysFromJson(actualInteractionBody);
-			logger.debug(allKeysFromActualInteractionBody);
 			expect(expectedInteraction.getNumberOfKeysExpectedInJson()).toEqual(
 				allKeysFromActualInteractionBody.length
 			);
@@ -99,7 +97,7 @@ export class MockedExternalApis {
 					if (expectation instanceof RegExp) {
 						expect(jsonKeyValue).toMatch(expectation);
 					} else {
-						// logger.debug(`Checking if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`)
+						logger.debug(`Checking if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`)
 						expect(jsonKeyValue).toEqual(expectation);
 					}
 				});
@@ -124,10 +122,10 @@ export class MockedExternalApis {
 			return keys;
 		}
 		for (const key of Object.keys(json)) {
-			const regex = new RegExp('d+');
-			if (!key.match(regex)) {
+			if (/^\d+$/.test(key)  == false) {
 				keys.push(key);
 			}
+			
 			if (typeof json[key] == 'object') {
 				this.getAllKeysFromJson(json[key], keys);
 			}

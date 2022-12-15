@@ -394,106 +394,106 @@ describe('Back Office', () => {
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					0,
-					"['Case:Casework Reason']",
-					''
+					"Case:Casework Reason",
+					null
 				) // this will change
 				.addDateAttributeExpectationForHorizonCreateAppealInteraction(
 					1,
-					"['Case Dates:Receipt Date']"
+					"Case Dates:Receipt Date"
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					2,
-					"['Case:Source Indicator']",
+					"Case:Source Indicator",
 					'Other'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					3,
-					"['Case:Case Publish Flag']",
+					"Case:Case Publish Flag",
 					'No'
 				)
 				.addDateAttributeExpectationForHorizonCreateAppealInteraction(
 					4,
-					"['Planning Application:Date Of LPA Decision']",
+					"Planning Application:Date Of LPA Decision",
 					householderAppeal.decisionDate.toISOString()
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					5,
-					"['Case:Procedure (Appellant)']",
+					"Case:Procedure (Appellant)",
 					'Written Representations'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					6,
-					"['Planning Application:LPA Application Reference']",
+					"Planning Application:LPA Application Reference",
 					'12345'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					7,
-					"['Case Site:Site Address Line 1']",
+					"Case Site:Site Address Line 1",
 					'Site Address 1'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					8,
-					"['Case Site:Site Address Line 2']",
+					"Case Site:Site Address Line 2",
 					'Site Address 2'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					9,
-					"['Case Site:Site Address Town']",
+					"Case Site:Site Address Town",
 					'Site Town'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					10,
-					"['Case Site:Site Address Country']",
+					"Case Site:Site Address County",
 					'Site County'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					11,
-					"['Case Site:Site Address Postcode']",
+					"Case Site:Site Address Postcode",
 					'SW1 1AA'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					12,
-					"['Case Site:Ownership Certificate']",
-					'null'
+					"Case Site:Ownership Certificate",
+					null
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					13,
-					"['Case Site:Site Viewable From Road']",
+					"Case Site:Site Viewable From Road",
 					'No'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					14,
-					"['Case Site:Inspector Need To Enter Site']",
+					"Case Site:Inspector Need To Enter Site",
 					'Yes'
 				)
 				.addContactAttributeExpectationForHorizonCreateAppealInteraction(15)
 				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
 					15,
 					0,
-					"['Case Involvement:Case Involvement:ContactID']",
+					"Case Involvement:Case Involvement:ContactID",
 					mockedContactId
 				)
 				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
 					15,
 					1,
-					"['Case Involvement:Case Involvement:Contact Details']",
+					"Case Involvement:Case Involvement:Contact Details",
 					'Appellant Name'
 				)
 				.addDateAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
 					15,
 					2,
-					"['Case Involvement:Case Involvement:Involvement Start Date']"
+					"Case Involvement:Case Involvement:Involvement Start Date"
 				)
 				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
 					15,
 					3,
-					"['Case Involvement:Case Involvement:Communication Preference']",
+					"Case Involvement:Case Involvement:Communication Preference",
 					'e-mail'
 				)
 				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
 					15,
 					4,
-					"['Case Involvement:Case Involvement:Type Of Involvement']",
+					"Case Involvement:Case Involvement:Type Of Involvement",
 					'Appellant'
 				);
 			// there may be more contact attributes here if the appeal is made on behalf of an appellant
