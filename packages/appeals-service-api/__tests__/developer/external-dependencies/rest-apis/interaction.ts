@@ -30,7 +30,7 @@ export class Interaction {
 		attributeNumber: number,
 		key: string,
 		value: string
-	) {
+	): Interaction {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(
 				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['__i:type']`
@@ -59,7 +59,7 @@ export class Interaction {
 		attributeNumber: number,
 		key: string,
 		value?: string
-	) {
+	): Interaction {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(
 				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].value.['__i:type']`
@@ -84,7 +84,9 @@ export class Interaction {
 		return this;
 	}
 
-	addContactAttributeExpectationForHorizonCreateAppealInteraction(attributeNumber: number) {
+	addContactAttributeExpectationForHorizonCreateAppealInteraction(
+		attributeNumber: number
+	): Interaction {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(
 				`$.CreateContact.category.['a:Attributes'][${attributeNumber}].['a:AttributeValue'].['__i:type']`
@@ -107,7 +109,7 @@ export class Interaction {
 		attributeNumber: number,
 		key: string,
 		value: string
-	) {
+	): Interaction {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(
 				`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].__i:type`
@@ -137,7 +139,7 @@ export class Interaction {
 		attributeNumber: number,
 		key: string,
 		value?: string
-	) {
+	): Interaction {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(
 				`$.CreateContact.category.['a:Attributes'][${contactArrayAttributeNumber}].['a:AttributeValue'].['a:Values'][${attributeNumber}].['__i:type']`
@@ -166,7 +168,7 @@ export class Interaction {
 		documentNumber: number,
 		document: any,
 		validateDocumentGroupType: boolean
-	) {
+	): Interaction {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(`$.AddDocuments.documents[${documentNumber}].['__xmlns:a']`),
 			'http://schemas.datacontract.org/2004/07/Horizon.Business'
@@ -290,5 +292,7 @@ export class Interaction {
 			),
 			document.uploadDate
 		);
+
+		return this;
 	}
 }

@@ -255,15 +255,10 @@ describe('Back Office', () => {
 				householderAppeal.yourAppealSection.appealStatement.uploadedFile,
 				...householderAppeal.yourAppealSection.otherDocuments.uploadedFiles,
 				householderAppeal.appealSubmission.appealPDFStatement.uploadedFile
-			]
-			
+			];
+
 			appealDocuments.forEach(async (document) => {
-				await mockedExternalApis.mockDocumentsApiResponse(
-					200,
-					createdAppeal.id,
-					document,
-					true
-				);
+				await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
 			});
 
 			// And: Horizon's create organisation endpoint is mocked, first for organisations, then contacts
@@ -307,7 +302,7 @@ describe('Back Office', () => {
 
 			// And: Horizon has been interacted with as expected
 			const createOrganisationInteraction = new Interaction()
-				.setNumberOfKeysExpectedInJson(10) // This value will change
+				.setNumberOfKeysExpectedInJson(9) // This value will change
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.AddContact.__soap_op'),
 					'http://tempuri.org/IContacts/AddContact'
@@ -386,11 +381,11 @@ describe('Back Office', () => {
 				)
 				.addJsonValueExpectation(JsonPathExpression.create('$.CreateContact.location'), 'England') // this will change
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.CreateContact.category.['__xlns:a']"),
+					JsonPathExpression.create("$.CreateContact.category['__xmlns:a']"),
 					'http://schemas.datacontract.org/2004/07/Horizon.Business'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.CreateContact.category.['__xlns:i']"),
+					JsonPathExpression.create("$.CreateContact.category['__xmlns:i']"),
 					'http://www.w3.org/2001/XMLSchema-instance'
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
@@ -499,8 +494,8 @@ describe('Back Office', () => {
 				);
 			// there may be more contact attributes here if the appeal is made on behalf of an appellant
 
-			let documentIndex = 0;
-			const uploadDocumentInteractions = appealDocuments.map((document) => {
+			const uploadDocumentInteractions = appealDocuments.map((document, index) => {
+				console.log(document);
 				return new Interaction()
 					.setNumberOfKeysExpectedInJson(31)
 					.addJsonValueExpectation(
@@ -515,7 +510,7 @@ describe('Back Office', () => {
 						JsonPathExpression.create('$.AddDocuments.caseReference'),
 						'3218465'
 					) // Last 7 digits of mockedCaseReference
-					.addExpectationForHorizonCreateDocumentInteraction(documentIndex++, document, true);
+					.addExpectationForHorizonCreateDocumentInteraction(index, document, true);
 			});
 
 			expectedHorizonInteractions = [
