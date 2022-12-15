@@ -1,12 +1,11 @@
 const jp = require('jsonpath');
 
 const { HorizonGateway } = require('../gateway/horizon-gateway');
-// uncomment
-// const {
-// 	getDocumentsInBase64Encoding,
-// 	saveAppealAsSubmittedToBackOffice,
-// 	getAppealCountry
-// } = require('./appeal.service');
+const {
+	getDocumentsInBase64Encoding,
+	getAppealCountry
+} = require('./appeal.service');
+const logger = require('../lib/logger');
 
 class HorizonService {
 	#horizonGateway;
@@ -16,20 +15,20 @@ class HorizonService {
 	}
 
 	async createAppeal(appeal) {
-		//todo: delete next line
-		console.log(appeal);
-		//uncomment//const createdOrganisations = await this.#horizonGateway.createOrganisations(appeal);
-		//uncomment//const createdContacts = await this.#horizonGateway.createContacts(appeal, createdOrganisations);
+		const createdOrganisations = await this.#horizonGateway.createOrganisations(appeal);
+		const createdContacts = await this.#horizonGateway.createContacts(appeal, createdOrganisations);
 
-		// TODO: According to Postman, we should be able to upload documents in the
-		//       "create appeal" request? We could do this to speed things up?
-		//uncomment//const appealCountry = await getAppealCountry(appeal);
-		//uncomment//const horizonCaseReferenceForAppeal = await this.#horizonGateway.createAppeal(appeal, createdContacts, appealCountry);
+		// TODO: We could upload documents in the "create appeal" request. However, 
+		//       the response from Horizon isn't great if one of the many docs fails. 
+		//       It doesn't say which document fails, just that the appeal failed.
+		const appealCountry = await getAppealCountry(appeal);
+		const horizonCaseReference = await this.#horizonGateway.createAppeal(appeal, createdContacts, appealCountry);
 
-		//uncomment//const appealDocumentsInBase64Encoding = await getDocumentsInBase64Encoding(appeal);
-		// await this.#horizonGateway.uploadAppealDocuments(appealDocumentsInBase64Encoding, horizonCaseReferenceForAppeal);
+		const appealDocumentsInBase64Encoding = await getDocumentsInBase64Encoding(appeal);
+		await this.#horizonGateway.uploadAppealDocuments(appealDocumentsInBase64Encoding, horizonCaseReference);
 
-		// await saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReferenceForAppeal);
+		logger.debug(`Appeal creation in Horizon complete, returning case reference: ${horizonCaseReference}`)
+		return horizonCaseReference;
 	}
 
 	/**

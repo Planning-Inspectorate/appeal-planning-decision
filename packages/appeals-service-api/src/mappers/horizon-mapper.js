@@ -155,12 +155,8 @@ class HorizonMapper {
 		const appealTypeId = appeal.appealType == null ? '1001' : appeal.appealType;
 		const decision = appeal.eligibility.applicationDecision;
 		const typePlanningApplication = appeal.typeOfPlanningApplication;
-		logger.debug({ appealTypeId }, 'Appeal Type');
-		logger.debug({ decision }, 'Application Decision');
-		logger.debug({ typePlanningApplication }, 'Planning Application Type');
-
 		const caseworkReason = this.#getCaseworkReason(appealTypeId, decision, typePlanningApplication);
-		logger.debug({ caseworkReason }, 'Case Work Reason');
+		logger.debug(`Case Work Reason ${caseworkReason}`);
 
 		let attributes = this.#getAttributes(appealTypeId, appeal, caseworkReason);
 		attributes.push(...contacts);
@@ -181,7 +177,8 @@ class HorizonMapper {
 			}
 		};
 
-		logger.debug('Horizon input', input);
+		logger.debug(input, 'Horizon create appeal request');
+		return input;
 	}
 
 	toCreateDocumentRequest(document, caseReference) {

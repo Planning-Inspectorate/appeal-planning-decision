@@ -24,39 +24,29 @@ class HorizonGateway {
 		const createOrganisationUrl = `${config.services.horizon.url}/contacts`;
 		const createOrganisationRequestJson =
 			this.#horizonMapper.appealToCreateOrganisationRequests(appeal);
-		logger.debug(`Create organisations request: ${JSON.stringify(createOrganisationRequestJson)}`);
 
 		const result = {};
 		for (const key in createOrganisationRequestJson) {
 			const request = createOrganisationRequestJson[key].value;
-			logger.debug(
-				`Sending following create organisation request to '${createOrganisationUrl}': ${JSON.stringify(
-					request
-				)}`
-			);
+			logger.debug(request,`Horizon create organisation request to send to '${createOrganisationUrl}'`);
 			const createOrganisationResponse = await axios.post(createOrganisationUrl, request);
 			result[key] =
 				createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
 		}
 
-		logger.debug(`Create organisations result: ${JSON.stringify(result)}`);
+		logger.debug(result, `Create organisations result`);
 		return result;
 	}
 
 	async createContacts(appeal, contacts) {
 		logger.debug(`Creating contacts in Horizon`);
-		const createContactUrl = `${config.services.horizon.url}/foo`;
+		const createContactUrl = `${config.services.horizon.url}/contacts`;
 		const createContactRequestJson = this.#horizonMapper.createContactRequests(appeal, contacts);
-		logger.debug(`Create contacts request: ${JSON.stringify(createContactRequestJson)}`);
 
 		const result = [];
 		for (const key in createContactRequestJson) {
-			const request = createContactRequestJson[key].value;
-			logger.debug(
-				`Sending following create contact request to '${createContactUrl}': ${JSON.stringify(
-					request
-				)}`
-			);
+			const request = createContactRequestJson[key].requestBody;
+			logger.debug(request, `Horizon create contact request to send to '${createContactUrl}'`);
 			const createContactResponse = await axios.post(createContactUrl, request);
 			const personId =
 				createContactResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
@@ -106,7 +96,6 @@ class HorizonGateway {
 			contacts,
 			appealCountry
 		);
-		logger.debug(`Create appeal request: ${JSON.stringify(appealCreationRequest)}`);
 
 		const createAppealResponse = await axios.post(
 			`${config.services.horizon.url}/horizon`,
@@ -118,25 +107,20 @@ class HorizonGateway {
 			createAppealResponse.data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
 
 		if (!horizonFullCaseId) {
-			logger.debug('Horizon ID malformed');
-			throw new Error('Horizon ID malformed');
+			logger.debug(horizonFullCaseId, 'Horizon ID malformed');
+			throw new Error(`Horizon ID malformed ${horizonFullCaseId}`);
 		}
 
 		const caseReference = horizonFullCaseId.split('/').slice(-1).pop();
 
-		logger.debug(`Horizon ID parsed: ${caseReference}`);
+		logger.debug(caseReference, `Horizon ID parsed`);
 
 		return caseReference;
 	}
 
 	async uploadAppealDocuments(documents, appealCaseReference) {
-		logger.debug(
-			`Uploading following documents to appeal with case reference ${appealCaseReference}: ${JSON.stringify(
-				documents
-			)}`
-		);
-		documents.forEach(async (document) => {
-			logger.debug(`Uploading document: ${JSON.stringify(document)}`);
+		for (const document of documents) {
+			logger.debug(document, `Uploading document`);
 			const { data } = await axios.post(
 				`${config.services.horizon.url}/horizon`,
 				this.#horizonMapper.toCreateDocumentRequest(document, appealCaseReference),
@@ -146,8 +130,11 @@ class HorizonGateway {
 				}
 			);
 
-			logger.debug(`Upload document response: ${JSON.stringify(data)}`);
-		});
+			logger.debug(data, 'Upload document response');
+		};
+
+		logger.debug('Document upload to Horizon complete')
+		return;
 	}
 
 	//TODO: this should return an as-of-yet non-existent `HorizonAppealDto` instance.
