@@ -74,7 +74,7 @@ function isValidAppeal(appeal) {
 }
 
 async function updateAppeal(id, appealUpdate) {
-	logger.debug(`Attempting to update appeal with ID ${id} with ${appealUpdate}`);
+	logger.debug(appealUpdate, `Attempting to update appeal with ID ${id} with`);
 
 	const savedAppealEntity = await appealsRepository.getById(id);
 
@@ -90,17 +90,18 @@ async function updateAppeal(id, appealUpdate) {
 	appeal.updatedAt = new Date(new Date().toISOString());
 	const updatedAppealEntity = await appealsRepository.update(appeal);
 	const updatedAppeal = updatedAppealEntity.value.appeal;
-	logger.debug(`Updated appeal data in updateAppeal to be ${JSON.stringify(updatedAppeal)}`);
+	logger.debug(updatedAppeal, `Appeal updated to`);
 	return updatedAppeal;
 }
 
 async function getDocumentsInBase64Encoding(appeal) {
-	logger.debug(`Getting documents for ${JSON.stringify(appeal)}`);
+	logger.debug(appeal, `Getting documents in base64 encoding for appeal`);
 	let documentIds = [];
 	populateArrayWithIdsFromKeysFoundInObject(appeal, ['uploadedFile', 'uploadedFiles'], documentIds);
 	documentIds = documentIds
 		.filter((document) => document.id !== null)
 		.map((documentIdJson) => documentIdJson.id);
+	logger.debug(documentIds, `Document IDs from appeal`);
 	return await documentService.getAppealDocumentsInBase64Encoding(appeal.id, documentIds);
 }
 
@@ -121,10 +122,12 @@ function populateArrayWithIdsFromKeysFoundInObject(obj, keys, array) {
 	}
 }
 
-async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference = '') {
+async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
+	logger.debug(appeal, `Saving the following appeal as submitted to the back office, with a case reference of ${horizonCaseReference}`)
 	appeal.submissionDate = new Date(new Date().toISOString());
 	appeal.state = 'SUBMITTED';
 	appeal.horizonId = horizonCaseReference;
+	logger.debug(appeal, 'Appeal after setting "submitted to back-office" updates')
 	return await updateAppeal(appeal.id, appeal);
 }
 

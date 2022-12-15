@@ -13,7 +13,7 @@ class DocumentApiGateway {
 			`${config.documents.url}/api/v1/${appealId}/${documentId}/file?base64=true`
 		);
 		const result = documentResponse.data;
-		logger.debug(`Document retrieved: ${result}`);
+		logger.debug(result, 'Document retrieved from document API');
 		return result;
 	}
 }

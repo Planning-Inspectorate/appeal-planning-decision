@@ -228,13 +228,13 @@ describe('Appeals', () => {
 
 describe('Back Office', () => {
 	it.only.each([
-		['a blank Horizon ID field', (appeal) => (appeal.horizonId = '')],
-		[
-			'no Horizon ID field',
-			(appeal) => {
-				delete appeal.horizonId;
-			}
-		]
+		['a blank Horizon ID field', (appeal) => (appeal.horizonId = '')]
+		// [
+		// 	'no Horizon ID field',
+		// 	(appeal) => {
+		// 		delete appeal.horizonId;
+		// 	}
+		// ]
 	])(
 		'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload',
 		async (condition, setHorizonIdOnAppeal) => {
@@ -243,6 +243,11 @@ describe('Back Office', () => {
 				return true;
 			});
 
+			// And: an appeal is created that is not known to the back office
+			setHorizonIdOnAppeal(householderAppeal);
+			const createAppealResponse = await _createAppeal();
+			let createdAppeal = createAppealResponse.body;
+
 			// And: the documents API is mocked
 			const appealDocuments = [
 				householderAppeal.requiredDocumentsSection.originalApplication.uploadedFile,
@@ -250,20 +255,20 @@ describe('Back Office', () => {
 				householderAppeal.yourAppealSection.appealStatement.uploadedFile,
 				...householderAppeal.yourAppealSection.otherDocuments.uploadedFiles,
 				householderAppeal.appealSubmission.appealPDFStatement.uploadedFile
-			].forEach(async (document) => {
+			]
+			
+			appealDocuments.forEach(async (document) => {
 				await mockedExternalApis.mockDocumentsApiResponse(
 					200,
-					householderAppeal.id,
+					createdAppeal.id,
 					document,
 					true
 				);
 			});
 
-			// And: Horizon's create organisation endpoint is mocked
+			// And: Horizon's create organisation endpoint is mocked, first for organisations, then contacts
 			const mockedOrganisationId = 'O_1234';
-			await mockedExternalApis.mockHorizonCreateOrganisationResponse(200, mockedOrganisationId);
-
-			// And: Horizon's create contact endpoint is mocked
+			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId);
 			const mockedContactId = 'P_1234';
 			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedContactId);
 
@@ -274,11 +279,6 @@ describe('Back Office', () => {
 			// And: Horizon's upload documents endpoint is mocked
 			await mockedExternalApis.mockHorizonUploadDocumentResponse(200);
 			await mockedExternalApis.mockHorizonUploadDocumentResponse(200);
-
-			// And: an appeal is created that is not known to the back office
-			setHorizonIdOnAppeal(householderAppeal);
-			const createAppealResponse = await _createAppeal();
-			let createdAppeal = createAppealResponse.body;
 
 			// When: the appeal is submitted to the back office
 			const submittedToBackOfficeResponse = await appealsApi.put(
@@ -302,7 +302,7 @@ describe('Back Office', () => {
 			createdAppeal.state = 'SUBMITTED';
 			createdAppeal.submissionDate = submittedToBackOfficeResponse.body.submissionDate;
 			createdAppeal.updatedAt = submittedToBackOfficeResponse.body.updatedAt;
-			createdAppeal.horizonId = mockedCaseReference;
+			createdAppeal.horizonId = '3218465';
 			expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
 
 			// And: Horizon has been interacted with as expected

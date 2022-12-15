@@ -17,15 +17,15 @@ export class MockedExternalApis {
 	private baseUrl: string;
 	private container: StartedTestContainer;
 
-	private horizon: string = 'horizon';
+	private horizon: string = 'horizonMock';
 	private horizonEndpoint: string = `/${this.horizon}`;
 	private horizonUrl: string;
 
-	private notify: string = 'notify';
+	private notify: string = 'notifyMock';
 	private notifyEndpoint: string = `/${this.notify}/v2/notifications/email`; // Note that this is the full URL, known only to the Notify client which is provided by the Government
 	private notifyUrl: string;
 
-	private documentsApi: string = 'documents';
+	private documentsApi: string = 'documentsMock';
 	private documentsApiEndpoint: string = `/${this.documentsApi}/api/v1`;
 	private documentsApiUrl: string;
 
@@ -61,16 +61,13 @@ export class MockedExternalApis {
 
 	async checkInteractions(
 		expectedHorizonInteractions: Array<Interaction>,
-		expectedNotifyInteractions: Array<Interaction>,
-		expectedDocumentsApiInteractions: Array<Interaction>
+		expectedNotifyInteractions: Array<Interaction>
 	) {
 		const actualHorizonInteractions = await this.getRecordedRequestsForHorizon();
 		const actualNotifyInteractions = await this.getRecordedRequestsForNotify();
-		const actualDocumentsApiInteractions = await this.getRecordedRequestsFordocumentsApi();
 
 		this.verifyInteractions(expectedHorizonInteractions, actualHorizonInteractions);
 		this.verifyInteractions(expectedNotifyInteractions, actualNotifyInteractions);
-		this.verifyInteractions(expectedDocumentsApiInteractions, actualDocumentsApiInteractions);
 	}
 
 	async teardown(): Promise<void> {
@@ -136,7 +133,7 @@ export class MockedExternalApis {
 		return this.horizonUrl;
 	}
 
-	async mockHorizonCreateOrganisationResponse(statusCode: number, organisationIdToReturn: string) {
+	async mockHorizonCreateContactResponse(statusCode: number, organisationIdToReturn: string) {
 		let body = {
 			Envelope: {
 				Body: {
@@ -153,44 +150,17 @@ export class MockedExternalApis {
 			httpRequest: {
 				method: 'POST',
 				path: `${this.horizonEndpoint}/contacts`,
-				body: {
-					type: 'JSON',
-					value: '{"AddContact": { "contact": { "__i:type": "a:HorizonAPIOrganisation"}}}'
-				}
 			},
 			httpResponse: {
 				statusCode: statusCode,
 				body: body
-			}
-		};
-		return await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
-	}
-
-	async mockHorizonCreateContactResponse(statusCode: number, contactIdToReturn: string) {
-		let body = {
-			Envelope: {
-				Body: {
-					AddContactResponse: {
-						AddContactResult: {
-							value: contactIdToReturn
-						}
-					}
-				}
-			}
-		};
-
-		const data = {
-			httpRequest: {
-				method: 'POST',
-				path: `${this.horizonEndpoint}/foo`,
-				body: {
-					type: 'JSON',
-					value: '{"AddContact": { "contact": { "__i:type": "a:HorizonAPIPerson"}}}'
-				}
 			},
-			httpResponse: {
-				statusCode: statusCode,
-				body: body
+			times : {
+				"remainingTimes" : 1,
+				"unlimited" : false
+			},
+			"timeToLive" : {
+				"unlimited" : true
 			}
 		};
 		return await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
@@ -264,7 +234,7 @@ export class MockedExternalApis {
 		const data = {
 			httpRequest: {
 				method: 'POST',
-				path: `${this.horizonEndpoint}/horizon`
+				path: `${this.horizonEndpoint}/horizon?maxBodyLength=Infinity`
 			},
 			httpResponse: {
 				statusCode: statusCode,
@@ -355,7 +325,13 @@ export class MockedExternalApis {
 	}
 
 	private async getRecordedRequestsForHorizon(): Promise<Array<any>> {
-		return await this.getResponsesForEndpoint(this.horizonEndpoint);
+		const contactAndOrgInteractions = await this.getResponsesForEndpoint(`${this.horizonEndpoint}/contacts`);
+		const appealAndDocInteractions = await this.getResponsesForEndpoint(`${this.horizonEndpoint}/horizon`);
+
+		return [
+			...contactAndOrgInteractions,
+			...appealAndDocInteractions
+		]
 	}
 
 	//////////////////
@@ -414,7 +390,7 @@ export class MockedExternalApis {
 			document_group_type: 'documentGroupType'
 		};
 
-		//TODO: remove includeUpdatedDocumentMetadata param when 5031 feature flag is removed
+		//TODO: remove addDocumentGroupTypeToBody param when 5031 feature flag is removed
 		let data: any = {
 			httpRequest: {
 				method: 'GET',
@@ -432,10 +408,5 @@ export class MockedExternalApis {
 		}
 
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
-	}
-
-	// TODO: add a way to easily verify interactions (like with Horizon above)
-	async getRecordedRequestsFordocumentsApi(): Promise<Array<any>> {
-		return await this.getResponsesForEndpoint(this.documentsApiEndpoint);
 	}
 }

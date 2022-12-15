@@ -33,26 +33,27 @@ class BackOfficeService {
 	async submitAppeal(id) {
 		logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
 
-		let savedAppeal = await getAppeal(id);
-		logger.debug(`Appeal found in repository: ${JSON.stringify(savedAppeal)}`);
-		if (savedAppeal === null) {
+		let appealToSubmitToBackOffice = await getAppeal(id);
+		logger.debug(`Appeal found in repository: ${JSON.stringify(appealToSubmitToBackOffice)}`);
+		if (appealToSubmitToBackOffice === null) {
 			throw ApiError.appealNotFound(id);
 		}
 
-		if (savedAppeal.horizonId == undefined || savedAppeal.horizonId == false) {
-			let updatedAppeal;
+		if (appealToSubmitToBackOffice.horizonId == undefined || appealToSubmitToBackOffice.horizonId == false) {
+			let appealAfterSubmissionToBackOffice;
 			if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
 				logger.debug('Using direct Horizon integration');
-				this.#horizonService.createAppeal(savedAppeal);
+				const horizonCaseReference = await this.#horizonService.createAppeal(appealToSubmitToBackOffice);
+				appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice, horizonCaseReference);
 			} else {
 				logger.debug('Using message queue integration');
-				updatedAppeal = await saveAppealAsSubmittedToBackOffice(savedAppeal);
-				this.#backOfficeRepository.create(updatedAppeal);
+				appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice);
+				this.#backOfficeRepository.create(appealAfterSubmissionToBackOffice);
 			}
 
-			await sendSubmissionConfirmationEmailToAppellant(updatedAppeal);
-			await sendSubmissionReceivedEmailToLpa(updatedAppeal);
-			return updatedAppeal;
+			await sendSubmissionConfirmationEmailToAppellant(appealAfterSubmissionToBackOffice);
+			await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
+			return appealAfterSubmissionToBackOffice;
 		}
 
 		logger.debug('Appeal has already been submitted to the back-office');
