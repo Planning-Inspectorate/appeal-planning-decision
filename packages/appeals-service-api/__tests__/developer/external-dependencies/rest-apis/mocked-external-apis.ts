@@ -3,7 +3,7 @@ import { expect } from '@jest/globals';
 import jp from 'jsonpath';
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
 import axios from 'axios';
-import logger from '../../../logger'
+import logger from '../../../logger';
 
 /**
  * This class is intended to act as a mocking interface for all external APIs that the
@@ -85,9 +85,11 @@ export class MockedExternalApis {
 			const actualInteraction = actualInteractions[i];
 
 			const actualInteractionBody = this.getJsonFromRecordedRequest(actualInteraction);
-			logger.debug(actualInteractionBody, 'Getting JSON keys from this')
+			logger.debug(actualInteractionBody, 'Getting JSON keys from this');
+			const allKeysFromActualInteractionBody = this.getAllKeysFromJson(actualInteractionBody);
+			logger.debug(allKeysFromActualInteractionBody);
 			expect(expectedInteraction.getNumberOfKeysExpectedInJson()).toEqual(
-				this.getAllKeysFromJson(actualInteractionBody).length
+				allKeysFromActualInteractionBody.length
 			);
 
 			expectedInteraction
@@ -118,8 +120,14 @@ export class MockedExternalApis {
 	}
 
 	private getAllKeysFromJson = (json: any, keys: string[] = []) => {
+		if (json == null) {
+			return keys;
+		}
 		for (const key of Object.keys(json)) {
-			keys.push(key);
+			const regex = new RegExp('d+');
+			if (!key.match(regex)) {
+				keys.push(key);
+			}
 			if (typeof json[key] == 'object') {
 				this.getAllKeysFromJson(json[key], keys);
 			}
