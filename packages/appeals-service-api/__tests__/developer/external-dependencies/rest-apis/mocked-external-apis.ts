@@ -28,6 +28,7 @@ export class MockedExternalApis {
 	private documentsApi: string = 'documentsMock';
 	private documentsApiEndpoint: string = `/${this.documentsApi}/api/v1`;
 	private documentsApiUrl: string;
+	private documentInvolvementValues = ['Appellant', 'LPA', '']
 
 	///////////////////
 	///// GENERAL /////
@@ -94,10 +95,10 @@ export class MockedExternalApis {
 				.getJsonPathStringsToExpectedValues()
 				.forEach((expectation, jsonPathExpression) => {
 					const jsonKeyValue = jp.query(actualInteractionBody, jsonPathExpression.get())[0];
+					logger.info(`Check if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`)
 					if (expectation instanceof RegExp) {
 						expect(jsonKeyValue).toMatch(expectation);
 					} else {
-						logger.debug(`Checking if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`)
 						expect(jsonKeyValue).toEqual(expectation);
 					}
 				});
@@ -195,12 +196,19 @@ export class MockedExternalApis {
 			httpResponse: {
 				statusCode: statusCode,
 				body: body
+			},
+			times: {
+				remainingTimes: 1,
+				unlimited: false
+			},
+			timeToLive: {
+				unlimited: true
 			}
 		};
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
-	async mockHorizonUploadDocumentResponse(statusCode: number) {
+	async mockHorizonUploadDocumentResponse(statusCode: number, document: any) {
 		let body = {
 			Envelope: {
 				Body: {
@@ -212,7 +220,7 @@ export class MockedExternalApis {
 									value: 'Mocked DocType'
 								},
 								Filename: {
-									value: 'MockedFileName'
+									value: document.name
 								},
 								IsPublished: {
 									value: 'true'
@@ -242,11 +250,18 @@ export class MockedExternalApis {
 		const data = {
 			httpRequest: {
 				method: 'POST',
-				path: `${this.horizonEndpoint}/horizon?maxBodyLength=Infinity`
+				path: `${this.horizonEndpoint}/horizon`
 			},
 			httpResponse: {
 				statusCode: statusCode,
 				body: body
+			},
+			times: {
+				remainingTimes: 1,
+				unlimited: false
+			},
+			timeToLive: {
+				unlimited: true
 			}
 		};
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
@@ -383,9 +398,10 @@ export class MockedExternalApis {
 		document: any,
 		addDocumentGroupTypeToBody: boolean
 	): Promise<void> {
+
 		const body = {
 			application_id: appealId,
-			name: document.originalFileName,
+			name: document.name,
 			filename: document.fileName,
 			upload_date: new Date(),
 			mime_type: 'application/pdf',
@@ -393,7 +409,7 @@ export class MockedExternalApis {
 			size: 8334,
 			id: document.id,
 			document_type: 'documentType',
-			involvement: 'documentInvolvement',
+			involvement: this.documentInvolvementValues[this.documentInvolvementValues.length * Math.random() | 0],
 			dataSize: 667,
 			data: 'eW91IG93ZSBtZSBtb25leQ==',
 			document_group_type: 'documentGroupType'
@@ -409,6 +425,13 @@ export class MockedExternalApis {
 			httpResponse: {
 				statusCode: statusCode,
 				body: body
+			},
+			times: {
+				remainingTimes: 1,
+				unlimited: false
+			},
+			timeToLive: {
+				unlimited: true
 			}
 		};
 

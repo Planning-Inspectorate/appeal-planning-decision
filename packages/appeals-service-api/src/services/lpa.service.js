@@ -4,6 +4,7 @@ const mongodb = require('../db/db');
 const CSV_SEPARATOR = ';';
 
 const getLpaById = async (id) => {
+	logger.debug(`Getting LPA with ID: ${id}`)
 	let lpa;
 	await mongodb
 		.get()
@@ -17,7 +18,7 @@ const getLpaById = async (id) => {
 			throw new Error(err);
 		});
 	const result = { ...lpa, name: lpa?.lpa19NM, horizonId: lpa?.lpaCode };
-	logger.debug(`Appeal LPA retrieved: ${result}`);
+	logger.debug(result, `Appeal LPA retrieved`);
 	return result;
 };
 

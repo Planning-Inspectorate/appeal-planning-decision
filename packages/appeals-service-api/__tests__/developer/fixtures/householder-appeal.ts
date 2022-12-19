@@ -100,7 +100,8 @@ export const householderAppeal = {
 		},
 		healthAndSafety: {
 			hasIssues: true,
-			healthAndSafetyIssues: 'A very dangerous site'
+			healthAndSafetyIssues: 'A very dangerous site',
+			details: 'nails'
 		}
 	},
 	appealSubmission: {
