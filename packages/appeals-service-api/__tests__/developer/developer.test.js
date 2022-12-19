@@ -8,8 +8,7 @@ const crypto = require('crypto');
 const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
-const { householderAppeal } = require('./fixtures/householder-appeal');
-// const { expectedCreateOrganisationHorizonRequest } = require('./fixtures/horizon-inputs') //TODO: UNCOMMENT
+const { newHouseholderAppeal, newFullAppeal } = require('./fixtures/appeals');
 const { TestMessageQueue } = require('./external-dependencies/message-queue/test-message-queue');
 const { MockedExternalApis } = require('./external-dependencies/rest-apis/mocked-external-apis');
 const { Interaction } = require('./external-dependencies/rest-apis/interaction');
@@ -95,7 +94,11 @@ beforeAll(async () => {
 		'1001'
 	].appealSubmissionConfirmationEmailToAppellant = 1;
 	appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa = 2;
-	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant = 3;
+	appConfiguration.services.notify.templates[
+		'1005'
+	].appealSubmissionConfirmationEmailToAppellant = 3;
+	appConfiguration.services.notify.templates['1005'].appealNotificationEmailToLpa = 4;
+	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant = 5;
 	appConfiguration.documents.url = mockedExternalApis.getDocumentsAPIUrl();
 
 	/////////////////////
@@ -148,7 +151,7 @@ afterAll(async () => {
 describe('Appeals', () => {
 	it(`should return an error if we try to update an appeal that doesn't exist`, async () => {
 		// When: an appeal is sent via a PUT or PATCH request, but hasn't yet been created
-		householderAppeal.id = uuid.v4();
+		const householderAppeal = newHouseholderAppeal(uuid.v4());
 		const putResponse = await appealsApi
 			.put(`/api/v1/appeals/${householderAppeal.id}`)
 			.send(householderAppeal);
@@ -230,50 +233,97 @@ describe('Appeals', () => {
 });
 
 describe('Back Office', () => {
-	// TODO: We could use something like this as a start point and just tweak relevant values for each input scenario?
-	// const inputsAndOutputs = {
-	// 	description: 'Default',
-	// 	horizonIdSetting: (appeal) => (appeal.horizonId = ''),
-	// 	lpa: {
-	// 		input: testLpaCodeEngland,
-	// 		countryAsString: 'England',
-	// 		name: testLpaNameEngland
-	// 	},
-	// 	appeal: {
-	// 		input: '1001',
-	// 		name: 'Planning Appeal (W)'
-	// 	}
-	// }
+	
+	const defaultCondition = {
+		description: 'a blank Horizon ID field',
+		setHorizonId: (appeal) => appeal.horizonId = '',
+		lpa: {
+			code: testLpaCodeEngland,
+			country: 'England',
+			name: testLpaNameEngland,
+			email: testLpaEmail
+		},
+		appeal: {
+			actual: newHouseholderAppeal(),
+			type: 'Householder (HAS) Appeal',
+			expectedCaseworkReason: null
+		},
+		jsonPaths: {
+			createOrganisationRequestValue: "['__i:nil']"
+		},
+		expectations: {
+			createOrganisationRequest: {
+				companyName: 'true'
+			},
+			createContactInHorizonRequest: {
+				firstName: 'Appellant',
+				lastName: 'Name'
+			},
+			createAppealHorizonRequest: {
+				appellantFullName: 'Appellant Name'
+			},
+			emailToAppeallant: {
+				name: 'Appellant Name'
+			}
+
+		}
+	}
+
+	const condition1 = { ...defaultCondition }
+	const condition2 = { ...defaultCondition}
+	
+	condition2.description = 'no Horizon ID field'
+	condition2.setHorizonId = (appeal) => { delete appeal.horizonId }
+	
+	const condition3 = { ...defaultCondition }
+	condition3.description = 'a welsh LPA'
+	condition3.lpa = {
+		code: testLpaCodeWales,
+		country: 'Wales',
+		name: testLpaNameWales,
+		email: testLpaEmail
+	}
+
+	const condition4 = { ...defaultCondition }
+	condition4.description = 'a full appeal'
+	condition4.appeal.actual = newFullAppeal();
+	condition4.appeal.type = 'Planning Appeal (W)'
+	condition4.appeal.expectedCaseworkReason = '4. Granted planning permission for the development subject to conditions to which you object';
+	condition4.jsonPaths.createOrganisationRequestValue = ''; // This is because full appeals don't have a nil value for this 
+	condition4.expectations.createOrganisationRequest.companyName = 'Megatron'
+
 	it.only.each([
-		['a blank Horizon ID field', (appeal) => (appeal.horizonId = ''), [testLpaCodeEngland, 'England', testLpaNameEngland], ['1001', 'Householder (HAS) Appeal']],
-		['no Horizon ID field', (appeal) => { delete appeal.horizonId }, [testLpaCodeEngland, 'England', testLpaNameEngland], ['1001', 'Householder (HAS) Appeal']],
-		['a welsh LPA', (appeal) => (appeal.horizonId = ''), [testLpaCodeWales, 'Wales', testLpaNameWales], ['1001', 'Householder (HAS) Appeal']],
-		['a full appeal', (appeal) => (appeal.horizonId = ''), [testLpaCodeEngland, 'England', testLpaNameEngland], ['1005', 'Planning Appeal (W)']],
+		condition1, 
+		condition2, 
+		condition3,
+		// TODO: ensure the full appeal structure is valid since the system currently errors with 400 status and message:
+		//       "If your planning application was granted then you must upload the decision letter"
+		// condition4 
 		// change appeal type (organisations, contacts, and casework reason)
 		// change appeal decision (casework reason)
 		// change type of planning application (casework reason)
 	])(
 		'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload (condition: %p)',
-		async (condition, setHorizonIdOnAppeal, lpa, appealType) => {
+		async (condition) => {
+
 			// Given: that we use the Horizon integration back office strategy
 			isFeatureActive.mockImplementation(() => {
 				return true;
 			});
 
 			// And: an appeal is created that is not known to the back office
-			setHorizonIdOnAppeal(householderAppeal);
-			householderAppeal.lpaCode = lpa[0];
-			householderAppeal.appealType = appealType[0];
-			const createAppealResponse = await _createAppeal();
+			condition.setHorizonId(condition.appeal.actual);
+			condition.appeal.actual.lpaCode = condition.lpa.code;
+			const createAppealResponse = await _createAppeal(condition.appeal.actual);
 			let createdAppeal = createAppealResponse.body;
 
 			// And: the documents API is mocked
 			const appealDocuments = [
-				householderAppeal.requiredDocumentsSection.originalApplication.uploadedFile,
-				householderAppeal.requiredDocumentsSection.decisionLetter.uploadedFile,
-				householderAppeal.yourAppealSection.appealStatement.uploadedFile,
-				...householderAppeal.yourAppealSection.otherDocuments.uploadedFiles,
-				householderAppeal.appealSubmission.appealPDFStatement.uploadedFile
+				condition.appeal.actual.requiredDocumentsSection.originalApplication.uploadedFile,
+				condition.appeal.actual.requiredDocumentsSection.decisionLetter.uploadedFile,
+				condition.appeal.actual.yourAppealSection.appealStatement.uploadedFile,
+				...condition.appeal.actual.yourAppealSection.otherDocuments.uploadedFiles,
+				condition.appeal.actual.appealSubmission.appealPDFStatement.uploadedFile
 			];
 
 			appealDocuments.forEach(async (document) => {
@@ -344,8 +394,8 @@ describe('Back Office', () => {
 					'a:HorizonAPIOrganisation'
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact['a:Name']['__i:nil']"),
-					'true'
+					JsonPathExpression.create(`$.AddContact.contact['a:Name']${condition.jsonPaths.createOrganisationRequestValue}`),
+					condition.expectations.createOrganisationRequest.companyName
 				); // This line will change depending on whether the appeal is 1001/1005, with 1005, there may be an agent AND appellant
 
 			const createContactsInteraction = new Interaction() // There will be 1/2 of these depending on if there's an appellant *and* agent in the appeal
@@ -376,11 +426,11 @@ describe('Back Office', () => {
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.AddContact.contact['a:FirstName']"),
-					'Appellant'
+					condition.expectations.createContactInHorizonRequest.firstName
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.AddContact.contact['a:LastName']"),
-					'Name'
+					condition.expectations.createContactInHorizonRequest.lastName
 				)
 				.addJsonValueExpectation(JsonPathExpression.create("$.AddContact.contact['a:OrganisationID']"), mockedOrganisationId)
 
@@ -396,14 +446,14 @@ describe('Back Office', () => {
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.CreateCase.caseType'),
-					appealType[1]
+					condition.appeal.type
 				)
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.LPACode'), lpa[0])
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.LPACode'), condition.lpa.code)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.CreateCase.dateOfReceipt'),
 					new RegExp(`.+`)
 				)
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.location'), lpa[1])
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.location'), condition.lpa.country)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.CreateCase.category['__xmlns:a']"),
 					'http://schemas.datacontract.org/2004/07/Horizon.Business'
@@ -415,7 +465,7 @@ describe('Back Office', () => {
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					0,
 					"Case:Casework Reason",
-					null // this will change (see Horizon mapper)
+					condition.appeal.expectedCaseworkReason
 				) 
 				.addDateAttributeExpectationForHorizonCreateAppealInteraction(
 					1,
@@ -434,7 +484,7 @@ describe('Back Office', () => {
 				.addDateAttributeExpectationForHorizonCreateAppealInteraction(
 					4,
 					"Planning Application:Date Of LPA Decision",
-					householderAppeal.decisionDate.toISOString()
+					condition.appeal.actual.decisionDate.toISOString()
 				)
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					5,
@@ -497,7 +547,7 @@ describe('Back Office', () => {
 					15,
 					1,
 					"Case Involvement:Case Involvement:Contact Details",
-					'Appellant Name'
+					condition.expectations.createAppealHorizonRequest.appellantFullName
 				)
 				.addDateAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
 					15,
@@ -521,7 +571,8 @@ describe('Back Office', () => {
 			const uploadDocumentInteractions = appealDocuments.map((document) => new Interaction()
 				.setNumberOfKeysExpectedInJson(31)
 				.addExpectationForHorizonCreateDocumentInteraction('3218465', document, true) // Case ref is last 7 digits of mockedCaseReference
-			).reverse(); // We reverse this since MockServer returns the latest interaction first
+			)
+			.reverse(); // We reverse this since MockServer returns the latest interaction first
 
 			expectedHorizonInteractions = [
 				createOrganisationInteraction,
@@ -535,63 +586,63 @@ describe('Back Office', () => {
 				.setNumberOfKeysExpectedInJson(8)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.template_id'),
-					appConfiguration.services.notify.templates[appealType[0]]
+					appConfiguration.services.notify.templates[condition.appeal.actual.appealType]
 						.appealSubmissionConfirmationEmailToAppellant
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.email_address'),
-					householderAppeal.email
+					condition.appeal.actual.email
 				)
-				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), householderAppeal.id)
+				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), condition.appeal.actual.id)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.personalisation.name'),
-					householderAppeal.aboutYouSection.yourDetails.name
+					condition.exectations.emailToAppellant.name
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['appeal site address']"),
-					householderAppeal.appealSiteSection.siteAddress.addressLine1 +
+					condition.appeal.actual.appealSiteSection.siteAddress.addressLine1 +
 						'\n' +
-						householderAppeal.appealSiteSection.siteAddress.addressLine2 +
+						condition.appeal.actual.appealSiteSection.siteAddress.addressLine2 +
 						'\n' +
-						householderAppeal.appealSiteSection.siteAddress.town +
+						condition.appeal.actual.appealSiteSection.siteAddress.town +
 						'\n' +
-						householderAppeal.appealSiteSection.siteAddress.county +
+						condition.appeal.actual.appealSiteSection.siteAddress.county +
 						'\n' +
-						householderAppeal.appealSiteSection.siteAddress.postcode
+						condition.appeal.actual.appealSiteSection.siteAddress.postcode
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['local planning department']"),
-					lpa[2]
+					condition.lpa.name
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['pdf copy URL']"),
-					`${process.env.APP_APPEALS_BASE_URL}/document/${householderAppeal.id}/${householderAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+					`${process.env.APP_APPEALS_BASE_URL}/document/${condition.appeal.actual.id}/${condition.appeal.actual.appealSubmission.appealPDFStatement.uploadedFile.id}`
 				);
 
 			const emailToLpaInteraction = new Interaction()
 				.setNumberOfKeysExpectedInJson(8)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.template_id'),
-					appConfiguration.services.notify.templates[appealType[0]].appealNotificationEmailToLpa
+					appConfiguration.services.notify.templates[condition.appeal.actual.appealType].appealNotificationEmailToLpa
 				)
-				.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), testLpaEmail)
-				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), householderAppeal.id)
-				.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.LPA'), lpa[2])
+				.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), condition.lpa.email)
+				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), condition.appeal.actual.id)
+				.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.LPA'), condition.lpa.name)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['site address']"),
-					householderAppeal.appealSiteSection.siteAddress.addressLine1 +
+					condition.appeal.actual.appealSiteSection.siteAddress.addressLine1 +
 						'\n' +
-						householderAppeal.appealSiteSection.siteAddress.addressLine2 +
+						condition.appeal.actual.appealSiteSection.siteAddress.addressLine2 +
 						'\n' +
-						householderAppeal.appealSiteSection.siteAddress.town +
+						condition.appeal.actual.appealSiteSection.siteAddress.town +
 						'\n' +
-						householderAppeal.appealSiteSection.siteAddress.county +
+						condition.appeal.actual.appealSiteSection.siteAddress.county +
 						'\n' +
-						householderAppeal.appealSiteSection.siteAddress.postcode
+						condition.appeal.actual.appealSiteSection.siteAddress.postcode
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.personalisation.date'),
-					householderAppeal.submissionDate.toLocaleDateString('en-GB', {
+					condition.appeal.actual.submissionDate.toLocaleDateString('en-GB', {
 						day: '2-digit',
 						month: 'long',
 						year: 'numeric'
@@ -599,7 +650,7 @@ describe('Back Office', () => {
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['planning application number']"),
-					householderAppeal.planningApplicationNumber
+					condition.appeal.actual.planningApplicationNumber
 				);
 			expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
 
@@ -625,6 +676,7 @@ describe('Back Office', () => {
 			});
 
 			// And: an appeal is created that is not known to the back office
+			const householderAppeal = newHouseholderAppeal();
 			setHorizonIdOnAppeal(householderAppeal);
 			const savedAppealResponse = await _createAppeal();
 			let savedAppeal = savedAppealResponse.body;
@@ -739,6 +791,7 @@ describe('Back Office', () => {
 
 	it('should not submit an appeal to the back office, if the appeal is known and has a Horizon ID', async () => {
 		// Given: an appeal is created and known to the back office
+		const householderAppeal = newHouseholderAppeal();
 		householderAppeal.horizonId = 'itisknown';
 		const savedAppealResponse = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
@@ -1164,7 +1217,7 @@ describe('Final comments', () => {
 	});
 });
 
-const _createAppeal = async () => {
+const _createAppeal = async (householderAppeal = newHouseholderAppeal()) => {
 	const appealCreatedResponse = await appealsApi.post('/api/v1/appeals');
 	const appealCreated = appealCreatedResponse.body;
 

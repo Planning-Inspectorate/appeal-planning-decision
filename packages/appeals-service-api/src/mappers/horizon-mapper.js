@@ -25,6 +25,7 @@ class HorizonMapper {
 
 		const appealTypeID = appeal.appealType == null ? '1001' : appeal.appealType;
 		if (appealTypeID == '1005') {
+			logger.debug('Creating organisation request for full appeal')
 			organisations.appellant.value.AddContact.contact['a:Name'] =
 				appeal.contactDetailsSection.contact.companyName;
 
@@ -59,7 +60,7 @@ class HorizonMapper {
 
 		let contacts = [];
 		if (appealTypeID == '1001') {
-			logger.debug(`Extracting contcts from householder appeal`);
+			logger.debug(`Extracting contacts from householder appeal`);
 			if (appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
 				/* User is original applicant - just add appellant */
 				contacts.push({
