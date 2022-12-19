@@ -78,7 +78,7 @@ class HorizonGateway {
 			});
 		}
 
-		logger.debug(`Create contacts result: ${JSON.stringify(result)}`);
+		logger.debug(result, `Create contacts result`);
 		return result;
 	}
 
@@ -119,11 +119,11 @@ class HorizonGateway {
 	}
 
 	async uploadAppealDocuments(documents, appealCaseReference) {
+		const url = `${config.services.horizon.url}/horizon`;
 		for (const document of documents) {
-			logger.debug(document, `Uploading document`);
-			const { data } = await axios.post(
-				`${config.services.horizon.url}/horizon`,
-				this.#horizonMapper.toCreateDocumentRequest(document, appealCaseReference),
+			const addDocumentRequest = this.#horizonMapper.toCreateDocumentRequest(document, appealCaseReference)
+			logger.debug(addDocumentRequest, `Create document request to send to Horizon URL ${url}`);
+			const { data } = await axios.post(url,addDocumentRequest,
 				{
 					/* Needs to be infinity as Horizon doesn't support multipart uploads */
 					maxBodyLength: Infinity

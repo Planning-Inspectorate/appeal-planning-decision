@@ -26,7 +26,10 @@ let mockedExternalApis;
 let expectedHorizonInteractions;
 let expectedNotifyInteractions;
 let testLpaEmail = 'appealplanningdecisiontest@planninginspectorate.gov.uk';
-let testLpaName = 'System Test Borough Council';
+let testLpaCodeEngland = 'E69999999'
+let testLpaCodeWales = 'W69999999'
+let testLpaNameEngland = 'System Test Borough Council England';
+let testLpaNameWales = 'System Test Borough Council Wales';
 
 jest.setTimeout(120000);
 jest.mock('../../src/db/db');
@@ -107,7 +110,7 @@ beforeAll(async () => {
 	/////////////////////////
 
 	// TODO: the database needs this CSV row putting into it so that emails work X__X
-	const testLpaJson = `{OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n323;E69999999;;${testLpaName};${testLpaEmail};;TRUE}`;
+	const testLpaJson= `{OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n323;${testLpaCodeEngland};;${testLpaNameEngland};${testLpaEmail};;TRUE\n324;${testLpaCodeWales};;${testLpaNameWales};${testLpaEmail};;TRUE}`;
 	await appealsApi.post('/api/v1/local-planning-authorities').send(testLpaJson);
 });
 
@@ -227,17 +230,31 @@ describe('Appeals', () => {
 });
 
 describe('Back Office', () => {
+	// TODO: We could use something like this as a start point and just tweak relevant values for each input scenario?
+	// const inputsAndOutputs = {
+	// 	description: 'Default',
+	// 	horizonIdSetting: (appeal) => (appeal.horizonId = ''),
+	// 	lpa: {
+	// 		input: testLpaCodeEngland,
+	// 		countryAsString: 'England',
+	// 		name: testLpaNameEngland
+	// 	},
+	// 	appeal: {
+	// 		input: '1001',
+	// 		name: 'Planning Appeal (W)'
+	// 	}
+	// }
 	it.only.each([
-		['a blank Horizon ID field', (appeal) => (appeal.horizonId = '')]
-		// [
-		// 	'no Horizon ID field',
-		// 	(appeal) => {
-		// 		delete appeal.horizonId;
-		// 	}
-		// ]
+		['a blank Horizon ID field', (appeal) => (appeal.horizonId = ''), [testLpaCodeEngland, 'England', testLpaNameEngland], ['1001', 'Householder (HAS) Appeal']],
+		['no Horizon ID field', (appeal) => { delete appeal.horizonId }, [testLpaCodeEngland, 'England', testLpaNameEngland], ['1001', 'Householder (HAS) Appeal']],
+		['a welsh LPA', (appeal) => (appeal.horizonId = ''), [testLpaCodeWales, 'Wales', testLpaNameWales], ['1001', 'Householder (HAS) Appeal']],
+		['a full appeal', (appeal) => (appeal.horizonId = ''), [testLpaCodeEngland, 'England', testLpaNameEngland], ['1005', 'Planning Appeal (W)']],
+		// change appeal type (organisations, contacts, and casework reason)
+		// change appeal decision (casework reason)
+		// change type of planning application (casework reason)
 	])(
-		'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload',
-		async (condition, setHorizonIdOnAppeal) => {
+		'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload (condition: %p)',
+		async (condition, setHorizonIdOnAppeal, lpa, appealType) => {
 			// Given: that we use the Horizon integration back office strategy
 			isFeatureActive.mockImplementation(() => {
 				return true;
@@ -245,6 +262,8 @@ describe('Back Office', () => {
 
 			// And: an appeal is created that is not known to the back office
 			setHorizonIdOnAppeal(householderAppeal);
+			householderAppeal.lpaCode = lpa[0];
+			householderAppeal.appealType = appealType[0];
 			const createAppealResponse = await _createAppeal();
 			let createdAppeal = createAppealResponse.body;
 
@@ -272,8 +291,9 @@ describe('Back Office', () => {
 			await mockedExternalApis.mockHorizonCreateAppealResponse(200, mockedCaseReference);
 
 			// And: Horizon's upload documents endpoint is mocked
-			await mockedExternalApis.mockHorizonUploadDocumentResponse(200);
-			await mockedExternalApis.mockHorizonUploadDocumentResponse(200);
+			for (const appealDocument of appealDocuments){
+				await mockedExternalApis.mockHorizonUploadDocumentResponse(200, appealDocument);
+			}
 
 			// When: the appeal is submitted to the back office
 			const submittedToBackOfficeResponse = await appealsApi.put(
@@ -293,7 +313,7 @@ describe('Back Office', () => {
 			//      - Its `state` field should be updated
 			//      - Its `submissionDate` field should be set
 			//      - Its `updatedAt` field should be updated
-			//      - Its `horizonId` field should be set
+			//      - Its `horizonId` field should be set to the last 7 digits of mockedCaseReference
 			createdAppeal.state = 'SUBMITTED';
 			createdAppeal.submissionDate = submittedToBackOfficeResponse.body.submissionDate;
 			createdAppeal.updatedAt = submittedToBackOfficeResponse.body.updatedAt;
@@ -301,8 +321,8 @@ describe('Back Office', () => {
 			expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
 
 			// And: Horizon has been interacted with as expected
-			const createOrganisationInteraction = new Interaction()
-				.setNumberOfKeysExpectedInJson(9) // This value will change
+			const createOrganisationInteraction = new Interaction() // There will be 1/2 of these depending on if there's an appellant *and* agent in the appeal
+				.setNumberOfKeysExpectedInJson(9)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.AddContact.__soap_op'),
 					'http://tempuri.org/IContacts/AddContact'
@@ -326,10 +346,10 @@ describe('Back Office', () => {
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.AddContact.contact['a:Name']['__i:nil']"),
 					'true'
-				); // This line will change
+				); // This line will change depending on whether the appeal is 1001/1005, with 1005, there may be an agent AND appellant
 
-			const createContactsInteraction = new Interaction()
-				.setNumberOfKeysExpectedInJson(11) // This value will change
+			const createContactsInteraction = new Interaction() // There will be 1/2 of these depending on if there's an appellant *and* agent in the appeal
+				.setNumberOfKeysExpectedInJson(11)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.AddContact.__soap_op'),
 					'http://tempuri.org/IContacts/AddContact'
@@ -352,17 +372,17 @@ describe('Back Office', () => {
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.AddContact.contact['a:Email']"),
-					'test@pins.com'
+					'test@pins.com' // From the appeal
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.AddContact.contact['a:FirstName']"),
 					'Appellant'
-				) // This will change
+				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.AddContact.contact['a:LastName']"),
 					'Name'
-				) // This will change
-				.addJsonValueExpectation(JsonPathExpression.create("$.AddContact.contact['a:OrganisationID']"), mockedOrganisationId) // This will change
+				)
+				.addJsonValueExpectation(JsonPathExpression.create("$.AddContact.contact['a:OrganisationID']"), mockedOrganisationId)
 
 			const createAppealInteraction = new Interaction()
 				.setNumberOfKeysExpectedInJson(95) // This will change depending on the number of contacts
@@ -376,14 +396,14 @@ describe('Back Office', () => {
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.CreateCase.caseType'),
-					'Householder (HAS) Appeal'
-				) // this will change
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.LPACode'), 'E69999999')
+					appealType[1]
+				)
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.LPACode'), lpa[0])
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.CreateCase.dateOfReceipt'),
 					new RegExp(`.+`)
 				)
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.location'), 'England') // this will change
+				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.location'), lpa[1])
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.CreateCase.category['__xmlns:a']"),
 					'http://schemas.datacontract.org/2004/07/Horizon.Business'
@@ -395,8 +415,8 @@ describe('Back Office', () => {
 				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
 					0,
 					"Case:Casework Reason",
-					null
-				) // this will change
+					null // this will change (see Horizon mapper)
+				) 
 				.addDateAttributeExpectationForHorizonCreateAppealInteraction(
 					1,
 					"Case Dates:Receipt Date"
@@ -498,23 +518,10 @@ describe('Back Office', () => {
 				);
 			// there may be more contact attributes here if the appeal is made on behalf of an appellant
 
-			const uploadDocumentInteractions = appealDocuments.map((document, index) => {
-				return new Interaction()
-					.setNumberOfKeysExpectedInJson(31)
-					.addJsonValueExpectation(
-						JsonPathExpression.create('$.AddDocuments.__soap_op'),
-						'http://tempuri.org/IHorizon/AddDocuments'
-					)
-					.addJsonValueExpectation(
-						JsonPathExpression.create('$.AddDocuments.__xmlns'),
-						'http://tempuri.org/'
-					)
-					.addJsonValueExpectation(
-						JsonPathExpression.create('$.AddDocuments.caseReference'),
-						'3218465'
-					) // Last 7 digits of mockedCaseReference
-					.addExpectationForHorizonCreateDocumentInteraction(index, document, true);
-			});
+			const uploadDocumentInteractions = appealDocuments.map((document) => new Interaction()
+				.setNumberOfKeysExpectedInJson(31)
+				.addExpectationForHorizonCreateDocumentInteraction('3218465', document, true) // Case ref is last 7 digits of mockedCaseReference
+			).reverse(); // We reverse this since MockServer returns the latest interaction first
 
 			expectedHorizonInteractions = [
 				createOrganisationInteraction,
@@ -528,7 +535,7 @@ describe('Back Office', () => {
 				.setNumberOfKeysExpectedInJson(8)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.template_id'),
-					appConfiguration.services.notify.templates['1001']
+					appConfiguration.services.notify.templates[appealType[0]]
 						.appealSubmissionConfirmationEmailToAppellant
 				)
 				.addJsonValueExpectation(
@@ -554,7 +561,7 @@ describe('Back Office', () => {
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['local planning department']"),
-					testLpaName
+					lpa[2]
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['pdf copy URL']"),
@@ -565,11 +572,11 @@ describe('Back Office', () => {
 				.setNumberOfKeysExpectedInJson(8)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.template_id'),
-					appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa
+					appConfiguration.services.notify.templates[appealType[0]].appealNotificationEmailToLpa
 				)
 				.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), testLpaEmail)
 				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), householderAppeal.id)
-				.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.LPA'), testLpaName)
+				.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.LPA'), lpa[2])
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['site address']"),
 					householderAppeal.appealSiteSection.siteAddress.addressLine1 +
@@ -635,6 +642,7 @@ describe('Back Office', () => {
 			savedAppeal.state = 'SUBMITTED';
 			savedAppeal.submissionDate = submittedAppealResponse.body.submissionDate;
 			savedAppeal.updatedAt = submittedAppealResponse.body.updatedAt;
+			savedAppeal.horizonId = null;
 			expectedMessages = [savedAppeal];
 
 			// And: external APIs should be interacted with in the following ways
@@ -668,7 +676,7 @@ describe('Back Office', () => {
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['local planning department']"),
-					testLpaName
+					testLpaNameEngland
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['pdf copy URL']"),
@@ -683,7 +691,7 @@ describe('Back Office', () => {
 				)
 				.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), testLpaEmail)
 				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), householderAppeal.id)
-				.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.LPA'), testLpaName)
+				.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.LPA'), testLpaNameEngland)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['site address']"),
 					householderAppeal.appealSiteSection.siteAddress.addressLine1 +
