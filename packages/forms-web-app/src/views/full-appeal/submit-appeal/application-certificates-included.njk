@@ -34,19 +34,15 @@
         },
         fieldset: {
           legend: {
-            html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-              <h1 class="govuk-fieldset__heading">
-                Did you submit a separate ownership certificate and agricultural land declaration with your application?
-              </h1>
-              </legend>
-              <div id="did-you-submit-separate-certificate-hint" class="govuk-hint">
-                <p>The &#39;ownership certificate&#39; confirms if you own all or some of the land involved in your application. The &#39;agricultural land declaration&#39; confirms if any of the land is part of an agricultural holding.</p>
-                <p>You would have chosen 1 of 4 options, labelled A, B, C or D.</p>
-              </div>',
+            text: "Did you submit a separate ownership certificate and agricultural land declaration with your application?",
             isPageHeading: true,
             classes: "govuk-fieldset__legend--l"
           }
         },
+				hint: {
+					html: '<p>The &#39;ownership certificate&#39; confirms if you own all or some of the land involved in your application. The &#39;agricultural land declaration&#39; confirms if any of the land is part of an agricultural holding.</p>
+                <p>You would have chosen 1 of 4 options, labelled A, B, C or D.</p>'
+				},
         items: [
           {
             value: "yes",
