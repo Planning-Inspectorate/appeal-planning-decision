@@ -32,18 +32,14 @@
             name: "type-of-planning-application",
             fieldset: {
               legend: {
-                html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <h1 class="govuk-fieldset__heading">
-                          What type of planning application is your appeal about?
-                        </h1>
-                      </legend>
-                      <div id="eligibility-v9-whatareyouappealing-hint" class="govuk-hint">
-                        You can check this on your planning application form.
-                      </div>',
+                text: "What type of planning application is your appeal about?",
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--l"
               }
             },
+						hint: {
+							text: "You can check this on your planning application form."
+						},
             errorMessage: errors['type-of-planning-application'] and {
               text: errors['type-of-planning-application'].msg
             },
