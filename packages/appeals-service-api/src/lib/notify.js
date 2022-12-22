@@ -19,22 +19,12 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 		const lpa = await getLpaById(appeal.lpaCode);
 
 		const recipientEmail = appeal.email;
-		let variables = {};
-		if (appeal.appealType == '1001') {
-			variables = {
-				name: appeal.aboutYouSection.yourDetails.name,
-				'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-				'local planning department': lpa.name,
-				'pdf copy URL': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
-			};
-		} else if (appeal.appealType == '1005') {
-			variables = {
-				name: appeal.contactDetailsSection.contact.name,
-				'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-				'local planning department': lpa.name,
-				'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
-			};
-		}
+		let variables = {
+			name: appeal.appealType == '1001' ? appeal.aboutYouSection.yourDetails.name : appeal.contactDetailsSection.contact.name,
+			'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
+			'local planning department': lpa.name,
+			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+		};
 
 		const reference = appeal.id;
 
@@ -64,31 +54,20 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		const lpaEmail = lpa.email;
 
 		// TODO: put inside an appeal model
-		let variables = {};
+		let variables = {
+			'planning application number': appeal.planningApplicationNumber,
+			'site address': _formatAddress(appeal.appealSiteSection.siteAddress),
+		};
+
 		if (appeal.appealType == '1001') {
-			variables = {
-				LPA: lpa.name,
-				date: format(appeal.submissionDate, 'dd MMMM yyyy'),
-				'planning application number': appeal.planningApplicationNumber,
-				'site address': _formatAddress(appeal.appealSiteSection.siteAddress)
-			};
+			variables.LPA = lpa.name,
+			variables.date = format(appeal.submissionDate, 'dd MMMM yyyy')
 		} else if (appeal.appealType == '1005') {
-			variables = {
-				'loca planning department': lpa.name,
-				'submission date': format(appeal.submissionDate, 'dd MMMM yyyy'),
-				'planning application number': appeal.planningApplicationNumber,
-				'site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-				refused: _getYesOrNoForBoolean(
-					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED
-				),
-				granted: _getYesOrNoForBoolean(
-					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED
-				),
-				'non-determination': _getYesOrNoForBoolean(
-					appeal.eligibility.applicationDecision ===
-						constants.APPLICATION_DECISION.NODECISIONRECEIVED
-				)
-			};
+			variables['loca planning department'] = lpa.name,
+			variables['submission date'] = format(appeal.submissionDate, 'dd MMMM yyyy'),
+			variables.refused = _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED),
+			variables.granted = _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED),
+			variables['non-determination'] = _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.NODECISIONRECEIVED)
 		}
 
 		const reference = appeal.id;

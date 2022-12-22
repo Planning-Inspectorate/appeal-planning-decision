@@ -5,14 +5,18 @@ const uuid = require('uuid');
 const container = require('rhea');
 const crypto = require('crypto');
 
+
 const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
-const { newHouseholderAppeal, newFullAppeal } = require('./fixtures/appeals');
 const { TestMessageQueue } = require('./external-dependencies/message-queue/test-message-queue');
 const { MockedExternalApis } = require('./external-dependencies/rest-apis/mocked-external-apis');
-const { Interaction } = require('./external-dependencies/rest-apis/interaction');
+const { Interaction } = require('./external-dependencies/rest-apis/interactions/interaction');
 const { JsonPathExpression } = require('./external-dependencies/rest-apis/json-path-expression');
+const { HorizonInteraction } = require('./external-dependencies/rest-apis/interactions/horizon-interaction')
+const AppealFixtures = require('./fixtures/appeals');
+const HorizonIntegrationInputCondition = require('./utils/horizon-integration-input-condition')
+
 const waitFor = require('./utils/waitFor');
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 
@@ -30,7 +34,10 @@ let testLpaCodeWales = 'W69999999'
 let testLpaNameEngland = 'System Test Borough Council England';
 let testLpaNameWales = 'System Test Borough Council Wales';
 
-jest.setTimeout(120000);
+const appealFixtures = new AppealFixtures();
+const horizonIntegrationInputCondition = new HorizonIntegrationInputCondition();
+
+jest.setTimeout(30000);
 jest.mock('../../src/db/db');
 jest.mock('../../src/configuration/featureFlag');
 
@@ -112,7 +119,6 @@ beforeAll(async () => {
 	///// POPULATE LPAS /////
 	/////////////////////////
 
-	// TODO: the database needs this CSV row putting into it so that emails work X__X
 	const testLpaJson= `{OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n323;${testLpaCodeEngland};;${testLpaNameEngland};${testLpaEmail};;TRUE\n324;${testLpaCodeWales};;${testLpaNameWales};${testLpaEmail};;TRUE}`;
 	await appealsApi.post('/api/v1/local-planning-authorities').send(testLpaJson);
 });
@@ -151,7 +157,7 @@ afterAll(async () => {
 describe('Appeals', () => {
 	it(`should return an error if we try to update an appeal that doesn't exist`, async () => {
 		// When: an appeal is sent via a PUT or PATCH request, but hasn't yet been created
-		const householderAppeal = newHouseholderAppeal(uuid.v4());
+		const householderAppeal = appealFixtures.newHouseholderAppeal(uuid.v4());
 		const putResponse = await appealsApi
 			.put(`/api/v1/appeals/${householderAppeal.id}`)
 			.send(householderAppeal);
@@ -233,76 +239,137 @@ describe('Appeals', () => {
 });
 
 describe('Back Office', () => {
-	
-	const defaultCondition = {
-		description: 'a blank Horizon ID field',
-		setHorizonId: (appeal) => appeal.horizonId = '',
-		lpa: {
-			code: testLpaCodeEngland,
-			country: 'England',
-			name: testLpaNameEngland,
-			email: testLpaEmail
-		},
-		appeal: {
-			actual: newHouseholderAppeal(),
-			type: 'Householder (HAS) Appeal',
-			expectedCaseworkReason: null
-		},
-		jsonPaths: {
-			createOrganisationRequestValue: "['__i:nil']"
-		},
-		expectations: {
-			createOrganisationRequest: {
-				companyName: 'true'
-			},
-			createContactInHorizonRequest: {
-				firstName: 'Appellant',
-				lastName: 'Name'
-			},
-			createAppealHorizonRequest: {
-				appellantFullName: 'Appellant Name'
-			},
-			emailToAppeallant: {
-				name: 'Appellant Name'
-			}
 
-		}
-	}
+	const householderAppealConditions = [
+		horizonIntegrationInputCondition.get(),
+		horizonIntegrationInputCondition.get({description: 'no Horizon ID field', setHorizonIdFunction: (appeal) => { delete appeal.horizonId }}),
+		horizonIntegrationInputCondition.get({description: 'a Welsh LPA', lpaCode: testLpaCodeWales}),
+		horizonIntegrationInputCondition.get({
+			description: 'a householder appeal where the appellant owns the whole site', 
+			appeal: appealFixtures.newHouseholderAppeal({ownsSite: true}),
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a householder appeal where there is an agent appealling on behalf of an appellent', 
+			appeal: appealFixtures.newHouseholderAppeal({agentAppeal: true}),
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a refused householder appeal with a "householder" planning application', 
+			appeal: appealFixtures.newHouseholderAppeal({decision: 'refused', planningApplicationType: 'householder-planning'}), 
+			expectedCaseworkReason: '1. Refused planning permission for the development'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a refused householder appeal with a "removal or variation of conditions" planning application', 
+			appeal: appealFixtures.newHouseholderAppeal({decision: 'refused', planningApplicationType: 'removal-or-variation-of-conditions'}), 
+			expectedCaseworkReason: '2. Refused permission to vary or remove a condition(s)'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a refused householder appeal with a "prior approval" planning application', 
+			appeal: appealFixtures.newHouseholderAppeal({decision: 'refused', planningApplicationType: 'prior-approval'}), 
+			expectedCaseworkReason: '3. Refused prior approval of permitted development rights'
+		})
+	];
 
-	const condition1 = { ...defaultCondition }
-	const condition2 = { ...defaultCondition}
-	
-	condition2.description = 'no Horizon ID field'
-	condition2.setHorizonId = (appeal) => { delete appeal.horizonId }
-	
-	const condition3 = { ...defaultCondition }
-	condition3.description = 'a welsh LPA'
-	condition3.lpa = {
-		code: testLpaCodeWales,
-		country: 'Wales',
-		name: testLpaNameWales,
-		email: testLpaEmail
-	}
+	const fullAppealConditions = [
+		horizonIntegrationInputCondition.get({
+			description: 'a full appeal where the appellant owns all the land', 
+			appeal: appealFixtures.newFullAppeal({ownsAllTheLand: true}),
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a full appeal where there is an agent appealling on behalf of an appellent', 
+			appeal: appealFixtures.newFullAppeal({agentAppeal: true}),
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a refused full appeal with a "full planning" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'refused', planningApplicationType: 'full-appeal'}), 
+			expectedCaseworkReason: '1. Refused planning permission for the development'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a refused full appeal with a "removal or variation of conditions" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'refused', planningApplicationType: 'removal-or-variation-of-conditions'}), 
+			expectedCaseworkReason: '2. Refused permission to vary or remove a condition(s)'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a refused full appeal with a "prior approval" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'refused', planningApplicationType: 'prior-approval'}), 
+			expectedCaseworkReason: '3. Refused prior approval of permitted development rights'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a granted full appeal with a "householder planning" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'granted', planningApplicationType: 'householder-planning'}), 
+			expectedCaseworkReason: '4. Granted planning permission for the development subject to conditions to which you object'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a granted full appeal with a "full appeal" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'granted', planningApplicationType: 'full-appeal'}), 
+			expectedCaseworkReason: '4. Granted planning permission for the development subject to conditions to which you object'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a granted full appeal with a "prior approval" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'granted', planningApplicationType: 'prior-approval'}), 
+			expectedCaseworkReason: '4. Granted planning permission for the development subject to conditions to which you object'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a refused full appeal with an "outline planning" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'refused', planningApplicationType: 'outline-planning'}), 
+			expectedCaseworkReason: '5. Refused approval of the matters reserved under an outline planning permission'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a refused full appeal with a "reserved matters" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'refused', planningApplicationType: 'reserved-matters'}), 
+			expectedCaseworkReason: '5. Refused approval of the matters reserved under an outline planning permission'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a granted full appeal with an "outline planning" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'granted', planningApplicationType: 'outline-planning'}), 
+			expectedCaseworkReason: '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a granted full appeal with a "reserved matters" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'granted', planningApplicationType: 'reserved-matters'}), 
+			expectedCaseworkReason: '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a granted full appeal with a "removal or variation of conditions" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'granted', planningApplicationType: 'removal-or-variation-of-conditions'}), 
+			expectedCaseworkReason: '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a no decision received full appeal with a "householder planning" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'nodecisionreceived', planningApplicationType: 'householder-planning'}), 
+			expectedCaseworkReason: '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a no decision received full appeal with a "full appeal" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'nodecisionreceived', planningApplicationType: 'full-appeal'}), 
+			expectedCaseworkReason: '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a no decision received full appeal with an "outline planning" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'nodecisionreceived', planningApplicationType: 'outline-planning'}), 
+			expectedCaseworkReason: '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a no decision received full appeal with a "prior approval" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'nodecisionreceived', planningApplicationType: 'prior-approval'}), 
+			expectedCaseworkReason: '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a no decision received full appeal with a "reserved-matters" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'nodecisionreceived', planningApplicationType: 'reserved-matters'}), 
+			expectedCaseworkReason: '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval'
+		}),
+		horizonIntegrationInputCondition.get({
+			description: 'a no decision received full appeal with a "removal-or-variation-of-conditions" planning application', 
+			appeal: appealFixtures.newFullAppeal({decision: 'nodecisionreceived', planningApplicationType: 'removal-or-variation-of-conditions'}), 
+			expectedCaseworkReason: '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval'
+		})
+	];
 
-	const condition4 = { ...defaultCondition }
-	condition4.description = 'a full appeal'
-	condition4.appeal.actual = newFullAppeal();
-	condition4.appeal.type = 'Planning Appeal (W)'
-	condition4.appeal.expectedCaseworkReason = '4. Granted planning permission for the development subject to conditions to which you object';
-	condition4.jsonPaths.createOrganisationRequestValue = ''; // This is because full appeals don't have a nil value for this 
-	condition4.expectations.createOrganisationRequest.companyName = 'Megatron'
-
-	it.only.each([
-		condition1, 
-		condition2, 
-		condition3,
-		// TODO: ensure the full appeal structure is valid since the system currently errors with 400 status and message:
-		//       "If your planning application was granted then you must upload the decision letter"
-		// condition4 
-		// change appeal type (organisations, contacts, and casework reason)
-		// change appeal decision (casework reason)
-		// change type of planning application (casework reason)
+	it.each([
+		...householderAppealConditions,
+		...fullAppealConditions
 	])(
+		// TODO: try to make the string interpolation in the "should..." just use the .description key of the condition JSON
 		'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload (condition: %p)',
 		async (condition) => {
 
@@ -318,32 +385,29 @@ describe('Back Office', () => {
 			let createdAppeal = createAppealResponse.body;
 
 			// And: the documents API is mocked
-			const appealDocuments = [
-				condition.appeal.actual.requiredDocumentsSection.originalApplication.uploadedFile,
-				condition.appeal.actual.requiredDocumentsSection.decisionLetter.uploadedFile,
-				condition.appeal.actual.yourAppealSection.appealStatement.uploadedFile,
-				...condition.appeal.actual.yourAppealSection.otherDocuments.uploadedFiles,
-				condition.appeal.actual.appealSubmission.appealPDFStatement.uploadedFile
-			];
-
-			appealDocuments.forEach(async (document) => {
+			condition.appeal.documents.forEach(async (document) => {
 				await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
 			});
 
 			// And: Horizon's create organisation endpoint is mocked, first for organisations, then contacts
-			const mockedOrganisationId = 'O_1234';
-			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId);
-			const mockedContactId = 'P_1234';
-			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedContactId);
+			for(let i in condition.expectations.createOrganisationInHorizonRequests) {
+				const mockedOrganisationId = `O_${i}`;
+				await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId);
+			}
+
+			for(let i in condition.expectations.createContactInHorizonRequests) {
+				const mockedContactId = `P_${i}`;
+				await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedContactId);
+			}
 
 			// And: Horizon's create appeal endpoint is mocked
 			const mockedCaseReference = 'APP/Z0116/D/20/3218465';
 			await mockedExternalApis.mockHorizonCreateAppealResponse(200, mockedCaseReference);
 
 			// And: Horizon's upload documents endpoint is mocked
-			for (const appealDocument of appealDocuments){
-				await mockedExternalApis.mockHorizonUploadDocumentResponse(200, appealDocument);
-			}
+			condition.appeal.documents.forEach(async (document) => {
+				await mockedExternalApis.mockHorizonUploadDocumentResponse(200, document);
+			})
 
 			// When: the appeal is submitted to the back office
 			const submittedToBackOfficeResponse = await appealsApi.put(
@@ -371,212 +435,29 @@ describe('Back Office', () => {
 			expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
 
 			// And: Horizon has been interacted with as expected
-			const createOrganisationInteraction = new Interaction() // There will be 1/2 of these depending on if there's an appellant *and* agent in the appeal
-				.setNumberOfKeysExpectedInJson(9)
-				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.__soap_op'),
-					'http://tempuri.org/IContacts/AddContact'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.__xmlns'),
-					'http://tempuri.org/'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact['__xmlns:a']"),
-					'http://schemas.datacontract.org/2004/07/Contacts.API'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact['__xmlns:i']"),
-					'http://www.w3.org/2001/XMLSchema-instance'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact['__i:type']"),
-					'a:HorizonAPIOrganisation'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create(`$.AddContact.contact['a:Name']${condition.jsonPaths.createOrganisationRequestValue}`),
-					condition.expectations.createOrganisationRequest.companyName
-				); // This line will change depending on whether the appeal is 1001/1005, with 1005, there may be an agent AND appellant
+			const createOrganisationInteractions = condition
+				.expectations
+				.createOrganisationInHorizonRequests
+				.map(expectation => HorizonInteraction.getCreateOrganisationInteraction(expectation))
+			;
 
-			const createContactsInteraction = new Interaction() // There will be 1/2 of these depending on if there's an appellant *and* agent in the appeal
-				.setNumberOfKeysExpectedInJson(11)
-				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.__soap_op'),
-					'http://tempuri.org/IContacts/AddContact'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create('$.AddContact.__xmlns'),
-					'http://tempuri.org/'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact['__xmlns:a']"),
-					'http://schemas.datacontract.org/2004/07/Contacts.API'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact['__xmlns:i']"),
-					'http://www.w3.org/2001/XMLSchema-instance'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact['__i:type']"),
-					'a:HorizonAPIPerson'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact['a:Email']"),
-					'test@pins.com' // From the appeal
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact['a:FirstName']"),
-					condition.expectations.createContactInHorizonRequest.firstName
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.AddContact.contact['a:LastName']"),
-					condition.expectations.createContactInHorizonRequest.lastName
-				)
-				.addJsonValueExpectation(JsonPathExpression.create("$.AddContact.contact['a:OrganisationID']"), mockedOrganisationId)
+			const createContactInteractions = condition
+				.expectations
+				.createContactInHorizonRequests
+				.map((expectation) => HorizonInteraction.getCreateContactInteraction(expectation))
+			;
 
-			const createAppealInteraction = new Interaction()
-				.setNumberOfKeysExpectedInJson(95) // This will change depending on the number of contacts
-				.addJsonValueExpectation(
-					JsonPathExpression.create('$.CreateCase.__soap_op'),
-					'http://tempuri.org/IHorizon/CreateCase'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create('$.CreateCase.__xmlns'),
-					'http://tempuri.org/'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create('$.CreateCase.caseType'),
-					condition.appeal.type
-				)
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.LPACode'), condition.lpa.code)
-				.addJsonValueExpectation(
-					JsonPathExpression.create('$.CreateCase.dateOfReceipt'),
-					new RegExp(`.+`)
-				)
-				.addJsonValueExpectation(JsonPathExpression.create('$.CreateCase.location'), condition.lpa.country)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.CreateCase.category['__xmlns:a']"),
-					'http://schemas.datacontract.org/2004/07/Horizon.Business'
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.CreateCase.category['__xmlns:i']"),
-					'http://www.w3.org/2001/XMLSchema-instance'
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					0,
-					"Case:Casework Reason",
-					condition.appeal.expectedCaseworkReason
-				) 
-				.addDateAttributeExpectationForHorizonCreateAppealInteraction(
-					1,
-					"Case Dates:Receipt Date"
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					2,
-					"Case:Source Indicator",
-					'Other'
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					3,
-					"Case:Case Publish Flag",
-					'No'
-				)
-				.addDateAttributeExpectationForHorizonCreateAppealInteraction(
-					4,
-					"Planning Application:Date Of LPA Decision",
-					condition.appeal.actual.decisionDate.toISOString()
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					5,
-					"Case:Procedure (Appellant)",
-					'Written Representations'
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					6,
-					"Planning Application:LPA Application Reference",
-					'12345'
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					7,
-					"Case Site:Site Address Line 1",
-					'Site Address 1'
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					8,
-					"Case Site:Site Address Line 2",
-					'Site Address 2'
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					9,
-					"Case Site:Site Address Town",
-					'Site Town'
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					10,
-					"Case Site:Site Address County",
-					'Site County'
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					11,
-					"Case Site:Site Address Postcode",
-					'SW1 1AA'
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					12,
-					"Case Site:Ownership Certificate",
-					null
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					13,
-					"Case Site:Site Viewable From Road",
-					'No'
-				)
-				.addStringAttributeExpectationForHorizonCreateAppealInteraction(
-					14,
-					"Case Site:Inspector Need To Enter Site",
-					'Yes'
-				)
-				.addContactAttributeExpectationForHorizonCreateAppealInteraction(15)
-				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-					15,
-					0,
-					"Case Involvement:Case Involvement:ContactID",
-					mockedContactId
-				)
-				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-					15,
-					1,
-					"Case Involvement:Case Involvement:Contact Details",
-					condition.expectations.createAppealHorizonRequest.appellantFullName
-				)
-				.addDateAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-					15,
-					2,
-					"Case Involvement:Case Involvement:Involvement Start Date"
-				)
-				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-					15,
-					3,
-					"Case Involvement:Case Involvement:Communication Preference",
-					'e-mail'
-				)
-				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-					15,
-					4,
-					"Case Involvement:Case Involvement:Type Of Involvement",
-					'Appellant'
-				);
-			// there may be more contact attributes here if the appeal is made on behalf of an appellant
+			const createAppealInteraction = HorizonInteraction.getCreateAppealInteraction(condition.expectations.createAppealInHorizonRequest);
 
-			const uploadDocumentInteractions = appealDocuments.map((document) => new Interaction()
-				.setNumberOfKeysExpectedInJson(31)
-				.addExpectationForHorizonCreateDocumentInteraction('3218465', document, true) // Case ref is last 7 digits of mockedCaseReference
-			)
-			.reverse(); // We reverse this since MockServer returns the latest interaction first
+			const uploadDocumentInteractions = condition.appeal.documents.map((document) => HorizonInteraction.getCreateDocumentInteraction(
+				'3218465', // Last 7 digits of mockedCaseReference
+				document, 
+				true
+			));
 
 			expectedHorizonInteractions = [
-				createOrganisationInteraction,
-				createContactsInteraction,
+				...createOrganisationInteractions,
+				...createContactInteractions,
 				createAppealInteraction,
 				...uploadDocumentInteractions
 			];
@@ -596,7 +477,7 @@ describe('Back Office', () => {
 				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), condition.appeal.actual.id)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.personalisation.name'),
-					condition.exectations.emailToAppellant.name
+					condition.expectations.emailToAppellant.name
 				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['appeal site address']"),
@@ -615,19 +496,22 @@ describe('Back Office', () => {
 					condition.lpa.name
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.personalisation['pdf copy URL']"),
+					JsonPathExpression.create("$.personalisation['link to pdf']"),
 					`${process.env.APP_APPEALS_BASE_URL}/document/${condition.appeal.actual.id}/${condition.appeal.actual.appealSubmission.appealPDFStatement.uploadedFile.id}`
 				);
 
 			const emailToLpaInteraction = new Interaction()
-				.setNumberOfKeysExpectedInJson(8)
+				.setNumberOfKeysExpectedInJson(6 + condition.expectations.emailToLpa.templateVariables.length)
 				.addJsonValueExpectation(
 					JsonPathExpression.create('$.template_id'),
 					appConfiguration.services.notify.templates[condition.appeal.actual.appealType].appealNotificationEmailToLpa
 				)
 				.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), condition.lpa.email)
 				.addJsonValueExpectation(JsonPathExpression.create('$.reference'), condition.appeal.actual.id)
-				.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.LPA'), condition.lpa.name)
+				.addJsonValueExpectation(
+					JsonPathExpression.create("$.personalisation['planning application number']"),
+					condition.appeal.actual.planningApplicationNumber
+				)
 				.addJsonValueExpectation(
 					JsonPathExpression.create("$.personalisation['site address']"),
 					condition.appeal.actual.appealSiteSection.siteAddress.addressLine1 +
@@ -639,25 +523,293 @@ describe('Back Office', () => {
 						condition.appeal.actual.appealSiteSection.siteAddress.county +
 						'\n' +
 						condition.appeal.actual.appealSiteSection.siteAddress.postcode
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create('$.personalisation.date'),
-					condition.appeal.actual.submissionDate.toLocaleDateString('en-GB', {
-						day: '2-digit',
-						month: 'long',
-						year: 'numeric'
-					})
-				)
-				.addJsonValueExpectation(
-					JsonPathExpression.create("$.personalisation['planning application number']"),
-					condition.appeal.actual.planningApplicationNumber
 				);
+
+				condition.expectations.emailToLpa.templateVariables.forEach(templateVariableExpectation => {
+					Object.keys(templateVariableExpectation).forEach(key => {
+						emailToLpaInteraction.addJsonValueExpectation(JsonPathExpression.create(`$.personalisation['${key}']`), templateVariableExpectation[key])
+					});
+				});				
+
 			expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
 
 			// And: there are no messages on the message queue
 			expectedMessages = [];
 		}
 	);
+
+	it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating organisations', async () => {
+		
+		const condition = householderAppealConditions[0];
+
+		// Given: that we use the Horizon integration back office strategy
+		isFeatureActive.mockImplementation(() => {
+			return true;
+		});
+
+		// And: an appeal is created that is not known to the back office
+		condition.setHorizonId(condition.appeal.actual);
+		condition.appeal.actual.lpaCode = condition.lpa.code;
+		const createAppealResponse = await _createAppeal(condition.appeal.actual);
+		let createdAppeal = createAppealResponse.body;
+
+		// And: Horizon's create organisation endpoint is mocked to return a 500
+		for(let i in condition.expectations.createOrganisationInHorizonRequests) {
+			const mockedOrganisationId = `O_${i}`;
+			await mockedExternalApis.mockHorizonCreateContactResponse(500, mockedOrganisationId);
+		}
+
+		// When: we submit the appeal to the back office
+		const submittedToBackOfficeResponse = await appealsApi.put(
+			`/api/v1/back-office/appeals/${createdAppeal.id}`
+		);
+
+		// And: the appeal is then retrieved from the appeals API
+		const retrievedAppealResponse = await appealsApi.get(`/api/v1/appeals/${createdAppeal.id}`);
+
+		// Then: we expect a 504 status code in the response
+		expect(submittedToBackOfficeResponse.status).toEqual(504)
+
+		// And: the status code for the retrieval request should be 200
+		expect(retrievedAppealResponse.status).toBe(200);
+
+		// And: the appeal should not have been updated
+		expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
+
+		// And: we expect Horizon to have been interacted with as expected
+		const createOrganisationInteractions = condition
+			.expectations
+			.createOrganisationInHorizonRequests
+			.map(expectation => HorizonInteraction.getCreateOrganisationInteraction(expectation))
+		;
+
+		expectedHorizonInteractions = [...createOrganisationInteractions]
+		expectedNotifyInteractions = []
+		expectedMessages = []
+	})
+
+	it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating contacts', async () => {
+		
+		const condition = householderAppealConditions[0];
+
+		// Given: that we use the Horizon integration back office strategy
+		isFeatureActive.mockImplementation(() => {
+			return true;
+		});
+
+		// And: an appeal is created that is not known to the back office
+		condition.setHorizonId(condition.appeal.actual);
+		condition.appeal.actual.lpaCode = condition.lpa.code;
+		const createAppealResponse = await _createAppeal(condition.appeal.actual);
+		let createdAppeal = createAppealResponse.body;
+
+		// And: Horizon's create organisation endpoint is mocked to return a 200
+		for(let i in condition.expectations.createOrganisationInHorizonRequests) {
+			const mockedOrganisationId = `O_${i}`;
+			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId);
+		}
+
+		// And: Horizon's create contact endpoint is mocked to return a 500
+		for(let i in condition.expectations.createContactInHorizonRequests) {
+			const mockedContactId = `P_${i}`;
+			await mockedExternalApis.mockHorizonCreateContactResponse(500, mockedContactId);
+		}
+
+		// When: we submit the appeal to the back office
+		const submittedToBackOfficeResponse = await appealsApi.put(
+			`/api/v1/back-office/appeals/${createdAppeal.id}`
+		);
+
+		// And: the appeal is then retrieved from the appeals API
+		const retrievedAppealResponse = await appealsApi.get(`/api/v1/appeals/${createdAppeal.id}`);
+
+		// Then: we expect a 504 status code in the response
+		expect(submittedToBackOfficeResponse.status).toEqual(504)
+
+		// And: the status code for the retrieval request should be 200
+		expect(retrievedAppealResponse.status).toBe(200);
+
+		// And: the appeal should not have been updated
+		expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
+
+		// And: we expect Horizon to have been interacted with
+		const createOrganisationInteractions = condition
+			.expectations
+			.createOrganisationInHorizonRequests
+			.map(expectation => HorizonInteraction.getCreateOrganisationInteraction(expectation))
+		;
+
+		const createContactInteractions = condition
+			.expectations
+			.createContactInHorizonRequests
+			.map((expectation) => HorizonInteraction.getCreateContactInteraction(expectation))
+		;
+
+		expectedHorizonInteractions = [...createOrganisationInteractions, ...createContactInteractions]
+		expectedNotifyInteractions = []
+		expectedMessages = []
+	})
+
+	it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating the appeal', async () => {
+		
+		const condition = householderAppealConditions[0];
+
+		// Given: that we use the Horizon integration back office strategy
+		isFeatureActive.mockImplementation(() => {
+			return true;
+		});
+
+		// And: an appeal is created that is not known to the back office
+		condition.setHorizonId(condition.appeal.actual);
+		condition.appeal.actual.lpaCode = condition.lpa.code;
+		const createAppealResponse = await _createAppeal(condition.appeal.actual);
+		let createdAppeal = createAppealResponse.body;
+
+		// And: Horizon's create organisation endpoint is mocked to return a 200
+		for(let i in condition.expectations.createOrganisationInHorizonRequests) {
+			const mockedOrganisationId = `O_${i}`;
+			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId);
+		}
+
+		// And: Horizon's create contact endpoint is mocked to return a 200
+		for(let i in condition.expectations.createContactInHorizonRequests) {
+			const mockedContactId = `P_${i}`;
+			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedContactId);
+		}
+
+		// And: Horizon's create appeal endpoint is mocked to return a 500
+		const mockedCaseReference = 'APP/Z0116/D/20/3218465';
+		await mockedExternalApis.mockHorizonCreateAppealResponse(500, mockedCaseReference);
+
+		// When: we submit the appeal to the back office
+		const submittedToBackOfficeResponse = await appealsApi.put(
+			`/api/v1/back-office/appeals/${createdAppeal.id}`
+		);
+
+		// And: the appeal is then retrieved from the appeals API
+		const retrievedAppealResponse = await appealsApi.get(`/api/v1/appeals/${createdAppeal.id}`);
+
+		// Then: we expect a 504 status code in the response
+		expect(submittedToBackOfficeResponse.status).toEqual(504)
+
+		// And: the status code for the retrieval request should be 200
+		expect(retrievedAppealResponse.status).toBe(200);
+
+		// And: the appeal should not have been updated
+		expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
+
+		// And: Horizon has been interacted with as expected
+		const createOrganisationInteractions = condition
+			.expectations
+			.createOrganisationInHorizonRequests
+			.map(expectation => HorizonInteraction.getCreateOrganisationInteraction(expectation))
+		;
+
+		const createContactInteractions = condition
+			.expectations
+			.createContactInHorizonRequests
+			.map((expectation) => HorizonInteraction.getCreateContactInteraction(expectation))
+		;
+
+		const createAppealInteraction = HorizonInteraction.getCreateAppealInteraction(condition.expectations.createAppealInHorizonRequest);
+
+		expectedHorizonInteractions = [
+			...createOrganisationInteractions, 
+			...createContactInteractions,
+			createAppealInteraction
+		]
+		expectedNotifyInteractions = []
+		expectedMessages = []
+	})
+
+	it("should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when uploading the appeals document's", async () => {
+		
+		const condition = householderAppealConditions[0];
+
+		// Given: that we use the Horizon integration back office strategy
+		isFeatureActive.mockImplementation(() => {
+			return true;
+		});
+
+		// And: an appeal is created that is not known to the back office
+		condition.setHorizonId(condition.appeal.actual);
+		condition.appeal.actual.lpaCode = condition.lpa.code;
+		const createAppealResponse = await _createAppeal(condition.appeal.actual);
+		let createdAppeal = createAppealResponse.body;
+
+		// And: the documents API is mocked
+		condition.appeal.documents.forEach(async (document) => {
+			await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
+		});
+
+		// And: Horizon's create organisation endpoint is mocked to return a 200
+		for(let i in condition.expectations.createOrganisationInHorizonRequests) {
+			const mockedOrganisationId = `O_${i}`;
+			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId);
+		}
+
+		// And: Horizon's create contact endpoint is mocked to return a 200
+		for(let i in condition.expectations.createContactInHorizonRequests) {
+			const mockedContactId = `P_${i}`;
+			await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedContactId);
+		}
+
+		// And: Horizon's create appeal endpoint is mocked to return a 200
+		const mockedCaseReference = 'APP/Z0116/D/20/3218465';
+		await mockedExternalApis.mockHorizonCreateAppealResponse(200, mockedCaseReference);
+
+		// And: Horizon's upload documents endpoint is mocked to return a 500
+		condition.appeal.documents.forEach(async (document) => {
+			await mockedExternalApis.mockHorizonUploadDocumentResponse(500, document);
+		})
+
+		// When: we submit the appeal to the back office
+		const submittedToBackOfficeResponse = await appealsApi.put(
+			`/api/v1/back-office/appeals/${createdAppeal.id}`
+		);
+
+		// And: the appeal is then retrieved from the appeals API
+		const retrievedAppealResponse = await appealsApi.get(`/api/v1/appeals/${createdAppeal.id}`);
+
+		// Then: we expect a 504 status code in the response
+		expect(submittedToBackOfficeResponse.status).toEqual(504)
+
+		// And: the status code for the retrieval request should be 200
+		expect(retrievedAppealResponse.status).toBe(200);
+
+		// And: the appeal should not have been updated
+		expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
+
+		// And: Horizon has been interacted with as expected
+		const createOrganisationInteractions = condition
+			.expectations
+			.createOrganisationInHorizonRequests
+			.map(expectation => HorizonInteraction.getCreateOrganisationInteraction(expectation))
+		;
+
+		const createContactInteractions = condition
+			.expectations
+			.createContactInHorizonRequests
+			.map((expectation) => HorizonInteraction.getCreateContactInteraction(expectation))
+		;
+
+		const createAppealInteraction = HorizonInteraction.getCreateAppealInteraction(condition.expectations.createAppealInHorizonRequest);
+
+		const createDocumentInteraction = HorizonInteraction.getCreateDocumentInteraction(
+			"3218465", // last 7 digits of mocked case reference
+			condition.appeal.documents[0],
+			true
+		);
+		
+		expectedHorizonInteractions = [
+			...createOrganisationInteractions, 
+			...createContactInteractions,
+			createAppealInteraction,
+			createDocumentInteraction
+		]
+		expectedNotifyInteractions = []
+		expectedMessages = []
+	})
 
 	it.each([
 		['a blank Horizon ID field', (appeal) => (appeal.horizonId = '')],
@@ -670,15 +822,16 @@ describe('Back Office', () => {
 	])(
 		'should submit an appeal to the back office message queue and send emails to the appellant and case worker when we create and submit an appeal that has %p.',
 		async (horizonIdContext, setHorizonIdOnAppeal) => {
+			
 			// Given: that we use the message queue back-office strategy
 			isFeatureActive.mockImplementation(() => {
 				return false;
 			});
 
 			// And: an appeal is created that is not known to the back office
-			const householderAppeal = newHouseholderAppeal();
+			const householderAppeal = appealFixtures.newHouseholderAppeal();
 			setHorizonIdOnAppeal(householderAppeal);
-			const savedAppealResponse = await _createAppeal();
+			const savedAppealResponse = await _createAppeal(householderAppeal);
 			let savedAppeal = savedAppealResponse.body;
 
 			// When: the appeal is submitted to the back office
@@ -731,7 +884,7 @@ describe('Back Office', () => {
 					testLpaNameEngland
 				)
 				.addJsonValueExpectation(
-					JsonPathExpression.create("$.personalisation['pdf copy URL']"),
+					JsonPathExpression.create("$.personalisation['link to pdf']"),
 					`${process.env.APP_APPEALS_BASE_URL}/document/${householderAppeal.id}/${householderAppeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
 				);
 
@@ -791,7 +944,7 @@ describe('Back Office', () => {
 
 	it('should not submit an appeal to the back office, if the appeal is known and has a Horizon ID', async () => {
 		// Given: an appeal is created and known to the back office
-		const householderAppeal = newHouseholderAppeal();
+		const householderAppeal = appealFixtures.newHouseholderAppeal();
 		householderAppeal.horizonId = 'itisknown';
 		const savedAppealResponse = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
@@ -1101,6 +1254,7 @@ describe('Final comments', () => {
 		// And: there should be no data on the message queue
 		expectedMessages = [];
 	});
+
 	it('should return 403 if the case reference specified does map to a known final comment, but the final comment window is no longer open', async () => {
 		// Given: a request to create a final comments entry for a case
 		const caseReference = uuid.v4();
@@ -1217,7 +1371,7 @@ describe('Final comments', () => {
 	});
 });
 
-const _createAppeal = async (householderAppeal = newHouseholderAppeal()) => {
+const _createAppeal = async (householderAppeal = appealFixtures.newHouseholderAppeal()) => {
 	const appealCreatedResponse = await appealsApi.post('/api/v1/appeals');
 	const appealCreated = appealCreatedResponse.body;
 

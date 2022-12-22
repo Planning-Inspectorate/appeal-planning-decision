@@ -35,15 +35,20 @@ class FinalCommentsService {
 	 * @returns {Promise<boolean>}
 	 */
 	async createFinalComments(caseReference, appellantEmail) {
+		logger.debug(`Attempting to create final comment with case reference ${caseReference}`)
 		const finalCommentWithCaseReference = await this.#finalCommentsRepository.getByCaseReference(
 			caseReference
 		);
 		if (finalCommentWithCaseReference) {
+			logger.debug(`A final comment with case reference ${caseReference} already exists`)
 			return false;
 		}
 
+		logger.debug(`No final comment with case reference ${caseReference} exisits, creating an entity in the repository`)
 		const finalCommentsToSave = new FinalCommentsAggregate(caseReference, appellantEmail);
+		logger.debug(finalCommentsToSave, 'Final comment entity to create')
 		await this.#finalCommentsRepository.create(finalCommentsToSave);
+		logger.debug(`Created final comment`)
 		return true;
 	}
 
@@ -91,7 +96,7 @@ class FinalCommentsService {
 			caseReference
 		);
 		if (finalCommentsFound == null) {
-			logger.info(`Final comments not found for appeal with case reference ${caseReference}.`);
+			logger.debug(`Final comments not found for appeal with case reference ${caseReference}.`);
 			throw new FinalCommentsNotEnabledError(caseReference);
 		}
 		return finalCommentsFound;
