@@ -1,17 +1,7 @@
 const logger = require('../lib/logger');
+
+// TODO: Make the method names consistent, something like "create...Requests()"?
 class HorizonMapper {
-	#createOrganisationRequestJson = {
-		AddContact: {
-			__soap_op: 'http://tempuri.org/IContacts/AddContact',
-			__xmlns: 'http://tempuri.org/',
-			contact: {
-				'__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
-				'__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
-				'__i:type': 'a:HorizonAPIOrganisation',
-				'a:Name': { '__i:nil': 'true' }
-			}
-		}
-	};
 
 	/**
 	 * @return {any} Structure is:
@@ -21,22 +11,34 @@ class HorizonMapper {
 	 * }
 	 */
 	appealToCreateOrganisationRequests(appeal) {
-		let organisations = { appellant: { value: this.#createOrganisationRequestJson } };
+		logger.debug('Constructing create organisation requests for Horizon')
+		let result = { appellant: { value: this.#getCreateContactRequestJson() } };
 
-		const appealTypeID = appeal.appealType == null ? '1001' : appeal.appealType;
-		if (appealTypeID == '1005') {
-			logger.debug('Creating organisation request for full appeal')
-			organisations.appellant.value.AddContact.contact['a:Name'] =
+		const appealIsAFullAppeal = (appeal.appealType == '1005');
+
+		if (appealIsAFullAppeal) {
+			logger.debug('Create organisation request: doing this for a full appeal')
+			result.appellant.value.AddContact.contact['a:Name'] =
 				appeal.contactDetailsSection.contact.companyName;
+		}
 
-			if (!appeal.contactDetailsSection.isOriginalApplicant) {
-				organisations.agent.value = this.#createOrganisationRequestJson;
-				organisations.agent.value.AddContact.contact['a:Name'] =
-					appeal.contactDetailsSection.appealingOnBehalfOf.companyName;
+		const anAgentIsAppeallingOnBehalfOfAnAppellant = appealIsAFullAppeal ?
+			!appeal.contactDetailsSection.isOriginalApplicant :
+			!appeal.aboutYouSection.yourDetails.isOriginalApplicant
+		
+		if (anAgentIsAppeallingOnBehalfOfAnAppellant) {
+			logger.debug('Create organisation request: appeal has an agent defined')
+			result.agent = { value: this.#getCreateContactRequestJson() }
+
+			if (appealIsAFullAppeal) {
+				logger.debug(`Changing appellant's organisation name to ${appeal.contactDetailsSection.appealingOnBehalfOf.companyName}`)
+				result.appellant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.appealingOnBehalfOf.companyName;
+				result.agent.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName;
 			}
 		}
 
-		return organisations;
+		logger.debug(result, 'Create organisation requests for Horizon')
+		return result;
 	}
 
 	/**
@@ -59,6 +61,8 @@ class HorizonMapper {
 		const appealTypeID = appeal.appealType == null ? '1001' : appeal.appealType;
 
 		let contacts = [];
+
+		// TODO: simplify this beast
 		if (appealTypeID == '1001') {
 			logger.debug(`Extracting contacts from householder appeal`);
 			if (appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
@@ -73,16 +77,16 @@ class HorizonMapper {
 				/* User is agent - add both agent and OP */
 				contacts.push(
 					{
-						type: 'Agent',
-						email: appeal.email,
-						name: appeal.aboutYouSection.yourDetails.name,
-						organisationId: organisations.agent
-					},
-					{
 						/* Email not collected here */
 						type: 'Appellant',
 						name: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf,
 						organisationId: organisations.appellant
+					},
+					{
+						type: 'Agent',
+						email: appeal.email,
+						name: appeal.aboutYouSection.yourDetails.name,
+						organisationId: organisations.agent
 					}
 				);
 			}
@@ -99,22 +103,22 @@ class HorizonMapper {
 				/* User is agent - add both agent and OP */
 				contacts.push(
 					{
-						type: 'Agent',
-						email: appeal.email,
-						name: appeal.contactDetailsSection.contact.name,
-						organisationId: organisations.agent
-					},
-					{
 						/* Email not collected here */
 						type: 'Appellant',
 						name: appeal.contactDetailsSection.appealingOnBehalfOf.name,
 						organisationId: organisations.appellant
+					},
+					{
+						type: 'Agent',
+						email: appeal.email,
+						name: appeal.contactDetailsSection.contact.name,
+						organisationId: organisations.agent
 					}
 				);
 			}
 		}
 
-		logger.debug(`Contacts to map into Horizon request: ${JSON.stringify(contacts)}`);
+		logger.debug(contacts, `Contacts to map into Horizon request`);
 
 		return contacts.map((contact) => {
 			let [firstName, ...lastName] = contact.name.split(' ');
@@ -275,216 +279,99 @@ class HorizonMapper {
 		};
 	}
 
+	#getCreateContactRequestJson() {
+		return {
+			AddContact: {
+				__soap_op: 'http://tempuri.org/IContacts/AddContact',
+				__xmlns: 'http://tempuri.org/',
+				contact: {
+					'__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
+					'__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
+					'__i:type': 'a:HorizonAPIOrganisation',
+					'a:Name': { '__i:nil': 'true' }
+				}
+			}
+		}
+	}
+
 	// TODO: this could be refactored so its easier to understand by coding it in a way that says:
 	//       "I should return casework reason 1 if the following applies, I should return casework
 	//       2 if the following applies..." etc. Then, the casework reason is defined once, so there
 	//       is less chance of an issue with casework values being incorrect.
 	#getCaseworkReason(appealTypeID, decision, typePlanningApplication) {
-		// TODO: in this case, no matter what the appeal type is, if you were refused a householder planning or full appeal, return 1.
+
+		// NOTE: This information needs to be correct so, to reduce the risk of human error 
+		//       (misspelling across instances, missing an instance when updating a reason, etc.),
+		//       this method implemented so that casework reasons are only defined once. It also
+		//       makes the logic much easier to code and understand too since we're able to discount
+		//       appeal types for the first 3 reasons approaching the logic in this way.
 		if (
-			(appealTypeID == '1001' &&
-				decision == 'refused' &&
-				typePlanningApplication == 'householder-planning') ||
-			(appealTypeID == '1005' && decision == 'refused' && typePlanningApplication == 'full-appeal')
+			decision == 'refused' &&
+			(
+				(appealTypeID == '1001' && typePlanningApplication == 'householder-planning') ||
+				(appealTypeID == '1005' && typePlanningApplication == 'full-appeal')
+			)
 		) {
 			return '1. Refused planning permission for the development';
 		}
 
-		// TODO: in this case, no matter what the appeal type is, if you were refused a removal-or-variation-of-conditions, return 2.
-		if (
-			(appealTypeID == '1001' &&
-				decision == 'refused' &&
-				typePlanningApplication == 'removal-or-variation-of-conditions') ||
-			(appealTypeID == '1005' &&
-				decision == 'refused' &&
-				typePlanningApplication == 'removal-or-variation-of-conditions')
-		) {
+		if (decision == 'refused' && typePlanningApplication == 'removal-or-variation-of-conditions') {
 			return '2. Refused permission to vary or remove a condition(s)';
 		}
 
-		// TODO: in this case, no matter what the appeal type is, if you were refused a prior-approval, return 3.
-		if (
-			(appealTypeID == '1001' &&
-				decision == 'refused' &&
-				typePlanningApplication == 'prior-approval') ||
-			(appealTypeID == '1005' &&
-				decision == 'refused' &&
-				typePlanningApplication == 'prior-approval')
-		) {
+		if (decision == 'refused' && typePlanningApplication == 'prior-approval') {
 			return '3. Refused prior approval of permitted development rights';
 		}
 
-		// TODO: a single check on appealType and decision, and then ORs on application type
-		if (
-			(appealTypeID == '1005' &&
+		if(appealTypeID == '1005') {
+			if (
 				decision == 'granted' &&
-				typePlanningApplication == 'householder-planning') ||
-			(appealTypeID == '1005' &&
-				decision == 'granted' &&
-				typePlanningApplication == 'full-appeal') ||
-			(appealTypeID == '1005' &&
-				decision == 'granted' &&
-				typePlanningApplication == 'prior-approval')
-		) {
-			return '4. Granted planning permission for the development subject to conditions to which you object';
-		}
+				(
+					(typePlanningApplication == 'householder-planning') ||
+					(typePlanningApplication == 'full-appeal') ||
+					(typePlanningApplication == 'prior-approval')
+				)
+			) {
+				return '4. Granted planning permission for the development subject to conditions to which you object';
+			}
 
-		// TODO: a single check on appealType and decision, and then ORs on application type
-		if (
-			(appealTypeID == '1005' &&
+			if (
 				decision == 'refused' &&
-				typePlanningApplication == 'outline-planning') ||
-			(appealTypeID == '1005' &&
-				decision == 'refused' &&
-				typePlanningApplication == 'reserved-matters')
-		) {
-			return '5. Refused approval of the matters reserved under an outline planning permission';
-		}
+				(
+					(typePlanningApplication == 'outline-planning') ||
+					(typePlanningApplication == 'reserved-matters')
+				)
+			) {
+				return '5. Refused approval of the matters reserved under an outline planning permission';
+			}
 
-		// TODO: a single check on appealType and decision, and then ORs on application type
-		if (
-			(appealTypeID == '1005' &&
+			if (
 				decision == 'granted' &&
-				typePlanningApplication == 'outline-planning') ||
-			(appealTypeID == '1005' &&
-				decision == 'granted' &&
-				typePlanningApplication == 'reserved-matters') ||
-			(appealTypeID == '1005' &&
-				decision == 'granted' &&
-				typePlanningApplication == 'removal-or-variation-of-conditions')
-		) {
-			return '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
+				(
+					(typePlanningApplication == 'outline-planning') ||
+					(typePlanningApplication == 'reserved-matters') ||
+					(typePlanningApplication == 'removal-or-variation-of-conditions')
+				)
+			) {
+				return '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
+			}
+
+			// TODO: There is no 7 (spoon) ¯\_(ツ)_/¯ Is this correct?!
+
+			if (
+				decision == 'nodecisionreceived' &&
+				(
+					(typePlanningApplication == 'householder-planning') ||
+					(typePlanningApplication == 'full-appeal') ||
+					(typePlanningApplication == 'outline-planning') ||
+					(typePlanningApplication == 'prior-approval') ||
+					(typePlanningApplication == 'reserved-matters') ||
+					(typePlanningApplication == 'removal-or-variation-of-conditions')
+				)
+			) {
+				return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
+			}
 		}
-
-		// TODO: There is no 7 (spoon) ¯\_(ツ)_/¯ Is this correct?!
-
-		// TODO: a single check on appealType and decision, and then ORs on application type
-		if (
-			(appealTypeID == '1005' &&
-				decision == 'nodecisionreceived' &&
-				typePlanningApplication == 'householder-planning') ||
-			(appealTypeID == '1005' &&
-				decision == 'nodecisionreceived' &&
-				typePlanningApplication == 'full-appeal') ||
-			(appealTypeID == '1005' &&
-				decision == 'nodecisionreceived' &&
-				typePlanningApplication == 'outline-planning') ||
-			(appealTypeID == '1005' &&
-				decision == 'nodecisionreceived' &&
-				typePlanningApplication == 'prior-approval') ||
-			(appealTypeID == '1005' &&
-				decision == 'nodecisionreceived' &&
-				typePlanningApplication == 'reserved-matters') ||
-			(appealTypeID == '1005' &&
-				decision == 'nodecisionreceived' &&
-				typePlanningApplication == 'removal-or-variation-of-conditions')
-		) {
-			return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
-		}
-
-		//  switch (appealTypeID) {
-		//     case '1001': {
-		//         // Householder (HAS) Appeal
-		//         if (decision === 'refused') {
-		//             if (typePlanningApplication === 'householder-planning') {
-		//                 return '1. Refused planning permission for the development';
-		//             } else if (typePlanningApplication === 'removal-or-variation-of-conditions') {
-		//                 return '2. Refused permission to vary or remove a condition(s)';
-		//             } else if (typePlanningApplication === 'prior-approval') {
-		//                 return '3. Refused prior approval of permitted development rights';
-		//             }
-		//         }
-
-		//         break;
-		//     }
-
-		//     case '1005': {
-		//         // Full Planning Appeal
-		//         switch (typePlanningApplication) {
-		//             case 'householder-planning': {
-		//                 if (decision === 'granted') {
-		//                     return '4. Granted planning permission for the development subject to conditions to which you object';
-		//                 } else if (decision === 'nodecisionreceived') {
-		//                     return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
-		//                 }
-
-		//                 break;
-		//             }
-
-		//             case 'full-appeal': {
-		//                 if (decision === 'granted') {
-		//                     return '4. Granted planning permission for the development subject to conditions to which you object';
-		//                 } else if (decision === 'refused') {
-		//                     return '1. Refused planning permission for the development';
-		//                 } else if (decision === 'nodecisionreceived') {
-		//                     return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
-		//                 }
-
-		//                 break;
-		//             }
-
-		//             case 'outline-planning': {
-		//                 if (decision === 'granted') {
-		//                     return '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
-		//                 } else if (decision === 'refused') {
-		//                     return '5. Refused approval of the matters reserved under an outline planning permission';
-		//                 } else if (decision === 'nodecisionreceived') {
-		//                     return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
-		//                 }
-
-		//                 break;
-		//             }
-
-		//             case 'prior-approval': {
-		//                 if (decision === 'granted') {
-		//                     return '4. Granted planning permission for the development subject to conditions to which you object';
-		//                 } else if (decision === 'refused') {
-		//                     return '3. Refused prior approval of permitted development rights';
-		//                 } else if (decision === 'nodecisionreceived') {
-		//                     return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
-		//                 }
-
-		//                 break;
-		//             }
-
-		//             case 'reserved-matters': {
-		//                 if (decision === 'granted') {
-		//                     return '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
-		//                 } else if (decision === 'refused') {
-		//                     return '5. Refused approval of the matters reserved under an outline planning permission';
-		//                 } else if (decision === 'nodecisionreceived') {
-		//                     return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
-		//                 }
-
-		//                 break;
-		//             }
-
-		//             case 'removal-or-variation-of-conditions': {
-		//                 if (decision === 'granted') {
-		//                     return '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
-		//                 } else if (decision === 'refused') {
-		//                     return '2. Refused permission to vary or remove a condition(s)';
-		//                 } else if (decision === 'nodecisionreceived') {
-		//                     return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
-		//                 }
-
-		//                 break;
-		//             }
-
-		//             default: {
-		//                 break;
-		//             }
-		//         }
-
-		//         break;
-		//     }
-
-		//     default: {
-		//         break;
-		//     }
-		// }
-
-		return null;
 	}
 
 	#getAppealType(appealTypeId) {
@@ -494,134 +381,87 @@ class HorizonMapper {
 	}
 
 	#getAttributes(appealTypeId, appeal, caseworkReason) {
+		let caseProcedureAppellantValue = null;
+		let caseSiteOwnershipCertificateValue = null;
+		let caseSiteViewableFromRoadValue = null;
+		let caseSiteInspectorNeedsToEnterSiteValue = null;
+
 		if (appealTypeId == '1001') {
-			return [
-				{
-					key: 'Case:Casework Reason',
-					// This is the last time the record was updated
-					value: caseworkReason
-				},
-				{
-					key: 'Case Dates:Receipt Date',
-					// This is the last time the record was updated
-					value: new Date(appeal.updatedAt)
-				},
-				{
-					key: 'Case:Source Indicator',
-					value: 'Other'
-				},
-				{
-					key: 'Case:Case Publish Flag',
-					value: false
-				},
-				{
-					key: 'Planning Application:Date Of LPA Decision',
-					value: new Date(appeal.decisionDate)
-				},
-				{
-					key: 'Case:Procedure (Appellant)',
-					value: 'Written Representations'
-				},
-				{
-					key: 'Planning Application:LPA Application Reference',
-					value: appeal.planningApplicationNumber
-				},
-				{
-					key: 'Case Site:Site Address Line 1',
-					value: appeal.appealSiteSection.siteAddress.addressLine1
-				},
-				{
-					key: 'Case Site:Site Address Line 2',
-					value: appeal.appealSiteSection.siteAddress.addressLine2
-				},
-				{
-					key: 'Case Site:Site Address Town',
-					value: appeal.appealSiteSection.siteAddress.town
-				},
-				{
-					key: 'Case Site:Site Address County',
-					value: appeal.appealSiteSection.siteAddress.county
-				},
-				{
-					key: 'Case Site:Site Address Postcode',
-					value: appeal.appealSiteSection.siteAddress.postcode
-				},
-				{
-					key: 'Case Site:Ownership Certificate',
-					value: appeal.appealSiteSection.siteOwnership.ownsWholeSite ? 'Certificate A' : null
-				},
-				{
-					key: 'Case Site:Site Viewable From Road',
-					value: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
-				},
-				{
-					key: 'Case Site:Inspector Need To Enter Site',
-					value: !appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
-				}
-			];
-		} else if (appealTypeId == '1005') {
-			return [
-				{
-					key: 'Case Dates:Receipt Date',
-					// This is the last time the record was updated
-					value: new Date(appeal.updatedAt)
-				},
-				{
-					key: 'Case:Source Indicator',
-					value: 'Other'
-				},
-				{
-					key: 'Case:Case Publish Flag',
-					value: false
-				},
-				{
-					key: 'Planning Application:Date Of LPA Decision',
-					value: new Date(appeal.decisionDate)
-				},
-				{
-					key: 'Case:Procedure (Appellant)',
-					value: appeal.appealDecisionSection.procedureType
-				},
-				{
-					key: 'Planning Application:LPA Application Reference',
-					value: appeal.planningApplicationDocumentsSection.applicationNumber
-				},
-				{
-					key: 'Case Site:Site Address Line 1',
-					value: appeal.appealSiteSection.siteAddress.addressLine1
-				},
-				{
-					key: 'Case Site:Site Address Line 2',
-					value: appeal.appealSiteSection.siteAddress.addressLine2
-				},
-				{
-					key: 'Case Site:Site Address Town',
-					value: appeal.appealSiteSection.siteAddress.town
-				},
-				{
-					key: 'Case Site:Site Address County',
-					value: appeal.appealSiteSection.siteAddress.county
-				},
-				{
-					key: 'Case Site:Site Address Postcode',
-					value: appeal.appealSiteSection.siteAddress.postcode
-				},
-				{
-					key: 'Case Site:Ownership Certificate',
-					value: appeal.appealSiteSection.siteOwnership.ownsAllTheLand ? 'Certificate A' : null
-				},
-				{
-					key: 'Case Site:Site Viewable From Road',
-					value: appeal.appealSiteSection.visibleFromRoad.isVisible
-				}
-				// {
-				//   key: 'Case Site:Inspector Need To Enter Site',
-				//   value: !appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
-				// },
-			];
+			caseProcedureAppellantValue = 'Written Representations'
+			caseSiteOwnershipCertificateValue = appeal.appealSiteSection.siteOwnership.ownsWholeSite
+			caseSiteViewableFromRoadValue = appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
+			caseSiteInspectorNeedsToEnterSiteValue = !caseSiteViewableFromRoadValue
+		} else if(appealTypeId == '1005') {
+			caseProcedureAppellantValue = appeal.appealDecisionSection.procedureType
+			caseSiteOwnershipCertificateValue = appeal.appealSiteSection.siteOwnership.ownsAllTheLand
+			caseSiteViewableFromRoadValue = appeal.appealSiteSection.visibleFromRoad.isVisible
+			caseSiteInspectorNeedsToEnterSiteValue = !caseSiteViewableFromRoadValue
 		} else {
 			return [];
 		}
+		
+		return [
+			{
+				key: 'Case:Casework Reason',
+				value: caseworkReason
+			},
+			{
+				key: 'Case Dates:Receipt Date',
+				value: new Date(appeal.updatedAt)
+			},
+			{
+				key: 'Case:Source Indicator',
+				value: 'Other'
+			},
+			{
+				key: 'Case:Case Publish Flag',
+				value: false
+			},
+			{
+				key: 'Planning Application:Date Of LPA Decision',
+				value: new Date(appeal.decisionDate)
+			},
+			{
+				key: 'Case:Procedure (Appellant)',
+				value: caseProcedureAppellantValue
+			},
+			{
+				key: 'Planning Application:LPA Application Reference',
+				value: appeal.planningApplicationNumber
+			},
+			{
+				key: 'Case Site:Site Address Line 1',
+				value: appeal.appealSiteSection.siteAddress.addressLine1
+			},
+			{
+				key: 'Case Site:Site Address Line 2',
+				value: appeal.appealSiteSection.siteAddress.addressLine2
+			},
+			{
+				key: 'Case Site:Site Address Town',
+				value: appeal.appealSiteSection.siteAddress.town
+			},
+			{
+				key: 'Case Site:Site Address County',
+				value: appeal.appealSiteSection.siteAddress.county
+			},
+			{
+				key: 'Case Site:Site Address Postcode',
+				value: appeal.appealSiteSection.siteAddress.postcode
+			},
+			{
+				key: 'Case Site:Ownership Certificate',
+				value: caseSiteOwnershipCertificateValue ? 'Certificate A' : null
+			},
+			{
+				key: 'Case Site:Site Viewable From Road',
+				value: caseSiteViewableFromRoadValue
+			},
+			{
+				key: 'Case Site:Inspector Need To Enter Site',
+				value: caseSiteInspectorNeedsToEnterSiteValue
+			}
+		];
 	}
 
 	#convertToSoapKVPair(key, value) {

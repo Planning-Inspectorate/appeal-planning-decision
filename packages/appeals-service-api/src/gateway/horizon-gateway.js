@@ -2,6 +2,7 @@ const config = require('../configuration/config');
 const axios = require('axios');
 const logger = require('../lib/logger');
 const { HorizonMapper } = require('../mappers/horizon-mapper');
+const ApiError = require('../errors/apiError');
 
 class HorizonGateway {
 	#horizonMapper;
@@ -28,13 +29,11 @@ class HorizonGateway {
 		const result = {};
 		for (const key in createOrganisationRequestJson) {
 			const request = createOrganisationRequestJson[key].value;
-			logger.debug(request,`Horizon create organisation request to send to '${createOrganisationUrl}'`);
-			const createOrganisationResponse = await axios.post(createOrganisationUrl, request);
-			result[key] =
-				createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
+			const createOrganisationResponse = await this.#makeRequestAndHandleAnyErrors(createOrganisationUrl, request, 'create organisation')
+			result[key] = createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
+			logger.debug(result, `Create organisations result`);
 		}
 
-		logger.debug(result, `Create organisations result`);
 		return result;
 	}
 
@@ -46,11 +45,11 @@ class HorizonGateway {
 		const result = [];
 		for (const key in createContactRequestJson) {
 			const request = createContactRequestJson[key].requestBody;
-			logger.debug(request, `Horizon create contact request to send to '${createContactUrl}'`);
-			const createContactResponse = await axios.post(createContactUrl, request);
+			const createContactResponse = await this.#makeRequestAndHandleAnyErrors(createContactUrl, request, 'create contact');
 			const personId =
 				createContactResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
 
+			//TODO: this result structure should occur in the create Appeal mapper, we should just return the personId for this method. 
 			result.push({
 				key: 'Case Involvement:Case Involvement',
 				value: [
@@ -97,10 +96,7 @@ class HorizonGateway {
 			appealCountry
 		);
 
-		const createAppealResponse = await axios.post(
-			`${config.services.horizon.url}/horizon`,
-			appealCreationRequest
-		);
+		const createAppealResponse = await this.#makeRequestAndHandleAnyErrors(`${config.services.horizon.url}/horizon`, appealCreationRequest, 'create appeal');
 
 		// case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
 		const horizonFullCaseId =
@@ -122,14 +118,9 @@ class HorizonGateway {
 		const url = `${config.services.horizon.url}/horizon`;
 		for (const document of documents) {
 			const addDocumentRequest = this.#horizonMapper.toCreateDocumentRequest(document, appealCaseReference)
-			logger.debug(addDocumentRequest, `Create document request to send to Horizon URL ${url}`);
-			const { data } = await axios.post(url,addDocumentRequest,
-				{
-					/* Needs to be infinity as Horizon doesn't support multipart uploads */
-					maxBodyLength: Infinity
-				}
-			);
-
+			
+			// `maxBodyLength` specified as an option since Horizon doesn't support multipart uploads
+			const { data } = await this.#makeRequestAndHandleAnyErrors(url, addDocumentRequest, 'add document', { maxBodyLength: Infinity });
 			logger.debug(data, 'Upload document response');
 		};
 
@@ -139,7 +130,7 @@ class HorizonGateway {
 
 	//TODO: this should return an as-of-yet non-existent `HorizonAppealDto` instance.
 	async getAppeal(caseReference) {
-		logger.debug(`Getting case with reference '${caseReference}' from Horizon`);
+		const url = `${config.services.horizon.url}/horizon`
 
 		if (caseReference == false) {
 			logger.debug(`No case reference specified for Horizon case retrieval`);
@@ -154,20 +145,29 @@ class HorizonGateway {
 			}
 		};
 
-		logger.debug(`Horizon request: ${JSON.stringify(requestBody)}`);
-
-		const horizonAppeal = await axios
-			.post(config.services.horizon.url, requestBody)
-			.catch(function (error) {
-				logger.error(`Horizon responded with error ${JSON.stringify(error)}`);
-			});
-
-		if (horizonAppeal) {
-			logger.debug(`Case found in Horizon: ${JSON.stringify(horizonAppeal.data)}`);
+		try {
+			logger.debug(requestBody, `Sending get case request to Horizon via URL ${url} with body`);
+			const horizonAppeal = await axios.post(url, requestBody)
+			logger.debug(horizonAppeal.data, `Horizon get case response`);
 			return horizonAppeal.data;
-		}
+		} catch(error) {
+			logger.error(error, `Horizon get case request responded with the following error`);
+		};
 
 		return {};
+	}
+
+	async #makeRequestAndHandleAnyErrors(url, body, descriptionOfRequest, options = null){
+		logger.debug(body ,`Sending ${descriptionOfRequest} request to Horizon via '${url}' with body`);
+
+		try {
+			return await axios.post(url, body, options)
+		} catch (error) {
+			if (error.response) {
+				logger.error(error.response.data, `Horizon returned a ${error.response.status} status code when attempting to ${descriptionOfRequest}. Response is below`)
+				throw new ApiError(504, 'Error when contacting Horizon');
+			}
+		}
 	}
 }
 

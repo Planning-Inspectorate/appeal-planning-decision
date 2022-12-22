@@ -1,9 +1,10 @@
-import { Interaction } from './interaction';
+import { Interaction } from './interactions/interaction';
 import { expect } from '@jest/globals';
 import jp from 'jsonpath';
 import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
 import axios from 'axios';
 import logger from '../../../logger';
+import { JsonPathExpression } from './json-path-expression';
 
 /**
  * This class is intended to act as a mocking interface for all external APIs that the
@@ -79,7 +80,7 @@ export class MockedExternalApis {
 		expectedInteractions: Array<Interaction>,
 		actualInteractions: any
 	): void {
-		expect(expectedInteractions.length).toEqual(actualInteractions.length);
+		expect(actualInteractions.length).toEqual(expectedInteractions.length);
 
 		for (let i in expectedInteractions) {
 			const expectedInteraction = expectedInteractions[i];
@@ -87,15 +88,15 @@ export class MockedExternalApis {
 
 			const actualInteractionBody = this.getJsonFromRecordedRequest(actualInteraction);
 			const allKeysFromActualInteractionBody = this.getAllKeysFromJson(actualInteractionBody);
-			expect(expectedInteraction.getNumberOfKeysExpectedInJson()).toEqual(
-				allKeysFromActualInteractionBody.length
+			expect(allKeysFromActualInteractionBody.length).toEqual(
+				expectedInteraction.getNumberOfKeysExpectedInJson()
 			);
 
 			expectedInteraction
 				.getJsonPathStringsToExpectedValues()
-				.forEach((expectation, jsonPathExpression) => {
+				.forEach((expectation: Interaction, jsonPathExpression: JsonPathExpression) => {
 					const jsonKeyValue = jp.query(actualInteractionBody, jsonPathExpression.get())[0];
-					logger.info(`Check if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`)
+					logger.debug(`Check if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`)
 					if (expectation instanceof RegExp) {
 						expect(jsonKeyValue).toMatch(expectation);
 					} else {
@@ -142,18 +143,22 @@ export class MockedExternalApis {
 		return this.horizonUrl;
 	}
 
-	async mockHorizonCreateContactResponse(statusCode: number, organisationIdToReturn: string) {
-		let body = {
+	async mockHorizonCreateContactResponse(statusCode: number, idToReturn: string) {
+		let body: any = {
 			Envelope: {
 				Body: {
 					AddContactResponse: {
 						AddContactResult: {
-							value: organisationIdToReturn
+							value: idToReturn
 						}
 					}
 				}
 			}
 		};
+
+		if (statusCode >= 500) {
+			body = { error: `mocked bad response, ID: ${idToReturn}` };
+		}
 
 		const data = {
 			httpRequest: {
@@ -172,11 +177,12 @@ export class MockedExternalApis {
 				unlimited: true
 			}
 		};
-		return await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+
+		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
 	async mockHorizonCreateAppealResponse(statusCode: number, caseReferenceToReturn: string) {
-		let body = {
+		let body: any = {
 			Envelope: {
 				Body: {
 					CreateCaseResponse: {
@@ -187,6 +193,10 @@ export class MockedExternalApis {
 				}
 			}
 		};
+
+		if (statusCode >= 500) {
+			body = { error: `mocked bad response, case ref: ${caseReferenceToReturn}` };
+		}
 
 		const data = {
 			httpRequest: {
@@ -209,7 +219,7 @@ export class MockedExternalApis {
 	}
 
 	async mockHorizonUploadDocumentResponse(statusCode: number, document: any) {
-		let body = {
+		let body: any = {
 			Envelope: {
 				Body: {
 					AddDocumentsResponse: {
@@ -246,6 +256,10 @@ export class MockedExternalApis {
 				}
 			}
 		};
+
+		if (statusCode >= 500) {
+			body = { error: `mocked bad response for upload document Horizon endpoint` };
+		}
 
 		const data = {
 			httpRequest: {
@@ -337,14 +351,16 @@ export class MockedExternalApis {
 		const data = {
 			httpRequest: {
 				method: 'POST',
-				path: this.horizonEndpoint
+				path: `${this.horizonEndpoint}/horizon`
 			},
 			httpResponse: {
 				statusCode: statusCode,
 				body: body
 			}
 		};
-		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+		const response = await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+
+		logger.debug(response.data, 'Mock Horizon get case response')
 	}
 
 	private async getRecordedRequestsForHorizon(): Promise<Array<any>> {
@@ -354,6 +370,8 @@ export class MockedExternalApis {
 		const appealAndDocInteractions = await this.getResponsesForEndpoint(
 			`${this.horizonEndpoint}/horizon`
 		);
+
+		appealAndDocInteractions.forEach(x => logger.debug(x.body.json))
 
 		return [...contactAndOrgInteractions, ...appealAndDocInteractions];
 	}
@@ -375,6 +393,13 @@ export class MockedExternalApis {
 			httpResponse: {
 				statusCode: statusCode,
 				body: body
+			},
+			times: {
+				remainingTimes: 1,
+				unlimited: false
+			},
+			timeToLive: {
+				unlimited: true
 			}
 		};
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
