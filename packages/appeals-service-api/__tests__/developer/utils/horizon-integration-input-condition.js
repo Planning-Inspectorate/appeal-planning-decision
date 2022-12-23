@@ -51,6 +51,7 @@ class HorizonIntegrationInputCondition {
 		];
 
 		let condition = {
+			description: description,
 			setHorizonId: setHorizonIdFunction,
 			lpa: lpaExpectations,
 			appeal: {
@@ -179,7 +180,7 @@ class HorizonIntegrationInputCondition {
 			});
 		}
 
-		return [description, condition];
+		return condition;
 	}
 }
 

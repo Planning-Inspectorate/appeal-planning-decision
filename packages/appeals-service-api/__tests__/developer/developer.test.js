@@ -454,11 +454,8 @@ describe('Back Office', () => {
 	];
 
 	it.each([...householderAppealConditions, ...fullAppealConditions])(
-		'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload for %s)',
-		async (description, condition) => {
-			// description contains the string used to describe each test using %s above - it is not used in
-			// the test but is necessary to include it in the parameters to enable access to the condition object
-
+		'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload for: $description',
+		async (condition) => {
 			// Given: that we use the Horizon integration back office strategy
 			isFeatureActive.mockImplementation(() => {
 				return true;
@@ -636,7 +633,7 @@ describe('Back Office', () => {
 	);
 
 	it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating organisations', async () => {
-		const condition = householderAppealConditions[0][1];
+		const condition = householderAppealConditions[0];
 
 		// Given: that we use the Horizon integration back office strategy
 		isFeatureActive.mockImplementation(() => {
@@ -683,7 +680,7 @@ describe('Back Office', () => {
 	});
 
 	it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating contacts', async () => {
-		const condition = householderAppealConditions[0][1];
+		const condition = householderAppealConditions[0];
 
 		// Given: that we use the Horizon integration back office strategy
 		isFeatureActive.mockImplementation(() => {
@@ -739,7 +736,7 @@ describe('Back Office', () => {
 	});
 
 	it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating the appeal', async () => {
-		const condition = householderAppealConditions[0][1];
+		const condition = householderAppealConditions[0];
 
 		// Given: that we use the Horizon integration back office strategy
 		isFeatureActive.mockImplementation(() => {
@@ -807,7 +804,7 @@ describe('Back Office', () => {
 	});
 
 	it("should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when uploading the appeals document's", async () => {
-		const condition = householderAppealConditions[0][1];
+		const condition = householderAppealConditions[0];
 
 		// Given: that we use the Horizon integration back office strategy
 		isFeatureActive.mockImplementation(() => {
