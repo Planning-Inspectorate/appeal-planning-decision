@@ -39,6 +39,7 @@
           },
           id: "appellant-name",
           name: "appellant-name",
+					autocomplete: "name",
           value: section['name'],
           errorMessage: errors['appellant-name'] and {
             text: errors['appellant-name'].msg
@@ -55,6 +56,7 @@
           name: "appellant-company-name",
           spellcheck: false,
           value: section['companyName'],
+					autocomplete: "organisation-name",
           errorMessage: errors['appellant-company-name'] and {
             text: errors['appellant-company-name'].msg
           }
