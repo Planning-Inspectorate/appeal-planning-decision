@@ -31,7 +31,7 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form action="" method="post" novalidate{% if hasFileUpload %} encType="multipart/form-data"{% endif %}>
-        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{{ question.section }}</span>
+        <span class="govuk-caption-l">{{ question.section }}</span>
         {% block question %}{% endblock %}
 
         <div class="govuk-button-group">
