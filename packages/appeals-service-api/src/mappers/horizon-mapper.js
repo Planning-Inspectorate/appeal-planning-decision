@@ -2,7 +2,6 @@ const logger = require('../lib/logger');
 
 // TODO: Make the method names consistent, something like "create...Requests()"?
 class HorizonMapper {
-
 	/**
 	 * @return {any} Structure is:
 	 * {
@@ -11,33 +10,41 @@ class HorizonMapper {
 	 * }
 	 */
 	appealToCreateOrganisationRequests(appeal) {
-		logger.debug('Constructing create organisation requests for Horizon')
-		let result = { appellant: { value: this.#getCreateContactRequestJson() } };
+		logger.debug('Constructing create organisation requests for Horizon');
+		let result = {
+			appellant: { value: this.#getCreateContactRequestJson('a:HorizonAPIOrganisation') }
+		};
+		result.appellant.value.AddContact.contact['a:Name'] = { '__i:nil': 'true' };
 
-		const appealIsAFullAppeal = (appeal.appealType == '1005');
+		const appealIsAFullAppeal = appeal.appealType == '1005';
 
 		if (appealIsAFullAppeal) {
-			logger.debug('Create organisation request: doing this for a full appeal')
+			logger.debug('Create organisation request: doing this for a full appeal');
 			result.appellant.value.AddContact.contact['a:Name'] =
 				appeal.contactDetailsSection.contact.companyName;
 		}
 
-		const anAgentIsAppeallingOnBehalfOfAnAppellant = appealIsAFullAppeal ?
-			!appeal.contactDetailsSection.isOriginalApplicant :
-			!appeal.aboutYouSection.yourDetails.isOriginalApplicant
-		
+		const anAgentIsAppeallingOnBehalfOfAnAppellant = appealIsAFullAppeal
+			? !appeal.contactDetailsSection.isOriginalApplicant
+			: !appeal.aboutYouSection.yourDetails.isOriginalApplicant;
+
 		if (anAgentIsAppeallingOnBehalfOfAnAppellant) {
-			logger.debug('Create organisation request: appeal has an agent defined')
-			result.agent = { value: this.#getCreateContactRequestJson() }
+			logger.debug('Create organisation request: appeal has an agent defined');
+			result.agent = { value: this.#getCreateContactRequestJson('a:HorizonAPIOrganisation') };
+			result.agent.value.AddContact.contact['a:Name'] = { '__i:nil': 'true' };
 
 			if (appealIsAFullAppeal) {
-				logger.debug(`Changing appellant's organisation name to ${appeal.contactDetailsSection.appealingOnBehalfOf.companyName}`)
-				result.appellant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.appealingOnBehalfOf.companyName;
-				result.agent.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName;
+				logger.debug(
+					`Changing appellant's organisation name to ${appeal.contactDetailsSection.appealingOnBehalfOf.companyName}`
+				);
+				result.appellant.value.AddContact.contact['a:Name'] =
+					appeal.contactDetailsSection.appealingOnBehalfOf.companyName;
+				result.agent.value.AddContact.contact['a:Name'] =
+					appeal.contactDetailsSection.contact.companyName;
 			}
 		}
 
-		logger.debug(result, 'Create organisation requests for Horizon')
+		logger.debug(result, 'Create organisation requests for Horizon');
 		return result;
 	}
 
@@ -58,64 +65,48 @@ class HorizonMapper {
 	 *  }
 	 */
 	createContactRequests(appeal, organisations) {
-		const appealTypeID = appeal.appealType == null ? '1001' : appeal.appealType;
+		logger.debug('Constructing create contact requests for Horizon');
 
 		let contacts = [];
+		let appellant = {
+			type: 'Appellant',
+			organisationId: organisations.appellant
+		};
+		let agent;
 
-		// TODO: simplify this beast
-		if (appealTypeID == '1001') {
-			logger.debug(`Extracting contacts from householder appeal`);
-			if (appeal.aboutYouSection.yourDetails.isOriginalApplicant) {
-				/* User is original applicant - just add appellant */
-				contacts.push({
-					type: 'Appellant',
-					email: appeal.email,
-					name: appeal.aboutYouSection.yourDetails.name,
-					organisationId: organisations.appellant
-				});
+		const appealIsAFullAppeal = appeal.appealType == '1005';
+
+		if (appealIsAFullAppeal) {
+			appellant.name = appeal.contactDetailsSection.contact.name;
+		} else {
+			appellant.name = appeal.aboutYouSection.yourDetails.name;
+		}
+
+		const anAgentIsAppealingOnBehalfOfAnAppellant = appealIsAFullAppeal
+			? !appeal.contactDetailsSection.isOriginalApplicant
+			: !appeal.aboutYouSection.yourDetails.isOriginalApplicant;
+
+		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
+			agent = {
+				type: 'Agent',
+				email: appeal.email,
+				organisationId: organisations.agent
+			};
+			if (appealIsAFullAppeal) {
+				agent.name = appeal.contactDetailsSection.contact.name;
+				appellant.name = appeal.contactDetailsSection.appealingOnBehalfOf.name;
 			} else {
-				/* User is agent - add both agent and OP */
-				contacts.push(
-					{
-						/* Email not collected here */
-						type: 'Appellant',
-						name: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf,
-						organisationId: organisations.appellant
-					},
-					{
-						type: 'Agent',
-						email: appeal.email,
-						name: appeal.aboutYouSection.yourDetails.name,
-						organisationId: organisations.agent
-					}
-				);
+				agent.name = appeal.aboutYouSection.yourDetails.name;
+				appellant.name = appeal.aboutYouSection.yourDetails.appealingOnBehalfOf;
 			}
-		} else if (appealTypeID == '1005') {
-			if (appeal.contactDetailsSection.isOriginalApplicant) {
-				/* User is original applicant - just add appellant */
-				contacts.push({
-					type: 'Appellant',
-					email: appeal.email,
-					name: appeal.contactDetailsSection.contact.name,
-					organisationId: organisations.appellant
-				});
-			} else {
-				/* User is agent - add both agent and OP */
-				contacts.push(
-					{
-						/* Email not collected here */
-						type: 'Appellant',
-						name: appeal.contactDetailsSection.appealingOnBehalfOf.name,
-						organisationId: organisations.appellant
-					},
-					{
-						type: 'Agent',
-						email: appeal.email,
-						name: appeal.contactDetailsSection.contact.name,
-						organisationId: organisations.agent
-					}
-				);
-			}
+		} else {
+			appellant.email = appeal.email;
+		}
+
+		// appellant must be before agent in contacts array
+		contacts.push(appellant);
+		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
+			contacts.push(agent);
 		}
 
 		logger.debug(contacts, `Contacts to map into Horizon request`);
@@ -133,24 +124,16 @@ class HorizonMapper {
 				lastName = lastName.join(' ');
 			}
 
+			let requestBody = this.#getCreateContactRequestJson('a:HorizonAPIPerson');
+			requestBody.AddContact.contact['a:Email'] = contact?.email || { '__i:nil': 'true' };
+			requestBody.AddContact.contact['a:FirstName'] = firstName || '<Not provided>';
+			requestBody.AddContact.contact['a:LastName'] = lastName || '<Not provided>';
+			requestBody.AddContact.contact['a:OrganisationID'] = contact.organisationId;
+
 			return {
 				name: contact.name,
 				type: contact.type,
-				requestBody: {
-					AddContact: {
-						__soap_op: 'http://tempuri.org/IContacts/AddContact',
-						__xmlns: 'http://tempuri.org/',
-						contact: {
-							'__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
-							'__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
-							'__i:type': 'a:HorizonAPIPerson',
-							'a:Email': contact?.email || { '__i:nil': 'true' },
-							'a:FirstName': firstName || '<Not provided>',
-							'a:LastName': lastName || '<Not provided>',
-							'a:OrganisationID': contact.organisationId
-						}
-					}
-				}
+				requestBody: requestBody
 			};
 		});
 	}
@@ -279,7 +262,7 @@ class HorizonMapper {
 		};
 	}
 
-	#getCreateContactRequestJson() {
+	#getCreateContactRequestJson(type) {
 		return {
 			AddContact: {
 				__soap_op: 'http://tempuri.org/IContacts/AddContact',
@@ -287,11 +270,10 @@ class HorizonMapper {
 				contact: {
 					'__xmlns:a': 'http://schemas.datacontract.org/2004/07/Contacts.API',
 					'__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
-					'__i:type': 'a:HorizonAPIOrganisation',
-					'a:Name': { '__i:nil': 'true' }
+					'__i:type': type
 				}
 			}
-		}
+		};
 	}
 
 	// TODO: this could be refactored so its easier to understand by coding it in a way that says:
@@ -299,18 +281,15 @@ class HorizonMapper {
 	//       2 if the following applies..." etc. Then, the casework reason is defined once, so there
 	//       is less chance of an issue with casework values being incorrect.
 	#getCaseworkReason(appealTypeID, decision, typePlanningApplication) {
-
-		// NOTE: This information needs to be correct so, to reduce the risk of human error 
+		// NOTE: This information needs to be correct so, to reduce the risk of human error
 		//       (misspelling across instances, missing an instance when updating a reason, etc.),
 		//       this method implemented so that casework reasons are only defined once. It also
 		//       makes the logic much easier to code and understand too since we're able to discount
 		//       appeal types for the first 3 reasons approaching the logic in this way.
 		if (
 			decision == 'refused' &&
-			(
-				(appealTypeID == '1001' && typePlanningApplication == 'householder-planning') ||
-				(appealTypeID == '1005' && typePlanningApplication == 'full-appeal')
-			)
+			((appealTypeID == '1001' && typePlanningApplication == 'householder-planning') ||
+				(appealTypeID == '1005' && typePlanningApplication == 'full-appeal'))
 		) {
 			return '1. Refused planning permission for the development';
 		}
@@ -323,35 +302,29 @@ class HorizonMapper {
 			return '3. Refused prior approval of permitted development rights';
 		}
 
-		if(appealTypeID == '1005') {
+		if (appealTypeID == '1005') {
 			if (
 				decision == 'granted' &&
-				(
-					(typePlanningApplication == 'householder-planning') ||
-					(typePlanningApplication == 'full-appeal') ||
-					(typePlanningApplication == 'prior-approval')
-				)
+				(typePlanningApplication == 'householder-planning' ||
+					typePlanningApplication == 'full-appeal' ||
+					typePlanningApplication == 'prior-approval')
 			) {
 				return '4. Granted planning permission for the development subject to conditions to which you object';
 			}
 
 			if (
 				decision == 'refused' &&
-				(
-					(typePlanningApplication == 'outline-planning') ||
-					(typePlanningApplication == 'reserved-matters')
-				)
+				(typePlanningApplication == 'outline-planning' ||
+					typePlanningApplication == 'reserved-matters')
 			) {
 				return '5. Refused approval of the matters reserved under an outline planning permission';
 			}
 
 			if (
 				decision == 'granted' &&
-				(
-					(typePlanningApplication == 'outline-planning') ||
-					(typePlanningApplication == 'reserved-matters') ||
-					(typePlanningApplication == 'removal-or-variation-of-conditions')
-				)
+				(typePlanningApplication == 'outline-planning' ||
+					typePlanningApplication == 'reserved-matters' ||
+					typePlanningApplication == 'removal-or-variation-of-conditions')
 			) {
 				return '6. Granted approval of the matters reserved under an outline planning permission subject to conditions to which you object';
 			}
@@ -360,14 +333,12 @@ class HorizonMapper {
 
 			if (
 				decision == 'nodecisionreceived' &&
-				(
-					(typePlanningApplication == 'householder-planning') ||
-					(typePlanningApplication == 'full-appeal') ||
-					(typePlanningApplication == 'outline-planning') ||
-					(typePlanningApplication == 'prior-approval') ||
-					(typePlanningApplication == 'reserved-matters') ||
-					(typePlanningApplication == 'removal-or-variation-of-conditions')
-				)
+				(typePlanningApplication == 'householder-planning' ||
+					typePlanningApplication == 'full-appeal' ||
+					typePlanningApplication == 'outline-planning' ||
+					typePlanningApplication == 'prior-approval' ||
+					typePlanningApplication == 'reserved-matters' ||
+					typePlanningApplication == 'removal-or-variation-of-conditions')
 			) {
 				return '8. Failed to give notice of its decision within the appropriate period (usually 8 weeks) on an application for permission or approval';
 			}
@@ -387,19 +358,20 @@ class HorizonMapper {
 		let caseSiteInspectorNeedsToEnterSiteValue = null;
 
 		if (appealTypeId == '1001') {
-			caseProcedureAppellantValue = 'Written Representations'
-			caseSiteOwnershipCertificateValue = appeal.appealSiteSection.siteOwnership.ownsWholeSite
-			caseSiteViewableFromRoadValue = appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
-			caseSiteInspectorNeedsToEnterSiteValue = !caseSiteViewableFromRoadValue
-		} else if(appealTypeId == '1005') {
-			caseProcedureAppellantValue = appeal.appealDecisionSection.procedureType
-			caseSiteOwnershipCertificateValue = appeal.appealSiteSection.siteOwnership.ownsAllTheLand
-			caseSiteViewableFromRoadValue = appeal.appealSiteSection.visibleFromRoad.isVisible
-			caseSiteInspectorNeedsToEnterSiteValue = !caseSiteViewableFromRoadValue
+			caseProcedureAppellantValue = 'Written Representations';
+			caseSiteOwnershipCertificateValue = appeal.appealSiteSection.siteOwnership.ownsWholeSite;
+			caseSiteViewableFromRoadValue =
+				appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad;
+			caseSiteInspectorNeedsToEnterSiteValue = !caseSiteViewableFromRoadValue;
+		} else if (appealTypeId == '1005') {
+			caseProcedureAppellantValue = appeal.appealDecisionSection.procedureType;
+			caseSiteOwnershipCertificateValue = appeal.appealSiteSection.siteOwnership.ownsAllTheLand;
+			caseSiteViewableFromRoadValue = appeal.appealSiteSection.visibleFromRoad.isVisible;
+			caseSiteInspectorNeedsToEnterSiteValue = !caseSiteViewableFromRoadValue;
 		} else {
 			return [];
 		}
-		
+
 		return [
 			{
 				key: 'Case:Casework Reason',
