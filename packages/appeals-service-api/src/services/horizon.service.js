@@ -1,8 +1,9 @@
 const jp = require('jsonpath');
 
 const { HorizonGateway } = require('../gateway/horizon-gateway');
-const { getDocumentsInBase64Encoding, getAppealCountry } = require('./appeal.service');
+const { getDocumentsInBase64Encoding } = require('./appeal.service');
 const logger = require('../lib/logger');
+const { getLpaById, getLpaCountry } = require('./lpa.service');
 
 class HorizonService {
 	#horizonGateway;
@@ -18,13 +19,16 @@ class HorizonService {
 		// TODO: We could upload documents in the "create appeal" request. However,
 		//       the response from Horizon isn't great if one of the many docs fails.
 		//       It doesn't say which document fails, just that the appeal failed.
-		const appealCountry = await getAppealCountry(appeal);
-		//todo: get horizon LPA code here (rather than in gateway) refactor above to only hit getLpaById once
+
+		const lpaData = await getLpaById(appeal.lpaCode);
+		const appealCountry = getLpaCountry(lpaData);
+		const horizonLpaCode = lpaData.lpaCode;
 
 		const horizonCaseReference = await this.#horizonGateway.createAppeal(
 			appeal,
 			createdContacts,
-			appealCountry
+			appealCountry,
+			horizonLpaCode
 		);
 
 		const appealDocumentsInBase64Encoding = await getDocumentsInBase64Encoding(appeal);
