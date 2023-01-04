@@ -1,6 +1,7 @@
 const config = require('../configuration/config');
 const axios = require('axios');
 const logger = require('../lib/logger');
+const { getLpaById } = require('../services/lpa.service');
 const { HorizonMapper } = require('../mappers/horizon-mapper');
 const ApiError = require('../errors/apiError');
 
@@ -29,8 +30,13 @@ class HorizonGateway {
 		const result = {};
 		for (const key in createOrganisationRequestJson) {
 			const request = createOrganisationRequestJson[key].value;
-			const createOrganisationResponse = await this.#makeRequestAndHandleAnyErrors(createOrganisationUrl, request, 'create organisation')
-			result[key] = createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
+			const createOrganisationResponse = await this.#makeRequestAndHandleAnyErrors(
+				createOrganisationUrl,
+				request,
+				'create organisation'
+			);
+			result[key] =
+				createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
 			logger.debug(result, `Create organisations result`);
 		}
 
@@ -45,11 +51,15 @@ class HorizonGateway {
 		const result = [];
 		for (const key in createContactRequestJson) {
 			const request = createContactRequestJson[key].requestBody;
-			const createContactResponse = await this.#makeRequestAndHandleAnyErrors(createContactUrl, request, 'create contact');
+			const createContactResponse = await this.#makeRequestAndHandleAnyErrors(
+				createContactUrl,
+				request,
+				'create contact'
+			);
 			const personId =
 				createContactResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
 
-			//TODO: this result structure should occur in the create Appeal mapper, we should just return the personId for this method. 
+			//TODO: this result structure should occur in the create Appeal mapper, we should just return the personId for this method.
 			result.push({
 				key: 'Case Involvement:Case Involvement',
 				value: [
@@ -90,13 +100,21 @@ class HorizonGateway {
 	 */
 	async createAppeal(appeal, contacts, appealCountry) {
 		logger.debug('Creating appeal in Horizon');
+
+		const horizonLpaCode = await this.#getHorizonLpaCode(appeal.lpaCode);
+
 		const appealCreationRequest = this.#horizonMapper.appealToHorizonCreateAppealRequest(
 			appeal,
 			contacts,
-			appealCountry
+			appealCountry,
+			horizonLpaCode
 		);
 
-		const createAppealResponse = await this.#makeRequestAndHandleAnyErrors(`${config.services.horizon.url}/horizon`, appealCreationRequest, 'create appeal');
+		const createAppealResponse = await this.#makeRequestAndHandleAnyErrors(
+			`${config.services.horizon.url}/horizon`,
+			appealCreationRequest,
+			'create appeal'
+		);
 
 		// case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
 		const horizonFullCaseId =
@@ -117,20 +135,28 @@ class HorizonGateway {
 	async uploadAppealDocuments(documents, appealCaseReference) {
 		const url = `${config.services.horizon.url}/horizon`;
 		for (const document of documents) {
-			const addDocumentRequest = this.#horizonMapper.toCreateDocumentRequest(document, appealCaseReference)
-			
-			// `maxBodyLength` specified as an option since Horizon doesn't support multipart uploads
-			const { data } = await this.#makeRequestAndHandleAnyErrors(url, addDocumentRequest, 'add document', { maxBodyLength: Infinity });
-			logger.debug(data, 'Upload document response');
-		};
+			const addDocumentRequest = this.#horizonMapper.toCreateDocumentRequest(
+				document,
+				appealCaseReference
+			);
 
-		logger.debug('Document upload to Horizon complete')
+			// `maxBodyLength` specified as an option since Horizon doesn't support multipart uploads
+			const { data } = await this.#makeRequestAndHandleAnyErrors(
+				url,
+				addDocumentRequest,
+				'add document',
+				{ maxBodyLength: Infinity }
+			);
+			logger.debug(data, 'Upload document response');
+		}
+
+		logger.debug('Document upload to Horizon complete');
 		return;
 	}
 
 	//TODO: this should return an as-of-yet non-existent `HorizonAppealDto` instance.
 	async getAppeal(caseReference) {
-		const url = `${config.services.horizon.url}/horizon`
+		const url = `${config.services.horizon.url}/horizon`;
 
 		if (caseReference == false) {
 			logger.debug(`No case reference specified for Horizon case retrieval`);
@@ -147,27 +173,38 @@ class HorizonGateway {
 
 		try {
 			logger.debug(requestBody, `Sending get case request to Horizon via URL ${url} with body`);
-			const horizonAppeal = await axios.post(url, requestBody)
+			const horizonAppeal = await axios.post(url, requestBody);
 			logger.debug(horizonAppeal.data, `Horizon get case response`);
 			return horizonAppeal.data;
-		} catch(error) {
+		} catch (error) {
 			logger.error(error, `Horizon get case request responded with the following error`);
-		};
+		}
 
 		return {};
 	}
 
-	async #makeRequestAndHandleAnyErrors(url, body, descriptionOfRequest, options = null){
-		logger.debug(body ,`Sending ${descriptionOfRequest} request to Horizon via '${url}' with body`);
+	async #makeRequestAndHandleAnyErrors(url, body, descriptionOfRequest, options = null) {
+		logger.debug(body, `Sending ${descriptionOfRequest} request to Horizon via '${url}' with body`);
 
 		try {
-			return await axios.post(url, body, options)
+			return await axios.post(url, body, options);
 		} catch (error) {
 			if (error.response) {
-				logger.error(error.response.data, `Horizon returned a ${error.response.status} status code when attempting to ${descriptionOfRequest}. Response is below`)
+				logger.error(
+					error.response.data,
+					`Horizon returned a ${error.response.status} status code when attempting to ${descriptionOfRequest}. Response is below`
+				);
 				throw new ApiError(504, 'Error when contacting Horizon');
 			}
 		}
+	}
+
+	//todo: move to Horizon service and refactor with get LPA country so getLpaById is only hit once
+	async #getHorizonLpaCode(lpaCode) {
+		logger.debug('Retrieving Horizon LPA data');
+		const lpaData = await getLpaById(lpaCode);
+		logger.debug(lpaData.lpaCode, 'Horizon LPA code retrieved:');
+		return lpaData.lpaCode;
 	}
 }
 

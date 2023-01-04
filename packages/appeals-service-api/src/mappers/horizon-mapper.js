@@ -138,7 +138,7 @@ class HorizonMapper {
 		});
 	}
 
-	appealToHorizonCreateAppealRequest(appeal, contacts, appealCountry) {
+	appealToHorizonCreateAppealRequest(appeal, contacts, appealCountry, horizonLpaCode) {
 		// if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
 		const appealTypeId = appeal.appealType == null ? '1001' : appeal.appealType;
 		const decision = appeal.eligibility.applicationDecision;
@@ -149,12 +149,13 @@ class HorizonMapper {
 		let attributes = this.#getAttributes(appealTypeId, appeal, caseworkReason);
 		attributes.push(...contacts);
 
+		// important: LPA code below refers to Horizon LPA code (i.e. W4705), not 'E' number (i.e. E60000068)
 		const input = {
 			CreateCase: {
 				__soap_op: 'http://tempuri.org/IHorizon/CreateCase',
 				__xmlns: 'http://tempuri.org/',
 				caseType: this.#getAppealType(appealTypeId),
-				LPACode: appeal.lpaCode,
+				LPACode: horizonLpaCode,
 				dateOfReceipt: new Date(),
 				location: appealCountry,
 				category: {

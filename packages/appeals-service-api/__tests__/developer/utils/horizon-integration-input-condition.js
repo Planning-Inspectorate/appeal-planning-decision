@@ -20,6 +20,7 @@ class HorizonIntegrationInputCondition {
 		description = 'a blank Horizon ID field',
 		setHorizonIdFunction = (appeal) => (appeal.horizonId = ''),
 		lpaCode = 'E69999999',
+		horizonLpaCode = '',
 		appeal = this.#appealFixtures.newHouseholderAppeal(),
 		expectedCaseworkReason = appeal.appealType == '1001'
 			? null
@@ -149,7 +150,7 @@ class HorizonIntegrationInputCondition {
 		condition.expectations.createAppealInHorizonRequest =
 			new HorizonCreateAppealRequestBodyExpectation(
 				appeal.appealType == '1001' ? 'Householder (HAS) Appeal' : 'Planning Appeal (W)',
-				lpaCode,
+				horizonLpaCode,
 				lpaCode == 'W69999999' ? 'Wales' : 'England',
 				expectedCaseworkReason,
 				appeal.decisionDate,
