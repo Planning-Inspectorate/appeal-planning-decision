@@ -1,7 +1,6 @@
 const config = require('../configuration/config');
 const axios = require('axios');
 const logger = require('../lib/logger');
-const { getLpaById } = require('../services/lpa.service');
 const { HorizonMapper } = require('../mappers/horizon-mapper');
 const ApiError = require('../errors/apiError');
 
@@ -96,12 +95,11 @@ class HorizonGateway {
 	 * @param {*} appeal
 	 * @param {*} contacts
 	 * @param {*} appealCountry
+	 * @param {*} horizonLpaCode
 	 * @returns {string} The appeal's case reference (horizon ID) after successful submission to Horizon
 	 */
-	async createAppeal(appeal, contacts, appealCountry) {
+	async createAppeal(appeal, contacts, appealCountry, horizonLpaCode) {
 		logger.debug('Creating appeal in Horizon');
-
-		const horizonLpaCode = await this.#getHorizonLpaCode(appeal.lpaCode);
 
 		const appealCreationRequest = this.#horizonMapper.appealToHorizonCreateAppealRequest(
 			appeal,
@@ -197,14 +195,6 @@ class HorizonGateway {
 				throw new ApiError(504, 'Error when contacting Horizon');
 			}
 		}
-	}
-
-	//todo: move to Horizon service and refactor with get LPA country so getLpaById is only hit once
-	async #getHorizonLpaCode(lpaCode) {
-		logger.debug('Retrieving Horizon LPA data');
-		const lpaData = await getLpaById(lpaCode);
-		logger.debug(lpaData.lpaCode, 'Horizon LPA code retrieved:');
-		return lpaData.lpaCode;
 	}
 }
 

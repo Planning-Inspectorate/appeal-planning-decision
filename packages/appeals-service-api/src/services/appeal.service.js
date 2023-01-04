@@ -11,7 +11,6 @@ const { validateAppeal } = require('../validators/validate-appeal');
 const { AppealsRepository } = require('../repositories/appeals-repository');
 const uuid = require('uuid');
 const DocumentService = require('./document.service');
-const { getLpaCountry, getLpaById } = require('../services/lpa.service');
 
 const appealsRepository = new AppealsRepository();
 const documentService = new DocumentService();
@@ -123,17 +122,15 @@ function populateArrayWithIdsFromKeysFoundInObject(obj, keys, array) {
 }
 
 async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
-	logger.debug(appeal, `Saving the following appeal as submitted to the back office, with a case reference of ${horizonCaseReference}`)
+	logger.debug(
+		appeal,
+		`Saving the following appeal as submitted to the back office, with a case reference of ${horizonCaseReference}`
+	);
 	appeal.submissionDate = new Date(new Date().toISOString());
 	appeal.state = 'SUBMITTED';
 	appeal.horizonId = horizonCaseReference;
-	logger.debug(appeal, 'Appeal after setting "submitted to back-office" updates')
+	logger.debug(appeal, 'Appeal after setting "submitted to back-office" updates');
 	return await updateAppeal(appeal.id, appeal);
-}
-
-async function getAppealCountry(appeal) {
-	const appealLPA = await getLpaById(appeal.lpaCode);
-	return getLpaCountry(appealLPA);
 }
 
 module.exports = {
@@ -142,6 +139,5 @@ module.exports = {
 	updateAppeal,
 	validateAppeal,
 	getDocumentsInBase64Encoding,
-	saveAppealAsSubmittedToBackOffice,
-	getAppealCountry
+	saveAppealAsSubmittedToBackOffice
 };
