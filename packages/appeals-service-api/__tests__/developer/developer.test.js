@@ -34,6 +34,7 @@ let testLpaCodeEngland = 'E69999999';
 let testLpaCodeWales = 'W69999999';
 let testLpaNameEngland = 'System Test Borough Council England';
 let testLpaNameWales = 'System Test Borough Council Wales';
+let testHorizonLpaCodeWales = 'H1234';
 
 const appealFixtures = new AppealFixtures();
 const horizonIntegrationInputCondition = new HorizonIntegrationInputCondition();
@@ -120,7 +121,7 @@ beforeAll(async () => {
 	///// POPULATE LPAS /////
 	/////////////////////////
 
-	const testLpaJson = `{OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n323;${testLpaCodeEngland};;${testLpaNameEngland};${testLpaEmail};;TRUE\n324;${testLpaCodeWales};;${testLpaNameWales};${testLpaEmail};;TRUE}`;
+	const testLpaJson = `{OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n323;${testLpaCodeEngland};;${testLpaNameEngland};${testLpaEmail};;TRUE\n324;${testLpaCodeWales};${testHorizonLpaCodeWales};${testLpaNameWales};${testLpaEmail};;TRUE}`;
 	await appealsApi.post('/api/v1/local-planning-authorities').send(testLpaJson);
 });
 
@@ -248,7 +249,11 @@ describe('Back Office', () => {
 				delete appeal.horizonId;
 			}
 		}),
-		horizonIntegrationInputCondition.get({ description: 'a Welsh LPA', lpaCode: testLpaCodeWales }),
+		horizonIntegrationInputCondition.get({
+			description: 'a Welsh LPA',
+			lpaCode: testLpaCodeWales,
+			horizonLpaCode: testHorizonLpaCodeWales
+		}),
 		horizonIntegrationInputCondition.get({
 			description: 'a householder appeal where the appellant owns the whole site',
 			appeal: appealFixtures.newHouseholderAppeal({ ownsSite: true })
