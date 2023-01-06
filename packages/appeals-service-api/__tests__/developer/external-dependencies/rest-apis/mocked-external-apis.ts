@@ -219,46 +219,48 @@ export class MockedExternalApis {
 	}
 
 	async mockHorizonUploadDocumentResponse(statusCode: number, document: any) {
-		let body: any = {
-			Envelope: {
-				Body: {
-					AddDocumentsResponse: {
-						AddDocumentsResult: {
-							HorizonAPIDocument: {
-								Content: {},
-								DocumentType: {
-									value: 'Mocked DocType'
-								},
-								Filename: {
-									value: document.name
-								},
-								IsPublished: {
-									value: 'true'
-								},
-								Metadata: {
-									Attributes: {
-										AttributeValue: {
-											Name: {
-												value: 'Document:Document Type'
-											},
-											Value: {
-												value: 'Initial Documents'
+		let body: any = {}
+		
+		if (statusCode >= 500) {
+			body = { error: `mocked bad response for upload document Horizon endpoint` };
+		} else {
+			body = {
+				Envelope: {
+					Body: {
+						AddDocumentsResponse: {
+							AddDocumentsResult: {
+								HorizonAPIDocument: {
+									Content: {},
+									DocumentType: {
+										value: 'Mocked DocType'
+									},
+									Filename: {
+										value: document.name
+									},
+									IsPublished: {
+										value: 'true'
+									},
+									Metadata: {
+										Attributes: {
+											AttributeValue: {
+												Name: {
+													value: 'Document:Document Type'
+												},
+												Value: {
+													value: 'Initial Documents'
+												}
 											}
 										}
+									},
+									NodeId: {
+										value: '123MOCK'
 									}
-								},
-								NodeId: {
-									value: '123MOCK'
 								}
 							}
 						}
 					}
 				}
-			}
-		};
-
-		if (statusCode >= 500) {
-			body = { error: `mocked bad response for upload document Horizon endpoint` };
+			};
 		}
 
 		const data = {

@@ -130,23 +130,21 @@ class HorizonGateway {
 		return caseReference;
 	}
 
-	async uploadAppealDocuments(documents, appealCaseReference) {
+	async uploadAppealDocument(document, appealCaseReference) {
 		const url = `${config.services.horizon.url}/horizon`;
-		for (const document of documents) {
-			const addDocumentRequest = this.#horizonMapper.toCreateDocumentRequest(
-				document,
-				appealCaseReference
-			);
+		const addDocumentRequest = this.#horizonMapper.toCreateDocumentRequest(
+			document,
+			appealCaseReference
+		);
 
-			// `maxBodyLength` specified as an option since Horizon doesn't support multipart uploads
-			const { data } = await this.#makeRequestAndHandleAnyErrors(
-				url,
-				addDocumentRequest,
-				'add document',
-				{ maxBodyLength: Infinity }
-			);
-			logger.debug(data, 'Upload document response');
-		}
+		// `maxBodyLength` specified as an option since Horizon doesn't support multipart uploads
+		const { data } = await this.#makeRequestAndHandleAnyErrors(
+			url,
+			addDocumentRequest,
+			'add document',
+			{ maxBodyLength: Infinity }
+		);
+		logger.debug(data, 'Upload document response');
 
 		logger.debug('Document upload to Horizon complete');
 		return;

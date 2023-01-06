@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const uuid = require('uuid');
 const { utils } = require('@pins/common');
+const jp = require('jsonpath');
 
 const config = require('../config');
 const parentLogger = require('./logger');
@@ -86,6 +87,21 @@ exports.submitAppeal = async (appeal) => {
 	await handler(`/api/v1/back-office/appeals/${appeal.id}`, 'PUT');
 	return savedAppeal;
 };
+
+exports.submitAppealDocumentsToBackOffice = async (appeal) => {
+	const uploadedFiles = [
+		...jp.query(appeal, '$..uploadedFile').flatMap(Infinity),
+	 	...jp.query(appeal, '$..uploadedFiles').flatMap(Infinity)
+	];
+
+	const responses = []
+	for (const uploadedFile of uploadedFiles) {
+		const response = await handler(`/api/v1/back-office/appeals/${appeal.id}/documents/${uploadedFile.id}`);
+		responses.push(response);
+	}
+
+	return responses;
+}
 
 exports.getExistingAppeal = async (sessionId) => {
 	return handler(`/api/v1/appeals/${sessionId}`);

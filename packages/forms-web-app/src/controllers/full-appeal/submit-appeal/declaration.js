@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 const { storePdfAppeal } = require('../../../services/pdf.service');
 const { VIEW } = require('../../../lib/full-appeal/views');
-const { submitAppeal } = require('../../../lib/appeals-api-wrapper');
+const { submitAppeal, submitAppealDocumentsToBackOffice } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
 
 const {
@@ -52,6 +52,8 @@ const postDeclaration = async (req, res) => {
 
 		req.session.appeal = await submitAppeal(appeal);
 		log.debug('Appeal successfully submitted');
+		const responses = await submitAppealDocumentsToBackOffice(appeal);
+		log.debug(`Document uploaded responses: ${responses}`);
 		res.redirect(`/${APPEAL_SUBMITTED}`);
 	} catch (err) {
 		log.error({ err }, 'The appeal submission failed');
