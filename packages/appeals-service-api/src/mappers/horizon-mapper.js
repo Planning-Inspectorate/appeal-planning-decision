@@ -20,8 +20,11 @@ class HorizonMapper {
 
 		if (appealIsAFullAppeal) {
 			logger.debug('Create organisation request: doing this for a full appeal');
-			result.appellant.value.AddContact.contact['a:Name'] =
-				appeal.contactDetailsSection.contact.companyName;
+			if (appeal.contactDetailsSection.contact.companyName != ('' | undefined)) {
+				result.appellant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName 
+			} else {
+				result.appellant.value.AddContact.contact['a:Name'] = { '__i:nil': 'true' };
+			}
 		}
 
 		const anAgentIsAppeallingOnBehalfOfAnAppellant = appealIsAFullAppeal

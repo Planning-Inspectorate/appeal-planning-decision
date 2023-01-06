@@ -1,4 +1,3 @@
-const jp = require('jsonpath');
 const AppealFixtures = require('../fixtures/appeals');
 const {
 	HorizonCreateOrganisationRequestBodyExpectation
@@ -36,17 +35,6 @@ class HorizonIntegrationInputCondition {
 			email: 'appealplanningdecisiontest@planninginspectorate.gov.uk'
 		};
 
-		const appealDocuments = [
-			// Due to the current data structures of different appeals, we need to
-			// be agnostic of differences between them in order to ensure test
-			// correctness. Hence, we use JSONPath here to grab `uploadedFile` and
-			// `uploadedFiles` keys from the appeal used in the test condition. Note
-			// that we flatten the arrays returned since, in some curcumstances, these
-			// queries will return arrays of arrays.
-			...jp.query(appeal, '$..uploadedFile').flat(Infinity),
-			...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
-		];
-
 		let createAppealRequestContacts = [
 			new HorizonCreateAppealContactExpectation('P_0', 'Appellant Name', 'Appellant')
 		];
@@ -55,10 +43,7 @@ class HorizonIntegrationInputCondition {
 			description: description,
 			setHorizonId: setHorizonIdFunction,
 			lpa: lpaExpectations,
-			appeal: {
-				actual: appeal,
-				documents: appealDocuments
-			},
+			appeal: appeal,
 			expectations: {
 				createOrganisationInHorizonRequests: [
 					new HorizonCreateOrganisationRequestBodyExpectation(

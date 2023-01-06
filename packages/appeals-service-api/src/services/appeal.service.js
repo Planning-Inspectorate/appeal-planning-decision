@@ -93,15 +93,28 @@ async function updateAppeal(id, appealUpdate) {
 	return updatedAppeal;
 }
 
-async function getDocumentsInBase64Encoding(appeal) {
+/**
+ * 
+ * @param {*} appeal 
+ * @param {*} documentId 
+ * @returns An {@link ApiError} if:
+ * <ul>
+ *  <li>No appeal with the ID specified is found</li> 
+ * 	<li>No document with the ID specified is found on the appeal</li>
+ * </ul>
+ * 
+ * Otherwise, returns JSON that respresents the document requested in base64 encoding.
+ */
+async function getDocumentInBase64Encoding(appeal, documentId) {
 	logger.debug(appeal, `Getting documents in base64 encoding for appeal`);
 	let documentIds = [];
 	populateArrayWithIdsFromKeysFoundInObject(appeal, ['uploadedFile', 'uploadedFiles'], documentIds);
-	documentIds = documentIds
-		.filter((document) => document.id !== null)
-		.map((documentIdJson) => documentIdJson.id);
-	logger.debug(documentIds, `Document IDs from appeal`);
-	return await documentService.getAppealDocumentsInBase64Encoding(appeal.id, documentIds);
+	let documentWithIdSpecifiedFromAppeal = documentIds.find((document) => document.id == documentId)
+	if(documentWithIdSpecifiedFromAppeal === undefined) {
+		throw new ApiError(404, `No document with ID ${documentId} could be found on appeal with ID ${appeal.id}`)
+	}
+
+	return await documentService.getAppealDocumentInBase64Encoding(appeal.id, documentWithIdSpecifiedFromAppeal.id);
 }
 
 function populateArrayWithIdsFromKeysFoundInObject(obj, keys, array) {
@@ -138,6 +151,6 @@ module.exports = {
 	getAppeal,
 	updateAppeal,
 	validateAppeal,
-	getDocumentsInBase64Encoding,
+	getDocumentInBase64Encoding,
 	saveAppealAsSubmittedToBackOffice
 };
