@@ -62,7 +62,7 @@
 		"mockserver-client": "^5.14.0",
 		"mockserver-node": "^5.14.0",
 		"nodemon": "^2.0.15",
-		"npm": "^9.1.1",
+		"npm": "^8.11.0",
 		"path": "^0.12.7",
 		"rhea-promise": "^2.1.0",
 		"testcontainers": "^9.0.0",
