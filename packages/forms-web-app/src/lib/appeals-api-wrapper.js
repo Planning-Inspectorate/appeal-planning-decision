@@ -87,8 +87,8 @@ exports.submitAppeal = async (appeal) => {
 
 exports.submitAppealDocumentsToBackOffice = async (appeal) => {
 	const uploadedFiles = [
-		...jp.query(appeal, '$..uploadedFile').flatMap(Infinity),
-	 	...jp.query(appeal, '$..uploadedFiles').flatMap(Infinity)
+		...jp.query(appeal, '$..uploadedFile').flat(Infinity),
+	 	...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
 	];
 
 	const responses = []
