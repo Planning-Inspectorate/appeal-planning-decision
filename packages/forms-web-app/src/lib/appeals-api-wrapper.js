@@ -96,7 +96,7 @@ exports.submitAppealDocumentsToBackOffice = async (appeal) => {
 
 	const responses = []
 	for (const uploadedFile of uploadedFiles) {
-		const response = await handler(`/api/v1/back-office/appeals/${appeal.id}/documents/${uploadedFile.id}`);
+		const response = await handler(`/api/v1/back-office/appeals/${appeal.id}/documents/${uploadedFile.id}`, 'PUT');
 		responses.push(response);
 	}
 
