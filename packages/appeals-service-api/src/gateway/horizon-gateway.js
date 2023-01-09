@@ -147,7 +147,7 @@ class HorizonGateway {
 		logger.debug(data, 'Upload document response');
 
 		logger.debug('Document upload to Horizon complete');
-		return;
+		return data;
 	}
 
 	//TODO: this should return an as-of-yet non-existent `HorizonAppealDto` instance.
