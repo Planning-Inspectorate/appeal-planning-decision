@@ -145,8 +145,6 @@ class HorizonGateway {
 			{ maxBodyLength: Infinity }
 		);
 		logger.debug(data, 'Upload document response');
-
-		logger.debug('Document upload to Horizon complete');
 		return data;
 	}
 
