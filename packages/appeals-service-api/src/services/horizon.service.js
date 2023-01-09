@@ -39,7 +39,7 @@ class HorizonService {
 	async uploadDocument(appealId, documentId) {
 		const appeal = await getAppeal(appealId);
 		const appealDocumentInBase64Encoding = await getDocumentInBase64Encoding(appeal, documentId);
-		await this.#horizonGateway.uploadAppealDocument(
+		return await this.#horizonGateway.uploadAppealDocument(
 			appealDocumentInBase64Encoding,
 			appeal.horizonId
 		);

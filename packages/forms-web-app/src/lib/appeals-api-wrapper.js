@@ -31,6 +31,8 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 					...opts
 				});
 
+				logger.debug(apiResponse, 'Appeals API response')
+
 				if (!apiResponse.ok) {
 					logger.debug(apiResponse, 'API Response not OK');
 					try {
@@ -47,12 +49,7 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 					}
 				}
 
-				logger.debug('Successfully called');
-
 				const data = await apiResponse.json();
-
-				logger.debug('Successfully parsed to JSON');
-
 				return data;
 			})
 		);
