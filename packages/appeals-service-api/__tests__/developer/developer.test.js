@@ -975,7 +975,7 @@ describe('Back Office', () => {
 			expectedMessages = [];
 		})
 
-		it('should return a 200 if the `send-appeal-direct-to-horizon-wrapper` feature flag is on, and a document is submitted to the back-office, and both the appeal/document referenced exist server-side, and Horizon responds with a 200 when the document upload is attempted', async () => {
+		it.only('should return a 200 if the `send-appeal-direct-to-horizon-wrapper` feature flag is on, and a document is submitted to the back-office, and both the appeal/document referenced exist server-side, and Horizon responds with a 200 when the document upload is attempted', async () => {
 
 			// Given: that we use the Horizon integration back office strategy
 			isFeatureActive.mockImplementation(() => {

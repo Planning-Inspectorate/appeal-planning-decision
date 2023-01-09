@@ -38,9 +38,8 @@ router.put(
 			}
 		} else {
 			statusCode = 403;
+			res.status(statusCode).send(body);
 		}
-
-		res.status(statusCode).send(body);
 	}
 )
 
