@@ -5,6 +5,7 @@ const jp = require('jsonpath');
 
 const config = require('../config');
 const parentLogger = require('./logger');
+const { logger } = require('../config');
 
 async function handler(path, method = 'GET', opts = {}, headers = {}) {
 	const correlationId = uuid.v4();
@@ -86,17 +87,23 @@ exports.submitAppeal = async (appeal) => {
 };
 
 exports.submitAppealDocumentsToBackOffice = async (appeal) => {
-	const uploadedFiles = [
+	const filesToUpload = [
 		...jp.query(appeal, '$..uploadedFile').flat(Infinity),
 	 	...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
-	];
+	]
+	// Some document JSON is included in the appeal JSON, but these documents may not have been uploaded by the user. 
+	// These documents will have a null ID, and if we try to make a call to the API with these, the call will fail. 
+	// Therefore, don't process these files in this function!
+	.filter(fileJson => fileJson.id);
 
+	logger.debug(filesToUpload, 'Files to upload to appeal on server')
 	const responses = []
-	for (const uploadedFile of uploadedFiles) {
-		const response = await handler(`/api/v1/back-office/appeals/${appeal.id}/documents/${uploadedFile.id}`, 'PUT');
+	for (const file of filesToUpload) {
+		const response = await handler(`/api/v1/back-office/appeals/${appeal.id}/documents/${file.id}`, 'PUT');
 		responses.push(response);
 	}
 
+	logger.debug(responses, 'Result of uploading files to appeal on server')
 	return responses;
 }
 

@@ -63,8 +63,8 @@ exports.postSubmission = async (req, res) => {
 
 		req.session.appeal = await submitAppeal(appeal);
 		log.debug('Appeal successfully submitted');
-		const responses = await submitAppealDocumentsToBackOffice(appeal);
-		log.debug(`Document uploaded responses: ${responses}`);
+		await submitAppealDocumentsToBackOffice(appeal);
+		log.debug(`Documents successfully uploaded`);
 		res.redirect(`/${VIEW.APPELLANT_SUBMISSION.CONFIRMATION}`);
 	} catch (e) {
 		log.error({ e }, 'The appeal submission failed');
