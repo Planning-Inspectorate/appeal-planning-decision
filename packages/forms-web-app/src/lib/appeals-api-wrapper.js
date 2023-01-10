@@ -5,6 +5,7 @@ const jp = require('jsonpath');
 
 const config = require('../config');
 const parentLogger = require('./logger');
+const { logger } = require('../config');
 
 async function handler(path, method = 'GET', opts = {}, headers = {}) {
 	const correlationId = uuid.v4();
@@ -86,13 +87,6 @@ exports.submitAppeal = async (appeal) => {
 };
 
 exports.submitAppealDocumentsToBackOffice = async (appeal) => {
-
-	const correlationId = uuid.v4();
-	const logger = parentLogger.child({
-		correlationId,
-		service: 'Appeals Service API'
-	});
-
 	const filesToUpload = [
 		...jp.query(appeal, '$..uploadedFile').flat(Infinity),
 	 	...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
