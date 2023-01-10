@@ -88,7 +88,6 @@ exports.submitAppeal = async (appeal) => {
 exports.submitAppealDocumentsToBackOffice = async (appeal) => {
 
 	const correlationId = uuid.v4();
-
 	const logger = parentLogger.child({
 		correlationId,
 		service: 'Appeals Service API'
