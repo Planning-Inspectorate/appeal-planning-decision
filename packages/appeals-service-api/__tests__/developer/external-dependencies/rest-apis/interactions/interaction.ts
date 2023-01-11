@@ -2,7 +2,7 @@ import { JsonPathExpression } from '../json-path-expression';
 
 export class Interaction {
 	private numberOfKeysExpectedInJson: number = 0;
-	private jsonPathStringsToExpectedValues: Map<JsonPathExpression, RegExp | number | string> =
+	private jsonPathStringsToExpectedValues: Map<JsonPathExpression, RegExp | number | string | null> =
 		new Map([]);
 
 	getNumberOfKeysExpectedInJson(): number {
@@ -20,7 +20,7 @@ export class Interaction {
 
 	addJsonValueExpectation(
 		expression: JsonPathExpression,
-		value: RegExp | number | string
+		value: RegExp | number | string | null
 	): Interaction {
 		this.jsonPathStringsToExpectedValues.set(expression, value);
 		return this;

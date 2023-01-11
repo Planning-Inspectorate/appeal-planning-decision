@@ -29,14 +29,17 @@ class HorizonGateway {
 		const result = {};
 		for (const key in createOrganisationRequestJson) {
 			const request = createOrganisationRequestJson[key].value;
-			const createOrganisationResponse = await this.#makeRequestAndHandleAnyErrors(
-				createOrganisationUrl,
-				request,
-				'create organisation'
-			);
-			result[key] =
-				createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
-			logger.debug(result, `Create organisations result`);
+			if (request) {
+				const createOrganisationResponse = await this.#makeRequestAndHandleAnyErrors(
+					createOrganisationUrl,
+					request,
+					'create organisation'
+				);
+				result[key] =
+					createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
+			
+				logger.debug(result, `Create organisations result`);
+			}
 		}
 
 		return result;

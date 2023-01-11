@@ -4,19 +4,25 @@ export class HorizonCreateContactRequestBodyExpectation extends RequestBodyExpec
     private email: string | any;
     private firstName: string;
     private lastName: string;
-    private organisationId: string;
+    private organisationId: string | null;
 
     constructor(
         email: string | any,
         firstName: string,
-        lastName: string,
-        organisationId: string
+        lastName: string
     ) {
-        super(typeof email == "string" ? 11 : 12);
+        super(typeof email == "string" ? 10 : 11);
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.organisationId = organisationId;
+        this.organisationId = null;
+    }
+
+    setOrganisationId(organisationId: string): void {
+        if (this.organisationId == null) {
+            this.organisationId = organisationId;
+            this.incrementNumberOfJsonKeys();
+        }
     }
 
     getEmail(): string | any {
@@ -31,7 +37,7 @@ export class HorizonCreateContactRequestBodyExpectation extends RequestBodyExpec
         return this.lastName;
     }
 
-    getOrganisationId(): string {
+    getOrganisationId(): string | null {
         return this.organisationId;
     }
 }

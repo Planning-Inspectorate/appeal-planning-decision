@@ -45,21 +45,8 @@ class HorizonIntegrationInputCondition {
 			lpa: lpaExpectations,
 			appeal: appeal,
 			expectations: {
-				createOrganisationInHorizonRequests: [
-					new HorizonCreateOrganisationRequestBodyExpectation(
-						appeal.appealType == '1001'
-							? { '__i:nil': 'true' }
-							: appeal.contactDetailsSection.contact.companyName
-					)
-				],
-				createContactInHorizonRequests: [
-					new HorizonCreateContactRequestBodyExpectation(
-						'test@pins.com',
-						'Appellant',
-						'Name',
-						`O_0`
-					)
-				],
+				createOrganisationInHorizonRequests: [],
+				createContactInHorizonRequests: [],
 				createAppealInHorizonRequest: {}, // Populated later
 				emailToAppellant: {
 					name: 'Appellant Name'
@@ -70,45 +57,32 @@ class HorizonIntegrationInputCondition {
 			}
 		};
 
-		/////////////////////////////////////////////////////////////////////////
-		///// Update contact expectations if there's an agent on the appeal /////
-		/////////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////
+		///// Update contact expectations /////
+		///////////////////////////////////////
+
+		condition.expectations.createContactInHorizonRequests[0] = new HorizonCreateContactRequestBodyExpectation(
+			'test@pins.com',
+			'Appellant',
+			'Name'
+		)
 
 		const agentIsSpecifiedInAppeal =
 			appeal.appealType == '1001'
 				? !appeal.aboutYouSection.yourDetails.isOriginalApplicant
 				: !appeal.contactDetailsSection.isOriginalApplicant;
 		if (agentIsSpecifiedInAppeal) {
-			// For a householder appeal, the second create org request issued should not
-			// have an organisation name either. No idea why, it was like that when we got here.
-			condition.expectations.createOrganisationInHorizonRequests.push(
-				new HorizonCreateOrganisationRequestBodyExpectation({ '__i:nil': 'true' })
-			);
-
-			if (appeal.appealType == '1005') {
-				// The first expected create org request will be for the appellant, the second will be for the agent
-				condition.expectations.createOrganisationInHorizonRequests[0] =
-					new HorizonCreateOrganisationRequestBodyExpectation(
-						appeal.contactDetailsSection.appealingOnBehalfOf.companyName
-					);
-				condition.expectations.createOrganisationInHorizonRequests[1] =
-					new HorizonCreateOrganisationRequestBodyExpectation(
-						appeal.contactDetailsSection.contact.companyName
-					);
-			}
-
 			// The first create contact request will be for the appellant, but their email isn't collected now
 			condition.expectations.createContactInHorizonRequests[0] =
 				new HorizonCreateContactRequestBodyExpectation(
 					{ '__i:nil': 'true' },
 					'Appellant',
-					'Name',
-					`O_0`
+					'Name'
 				);
 
-			// The second create contact request will be for the ahent, and their email is collected
+			// The second create contact request will be for the agent, and their email is collected
 			condition.expectations.createContactInHorizonRequests.push(
-				new HorizonCreateContactRequestBodyExpectation('test@pins.com', 'Agent', 'Name', 'O_1')
+				new HorizonCreateContactRequestBodyExpectation('test@pins.com', 'Agent', 'Name')
 			);
 
 			// There'll now be another contact added to the create appeal request
@@ -116,8 +90,32 @@ class HorizonIntegrationInputCondition {
 				new HorizonCreateAppealContactExpectation('P_1', 'Agent Name', 'Agent')
 			);
 
-			// The email to the appellant will now contain the ahgen't name, instead of the appeallant's.
+			// The email to the appellant will now contain the agent's name, instead of the appeallant's.
 			condition.expectations.emailToAppellant.name = 'Agent Name';
+		}
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+		///// Update create organisation expectations if company names for agent/appellant are specified /////
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		if (appeal.appealType == '1005') {
+
+			let organisationsDefinedInAppeal = [];
+
+			if (appeal.contactDetailsSection.contact.companyName) {
+				organisationsDefinedInAppeal.push(appeal.contactDetailsSection.contact.companyName);
+				condition.expectations.createContactInHorizonRequests[0].setOrganisationId('O_0')
+			}
+			
+			if (appeal.contactDetailsSection?.appealingOnBehalfOf?.companyName) {
+				organisationsDefinedInAppeal.push(appeal.contactDetailsSection?.appealingOnBehalfOf.companyName)
+				condition.expectations.createContactInHorizonRequests[1].setOrganisationId('O_1')
+			}
+
+			condition.expectations.createOrganisationInHorizonRequests = organisationsDefinedInAppeal
+				.filter(orgName => orgName) // Filter out nulls
+				.map(orgName => new HorizonCreateOrganisationRequestBodyExpectation(orgName))
+				.reverse() // the original appellant should always be created first
 		}
 
 		/////////////////////////////////////////////////////////////

@@ -245,6 +245,8 @@ describe('Back Office', () => {
 
 	describe('submit appeals', () => {
 		const householderAppealConditions = [
+			// NOTE: for householder appeals, neither an agent or appellant can add their company name (if they belong to one).
+			//       Therefore, there are no tests here to check for system behaviour with such inputs.
 			horizonIntegrationInputCondition.get(),
 			horizonIntegrationInputCondition.get({
 				description: 'no Horizon ID field',
@@ -298,10 +300,29 @@ describe('Back Office', () => {
 				description: 'a full appeal where the appellant owns all the land',
 				appeal: appealFixtures.newFullAppeal({ ownsAllTheLand: true })
 			}),
+			// horizonIntegrationInputCondition.get({
+			// 	description: 'a full appeal where the appellant is not an agent, and does have a company',
+			// 	appeal: appealFixtures.newFullAppeal({ appellantCompanyName: 'Appellant Company Name' })
+			// }),
+			
 			horizonIntegrationInputCondition.get({
 				description: 'a full appeal where there is an agent appealling on behalf of an appellent',
 				appeal: appealFixtures.newFullAppeal({ agentAppeal: true })
 			}),
+
+			// horizonIntegrationInputCondition.get({
+			// 	description: 'a full appeal where the appellant is an agent, and the agent belongs to a company, but the original appellant does not',
+			// 	appeal: appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name' })
+			// }),
+			// horizonIntegrationInputCondition.get({
+			// 	description: 'a full appeal where the appellant is an agent, and the agent does not belong to a company, but the original appellant does',
+			// 	appeal: appealFixtures.newFullAppeal({ agentAppeal: true, appellantCompanyName: 'Appellant Company Name' })
+			// }),
+			// horizonIntegrationInputCondition.get({
+			// 	description: 'a full appeal where the appellant is an agent, and the agent/original appellant belong to companies',
+			// 	appeal: appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name' })
+			// }),
+
 			horizonIntegrationInputCondition.get({
 				description: 'a refused full appeal with a "full planning" planning application',
 				appeal: appealFixtures.newFullAppeal({
@@ -461,7 +482,10 @@ describe('Back Office', () => {
 			})
 		];
 
-		it.each([...householderAppealConditions, ...fullAppealConditions])(
+		it.each([
+			...householderAppealConditions, 
+			...fullAppealConditions
+		])(
 			'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload for: $description',
 			async (condition) => {
 				// Given: that we use the Horizon integration back office strategy
@@ -975,7 +999,7 @@ describe('Back Office', () => {
 			expectedMessages = [];
 		})
 
-		it.only('should return a 200 if the `send-appeal-direct-to-horizon-wrapper` feature flag is on, and a document is submitted to the back-office, and both the appeal/document referenced exist server-side, and Horizon responds with a 200 when the document upload is attempted', async () => {
+		it('should return a 200 if the `send-appeal-direct-to-horizon-wrapper` feature flag is on, and a document is submitted to the back-office, and both the appeal/document referenced exist server-side, and Horizon responds with a 200 when the document upload is attempted', async () => {
 
 			// Given: that we use the Horizon integration back office strategy
 			isFeatureActive.mockImplementation(() => {
