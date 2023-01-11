@@ -8,4 +8,8 @@ export class RequestBodyExpectation {
     getNumberOfJsonKeys(): number {
         return this.numberOfJsonKeys;
     }
+
+    protected incrementNumberOfJsonKeys() {
+        this.numberOfJsonKeys++;
+    }
 }

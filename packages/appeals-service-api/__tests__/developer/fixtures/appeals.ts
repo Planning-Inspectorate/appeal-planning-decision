@@ -133,7 +133,15 @@ class AppealFixtures {
 	 * </ul>
 	 * @returns Given no changes to input paramters, a new, valid, full appeal.
 	 */
-	newFullAppeal({id = '', decision = 'granted', planningApplicationType = 'householder-planning', ownsAllLand = false, agentAppeal = false} = {}) {
+	newFullAppeal({
+		id = '', 
+		decision = 'granted', 
+		planningApplicationType = 'householder-planning', 
+		ownsAllLand = false, 
+		agentAppeal = false, 
+		appellantCompanyName = null, 
+		agentCompanyName = null
+	} = {}) {
 		let appeal: any = {
 			id: id,
 			horizonId: "",
@@ -155,7 +163,6 @@ class AppealFixtures {
 			},
 			contactDetailsSection: {
 				contact: {
-					companyName: "Appellant Company",
 					name: "Appellant Name"
 				},
 				isOriginalApplicant: true
@@ -309,12 +316,23 @@ class AppealFixtures {
 
 		if (agentAppeal) {
 			appeal.contactDetailsSection.isOriginalApplicant = false;
-			appeal.contactDetailsSection.contact.companyName = "Agent Company";
+			
 			appeal.contactDetailsSection.contact.name = "Agent Name"
 			appeal.contactDetailsSection.appealingOnBehalfOf = { 
-				companyName: "Appellant Company",
 				name: "Appellant Name"
 			}
+		}
+
+		if (agentAppeal == false && appellantCompanyName) {
+			appeal.contactDetailsSection.contact.companyName = appellantCompanyName
+		}
+
+		if (agentAppeal && agentCompanyName) {
+			appeal.contactDetailsSection.contact.companyName = agentCompanyName;
+		}
+
+		if (agentAppeal && appellantCompanyName) {
+			appeal.contactDetailsSection.appealingOnBehalfOf.companyName = appellantCompanyName
 		}
 
 		return appeal;

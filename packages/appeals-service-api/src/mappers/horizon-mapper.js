@@ -11,39 +11,33 @@ class HorizonMapper {
 	 */
 	appealToCreateOrganisationRequests(appeal) {
 		logger.debug('Constructing create organisation requests for Horizon');
-		let result = {
-			appellant: { value: this.#getCreateContactRequestJson('a:HorizonAPIOrganisation') }
-		};
-		result.appellant.value.AddContact.contact['a:Name'] = { '__i:nil': 'true' };
 
-		const appealIsAFullAppeal = appeal.appealType == '1005';
-
-		if (appealIsAFullAppeal) {
-			logger.debug('Create organisation request: doing this for a full appeal');
-			if (appeal.contactDetailsSection.contact.companyName != ('' | undefined)) {
-				result.appellant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName 
-			} else {
-				result.appellant.value.AddContact.contact['a:Name'] = { '__i:nil': 'true' };
-			}
+		// only applies to full appeal type
+		if (appeal.appealType !== '1005') {
+			return {};
 		}
 
-		const anAgentIsAppeallingOnBehalfOfAnAppellant = appealIsAFullAppeal
-			? !appeal.contactDetailsSection.isOriginalApplicant
-			: !appeal.aboutYouSection.yourDetails.isOriginalApplicant;
+		let result = {
+			appellant: { value: null }
+		};
 
-		if (anAgentIsAppeallingOnBehalfOfAnAppellant) {
+		if (appeal.contactDetailsSection.contact?.companyName) {
+			result.appellant.value = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
+			result.appellant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName;
+		}
+
+		// is agent appealing on behalf of appellant?
+		if (!appeal.contactDetailsSection.isOriginalApplicant) {
 			logger.debug('Create organisation request: appeal has an agent defined');
-			result.agent = { value: this.#getCreateContactRequestJson('a:HorizonAPIOrganisation') };
-			result.agent.value.AddContact.contact['a:Name'] = { '__i:nil': 'true' };
 
-			if (appealIsAFullAppeal) {
-				logger.debug(
-					`Changing appellant's organisation name to ${appeal.contactDetailsSection.appealingOnBehalfOf.companyName}`
-				);
-				result.appellant.value.AddContact.contact['a:Name'] =
-					appeal.contactDetailsSection.appealingOnBehalfOf.companyName;
-				result.agent.value.AddContact.contact['a:Name'] =
-					appeal.contactDetailsSection.contact.companyName;
+			result.agent = {value: null};
+
+			if (appeal.contactDetailsSection.appealingOnBehalfOf.companyName) {
+				logger.debug(`Changing appellant's organisation name to ${appeal.contactDetailsSection.appealingOnBehalfOf.companyName}`);
+
+				result.agent = { value: this.#getCreateContactRequestJson('a:HorizonAPIOrganisation') };
+				result.appellant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.appealingOnBehalfOf.companyName;
+				result.agent.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName;
 			}
 		}
 

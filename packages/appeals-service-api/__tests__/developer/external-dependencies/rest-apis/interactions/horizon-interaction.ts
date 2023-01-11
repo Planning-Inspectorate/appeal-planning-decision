@@ -39,7 +39,7 @@ export class HorizonInteraction {
     }
 
     static getCreateContactInteraction(expectation: HorizonCreateContactRequestBodyExpectation): Interaction {
-        return new Interaction()
+        let interaction = new Interaction()
             .setNumberOfKeysExpectedInJson(expectation.getNumberOfJsonKeys())
             .addJsonValueExpectation(
                 JsonPathExpression.create('$.AddContact.__soap_op'),
@@ -73,7 +73,13 @@ export class HorizonInteraction {
                 JsonPathExpression.create("$.AddContact.contact['a:LastName']"),
                 expectation.getLastName()
             )
-            .addJsonValueExpectation(JsonPathExpression.create("$.AddContact.contact['a:OrganisationID']"), expectation.getOrganisationId())
+            ;
+        
+        if (expectation.getOrganisationId()){
+            interaction.addJsonValueExpectation(JsonPathExpression.create("$.AddContact.contact['a:OrganisationID']"), expectation.getOrganisationId())
+        }
+
+        return interaction;
     }
 
     static getCreateAppealInteraction(expectation: HorizonCreateAppealRequestBodyExpectation): Interaction {
