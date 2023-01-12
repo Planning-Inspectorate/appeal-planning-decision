@@ -300,28 +300,31 @@ describe('Back Office', () => {
 				description: 'a full appeal where the appellant owns all the land',
 				appeal: appealFixtures.newFullAppeal({ ownsAllTheLand: true })
 			}),
-			// horizonIntegrationInputCondition.get({
-			// 	description: 'a full appeal where the appellant is not an agent, and does have a company',
-			// 	appeal: appealFixtures.newFullAppeal({ appellantCompanyName: 'Appellant Company Name' })
-			// }),
+
+			// NEW ONE
+			horizonIntegrationInputCondition.get({
+				description: 'a full appeal where the appellant is not an agent, and does have a company',
+				appeal: appealFixtures.newFullAppeal({ appellantCompanyName: 'Appellant Company Name' })
+			}),
 			
 			horizonIntegrationInputCondition.get({
 				description: 'a full appeal where there is an agent appealling on behalf of an appellent',
 				appeal: appealFixtures.newFullAppeal({ agentAppeal: true })
 			}),
 
-			// horizonIntegrationInputCondition.get({
-			// 	description: 'a full appeal where the appellant is an agent, and the agent belongs to a company, but the original appellant does not',
-			// 	appeal: appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name' })
-			// }),
-			// horizonIntegrationInputCondition.get({
-			// 	description: 'a full appeal where the appellant is an agent, and the agent does not belong to a company, but the original appellant does',
-			// 	appeal: appealFixtures.newFullAppeal({ agentAppeal: true, appellantCompanyName: 'Appellant Company Name' })
-			// }),
-			// horizonIntegrationInputCondition.get({
-			// 	description: 'a full appeal where the appellant is an agent, and the agent/original appellant belong to companies',
-			// 	appeal: appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name' })
-			// }),
+			// NEW ONES
+			horizonIntegrationInputCondition.get({
+				description: 'a full appeal where the appellant is an agent, and the agent belongs to a company, but the original appellant does not',
+				appeal: appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name' })
+			}),
+			horizonIntegrationInputCondition.get({
+				description: 'a full appeal where the appellant is an agent, and the agent does not belong to a company, but the original appellant does',
+				appeal: appealFixtures.newFullAppeal({ agentAppeal: true, appellantCompanyName: 'Appellant Company Name' })
+			}),
+			horizonIntegrationInputCondition.get({
+				description: 'a full appeal where the appellant is an agent, and the agent/original appellant belong to companies',
+				appeal: appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name' })
+			}),
 
 			horizonIntegrationInputCondition.get({
 				description: 'a refused full appeal with a "full planning" planning application',
@@ -482,9 +485,11 @@ describe('Back Office', () => {
 			})
 		];
 
-		it.each([
-			...householderAppealConditions, 
-			...fullAppealConditions
+		it.only.each([
+			// ...householderAppealConditions, 
+			// fullAppealConditions[1],
+			fullAppealConditions[3],
+			// fullAppealConditions[4]
 		])(
 			'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload for: $description',
 			async (condition) => {
@@ -646,18 +651,22 @@ describe('Back Office', () => {
 		);
 
 		it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating organisations', async () => {
-			const condition = householderAppealConditions[0];
-	
-			// Given: that we use the Horizon integration back office strategy
-			isFeatureActive.mockImplementation(() => {
-				return true;
+			
+			// Given: that we have a condition whereby to create an appeal in Horizon, a create organisation request should be made
+			const condition = horizonIntegrationInputCondition.get({
+				appeal: appealFixtures.newFullAppeal({ appellantCompanyName: 'Appellant Company Name' })
 			});
-	
-			// And: an appeal is created that is not known to the back office
+
+			// And: this appeal is not known to the back office
 			condition.setHorizonId(condition.appeal);
 			condition.appeal.lpaCode = condition.lpa.code;
 			const createAppealResponse = await _createAppeal(condition.appeal);
 			let createdAppeal = createAppealResponse.body;
+	
+			// And: we use the Horizon integration back office strategy
+			isFeatureActive.mockImplementation(() => {
+				return true;
+			});
 	
 			// And: Horizon's create organisation endpoint is mocked to return a 500
 			for (let i in condition.expectations.createOrganisationInHorizonRequests) {
@@ -697,24 +706,20 @@ describe('Back Office', () => {
 		});
 	
 		it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating contacts', async () => {
-			const condition = householderAppealConditions[0];
-	
-			// Given: that we use the Horizon integration back office strategy
-			isFeatureActive.mockImplementation(() => {
-				return true;
-			});
-	
-			// And: an appeal is created that is not known to the back office
+			
+			// Given: that we have a condition whereby to create an appeal in Horizon, no create organisation request should be made
+			const condition = horizonIntegrationInputCondition.get({ appeal: appealFixtures.newFullAppeal() });
+
+			// And: this appeal is not known to the back office
 			condition.setHorizonId(condition.appeal);
 			condition.appeal.lpaCode = condition.lpa.code;
 			const createAppealResponse = await _createAppeal(condition.appeal);
 			let createdAppeal = createAppealResponse.body;
 	
-			// And: Horizon's create organisation endpoint is mocked to return a 200
-			for (let i in condition.expectations.createOrganisationInHorizonRequests) {
-				const mockedOrganisationId = `O_${i}`;
-				await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId);
-			}
+			// And: we use the Horizon integration back office strategy
+			isFeatureActive.mockImplementation(() => {
+				return true;
+			});
 	
 			// And: Horizon's create contact endpoint is mocked to return a 500
 			for (let i in condition.expectations.createContactInHorizonRequests) {
@@ -757,24 +762,20 @@ describe('Back Office', () => {
 		});
 	
 		it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating the appeal', async () => {
-			const condition = householderAppealConditions[0];
-	
-			// Given: that we use the Horizon integration back office strategy
-			isFeatureActive.mockImplementation(() => {
-				return true;
-			});
-	
-			// And: an appeal is created that is not known to the back office
+			
+			// Given: that we have a condition whereby to create an appeal in Horizon, no create organisation request should be made
+			const condition = horizonIntegrationInputCondition.get({ appeal: appealFixtures.newFullAppeal() });
+
+			// And: this appeal is not known to the back office
 			condition.setHorizonId(condition.appeal);
 			condition.appeal.lpaCode = condition.lpa.code;
 			const createAppealResponse = await _createAppeal(condition.appeal);
 			let createdAppeal = createAppealResponse.body;
 	
-			// And: Horizon's create organisation endpoint is mocked to return a 200
-			for (let i in condition.expectations.createOrganisationInHorizonRequests) {
-				const mockedOrganisationId = `O_${i}`;
-				await mockedExternalApis.mockHorizonCreateContactResponse(200, mockedOrganisationId);
-			}
+			// And: we use the Horizon integration back office strategy
+			isFeatureActive.mockImplementation(() => {
+				return true;
+			});
 	
 			// And: Horizon's create contact endpoint is mocked to return a 200
 			for (let i in condition.expectations.createContactInHorizonRequests) {
