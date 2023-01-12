@@ -1,9 +1,24 @@
 import { JsonPathExpression } from '../json-path-expression';
 
 export class Interaction {
+	private description: string;
 	private numberOfKeysExpectedInJson: number = 0;
-	private jsonPathStringsToExpectedValues: Map<JsonPathExpression, RegExp | number | string | null> =
-		new Map([]);
+	private jsonPathStringsToExpectedValues: Map<
+		JsonPathExpression,
+		RegExp | number | string | null
+	> = new Map([]);
+
+	constructor(description: string) {
+		this.description = description;
+	}
+
+	toString(): string {
+		let result = `Description: ${this.description}\n`;
+		this.jsonPathStringsToExpectedValues.forEach((key, value) => {
+			result += key + ': ' + value + '\n';
+		});
+		return result;
+	}
 
 	getNumberOfKeysExpectedInJson(): number {
 		return this.numberOfKeysExpectedInJson;

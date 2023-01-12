@@ -7,7 +7,7 @@ Monorepo for all PINS Appeal planning decision services and infrastructure
 - `make install `
 - `make serve`
 - once the server is running, to populate the Local Planning Authorities database, go to the `/packages/appeals-service-api/data` directory and run: `curl -X POST -d @lpa-list.csv http://localhost:3000/api/v1/local-planning-authorities`
-- Go to [localhost:9003](http://localhost:9003)
+- Go to [localhost:9003/before-you-start](http://localhost:9003/before-you-start)
 
 ## Pre-requisites
 
@@ -50,7 +50,7 @@ make serve
 
 You have to manually populate the LPA database - once the server is running go to the `/packages/appeals-service-api/data` directory and run: `curl -X POST -d @lpa-list.csv http://localhost:3000/api/v1/local-planning-authorities`
 
-Then go to [localhost:9003](http://localhost:9003) (forms-web-app) or
+Then go to [localhost:9003/before-you-start](http://localhost:9003/before-you-start) (forms-web-app) or
 [localhost:3000](http://localhost:3000) (appeals-service-api)
 
 > As a convention, public facing web service will use the port range `9000-9999`
