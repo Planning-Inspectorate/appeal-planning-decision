@@ -29,7 +29,7 @@ export class MockedExternalApis {
 	private documentsApi: string = 'documentsMock';
 	private documentsApiEndpoint: string = `/${this.documentsApi}/api/v1`;
 	private documentsApiUrl: string;
-	private documentInvolvementValues = ['Appellant', 'LPA', '']
+	private documentInvolvementValues = ['Appellant', 'LPA', ''];
 
 	///////////////////
 	///// GENERAL /////
@@ -80,14 +80,15 @@ export class MockedExternalApis {
 		expectedInteractions: Array<Interaction>,
 		actualInteractions: any
 	): void {
-		logger.debug(expectedInteractions, "Expected interaction")
-		logger.debug(actualInteractions, "Actual interaction")
 		expect(actualInteractions.length).toEqual(expectedInteractions.length);
 
 		for (let i in expectedInteractions) {
 			const expectedInteraction = expectedInteractions[i];
 			const actualInteraction = actualInteractions[i];
-			
+
+			logger.debug(expectedInteraction.toString(), 'Expected interaction');
+			logger.debug(actualInteraction, 'Actual interaction');
+
 			const actualInteractionBody = this.getJsonFromRecordedRequest(actualInteraction);
 			const allKeysFromActualInteractionBody = this.getAllKeysFromJson(actualInteractionBody);
 			expect(allKeysFromActualInteractionBody.length).toEqual(
@@ -98,7 +99,9 @@ export class MockedExternalApis {
 				.getJsonPathStringsToExpectedValues()
 				.forEach((expectation: Interaction, jsonPathExpression: JsonPathExpression) => {
 					const jsonKeyValue = jp.query(actualInteractionBody, jsonPathExpression.get())[0];
-					logger.debug(`Check if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`)
+					logger.debug(
+						`Check if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`
+					);
 					if (expectation instanceof RegExp) {
 						expect(jsonKeyValue).toMatch(expectation);
 					} else {
@@ -126,10 +129,10 @@ export class MockedExternalApis {
 			return keys;
 		}
 		for (const key of Object.keys(json)) {
-			if (/^\d+$/.test(key)  == false) {
+			if (/^\d+$/.test(key) == false) {
 				keys.push(key);
 			}
-			
+
 			if (typeof json[key] == 'object') {
 				this.getAllKeysFromJson(json[key], keys);
 			}
@@ -221,8 +224,8 @@ export class MockedExternalApis {
 	}
 
 	async mockHorizonUploadDocumentResponse(statusCode: number, document: any) {
-		let body: any = {}
-		
+		let body: any = {};
+
 		if (statusCode >= 500) {
 			body = { error: `mocked bad response for upload document Horizon endpoint` };
 		} else {
@@ -364,7 +367,7 @@ export class MockedExternalApis {
 		};
 		const response = await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 
-		logger.debug(response.data, 'Mock Horizon get case response')
+		logger.debug(response.data, 'Mock Horizon get case response');
 	}
 
 	private async getRecordedRequestsForHorizon(): Promise<Array<any>> {
@@ -375,7 +378,7 @@ export class MockedExternalApis {
 			`${this.horizonEndpoint}/horizon`
 		);
 
-		appealAndDocInteractions.forEach(x => logger.debug(x.body.json))
+		appealAndDocInteractions.forEach((x) => logger.debug(x.body.json));
 
 		return [...contactAndOrgInteractions, ...appealAndDocInteractions];
 	}
@@ -427,7 +430,6 @@ export class MockedExternalApis {
 		document: any,
 		addDocumentGroupTypeToBody: boolean
 	): Promise<void> {
-
 		const body = {
 			application_id: appealId,
 			name: document.name,
@@ -438,7 +440,8 @@ export class MockedExternalApis {
 			size: 8334,
 			id: document.id,
 			document_type: 'documentType',
-			involvement: this.documentInvolvementValues[this.documentInvolvementValues.length * Math.random() | 0],
+			involvement:
+				this.documentInvolvementValues[(this.documentInvolvementValues.length * Math.random()) | 0],
 			dataSize: 667,
 			data: 'eW91IG93ZSBtZSBtb25leQ==',
 			document_group_type: 'documentGroupType'
