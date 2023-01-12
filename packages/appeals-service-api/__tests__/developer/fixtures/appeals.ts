@@ -316,7 +316,6 @@ class AppealFixtures {
 
 		if (agentAppeal) {
 			appeal.contactDetailsSection.isOriginalApplicant = false;
-			
 			appeal.contactDetailsSection.contact.name = "Agent Name"
 			appeal.contactDetailsSection.appealingOnBehalfOf = { 
 				name: "Appellant Name"

@@ -11,6 +11,9 @@ export class HorizonCreateContactRequestBodyExpectation extends RequestBodyExpec
         firstName: string,
         lastName: string
     ) {
+        // By default 10 keys expected
+        // If email is null, +1 to keys expected
+        // If organisation is specified for that contact, +1 to keys expected
         super(typeof email == "string" ? 10 : 11);
         this.email = email;
         this.firstName = firstName;

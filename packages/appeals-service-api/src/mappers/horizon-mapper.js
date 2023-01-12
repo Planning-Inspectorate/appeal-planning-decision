@@ -5,43 +5,51 @@ class HorizonMapper {
 	/**
 	 * @return {any} Structure is:
 	 * {
-	 *  appellant: { value: {} },
+	 *  originalApplicant: { value: {} },
 	 *  agent: { value: {} } // optional
 	 * }
 	 */
 	appealToCreateOrganisationRequests(appeal) {
 		logger.debug('Constructing create organisation requests for Horizon');
 
-		// only applies to full appeal type
+		logger.debug('Checking if the appeal is a full appeal since only these appeals requests require organisations to be created in Horizon')
 		if (appeal.appealType !== '1005') {
+			logger.debug('The appel is not a full appeal, returning')
 			return {};
 		}
 
+		logger.debug('The appeal is a full appeal, continuing with construction of create organisation requests')
 		let result = {
-			appellant: { value: null }
+			originalApplicant: { value: null },
+			agent: { value: null }
 		};
 
-		if (appeal.contactDetailsSection.contact?.companyName) {
-			result.appellant.value = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
-			result.appellant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName;
-		}
-
-		// is agent appealing on behalf of appellant?
-		if (!appeal.contactDetailsSection.isOriginalApplicant) {
-			logger.debug('Create organisation request: appeal has an agent defined');
-
-			result.agent = {value: null};
-
-			if (appeal.contactDetailsSection.appealingOnBehalfOf.companyName) {
-				logger.debug(`Changing appellant's organisation name to ${appeal.contactDetailsSection.appealingOnBehalfOf.companyName}`);
-
-				result.agent = { value: this.#getCreateContactRequestJson('a:HorizonAPIOrganisation') };
-				result.appellant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.appealingOnBehalfOf.companyName;
+		logger.debug('Checking if an agent is submitting the appeal')
+		if (appeal.contactDetailsSection.isOriginalApplicant) {
+			logger.debug('No, an agent is not filling out the appeal')
+			logger.debug('Checking if a company name for the applicant has been specified')
+			if (appeal.contactDetailsSection.contact?.companyName) {
+				logger.debug(`A company name has been specified for the applicant, so the applicant's organisation name will be set to: '${appeal.contactDetailsSection.contact.companyName}'`);
+				result.originalApplicant.value = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
+				result.originalApplicant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName;
+			}
+		} else {
+			logger.debug('Yes, an agent is submitting the appeal');
+			logger.debug('Checking if a company name for the original applicant has been defined')
+			if (appeal.contactDetailsSection?.appealingOnBehalfOf?.companyName) {
+				logger.debug(`A company name has been specified for the original applicant, so the original applicant's organisation name will be set to: '${appeal.contactDetailsSection.appealingOnBehalfOf.companyName}'`);
+				result.originalApplicant.value = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
+				result.originalApplicant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.appealingOnBehalfOf.companyName;
+			}
+		
+			logger.debug('Checking if a company name for the agent has been defined')
+			if (appeal.contactDetailsSection.contact?.companyName) {
+				logger.debug(`A company name has been specified for the agent, so the agent's organisation name will be set to: '${appeal.contactDetailsSection.contact.companyName}'`);
+				result.agent.value = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
 				result.agent.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName;
 			}
 		}
 
-		logger.debug(result, 'Create organisation requests for Horizon');
 		return result;
 	}
 
@@ -50,7 +58,7 @@ class HorizonMapper {
 	 * @param {*} appeal
 	 * @param {*} organisations Structure expected is:
 	 * {
-	 *  appellant: { value: '<appellant-organisation-id-in-horizon>' },
+	 *  originalApplicant: { value: '<original-applicant-organisation-id-in-horizon>' },
 	 *  agent: { value: '<agent-organisation-id-in-horizon> } // optional: only if the appeal references an agent.
 	 * }
 	 * @returns JSON with structure:
@@ -67,7 +75,7 @@ class HorizonMapper {
 		let contacts = [];
 		let appellant = {
 			type: 'Appellant',
-			organisationId: organisations.appellant
+			organisationId: organisations.originalApplicant
 		};
 		let agent;
 

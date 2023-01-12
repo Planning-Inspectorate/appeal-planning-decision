@@ -45,8 +45,8 @@ class HorizonIntegrationInputCondition {
 			lpa: lpaExpectations,
 			appeal: appeal,
 			expectations: {
-				createOrganisationInHorizonRequests: [],
 				createContactInHorizonRequests: [],
+				createOrganisationInHorizonRequests: [],
 				createAppealInHorizonRequest: {}, // Populated later
 				emailToAppellant: {
 					name: 'Appellant Name'
@@ -73,16 +73,17 @@ class HorizonIntegrationInputCondition {
 				: !appeal.contactDetailsSection.isOriginalApplicant;
 		if (agentIsSpecifiedInAppeal) {
 			// The first create contact request will be for the appellant, but their email isn't collected now
-			condition.expectations.createContactInHorizonRequests[0] =
+			condition.expectations.createContactInHorizonRequests.push(
+				new HorizonCreateContactRequestBodyExpectation('test@pins.com', 'Agent', 'Name')
+			);
+
+			// The second create contact request will be for the agent, and their email is collected
+			condition.expectations.createContactInHorizonRequests.push(
 				new HorizonCreateContactRequestBodyExpectation(
 					{ '__i:nil': 'true' },
 					'Appellant',
 					'Name'
-				);
-
-			// The second create contact request will be for the agent, and their email is collected
-			condition.expectations.createContactInHorizonRequests.push(
-				new HorizonCreateContactRequestBodyExpectation('test@pins.com', 'Agent', 'Name')
+				)
 			);
 
 			// There'll now be another contact added to the create appeal request
@@ -102,15 +103,15 @@ class HorizonIntegrationInputCondition {
 
 			let organisationsDefinedInAppeal = [];
 
-			if (appeal.contactDetailsSection.contact.companyName) {
+			if (appeal.contactDetailsSection.contact.companyName) { // Could be agent or appellant company name
 				organisationsDefinedInAppeal.push(appeal.contactDetailsSection.contact.companyName);
 				condition.expectations.createContactInHorizonRequests[0].setOrganisationId('O_0')
 			}
 			
-			if (appeal.contactDetailsSection?.appealingOnBehalfOf?.companyName) {
-				organisationsDefinedInAppeal.push(appeal.contactDetailsSection?.appealingOnBehalfOf.companyName)
-				condition.expectations.createContactInHorizonRequests[1].setOrganisationId('O_1')
-			}
+			// if (appeal.contactDetailsSection?.appealingOnBehalfOf?.companyName) {
+			// 	organisationsDefinedInAppeal.push(appeal.contactDetailsSection?.appealingOnBehalfOf.companyName)
+			// 	condition.expectations.createContactInHorizonRequests[1].setOrganisationId('O_1')
+			// }
 
 			condition.expectations.createOrganisationInHorizonRequests = organisationsDefinedInAppeal
 				.filter(orgName => orgName) // Filter out nulls
