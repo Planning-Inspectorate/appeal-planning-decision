@@ -11,6 +11,7 @@ const { validateAppeal } = require('../validators/validate-appeal');
 const { AppealsRepository } = require('../repositories/appeals-repository');
 const uuid = require('uuid');
 const DocumentService = require('./document.service');
+const OrganisationNamesValueObject = require('../value-objects/appeal/organisation-names.value')
 
 const appealsRepository = new AppealsRepository();
 const documentService = new DocumentService();
@@ -146,11 +147,43 @@ async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
 	return await updateAppeal(appeal.id, appeal);
 }
 
+/**
+ *
+ * @param {*} appeal 
+ * @returns {OrganisationNamesDto}
+ */
+function getOrganisationNames(appeal) {
+	// TODO: pull this into an appeal model when its eventually created
+	
+	logger.debug(appeal, "Getting organisation names from appeal")
+	if (appeal.appealType !== '1005') {
+		logger.debug("Appeal is not a full appeal, so no organisation names should be specified")
+		return new OrganisationNamesValueObject();
+	}
+
+	logger.debug("Appeal is a full appeal, so organisation names may be specified")
+	const contactOrganisationName = appeal.contactDetailsSection.contact?.companyName
+	logger.debug(`The basic contact organisation name has been specified as: '${contactOrganisationName}'`)
+	if (appeal.contactDetailsSection.isOriginalApplicant) {
+		logger.debug(`Appeal is being submitted by the original applicant, so '${contactOrganisationName}' will be returned`)
+		return new OrganisationNamesValueObject(contactOrganisationName);
+	}
+
+	logger.debug(`Appeal is being submitted by an agent, so '${contactOrganisationName}' will be returned as their company name`);
+	const appealingOnBehalfOfCompanyName = appeal.contactDetailsSection.appealingOnBehalfOf?.companyName;
+	logger.debug(`The company name of the original applicant has been specified as '${appealingOnBehalfOfCompanyName}' so this will be returned as well`);
+	return new OrganisationNamesValueObject(
+		appealingOnBehalfOfCompanyName,
+		contactOrganisationName
+	);
+}
+
 module.exports = {
 	createAppeal,
 	getAppeal,
 	updateAppeal,
 	validateAppeal,
 	getDocumentInBase64Encoding,
-	saveAppealAsSubmittedToBackOffice
+	saveAppealAsSubmittedToBackOffice,
+	getOrganisationNames
 };

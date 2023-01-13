@@ -2,54 +2,41 @@ const logger = require('../lib/logger');
 
 // TODO: Make the method names consistent, something like "create...Requests()"?
 class HorizonMapper {
+
 	/**
+	 * @param {OrganisationNamesValueObject} organisationNamesValueObject
 	 * @return {any} Structure is:
 	 * {
-	 *  originalApplicant: { value: {} },
-	 *  agent: { value: {} } // optional
+	 *  originalApplicant: <request JSON>,
+	 *  agent: <request JSON> // optional: only if an agent organisation name is specified in input
 	 * }
+	 * 
+	 * The values for `originalApplicant` and `agent` may be null if no organisation name is specified
+	 * for either.
 	 */
-	appealToCreateOrganisationRequests(appeal) {
+	appealToCreateOrganisationRequests(organisationNamesValueObject) {
 		logger.debug('Constructing create organisation requests for Horizon');
 
-		logger.debug('Checking if the appeal is a full appeal since only these appeals requests require organisations to be created in Horizon')
-		if (appeal.appealType !== '1005') {
-			logger.debug('The appel is not a full appeal, returning')
-			return {};
-		}
-
-		logger.debug('The appeal is a full appeal, continuing with construction of create organisation requests')
 		let result = {
-			originalApplicant: { value: null },
-			agent: { value: null }
+			originalApplicant: null,
+			agent: null
 		};
 
-		logger.debug('Checking if an agent is submitting the appeal')
-		if (appeal.contactDetailsSection.isOriginalApplicant) {
-			logger.debug('No, an agent is not filling out the appeal')
-			logger.debug('Checking if a company name for the applicant has been specified')
-			if (appeal.contactDetailsSection.contact?.companyName) {
-				logger.debug(`A company name has been specified for the applicant, so the applicant's organisation name will be set to: '${appeal.contactDetailsSection.contact.companyName}'`);
-				result.originalApplicant.value = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
-				result.originalApplicant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName;
-			}
-		} else {
-			logger.debug('Yes, an agent is submitting the appeal');
-			logger.debug('Checking if a company name for the original applicant has been defined')
-			if (appeal.contactDetailsSection?.appealingOnBehalfOf?.companyName) {
-				logger.debug(`A company name has been specified for the original applicant, so the original applicant's organisation name will be set to: '${appeal.contactDetailsSection.appealingOnBehalfOf.companyName}'`);
-				result.originalApplicant.value = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
-				result.originalApplicant.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.appealingOnBehalfOf.companyName;
-			}
+		const appellantOrganisationName = organisationNamesValueObject.getAppellantOrganisationName();
+		logger.debug(`The appellant organisation name is: '${appellantOrganisationName}'`);
+		if (appellantOrganisationName) {
+			result.originalApplicant = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation')
+			result.originalApplicant.AddContact.contact['a:Name'] = appellantOrganisationName
+		}
 		
-			logger.debug('Checking if a company name for the agent has been defined')
-			if (appeal.contactDetailsSection.contact?.companyName) {
-				logger.debug(`A company name has been specified for the agent, so the agent's organisation name will be set to: '${appeal.contactDetailsSection.contact.companyName}'`);
-				result.agent.value = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
-				result.agent.value.AddContact.contact['a:Name'] = appeal.contactDetailsSection.contact.companyName;
-			}
+		const agentOrganisationName = organisationNamesValueObject.getAgentOrganisationName();
+		logger.debug(`The agent organisation name is: '${appellantOrganisationName}'`);
+		if (agentOrganisationName) {
+			result.agent = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation')
+			result.agent.AddContact.contact['a:Name'] = agentOrganisationName	
 		}
 
+		logger.debug(result, 'Create organisation requests constructed');
 		return result;
 	}
 
