@@ -1725,11 +1725,11 @@ describe('schemas/full-appeal/update', () => {
 				});
 
 				describe('appealDecisionSection.hearing.reason', () => {
-					it('should throw an error when given a value with more than 255 characters', async () => {
-						appeal.appealDecisionSection.hearing.reason = 'a'.repeat(256);
+					it('should throw an error when given a value with more than 1000 characters', async () => {
+						appeal.appealDecisionSection.hearing.reason = 'a'.repeat(1001);
 
 						await expect(() => update.validate(appeal, config)).rejects.toThrow(
-							'appealDecisionSection.hearing.reason must be at most 255 characters'
+							'appealDecisionSection.hearing.reason must be at most 1000 characters'
 						);
 					});
 
