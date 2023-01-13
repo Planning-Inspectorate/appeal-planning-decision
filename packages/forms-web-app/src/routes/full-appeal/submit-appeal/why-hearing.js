@@ -16,7 +16,7 @@ router.post(
 	textfieldValidationRules({
 		fieldName: 'why-hearing',
 		emptyError: 'Enter why you would prefer a hearing',
-		tooLongError: `Inquiry information must be ${textFieldMaxCharacters} characters or less`,
+		tooLongError: `Hearing information must be $maxLength characters or less`,
 		maxLength: textFieldMaxCharacters
 	}),
 	validationErrorHandler,
