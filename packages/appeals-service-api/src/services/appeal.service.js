@@ -12,6 +12,7 @@ const { AppealsRepository } = require('../repositories/appeals-repository');
 const uuid = require('uuid');
 const DocumentService = require('./document.service');
 const OrganisationNamesValueObject = require('../value-objects/appeal/organisation-names.value')
+const ContactDetailsValueObject = require('../value-objects/appeal/contact-details.value')
 
 const appealsRepository = new AppealsRepository();
 const documentService = new DocumentService();
@@ -178,6 +179,49 @@ function getOrganisationNames(appeal) {
 	);
 }
 
+function getContactDetails(appeal) {
+	logger.debug(appeal, "Getting contact details from appeal")
+
+	const appealIsAFullAppeal = appeal.appealType == '1005';
+	const anAgentIsAppealingOnBehalfOfAnAppellant = appealIsAFullAppeal
+		? !appeal.contactDetailsSection.isOriginalApplicant
+		: !appeal.aboutYouSection.yourDetails.isOriginalApplicant;
+
+	let appellantName = null;
+	let appellantEmail = null;
+	let agentName = null;
+	let agentEmail = null;
+
+	if (appealIsAFullAppeal) {
+		appellantName = appeal.contactDetailsSection.contact.name;
+		appellantEmail = appeal.email
+
+		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
+			agentName = appeal.contactDetailsSection.contact.name;
+			agentEmail = appeal.email;
+			appellantName = appeal.contactDetailsSection.appealingOnBehalfOf.name;
+			appellantEmail = null;
+		}
+	} else {
+		appellantName = appeal.aboutYouSection.yourDetails.name;
+		appellantEmail = appeal.email
+
+		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
+			agentName = appeal.aboutYouSection.yourDetails.name;
+			agentEmail = appeal.email
+			appellantName = appeal.aboutYouSection.yourDetails.appealingOnBehalfOf;
+			appellantEmail = null;
+		} 
+	}
+
+	logger.debug(`Appellant name: ${appellantName}`)
+	logger.debug(`Appellant email: ${appellantEmail}`)
+	logger.debug(`Agent name: ${agentName}`)
+	logger.debug(`Agent email: ${agentEmail}`)
+
+	return new ContactDetailsValueObject(appellantName, appellantEmail, agentName, agentEmail);
+}
+
 module.exports = {
 	createAppeal,
 	getAppeal,
@@ -185,5 +229,6 @@ module.exports = {
 	validateAppeal,
 	getDocumentInBase64Encoding,
 	saveAppealAsSubmittedToBackOffice,
-	getOrganisationNames
+	getOrganisationNames,
+	getContactDetails
 };

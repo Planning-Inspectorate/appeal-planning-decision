@@ -46,12 +46,12 @@ class HorizonGateway {
 		return result;
 	}
 
-	async createContacts(appeal, contacts) {
+	async createContacts(contactDetailsValueObject, contactOrganisationHorizonIDs) {
 		logger.debug(`Creating contacts in Horizon`);
 		const createContactUrl = `${config.services.horizon.url}/contacts`;
-		const createContactRequestJson = this.#horizonMapper.createContactRequests(appeal, contacts);
+		const createContactRequestJson = this.#horizonMapper.createContactRequests(contactDetailsValueObject, contactOrganisationHorizonIDs);
 
-		const result = [];
+		const results = [];
 		for (const key in createContactRequestJson) {
 			const request = createContactRequestJson[key].requestBody;
 			const createContactResponse = await this.#makeRequestAndHandleAnyErrors(
@@ -62,36 +62,16 @@ class HorizonGateway {
 			const personId =
 				createContactResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
 
-			//TODO: this result structure should occur in the create Appeal mapper, we should just return the personId for this method.
-			result.push({
-				key: 'Case Involvement:Case Involvement',
-				value: [
-					{
-						key: 'Case Involvement:Case Involvement:ContactID',
-						value: personId
-					},
-					{
-						key: 'Case Involvement:Case Involvement:Contact Details',
-						value: createContactRequestJson[key].name
-					},
-					{
-						key: 'Case Involvement:Case Involvement:Involvement Start Date',
-						value: new Date()
-					},
-					{
-						key: 'Case Involvement:Case Involvement:Communication Preference',
-						value: 'e-mail'
-					},
-					{
-						key: 'Case Involvement:Case Involvement:Type Of Involvement',
-						value: createContactRequestJson[key].type
-					}
-				]
-			});
+			const result = {
+				name: createContactRequestJson[key].name,
+				type: createContactRequestJson[key].type,
+				horizonContactId: personId
+			}
+			results.push(result);
 		}
 
-		logger.debug(result, `Create contacts result`);
-		return result;
+		logger.debug(results, `Create contacts result`);
+		return results;
 	}
 
 	/**
