@@ -1,7 +1,7 @@
 const jp = require('jsonpath');
 
 const { HorizonGateway } = require('../gateway/horizon-gateway');
-const { getAppeal, getDocumentInBase64Encoding } = require('./appeal.service');
+const { getOrganisationNames, getAppeal, getDocumentInBase64Encoding } = require('./appeal.service');
 const logger = require('../lib/logger');
 const { getLpaById, getLpaCountry } = require('./lpa.service');
 
@@ -13,7 +13,7 @@ class HorizonService {
 	}
 
 	async createAppeal(appeal) {
-		const createdOrganisations = await this.#horizonGateway.createOrganisations(appeal);
+		const createdOrganisations = await this.#horizonGateway.createOrganisations(getOrganisationNames(appeal));
 		const createdContacts = await this.#horizonGateway.createContacts(appeal, createdOrganisations);
 
 		// TODO: We could upload documents in the "create appeal" request. However,

@@ -136,7 +136,7 @@ class AppealFixtures {
 	newFullAppeal({
 		id = '', 
 		decision = 'granted', 
-		planningApplicationType = 'householder-planning', 
+		planningApplicationType = 'householder-planning', //todo: is this correct?
 		ownsAllLand = false, 
 		agentAppeal = false, 
 		appellantCompanyName = null, 

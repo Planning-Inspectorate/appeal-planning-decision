@@ -592,7 +592,10 @@ describe('Back Office', () => {
 			})
 		];
 
-		it.each([...householderAppealConditions, ...fullAppealConditions])(
+		it.each([
+			...householderAppealConditions, 
+			...fullAppealConditions,
+		])(
 			'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload for: $description',
 			async (condition) => {
 				// Given: that we use the Horizon integration back office strategy

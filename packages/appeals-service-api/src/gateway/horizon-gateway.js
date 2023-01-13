@@ -13,23 +13,23 @@ class HorizonGateway {
 
 	/**
 	 *
-	 * @param {*} appeal
+	 * @param {OrganisationNamesValueObject} organisationNamesValueObject
 	 * @returns {any} Structure is:
 	 * {
 	 *  originalApplicant: '<original-applicant-organisation-id-in-horizon>',
 	 *  agent: '<agent-organisation-id-in-horizon> // optional: only if the appeal references an agent.
 	 * }
 	 */
-	async createOrganisations(appeal) {
-		logger.debug('Creating organisations in Horizon');
+	async createOrganisations(organisationNamesValueObject) {
+		logger.debug(organisationNamesValueObject, 'Creating the following organisations in Horizon');
 		const createOrganisationUrl = `${config.services.horizon.url}/contacts`;
 		const createOrganisationRequestJson =
-			this.#horizonMapper.appealToCreateOrganisationRequests(appeal);
+			this.#horizonMapper.appealToCreateOrganisationRequests(organisationNamesValueObject);
 		logger.debug(createOrganisationRequestJson, "Create organisation requests to send to Horizon");
 
 		const result = {};
 		for (const key in createOrganisationRequestJson) {
-			const request = createOrganisationRequestJson[key].value;
+			const request = createOrganisationRequestJson[key];
 			if (request) {
 				const createOrganisationResponse = await this.#makeRequestAndHandleAnyErrors(
 					createOrganisationUrl,
