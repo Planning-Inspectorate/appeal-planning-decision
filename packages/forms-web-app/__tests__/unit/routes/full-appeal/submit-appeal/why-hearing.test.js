@@ -35,7 +35,8 @@ describe('routes/full-appeal/submit-appeal/why-hearing', () => {
 		expect(textfieldValidationRules).toHaveBeenCalledWith({
 			fieldName: 'why-hearing',
 			emptyError: 'Enter why you would prefer a hearing',
-			tooLongError: 'Hearing information must be $maxLength characters or less'
+			tooLongError: 'Hearing information must be $maxLength characters or less',
+			maxLength: 1000
 		});
 	});
 });
