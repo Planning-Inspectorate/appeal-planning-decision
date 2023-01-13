@@ -593,8 +593,8 @@ describe('Back Office', () => {
 		];
 
 		it.each([
-			...householderAppealConditions, 
-			...fullAppealConditions,
+			...householderAppealConditions,
+			...fullAppealConditions
 		])(
 			'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload for: $description',
 			async (condition) => {
