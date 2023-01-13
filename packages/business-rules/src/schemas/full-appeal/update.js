@@ -134,10 +134,10 @@ const update = pinsYup
 		appealDecisionSection: pinsYup.object().shape({
 			procedureType: pinsYup.string().oneOf(Object.values(PROCEDURE_TYPE)).required(),
 			hearing: pinsYup.object().shape({
-				reason: pinsYup.string().trim().max(255).nullable()
+				reason: pinsYup.string().trim().max(1000).nullable()
 			}),
 			inquiry: pinsYup.object().shape({
-				reason: pinsYup.string().trim().max(255).nullable(),
+				reason: pinsYup.string().trim().max(1000).nullable(),
 				expectedDays: pinsYup.number().integer().min(1).max(999).nullable()
 			}),
 			draftStatementOfCommonGround: pinsYup.object().shape({

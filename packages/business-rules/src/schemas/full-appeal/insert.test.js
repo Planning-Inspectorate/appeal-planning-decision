@@ -1857,11 +1857,11 @@ describe('schemas/full-appeal/insert', () => {
 				});
 
 				describe('appealDecisionSection.inquiry.reason', () => {
-					it('should throw an error when given a value with more than 255 characters', async () => {
-						appeal.appealDecisionSection.inquiry.reason = 'a'.repeat(256);
+					it('should throw an error when given a value with more than 1000 characters', async () => {
+						appeal.appealDecisionSection.inquiry.reason = 'a'.repeat(1001);
 
 						await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-							'appealDecisionSection.inquiry.reason must be at most 255 characters'
+							'appealDecisionSection.inquiry.reason must be at most 1000 characters'
 						);
 					});
 
