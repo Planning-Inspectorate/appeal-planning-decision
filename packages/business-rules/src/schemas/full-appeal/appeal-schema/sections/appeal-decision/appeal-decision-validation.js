@@ -14,13 +14,13 @@ const appealDecisionValidation = () => {
 			hearing: pinsYup
 				.object()
 				.shape({
-					reason: pinsYup.string().trim().max(255).nullable()
+					reason: pinsYup.string().trim().max(1000).nullable()
 				})
 				.noUnknown(true),
 			inquiry: pinsYup
 				.object()
 				.shape({
-					reason: pinsYup.string().trim().max(255).nullable(),
+					reason: pinsYup.string().trim().max(1000).nullable(),
 					expectedDays: pinsYup.number().integer().min(1).max(999).nullable()
 				})
 				.noUnknown(true),
