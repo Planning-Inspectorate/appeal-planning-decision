@@ -5,7 +5,6 @@ const jp = require('jsonpath');
 
 const config = require('../config');
 const parentLogger = require('./logger');
-const { logger } = require('../config');
 
 async function handler(path, method = 'GET', opts = {}, headers = {}) {
 	const correlationId = uuid.v4();
@@ -32,7 +31,7 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 					...opts
 				});
 
-				logger.debug(apiResponse, 'Appeals API response')
+				logger.debug(apiResponse, 'Appeals API response');
 
 				if (!apiResponse.ok) {
 					logger.debug(apiResponse, 'API Response not OK');
@@ -81,31 +80,42 @@ exports.createOrUpdateAppeal = (appeal) => {
 };
 
 exports.submitAppeal = async (appeal) => {
-	const savedAppeal = await handler(`/api/v1/appeals/${appeal.id}`, 'PUT', { body: JSON.stringify(appeal) });
+	const savedAppeal = await handler(`/api/v1/appeals/${appeal.id}`, 'PUT', {
+		body: JSON.stringify(appeal)
+	});
 	await handler(`/api/v1/back-office/appeals/${appeal.id}`, 'PUT');
 	return savedAppeal;
 };
 
 exports.submitAppealDocumentsToBackOffice = async (appeal) => {
+	const correlationId = uuid.v4();
+	const logger = parentLogger.child({
+		correlationId,
+		service: 'Appeals Service API'
+	});
+
 	const filesToUpload = [
 		...jp.query(appeal, '$..uploadedFile').flat(Infinity),
-	 	...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
+		...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
 	]
-	// Some document JSON is included in the appeal JSON, but these documents may not have been uploaded by the user. 
-	// These documents will have a null ID, and if we try to make a call to the API with these, the call will fail. 
-	// Therefore, don't process these files in this function!
-	.filter(fileJson => fileJson.id);
+		// Some document JSON is included in the appeal JSON, but these documents may not have been uploaded by the user.
+		// These documents will have a null ID, and if we try to make a call to the API with these, the call will fail.
+		// Therefore, don't process these files in this function!
+		.filter((fileJson) => fileJson.id);
 
-	logger.debug(filesToUpload, 'Files to upload to appeal on server')
-	const responses = []
+	logger.debug(filesToUpload, 'Files to upload to appeal on server');
+	const responses = [];
 	for (const file of filesToUpload) {
-		const response = await handler(`/api/v1/back-office/appeals/${appeal.id}/documents/${file.id}`, 'PUT');
+		const response = await handler(
+			`/api/v1/back-office/appeals/${appeal.id}/documents/${file.id}`,
+			'PUT'
+		);
 		responses.push(response);
 	}
 
-	logger.debug(responses, 'Result of uploading files to appeal on server')
+	logger.debug(responses, 'Result of uploading files to appeal on server');
 	return responses;
-}
+};
 
 exports.getExistingAppeal = async (sessionId) => {
 	return handler(`/api/v1/appeals/${sessionId}`);
