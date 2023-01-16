@@ -111,7 +111,7 @@ class HorizonMapper {
 		});
 	}
 
-	appealToHorizonCreateAppealRequest(appeal, contacts, appealCountry, horizonLpaCode) {
+	appealToHorizonCreateAppealRequest(appeal, contacts, lpaEntity) {
 		// if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
 		const appealTypeId = appeal.appealType == null ? '1001' : appeal.appealType;
 		const decision = appeal.eligibility.applicationDecision;
@@ -129,9 +129,9 @@ class HorizonMapper {
 				__soap_op: 'http://tempuri.org/IHorizon/CreateCase',
 				__xmlns: 'http://tempuri.org/',
 				caseType: this.#getAppealType(appealTypeId),
-				LPACode: horizonLpaCode,
+				LPACode: lpaEntity.getLpaCode(),
 				dateOfReceipt: new Date(),
-				location: appealCountry,
+				location: lpaEntity.getCountry(),
 				category: {
 					'__xmlns:a': 'http://schemas.datacontract.org/2004/07/Horizon.Business',
 					'__xmlns:i': 'http://www.w3.org/2001/XMLSchema-instance',
@@ -142,6 +142,21 @@ class HorizonMapper {
 
 		logger.debug(input, 'Horizon create appeal request');
 		return input;
+	}
+
+	horizonCreateAppealResponseToCaseReference(createAppealResponse) {
+		// case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
+		const horizonFullCaseId =
+			createAppealResponse.data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
+
+		if (!horizonFullCaseId) {
+			logger.debug(horizonFullCaseId, 'Horizon ID malformed');
+			throw new Error(`Horizon ID malformed ${horizonFullCaseId}`);
+		}
+
+		const caseReference = horizonFullCaseId.split('/').slice(-1).pop();
+		logger.debug(caseReference, `Horizon ID parsed`);
+		return caseReference;
 	}
 
 	toCreateDocumentRequest(document, caseReference) {
