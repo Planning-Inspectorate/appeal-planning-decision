@@ -19,10 +19,6 @@ parameters:
     displayName: Build PDF Service API
     type: boolean
     default: true
-  - name: buildLpaApi
-    displayName: Build LPA API
-    type: boolean
-    default: true
   - name: buildWeb
     displayName: Build Web
     type: boolean
