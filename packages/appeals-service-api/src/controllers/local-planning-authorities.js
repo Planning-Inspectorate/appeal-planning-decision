@@ -6,11 +6,12 @@
  *
  * Trialist LPAs is our own data
  */
-const { getLpaList, createLpaList, getLpaById } = require('../services/lpa.service');
+const LpaService = require('../services/lpa.service');
+const lpaService = new LpaService();
 
 const get = async (req, res) => {
 	req.log.info(req.params.id, 'Retrieving LPA');
-	const lpa = await getLpaById(req.params.id);
+	const lpa = await lpaService.getLpaById(req.params.id);
 
 	if (lpa) {
 		res.send(lpa);
@@ -27,7 +28,7 @@ const list = async (req, res) => {
 		filter.name = new RegExp(name, 'i');
 	}
 
-	const data = await getLpaList();
+	const data = await lpaService.getLpaList();
 
 	const output = {
 		data,
@@ -41,7 +42,7 @@ const list = async (req, res) => {
 };
 
 const create = async (req, res) => {
-	const lpaList = await createLpaList(req.body);
+	const lpaList = await lpaService.createLpaList(req.body);
 	res.status(200).send(lpaList);
 };
 

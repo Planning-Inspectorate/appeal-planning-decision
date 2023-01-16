@@ -78,18 +78,16 @@ class HorizonGateway {
 	 *
 	 * @param {*} appeal
 	 * @param {*} contacts
-	 * @param {*} appealCountry
-	 * @param {*} horizonLpaCode
+	 * @param {*} lpaEntity
 	 * @returns {string} The appeal's case reference (horizon ID) after successful submission to Horizon
 	 */
-	async createAppeal(appeal, contacts, appealCountry, horizonLpaCode) {
+	async createAppeal(appeal, contacts, lpaEntity) {
 		logger.debug('Creating appeal in Horizon');
 
 		const appealCreationRequest = this.#horizonMapper.appealToHorizonCreateAppealRequest(
 			appeal,
 			contacts,
-			appealCountry,
-			horizonLpaCode
+			lpaEntity
 		);
 
 		const createAppealResponse = await this.#makeRequestAndHandleAnyErrors(
@@ -98,20 +96,7 @@ class HorizonGateway {
 			'create appeal'
 		);
 
-		// case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
-		const horizonFullCaseId =
-			createAppealResponse.data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
-
-		if (!horizonFullCaseId) {
-			logger.debug(horizonFullCaseId, 'Horizon ID malformed');
-			throw new Error(`Horizon ID malformed ${horizonFullCaseId}`);
-		}
-
-		const caseReference = horizonFullCaseId.split('/').slice(-1).pop();
-
-		logger.debug(caseReference, `Horizon ID parsed`);
-
-		return caseReference;
+		return this.#horizonMapper.horizonCreateAppealResponseToCaseReference(createAppealResponse)
 	}
 
 	async uploadAppealDocument(document, appealCaseReference) {

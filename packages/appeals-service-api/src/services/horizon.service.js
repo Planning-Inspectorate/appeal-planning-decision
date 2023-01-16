@@ -3,32 +3,31 @@ const jp = require('jsonpath');
 const { HorizonGateway } = require('../gateway/horizon-gateway');
 const { getOrganisationNames, getContactDetails, getAppeal, getDocumentInBase64Encoding } = require('./appeal.service');
 const logger = require('../lib/logger');
-const { getLpaById, getLpaCountry } = require('./lpa.service');
+const LpaService = require('./lpa.service');
 
 class HorizonService {
 	#horizonGateway;
+	#lpaService;
 
 	constructor() {
 		this.#horizonGateway = new HorizonGateway();
+		this.#lpaService = new LpaService();
 	}
 
 	async createAppeal(appeal) {
-		const contactOrganisationHorizonIDs = await this.#horizonGateway.createOrganisations(getOrganisationNames(appeal));
-		const createdContacts = await this.#horizonGateway.createContacts(getContactDetails(appeal), contactOrganisationHorizonIDs);
-
 		// We could upload documents in the "create appeal" request. However, the response from Horizon 
 		// doesn't say which document fails, just that the appeal failed. In this case, we'll upload the
 		// documents separately in a separate request since doing them as part of this function makes the
 		// function take _A LONG TIME_ to complete.
-		const lpaData = await getLpaById(appeal.lpaCode);
-		const appealCountry = getLpaCountry(lpaData);
-		const horizonLpaCode = lpaData.lpaCode;
+
+		const contactOrganisationHorizonIDs = await this.#horizonGateway.createOrganisations(getOrganisationNames(appeal));
+		const createdContacts = await this.#horizonGateway.createContacts(getContactDetails(appeal), contactOrganisationHorizonIDs);
+		const lpaEntity = await this.#lpaService.getLpaById(appeal.lpaCode);
 
 		const horizonCaseReference = await this.#horizonGateway.createAppeal(
 			appeal,
 			createdContacts,
-			appealCountry,
-			horizonLpaCode
+			lpaEntity
 		);
 
 		logger.debug(

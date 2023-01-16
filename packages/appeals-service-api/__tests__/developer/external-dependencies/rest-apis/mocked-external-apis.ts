@@ -80,14 +80,16 @@ export class MockedExternalApis {
 		expectedInteractions: Array<Interaction>,
 		actualInteractions: any
 	): void {
+		logger.debug('Verifying interactions');
+		logger.debug('Expected interactions')
+		expectedInteractions.forEach(interaction => logger.debug(interaction.toString()))
+		logger.debug(actualInteractions, 'Actual interactions')
+
 		expect(actualInteractions.length).toEqual(expectedInteractions.length);
 
 		for (let i in expectedInteractions) {
 			const expectedInteraction = expectedInteractions[i];
 			const actualInteraction = actualInteractions[i];
-
-			logger.debug(expectedInteraction.toString(), 'Expected interaction');
-			logger.debug(actualInteraction, 'Actual interaction');
 
 			const actualInteractionBody = this.getJsonFromRecordedRequest(actualInteraction);
 			const allKeysFromActualInteractionBody = this.getAllKeysFromJson(actualInteractionBody);
