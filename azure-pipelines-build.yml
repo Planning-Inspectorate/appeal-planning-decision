@@ -6,11 +6,11 @@ parameters:
   - name: buildClamAv
     displayName: Build ClamAV API
     type: boolean
-    default: true
+    default: false
   - name: buildDocumentsApi
     displayName: Build Documents Service API
     type: boolean
-    default: true
+    default: false
   - name: buildHorizonFunctions
     displayName: Build Horizon Functions
     type: boolean
@@ -18,7 +18,7 @@ parameters:
   - name: buildPdfApi
     displayName: Build PDF Service API
     type: boolean
-    default: true
+    default: false
   - name: buildWeb
     displayName: Build Web
     type: boolean
