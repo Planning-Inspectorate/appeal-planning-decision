@@ -17,7 +17,6 @@ const {
 	HorizonInteraction
 } = require('./external-dependencies/rest-apis/interactions/horizon-interaction');
 const { NotifyInteraction } = require('./external-dependencies/rest-apis/interactions/notify-interaction');
-const { NotifyInteraction } = require('./external-dependencies/rest-apis/interactions/notify-interaction');
 const AppealFixtures = require('./fixtures/appeals');
 const HorizonIntegrationInputCondition = require('./utils/horizon-integration-input-condition');
 
@@ -951,7 +950,7 @@ describe('Back Office', () => {
 			expectedMessages = [];
 		});
 	});
-
+	
 	// describe('failed submissions', () => {
 
 	// 	it('should resubmit documents that failed to be uploaded to the back-office, from a set of appeals whose documents failed to be submitted to the back-office, when the `back-office/appeals/failed` endpoint is called', async () => {
