@@ -20,11 +20,13 @@ const appealHouseholderdecision = require('./appeal-householder-decision');
 const checkDecisionDateDeadline = require('../middleware/check-decision-date-deadline');
 const checkAppealTypeExists = require('../middleware/check-appeal-type-exists');
 const accessibilityStatementRouter = require('./accessibility-statement/accessibility-statement');
+const errorPageRouter = require('./error');
 
 router.use('/', homeRouter);
 router.use(guidancePagesRouter);
 router.use('/cookies', cookieRouter);
 router.use('/accessibility-statement', accessibilityStatementRouter);
+router.use('/error', errorPageRouter);
 router.use(
 	'/appellant-submission',
 	checkAppealTypeExists,
