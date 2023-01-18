@@ -4,7 +4,7 @@ const rules = () => {
 	return [
 		body('listed-building-householder')
 			.notEmpty()
-			.withMessage('Select yes if your appeal about a listed building')
+			.withMessage('Select yes if your appeal is about a listed building')
 			.bail()
 	];
 };

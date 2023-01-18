@@ -29,7 +29,13 @@ const postListedBuildingHouseholder = async (req, res) => {
 		appeal: { typeOfPlanningApplication }
 	} = req.session;
 
-	const isListedBuilding = body['listed-building-householder'] === 'yes';
+	let isListedBuilding = null;
+
+	if (body['listed-building-householder'] === 'yes') {
+		isListedBuilding = true;
+	} else if (body['listed-building-householder'] === 'no') {
+		isListedBuilding = false;
+	}
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(LISTED_BUILDING_HOUSEHOLDER, {
