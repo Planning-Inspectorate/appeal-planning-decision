@@ -2,7 +2,6 @@ const logger = require('../lib/logger');
 
 // TODO: Make the method names consistent, something like "create...Requests()"?
 class HorizonMapper {
-
 	/**
 	 * @param {OrganisationNamesValueObject} organisationNamesValueObject
 	 * @return {any} Structure is:
@@ -10,7 +9,7 @@ class HorizonMapper {
 	 *  originalApplicant: <request JSON>,
 	 *  agent: <request JSON> // optional: only if an agent organisation name is specified in input
 	 * }
-	 * 
+	 *
 	 * The values for `originalApplicant` and `agent` may be null if no organisation name is specified
 	 * for either.
 	 */
@@ -25,15 +24,15 @@ class HorizonMapper {
 		const appellantOrganisationName = organisationNamesValueObject.getAppellantOrganisationName();
 		logger.debug(`The appellant organisation name is: '${appellantOrganisationName}'`);
 		if (appellantOrganisationName) {
-			result.originalApplicant = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation')
-			result.originalApplicant.AddContact.contact['a:Name'] = appellantOrganisationName
+			result.originalApplicant = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
+			result.originalApplicant.AddContact.contact['a:Name'] = appellantOrganisationName;
 		}
-		
+
 		const agentOrganisationName = organisationNamesValueObject.getAgentOrganisationName();
 		logger.debug(`The agent organisation name is: '${appellantOrganisationName}'`);
 		if (agentOrganisationName) {
-			result.agent = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation')
-			result.agent.AddContact.contact['a:Name'] = agentOrganisationName	
+			result.agent = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
+			result.agent.AddContact.contact['a:Name'] = agentOrganisationName;
 		}
 
 		logger.debug(result, 'Create organisation requests constructed');
@@ -58,12 +57,12 @@ class HorizonMapper {
 	 */
 	createContactRequests(contactDetailsValueObject, contactOrganisationHorizonIDs) {
 		logger.debug('Constructing create contact requests for Horizon');
-		logger.debug(`Appellant name: ${contactDetailsValueObject.getAppellantName()}`)
-		logger.debug(`Appellant email: ${contactDetailsValueObject.getAppellantEmail()}`)
-		logger.debug(`Agent name: ${contactDetailsValueObject.getAgentName()}`)
-		logger.debug(`Agent email: ${contactDetailsValueObject.getAgentEmail()}`)
+		logger.debug(`Appellant name: ${contactDetailsValueObject.getAppellantName()}`);
+		logger.debug(`Appellant email: ${contactDetailsValueObject.getAppellantEmail()}`);
+		logger.debug(`Agent name: ${contactDetailsValueObject.getAgentName()}`);
+		logger.debug(`Agent email: ${contactDetailsValueObject.getAgentEmail()}`);
 
-		logger.debug(`Horizon IDs for contacts: ${contactOrganisationHorizonIDs}`)
+		logger.debug(`Horizon IDs for contacts: ${contactOrganisationHorizonIDs}`);
 
 		let contacts = [
 			{
@@ -76,14 +75,14 @@ class HorizonMapper {
 				type: 'Agent',
 				organisationId: contactOrganisationHorizonIDs?.agent,
 				name: contactDetailsValueObject.getAgentName(),
-				email: contactDetailsValueObject.getAgentEmail() 
+				email: contactDetailsValueObject.getAgentEmail()
 			}
 		];
 
 		logger.debug(contacts, `Contacts to map into Horizon request`);
 
 		return contacts
-			.filter(contact => contact.name) // Contacts without a name shouldn't be mapped
+			.filter((contact) => contact.name) // Contacts without a name shouldn't be mapped
 			.map((contact) => {
 				let [firstName, ...lastName] = contact.name.split(' ');
 
@@ -97,18 +96,18 @@ class HorizonMapper {
 					lastName = lastName.join(' ');
 				}
 
-			let requestBody = this.#getCreateContactRequestJson('a:HorizonAPIPerson');
-			requestBody.AddContact.contact['a:Email'] = contact?.email || { '__i:nil': 'true' };
-			requestBody.AddContact.contact['a:FirstName'] = firstName || '<Not provided>';
-			requestBody.AddContact.contact['a:LastName'] = lastName || '<Not provided>';
-			requestBody.AddContact.contact['a:OrganisationID'] = contact.organisationId;
+				let requestBody = this.#getCreateContactRequestJson('a:HorizonAPIPerson');
+				requestBody.AddContact.contact['a:Email'] = contact?.email || { '__i:nil': 'true' };
+				requestBody.AddContact.contact['a:FirstName'] = firstName || '<Not provided>';
+				requestBody.AddContact.contact['a:LastName'] = lastName || '<Not provided>';
+				requestBody.AddContact.contact['a:OrganisationID'] = contact.organisationId;
 
-			return {
-				name: contact.name,
-				type: contact.type,
-				requestBody: requestBody
-			};
-		});
+				return {
+					name: contact.name,
+					type: contact.type,
+					requestBody: requestBody
+				};
+			});
 	}
 
 	appealToHorizonCreateAppealRequest(appeal, contacts, lpaEntity) {
@@ -196,6 +195,9 @@ class HorizonMapper {
 			delete document['horizon_document_group_type'];
 		}
 
+		//Special characters such as & are causing issues with documents not arriving in Horizon.
+		let sanitisedDocumentName = document.name.replace('&', '&amp;');
+
 		return {
 			AddDocuments: {
 				__soap_op: 'http://tempuri.org/IHorizon/AddDocuments',
@@ -210,7 +212,7 @@ class HorizonMapper {
 						'a:HorizonAPIDocument': {
 							'a:Content': document.data,
 							'a:DocumentType': documentTypeValue,
-							'a:Filename': document.name,
+							'a:Filename': sanitisedDocumentName,
 							'a:IsPublished': 'false',
 							'a:Metadata': {
 								'a:Attributes': [
@@ -427,7 +429,7 @@ class HorizonMapper {
 	}
 
 	#getContactAttributes(contacts) {
-		return contacts.map(contact => {
+		return contacts.map((contact) => {
 			return {
 				key: 'Case Involvement:Case Involvement',
 				value: [
@@ -452,7 +454,7 @@ class HorizonMapper {
 						value: contact.type
 					}
 				]
-			}
+			};
 		});
 	}
 
