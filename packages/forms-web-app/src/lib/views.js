@@ -188,7 +188,11 @@ const VIEW = {
 		COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully'
 	},
 
-	ACCESSIBILITY_STATEMENT: 'accessibility-statement/accessibility-statement'
+	ACCESSIBILITY_STATEMENT: 'accessibility-statement/accessibility-statement',
+
+	ERROR_PAGES: {
+		SERVICE_UNAVAILABLE: 'error/service-unavailable'
+	}
 };
 
 module.exports = {
