@@ -20,6 +20,7 @@ class LpaEntity {
     }
 
     static createFromJson(json) {
+			console.log(`createFromJson ${JSON.stringify(json)}`);
         return new LpaEntity(
             json._id,
             json._objectId,
@@ -39,7 +40,7 @@ class LpaEntity {
     getDomain() { return this.#domain; }
 
     isInTrial() { return this.#inTrial; }
-    getCountry() { 
+    getCountry() {
         if (this.#lpa19CD.startsWith('E')) {
             return "England"
         } else if (this.#lpa19CD.startsWith('W')) {

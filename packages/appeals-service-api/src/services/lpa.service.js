@@ -4,8 +4,8 @@ const LpaMapper = require('../mappers/lpa-mapper')
 const LpaEntity = require('../models/entities/lpa-entity')
 
 class LpaService {
-	#lpaMapper 
-	
+	#lpaMapper
+
 	constructor() {
 		this.#lpaMapper = new LpaMapper();
 	}
@@ -41,6 +41,8 @@ class LpaService {
 			await mongodb.get().collection('lpa').remove({}); // Deletes all LPAs from database
 			const lpaChunks = this.#chunkArray(lpaEntitiesAsJson, 10);
 
+			console.log(`lpaChunks: ${lpaChunks}`);
+
 			for (let chunk in lpaChunks) {
 				await new Promise((res) => setTimeout(res, 1000));
 				await mongodb.get().collection('lpa').insertMany(lpaChunks[chunk]);
@@ -51,7 +53,7 @@ class LpaService {
 
 		return lpaEntitiesAsJson;
 	}
-	
+
 	getLpaList = async () => {
 		const lpaList = [];
 		try {
@@ -87,7 +89,7 @@ class LpaService {
 		}
 		return 0;
 	}
-	
+
 	#chunkArray(myArray, chunk_size) {
 		let index = 0;
 		const arrayLength = myArray.length;

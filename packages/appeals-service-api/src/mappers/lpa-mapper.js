@@ -15,10 +15,11 @@ class LpaMapper {
             .slice(1) // Removes CSV header line and leaves the value lines
             .map(lpaRow => {
                 const lpaElements = lpaRow.trim().split(LpaMapper.#CSV_SEPARATOR)
+								console.log(`csvJsonToLpaEntities: ${lpaElements}`);
                 return new LpaEntity(
                     null,
-                    lpaElements[0], lpaElements[1], lpaElements[2], 
-                    lpaElements[3], lpaElements[4], lpaElements[5], 
+                    lpaElements[0], lpaElements[1], lpaElements[2],
+                    lpaElements[3], lpaElements[4], lpaElements[5],
                     lpaElements[6] && !!lpaElements[6].includes('TRUE')
                 );
             })
