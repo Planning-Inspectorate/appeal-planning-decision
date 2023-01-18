@@ -195,7 +195,7 @@ class HorizonMapper {
 			delete document['horizon_document_group_type'];
 		}
 
-		//Special characters such as & are causing issues with documents not arriving in Horizon.
+		//the special character ampersand (&) is causing issues with documents not arriving in Horizon.
 		let sanitisedDocumentName = document.name.replace('&', '&amp;');
 
 		return {
