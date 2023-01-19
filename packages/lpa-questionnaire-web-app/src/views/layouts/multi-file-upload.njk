@@ -30,7 +30,7 @@
       {% endif %}
 
       <form action="" method="post" novalidate encType="multipart/form-data">
-        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>{% block sectionName %}{% endblock %}</span>
+        <span class="govuk-caption-l">{% block sectionName %}{% endblock %}</span>
         <h1 class="govuk-heading-l">{% block pageHeading %}{% endblock %}</h1>
 
         <p>{% block pageDescription %}{% endblock %}</p>

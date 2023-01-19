@@ -34,7 +34,7 @@
         }) }}
       {% endif %}
       <form action="" method="post" novalidate>
-        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Upload documents from your planning application</span>
+        <span class="govuk-caption-l">Upload documents from your planning application</span>
         {{ govukRadios({
           classes: "govuk-radios",
           idPrefix: "description-development-correct",
@@ -44,18 +44,14 @@
           },
           fieldset: {
             legend: {
-              html: '<legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                       <h1 class="govuk-fieldset__heading">
-                          Is the description of development on  your application form still correct?
-                       </h1>
-                     </legend>
-                     <div id="plan-to-submit-planning-obligation-hint" class="govuk-hint">
-                        We need to know if you agreed a new one with the local planning department
-                     </div>',
-                isPageHeading: true,
-                classes: "govuk-fieldset__legend--l"
+              text: "Is the description of development on  your application form still correct?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
             }
           },
+					hint: {
+						text: "We need to know if you agreed a new one with the local planning department"
+					},
           items: [
             {
               value: "yes",

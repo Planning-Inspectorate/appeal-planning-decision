@@ -1,4 +1,3 @@
-const jp = require('jsonpath');
 const AppealFixtures = require('../fixtures/appeals');
 const {
 	HorizonCreateOrganisationRequestBodyExpectation
@@ -22,6 +21,17 @@ class HorizonIntegrationInputCondition {
 		lpaCode = 'E69999999',
 		horizonLpaCode = '',
 		appeal = this.#appealFixtures.newHouseholderAppeal(),
+		expectedContactRequests = [
+			{
+				firstName: 'Appellant',
+				lastName: 'Name',
+				email: 'test@pins.com',
+				type: 'Appellant',
+				orgId: null
+			}
+		],
+		expectedOrganisationNamesInCreateOrganisationRequests = [],
+		expectedNameOnAppealSuccessfullySubmittedEmail = 'Appellant Name',
 		expectedCaseworkReason = appeal.appealType == '1001'
 			? null
 			: '4. Granted planning permission for the development subject to conditions to which you object'
@@ -36,104 +46,50 @@ class HorizonIntegrationInputCondition {
 			email: 'appealplanningdecisiontest@planninginspectorate.gov.uk'
 		};
 
-		const appealDocuments = [
-			// Due to the current data structures of different appeals, we need to
-			// be agnostic of differences between them in order to ensure test
-			// correctness. Hence, we use JSONPath here to grab `uploadedFile` and
-			// `uploadedFiles` keys from the appeal used in the test condition. Note
-			// that we flatten the arrays returned since, in some curcumstances, these
-			// queries will return arrays of arrays.
-			...jp.query(appeal, '$..uploadedFile').flat(Infinity),
-			...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
-		];
+		let createContactInHorizonRequests = [];
+		let createAppealRequestContacts = [];
+		expectedContactRequests.forEach((expectedRequest, index) => {
+			createContactInHorizonRequests.push(
+				new HorizonCreateContactRequestBodyExpectation(
+					expectedRequest.email,
+					expectedRequest.firstName,
+					expectedRequest.lastName,
+					expectedRequest.orgId
+				)
+			);
+			createAppealRequestContacts.push(
+				new HorizonCreateAppealContactExpectation(
+					`P_${index}`,
+					`${expectedRequest.firstName} ${expectedRequest.lastName}`,
+					expectedRequest.type
+				)
+			);
+		});
 
-		let createAppealRequestContacts = [
-			new HorizonCreateAppealContactExpectation('P_0', 'Appellant Name', 'Appellant')
-		];
+		let createOrganisationInHorizonRequests = [];
+		expectedOrganisationNamesInCreateOrganisationRequests.forEach((name) => {
+			createOrganisationInHorizonRequests.push(
+				new HorizonCreateOrganisationRequestBodyExpectation(name)
+			);
+		});
 
 		let condition = {
 			description: description,
 			setHorizonId: setHorizonIdFunction,
 			lpa: lpaExpectations,
-			appeal: {
-				actual: appeal,
-				documents: appealDocuments
-			},
+			appeal: appeal,
 			expectations: {
-				createOrganisationInHorizonRequests: [
-					new HorizonCreateOrganisationRequestBodyExpectation(
-						appeal.appealType == '1001'
-							? { '__i:nil': 'true' }
-							: appeal.contactDetailsSection.contact.companyName
-					)
-				],
-				createContactInHorizonRequests: [
-					new HorizonCreateContactRequestBodyExpectation(
-						'test@pins.com',
-						'Appellant',
-						'Name',
-						`O_0`
-					)
-				],
+				createContactInHorizonRequests: createContactInHorizonRequests,
+				createOrganisationInHorizonRequests: createOrganisationInHorizonRequests,
 				createAppealInHorizonRequest: {}, // Populated later
 				emailToAppellant: {
-					name: 'Appellant Name'
+					name: expectedNameOnAppealSuccessfullySubmittedEmail
 				},
 				emailToLpa: {
 					templateVariables: []
 				}
 			}
 		};
-
-		/////////////////////////////////////////////////////////////////////////
-		///// Update contact expectations if there's an agent on the appeal /////
-		/////////////////////////////////////////////////////////////////////////
-
-		const agentIsSpecifiedInAppeal =
-			appeal.appealType == '1001'
-				? !appeal.aboutYouSection.yourDetails.isOriginalApplicant
-				: !appeal.contactDetailsSection.isOriginalApplicant;
-		if (agentIsSpecifiedInAppeal) {
-			// For a householder appeal, the second create org request issued should not
-			// have an organisation name either. No idea why, it was like that when we got here.
-			condition.expectations.createOrganisationInHorizonRequests.push(
-				new HorizonCreateOrganisationRequestBodyExpectation({ '__i:nil': 'true' })
-			);
-
-			if (appeal.appealType == '1005') {
-				// The first expected create org request will be for the appellant, the second will be for the agent
-				condition.expectations.createOrganisationInHorizonRequests[0] =
-					new HorizonCreateOrganisationRequestBodyExpectation(
-						appeal.contactDetailsSection.appealingOnBehalfOf.companyName
-					);
-				condition.expectations.createOrganisationInHorizonRequests[1] =
-					new HorizonCreateOrganisationRequestBodyExpectation(
-						appeal.contactDetailsSection.contact.companyName
-					);
-			}
-
-			// The first create contact request will be for the appellant, but their email isn't collected now
-			condition.expectations.createContactInHorizonRequests[0] =
-				new HorizonCreateContactRequestBodyExpectation(
-					{ '__i:nil': 'true' },
-					'Appellant',
-					'Name',
-					`O_0`
-				);
-
-			// The second create contact request will be for the ahent, and their email is collected
-			condition.expectations.createContactInHorizonRequests.push(
-				new HorizonCreateContactRequestBodyExpectation('test@pins.com', 'Agent', 'Name', 'O_1')
-			);
-
-			// There'll now be another contact added to the create appeal request
-			createAppealRequestContacts.push(
-				new HorizonCreateAppealContactExpectation('P_1', 'Agent Name', 'Agent')
-			);
-
-			// The email to the appellant will now contain the ahgen't name, instead of the appeallant's.
-			condition.expectations.emailToAppellant.name = 'Agent Name';
-		}
 
 		/////////////////////////////////////////////////////////////
 		///// Create and attach appeal request body expectation /////

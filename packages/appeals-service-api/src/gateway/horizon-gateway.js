@@ -13,41 +13,45 @@ class HorizonGateway {
 
 	/**
 	 *
-	 * @param {*} appeal
+	 * @param {OrganisationNamesValueObject} organisationNamesValueObject
 	 * @returns {any} Structure is:
 	 * {
-	 *  appellant: '<appellant-organisation-id-in-horizon>',
+	 *  originalApplicant: '<original-applicant-organisation-id-in-horizon>',
 	 *  agent: '<agent-organisation-id-in-horizon> // optional: only if the appeal references an agent.
 	 * }
 	 */
-	async createOrganisations(appeal) {
-		logger.debug('Creating organisations in Horizon');
+	async createOrganisations(organisationNamesValueObject) {
+		logger.debug(organisationNamesValueObject, 'Creating the following organisations in Horizon');
 		const createOrganisationUrl = `${config.services.horizon.url}/contacts`;
 		const createOrganisationRequestJson =
-			this.#horizonMapper.appealToCreateOrganisationRequests(appeal);
+			this.#horizonMapper.appealToCreateOrganisationRequests(organisationNamesValueObject);
+		logger.debug(createOrganisationRequestJson, "Create organisation requests to send to Horizon");
 
 		const result = {};
 		for (const key in createOrganisationRequestJson) {
-			const request = createOrganisationRequestJson[key].value;
-			const createOrganisationResponse = await this.#makeRequestAndHandleAnyErrors(
-				createOrganisationUrl,
-				request,
-				'create organisation'
-			);
-			result[key] =
-				createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
-			logger.debug(result, `Create organisations result`);
+			const request = createOrganisationRequestJson[key];
+			if (request) {
+				const createOrganisationResponse = await this.#makeRequestAndHandleAnyErrors(
+					createOrganisationUrl,
+					request,
+					'create organisation'
+				);
+				result[key] =
+					createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
+			
+				logger.debug(result, `Create organisations result`);
+			}
 		}
 
 		return result;
 	}
 
-	async createContacts(appeal, contacts) {
+	async createContacts(contactDetailsValueObject, contactOrganisationHorizonIDs) {
 		logger.debug(`Creating contacts in Horizon`);
 		const createContactUrl = `${config.services.horizon.url}/contacts`;
-		const createContactRequestJson = this.#horizonMapper.createContactRequests(appeal, contacts);
+		const createContactRequestJson = this.#horizonMapper.createContactRequests(contactDetailsValueObject, contactOrganisationHorizonIDs);
 
-		const result = [];
+		const results = [];
 		for (const key in createContactRequestJson) {
 			const request = createContactRequestJson[key].requestBody;
 			const createContactResponse = await this.#makeRequestAndHandleAnyErrors(
@@ -58,54 +62,32 @@ class HorizonGateway {
 			const personId =
 				createContactResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
 
-			//TODO: this result structure should occur in the create Appeal mapper, we should just return the personId for this method.
-			result.push({
-				key: 'Case Involvement:Case Involvement',
-				value: [
-					{
-						key: 'Case Involvement:Case Involvement:ContactID',
-						value: personId
-					},
-					{
-						key: 'Case Involvement:Case Involvement:Contact Details',
-						value: createContactRequestJson[key].name
-					},
-					{
-						key: 'Case Involvement:Case Involvement:Involvement Start Date',
-						value: new Date()
-					},
-					{
-						key: 'Case Involvement:Case Involvement:Communication Preference',
-						value: 'e-mail'
-					},
-					{
-						key: 'Case Involvement:Case Involvement:Type Of Involvement',
-						value: createContactRequestJson[key].type
-					}
-				]
-			});
+			const result = {
+				name: createContactRequestJson[key].name,
+				type: createContactRequestJson[key].type,
+				horizonContactId: personId
+			}
+			results.push(result);
 		}
 
-		logger.debug(result, `Create contacts result`);
-		return result;
+		logger.debug(results, `Create contacts result`);
+		return results;
 	}
 
 	/**
 	 *
 	 * @param {*} appeal
 	 * @param {*} contacts
-	 * @param {*} appealCountry
-	 * @param {*} horizonLpaCode
+	 * @param {*} lpaEntity
 	 * @returns {string} The appeal's case reference (horizon ID) after successful submission to Horizon
 	 */
-	async createAppeal(appeal, contacts, appealCountry, horizonLpaCode) {
+	async createAppeal(appeal, contacts, lpaEntity) {
 		logger.debug('Creating appeal in Horizon');
 
 		const appealCreationRequest = this.#horizonMapper.appealToHorizonCreateAppealRequest(
 			appeal,
 			contacts,
-			appealCountry,
-			horizonLpaCode
+			lpaEntity
 		);
 
 		const createAppealResponse = await this.#makeRequestAndHandleAnyErrors(
@@ -114,42 +96,25 @@ class HorizonGateway {
 			'create appeal'
 		);
 
-		// case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
-		const horizonFullCaseId =
-			createAppealResponse.data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
-
-		if (!horizonFullCaseId) {
-			logger.debug(horizonFullCaseId, 'Horizon ID malformed');
-			throw new Error(`Horizon ID malformed ${horizonFullCaseId}`);
-		}
-
-		const caseReference = horizonFullCaseId.split('/').slice(-1).pop();
-
-		logger.debug(caseReference, `Horizon ID parsed`);
-
-		return caseReference;
+		return this.#horizonMapper.horizonCreateAppealResponseToCaseReference(createAppealResponse)
 	}
 
-	async uploadAppealDocuments(documents, appealCaseReference) {
+	async uploadAppealDocument(document, appealCaseReference) {
 		const url = `${config.services.horizon.url}/horizon`;
-		for (const document of documents) {
-			const addDocumentRequest = this.#horizonMapper.toCreateDocumentRequest(
-				document,
-				appealCaseReference
-			);
+		const addDocumentRequest = this.#horizonMapper.toCreateDocumentRequest(
+			document,
+			appealCaseReference
+		);
 
-			// `maxBodyLength` specified as an option since Horizon doesn't support multipart uploads
-			const { data } = await this.#makeRequestAndHandleAnyErrors(
-				url,
-				addDocumentRequest,
-				'add document',
-				{ maxBodyLength: Infinity }
-			);
-			logger.debug(data, 'Upload document response');
-		}
-
-		logger.debug('Document upload to Horizon complete');
-		return;
+		// `maxBodyLength` specified as an option since Horizon doesn't support multipart uploads
+		const { data } = await this.#makeRequestAndHandleAnyErrors(
+			url,
+			addDocumentRequest,
+			'add document',
+			{ maxBodyLength: Infinity }
+		);
+		logger.debug(data, 'Upload document response');
+		return data;
 	}
 
 	//TODO: this should return an as-of-yet non-existent `HorizonAppealDto` instance.
