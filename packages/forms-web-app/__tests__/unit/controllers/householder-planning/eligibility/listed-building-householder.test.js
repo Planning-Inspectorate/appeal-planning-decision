@@ -88,7 +88,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
 			expect(res.render).toBeCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
-				isListedBuilding: appeal.eligibility.isListedBuilding,
+				isListedBuilding: null,
 				typeOfPlanningApplication: 'householder-planning',
 				errors: {
 					'listed-building-householder': {
