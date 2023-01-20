@@ -950,13 +950,21 @@ describe('Back Office', () => {
 			expectedMessages = [];
 		});
 	});
-	
+
 	// describe('failed submissions', () => {
 
 	// 	it('should resubmit documents that failed to be uploaded to the back-office, from a set of appeals whose documents failed to be submitted to the back-office, when the `back-office/appeals/failed` endpoint is called', async () => {
 	// 		// Given: that we are using the direct Horizon integration
 	// 		isFeatureActive.mockImplementation(() => { return true; });
 
+			// And: we have three appeals that have agent and appellant contacts that are saved to the API but are
+			//      unknown to the back-office saved on the server. Every appeal's contacts have organisation names
+			//      and their documents are known to the appeals API.
+			let inputs = [];
+			for (let i=0; i < 3; i++) {
+				const appeal = appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'});
+				const createAppealResponse = await _createAppeal(appeal);
+				const createdAppeal = createAppealResponse.body;
 	// 		// And: we have three appeals that have agent and appellant contacts that are saved to the API but are
 	// 		//      unknown to the back-office saved on the server. Every appeal's contacts have organisation names
 	// 		//      and their documents are known to the appeals API.
