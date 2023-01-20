@@ -7,22 +7,23 @@ const {
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const config = require('../configuration/config');
 const logger = require('./logger');
-const { getLpaById } = require('../services/lpa.service');
+const LpaService = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
 const { format } = require('date-fns');
 const constants = require('@pins/business-rules/src/constants');
 
+const lpaService = new LpaService();
 const { templates } = config.services.notify;
 
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
-		const lpa = await getLpaById(appeal.lpaCode);
+		const lpa = await lpaService.getLpaById(appeal.lpaCode);
 
 		const recipientEmail = appeal.email;
 		let variables = {
 			name: appeal.appealType == '1001' ? appeal.aboutYouSection.yourDetails.name : appeal.contactDetailsSection.contact.name,
 			'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-			'local planning department': lpa.name,
+			'local planning department': lpa.getName(),
 			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
 		};
 
@@ -50,8 +51,8 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 
 const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 	try {
-		const lpa = await getLpaById(appeal.lpaCode);
-		const lpaEmail = lpa.email;
+		const lpa = await lpaService.getLpaById(appeal.lpaCode);
+		const lpaEmail = lpa.getEmail();
 
 		// TODO: put inside an appeal model
 		let variables = {
@@ -60,10 +61,10 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		};
 
 		if (appeal.appealType == '1001') {
-			variables.LPA = lpa.name,
+			variables.LPA = lpa.getName(),
 			variables.date = format(appeal.submissionDate, 'dd MMMM yyyy')
 		} else if (appeal.appealType == '1005') {
-			variables['loca planning department'] = lpa.name,
+			variables['loca planning department'] = lpa.getName(),
 			variables['submission date'] = format(appeal.submissionDate, 'dd MMMM yyyy'),
 			variables.refused = _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED),
 			variables.granted = _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED),

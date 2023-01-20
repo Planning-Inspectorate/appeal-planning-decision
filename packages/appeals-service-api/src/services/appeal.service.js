@@ -11,6 +11,8 @@ const { validateAppeal } = require('../validators/validate-appeal');
 const { AppealsRepository } = require('../repositories/appeals-repository');
 const uuid = require('uuid');
 const DocumentService = require('./document.service');
+const OrganisationNamesValueObject = require('../value-objects/appeal/organisation-names.value')
+const ContactDetailsValueObject = require('../value-objects/appeal/contact-details.value')
 
 const appealsRepository = new AppealsRepository();
 const documentService = new DocumentService();
@@ -93,15 +95,28 @@ async function updateAppeal(id, appealUpdate) {
 	return updatedAppeal;
 }
 
-async function getDocumentsInBase64Encoding(appeal) {
+/**
+ * 
+ * @param {*} appeal 
+ * @param {*} documentId 
+ * @returns An {@link ApiError} if:
+ * <ul>
+ *  <li>No appeal with the ID specified is found</li> 
+ * 	<li>No document with the ID specified is found on the appeal</li>
+ * </ul>
+ * 
+ * Otherwise, returns JSON that respresents the document requested in base64 encoding.
+ */
+async function getDocumentInBase64Encoding(appeal, documentId) {
 	logger.debug(appeal, `Getting documents in base64 encoding for appeal`);
 	let documentIds = [];
 	populateArrayWithIdsFromKeysFoundInObject(appeal, ['uploadedFile', 'uploadedFiles'], documentIds);
-	documentIds = documentIds
-		.filter((document) => document.id !== null)
-		.map((documentIdJson) => documentIdJson.id);
-	logger.debug(documentIds, `Document IDs from appeal`);
-	return await documentService.getAppealDocumentsInBase64Encoding(appeal.id, documentIds);
+	let documentWithIdSpecifiedFromAppeal = documentIds.find((document) => document.id == documentId)
+	if(documentWithIdSpecifiedFromAppeal === undefined) {
+		throw new ApiError(404, `No document with ID ${documentId} could be found on appeal with ID ${appeal.id}`)
+	}
+
+	return await documentService.getAppealDocumentInBase64Encoding(appeal.id, documentWithIdSpecifiedFromAppeal.id);
 }
 
 function populateArrayWithIdsFromKeysFoundInObject(obj, keys, array) {
@@ -133,11 +148,87 @@ async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
 	return await updateAppeal(appeal.id, appeal);
 }
 
+/**
+ *
+ * @param {*} appeal 
+ * @returns {OrganisationNamesDto}
+ */
+function getOrganisationNames(appeal) {
+	// TODO: pull this into an appeal model when its eventually created
+	
+	logger.debug(appeal, "Getting organisation names from appeal")
+	if (appeal.appealType !== '1005') {
+		logger.debug("Appeal is not a full appeal, so no organisation names should be specified")
+		return new OrganisationNamesValueObject();
+	}
+
+	logger.debug("Appeal is a full appeal, so organisation names may be specified")
+	const contactOrganisationName = appeal.contactDetailsSection.contact?.companyName
+	logger.debug(`The basic contact organisation name has been specified as: '${contactOrganisationName}'`)
+	if (appeal.contactDetailsSection.isOriginalApplicant) {
+		logger.debug(`Appeal is being submitted by the original applicant, so '${contactOrganisationName}' will be returned`)
+		return new OrganisationNamesValueObject(contactOrganisationName);
+	}
+
+	logger.debug(`Appeal is being submitted by an agent, so '${contactOrganisationName}' will be returned as their company name`);
+	const appealingOnBehalfOfCompanyName = appeal.contactDetailsSection.appealingOnBehalfOf?.companyName;
+	logger.debug(`The company name of the original applicant has been specified as '${appealingOnBehalfOfCompanyName}' so this will be returned as well`);
+	return new OrganisationNamesValueObject(
+		appealingOnBehalfOfCompanyName,
+		contactOrganisationName
+	);
+}
+
+function getContactDetails(appeal) {
+	logger.debug(appeal, "Getting contact details from appeal")
+
+	const appealIsAFullAppeal = appeal.appealType == '1005';
+	const anAgentIsAppealingOnBehalfOfAnAppellant = appealIsAFullAppeal
+		? !appeal.contactDetailsSection.isOriginalApplicant
+		: !appeal.aboutYouSection.yourDetails.isOriginalApplicant;
+
+	let appellantName = null;
+	let appellantEmail = null;
+	let agentName = null;
+	let agentEmail = null;
+
+	if (appealIsAFullAppeal) {
+		appellantName = appeal.contactDetailsSection.contact.name;
+		appellantEmail = appeal.email
+
+		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
+			agentName = appeal.contactDetailsSection.contact.name;
+			agentEmail = appeal.email;
+			appellantName = appeal.contactDetailsSection.appealingOnBehalfOf.name;
+			appellantEmail = null;
+		}
+	} else {
+		appellantName = appeal.aboutYouSection.yourDetails.name;
+		appellantEmail = appeal.email
+
+		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
+			agentName = appeal.aboutYouSection.yourDetails.name;
+			agentEmail = appeal.email
+			appellantName = appeal.aboutYouSection.yourDetails.appealingOnBehalfOf;
+			appellantEmail = null;
+		} 
+	}
+
+	logger.debug(`Appellant name: ${appellantName}`)
+	logger.debug(`Appellant email: ${appellantEmail}`)
+	logger.debug(`Agent name: ${agentName}`)
+	logger.debug(`Agent email: ${agentEmail}`)
+
+	return new ContactDetailsValueObject(appellantName, appellantEmail, agentName, agentEmail);
+}
+
 module.exports = {
 	createAppeal,
 	getAppeal,
 	updateAppeal,
 	validateAppeal,
-	getDocumentsInBase64Encoding,
-	saveAppealAsSubmittedToBackOffice
+	getDocumentInBase64Encoding,
+	saveAppealAsSubmittedToBackOffice,
+	getOrganisationNames,
+	getContactDetails
 };

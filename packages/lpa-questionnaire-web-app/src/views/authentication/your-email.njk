@@ -55,7 +55,7 @@
           }
         }) }}
       {% endif %}
-      
+
       <h1 class="govuk-heading-xl">
         Householder planning appeal questionnaire
       </h1>
@@ -84,6 +84,7 @@
             hint: {
               text: ["Enter your ", lpaName, " email address"] | join
             },
+						autocomplete: "email",
             errorMessage: errors['email'] and {
                 text: errors['email'].msg,
                 attributes: {

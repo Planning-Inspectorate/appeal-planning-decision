@@ -24,7 +24,7 @@
 
     <div class="govuk-grid-column-two-thirds">
       <form action="" method="POST" novalidate>
-        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>Provide your contact details</span>
+        <span class="govuk-caption-l">Provide your contact details</span>
         <h1 class="govuk-heading-l">
           Contact details
         </h1>
@@ -39,6 +39,7 @@
           },
           id: "appellant-name",
           name: "appellant-name",
+					autocomplete: "name",
           value: section['name'],
           errorMessage: errors['appellant-name'] and {
             text: errors['appellant-name'].msg
@@ -55,6 +56,7 @@
           name: "appellant-company-name",
           spellcheck: false,
           value: section['companyName'],
+					autocomplete: "organisation-name",
           errorMessage: errors['appellant-company-name'] and {
             text: errors['appellant-company-name'].msg
           }

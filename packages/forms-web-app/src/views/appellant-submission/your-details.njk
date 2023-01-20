@@ -24,7 +24,7 @@
 
     <div class="govuk-grid-column-two-thirds">
       <form action="" method="POST" novalidate>
-        <span class="govuk-caption-l"><span class="govuk-visually-hidden">Section. </span>About you</span>
+        <span class="govuk-caption-l">About you</span>
         <h1 class="govuk-heading-l">
           Your details
         </h1>
@@ -38,6 +38,7 @@
           },
           id: "appellant-name",
           name: "appellant-name",
+					autocomplete: "name",
           value: appeal['aboutYouSection']['yourDetails']['name'],
           errorMessage: errors['appellant-name'] and {
             text: errors['appellant-name'].msg
