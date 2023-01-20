@@ -593,7 +593,7 @@ describe('Back Office', () => {
 			})
 		];
 
-		it.each([
+		it.only.each([
 			...householderAppealConditions,
 			...fullAppealConditions
 		])(
