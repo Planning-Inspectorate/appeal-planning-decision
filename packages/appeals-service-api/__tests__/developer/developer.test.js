@@ -1000,11 +1000,15 @@ describe('Back Office', () => {
 			//      unknown to the back-office saved on the server. Every appeal's contacts have organisation names
 			//      and their documents are known to the appeals API.
 			let inputs = [];
+			let horizonDocumentInteractions;
+			let horizonContactInteractions;
+			let horizonAppealInteractions;
+
 			for (let i=0; i < 3; i++) {
 				const appeal = appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'});
 				const createAppealResponse = await _createAppeal(appeal);
 				const createdAppeal = createAppealResponse.body;
-
+				
 				await mockedExternalApis.mockHorizonCreateContactResponse(200, `APPELLANT_ORG_${i}_0`);
 				await mockedExternalApis.mockHorizonCreateContactResponse(200, `AGENT_ORG_${i}_1`);
 				await mockedExternalApis.mockHorizonCreateContactResponse(200, `APPELLANT_CONTACT_${i}_0`);
@@ -1016,17 +1020,23 @@ describe('Back Office', () => {
 					...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
 				];
 
-				documents.forEach(async (document) => await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true));
+				documents.forEach(async (document) => {
+					await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
+				});
 
 				// And: all the documents on the first appeal will be successfully uploaded to the back-office
 				if (i == 0) {
-					documents.forEach(async (document) => await mockedExternalApis.mockHorizonUploadDocumentResponse(200, document));
+					documents.forEach(async (document) => {
+						await mockedExternalApis.mockHorizonUploadDocumentResponse(200, document);
+						horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+					});
 				}
 				// And: the even numbered documents of the second appeal will error-out when they are being processed by the back-office
 				else if (i == 1) {
 					documents.forEach(async (document, index) => {
 						let statusCode = index % 2 == 0 ? 500 : 200;
 						await mockedExternalApis.mockHorizonUploadDocumentResponse(statusCode, document);
+						horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
 					});
 				}
 				// And: the odd numbered documents of the third appeal will error-out when they are being processed by the back-office
@@ -1034,6 +1044,7 @@ describe('Back Office', () => {
 					documents.forEach(async (document, index) => {
 						let statusCode = index % 2 == 0 ? 200 : 500;
 						await mockedExternalApis.mockHorizonUploadDocumentResponse(statusCode, document);
+						horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
 					});
 				}
 
@@ -1042,6 +1053,7 @@ describe('Back Office', () => {
 					documents.forEach(async (document, index) => {
 						let statusCode = index % 2 == 0 ? 500 : 200;
 						await mockedExternalApis.mockHorizonUploadDocumentResponse(statusCode, document);
+						horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
 					});
 				}
 
@@ -1061,16 +1073,20 @@ describe('Back Office', () => {
 					...jp.query(appeal, '$..uploadedFile').flat(Infinity),
 					...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
 				];
-				documents.forEach(async (document) => await mockedExternalApis.mockDocumentsApiResponse(200, appeal.id, document, true));
+				documents.forEach(async (document) => {
+					await mockedExternalApis.mockDocumentsApiResponse(200, appeal.id, document, true);
+				});
 
 				if (appealIndex == 0) {
 					documents.forEach(async (document, index) => {
 						let statusCode = index % 2 == 0 ? 500 : 200;
 						await mockedExternalApis.mockHorizonUploadDocumentResponse(statusCode, document);
+						horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
 					});
 				} else {
 					documents.forEach(async (document) => {
 						await mockedExternalApis.mockHorizonUploadDocumentResponse(200, document);
+						horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
 					});
 				}
 			});
@@ -1080,13 +1096,32 @@ describe('Back Office', () => {
 
 			// Then: we expect a 200 in the response
 			expect(response.status).toBe(200);
-			// And: requests should be sent to the back office to process the even numbered documents of the second appeal, along with its contacts, appeals, and documents
 
-			// And: requests should be sent to the back office to process the odd numbered documents of the third appeal, along with its contacts, appeals, and documents
-
+			inputs.forEach(async (appeal, appealIndex) => {
+				const documents = [
+					...jp.query(appeal, '$..uploadedFile').flat(Infinity),
+					...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
+				];
+				// And: requests should be sent to the back office to process the even numbered documents of the second appeal, without with its organisation, contacts, appeals
+				if(appealIndex == 1){
+					documents.forEach(async (document, index) => {
+						if(index % 2 == 0){
+							horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+						}
+					})
+				}
+				// And: requests should be sent to the back office to process the odd numbered documents of the third appeal, without with its organisation, contacts, appeals
+				if(appealIndex == 2){
+					documents.forEach(async (document, index) => {
+						if(index % 2 !== 0){
+							horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+						}
+					})
+				}
+			});
 			// And: Notify should have been called 3 times for each document submission, but also once to notify engineers about what appeals are being reprocessed, and which ones failed/succeeded reprocessing
 			expectedNotifyInteractions = [];
-			expectedHorizonInteractions = [];
+			expectedHorizonInteractions = [horizonDocumentInteractions];
 			// And: There should be no messages sent to the message queue
 			expectedMessages = [];
 		});
