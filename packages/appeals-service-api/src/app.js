@@ -8,7 +8,6 @@ const logger = require('./lib/logger');
 const routes = require('./routes');
 const apiErrorHandler = require('./errors/apiErrorHandler');
 require('express-async-errors');
-// require('./scheduledTasks/failed-horizon-upload-tasks')();
 
 const app = express();
 
