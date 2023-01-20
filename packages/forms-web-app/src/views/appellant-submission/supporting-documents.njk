@@ -91,3 +91,21 @@
     </div>
   </div>
 {% endblock %}
+
+{% block bodyEnd %}
+  {% block scripts %}
+    {% block pageScripts %}
+			<script src="/assets/jquery.js"></script>
+			<script src="/assets/mojfrontend/all.js"></script>
+			<script>
+				if(MOJFrontend && typeof MOJFrontend.MultiFileUpload !== 'undefined') {
+				new MOJFrontend.MultiFileUpload({
+					container: $('.moj-multi-file-upload'),
+					uploadUrl: '/ajax-upload-url',
+					deleteUrl: '/ajax-delete-url'
+				});
+			}
+			</script>
+		{% endblock %}
+  {% endblock %}
+{% endblock %}
