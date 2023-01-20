@@ -592,10 +592,7 @@ describe('Back Office', () => {
 			})
 		];
 
-		it.each([
-			...householderAppealConditions,
-			...fullAppealConditions
-		])(
+		it.each([...householderAppealConditions, ...fullAppealConditions])(
 			'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload for: $description',
 			async (condition) => {
 				// Given: that we use the Horizon integration back office strategy
@@ -1296,7 +1293,7 @@ describe('Back Office', () => {
 			expectedMessages = [];
 		});
 
-		it('should return a 200 if the `send-appeal-direct-to-horizon-wrapper` feature flag is on, and a document is submitted to the back-office, and both the appeal/document referenced exist server-side, and Horizon responds with a 200 when the document upload is attempted', async () => {
+		it('should return a 200 if the `send-appeal-direct-to-horizon-wrapper` feature flag is on, and a document is submitted to the back-office, and both the appeal/document referenced exist server-side, and Horizon responds with a 200 when the document upload is attempted (including filename sanitisation)', async () => {
 			// Given: that we use the Horizon integration back office strategy
 			isFeatureActive.mockImplementation(() => {
 				return true;
@@ -1307,8 +1304,9 @@ describe('Back Office', () => {
 			const createAppealResponse = await _createAppeal(appeal);
 			let createdAppeal = createAppealResponse.body;
 
-			// And: the documents API is mocked
+			// And: the documents API is mocked and the filename contains forbidden xml characters
 			const document = jp.query(appeal, '$..uploadedFile')[0];
+			document.name = `'<>test&"pdf.pdf`;
 			await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
 
 			// And: Horizon's upload documents endpoint is mocked
@@ -1322,7 +1320,8 @@ describe('Back Office', () => {
 			// Then: the status code for the submission request should be 200
 			expect(submittedToBackOfficeResponse.status).toBe(200);
 
-			// And: Horizon has been interacted with as expected
+			// And: Horizon has been interacted with as expected, including xml escape characters
+			document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf';
 			expectedHorizonInteractions = [
 				HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true)
 			];
