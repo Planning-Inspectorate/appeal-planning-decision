@@ -8,11 +8,9 @@ const { isFeatureActive } = require('../configuration/featureFlag');
 
 class FailedHorizonUploadService {
 	#failedHorizonUploadRepository;
-	#failedHorizonUploadMapper;
 
 	constructor(){
 		this.#failedHorizonUploadRepository = new FailedHorizonUploadRepository();
-		this.#failedHorizonUploadMapper = new this.#failedHorizonUploadMapper();
 	}
 
 	async createFailedHorizonUpload(id){

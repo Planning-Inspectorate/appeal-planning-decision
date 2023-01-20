@@ -961,6 +961,10 @@ describe('Back Office', () => {
 			//      unknown to the back-office saved on the server. Every appeal's contacts have organisation names
 			//      and their documents are known to the appeals API.
 			let inputs = [];
+			let horizonDocumentInteractions;
+			let horizonContactInteractions;
+			let horizonAppealInteractions;
+
 			for (let i=0; i < 3; i++) {
 				const appeal = appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'});
 				const createAppealResponse = await _createAppeal(appeal);
