@@ -1,4 +1,6 @@
 const logger = require('../lib/logger');
+const ApiError = require('../errors/apiError');
+
 
 // TODO: Make the method names consistent, something like "create...Requests()"?
 class HorizonMapper {
@@ -151,7 +153,7 @@ class HorizonMapper {
 
 		if (!horizonFullCaseId) {
 			logger.debug(horizonFullCaseId, 'Horizon ID malformed');
-			throw new Error(`Horizon ID malformed ${horizonFullCaseId}`);
+			throw new ApiError(502, `Horizon ID malformed ${horizonFullCaseId}`);
 		}
 
 		const caseReference = horizonFullCaseId.split('/').slice(-1).pop();
