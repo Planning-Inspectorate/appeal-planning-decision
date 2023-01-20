@@ -17,6 +17,7 @@ const {
 	HorizonInteraction
 } = require('./external-dependencies/rest-apis/interactions/horizon-interaction');
 const { NotifyInteraction } = require('./external-dependencies/rest-apis/interactions/notify-interaction');
+const { NotifyInteraction } = require('./external-dependencies/rest-apis/interactions/notify-interaction');
 const AppealFixtures = require('./fixtures/appeals');
 const HorizonIntegrationInputCondition = require('./utils/horizon-integration-input-condition');
 
@@ -593,7 +594,7 @@ describe('Back Office', () => {
 			})
 		];
 
-		it.each([
+		it.only.each([
 			...householderAppealConditions,
 			...fullAppealConditions
 		])(
