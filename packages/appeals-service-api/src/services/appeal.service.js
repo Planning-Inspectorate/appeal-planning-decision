@@ -1,6 +1,7 @@
 // TODO: the functions here shouldn't be sending API responses since they shouldnt know
 // they're being invoked in the context of a web request. These responses should be sent
 // in the relevant router.
+const jp = require('jsonpath');
 const {
 	constants: { APPEAL_ID }
 } = require('@pins/business-rules');
@@ -11,8 +12,8 @@ const { validateAppeal } = require('../validators/validate-appeal');
 const { AppealsRepository } = require('../repositories/appeals-repository');
 const uuid = require('uuid');
 const DocumentService = require('./document.service');
-const OrganisationNamesValueObject = require('../value-objects/appeal/organisation-names.value')
-const ContactDetailsValueObject = require('../value-objects/appeal/contact-details.value')
+const AppealContactValueObject = require('../value-objects/appeal/contact.value');
+const AppealContactsValueObject = require('../value-objects/appeal/contacts.value');
 
 const appealsRepository = new AppealsRepository();
 const documentService = new DocumentService();
@@ -148,78 +149,81 @@ async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
 	return await updateAppeal(appeal.id, appeal);
 }
 
-/**
- *
- * @param {*} appeal 
- * @returns {OrganisationNamesDto}
- */
-function getOrganisationNames(appeal) {
-	// TODO: pull this into an appeal model when its eventually created
-	
-	logger.debug(appeal, "Getting organisation names from appeal")
-	if (appeal.appealType !== '1005') {
-		logger.debug("Appeal is not a full appeal, so no organisation names should be specified")
-		return new OrganisationNamesValueObject();
-	}
-
-	logger.debug("Appeal is a full appeal, so organisation names may be specified")
-	const contactOrganisationName = appeal.contactDetailsSection.contact?.companyName
-	logger.debug(`The basic contact organisation name has been specified as: '${contactOrganisationName}'`)
-	if (appeal.contactDetailsSection.isOriginalApplicant) {
-		logger.debug(`Appeal is being submitted by the original applicant, so '${contactOrganisationName}' will be returned`)
-		return new OrganisationNamesValueObject(contactOrganisationName);
-	}
-
-	logger.debug(`Appeal is being submitted by an agent, so '${contactOrganisationName}' will be returned as their company name`);
-	const appealingOnBehalfOfCompanyName = appeal.contactDetailsSection.appealingOnBehalfOf?.companyName;
-	logger.debug(`The company name of the original applicant has been specified as '${appealingOnBehalfOfCompanyName}' so this will be returned as well`);
-	return new OrganisationNamesValueObject(
-		appealingOnBehalfOfCompanyName,
-		contactOrganisationName
-	);
-}
-
 function getContactDetails(appeal) {
+	// TODO: pull this into an appeal model when its eventually created
 	logger.debug(appeal, "Getting contact details from appeal")
 
 	const appealIsAFullAppeal = appeal.appealType == '1005';
-	const anAgentIsAppealingOnBehalfOfAnAppellant = appealIsAFullAppeal
-		? !appeal.contactDetailsSection.isOriginalApplicant
-		: !appeal.aboutYouSection.yourDetails.isOriginalApplicant;
 
-	let appellantName = null;
-	let appellantEmail = null;
-	let agentName = null;
-	let agentEmail = null;
-
+	// Due to the difference in JSON structure between full/householder appeals for contact details,
+	// we'll initialise these here, but set them below according to the appeal type...
+	let appellantCompanyName;
+	let appellantName;
+	let appellantEmail;
+	let agentCompanyName;
+	let agentName;
+	let agentEmail;
+		
 	if (appealIsAFullAppeal) {
+		// Full appeals can have company names, so they're set-up as part of this logic branch.
+		appellantCompanyName = appeal.contactDetailsSection.contact?.companyName
 		appellantName = appeal.contactDetailsSection.contact.name;
 		appellantEmail = appeal.email
 
+		const anAgentIsAppealingOnBehalfOfAnAppellant = !appeal.contactDetailsSection.isOriginalApplicant
 		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
-			agentName = appeal.contactDetailsSection.contact.name;
-			agentEmail = appeal.email;
+			// The appellant gets the "appealingOnBehalfOf" details from the appeal,
+			// and the agent gets the appellant details from the appeal. The appellant's
+			// email is not collected since its not required and we want to store 
+			// as little information as possible about people due to GDPR.
+			appellantCompanyName = appeal.contactDetailsSection.appealingOnBehalfOf?.companyName;
 			appellantName = appeal.contactDetailsSection.appealingOnBehalfOf.name;
 			appellantEmail = null;
+
+			agentCompanyName = appeal.contactDetailsSection.contact?.companyName;
+			agentName = appeal.contactDetailsSection.contact.name;
+			agentEmail = appeal.email;
 		}
+		
 	} else {
+		// Non-full appeals will not have company names, so they're ignored in this branch.
 		appellantName = appeal.aboutYouSection.yourDetails.name;
 		appellantEmail = appeal.email
 
+		const anAgentIsAppealingOnBehalfOfAnAppellant = !appeal.aboutYouSection.yourDetails.isOriginalApplicant;
 		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
-			agentName = appeal.aboutYouSection.yourDetails.name;
-			agentEmail = appeal.email
+			// The appellant gets the "appealingOnBehalfOf" details from the appeal,
+			// and the agent gets the appellant details from the appeal. The appellant's
+			// email is not collected since its not required and we want to store 
+			// as little information as possible about people due to GDPR.
 			appellantName = appeal.aboutYouSection.yourDetails.appealingOnBehalfOf;
 			appellantEmail = null;
+
+			agentName = appeal.aboutYouSection.yourDetails.name;
+			agentEmail = appeal.email
 		} 
 	}
 
+	logger.debug(`Appellant company name: ${appellantCompanyName}`)
 	logger.debug(`Appellant name: ${appellantName}`)
 	logger.debug(`Appellant email: ${appellantEmail}`)
+	logger.debug(`Agent company name: ${appellantCompanyName}`)
 	logger.debug(`Agent name: ${agentName}`)
 	logger.debug(`Agent email: ${agentEmail}`)
 
-	return new ContactDetailsValueObject(appellantName, appellantEmail, agentName, agentEmail);
+	return new AppealContactsValueObject(
+		new AppealContactValueObject(appellantCompanyName, appellantName, appellantEmail), 
+		new AppealContactValueObject(agentCompanyName, agentName, agentEmail)
+	);
+}
+
+function getDocumentIds(appeal) {
+	// TODO: pull this into an appeal model when its eventually created
+	return [
+		...jp.query(appeal, '$..uploadedFile').flat(Infinity),
+		...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
+	].filter(document => document.id)
+	.map(document => document.id);
 }
 
 module.exports = {
@@ -229,6 +233,6 @@ module.exports = {
 	validateAppeal,
 	getDocumentInBase64Encoding,
 	saveAppealAsSubmittedToBackOffice,
-	getOrganisationNames,
-	getContactDetails
+	getContactDetails,
+	getDocumentIds
 };

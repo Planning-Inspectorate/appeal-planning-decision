@@ -28,11 +28,14 @@ class MongoRepository {
 	/**
 	 * 
 	 * @param {Model} model The model to insert into the collection specified by the constructor
-	 * @returns {Promise<Model>} The model representation of the document inserted into the 
-	 * collection specified by the constructor.
+	 * @returns {any} The JSON to insert.
 	 */
 	async create(model) {
 		return await mongodb.get().collection(this.collectionName).insertOne(model);
+	}
+
+	async getAllDocumentsFromCollection() {
+		return await mongodb.get().collection(this.collectionName).find().toArray();
 	}
 }
 

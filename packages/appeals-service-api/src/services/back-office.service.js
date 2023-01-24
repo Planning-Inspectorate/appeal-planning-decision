@@ -1,6 +1,5 @@
 const { isFeatureActive } = require('../configuration/featureFlag');
 const logger = require('../lib/logger');
-const ApiError = require('../errors/apiError');
 const {
 	sendSubmissionReceivedEmailToLpa,
 	sendSubmissionConfirmationEmailToAppellant
@@ -9,7 +8,9 @@ const { BackOfficeRepository } = require('../repositories/back-office-repository
 const HorizonService = require('../services/horizon.service');
 const {
 	getAppeal,
-	saveAppealAsSubmittedToBackOffice,
+	getContactDetails,
+	getDocumentIds,
+	saveAppealAsSubmittedToBackOffice
 } = require('./appeal.service');
 
 class BackOfficeService {
@@ -21,43 +22,42 @@ class BackOfficeService {
 		this.#backOfficeRepository = new BackOfficeRepository();
 	}
 
-	/**
-	 * Will submit the appeal with `id` specified to the Back Office system, iff
-	 *
-	 * 1. The appeal with the ID specified exists in the database
-	 * 2. The appeal does not have a non-blank Horizon ID
-	 * 3. The appeal does not already exist in Horizon
-	 *
-	 * @param {string} id
-	 */
-	async submitAppeal(id) {
-		logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
+	async saveAppealForSubmission(appeal_id) {
+		const appealToSaveForSubmission = await getAppeal(appeal_id);
+		const appealContactDetails = getContactDetails(appealToSaveForSubmission);
+		const appealDocumentIds = getDocumentIds(appealToSaveForSubmission);
+		await this.#backOfficeRepository.saveAppealForSubmission(appealContactDetails, appeal_id, appealDocumentIds)
+	}
 
-		let appealToSubmitToBackOffice = await getAppeal(id);
-		logger.debug(`Appeal found in repository: ${JSON.stringify(appealToSubmitToBackOffice)}`);
-		if (appealToSubmitToBackOffice === null) {
-			throw ApiError.appealNotFound(id);
-		}
+	async submitAppeals() {
+		const backOfficeSubmissions = await this.#backOfficeRepository.getAppealsForSubmission();
+		for (const backOfficeSubmission of backOfficeSubmissions) {
+			const id = backOfficeSubmission.getAppealId()
+			logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
 
-		if (appealToSubmitToBackOffice.horizonId == undefined || appealToSubmitToBackOffice.horizonId == false) {
-			let appealAfterSubmissionToBackOffice;
-			if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
-				logger.debug('Using direct Horizon integration');
-				const horizonCaseReference = await this.#horizonService.createAppeal(appealToSubmitToBackOffice);
-				appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice, horizonCaseReference);
-			} else {
-				logger.debug('Using message queue integration');
-				appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice);
-				this.#backOfficeRepository.create(appealAfterSubmissionToBackOffice);
+			let appealToSubmitToBackOffice = await getAppeal(id);
+			logger.debug(`Appeal found in repository: ${JSON.stringify(appealToSubmitToBackOffice)}`);
+
+			if (appealToSubmitToBackOffice.horizonId == undefined || appealToSubmitToBackOffice.horizonId == false) {
+				let appealAfterSubmissionToBackOffice;
+				if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
+					logger.debug('Using direct Horizon integration');
+					const horizonCaseReference = await this.#horizonService.submitAppeal(appealToSubmitToBackOffice);
+					appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice, horizonCaseReference);
+				} else {
+					logger.debug('Using message queue integration');
+					appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice);
+					this.#backOfficeRepository.create(appealAfterSubmissionToBackOffice);
+				}
+
+				await sendSubmissionConfirmationEmailToAppellant(appealAfterSubmissionToBackOffice);
+				await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
 			}
 
-			await sendSubmissionConfirmationEmailToAppellant(appealAfterSubmissionToBackOffice);
-			await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
-			return appealAfterSubmissionToBackOffice;
+			logger.debug('Appeal has already been submitted to the back-office');
 		}
 
-		logger.debug('Appeal has already been submitted to the back-office');
-		throw ApiError.appealAlreadySubmitted();
+		return;
 	}
 }
 
