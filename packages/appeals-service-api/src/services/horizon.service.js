@@ -1,7 +1,7 @@
 const jp = require('jsonpath');
 
 const { HorizonGateway } = require('../gateway/horizon-gateway');
-const { getContactDetails, getAppeal, getDocumentInBase64Encoding } = require('./appeal.service');
+const { getContactDetails, getDocumentsInBase64Encoding } = require('./appeal.service');
 const logger = require('../lib/logger');
 const LpaService = require('./lpa.service');
 
@@ -26,19 +26,18 @@ class HorizonService {
 			lpaEntity
 		);
 
+		const appealDocumentsInBase64Encoding = await getDocumentsInBase64Encoding(appeal);
+		for(const appealDocumentInBase64Encoding of appealDocumentsInBase64Encoding) {
+			await this.#horizonGateway.uploadAppealDocument(
+				appealDocumentInBase64Encoding,
+				horizonCaseReference
+			);
+		}
+
 		logger.debug(
 			`Appeal creation in Horizon complete, returning case reference: ${horizonCaseReference}`
 		);
 		return horizonCaseReference;
-	}
-
-	async uploadDocument(appealId, documentId) {
-		const appeal = await getAppeal(appealId);
-		const appealDocumentInBase64Encoding = await getDocumentInBase64Encoding(appeal, documentId);
-		return await this.#horizonGateway.uploadAppealDocument(
-			appealDocumentInBase64Encoding,
-			appeal.horizonId
-		);
 	}
 
 	/**

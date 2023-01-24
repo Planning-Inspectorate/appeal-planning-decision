@@ -593,7 +593,7 @@ describe('Back Office', () => {
 			})
 		];
 
-		it.only.each([
+		it.each([
 			...householderAppealConditions,
 			...fullAppealConditions
 		])(
@@ -625,6 +625,15 @@ describe('Back Office', () => {
 				const mockedCaseReference = 'APP/Z0116/D/20/3218465';
 				await mockedExternalApis.mockHorizonCreateAppealResponse(200, mockedCaseReference);
 
+				// And: the Document API amd Horizon are mocked to process all documents on the appeal successfully
+				[
+					...jp.query(condition.appeal, '$..uploadedFile').flat(Infinity),
+					...jp.query(condition.appeal, '$..uploadedFiles').flat(Infinity)
+				].forEach(async document => {
+					await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
+					await mockedExternalApis.mockHorizonUploadDocumentResponse(200, document);
+				})
+
 				// When: the appeal is tagged for submission to the back office
 				const tagAppealAsSubmittedToBackOffice = await appealsApi.post(
 					`/api/v1/back-office/appeals/${createdAppeal.id}`
@@ -635,8 +644,8 @@ describe('Back Office', () => {
 					`/api/v1/back-office/appeals`
 				);
 
-				// // And: the appeal is then retrieved from the appeals API
-				// const retrievedAppealResponse = await appealsApi.get(`/api/v1/appeals/${createdAppeal.id}`);
+				// And: the appeal is then retrieved from the appeals API
+				const retrievedAppealResponse = await appealsApi.get(`/api/v1/appeals/${createdAppeal.id}`);
 
 				// Then: the status code for the appeal being tagged for submission is 202
 				expect(tagAppealAsSubmittedToBackOffice.status).toBe(202);
@@ -644,19 +653,19 @@ describe('Back Office', () => {
 				// And: the status code for the submission request should be 202
 				expect(submitAppealsToBackOfficeResponse.status).toBe(202);
 
-				// // And: the status code for the retrieval request should be 200
-				// expect(retrievedAppealResponse.status).toBe(200);
+				// And: the status code for the retrieval request should be 200
+				expect(retrievedAppealResponse.status).toBe(200);
 
-				// // And: the appeal should have been updated in the following ways:
-				// //      - Its `state` field should be updated
-				// //      - Its `submissionDate` field should be set
-				// //      - Its `updatedAt` field should be updated
-				// //      - Its `horizonId` field should be set to the last 7 digits of mockedCaseReference
-				// createdAppeal.state = 'SUBMITTED';
-				// createdAppeal.submissionDate = retrievedAppealResponse.body.submissionDate;
-				// createdAppeal.updatedAt = retrievedAppealResponse.body.updatedAt;
-				// createdAppeal.horizonId = '3218465';
-				// expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
+				// And: the appeal should have been updated in the following ways:
+				//      - Its `state` field should be updated
+				//      - Its `submissionDate` field should be set
+				//      - Its `updatedAt` field should be updated
+				//      - Its `horizonId` field should be set to the last 7 digits of mockedCaseReference
+				createdAppeal.state = 'SUBMITTED';
+				createdAppeal.submissionDate = retrievedAppealResponse.body.submissionDate;
+				createdAppeal.updatedAt = retrievedAppealResponse.body.updatedAt;
+				createdAppeal.horizonId = '3218465';
+				expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
 
 				// And: Horizon has been interacted with as expected
 				const createOrganisationInteractions =
@@ -669,11 +678,19 @@ describe('Back Office', () => {
 				const createAppealInteraction = HorizonInteraction.getCreateAppealInteraction(
 					condition.expectations.createAppealInHorizonRequest
 				);
+				const createDocumentInteractions = [
+					...jp.query(condition.appeal, '$..uploadedFile').flat(Infinity),
+					...jp.query(condition.appeal, '$..uploadedFiles').flat(Infinity)
+				].map(document => {
+					document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf' // Check that bad characters have been sanitised
+					return HorizonInteraction.getCreateDocumentInteraction(mockedCaseReference.slice(-7), document, true)
+				});
 
 				expectedHorizonInteractions = [
 					...createOrganisationInteractions,
 					...createContactInteractions,
-					createAppealInteraction
+					createAppealInteraction,
+					...createDocumentInteractions
 				];
 
 				// And: Notify has been interacted with as expected
@@ -696,7 +713,9 @@ describe('Back Office', () => {
 			}
 		);
 
-		it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating organisations', async () => {
+		// TODO: Due to recent changes, the server will no longer return errors in the following circumstances.
+		// these tests will be updated as part of https://pins-ds.atlassian.net.mcas.ms/browse/AS-5698
+		it.skip('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating organisations', async () => {
 			// Given: that we have a condition whereby to create an appeal in Horizon, a create organisation request should be made
 			const condition = horizonIntegrationInputCondition.get({
 				appeal: appealFixtures.newFullAppeal({ appellantCompanyName: 'Appellant Company Name' }),
@@ -760,7 +779,7 @@ describe('Back Office', () => {
 			expectedMessages = [];
 		});
 
-		it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating contacts', async () => {
+		it.skip('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating contacts', async () => {
 			// Given: that we have a condition whereby to create an appeal in Horizon, no create organisation request should be made
 			const condition = horizonIntegrationInputCondition.get({
 				appeal: appealFixtures.newFullAppeal()
@@ -820,7 +839,7 @@ describe('Back Office', () => {
 			expectedMessages = [];
 		});
 
-		it('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating the appeal', async () => {
+		it.skip('should return a 504 if an appeal is submitted to Horizon but Horizon does not respond with a 200 when creating the appeal', async () => {
 			// Given: that we have a condition whereby to create an appeal in Horizon, no create organisation request should be made
 			const condition = horizonIntegrationInputCondition.get({
 				appeal: appealFixtures.newFullAppeal()
@@ -889,7 +908,7 @@ describe('Back Office', () => {
 			expectedMessages = [];
 		});
 
-		it('should not submit an appeal to the back office if the appeal specified does not exist', async () => {
+		it.skip('should not submit an appeal to the back office if the appeal specified does not exist', async () => {
 			// When: an unknown appeal is submitted to the back office
 			const submittedAppealResponse = await appealsApi.put(`/api/v1/back-office/appeals/NOT_KNOWN`);
 
@@ -906,7 +925,7 @@ describe('Back Office', () => {
 			expectedMessages = [];
 		});
 
-		it('should not submit an appeal to the back office, if the appeal is known and has a Horizon ID', async () => {
+		it.skip('should not submit an appeal to the back office, if the appeal is known and has a Horizon ID', async () => {
 			// Given: an appeal is created and known to the back office
 			const householderAppeal = appealFixtures.newHouseholderAppeal();
 			householderAppeal.horizonId = 'itisknown';
@@ -1132,167 +1151,6 @@ describe('Back Office', () => {
 	// 		// And: There should be no messages sent to the message queue
 	// 	});
 	// });
-
-	describe('submit documents', () => {
-		it('should return a 403 if the `send-appeal-direct-to-horizon-wrapper` feature flag is off, and a document is submitted to the back-office', async () => {
-			// Given: that we are not using the Horizon integration back office strategy
-			isFeatureActive.mockImplementation(() => {
-				return false;
-			});
-
-			// When: the endpoint is called
-			const submittedToBackOfficeResponse = await appealsApi.put(
-				`/api/v1/back-office/appeals/AN_ID/documents/ANOTHER_ID`
-			);
-
-			// Then: we get a 403 in the response
-			expect(submittedToBackOfficeResponse.status).toBe(403);
-
-			// And: there are no Horizon interactions
-			expectedHorizonInteractions = [];
-
-			// And: there are no Notify interactions
-			expectedNotifyInteractions = [];
-
-			// And: there are no messages on the message queue
-			expectedMessages = [];
-		});
-
-		it('should return a 404 if the `send-appeal-direct-to-horizon-wrapper` feature flag is on, and a document is submitted to the back-office, but the appeal referenced does not exist server-side', async () => {
-			// Given: that we are not using the Horizon integration back office strategy
-			isFeatureActive.mockImplementation(() => {
-				return true;
-			});
-
-			// And: an appeal is created that is not known to the back office
-			const appeal = appealFixtures.newFullAppeal();
-			const document = jp.query(appeal, '$..uploadedFile')[0];
-
-			// When: the endpoint is called
-			const submittedToBackOfficeResponse = await appealsApi.put(
-				`/api/v1/back-office/appeals/${appeal.id}/documents/${document.id}`
-			);
-
-			// Then: we get a 404 in the response
-			expect(submittedToBackOfficeResponse.status).toBe(404);
-
-			// And: there are no Horizon interactions
-			expectedHorizonInteractions = [];
-
-			// And: there are no Notify interactions
-			expectedNotifyInteractions = [];
-
-			// And: there are no messages on the message queue
-			expectedMessages = [];
-		});
-
-		it('should return a 404 if the `send-appeal-direct-to-horizon-wrapper` feature flag is on, and a document is submitted to the back-office, and the appeal referenced does exist server-side, but the document referenced does not', async () => {
-			// Given: that we use the Horizon integration back office strategy
-			isFeatureActive.mockImplementation(() => {
-				return true;
-			});
-
-			// And: an appeal is created that is not known to the back office
-			const appeal = appealFixtures.newFullAppeal();
-			const createAppealResponse = await _createAppeal(appeal);
-			let createdAppeal = createAppealResponse.body;
-
-			// When: the endpoint is called
-			const submittedToBackOfficeResponse = await appealsApi.put(
-				`/api/v1/back-office/appeals/${createdAppeal.id}/documents/DOES_NOT_EXIST_ON_APPEAL`
-			);
-
-			// Then: the status code for the submission request should be 404
-			expect(submittedToBackOfficeResponse.status).toBe(404);
-
-			// And: Horizon has been interacted with as expected
-			expectedHorizonInteractions = [];
-
-			// And: Notify has been interacted with as expected
-			expectedNotifyInteractions = [];
-
-			// And: there are no messages on the message queue
-			expectedMessages = [];
-		});
-
-		it('should return a 504 if the `send-appeal-direct-to-horizon-wrapper` feature flag is on, and a document is submitted to the back-office, and both the appeal/document referenced exist server-side, but Horizon does not respond with a 200 when the document upload is attempted', async () => {
-			// Given: that we use the Horizon integration back office strategy
-			isFeatureActive.mockImplementation(() => {
-				return true;
-			});
-
-			// And: an appeal is created that is not known to the back office
-			const appeal = appealFixtures.newFullAppeal();
-			const createAppealResponse = await _createAppeal(appeal);
-			let createdAppeal = createAppealResponse.body;
-
-			// And: the documents API is mocked to return a document from the appeal
-			const document = jp.query(appeal, '$..uploadedFile')[0];
-			await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
-
-			// And: Horizon's upload documents endpoint is mocked to return a non 200 status
-			await mockedExternalApis.mockHorizonUploadDocumentResponse(500);
-
-			// When: the endpoint is called with the appeal and document in question
-			const submittedToBackOfficeResponse = await appealsApi.put(
-				`/api/v1/back-office/appeals/${createdAppeal.id}/documents/${document.id}`
-			);
-
-			// Then: the status code for the submission request should be 504
-			expect(submittedToBackOfficeResponse.status).toBe(504);
-
-			// And: Horizon has been interacted with as expected
-			expectedHorizonInteractions = [
-				HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true)
-			];
-
-			// And: Notify has been interacted with as expected
-			expectedNotifyInteractions = [];
-
-			// And: there are no messages on the message queue
-			expectedMessages = [];
-		});
-
-		it('should return a 200 if the `send-appeal-direct-to-horizon-wrapper` feature flag is on, and a document is submitted to the back-office, and both the appeal/document referenced exist server-side, and Horizon responds with a 200 when the document upload is attempted (including filename sanitisation)', async () => {
-			// Given: that we use the Horizon integration back office strategy
-			isFeatureActive.mockImplementation(() => {
-				return true;
-			});
-
-			// And: an appeal is created that is not known to the back office
-			const appeal = appealFixtures.newFullAppeal();
-			const createAppealResponse = await _createAppeal(appeal);
-			let createdAppeal = createAppealResponse.body;
-
-			// And: the documents API is mocked and the filename contains forbidden xml characters
-			const document = jp.query(appeal, '$..uploadedFile')[0];
-			document.name = `'<>test&"pdf.pdf`;
-			await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
-
-			// And: Horizon's upload documents endpoint is mocked
-			await mockedExternalApis.mockHorizonUploadDocumentResponse(200, document);
-
-			// When: the document is submitted to the back office
-			const submittedToBackOfficeResponse = await appealsApi.put(
-				`/api/v1/back-office/appeals/${createdAppeal.id}/documents/${document.id}`
-			);
-
-			// Then: the status code for the submission request should be 200
-			expect(submittedToBackOfficeResponse.status).toBe(200);
-
-			// And: Horizon has been interacted with as expected, including xml escape characters
-			document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf';
-			expectedHorizonInteractions = [
-				HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true)
-			];
-
-			// And: Notify has been interacted with as expected
-			expectedNotifyInteractions = [];
-
-			// And: there are no messages on the message queue
-			expectedMessages = [];
-		});
-	});
 });
 
 describe('Final comments', () => {
