@@ -108,33 +108,15 @@ async function updateAppeal(id, appealUpdate) {
  * 
  * Otherwise, returns JSON that respresents the document requested in base64 encoding.
  */
-async function getDocumentInBase64Encoding(appeal, documentId) {
+async function getDocumentsInBase64Encoding(appeal) {
 	logger.debug(appeal, `Getting documents in base64 encoding for appeal`);
-	let documentIds = [];
-	populateArrayWithIdsFromKeysFoundInObject(appeal, ['uploadedFile', 'uploadedFiles'], documentIds);
-	let documentWithIdSpecifiedFromAppeal = documentIds.find((document) => document.id == documentId)
-	if(documentWithIdSpecifiedFromAppeal === undefined) {
-		throw new ApiError(404, `No document with ID ${documentId} could be found on appeal with ID ${appeal.id}`)
+	let result = [];
+	for (const document of getAllDocuments(appeal)){
+		const documentInBase64Encoding = await documentService.getAppealDocumentInBase64Encoding(appeal.id, document.id);
+		result.push(documentInBase64Encoding);
 	}
 
-	return await documentService.getAppealDocumentInBase64Encoding(appeal.id, documentWithIdSpecifiedFromAppeal.id);
-}
-
-function populateArrayWithIdsFromKeysFoundInObject(obj, keys, array) {
-	for (let [k, v] of Object.entries(obj)) {
-		if (keys.includes(k)) {
-			if (Array.isArray(v)) {
-				v.map((value) => array.push({ id: value.id }));
-			} else {
-				array.push({ id: v.id });
-			}
-		}
-
-		if (typeof v === 'object' && v !== null) {
-			let found = populateArrayWithIdsFromKeysFoundInObject(v, keys, array);
-			if (found) return found;
-		}
-	}
+	return result;
 }
 
 async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
@@ -219,11 +201,21 @@ function getContactDetails(appeal) {
 
 function getDocumentIds(appeal) {
 	// TODO: pull this into an appeal model when its eventually created
+	return getAllDocuments(appeal)
+		.filter(document => document.id)
+		.map(document => document.id);
+}
+
+/////////////////////////////
+///// PRIVATE FUNCTIONS /////
+/////////////////////////////
+
+function getAllDocuments(appeal) {
+	// TODO: pull this into an appeal model when its eventually created
 	return [
 		...jp.query(appeal, '$..uploadedFile').flat(Infinity),
 		...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
-	].filter(document => document.id)
-	.map(document => document.id);
+	]
 }
 
 module.exports = {
@@ -231,7 +223,7 @@ module.exports = {
 	getAppeal,
 	updateAppeal,
 	validateAppeal,
-	getDocumentInBase64Encoding,
+	getDocumentsInBase64Encoding,
 	saveAppealAsSubmittedToBackOffice,
 	getContactDetails,
 	getDocumentIds
