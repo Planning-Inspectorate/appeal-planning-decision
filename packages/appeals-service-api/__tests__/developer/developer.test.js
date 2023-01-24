@@ -653,8 +653,8 @@ describe('Back Office', () => {
 				// And: the status code for the submission request should be 202
 				expect(submitAppealsToBackOfficeResponse.status).toBe(202);
 
-				// And: the status code for the retrieval request should be 200
-				expect(retrievedAppealResponse.status).toBe(200);
+				// Then: the status code for the appeal being tagged for submission is 202
+				expect(tagAppealAsSubmittedToBackOffice.status).toBe(202);
 
 				// And: the appeal should have been updated in the following ways:
 				//      - Its `state` field should be updated
@@ -957,13 +957,13 @@ describe('Back Office', () => {
 	// 		// Given: that we are using the direct Horizon integration
 	// 		isFeatureActive.mockImplementation(() => { return true; });
 
-			// And: we have three appeals that have agent and appellant contacts that are saved to the API but are
-			//      unknown to the back-office saved on the server. Every appeal's contacts have organisation names
-			//      and their documents are known to the appeals API.
-			let inputs = [];
-			let horizonDocumentInteractions;
-			let horizonContactInteractions;
-			let horizonAppealInteractions;
+	// 		// And: we have three appeals that have agent and appellant contacts that are saved to the API but are
+	// 		//      unknown to the back-office saved on the server. Every appeal's contacts have organisation names
+	// 		//      and their documents are known to the appeals API.
+	// 		let inputs = [];
+	// 		let horizonDocumentInteractions;
+	// 		let horizonContactInteractions;
+	// 		let horizonAppealInteractions;
 
 			for (let i=0; i < 3; i++) {
 				const appeal = appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'});
