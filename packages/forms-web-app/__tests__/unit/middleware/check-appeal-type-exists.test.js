@@ -67,31 +67,31 @@ describe('middleware/check-appeal-type-exists', () => {
 		expect(res.redirect).not.toBeCalled();
 	});
 
-	it('should redirect to the `/before-you-start/local-planning-department` page if the page is not in allowList and the appealType is not set', () => {
+	it('should redirect to the `/before-you-start` page if the page is not in allowList and the appealType is not set', () => {
 		delete req.session.appeal.appealType;
 		req.originalUrl = '/full-appeal/submit-appeal/task-list';
 		checkAppealTypeExists(req, res, next);
-		expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-department');
+		expect(res.redirect).toBeCalledWith('/before-you-start');
 	});
 
-	it('should redirect to the `/before-you-start/local-planning-department` page if req.session is not set', () => {
+	it('should redirect to the `/before-you-start` page if req.session is not set', () => {
 		delete req.session;
 		req.originalUrl = '/full-appeal/submit-appeal/task-list';
 		checkAppealTypeExists(req, res, next);
-		expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-department');
+		expect(res.redirect).toBeCalledWith('/before-you-start');
 	});
 
-	it('should redirect to the `/before-you-start/local-planning-department` page if req.session.appeal is not set', () => {
+	it('should redirect to the `/before-you-start` page if req.session.appeal is not set', () => {
 		delete req.session.appeal;
 		req.originalUrl = '/full-appeal/submit-appeal/task-list';
 		checkAppealTypeExists(req, res, next);
-		expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-department');
+		expect(res.redirect).toBeCalledWith('/before-you-start');
 	});
 
-	it('should redirect to the `/before-you-start/local-planning-department` page if req.session.appeal is null', () => {
+	it('should redirect to the `/before-you-start` page if req.session.appeal is null', () => {
 		req.session.appeal = null;
 		req.originalUrl = '/full-appeal/submit-appeal/task-list';
 		checkAppealTypeExists(req, res, next);
-		expect(res.redirect).toBeCalledWith('/before-you-start/local-planning-department');
+		expect(res.redirect).toBeCalledWith('/before-you-start');
 	});
 });

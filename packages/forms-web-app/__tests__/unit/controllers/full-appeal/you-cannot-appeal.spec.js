@@ -1,10 +1,8 @@
-const {
-	getOutOfTimeShutterPage
-} = require('../../../../src/controllers/full-appeal/out-of-time-shutter-page');
+const { getYouCannotAppeal } = require('../../../../src/controllers/full-appeal/you-cannot-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 
 const {
-	VIEW: { OUT_OF_TIME_SHUTTER_PAGE }
+	VIEW: { YOU_CANNOT_APPEAL }
 } = require('../../../../src/lib/views');
 
 jest.mock('../../../../src/lib/logger');
@@ -21,7 +19,7 @@ describe('controllers/full-appeal/out-of-time-shutter-page', () => {
 	});
 
 	describe('getOutOfTimeShutterPage', () => {
-		it('should render shutter page with valid appeal deadline', async () => {
+		it('should render shutter page with valid appeal deadline and erase appeal in session', async () => {
 			const appealDeadline = new Date();
 			const appealPeriod = '6 months';
 			const appealPeriodToBeDisplayed = '6 months';
@@ -33,8 +31,9 @@ describe('controllers/full-appeal/out-of-time-shutter-page', () => {
 				}
 			};
 
-			await getOutOfTimeShutterPage(mockRequest, res);
-			expect(res.render).toHaveBeenCalledWith(OUT_OF_TIME_SHUTTER_PAGE, {
+			await getYouCannotAppeal(mockRequest, res);
+			expect(mockRequest.session.appeal).toBe(null);
+			expect(res.render).toHaveBeenCalledWith(YOU_CANNOT_APPEAL, {
 				appealDeadline,
 				appealPeriodToBeDisplayed
 			});
