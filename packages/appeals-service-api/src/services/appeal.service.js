@@ -97,15 +97,15 @@ async function updateAppeal(id, appealUpdate) {
 }
 
 /**
- * 
- * @param {*} appeal 
- * @param {*} documentId 
+ *
+ * @param {*} appeal
+ * @param {*} documentId
  * @returns An {@link ApiError} if:
  * <ul>
- *  <li>No appeal with the ID specified is found</li> 
+ *  <li>No appeal with the ID specified is found</li>
  * 	<li>No document with the ID specified is found on the appeal</li>
  * </ul>
- * 
+ *
  * Otherwise, returns JSON that respresents the document requested in base64 encoding.
  */
 async function getDocumentsInBase64Encoding(appeal) {
@@ -145,7 +145,7 @@ function getContactDetails(appeal) {
 	let agentCompanyName;
 	let agentName;
 	let agentEmail;
-		
+
 	if (appealIsAFullAppeal) {
 		// Full appeals can have company names, so they're set-up as part of this logic branch.
 		appellantCompanyName = appeal.contactDetailsSection.contact?.companyName
@@ -156,7 +156,7 @@ function getContactDetails(appeal) {
 		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
 			// The appellant gets the "appealingOnBehalfOf" details from the appeal,
 			// and the agent gets the appellant details from the appeal. The appellant's
-			// email is not collected since its not required and we want to store 
+			// email is not collected since its not required and we want to store
 			// as little information as possible about people due to GDPR.
 			appellantCompanyName = appeal.contactDetailsSection.appealingOnBehalfOf?.companyName;
 			appellantName = appeal.contactDetailsSection.appealingOnBehalfOf.name;
@@ -166,7 +166,7 @@ function getContactDetails(appeal) {
 			agentName = appeal.contactDetailsSection.contact.name;
 			agentEmail = appeal.email;
 		}
-		
+
 	} else {
 		// Non-full appeals will not have company names, so they're ignored in this branch.
 		appellantName = appeal.aboutYouSection.yourDetails.name;
@@ -176,14 +176,14 @@ function getContactDetails(appeal) {
 		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
 			// The appellant gets the "appealingOnBehalfOf" details from the appeal,
 			// and the agent gets the appellant details from the appeal. The appellant's
-			// email is not collected since its not required and we want to store 
+			// email is not collected since its not required and we want to store
 			// as little information as possible about people due to GDPR.
 			appellantName = appeal.aboutYouSection.yourDetails.appealingOnBehalfOf;
 			appellantEmail = null;
 
 			agentName = appeal.aboutYouSection.yourDetails.name;
 			agentEmail = appeal.email
-		} 
+		}
 	}
 
 	logger.debug(`Appellant company name: ${appellantCompanyName}`)
@@ -194,7 +194,7 @@ function getContactDetails(appeal) {
 	logger.debug(`Agent email: ${agentEmail}`)
 
 	return new AppealContactsValueObject(
-		new AppealContactValueObject(appellantCompanyName, appellantName, appellantEmail), 
+		new AppealContactValueObject(appellantCompanyName, appellantName, appellantEmail),
 		new AppealContactValueObject(agentCompanyName, agentName, agentEmail)
 	);
 }
