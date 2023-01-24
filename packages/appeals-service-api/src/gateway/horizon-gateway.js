@@ -13,18 +13,18 @@ class HorizonGateway {
 
 	/**
 	 *
-	 * @param {OrganisationNamesValueObject} organisationNamesValueObject
+	 * @param {AppealContactsValueObject} appealContactDetails
 	 * @returns {any} Structure is:
 	 * {
 	 *  originalApplicant: '<original-applicant-organisation-id-in-horizon>',
 	 *  agent: '<agent-organisation-id-in-horizon> // optional: only if the appeal references an agent.
 	 * }
 	 */
-	async createOrganisations(organisationNamesValueObject) {
-		logger.debug(organisationNamesValueObject, 'Creating the following organisations in Horizon');
+	async createOrganisations(appealContactDetails) {
+		logger.debug(appealContactDetails, 'Creating the following organisations in Horizon');
 		const createOrganisationUrl = `${config.services.horizon.url}/contacts`;
 		const createOrganisationRequestJson =
-			this.#horizonMapper.appealToCreateOrganisationRequests(organisationNamesValueObject);
+			this.#horizonMapper.appealToCreateOrganisationRequests(appealContactDetails);
 		logger.debug(createOrganisationRequestJson, "Create organisation requests to send to Horizon");
 
 		const result = {};
@@ -46,10 +46,25 @@ class HorizonGateway {
 		return result;
 	}
 
-	async createContacts(contactDetailsValueObject, contactOrganisationHorizonIDs) {
+	/**
+	 * 
+	 * @param {AppealContactsValueObject} appealContactDetails
+	 * @param {any} contactOrganisationHorizonIDs Structure is:
+	 * {
+	 *  originalApplicant: '<original-applicant-organisation-id-in-horizon>',
+	 *  agent: '<agent-organisation-id-in-horizon> // optional: only if the appeal references an agent.
+	 * }
+	 * @returns {any} Structure is:
+	 * [{
+	 *  name: '<original-applicant-organisation-id-in-horizon>',
+	 *  type: '<agent-organisation-id-in-horizon> // optional: only if the appeal references an agent.
+	 *  horizonContactId
+	 * }]
+	 */
+	async createContacts(appealContactDetails, contactOrganisationHorizonIDs) {
 		logger.debug(`Creating contacts in Horizon`);
 		const createContactUrl = `${config.services.horizon.url}/contacts`;
-		const createContactRequestJson = this.#horizonMapper.createContactRequests(contactDetailsValueObject, contactOrganisationHorizonIDs);
+		const createContactRequestJson = this.#horizonMapper.createContactRequests(appealContactDetails, contactOrganisationHorizonIDs);
 
 		const results = [];
 		for (const key in createContactRequestJson) {
