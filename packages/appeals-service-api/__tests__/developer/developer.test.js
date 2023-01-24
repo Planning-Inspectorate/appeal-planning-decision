@@ -981,21 +981,59 @@ describe('Back Office', () => {
 	// 			const createAppealResponse = await _createAppeal(appeal);
 	// 			const createdAppeal = createAppealResponse.body;
 
+	// 			const documents = [
+	// 				...jp.query(appeal, '$..uploadedFile').flat(Infinity),
+	// 				...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
+	// 			];
 	// 			await mockedExternalApis.mockHorizonCreateContactResponse(200, `APPELLANT_ORG_${i}_0`);
 	// 			await mockedExternalApis.mockHorizonCreateContactResponse(200, `AGENT_ORG_${i}_1`);
 	// 			await mockedExternalApis.mockHorizonCreateContactResponse(200, `APPELLANT_CONTACT_${i}_0`);
 	// 			await mockedExternalApis.mockHorizonCreateContactResponse(200, `AGENT_CONTACT_${i}_0`);
 	// 			await mockedExternalApis.mockHorizonCreateAppealResponse(200, `CASE_REF_${i}234567`)
 
+	// 			documents.forEach(async (document) => {
+	// 				await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
+	// 			});
 	// 			const documents = [
 	// 				...jp.query(appeal, '$..uploadedFile').flat(Infinity),
 	// 				...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
 	// 			];
 
+	// 			// And: all the documents on the first appeal will be successfully uploaded to the back-office
+	// 			if (i == 0) {
+	// 				documents.forEach(async (document) => {
+	// 					await mockedExternalApis.mockHorizonUploadDocumentResponse(200, document);
+	// 					horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+	// 				});
+	// 			}
+	// 			// And: the even numbered documents of the second appeal will error-out when they are being processed by the back-office
+	// 			else if (i == 1) {
+	// 				documents.forEach(async (document, index) => {
+	// 					let statusCode = index % 2 == 0 ? 500 : 200;
+	// 					await mockedExternalApis.mockHorizonUploadDocumentResponse(statusCode, document);
+	// 					horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+	// 				});
+	// 			}
+	// 			// And: the odd numbered documents of the third appeal will error-out when they are being processed by the back-office
+	// 			else {
+	// 				documents.forEach(async (document, index) => {
+	// 					let statusCode = index % 2 == 0 ? 200 : 500;
+	// 					await mockedExternalApis.mockHorizonUploadDocumentResponse(statusCode, document);
+	// 					horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+	// 				});
+	// 			}
 	// 			documents.forEach(async (document) => {
 	// 				await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
 	// 			});
 
+	// 			// And: the documents that failed to send for the second appeal will again fail on re-submission to the back-office
+	// 			if(i == 1){
+	// 				documents.forEach(async (document, index) => {
+	// 					let statusCode = index % 2 == 0 ? 500 : 200;
+	// 					await mockedExternalApis.mockHorizonUploadDocumentResponse(statusCode, document);
+	// 					horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+	// 				});
+	// 			}
 	// 			// And: all the documents on the first appeal will be successfully uploaded to the back-office
 	// 			if (i == 0) {
 	// 				documents.forEach(async (document) => {
@@ -1029,13 +1067,15 @@ describe('Back Office', () => {
 	// 				});
 	// 			}
 
-
 	// 			inputs.push(createdAppeal);
 	// 			console.log(`Inputs are as follows: ${JSON.stringify(inputs)}`);
 	// 		}
 
 	// 		// And: we submit all three appeals to the back-office
 	// 		inputs.forEach(async appeal => await appealsApi.put(`/api/v1/back-office/appeals/${appeal.id}`));
+	// 			inputs.push(createdAppeal);
+	// 			console.log(`Inputs are as follows: ${JSON.stringify(inputs)}`);
+	// 		}
 
 	// 		// And: the documents that failed to send for the second appeal will again fail on re-submission to the back-office,
 	// 		//      but the third appeal's documents will succeed.
@@ -1048,6 +1088,8 @@ describe('Back Office', () => {
 	// 			documents.forEach(async (document) => {
 	// 				await mockedExternalApis.mockDocumentsApiResponse(200, appeal.id, document, true);
 	// 			});
+	// 		// And: we submit all three appeals to the back-office
+	// 		inputs.forEach(async appeal => await appealsApi.put(`/api/v1/back-office/appeals/${appeal.id}`));
 
 	// 			if (appealIndex == 0) {
 	// 				documents.forEach(async (document, index) => {
@@ -1062,12 +1104,38 @@ describe('Back Office', () => {
 	// 				});
 	// 			}
 	// 		});
+	// 		// And: the documents that failed to send for the second appeal will again fail on re-submission to the back-office,
+	// 		//      but the third appeal's documents will succeed.
+	// 		inputs.shift();
+	// 		inputs.forEach(async (appeal, appealIndex) => {
+	// 			const documents = [
+	// 				...jp.query(appeal, '$..uploadedFile').flat(Infinity),
+	// 				...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
+	// 			];
+	// 			documents.forEach(async (document) => {
+	// 				await mockedExternalApis.mockDocumentsApiResponse(200, appeal.id, document, true);
+	// 			});
 
 	// 		// When: we call the `back-office/appeals/failed` endpoint
 	// 		const response = await appealsApi.put(`/api/v1/back-office/appeals/failed`);
+	// 			if (appealIndex == 0) {
+	// 				documents.forEach(async (document, index) => {
+	// 					let statusCode = index % 2 == 0 ? 500 : 200;
+	// 					await mockedExternalApis.mockHorizonUploadDocumentResponse(statusCode, document);
+	// 					horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+	// 				});
+	// 			} else {
+	// 				documents.forEach(async (document) => {
+	// 					await mockedExternalApis.mockHorizonUploadDocumentResponse(200, document);
+	// 					horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+	// 				});
+	// 			}
+	// 		});
 
 	// 		// Then: we expect a 200 in the response
 	// 		expect(response.status).toBe(200);
+	// 		// When: we call the `back-office/appeals/failed` endpoint
+	// 		const response = await appealsApi.put(`/api/v1/back-office/appeals/failed`);
 
 	// 		inputs.forEach(async (appeal, appealIndex) => {
 	// 			const documents = [
@@ -1097,10 +1165,40 @@ describe('Back Office', () => {
 	// 		// And: There should be no messages sent to the message queue
 	// 		expectedMessages = [];
 	// 	});
+	// 		// Then: we expect a 200 in the response
+	// 		expect(response.status).toBe(200);
 
 	// 	it('should resubmit the appeal, then its documents, from a set of appeals whose appeal data failed to be submitted to the back-office, when the `back-office/appeals/failed` endpoint is called', () => {
 	// 		// Given: that we are using the direct Horizon integration
 	// 		isFeatureActive.mockImplementation(() => { return true; });
+	// 		inputs.forEach(async (appeal, appealIndex) => {
+	// 			const documents = [
+	// 				...jp.query(appeal, '$..uploadedFile').flat(Infinity),
+	// 				...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
+	// 			];
+	// 			// And: requests should be sent to the back office to process the even numbered documents of the second appeal, without with its organisation, contacts, appeals
+	// 			if(appealIndex == 1){
+	// 				documents.forEach(async (document, index) => {
+	// 					if(index % 2 == 0){
+	// 						horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+	// 					}
+	// 				})
+	// 			}
+	// 			// And: requests should be sent to the back office to process the odd numbered documents of the third appeal, without with its organisation, contacts, appeals
+	// 			if(appealIndex == 2){
+	// 				documents.forEach(async (document, index) => {
+	// 					if(index % 2 !== 0){
+	// 						horizonDocumentInteractions.push(HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true));
+	// 					}
+	// 				})
+	// 			}
+	// 		});
+	// 		// And: Notify should have been called 3 times for each document submission, but also once to notify engineers about what appeals are being reprocessed, and which ones failed/succeeded reprocessing
+	// 		expectedNotifyInteractions = [];
+	// 		expectedHorizonInteractions = [horizonDocumentInteractions];
+	// 		// And: There should be no messages sent to the message queue
+	// 		expectedMessages = [];
+	// 	});
 
 	// 		// And: we have three appeals that have agent and appellant contacts, and all contacts have organisation names, that are unknown to the back-office saved on the server
 	// 		// And: the last two appeals will error-out when their appeal data is being processed by the back-office
@@ -1112,10 +1210,23 @@ describe('Back Office', () => {
 	// 		// And: Notify should have been called 3 times for each document submission, but also once to notify engineers about what appeals are being reprocessed, and which ones failed/succeeded reprocessing
 	// 		// And: There should be no messages sent to the message queue
 	// 	});
+	// 	it('should resubmit the appeal, then its documents, from a set of appeals whose appeal data failed to be submitted to the back-office, when the `back-office/appeals/failed` endpoint is called', () => {
+	// 		// Given: that we are using the direct Horizon integration
+	// 		isFeatureActive.mockImplementation(() => { return true; });
 
 	// 	it('should resubmit the appeal, then its documents, from a set of appeals whose appeal data failed to be submitted to the back-office, when the `back-office/appeals/failed` endpoint is called', () => {
 	// 		// Given: that we are using the direct Horizon integration
 	// 		isFeatureActive.mockImplementation(() => { return true; });
+	// 		// And: we have three appeals that have agent and appellant contacts, and all contacts have organisation names, that are unknown to the back-office saved on the server
+	// 		// And: the last two appeals will error-out when their appeal data is being processed by the back-office
+	// 		// And: we submit all three appeals to the back-office
+	// 		// And: the first unsuccessful appeal will again fail on re-submission to the back-office
+	// 		// When: we call the `back-office/appeals/failed` endpoint
+	// 		// Then: we expect a 200 in the response
+	// 		// And: requests should be sent to the back office to process the appeals, and documents for the two appeals whose organisation contact details errored-out
+	// 		// And: Notify should have been called 3 times for each document submission, but also once to notify engineers about what appeals are being reprocessed, and which ones failed/succeeded reprocessing
+	// 		// And: There should be no messages sent to the message queue
+	// 	});
 
 	// 		// And: we have three appeals that have agent and appellant contacts, and all contacts have organisation names, that are unknown to the back-office saved on the server
 	// 		// And: the last two appeals will error-out when their appeal data is being processed by the back-office
@@ -1127,11 +1238,43 @@ describe('Back Office', () => {
 	// 		// And: Notify should have been called 3 times for each document submission, but also once to notify engineers about what appeals are being reprocessed, and which ones failed/succeeded reprocessing
 	// 		// And: There should be no messages sent to the message queue
 	// 	});
+	// 	it('should resubmit the appeal, then its documents, from a set of appeals whose appeal data failed to be submitted to the back-office, when the `back-office/appeals/failed` endpoint is called', () => {
+	// 		// Given: that we are using the direct Horizon integration
+	// 		isFeatureActive.mockImplementation(() => { return true; });
 
 	// 	it('should resubmit contacts, then the appeal, then its documents, from a set of appeals whose contacts failed to be submitted to the back-office, when the `back-office/appeals/failed` endpoint is called', () => {
 	// 		// Given: that we are using the direct Horizon integration
 	// 		isFeatureActive.mockImplementation(() => { return true; });
+	// 		// And: we have three appeals that have agent and appellant contacts, and all contacts have organisation names, that are unknown to the back-office saved on the server
+	// 		// And: the last two appeals will error-out when their appeal data is being processed by the back-office
+	// 		// And: we submit all three appeals to the back-office
+	// 		// And: the first unsuccessful appeal will again fail on re-submission to the back-office
+	// 		// When: we call the `back-office/appeals/failed` endpoint
+	// 		// Then: we expect a 200 in the response
+	// 		// And: requests should be sent to the back office to process the appeals, and documents for the two appeals whose organisation contact details errored-out
+	// 		// And: Notify should have been called 3 times for each document submission, but also once to notify engineers about what appeals are being reprocessed, and which ones failed/succeeded reprocessing
+	// 		// And: There should be no messages sent to the message queue
+	// 	});
 
+	// 		// And: we have three appeals that have agent and appellant contacts, and all contacts have organisation names, that are unknown to the back-office saved on the server
+	// 		// And: both contacts of the second appeal will error-out when its contacts are being processed by the back-office
+	// 		// And: the second contact of the third appeal will error-out when its contacts are being processed by the back-office
+	// 		// And: we submit all three appeals to the back-office
+	// 		// And: the first unsuccessful appeal will again fail on re-submission to the back-office
+	// 		// When: we call the `back-office/appeals/failed` endpoint
+	// 		// Then: we expect a 200 in the response
+	// 		// And: requests should be sent to the back office to process both contacts of the second appeal, along with its contacts, appeals, and documents
+	// 		// And: requests should be sent to the back office to process the second contact of the third appeal, along with its contacts, appeals, and documents
+	// 		// And: Notify should have been called 3 times for each document submission, but also once to notify engineers about what appeals are being reprocessed, and which ones failed/succeeded reprocessing
+	// 		// And: There should be no messages sent to the message queue
+	// 	});
+	// 	it('should resubmit contacts, then the appeal, then its documents, from a set of appeals whose contacts failed to be submitted to the back-office, when the `back-office/appeals/failed` endpoint is called', () => {
+	// 		// Given: that we are using the direct Horizon integration
+	// 		isFeatureActive.mockImplementation(() => { return true; });
+
+	// 	it('should resubmit organisations, then contacts, then the appeal, then its documents, from a set of appeals whose organisations failed to be submitted to the back-office, when the `back-office/appeals/failed` endpoint is called', () => {
+	// 		// Given: that we are using the direct Horizon integration
+	// 		isFeatureActive.mockImplementation(() => { return true; });
 	// 		// And: we have three appeals that have agent and appellant contacts, and all contacts have organisation names, that are unknown to the back-office saved on the server
 	// 		// And: both contacts of the second appeal will error-out when its contacts are being processed by the back-office
 	// 		// And: the second contact of the third appeal will error-out when its contacts are being processed by the back-office
