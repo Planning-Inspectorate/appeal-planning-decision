@@ -23,6 +23,7 @@ describe('controllers/full-appeal/out-of-time-shutter-page', () => {
 			const appealDeadline = new Date();
 			const appealPeriod = '6 months';
 			const appealPeriodToBeDisplayed = '6 months';
+			const beforeYouStartFirstPage = '/before-you-start';
 
 			const mockRequest = {
 				...req,
@@ -35,7 +36,8 @@ describe('controllers/full-appeal/out-of-time-shutter-page', () => {
 			expect(mockRequest.session.appeal).toBe(null);
 			expect(res.render).toHaveBeenCalledWith(YOU_CANNOT_APPEAL, {
 				appealDeadline,
-				appealPeriodToBeDisplayed
+				appealPeriodToBeDisplayed,
+				beforeYouStartFirstPage
 			});
 		});
 	});

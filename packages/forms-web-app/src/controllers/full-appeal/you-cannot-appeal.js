@@ -1,6 +1,8 @@
 const { VIEW } = require('../../lib/views');
 
 const getYouCannotAppeal = async (req, res) => {
+	const beforeYouStartFirstPage = '/before-you-start';
+
 	const { appeal } = req.session;
 	const { appealDeadline, appealPeriod } = appeal.eligibility;
 
@@ -19,7 +21,8 @@ const getYouCannotAppeal = async (req, res) => {
 
 	return res.render(VIEW.YOU_CANNOT_APPEAL, {
 		appealDeadline,
-		appealPeriodToBeDisplayed
+		appealPeriodToBeDisplayed,
+		beforeYouStartFirstPage
 	});
 };
 
