@@ -521,7 +521,7 @@ class HorizonMapper {
 	}
 
 	#escapeXml(unsafeString) {
-		return unsafeString.replace(/[<>&'"]/g, (c) => {
+		return unsafeString.replaceAll(/[<>&'"]/g, (c) => {
 			switch (c) {
 				case '<':
 					return '&lt;';

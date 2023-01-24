@@ -1120,7 +1120,7 @@ describe('Back Office', () => {
 
 			// And: the documents API is mocked and the filename contains forbidden xml characters
 			const document = jp.query(appeal, '$..uploadedFile')[0];
-			document.name = `'<>test&"pdf.pdf`;
+			document.name = `'<>test&&"pdf.pdf`;
 			await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
 
 			// And: Horizon's upload documents endpoint is mocked
@@ -1135,7 +1135,7 @@ describe('Back Office', () => {
 			expect(submittedToBackOfficeResponse.status).toBe(200);
 
 			// And: Horizon has been interacted with as expected, including xml escape characters
-			document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf';
+			document.name = '&apos;&lt;&gt;test&amp;&amp;&quot;pdf.pdf';
 			expectedHorizonInteractions = [
 				HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true)
 			];
