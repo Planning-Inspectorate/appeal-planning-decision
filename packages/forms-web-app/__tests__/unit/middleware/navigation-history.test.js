@@ -30,12 +30,12 @@ describe('middleware/navigation-history', () => {
 						navigationHistory: 'some bad value'
 					},
 					baseUrl: '',
-					path: '/before-you-appeal'
+					path: '/before-you-start'
 				}
 			}),
 			expected: (req, res, next) => {
 				expect(next).toHaveBeenCalled();
-				expect(req.session.navigationHistory).toEqual(['/before-you-appeal']);
+				expect(req.session.navigationHistory).toEqual(['/before-you-start']);
 			}
 		},
 		// req.session.navigationHistory has been set to a default value
@@ -47,12 +47,12 @@ describe('middleware/navigation-history', () => {
 				req: {
 					...mockReq(),
 					baseUrl: '',
-					path: '/before-you-appeal'
+					path: '/before-you-start'
 				}
 			}),
 			expected: (req, res, next) => {
 				expect(next).toHaveBeenCalled();
-				expect(req.session.navigationHistory).toEqual(['/before-you-appeal']);
+				expect(req.session.navigationHistory).toEqual(['/before-you-start']);
 			}
 		},
 		{
@@ -68,7 +68,7 @@ describe('middleware/navigation-history', () => {
 			}),
 			expected: (req, res, next) => {
 				expect(next).toHaveBeenCalled();
-				expect(req.session.navigationHistory).toEqual(['/some/page', '/before-you-appeal']);
+				expect(req.session.navigationHistory).toEqual(['/some/page', '/before-you-start']);
 			}
 		},
 		// req.session.navigationHistory is a valid array

@@ -1,6 +1,8 @@
 const { VIEW } = require('../../lib/views');
 
-const getOutOfTimeShutterPage = async (req, res) => {
+const getYouCannotAppeal = async (req, res) => {
+	const beforeYouStartFirstPage = '/before-you-start';
+
 	const { appeal } = req.session;
 	const { appealDeadline, appealPeriod } = appeal.eligibility;
 
@@ -14,12 +16,16 @@ const getOutOfTimeShutterPage = async (req, res) => {
 		appealPeriodToBeDisplayed = appealPeriod;
 	}
 
-	return res.render(VIEW.OUT_OF_TIME_SHUTTER_PAGE, {
+	// Clear appeal object
+	req.session.appeal = null;
+
+	return res.render(VIEW.YOU_CANNOT_APPEAL, {
 		appealDeadline,
-		appealPeriodToBeDisplayed
+		appealPeriodToBeDisplayed,
+		beforeYouStartFirstPage
 	});
 };
 
 module.exports = {
-	getOutOfTimeShutterPage
+	getYouCannotAppeal
 };

@@ -27,7 +27,7 @@ const checkAppealTypeExists = (req, res, next) => {
 		return next();
 	}
 
-	return res.redirect('/before-you-start/local-planning-department');
+	return res.redirect('/before-you-start');
 };
 
 module.exports = checkAppealTypeExists;
