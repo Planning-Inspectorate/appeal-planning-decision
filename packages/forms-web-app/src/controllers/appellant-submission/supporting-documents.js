@@ -69,7 +69,6 @@ exports.postSupportingDocuments = async (req, res) => {
 		}
 
 		if (Object.keys(errors).length > 0) {
-			console.log(`jhdebug: postSupportingDocuments: Object.keys(errors).length > 0`);
 			return res.render(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS, {
 				appeal,
 				errors,
@@ -84,7 +83,6 @@ exports.postSupportingDocuments = async (req, res) => {
 
 		// this is the `name` of the 'upload' button in the template.
 		if (body['upload-and-remain-on-page']) {
-			console.log(`jhdebug: postSupportingDocuments: body['upload-and-remain-on-page']`);
 			return res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS}`);
 		}
 
@@ -92,7 +90,6 @@ exports.postSupportingDocuments = async (req, res) => {
 		if (req.body['save-and-return'] !== '') {
 			req.session.appeal = await createOrUpdateAppeal(appeal);
 			console.log(appeal);
-			console.log(`jhdebug: postSupportingDocuments: req.body['save-and-return'] !== ''`);
 			console.log(
 				`getNextTask(appeal, { sectionName, taskName }).href: `,
 				getNextTask(appeal, { sectionName, taskName }).href
@@ -101,12 +98,10 @@ exports.postSupportingDocuments = async (req, res) => {
 		}
 
 		req.session.appeal = await createOrUpdateAppeal(appeal);
-		console.log(`jhdebug: postSupportingDocuments: postSaveAndReturn(req, res)`);
 		return await postSaveAndReturn(req, res);
 	} catch (e) {
 		logger.error(e);
 		appeal.sectionStates[sectionName][taskName] = setTaskStatusNotStarted();
-		console.log(`jhdebug: postSupportingDocuments: catch (e)`);
 		return res.render(VIEW.APPELLANT_SUBMISSION.SUPPORTING_DOCUMENTS, {
 			appeal,
 			errors,
