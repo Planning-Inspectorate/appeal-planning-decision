@@ -3,7 +3,7 @@ const {
 	getSubmission,
 	postSubmission
 } = require('../../../../src/controllers/appellant-submission/submission');
-const { submitAppeal } = require('../../../../src/lib/appeals-api-wrapper');
+const { submitAppealForBackOfficeProcessing } = require('../../../../src/lib/appeals-api-wrapper');
 const { storePdfAppeal } = require('../../../../src/services/pdf.service');
 const { mockReq, mockRes } = require('../../mocks');
 const {
@@ -74,7 +74,7 @@ describe('controllers/appellant-submission/submission', () => {
 			storePdfAppeal.mockResolvedValue(appealPdf);
 
 			const error = new Error('Cheers');
-			submitAppeal.mockImplementation(() => Promise.reject(error));
+			submitAppealForBackOfficeProcessing.mockImplementation(() => Promise.reject(error));
 
 			await postSubmission(mockRequest, res);
 
@@ -82,7 +82,7 @@ describe('controllers/appellant-submission/submission', () => {
 
 			expect(storePdfAppeal).toHaveBeenCalledWith(appeal);
 
-			expect(submitAppeal).toHaveBeenCalledWith({
+			expect(submitAppealForBackOfficeProcessing).toHaveBeenCalledWith({
 				...appeal,
 				appealSubmission: {
 					appealPDFStatement: {
@@ -92,8 +92,7 @@ describe('controllers/appellant-submission/submission', () => {
 							originalFileName: appealPdf.name
 						}
 					}
-				},
-				state: 'SUBMITTED'
+				}
 			});
 
 			expect(res.render).toHaveBeenCalledWith(SUBMISSION, {
@@ -119,7 +118,7 @@ describe('controllers/appellant-submission/submission', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(submitAppeal).not.toHaveBeenCalled();
+			expect(submitAppealForBackOfficeProcessing).not.toHaveBeenCalled();
 
 			expect(storePdfAppeal).toHaveBeenCalledWith(appeal);
 
@@ -173,7 +172,7 @@ describe('controllers/appellant-submission/submission', () => {
 
 			await postSubmission(mockRequest, res);
 
-			expect(submitAppeal).toHaveBeenCalledWith({
+			expect(submitAppealForBackOfficeProcessing).toHaveBeenCalledWith({
 				...appeal,
 				decisionDate,
 				appealSubmission: {
@@ -184,8 +183,7 @@ describe('controllers/appellant-submission/submission', () => {
 							originalFileName: appealPdf.name
 						}
 					}
-				},
-				state: 'SUBMITTED'
+				}
 			});
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${CONFIRMATION}`);
