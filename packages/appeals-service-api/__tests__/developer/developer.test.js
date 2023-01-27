@@ -16,7 +16,9 @@ const { JsonPathExpression } = require('./external-dependencies/rest-apis/json-p
 const {
 	HorizonInteraction
 } = require('./external-dependencies/rest-apis/interactions/horizon-interaction');
-const { NotifyInteraction } = require('./external-dependencies/rest-apis/interactions/notify-interaction');
+const {
+	NotifyInteraction
+} = require('./external-dependencies/rest-apis/interactions/notify-interaction');
 const AppealFixtures = require('./fixtures/appeals');
 const HorizonIntegrationInputCondition = require('./utils/horizon-integration-input-condition');
 
@@ -593,10 +595,7 @@ describe('Back Office', () => {
 			})
 		];
 
-		it.each([
-			...householderAppealConditions,
-			...fullAppealConditions
-		])(
+		it.each([...householderAppealConditions, ...fullAppealConditions])(
 			'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload for: $description',
 			async (condition) => {
 				// Given: that we use the Horizon integration back office strategy
@@ -629,10 +628,10 @@ describe('Back Office', () => {
 				[
 					...jp.query(condition.appeal, '$..uploadedFile').flat(Infinity),
 					...jp.query(condition.appeal, '$..uploadedFiles').flat(Infinity)
-				].forEach(async document => {
+				].forEach(async (document) => {
 					await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
 					await mockedExternalApis.mockHorizonUploadDocumentResponse(200, document);
-				})
+				});
 
 				// When: the appeal is tagged for submission to the back office
 				const tagAppealAsSubmittedToBackOffice = await appealsApi.post(
@@ -681,9 +680,13 @@ describe('Back Office', () => {
 				const createDocumentInteractions = [
 					...jp.query(condition.appeal, '$..uploadedFile').flat(Infinity),
 					...jp.query(condition.appeal, '$..uploadedFiles').flat(Infinity)
-				].map(document => {
-					document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf' // Check that bad characters have been sanitised
-					return HorizonInteraction.getCreateDocumentInteraction(mockedCaseReference.slice(-7), document, true)
+				].map((document) => {
+					document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf'; // Check that bad characters have been sanitised
+					return HorizonInteraction.getCreateDocumentInteraction(
+						mockedCaseReference.slice(-7),
+						document,
+						true
+					);
 				});
 
 				expectedHorizonInteractions = [
@@ -694,11 +697,12 @@ describe('Back Office', () => {
 				];
 
 				// And: Notify has been interacted with as expected
-				const emailToAppellantInteraction = NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
-					condition.appeal,
-					condition.expectations.emailToAppellant.name,
-					condition.lpa.name
-				);
+				const emailToAppellantInteraction =
+					NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
+						condition.appeal,
+						condition.expectations.emailToAppellant.name,
+						condition.lpa.name
+					);
 
 				const emailToLpaInteraction = NotifyInteraction.getAppealSubmittedEmailForLpaInteraction(
 					condition.appeal,
@@ -965,10 +969,10 @@ describe('Back Office', () => {
 	// 		let horizonContactInteractions;
 	// 		let horizonAppealInteractions;
 
-			for (let i=0; i < 3; i++) {
-				const appeal = appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'});
-				const createAppealResponse = await _createAppeal(appeal);
-				const createdAppeal = createAppealResponse.body;
+	// for (let i=0; i < 3; i++) {
+	// 	const appeal = appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'});
+	// 	const createAppealResponse = await _createAppeal(appeal);
+	// 	const createdAppeal = createAppealResponse.body;
 	// 		// And: we have three appeals that have agent and appellant contacts that are saved to the API but are
 	// 		//      unknown to the back-office saved on the server. Every appeal's contacts have organisation names
 	// 		//      and their documents are known to the appeals API.
@@ -977,16 +981,16 @@ describe('Back Office', () => {
 	// 		let horizonContactInteractions;
 	// 		let horizonAppealInteractions;
 
-			// for (let i=0; i < 3; i++) {
-			// 	const appeal = appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'});
-			// 	const createAppealResponse = await _createAppeal(appeal);
-			// 	const createdAppeal = createAppealResponse.body;
+	// for (let i=0; i < 3; i++) {
+	// 	const appeal = appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'});
+	// 	const createAppealResponse = await _createAppeal(appeal);
+	// 	const createdAppeal = createAppealResponse.body;
 
-			// 	await mockedExternalApis.mockHorizonCreateContactResponse(200, `APPELLANT_ORG_${i}_0`);
-			// 	await mockedExternalApis.mockHorizonCreateContactResponse(200, `AGENT_ORG_${i}_1`);
-			// 	await mockedExternalApis.mockHorizonCreateContactResponse(200, `APPELLANT_CONTACT_${i}_0`);
-			// 	await mockedExternalApis.mockHorizonCreateContactResponse(200, `AGENT_CONTACT_${i}_0`);
-			// 	await mockedExternalApis.mockHorizonCreateAppealResponse(200, `CASE_REF_${i}234567`)
+	// 	await mockedExternalApis.mockHorizonCreateContactResponse(200, `APPELLANT_ORG_${i}_0`);
+	// 	await mockedExternalApis.mockHorizonCreateContactResponse(200, `AGENT_ORG_${i}_1`);
+	// 	await mockedExternalApis.mockHorizonCreateContactResponse(200, `APPELLANT_CONTACT_${i}_0`);
+	// 	await mockedExternalApis.mockHorizonCreateContactResponse(200, `AGENT_CONTACT_${i}_0`);
+	// 	await mockedExternalApis.mockHorizonCreateAppealResponse(200, `CASE_REF_${i}234567`)
 	// 		for (let i=0; i < 3; i++) {
 	// 			const appeal = appealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'});
 	// 			const createAppealResponse = await _createAppeal(appeal);
