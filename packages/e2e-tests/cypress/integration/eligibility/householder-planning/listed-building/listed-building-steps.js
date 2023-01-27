@@ -22,7 +22,7 @@ import { selectPlanningApplicationType } from '../../../../support/eligibility/p
 const pageTitle =
 	'Is your appeal about a listed building? - Before you start - Appeal a planning decision - GOV.UK';
 const pageHeading = 'Is your appeal about a listed building?';
-const errorMessage = 'Select yes if your appeal about a listed building';
+const errorMessage = 'Select yes if your appeal is about a listed building';
 const url = 'before-you-start/listed-building-householder';
 const grantedorrefusedPageUrl = '/granted-or-refused-householder';
 const typeOfPlanningApplicationPageUrl = '/type-of-planning-application';

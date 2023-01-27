@@ -195,8 +195,9 @@ class HorizonMapper {
 			delete document['horizon_document_group_type'];
 		}
 
-		//the special character ampersand (&) is causing issues with documents not arriving in Horizon.
-		let sanitisedDocumentName = document.name.replace('&', '&amp;');
+		logger.debug(document.name, 'Document name before sanitisation');
+		let sanitisedDocumentName = this.#escapeXml(document.name);
+		logger.debug(sanitisedDocumentName, 'Document name after sanitisation');
 
 		return {
 			AddDocuments: {
@@ -519,6 +520,23 @@ class HorizonMapper {
 				'a:Value': `${cleanValue}` // Ensure value a string
 			}
 		};
+	}
+
+	#escapeXml(unsafeString) {
+		return unsafeString.replace(/[<>&'"]/g, (c) => {
+			switch (c) {
+				case '<':
+					return '&lt;';
+				case '>':
+					return '&gt;';
+				case '&':
+					return '&amp;';
+				case "'":
+					return '&apos;';
+				case '"':
+					return '&quot;';
+			}
+		});
 	}
 }
 
