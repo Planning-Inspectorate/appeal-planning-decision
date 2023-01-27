@@ -13,14 +13,13 @@ const {
 } = require('../external-dependencies/rest-apis/expectations/horizon/create-appeal-contact');
 
 class HorizonIntegrationInputCondition {
-	#appealFixtures = new AppealFixtures();
 
-	get({
+	static get({
 		description = 'a blank Horizon ID field',
 		setHorizonIdFunction = (appeal) => (appeal.horizonId = ''),
 		lpaCode = 'E69999999',
 		horizonLpaCode = '',
-		appeal = this.#appealFixtures.newHouseholderAppeal(),
+		appeal = AppealFixtures.newHouseholderAppeal(),
 		expectedContactRequests = [
 			{
 				firstName: 'Appellant',
@@ -30,6 +29,7 @@ class HorizonIntegrationInputCondition {
 				orgId: null
 			}
 		],
+		expectedContactIdsInCreateAppealRequest = [`P_0`],
 		expectedOrganisationNamesInCreateOrganisationRequests = [],
 		expectedNameOnAppealSuccessfullySubmittedEmail = 'Appellant Name',
 		expectedCaseworkReason = appeal.appealType == '1001'
@@ -59,7 +59,7 @@ class HorizonIntegrationInputCondition {
 			);
 			createAppealRequestContacts.push(
 				new HorizonCreateAppealContactExpectation(
-					`P_${index}`,
+					expectedContactIdsInCreateAppealRequest[index],
 					`${expectedRequest.firstName} ${expectedRequest.lastName}`,
 					expectedRequest.type
 				)

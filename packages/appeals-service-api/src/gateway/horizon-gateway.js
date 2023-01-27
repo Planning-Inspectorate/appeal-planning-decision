@@ -3,6 +3,7 @@ const axios = require('axios');
 const logger = require('../lib/logger');
 const { HorizonMapper } = require('../mappers/horizon-mapper');
 const ApiError = require('../errors/apiError');
+const HorizonResponseValue = require('../value-objects/horizon/horizon-response.value');
 
 class HorizonGateway {
 	#horizonMapper;
@@ -17,7 +18,7 @@ class HorizonGateway {
 	 * @returns {any} Structure is:
 	 * {
 	 *  originalApplicant: '<original-applicant-organisation-id-in-horizon>',
-	 *  agent: '<agent-organisation-id-in-horizon> // optional: only if the appeal references an agent.
+	 *  agent: '<agent-organisation-id-in-horizon>' // optional: only if the appeal references an agent.
 	 * }
 	 */
 	async createOrganisations(appealContactDetails) {
@@ -97,7 +98,8 @@ class HorizonGateway {
 	 * @param {*} appeal
 	 * @param {*} contacts
 	 * @param {*} lpaEntity
-	 * @returns {Promise<string>} The appeal's case reference (horizon ID) after successful submission to Horizon
+	 * @returns {HorizonResponseValue} If Horizon responds successfully, calling `getValue()` will return
+	 * the case reference for the appeal in Horizon.
 	 */
 	async createAppeal(appeal, contacts, lpaEntity) {
 		logger.debug('Creating appeal in Horizon');
@@ -108,15 +110,28 @@ class HorizonGateway {
 			lpaEntity
 		);
 
-		const createAppealResponse = await this.#makeRequestAndHandleAnyErrors(
+		const responseJson = await this.#makeRequestAndHandleAnyErrors(
 			`${config.services.horizon.url}/horizon`,
 			appealCreationRequest,
 			'create appeal'
 		);
 
-		return this.#horizonMapper.horizonCreateAppealResponseToCaseReference(createAppealResponse);
+		if (responseJson.data.Envelope.Body?.Fault) {
+			return new HorizonResponseValue(responseJson.data.Envelope.Body.Fault.faultstring.value, true);
+		} else {
+			return new HorizonResponseValue(
+				this.#getCaseReferenceFromCreateAppealResponse(responseJson), 
+				false
+			)
+		}
 	}
 
+	/**
+	 * 
+	 * @param {*} document 
+	 * @param {*} appealCaseReference 
+	 * @returns {Promise<HorizonResponseValue>} 
+	 */
 	async uploadAppealDocument(document, appealCaseReference) {
 		const url = `${config.services.horizon.url}/horizon`;
 		const addDocumentRequest = this.#horizonMapper.toCreateDocumentRequest(
@@ -125,14 +140,21 @@ class HorizonGateway {
 		);
 
 		// `maxBodyLength` specified as an option since Horizon doesn't support multipart uploads
-		const { data } = await this.#makeRequestAndHandleAnyErrors(
+		const responseJson = await this.#makeRequestAndHandleAnyErrors(
 			url,
 			addDocumentRequest,
 			'add document',
 			{ maxBodyLength: Infinity }
 		);
-		logger.debug(data, 'Upload document response');
-		return data;
+
+		if (responseJson.data.Envelope.Body?.Fault) {
+			return new HorizonResponseValue(responseJson.data.Envelope.Body.Fault.faultstring.value, true);
+		} else {
+			return new HorizonResponseValue(
+				responseJson.data.Envelope.Body.AddDocumentsResponse.AddDocumentsResult.HorizonAPIDocument.NodeId.value, 
+				false
+			)
+		}
 	}
 
 	//TODO: this should return an as-of-yet non-existent `HorizonAppealDto` instance.
@@ -180,9 +202,25 @@ class HorizonGateway {
 					error.response.data,
 					`Horizon returned a ${error.response.status} status code when attempting to ${descriptionOfRequest}. Response is below`
 				);
-				throw new ApiError(504, 'Error when contacting Horizon');
+
+				return error.response;
 			}
 		}
+	}
+
+	#getCaseReferenceFromCreateAppealResponse(createAppealResponse) {
+		// case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
+		const horizonFullCaseId =
+			createAppealResponse.data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
+
+		if (!horizonFullCaseId) {
+			logger.debug(horizonFullCaseId, 'Horizon ID malformed');
+			throw new ApiError(502, `Horizon ID malformed ${horizonFullCaseId}`);
+		}
+
+		const caseReference = horizonFullCaseId.split('/').slice(-1).pop();
+		logger.debug(caseReference, "Horizon ID parsed");
+		return caseReference;
 	}
 }
 

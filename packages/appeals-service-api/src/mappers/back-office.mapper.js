@@ -12,6 +12,7 @@ class BackOfficeMapper {
      */
     appealToAppealToBeSubmittedJson(appealContactDetails, appealId, documentIds) {
         return {
+            _id: null,
 			organisations: this.#getOrganisationsJson(appealContactDetails),
 			contacts: this.#getContactsJson(appealContactDetails) ,
 			appeal: { horizon_id: "", id: appealId, failures: [] },
@@ -44,6 +45,7 @@ class BackOfficeMapper {
             ));
 
         return new BackOfficeAppealSubmissionAggregate(
+            json._id,
             organisations,
             contacts,
             appeal,

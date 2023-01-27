@@ -23,13 +23,18 @@ class BackOfficeService {
 	}
 
 	async saveAppealForSubmission(appeal_id) {
-		const appealToSaveForSubmission = await getAppeal(appeal_id);
-		const appealContactDetails = getContactDetails(appealToSaveForSubmission);
-		const appealDocumentIds = getDocumentIds(appealToSaveForSubmission);
+		// TODO: add a check here to ensure that the same appeal can't be submitted twice
+		const appealToProcess = await getAppeal(appeal_id);
+		const appealContactDetails = getContactDetails(appealToProcess);
+		const appealDocumentIds = getDocumentIds(appealToProcess);
 		await this.#backOfficeRepository.saveAppealForSubmission(appealContactDetails, appeal_id, appealDocumentIds)
+		await sendSubmissionConfirmationEmailToAppellant(appealToProcess);
 	}
 
 	async submitAppeals() {
+		let completedAppealSubmissions = [];
+		let uncompletedAppealSubmissions = [];
+
 		const backOfficeSubmissions = await this.#backOfficeRepository.getAppealsForSubmission();
 		for (const backOfficeSubmission of backOfficeSubmissions) {
 			const id = backOfficeSubmission.getAppealId()
@@ -42,20 +47,37 @@ class BackOfficeService {
 				let appealAfterSubmissionToBackOffice;
 				if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
 					logger.debug('Using direct Horizon integration');
-					const horizonCaseReference = await this.#horizonService.submitAppeal(appealToSubmitToBackOffice);
-					appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice, horizonCaseReference);
+					const updatedBackOfficeSubmission = await this.#horizonService.submitAppeal(appealToSubmitToBackOffice, backOfficeSubmission);
+
+					logger.debug(backOfficeSubmission.toJSON(), "Submission state before submission")
+					logger.debug(updatedBackOfficeSubmission.toJSON(), "Submission state after submission")
+					logger.debug(backOfficeSubmission.difference(updatedBackOfficeSubmission), "Difference")
+					if (updatedBackOfficeSubmission.isComplete()) {
+						appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice, updatedBackOfficeSubmission.getAppealBackOfficeId());
+						await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
+						completedAppealSubmissions.push(updatedBackOfficeSubmission.getId());
+					} else {
+						uncompletedAppealSubmissions.push(updatedBackOfficeSubmission);
+					}
+
+
 				} else {
 					logger.debug('Using message queue integration');
 					appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice);
 					this.#backOfficeRepository.create(appealAfterSubmissionToBackOffice);
+					await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
 				}
-
-				await sendSubmissionConfirmationEmailToAppellant(appealAfterSubmissionToBackOffice);
-				await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
 			}
-
-			logger.debug('Appeal has already been submitted to the back-office');
 		}
+
+		if (completedAppealSubmissions.length > 0) {
+			this.#backOfficeRepository.deleteAppealSubmissions(completedAppealSubmissions);
+		}
+
+		// if (uncompletedAppealSubmissions.length > 0) {
+		// 	uncompletedAppealSubmissions.forEach(x => logger.debug(x.toJSON()));
+		// 	await this.#backOfficeRepository.updateAppealSubmissions(uncompletedAppealSubmissions);
+		// }
 
 		return;
 	}

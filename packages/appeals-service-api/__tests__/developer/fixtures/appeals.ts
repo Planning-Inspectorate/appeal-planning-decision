@@ -15,7 +15,7 @@ class AppealFixtures {
 	 * </ul>
 	 * @returns Given no changes to input parameters, a new, valid, householder appeal.
 	 */
-	newHouseholderAppeal({id = '', decision = 'granted', planningApplicationType = 'householder-planning', ownsSite = false, agentAppeal = false} = {}) { 
+	static newHouseholderAppeal({id = '', decision = 'granted', planningApplicationType = 'householder-planning', ownsSite = false, agentAppeal = false} = {}) { 
 		let appeal: any = {
 			id: id,
 			horizonId: 'HORIZON123',
@@ -46,21 +46,21 @@ class AppealFixtures {
 			},
 			requiredDocumentsSection: {
 				originalApplication: {
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				},
 				decisionLetter: {
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				}
 			},
 			yourAppealSection: {
 				appealStatement: {
-					uploadedFile: this.#getFileJson(),
+					uploadedFile: AppealFixtures.#getFileJson(),
 					hasSensitiveInformation: false
 				},
 				otherDocuments: {
 					uploadedFiles: [
-						this.#getFileJson(),
-						this.#getFileJson()
+						AppealFixtures.#getFileJson(),
+						AppealFixtures.#getFileJson()
 					]
 				}
 			},
@@ -88,7 +88,7 @@ class AppealFixtures {
 			},
 			appealSubmission: {
 				appealPDFStatement: {
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				}
 			},
 			sectionStates: {
@@ -133,7 +133,7 @@ class AppealFixtures {
 	 * </ul>
 	 * @returns Given no changes to input paramters, a new, valid, full appeal.
 	 */
-	newFullAppeal({
+	static newFullAppeal({
 		id = '', 
 		decision = 'granted', 
 		planningApplicationType = 'householder-planning', //todo: is this correct?
@@ -190,7 +190,7 @@ class AppealFixtures {
 			},
 			appealDecisionSection: {
 				draftStatementOfCommonGround: {
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				},
 				inquiry: {},
 				hearing: {
@@ -200,37 +200,37 @@ class AppealFixtures {
 			},
 			planningApplicationDocumentsSection: {
 				originalDecisionNotice: {
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				},
 				letterConfirmingApplication: {
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				},
 				designAccessStatement: {
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				},
 				decisionLetter: {
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				},
 				originalApplication: {
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				},
 				plansDrawingsSupportingDocuments: {
 					uploadedFiles: [
-						this.#getFileJson(),
-						this.#getFileJson()
+						AppealFixtures.#getFileJson(),
+						AppealFixtures.#getFileJson()
 					]
 				},
 				descriptionDevelopmentCorrect: {},
 				ownershipCertificate: {
-					uploadedFile: this.#getFileJson(),
+					uploadedFile: AppealFixtures.#getFileJson(),
 					submittedSeparateCertificate: null
 				}
 			},
 			appealDocumentsSection: {
 				supportingDocuments: {
 					uploadedFiles: [
-						this.#getFileJson(),
-						this.#getFileJson()
+						AppealFixtures.#getFileJson(),
+						AppealFixtures.#getFileJson()
 					],
 					hasSupportingDocuments: null
 				},
@@ -245,19 +245,19 @@ class AppealFixtures {
 				},
 				plansDrawings: {
 					uploadedFiles: [
-						this.#getFileJson(),
-						this.#getFileJson()
+						AppealFixtures.#getFileJson(),
+						AppealFixtures.#getFileJson()
 					],
 					hasPlansDrawings: null
 				},
 				appealStatement: {
 					hasSensitiveInformation: null,
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				}
 			},
 			appealSubmission: {
 				appealPDFStatement: {
-					uploadedFile: this.#getFileJson()
+					uploadedFile: AppealFixtures.#getFileJson()
 				}
 			},
 			sectionStates: {
@@ -347,7 +347,7 @@ class AppealFixtures {
 	 * 
 	 * NOTE THE STRANGE NAMES TOO. This is to test if characters that Horizon doesn't like are filtered out on document submission.
 	 */
-	#getFileJson() {
+	static #getFileJson() {
 		return {
 			id: uuid.v4(),
 			name: `'<>test&"pdf.pdf`,

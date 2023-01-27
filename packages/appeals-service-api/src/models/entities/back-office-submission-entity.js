@@ -17,6 +17,18 @@ class BackOfficeSubmissionEntity {
     getId() {
         return this.#id;
     }
+
+    getBackOfficeId() {
+        return this.#backOfficeId;
+    }
+
+    isPending() {
+        return this.#backOfficeId == false;
+    }
+
+    toJSON() {
+        return { id: this.#id, backOfficeId: this.#backOfficeId };
+    }
 }
 
 module.exports = BackOfficeSubmissionEntity;
