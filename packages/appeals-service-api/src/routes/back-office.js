@@ -22,10 +22,4 @@ router.put('/appeals', async (req, res) => {
 	await backOfficeService.submitAppeals();
 	res.sendStatus(202);
 });
-
-router.put('/appeals', async (req, res) => {
-	await backOfficeService.submitAppeals();
-	res.sendStatus(202);
-});
-
 module.exports = router;
