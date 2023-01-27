@@ -77,7 +77,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 				body: {
 					errors: {
 						'listed-building-householder': {
-							msg: 'Select yes if your appeal about a listed building'
+							msg: 'Select yes if your appeal is about a listed building'
 						}
 					}
 				}
@@ -88,11 +88,11 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
 			expect(res.render).toBeCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
-				isListedBuilding: appeal.eligibility.isListedBuilding,
+				isListedBuilding: null,
 				typeOfPlanningApplication: 'householder-planning',
 				errors: {
 					'listed-building-householder': {
-						msg: 'Select yes if your appeal about a listed building'
+						msg: 'Select yes if your appeal is about a listed building'
 					}
 				},
 				errorSummary: []

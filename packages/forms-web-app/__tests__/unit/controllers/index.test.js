@@ -13,7 +13,7 @@ describe('controllers/index', () => {
 		it('should redirect to the expected route', () => {
 			indexController.getIndex(req, res);
 
-			expect(res.redirect).toHaveBeenCalledWith('/before-you-appeal');
+			expect(res.redirect).toHaveBeenCalledWith('/before-you-start');
 		});
 	});
 });

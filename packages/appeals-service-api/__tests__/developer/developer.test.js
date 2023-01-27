@@ -1118,9 +1118,9 @@ describe('Back Office', () => {
 			const createAppealResponse = await _createAppeal(appeal);
 			let createdAppeal = createAppealResponse.body;
 
-			// And: the documents API is mocked and the filename contains an ampersand
+			// And: the documents API is mocked and the filename contains forbidden xml characters
 			const document = jp.query(appeal, '$..uploadedFile')[0];
-			document.name = 'test&pdf.pdf';
+			document.name = `'<>test&"pdf.pdf`;
 			await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true);
 
 			// And: Horizon's upload documents endpoint is mocked
@@ -1134,8 +1134,8 @@ describe('Back Office', () => {
 			// Then: the status code for the submission request should be 200
 			expect(submittedToBackOfficeResponse.status).toBe(200);
 
-			// And: Horizon has been interacted with as expected, including a sanitised ampersand
-			document.name = 'test&amp;pdf.pdf';
+			// And: Horizon has been interacted with as expected, including xml escape characters
+			document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf';
 			expectedHorizonInteractions = [
 				HorizonInteraction.getCreateDocumentInteraction(appeal.horizonId, document, true)
 			];

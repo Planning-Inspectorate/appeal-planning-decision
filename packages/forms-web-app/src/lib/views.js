@@ -2,7 +2,7 @@ const VIEW = {
 	APPLICATION_NUMBER: 'application-number',
 
 	COOKIES: 'cookies',
-	OUT_OF_TIME_SHUTTER_PAGE: 'full-appeal/out-of-time-shutter-page',
+	YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
 
 	BEFORE_YOU_START: {
 		FIRST_PAGE: 'before-you-start/first-page',
