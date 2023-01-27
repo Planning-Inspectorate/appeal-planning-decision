@@ -1,9 +1,10 @@
 const jp = require('jsonpath');
 
 const { HorizonGateway } = require('../gateway/horizon-gateway');
-const { getContactDetails, getDocumentsInBase64Encoding } = require('./appeal.service');
-const logger = require('../lib/logger');
+const { getContactDetails, getAppealDocumentInBase64Encoding } = require('./appeal.service');
 const LpaService = require('./lpa.service');
+const BackOfficeSubmissionEntity = require('../models/entities/back-office-submission-entity');
+const logger = require('../lib/logger')
 
 class HorizonService {
 	#horizonGateway;
@@ -14,30 +15,38 @@ class HorizonService {
 		this.#lpaService = new LpaService();
 	}
 
-	async submitAppeal(appeal) {
-		const appealContactDetails = getContactDetails(appeal);
-		const contactOrganisationHorizonIDs = await this.#horizonGateway.createOrganisations(appealContactDetails);
-		const createdContacts = await this.#horizonGateway.createContacts(appealContactDetails, contactOrganisationHorizonIDs);
-		const lpaEntity = await this.#lpaService.getLpaById(appeal.lpaCode);
+	/**
+	 * 
+	 * @param {*} appeal 
+	 * @param {BackOfficeAppealSubmissionAggregate} The current back office submission state of the appeal.
+	 * @returns {BackOfficeAppealSubmissionAggregate} The new back office submission state of the appeal.
+	 */
+	async submitAppeal(appeal, backOfficeSubmission) {
 
-		const horizonCaseReference = await this.#horizonGateway.createAppeal(
-			appeal,
-			createdContacts,
-			lpaEntity
-		);
+		let organisationBackOfficeIds = [];
+		let contactBackOfficeIds = [];
+		
+		const organisationsPendingSubmission = backOfficeSubmission.getOrganisationsPendingSubmission();
+		const contactsPendingSubmission = backOfficeSubmission.getContactsPendingSubmission();
+		
+		if (organisationsPendingSubmission || contactsPendingSubmission){
+			const appealContactDetails = getContactDetails(appeal);
+			organisationBackOfficeIds = await this.#horizonGateway.createOrganisations(appealContactDetails);
+			contactBackOfficeIds = await this.#horizonGateway.createContacts(appealContactDetails, organisationBackOfficeIds);
+		}
+		
+		const appealBackOfficeSubmissionResult = await this.#submitAppealToHorizonAndGetSubmissionEntity(backOfficeSubmission, appeal, contactBackOfficeIds);
 
-		const appealDocumentsInBase64Encoding = await getDocumentsInBase64Encoding(appeal);
-		for(const appealDocumentInBase64Encoding of appealDocumentsInBase64Encoding) {
-			await this.#horizonGateway.uploadAppealDocument(
-				appealDocumentInBase64Encoding,
-				horizonCaseReference
-			);
+		let documentBackOfficeSubmissionResults = [];
+		let appealBackOfficeId = appealBackOfficeSubmissionResult.getBackOfficeId();
+		if (appealBackOfficeId) {
+			documentBackOfficeSubmissionResults = await this.#submitDocumentsToHorizon(backOfficeSubmission, appeal, appealBackOfficeId);
 		}
 
-		logger.debug(
-			`Appeal creation in Horizon complete, returning case reference: ${horizonCaseReference}`
+		return backOfficeSubmission.update(
+			appealBackOfficeSubmissionResult,
+			documentBackOfficeSubmissionResults
 		);
-		return horizonCaseReference;
 	}
 
 	/**
@@ -84,6 +93,55 @@ class HorizonService {
 		}
 
 		return new Date(Date.parse(finalCommentsDueDate));
+	}
+
+	/**
+	 * 
+	 * @param {BackOfficeSubmissionAggregate} backOfficeSubmission 
+	 * @param {*} appeal 
+	 * @param {string[]} contactBackOfficeIds 
+	 * @returns {BackOfficeSubmissionEntity} 
+	 */
+	async #submitAppealToHorizonAndGetSubmissionEntity(backOfficeSubmission, appeal, contactBackOfficeIds) {
+		let appealBackOfficeId = backOfficeSubmission.getAppealId();
+		
+		if (backOfficeSubmission.isAppealDataPendingSubmission()) {
+			const lpaEntity = await this.#lpaService.getLpaById(appeal.lpaCode);
+			const horizonResponseValue = await this.#horizonGateway.createAppeal(
+				appeal,
+				contactBackOfficeIds,
+				lpaEntity
+			);
+
+			if (horizonResponseValue.isNotAnError()) {
+				appealBackOfficeId = horizonResponseValue.getValue();
+			}
+		}
+
+		return new BackOfficeSubmissionEntity(backOfficeSubmission.getAppealId(), appealBackOfficeId)
+	}
+
+	async #submitDocumentsToHorizon(backOfficeSubmission, appeal, appealBackOfficeId){
+		let result = []
+
+		const documentsPendingSubmission = backOfficeSubmission.getDocumentsPendingSubmission();
+		for(const documentPendingSubmission of documentsPendingSubmission) {
+			const appealDocumentInBase64Encoding = await getAppealDocumentInBase64Encoding(appeal, documentPendingSubmission.getId());
+			const horizonResponseValue = await this.#horizonGateway.uploadAppealDocument(
+				appealDocumentInBase64Encoding,
+				appealBackOfficeId
+			);
+
+			let documentBackOfficeId = null;
+			if (horizonResponseValue.isNotAnError()) {
+				documentBackOfficeId = horizonResponseValue.getValue();
+			}
+
+			result.push(new BackOfficeSubmissionEntity(documentPendingSubmission.getId(), documentBackOfficeId));
+		}
+
+		result.forEach(x => console.log(x.toJSON()))
+		return result;
 	}
 }
 

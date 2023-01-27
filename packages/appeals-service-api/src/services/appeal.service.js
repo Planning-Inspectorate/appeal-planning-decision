@@ -108,20 +108,8 @@ async function updateAppeal(id, appealUpdate) {
  *
  * Otherwise, returns JSON that respresents the document requested in base64 encoding.
  */
-async function getDocumentsInBase64Encoding(appeal) {
-	logger.debug(appeal, `Getting documents in base64 encoding for appeal`);
-	let result = [];
-	for (const document of getAllDocuments(appeal)) {
-		if (document.id) {
-			const documentInBase64Encoding = await documentService.getAppealDocumentInBase64Encoding(
-				appeal.id,
-				document.id
-			);
-			result.push(documentInBase64Encoding);
-		}
-	}
-
-	return result;
+async function getAppealDocumentInBase64Encoding(appeal, documentId) {
+	return await documentService.getAppealDocumentInBase64Encoding(appeal.id, documentId);
 }
 
 async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
@@ -229,7 +217,7 @@ module.exports = {
 	getAppeal,
 	updateAppeal,
 	validateAppeal,
-	getDocumentsInBase64Encoding,
+	getAppealDocumentInBase64Encoding,
 	saveAppealAsSubmittedToBackOffice,
 	getContactDetails,
 	getDocumentIds

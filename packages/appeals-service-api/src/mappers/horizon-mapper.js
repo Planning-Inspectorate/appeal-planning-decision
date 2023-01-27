@@ -138,24 +138,6 @@ class HorizonMapper {
 		return input;
 	}
 
-	horizonCreateAppealResponseToCaseReference(createAppealResponse) {
-		// case IDs are in format APP/W4705/D/21/3218521 - we need last 7 digits or numbers after final slash (always the same)
-		const horizonFullCaseId =
-			createAppealResponse.data?.Envelope?.Body?.CreateCaseResponse?.CreateCaseResult?.value;
-
-		if (!horizonFullCaseId) {
-			logger.debug(horizonFullCaseId, 'Horizon ID malformed');
-			throw new ApiError(502, `Horizon ID malformed ${horizonFullCaseId}`);
-		}
-		logger.debug(
-			`Appeal submission returns HorizonFullId: ${horizonFullCaseId} of type: ${typeof horizonFullCaseId}`
-		);
-
-		const caseReference = horizonFullCaseId.split('/').slice(-1).pop();
-		logger.debug(caseReference, `Horizon ID parsed`);
-		return caseReference;
-	}
-
 	toCreateDocumentRequest(document, caseReference) {
 		// TODO: I don't think we need these two lines since, in the original version, there's
 		//      these properties never exist on `body` :/

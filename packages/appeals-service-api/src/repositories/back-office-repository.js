@@ -50,6 +50,27 @@ class BackOfficeRepository extends MongoRepository {
 
 	/**
 	 * 
+	 * @param {BackOfficeAppealSubmissionAggregate[]} appealSubmissions 
+	 */
+	async updateAppealSubmissions(appealSubmissions){
+		const appealSubmissionsAsMongoDocuments = []
+		for (const appealSubmission of appealSubmissions) {
+			appealSubmissionsAsMongoDocuments.push(this.#fromBackOfficeAppealSubmissionToMongoJson(appealSubmission));
+		}
+		return await super.updateMany(appealSubmissionsAsMongoDocuments);
+	}
+
+	/**
+	 * 
+	 * @param {string[]} ids 
+	 * @returns 
+	 */
+	async deleteAppealSubmissions(ids) {
+		return await super.deleteMany(ids);
+	}
+
+	/**
+	 * 
 	 * @deprecated DEPRECATED UNTIL WE BETTER UNDERSTAND AMQP 1.0, AZURE SERVICE BUS, AND AZURE FUNCTIONS.
 	 * @param {string} message
 	 * @return {Promise<void>}
@@ -80,6 +101,21 @@ class BackOfficeRepository extends MongoRepository {
 			context.connection.close();
 		})
 	}
+
+	/**
+	 * 
+	 * @param {BackOfficeAppealSubmissionAggregate} appealSubmission 
+	 * @returns 
+	 */
+	#fromBackOfficeAppealSubmissionToMongoJson(appealSubmission){
+        return {
+			_id: appealSubmission.getId(),
+			organisations: appealSubmission.getOrganisations().map(organisationSubmissionEntity => { return { type: organisationSubmissionEntity.getId(), horizon_id: organisationSubmissionEntity.getBackOfficeId()} }),
+			contacts: appealSubmission.getContacts().map(contactSubmissionEntity => { return { type: contactSubmissionEntity.getId(), horizon_id: contactSubmissionEntity.getBackOfficeId()} }),
+			appeal: { id: appealSubmission.getAppealId(), horizon_id: appealSubmission.getAppealBackOfficeId() },
+			documents: appealSubmission.getDocuments().map(documentSubmissionEntity => { return { id: documentSubmissionEntity.getId(), horizon_id: documentSubmissionEntity.getBackOfficeId() } })
+		}
+    }
 }
 
 module.exports = { BackOfficeRepository }

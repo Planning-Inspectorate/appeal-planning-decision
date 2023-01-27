@@ -80,11 +80,6 @@ export class MockedExternalApis {
 		expectedInteractions: Array<Interaction>,
 		actualInteractions: any
 	): void {
-		logger.debug('Verifying interactions');
-		logger.debug('Expected interactions')
-		expectedInteractions.forEach(interaction => logger.debug(interaction.toString()))
-		logger.debug(actualInteractions, 'Actual interactions')
-
 		expect(actualInteractions.length).toEqual(expectedInteractions.length);
 
 		for (let i in expectedInteractions) {
@@ -93,6 +88,7 @@ export class MockedExternalApis {
 
 			const actualInteractionBody = this.getJsonFromRecordedRequest(actualInteraction);
 			const allKeysFromActualInteractionBody = this.getAllKeysFromJson(actualInteractionBody);
+			logger.debug(allKeysFromActualInteractionBody, 'Keys from actual interaction');
 			expect(allKeysFromActualInteractionBody.length).toEqual(
 				expectedInteraction.getNumberOfKeysExpectedInJson()
 			);
@@ -229,7 +225,35 @@ export class MockedExternalApis {
 		let body: any = {};
 
 		if (statusCode >= 500) {
-			body = { error: `mocked bad response for upload document Horizon endpoint` };
+			body = {
+				Envelope: {
+					Body: {
+						Fault: {
+							faultcode: {
+								value: "a:InternalServiceFault"
+							},
+							faultstring: {
+								value: "A mocked bad upload document response from Horizon"
+							},
+							detail: {
+								ExceptionDetail: {
+									HelpLink: {},
+									InnerException: {},
+									Message: {
+										value: "A mocked bad upload document response from Horizon"
+									},
+									StackTrace: {
+										value: "   a big\r\n   old\r\n   stacktrace from\r\n	at Horizon.API.Horizon.AddDocuments(String caseReference, List`1 documents)\r\n   at SyncInvokeAddDocuments(Object , Object[] , Object[] )\r\n   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)"
+									},
+									Type: {
+										value: "System.Exception"
+									}
+								}
+							}
+						}
+					}
+				}
+			};
 		} else {
 			body = {
 				Envelope: {
