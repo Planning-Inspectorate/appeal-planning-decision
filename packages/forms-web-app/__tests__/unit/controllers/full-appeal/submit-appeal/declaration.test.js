@@ -3,7 +3,9 @@ const {
 	getDeclaration,
 	postDeclaration
 } = require('../../../../../src/controllers/full-appeal/submit-appeal/declaration');
-const { submitAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
+const {
+	submitAppealForBackOfficeProcessing
+} = require('../../../../../src/lib/appeals-api-wrapper');
 const { storePdfAppeal } = require('../../../../../src/services/pdf.service');
 const { mockReq, mockRes } = require('../../../mocks');
 const {
@@ -57,7 +59,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 			storePdfAppeal.mockResolvedValue(appealPdf);
 
 			const error = new Error('Cheers');
-			submitAppeal.mockImplementation(() => Promise.reject(error));
+			submitAppealForBackOfficeProcessing.mockImplementation(() => Promise.reject(error));
 
 			await postDeclaration(mockRequest, res);
 
@@ -65,7 +67,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName);
 
-			expect(submitAppeal).toHaveBeenCalledWith({
+			expect(submitAppealForBackOfficeProcessing).toHaveBeenCalledWith({
 				...appeal,
 				appealSubmission: {
 					appealPDFStatement: {
@@ -75,8 +77,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 							originalFileName: appealPdf.name
 						}
 					}
-				},
-				state: 'SUBMITTED'
+				}
 			});
 
 			expect(res.render).toHaveBeenCalledWith(DECLARATION, {
@@ -100,7 +101,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(submitAppeal).not.toHaveBeenCalled();
+			expect(submitAppealForBackOfficeProcessing).not.toHaveBeenCalled();
 
 			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName);
 
@@ -123,7 +124,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			await postDeclaration(mockRequest, res);
 
-			expect(submitAppeal).toHaveBeenCalledWith({
+			expect(submitAppealForBackOfficeProcessing).toHaveBeenCalledWith({
 				...appeal,
 				decisionDate,
 				appealSubmission: {
@@ -134,8 +135,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 							originalFileName: appealPdf.name
 						}
 					}
-				},
-				state: 'SUBMITTED'
+				}
 			});
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${APPEAL_SUBMITTED}`);

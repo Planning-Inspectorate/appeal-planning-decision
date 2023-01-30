@@ -343,14 +343,16 @@ class AppealFixtures {
 	 * files, just that the correct number of them have been used in different contexts. Due to the way in which MockServer 
 	 * records and returns verifications, and how files may be retrieved in tests, getting the file order to match up in 
 	 * tests themselves is a real pain, and this is always due to the file names being in the wrong order. So, if the file
-	 * names are all the same, we don't get this issue
+	 * names are all the same, we don't get this issue.
+	 * 
+	 * NOTE THE STRANGE NAMES TOO. This is to test if characters that Horizon doesn't like are filtered out on document submission.
 	 */
 	#getFileJson() {
 		return {
 			id: uuid.v4(),
-			name: 'test-pdf.pdf',
-			originalFileName: 'test-pdf.pdf',
-			fileName: 'test-pdf.pdf',
+			name: `'<>test&"pdf.pdf`,
+			originalFileName: `'<>test&"pdf.pdf`,
+			fileName: `'<>test&"pdf.pdf`,
 			location: '',
 			size: 8334
 		}

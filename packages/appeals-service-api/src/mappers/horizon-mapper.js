@@ -1,9 +1,11 @@
 const logger = require('../lib/logger');
+const ApiError = require('../errors/apiError');
+
 
 // TODO: Make the method names consistent, something like "create...Requests()"?
 class HorizonMapper {
 	/**
-	 * @param {OrganisationNamesValueObject} organisationNamesValueObject
+	 * @param {AppealContactsValueObject} appealContactDetails
 	 * @return {any} Structure is:
 	 * {
 	 *  originalApplicant: <request JSON>,
@@ -13,7 +15,7 @@ class HorizonMapper {
 	 * The values for `originalApplicant` and `agent` may be null if no organisation name is specified
 	 * for either.
 	 */
-	appealToCreateOrganisationRequests(organisationNamesValueObject) {
+	appealToCreateOrganisationRequests(appealContactDetails) {
 		logger.debug('Constructing create organisation requests for Horizon');
 
 		let result = {
@@ -21,14 +23,14 @@ class HorizonMapper {
 			agent: null
 		};
 
-		const appellantOrganisationName = organisationNamesValueObject.getAppellantOrganisationName();
+		const appellantOrganisationName = appealContactDetails.getAppellant().getOrganisationName();
 		logger.debug(`The appellant organisation name is: '${appellantOrganisationName}'`);
 		if (appellantOrganisationName) {
 			result.originalApplicant = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
 			result.originalApplicant.AddContact.contact['a:Name'] = appellantOrganisationName;
 		}
 
-		const agentOrganisationName = organisationNamesValueObject.getAgentOrganisationName();
+		const agentOrganisationName = appealContactDetails.getAgent().getOrganisationName();
 		logger.debug(`The agent organisation name is: '${appellantOrganisationName}'`);
 		if (agentOrganisationName) {
 			result.agent = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
@@ -41,7 +43,7 @@ class HorizonMapper {
 
 	/**
 	 *
-	 * @param {*} contactDetailsValueObject
+	 * @param {AppealContactsValueObject} appealContactDetails
 	 * @param {*} contactOrganisationHorizonIDs Structure expected is:
 	 * {
 	 *  originalApplicant: '<original-applicant-organisation-id-in-horizon>',
@@ -55,27 +57,21 @@ class HorizonMapper {
 	 *      requestBody: {}
 	 *  }
 	 */
-	createContactRequests(contactDetailsValueObject, contactOrganisationHorizonIDs) {
+	createContactRequests(appealContactDetails, contactOrganisationHorizonIDs) {
 		logger.debug('Constructing create contact requests for Horizon');
-		logger.debug(`Appellant name: ${contactDetailsValueObject.getAppellantName()}`);
-		logger.debug(`Appellant email: ${contactDetailsValueObject.getAppellantEmail()}`);
-		logger.debug(`Agent name: ${contactDetailsValueObject.getAgentName()}`);
-		logger.debug(`Agent email: ${contactDetailsValueObject.getAgentEmail()}`);
-
-		logger.debug(`Horizon IDs for contacts: ${contactOrganisationHorizonIDs}`);
 
 		let contacts = [
 			{
 				type: 'Appellant',
 				organisationId: contactOrganisationHorizonIDs?.originalApplicant,
-				name: contactDetailsValueObject.getAppellantName(),
-				email: contactDetailsValueObject.getAppellantEmail()
+				name: appealContactDetails.getAppellant().getName(),
+				email: appealContactDetails.getAppellant().getEmail()
 			},
 			{
 				type: 'Agent',
 				organisationId: contactOrganisationHorizonIDs?.agent,
-				name: contactDetailsValueObject.getAgentName(),
-				email: contactDetailsValueObject.getAgentEmail()
+				name: appealContactDetails.getAgent().getName(),
+				email: appealContactDetails.getAgent().getEmail()
 			}
 		];
 
@@ -150,7 +146,7 @@ class HorizonMapper {
 
 		if (!horizonFullCaseId) {
 			logger.debug(horizonFullCaseId, 'Horizon ID malformed');
-			throw new Error(`Horizon ID malformed ${horizonFullCaseId}`);
+			throw new ApiError(502, `Horizon ID malformed ${horizonFullCaseId}`);
 		}
 
 		const caseReference = horizonFullCaseId.split('/').slice(-1).pop();
