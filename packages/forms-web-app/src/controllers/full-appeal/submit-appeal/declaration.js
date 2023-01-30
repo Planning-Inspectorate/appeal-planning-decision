@@ -50,7 +50,7 @@ const postDeclaration = async (req, res) => {
 
 		log.debug({ appealSubmission: appeal.appealSubmission }, 'Appeal submission');
 
-		req.session.appeal = await submitAppealForBackOfficeProcessing(appeal);
+		await submitAppealForBackOfficeProcessing(appeal);
 		log.debug('Appeal successfully submitted for processing by the back end');
 		res.redirect(`/${APPEAL_SUBMITTED}`);
 	} catch (err) {
