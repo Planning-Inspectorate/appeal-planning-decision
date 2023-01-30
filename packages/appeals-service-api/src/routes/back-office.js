@@ -7,9 +7,9 @@ const backOfficeService = new BackOfficeService();
 
 router.post('/appeals/:id', async (req, res) => {
 	let statusCode = 202;
-	let body = '';
+	let body = {};
 	try {
-		body = await backOfficeService.saveAppealForSubmission(req.params.id);
+		await backOfficeService.saveAppealForSubmission(req.params.id);
 	} catch (error) {
 		statusCode = error.code;
 		body = error.message.errors;
