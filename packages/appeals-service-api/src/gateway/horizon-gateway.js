@@ -25,7 +25,7 @@ class HorizonGateway {
 		const createOrganisationUrl = `${config.services.horizon.url}/contacts`;
 		const createOrganisationRequestJson =
 			this.#horizonMapper.appealToCreateOrganisationRequests(appealContactDetails);
-		logger.debug(createOrganisationRequestJson, "Create organisation requests to send to Horizon");
+		logger.debug(createOrganisationRequestJson, 'Create organisation requests to send to Horizon');
 
 		const result = {};
 		for (const key in createOrganisationRequestJson) {
@@ -38,7 +38,7 @@ class HorizonGateway {
 				);
 				result[key] =
 					createOrganisationResponse.data.Envelope.Body.AddContactResponse.AddContactResult.value;
-			
+
 				logger.debug(result, `Create organisations result`);
 			}
 		}
@@ -47,7 +47,7 @@ class HorizonGateway {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {AppealContactsValueObject} appealContactDetails
 	 * @param {any} contactOrganisationHorizonIDs Structure is:
 	 * {
@@ -64,7 +64,10 @@ class HorizonGateway {
 	async createContacts(appealContactDetails, contactOrganisationHorizonIDs) {
 		logger.debug(`Creating contacts in Horizon`);
 		const createContactUrl = `${config.services.horizon.url}/contacts`;
-		const createContactRequestJson = this.#horizonMapper.createContactRequests(appealContactDetails, contactOrganisationHorizonIDs);
+		const createContactRequestJson = this.#horizonMapper.createContactRequests(
+			appealContactDetails,
+			contactOrganisationHorizonIDs
+		);
 
 		const results = [];
 		for (const key in createContactRequestJson) {
@@ -81,7 +84,7 @@ class HorizonGateway {
 				name: createContactRequestJson[key].name,
 				type: createContactRequestJson[key].type,
 				horizonContactId: personId
-			}
+			};
 			results.push(result);
 		}
 
@@ -111,7 +114,7 @@ class HorizonGateway {
 			'create appeal'
 		);
 
-		return this.#horizonMapper.horizonCreateAppealResponseToCaseReference(createAppealResponse)
+		return this.#horizonMapper.horizonCreateAppealResponseToCaseReference(createAppealResponse);
 	}
 
 	async uploadAppealDocument(document, appealCaseReference) {
@@ -165,7 +168,12 @@ class HorizonGateway {
 		logger.debug(body, `Sending ${descriptionOfRequest} request to Horizon via '${url}' with body`);
 
 		try {
-			return await axios.post(url, body, options);
+			const response = await axios.post(url, body, options);
+			logger.debug(
+				response,
+				`Response from axios for ${descriptionOfRequest} request to Horizon via '${url}'`
+			);
+			return response;
 		} catch (error) {
 			if (error.response) {
 				logger.error(
