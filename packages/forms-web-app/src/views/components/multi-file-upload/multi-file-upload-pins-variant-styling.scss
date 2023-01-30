@@ -5,3 +5,19 @@
 .moj-hidden {
 	display: none;
 }
+
+.moj-multi-file-upload {
+	$root: &;
+
+	&__dropzone {
+		outline-color: #1d70b8;
+		outline-width: 4px;
+		padding: 80px 15px;
+
+		&--dragover {
+			background-color: #f1f1f1;
+			color: #0b0c0c;
+			outline-color: #ffdd00;
+		}
+	}
+}
