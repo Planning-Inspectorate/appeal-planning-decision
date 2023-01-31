@@ -129,13 +129,17 @@ function multiFileUpload(document, container) {
 		);
 		const type = deleteButton.getAttribute(ATTRIBUTES.addedFileDeleteButton.fileInfoType);
 
-		filesAdded = filesAdded.filter(
-			(file) =>
-				file.name !== name ||
-				file.size !== size ||
-				file.lastModified !== lastModified ||
-				file.type !== type
-		);
+		filesAdded = filesAdded.filter((file) => {
+			const match =
+				`${file.name}` !== name ||
+				`${file.size}` !== size ||
+				`${file.lastModified}` !== lastModified ||
+				`${file.type}` !== type;
+
+			return match;
+		});
+
+		updateFilesAddedUI();
 	}
 
 	function bindAddedFilesEvents() {
@@ -158,27 +162,26 @@ function multiFileUpload(document, container) {
 		elements.filesAddedList[0].innerHTML = `${filesAdded
 			.map(
 				(file) => `
-			<div class="govuk-summary-list__row moj-multi-file-upload__row">
-				<div class="govuk-summary-list__value moj-multi-file-upload__message">
-					<span class="moj-multi-file-upload__filename">${file.name}</span>
-					<span class="moj-multi-file-upload__progress">0%</span>
-				</div>
-				<div class="govuk-summary-list__actions moj-multi-file-upload__actions">
-					<button
-						class="${CLASSES.addedFileDeleteButton} govuk-link govuk-!-margin-bottom-0"
-						type="button"
-						name="delete"
-						${ATTRIBUTES.addedFileDeleteButton.fileInfoName}="${file.name}"
-						${ATTRIBUTES.addedFileDeleteButton.fileInfoSize}="${file.size}"
-						${ATTRIBUTES.addedFileDeleteButton.fileInfoLastModified}="${file.lastModified}"
-						${ATTRIBUTES.addedFileDeleteButton.fileInfoType}="${file.type}"
-					>
-						${LABELS.addedFileDeleteButtonText}
-						<span class="govuk-visually-hidden">${file.name}</span>
-					</button>
-				</div>
-			</div>
-		`
+					<div class="govuk-summary-list__row moj-multi-file-upload__row">
+						<div class="govuk-summary-list__value moj-multi-file-upload__message">
+							<span class="moj-multi-file-upload__filename">${file.name}</span>
+						</div>
+						<div class="govuk-summary-list__actions moj-multi-file-upload__actions">
+							<button
+								class="${CLASSES.addedFileDeleteButton} govuk-link govuk-!-margin-bottom-0"
+								type="button"
+								name="delete"
+								${ATTRIBUTES.addedFileDeleteButton.fileInfoName}="${file.name}"
+								${ATTRIBUTES.addedFileDeleteButton.fileInfoSize}="${file.size}"
+								${ATTRIBUTES.addedFileDeleteButton.fileInfoLastModified}="${file.lastModified}"
+								${ATTRIBUTES.addedFileDeleteButton.fileInfoType}="${file.type}"
+							>
+								${LABELS.addedFileDeleteButtonText}
+								<span class="govuk-visually-hidden">${file.name}</span>
+							</button>
+						</div>
+					</div>
+				`
 			)
 			.join('')
 			.trim()}`;
