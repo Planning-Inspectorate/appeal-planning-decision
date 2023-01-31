@@ -1,8 +1,7 @@
 const LABELS = {
+	addedFileDeleteButtonText: 'Remove',
 	dropzoneButtonText: 'Select files',
-	dropzoneHintText: 'Drag and drop files here or',
-	uploadStatusText: 'Uploading files, please wait',
-	addedFileDeleteButtonText: 'Remove'
+	dropzoneHintText: 'Drag and drop files here or'
 };
 
 const SELECTORS = {
@@ -15,6 +14,7 @@ const SELECTORS = {
 };
 
 const CLASSES = {
+	addedFileDeleteButton: 'moj-multi-file-upload__delete',
 	container: 'moj-multi-file-upload--enhanced',
 	dragOver: 'moj-multi-file-upload__dropzone--dragover',
 	dropZone: 'moj-multi-file-upload__dropzone',
@@ -22,15 +22,14 @@ const CLASSES = {
 	hint: 'govuk-body',
 	label: 'govuk-button govuk-button--secondary',
 	labelFocused: 'moj-multi-file-upload--focused',
-	visuallyHidden: 'govuk-visually-hidden',
-	addedFileDeleteButton: 'moj-multi-file-upload__delete'
+	visuallyHidden: 'govuk-visually-hidden'
 };
 
 const ATTRIBUTES = {
 	addedFileDeleteButton: {
+		fileInfoLastModified: 'data-fileinfo-lastmodified',
 		fileInfoName: 'data-fileinfo-name',
 		fileInfoSize: 'data-fileinfo-size',
-		fileInfoLastModified: 'data-fileinfo-lastmodified',
 		fileInfoType: 'data-fileinfo-type'
 	}
 };
@@ -43,7 +42,6 @@ function multiFileUpload(document, container) {
 
 	function onFileInputChange(event) {
 		event.preventDefault();
-		elements.status[0].innerText = LABELS.uploadStatusText;
 		addFiles(event.target.files);
 	}
 
@@ -58,7 +56,6 @@ function multiFileUpload(document, container) {
 	function onDropZoneDragOver(event) {
 		event.preventDefault();
 		elements.dropZone[0]?.classList.add(CLASSES.dragOver);
-		elements.status[0].innerText = LABELS.uploadStatusText;
 	}
 
 	function onDropZoneDragLeave(event) {
@@ -112,15 +109,6 @@ function multiFileUpload(document, container) {
 		elements.label = [label];
 	}
 
-	function setupStatusBox(document) {
-		const status = document.createElement('div');
-		status.className = CLASSES.visuallyHidden;
-		status.setAttribute('aria-live', 'polite');
-		status.setAttribute('role', 'status');
-		elements.dropZone[0]?.appendChild(status);
-		elements.status = [status];
-	}
-
 	function tryDeleteAddedFile(deleteButton) {
 		const name = deleteButton.getAttribute(ATTRIBUTES.addedFileDeleteButton.fileInfoName);
 		const size = deleteButton.getAttribute(ATTRIBUTES.addedFileDeleteButton.fileInfoSize);
@@ -129,15 +117,13 @@ function multiFileUpload(document, container) {
 		);
 		const type = deleteButton.getAttribute(ATTRIBUTES.addedFileDeleteButton.fileInfoType);
 
-		filesAdded = filesAdded.filter((file) => {
-			const match =
+		filesAdded = filesAdded.filter(
+			(file) =>
 				`${file.name}` !== name ||
 				`${file.size}` !== size ||
 				`${file.lastModified}` !== lastModified ||
-				`${file.type}` !== type;
-
-			return match;
-		});
+				`${file.type}` !== type
+		);
 
 		updateFilesAddedUI();
 	}
@@ -245,7 +231,6 @@ function multiFileUpload(document, container) {
 		setupFileInput();
 		setupDropzone(document);
 		setupLabel(document);
-		setupStatusBox(document);
 	}
 
 	initialise(document, container);
