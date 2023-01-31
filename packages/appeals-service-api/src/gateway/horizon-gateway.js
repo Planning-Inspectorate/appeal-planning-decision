@@ -97,7 +97,7 @@ class HorizonGateway {
 	 * @param {*} appeal
 	 * @param {*} contacts
 	 * @param {*} lpaEntity
-	 * @returns {string} The appeal's case reference (horizon ID) after successful submission to Horizon
+	 * @returns {Promise<string>} The appeal's case reference (horizon ID) after successful submission to Horizon
 	 */
 	async createAppeal(appeal, contacts, lpaEntity) {
 		logger.debug('Creating appeal in Horizon');
