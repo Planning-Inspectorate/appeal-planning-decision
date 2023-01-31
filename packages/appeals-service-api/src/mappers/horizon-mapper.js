@@ -182,9 +182,15 @@ class HorizonMapper {
 		 * the document since the schema isn't correct ¯\_(ツ)_/¯ (it was like this before we got
 		 * here)
 		 */
+		logger.debug('Creating document request');
 		let documentTypeValue = 'Appellant Initial Documents';
 		let documentGroupTypeValue = 'Initial Documents';
 		const documentInvolvementValue = document.involvement;
+
+		logger.debug(documentInvolvementValue);
+		logger.debug(
+			`Document horizon type: ${document?.horizon_document_type} and document group type: ${document?.horizon_document_group_type}`
+		);
 
 		if (document?.horizon_document_type && document?.horizon_document_group_type) {
 			documentTypeValue = document.horizon_document_type;

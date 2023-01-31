@@ -111,9 +111,14 @@ async function updateAppeal(id, appealUpdate) {
 async function getDocumentsInBase64Encoding(appeal) {
 	logger.debug(appeal, `Getting documents in base64 encoding for appeal`);
 	let result = [];
-	for (const document of getAllDocuments(appeal)){
-		const documentInBase64Encoding = await documentService.getAppealDocumentInBase64Encoding(appeal.id, document.id);
-		result.push(documentInBase64Encoding);
+	for (const document of getAllDocuments(appeal)) {
+		if (document.id) {
+			const documentInBase64Encoding = await documentService.getAppealDocumentInBase64Encoding(
+				appeal.id,
+				document.id
+			);
+			result.push(documentInBase64Encoding);
+		}
 	}
 
 	return result;
@@ -133,7 +138,7 @@ async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
 
 function getContactDetails(appeal) {
 	// TODO: pull this into an appeal model when its eventually created
-	logger.debug(appeal, "Getting contact details from appeal")
+	logger.debug(appeal, 'Getting contact details from appeal');
 
 	const appealIsAFullAppeal = appeal.appealType == '1005';
 
@@ -148,11 +153,12 @@ function getContactDetails(appeal) {
 
 	if (appealIsAFullAppeal) {
 		// Full appeals can have company names, so they're set-up as part of this logic branch.
-		appellantCompanyName = appeal.contactDetailsSection.contact?.companyName
+		appellantCompanyName = appeal.contactDetailsSection.contact?.companyName;
 		appellantName = appeal.contactDetailsSection.contact.name;
-		appellantEmail = appeal.email
+		appellantEmail = appeal.email;
 
-		const anAgentIsAppealingOnBehalfOfAnAppellant = !appeal.contactDetailsSection.isOriginalApplicant
+		const anAgentIsAppealingOnBehalfOfAnAppellant =
+			!appeal.contactDetailsSection.isOriginalApplicant;
 		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
 			// The appellant gets the "appealingOnBehalfOf" details from the appeal,
 			// and the agent gets the appellant details from the appeal. The appellant's
@@ -166,13 +172,13 @@ function getContactDetails(appeal) {
 			agentName = appeal.contactDetailsSection.contact.name;
 			agentEmail = appeal.email;
 		}
-
 	} else {
 		// Non-full appeals will not have company names, so they're ignored in this branch.
 		appellantName = appeal.aboutYouSection.yourDetails.name;
-		appellantEmail = appeal.email
+		appellantEmail = appeal.email;
 
-		const anAgentIsAppealingOnBehalfOfAnAppellant = !appeal.aboutYouSection.yourDetails.isOriginalApplicant;
+		const anAgentIsAppealingOnBehalfOfAnAppellant =
+			!appeal.aboutYouSection.yourDetails.isOriginalApplicant;
 		if (anAgentIsAppealingOnBehalfOfAnAppellant) {
 			// The appellant gets the "appealingOnBehalfOf" details from the appeal,
 			// and the agent gets the appellant details from the appeal. The appellant's
@@ -182,16 +188,16 @@ function getContactDetails(appeal) {
 			appellantEmail = null;
 
 			agentName = appeal.aboutYouSection.yourDetails.name;
-			agentEmail = appeal.email
+			agentEmail = appeal.email;
 		}
 	}
 
-	logger.debug(`Appellant company name: ${appellantCompanyName}`)
-	logger.debug(`Appellant name: ${appellantName}`)
-	logger.debug(`Appellant email: ${appellantEmail}`)
-	logger.debug(`Agent company name: ${appellantCompanyName}`)
-	logger.debug(`Agent name: ${agentName}`)
-	logger.debug(`Agent email: ${agentEmail}`)
+	logger.debug(`Appellant company name: ${appellantCompanyName}`);
+	logger.debug(`Appellant name: ${appellantName}`);
+	logger.debug(`Appellant email: ${appellantEmail}`);
+	logger.debug(`Agent company name: ${appellantCompanyName}`);
+	logger.debug(`Agent name: ${agentName}`);
+	logger.debug(`Agent email: ${agentEmail}`);
 
 	return new AppealContactsValueObject(
 		new AppealContactValueObject(appellantCompanyName, appellantName, appellantEmail),
@@ -202,8 +208,8 @@ function getContactDetails(appeal) {
 function getDocumentIds(appeal) {
 	// TODO: pull this into an appeal model when its eventually created
 	return getAllDocuments(appeal)
-		.filter(document => document.id)
-		.map(document => document.id);
+		.filter((document) => document.id)
+		.map((document) => document.id);
 }
 
 /////////////////////////////
@@ -215,7 +221,7 @@ function getAllDocuments(appeal) {
 	return [
 		...jp.query(appeal, '$..uploadedFile').flat(Infinity),
 		...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
-	]
+	];
 }
 
 module.exports = {
