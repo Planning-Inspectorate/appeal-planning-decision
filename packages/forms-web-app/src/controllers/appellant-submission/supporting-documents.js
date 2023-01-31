@@ -90,10 +90,6 @@ exports.postSupportingDocuments = async (req, res) => {
 		if (req.body['save-and-return'] !== '') {
 			req.session.appeal = await createOrUpdateAppeal(appeal);
 			console.log(appeal);
-			console.log(
-				`getNextTask(appeal, { sectionName, taskName }).href: `,
-				getNextTask(appeal, { sectionName, taskName }).href
-			);
 			return res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 		}
 
