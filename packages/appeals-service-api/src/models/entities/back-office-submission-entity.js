@@ -23,7 +23,7 @@ class BackOfficeSubmissionEntity {
     }
 
     isPending() {
-        return this.#backOfficeId == false;
+        return this.#backOfficeId == null;
     }
 
     toJSON() {

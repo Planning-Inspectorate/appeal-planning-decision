@@ -20,6 +20,14 @@ class AppealContactValueObject {
     getEmail(){
         return this.#email;
     }
+
+    toJSON() {
+        return {
+            organisationName: this.#organisationName,
+            name: this.#name,
+            email: this.#email
+        }
+    }
 }
 
 module.exports = AppealContactValueObject;

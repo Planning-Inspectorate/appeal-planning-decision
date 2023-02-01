@@ -124,6 +124,11 @@ async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
 	return await updateAppeal(appeal.id, appeal);
 }
 
+/**
+ * 
+ * @param {*} appeal 
+ * @returns {AppealContactsValueObject}
+ */
 function getContactDetails(appeal) {
 	// TODO: pull this into an appeal model when its eventually created
 	logger.debug(appeal, 'Getting contact details from appeal');
