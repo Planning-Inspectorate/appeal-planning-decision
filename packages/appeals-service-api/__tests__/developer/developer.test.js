@@ -247,11 +247,13 @@ describe('Appeals', () => {
 
 describe('Back Office', () => {
 	describe('submit appeals', () => {
-
 		it('should send an email to the appellant when the appeal is loaded for submission to the back-office', async () => {
-
-			// Given: an appellant creates a full appeal on the server with an agent and appellant specified 
-			const inputAppeal = AppealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'});
+			// Given: an appellant creates a full appeal on the server with an agent and appellant specified
+			const inputAppeal = AppealFixtures.newFullAppeal({
+				agentAppeal: true,
+				agentCompanyName: 'Agent Company Name',
+				appellantCompanyName: 'Appellant Company Name'
+			});
 			const createdAppealResponse = await _createAppeal(inputAppeal);
 			const createdAppeal = createdAppealResponse.body;
 
@@ -265,7 +267,12 @@ describe('Back Office', () => {
 			expect(response.body).toEqual({});
 
 			// And: an email will be sent to the appellant via Notify
-			const emailSentToAppellantInteraction = NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(createdAppeal, 'Agent Name', testLpaNameEngland);
+			const emailSentToAppellantInteraction =
+				NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
+					createdAppeal,
+					'Agent Name',
+					testLpaNameEngland
+				);
 			expectedNotifyInteractions.push(emailSentToAppellantInteraction);
 
 			// And: Horizon will not be interacted with
@@ -629,10 +636,7 @@ describe('Back Office', () => {
 			})
 		];
 
-		it.only.each([
-			// ...householderAppealConditions,
-			fullAppealConditions[4]
-		])(
+		it.each([...householderAppealConditions, ...fullAppealConditions])(
 			'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload for: $description',
 			async (condition) => {
 				// Given: that we use the Horizon integration back office strategy
@@ -754,25 +758,42 @@ describe('Back Office', () => {
 			}
 		);
 
-		it('should attempt to re-process appeals that failed to be uploaded when the `process appeals to be submitted` behaviour is triggered', async () => {
-			
+		it.only('should attempt to re-process appeals that failed to be uploaded when the `process appeals to be submitted` behaviour is triggered', async () => {
 			// Given: that we are using the direct Horizon integration
-			isFeatureActive.mockImplementation(() => { return true; });
+			isFeatureActive.mockImplementation(() => {
+				return true;
+			});
 
 			// And: we have three appeals that are loaded for submission to the back-office
 			let appealInputsAndExpectations = [];
-			for (let appealIndex=0; appealIndex < 3; appealIndex++) {
-				const inputAppeal = AppealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'})
+			for (let appealIndex = 0; appealIndex < 3; appealIndex++) {
+				const inputAppeal = AppealFixtures.newFullAppeal({
+					agentAppeal: true,
+					agentCompanyName: 'Agent Company Name',
+					appellantCompanyName: 'Appellant Company Name'
+				});
 				const createdAppealResponse = await _createAppeal(inputAppeal);
 				const createdAppeal = createdAppealResponse.body;
 				await appealsApi.post(`/api/v1/back-office/appeals/${createdAppeal.id}`);
-				
+
 				// And: the back-office will successfully process each appeal's organisations, contacts, and appeal data
-				await mockedExternalApis.mockHorizonCreateContactResponse(200, `APPELLANT_ORG_${appealIndex}`);
+				await mockedExternalApis.mockHorizonCreateContactResponse(
+					200,
+					`APPELLANT_ORG_${appealIndex}`
+				);
 				await mockedExternalApis.mockHorizonCreateContactResponse(200, `AGENT_ORG_${appealIndex}`);
-				await mockedExternalApis.mockHorizonCreateContactResponse(200, `APPELLANT_CONTACT_${appealIndex}`);
-				await mockedExternalApis.mockHorizonCreateContactResponse(200, `AGENT_CONTACT_${appealIndex}`);
-				await mockedExternalApis.mockHorizonCreateAppealResponse(200, `CASE_REF_${appealIndex}234567`);
+				await mockedExternalApis.mockHorizonCreateContactResponse(
+					200,
+					`APPELLANT_CONTACT_${appealIndex}`
+				);
+				await mockedExternalApis.mockHorizonCreateContactResponse(
+					200,
+					`AGENT_CONTACT_${appealIndex}`
+				);
+				await mockedExternalApis.mockHorizonCreateAppealResponse(
+					200,
+					`CASE_REF_${appealIndex}234567`
+				);
 
 				// And: documents may/not be uploaded successfully to the back office...
 				[
@@ -781,7 +802,8 @@ describe('Back Office', () => {
 				].forEach(async (document, documentIndex) => {
 					await mockedExternalApis.mockDocumentsApiResponse(200, createdAppeal.id, document, true); // ...no matter what, the appeal docs can be downloaded for submission to the back-office...
 					let statusCode = 200; // ...we expect all the create document requests on the first appeal to be successfully uploaded to the back-office...
-					if (appealIndex == 1 && documentIndex % 2 == 0) statusCode = 500; // ...the even numbered documents of the second appeal will error-out when they are being uploaded to the back-office...
+					if (appealIndex == 1 && documentIndex % 2 == 0)
+						statusCode = 500; // ...the even numbered documents of the second appeal will error-out when they are being uploaded to the back-office...
 					else if (appealIndex == 2 && documentIndex % 2 !== 0) statusCode = 500; // ...the odd numbered documents of the third appeal will error-out when they are being uploaded to the back-office
 					await mockedExternalApis.mockHorizonUploadDocumentResponse(statusCode, document);
 				});
@@ -790,24 +812,44 @@ describe('Back Office', () => {
 				//      - 2 create organisation/contact requests sent to Horizon
 				//      - 1 create appeal request to be sent to Horizon
 				const appealInputAndExpectations = HorizonIntegrationInputCondition.get({
-					description: `Appeal ${appealIndex}`, 
+					description: `Appeal ${appealIndex}`,
 					appeal: inputAppeal,
-					expectedOrganisationNamesInCreateOrganisationRequests: ["Appellant Company Name", "Agent Company Name"],
+					expectedOrganisationNamesInCreateOrganisationRequests: [
+						'Appellant Company Name',
+						'Agent Company Name'
+					],
 					expectedNameOnAppealSuccessfullySubmittedEmail: 'Agent Name',
 					expectedContactRequests: [
-						{ firstName: 'Appellant', lastName: 'Name', email: { '__i:nil': 'true' }, type: 'Appellant', orgId: `APPELLANT_ORG_${appealIndex}` },
-						{ firstName: 'Agent', lastName: 'Name', email: 'test@pins.com', type: 'Agent', orgId: `AGENT_ORG_${appealIndex}`}
+						{
+							firstName: 'Appellant',
+							lastName: 'Name',
+							email: { '__i:nil': 'true' },
+							type: 'Appellant',
+							orgId: `APPELLANT_ORG_${appealIndex}`
+						},
+						{
+							firstName: 'Agent',
+							lastName: 'Name',
+							email: 'test@pins.com',
+							type: 'Agent',
+							orgId: `AGENT_ORG_${appealIndex}`
+						}
 					],
-					expectedContactIdsInCreateAppealRequest: [`APPELLANT_CONTACT_${appealIndex}`, `AGENT_CONTACT_${appealIndex}`]
+					expectedContactIdsInCreateAppealRequest: [
+						`APPELLANT_CONTACT_${appealIndex}`,
+						`AGENT_CONTACT_${appealIndex}`
+					]
 				});
 
-				// And: we expect an email to be sent to the appellant for every appeal since the "loading 
+				// And: we expect an email to be sent to the appellant for every appeal since the "loading
 				//      for submission" phase of each appeal will be successful.
-				expectedNotifyInteractions.push(NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
-					appealInputAndExpectations.appeal, 
-					appealInputAndExpectations.expectations.emailToAppellant.name,
-					appealInputAndExpectations.lpa.name
-				));
+				expectedNotifyInteractions.push(
+					NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
+						appealInputAndExpectations.appeal,
+						appealInputAndExpectations.expectations.emailToAppellant.name,
+						appealInputAndExpectations.lpa.name
+					)
+				);
 
 				appealInputsAndExpectations.push(appealInputAndExpectations);
 			}
@@ -818,12 +860,13 @@ describe('Back Office', () => {
 			// Then: after retrieving the appeals, the first appeal should have a back office ID, but the second and third should not,
 			//       since they were not completely processed by the back-office.
 			appealInputsAndExpectations.forEach(async (appealInputAndExpectation, index) => {
-				const appealResponse = await appealsApi.get(`/api/v1/appeals/${appealInputAndExpectation.appeal.id}`);
-				const horizonId = appealResponse.body.horizonId
+				const appealResponse = await appealsApi.get(
+					`/api/v1/appeals/${appealInputAndExpectation.appeal.id}`
+				);
+				const horizonId = appealResponse.body.horizonId;
 				if (index == 0) {
-					expect(horizonId).toBe(`CASE_REF_${index}234567`)
-				} 
-				else {
+					expect(horizonId).toBe(`CASE_REF_${index}234567`);
+				} else {
 					expect(horizonId).toBeFalsy();
 				}
 			});
@@ -870,13 +913,15 @@ describe('Back Office', () => {
 			// - appeal 2, doc 2
 			// - ...
 			appealInputsAndExpectations.forEach(async (appealInputAndExpectations) => {
-				const expectedCreateOrganisationInteractions = appealInputAndExpectations.expectations.createOrganisationInHorizonRequests.map((expectation) =>
-					HorizonInteraction.getCreateOrganisationInteraction(expectation)
-				);
+				const expectedCreateOrganisationInteractions =
+					appealInputAndExpectations.expectations.createOrganisationInHorizonRequests.map(
+						(expectation) => HorizonInteraction.getCreateOrganisationInteraction(expectation)
+					);
 
-				const expectedCreateContactInteractions = appealInputAndExpectations.expectations.createContactInHorizonRequests.map((expectation) =>
-					HorizonInteraction.getCreateContactInteraction(expectation)
-				);
+				const expectedCreateContactInteractions =
+					appealInputAndExpectations.expectations.createContactInHorizonRequests.map(
+						(expectation) => HorizonInteraction.getCreateContactInteraction(expectation)
+					);
 
 				expectedHorizonInteractions.push(...expectedCreateOrganisationInteractions);
 				expectedHorizonInteractions.push(...expectedCreateContactInteractions);
@@ -892,18 +937,26 @@ describe('Back Office', () => {
 					...jp.query(appealInputAndExpectations.appeal, '$..uploadedFile').flat(Infinity),
 					...jp.query(appealInputAndExpectations.appeal, '$..uploadedFiles').flat(Infinity)
 				].forEach((document) => {
-					document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf' // Check that bad characters have been sanitised
-					expectedHorizonInteractions.push(HorizonInteraction.getCreateDocumentInteraction(`CASE_REF_${index}234567`, document, true));
+					document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf'; // Check that bad characters have been sanitised
+					expectedHorizonInteractions.push(
+						HorizonInteraction.getCreateDocumentInteraction(
+							`CASE_REF_${index}234567`,
+							document,
+							true
+						)
+					);
 				});
 			});
 
-			// And: an email should be sent to the LPA listed on the first appeal since this appeal was 
-			//      completely submitted to the back-office 
-			expectedNotifyInteractions.push(NotifyInteraction.getAppealSubmittedEmailForLpaInteraction(
-				appealInputsAndExpectations[0].appeal, 
-				appealInputsAndExpectations[0].lpa.name, 
-				appealInputsAndExpectations[0].lpa.email
-			));
+			// And: an email should be sent to the LPA listed on the first appeal since this appeal was
+			//      completely submitted to the back-office
+			expectedNotifyInteractions.push(
+				NotifyInteraction.getAppealSubmittedEmailForLpaInteraction(
+					appealInputsAndExpectations[0].appeal,
+					appealInputsAndExpectations[0].lpa.name,
+					appealInputsAndExpectations[0].lpa.email
+				)
+			);
 
 			// Given: that the back-office will now process all failed documents on the second appeal successfully, but error out on
 			//        the same failed documents for the third appeal
@@ -919,7 +972,7 @@ describe('Back Office', () => {
 					if (appealIndex == 2 && documentIndex % 2 !== 0) statusCode = 500; // ...the odd numbered documents of the third appeal will error-out when they are being uploaded to the back-office
 					await mockedExternalApis.mockHorizonUploadDocumentResponse(statusCode, document);
 				});
-			};
+			}
 
 			// When: we trigger resubmission
 			await appealsApi.put(`/api/v1/back-office/appeals`);
@@ -927,15 +980,16 @@ describe('Back Office', () => {
 			// Then: we expect the second appeal to be updated as submitted successfully to the back-office but the third appeal
 			//       is still in its previous state
 			for (let appealIndex = 1; appealIndex < appealInputsAndExpectations.length; appealIndex++) {
-				const appealResponse = await appealsApi.get(`/api/v1/appeals/${appealInputsAndExpectations[appealIndex].appeal.id}`);
-				const horizonId = appealResponse.body.horizonId
+				const appealResponse = await appealsApi.get(
+					`/api/v1/appeals/${appealInputsAndExpectations[appealIndex].appeal.id}`
+				);
+				const horizonId = appealResponse.body.horizonId;
 				if (appealIndex == 1) {
-					expect(horizonId).toBe(`CASE_REF_${appealIndex}234567`)
-				} 
-				else {
+					expect(horizonId).toBe(`CASE_REF_${appealIndex}234567`);
+				} else {
 					expect(horizonId).toBeFalsy();
 				}
-			};
+			}
 
 			// And: we only expect create document requests to be submitted to the back-office for those documents that
 			//      were not uploaded succesfully on the first processing request
@@ -945,24 +999,35 @@ describe('Back Office', () => {
 					...jp.query(appeal, '$..uploadedFile').flat(Infinity),
 					...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
 				].forEach((document, documentIndex) => {
-					if( (appealIndex == 1 && documentIndex % 2 == 0) || (appealIndex == 2 && documentIndex % 2 !== 0)) {
-						document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf' // Check that bad characters have been sanitised
-						expectedHorizonInteractions.push(HorizonInteraction.getCreateDocumentInteraction(`CASE_REF_${appealIndex}234567`, document, true));
+					if (
+						(appealIndex == 1 && documentIndex % 2 == 0) ||
+						(appealIndex == 2 && documentIndex % 2 !== 0)
+					) {
+						document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf'; // Check that bad characters have been sanitised
+						expectedHorizonInteractions.push(
+							HorizonInteraction.getCreateDocumentInteraction(
+								`CASE_REF_${appealIndex}234567`,
+								document,
+								true
+							)
+						);
 					}
 				});
 			}
 
 			// And: we expect another email to have been sent to the LPA for the second appeal since it has now been successfully
 			//      processed
-			expectedNotifyInteractions.push(NotifyInteraction.getAppealSubmittedEmailForLpaInteraction(
-				appealInputsAndExpectations[1].appeal, 
-				appealInputsAndExpectations[1].lpa.name, 
-				appealInputsAndExpectations[1].lpa.email
-			));
+			expectedNotifyInteractions.push(
+				NotifyInteraction.getAppealSubmittedEmailForLpaInteraction(
+					appealInputsAndExpectations[1].appeal,
+					appealInputsAndExpectations[1].lpa.name,
+					appealInputsAndExpectations[1].lpa.email
+				)
+			);
 
 			// And: There should be no messages sent to the message queue
 			expectedMessages = [];
-		})
+		});
 
 		// TODO: Due to recent changes, the server will no longer return errors in the following circumstances.
 		// these tests will be updated as part of https://pins-ds.atlassian.net.mcas.ms/browse/AS-5698
@@ -1753,7 +1818,9 @@ const _encryptValue = (value) => {
  * Clears out all collection from the database EXCEPT the LPA collection, since this is needed
  * from one test to the next, and its data does not change during any test execution.
  */
-const _clearDatabaseCollections = async() => {
-	const databaseCollections = await databaseConnection.db('foo').collections()
-	databaseCollections.filter(collection => collection.namespace.split('.')[1] !== 'lpa').forEach(async collection => await collection.drop());
-}
+const _clearDatabaseCollections = async () => {
+	const databaseCollections = await databaseConnection.db('foo').collections();
+	databaseCollections
+		.filter((collection) => collection.namespace.split('.')[1] !== 'lpa')
+		.forEach(async (collection) => await collection.drop());
+};
