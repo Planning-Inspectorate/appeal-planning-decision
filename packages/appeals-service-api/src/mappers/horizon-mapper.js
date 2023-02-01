@@ -199,9 +199,9 @@ class HorizonMapper {
 			delete document['horizon_document_group_type'];
 		}
 
-		logger.debug(document.name, 'Document name before sanitisation');
+		logger.debug(`Document name before sanitisation: ${document.name}`);
 		let sanitisedDocumentName = this.#escapeXml(document.name);
-		logger.debug(sanitisedDocumentName, 'Document name after sanitisation');
+		logger.debug(`Document name after sanitisation: ${sanitisedDocumentName}`);
 
 		return {
 			AddDocuments: {
