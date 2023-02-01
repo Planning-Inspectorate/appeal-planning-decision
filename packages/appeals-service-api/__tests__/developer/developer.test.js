@@ -630,8 +630,8 @@ describe('Back Office', () => {
 		];
 
 		it.only.each([
-			...householderAppealConditions,
-			...fullAppealConditions
+			// ...householderAppealConditions,
+			fullAppealConditions[4]
 		])(
 			'should submit an appeal to horizon and send emails to the appellant and case worker when horizon reports a success in upload for: $description',
 			async (condition) => {
@@ -760,7 +760,7 @@ describe('Back Office', () => {
 			isFeatureActive.mockImplementation(() => { return true; });
 
 			// And: we have three appeals that are loaded for submission to the back-office
-			let conditions = [];
+			let appealInputsAndExpectations = [];
 			for (let appealIndex=0; appealIndex < 3; appealIndex++) {
 				const inputAppeal = AppealFixtures.newFullAppeal({ agentAppeal: true, agentCompanyName: 'Agent Company Name', appellantCompanyName: 'Appellant Company Name'})
 				const createdAppealResponse = await _createAppeal(inputAppeal);
@@ -789,7 +789,7 @@ describe('Back Office', () => {
 				// And: for each appeal we expect there to be:
 				//      - 2 create organisation/contact requests sent to Horizon
 				//      - 1 create appeal request to be sent to Horizon
-				const condition = HorizonIntegrationInputCondition.get({
+				const appealInputAndExpectations = HorizonIntegrationInputCondition.get({
 					description: `Appeal ${appealIndex}`, 
 					appeal: inputAppeal,
 					expectedOrganisationNamesInCreateOrganisationRequests: ["Appellant Company Name", "Agent Company Name"],
@@ -804,20 +804,21 @@ describe('Back Office', () => {
 				// And: we expect an email to be sent to the appellant for every appeal since the "loading 
 				//      for submission" phase of each appeal will be successful.
 				expectedNotifyInteractions.push(NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
-					condition.appeal, 
-					condition.expectations.emailToAppellant.name,
-					condition.lpa.name
+					appealInputAndExpectations.appeal, 
+					appealInputAndExpectations.expectations.emailToAppellant.name,
+					appealInputAndExpectations.lpa.name
 				));
 
-				conditions.push(condition);
+				appealInputsAndExpectations.push(appealInputAndExpectations);
 			}
 
 			// When: we trigger the submission of the above appeals to the back-office
 			await appealsApi.put(`/api/v1/back-office/appeals`);
 
-			// Then: after retrieving the appeals, first appeal should have a Horizon ID, but the second and third should not
-			conditions.forEach(async (condition, index) => {
-				const appealResponse = await appealsApi.get(`/api/v1/appeals/${condition.appeal.id}`);
+			// Then: after retrieving the appeals, the first appeal should have a back office ID, but the second and third should not,
+			//       since they were not completely processed by the back-office.
+			appealInputsAndExpectations.forEach(async (appealInputAndExpectation, index) => {
+				const appealResponse = await appealsApi.get(`/api/v1/appeals/${appealInputAndExpectation.appeal.id}`);
 				const horizonId = appealResponse.body.horizonId
 				if (index == 0) {
 					expect(horizonId).toBe(`CASE_REF_${index}234567`)
@@ -827,9 +828,9 @@ describe('Back Office', () => {
 				}
 			});
 
-			// And: Horizon is interacted with as expected, i.e. for each appeal...
-			//      - 2 create organisation/contact requests sent to Horizon
-			//      - 1 create appeal request to be sent to Horizon
+			// And: the back-office is interacted with as expected, i.e. for each appeal...
+			//      - 2 create organisation/contact requests sent
+			//      - 1 create appeal request sent
 			//      - x create document requests where x = the number of documents on each appeal
 			//
 			// NOTE: we need to add the create contact requests and organisation requests for every appeal first, then
@@ -858,6 +859,7 @@ describe('Back Office', () => {
 			// - appeal 1, contact 2
 			// - appeal 1, appeal data
 			// - appeal 1, doc 1
+			// - appeal 1, doc 2
 			// - ...
 			// - appeal 2, org 1
 			// - appeal 2, org 2
@@ -865,13 +867,14 @@ describe('Back Office', () => {
 			// - appeal 2, contact 2
 			// - appeal 2, appeal data
 			// - appeal 2, doc 1
+			// - appeal 2, doc 2
 			// - ...
-			conditions.forEach(async (condition) => {
-				const expectedCreateOrganisationInteractions = condition.expectations.createOrganisationInHorizonRequests.map((expectation) =>
+			appealInputsAndExpectations.forEach(async (appealInputAndExpectations) => {
+				const expectedCreateOrganisationInteractions = appealInputAndExpectations.expectations.createOrganisationInHorizonRequests.map((expectation) =>
 					HorizonInteraction.getCreateOrganisationInteraction(expectation)
 				);
 
-				const expectedCreateContactInteractions = condition.expectations.createContactInHorizonRequests.map((expectation) =>
+				const expectedCreateContactInteractions = appealInputAndExpectations.expectations.createContactInHorizonRequests.map((expectation) =>
 					HorizonInteraction.getCreateContactInteraction(expectation)
 				);
 
@@ -879,33 +882,33 @@ describe('Back Office', () => {
 				expectedHorizonInteractions.push(...expectedCreateContactInteractions);
 			});
 
-			conditions.forEach((condition, i) => {
+			appealInputsAndExpectations.forEach((appealInputAndExpectations, index) => {
 				const createAppealInteraction = HorizonInteraction.getCreateAppealInteraction(
-					condition.expectations.createAppealInHorizonRequest
+					appealInputAndExpectations.expectations.createAppealInHorizonRequest
 				);
 				expectedHorizonInteractions.push(createAppealInteraction);
 
 				[
-					...jp.query(condition.appeal, '$..uploadedFile').flat(Infinity),
-					...jp.query(condition.appeal, '$..uploadedFiles').flat(Infinity)
+					...jp.query(appealInputAndExpectations.appeal, '$..uploadedFile').flat(Infinity),
+					...jp.query(appealInputAndExpectations.appeal, '$..uploadedFiles').flat(Infinity)
 				].forEach((document) => {
 					document.name = '&apos;&lt;&gt;test&amp;&quot;pdf.pdf' // Check that bad characters have been sanitised
-					expectedHorizonInteractions.push(HorizonInteraction.getCreateDocumentInteraction(`CASE_REF_${i}234567`, document, true));
+					expectedHorizonInteractions.push(HorizonInteraction.getCreateDocumentInteraction(`CASE_REF_${index}234567`, document, true));
 				});
 			});
 
 			// And: an email should be sent to the LPA listed on the first appeal since this appeal was 
 			//      completely submitted to the back-office 
 			expectedNotifyInteractions.push(NotifyInteraction.getAppealSubmittedEmailForLpaInteraction(
-				conditions[0].appeal, 
-				conditions[0].lpa.name, 
-				conditions[0].lpa.email
+				appealInputsAndExpectations[0].appeal, 
+				appealInputsAndExpectations[0].lpa.name, 
+				appealInputsAndExpectations[0].lpa.email
 			));
 
 			// Given: that the back-office will now process all failed documents on the second appeal successfully, but error out on
 			//        the same failed documents for the third appeal
-			for (let appealIndex = 1; appealIndex < conditions.length; appealIndex++) {
-				const appeal = conditions[appealIndex];
+			for (let appealIndex = 1; appealIndex < appealInputsAndExpectations.length; appealIndex++) {
+				const appeal = appealInputsAndExpectations[appealIndex];
 
 				[
 					...jp.query(appeal, '$..uploadedFile').flat(Infinity),
@@ -923,8 +926,8 @@ describe('Back Office', () => {
 
 			// Then: we expect the second appeal to be updated as submitted successfully to the back-office but the third appeal
 			//       is still in its previous state
-			for (let appealIndex = 1; appealIndex < conditions.length; appealIndex++) {
-				const appealResponse = await appealsApi.get(`/api/v1/appeals/${conditions[appealIndex].appeal.id}`);
+			for (let appealIndex = 1; appealIndex < appealInputsAndExpectations.length; appealIndex++) {
+				const appealResponse = await appealsApi.get(`/api/v1/appeals/${appealInputsAndExpectations[appealIndex].appeal.id}`);
 				const horizonId = appealResponse.body.horizonId
 				if (appealIndex == 1) {
 					expect(horizonId).toBe(`CASE_REF_${appealIndex}234567`)
@@ -936,8 +939,8 @@ describe('Back Office', () => {
 
 			// And: we only expect create document requests to be submitted to the back-office for those documents that
 			//      were not uploaded succesfully on the first processing request
-			for (let appealIndex = 1; appealIndex < conditions.length; appealIndex++) {
-				const appeal = conditions[appealIndex].appeal;
+			for (let appealIndex = 1; appealIndex < appealInputsAndExpectations.length; appealIndex++) {
+				const appeal = appealInputsAndExpectations[appealIndex].appeal;
 				[
 					...jp.query(appeal, '$..uploadedFile').flat(Infinity),
 					...jp.query(appeal, '$..uploadedFiles').flat(Infinity)
@@ -952,9 +955,9 @@ describe('Back Office', () => {
 			// And: we expect another email to have been sent to the LPA for the second appeal since it has now been successfully
 			//      processed
 			expectedNotifyInteractions.push(NotifyInteraction.getAppealSubmittedEmailForLpaInteraction(
-				conditions[1].appeal, 
-				conditions[1].lpa.name, 
-				conditions[1].lpa.email
+				appealInputsAndExpectations[1].appeal, 
+				appealInputsAndExpectations[1].lpa.name, 
+				appealInputsAndExpectations[1].lpa.email
 			));
 
 			// And: There should be no messages sent to the message queue

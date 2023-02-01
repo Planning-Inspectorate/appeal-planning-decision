@@ -44,27 +44,26 @@ class BackOfficeService {
 			logger.debug(`Appeal found in repository: ${JSON.stringify(appealToSubmitToBackOffice)}`);
 
 			if (appealToSubmitToBackOffice.horizonId == undefined || appealToSubmitToBackOffice.horizonId == false) {
-				let appealAfterSubmissionToBackOffice;
 				if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
 					logger.debug('Using direct Horizon integration');
 					const updatedBackOfficeSubmission = await this.#horizonService.submitAppeal(appealToSubmitToBackOffice, backOfficeSubmission);
 
-					logger.debug(backOfficeSubmission.toJSON(), "Submission state before submission")
-					logger.debug(updatedBackOfficeSubmission.toJSON(), "Submission state after submission")
-					logger.debug(backOfficeSubmission.difference(updatedBackOfficeSubmission), "Difference")
 					if (updatedBackOfficeSubmission.isComplete()) {
-						appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice, updatedBackOfficeSubmission.getAppealBackOfficeId());
+						logger.debug("Appeal submission to back office is complete")
+						const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice, updatedBackOfficeSubmission.getAppealBackOfficeId());
 						await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
 						completedAppealSubmissions.push(updatedBackOfficeSubmission.getId());
-					} else {
-						uncompletedAppealSubmissions.push(updatedBackOfficeSubmission);
+					} else {						
+						const difference = backOfficeSubmission.difference(updatedBackOfficeSubmission);
+						logger.debug(difference.toJSON(), "Appeal submission to back office is NOT complete however, the following back office IDs have been updated")
+						uncompletedAppealSubmissions.push(difference);
 					}
-
 
 				} else {
 					logger.debug('Using message queue integration');
-					appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice);
+					const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice);
 					this.#backOfficeRepository.create(appealAfterSubmissionToBackOffice);
+					completedAppealSubmissions.push(appealAfterSubmissionToBackOffice.id);
 					await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
 				}
 			}
@@ -74,10 +73,9 @@ class BackOfficeService {
 			this.#backOfficeRepository.deleteAppealSubmissions(completedAppealSubmissions);
 		}
 
-		// if (uncompletedAppealSubmissions.length > 0) {
-		// 	uncompletedAppealSubmissions.forEach(x => logger.debug(x.toJSON()));
-		// 	await this.#backOfficeRepository.updateAppealSubmissions(uncompletedAppealSubmissions);
-		// }
+		if (uncompletedAppealSubmissions.length > 0) {
+			await this.#backOfficeRepository.updateAppealSubmissions(uncompletedAppealSubmissions);
+		}
 
 		return;
 	}

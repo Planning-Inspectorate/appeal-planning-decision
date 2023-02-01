@@ -50,14 +50,14 @@ class BackOfficeRepository extends MongoRepository {
 
 	/**
 	 * 
-	 * @param {BackOfficeAppealSubmissionAggregate[]} appealSubmissions 
+	 * @param {AggregateDifference} appealDifferenceResult 
 	 */
-	async updateAppealSubmissions(appealSubmissions){
-		const appealSubmissionsAsMongoDocuments = []
-		for (const appealSubmission of appealSubmissions) {
-			appealSubmissionsAsMongoDocuments.push(this.#fromBackOfficeAppealSubmissionToMongoJson(appealSubmission));
-		}
-		return await super.updateMany(appealSubmissionsAsMongoDocuments);
+	async updateAppealSubmissions(appealDifferenceResult){
+		// const appealSubmissionsAsMongoDocuments = []
+		// for (const appealSubmission of appealDifferenceResult) {
+		// 	appealSubmissionsAsMongoDocuments.push(this.#fromBackOfficeAppealSubmissionToMongoJson(appealSubmission));
+		// }
+		return await super.updateMany(appealDifferenceResult);
 	}
 
 	/**
@@ -76,8 +76,6 @@ class BackOfficeRepository extends MongoRepository {
 	 * @return {Promise<void>}
 	 */
 	create(message) {
-		logger.debug(`Attempting to send the following message to the back-office ${message}`)
-
 		// We don't do this set up in the constructor because, if we do, the message queue to connect
 		// to may not be available, and the app blows up due to timeout exceptions thrown by rhea.
 		// Note that we only want one sender, hence this block of code!
@@ -102,20 +100,25 @@ class BackOfficeRepository extends MongoRepository {
 		})
 	}
 
-	/**
-	 * 
-	 * @param {BackOfficeAppealSubmissionAggregate} appealSubmission 
-	 * @returns 
-	 */
-	#fromBackOfficeAppealSubmissionToMongoJson(appealSubmission){
-        return {
-			_id: appealSubmission.getId(),
-			organisations: appealSubmission.getOrganisations().map(organisationSubmissionEntity => { return { type: organisationSubmissionEntity.getId(), horizon_id: organisationSubmissionEntity.getBackOfficeId()} }),
-			contacts: appealSubmission.getContacts().map(contactSubmissionEntity => { return { type: contactSubmissionEntity.getId(), horizon_id: contactSubmissionEntity.getBackOfficeId()} }),
-			appeal: { id: appealSubmission.getAppealId(), horizon_id: appealSubmission.getAppealBackOfficeId() },
-			documents: appealSubmission.getDocuments().map(documentSubmissionEntity => { return { id: documentSubmissionEntity.getId(), horizon_id: documentSubmissionEntity.getBackOfficeId() } })
-		}
-    }
+	// /**
+	//  * 
+	//  * @param {BackOfficeAppealSubmissionAggregate} appealSubmission 
+	//  * @returns 
+	//  */
+	// #fromBackOfficeAppealSubmissionToMongoJson(appealSubmission){
+	// 	// NOTE: this is not included as a function in the AppealSubmissionAggregate
+	// 	//       since it has the Mongo-specific _id field, and we don't want to
+	// 	//       couple the concept of an AppealSubmissionAggregate to a database engine.
+	// 	//       Instead, to improve cohesion, anything Mongo related should be in this
+	// 	//       class, or its super class
+    //     return {
+	// 		_id: appealSubmission.getId(),
+	// 		organisations: appealSubmission.getOrganisations().map(organisationSubmissionEntity => { return { type: organisationSubmissionEntity.getId(), horizon_id: organisationSubmissionEntity.getBackOfficeId()} }),
+	// 		contacts: appealSubmission.getContacts().map(contactSubmissionEntity => { return { type: contactSubmissionEntity.getId(), horizon_id: contactSubmissionEntity.getBackOfficeId() } }),
+	// 		appeal: { id: appealSubmission.getAppealId(), horizon_id: appealSubmission.getAppealBackOfficeId() },
+	// 		documents: appealSubmission.getDocuments().map(documentSubmissionEntity => { return { id: documentSubmissionEntity.getId(), horizon_id: documentSubmissionEntity.getBackOfficeId() } })
+	// 	}
+    // }
 }
 
 module.exports = { BackOfficeRepository }

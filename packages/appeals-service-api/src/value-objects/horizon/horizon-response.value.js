@@ -5,7 +5,7 @@ class HorizonResponseValue {
 
     /**
      * 
-     * @param {string} value 
+     * @param {any} value 
      * @param {boolean} isError 
      */
     constructor(value, isError) {

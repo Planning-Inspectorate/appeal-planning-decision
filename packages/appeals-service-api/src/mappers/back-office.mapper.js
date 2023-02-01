@@ -15,7 +15,7 @@ class BackOfficeMapper {
             _id: null,
 			organisations: this.#getOrganisationsJson(appealContactDetails),
 			contacts: this.#getContactsJson(appealContactDetails) ,
-			appeal: { horizon_id: "", id: appealId, failures: [] },
+			appeal: { horizon_id: null, id: appealId, failures: [] },
 			documents: this.#getDocumentsJson(documentIds)
 		}
     }
@@ -57,8 +57,8 @@ class BackOfficeMapper {
         const result = [];
         // Check for names here: if one hasn't been set, its because the organisation for the type
         // of contact was never defined on the appeal.
-        if (appealContactDetails.getAppellant().getOrganisationName()) result.push({"horizon_id": "", "type": "appellant", "failures": []});
-        if (appealContactDetails.getAgent().getOrganisationName()) result.push({"horizon_id": "", "type": "agent", "failures": []});
+        if (appealContactDetails.getAppellant().getOrganisationName()) result.push({"horizon_id": null, "type": "appellant", "failures": []});
+        if (appealContactDetails.getAgent().getOrganisationName()) result.push({"horizon_id": null, "type": "agent", "failures": []});
         return result;
     }
 
@@ -66,13 +66,13 @@ class BackOfficeMapper {
         const result = [];
         // Check for names here: if one hasn't been set, its because the contact for the type
         // of contact was never defined on the appeal.
-        if (appealContactDetails.getAppellant().getName()) result.push({"horizon_id": "", "type": "appellant", "failures": []});
-        if (appealContactDetails.getAgent().getName()) result.push({"horizon_id": "", "type": "agent", "failures": []});
+        if (appealContactDetails.getAppellant().getName()) result.push({"horizon_id": null, "type": "appellant", "failures": []});
+        if (appealContactDetails.getAgent().getName()) result.push({"horizon_id": null, "type": "agent", "failures": []});
         return result;
     }
 
     #getDocumentsJson(documentIds){
-        return documentIds.map(documentId => { return { horizon_id: "", id: documentId, failures: []} })
+        return documentIds.map(documentId => { return { horizon_id: null, id: documentId, failures: []} })
     }
 }
 

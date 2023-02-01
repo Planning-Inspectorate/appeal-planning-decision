@@ -42,22 +42,39 @@ class MongoRepository {
 
 	/**
 	 * 
-	 * @param {any[]} documents 
+	 * @param {AggregateDifference[]} aggregateDifferences 
 	 * @returns 
 	 */
-	async updateMany(documents) {
+	async updateMany(aggregateDifferences) {
+		logger.info(aggregateDifferences, "Differences to process via update")
 		const collection = mongodb.get().collection(this.collectionName);
-		const replaceOneOperations = documents.map(doc => {
-			return { updateOne :
-				{
-				   "filter" : {_id: new ObjectId(doc._id )},
-				   "update" : doc,
-				   "upsert" : true,
-				}
-			};
-		})
-		logger.debug(replaceOneOperations, "Updating docs");
-		return await collection.bulkWrite(replaceOneOperations)
+		const updateOneOperations = aggregateDifferences.flatMap(aggregateDifference => {
+			
+			return aggregateDifference.getEntityDifferences().map(entityDifference => {
+				logger.info(entityDifference, "entity difference");
+				const result = { updateOne : {
+					filter : {
+						$and: [
+							{ _id: new ObjectId(aggregateDifference.getAggregateId()) },
+							{
+								documents: {
+									$elemMatch: {
+										id: entityDifference.getId()
+									}
+								}
+							}
+						] 
+					},
+					update : { $set: { horizon_id: entityDifference.getBackOfficeId() }},
+					upsert : true,
+				}}
+
+				logger.info(result, "Update created!")
+				return result;
+			})
+		});
+		logger.info(updateOneOperations, "Updating docs");
+		return await collection.bulkWrite(updateOneOperations)
 	}
 
 	/**

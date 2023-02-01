@@ -1,4 +1,5 @@
 const BackOfficeSubmissionEntity = require('../entities/back-office-submission-entity');
+const BackOfficeAppealSubmissionDifferenceResult = require('../../value-objects/aggregate-difference-result.value');
 const logger = require('../../lib/logger');
 
 class BackOfficeAppealSubmissionAggregate {
@@ -8,6 +9,8 @@ class BackOfficeAppealSubmissionAggregate {
     #appeal;
     #documents;
 
+    #organisationsAsMapIndexedById = new Map();
+    #contactsAsMapIndexedById = new Map();
     #documentsAsMapIndexedById = new Map();
 
     /**
@@ -24,6 +27,8 @@ class BackOfficeAppealSubmissionAggregate {
         this.#appeal = appeal;
         this.#documents = documents;
 
+        this.#organisations.forEach(organisation => this.#organisationsAsMapIndexedById.set(organisation.getId(), organisation));
+        this.#contacts.forEach(contact => this.#contactsAsMapIndexedById.set(contact.getId(), contact));
         this.#documents.forEach(document => this.#documentsAsMapIndexedById.set(document.getId(), document));
     }
 
@@ -41,6 +46,10 @@ class BackOfficeAppealSubmissionAggregate {
      */
      getAppealBackOfficeId() {
         return this.#appeal.getBackOfficeId();
+    }
+
+    getAppeal() {
+        return this.#appeal;
     }
 
     getOrganisations(){
@@ -68,7 +77,7 @@ class BackOfficeAppealSubmissionAggregate {
      * @returns {BackOfficeSubmissionEntity[]}
      */
      getContactsPendingSubmission() {
-        return this.#organisations.filter(contactSubmission => contactSubmission.isPending());
+        return this.#contacts.filter(contactSubmission => contactSubmission.isPending());
     }
 
     /**
@@ -86,7 +95,24 @@ class BackOfficeAppealSubmissionAggregate {
     }
 
     /**
-     * @returns {Map}
+     * 
+     * @returns {Map<string, BackOfficeSubmissionEntity>}
+     */
+    getOrganisationsAsMapIndexedById() {
+        return this.#organisationsAsMapIndexedById;
+    }
+
+    /**
+     * 
+     * @returns {Map<string, BackOfficeSubmissionEntity>}
+     */
+     getContactsAsMapIndexedById() {
+        return this.#contactsAsMapIndexedById;
+    }
+
+    /**
+     * 
+     * @returns {Map<string, BackOfficeSubmissionEntity>}
      */
     getDocumentsAsMapIndexedById() {
         return this.#documentsAsMapIndexedById;
@@ -95,79 +121,124 @@ class BackOfficeAppealSubmissionAggregate {
     /**
      * 
      * @param {BackOfficeAppealSubmissionAggregate} otherBackOfficeAppealSubmission
-     * @returns {BackOfficeSubmissionEntity[]} The BackOfficeSubmissionEntity's in the input 
+     * @returns {BackOfficeAppealSubmissionDifferenceResult} The BackOfficeSubmissionEntity's in the input 
      * whose back office ID differs from the back office IDs in this object.
      */
     difference(otherBackOfficeAppealSubmission) { 
+        const mapOfOrganisationsInInput = otherBackOfficeAppealSubmission.getOrganisationsAsMapIndexedById();
+        const mapOfContactsInInput = otherBackOfficeAppealSubmission.getContactsAsMapIndexedById();
         const mapOfDocumentsInInput = otherBackOfficeAppealSubmission.getDocumentsAsMapIndexedById();
         
-        const result = [];
-        mapOfDocumentsInInput.forEach((value, key) => {
-            if(
-                this.#documentsAsMapIndexedById.has(key) && 
-                this.#documentsAsMapIndexedById.get(key).getBackOfficeId() !== value.getBackOfficeId()
-            ) {
-                result.push(value)
-            }
-        })
+        const result = []
+        result.push(this.#getBackOfficeIdEntityDifferences(this.#organisationsAsMapIndexedById, mapOfOrganisationsInInput));
+        result.push(this.#getBackOfficeIdEntityDifferences(this.#contactsAsMapIndexedById, mapOfContactsInInput));
+        result.push(this.#getBackOfficeIdEntityDifferences(this.#documentsAsMapIndexedById, mapOfDocumentsInInput));
+        if (this.#appeal.getBackOfficeId() !== otherBackOfficeAppealSubmission.getAppealBackOfficeId()) {
+            result.push(otherBackOfficeAppealSubmission.getAppeal());
+        }
 
-        logger.debug(result, "Difference between back-office IDs")
-        return result;
+        return new BackOfficeAppealSubmissionDifferenceResult(this.getId(), result);
     }
 
     /**
      * 
+     * @param {BackOfficeSubmissionEntity[]} organisations
+     * @param {BackOfficeSubmissionEntity[]} contacts
      * @param {BackOfficeSubmissionEntity} appeal
      * @param {BackOfficeSubmissionEntity[]} documents
      * @returns {BackOfficeAppealSubmissionAggregate} A new instance, with the updates applied.
      */
-    update(appeal, documents){
+    update(organisations, contacts, appeal, documents){
 
-        console.log(documents.length);
-        let documentsToUpdateMap = new Map();
-        for (const document of documents) {
-            documentsToUpdateMap.set(document.getId(), document);
-        }
-        console.log(documentsToUpdateMap)
+        // let organisationsToUpdateMap = new Map();
+        // for (const organisation of organisations) {
+        //     organisationsToUpdateMap.set(organisation.getId(), organisation);
+        // }
 
-        const updatedDocuments = [];
-        this.#documentsAsMapIndexedById.forEach((document, documentId) => {
-            let backOfficeId = document.getBackOfficeId(); // We'll assume there's no change
-            if (documentsToUpdateMap.has(documentId)) {
-                console.log('\n\n\n\nUPDATING DOCUMENT\n\n\n\n')
-                backOfficeId = documentsToUpdateMap.get(documentId).getBackOfficeId();
-            }
+        // let contactsToUpdateMap = new Map();
+        // for (const contact of contacts) {
+        //     contactsToUpdateMap.set(contact.getId(), contact);
+        // }
 
-            updatedDocuments.push(new BackOfficeSubmissionEntity(document.getId(), backOfficeId));
-        })
+        // let documentsToUpdateMap = new Map();
+        // for (const document of documents) {
+        //     documentsToUpdateMap.set(document.getId(), document);
+        // }
+
+        const updatedOrganisations = this.#getUpdatesForEntities(this.#organisationsAsMapIndexedById, organisations);
+        const updatedContacts = this.#getUpdatesForEntities(this.#contactsAsMapIndexedById, contacts);
+        const updatedDocuments = this.#getUpdatesForEntities(this.#documentsAsMapIndexedById, documents);
 
         // Note that we are not mutating the state of the object this method is called on, this
         // is because state mutation is not preferred! See https://blog.sapegin.me/all/avoid-mutation/
-        return new BackOfficeAppealSubmissionAggregate(
+        const updatedAggregate = new BackOfficeAppealSubmissionAggregate(
             this.#id,
-            this.#organisations,
-            this.#contacts,
+            updatedOrganisations,
+            updatedContacts,
             appeal,
             updatedDocuments
         )
+
+        logger.debug(updatedAggregate.toJSON(), "Updated aggregate")
+        return updatedAggregate;
     }
 
     /**
      * @returns {boolean} Whether the appeal submission to the back-office is complete.
-     * At the moment, if all documents are submitted, the appeal will be considered complete.
+     * This will only return true if all organisations, contacts, and documents have back
+     * office IDs, and if the core appeal data has a back office ID too.
      */
     isComplete() {
-        return this.#documents.every(document => document.getBackOfficeId());
+        return this.#organisations.every(organisation => organisation.getBackOfficeId()) &&
+            this.#contacts.every(contact => contact.getBackOfficeId()) &&
+            this.#appeal.getBackOfficeId() &&
+            this.#documents.every(document => document.getBackOfficeId())
+        ;
     }
 
     toJSON() {
-        return {
+        const result = {
             id: this.#id,
-            organisations: this.#organisations.map(org => { return { id: org.getId(), back_office_id: org.getBackOfficeId() } }),
-            contacts: this.#contacts.map(contact => { return { id: contact.getId(), back_office_id: contact.getBackOfficeId() } }),
-            appeal: { id: this.#appeal.getId(), back_office_id: this.#appeal.getBackOfficeId()},
-            documents: this.#documents.map(doc => { return { id: doc.getId(), back_office_id: doc.getBackOfficeId() } })
-        }
+            organisations: {},
+            contacts: {},
+            appeal: {},
+            documents: {}
+        };
+
+        this.#organisations.forEach(org => result.organisations[org.getId()] = org);
+        this.#contacts.map(contact => result.contacts[contact.getId()] = contact);
+        result.appeal = this.#appeal.getBackOfficeId();
+        this.#documents.map(doc => result.documents[doc.getId()] = doc);
+        return result;
+    }
+
+    #getUpdatesForEntities(entityMap, updates){
+        const result = [];
+        
+        entityMap.forEach((entity, entityId) => {
+            let backOfficeId = entity.getBackOfficeId(); // We'll assume there's no change
+            if (updates[entityId]) {
+                backOfficeId = updates[entityId].getBackOfficeId();
+            }
+
+            result.push(new BackOfficeSubmissionEntity(entity.getId(), backOfficeId));
+        });
+        return result;
+    }
+
+    #getBackOfficeIdEntityDifferences(mapOfEntitiesFromThis, mapOfEntitiesFromThat){
+        const result = [];
+        
+        mapOfEntitiesFromThat.forEach((value, key) => {
+            if(
+                mapOfEntitiesFromThis.has(key) && 
+                mapOfEntitiesFromThis.get(key).getBackOfficeId() !== value.getBackOfficeId()
+            ) {
+                result.push(value);
+            }
+        });
+
+        return result;
     }
 }
 

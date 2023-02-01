@@ -1,111 +1,69 @@
 const logger = require('../lib/logger');
-const ApiError = require('../errors/apiError');
+const BackOfficeSubmissionEntity = require('../models/entities/back-office-submission-entity');
+const LpaEntity = require('../models/entities/lpa-entity');
 
-// TODO: Make the method names consistent, something like "create...Requests()"?
 class HorizonMapper {
 	/**
 	 * @param {AppealContactsValueObject} appealContactDetails
-	 * @return {any} Structure is:
-	 * {
-	 *  originalApplicant: <request JSON>,
-	 *  agent: <request JSON> // optional: only if an agent organisation name is specified in input
-	 * }
-	 *
-	 * The values for `originalApplicant` and `agent` may be null if no organisation name is specified
-	 * for either.
+	 * @return {any} 
 	 */
-	appealToCreateOrganisationRequests(appealContactDetails) {
-		logger.debug('Constructing create organisation requests for Horizon');
+	appealContactToCreateOrganisationRequest(appealContact) {
+		logger.debug('Constructing create organisation request for Horizon');
 
-		let result = {
-			originalApplicant: null,
-			agent: null
-		};
-
-		const appellantOrganisationName = appealContactDetails.getAppellant().getOrganisationName();
-		logger.debug(`The appellant organisation name is: '${appellantOrganisationName}'`);
-		if (appellantOrganisationName) {
-			result.originalApplicant = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
-			result.originalApplicant.AddContact.contact['a:Name'] = appellantOrganisationName;
+		let result = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation')
+	
+		const organisationName = appealContact.getOrganisationName();
+		logger.debug(`The organisation name is: '${organisationName}'`);
+		if (organisationName) {
+			result.AddContact.contact['a:Name'] = organisationName;
 		}
 
-		const agentOrganisationName = appealContactDetails.getAgent().getOrganisationName();
-		logger.debug(`The agent organisation name is: '${appellantOrganisationName}'`);
-		if (agentOrganisationName) {
-			result.agent = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
-			result.agent.AddContact.contact['a:Name'] = agentOrganisationName;
-		}
-
-		logger.debug(result, 'Create organisation requests constructed');
+		logger.debug(result, 'Create organisation request constructed');
 		return result;
 	}
 
 	/**
 	 *
-	 * @param {AppealContactsValueObject} appealContactDetails
-	 * @param {*} contactOrganisationHorizonIDs Structure expected is:
-	 * {
-	 *  originalApplicant: '<original-applicant-organisation-id-in-horizon>',
-	 *  agent: '<agent-organisation-id-in-horizon> // optional: only if the appeal references an agent.
-	 * }
-	 * @returns JSON with structure:
-	 * [
-	 *  {
-	 *      name: '',
-	 *      type: '',
-	 *      requestBody: {}
-	 *  }
+	 * @param {AppealContactsValueObject} appealContactDetail
+	 * @param {string} organisationHorizonId 
+	 * @returns {any} JSON that can be sent to Horizon to create the contact defined via the input parameters.
 	 */
-	createContactRequests(appealContactDetails, contactOrganisationHorizonIDs) {
-		logger.debug('Constructing create contact requests for Horizon');
+	createContactRequest(appealContactDetail, organisationHorizonId) {
+		logger.debug('Constructing create contact request for Horizon');
 
-		let contacts = [
-			{
-				type: 'Appellant',
-				organisationId: contactOrganisationHorizonIDs?.originalApplicant,
-				name: appealContactDetails.getAppellant().getName(),
-				email: appealContactDetails.getAppellant().getEmail()
-			},
-			{
-				type: 'Agent',
-				organisationId: contactOrganisationHorizonIDs?.agent,
-				name: appealContactDetails.getAgent().getName(),
-				email: appealContactDetails.getAgent().getEmail()
-			}
-		];
+		const contactName = appealContactDetail.getName();
+		let [firstName, ...lastName] = contactName.split(' ');
 
-		logger.debug(contacts, `Contacts to map into Horizon request`);
+		if (contactName.split(' ').length <= 1) {
+			firstName = ',';
+			// eslint-disable-next-line prefer-destructuring
+			lastName = contactName.split(' ')[0];
+		} else {
+			// eslint-disable-next-line prefer-destructuring
+			firstName = contactName.split(' ')[0];
+			lastName = lastName.join(' ');
+		}
 
-		return contacts
-			.filter((contact) => contact.name) // Contacts without a name shouldn't be mapped
-			.map((contact) => {
-				let [firstName, ...lastName] = contact.name.split(' ');
-
-				if (contact.name.split(' ').length <= 1) {
-					firstName = ',';
-					// eslint-disable-next-line prefer-destructuring
-					lastName = contact.name.split(' ')[0];
-				} else {
-					// eslint-disable-next-line prefer-destructuring
-					firstName = contact.name.split(' ')[0];
-					lastName = lastName.join(' ');
-				}
-
-				let requestBody = this.#getCreateContactRequestJson('a:HorizonAPIPerson');
-				requestBody.AddContact.contact['a:Email'] = contact?.email || { '__i:nil': 'true' };
-				requestBody.AddContact.contact['a:FirstName'] = firstName || '<Not provided>';
-				requestBody.AddContact.contact['a:LastName'] = lastName || '<Not provided>';
-				requestBody.AddContact.contact['a:OrganisationID'] = contact.organisationId;
-
-				return {
-					name: contact.name,
-					type: contact.type,
-					requestBody: requestBody
-				};
-			});
+		let requestBody = this.#getCreateContactRequestJson('a:HorizonAPIPerson');
+		requestBody.AddContact.contact['a:Email'] = appealContactDetail.getEmail() || { '__i:nil': 'true' };
+		requestBody.AddContact.contact['a:FirstName'] = firstName || '<Not provided>';
+		requestBody.AddContact.contact['a:LastName'] = lastName || '<Not provided>';
+		if (organisationHorizonId) requestBody.AddContact.contact['a:OrganisationID'] = organisationHorizonId;
+		return requestBody;
 	}
 
-	appealToHorizonCreateAppealRequest(appeal, contacts, lpaEntity) {
+	/**
+	 * 
+	 * @param {any} appeal 
+	 * @param {any} contactSubmissions JSON, structure should be {
+	 * 	agent: BackOfficeAppealSubmissionEntity, 
+	 * 	appellant: BackOfficeAppealSubmissionEntity
+	 * } 
+	 * @param {LpaEntity} lpaEntity 
+	 * @param {AppealContactsValueObject} appealContactDetails
+	 * @returns 
+	 */
+	appealToHorizonCreateAppealRequest(appeal, contactSubmissions, lpaEntity, appealContactDetails) {
 		// if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
 		const appealTypeId = appeal.appealType == null ? '1001' : appeal.appealType;
 		const decision = appeal.eligibility.applicationDecision;
@@ -114,7 +72,7 @@ class HorizonMapper {
 		logger.debug(`Case Work Reason ${caseworkReason}`);
 
 		let attributes = this.#getAttributes(appealTypeId, appeal, caseworkReason);
-		const contactAttributes = this.#getContactAttributes(contacts);
+		const contactAttributes = this.#getContactAttributes(contactSubmissions, appealContactDetails);
 		attributes.push(...contactAttributes);
 
 		// important: LPA code below refers to Horizon LPA code (i.e. W4705), not 'E' number (i.e. E60000068)
@@ -415,18 +373,29 @@ class HorizonMapper {
 		];
 	}
 
-	#getContactAttributes(contacts) {
-		return contacts.map((contact) => {
+	/**
+	 * @param {any} contactSubmissions JSON, structure should be {
+	 * 	agent: BackOfficeAppealSubmissionEntity, 
+	 * 	appellant: BackOfficeAppealSubmissionEntity
+	 * } 
+	 * @param {AppealContactsValueObject} appealContactDetails
+	 */
+	#getContactAttributes(contactSubmissions, appealContactDetails) {
+
+		return Object.keys(contactSubmissions).map(contactType => {
+			const contactSubmission = contactSubmissions[contactType];
 			return {
 				key: 'Case Involvement:Case Involvement',
 				value: [
 					{
 						key: 'Case Involvement:Case Involvement:ContactID',
-						value: contact.horizonContactId
+						value: contactSubmission.getBackOfficeId()
 					},
 					{
 						key: 'Case Involvement:Case Involvement:Contact Details',
-						value: contact.name
+						value: contactType == "agent" ? 
+							appealContactDetails.getAgent().getName() :
+							appealContactDetails.getAppellant().getName()
 					},
 					{
 						key: 'Case Involvement:Case Involvement:Involvement Start Date',
@@ -438,7 +407,7 @@ class HorizonMapper {
 					},
 					{
 						key: 'Case Involvement:Case Involvement:Type Of Involvement',
-						value: contact.type
+						value: contactType == "agent" ? "Agent" : "Appellant"
 					}
 				]
 			};
