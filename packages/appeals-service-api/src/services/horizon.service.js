@@ -207,11 +207,16 @@ class HorizonService {
 			if(organisationBackOfficeSubmissionEntities[contactType]){
 				organisationBackOfficeId = organisationBackOfficeSubmissionEntities[contactType].getBackOfficeId()
 			}
-				
-			const horizonResponse = await this.#horizonGateway.createContact(contactToCreate, organisationBackOfficeId);
-			if (horizonResponse.isNotAnError()) {
-				logger.debug(horizonResponse.getValue(), `Horizon response after attempting to create ${contactType} contact`);
-				result[contactType] = new BackOfficeSubmissionEntity(contactType, horizonResponse.getValue());	
+			
+			if (
+				contactType in organisationBackOfficeSubmissionEntities == false ||
+				(contactType in organisationBackOfficeSubmissionEntities && organisationBackOfficeId)
+			) {
+				const horizonResponse = await this.#horizonGateway.createContact(contactToCreate, organisationBackOfficeId);
+				if (horizonResponse.isNotAnError()) {
+					logger.debug(horizonResponse.getValue(), `Horizon response after attempting to create ${contactType} contact`);
+					result[contactType] = new BackOfficeSubmissionEntity(contactType, horizonResponse.getValue());	
+				}
 			}
 		}
 		
@@ -264,6 +269,10 @@ class HorizonService {
 	 */
 	async #submitDocumentsToHorizon(documentsPendingSubmission, appeal, appealBackOfficeId){
 		let result = []
+
+		if (appealBackOfficeId == null) {
+			return result;
+		}
 
 		for(const documentPendingSubmission of documentsPendingSubmission) {
 			let documentBackOfficeId = documentPendingSubmission.getBackOfficeId(); // If Horizon doesn't play nice, then the result for this document will be whatever the submission state was prior
