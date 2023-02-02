@@ -10,7 +10,6 @@ const rules = () => {
 
 	return [
 		body(areYouTheOriginalAppellant)
-			.escape()
 			.notEmpty()
 			.withMessage('Select yes if the original planning application was made in your name')
 			.bail()

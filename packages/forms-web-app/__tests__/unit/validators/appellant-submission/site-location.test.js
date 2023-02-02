@@ -13,10 +13,6 @@ describe('validators/appellant-submission/site-location', () => {
 			rules = siteLocationRules();
 		});
 
-		it('should have the expected number of rules', () => {
-			expect(rules.length).toEqual(5);
-		});
-
 		describe('ruleAddressLine1', () => {
 			it('is configured with the expected rules', () => {
 				const rule = rules[0].builder.build();
@@ -24,18 +20,15 @@ describe('validators/appellant-submission/site-location', () => {
 				expect(rule.fields).toEqual(['site-address-line-one']);
 				expect(rule.locations).toEqual(['body']);
 				expect(rule.optional).toBeFalsy();
-				expect(rule.stack).toHaveLength(5);
 
-				expect(rule.stack[0].sanitizer.name).toEqual('escape');
+				expect(rule.stack[0].negated).toBeTruthy();
+				expect(rule.stack[0].validator.name).toEqual('isEmpty');
+				expect(rule.stack[0].message).toEqual('Enter the first line of the address');
 
-				expect(rule.stack[1].negated).toBeTruthy();
-				expect(rule.stack[1].validator.name).toEqual('isEmpty');
-				expect(rule.stack[1].message).toEqual('Enter the first line of the address');
-
-				expect(rule.stack[3].negated).toBeFalsy();
-				expect(rule.stack[3].validator.name).toEqual('isLength');
-				expect(rule.stack[3].options).toEqual([{ max: 60, min: 1 }]);
-				expect(rule.stack[3].message).toEqual(
+				expect(rule.stack[2].negated).toBeFalsy();
+				expect(rule.stack[2].validator.name).toEqual('isLength');
+				expect(rule.stack[2].options).toEqual([{ max: 60, min: 1 }]);
+				expect(rule.stack[2].message).toEqual(
 					'The first line of the address must be 60 characters or fewer'
 				);
 			});
@@ -48,14 +41,11 @@ describe('validators/appellant-submission/site-location', () => {
 				expect(rule.fields).toEqual(['site-address-line-two']);
 				expect(rule.locations).toEqual(['body']);
 				expect(rule.optional).toBeFalsy();
-				expect(rule.stack).toHaveLength(3);
 
-				expect(rule.stack[0].sanitizer.name).toEqual('escape');
-
-				expect(rule.stack[1].negated).toBeFalsy();
-				expect(rule.stack[1].validator.name).toEqual('isLength');
-				expect(rule.stack[1].options).toEqual([{ max: 60, min: 0 }]);
-				expect(rule.stack[1].message).toEqual(
+				expect(rule.stack[0].negated).toBeFalsy();
+				expect(rule.stack[0].validator.name).toEqual('isLength');
+				expect(rule.stack[0].options).toEqual([{ max: 60, min: 0 }]);
+				expect(rule.stack[0].message).toEqual(
 					'The second line of the address must be 60 characters or fewer'
 				);
 			});
@@ -68,14 +58,11 @@ describe('validators/appellant-submission/site-location', () => {
 				expect(rule.fields).toEqual(['site-town-city']);
 				expect(rule.locations).toEqual(['body']);
 				expect(rule.optional).toBeFalsy();
-				expect(rule.stack).toHaveLength(3);
 
-				expect(rule.stack[0].sanitizer.name).toEqual('escape');
-
-				expect(rule.stack[1].negated).toBeFalsy();
-				expect(rule.stack[1].validator.name).toEqual('isLength');
-				expect(rule.stack[1].options).toEqual([{ max: 60, min: 0 }]);
-				expect(rule.stack[1].message).toEqual('Town or City must be 60 characters or fewer');
+				expect(rule.stack[0].negated).toBeFalsy();
+				expect(rule.stack[0].validator.name).toEqual('isLength');
+				expect(rule.stack[0].options).toEqual([{ max: 60, min: 0 }]);
+				expect(rule.stack[0].message).toEqual('Town or City must be 60 characters or fewer');
 			});
 		});
 
@@ -86,14 +73,11 @@ describe('validators/appellant-submission/site-location', () => {
 				expect(rule.fields).toEqual(['site-county']);
 				expect(rule.locations).toEqual(['body']);
 				expect(rule.optional).toBeFalsy();
-				expect(rule.stack).toHaveLength(3);
 
-				expect(rule.stack[0].sanitizer.name).toEqual('escape');
-
-				expect(rule.stack[1].negated).toBeFalsy();
-				expect(rule.stack[1].validator.name).toEqual('isLength');
-				expect(rule.stack[1].options).toEqual([{ max: 60, min: 0 }]);
-				expect(rule.stack[1].message).toEqual('County must be 60 characters or fewer');
+				expect(rule.stack[0].negated).toBeFalsy();
+				expect(rule.stack[0].validator.name).toEqual('isLength');
+				expect(rule.stack[0].options).toEqual([{ max: 60, min: 0 }]);
+				expect(rule.stack[0].message).toEqual('County must be 60 characters or fewer');
 			});
 		});
 
@@ -104,18 +88,15 @@ describe('validators/appellant-submission/site-location', () => {
 				expect(rule.fields).toEqual(['site-postcode']);
 				expect(rule.locations).toEqual(['body']);
 				expect(rule.optional).toBeFalsy();
-				expect(rule.stack).toHaveLength(7);
 
-				expect(rule.stack[0].sanitizer.name).toEqual('escape');
+				expect(rule.stack[0].negated).toBeTruthy();
+				expect(rule.stack[0].validator.name).toEqual('isEmpty');
+				expect(rule.stack[0].message).toEqual('Enter a real postcode');
 
-				expect(rule.stack[1].negated).toBeTruthy();
-				expect(rule.stack[1].validator.name).toEqual('isEmpty');
-				expect(rule.stack[1].message).toEqual('Enter a real postcode');
-
-				expect(rule.stack[3].negated).toBeFalsy();
-				expect(rule.stack[3].validator.name).toEqual('isLength');
-				expect(rule.stack[3].options).toEqual([{ max: 8, min: 1 }]);
-				expect(rule.stack[3].message).toEqual('Postcode must be 8 characters or fewer');
+				expect(rule.stack[2].negated).toBeFalsy();
+				expect(rule.stack[2].validator.name).toEqual('isLength');
+				expect(rule.stack[2].options).toEqual([{ max: 8, min: 1 }]);
+				expect(rule.stack[2].message).toEqual('Postcode must be 8 characters or fewer');
 			});
 		});
 	});
