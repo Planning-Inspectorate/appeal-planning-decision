@@ -35,8 +35,7 @@ describe('routes/full-appeal/submit-appeal/why-inquiry', () => {
 		expect(textfieldValidationRules).toHaveBeenCalledWith({
 			fieldName: 'why-inquiry',
 			emptyError: 'Enter why you would prefer an inquiry',
-			tooLongError: 'Inquiry information must be $maxLength characters or less',
-			maxLength: 1000
+			tooLongError: 'Inquiry information must be $maxLength characters or less'
 		});
 	});
 });

@@ -6,7 +6,7 @@ const rules = ({
 	emptyError,
 	tooLongError,
 	targetFieldValue = 'no',
-	maxLength = 255
+	maxLength = 1000
 }) => {
 	const rule = body(fieldName);
 
