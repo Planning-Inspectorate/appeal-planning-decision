@@ -28,18 +28,18 @@ class HorizonGateway {
 
 		if (response.isNotAnError()) {
 			return new HorizonResponseValue(
-				response.getValue().AddContactResponse.AddContactResult.value, 
+				response.getValue().AddContactResponse.AddContactResult.value,
 				false
 			);
 		}
-		
+
 		return response;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {AppealContactValueObject} appealContactDetail
-	 * @param {string} organisationHorizonId 
+	 * @param {string} organisationHorizonId
 	 * @returns {Promise<HorizonResponseValue>} If an error has occurred, `getValue()` will return the error message
 	 * provided by Horizon. If no error occurred, `getValue()` will return the ID for the contact in Horizon.
 	 */
@@ -54,7 +54,7 @@ class HorizonGateway {
 
 		if (response.isNotAnError()) {
 			return new HorizonResponseValue(
-				response.getValue().AddContactResponse.AddContactResult.value, 
+				response.getValue().AddContactResponse.AddContactResult.value,
 				false
 			);
 		}
@@ -66,9 +66,9 @@ class HorizonGateway {
 	 *
 	 * @param {any} appeal
 	 * @param {any} contactSubmissions JSON, structure should be {
-	 * 	agent: BackOfficeAppealSubmissionEntity, 
+	 * 	agent: BackOfficeAppealSubmissionEntity,
 	 * 	appellant: BackOfficeAppealSubmissionEntity
-	 * } 
+	 * }
 	 * @param {LpaEntity} lpaEntity
 	 * @param {AppealContactsValueObject} appealContactDetails
 	 * @returns {Promise<HorizonResponseValue>} If an error has occurred, `getValue()` will return the error message
@@ -97,14 +97,14 @@ class HorizonGateway {
 				false
 			);
 		}
-		
+
 		return response;
 	}
 
 	/**
-	 * 
-	 * @param {*} document 
-	 * @param {*} appealCaseReference 
+	 *
+	 * @param {*} document
+	 * @param {*} appealCaseReference
 	 * @returns {Promise<HorizonResponseValue>} If an error has occurred, `getValue()` will return the error message
 	 * provided by Horizon. If no error occurred, `getValue()` will return the ID for the document in Horizon.
 	 */
@@ -125,11 +125,11 @@ class HorizonGateway {
 
 		if (response.isNotAnError()) {
 			return new HorizonResponseValue(
-				response.getValue().AddDocumentsResponse.AddDocumentsResult.HorizonAPIDocument.NodeId.value, 
+				response.getValue().AddDocumentsResponse.AddDocumentsResult.HorizonAPIDocument.NodeId.value,
 				false
 			);
 		}
-		
+
 		return response;
 	}
 
@@ -167,9 +167,9 @@ class HorizonGateway {
 	/////////////////////////////
 
 	/**
-	 * 
-	 * @param {string} endpoint The endpoint following the Horizon base URL to target 
-	 * @param {any} body The request body to send 
+	 *
+	 * @param {string} endpoint The endpoint following the Horizon base URL to target
+	 * @param {any} body The request body to send
 	 * @param {string} descriptionOfRequest What the request is intending to do (used for debugging)
 	 * @param {any} options Any Axios options you want to pass (see https://axios-http.com/docs/req_config). Defaults
 	 * to null.
@@ -190,8 +190,17 @@ class HorizonGateway {
 					error.response.data,
 					`Horizon returned a ${error.response.status} status code when attempting to ${descriptionOfRequest}. Response is below`
 				);
+				if (!error.response.data.Envelope) {
+					logger.debug('HERE!!!');
+					logger.debug(url);
+					logger.debug(error);
+					logger.debug('TO HERE!!!');
+				}
 
-				return new HorizonResponseValue(error.response.data.Envelope.Body.Fault.faultstring.value, true);
+				return new HorizonResponseValue(
+					error.response.data.Envelope.Body.Fault.faultstring.value,
+					true
+				);
 			}
 		}
 	}

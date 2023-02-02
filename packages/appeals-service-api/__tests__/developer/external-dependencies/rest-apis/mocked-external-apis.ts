@@ -230,23 +230,24 @@ export class MockedExternalApis {
 					Body: {
 						Fault: {
 							faultcode: {
-								value: "a:InternalServiceFault"
+								value: 'a:InternalServiceFault'
 							},
 							faultstring: {
-								value: "A mocked bad upload document response from Horizon"
+								value: 'A mocked bad upload document response from Horizon'
 							},
 							detail: {
 								ExceptionDetail: {
 									HelpLink: {},
 									InnerException: {},
 									Message: {
-										value: "A mocked bad upload document response from Horizon"
+										value: 'A mocked bad upload document response from Horizon'
 									},
 									StackTrace: {
-										value: "   a big\r\n   old\r\n   stacktrace from\r\n	at Horizon.API.Horizon.AddDocuments(String caseReference, List`1 documents)\r\n   at SyncInvokeAddDocuments(Object , Object[] , Object[] )\r\n   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)"
+										value:
+											'   a big\r\n   old\r\n   stacktrace from\r\n	at Horizon.API.Horizon.AddDocuments(String caseReference, List`1 documents)\r\n   at SyncInvokeAddDocuments(Object , Object[] , Object[] )\r\n   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)'
 									},
 									Type: {
-										value: "System.Exception"
+										value: 'System.Exception'
 									}
 								}
 							}
@@ -483,14 +484,14 @@ export class MockedExternalApis {
 			httpResponse: {
 				statusCode: statusCode,
 				body: body
-			},
-			times: {
-				remainingTimes: 1,
-				unlimited: false
-			},
-			timeToLive: {
-				unlimited: true
 			}
+			// times: {
+			// 	remainingTimes: 1,
+			// 	unlimited: false
+			// },
+			// timeToLive: {
+			// 	unlimited: true
+			// }
 		};
 
 		if (addDocumentGroupTypeToBody === false) {

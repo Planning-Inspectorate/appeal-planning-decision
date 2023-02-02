@@ -233,7 +233,7 @@ class BackOfficeAppealSubmissionAggregate {
 
 		this.#organisations.forEach((org) => (result.organisations[org.getId()] = org));
 		this.#contacts.map((contact) => (result.contacts[contact.getId()] = contact));
-		result.appeal = this.#appeal.getBackOfficeId();
+		result.appeal = this.#appeal;
 		this.#documents.map((doc) => (result.documents[doc.getId()] = doc));
 		return result;
 	}
