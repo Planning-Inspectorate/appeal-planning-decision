@@ -146,13 +146,13 @@ export class MockedExternalApis {
 		return this.horizonUrl;
 	}
 
-	async mockHorizonCreateContactResponse(statusCode: number, idToReturn: string) {
+	async mockHorizonCreateContactResponse(statusCode: number, stringToBeReturned: string = "Mocked bad create contact response") {
 		let body: any = {
 			Envelope: {
 				Body: {
 					AddContactResponse: {
 						AddContactResult: {
-							value: idToReturn
+							value: stringToBeReturned
 						}
 					}
 				}
@@ -160,7 +160,35 @@ export class MockedExternalApis {
 		};
 
 		if (statusCode >= 500) {
-			body = { error: `mocked bad response, ID: ${idToReturn}` };
+			body = {
+				"Envelope": {
+					"Body": {
+						"Fault": {
+							"faultcode": {
+								"value": "a:InternalServiceFault"
+							},
+							"faultstring": {
+								"value": stringToBeReturned
+							},
+							"detail": {
+								"ExceptionDetail": {
+									"HelpLink": {},
+									"InnerException": {},
+									"Message": {
+										"value": stringToBeReturned
+									},
+									"StackTrace": {
+										"value": "   at Contacts.API.Contacts.AddContact(HorizonAPIContact contact)\r\n   at SyncInvokeAddContact(Object , Object[] , Object[] )\r\n   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)"
+									},
+									"Type": {
+										"value": "System.Exception"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 
 		const data = {
