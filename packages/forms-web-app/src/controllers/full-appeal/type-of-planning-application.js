@@ -19,10 +19,20 @@ const {
 const mapPlanningApplication = require('../../lib/full-appeal/map-planning-application');
 
 const getTypeOfPlanningApplication = (req, res) => {
-	const { appeal } = req.session;
+	const { body } = req;
+	logger.info('======== session ========');
+	logger.info(req.session);
+	logger.info('=========================');
+	//const { appeal } = req.session;
+
+	const typeOfPlanningApplication = body['type-of-planning-application'];
+
+	logger.info('======== typeOfPlanningApplication ========');
+	logger.info(typeOfPlanningApplication);
+	logger.info('=========================');
 
 	res.render(TYPE_OF_PLANNING_APPLICATION, {
-		typeOfPlanningApplication: appeal.typeOfPlanningApplication
+		typeOfPlanningApplication: typeOfPlanningApplication
 	});
 };
 
@@ -30,6 +40,10 @@ const postTypeOfPlanningApplication = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 	const { appeal } = req.session;
+
+	logger.info('======== appeal ========');
+	logger.info(appeal);
+	logger.info('=========================');
 
 	const typeOfPlanningApplication = body['type-of-planning-application'];
 
