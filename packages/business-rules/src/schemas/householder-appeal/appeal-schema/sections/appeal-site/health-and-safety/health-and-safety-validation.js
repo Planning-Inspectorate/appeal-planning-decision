@@ -6,7 +6,7 @@ const healthAndSafetyValidation = () => {
 		.object()
 		.shape({
 			hasIssues: booleanValidation(),
-			healthAndSafetyIssues: pinsYup.string().max(255).ensure()
+			healthAndSafetyIssues: pinsYup.string().max(1000).ensure()
 		})
 		.noUnknown(true);
 };

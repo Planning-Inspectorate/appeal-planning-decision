@@ -1610,12 +1610,12 @@ describe('schemas/full-appeal/update', () => {
 						);
 					});
 
-					it('should throw an error when given a value longer than 255 chars and appealSiteSection.visibleFromRoad.isVisible is false', async () => {
+					it('should throw an error when given a value longer than 1000 chars and appealSiteSection.visibleFromRoad.isVisible is false', async () => {
 						appeal.appealSiteSection.visibleFromRoad.isVisible = false;
-						appeal.appealSiteSection.visibleFromRoad.details = 'a'.repeat(256);
+						appeal.appealSiteSection.visibleFromRoad.details = 'a'.repeat(1001);
 
 						await expect(() => update.validate(appeal, config)).rejects.toThrow(
-							'How visibility is restricted must be 255 characters or less'
+							'How visibility is restricted must be 1000 characters or less'
 						);
 					});
 
@@ -1666,12 +1666,12 @@ describe('schemas/full-appeal/update', () => {
 						);
 					});
 
-					it('should throw an error when given a value longer than 255 chars and appealSiteSection.healthAndSafety.hasIssues is true', async () => {
+					it('should throw an error when given a value longer than 1000 chars and appealSiteSection.healthAndSafety.hasIssues is true', async () => {
 						appeal.appealSiteSection.healthAndSafety.hasIssues = true;
-						appeal.appealSiteSection.healthAndSafety.details = 'a'.repeat(256);
+						appeal.appealSiteSection.healthAndSafety.details = 'a'.repeat(1001);
 
 						await expect(() => update.validate(appeal, config)).rejects.toThrow(
-							'Health and safety information must be 255 characters or less'
+							'Health and safety information must be 1000 characters or less'
 						);
 					});
 

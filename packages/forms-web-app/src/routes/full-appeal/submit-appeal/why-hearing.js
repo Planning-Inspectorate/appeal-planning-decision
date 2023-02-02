@@ -8,7 +8,6 @@ const { validationErrorHandler } = require('../../../validators/validation-error
 const { rules: textfieldValidationRules } = require('../../../validators/common/textfield');
 
 const router = express.Router();
-const textFieldMaxCharacters = 1000;
 
 router.get('/submit-appeal/why-hearing', [fetchExistingAppealMiddleware], getWhyHearing);
 router.post(
@@ -16,8 +15,7 @@ router.post(
 	textfieldValidationRules({
 		fieldName: 'why-hearing',
 		emptyError: 'Enter why you would prefer a hearing',
-		tooLongError: `Hearing information must be $maxLength characters or less`,
-		maxLength: textFieldMaxCharacters
+		tooLongError: `Hearing information must be $maxLength characters or less`
 	}),
 	validationErrorHandler,
 	postWhyHearing

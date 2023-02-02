@@ -61,7 +61,7 @@ describe('validators/common/textfield', () => {
 		const req = {
 			body: {
 				'visible-from-road': 'yes',
-				'visible-from-road-details': 'a'.repeat(100)
+				'visible-from-road-details': 'a'.repeat(1000)
 			}
 		};
 
@@ -86,7 +86,7 @@ describe('validators/common/textfield', () => {
 		const req = {
 			body: {
 				'visible-from-road': 'yes',
-				'visible-from-road-details': 'a'.repeat(100)
+				'visible-from-road-details': 'a'.repeat(1000)
 			}
 		};
 
@@ -133,7 +133,7 @@ describe('validators/common/textfield', () => {
 	});
 
 	it('should return an error with the default max length and a value longer than the max length is given', async () => {
-		const fieldValue = 'a'.repeat(256);
+		const fieldValue = 'a'.repeat(1001);
 		const req = {
 			body: {
 				'visible-from-road': 'no',
@@ -156,7 +156,7 @@ describe('validators/common/textfield', () => {
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
 		expect(result.errors[0].msg).toEqual(
-			'How visibility is restricted must be 255 characters or less'
+			'How visibility is restricted must be 1000 characters or less'
 		);
 		expect(result.errors[0].param).toEqual(fieldName);
 		expect(result.errors[0].value).toEqual(fieldValue);
