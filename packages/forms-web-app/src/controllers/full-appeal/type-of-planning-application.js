@@ -23,7 +23,6 @@ const getTypeOfPlanningApplication = (req, res) => {
 	logger.info('======== session ========');
 	logger.info(req.session);
 	logger.info('=========================');
-	//const { appeal } = req.session;
 
 	const typeOfPlanningApplication = body['type-of-planning-application'];
 
@@ -40,6 +39,10 @@ const postTypeOfPlanningApplication = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 	const { appeal } = req.session;
+
+	logger.info('======== session ========');
+	logger.info(req.session);
+	logger.info('=========================');
 
 	logger.info('======== appeal ========');
 	logger.info(appeal);
