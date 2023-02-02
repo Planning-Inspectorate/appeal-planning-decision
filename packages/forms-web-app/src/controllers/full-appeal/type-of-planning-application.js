@@ -10,7 +10,7 @@ const {
 	}
 } = require('@pins/business-rules');
 const logger = require('../../lib/logger');
-const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
+const { createOrUpdateAppeal, getExistingAppeal } = require('../../lib/appeals-api-wrapper');
 const {
 	VIEW: {
 		FULL_APPEAL: { TYPE_OF_PLANNING_APPLICATION }
@@ -19,19 +19,18 @@ const {
 const mapPlanningApplication = require('../../lib/full-appeal/map-planning-application');
 
 const getTypeOfPlanningApplication = (req, res) => {
-	const { body } = req;
+	let appeal;
 	logger.info('======== session ========');
 	logger.info(req.session);
 	logger.info('=========================');
 
-	const typeOfPlanningApplication = body['type-of-planning-application'];
-
-	logger.info('======== typeOfPlanningApplication ========');
-	logger.info(typeOfPlanningApplication);
-	logger.info('=========================');
+	const { appealId } = req.session;
+	if (appealId) {
+		appeal = getExistingAppeal(appealId);
+	}
 
 	res.render(TYPE_OF_PLANNING_APPLICATION, {
-		typeOfPlanningApplication: typeOfPlanningApplication
+		typeOfPlanningApplication: appeal.typeOfPlanningApplication
 	});
 };
 
