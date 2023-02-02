@@ -405,8 +405,6 @@ export class MockedExternalApis {
 			`${this.horizonEndpoint}/horizon`
 		);
 
-		appealAndDocInteractions.forEach((x) => logger.debug(x.body.json));
-
 		return [...contactAndOrgInteractions, ...appealAndDocInteractions];
 	}
 
