@@ -2,10 +2,16 @@
 // Azure Service Bus doesn't support AMQP protocols less than 1.0, see https://github.com/Azure/azure-service-bus/issues/288
 // ¯\_(ツ)_/¯
 const container = require('rhea');
+
+const { isFeatureActive } = require('../configuration/featureFlag');
 const config = require('../configuration/config');
 const logger = require('../lib/logger');
+const {
+	saveAppealAsSubmittedToBackOffice
+} = require('../services/appeal.service');
 const BackOfficeMapper = require('../mappers/back-office.mapper');
 const { MongoRepository } = require('./mongo-repository');
+const ApiError = require('../errors/apiError');
 class BackOfficeRepository extends MongoRepository {
 	#mapper;
 	#sender = null;
@@ -20,15 +26,37 @@ class BackOfficeRepository extends MongoRepository {
 	 * @param {AppealContactsValueObject} appealContactDetails
 	 * @param {string} appealId
 	 * @param {string[]} documentIds
-	 * @returns
+	 * @throws {ApiError} if the direct Horizon integration feature flag is on, and the appeal to 
+	 * be saved has already been saved for back-office submission.
+	 * @returns {Promise<void>}
 	 */
-	async saveAppealForSubmission(appealContactDetails, appealId, documentIds) {
-		const appealToSaveForSubmission = this.#mapper.appealToAppealToBeSubmittedJson(
-			appealContactDetails,
-			appealId,
-			documentIds
-		);
-		return await super.create(appealToSaveForSubmission);
+	async saveAppealForSubmission(appealContactDetails, appealToProcess, documentIds) {
+
+		if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
+			logger.debug('Queuing the appeal for submission via direct Horizon integration');
+			const appealWithIdAlreadyLoaded = await super.findOneByQuery({ "appeal.id": appealToProcess.id });
+
+			if (appealWithIdAlreadyLoaded) {
+				logger.debug(`Appeal with ID ${appealToProcess.id} has already been submitted for back-office processing`)
+				throw ApiError.appealAlreadySubmitted()
+			};
+
+			const appealToSaveForSubmission = this.#mapper.appealToAppealToBeSubmittedJson(
+				appealContactDetails,
+				appealToProcess.id,
+				documentIds
+			);
+
+			return await super.create(appealToSaveForSubmission);
+		} else {
+			// TODO: this needs testing when it comes back into use!! In these tests, messages need to be known as
+			//       having arrived in a message queue before assertions can be made against the queue's state, but
+			//       this is already set up to be tested (see the `afterEach` method in 
+			//       `__tests__/developer/developer.test.js`).
+			logger.debug('Using message queue integration');
+			const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToProcess);
+			this.#sendAppealToBackOfficeMessageQueue(appealAfterSubmissionToBackOffice);
+		}
 	}
 
 	/**
@@ -51,17 +79,31 @@ class BackOfficeRepository extends MongoRepository {
 
 	/**
 	 *
-	 * @param {AggregateDifference} appealDifferenceResult
+	 * @param {BackOfficeAppealSubmissionAggregate[]} appealSubmissionsToUpdate
 	 */
-	async updateAppealSubmissions(appealDifferenceResult) {
+	async updateAppealSubmissions(appealSubmissionsToUpdate) {
 		const appealSubmissionsAsMongoDocuments = [];
-		for (const appealSubmission of appealDifferenceResult) {
+		for (const appealSubmission of appealSubmissionsToUpdate) {
 			appealSubmissionsAsMongoDocuments.push(
 				this.#fromBackOfficeAppealSubmissionToMongoJson(appealSubmission)
 			);
 		}
 
-		return await super.updateMany(appealSubmissionsAsMongoDocuments);
+		logger.debug(appealSubmissionsAsMongoDocuments, 'Updates to commit to the database');
+
+		const updateOneOperations = appealSubmissionsAsMongoDocuments.map((appealSubmission) => {
+			return {
+				id: appealSubmission._id,
+				updateSet:	{
+					organisations: appealSubmission.organisations,
+					contacts: appealSubmission.contacts,
+					appeal: appealSubmission.appeal,
+					documents: appealSubmission.documents
+				}
+			};
+		});
+
+		return await super.upsertManyById(updateOneOperations);
 	}
 
 	/**
@@ -79,7 +121,7 @@ class BackOfficeRepository extends MongoRepository {
 	 * @param {string} message
 	 * @return {Promise<void>}
 	 */
-	create(message) {
+	#sendAppealToBackOfficeMessageQueue(message) {
 		// We don't do this set up in the constructor because, if we do, the message queue to connect
 		// to may not be available, and the app blows up due to timeout exceptions thrown by rhea.
 		// Note that we only want one sender, hence this block of code!

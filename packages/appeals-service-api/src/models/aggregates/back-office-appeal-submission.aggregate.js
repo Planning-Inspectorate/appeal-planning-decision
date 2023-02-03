@@ -1,6 +1,4 @@
 const BackOfficeSubmissionEntity = require('../entities/back-office-submission-entity');
-const AggregateDifference = require('../../value-objects/aggregate-difference-result.value');
-const logger = require('../../lib/logger');
 
 class BackOfficeAppealSubmissionAggregate {
 	#id;
@@ -128,40 +126,6 @@ class BackOfficeAppealSubmissionAggregate {
 
 	/**
 	 *
-	 * @param {BackOfficeAppealSubmissionAggregate} otherBackOfficeAppealSubmission
-	 * @returns {AggregateDifference} The BackOfficeSubmissionEntity's in the input
-	 * whose back office ID differs from the back office IDs in this object.
-	 */
-	difference(otherBackOfficeAppealSubmission) {
-		const mapOfOrganisationsInInput =
-			otherBackOfficeAppealSubmission.getOrganisationsAsMapIndexedById();
-		const mapOfContactsInInput = otherBackOfficeAppealSubmission.getContactsAsMapIndexedById();
-		const mapOfDocumentsInInput = otherBackOfficeAppealSubmission.getDocumentsAsMapIndexedById();
-
-		const result = [];
-		result.push(
-			this.#getBackOfficeIdEntityDifferences(
-				this.#organisationsAsMapIndexedById,
-				mapOfOrganisationsInInput
-			)
-		);
-		result.push(
-			this.#getBackOfficeIdEntityDifferences(this.#contactsAsMapIndexedById, mapOfContactsInInput)
-		);
-		result.push(
-			this.#getBackOfficeIdEntityDifferences(this.#documentsAsMapIndexedById, mapOfDocumentsInInput)
-		);
-		if (
-			this.#appeal.getBackOfficeId() !== otherBackOfficeAppealSubmission.getAppealBackOfficeId()
-		) {
-			result.push(otherBackOfficeAppealSubmission.getAppeal());
-		}
-
-		return new AggregateDifference(this.getId(), result.flatM);
-	}
-
-	/**
-	 *
 	 * @param {BackOfficeSubmissionEntity[]} organisations
 	 * @param {BackOfficeSubmissionEntity[]} contacts
 	 * @param {BackOfficeSubmissionEntity} appeal
@@ -169,20 +133,8 @@ class BackOfficeAppealSubmissionAggregate {
 	 * @returns {BackOfficeAppealSubmissionAggregate} A new instance, with the updates applied.
 	 */
 	update(organisations, contacts, appeal, documents) {
-		// let organisationsToUpdateMap = new Map();
-		// for (const organisation of organisations) {
-		//     organisationsToUpdateMap.set(organisation.getId(), organisation);
-		// }
-
-		// let contactsToUpdateMap = new Map();
-		// for (const contact of contacts) {
-		//     contactsToUpdateMap.set(contact.getId(), contact);
-		// }
-
-		// let documentsToUpdateMap = new Map();
-		// for (const document of documents) {
-		//     documentsToUpdateMap.set(document.getId(), document);
-		// }
+		// Note that we are not mutating the state of the object this method is called on, this
+		// is because state mutation is not preferred! See https://blog.sapegin.me/all/avoid-mutation/
 
 		const updatedOrganisations = this.#getUpdatesForEntities(
 			this.#organisationsAsMapIndexedById,
@@ -194,8 +146,6 @@ class BackOfficeAppealSubmissionAggregate {
 			documents
 		);
 
-		// Note that we are not mutating the state of the object this method is called on, this
-		// is because state mutation is not preferred! See https://blog.sapegin.me/all/avoid-mutation/
 		const updatedAggregate = new BackOfficeAppealSubmissionAggregate(
 			this.#id,
 			updatedOrganisations,
@@ -204,7 +154,6 @@ class BackOfficeAppealSubmissionAggregate {
 			updatedDocuments
 		);
 
-		logger.debug(updatedAggregate.toJSON(), 'Updated aggregate');
 		return updatedAggregate;
 	}
 
@@ -249,21 +198,6 @@ class BackOfficeAppealSubmissionAggregate {
 
 			result.push(new BackOfficeSubmissionEntity(entity.getId(), backOfficeId));
 		});
-		return result;
-	}
-
-	#getBackOfficeIdEntityDifferences(mapOfEntitiesFromThis, mapOfEntitiesFromThat) {
-		const result = [];
-
-		mapOfEntitiesFromThat.forEach((value, key) => {
-			if (
-				mapOfEntitiesFromThis.has(key) &&
-				mapOfEntitiesFromThis.get(key).getBackOfficeId() !== value.getBackOfficeId()
-			) {
-				result.push(value);
-			}
-		});
-
 		return result;
 	}
 }

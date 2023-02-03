@@ -1,6 +1,5 @@
 const mongodb = require('../db/db');
 const ObjectId = require('mongodb').ObjectId;
-const logger = require('../lib/logger');
 
 /**
  * This is intended to be used as an [abstract class]{@link https://en.wikipedia.org/wiki/Abstract_type}.
@@ -19,7 +18,7 @@ class MongoRepository {
 	 * @param {any} query This should be JSON that will enable a query on the collection that this
 	 * repository is intended to handle. See {@link https://www.mongodb.com/docs/manual/tutorial/query-documents/}
 	 * for more details.
-	 * @returns {Promise<Model>} The document found as a result of executing the `query` specified on the
+	 * @returns {Promise<any>} The document found as a result of executing the `query` specified on the
 	 * collection specified via the constructor.
 	 */
 	async findOneByQuery(query) {
@@ -41,50 +40,30 @@ class MongoRepository {
 
 	/**
 	 *
-	 * @param {AggregateDifference[]} aggregateDifferences
+	 * @param {any[]} updateOneOperations Mongo JSON structures that represent update operations. Their
+	 * structure should be:
+	 * {
+	 * 	id: <_id field of the document to update, but as a string, NOT an ObjectId>,
+	 *  updateSet: the updates you want to be commited via $set (see https://www.mongodb.com/docs/manual/reference/operator/update/set/)
+	 * }
 	 * @returns
 	 */
-	async updateMany(aggregateDifferences) {
-		logger.info(aggregateDifferences, 'Differences to process via update');
-		const collection = mongodb.get().collection(this.collectionName);
-		// const updateOneOperations = aggregateDifferences.map(aggregateDifference => {
-		// 		const result = { updateOne : {
-		// 			filter : {
-		// 				_id: new ObjectId(aggregateDifference.id)
-		// 			},
-		// 			update : {
-		// 				$set:	{
-		// 					"organisations": aggregateDifference.organisations,
-		// 					"contacts" : aggregateDifference.contacts,
-		// 					"documents" : aggregateDifference.documents
-		// 				}
-		// 			},
-		// 			upsert : true,
-		// 		}};
-		// 		logger.info(result, "Update created!")
-		// 		return result;
-		// 	});
-
-		const updateOneOperations = aggregateDifferences.map((aggregateDifference) => {
+	async upsertManyById(updateOneOperations) {
+		const updates = updateOneOperations.map(updateOneOperation => {
 			return {
 				updateOne: {
 					filter: {
-						_id: new ObjectId(aggregateDifference._id)
+						_id: new ObjectId(updateOneOperation.id)
 					},
 					update: {
-						$set: {
-							organisations: aggregateDifference.organisations,
-							contacts: aggregateDifference.contacts,
-							appeal: aggregateDifference.appeal,
-							documents: aggregateDifference.documents
-						}
+						$set: updateOneOperation.updateSet
 					},
 					upsert: true
 				}
 			};
 		});
-		logger.info(updateOneOperations, 'Updating docs');
-		return await collection.bulkWrite(updateOneOperations);
+
+		return await mongodb.get().collection(this.collectionName).bulkWrite(updates);
 	}
 
 	/**

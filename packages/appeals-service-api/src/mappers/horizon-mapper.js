@@ -213,10 +213,6 @@ class HorizonMapper {
 		};
 	}
 
-	// TODO: this could be refactored so its easier to understand by coding it in a way that says:
-	//       "I should return casework reason 1 if the following applies, I should return casework
-	//       2 if the following applies..." etc. Then, the casework reason is defined once, so there
-	//       is less chance of an issue with casework values being incorrect.
 	#getCaseworkReason(appealTypeID, decision, typePlanningApplication) {
 		// NOTE: This information needs to be correct so, to reduce the risk of human error
 		//       (misspelling across instances, missing an instance when updating a reason, etc.),
