@@ -117,17 +117,17 @@ describe('validators/appellant-submission/site-access-safety', () => {
 				given: () => ({
 					body: {
 						'site-access-safety': 'yes',
-						'site-access-safety-concerns': 'x'.repeat(256)
+						'site-access-safety-concerns': 'x'.repeat(1001)
 					}
 				}),
 				expected: (result) => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual(
-						'Health and safety information must be 255 characters or fewer'
+						'Health and safety information must be 1000 characters or fewer'
 					);
 					expect(result.errors[0].param).toEqual('site-access-safety-concerns');
-					expect(result.errors[0].value).toEqual('x'.repeat(256));
+					expect(result.errors[0].value).toEqual('x'.repeat(1001));
 				}
 			},
 			{

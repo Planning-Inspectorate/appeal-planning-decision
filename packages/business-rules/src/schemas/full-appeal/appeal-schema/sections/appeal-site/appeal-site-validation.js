@@ -59,7 +59,8 @@ const appealSiteValidation = () => {
 							fieldName: 'details',
 							targetFieldName: 'isVisible',
 							emptyError: 'Tell us how visibility is restricted',
-							tooLongError: 'How visibility is restricted must be $maxLength characters or less'
+							tooLongError: 'How visibility is restricted must be $maxLength characters or less',
+							maxLength: 1000
 						});
 					})
 				})
@@ -75,7 +76,8 @@ const appealSiteValidation = () => {
 							targetFieldName: 'hasIssues',
 							targetFieldValue: true,
 							emptyError: 'Tell us about the health and safety issues',
-							tooLongError: 'Health and safety information must be $maxLength characters or less'
+							tooLongError: 'Health and safety information must be $maxLength characters or less',
+							maxLength: 1000
 						});
 					})
 				})

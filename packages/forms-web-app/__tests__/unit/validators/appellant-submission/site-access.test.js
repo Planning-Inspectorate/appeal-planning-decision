@@ -129,7 +129,7 @@ describe('validators/appellant-submission/site-access', () => {
 				given: () => ({
 					body: {
 						'site-access': 'no',
-						'site-access-more-detail': 'x'.repeat(255)
+						'site-access-more-detail': 'x'.repeat(1000)
 					}
 				}),
 				expected: (result) => {
@@ -142,17 +142,17 @@ describe('validators/appellant-submission/site-access', () => {
 				given: () => ({
 					body: {
 						'site-access': 'no',
-						'site-access-more-detail': 'x'.repeat(256)
+						'site-access-more-detail': 'x'.repeat(1001)
 					}
 				}),
 				expected: (result) => {
 					expect(result.errors).toHaveLength(1);
 					expect(result.errors[0].location).toEqual('body');
 					expect(result.errors[0].msg).toEqual(
-						'How access is restricted must be 255 characters or less'
+						'How access is restricted must be 1000 characters or less'
 					);
 					expect(result.errors[0].param).toEqual('site-access-more-detail');
-					expect(result.errors[0].value).toEqual('x'.repeat(256));
+					expect(result.errors[0].value).toEqual('x'.repeat(1001));
 				}
 			}
 		].forEach(({ title, given, expected }) => {

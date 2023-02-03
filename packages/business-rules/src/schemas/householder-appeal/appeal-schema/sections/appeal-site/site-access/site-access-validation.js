@@ -6,7 +6,7 @@ const siteAccessValidation = () => {
 		.object()
 		.shape({
 			canInspectorSeeWholeSiteFromPublicRoad: booleanValidation(),
-			howIsSiteAccessRestricted: pinsYup.string().max(255).nullable()
+			howIsSiteAccessRestricted: pinsYup.string().max(1000).nullable()
 		})
 		.noUnknown(true);
 };
