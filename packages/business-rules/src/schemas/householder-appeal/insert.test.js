@@ -869,11 +869,11 @@ describe('schemas/householder-appeal/insert', () => {
 		});
 
 		describe('appealSiteSection.siteAccess.howIsSiteAccessRestricted', () => {
-			it('should throw an error when given a value with more than 255 characters', async () => {
-				appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted = 'a'.repeat(256);
+			it('should throw an error when given a value with more than 1000 characters', async () => {
+				appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted = 'a'.repeat(1001);
 
 				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-					'appealSiteSection.siteAccess.howIsSiteAccessRestricted must be at most 255 characters'
+					'appealSiteSection.siteAccess.howIsSiteAccessRestricted must be at most 1000 characters'
 				);
 			});
 

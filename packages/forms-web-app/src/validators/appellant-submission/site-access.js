@@ -15,8 +15,8 @@ const ruleSiteAccessMoreDetail = () =>
 		.notEmpty()
 		.withMessage('Tell us how access is restricted')
 		.bail()
-		.isLength({ min: 1, max: 255 })
-		.withMessage('How access is restricted must be 255 characters or less');
+		.isLength({ min: 1, max: 1000 })
+		.withMessage('How access is restricted must be 1000 characters or less');
 
 const rules = () => [ruleSiteAccess(), ruleSiteAccessMoreDetail()];
 
