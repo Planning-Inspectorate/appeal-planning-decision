@@ -53,14 +53,8 @@ class HorizonService {
 		logger.debug(submissionStateJson, "Submission state after processing contacts")
 		
 		// If the core appeal data is pending, and all contacts have been uploaded, try to process it.
-		if (
-			backOfficeSubmission.isAppealDataPendingSubmission() &&
-			(
-				contactsPendingSubmission.length == 0 ||
-				Object.keys(submissionStateJson.contacts).every(contactType => submissionStateJson.contacts[contactType].getBackOfficeId())
-			)
-		) {
-			const appealSubmission = await this.#submitAppealToHorizon(backOfficeSubmission, appeal, submissionStateJson.contacts, appealContactDetails);
+		if (backOfficeSubmission.isAppealDataPendingSubmission()) {
+			const appealSubmission = await this.#submitAppealToHorizon(backOfficeSubmission, appeal, submissionStateJson, appealContactDetails);
 			submissionStateJson.appeal = appealSubmission;
 		}
 		logger.debug(submissionStateJson, "Submission state after processing core appeal data")
@@ -173,7 +167,7 @@ class HorizonService {
 	 * 	appellant: BackOfficeSubmissionEntity
 	 * }
 	 * @param {AppealContactsValueObject} appealContactDetails
-	 * @returns {any} JSON, structure is {
+	 * @returns {Promise<any>} JSON, structure is {
 	 * 	agent: BackOfficeSubmissionEntity, 
 	 * 	appellant: BackOfficeSubmissionEntity
 	 * }
@@ -228,26 +222,32 @@ class HorizonService {
 	 * 
 	 * @param {BackOfficeSubmissionAggregate} backOfficeSubmission 
 	 * @param {*} appeal 
-	 * @param {any} contactSubmissions JSON, structure should be {
-	 * 	agent: BackOfficeAppealSubmissionEntity, 
-	 * 	appellant: BackOfficeAppealSubmissionEntity
-	 * } 
+	 * @param {any} submissionStateJson 
 	 * @param {AppealContactsValueObject} appealContactDetails
 	 * @returns {BackOfficeSubmissionEntity} 
 	 */
-	async #submitAppealToHorizon(backOfficeSubmission, appeal, contactSubmissions, appealContactDetails) {
-		let appealBackOfficeId = backOfficeSubmission.getAppealId();
+	async #submitAppealToHorizon(backOfficeSubmission, appeal, submissionStateJson, appealContactDetails) {
+		const contactsPendingSubmission = backOfficeSubmission.getContactsPendingSubmission();
+		let appealBackOfficeId = backOfficeSubmission.getAppealBackOfficeId();
+		const submissionStateOfContacts = submissionStateJson.contacts;
 		
-		const lpaEntity = await this.#lpaService.getLpaById(appeal.lpaCode);
-		const horizonResponseValue = await this.#horizonGateway.createAppeal(
-			appeal,
-			contactSubmissions,
-			lpaEntity,
-			appealContactDetails
-		);
+		// If there are no contacts pending submission OR, there were but now they all have back office IDs, try to submit the core appeal data
+		if (
+			contactsPendingSubmission.length == 0 ||
+			Object.keys(submissionStateOfContacts).every(contactType => submissionStateOfContacts[contactType].getBackOfficeId())
+		) {
+		
+			const lpaEntity = await this.#lpaService.getLpaById(appeal.lpaCode);
+			const horizonResponseValue = await this.#horizonGateway.createAppeal(
+				appeal,
+				submissionStateOfContacts,
+				lpaEntity,
+				appealContactDetails
+			);
 
-		if (horizonResponseValue.isNotAnError()) {
-			appealBackOfficeId = horizonResponseValue.getValue();
+			if (horizonResponseValue.isNotAnError()) {
+				appealBackOfficeId = horizonResponseValue.getValue();
+			}
 		}
 
 		const result = new BackOfficeSubmissionEntity(backOfficeSubmission.getAppealId(), appealBackOfficeId);

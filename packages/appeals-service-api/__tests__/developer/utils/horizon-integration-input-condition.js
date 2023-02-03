@@ -79,8 +79,8 @@ class HorizonIntegrationInputCondition {
 			lpa: lpaExpectations,
 			appeal: appeal,
 			expectations: {
-				createContactInHorizonRequests: createContactInHorizonRequests,
 				createOrganisationInHorizonRequests: createOrganisationInHorizonRequests,
+				createContactInHorizonRequests: createContactInHorizonRequests,
 				createAppealInHorizonRequest: {}, // Populated later
 				emailToAppellant: {
 					name: expectedNameOnAppealSuccessfullySubmittedEmail

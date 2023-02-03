@@ -212,13 +212,13 @@ export class MockedExternalApis {
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
-	async mockHorizonCreateAppealResponse(statusCode: number, caseReferenceToReturn: string) {
+	async mockHorizonCreateAppealResponse(statusCode: number, stringToBeReturned: string = "Mocked bad create appeal response") {
 		let body: any = {
 			Envelope: {
 				Body: {
 					CreateCaseResponse: {
 						CreateCaseResult: {
-							value: caseReferenceToReturn
+							value: stringToBeReturned
 						}
 					}
 				}
@@ -226,7 +226,35 @@ export class MockedExternalApis {
 		};
 
 		if (statusCode >= 500) {
-			body = { error: `mocked bad response, case ref: ${caseReferenceToReturn}` };
+			body = {
+				"Envelope": {
+					"Body": {
+						"Fault": {
+							"faultcode": {
+								"value": "a:InternalServiceFault"
+							},
+							"faultstring": {
+								"value": stringToBeReturned
+							},
+							"detail": {
+								"ExceptionDetail": {
+									"HelpLink": {},
+									"InnerException": {},
+									"Message": {
+										"value": stringToBeReturned
+									},
+									"StackTrace": {
+										"value": "   at Horizon.Business.HorizonCase.AssertMetadataIsValid(HorizonMetadata metadata, Int32 caseTemplateDataId)\r\n   at Horizon.Business.AppealCase.Create(String caseType, String LPACode, DateTime dateOfReceipt, CaseLocation location, HorizonMetadata metadata, List`1 documents)\r\n   at Horizon.API.Horizon.CreateCase(String caseType, String LPACode, DateTime dateOfReceipt, CaseLocation location, HorizonMetadata metadata, List`1 documents)\r\n   at SyncInvokeCreateCase(Object , Object[] , Object[] )\r\n   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)"
+									},
+									"Type": {
+										"value": "System.InvalidOperationException"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 
 		const data = {
