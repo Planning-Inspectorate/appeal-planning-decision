@@ -1,17 +1,15 @@
 const logger = require('../lib/logger');
-const BackOfficeSubmissionEntity = require('../models/entities/back-office-submission-entity');
-const LpaEntity = require('../models/entities/lpa-entity');
 
 class HorizonMapper {
 	/**
 	 * @param {AppealContactsValueObject} appealContactDetails
-	 * @return {any} 
+	 * @return {any}
 	 */
 	appealContactToCreateOrganisationRequest(appealContact) {
 		logger.debug('Constructing create organisation request for Horizon');
 
-		let result = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation')
-	
+		let result = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
+
 		const organisationName = appealContact.getOrganisationName();
 		logger.debug(`The organisation name is: '${organisationName}'`);
 		if (organisationName) {
@@ -25,7 +23,7 @@ class HorizonMapper {
 	/**
 	 *
 	 * @param {AppealContactsValueObject} appealContactDetail
-	 * @param {string} organisationHorizonId 
+	 * @param {string} organisationHorizonId
 	 * @returns {any} JSON that can be sent to Horizon to create the contact defined via the input parameters.
 	 */
 	createContactRequest(appealContactDetail, organisationHorizonId) {
@@ -45,23 +43,26 @@ class HorizonMapper {
 		}
 
 		let requestBody = this.#getCreateContactRequestJson('a:HorizonAPIPerson');
-		requestBody.AddContact.contact['a:Email'] = appealContactDetail.getEmail() || { '__i:nil': 'true' };
+		requestBody.AddContact.contact['a:Email'] = appealContactDetail.getEmail() || {
+			'__i:nil': 'true'
+		};
 		requestBody.AddContact.contact['a:FirstName'] = firstName || '<Not provided>';
 		requestBody.AddContact.contact['a:LastName'] = lastName || '<Not provided>';
-		if (organisationHorizonId) requestBody.AddContact.contact['a:OrganisationID'] = organisationHorizonId;
+		if (organisationHorizonId)
+			requestBody.AddContact.contact['a:OrganisationID'] = organisationHorizonId;
 		return requestBody;
 	}
 
 	/**
-	 * 
-	 * @param {any} appeal 
+	 *
+	 * @param {any} appeal
 	 * @param {any} contactSubmissions JSON, structure should be {
-	 * 	agent: BackOfficeAppealSubmissionEntity, 
+	 * 	agent: BackOfficeAppealSubmissionEntity,
 	 * 	appellant: BackOfficeAppealSubmissionEntity
-	 * } 
-	 * @param {LpaEntity} lpaEntity 
+	 * }
+	 * @param {LpaEntity} lpaEntity
 	 * @param {AppealContactsValueObject} appealContactDetails
-	 * @returns 
+	 * @returns
 	 */
 	appealToHorizonCreateAppealRequest(appeal, contactSubmissions, lpaEntity, appealContactDetails) {
 		// if no appeal type then default Householder Appeal Type (1001) - required as running HAS in parallel to Full Planning
@@ -371,14 +372,13 @@ class HorizonMapper {
 
 	/**
 	 * @param {any} contactSubmissions JSON, structure should be {
-	 * 	agent: BackOfficeAppealSubmissionEntity, 
+	 * 	agent: BackOfficeAppealSubmissionEntity,
 	 * 	appellant: BackOfficeAppealSubmissionEntity
-	 * } 
+	 * }
 	 * @param {AppealContactsValueObject} appealContactDetails
 	 */
 	#getContactAttributes(contactSubmissions, appealContactDetails) {
-
-		return Object.keys(contactSubmissions).map(contactType => {
+		return Object.keys(contactSubmissions).map((contactType) => {
 			const contactSubmission = contactSubmissions[contactType];
 			return {
 				key: 'Case Involvement:Case Involvement',
@@ -389,9 +389,10 @@ class HorizonMapper {
 					},
 					{
 						key: 'Case Involvement:Case Involvement:Contact Details',
-						value: contactType == "agent" ? 
-							appealContactDetails.getAgent().getName() :
-							appealContactDetails.getAppellant().getName()
+						value:
+							contactType == 'agent'
+								? appealContactDetails.getAgent().getName()
+								: appealContactDetails.getAppellant().getName()
 					},
 					{
 						key: 'Case Involvement:Case Involvement:Involvement Start Date',
@@ -403,7 +404,7 @@ class HorizonMapper {
 					},
 					{
 						key: 'Case Involvement:Case Involvement:Type Of Involvement',
-						value: contactType == "agent" ? "Agent" : "Appellant"
+						value: contactType == 'agent' ? 'Agent' : 'Appellant'
 					}
 				]
 			};
