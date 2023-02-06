@@ -1,4 +1,5 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
+const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const {
 	getListedBuildingHouseholder,
 	postListedBuildingHouseholder
@@ -34,8 +35,16 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 			await getListedBuildingHouseholder(req, res);
 
 			expect(res.render).toBeCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
-				isListedBuilding: appeal.eligibility.isListedBuilding,
-				typeOfPlanningApplication: 'householder-planning'
+				isListedBuilding: appeal.eligibility.isListedBuilding
+			});
+		});
+
+		it('should call the correct template on getListedBuildingHouseholder - if full appeal', async () => {
+			req = mockReq(fullAppeal);
+			await getListedBuildingHouseholder(req, res);
+
+			expect(res.render).toBeCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
+				isListedBuilding: false
 			});
 		});
 	});
