@@ -11,13 +11,23 @@ const {
 const sectionName = 'eligibility';
 
 const getListedBuildingHouseholder = async (req, res) => {
-	const {
-		[sectionName]: { isListedBuilding },
-		typeOfPlanningApplication
+	let {
+		[sectionName]: { isListedBuilding }
 	} = req.session.appeal;
+	//todo: is typeOfPlanningApplication used in nunjucks page?
+
+	// The statement below is a workaround that populates the radio button
+	// as false if the appeal type is full planning (1005) - this is because
+	// the appeal object for full planning does not include an eligibility.isListedBuilding
+	// field and, at the moment, the logic of the user journey means that if the user is
+	// able to navigate back to this page after the appeal type has been set as full planning,
+	// the user will have answered 'false' on this page
+	if (req.session.appeal.appealType == 1005) {
+		isListedBuilding = false;
+	}
+
 	res.render(LISTED_BUILDING_HOUSEHOLDER, {
-		isListedBuilding,
-		typeOfPlanningApplication
+		isListedBuilding
 	});
 };
 
