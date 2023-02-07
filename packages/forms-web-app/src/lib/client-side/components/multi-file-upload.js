@@ -8,7 +8,7 @@ const SELECTORS = {
 	container: '.moj-multi-file-upload',
 	internal: {
 		fileInput: '.moj-multi-file-upload__input',
-		filesAddedContainer: '.moj-multi-file__uploaded-files',
+		filesAddedContainer: '.moj-multi-file__uploaded-files-container',
 		filesAddedList: '.moj-multi-file-upload__list'
 	}
 };
@@ -148,7 +148,7 @@ function multiFileUpload(document, container) {
 		elements.filesAddedList[0].innerHTML = `${filesAdded
 			.map(
 				(file) => `
-					<div class="govuk-summary-list__row moj-multi-file-upload__row">
+					<li class="govuk-summary-list__row moj-multi-file-upload__row">
 						<div class="govuk-summary-list__value moj-multi-file-upload__message">
 							<span class="moj-multi-file-upload__filename">${file.name}</span>
 						</div>
@@ -163,10 +163,9 @@ function multiFileUpload(document, container) {
 								${ATTRIBUTES.addedFileDeleteButton.fileInfoType}="${file.type}"
 							>
 								${LABELS.addedFileDeleteButtonText}
-								<span class="govuk-visually-hidden">${file.name}</span>
 							</button>
 						</div>
-					</div>
+					</li>
 				`
 			)
 			.join('')
