@@ -23,10 +23,15 @@
 
 	&__delete {
 		@extend %govuk-link;
-		border: none;
-		cursor: pointer;
     background-color: transparent;
+		border: none;
     color: govuk-colour("blue");
+		cursor: pointer;
     font-size: inherit;
+	}
+
+	&__list {
+		list-style: none;
+		padding-left: 0;
 	}
 }
