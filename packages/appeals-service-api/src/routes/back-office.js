@@ -22,4 +22,18 @@ router.put('/appeals', async (req, res) => {
 	await backOfficeService.submitAppeals();
 	res.sendStatus(202);
 });
+
+router.get('/appeals/:id', async (req, res) => {
+	let statusCode = 202;
+	let body = {};
+	try {
+		body = await backOfficeService.getAppealForSubmission(req.params.id);
+		console.log(body);
+	} catch (error) {
+		statusCode = error.code;
+		body = error.message.errors;
+	} finally {
+		res.status(statusCode).send(body);
+	}
+});
 module.exports = router;

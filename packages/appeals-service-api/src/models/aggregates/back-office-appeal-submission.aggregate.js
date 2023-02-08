@@ -52,6 +52,10 @@ class BackOfficeAppealSubmissionAggregate {
 		return this.#appeal.getBackOfficeId();
 	}
 
+	getAppealFailures() {
+		return this.#appeal.getFailures();
+	}
+
 	getAppeal() {
 		return this.#appeal;
 	}
@@ -170,6 +174,14 @@ class BackOfficeAppealSubmissionAggregate {
 			this.#documents.every((document) => document.getBackOfficeId())
 		);
 	}
+	someEntitiesHaveMaximumFailures() {
+		return (
+			this.#organisations.some((organisation) => organisation.hasMaximumFailures()) ||
+			this.#contacts.some((contact) => contact.hasMaximumFailures()) ||
+			this.#appeal.hasMaximumFailures() ||
+			this.#documents.some((document) => document.hasMaximumFailures())
+		);
+	}
 
 	toJSON() {
 		const result = {
@@ -192,11 +204,13 @@ class BackOfficeAppealSubmissionAggregate {
 
 		entityMap.forEach((entity, entityId) => {
 			let backOfficeId = entity.getBackOfficeId(); // We'll assume there's no change
+			let failures = entity.getFailures();
 			if (updates[entityId]) {
 				backOfficeId = updates[entityId].getBackOfficeId();
+				failures = updates[entityId].getFailures();
 			}
 
-			result.push(new BackOfficeSubmissionEntity(entity.getId(), backOfficeId));
+			result.push(new BackOfficeSubmissionEntity(entity.getId(), backOfficeId, failures));
 		});
 		return result;
 	}

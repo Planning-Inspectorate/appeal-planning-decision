@@ -49,7 +49,7 @@ class MongoRepository {
 	 * @returns
 	 */
 	async upsertManyById(updateOneOperations) {
-		const updates = updateOneOperations.map(updateOneOperation => {
+		const updates = updateOneOperations.map((updateOneOperation) => {
 			return {
 				updateOne: {
 					filter: {
@@ -76,6 +76,10 @@ class MongoRepository {
 			return { _id: id };
 		});
 		return await mongodb.get().collection(this.collectionName).deleteMany({ $or: idsForFilter });
+	}
+
+	async remove(id) {
+		return await mongodb.get().collection(this.collectionName).remove({ _id: id }, true);
 	}
 }
 
