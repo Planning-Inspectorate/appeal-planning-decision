@@ -11,6 +11,9 @@ class ApiError {
 	static appealNotFound(id) {
 		return new ApiError(404, { errors: [`The appeal ${id} was not found`] });
 	}
+	static appealsNotFound() {
+		return new ApiError(404, { errors: [`The appeals were not found`] });
+	}
 
 	static notSameId() {
 		return new ApiError(409, {

@@ -131,10 +131,16 @@ let config = {
 				},
 				CONFIRM_EMAIL: {
 					confirmEmail: process.env.SRV_NOTIFY_CONFIRM_EMAIL_TEMPLATE_ID
+				},
+				ERROR_MONITORING: {
+					failureToUploadToHorizon: process.env.SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID
 				}
 			},
 			emailReplyToId: {
 				startEmailToLpa: process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA
+			},
+			emails: {
+				adminMonitoringEmail: process.env.SRV_ADMIN_MONITORING_EMAIL
 			}
 		},
 		osPlaces: {

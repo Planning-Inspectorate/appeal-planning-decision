@@ -6,9 +6,7 @@ const container = require('rhea');
 const { isFeatureActive } = require('../configuration/featureFlag');
 const config = require('../configuration/config');
 const logger = require('../lib/logger');
-const {
-	saveAppealAsSubmittedToBackOffice
-} = require('../services/appeal.service');
+const { saveAppealAsSubmittedToBackOffice } = require('../services/appeal.service');
 const BackOfficeMapper = require('../mappers/back-office.mapper');
 const { MongoRepository } = require('./mongo-repository');
 const ApiError = require('../errors/apiError');
@@ -26,20 +24,23 @@ class BackOfficeRepository extends MongoRepository {
 	 * @param {AppealContactsValueObject} appealContactDetails
 	 * @param {string} appealId
 	 * @param {string[]} documentIds
-	 * @throws {ApiError} if the direct Horizon integration feature flag is on, and the appeal to 
+	 * @throws {ApiError} if the direct Horizon integration feature flag is on, and the appeal to
 	 * be saved has already been saved for back-office submission.
 	 * @returns {Promise<void>}
 	 */
 	async saveAppealForSubmission(appealContactDetails, appealToProcess, documentIds) {
-
 		if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
 			logger.debug('Queuing the appeal for submission via direct Horizon integration');
-			const appealWithIdAlreadyLoaded = await super.findOneByQuery({ "appeal.id": appealToProcess.id });
+			const appealWithIdAlreadyLoaded = await super.findOneByQuery({
+				'appeal.id': appealToProcess.id
+			});
 
 			if (appealWithIdAlreadyLoaded) {
-				logger.debug(`Appeal with ID ${appealToProcess.id} has already been submitted for back-office processing`)
-				throw ApiError.appealAlreadySubmitted()
-			};
+				logger.debug(
+					`Appeal with ID ${appealToProcess.id} has already been submitted for back-office processing`
+				);
+				throw ApiError.appealAlreadySubmitted();
+			}
 
 			const appealToSaveForSubmission = this.#mapper.appealToAppealToBeSubmittedJson(
 				appealContactDetails,
@@ -51,10 +52,12 @@ class BackOfficeRepository extends MongoRepository {
 		} else {
 			// TODO: this needs testing when it comes back into use!! In these tests, messages need to be known as
 			//       having arrived in a message queue before assertions can be made against the queue's state, but
-			//       this is already set up to be tested (see the `afterEach` method in 
+			//       this is already set up to be tested (see the `afterEach` method in
 			//       `__tests__/developer/developer.test.js`).
 			logger.debug('Using message queue integration');
-			const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToProcess);
+			const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(
+				appealToProcess
+			);
 			this.#sendAppealToBackOfficeMessageQueue(appealAfterSubmissionToBackOffice);
 		}
 	}
@@ -94,7 +97,7 @@ class BackOfficeRepository extends MongoRepository {
 		const updateOneOperations = appealSubmissionsAsMongoDocuments.map((appealSubmission) => {
 			return {
 				id: appealSubmission._id,
-				updateSet:	{
+				updateSet: {
 					organisations: appealSubmission.organisations,
 					contacts: appealSubmission.contacts,
 					appeal: appealSubmission.appeal,
@@ -113,6 +116,14 @@ class BackOfficeRepository extends MongoRepository {
 	 */
 	async deleteAppealSubmissions(ids) {
 		return await super.deleteMany(ids);
+	}
+
+	async deleteAppealSubmission(id) {
+		return await super.remove(id);
+	}
+
+	async findOneById(id) {
+		return await super.findOneByQuery({ 'appeal.id': id });
 	}
 
 	/**
@@ -162,23 +173,27 @@ class BackOfficeRepository extends MongoRepository {
 			organisations: appealSubmission.getOrganisations().map((organisationSubmissionEntity) => {
 				return {
 					type: organisationSubmissionEntity.getId(),
-					horizon_id: organisationSubmissionEntity.getBackOfficeId()
+					horizon_id: organisationSubmissionEntity.getBackOfficeId(),
+					failures: organisationSubmissionEntity.getFailures()
 				};
 			}),
 			contacts: appealSubmission.getContacts().map((contactSubmissionEntity) => {
 				return {
 					type: contactSubmissionEntity.getId(),
-					horizon_id: contactSubmissionEntity.getBackOfficeId()
+					horizon_id: contactSubmissionEntity.getBackOfficeId(),
+					failures: contactSubmissionEntity.getFailures()
 				};
 			}),
 			appeal: {
 				id: appealSubmission.getAppealId(),
-				horizon_id: appealSubmission.getAppealBackOfficeId()
+				horizon_id: appealSubmission.getAppealBackOfficeId(),
+				failures: appealSubmission.getAppealFailures()
 			},
 			documents: appealSubmission.getDocuments().map((documentSubmissionEntity) => {
 				return {
 					id: documentSubmissionEntity.getId(),
-					horizon_id: documentSubmissionEntity.getBackOfficeId()
+					horizon_id: documentSubmissionEntity.getBackOfficeId(),
+					failures: documentSubmissionEntity.getFailures()
 				};
 			})
 		};

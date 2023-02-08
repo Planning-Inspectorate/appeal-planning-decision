@@ -1,5 +1,6 @@
 import { Interaction } from './interaction';
 import { JsonPathExpression } from '../json-path-expression';
+import app from '../../../../../src/app';
 const appConfiguration = require('../../../../../src/configuration/config');
 
 export class NotifyInteraction {
@@ -38,6 +39,24 @@ export class NotifyInteraction {
 				JsonPathExpression.create("$.personalisation['link to pdf']"),
 				`${process.env.APP_APPEALS_BASE_URL}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
 			);
+	}
+
+	static getFailureToUploadToHorizonEmailInteraction(appealId: any): Interaction {
+		return new Interaction('Send failure to submit to Horizon email to admin')
+			.setNumberOfKeysExpectedInJson(5)
+			.addJsonValueExpectation(
+				JsonPathExpression.create('$.template_id'),
+				appConfiguration.services.notify.templates.ERROR_MONITORING.failureToUploadToHorizon
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create('$.email_address'),
+				appConfiguration.services.notify.emails.adminMonitoringEmail
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create('$.reference'),
+				`${appealId}-${new Date().toISOString}`
+			)
+			.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.id'), appealId);
 	}
 
 	static getAppealSubmittedEmailForLpaInteraction(
@@ -102,4 +121,3 @@ export class NotifyInteraction {
 		return emailToLpaInteraction;
 	}
 }
-

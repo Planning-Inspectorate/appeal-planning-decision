@@ -21,7 +21,10 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 
 		const recipientEmail = appeal.email;
 		let variables = {
-			name: appeal.appealType == '1001' ? appeal.aboutYouSection.yourDetails.name : appeal.contactDetailsSection.contact.name,
+			name:
+				appeal.appealType == '1001'
+					? appeal.aboutYouSection.yourDetails.name
+					: appeal.contactDetailsSection.contact.name,
 			'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
 			'local planning department': lpa.getName(),
 			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
@@ -57,18 +60,25 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		// TODO: put inside an appeal model
 		let variables = {
 			'planning application number': appeal.planningApplicationNumber,
-			'site address': _formatAddress(appeal.appealSiteSection.siteAddress),
+			'site address': _formatAddress(appeal.appealSiteSection.siteAddress)
 		};
 
 		if (appeal.appealType == '1001') {
-			variables.LPA = lpa.getName(),
-			variables.date = format(appeal.submissionDate, 'dd MMMM yyyy')
+			(variables.LPA = lpa.getName()),
+				(variables.date = format(appeal.submissionDate, 'dd MMMM yyyy'));
 		} else if (appeal.appealType == '1005') {
-			variables['loca planning department'] = lpa.getName(),
-			variables['submission date'] = format(appeal.submissionDate, 'dd MMMM yyyy'),
-			variables.refused = _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED),
-			variables.granted = _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED),
-			variables['non-determination'] = _getYesOrNoForBoolean(appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.NODECISIONRECEIVED)
+			(variables['loca planning department'] = lpa.getName()),
+				(variables['submission date'] = format(appeal.submissionDate, 'dd MMMM yyyy')),
+				(variables.refused = _getYesOrNoForBoolean(
+					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.REFUSED
+				)),
+				(variables.granted = _getYesOrNoForBoolean(
+					appeal.eligibility.applicationDecision === constants.APPLICATION_DECISION.GRANTED
+				)),
+				(variables['non-determination'] = _getYesOrNoForBoolean(
+					appeal.eligibility.applicationDecision ===
+						constants.APPLICATION_DECISION.NODECISIONRECEIVED
+				));
 		}
 
 		const reference = appeal.id;
@@ -179,6 +189,30 @@ const sendConfirmEmailAddressEmail = async (appeal) => {
 	}
 };
 
+const sendFailureToUploadToHorizonEmail = async (appealId) => {
+	try {
+		let variables = {
+			id: appealId
+		};
+		const reference = `${appealId}-${new Date().toISOString}`;
+		await NotifyBuilder.reset()
+			.setTemplateId(templates.ERROR_MONITORING.failureToUploadToHorizon)
+			.setDestinationEmailAddress(config.services.notify.emails.adminMonitoringEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, appealId: appealId },
+			'Unable to send "failure to upload to horizon email" to team'
+		);
+	}
+};
+
 const createToken = () => {
 	const token = [];
 	for (let i = 0; i < 5; i += 1) {
@@ -207,5 +241,6 @@ module.exports = {
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendSaveAndReturnEnterCodeIntoServiceEmail,
 	sendConfirmEmailAddressEmail,
+	sendFailureToUploadToHorizonEmail,
 	createToken
 };
