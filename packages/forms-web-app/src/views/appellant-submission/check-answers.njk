@@ -256,7 +256,7 @@
             value: {
               text: boolToSentenceCaseField(appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad, { 'data-cy': "site-access" })
                 if appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad
-                else summaryField(appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted, { 'data-cy': "site-access" })
+                else summaryField(["No, ", appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted] | join, { 'data-cy': "site-access" })
             },
             actions: {
               items: [
@@ -274,7 +274,7 @@
               text: "Any health and safety issues?"
             },
             value: {
-              text: summaryField(appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues, { 'data-cy': "site-access-safety" })
+              text: summaryField(["Yes, ", appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues] | join, { 'data-cy': "site-access-safety" })
                 if appeal.appealSiteSection.healthAndSafety.hasIssues
                 else boolToSentenceCaseField(appeal.appealSiteSection.healthAndSafety.hasIssues, { 'data-cy': "site-access-safety" })
             },
