@@ -155,6 +155,11 @@ let config = {
 		lpaQuestionnaire: {
 			baseUrl: process.env.APP_LPA_QUESTIONNAIRE_BASE_URL
 		}
+	},
+	tasks: {
+		appealsApi: {
+			submitToHorizonCronString: process.env.TASK_SUBMIT_TO_HORIZON_CRON_STRING
+		}
 	}
 };
 
