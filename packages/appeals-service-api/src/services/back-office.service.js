@@ -43,48 +43,56 @@ class BackOfficeService {
 	}
 
 	async submitAppeals() {
-		let completedAppealSubmissions = [];
-		let uncompletedAppealSubmissions = [];
-		const backOfficeSubmissions = await this.#backOfficeRepository.getAppealsForSubmission();
+		try {
+			let completedAppealSubmissions = [];
+			let uncompletedAppealSubmissions = [];
+			const backOfficeSubmissions = await this.#backOfficeRepository.getAppealsForSubmission();
 
-		for (const backOfficeSubmission of backOfficeSubmissions) {
-			const id = backOfficeSubmission.getAppealId();
-			logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
-			let appealToSubmitToBackOffice = await getAppeal(id);
+			for (const backOfficeSubmission of backOfficeSubmissions) {
+				const id = backOfficeSubmission.getAppealId();
+				logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
+				let appealToSubmitToBackOffice = await getAppeal(id);
 
-			const updatedBackOfficeSubmission = await this.#horizonService.submitAppeal(
-				appealToSubmitToBackOffice,
-				backOfficeSubmission
-			);
-
-			if (updatedBackOfficeSubmission.isComplete()) {
-				logger.debug('Appeal submission to back office is complete');
-				const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(
+				const updatedBackOfficeSubmission = await this.#horizonService.submitAppeal(
 					appealToSubmitToBackOffice,
-					updatedBackOfficeSubmission.getAppealBackOfficeId()
+					backOfficeSubmission
 				);
-				await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
-				completedAppealSubmissions.push(updatedBackOfficeSubmission.getId());
-			} else if (updatedBackOfficeSubmission.someEntitiesHaveMaximumFailures()) {
-				await sendFailureToUploadToHorizonEmail(id);
-				await this.#forManualInterventionService.createAppealForManualIntervention(
-					updatedBackOfficeSubmission
-				);
-				await this.#backOfficeRepository.deleteAppealSubmission(
-					updatedBackOfficeSubmission.getId()
-				);
-			} else {
-				logger.debug('Appeal submission to back office is incomplete');
-				uncompletedAppealSubmissions.push(updatedBackOfficeSubmission);
+
+				if (updatedBackOfficeSubmission.isComplete()) {
+					logger.debug('Appeal submission to back office is complete');
+					const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(
+						appealToSubmitToBackOffice,
+						updatedBackOfficeSubmission.getAppealBackOfficeId()
+					);
+					await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
+					completedAppealSubmissions.push(updatedBackOfficeSubmission.getId());
+				}
+				else if (updatedBackOfficeSubmission.someEntitiesHaveMaximumFailures()) {
+					await sendFailureToUploadToHorizonEmail(id);
+					await this.#forManualInterventionService.createAppealForManualIntervention(
+						updatedBackOfficeSubmission
+					);
+					await this.#backOfficeRepository.deleteAppealSubmission(
+						updatedBackOfficeSubmission.getId()
+					);
+				}
+				else {
+					logger.debug('Appeal submission to back office is incomplete');
+					uncompletedAppealSubmissions.push(updatedBackOfficeSubmission);
+				}
+
+				if (completedAppealSubmissions.length > 0) {
+					this.#backOfficeRepository.deleteAppealSubmissions(completedAppealSubmissions);
+				}
+
+				if (uncompletedAppealSubmissions.length > 0) {
+					await this.#backOfficeRepository.updateAppealSubmissions(uncompletedAppealSubmissions);
+				}
 			}
-		}
-
-		if (completedAppealSubmissions.length > 0) {
-			this.#backOfficeRepository.deleteAppealSubmissions(completedAppealSubmissions);
-		}
-
-		if (uncompletedAppealSubmissions.length > 0) {
-			await this.#backOfficeRepository.updateAppealSubmissions(uncompletedAppealSubmissions);
+			return `Successfully processed appeals for submission. ${completedAppealSubmissions.length} completed. ${uncompletedAppealSubmissions.length} incomplete`;
+		} catch (error) {
+			logger.debug(`Error processing: ${error}`);
+			throw error;
 		}
 	}
 
