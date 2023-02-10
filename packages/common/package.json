@@ -17,7 +17,7 @@
 	"author": "",
 	"dependencies": {
 		"@godaddy/terminus": "^4.7.1",
-		"notifications-node-client": "^5.1.1",
+		"notifications-node-client": "^7.0.0",
 		"pino": "^6.11.3",
 		"prom-client": "^13.0.0"
 	},
