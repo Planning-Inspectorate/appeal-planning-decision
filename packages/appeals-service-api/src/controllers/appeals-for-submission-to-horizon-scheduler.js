@@ -15,7 +15,7 @@ module.exports = () => {
 		logger.debug('submitToHorizonCronString was invalid, defaulting to every 10 minutes');
 	}
 
-	if (config.tasks.appealsApi.runSubmitToHorizonTask) {
+	if (config.tasks.appealsApi.runSubmitToHorizonTrigger) {
 		cron.schedule(submitToHorizonFrequency, async () => {
 			logger.info('Triggering submission to horizon');
 			try {
