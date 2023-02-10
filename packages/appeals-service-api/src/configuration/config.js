@@ -158,7 +158,8 @@ let config = {
 	},
 	tasks: {
 		appealsApi: {
-			submitToHorizonCronString: process.env.TASK_SUBMIT_TO_HORIZON_CRON_STRING
+			submitToHorizonCronString: process.env.TASK_SUBMIT_TO_HORIZON_CRON_STRING,
+			runSubmitToHorizonTrigger: process.env.TASK_SUBMIT_TO_HORIZON_TRIGGER_ACTIVE
 		}
 	}
 };
