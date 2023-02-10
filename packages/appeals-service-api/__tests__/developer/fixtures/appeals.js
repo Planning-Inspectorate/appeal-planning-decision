@@ -1,9 +1,8 @@
 const uuid = require('uuid');
 
-class AppealFixtures {
-
+module.exports = class AppealFixtures {
 	/**
-	 * 
+	 *
 	 * @param param0 You can specify the following keys in this object, but defaults are provided:
 	 * <ul>
 	 * <li><i>id</i>: set to '' by default</li>
@@ -15,8 +14,14 @@ class AppealFixtures {
 	 * </ul>
 	 * @returns Given no changes to input parameters, a new, valid, householder appeal.
 	 */
-	static newHouseholderAppeal({id = '', decision = 'granted', planningApplicationType = 'householder-planning', ownsSite = false, agentAppeal = false} = {}) { 
-		let appeal: any = {
+	static newHouseholderAppeal({
+		id = '',
+		decision = 'granted',
+		planningApplicationType = 'householder-planning',
+		ownsSite = false,
+		agentAppeal = false
+	} = {}) {
+		let appeal = {
 			id: id,
 			horizonId: 'HORIZON123',
 			lpaCode: 'E69999999',
@@ -58,10 +63,7 @@ class AppealFixtures {
 					hasSensitiveInformation: false
 				},
 				otherDocuments: {
-					uploadedFiles: [
-						AppealFixtures.#getFileJson(),
-						AppealFixtures.#getFileJson()
-					]
+					uploadedFiles: [AppealFixtures.#getFileJson(), AppealFixtures.#getFileJson()]
 				}
 			},
 			appealSiteSection: {
@@ -110,7 +112,7 @@ class AppealFixtures {
 					healthAndSafety: 'COMPLETED'
 				}
 			}
-		}
+		};
 
 		if (agentAppeal) {
 			appeal.aboutYouSection.yourDetails.isOriginalApplicant = false;
@@ -119,10 +121,10 @@ class AppealFixtures {
 		}
 
 		return appeal;
-	};
+	}
 
 	/**
-	 * 
+	 *
 	 * @param param0 You can specify the following keys in this object, but defaults are provided:
 	 * <ul>
 	 * <li><i>id</i>: set to '' by default</li>
@@ -134,27 +136,27 @@ class AppealFixtures {
 	 * @returns Given no changes to input paramters, a new, valid, full appeal.
 	 */
 	static newFullAppeal({
-		id = '', 
-		decision = 'granted', 
+		id = '',
+		decision = 'granted',
 		planningApplicationType = 'householder-planning', //todo: is this correct?
-		ownsAllLand = false, 
-		agentAppeal = false, 
-		appellantCompanyName = null, 
+		ownsAllLand = false,
+		agentAppeal = false,
+		appellantCompanyName = null,
 		agentCompanyName = null
 	} = {}) {
-		let appeal: any = {
+		let appeal = {
 			id: id,
-			horizonId: "",
-			lpaCode: "E69999999",
+			horizonId: '',
+			lpaCode: 'E69999999',
 			planningApplicationNumber: '12345',
-			email: "test@pins.com",
+			email: 'test@pins.com',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 			submissionDate: new Date(),
 			decisionDate: new Date(),
 			typeOfPlanningApplication: planningApplicationType,
-			appealType: "1005",
-			state: "DRAFT",
+			appealType: '1005',
+			state: 'DRAFT',
 			eligibility: {
 				hasHouseholderPermissionConditions: true,
 				hasPriorApprovalForExistingHome: true,
@@ -163,29 +165,29 @@ class AppealFixtures {
 			},
 			contactDetailsSection: {
 				contact: {
-					name: "Appellant Name"
+					name: 'Appellant Name'
 				},
 				isOriginalApplicant: true
 			},
 			appealSiteSection: {
 				healthAndSafety: {
-					details: "nails",
+					details: 'nails',
 					hasIssues: true
 				},
 				visibleFromRoad: {
 					isVisible: false,
-					details: "a MASSIVE wall"
+					details: 'a MASSIVE wall'
 				},
 				agriculturalHolding: {},
 				siteOwnership: {
 					ownsAllTheLand: ownsAllLand
 				},
 				siteAddress: {
-					addressLine1: "Site Address 1",
-					addressLine2: "Site Address 2",
-					town: "Site Town",
-					county: "Site County",
-					postcode: "SW1 1AA"
+					addressLine1: 'Site Address 1',
+					addressLine2: 'Site Address 2',
+					town: 'Site Town',
+					county: 'Site County',
+					postcode: 'SW1 1AA'
 				}
 			},
 			appealDecisionSection: {
@@ -215,10 +217,7 @@ class AppealFixtures {
 					uploadedFile: AppealFixtures.#getFileJson()
 				},
 				plansDrawingsSupportingDocuments: {
-					uploadedFiles: [
-						AppealFixtures.#getFileJson(),
-						AppealFixtures.#getFileJson()
-					]
+					uploadedFiles: [AppealFixtures.#getFileJson(), AppealFixtures.#getFileJson()]
 				},
 				descriptionDevelopmentCorrect: {},
 				ownershipCertificate: {
@@ -228,10 +227,7 @@ class AppealFixtures {
 			},
 			appealDocumentsSection: {
 				supportingDocuments: {
-					uploadedFiles: [
-						AppealFixtures.#getFileJson(),
-						AppealFixtures.#getFileJson()
-					],
+					uploadedFiles: [AppealFixtures.#getFileJson(), AppealFixtures.#getFileJson()],
 					hasSupportingDocuments: null
 				},
 				planningObligationDeadline: {
@@ -244,10 +240,7 @@ class AppealFixtures {
 					plansPlanningObligation: null
 				},
 				plansDrawings: {
-					uploadedFiles: [
-						AppealFixtures.#getFileJson(),
-						AppealFixtures.#getFileJson()
-					],
+					uploadedFiles: [AppealFixtures.#getFileJson(), AppealFixtures.#getFileJson()],
 					hasPlansDrawings: null
 				},
 				appealStatement: {
@@ -262,68 +255,68 @@ class AppealFixtures {
 			},
 			sectionStates: {
 				appealDocumentsSection: {
-					newSupportingDocuments: "NOT STARTED",
-					supportingDocuments: "NOT STARTED",
-					draftPlanningObligations: "NOT STARTED",
-					planningObligationDeadline: "NOT STARTED",
-					planningObligationDocuments: "NOT STARTED",
-					planningObligationStatus: "NOT STARTED",
-					plansPlanningObligation: "NOT STARTED",
-					newPlansDrawings: "NOT STARTED",
-					plansDrawings: "NOT STARTED",
-					appealStatement: "NOT STARTED"
+					newSupportingDocuments: 'NOT STARTED',
+					supportingDocuments: 'NOT STARTED',
+					draftPlanningObligations: 'NOT STARTED',
+					planningObligationDeadline: 'NOT STARTED',
+					planningObligationDocuments: 'NOT STARTED',
+					planningObligationStatus: 'NOT STARTED',
+					plansPlanningObligation: 'NOT STARTED',
+					newPlansDrawings: 'NOT STARTED',
+					plansDrawings: 'NOT STARTED',
+					appealStatement: 'NOT STARTED'
 				},
 				planningApplicationDocumentsSection: {
-					letterConfirmingApplication: "NOT STARTED",
-					originalDecisionNotice: "NOT STARTED",
-					designAccessStatementSubmitted: "NOT STARTED",
-					designAccessStatement: "NOT STARTED",
-					decisionLetter: "NOT STARTED",
-					originalApplication: "NOT STARTED",
-					plansDrawingsSupportingDocuments: "NOT STARTED",
-					descriptionDevelopmentCorrect: "NOT STARTED",
-					ownershipCertificate: "NOT STARTED"
+					letterConfirmingApplication: 'NOT STARTED',
+					originalDecisionNotice: 'NOT STARTED',
+					designAccessStatementSubmitted: 'NOT STARTED',
+					designAccessStatement: 'NOT STARTED',
+					decisionLetter: 'NOT STARTED',
+					originalApplication: 'NOT STARTED',
+					plansDrawingsSupportingDocuments: 'NOT STARTED',
+					descriptionDevelopmentCorrect: 'NOT STARTED',
+					ownershipCertificate: 'NOT STARTED'
 				},
 				appealDecisionSection: {
-					draftStatementOfCommonGround: "NOT STARTED",
-					inquiryExpectedDays: "NOT STARTED",
-					inquiry: "NOT STARTED",
-					hearing: "NOT STARTED",
-					procedureType: "NOT STARTED"
+					draftStatementOfCommonGround: 'NOT STARTED',
+					inquiryExpectedDays: 'NOT STARTED',
+					inquiry: 'NOT STARTED',
+					hearing: 'NOT STARTED',
+					procedureType: 'NOT STARTED'
 				},
 				appealSiteSection: {
-					tellingTheLandowners: "NOT STARTED",
-					advertisingYourAppeal: "NOT STARTED",
-					identifyingTheLandOwners: "NOT STARTED",
-					knowTheOwners: "NOT STARTED",
-					someOfTheLand: "NOT STARTED",
-					healthAndSafety: "COMPLETED",
-					visibleFromRoad: "NOT STARTED",
-					otherTenants: "NOT STARTED",
-					tellingTheTenants: "NOT STARTED",
-					areYouATenant: "NOT STARTED",
-					agriculturalHolding: "NOT STARTED",
-					ownsAllTheLand: "NOT STARTED",
-					siteAddress: "COMPLETED"
+					tellingTheLandowners: 'NOT STARTED',
+					advertisingYourAppeal: 'NOT STARTED',
+					identifyingTheLandOwners: 'NOT STARTED',
+					knowTheOwners: 'NOT STARTED',
+					someOfTheLand: 'NOT STARTED',
+					healthAndSafety: 'COMPLETED',
+					visibleFromRoad: 'NOT STARTED',
+					otherTenants: 'NOT STARTED',
+					tellingTheTenants: 'NOT STARTED',
+					areYouATenant: 'NOT STARTED',
+					agriculturalHolding: 'NOT STARTED',
+					ownsAllTheLand: 'NOT STARTED',
+					siteAddress: 'COMPLETED'
 				},
 				contactDetailsSection: {
-					appealingOnBehalfOf: "NOT STARTED",
-					contact: "NOT STARTED",
-					isOriginalApplicant: "NOT STARTED"
+					appealingOnBehalfOf: 'NOT STARTED',
+					contact: 'NOT STARTED',
+					isOriginalApplicant: 'NOT STARTED'
 				}
 			}
 		};
 
 		if (agentAppeal) {
 			appeal.contactDetailsSection.isOriginalApplicant = false;
-			appeal.contactDetailsSection.contact.name = "Agent Name"
-			appeal.contactDetailsSection.appealingOnBehalfOf = { 
-				name: "Appellant Name"
-			}
+			appeal.contactDetailsSection.contact.name = 'Agent Name';
+			appeal.contactDetailsSection.appealingOnBehalfOf = {
+				name: 'Appellant Name'
+			};
 		}
 
 		if (agentAppeal == false && appellantCompanyName) {
-			appeal.contactDetailsSection.contact.companyName = appellantCompanyName
+			appeal.contactDetailsSection.contact.companyName = appellantCompanyName;
 		}
 
 		if (agentAppeal && agentCompanyName) {
@@ -331,20 +324,20 @@ class AppealFixtures {
 		}
 
 		if (agentAppeal && appellantCompanyName) {
-			appeal.contactDetailsSection.appealingOnBehalfOf.companyName = appellantCompanyName
+			appeal.contactDetailsSection.appealingOnBehalfOf.companyName = appellantCompanyName;
 		}
 
 		return appeal;
 	}
 
 	/**
-	 * 
-	 * @returns All documents have the same name because, in all testing circumstances, we don't care about the ordering of 
-	 * files, just that the correct number of them have been used in different contexts. Due to the way in which MockServer 
-	 * records and returns verifications, and how files may be retrieved in tests, getting the file order to match up in 
+	 *
+	 * @returns All documents have the same name because, in all testing circumstances, we don't care about the ordering of
+	 * files, just that the correct number of them have been used in different contexts. Due to the way in which MockServer
+	 * records and returns verifications, and how files may be retrieved in tests, getting the file order to match up in
 	 * tests themselves is a real pain, and this is always due to the file names being in the wrong order. So, if the file
 	 * names are all the same, we don't get this issue.
-	 * 
+	 *
 	 * NOTE THE STRANGE NAMES TOO. This is to test if characters that Horizon doesn't like are filtered out on document submission.
 	 */
 	static #getFileJson() {
@@ -355,8 +348,6 @@ class AppealFixtures {
 			fileName: `'<>test&"pdf.pdf`,
 			location: '',
 			size: 8334
-		}
+		};
 	}
-}
-
-module.exports = AppealFixtures
+};

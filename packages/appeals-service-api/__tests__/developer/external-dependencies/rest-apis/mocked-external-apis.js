@@ -1,10 +1,7 @@
-import { Interaction } from './interactions/interaction';
-import { expect } from '@jest/globals';
-import jp from 'jsonpath';
-import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers/';
-import axios from 'axios';
-import logger from '../../../logger';
-import { JsonPathExpression } from './json-path-expression';
+const jp = require('jsonpath');
+const { GenericContainer, Wait } = require('testcontainers/');
+const axios = require('axios');
+const logger = require('../../../logger');
 
 /**
  * This class is intended to act as a mocking interface for all external APIs that the
@@ -14,28 +11,28 @@ import { JsonPathExpression } from './json-path-expression';
  * (https://www.npmjs.com/package/mockserver-client) for this however, when the tests run
  * on the Azure build pipeline, `localhost` can not be resolved, so the tests fail.
  */
-export class MockedExternalApis {
-	private baseUrl: string;
-	private container: StartedTestContainer;
+module.exports = class MockedExternalApis {
+	baseUrl;
+	container;
 
-	private horizon: string = 'horizonMock';
-	private horizonEndpoint: string = `/${this.horizon}`;
-	private horizonUrl: string;
+	horizon = 'horizonMock';
+	horizonEndpoint = `/${this.horizon}`;
+	horizonUrl;
 
-	private notify: string = 'notifyMock';
-	private notifyEndpoint: string = `/${this.notify}/v2/notifications/email`; // Note that this is the full URL, known only to the Notify client which is provided by the Government
-	private notifyUrl: string;
+	notify = 'notifyMock';
+	notifyEndpoint = `/${this.notify}/v2/notifications/email`; // Note that this is the full URL, known only to the Notify client which is provided by the Government
+	notifyUrl;
 
-	private documentsApi: string = 'documentsMock';
-	private documentsApiEndpoint: string = `/${this.documentsApi}/api/v1`;
-	private documentsApiUrl: string;
-	private documentInvolvementValues = ['Appellant', 'LPA', ''];
+	documentsApi = 'documentsMock';
+	documentsApiEndpoint = `/${this.documentsApi}/api/v1`;
+	documentsApiUrl;
+	documentInvolvementValues = ['Appellant', 'LPA', ''];
 
 	///////////////////
 	///// GENERAL /////
 	///////////////////
 
-	static async setup(): Promise<MockedExternalApis> {
+	static async setup() {
 		const startedContainer = await new GenericContainer('mockserver/mockserver')
 			.withName('mockserver-for-appeals-api-test')
 			.withExposedPorts(1080)
@@ -45,7 +42,7 @@ export class MockedExternalApis {
 		return new MockedExternalApis(startedContainer);
 	}
 
-	private constructor(container: StartedTestContainer) {
+	constructor(container) {
 		this.baseUrl = `http://${container.getHost()}:${container.getMappedPort(1080)}`;
 		this.container = container;
 		this.horizonUrl = `${this.baseUrl}/${this.horizon}`;
@@ -53,18 +50,15 @@ export class MockedExternalApis {
 		this.documentsApiUrl = `${this.baseUrl}/${this.documentsApi}`;
 	}
 
-	getBaseUrl(): string {
+	getBaseUrl() {
 		return `http://${this.baseUrl}`;
 	}
 
-	async clearAllMockedResponsesAndRecordedInteractions(): Promise<void> {
+	async clearAllMockedResponsesAndRecordedInteractions() {
 		await axios.put(`${this.baseUrl}/mockserver/reset`);
 	}
 
-	async checkInteractions(
-		expectedHorizonInteractions: Array<Interaction>,
-		expectedNotifyInteractions: Array<Interaction>
-	) {
+	async checkInteractions(expectedHorizonInteractions, expectedNotifyInteractions) {
 		const actualHorizonInteractions = await this.getRecordedRequestsForHorizon();
 		const actualNotifyInteractions = await this.getRecordedRequestsForNotify();
 
@@ -72,34 +66,34 @@ export class MockedExternalApis {
 		this.verifyInteractions(expectedNotifyInteractions, actualNotifyInteractions);
 	}
 
-	async teardown(): Promise<void> {
+	async teardown() {
 		await this.container.stop();
 	}
 
-	private verifyInteractions(
-		expectedInteractions: Array<Interaction>,
-		actualInteractions: any
-	): void {
+	verifyInteractions(expectedInteractions, actualInteractions) {
 		expect(actualInteractions.length).toEqual(expectedInteractions.length);
 
 		for (let i in expectedInteractions) {
 			const expectedInteraction = expectedInteractions[i];
 			const actualInteraction = actualInteractions[i];
-
 			const actualInteractionBody = this.getJsonFromRecordedRequest(actualInteraction);
 			const allKeysFromActualInteractionBody = this.getAllKeysFromJson(actualInteractionBody);
+
 			logger.debug(allKeysFromActualInteractionBody, 'Keys from actual interaction');
+
 			expect(allKeysFromActualInteractionBody.length).toEqual(
 				expectedInteraction.getNumberOfKeysExpectedInJson()
 			);
 
 			expectedInteraction
 				.getJsonPathStringsToExpectedValues()
-				.forEach((expectation: Interaction, jsonPathExpression: JsonPathExpression) => {
+				.forEach((expectation, jsonPathExpression) => {
 					const jsonKeyValue = jp.query(actualInteractionBody, jsonPathExpression.get())[0];
+
 					logger.debug(
 						`Check if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`
 					);
+
 					if (expectation instanceof RegExp) {
 						expect(jsonKeyValue).toMatch(expectation);
 					} else {
@@ -109,7 +103,7 @@ export class MockedExternalApis {
 		}
 	}
 
-	private async getResponsesForEndpoint(endpoint: string): Promise<Array<any>> {
+	async getResponsesForEndpoint(endpoint) {
 		const data = {
 			path: endpoint,
 			method: 'POST'
@@ -118,11 +112,11 @@ export class MockedExternalApis {
 		return result.data;
 	}
 
-	private getJsonFromRecordedRequest(request: any): any {
+	getJsonFromRecordedRequest(request) {
 		return request.body.json;
 	}
 
-	private getAllKeysFromJson = (json: any, keys: string[] = []) => {
+	getAllKeysFromJson = (json, keys = []) => {
 		if (json == null) {
 			return keys;
 		}
@@ -131,6 +125,7 @@ export class MockedExternalApis {
 				keys.push(key);
 			}
 
+			// TODO: confirm this is working as expected (suspect not based on loose equality check, checking against 'object' type, and possibility of infinite recursion)
 			if (typeof json[key] == 'object') {
 				this.getAllKeysFromJson(json[key], keys);
 			}
@@ -142,12 +137,15 @@ export class MockedExternalApis {
 	///// HORIZON /////
 	///////////////////
 
-	getHorizonUrl(): string {
+	getHorizonUrl() {
 		return this.horizonUrl;
 	}
 
-	async mockHorizonCreateContactResponse(statusCode: number, stringToBeReturned: string = "Mocked bad create contact response") {
-		let body: any = {
+	async mockHorizonCreateContactResponse(
+		statusCode,
+		stringToBeReturned = 'Mocked bad create contact response'
+	) {
+		let body = {
 			Envelope: {
 				Body: {
 					AddContactResponse: {
@@ -161,34 +159,35 @@ export class MockedExternalApis {
 
 		if (statusCode >= 500) {
 			body = {
-				"Envelope": {
-					"Body": {
-						"Fault": {
-							"faultcode": {
-								"value": "a:InternalServiceFault"
+				Envelope: {
+					Body: {
+						Fault: {
+							faultcode: {
+								value: 'a:InternalServiceFault'
 							},
-							"faultstring": {
-								"value": stringToBeReturned
+							faultstring: {
+								value: stringToBeReturned
 							},
-							"detail": {
-								"ExceptionDetail": {
-									"HelpLink": {},
-									"InnerException": {},
-									"Message": {
-										"value": stringToBeReturned
+							detail: {
+								ExceptionDetail: {
+									HelpLink: {},
+									InnerException: {},
+									Message: {
+										value: stringToBeReturned
 									},
-									"StackTrace": {
-										"value": "   at Contacts.API.Contacts.AddContact(HorizonAPIContact contact)\r\n   at SyncInvokeAddContact(Object , Object[] , Object[] )\r\n   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)"
+									StackTrace: {
+										value:
+											'   at Contacts.API.Contacts.AddContact(HorizonAPIContact contact)\r\n   at SyncInvokeAddContact(Object , Object[] , Object[] )\r\n   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)'
 									},
-									"Type": {
-										"value": "System.Exception"
+									Type: {
+										value: 'System.Exception'
 									}
 								}
 							}
 						}
 					}
 				}
-			}
+			};
 		}
 
 		const data = {
@@ -212,8 +211,11 @@ export class MockedExternalApis {
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
-	async mockHorizonCreateAppealResponse(statusCode: number, stringToBeReturned: string = "Mocked bad create appeal response") {
-		let body: any = {
+	async mockHorizonCreateAppealResponse(
+		statusCode,
+		stringToBeReturned = 'Mocked bad create appeal response'
+	) {
+		let body = {
 			Envelope: {
 				Body: {
 					CreateCaseResponse: {
@@ -227,34 +229,35 @@ export class MockedExternalApis {
 
 		if (statusCode >= 500) {
 			body = {
-				"Envelope": {
-					"Body": {
-						"Fault": {
-							"faultcode": {
-								"value": "a:InternalServiceFault"
+				Envelope: {
+					Body: {
+						Fault: {
+							faultcode: {
+								value: 'a:InternalServiceFault'
 							},
-							"faultstring": {
-								"value": stringToBeReturned
+							faultstring: {
+								value: stringToBeReturned
 							},
-							"detail": {
-								"ExceptionDetail": {
-									"HelpLink": {},
-									"InnerException": {},
-									"Message": {
-										"value": stringToBeReturned
+							detail: {
+								ExceptionDetail: {
+									HelpLink: {},
+									InnerException: {},
+									Message: {
+										value: stringToBeReturned
 									},
-									"StackTrace": {
-										"value": "   at Horizon.Business.HorizonCase.AssertMetadataIsValid(HorizonMetadata metadata, Int32 caseTemplateDataId)\r\n   at Horizon.Business.AppealCase.Create(String caseType, String LPACode, DateTime dateOfReceipt, CaseLocation location, HorizonMetadata metadata, List`1 documents)\r\n   at Horizon.API.Horizon.CreateCase(String caseType, String LPACode, DateTime dateOfReceipt, CaseLocation location, HorizonMetadata metadata, List`1 documents)\r\n   at SyncInvokeCreateCase(Object , Object[] , Object[] )\r\n   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)"
+									StackTrace: {
+										value:
+											'   at Horizon.Business.HorizonCase.AssertMetadataIsValid(HorizonMetadata metadata, Int32 caseTemplateDataId)\r\n   at Horizon.Business.AppealCase.Create(String caseType, String LPACode, DateTime dateOfReceipt, CaseLocation location, HorizonMetadata metadata, List`1 documents)\r\n   at Horizon.API.Horizon.CreateCase(String caseType, String LPACode, DateTime dateOfReceipt, CaseLocation location, HorizonMetadata metadata, List`1 documents)\r\n   at SyncInvokeCreateCase(Object , Object[] , Object[] )\r\n   at System.ServiceModel.Dispatcher.SyncMethodInvoker.Invoke(Object instance, Object[] inputs, Object[]& outputs)\r\n   at System.ServiceModel.Dispatcher.DispatchOperationRuntime.InvokeBegin(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage5(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.ImmutableDispatchRuntime.ProcessMessage11(MessageRpc& rpc)\r\n   at System.ServiceModel.Dispatcher.MessageRpc.Process(Boolean isOperationContextSet)'
 									},
-									"Type": {
-										"value": "System.InvalidOperationException"
+									Type: {
+										value: 'System.InvalidOperationException'
 									}
 								}
 							}
 						}
 					}
 				}
-			}
+			};
 		}
 
 		const data = {
@@ -277,8 +280,8 @@ export class MockedExternalApis {
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
-	async mockHorizonUploadDocumentResponse(statusCode: number, document: any) {
-		let body: any = {};
+	async mockHorizonUploadDocumentResponse(statusCode, document) {
+		let body = {};
 
 		if (statusCode >= 500) {
 			body = {
@@ -371,10 +374,7 @@ export class MockedExternalApis {
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
-	async mockHorizonGetCaseResponse(
-		finalCommentsDueDate: Date | undefined,
-		statusCode: number
-	): Promise<void> {
+	async mockHorizonGetCaseResponse(finalCommentsDueDate, statusCode) {
 		let body;
 
 		if (statusCode == 200) {
@@ -453,7 +453,7 @@ export class MockedExternalApis {
 		logger.debug(response.data, 'Mock Horizon get case response');
 	}
 
-	private async getRecordedRequestsForHorizon(): Promise<Array<any>> {
+	async getRecordedRequestsForHorizon() {
 		const contactAndOrgInteractions = await this.getResponsesForEndpoint(
 			`${this.horizonEndpoint}/contacts`
 		);
@@ -468,11 +468,11 @@ export class MockedExternalApis {
 	///// NOTIFY /////
 	//////////////////
 
-	getNotifyUrl(): string {
+	getNotifyUrl() {
 		return this.notifyUrl;
 	}
 
-	async mockNotifyResponse(body: any, statusCode: number): Promise<void> {
+	async mockNotifyResponse(body, statusCode) {
 		const data = {
 			httpRequest: {
 				method: 'POST',
@@ -493,7 +493,7 @@ export class MockedExternalApis {
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
 
-	async getRecordedRequestsForNotify(): Promise<Array<any>> {
+	async getRecordedRequestsForNotify() {
 		return await this.getResponsesForEndpoint(this.notifyEndpoint);
 	}
 
@@ -501,16 +501,11 @@ export class MockedExternalApis {
 	///// DOCUMENTS API /////
 	/////////////////////////
 
-	getDocumentsAPIUrl(): string {
+	getDocumentsAPIUrl() {
 		return this.documentsApiUrl;
 	}
 
-	async mockDocumentsApiResponse(
-		statusCode: number,
-		appealId: string,
-		document: any,
-		addDocumentGroupTypeToBody: boolean
-	): Promise<void> {
+	async mockDocumentsApiResponse(statusCode, appealId, document, addDocumentGroupTypeToBody) {
 		const body = {
 			application_id: appealId,
 			name: document.name,
@@ -529,7 +524,7 @@ export class MockedExternalApis {
 		};
 
 		//TODO: remove addDocumentGroupTypeToBody param when 5031 feature flag is removed
-		let data: any = {
+		let data = {
 			httpRequest: {
 				method: 'GET',
 				path: `${this.documentsApiEndpoint}/${appealId}/${document.id}/file`,
@@ -554,4 +549,4 @@ export class MockedExternalApis {
 
 		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 	}
-}
+};

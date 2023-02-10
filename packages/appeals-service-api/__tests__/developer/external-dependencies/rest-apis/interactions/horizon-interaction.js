@@ -1,14 +1,8 @@
-import { Interaction } from './interaction';
-import { JsonPathExpression } from '../json-path-expression';
-import { HorizonCreateOrganisationRequestBodyExpectation } from '../expectations/horizon/create-organisation-request-body';
-import { HorizonCreateContactRequestBodyExpectation } from '../expectations/horizon/create-contact-request-body';
-import { HorizonCreateAppealRequestBodyExpectation } from '../expectations/horizon/create-appeal-request-body';
-import { HorizonCreateAppealContactExpectation } from '../expectations/horizon/create-appeal-contact';
+const Interaction = require('./interaction');
+const JsonPathExpression = require('../json-path-expression');
 
-export class HorizonInteraction {
-	static getCreateOrganisationInteraction(
-		expectation: HorizonCreateOrganisationRequestBodyExpectation
-	): Interaction {
+module.exports = class HorizonInteraction {
+	static getCreateOrganisationInteraction(expectation) {
 		return new Interaction('Create organisation')
 			.setNumberOfKeysExpectedInJson(expectation.getNumberOfJsonKeys())
 			.addJsonValueExpectation(
@@ -37,9 +31,7 @@ export class HorizonInteraction {
 			);
 	}
 
-	static getCreateContactInteraction(
-		expectation: HorizonCreateContactRequestBodyExpectation
-	): Interaction {
+	static getCreateContactInteraction(expectation) {
 		let interaction = new Interaction('Create contact')
 			.setNumberOfKeysExpectedInJson(expectation.getNumberOfJsonKeys())
 			.addJsonValueExpectation(
@@ -84,9 +76,7 @@ export class HorizonInteraction {
 		return interaction;
 	}
 
-	static getCreateAppealInteraction(
-		expectation: HorizonCreateAppealRequestBodyExpectation
-	): Interaction {
+	static getCreateAppealInteraction(expectation) {
 		let interaction = new Interaction('Create appeal')
 			.setNumberOfKeysExpectedInJson(expectation.getNumberOfJsonKeys())
 			.addJsonValueExpectation(
@@ -192,51 +182,45 @@ export class HorizonInteraction {
 				'Case Site:Inspector Need To Enter Site',
 				'Yes'
 			);
-		expectation
-			.getContacts()
-			.map((expectation: HorizonCreateAppealContactExpectation, index: number) => {
-				const attributeIndex = 15 + index;
-				interaction
-					.addContactAttributeExpectationForHorizonCreateAppealInteraction(attributeIndex)
-					.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-						attributeIndex,
-						0,
-						'Case Involvement:Case Involvement:ContactID',
-						expectation.getId()
-					)
-					.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-						attributeIndex,
-						1,
-						'Case Involvement:Case Involvement:Contact Details',
-						expectation.getFullName()
-					)
-					.addDateAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-						attributeIndex,
-						2,
-						'Case Involvement:Case Involvement:Involvement Start Date'
-					)
-					.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-						attributeIndex,
-						3,
-						'Case Involvement:Case Involvement:Communication Preference',
-						'e-mail'
-					)
-					.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-						attributeIndex,
-						4,
-						'Case Involvement:Case Involvement:Type Of Involvement',
-						expectation.getInvolvement()
-					);
-			});
+		expectation.getContacts().map((expectation, index) => {
+			const attributeIndex = 15 + index;
+			interaction
+				.addContactAttributeExpectationForHorizonCreateAppealInteraction(attributeIndex)
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
+					attributeIndex,
+					0,
+					'Case Involvement:Case Involvement:ContactID',
+					expectation.getId()
+				)
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
+					attributeIndex,
+					1,
+					'Case Involvement:Case Involvement:Contact Details',
+					expectation.getFullName()
+				)
+				.addDateAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
+					attributeIndex,
+					2,
+					'Case Involvement:Case Involvement:Involvement Start Date'
+				)
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
+					attributeIndex,
+					3,
+					'Case Involvement:Case Involvement:Communication Preference',
+					'e-mail'
+				)
+				.addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
+					attributeIndex,
+					4,
+					'Case Involvement:Case Involvement:Type Of Involvement',
+					expectation.getInvolvement()
+				);
+		});
 
 		return interaction;
 	}
 
-	static getCreateDocumentInteraction(
-		caseReference: number,
-		document: any,
-		validateDocumentGroupType: boolean
-	): Interaction {
+	static getCreateDocumentInteraction(caseReference, document, validateDocumentGroupType) {
 		const root = `$.AddDocuments`;
 		const documentsWrapper = `${root}.documents`;
 		const documentData = `${documentsWrapper}[2]['a:HorizonAPIDocument']`;
@@ -333,4 +317,4 @@ export class HorizonInteraction {
 
 		return interaction;
 	}
-}
+};

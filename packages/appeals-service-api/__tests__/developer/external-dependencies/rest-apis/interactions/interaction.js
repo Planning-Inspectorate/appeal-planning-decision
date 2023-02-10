@@ -1,18 +1,15 @@
-import { JsonPathExpression } from '../json-path-expression';
+const JsonPathExpression = require('../json-path-expression');
 
-export class Interaction {
-	private description: string;
-	private numberOfKeysExpectedInJson: number = 0;
-	private jsonPathStringsToExpectedValues: Map<
-		JsonPathExpression,
-		RegExp | number | string | null
-	> = new Map([]);
+module.exports = class Interaction {
+	description;
+	numberOfKeysExpectedInJson = 0;
+	jsonPathStringsToExpectedValues = new Map([]);
 
-	constructor(description: string) {
+	constructor(description) {
 		this.description = description;
 	}
 
-	toString(): string {
+	toString() {
 		let result = `Description: ${this.description}\n`;
 		this.jsonPathStringsToExpectedValues.forEach((key, value) => {
 			result += key + ': ' + value + '\n';
@@ -20,32 +17,25 @@ export class Interaction {
 		return result;
 	}
 
-	getNumberOfKeysExpectedInJson(): number {
+	getNumberOfKeysExpectedInJson() {
 		return this.numberOfKeysExpectedInJson;
 	}
 
-	getJsonPathStringsToExpectedValues(): Map<JsonPathExpression, any> {
+	getJsonPathStringsToExpectedValues() {
 		return this.jsonPathStringsToExpectedValues;
 	}
 
-	setNumberOfKeysExpectedInJson(numberOfKeysExpected: number): Interaction {
+	setNumberOfKeysExpectedInJson(numberOfKeysExpected) {
 		this.numberOfKeysExpectedInJson = numberOfKeysExpected;
 		return this;
 	}
 
-	addJsonValueExpectation(
-		expression: JsonPathExpression,
-		value: RegExp | number | string | null
-	): Interaction {
+	addJsonValueExpectation(expression, value) {
 		this.jsonPathStringsToExpectedValues.set(expression, value);
 		return this;
 	}
 
-	addStringAttributeExpectationForHorizonCreateAppealInteraction(
-		attributeNumber: number,
-		key: string,
-		value: string
-	): Interaction {
+	addStringAttributeExpectationForHorizonCreateAppealInteraction(attributeNumber, key, value) {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(
 				`$.CreateCase.category['a:Attributes'][${attributeNumber}]['a:AttributeValue']['__i:type']`
@@ -70,11 +60,7 @@ export class Interaction {
 		return this;
 	}
 
-	addDateAttributeExpectationForHorizonCreateAppealInteraction(
-		attributeNumber: number,
-		key: string,
-		value?: string
-	): Interaction {
+	addDateAttributeExpectationForHorizonCreateAppealInteraction(attributeNumber, key, value) {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(
 				`$.CreateCase.category['a:Attributes'][${attributeNumber}]['a:AttributeValue']['__i:type']`
@@ -99,9 +85,7 @@ export class Interaction {
 		return this;
 	}
 
-	addContactAttributeExpectationForHorizonCreateAppealInteraction(
-		attributeNumber: number
-	): Interaction {
+	addContactAttributeExpectationForHorizonCreateAppealInteraction(attributeNumber) {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(
 				`$.CreateCase.category['a:Attributes'][${attributeNumber}]['a:AttributeValue']['__i:type']`
@@ -120,11 +104,11 @@ export class Interaction {
 	}
 
 	addStringAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-		contactArrayAttributeNumber: number,
-		attributeNumber: number,
-		key: string,
-		value: string
-	): Interaction {
+		contactArrayAttributeNumber,
+		attributeNumber,
+		key,
+		value
+	) {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(
 				`$.CreateCase.category['a:Attributes'][${contactArrayAttributeNumber}]['a:AttributeValue']['a:Values'][${attributeNumber}]['a:AttributeValue']['__i:type']`
@@ -150,11 +134,11 @@ export class Interaction {
 	}
 
 	addDateAttributeExpectationForContactArrayInHorizonCreateAppealInteraction(
-		contactArrayAttributeNumber: number,
-		attributeNumber: number,
-		key: string,
-		value?: string
-	): Interaction {
+		contactArrayAttributeNumber,
+		attributeNumber,
+		key,
+		value
+	) {
 		this.jsonPathStringsToExpectedValues.set(
 			JsonPathExpression.create(
 				`$.CreateCase.category['a:Attributes'][${contactArrayAttributeNumber}]['a:AttributeValue']['a:Values'][${attributeNumber}]['a:AttributeValue']['__i:type']`
@@ -178,4 +162,4 @@ export class Interaction {
 
 		return this;
 	}
-}
+};
