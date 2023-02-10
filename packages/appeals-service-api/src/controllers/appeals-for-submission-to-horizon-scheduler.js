@@ -15,15 +15,17 @@ module.exports = () => {
 		logger.debug('submitToHorizonCronString was invalid, defaulting to every 10 minutes');
 	}
 
-	cron.schedule(submitToHorizonFrequency, async () => {
-		logger.info('Triggering submission to horizon');
-		try {
-			let outcome = await backOfficeService.submitAppeals();
-			logger.debug(outcome);
-			logger.info('Triggering submission to horizon ran successfully');
-		} catch (error) {
-			logger.info('Triggering submission to horizon failed');
-			logger.debug(`Error processing: ${error}`);
-		}
-	});
+	if (config.tasks.appealsApi.runSubmitToHorizonTask) {
+		cron.schedule(submitToHorizonFrequency, async () => {
+			logger.info('Triggering submission to horizon');
+			try {
+				let outcome = await backOfficeService.submitAppeals();
+				logger.debug(outcome);
+				logger.info('Triggering submission to horizon ran successfully');
+			} catch (error) {
+				logger.info('Triggering submission to horizon failed');
+				logger.debug(`Error processing: ${error}`);
+			}
+		});
+	}
 };

@@ -113,6 +113,7 @@ services:
       SRV_ADMIN_MONITORING_EMAIL: 'test@pins.gov.uk'
       SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID: '49413491-90fd-4ce8-b061-e2f4758b636b'
       TASK_SUBMIT_TO_HORIZON_CRON_STRING: '*/10 * * * *'
+      TASK_SUBMIT_TO_HORIZON_TRIGGER: false
     ports:
       - 3000:3000
     working_dir: /opt/app
