@@ -1,14 +1,9 @@
-import { Interaction } from './interaction';
-import { JsonPathExpression } from '../json-path-expression';
-import app from '../../../../../src/app';
+const Interaction = require('./interaction');
+const JsonPathExpression = require('../json-path-expression');
 const appConfiguration = require('../../../../../src/configuration/config');
 
-export class NotifyInteraction {
-	static getAppealSubmittedEmailForAppellantInteraction(
-		appeal: any,
-		appellantName: string,
-		lpaName: string
-	): Interaction {
+module.exports = class NotifyInteraction {
+	static getAppealSubmittedEmailForAppellantInteraction(appeal, appellantName, lpaName) {
 		return new Interaction('Send appeal successfully submitted email to appellant')
 			.setNumberOfKeysExpectedInJson(8)
 			.addJsonValueExpectation(
@@ -41,7 +36,7 @@ export class NotifyInteraction {
 			);
 	}
 
-	static getFailureToUploadToHorizonEmailInteraction(appealId: any): Interaction {
+	static getFailureToUploadToHorizonEmailInteraction(appealId) {
 		return new Interaction('Send failure to submit to Horizon email to admin')
 			.setNumberOfKeysExpectedInJson(5)
 			.addJsonValueExpectation(
@@ -59,12 +54,8 @@ export class NotifyInteraction {
 			.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.id'), appealId);
 	}
 
-	static getAppealSubmittedEmailForLpaInteraction(
-		appeal: any,
-		lpaName: string,
-		lpaEmail: string
-	): Interaction {
-		const templateVariables: any[] = [];
+	static getAppealSubmittedEmailForLpaInteraction(appeal, lpaName, lpaEmail) {
+		const templateVariables = [];
 		const dateRegex = new RegExp(
 			/\d{2} (January|February|March|April|May|June|July|August|SeptemberOctober|November|December) \d{4}/
 		);
@@ -120,4 +111,4 @@ export class NotifyInteraction {
 
 		return emailToLpaInteraction;
 	}
-}
+};

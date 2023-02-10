@@ -10,16 +10,12 @@ const logger = require('../../src/lib/logger');
 const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
-const { TestMessageQueue } = require('./external-dependencies/message-queue/test-message-queue');
-const { MockedExternalApis } = require('./external-dependencies/rest-apis/mocked-external-apis');
-const { Interaction } = require('./external-dependencies/rest-apis/interactions/interaction');
-const { JsonPathExpression } = require('./external-dependencies/rest-apis/json-path-expression');
-const {
-	HorizonInteraction
-} = require('./external-dependencies/rest-apis/interactions/horizon-interaction');
-const {
-	NotifyInteraction
-} = require('./external-dependencies/rest-apis/interactions/notify-interaction');
+const TestMessageQueue = require('./external-dependencies/message-queue/test-message-queue');
+const MockedExternalApis = require('./external-dependencies/rest-apis/mocked-external-apis');
+const Interaction = require('./external-dependencies/rest-apis/interactions/interaction');
+const JsonPathExpression = require('./external-dependencies/rest-apis/json-path-expression');
+const HorizonInteraction = require('./external-dependencies/rest-apis/interactions/horizon-interaction');
+const NotifyInteraction = require('./external-dependencies/rest-apis/interactions/notify-interaction');
 const AppealFixtures = require('./fixtures/appeals');
 const HorizonIntegrationInputCondition = require('./utils/horizon-integration-input-condition');
 

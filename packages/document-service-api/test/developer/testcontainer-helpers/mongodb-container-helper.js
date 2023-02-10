@@ -1,6 +1,6 @@
-import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers';
+const { GenericContainer, Wait } = require('testcontainers');
 
-let startedContainer: StartedTestContainer;
+let startedContainer;
 
 const createMongoContainer = async () => {
 	startedContainer = await new GenericContainer('mongo')

@@ -1,19 +1,10 @@
 const AppealFixtures = require('../fixtures/appeals');
-const {
-	HorizonCreateOrganisationRequestBodyExpectation
-} = require('../external-dependencies/rest-apis/expectations/horizon/create-organisation-request-body');
-const {
-	HorizonCreateContactRequestBodyExpectation
-} = require('../external-dependencies/rest-apis/expectations/horizon/create-contact-request-body');
-const {
-	HorizonCreateAppealRequestBodyExpectation
-} = require('../external-dependencies/rest-apis/expectations/horizon/create-appeal-request-body');
-const {
-	HorizonCreateAppealContactExpectation
-} = require('../external-dependencies/rest-apis/expectations/horizon/create-appeal-contact');
+const HorizonCreateOrganisationRequestBodyExpectation = require('../external-dependencies/rest-apis/expectations/horizon/create-organisation-request-body');
+const HorizonCreateContactRequestBodyExpectation = require('../external-dependencies/rest-apis/expectations/horizon/create-contact-request-body');
+const HorizonCreateAppealRequestBodyExpectation = require('../external-dependencies/rest-apis/expectations/horizon/create-appeal-request-body');
+const HorizonCreateAppealContactExpectation = require('../external-dependencies/rest-apis/expectations/horizon/create-appeal-contact');
 
-class HorizonIntegrationInputCondition {
-
+module.exports = class HorizonIntegrationInputCondition {
 	static get({
 		description = 'a blank Horizon ID field',
 		setHorizonIdFunction = (appeal) => (appeal.horizonId = ''),
@@ -139,6 +130,4 @@ class HorizonIntegrationInputCondition {
 
 		return condition;
 	}
-}
-
-module.exports = HorizonIntegrationInputCondition;
+};
