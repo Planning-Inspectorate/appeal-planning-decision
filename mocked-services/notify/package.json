@@ -11,6 +11,6 @@
 	"license": "ISC",
 	"dependencies": {
 		"json-server": "^0.16.2",
-		"notifications-node-client": "^5.0.0"
+		"notifications-node-client": "^7.0.0"
 	}
 }
