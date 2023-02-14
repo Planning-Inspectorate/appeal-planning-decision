@@ -1,7 +1,5 @@
 const express = require('express');
-const {
-	getApplicationSaved
-} = require('../../controllers/appeal-householder-decision/application-saved');
+const { getApplicationSaved } = require('../../controllers/application-saved');
 
 const router = express.Router();
 

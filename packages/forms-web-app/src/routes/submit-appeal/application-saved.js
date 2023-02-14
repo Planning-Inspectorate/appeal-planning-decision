@@ -1,5 +1,5 @@
 const express = require('express');
-const applicationSavedController = require('../../controllers/submit-appeal/application-saved');
+const applicationSavedController = require('../../controllers/application-saved');
 
 const router = express.Router();
 

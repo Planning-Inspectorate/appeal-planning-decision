@@ -1,5 +1,6 @@
 const VIEW = {
 	APPLICATION_NUMBER: 'application-number',
+	APPLICATION_SAVED: 'application-saved',
 
 	COOKIES: 'cookies',
 	YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal',
