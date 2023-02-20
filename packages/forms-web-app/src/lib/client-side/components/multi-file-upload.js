@@ -14,7 +14,9 @@ const SELECTORS = {
 };
 
 const CLASSES = {
+	addedFileItem: 'moj-multi-file-upload__list-item',
 	addedFileDeleteButton: 'moj-multi-file-upload__delete',
+	removedFilesInput: 'moj-multi-file-upload__removed-files',
 	container: 'moj-multi-file-upload--enhanced',
 	dragOver: 'moj-multi-file-upload__dropzone--dragover',
 	dropZone: 'moj-multi-file-upload__dropzone',
@@ -26,11 +28,9 @@ const CLASSES = {
 };
 
 const ATTRIBUTES = {
-	addedFileDeleteButton: {
-		fileInfoLastModified: 'data-fileinfo-lastmodified',
+	addedFileItem: {
 		fileInfoName: 'data-fileinfo-name',
-		fileInfoSize: 'data-fileinfo-size',
-		fileInfoType: 'data-fileinfo-type'
+		fileInfoSize: 'data-fileinfo-size'
 	}
 };
 
@@ -38,7 +38,10 @@ const instances = [];
 
 function multiFileUpload(document, container) {
 	const elements = {};
-	let filesAdded = [];
+
+	let addedFiles = [];
+	let existingFiles = [];
+	let removedFiles = [];
 
 	function onFileInputChange(event) {
 		event.preventDefault();
@@ -71,7 +74,17 @@ function multiFileUpload(document, container) {
 
 	function onAddedFileDeleteButtonClick(event) {
 		event.preventDefault();
-		tryDeleteAddedFile(event.target);
+		tryDeleteAddedFileItem(event.target);
+	}
+
+	function setupElements(container) {
+		elements.container = container;
+
+		for (const key in SELECTORS.internal) {
+			elements[key] = elements.container.querySelectorAll(SELECTORS.internal[key]);
+		}
+
+		elements.container.classList.add(CLASSES.container);
 	}
 
 	function setupFileInput() {
@@ -109,26 +122,56 @@ function multiFileUpload(document, container) {
 		elements.label = [label];
 	}
 
-	function tryDeleteAddedFile(deleteButton) {
-		const name = deleteButton.getAttribute(ATTRIBUTES.addedFileDeleteButton.fileInfoName);
-		const size = deleteButton.getAttribute(ATTRIBUTES.addedFileDeleteButton.fileInfoSize);
-		const lastModified = deleteButton.getAttribute(
-			ATTRIBUTES.addedFileDeleteButton.fileInfoLastModified
-		);
-		const type = deleteButton.getAttribute(ATTRIBUTES.addedFileDeleteButton.fileInfoType);
-
-		filesAdded = filesAdded.filter(
-			(file) =>
-				`${file.name}` !== name ||
-				`${file.size}` !== size ||
-				`${file.lastModified}` !== lastModified ||
-				`${file.type}` !== type
+	function getExistingFiles() {
+		const existingFileItems = elements.filesAddedList[0]?.querySelectorAll(
+			`.${CLASSES.addedFileItem}`
 		);
 
+		for (const existingItem of existingFileItems) {
+			existingFiles.push({
+				name: existingItem.getAttribute(ATTRIBUTES.addedFileItem.fileInfoName),
+				size: existingItem.getAttribute(ATTRIBUTES.addedFileItem.fileInfoSize)
+			});
+		}
+	}
+
+	function setupFilesAddedUI() {
+		getExistingFiles();
 		updateFilesAddedUI();
 	}
 
-	function bindAddedFilesEvents() {
+	function removeMatchingFilesFromArray(name, array) {
+		return array.filter((file) => `${file.name}` !== name);
+	}
+
+	function tryDeleteAddedFile(name) {
+		addedFiles = removeMatchingFilesFromArray(name, addedFiles);
+	}
+
+	function tryDeleteExistingFile(name) {
+		const fileToRemove = {
+			name
+		};
+
+		if (!removedFiles.includes(fileToRemove)) {
+			removedFiles.push(fileToRemove);
+		}
+
+		addRemovedFileDataToForm();
+		existingFiles = removeMatchingFilesFromArray(name, existingFiles);
+	}
+
+	function tryDeleteAddedFileItem(deleteButton) {
+		const parentItem = deleteButton.closest(`.${CLASSES.addedFileItem}`);
+		const name = parentItem.getAttribute(ATTRIBUTES.addedFileItem.fileInfoName);
+
+		tryDeleteAddedFile(name);
+		tryDeleteExistingFile(name);
+		applyAddedFilesToFileInput();
+		updateFilesAddedUI();
+	}
+
+	function bindFilesAddedEvents() {
 		const addedFileDeleteButtons = elements.container.querySelectorAll(
 			`.${CLASSES.addedFileDeleteButton}`
 		);
@@ -138,17 +181,19 @@ function multiFileUpload(document, container) {
 		}
 	}
 
-	function updateFilesAddedUI() {
-		if (filesAdded.length === 0) {
-			elements.filesAddedList[0].innerHTML = '';
-			elements.filesAddedContainer[0]?.classList.add(CLASSES.hidden);
-			return;
+	function getFilesAddedHtmlForFiles(files) {
+		if (files.length < 1) {
+			return '';
 		}
 
-		elements.filesAddedList[0].innerHTML = `${filesAdded
+		return `${files
 			.map(
 				(file) => `
-					<li class="govuk-summary-list__row moj-multi-file-upload__row">
+					<li
+						class="govuk-summary-list__row moj-multi-file-upload__row ${CLASSES.addedFileItem}"
+						${ATTRIBUTES.addedFileItem.fileInfoName}="${file.name}"
+						${ATTRIBUTES.addedFileItem.fileInfoSize}="${file.size}"
+					>
 						<div class="govuk-summary-list__value moj-multi-file-upload__message">
 							<span class="moj-multi-file-upload__filename">${file.name}</span>
 						</div>
@@ -157,10 +202,6 @@ function multiFileUpload(document, container) {
 								class="${CLASSES.addedFileDeleteButton} govuk-link govuk-!-margin-bottom-0"
 								type="button"
 								name="delete"
-								${ATTRIBUTES.addedFileDeleteButton.fileInfoName}="${file.name}"
-								${ATTRIBUTES.addedFileDeleteButton.fileInfoSize}="${file.size}"
-								${ATTRIBUTES.addedFileDeleteButton.fileInfoLastModified}="${file.lastModified}"
-								${ATTRIBUTES.addedFileDeleteButton.fileInfoType}="${file.type}"
 							>
 								${LABELS.addedFileDeleteButtonText}
 							</button>
@@ -170,35 +211,70 @@ function multiFileUpload(document, container) {
 			)
 			.join('')
 			.trim()}`;
-
-		elements.filesAddedContainer[0]?.classList.remove(CLASSES.hidden);
-
-		bindAddedFilesEvents();
 	}
 
-	function fileAlreadyAdded(file) {
-		for (const addedFile of filesAdded) {
-			if (
-				file.name === addedFile.name &&
-				file.size === addedFile.size &&
-				file.lastModified === addedFile.lastModified &&
-				file.type === addedFile.type
-			) {
-				return true;
-			}
+	function updateFilesAddedUI() {
+		let newInnerHTML = '';
+
+		newInnerHTML += getFilesAddedHtmlForFiles(existingFiles);
+		newInnerHTML += getFilesAddedHtmlForFiles(addedFiles);
+
+		elements.filesAddedList[0].innerHTML = newInnerHTML;
+
+		if (elements.filesAddedList[0].innerHTML.length > 0) {
+			elements.filesAddedContainer[0]?.classList.remove(CLASSES.hidden);
+		} else {
+			elements.filesAddedContainer[0]?.classList.add(CLASSES.hidden);
 		}
 
-		return false;
+		bindFilesAddedEvents();
 	}
 
-	function addFilesToFileInput() {
+	function applyAddedFilesToFileInput() {
 		const dataTransfer = new DataTransfer();
 
-		for (const addedFile of filesAdded) {
+		for (const addedFile of addedFiles) {
 			dataTransfer.items.add(addedFile);
 		}
 
 		elements.fileInput[0].files = dataTransfer.files;
+	}
+
+	function addRemovedFileDataToForm() {
+		let removedFilesInput = elements.container.querySelector(`.${CLASSES.removedFilesInput}`);
+
+		if (!removedFilesInput) {
+			removedFilesInput = document.createElement('input');
+			removedFilesInput.className = CLASSES.removedFilesInput;
+			removedFilesInput.style.display = 'none';
+			removedFilesInput.setAttribute('type', 'hidden');
+			removedFilesInput.setAttribute('name', 'removedFiles');
+			elements.container.append(removedFilesInput);
+		}
+
+		removedFilesInput.value = JSON.stringify(removedFiles);
+	}
+
+	function addOrReplaceFile(file) {
+		if (existingFiles.some((existingFile) => existingFile.name === file.name)) {
+			tryDeleteExistingFile(file.name);
+
+			if (!addedFiles.includes(file)) {
+				addedFiles.push(file);
+			}
+
+			return;
+		}
+
+		for (let i = 0; i < addedFiles.length; i++) {
+			if (addedFiles[i].name === file.name) {
+				addedFiles[i] = file;
+
+				return;
+			}
+		}
+
+		addedFiles.push(file);
 	}
 
 	function addFiles(files) {
@@ -207,29 +283,19 @@ function multiFileUpload(document, container) {
 		}
 
 		for (let i = 0; i < files.length; i++) {
-			const file = files[i];
-
-			if (!fileAlreadyAdded(file)) {
-				filesAdded.push(file);
-			}
+			addOrReplaceFile(files[i]);
 		}
 
-		addFilesToFileInput();
+		applyAddedFilesToFileInput();
 		updateFilesAddedUI();
 	}
 
 	function initialise(document, container) {
-		elements.container = container;
-
-		for (const key in SELECTORS.internal) {
-			elements[key] = elements.container.querySelectorAll(SELECTORS.internal[key]);
-		}
-
-		elements.container.classList.add(CLASSES.container);
-
+		setupElements(container);
 		setupFileInput();
 		setupDropzone(document);
 		setupLabel(document);
+		setupFilesAddedUI();
 	}
 
 	initialise(document, container);
