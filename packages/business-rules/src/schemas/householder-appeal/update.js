@@ -208,14 +208,14 @@ const update = pinsYup
 				.object()
 				.shape({
 					canInspectorSeeWholeSiteFromPublicRoad: pinsYup.bool().required(),
-					howIsSiteAccessRestricted: pinsYup.string().max(255).nullable()
+					howIsSiteAccessRestricted: pinsYup.string().max(1000).nullable()
 				})
 				.noUnknown(true),
 			healthAndSafety: pinsYup
 				.object()
 				.shape({
 					hasIssues: pinsYup.bool().required(),
-					healthAndSafetyIssues: pinsYup.string().max(255).nullable()
+					healthAndSafetyIssues: pinsYup.string().max(1000).nullable()
 				})
 				.noUnknown(true)
 		}),

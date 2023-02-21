@@ -23,10 +23,20 @@ exports.getSupportingDocuments = (req, res) => {
 exports.postSupportingDocuments = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
-
 	const { appeal } = req.session;
 
 	try {
+		if ('removedFiles' in body) {
+			const appealTask = appeal[sectionName][taskName];
+			const removedFiles = JSON.parse(body.removedFiles);
+
+			for (const removedFile of removedFiles) {
+				appealTask.uploadedFiles = appealTask.uploadedFiles.filter(
+					(file) => file.name !== removedFile.name
+				);
+			}
+		}
+
 		if ('files' in body && 'supporting-documents' in body.files) {
 			// This controller action runs after the req has passed through the validation middleware.
 			// There can be valid and invalid files in a multi-file upload, and the valid files need
@@ -89,9 +99,9 @@ exports.postSupportingDocuments = async (req, res) => {
 		appeal.sectionStates[sectionName][taskName] = setTaskStatusComplete();
 		if (req.body['save-and-return'] !== '') {
 			req.session.appeal = await createOrUpdateAppeal(appeal);
-			console.log(appeal);
 			return res.redirect(getNextTask(appeal, { sectionName, taskName }).href);
 		}
+
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 		return await postSaveAndReturn(req, res);
 	} catch (e) {

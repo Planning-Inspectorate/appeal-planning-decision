@@ -15,8 +15,8 @@ const ruleSiteAccessSafetyConcerns = () =>
 		.notEmpty()
 		.withMessage('Tell us about the health and safety issues')
 		.bail()
-		.isLength({ min: 0, max: 255 })
-		.withMessage('Health and safety information must be 255 characters or fewer');
+		.isLength({ min: 0, max: 1000 })
+		.withMessage('Health and safety information must be 1000 characters or fewer');
 
 const rules = () => [ruleSiteAccessSafety(), ruleSiteAccessSafetyConcerns()];
 

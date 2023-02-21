@@ -1050,11 +1050,11 @@ describe('schemas/householder-appeal/update', () => {
 		});
 
 		describe('appealSiteSection.siteAccess.howIsSiteAccessRestricted', () => {
-			it('should throw an error when given a value with more than 255 characters', async () => {
-				appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted = 'a'.repeat(256);
+			it('should throw an error when given a value with more than 1000 characters', async () => {
+				appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted = 'a'.repeat(1001);
 
 				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'appealSiteSection.siteAccess.howIsSiteAccessRestricted must be at most 255 characters'
+					'appealSiteSection.siteAccess.howIsSiteAccessRestricted must be at most 1000 characters'
 				);
 			});
 
@@ -1118,11 +1118,11 @@ describe('schemas/householder-appeal/update', () => {
 		});
 
 		describe('appealSiteSection.healthAndSafety.healthAndSafetyIssues', () => {
-			it('should throw an error when given a value with more than 255 characters', async () => {
-				appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues = 'a'.repeat(256);
+			it('should throw an error when given a value with more than 1000 characters', async () => {
+				appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues = 'a'.repeat(1001);
 
 				await expect(() => update.validate(appeal, config)).rejects.toThrow(
-					'appealSiteSection.healthAndSafety.healthAndSafetyIssues must be at most 255 characters'
+					'appealSiteSection.healthAndSafety.healthAndSafetyIssues must be at most 1000 characters'
 				);
 			});
 

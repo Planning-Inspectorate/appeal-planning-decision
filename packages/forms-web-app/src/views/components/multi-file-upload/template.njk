@@ -1,43 +1,36 @@
 <div class="moj-multi-file-upload {{- ' ' + params.classes if params.classes}}" {%- for attribute, value in params.attributes -%} {{ attribute }}="{{ value }}"{% endfor %}>
-  {% if params.uploadedFiles.items and params.uploadedFiles.items.length > 0 %}
-  <div class="moj-multi-file__uploaded-files {% if params.uploadedFiles.items.length == 0 %}moj-hidden{% endif%}">
-    <h2 class="govuk-heading-m">{{ params.uploadedFiles.heading.html | safe if params.uploadedFiles.heading.html else params.uploadedFiles.heading.text }}</h2>
-    <div class="govuk-summary-list moj-multi-file-upload__list">
-      {% if params.uploadedFiles.items and params.uploadedFiles.items.length > 0 %}
-        {% for item in params.uploadedFiles.items %}
-          <div class="govuk-summary-list__row moj-multi-file-upload__row">
-            <div class="govuk-summary-list__value moj-multi-file-upload__message"
-                 data-file-id="{{ item.id }}"
-                 data-file-location="{{ item.location }}"
-                 data-file-size="{{ item.size }}"
-            >
-              {{- item.name | safe if item.name else item.message.text -}}
-            </div>
-          </div>
-        {% endfor %}
-      {% endif %}
-    </div>
+  <div class="moj-multi-file__uploaded-files" aria-live="polite">
+    <div class="moj-multi-file__uploaded-files-container {% if (not params.uploadedFiles.items) or params.uploadedFiles.items.length == 0 %}moj-hidden{% endif%}">
+			<h2 class="govuk-heading-m" id="{{params.name}}-uploaded-files-heading">{{ params.uploadedFiles.heading.html | safe if params.uploadedFiles.heading.html else params.uploadedFiles.heading.text }}</h2>
+			<ul class="govuk-summary-list moj-multi-file-upload__list">
+				{% if params.uploadedFiles.items and params.uploadedFiles.items.length > 0 %}
+					{% for item in params.uploadedFiles.items %}
+						<li
+							class="govuk-summary-list__row moj-multi-file-upload__row moj-multi-file-upload__list-item"
+							data-fileinfo-name="{{ item.name }}"
+							data-fileinfo-size="{{ item.size }}"
+						>
+							<div class="govuk-summary-list__value moj-multi-file-upload__message">
+								<span class="moj-multi-file-upload__filename">{{- item.name | safe if item.name else item.message.text -}}</span>
+							</div>
+							<div class="govuk-summary-list__actions moj-multi-file-upload__actions">
+								<button
+									class="moj-multi-file-upload__delete govuk-link govuk-!-margin-bottom-0"
+									type="button"
+									name="delete"
+								>
+									Remove
+								</button>
+							</div>
+						</li>
+					{% endfor %}
+				{% endif %}
+			</ul>
+		</div>
   </div>
-  {% endif %}
 
   <div class="moj-multi-file-upload__upload">
     {{ params.uploadHtml | safe }}
   </div>
-
-  <details class="govuk-details" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        Accepted file formats
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <ul class="govuk-list--bullets">
-        <li>PDF &ndash; <strong>.pdf</strong></li>
-        <li>Microsoft Word &ndash; <strong>.doc</strong> or <strong>.docx</strong></li>
-        <li>TIF &ndash; <strong>.tif</strong> or <strong>.tiff</strong></li>
-        <li>JPEG &ndash; <strong>.jpg</strong> or <strong>.jpeg</strong></li>
-        <li>PNG &ndash; <strong>.png</strong></li>
-      </ul>
-    </div>
-  </details>
 </div>
+

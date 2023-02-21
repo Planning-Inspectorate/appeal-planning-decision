@@ -12,7 +12,6 @@ function validatePostcode(postcode) {
 
 const ruleAddressLine1 = () =>
 	body('site-address-line-one')
-		.escape()
 		.notEmpty()
 		.withMessage('Enter the first line of the address')
 		.bail()
@@ -22,28 +21,24 @@ const ruleAddressLine1 = () =>
 
 const ruleAddressLine2 = () =>
 	body('site-address-line-two')
-		.escape()
 		.isLength({ min: 0, max: 60 })
 		.bail()
 		.withMessage('The second line of the address must be 60 characters or fewer');
 
 const ruleAddressTownCity = () =>
 	body('site-town-city')
-		.escape()
 		.isLength({ min: 0, max: 60 })
 		.bail()
 		.withMessage('Town or City must be 60 characters or fewer');
 
 const ruleAddressCounty = () =>
 	body('site-county')
-		.escape()
 		.isLength({ min: 0, max: 60 })
 		.bail()
 		.withMessage('County must be 60 characters or fewer');
 
 const ruleAddressPostCode = () =>
 	body('site-postcode')
-		.escape()
 		.notEmpty()
 		.withMessage('Enter a real postcode')
 		.bail()

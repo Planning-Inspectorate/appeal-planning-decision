@@ -1,63 +1,114 @@
-const { isFeatureActive } = require('../configuration/featureFlag');
 const logger = require('../lib/logger');
-const ApiError = require('../errors/apiError');
 const {
 	sendSubmissionReceivedEmailToLpa,
-	sendSubmissionConfirmationEmailToAppellant
+	sendSubmissionConfirmationEmailToAppellant,
+	sendFailureToUploadToHorizonEmail
 } = require('../lib/notify');
 const { BackOfficeRepository } = require('../repositories/back-office-repository');
+const ForManualInterventionService = require('../services/for-manual-intervention.service');
 const HorizonService = require('../services/horizon.service');
 const {
 	getAppeal,
-	saveAppealAsSubmittedToBackOffice,
+	getContactDetails,
+	getDocumentIds,
+	saveAppealAsSubmittedToBackOffice
 } = require('./appeal.service');
+const ApiError = require('../errors/apiError');
 
 class BackOfficeService {
 	#horizonService;
 	#backOfficeRepository;
+	#forManualInterventionService;
 
 	constructor() {
 		this.#horizonService = new HorizonService();
 		this.#backOfficeRepository = new BackOfficeRepository();
+		this.#forManualInterventionService = new ForManualInterventionService();
 	}
 
-	/**
-	 * Will submit the appeal with `id` specified to the Back Office system, iff
-	 *
-	 * 1. The appeal with the ID specified exists in the database
-	 * 2. The appeal does not have a non-blank Horizon ID
-	 * 3. The appeal does not already exist in Horizon
-	 *
-	 * @param {string} id
-	 */
-	async submitAppeal(id) {
-		logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
+	async saveAppealForSubmission(appeal_id) {
+		const appealToProcess = await getAppeal(appeal_id);
 
-		let appealToSubmitToBackOffice = await getAppeal(id);
-		logger.debug(`Appeal found in repository: ${JSON.stringify(appealToSubmitToBackOffice)}`);
-		if (appealToSubmitToBackOffice === null) {
+		if (appealToProcess.horizonId == undefined || appealToProcess.horizonId == false) {
+			const appealContactDetails = getContactDetails(appealToProcess);
+			const appealDocumentIds = getDocumentIds(appealToProcess);
+			await this.#backOfficeRepository.saveAppealForSubmission(
+				appealContactDetails,
+				appealToProcess,
+				appealDocumentIds
+			);
+
+			await sendSubmissionConfirmationEmailToAppellant(appealToProcess);
+		}
+	}
+
+	async submitAppeals() {
+		try {
+			let completedAppealSubmissions = [];
+			let uncompletedAppealSubmissions = [];
+			const backOfficeSubmissions = await this.#backOfficeRepository.getAppealsForSubmission();
+
+			for (const backOfficeSubmission of backOfficeSubmissions) {
+				const id = backOfficeSubmission.getAppealId();
+				logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
+				let appealToSubmitToBackOffice = await getAppeal(id);
+
+				const updatedBackOfficeSubmission = await this.#horizonService.submitAppeal(
+					appealToSubmitToBackOffice,
+					backOfficeSubmission
+				);
+
+				if (updatedBackOfficeSubmission.isComplete()) {
+					logger.debug('Appeal submission to back office is complete');
+					const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(
+						appealToSubmitToBackOffice,
+						updatedBackOfficeSubmission.getAppealBackOfficeId()
+					);
+					await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
+					completedAppealSubmissions.push(updatedBackOfficeSubmission.getId());
+				}
+				else if (updatedBackOfficeSubmission.someEntitiesHaveMaximumFailures()) {
+					await sendFailureToUploadToHorizonEmail(id);
+					await this.#forManualInterventionService.createAppealForManualIntervention(
+						updatedBackOfficeSubmission
+					);
+					await this.#backOfficeRepository.deleteAppealSubmission(
+						updatedBackOfficeSubmission.getId()
+					);
+				}
+				else {
+					logger.debug('Appeal submission to back office is incomplete');
+					uncompletedAppealSubmissions.push(updatedBackOfficeSubmission);
+				}
+
+				if (completedAppealSubmissions.length > 0) {
+					this.#backOfficeRepository.deleteAppealSubmissions(completedAppealSubmissions);
+				}
+
+				if (uncompletedAppealSubmissions.length > 0) {
+					await this.#backOfficeRepository.updateAppealSubmissions(uncompletedAppealSubmissions);
+				}
+			}
+			return `Successfully processed appeals for submission. ${completedAppealSubmissions.length} completed. ${uncompletedAppealSubmissions.length} incomplete`;
+		} catch (error) {
+			logger.debug(`Error processing: ${error}`);
+			throw error;
+		}
+	}
+
+	async getAppealForSubmission(id) {
+		logger.info(`Retrieving appeal ${id} ...`);
+		let document = await this.#backOfficeRepository.findOneById(id);
+
+		logger.info(document);
+
+		if (document === null) {
+			logger.info(`Appeal ${id} not found`);
 			throw ApiError.appealNotFound(id);
 		}
 
-		if (appealToSubmitToBackOffice.horizonId == undefined || appealToSubmitToBackOffice.horizonId == false) {
-			let appealAfterSubmissionToBackOffice;
-			if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
-				logger.debug('Using direct Horizon integration');
-				const horizonCaseReference = await this.#horizonService.createAppeal(appealToSubmitToBackOffice);
-				appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice, horizonCaseReference);
-			} else {
-				logger.debug('Using message queue integration');
-				appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(appealToSubmitToBackOffice);
-				this.#backOfficeRepository.create(appealAfterSubmissionToBackOffice);
-			}
-
-			await sendSubmissionConfirmationEmailToAppellant(appealAfterSubmissionToBackOffice);
-			await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
-			return appealAfterSubmissionToBackOffice;
-		}
-
-		logger.debug('Appeal has already been submitted to the back-office');
-		throw ApiError.appealAlreadySubmitted();
+		logger.info(`Appeal ${id} retrieved`);
+		return document;
 	}
 }
 

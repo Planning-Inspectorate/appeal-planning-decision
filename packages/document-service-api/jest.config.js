@@ -19,10 +19,9 @@ module.exports = {
 			statements: 60
 		}
 	},
-	globalSetup: '<rootDir>/test/developer/globalSetup.ts',
-	globalTeardown: '<rootDir>/test/developer/globalTeardown.ts',
+	globalSetup: '<rootDir>/test/developer/globalSetup.js',
+	globalTeardown: '<rootDir>/test/developer/globalTeardown.js',
 	transform: {
-		'^.+\\.ts?$': 'ts-jest',
 		'\\.[jt]sx?$': 'babel-jest'
 	}
 };

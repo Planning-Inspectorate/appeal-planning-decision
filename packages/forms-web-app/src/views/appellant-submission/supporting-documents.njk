@@ -26,6 +26,9 @@
       text: "Upload files (optional)",
       classes: 'govuk-label--m'
     },
+		hint: {
+			text: 'The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than 15MB'
+		},
     attributes: { multiple: '' },
     errorMessage: errorSummary and {
       html: supportingDocumentsErrorMessage
@@ -91,3 +94,4 @@
     </div>
   </div>
 {% endblock %}
+

@@ -9,6 +9,7 @@ const router = express.Router();
 
 const appealsRouter = require('./appeals');
 const backOfficeRouter = require('./back-office');
+const forManualInterventionRouter = require('./for-manual-intervention');
 const saveRouter = require('./save');
 const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
 const apiDocsRouter = require('./api-docs');
@@ -18,6 +19,7 @@ const { isFeatureActive } = require('../configuration/featureFlag');
 
 router.use('/api/v1/appeals', appealsRouter);
 router.use('/api/v1/back-office', backOfficeRouter);
+router.use('/api/v1/for-manual-intervention', forManualInterventionRouter);
 router.use('/api/v1/local-planning-authorities', localPlanningAuthoritiesRouter);
 router.use('/api-docs', apiDocsRouter);
 router.use('/api/v1/save', saveRouter);

@@ -5,10 +5,10 @@
  * Code here is informed by the official Azurite docs which can be found here:
  * https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=docker-hub#command-line-options
  */
-import { BlobServiceClient, ContainerClient, BlobItem } from '@azure/storage-blob';
-import { GenericContainer, Wait, StartedTestContainer } from 'testcontainers';
+const { BlobServiceClient } = require('@azure/storage-blob');
+const { GenericContainer, Wait } = require('testcontainers');
 
-let startedContainer: StartedTestContainer;
+let startedContainer;
 
 const createAzuriteContainer = async () => {
 	startedContainer = await new GenericContainer('mcr.microsoft.com/azure-storage/azurite')
@@ -24,14 +24,15 @@ const createAzuriteContainer = async () => {
 	process.env.STORAGE_CONTAINER_NAME = 'documents-api-it-azurite';
 };
 
-const isBlobInStorage = async (blobId : string): Promise<boolean> => {
-
+const isBlobInStorage = async (blobId) => {
 	const blobContainerClient = await _getBlobContainerClient();
-	const blobIds: string[] = [];
-	
+	const blobIds = [];
+
 	try {
 		for await (const blob of blobContainerClient.listBlobsFlat({ includeMetadata: true })) {
-			blobIds.push(blob.metadata?.id!);
+			if (blob.metadata?.id !== null) {
+				blobIds.push(blob.metadata?.id);
+			}
 		}
 	} catch (err) {
 		console.log({ err }, 'Error listing blobs');
@@ -39,7 +40,7 @@ const isBlobInStorage = async (blobId : string): Promise<boolean> => {
 	}
 
 	return Promise.resolve(blobIds.includes(blobId));
-}
+};
 
 const destroyAzuriteContainer = async () => {
 	if (startedContainer) {
@@ -47,13 +48,13 @@ const destroyAzuriteContainer = async () => {
 	}
 };
 
-async function _getBlobContainerClient(): Promise<ContainerClient> {
+async function _getBlobContainerClient() {
 	try {
-		const blobContainerClient = BlobServiceClient
-			.fromConnectionString(process.env.BLOB_STORAGE_CONNECTION_STRING!)
-			.getContainerClient(process.env.STORAGE_CONTAINER_NAME!)
-		
-		await blobContainerClient.createIfNotExists()
+		const blobContainerClient = BlobServiceClient.fromConnectionString(
+			process.env.BLOB_STORAGE_CONNECTION_STRING
+		).getContainerClient(process.env.STORAGE_CONTAINER_NAME);
+
+		await blobContainerClient.createIfNotExists();
 
 		return Promise.resolve(blobContainerClient);
 	} catch (err) {

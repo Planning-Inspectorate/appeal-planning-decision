@@ -1,26 +1,16 @@
 const AppealFixtures = require('../fixtures/appeals');
-const {
-	HorizonCreateOrganisationRequestBodyExpectation
-} = require('../external-dependencies/rest-apis/expectations/horizon/create-organisation-request-body');
-const {
-	HorizonCreateContactRequestBodyExpectation
-} = require('../external-dependencies/rest-apis/expectations/horizon/create-contact-request-body');
-const {
-	HorizonCreateAppealRequestBodyExpectation
-} = require('../external-dependencies/rest-apis/expectations/horizon/create-appeal-request-body');
-const {
-	HorizonCreateAppealContactExpectation
-} = require('../external-dependencies/rest-apis/expectations/horizon/create-appeal-contact');
+const HorizonCreateOrganisationRequestBodyExpectation = require('../external-dependencies/rest-apis/expectations/horizon/create-organisation-request-body');
+const HorizonCreateContactRequestBodyExpectation = require('../external-dependencies/rest-apis/expectations/horizon/create-contact-request-body');
+const HorizonCreateAppealRequestBodyExpectation = require('../external-dependencies/rest-apis/expectations/horizon/create-appeal-request-body');
+const HorizonCreateAppealContactExpectation = require('../external-dependencies/rest-apis/expectations/horizon/create-appeal-contact');
 
-class HorizonIntegrationInputCondition {
-	#appealFixtures = new AppealFixtures();
-
-	get({
+module.exports = class HorizonIntegrationInputCondition {
+	static get({
 		description = 'a blank Horizon ID field',
 		setHorizonIdFunction = (appeal) => (appeal.horizonId = ''),
 		lpaCode = 'E69999999',
 		horizonLpaCode = '',
-		appeal = this.#appealFixtures.newHouseholderAppeal(),
+		appeal = AppealFixtures.newHouseholderAppeal(),
 		expectedContactRequests = [
 			{
 				firstName: 'Appellant',
@@ -30,6 +20,7 @@ class HorizonIntegrationInputCondition {
 				orgId: null
 			}
 		],
+		expectedContactIdsInCreateAppealRequest = [`P_0`],
 		expectedOrganisationNamesInCreateOrganisationRequests = [],
 		expectedNameOnAppealSuccessfullySubmittedEmail = 'Appellant Name',
 		expectedCaseworkReason = appeal.appealType == '1001'
@@ -59,7 +50,7 @@ class HorizonIntegrationInputCondition {
 			);
 			createAppealRequestContacts.push(
 				new HorizonCreateAppealContactExpectation(
-					`P_${index}`,
+					expectedContactIdsInCreateAppealRequest[index],
 					`${expectedRequest.firstName} ${expectedRequest.lastName}`,
 					expectedRequest.type
 				)
@@ -79,8 +70,8 @@ class HorizonIntegrationInputCondition {
 			lpa: lpaExpectations,
 			appeal: appeal,
 			expectations: {
-				createContactInHorizonRequests: createContactInHorizonRequests,
 				createOrganisationInHorizonRequests: createOrganisationInHorizonRequests,
+				createContactInHorizonRequests: createContactInHorizonRequests,
 				createAppealInHorizonRequest: {}, // Populated later
 				emailToAppellant: {
 					name: expectedNameOnAppealSuccessfullySubmittedEmail
@@ -139,6 +130,4 @@ class HorizonIntegrationInputCondition {
 
 		return condition;
 	}
-}
-
-module.exports = HorizonIntegrationInputCondition;
+};

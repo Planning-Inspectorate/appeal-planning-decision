@@ -26,7 +26,7 @@
 		"test:watch": "jest --watchAll --runInBand"
 	},
 	"dependencies": {
-		"@ministryofjustice/frontend": "0.2.0",
+		"@ministryofjustice/frontend": "^1.6.4",
 		"@pins/business-rules": "file:../business-rules",
 		"@pins/common": "file:../common",
 		"@planning-inspectorate/pins-clamav-rest-client": "^1.0.0",
