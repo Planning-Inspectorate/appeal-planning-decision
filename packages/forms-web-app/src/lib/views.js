@@ -95,7 +95,8 @@ const VIEW = {
 	},
 
 	FINAL_COMMENT: {
-		FINAL_COMMENT: 'final-comment/final-comment'
+		FINAL_COMMENT: 'final-comment/final-comment',
+		COMMENTS_QUESTION: 'final-comment/comments-question'
 	},
 
 	FULL_APPEAL: {
