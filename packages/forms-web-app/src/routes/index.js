@@ -34,13 +34,18 @@ router.use(
 	checkDecisionDateDeadline,
 	appellantSubmissionRouter
 );
+
+// This router must go before /full-appeal router because
+// we don't want to use checkAppealTypeExists middleware
 router.use('/full-appeal/submit-final-comment', submitFinalCommentRouter);
+
 router.use(
 	'/full-appeal',
 	checkAppealTypeExists,
 	checkDecisionDateDeadline,
 	fullAppealAppellantSubmissionRouter
 );
+
 router.use('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 router.use('/your-planning-appeal', yourPlanningAppealRouter);
 router.use('/before-you-start', beforeYouStartRouter);
