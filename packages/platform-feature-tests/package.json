@@ -10,10 +10,13 @@
 	"license": "ISC",
 	"devDependencies": {
 		"@bahmutov/cypress-esbuild-preprocessor": "^2.1.5",
-		"cypress": "^10.11.0",
+		"@cypress/webpack-preprocessor": "^5.16.2",
+		"cypress": "^12.3.0",
 		"esbuild": "^0.17.3"
 	},
 	"dependencies": {
-		"@badeball/cypress-cucumber-preprocessor": "^15.1.2"
+		"@badeball/cypress-cucumber-preprocessor": "^15.1.2",
+		"cucumber": "^6.0.7",
+		"webpack": "^5.75.0"
 	}
 }
