@@ -182,3 +182,8 @@ junit.xml
 
 # CI
 .release-version
+
+# Cypress
+packages/platform-feature-tests/cypress/screenshots/
+packages/platform-feature-tests/cypress/videos/
+
