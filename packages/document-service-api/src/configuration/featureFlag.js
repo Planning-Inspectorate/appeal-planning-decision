@@ -52,7 +52,9 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 
 	const featureFlagConfiguration = featureFlagCache[flagName];
 	const userGroup = featureFlagConfiguration.conditions.client_filters[0].parameters.Audience.Users;
-	const isUserInUserGroup = userGroup.includes(localPlanningAuthorityCode);
+	const isUserInUserGroup =
+		(Array.isArray(userGroup) && !userGroup.length) ||
+		userGroup.includes(localPlanningAuthorityCode);
 	logger.info(
 		'Feature flag: ' + featureFlagConfiguration.id + ' ' + featureFlagConfiguration.enabled
 	);
