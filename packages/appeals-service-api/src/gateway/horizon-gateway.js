@@ -13,7 +13,7 @@ class HorizonGateway {
 
 	/**
 	 *
-	 * @param {AppealContactValueObject} appealContactDetail
+	 * @param {AppealContactValueObject} appealContact
 	 * @returns {Promise<HorizonResponseValue>} If an error has occurred, `getValue()` will return the error message
 	 * provided by Horizon. If no error occurred, `getValue()` will return the ID for the organisation in Horizon.
 	 */

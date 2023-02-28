@@ -61,7 +61,10 @@ class BackOfficeMapper {
 			documents
 		);
 	}
-
+	/**
+	 * @param {AppealContactsValueObject} appealContactDetails
+	 * @returns
+	 */
 	#getOrganisationsJson(appealContactDetails) {
 		const result = [];
 		// Check for names here: if one hasn't been set, its because the organisation for the type
@@ -72,7 +75,10 @@ class BackOfficeMapper {
 			result.push({ horizon_id: null, type: 'agent', failures: [] });
 		return result;
 	}
-
+	/**
+	 * @param {AppealContactsValueObject} appealContactDetails
+	 * @returns
+	 */
 	#getContactsJson(appealContactDetails) {
 		const result = [];
 		// Check for names here: if one hasn't been set, its because the contact for the type

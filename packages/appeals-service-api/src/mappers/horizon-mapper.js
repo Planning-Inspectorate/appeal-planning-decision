@@ -2,7 +2,7 @@ const logger = require('../lib/logger');
 
 class HorizonMapper {
 	/**
-	 * @param {AppealContactsValueObject} appealContactDetails
+	 * @param {AppealContactValueObject} appealContact
 	 * @return {any}
 	 */
 	appealContactToCreateOrganisationRequest(appealContact) {
