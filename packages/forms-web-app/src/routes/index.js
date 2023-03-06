@@ -21,6 +21,7 @@ const checkDecisionDateDeadline = require('../middleware/check-decision-date-dea
 const checkAppealTypeExists = require('../middleware/check-appeal-type-exists');
 const accessibilityStatementRouter = require('./accessibility-statement/accessibility-statement');
 const errorPageRouter = require('./error');
+const submitFinalCommentRouter = require('./full-appeal/submit-final-comment');
 
 router.use('/', homeRouter);
 router.use(guidancePagesRouter);
@@ -33,6 +34,7 @@ router.use(
 	checkDecisionDateDeadline,
 	appellantSubmissionRouter
 );
+router.use('/full-appeal/submit-final-comment', submitFinalCommentRouter);
 router.use(
 	'/full-appeal',
 	checkAppealTypeExists,
