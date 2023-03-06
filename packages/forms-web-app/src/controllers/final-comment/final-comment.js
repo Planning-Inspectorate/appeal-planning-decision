@@ -6,7 +6,10 @@ const {
 } = require('../../lib/views');
 
 const getAddFinalComment = async (req, res) => {
-	res.render(FINAL_COMMENT);
+	res.render(FINAL_COMMENT, {
+		finalComment: req.session?.finalComment?.finalComment,
+		hasSensitiveInformation: req.session?.finalComment?.doesNotIncludeSensitiveInformation
+	});
 };
 
 const postAddFinalComment = async (req, res) => {
