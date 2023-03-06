@@ -94,6 +94,10 @@ const VIEW = {
 		STAGES_APPEAL: 'guidance-pages/stages-appeal'
 	},
 
+	FINAL_COMMENT: {
+		FINAL_COMMENT: 'final-comment/final-comment'
+	},
+
 	FULL_APPEAL: {
 		ADVERTISING_YOUR_APPEAL: 'full-appeal/submit-appeal/advertising-your-appeal',
 		ANY_OF_FOLLOWING: 'full-appeal/any-of-following',
