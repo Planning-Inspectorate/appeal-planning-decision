@@ -1,18 +1,8 @@
 const { VIEW } = require('../../lib/views');
 
 exports.getCommentsQuestion = async (req, res) => {
-	let hasComments = null;
-
-	if (
-		req.session &&
-		req.session.finalComment &&
-		Object.prototype.hasOwnProperty.call(req.session.finalComment, 'hasComments')
-	) {
-		hasComments = req.session.finalComment.hasComments;
-	}
-
 	res.render(VIEW.FINAL_COMMENT.COMMENTS_QUESTION, {
-		hasComments
+		hasComments: req.session?.finalComment?.hasComments
 	});
 };
 
