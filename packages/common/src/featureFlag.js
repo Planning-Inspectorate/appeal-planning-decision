@@ -1,12 +1,17 @@
-const { AppConfigurationClient } = require('@azure/app-configuration');
-const config = require('./config');
-const logger = require('../lib/logger');
-
-const appConfigClient = new AppConfigurationClient(config.featureFlagging.endpoint);
-const cacheTimeToLiveInMinutes = config.featureFlagging.timeToLiveInMinutes;
-let featureFlagCache = {};
-
 const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
+	if (process.env.FEATURE_FLAGS_SETTING == 'ALL_ON') {
+		return true;
+	}
+
+	const { AppConfigurationClient } = require('@azure/app-configuration');
+	const config = require('./config');
+	const logger = require('./lib/logger');
+
+	const appConfigClient = new AppConfigurationClient(config.featureFlagging.endpoint);
+	// TODO if (appConfigClient === undefined) {return false}
+	const cacheTimeToLiveInMinutes = config.featureFlagging.timeToLiveInMinutes;
+	let featureFlagCache = {};
+
 	let flagName = featureFlagName.toString().trim();
 
 	logger.info(`Retrieving configuration for feature flag with name '${flagName}'`);
