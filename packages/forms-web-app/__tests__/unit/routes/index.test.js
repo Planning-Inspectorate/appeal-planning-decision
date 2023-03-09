@@ -5,8 +5,8 @@ const homeRouter = require('../../../src/routes/home');
 const cookieRouter = require('../../../src/routes/cookies');
 const guidancePagesRouter = require('../../../src/routes/guidance-pages');
 const yourPlanningAppealRouter = require('../../../src/routes/your-planning-appeal');
-const fullAppealAppellantSubmissionRouter = require('../../../src/routes/full-appeal/submit-appeal');
-const fullAppealRouter = require('../../../src/routes/full-appeal/index');
+const fullAppealRouter = require('../../../src/routes/full-appeal/submit-appeal');
+const fullAppealBeforeYouStartRouter = require('../../../src/routes/full-appeal/index');
 const householderPlanningRouter = require('../../../src/routes/householder-planning/index');
 const documentRouter = require('../../../src/routes/document');
 const beforeYouStartRouter = require('../../../src/routes/before-you-start/before-you-start');
@@ -14,6 +14,11 @@ const submitAppealRouter = require('../../../src/routes/submit-appeal');
 const saveAndReturnRouter = require('../../../src/routes/save');
 const checkDecisionDateDeadline = require('../../../src/middleware/check-decision-date-deadline');
 const checkAppealTypeExists = require('../../../src/middleware/check-appeal-type-exists');
+const {
+	skipMiddlewareIfFinalComments
+} = require('../../../src/middleware/skip-middleware-if-final-comments');
+
+jest.mock('../../../src/middleware/skip-middleware-if-final-comments');
 
 describe('routes/index', () => {
 	beforeEach(() => {
@@ -37,9 +42,9 @@ describe('routes/index', () => {
 		);
 		expect(use).toHaveBeenCalledWith(
 			'/full-appeal',
-			checkAppealTypeExists,
-			checkDecisionDateDeadline,
-			fullAppealAppellantSubmissionRouter
+			skipMiddlewareIfFinalComments(checkAppealTypeExists),
+			skipMiddlewareIfFinalComments(checkDecisionDateDeadline),
+			fullAppealRouter
 		);
 		expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 		expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
@@ -47,7 +52,7 @@ describe('routes/index', () => {
 			'/before-you-start',
 			checkAppealTypeExists,
 			checkDecisionDateDeadline,
-			fullAppealRouter
+			fullAppealBeforeYouStartRouter
 		);
 		expect(use).toHaveBeenCalledWith(
 			'/before-you-start',
