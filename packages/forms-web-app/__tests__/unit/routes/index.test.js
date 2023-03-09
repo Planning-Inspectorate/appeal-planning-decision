@@ -13,7 +13,7 @@ const beforeYouStartRouter = require('../../../src/routes/before-you-start/befor
 const submitAppealRouter = require('../../../src/routes/submit-appeal');
 const saveAndReturnRouter = require('../../../src/routes/save');
 const checkDecisionDateDeadline = require('../../../src/middleware/check-decision-date-deadline');
-const checkAppealTypeExists = require('../../../src/middleware/check-appeal-type-exists');
+const checkPathAllowed = require('../../../src/middleware/check-path-allowed');
 const {
 	skipMiddlewareIfFinalComments
 } = require('../../../src/middleware/skip-middleware-if-final-comments');
@@ -36,13 +36,13 @@ describe('routes/index', () => {
 		expect(use).toHaveBeenCalledWith('/cookies', cookieRouter);
 		expect(use).toHaveBeenCalledWith(
 			'/appellant-submission',
-			checkAppealTypeExists,
+			checkPathAllowed,
 			checkDecisionDateDeadline,
 			appellantSubmissionRouter
 		);
 		expect(use).toHaveBeenCalledWith(
 			'/full-appeal',
-			skipMiddlewareIfFinalComments(checkAppealTypeExists),
+			skipMiddlewareIfFinalComments(checkPathAllowed),
 			skipMiddlewareIfFinalComments(checkDecisionDateDeadline),
 			fullAppealRouter
 		);
@@ -50,13 +50,13 @@ describe('routes/index', () => {
 		expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
 		expect(use).toHaveBeenCalledWith(
 			'/before-you-start',
-			checkAppealTypeExists,
+			checkPathAllowed,
 			checkDecisionDateDeadline,
 			fullAppealBeforeYouStartRouter
 		);
 		expect(use).toHaveBeenCalledWith(
 			'/before-you-start',
-			checkAppealTypeExists,
+			checkPathAllowed,
 			checkDecisionDateDeadline,
 			householderPlanningRouter
 		);
@@ -65,13 +65,13 @@ describe('routes/index', () => {
 		expect(use).toHaveBeenCalledWith('/before-you-start', beforeYouStartRouter);
 		expect(use).toHaveBeenCalledWith(
 			'/submit-appeal',
-			checkAppealTypeExists,
+			checkPathAllowed,
 			checkDecisionDateDeadline,
 			submitAppealRouter
 		);
 		expect(use).toHaveBeenCalledWith(
 			'/save-and-return',
-			checkAppealTypeExists,
+			checkPathAllowed,
 			checkDecisionDateDeadline,
 			saveAndReturnRouter
 		);
