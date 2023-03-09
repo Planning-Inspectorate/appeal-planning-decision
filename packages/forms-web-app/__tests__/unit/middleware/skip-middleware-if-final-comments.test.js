@@ -17,7 +17,7 @@ describe('middleware/skip-middleware-if-final-comments', () => {
 		expect(mockNext).toHaveBeenCalled();
 	});
 
-	it('does call function if path contains submit-final-comment', () => {
+	it('calls function if path does not contain submit-final-comment', () => {
 		mockReq.path = '/submit-appeal/email-address ';
 		const result = skipMiddlewareIfFinalComments(mockFunction);
 

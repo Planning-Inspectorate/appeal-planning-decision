@@ -1,4 +1,4 @@
-const checkAppealTypeExists = (req, res, next) => {
+const checkPathAllowed = (req, res, next) => {
 	const { session: { appeal } = {} } = req;
 
 	const allowList = [
@@ -30,4 +30,4 @@ const checkAppealTypeExists = (req, res, next) => {
 	return res.redirect('/before-you-start');
 };
 
-module.exports = checkAppealTypeExists;
+module.exports = checkPathAllowed;
