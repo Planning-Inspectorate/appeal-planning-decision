@@ -111,3 +111,19 @@ interface promiseTimeout {
 	(timeoutValueInMS: number, promise: Promise): Promise;
 }
 ```
+
+## Feature Flag
+
+We have incorporated Azure feature flag functionality into the common package for use across the solution. Feature flags should be set up in portal under the 'app configuration' section, where you can select your desired environment and configure flags accordingly, and can be used by importing the `isFeatureActive` function from `@pins/common`, i.e; 
+
+```
+  const { isFeatureActive } = require('@pins/common');
+```
+
+ and then specifying the name of the feature flag in the parameters, i.e.:
+
+```
+  if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) { 
+    `feature implementation goes here`
+  }
+```

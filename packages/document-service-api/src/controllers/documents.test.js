@@ -35,7 +35,7 @@ jest.mock('../lib/blobStorage', () => ({
 
 jest.mock('../lib/deleteLocalFile');
 
-jest.mock('@pins/common/featureFlag', () => ({
+jest.mock('../../../common/src/featureFlag', () => ({
 	isFeatureActive: () => true
 }));
 
