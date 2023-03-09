@@ -60,6 +60,8 @@ const codeExpiredRouter = require('./code-expired');
 
 const requestNewCodeRouter = require('./request-new-code');
 
+const submitFinalCommentRouter = require('../submit-final-comment');
+
 const router = express.Router();
 
 router.use(taskListRouter);
@@ -121,5 +123,7 @@ router.use(cannotAppealRouter);
 router.use(appealAlreadySubmittedRouter);
 router.use(requestNewCodeRouter);
 router.use(codeExpiredRouter);
+
+router.use('/submit-final-comment', submitFinalCommentRouter);
 
 module.exports = router;

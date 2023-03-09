@@ -38,6 +38,6 @@ exports.postCommentsQuestion = async (req, res) => {
 	req.session.finalComment.hasComments = hasComments;
 
 	return hasComments
-		? res.redirect(VIEW.FINAL_COMMENT.FINAL_COMMENT)
-		: res.redirect(VIEW.FINAL_COMMENT.CHECK_YOUR_ANSWERS);
+		? res.redirect(`/${VIEW.FINAL_COMMENT.FINAL_COMMENT}`)
+		: res.redirect(`/${VIEW.FINAL_COMMENT.CHECK_YOUR_ANSWERS}`);
 };
