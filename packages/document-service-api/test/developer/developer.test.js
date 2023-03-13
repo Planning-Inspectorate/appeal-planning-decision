@@ -7,7 +7,6 @@ const each = require('jest-each').default;
 const { isBlobInStorage } = require('./testcontainer-helpers/azurite-container-helper');
 
 jest.mock('../../../common/src/featureFlag', () => ({
-	// jest.mock('file:../common/src/featureFlag', () => ({
 	isFeatureActive: () => true
 }));
 
