@@ -5,7 +5,9 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 
 	//if no env variable pointing to the config in azure, early return to avoid issues.
 	const config = require('./config');
-	if (config.featureFlagging.endpoint === undefined) {
+	const endpoint = config?.featureFlagging?.endpoint;
+
+	if (!endpoint || typeof endpoint !== 'string' || endpoint.length <= 1) {
 		return false;
 	}
 
