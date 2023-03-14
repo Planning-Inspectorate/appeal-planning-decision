@@ -18,6 +18,7 @@
 	},
 	"dependencies": {
 		"@pins/common": "file:../common",
+		"applicationinsights": "^2.5.0",
 		"body-parser": "^1.19.0",
 		"clamscan": "^2.0.1",
 		"express": "^4.17.1",
@@ -33,7 +34,7 @@
 		"eslint-plugin-jest": "^24.4.0",
 		"jest": "^28.1.1",
 		"jest-junit": "^13.2.0",
-		"nodemon": "^2.0.12",
+		"nodemon": "^2.0.21",
 		"pino-pretty": "^4.8.0"
 	}
 }
