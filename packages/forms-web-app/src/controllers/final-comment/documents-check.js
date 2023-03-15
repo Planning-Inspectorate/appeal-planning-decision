@@ -1,14 +1,12 @@
 const { VIEW } = require('../../lib/views');
 
 exports.getDocumentsCheck = async (req, res) => {
-	console.log('getDocumentsCheck', req.session);
 	res.render(VIEW.FINAL_COMMENT.DOCUMENTS_CHECK, {
-		hasDocuments: req.session?.finalComment?.hasDocuments
+		hasSupportingDocuments: req.session?.finalComment?.hasSupportingDocuments
 	});
 };
 
 exports.postDocumentsCheck = async (req, res) => {
-	console.log('postDocumentsCheck', req.session);
 	const {
 		body,
 		body: { errors = {}, errorSummary = [] }
@@ -26,10 +24,10 @@ exports.postDocumentsCheck = async (req, res) => {
 		req.session.finalComment = {};
 	}
 
-	const hasDocuments = body['documents-check'] === 'yes';
-	req.session.finalComment.hasDocuments = hasDocuments;
+	const hasSupportingDocuments = body['documents-check'] === 'yes';
+	req.session.finalComment.hasSupportingDocuments = hasSupportingDocuments;
 
-	return hasDocuments
+	return hasSupportingDocuments
 		? res.redirect(`/${VIEW.FINAL_COMMENT.UPLOAD_DOCUMENTS}`)
 		: res.redirect(`/${VIEW.FINAL_COMMENT.CHECK_YOUR_ANSWERS}`);
 };

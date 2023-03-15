@@ -2,7 +2,7 @@ const { VIEW } = require('../../lib/views');
 
 exports.getCommentsQuestion = async (req, res) => {
 	res.render(VIEW.FINAL_COMMENT.COMMENTS_QUESTION, {
-		hasComments: req.session?.finalComment?.hasComments
+		hasComment: req.session?.finalComment?.hasComment
 	});
 };
 
@@ -24,10 +24,10 @@ exports.postCommentsQuestion = async (req, res) => {
 		req.session.finalComment = {};
 	}
 
-	const hasComments = body['comments-question'] === 'yes';
-	req.session.finalComment.hasComments = hasComments;
+	const hasComment = body['comments-question'] === 'yes';
+	req.session.finalComment.hasComment = hasComment;
 
-	return hasComments
+	return hasComment
 		? res.redirect(`/${VIEW.FINAL_COMMENT.FINAL_COMMENT}`)
 		: res.redirect(`/${VIEW.FINAL_COMMENT.CHECK_YOUR_ANSWERS}`);
 };
