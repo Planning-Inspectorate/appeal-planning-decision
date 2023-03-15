@@ -22,12 +22,12 @@ describe('controllers/final-comment/comments-question', () => {
 		it('sets session correctly when comments-question yes', async () => {
 			req.body = { 'comments-question': 'yes' };
 			await postCommentsQuestion(req, res);
-			expect(req.session.finalComment.hasComments).toBe(true);
+			expect(req.session.finalComment.hasComment).toBe(true);
 		});
 		it('sets session correctly when comments-question no', async () => {
 			req.body = { 'comments-question': 'no' };
 			await postCommentsQuestion(req, res);
-			expect(req.session.finalComment.hasComments).toBe(false);
+			expect(req.session.finalComment.hasComment).toBe(false);
 		});
 	});
 });

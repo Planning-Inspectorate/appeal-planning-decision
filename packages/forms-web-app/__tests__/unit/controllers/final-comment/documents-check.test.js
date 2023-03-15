@@ -20,12 +20,12 @@ describe('controllers/final-comment/documents-check', () => {
 		it('sets session correctly when documents-check yes', async () => {
 			req.body = { 'documents-check': 'yes' };
 			await postDocumentsCheck(req, res);
-			expect(req.session.finalComment.hasDocuments).toBe(true);
+			expect(req.session.finalComment.hasSupportingDocuments).toBe(true);
 		});
 		it('sets session correctly when documents-check no', async () => {
 			req.body = { 'documents-check': 'no' };
 			await postDocumentsCheck(req, res);
-			expect(req.session.finalComment.hasDocuments).toBe(false);
+			expect(req.session.finalComment.hasSupportingDocuments).toBe(false);
 		});
 	});
 });
