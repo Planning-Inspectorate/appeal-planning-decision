@@ -1,0 +1,71 @@
+{# todo: change layout based on appeal type when component reused #}
+{% extends "layouts/full-appeal-banner/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "../../macros/multifile-upload-to-list.njk" import multifileUploadToList %}
+{% from "../../macros/uploaded-file-link.njk" import uploadedFileLink %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title = "Check your answers and submit your final comment - Submit final comment - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "Check your answers and submit your final comment",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+      <form action="" method="post" novalidate>
+            
+        {% if finalComment.finalCommentAsDocument | length %}
+            {% set finalCommentValue = summaryField(finalComment.finalComment, { 'data-cy': "supporting-documents" }) %}
+        {% else %}
+            {% set finalCommentValue = uploadedFileLink(finalComment.finalCommentAsDocument), { 'data-cy': "supporting-documents" } %}
+        {% endif %}
+
+        {{ govukSummaryList({
+            classes: "govuk-summary-list govuk-!-margin-bottom-9",
+            rows: [
+                {
+                    key: {
+                        text: "Final comments"
+                    },
+                    value: {
+                        text: finalCommentValue
+                    }
+                },
+                {
+                    key: {
+                        text: "Add supporting documents"
+                    },
+                    value: {
+                        text: summaryField(finalComment.hasSupportingDocuments, { 'data-cy': "has-supporting-documents" })
+                    }
+                },
+                {
+                    key: {
+                        text: "supporting documents"
+                    },
+                    value: {
+                        text: multifileUploadToList(finalComment.supportingDocuments, { 'data-cy': "supporting-documents" })
+                    }
+                }
+            ]
+        }) }}
+
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Submit final comments",
+            type: "submit",
+            attributes: { "data-cy":"button-save-and-continue"}
+          }) }}
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
