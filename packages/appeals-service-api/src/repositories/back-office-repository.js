@@ -3,7 +3,7 @@
 // ¯\_(ツ)_/¯
 const container = require('rhea');
 
-const { isFeatureActive } = require('../configuration/featureFlag');
+const { isFeatureActive } = require('@pins/common');
 const config = require('../configuration/config');
 const logger = require('../lib/logger');
 const { saveAppealAsSubmittedToBackOffice } = require('../services/appeal.service');

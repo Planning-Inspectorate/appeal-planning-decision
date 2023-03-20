@@ -6,7 +6,11 @@ const {
 } = require('../../lib/views');
 
 const getAddFinalComment = async (req, res) => {
-	res.render(FINAL_COMMENT);
+	res.render(FINAL_COMMENT, {
+		finalComment: req.session?.finalComment?.finalComment,
+		doesNotContainSensitiveInformation:
+			req.session?.finalComment?.doesNotContainSensitiveInformation
+	});
 };
 
 const postAddFinalComment = async (req, res) => {
@@ -16,7 +20,8 @@ const postAddFinalComment = async (req, res) => {
 	} = req;
 
 	const finalComment = body['final-comment'];
-	const hasSensitiveInformation = !(body['does-not-include-sensitive-information'] === 'i-confirm');
+	const doesNotContainSensitiveInformation =
+		body['does-not-include-sensitive-information'] === 'i-confirm';
 
 	// DEV ONLY - this check should not be necessary once this page is integrated into the full final-comment journey
 	if (!Object.keys(req.session).includes('finalComment')) {
@@ -26,7 +31,7 @@ const postAddFinalComment = async (req, res) => {
 	if (Object.keys(errors).length > 0) {
 		return res.render(FINAL_COMMENT, {
 			finalComment,
-			hasSensitiveInformation,
+			doesNotContainSensitiveInformation,
 			errors,
 			errorSummary
 		});
@@ -34,7 +39,8 @@ const postAddFinalComment = async (req, res) => {
 
 	try {
 		req.session.finalComment.finalComment = finalComment;
-		req.session.finalComment.doesNotIncludeSensitiveInformation = !hasSensitiveInformation;
+		req.session.finalComment.doesNotContainSensitiveInformation =
+			doesNotContainSensitiveInformation;
 
 		return res.redirect(`/full-appeal/submit-final-comment/documents-check`);
 	} catch (err) {
@@ -42,7 +48,7 @@ const postAddFinalComment = async (req, res) => {
 
 		return res.render(FINAL_COMMENT, {
 			finalComment,
-			hasSensitiveInformation,
+			doesNotContainSensitiveInformation,
 			errors,
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});

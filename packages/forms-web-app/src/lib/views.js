@@ -95,7 +95,11 @@ const VIEW = {
 	},
 
 	FINAL_COMMENT: {
-		FINAL_COMMENT: 'final-comment/final-comment'
+		FINAL_COMMENT: 'full-appeal/submit-final-comment/final-comment',
+		COMMENTS_QUESTION: 'full-appeal/submit-final-comment/comments-question',
+		FINAL_COMMENT_SUBMITTED: 'full-appeal/submit-final-comment/final-comment-submitted',
+		DOCUMENTS_CHECK: 'full-appeal/submit-final-comment/documents-check',
+		UPLOAD_DOCUMENTS: 'full-appeal/submit-final-comment/upload-documents'
 	},
 
 	FULL_APPEAL: {
