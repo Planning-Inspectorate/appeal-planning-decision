@@ -111,19 +111,3 @@ interface promiseTimeout {
 	(timeoutValueInMS: number, promise: Promise): Promise;
 }
 ```
-
-## Feature Flag
-
-We have incorporated Azure feature flag functionality into the common package for use across the solution. Feature flags should be set up via terraform and can be configured (enabled/disabled/users set) via portal under the 'app configuration' section, where you can select your desired environment and find all available flags accordingly, flags can be used within the codebase by importing the `isFeatureActive` function from `@pins/common`, i.e; 
-
-```
-  const { isFeatureActive } = require('@pins/common');
-```
-
- and then specifying the name of the feature flag in the parameters, i.e.:
-
-```
-  if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) { 
-    `feature implementation goes here`
-  }
-```

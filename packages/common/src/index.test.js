@@ -4,7 +4,6 @@ const healthcheck = require('./health');
 const prometheus = require('./prometheus');
 const utils = require('./utils');
 const documentTypes = require('./document-types');
-const { isFeatureActive } = require('./featureFlag');
 
 describe('index', () => {
 	it('should expose the underlying modules', () => {
@@ -13,8 +12,7 @@ describe('index', () => {
 			functional,
 			healthcheck,
 			prometheus,
-			documentTypes,
-			isFeatureActive
+			documentTypes
 		});
 	});
 });

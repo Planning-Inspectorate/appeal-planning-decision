@@ -16,7 +16,7 @@ const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
 const apiDocsRouter = require('./api-docs');
 const confirmEmailRouter = require('./confirm-email');
 const finalCommentsRouter = require('./final-comments');
-const { isFeatureActive } = require('@pins/common');
+const { isFeatureActive } = require('../configuration/featureFlag');
 
 router.use('/api/v1/appeals', appealsRouter);
 router.use('/api/v1/back-office', backOfficeRouter);
