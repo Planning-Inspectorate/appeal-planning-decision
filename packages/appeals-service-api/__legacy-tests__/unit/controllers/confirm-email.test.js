@@ -29,12 +29,11 @@ describe('Confirm Email API', () => {
 			req.body = appealStub;
 			confirmEmailCreateService.mockReturnValue('fakeReturnValue');
 
-
 			await confirmEmailCreate(req, res);
 			expect(confirmEmailCreateService).toHaveBeenCalledWith(appealStub);
 			expect(confirmEmailNotifyContinue).toHaveBeenCalledWith(appealStub);
 			expect(res.status).toHaveBeenCalledWith(201);
-			expect(res.send).toHaveBeenCalledWith({appealId: 'fakeReturnValue'})
+			expect(res.send).toHaveBeenCalledWith({ appealId: 'fakeReturnValue' });
 		});
 		it('should respond send with - {appealId: savedAppealId}', async () => {
 			const appealStub = {
@@ -43,11 +42,10 @@ describe('Confirm Email API', () => {
 			req.body = appealStub;
 			confirmEmailCreateService.mockReturnValue('fakeReturnValue');
 
-
 			await confirmEmailCreate(req, res);
 			expect(confirmEmailCreateService).toHaveBeenCalledWith(appealStub);
 			expect(confirmEmailNotifyContinue).toHaveBeenCalledWith(appealStub);
-			expect(res.send).toHaveBeenCalledWith({appealId: 'fakeReturnValue'})
+			expect(res.send).toHaveBeenCalledWith({ appealId: 'fakeReturnValue' });
 		});
 
 		it('should respond with - ERROR 400 when appealId is null', async () => {
