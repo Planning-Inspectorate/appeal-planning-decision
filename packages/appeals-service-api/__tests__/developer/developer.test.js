@@ -20,7 +20,7 @@ const AppealFixtures = require('./fixtures/appeals');
 const HorizonIntegrationInputCondition = require('./utils/horizon-integration-input-condition');
 
 const waitFor = require('./utils/waitFor');
-const { isFeatureActive } = require('@pins/common');
+const { isFeatureActive } = require('../../src/configuration/featureFlag');
 
 let appealsApi;
 let databaseConnection;
@@ -39,7 +39,7 @@ let testHorizonLpaCodeWales = 'H1234';
 
 jest.setTimeout(120000); // The Horizon integration tests need a bit of time to complete! This seemed like a good number (2 mins)
 jest.mock('../../src/db/db'); // TODO: We shouldn't need to do this, but we didn't have time to look at making this better. It should be possible to use the DB connection directly (not mock it)
-jest.mock('../../../common/src/featureFlag');
+jest.mock('../../src/configuration/featureFlag');
 
 beforeAll(async () => {
 	///////////////////////////////
