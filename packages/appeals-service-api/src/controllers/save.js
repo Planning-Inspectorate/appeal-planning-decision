@@ -1,8 +1,7 @@
 const {
-	saveAndReturnCreateService,
-	saveAndReturnNotifyContinue,
-	saveAndReturnNotifyCode,
-	saveAndReturnGetServiceToken
+	createSavedAppealDocument,
+	getSavedAppealDocument,
+	sendContinueWithAppealEmail
 } = require('../services/save-and-return.service');
 
 async function saveAndReturnCreate(req, res) {
@@ -11,25 +10,18 @@ async function saveAndReturnCreate(req, res) {
 		res.status(400).send('Invalid Id');
 		throw new Error('');
 	}
-	await saveAndReturnCreateService(appeal);
-	await saveAndReturnNotifyContinue(appeal);
+	await createSavedAppealDocument(appeal.id);
+	await sendContinueWithAppealEmail(appeal);
 	res.status(201).send(appeal);
 }
 
 async function saveAndReturnGet(req, res) {
-	const { token } = req.params;
-	const appeal = await saveAndReturnGetServiceToken(token);
+	const { id } = req.params;
+	const appeal = await getSavedAppealDocument(id);
 	res.status(200).send(appeal);
-}
-
-async function saveAndReturnToken(req, res) {
-	const appeal = req.body;
-	await saveAndReturnNotifyCode(appeal);
-	res.status(200).send({});
 }
 
 module.exports = {
 	saveAndReturnCreate,
-	saveAndReturnGet,
-	saveAndReturnToken
+	saveAndReturnGet
 };

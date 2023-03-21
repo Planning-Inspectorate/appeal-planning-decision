@@ -11,6 +11,7 @@ const appealsRouter = require('./appeals');
 const backOfficeRouter = require('./back-office');
 const forManualInterventionRouter = require('./for-manual-intervention');
 const saveRouter = require('./save');
+const tokenRouter = require('./token');
 const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
 const apiDocsRouter = require('./api-docs');
 const confirmEmailRouter = require('./confirm-email');
@@ -23,6 +24,7 @@ router.use('/api/v1/for-manual-intervention', forManualInterventionRouter);
 router.use('/api/v1/local-planning-authorities', localPlanningAuthoritiesRouter);
 router.use('/api-docs', apiDocsRouter);
 router.use('/api/v1/save', saveRouter);
+router.use('/api/v1/token', tokenRouter);
 router.use('/api/v1/confirm-email', confirmEmailRouter);
 router.use(
 	'/api/v1/final_comments',

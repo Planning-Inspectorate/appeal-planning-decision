@@ -135,7 +135,7 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	}
 };
 
-const sendSaveAndReturnEnterCodeIntoServiceEmail = async (recipientEmail, code, identifier) => {
+const sendSecurityCodeEmail = async (recipientEmail, code, identifier) => {
 	try {
 		const variables = {
 			'unique code': code
@@ -213,15 +213,6 @@ const sendFailureToUploadToHorizonEmail = async (appealId) => {
 	}
 };
 
-const createToken = () => {
-	const token = [];
-	for (let i = 0; i < 5; i += 1) {
-		const num = Math.floor(Math.random() * 9 + 1);
-		token.push(num);
-	}
-	return token.join('');
-};
-
 const _formatAddress = (addressJson) => {
 	let address = addressJson.addressLine1;
 	address += addressJson.addressLine2 && `\n${addressJson.addressLine2}`;
@@ -239,8 +230,7 @@ module.exports = {
 	sendSubmissionReceivedEmailToLpa,
 	sendSubmissionConfirmationEmailToAppellant,
 	sendSaveAndReturnContinueWithAppealEmail,
-	sendSaveAndReturnEnterCodeIntoServiceEmail,
+	sendSecurityCodeEmail,
 	sendConfirmEmailAddressEmail,
-	sendFailureToUploadToHorizonEmail,
-	createToken
+	sendFailureToUploadToHorizonEmail
 };
