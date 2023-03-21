@@ -2,11 +2,12 @@ const { VIEW } = require('../../lib/views');
 
 exports.getCheckYourAnswers = async (req, res) => {
 	res.render(VIEW.FINAL_COMMENT.CHECK_YOUR_ANSWERS, {
-		hasComments: req.session?.finalComment?.hasComments
+		hasComments: req.session?.finalComment?.hasComments,
+		finalComments: req.session?.finalComment
 	});
 };
 
-exports.postCommentsQuestion = async (req, res) => {
+exports.postCheckYourAnswers = async (req, res) => {
 	const {
 		body: { errors = {}, errorSummary = [] }
 	} = req;

@@ -1,4 +1,3 @@
-{# todo: change layout based on appeal type when component reused #}
 {% extends "layouts/full-appeal-banner/main.njk" %}
 
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
@@ -6,6 +5,7 @@
 {% from "../../macros/uploaded-file-link.njk" import uploadedFileLink %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "../../macros/summary-field.njk" import summaryField %}
 
 {% set title = "Check your answers and submit your final comment - Submit final comment - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
@@ -21,13 +21,16 @@
         }) }}
       {% endif %}
       <form action="" method="post" novalidate>
-            
-        {% if finalComment.finalCommentAsDocument | length %}
-            {% set finalCommentValue = summaryField(finalComment.finalComment, { 'data-cy': "supporting-documents" }) %}
-        {% else %}
-            {% set finalCommentValue = uploadedFileLink(finalComment.finalCommentAsDocument), { 'data-cy': "supporting-documents" } %}
-        {% endif %}
+        <h1 class="govuk-heading-l">
+					Check your answers and submit your final comment
+				</h1>
 
+        {% if finalComment.finalCommentAsDocument | length %}
+            {% set finalCommentValue = uploadedFileLink(finalComments.finalCommentAsDocument, { 'data-cy': "final-comments" }) %}
+        {% else %}
+            {% set finalCommentValue = summaryField(finalComments.finalComment, { 'data-cy': "final-comments" }) %}
+        {% endif %}
+        
         {{ govukSummaryList({
             classes: "govuk-summary-list govuk-!-margin-bottom-9",
             rows: [
@@ -37,6 +40,18 @@
                     },
                     value: {
                         text: finalCommentValue
+                    },
+                    actions: {
+                      items: [
+                        {
+                          href: "/full-appeal/submit-final-comment/final-comment",
+                          text: "Change",
+                          visuallyHiddenText: "your final comments",
+                          attributes: {
+                            "data-cy": "change-final-comments"
+                          }
+                        }
+                      ]
                     }
                 },
                 {
@@ -44,7 +59,19 @@
                         text: "Add supporting documents"
                     },
                     value: {
-                        text: summaryField(finalComment.hasSupportingDocuments, { 'data-cy': "has-supporting-documents" })
+                        text: summaryField(finalComments.hasSupportingDocuments, { 'data-cy': "has-supporting-documents" })
+                    },
+                    actions: {
+                      items: [
+                        {
+                          href: "/full-appeal/submit-final-comment/documents-check",
+                          text: "Change",
+                          visuallyHiddenText: "do you have supporting documents",
+                          attributes: {
+                            "data-cy": "change-has-supporting-documents"
+                          }
+                        }
+                      ]
                     }
                 },
                 {
@@ -52,7 +79,19 @@
                         text: "supporting documents"
                     },
                     value: {
-                        text: multifileUploadToList(finalComment.supportingDocuments, { 'data-cy': "supporting-documents" })
+                        text: multifileUploadToList(finalComments.supportingDocuments, { 'data-cy': "supporting-documents" })
+                    },
+                    actions: {
+                      items: [
+                        {
+                          href: "/full-appeal/submit-final-comment/upload-documents",
+                          text: "Change",
+                          visuallyHiddenText: "your supporting-documents",
+                          attributes: {
+                            "data-cy": "change-supporting-documents"
+                          }
+                        }
+                      ]
                     }
                 }
             ]
