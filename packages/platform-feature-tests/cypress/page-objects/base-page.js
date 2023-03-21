@@ -1,6 +1,6 @@
 export class BasePage {
 
-    elements = {
+    basePageElements = {
         acceptCookiesBtn: () => cy.get('[data-cy="cookie-banner-accept-analytics-cookies"]'),
         declineCookiesBtn: () => cy.get('[data-cy="cookie-banner-reject-analytics-cookies"]'), 
         pageHeading: () => cy.get('.govuk-heading-l'),
@@ -12,19 +12,19 @@ export class BasePage {
     }
 
     clickContinueBtn(){
-        this.elements.continueBtn().click();
+        this.basePageElements.continueBtn().click();
     }
 
     clickSaveAndContiuneBtn(){
-        this.elements.saveAndContiuneBtn().click();
+        this.basePageElements.saveAndContiuneBtn().click();
     }
 
     acceptCookies(){
-        this.elements.acceptCookiesBtn().click();
+        this.basePageElements.acceptCookiesBtn().click();
     }
 
     declineCookies(){
-        this.elements.declineCookiesBtn().click();
+        this.basePageElements.declineCookiesBtn().click();
     }
 
     verifyPageHeading(pageHeading){
@@ -32,11 +32,11 @@ export class BasePage {
     }
 
     selectCheckBox(checkBoxValue){
-        this.elements.checkBox().check(checkBoxValue)
+        this.basePageElements.checkBox().check(checkBoxValue)
     }
 
     selectRadioBtn(radioBtnValue){
-        this.elements.radioBtn.check(radioBtnValue)
+        this.basePageElements.radioBtn.check(radioBtnValue)
     }
 }
 
