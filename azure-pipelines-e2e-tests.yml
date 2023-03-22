@@ -31,10 +31,10 @@ extends:
             environmentVariables:
               CYPRESS_INSTALL_BINARY: 0
           nodeVersion: 14
-          script: make install
+          script: npm run test-cypress:e2e
     postTestRunSteps:
       - template: steps/node_script.yml@templates
         parameters:
           nodeVersion: 14
-          script: npm run test:e2e:postprocess
+          script: npm run test-cypress:e2e:postprocess
     workingDirectory: packages/e2e-tests

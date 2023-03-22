@@ -3,12 +3,12 @@
 	"version": "1.0.0",
 	"description": "E2E tests for appeals and lpa questionnaire",
 	"scripts": {
-		"test:e2e": "cypress run -e TAGS='not @wip'",
-		"test:e2e:demo": "cypress run --headed -b chrome -e TAGS='not @wip',demoDelay=1000",
-		"test:e2e:postprocess": "node ./reporter.js",
-		"test:e2e:files": "./create-large-test-files.sh",
-		"test:e2e:smoke": "cypress run -e",
-		"test:e2e:horizon:script": "cypress run --headed -b chrome --env QUEUE_VALIDATION_ENABLED=false --spec='**/*horizon*.feature'"
+		"test-cypress:e2e": "cypress run -e TAGS='not @wip'",
+		"test-cypress:e2e:demo": "cypress run --headed -b chrome -e TAGS='not @wip',demoDelay=1000",
+		"test-cypress:e2e:postprocess": "node ./reporter.js",
+		"test-cypress:e2e:files": "./create-large-test-files.sh",
+		"test-cypress:e2e:smoke": "cypress run -e",
+		"test-cypress:e2e:horizon:script": "cypress run --headed -b chrome --env QUEUE_VALIDATION_ENABLED=false --spec='**/*horizon*.feature'"
 	},
 	"author": "",
 	"license": "ISC",
