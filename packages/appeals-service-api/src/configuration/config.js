@@ -48,10 +48,6 @@ let config = {
 			'config.services.notify.apiKey'
 		]
 	},
-	featureFlagging: {
-		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_ENDPOINT,
-		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
-	},
 	messageQueue: {
 		horizonHASPublisher: {
 			connection: {

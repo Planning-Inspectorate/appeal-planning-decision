@@ -8,7 +8,7 @@ const {
 } = require('../lib/blobStorage');
 const deleteLocalFile = require('../lib/deleteLocalFile');
 const { documentTypes } = require('@pins/common');
-const { isFeatureActive } = require('../configuration/featureFlag');
+const { isFeatureActive } = require('@pins/common');
 const logger = require('../lib/logger');
 
 const getDocumentsForApplication = async (req, res) => {

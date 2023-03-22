@@ -94,6 +94,15 @@ const VIEW = {
 		STAGES_APPEAL: 'guidance-pages/stages-appeal'
 	},
 
+	FINAL_COMMENT: {
+		ENTER_CODE: 'final-comment/enter-security-code',
+		FINAL_COMMENT: 'full-appeal/submit-final-comment/final-comment',
+		COMMENTS_QUESTION: 'full-appeal/submit-final-comment/comments-question',
+		FINAL_COMMENT_SUBMITTED: 'full-appeal/submit-final-comment/final-comment-submitted',
+		DOCUMENTS_CHECK: 'full-appeal/submit-final-comment/documents-check',
+		UPLOAD_DOCUMENTS: 'full-appeal/submit-final-comment/upload-documents'
+	},
+
 	FULL_APPEAL: {
 		ADVERTISING_YOUR_APPEAL: 'full-appeal/submit-appeal/advertising-your-appeal',
 		ANY_OF_FOLLOWING: 'full-appeal/any-of-following',

@@ -1,12 +1,23 @@
-const { AppConfigurationClient } = require('@azure/app-configuration');
-const config = require('./config');
-const logger = require('../lib/logger');
-
-const appConfigClient = new AppConfigurationClient(config.featureFlagging.endpoint);
-const cacheTimeToLiveInMinutes = config.featureFlagging.timeToLiveInMinutes;
-let featureFlagCache = {};
-
 const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
+	if (process.env.FEATURE_FLAGS_SETTING == 'ALL_ON') {
+		return true;
+	}
+
+	//if no env variable pointing to the config in azure, early return to avoid issues.
+	const config = require('./config');
+	const endpoint = config?.featureFlagging?.endpoint;
+
+	if (!endpoint || typeof endpoint !== 'string' || endpoint.length <= 1) {
+		return false;
+	}
+
+	const { AppConfigurationClient } = require('@azure/app-configuration');
+	const logger = require('./lib/logger');
+
+	const appConfigClient = new AppConfigurationClient(config.featureFlagging.endpoint);
+	const cacheTimeToLiveInMinutes = config.featureFlagging.timeToLiveInMinutes;
+	let featureFlagCache = {};
+
 	let flagName = featureFlagName.toString().trim();
 
 	logger.info(`Retrieving configuration for feature flag with name '${flagName}'`);
@@ -52,7 +63,9 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 
 	const featureFlagConfiguration = featureFlagCache[flagName];
 	const userGroup = featureFlagConfiguration.conditions.client_filters[0].parameters.Audience.Users;
-	const isUserInUserGroup = userGroup.includes(localPlanningAuthorityCode);
+	const isUserInUserGroup =
+		(Array.isArray(userGroup) && !userGroup.length) ||
+		userGroup.includes(localPlanningAuthorityCode);
 	logger.info(
 		'Feature flag: ' + featureFlagConfiguration.id + ' ' + featureFlagConfiguration.enabled
 	);

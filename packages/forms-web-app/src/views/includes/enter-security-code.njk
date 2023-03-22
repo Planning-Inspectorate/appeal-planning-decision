@@ -1,0 +1,39 @@
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+
+<div class="govuk-grid-row">
+	<div class="govuk-grid-column-two-thirds">
+		<form action="" method="POST" novalidate>
+			<h1 class="govuk-heading-l">Enter the code we sent to your email address</h1>
+
+			<p>We have sent a code to your email address. It might take a few minutes to arrive. The code will expire after 30 minutes.</p>
+
+			{% call govukFieldset({
+				legend: {
+					text: "What is the 5 digit security code?",
+					classes: "govuk-fieldset__legend--m"
+				}
+			}) %}
+				{{ govukInput({
+					classes: "govuk-input govuk-input--width-5",
+					id: "email-code",
+					name: "email-code",
+					spellcheck: false,
+					value: email-code,
+					errorMessage: errors['email-code-name'] and {
+						text: errors['email-code-name'].msg
+					}
+				}) }}
+			{% endcall %}
+
+			{{ govukButton({
+				text: "Continue",
+				type: "submit",
+				attributes: { "data-cy":"button-save-and-continue"}
+			}) }}
+		</form>
+		<p class='govuk-body'>Check if the email has gone to your spam or junk folder. If it is not there, we can <a href="{{requestNewCodeLink}}">resend the email</a>.</p>
+	</div>
+</div>

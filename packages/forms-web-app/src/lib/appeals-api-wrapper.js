@@ -86,24 +86,38 @@ exports.submitAppealForBackOfficeProcessing = async (appeal) => {
 	return savedAppeal;
 };
 
-exports.getExistingAppeal = async (sessionId) => {
-	return handler(`/api/v1/appeals/${sessionId}`);
+exports.getExistingAppeal = async (appealId) => {
+	return handler(`/api/v1/appeals/${appealId}`);
 };
 
 exports.getLPAList = async () => {
 	return handler('/api/v1/local-planning-authorities');
 };
 
-exports.getSavedAppeal = async (token) => {
-	return handler(`/api/v1/save/${token}`, 'GET');
+exports.getSavedAppeal = async (id) => {
+	return handler(`/api/v1/save/${id}`, 'GET');
 };
 
 exports.saveAppeal = async (appeal) => {
 	return handler(`/api/v1/save`, 'POST', { body: JSON.stringify(appeal) });
 };
 
-exports.sendToken = async (appeal) => {
-	return handler(`/api/v1/save/`, 'PATCH', { body: JSON.stringify(appeal) });
+exports.sendToken = async (id, emailAddress) => {
+	return handler(`/api/v1/token/`, 'PUT', {
+		body: JSON.stringify({
+			id,
+			emailAddress
+		})
+	});
+};
+
+exports.checkToken = async (id, token) => {
+	return handler(`/api/v1/token/`, 'POST', {
+		body: JSON.stringify({
+			id,
+			token
+		})
+	});
 };
 
 exports.createConfirmEmail = async (appeal) => {

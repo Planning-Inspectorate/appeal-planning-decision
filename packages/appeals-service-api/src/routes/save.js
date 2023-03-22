@@ -1,17 +1,11 @@
 const express = require('express');
 
-const {
-	saveAndReturnGet,
-	saveAndReturnCreate,
-	saveAndReturnToken
-} = require('../controllers/save');
+const { saveAndReturnGet, saveAndReturnCreate } = require('../controllers/save');
 
 const router = express.Router();
 
-router.get('/:token', saveAndReturnGet);
+router.get('/:id', saveAndReturnGet);
 
 router.post('/', saveAndReturnCreate);
-
-router.patch('/', saveAndReturnToken);
 
 module.exports = router;
