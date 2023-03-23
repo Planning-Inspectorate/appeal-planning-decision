@@ -8,22 +8,26 @@ const {
 		FULL_APPEAL: { TASK_LIST, ENTER_CODE, REQUEST_NEW_CODE, CODE_EXPIRED, APPEAL_ALREADY_SUBMITTED }
 	}
 } = require('../../../lib/full-appeal/views');
-const { isTokenExpired } = require('../../../lib/is-token-expired');
+const { isTokenValid } = require('../../../lib/is-token-valid');
 
 const getEnterCode = async (req, res) => {
 	const {
 		session: { appeal }
 	} = req;
 	const url = `/${REQUEST_NEW_CODE}`;
-	await sendToken(appeal);
+	await sendToken(appeal.id);
 	res.render(ENTER_CODE, {
 		requestNewCodeLink: url
 	});
 };
 
 const postEnterCode = async (req, res) => {
-	const { body } = req;
-	const { errors = {}, errorSummary = [] } = body;
+	const {
+		body: { errors = {}, errorSummary = [] },
+		session: {
+			appeal: { id }
+		}
+	} = req;
 	const token = req.body['email-code'];
 
 	if (Object.keys(errors).length > 0) {
@@ -35,27 +39,29 @@ const postEnterCode = async (req, res) => {
 		return;
 	}
 
-	let saved;
+	const tokenValid = await isTokenValid(id, token);
+
+	if (!tokenValid) {
+		res.redirect(`/${CODE_EXPIRED}`);
+		return;
+	}
+
+	let savedAppeal;
 	try {
-		saved = await getSavedAppeal(token);
+		savedAppeal = await getSavedAppeal(id);
 	} catch (err) {
 		return res.render(ENTER_CODE, {
 			errors,
-			errorSummary: [{ text: 'No appeal was found for the given token', href: '#' }]
+			errorSummary: [{ text: 'No saved appeal was found for the given id', href: '#' }]
 		});
 	}
 
-	const tokenCreatedTime = new Date(saved.createdAt);
+	req.session.appeal = await getExistingAppeal(savedAppeal.appealId);
 
-	if (!isTokenExpired(30, tokenCreatedTime)) {
-		req.session.appeal = await getExistingAppeal(saved.appealId);
-		if (req.session.appeal.state === 'SUBMITTED') {
-			res.redirect(`/${APPEAL_ALREADY_SUBMITTED}`);
-		} else {
-			res.redirect(`/${TASK_LIST}`);
-		}
+	if (req.session.appeal.state === 'SUBMITTED') {
+		res.redirect(`/${APPEAL_ALREADY_SUBMITTED}`);
 	} else {
-		res.redirect(`/${CODE_EXPIRED}`);
+		res.redirect(`/${TASK_LIST}`);
 	}
 };
 

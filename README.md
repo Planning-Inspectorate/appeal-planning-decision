@@ -563,3 +563,25 @@ To access the data, please use the [Azure Portal](https://portal.azure.com).
 ### Source Code Structure
 
 Where appropriate the source code must be split out into a hierarchy by appeal type. Several examples of this may be found under cypress tests (i.e. /packages/e2e-tests/cypress/integration), forms-web-app (i.e. /packages/forms-web-app/src/routes/), and many others.
+
+## Feature Flag
+
+We have incorporated Azure feature flag functionality into the common package for use across the solution. Feature flags should be set up via terraform and can be configured (enabled/disabled/users set) via portal under the 'app configuration' section, where you can select your desired environment and find all available flags accordingly, flags can be used within the codebase by importing the `isFeatureActive` function from the FeatureFlag file in your current package, i.e; 
+
+```
+  const { isFeatureActive } = require('{{featureFlagFileLocation}}');
+```
+
+ and then specifying the name of the feature flag in the parameters, i.e.:
+
+```
+  if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) { 
+    `feature implementation goes here`
+  }
+```
+
+## Common issues and fixes
+
+### Document service API crashes on startup with error "Invalid connection string"
+
+The connection string for `document-service-api` can be configured in the root `docker-compose.yml`. Under `environment:`, there should be a variable named `PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING` (add this if it's not already present). This should be populated with the connection string found on the Azure Access Keys page. For local development, this will be pins-asc-appeals-dev-ukw-001 access keys > Read-Write keys > Primary key > Connection string.
