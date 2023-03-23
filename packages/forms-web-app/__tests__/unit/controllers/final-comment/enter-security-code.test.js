@@ -10,6 +10,11 @@ const {
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 const { isTokenValid } = require('../../../../src/lib/is-token-valid');
+const {
+	validation: {
+		securityCodeMaxAttempts: { finalComment: finalCommentSecurityCodeMaxAttempts }
+	}
+} = require('../../../../src/config');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');
@@ -42,7 +47,8 @@ describe('controllers/final-comment/enter-security-code', () => {
 	describe('postEnterSecurityCode', () => {
 		beforeEach(() => {
 			req.session.finalComment = {
-				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea'
+				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				email: 'test@planninginspectorate.gov.uk'
 			};
 		});
 		it('should re-render the enter code page in an error state if errors are present in the body', async () => {
@@ -64,21 +70,52 @@ describe('controllers/final-comment/enter-security-code', () => {
 				errorSummary: req.body.errorSummary
 			});
 		});
-		it('should re-render the enter code page in an error state if the entered token is not valid', async () => {
+		it('should increment req.session.finalComment.incorrectSecurityCodeAttempts by one, and re-render the enter code page in an error state with the expected error message text, if the entered token is not valid', async () => {
 			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
-
 			req.body = {
 				'email-code': '68365'
 			};
 
 			isTokenValid.mockReturnValue(false);
 
+			req.session.finalComment.incorrectSecurityCodeAttempts = 0;
+
 			await postEnterSecurityCode(req, res);
 
+			expect(req.session.finalComment.incorrectSecurityCodeAttempts).toBe(1);
 			expect(res.render).toBeCalledWith(ENTER_CODE, {
 				token: req.body['email-code'],
 				errors: true,
 				errorSummary: [{ text: 'Enter a correct code', href: '#' }]
+			});
+		});
+		it('should call sendToken with id and email from req.session.finalComment to generate a new code, reset req.session.finalComment.incorrectSecurityCodeAttempts to zero, and re-render the enter code page in an error state with the expected error message text, if the entered token is not valid and an incorrect code has been entered finalCommentSecurityCodeMaxAttempts times', async () => {
+			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
+			req.body = {
+				'email-code': '68365'
+			};
+
+			isTokenValid.mockReturnValue(false);
+
+			req.session.finalComment.incorrectSecurityCodeAttempts =
+				finalCommentSecurityCodeMaxAttempts - 1;
+
+			await postEnterSecurityCode(req, res);
+
+			expect(sendToken).toBeCalledWith(
+				'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				'test@planninginspectorate.gov.uk'
+			);
+			expect(req.session.finalComment.incorrectSecurityCodeAttempts).toBe(0);
+			expect(res.render).toBeCalledWith(ENTER_CODE, {
+				token: req.body['email-code'],
+				errors: true,
+				errorSummary: [
+					{
+						text: 'You have entered an incorrect code too many times. We have sent a new code to your email address.',
+						href: '#'
+					}
+				]
 			});
 		});
 		it('should redirect to the comments-question page if the entered token is valid', async () => {
