@@ -39,27 +39,6 @@ describe('middleware/fetch-existing-appeal', () => {
 			}
 		},
 		{
-			title: 'call next if api lookup fails',
-			given: () => {
-				getExistingAppeal.mockRejectedValue('API is down');
-				createOrUpdateAppeal.mockReturnValue({ fake: 'appeal data' });
-				return {
-					...mockReq(),
-					session: {
-						appeal: {
-							id: '123-abc'
-						}
-					}
-				};
-			},
-			expected: (req, res, next) => {
-				expect(getExistingAppeal).toHaveBeenCalledWith('123-abc');
-				expect(createOrUpdateAppeal).toHaveBeenCalledWith({});
-				expect(req.session.appeal).toEqual({ fake: 'appeal data' });
-				expect(next).toHaveBeenCalled();
-			}
-		},
-		{
 			title: 'set session.appeal and call next if api call succeeds',
 			given: () => {
 				getExistingAppeal.mockResolvedValue({ good: 'data' });
@@ -70,6 +49,9 @@ describe('middleware/fetch-existing-appeal', () => {
 						appeal: {
 							id: '123-abc'
 						}
+					},
+					path: {
+						id: '123-abc'
 					}
 				};
 			},

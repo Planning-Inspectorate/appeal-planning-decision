@@ -11,11 +11,8 @@ const {
 const { isTokenValid } = require('../../../lib/is-token-valid');
 
 const getEnterCode = async (req, res) => {
-	const {
-		session: { appeal }
-	} = req;
 	const url = `/${REQUEST_NEW_CODE}`;
-	await sendToken(appeal.id);
+	await sendToken(req.path.id);
 	res.render(ENTER_CODE, {
 		requestNewCodeLink: url
 	});

@@ -14,6 +14,7 @@ const constants = require('@pins/business-rules/src/constants');
 
 const lpaService = new LpaService();
 const { templates } = config.services.notify;
+const CryptoJS = require('crypto-js');
 
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
@@ -111,12 +112,12 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 			appeal.appealType,
 			appeal.eligibility.applicationDecision
 		);
+		const encrypted = CryptoJS.AES.encrypt(appeal.id, '');
 		const { recipientEmail, variables, reference } = appealTypeConfig[
 			appeal.appealType
-		].email.saveAndReturnContinueAppeal(appeal, baseUrl, deadlineDate);
+		].email.saveAndReturnContinueAppeal(appeal, encrypted, baseUrl, deadlineDate);
 
 		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
-
 		await NotifyBuilder.reset()
 			.setTemplateId(templates.SAVE_AND_RETURN.continueWithAppealEmailToAppellant)
 			.setDestinationEmailAddress(recipientEmail)
