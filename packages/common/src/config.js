@@ -9,9 +9,5 @@
 module.exports = {
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info'
-	},
-	featureFlagging: {
-		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING,
-		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
 	}
 };

@@ -157,6 +157,10 @@ let config = {
 			submitToHorizonCronString: process.env.TASK_SUBMIT_TO_HORIZON_CRON_STRING,
 			runSubmitToHorizonTrigger: process.env.TASK_SUBMIT_TO_HORIZON_TRIGGER_ACTIVE
 		}
+	},
+	featureFlagging: {
+		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_ENDPOINT,
+		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
 	}
 };
 

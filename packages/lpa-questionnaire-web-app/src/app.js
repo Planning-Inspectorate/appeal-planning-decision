@@ -1,3 +1,4 @@
+const appInsights = require('applicationinsights');
 const express = require('express');
 const compression = require('compression');
 const lusca = require('lusca');
@@ -18,6 +19,12 @@ const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
 const { VIEW } = require('./lib/views');
+
+try {
+	appInsights.setup().start();
+} catch (err) {
+	logger.warn({ err }, 'Application insights failed to start: ');
+}
 
 const app = express();
 
