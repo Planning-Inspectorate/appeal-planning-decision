@@ -66,12 +66,12 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					saveAndReturnContinueAppeal: (appeal, baseUrl, deadlineDate) => ({
+					saveAndReturnContinueAppeal: (appeal, encryptedId, baseUrl, deadlineDate) => ({
 						recipientEmail: appeal.email,
 						variables: {
 							'application number': appeal.planningApplicationNumber,
 							date: format(deadlineDate, 'dd MMMM yyyy'),
-							link: `${baseUrl}/appeal-householder-decision/enter-code`
+							link: `${baseUrl}/appeal-householder-decision/enter-code/${encryptedId}`
 						},
 						reference: appeal.id
 					}),
@@ -175,12 +175,12 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					saveAndReturnContinueAppeal: (appeal, baseUrl, deadlineDate) => ({
+					saveAndReturnContinueAppeal: (appeal, encryptedId, baseUrl, deadlineDate) => ({
 						recipientEmail: appeal.email,
 						variables: {
 							'application number': appeal.planningApplicationNumber,
 							date: format(deadlineDate, 'dd MMMM yyyy'),
-							link: `${baseUrl}/full-appeal/submit-appeal/enter-code`
+							link: `${baseUrl}/appeal-householder-decision/enter-code/${encryptedId}`
 						},
 						reference: appeal.id
 					}),

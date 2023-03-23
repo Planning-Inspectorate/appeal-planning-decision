@@ -29,6 +29,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	describe('getEnterCode', () => {
 		it('should render enter code page when receiving the token from email', async () => {
 			const url = '/full-appeal/submit-appeal/request-new-code';
+			req.path = { id: '1234' };
 
 			hasDeadlineDatePassed.mockReturnValue(false);
 			getSavedAppeal.mockReturnValue({
