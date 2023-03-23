@@ -1,7 +1,7 @@
 const validAV = require('@planning-inspectorate/pins-clamav-rest-client');
 const { validMimeType, validateMimeBinaryType } = require('pins-mime-validation');
-const config = require('../../config');
-const validateFileSize = require('../custom/file-size');
+const config = require('../../../config');
+const validateFileSize = require('../../custom/file-size');
 
 const {
 	MIME_TYPE_DOC,
@@ -11,10 +11,10 @@ const {
 	MIME_TYPE_JPEG,
 	MIME_TYPE_TIF,
 	MIME_TYPE_PNG
-} = require('../../lib/mime-types');
+} = require('../../../lib/mime-types');
 
-module.exports = {
-	'files.supporting-documents.*': {
+const schema = (path) => ({
+	[path]: {
 		custom: {
 			options: async (value) => {
 				const { name, mimetype, size } = value;
@@ -57,4 +57,6 @@ module.exports = {
 			}
 		}
 	}
-};
+});
+
+module.exports = schema;
