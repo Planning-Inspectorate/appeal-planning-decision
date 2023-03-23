@@ -1,13 +1,13 @@
 const { validationResult } = require('express-validator');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
-const { rules } = require('../../../../src/validators/appellant-submission/supporting-documents');
+const { rules } = require('../../../../src/validators/common/multifile-upload');
 const { MIME_TYPE_JPEG } = require('../../../../src/lib/mime-types');
 const config = require('../../../../src/config');
 
-describe('validators/appellant-submission/supporting-documents', () => {
+describe('validators/common/multifile-upload', () => {
 	describe('rules', () => {
-		it('has a rule for `files.supporting-documents.*`', () => {
-			const rule = rules()[0][0].builder.build();
+		it('has a rule for given path `files.supporting-documents.*`', () => {
+			const rule = rules('files.supporting-documents.*')[0][0].builder.build();
 
 			expect(rule.fields).toEqual(['files.supporting-documents.*']);
 			expect(rule.optional).toBeFalsy();
@@ -17,7 +17,7 @@ describe('validators/appellant-submission/supporting-documents', () => {
 		});
 
 		it('should have the expected number of configured rules', () => {
-			expect(rules().length).toEqual(1);
+			expect(rules('files.supporting-documents.*').length).toEqual(1);
 		});
 	});
 
@@ -115,7 +115,11 @@ describe('validators/appellant-submission/supporting-documents', () => {
 				const mockReq = given();
 				const mockRes = jest.fn();
 
-				await testExpressValidatorMiddleware(mockReq, mockRes, rules());
+				await testExpressValidatorMiddleware(
+					mockReq,
+					mockRes,
+					rules('files.supporting-documents.*')
+				);
 				const result = validationResult(mockReq);
 				expected(result);
 			});

@@ -1,6 +1,6 @@
 const { validMimeType } = require('pins-mime-validation');
-const schema = require('../../../../src/validators/appellant-submission/supporting-documents-schema');
-const validateFileSize = require('../../../../src/validators/custom/file-size');
+const schema = require('../../../../../src/validators/common/schemas/multifile-upload-schema');
+const validateFileSize = require('../../../../../src/validators/custom/file-size');
 const {
 	MIME_TYPE_DOC,
 	MIME_TYPE_DOCX,
@@ -8,23 +8,25 @@ const {
 	MIME_TYPE_JPEG,
 	MIME_TYPE_TIF,
 	MIME_TYPE_PNG
-} = require('../../../../src/lib/mime-types');
-const config = require('../../../../src/config');
+} = require('../../../../../src/lib/mime-types');
+const config = require('../../../../../src/config');
 
 jest.mock('pins-mime-validation');
-jest.mock('../../../../src/validators/custom/file-size');
-jest.mock('../../../../src/config');
+jest.mock('../../../../../src/validators/custom/file-size');
+jest.mock('../../../../../src/config');
 
-describe('validators/appellant-submission/supporting-documents-schema', () => {
+describe('validators/common/schemas/multifile-upload-schema', () => {
 	it('has a defined custom schema object', () => {
-		expect(schema['files.supporting-documents.*'].custom.options).toBeDefined();
+		let newSchema = schema('files.supporting-documents.*');
+		expect(newSchema['files.supporting-documents.*'].custom.options).toBeDefined();
 	});
 
-	describe(`schema['files.supporting-documents.*'].custom.options`, () => {
+	describe(`schema[path].custom.options`, () => {
 		let fn;
 
 		beforeEach(() => {
-			fn = schema['files.supporting-documents.*'].custom.options;
+			let newSchema = schema('files.upload-documents.*');
+			fn = newSchema['files.upload-documents.*'].custom.options;
 		});
 
 		it('should call the validMimeType validator', () => {

@@ -1,3 +1,5 @@
+//todo: test
+
 const logger = require('../../lib/logger');
 
 const { VIEW } = require('../../lib/views');
@@ -20,19 +22,6 @@ const postUploadDocuments = async (req, res) => {
 		req.session.finalComment.supportingDocuments = { uploadedFiles: [] };
 	}
 
-	if (Object.keys(errors).length > 0) {
-		return res.render(VIEW.FINAL_COMMENT.UPLOAD_DOCUMENTS, {
-			finalComment: req.session.finalComment,
-			errors,
-			// multi-file upload validation would otherwise map these errors individually to e.g.
-			// `#files.supporting-documents[3]` which does not meet the gov uk presentation requirements.
-			errorSummary: errorSummary.map((error) => ({
-				...error,
-				href: '#upload-documents-error'
-			}))
-		});
-	}
-
 	try {
 		if ('removedFiles' in body) {
 			const removedFiles = JSON.parse(body.removedFiles);
@@ -46,8 +35,22 @@ const postUploadDocuments = async (req, res) => {
 		}
 
 		if ('files' in body && 'upload-documents' in body.files) {
+			// This controller action runs after the req has passed through the validation middleware.
+			// There can be valid and invalid files in a multi-file upload, and the valid files need
+			// uploading, whilst the invalid ones do not. We will determine the valid files from the
+			// validation `errors` object. During testing it was found `md5` is sometimes not unique(!)
+			// though `tempFilePath` does appear to always be unique due to its use of timestamps.
+			const erroredFilesByTempFilePath = Object.values(errors).reduce((acc, error) => {
+				if (!error.value || !error.value.tempFilePath) {
+					return acc;
+				}
+				return [...acc, error.value.tempFilePath];
+			}, []);
+			const validFiles = body.files['upload-documents'].filter(
+				(file) => erroredFilesByTempFilePath.includes(file.tempFilePath) === false
+			);
 			// eslint-disable-next-line no-restricted-syntax
-			for await (const file of body.files['upload-documents']) {
+			for await (const file of validFiles) {
 				//TODO: (as-5786) call document API here
 
 				req.session.finalComment.supportingDocuments.uploadedFiles.push({
@@ -61,6 +64,19 @@ const postUploadDocuments = async (req, res) => {
 					//todo: (as-5786) add location, size, and id (will be returned from document api)
 				});
 			}
+		}
+
+		if (Object.keys(errors).length > 0) {
+			return res.render(VIEW.FINAL_COMMENT.UPLOAD_DOCUMENTS, {
+				finalComment: req.session.finalComment,
+				errors,
+				// multi-file upload validation would otherwise map these errors individually to e.g.
+				// `#files.supporting-documents[3]` which does not meet the gov uk presentation requirements.
+				errorSummary: errorSummary.map((error) => ({
+					...error,
+					href: '#upload-documents-error'
+				}))
+			});
 		}
 
 		// this is the `name` of the 'upload' button in the template.

@@ -5,8 +5,8 @@ const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-a
 const reqFilesToReqBodyFilesMiddleware = require('../../middleware/req-files-to-req-body-files');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
-	rules: supportingDocumentsValidationRules
-} = require('../../validators/appellant-submission/supporting-documents');
+	rules: multifileUploadValidationRules
+} = require('../../validators/common/multifile-upload');
 
 const router = express.Router();
 
@@ -17,7 +17,10 @@ router.get(
 );
 router.post(
 	'/supporting-documents',
-	[reqFilesToReqBodyFilesMiddleware('supporting-documents'), supportingDocumentsValidationRules()],
+	[
+		reqFilesToReqBodyFilesMiddleware('supporting-documents'),
+		multifileUploadValidationRules('files.supporting-documents.*')
+	],
 	validationErrorHandler,
 	supportingDocumentsController.postSupportingDocuments
 );
