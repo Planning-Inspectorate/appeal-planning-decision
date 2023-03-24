@@ -25,6 +25,7 @@ export class BasePage {
 
     declineCookies(){
         this.basePageElements.declineCookiesBtn().click();
+
     }
 
     verifyPageHeading(pageHeading){
