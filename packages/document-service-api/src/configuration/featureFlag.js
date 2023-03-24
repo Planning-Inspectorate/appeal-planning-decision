@@ -12,7 +12,7 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 	}
 
 	const { AppConfigurationClient } = require('@azure/app-configuration');
-	const logger = require('./lib/logger');
+	const logger = require('../lib/logger');
 
 	const appConfigClient = new AppConfigurationClient(config.featureFlagging.endpoint);
 	const cacheTimeToLiveInMinutes = config.featureFlagging.timeToLiveInMinutes;
