@@ -2,6 +2,7 @@ const express = require('express');
 
 const finalCommentRouter = require('../../final-comment/final-comment');
 const finalCommentSubmittedRouter = require('../../final-comment/final-comment-submitted');
+const appealClosedForCommentRouter = require('../../final-comment/appeal-closed-for-comment');
 const commentsQuestionRouter = require('../../final-comment/comments-question');
 const enterSecurityCodeRouter = require('../../final-comment/enter-security-code');
 const documentsCheckRouter = require('../../final-comment/documents-check');
@@ -11,6 +12,7 @@ const router = express.Router();
 
 router.use(finalCommentRouter);
 router.use(finalCommentSubmittedRouter);
+router.use(appealClosedForCommentRouter);
 router.use(commentsQuestionRouter);
 router.use(enterSecurityCodeRouter);
 router.use(documentsCheckRouter);

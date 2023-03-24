@@ -1,6 +1,11 @@
 const { sendToken } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
 const { isTokenValid } = require('../../lib/is-token-valid');
+const {
+	validation: {
+		securityCodeMaxAttempts: { finalComment: finalCommentSecurityCodeMaxAttempts }
+	}
+} = require('../../config');
 
 const getEnterSecurityCode = async (req, res) => {
 	// DEV ONLY - this will be populated from a call to Horizon once this story is integrated with the other final comment stories
@@ -12,6 +17,7 @@ const getEnterSecurityCode = async (req, res) => {
 		finalCommentExpiryDate: null,
 		finalCommentSubmissionDate: null,
 		secureCodeEnteredCorrectly: null,
+		incorrectSecurityCodeAttempts: 0,
 		hasComment: null,
 		doesNotContainSensitiveInformation: null,
 		finalComment: null,
@@ -56,17 +62,33 @@ const postEnterSecurityCode = async (req, res) => {
 		return;
 	}
 
-	const tokenValid = await isTokenValid(id, token);
+	req.session.finalComment.secureCodeEnteredCorrectly = await isTokenValid(id, token);
 
-	if (!tokenValid) {
+	if (!req.session.finalComment.secureCodeEnteredCorrectly) {
+		req.session.finalComment.incorrectSecurityCodeAttempts++;
+
+		let errorMessageText = 'Enter a correct code';
+
+		if (
+			req.session.finalComment.incorrectSecurityCodeAttempts >= finalCommentSecurityCodeMaxAttempts
+		) {
+			errorMessageText =
+				'You have entered an incorrect code too many times. We have sent a new code to your email address.';
+
+			await sendToken(req.session.finalComment.id, req.session.finalComment.email);
+			req.session.finalComment.incorrectSecurityCodeAttempts = 0;
+		}
+
 		res.render(VIEW.FINAL_COMMENT.ENTER_CODE, {
 			token,
 			errors: true,
-			errorSummary: [{ text: 'Enter a correct code', href: '#' }]
+			errorSummary: [{ text: errorMessageText, href: '#' }]
 		});
+
 		return;
 	}
 
+	req.session.finalComment.incorrectSecurityCodeAttempts = 0;
 	res.redirect(`/${VIEW.FINAL_COMMENT.COMMENTS_QUESTION}`);
 };
 
