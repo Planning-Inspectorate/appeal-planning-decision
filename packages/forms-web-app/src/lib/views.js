@@ -99,6 +99,7 @@ const VIEW = {
 		FINAL_COMMENT: 'full-appeal/submit-final-comment/final-comment',
 		COMMENTS_QUESTION: 'full-appeal/submit-final-comment/comments-question',
 		FINAL_COMMENT_SUBMITTED: 'full-appeal/submit-final-comment/final-comment-submitted',
+		APPEAL_CLOSED_FOR_COMMENT: 'full-appeal/submit-final-comment/appeal-closed-for-comment',
 		DOCUMENTS_CHECK: 'full-appeal/submit-final-comment/documents-check',
 		UPLOAD_DOCUMENTS: 'full-appeal/submit-final-comment/upload-documents'
 	},
