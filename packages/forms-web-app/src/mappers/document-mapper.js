@@ -10,4 +10,14 @@ const mapDocumentToSavedDocument = (document, documentName) => {
 	};
 };
 
-module.exports = mapDocumentToSavedDocument;
+const mapMultiFileDocumentToSavedDocument = (document, documentName) => {
+	return {
+		...mapDocumentToSavedDocument(document, documentName),
+		// needed for MoJ multi-file upload display
+		message: {
+			text: documentName
+		}
+	};
+};
+
+module.exports = { mapDocumentToSavedDocument, mapMultiFileDocumentToSavedDocument };

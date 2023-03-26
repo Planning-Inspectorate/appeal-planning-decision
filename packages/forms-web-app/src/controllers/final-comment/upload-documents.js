@@ -1,8 +1,11 @@
-//todo: test
-
 const logger = require('../../lib/logger');
 
 const { VIEW } = require('../../lib/views');
+const { documentTypes } = require('@pins/common');
+
+const { createDocument } = require('../../lib/documents-api-wrapper');
+const { getValidFiles, removeFiles } = require('../../lib/multi-file-upload-helpers');
+const { mapMultiFileDocumentToSavedDocument } = require('../../mappers/document-mapper');
 
 const getUploadDocuments = async (req, res) => {
 	res.render(VIEW.FINAL_COMMENT.UPLOAD_DOCUMENTS, {
@@ -14,9 +17,13 @@ const postUploadDocuments = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 
-	// DEV ONLY - these req.session checks should not be necessary once this page is integrated into the full final-comment journey
+	// DEV ONLY - these two req.session checks should not be necessary once this page is integrated into the full final-comment journey
 	if (!req.session?.finalComment) {
-		req.session.finalComment = {};
+		req.session.finalComment = {
+			id: 'TEST-ID-123',
+			horizonId: 'TEST-HORIZON-ID-456',
+			finalComment: true
+		};
 	}
 	if (!req.session.finalComment?.supportingDocuments) {
 		req.session.finalComment.supportingDocuments = { uploadedFiles: [] };
@@ -24,45 +31,26 @@ const postUploadDocuments = async (req, res) => {
 
 	try {
 		if ('removedFiles' in body) {
+			const documents = req.session.finalComment.supportingDocuments;
 			const removedFiles = JSON.parse(body.removedFiles);
 
-			for (const removedFile of removedFiles) {
-				req.session.finalComment.supportingDocuments.uploadedFiles =
-					req.session.finalComment.supportingDocuments.uploadedFiles.filter(
-						(file) => file.name !== removedFile.name
-					);
-			}
+			documents.uploadedFiles = removeFiles(documents.uploadedFiles, removedFiles);
 		}
 
 		if ('files' in body && 'upload-documents' in body.files) {
-			// This controller action runs after the req has passed through the validation middleware.
-			// There can be valid and invalid files in a multi-file upload, and the valid files need
-			// uploading, whilst the invalid ones do not. We will determine the valid files from the
-			// validation `errors` object. During testing it was found `md5` is sometimes not unique(!)
-			// though `tempFilePath` does appear to always be unique due to its use of timestamps.
-			const erroredFilesByTempFilePath = Object.values(errors).reduce((acc, error) => {
-				if (!error.value || !error.value.tempFilePath) {
-					return acc;
-				}
-				return [...acc, error.value.tempFilePath];
-			}, []);
-			const validFiles = body.files['upload-documents'].filter(
-				(file) => erroredFilesByTempFilePath.includes(file.tempFilePath) === false
-			);
+			const validFiles = getValidFiles(errors, body.files['upload-documents']);
 			// eslint-disable-next-line no-restricted-syntax
 			for await (const file of validFiles) {
-				//TODO: (as-5786) call document API here
+				const document = await createDocument(
+					req.session.finalComment,
+					file,
+					file.name,
+					documentTypes.uploadDocuments.name
+				);
 
-				req.session.finalComment.supportingDocuments.uploadedFiles.push({
-					name: file.name,
-					// needed for MoJ multi-file upload display
-					message: {
-						text: file.name
-					},
-					fileName: file.name,
-					originalFileName: file.name
-					//todo: (as-5786) add location, size, and id (will be returned from document api)
-				});
+				req.session.finalComment.supportingDocuments.uploadedFiles.push(
+					mapMultiFileDocumentToSavedDocument(document, file.name)
+				);
 			}
 		}
 

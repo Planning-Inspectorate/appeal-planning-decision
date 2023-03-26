@@ -4,7 +4,7 @@ const uploadDocumentsController = require('../../controllers/final-comment/uploa
 const reqFilesToReqBodyFilesMiddleware = require('../../middleware/req-files-to-req-body-files');
 const {
 	rules: checkDocumentUploadedValidationRules
-} = require('../../validators/final-comment/check-document-uploaded');
+} = require('../../validators/common/check-document-uploaded');
 
 const {
 	rules: multifileUploadValidationRules
@@ -18,7 +18,7 @@ router.post(
 	'/upload-documents',
 	[
 		reqFilesToReqBodyFilesMiddleware('upload-documents'),
-		checkDocumentUploadedValidationRules('upload-documents'),
+		checkDocumentUploadedValidationRules('upload-documents', 'supportingDocuments', 'finalComment'),
 		multifileUploadValidationRules('files.upload-documents.*')
 	],
 	validationErrorHandler,

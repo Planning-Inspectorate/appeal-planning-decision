@@ -38,7 +38,6 @@ describe('controllers/appeal-householder-decision/cannot-appeal', () => {
 			getCannotAppeal(req, res);
 			const { appeal } = req.session;
 			const beforeYouStartFirstPage = '/before-you-start';
-			console.log(appeal.decisionDate, appeal.eligibility.applicationDecision);
 			const deadlineDate = businessRulesDeadline(
 				appeal.decisionDate,
 				appeal.appealType,

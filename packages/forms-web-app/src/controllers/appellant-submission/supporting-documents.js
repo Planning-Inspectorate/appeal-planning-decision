@@ -10,6 +10,8 @@ const {
 	setTaskStatusComplete,
 	setTaskStatusNotStarted
 } = require('../../services/task.service');
+const { getValidFiles, removeFiles } = require('../../lib/multi-file-upload-helpers');
+const { mapMultiFileDocumentToSavedDocument } = require('../../mappers/document-mapper');
 
 const sectionName = 'yourAppealSection';
 const taskName = 'otherDocuments';
@@ -30,28 +32,11 @@ exports.postSupportingDocuments = async (req, res) => {
 			const appealTask = appeal[sectionName][taskName];
 			const removedFiles = JSON.parse(body.removedFiles);
 
-			for (const removedFile of removedFiles) {
-				appealTask.uploadedFiles = appealTask.uploadedFiles.filter(
-					(file) => file.name !== removedFile.name
-				);
-			}
+			appealTask.uploadedFiles = removeFiles(appealTask.uploadedFiles, removedFiles);
 		}
 
 		if ('files' in body && 'supporting-documents' in body.files) {
-			// This controller action runs after the req has passed through the validation middleware.
-			// There can be valid and invalid files in a multi-file upload, and the valid files need
-			// uploading, whilst the invalid ones do not. We will determine the valid files from the
-			// validation `errors` object. During testing it was found `md5` is sometimes not unique(!)
-			// though `tempFilePath` does appear to always be unique due to its use of timestamps.
-			const erroredFilesByTempFilePath = Object.values(errors).reduce((acc, error) => {
-				if (!error.value || !error.value.tempFilePath) {
-					return acc;
-				}
-				return [...acc, error.value.tempFilePath];
-			}, []);
-			const validFiles = body.files['supporting-documents'].filter(
-				(file) => erroredFilesByTempFilePath.includes(file.tempFilePath) === false
-			);
+			const validFiles = getValidFiles(errors, body.files['supporting-documents']);
 
 			// eslint-disable-next-line no-restricted-syntax
 			for await (const file of validFiles) {
@@ -62,19 +47,9 @@ exports.postSupportingDocuments = async (req, res) => {
 					documentTypes.otherDocuments.name
 				);
 
-				appeal[sectionName][taskName].uploadedFiles.push({
-					id: document.id,
-					name: file.name,
-					// needed for MoJ multi-file upload display
-					message: {
-						text: file.name
-					},
-					fileName: file.name,
-					originalFileName: file.name,
-					// needed for Cypress testing
-					location: document.location,
-					size: document.size
-				});
+				appeal[sectionName][taskName].uploadedFiles.push(
+					mapMultiFileDocumentToSavedDocument(document, file.name)
+				);
 			}
 		}
 
