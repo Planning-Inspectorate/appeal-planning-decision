@@ -3,7 +3,7 @@
 /**
  * Each document type below has a Horizon group type and document type so that, when the document lands in Horizon,
  * it is shuffled into the correct directory in the case worker's UI. Most documents have the defaults of
- * 'Other Evidence from Appelant/Agent' and 'Initial Documents' for the 'Horizon Document Type' and 'Horizon group type' respectively.
+ * 'Other Evidence from Appellant/Agent' and 'Initial Documents' for the 'Horizon Document Type' and 'Horizon group type' respectively.
  */
 const documentTypes = {
 	originalApplication: {
@@ -205,6 +205,14 @@ const documentTypes = {
 		involvement: '',
 		horizonDocumentType: 'Planning Obligation',
 		horizonDocumentGroupType: 'Initial Documents'
+	},
+	uploadDocuments: {
+		name: 'uploadDocuments',
+		multiple: true,
+		displayName: 'Upload documents',
+		involvement: '',
+		horizonDocumentType: 'Appellant Final Comments',
+		horizonDocumentGroupType: 'Evidence'
 	}
 };
 

@@ -51,18 +51,44 @@ const handler = async (url, method = 'GET', data = {}, localPlanningAuthorityCod
 	return apiResponse;
 };
 
-const createDocument = async (appeal, data, fileName, documentType, sectionTag = '') => {
+//todo test a fc and appeal submission to create document
+const getCreateDocumentSubmissionData = (submission) => {
+	//todo: refactor createDocument (and calls to it), so only required
+	// submission data is sent and then remove this function
+
+	//we don't have lpaCode on final comments so this defaults to STBC to allow
+	//it past appeals-service-api feature flag (which is set to 100% LPAs)
+	let submissionData = {
+		id: submission.id,
+		lpaCode: submission.lpaCode || 'E69999999',
+		referenceNumber: null
+	};
+
+	if (submission?.appealType) {
+		submissionData.referenceNumber = submission.planningApplicationNumber;
+	}
+
+	if (submission?.finalComment) {
+		submissionData.referenceNumber = submission.horizonId;
+	}
+
+	return submissionData;
+};
+
+const createDocument = async (submission, data, fileName, documentType, sectionTag = '') => {
+	const submissionData = getCreateDocumentSubmissionData(submission);
+
 	const body = new FormData();
 
 	if (isTheFormDataBuffer(data)) {
 		let documentName = fileName || data.name;
 		documentName = documentName?.replace(
 			/^/,
-			`${sectionTag} - ${appeal.planningApplicationNumber} - `
+			`${sectionTag} - ${submissionData.referenceNumber} - `
 		);
 		body.append('file', fs.createReadStream(data.tempFilePath), documentName);
 	} else if (isDataBuffer(data)) {
-		fileName = fileName?.replace(/^/, `${sectionTag} - ${appeal.planningApplicationNumber} - `);
+		fileName = fileName?.replace(/^/, `${sectionTag} - ${submissionData.referenceNumber} - `);
 		body.append('file', data, fileName);
 	} else {
 		throw new Error('The type of provided data to create a document with is wrong');
@@ -71,12 +97,13 @@ const createDocument = async (appeal, data, fileName, documentType, sectionTag =
 	body.append('documentType', documentType);
 
 	const apiResponse = await handler(
-		`${config.documents.url}/api/v1/${appeal.id}`,
+		`${config.documents.url}/api/v1/${submissionData.id}`,
 		'POST',
 		{
 			body
 		},
-		appeal.lpaCode
+		submissionData.lpaCode //todo: this is only required for feature flag (horizon mapping) purposes
+		// and can be removed when feature flag is removed
 	);
 
 	const response = await apiResponse.json();
