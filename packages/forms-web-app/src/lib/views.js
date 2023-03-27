@@ -95,7 +95,8 @@ const VIEW = {
 	},
 
 	FINAL_COMMENT: {
-		ENTER_CODE: 'final-comment/enter-security-code',
+		INPUT_CODE: 'full-appeal/submit-final-comment/input-code',
+		NEED_NEW_CODE: 'full-appeal/submit-final-comment/need-new-code',
 		FINAL_COMMENT: 'full-appeal/submit-final-comment/final-comment',
 		COMMENTS_QUESTION: 'full-appeal/submit-final-comment/comments-question',
 		FINAL_COMMENT_SUBMITTED: 'full-appeal/submit-final-comment/final-comment-submitted',

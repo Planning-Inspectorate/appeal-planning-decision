@@ -7,7 +7,7 @@ const {
 	}
 } = require('../../config');
 
-const getEnterSecurityCode = async (req, res) => {
+const getInputCode = async (req, res) => {
 	// DEV ONLY - this will be populated from a call to Horizon once this story is integrated with the other final comment stories
 	req.session.finalComment = {
 		id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
@@ -40,10 +40,10 @@ const getEnterSecurityCode = async (req, res) => {
 		}
 	} = req;
 	await sendToken(id, emailAddress);
-	res.render(VIEW.FINAL_COMMENT.ENTER_CODE);
+	res.render(VIEW.FINAL_COMMENT.INPUT_CODE);
 };
 
-const postEnterSecurityCode = async (req, res) => {
+const postInputCode = async (req, res) => {
 	const {
 		body,
 		session: {
@@ -54,7 +54,7 @@ const postEnterSecurityCode = async (req, res) => {
 	const token = req.body['email-code'];
 
 	if (Object.keys(errors).length > 0) {
-		res.render(VIEW.FINAL_COMMENT.ENTER_CODE, {
+		res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
 			token,
 			errors,
 			errorSummary
@@ -67,22 +67,21 @@ const postEnterSecurityCode = async (req, res) => {
 	if (!req.session.finalComment.secureCodeEnteredCorrectly) {
 		req.session.finalComment.incorrectSecurityCodeAttempts++;
 
-		let errorMessageText = 'Enter a correct code';
-
 		if (
 			req.session.finalComment.incorrectSecurityCodeAttempts >= finalCommentSecurityCodeMaxAttempts
 		) {
-			errorMessageText =
-				'You have entered an incorrect code too many times. We have sent a new code to your email address.';
-
-			await sendToken(req.session.finalComment.id, req.session.finalComment.email);
 			req.session.finalComment.incorrectSecurityCodeAttempts = 0;
+			req.session.getNewCodeHref = '/full-appeal/submit-final-comment/input-code';
+
+			res.redirect(`/${VIEW.FINAL_COMMENT.NEED_NEW_CODE}`);
+
+			return;
 		}
 
-		res.render(VIEW.FINAL_COMMENT.ENTER_CODE, {
+		res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
 			token,
 			errors: true,
-			errorSummary: [{ text: errorMessageText, href: '#' }]
+			errorSummary: [{ text: 'Enter a correct code', href: '#' }]
 		});
 
 		return;
@@ -93,6 +92,6 @@ const postEnterSecurityCode = async (req, res) => {
 };
 
 module.exports = {
-	getEnterSecurityCode,
-	postEnterSecurityCode
+	getInputCode,
+	postInputCode
 };
