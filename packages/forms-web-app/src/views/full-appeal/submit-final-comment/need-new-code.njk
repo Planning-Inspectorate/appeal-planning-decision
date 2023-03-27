@@ -1,0 +1,16 @@
+{% extends "layouts/full-appeal-banner/main.njk" %}
+
+{% set title="You need a new code - Submit final comment - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">You need a new code</h1>
+      <a href={{getNewCodeHref}} class="govuk-button">Get a new code</a>
+    </div>
+  </div>
+{% endblock %}
