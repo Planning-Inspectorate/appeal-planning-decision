@@ -47,7 +47,7 @@
                         {
                           href: "/full-appeal/submit-final-comment/final-comment",
                           text: "Change",
-                          visuallyHiddenText: "your final comments",
+                          visuallyHiddenText: "(change) your final comment",
                           attributes: {
                             "data-cy": "change-final-comments"
                           }
@@ -67,7 +67,7 @@
                         {
                           href: "/full-appeal/submit-final-comment/documents-check",
                           text: "Change",
-                          visuallyHiddenText: "do you have supporting documents",
+                          visuallyHiddenText: "(change) whether you have supporting documents",
                           attributes: {
                             "data-cy": "change-has-supporting-documents"
                           }
@@ -77,7 +77,7 @@
                 },
                 {
                     key: {
-                        text: "supporting documents"
+                        text: "Supporting documents"
                     },
                     value: {
                         text: multifileUploadToList(finalComments.supportingDocuments.uploadedFiles, { 'data-cy': "supporting-documents" })
@@ -87,7 +87,7 @@
                         {
                           href: "/full-appeal/submit-final-comment/upload-documents",
                           text: "Change",
-                          visuallyHiddenText: "your supporting-documents",
+                          visuallyHiddenText: "(change) add or remove supporting documents",
                           attributes: {
                             "data-cy": "change-supporting-documents"
                           }
