@@ -175,7 +175,7 @@ const config = {
 						},
 						reference: appeal.id
 					}),
-					saveAndReturnContinueAppeal: (appeal, encryptedId, baseUrl, deadlineDate) => ({
+					saveAndReturnContinueAppeal: (appeal, baseUrl, deadlineDate) => ({
 						recipientEmail: appeal.email,
 						variables: {
 							'application number': appeal.planningApplicationNumber,
