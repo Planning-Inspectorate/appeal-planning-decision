@@ -180,7 +180,7 @@ const config = {
 						variables: {
 							'application number': appeal.planningApplicationNumber,
 							date: format(deadlineDate, 'dd MMMM yyyy'),
-							link: `${baseUrl}/appeal-householder-decision/enter-code/${encryptedId}`
+							link: `${baseUrl}/full-appeal/submit-appeal/enter-code/${appeal.id}`
 						},
 						reference: appeal.id
 					}),
