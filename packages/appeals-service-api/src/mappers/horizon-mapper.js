@@ -11,11 +11,13 @@ class HorizonMapper {
 		let result = this.#getCreateContactRequestJson('a:HorizonAPIOrganisation');
 
 		const organisationName = appealContact.getOrganisationName();
-		logger.debug(`The organisation name is: '${organisationName}'`);
 		if (organisationName) {
-			result.AddContact.contact['a:Name'] = organisationName;
+			let sanitisedOrganisationName = this.#escapeXml(organisationName);
+			logger.debug(`The organisation name is: '${sanitisedOrganisationName}'`);
+			if (sanitisedOrganisationName) {
+				result.AddContact.contact['a:Name'] = sanitisedOrganisationName;
+			}
 		}
-
 		logger.debug(result, 'Create organisation request constructed');
 		return result;
 	}
@@ -30,16 +32,22 @@ class HorizonMapper {
 		logger.debug('Constructing create contact request for Horizon');
 
 		const contactName = appealContactDetail.getName();
-		let [firstName, ...lastName] = contactName.split(' ');
+		let firstName;
+		let lastName;
 
-		if (contactName.split(' ').length <= 1) {
-			firstName = ',';
-			// eslint-disable-next-line prefer-destructuring
-			lastName = contactName.split(' ')[0];
-		} else {
-			// eslint-disable-next-line prefer-destructuring
-			firstName = contactName.split(' ')[0];
-			lastName = lastName.join(' ');
+		if (contactName) {
+			let sanitisedContactName = this.#escapeXml(contactName);
+			[firstName, ...lastName] = sanitisedContactName.split(' ');
+
+			if (sanitisedContactName.split(' ').length <= 1) {
+				firstName = ',';
+				// eslint-disable-next-line prefer-destructuring
+				lastName = sanitisedContactName.split(' ')[0];
+			} else {
+				// eslint-disable-next-line prefer-destructuring
+				firstName = sanitisedContactName.split(' ')[0];
+				lastName = lastName.join(' ');
+			}
 		}
 
 		let requestBody = this.#getCreateContactRequestJson('a:HorizonAPIPerson');
