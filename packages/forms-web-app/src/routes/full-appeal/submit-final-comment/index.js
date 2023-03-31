@@ -8,6 +8,7 @@ const inputCodeRouter = require('../../final-comment/input-code');
 const needNewCodeRouter = require('../../final-comment/need-new-code');
 const documentsCheckRouter = require('../../final-comment/documents-check');
 const uploadDocumentsRouter = require('../../final-comment/upload-documents');
+const checkYourAnswersRouter = require('../../final-comment/check-your-answers');
 
 const router = express.Router();
 
@@ -19,5 +20,6 @@ router.use(inputCodeRouter);
 router.use(needNewCodeRouter);
 router.use(documentsCheckRouter);
 router.use(uploadDocumentsRouter);
+router.use(checkYourAnswersRouter);
 
 module.exports = router;
