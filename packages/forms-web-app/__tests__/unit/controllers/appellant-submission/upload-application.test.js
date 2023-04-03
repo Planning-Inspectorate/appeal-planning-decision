@@ -53,7 +53,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				},
 				files: {
-					'application-upload': {}
+					'file-upload': {}
 				}
 			};
 			await postUploadApplication(mockRequest, res);
@@ -134,7 +134,7 @@ describe('controllers/appellant-submission/upload-application', () => {
 				...mockReq(appeal),
 				body: {},
 				files: {
-					'application-upload': {
+					'file-upload': {
 						name: fakeFileName
 					}
 				}

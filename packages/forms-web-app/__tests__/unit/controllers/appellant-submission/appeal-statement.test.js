@@ -70,7 +70,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 					'does-not-include-sensitive-information': 'anything here - not valid'
 				},
 				files: {
-					'appeal-upload': {}
+					'file-upload': {}
 				}
 			};
 			await postAppealStatement(mockRequest, res);
@@ -155,7 +155,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 					'does-not-include-sensitive-information': 'i-confirm'
 				},
 				files: {
-					'appeal-upload': {
+					'file-upload': {
 						name: fakeFileName
 					}
 				}

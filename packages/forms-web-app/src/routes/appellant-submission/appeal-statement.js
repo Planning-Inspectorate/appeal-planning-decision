@@ -5,7 +5,7 @@ const appealStatementController = require('../../controllers/appellant-submissio
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const {
 	rules: appealStatementValidationRules
-} = require('../../validators/appellant-submission/appeal-statement');
+} = require('../../validators/common/appeal-statement');
 
 const router = express.Router();
 
@@ -16,7 +16,10 @@ router.get(
 );
 router.post(
 	'/appeal-statement',
-	appealStatementValidationRules(),
+	appealStatementValidationRules(
+		'Select an appeal statement',
+		'Select to confirm you have not included sensitive information in your appeal statement'
+	),
 	validationErrorHandler,
 	appealStatementController.postAppealStatement
 );
