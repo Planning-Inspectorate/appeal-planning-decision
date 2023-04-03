@@ -60,7 +60,8 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		// TODO: put inside an appeal model
 		let variables = {
 			'planning application number': appeal.planningApplicationNumber,
-			'site address': _formatAddress(appeal.appealSiteSection.siteAddress)
+			'site address': _formatAddress(appeal.appealSiteSection.siteAddress),
+			'appeal reference': appeal.horizonId ? appeal.horizonId : 'ID not provided'
 		};
 
 		if (appeal.appealType == '1001') {
