@@ -3,10 +3,10 @@ const appealStatementController = require('../../../../src/controllers/appellant
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 const {
 	rules: appealStatementValidationRules
-} = require('../../../../src/validators/appellant-submission/appeal-statement');
+} = require('../../../../src/validators/common/appeal-statement');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 
-jest.mock('../../../../src/validators/appellant-submission/appeal-statement');
+jest.mock('../../../../src/validators/common/appeal-statement');
 
 describe('routes/appellant-submission/appeal-statement', () => {
 	beforeEach(() => {
