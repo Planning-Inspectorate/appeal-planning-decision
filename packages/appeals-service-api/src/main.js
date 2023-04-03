@@ -10,7 +10,8 @@ const mongodb = require('./db/db');
 
 async function main() {
 	try {
-		appInsights.setup().start();
+		appInsights.setup().setAutoDependencyCorrelation(true).setSendLiveMetrics(true).start();
+		appInsights.defaultClient.setAutoPopulateAzureProperties(true);
 	} catch (err) {
 		logger.warn({ err }, 'Application insights failed to start: ');
 	}
