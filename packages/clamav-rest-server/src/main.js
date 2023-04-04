@@ -9,8 +9,10 @@ const server = require('./server');
 
 async function main() {
 	try {
-		appInsights.setup().setAutoDependencyCorrelation(true).setSendLiveMetrics(true).start();
-		appInsights.defaultClient.setAutoPopulateAzureProperties(true);
+		appInsights.setup().setAutoDependencyCorrelation(true).setSendLiveMetrics(true);
+		appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] =
+			'clamav-rest-server';
+		appInsights.start();
 	} catch (err) {
 		logger.warn({ err }, 'Application insights failed to start: ');
 	}
