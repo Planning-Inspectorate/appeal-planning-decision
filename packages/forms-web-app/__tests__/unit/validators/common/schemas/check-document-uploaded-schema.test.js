@@ -95,5 +95,16 @@ describe('validators/common/schemas/check-document-upload-schema', () => {
 		}
 
 		expect(thrownError).toEqual(new Error('Select a file to upload'));
+
+		req.files = null;
+		req.session.finalComment.supportingDocuments = { uploadedFiles: [] };
+
+		findTargetValueInJSON.mockReturnValueOnce(req.session.finalComment.supportingDocuments);
+
+		try {
+			await fn(null, { req });
+		} catch (error) {
+			thrownError = error;
+		}
 	});
 });

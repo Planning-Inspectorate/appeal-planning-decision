@@ -13,14 +13,17 @@ const schema = (path, documentType, submissionType) => ({
 							documentType
 						).uploadedFiles;
 					}
+
 					if (uploadedFiles) {
-						//at this stage, uploadedFiles will still contain files flagged for removal
+						//at this stage, uploadedFiles will still contain any files flagged for removal
 						//so we need to disregard them when checking uploadedFiles
+						let removedFiles = [];
+
 						if ('removedFiles' in req.body) {
-							const removedFiles = JSON.parse(req.body.removedFiles) || [];
-							if (uploadedFiles.length - removedFiles.length < 1) {
-								throw new Error('Select a file to upload');
-							}
+							removedFiles = JSON.parse(req.body.removedFiles) || [];
+						}
+						if (uploadedFiles.length - removedFiles.length < 1) {
+							throw new Error('Select a file to upload');
 						}
 
 						return true;
