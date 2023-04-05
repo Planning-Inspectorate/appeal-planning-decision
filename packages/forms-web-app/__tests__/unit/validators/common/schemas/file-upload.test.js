@@ -1,4 +1,5 @@
 const { validMimeType, validateMimeBinaryType } = require('pins-mime-validation');
+const validAV = require('@planning-inspectorate/pins-clamav-rest-client');
 const {
 	fileUpload: {
 		pins: { uploadApplicationMaxFileSize }
@@ -11,6 +12,7 @@ const file = require('../../../../fixtures/file-upload');
 
 jest.mock('pins-mime-validation');
 jest.mock('../../../../../src/validators/custom/file-size');
+jest.mock('@planning-inspectorate/pins-clamav-rest-client');
 
 describe('validators/common/schemas/file-upload', () => {
 	let req;
@@ -140,6 +142,15 @@ describe('validators/common/schemas/file-upload', () => {
 				file.name,
 				'The selected file must be smaller than 15MB'
 			);
+		});
+
+		it('should call the antivirus validator when given a single file', async () => {
+			req.files = { 'file-upload': file };
+
+			await schema(null, { req, path: 'file-upload' });
+
+			expect(validAV).toHaveBeenCalledTimes(1);
+			expect(validAV).toHaveBeenCalledWith(file, file.name);
 		});
 
 		it('should call the validMimeType validator when given multiple files', () => {
