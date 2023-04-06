@@ -46,6 +46,7 @@
 		"form-data": "^3.0.0",
 		"govuk-frontend": "^3.14.0",
 		"jsonpath": "^1.1.1",
+		"jspdf": "^2.5.1",
 		"lusca": "^1.6.1",
 		"node-fetch": "^2.6.7",
 		"nunjucks": "^3.2.2",
