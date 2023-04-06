@@ -45,16 +45,16 @@
           </ul>
         {% endif %}
 
-        <div class="govuk-form-group {% if errors['decision-upload'] %}govuk-form-group--error{% endif %}">
-          <label class="govuk-heading-m" for="decision-upload">
+        <div class="govuk-form-group {% if errors['file-upload'] %}govuk-form-group--error{% endif %}">
+          <label class="govuk-heading-m" for="file-upload">
             Upload a file
           </label>
-          {% if errors['decision-upload'] %}
+          {% if errors['file-upload'] %}
             <span id="decision-upload-error" class="govuk-error-message">
-            <span class="govuk-visually-hidden">Error:</span> {{ errors['decision-upload'].msg }}
+            <span class="govuk-visually-hidden">Error:</span> {{ errors['file-upload'].msg }}
           </span>
           {% endif %}
-          <input class="govuk-file-upload" id="decision-upload" name="decision-upload" type="file">
+          <input class="govuk-file-upload" id="file-upload" name="file-upload" type="file">
         </div>
 
         <details class="govuk-details" data-module="govuk-details">

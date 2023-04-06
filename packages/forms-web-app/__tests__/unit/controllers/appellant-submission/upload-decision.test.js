@@ -52,7 +52,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 					errorSummary: [{ text: 'There were errors here', href: '#' }]
 				},
 				files: {
-					'decision-upload': {}
+					'file-upload': {}
 				}
 			};
 			await postUploadDecision(req, res);
@@ -145,7 +145,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 				...mockReq(appeal),
 				body: {},
 				files: {
-					'decision-upload': {
+					'file-upload': {
 						name: fakeFileName
 					}
 				}

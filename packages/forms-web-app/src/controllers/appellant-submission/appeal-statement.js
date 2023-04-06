@@ -39,19 +39,19 @@ exports.postAppealStatement = async (req, res) => {
 	try {
 		appeal.yourAppealSection.appealStatement.hasSensitiveInformation = false;
 		if ('files' in req && req.files !== null) {
-			if ('appeal-upload' in req.files) {
+			if ('file-upload' in req.files) {
 				const document = await createDocument(
 					appeal,
-					req.files['appeal-upload'],
+					req.files['file-upload'],
 					null,
 					documentTypes.appealStatement.name
 				);
 
 				appeal[sectionName][taskName].uploadedFile = {
 					id: document.id,
-					name: req.files['appeal-upload'].name,
-					fileName: req.files['appeal-upload'].name,
-					originalFileName: req.files['appeal-upload'].name,
+					name: req.files['file-upload'].name,
+					fileName: req.files['file-upload'].name,
+					originalFileName: req.files['file-upload'].name,
 					location: document.location,
 					size: document.size
 				};
