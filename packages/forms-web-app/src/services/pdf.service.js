@@ -12,7 +12,7 @@ const {
 	VIEW: { FULL_APPEAL }
 } = require('../lib/full-appeal/views');
 const logger = require('../lib/logger');
-const { textToPdf } = require('../lib/pdf');
+const { textToPdf } = require('../lib/textToPdf');
 
 const defaultFileName = 'appeal-form';
 
