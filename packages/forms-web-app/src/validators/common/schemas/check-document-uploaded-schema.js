@@ -1,6 +1,6 @@
 const { findTargetValueInJSON } = require('../../../lib/find-target-value-in-json');
 
-const schema = (path, documentType, submissionType) => ({
+const schema = (path, documentType, submissionType, errorMsg = 'Select a file to upload') => ({
 	[path]: {
 		custom: {
 			options: async (value, { req }) => {
@@ -23,13 +23,13 @@ const schema = (path, documentType, submissionType) => ({
 							removedFiles = JSON.parse(req.body.removedFiles) || [];
 						}
 						if (uploadedFiles.length - removedFiles.length < 1) {
-							throw new Error('Select a file to upload');
+							throw new Error(errorMsg);
 						}
 
 						return true;
 					}
 
-					throw new Error('Select a file to upload');
+					throw new Error(errorMsg);
 				}
 
 				return true;
