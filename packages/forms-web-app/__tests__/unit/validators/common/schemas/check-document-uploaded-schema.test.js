@@ -9,7 +9,12 @@ describe('validators/common/schemas/check-document-upload-schema', () => {
 	let req;
 
 	beforeEach(() => {
-		let newSchema = schema('upload-documents', 'supportingDocuments', 'finalComment');
+		let newSchema = schema(
+			'upload-documents',
+			'supportingDocuments',
+			'finalComment',
+			'custom error'
+		);
 		fn = newSchema['upload-documents'].custom.options;
 		req = {
 			session: { finalComment: {} },
@@ -77,10 +82,11 @@ describe('validators/common/schemas/check-document-upload-schema', () => {
 			thrownError = error;
 		}
 
-		expect(thrownError).toEqual(new Error('Select a file to upload'));
+		expect(thrownError).toEqual(new Error('custom error'));
 	});
 
-	it('should throw error if no files being added and no files are already uploaded', async () => {
+	it('should throw error if no files being uploaded/already uploaded', async () => {
+		// if supporting documents is empty
 		req.files = null;
 		req.session.finalComment.supportingDocuments = {};
 
@@ -94,7 +100,29 @@ describe('validators/common/schemas/check-document-upload-schema', () => {
 			thrownError = error;
 		}
 
-		expect(thrownError).toEqual(new Error('Select a file to upload'));
+		expect(thrownError).toEqual(new Error('custom error'));
+
+		// if supporting documents has uploaded files field but it is empty
+		req.files = null;
+		req.session.finalComment.supportingDocuments = { uploadedFiles: [] };
+
+		findTargetValueInJSON.mockReturnValueOnce(req.session.finalComment.supportingDocuments);
+
+		try {
+			await fn(null, { req });
+		} catch (error) {
+			thrownError = error;
+		}
+
+		expect(thrownError).toEqual(new Error('custom error'));
+
+		//if custom error message not specified, uses default error message
+		let defaultErrorMessageSchema = schema(
+			'upload-documents',
+			'supportingDocuments',
+			'finalComment'
+		);
+		fn = defaultErrorMessageSchema['upload-documents'].custom.options;
 
 		req.files = null;
 		req.session.finalComment.supportingDocuments = { uploadedFiles: [] };
@@ -106,5 +134,7 @@ describe('validators/common/schemas/check-document-upload-schema', () => {
 		} catch (error) {
 			thrownError = error;
 		}
+
+		expect(thrownError).toEqual(new Error('Select a file to upload'));
 	});
 });
