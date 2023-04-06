@@ -13,11 +13,8 @@ const {
 const { isTokenExpired } = require('../../lib/is-token-expired');
 
 const getEnterCode = async (req, res) => {
-	const {
-		session: { appeal }
-	} = req;
 	const url = `/${REQUEST_NEW_CODE}`;
-	await sendToken(appeal);
+	await sendToken(req.params.id);
 	res.render(ENTER_CODE, {
 		requestNewCodeLink: url
 	});

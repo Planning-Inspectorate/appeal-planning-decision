@@ -12,7 +12,7 @@ const { isTokenValid } = require('../../../lib/is-token-valid');
 
 const getEnterCode = async (req, res) => {
 	const url = `/${REQUEST_NEW_CODE}`;
-	await sendToken(req.path.id);
+	await sendToken(req.params.id);
 	res.render(ENTER_CODE, {
 		requestNewCodeLink: url
 	});

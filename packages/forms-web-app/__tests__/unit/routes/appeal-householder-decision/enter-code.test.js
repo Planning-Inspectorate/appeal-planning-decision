@@ -6,6 +6,7 @@ const {
 const { rules: ruleEnterCode } = require('../../../../src/validators/save-and-return/enter-code');
 jest.mock('../../../../src/validators/save-and-return/enter-code');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
+const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
 
 describe('routes/appeal-householder-planning/enter-code', () => {
 	beforeEach(() => {
@@ -18,9 +19,13 @@ describe('routes/appeal-householder-planning/enter-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/enter-code', getEnterCode);
+		expect(get).toHaveBeenCalledWith(
+			'/enter-code/:id',
+			[fetchExistingAppealMiddleware],
+			getEnterCode
+		);
 		expect(post).toHaveBeenCalledWith(
-			'/enter-code',
+			'/enter-code/:id',
 			ruleEnterCode(),
 			validationErrorHandler,
 			postEnterCode

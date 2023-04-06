@@ -12,6 +12,11 @@ const router = express.Router();
 
 router.get('/submit-appeal/enter-code/:id', [fetchExistingAppealMiddleware], getEnterCode);
 
-router.post('/submit-appeal/enter-code/', ruleEnterCode(), validationErrorHandler, postEnterCode);
+router.post(
+	'/submit-appeal/enter-code/:id',
+	ruleEnterCode(),
+	validationErrorHandler,
+	postEnterCode
+);
 
 module.exports = router;

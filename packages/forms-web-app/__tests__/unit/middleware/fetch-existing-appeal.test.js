@@ -50,7 +50,7 @@ describe('middleware/fetch-existing-appeal', () => {
 							id: '123-abc'
 						}
 					},
-					path: {
+					params: {
 						id: '123-abc'
 					}
 				};
