@@ -29,7 +29,7 @@ describe('routes/full-appeal/submit-appeal/enter-code', () => {
 			getEnterCode
 		);
 		expect(post).toHaveBeenCalledWith(
-			'/submit-appeal/enter-code/',
+			'/submit-appeal/enter-code/:id',
 			ruleEnterCode(),
 			validationErrorHandler,
 			postEnterCode
