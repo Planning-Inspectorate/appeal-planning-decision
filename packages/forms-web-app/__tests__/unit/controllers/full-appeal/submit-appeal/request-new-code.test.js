@@ -18,6 +18,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	beforeEach(() => {
 		res = mockRes();
 		req = mockReq();
+		req.session = {};
 		jest.resetAllMocks();
 	});
 
@@ -30,8 +31,13 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 
 	describe('postRequestNewCode', () => {
 		it('should redirect to correct page', () => {
+			const tokenId = '1552441a-1e56-4e83-8d85-de7b246d2594';
+			req.session = {
+				userTokenId: tokenId
+			};
 			postRequestNewCode(req, res);
-			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}`);
+			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${tokenId}`);
+			expect(req.session.userTokenId).not.toBeDefined();
 		});
 	});
 });

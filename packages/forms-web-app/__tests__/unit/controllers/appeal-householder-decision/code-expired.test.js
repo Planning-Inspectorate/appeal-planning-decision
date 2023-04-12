@@ -1,6 +1,5 @@
 const {
-	getCodeExpired,
-	postCodeExpired
+	getCodeExpired
 } = require('../../../../src/controllers/appeal-householder-decision/code-expired');
 
 const {
@@ -18,20 +17,20 @@ describe('controllers/appeal-householder-decision/code-expired', () => {
 	beforeEach(() => {
 		res = mockRes();
 		req = mockReq();
+		req.session = {};
 		jest.resetAllMocks();
 	});
 
-	describe('getRequestNewCode', () => {
+	describe('getCodeExpired', () => {
 		it('should redirect to correct page', () => {
-			getCodeExpired(req, res);
-			expect(res.render).toBeCalledWith(`${CODE_EXPIRED}`);
-		});
-	});
+			const tokenId = '1552441a-1e56-4e83-8d85-de7b246d2594';
+			req.session = {
+				userTokenId: tokenId
+			};
 
-	describe('postRequestNewCode', () => {
-		it('should redirect to correct page', () => {
-			postCodeExpired(req, res);
-			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}`);
+			getCodeExpired(req, res);
+			expect(res.render).toBeCalledWith(`${CODE_EXPIRED}`, { url: `/${ENTER_CODE}/${tokenId}` });
+			expect(req.session.userTokenId).not.toBeDefined();
 		});
 	});
 });

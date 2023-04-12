@@ -1,18 +1,15 @@
 const {
-  VIEW: {
-    FULL_APPEAL: { CODE_EXPIRED, ENTER_CODE },
-  },
+	VIEW: {
+		FULL_APPEAL: { CODE_EXPIRED, ENTER_CODE }
+	}
 } = require('../../../lib/full-appeal/views');
 
 const getCodeExpired = (req, res) => {
-		res.render(CODE_EXPIRED);
-};
-
-const postCodeExpired = async (req, res) => {
-    return res.redirect(`/${ENTER_CODE}`);
+	const url = `/${ENTER_CODE}/${req.session.userTokenId}`;
+	delete req.session.userTokenId;
+	res.render(CODE_EXPIRED, { url });
 };
 
 module.exports = {
-  getCodeExpired,
-  postCodeExpired,
+	getCodeExpired
 };
