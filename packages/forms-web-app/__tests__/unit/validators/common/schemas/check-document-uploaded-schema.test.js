@@ -41,7 +41,8 @@ describe('validators/common/schemas/check-document-upload-schema', () => {
 		expect(findTargetValueInJSON).toHaveBeenCalledTimes(1);
 		expect(findTargetValueInJSON).toHaveBeenCalledWith(
 			req.session.finalComment,
-			'supportingDocuments'
+			'supportingDocuments',
+			'sectionStates'
 		);
 		expect(result).toBe(true);
 	});
@@ -60,7 +61,8 @@ describe('validators/common/schemas/check-document-upload-schema', () => {
 		expect(findTargetValueInJSON).toHaveBeenCalledTimes(1);
 		expect(findTargetValueInJSON).toHaveBeenCalledWith(
 			req.session.finalComment,
-			'supportingDocuments'
+			'supportingDocuments',
+			'sectionStates'
 		);
 		expect(result).toBe(true);
 	});

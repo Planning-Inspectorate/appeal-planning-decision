@@ -1,11 +1,11 @@
 const {
 	documentTypes: {
-		draftPlanningObligations: { name: documentType }
+		planningObligations: { name: documentType }
 	}
 } = require('@pins/common');
 const {
 	VIEW: {
-		FULL_APPEAL: { DRAFT_PLANNING_OBLIGATION, NEW_DOCUMENTS }
+		FULL_APPEAL: { PLANNING_OBLIGATION, NEW_DOCUMENTS }
 	}
 } = require('../../../lib/full-appeal/views');
 const logger = require('../../../lib/logger');
@@ -17,16 +17,16 @@ const { removeFiles, getValidFiles } = require('../../../lib/multi-file-upload-h
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
 
 const sectionName = 'appealDocumentsSection';
-const taskName = 'draftPlanningObligations';
-const sectionTag = 'DRAFT PLANNING OBLIGATION';
+const taskName = 'planningObligations';
+const sectionTag = 'PLANNING OBLIGATION';
 
-const getDraftPlanningObligation = (req, res) => {
-	res.render(DRAFT_PLANNING_OBLIGATION, {
+const getPlanningObligationDocuments = (req, res) => {
+	res.render(PLANNING_OBLIGATION, {
 		uploadedFiles: req.session.appeal[sectionName][taskName].uploadedFiles
 	});
 };
 
-const postDraftPlanningObligation = async (req, res) => {
+const postPlanningObligationDocuments = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 	const { appeal } = req.session;
@@ -41,9 +41,11 @@ const postDraftPlanningObligation = async (req, res) => {
 
 		if ('files' in body && 'file-upload' in body.files) {
 			const validFiles = getValidFiles(errors, body.files['file-upload']);
+
 			// eslint-disable-next-line no-restricted-syntax
 			for await (const file of validFiles) {
-				const document = await createDocument(appeal, file, null, documentType, sectionTag);
+				const document = await createDocument(appeal, file, file.name, documentType, sectionTag);
+
 				appeal[sectionName][taskName].uploadedFiles.push(
 					mapMultiFileDocumentToSavedDocument(document, file.name)
 				);
@@ -53,34 +55,34 @@ const postDraftPlanningObligation = async (req, res) => {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 
 		if (Object.keys(errors).length > 0) {
-			return res.render(DRAFT_PLANNING_OBLIGATION, {
+			return res.render(PLANNING_OBLIGATION, {
 				uploadedFiles: appeal[sectionName][taskName].uploadedFiles,
 				errors,
 				// multi-file upload validation would otherwise map these errors individual to e.g.
 				// `#files.supporting-documents[3]` which does not meet the gov uk presentation requirements.
 				errorSummary: errorSummary.map((error) => ({
 					...error,
-					href: '#draft-planning-obligation-error'
+					href: '#planning-obligation-error'
 				}))
 			});
 		}
 
 		// this is the `name` of the 'upload' button in the template.
 		if (body['upload-and-remain-on-page']) {
-			return res.redirect(`/${DRAFT_PLANNING_OBLIGATION}`);
+			return res.redirect(`/${PLANNING_OBLIGATION}`);
 		}
 
 		if (req.body['save-and-return'] !== '') {
-			appeal.sectionStates[sectionName].draftPlanningObligations = COMPLETED;
+			appeal.sectionStates[sectionName].planningObligations = COMPLETED;
 			req.session.appeal = await createOrUpdateAppeal(appeal);
 			return res.redirect(`/${NEW_DOCUMENTS}`);
 		}
-		appeal.sectionStates[sectionName].draftPlanningObligations = IN_PROGRESS;
+		appeal.sectionStates[sectionName].planningObligations = IN_PROGRESS;
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 		return await postSaveAndReturn(req, res);
 	} catch (err) {
 		logger.error(err);
-		return res.render(DRAFT_PLANNING_OBLIGATION, {
+		return res.render(PLANNING_OBLIGATION, {
 			uploadedFiles: appeal[sectionName][taskName].uploadedFiles,
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});
@@ -88,6 +90,6 @@ const postDraftPlanningObligation = async (req, res) => {
 };
 
 module.exports = {
-	getDraftPlanningObligation,
-	postDraftPlanningObligation
+	getPlanningObligationDocuments,
+	postPlanningObligationDocuments
 };

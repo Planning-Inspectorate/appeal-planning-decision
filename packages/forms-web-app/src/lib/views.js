@@ -165,7 +165,7 @@ const VIEW = {
 		PLANS_DRAWINGS: 'full-appeal/submit-appeal/plans-drawings',
 		PLANNING_OBLIGATION_PLANNED: 'full-appeal/submit-appeal/planning-obligation-planned',
 		PLANNING_OBLIGATION_STATUS: 'full-appeal/submit-appeal/planning-obligation-status',
-		PLANNING_OBLIGATION_DOCUMENTS: 'full-appeal/submit-appeal/planning-obligation',
+		PLANNING_OBLIGATION: 'full-appeal/submit-appeal/planning-obligation',
 		PLANNING_OBLIGATION_DEADLINE: 'full-appeal/submit-appeal/planning-obligation-deadline',
 		PLANS_DRAWINGS_DOCUMENTS: 'full-appeal/submit-appeal/plans-drawings-documents',
 		PLANNING_APPLICATION_NUMBER: 'full-appeal/submit-appeal/planning-application-number',

@@ -1,11 +1,11 @@
-const findTargetValueInJSON = (obj, target) => {
+const findTargetValueInJSON = (obj, target, ignoreKey) => {
 	if (target in obj) {
 		return obj[target];
 	}
 
-	for (const value of Object.values(obj)) {
-		if (typeof value === 'object' && value) {
-			const result = findTargetValueInJSON(value, target);
+	for (const [key, value] of Object.entries(obj)) {
+		if (key !== ignoreKey && typeof value === 'object' && value) {
+			const result = findTargetValueInJSON(value, target, ignoreKey);
 			if (result !== undefined) {
 				return result;
 			}

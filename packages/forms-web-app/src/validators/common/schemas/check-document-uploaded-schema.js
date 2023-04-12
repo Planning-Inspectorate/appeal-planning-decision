@@ -10,7 +10,8 @@ const schema = (path, documentType, submissionType, errorMsg = 'Select a file to
 					if (req.session[submissionType]) {
 						uploadedFiles = findTargetValueInJSON(
 							req.session[submissionType],
-							documentType
+							documentType,
+							'sectionStates'
 						).uploadedFiles;
 					}
 
