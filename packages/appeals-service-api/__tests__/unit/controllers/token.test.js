@@ -74,6 +74,21 @@ describe('controllers/token', () => {
 			expect(res.status).toBeCalledWith(200);
 			expect(res.status(200).send).toBeCalledWith({});
 		});
+
+		it('should not call createOrUpdateTokenDocument if call to getAppeal is unsuccessful', async () => {
+			req.body = {
+				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea'
+			};
+			getAppeal.mockRejectedValue(() => {
+				new Error('error');
+			});
+
+			try {
+				await tokenPut(req, res);
+			} catch (e) {
+				expect(createOrUpdateTokenDocument).not.toBeCalled();
+			}
+		});
 	});
 	describe('tokenPost', () => {
 		it('should call getTokenDocumentIfExists with id and token from req.body', async () => {

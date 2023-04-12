@@ -75,7 +75,7 @@ router.use(
 
 router.use(
 	'/appeal-householder-decision',
-	checkPathAllowed,
+	skipMiddlewareForPaths(checkPathAllowed, ['enter-code']),
 	checkDecisionDateDeadline,
 	appealHouseholderdecision
 );

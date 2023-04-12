@@ -10,11 +10,6 @@ const { createOrUpdateAppeal, getExistingAppeal } = require('../lib/appeals-api-
  * @returns {Promise<*>}
  */
 module.exports = async (req, res, next) => {
-	if (req.params?.id) {
-		req.session.appeal = await getExistingAppeal(req.params.id);
-		return next();
-	}
-
 	if (!req.session) {
 		return next();
 	}
