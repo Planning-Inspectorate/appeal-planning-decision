@@ -52,7 +52,23 @@ const appealDocumentsValidation = () => {
 						return pinsYup.string().oneOf(Object.values(PLANNING_OBLIGATION_STATUS_OPTION));
 					}
 					return pinsYup.string().nullable();
-				})
+				}),
+				uploadedFiles: pinsYup
+					.array()
+					.of(
+						pinsYup
+							.object()
+							.shape({
+								id: pinsYup.string().trim().uuid().nullable().default(null),
+								name: pinsYup.string().trim().max(255).ensure(),
+								fileName: pinsYup.string().trim().max(255).ensure(),
+								originalFileName: pinsYup.string().trim().max(255).ensure(),
+								location: pinsYup.string().trim().nullable(),
+								size: pinsYup.number().nullable()
+							})
+							.noUnknown(true)
+					)
+					.ensure()
 			}),
 			draftPlanningObligations: pinsYup.object().shape({
 				plansPlanningObligation: pinsYup.bool().nullable().default(null),
@@ -61,7 +77,23 @@ const appealDocumentsValidation = () => {
 						return pinsYup.string().oneOf(Object.values(PLANNING_OBLIGATION_STATUS_OPTION));
 					}
 					return pinsYup.string().nullable();
-				})
+				}),
+				uploadedFiles: pinsYup
+					.array()
+					.of(
+						pinsYup
+							.object()
+							.shape({
+								id: pinsYup.string().trim().uuid().nullable().default(null),
+								name: pinsYup.string().trim().max(255).ensure(),
+								fileName: pinsYup.string().trim().max(255).ensure(),
+								originalFileName: pinsYup.string().trim().max(255).ensure(),
+								location: pinsYup.string().trim().nullable(),
+								size: pinsYup.number().nullable()
+							})
+							.noUnknown(true)
+					)
+					.ensure()
 			}),
 			planningObligationDeadline: pinsYup.object().shape({
 				plansPlanningObligation: pinsYup.bool().nullable().default(null),

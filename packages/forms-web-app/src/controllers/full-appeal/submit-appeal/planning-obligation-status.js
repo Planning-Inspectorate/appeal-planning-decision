@@ -7,7 +7,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: {
 			PLANNING_OBLIGATION_STATUS,
-			PLANNING_OBLIGATION_DOCUMENTS,
+			PLANNING_OBLIGATION,
 			DRAFT_PLANNING_OBLIGATION,
 			PLANNING_OBLIGATION_DEADLINE
 		}
@@ -47,7 +47,7 @@ const postPlanningObligationStatus = async (req, res) => {
 			req.session.appeal = await createOrUpdateAppeal(appeal);
 			switch (planningObligationStatus) {
 				case PLANNING_OBLIGATION_STATUS_OPTION.FINALISED:
-					return res.redirect(`/${PLANNING_OBLIGATION_DOCUMENTS}`);
+					return res.redirect(`/${PLANNING_OBLIGATION}`);
 				case PLANNING_OBLIGATION_STATUS_OPTION.DRAFT:
 					return res.redirect(`/${DRAFT_PLANNING_OBLIGATION}`);
 				case PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED:

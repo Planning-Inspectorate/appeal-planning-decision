@@ -281,7 +281,20 @@ const update = pinsYup
 						return pinsYup.string().oneOf(Object.values(PLANNING_OBLIGATION_STATUS_OPTION));
 					}
 					return pinsYup.string().nullable();
-				})
+				}),
+				uploadedFiles: pinsYup
+					.array()
+					.of(
+						pinsYup.object().shape({
+							id: pinsYup.string().trim().uuid().nullable(),
+							name: pinsYup.string().trim().max(255).nullable(),
+							fileName: pinsYup.string().trim().max(255).nullable(),
+							originalFileName: pinsYup.string().trim().max(255).nullable(),
+							location: pinsYup.string().trim().nullable(),
+							size: pinsYup.number().nullable()
+						})
+					)
+					.ensure()
 			}),
 			draftPlanningObligations: pinsYup.object().shape({
 				plansPlanningObligation: pinsYup.bool().nullable().default(null),
@@ -290,7 +303,20 @@ const update = pinsYup
 						return pinsYup.string().oneOf(Object.values(PLANNING_OBLIGATION_STATUS_OPTION));
 					}
 					return pinsYup.string().nullable();
-				})
+				}),
+				uploadedFiles: pinsYup
+					.array()
+					.of(
+						pinsYup.object().shape({
+							id: pinsYup.string().trim().uuid().nullable(),
+							name: pinsYup.string().trim().max(255).nullable(),
+							fileName: pinsYup.string().trim().max(255).nullable(),
+							originalFileName: pinsYup.string().trim().max(255).nullable(),
+							location: pinsYup.string().trim().nullable(),
+							size: pinsYup.number().nullable()
+						})
+					)
+					.ensure()
 			}),
 			planningObligationDeadline: pinsYup.object().shape({
 				plansPlanningObligation: pinsYup.bool().nullable().default(null),

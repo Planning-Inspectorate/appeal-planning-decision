@@ -5,14 +5,50 @@
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
+{%- from "govuk/components/inset-text/macro.njk" import govukInsetText -%}
+{%- from "components/multi-file-upload/macro.njk" import mojMultiFileUpload -%}
 
 {% set labelText = "Drag and drop or choose files" %}
 {% set title = "Other supporting documents - Appeal a planning decision - GOV.UK" %}
+
+{% set otherSupportingDocumentsErrorMessage %}
+  {% if errorSummary %}
+    {%- for error in errorSummary -%}
+      {{- error.text -}}<br>
+    {%- endfor -%}
+  {% endif %}
+{% endset %}
+
+{% set uploadHtml %}
+  {{ govukFileUpload({
+    id: "file-upload",
+    name: "file-upload",
+    classes: 'moj-multi-file-upload__input',
+    label: {
+      text: labelText,
+      classes: 'govuk-label--m'
+    },
+    attributes: { multiple: '' },
+    errorMessage: errorSummary and {
+      html: otherSupportingDocumentsErrorMessage
+    }
+  }) }}
+
+  {{govukButton({
+    text: 'Upload file',
+    classes: 'govuk-button--secondary moj-multi-file-upload__button',
+    name: 'upload-and-remain-on-page',
+    value: 'upload-and-remain-on-page',
+    attributes: { "data-cy":"button-upload-file"}
+  })}}
+{% endset %}
+
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+
       {% if errorSummary %}
         {{ govukErrorSummary({
           titleText: "There is a problem",
@@ -20,30 +56,17 @@
           attributes: {"data-cy": "error-wrapper"}
         }) }}
       {% endif %}
+
       <span class="govuk-caption-l">Upload documents for your appeal</span>
       <h1 class="govuk-heading-l">Other supporting documents</h1>
-      {% if uploadedFiles.length %}
-        <h2 class="govuk-heading-m govuk-!-margin-top-8">Uploaded files</h2>
-        <ul class="govuk-list">
-        {%- for file in uploadedFiles %}
-          <li><a href="/document/{{appealId}}/{{file.id}}" class="govuk-link">{{ file.name }}</a></li>
-        {%- endfor %}
-        </ul>
-        {% set labelText = "Replace the files" %}
-      {% endif %}
+
       <form action="" method="post" novalidate enctype="multipart/form-data">
-        {{ govukFileUpload({
-          id: "file-upload",
-          name: "file-upload",
-          classes: "pins-file-upload",
-          attributes: {
-            'multiple': true
+        {{ mojMultiFileUpload({
+          uploadedFiles: {
+            heading: { text: 'Files added' },
+            items: uploadedFiles
           },
-          label: {
-            text: labelText,
-            classes: "govuk-label--m"
-          },
-          errorMessage: errors['file-upload'] and { text: errors['file-upload'].msg }
+          uploadHtml: uploadHtml
         }) }}
 
         {{ govukDetails({
