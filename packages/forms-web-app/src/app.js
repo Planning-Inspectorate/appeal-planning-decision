@@ -20,6 +20,9 @@ const renderTemplateFilter = require('./lib/render-template-filter');
 const flashMessageCleanupMiddleware = require('./middleware/flash-message-cleanup');
 const flashMessageToNunjucks = require('./middleware/flash-message-to-nunjucks');
 const removeUnwantedCookiesMiddelware = require('./middleware/remove-unwanted-cookies');
+const {
+	setLocalslDisplayCookieBannerValue
+} = require('./middleware/set-locals-display-cookie-banner-value');
 const navigationHistoryMiddleware = require('./middleware/navigation-history');
 const navigationHistoryToNunjucksMiddleware = require('./middleware/navigation-history-to-nunjucks');
 require('express-async-errors');
@@ -91,6 +94,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session(sessionConfig()));
 app.use(removeUnwantedCookiesMiddelware);
+app.use(setLocalslDisplayCookieBannerValue);
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
 	'/assets',
