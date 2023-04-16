@@ -1,9 +1,6 @@
 const { get, post } = require('../router-mock');
 
-const {
-	getEnterCode,
-	postEnterCode
-} = require('../../../../src/controllers/appeal-householder-decision/enter-code');
+const { getEnterCode, postEnterCode } = require('../../../../src/controllers/common/enter-code');
 
 const { rules: ruleEnterCode } = require('../../../../src/validators/save-and-return/enter-code');
 
@@ -14,7 +11,7 @@ const { validationErrorHandler } = require('../../../../src/validators/validatio
 jest.mock('../../../../src/validators/save-and-return/enter-code');
 jest.mock('../../../../src/validators/common/check-id-is-uuid');
 jest.mock('../../../../src/validators/validation-error-handler');
-jest.mock('../../../../src/controllers/full-appeal/submit-appeal/enter-code');
+jest.mock('../../../../src/controllers/common/enter-code');
 
 describe('routes/appeal-householder-planning/enter-code', () => {
 	beforeEach(() => {
@@ -27,18 +24,18 @@ describe('routes/appeal-householder-planning/enter-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/enter-code', getEnterCode);
+		expect(get).toHaveBeenCalledWith('/enter-code', getEnterCode());
 		expect(get).toHaveBeenCalledWith(
 			'/enter-code/:id',
 			idValidationRules(),
 			validationErrorHandler,
-			getEnterCode
+			getEnterCode()
 		);
 		expect(post).toHaveBeenCalledWith(
 			'/enter-code/:id',
 			ruleEnterCode(),
 			validationErrorHandler,
-			postEnterCode
+			postEnterCode()
 		);
 	});
 });
