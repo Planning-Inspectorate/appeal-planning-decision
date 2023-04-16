@@ -1,9 +1,6 @@
 const { get, post } = require('../../router-mock');
 
-const {
-	getEnterCode,
-	postEnterCode
-} = require('../../../../../src/controllers/full-appeal/submit-appeal/enter-code');
+const { getEnterCode, postEnterCode } = require('../../../../../src/controllers/common/enter-code');
 
 const {
 	rules: ruleEnterCode
@@ -20,7 +17,7 @@ const {
 jest.mock('../../../../../src/validators/common/check-id-is-uuid');
 jest.mock('../../../../../src/validators/save-and-return/enter-code');
 jest.mock('../../../../../src/validators/validation-error-handler');
-jest.mock('../../../../../src/controllers/full-appeal/submit-appeal/enter-code');
+jest.mock('../../../../../src/controllers/common/enter-code');
 
 describe('routes/full-appeal/submit-appeal/enter-code', () => {
 	beforeEach(() => {
@@ -33,18 +30,18 @@ describe('routes/full-appeal/submit-appeal/enter-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/submit-appeal/enter-code', getEnterCode);
+		expect(get).toHaveBeenCalledWith('/submit-appeal/enter-code', getEnterCode());
 		expect(get).toHaveBeenCalledWith(
 			'/submit-appeal/enter-code/:id',
 			idValidationRules(),
 			validationErrorHandler,
-			getEnterCode
+			getEnterCode()
 		);
 		expect(post).toHaveBeenCalledWith(
 			'/submit-appeal/enter-code/:id',
 			ruleEnterCode(),
 			validationErrorHandler,
-			postEnterCode
+			postEnterCode()
 		);
 	});
 });

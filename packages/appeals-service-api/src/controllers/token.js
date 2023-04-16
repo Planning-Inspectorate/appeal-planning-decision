@@ -28,7 +28,7 @@ async function tokenPost(req, res) {
 	const document = await getTokenDocumentIfExists(id, token);
 
 	if (!document) {
-		return res.status(200).send({}); //todo: make sure the 'return' is tested?
+		return res.status(200).send({});
 	}
 
 	res.status(200).send({
