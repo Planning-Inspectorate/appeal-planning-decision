@@ -793,7 +793,7 @@ describe('Back Office', () => {
 						condition.expectations.emailToAppellant.name,
 						condition.lpa.name
 					);
-
+				condition.appeal.horizonId = createdAppeal.horizonId;
 				const emailToLpaInteraction = NotifyInteraction.getAppealSubmittedEmailForLpaInteraction(
 					condition.appeal,
 					condition.lpa.name,
@@ -1104,6 +1104,7 @@ describe('Back Office', () => {
 				if (key == 'appealThatWillEventuallySucceed')
 					expect(appealResponse.body.horizonId).toBe('CASE_REF_appealThatWillEventuallySucceed');
 				else expect(appealResponse.body.horizonId).toBeFalsy();
+				inputs[key].appeal.horizonId = appealResponse.body.horizonId;
 			}
 
 			// And: for the first appeal:

@@ -74,6 +74,7 @@ module.exports = class NotifyInteraction {
 				'non-determination': new RegExp(/yes|no/)
 			});
 		}
+		templateVariables.push({ 'appeal reference': appeal.horizonId ?? 'ID not provided' });
 
 		const emailToLpaInteraction = new Interaction('Send appeal successfully submitted email to LPA')
 			.setNumberOfKeysExpectedInJson(6 + templateVariables.length)
