@@ -1,49 +1,37 @@
 const express = require('express');
 const { FinalCommentsService } = require('../services/final-comments.service');
-
+const logger = require('../lib/logger');
 const router = express.Router();
 
 const finalCommentsService = new FinalCommentsService();
 
 router.post('/', async (req, res) => {
-	const caseReference = req.body.case_reference;
-	const appellantEmail = req.body.appellant_email;
-	let statusCode = 409;
-	if (await finalCommentsService.createFinalComments(caseReference, appellantEmail)) {
-		statusCode = 204;
-	}
+	const finalComment = req.body;
+	let body = '';
 
-	res.status(statusCode).send();
-});
-
-router.get('/:case_reference/secure_code', async (req, res) => {
-	let statusCode = 200;
-	let message = '';
-
+	let statusCode = 204;
 	try {
-		await finalCommentsService.sendSecureCodeForFinalComment(req.params.case_reference);
+		body = await finalCommentsService.createFinalComment(finalComment);
 	} catch (error) {
+		logger.error(`Failed to create: ${error.code} // ${error.message.errors}`);
 		statusCode = error.code;
-		message = { error: message };
+		body = error.message.errors;
 	} finally {
-		res.status(statusCode).send(message);
+		res.status(statusCode).send(body);
 	}
 });
 
 router.get('/:case_reference', async (req, res) => {
-	let statusCode = 200;
-	let message = '';
+	let statusCode = 201;
+	let body = {};
 
 	try {
-		await finalCommentsService.getFinalComment(
-			req.params.case_reference,
-			req.headers['secure_code']
-		);
+		body = await finalCommentsService.getFinalComment(req.params.case_reference);
 	} catch (error) {
 		statusCode = error.code;
-		message = { error: message };
+		body = error.message.errors;
 	} finally {
-		res.status(statusCode).send(message);
+		res.status(statusCode).send(body);
 	}
 });
 

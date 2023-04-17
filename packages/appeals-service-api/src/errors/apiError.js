@@ -24,6 +24,18 @@ class ApiError {
 	static appealAlreadySubmitted() {
 		return new ApiError(409, { errors: ['Cannot update appeal that is already SUBMITTED'] });
 	}
+
+	static finalCommentAlreadySubmitted() {
+		return new ApiError(409, { errors: [`Cannot submit more than one final comment per email`] });
+	}
+
+	static finalCommentHasExpired() {
+		return new ApiError(409, { errors: ['Final comment submission window is closed'] });
+	}
+
+	static finalCommentsNotFound() {
+		return new ApiError(404, { errors: [`The final comments were not found`] });
+	}
 }
 
 module.exports = ApiError;
