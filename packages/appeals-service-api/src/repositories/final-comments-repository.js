@@ -4,7 +4,6 @@ const { FinalCommentsAggregate } = require('../models/aggregates/final-comments-
 const { MongoRepository } = require('./mongo-repository');
 
 class FinalCommentsRepository extends MongoRepository {
-
 	#finalCommentsMapper = new FinalCommentsMapper();
 
 	constructor() {
@@ -12,16 +11,27 @@ class FinalCommentsRepository extends MongoRepository {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {string} caseReference
 	 * @return {Promise<FinalCommentsAggregate | null>}
 	 */
 	async getByCaseReference(caseReference) {
 		const finalCommentFoundJson = await this.findOneByQuery({ caseReference: caseReference });
 		if (finalCommentFoundJson) {
-            return this.#finalCommentsMapper.fromJson(finalCommentFoundJson);
+			return this.#finalCommentsMapper.fromJson(finalCommentFoundJson);
+		}
+	}
+
+	async getAllFinalCommentsByCaseReference(horizonId) {
+		const finalCommentsFound = await this.getAllDocumentsThatMatchQuery({
+			'finalComment.horizonId': horizonId
+		});
+		if (finalCommentsFound) {
+			return finalCommentsFound;
+		} else {
+			return false;
 		}
 	}
 }
 
-module.exports = { FinalCommentsRepository}
+module.exports = { FinalCommentsRepository };
