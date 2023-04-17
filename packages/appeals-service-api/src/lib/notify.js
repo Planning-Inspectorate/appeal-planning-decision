@@ -57,10 +57,12 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		const lpa = await lpaService.getLpaById(appeal.lpaCode);
 		const lpaEmail = lpa.getEmail();
 
+		const appealRef = appeal.horizonId ?? 'ID not provided';
 		// TODO: put inside an appeal model
 		let variables = {
 			'planning application number': appeal.planningApplicationNumber,
-			'site address': _formatAddress(appeal.appealSiteSection.siteAddress)
+			'site address': _formatAddress(appeal.appealSiteSection.siteAddress),
+			'appeal reference': appealRef
 		};
 
 		if (appeal.appealType == '1001') {
