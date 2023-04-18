@@ -5,4 +5,3 @@ Feature: Before you start
       Then appellant clicks on the continue button
       Then appellant is navigated to the Local Planning Department page
       Then appellant enters local planning authority
-      Then appellant clicks on the continue button

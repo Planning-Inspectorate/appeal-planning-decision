@@ -8,7 +8,8 @@ export class BasePage {
         radioBtn: () => cy.get('.govuk-radios__item'),
         checkBox: () => cy.get('.govuk-checkboxes__item'),
         backBtn: () => cy.get('[data-cy="back"]'),
-        saveAndContiuneBtn: () => cy.get('[data-cy="button-save-and-continue"]')
+        saveAndContiuneBtn: () => cy.get('[data-cy="button-save-and-continue"]'),
+        saveAndComeBackLaterBtn: () => cy.get('[data-cy="button-save-and-return"]')
     }
 
     clickContinueBtn(){
@@ -28,16 +29,18 @@ export class BasePage {
     }
 
     verifyPageHeading(pageHeading){
-        this.elements.pageHeading().contains(pageHeading);
+        this.basePageElements.pageHeading().contains(pageHeading);
     }
 
     selectCheckBox(checkBoxValue){
-        this.basePageElements.checkBox().check(checkBoxValue)
+        this.basePageElements.checkBox().check(checkBoxValue);
     }
 
     selectRadioBtn(radioBtnValue){
-        this.basePageElements.radioBtn.check(radioBtnValue)
+        this.basePageElements.radioBtn.check(radioBtnValue);
+    }
+
+    clickSaveAndComeBackLaterBtn(){
+        this.basePageElements.saveAndComeBackLaterBtn().click();
     }
 }
-
-// module.exports = new basePage ();
