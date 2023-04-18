@@ -6,25 +6,4 @@ export class AppealSiteAddress {
         countyInput: () => cy.get('[data-cy="site-county"]'),
         postcodeInput: () => cy.get('[data-cy="site-postcode"]')
     }
-
-    inputAddressLineOne(address){
-        this.elements.addressLineOneInput().clear().type(address)
-    }
-
-    inputAddressLineTwo(address){
-        this.elements.addressLineTwoInput().clear().type(address)
-    }
-
-    inputTownOrCity(townCity){
-        this.elements.townOrCityInput().clear().type(townCity)
-    }
-
-    inputCounty(county){
-        this.elements.countyInput().clear().type(county)
-    }
-
-    inputPostCode(postcode){
-        this.elements.postcodeInput().clear().type(postcode)
-    }
-
 }
