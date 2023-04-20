@@ -121,7 +121,7 @@ const storeTextAsDocument = async (submission, plainText, docType) => {
 
 		return document;
 	} catch (err) {
-		const msg = 'Error during the appeal pdf generation';
+		const msg = 'Error during the pdf generation';
 		log.error({ err }, msg);
 
 		throw new Error(msg);

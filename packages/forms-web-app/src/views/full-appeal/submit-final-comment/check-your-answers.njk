@@ -27,9 +27,9 @@
 				</h1>
 
         {% if finalComment.finalCommentAsDocument | length %}
-            {% set finalCommentValue = uploadedFileLink(finalComments.finalCommentAsDocument, { 'data-cy': "final-comments" }) %}
+            {% set finalCommentValue = uploadedFileLink(finalComment.finalCommentAsDocument, { 'data-cy': "final-comments" }) %}
         {% else %}
-            {% set finalCommentValue = summaryField(finalComments.finalComment, { 'data-cy': "final-comments" }) %}
+            {% set finalCommentValue = summaryField(finalComment.finalComment, { 'data-cy': "final-comments" }) %}
         {% endif %}
 
         {% set finalCommentsRow = 
@@ -61,7 +61,7 @@
                 text: "Add supporting documents"
             },
             value: {
-                text: boolToSentenceCaseField(finalComments.hasSupportingDocuments, { 'data-cy': "has-supporting-documents" })
+                text: boolToSentenceCaseField(finalComment.hasSupportingDocuments, { 'data-cy': "has-supporting-documents" })
             },
             actions: {
               items: [
@@ -84,7 +84,7 @@
               text: "Supporting documents"
             },
             value: {
-                text: multifileUploadToList(finalComments.supportingDocuments.uploadedFiles, { 'data-cy': "supporting-documents" })
+                text: multifileUploadToList(finalComment.supportingDocuments.uploadedFiles, { 'data-cy': "supporting-documents" })
             },
             actions: {
               items: [
@@ -103,7 +103,7 @@
 
         {% set finalCommentsRows = [finalCommentsRow, hasSupportingDocumentsRow] %}
 
-        {% if finalComments.hasSupportingDocuments == true %}
+        {% if finalComment.hasSupportingDocuments == true %}
           {% set finalCommentsRows = (finalCommentsRows.push(supportingDocumentsRow), finalCommentsRows) %}
         {% endif %}
 
