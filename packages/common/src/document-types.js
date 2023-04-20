@@ -213,6 +213,14 @@ const documentTypes = {
 		involvement: '',
 		horizonDocumentType: 'Appellant Final Comments',
 		horizonDocumentGroupType: 'Evidence'
+	},
+	finalComment: {
+		name: 'finalComment',
+		multiple: false,
+		displayName: 'final Comment',
+		involvement: '',
+		horizonDocumentType: 'Appellant Final Comments',
+		horizonDocumentGroupType: 'Evidence'
 	}
 };
 
