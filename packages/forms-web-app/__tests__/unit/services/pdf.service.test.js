@@ -116,7 +116,7 @@ describe('services/pdf.service', () => {
 				await storeTextAsDocument(mockAppeal);
 				expect('to be').not.toBe('to be');
 			} catch (e) {
-				expect(e.message).toBe('Error during the appeal pdf generation');
+				expect(e.message).toBe('Error during the pdf generation');
 			}
 		});
 

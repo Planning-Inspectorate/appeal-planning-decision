@@ -69,7 +69,7 @@ const getHtmlAppeal = async (appeal) => {
 const storePdfAppeal = async (appeal, fileName) => {
 	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
-	log.info('Storing PDF appeal document');
+	log.info('Attempting to store PDF document');
 
 	try {
 		const htmlContent = await getHtmlAppeal(appeal);
