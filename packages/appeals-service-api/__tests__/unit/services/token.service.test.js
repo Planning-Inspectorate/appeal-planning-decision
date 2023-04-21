@@ -3,7 +3,8 @@ jest.mock('../../../src/lib/token');
 
 const {
 	createOrUpdateTokenDocument,
-	getTokenDocumentIfExists
+	getTokenDocumentIfExists,
+	getTokenCreatedAt
 } = require('../../../src/services/token.service');
 const mongodb = require('../../../src/db/db');
 const { createToken } = require('../../../src/lib/token');
@@ -96,6 +97,48 @@ describe('services/token.service', () => {
 				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
 				createdAt: new Date()
 			});
+		});
+	});
+
+	describe('getTokenCreatedAt', () => {
+		it('should call the expected functions', async () => {
+			await getTokenCreatedAt('e2813fb0-e269-4fe2-890e-6405dbd4a5ea');
+
+			expect(mongodb.get).toBeCalled();
+			expect(mongodb.get().collection).toBeCalledWith('securityToken');
+			expect(mongodb.get().collection().findOne).toBeCalledWith(
+				{
+					id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea'
+				},
+				{
+					projection: {
+						_id: 0,
+						createdAt: 1
+					}
+				}
+			);
+		});
+		it('should return undefined if no token createdAt date found in the securityToken collection for given ID', async () => {
+			mongodb.get = jest.fn().mockReturnValue({
+				collection: jest.fn().mockReturnValue({
+					findOne: jest.fn().mockResolvedValue(null)
+				})
+			});
+
+			const returnValue = await getTokenCreatedAt('e2813fb0-e269-4fe2-890e-6405dbd4a5ea');
+
+			expect(returnValue).toBe(undefined);
+		});
+		it('should return createdAt date for given ID if it was found in the securityToken collection', async () => {
+			mongodb.get = jest.fn().mockReturnValue({
+				collection: jest.fn().mockReturnValue({
+					findOne: jest.fn().mockResolvedValue({ createdAt: '2023-03-20T00:00:00Z' })
+				})
+			});
+
+			const returnValue = await getTokenCreatedAt('e2813fb0-e269-4fe2-890e-6405dbd4a5ea');
+
+			expect(returnValue).toEqual('2023-03-20T00:00:00Z');
 		});
 	});
 });
