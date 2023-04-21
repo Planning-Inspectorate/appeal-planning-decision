@@ -1,7 +1,8 @@
 const { tokenPut, tokenPost } = require('../../../src/controllers/token');
 const {
 	createOrUpdateTokenDocument,
-	getTokenDocumentIfExists
+	getTokenDocumentIfExists,
+	getTokenCreatedAt
 } = require('../../../src/services/token.service');
 const { mockReq, mockRes } = require('../mocks');
 const { getAppeal } = require('../../../src/services/appeal.service');
@@ -88,6 +89,49 @@ describe('controllers/token', () => {
 			} catch (e) {
 				expect(createOrUpdateTokenDocument).not.toBeCalled();
 			}
+		});
+
+		it('should not call createOrUpdateTokenDocument or send email if less than 10 seconds have passed since token created', async () => {
+			req.body = {
+				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				emailAddress: 'expected@email.com'
+			};
+
+			jest.useFakeTimers('modern');
+			jest.setSystemTime(Date.parse('2023-03-20T00:00:11Z'));
+
+			getTokenCreatedAt.mockReturnValue('2023-03-20T00:00:02Z');
+
+			await tokenPut(req, res);
+
+			expect(createOrUpdateTokenDocument).not.toBeCalled();
+			expect(sendSecurityCodeEmail).not.toBeCalled();
+			expect(res.status).toBeCalledWith(200);
+			expect(res.status(200).send).toBeCalledWith({});
+
+			jest.useRealTimers();
+		});
+
+		it('should call createOrUpdateTokenDocument or send email if more than 10 seconds have passed since token created', async () => {
+			req.body = {
+				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				emailAddress: 'expected@email.com'
+			};
+
+			jest.useFakeTimers('modern');
+			jest.setSystemTime(Date.parse('2023-03-20T00:00:11Z'));
+
+			getTokenCreatedAt.mockReturnValue('2023-03-20T00:00:00Z');
+			createOrUpdateTokenDocument.mockReturnValue('98765');
+
+			await tokenPut(req, res);
+
+			expect(createOrUpdateTokenDocument).toBeCalledWith(req.body.id);
+			expect(sendSecurityCodeEmail).toBeCalledWith(req.body.emailAddress, '98765', req.body.id);
+			expect(res.status).toBeCalledWith(200);
+			expect(res.status(200).send).toBeCalledWith({});
+
+			jest.useRealTimers();
 		});
 	});
 	describe('tokenPost', () => {

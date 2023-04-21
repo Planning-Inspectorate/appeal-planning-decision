@@ -44,7 +44,34 @@ const getTokenDocumentIfExists = async (id, token) => {
 	return saved;
 };
 
+const getTokenCreatedAt = async (id) => {
+	let saved;
+
+	try {
+		saved = await mongodb
+			.get()
+			.collection('securityToken')
+			.findOne(
+				{
+					id: id
+				},
+				{
+					projection: {
+						_id: 0,
+						createdAt: 1
+					}
+				}
+			);
+	} catch (err) {
+		logger.error(err, `Error: error checking security token createdAt property`);
+		throw new Error(err);
+	}
+
+	return saved?.createdAt;
+};
+
 module.exports = {
 	createOrUpdateTokenDocument,
-	getTokenDocumentIfExists
+	getTokenDocumentIfExists,
+	getTokenCreatedAt
 };

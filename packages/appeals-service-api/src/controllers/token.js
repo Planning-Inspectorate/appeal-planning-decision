@@ -1,6 +1,7 @@
 const {
 	createOrUpdateTokenDocument,
-	getTokenDocumentIfExists
+	getTokenDocumentIfExists,
+	getTokenCreatedAt
 } = require('../services/token.service');
 const { getAppeal } = require('../services/appeal.service');
 const { sendSecurityCodeEmail } = require('../lib/notify');
@@ -15,9 +16,18 @@ async function tokenPut(req, res) {
 		emailAddress = savedAppeal.email;
 	}
 
-	const token = await createOrUpdateTokenDocument(id);
+	const tokenCreatedAt = await getTokenCreatedAt(id);
 
+	if (tokenCreatedAt) {
+		const timeSinceTokenCreatedInSeconds = (new Date() - new Date(tokenCreatedAt)) / 1000;
+		if (timeSinceTokenCreatedInSeconds < 10) {
+			return res.status(200).send({});
+		}
+	}
+
+	const token = await createOrUpdateTokenDocument(id);
 	await sendSecurityCodeEmail(emailAddress, token, id);
+
 	res.status(200).send({});
 }
 
