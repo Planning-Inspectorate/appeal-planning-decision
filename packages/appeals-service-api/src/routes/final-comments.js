@@ -35,4 +35,17 @@ router.get('/:case_reference', async (req, res) => {
 	}
 });
 
+router.get('/appeal/:case_reference', async (req, res) => {
+	let statusCode = 200;
+	let body = {};
+	try {
+		body = await finalCommentsService.getFinalCommentData(req.params.case_reference);
+	} catch (error) {
+		statusCode = error.code;
+		body = error.message.errors;
+	} finally {
+		res.status(statusCode).send(body);
+	}
+});
+
 module.exports = router;
