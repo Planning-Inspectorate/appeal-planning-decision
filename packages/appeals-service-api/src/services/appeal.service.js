@@ -54,6 +54,19 @@ async function getAppeal(id) {
 	return document.appeal;
 }
 
+async function getAppealByHorizonId(horizonId) {
+	logger.info(`Retrieving appeal ${horizonId} ...`);
+	const document = await appealsRepository.getByHorizonId(horizonId);
+
+	if (document === null) {
+		logger.info(`Appeal ${horizonId} not found`);
+		throw ApiError.appealNotFoundHorizonId(horizonId);
+	}
+
+	logger.info(`Appeal ${horizonId} retrieved`);
+	return document.appeal;
+}
+
 function isValidAppeal(appeal) {
 	if (!appeal.appealType) {
 		return true;
@@ -125,8 +138,8 @@ async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
 }
 
 /**
- * 
- * @param {*} appeal 
+ *
+ * @param {*} appeal
  * @returns {AppealContactsValueObject}
  */
 function getContactDetails(appeal) {
@@ -225,5 +238,6 @@ module.exports = {
 	getAppealDocumentInBase64Encoding,
 	saveAppealAsSubmittedToBackOffice,
 	getContactDetails,
-	getDocumentIds
+	getDocumentIds,
+	getAppealByHorizonId
 };

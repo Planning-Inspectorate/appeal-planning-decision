@@ -1,5 +1,3 @@
-const jp = require('jsonpath');
-
 const { HorizonGateway } = require('../gateway/horizon-gateway');
 const { getContactDetails, getAppealDocumentInBase64Encoding } = require('./appeal.service');
 const LpaService = require('./lpa.service');
@@ -95,47 +93,13 @@ class HorizonService {
 	/**
 	 *
 	 * @param {string} caseReference
-	 * @return {Promise<Date | undefined>}
+	 * @return {Promise<Object> | undefined>}
 	 */
-	async getFinalCommentsDueDate(caseReference) {
+	async getAppealDataFromHorizon(caseReference) {
+		logger.info('Fetching Appeal from Horizon');
 		const horizonAppeal = await this.#horizonGateway.getAppeal(caseReference);
 
-		// Here be dragons! This bit is complicated because of the Horizon appeal data structure
-		// (sorry to anyone who has to work on this).
-		const attributes = jp.query(horizonAppeal, '$..Metadata.Attributes[*]');
-
-		if (attributes.length === 0) {
-			return undefined;
-		}
-
-		// Here we're simplifying the returned data structure so that the JSON Path expression
-		// is easier to read. Essentially it changes this structure:
-		//
-		// {
-		//   Name: { value: ""},
-		//   Value: { value: "" }
-		// }
-		//
-		// into
-		//
-		// {
-		//   Name: "",
-		//   Value: ""
-		// }
-		const attributesModified = attributes.map((attribute) => {
-			return { Name: attribute.Name.value, Value: attribute.Value.value };
-		});
-
-		const finalCommentsDueDate = jp.query(
-			attributesModified,
-			'$..[?(@.Name == "Case Document Dates:Final Comments Due Date")].Value'
-		);
-
-		if (finalCommentsDueDate == false) {
-			return undefined;
-		}
-
-		return new Date(Date.parse(finalCommentsDueDate));
+		return horizonAppeal;
 	}
 
 	/**
@@ -370,6 +334,13 @@ class HorizonService {
 		}
 		logger.debug(result, 'Result of submitting documents to Horizon');
 		return result;
+	}
+	async findValueFromMetadata(metaData, name) {
+		// eslint-disable-next-line no-unused-vars
+		for (const [key, att] of Object.entries(metaData)) {
+			if (att.Name.value.includes(name)) return att.Value.value;
+		}
+		return undefined;
 	}
 }
 
