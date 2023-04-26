@@ -6,6 +6,9 @@ exports[`views/includes/head should not render if googleAnalyticsId is not set b
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
     <script id=\\"gaId\\" type='text/plain'></script>
 
@@ -24,6 +27,9 @@ exports[`views/includes/head should not render if googleAnalyticsId is set but c
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
     <script id=\\"gaId\\" type='text/plain'>123</script>
 
@@ -42,7 +48,13 @@ exports[`views/includes/head should not render if googleTagManager and GA are se
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
+    <script>
+      window.wfeconfig.googleTagManager = true;
+    </script>
     
   
 
@@ -58,6 +70,9 @@ exports[`views/includes/head should not render if no ids set 1`] = `
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
     <script id=\\"gaId\\" type='text/plain'></script>
 
@@ -76,7 +91,13 @@ exports[`views/includes/head should not render if only tagmanager set 1`] = `
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
+    <script>
+      window.wfeconfig.googleTagManager = true;
+    </script>
     
   
 
@@ -92,6 +113,9 @@ exports[`views/includes/head should render if googleAnalyticsId and cookies.cook
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
     <script id=\\"gaId\\" type='text/plain'>123</script>
 
@@ -120,9 +144,16 @@ exports[`views/includes/head should render tagmanager if all are set 1`] = `
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
+    <script>
+      window.wfeconfig.googleTagManager = true;
+    </script>
     
       <script>
+        window.wfeconfig.googleTagManagerId = '123';
         // default deined for tag manager
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -152,9 +183,16 @@ exports[`views/includes/head should render tagmanager if tagmanager and id are s
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
+    <script>
+      window.wfeconfig.googleTagManager = true;
+    </script>
     
       <script>
+        window.wfeconfig.googleTagManagerId = '123';
         // default deined for tag manager
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
