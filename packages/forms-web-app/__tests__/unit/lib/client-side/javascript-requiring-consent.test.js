@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 const {
 	initialiseOptionalJavaScripts
 } = require('../../../../src/lib/client-side/javascript-requiring-consent');
@@ -12,6 +15,10 @@ jest.mock('../../../../src/lib/client-side/google-tag-manager');
 
 describe('lib/client-side/javascript-requiring-consent', () => {
 	describe('initialiseOptionalJavaScripts', () => {
+		beforeEach(() => {
+			window.wfeconfig = {};
+		});
+
 		test('return early if cookie is null', () => {
 			jest.spyOn(console, 'log').mockImplementation();
 
@@ -38,20 +45,14 @@ describe('lib/client-side/javascript-requiring-consent', () => {
 		});
 
 		describe('tagmanager active', () => {
-			const OLD_ENV = process.env;
-
 			beforeEach(() => {
-				jest.resetModules();
-				jest.resetAllMocks();
-				process.env = { ...OLD_ENV, googleTagManager: true };
-			});
-
-			afterEach(() => {
-				process.env = OLD_ENV;
+				window.wfeconfig = {
+					googleTagManager: true
+				};
 			});
 
 			test('disables consent if `usage=false`', () => {
-				process.env.googleTagManagerId = '123';
+				window.wfeconfig.googleTagManagerId = '123';
 
 				jest.spyOn(console, 'log').mockImplementation();
 
@@ -64,7 +65,7 @@ describe('lib/client-side/javascript-requiring-consent', () => {
 			});
 
 			test('enables consent if `usage=true`', () => {
-				process.env.googleTagManagerId = '123';
+				window.wfeconfig.googleTagManagerId = '123';
 
 				readCookie.mockImplementation(() => JSON.stringify({ usage: true }));
 
@@ -75,6 +76,8 @@ describe('lib/client-side/javascript-requiring-consent', () => {
 			});
 
 			test('does not enable consent if no tag manager id present', () => {
+				window.wfeconfig.googleTagManagerId = undefined;
+
 				readCookie.mockImplementation(() => JSON.stringify({ usage: true }));
 
 				initialiseOptionalJavaScripts();
@@ -85,16 +88,10 @@ describe('lib/client-side/javascript-requiring-consent', () => {
 		});
 
 		describe('tagmanager inactive', () => {
-			const OLD_ENV = process.env;
-
 			beforeEach(() => {
-				jest.resetModules();
-				jest.resetAllMocks();
-				process.env = { ...OLD_ENV, googleTagManager: false };
-			});
-
-			afterEach(() => {
-				process.env = OLD_ENV;
+				window.wfeconfig = {
+					googleTagManager: false
+				};
 			});
 
 			test('return early if `usage=false`', () => {

@@ -7,7 +7,7 @@ const { initialiseGoogleAnalytics } = require('./google-analytics');
 const googleTagManager = require('./google-tag-manager');
 
 function initialiseTagManager(consent) {
-	if (!process.env.googleTagManagerId) {
+	if (!window.wfeconfig.googleTagManagerId) {
 		return;
 	}
 
@@ -40,7 +40,7 @@ const initialiseOptionalJavaScripts = (document) => {
 		}
 
 		// using tag manager
-		if (process.env.googleTagManager) {
+		if (window.wfeconfig.googleTagManager) {
 			initialiseTagManager(parsed.usage);
 			return;
 		}

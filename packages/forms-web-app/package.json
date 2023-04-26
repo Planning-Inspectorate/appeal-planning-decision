@@ -22,6 +22,7 @@
 		"lint:fix": "eslint ./ --fix",
 		"postinstall": "patch-package",
 		"test": "jest",
+		"test:update": "jest --updateSnapshot",
 		"test:cov": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand"
 	},
