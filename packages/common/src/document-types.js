@@ -35,7 +35,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Supporting Documents',
 		involvement: 'Appellant',
-		horizonDocumentType: 'Appellant Initial Documents',
+		horizonDocumentType: 'Other Evidence from Appellant/Agent',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
 	designAccessStatement: {
