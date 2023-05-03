@@ -1,8 +1,11 @@
 const express = require('express');
+
+const { documentTypes } = require('@pins/common');
 const {
-	getOtherSupportingDocuments,
-	postOtherSupportingDocuments
-} = require('../../../controllers/full-appeal/submit-appeal/other-supporting-documents');
+	VIEW: {
+		FULL_APPEAL: { OTHER_SUPPORTING_DOCUMENTS, TASK_LIST }
+	}
+} = require('../../../lib/full-appeal/views');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const {
@@ -11,10 +14,15 @@ const {
 const {
 	rules: checkDocumentUploadedValidationRules
 } = require('../../../validators/common/check-document-uploaded');
+const {
+	postAppealMultiFileUpload,
+	getAppealMultiFileUpload
+} = require('../../../controllers/common/appeal-multi-file-upload');
 const setSectionAndTaskNames = require('../../../middleware/set-section-and-task-names');
 const reqFilesToReqBodyFilesMiddleware = require('../../../middleware/req-files-to-req-body-files');
 
 const router = express.Router();
+const documentType = documentTypes.otherDocuments.name;
 const sectionName = 'appealDocumentsSection';
 const taskName = 'supportingDocuments';
 
@@ -22,8 +30,9 @@ router.get(
 	'/submit-appeal/other-supporting-documents',
 	[fetchExistingAppealMiddleware],
 	setSectionAndTaskNames(sectionName, taskName),
-	getOtherSupportingDocuments
+	getAppealMultiFileUpload(OTHER_SUPPORTING_DOCUMENTS)
 );
+
 router.post(
 	'/submit-appeal/other-supporting-documents',
 	setSectionAndTaskNames(sectionName, taskName),
@@ -38,7 +47,13 @@ router.post(
 		multifileUploadValidationRules('files.file-upload.*')
 	],
 	validationErrorHandler,
-	postOtherSupportingDocuments
+	postAppealMultiFileUpload(
+		OTHER_SUPPORTING_DOCUMENTS,
+		TASK_LIST,
+		documentType,
+		'newSupportingDocuments',
+		'CORRESPONDENCE WITH LPA'
+	)
 );
 
 module.exports = router;

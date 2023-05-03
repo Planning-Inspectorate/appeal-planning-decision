@@ -1,8 +1,11 @@
 const express = require('express');
+
+const { documentTypes } = require('@pins/common');
 const {
-	getPlanningObligationDocuments,
-	postPlanningObligationDocuments
-} = require('../../../controllers/full-appeal/submit-appeal/planning-obligation');
+	VIEW: {
+		FULL_APPEAL: { PLANNING_OBLIGATION, NEW_DOCUMENTS }
+	}
+} = require('../../../lib/full-appeal/views');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const {
@@ -13,8 +16,13 @@ const {
 } = require('../../../validators/common/check-document-uploaded');
 const setSectionAndTaskNames = require('../../../middleware/set-section-and-task-names');
 const reqFilesToReqBodyFilesMiddleware = require('../../../middleware/req-files-to-req-body-files');
+const {
+	getAppealMultiFileUpload,
+	postAppealMultiFileUpload
+} = require('../../../controllers/common/appeal-multi-file-upload');
 
 const router = express.Router();
+const documentType = documentTypes.planningObligations.name;
 const sectionName = 'appealDocumentsSection';
 const taskName = 'planningObligations';
 
@@ -22,7 +30,7 @@ router.get(
 	'/submit-appeal/planning-obligation',
 	[fetchExistingAppealMiddleware],
 	setSectionAndTaskNames(sectionName, taskName),
-	getPlanningObligationDocuments
+	getAppealMultiFileUpload(PLANNING_OBLIGATION)
 );
 router.post(
 	'/submit-appeal/planning-obligation',
@@ -38,7 +46,13 @@ router.post(
 		multifileUploadValidationRules('files.file-upload.*')
 	],
 	validationErrorHandler,
-	postPlanningObligationDocuments
+	postAppealMultiFileUpload(
+		PLANNING_OBLIGATION,
+		NEW_DOCUMENTS,
+		documentType,
+		'planningObligationDocuments',
+		'PLANNING OBLIGATION'
+	)
 );
 
 module.exports = router;

@@ -23,7 +23,7 @@ describe('/lib/full-appeal/views', () => {
 				PROPOSED_DEVELOPMENT_CHANGED: 'full-appeal/submit-appeal/proposed-development-changed',
 				PLANNING_OBLIGATION_PLANNED: 'full-appeal/submit-appeal/planning-obligation-planned',
 				PLANNING_OBLIGATION_STATUS: 'full-appeal/submit-appeal/planning-obligation-status',
-				PLANNING_OBLIGATION_DOCUMENTS: 'full-appeal/submit-appeal/planning-obligation',
+				PLANNING_OBLIGATION: 'full-appeal/submit-appeal/planning-obligation',
 				PLANNING_OBLIGATION_DEADLINE: 'full-appeal/submit-appeal/planning-obligation-deadline',
 				DRAFT_PLANNING_OBLIGATION: 'full-appeal/submit-appeal/draft-planning-obligation',
 				ORIGINAL_APPLICANT: 'full-appeal/submit-appeal/original-applicant',
@@ -67,7 +67,6 @@ describe('/lib/full-appeal/views', () => {
 				APPEAL_ALREADY_SUBMITTED: 'full-appeal/submit-appeal/appeal-already-submitted',
 				REQUEST_NEW_CODE: 'full-appeal/submit-appeal/request-new-code',
 				CODE_EXPIRED: 'full-appeal/submit-appeal/code-expired'
-
 			}
 		});
 	});

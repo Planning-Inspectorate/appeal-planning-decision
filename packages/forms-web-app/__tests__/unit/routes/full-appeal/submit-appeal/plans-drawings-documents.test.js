@@ -1,9 +1,9 @@
 const { get, post } = require('../../router-mock');
-const {
-	getPlansDrawingsDocuments,
-	postPlansDrawingsDocuments
-} = require('../../../../../src/controllers/full-appeal/submit-appeal/plans-drawings-documents');
+
+const { VIEW } = require('../../../../../src/lib/full-appeal/views');
 const fetchExistingAppealMiddleware = require('../../../../../src/middleware/fetch-existing-appeal');
+const reqFilesToReqBodyFilesMiddleware = require('../../../../../src/middleware/req-files-to-req-body-files');
+const setSectionAndTaskNames = require('../../../../../src/middleware/set-section-and-task-names');
 const {
 	validationErrorHandler
 } = require('../../../../../src/validators/validation-error-handler');
@@ -13,15 +13,18 @@ const {
 const {
 	rules: checkDocumentUploadedValidationRules
 } = require('../../../../../src/validators/common/check-document-uploaded');
-
-const setSectionAndTaskNames = require('../../../../../src/middleware/set-section-and-task-names');
-const reqFilesToReqBodyFilesMiddleware = require('../../../../../src/middleware/req-files-to-req-body-files');
+const {
+	getAppealMultiFileUpload,
+	postAppealMultiFileUpload
+} = require('../../../../../src/controllers/common/appeal-multi-file-upload');
 
 jest.mock('../../../../../src/middleware/fetch-existing-appeal');
-jest.mock('../../../../../src/validators/common/multifile-upload');
 jest.mock('../../../../../src/middleware/set-section-and-task-names');
 jest.mock('../../../../../src/middleware/req-files-to-req-body-files');
+jest.mock('../../../../../src/validators/common/multifile-upload');
+jest.mock('../../../../../src/validators/validation-error-handler');
 jest.mock('../../../../../src/validators/common/check-document-uploaded');
+jest.mock('../../../../../src/controllers/common/appeal-multi-file-upload');
 
 describe('routes/full-appeal/submit-appeal/plans-drawings-documents', () => {
 	beforeEach(() => {
@@ -34,8 +37,9 @@ describe('routes/full-appeal/submit-appeal/plans-drawings-documents', () => {
 			'/submit-appeal/plans-drawings-documents',
 			[fetchExistingAppealMiddleware],
 			setSectionAndTaskNames(),
-			getPlansDrawingsDocuments
+			getAppealMultiFileUpload()
 		);
+
 		expect(post).toHaveBeenCalledWith(
 			'/submit-appeal/plans-drawings-documents',
 			setSectionAndTaskNames(),
@@ -45,20 +49,31 @@ describe('routes/full-appeal/submit-appeal/plans-drawings-documents', () => {
 				multifileUploadValidationRules()
 			],
 			validationErrorHandler,
-			postPlansDrawingsDocuments
+			postAppealMultiFileUpload()
 		);
 
-		expect(multifileUploadValidationRules).toHaveBeenCalledWith('files.file-upload.*');
 		expect(setSectionAndTaskNames).toHaveBeenCalledWith(
 			'planningApplicationDocumentsSection',
 			'plansDrawingsSupportingDocuments'
 		);
 
+		expect(getAppealMultiFileUpload).toHaveBeenCalledWith(
+			VIEW.FULL_APPEAL.PLANS_DRAWINGS_DOCUMENTS
+		);
+
+		expect(reqFilesToReqBodyFilesMiddleware).toHaveBeenCalledWith('file-upload');
 		expect(checkDocumentUploadedValidationRules).toHaveBeenCalledWith(
 			'file-upload',
 			'plansDrawingsSupportingDocuments',
 			'appeal',
 			'Select your plans, drawings and supporting documents'
+		);
+		expect(multifileUploadValidationRules).toHaveBeenCalledWith('files.file-upload.*');
+		expect(postAppealMultiFileUpload).toHaveBeenCalledWith(
+			VIEW.FULL_APPEAL.PLANS_DRAWINGS_DOCUMENTS,
+			VIEW.FULL_APPEAL.DESIGN_ACCESS_STATEMENT_SUBMITTED,
+			'plansDrawingsSupportingDocuments',
+			'plansDrawingsSupportingDocuments'
 		);
 	});
 });
