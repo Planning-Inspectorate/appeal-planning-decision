@@ -6,6 +6,23 @@ const cookieConfig = require('./cookie/cookie-config');
 const { initialiseGoogleAnalytics } = require('./google-analytics');
 const googleTagManager = require('./google-tag-manager');
 
+function initialiseTagManager(consent) {
+	if (!window.wfeconfig.googleTagManagerId) {
+		return;
+	}
+
+	if (consent === true) {
+		// eslint-disable-next-line no-console
+		console.log('Consent granted. Third party cookies are enabled.');
+		googleTagManager.grantConsent();
+		return;
+	}
+
+	// eslint-disable-next-line no-console
+	console.log('Declined consent. Third party cookies are not enabled.');
+	googleTagManager.denyConsent();
+}
+
 const initialiseOptionalJavaScripts = (document) => {
 	const cookie = readCookie(document, cookieConfig.COOKIE_POLICY_KEY);
 
@@ -22,19 +39,14 @@ const initialiseOptionalJavaScripts = (document) => {
 			return;
 		}
 
-		if (parsed.usage === false) {
-			// eslint-disable-next-line no-console
-			console.log('Declined consent. Third party cookies are not enabled.');
-
-			if (process.env.googleTagManager && process.env.googleTagManagerId) {
-				googleTagManager.denyConsent();
-			}
+		// using tag manager
+		if (window.wfeconfig.googleTagManager) {
+			initialiseTagManager(parsed.usage);
 			return;
 		}
 
-		if (process.env.googleTagManager && process.env.googleTagManagerId) {
-			googleTagManager.grantConsent();
-		} else {
+		// not using tag manager
+		if (parsed.usage === true) {
 			initialiseGoogleAnalytics(document);
 		}
 	} catch (e) {

@@ -26,22 +26,22 @@ jest.mock('../../../../../src/validators/validation-error-handler');
 jest.mock('../../../../../src/validators/common/check-document-uploaded');
 jest.mock('../../../../../src/controllers/common/appeal-multi-file-upload');
 
-describe('routes/full-appeal/submit-appeal/other-supporting-documents', () => {
+describe('routes/full-appeal/submit-appeal/planning-obligation', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../../src/routes/full-appeal/submit-appeal/other-supporting-documents');
+		require('../../../../../src/routes/full-appeal/submit-appeal/planning-obligation');
 	});
 
 	it('should define the expected routes', () => {
 		expect(get).toHaveBeenCalledWith(
-			'/submit-appeal/other-supporting-documents',
+			'/submit-appeal/planning-obligation',
 			[fetchExistingAppealMiddleware],
 			setSectionAndTaskNames(),
 			getAppealMultiFileUpload()
 		);
 
 		expect(post).toHaveBeenCalledWith(
-			'/submit-appeal/other-supporting-documents',
+			'/submit-appeal/planning-obligation',
 			setSectionAndTaskNames(),
 			[
 				reqFilesToReqBodyFilesMiddleware(),
@@ -54,27 +54,25 @@ describe('routes/full-appeal/submit-appeal/other-supporting-documents', () => {
 
 		expect(setSectionAndTaskNames).toHaveBeenCalledWith(
 			'appealDocumentsSection',
-			'supportingDocuments'
+			'planningObligations'
 		);
 
-		expect(getAppealMultiFileUpload).toHaveBeenCalledWith(
-			VIEW.FULL_APPEAL.OTHER_SUPPORTING_DOCUMENTS
-		);
+		expect(getAppealMultiFileUpload).toHaveBeenCalledWith(VIEW.FULL_APPEAL.PLANNING_OBLIGATION);
 
 		expect(reqFilesToReqBodyFilesMiddleware).toHaveBeenCalledWith('file-upload');
 		expect(checkDocumentUploadedValidationRules).toHaveBeenCalledWith(
 			'file-upload',
-			'supportingDocuments',
+			'planningObligations',
 			'appeal',
-			'Select a supporting document'
+			'Select your planning obligation'
 		);
 		expect(multifileUploadValidationRules).toHaveBeenCalledWith('files.file-upload.*');
 		expect(postAppealMultiFileUpload).toHaveBeenCalledWith(
-			VIEW.FULL_APPEAL.OTHER_SUPPORTING_DOCUMENTS,
-			VIEW.FULL_APPEAL.TASK_LIST,
-			'otherDocuments',
-			'newSupportingDocuments',
-			'CORRESPONDENCE WITH LPA'
+			VIEW.FULL_APPEAL.PLANNING_OBLIGATION,
+			VIEW.FULL_APPEAL.NEW_DOCUMENTS,
+			'planningObligations',
+			'planningObligationDocuments',
+			'PLANNING OBLIGATION'
 		);
 	});
 });

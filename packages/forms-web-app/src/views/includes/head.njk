@@ -3,8 +3,23 @@
   <!--[if lte IE 8]><link href="/public/stylesheets/main-ie8.css" rel="stylesheet" type="text/css" /><![endif]-->
   <!--[if gt IE 8]><!--><link href="/public/stylesheets/main.css" media="all" rel="stylesheet" type="text/css" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   {% if featureFlag.googleTagManager %}
+    <script>
+      window.wfeconfig.googleTagManager = true;
+    </script>
     {% if googleTagManagerId %}
+      <script>
+        window.wfeconfig.googleTagManagerId = '{{ googleTagManagerId | safe }}';
+        // default deined for tag manager
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          'analytics_storage': 'denied'
+        });
+      </script>
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],

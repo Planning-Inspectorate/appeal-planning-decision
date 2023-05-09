@@ -3,7 +3,7 @@ const express = require('express');
 const { documentTypes } = require('@pins/common');
 const {
 	VIEW: {
-		FULL_APPEAL: { PLANS_DRAWINGS_DOCUMENTS, DESIGN_ACCESS_STATEMENT_SUBMITTED }
+		FULL_APPEAL: { PLANNING_OBLIGATION, NEW_DOCUMENTS }
 	}
 } = require('../../../lib/full-appeal/views');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
@@ -14,26 +14,26 @@ const {
 const {
 	rules: checkDocumentUploadedValidationRules
 } = require('../../../validators/common/check-document-uploaded');
+const setSectionAndTaskNames = require('../../../middleware/set-section-and-task-names');
+const reqFilesToReqBodyFilesMiddleware = require('../../../middleware/req-files-to-req-body-files');
 const {
 	getAppealMultiFileUpload,
 	postAppealMultiFileUpload
 } = require('../../../controllers/common/appeal-multi-file-upload');
-const setSectionAndTaskNames = require('../../../middleware/set-section-and-task-names');
-const reqFilesToReqBodyFilesMiddleware = require('../../../middleware/req-files-to-req-body-files');
 
 const router = express.Router();
-const documentType = documentTypes.plansDrawingsSupportingDocuments.name;
-const sectionName = 'planningApplicationDocumentsSection';
-const taskName = documentType;
+const documentType = documentTypes.planningObligations.name;
+const sectionName = 'appealDocumentsSection';
+const taskName = 'planningObligations';
 
 router.get(
-	'/submit-appeal/plans-drawings-documents',
+	'/submit-appeal/planning-obligation',
 	[fetchExistingAppealMiddleware],
 	setSectionAndTaskNames(sectionName, taskName),
-	getAppealMultiFileUpload(PLANS_DRAWINGS_DOCUMENTS)
+	getAppealMultiFileUpload(PLANNING_OBLIGATION)
 );
 router.post(
-	'/submit-appeal/plans-drawings-documents',
+	'/submit-appeal/planning-obligation',
 	setSectionAndTaskNames(sectionName, taskName),
 	[
 		reqFilesToReqBodyFilesMiddleware('file-upload'),
@@ -41,16 +41,17 @@ router.post(
 			'file-upload',
 			taskName,
 			'appeal',
-			'Select your plans, drawings and supporting documents'
+			'Select your planning obligation'
 		),
 		multifileUploadValidationRules('files.file-upload.*')
 	],
 	validationErrorHandler,
 	postAppealMultiFileUpload(
-		PLANS_DRAWINGS_DOCUMENTS,
-		DESIGN_ACCESS_STATEMENT_SUBMITTED,
+		PLANNING_OBLIGATION,
+		NEW_DOCUMENTS,
 		documentType,
-		'plansDrawingsSupportingDocuments'
+		'planningObligationDocuments',
+		'PLANNING OBLIGATION'
 	)
 );
 

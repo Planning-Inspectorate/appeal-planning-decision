@@ -41,11 +41,11 @@ const postPlanningObligationDeadline = async (req, res) => {
 	try {
 		appeal[sectionName][taskName].planningObligationDeadline = planningObligationDeadline;
 		if (req.body['save-and-return'] !== '') {
-			appeal.sectionStates[sectionName].planningObligationDeadlineStatus = COMPLETED;
+			appeal.sectionStates[sectionName].planningObligationDeadline = COMPLETED;
 			req.session.appeal = await createOrUpdateAppeal(appeal);
 			return res.redirect(`/${NEW_DOCUMENTS}`);
 		}
-		appeal.sectionStates[sectionName].planningObligationDeadlineStatus = IN_PROGRESS;
+		appeal.sectionStates[sectionName].planningObligationDeadline = IN_PROGRESS;
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 		return await postSaveAndReturn(req, res);
 	} catch (err) {
