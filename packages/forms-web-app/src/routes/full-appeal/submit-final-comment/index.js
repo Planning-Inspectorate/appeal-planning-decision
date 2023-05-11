@@ -1,5 +1,5 @@
 const express = require('express');
-const featureFlagMiddleware = require('../../../middleware/final-comments-feature-flag');
+const featureFlagMiddleware = require('../../../middleware/feature-flag');
 
 const router = express.Router();
 
