@@ -3,7 +3,7 @@ const express = require('express');
 
 (async () => {
 	const { isFeatureActive } = require('../../../featureFlag');
-	if (await isFeatureActive('final-comments')) {
+	if (await isFeatureActive('final-comments', 'enableForAllLPAs')) {
 		featureActive = true;
 	}
 })();
