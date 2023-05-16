@@ -1056,13 +1056,11 @@
         "Planning obligation",
         { "data-cy": "planning-obligation-label" }
       ) },
-      value: { text: uploadedFileLink(
+      value: { text: uploadedFileList(
+        appeal.appealDocumentsSection.planningObligations.uploadedFiles,
         appeal.id,
-        appeal.appealDocumentsSection.planningObligations.uploadedFiles[0],
-        { "data-cy": "planning-obligation" }
-      ) if isPdf !== true else summaryField(
-        appeal.appealDocumentsSection.planningObligations.uploadedFiles[0].name,
-        { "data-cy": "planning-obligation" }
+        'planning-obligation',
+        isPdf !== true
       ) },
       actions: planningObligationRowActions if isPdf !== true
     } %}
@@ -1083,13 +1081,11 @@
         "Planning obligation",
         { "data-cy": "draft-planning-obligation-label" }
       ) },
-      value: { text: uploadedFileLink(
+      value: { html: uploadedFileList(
+        appeal.appealDocumentsSection.draftPlanningObligations.uploadedFiles,
         appeal.id,
-        appeal.appealDocumentsSection.draftPlanningObligations.uploadedFiles[0],
-        { "data-cy": "draft-planning-obligation" }
-      ) if isPdf !== true else summaryField(
-        appeal.appealDocumentsSection.draftPlanningObligations.uploadedFiles[0].name,
-        { "data-cy": "draft-planning-obligation" }
+        'draft-planning-obligation',
+        isPdf !== true
       ) },
       actions: draftPlanningObligationRowActions if isPdf !== true
     } %}
