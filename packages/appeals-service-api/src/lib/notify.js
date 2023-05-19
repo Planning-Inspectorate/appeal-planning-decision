@@ -164,32 +164,6 @@ const sendSecurityCodeEmail = async (recipientEmail, code, identifier) => {
 	}
 };
 
-const sendConfirmEmailAddressEmail = async (appeal) => {
-	try {
-		const { baseUrl } = config.apps.appeals;
-		const { recipientEmail, variables, reference } = appealTypeConfig[
-			appeal.appealType
-		].email.confirmEmail(appeal, baseUrl);
-		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
-
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.CONFIRM_EMAIL.confirmEmail)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
-	} catch (err) {
-		logger.error(
-			{ err, appealId: appeal.id },
-			'Unable to send confirm email address confirmation email to appellant'
-		);
-	}
-};
-
 const sendFailureToUploadToHorizonEmail = async (appealId) => {
 	try {
 		let variables = {
@@ -232,6 +206,5 @@ module.exports = {
 	sendSubmissionConfirmationEmailToAppellant,
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendSecurityCodeEmail,
-	sendConfirmEmailAddressEmail,
 	sendFailureToUploadToHorizonEmail
 };

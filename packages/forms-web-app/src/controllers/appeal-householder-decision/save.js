@@ -1,6 +1,7 @@
 const { saveAppeal, sendToken } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/submit-appeal/views');
 const { calculateDeadline } = require('../../lib/calculate-deadline');
+const { enterCodeConfig } = require('@pins/common');
 const {
 	VIEW: {
 		FULL_APPEAL: { CANNOT_APPEAL }
@@ -23,7 +24,7 @@ const continueAppeal = async (req, res) => {
 	if (deadlineHasPassed) {
 		res.redirect(`/${CANNOT_APPEAL}`);
 	}
-	await sendToken(appeal);
+	await sendToken(appeal, enterCodeConfig.actions.saveAndReturn);
 	res.redirect(`/${VIEW.SUBMIT_APPEAL.ENTER_CODE}`);
 };
 

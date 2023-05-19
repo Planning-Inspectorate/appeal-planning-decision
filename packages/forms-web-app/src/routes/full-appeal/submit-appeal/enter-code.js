@@ -7,11 +7,29 @@ const { getEnterCode, postEnterCode } = require('../../../controllers/common/ent
 
 const {
 	VIEW: {
-		FULL_APPEAL: { TASK_LIST, ENTER_CODE, REQUEST_NEW_CODE, CODE_EXPIRED, APPEAL_ALREADY_SUBMITTED }
+		FULL_APPEAL: {
+			TASK_LIST,
+			ENTER_CODE,
+			REQUEST_NEW_CODE,
+			CODE_EXPIRED,
+			NEED_NEW_CODE,
+			APPEAL_ALREADY_SUBMITTED,
+			EMAIL_CONFIRMED,
+			EMAIL_ADDRESS
+		}
 	}
-} = require('../../../lib/full-appeal/views');
+} = require('../../../lib/views');
 
-const views = { TASK_LIST, ENTER_CODE, REQUEST_NEW_CODE, CODE_EXPIRED, APPEAL_ALREADY_SUBMITTED };
+const views = {
+	TASK_LIST,
+	ENTER_CODE,
+	REQUEST_NEW_CODE,
+	CODE_EXPIRED,
+	NEED_NEW_CODE,
+	APPEAL_ALREADY_SUBMITTED,
+	EMAIL_CONFIRMED,
+	EMAIL_ADDRESS
+};
 
 const router = express.Router();
 

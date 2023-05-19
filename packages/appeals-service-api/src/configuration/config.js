@@ -125,9 +125,6 @@ let config = {
 					enterCodeIntoServiceEmailToAppellant:
 						process.env.SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID
 				},
-				CONFIRM_EMAIL: {
-					confirmEmail: process.env.SRV_NOTIFY_CONFIRM_EMAIL_TEMPLATE_ID
-				},
 				ERROR_MONITORING: {
 					failureToUploadToHorizon: process.env.SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID
 				}

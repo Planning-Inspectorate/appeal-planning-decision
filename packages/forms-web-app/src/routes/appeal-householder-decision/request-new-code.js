@@ -7,15 +7,18 @@ const {
 
 const {
 	VIEW: {
-		APPELLANT_SUBMISSION: { REQUEST_NEW_CODE, ENTER_CODE }
+		APPELLANT_SUBMISSION: { REQUEST_NEW_CODE, NEED_NEW_CODE, ENTER_CODE }
 	}
 } = require('../../lib/views');
 
-const views = { REQUEST_NEW_CODE, ENTER_CODE };
+const requestViews = { REQUEST_NEW_CODE, ENTER_CODE };
+const needViews = { REQUEST_NEW_CODE: NEED_NEW_CODE, ENTER_CODE };
 
 const router = express.Router();
 
-router.get('/request-new-code', getRequestNewCode(views));
-router.post('/request-new-code', postRequestNewCode(views));
+router.get('/request-new-code', getRequestNewCode(requestViews));
+router.post('/request-new-code', postRequestNewCode(requestViews));
+router.get('/need-new-code', getRequestNewCode(needViews));
+router.post('/need-new-code', postRequestNewCode(needViews));
 
 module.exports = router;

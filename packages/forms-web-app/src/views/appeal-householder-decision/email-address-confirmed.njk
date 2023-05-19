@@ -11,12 +11,12 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">Your email address is confirmed</h1>
-
-    {{ govukButton({
+      <p class="govuk-body">You can continue your appeal</p>
+      {{ govukButton({
             text: "Continue",
             href: listOfDocumentsUrl,
             attributes: { "data-cy":"button-save-and-continue"}
-          }) }}
+      }) }}
 		</div>
   </div>
 {% endblock %}

@@ -45,9 +45,7 @@ const planningObligationDeadlineRouter = require('../../../../../src/routes/full
 const applicationCertificatesIncludedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/application-certificates-included');
 const certificatesRouter = require('../../../../../src/routes/full-appeal/submit-appeal/certificates');
 const planningApplicationNumberRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-application-number');
-const confirmEmailAddressRouter = require('../../../../../src/routes/full-appeal/submit-appeal/confirm-email-address');
 const emailConfirmedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/email-address-confirmed');
-const SentAnotherLinkRouter = require('../../../../../src/routes/full-appeal/submit-appeal/sent-another-link');
 const appealAlreadySubmittedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/appeal-already-submitted');
 const requestNewCodeRouter = require('../../../../../src/routes/full-appeal/submit-appeal/request-new-code');
 const codeExpiredRouter = require('../../../../../src/routes/full-appeal/submit-appeal/code-expired');
@@ -105,9 +103,7 @@ describe('routes/full-appeal/submit-appeal/index', () => {
 		expect(use).toHaveBeenCalledWith(certificatesRouter);
 		expect(use).toHaveBeenCalledWith(letterConfirmingApplicationRouter);
 		expect(use).toHaveBeenCalledWith(planningApplicationNumberRouter);
-		expect(use).toHaveBeenCalledWith(confirmEmailAddressRouter);
 		expect(use).toHaveBeenCalledWith(emailConfirmedRouter);
-		expect(use).toHaveBeenCalledWith(SentAnotherLinkRouter);
 		expect(use).toHaveBeenCalledWith(appealAlreadySubmittedRouter);
 		expect(use).toHaveBeenCalledWith(requestNewCodeRouter);
 		expect(use).toHaveBeenCalledWith(codeExpiredRouter);

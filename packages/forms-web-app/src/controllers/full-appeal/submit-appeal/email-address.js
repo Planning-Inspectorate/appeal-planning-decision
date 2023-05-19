@@ -1,9 +1,10 @@
 const {
 	VIEW: {
-		FULL_APPEAL: { EMAIL_ADDRESS, CONFIRM_EMAIL_ADDRESS }
+		FULL_APPEAL: { EMAIL_ADDRESS, ENTER_CODE }
 	}
 } = require('../../../lib/full-appeal/views');
 const { createOrUpdateAppeal } = require('../../../lib/appeals-api-wrapper');
+const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../../lib/logger');
 
 const getEmailAddress = (req, res) => {
@@ -45,7 +46,10 @@ const postEmailAddress = async (req, res) => {
 		return;
 	}
 
-	res.redirect(`/${CONFIRM_EMAIL_ADDRESS}`);
+	req.session.enterCode = req.session.enterCode || {};
+	req.session.enterCode.action = enterCodeConfig.actions.confirmEmail;
+
+	res.redirect(`/${ENTER_CODE}/${req.session.appeal.id}`);
 };
 
 module.exports = {

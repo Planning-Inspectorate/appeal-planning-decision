@@ -22,5 +22,13 @@ describe('routes/appeal-householder-decision/request-new-code', () => {
 			'/request-new-code',
 			requestNewCodeController.postRequestNewCode()
 		);
+		expect(get).toHaveBeenCalledWith(
+			'/need-new-code',
+			requestNewCodeController.getRequestNewCode()
+		);
+		expect(post).toHaveBeenCalledWith(
+			'/need-new-code',
+			requestNewCodeController.postRequestNewCode()
+		);
 	});
 });

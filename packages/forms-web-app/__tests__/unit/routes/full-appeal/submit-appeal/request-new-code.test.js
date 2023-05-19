@@ -22,5 +22,14 @@ describe('routes/full-appeal/submit-appeal/request-new-code', () => {
 			'/submit-appeal/request-new-code',
 			requestNewCodeController.postRequestNewCode()
 		);
+
+		expect(get).toHaveBeenCalledWith(
+			'/submit-appeal/need-new-code',
+			requestNewCodeController.getRequestNewCode()
+		);
+		expect(post).toHaveBeenCalledWith(
+			'/submit-appeal/need-new-code',
+			requestNewCodeController.postRequestNewCode()
+		);
 	});
 });

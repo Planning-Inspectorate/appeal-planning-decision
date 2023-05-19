@@ -8,7 +8,7 @@ const { sendSecurityCodeEmail } = require('../lib/notify');
 
 //sends a code to user email
 async function tokenPut(req, res) {
-	const { id } = req.body;
+	const { id, action } = req.body;
 	let { emailAddress } = req.body;
 
 	if (!emailAddress) {
@@ -25,7 +25,7 @@ async function tokenPut(req, res) {
 		}
 	}
 
-	const token = await createOrUpdateTokenDocument(id);
+	const token = await createOrUpdateTokenDocument(id, action);
 	await sendSecurityCodeEmail(emailAddress, token, id);
 
 	res.status(200).send({});
@@ -35,14 +35,25 @@ async function tokenPut(req, res) {
 async function tokenPost(req, res) {
 	const { id, token } = req.body;
 
-	const document = await getTokenDocumentIfExists(id, token);
+	const document = await getTokenDocumentIfExists(id);
 
 	if (!document) {
 		return res.status(200).send({});
 	}
 
-	res.status(200).send({
+	if (document.attempts && document.attempts > 3) {
+		// reset attempts and code
+		await createOrUpdateTokenDocument(id);
+		return res.status(429).send({});
+	}
+
+	if (document.token !== token) {
+		return res.status(200).send({});
+	}
+
+	return res.status(200).send({
 		id: document?.id,
+		action: document?.action,
 		createdAt: document?.createdAt
 	});
 }
