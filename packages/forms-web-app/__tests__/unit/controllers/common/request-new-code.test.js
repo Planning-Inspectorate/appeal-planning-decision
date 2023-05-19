@@ -20,10 +20,10 @@ describe('controllers/common/enter-code', () => {
 		it('should redirect to correct page', () => {
 			const {
 				VIEW: {
-					FULL_APPEAL: { REQUEST_NEW_CODE, ENTER_CODE }
+					FULL_APPEAL: { REQUEST_NEW_CODE }
 				}
 			} = require('../../../../src/lib/views');
-			const views = { REQUEST_NEW_CODE, ENTER_CODE };
+			const views = { REQUEST_NEW_CODE };
 
 			const returnedFunction = getRequestNewCode(views);
 			returnedFunction(req, res);
@@ -50,6 +50,7 @@ describe('controllers/common/enter-code', () => {
 
 			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${tokenId}`);
 			expect(req.session.userTokenId).not.toBeDefined();
+			expect(req.session.enterCode.newCode).toBe(true);
 		});
 	});
 });

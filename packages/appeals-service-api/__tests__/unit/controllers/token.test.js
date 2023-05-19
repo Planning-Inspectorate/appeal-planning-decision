@@ -30,8 +30,27 @@ describe('controllers/token', () => {
 
 			await tokenPut(req, res);
 
-			expect(createOrUpdateTokenDocument).toBeCalledWith('e2813fb0-e269-4fe2-890e-6405dbd4a5ea');
+			expect(createOrUpdateTokenDocument).toBeCalledWith(
+				'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				undefined
+			);
 		});
+
+		it('should call createOrUpdateTokenDocument with req.body.action', async () => {
+			req.body = { id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea', action: 'test' };
+			createOrUpdateTokenDocument.mockReturnValue('68736');
+			getAppeal.mockReturnValue({
+				email: 'expected@email.com'
+			});
+
+			await tokenPut(req, res);
+
+			expect(createOrUpdateTokenDocument).toBeCalledWith(
+				'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				'test'
+			);
+		});
+
 		it('should call getAppeal with req.body.id and set emailAddress to email prop of returned appeal if emailAddress is missing from req.body', async () => {
 			req.body = { id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea' };
 			createOrUpdateTokenDocument.mockReturnValue('68736');
@@ -126,7 +145,7 @@ describe('controllers/token', () => {
 
 			await tokenPut(req, res);
 
-			expect(createOrUpdateTokenDocument).toBeCalledWith(req.body.id);
+			expect(createOrUpdateTokenDocument).toBeCalledWith(req.body.id, undefined);
 			expect(sendSecurityCodeEmail).toBeCalledWith(req.body.emailAddress, '98765', req.body.id);
 			expect(res.status).toBeCalledWith(200);
 			expect(res.status(200).send).toBeCalledWith({});
@@ -135,7 +154,7 @@ describe('controllers/token', () => {
 		});
 	});
 	describe('tokenPost', () => {
-		it('should call getTokenDocumentIfExists with id and token from req.body', async () => {
+		it('should call getTokenDocumentIfExists with id from req.body', async () => {
 			req.body = {
 				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
 				token: '68736'
@@ -143,11 +162,9 @@ describe('controllers/token', () => {
 
 			await tokenPost(req, res);
 
-			expect(getTokenDocumentIfExists).toBeCalledWith(
-				'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
-				'68736'
-			);
+			expect(getTokenDocumentIfExists).toBeCalledWith('e2813fb0-e269-4fe2-890e-6405dbd4a5ea');
 		});
+
 		it('should send a response with a 200 status code, containing an empty object, if document is not returned by getTokenDocumentIfExists', async () => {
 			req.body = {
 				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
@@ -161,6 +178,46 @@ describe('controllers/token', () => {
 			expect(res.status).toBeCalledWith(200);
 			expect(res.status(200).send).toBeCalledWith({});
 		});
+
+		it('should send a response with a 429 status code containing an empty object, if too many attempts are made', async () => {
+			req.body = {
+				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				token: '68736'
+			};
+
+			getTokenDocumentIfExists.mockReturnValue({
+				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				token: '68736',
+				attempts: 4,
+				action: 'test',
+				createdAt: '2023-03-20T11:50:09.685Z'
+			});
+
+			await tokenPost(req, res);
+
+			expect(res.status).toBeCalledWith(429);
+			expect(res.status(200).send).toBeCalledWith({});
+		});
+
+		it('should send a response with a 200 status code, containing an empty object if the code doesnt match', async () => {
+			req.body = {
+				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				token: '68736'
+			};
+
+			getTokenDocumentIfExists.mockReturnValue({
+				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				token: '11111',
+				action: 'test',
+				createdAt: '2023-03-20T11:50:09.685Z'
+			});
+
+			await tokenPost(req, res);
+
+			expect(res.status).toBeCalledWith(200);
+			expect(res.status(200).send).toBeCalledWith({});
+		});
+
 		it('should send a response with a 200 status code, containing an object with id and createdAt props from the returned document, if document is returned by getTokenDocumentIfExists', async () => {
 			req.body = {
 				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
@@ -169,6 +226,9 @@ describe('controllers/token', () => {
 
 			getTokenDocumentIfExists.mockReturnValue({
 				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				token: '68736',
+				action: 'test',
+				attempts: 3,
 				createdAt: '2023-03-20T11:50:09.685Z'
 			});
 
@@ -177,6 +237,7 @@ describe('controllers/token', () => {
 			expect(res.status).toBeCalledWith(200);
 			expect(res.status(200).send).toBeCalledWith({
 				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				action: 'test',
 				createdAt: '2023-03-20T11:50:09.685Z'
 			});
 		});

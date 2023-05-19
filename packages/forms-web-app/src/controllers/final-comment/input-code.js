@@ -1,6 +1,7 @@
 const { sendToken } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
 const { isTokenValid } = require('../../lib/is-token-valid');
+const { enterCodeConfig } = require('@pins/common');
 const {
 	validation: {
 		securityCodeMaxAttempts: { finalComment: finalCommentSecurityCodeMaxAttempts }
@@ -39,7 +40,7 @@ const getInputCode = async (req, res) => {
 			finalComment: { id, email: emailAddress }
 		}
 	} = req;
-	await sendToken(id, emailAddress);
+	await sendToken(id, enterCodeConfig.actions.saveAndReturn, emailAddress);
 	res.render(VIEW.FINAL_COMMENT.INPUT_CODE);
 };
 
@@ -62,7 +63,10 @@ const postInputCode = async (req, res) => {
 		return;
 	}
 
-	req.session.finalComment.secureCodeEnteredCorrectly = await isTokenValid(id, token);
+	const tokenResult = await isTokenValid(id, token, req.session);
+	// todo: handle too many attempts
+
+	req.session.finalComment.secureCodeEnteredCorrectly = tokenResult.valid;
 
 	if (!req.session.finalComment.secureCodeEnteredCorrectly) {
 		req.session.finalComment.incorrectSecurityCodeAttempts++;

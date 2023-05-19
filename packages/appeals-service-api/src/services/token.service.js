@@ -2,7 +2,7 @@ const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const { createToken } = require('../lib/token');
 
-const createOrUpdateTokenDocument = async (id) => {
+const createOrUpdateTokenDocument = async (id, action) => {
 	const token = createToken();
 	try {
 		await mongodb
@@ -14,6 +14,8 @@ const createOrUpdateTokenDocument = async (id) => {
 					$set: {
 						id,
 						token,
+						action,
+						attempts: 0,
 						createdAt: new Date()
 					}
 				},
@@ -25,15 +27,14 @@ const createOrUpdateTokenDocument = async (id) => {
 	return token;
 };
 
-const getTokenDocumentIfExists = async (id, token) => {
-	let saved;
+const getTokenDocumentIfExists = async (id) => {
+	let saved = null;
+
+	// look up by id and update attempts count
 	await mongodb
 		.get()
 		.collection('securityToken')
-		.findOne({
-			id,
-			token
-		})
+		.findOneAndUpdate({ _id: id }, { $inc: { attempts: 1 } }, { returnOriginal: false })
 		.then((doc) => {
 			saved = doc;
 		})
@@ -41,7 +42,8 @@ const getTokenDocumentIfExists = async (id, token) => {
 			logger.error(err, `Error: error when checking security token`);
 			throw new Error(err);
 		});
-	return saved;
+
+	return saved?.value;
 };
 
 const getTokenCreatedAt = async (id) => {

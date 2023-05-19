@@ -1,9 +1,11 @@
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+const { enterCodeConfig } = require('@pins/common');
+const { VIEW } = require('../../lib/views');
 
 const getEmailAddress = (req, res) => {
 	const { email } = req.session.appeal;
-	return res.render('appeal-householder-decision/email-address', {
+	return res.render(VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS, {
 		email
 	});
 };
@@ -18,7 +20,7 @@ const postEmailAddress = async (req, res) => {
 	} = req.session;
 
 	if (Object.keys(errors).length > 0) {
-		return res.render('appeal-householder-decision/email-address', {
+		return res.render(VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS, {
 			email,
 			errors,
 			errorSummary
@@ -30,15 +32,17 @@ const postEmailAddress = async (req, res) => {
 		req.session.appeal = await createOrUpdateAppeal(appeal);
 	} catch (e) {
 		logger.error(e);
-		return res.render('appeal-householder-decision/email-address', {
+		return res.render(VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS, {
 			email,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
 	}
 
-	res.redirect('/appeal-householder-decision/confirm-email-address');
+	req.session.enterCode = req.session.enterCode || {};
+	req.session.enterCode.action = enterCodeConfig.actions.confirmEmail;
 
+	res.redirect(`/appeal-householder-decision/enter-code/${req.session.appeal.id}`);
 };
 
 module.exports = {

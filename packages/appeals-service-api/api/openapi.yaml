@@ -234,45 +234,7 @@ paths:
                 $ref: '#/components/schemas/SavedAppeal'
         '400':
           description: Invalid appealId
-  '/api/v1/confirm-email':
-    post:
-      summary: Generates and sends token for email confirmation
-      description: Generates token which is sent as part of email confirmation.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Appeal'
-      responses:
-        '201':
-          description: Returns appeal
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ConfirmEmail'
-        '400':
-          description: Invalid appeal
-  '/api/v1/confirm-email/{token}':
-    get:
-      summary: Retrieves an existing token 
-      description: Retrieves existing email confirmation token if it exists
-      parameters:
-        - in: path
-          name: token
-          required: true
-          schema:
-            type: string
-            example: '12345'
-          description: token
-      responses:
-        '200':
-          description: Returns a valid token object
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ConfirmEmail'
-    
+
 components:
   schemas:
     AboutYouSection:
@@ -469,25 +431,6 @@ components:
         createdAt:
           type: number
           example:
-    ConfirmEmail:
-      type: object
-      properties:
-        token:
-          type: string
-          minLength: 5
-          maxLength: 5
-          example: '12345'
-        tokenStatus:
-          type: string
-          enum:
-            - 'NOT_SENT'
-            - 'SENT'
-            - 'EXPIRED'
-            - 'USED'
-        createdAt:
-          type: date
-          example: '2020-10-29T12:00:00.000Z'
-
     SectionState:
       type: string
       enum:

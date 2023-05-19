@@ -15,6 +15,7 @@ const {
 		securityCodeMaxAttempts: { finalComment: finalCommentSecurityCodeMaxAttempts }
 	}
 } = require('../../../../src/config');
+const { enterCodeConfig } = require('@pins/common');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');
@@ -35,6 +36,7 @@ describe('controllers/final-comment/input-code', () => {
 
 			expect(sendToken).toBeCalledWith(
 				'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+				enterCodeConfig.actions.saveAndReturn,
 				'test@planninginspectorate.gov.uk'
 			);
 		});
@@ -110,7 +112,7 @@ describe('controllers/final-comment/input-code', () => {
 				'email-code': '68365'
 			};
 
-			isTokenValid.mockReturnValue(true);
+			isTokenValid.mockReturnValue({ valid: true });
 
 			await postInputCode(req, res);
 
