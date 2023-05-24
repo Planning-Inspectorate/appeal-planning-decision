@@ -26,7 +26,10 @@ describe('lib/session', () => {
 
 		const configuredSession = session();
 
-		expect(configuredSession.cookie).toEqual({});
+		expect(configuredSession.cookie).toEqual({
+			sameSite: 'lax',
+			httpOnly: true
+		});
 		expect(configuredSession.resave).toEqual(false);
 		expect(configuredSession.saveUninitialized).toEqual(true);
 		expect(configuredSession.secret).toEqual(config.server.sessionSecret);
