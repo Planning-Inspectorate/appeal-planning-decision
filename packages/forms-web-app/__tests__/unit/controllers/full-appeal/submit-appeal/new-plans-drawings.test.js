@@ -117,6 +117,7 @@ describe('controllers/full-appeal/submit-appeal/new-plans-drawings', () => {
 			};
 			submittedAppeal[sectionName][taskName].hasPlansDrawings = false;
 			submittedAppeal.sectionStates.appealDocumentsSection.newPlansDrawings = TASK_STATUS.COMPLETED;
+			submittedAppeal[sectionName][taskName].uploadedFiles = [];
 
 			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 

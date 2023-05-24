@@ -131,6 +131,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
 				state: 'SUBMITTED'
 			};
 			submittedAppeal[sectionName][taskName].isSubmitted = false;
+			submittedAppeal[sectionName][taskName].uploadedFile = {};
 
 			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
@@ -158,6 +159,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
 				state: 'SUBMITTED'
 			};
 			submittedAppeal[sectionName][taskName].isSubmitted = false;
+			submittedAppeal[sectionName][taskName].uploadedFile = {};
 
 			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 
@@ -185,6 +187,7 @@ describe('controllers/full-appeal/submit-appeal/design-access-statement-submitte
 				state: 'SUBMITTED'
 			};
 			submittedAppeal[sectionName][taskName].isSubmitted = false;
+			submittedAppeal[sectionName][taskName].uploadedFile = {};
 
 			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 

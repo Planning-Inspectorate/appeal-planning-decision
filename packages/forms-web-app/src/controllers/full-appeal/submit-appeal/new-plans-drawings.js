@@ -34,6 +34,10 @@ const postNewPlansDrawings = async (req, res) => {
 
 	const hasPlansDrawings = body['plans-drawings'] === 'yes';
 
+	if (!hasPlansDrawings) {
+		appeal[sectionName][taskName].uploadedFiles = [];
+	}
+
 	try {
 		appeal[sectionName][taskName].hasPlansDrawings = hasPlansDrawings;
 		if (req.body['save-and-return'] !== '') {
