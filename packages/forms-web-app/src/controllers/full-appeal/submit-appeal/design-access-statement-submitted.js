@@ -55,6 +55,10 @@ const postDesignAccessStatementSubmitted = async (req, res) => {
 
 	const isSubmitted = body['design-access-statement-submitted'] === 'yes';
 
+	if (!isSubmitted) {
+		appeal[sectionName][taskName].uploadedFile = {};
+	}
+
 	try {
 		appeal[sectionName][taskName].isSubmitted = isSubmitted;
 		if (req.body['save-and-return'] !== '') {

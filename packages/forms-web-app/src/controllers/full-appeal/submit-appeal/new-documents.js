@@ -39,6 +39,10 @@ const postNewSupportingDocuments = async (req, res) => {
 
 	const hasSupportingDocuments = body['supporting-documents'] === 'yes';
 
+	if (!hasSupportingDocuments) {
+		appeal[sectionName][taskName].uploadedFiles = [];
+	}
+
 	try {
 		appeal[sectionName][taskName].hasSupportingDocuments = hasSupportingDocuments;
 

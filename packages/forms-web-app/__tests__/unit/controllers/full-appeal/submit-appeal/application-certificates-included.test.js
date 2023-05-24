@@ -107,19 +107,36 @@ describe('controllers/full-appeal/submit-appeal/application-certificates-include
 					'did-you-submit-separate-certificate': 'yes'
 				}
 			};
+			createOrUpdateAppeal.mockReturnValue(req.session.appeal);
+
 			await postApplicationCertificatesIncluded(req, res);
+
+			expect(
+				req.session.appeal.planningApplicationDocumentsSection.ownershipCertificate
+					.submittedSeparateCertificate
+			).toBe(true);
 			expect(res.render).not.toHaveBeenCalled();
 			expect(res.redirect).toHaveBeenCalledWith(`/${CERTIFICATES}`);
 		});
 
-		it('it should redirect to the correct page if did-you-submit-separate-certificate is no', async () => {
+		it('it should redirect to the correct page and remove any uploaded files if did-you-submit-separate-certificate is no', async () => {
 			req = {
 				...req,
 				body: {
 					'did-you-submit-separate-certificate': 'no'
 				}
 			};
+			createOrUpdateAppeal.mockReturnValue(req.session.appeal);
+
 			await postApplicationCertificatesIncluded(req, res);
+
+			expect(
+				req.session.appeal.planningApplicationDocumentsSection.ownershipCertificate
+					.submittedSeparateCertificate
+			).toBe(false);
+			expect(
+				req.session.appeal.planningApplicationDocumentsSection.ownershipCertificate.uploadedFile
+			).toEqual({});
 			expect(res.render).not.toHaveBeenCalled();
 			expect(res.redirect).toHaveBeenCalledWith(`/${PROPOSED_DEVELOPMENT_CHANGED}`);
 		});

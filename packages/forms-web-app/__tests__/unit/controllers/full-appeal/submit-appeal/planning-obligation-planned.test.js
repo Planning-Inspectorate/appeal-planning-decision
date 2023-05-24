@@ -142,16 +142,33 @@ describe('controllers/full-appeal/submit-appeal/planning-obligation-planned', ()
 			expect(res.redirect).toHaveBeenCalledWith(`/${PLANNING_OBLIGATION_STATUS}`);
 		});
 
-		it('should redirect to correct page if plan-to-submit-planning-obligation is no', async () => {
+		it('should remove any uploaded planning obligation files and redirect to correct page if plan-to-submit-planning-obligation is no', async () => {
 			req = {
 				...req,
 				body: {
 					'plan-to-submit-planning-obligation': 'no'
 				}
 			};
+
+			let thisAppeal = req.session.appeal;
+
+			createOrUpdateAppeal.mockReturnValue(thisAppeal);
+
 			await postPlanningObligationPlanned(req, res);
+
 			expect(res.render).not.toHaveBeenCalled();
 			expect(res.redirect).toHaveBeenCalledWith(`/${NEW_DOCUMENTS}`);
+
+			expect(req.session.appeal).toEqual(thisAppeal);
+
+			expect(thisAppeal.appealDocumentsSection.planningObligations.plansPlanningObligation).toEqual(
+				false
+			);
+			expect(thisAppeal.appealDocumentsSection.planningObligations.uploadedFiles).toEqual([]);
+			expect(thisAppeal.appealDocumentsSection.draftPlanningObligations.uploadedFiles).toEqual([]);
+			expect(
+				thisAppeal.appealDocumentsSection.planningObligationDeadline.planningObligationStatus
+			).toEqual(null);
 		});
 	});
 });
