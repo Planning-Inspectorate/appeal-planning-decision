@@ -24,7 +24,7 @@ module.exports = () => {
 				logger.info('Triggering submission to horizon ran successfully');
 			} catch (error) {
 				logger.info('Triggering submission to horizon failed');
-				logger.debug(`Error processing: ${error}`);
+				logger.error(`Error processing: ${error}`);
 			}
 		});
 	}
