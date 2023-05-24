@@ -16,7 +16,7 @@ const createCookie = (document, name, value, days = 365) => {
 		secure = '; secure';
 	}
 	// eslint-disable-next-line no-param-reassign
-	document.cookie = `${name}=${value}${expires}${secure}; path=/`;
+	document.cookie = `${name}=${value}${expires}${secure}; SameSite=Lax; path=/`;
 };
 
 const readCookie = (document, name) => {

@@ -24,7 +24,10 @@ module.exports = () => {
 		secret: sessionSecret,
 		resave: false,
 		saveUninitialized: true,
-		cookie: {}
+		cookie: {
+			sameSite: 'lax',
+			httpOnly: true
+		}
 	};
 
 	if (config.server.useSecureSessionCookie) {
