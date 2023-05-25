@@ -200,13 +200,22 @@ class HorizonGateway {
 			if (error.response) {
 				logger.error(
 					error.response.data,
-					`Horizon returned a ${error.response.status} status code when attempting to ${descriptionOfRequest}. Response is below`
+					`Horizon returned a ${error.response?.status} status code when attempting to ${descriptionOfRequest}. Response is below`
 				);
 
 				return new HorizonResponseValue(
-					error.response.data.Envelope.Body.Fault.faultstring.value,
+					error.response?.data?.Envelope?.Body?.Fault?.faultstring?.value,
 					true
 				);
+			}
+
+			let errMsg = `Call to Horizon returned an undefined error when attempting to ${descriptionOfRequest}.`;
+			logger.error(error, errMsg);
+
+			if (error.message) {
+				return new HorizonResponseValue(error.message, true);
+			} else {
+				return new HorizonResponseValue(errMsg, true);
 			}
 		}
 	}
