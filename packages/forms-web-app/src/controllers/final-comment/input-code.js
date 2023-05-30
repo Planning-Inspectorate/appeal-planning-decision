@@ -2,11 +2,6 @@ const { sendToken } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
 const { isTokenValid } = require('../../lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
-const {
-	validation: {
-		securityCodeMaxAttempts: { finalComment: finalCommentSecurityCodeMaxAttempts }
-	}
-} = require('../../config');
 
 const getInputCodeResendCode = (req, res) => {
 	req.session.resendCode = true;
@@ -76,31 +71,24 @@ const postInputCode = async (req, res) => {
 
 	req.session.finalComment.secureCodeEnteredCorrectly = tokenResult.valid;
 
-	if (!req.session.finalComment.secureCodeEnteredCorrectly) {
-		req.session.finalComment.incorrectSecurityCodeAttempts++;
+	//todo: check if distinct expired page required
+	if (tokenResult.tooManyAttempts || tokenResult.expired) {
+		req.session.getNewCodeHref = '/full-appeal/submit-final-comment/input-code';
+		return res.redirect(`/${VIEW.FINAL_COMMENT.NEED_NEW_CODE}`);
+	}
 
-		if (
-			req.session.finalComment.incorrectSecurityCodeAttempts > finalCommentSecurityCodeMaxAttempts
-		) {
-			req.session.finalComment.incorrectSecurityCodeAttempts = 0;
-			req.session.getNewCodeHref = '/full-appeal/submit-final-comment/input-code';
-
-			res.redirect(`/${VIEW.FINAL_COMMENT.NEED_NEW_CODE}`);
-
-			return;
-		}
-
+	if (!tokenResult.valid) {
 		res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
 			token,
 			errors: true,
 			errorSummary: [{ text: 'Enter a correct code', href: '#' }]
 		});
-
 		return;
 	}
 
-	req.session.finalComment.incorrectSecurityCodeAttempts = 0;
-	res.redirect(`/${VIEW.FINAL_COMMENT.COMMENTS_QUESTION}`);
+	//todo: check if final comment deadline has passed or if final comment has been submitted
+
+	return res.redirect(`/${VIEW.FINAL_COMMENT.COMMENTS_QUESTION}`);
 };
 
 module.exports = {

@@ -11,11 +11,6 @@ const {
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 const { isTokenValid } = require('../../../../src/lib/is-token-valid');
-const {
-	validation: {
-		securityCodeMaxAttempts: { finalComment: finalCommentSecurityCodeMaxAttempts }
-	}
-} = require('../../../../src/config');
 const { enterCodeConfig } = require('@pins/common');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -87,39 +82,47 @@ describe('controllers/final-comment/input-code', () => {
 				errorSummary: req.body.errorSummary
 			});
 		});
-		it('should increment req.session.finalComment.incorrectSecurityCodeAttempts by one, and re-render the enter code page in an error state with the expected error message text, if the entered token is not valid', async () => {
+		it('should  re-render the enter code page in an error state with the expected error message text, if the entered token is not valid', async () => {
 			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
 			req.body = {
 				'email-code': '68365'
 			};
 
-			isTokenValid.mockReturnValue(false);
-
-			req.session.finalComment.incorrectSecurityCodeAttempts = 0;
+			isTokenValid.mockReturnValue({ valid: false, expired: false });
 
 			await postInputCode(req, res);
 
-			expect(req.session.finalComment.incorrectSecurityCodeAttempts).toBe(1);
 			expect(res.render).toBeCalledWith(INPUT_CODE, {
 				token: req.body['email-code'],
 				errors: true,
 				errorSummary: [{ text: 'Enter a correct code', href: '#' }]
 			});
 		});
-		it('should reset req.session.finalComment.incorrectSecurityCodeAttempts to zero, and redirect to the need-new-code page, if the entered token is not valid and an incorrect code has been entered more than finalCommentSecurityCodeMaxAttempts times', async () => {
+		it('should redirect to the need-new-code page, if the entered token is not valid and an incorrect code has been entered more than the allowed number of times', async () => {
 			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
 			req.body = {
 				'email-code': '68365'
 			};
 
-			isTokenValid.mockReturnValue(false);
-
-			req.session.finalComment.incorrectSecurityCodeAttempts = finalCommentSecurityCodeMaxAttempts;
+			isTokenValid.mockReturnValue({ valid: false, expired: false, tooManyAttempts: true });
 
 			await postInputCode(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${NEED_NEW_CODE}`);
 		});
+
+		it('should redirect to the need-new-code page, if the entered token has expired', async () => {
+			req.body = {
+				'email-code': '12345'
+			};
+
+			isTokenValid.mockReturnValue({ valid: false, expired: true });
+
+			await postInputCode(req, res);
+
+			expect(res.redirect).toBeCalledWith(`/${NEED_NEW_CODE}`);
+		});
+
 		it('should redirect to the comments-question page if the entered token is valid', async () => {
 			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
 			req.body = {
