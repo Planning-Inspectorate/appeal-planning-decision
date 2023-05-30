@@ -11,6 +11,7 @@
 	"devDependencies": {
 		"@bahmutov/cypress-esbuild-preprocessor": "^2.1.5",
 		"@cypress/webpack-preprocessor": "^5.16.2",
+		"csv-parse": "^5.3.8",
 		"cypress": "^12.3.0",
 		"esbuild": "^0.17.3"
 	},
@@ -19,9 +20,9 @@
 		"cucumber": "^6.0.7",
 		"webpack": "^5.75.0"
 	},
-		"cypress-cucumber-preprocessor": {
-		  "json": {
+	"cypress-cucumber-preprocessor": {
+		"json": {
 			"enabled": true
-		  }
+		}
 	}
 }
