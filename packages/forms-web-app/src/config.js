@@ -71,9 +71,6 @@ module.exports = {
 		characterLimits: {
 			finalComment: process.env.CHARACTER_LIMIT_FINAL_COMMENT || 32500,
 			emailCode: process.env.CHARACTER_LIMIT_EMAIL_SECURITY_CODE || 5
-		},
-		securityCodeMaxAttempts: {
-			finalComment: 3
 		}
 	},
 	featureFlagging: {
