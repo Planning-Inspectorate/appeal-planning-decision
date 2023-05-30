@@ -8,6 +8,11 @@ const {
 	}
 } = require('../../config');
 
+const getInputCodeResendCode = (req, res) => {
+	req.session.resendCode = true;
+	return res.redirect(`/${VIEW.FINAL_COMMENT.INPUT_CODE}`);
+};
+
 const getInputCode = async (req, res) => {
 	// DEV ONLY - this will be populated from a call to Horizon once this story is integrated with the other final comment stories
 	req.session.finalComment = {
@@ -41,7 +46,11 @@ const getInputCode = async (req, res) => {
 		}
 	} = req;
 	await sendToken(id, enterCodeConfig.actions.saveAndReturn, emailAddress);
-	res.render(VIEW.FINAL_COMMENT.INPUT_CODE);
+	res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
+		requestNewCodeLink: 'input-code/resend-code',
+		showNewCode: req.session.resendCode
+	});
+	delete req.session.resendCode;
 };
 
 const postInputCode = async (req, res) => {
@@ -64,7 +73,6 @@ const postInputCode = async (req, res) => {
 	}
 
 	const tokenResult = await isTokenValid(id, token, req.session);
-	// todo: handle too many attempts
 
 	req.session.finalComment.secureCodeEnteredCorrectly = tokenResult.valid;
 
@@ -72,7 +80,7 @@ const postInputCode = async (req, res) => {
 		req.session.finalComment.incorrectSecurityCodeAttempts++;
 
 		if (
-			req.session.finalComment.incorrectSecurityCodeAttempts >= finalCommentSecurityCodeMaxAttempts
+			req.session.finalComment.incorrectSecurityCodeAttempts > finalCommentSecurityCodeMaxAttempts
 		) {
 			req.session.finalComment.incorrectSecurityCodeAttempts = 0;
 			req.session.getNewCodeHref = '/full-appeal/submit-final-comment/input-code';
@@ -97,5 +105,6 @@ const postInputCode = async (req, res) => {
 
 module.exports = {
 	getInputCode,
-	postInputCode
+	postInputCode,
+	getInputCodeResendCode
 };

@@ -6,6 +6,8 @@ const { rules: emailCodeValidationRules } = require('../../validators/final-comm
 const router = express.Router();
 
 router.get('/input-code', inputCodeController.getInputCode);
+router.get('/input-code/resend-code', inputCodeController.getInputCodeResendCode);
+
 router.post(
 	'/input-code',
 	emailCodeValidationRules(),
