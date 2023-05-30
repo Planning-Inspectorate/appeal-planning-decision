@@ -1,6 +1,7 @@
 const {
 	getInputCode,
-	postInputCode
+	postInputCode,
+	getInputCodeResendCode
 } = require('../../../../src/controllers/final-comment/input-code');
 const { sendToken } = require('../../../../src/lib/appeals-api-wrapper');
 const {
@@ -43,7 +44,21 @@ describe('controllers/final-comment/input-code', () => {
 		it('should render the enter code page', async () => {
 			await getInputCode(req, res);
 
-			expect(res.render).toBeCalledWith(INPUT_CODE);
+			expect(res.render).toBeCalledWith(INPUT_CODE, {
+				requestNewCodeLink: 'input-code/resend-code',
+				showNewCode: undefined
+			});
+		});
+
+		it('should delete req.session.resendCode after rendering page correctly', async () => {
+			req.session.resendCode = true;
+
+			await getInputCode(req, res);
+			expect(res.render).toBeCalledWith(INPUT_CODE, {
+				requestNewCodeLink: 'input-code/resend-code',
+				showNewCode: true
+			});
+			expect(req.session.resendCode).toBe(undefined);
 		});
 	});
 	describe('postInputCode', () => {
@@ -91,7 +106,7 @@ describe('controllers/final-comment/input-code', () => {
 				errorSummary: [{ text: 'Enter a correct code', href: '#' }]
 			});
 		});
-		it('should reset req.session.finalComment.incorrectSecurityCodeAttempts to zero, and redirect to the need-new-code page, if the entered token is not valid and an incorrect code has been entered finalCommentSecurityCodeMaxAttempts times', async () => {
+		it('should reset req.session.finalComment.incorrectSecurityCodeAttempts to zero, and redirect to the need-new-code page, if the entered token is not valid and an incorrect code has been entered more than finalCommentSecurityCodeMaxAttempts times', async () => {
 			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
 			req.body = {
 				'email-code': '68365'
@@ -99,8 +114,7 @@ describe('controllers/final-comment/input-code', () => {
 
 			isTokenValid.mockReturnValue(false);
 
-			req.session.finalComment.incorrectSecurityCodeAttempts =
-				finalCommentSecurityCodeMaxAttempts - 1;
+			req.session.finalComment.incorrectSecurityCodeAttempts = finalCommentSecurityCodeMaxAttempts;
 
 			await postInputCode(req, res);
 
@@ -117,6 +131,15 @@ describe('controllers/final-comment/input-code', () => {
 			await postInputCode(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${COMMENTS_QUESTION}`);
+		});
+	});
+
+	describe('getInputCodeResendCode', () => {
+		it('should set session correctly and redirect to input code page', () => {
+			req.session.resendCode = null;
+			getInputCodeResendCode(req, res);
+			expect(req.session.resendCode).toBe(true);
+			expect(res.redirect).toBeCalledWith(`/${INPUT_CODE}`);
 		});
 	});
 });
