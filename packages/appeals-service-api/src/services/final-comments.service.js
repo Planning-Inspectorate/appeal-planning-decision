@@ -107,7 +107,6 @@ class FinalCommentsService {
 			finalCommentExpiryDate: new Date(Date.parse(finalCommentsDueDate)),
 			email: appellantEmail,
 			finalCommentSubmissionDate: null,
-			secureCodeEnteredCorrectly: null,
 			hasComment: null,
 			doesNotContainSensitiveInformation: null,
 			finalComment: null,

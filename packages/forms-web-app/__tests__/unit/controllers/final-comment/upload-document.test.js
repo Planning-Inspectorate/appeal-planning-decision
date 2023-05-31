@@ -2,6 +2,7 @@ const {
 	getUploadDocuments,
 	postUploadDocuments
 } = require('../../../../src/controllers/final-comment/upload-documents');
+const finalComment = require('../../../mockData/final-comment');
 
 const { VIEW } = require('../../../../src/lib/views');
 const { getValidFiles, removeFiles } = require('../../../../src/lib/multi-file-upload-helpers');
@@ -56,13 +57,14 @@ describe('controllers/final-comment/upload-documents', () => {
 		// so pass null and clear req.session to use for final comments
 		req = {
 			...mockReq(null),
-			session: {},
+			session: { finalComment },
 			body: {
 				files: {}
 			}
 		};
 		res = mockRes();
 
+		req.session.finalComment.supportingDocuments.uploadedFiles = [];
 		jest.resetAllMocks();
 	});
 

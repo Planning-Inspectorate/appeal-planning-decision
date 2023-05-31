@@ -17,8 +17,6 @@ const getInputCode = async (req, res) => {
 		email: 'test@planninginspectorate.gov.uk',
 		finalCommentExpiryDate: null,
 		finalCommentSubmissionDate: null,
-		secureCodeEnteredCorrectly: null,
-		incorrectSecurityCodeAttempts: 0,
 		hasComment: null,
 		doesNotContainSensitiveInformation: null,
 		finalComment: null,
@@ -40,11 +38,14 @@ const getInputCode = async (req, res) => {
 			finalComment: { id, email: emailAddress }
 		}
 	} = req;
+
 	await sendToken(id, enterCodeConfig.actions.saveAndReturn, emailAddress);
+
 	res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
 		requestNewCodeLink: 'input-code/resend-code',
 		showNewCode: req.session.resendCode
 	});
+
 	delete req.session.resendCode;
 };
 
@@ -69,8 +70,6 @@ const postInputCode = async (req, res) => {
 
 	const tokenResult = await isTokenValid(id, token, req.session);
 
-	req.session.finalComment.secureCodeEnteredCorrectly = tokenResult.valid;
-
 	//todo: check if distinct expired page required
 	if (tokenResult.tooManyAttempts || tokenResult.expired) {
 		req.session.getNewCodeHref = '/full-appeal/submit-final-comment/input-code';
@@ -85,8 +84,6 @@ const postInputCode = async (req, res) => {
 		});
 		return;
 	}
-
-	//todo: check if final comment deadline has passed or if final comment has been submitted
 
 	return res.redirect(`/${VIEW.FINAL_COMMENT.COMMENTS_QUESTION}`);
 };

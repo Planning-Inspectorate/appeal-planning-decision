@@ -1,5 +1,6 @@
 const { postDocumentsCheck } = require('../../../../src/controllers/final-comment/documents-check');
 const { mockReq, mockRes } = require('../../mocks');
+const finalComment = require('../../../mockData/final-comment');
 
 describe('controllers/final-comment/documents-check', () => {
 	let req;
@@ -10,8 +11,9 @@ describe('controllers/final-comment/documents-check', () => {
 		// so pass null and clear req.session to use for final comments
 		req = {
 			...mockReq(null),
-			session: {}
+			session: { finalComment }
 		};
+
 		res = mockRes();
 
 		jest.resetAllMocks();

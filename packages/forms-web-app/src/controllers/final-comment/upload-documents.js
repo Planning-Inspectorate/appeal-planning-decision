@@ -17,18 +17,6 @@ const postUploadDocuments = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 
-	// DEV ONLY - these two req.session checks should not be necessary once this page is integrated into the full final-comment journey
-	if (!req.session?.finalComment) {
-		req.session.finalComment = {
-			id: 'TEST-ID-123',
-			horizonId: 'TEST-HORIZON-ID-456',
-			finalComment: true
-		};
-	}
-	if (!req.session.finalComment?.supportingDocuments) {
-		req.session.finalComment.supportingDocuments = { uploadedFiles: [] };
-	}
-
 	try {
 		if ('removedFiles' in body) {
 			const documents = req.session.finalComment.supportingDocuments;
