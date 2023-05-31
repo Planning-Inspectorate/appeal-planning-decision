@@ -3,6 +3,7 @@ const finalComment = {
 	email: 'test@planninginspectorate.gov.uk',
 	finalCommentExpiryDate: null,
 	finalCommentSubmissionDate: null,
+	secureCodeEnteredCorrectly: false,
 	hasComment: null,
 	doesNotContainSensitiveInformation: null,
 	finalComment: null,

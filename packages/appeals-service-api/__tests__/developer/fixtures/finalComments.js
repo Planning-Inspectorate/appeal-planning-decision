@@ -12,6 +12,7 @@ module.exports = class FinalCommentFixtures {
 			email: email,
 			finalCommentExpiryDate: finalCommentExpiryDate,
 			finalCommentSubmissionDate: null,
+			secureCodeEnteredCorrectly: false,
 			hasComment: false,
 			doesNotContainSensitiveInformation: true,
 			finalComment: 'Something interesting to say',

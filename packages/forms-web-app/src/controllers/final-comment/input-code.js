@@ -18,6 +18,7 @@ const getInputCode = async (req, res) => {
 		finalCommentExpiryDate: null,
 		finalCommentSubmissionDate: null,
 		hasComment: null,
+		secureCodeEnteredCorrectly: false,
 		doesNotContainSensitiveInformation: null,
 		finalComment: null,
 		finalCommentAsDocument: {
