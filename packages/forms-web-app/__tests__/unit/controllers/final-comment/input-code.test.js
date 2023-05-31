@@ -12,6 +12,7 @@ const {
 const { mockReq, mockRes } = require('../../mocks');
 const { isTokenValid } = require('../../../../src/lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
+const finalComment = require('../../../mockData/final-comment');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');
@@ -58,10 +59,7 @@ describe('controllers/final-comment/input-code', () => {
 	});
 	describe('postInputCode', () => {
 		beforeEach(() => {
-			req.session.finalComment = {
-				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
-				email: 'test@planninginspectorate.gov.uk'
-			};
+			req.session = { finalComment };
 		});
 		it('should re-render the enter code page in an error state if errors are present in the body', async () => {
 			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
@@ -81,6 +79,7 @@ describe('controllers/final-comment/input-code', () => {
 				errors: req.body.errors,
 				errorSummary: req.body.errorSummary
 			});
+			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(false);
 		});
 		it('should  re-render the enter code page in an error state with the expected error message text, if the entered token is not valid', async () => {
 			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
@@ -97,6 +96,7 @@ describe('controllers/final-comment/input-code', () => {
 				errors: true,
 				errorSummary: [{ text: 'Enter a correct code', href: '#' }]
 			});
+			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(false);
 		});
 		it('should redirect to the need-new-code page, if the entered token is not valid and an incorrect code has been entered more than the allowed number of times', async () => {
 			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
@@ -109,6 +109,7 @@ describe('controllers/final-comment/input-code', () => {
 			await postInputCode(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${NEED_NEW_CODE}`);
+			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(false);
 		});
 
 		it('should redirect to the need-new-code page, if the entered token has expired', async () => {
@@ -121,6 +122,7 @@ describe('controllers/final-comment/input-code', () => {
 			await postInputCode(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${NEED_NEW_CODE}`);
+			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(false);
 		});
 
 		it('should redirect to the comments-question page if the entered token is valid', async () => {
@@ -134,6 +136,7 @@ describe('controllers/final-comment/input-code', () => {
 			await postInputCode(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${COMMENTS_QUESTION}`);
+			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(true);
 		});
 	});
 
