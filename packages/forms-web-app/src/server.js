@@ -3,11 +3,25 @@
 /**
  * Module dependencies.
  */
+
+const appInsights = require('applicationinsights');
 const http = require('http');
 const config = require('./config');
 const app = require('./app');
 const logger = require('./lib/logger');
 const healthChecks = require('./lib/healthchecks');
+
+/**
+ * Initialise app insights
+ */
+try {
+	appInsights.setup().setAutoDependencyCorrelation(true).setSendLiveMetrics(true);
+	appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] =
+		'web-front-end';
+	appInsights.start();
+} catch (err) {
+	logger.warn({ err }, 'Application insights failed to start: ');
+}
 
 /**
  * Get port from environment and store in Express.
