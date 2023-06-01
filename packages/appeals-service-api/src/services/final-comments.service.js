@@ -103,6 +103,7 @@ class FinalCommentsService {
 
 		const finalCommentData = {
 			horizonId: caseReference,
+			lpaCode: localAppealData.lpaCode,
 			state: 'DRAFT',
 			finalCommentExpiryDate: new Date(Date.parse(finalCommentsDueDate)),
 			email: appellantEmail,
