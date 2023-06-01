@@ -19,9 +19,11 @@ const saveAndReturnHasRouter = require('./appeal-householder-decision/save');
 const appealHouseholderdecision = require('./appeal-householder-decision');
 const checkDecisionDateDeadline = require('../middleware/check-decision-date-deadline');
 const checkPathAllowed = require('../middleware/check-path-allowed');
+const checkDebugAllowed = require('../middleware/check-debug-allowed');
 const { skipMiddlewareForPaths } = require('../middleware/skip-middleware-for-paths');
 const accessibilityStatementRouter = require('./accessibility-statement/accessibility-statement');
 const errorPageRouter = require('./error');
+const debugRouter = require('./debug');
 
 router.use('/', homeRouter);
 router.use(guidancePagesRouter);
@@ -79,5 +81,7 @@ router.use(
 	checkDecisionDateDeadline,
 	appealHouseholderdecision
 );
+
+router.use('/debug', checkDebugAllowed, debugRouter);
 
 module.exports = router;
