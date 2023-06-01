@@ -1,4 +1,3 @@
-const appInsights = require('applicationinsights');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -9,15 +8,6 @@ const logger = require('./lib/logger');
 const {
 	server: { showErrors }
 } = config;
-
-try {
-	appInsights.setup().setAutoDependencyCorrelation(true).setSendLiveMetrics(true);
-	appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] =
-		'pdf-service-api';
-	appInsights.start();
-} catch (err) {
-	logger.warn({ err }, 'Application insights failed to start: ');
-}
 
 const app = express();
 app
