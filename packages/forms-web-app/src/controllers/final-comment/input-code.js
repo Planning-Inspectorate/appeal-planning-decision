@@ -10,12 +10,15 @@ const getInputCodeResendCode = (req, res) => {
 
 const getInputCode = async (req, res) => {
 	// DEV ONLY - this will be populated from a call to Horizon once this story is integrated with the other final comment stories
+	let tomorrow = new Date();
+	tomorrow.setDate(tomorrow.getDate() + 1);
+
 	req.session.finalComment = {
 		id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
 		horizonId: null,
 		state: 'DRAFT',
 		email: 'test@planninginspectorate.gov.uk',
-		finalCommentExpiryDate: null,
+		finalCommentExpiryDate: tomorrow,
 		finalCommentSubmissionDate: null,
 		hasComment: null,
 		secureCodeEnteredCorrectly: false,
