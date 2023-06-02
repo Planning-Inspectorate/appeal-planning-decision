@@ -9,7 +9,7 @@ const { mapMultiFileDocumentToSavedDocument } = require('../../mappers/document-
 
 const getUploadDocuments = async (req, res) => {
 	res.render(VIEW.FINAL_COMMENT.UPLOAD_DOCUMENTS, {
-		finalComment: req.session?.finalComment
+		uploadedFiles: req.session.finalComment.supportingDocuments.uploadedFiles
 	});
 };
 
