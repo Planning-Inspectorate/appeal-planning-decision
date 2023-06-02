@@ -72,7 +72,7 @@ describe('controllers/final-comment/upload-documents', () => {
 		it('should render the template correctly', async () => {
 			await getUploadDocuments(req, res);
 			expect(res.render).toHaveBeenCalledWith(VIEW.FINAL_COMMENT.UPLOAD_DOCUMENTS, {
-				finalComment: req.session.finalComment
+				uploadedFiles: req.session.finalComment.supportingDocuments.uploadedFiles
 			});
 		});
 	});
