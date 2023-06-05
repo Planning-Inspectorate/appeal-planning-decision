@@ -10,6 +10,7 @@ const finalCommentSubmittedRouter = require('../../final-comment/final-comment-s
 const appealClosedForCommentRouter = require('../../final-comment/appeal-closed-for-comment');
 const commentsQuestionRouter = require('../../final-comment/comments-question');
 const inputCodeRouter = require('../../final-comment/input-code');
+const codeExpiredRouter = require('../../final-comment/code-expired');
 const needNewCodeRouter = require('../../final-comment/need-new-code');
 const documentsCheckRouter = require('../../final-comment/documents-check');
 const uploadDocumentsRouter = require('../../final-comment/upload-documents');
@@ -28,6 +29,7 @@ router.use(finalCommentSubmittedRouter);
 router.use(appealClosedForCommentRouter);
 router.use(commentsQuestionRouter);
 router.use(inputCodeRouter);
+router.use(codeExpiredRouter);
 router.use(needNewCodeRouter);
 router.use(documentsCheckRouter);
 router.use(uploadDocumentsRouter);

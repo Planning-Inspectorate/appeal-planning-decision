@@ -121,7 +121,7 @@ describe('controllers/final-comment/input-code', () => {
 
 			await postInputCode(req, res);
 
-			expect(res.redirect).toBeCalledWith(`/${NEED_NEW_CODE}`);
+			expect(res.redirect).toBeCalledWith(`/full-appeal/submit-final-comment/code-expired`);
 			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(false);
 		});
 

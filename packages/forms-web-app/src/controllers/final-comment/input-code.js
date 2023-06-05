@@ -76,10 +76,13 @@ const postInputCode = async (req, res) => {
 
 	req.session.finalComment.secureCodeEnteredCorrectly = tokenResult.valid;
 
-	//todo: check if distinct expired page required
-	if (tokenResult.tooManyAttempts || tokenResult.expired) {
+	if (tokenResult.tooManyAttempts) {
 		req.session.getNewCodeHref = '/full-appeal/submit-final-comment/input-code';
 		return res.redirect(`/${VIEW.FINAL_COMMENT.NEED_NEW_CODE}`);
+	}
+
+	if (tokenResult.expired) {
+		return res.redirect(`/full-appeal/submit-final-comment/code-expired`);
 	}
 
 	if (!tokenResult.valid) {
