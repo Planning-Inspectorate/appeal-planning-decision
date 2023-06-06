@@ -1,5 +1,6 @@
 const finalComment = {
 	id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
+	horizonId: '123456789',
 	email: 'test@planninginspectorate.gov.uk',
 	finalCommentExpiryDate: null,
 	finalCommentSubmissionDate: null,

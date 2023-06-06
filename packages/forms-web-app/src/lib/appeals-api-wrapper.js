@@ -120,3 +120,7 @@ exports.checkToken = async (id, token) => {
 		})
 	});
 };
+
+exports.getFinalCommentData = async (caseReference) => {
+	return handler(`/api/v1/final-comments/appeal/${caseReference}`, 'GET');
+};

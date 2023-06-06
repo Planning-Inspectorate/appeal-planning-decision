@@ -20,9 +20,9 @@ describe('routes/final-comment/input-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/input-code', getInputCode);
+		expect(get).toHaveBeenCalledWith('/input-code/:caseReference', getInputCode);
 		expect(post).toHaveBeenCalledWith(
-			'/input-code',
+			'/input-code/:caseReference',
 			emailCodeValidationRules(),
 			validationErrorHandler,
 			postInputCode
