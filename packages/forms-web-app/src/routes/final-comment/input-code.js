@@ -5,11 +5,11 @@ const { rules: emailCodeValidationRules } = require('../../validators/final-comm
 
 const router = express.Router();
 
-router.get('/input-code', inputCodeController.getInputCode);
-router.get('/input-code/resend-code', inputCodeController.getInputCodeResendCode);
+router.get('/input-code/:caseReference', inputCodeController.getInputCode);
+router.get('/input-code/resend-code/:caseReference', inputCodeController.getInputCodeResendCode);
 
 router.post(
-	'/input-code',
+	'/input-code/:caseReference',
 	emailCodeValidationRules(),
 	validationErrorHandler,
 	inputCodeController.postInputCode

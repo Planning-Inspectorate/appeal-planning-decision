@@ -1,3 +1,5 @@
+const uuid = require('uuid');
+
 module.exports = class FinalCommentFixtures {
 	static newFinalComment({
 		horizonId = '1234567',
@@ -7,6 +9,7 @@ module.exports = class FinalCommentFixtures {
 		typeOfUser = 'Appellant'
 	} = {}) {
 		return {
+			id: uuid.v4(),
 			horizonId: horizonId,
 			state: state,
 			email: email,

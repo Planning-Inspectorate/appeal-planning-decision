@@ -3,6 +3,7 @@ const ApiError = require('../errors/apiError');
 const HorizonService = require('./horizon.service');
 const { getAppealByHorizonId } = require('./appeal.service');
 const logger = require('../lib/logger');
+const uuid = require('uuid');
 
 class FinalCommentsService {
 	#finalCommentsRepository;
@@ -102,6 +103,7 @@ class FinalCommentsService {
 			localAppealData.email ?? localAppealData.contactDetailsSection.contact.email;
 
 		const finalCommentData = {
+			id: uuid.v4(),
 			horizonId: caseReference,
 			lpaCode: localAppealData.lpaCode,
 			state: 'DRAFT',
