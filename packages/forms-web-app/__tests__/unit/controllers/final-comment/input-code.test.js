@@ -6,7 +6,7 @@ const {
 const { sendToken } = require('../../../../src/lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		FINAL_COMMENT: { INPUT_CODE, NEED_NEW_CODE, COMMENTS_QUESTION }
+		FINAL_COMMENT: { INPUT_CODE, NEED_NEW_CODE, COMMENTS_QUESTION, CODE_EXPIRED }
 	}
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
@@ -121,7 +121,7 @@ describe('controllers/final-comment/input-code', () => {
 
 			await postInputCode(req, res);
 
-			expect(res.redirect).toBeCalledWith(`/full-appeal/submit-final-comment/code-expired`);
+			expect(res.redirect).toBeCalledWith(`/${CODE_EXPIRED}`);
 			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(false);
 		});
 

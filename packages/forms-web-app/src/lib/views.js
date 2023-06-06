@@ -95,6 +95,7 @@ const VIEW = {
 
 	FINAL_COMMENT: {
 		INPUT_CODE: 'full-appeal/submit-final-comment/input-code',
+		CODE_EXPIRED: 'full-appeal/submit-final-comment/code-expired',
 		NEED_NEW_CODE: 'full-appeal/submit-final-comment/need-new-code',
 		FINAL_COMMENT: 'full-appeal/submit-final-comment/final-comment',
 		COMMENTS_QUESTION: 'full-appeal/submit-final-comment/comments-question',

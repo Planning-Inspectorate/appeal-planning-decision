@@ -82,7 +82,7 @@ const postInputCode = async (req, res) => {
 	}
 
 	if (tokenResult.expired) {
-		return res.redirect(`/full-appeal/submit-final-comment/code-expired`);
+		return res.redirect(`/${VIEW.FINAL_COMMENT.CODE_EXPIRED}`);
 	}
 
 	if (!tokenResult.valid) {
