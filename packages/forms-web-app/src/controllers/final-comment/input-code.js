@@ -10,21 +10,23 @@ const getInputCodeResendCode = (req, res) => {
 };
 
 const getInputCode = async (req, res) => {
-	if (
-		!req.session.finalComment ||
-		req.session.finalComment.horizonId !== req.params.caseReference
-	) {
+	const caseReference = req.params.caseReference;
+
+	if (!req.session.finalComment || req.session.finalComment.horizonId !== caseReference) {
 		try {
-			req.session.finalComment = await getFinalCommentData(req.params.caseReference);
+			req.session.userTokenId = caseReference;
+			req.session.finalComment = await getFinalCommentData(caseReference);
 		} catch (err) {
-			logger.error(err, `Final Comment API Error for case reference ${req.params.caseReference}`);
+			logger.error(err, `Final Comment API Error for case reference ${caseReference}`);
 			res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
-				requestNewCodeLink: `input-code/resend-code/${req.params.caseReference}`,
+				requestNewCodeLink: `input-code/resend-code/${caseReference}`,
 				showNewCode: req.session.resendCode
 			});
 			delete req.session.resendCode;
 			return;
 		}
+	} else {
+		req.session.userTokenId = req.session.finalComment.horizonId;
 	}
 
 	const {
@@ -36,7 +38,7 @@ const getInputCode = async (req, res) => {
 	await sendToken(id, enterCodeConfig.actions.saveAndReturn, emailAddress);
 
 	res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
-		requestNewCodeLink: `input-code/resend-code/${req.params.caseReference}`,
+		requestNewCodeLink: `input-code/resend-code/${caseReference}`,
 		showNewCode: req.session.resendCode
 	});
 
@@ -67,7 +69,7 @@ const postInputCode = async (req, res) => {
 	req.session.finalComment.secureCodeEnteredCorrectly = tokenResult.valid;
 
 	if (tokenResult.tooManyAttempts) {
-		req.session.getNewCodeHref = '/full-appeal/submit-final-comment/input-code';
+		req.session.getNewCodeHref = `/full-appeal/submit-final-comment/input-code/${req.params.caseReference}`;
 		return res.redirect(`/${VIEW.FINAL_COMMENT.NEED_NEW_CODE}`);
 	}
 
@@ -83,6 +85,8 @@ const postInputCode = async (req, res) => {
 		});
 		return;
 	}
+
+	delete req.session.userTokenId;
 
 	return res.redirect(`/${VIEW.FINAL_COMMENT.COMMENTS_QUESTION}`);
 };
