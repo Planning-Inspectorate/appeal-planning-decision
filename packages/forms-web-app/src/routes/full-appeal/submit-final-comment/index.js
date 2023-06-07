@@ -21,7 +21,8 @@ router.use(
 	skipMiddlewareForPaths(checkFinalCommentDeadline, [
 		'input-code',
 		'need-new-code',
-		'appeal-closed-for-comment'
+		'appeal-closed-for-comment',
+		'code-expired'
 	])
 );
 router.use(finalCommentRouter);

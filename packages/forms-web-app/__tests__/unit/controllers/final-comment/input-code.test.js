@@ -26,7 +26,7 @@ describe('controllers/final-comment/input-code', () => {
 		jest.resetAllMocks();
 	});
 	describe('getInputCode', () => {
-		it('should call the appeals-api-wrapper getFinalCommentData method with req.params.caseReference if no matching final comment in session', async () => {
+		it('should call the appeals-api-wrapper getFinalCommentData method with req.params.caseReference if no final comment in session', async () => {
 			getFinalCommentData.mockReturnValue(finalComment);
 			req.params.caseReference = 'mock-params';
 
@@ -43,6 +43,7 @@ describe('controllers/final-comment/input-code', () => {
 			await getInputCode(req, res);
 
 			expect(getFinalCommentData).not.toBeCalled();
+			expect(req.session.userTokenId).toEqual('123456789');
 		});
 
 		it('should call getFinalCommentData if final comment in session with different case reference', async () => {
@@ -54,6 +55,7 @@ describe('controllers/final-comment/input-code', () => {
 			await getInputCode(req, res);
 
 			expect(getFinalCommentData).toBeCalledWith('123456789');
+			expect(req.session.userTokenId).toEqual('123456789');
 		});
 
 		it('should re-render input code page if final comment api throws an error', async () => {
@@ -112,7 +114,6 @@ describe('controllers/final-comment/input-code', () => {
 			req.session = { finalComment };
 		});
 		it('should re-render the enter code page in an error state if errors are present in the body', async () => {
-			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
 			req.body = {
 				errors: {
 					'test-error': {
@@ -132,7 +133,6 @@ describe('controllers/final-comment/input-code', () => {
 			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(false);
 		});
 		it('should  re-render the enter code page in an error state with the expected error message text, if the entered token is not valid', async () => {
-			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
 			req.body = {
 				'email-code': '68365'
 			};
@@ -149,7 +149,6 @@ describe('controllers/final-comment/input-code', () => {
 			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(false);
 		});
 		it('should redirect to the need-new-code page, if the entered token is not valid and an incorrect code has been entered more than the allowed number of times', async () => {
-			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
 			req.body = {
 				'email-code': '68365'
 			};
@@ -176,10 +175,10 @@ describe('controllers/final-comment/input-code', () => {
 		});
 
 		it('should redirect to the comments-question page if the entered token is valid', async () => {
-			// TODO: update this test to mock req.session.finalComment once that data is no longer hardcoded
 			req.body = {
 				'email-code': '68365'
 			};
+			req.session.userTokenId = 'mock-id';
 
 			isTokenValid.mockReturnValue({ valid: true });
 
@@ -187,6 +186,7 @@ describe('controllers/final-comment/input-code', () => {
 
 			expect(res.redirect).toBeCalledWith(`/${COMMENTS_QUESTION}`);
 			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(true);
+			expect(req.session.userTokenId).toBe(undefined);
 		});
 	});
 
