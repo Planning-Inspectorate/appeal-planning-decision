@@ -5,11 +5,12 @@ export class BasePage {
         declineCookiesBtn: () => cy.get('[data-cy="cookie-banner-reject-analytics-cookies"]'), 
         pageHeading: () => cy.get('.govuk-heading-l'),
         continueBtn: () => cy.get('[data-cy="start-button"]'),
-        radioBtn: () => cy.get('.govuk-radios__item'),
-        checkBox: () => cy.get('.govuk-checkboxes__item'),
+        radioBtn: () => cy.get('.govuk-radios__input'),
+        checkBox: () => cy.get('.govuk-govuk-radios__item'),
         backBtn: () => cy.get('[data-cy="back"]'),
         saveAndContiuneBtn: () => cy.get('[data-cy="button-save-and-continue"]'),
-        saveAndComeBackLaterBtn: () => cy.get('[data-cy="button-save-and-return"]')
+        saveAndComeBackLaterBtn: () => cy.get('[data-cy="button-save-and-return"]'),
+        textArea: () => cy.get('.govuk-textarea')
     }
 
     clickContinueBtn(){
@@ -37,10 +38,14 @@ export class BasePage {
     }
 
     selectRadioBtn(radioBtnValue){
-        this.basePageElements.radioBtn.check(radioBtnValue);
+        this.basePageElements.radioBtn().check(radioBtnValue);
     }
 
     clickSaveAndComeBackLaterBtn(){
         this.basePageElements.saveAndComeBackLaterBtn().click();
+    }
+
+    enterTextArea(text){
+        this.basePageElements.textArea().clear().type(text)
     }
 }
