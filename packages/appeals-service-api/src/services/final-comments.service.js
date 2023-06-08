@@ -72,7 +72,11 @@ class FinalCommentsService {
 	}
 
 	async getFinalCommentData(caseReference) {
+		logger.info(`Getting data from horizon for final comment with case reference ${caseReference}`);
 		let caseData = await this.#horizonService.getAppealDataFromHorizon(caseReference);
+		logger.info(
+			`Data retrieved from horizon for final comment with case reference ${caseReference}`
+		);
 		if (!caseData) {
 			throw ApiError.caseDataNotFound();
 		}
@@ -94,10 +98,12 @@ class FinalCommentsService {
 		// Getting contact details (from local database)
 		// email was moved from appeal.contactDetailsSection.contact.email
 		// to appeal.email at some point during development
+		logger.info(`Retrieving contact details from database for case reference ${caseReference}`);
 		let localAppealData = await getAppealByHorizonId(caseReference).catch((error) => {
 			logger.error(error, 'error when fetching appeal by horizon Id');
 			throw ApiError.appealNotFoundHorizonId(caseReference);
 		});
+		logger.info(`Contact details retrieved from database for case reference ${caseReference}`);
 
 		let appellantEmail =
 			localAppealData.email ?? localAppealData.contactDetailsSection.contact.email;
