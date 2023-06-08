@@ -19,15 +19,12 @@ module.exports = async (req, res, next) => {
 		return next();
 	}
 
-	if (req.path.id) {
-		req.session.appeal.id = req.path.id;
-	}
-
 	try {
 		req.log.debug({ id: req.session.appeal.id }, 'Get existing appeal');
 		req.session.appeal = await getExistingAppeal(req.session.appeal.id);
 	} catch (err) {
 		req.log.debug({ err }, 'Error retrieving appeal');
+		req.session.appeal = await createOrUpdateAppeal({});
 	}
 	return next();
 };

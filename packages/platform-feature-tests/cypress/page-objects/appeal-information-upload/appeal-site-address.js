@@ -13,8 +13,7 @@ export class AppealSiteAddress {
         countyInput: () => cy.get('[data-cy="site-county"]'),
         postcodeInput: () => cy.get('[data-cy="site-postcode"]')
     }
-
-
+  
     enterAppealSiteAddress(){
         taskList.clickAppealSiteSectionLink();
         cy.url().should('include', 'appeal-site-address');

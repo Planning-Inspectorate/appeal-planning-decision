@@ -1,4 +1,3 @@
-const appInsights = require('applicationinsights');
 const express = require('express');
 const compression = require('compression');
 const lusca = require('lusca');
@@ -20,6 +19,9 @@ const renderTemplateFilter = require('./lib/render-template-filter');
 const flashMessageCleanupMiddleware = require('./middleware/flash-message-cleanup');
 const flashMessageToNunjucks = require('./middleware/flash-message-to-nunjucks');
 const removeUnwantedCookiesMiddelware = require('./middleware/remove-unwanted-cookies');
+const {
+	setLocalslDisplayCookieBannerValue
+} = require('./middleware/set-locals-display-cookie-banner-value');
 const navigationHistoryMiddleware = require('./middleware/navigation-history');
 const navigationHistoryToNunjucksMiddleware = require('./middleware/navigation-history-to-nunjucks');
 require('express-async-errors');
@@ -27,12 +29,6 @@ require('express-async-errors');
 const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
-
-try {
-	appInsights.setup().start();
-} catch (err) {
-	logger.warn({ err }, 'Application insights failed to start: ');
-}
 
 const app = express();
 
@@ -88,6 +84,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session(sessionConfig()));
 app.use(removeUnwantedCookiesMiddelware);
+app.use(setLocalslDisplayCookieBannerValue);
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
 	'/assets',

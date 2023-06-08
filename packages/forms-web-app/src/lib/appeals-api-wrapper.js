@@ -102,10 +102,11 @@ exports.saveAppeal = async (appeal) => {
 	return handler(`/api/v1/save`, 'POST', { body: JSON.stringify(appeal) });
 };
 
-exports.sendToken = async (id, emailAddress) => {
+exports.sendToken = async (id, action, emailAddress) => {
 	return handler(`/api/v1/token/`, 'PUT', {
 		body: JSON.stringify({
 			id,
+			action,
 			emailAddress
 		})
 	});
@@ -120,10 +121,6 @@ exports.checkToken = async (id, token) => {
 	});
 };
 
-exports.createConfirmEmail = async (appeal) => {
-	return handler(`/api/v1/confirm-email`, 'POST', { body: JSON.stringify(appeal) });
-};
-
-exports.getConfirmEmail = async (id) => {
-	return handler(`/api/v1/confirm-email/${id}`);
+exports.getFinalCommentData = async (caseReference) => {
+	return handler(`/api/v1/final-comments/appeal/${caseReference}`, 'GET');
 };

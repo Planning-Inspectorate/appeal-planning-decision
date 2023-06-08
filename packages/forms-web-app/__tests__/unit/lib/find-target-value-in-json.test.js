@@ -21,4 +21,17 @@ describe('lib/find-target-value-in-json', () => {
 		expect(findTargetValueInJSON(appeal, 'iDoNotExist')).toEqual(undefined);
 		expect(findTargetValueInJSON(finalComment, 'otherDocuments')).toEqual(undefined);
 	});
+
+	it('ignores specified key', () => {
+		const testObject = {
+			ignoreThis: { findMe: 'not the correct answer' },
+			alsoIgnore: { ignoreThis: { findMe: 'also not correct' } },
+			anotherIgnore: { fieldName: { ignoreThis: { findMe: 'do not return this' } } },
+			findThis: { findMe: 'this is correct' }
+		};
+
+		expect(findTargetValueInJSON(testObject, 'findMe', 'ignoreThis')).toEqual(
+			testObject.findThis.findMe
+		);
+	});
 });

@@ -1,46 +1,48 @@
-const { sendToken } = require('../../lib/appeals-api-wrapper');
+const { sendToken, getFinalCommentData } = require('../../lib/appeals-api-wrapper');
 const { VIEW } = require('../../lib/views');
 const { isTokenValid } = require('../../lib/is-token-valid');
-const {
-	validation: {
-		securityCodeMaxAttempts: { finalComment: finalCommentSecurityCodeMaxAttempts }
-	}
-} = require('../../config');
+const { enterCodeConfig } = require('@pins/common');
+const logger = require('../../lib/logger');
+
+const getInputCodeResendCode = (req, res) => {
+	req.session.resendCode = true;
+	return res.redirect(`/${VIEW.FINAL_COMMENT.INPUT_CODE}/${req.params.caseReference}`);
+};
 
 const getInputCode = async (req, res) => {
-	// DEV ONLY - this will be populated from a call to Horizon once this story is integrated with the other final comment stories
-	req.session.finalComment = {
-		id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
-		horizonId: null,
-		state: 'DRAFT',
-		email: 'test@planninginspectorate.gov.uk',
-		finalCommentExpiryDate: null,
-		finalCommentSubmissionDate: null,
-		secureCodeEnteredCorrectly: null,
-		incorrectSecurityCodeAttempts: 0,
-		hasComment: null,
-		doesNotContainSensitiveInformation: null,
-		finalComment: null,
-		finalCommentAsDocument: {
-			uploadedFile: {
-				name: '',
-				id: null
-			}
-		},
-		hasSupportingDocuments: null,
-		typeOfUser: null,
-		supportingDocuments: {
-			uploadedFiles: []
+	const caseReference = req.params.caseReference;
+
+	if (!req.session.finalComment || req.session.finalComment.horizonId !== caseReference) {
+		try {
+			req.session.userTokenId = caseReference;
+			req.session.finalComment = await getFinalCommentData(caseReference);
+		} catch (err) {
+			logger.error(err, `Final Comment API Error for case reference ${caseReference}`);
+			res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
+				requestNewCodeLink: `input-code/resend-code/${caseReference}`,
+				showNewCode: req.session.resendCode
+			});
+			delete req.session.resendCode;
+			return;
 		}
-	};
+	} else {
+		req.session.userTokenId = req.session.finalComment.horizonId;
+	}
 
 	const {
 		session: {
 			finalComment: { id, email: emailAddress }
 		}
 	} = req;
-	await sendToken(id, emailAddress);
-	res.render(VIEW.FINAL_COMMENT.INPUT_CODE);
+
+	await sendToken(id, enterCodeConfig.actions.saveAndReturn, emailAddress);
+
+	res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
+		requestNewCodeLink: `input-code/resend-code/${caseReference}`,
+		showNewCode: req.session.resendCode
+	});
+
+	delete req.session.resendCode;
 };
 
 const postInputCode = async (req, res) => {
@@ -62,36 +64,35 @@ const postInputCode = async (req, res) => {
 		return;
 	}
 
-	req.session.finalComment.secureCodeEnteredCorrectly = await isTokenValid(id, token);
+	const tokenResult = await isTokenValid(id, token, req.session);
 
-	if (!req.session.finalComment.secureCodeEnteredCorrectly) {
-		req.session.finalComment.incorrectSecurityCodeAttempts++;
+	req.session.finalComment.secureCodeEnteredCorrectly = tokenResult.valid;
 
-		if (
-			req.session.finalComment.incorrectSecurityCodeAttempts >= finalCommentSecurityCodeMaxAttempts
-		) {
-			req.session.finalComment.incorrectSecurityCodeAttempts = 0;
-			req.session.getNewCodeHref = '/full-appeal/submit-final-comment/input-code';
+	if (tokenResult.tooManyAttempts) {
+		req.session.getNewCodeHref = `/full-appeal/submit-final-comment/input-code/${req.params.caseReference}`;
+		return res.redirect(`/${VIEW.FINAL_COMMENT.NEED_NEW_CODE}`);
+	}
 
-			res.redirect(`/${VIEW.FINAL_COMMENT.NEED_NEW_CODE}`);
+	if (tokenResult.expired) {
+		return res.redirect(`/${VIEW.FINAL_COMMENT.CODE_EXPIRED}`);
+	}
 
-			return;
-		}
-
+	if (!tokenResult.valid) {
 		res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
 			token,
 			errors: true,
 			errorSummary: [{ text: 'Enter a correct code', href: '#' }]
 		});
-
 		return;
 	}
 
-	req.session.finalComment.incorrectSecurityCodeAttempts = 0;
-	res.redirect(`/${VIEW.FINAL_COMMENT.COMMENTS_QUESTION}`);
+	delete req.session.userTokenId;
+
+	return res.redirect(`/${VIEW.FINAL_COMMENT.COMMENTS_QUESTION}`);
 };
 
 module.exports = {
 	getInputCode,
-	postInputCode
+	postInputCode,
+	getInputCodeResendCode
 };

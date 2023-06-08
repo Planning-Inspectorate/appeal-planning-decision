@@ -133,33 +133,59 @@ class HorizonGateway {
 		return response;
 	}
 
-	//TODO: this should return an as-of-yet non-existent `HorizonAppealDto` instance.
 	async getAppeal(caseReference) {
-		const url = `/horizon`;
+		const endpoint = `horizon`;
+		const url = `${config.services.horizon.url}/${endpoint}`;
 
-		if (caseReference == false) {
-			logger.debug(`No case reference specified for Horizon case retrieval`);
-			return undefined;
-		}
+		logger.info(`Creating request body for case reference ${caseReference}`);
+		const requestBody = this.#horizonMapper.getAppealFromHorizon(caseReference);
+		logger.info(`Request body created for case reference ${caseReference}:`);
+		logger.info('----------------');
+		logger.info(requestBody);
+		logger.info('----------------');
+		// The data that comes back from Horizon has duplicate keys. While JSON allows this (though discourages it)
+		// javascript objects do not allow it. If a duplicate key is found, it replaces the data of the existing key
+		// as a result we need to dedup the keys by giving them unique key names
+		// The code below adds the option transformResponse to axios that tels axios
+		// to give us the raw unparsed data back (because it parses JSON by default)
+		// we then rename the duplicate AttributeValue keys by numbering them
+		// then parse the data to json
+		logger.info(`Making axios request for case reference ${caseReference}`);
+		let appealData = await axios
+			.post(url, requestBody, { transformResponse: (r) => r })
+			.then((response) => {
+				logger.info(`Axios response for case reference ${caseReference}`);
+				logger.info('----------------');
+				logger.info(response);
+				logger.info('----------------');
+				let unparsedResponse = response.data;
+				let i = 0;
+				let parseComplete = false;
 
-		const requestBody = {
-			GetCase: {
-				__soap_op: 'http://tempuri.org/IHorizon/GetCase',
-				__xmlns: 'http://tempuri.org/',
-				caseReference: caseReference
-			}
-		};
+				while (!parseComplete) {
+					if (unparsedResponse.includes('"AttributeValue":')) {
+						unparsedResponse = unparsedResponse.replace(
+							'"AttributeValue":',
+							`"AttributeValue${i}":`
+						);
+						i++;
+					} else {
+						parseComplete = true;
+					}
+				}
+				let parsedResponse = JSON.parse(unparsedResponse);
+				return parsedResponse.Envelope.Body.GetCaseResponse.GetCaseResult;
+			})
+			.catch((error) => {
+				logger.info('Error in Axious request');
+				logger.info(error);
+				logger.error(error);
+				return false;
+			});
 
-		try {
-			logger.debug(requestBody, `Sending get case request to Horizon via URL ${url} with body`);
-			const horizonAppeal = await axios.post(url, requestBody);
-			logger.debug(horizonAppeal.data, `Horizon get case response`);
-			return horizonAppeal.data;
-		} catch (error) {
-			logger.error(error, `Horizon get case request responded with the following error`);
-		}
+		logger.info(`Axios request complete for case reference ${caseReference}`);
 
-		return {};
+		return appealData;
 	}
 
 	/////////////////////////////
@@ -188,19 +214,22 @@ class HorizonGateway {
 			if (error.response) {
 				logger.error(
 					error.response.data,
-					`Horizon returned a ${error.response.status} status code when attempting to ${descriptionOfRequest}. Response is below`
+					`Horizon returned a ${error.response?.status} status code when attempting to ${descriptionOfRequest}. Response is below`
 				);
-				if (!error.response.data.Envelope) {
-					logger.debug('HERE!!!');
-					logger.debug(url);
-					logger.debug(error);
-					logger.debug('TO HERE!!!');
-				}
 
 				return new HorizonResponseValue(
-					error.response.data.Envelope.Body.Fault.faultstring.value,
+					error.response?.data?.Envelope?.Body?.Fault?.faultstring?.value,
 					true
 				);
+			}
+
+			let errMsg = `Call to Horizon returned an undefined error when attempting to ${descriptionOfRequest}.`;
+			logger.error(error, errMsg);
+
+			if (error.message) {
+				return new HorizonResponseValue(error.message, true);
+			} else {
+				return new HorizonResponseValue(errMsg, true);
 			}
 		}
 	}

@@ -2,6 +2,7 @@ const {
 	postCommentsQuestion
 } = require('../../../../src/controllers/final-comment/comments-question');
 const { mockReq, mockRes } = require('../../mocks');
+const finalComment = require('../../../mockData/final-comment');
 
 describe('controllers/final-comment/comments-question', () => {
 	let req;
@@ -12,7 +13,7 @@ describe('controllers/final-comment/comments-question', () => {
 		// so pass null and clear req.session to use for final comments
 		req = {
 			...mockReq(null),
-			session: {}
+			session: { finalComment }
 		};
 		res = mockRes();
 

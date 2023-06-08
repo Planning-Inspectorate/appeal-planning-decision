@@ -1,0 +1,86 @@
+{% extends submissionTypeTemplate %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/file-upload/macro.njk" import govukFileUpload %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{%- from "govuk/components/inset-text/macro.njk" import govukInsetText -%}
+{%- from "components/multi-file-upload/macro.njk" import mojMultiFileUpload -%}
+{% from "components/save-and-return/macro.njk" import saveAndReturnButton %}
+
+{% set saveAndReturn = saveAndReturn | default(true) %}
+
+{% set errorMessageHtml %}
+  {% if errorSummary %}
+    {%- for error in errorSummary -%}
+      {{- error.text -}}<br>
+    {%- endfor -%}
+  {% endif %}
+{% endset %}
+
+{% set uploadHtml %}
+  {{ govukFileUpload({
+    id: "file-upload",
+    name: "file-upload",
+    classes: 'moj-multi-file-upload__input',
+    hint: {
+      text: 'The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than 15MB'
+      },
+    attributes: { multiple: '' },
+    errorMessage: errorSummary and {
+      html: errorMessageHtml
+    }
+  }) }}
+
+  {{govukButton({
+    text: 'Upload file',
+    classes: 'govuk-button--secondary moj-multi-file-upload__button',
+    name: 'upload-and-remain-on-page',
+    value: 'upload-and-remain-on-page',
+    attributes: { "data-cy":"button-upload-file"}
+  })}}
+{% endset %}
+
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+
+      <span class="govuk-caption-l">{{ caption }}</span>
+      <h1 class="govuk-heading-l">{{ heading }}</h1>
+      {% if body %}
+         <p class="govuk-body">{{body}}</p>
+      {% endif %}
+      
+      <form action="" method="post" novalidate enctype="multipart/form-data">
+
+        {{ mojMultiFileUpload({
+          uploadedFiles: {
+            heading: { text: 'Files added' },
+            items: uploadedFiles
+          },
+          uploadHtml: uploadHtml
+        }) }}
+
+        <div class="govuk-button-group">
+          {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: { "data-cy":"button-save-and-continue"}
+          }) }}
+          {% if saveAndReturn %}
+            {{ saveAndReturnButton () }}
+          {% endif %}
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

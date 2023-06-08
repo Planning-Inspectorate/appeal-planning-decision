@@ -1,13 +1,17 @@
 const express = require('express');
 
+const { getCodeExpired } = require('../../../controllers/common/code-expired');
+
 const {
-  getCodeExpired,
-  postCodeExpired,
-} = require('../../../controllers/full-appeal/submit-appeal/code-expired');
+	VIEW: {
+		FULL_APPEAL: { CODE_EXPIRED, ENTER_CODE }
+	}
+} = require('../../../lib/views');
+
+const views = { CODE_EXPIRED, ENTER_CODE };
 
 const router = express.Router();
 
-router.get('/submit-appeal/code-expired', getCodeExpired);
-router.post('/submit-appeal/code-expired', postCodeExpired);
+router.get('/submit-appeal/code-expired', getCodeExpired(views));
 
 module.exports = router;

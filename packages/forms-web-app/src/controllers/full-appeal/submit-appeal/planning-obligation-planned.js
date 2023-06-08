@@ -28,6 +28,13 @@ const postPlanningObligationPlanned = async (req, res) => {
 
 	const plansPlanningObligation = body['plan-to-submit-planning-obligation'] === 'yes';
 
+	if (!plansPlanningObligation) {
+		appeal[sectionName].planningObligationDeadline.planningObligationStatus = null;
+		appeal[sectionName][taskName].plansPlanningObligation = false;
+		appeal[sectionName][taskName].uploadedFiles = [];
+		appeal[sectionName].draftPlanningObligations.uploadedFiles = [];
+	}
+
 	try {
 		appeal[sectionName][taskName].plansPlanningObligation = plansPlanningObligation;
 		if (req.body['save-and-return'] !== '') {

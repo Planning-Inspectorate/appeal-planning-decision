@@ -38,6 +38,10 @@ class MongoRepository {
 		return await mongodb.get().collection(this.collectionName).find().toArray();
 	}
 
+	async getAllDocumentsThatMatchQuery(query) {
+		return await mongodb.get().collection(this.collectionName).find(query).toArray();
+	}
+
 	/**
 	 *
 	 * @param {any[]} updateOneOperations Mongo JSON structures that represent update operations. Their

@@ -7,7 +7,7 @@ class AppealsRepository extends MongoRepository {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {any} id
 	 * @return {Promise<any>}
 	 */
@@ -15,8 +15,12 @@ class AppealsRepository extends MongoRepository {
 		return await this.findOneByQuery({ _id: id });
 	}
 
+	async getByHorizonId(horizonId) {
+		return await this.findOneByQuery({ 'appeal.horizonId': horizonId });
+	}
+
 	/**
-	 * 
+	 *
 	 * @param {any} appeal
 	 * @return {Promise<any>}
 	 */
@@ -30,7 +34,7 @@ class AppealsRepository extends MongoRepository {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param {any} appeal
 	 * @return {Promise<any>}
 	 */
@@ -41,9 +45,9 @@ class AppealsRepository extends MongoRepository {
 			.findOneAndUpdate(
 				{ _id: appeal.id },
 				{ $set: { uuid: appeal.uuid, appeal } },
-				{ returnDocument: "after" }
+				{ returnDocument: 'after' }
 			);
 	}
 }
 
-module.exports = { AppealsRepository }
+module.exports = { AppealsRepository };

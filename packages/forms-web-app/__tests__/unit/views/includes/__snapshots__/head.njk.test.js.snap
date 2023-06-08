@@ -1,11 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`views/includes/head Google Analytics section should not render if googleAnalyticsId and cookies.cookie_policy.usage are not set 1`] = `
+exports[`views/includes/head should not render if googleAnalyticsId is not set but cookies.cookie_policy.usage is set 1`] = `
 "
 
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
     <script id=\\"gaId\\" type='text/plain'></script>
 
@@ -18,12 +21,58 @@ exports[`views/includes/head Google Analytics section should not render if googl
 "
 `;
 
-exports[`views/includes/head Google Analytics section should not render if googleAnalyticsId is not set but cookies.cookie_policy.usage is set 1`] = `
+exports[`views/includes/head should not render if googleAnalyticsId is set but cookies.cookie_policy.usage is not set 1`] = `
 "
 
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
+  
+    <script id=\\"gaId\\" type='text/plain'>123</script>
+
+    
+  
+
+  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+
+
+"
+`;
+
+exports[`views/includes/head should not render if googleTagManager and GA are set 1`] = `
+"
+
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
+  
+    <script>
+      window.wfeconfig.googleTagManager = true;
+    </script>
+    
+  
+
+  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+
+
+"
+`;
+
+exports[`views/includes/head should not render if no ids set 1`] = `
+"
+
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
     <script id=\\"gaId\\" type='text/plain'></script>
 
@@ -36,15 +85,19 @@ exports[`views/includes/head Google Analytics section should not render if googl
 "
 `;
 
-exports[`views/includes/head Google Analytics section should not render if googleAnalyticsId is set but cookies.cookie_policy.usage is not set 1`] = `
+exports[`views/includes/head should not render if only tagmanager set 1`] = `
 "
 
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
-    <script id=\\"gaId\\" type='text/plain'>123</script>
-
+    <script>
+      window.wfeconfig.googleTagManager = true;
+    </script>
     
   
 
@@ -54,40 +107,15 @@ exports[`views/includes/head Google Analytics section should not render if googl
 "
 `;
 
-exports[`views/includes/head Google Analytics section should render if googleAnalyticsId and cookies.cookie_policy.usage are set 1`] = `
+exports[`views/includes/head should render if googleAnalyticsId and cookies.cookie_policy.usage are set 1`] = `
 "
 
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
-  
-    <script id=\\"gaId\\" type='text/plain'>123</script>
-
-    
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-      
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', '123');
-      </script>
-    
-  
-
-  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
-
-
-"
-`;
-
-exports[`views/includes/head Google Tag Manager section should not render if featureFlag.googleTagManager and googleTagManagerId are not set 1`] = `
-"
-
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
-
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
     <script id=\\"gaId\\" type='text/plain'>123</script>
 
@@ -110,64 +138,74 @@ exports[`views/includes/head Google Tag Manager section should not render if fea
 "
 `;
 
-exports[`views/includes/head Google Tag Manager section should not render if featureFlag.googleTagManager is not set but googleTagManagerId is set 1`] = `
+exports[`views/includes/head should render tagmanager if all are set 1`] = `
 "
 
   <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
   <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
   
-    <script id=\\"gaId\\" type='text/plain'>123</script>
-
+    <script>
+      window.wfeconfig.googleTagManager = true;
+    </script>
     
-      <!-- Global site tag (gtag.js) - Google Analytics -->
-      
       <script>
+        window.wfeconfig.googleTagManagerId = '123';
+        // default deined for tag manager
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', '123');
+        gtag('consent', 'default', {
+          'analytics_storage': 'denied'
+        });
       </script>
-    
-  
-
-  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
-
-
-"
-`;
-
-exports[`views/includes/head Google Tag Manager section should not render if featureFlag.googleTagManager is set but googleTagManagerId is not set 1`] = `
-"
-
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
-
-  
-    
-  
-
-  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
-
-
-"
-`;
-
-exports[`views/includes/head Google Tag Manager section should render if featureFlag.googleTagManager and googleTagManagerId are set 1`] = `
-"
-
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
-
-  
-    
       <!-- Google Tag Manager -->
       <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
       new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
       j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-      })(window,document,'script','dataLayer','456');</script>
+      })(window,document,'script','dataLayer','123');</script>
+      <!-- End Google Tag Manager -->
+    
+  
+
+  <script src=\\"/public/javascripts/index.bundle.js\\" defer></script>
+
+
+"
+`;
+
+exports[`views/includes/head should render tagmanager if tagmanager and id are set 1`] = `
+"
+
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+
+  <script>
+      window.wfeconfig = window.wfeconfig || {};
+  </script>
+  
+    <script>
+      window.wfeconfig.googleTagManager = true;
+    </script>
+    
+      <script>
+        window.wfeconfig.googleTagManagerId = '123';
+        // default deined for tag manager
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+          'analytics_storage': 'denied'
+        });
+      </script>
+      <!-- Google Tag Manager -->
+      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','123');</script>
       <!-- End Google Tag Manager -->
     
   

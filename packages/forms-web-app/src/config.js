@@ -61,7 +61,8 @@ module.exports = {
 		subdomainOffset: parseInt(process.env.SUBDOMAIN_OFFSET, 10) || 3,
 		useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
 		googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
-		googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID
+		googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,
+		allowTestingOverrides: process.env.ALLOW_TESTING_OVERRIDES === 'true'
 	},
 	featureFlag: {
 		googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true'
@@ -70,9 +71,6 @@ module.exports = {
 		characterLimits: {
 			finalComment: process.env.CHARACTER_LIMIT_FINAL_COMMENT || 32500,
 			emailCode: process.env.CHARACTER_LIMIT_EMAIL_SECURITY_CODE || 5
-		},
-		securityCodeMaxAttempts: {
-			finalComment: 3
 		}
 	},
 	featureFlagging: {

@@ -208,6 +208,17 @@ class HorizonMapper {
 		};
 	}
 
+	getAppealFromHorizon(caseReference) {
+		const requestBody = {
+			GetCase: {
+				__soap_op: 'http://tempuri.org/IHorizon/GetCase',
+				__xmlns: 'http://tempuri.org/',
+				caseReference: caseReference
+			}
+		};
+		return requestBody;
+	}
+
 	#getCreateContactRequestJson(type) {
 		return {
 			AddContact: {

@@ -4,7 +4,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
-{% set title="What's your email address? - Appeal a planning decision - GOV.UK" %}
+{% set title="What is your email address? - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {% if errors %}
@@ -30,7 +30,7 @@
         <span class="govuk-caption-l"></span>
 
           <label class="govuk-label govuk-label--l" for="email">
-            What’s your email address?
+            What is your email address?
           </label>
 
           <p class="govuk-body">
@@ -38,7 +38,7 @@
           </p>
 
           <p class="govuk-body">
-            You can also save your progress.
+            We’ll send you a code to confirm the email address is yours.
           </p>
 
           {{ govukInput({
@@ -59,7 +59,6 @@
           type: "submit",
           attributes: {"data-cy": "button-save-and-continue"}
         }) }}
-
 
       </form>
 

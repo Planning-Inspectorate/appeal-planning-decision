@@ -47,7 +47,7 @@ describe('lib/client-side/cookie/cookie-jar', () => {
 			createCookie(document, fakeName, fakeValue);
 
 			expect(document.cookie).toEqual(
-				`${fakeName}=${fakeValue}; expires=Thu, 18 Nov 2021 00:00:00 GMT; path=/`
+				`${fakeName}=${fakeValue}; expires=Thu, 18 Nov 2021 00:00:00 GMT; SameSite=Lax; path=/`
 			);
 		});
 
@@ -55,7 +55,7 @@ describe('lib/client-side/cookie/cookie-jar', () => {
 			createCookie(document, fakeName, fakeValue, 30);
 
 			expect(document.cookie).toEqual(
-				`${fakeName}=${fakeValue}; expires=Fri, 18 Dec 2020 00:00:00 GMT; path=/`
+				`${fakeName}=${fakeValue}; expires=Fri, 18 Dec 2020 00:00:00 GMT; SameSite=Lax; path=/`
 			);
 		});
 
@@ -63,7 +63,7 @@ describe('lib/client-side/cookie/cookie-jar', () => {
 			createCookie(document, fakeName, '', 0);
 
 			expect(document.cookie).toEqual(
-				`${fakeName}=; expires=Wed, 18 Nov 2020 00:00:00 GMT; path=/`
+				`${fakeName}=; expires=Wed, 18 Nov 2020 00:00:00 GMT; SameSite=Lax; path=/`
 			);
 		});
 
@@ -71,14 +71,14 @@ describe('lib/client-side/cookie/cookie-jar', () => {
 			createCookie(document, fakeName, '', -2);
 
 			expect(document.cookie).toEqual(
-				`${fakeName}=; expires=Mon, 16 Nov 2020 00:00:00 GMT; path=/`
+				`${fakeName}=; expires=Mon, 16 Nov 2020 00:00:00 GMT; SameSite=Lax; path=/`
 			);
 		});
 
 		test('bad days - we all have them', () => {
 			createCookie(document, fakeName, '', 'some string?');
 
-			expect(document.cookie).toEqual(`${fakeName}=; path=/`);
+			expect(document.cookie).toEqual(`${fakeName}=; SameSite=Lax; path=/`);
 		});
 
 		test('secure cookies are implicitly set if in the production environment', () => {
@@ -86,7 +86,7 @@ describe('lib/client-side/cookie/cookie-jar', () => {
 
 			createCookie(document, fakeName, '', 'some string?');
 
-			expect(document.cookie).toEqual(`${fakeName}=; secure; path=/`);
+			expect(document.cookie).toEqual(`${fakeName}=; secure; SameSite=Lax; path=/`);
 		});
 	});
 
@@ -113,6 +113,8 @@ describe('lib/client-side/cookie/cookie-jar', () => {
 
 		eraseCookie(document, fakeName);
 
-		expect(document.cookie).toEqual(`${fakeName}=; expires=Tue, 17 Nov 2020 00:00:00 GMT; path=/`);
+		expect(document.cookie).toEqual(
+			`${fakeName}=; expires=Tue, 17 Nov 2020 00:00:00 GMT; SameSite=Lax; path=/`
+		);
 	});
 });

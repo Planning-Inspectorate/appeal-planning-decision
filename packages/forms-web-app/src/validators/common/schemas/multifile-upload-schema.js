@@ -33,9 +33,6 @@ const schema = (path) => ({
 					`${name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
 				);
 
-				// check file for Virus
-				await validAV(value, name);
-
 				// check binary mime type of file
 				await validateMimeBinaryType(
 					value,
@@ -50,8 +47,13 @@ const schema = (path) => ({
 					`${name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
 				);
 
+				// must validate file size *before* ClamAV check as otherwise axios will throw request body size error
+
 				// check file size
 				validateFileSize(size, config.fileUpload.pins.uploadApplicationMaxFileSize, name);
+
+				// check file for Virus
+				await validAV(value, name);
 
 				return true;
 			}

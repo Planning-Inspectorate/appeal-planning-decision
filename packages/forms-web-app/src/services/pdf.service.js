@@ -12,6 +12,7 @@ const {
 	VIEW: { FULL_APPEAL }
 } = require('../lib/full-appeal/views');
 const logger = require('../lib/logger');
+const { textToPdf } = require('../lib/textToPdf');
 
 const defaultFileName = 'appeal-form';
 
@@ -68,7 +69,7 @@ const getHtmlAppeal = async (appeal) => {
 const storePdfAppeal = async (appeal, fileName) => {
 	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
-	log.info('Storing PDF appeal document');
+	log.info('Attempting to store PDF document');
 
 	try {
 		const htmlContent = await getHtmlAppeal(appeal);
@@ -97,7 +98,38 @@ const storePdfAppeal = async (appeal, fileName) => {
 	}
 };
 
+const storeTextAsDocument = async (submission, plainText, docType) => {
+	const log = logger.child({ uuid: uuid.v4() });
+
+	log.info('Storing PDF appeal document');
+
+	try {
+		log.debug('Generating PDF of plainText');
+
+		const pdfBuffer = await textToPdf(plainText);
+
+		log.debug('Creating document from PDF buffer');
+
+		const document = await createDocument(
+			submission,
+			pdfBuffer,
+			`${docType.displayName}.pdf`,
+			docType.name
+		);
+
+		log.debug('PDF document successfully created');
+
+		return document;
+	} catch (err) {
+		const msg = 'Error during the pdf generation';
+		log.error({ err }, msg);
+
+		throw new Error(msg);
+	}
+};
+
 module.exports = {
 	storePdfAppeal,
-	getHtmlAppeal
+	getHtmlAppeal,
+	storeTextAsDocument
 };

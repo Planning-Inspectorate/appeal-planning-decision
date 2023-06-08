@@ -1,7 +1,7 @@
 const { get, post } = require('../../router-mock');
-const requestNewCodeController = require('../../../../../src/controllers/full-appeal/submit-appeal/request-new-code');
+const requestNewCodeController = require('../../../../../src/controllers/common/request-new-code');
 
-jest.mock('../../../../../src/controllers/full-appeal/submit-appeal/request-new-code');
+jest.mock('../../../../../src/controllers/common/request-new-code');
 
 describe('routes/full-appeal/submit-appeal/request-new-code', () => {
 	beforeEach(() => {
@@ -16,11 +16,20 @@ describe('routes/full-appeal/submit-appeal/request-new-code', () => {
 	it('should define the expected routes', () => {
 		expect(get).toHaveBeenCalledWith(
 			'/submit-appeal/request-new-code',
-			requestNewCodeController.getRequestNewCode
+			requestNewCodeController.getRequestNewCode()
 		);
 		expect(post).toHaveBeenCalledWith(
 			'/submit-appeal/request-new-code',
-			requestNewCodeController.postRequestNewCode
+			requestNewCodeController.postRequestNewCode()
+		);
+
+		expect(get).toHaveBeenCalledWith(
+			'/submit-appeal/need-new-code',
+			requestNewCodeController.getRequestNewCode()
+		);
+		expect(post).toHaveBeenCalledWith(
+			'/submit-appeal/need-new-code',
+			requestNewCodeController.postRequestNewCode()
 		);
 	});
 });

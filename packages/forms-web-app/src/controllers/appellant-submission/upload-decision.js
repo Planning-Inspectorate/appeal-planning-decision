@@ -35,10 +35,10 @@ exports.postUploadDecision = async (req, res) => {
 
 	try {
 		if ('files' in req && req.files !== null) {
-			if ('decision-upload' in req.files) {
+			if ('file-upload' in req.files) {
 				const document = await createDocument(
 					appeal,
-					req.files['decision-upload'],
+					req.files['file-upload'],
 					null,
 					documentTypes.decisionLetter.name,
 					sectionTag
@@ -46,9 +46,9 @@ exports.postUploadDecision = async (req, res) => {
 
 				appeal[sectionName][taskName].uploadedFile = {
 					id: document.id,
-					name: req.files['decision-upload'].name,
-					fileName: req.files['decision-upload'].name,
-					originalFileName: req.files['decision-upload'].name,
+					name: req.files['file-upload'].name,
+					fileName: req.files['file-upload'].name,
+					originalFileName: req.files['file-upload'].name,
 					location: document.location,
 					size: document.size
 				};

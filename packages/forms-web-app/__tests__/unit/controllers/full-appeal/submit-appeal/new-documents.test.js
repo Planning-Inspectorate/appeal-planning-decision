@@ -384,6 +384,7 @@ describe('controllers/full-appeal/submit-appeal/new-documents', () => {
 			submittedAppeal[sectionName][taskName].hasSupportingDocuments = false;
 			submittedAppeal.sectionStates.appealDocumentsSection.supportingDocuments =
 				TASK_STATUS.COMPLETED;
+			submittedAppeal[sectionName][taskName].uploadedFiles = [];
 
 			createOrUpdateAppeal.mockReturnValue(submittedAppeal);
 

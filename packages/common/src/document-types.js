@@ -35,7 +35,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Supporting Documents',
 		involvement: 'Appellant',
-		horizonDocumentType: 'Other Evidence from Appellant/Agent',
+		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
 	designAccessStatement: {
@@ -210,6 +210,14 @@ const documentTypes = {
 		name: 'uploadDocuments',
 		multiple: true,
 		displayName: 'Upload documents',
+		involvement: '',
+		horizonDocumentType: 'Appellant Final Comments',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	finalComment: {
+		name: 'finalComment',
+		multiple: false,
+		displayName: 'final Comment',
 		involvement: '',
 		horizonDocumentType: 'Appellant Final Comments',
 		horizonDocumentGroupType: 'Evidence'

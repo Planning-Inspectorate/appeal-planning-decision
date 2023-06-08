@@ -18,7 +18,12 @@ router.post(
 	'/upload-documents',
 	[
 		reqFilesToReqBodyFilesMiddleware('upload-documents'),
-		checkDocumentUploadedValidationRules('upload-documents', 'supportingDocuments', 'finalComment'),
+		checkDocumentUploadedValidationRules(
+			'upload-documents',
+			'supportingDocuments',
+			'finalComment',
+			'Select the documents to support your appeal'
+		),
 		multifileUploadValidationRules('files.upload-documents.*')
 	],
 	validationErrorHandler,

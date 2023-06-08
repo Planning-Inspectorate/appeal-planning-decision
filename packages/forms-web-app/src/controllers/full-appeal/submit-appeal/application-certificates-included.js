@@ -31,6 +31,10 @@ const postApplicationCertificatesIncluded = async (req, res) => {
 
 	const submittedSeparateCertificate = body['did-you-submit-separate-certificate'] === 'yes';
 
+	if (submittedSeparateCertificate === false) {
+		req.session.appeal[sectionName][taskName].uploadedFile = {};
+	}
+
 	try {
 		appeal[sectionName][taskName].submittedSeparateCertificate = submittedSeparateCertificate;
 

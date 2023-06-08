@@ -8,7 +8,7 @@ const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wra
 const logger = require('../../../../../src/lib/logger');
 const {
 	VIEW: {
-		FULL_APPEAL: { EMAIL_ADDRESS, CONFIRM_EMAIL_ADDRESS }
+		FULL_APPEAL: { EMAIL_ADDRESS, ENTER_CODE }
 	}
 } = require('../../../../../src/lib/views');
 
@@ -91,6 +91,8 @@ describe('controllers/full-appeal/submit-appeal/email-address', () => {
 				}
 			};
 
+			createOrUpdateAppeal.mockReturnValue(appeal);
+
 			await postEmailAddress(mockRequest, res);
 
 			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
@@ -98,7 +100,7 @@ describe('controllers/full-appeal/submit-appeal/email-address', () => {
 				[taskName]: fakeEmail
 			});
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${CONFIRM_EMAIL_ADDRESS}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_CODE}/${req.session.appeal.id}`);
 		});
 	});
 });

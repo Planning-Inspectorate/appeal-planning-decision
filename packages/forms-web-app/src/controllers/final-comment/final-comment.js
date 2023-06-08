@@ -7,9 +7,8 @@ const {
 
 const getAddFinalComment = async (req, res) => {
 	res.render(FINAL_COMMENT, {
-		finalComment: req.session?.finalComment?.finalComment,
-		doesNotContainSensitiveInformation:
-			req.session?.finalComment?.doesNotContainSensitiveInformation
+		finalComment: req.session.finalComment.finalComment,
+		doesNotContainSensitiveInformation: req.session.finalComment.doesNotContainSensitiveInformation
 	});
 };
 
@@ -22,11 +21,6 @@ const postAddFinalComment = async (req, res) => {
 	const finalComment = body['final-comment'];
 	const doesNotContainSensitiveInformation =
 		body['does-not-include-sensitive-information'] === 'i-confirm';
-
-	// DEV ONLY - this check should not be necessary once this page is integrated into the full final-comment journey
-	if (!Object.keys(req.session).includes('finalComment')) {
-		req.session.finalComment = {};
-	}
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(FINAL_COMMENT, {

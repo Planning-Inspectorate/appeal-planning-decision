@@ -6,9 +6,7 @@ const {
 	createOrUpdateAppeal,
 	getExistingAppeal,
 	getLPAList,
-	saveAppeal,
-	createConfirmEmail,
-	getConfirmEmail
+	saveAppeal
 } = require('../../../src/lib/appeals-api-wrapper');
 
 const config = require('../../../src/config');
@@ -148,63 +146,6 @@ describe('lib/appeals-api-wrapper', () => {
 				await saveAppeal({
 					appeal: 'data'
 				});
-			} catch (e) {
-				expect(e.toString()).toEqual('Error: something went wrong');
-			}
-		});
-	});
-
-	describe('createConfirmEmail', () => {
-		it('should call the expected URL', async () => {
-			fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
-			const appealsApiResponse = await createConfirmEmail({ appeal: 'data' });
-
-			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/confirm-email`, {
-				body: '{"appeal":"data"}',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-Correlation-ID': uuid.v4()
-				},
-				method: 'POST'
-			});
-			expect(appealsApiResponse).toEqual({ shouldBe: 'valid' });
-		});
-
-		it('should handle api fetch failure', async () => {
-			fetch.mockResponseOnce(JSON.stringify({ errors: ['something went wrong'] }), {
-				status: 400
-			});
-			try {
-				await createConfirmEmail({
-					appeal: 'data'
-				});
-			} catch (e) {
-				expect(e.toString()).toEqual('Error: something went wrong');
-			}
-		});
-	});
-
-	describe('getConfirmEmail', () => {
-		it('should call the expected URL', async () => {
-			fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
-			const appealsApiResponse = await getConfirmEmail('12345');
-
-			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/confirm-email/12345`, {
-				headers: {
-					'Content-Type': 'application/json',
-					'X-Correlation-ID': uuid.v4()
-				},
-				method: 'GET'
-			});
-			expect(appealsApiResponse).toEqual({ shouldBe: 'valid' });
-		});
-
-		it('should handle api fetch failure', async () => {
-			fetch.mockResponseOnce(JSON.stringify({ errors: ['something went wrong'] }), {
-				status: 400
-			});
-			try {
-				await getConfirmEmail('12345');
 			} catch (e) {
 				expect(e.toString()).toEqual('Error: something went wrong');
 			}

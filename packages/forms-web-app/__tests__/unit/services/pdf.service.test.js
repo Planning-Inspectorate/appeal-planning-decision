@@ -2,7 +2,7 @@ const {
 	constants: { APPEAL_ID }
 } = require('@pins/business-rules');
 const fetch = require('node-fetch');
-const { storePdfAppeal } = require('../../../src/services/pdf.service');
+const { storePdfAppeal, storeTextAsDocument } = require('../../../src/services/pdf.service');
 const { getHtmlAppeal } = require('../../../src/services/pdf.service');
 const { createDocument } = require('../../../src/lib/documents-api-wrapper');
 const config = require('../../../src/config');
@@ -31,10 +31,14 @@ jest.mock('uuid', () => ({
 describe('services/pdf.service', () => {
 	let mockAppeal;
 	let htmlContent;
+	let docType;
+	let plainText;
 
 	beforeEach(() => {
 		mockAppeal = { id: 123 };
+		docType = { displayName: 'test', name: 'test' };
 		htmlContent = '<html><h1>Simple html file</h1></html>';
+		plainText = 'simple plain text example';
 		fetch.resetMocks();
 	});
 
@@ -102,6 +106,24 @@ describe('services/pdf.service', () => {
 			await createDocument.mockResolvedValue({ data: [] });
 			fetch.mockResponse(htmlContent, { status: 200 });
 			expect(await storePdfAppeal(mockAppeal)).toEqual({ data: [] });
+		});
+	});
+	describe('storeTextAsDocument', () => {
+		it('should throw if the create document API response is not ok', async () => {
+			fetch.mockResponse(plainText, { status: 200 });
+			createDocument.mockImplementation(() => Promise.reject(new Error()));
+			try {
+				await storeTextAsDocument(mockAppeal);
+				expect('to be').not.toBe('to be');
+			} catch (e) {
+				expect(e.message).toBe('Error during the pdf generation');
+			}
+		});
+
+		it('should return the expected response if no error were triggered fetch status is 200', async () => {
+			await createDocument.mockResolvedValue({ data: [] });
+			fetch.mockResponse(plainText, { status: 200 });
+			expect(await storeTextAsDocument(mockAppeal, plainText, docType)).toEqual({ data: [] });
 		});
 	});
 });

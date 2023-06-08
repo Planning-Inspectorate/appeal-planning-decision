@@ -59,10 +59,12 @@ const schema = (noFilesError) => ({
 
 				const sizeErrorMsg = isSingleFile ? 'The selected file must be smaller than 15MB' : null;
 
+				// must validate file size *before* ClamAV check as otherwise axios will throw request body size error
 				uploadedFiles.forEach(({ size, name }) => {
 					validateFileSize(size, uploadApplicationMaxFileSize, name, sizeErrorMsg);
 				});
 
+				//check file for virus
 				const { name } = req.files[path];
 				await validAV(req.files['file-upload'], name);
 

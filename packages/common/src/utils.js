@@ -2,6 +2,8 @@
  * Utility methods
  */
 
+const testLPACode = 'E69999999';
+
 module.exports = {
 	/**
 	 * Promise Timeout
@@ -38,5 +40,16 @@ module.exports = {
 				}, timeoutValue);
 			})
 		]);
-	}
+	},
+
+	/**
+	 * Check if LPA is System Test Borough Council.
+	 *
+	 * @param {string} lpaCode
+	 * @return {boolean}
+	 */
+	isTestLPA(lpaCode) {
+		return lpaCode === testLPACode;
+	},
+	testLPACode
 };

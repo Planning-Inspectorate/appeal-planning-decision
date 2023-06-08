@@ -4,12 +4,13 @@
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
 {% set title="Enter the code we sent to your email address - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {% if errors %}
-    {% set title="Error: " + title %}
+    {% set title = "Error: " + title %}
   {% endif %}
   {{ title }}
 {% endblock %}
@@ -22,39 +23,7 @@
       errorList: errorSummary
     }) }}
   {% endif %}
-  <div class="govuk-grid-row">
 
-    <div class="govuk-grid-column-two-thirds">
-      <form action="" method="POST" novalidate>
-        {% call govukFieldset({
-          legend: {
-            text: "Enter the code we sent to your email address",
-            classes: "govuk-fieldset__legend--l",
-            isPageHeading: true
-          }
-        }) %}
+  {% include 'includes/enter-security-code.njk' %}
 
-          {{ govukInput({
-            classes: "govuk-input govuk-input--width-5",
-            id: "email-code",
-            name: "email-code",
-            spellcheck: false,
-            value: email-code,
-            errorMessage: errors['email-code-name'] and {
-              text: errors['email-code-name'].msg
-            }
-
-          }) }}
-
-        {% endcall %}
-
-        {{ govukButton({
-          text: "Continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
-      </form>
-      <p class='govuk-body'><a href="{{requestNewCodeLink}}">Not received the code?</a></p>
-    </div>
-  </div>
 {% endblock %}

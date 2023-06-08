@@ -19,11 +19,11 @@ const saveAndReturnHasRouter = require('./appeal-householder-decision/save');
 const appealHouseholderdecision = require('./appeal-householder-decision');
 const checkDecisionDateDeadline = require('../middleware/check-decision-date-deadline');
 const checkPathAllowed = require('../middleware/check-path-allowed');
-const {
-	skipMiddlewareIfFinalComments
-} = require('../middleware/skip-middleware-if-final-comments');
+const checkDebugAllowed = require('../middleware/check-debug-allowed');
+const { skipMiddlewareForPaths } = require('../middleware/skip-middleware-for-paths');
 const accessibilityStatementRouter = require('./accessibility-statement/accessibility-statement');
 const errorPageRouter = require('./error');
+const debugRouter = require('./debug');
 
 router.use('/', homeRouter);
 router.use(guidancePagesRouter);
@@ -39,11 +39,13 @@ router.use(
 
 router.use(
 	'/full-appeal',
-	skipMiddlewareIfFinalComments(checkPathAllowed),
+	skipMiddlewareForPaths(checkPathAllowed, ['submit-final-comment', 'enter-code']),
+	//skipMiddlewareIfFinalComments(checkPathAllowed),
 	//todo: we will likely want to use the deadline checking middleware
 	//when it has been refactored to work with final comments
 	//as well as appeal objects
-	skipMiddlewareIfFinalComments(checkDecisionDateDeadline),
+	skipMiddlewareForPaths(checkDecisionDateDeadline, ['submit-final-comment']),
+	//skipMiddlewareIfFinalComments(checkDecisionDateDeadline),
 	fullAppealRouter
 );
 
@@ -75,9 +77,11 @@ router.use(
 
 router.use(
 	'/appeal-householder-decision',
-	checkPathAllowed,
+	skipMiddlewareForPaths(checkPathAllowed, ['enter-code']),
 	checkDecisionDateDeadline,
 	appealHouseholderdecision
 );
+
+router.use('/debug', checkDebugAllowed, debugRouter);
 
 module.exports = router;

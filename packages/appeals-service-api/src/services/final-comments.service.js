@@ -1,120 +1,139 @@
-const logger = require('../lib/logger');
-const HorizonService = require('./horizon.service');
-const { DecryptionService } = require('./decryption.service');
-const { FinalCommentsAggregate } = require('../models/aggregates/final-comments-aggregate');
 const { FinalCommentsRepository } = require('../repositories/final-comments-repository');
-const { sendSaveAndReturnEnterCodeIntoServiceEmail } = require('../lib/notify');
-const {
-	FinalCommentsNotEnabledError
-} = require('../errors/final-comments/final-comments-not-enabled-error');
-const {
-	FinalCommentsWindowNotOpenError
-} = require('../errors/final-comments/final-comments-window-not-open-error');
-const {
-	FinalCommentsSecureCodeExpired
-} = require('../errors/final-comments/final-comments-secure-code-expired');
-const {
-	FinalCommentSecureCodeIncorrectError
-} = require('../errors/final-comments/final-comments-secure-code-incorrect-error');
+const ApiError = require('../errors/apiError');
+const HorizonService = require('./horizon.service');
+const { getAppealByHorizonId } = require('./appeal.service');
+const logger = require('../lib/logger');
+const uuid = require('uuid');
 
 class FinalCommentsService {
 	#finalCommentsRepository;
 	#horizonService;
-	#decryptionService;
 
 	constructor() {
 		this.#finalCommentsRepository = new FinalCommentsRepository();
 		this.#horizonService = new HorizonService();
-		this.#decryptionService = new DecryptionService();
 	}
 
-	/**
-	 *
-	 * @param {string} caseReference
-	 * @param {string} appellantEmail
-	 * @returns {Promise<boolean>}
-	 */
-	async createFinalComments(caseReference, appellantEmail) {
-		logger.debug(`Attempting to create final comment with case reference ${caseReference}`)
-		const finalCommentWithCaseReference = await this.#finalCommentsRepository.getByCaseReference(
-			caseReference
-		);
-		if (finalCommentWithCaseReference) {
-			logger.debug(`A final comment with case reference ${caseReference} already exists`)
-			return false;
-		}
-
-		logger.debug(`No final comment with case reference ${caseReference} exisits, creating an entity in the repository`)
-		const finalCommentsToSave = new FinalCommentsAggregate(caseReference, appellantEmail);
-		logger.debug(finalCommentsToSave, 'Final comment entity to create')
-		await this.#finalCommentsRepository.create(finalCommentsToSave);
-		logger.debug(`Created final comment`)
-		return true;
-	}
-
-	/**
-	 *
-	 * @param {string} caseReference
-	 * @returns
-	 */
-	async sendSecureCodeForFinalComment(caseReference) {
-		const finalCommentsFound = await this.#retrieveFinalCommentOrThrowErrorIfNotFound(
-			caseReference
-		);
-		await this.#checkFinalCommentWindowAndThrowErrorIfNotOpen(caseReference);
-
-		sendSaveAndReturnEnterCodeIntoServiceEmail(
-			finalCommentsFound.getAppellantEmail(),
-			finalCommentsFound.getSecureCode().getPin(),
-			finalCommentsFound.getCaseReference()
-		);
-	}
-
-	/**
-	 * @param {string} caseReference
-	 * @param {string} encryptedSecureCode
-	 */
-	async getFinalComment(caseReference, encryptedSecureCode) {
-		const finalCommentsFound = await this.#retrieveFinalCommentOrThrowErrorIfNotFound(
-			caseReference
-		);
-		await this.#checkFinalCommentWindowAndThrowErrorIfNotOpen(caseReference);
-
-		if (new Date().valueOf() > finalCommentsFound.getSecureCode().getExpiration()) {
-			throw new FinalCommentsSecureCodeExpired();
-		}
-
-		let decryptedSecureCode =
-			this.#decryptionService.decryptFinalCommentsSecureCode(encryptedSecureCode);
-		if (decryptedSecureCode !== finalCommentsFound.getSecureCode().getPin()) {
-			throw new FinalCommentSecureCodeIncorrectError();
-		}
-	}
-
-	async #retrieveFinalCommentOrThrowErrorIfNotFound(caseReference) {
-		const finalCommentsFound = await this.#finalCommentsRepository.getByCaseReference(
-			caseReference
-		);
-		if (finalCommentsFound == null) {
-			logger.debug(`Final comments not found for appeal with case reference ${caseReference}.`);
-			throw new FinalCommentsNotEnabledError(caseReference);
-		}
-		return finalCommentsFound;
-	}
-
-	async #checkFinalCommentWindowAndThrowErrorIfNotOpen(caseReference) {
-	
-		const finalCommentsDueDate = await this.#horizonService.getFinalCommentsDueDate(caseReference);
-
-		if (
-			finalCommentsDueDate == undefined ||
-			new Date().valueOf() >= finalCommentsDueDate.valueOf()
-		) {
-			logger.info(
-				`Final comments window is not open for appeal with case reference ${caseReference}. End date is set to be: '${finalCommentsDueDate}'`
+	async createFinalComment(finalComment) {
+		//Check if already submitted
+		let submittedFinalComments =
+			await this.#finalCommentsRepository.getAllFinalCommentsByCaseReference(
+				finalComment.horizonId.toString()
 			);
-			throw new FinalCommentsWindowNotOpenError();
+		if (submittedFinalComments.length > 0) {
+			logger.info(
+				`An appeal for HorizonId ${finalComment.horizonId} already exists. Checking Email is unique`
+			);
+			for (const submittedFinalComment of submittedFinalComments) {
+				if (submittedFinalComment.finalComment.email === finalComment.email) {
+					logger.info(
+						`An appeal for HorizonId ${finalComment.horizonId} and ${finalComment.email} already exists.`
+					);
+					throw ApiError.finalCommentAlreadySubmitted();
+				}
+			}
 		}
+		// Check that we are in date
+		let now = new Date(new Date().toISOString());
+		let expiry = new Date(finalComment.finalCommentExpiryDate);
+		if (expiry < now) {
+			throw ApiError.finalCommentHasExpired();
+		}
+
+		// Set required final comment data
+		let finalCommentToSave = { finalComment: { ...finalComment } };
+
+		finalCommentToSave.finalComment.finalCommentSubmissionDate = now;
+		finalCommentToSave.finalComment.typeOfUser = finalCommentToSave.finalComment.typeOfUser
+			? finalCommentToSave.finalComment.typeOfUser
+			: 'Appellant/Agent';
+		finalCommentToSave.finalComment.horizonId = finalComment.horizonId.toString();
+
+		//Create final comment in Mongo
+		let document = await this.#finalCommentsRepository.create(finalCommentToSave);
+		logger.info(document.result);
+
+		return document;
+	}
+
+	async getFinalComment(caseReference) {
+		let submittedFinalComments =
+			await this.#finalCommentsRepository.getAllFinalCommentsByCaseReference(caseReference);
+
+		if (submittedFinalComments.length > 0) {
+			let formattedFinalComments = [];
+			submittedFinalComments.forEach((finalComment) =>
+				formattedFinalComments.push({ ...finalComment })
+			);
+			return formattedFinalComments;
+		} else {
+			throw ApiError.finalCommentsNotFound();
+		}
+	}
+
+	async getFinalCommentData(caseReference) {
+		logger.info(`Getting data from horizon for final comment with case reference ${caseReference}`);
+		let caseData = await this.#horizonService.getAppealDataFromHorizon(caseReference);
+		logger.info(
+			`Data retrieved from horizon for final comment with case reference ${caseReference}`
+		);
+		if (!caseData) {
+			throw ApiError.caseDataNotFound();
+		}
+		const attributes = caseData.Metadata.Attributes;
+		if (attributes.length === 0) {
+			throw ApiError.caseDataNotFound();
+		}
+		// Getting final comment due date (from horizon)
+		let finalCommentsDueDate = await this.#horizonService.findValueFromMetadata(
+			attributes,
+			'Case Document Dates:Final Comments Due Date'
+		);
+		logger.info('Due Date');
+		logger.info(finalCommentsDueDate);
+		if (!finalCommentsDueDate) {
+			throw ApiError.caseHasNoFinalCommentsExpiryDate();
+		}
+
+		// Getting contact details (from local database)
+		// email was moved from appeal.contactDetailsSection.contact.email
+		// to appeal.email at some point during development
+		logger.info(`Retrieving contact details from database for case reference ${caseReference}`);
+		let localAppealData = await getAppealByHorizonId(caseReference).catch((error) => {
+			logger.error(error, 'error when fetching appeal by horizon Id');
+			throw ApiError.appealNotFoundHorizonId(caseReference);
+		});
+		logger.info(`Contact details retrieved from database for case reference ${caseReference}`);
+
+		let appellantEmail =
+			localAppealData.email ?? localAppealData.contactDetailsSection.contact.email;
+
+		const finalCommentData = {
+			id: uuid.v4(),
+			horizonId: caseReference,
+			lpaCode: localAppealData.lpaCode,
+			state: 'DRAFT',
+			finalCommentExpiryDate: new Date(Date.parse(finalCommentsDueDate)),
+			email: appellantEmail,
+			finalCommentSubmissionDate: null,
+			secureCodeEnteredCorrectly: false,
+			hasComment: null,
+			doesNotContainSensitiveInformation: null,
+			finalComment: null,
+			finalCommentAsDocument: {
+				uploadedFile: {
+					name: null,
+					id: null
+				}
+			},
+			hasSupportingDocuments: false,
+			typeOfUser: 'Appellant/Agent',
+			supportingDocuments: {
+				uploadedFiles: []
+			}
+		};
+
+		return finalCommentData;
 	}
 }
 

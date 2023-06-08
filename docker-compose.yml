@@ -114,6 +114,8 @@ services:
       SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID: '49413491-90fd-4ce8-b061-e2f4758b636b'
       TASK_SUBMIT_TO_HORIZON_CRON_STRING: '*/10 * * * *'
       TASK_SUBMIT_TO_HORIZON_TRIGGER: 'false'
+      PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING:
+
     ports:
       - 3000:3000
     working_dir: /opt/app
@@ -181,6 +183,7 @@ services:
       USE_SECURE_SESSION_COOKIES: 'false'
       PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
       LOGGER_LEVEL: 'debug'
+      PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING: 
     ports:
       - 9003:3000
       # node debugger

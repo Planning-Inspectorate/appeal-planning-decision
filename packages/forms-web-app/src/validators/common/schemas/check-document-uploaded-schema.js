@@ -1,6 +1,6 @@
 const { findTargetValueInJSON } = require('../../../lib/find-target-value-in-json');
 
-const schema = (path, documentType, submissionType) => ({
+const schema = (path, documentType, submissionType, errorMsg = 'Select a file to upload') => ({
 	[path]: {
 		custom: {
 			options: async (value, { req }) => {
@@ -10,23 +10,27 @@ const schema = (path, documentType, submissionType) => ({
 					if (req.session[submissionType]) {
 						uploadedFiles = findTargetValueInJSON(
 							req.session[submissionType],
-							documentType
+							documentType,
+							'sectionStates'
 						).uploadedFiles;
 					}
+
 					if (uploadedFiles) {
-						//at this stage, uploadedFiles will still contain files flagged for removal
+						//at this stage, uploadedFiles will still contain any files flagged for removal
 						//so we need to disregard them when checking uploadedFiles
+						let removedFiles = [];
+
 						if ('removedFiles' in req.body) {
-							const removedFiles = JSON.parse(req.body.removedFiles) || [];
-							if (uploadedFiles.length - removedFiles.length < 1) {
-								throw new Error('Select a file to upload');
-							}
+							removedFiles = JSON.parse(req.body.removedFiles) || [];
+						}
+						if (uploadedFiles.length - removedFiles.length < 1) {
+							throw new Error(errorMsg);
 						}
 
 						return true;
 					}
 
-					throw new Error('Select a file to upload');
+					throw new Error(errorMsg);
 				}
 
 				return true;

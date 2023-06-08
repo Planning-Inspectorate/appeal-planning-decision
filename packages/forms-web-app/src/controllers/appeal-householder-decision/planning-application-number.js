@@ -1,5 +1,6 @@
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+const { VIEW } = require('../../lib/views');
 
 const getPlanningApplicationNumber = (req, res) => {
 	const { planningApplicationNumber } = req.session.appeal;
@@ -37,7 +38,7 @@ const postPlanningApplicationNumber = async (req, res) => {
 		});
 	}
 
-	return res.redirect('/appeal-householder-decision/email-address');
+	return res.redirect('/' + VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS);
 };
 
 module.exports = {

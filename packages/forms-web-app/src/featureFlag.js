@@ -65,7 +65,8 @@ const isFeatureActive = async (featureFlagName, localPlanningAuthorityCode) => {
 	const userGroup = featureFlagConfiguration.conditions.client_filters[0].parameters.Audience.Users;
 	const isUserInUserGroup =
 		(Array.isArray(userGroup) && !userGroup.length) ||
-		userGroup.includes(localPlanningAuthorityCode);
+		userGroup.includes(localPlanningAuthorityCode) ||
+		localPlanningAuthorityCode === 'enableForAllLPAs';
 	logger.info(
 		'Feature flag: ' + featureFlagConfiguration.id + ' ' + featureFlagConfiguration.enabled
 	);

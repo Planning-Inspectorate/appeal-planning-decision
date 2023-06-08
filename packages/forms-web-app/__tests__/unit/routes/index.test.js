@@ -14,11 +14,9 @@ const submitAppealRouter = require('../../../src/routes/submit-appeal');
 const saveAndReturnRouter = require('../../../src/routes/save');
 const checkDecisionDateDeadline = require('../../../src/middleware/check-decision-date-deadline');
 const checkPathAllowed = require('../../../src/middleware/check-path-allowed');
-const {
-	skipMiddlewareIfFinalComments
-} = require('../../../src/middleware/skip-middleware-if-final-comments');
+const { skipMiddlewareForPaths } = require('../../../src/middleware/skip-middleware-for-paths');
 
-jest.mock('../../../src/middleware/skip-middleware-if-final-comments');
+jest.mock('../../../src/middleware/skip-middleware-for-paths');
 
 describe('routes/index', () => {
 	beforeEach(() => {
@@ -42,8 +40,8 @@ describe('routes/index', () => {
 		);
 		expect(use).toHaveBeenCalledWith(
 			'/full-appeal',
-			skipMiddlewareIfFinalComments(checkPathAllowed),
-			skipMiddlewareIfFinalComments(checkDecisionDateDeadline),
+			skipMiddlewareForPaths(checkPathAllowed, ['submit-final-comment', 'enter-code']),
+			skipMiddlewareForPaths(checkDecisionDateDeadline, ['submit-final-comment']),
 			fullAppealRouter
 		);
 		expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);

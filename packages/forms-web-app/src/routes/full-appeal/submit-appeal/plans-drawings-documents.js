@@ -1,30 +1,57 @@
-const { documentTypes } = require('@pins/common');
 const express = require('express');
+
+const { documentTypes } = require('@pins/common');
 const {
-	getPlansDrawingsDocuments,
-	postPlansDrawingsDocuments
-} = require('../../../controllers/full-appeal/submit-appeal/plans-drawings-documents');
+	VIEW: {
+		FULL_APPEAL: { PLANS_DRAWINGS_DOCUMENTS, DESIGN_ACCESS_STATEMENT_SUBMITTED }
+	}
+} = require('../../../lib/full-appeal/views');
 const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
-const { rules: fileUploadValidationRules } = require('../../../validators/common/file-upload');
+const {
+	rules: multifileUploadValidationRules
+} = require('../../../validators/common/multifile-upload');
+const {
+	rules: checkDocumentUploadedValidationRules
+} = require('../../../validators/common/check-document-uploaded');
+const {
+	getAppealMultiFileUpload,
+	postAppealMultiFileUpload
+} = require('../../../controllers/common/appeal-multi-file-upload');
 const setSectionAndTaskNames = require('../../../middleware/set-section-and-task-names');
+const reqFilesToReqBodyFilesMiddleware = require('../../../middleware/req-files-to-req-body-files');
 
 const router = express.Router();
+const documentType = documentTypes.plansDrawingsSupportingDocuments.name;
 const sectionName = 'planningApplicationDocumentsSection';
-const taskName = documentTypes.plansDrawingsSupportingDocuments.name;
+const taskName = documentType;
 
 router.get(
 	'/submit-appeal/plans-drawings-documents',
 	[fetchExistingAppealMiddleware],
 	setSectionAndTaskNames(sectionName, taskName),
-	getPlansDrawingsDocuments
+	getAppealMultiFileUpload(PLANS_DRAWINGS_DOCUMENTS)
 );
 router.post(
 	'/submit-appeal/plans-drawings-documents',
 	setSectionAndTaskNames(sectionName, taskName),
-	fileUploadValidationRules('Select your plans, drawings and supporting documents'),
+	[
+		reqFilesToReqBodyFilesMiddleware('file-upload'),
+		checkDocumentUploadedValidationRules(
+			'file-upload',
+			taskName,
+			'appeal',
+			'Select your plans, drawings and supporting documents'
+		),
+		multifileUploadValidationRules('files.file-upload.*')
+	],
 	validationErrorHandler,
-	postPlansDrawingsDocuments
+	postAppealMultiFileUpload(
+		PLANS_DRAWINGS_DOCUMENTS,
+		DESIGN_ACCESS_STATEMENT_SUBMITTED,
+		documentType,
+		'plansDrawingsSupportingDocuments'
+	)
 );
 
 module.exports = router;

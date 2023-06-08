@@ -36,8 +36,6 @@ const VIEW = {
 		TASK_LIST: 'appeal-householder-decision/task-list',
 		APPEAL_STATEMENT: 'appellant-submission/appeal-statement',
 		APPLICATION_NUMBER: 'appellant-submission/application-number',
-		EMAIL_ADDRESS_CONFIRMED: 'appeal-householder-decision/email-address-confirmed',
-		LINK_EXPIRED: 'appeal-householder-decision/link-expired',
 		SITE_LOCATION: 'appellant-submission/site-location',
 		SITE_OWNERSHIP: 'appellant-submission/site-ownership',
 		SITE_OWNERSHIP_CERTB: 'appellant-submission/site-ownership-certb',
@@ -53,13 +51,14 @@ const VIEW = {
 		SUBMISSION: 'appellant-submission/submission',
 		CONFIRMATION: 'appellant-submission/confirmation',
 		SUBMISSION_INFORMATION: 'appellant-submission/submission-information',
-		SENT_ANOTHER_LINK: 'appeal-householder-decision/sent-another-link',
+		APPEAL_ALREADY_SUBMITTED: 'appeal-householder-decision/appeal-already-submitted',
+		CANNOT_APPEAL: 'appeal-householder-decision/cannot-appeal',
+		ENTER_CODE: 'appeal-householder-decision/enter-code',
 		REQUEST_NEW_CODE: 'appeal-householder-decision/request-new-code',
 		CODE_EXPIRED: 'appeal-householder-decision/code-expired',
-		APPEAL_ALREADY_SUBMITTED: 'appeal-householder-decision/appeal-already-submitted',
-		ENTER_CODE: 'appeal-householder-decision/enter-code',
-		CANNOT_APPEAL: 'appeal-householder-decision/cannot-appeal',
-		CONFIRM_EMAIL_ADDRESS: 'appeal-householder-decision/confirm-email-address'
+		NEED_NEW_CODE: 'appeal-householder-decision/need-new-code',
+		EMAIL_CONFIRMED: 'appeal-householder-decision/email-address-confirmed',
+		EMAIL_ADDRESS: 'appeal-householder-decision/email-address'
 	},
 
 	HOUSEHOLDER_PLANNING: {
@@ -96,16 +95,24 @@ const VIEW = {
 
 	FINAL_COMMENT: {
 		INPUT_CODE: 'full-appeal/submit-final-comment/input-code',
+		CODE_EXPIRED: 'full-appeal/submit-final-comment/code-expired',
 		NEED_NEW_CODE: 'full-appeal/submit-final-comment/need-new-code',
 		FINAL_COMMENT: 'full-appeal/submit-final-comment/final-comment',
 		COMMENTS_QUESTION: 'full-appeal/submit-final-comment/comments-question',
 		FINAL_COMMENT_SUBMITTED: 'full-appeal/submit-final-comment/final-comment-submitted',
 		APPEAL_CLOSED_FOR_COMMENT: 'full-appeal/submit-final-comment/appeal-closed-for-comment',
 		DOCUMENTS_CHECK: 'full-appeal/submit-final-comment/documents-check',
-		UPLOAD_DOCUMENTS: 'full-appeal/submit-final-comment/upload-documents'
+		UPLOAD_DOCUMENTS: 'full-appeal/submit-final-comment/upload-documents',
+		CHECK_YOUR_ANSWERS: 'full-appeal/submit-final-comment/check-your-answers'
 	},
 
 	FULL_APPEAL: {
+		EMAIL_ADDRESS: 'full-appeal/submit-appeal/email-address',
+		EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-address-confirmed',
+		ENTER_CODE: 'full-appeal/submit-appeal/enter-code',
+		REQUEST_NEW_CODE: 'full-appeal/submit-appeal/request-new-code',
+		CODE_EXPIRED: 'full-appeal/submit-appeal/code-expired',
+		NEED_NEW_CODE: 'full-appeal/submit-appeal/need-new-code',
 		ADVERTISING_YOUR_APPEAL: 'full-appeal/submit-appeal/advertising-your-appeal',
 		ANY_OF_FOLLOWING: 'full-appeal/any-of-following',
 		AGRICULTURAL_HOLDING: 'full-appeal/submit-appeal/agricultural-holding',
@@ -119,13 +126,11 @@ const VIEW = {
 		APPLICATION_FORM: 'full-appeal/submit-appeal/application-form',
 		ARE_YOU_A_TENANT: 'full-appeal/submit-appeal/are-you-a-tenant',
 		CANNOT_APPEAL: 'full-appeal/submit-appeal/cannot-appeal',
-		CODE_EXPIRED: 'full-appeal/submit-appeal/code-expired',
 		CAN_USE_SERVICE_FULL_APPEAL: 'full-appeal/can-use-service',
 		CAN_USE_SERVICE_PRIOR_APPROVAL: 'full-appeal/prior-approval/can-use-service',
 		CAN_USE_SERVICE_REMOVAL_OR_VARIATION_OF_CONDITIONS:
 			'full-appeal/removal-or-variation-of-conditions/can-use-service',
 		CERTIFICATES: 'full-appeal/submit-appeal/certificates',
-		CONFIRM_EMAIL_ADDRESS: 'full-appeal/submit-appeal/confirm-email-address',
 		CONTACT_DETAILS: 'full-appeal/submit-appeal/contact-details',
 		CHECK_YOUR_ANSWERS: 'full-appeal/submit-appeal/check-your-answers',
 		DATE_DECISION_DUE: 'full-appeal/date-decision-due',
@@ -138,9 +143,6 @@ const VIEW = {
 		DECLARATION_INFORMATION: 'full-appeal/submit-appeal/declaration-information',
 		DRAFT_PLANNING_OBLIGATION: 'full-appeal/submit-appeal/draft-planning-obligation',
 		DRAFT_STATEMENT_COMMON_GROUND: 'full-appeal/submit-appeal/draft-statement-common-ground',
-		EMAIL_ADDRESS: 'full-appeal/submit-appeal/email-address',
-		ENTER_CODE: 'full-appeal/submit-appeal/enter-code',
-		EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-address-confirmed',
 		ENFORCEMENT_NOTICE: 'full-appeal/enforcement-notice',
 		EXPECT_ENQUIRY_LAST: 'full-appeal/submit-appeal/expect-inquiry-last',
 		GRANTED_OR_REFUSED: 'full-appeal/granted-or-refused',
@@ -164,12 +166,10 @@ const VIEW = {
 		PLANS_DRAWINGS: 'full-appeal/submit-appeal/plans-drawings',
 		PLANNING_OBLIGATION_PLANNED: 'full-appeal/submit-appeal/planning-obligation-planned',
 		PLANNING_OBLIGATION_STATUS: 'full-appeal/submit-appeal/planning-obligation-status',
-		PLANNING_OBLIGATION_DOCUMENTS: 'full-appeal/submit-appeal/planning-obligation',
+		PLANNING_OBLIGATION: 'full-appeal/submit-appeal/planning-obligation',
 		PLANNING_OBLIGATION_DEADLINE: 'full-appeal/submit-appeal/planning-obligation-deadline',
 		PLANS_DRAWINGS_DOCUMENTS: 'full-appeal/submit-appeal/plans-drawings-documents',
 		PLANNING_APPLICATION_NUMBER: 'full-appeal/submit-appeal/planning-application-number',
-		REQUEST_NEW_CODE: 'full-appeal/submit-appeal/request-new-code',
-		SENT_ANOTHER_LINK: 'full-appeal/submit-appeal/sent-another-link',
 		TASK_LIST: 'full-appeal/submit-appeal/task-list',
 		TELLING_THE_LANDOWNERS: 'full-appeal/submit-appeal/telling-the-landowners',
 		TELLING_THE_TENANTS: 'full-appeal/submit-appeal/telling-the-tenants',
@@ -186,8 +186,7 @@ const VIEW = {
 
 	SUBMIT_APPEAL: {
 		APPLICATION_SAVED: 'submit-appeal/application-saved',
-		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details',
-		LINK_EXPIRED: 'submit-appeal/link-expired'
+		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details'
 	},
 
 	YOUR_PLANNING_APPEAL: {

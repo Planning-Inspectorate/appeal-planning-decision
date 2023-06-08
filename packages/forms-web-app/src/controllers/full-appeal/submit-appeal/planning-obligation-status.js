@@ -7,7 +7,7 @@ const {
 	VIEW: {
 		FULL_APPEAL: {
 			PLANNING_OBLIGATION_STATUS,
-			PLANNING_OBLIGATION_DOCUMENTS,
+			PLANNING_OBLIGATION,
 			DRAFT_PLANNING_OBLIGATION,
 			PLANNING_OBLIGATION_DEADLINE
 		}
@@ -40,21 +40,33 @@ const postPlanningObligationStatus = async (req, res) => {
 
 	const planningObligationStatus = body['planning-obligation-status'];
 
+	let nextPage;
+
+	switch (planningObligationStatus) {
+		case PLANNING_OBLIGATION_STATUS_OPTION.DRAFT:
+			appeal[sectionName].planningObligations.uploadedFiles = [];
+			nextPage = DRAFT_PLANNING_OBLIGATION;
+			break;
+		case PLANNING_OBLIGATION_STATUS_OPTION.FINALISED:
+			appeal[sectionName].draftPlanningObligations.uploadedFiles = [];
+			nextPage = PLANNING_OBLIGATION;
+			break;
+		case PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED:
+			appeal[sectionName].planningObligations.uploadedFiles = [];
+			appeal[sectionName].draftPlanningObligations.uploadedFiles = [];
+			nextPage = PLANNING_OBLIGATION_DEADLINE;
+			break;
+		default:
+			nextPage = PLANNING_OBLIGATION_STATUS;
+			break;
+	}
+
 	try {
 		appeal[sectionName][taskName].planningObligationStatus = planningObligationStatus;
 		if (req.body['save-and-return'] !== '') {
 			appeal.sectionStates[sectionName].planningObligationStatus = COMPLETED;
 			req.session.appeal = await createOrUpdateAppeal(appeal);
-			switch (planningObligationStatus) {
-				case PLANNING_OBLIGATION_STATUS_OPTION.FINALISED:
-					return res.redirect(`/${PLANNING_OBLIGATION_DOCUMENTS}`);
-				case PLANNING_OBLIGATION_STATUS_OPTION.DRAFT:
-					return res.redirect(`/${DRAFT_PLANNING_OBLIGATION}`);
-				case PLANNING_OBLIGATION_STATUS_OPTION.NOT_STARTED:
-					return res.redirect(`/${PLANNING_OBLIGATION_DEADLINE}`);
-				default:
-					return res.redirect(`/${PLANNING_OBLIGATION_STATUS}`);
-			}
+			return res.redirect(`/${nextPage}`);
 		}
 		appeal.sectionStates[sectionName].planningObligationStatus = IN_PROGRESS;
 		req.session.appeal = await createOrUpdateAppeal(appeal);
