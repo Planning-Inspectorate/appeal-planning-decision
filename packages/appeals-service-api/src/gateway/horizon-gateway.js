@@ -137,7 +137,12 @@ class HorizonGateway {
 		const endpoint = `horizon`;
 		const url = `${config.services.horizon.url}/${endpoint}`;
 
+		logger.info(`Creating request body for case reference ${caseReference}`);
 		const requestBody = this.#horizonMapper.getAppealFromHorizon(caseReference);
+		logger.info(`Request body created for case reference ${caseReference}:`);
+		logger.info('----------------');
+		logger.info(requestBody);
+		logger.info('----------------');
 		// The data that comes back from Horizon has duplicate keys. While JSON allows this (though discourages it)
 		// javascript objects do not allow it. If a duplicate key is found, it replaces the data of the existing key
 		// as a result we need to dedup the keys by giving them unique key names
@@ -145,9 +150,14 @@ class HorizonGateway {
 		// to give us the raw unparsed data back (because it parses JSON by default)
 		// we then rename the duplicate AttributeValue keys by numbering them
 		// then parse the data to json
+		logger.info(`Making axios request for case reference ${caseReference}`);
 		let appealData = await axios
 			.post(url, requestBody, { transformResponse: (r) => r })
 			.then((response) => {
+				logger.info(`Axios response for case reference ${caseReference}`);
+				logger.info('----------------');
+				logger.info(response);
+				logger.info('----------------');
 				let unparsedResponse = response.data;
 				let i = 0;
 				let parseComplete = false;
@@ -167,9 +177,13 @@ class HorizonGateway {
 				return parsedResponse.Envelope.Body.GetCaseResponse.GetCaseResult;
 			})
 			.catch((error) => {
+				logger.info('Error in Axious request');
+				logger.info(error);
 				logger.error(error);
 				return false;
 			});
+
+		logger.info(`Axios request complete for case reference ${caseReference}`);
 
 		return appealData;
 	}
