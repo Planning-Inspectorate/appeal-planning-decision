@@ -9,7 +9,7 @@ const server = require('./server');
 
 async function main() {
 	try {
-		appInsights.setup().setAutoDependencyCorrelation(true).setSendLiveMetrics(true);
+		appInsights.setup().setAutoDependencyCorrelation(true, true).setSendLiveMetrics(true);
 		appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] =
 			'clamav-rest-server';
 		appInsights.start();

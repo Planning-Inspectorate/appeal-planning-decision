@@ -10,7 +10,7 @@ const logger = require('./lib/logger');
 const server = require('./server');
 
 try {
-	appInsights.setup().setAutoDependencyCorrelation(true).setSendLiveMetrics(true);
+	appInsights.setup().setAutoDependencyCorrelation(true, true).setSendLiveMetrics(true);
 	appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] =
 		'document-service-api';
 	appInsights.start();

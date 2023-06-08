@@ -10,7 +10,7 @@ const mongodb = require('./db/db');
 
 async function main() {
 	try {
-		appInsights.setup().setAutoDependencyCorrelation(true).setSendLiveMetrics(true);
+		appInsights.setup().setAutoDependencyCorrelation(true, true).setSendLiveMetrics(true);
 		appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] =
 			'appeals-service-api';
 		appInsights.start();
