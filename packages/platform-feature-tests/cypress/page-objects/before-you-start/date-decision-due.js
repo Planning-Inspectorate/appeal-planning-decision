@@ -1,6 +1,4 @@
-import { BasePage } from "../base-page";
-
-export class DateOfDecisionDue extends BasePage{
+export class DateOfDecisionDue {
 
     elements = {
         dayDate: () => cy.get('#decision-date-day'),
@@ -9,14 +7,14 @@ export class DateOfDecisionDue extends BasePage{
     }
 
     enterDayDate(day){
-        this.elements.dayDate().type(day)
+        this.elements.dayDate().clear().type(day)
     }
 
     enterMontDate(month){
-        this.elements.monthDate().type(month)
+        this.elements.monthDate().clear().type(month)
     }
 
     enterYearDate(year){
-        this.elements.yearDate().type(year)
+        this.elements.yearDate().clear().type(year)
     }
 }

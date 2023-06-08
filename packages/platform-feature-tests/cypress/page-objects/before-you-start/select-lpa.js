@@ -1,6 +1,4 @@
-import { BasePage } from '../../page-objects/base-page'
-
-export class BeforeYouStart extends BasePage{
+export class EnterLpa {
 
     elements = {
         lpaInput: () => cy.get('#local-planning-department'),
