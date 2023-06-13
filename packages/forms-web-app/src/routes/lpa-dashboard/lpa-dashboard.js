@@ -1,9 +1,11 @@
 const express = require('express');
+const featureFlagMiddleware = require('../../middleware/feature-flag');
 const { skipMiddlewareForPaths } = require('../../middleware/skip-middleware-for-paths');
 const requireUser = require('../../middleware/lpa-dashboard/require-user');
 
 const router = express.Router();
 
+router.use(featureFlagMiddleware('lpa-dashboard'));
 router.use(
 	skipMiddlewareForPaths(requireUser, [
 		'input-code',
