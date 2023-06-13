@@ -1,22 +1,23 @@
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
-const LpaMapper = require('../mappers/lpa-mapper')
-const LpaEntity = require('../models/entities/lpa-entity')
+const LpaMapper = require('../mappers/lpa-mapper');
+const LpaEntity = require('../models/entities/lpa-entity');
+const ApiError = require('../errors/apiError');
 
 class LpaService {
-	#lpaMapper 
-	
+	#lpaMapper;
+
 	constructor() {
 		this.#lpaMapper = new LpaMapper();
 	}
 
 	getLpaById = async (id) => {
-		logger.debug(`Getting LPA with ID: ${id}`)
+		logger.debug(`Getting LPA with ID: ${id}`);
 		let lpa;
 		await mongodb
 			.get()
 			.collection('lpa')
-			.findOne({ lpa19CD: id })
+			.findOne({ lpa19CD: id }) // todo: stop using this due to duplicates?
 			.then((doc) => {
 				lpa = LpaEntity.createFromJson(doc);
 			})
@@ -27,14 +28,31 @@ class LpaService {
 
 		logger.debug(lpa, `Appeal LPA retrieved`);
 		return lpa;
-	}
+	};
+
+	getLpaByCode = async (code) => {
+		logger.debug(`Getting LPA with code: ${code}`);
+		let lpa;
+
+		try {
+			let doc = await mongodb.get().collection('lpa').findOne({ lpaCode: code }); // todo: update to lpaCode?
+			if (!doc) {
+				throw ApiError.lpaNotFound();
+			}
+			lpa = LpaEntity.createFromJson(doc);
+		} catch (err) {
+			logger.error({ err, code }, `Unable to find LPA for code ${code}`);
+			throw err;
+		}
+
+		logger.debug(lpa, `Appeal LPA retrieved`);
+		return lpa;
+	};
 
 	createLpaList = async (csv) => {
 		const lpaEntitiesAsJson = this.#lpaMapper
 			.csvJsonToLpaEntities(csv)
-			.map(lpaEntity => lpaEntity.toJson())
-		;
-
+			.map((lpaEntity) => lpaEntity.toJson());
 		logger.debug(lpaEntitiesAsJson, 'LPA entities as JSON');
 
 		try {
@@ -50,8 +68,8 @@ class LpaService {
 		}
 
 		return lpaEntitiesAsJson;
-	}
-	
+	};
+
 	getLpaList = async () => {
 		const lpaList = [];
 		try {
@@ -87,7 +105,7 @@ class LpaService {
 		}
 		return 0;
 	}
-	
+
 	#chunkArray(myArray, chunk_size) {
 		let index = 0;
 		const arrayLength = myArray.length;

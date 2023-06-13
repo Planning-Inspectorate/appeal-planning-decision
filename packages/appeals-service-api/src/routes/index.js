@@ -15,6 +15,7 @@ const tokenRouter = require('./token');
 const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
 const apiDocsRouter = require('./api-docs');
 const finalCommentsRouter = require('./final-comments');
+const usersRouter = require('./users');
 
 router.use('/api/v1/appeals', appealsRouter);
 router.use('/api/v1/back-office', backOfficeRouter);
@@ -24,5 +25,6 @@ router.use('/api-docs', apiDocsRouter);
 router.use('/api/v1/save', saveRouter);
 router.use('/api/v1/token', tokenRouter);
 router.use('/api/v1/final-comments', finalCommentsRouter);
+router.use('/api/v1/users', usersRouter);
 
 module.exports = router;
