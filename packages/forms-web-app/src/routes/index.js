@@ -23,6 +23,7 @@ const checkDebugAllowed = require('../middleware/check-debug-allowed');
 const { skipMiddlewareForPaths } = require('../middleware/skip-middleware-for-paths');
 const accessibilityStatementRouter = require('./accessibility-statement/accessibility-statement');
 const errorPageRouter = require('./error');
+const lpaRouter = require('./lpa-dashboard/lpa-dashboard');
 const debugRouter = require('./debug');
 
 router.use('/', homeRouter);
@@ -81,6 +82,8 @@ router.use(
 	checkDecisionDateDeadline,
 	appealHouseholderdecision
 );
+
+router.use('/manage-appeals', lpaRouter);
 
 router.use('/debug', checkDebugAllowed, debugRouter);
 
