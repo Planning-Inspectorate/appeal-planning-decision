@@ -8,9 +8,9 @@ function connect(callback) {
 	logger.info('Connecting to MongoDB...');
 	mongoClient
 		.connect(config.db.mongodb.url, { useUnifiedTopology: true })
-		.then((client) => {
+		.then(async (client) => {
 			mongodb = client;
-			callback();
+			await callback();
 			logger.info('MongoDB connected');
 		})
 		.catch((err) => {

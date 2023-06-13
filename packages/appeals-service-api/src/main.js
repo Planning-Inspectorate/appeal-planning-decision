@@ -7,6 +7,7 @@ const appInsights = require('applicationinsights');
 const logger = require('./lib/logger');
 const server = require('./server');
 const mongodb = require('./db/db');
+const { setupIndexes } = require('./db/setup');
 
 async function main() {
 	try {
@@ -18,7 +19,8 @@ async function main() {
 		logger.warn({ err }, 'Application insights failed to start: ');
 	}
 
-	await mongodb.connect(() => {
+	mongodb.connect(async () => {
+		await setupIndexes();
 		server();
 	});
 }
