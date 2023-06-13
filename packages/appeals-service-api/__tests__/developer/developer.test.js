@@ -125,7 +125,7 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-	_clearDatabaseCollections();
+	await _clearDatabaseCollections();
 	expectedHorizonInteractions = [];
 	expectedNotifyInteractions = [];
 	expectedMessages = [];
