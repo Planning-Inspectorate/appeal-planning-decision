@@ -201,7 +201,8 @@ const VIEW = {
 	ACCESSIBILITY_STATEMENT: 'accessibility-statement/accessibility-statement',
 
 	ERROR_PAGES: {
-		SERVICE_UNAVAILABLE: 'error/service-unavailable'
+		SERVICE_UNAVAILABLE: 'error/service-unavailable',
+		UNAUTHORIZED: 'error/401'
 	}
 };
 
