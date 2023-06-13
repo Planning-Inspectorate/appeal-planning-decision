@@ -328,7 +328,7 @@
 ;E60000332;U2805;North Northamptonshire Council - Corby Area;planningservices.cbc@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
 ;E60000332;H2835;North Northamptonshire County Wellingborough;planningappeals.bcw@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
 322;E60000333;M9570;West Northamptonshire;;;FALSE\n
-323;E69999999;Q9999;System Test Borough Council;appealplanningdecisiontest@planninginspectorate.gov.uk;;TRUE\n
+323;E69999999;Q9999;System Test Borough Council;appealplanningdecisiontest@planninginspectorate.gov.uk;planninginspectorate.gov.uk;TRUE\n
 ;;Q2908;Alnwick District Council;;;FALSE\n
 ;;W0205;Bedford Borough Council Pre 010409;not on Horizon;;FALSE\n
 ;;X0225;Bedfordshire County Council;not on Horizon;;FALSE\n
