@@ -6,6 +6,7 @@ const createToken = () => {
 		.randomBytes(BUFFER_LENGTH)
 		.toString('base64')
 		.replace(/[^\w_]/g, '')
+		.replace(/[AEIOUaeiou]/g, '')
 		.slice(0, TOKEN_LENGTH);
 };
 
