@@ -4,10 +4,12 @@ class ApiError {
 		this.message = message;
 	}
 
+	// generic
 	static badRequest(msg) {
 		return new ApiError(400, msg);
 	}
 
+	// appeal
 	static appealNotFound(id) {
 		return new ApiError(404, { errors: [`The appeal ${id} was not found`] });
 	}
@@ -17,6 +19,7 @@ class ApiError {
 			errors: [`The appeal with horizon id of ${horizonId} was not found`]
 		});
 	}
+
 	static appealsNotFound() {
 		return new ApiError(404, { errors: [`The appeals were not found`] });
 	}
@@ -31,6 +34,7 @@ class ApiError {
 		return new ApiError(409, { errors: ['Cannot update appeal that is already SUBMITTED'] });
 	}
 
+	// final comments
 	static finalCommentAlreadySubmitted() {
 		return new ApiError(409, { errors: [`Cannot submit more than one final comment per email`] });
 	}
@@ -42,11 +46,47 @@ class ApiError {
 	static finalCommentsNotFound() {
 		return new ApiError(404, { errors: [`The final comments were not found`] });
 	}
+
 	static caseDataNotFound() {
 		return new ApiError(404, { errors: [`Horizon appeal data was not found`] });
 	}
+
 	static caseHasNoFinalCommentsExpiryDate() {
 		return new ApiError(409, { errors: ['Appeal does not have a final comments expiry date'] });
+	}
+
+	// lpas
+	static lpaNotFound() {
+		return new ApiError(404, { errors: [`LPA was not found`] });
+	}
+
+	// Users/LPA Dashboard
+	static userNoLpaCodeProvided() {
+		return new ApiError(400, { errors: [`No LPA was provided`] });
+	}
+
+	static userNotFound() {
+		return new ApiError(404, { errors: [`The user was not found`] });
+	}
+
+	static userDisabled() {
+		return new ApiError(400, { errors: [`The user was disabled`] });
+	}
+
+	static userCantDisableAdmin() {
+		return new ApiError(400, { errors: [`Can't disable admin user`] });
+	}
+
+	static userOnly1Admin() {
+		return new ApiError(400, { errors: [`Only 1 admin is allowed at a time`] });
+	}
+
+	static userDuplicate() {
+		return new ApiError(400, { errors: [`This user already exists`] });
+	}
+
+	static userBadLpa() {
+		return new ApiError(400, { errors: [`Can't match this user to the lpa`] });
 	}
 }
 

@@ -26,8 +26,14 @@ function close() {
 	return mongodb && mongodb.close();
 }
 
+// https://github.com/mongodb/mongo/blob/master/src/mongo/base/error_codes.yml
+const errorCodes = {
+	DUPLICATE_KEY: 11000
+};
+
 module.exports = {
 	connect,
 	get,
-	close
+	close,
+	errorCodes
 };
