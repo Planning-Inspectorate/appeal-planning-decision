@@ -27,7 +27,6 @@ const handler = async (url, method = 'GET', data = {}, localPlanningAuthorityCod
 		apiResponse = await fetch(url, {
 			method,
 			headers: {
-				'X-Correlation-ID': correlationId,
 				'local-planning-authority-code': localPlanningAuthorityCode
 			},
 			...data

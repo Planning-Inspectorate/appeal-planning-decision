@@ -39,9 +39,6 @@ exports.createDocument = async (parentId, data, fileName, documentType) => {
 
 		apiResponse = await fetch(url, {
 			method: 'POST',
-			headers: {
-				'X-Correlation-ID': correlationId
-			},
 			body: fd
 		});
 	} catch (e) {
@@ -83,10 +80,7 @@ exports.deleteDocument = async (parentId, id) => {
 	let apiResponse;
 	try {
 		apiResponse = await fetch(url, {
-			method: 'DELETE',
-			headers: {
-				'X-Correlation-ID': correlationId
-			}
+			method: 'DELETE'
 		});
 	} catch (e) {
 		logger.error(e);
