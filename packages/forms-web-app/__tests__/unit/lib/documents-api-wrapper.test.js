@@ -190,7 +190,6 @@ describe('lib/documents-api-wrapper', () => {
 				{
 					method: 'GET',
 					headers: {
-						'X-Correlation-ID': '123-abc-456-xyz',
 						'local-planning-authority-code': ''
 					}
 				}
