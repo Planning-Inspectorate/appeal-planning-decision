@@ -35,10 +35,6 @@ beforeAll(async () => {
 	let mockedDatabase = await databaseConnection.db(dbName);
 	appDbConnection.get.mockReturnValue(mockedDatabase);
 
-	/////////////////////////////
-	///// SETUP TEST CONFIG /////
-	/////////////////////////////
-
 	/////////////////////
 	///// SETUP APP /////
 	/////////////////////

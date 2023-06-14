@@ -9,7 +9,7 @@ describe('requireUser', () => {
 
 	beforeEach(() => {
 		// mockReq by default sets an appeal field and places appeal object in session
-		// so pass null and clear req.session to use for final comments
+		// so pass null and clear req.session to use for lpa user
 		req = {
 			...mockReq(null),
 			session: {}
