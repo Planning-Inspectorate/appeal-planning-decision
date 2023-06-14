@@ -23,7 +23,6 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 					method,
 					headers: {
 						'Content-Type': 'application/json',
-						'X-Correlation-ID': correlationId,
 						...headers
 					},
 					...opts
