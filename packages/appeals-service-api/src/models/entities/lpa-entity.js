@@ -52,7 +52,7 @@ class LpaEntity {
 		return this.#inTrial;
 	}
 	getCountry() {
-		const isWales = new RegExp('W[0-9]{8}');
+		const isWales = new RegExp('^W[0-9]{8}$');
 		if (isWales.test(this.#lpa19CD)) {
 			return 'Wales';
 		} else {
