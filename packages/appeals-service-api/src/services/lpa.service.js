@@ -1,17 +1,17 @@
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
-const LpaMapper = require('../mappers/lpa-mapper')
-const LpaEntity = require('../models/entities/lpa-entity')
+const LpaMapper = require('../mappers/lpa-mapper');
+const LpaEntity = require('../models/entities/lpa-entity');
 
 class LpaService {
-	#lpaMapper 
-	
+	#lpaMapper;
+
 	constructor() {
 		this.#lpaMapper = new LpaMapper();
 	}
 
 	getLpaById = async (id) => {
-		logger.debug(`Getting LPA with ID: ${id}`)
+		logger.debug(`Getting LPA with ID: ${id}`);
 		let lpa;
 		await mongodb
 			.get()
@@ -27,14 +27,12 @@ class LpaService {
 
 		logger.debug(lpa, `Appeal LPA retrieved`);
 		return lpa;
-	}
+	};
 
 	createLpaList = async (csv) => {
 		const lpaEntitiesAsJson = this.#lpaMapper
 			.csvJsonToLpaEntities(csv)
-			.map(lpaEntity => lpaEntity.toJson())
-		;
-
+			.map((lpaEntity) => lpaEntity.toJson());
 		logger.debug(lpaEntitiesAsJson, 'LPA entities as JSON');
 
 		try {
@@ -42,7 +40,6 @@ class LpaService {
 			const lpaChunks = this.#chunkArray(lpaEntitiesAsJson, 10);
 
 			for (let chunk in lpaChunks) {
-				await new Promise((res) => setTimeout(res, 1000));
 				await mongodb.get().collection('lpa').insertMany(lpaChunks[chunk]);
 			}
 		} catch (err) {
@@ -50,8 +47,8 @@ class LpaService {
 		}
 
 		return lpaEntitiesAsJson;
-	}
-	
+	};
+
 	getLpaList = async () => {
 		const lpaList = [];
 		try {
@@ -87,7 +84,7 @@ class LpaService {
 		}
 		return 0;
 	}
-	
+
 	#chunkArray(myArray, chunk_size) {
 		let index = 0;
 		const arrayLength = myArray.length;

@@ -9,7 +9,7 @@ router.post('/', async (req, res) => {
 	const finalComment = req.body;
 	let body = '';
 
-	let statusCode = 204;
+	let statusCode = 201;
 	try {
 		body = await finalCommentsService.createFinalComment(finalComment);
 	} catch (error) {

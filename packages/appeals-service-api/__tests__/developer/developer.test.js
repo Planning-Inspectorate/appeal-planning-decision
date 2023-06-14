@@ -1820,8 +1820,8 @@ describe('Final comments', () => {
 		// When: it is submitted to the back-end
 		let response = await _createFinalComment(finalCommentToSubmit);
 
-		// Then: It should return a status code of 204
-		expect(response.status).toBe(204);
+		// Then: It should return a status code of 201
+		expect(response.status).toBe(201);
 
 		// And: The back-end should contain one appeal for that horizon Id
 		let submittedFinalComment = await appealsApi.get(`/api/v1/final-comments/${horizonId}`);
@@ -1846,8 +1846,8 @@ describe('Final comments', () => {
 		let firstResponse = await _createFinalComment(finalCommentToSubmit);
 		let secondResponse = await _createFinalComment(finalCommentToSubmit);
 
-		// Then: It should return a status code of 204 for the first
-		expect(firstResponse.status).toBe(204);
+		// Then: It should return a status code of 201 for the first
+		expect(firstResponse.status).toBe(201);
 
 		// And: Return a status code of 409 for the second
 		expect(secondResponse.status).toBe(409);
@@ -1905,9 +1905,9 @@ describe('Final comments', () => {
 		let firstResponse = await _createFinalComment(firstFinalCommentToSubmit);
 		let secondResponse = await _createFinalComment(secondFinalCommentToSubmit);
 
-		// Then: It should return a status code of 204 for the both
-		expect(firstResponse.status).toBe(204);
-		expect(secondResponse.status).toBe(204);
+		// Then: It should return a status code of 201 for the both
+		expect(firstResponse.status).toBe(201);
+		expect(secondResponse.status).toBe(201);
 
 		// And: The back-end should contain one final comment for each horizon Id
 		let firstSubmittedFinalComment = await appealsApi.get(
@@ -1947,9 +1947,9 @@ describe('Final comments', () => {
 		let firstResponse = await _createFinalComment(firstFinalCommentToSubmit);
 		let secondResponse = await _createFinalComment(secondFinalCommentToSubmit);
 
-		// Then: It should return a status code of 204 for the both
-		expect(firstResponse.status).toBe(204);
-		expect(secondResponse.status).toBe(204);
+		// Then: It should return a status code of 201 for the both
+		expect(firstResponse.status).toBe(201);
+		expect(secondResponse.status).toBe(201);
 
 		// And: The back-end should contain two final comments for that horizonId
 		let submittedFinalComments = await appealsApi.get(`/api/v1/final-comments/${horizonId}`);

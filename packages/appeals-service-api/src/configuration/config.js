@@ -127,6 +127,10 @@ let config = {
 				},
 				ERROR_MONITORING: {
 					failureToUploadToHorizon: process.env.SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID
+				},
+				FINAL_COMMENT: {
+					finalCommentSubmissionConfirmationEmail:
+						process.env.SRV_NOTIFY_FINAL_COMMENT_SUBMISSION_CONFIRMATION_EMAIL_TEMPLATE_ID
 				}
 			},
 			emailReplyToId: {
@@ -147,6 +151,9 @@ let config = {
 		},
 		lpaQuestionnaire: {
 			baseUrl: process.env.APP_LPA_QUESTIONNAIRE_BASE_URL
+		},
+		finalComments: {
+			testID: 'test123'
 		}
 	},
 	tasks: {

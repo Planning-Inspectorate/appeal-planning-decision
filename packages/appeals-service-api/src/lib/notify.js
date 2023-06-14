@@ -52,6 +52,41 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	}
 };
 
+const sendFinalCommentSubmissionConfirmationEmail = async (finalComment) => {
+	try {
+		const lpa = await lpaService.getLpaById(finalComment.lpaCode);
+
+		const recipientEmail = finalComment.email;
+		let variables = {
+			'local planning authority': lpa.getName(),
+			name: finalComment.name
+		};
+
+		const reference = finalComment.horizonId;
+
+		logger.debug(
+			{ recipientEmail, variables, reference },
+			'Sending final comments submission confirmation email'
+		);
+
+		await NotifyBuilder.reset()
+			.setTemplateId(templates.FINAL_COMMENT.finalCommentSubmissionConfirmationEmail)
+			.setDestinationEmailAddress(recipientEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, appealId: finalComment.id },
+			'Unable to send final comments submission confirmation email'
+		);
+	}
+};
+
 const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 	try {
 		const lpa = await lpaService.getLpaById(appeal.lpaCode);
@@ -204,6 +239,7 @@ const _getYesOrNoForBoolean = (booleanToUse) => {
 module.exports = {
 	sendSubmissionReceivedEmailToLpa,
 	sendSubmissionConfirmationEmailToAppellant,
+	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendSecurityCodeEmail,
 	sendFailureToUploadToHorizonEmail
