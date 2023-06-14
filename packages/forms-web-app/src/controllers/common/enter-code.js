@@ -136,7 +136,62 @@ const postEnterCode = (views) => {
 	};
 };
 
+const getEnterCodeLPA = (views) => {
+	return async (req, res) => {
+		const {
+			body: { errors = {} }
+		} = req;
+		console.log(errors);
+		res.render(views.ENTER_CODE);
+		return;
+	};
+};
+
+const postEnterCodeLPA = (views) => {
+	return async (req, res) => {
+		const {
+			body: { errors = {}, errorSummary = [] },
+			params: { id }
+		} = req;
+		const token = req.body['email-code'];
+
+		// show error page
+		if (Object.keys(errors).length > 0) {
+			return res.render(views.ENTER_CODE, {
+				token,
+				errors,
+				errorSummary
+			});
+		}
+
+		// check token
+		let tokenValid = await isTokenValid(id, token, req.session);
+
+		if (tokenValid.tooManyAttempts) {
+			return res.redirect(`/${views.NEED_NEW_CODE}`);
+		}
+
+		if (tokenValid.expired) {
+			return res.redirect(`/${views.CODE_EXPIRED}`);
+		}
+
+		if (!tokenValid.valid) {
+			const customErrorSummary = [{ text: 'Enter a correct code', href: '#email-code' }];
+
+			return res.render(views.ENTER_CODE, {
+				token,
+				errors: {},
+				errorSummary: customErrorSummary
+			});
+		}
+
+		return res.redirect(`/${views.DASHBOARD}`);
+	};
+};
+
 module.exports = {
 	getEnterCode,
-	postEnterCode
+	postEnterCode,
+	getEnterCodeLPA,
+	postEnterCodeLPA
 };
