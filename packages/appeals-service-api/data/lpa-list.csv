@@ -1,4 +1,4 @@
-﻿OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n
+OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n
 ;E07000151;Y2810;Daventry District Council;plancare@daventrydc.gov.uk;daventrydc.gov.uk;TRUE\n
 1;E60000001;X1355;County Durham;planning@durham.gov.uk;durham.gov.uk;TRUE\n
 2;E60000002;N1350;Darlington;planning.enquiries@darlington.gov.uk;darlington.gov.uk;TRUE\n
@@ -106,7 +106,7 @@
 103;E60000110;X3025;Mansfield;pbc@mansfield.gov.uk;mansfield.gov.uk;TRUE\n
 104;E60000111;B3030;Newark and Sherwood;planningappeals@newark-sherwooddc.gov.uk;newark-sherwooddc.gov.uk;TRUE\n
 105;E60000112;P3040;Rushcliffe;developmentcontrol@rushcliffe.gov.uk;rushcliffe.gov.uk;TRUE\n
-106;E60000113;W1850;Herefordshire, County of;spatialplanning@hertfordshire.gov.uk;hertfordshire.gov.uk;TRUE\n
+106;E60000113;W1850;Herefordshire County of;spatialplanning@hertfordshire.gov.uk;hertfordshire.gov.uk;TRUE\n
 107;E60000114;L3245;Shropshire;appeals@shropshire.gov.uk;shropshire.gov.uk;TRUE\n
 108;E60000115;M3455;Stoke-on-Trent;;;FALSE\n
 109;E60000116;C3240;Telford and Wrekin;;;FALSE\n
@@ -336,7 +336,7 @@
 ;;X9507;Black Country Urban Development Corp;;;FALSE\n
 ;;N2915;Blyth Valley Borough Council;;;FALSE\n
 ;;J3205;Bridgnorth District Council;;;FALSE\n
-;;E0535;Cambridgeshire County Council;;;FALSE\n
+;E0535;E0535;Cambridgeshire County Council;planningdc@cambridgeshire.gov.uk;cambridgeshire.gov.uk;TRUE\n
 ;;K0805;Caradon District Council;;;FALSE\n
 ;;P0810;Carrick District Council;;;FALSE\n
 ;;T2920;Castle Morpeth Borough Council;;;FALSE\n
@@ -350,7 +350,7 @@
 ;;R6830;Denbighshire County Council;;;FALSE\n
 ;;U1050;Derbyshire County Council;planningcontrol@derbyshire.gov.uk;derbyshire.gov.uk;FALSE\n
 ;;V1315;Derwentside District Council;;;FALSE\n
-;;J1155;Devon County Council;;;FALSE\n
+;J1155;J1155;Devon County Council;devontest@example.com;devon.gov.uk;TRUE\n
 ;;J1345;Durham County Council Pre 010409;;;FALSE\n
 ;;H1325;Easington District Council;;;FALSE\n
 ;;G2815;East Northamptonshire District Council;;;FALSE\n
