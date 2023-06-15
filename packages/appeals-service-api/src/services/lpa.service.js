@@ -12,19 +12,19 @@ class LpaService {
 	}
 
 	getLpaById = async (id) => {
-		logger.debug(`Getting LPA with ID: ${id}`);
+		logger.debug(`Getting LPA with id: ${id}`);
 		let lpa;
-		await mongodb
-			.get()
-			.collection('lpa')
-			.findOne({ lpa19CD: id }) // todo: stop using this due to duplicates?
-			.then((doc) => {
-				lpa = LpaEntity.createFromJson(doc);
-			})
-			.catch((err) => {
-				logger.error({ err, id }, `Unable to find LPA for code ${id}`);
-				throw new Error(err);
-			});
+
+		try {
+			let doc = await mongodb.get().collection('lpa').findOne({ lpa19CD: id }); // todo: stop using this due to duplicates?
+			if (!doc) {
+				throw ApiError.lpaNotFound();
+			}
+			lpa = LpaEntity.createFromJson(doc);
+		} catch (err) {
+			logger.error({ err, id }, `Unable to find LPA for id ${id}`);
+			throw err;
+		}
 
 		logger.debug(lpa, `Appeal LPA retrieved`);
 		return lpa;
@@ -35,7 +35,7 @@ class LpaService {
 		let lpa;
 
 		try {
-			let doc = await mongodb.get().collection('lpa').findOne({ lpaCode: code }); // todo: update to lpaCode?
+			let doc = await mongodb.get().collection('lpa').findOne({ lpaCode: code });
 			if (!doc) {
 				throw ApiError.lpaNotFound();
 			}

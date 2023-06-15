@@ -194,6 +194,10 @@ const VIEW = {
 		YOUR_APPEAL_DETAILS: 'your-planning-appeal/your-appeal-details'
 	},
 
+	LPA_DASHBOARD: {
+		ENTER_EMAIL: 'manage-appeals/enter-email'
+	},
+
 	MESSAGES: {
 		COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully'
 	},

@@ -11,12 +11,29 @@ const lpaService = new LpaService();
 
 const get = async (req, res) => {
 	req.log.info(req.params.id, 'Retrieving LPA');
-	const lpa = await lpaService.getLpaById(req.params.id);
+
+	let lpa = {};
+
+	lpa = await lpaService.getLpaById(req.params.id);
 
 	if (lpa) {
-		res.send(lpa);
+		res.send(lpa.toJson());
 	} else {
 		req.log.debug(req.params.id, 'No LPA found');
+	}
+};
+
+const getBylpaCode = async (req, res) => {
+	req.log.info(req.params.lpaCode, 'Retrieving LPA');
+
+	let lpa = {};
+
+	lpa = await lpaService.getLpaByCode(req.params.lpaCode);
+
+	if (lpa) {
+		res.send(lpa.toJson());
+	} else {
+		req.log.debug(req.params.lpaCode, 'No LPA found');
 	}
 };
 
@@ -48,6 +65,7 @@ const create = async (req, res) => {
 
 module.exports = {
 	get,
+	getBylpaCode,
 	list,
 	create
 };
