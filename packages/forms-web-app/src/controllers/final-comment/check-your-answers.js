@@ -1,10 +1,11 @@
 const { VIEW } = require('../../lib/views');
 const { storeTextAsDocument } = require('../../services/pdf.service');
 const { documentTypes } = require('@pins/common');
+const { submitFinalComment } = require('../../lib/appeals-api-wrapper');
+const logger = require('../../lib/logger');
 
 exports.getCheckYourAnswers = async (req, res) => {
 	res.render(VIEW.FINAL_COMMENT.CHECK_YOUR_ANSWERS, {
-		hasComments: req.session.finalComment.hasComments,
 		finalComment: req.session.finalComment
 	});
 };
@@ -13,6 +14,8 @@ exports.postCheckYourAnswers = async (req, res) => {
 	const {
 		body: { errors = {}, errorSummary = [] }
 	} = req;
+
+	const log = logger.child({});
 
 	const finalComment = req.session.finalComment;
 	const finalCommentText = req.session.finalComment.finalComment;
@@ -41,5 +44,15 @@ exports.postCheckYourAnswers = async (req, res) => {
 		});
 	}
 
-	res.redirect(`/${VIEW.FINAL_COMMENTS_SUBMITTED}`);
+	try {
+		await submitFinalComment(finalComment);
+	} catch (err) {
+		log.error({ err }, 'final comment submission failed');
+		res.render(VIEW.FINAL_COMMENT.CHECK_YOUR_ANSWERS, {
+			errors,
+			errorSummary: [{ text: err.toString(), href: '#' }]
+		});
+	}
+
+	res.redirect(`/${VIEW.FINAL_COMMENT.FINAL_COMMENT_SUBMITTED}`);
 };

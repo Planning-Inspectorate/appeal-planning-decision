@@ -23,7 +23,9 @@ const createMockFinalComment = () => {
 	return {
 		id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
 		horizonId: 'test123',
+		lpaCode: 'E69999999',
 		email: 'test@planninginspectorate.gov.uk',
+		name: 'John Smith',
 		finalCommentExpiryDate: tomorrow,
 		finalCommentSubmissionDate: null,
 		secureCodeEnteredCorrectly: false,

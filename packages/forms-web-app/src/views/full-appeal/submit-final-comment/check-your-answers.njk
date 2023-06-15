@@ -26,19 +26,13 @@
 					Check your answers and submit your final comment
 				</h1>
 
-        {% if finalComment.finalCommentAsDocument | length %}
-            {% set finalCommentValue = uploadedFileLink(finalComment.finalCommentAsDocument, { 'data-cy': "final-comments" }) %}
-        {% else %}
-            {% set finalCommentValue = summaryField(finalComment.finalComment, { 'data-cy': "final-comments" }) %}
-        {% endif %}
-
         {% set finalCommentsRow = 
           {
             key: {
                 text: "Final comments"
             },
             value: {
-                text: finalCommentValue
+                text: summaryField(finalComment.finalComment, { 'data-cy': "final-comments" })
             },
             actions: {
               items: [
