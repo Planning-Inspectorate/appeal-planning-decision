@@ -153,6 +153,7 @@ const postEnterCodeLPA = (views) => {
 			body: { errors = {}, errorSummary = [] },
 			params: { id }
 		} = req;
+
 		const token = req.body['email-code'];
 
 		// show error page

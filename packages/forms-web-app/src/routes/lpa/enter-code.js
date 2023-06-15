@@ -5,19 +5,20 @@ const { getEnterCodeLPA, postEnterCodeLPA } = require('../../controllers/common/
 
 const {
 	VIEW: {
-		LPA: { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE }
+		LPA: { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, DASHBOARD }
 	}
 } = require('../../lib/views');
 
 const views = {
 	ENTER_CODE,
 	CODE_EXPIRED,
-	NEED_NEW_CODE
+	NEED_NEW_CODE,
+	DASHBOARD
 };
 
 const router = express.Router();
 
-router.get('/enter-code', getEnterCodeLPA(views));
-router.post('/enter-code', ruleEnterCode(), validationErrorHandler, postEnterCodeLPA(views));
+router.get('/enter-code/:id', getEnterCodeLPA(views));
+router.post('/enter-code/:id', ruleEnterCode(), validationErrorHandler, postEnterCodeLPA(views));
 
 module.exports = router;
