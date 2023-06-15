@@ -7,7 +7,7 @@ const {
 	}
 } = require('../../lib/views');
 
-router.get('/', function (req, res) {
+router.get('/lpa-dashboard', function (req, res) {
 	res.status(200);
 	return res.render(DASHBOARD);
 });
