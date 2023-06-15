@@ -4,7 +4,9 @@ module.exports = class FinalCommentFixtures {
 	static newFinalComment({
 		horizonId = '1234567',
 		state = 'DRAFT',
+		lpaCode = 'E69999999',
 		email = 'test@pins.com',
+		name = 'John Smith',
 		finalCommentExpiryDate = '2023-05-01T09:00:00',
 		typeOfUser = 'Appellant'
 	} = {}) {
@@ -12,7 +14,9 @@ module.exports = class FinalCommentFixtures {
 			id: uuid.v4(),
 			horizonId: horizonId,
 			state: state,
+			lpaCode: lpaCode,
 			email: email,
+			name: name,
 			finalCommentExpiryDate: finalCommentExpiryDate,
 			finalCommentSubmissionDate: null,
 			secureCodeEnteredCorrectly: false,

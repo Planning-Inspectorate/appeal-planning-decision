@@ -4,6 +4,8 @@ const HorizonService = require('./horizon.service');
 const { getAppealByHorizonId } = require('./appeal.service');
 const logger = require('../lib/logger');
 const uuid = require('uuid');
+const { sendFinalCommentSubmissionConfirmationEmail } = require('../../src/lib/notify');
+const config = require('../configuration/config');
 
 class FinalCommentsService {
 	#finalCommentsRepository;
@@ -20,7 +22,10 @@ class FinalCommentsService {
 			await this.#finalCommentsRepository.getAllFinalCommentsByCaseReference(
 				finalComment.horizonId.toString()
 			);
-		if (submittedFinalComments.length > 0) {
+		if (
+			submittedFinalComments.length > 0 &&
+			finalComment.horizonId != config.apps.finalComments.testID
+		) {
 			logger.info(
 				`An appeal for HorizonId ${finalComment.horizonId} already exists. Checking Email is unique`
 			);
@@ -48,12 +53,19 @@ class FinalCommentsService {
 			? finalCommentToSave.finalComment.typeOfUser
 			: 'Appellant/Agent';
 		finalCommentToSave.finalComment.horizonId = finalComment.horizonId.toString();
-
 		//Create final comment in Mongo
-		let document = await this.#finalCommentsRepository.create(finalCommentToSave);
-		logger.info(document.result);
+		const document = await this.#finalCommentsRepository.create(finalCommentToSave);
 
-		return document;
+		try {
+			if (document.result && document.result.ok) {
+				// Send final comment submission confirmation email
+				await sendFinalCommentSubmissionConfirmationEmail(finalCommentToSave.finalComment);
+				return finalCommentToSave;
+			}
+		} catch {
+			logger.info(`Submission of Final comments for ${finalComment.horizonId} failed`);
+			throw ApiError.badRequest();
+		}
 	}
 
 	async getFinalComment(caseReference) {
@@ -107,6 +119,8 @@ class FinalCommentsService {
 
 		let appellantEmail =
 			localAppealData.email ?? localAppealData.contactDetailsSection.contact.email;
+		//TODO check old object for structure of name location as above
+		let appellantName = localAppealData.contactDetailsSection.contact.name;
 
 		const finalCommentData = {
 			id: uuid.v4(),
@@ -115,6 +129,7 @@ class FinalCommentsService {
 			state: 'DRAFT',
 			finalCommentExpiryDate: new Date(Date.parse(finalCommentsDueDate)),
 			email: appellantEmail,
+			name: appellantName,
 			finalCommentSubmissionDate: null,
 			secureCodeEnteredCorrectly: false,
 			hasComment: null,
