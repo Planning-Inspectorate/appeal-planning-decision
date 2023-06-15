@@ -15,7 +15,7 @@ const healthChecks = require('./lib/healthchecks');
  * Initialise app insights
  */
 try {
-	appInsights.setup().setAutoDependencyCorrelation(true).setSendLiveMetrics(true);
+	appInsights.setup().setAutoDependencyCorrelation(true, true).setSendLiveMetrics(true);
 	appInsights.defaultClient.context.tags[appInsights.defaultClient.context.keys.cloudRole] =
 		'web-front-end';
 	appInsights.start();
