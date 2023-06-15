@@ -2,6 +2,7 @@ const express = require('express');
 const featureFlagMiddleware = require('../../middleware/feature-flag');
 const { skipMiddlewareForPaths } = require('../../middleware/skip-middleware-for-paths');
 const requireUser = require('../../middleware/lpa-dashboard/require-user');
+const { getServiceInvite } = require('../../../src/controllers/lpa-dashboard/service-invite');
 
 const router = express.Router();
 
@@ -11,9 +12,12 @@ router.use(
 		'input-code',
 		'need-new-code',
 		'code-expired',
-		'enter-email'
+		'enter-email',
+		'service-invite'
 	])
 );
+
+router.get('/service-invite/:lpaCode', getServiceInvite);
 
 router.get('/', function (req, res) {
 	return res.sendStatus(200);

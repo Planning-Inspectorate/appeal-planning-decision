@@ -6,7 +6,9 @@ const {
 	createOrUpdateAppeal,
 	getExistingAppeal,
 	getLPAList,
-	saveAppeal
+	getLPA,
+	saveAppeal,
+	createUser
 } = require('../../../src/lib/appeals-api-wrapper');
 
 const config = require('../../../src/config');
@@ -122,6 +124,16 @@ describe('lib/appeals-api-wrapper', () => {
 		});
 	});
 
+	describe('getLPA', () => {
+		it(`should call the expected URL`, async () => {
+			fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
+			await getLPA('test');
+			expect(fetch.mock.calls[0][0]).toEqual(
+				'http://fake.url/api/v1/local-planning-authorities/lpaCode/test'
+			);
+		});
+	});
+
 	describe('saveAppeal', () => {
 		it('should call the expected URL', async () => {
 			fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
@@ -146,6 +158,34 @@ describe('lib/appeals-api-wrapper', () => {
 				await saveAppeal({
 					appeal: 'data'
 				});
+			} catch (e) {
+				expect(e.toString()).toEqual('Error: something went wrong');
+			}
+		});
+	});
+
+	describe('createUser', () => {
+		it('should call the expected URL', async () => {
+			fetch.mockResponseOnce(JSON.stringify({ shouldBe: 'valid' }));
+			const createResponse = await createUser(1, true, 2);
+
+			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/users/`, {
+				body: '{"email":1,"isAdmin":true,"lpaCode":2}',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Correlation-ID': uuid.v4()
+				},
+				method: 'POST'
+			});
+			expect(createResponse).toEqual({ shouldBe: 'valid' });
+		});
+
+		it('should handle api fetch failure', async () => {
+			fetch.mockResponseOnce(JSON.stringify(['something went wrong']), {
+				status: 400
+			});
+			try {
+				await createUser(1, true, 2);
 			} catch (e) {
 				expect(e.toString()).toEqual('Error: something went wrong');
 			}

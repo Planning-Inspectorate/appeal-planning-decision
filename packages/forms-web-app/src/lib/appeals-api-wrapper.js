@@ -40,6 +40,11 @@ async function handler(path, method = 'GET', opts = {}, headers = {}) {
 							throw new Error(errorResponse.errors.join('\n'));
 						}
 
+						/* istanbul ignore else */
+						if (Array.isArray(errorResponse)) {
+							throw new Error(errorResponse.join('\n'));
+						}
+
 						/* istanbul ignore next */
 						throw new Error(apiResponse.statusText);
 					} catch (e) {
@@ -93,6 +98,10 @@ exports.getLPAList = async () => {
 	return handler('/api/v1/local-planning-authorities');
 };
 
+exports.getLPA = async (lpaCode) => {
+	return handler(`/api/v1/local-planning-authorities/lpaCode/${lpaCode}`);
+};
+
 exports.getSavedAppeal = async (id) => {
 	return handler(`/api/v1/save/${id}`, 'GET');
 };
@@ -128,4 +137,20 @@ exports.submitFinalComment = async (finalComment) => {
 	return handler(`/api/v1/final-comments/`, 'POST', {
 		body: JSON.stringify(finalComment)
 	});
+};
+
+exports.createUser = async (email, isAdmin, lpaCode) => {
+	return handler(`/api/v1/users/`, 'POST', {
+		body: JSON.stringify({
+			email,
+			isAdmin,
+			lpaCode
+		})
+	});
+};
+
+exports.errorMessages = {
+	user: {
+		only1Admin: 'Only 1 admin is allowed at a time'
+	}
 };

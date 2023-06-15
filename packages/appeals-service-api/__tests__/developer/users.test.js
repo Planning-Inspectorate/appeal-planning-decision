@@ -7,7 +7,7 @@ const appDbConnection = require('../../src/db/db');
 
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 
-const dbName = 'foo';
+const dbName = 'users';
 let appealsApi;
 let databaseConnection;
 let testLpaEmail = 'appealplanningdecisiontest@planninginspectorate.gov.uk';
