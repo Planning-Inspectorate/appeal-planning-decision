@@ -1,0 +1,3 @@
+{% macro summaryField(value, attributes = {}) %}
+  <span {%- for attribute, value in attributes %} {{attribute}}="{{value}}"{% endfor %}>{{ value }}</span>
+{% endmacro %}
