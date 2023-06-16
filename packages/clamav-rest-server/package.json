@@ -18,7 +18,7 @@
 	},
 	"dependencies": {
 		"@pins/common": "file:../common",
-		"applicationinsights": "^2.5.0",
+		"applicationinsights": "^2.7.0",
 		"body-parser": "^1.19.0",
 		"clamscan": "^2.0.1",
 		"express": "^4.17.1",
