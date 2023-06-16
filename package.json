@@ -104,6 +104,6 @@
 		]
 	},
 	"dependencies": {
-		"applicationinsights": "^2.5.0"
+		"applicationinsights": "^2.7.0"
 	}
 }
