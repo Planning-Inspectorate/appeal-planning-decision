@@ -1,0 +1,15 @@
+{% from "./summary-field.njk" import summaryField %}
+
+{% macro formatPlanningObligationStatus(value, attributes = {}) %}
+  {% if value is null  %}
+    {{ summaryField(value, attributes) }}
+  {% else %}
+    {% if value === 'finalised' %}
+      {{ summaryField('Finalised and ready to submit', attributes) }}
+    {% elif value === 'draft' %}
+      {{ summaryField('In draft', attributes) }}
+    {% elif value === 'not_started' %}
+      {{ summaryField('Not started yet', attributes) }}
+    {% endif %}
+  {% endif %}
+{% endmacro %}

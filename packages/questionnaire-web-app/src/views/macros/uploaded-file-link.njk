@@ -1,0 +1,9 @@
+{% macro uploadedFileLink(appealId, uploadedFile, attributes = {}) %}
+  <a
+    href="/document/{{appealId}}/{{uploadedFile.id}}"
+    class="govuk-link"
+    {% for attribute, value in attributes %} {{attribute}}="{{value}}"{% endfor %}
+  >
+    {{ uploadedFile.name }}
+  </a>
+{% endmacro %}
