@@ -1,0 +1,13 @@
+{% from "./uploaded-file-link.njk" import uploadedFileLink %}
+
+{% macro uploadedFileList(uploadedFiles, appealId, dataCyPrefix, hasLink) %}
+  <ul class="govuk-list">
+    {% for file in uploadedFiles %}
+      {% if hasLink %}
+        <li>{{ uploadedFileLink( appealId, file, { "data-cy": dataCyPrefix + "-" + loop.index } ) }}</li>
+      {% else %}
+        <li data-cy="{{ dataCyPrefix }}-{{ loop.index }}">{{ file.name }}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+{% endmacro %}
