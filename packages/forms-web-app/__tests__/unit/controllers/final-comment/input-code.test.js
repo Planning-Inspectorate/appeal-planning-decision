@@ -111,6 +111,26 @@ describe('controllers/final-comment/input-code', () => {
 			});
 			expect(req.session.enterCode.newCode).toBe(undefined);
 		});
+
+		it('should set session.enterCode.action if enterCode does not exist', async () => {
+			getFinalCommentData.mockReturnValue(finalComment);
+			req.session.enterCode = null;
+			req.params.caseReference = 'fake-case-reference';
+
+			await getInputCode(req, res);
+
+			expect(req.session.enterCode.action).toEqual('saveAndReturn');
+		});
+
+		it('should set session.enterCode.action if enterCode does exist', async () => {
+			getFinalCommentData.mockReturnValue(finalComment);
+			req.session.enterCode = { action: 'existingAction' };
+			req.params.caseReference = 'fake-case-reference';
+
+			await getInputCode(req, res);
+
+			expect(req.session.enterCode.action).toEqual('saveAndReturn');
+		});
 	});
 	describe('postInputCode', () => {
 		beforeEach(() => {
@@ -182,6 +202,7 @@ describe('controllers/final-comment/input-code', () => {
 				'email-code': '68365'
 			};
 			req.session.userTokenId = 'mock-id';
+			req.session.enterCode = { action: 'test' };
 
 			isTokenValid.mockReturnValue({ valid: true });
 
@@ -190,6 +211,7 @@ describe('controllers/final-comment/input-code', () => {
 			expect(res.redirect).toBeCalledWith(`/${COMMENTS_QUESTION}`);
 			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(true);
 			expect(req.session.userTokenId).toBe(undefined);
+			expect(req.session.enterCode.action).toBe(undefined);
 		});
 	});
 

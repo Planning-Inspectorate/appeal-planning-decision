@@ -172,6 +172,49 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				});
 				expect(req.session.userTokenId).toEqual(req.params.id);
 			});
+
+			it('should set req.session.enterCode.action if value is not set', async () => {
+				const { ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS } = householderAppealViews;
+				req = {
+					...req,
+					params: { id: '89aa8504-773c-42be-bb68-029716ad9756' }
+				};
+				sendToken.mockReturnValue({});
+
+				const returnedFunction = getEnterCode({ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS });
+				await returnedFunction(req, res);
+
+				expect(req.session.enterCode.action).toEqual('saveAndReturn');
+			});
+			it('should use any preexisting req.session.enterCode.action value', async () => {
+				const { ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS } = householderAppealViews;
+				req = {
+					...req,
+					params: { id: '89aa8504-773c-42be-bb68-029716ad9756' },
+					session: { enterCode: { action: 'test' } }
+				};
+				sendToken.mockReturnValue({});
+
+				const returnedFunction = getEnterCode({ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS });
+				await returnedFunction(req, res);
+
+				expect(req.session.enterCode.action).toEqual('test');
+			});
+
+			it('should delete req.session.enterCode.newCode if it exists', async () => {
+				const { ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS } = householderAppealViews;
+				req = {
+					...req,
+					params: { id: '89aa8504-773c-42be-bb68-029716ad9756' },
+					session: { enterCode: { newCode: true } }
+				};
+				sendToken.mockReturnValue({});
+
+				const returnedFunction = getEnterCode({ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS });
+				await returnedFunction(req, res);
+
+				expect(req.session.enterCode.newCode).not.toBeDefined();
+			});
 		});
 	});
 	describe('postEnterCode', () => {
