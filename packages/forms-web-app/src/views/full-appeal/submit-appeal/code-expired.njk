@@ -1,4 +1,5 @@
 {% extends "../../layouts/full-appeal-banner/main-no-back-link.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set title="Code Expired - Appeal a planning decision - GOV.UK" %}
 
@@ -11,9 +12,13 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">Code expired</h1>
 			<p class="govuk-body">The code you’re trying to enter has expired. </p>
-			<p class="govuk-body">
-				<a href="{{url}}">Send a new code</a>
-			</p>
+			<form action="" method="post" novalidate>
+        {{ govukButton({
+          text: "Send a new code",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
     </div>
   </div>
 {% endblock %}

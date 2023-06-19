@@ -11,14 +11,11 @@ const {
 	}
 } = require('../../../lib/views');
 
-const requestViews = { REQUEST_NEW_CODE, ENTER_CODE };
-const needViews = { REQUEST_NEW_CODE: NEED_NEW_CODE, ENTER_CODE };
-
 const router = express.Router();
 
-router.get('/submit-appeal/request-new-code', getRequestNewCode(requestViews));
-router.post('/submit-appeal/request-new-code', postRequestNewCode(requestViews));
-router.get('/submit-appeal/need-new-code', getRequestNewCode(needViews));
-router.post('/submit-appeal/need-new-code', postRequestNewCode(needViews));
+router.get('/submit-appeal/request-new-code', getRequestNewCode(REQUEST_NEW_CODE));
+router.post('/submit-appeal/request-new-code', postRequestNewCode(ENTER_CODE));
+router.get('/submit-appeal/need-new-code', getRequestNewCode(NEED_NEW_CODE));
+router.post('/submit-appeal/need-new-code', postRequestNewCode(ENTER_CODE));
 
 module.exports = router;
