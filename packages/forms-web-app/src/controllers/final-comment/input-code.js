@@ -14,6 +14,10 @@ const getInputCodeResendCode = (req, res) => {
 const getInputCode = async (req, res) => {
 	const caseReference = req.params.caseReference;
 
+	// set up action
+	req.session.enterCode = req.session.enterCode || {};
+	req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
+
 	// show new code success message only once
 	const newCode = req.session?.enterCode?.newCode;
 	if (newCode) {
@@ -42,7 +46,7 @@ const getInputCode = async (req, res) => {
 		}
 	} = req;
 
-	await sendToken(id, enterCodeConfig.actions.saveAndReturn, emailAddress);
+	await sendToken(id, req.session.enterCode.action, emailAddress);
 
 	res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
 		requestNewCodeLink: `resend-code/${caseReference}`,
@@ -91,6 +95,7 @@ const postInputCode = async (req, res) => {
 	}
 
 	delete req.session.userTokenId;
+	delete req.session?.enterCode?.action;
 
 	return res.redirect(`/${VIEW.FINAL_COMMENT.COMMENTS_QUESTION}`);
 };

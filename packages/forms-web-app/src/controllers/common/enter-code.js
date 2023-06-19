@@ -8,7 +8,12 @@ const getEnterCode = (views) => {
 			body: { errors = {} }
 		} = req;
 
-		const action = req.session?.enterCode?.action || enterCodeConfig.actions.saveAndReturn;
+		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
+
+		if (action === enterCodeConfig.actions.saveAndReturn) {
+			req.session.enterCode = req.session.enterCode || {};
+			req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
+		}
 
 		// show new code success message only once
 		const newCode = req.session?.enterCode?.newCode;

@@ -35,6 +35,7 @@ const isTokenValid = async (id, token, session) => {
 		// handler swallows response and only gives back status message
 		if (err.message === 'Too Many Requests') {
 			result.tooManyAttempts = true;
+			result.action = session?.enterCode?.action;
 			return result;
 		} else {
 			throw err;

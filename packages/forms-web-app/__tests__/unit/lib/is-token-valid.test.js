@@ -128,9 +128,12 @@ describe('lib/is-token-valid', () => {
 			});
 			isTokenExpired.mockReturnValue(false);
 
-			const result = await isTokenValid('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654');
+			const result = await isTokenValid('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654', {
+				enterCode: { action: 'saveAndReturn' }
+			});
 			expect(result.valid).toBe(false);
 			expect(result.tooManyAttempts).toBe(true);
+			expect(result.action).toBe('saveAndReturn');
 		});
 		it('should call checkToken if both parameters are valid', async () => {
 			checkToken.mockReturnValue(undefined);
