@@ -5,12 +5,20 @@ const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../lib/logger');
 
 const getInputCodeResendCode = (req, res) => {
-	req.session.resendCode = true;
+	// this handles success message when clicking HTML link instead of post request
+	req.session.enterCode = req.session.enterCode || {};
+	req.session.enterCode.newCode = true;
 	return res.redirect(`/${VIEW.FINAL_COMMENT.INPUT_CODE}/${req.params.caseReference}`);
 };
 
 const getInputCode = async (req, res) => {
 	const caseReference = req.params.caseReference;
+
+	// show new code success message only once
+	const newCode = req.session?.enterCode?.newCode;
+	if (newCode) {
+		delete req.session?.enterCode?.newCode;
+	}
 
 	if (!req.session.finalComment || req.session.finalComment.horizonId !== caseReference) {
 		try {
@@ -19,10 +27,9 @@ const getInputCode = async (req, res) => {
 		} catch (err) {
 			logger.error(err, `Final Comment API Error for case reference ${caseReference}`);
 			res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
-				requestNewCodeLink: `input-code/resend-code/${caseReference}`,
-				showNewCode: req.session.resendCode
+				requestNewCodeLink: `resend-code/${caseReference}`,
+				showNewCode: newCode
 			});
-			delete req.session.resendCode;
 			return;
 		}
 	} else {
@@ -38,11 +45,9 @@ const getInputCode = async (req, res) => {
 	await sendToken(id, enterCodeConfig.actions.saveAndReturn, emailAddress);
 
 	res.render(VIEW.FINAL_COMMENT.INPUT_CODE, {
-		requestNewCodeLink: `input-code/resend-code/${caseReference}`,
-		showNewCode: req.session.resendCode
+		requestNewCodeLink: `resend-code/${caseReference}`,
+		showNewCode: newCode
 	});
-
-	delete req.session.resendCode;
 };
 
 const postInputCode = async (req, res) => {
@@ -69,7 +74,6 @@ const postInputCode = async (req, res) => {
 	req.session.finalComment.secureCodeEnteredCorrectly = tokenResult.valid;
 
 	if (tokenResult.tooManyAttempts) {
-		req.session.getNewCodeHref = `/full-appeal/submit-final-comment/input-code/${req.params.caseReference}`;
 		return res.redirect(`/${VIEW.FINAL_COMMENT.NEED_NEW_CODE}`);
 	}
 

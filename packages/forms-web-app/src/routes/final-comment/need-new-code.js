@@ -1,8 +1,18 @@
 const express = require('express');
-const needNewCodeController = require('../../controllers/final-comment/need-new-code');
+const {
+	getRequestNewCode,
+	postRequestNewCode
+} = require('../../controllers/common/request-new-code');
 
 const router = express.Router();
 
-router.get('/need-new-code', needNewCodeController.getNeedNewCode);
+const {
+	VIEW: {
+		FINAL_COMMENT: { NEED_NEW_CODE, INPUT_CODE }
+	}
+} = require('../../lib/views');
+
+router.get('/need-new-code', getRequestNewCode(NEED_NEW_CODE));
+router.post('/need-new-code', postRequestNewCode(INPUT_CODE));
 
 module.exports = router;

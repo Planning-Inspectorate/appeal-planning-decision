@@ -23,9 +23,8 @@ describe('controllers/common/enter-code', () => {
 					FULL_APPEAL: { REQUEST_NEW_CODE }
 				}
 			} = require('../../../../src/lib/views');
-			const views = { REQUEST_NEW_CODE };
 
-			const returnedFunction = getRequestNewCode(views);
+			const returnedFunction = getRequestNewCode(REQUEST_NEW_CODE);
 			returnedFunction(req, res);
 
 			expect(res.render).toBeCalledWith(`${REQUEST_NEW_CODE}`);
@@ -36,16 +35,15 @@ describe('controllers/common/enter-code', () => {
 		it('should redirect to correct page', () => {
 			const {
 				VIEW: {
-					APPELLANT_SUBMISSION: { REQUEST_NEW_CODE, ENTER_CODE }
+					APPELLANT_SUBMISSION: { ENTER_CODE }
 				}
 			} = require('../../../../src/lib/views');
-			const views = { REQUEST_NEW_CODE, ENTER_CODE };
 			const tokenId = '1552441a-1e56-4e83-8d85-de7b246d2594';
 			req.session = {
 				userTokenId: tokenId
 			};
 
-			const returnedFunction = postRequestNewCode(views);
+			const returnedFunction = postRequestNewCode(ENTER_CODE);
 			returnedFunction(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${tokenId}`);

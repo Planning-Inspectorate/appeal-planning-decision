@@ -91,22 +91,25 @@ describe('controllers/final-comment/input-code', () => {
 			await getInputCode(req, res);
 
 			expect(res.render).toBeCalledWith(INPUT_CODE, {
-				requestNewCodeLink: 'input-code/resend-code/fake-case-reference',
+				requestNewCodeLink: 'resend-code/fake-case-reference',
 				showNewCode: undefined
 			});
 		});
 
-		it('should delete req.session.resendCode after rendering page correctly', async () => {
+		it('should show new code success message only once', async () => {
 			getFinalCommentData.mockReturnValue(finalComment);
-			req.session.resendCode = true;
+			req.session.resendCode = false;
+			req.session.enterCode = {
+				newCode: true
+			};
 			req.params.caseReference = 'another-fake-reference';
 
 			await getInputCode(req, res);
 			expect(res.render).toBeCalledWith(INPUT_CODE, {
-				requestNewCodeLink: 'input-code/resend-code/another-fake-reference',
+				requestNewCodeLink: 'resend-code/another-fake-reference',
 				showNewCode: true
 			});
-			expect(req.session.resendCode).toBe(undefined);
+			expect(req.session.enterCode.newCode).toBe(undefined);
 		});
 	});
 	describe('postInputCode', () => {
@@ -132,7 +135,7 @@ describe('controllers/final-comment/input-code', () => {
 			});
 			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(false);
 		});
-		it('should  re-render the enter code page in an error state with the expected error message text, if the entered token is not valid', async () => {
+		it('should re-render the enter code page in an error state with the expected error message text, if the entered token is not valid', async () => {
 			req.body = {
 				'email-code': '68365'
 			};
@@ -192,10 +195,10 @@ describe('controllers/final-comment/input-code', () => {
 
 	describe('getInputCodeResendCode', () => {
 		it('should set session correctly and redirect to input code page', () => {
-			req.session.resendCode = null;
+			req.session.enterCode = null;
 			req.params.caseReference = 'mock-reference';
 			getInputCodeResendCode(req, res);
-			expect(req.session.resendCode).toBe(true);
+			expect(req.session.enterCode.newCode).toBe(true);
 			expect(res.redirect).toBeCalledWith(`/${INPUT_CODE}/mock-reference`);
 		});
 	});
