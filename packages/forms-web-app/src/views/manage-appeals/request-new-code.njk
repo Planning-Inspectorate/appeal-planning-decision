@@ -1,7 +1,7 @@
 {% extends "../layouts/householder-banner/main-no-back-link.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set title="You need a new code - Submit final comment - Appeal a planning decision - GOV.UK" %}
+{% set title="Request a new code - Appeal a householder planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {{ title }}
@@ -10,10 +10,11 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-l">You need a new code</h1>
+      <h1 class="govuk-heading-l">Request a new code</h1>
+      <p class="govuk-body">Emails sometimes take a few minutes to arrive. If you do not receive the code, you can request a new one.</p>
       <form action="" method="post" novalidate>
         {{ govukButton({
-          text: "Send a new code",
+          text: "Request a new code",
           type: "submit",
           attributes: { "data-cy":"button-save-and-continue"}
         }) }}
