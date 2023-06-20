@@ -29,7 +29,7 @@ const isTokenValid = async (id, token, session) => {
 
 	let tokenDocument;
 	try {
-		tokenDocument = await checkToken(id, token);
+		tokenDocument = await checkToken(id, token, session?.enterCode?.action);
 	} catch (err) {
 		// todo: can we improve this to not rely on string matching,
 		// handler swallows response and only gives back status message
