@@ -61,10 +61,62 @@ describe('validators/lpa/enter-code', () => {
 		);
 		expect(result.errors[0].param).toEqual('email-code');
 	});
-	it('invalid characters entered', async () => {
+	it('invalid alpha characters entered', async () => {
 		const req = {
 			body: {
 				'email-code': 'abcde'
+			}
+		};
+
+		await testExpressValidatorMiddleware(
+			req,
+			res,
+			rules({
+				fieldName,
+				targetFieldName,
+				emptyError,
+				tooLongError
+			})
+		);
+
+		const result = validationResult(req);
+		expect(result.errors).toHaveLength(1);
+		expect(result.errors[0].location).toEqual('body');
+		expect(result.errors[0].msg).toEqual(
+			'Code must contain numbers from 1-9 and letters from the alphabet exluding vowels'
+		);
+		expect(result.errors[0].param).toEqual('email-code');
+	});
+	it('invalid alpha characters entered not at start of string', async () => {
+		const req = {
+			body: {
+				'email-code': 'bcdef'
+			}
+		};
+
+		await testExpressValidatorMiddleware(
+			req,
+			res,
+			rules({
+				fieldName,
+				targetFieldName,
+				emptyError,
+				tooLongError
+			})
+		);
+
+		const result = validationResult(req);
+		expect(result.errors).toHaveLength(1);
+		expect(result.errors[0].location).toEqual('body');
+		expect(result.errors[0].msg).toEqual(
+			'Code must contain numbers from 1-9 and letters from the alphabet exluding vowels'
+		);
+		expect(result.errors[0].param).toEqual('email-code');
+	});
+	it('invalid non alphanumeric characters entered', async () => {
+		const req = {
+			body: {
+				'email-code': '====='
 			}
 		};
 
