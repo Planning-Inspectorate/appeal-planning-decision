@@ -120,11 +120,12 @@ exports.sendToken = async (id, action, emailAddress) => {
 	});
 };
 
-exports.checkToken = async (id, token) => {
+exports.checkToken = async (id, token, action) => {
 	return handler(`/api/v1/token/`, 'POST', {
 		body: JSON.stringify({
 			id,
-			token
+			token,
+			action
 		})
 	});
 };
