@@ -141,8 +141,17 @@ const getEnterCodeLPA = (views) => {
 		const {
 			body: { errors = {} }
 		} = req;
-		console.log(errors);
-		res.render(views.ENTER_CODE);
+		if (Object.keys(errors).length > 0) {
+			res.render(views.ENTER_CODE, {
+				errors: errors,
+				errorSummary: [{ text: errors.id.msg, href: '' }],
+				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`
+			});
+		} else {
+			res.render(views.ENTER_CODE, {
+				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`
+			});
+		}
 		return;
 	};
 };

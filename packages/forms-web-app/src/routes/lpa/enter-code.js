@@ -20,7 +20,7 @@ const views = {
 
 const router = express.Router();
 
-router.get('/enter-code/:id', idValidationRules, validationErrorHandler, getEnterCodeLPA(views));
+router.get('/enter-code/:id', idValidationRules(), validationErrorHandler, getEnterCodeLPA(views));
 router.post('/enter-code/:id', ruleEnterCode(), validationErrorHandler, postEnterCodeLPA(views));
 
 module.exports = router;
