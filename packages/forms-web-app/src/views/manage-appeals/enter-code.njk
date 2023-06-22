@@ -34,7 +34,7 @@
   <div class="govuk-grid-row">
 
     <div class="govuk-grid-column-two-thirds">
-      <form action="" method="POST" novalidate>
+      <form action={{ lpaUserId }} method="POST" novalidate>
         {% call govukFieldset({
           legend: {
             text: "Enter the code we sent to your email address",

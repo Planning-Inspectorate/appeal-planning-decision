@@ -175,5 +175,6 @@ module.exports = {
 	getUsers,
 	createUser,
 	getUserByEmail,
+	getUserById,
 	disableUser
 };

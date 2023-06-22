@@ -8,7 +8,9 @@ const {
 	getLPAList,
 	getLPA,
 	saveAppeal,
-	createUser
+	createUser,
+	getUserById,
+	getUserByEmail
 } = require('../../../src/lib/appeals-api-wrapper');
 
 const config = require('../../../src/config');
@@ -189,6 +191,51 @@ describe('lib/appeals-api-wrapper', () => {
 			} catch (e) {
 				expect(e.toString()).toEqual('Error: something went wrong');
 			}
+		});
+	});
+
+	describe('getUser', () => {
+		it('should get user by id', async () => {
+			const id = '6492dc1740b8f50012347237';
+			const mockResponse = {
+				_id: id,
+				email: 'admin1@planninginspectorate.gov.uk',
+				isAdmin: true,
+				enabled: true,
+				lpaCode: 'Q9999'
+			};
+			fetch.mockResponseOnce(JSON.stringify(mockResponse));
+			const createResponse = await getUserById(id);
+
+			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/users/${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Correlation-ID': uuid.v4()
+				},
+				method: 'GET'
+			});
+			expect(createResponse).toEqual(mockResponse);
+		});
+		it('should get user by email', async () => {
+			const email = 'admin1%40planninginspectorate.gov.uk';
+			const mockResponse = {
+				_id: '6492dc1740b8f50012347237',
+				email: email,
+				isAdmin: true,
+				enabled: true,
+				lpaCode: 'Q9999'
+			};
+			fetch.mockResponseOnce(JSON.stringify(mockResponse));
+			const createResponse = await getUserByEmail(email);
+
+			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/users/${email}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Correlation-ID': uuid.v4()
+				},
+				method: 'GET'
+			});
+			expect(createResponse).toEqual(mockResponse);
 		});
 	});
 });

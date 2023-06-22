@@ -7,6 +7,7 @@ const { getServiceInvite } = require('../../../src/controllers/lpa-dashboard/ser
 const router = express.Router();
 
 router.use(featureFlagMiddleware('lpa-dashboard'));
+
 router.use(
 	skipMiddlewareForPaths(requireUser, [
 		'input-code',

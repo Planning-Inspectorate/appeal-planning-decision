@@ -1,6 +1,75 @@
-const { getSavedAppeal, getExistingAppeal, sendToken } = require('../../lib/appeals-api-wrapper');
-const { isTokenValid } = require('../../lib/is-token-valid');
+const {
+	getSavedAppeal,
+	getExistingAppeal,
+	sendToken,
+	getUserById
+} = require('../../lib/appeals-api-wrapper');
+const { isTokenValid, isTestLPAAndEnvironment } = require('../../lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
+const logger = require('../../../src/lib/logger');
+
+/**
+ * @typedef {Object} Token
+ * @property {string} id
+ * @property {string} token
+ * @property {"confirmEmail" | "saveAndReturn" | "lpa-dashboard"} action
+ * @property {number} attempts The number of attempted and failed logins
+ * @property {Number} createdAt Epoch time
+ *
+ */
+
+/**
+ * The id of the user, in mongodb object id format
+ * @typedef {/^[a-f\\d]{24}$/i} UserId
+ */
+
+/**
+ * The Context for the View to be rendered, with any error information
+ * @typedef {Object} ViewContext
+ * @property {Token} token
+ * @property {Array} errors
+ * @property {string} errorSummary
+ */
+
+/**
+ * Renders the Error Page for the LPA User who was unsuccessful at logging in
+ * @param {string} view The view file to be rendered by Nunjucks
+ * @param {ViewContext} context
+ */
+const renderErrorPageLPA = (res, view, context) => {
+	return res.render(view, context);
+};
+
+const redirectToLPADashboard = (res, views) => {
+	res.redirect(`/${views.DASHBOARD}`);
+};
+
+/**
+ * Verifies the token and redirects on failure
+ * @param {ExpressResponse} res
+ * @param {Token} token
+ * @param {Object} views
+ * @returns
+ */
+const tokenVerification = (res, token, views, id) => {
+	if (token.tooManyAttempts) {
+		res.redirect(`/${views.NEED_NEW_CODE}/${id}`);
+		return false;
+	} else if (token.expired) {
+		res.redirect(`/${views.CODE_EXPIRED}/${id}`);
+		return false;
+	} else if (!token.valid) {
+		renderErrorPageLPA(res, views.ENTER_CODE, {
+			token,
+			errors: {},
+			errorSummary: [{ text: 'Enter a correct code', href: '#email-code' }]
+		});
+		return false;
+	} else if (token.valid) {
+		return true;
+	}
+	return false;
+};
 
 const getEnterCode = (views) => {
 	return async (req, res) => {
@@ -139,7 +208,8 @@ const postEnterCode = (views) => {
 const getEnterCodeLPA = (views) => {
 	return async (req, res) => {
 		const {
-			body: { errors = {} }
+			body: { errors = {} },
+			params: { id }
 		} = req;
 		if (Object.keys(errors).length > 0) {
 			res.render(views.ENTER_CODE, {
@@ -149,11 +219,26 @@ const getEnterCodeLPA = (views) => {
 			});
 		} else {
 			res.render(views.ENTER_CODE, {
-				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`
+				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`,
+				lpaUserId: id
 			});
 		}
 		return;
 	};
+};
+
+/**
+ * Creates the user object within the session object of the request for the successfully logged in LPAUser
+ * @param {ExpressRequest} req
+ * @param {UserId} userId
+ */
+const createLPAUserSession = async (req, userId) => {
+	let user = await getUserById(userId);
+	req.session.lpaUser = user;
+	req.session.save((err) => {
+		logger.error('Error storing LPA User Session');
+		logger.error(err);
+	});
 };
 
 const postEnterCodeLPA = (views) => {
@@ -163,39 +248,49 @@ const postEnterCodeLPA = (views) => {
 			params: { id }
 		} = req;
 
-		const token = req.body['email-code'];
+		const emailCode = req.body['email-code'];
 
-		// show error page
+		// if there are errors show error page
 		if (Object.keys(errors).length > 0) {
-			return res.render(views.ENTER_CODE, {
+			return renderErrorPageLPA(res, views.ENTER_CODE, {
 				token,
 				errors,
 				errorSummary
 			});
 		}
 
+		if (isTestLPAAndEnvironment(emailCode, req.session)) {
+			try {
+				createLPAUserSession(req, id);
+				return {
+					valid: true,
+					action: enterCodeConfig.actions.lpaDashboard
+				};
+			} catch (e) {
+				logger.error(`Failed to create user session for user id ${id}`);
+				logger.error(e);
+				return {
+					valid: false,
+					action: enterCodeConfig.actions.lpaDashboard
+				};
+			}
+		}
+
 		// check token
-		let tokenValid = await isTokenValid(id, token, req.session);
+		let token = await isTokenValid(id, emailCode, req.session, id);
 
-		if (tokenValid.tooManyAttempts) {
-			return res.redirect(`/${views.NEED_NEW_CODE}`);
+		if (!tokenVerification(res, token, views, id)) return;
+
+		try {
+			createLPAUserSession(req, id);
+		} catch (e) {
+			logger.error(`Failed to create user session for user id ${id}`);
+			logger.error(e);
+			throw new Error('Failed to create user session');
 		}
 
-		if (tokenValid.expired) {
-			return res.redirect(`/${views.CODE_EXPIRED}`);
-		}
-
-		if (!tokenValid.valid) {
-			const customErrorSummary = [{ text: 'Enter a correct code', href: '#email-code' }];
-
-			return res.render(views.ENTER_CODE, {
-				token,
-				errors: {},
-				errorSummary: customErrorSummary
-			});
-		}
-
-		return res.redirect(`/${views.DASHBOARD}`);
+		redirectToLPADashboard(res, views);
+		return;
 	};
 };
 
@@ -203,5 +298,6 @@ module.exports = {
 	getEnterCode,
 	postEnterCode,
 	getEnterCodeLPA,
-	postEnterCodeLPA
+	postEnterCodeLPA,
+	tokenVerification
 };
