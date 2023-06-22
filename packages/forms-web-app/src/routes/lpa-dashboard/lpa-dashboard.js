@@ -1,6 +1,7 @@
 const express = require('express');
 const featureFlagMiddleware = require('../../middleware/feature-flag');
 const { skipMiddlewareForPaths } = require('../../middleware/skip-middleware-for-paths');
+const codeExpiredRouter = require('./code-expired');
 const requireUser = require('../../middleware/lpa-dashboard/require-user');
 const { getServiceInvite } = require('../../../src/controllers/lpa-dashboard/service-invite');
 
@@ -26,5 +27,7 @@ router.get('/', function (req, res) {
 router.get('/enter-email', function (req, res) {
 	return res.sendStatus(200);
 });
+
+router.use(codeExpiredRouter);
 
 module.exports = router;
