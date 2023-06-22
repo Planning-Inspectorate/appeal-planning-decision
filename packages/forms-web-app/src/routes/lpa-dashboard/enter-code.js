@@ -1,12 +1,14 @@
 const express = require('express');
 const { rules: ruleEnterCode } = require('../../validators/lpa/enter-code');
-const { rules: idValidationRules } = require('../../validators/common/check-id-is-email-address');
+const {
+	rules: idValidationRules
+} = require('../../validators/common/check-id-is-mongodb-object-id');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const { getEnterCodeLPA, postEnterCodeLPA } = require('../../controllers/common/enter-code');
 
 const {
 	VIEW: {
-		LPA: { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD }
+		LPA_DASHBOARD: { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD }
 	}
 } = require('../../lib/views');
 

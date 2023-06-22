@@ -113,9 +113,9 @@ exports.saveAppeal = async (appeal) => {
 exports.sendToken = async (id, action, emailAddress) => {
 	return handler(`/api/v1/token/`, 'PUT', {
 		body: JSON.stringify({
-			id,
-			action,
-			emailAddress
+			id: id,
+			action: action,
+			emailAddress: emailAddress
 		})
 	});
 };
@@ -148,6 +148,15 @@ exports.createUser = async (email, isAdmin, lpaCode) => {
 			lpaCode
 		})
 	});
+};
+
+exports.getUserById = async (id) => {
+	console.log(`/api/v1/users/${id}`);
+	return handler(`/api/v1/users/${id}`, 'GET');
+};
+
+exports.getUserByEmail = async (email) => {
+	return handler(`/api/v1/users/${email}`, 'GET');
 };
 
 exports.errorMessages = {

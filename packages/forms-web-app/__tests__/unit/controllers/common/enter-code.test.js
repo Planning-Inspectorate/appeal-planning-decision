@@ -1,8 +1,22 @@
-const { getEnterCode, postEnterCode } = require('../../../../src/controllers/common/enter-code');
+jest.mock('../../../../src/controllers/common/enter-code', () => {
+	const original = jest.requireActual('../../../../src/controllers/common/enter-code');
+	return {
+		__esModule: false,
+		...original,
+		tokenVerification: jest.fn(() => true)
+	};
+});
 
+const {
+	getEnterCode,
+	postEnterCode,
+	getEnterCodeLPA,
+	postEnterCodeLPA
+} = require('../../../../src/controllers/common/enter-code');
 const views = require('../../../../src/lib/views');
 const householderAppealViews = views.VIEW.APPELLANT_SUBMISSION;
 const fullAppealViews = views.VIEW.FULL_APPEAL;
+const lpaViews = views.VIEW.LPA_DASHBOARD;
 
 const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
@@ -14,7 +28,6 @@ const {
 } = require('../../../../src/lib/appeals-api-wrapper');
 const { isTokenValid } = require('../../../../src/lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
-
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');
 
@@ -31,10 +44,6 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 		res = mockRes();
 		jest.resetAllMocks();
 	});
-
-	// const url = `/${REQUEST_NEW_CODE}`;
-	// const confirmEmailUrl = `/${EMAIL_ADDRESS}`;
-	// const newCode = true;
 
 	describe('getEnterCode', () => {
 		it('should render page but not call sendToken when no req.params.id or appeal in session', async () => {
@@ -397,6 +406,51 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 
 			expect(res.redirect).toBeCalledWith(`/${TASK_LIST}`);
 			expect(req.session.appeal).toEqual(draftAppeal);
+		});
+	});
+	describe('getEnterCodeLPA', () => {
+		it('should render page', async () => {
+			const userId = '649418158b915f0018524cb7';
+			const expectedURL = 'manage-appeals/enter-code';
+			const expectedContext = {
+				lpaUserId: userId,
+				requestNewCodeLink: '/manage-appeals/request-new-code'
+			};
+			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
+			const views = {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD
+			};
+			const returnedFunction = getEnterCodeLPA(views);
+			req.params.id = userId;
+			await returnedFunction(req, res);
+			expect(res.render).toBeCalledWith(expectedURL, expectedContext);
+		});
+	});
+	describe('postEnterCodeLPA', () => {
+		it('should post the code', async () => {
+			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
+			const views = {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD
+			};
+			const userId = '649418158b915f0018524cb7';
+			const code = '12345';
+			const returnedFunction = postEnterCodeLPA(views);
+
+			req.params.id = userId;
+			req.body = {
+				'email-code': code
+			};
+
+			await returnedFunction(req, res);
+			expect(res.render).toBeCalledWith('');
 		});
 	});
 });

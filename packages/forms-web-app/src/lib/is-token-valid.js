@@ -1,46 +1,52 @@
 const { checkToken } = require('./appeals-api-wrapper');
 const { isTokenExpired } = require('./is-token-expired');
-const { utils, enterCodeConfig } = require('@pins/common');
+const { utils } = require('@pins/common');
 const config = require('../config');
 
 const testConfirmEmailToken = '12345';
 
-const isTokenValid = async (id, token, session) => {
+// is test LPA + Test environment + test token
+// then allow through as a confirm email token
+const isTestLPAAndEnvironment = (token, session) => {
+	return (
+		config.server.allowTestingOverrides &&
+		utils.isTestLPA(session?.appeal?.lpaCode) &&
+		token === testConfirmEmailToken
+	);
+};
+
+const getToken = async (id, token) => {
+	let tokenDocument;
+	try {
+		tokenDocument = await checkToken(id, token);
+		return tokenDocument;
+	} catch (err) {
+		console.log(err);
+		// todo: can we improve this to not rely on string matching,
+		// handler swallows response and only gives back status message
+		if (err.message === 'Too Many Requests') {
+			return {
+				valid: false,
+				action: '',
+				tooManyAttempts: true
+			};
+		} else {
+			throw err;
+		}
+	}
+};
+
+const isTokenValid = async (id, token) => {
 	let result = {
 		valid: false,
 		action: ''
 	};
 
-	if (!id || typeof id !== 'string' || !token || typeof token !== 'string') {
-		return result;
-	}
+	if (!id || typeof id !== 'string' || !token || typeof token !== 'string') return result;
 
-	// is test LPA + Test environment + test token
-	// then allow through as a confirm email token
-	if (
-		config.server.allowTestingOverrides &&
-		utils.isTestLPA(session?.appeal?.lpaCode) &&
-		token === testConfirmEmailToken
-	) {
-		result.valid = true;
-		result.action = enterCodeConfig.actions.confirmEmail;
-		return result;
-	}
+	let tokenDocument = await getToken(id, token);
 
-	let tokenDocument;
-	try {
-		tokenDocument = await checkToken(id, token, session?.enterCode?.action);
-	} catch (err) {
-		// todo: can we improve this to not rely on string matching,
-		// handler swallows response and only gives back status message
-		if (err.message === 'Too Many Requests') {
-			result.tooManyAttempts = true;
-			result.action = session?.enterCode?.action;
-			return result;
-		} else {
-			throw err;
-		}
-	}
+	if (tokenDocument.tooManyAttempts) return tokenDocument;
 
 	if (tokenDocument === null || typeof tokenDocument !== 'object') {
 		return result;
@@ -62,5 +68,6 @@ const isTokenValid = async (id, token, session) => {
 
 module.exports = {
 	isTokenValid,
+	isTestLPAAndEnvironment,
 	testConfirmEmailToken
 };
