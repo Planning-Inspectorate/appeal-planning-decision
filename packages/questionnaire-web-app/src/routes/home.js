@@ -1,5 +1,6 @@
 const express = require('express');
 const indexController = require('../controllers');
+const questionnaireController = require('../controllers/questionnaire');
 
 const questionnaire = {
     "title": "Householder appeal",
@@ -37,6 +38,12 @@ const questionnaire = {
 }
 
 const router = express.Router();
+
+//Routes for questionnaire
+router.get('/questionnaire/:appealId/:section/:question', questionnaireController.question);
+router.post('/questionnaire/:appealId/:section/:question', questionnaireController.save);
+router.get('/questionnaire/:appealId', questionnaireController.list);
+
 
 /* GET home page. */
 router.get('/', indexController.getIndex);

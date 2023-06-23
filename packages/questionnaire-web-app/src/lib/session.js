@@ -1,5 +1,5 @@
 module.exports = () => {
-	const { sessionSecret } = '12345678';
+	const sessionSecret = '03f50a8e-8eb6-42f9-b963-fde3f11f0535'; //Just a randomly generated GUID but could be anything
 
 	if (!sessionSecret) {
 		throw new Error('Session secret must be set');
@@ -8,7 +8,6 @@ module.exports = () => {
 
 
 	const sessionConfig = {
-		store:{},
 		secret: sessionSecret,
 		resave: false,
 		saveUninitialized: true,

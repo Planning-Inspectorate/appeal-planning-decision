@@ -1,0 +1,10 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{{ govukInput({
+  label: {
+    text: question
+  },
+  id: fieldName,
+  name: fieldName,
+  value: value
+}) }}
