@@ -8,6 +8,7 @@
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block content %}
+{{answer}}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       {% if errorSummary %}
@@ -20,7 +21,7 @@
       <form action="" method="post" novalidate>
         <span class="govuk-caption-l">{{ question.caption }}</span>
         {{ govukRadios({
-          classes: "govuk-radios",
+          classes: "govuk-checkboxes",
           idPrefix: question.fieldName,
           name: question.fieldName,
           errorMessage: errors[question.fieldName] and {
@@ -33,20 +34,7 @@
               classes: "govuk-fieldset__legend--l"
             }
           },
-          items: [
-            {
-              value: "yes",
-              text: "Yes",
-              attributes: { "data-cy": "answer-yes" },
-              checked: answer == "yes"
-            },
-            {
-              value: "no",
-              text: "No",
-              attributes: { "data-cy": "answer-no" },
-              checked: answer == "no"
-            }
-          ]
+          items: question.options
         }) }}
         {{ govukButton({
           text: "Continue",
