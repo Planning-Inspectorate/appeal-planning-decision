@@ -46,7 +46,9 @@ const isTokenValid = async (id, token) => {
 
 	let tokenDocument = await getToken(id, token);
 
-	if (tokenDocument.tooManyAttempts) return tokenDocument;
+	if (tokenDocument && 'tooManyAttempts' in tokenDocument && tokenDocument.tooManyAttempts) {
+		return tokenDocument;
+	}
 
 	if (tokenDocument === null || typeof tokenDocument !== 'object') {
 		return result;

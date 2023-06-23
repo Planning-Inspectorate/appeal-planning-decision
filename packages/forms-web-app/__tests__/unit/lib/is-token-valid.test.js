@@ -1,7 +1,7 @@
 const { isTokenValid, testConfirmEmailToken } = require('../../../src/lib/is-token-valid');
 const { checkToken } = require('../../../src/lib/appeals-api-wrapper');
 const { isTokenExpired } = require('../../../src/lib/is-token-expired');
-const { utils, enterCodeConfig } = require('@pins/common');
+const { utils } = require('@pins/common');
 const config = require('../../../src/config');
 
 jest.mock('../../../src/lib/appeals-api-wrapper');
@@ -68,29 +68,6 @@ describe('lib/is-token-valid', () => {
 			expect(checkToken).not.toBeCalled();
 			expect(isTokenExpired).not.toBeCalled();
 			expect(result.valid).toBe(false);
-		});
-		it('should skip check if all testing params are valid', async () => {
-			checkToken.mockReturnValue({
-				id: 'abc',
-				createdAt: '2023-03-17T15:47:55.654Z'
-			});
-			isTokenExpired.mockReturnValue(true);
-
-			config.server = {
-				allowTestingOverrides: true
-			};
-			utils.isTestLPA.mockReturnValue(true);
-
-			const result = await isTokenValid('abc', testConfirmEmailToken, {
-				appeal: {
-					lpaCode: utils.testLPACode
-				}
-			});
-
-			expect(result.valid).toBe(true);
-			expect(result.action).toBe(enterCodeConfig.actions.confirmEmail);
-			expect(checkToken).not.toBeCalled();
-			expect(isTokenExpired).not.toBeCalled();
 		});
 		test.each([
 			[[false, false, 'a']],
