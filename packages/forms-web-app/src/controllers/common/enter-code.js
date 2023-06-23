@@ -60,6 +60,7 @@ const tokenVerification = (res, token, views, id) => {
 		return false;
 	} else if (!token.valid) {
 		renderErrorPageLPA(res, views.ENTER_CODE, {
+			lpaUserId: id,
 			token,
 			errors: {},
 			errorSummary: [{ text: 'Enter a correct code', href: '#email-code' }]
@@ -253,7 +254,8 @@ const postEnterCodeLPA = (views) => {
 		// if there are errors show error page
 		if (Object.keys(errors).length > 0) {
 			return renderErrorPageLPA(res, views.ENTER_CODE, {
-				token,
+				lpaUserId: id,
+				emailCode,
 				errors,
 				errorSummary
 			});
@@ -265,7 +267,6 @@ const postEnterCodeLPA = (views) => {
 				redirectToLPADashboard(res, views);
 				return;
 			} catch (e) {
-				console.log(e);
 				logger.error(`Failed to create user session for user id ${id}`);
 				logger.error(e);
 				return {
