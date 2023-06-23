@@ -131,6 +131,10 @@ let config = {
 				FINAL_COMMENT: {
 					finalCommentSubmissionConfirmationEmail:
 						process.env.SRV_NOTIFY_FINAL_COMMENT_SUBMISSION_CONFIRMATION_EMAIL_TEMPLATE_ID
+				},
+				LPA_DASHBOARD: {
+					enterCodeIntoServiceEmailToLPA:
+						process.env.SRV_NOTIFY_LPA_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID
 				}
 			},
 			emailReplyToId: {

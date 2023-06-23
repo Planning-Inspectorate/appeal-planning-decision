@@ -1,145 +1,58 @@
-const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
+const { sendSecurityCodeEmail, mapActionToTemplate } = require('../../../src/lib/notify');
+const enterCodeConfig = require('../../../../common/src/enter-code-config');
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
-const {
-	sendSubmissionReceivedEmailToLpa,
-	sendSubmissionConfirmationEmailToAppellant
-} = require('../../../src/lib/notify');
-const logger = require('../../../src/lib/logger');
+const config = require('../../../src/configuration/config');
+const { templates } = config.services.notify;
 
-jest.mock('@pins/common/src/lib/notify/notify-builder', () => ({
-	reset: jest.fn().mockReturnThis(),
-	setTemplateId: jest.fn().mockReturnThis(),
-	setDestinationEmailAddress: jest.fn().mockReturnThis(),
-	setTemplateVariablesFromObject: jest.fn().mockReturnThis(),
-	setReference: jest.fn().mockReturnThis(),
-	sendEmail: jest.fn().mockReturnThis()
-}));
-jest.mock('../../../src/services/lpa.service', () => {
-	return jest.fn().mockImplementation(() => ({
-		getLpaById: jest
-			.fn()
-			.mockImplementationOnce(() => ({
-				email: 'AppealPlanningDecisionTest@planninginspectorate.gov.uk',
-				name: 'System Test Borough Council',
-				getName: () => {
-					return 'System Test Borough Council';
-				}
-			}))
-			.mockImplementationOnce(() => {
-				throw new Error('Internal Server Error');
-			})
-			.mockImplementationOnce(() => ({
-				email: 'AppealPlanningDecisionTest@planninginspectorate.gov.uk',
-				name: 'System Test Borough Council',
-				getName: () => {
-					return 'System Test Borough Council';
-				}
-			}))
-			.mockImplementationOnce(() => {
-				throw new Error('Internal Server Error');
-			})
-	}));
+jest.mock('@pins/common/src/lib/notify/notify-builder', () => {
+	const originalModule = jest.requireActual('@pins/common/src/lib/notify/notify-builder');
+	const newModule = {
+		setTemplateId: jest.fn().mockReturnValue({
+			setDestinationEmailAddress: jest.fn(
+				jest
+					.fn()
+					.mockReturnValue({
+						setTemplateVariablesFromObject: jest.fn(
+							jest
+								.fn()
+								.mockReturnValue({
+									setReference: jest.fn(jest.fn().mockReturnValue({ sendEmail: jest.fn() }))
+								})
+						)
+					})
+			)
+		})
+	};
+	return {
+		//__esModule: true,
+		...originalModule,
+		...newModule
+	};
 });
-jest.mock('../../../src/configuration/config', () => ({
-	services: {
-		notify: {
-			templates: {
-				1001: {
-					appealSubmissionConfirmationEmailToAppellant: 'appellant-template',
-					appealNotificationEmailToLpa: 'lpa-template'
-				},
-				CONFIRM_EMAIL: {
-					confirmEmail: 'confirm-email-template'
-				}
-			}
-		}
-	},
-	logger: {
-		level: 'info'
-	},
-	apps: {
-		appeals: {
-			baseUrl: 'baseUrl'
-		}
-	}
-}));
-jest.mock('../../../src/lib/logger', () => ({
-	debug: jest.fn(),
-	error: jest.fn()
-}));
 
-describe('lib/notify', () => {
-	process.env.APP_APPEALS_BASE_URL = 'http://localhost';
-
-	describe('sendSubmissionConfirmationEmailToAppellant', () => {
-		it('should call NotifyBuilder with the correct data', async () => {
-			await sendSubmissionConfirmationEmailToAppellant(householderAppeal);
-
-			expect(NotifyBuilder.reset).toBeCalled();
-			expect(NotifyBuilder.reset().setTemplateId).toBeCalledWith('appellant-template');
-			expect(NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress).toBeCalledWith(
-				householderAppeal.email
-			);
-			expect(
-				NotifyBuilder.reset()
-					.setTemplateId()
-					.setDestinationEmailAddress()
-					.setTemplateVariablesFromObject().setReference
-			).toBeCalledWith(householderAppeal.id);
-			expect(
-				NotifyBuilder.reset()
-					.setTemplateId()
-					.setDestinationEmailAddress()
-					.setTemplateVariablesFromObject()
-					.setReference().sendEmail
-			).toBeCalled();
-		});
-
-		it('log the error when an error is thrown', async () => {
-			await sendSubmissionConfirmationEmailToAppellant(householderAppeal);
-
-			expect(logger.error).toBeCalledWith(
-				{ err: new Error('Internal Server Error'), appealId: householderAppeal.id },
-				'Unable to send submission confirmation email to appellant'
-			);
-		});
+describe('appeals-service-api/src/lib/notify.js', () => {
+	it('should map an action to a default template if not action specified', () => {
+		const result = mapActionToTemplate();
+		expect(result).toEqual(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant);
 	});
-
-	describe('sendSubmissionReceivedEmailToLpa', () => {
-		it('should call NotifyBuilder with the correct data', async () => {
-			await sendSubmissionReceivedEmailToLpa(householderAppeal);
-
-			expect(NotifyBuilder.reset).toBeCalled();
-			expect(NotifyBuilder.reset().setTemplateId).toBeCalledWith('appellant-template');
-			expect(NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress).toBeCalledWith(
-				'test@example.com'
-			);
-			expect(
-				NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress()
-					.setTemplateVariablesFromObject
-			).toHaveBeenCalledTimes(3);
-			expect(
-				NotifyBuilder.reset()
-					.setTemplateId()
-					.setDestinationEmailAddress()
-					.setTemplateVariablesFromObject().setReference
-			).toBeCalledWith(householderAppeal.id);
-			expect(
-				NotifyBuilder.reset()
-					.setTemplateId()
-					.setDestinationEmailAddress()
-					.setTemplateVariablesFromObject()
-					.setReference().sendEmail
-			).toBeCalled();
-		});
-
-		it('log the error when an error is thrown', async () => {
-			await sendSubmissionReceivedEmailToLpa(householderAppeal);
-
-			expect(logger.error).toBeCalledWith(
-				{ err: new Error('Internal Server Error'), lpaCode: householderAppeal.lpaCode },
-				'Unable to send submission received email to LPA'
-			);
-		});
+	it('should map the lpa-dashboard action to lpa send code email template', () => {
+		const result = mapActionToTemplate();
+		expect(result).toEqual(templates.LPA_DASHBOARD.enterCodeIntoServiceEmailToLPA);
+	});
+	it('should default to templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant when no action specified', () => {
+		const recipientEmail = 'iamnoone@example.com';
+		const code = '12345';
+		sendSecurityCodeEmail(recipientEmail, code);
+		expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(
+			templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant
+		);
+	});
+	it('should map to templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant when no action specified', () => {
+		const recipientEmail = 'iamnoone@example.com';
+		const code = '12345';
+		sendSecurityCodeEmail(recipientEmail, code, enterCodeConfig.actions.lpaDashboard);
+		expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(
+			templates.LPA_DASHBOARD.enterCodeIntoServiceEmailToLPA
+		);
 	});
 });

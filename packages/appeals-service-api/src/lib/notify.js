@@ -11,9 +11,22 @@ const LpaService = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
 const { format } = require('date-fns');
 const constants = require('@pins/business-rules/src/constants');
-
+const enterCodeConfig = require('../../../common/src/enter-code-config');
 const lpaService = new LpaService();
 const { templates } = config.services.notify;
+
+const actionToTemplateMapping = [
+	{
+		action: enterCodeConfig.actions.lpaDashboard,
+		template: templates.LPA_DASHBOARD.enterCodeIntoServiceEmailToLPA
+	}
+];
+
+const mapActionToTemplate = (action) => {
+	let [mapping] = actionToTemplateMapping.filter((a) => a.action === action);
+	if (mapping && mapping.template) return mapping.template;
+	return templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant;
+};
 
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
@@ -171,7 +184,7 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	}
 };
 
-const sendSecurityCodeEmail = async (recipientEmail, code, identifier) => {
+const sendSecurityCodeEmail = async (recipientEmail, code, identifier, action = '') => {
 	try {
 		const variables = {
 			'unique code': code
@@ -182,7 +195,7 @@ const sendSecurityCodeEmail = async (recipientEmail, code, identifier) => {
 			'Sending secure code email to appellant'
 		);
 		await NotifyBuilder.reset()
-			.setTemplateId(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
+			.setTemplateId(mapActionToTemplate(action))
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(identifier)
@@ -242,5 +255,6 @@ module.exports = {
 	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendSecurityCodeEmail,
-	sendFailureToUploadToHorizonEmail
+	sendFailureToUploadToHorizonEmail,
+	mapActionToTemplate
 };
