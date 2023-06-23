@@ -1,0 +1,24 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title= question.question + " - Appeal a planning decision - GOV.UK" %}
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        {% for section in sections %}
+        <h2 class="app-task-list__section">
+            <span class="app-task-list__section-number">{{loop.index}}. </span> {{section.heading}}
+            <strong class="govuk-tag govuk-tag--grey">
+            Not started
+            </strong>
+        </h2>
+        {{ govukSummaryList(section.list) }}
+        {% endfor %}
+    </div>
+  </div>
+{% endblock %}
