@@ -262,11 +262,10 @@ const postEnterCodeLPA = (views) => {
 		if (isTestLPAAndEnvironment(emailCode, req.session)) {
 			try {
 				createLPAUserSession(req, id);
-				return {
-					valid: true,
-					action: enterCodeConfig.actions.lpaDashboard
-				};
+				redirectToLPADashboard(res, views);
+				return;
 			} catch (e) {
+				console.log(e);
 				logger.error(`Failed to create user session for user id ${id}`);
 				logger.error(e);
 				return {
@@ -298,6 +297,5 @@ module.exports = {
 	getEnterCode,
 	postEnterCode,
 	getEnterCodeLPA,
-	postEnterCodeLPA,
-	tokenVerification
+	postEnterCodeLPA
 };

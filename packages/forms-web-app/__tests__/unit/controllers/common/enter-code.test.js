@@ -1,12 +1,3 @@
-jest.mock('../../../../src/controllers/common/enter-code', () => {
-	const original = jest.requireActual('../../../../src/controllers/common/enter-code');
-	return {
-		__esModule: false,
-		...original,
-		tokenVerification: jest.fn(() => true)
-	};
-});
-
 const {
 	getEnterCode,
 	postEnterCode,
@@ -17,6 +8,7 @@ const views = require('../../../../src/lib/views');
 const householderAppealViews = views.VIEW.APPELLANT_SUBMISSION;
 const fullAppealViews = views.VIEW.FULL_APPEAL;
 const lpaViews = views.VIEW.LPA_DASHBOARD;
+const { getUserById } = require('../../../../src/lib/appeals-api-wrapper');
 
 const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
@@ -26,7 +18,7 @@ const {
 	getExistingAppeal,
 	sendToken
 } = require('../../../../src/lib/appeals-api-wrapper');
-const { isTokenValid } = require('../../../../src/lib/is-token-valid');
+const { isTokenValid, isTestLPAAndEnvironment } = require('../../../../src/lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');
@@ -442,6 +434,9 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			};
 			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
+			isTokenValid.mockReturnValue({
+				valid: true
+			});
 			const returnedFunction = postEnterCodeLPA(views);
 
 			req.params.id = userId;
@@ -450,7 +445,92 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			};
 
 			await returnedFunction(req, res);
-			expect(res.render).toBeCalledWith('');
+			expect(res.redirect).toBeCalledWith('/manage-appeals');
+		});
+		it('should redirect on too many attempts', async () => {
+			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
+			const views = {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD
+			};
+			const userId = '649418158b915f0018524cb7';
+			const code = '12345';
+
+			isTokenValid.mockReturnValue({
+				valid: false,
+				tooManyAttempts: true
+			});
+
+			const returnedFunction = postEnterCodeLPA(views);
+
+			req.params.id = userId;
+			req.body = {
+				'email-code': code
+			};
+
+			await returnedFunction(req, res);
+			expect(res.redirect).toBeCalledWith(`/manage-appeals/need-new-code/${userId}`);
+		});
+		it('should redirect on token expired', async () => {
+			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
+			const views = {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD
+			};
+			const userId = '649418158b915f0018524cb7';
+			const code = '12345';
+
+			isTokenValid.mockReturnValue({
+				valid: false,
+				expired: true
+			});
+
+			const returnedFunction = postEnterCodeLPA(views);
+
+			req.params.id = userId;
+			req.body = {
+				'email-code': code
+			};
+
+			await returnedFunction(req, res);
+			expect(res.redirect).toBeCalledWith(`/manage-appeals/code-expired/${userId}`);
+		});
+		it('should redirect on test environment', async () => {
+			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
+			const views = {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD
+			};
+			const userId = '649418158b915f0018524cb7';
+			const code = '12345';
+
+			isTestLPAAndEnvironment.mockReturnValue(true);
+			getUserById.mockReturnValue({
+				_id: userId,
+				email: 'admin1@planninginspectorate.gov.uk',
+				isAdmin: true,
+				enabled: true,
+				lpaCode: 'Q9999'
+			});
+			req.session.save = jest.fn();
+			const returnedFunction = postEnterCodeLPA(views);
+
+			req.params.id = userId;
+			req.body = {
+				'email-code': code
+			};
+
+			await returnedFunction(req, res);
+			expect(res.redirect).toBeCalledWith('/manage-appeals/');
 		});
 	});
 });
