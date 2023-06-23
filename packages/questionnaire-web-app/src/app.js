@@ -4,6 +4,7 @@ const lusca = require('lusca');
 const path = require('path');
 const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
+const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
 const pinoExpress = require('express-pino-logger');
 const uuid = require('uuid');
 const { prometheus } = require('@pins/common');
@@ -34,6 +35,7 @@ const env = nunjucks.configure(viewPaths, nunjucksConfig);
 
 
 env.addFilter('date', dateFilter);
+env.addFilter('formatBytes', fileSizeDisplayHelper);
 
 app.use(lusca.xframe('SAMEORIGIN'));
 app.use(lusca.xssProtection(true));

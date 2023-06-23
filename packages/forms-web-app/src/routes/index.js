@@ -25,6 +25,7 @@ const accessibilityStatementRouter = require('./accessibility-statement/accessib
 const errorPageRouter = require('./error');
 const lpaRouter = require('./lpa-dashboard/lpa-dashboard');
 const debugRouter = require('./debug');
+const questionnaireWebApp = require('./questionnaire-web-app');
 
 router.use('/', homeRouter);
 router.use(guidancePagesRouter);
@@ -37,6 +38,7 @@ router.use(
 	checkDecisionDateDeadline,
 	appellantSubmissionRouter
 );
+router.use('/lpa-questionnaire', questionnaireWebApp)
 
 router.use(
 	'/full-appeal',
