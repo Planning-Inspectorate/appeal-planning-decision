@@ -6,7 +6,7 @@ jest.mock('../../../../src/controllers/common/request-new-code');
 describe('routes/lpa/request-new-code', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/lpa/request-new-code');
+		require('../../../../src/routes/lpa-dashboard/request-new-code');
 	});
 
 	afterEach(() => {

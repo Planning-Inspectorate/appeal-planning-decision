@@ -9,9 +9,9 @@ describe('validators/common/check-id-is-email-address', () => {
 			expect(rule.fields).toEqual(['id']);
 			expect(rule.locations).toEqual(['params']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack).toHaveLength(1);
-			expect(rule.stack[0].message).toEqual('User ID is not in a valid format');
-			expect(rule.stack[0].validator.name).toEqual('isEmail');
+			expect(rule.stack).toHaveLength(2);
+			expect(rule.stack[1].message).toEqual('User ID is not in a valid format');
+			expect(rule.stack[1].validator.name).toEqual('isEmail');
 		});
 
 		it('should have an array containing 1 rule', () => {
