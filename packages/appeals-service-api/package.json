@@ -14,7 +14,8 @@
 		"start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
 		"test": "jest",
 		"test:cov": "jest --coverage --verbose",
-		"test:watch": "jest --watchAll --runInBand"
+		"test:watch": "jest --watchAll --runInBand",
+		"integration-test": "jest --config ./jest.developer-test.config.js"
 	},
 	"author": "Foundry4 <www.foundry4.com>",
 	"dependencies": {

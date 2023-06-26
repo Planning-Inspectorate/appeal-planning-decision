@@ -44,7 +44,6 @@ const list = async (req, res) => {
 	if (name) {
 		filter.name = new RegExp(name, 'i');
 	}
-
 	const data = await lpaService.getLpaList();
 
 	const output = {
