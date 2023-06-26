@@ -564,6 +564,12 @@ To access the data, please use the [Azure Portal](https://portal.azure.com).
 
 Where appropriate the source code must be split out into a hierarchy by appeal type. Several examples of this may be found under cypress tests (i.e. /packages/e2e-tests/cypress/integration), forms-web-app (i.e. /packages/forms-web-app/src/routes/), and many others.
 
+### Test structure
+
+On a per project basis, unit tests shoudl live under a dir with the following pattern __tests__/unit/ and integration tests should live under __tests__/developer/, this is so integration and unit tests can be ran separately.
+
+UAT test packages requiring cypress have been m,pved to live under a route of /test-packages/ so they can be built and linted spearately.
+
 ## Feature Flag
 
 We have incorporated Azure feature flag functionality into the common package for use across the solution. Feature flags should be set up via terraform and can be configured (enabled/disabled/users set) via portal under the 'app configuration' section, where you can select your desired environment and find all available flags accordingly, flags can be used within the codebase by importing the `isFeatureActive` function from the FeatureFlag file in your current package, i.e; 
