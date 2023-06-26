@@ -27,8 +27,6 @@
 		"lint:common:fix": "cd packages/common; eslint ./ --fix",
 		"lint:documents-api": "cd packages/document-service-api; eslint ./",
 		"lint:documents-api:fix": "cd packages/document-service-api; eslint ./ --fix",
-		"lint:e2e-tests": "cd packages/e2e-tests; eslint ./",
-		"lint:e2e-tests:fix": "cd packages/e2e-tests; eslint ./ --fix",
 		"lint:fix": "run-s --continue-on-error --print-label lint:*:fix",
 		"lint:horizon-functions": "cd packages/horizon-functions; eslint ./",
 		"lint:horizon-functions:fix": "cd packages/horizon-functions; eslint ./ --fix",
