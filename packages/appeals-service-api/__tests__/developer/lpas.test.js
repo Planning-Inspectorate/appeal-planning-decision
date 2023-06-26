@@ -105,5 +105,8 @@ describe('lpas', () => {
  */
 const _clearDatabaseCollections = async () => {
 	const databaseCollections = await databaseConnection.db(dbName).collections();
-	databaseCollections.forEach(async (collection) => await collection.drop());
+
+	for (const collection of databaseCollections) {
+		await collection.drop();
+	}
 };

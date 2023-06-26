@@ -263,7 +263,11 @@ const _createUser = async (email, isAdmin, lpa) => {
  */
 const _clearDatabaseCollections = async () => {
 	const databaseCollections = await databaseConnection.db(dbName).collections();
-	databaseCollections
-		.filter((collection) => collection.namespace.split('.')[1] !== 'lpa')
-		.forEach(async (collection) => await collection.drop());
+	const databaseCollectionsFiltered = databaseCollections.filter(
+		(collection) => collection.namespace.split('.')[1] !== 'lpa'
+	);
+
+	for (const collection of databaseCollectionsFiltered) {
+		await collection.drop();
+	}
 };
