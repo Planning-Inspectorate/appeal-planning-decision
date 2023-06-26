@@ -1980,7 +1980,12 @@ const _createFinalComment = async (finalComment) => {
  */
 const _clearDatabaseCollections = async () => {
 	const databaseCollections = await databaseConnection.db('foo').collections();
-	databaseCollections
-		.filter((collection) => collection.namespace.split('.')[1] !== 'lpa')
-		.forEach(async (collection) => await collection.drop());
+
+	const databaseCollectionsFiltered = databaseCollections.filter(
+		(collection) => collection.namespace.split('.')[1] !== 'lpa'
+	);
+
+	for (const collection of databaseCollectionsFiltered) {
+		await collection.drop();
+	}
 };
