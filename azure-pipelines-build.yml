@@ -54,6 +54,11 @@ extends:
               condition: succeededOrFailed()
               script: npm run test
               nodeVersion: 14
+          - template: ../steps/node_script.yml
+            parameters:
+              condition: and(succeededOrFailed(),variables['Build.SourceBranchName'], 'feature/AS-5961')
+              script: npm run integration-test
+              nodeVersion: 14
           - template: ../steps/check_changed_files.yml
             parameters:
               pathFilters:
