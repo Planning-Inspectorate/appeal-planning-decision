@@ -56,7 +56,7 @@ extends:
               nodeVersion: 14
           - template: ../steps/node_script.yml
             parameters:
-              condition: and(succeededOrFailed(),variables['Build.SourceBranchName'], 'main')
+              condition: and(succeededOrFailed(),eq(variables['Build.SourceBranchName'], 'main'))
               script: npm run integration-test
               nodeVersion: 14
           - template: ../steps/check_changed_files.yml
