@@ -27,6 +27,7 @@ All these are to be run with `npm run <command>`.
 - `test:cov`: runs the unit test suite and tests coverage
 - `test:watch`: runs the unit test suite and watches for changes
 - `test:tdd`: runs the unit tests and watches all files for changes
+- `integration-test`: run the integration test suite
 
 ## Endpoints
 
