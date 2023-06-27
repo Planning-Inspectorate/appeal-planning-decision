@@ -15,7 +15,7 @@ module.exports = class HorizonIntegrationInputCondition {
 			{
 				firstName: 'Appellant',
 				lastName: 'Name',
-				email: 'test@pins.com',
+				email: 'test@example.com',
 				type: 'Appellant',
 				orgId: null
 			}
