@@ -151,7 +151,6 @@ exports.createUser = async (email, isAdmin, lpaCode) => {
 };
 
 exports.getUserById = async (id) => {
-	console.log(`/api/v1/users/${id}`);
 	return handler(`/api/v1/users/${id}`, 'GET');
 };
 
