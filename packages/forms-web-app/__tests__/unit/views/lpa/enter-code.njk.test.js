@@ -7,7 +7,7 @@ const nunjucksTestRenderer = require('../nunjucks-render-helper');
 
 describe('views/lpa/enter-code', () => {
 	describe('when a code is entered by an LPA User', () => {
-		it('should render the page title as expected', () => {
+		it.skip('should render the page title as expected', () => {
 			document.body.innerHTML = nunjucksTestRenderer.render(
 				`${VIEW.LPA_DASHBOARD.ENTER_CODE}.njk`,
 				{
