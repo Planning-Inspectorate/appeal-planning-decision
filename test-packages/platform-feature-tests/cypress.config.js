@@ -2,7 +2,6 @@ const { defineConfig } = require('cypress');
 const preprocessor = require('@badeball/cypress-cucumber-preprocessor');
 const webpack = require('@cypress/webpack-preprocessor');
 
-
 module.exports = defineConfig({
 	e2e: {
 		async setupNodeEvents(on, config) {
