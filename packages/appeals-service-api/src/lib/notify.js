@@ -11,7 +11,7 @@ const LpaService = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
 const { format } = require('date-fns');
 const constants = require('@pins/business-rules/src/constants');
-const enterCodeConfig = require('../../../common/src/enter-code-config');
+const enterCodeConfig = require('@pins/common/src/enter-code-config');
 const lpaService = new LpaService();
 const { templates } = config.services.notify;
 

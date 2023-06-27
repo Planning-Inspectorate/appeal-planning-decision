@@ -18,7 +18,11 @@ const {
 	getExistingAppeal,
 	sendToken
 } = require('../../../../src/lib/appeals-api-wrapper');
-const { isTokenValid, isTestLPAAndEnvironment } = require('../../../../src/lib/is-token-valid');
+const {
+	isTokenValid,
+	isTestEnvironment,
+	isTestLPACheckTokenAndSession
+} = require('../../../../src/lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');
@@ -513,7 +517,8 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
 
-			isTestLPAAndEnvironment.mockReturnValue(true);
+			isTestEnvironment.mockReturnValue(true);
+			isTestLPACheckTokenAndSession.mockReturnValue(true);
 			getUserById.mockReturnValue({
 				_id: userId,
 				email: 'admin1@planninginspectorate.gov.uk',

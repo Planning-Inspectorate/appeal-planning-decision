@@ -4,7 +4,11 @@ const {
 	sendToken,
 	getUserById
 } = require('../../lib/appeals-api-wrapper');
-const { isTokenValid, isTestLPAAndEnvironment } = require('../../lib/is-token-valid');
+const {
+	isTokenValid,
+	isTestLPACheckTokenAndSession,
+	isTestEnvironment
+} = require('../../lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../../src/lib/logger');
 
@@ -261,7 +265,7 @@ const postEnterCodeLPA = (views) => {
 			});
 		}
 
-		if (isTestLPAAndEnvironment(emailCode, req.session)) {
+		if (isTestEnvironment && isTestLPACheckTokenAndSession(emailCode, req.session)) {
 			try {
 				createLPAUserSession(req, id);
 				redirectToLPADashboard(res, views);
@@ -277,7 +281,7 @@ const postEnterCodeLPA = (views) => {
 		}
 
 		// check token
-		let token = await isTokenValid(id, emailCode, req.session, id);
+		let token = await isTokenValid(id, emailCode);
 
 		if (!tokenVerification(res, token, views, id)) return;
 
