@@ -265,7 +265,7 @@ const postEnterCodeLPA = (views) => {
 			});
 		}
 
-		if (isTestEnvironment && isTestLPACheckTokenAndSession(emailCode, req.session)) {
+		if (isTestEnvironment() && isTestLPACheckTokenAndSession(emailCode, req.session)) {
 			try {
 				createLPAUserSession(req, id);
 				redirectToLPADashboard(res, views);
