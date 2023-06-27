@@ -33,7 +33,7 @@ module.exports = class AppealFixtures {
 			appealType: '1001',
 			typeOfPlanningApplication: planningApplicationType,
 			planningApplicationNumber: '12345',
-			email: 'test@pins.com',
+			email: 'test@example.com',
 			eligibility: {
 				applicationDecision: decision,
 				enforcementNotice: false,
@@ -149,7 +149,7 @@ module.exports = class AppealFixtures {
 			horizonId: '',
 			lpaCode: 'E69999999',
 			planningApplicationNumber: '12345',
-			email: 'test@pins.com',
+			email: 'test@example.com',
 			createdAt: new Date(),
 			updatedAt: new Date(),
 			submissionDate: new Date(),

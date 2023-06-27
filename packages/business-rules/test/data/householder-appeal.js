@@ -10,7 +10,7 @@ const appeal = {
 	appealType: '1001',
 	typeOfPlanningApplication: 'householder-planning',
 	planningApplicationNumber: '12345',
-	email: 'test@pins.com',
+	email: 'test@example.com',
 	eligibility: {
 		applicationDecision: 'granted',
 		enforcementNotice: false,

@@ -112,7 +112,7 @@ describe('lib/notify', () => {
 			expect(NotifyBuilder.reset).toBeCalled();
 			expect(NotifyBuilder.reset().setTemplateId).toBeCalledWith('appellant-template');
 			expect(NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress).toBeCalledWith(
-				'test@pins.com'
+				'test@example.com'
 			);
 			expect(
 				NotifyBuilder.reset().setTemplateId().setDestinationEmailAddress()

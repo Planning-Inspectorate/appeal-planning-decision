@@ -362,7 +362,7 @@ describe('Back Office', () => {
 						orgId: null
 					},
 					{
-						email: 'test@pins.com',
+						email: 'test@example.com',
 						firstName: 'Agent',
 						lastName: 'Name',
 						type: 'Agent',
@@ -411,7 +411,7 @@ describe('Back Office', () => {
 					{
 						firstName: 'Appellant',
 						lastName: 'Name',
-						email: 'test@pins.com',
+						email: 'test@example.com',
 						type: 'Appellant',
 						orgId: 'O_0'
 					}
@@ -430,7 +430,7 @@ describe('Back Office', () => {
 						orgId: null
 					},
 					{
-						email: 'test@pins.com',
+						email: 'test@example.com',
 						firstName: 'Agent',
 						lastName: 'Name',
 						type: 'Agent',
@@ -456,7 +456,7 @@ describe('Back Office', () => {
 						orgId: null
 					},
 					{
-						email: 'test@pins.com',
+						email: 'test@example.com',
 						firstName: 'Agent',
 						lastName: 'Name',
 						type: 'Agent',
@@ -483,7 +483,7 @@ describe('Back Office', () => {
 						orgId: `O_0`
 					},
 					{
-						email: 'test@pins.com',
+						email: 'test@example.com',
 						firstName: 'Agent',
 						lastName: 'Name',
 						type: 'Agent',
@@ -511,7 +511,7 @@ describe('Back Office', () => {
 						orgId: `O_0`
 					},
 					{
-						email: 'test@pins.com',
+						email: 'test@example.com',
 						firstName: 'Agent',
 						lastName: 'Name',
 						type: 'Agent',
@@ -841,7 +841,7 @@ describe('Back Office', () => {
 						{
 							firstName: 'Agent',
 							lastName: 'Name',
-							email: 'test@pins.com',
+							email: 'test@example.com',
 							type: 'Agent',
 							orgId: `AGENT_ORG_${key}`
 						}
@@ -1215,7 +1215,7 @@ describe('Back Office', () => {
 						{
 							firstName: 'Agent',
 							lastName: 'Name',
-							email: 'test@pins.com',
+							email: 'test@example.com',
 							type: 'Agent',
 							orgId: `AGENT_ORG_${key}`
 						}
@@ -1345,7 +1345,7 @@ describe('Back Office', () => {
 						{
 							firstName: 'Agent',
 							lastName: 'Name',
-							email: 'test@pins.com',
+							email: 'test@example.com',
 							type: 'Agent',
 							orgId: `AGENT_ORG_${key}`
 						}
@@ -1486,7 +1486,7 @@ describe('Back Office', () => {
 						{
 							firstName: 'Agent',
 							lastName: 'Name',
-							email: 'test@pins.com',
+							email: 'test@example.com',
 							type: 'Agent',
 							orgId: `AGENT_ORG_${key}`
 						}
@@ -1648,7 +1648,7 @@ describe('Back Office', () => {
 						{
 							firstName: 'Agent',
 							lastName: 'Name',
-							email: 'test@pins.com',
+							email: 'test@example.com',
 							type: 'Agent',
 							orgId: `AGENT_ORG_${key}`
 						}
@@ -1934,13 +1934,13 @@ describe('Final comments', () => {
 		let firstFinalCommentToSubmit = FinalCommentFixtures.newFinalComment({
 			finalCommentExpiryDate: expiryDate,
 			horizonId: horizonId,
-			email: 'test@pins.com'
+			email: 'test@example.com'
 		});
 
 		let secondFinalCommentToSubmit = FinalCommentFixtures.newFinalComment({
 			finalCommentExpiryDate: expiryDate,
 			horizonId: horizonId,
-			email: 'test2@pins.com'
+			email: 'test2@example.com'
 		});
 
 		// When: it is submitted to the back-end twice
