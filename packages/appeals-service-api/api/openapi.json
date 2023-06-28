@@ -1,0 +1,612 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"version": "1.0.0",
+		"title": "PINS Appeals Service API",
+		"description": "PINS Appeals Service API documentation from Swagger"
+	},
+	"host": "",
+	"basePath": "/",
+	"tags": [
+		{
+			"name": "",
+			"description": ""
+		}
+	],
+	"schemes": [],
+	"securityDefinitions": {},
+	"paths": {
+		"/": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "lpaCode",
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			},
+			"post": {
+				"description": "",
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/appeals/{id}": {
+			"get": {
+				"summary": "Returns an existing appeal",
+				"description": "The appeal includes the state of all subsections",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string",
+						"description": "Unique identifier",
+						"example": "2a22725ced0a40da92e82ae919bfcd2a"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Returns an appeal"
+					},
+					"404": {
+						"description": "The appeal could not be found"
+					}
+				}
+			}
+		},
+		"/{id}": {
+			"delete": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/appeals": {
+			"get": {
+				"description": "",
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/{case_reference}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "case_reference",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/appeal/{case_reference}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "case_reference",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/appeals/": {
+			"post": {
+				"description": "",
+				"responses": {
+					"201": {
+						"description": "Created"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+		"/api/v1/appeals/{id}": {
+			"put": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"id": {
+									"example": "any"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			},
+			"patch": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"id": {
+									"example": "any"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/back-office/appeals/{id}": {
+			"post": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			},
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/back-office/appeals": {
+			"put": {
+				"description": "",
+				"responses": {
+					"202": {
+						"description": "Accepted"
+					}
+				}
+			}
+		},
+		"/api/v1/for-manual-intervention/appeals/{id}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/for-manual-intervention/appeals": {
+			"get": {
+				"description": "",
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/local-planning-authorities/": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "name",
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+			"post": {
+				"description": "",
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/v1/local-planning-authorities/{id}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/v1/local-planning-authorities/lpaCode/{lpaCode}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "lpaCode",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api-docs/": {
+			"get": {
+				"description": "",
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/save/{id}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/api/v1/save/": {
+			"post": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"id": {
+									"example": "any"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"201": {
+						"description": "Created"
+					},
+					"400": {
+						"description": "Bad Request"
+					}
+				}
+			}
+		},
+		"/api/v1/token/": {
+			"put": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"id": {
+									"example": "any"
+								},
+								"action": {
+									"example": "any"
+								},
+								"emailAddress": {
+									"example": "any"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+			"post": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"id": {
+									"example": "any"
+								},
+								"token": {
+									"example": "any"
+								},
+								"action": {
+									"example": "any"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					},
+					"429": {
+						"description": "Too Many Requests"
+					}
+				}
+			}
+		},
+		"/api/v1/final-comments/": {
+			"post": {
+				"description": "",
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/final-comments/{case_reference}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "case_reference",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/final-comments/appeal/{case_reference}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "case_reference",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/users/": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "lpaCode",
+						"in": "query",
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			},
+			"post": {
+				"description": "",
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/users/{email}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "email",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/api/v1/users/{id}": {
+			"delete": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		},
+		"/lpaCode/{lpaCode}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "lpaCode",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/{email}": {
+			"get": {
+				"description": "",
+				"parameters": [
+					{
+						"name": "email",
+						"in": "path",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"responses": {
+					"default": {
+						"description": ""
+					}
+				}
+			}
+		}
+	},
+	"definitions": {
+		"InternalError": {
+			"type": "object",
+			"properties": {
+				"errors": {
+					"type": "object",
+					"properties": {
+						"unknown": {
+							"type": "string",
+							"example": "unknown internal error"
+						}
+					}
+				}
+			}
+		}
+	}
+}
