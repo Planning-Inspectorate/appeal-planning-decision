@@ -17,13 +17,53 @@
 {% endblock %}
 
 {% block content %}
+  <script id='clientside-validation'>
+    const sensitiveInformationError = "Select to confirm you have not included sensitive information";
+
+    const getErrorSummary = () => document.getElementById('error-summary');
+
+    const getErrorSummaryList = () => getErrorSummary().querySelectorAll('ul')[0];
+
+    const getErrorSummaryListItem = (item) => getErrorSummaryList().querySelectorAll(`li[text=item]`)[0];
+    
+    const showErrorSummaryBlock = () => {
+      const errorSummary = getErrorSummary();
+      errorSummary.style.display = 'visible';
+    };
+
+    const setError = (errorMessage) => {
+      if (getErrorSummaryListItem(errorMessage)) return;
+      const errorSummaryList = getErrorSummaryList();
+      let error = document.createElement("li");
+      error.textContent = errorMessage;
+      errorSummaryList.appendChild(error);
+    }
+
+    const saveAndContinueClick = () => {
+      
+      const check = document.getElementById('does-not-include-sensitive-information');
+      if(!check) {
+        return false;
+      }
+      if(!check.checked) {
+        setError(sensitiveInformationError);
+      } else {
+        return true;
+      }
+      return false;
+    }
+  </script>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      {% if errorSummary %}
+      {% if true %}
         {{ govukErrorSummary({
           titleText: "There is a problem",
-          errorList: errorSummary
+          errorList: errorSummary,
+          attributes: { 
+            "id": "error-summary",
+            "style": "display: none"
+          }
         }) }}
       {% endif %}
 
@@ -178,7 +218,11 @@
 					{{ govukButton({
 						text: "Save and continue",
 						type: "submit",
-						attributes: { "data-cy":"button-save-and-continue"}
+						attributes: { 
+              "data-cy":"button-save-and-continue",
+              "onlick": saveAndContinueClick,
+              "id": "saveAndContinue"
+            }
 					}) }}
 					{{ saveAndReturnButton() }}
 				</div>
