@@ -1,0 +1,66 @@
+{% extends "govuk/template.njk" %}
+
+{% from "includes/pins-header/macro.njk" import pinsHeader %}
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+
+{% block head %}
+  {% include "includes/head.njk" %}
+{% endblock %}
+
+{% block header %}
+  {% include "includes/cookie-banner.njk" %}
+
+  {{ pinsHeader({
+    homepageUrl: "https://www.gov.uk/",
+    productName: 'Manage my appeals',
+    serviceUrl: "/manage-appeals"
+  }) }}
+{% endblock %}
+
+{% block bodyStart %}
+  {% include "includes/body-start.njk" %}
+{% endblock %}
+
+{% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
+
+{% block main %}
+  <div class="govuk-width-container govuk-body {{ containerClasses }}">
+
+    <main id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %}>
+      {% block phaseBanner %}
+        {{ govukPhaseBanner({
+          tag: {
+            text: "beta"
+          },
+          html: 'This is a beta service'
+        }) }}
+      {% endblock %}
+
+      {% block backButton %}
+        {{ govukBackLink({
+          text: "Back",
+          href: navigation[1],
+          attributes: {
+            'data-cy': 'back'
+          }
+        }) }}
+      {% endblock %}
+
+      <div class="govuk-main-wrapper {{ mainClasses }}">
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+  </div>
+{% endblock %}
+
+{% block footer %}
+  {% include "components/footer/footer.njk" %}
+{% endblock %}
+
+{% block bodyEnd %}
+  {% block scripts %}
+    {% include "includes/scripts.njk" %}
+    {% block pageScripts %}{% endblock %}
+  {% endblock %}
+{% endblock %}
