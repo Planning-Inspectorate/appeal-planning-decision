@@ -1,23 +1,19 @@
 const crypto = require('crypto');
 const TOKEN_LENGTH = 5;
 const BUFFER_LENGTH = 20;
+
+const generateToken = () => {
+	return crypto
+		.randomBytes(BUFFER_LENGTH)
+		.toString('base64')
+		.replace(/[^\w_]/g, '')
+		.replace(/[AEIOUaeiou0]/g, '')
+		.slice(0, TOKEN_LENGTH);
+};
 const createToken = () => {
-	let token = crypto
-		.randomBytes(BUFFER_LENGTH)
-		.toString('base64')
-		.replace(/[^\w_]/g, '')
-		.replace(/[AEIOUaeiou0]/g, '')
-		.slice(0, TOKEN_LENGTH);
-
+	let token = generateToken();
 	if (token.length === 5) return token;
-
-	token = crypto
-		.randomBytes(BUFFER_LENGTH)
-		.toString('base64')
-		.replace(/[^\w_]/g, '')
-		.replace(/[AEIOUaeiou0]/g, '')
-		.slice(0, TOKEN_LENGTH);
-
+	token = generateToken();
 	return token;
 };
 
