@@ -4,13 +4,9 @@ const {
 	postEnterCodeLPA
 } = require('../../../../src/controllers/common/enter-code');
 const { rules: ruleEnterCode } = require('../../../../src/validators/lpa/enter-code');
-const {
-	rules: idValidationRules
-} = require('../../../../src/validators/common/check-id-is-mongodb-object-id');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 
 jest.mock('../../../../src/validators/lpa/enter-code');
-jest.mock('../../../../src/validators/common/check-id-is-mongodb-object-id');
 jest.mock('../../../../src/validators/validation-error-handler');
 jest.mock('../../../../src/controllers/common/enter-code');
 
@@ -25,12 +21,7 @@ describe('routes/lpa/enter-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith(
-			'/enter-code/:id',
-			idValidationRules(),
-			validationErrorHandler,
-			getEnterCodeLPA()
-		);
+		expect(get).toHaveBeenCalledWith('/enter-code/:id', validationErrorHandler, getEnterCodeLPA());
 		expect(post).toHaveBeenCalledWith(
 			'/enter-code/:id',
 			ruleEnterCode(),
