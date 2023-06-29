@@ -13,6 +13,7 @@
 		"start": "node ./",
 		"start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
 		"swagger-autogen": "node ./src/swagger.js && npx prettier ./api/openapi.json --write",
+		"swagger2": "node ./src/swagger2.js",
 		"test": "jest",
 		"test:cov": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand",
@@ -52,6 +53,7 @@
 		"secure-pin": "^1.0.14",
 		"supertest": "^6.2.2",
 		"swagger-autogen": "^2.23.4",
+		"swagger-jsdoc": "^6.2.8",
 		"swagger-ui-express": "^4.3.0",
 		"uuid": "^8.3.1"
 	},
