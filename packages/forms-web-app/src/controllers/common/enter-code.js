@@ -44,6 +44,11 @@ const renderErrorPageLPA = (res, view, context) => {
 	return res.render(view, context);
 };
 
+const redirectToEnterLPAEmail = (res, views) => {
+	console.log(views);
+	res.redirect(`/${views.ENTER_EMAIL}`);
+};
+
 const redirectToLPADashboard = (res, views) => {
 	res.redirect(`/${views.DASHBOARD}`);
 };
@@ -216,6 +221,10 @@ const getEnterCodeLPA = (views) => {
 			body: { errors = {} },
 			params: { id }
 		} = req;
+		if (!id || !id.match(/^[a-f\d]{24}$/i)) {
+			redirectToEnterLPAEmail(res, views);
+			return;
+		}
 		if (Object.keys(errors).length > 0) {
 			res.render(views.ENTER_CODE, {
 				errors: errors,

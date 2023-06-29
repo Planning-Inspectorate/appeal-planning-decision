@@ -8,15 +8,7 @@ const router = express.Router();
 
 router.use(featureFlagMiddleware('lpa-dashboard'));
 
-router.use(
-	skipMiddlewareForPaths(requireUser, [
-		'input-code',
-		'need-new-code',
-		'code-expired',
-		'enter-email',
-		'service-invite'
-	])
-);
+router.use(skipMiddlewareForPaths(requireUser, ['enter-email', 'service-invite']));
 
 router.get('/service-invite/:lpaCode', getServiceInvite);
 

@@ -425,6 +425,40 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			await returnedFunction(req, res);
 			expect(res.render).toBeCalledWith(expectedURL, expectedContext);
 		});
+		it('should redirect if user id is not in a valid format', async () => {
+			const userId = 'i_am_not_a_valid_user_id';
+			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD, ENTER_EMAIL } =
+				lpaViews;
+			const views = {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD,
+				ENTER_EMAIL
+			};
+			const expectedURL = `/${views.ENTER_EMAIL}`;
+			const returnedFunction = getEnterCodeLPA(views);
+			req.params.id = userId;
+			await returnedFunction(req, res);
+			expect(res.redirect).toBeCalledWith(expectedURL);
+		});
+		it('should redirect if user id is not supplied', async () => {
+			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD, ENTER_EMAIL } =
+				lpaViews;
+			const views = {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD,
+				ENTER_EMAIL
+			};
+			const expectedURL = `/${views.ENTER_EMAIL}`;
+			const returnedFunction = getEnterCodeLPA(views);
+			await returnedFunction(req, res);
+			expect(res.redirect).toBeCalledWith(expectedURL);
+		});
 	});
 	describe('postEnterCodeLPA', () => {
 		it('should post the code', async () => {
