@@ -24,6 +24,7 @@ const {
 	isTestLPACheckTokenAndSession
 } = require('../../../../src/lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
+const { utils } = require('@pins/common');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');
 
@@ -402,6 +403,67 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 
 			expect(res.redirect).toBeCalledWith(`/${TASK_LIST}`);
 			expect(req.session.appeal).toEqual(draftAppeal);
+		});
+
+		it('Should accept a test code value when the LPA is the test LPA and is test environment returns true', async () => {
+			let token = '12345';
+			const { EMAIL_CONFIRMED } = fullAppealViews;
+			req.body = { token: token };
+			getSavedAppeal.mockReturnValue({
+				token: token,
+				createdAt: '2022-07-14T13:00:48.024Z'
+			});
+			isTestEnvironment.mockReturnValue(true);
+			isTestLPACheckTokenAndSession.mockReturnValue(true);
+			const returnedFunction = postEnterCode({ EMAIL_CONFIRMED });
+			await returnedFunction(req, res);
+			expect(isTokenValid).not.toBeCalled();
+			expect(res.redirect).toBeCalledWith(`/${EMAIL_CONFIRMED}`);
+		});
+		it('should render page with error message if test token used but test environment is false', async () => {
+			const { ENTER_CODE } = fullAppealViews;
+			let token = '12345';
+
+			req.body = {
+				token: token,
+				session: {
+					appeal: {
+						lpaCode: utils.testLPACode
+					}
+				}
+			};
+			isTestEnvironment.mockReturnValue(false);
+			isTokenValid.mockReturnValue({ valid: false });
+			const returnedFunction = postEnterCode({ ENTER_CODE });
+			await returnedFunction(req, res);
+
+			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, {
+				errors: {},
+				errorSummary: [{ text: 'Enter a correct code', href: '#email-code' }]
+			});
+		});
+
+		it('should render page with error message if test tokenused but not test LPA code and test environment is true', async () => {
+			const { ENTER_CODE } = fullAppealViews;
+			let token = '12345';
+
+			req.body = {
+				token: token,
+				session: {
+					appeal: {
+						lpaCode: 'E1234567'
+					}
+				}
+			};
+			isTestEnvironment.mockReturnValue(true);
+			isTokenValid.mockReturnValue({ valid: false });
+			const returnedFunction = postEnterCode({ ENTER_CODE });
+			await returnedFunction(req, res);
+
+			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, {
+				errors: {},
+				errorSummary: [{ text: 'Enter a correct code', href: '#email-code' }]
+			});
 		});
 	});
 	describe('getEnterCodeLPA', () => {
