@@ -35,5 +35,21 @@ describe('views/lpa/enter-code', () => {
 					.textContent.trim()
 			).toEqual('Enter the code we sent to your email address');
 		});
+		it('should render the code not received link as expected', () => {
+			document.body.innerHTML = nunjucksTestRenderer.render(
+				`${VIEW.LPA_DASHBOARD.ENTER_CODE}.njk`,
+				{
+					requestNewCodeLink: `/${VIEW.LPA_DASHBOARD.REQUEST_NEW_CODE}`
+				}
+			);
+
+			expect(
+				document
+					.querySelector(
+						'#main-content > div.govuk-main-wrapper.govuk-main-wrapper--auto-spacing > div > div > form > p > a'
+					)
+					.textContent.trim()
+			).toEqual('Not received the code?');
+		});
 	});
 });
