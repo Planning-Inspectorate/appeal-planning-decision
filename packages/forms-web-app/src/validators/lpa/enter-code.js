@@ -1,4 +1,6 @@
 const { body } = require('express-validator');
+const isAlphaNumericRegEx = /[^\w_]/g;
+const isVowelOrZeroRegEx = /[AEIOUaeiou0]/g;
 
 const ruleEnterCode = () =>
 	body('email-code')
@@ -12,7 +14,7 @@ const ruleEnterCode = () =>
 		.withMessage('You’ve entered too many characters, the code must be 5 characters')
 		.bail()
 		.custom((value) => {
-			return !(value.match(/[^\w_]/g) || value.match(/[AEIOUaeiou0]/g));
+			return !(value.match(isAlphaNumericRegEx) || value.match(isVowelOrZeroRegEx));
 		})
 		.withMessage(
 			'Code must contain numbers from 1-9 and letters from the alphabet exluding vowels'
