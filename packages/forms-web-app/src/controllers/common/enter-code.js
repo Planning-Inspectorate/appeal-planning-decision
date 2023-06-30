@@ -158,8 +158,19 @@ const postEnterCode = (views) => {
 			});
 		}
 
+		let tokenValidResult = async () => {
+			if (isTestEnvironment() && isTestLPACheckTokenAndSession(token, req.session)) {
+				return {
+					valid: true,
+					action: enterCodeConfig.actions.confirmEmail
+				};
+			} else {
+				return await isTokenValid(id, token, req.session);
+			}
+		};
+
 		// check token
-		let tokenValid = await isTokenValid(id, token, req.session);
+		let tokenValid = await tokenValidResult(id, token, req.session);
 
 		if (tokenValid.tooManyAttempts) {
 			return res.redirect(`/${views.NEED_NEW_CODE}`);
