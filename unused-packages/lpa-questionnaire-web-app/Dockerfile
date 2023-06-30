@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:18-alpine
 ARG APP_NAME
 ARG BUILD_ID
 ARG VERSION
@@ -23,7 +23,7 @@ RUN npm i
 COPY . ./
 
 RUN npm run build
-RUN npm prune --production \
+ \
   && npm rebuild \
   && npm version ${VERSION} --no-git-tag-version --allow-same-version || true
 

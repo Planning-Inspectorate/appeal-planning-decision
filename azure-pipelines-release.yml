@@ -16,7 +16,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.0.3
+      ref: refs/tags/release/3.4.0
 
 extends:
   template: stages/wrapper_cd.yml@templates
@@ -182,11 +182,11 @@ extends:
                 persistCredentials: true
               - template: ../steps/node_script.yml
                 parameters:
-                  nodeVersion: 14
+                  nodeVersion: 18
                   script: npm ci
               - template: ../steps/node_script.yml
                 parameters:
-                  nodeVersion: 14
+                  nodeVersion: 18
                   script: npm run release
                   environmentVariables:
                     GH_TOKEN: $(GH_TOKEN)
