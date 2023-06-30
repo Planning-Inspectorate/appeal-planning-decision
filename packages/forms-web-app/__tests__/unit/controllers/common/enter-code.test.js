@@ -521,6 +521,31 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			await returnedFunction(req, res);
 			expect(res.redirect).toBeCalledWith(expectedURL);
 		});
+		it('should send new code param to view and remove from session', async () => {
+			const userId = '649418158b915f0018524cb7';
+			const expectedURL = 'manage-appeals/enter-code';
+			const expectedContext = {
+				lpaUserId: userId,
+				requestNewCodeLink: '/manage-appeals/request-new-code',
+				showNewCode: true
+			};
+			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
+			const views = {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD
+			};
+			const returnedFunction = getEnterCodeLPA(views);
+			req.params.id = userId;
+			req.session.enterCode = {
+				newCode: true
+			};
+			await returnedFunction(req, res);
+			expect(res.render).toBeCalledWith(expectedURL, expectedContext);
+			expect(req.enterCode?.newCode).toBe(undefined);
+		});
 	});
 	describe('postEnterCodeLPA', () => {
 		it('should post the code', async () => {

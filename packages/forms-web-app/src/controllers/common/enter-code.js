@@ -236,6 +236,14 @@ const getEnterCodeLPA = (views) => {
 			redirectToEnterLPAEmail(res, views);
 			return;
 		}
+
+		// show new code success message only once
+		const newCode = req.session?.enterCode?.newCode;
+
+		if (newCode) {
+			delete req.session?.enterCode?.newCode;
+		}
+
 		if (Object.keys(errors).length > 0) {
 			res.render(views.ENTER_CODE, {
 				errors: errors,
@@ -245,7 +253,8 @@ const getEnterCodeLPA = (views) => {
 		} else {
 			res.render(views.ENTER_CODE, {
 				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`,
-				lpaUserId: id
+				lpaUserId: id,
+				showNewCode: newCode
 			});
 		}
 		return;
