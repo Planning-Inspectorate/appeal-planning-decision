@@ -2,8 +2,6 @@ const express = require('express');
 const { rules: ruleEnterCode } = require('../../validators/lpa/enter-code');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const { getEnterCodeLPA, postEnterCodeLPA } = require('../../controllers/common/enter-code');
-const { skipMiddlewareForPaths } = require('../../middleware/skip-middleware-for-paths');
-const requireUser = require('../../middleware/lpa-dashboard/require-user');
 const {
 	VIEW: {
 		LPA_DASHBOARD: {
@@ -18,8 +16,6 @@ const {
 } = require('../../lib/views');
 
 const router = express.Router();
-
-router.use(skipMiddlewareForPaths(requireUser, ['enter-code']));
 
 const views = {
 	ENTER_CODE,

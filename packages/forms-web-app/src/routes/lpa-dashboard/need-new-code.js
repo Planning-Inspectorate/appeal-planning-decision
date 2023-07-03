@@ -1,11 +1,7 @@
 const express = require('express');
 const { getNeedNewCode, postNeedNewCode } = require('../../controllers/common/need-new-code');
-const { skipMiddlewareForPaths } = require('../../middleware/skip-middleware-for-paths');
-const requireUser = require('../../middleware/lpa-dashboard/require-user');
 
 const router = express.Router();
-
-router.use(skipMiddlewareForPaths(requireUser, ['need-new-code']));
 
 const {
 	VIEW: {

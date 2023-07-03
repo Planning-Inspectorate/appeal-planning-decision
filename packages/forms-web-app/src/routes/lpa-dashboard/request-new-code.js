@@ -3,12 +3,8 @@ const {
 	getRequestNewCode,
 	postRequestNewCode
 } = require('../../controllers/common/request-new-code');
-const { skipMiddlewareForPaths } = require('../../middleware/skip-middleware-for-paths');
-const requireUser = require('../../middleware/lpa-dashboard/require-user');
 
 const router = express.Router();
-
-router.use(skipMiddlewareForPaths(requireUser, ['request-new-code']));
 
 const {
 	VIEW: {
