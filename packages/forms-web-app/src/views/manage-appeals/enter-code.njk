@@ -6,14 +6,13 @@
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
-{% set title="Enter the code we sent to your email address - Appeal a planning decision - GOV.UK" %}
+{% set title="Enter the code we sent to your email address - Manage appeals - GOV.UK" %}
 
-{% block pageTitle %}
-  {% if errors %}
-    {% set title = "Error: " + title %}
-  {% endif %}
-  {{ title }}
-{% endblock %}
+{% if errors %}
+  {% set title = "Error: " + title %}
+{% endif %}
+
+{% block pageTitle %}{{ title }}{% endblock %}
 
 {% block content %}
 

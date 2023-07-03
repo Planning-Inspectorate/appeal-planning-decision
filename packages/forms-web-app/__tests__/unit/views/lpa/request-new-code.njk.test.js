@@ -15,7 +15,7 @@ describe('views/lpa/request-new-code', () => {
 				}
 			);
 			expect(document.querySelector('title').textContent.trim()).toEqual(
-				`Request a new code - Manage Appeals planning decision - GOV.UK`
+				`Request a new code - Manage appeals - GOV.UK`
 			);
 		});
 		it('should render the page heading as expected', () => {
