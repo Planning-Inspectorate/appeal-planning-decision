@@ -1,5 +1,5 @@
 const express = require('express');
-const { rules: ruleEnterCode } = require('../../validators/lpa/enter-code');
+const { rules: ruleEnterCode } = require('../../validators/common/enter-code');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const { getEnterCodeLPA, postEnterCodeLPA } = require('../../controllers/common/enter-code');
 const {

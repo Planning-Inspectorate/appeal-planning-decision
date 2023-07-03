@@ -3,10 +3,10 @@ const {
 	getEnterCodeLPA,
 	postEnterCodeLPA
 } = require('../../../../src/controllers/common/enter-code');
-const { rules: ruleEnterCode } = require('../../../../src/validators/lpa/enter-code');
+const { rules: ruleEnterCode } = require('../../../../src/validators/common/enter-code');
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 
-jest.mock('../../../../src/validators/lpa/enter-code');
+jest.mock('../../../../src/validators/common/enter-code');
 jest.mock('../../../../src/validators/validation-error-handler');
 jest.mock('../../../../src/controllers/common/enter-code');
 
