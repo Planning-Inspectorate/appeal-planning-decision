@@ -1,8 +1,8 @@
 const { validationResult } = require('express-validator');
-const { rules } = require('../../../../src/validators/lpa/enter-code');
+const { rules } = require('../../../../src/validators/common/enter-code');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 
-describe('validators/lpa/enter-code', () => {
+describe('validators/common/enter-code', () => {
 	const res = jest.fn();
 	const fieldName = 'email-code';
 	const targetFieldName = 'email-code';

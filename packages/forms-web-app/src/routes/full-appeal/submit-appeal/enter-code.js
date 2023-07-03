@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { rules: ruleEnterCode } = require('../../../validators/save-and-return/enter-code');
+const { rules: ruleEnterCode } = require('../../../validators/common/enter-code');
 const { rules: idValidationRules } = require('../../../validators/common/check-id-is-uuid');
 const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const { getEnterCode, postEnterCode } = require('../../../controllers/common/enter-code');
