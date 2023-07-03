@@ -1,9 +1,36 @@
 const express = require('express');
 const router = express.Router();
 
+const featureFlagMiddleware = require('../../middleware/feature-flag');
+const { skipMiddlewareForPaths } = require('../../middleware/skip-middleware-for-paths');
+const requireUser = require('../../middleware/lpa-dashboard/require-user');
+
+router.use(featureFlagMiddleware('lpa-dashboard'));
+router.use(
+	skipMiddlewareForPaths(requireUser, [
+		'service-invite',
+		'enter-code',
+		'request-new-code',
+		'need-new-code',
+		'code-expired',
+		'enter-email'
+	])
+);
+
+router.use(require('./service-invite'));
 router.use(require('./enter-code'));
-router.use(require('./lpa-dashboard'));
 router.use(require('./request-new-code'));
 router.use(require('./need-new-code'));
 router.use(require('./code-expired'));
+
+// temporary until page is built
+router.get('/enter-email', function (req, res) {
+	return res.sendStatus(200);
+});
+
+// temporary until page is built
+router.get('/', function (req, res) {
+	return res.sendStatus(200);
+});
+
 module.exports = router;
