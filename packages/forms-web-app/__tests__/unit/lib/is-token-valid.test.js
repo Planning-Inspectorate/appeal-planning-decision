@@ -115,18 +115,16 @@ describe('lib/is-token-valid', () => {
 		it('should call checkToken if both parameters are valid', async () => {
 			checkToken.mockReturnValue(undefined);
 
-			await isTokenValid('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654', {
-				enterCode: { action: 'test' }
-			});
+			await isTokenValid('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654');
 
-			expect(checkToken).toBeCalledWith('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654', 'test');
+			expect(checkToken).toBeCalledWith('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654');
 		});
 		it('should return false without calling isTokenExpired if returned token document is undefined', async () => {
 			checkToken.mockReturnValue(undefined);
 
-			const result = await isTokenValid('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654', undefined);
+			const result = await isTokenValid('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654');
 
-			expect(checkToken).toBeCalledWith('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654', undefined);
+			expect(checkToken).toBeCalledWith('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654');
 			expect(isTokenExpired).not.toBeCalled();
 			expect(result.valid).toBe(false);
 		});
