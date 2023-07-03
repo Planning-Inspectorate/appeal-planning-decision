@@ -336,7 +336,7 @@
 ;;X9507;Black Country Urban Development Corp;;;FALSE\n
 ;;N2915;Blyth Valley Borough Council;;;FALSE\n
 ;;J3205;Bridgnorth District Council;;;FALSE\n
-;E0535;E0535;Cambridgeshire County Council;planningdc@cambridgeshire.gov.uk;cambridgeshire.gov.uk;TRUE\n
+;E0535;E0535;Cambridgeshire County Council;planningdc@cambridgeshire.gov.uk;cambridgeshire.gov.uk;FALSE\n
 ;;K0805;Caradon District Council;;;FALSE\n
 ;;P0810;Carrick District Council;;;FALSE\n
 ;;T2920;Castle Morpeth Borough Council;;;FALSE\n
@@ -346,32 +346,32 @@
 ;;B0610;Congleton Borough Council;;;FALSE\n
 ;;B0800;Cornwall County Council Pre 010409;;;FALSE\n
 ;;K0615;Crewe and Nantwich Borough Council;;;FALSE\n
-;H0900;H0900;Cumbria County Council;developmentcontrol@cumbria.gov.uk;cumbria.gov.uk;TRUE\n
+;H0900;H0900;Cumbria County Council;developmentcontrol@cumbria.gov.uk;cumbria.gov.uk;FALSE\n
 ;;R6830;Denbighshire County Council;;;FALSE\n
-;U1050;U1050;Derbyshire County Council;planningcontrol@derbyshire.gov.uk;derbyshire.gov.uk;TRUE\n
+;U1050;U1050;Derbyshire County Council;planningcontrol@derbyshire.gov.uk;derbyshire.gov.uk;FALSE\n
 ;;V1315;Derwentside District Council;;;FALSE\n
-;J1155;J1155;Devon County Council;planning@devon.gov.uk;devon.gov.uk;TRUE\n
+;J1155;J1155;Devon County Council;planning@devon.gov.uk;devon.gov.uk;FALSE\n
 ;;J1345;Durham County Council Pre 010409;;;FALSE\n
 ;;H1325;Easington District Council;;;FALSE\n
-;G2815;G2815;East Northamptonshire District Council;appeals@east-northamptonshire.gov.uk;east-northamptonshire.gov.uk;TRUE\n
-;G1440;G1440;East Sussex County Council;development.control@eastsussex.gov.uk;eastsussex.gov.uk;TRUE\n
+;G2815;G2815;East Northamptonshire District Council;appeals@east-northamptonshire.gov.uk;east-northamptonshire.gov.uk;FALSE\n
+;G1440;G1440;East Sussex County Council;development.control@eastsussex.gov.uk;eastsussex.gov.uk;FALSE\n
 ;;P0620;Ellesmere Port and Neston Borough Council;;;FALSE\n
-;Z1585;Z1585;Essex County Council;mineralsandwastedm@essex.gov.uk;essex.gov.uk;TRUE\n
-;T1600;T1600;Gloucestershire County Council;planningdc@gloucestershire.gov.uk;gloucestershire.gov.uk;TRUE\n
-;Q1770;Q1770;Hampshire County Council;planning@hants.gov.uk;hants.gov.uk;TRUE\n
-;M1900;M1900;Hertfordshire County Council;spatialplanning@hertfordshire.gov.uk;hertfordshire.gov.uk;TRUE\n
+;Z1585;Z1585;Essex County Council;mineralsandwastedm@essex.gov.uk;essex.gov.uk;FALSE\n
+;T1600;T1600;Gloucestershire County Council;planningdc@gloucestershire.gov.uk;gloucestershire.gov.uk;FALSE\n
+;Q1770;Q1770;Hampshire County Council;planning@hants.gov.uk;hants.gov.uk;FALSE\n
+;M1900;M1900;Hertfordshire County Council;spatialplanning@hertfordshire.gov.uk;hertfordshire.gov.uk;FALSE\n
 ;;E3905;Kennet District Council;;;FALSE\n
-;W2275;W2275;Kent County Council;planning.applications@kent.gov.uk;kent.gov.uk;TRUE\n
+;W2275;W2275;Kent County Council;planning.applications@kent.gov.uk;kent.gov.uk;FALSE\n
 ;;Y0815;Kerrier District Council;;;FALSE\n
 ;;L2820;Kettering Borough Council;;;FALSE\n
-;Q2371;Q2371;Lancashire County Council;devcon@lancashire.gov.uk;lancashire.gov.uk;TRUE\n
-;M2460;M2460;Leicestershire County Council;planningcontrol@leics.gov.uk;leics.gov.uk;TRUE\n
+;Q2371;Q2371;Lancashire County Council;devcon@lancashire.gov.uk;lancashire.gov.uk;FALSE\n
+;M2460;M2460;Leicestershire County Council;planningcontrol@leics.gov.uk;leics.gov.uk;FALSE\n
 ;;W5000;LONDON DEVELOPMENT AGENCY;;;FALSE\n
 ;;A9580;London Thames Gateway Development Corporation;;;FALSE\n
 ;;C0630;Macclesfield Borough Council;;;FALSE\n
 ;;J0215;Mid Bedfordshire District Council;;;FALSE\n
 ;;W9575;Milton Keynes Partnership;;;FALSE\n
-;X2600;X2600;Norfolk County Council;mawp@norfolk.gov.uk;norfolk.gov.uk;TRUE\n
+;X2600;X2600;Norfolk County Council;mawp@norfolk.gov.uk;norfolk.gov.uk;FALSE\n
 ;;C0820;North Cornwall District Council;;;FALSE\n
 ;;N3210;North Shropshire District Council;;;FALSE\n
 ;;J3910;North Wiltshire District Council;;;FALSE\n
@@ -379,7 +379,7 @@
 ;;V2825;Northampton Borough Council;planning@northampton.gov.uk;northampton.gov.uk;FALSE\n
 ;;K2800;Northamptonshire County Council;;;FALSE\n
 ;;R2900;Northumberland County Council Pre 010409;;;FALSE\n
-;L3055;L3055;Nottinghamshire County Council;development.management@nottscc.gov.uk;nottscc.gov.uk;TRUE\n
+;L3055;L3055;Nottinghamshire County Council;development.management@nottscc.gov.uk;nottscc.gov.uk;FALSE\n
 ;;U9582;Olympic Delivery Authority;;;FALSE\n
 ;;X3215;Oswestry Borough Council;;;FALSE\n
 ;;L0825;Penwith District Council;;;FALSE\n
@@ -389,27 +389,27 @@
 ;;Y9540;Sheffield Urban District Council;;;FALSE\n
 ;;B3220;Shrewsbury and Atcham Borough Council;;;FALSE\n
 ;;Y3235;Shropshire County Council Pre 010409;;;FALSE\n
-;G3300;G3300;Somerset County Council;planning@somerset.gov.uk;somerset.gov.uk;TRUE\n
+;G3300;G3300;Somerset County Council;planning@somerset.gov.uk;somerset.gov.uk;FALSE\n
 ;;N0220;South Bedfordshire District Council;;;FALSE\n
 ;;N0410;South Bucks District Council;;;FALSE\n
 ;;Z2830;South Northamptonshire District Council;appeals@southnorthants.gov.uk;southnorthants.gov.uk;FALSE\n
 ;;K3225;South Shropshire District Council;;;FALSE\n
-;D3450;D3450;Staffordshire County Council;planning@staffordshire.gov.uk;staffordshire.gov.uk;TRUE\n
-;V3500;V3500;Suffolk County Council;planning@suffolk.gov.uk;suffolk.gov.uk;TRUE\n
-;B3600;B3600;Surrey County Council;mwcd@surreycc.gov.uk;surreycc.gov.uk;TRUE\n
+;D3450;D3450;Staffordshire County Council;planning@staffordshire.gov.uk;staffordshire.gov.uk;FALSE\n
+;V3500;V3500;Suffolk County Council;planning@suffolk.gov.uk;suffolk.gov.uk;FALSE\n
+;B3600;B3600;Surrey County Council;mwcd@surreycc.gov.uk;surreycc.gov.uk;FALSE\n
 ;;W1335;Teesdale District Council;;;FALSE\n
 ;;M9565;Thurrock Thames Gateway Development Corporation;;;FALSE\n
 ;;R2928;Tynedale District Council;;;FALSE\n
 ;;L0635;Vale Royal Borough Council;;;FALSE\n
 ;;F2930;Wansbeck District Council;;;FALSE\n
-;H3700;H3700;Warwickshire County Council;planningstrategy@warwickshire.gov.uk;warwickshire.gov.uk;TRUE\n
+;H3700;H3700;Warwickshire County Council;planningstrategy@warwickshire.gov.uk;warwickshire.gov.uk;FALSE\n
 ;;A1340;Wear Valley District Council;;;FALSE\n
 ;;F3925;West Wiltshire District Council;;;FALSE\n
 ;;K3930;Wiltshire County Council Pre 010409;;;FALSE\n
-;E1855;E1855;Worcestershire County Council;devcontrolteam@worcestershire.gov.uk;worcestershire.gov.uk;TRUE\n
-;K0940;K0940;West Morland and Furness Council;appeals@westmorlandandfurness.gov.uk;westmorlandandfurness.gov.uk;TRUE\n
-;E3335;E3335;Somerset Council;planningappeals@somerset.gov.uk;somerset.gov.uk;TRUE\n
-;F0935;F0935;Cumberland;planning.appeals@cumberland.gov.uk;cumberland.gov.uk;TRUE\n
-;U2750;U2750;North Yorkshire  ;NYCplanningappeals@northyorks.gov.uk;northyorks.gov.uk;TRUE\n
-;F0745;F0745;Hartlepool Development Corporation;HDCplanning@teesvalley-ca.gov.uk;teesvalley-ca.gov.uk;TRUE\n
-;K0750;K0750;Middlesborough Development Corporation;MDCplanning@teesvalley-ca.gov.uk;teesvalley-ca.gov.uk;TRUE\n
+;E1855;E1855;Worcestershire County Council;devcontrolteam@worcestershire.gov.uk;worcestershire.gov.uk;FALSE\n
+;K0940;K0940;West Morland and Furness Council;appeals@westmorlandandfurness.gov.uk;westmorlandandfurness.gov.uk;FALSE\n
+;E3335;E3335;Somerset Council;planningappeals@somerset.gov.uk;somerset.gov.uk;FALSE\n
+;F0935;F0935;Cumberland;planning.appeals@cumberland.gov.uk;cumberland.gov.uk;FALSE\n
+;U2750;U2750;North Yorkshire  ;NYCplanningappeals@northyorks.gov.uk;northyorks.gov.uk;FALSE\n
+;F0745;F0745;Hartlepool Development Corporation;HDCplanning@teesvalley-ca.gov.uk;teesvalley-ca.gov.uk;FALSE\n
+;K0750;K0750;Middlesborough Development Corporation;MDCplanning@teesvalley-ca.gov.uk;teesvalley-ca.gov.uk;FALSE\n
