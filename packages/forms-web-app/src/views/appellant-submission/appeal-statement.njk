@@ -18,7 +18,9 @@
 
 {% block content %}
   <script id='clientside-validation'>
+
     const sensitiveInformationError = "Select to confirm you have not included sensitive information";
+    const appealNotSelectedError = "Select your appeal statement";
 
     const getErrorSummary = () => document.getElementById('error-summary');
 
@@ -39,19 +41,28 @@
       errorSummaryList.appendChild(error);
     }
 
+    const isAppealStatementSelected = () => document.getElementById('file-upload') ? document.getElementById('file-upload').value != "" : false;
+    const isDNISensitiveInformationChecked = () => document.getElementById('does-not-include-sensitive-information') ? document.getElementById('does-not-include-sensitive-information').checked : false;
+    
     const saveAndContinueClick = () => {
       
-      const check = document.getElementById('does-not-include-sensitive-information');
-      if(!check) {
-        return false;
-      }
-      if(!check.checked) {
+      const sensitiveInformationChecked = isDNISensitiveInformationChecked();
+      const appealStatementSelected = isAppealStatementSelected();
+      let returnVal = true;
+
+      if(!sensitiveInformationChecked) {
         setError(sensitiveInformationError);
-      } else {
-        return true;
-      }
-      return false;
+        returnVal = false;
+      } 
+      if(!appealStatementSelected) {
+        setError(appealNotSelectedError);
+        returnVal = false;
+      } 
+
+      return returnVal;
+
     }
+    
   </script>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
