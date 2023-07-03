@@ -179,11 +179,10 @@ describe('controllers/token', () => {
 			expect(res.status(200).send).toBeCalledWith({});
 		});
 
-		it('should call createOrUpdateTokenDocument and send a response with a 429 status code containing an empty object, if too many attempts are made', async () => {
+		it('should send a response with a 429 status code containing an empty object, if too many attempts are made', async () => {
 			req.body = {
 				id: 'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
-				token: '68736',
-				action: 'test'
+				token: '68736'
 			};
 
 			getTokenDocumentIfExists.mockReturnValue({
@@ -196,10 +195,6 @@ describe('controllers/token', () => {
 
 			await tokenPost(req, res);
 
-			expect(createOrUpdateTokenDocument).toBeCalledWith(
-				'e2813fb0-e269-4fe2-890e-6405dbd4a5ea',
-				'test'
-			);
 			expect(res.status).toBeCalledWith(429);
 			expect(res.status(200).send).toBeCalledWith({});
 		});

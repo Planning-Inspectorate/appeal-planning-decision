@@ -16,7 +16,7 @@ const isTestLPACheckTokenAndSession = (token, session) => {
 const getToken = async (id, token, session) => {
 	let tokenDocument;
 	try {
-		tokenDocument = await checkToken(id, token, session?.enterCode?.action);
+		tokenDocument = await checkToken(id, token);
 		return tokenDocument;
 	} catch (err) {
 		console.log(err);
