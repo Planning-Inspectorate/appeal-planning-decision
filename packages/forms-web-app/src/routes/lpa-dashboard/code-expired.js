@@ -7,8 +7,7 @@ const {
 
 const {
 	VIEW: {
-		FULL_APPEAL: { CODE_EXPIRED },
-		LPA_DASHBOARD: { ENTER_CODE }
+		LPA_DASHBOARD: { CODE_EXPIRED, ENTER_CODE }
 	}
 } = require('../../lib/views');
 
