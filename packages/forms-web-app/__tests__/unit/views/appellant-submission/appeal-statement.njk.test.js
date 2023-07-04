@@ -1,17 +1,19 @@
 /**
- * @jest-environment jsdom
+ * @jest-environment ./__tests__/environments/nunjucks-test-environment.js
  */
 /* eslint-env browser */
 const { VIEW } = require('../../../../src/lib/views');
 const nunjucksTestRenderer = require('../nunjucks-render-helper');
 const fileSizeDisplayHelper = require('../../../../src/lib/file-size-display-helper');
-const clientsideScriptHelper = require('../nunjucks-clientside-scripts-helper');
 
 nunjucksTestRenderer.addFilter('formatBytes', fileSizeDisplayHelper);
 
 describe('views/appellant-submission/appeal-statement.njk', () => {
 	beforeEach(() => {});
 	afterEach(() => {});
+	it('should do a simple test', () => {
+		expect(true).toEqual(true);
+	});
 	it('should return true if the appeal statement is selected', (done) => {
 		document.body.innerHTML = nunjucksTestRenderer.render(
 			`${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}.njk`
@@ -23,8 +25,9 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 			writable: false
 		});
 
-		clientsideScriptHelper.reloadScript('clientside-validation', document);
-		clientsideScriptHelper.runFunction('isAppealStatementSelected', document, [], (result) => {
+		global.reloadScript('clientside-validation', document);
+		global.runFunctionSync('isAppealStatementSelected', document, [], (result) => {
+			global.removeScript('clientside-validation', document);
 			try {
 				expect(result).toEqual(true);
 			} catch (e) {
@@ -39,8 +42,9 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 			`${VIEW.APPELLANT_SUBMISSION.APPEAL_STATEMENT}.njk`
 		);
 
-		clientsideScriptHelper.reloadScript('clientside-validation', document);
-		clientsideScriptHelper.runFunction('isAppealStatementSelected', document, [], (result) => {
+		global.reloadScript('clientside-validation', document);
+		global.runFunctionSync('isAppealStatementSelected', document, [], (result) => {
+			global.removeScript('clientside-validation', document);
 			try {
 				expect(result).toEqual(false);
 			} catch (e) {
@@ -63,8 +67,9 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 			value: 'appealStatement.pdf',
 			writable: false
 		});
-		clientsideScriptHelper.reloadScript('clientside-validation', document);
-		clientsideScriptHelper.runFunction('saveAndContinueClick', document, [], (result) => {
+		global.reloadScript('clientside-validation', document);
+		global.runFunctionSync('saveAndContinueClick', document, [], (result) => {
+			global.removeScript('clientside-validation', document);
 			expect(result).toEqual(false);
 			const errorSummary = document.getElementById('error-summary');
 			const errorSummaryItems = errorSummary.querySelectorAll(`li`);
@@ -87,8 +92,9 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 			writable: false
 		});
 
-		clientsideScriptHelper.reloadScript('clientside-validation', document);
-		clientsideScriptHelper.runFunction('saveAndContinueClick', document, [], (result) => {
+		global.reloadScript('clientside-validation', document);
+		global.runFunctionSync('saveAndContinueClick', document, [], (result) => {
+			global.removeScript('clientside-validation', document);
 			expect(result).toEqual(true);
 			const errorSummary = document.getElementById('error-summary');
 			const errorSummaryItems = errorSummary.querySelectorAll(`li`);
@@ -105,8 +111,9 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 		const checkbox = document.getElementById('does-not-include-sensitive-information');
 		checkbox.checked = true;
 
-		clientsideScriptHelper.reloadScript('clientside-validation', document);
-		clientsideScriptHelper.runFunction('saveAndContinueClick', document, [], (result) => {
+		global.reloadScript('clientside-validation', document);
+		global.runFunctionSync('saveAndContinueClick', document, [], (result) => {
+			global.removeScript('clientside-validation', document);
 			expect(result).toEqual(false);
 			const errorSummary = document.getElementById('error-summary');
 			const errorSummaryItems = errorSummary.querySelectorAll(`li`);

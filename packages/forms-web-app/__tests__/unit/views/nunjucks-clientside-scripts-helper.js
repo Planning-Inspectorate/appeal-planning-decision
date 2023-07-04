@@ -12,7 +12,7 @@ const removeScript = (scriptId, document) => {
 	script.parentNode.removeChild(script);
 };
 const runFunction = (functionName, document, args = [], cb) => {
-	window.eval('let r;');
+	//window.eval('let r;');
 	let iife = `(() => {
 		r = ${functionName}(${args.join(',')})
     })()`;
@@ -24,7 +24,7 @@ const runFunction = (functionName, document, args = [], cb) => {
 	const waitForVar = () => {
 		retryCount++;
 		if (retryCount === retries) cb({ error: `failed waiting for return value` });
-		if (window && typeof window.r !== 'undefined') {
+		if (window && typeof window.r !== 'undefined' && window.r != 'TEST_STARTED') {
 			cb(window.r);
 		}
 		setTimeout(waitForVar, 1000);
