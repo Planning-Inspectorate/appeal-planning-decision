@@ -1,7 +1,7 @@
 const express = require('express');
 const {
-	getRequestNewCode,
-	postRequestNewCode
+	getRequestNewCodeLPA,
+	postRequestNewCodeLPA
 } = require('../../controllers/common/request-new-code');
 
 const router = express.Router();
@@ -14,7 +14,7 @@ const {
 
 const requestViews = { REQUEST_NEW_CODE, ENTER_CODE };
 
-router.get('/request-new-code', getRequestNewCode(requestViews));
-router.post('/request-new-code', postRequestNewCode(requestViews));
+router.get('/request-new-code', getRequestNewCodeLPA(requestViews));
+router.post('/request-new-code', postRequestNewCodeLPA(requestViews));
 
 module.exports = router;

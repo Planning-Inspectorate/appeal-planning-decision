@@ -1,10 +1,12 @@
 const { getUserByEmail } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+
 const getRequestNewCode = (requestNewCodeView) => {
 	return async (_, res) => {
 		res.render(requestNewCodeView);
 	};
 };
+
 const getRequestNewCodeLPA = (requestNewCodeView) => {
 	return async (_, res) => {
 		res.render(requestNewCodeView.REQUEST_NEW_CODE);
