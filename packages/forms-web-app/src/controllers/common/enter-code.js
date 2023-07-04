@@ -81,6 +81,19 @@ const tokenVerification = (res, token, views, id) => {
 	return false;
 };
 
+/**
+ * Sends a new token to the lpa user referenced by the id in the url params
+ * @param {ExpressRequest} req
+ * @returns {Promise}
+ */
+async function sendTokenToLpaUser(req) {
+	const user = await getUserById(req.params.id);
+
+	if (user?.email) {
+		await sendToken(req.params.id, enterCodeConfig.actions.lpaDashboard, user.email);
+	}
+}
+
 const getEnterCode = (views) => {
 	return async (req, res) => {
 		const {
@@ -232,9 +245,17 @@ const getEnterCodeLPA = (views) => {
 			body: { errors = {} },
 			params: { id }
 		} = req;
+
 		if (!id || !id.match(/^[a-f\d]{24}$/i)) {
 			redirectToEnterLPAEmail(res, views);
 			return;
+		}
+
+		// even if we error, display the enter code page so as to not give anyway any user detail
+		try {
+			await sendTokenToLpaUser(req);
+		} catch (err) {
+			logger.error(err);
 		}
 
 		// show new code success message only once
