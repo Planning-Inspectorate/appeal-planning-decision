@@ -33,7 +33,7 @@
         <h1 class="govuk-heading-l">
           {{ question.question }}
         </h1>
-        <p>{{question.description}}</p>
+        {{question.description | safe}}
 
         {{ govukInsetText({
           text: "File size should be no more than " + fileSizeLimits.uploadApplicationMaxFileSize

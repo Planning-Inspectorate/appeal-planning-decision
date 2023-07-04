@@ -26,24 +26,47 @@ exports.list = async (req, res) => {
         for (let j = 0; j < questionnaire.sections[i].questions.length; j++) {
             var question = questionnaire.sections[i].questions[j];
             if (question.show(answers)) {
-                var row = {
-                    key: {
-                    text: question.title ?? question.question
-                    },
-                    value: {
-                    text: answers[question.fieldName] ?? "Not started"
-                    },
-                    actions: {
-                        items: [
-                            {
-                            href: `/questionnaire/${appealId}/${questionnaire.sections[i].segment}/${questionnaire.sections[i].questions[j].fieldName}`,
-                            text: "Change",
-                            visuallyHiddenText: question.question
+                if (question.format === undefined) {
+                    var row = {
+                        key: {
+                        text: question.title ?? question.question
+                        },
+                        value: {
+                        text: answers[question.fieldName] ?? "Not started"
+                        },
+                        actions: {
+                            items: [
+                                {
+                                href: `/questionnaire/${appealId}/${questionnaire.sections[i].segment}/${questionnaire.sections[i].questions[j].fieldName}`,
+                                text: "Change",
+                                visuallyHiddenText: question.question
+                                }
+                            ]
+                        }
+                    }
+                    section.list.rows.push(row);
+                } else {
+                    var rows = question.format(answers, appealId, questionnaire.sections[i].segment, questionnaire.sections[i].questions[j].fieldName);
+                    for (var k=0; k<rows.length; k++) {
+                        var row = {
+                            key: {
+                                text: rows[k].title
+                            },
+                            value: {
+                                text: rows[k].value
+                            },
+                            actions: {
+                                items: [
+                                    {
+                                    href: rows[k].ctaLink,
+                                    text: rows[k].ctaText
+                                    }
+                                ]
                             }
-                        ]
+                        }
+                        section.list.rows.push(row);
                     }
                 }
-                section.list.rows.push(row);
             }
         }
         summaryListData.sections.push(section);
@@ -91,14 +114,12 @@ exports.save = async (req, res) => {
         req.session.lpaAnswers = req.session.lpaAnswers || {};
         req.session.lpaAnswers[questionObj.fieldName] = req.body[questionObj.fieldName];
         for(var propName in req.body) {
-            console.log("\n\nDOES " + propName + " START WITH " + questionObj.fieldName);
             if (propName.startsWith(questionObj.fieldName + "_"))
             {
-                console.log("\n\nFOUND: " + propName)
                 req.session.lpaAnswers[propName] = req.body[propName];
             }
         }
         //move to the next question
-        res.redirect(await formHelper.getNextQuestionUrl(questionnaire, appealId, section, question, answers, false));
+        res.redirect(await formHelper.getNextQuestionUrl(questionnaire, appealId, section, question, req.session.lpaAnswers, false));
     }
 };

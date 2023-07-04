@@ -35,7 +35,11 @@ exports.lookupCode = async (req, res) => {
 
     var answers = req.body;
     req.session.lpaAnswers = req.session.lpaAnswers || {};
-    req.session.lpaAnswers[questionObj.fieldName] = req.body[questionObj.fieldName];
+    req.session.lpaAnswers[questionObj.fieldName] = {
+        grade: "II",
+        listingNumber: req.body[questionObj.fieldName],
+        name: "155, York Road, Bedminster, Bristol, BS3 4AL"
+    };
     //move to the next question
-    res.redirect(await formHelper.getNextQuestionUrl(questionnaire, appealId, section, question, answers, false));
+    res.redirect(await formHelper.getNextQuestionUrl(questionnaire, appealId, section, question, req.session.lpaAnswers, false));
 };

@@ -11,11 +11,31 @@ exports.questionnaire = {
             name: "Constraints, designations and other issues",
             segment: "constraints",
             questions: [
+                questions.questions.appealTypeAppropriate,
                 questions.questions.listedBuildingCheck,
                 questions.questions.listedBuildingDetail,
-                questions.questions.rightOfWayCheck,
-                questions.questions.rightOfWayUpload,
-                questions.questions.designatedSitesCheck
+                questions.questions.conservationArea,
+                questions.questions.conservationAreaUpload,
+                questions.questions.greenBelt
+            ]
+        },
+        {
+            name: "Notifying people about the application",
+            segment: "notification",
+            questions: [
+                questions.questions.whoWasNotified,
+                questions.questions.howYouNotifiedPeople,
+                questions.questions.siteNoticeUpload,
+                questions.questions.lettersToNeighboursUpload,
+                questions.questions.advertisementUpload
+            ]
+        },
+        {
+            name: "Consultation responses and representations",
+            segment: "representations",
+            questions: [
+                questions.questions.representationsFromOthers,
+                questions.questions.representationUpload
             ]
         }
     ]

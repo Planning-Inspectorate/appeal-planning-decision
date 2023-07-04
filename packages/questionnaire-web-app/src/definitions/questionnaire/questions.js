@@ -9,6 +9,14 @@ const listedBuildingController = require('../../controllers/listedBuildingLookup
 
 // Define all questions
 exports.questions = {
+    appealTypeAppropriate: {
+        title: "Is this appeal type appriopriate?", //Title used in the summary list
+        question: "Do you think the appeal type is appropriate?", //The question being asked
+        type: "boolean", //Type of question, mapped to a njk view in /views/questions
+        fieldName: "appropriate-appeal-type", //The name of the html input field / stem of the name for screens with multiple fields
+        required: true, //Whether the field should be required - this will need to be tied in to validation alongside allowing more complex validation rules
+        show: (answers) => { return true; } // A function accepting an array of answers and returning a boolean value indicating whether this field should be shown based on the answers given so far
+    },
     listedBuildingCheck: {
         title: "Affects a listed building", //Title used in the summary list
         question: "Could the plans affect the setting of a listed building or site?", //The question being asked
@@ -25,8 +33,118 @@ exports.questions = {
         saveAction: listedBuildingController.lookupCode, //For scenarios where more complex saving/POST handling logic is required, pass a controller action
         fieldName: "listed-entry-number",
         required: true,
-        show: (answers) => { return answers["listed-building-check"] === "yes"; }
+        show: (answers) => { return answers["listed-building-check"] === "yes"; },
+        format: (answers, appealId, section, question) => {  //For scenarios where answer rendering isn't as simple as returning the title and value, return an array of rows
+            return [
+                {
+                    title: "Listed buildings",
+                    value: `${answers["listed-entry-number"].listingNumber} | Grade ${answers["listed-entry-number"].grade} listed building | ${answers["listed-entry-number"].name}`,
+                    ctaText: "Change",
+                    ctaLink: `/questionnaire/${appealId}/${section}/${question}`
+                }
+            ];
+        }
     },
+    conservationArea: {
+        title: "Conservation area",
+        question: "Is the site in or next to a conservation area?",
+        type: "boolean",
+        fieldName: "conservation-area",
+        required: true,
+        show: (answers) => { return true; }
+    },
+    conservationAreaUpload: {
+        title: "Conservation area map and guidance",
+        question: "Upload conservation map and guidance",
+        description: "<a href=\"https://magic.defra.gov.uk/magicmap.aspx\" target=\"_blank\" class=\"govuk-link\">Link to Magic Maps (opens in new tab)</a>",
+        type: "multi-file-upload",
+        fieldName: "conservation-area-upload",
+        required: true,
+        show: (answers) => { return answers["conservation-area"] === "yes"; }
+    },    
+    greenBelt: {
+        title: "Green belt",
+        question: "Is the site in a green belt?",
+        type: "boolean",
+        fieldName: "green-belt",
+        required: true,
+        show: (answers) => { return true; }
+    },
+    whoWasNotified: {
+        title: "Who was notified",
+        question: "Who was notified",
+        type: "multi-file-upload",
+        fieldName: "who-was-notified-upload",
+        required: true,
+        show: (answers) => { return true; }
+    },
+    howYouNotifiedPeople: {
+        title: "How you notified people",
+        question: "How did you notify people about the application?",
+        description: "Select all that apply",
+        type: "checkbox",
+        fieldName: "notification-method",
+        required: true,
+        show: (answers) => { return true; },
+        options: [ //Options for checkboxes / radio buttons
+            {
+                text: "Site notice",
+                value: "Site notice"
+            },
+            {
+                text: "Letters to neighbours",
+                value: "Letters to neighbours"
+            },
+            {
+                text: "Advertisement",
+                value: "Advertisement"
+            },
+        ]
+    },
+    siteNoticeUpload: {
+        title: "Site notice",
+        question: "Upload site notice",
+        type: "multi-file-upload",
+        fieldName: "site-notice-upload",
+        required: true,
+        show: (answers) => { return (answers["notification-method"] ?? "").includes("Site notice"); }
+    },
+    lettersToNeighboursUpload: {
+        title: "Letters to neighbours",
+        question: "Upload letters to neighbours",
+        type: "multi-file-upload",
+        fieldName: "letters-to-neighbours-upload",
+        required: true,
+        show: (answers) => { return (answers["notification-method"] ?? "").includes("Letters to neighbours"); }
+    },
+    advertisementUpload: {
+        title: "Advertisement",
+        question: "Upload advertisement",
+        type: "multi-file-upload",
+        fieldName: "advertisement-upload",
+        required: true,
+        show: (answers) => { return (answers["notification-method"] ?? "").includes("Advertisement"); }
+    },
+    representationsFromOthers: {
+        title: "Representations from other parties",
+        question: "Did you receive representations from other parties?",
+        type: "boolean",
+        fieldName: "representations-from-others",
+        required: true,
+        show: (answers) => { return true; }
+    },
+    representationUpload: {
+        title: "Upload representations",
+        question: "Upload representations from other parties",
+        type: "multi-file-upload",
+        fieldName: "representation-upload",
+        required: true,
+        show: (answers) => { return answers["representations-from-others"] === "yes"; }
+    },
+
+
+
+    /*S78 questions */
     rightOfWayCheck: {
         title: "Public right of way",
         question: "Would a public right of way need to be removed or diverted?",
