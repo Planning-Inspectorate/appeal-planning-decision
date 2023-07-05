@@ -41,6 +41,14 @@ describe('lib/remove-unwanted-cookies', () => {
 				domain: `.${fakeDomain}`,
 				secure: false
 			});
+			expect(res.clearCookie).toHaveBeenCalledWith(cookieName, {
+				domain: `.${req.hostname}`,
+				secure: true
+			});
+			expect(res.clearCookie).toHaveBeenCalledWith(cookieName, {
+				domain: `.${req.hostname}`,
+				secure: false
+			});
 		};
 
 		[
@@ -84,7 +92,7 @@ describe('lib/remove-unwanted-cookies', () => {
 					keepTheseCookies: []
 				},
 				expected: (req, res) => {
-					expect(res.clearCookie).toHaveBeenCalledTimes(3);
+					expect(res.clearCookie).toHaveBeenCalledTimes(5);
 					expectedRemovalCalls(req, res, 'connect.sid');
 				}
 			},
@@ -119,7 +127,7 @@ describe('lib/remove-unwanted-cookies', () => {
 					keepTheseCookies: []
 				},
 				expected: (req, res) => {
-					expect(res.clearCookie).toHaveBeenCalledTimes(3);
+					expect(res.clearCookie).toHaveBeenCalledTimes(5);
 					expectedRemovalCalls(req, res, cookieConfig.COOKIE_POLICY_KEY);
 				}
 			},
@@ -138,7 +146,7 @@ describe('lib/remove-unwanted-cookies', () => {
 					keepTheseCookies: undefined
 				},
 				expected: (req, res) => {
-					expect(res.clearCookie).toHaveBeenCalledTimes(3);
+					expect(res.clearCookie).toHaveBeenCalledTimes(5);
 					expectedRemovalCalls(req, res, 'some-unwanted-cookie');
 				}
 			},
@@ -157,7 +165,7 @@ describe('lib/remove-unwanted-cookies', () => {
 					keepTheseCookies: ['some-unwanted-cookie']
 				},
 				expected: (req, res) => {
-					expect(res.clearCookie).toHaveBeenCalledTimes(6);
+					expect(res.clearCookie).toHaveBeenCalledTimes(10);
 					expectedRemovalCalls(req, res, 'connect.sid');
 					expectedRemovalCalls(req, res, cookieConfig.COOKIE_POLICY_KEY);
 				}
@@ -184,7 +192,7 @@ describe('lib/remove-unwanted-cookies', () => {
 					keepTheseCookies: undefined
 				},
 				expected: (req, res) => {
-					expect(res.clearCookie).toHaveBeenCalledTimes(6);
+					expect(res.clearCookie).toHaveBeenCalledTimes(10);
 					expectedRemovalCalls(req, res, '_ga_TZBWMVPTHV');
 					expectedRemovalCalls(req, res, '_ga');
 				}

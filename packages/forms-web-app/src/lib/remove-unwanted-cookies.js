@@ -24,8 +24,12 @@ const removeUnwantedCookies = (req, res, keepTheseCookies = defaultKeepMeCookies
 		.filter((cookieName) => keepTheseCookies.includes(cookieName) === false)
 		.forEach((cookieName) => {
 			res.clearCookie(cookieName);
+			// in dev/test google analytics sets on root domain
 			res.clearCookie(cookieName, { domain: `.${domain}`, secure: true });
 			res.clearCookie(cookieName, { domain: `.${domain}`, secure: false });
+			// in prod google analytics appears to set cookies on hostname with a preceding .
+			res.clearCookie(cookieName, { domain: `.${req.hostname}`, secure: true });
+			res.clearCookie(cookieName, { domain: `.${req.hostname}`, secure: false });
 		});
 };
 
