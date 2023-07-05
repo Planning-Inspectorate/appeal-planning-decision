@@ -1,0 +1,29 @@
+{% extends "layouts/lpa-dashboard/main.njk" %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block backButton %}
+    {{ govukBackLink({
+        text: "Back to appeals",
+        href: dashboardUrl,
+        attributes: {
+        'data-cy': 'back'
+        }
+    }) }}
+{% endblock %}
+
+{% set title="Add and remove users - Manage appeals - GOV.UK" %}
+
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Add and remove users</h1>
+        <p class="govuk-body">All users can add information to appeals. When a new appeal is added and a task is submitted, an email notification will be sent to all users.</p>
+        <a href="{{addUserLink}}" class="govuk-link">Add a user</a>
+    </div>
+  </div>
+{% endblock %}
