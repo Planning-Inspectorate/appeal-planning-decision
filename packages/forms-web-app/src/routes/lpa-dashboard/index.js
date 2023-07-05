@@ -28,9 +28,6 @@ router.get('/enter-email', function (req, res) {
 	return res.sendStatus(200);
 });
 
-// temporary until page is built
-router.get('/', function (req, res) {
-	return res.sendStatus(200);
-});
+router.use(require('./your-appeals'));
 
 module.exports = router;

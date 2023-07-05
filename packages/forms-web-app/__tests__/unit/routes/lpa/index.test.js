@@ -31,7 +31,6 @@ describe('routes/manage-appeals', () => {
 			])
 		);
 
-		expect(get).toHaveBeenCalledWith('/', expect.any(Function));
 		expect(get).toHaveBeenCalledWith('/enter-email', expect.any(Function));
 	});
 });

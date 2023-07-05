@@ -632,7 +632,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			};
 
 			await returnedFunction(req, res);
-			expect(res.redirect).toBeCalledWith('/manage-appeals/');
+			expect(res.redirect).toBeCalledWith('/manage-appeals/your-appeals');
 		});
 		it('should redirect on too many attempts', async () => {
 			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
@@ -718,7 +718,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			};
 
 			await returnedFunction(req, res);
-			expect(res.redirect).toBeCalledWith('/manage-appeals/');
+			expect(res.redirect).toBeCalledWith('/manage-appeals/your-appeals');
 		});
 	});
 });
