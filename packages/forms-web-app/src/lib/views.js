@@ -200,7 +200,8 @@ const VIEW = {
 		CODE_EXPIRED: 'manage-appeals/code-expired',
 		NEED_NEW_CODE: 'manage-appeals/need-new-code',
 		REQUEST_NEW_CODE: 'manage-appeals/request-new-code',
-		DASHBOARD: 'manage-appeals/'
+		DASHBOARD: 'manage-appeals/your-appeals',
+		ADD_REMOVE_USERS: 'manage-appeals/add-remove-users'
 	},
 
 	MESSAGES: {
