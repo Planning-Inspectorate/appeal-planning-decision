@@ -50,6 +50,8 @@ const sleep = (time) => new Promise((res) => setTimeout(res, time, ''));
 class NunjucksTestEnvironment extends JSDOMEnvironment {
 	constructor(config, context) {
 		super(config, context);
+		this.config = config;
+		this.context = context;
 	}
 
 	setupScriptHelpers = () => {
@@ -61,11 +63,6 @@ class NunjucksTestEnvironment extends JSDOMEnvironment {
 			loadBackScript.setAttribute('id', scriptId);
 			loadBackScript.textContent = scriptContent;
 			document.body.appendChild(loadBackScript);
-		};
-
-		this.global.removeScript = (scriptId, document) => {
-			const script = document.getElementById(scriptId);
-			script.parentNode.removeChild(script);
 		};
 
 		this.global.runFunctionSync = (functionName, document, args = [], cb) => {
@@ -151,9 +148,9 @@ class NunjucksTestEnvironment extends JSDOMEnvironment {
 
 	/**
 	 *
-	 * @param {*} event
-	 * @param {*} state
-	 * @description: Event names
+	 * @param {Event} event
+	 * @param {State} state
+	 * Event names
 	 * setup
 	 *      - properties: name, parentProcess, runtimeGlobals, testNamePattern
 	 * add_hook
