@@ -290,10 +290,6 @@ const getEnterCodeLPA = (views) => {
 const createLPAUserSession = async (req, userId) => {
 	let user = await getUserById(userId);
 	req.session.lpaUser = user;
-	req.session.save((err) => {
-		logger.error('Error storing LPA User Session');
-		logger.error(err);
-	});
 };
 
 const postEnterCodeLPA = (views) => {

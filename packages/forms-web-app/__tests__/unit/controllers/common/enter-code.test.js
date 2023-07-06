@@ -709,7 +709,6 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				enabled: true,
 				lpaCode: 'Q9999'
 			});
-			req.session.save = jest.fn();
 			const returnedFunction = postEnterCodeLPA(views);
 
 			req.params.id = userId;
