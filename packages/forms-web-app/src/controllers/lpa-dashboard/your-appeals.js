@@ -1,3 +1,6 @@
+const { getLPA } = require('../../lib/appeals-api-wrapper');
+const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+
 const {
 	VIEW: {
 		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS }
@@ -5,8 +8,11 @@ const {
 } = require('../../lib/views');
 
 const getYourAppeals = async (req, res) => {
-	// todo: use views for link when page built
+	const user = getLPAUserFromSession(req);
+	const lpa = await getLPA(user.lpaCode);
+
 	return res.render(DASHBOARD, {
+		lpaName: lpa.name,
 		addOrRemoveLink: `/${ADD_REMOVE_USERS}`
 	});
 };

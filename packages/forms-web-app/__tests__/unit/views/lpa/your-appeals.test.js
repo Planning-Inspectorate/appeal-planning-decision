@@ -21,7 +21,7 @@ describe('views/lpa/your-appeals', () => {
 			});
 
 			expect(document.querySelector('#main-content h1').textContent.trim()).toEqual(
-				'Manage your appeals'
+				'Manage my appeals'
 			);
 		});
 	});
