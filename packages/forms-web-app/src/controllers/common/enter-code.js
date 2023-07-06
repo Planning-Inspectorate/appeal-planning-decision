@@ -4,6 +4,7 @@ const {
 	sendToken,
 	getUserById
 } = require('../../lib/appeals-api-wrapper');
+const { createLPAUserSession } = require('../../services/lpa-user.service');
 const {
 	isTokenValid,
 	isTestLPACheckTokenAndSession,
@@ -20,11 +21,6 @@ const logger = require('../../../src/lib/logger');
  * @property {number} attempts The number of attempted and failed logins
  * @property {Number} createdAt Epoch time
  *
- */
-
-/**
- * The id of the user, in mongodb object id format
- * @typedef {/^[a-f\\d]{24}$/i} UserId
  */
 
 /**
@@ -280,16 +276,6 @@ const getEnterCodeLPA = (views) => {
 		}
 		return;
 	};
-};
-
-/**
- * Creates the user object within the session object of the request for the successfully logged in LPAUser
- * @param {ExpressRequest} req
- * @param {UserId} userId
- */
-const createLPAUserSession = async (req, userId) => {
-	let user = await getUserById(userId);
-	req.session.lpaUser = user;
 };
 
 const postEnterCodeLPA = (views) => {
