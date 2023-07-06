@@ -85,7 +85,11 @@ module.exports = async function main(log = true) {
 				}
 
 				/* Clear out any existing data */
-				await connection.truncate(name);
+				try {
+					await connection.truncate(name);
+				} catch (err) {
+					console.error(err);
+				}
 
 				const parsedData = data.map((item) => {
 					const now = new Date();
