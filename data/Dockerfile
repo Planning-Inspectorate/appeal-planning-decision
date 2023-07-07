@@ -1,5 +1,5 @@
-FROM node:18-alpine
+FROM node:14-alpine
 WORKDIR /opt/app
 ADD . .
-RUN npm ci --omit=dev
+RUN npm ci
 CMD [ "npm", "start" ]

@@ -3,8 +3,8 @@
 	"version": "1.19.0",
 	"private": true,
 	"engines": {
-		"node": ">=18.0.0 <19.0.0",
-		"npm": ">=9.0.0 <10.0.0"
+		"node": ">=14.0.0 <15.0.0",
+		"npm": ">=6.0.0 <7.0.0"
 	},
 	"scripts": {
 		"prebuild": "rm -Rf ./dist",
@@ -71,7 +71,7 @@
 		"jest-junit": "^13.2.0",
 		"nodemon": "^2.0.21",
 		"npm-run-all": "^4.1.5",
-		"patch-package": "^6.5.1",
+		"patch-package": "^6.4.7",
 		"pino-pretty": "^4.8.0",
 		"webpack": "^5.76.1",
 		"webpack-cli": "^4.9.2",

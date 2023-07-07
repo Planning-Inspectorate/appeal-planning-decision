@@ -1,6 +1,5 @@
 # Stage 1/2: Build
-FROM node:18 AS build
-
+FROM node:14 AS build
 
 WORKDIR /puppeteer
 
@@ -17,13 +16,15 @@ WORKDIR /opt/app
 COPY packages/pdf-service-api/package*.json ./
 COPY packages/pdf-service-api/src ./src
 
-RUN npm ci --omit=dev
+RUN npm ci
 RUN chmod -R o+rwx node_modules/puppeteer/.local-chromium
 
 # Stage 2/2: App Run
 FROM build AS app
 
 WORKDIR /opt/app
+
+RUN npm prune --production
 
 EXPOSE 3000
 

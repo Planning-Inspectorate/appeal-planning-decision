@@ -1,6 +1,5 @@
 # Stage 1/2: Build
-FROM node:18-alpine AS build
-
+FROM node:14-alpine AS build
 
 WORKDIR /opt/app
 
@@ -12,14 +11,14 @@ COPY packages/appeals-service-api/data/lpa-list.csv ./data/lpa-list.csv
 COPY packages/appeals-service-api/api ./api
 COPY packages/appeals-service-api/src ./src
 
-RUN npm ci --omit=dev
+RUN npm ci
 
 # Stage 2/2: App Run
 FROM build AS app
 
 WORKDIR /opt/app
 
-
+RUN npm prune --production
 
 EXPOSE 3000
 

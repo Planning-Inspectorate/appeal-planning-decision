@@ -30,7 +30,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.4.0
+      ref: refs/tags/release/3.0.3
 
 extends:
   template: stages/wrapper_ci.yml@templates
@@ -42,23 +42,23 @@ extends:
         steps:
           - template: ../steps/node_script.yml
             parameters:
-              nodeVersion: 18
+              nodeVersion: 14
               script: make install
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run lint
-              nodeVersion: 18
+              nodeVersion: 14
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run test
-              nodeVersion: 18
+              nodeVersion: 14
           - template: ../steps/node_script.yml
             parameters:
               condition: and(succeededOrFailed(),eq(variables['Build.SourceBranchName'], 'main'))
               script: npm run integration-test
-              nodeVersion: 18
+              nodeVersion: 14
           - template: ../steps/check_changed_files.yml
             parameters:
               pathFilters:
@@ -184,7 +184,7 @@ extends:
         steps:
           - template: ../steps/function_app_validate.yml@templates
             parameters:
-              nodeVersion: 18
+              nodeVersion: 14
               workingDirectory: $(Build.Repository.LocalPath)/packages/horizon-functions
       - name: Build PDF Service
         condition: >-
