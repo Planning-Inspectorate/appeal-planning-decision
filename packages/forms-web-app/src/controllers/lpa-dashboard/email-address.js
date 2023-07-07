@@ -1,4 +1,5 @@
 const { getLPA } = require('../../lib/appeals-api-wrapper');
+const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 
 const {
 	VIEW: {
@@ -7,7 +8,9 @@ const {
 } = require('../../lib/views');
 
 const getEmailAddress = async (req, res) => {
-	const lpa = await getLPA('Q9999'); // todo aapd-8: get from user
+	const user = getLPAUserFromSession(req);
+	const lpa = await getLPA(user.lpaCode);
+
 	return res.render(EMAIL_ADDRESS, {
 		lpaDomain: `@${lpa.domain}`
 	});
