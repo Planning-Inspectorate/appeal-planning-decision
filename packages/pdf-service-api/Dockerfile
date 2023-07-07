@@ -17,7 +17,6 @@ WORKDIR /opt/app
 COPY packages/pdf-service-api/package*.json ./
 COPY packages/pdf-service-api/src ./src
 
-
 RUN npm ci --omit=dev --workspaces=false
 RUN chmod -R o+rwx node_modules/puppeteer/.local-chromium
 
