@@ -12,7 +12,7 @@ COPY packages/appeals-service-api/data/lpa-list.csv ./data/lpa-list.csv
 COPY packages/appeals-service-api/api ./api
 COPY packages/appeals-service-api/src ./src
 
-RUN npm ci --omit=dev
+RUN npm ci --omit=dev --workspaces=false
 
 # Stage 2/2: App Run
 FROM build AS app

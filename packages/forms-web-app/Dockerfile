@@ -12,7 +12,7 @@ COPY packages/forms-web-app/webpack*.js ./
 COPY packages/forms-web-app/src ./src
 COPY packages/forms-web-app/patches ./patches
 
-RUN npm ci
+RUN npm ci --workspaces=false
 RUN npm run build
 
 # Stage 2/2: App Run
