@@ -318,7 +318,7 @@ const postEnterCodeLPA = (views) => {
 		if (!tokenVerification(res, token, views, id)) return;
 
 		try {
-			createLPAUserSession(req, id);
+			await createLPAUserSession(req, id);
 		} catch (e) {
 			logger.error(`Failed to create user session for user id ${id}`);
 			logger.error(e);
