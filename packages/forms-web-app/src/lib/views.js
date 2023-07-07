@@ -203,7 +203,8 @@ const VIEW = {
 		DASHBOARD: 'manage-appeals/your-appeals',
 		ADD_REMOVE_USERS: 'manage-appeals/add-remove-users',
 		EMAIL_ADDRESS: 'manage-appeals/email-address',
-		CONFIRM_ADD_USER: 'manage-appeals/confirm-add-user'
+		CONFIRM_ADD_USER: 'manage-appeals/confirm-add-user',
+		YOUR_EMAIL_ADDRESS: 'manage-appeals/your-email-address'
 	},
 
 	MESSAGES: {
