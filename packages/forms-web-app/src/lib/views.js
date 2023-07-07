@@ -202,7 +202,8 @@ const VIEW = {
 		REQUEST_NEW_CODE: 'manage-appeals/request-new-code',
 		DASHBOARD: 'manage-appeals/your-appeals',
 		ADD_REMOVE_USERS: 'manage-appeals/add-remove-users',
-		EMAIL_ADDRESS: 'manage-appeals/email-address'
+		EMAIL_ADDRESS: 'manage-appeals/email-address',
+		CONFIRM_ADD_USER: 'manage-appeals/confirm-add-user'
 	},
 
 	MESSAGES: {

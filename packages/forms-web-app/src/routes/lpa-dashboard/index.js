@@ -31,5 +31,6 @@ router.get('/enter-email', function (req, res) {
 router.use(require('./your-appeals'));
 
 router.use(require('./add-remove-users'));
+router.use(require('./email-address'));
 
 module.exports = router;
