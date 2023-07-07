@@ -8,7 +8,9 @@ COPY packages/common ../common
 COPY packages/clamav-rest-server/package*.json ./
 COPY packages/clamav-rest-server/src ./src
 
+
 RUN npm ci --omit=dev --workspaces=false
+
 
 # Stage 2/2: App Run
 FROM build AS app
