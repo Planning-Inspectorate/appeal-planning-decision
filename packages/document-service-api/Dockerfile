@@ -8,7 +8,7 @@ COPY packages/common ../common
 COPY packages/document-service-api/package*.json ./
 COPY packages/document-service-api/src ./src
 
-RUN npm ci --omit=dev --workspaces=false
+RUN npm ci --omit=dev
 
 # Stage 2/2: App Run
 FROM build AS app
