@@ -24,7 +24,9 @@ const {
 } = require('../../../../src/lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { utils } = require('@pins/common');
+
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/is-token-valid');
 jest.mock('../../../../src/lib/is-token-valid');
 
 describe('controllers/full-appeal/submit-appeal/enter-code', () => {
@@ -719,6 +721,39 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 
 			await returnedFunction(req, res);
 			expect(res.redirect).toBeCalledWith('/manage-appeals/your-appeals');
+		});
+		it('should set the user session', async () => {
+			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
+			const views = {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD
+			};
+			const userId = '649418158b915f0018524cb7';
+			const code = '12345';
+			const mockUser = {
+				email: 'a',
+				enabled: true
+			};
+			isTokenValid.mockReturnValue({
+				valid: true
+			});
+
+			getUserById.mockResolvedValue(mockUser);
+
+			const returnedFunction = postEnterCodeLPA(views);
+
+			req.params.id = userId;
+			req.body = {
+				'email-code': code
+			};
+
+			await returnedFunction(req, res);
+
+			expect(res.redirect).toBeCalledWith('/manage-appeals/your-appeals');
+			expect(req.session.lpaUser).toEqual(mockUser);
 		});
 	});
 });

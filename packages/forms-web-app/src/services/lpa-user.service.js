@@ -19,6 +19,7 @@ const { getUserById } = require('../lib/appeals-api-wrapper');
  * Creates the user object within the session object of the request for the successfully logged in LPAUser
  * @param {ExpressRequest} req
  * @param {UserId} userId
+ * @returns {Promise}
  */
 const createLPAUserSession = async (req, userId) => {
 	let user = await getUserById(userId);
