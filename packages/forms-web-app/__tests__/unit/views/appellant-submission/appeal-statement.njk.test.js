@@ -27,9 +27,6 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 		});
 	});
 	afterEach(() => {});
-	it('should do a simple test', () => {
-		expect(true).toEqual(true);
-	});
 	it('should return true if the appeal statement is selected', (done) => {
 		const fileUpload = document.getElementById('file-upload');
 		fileUpload.value = 'appealStatement.pdf';
@@ -55,19 +52,38 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 			}
 		});
 	});
+	it('should return true if a error summary item is already in the list', (done) => {
+		const errorSummary = document.getElementById('error-summary');
+		const errorSummaryList = errorSummary.querySelectorAll('ul')[0];
+		const errorSummaryListItem = document.createElement('li');
+		const errorText = 'There was an error';
+		errorSummaryListItem.textContent = errorText;
+		errorSummaryList.appendChild(errorSummaryListItem);
+
+		global.runFunctionSync('getErrorSummaryListItem', document, [errorText], (result) => {
+			try {
+				expect(result).toEqual(true);
+			} catch (e) {
+				console.log(e);
+				throw new Error(e.message);
+			} finally {
+				done();
+			}
+		});
+	});
 	it('should display an error if the user tries to submit without ticking the confirmation checkbox', (done) => {
 		const sensitiveInformationError =
 			'Select to confirm you have not included sensitive information';
 		const checkbox = document.getElementById('does-not-include-sensitive-information');
 		checkbox.checked = false;
 		const fileUpload = document.getElementById('file-upload');
-
 		fileUpload.value = 'appealStatement.pdf';
 
 		global.runFunctionSync('saveAndContinueClick', document, [], (result) => {
 			expect(result).toEqual(false);
 			const errorSummary = document.getElementById('error-summary');
 			const errorSummaryItems = errorSummary.querySelectorAll(`li`);
+			expect(errorSummary.style.display).toEqual('block');
 			expect(errorSummaryItems.length).toEqual(1);
 			expect(errorSummaryItems[0].textContent).toEqual(sensitiveInformationError);
 			done();
@@ -83,6 +99,7 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 				expect(result).toEqual(true);
 				const errorSummary = document.getElementById('error-summary');
 				const errorSummaryItems = errorSummary.querySelectorAll(`li`);
+				expect(errorSummary.style.display).toEqual('none');
 				expect(errorSummaryItems.length).toEqual(0);
 				expect(errorSummary.style.display).toEqual('none');
 				done();
@@ -97,6 +114,7 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 			expect(result).toEqual(false);
 			const errorSummary = document.getElementById('error-summary');
 			const errorSummaryItems = errorSummary.querySelectorAll(`li`);
+			expect(errorSummary.style.display).toEqual('block');
 			expect(errorSummaryItems.length).toEqual(1);
 			expect(errorSummaryItems[0].textContent).toEqual(appealStatementMissingError);
 			done();

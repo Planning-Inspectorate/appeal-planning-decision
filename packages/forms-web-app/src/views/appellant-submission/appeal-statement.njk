@@ -26,11 +26,16 @@
 
     const getErrorSummaryList = () => getErrorSummary().querySelectorAll('ul')[0];
 
-    const getErrorSummaryListItem = (item) => getErrorSummaryList().querySelectorAll(`li[text=item]`)[0];
+    const getErrorSummaryListItem = (item) => [...getErrorSummaryList().querySelectorAll('li')].filter(el => el.textContent === item).length > 0 ? true : false;
     
     const showErrorSummaryBlock = () => {
       const errorSummary = getErrorSummary();
-      errorSummary.style.display = 'visible';
+      errorSummary.style.display = 'block';
+    };
+
+    const hideErrorSummaryBlock = () => {
+      const errorSummary = getErrorSummary();
+      errorSummary.style.display = 'none';
     };
 
     const setError = (errorMessage) => {
@@ -39,25 +44,108 @@
       let error = document.createElement("li");
       error.textContent = errorMessage;
       errorSummaryList.appendChild(error);
+    };
+
+    const isFileUploadErrorSet = (errorMessage) => {
+      const fileUpload = document.getElementById('file-upload');
+      const parentDiv = fileUpload.parentNode;
+      return [...parentDiv
+        .querySelectorAll("span")]
+        .filter(span => span.textContent === errorMessage)
+        .length > 0;
+    };
+
+    const setFileUploadError = (errorMessage) => {
+      const fileUpload = document.getElementById('file-upload');
+      const parentDiv = fileUpload.parentNode;
+      const formGroup = parentDiv.closest("div.govuk-form-group");
+      formGroup.classList = formGroup.classList.toString().trim() + '--error';
+      if(isFileUploadErrorSet(errorMessage)) return;
+      const errorSpan = document.createElement("span");
+      const errorMessageSpan = document.createElement("span")
+      const p = document.createElement("p");
+      p.classList = "govuk-error-message";
+      errorMessageSpan.classList = "govuk-visually-hidden";
+      errorMessageSpan.textContent = "Error:";
+      errorSpan.textContent = errorMessage;
+      errorSpan.classList = "govuk-error-message";
+      errorSpan.appendChild(errorMessageSpan);
+      p.appendChild(errorSpan);
+      parentDiv.insertBefore(p, fileUpload);
+    }
+
+    const unsetFileUploadError = (e) => {
+      if(e.target.value === "") return;
+      if(!isFileUploadErrorSet(errorMessage)) return;
+      const fileUpload = document.getElementById('file-upload');
+      const parentDiv = fileUpload.parentNode;
+    }
+
+    const isCheckboxErrorSet = (errorMessage) => {
+      const checkboxFormGroup = document.getElementById("does-not-include-sensitive-information");
+      if(!checkboxFormGroup.querySelectorAll("p.govuk-error-message").length > 0) return;
+      return [...checkboxFormGroup
+        .querySelectorAll("p.govuk-error-message")
+        .querySelectorAll("span")]
+        .filter(span => span.textContent === errorMessage)
+        .length > 0;
+    }
+
+    const unsetCheckboxError = (e) => {
+      if(!e.target.checked) return;
+      const checkboxFormGroup = document.getElementById("does-not-include-sensitive-information");
+      checkboxFormGroup.classList = checkboxFormGroup.classList.toString().replace('--error','');
+      const fieldSet = checkboxFormGroup.getElementsByTagName("fieldset")[0];
+      const p = fieldSet.querySelectorAll("p.govuk-error-message")[0];
+      p && fieldSet.removeChild(p);
+    }
+
+    const setCheckboxError = (errorMessage) => {
+      if(isCheckboxErrorSet(errorMessage)) return;
+      const checkboxFormGroup = document.getElementById("does-not-include-sensitive-information");
+      checkboxFormGroup.classList += '--error';
+      const fieldSet = checkboxFormGroup.getElementsByTagName("fieldset")[0];
+      const div = fieldSet.getElementsByTagName("div")[0];
+      const p = document.createElement("p");
+      p.classList = "govuk-error-message";
+      const errorSpan = document.createElement("span");
+      const errorMessageSpan = document.createElement("span")
+      errorMessageSpan.classList = "govuk-visually-hidden";
+      errorMessageSpan.textContent = "Error:";
+      errorSpan.textContent = errorMessage;
+      errorSpan.classList = "govuk-error-message";
+      errorSpan.appendChild(errorMessageSpan);
+      p.appendChild(errorSpan);
+      fieldSet.insertBefore(p, div);
     }
 
     const isAppealStatementSelected = () => document.getElementById('file-upload') ? document.getElementById('file-upload').value != "" : false;
     const isDNISensitiveInformationChecked = () => document.getElementById('does-not-include-sensitive-information') ? document.getElementById('does-not-include-sensitive-information').checked : false;
     
+    const submitForm = () => document.getElementsByTagName("form")[0].submit();
+
     const saveAndContinueClick = () => {
-      
+
       const sensitiveInformationChecked = isDNISensitiveInformationChecked();
       const appealStatementSelected = isAppealStatementSelected();
       let returnVal = true;
-
+      
+      hideErrorSummaryBlock();
+      
       if(!sensitiveInformationChecked) {
         setError(sensitiveInformationError);
+        setCheckboxError(sensitiveInformationError);
+        showErrorSummaryBlock();
         returnVal = false;
       } 
       if(!appealStatementSelected) {
         setError(appealNotSelectedError);
+        setFileUploadError(appealNotSelectedError);
+        showErrorSummaryBlock();
         returnVal = false;
       } 
+
+      if(returnVal) submitForm();
 
       return returnVal;
 
@@ -210,28 +298,26 @@
           </div>
         </details>
 
-        {{ govukCheckboxes({
-          idPrefix: "does-not-include-sensitive-information",
-          name: "does-not-include-sensitive-information",
-          items: [
-            {
-              checked: (appeal.yourAppealSection.appealStatement.hasSensitiveInformation === false),
-              value: "i-confirm",
-              text: "I confirm that I have not included any sensitive information in my appeal statement."
-            }
-          ],
-          errorMessage: errors['does-not-include-sensitive-information'] and {
-            text: errors['does-not-include-sensitive-information'].msg
-          }
-        }) }}
+        <div class="govuk-form-group govuk-form-group" id='does-not-include-sensitive-information'>
+          <fieldset class="govuk-fieldset" aria-describedby="does-not-include-sensitive-information">
+            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <input class="govuk-checkboxes__input" id="i-confirm" name="i-confirm" type="checkbox" onchange="unsetCheckboxError(event)" />
+                <label class="govuk-label govuk-checkboxes__label" for="countries">
+                  I confirm that I have not included any sensitive information in my appeal statement.
+                </label>
+              </div>
+            </div>
+          </fieldset>
+        </div>
 
         <div class="govuk-button-group">
 					{{ govukButton({
 						text: "Save and continue",
-						type: "submit",
+						type: "button",
 						attributes: { 
               "data-cy":"button-save-and-continue",
-              "onlick": saveAndContinueClick,
+              "onclick": "saveAndContinueClick(event)",
               "id": "saveAndContinue"
             }
 					}) }}

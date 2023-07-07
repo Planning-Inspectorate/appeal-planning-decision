@@ -66,11 +66,12 @@ class NunjucksTestEnvironment extends JSDOMEnvironment {
 		};
 
 		this.global.runFunctionSync = (functionName, document, args = [], cb) => {
-			const statement = `${functionName}(${args.join(',')});`;
+			const statement = `${functionName}(${args.map((arg) => `"${arg}"`).join(',')});`;
+			//r = doTheThing("arg1", "arg2");
 			console.log(`Running statement ${statement}`);
 			let iife = `(() => {
 
-                r = ${functionName}(${args.join(',')});
+                r = ${statement};
                 console.log("Returned value: ", r);
 
             })()`;
