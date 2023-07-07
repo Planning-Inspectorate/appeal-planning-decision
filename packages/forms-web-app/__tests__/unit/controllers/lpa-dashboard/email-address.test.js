@@ -3,7 +3,7 @@ const {
 	postEmailAddress
 } = require('../../../../src/controllers/lpa-dashboard/email-address');
 const { getLPA } = require('../../../../src/lib/appeals-api-wrapper');
-// const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.service');
+const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.service');
 
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
@@ -32,12 +32,12 @@ describe('controllers/lpa-dashboard/email-address', () => {
 
 	describe('getEmailAddress', () => {
 		it('should render the view', async () => {
-			// getLPAUserFromSession.mockReturnValue(mockUser);
+			getLPAUserFromSession.mockReturnValue(mockUser);
 			getLPA.mockResolvedValue(mockLpa);
 
 			await getEmailAddress(req, res);
 
-			// expect(getLPAUserFromSession).toHaveBeenCalledWith(req);
+			expect(getLPAUserFromSession).toHaveBeenCalledWith(req);
 			expect(getLPA).toHaveBeenCalledWith(mockUser.lpaCode);
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.EMAIL_ADDRESS, {
 				lpaDomain: `@${mockLpa.domain}`
