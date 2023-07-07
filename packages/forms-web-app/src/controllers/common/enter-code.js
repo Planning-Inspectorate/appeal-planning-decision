@@ -79,8 +79,9 @@ const tokenVerification = (res, token, views, id) => {
 
 /**
  * Sends a new token to the lpa user referenced by the id in the url params
+ * @async
  * @param {ExpressRequest} req
- * @returns {Promise}
+ * @returns {Promise<void>}
  */
 async function sendTokenToLpaUser(req) {
 	const user = await getUserById(req.params.id);
