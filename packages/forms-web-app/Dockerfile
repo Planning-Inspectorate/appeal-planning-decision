@@ -1,6 +1,5 @@
 # Stage 1/2: Build
-FROM node:18-alpine AS build
-
+FROM node:14-alpine AS build
 
 WORKDIR /opt/app
 
@@ -16,7 +15,7 @@ RUN npm ci
 RUN npm run build
 
 # Stage 2/2: App Run
-FROM node:18-alpine AS app
+FROM node:14-alpine AS app
 
 WORKDIR /opt/app
 
@@ -24,7 +23,7 @@ COPY --from=build /opt/app ./
 COPY --from=build /opt/common ../common
 COPY --from=build /opt/business-rules ../business-rules
 
-RUN npm prune --omit=dev && npm rebuild --ignore-scripts
+RUN npm prune --production && npm rebuild
 
 EXPOSE 3000
 

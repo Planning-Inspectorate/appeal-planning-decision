@@ -14,7 +14,7 @@ const createAzuriteContainer = async () => {
 	startedContainer = await new GenericContainer('mcr.microsoft.com/azure-storage/azurite')
 		.withName('documents-api-it-azurite')
 		.withExposedPorts(10000)
-		.withCommand(['azurite-blob', '--blobHost', '0.0.0.0']) // 0.0.0.0 is important since the document API system can't reach the Azurite container if its started with the 127.0.0.1 default
+		.withCmd(['azurite-blob', '--blobHost', '0.0.0.0']) // 0.0.0.0 is important since the document API system can't reach the Azurite container if its started with the 127.0.0.1 default
 		.withWaitStrategy(Wait.forLogMessage(/Azurite Blob service successfully listens on .*/))
 		.start();
 
