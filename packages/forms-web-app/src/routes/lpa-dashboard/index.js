@@ -13,7 +13,8 @@ router.use(
 		'request-new-code',
 		'need-new-code',
 		'code-expired',
-		'enter-email'
+		'enter-email',
+		'your-email-address'
 	])
 );
 
@@ -22,6 +23,7 @@ router.use(require('./enter-code'));
 router.use(require('./request-new-code'));
 router.use(require('./need-new-code'));
 router.use(require('./code-expired'));
+router.use(require('./your-email-address'));
 
 // temporary until page is built
 router.get('/enter-email', function (req, res) {
