@@ -34,5 +34,6 @@ router.use(require('./your-appeals'));
 
 router.use(require('./add-remove-users'));
 router.use(require('./email-address'));
+router.use(require('./confirm-add-user'));
 
 module.exports = router;
