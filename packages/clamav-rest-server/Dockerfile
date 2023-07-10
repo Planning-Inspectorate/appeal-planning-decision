@@ -5,6 +5,9 @@ FROM node:18-alpine AS build
 WORKDIR /opt/app
 
 COPY packages/common ../common
+RUN cd ../common && npm ci --workspaces=false
+
+RUN cd ../app
 COPY packages/clamav-rest-server/package*.json ./
 COPY packages/clamav-rest-server/src ./src
 
