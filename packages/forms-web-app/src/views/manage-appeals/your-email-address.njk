@@ -4,7 +4,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
-{% set title="What is your email address? - Appeal a planning decision - GOV.UK" %}
+{% set title="Enter your email address - Manage my appeals - Planning Inspectorate" %}
 
 {% block pageTitle %}
   {% if errors %}
@@ -30,15 +30,11 @@
         <span class="govuk-caption-l"></span>
 
           <label class="govuk-label govuk-label--l" for="email">
-            What is your email address?
+            Enter your email address
           </label>
 
           <p class="govuk-body">
-            We’ll use this email to contact you about your appeal.
-          </p>
-
-          <p class="govuk-body">
-            We’ll send you a code to confirm the email address is yours.
+            We’ll send an access code to this address, if you have an account.
           </p>
 
           {{ govukInput({
