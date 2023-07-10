@@ -1,3 +1,4 @@
+const { getUserByEmail } = require('../../lib/appeals-api-wrapper');
 const { enterCodeConfig } = require('@pins/common');
 
 const getYourEmailAddress = (views) => {
@@ -16,23 +17,12 @@ const postYourEmailAddress = (views) => {
 			params: { id }
 		} = req;
 
-		const { errors = {}, errorSummary = [] } = body;
+		const email = body['email-address'];
 
-		req.session.email = body['email-address'];
-		const { email } = req.session;
-
-		if (Object.keys(errors).length > 0) {
-			res.render(views.YOUR_EMAIL_ADDRESS, {
-				email,
-				errors,
-				errorSummary
-			});
-			return;
-		}
-
+		await getUserByEmail(email);
+		req.session.email = email;
 		req.session.enterCode = req.session.enterCode || {};
 		req.session.enterCode.action = enterCodeConfig.actions.confirmEmail;
-
 		res.redirect(`/${views.ENTER_CODE}/${id}`);
 	};
 };
