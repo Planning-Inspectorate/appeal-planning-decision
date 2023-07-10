@@ -1,21 +1,25 @@
 # Stage 1/2: Build
-FROM node:14-alpine AS build
+FROM node:18-alpine AS build
+
 
 WORKDIR /opt/app
 
 COPY packages/common ../common
+RUN cd ../common && npm ci --workspaces=false
 COPY packages/business-rules ../business-rules
+RUN cd ../business-rules && npm ci --workspaces=false
 
+RUN cd ../app
 COPY packages/forms-web-app/package*.json ./
 COPY packages/forms-web-app/webpack*.js ./
 COPY packages/forms-web-app/src ./src
 COPY packages/forms-web-app/patches ./patches
 
-RUN npm ci
+RUN npm ci --workspaces=false
 RUN npm run build
 
 # Stage 2/2: App Run
-FROM node:14-alpine AS app
+FROM node:18-alpine AS app
 
 WORKDIR /opt/app
 
@@ -23,7 +27,7 @@ COPY --from=build /opt/app ./
 COPY --from=build /opt/common ../common
 COPY --from=build /opt/business-rules ../business-rules
 
-RUN npm prune --production && npm rebuild
+RUN npm prune --omit=dev && npm rebuild --ignore-scripts
 
 EXPOSE 3000
 

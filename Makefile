@@ -8,13 +8,13 @@ down:
 .PHONY: down
 
 install:
-	npm ci
+	npm ci --workspaces=false
 
 	for dir in ${APPS}; do \
 		echo "-- Installing $${dir} --"; \
-		(cd $${dir} && npm ci); \
+		(cd $${dir} && npm ci --workspaces=false); \
 		echo "-- Installed for $${dir} --"; \
-  	done
+	done
 .PHONY: install
 
 run:
