@@ -18,8 +18,22 @@ const postYourEmailAddress = (views) => {
 
 		const { errors = {}, errorSummary = [] } = body;
 
-		req.session.email = body['email-address'];
-		const { email } = req.session;
+		if (!body['email-address'] || body['email-address'] === '') {
+			const customErrorSummary = [
+				{
+					text: 'Enter an email address in the correct format, like name@example.com',
+					href: '#your-email-address'
+				}
+			];
+			res.render(`/${views.YOUR_EMAIL_ADDRESS}`, {
+				errors,
+				errorSummary: customErrorSummary
+			});
+			return;
+		}
+
+		const { email } = body['email-address'];
+		req.session.email = email;
 
 		if (Object.keys(errors).length > 0) {
 			res.render(views.YOUR_EMAIL_ADDRESS, {

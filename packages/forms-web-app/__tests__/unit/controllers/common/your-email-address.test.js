@@ -40,26 +40,18 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			await returnedFunction(req, res);
 			expect(res.redirect).toBeCalledWith(`/${lpaViews.ENTER_CODE}/${testId}`);
 		});
-		it('ERRORS /controllers/common/getYourEmailAddress.js', async () => {
-			const testId = 'd1f31fc7-0152-4796-ab48-52adcdd95066';
-			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
-			const errors = {
-				error1: 'Some error'
-			};
-			const errorSummary = ['Some error'];
-			req.params.id = testId;
-			req.body = {
-				...req.body,
-				errors
-			};
-			req.body['email-address'] = testEmail;
-			req.body.errorSummary = errorSummary;
+		it('/controllers.common.getYourEmailAddress.js missing email address', async () => {
+			const customErrorSummary = [
+				{
+					text: 'Enter an email address in the correct format, like name@example.com',
+					href: '#your-email-address'
+				}
+			];
 			const returnedFunction = postYourEmailAddress(lpaViews);
 			await returnedFunction(req, res);
-			expect(res.render).toBeCalledWith(`${lpaViews.YOUR_EMAIL_ADDRESS}`, {
-				errors: errors,
-				errorSummary: errorSummary,
-				email: testEmail
+			expect(res.render).toBeCalledWith(`/${lpaViews.YOUR_EMAIL_ADDRESS}`, {
+				errors: {},
+				errorSummary: customErrorSummary
 			});
 		});
 	});
