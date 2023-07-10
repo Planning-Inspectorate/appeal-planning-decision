@@ -3,8 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"engines": {
-		"node": ">=14.0.0 <15.0.0",
-		"npm": ">=6.0.0 <7.0.0"
+		"node": ">=18.0.0 <19.0.0",
+		"npm": ">=9.0.0 <10.0.0"
 	},
 	"description": "Appeal a planning decision - these are utility scripts for the whole repo",
 	"workspaces": [
@@ -69,10 +69,11 @@
 		"eslint-plugin-jest": "^26.5.3",
 		"husky": "^8.0.0",
 		"lint-staged": "^10.5.0",
-		"multi-semantic-release": "^2.13.0",
+		"multi-semantic-release": "^3.0.2",
 		"npm-run-all": "^4.1.5",
 		"pino": "^8.4.1",
-		"prettier": "^2.1.2"
+		"prettier": "^2.1.2",
+		"semantic-release": "21.0.5"
 	},
 	"config": {
 		"commitizen": {
