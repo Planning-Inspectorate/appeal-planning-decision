@@ -31,8 +31,7 @@ describe('requireUser', () => {
 	it('returns a 401 if no user', () => {
 		requireUser(req, res, next);
 
-		expect(res.status).toHaveBeenCalledWith(401);
-		expect(res.render).toHaveBeenCalledWith(VIEW.ERROR_PAGES.UNAUTHORIZED);
+		expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.YOUR_EMAIL_ADDRESS}`);
 		expect(next).not.toHaveBeenCalled();
 	});
 
@@ -46,8 +45,7 @@ describe('requireUser', () => {
 
 			requireUser(req, res, next);
 
-			expect(res.status).toHaveBeenCalledWith(401);
-			expect(res.render).toHaveBeenCalledWith(VIEW.ERROR_PAGES.UNAUTHORIZED);
+			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.YOUR_EMAIL_ADDRESS}`);
 			expect(next).not.toHaveBeenCalled();
 		});
 	});
