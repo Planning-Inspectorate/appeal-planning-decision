@@ -18,9 +18,9 @@ const {
 
 const views = { YOUR_EMAIL_ADDRESS, ENTER_CODE };
 
-router.get('/manage-appeals/your-email-address', getYourEmailAddress(views));
+router.get('/your-email-address', getYourEmailAddress(views));
 router.post(
-	'/manage-appeal/your-email-address',
+	'/your-email-address',
 	emailAddressValidationRules(),
 	validationErrorHandler,
 	postYourEmailAddress(views)

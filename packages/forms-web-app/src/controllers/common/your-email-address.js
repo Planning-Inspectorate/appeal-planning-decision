@@ -2,9 +2,9 @@ const { enterCodeConfig } = require('@pins/common');
 
 const getYourEmailAddress = (views) => {
 	return (req, res) => {
-		const { email } = req.session.email;
-		res.render(views.EMAIL_ADDRESS, {
-			email
+		const { email } = req.session;
+		res.render(views.YOUR_EMAIL_ADDRESS, {
+			email: email
 		});
 	};
 };
@@ -19,10 +19,10 @@ const postYourEmailAddress = (views) => {
 		const { errors = {}, errorSummary = [] } = body;
 
 		req.session.email = body['email-address'];
-		const { email } = req.session.email;
+		const { email } = req.session;
 
 		if (Object.keys(errors).length > 0) {
-			res.render(views.EMAIL_ADDRESS, {
+			res.render(views.YOUR_EMAIL_ADDRESS, {
 				email,
 				errors,
 				errorSummary
