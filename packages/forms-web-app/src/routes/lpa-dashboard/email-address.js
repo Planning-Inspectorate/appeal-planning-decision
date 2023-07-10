@@ -1,4 +1,7 @@
 const express = require('express');
+const { rules: validateEmailAddressRules } = require('../../validators/common/lpa-user-email');
+const { validationErrorHandler } = require('../../validators/validation-error-handler');
+
 const {
 	getEmailAddress,
 	postEmailAddress
@@ -7,6 +10,11 @@ const {
 const router = express.Router();
 
 router.get('/email-address', getEmailAddress);
-router.post('/email-address', postEmailAddress);
+router.post(
+	'/email-address',
+	validateEmailAddressRules(),
+	validationErrorHandler,
+	postEmailAddress
+);
 
 module.exports = router;

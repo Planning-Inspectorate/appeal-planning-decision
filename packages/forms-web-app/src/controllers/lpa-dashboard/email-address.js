@@ -18,6 +18,19 @@ const getEmailAddress = async (req, res) => {
 };
 
 const postEmailAddress = async (req, res) => {
+	const { errors = {}, errorSummary = [] } = req.body;
+
+	if (Object.keys(errors).length > 0) {
+		const user = getLPAUserFromSession(req);
+		const lpa = await getLPA(user.lpaCode);
+
+		return res.render(EMAIL_ADDRESS, {
+			lpaDomain: `@${lpa.domain}`,
+			errors,
+			errorSummary
+		});
+	}
+
 	const addUserPrefix = req.body['add-user'];
 
 	req.session.addUserEmailAddress = `${addUserPrefix}@${req.session.addUserLpaDomain}`;

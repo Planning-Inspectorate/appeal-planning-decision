@@ -11,9 +11,6 @@ const { mockReq, mockRes } = require('../../mocks');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/lpa-user.service');
 
-const req = {
-	...mockReq(null)
-};
 const res = mockRes();
 
 const mockUser = {
@@ -25,8 +22,18 @@ const mockLpa = {
 	domain: 'test.example.com'
 };
 
+const errors = {
+	'add-user': 'Error message'
+};
+const errorSummary = [{ text: 'There was an error', href: '#' }];
+
 describe('controllers/lpa-dashboard/email-address', () => {
+	let req;
+
 	beforeEach(() => {
+		req = {
+			...mockReq(null)
+		};
 		jest.resetAllMocks();
 	});
 
@@ -72,6 +79,30 @@ describe('controllers/lpa-dashboard/email-address', () => {
 
 			expect(req.session.addUserLpaDomain).toBe(undefined);
 			expect(req.session.addUserEmailAddress).toBe(`test@${mockLpa.domain}`);
+		});
+
+		it('should re-render the template with errors if submission validation fails', async () => {
+			req = {
+				...req,
+				body: {
+					['add-user']: '',
+					errors,
+					errorSummary
+				}
+			};
+
+			getLPAUserFromSession.mockReturnValue(mockUser);
+			getLPA.mockResolvedValue(mockLpa);
+
+			await postEmailAddress(req, res);
+
+			expect(getLPAUserFromSession).toHaveBeenCalledWith(req);
+			expect(getLPA).toHaveBeenCalledWith(mockUser.lpaCode);
+			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.EMAIL_ADDRESS, {
+				lpaDomain: `@${mockLpa.domain}`,
+				errorSummary,
+				errors
+			});
 		});
 	});
 });
