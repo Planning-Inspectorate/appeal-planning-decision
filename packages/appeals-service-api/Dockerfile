@@ -18,13 +18,10 @@ COPY packages/appeals-service-api/src ./src
 
 RUN npm ci --omit=dev --workspaces=false
 
-
 # Stage 2/2: App Run
 FROM build AS app
 
 WORKDIR /opt/app
-
-
 
 EXPOSE 3000
 
