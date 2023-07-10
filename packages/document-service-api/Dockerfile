@@ -5,6 +5,9 @@ FROM node:18-alpine AS build
 WORKDIR /opt/app
 
 COPY packages/common ../common
+RUN cd ../common && npm ci --workspaces=false
+
+RUN cd ../app
 COPY packages/document-service-api/package*.json ./
 COPY packages/document-service-api/src ./src
 
