@@ -171,10 +171,30 @@ const disableUser = async (id) => {
 	}
 };
 
+const setUserStatus = async (id, status) => {
+	logger.info(`attempting to set user status: ${id}`);
+
+	try {
+		const updated = await mongodb
+			.get()
+			.collection('user')
+			.findOneAndUpdate(
+				{ _id: new ObjectId(id) },
+				{ $set: { updatedAt: new Date(), status: status } },
+				{ returnDocument: 'after' }
+			);
+		logger.info(`set user status: ${updated._id}`);
+	} catch (err) {
+		logger.error(err, `Error: error attempting to set user status`);
+		throw err;
+	}
+};
+
 module.exports = {
 	getUsers,
 	createUser,
 	getUserByEmail,
 	getUserById,
-	disableUser
+	disableUser,
+	setUserStatus
 };
