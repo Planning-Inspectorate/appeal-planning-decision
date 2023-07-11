@@ -24,7 +24,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	});
 	describe('getYourEmailAddress', () => {
 		it('controllers/common/getYourEmailAddress.js', async () => {
-			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
+			const testEmail = 'iamnoone@example.com';
 			req.session.email = testEmail;
 			const returnedFunction = getYourEmailAddress(lpaViews);
 			await returnedFunction(req, res);
@@ -36,7 +36,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	describe('postYourEmailAddress', () => {
 		it('/controllers/common/postYourEmailAddress.js', async () => {
 			const testId = 'd1f31fc7-0152-4796-ab48-52adcdd95066';
-			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
+			const testEmail = 'iamnoone@example.com';
 			req.params.id = testId;
 			req.body['email-address'] = testEmail;
 			const returnedFunction = postYourEmailAddress(lpaViews);
@@ -45,7 +45,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 		});
 		it('/controllers/common/postYourEmailAddress.js valid email address', async () => {
 			const testId = 'd1f31fc7-0152-4796-ab48-52adcdd95066';
-			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
+			const testEmail = 'iamnoone@example.com';
 			req.params.id = testId;
 			req.body['email-address'] = testEmail;
 			getUserByEmail.mockReturnValue = {
