@@ -3,7 +3,8 @@ const {
 	createUser,
 	getUserByEmail,
 	getUserById,
-	disableUser
+	disableUser,
+	setUserStatus
 } = require('../services/user.service');
 const logger = require('../lib/logger');
 
@@ -82,10 +83,27 @@ async function userDelete(req, res) {
 	}
 }
 
+async function userSetStatus(req, res) {
+	let statusCode = 200;
+	let body = {};
+	try {
+		const { id } = req.params;
+		const { status } = req.body;
+		await setUserStatus(id, status);
+	} catch (error) {
+		logger.error(`Failed to update user status: 500 // ${error.message}`);
+		statusCode = 500;
+		body = error.message.errors;
+	} finally {
+		res.status(statusCode).send(body);
+	}
+}
+
 module.exports = {
 	usersGet,
 	userPost,
 	userGet,
 	userGetById,
-	userDelete
+	userDelete,
+	userSetStatus
 };
