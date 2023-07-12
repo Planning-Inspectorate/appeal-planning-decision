@@ -30,6 +30,16 @@ const getLPAUser = async (userId) => {
 /**
  * Creates the user object within the session object of the request for the successfully logged in LPAUser
  * @async
+ * @param {UserId} userId
+ * @returns {Promise<User>}
+ */
+const getLPAUser = async (userId) => {
+	return await getUserById(userId);
+};
+
+/**
+ * Creates the user object within the session object of the request for the successfully logged in LPAUser
+ * @async
  * @param {ExpressRequest} req
  * @param {UserId} userId
  * @returns {Promise<void>}
