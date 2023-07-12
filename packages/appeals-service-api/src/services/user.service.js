@@ -3,6 +3,7 @@ const mongodb = require('../db/db');
 const ObjectId = require('mongodb').ObjectId;
 const ApiError = require('../errors/apiError');
 const LpaService = require('../services/lpa.service');
+const { userStatus } = require('../lib/user-status');
 const lpaService = new LpaService();
 
 const userProjection = {
@@ -11,7 +12,8 @@ const userProjection = {
 		email: 1,
 		lpaCode: 1,
 		isAdmin: 1,
-		enabled: 1
+		enabled: 1,
+		status: 1
 	}
 };
 
@@ -61,10 +63,11 @@ const createUser = async (user) => {
 		throw ApiError.badRequest();
 	}
 
-	user.enabled = true;
+	user.enabled = true; //todo: decide what to do with this field in light of status field
 	user.createdAt = new Date();
 
 	if (!user.isAdmin) {
+		user.status = userStatus.added;
 		user.isAdmin = false;
 	}
 

@@ -10,6 +10,7 @@
 		"email": "user1@planninginspectorate.gov.uk",
 		"isAdmin": false,
 		"enabled": true,
+		"status": "added",
 		"lpaCode": "Q9999",
 		"createdDate": "2023-06-09T16:06:23.664+00:00"
 	}

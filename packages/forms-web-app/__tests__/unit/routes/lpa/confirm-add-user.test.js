@@ -1,4 +1,4 @@
-const { get } = require('../router-mock');
+const { get, post } = require('../router-mock');
 const confirmAddUserController = require('../../../../src/controllers/lpa-dashboard/confirm-add-user');
 
 jest.mock('../../../../src/controllers/lpa-dashboard/confirm-add-user');
@@ -17,6 +17,10 @@ describe('routes/lpa-dashboard/confirm-add-user', () => {
 		expect(get).toHaveBeenCalledWith(
 			'/confirm-add-user',
 			confirmAddUserController.getConfirmAddUser
+		);
+		expect(post).toHaveBeenCalledWith(
+			'/confirm-add-user',
+			confirmAddUserController.postConfirmAddUser
 		);
 	});
 });

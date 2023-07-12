@@ -2,7 +2,6 @@ const {
 	getEmailAddress,
 	postEmailAddress
 } = require('../../../../src/controllers/lpa-dashboard/email-address');
-const { getLPA } = require('../../../../src/lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.service');
 
 const { VIEW } = require('../../../../src/lib/views');
@@ -15,11 +14,8 @@ const res = mockRes();
 
 const mockUser = {
 	lpaCode: 'Q9999',
-	email: 'test@example.com'
-};
-
-const mockLpa = {
-	domain: 'test.example.com'
+	email: 'test@example.com',
+	lpaDomain: 'test.example.com'
 };
 
 const errors = {
@@ -40,30 +36,19 @@ describe('controllers/lpa-dashboard/email-address', () => {
 	describe('getEmailAddress', () => {
 		it('should render the view', async () => {
 			getLPAUserFromSession.mockReturnValue(mockUser);
-			getLPA.mockResolvedValue(mockLpa);
 
 			await getEmailAddress(req, res);
 
 			expect(getLPAUserFromSession).toHaveBeenCalledWith(req);
-			expect(getLPA).toHaveBeenCalledWith(mockUser.lpaCode);
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.EMAIL_ADDRESS, {
-				lpaDomain: `@${mockLpa.domain}`
+				lpaDomain: `@${mockUser.lpaDomain}`
 			});
-		});
-
-		it('should store the new user domain in the session', async () => {
-			getLPAUserFromSession.mockReturnValue(mockUser);
-			getLPA.mockResolvedValue(mockLpa);
-			req.session.addUserLpaDomain = null;
-
-			await getEmailAddress(req, res);
-
-			expect(req.session.addUserLpaDomain).toEqual(mockLpa.domain);
 		});
 	});
 
 	describe('postEmailAddress', () => {
 		it('should redirect to confirm page', async () => {
+			getLPAUserFromSession.mockReturnValue(mockUser);
 			req.body = { 'add-user': 'test' };
 
 			await postEmailAddress(req, res);
@@ -71,14 +56,13 @@ describe('controllers/lpa-dashboard/email-address', () => {
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.CONFIRM_ADD_USER}`);
 		});
 
-		it('should store the new user email address in session and remove new user domain from session', async () => {
-			req.session.addUserLpaDomain = mockLpa.domain;
+		it('should store the new user email address in session', async () => {
+			getLPAUserFromSession.mockReturnValue(mockUser);
 			req.body = { 'add-user': 'test' };
 
 			await postEmailAddress(req, res);
 
-			expect(req.session.addUserLpaDomain).toBe(undefined);
-			expect(req.session.addUserEmailAddress).toBe(`test@${mockLpa.domain}`);
+			expect(req.session.addUserEmailAddress).toBe(`test@${mockUser.lpaDomain}`);
 		});
 
 		it('should re-render the template with errors if submission validation fails', async () => {
@@ -92,14 +76,12 @@ describe('controllers/lpa-dashboard/email-address', () => {
 			};
 
 			getLPAUserFromSession.mockReturnValue(mockUser);
-			getLPA.mockResolvedValue(mockLpa);
 
 			await postEmailAddress(req, res);
 
 			expect(getLPAUserFromSession).toHaveBeenCalledWith(req);
-			expect(getLPA).toHaveBeenCalledWith(mockUser.lpaCode);
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.EMAIL_ADDRESS, {
-				lpaDomain: `@${mockLpa.domain}`,
+				lpaDomain: `@${mockUser.lpaDomain}`,
 				errorSummary,
 				errors
 			});

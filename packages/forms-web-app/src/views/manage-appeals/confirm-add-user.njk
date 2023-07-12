@@ -1,14 +1,30 @@
 {% extends "layouts/lpa-dashboard/main.njk" %}
-
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set title="Confirm you want to add this user - Manage appeals - GOV.UK" %}
 
 {% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
   {{ title }}
 {% endblock %}
 
 {% block content %}
+
+ {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary and [
+        {
+          text: errorSummary[0].text,
+          href: errorSummary[0].href
+        }
+      ]
+    }) }}
+  {% endif %}
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l">Confirm you want to add this user</h1>
