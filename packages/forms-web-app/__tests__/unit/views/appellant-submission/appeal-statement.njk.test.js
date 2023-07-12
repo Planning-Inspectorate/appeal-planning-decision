@@ -8,6 +8,8 @@ const fileSizeDisplayHelper = require('../../../../src/lib/file-size-display-hel
 
 nunjucksTestRenderer.addFilter('formatBytes', fileSizeDisplayHelper);
 
+window.HTMLFormElement.prototype.submit = jest.fn();
+
 describe('views/appellant-submission/appeal-statement.njk', () => {
 	beforeAll(() => {
 		document.body.innerHTML = nunjucksTestRenderer.render(
@@ -52,6 +54,35 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 			}
 		});
 	});
+	it('should return true if the checkbox is ticked', (done) => {
+		const checkbox = document.getElementById('i-confirm');
+		checkbox.setAttribute('checked', true);
+
+		global.runFunctionSync('isDNISensitiveInformationChecked', document, [], (result) => {
+			try {
+				expect(result).toEqual(true);
+			} catch (e) {
+				throw new Error(e);
+			} finally {
+				done();
+			}
+		});
+	});
+	it('should return false if the checkbox is not ticked', (done) => {
+		const checkbox = document.getElementById('i-confirm');
+		checkbox.removeAttribute('checked');
+		console.log(checkbox.outerHTML);
+
+		global.runFunctionSync('isDNISensitiveInformationChecked', document, [], (result) => {
+			try {
+				expect(result).toEqual(false);
+			} catch (e) {
+				throw new Error(e);
+			} finally {
+				done();
+			}
+		});
+	});
 	it('should return true if a error summary item is already in the list', (done) => {
 		const errorSummary = document.getElementById('error-summary');
 		const errorSummaryList = errorSummary.querySelectorAll('ul')[0];
@@ -90,25 +121,36 @@ describe('views/appellant-submission/appeal-statement.njk', () => {
 		});
 	});
 	it('should submit the form if the user has already checked the confirmation checkbox and selected an appeal statement', (done) => {
-		const checkbox = document.getElementById('does-not-include-sensitive-information');
-		checkbox.checked = true;
+		const checkbox = document.getElementById('i-confirm');
+		checkbox.setAttribute('checked', true);
 
 		const fileUpload = document.getElementById('file-upload');
-		(fileUpload.value = 'appealStatement.pdf'),
-			global.runFunctionSync('saveAndContinueClick', document, [], (result) => {
-				expect(result).toEqual(true);
-				const errorSummary = document.getElementById('error-summary');
-				const errorSummaryItems = errorSummary.querySelectorAll(`li`);
-				expect(errorSummary.style.display).toEqual('none');
-				expect(errorSummaryItems.length).toEqual(0);
-				expect(errorSummary.style.display).toEqual('none');
-				done();
-			});
+		fileUpload.value = 'appealStatement.pdf';
+		global.runFunctionSync('saveAndContinueClick', document, [], (result) => {
+			expect(result).toEqual(true);
+			const errorSummary = document.getElementById('error-summary');
+			const errorSummaryItems = errorSummary.querySelectorAll(`li`);
+			const form = document.getElementsByTagName('form')[0];
+			const onSubmitSpy = jest.spyOn(form, 'submit');
+			expect(errorSummary.style.display).toEqual('none');
+			expect(errorSummaryItems.length).toEqual(0);
+			expect(onSubmitSpy).toHaveBeenCalled();
+			done();
+		});
+	});
+	it('should not submit the form if the user has not already checked the confirmation checkbox or not selected an appeal statement', (done) => {
+		global.runFunctionSync('saveAndContinueClick', document, [], (result) => {
+			expect(result).toEqual(false);
+			const form = document.getElementsByTagName('form')[0];
+			const onSubmitSpy = jest.spyOn(form, 'submit');
+			expect(onSubmitSpy).toHaveBeenCalledTimes(0);
+			done();
+		});
 	});
 	it('should display an error if the user tries to submit without uploading an appeal statement', (done) => {
 		const appealStatementMissingError = 'Select your appeal statement';
 		const checkbox = document.getElementById('does-not-include-sensitive-information');
-		checkbox.checked = true;
+		checkbox.setAttribute('checked', true);
 
 		global.runFunctionSync('saveAndContinueClick', document, [], (result) => {
 			expect(result).toEqual(false);
