@@ -10,8 +10,8 @@ const { isFeatureActive } = require('../../src/configuration/featureFlag');
 const dbName = 'users';
 let appealsApi;
 let databaseConnection;
-let testLpaEmail = 'appealplanningdecisiontest@planninginspectorate.gov.uk';
-let testLpaDomain = 'planninginspectorate.gov.uk';
+let testLpaEmail = 'appealplanningdecisiontest@example.com';
+let testLpaDomain = 'example.com';
 let testLpaONSCodeEngland = 'E69999999';
 let testLpaCodeEngland = 'Q9999';
 let testLpaONSCodeWales = 'W69999999';
@@ -183,14 +183,14 @@ describe('Users', () => {
 		expect(usersResponse.body.length).toBe(3);
 
 		// and they are ordered by admin then email
-		expect(usersResponse.body[0].email).toBe('testuser3@planninginspectorate.gov.uk');
-		expect(usersResponse.body[1].email).toBe('testuser1@planninginspectorate.gov.uk');
-		expect(usersResponse.body[2].email).toBe('testuser2@planninginspectorate.gov.uk');
+		expect(usersResponse.body[0].email).toBe('testuser3@example.com');
+		expect(usersResponse.body[1].email).toBe('testuser1@example.com');
+		expect(usersResponse.body[2].email).toBe('testuser2@example.com');
 	});
 
 	it('should return user', async () => {
 		// given a user is added
-		const email = 'testuser1@planninginspectorate.gov.uk';
+		const email = 'testuser1@example.com';
 		await _createUser(email, true, testLpaCodeEngland);
 
 		// when getting that user
@@ -202,9 +202,24 @@ describe('Users', () => {
 		expect(userResponse.body.enabled).toBe(true);
 	});
 
+	it('should set status flag as added for user added by admin', async () => {
+		// given a non-admin user is added
+		const email = 'testuser1@example.com';
+		await _createUser(email, false, testLpaCodeEngland);
+
+		// when getting that user
+		const userResponse = await appealsApi.get(`/api/v1/users/${email}`);
+
+		// then the user is returned with correct status
+		expect(userResponse.body.status).toBe('added');
+		expect(userResponse.body.email).toBe(email);
+		expect(userResponse.body.isAdmin).toBe(false);
+		expect(userResponse.body.enabled).toBe(true);
+	});
+
 	it('should 404 with nonexistent user', async () => {
 		// when: getting a nonexistent user
-		const user = await appealsApi.get(`/api/v1/users/testuser1@planninginspectorate.gov.uk`);
+		const user = await appealsApi.get(`/api/v1/users/testuser1@example.com`);
 
 		// then: a 404 is returned
 		expect(user.status).toBe(404);
@@ -212,7 +227,7 @@ describe('Users', () => {
 
 	it('can disable user and it is not returned by get actions', async () => {
 		// given: a user exists
-		const email = 'testuser1@planninginspectorate.gov.uk';
+		const email = 'testuser1@example.com';
 		await _createUser(email, false, testLpaCodeEngland);
 		const userResponse = await appealsApi.get(`/api/v1/users/${email}`);
 
@@ -220,9 +235,7 @@ describe('Users', () => {
 		await appealsApi.delete(`/api/v1/users/${userResponse.body._id}`);
 
 		// then: the user is no longer returned in either get method
-		const userResponse2 = await appealsApi.get(
-			`/api/v1/users/testuser1@planninginspectorate.gov.uk`
-		);
+		const userResponse2 = await appealsApi.get(`/api/v1/users/testuser1@example.com`);
 		const usersResponse = await appealsApi.get(`/api/v1/users/?lpaCode=${testLpaCodeEngland}`);
 
 		expect(usersResponse.body.length).toBe(0);
@@ -231,7 +244,7 @@ describe('Users', () => {
 
 	it("can't disable admin user", async () => {
 		// given: user is admin
-		const email = 'testuser1@planninginspectorate.gov.uk';
+		const email = 'testuser1@example.com';
 		await _createUser(email, true, testLpaCodeEngland);
 		const userResponse = await appealsApi.get(`/api/v1/users/${email}`);
 
@@ -246,7 +259,7 @@ describe('Users', () => {
 const _createUser = async (email, isAdmin, lpa) => {
 	email += '';
 	if (email.indexOf('@') === -1) {
-		email = `testuser${email}@planninginspectorate.gov.uk`;
+		email = `testuser${email}@example.com`;
 	}
 
 	return await appealsApi.post('/api/v1/users').send({

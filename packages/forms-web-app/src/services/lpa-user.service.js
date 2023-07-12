@@ -1,4 +1,4 @@
-const { getUserById, setUserStatus } = require('../lib/appeals-api-wrapper');
+const { getUserById, setUserStatus, getLPA } = require('../lib/appeals-api-wrapper');
 
 /**
  * The id of the user, in mongodb object id format: /^[a-f\\d]{24}$/i
@@ -13,6 +13,8 @@ const { getUserById, setUserStatus } = require('../lib/appeals-api-wrapper');
  * @property {boolean} isAdmin - If the user is an admin user (cannot be deleted).
  * @property {boolean} enabled - If the user is currently enabled.
  * @property {string} lpaCode - If code of the lpa the user belongs to.
+ * @property {string} lpaName - Name of the lpa the user belongs to.
+ * @property {string} lpaDomain - Domain of the lpa the user belongs to.
  */
 
 /**
@@ -35,6 +37,14 @@ const getLPAUser = async (userId) => {
 const createLPAUserSession = async (req, userId) => {
 	let user = await getLPAUser(userId);
 	req.session.lpaUser = user;
+
+	let lpa = await getLPA(user.lpaCode);
+
+	req.session.lpaUser = {
+		...req.session.lpaUser,
+		lpaName: lpa.name,
+		lpaDomain: lpa.domain
+	};
 };
 
 /**

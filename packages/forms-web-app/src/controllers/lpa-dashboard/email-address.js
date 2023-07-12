@@ -1,4 +1,3 @@
-const { getLPA } = require('../../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 
 const {
@@ -9,23 +8,20 @@ const {
 
 const getEmailAddress = async (req, res) => {
 	const user = getLPAUserFromSession(req);
-	const lpa = await getLPA(user.lpaCode);
-	req.session.addUserLpaDomain = lpa.domain;
 
 	return res.render(EMAIL_ADDRESS, {
-		lpaDomain: `@${lpa.domain}`
+		lpaDomain: `@${user.lpaDomain}`
 	});
 };
 
 const postEmailAddress = async (req, res) => {
 	const { errors = {}, errorSummary = [] } = req.body;
 
-	if (Object.keys(errors).length > 0) {
-		const user = getLPAUserFromSession(req);
-		const lpa = await getLPA(user.lpaCode);
+	const user = getLPAUserFromSession(req);
 
+	if (Object.keys(errors).length > 0) {
 		return res.render(EMAIL_ADDRESS, {
-			lpaDomain: `@${lpa.domain}`,
+			lpaDomain: `@${user.lpaDomain}`,
 			errors,
 			errorSummary
 		});
@@ -33,8 +29,7 @@ const postEmailAddress = async (req, res) => {
 
 	const addUserPrefix = req.body['add-user'];
 
-	req.session.addUserEmailAddress = `${addUserPrefix}@${req.session.addUserLpaDomain}`;
-	delete req.session.addUserLpaDomain;
+	req.session.addUserEmailAddress = `${addUserPrefix}@${user.lpaDomain}`;
 
 	return res.redirect(`/${CONFIRM_ADD_USER}`);
 };
