@@ -6,6 +6,7 @@ const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const dbName = 'users';
 let appealsApi;
@@ -67,17 +68,17 @@ afterAll(async () => {
 
 describe('Users', () => {
 	it('should create user', async () => {
+		const email = 'testuser1@example.com';
+
 		// When a valid user object is posted to the users api
-		const response = await _createUser(1, true, testLpaCodeEngland);
-		const response2 = await _createUser(2, false, testLpaCodeEngland);
+		const response = await _createUser(email, true, testLpaCodeEngland);
 
 		// Then: It should return a status code of 201
 		expect(response.status).toBe(201);
-		expect(response2.status).toBe(201);
 
-		// And: The back-end should contain 2 users for that lpa
-		const users = await appealsApi.get(`/api/v1/users/?lpaCode=${testLpaCodeEngland}`);
-		expect(users.body.length).toBe(2);
+		// And: The back-end should contain that user
+		const userResponse = await appealsApi.get(`/api/v1/users/${email}`);
+		expect(userResponse.body.email).toBe(email);
 	});
 
 	it.skip('should not create duplicate user', async () => {
@@ -99,30 +100,29 @@ describe('Users', () => {
 
 	it('should not create multiple admin users', async () => {
 		// Given and existing admin user
-		await _createUser(1, true, testLpaCodeEngland);
+		const response = await _createUser(1, true, testLpaCodeEngland);
+
+		expect(response.status).toBe(201);
 
 		// When another admin user is added to the same lpa
 		const response2 = await _createUser(2, true, testLpaCodeEngland);
 
 		// Then: the second should return a 400
 		expect(response2.status).toBe(400);
-
-		// And: The back-end should contain 1 user for that lpa
-		const users = await appealsApi.get(`/api/v1/users/?lpaCode=${testLpaCodeEngland}`);
-		expect(users.body.length).toBe(1);
 	});
 
 	it('should set isAdmin if not provided', async () => {
+		const email = 'testuser1@example.com';
+
 		// When: post user: isAdmin is not provided the system defaults to false
-		const response = await _createUser(1, undefined, testLpaCodeEngland);
+		const response = await _createUser(email, undefined, testLpaCodeEngland);
 
 		// Then: It should return a status code of 201
 		expect(response.status).toBe(201);
 
-		// And: The back-end should contain 1 user for that lpa with isAdmin set to false
-		const users = await appealsApi.get(`/api/v1/users/?lpaCode=${testLpaCodeEngland}`);
-		expect(users.body.length).toBe(1);
-		expect(users.body[0].isAdmin).toBe(false);
+		// And: The back-end should have set isAdmin to false
+		const userResponse = await appealsApi.get(`/api/v1/users/${email}`);
+		expect(userResponse.body.isAdmin).toBe(false);
 	});
 
 	it('should return 404 if lpa does not exist', async () => {
@@ -169,23 +169,30 @@ describe('Users', () => {
 		expect(response.status).toBe(400);
 	});
 
-	it('should sort by admin then email', async () => {
+	it('should sort by confirmed date', async () => {
 		// given multiple users in collection
 		await _createUser(3, true, testLpaCodeEngland);
 		await _createUser(2, false, testLpaCodeEngland);
 		await _createUser(1, false, testLpaCodeEngland);
 		await _createUser(4, false, testLpaONSCodeWales);
 
+		for (let i = 1; i <= 2; i++) {
+			const user = await appealsApi.get(`/api/v1/users/testuser${i}@example.com`);
+
+			await appealsApi.put(`/api/v1/users/${user.body._id}/status/`).send({
+				status: STATUS_CONSTANTS.CONFIRMED
+			});
+		}
+
 		// when calling get for the lpa they belong to
-		const usersResponse = await appealsApi.get(`/api/v1/users/?lpaCode=${testLpaCodeEngland}`);
+		const usersResponse2 = await appealsApi.get(`/api/v1/users/?lpaCode=${testLpaCodeEngland}`);
 
 		// then only the users from that lpa are returned
-		expect(usersResponse.body.length).toBe(3);
+		expect(usersResponse2.body.length).toBe(2);
 
 		// and they are ordered by admin then email
-		expect(usersResponse.body[0].email).toBe('testuser3@example.com');
-		expect(usersResponse.body[1].email).toBe('testuser1@example.com');
-		expect(usersResponse.body[2].email).toBe('testuser2@example.com');
+		expect(usersResponse2.body[0].email).toBe('testuser2@example.com');
+		expect(usersResponse2.body[1].email).toBe('testuser1@example.com');
 	});
 
 	it('should return user', async () => {
@@ -199,7 +206,7 @@ describe('Users', () => {
 		// then the user is returned
 		expect(userResponse.body.email).toBe(email);
 		expect(userResponse.body.isAdmin).toBe(true);
-		expect(userResponse.body.enabled).toBe(true);
+		expect(userResponse.body.status).toBe(STATUS_CONSTANTS.ADDED);
 	});
 
 	it('should set status flag as added for user added by admin', async () => {
@@ -211,10 +218,9 @@ describe('Users', () => {
 		const userResponse = await appealsApi.get(`/api/v1/users/${email}`);
 
 		// then the user is returned with correct status
-		expect(userResponse.body.status).toBe('added');
 		expect(userResponse.body.email).toBe(email);
 		expect(userResponse.body.isAdmin).toBe(false);
-		expect(userResponse.body.enabled).toBe(true);
+		expect(userResponse.body.status).toBe(STATUS_CONSTANTS.ADDED);
 	});
 
 	it('should 404 with nonexistent user', async () => {
@@ -265,7 +271,6 @@ const _createUser = async (email, isAdmin, lpa) => {
 	return await appealsApi.post('/api/v1/users').send({
 		email: email,
 		isAdmin: isAdmin,
-		enabled: true,
 		lpaCode: lpa
 	});
 };

@@ -2,10 +2,23 @@ const { getAddRemoveUsers } = require('../../../../src/controllers/lpa-dashboard
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
+const { getUsers } = require('../../../../src/lib/appeals-api-wrapper');
+const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.service');
+
 const req = {
 	...mockReq(null)
 };
 const res = mockRes();
+
+jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/services/lpa-user.service');
+
+const mockUser = {
+	lpaCode: 'test',
+	email: 'test@example.com'
+};
+
+const mockUsersResponse = [{ a: 1 }, { a: 2 }];
 
 describe('controllers/lpa-dashboard/add-remove-users', () => {
 	beforeEach(() => {
@@ -14,10 +27,15 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 
 	describe('getAddRemoveUsers', () => {
 		it('should render the view with backlink to dashboard and link to email-address', async () => {
-			getAddRemoveUsers(req, res);
+			getLPAUserFromSession.mockReturnValue(mockUser);
+			getUsers.mockResolvedValue(mockUsersResponse);
+
+			await getAddRemoveUsers(req, res);
+
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS, {
 				dashboardUrl: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
-				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`
+				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
+				users: mockUsersResponse
 			});
 		});
 
@@ -28,12 +46,16 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 				'They will receive an email with a link to the service'
 			];
 
-			getAddRemoveUsers(req, res);
+			getLPAUserFromSession.mockReturnValue(mockUser);
+			getUsers.mockResolvedValue(mockUsersResponse);
+
+			await getAddRemoveUsers(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS, {
 				dashboardUrl: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
 				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
-				successMessage: successMessage
+				successMessage: successMessage,
+				users: mockUsersResponse
 			});
 			expect(req.session.addUserEmailAddress).toBe(undefined);
 		});
@@ -42,12 +64,16 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 			req.session.removeUserEmailAddress = 'test@example.com';
 			const successMessage = [`test@example.com has been removed`];
 
-			getAddRemoveUsers(req, res);
+			getLPAUserFromSession.mockReturnValue(mockUser);
+			getUsers.mockResolvedValue(mockUsersResponse);
+
+			await getAddRemoveUsers(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS, {
 				dashboardUrl: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
 				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
-				successMessage: successMessage
+				successMessage: successMessage,
+				users: mockUsersResponse
 			});
 			expect(req.session.removeUserEmailAddress).toBe(undefined);
 		});
