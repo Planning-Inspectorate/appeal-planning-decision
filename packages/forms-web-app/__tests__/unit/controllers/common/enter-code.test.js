@@ -640,7 +640,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			req.body = {
 				'email-code': code
 			};
-			getLPAUserStatus.mockReturnValue('added');
+			getLPAUserStatus.mockResolvedValue('added');
 			await returnedFunction(req, res);
 			expect(getLPAUserStatus).toHaveBeenCalledWith(userId);
 			expect(setLPAUserStatus).toHaveBeenCalledWith(userId, 'confirmed');

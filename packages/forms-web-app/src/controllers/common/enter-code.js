@@ -323,7 +323,7 @@ const postEnterCodeLPA = (views) => {
 		if (!tokenVerification(res, token, views, id)) return;
 
 		try {
-			const currentUserStatus = getLPAUserStatus(id);
+			const currentUserStatus = await getLPAUserStatus(id);
 			if (currentUserStatus === 'added') {
 				await setLPAUserStatus(id, 'confirmed');
 			}
