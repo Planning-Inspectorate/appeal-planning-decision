@@ -4,7 +4,11 @@ const {
 	sendToken,
 	getUserById
 } = require('../../lib/appeals-api-wrapper');
-const { createLPAUserSession } = require('../../services/lpa-user.service');
+const {
+	createLPAUserSession,
+	getLPAUserStatus,
+	setLPAUserStatus
+} = require('../../services/lpa-user.service');
 const {
 	isTokenValid,
 	isTestLPACheckTokenAndSession,
@@ -319,6 +323,10 @@ const postEnterCodeLPA = (views) => {
 		if (!tokenVerification(res, token, views, id)) return;
 
 		try {
+			const currentUserStatus = getLPAUserStatus(id);
+			if (currentUserStatus === 'added') {
+				await setLPAUserStatus(id, 'confirmed');
+			}
 			await createLPAUserSession(req, id);
 		} catch (e) {
 			logger.error(`Failed to create user session for user id ${id}`);

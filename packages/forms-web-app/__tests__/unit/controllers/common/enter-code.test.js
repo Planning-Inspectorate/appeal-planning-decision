@@ -17,6 +17,7 @@ const {
 	sendToken,
 	getUserById
 } = require('../../../../src/lib/appeals-api-wrapper');
+const { getLPAUserStatus, setLPAUserStatus } = require('../../../../src/services/lpa-user.service');
 const {
 	isTokenValid,
 	isTestEnvironment,
@@ -28,6 +29,13 @@ const { utils } = require('@pins/common');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');
 jest.mock('../../../../src/lib/is-token-valid');
+jest.mock('../../../../src/services/lpa-user.service', () => {
+	return {
+		getLPAUserStatus: jest.fn(),
+		createLPAUserSession: jest.fn(),
+		setLPAUserStatus: jest.fn()
+	};
+});
 
 describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	let req;
@@ -632,8 +640,10 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			req.body = {
 				'email-code': code
 			};
-
+			getLPAUserStatus.mockReturnValue('added');
 			await returnedFunction(req, res);
+			expect(getLPAUserStatus).toHaveBeenCalledWith(userId);
+			expect(setLPAUserStatus).toHaveBeenCalledWith(userId, 'confirmed');
 			expect(res.redirect).toBeCalledWith('/manage-appeals/your-appeals');
 		});
 		it('should redirect on too many attempts', async () => {
@@ -752,7 +762,6 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			await returnedFunction(req, res);
 
 			expect(res.redirect).toBeCalledWith('/manage-appeals/your-appeals');
-			expect(req.session.lpaUser).toEqual(mockUser);
 		});
 	});
 });
