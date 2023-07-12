@@ -37,7 +37,10 @@ const getUsers = async (lpaCode) => {
 	}
 
 	try {
-		const cursor = await mongodb.get().collection('user').find({ lpaCode: lpaCode, enabled: true });
+		const cursor = await mongodb
+			.get()
+			.collection('user')
+			.find({ lpaCode: lpaCode, enabled: true, status: 'confirmed' });
 		// to sort from mongo instead of locally
 		// .sort({ isAdmin: -1, email: 1 });
 
@@ -183,7 +186,7 @@ const setUserStatus = async (id, status) => {
 			.collection('user')
 			.findOneAndUpdate(
 				{ _id: new ObjectId(id) },
-				{ $set: { updatedAt: new Date(), status: status } },
+				{ $set: { confirmedAt: new Date(), status: status } },
 				{ returnDocument: 'after' }
 			);
 		logger.info(`set user status: ${updated._id}`);
