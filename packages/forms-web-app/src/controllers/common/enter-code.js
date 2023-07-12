@@ -185,7 +185,7 @@ const postEnterCode = (views) => {
 		};
 
 		// check token
-		let tokenValid = await tokenValidResult(id, token, req.session);
+		let tokenValid = await tokenValidResult();
 
 		if (tokenValid.tooManyAttempts) {
 			return res.redirect(`/${views.NEED_NEW_CODE}`);

@@ -7,7 +7,8 @@ module.exports = {
 		'node_modules',
 		'<rootDir>/src/app.js',
 		'<rootDir>/src/main.js',
-		'<rootDir>/src/server.js'
+		'<rootDir>/src/server.js',
+		''
 	],
 	coverageThreshold: {
 		global: {
@@ -17,8 +18,11 @@ module.exports = {
 			statements: 50
 		}
 	},
+	globalSetup: '<rootDir>/__tests__/developer/globalSetup.js',
+	globalTeardown: '<rootDir>/__tests__/developer/globalTeardown.js',
+	preset: '@shelf/jest-mongodb',
 	setupFiles: ['<rootDir>/__tests__/setup-jest.js'],
-	roots: ['<rootDir>/__tests__/unit/'],
+	roots: ['<rootDir>/__tests__/developer/'],
 	transform: {
 		'\\.[jt]sx?$': 'babel-jest'
 	}

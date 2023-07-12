@@ -1,3 +1,4 @@
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const logger = require('../../lib/logger');
 
 const {
@@ -11,7 +12,7 @@ const requireUser = (req, res, next) => {
 		session: { lpaUser }
 	} = req;
 
-	if (!lpaUser || lpaUser.enabled !== true) {
+	if (!lpaUser || lpaUser.status === STATUS_CONSTANTS.REMOVED) {
 		res.status(401);
 		logger.info('User not logged in: 401');
 		return res.render(UNAUTHORIZED);

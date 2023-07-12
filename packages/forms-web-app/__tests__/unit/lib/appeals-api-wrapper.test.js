@@ -10,7 +10,8 @@ const {
 	saveAppeal,
 	createUser,
 	getUserById,
-	getUserByEmail
+	getUserByEmail,
+	getUsers
 } = require('../../../src/lib/appeals-api-wrapper');
 
 const config = require('../../../src/config');
@@ -229,6 +230,24 @@ describe('lib/appeals-api-wrapper', () => {
 			const createResponse = await getUserByEmail(email);
 
 			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/users/${email}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Correlation-ID': uuid.v4()
+				},
+				method: 'GET'
+			});
+			expect(createResponse).toEqual(mockResponse);
+		});
+	});
+
+	describe('getUsers', () => {
+		it('should get users by lpaCode', async () => {
+			const lpaCode = '123';
+			const mockResponse = [{ a: 1 }, { a: 2 }];
+			fetch.mockResponseOnce(JSON.stringify(mockResponse));
+			const createResponse = await getUsers(lpaCode);
+
+			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/users/?lpaCode=${lpaCode}`, {
 				headers: {
 					'Content-Type': 'application/json',
 					'X-Correlation-ID': uuid.v4()

@@ -11,7 +11,7 @@ const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
  * @property {UserId} _id - The id of the user.
  * @property {string} email - The email of the user.
  * @property {boolean} isAdmin - If the user is an admin user (cannot be deleted).
- * @property {boolean} enabled - If the user is currently enabled.
+ * @property {string} status - The status of a user (STATUS_CONSTANTS)
  * @property {string} lpaCode - If code of the lpa the user belongs to.
  * @property {string} lpaName - Name of the lpa the user belongs to.
  * @property {string} lpaDomain - Domain of the lpa the user belongs to.
@@ -63,7 +63,8 @@ const getLPAUserFromSession = (req) => {
  * @returns {Promise<string>}
  */
 const getLPAUserStatus = async (userId) => {
-	return await getLPAUser(userId).status;
+	const user = await getLPAUser(userId);
+	return user.status;
 };
 
 const setLPAUserStatus = async (userId, status) => {
