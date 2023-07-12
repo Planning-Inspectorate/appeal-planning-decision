@@ -1,3 +1,6 @@
+const { getUsers } = require('../../lib/appeals-api-wrapper');
+const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+
 const {
 	VIEW: {
 		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, EMAIL_ADDRESS }
@@ -18,10 +21,14 @@ const getAddRemoveUsers = async (req, res) => {
 		delete req.session.removeUserEmailAddress;
 	}
 
+	const user = getLPAUserFromSession(req);
+	const users = await getUsers(user.lpaCode);
+
 	return res.render(ADD_REMOVE_USERS, {
 		dashboardUrl: `/${DASHBOARD}`,
 		addUserLink: `/${EMAIL_ADDRESS}`,
-		successMessage: successMessage
+		successMessage: successMessage,
+		users: users
 	});
 };
 

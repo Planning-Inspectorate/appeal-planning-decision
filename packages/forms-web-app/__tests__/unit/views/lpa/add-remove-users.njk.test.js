@@ -46,5 +46,38 @@ describe('views/lpa/add-remove-users', () => {
 
 			expect(link.getAttribute('href')).toBe(`/${VIEW.LPA_DASHBOARD.DASHBOARD}`);
 		});
+
+		it('should render the users list', () => {
+			const mockUsers = [
+				{
+					_id: '64ae8afd99f22900128ad54f',
+					email: 'admin1@example.com',
+					isAdmin: true,
+					enabled: true,
+					lpaCode: 'Q9999'
+				},
+				{
+					_id: '64ae8afd99f22900128ad54f',
+					email: 'user1@example.com',
+					isAdmin: false,
+					enabled: true,
+					lpaCode: 'Q9999'
+				}
+			];
+			document.body.innerHTML = nunjucksTestRenderer.render(
+				`${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}.njk`,
+				{
+					dashboardUrl: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
+					addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
+					users: mockUsers
+				}
+			);
+
+			const users = document.querySelectorAll('#main-content dt');
+			const removeLinks = document.querySelectorAll('#main-content dl a');
+
+			expect(users.length).toBe(2);
+			expect(removeLinks.length).toBe(1);
+		});
 	});
 });

@@ -1,6 +1,7 @@
 const requireUser = require('../../../../src/middleware/lpa-dashboard/require-user');
 const { mockReq, mockRes } = require('../../mocks');
 const { VIEW } = require('../../../../src/lib/views');
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 describe('requireUser', () => {
 	let req;
@@ -37,12 +38,12 @@ describe('requireUser', () => {
 		expect(next).not.toHaveBeenCalled();
 	});
 
-	it('returns a 401 user not enabled', () => {
-		const userEnabledStates = [false, 'true', 1, '', undefined, null];
+	it('returns a 401 user status is removed', () => {
+		const userEnabledStates = [STATUS_CONSTANTS.REMOVED];
 
 		userEnabledStates.forEach((state) => {
 			req.session.lpaUser = {
-				enabled: state
+				status: state
 			};
 
 			requireUser(req, res, next);

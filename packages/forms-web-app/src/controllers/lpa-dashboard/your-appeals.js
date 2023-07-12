@@ -1,4 +1,3 @@
-const { getLPA } = require('../../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 
 const {
@@ -9,10 +8,9 @@ const {
 
 const getYourAppeals = async (req, res) => {
 	const user = getLPAUserFromSession(req);
-	const lpa = await getLPA(user.lpaCode);
 
 	return res.render(DASHBOARD, {
-		lpaName: lpa.name,
+		lpaName: user.lpaName,
 		addOrRemoveLink: `/${ADD_REMOVE_USERS}`
 	});
 };

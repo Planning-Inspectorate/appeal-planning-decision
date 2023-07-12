@@ -43,7 +43,7 @@ async function setupUserIndexes() {
 
 		await usersCollection.createIndex({ email: 1 }, { unique: true });
 		await usersCollection.createIndex({ lpaCode: 1 }, { unique: false });
-		await usersCollection.createIndex({ enabled: 1 }, { unique: false });
+		await usersCollection.createIndex({ status: 1 }, { unique: false });
 	} catch (err) {
 		logger.error(err, `Error: error setting up user indexes in mongo`);
 		throw err;
