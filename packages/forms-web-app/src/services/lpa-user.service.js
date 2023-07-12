@@ -1,4 +1,4 @@
-const { getUserById } = require('../lib/appeals-api-wrapper');
+const { getUserById, setUserStatus } = require('../lib/appeals-api-wrapper');
 
 /**
  * The id of the user, in mongodb object id format: /^[a-f\\d]{24}$/i
@@ -18,12 +18,22 @@ const { getUserById } = require('../lib/appeals-api-wrapper');
 /**
  * Creates the user object within the session object of the request for the successfully logged in LPAUser
  * @async
+ * @param {UserId} userId
+ * @returns {Promise<User>}
+ */
+const getLPAUser = async (userId) => {
+	return await getUserById(userId);
+};
+
+/**
+ * Creates the user object within the session object of the request for the successfully logged in LPAUser
+ * @async
  * @param {ExpressRequest} req
  * @param {UserId} userId
  * @returns {Promise<void>}
  */
 const createLPAUserSession = async (req, userId) => {
-	let user = await getUserById(userId);
+	let user = await getLPAUser(userId);
 	req.session.lpaUser = user;
 };
 
@@ -36,7 +46,24 @@ const getLPAUserFromSession = (req) => {
 	return req.session.lpaUser;
 };
 
+/**
+ * Returns the status of the LPA User. Status is either 'added' or 'confirmed'
+ * @async
+ * @param {UserId} userId
+ * @returns {Promise<string>}
+ */
+const getLPAUserStatus = async (userId) => {
+	return await getLPAUser(userId).status;
+};
+
+const setLPAUserStatus = async (userId, status) => {
+	if (!['added', 'confirmed'].includes(status)) return;
+	await setUserStatus(userId, status);
+};
+
 module.exports = {
 	createLPAUserSession,
-	getLPAUserFromSession
+	getLPAUserFromSession,
+	getLPAUserStatus,
+	setLPAUserStatus
 };

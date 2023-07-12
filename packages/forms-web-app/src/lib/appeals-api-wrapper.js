@@ -4,6 +4,7 @@ const { utils } = require('@pins/common');
 
 const config = require('../config');
 const parentLogger = require('./logger');
+const baseUrl = 'api/v1';
 
 async function handler(path, method = 'GET', opts = {}, headers = {}) {
 	const correlationId = uuid.v4();
@@ -155,6 +156,14 @@ exports.getUserById = async (id) => {
 
 exports.getUserByEmail = async (email) => {
 	return handler(`/api/v1/users/${email}`, 'GET');
+};
+
+exports.setUserStatus = async (id, status) => {
+	return handler(`${baseUrl}/user/${id}/${status}`, 'PUT', {
+		body: JSON.stringify({
+			status: status
+		})
+	});
 };
 
 exports.errorMessages = {
