@@ -24,14 +24,16 @@
 
     {% set html %}
       <p class="govuk-notification-banner__heading">{{ successMessage[0] }}</p>
-      <p class="govuk-notification-banner__body">{{successMessage[1]}}</p>.
+      {% if successMessage[1] %}
+        <p class="govuk-notification-banner__body">{{successMessage[1]}}</p>.
+      {% endif %}
     {% endset %}
 
     {{ govukNotificationBanner({
       html: html,
       type: 'success'
     }) }}
-  {% endif %}  
+  {% endif %}
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

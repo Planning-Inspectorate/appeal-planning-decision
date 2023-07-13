@@ -3,7 +3,7 @@ const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 
 const {
 	VIEW: {
-		LPA_DASHBOARD: { CONFIRM_REMOVE_USER }
+		LPA_DASHBOARD: { CONFIRM_REMOVE_USER, ADD_REMOVE_USERS }
 	}
 } = require('../../lib/views');
 
@@ -28,10 +28,12 @@ const getConfirmRemoveUser = async (req, res) => {
 };
 
 const postConfirmRemoveUser = async (req, res) => {
-	await checkUserAllowedToRemove(req);
+	const removeUser = await checkUserAllowedToRemove(req);
 
-	//todo: post controller to remove user from db (aapd)
-	return res.sendStatus(200);
+	// todo: aapd-13
+
+	req.session.removeUserEmailAddress = removeUser.email;
+	return res.redirect(`/${ADD_REMOVE_USERS}`);
 };
 
 module.exports = {
