@@ -5,7 +5,7 @@ const ApiError = require('../errors/apiError');
 const LpaService = require('../services/lpa.service');
 const { userStatus } = require('../lib/user-status');
 const lpaService = new LpaService();
-const { STATUS_CONSTANTS } = require('../../../constants');
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const userProjection = {
 	projection: {

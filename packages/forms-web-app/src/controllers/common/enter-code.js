@@ -16,7 +16,7 @@ const {
 } = require('../../lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../../src/lib/logger');
-const { STATUS_CONSTANTS } = require('../../../../constants');
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 /**
  * @typedef {Object} Token

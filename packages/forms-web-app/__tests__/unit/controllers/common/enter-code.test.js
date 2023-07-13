@@ -25,7 +25,7 @@ const {
 } = require('../../../../src/lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { utils } = require('@pins/common');
-const { STATUS_CONSTANTS } = require('../../../../../constants');
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');

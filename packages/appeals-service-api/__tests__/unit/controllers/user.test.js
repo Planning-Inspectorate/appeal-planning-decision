@@ -2,7 +2,7 @@ const { userSetStatus } = require('../../../src/controllers/user');
 const { setUserStatus } = require('../../../src/services/user.service');
 const logger = require('../../../src/lib/logger');
 const { mockReq, mockRes } = require('../mocks');
-const { STATUS_CONSTANTS } = require('../../../../constants');
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const req = mockReq();
 const res = mockRes();

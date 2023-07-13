@@ -1,5 +1,5 @@
 const { getUserById, setUserStatus, getLPA } = require('../lib/appeals-api-wrapper');
-const { STATUS_CONSTANTS } = require('../../../constants');
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 /**
  * The id of the user, in mongodb object id format: /^[a-f\\d]{24}$/i
  * @typedef {string} UserId
