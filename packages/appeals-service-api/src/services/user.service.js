@@ -5,6 +5,7 @@ const ApiError = require('../errors/apiError');
 const LpaService = require('../services/lpa.service');
 const { userStatus } = require('../lib/user-status');
 const lpaService = new LpaService();
+const { STATUS_CONSTANTS } = require('../../../constants');
 
 const userProjection = {
 	projection: {
@@ -40,7 +41,7 @@ const getUsers = async (lpaCode) => {
 		const cursor = await mongodb
 			.get()
 			.collection('user')
-			.find({ lpaCode: lpaCode, enabled: true, status: 'confirmed' });
+			.find({ lpaCode: lpaCode, enabled: true, status: STATUS_CONSTANTS.CONFIRMED });
 		// to sort from mongo instead of locally
 		// .sort({ isAdmin: -1, email: 1 });
 
@@ -68,6 +69,7 @@ const createUser = async (user) => {
 
 	user.enabled = true; //todo: decide what to do with this field in light of status field
 	user.createdAt = new Date();
+	user.status = STATUS_CONSTANTS.ADDED;
 
 	if (!user.isAdmin) {
 		user.status = userStatus.added;

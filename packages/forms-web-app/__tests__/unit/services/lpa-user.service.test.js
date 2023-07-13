@@ -4,6 +4,7 @@ const {
 	setLPAUserStatus
 } = require('../../../src/services/lpa-user.service');
 const { getUserById, getLPA, setUserStatus } = require('../../../src/lib/appeals-api-wrapper');
+const { STATUS_CONSTANTS } = require('../../../../constants');
 
 jest.mock('../../../src/lib/appeals-api-wrapper', () => {
 	return {
@@ -54,12 +55,12 @@ describe('services/lpa-user.service', () => {
 
 	describe('setLPAUserStatus', () => {
 		it('should set the user status to confirmed', async () => {
-			await setLPAUserStatus(1, 'confirmed');
-			expect(setUserStatus).toHaveBeenCalledWith(1, 'confirmed');
+			await setLPAUserStatus(1, STATUS_CONSTANTS.CONFIRMED);
+			expect(setUserStatus).toHaveBeenCalledWith(1, STATUS_CONSTANTS.CONFIRMED);
 		});
 		it('should set the user status to added', async () => {
-			await setLPAUserStatus(1, 'added');
-			expect(setUserStatus).toHaveBeenCalledWith(1, 'added');
+			await setLPAUserStatus(1, STATUS_CONSTANTS.ADDED);
+			expect(setUserStatus).toHaveBeenCalledWith(1, STATUS_CONSTANTS.ADDED);
 		});
 		it('should not set the user status to unknownstatus', async () => {
 			await setLPAUserStatus(1, 'unknownstatus');

@@ -1,5 +1,5 @@
 const { getUserById, setUserStatus, getLPA } = require('../lib/appeals-api-wrapper');
-
+const { STATUS_CONSTANTS } = require('../../../constants');
 /**
  * The id of the user, in mongodb object id format: /^[a-f\\d]{24}$/i
  * @typedef {string} UserId
@@ -19,16 +19,6 @@ const { getUserById, setUserStatus, getLPA } = require('../lib/appeals-api-wrapp
 
 /**
  * Gets lpaUser by their id
- * @async
- * @param {UserId} userId
- * @returns {Promise<User>}
- */
-const getLPAUser = async (userId) => {
-	return await getUserById(userId);
-};
-
-/**
- * Creates the user object within the session object of the request for the successfully logged in LPAUser
  * @async
  * @param {UserId} userId
  * @returns {Promise<User>}
@@ -77,7 +67,7 @@ const getLPAUserStatus = async (userId) => {
 };
 
 const setLPAUserStatus = async (userId, status) => {
-	if (!['added', 'confirmed'].includes(status)) return;
+	if (!Object.values(STATUS_CONSTANTS).includes(status)) return;
 	await setUserStatus(userId, status);
 };
 

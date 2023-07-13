@@ -25,6 +25,7 @@ const {
 } = require('../../../../src/lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { utils } = require('@pins/common');
+const { STATUS_CONSTANTS } = require('../../../../../constants');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/is-token-valid');
@@ -643,7 +644,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			getLPAUserStatus.mockResolvedValue('added');
 			await returnedFunction(req, res);
 			expect(getLPAUserStatus).toHaveBeenCalledWith(userId);
-			expect(setLPAUserStatus).toHaveBeenCalledWith(userId, 'confirmed');
+			expect(setLPAUserStatus).toHaveBeenCalledWith(userId, STATUS_CONSTANTS.CONFIRMED);
 			expect(res.redirect).toBeCalledWith('/manage-appeals/your-appeals');
 		});
 		it('should redirect on too many attempts', async () => {
