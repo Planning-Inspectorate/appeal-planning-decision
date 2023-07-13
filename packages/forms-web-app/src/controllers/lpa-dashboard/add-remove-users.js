@@ -13,6 +13,9 @@ const getAddRemoveUsers = async (req, res) => {
 			'They will receive an email with a link to the service'
 		];
 		delete req.session.addUserEmailAddress;
+	} else if (req.session.removeUserEmailAddress) {
+		successMessage = [`${req.session.removeUserEmailAddress} has been removed`];
+		delete req.session.removeUserEmailAddress;
 	}
 
 	return res.render(ADD_REMOVE_USERS, {

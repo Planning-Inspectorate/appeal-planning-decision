@@ -56,13 +56,14 @@ describe('controllers/lpa-dashboard/get-confirm-remove-user', () => {
 	});
 
 	describe('postConfirmRemoveUserUser', () => {
-		it.skip('should remove the user', async () => {
+		it('should remove the user', async () => {
 			getLPAUserFromSession.mockReturnValue(mockUser);
 			getUserById.mockResolvedValue(mockRemoveUser);
 
 			await postConfirmRemoveUser(req, res);
 
 			// todo: expect
+			expect(req.session.removeUserEmailAddress).toEqual(mockRemoveUser.email);
 		});
 
 		it('should error if user is removing a user from another lpa', async () => {
