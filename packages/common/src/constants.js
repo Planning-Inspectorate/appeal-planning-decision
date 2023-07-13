@@ -1,6 +1,7 @@
 module.exports = {
 	STATUS_CONSTANTS: {
 		ADDED: 'added',
-		CONFIRMED: 'confirmed'
+		CONFIRMED: 'confirmed',
+		REMOVED: 'removed'
 	}
 };

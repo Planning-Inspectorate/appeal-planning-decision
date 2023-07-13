@@ -1,7 +1,7 @@
 const { setUserStatus } = require('../../../src/services/user.service');
 const logger = require('../../../src/lib/logger');
 const mongodb = require('../../../src/db/db');
-const { STATUS_CONSTANTS } = require('../../../../constants');
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 jest.mock('../../../src/lib/logger', () => {
 	return {
