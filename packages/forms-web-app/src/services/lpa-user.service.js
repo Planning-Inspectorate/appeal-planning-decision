@@ -16,7 +16,7 @@ const { getUserById, setUserStatus } = require('../lib/appeals-api-wrapper');
  */
 
 /**
- * Creates the user object within the session object of the request for the successfully logged in LPAUser
+ * Gets lpaUser by their id
  * @async
  * @param {UserId} userId
  * @returns {Promise<User>}
