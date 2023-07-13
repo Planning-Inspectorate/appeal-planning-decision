@@ -16,6 +16,7 @@ const {
 } = require('../../lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../../src/lib/logger');
+const { STATUS_CONSTANTS } = require('../../../../constants');
 
 /**
  * @typedef {Object} Token
@@ -323,9 +324,9 @@ const postEnterCodeLPA = (views) => {
 		if (!tokenVerification(res, token, views, id)) return;
 
 		try {
-			const currentUserStatus = await getLPAUserStatus(id);
-			if (currentUserStatus === 'added') {
-				await setLPAUserStatus(id, 'confirmed');
+			const currentUserStatus = getLPAUserStatus(id);
+			if (currentUserStatus === STATUS_CONSTANTS.ADDED) {
+				await setLPAUserStatus(id, STATUS_CONSTANTS.CONFIRMED);
 			}
 			await createLPAUserSession(req, id);
 		} catch (e) {
