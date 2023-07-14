@@ -236,6 +236,38 @@ const sendFailureToUploadToHorizonEmail = async (appealId) => {
 	}
 };
 
+const sendLPADashboardInviteEmail = async (user) => {
+	try {
+		const lpa = await lpaService.getLpaByCode(user.lpaCode);
+
+		const recipientEmail = user.email;
+		let variables = {
+			'local planning authority': lpa.getName(),
+			'lpa-link': `${config.apps.appeals.baseUrl}/manage-appeals/your-email-address`
+		};
+
+		const reference = user._id;
+
+		logger.debug(
+			{ recipientEmail, variables, reference },
+			'Sending LPA dashboard invitation email'
+		);
+
+		await NotifyBuilder.reset()
+			.setTemplateId(templates.LPA_DASHBOARD.lpaDashboardInviteEmail)
+			.setDestinationEmailAddress(recipientEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err, userId: user._id }, 'Unable to send LPA dashboard invitation email');
+	}
+};
+
 const _formatAddress = (addressJson) => {
 	let address = addressJson.addressLine1;
 	address += addressJson.addressLine2 && `\n${addressJson.addressLine2}`;
@@ -256,5 +288,6 @@ module.exports = {
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendSecurityCodeEmail,
 	sendFailureToUploadToHorizonEmail,
-	mapActionToTemplate
+	mapActionToTemplate,
+	sendLPADashboardInviteEmail
 };

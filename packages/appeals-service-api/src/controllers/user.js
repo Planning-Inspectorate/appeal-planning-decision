@@ -4,7 +4,8 @@ const {
 	getUserByEmail,
 	getUserById,
 	disableUser,
-	setUserStatus
+	setUserStatus,
+	addLPAUserNotify
 } = require('../services/user.service');
 const logger = require('../lib/logger');
 
@@ -30,6 +31,7 @@ async function userPost(req, res) {
 
 	try {
 		await createUser(req.body);
+		await addLPAUserNotify(req.body);
 	} catch (error) {
 		logger.error(`Failed to create user: ${error.code} // ${error.message.errors}`);
 		statusCode = error.code;
