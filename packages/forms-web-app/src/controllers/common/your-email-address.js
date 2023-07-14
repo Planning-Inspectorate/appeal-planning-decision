@@ -34,9 +34,6 @@ const postYourEmailAddress = (views) => {
 		const { email } = body['email-address'];
 		req.session.email = email;
 
-		console.log('***************************************************************');
-		console.log(body['email-address']);
-		console.log(errors);
 		if (Object.keys(errors).length > 0) {
 			res.render(views.YOUR_EMAIL_ADDRESS, {
 				email,
