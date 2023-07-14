@@ -134,7 +134,8 @@ let config = {
 				},
 				LPA_DASHBOARD: {
 					enterCodeIntoServiceEmailToLPA:
-						process.env.SRV_NOTIFY_LPA_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID
+						process.env.SRV_NOTIFY_LPA_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID,
+					lpaDashboardInviteEmail: process.env.SRV_NOTIFY_LPA_DASHBOARD_INVITE_TEMPLATE_ID
 				}
 			},
 			emailReplyToId: {

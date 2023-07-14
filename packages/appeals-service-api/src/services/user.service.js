@@ -3,6 +3,8 @@ const mongodb = require('../db/db');
 const ObjectId = require('mongodb').ObjectId;
 const ApiError = require('../errors/apiError');
 const LpaService = require('../services/lpa.service');
+const { sendLPADashboardInviteEmail } = require('../lib/notify');
+
 const lpaService = new LpaService();
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
@@ -193,11 +195,16 @@ const setUserStatus = async (id, status) => {
 	}
 };
 
+const addLPAUserNotify = async (user) => {
+	await sendLPADashboardInviteEmail(user);
+};
+
 module.exports = {
 	getUsers,
 	createUser,
 	getUserByEmail,
 	getUserById,
 	disableUser,
-	setUserStatus
+	setUserStatus,
+	addLPAUserNotify
 };

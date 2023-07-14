@@ -4,17 +4,21 @@ const {
 	getUserByEmail,
 	getUserById,
 	disableUser,
-	setUserStatus
+	setUserStatus,
+	addLPAUserNotify
 } = require('../../../src/services/user.service');
 const logger = require('../../../src/lib/logger');
 const mongodb = require('../../../src/db/db');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const ObjectId = require('mongodb').ObjectId;
 const ApiError = require('../../../src/errors/apiError');
+const { sendLPADashboardInviteEmail } = require('../../../src/lib/notify');
 
 jest.mock('../../../src/services/lpa.service');
 jest.mock('../../../src/errors/apiError');
 jest.mock('../../../src/lib/logger');
+
+jest.mock('../../../src/lib/notify');
 
 describe('src/services/user.service', () => {
 	// Mock MongoDB collection and methods
@@ -363,6 +367,21 @@ describe('src/services/user.service', () => {
 			} catch (e) {
 				expect(logger.error).toHaveBeenCalled();
 			}
+		});
+	});
+
+	describe('addLPAUserNotify', () => {
+		it('calls the sendLPADashbiardInviteEmail function', async () => {
+			const mockUser = {
+				email: 'test@example.com',
+				isAdmin: false,
+				enabled: true,
+				lpaCode: 'Q9999'
+			};
+
+			await addLPAUserNotify(mockUser);
+
+			expect(sendLPADashboardInviteEmail).toHaveBeenCalledWith(mockUser);
 		});
 	});
 });
