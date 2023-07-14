@@ -21,7 +21,7 @@ const views = { YOUR_EMAIL_ADDRESS, ENTER_CODE };
 router.get('/your-email-address', getYourEmailAddress(views));
 router.post(
 	'/your-email-address',
-	emailAddressValidationRules(),
+	emailAddressValidationRules('email-address'),
 	validationErrorHandler,
 	postYourEmailAddress(views)
 );
