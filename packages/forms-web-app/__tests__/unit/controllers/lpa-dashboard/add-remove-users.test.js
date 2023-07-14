@@ -37,5 +37,19 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 			});
 			expect(req.session.addUserEmailAddress).toBe(undefined);
 		});
+
+		it('should render view with correct successMessage if req.session.removeUserEmailAddress exists', async () => {
+			req.session.removeUserEmailAddress = 'test@example.com';
+			const successMessage = [`test@example.com has been removed`];
+
+			getAddRemoveUsers(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS, {
+				dashboardUrl: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
+				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
+				successMessage: successMessage
+			});
+			expect(req.session.removeUserEmailAddress).toBe(undefined);
+		});
 	});
 });
