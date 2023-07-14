@@ -14,8 +14,8 @@ const validateEmail = (email) => {
 	throw new Error('Enter an email address in the correct format, like name@example.com');
 };
 
-const ruleYourEmail = () =>
-	body('appellant-email')
+const ruleYourEmail = (key) =>
+	body(key)
 		.notEmpty()
 		.withMessage('Enter your email address')
 		.bail()
@@ -27,8 +27,8 @@ const ruleYourEmail = () =>
 		.bail()
 		.custom((email) => validateEmail(email));
 
-const rules = () => {
-	return [ruleYourEmail()];
+const rules = (key = 'appellant-email') => {
+	return [ruleYourEmail(key)];
 };
 
 module.exports = {
