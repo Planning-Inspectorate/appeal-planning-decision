@@ -35,11 +35,29 @@ exports.lookupCode = async (req, res) => {
 
     var answers = req.body;
     req.session.lpaAnswers = req.session.lpaAnswers || {};
-    req.session.lpaAnswers[questionObj.fieldName] = {
+    req.session.lpaAnswers[questionObj.fieldName] = req.session.lpaAnswers[questionObj.fieldName] || {};
+    debugger;
+    req.session.lpaAnswers['listed-detail-list'] = req.session.lpaAnswers['listed-detail-list'] || [];
+
+    req.session.lpaAnswers['listed-detail-list'].push({
         grade: "II",
         listingNumber: req.body[questionObj.fieldName],
         name: "155, York Road, Bedminster, Bristol, BS3 4AL"
-    };
+    });
+   
     //move to the next question
     res.redirect(await formHelper.getNextQuestionUrl(questionnaire, appealId, section, question, req.session.lpaAnswers, false));
 };
+
+exports.manageListedBuildings = async (req, res) => {
+    const hasQuestionnaire = require('../definitions/questionnaire/hasQuestionnaire');
+    const questionnaire = hasQuestionnaire.questionnaire;
+    const {appealId, section, question} = req.params;
+    var questionObj = await formHelper.getQuestionBySectionAndName(questionnaire, section, question);
+    const listedBuildings = req.session.lpaAnswers[questionObj.fieldName];
+    debugger;
+   return res.render('questions/listed-building-list', {
+		listedBuildings
+	});
+}
+

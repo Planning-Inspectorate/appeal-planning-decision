@@ -32,18 +32,20 @@ exports.questions = {
         renderAction: listedBuildingController.enterNumber, //For scenarios where more complex rendering logic is required, pass a controller action
         saveAction: listedBuildingController.lookupCode, //For scenarios where more complex saving/POST handling logic is required, pass a controller action
         fieldName: "listed-entry-number",
-        required: true,
-        show: (answers) => { return answers["listed-building-check"] === "yes"; },
-        format: (answers, appealId, section, question) => {  //For scenarios where answer rendering isn't as simple as returning the title and value, return an array of rows
-            return [
-                {
-                    title: "Listed buildings",
-                    value: `${answers["listed-entry-number"].listingNumber} | Grade ${answers["listed-entry-number"].grade} listed building | ${answers["listed-entry-number"].name}`,
-                    ctaText: "Change",
-                    ctaLink: `/questionnaire/${appealId}/${section}/${question}`
-                }
-            ];
-        }
+        required: false,
+        taskList: false,
+        show: (answers) => { return answers["listed-building-check"] === "yes"; }
+    },
+    listedBuildingDetailList: {
+        title: "Listed buildings list",
+        question: "Manage listed buildings",
+        type: "custom",
+        renderAction: listedBuildingController.manageListedBuildings, //For scenarios where more complex rendering logic is required, pass a controller action
+        saveAction: listedBuildingController.lookupCode, //For scenarios where more complex saving/POST handling logic is required, pass a controller action
+        fieldName: "listed-detail-list",
+        required: false,
+        altText: "Started",
+        show: (answers) => { return answers["listed-detail-list"]?.length > 0; }
     },
     conservationArea: {
         title: "Conservation area",
@@ -141,9 +143,32 @@ exports.questions = {
         required: true,
         show: (answers) => { return answers["representations-from-others"] === "yes"; }
     },
-
-
-
+    planningOfficersUpload: {
+        title: "Upload planning officers report",
+        question: "Upload planning officer’s report",
+        type: "multi-file-upload",
+        fieldName: "planning-officers-upload",
+        required: true,
+        show: (answers) => { return true; }
+    },
+    accessForInspection: {
+        title: "Access for inspection",
+        question: "Might the inspector need access to the appellant’s land or property??",
+        type: "boolean",
+        fieldName: "access-for-inspection",
+        required: true,
+        show: (answers) => { return true; }
+    },
+    potentialSafetyRisks: {
+        title: "Potential safety risks",
+        question: "Add potential safety risks",
+        subQuestion: "Are there any potential safety risks?",
+        description: "<ul class=\"govuk-list govuk-list--bullet\"><li>there is no, or limited mobile reception</li><li>access is blocked</li><li>ladders or other equipment is needed</li><li>site health and safety rules need to be followed (for instance, a hard hat, boots and hi visibility clothing)</li><li>there is livestock or other animals</li><li>there is dangerous debris or overgrown vegetation</li><li>there is potentially hazardous material, such as asbestos</li></ul>",
+        type: "boolean-text",
+        fieldName: "potential-safety-risks",
+        required: false,
+        show: (answers) => { return answers["access-for-inspection"] === "yes"; }
+    }, 
     /*S78 questions */
     rightOfWayCheck: {
         title: "Public right of way",
