@@ -20,10 +20,8 @@ describe('requireUser', () => {
 		jest.resetAllMocks();
 	});
 
-	it('calls next if enabled user is in session', () => {
-		req.session.lpaUser = {
-			enabled: true
-		};
+	it('calls next if user is in session', () => {
+		req.session.lpaUser = {};
 
 		requireUser(req, res, next);
 

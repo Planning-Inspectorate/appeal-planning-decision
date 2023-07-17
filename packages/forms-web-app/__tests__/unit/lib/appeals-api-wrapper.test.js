@@ -11,7 +11,8 @@ const {
 	createUser,
 	getUserById,
 	getUserByEmail,
-	getUsers
+	getUsers,
+	removeUser
 } = require('../../../src/lib/appeals-api-wrapper');
 
 const config = require('../../../src/config');
@@ -200,7 +201,7 @@ describe('lib/appeals-api-wrapper', () => {
 			const id = '6492dc1740b8f50012347237';
 			const mockResponse = {
 				_id: id,
-				email: 'admin1@planninginspectorate.gov.uk',
+				email: 'admin1@example.com',
 				isAdmin: true,
 				enabled: true,
 				lpaCode: 'Q9999'
@@ -218,7 +219,7 @@ describe('lib/appeals-api-wrapper', () => {
 			expect(createResponse).toEqual(mockResponse);
 		});
 		it('should get user by email', async () => {
-			const email = 'admin1%40planninginspectorate.gov.uk';
+			const email = 'admin1%40example.com';
 			const mockResponse = {
 				_id: '6492dc1740b8f50012347237',
 				email: email,
@@ -238,6 +239,18 @@ describe('lib/appeals-api-wrapper', () => {
 			});
 			expect(createResponse).toEqual(mockResponse);
 		});
+
+		it('should handle api fetch failure', async () => {
+			fetch.mockResponseOnce(JSON.stringify(['something went wrong']), {
+				status: 400
+			});
+			try {
+				const email = 'admin1%40example.com';
+				await getUserByEmail(email);
+			} catch (e) {
+				expect(e.toString()).toEqual('Error: something went wrong');
+			}
+		});
 	});
 
 	describe('getUsers', () => {
@@ -255,6 +268,47 @@ describe('lib/appeals-api-wrapper', () => {
 				method: 'GET'
 			});
 			expect(createResponse).toEqual(mockResponse);
+		});
+
+		it('should handle api fetch failure', async () => {
+			fetch.mockResponseOnce(JSON.stringify(['something went wrong']), {
+				status: 400
+			});
+			try {
+				const lpaCode = '123';
+				await getUsers(lpaCode);
+			} catch (e) {
+				expect(e.toString()).toEqual('Error: something went wrong');
+			}
+		});
+	});
+
+	describe('removeUser', () => {
+		it('should remove user by id', async () => {
+			const id = '6492dc1740b8f50012347237';
+			const mockResponse = {};
+			fetch.mockResponseOnce(JSON.stringify(mockResponse));
+			const createResponse = await removeUser(id);
+
+			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/users/${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Correlation-ID': uuid.v4()
+				},
+				method: 'DELETE'
+			});
+			expect(createResponse).toEqual(mockResponse);
+		});
+		it('should handle api fetch failure', async () => {
+			fetch.mockResponseOnce(JSON.stringify(['something went wrong']), {
+				status: 400
+			});
+			try {
+				const id = '6492dc1740b8f50012347237';
+				await removeUser(id);
+			} catch (e) {
+				expect(e.toString()).toEqual('Error: something went wrong');
+			}
 		});
 	});
 });

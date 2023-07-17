@@ -3,7 +3,7 @@ const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 
 const {
 	VIEW: {
-		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, EMAIL_ADDRESS }
+		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, EMAIL_ADDRESS, CONFIRM_REMOVE_USER }
 	}
 } = require('../../lib/views');
 
@@ -22,13 +22,14 @@ const getAddRemoveUsers = async (req, res) => {
 	}
 
 	const user = getLPAUserFromSession(req);
-	const users = await getUsers(user.lpaCode);
+	const usersList = await getUsers(user.lpaCode);
 
 	return res.render(ADD_REMOVE_USERS, {
 		dashboardUrl: `/${DASHBOARD}`,
 		addUserLink: `/${EMAIL_ADDRESS}`,
+		removeUserLink: `/${CONFIRM_REMOVE_USER}`,
 		successMessage: successMessage,
-		users: users
+		users: usersList
 	});
 };
 
