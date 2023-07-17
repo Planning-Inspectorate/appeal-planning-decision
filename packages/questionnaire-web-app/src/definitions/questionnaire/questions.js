@@ -33,17 +33,21 @@ exports.questions = {
         saveAction: listedBuildingController.lookupCode, //For scenarios where more complex saving/POST handling logic is required, pass a controller action
         fieldName: "listed-entry-number",
         required: true,
-        show: (answers) => { return answers["listed-building-check"] === "yes"; },
-        format: (answers, appealId, section, question) => {  //For scenarios where answer rendering isn't as simple as returning the title and value, return an array of rows
-            return [
-                {
-                    title: "Listed buildings",
-                    value: `${answers["listed-entry-number"].listingNumber} | Grade ${answers["listed-entry-number"].grade} listed building | ${answers["listed-entry-number"].name}`,
-                    ctaText: "Change",
-                    ctaLink: `/questionnaire/${appealId}/${section}/${question}`
-                }
-            ];
-        }
+        show: (answers) => { return answers["listed-building-check"] === "yes"; }
+    },
+    listedBuildingDetailList: {
+        title: "Listed buildings",
+        question: "Manage listed buildings",
+        type: "custom",
+        renderAction: listedBuildingController.manageListedBuildings, //For scenarios where more complex rendering logic is required, pass a controller action
+        saveAction: listedBuildingController.lookupCode, //For scenarios where more complex saving/POST handling logic is required, pass a controller action
+        fieldName: "listed-detail-list",
+        required: false,
+        show: (answers) => { return () => {
+            console.log("Manage listed buildiings");
+            console.log(answers["listed-entry-number"]);
+            console.log(answers["listed-entry-number"]).length;
+            return answers["listed-entry-number"].length > 0;} }
     },
     conservationArea: {
         title: "Conservation area",

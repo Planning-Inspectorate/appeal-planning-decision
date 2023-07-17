@@ -14,6 +14,7 @@ exports.questionnaire = {
                 questions.questions.appealTypeAppropriate,
                 questions.questions.listedBuildingCheck,
                 questions.questions.listedBuildingDetail,
+                questions.questions.listedBuildingDetailList,
                 questions.questions.conservationArea,
                 questions.questions.conservationAreaUpload,
                 questions.questions.greenBelt
