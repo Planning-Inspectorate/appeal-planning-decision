@@ -70,7 +70,7 @@ async function userGetById(req, res) {
 }
 
 async function userDelete(req, res) {
-	let statusCode = 204;
+	let statusCode = 200;
 	let body = {};
 	try {
 		await disableUser(req.params.id);

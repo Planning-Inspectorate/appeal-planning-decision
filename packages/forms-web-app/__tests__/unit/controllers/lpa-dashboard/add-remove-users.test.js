@@ -35,6 +35,7 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS, {
 				dashboardUrl: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
 				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
+				removeUserLink: `/${VIEW.LPA_DASHBOARD.CONFIRM_REMOVE_USER}`,
 				users: mockUsersResponse
 			});
 		});
@@ -54,6 +55,7 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS, {
 				dashboardUrl: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
 				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
+				removeUserLink: `/${VIEW.LPA_DASHBOARD.CONFIRM_REMOVE_USER}`,
 				successMessage: successMessage,
 				users: mockUsersResponse
 			});
@@ -72,6 +74,7 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS, {
 				dashboardUrl: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
 				addUserLink: `/${VIEW.LPA_DASHBOARD.EMAIL_ADDRESS}`,
+				removeUserLink: `/${VIEW.LPA_DASHBOARD.CONFIRM_REMOVE_USER}`,
 				successMessage: successMessage,
 				users: mockUsersResponse
 			});

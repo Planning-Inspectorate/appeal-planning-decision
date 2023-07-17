@@ -53,7 +53,7 @@
               </dt>
               <dd class="govuk-summary-list__actions">
                 {% if not item.isAdmin %}
-                  <a href="/manage-users/confirm-remove-user/{{item._id}}">
+                  <a href="{{removeUserLink}}/{{item._id}}">
                     Remove<span class="govuk-visually-hidden"> {{item.email}}</span>
                   </a>
                 {% endif %}

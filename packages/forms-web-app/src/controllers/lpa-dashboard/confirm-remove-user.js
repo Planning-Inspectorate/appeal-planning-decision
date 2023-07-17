@@ -1,5 +1,6 @@
-const { getUserById } = require('../../lib/appeals-api-wrapper');
+const { getUserById, removeUser } = require('../../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const logger = require('../../lib/logger');
 
 const {
 	VIEW: {
@@ -8,31 +9,49 @@ const {
 } = require('../../lib/views');
 
 // todo: handle this via api somehow?
-async function checkUserAllowedToRemove(req) {
-	const removeUser = await getUserById(req.params.id);
+async function checkUserAllowedToRemove(req, userToRemove) {
 	const user = getLPAUserFromSession(req);
 
-	if (removeUser.lpaCode !== user.lpaCode) {
+	if (userToRemove.lpaCode !== user.lpaCode) {
 		throw new Error('Auth: Cannot remove this user');
 	}
-
-	return removeUser;
 }
 
 const getConfirmRemoveUser = async (req, res) => {
-	const removeUser = await checkUserAllowedToRemove(req);
+	const userToRemove = await getUserById(req.params.id);
+
+	try {
+		await checkUserAllowedToRemove(req, userToRemove);
+	} catch (e) {
+		logger.error(e);
+		return res.render(CONFIRM_REMOVE_USER, {
+			removeUserEmailAddress: `${userToRemove.email}`,
+			errors: {},
+			errorSummary: [{ text: 'Unable to remove user', href: '#' }]
+		});
+	}
 
 	return res.render(CONFIRM_REMOVE_USER, {
-		removeUserEmailAddress: `${removeUser.email}`
+		removeUserEmailAddress: `${userToRemove.email}`
 	});
 };
 
 const postConfirmRemoveUser = async (req, res) => {
-	const removeUser = await checkUserAllowedToRemove(req);
+	const userToRemove = await getUserById(req.params.id);
 
-	// todo: aapd-13
+	try {
+		await checkUserAllowedToRemove(req, userToRemove);
+		await removeUser(userToRemove._id);
+		req.session.removeUserEmailAddress = userToRemove.email;
+	} catch (e) {
+		logger.error(e);
+		return res.render(CONFIRM_REMOVE_USER, {
+			removeUserEmailAddress: `${userToRemove.email}`,
+			errors: {},
+			errorSummary: [{ text: 'Unable to remove user', href: '#' }]
+		});
+	}
 
-	req.session.removeUserEmailAddress = removeUser.email;
 	return res.redirect(`/${ADD_REMOVE_USERS}`);
 };
 

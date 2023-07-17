@@ -238,7 +238,9 @@ describe('Users', () => {
 		const userResponse = await appealsApi.get(`/api/v1/users/${email}`);
 
 		// when: deleting that user
-		await appealsApi.delete(`/api/v1/users/${userResponse.body._id}`);
+		const deleteResponse = await appealsApi.delete(`/api/v1/users/${userResponse.body._id}`);
+
+		expect(deleteResponse.status).toEqual(200);
 
 		// then: the user is no longer returned in either get method
 		const userResponse2 = await appealsApi.get(`/api/v1/users/testuser1@example.com`);

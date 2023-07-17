@@ -2,7 +2,7 @@ const {
 	getConfirmRemoveUser,
 	postConfirmRemoveUser
 } = require('../../../../src/controllers/lpa-dashboard/confirm-remove-user');
-const { getUserById } = require('../../../../src/lib/appeals-api-wrapper');
+const { getUserById, removeUser } = require('../../../../src/lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.service');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
@@ -51,7 +51,13 @@ describe('controllers/lpa-dashboard/get-confirm-remove-user', () => {
 			getLPAUserFromSession.mockReturnValue(mockUser);
 			getUserById.mockResolvedValue(mockOtherLpaUser);
 
-			await expect(getConfirmRemoveUser(req, res)).rejects.toThrow('Auth: Cannot remove this user');
+			await getConfirmRemoveUser(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.CONFIRM_REMOVE_USER, {
+				removeUserEmailAddress: mockOtherLpaUser.email,
+				errors: {},
+				errorSummary: [{ text: 'Unable to remove user', href: '#' }]
+			});
 		});
 	});
 
@@ -62,7 +68,7 @@ describe('controllers/lpa-dashboard/get-confirm-remove-user', () => {
 
 			await postConfirmRemoveUser(req, res);
 
-			// todo: expect
+			expect(removeUser).toHaveBeenCalledWith(mockRemoveUser._id);
 			expect(req.session.removeUserEmailAddress).toEqual(mockRemoveUser.email);
 		});
 
@@ -70,9 +76,13 @@ describe('controllers/lpa-dashboard/get-confirm-remove-user', () => {
 			getLPAUserFromSession.mockReturnValue(mockUser);
 			getUserById.mockResolvedValue(mockOtherLpaUser);
 
-			await expect(postConfirmRemoveUser(req, res)).rejects.toThrow(
-				'Auth: Cannot remove this user'
-			);
+			await postConfirmRemoveUser(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.CONFIRM_REMOVE_USER, {
+				removeUserEmailAddress: mockOtherLpaUser.email,
+				errors: {},
+				errorSummary: [{ text: 'Unable to remove user', href: '#' }]
+			});
 		});
 	});
 });
