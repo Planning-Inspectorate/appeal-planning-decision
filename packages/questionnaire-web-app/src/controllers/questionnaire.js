@@ -25,14 +25,14 @@ exports.list = async (req, res) => {
         };
         for (let j = 0; j < questionnaire.sections[i].questions.length; j++) {
             var question = questionnaire.sections[i].questions[j];
-            if (question.show(answers)) {
+            if (question.show(answers) && question.taskList !== false) {
                 if (question.format === undefined) {
                     var row = {
                         key: {
                         text: question.title ?? question.question
                         },
                         value: {
-                        text: answers[question.fieldName] ?? "Not started"
+                        text: question.altText ?? answers[question.fieldName] ?? "Not started"
                         },
                         actions: {
                             items: [

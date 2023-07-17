@@ -14,6 +14,7 @@ exports.questionnaire = {
                 questions.questions.appealTypeAppropriate,
                 questions.questions.listedBuildingCheck,
                 questions.questions.listedBuildingDetail,
+                questions.questions.listedBuildingDetailList,
                 questions.questions.conservationArea,
                 questions.questions.conservationAreaUpload,
                 questions.questions.greenBelt
@@ -36,6 +37,21 @@ exports.questionnaire = {
             questions: [
                 questions.questions.representationsFromOthers,
                 questions.questions.representationUpload
+            ]
+        },
+        {
+            name: "Planning officer’s report and supplementary documents",
+            segment: "planning",
+            questions: [
+                questions.questions.planningOfficersUpload
+            ]
+        },
+        {
+            name: "Site access",
+            segment: "health-and-safety",
+            questions: [
+                questions.questions.accessForInspection,
+                questions.questions.potentialSafetyRisks
             ]
         }
     ]
