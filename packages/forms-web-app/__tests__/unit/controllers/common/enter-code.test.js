@@ -632,7 +632,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			};
 			const userId = '649418158b915f0018524cb7';
 			const code = '12345';
-			isTokenValid.mockReturnValue({
+			isTokenValid.mockResolvedValue({
 				valid: true
 			});
 			const returnedFunction = postEnterCodeLPA(views);
@@ -641,7 +641,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			req.body = {
 				'email-code': code
 			};
-			getLPAUserStatus.mockResolvedValue('added');
+			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
 			await returnedFunction(req, res);
 			expect(getLPAUserStatus).toHaveBeenCalledWith(userId);
 			expect(setLPAUserStatus).toHaveBeenCalledWith(userId, STATUS_CONSTANTS.CONFIRMED);

@@ -4,7 +4,7 @@ const {
 	setLPAUserStatus
 } = require('../../../src/services/lpa-user.service');
 const { getUserById, getLPA, setUserStatus } = require('../../../src/lib/appeals-api-wrapper');
-const { STATUS_CONSTANTS } = require('../../../../constants');
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 jest.mock('../../../src/lib/appeals-api-wrapper', () => {
 	return {
