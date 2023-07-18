@@ -24,7 +24,7 @@ const postYourEmailAddress = (views) => {
 					href: '#your-email-address'
 				}
 			];
-			res.render(`/${views.YOUR_EMAIL_ADDRESS}`, {
+			res.render(views.YOUR_EMAIL_ADDRESS, {
 				errors,
 				errorSummary: customErrorSummary
 			});

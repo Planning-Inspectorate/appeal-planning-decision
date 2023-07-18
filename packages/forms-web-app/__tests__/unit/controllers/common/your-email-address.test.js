@@ -49,7 +49,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			];
 			const returnedFunction = postYourEmailAddress(lpaViews);
 			await returnedFunction(req, res);
-			expect(res.render).toBeCalledWith(`/${lpaViews.YOUR_EMAIL_ADDRESS}`, {
+			expect(res.render).toBeCalledWith(lpaViews.YOUR_EMAIL_ADDRESS, {
 				errors: {},
 				errorSummary: customErrorSummary
 			});
