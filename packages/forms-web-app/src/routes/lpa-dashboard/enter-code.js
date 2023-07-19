@@ -10,7 +10,7 @@ const {
 			NEED_NEW_CODE,
 			REQUEST_NEW_CODE,
 			DASHBOARD,
-			ENTER_EMAIL
+			YOUR_EMAIL_ADDRESS
 		}
 	}
 } = require('../../lib/views');
@@ -19,7 +19,7 @@ const router = express.Router();
 
 const views = {
 	ENTER_CODE,
-	ENTER_EMAIL,
+	YOUR_EMAIL_ADDRESS,
 	CODE_EXPIRED,
 	NEED_NEW_CODE,
 	REQUEST_NEW_CODE,

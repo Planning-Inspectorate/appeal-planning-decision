@@ -195,7 +195,6 @@ const VIEW = {
 	},
 
 	LPA_DASHBOARD: {
-		ENTER_EMAIL: 'manage-appeals/enter-email',
 		ENTER_CODE: 'manage-appeals/enter-code',
 		CODE_EXPIRED: 'manage-appeals/code-expired',
 		NEED_NEW_CODE: 'manage-appeals/need-new-code',

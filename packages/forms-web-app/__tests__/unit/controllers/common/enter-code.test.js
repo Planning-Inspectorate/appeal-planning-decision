@@ -499,34 +499,46 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 		});
 		it('should redirect if user id is not in a valid format', async () => {
 			const userId = 'i_am_not_a_valid_user_id';
-			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD, ENTER_EMAIL } =
-				lpaViews;
+			const {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD,
+				YOUR_EMAIL_ADDRESS
+			} = lpaViews;
 			const views = {
 				ENTER_CODE,
 				CODE_EXPIRED,
 				NEED_NEW_CODE,
 				REQUEST_NEW_CODE,
 				DASHBOARD,
-				ENTER_EMAIL
+				YOUR_EMAIL_ADDRESS
 			};
-			const expectedURL = `/${views.ENTER_EMAIL}`;
+			const expectedURL = `/${views.YOUR_EMAIL_ADDRESS}`;
 			const returnedFunction = getEnterCodeLPA(views);
 			req.params.id = userId;
 			await returnedFunction(req, res);
 			expect(res.redirect).toBeCalledWith(expectedURL);
 		});
 		it('should redirect if user id is not supplied', async () => {
-			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD, ENTER_EMAIL } =
-				lpaViews;
+			const {
+				ENTER_CODE,
+				CODE_EXPIRED,
+				NEED_NEW_CODE,
+				REQUEST_NEW_CODE,
+				DASHBOARD,
+				YOUR_EMAIL_ADDRESS
+			} = lpaViews;
 			const views = {
 				ENTER_CODE,
 				CODE_EXPIRED,
 				NEED_NEW_CODE,
 				REQUEST_NEW_CODE,
 				DASHBOARD,
-				ENTER_EMAIL
+				YOUR_EMAIL_ADDRESS
 			};
-			const expectedURL = `/${views.ENTER_EMAIL}`;
+			const expectedURL = `/${views.YOUR_EMAIL_ADDRESS}`;
 			const returnedFunction = getEnterCodeLPA(views);
 			await returnedFunction(req, res);
 			expect(res.redirect).toBeCalledWith(expectedURL);
