@@ -59,7 +59,7 @@ describe('controllers/lpa-dashboard/service-invite', () => {
 
 			await getServiceInvite(req, res);
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.ENTER_EMAIL}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.YOUR_EMAIL_ADDRESS}`);
 			expect(getLPA).toHaveBeenCalledWith(req.params.lpaCode);
 			expect(createUser).toHaveBeenCalled();
 		});
@@ -85,7 +85,7 @@ describe('controllers/lpa-dashboard/service-invite', () => {
 
 			await getServiceInvite(req, res);
 
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.ENTER_EMAIL}`);
+			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.YOUR_EMAIL_ADDRESS}`);
 			expect(getLPA).toHaveBeenCalledWith(req.params.lpaCode);
 			expect(createUser).toHaveBeenCalledWith('test', true, '123');
 		});

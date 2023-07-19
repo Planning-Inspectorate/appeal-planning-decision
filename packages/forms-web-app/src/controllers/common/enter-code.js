@@ -47,7 +47,7 @@ const renderErrorPageLPA = (res, view, context) => {
 
 const redirectToEnterLPAEmail = (res, views) => {
 	console.log(views);
-	res.redirect(`/${views.ENTER_EMAIL}`);
+	res.redirect(`/${views.YOUR_EMAIL_ADDRESS}`);
 };
 
 const redirectToLPADashboard = (res, views) => {
