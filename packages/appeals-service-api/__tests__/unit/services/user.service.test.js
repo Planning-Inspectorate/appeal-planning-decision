@@ -56,6 +56,7 @@ describe('src/services/user.service', () => {
 
 			await expect(getUsers(lpaCode)).rejects.toThrow(error);
 			expect(collectionMock.find).toHaveBeenCalledWith({
+				enabled: true,
 				lpaCode: lpaCode,
 				status: STATUS_CONSTANTS.CONFIRMED
 			});
@@ -106,6 +107,7 @@ describe('src/services/user.service', () => {
 			const result = await getUsers(lpaCode);
 
 			expect(collectionMock.find).toHaveBeenCalledWith({
+				enabled: true,
 				lpaCode: lpaCode,
 				status: STATUS_CONSTANTS.CONFIRMED
 			});
