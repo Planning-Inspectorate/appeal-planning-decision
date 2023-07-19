@@ -17,11 +17,15 @@ const {
 	sendToken,
 	getUserById
 } = require('../../../../src/lib/appeals-api-wrapper');
-const { getLPAUserStatus, setLPAUserStatus } = require('../../../../src/services/lpa-user.service');
+const {
+	getLPAUserStatus,
+	setLPAUserStatus,
+	getLPAUser
+} = require('../../../../src/services/lpa-user.service');
 const {
 	isTokenValid,
 	isTestEnvironment,
-	isTestLPACheckTokenAndSession
+	isTestLpaAndToken
 } = require('../../../../src/lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { utils } = require('@pins/common');
@@ -34,7 +38,8 @@ jest.mock('../../../../src/services/lpa-user.service', () => {
 	return {
 		getLPAUserStatus: jest.fn(),
 		createLPAUserSession: jest.fn(),
-		setLPAUserStatus: jest.fn()
+		setLPAUserStatus: jest.fn(),
+		getLPAUser: jest.fn()
 	};
 });
 
@@ -424,7 +429,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				createdAt: '2022-07-14T13:00:48.024Z'
 			});
 			isTestEnvironment.mockReturnValue(true);
-			isTestLPACheckTokenAndSession.mockReturnValue(true);
+			isTestLpaAndToken.mockReturnValue(true);
 			const returnedFunction = postEnterCode({ EMAIL_CONFIRMED });
 			await returnedFunction(req, res);
 			expect(isTokenValid).not.toBeCalled();
@@ -726,8 +731,8 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			const code = '12345';
 
 			isTestEnvironment.mockReturnValue(true);
-			isTestLPACheckTokenAndSession.mockReturnValue(true);
-			getUserById.mockReturnValue({
+			isTestLpaAndToken.mockReturnValue(true);
+			getLPAUser.mockResolvedValue({
 				_id: userId,
 				email: 'admin1@planninginspectorate.gov.uk',
 				isAdmin: true,

@@ -2,7 +2,8 @@
  * Utility methods
  */
 
-const testLPACode = 'E69999999';
+const testLPAONSCode = 'E69999999';
+const testLPACode = 'Q9999';
 
 module.exports = {
 	/**
@@ -49,7 +50,8 @@ module.exports = {
 	 * @return {boolean}
 	 */
 	isTestLPA(lpaCode) {
-		return lpaCode === testLPACode;
+		return lpaCode === testLPACode || lpaCode === testLPAONSCode;
 	},
-	testLPACode
+	testLPACode,
+	testLPAONSCode
 };

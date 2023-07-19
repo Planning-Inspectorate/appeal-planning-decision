@@ -5,15 +5,12 @@ const {
 	getUserById
 } = require('../../lib/appeals-api-wrapper');
 const {
+	getLPAUser,
 	createLPAUserSession,
 	getLPAUserStatus,
 	setLPAUserStatus
 } = require('../../services/lpa-user.service');
-const {
-	isTokenValid,
-	isTestLPACheckTokenAndSession,
-	isTestEnvironment
-} = require('../../lib/is-token-valid');
+const { isTokenValid, isTestLpaAndToken, isTestEnvironment } = require('../../lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../../src/lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
@@ -22,6 +19,9 @@ const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
  * @typedef {Object} Token
  * @property {string} id
  * @property {string} token
+ * @property {boolean} tooManyAttempts
+ * @property {boolean} expired
+ * @property {boolean} valid
  * @property {"confirmEmail" | "saveAndReturn" | "lpa-dashboard"} action
  * @property {number} attempts The number of attempted and failed logins
  * @property {Number} createdAt Epoch time
@@ -174,7 +174,7 @@ const postEnterCode = (views) => {
 		}
 
 		let tokenValidResult = async () => {
-			if (isTestEnvironment() && isTestLPACheckTokenAndSession(token, req.session)) {
+			if (isTestEnvironment() && isTestLpaAndToken(token, req.session?.appeal?.lpaCode)) {
 				return {
 					valid: true,
 					action: enterCodeConfig.actions.confirmEmail
@@ -303,9 +303,23 @@ const postEnterCodeLPA = (views) => {
 			});
 		}
 
-		if (isTestEnvironment() && isTestLPACheckTokenAndSession(emailCode, req.session)) {
+		let user;
+
+		try {
+			user = await getLPAUser(id);
+		} catch (e) {
+			logger.error(`Failed to lookup user for id ${id}`);
+			logger.error(e);
+			const failedToken = {
+				valid: false
+			};
+
+			return tokenVerification(res, failedToken, views, id);
+		}
+
+		if (isTestEnvironment() && isTestLpaAndToken(emailCode, user.lpaCode)) {
 			try {
-				createLPAUserSession(req, id);
+				createLPAUserSession(req, user);
 				redirectToLPADashboard(res, views);
 				return;
 			} catch (e) {
@@ -328,7 +342,7 @@ const postEnterCodeLPA = (views) => {
 			if (currentUserStatus === STATUS_CONSTANTS.ADDED) {
 				await setLPAUserStatus(id, STATUS_CONSTANTS.CONFIRMED);
 			}
-			await createLPAUserSession(req, id);
+			await createLPAUserSession(req, user);
 		} catch (e) {
 			logger.error(`Failed to create user session for user id ${id}`);
 			logger.error(e);

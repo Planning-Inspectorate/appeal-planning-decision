@@ -3,12 +3,11 @@ const {
 	getLPAUserFromSession,
 	setLPAUserStatus
 } = require('../../../src/services/lpa-user.service');
-const { getUserById, getLPA, setUserStatus } = require('../../../src/lib/appeals-api-wrapper');
+const { getLPA, setUserStatus } = require('../../../src/lib/appeals-api-wrapper');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 jest.mock('../../../src/lib/appeals-api-wrapper', () => {
 	return {
-		getUserById: jest.fn(),
 		setUserStatus: jest.fn(),
 		getLPA: jest.fn()
 	};
@@ -20,21 +19,18 @@ describe('services/lpa-user.service', () => {
 	});
 
 	describe('createLPAUserSession', () => {
-		it('should add user to session ', async () => {
+		it('should add user to session and combine with lpa details', async () => {
 			const mockUser = { test: 'test' };
 			const mockReq = {
 				session: {}
 			};
-			const mockId = 'a';
 			const mockLPA = { domain: 'example.com', name: 'Test LPA' };
 			const expectedResult = { ...mockUser, lpaName: mockLPA.name, lpaDomain: mockLPA.domain };
 
-			getUserById.mockResolvedValue(mockUser);
 			getLPA.mockResolvedValue(mockLPA);
 
-			await createLPAUserSession(mockReq, mockId);
+			await createLPAUserSession(mockReq, mockUser);
 
-			expect(getUserById).toHaveBeenCalledWith(mockId);
 			expect(mockReq.session.lpaUser).toEqual(expectedResult);
 		});
 	});
