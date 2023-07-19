@@ -27,6 +27,7 @@ const postConfirmAddUser = async (req, res) => {
 		});
 	}
 
+	delete req.session.addUserEmailAddress;
 	return res.redirect(`/${ADD_REMOVE_USERS}`);
 };
 
