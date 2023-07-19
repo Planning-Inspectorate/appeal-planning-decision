@@ -37,9 +37,7 @@ const getUsers = async (lpaCode) => {
 		const cursor = await mongodb
 			.get()
 			.collection('user')
-			.find({ lpaCode: lpaCode, enabled: true, status: STATUS_CONSTANTS.CONFIRMED });
-		// to sort from mongo instead of locally
-		// .sort({ isAdmin: -1, email: 1 });
+			.find({ lpaCode: lpaCode, status: STATUS_CONSTANTS.CONFIRMED });
 
 		await cursor.forEach((doc) => {
 			result.push({
