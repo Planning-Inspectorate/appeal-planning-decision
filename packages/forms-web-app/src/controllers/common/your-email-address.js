@@ -1,5 +1,3 @@
-const { enterCodeConfig } = require('@pins/common');
-
 const getYourEmailAddress = (views) => {
 	return (req, res) => {
 		const { email } = req.session;
@@ -42,9 +40,6 @@ const postYourEmailAddress = (views) => {
 			});
 			return;
 		}
-
-		req.session.enterCode = req.session.enterCode || {};
-		req.session.enterCode.action = enterCodeConfig.actions.confirmEmail;
 
 		res.redirect(`/${views.ENTER_CODE}/${id}`);
 	};
