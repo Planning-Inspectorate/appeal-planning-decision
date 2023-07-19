@@ -94,7 +94,7 @@
 92;E60000092;Z2505;Boston;Planning@boston.gov.uk;boston.gov.uk;TRUE\n
 93;E60000093;D2510;East Lindsey;planning.appeals@e-lindsey.gov.uk;e-lindsey.gov.uk;TRUE\n
 ;E60000094;M2515;City of Lincoln Council;developmentteam@lincoln.gov.uk;lincoln.gov.uk;TRUE\n
-94;E60000094;Q2500;Lincolnshire County Council;dev_pcg@lincolnshire.gov.uk;lincolnshire.gov.uk;TRUE\n
+94;Q2500;Q2500;Lincolnshire County Council;dev_pcg@lincolnshire.gov.uk;lincolnshire.gov.uk;TRUE\n
 95;E60000095;R2520;North Kesteven;planning@n-kesteven.gov.uk;n-kesteven.gov.uk;TRUE\n
 96;E60000096;A2525;South Holland;planningadvice@sholland.gov.uk;sholland.gov.uk;TRUE\n
 97;E60000097;E2530;South Kesteven;Planning@southkesteven.gov.uk;southkesteven.gov.uk;TRUE\n
@@ -106,7 +106,7 @@
 103;E60000110;X3025;Mansfield;pbc@mansfield.gov.uk;mansfield.gov.uk;TRUE\n
 104;E60000111;B3030;Newark and Sherwood;planningappeals@newark-sherwooddc.gov.uk;newark-sherwooddc.gov.uk;TRUE\n
 105;E60000112;P3040;Rushcliffe;developmentcontrol@rushcliffe.gov.uk;rushcliffe.gov.uk;TRUE\n
-106;E60000113;W1850;Herefordshire, County of;spatialplanning@hertfordshire.gov.uk;hertfordshire.gov.uk;TRUE\n
+106;E60000113;W1850;Herefordshire, County of;planning_enquiries@herefordshire.gov.uk;herefordshire.gov.uk;TRUE\n
 107;E60000114;L3245;Shropshire;appeals@shropshire.gov.uk;shropshire.gov.uk;TRUE\n
 108;E60000115;M3455;Stoke-on-Trent;planning@stoke.gov.uk;stoke.gov.uk;TRUE\n
 109;E60000116;C3240;Telford and Wrekin;planning.control@telford.gov.uk;telford.gov.uk;TRUE\n
@@ -275,7 +275,7 @@
 273;E60000284;Q3820;Crawley;planningappeals@crawley.gov.uk;crawley.gov.uk;TRUE\n
 274;E60000285;Z3825;Horsham;planning@horsham.gov.uk;horsham.gov.uk;TRUE\n
 275;E60000286;D3830;Mid Sussex;planningappeals@midsussex.gov.uk;midsussex.gov.uk;TRUE\n
-324;E60000286;P3800;West Sussex County Council;planning.applications@westsussex.gov.uk;westsussex.gov.uk;TRUE\n
+324;P3800;P3800;West Sussex County Council;planning.applications@westsussex.gov.uk;westsussex.gov.uk;TRUE\n
 276;E60000287;M3835;Worthing;planning-worthing@adur-worthing.gov.uk;adur-worthing.gov.uk;TRUE\n
 277;E60000288;F0114;Bath and North East Somerset;Planning_appeals@bathnes.gov.uk;bathnes.gov.uk;TRUE\n
 278;E60000289;V1260;Bournemouth Christchurch and Poole;planning.bournemouth@bcpcouncil.gov.uk;bcpcouncil.gov.uk;TRUE\n
@@ -321,12 +321,12 @@
 318;E60000329;M9584;London Legacy Development Corporation;planningenquiries@londonlegacy.co.uk;londonlegacy.co.uk;TRUE\n
 319;E60000330;F5730;Old Oak and Park Royal Development Corporation;planningapplications@opdc.london.gov.uk;opdc.london.gov.uk;TRUE\n
 320;E60000331;P0430;Buckinghamshire;mineralsandwaste@buckinghamshire.gov.uk;buckinghamshire.gov.uk;TRUE\n
-;E60000331;J0405;Buckinghamshire Council (Aylesbury area);Planningappeals.av@buckinghamshire.gov.uk;buckinghamshire.gov.uk;TRUE\n
-;E60000331;X0415;Buckinghamshire Council Chiltern and South Bucks Areas;Planning.appeals.csb@buckinghamshire.gov.uk;buckinghamshire.gov.uk;TRUE\n
-;E60000331;K0425;Buckinghamshire Council Wycombe area;planning@wycombe.gov.uk;wycombe.gov.uk;TRUE\n
+;J0405;J0405;Buckinghamshire Council (Aylesbury area);Planningappeals.av@buckinghamshire.gov.uk;buckinghamshire.gov.uk;TRUE\n
+;X0415;X0415;Buckinghamshire Council Chiltern and South Bucks Areas;Planning.appeals.csb@buckinghamshire.gov.uk;buckinghamshire.gov.uk;TRUE\n
+;K0425;K0425;Buckinghamshire Council Wycombe area;planning@wycombe.gov.uk;wycombe.gov.uk;TRUE\n
 321;E60000332;M2840;North Northamptonshire;planning.cbc@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
-;E60000332;U2805;North Northamptonshire Council - Corby Area;planningservices.cbc@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
-;E60000332;H2835;North Northamptonshire County Wellingborough;planningappeals.bcw@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
+;U2805;U2805;North Northamptonshire Council - Corby Area;planningservices.cbc@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
+;H2835;H2835;North Northamptonshire County Wellingborough;planningappeals.bcw@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
 322;E60000333;M9570;West Northamptonshire;planningappeals@westnorthants.gov.uk;westnorthants.gov.uk;TRUE\n
 323;E69999999;Q9999;System Test Borough Council;appealplanningdecisiontest@planninginspectorate.gov.uk;planninginspectorate.gov.uk;TRUE\n
 ;;Q2908;Alnwick District Council;;;FALSE\n
