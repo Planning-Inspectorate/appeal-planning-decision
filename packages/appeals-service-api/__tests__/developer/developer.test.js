@@ -5,7 +5,7 @@ const uuid = require('uuid');
 const container = require('rhea');
 const crypto = require('crypto');
 const jp = require('jsonpath');
-const logger = require('../../src/lib/logger');
+// const logger = require('../../src/lib/logger');
 
 const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
@@ -878,12 +878,13 @@ describe('Back Office', () => {
 			}
 
 			////////////////////
-			logger.debug('First back-office submission attempt for appeals');
+			// logger.debug('First back-office submission attempt for appeals');
 
 			// And: on the first attempt to submit, the attempt to create
 			//      the agent and appellant organisations will fail for both appeals
+			// eslint-disable-next-line no-unused-vars
 			for (const key in inputs) {
-				logger.debug(`Calling Horizon's create organisations for ${key}`);
+				// logger.debug(`Calling Horizon's create organisations for ${key}`);
 				await mockedExternalApis.mockHorizonCreateContactResponse(500);
 				await mockedExternalApis.mockHorizonCreateContactResponse(500);
 			}
@@ -907,7 +908,7 @@ describe('Back Office', () => {
 			}
 
 			////////////////////
-			logger.debug('Second back-office submission attempt for appeals');
+			// logger.debug('Second back-office submission attempt for appeals');
 
 			// Given: that the appellant organisation will now upload successfully for the first appeal, but the
 			//        agent's organisation request will not upload successfully.
@@ -945,7 +946,7 @@ describe('Back Office', () => {
 			);
 
 			////////////////////
-			logger.debug('Third back-office submission attempt for appeals');
+			// logger.debug('Third back-office submission attempt for appeals');
 
 			// Given: that the create agent organisation and create appellant contact requests will now succeed
 			//        for the first appeal, but the create agent contact request will fail
@@ -986,7 +987,7 @@ describe('Back Office', () => {
 			);
 
 			////////////////////
-			logger.debug('Fourth back-office submission attempt for appeals');
+			// logger.debug('Fourth back-office submission attempt for appeals');
 
 			// Given: that the create agent contact request will now succeed for the first appeal,
 			//        but the create core appeal request will fail
@@ -1021,7 +1022,7 @@ describe('Back Office', () => {
 			);
 
 			////////////////////
-			logger.debug('Fifth back-office submission attempt for appeals');
+			// logger.debug('Fifth back-office submission attempt for appeals');
 
 			// Given: that the create core appeal request will now succeed, but the even numbered documents
 			//        on the appeal will not be sucessfully uploaded for the first appeal
@@ -1077,7 +1078,7 @@ describe('Back Office', () => {
 			});
 
 			////////////////////
-			logger.debug('Sixth back-office submission attempt for appeals');
+			// logger.debug('Sixth back-office submission attempt for appeals');
 
 			// Given: the even numbered documents on the first appeal will now be sucessfully uploaded
 			for (let documentIndex = 0; documentIndex < appealDocuments.length; documentIndex++) {
@@ -1264,7 +1265,7 @@ describe('Back Office', () => {
 
 			// And: when submitting the appeal it will fail to upload organisation 3 times:
 			for (const key in inputs) {
-				logger.debug(`Attempting to upload ${key} 3 times`);
+				// logger.debug(`Attempting to upload ${key} 3 times`);
 				for (let attempts = 1; attempts <= 3; attempts++) {
 					await mockedExternalApis.mockHorizonCreateContactResponse(500);
 					await mockedExternalApis.mockHorizonCreateContactResponse(500);
@@ -1408,7 +1409,7 @@ describe('Back Office', () => {
 						HorizonInteraction.getCreateOrganisationInteraction(expectation)
 					)
 				);
-				logger.debug(`Attempting to upload ${key} 3 times`);
+				// logger.debug(`Attempting to upload ${key} 3 times`);
 				for (let attempts = 1; attempts <= 3; attempts++) {
 					await mockedExternalApis.mockHorizonCreateContactResponse(500);
 					await mockedExternalApis.mockHorizonCreateContactResponse(500);
@@ -1565,7 +1566,7 @@ describe('Back Office', () => {
 					)
 				);
 
-				logger.debug(`Attempting to upload ${key} 3 times`);
+				// logger.debug(`Attempting to upload ${key} 3 times`);
 				for (let attempts = 1; attempts <= 3; attempts++) {
 					await mockedExternalApis.mockHorizonCreateAppealResponse(500);
 
@@ -1741,7 +1742,7 @@ describe('Back Office', () => {
 					...jp.query(inputs.appealThatWillFailDocuments.appeal, '$..uploadedFile').flat(Infinity),
 					...jp.query(inputs.appealThatWillFailDocuments.appeal, '$..uploadedFiles').flat(Infinity)
 				];
-				logger.debug(`Attempting to upload ${key} 3 times`);
+				// logger.debug(`Attempting to upload ${key} 3 times`);
 				for (let attempts = 1; attempts <= 3; attempts++) {
 					for (let documentIndex = 0; documentIndex < appealDocuments.length; documentIndex++) {
 						const document = appealDocuments[documentIndex];

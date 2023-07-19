@@ -1,7 +1,7 @@
 const jp = require('jsonpath');
 const { GenericContainer, Wait } = require('testcontainers/');
 const axios = require('axios');
-const logger = require('../../../logger');
+// const logger = require('../../../logger');
 
 /**
  * This class is intended to act as a mocking interface for all external APIs that the
@@ -79,7 +79,7 @@ module.exports = class MockedExternalApis {
 			const actualInteractionBody = this.getJsonFromRecordedRequest(actualInteraction);
 			const allKeysFromActualInteractionBody = this.getAllKeysFromJson(actualInteractionBody);
 
-			logger.debug(allKeysFromActualInteractionBody, 'Keys from actual interaction');
+			// logger.debug(allKeysFromActualInteractionBody, 'Keys from actual interaction');
 
 			expect(allKeysFromActualInteractionBody.length).toEqual(
 				expectedInteraction.getNumberOfKeysExpectedInJson()
@@ -90,9 +90,9 @@ module.exports = class MockedExternalApis {
 				.forEach((expectation, jsonPathExpression) => {
 					const jsonKeyValue = jp.query(actualInteractionBody, jsonPathExpression.get())[0];
 
-					logger.debug(
-						`Check if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`
-					);
+					// logger.debug(
+					// 	`Check if '${jsonKeyValue}' obtained via JSON path '${jsonPathExpression.get()}' matches what's expected: '${expectation}'`
+					// );
 
 					if (expectation instanceof RegExp) {
 						expect(jsonKeyValue).toMatch(expectation);
@@ -448,9 +448,9 @@ module.exports = class MockedExternalApis {
 				body: body
 			}
 		};
-		const response = await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
+		await axios.put(`${this.baseUrl}/mockserver/expectation`, data);
 
-		logger.debug(response.data, 'Mock Horizon get case response');
+		// logger.debug(response.data, 'Mock Horizon get case response');
 	}
 
 	async getRecordedRequestsForHorizon() {
