@@ -32,4 +32,21 @@ describe('Utils test', () => {
 			await expect(util.promiseTimeout(timeout, promise())).rejects.toEqual(new Error('timeout'));
 		});
 	});
+
+	describe('isTestLPA', () => {
+		it('should return true if test ONS code', async () => {
+			const testONSCode = 'E69999999';
+			expect(util.isTestLPA(testONSCode)).toEqual(true);
+		});
+
+		it('should return true if test lpa code', async () => {
+			const testLpaCode = 'Q9999';
+			expect(util.isTestLPA(testLpaCode)).toEqual(true);
+		});
+
+		it('should return false if test lpa code', async () => {
+			const testLpaCode = 'Q0000';
+			expect(util.isTestLPA(testLpaCode)).toEqual(false);
+		});
+	});
 });

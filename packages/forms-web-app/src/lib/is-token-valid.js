@@ -7,10 +7,14 @@ const testConfirmEmailToken = '12345';
 
 const isTestEnvironment = () => config.server.allowTestingOverrides;
 
-// is test LPA + Test environment + test token
-// then allow through as a confirm email token
-const isTestLPACheckTokenAndSession = (token, session) => {
-	return utils.isTestLPA(session?.appeal?.lpaCode) && token === testConfirmEmailToken;
+/**
+ * Check if LPA is System Test Borough Council and token is test token
+ * @param {string} token
+ * @param {string} lpaCode
+ * @return {boolean}
+ */
+const isTestLpaAndToken = (token, lpaCode) => {
+	return utils.isTestLPA(lpaCode) && token === testConfirmEmailToken;
 };
 
 const getToken = async (id, token, session) => {
@@ -68,7 +72,7 @@ const isTokenValid = async (id, token, session) => {
 
 module.exports = {
 	isTokenValid,
-	isTestLPACheckTokenAndSession,
+	isTestLpaAndToken,
 	testConfirmEmailToken,
 	isTestEnvironment
 };

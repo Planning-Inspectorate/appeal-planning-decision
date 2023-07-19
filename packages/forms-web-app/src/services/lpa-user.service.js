@@ -18,10 +18,20 @@ const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
  */
 
 /**
+ * An LPA user from the DB
+ * @typedef {Object} DBUser
+ * @property {UserId} _id - The id of the user.
+ * @property {string} email - The email of the user.
+ * @property {boolean} isAdmin - If the user is an admin user (cannot be deleted).
+ * @property {string} status - The status of a user (STATUS_CONSTANTS)
+ * @property {string} lpaCode - If code of the lpa the user belongs to.
+ */
+
+/**
  * Gets lpaUser by their id
  * @async
  * @param {UserId} userId
- * @returns {Promise<User>}
+ * @returns {Promise<DBUser>}
  */
 const getLPAUser = async (userId) => {
 	return await getUserById(userId);
@@ -31,11 +41,10 @@ const getLPAUser = async (userId) => {
  * Creates the user object within the session object of the request for the successfully logged in LPAUser
  * @async
  * @param {ExpressRequest} req
- * @param {UserId} userId
+ * @param {DBUser} user
  * @returns {Promise<void>}
  */
-const createLPAUserSession = async (req, userId) => {
-	let user = await getLPAUser(userId);
+const createLPAUserSession = async (req, user) => {
 	req.session.lpaUser = user;
 
 	let lpa = await getLPA(user.lpaCode);
@@ -76,5 +85,6 @@ module.exports = {
 	createLPAUserSession,
 	getLPAUserFromSession,
 	getLPAUserStatus,
-	setLPAUserStatus
+	setLPAUserStatus,
+	getLPAUser
 };
