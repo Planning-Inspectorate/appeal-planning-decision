@@ -61,7 +61,7 @@ class ApiError {
 	}
 
 	// Users/LPA Dashboard
-	static userNoLpaCodeProvided() {
+	static noLpaCodeProvided() {
 		return new ApiError(400, { errors: [`No LPA was provided`] });
 	}
 
@@ -87,6 +87,10 @@ class ApiError {
 
 	static userBadLpa() {
 		return new ApiError(400, { errors: [`Can't match this user to the lpa`] });
+	}
+
+	static appealsCaseDataNotFound() {
+		return new ApiError(404, { errors: [`The appeals case data was not found`] });
 	}
 }
 

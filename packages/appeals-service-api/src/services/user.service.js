@@ -30,7 +30,7 @@ const getUsers = async (lpaCode) => {
 	const result = [];
 
 	if (!lpaCode) {
-		throw ApiError.userNoLpaCodeProvided();
+		throw ApiError.noLpaCodeProvided();
 	}
 
 	try {
