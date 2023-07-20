@@ -45,7 +45,7 @@ describe('src/services/user.service', () => {
 			try {
 				await getUsers();
 			} catch (err) {
-				expect(err).toEqual(ApiError.userNoLpaCodeProvided());
+				expect(err).toEqual(ApiError.noLpaCodeProvided());
 			}
 		});
 
