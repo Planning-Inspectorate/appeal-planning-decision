@@ -16,7 +16,33 @@
         </span>
         Manage my appeals
       </h1>
-      <a href="{{addOrRemoveLink}}" class="govuk-link">Add and remove users</a>
+      <p class="govuk-body">
+        <a href="{{addOrRemoveLink}}" class="govuk-link">Add and remove users</a>
+      </p>
     </div>
+
+    <div class="govuk-grid-column-full">
+      <table class="govuk-table govuk-!-margin-top-3">
+        <caption class="govuk-table__caption govuk-table__caption--l">Appeals in progress</caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Appeal number</th>
+            <th scope="col" class="govuk-table__header">Application number</th>
+            <th scope="col" class="govuk-table__header">Deadline</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Due in</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">To do</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          {# <tr class="govuk-table__row">
+            <td class="govuk-table__cell"></td>
+            <td class="govuk-table__cell"></td>
+            <td class="govuk-table__cell"></td>
+            <td class="govuk-table__cell govuk-table__cell--numeric"></td>
+            <td class="govuk-table__cell govuk-table__cell--numeric"></td>
+          </tr> #}
+        </tbody>
+      </table>
+   </div>
   </div>
 {% endblock %}
