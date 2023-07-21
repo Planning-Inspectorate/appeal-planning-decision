@@ -1,6 +1,11 @@
 const express = require('express');
 
-const { updateAppeal, getAppeal, createAppeal } = require('../services/appeal.service');
+const {
+	updateAppeal,
+	getAppeal,
+	createAppeal,
+	getAppealByLPACodeAndId
+} = require('../services/appeal.service');
 const {
 	appealInsertValidationRules,
 	appealUpdateValidationRules
@@ -13,6 +18,20 @@ router.get('/:id', async (req, res) => {
 	let body = '';
 	try {
 		body = await getAppeal(req.params.id);
+	} catch (error) {
+		statusCode = error.code;
+		body = error.message.errors;
+	} finally {
+		res.status(statusCode).send(body);
+	}
+});
+
+router.get('/:lpaCode/:id', async (req, res) => {
+	let statusCode = 200;
+	const { id, lpaCode } = req.params;
+	let body = '';
+	try {
+		body = await getAppealByLPACodeAndId(lpaCode, id);
 	} catch (error) {
 		statusCode = error.code;
 		body = error.message.errors;

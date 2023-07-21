@@ -54,6 +54,19 @@ async function getAppeal(id) {
 	return document.appeal;
 }
 
+async function getAppealByLPACodeAndId(lpaCode, id) {
+	logger.info(`Retrieving appeal ${id} ... for lpaCode ${lpaCode}`);
+	const document = await appealsRepository.getByLPACodeAndId(lpaCode, id);
+
+	if (document === null) {
+		logger.info(`Appeal ${id} not found`);
+		throw ApiError.appealNotFound(id);
+	}
+
+	logger.info(`Appeal ${id} retrieved`);
+	return document.appeal;
+}
+
 async function getAppealByHorizonId(horizonId) {
 	logger.info(`Retrieving appeal ${horizonId} ...`);
 	const document = await appealsRepository.getByHorizonId(horizonId);
@@ -236,6 +249,7 @@ module.exports = {
 	updateAppeal,
 	validateAppeal,
 	getAppealDocumentInBase64Encoding,
+	getAppealByLPACodeAndId,
 	saveAppealAsSubmittedToBackOffice,
 	getContactDetails,
 	getDocumentIds,
