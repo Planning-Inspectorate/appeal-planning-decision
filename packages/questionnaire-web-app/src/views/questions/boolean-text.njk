@@ -1,11 +1,25 @@
 {% extends "layouts/no-banner-link/main.njk" %}
 
+{% from "../macros/bullet-list.njk" import bulletList %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 
 {% set title= question.question + " - Appeal a planning decision - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
+
+{% if question.conditional %}
+  {% set condtionalDetails %}
+    {{ govukTextarea({
+      name: question.conditionalId,
+      id: question.conditionalId,
+      label: {
+        text: question.conditional
+      }
+    }) }}
+  {% endset %}
+{% endif %}
 
 {% block content %}
   <div class="govuk-grid-row">
@@ -17,6 +31,13 @@
           attributes: {"data-cy": "error-wrapper"}
         }) }}
       {% endif %}
+
+      <h1 class="govuk-heading-l">{{question.question}}</h1>
+      <p class="govuk-body">{{question.description}}</p>
+      {% if question.points %}
+        {{bulletList(question.points)}}
+      {% endif %}
+
       <form action="" method="post" novalidate>
         <span class="govuk-caption-l">{{ question.caption }}</span>
         {{ govukRadios({
@@ -28,9 +49,9 @@
           },
           fieldset: {
             legend: {
-              text: question.question,
+              text: question.subQuestion,
               isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
+              classes: "govuk-fieldset__legend--m"
             }
           },
           items: [
@@ -38,7 +59,10 @@
               value: "yes",
               text: "Yes",
               attributes: { "data-cy": "answer-yes" },
-              checked: answer == "yes"
+              checked: answer == "yes",
+              conditional: {
+                html: condtionalDetails
+              }
             },
             {
               value: "no",
