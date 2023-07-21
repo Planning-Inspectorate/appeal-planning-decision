@@ -10,6 +10,6 @@ describe('./src/services/appeal.service', () => {
 			.spyOn(AppealsRepository.prototype, 'findOneByQuery')
 			.mockResolvedValue({ appeal: {} });
 		await getAppealByLPACodeAndId(LPA_CODE, ID);
-		expect(spy).toHaveBeenCalledWith({ _id: ID, lpaCode: LPA_CODE });
+		expect(spy).toHaveBeenCalledWith({ _id: ID, 'appeal.lpaCode': '9999' });
 	});
 });
