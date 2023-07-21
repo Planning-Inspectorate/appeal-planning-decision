@@ -35,8 +35,8 @@ exports.lookupCode = async (req, res) => {
 
     var answers = req.body;
     req.session.lpaAnswers = req.session.lpaAnswers || {};
-    req.session.lpaAnswers[questionObj.fieldName] = req.session.lpaAnswers[questionObj.fieldName] || [];
-
+    req.session.lpaAnswers[questionObj.fieldName] = req.session.lpaAnswers[questionObj.fieldName] || {};
+    debugger;
     req.session.lpaAnswers['listed-detail-list'] = req.session.lpaAnswers['listed-detail-list'] || [];
 
     req.session.lpaAnswers['listed-detail-list'].push({

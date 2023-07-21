@@ -38,6 +38,21 @@ exports.questionnaire = {
                 questions.questions.representationsFromOthers,
                 questions.questions.representationUpload
             ]
+        },
+        {
+            name: "Planning officer’s report and supplementary documents",
+            segment: "planning",
+            questions: [
+                questions.questions.planningOfficersUpload
+            ]
+        },
+        {
+            name: "Site access",
+            segment: "health-and-safety",
+            questions: [
+                questions.questions.accessForInspection,
+                questions.questions.potentialSafetyRisks
+            ]
         }
     ]
 }
