@@ -3,8 +3,10 @@ const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.ser
 
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const { getAppealsCaseData } = require('../../../../src/lib/appeals-api-wrapper');
 
 jest.mock('../../../../src/services/lpa-user.service');
+jest.mock('../../../../src/lib/appeals-api-wrapper');
 
 const req = {
 	...mockReq(null)
@@ -33,6 +35,14 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				lpaName: mockUser.lpaName,
 				addOrRemoveLink: `/${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}`
 			});
+		});
+
+		it('should call API to fetch appeals case data', async () => {
+			getLPAUserFromSession.mockReturnValue(mockUser);
+
+			await getYourAppeals(req, res);
+
+			expect(getAppealsCaseData).toHaveBeenCalledWith(mockUser.lpaCode);
 		});
 	});
 });
