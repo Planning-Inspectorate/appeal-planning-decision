@@ -174,6 +174,10 @@ exports.removeUser = async (id) => {
 	return handler(`/api/v1/users/${id}`, 'DELETE');
 };
 
+exports.getAppealsCaseData = async (lpaCode) => {
+	return handler(`/api/v1/lpa-dashboard-appeals/${lpaCode}`, 'GET');
+};
+
 exports.errorMessages = {
 	user: {
 		only1Admin: 'Only 1 admin is allowed at a time'
