@@ -95,6 +95,10 @@ exports.getExistingAppeal = async (appealId) => {
 	return handler(`/api/v1/appeals/${appealId}`);
 };
 
+exports.getExistingAppealByLPACodeAndId = async (lpaCode, appealId) => {
+	return handler(`/api/v1/appeals/${lpaCode}/${appealId}`);
+};
+
 exports.getLPAList = async () => {
 	return handler('/api/v1/local-planning-authorities');
 };
