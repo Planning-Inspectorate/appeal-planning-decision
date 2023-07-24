@@ -17,6 +17,14 @@ exports.questions = {
         required: true, //Whether the field should be required - this will need to be tied in to validation alongside allowing more complex validation rules
         show: (answers) => { return true; } // A function accepting an array of answers and returning a boolean value indicating whether this field should be shown based on the answers given so far
     },
+    appealAgainTypeAppropriate: {
+        title: "Is this appeal type appriopriate again?", //Title used in the summary list
+        question: "Do you think the appeal type is appropriate again?", //The question being asked
+        type: "boolean", //Type of question, mapped to a njk view in /views/questions
+        fieldName: "appropriate-appeal-type", //The name of the html input field / stem of the name for screens with multiple fields
+        required: true, //Whether the field should be required - this will need to be tied in to validation alongside allowing more complex validation rules
+        show: (answers) => { return true; } // A function accepting an array of answers and returning a boolean value indicating whether this field should be shown based on the answers given so far
+    },
     listedBuildingCheck: {
         title: "Affects a listed building", //Title used in the summary list
         question: "Could the plans affect the setting of a listed building or site?", //The question being asked
@@ -171,7 +179,8 @@ exports.questions = {
         type: "boolean-text",
         fieldName: "potential-safety-risks",
         required: false,
-        show: (answers) => { return answers["access-for-inspection"] === "yes"; }
+        show: (answers) => { return answers["access-for-inspection"] === "yes"; },
+        validator: {type:"text", maxLength: 100}
     }, 
     /*S78 questions */
     rightOfWayCheck: {

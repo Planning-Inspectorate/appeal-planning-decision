@@ -6,7 +6,7 @@
 
 const nunjucks = require("nunjucks");
 
-exports.getQuestionBySectionAndName = async (questionnaire, section, name) => {
+exports.getQuestionBySectionAndName = (questionnaire, section, name) => {
     return questionnaire.sections.find(s => {
         return s.segment === section;
       }).questions.find(q => {
@@ -14,7 +14,7 @@ exports.getQuestionBySectionAndName = async (questionnaire, section, name) => {
       });
 }
 
-exports.getNextQuestionUrl = async (questionnaire, appealId, section, name, answers, reverse) => {
+exports.getNextQuestionUrl = (questionnaire, appealId, section, name, answers, reverse) => {
     var foundSection = false;
     var takeNextQuestion = false;
 

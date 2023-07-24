@@ -7,7 +7,7 @@ const debugRouter = require('./debug');
 router.use('/', homeRouter);
 
 
-
 router.use('/debug', debugRouter);
+
 
 module.exports = router;

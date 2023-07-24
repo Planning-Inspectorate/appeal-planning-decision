@@ -12,6 +12,7 @@ exports.questionnaire = {
             segment: "constraints",
             questions: [
                 questions.questions.appealTypeAppropriate,
+                questions.questions.appealAgainTypeAppropriate,
                 questions.questions.listedBuildingCheck,
                 questions.questions.listedBuildingDetail,
                 questions.questions.listedBuildingDetailList,

@@ -11,6 +11,7 @@ const formHelper = require('../lib/dynamicformhelper');
 
 
 exports.list = async (req, res) => {
+    
     //render check your answers view
     const {appealId} = req.params;
     var summaryListData = { sections: [] };
@@ -77,7 +78,7 @@ exports.list = async (req, res) => {
 exports.question = async (req, res) => {
     //render an individual question
     const {appealId, section, question} = req.params;
-    var questionObj = await formHelper.getQuestionBySectionAndName(questionnaire, section, question);
+    var questionObj = formHelper.getQuestionBySectionAndName(questionnaire, section, question);
     if (questionObj.renderAction != undefined)
     {
         await questionObj.renderAction(req, res);
@@ -86,7 +87,7 @@ exports.question = async (req, res) => {
     {
         var answers = req.session.lpaAnswers || {};
         var answer = answers[questionObj.fieldName] || "";
-        var backLink = await formHelper.getNextQuestionUrl(questionnaire, appealId, section, question, answers, true);
+        var backLink = formHelper.getNextQuestionUrl(questionnaire, appealId, section, question, answers, true);
         var viewModel = {
             "appealId": appealId,
             "question": formHelper.prepQuestionForRendering(questionObj, answers),
@@ -103,7 +104,18 @@ exports.save = async (req, res) => {
     //for now, we'll just save it to the session
     //TODO: Needs to run validation!
     const {appealId, section, question} = req.params;
-    var questionObj = await formHelper.getQuestionBySectionAndName(questionnaire, section, question);
+    var questionObj = formHelper.getQuestionBySectionAndName(questionnaire, section, question);
+    const { body } = req;
+	const { errors = {}, errorSummary = [] } = body;
+
+    if (Object.keys(errors).length > 0) {
+		return res.render(VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS, {
+			email,
+			errors,
+			errorSummary
+		});
+	}
+
     if (questionObj.saveAction != undefined)
     {
         await questionObj.saveAction(req, res);
@@ -120,6 +132,6 @@ exports.save = async (req, res) => {
             }
         }
         //move to the next question
-        res.redirect(await formHelper.getNextQuestionUrl(questionnaire, appealId, section, question, req.session.lpaAnswers, false));
+        res.redirect(formHelper.getNextQuestionUrl(questionnaire, appealId, section, question, req.session.lpaAnswers, false));
     }
 };
