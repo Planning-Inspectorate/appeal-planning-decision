@@ -6,7 +6,7 @@
 
 const nunjucks = require("nunjucks");
 
-exports.getQuestionBySectionAndName = async (questionnaire, section, name) => {
+exports.getQuestionBySectionAndName = (questionnaire, section, name) => {
     return questionnaire.sections.find(s => {
         return s.segment === section;
       }).questions.find(q => {
@@ -14,7 +14,7 @@ exports.getQuestionBySectionAndName = async (questionnaire, section, name) => {
       });
 }
 
-exports.getNextQuestionUrl = async (questionnaire, appealId, section, name, answers, reverse) => {
+exports.getNextQuestionUrl = (questionnaire, appealId, section, name, answers, reverse) => {
     var foundSection = false;
     var takeNextQuestion = false;
 
@@ -38,6 +38,29 @@ exports.getNextQuestionUrl = async (questionnaire, appealId, section, name, answ
     return `/questionnaire/${appealId}`;
 }
 
+exports.getCurrentQuestionUrl = (questionnaire, appealId, section, name, answers) => {
+    var foundSection = false;
+    var takeNextQuestion = false;
+
+    var sectionsStart = 0;
+    for (var i=sectionsStart; (i<questionnaire.sections.length); (i++)) {
+        if (questionnaire.sections[i].segment === section) {
+            foundSection = true;
+        }
+        if (foundSection) {
+            var questionsStart = 0;
+            for (var j=questionsStart; (j<questionnaire.sections[i].questions.length); (j++)) {
+                if (questionnaire.sections[i].questions[j].fieldName === name) {
+                    takeNextQuestion = true;
+                }
+                if (takeNextQuestion && questionnaire.sections[i].questions[j].show(answers)) {
+                    return `/questionnaire/${appealId}/${questionnaire.sections[i].segment}/${questionnaire.sections[i].questions[j].fieldName}`;
+                }
+            }
+        }
+    }
+    return `/questionnaire/${appealId}`;
+}
 
 exports.prepQuestionForRendering = (question, answers) => {
     var answer = answers[question.fieldName];

@@ -17,7 +17,7 @@ async function main() {
 		logger.warn({ err }, 'Application insights failed to start: ');
 	}
 
-	server()
+	server();
 
 }
 main().catch((err) => {
