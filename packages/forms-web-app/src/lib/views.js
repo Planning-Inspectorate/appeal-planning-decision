@@ -205,7 +205,8 @@ const VIEW = {
 		EMAIL_ADDRESS: 'manage-appeals/email-address',
 		CONFIRM_ADD_USER: 'manage-appeals/confirm-add-user',
 		CONFIRM_REMOVE_USER: 'manage-appeals/confirm-remove-user',
-		YOUR_EMAIL_ADDRESS: 'manage-appeals/your-email-address'
+		YOUR_EMAIL_ADDRESS: 'manage-appeals/your-email-address',
+		APPEAL_DETAILS: 'manage-appeals/appeal-details'
 	},
 
 	MESSAGES: {
