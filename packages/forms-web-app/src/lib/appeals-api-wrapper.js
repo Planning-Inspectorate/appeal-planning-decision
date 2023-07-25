@@ -175,7 +175,7 @@ exports.removeUser = async (id) => {
 };
 
 exports.getAppealsCaseData = async (lpaCode) => {
-	return handler(`/api/v1/lpa-dashboard-appeals/${lpaCode}`, 'GET');
+	return handler(`/api/v1/appeals-case-data/${lpaCode}`, 'GET');
 };
 
 exports.errorMessages = {

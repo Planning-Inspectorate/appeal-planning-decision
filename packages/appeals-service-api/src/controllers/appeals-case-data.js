@@ -1,4 +1,4 @@
-const { getAppeals } = require('../services/lpa-dashboard-appeals.service');
+const { getAppeals } = require('../services/appeals-case-data.service');
 const logger = require('../lib/logger');
 
 const getAppealsByLpaCode = async (req, res) => {
