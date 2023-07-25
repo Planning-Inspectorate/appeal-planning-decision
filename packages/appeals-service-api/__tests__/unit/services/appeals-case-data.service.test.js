@@ -1,4 +1,4 @@
-const { getAppeals } = require('../../../src/services/lpa-dashboard-appeals.service');
+const { getAppeals } = require('../../../src/services/appeals-case-data.service');
 
 const mongodb = require('../../../src/db/db');
 const ApiError = require('../../../src/errors/apiError');
@@ -6,7 +6,7 @@ const logger = require('../../../src/lib/logger');
 
 jest.mock('../../../src/lib/logger');
 
-describe('src/services/lpa-dashboard-appeals.service.test', () => {
+describe('src/services/appeals-case-data.service.test', () => {
 	// Mock MongoDB collection and methods
 	const collectionMock = {
 		//find: jest.fn(() => ({toArray: jest.fn()}))
@@ -49,7 +49,16 @@ describe('src/services/lpa-dashboard-appeals.service.test', () => {
 
 		const result = await getAppeals(lpaCode);
 
-		expect(collectionMock.find).toHaveBeenCalledWith({ LPACode: lpaCode }, appealsProjection);
+		expect(collectionMock.find).toHaveBeenCalledWith(
+			{
+				LPACode: lpaCode,
+				appealType: 'Householder (HAS) Appeal',
+				validity: 'Valid',
+				questionnaireDueDate: { $type: 'date' },
+				questionnaireReceived: { $not: { $type: 'date' } }
+			},
+			appealsProjection
+		);
 
 		expect(result).toEqual([appealCaseData]);
 	});
