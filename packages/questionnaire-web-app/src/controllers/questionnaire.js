@@ -72,7 +72,7 @@ exports.list = async (req, res) => {
         }
         summaryListData.sections.push(section);
     }
-    res.render(`questions/summary`, summaryListData);
+    return res.render(`questions/summary`, summaryListData);
 };
 
 exports.question = async (req, res) => {
@@ -95,7 +95,7 @@ exports.question = async (req, res) => {
             "backLink": backLink,
             "navigation": ["",backLink]
         };
-        res.render(`questions/${questionObj.type}`, viewModel);
+        return res.render(`questions/${questionObj.type}`, viewModel);
     }
 };
 
@@ -109,12 +109,20 @@ exports.save = async (req, res) => {
 	const { errors = {}, errorSummary = [] } = body;
 
     if (Object.keys(errors).length > 0) {
-		return res.render(VIEW.APPELLANT_SUBMISSION.EMAIL_ADDRESS, {
-			email,
-			errors,
-			errorSummary
-		});
-	}
+		var answers = req.session.lpaAnswers || {};
+        var answer = answers[questionObj.fieldName] || "";
+        var backLink = formHelper.getCurrentQuestionUrl(questionnaire, appealId, section, question, answers, true);
+        var viewModel = {
+            "appealId": appealId,
+            "question": formHelper.prepQuestionForRendering(questionObj, answers),
+            "answer": answer,
+            "backLink": backLink,
+            "navigation": ["",backLink],
+            "errors": errors,
+            "errorSummary": errorSummary
+        };
+        return res.render(`questions/${questionObj.type}`, viewModel);
+		};
 
     if (questionObj.saveAction != undefined)
     {
