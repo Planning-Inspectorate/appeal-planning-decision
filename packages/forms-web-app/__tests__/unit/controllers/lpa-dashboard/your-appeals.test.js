@@ -19,6 +19,8 @@ const mockUser = {
 	lpaName: 'test-lpa'
 };
 
+const mockAppealData = [1, 2];
+
 describe('controllers/lpa-dashboard/your-appeals', () => {
 	beforeEach(() => {
 		jest.resetAllMocks();
@@ -27,13 +29,15 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 	describe('getYourAppeals', () => {
 		it('should render the view with a link to add-remove', async () => {
 			getLPAUserFromSession.mockReturnValue(mockUser);
-
+			getAppealsCaseData.mockResolvedValue(mockAppealData);
 			await getYourAppeals(req, res);
 
 			expect(getLPAUserFromSession).toHaveBeenCalledWith(req);
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.DASHBOARD, {
 				lpaName: mockUser.lpaName,
-				addOrRemoveLink: `/${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}`
+				addOrRemoveLink: `/${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}`,
+				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
+				appealsCaseData: mockAppealData
 			});
 		});
 

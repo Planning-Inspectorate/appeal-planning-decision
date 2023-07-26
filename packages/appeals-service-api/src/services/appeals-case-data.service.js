@@ -1,6 +1,7 @@
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const ApiError = require('../errors/apiError');
+const { encodeUrlSlug } = require('../lib/encode');
 const {
 	APPEALS_CASE_DATA: {
 		APPEAL_TYPE: { HAS },
@@ -42,6 +43,10 @@ const getAppeals = async (lpaCode) => {
 		logger.error(err);
 		throw ApiError.appealsCaseDataNotFound();
 	}
+
+	result.forEach((item) => {
+		item.caseReferenceSlug = encodeUrlSlug(item.caseReference);
+	});
 
 	result.sort((a, b) => {
 		if (!a.questionnaireDueDate || !b.questionnaireDueDate) {
