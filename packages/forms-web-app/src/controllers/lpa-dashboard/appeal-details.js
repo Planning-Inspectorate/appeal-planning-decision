@@ -24,7 +24,8 @@ const calculateQuestionnaireDueDate = (appeal) => {
 };
 
 const getAppealDetails = async (req, res) => {
-	const { lpaCode, id } = req.params;
+	let { lpaCode, id } = req.params;
+
 	const appeal = await getAppealByLPACodeAndId(lpaCode, id);
 
 	return res.render(APPEAL_DETAILS, {
