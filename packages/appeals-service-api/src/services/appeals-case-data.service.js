@@ -43,7 +43,14 @@ const getAppeals = async (lpaCode) => {
 		throw ApiError.appealsCaseDataNotFound();
 	}
 
-	//todo: sort results by shortest (nearest?) deadline (aapd-43)
+	result.sort((a, b) => {
+		if (!a.questionnaireDueDate || !b.questionnaireDueDate) {
+			return 0;
+		}
+
+		return a.questionnaireDueDate.getTime() - b.questionnaireDueDate.getTime();
+	});
+
 	return result;
 };
 
