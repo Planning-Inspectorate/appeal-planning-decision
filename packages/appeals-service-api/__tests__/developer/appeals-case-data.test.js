@@ -55,15 +55,16 @@ afterAll(async () => {
 });
 
 describe('appeals-case-data', () => {
-	it('should return valid appeals based on LPA code and status', async () => {
+	it('should return sorted (by questionnaireDueDate) and filtered valid appeals data based on LPA code and status', async () => {
 		const q9999response = await appealsApi.get(`/api/v1/appeals-case-data/Q9999`);
 		const l2440response = await appealsApi.get(`/api/v1/appeals-case-data/L2440`);
+		const sortedValidTestAppealIndexes = [14, 12, 13, 11];
 
 		expect(q9999response.status).toBe(200);
 		expect(q9999response.body.length).toBe(4);
 
 		q9999response.body.forEach((result, index) => {
-			const caseDataIndex = index + 11;
+			const caseDataIndex = sortedValidTestAppealIndexes[index];
 			expect(result._id).toEqual(appealsCaseData[caseDataIndex]._id);
 			expect(result.LPAApplicationReference).toEqual(
 				appealsCaseData[caseDataIndex].LPAApplicationReference
