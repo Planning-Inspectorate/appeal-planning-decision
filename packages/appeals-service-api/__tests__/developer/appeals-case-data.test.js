@@ -70,6 +70,7 @@ describe('appeals-case-data', () => {
 				appealsCaseData[caseDataIndex].LPAApplicationReference
 			);
 			expect(result.caseReference).toEqual(appealsCaseData[caseDataIndex].caseReference);
+			expect(result.caseReferenceSlug).toEqual(appealsCaseData[caseDataIndex].caseReference);
 			expect(result.questionnaireDueDate).toEqual(
 				appealsCaseData[caseDataIndex].questionnaireDueDate.toISOString()
 			);
@@ -79,7 +80,7 @@ describe('appeals-case-data', () => {
 		});
 
 		expect(l2440response.status).toBe(200);
-		expect(l2440response.body.length).toBe(1);
+		expect(l2440response.body.length).toBe(2);
 		expect(l2440response.body[0]._id).toEqual(appealsCaseData[9]._id);
 		expect(l2440response.body[0].LPAApplicationReference).toEqual(
 			appealsCaseData[9].LPAApplicationReference
@@ -91,6 +92,14 @@ describe('appeals-case-data', () => {
 		expect(l2440response.body[0].LPACode).toBe(undefined);
 		expect(l2440response.body[0].validity).toBe(undefined);
 		expect(l2440response.body[0].questionnaireReceived).toBe(undefined);
+	});
+
+	it('should return a url friendly slug for appeal case ref', async () => {
+		const l2440response = await appealsApi.get(`/api/v1/appeals-case-data/L2440`);
+
+		expect(l2440response.status).toBe(200);
+		expect(l2440response.body.length).toEqual(2);
+		expect(l2440response.body[1].caseReferenceSlug).toBe('_%40_1');
 	});
 
 	it('should 404 if no LPA code', async () => {
