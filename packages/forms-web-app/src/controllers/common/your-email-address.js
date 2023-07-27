@@ -13,7 +13,6 @@ const postYourEmailAddress = (views) => {
 			body,
 			params: { id }
 		} = req;
-
 		const { errors = {}, errorSummary = [] } = body;
 		if (!body['email-address'] || body['email-address'] === '') {
 			const customErrorSummary = [
