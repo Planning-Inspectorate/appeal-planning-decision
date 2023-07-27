@@ -2,7 +2,8 @@ const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 
 const {
 	VIEW: {
-		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, APPEAL_DETAILS }
+		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, APPEAL_DETAILS },
+		LPA_QUESTIONNAIRE: { QUESTIONNAIRE }
 	}
 } = require('../../lib/views');
 
@@ -19,7 +20,8 @@ const getYourAppeals = async (req, res) => {
 		lpaName: user.lpaName,
 		addOrRemoveLink: `/${ADD_REMOVE_USERS}`,
 		appealsCaseData: appealsCaseData,
-		appealDetailsLink: `/${APPEAL_DETAILS}`
+		appealDetailsLink: `/${APPEAL_DETAILS}`,
+		appealQuestionnaireLink: `/${QUESTIONNAIRE}`
 	});
 };
 

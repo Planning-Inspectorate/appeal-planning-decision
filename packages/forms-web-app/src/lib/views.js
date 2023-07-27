@@ -208,6 +208,10 @@ const VIEW = {
 		APPEAL_DETAILS: 'manage-appeals/appeal-details'
 	},
 
+	LPA_QUESTIONNAIRE: {
+		QUESTIONNAIRE: 'manage/questionnaire'
+	},
+
 	MESSAGES: {
 		COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully'
 	},
