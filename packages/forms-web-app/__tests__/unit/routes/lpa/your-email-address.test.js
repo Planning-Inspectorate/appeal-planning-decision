@@ -9,9 +9,9 @@ describe('routes/lpa/your-email-address', () => {
 		jest.resetAllMocks();
 	});
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/your-email-address', expect.any(Function));
+		expect(get).toHaveBeenCalledWith('/your-email-address/:id', expect.any(Function));
 		expect(post).toHaveBeenCalledWith(
-			'/your-email-address',
+			'/your-email-address/:id',
 			[expect.any(Function)],
 			validationErrorHandler,
 			expect.any(Function)
