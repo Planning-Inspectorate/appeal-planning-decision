@@ -40,7 +40,7 @@ describe('requireUser', () => {
 
 		userEnabledStates.forEach((state) => {
 			req.session.lpaUser = {
-				status: state
+				enabled: state
 			};
 
 			requireUser(req, res, next);
