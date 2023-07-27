@@ -23,6 +23,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			const appeal = {
 				type: APPEAL_ID.HOUSEHOLDER,
 				caseReference: '1345264',
+				appealValidDate: new Date('2023-07-24T12:21:11.208Z'),
 				appealType: 'Householder appeal',
 				siteAddressLine1: '2 Aubrey House',
 				siteAddressLine2: 'Aubrey Road',
@@ -34,11 +35,11 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			};
 			getAppealByLPACodeAndId.mockResolvedValue(appeal);
 			await getAppealDetails(req, res);
-			const expectedQuesionnaireDueDate = 'Monday, 31 July 2023';
+			const questionnaireDueDate = 'Monday, 31 July 2023';
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.APPEAL_DETAILS, {
 				dashboardLink: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
-				expectedQuesionnaireDueDate,
+				questionnaireDueDate,
 				appeal
 			});
 		});
