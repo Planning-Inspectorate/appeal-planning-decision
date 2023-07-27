@@ -19,7 +19,12 @@ const mockUser = {
 	lpaName: 'test-lpa'
 };
 
-const mockAppealData = [1, 2];
+const mockAppealData = [{
+	_id: '89aa8504-773c-42be-bb68-029716ad9756',
+	LPAApplicationReference: '12/3456789/PLA',
+	caseReference: 'APP/Q9999/W/22/3221288',
+	questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00'
+}];
 
 describe('controllers/lpa-dashboard/your-appeals', () => {
 	beforeEach(() => {
