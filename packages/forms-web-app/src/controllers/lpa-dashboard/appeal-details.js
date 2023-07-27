@@ -19,15 +19,17 @@ const calculateQuestionnaireDueDate = (appeal) => {
 		default:
 			throw new Error('Unsupported appeal type');
 	}
+	console.log(questionnaireDueDate);
 	return questionnaireDueDate;
 };
 
 const getAppealDetails = async (req, res) => {
 	const { lpaCode, id } = req.params;
 	const appeal = await getAppealByLPACodeAndId(lpaCode, id);
-	
+
 	return res.render(APPEAL_DETAILS, {
 		dashboardLink: `/${DASHBOARD}`,
+		appeal,
 		questionnaireDueDate: (() => {
 			return new Intl.DateTimeFormat('en-GB', {
 				dateStyle: 'full',
