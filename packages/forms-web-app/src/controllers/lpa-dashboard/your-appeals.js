@@ -13,7 +13,6 @@ const getYourAppeals = async (req, res) => {
 
 	const user = getLPAUserFromSession(req);
 
-	// eslint-disable-next-line no-unused-vars
 	appealsCaseData = await getAppealsCaseData(user.lpaCode);
 
 	return res.render(DASHBOARD, {
