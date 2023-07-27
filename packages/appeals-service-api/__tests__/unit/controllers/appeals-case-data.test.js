@@ -1,14 +1,14 @@
-const { getAppealsByLpaCode } = require('../../../src/controllers/lpa-dashboard-appeals');
+const { getAppealsByLpaCode } = require('../../../src/controllers/appeals-case-data');
 const ApiError = require('../../../src/errors/apiError');
-const { getAppeals } = require('../../../src/services/lpa-dashboard-appeals.service');
+const { getAppeals } = require('../../../src/services/appeals-case-data.service');
 const { mockReq, mockRes } = require('../mocks');
 
-jest.mock('../../../src/services/lpa-dashboard-appeals.service');
+jest.mock('../../../src/services/appeals-case-data.service');
 
 const req = mockReq();
 const res = mockRes();
 
-describe('../../../src/controllers/lpa-dashboard-appeals', () => {
+describe('../../../src/controllers/appeals-case-data', () => {
 	beforeEach(async () => {
 		jest.clearAllMocks();
 	});

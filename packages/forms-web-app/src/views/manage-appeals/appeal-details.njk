@@ -1,5 +1,7 @@
 {% extends "layouts/lpa-dashboard/main-no-back-link.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 
 {% set title="Your appeals - Manage appeals - GOV.UK" %}
 
@@ -10,18 +12,24 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">
-            <span class="govuk-caption-l">
-            {{lpaName}}
-            </span>
-            Manage my appeals
-        </h1>
-        <h2 class="govuk-heading-l">
-            Appeal Details
-        </h2>
-        <p class="govuk-body">
-            <a href="{{dashboardLink}}" class="govuk-link">Dashboard</a>
+      {{ govukBackLink({
+        text: "Back to appeals",
+        href: "{{dashboardLink}}"
+      }) }}
+      {% set html %}
+        <p class="govuk-notification-banner__heading">
+          You have until 11:59 on {{questionnaireDueDate}} to:
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              <a class="govuk-notification-banner__link" href="/manage/questionnaire">Submit questionnaire</a>
+            </li>
+          </ul>
         </p>
+      {% endset %}
+
+      {{ govukNotificationBanner({
+        html: html
+      }) }}
     </div>
   </div>
 {% endblock %}
