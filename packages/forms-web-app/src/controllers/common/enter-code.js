@@ -319,7 +319,7 @@ const postEnterCodeLPA = (views) => {
 
 		if (isTestEnvironment() && isTestLpaAndToken(emailCode, user.lpaCode)) {
 			try {
-				createLPAUserSession(req, user);
+				await createLPAUserSession(req, user);
 				redirectToLPADashboard(res, views);
 				return;
 			} catch (e) {
