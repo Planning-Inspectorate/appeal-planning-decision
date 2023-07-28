@@ -1,5 +1,4 @@
-const { getLPAUserFromSession } = require('../../services/lpa-user.service');
-const { getExistingAppealByLPACodeAndId } = require('../../lib/appeals-api-wrapper');
+const { getAppealByLPACodeAndId } = require('../../lib/appeals-api-wrapper');
 const {
 	VIEW: {
 		LPA_DASHBOARD: { DASHBOARD, APPEAL_DETAILS }
@@ -20,17 +19,17 @@ const calculateQuestionnaireDueDate = (appeal) => {
 		default:
 			throw new Error('Unsupported appeal type');
 	}
+	console.log(questionnaireDueDate);
 	return questionnaireDueDate;
 };
 
 const getAppealDetails = async (req, res) => {
 	const { lpaCode, id } = req.params;
-	const user = getLPAUserFromSession(req);
-	const appeal = await getExistingAppealByLPACodeAndId(lpaCode, id);
-	console.log(appeal);
+	const appeal = await getAppealByLPACodeAndId(lpaCode, id);
+
 	return res.render(APPEAL_DETAILS, {
-		lpaName: user.lpaName,
 		dashboardLink: `/${DASHBOARD}`,
+		appeal,
 		questionnaireDueDate: (() => {
 			return new Intl.DateTimeFormat('en-GB', {
 				dateStyle: 'full',

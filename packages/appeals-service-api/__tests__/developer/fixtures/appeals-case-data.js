@@ -67,6 +67,15 @@ const fakeAppealsCaseData = () => {
 			new Date(Date.UTC(2023, 0, 28)),
 			undefined,
 			'Valid'
+		),
+		// url reserved chars in caseRef
+		_generateFakeAppeal(
+			'/@/1',
+			'1234567/tuv',
+			new Date(Date.UTC(2023, 1, 1)),
+			undefined,
+			'Valid',
+			'L2440'
 		)
 	];
 

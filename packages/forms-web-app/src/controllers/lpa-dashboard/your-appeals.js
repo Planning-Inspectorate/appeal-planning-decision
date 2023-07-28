@@ -2,7 +2,8 @@ const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 
 const {
 	VIEW: {
-		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS }
+		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, APPEAL_DETAILS },
+		LPA_QUESTIONNAIRE: { QUESTIONNAIRE }
 	}
 } = require('../../lib/views');
 
@@ -13,12 +14,14 @@ const getYourAppeals = async (req, res) => {
 
 	const user = getLPAUserFromSession(req);
 
-	// eslint-disable-next-line no-unused-vars
 	appealsCaseData = await getAppealsCaseData(user.lpaCode);
 
 	return res.render(DASHBOARD, {
 		lpaName: user.lpaName,
-		addOrRemoveLink: `/${ADD_REMOVE_USERS}`
+		addOrRemoveLink: `/${ADD_REMOVE_USERS}`,
+		appealsCaseData: appealsCaseData,
+		appealDetailsLink: `/${APPEAL_DETAILS}`,
+		appealQuestionnaireLink: `/${QUESTIONNAIRE}`
 	});
 };
 

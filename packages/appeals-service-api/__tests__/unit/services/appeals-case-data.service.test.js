@@ -89,6 +89,27 @@ describe('src/services/appeals-case-data.service.test', () => {
 		expect(result[2].caseReference).toEqual('3221288');
 	});
 
+	it('should return a url friendly slug for appeal case ref', async () => {
+		const lpaCode = 'Q9999';
+
+		const appealCaseData = {
+			_id: '89aa8504-773c-42be-bb68-029716ad9756',
+			caseReference: '/@/1',
+			LPAApplicationReference: '2323232/pla',
+			questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00'
+		};
+
+		collectionMock.find.mockResolvedValue({
+			toArray: jest.fn(() => {
+				return [appealCaseData];
+			})
+		});
+
+		const result = await getAppeals(lpaCode);
+
+		expect(result[0].caseReferenceSlug).toEqual('_%40_1');
+	});
+
 	it('should throw error if no lpaCode provided', async () => {
 		try {
 			await getAppeals();
