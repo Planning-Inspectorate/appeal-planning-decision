@@ -18,9 +18,9 @@ const {
 
 const views = { YOUR_EMAIL_ADDRESS, ENTER_CODE };
 
-router.get('/your-email-address/:id', getYourEmailAddress(views));
+router.get('/your-email-address', getYourEmailAddress(views));
 router.post(
-	'/your-email-address/:id',
+	'/your-email-address',
 	emailAddressValidationRules('email-address'),
 	validationErrorHandler,
 	postYourEmailAddress(views)

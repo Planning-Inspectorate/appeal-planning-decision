@@ -1,3 +1,5 @@
+const { getUserByEmail } = require('../../lib/appeals-api-wrapper');
+
 const getYourEmailAddress = (views) => {
 	return (req, res) => {
 		const { email } = req.session;
@@ -9,10 +11,7 @@ const getYourEmailAddress = (views) => {
 
 const postYourEmailAddress = (views) => {
 	return async (req, res) => {
-		const {
-			body,
-			params: { id }
-		} = req;
+		const { body } = req;
 		const { errors = {}, errorSummary = [] } = body;
 		if (!body['email-address'] || body['email-address'] === '') {
 			const customErrorSummary = [
@@ -29,6 +28,8 @@ const postYourEmailAddress = (views) => {
 		}
 
 		const { email } = body['email-address'];
+		const id = await getUserByEmail(email);
+
 		req.session.email = email;
 
 		if (Object.keys(errors).length > 0) {

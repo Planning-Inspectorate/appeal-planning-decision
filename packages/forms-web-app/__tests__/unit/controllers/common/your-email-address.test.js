@@ -2,9 +2,13 @@ const {
 	getYourEmailAddress,
 	postYourEmailAddress
 } = require('../../../../src/controllers/common/your-email-address');
+
+const { getUserByEmail } = require('../../../../src/lib/appeals-api-wrapper');
 const { mockReq, mockRes } = require('../../mocks');
 const views = require('../../../../src/lib/views');
 const lpaViews = views.VIEW.LPA_DASHBOARD;
+
+jest.mock('../../../../src/lib/appeals-api-wrapper');
 
 describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	let req;
@@ -34,7 +38,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 		it('/controllers/common/getYourEmailAddress.js', async () => {
 			const testId = 'd1f31fc7-0152-4796-ab48-52adcdd95066';
 			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
-			req.params.id = testId;
+			getUserByEmail.mockResolvedValue(testId);
 			req.body['email-address'] = testEmail;
 			const returnedFunction = postYourEmailAddress(lpaViews);
 			await returnedFunction(req, res);
