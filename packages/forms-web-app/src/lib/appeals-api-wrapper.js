@@ -182,6 +182,12 @@ exports.getAppealsCaseData = async (lpaCode) => {
 	return handler(`/api/v1/appeals-case-data/${lpaCode}`, 'GET');
 };
 
+exports.getAppealByLPACodeAndId = async (lpaCode, id) => {
+	console.log(lpaCode);
+	console.log(id);
+	// Dependent on task/AAPD-47/AAPD-89-db_query-appeal-data
+};
+
 exports.errorMessages = {
 	user: {
 		only1Admin: 'Only 1 admin is allowed at a time'
