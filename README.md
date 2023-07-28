@@ -33,6 +33,12 @@ Docker Compose to run locally.
 The easiest way to do that is to run `make install`, which will cycle through
 every folder and install npm dependencies.
 
+Adding new dependencies currently requires setting workspaces to false
+
+```
+npm install #new-package# --workspaces=false
+```
+
 ## Running
 
 > Docker and Docker Compose are both very well documented. Please check their
