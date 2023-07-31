@@ -41,7 +41,18 @@
                 </td>
                 <td class="govuk-table__cell">{{item.LPAApplicationReference}}</td>
                 <td class="govuk-table__cell">{{item.questionnaireDueDate | date('D MMMM YYYY') }}</td>
-                <td class="govuk-table__cell govuk-table__cell--numeric"></td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">
+                  {% if item.dueInDays < 0 %}
+                    <strong class='govuk-tag govuk-tag--red'>Overdue</strong>
+                  {% else %}
+                    {{item.dueInDays}} 
+                    {% if item.dueInDays == 1 %} 
+                      day 
+                    {% else %}
+                      days 
+                    {% endif %}
+                  {% endif %} 
+                </td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">
                   <a href="{{appealQuestionnaireLink}}" class="govuk-link">Questionnaire</a>
                 </td>

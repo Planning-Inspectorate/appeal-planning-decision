@@ -8,6 +8,7 @@ const {
 } = require('../../lib/views');
 
 const { getAppealsCaseData } = require('../../lib/appeals-api-wrapper');
+const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
 
 const getYourAppeals = async (req, res) => {
 	let appealsCaseData = [];
@@ -15,6 +16,10 @@ const getYourAppeals = async (req, res) => {
 	const user = getLPAUserFromSession(req);
 
 	appealsCaseData = await getAppealsCaseData(user.lpaCode);
+
+	appealsCaseData.forEach((appeal) => {
+		appeal.dueInDays = calculateDueInDays(appeal.questionnaireDueDate);
+	});
 
 	return res.render(DASHBOARD, {
 		lpaName: user.lpaName,
