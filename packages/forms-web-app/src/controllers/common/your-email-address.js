@@ -28,7 +28,8 @@ const postYourEmailAddress = (views) => {
 		}
 
 		const { email } = body['email-address'];
-		const id = await getUserByEmail(email);
+		const user = await getUserByEmail(email);
+		const id = user._id;
 
 		req.session.email = email;
 
