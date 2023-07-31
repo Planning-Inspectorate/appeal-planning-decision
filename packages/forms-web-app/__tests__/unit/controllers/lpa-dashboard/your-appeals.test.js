@@ -4,9 +4,11 @@ const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.ser
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 const { getAppealsCaseData } = require('../../../../src/lib/appeals-api-wrapper');
+const { calculateDueInDays } = require('../../../../src/lib/calculate-due-in-days');
 
 jest.mock('../../../../src/services/lpa-user.service');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/calculate-due-in-days');
 
 const req = {
 	...mockReq(null)
@@ -51,10 +53,22 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 
 		it('should call API to fetch appeals case data', async () => {
 			getLPAUserFromSession.mockReturnValue(mockUser);
+			getAppealsCaseData.mockResolvedValue(mockAppealData);
 
 			await getYourAppeals(req, res);
 
 			expect(getAppealsCaseData).toHaveBeenCalledWith(mockUser.lpaCode);
+		});
+
+		it('should call calculateInDueDays and add value to appeals case data', async () => {
+			getLPAUserFromSession.mockReturnValue(mockUser);
+			getAppealsCaseData.mockResolvedValue(mockAppealData);
+			calculateDueInDays.mockReturnValue(3);
+
+			await getYourAppeals(req, res);
+
+			expect(calculateDueInDays).toHaveBeenCalledWith(mockAppealData[0].questionnaireDueDate);
+			expect(mockAppealData[0].dueInDays).toEqual(3);
 		});
 	});
 });
