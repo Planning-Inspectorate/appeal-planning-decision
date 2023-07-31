@@ -36,9 +36,15 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	});
 	describe('postYourEmailAddress', () => {
 		it('/controllers/common/getYourEmailAddress.js', async () => {
-			const testId = 'd1f31fc7-0152-4796-ab48-52adcdd95066';
+			const testId = '64c789bf8672ef00122fe30c';
 			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
-			getUserByEmail.mockResolvedValue(testId);
+			getUserByEmail.mockResolvedValue({
+				_id: '64c789bf8672ef00122fe30c',
+				email: 'admin1@planninginspectorate.gov.uk',
+				isAdmin: true,
+				status: 'confirmed',
+				lpaCode: 'Q9999'
+			});
 			req.body['email-address'] = testEmail;
 			const returnedFunction = postYourEmailAddress(lpaViews);
 			await returnedFunction(req, res);
