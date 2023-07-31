@@ -21,7 +21,10 @@ class MongoRepository {
 	 * @returns {Promise<any>} The document found as a result of executing the `query` specified on the
 	 * collection specified via the constructor.
 	 */
-	async findOneByQuery(query) {
+	async findOneByQuery(query, sort = {}) {
+		if (Object.keys(sort).length > 0) {
+			return await mongodb.get().collection(this.collectionName).findOne(query, sort);
+		}
 		return await mongodb.get().collection(this.collectionName).findOne(query);
 	}
 
