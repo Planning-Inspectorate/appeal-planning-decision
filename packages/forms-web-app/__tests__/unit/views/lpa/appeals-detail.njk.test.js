@@ -12,12 +12,15 @@ const appeal = {
 	siteAddressTown: '',
 	siteAddressCounty: '',
 	siteAddressPostcode: 'BS3 3EX',
-	appellant: 'Rachel Silver',
+	appellant: {
+		firstName: 'Rachel',
+		lastName: 'Silver'
+	},
 	LPAApplicationReference: '23/04125/FUL'
 };
 const applicationForm = {
 	filename: 'Aubrey House planning application 2023.pdf',
-	uri: 'Aubrey House planning application 2023.pdf'
+	documentURI: 'Aubrey House planning application 2023.pdf'
 };
 
 describe('./src/views/manage-appeals/appeal-details.njk', () => {
@@ -52,6 +55,6 @@ describe('./src/views/manage-appeals/appeal-details.njk', () => {
 					'#main-content > div.govuk-main-wrapper.govuk-main-wrapper--auto-spacing > div > div > dl > div:nth-child(5) > dd > a'
 				)
 				.getAttribute('href')
-		).toEqual(applicationForm.uri);
+		).toEqual(applicationForm.documentURI);
 	});
 });
