@@ -7,7 +7,6 @@ const logger = require('../lib/logger');
 const getAppealsByLpaCode = async (req, res) => {
 	let statusCode = 200;
 	let body = {};
-
 	try {
 		body = await getAppeals(req.params.lpaCode);
 	} catch (error) {
