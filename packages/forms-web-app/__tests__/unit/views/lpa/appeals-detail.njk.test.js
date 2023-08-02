@@ -13,18 +13,20 @@ const appeal = {
 	siteAddressCounty: '',
 	siteAddressPostcode: 'BS3 3EX',
 	appellant: 'Rachel Silver',
-	LPAApplicationReference: '23/04125/FUL',
-	applicationForm: {
-		name: 'Aubrey House planning application 2023.pdf',
-		url: 'Aubrey House planning application 2023.pdf'
-	}
+	LPAApplicationReference: '23/04125/FUL'
 };
+const applicationForm = {
+	filename: 'Aubrey House planning application 2023.pdf',
+	uri: 'Aubrey House planning application 2023.pdf'
+};
+
 describe('./src/views/manage-appeals/appeal-details.njk', () => {
 	it('should render the application form in row 5 of the summary table', () => {
 		document.body.innerHTML = nunjucksTestRenderer.render(
 			`${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}.njk`,
 			{
-				appeal: appeal
+				appeal: appeal,
+				applicationForm
 			}
 		);
 
@@ -42,7 +44,7 @@ describe('./src/views/manage-appeals/appeal-details.njk', () => {
 					'#main-content > div.govuk-main-wrapper.govuk-main-wrapper--auto-spacing > div > div > dl > div:nth-child(5) > dd > a'
 				)
 				.textContent.trim()
-		).toEqual('Aubrey House planning application 2023.pdf');
+		).toEqual(applicationForm.filename);
 
 		expect(
 			document
@@ -50,6 +52,6 @@ describe('./src/views/manage-appeals/appeal-details.njk', () => {
 					'#main-content > div.govuk-main-wrapper.govuk-main-wrapper--auto-spacing > div > div > dl > div:nth-child(5) > dd > a'
 				)
 				.getAttribute('href')
-		).toEqual('Aubrey House planning application 2023.pdf');
+		).toEqual(applicationForm.uri);
 	});
 });

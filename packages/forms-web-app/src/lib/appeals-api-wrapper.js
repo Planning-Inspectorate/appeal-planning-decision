@@ -183,9 +183,11 @@ exports.getAppealsCaseData = async (lpaCode) => {
 };
 
 exports.getAppealByLPACodeAndId = async (lpaCode, id) => {
-	console.log(lpaCode);
-	console.log(id);
-	// Dependent on task/AAPD-47/AAPD-89-db_query-appeal-data
+	return handler(`/api/v1/appeals-case-data/${lpaCode}/${id}`, 'GET');
+};
+
+exports.getAppealDocumentMetaData = async (caseRef, documentType) => {
+	return handler(`/api/v1/document-meta-data/${caseRef}?documenttype=${documentType}`, 'GET');
 };
 
 exports.errorMessages = {
