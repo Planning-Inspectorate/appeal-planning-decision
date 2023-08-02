@@ -166,7 +166,7 @@ describe('health check configuration', () => {
 					name: 'timedout test',
 					test: async () => {
 						/* Test still "passes", but we're checking the timeout errors */
-						await new Promise((resolve) => setTimeout(resolve, timeout + 1));
+						await new Promise((resolve) => setTimeout(resolve, timeout + 50));
 
 						return true;
 					}
