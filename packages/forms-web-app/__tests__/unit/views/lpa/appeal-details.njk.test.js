@@ -12,7 +12,10 @@ const appeal = {
 	siteAddressTown: '',
 	siteAddressCounty: '',
 	siteAddressPostcode: 'BS3 3EX',
-	appellant: 'Rachel Silver',
+	appellant: {
+		firstName: 'Rachel',
+		lastName: 'Silver'
+	},
 	LPAApplicationReference: '23/04125/FUL'
 };
 describe('./src/views/manage-appeals/appeal-details.njk', () => {

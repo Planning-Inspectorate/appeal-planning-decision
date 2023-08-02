@@ -36,7 +36,7 @@ const getAppealDetails = async (req, res) => {
 	);
 	const applicationForm = {
 		filename: applicationFormMetaData.filename,
-		uri: applicationFormMetaData.documentURI
+		documentURI: applicationFormMetaData.documentURI
 	};
 
 	return res.render(APPEAL_DETAILS, {
