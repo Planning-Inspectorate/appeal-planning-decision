@@ -27,11 +27,7 @@ const postYourEmailAddress = (views) => {
 			return;
 		}
 
-		const { email } = body['email-address'];
-		const user = await getUserByEmail(email);
-		const id = user._id;
-
-		req.session.email = email;
+		const email = body['email-address'];
 
 		if (Object.keys(errors).length > 0) {
 			res.render(views.YOUR_EMAIL_ADDRESS, {
@@ -41,6 +37,9 @@ const postYourEmailAddress = (views) => {
 			});
 			return;
 		}
+
+		const user = await getUserByEmail(email);
+		const id = user._id;
 
 		res.redirect(`/${views.ENTER_CODE}/${id}`);
 	};
