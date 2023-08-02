@@ -65,6 +65,10 @@ class ApiError {
 		return new ApiError(400, { errors: [`No LPA was provided`] });
 	}
 
+	static noCaseRefProvided() {
+		return new ApiError(400, { errors: [`No Case Ref was provided`] });
+	}
+
 	static userNotFound() {
 		return new ApiError(404, { errors: [`The user was not found`] });
 	}

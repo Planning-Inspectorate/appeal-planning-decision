@@ -69,7 +69,7 @@
                 text: "Applicant"
               },
               value: {
-                text: appeal.appellant
+                text: appeal.appellant.firstName + " " + appeal.appellant.lastName
               }
             },
             {
@@ -78,6 +78,14 @@
               },
               value: {
                 text: appeal.LPAApplicationReference
+              }
+            },
+            {
+              key: {
+                text: "Application form"
+              },
+              value: {
+                text: ["<a href='", applicationForm.uri, "'>", applicationForm.filename, "</a>" ] | join | safe
               }
             }
           ]

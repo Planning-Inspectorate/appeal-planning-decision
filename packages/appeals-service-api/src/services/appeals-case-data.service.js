@@ -59,6 +59,37 @@ const getAppeals = async (lpaCode) => {
 	return result;
 };
 
+const getAppealByLpaCodeAndCaseRef = async (lpaCode, caseRef) => {
+	let result;
+
+	if (!lpaCode) {
+		throw ApiError.noLpaCodeProvided();
+	}
+
+	if (!caseRef) {
+		throw ApiError.noCaseRefProvided();
+	}
+
+	try {
+		result = await mongodb
+			.get()
+			.collection('appealsCaseData')
+			.findOne({
+				LPACode: lpaCode,
+				caseReference: caseRef,
+				appealType: HAS,
+				validity: IS_VALID,
+				questionnaireDueDate: { $type: 'date' },
+				questionnaireReceived: { $not: { $type: 'date' } }
+			});
+		return result;
+	} catch (err) {
+		logger.error(err);
+		throw ApiError.appealsCaseDataNotFound();
+	}
+};
+
 module.exports = {
-	getAppeals
+	getAppeals,
+	getAppealByLpaCodeAndCaseRef
 };
