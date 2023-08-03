@@ -32,7 +32,12 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				siteAddressPostcode: 'BS3 3EX',
 				appellant: 'Rachel Silver',
 				LPAApplicationReference: '23/04125/FUL',
-				questionnaireDueDate: '2023-07-07T13:53:31.600Z'
+				questionnaireDueDate: '2023-07-07T13:53:31.600Z',
+				agent: 'Jane Fischold',
+				ownershipCertificate: 'Fully owned',
+				isSiteVisible: 'Yes',
+				doesSiteHaveHealthAndSafetyIssues: 'Yes',
+				healthAndSafetyIssuesDetails: 'The site needs to be seen from a height'
 			};
 			const applicationForm = {
 				filename: 'a.pdf',
