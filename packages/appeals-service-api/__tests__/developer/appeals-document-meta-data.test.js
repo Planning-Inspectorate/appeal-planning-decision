@@ -65,6 +65,39 @@ describe('document-meta-data', () => {
 		expect(response.status).toEqual(200);
 		expect(response.body).toEqual(fakeDocument);
 	});
+	it('should retrieve an appeal statement', async () => {
+		const fakeDocument = fakeDocuments.filter(
+			(fakeDocument) => fakeDocument.documentType === DOCUMENT_TYPES.APPEAL_STATEMENT
+		)[getRandomInt(99)];
+		const url = `/api/v1/document-meta-data/${encodeURIComponent(
+			fakeDocument.caseRef
+		)}?documenttype=${encodeURIComponent(DOCUMENT_TYPES.APPEAL_STATEMENT)}`;
+		const response = await appealsApi.get(url);
+		expect(response.status).toEqual(200);
+		expect(response.body).toEqual(fakeDocument);
+	});
+	it('should retrieve a decision notice', async () => {
+		const fakeDocument = fakeDocuments.filter(
+			(fakeDocument) => fakeDocument.documentType === DOCUMENT_TYPES.DECISION_NOTICE
+		)[getRandomInt(99)];
+		const url = `/api/v1/document-meta-data/${encodeURIComponent(
+			fakeDocument.caseRef
+		)}?documenttype=${encodeURIComponent(DOCUMENT_TYPES.DECISION_NOTICE)}`;
+		const response = await appealsApi.get(url);
+		expect(response.status).toEqual(200);
+		expect(response.body).toEqual(fakeDocument);
+	});
+});
+it('should retrieve a supporting document', async () => {
+	const fakeDocument = fakeDocuments.filter(
+		(fakeDocument) => fakeDocument.documentType === DOCUMENT_TYPES.SUPPORTING_DOCUMENTS
+	)[getRandomInt(99)];
+	const url = `/api/v1/document-meta-data/${encodeURIComponent(
+		fakeDocument.caseRef
+	)}?documenttype=${encodeURIComponent(DOCUMENT_TYPES.SUPPORTING_DOCUMENTS)}`;
+	const response = await appealsApi.get(url);
+	expect(response.status).toEqual(200);
+	expect(response.body).toEqual(fakeDocument);
 });
 const _seedDatabase = async () => {
 	const collection = await databaseConnection.db(collectionName).collection(collectionName);
