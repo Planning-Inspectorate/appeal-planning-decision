@@ -31,7 +31,7 @@ const getAppealDetails = async (req, res) => {
 			return new Intl.DateTimeFormat('en-GB', {
 				dateStyle: 'full',
 				timeZone: 'Europe/London'
-			}).format(dateFns.parseISO(appeal.questionnaireAndCaseFileDue));
+			}).format(dateFns.parseISO(appeal.questionnaireDueDate));
 		})()
 	});
 };

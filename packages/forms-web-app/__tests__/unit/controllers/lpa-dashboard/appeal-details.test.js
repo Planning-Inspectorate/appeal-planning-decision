@@ -32,7 +32,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				siteAddressPostcode: 'BS3 3EX',
 				appellant: 'Rachel Silver',
 				LPAApplicationReference: '23/04125/FUL',
-				questionnaireAndCaseFileDue: '2023-07-07T13:53:31.600Z'
+				questionnaireDueDate: '2023-07-07T13:53:31.600Z'
 			};
 			const applicationForm = {
 				filename: 'a.pdf',
