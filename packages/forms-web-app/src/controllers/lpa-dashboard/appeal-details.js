@@ -7,23 +7,7 @@ const {
 		LPA_DASHBOARD: { DASHBOARD, APPEAL_DETAILS }
 	}
 } = require('../../lib/views');
-
 const dateFns = require('date-fns');
-
-const HAS_APPEAL_TYPE = 'Householder (HAS) Appeal';
-
-const calculateQuestionnaireDueDate = (appeal) => {
-	const { appealValidDate } = appeal;
-	let questionnaireDueDate = {};
-	switch (appeal.appealType) {
-		case HAS_APPEAL_TYPE:
-			questionnaireDueDate = dateFns.addBusinessDays(dateFns.parseISO(appealValidDate), 5);
-			break;
-		default:
-			throw new Error(`Unsupported appeal type ${appeal.appealType}`);
-	}
-	return questionnaireDueDate;
-};
 
 const getAppealDetails = async (req, res) => {
 	const { id } = req.params;
@@ -47,7 +31,7 @@ const getAppealDetails = async (req, res) => {
 			return new Intl.DateTimeFormat('en-GB', {
 				dateStyle: 'full',
 				timeZone: 'Europe/London'
-			}).format(calculateQuestionnaireDueDate(appeal));
+			}).format(dateFns.parseISO(appeal.questionnaireAndCaseFileDue));
 		})()
 	});
 };

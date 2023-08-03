@@ -31,7 +31,8 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				siteAddressCounty: '',
 				siteAddressPostcode: 'BS3 3EX',
 				appellant: 'Rachel Silver',
-				LPAApplicationReference: '23/04125/FUL'
+				LPAApplicationReference: '23/04125/FUL',
+				questionnaireAndCaseFileDue: '2023-07-07T13:53:31.600Z'
 			};
 			const applicationForm = {
 				filename: 'a.pdf',
@@ -43,13 +44,12 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				lpaCode: 'E9999'
 			};
 			await getAppealDetails(req, res);
-			const questionnaireDueDate = 'Monday, 31 July 2023';
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.APPEAL_DETAILS, {
 				dashboardLink: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
-				questionnaireDueDate,
 				appeal,
-				applicationForm
+				applicationForm,
+				questionnaireDueDate: 'Friday, 7 July 2023'
 			});
 		});
 	});
