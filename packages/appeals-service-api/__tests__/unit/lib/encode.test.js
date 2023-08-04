@@ -1,4 +1,4 @@
-const { encodeUrlSlug, decodeUrlSlug } = require('../../../src/lib/encode');
+const { encodeUrlSlug } = require('../../../src/lib/encode');
 
 describe('lib/encode', () => {
 	describe('encodeUrlSlug', () => {
@@ -10,34 +10,10 @@ describe('lib/encode', () => {
 			});
 		});
 
-		it(`should replace all / chars`, () => {
-			const res = encodeUrlSlug('/a/a/');
-			expect(res).toEqual('_a_a_');
-		});
-
 		it(`should call encodeURIComponent`, () => {
 			jest.spyOn(global, 'encodeURIComponent');
 			encodeUrlSlug('@?');
 			expect(encodeURIComponent).toBeCalledWith('@?');
-		});
-	});
-
-	describe('decodeUrlSlug', () => {
-		it(`should decode url slug`, () => {
-			const input = '/a@a/';
-			const encoded = encodeUrlSlug(input);
-			const decoded = decodeUrlSlug(encoded);
-			expect(encoded).not.toEqual(decoded);
-			expect(decoded).toEqual(input);
-		});
-
-		it(`will fail if original ref contains _`, () => {
-			const input = '/_';
-			const encoded = encodeUrlSlug(input);
-			const decoded = decodeUrlSlug(encoded);
-			expect(encoded).not.toEqual(decoded);
-			expect(decoded).not.toEqual(input);
-			expect(decoded).toEqual('//');
 		});
 	});
 });

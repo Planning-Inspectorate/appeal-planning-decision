@@ -107,7 +107,7 @@ describe('src/services/appeals-case-data.service.test', () => {
 
 		const result = await getAppeals(lpaCode);
 
-		expect(result[0].caseReferenceSlug).toEqual('_%40_1');
+		expect(result[0].caseReferenceSlug).toEqual('%2F%40%2F1');
 	});
 
 	it('should throw error if no lpaCode provided', async () => {
