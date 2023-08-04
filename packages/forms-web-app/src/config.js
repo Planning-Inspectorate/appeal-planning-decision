@@ -43,7 +43,16 @@ module.exports = {
 			uploadApplicationMaxFileSize: Number(
 				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
 			),
-			uploadDecisionMaxFileSize: Number(process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte)
+			uploadDecisionMaxFileSize: Number(process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte),
+			allowedFileTypes: {
+				MIME_TYPE_DOC: 'application/msword',
+				MIME_BINARY_TYPE_DOC: 'application/x-cfb',
+				MIME_TYPE_DOCX: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+				MIME_TYPE_PDF: 'application/pdf',
+				MIME_TYPE_TIF: 'image/tiff',
+				MIME_TYPE_JPEG: 'image/jpeg',
+				MIME_TYPE_PNG: 'image/png'
+			}
 		},
 		tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
 		useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true'

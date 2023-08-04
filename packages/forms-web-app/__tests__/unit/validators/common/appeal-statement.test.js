@@ -1,7 +1,6 @@
 const { validationResult } = require('express-validator');
 const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
 const { rules } = require('../../../../src/validators/common/appeal-statement');
-const { MIME_TYPE_JPEG } = require('../../../../src/lib/mime-types');
 const config = require('../../../../src/config');
 
 describe('validators/common/appeal-statement', () => {
@@ -10,7 +9,7 @@ describe('validators/common/appeal-statement', () => {
 	};
 	const files = {
 		'file-upload': {
-			mimetype: MIME_TYPE_JPEG,
+			mimetype: config.fileUpload.pins.allowedFileTypes.MIME_TYPE_JPEG,
 			size: config.fileUpload.maxFileSizeBytes - 1
 		}
 	};
