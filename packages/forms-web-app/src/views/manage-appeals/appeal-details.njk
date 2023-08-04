@@ -3,6 +3,8 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "../macros/summary-field.njk" import summaryField %}
+{% from "../macros/address.njk" import address %}
 {% set title="Your appeals - Manage appeals - GOV.UK" %}
 
 {% block pageTitle %}
@@ -19,11 +21,7 @@
   }
 </style>
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-      {{ govukBackLink({
-        text: "Back to appeals",
-        href: "{{dashboardLink}}"
-      }) }}
+    <div class="govuk-grid-column-full">
       {% set html %}
         <p class="govuk-notification-banner__heading">
           You have until 11:59 on {{questionnaireDueDate}} to:
@@ -38,14 +36,34 @@
       {{ govukNotificationBanner({
         html: html
       }) }}
-        <p class="govuk-body">
-            <a href="{{dashboardLink}}" class="govuk-link">Dashboard</a>
-        </p>
+
         <h1 class="govuk-heading-l">
           Appeal {{appeal.caseReference}}
         </h1>
+
+        {% set siteAddress = 
+          { 
+            addressLine1: appeal.siteAddressLine1,
+            addressLine2: appeal.siteAddressLine2,
+            town: appeal.siteAddressTown,
+            county: appeal.siteAddressCounty, 
+            postcode: appeal.siteAddressPostcode
+          }
+        %}
+
+        {% set siteAddressRow = {
+          key: { text: summaryField(
+            "Appeal site address",
+            { "data-cy": "site-address-label" }
+          ) },
+          value: { text: summaryField(
+            address(siteAddress, true),
+            { "data-cy": "site-address" }
+          ) }
+        } %}
+
         {{ govukSummaryList({
-          classes: 'appeal-details govuk-summary-list--no-border govuk-!-margin-bottom-0',
+          classes: 'appeal-details govuk-summary-list--no-border',
           rows: [
             {
               key: {
@@ -55,14 +73,7 @@
                 text: appeal.appealType
               }
             },
-            {
-              key: {
-                text: "Appeal site"
-              },
-              value: {
-                text: [appeal.siteAddressLine1, appeal.siteAddressLine2, appeal.siteAddressTown, appeal.siteAddressCounty, appeal.siteAddressPostcode]
-              }
-            },
+            siteAddressRow,
             {
               key: {
                 text: "Applicant"
@@ -78,24 +89,17 @@
               value: {
                 text: appeal.LPAApplicationReference
               }
-            },
-            {
-              key: {
-                text: "Application form"
-              },
-              value: {
-                text: ["<a href='", applicationForm.documentURI, "'>", applicationForm.filename, "</a>" ] | join | safe
-              }
             }
           ]
         }) }}
-
+      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+      </div>
+      <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l">
           Appeal Submission
         </h1>
 
         {{ govukSummaryList({
-          classes: 'appeal-details govuk-summary-list--no-border govuk-!-margin-bottom-0',
           rows: [
             {
               key: {
@@ -126,7 +130,15 @@
                 text: "Health and safety issues"
               },
               value: {
-                text: [appeal.doesSiteHaveHealthAndSafetyIssues, appeal.healthAndSafetyIssuesDetails]
+                html: appeal.doesSiteHaveHealthAndSafetyIssues + "<br>" + appeal.healthAndSafetyIssuesDetails 
+              }
+            },
+            {
+              key: {
+                text: "Application form"
+              },
+              value: {
+                text: ["<a href='", applicationForm.documentURI, "'>", applicationForm.filename, "</a>" ] | join | safe
               }
             }
           ]
