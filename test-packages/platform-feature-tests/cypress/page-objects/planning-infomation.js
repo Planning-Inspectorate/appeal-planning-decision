@@ -13,9 +13,9 @@ export class ProfileCreation {
 		basePage.clickSaveAndContiuneBtn();
 		applicationNumber.enterAppNumber('111111');
 		basePage.clickSaveAndContiuneBtn();
-		emailAddressInput.enterEmailAddress('');
+		emailAddressInput.enterEmailAddress('none@example.com');
 		basePage.clickSaveAndContiuneBtn();
-		enterFiveCode.enterCode('');
+		enterFiveCode.enterCode('12345');
 		basePage.clickSaveAndContiuneBtn();
 		cy.url().should('include', 'email-address-confirmed');
 		basePage.clickSaveAndContiuneBtn();

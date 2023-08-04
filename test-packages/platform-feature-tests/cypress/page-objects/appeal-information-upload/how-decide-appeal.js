@@ -10,26 +10,29 @@ export class DecideAppeal {
 		hearing: () => cy.get('[data-cy="answer-hearing"]'),
 		inquiry: () => cy.get('[data-cy="answer-inquiry"]'),
 		daysInput: () => cy.get('#expected-days')
-	};
-
-	AppealType(appealType) {
+	}
+	// Inquiry is prefered
+	appealType(appealType) {
 		taskList.clickAppealDecisionSectionLink();
-		if (appealType === 'Written') {
+		if (appealType === 'written') {
 			this.elements.writtenRepresentation().check();
 			basePage.clickSaveAndContiuneBtn();
-		} else if (appealType === 'Hearing') {
+		} else if (appealType === 'hearing') {
 			this.elements.hearing().check();
+			basePage.clickSaveAndContiuneBtn();
 			basePage.enterTextArea('test');
 			basePage.clickSaveAndContiuneBtn();
-			// TODO: Add Upload
-		} else if (appealType === 'Inquiry') {
+			basePage.fileUpload('cypress/fixtures/draft-statement-of-common-ground.pdf');
+			basePage.clickSaveAndContiuneBtn();
+		} else if (appealType === 'inquiry') {
 			this.elements.inquiry().check();
 			basePage.clickSaveAndContiuneBtn();
 			basePage.enterTextArea('test');
 			basePage.clickSaveAndContiuneBtn();
 			this.elements.daysInput().clear().type('10');
 			basePage.clickSaveAndContiuneBtn();
-			// TODO: Add Upload
+			basePage.fileUpload('cypress/fixtures/draft-statement-of-common-ground.pdf');
+			basePage.clickSaveAndContiuneBtn();
 		}
 	}
 }

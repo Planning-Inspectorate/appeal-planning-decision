@@ -3,17 +3,19 @@ export class DateOfDecisionDue {
 		dayDate: () => cy.get('#decision-date-day'),
 		monthDate: () => cy.get('#decision-date-month'),
 		yearDate: () => cy.get('#decision-date-year')
-	};
-
-	enterDayDate(day) {
-		this.elements.dayDate().clear().type(day);
 	}
 
-	enterMontDate(month) {
-		this.elements.monthDate().clear().type(month);
+	currentDate = new Date();
+	
+	enterDayDate() {
+		this.elements.dayDate().clear().type(this.currentDate.getDate());
 	}
 
-	enterYearDate(year) {
-		this.elements.yearDate().clear().type(year);
+	enterMontDate() {
+		this.elements.monthDate().clear().type(this.currentDate.getMonth() - 1);
+	}
+
+	enterYearDate() {
+		this.elements.yearDate().clear().type(this.currentDate.getFullYear());
 	}
 }
