@@ -1,67 +1,23 @@
 const logger = require('../lib/logger');
-const mongodb = require('../db/db');
+const AppealsCaseDataRepository = require('../repositories/appeals-case-data-repository');
 const ApiError = require('../errors/apiError');
-const { encodeUrlSlug } = require('../lib/encode');
-const {
-	APPEALS_CASE_DATA: {
-		APPEAL_TYPE: { HAS },
-		VALIDITY: { IS_VALID }
-	}
-} = require('@pins/common/src/constants');
+
+const appealsCaseDataRepository = new AppealsCaseDataRepository();
 
 const getAppeals = async (lpaCode) => {
-	let result;
-
-	const appealsProjection = {
-		projection: {
-			caseReference: 1,
-			LPAApplicationReference: 1,
-			questionnaireDueDate: 1
-		}
-	};
-
 	if (!lpaCode) {
 		throw ApiError.noLpaCodeProvided();
 	}
 
 	try {
-		const cursor = await mongodb
-			.get()
-			.collection('appealsCaseData')
-			.find(
-				{
-					LPACode: lpaCode,
-					appealType: HAS,
-					validity: IS_VALID,
-					questionnaireDueDate: { $type: 'date' },
-					questionnaireReceived: { $not: { $type: 'date' } }
-				},
-				appealsProjection
-			);
-		result = await cursor.toArray();
+		return await appealsCaseDataRepository.getAppeals(lpaCode);
 	} catch (err) {
 		logger.error(err);
 		throw ApiError.appealsCaseDataNotFound();
 	}
-
-	result.forEach((item) => {
-		item.caseReferenceSlug = encodeUrlSlug(item.caseReference);
-	});
-
-	result.sort((a, b) => {
-		if (!a.questionnaireDueDate || !b.questionnaireDueDate) {
-			return 0;
-		}
-
-		return a.questionnaireDueDate.getTime() - b.questionnaireDueDate.getTime();
-	});
-
-	return result;
 };
 
 const getAppealByLpaCodeAndCaseRef = async (lpaCode, caseRef) => {
-	let result;
-
 	if (!lpaCode) {
 		throw ApiError.noLpaCodeProvided();
 	}
@@ -71,19 +27,13 @@ const getAppealByLpaCodeAndCaseRef = async (lpaCode, caseRef) => {
 	}
 
 	try {
-		result = await mongodb
-			.get()
-			.collection('appealsCaseData')
-			.findOne({
-				LPACode: lpaCode,
-				caseReference: caseRef,
-				appealType: HAS,
-				validity: IS_VALID,
-				questionnaireDueDate: { $type: 'date' },
-				questionnaireReceived: { $not: { $type: 'date' } }
-			});
-		return result;
+		const appealsCaseData = await appealsCaseDataRepository.getAppealByLpaCodeAndCaseRef(
+			lpaCode,
+			caseRef
+		);
+		return appealsCaseData;
 	} catch (err) {
+		console.log(err);
 		logger.error(err);
 		throw ApiError.appealsCaseDataNotFound();
 	}
