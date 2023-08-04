@@ -5,11 +5,13 @@ export class BasePage {
 		pageHeading: () => cy.get('.govuk-heading-l'),
 		continueBtn: () => cy.get('[data-cy="start-button"]'),
 		radioBtn: () => cy.get('.govuk-radios__input'),
-		checkBox: () => cy.get('.govuk-govuk-radios__item'),
+		checkBox: () => cy.get('.govuk-checkboxes__input'),
 		backBtn: () => cy.get('[data-cy="back"]'),
 		saveAndContiuneBtn: () => cy.get('[data-cy="button-save-and-continue"]'),
 		saveAndComeBackLaterBtn: () => cy.get('[data-cy="button-save-and-return"]'),
-		textArea: () => cy.get('.govuk-textarea')
+		textArea: () => cy.get('.govuk-textarea'),
+		uploadFile: () => cy.get('#file-upload'),
+		completedTask: () => cy.get('[data-cy="task-list-item-contactDetailsSection"]')
 	};
 
 	clickContinueBtn() {
@@ -46,5 +48,13 @@ export class BasePage {
 
 	enterTextArea(text) {
 		this.basePageElements.textArea().clear().type(text);
+	}
+
+	fileUpload(file){
+		this.basePageElements.uploadFile().selectFile(file, {force: true} );
+	}
+
+	completedTaskBtn(string){
+		this.basePageElements.completedTask().contains(string)
 	}
 }

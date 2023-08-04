@@ -9,8 +9,9 @@ const typeOfPlanning = new TypeOfPlanning();
 const dateDecisionDue = new DateOfDecisionDue();
 
 export class BeforeYouStart {
-	beforeYouStartFullPlanning() {
+	fullPlanning() {
 		cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
+		basePage.acceptCookies();
 		basePage.verifyPageHeading('Before you start');
 		basePage.clickContinueBtn();
 		enterLpa.enterLPA('System Test Borough Council');
@@ -20,19 +21,20 @@ export class BeforeYouStart {
 		basePage.clickSaveAndContiuneBtn();
 		basePage.selectCheckBox('none_of_these');
 		basePage.clickSaveAndContiuneBtn();
-		basePage.selectRadioBtn('granted');
+		basePage.selectRadioBtn('granted'); // can choose all 3 with full planning
 		basePage.clickSaveAndContiuneBtn();
-		dateDecisionDue.enterDayDate('01');
-		dateDecisionDue.enterMontDate('05');
-		dateDecisionDue.enterYearDate('2023');
+		dateDecisionDue.enterDayDate();
+		dateDecisionDue.enterMontDate();
+		dateDecisionDue.enterYearDate();
 		basePage.clickSaveAndContiuneBtn();
 		basePage.selectRadioBtn('no');
 		basePage.clickSaveAndContiuneBtn();
 		basePage.verifyPageHeading('You can appeal using this service');
 	}
 
-	beforeYouStartHouseHolder() {
+	houseHolder() {
 		cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
+		basePage.acceptCookies();
 		basePage.verifyPageHeading('Before you start');
 		basePage.clickContinueBtn();
 		enterLpa.enterLPA('System Test Borough Council');
@@ -42,11 +44,11 @@ export class BeforeYouStart {
 		basePage.clickSaveAndContiuneBtn();
 		basePage.selectRadioBtn('no');
 		basePage.clickSaveAndContiuneBtn();
-		basePage.selectRadioBtn('granted');
+		basePage.selectRadioBtn('granted'); // has to be refused or takes your down the full planning route
 		basePage.clickSaveAndContiuneBtn();
-		dateDecisionDue.enterDayDate('01');
-		dateDecisionDue.enterMontDate('05');
-		dateDecisionDue.enterYearDate('2023');
+		dateDecisionDue.enterDayDate();
+		dateDecisionDue.enterMontDate();
+		dateDecisionDue.enterYearDate();
 		basePage.clickSaveAndContiuneBtn();
 		basePage.selectRadioBtn('no');
 		basePage.clickSaveAndContiuneBtn();
