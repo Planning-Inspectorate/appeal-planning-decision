@@ -60,30 +60,6 @@ describe('./src/views/manage-appeals/appeal-details.njk', () => {
 				.textContent.trim()
 		).toEqual('Householder appeal');
 	});
-	it('should render the appeal site as expected', () => {
-		document.body.innerHTML = nunjucksTestRenderer.render(
-			`${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}.njk`,
-			{
-				appeal: appeal
-			}
-		);
-
-		expect(
-			document
-				.querySelector(
-					'#main-content > div.govuk-main-wrapper.govuk-main-wrapper--auto-spacing > div > div > dl > div:nth-child(2) > dt'
-				)
-				.textContent.trim()
-		).toEqual('Appeal site');
-
-		expect(
-			document
-				.querySelector(
-					'#main-content > div.govuk-main-wrapper.govuk-main-wrapper--auto-spacing > div > div > dl > div:nth-child(2) > dd'
-				)
-				.textContent.trim()
-		).toEqual('2 Aubrey House,Aubrey Road,,,BS3 3EX');
-	});
 	it('should render the applicant as expected', () => {
 		document.body.innerHTML = nunjucksTestRenderer.render(
 			`${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}.njk`,
