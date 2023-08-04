@@ -60,7 +60,7 @@
                 text: "Appeal site"
               },
               value: {
-                text: [appeal.siteAddressLine1, appeal.siteAddressLine2, appeal.siteAddressTown, appeal.siteAddressCounty, appeal.siteAddressPostcode].join(",")
+                text: [appeal.siteAddressLine1, appeal.siteAddressLine2, appeal.siteAddressTown, appeal.siteAddressCounty, appeal.siteAddressPostcode]
               }
             },
             {
@@ -89,47 +89,50 @@
             }
           ]
         }) }}
-    </div>
+
+        <h1 class="govuk-heading-l">
+          Appeal Submission
+        </h1>
+
+        {{ govukSummaryList({
+          classes: 'appeal-details govuk-summary-list--no-border govuk-!-margin-bottom-0',
+          rows: [
+            {
+              key: {
+                text: "Agent or representative"
+              },
+              value: {
+                text: appeal.agent
+              }
+            },
+            {
+              key: {
+                text: "Site ownership"
+              },
+              value: {
+                text: appeal.ownershipCertificate
+              }
+            },
+            {
+              key: {
+                text: "Site visible from a public road or footpath"
+              },
+              value: {
+                text: appeal.isSiteVisible
+              }
+            },
+            {
+              key: {
+                text: "Health and safety issues"
+              },
+              value: {
+                text: [appeal.doesSiteHaveHealthAndSafetyIssues appeal.healthAndSafetyIssuesDetails]
+              }
+            }
+          ]
+        }) }}
+      </div>
   </div>
 
-  <h1 class="govuk-heading-l">
-    Appeal Submission
-  </h1>
-
-  {{ govukSummaryList({
-    classes: 'appeal-details govuk-summary-list--no-border govuk-!-margin-bottom-0',
-    rows: [
-      {
-        key: {
-          text: "Agent or representative"
-        },
-        value: {
-          text: appeal.agent
-        }
-      },
-      {
-        key: {
-          text: "Site ownership"
-        },
-        value: {
-          text: appeal.ownershipCertificate
-      },
-      {
-        key: {
-          text: "Site visible from a public road or footpath"
-        },
-        value: {
-          text: appeal.isSiteVisible
-        }
-      },
-      {
-        key: {
-          text: "Health and safety issues	"
-        },
-        value: {
-          text: [appeal.doesSiteHaveHealthAndSafetyIssues, appeal.healthAndSafetyIssuesDetails]
-        }
-      }
-    ]
-  }) }}
+  
 {% endblock %}
