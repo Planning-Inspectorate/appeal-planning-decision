@@ -1,6 +1,12 @@
 const http = require('http');
 const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
+const {
+	APPEALS_CASE_DATA: {
+		APPEAL_TYPE: { HAS },
+		VALIDITY: { IS_VALID }
+	}
+} = require('@pins/common/src/constants');
 
 const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
@@ -107,6 +113,19 @@ describe('appeals-case-data', () => {
 
 		expect(response.status).toBe(404);
 		expect(response.body).toEqual({});
+	});
+	it('should return a specifc case by lpacode and caseref', async () => {
+		const caseReference = '0000013';
+		const lpaCode = 'Q9999';
+		const q9999response = await appealsApi.get(
+			`/api/v1/appeals-case-data/${lpaCode}/${caseReference}`
+		);
+		expect(q9999response.status).toBe(200);
+		expect(q9999response.body.LPAApplicationReference).toEqual('1234567/nop');
+		expect(q9999response.body.LPACode).toEqual('Q9999');
+		expect(q9999response.body.appealType).toEqual(HAS);
+		expect(q9999response.body.caseReference).toEqual(caseReference);
+		expect(q9999response.body.validity).toEqual(IS_VALID);
 	});
 });
 
