@@ -22,6 +22,10 @@
 </style>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
+      {{ govukBackLink({
+        text: "Back to appeals",
+        href: "{{dashboardLink}}"
+      }) }}
       {% set html %}
         <p class="govuk-notification-banner__heading">
           You have until 11:59 on {{questionnaireDueDate}} to:
