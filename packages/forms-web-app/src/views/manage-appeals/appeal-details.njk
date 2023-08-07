@@ -144,6 +144,14 @@
               value: {
                 text: ["<a href='", applicationForm.documentURI, "'>", applicationForm.filename, "</a>" ] | join | safe
               }
+            },
+            {
+              key: {
+                text: "Appeal Statement"
+              },
+              value: {
+                text: ["<a href='", documents.appealStatement.documentURI, "'>", documents.appealStatement.filename, "</a>" ] | join | safe
+              }
             }
           ]
         }) }}
