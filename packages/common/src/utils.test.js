@@ -49,4 +49,43 @@ describe('Utils test', () => {
 			expect(util.isTestLPA(testLpaCode)).toEqual(false);
 		});
 	});
+
+	describe('sanitizeCharactersInFilename', () => {
+		it('should return the filename unchanged if it is empty or not a string', () => {
+			const filename = null;
+			const sanitized = util.sanitizeCharactersInFilename(filename);
+			expect(sanitized).toBeNull();
+		});
+
+		it('should remove leading and trailing whitespace from the filename', () => {
+			const filename = '  \texample.txt   ';
+			const sanitized = util.sanitizeCharactersInFilename(filename);
+			expect(sanitized).toBe('example.txt');
+		});
+
+		it('should replace disallowed characters with hyphens', () => {
+			const filename = 'fi@le_n#ame.txt';
+			const sanitized = util.sanitizeCharactersInFilename(filename);
+			expect(sanitized).toBe('fi-le_n-ame.txt');
+		});
+
+		it('should truncate the filename to the specified maximum length', () => {
+			const filename = 'this_is_a_long_filename_with_many_characters.txt';
+			const maxLength = 20;
+			const sanitized = util.sanitizeCharactersInFilename(filename, maxLength);
+			expect(sanitized).toHaveLength(maxLength);
+		});
+
+		it('should truncate the filename to 100 chars when when no maxlength is specified', () => {
+			const filename = 'a' + 'b'.repeat(200) + '.txt';
+			const sanitized = util.sanitizeCharactersInFilename(filename);
+			expect(sanitized).toHaveLength(100);
+		});
+
+		it('should handle filenames with no disallowed characters', () => {
+			const filename = 'this_is_a_valid_filename.txt';
+			const sanitized = util.sanitizeCharactersInFilename(filename);
+			expect(sanitized).toBe(filename);
+		});
+	});
 });

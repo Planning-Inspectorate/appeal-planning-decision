@@ -40,7 +40,9 @@ const postAppealMultiFileUpload = (
 				for await (const file of validFiles) {
 					const document = await createDocument(appeal, file, file.name, documentType, sectionTag);
 
-					appealTask.uploadedFiles.push(mapMultiFileDocumentToSavedDocument(document, file.name));
+					appealTask.uploadedFiles.push(
+						mapMultiFileDocumentToSavedDocument(document, document?.name, file.name)
+					);
 				}
 			}
 

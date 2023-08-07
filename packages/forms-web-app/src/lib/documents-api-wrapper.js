@@ -2,6 +2,7 @@ const fs = require('fs');
 const fetch = require('node-fetch');
 const FormData = require('form-data');
 const uuid = require('uuid');
+const { utils } = require('@pins/common');
 
 const config = require('../config');
 const parentLogger = require('./logger');
@@ -79,16 +80,22 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
 
 	const body = new FormData();
 
-	if (isTheFormDataBuffer(data)) {
-		let documentName = fileName || data.name;
+	let documentName = fileName || data?.name;
+
+	documentName = utils.sanitizeCharactersInFilename(documentName);
+
+	// add section tag and ref to start of doc name
+	if (documentName) {
 		documentName = documentName?.replace(
 			/^/,
 			`${sectionTag} - ${submissionData.referenceNumber} - `
 		);
+	}
+
+	if (isTheFormDataBuffer(data)) {
 		body.append('file', fs.createReadStream(data.tempFilePath), documentName);
 	} else if (isDataBuffer(data)) {
-		fileName = fileName?.replace(/^/, `${sectionTag} - ${submissionData.referenceNumber} - `);
-		body.append('file', data, fileName);
+		body.append('file', data, documentName);
 	} else {
 		throw new Error('The type of provided data to create a document with is wrong');
 	}

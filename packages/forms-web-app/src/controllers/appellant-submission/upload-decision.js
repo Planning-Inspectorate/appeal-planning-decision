@@ -46,8 +46,8 @@ exports.postUploadDecision = async (req, res) => {
 
 				appeal[sectionName][taskName].uploadedFile = {
 					id: document.id,
-					name: req.files['file-upload'].name,
-					fileName: req.files['file-upload'].name,
+					name: document.name,
+					fileName: document.name,
 					originalFileName: req.files['file-upload'].name,
 					location: document.location,
 					size: document.size

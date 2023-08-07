@@ -111,6 +111,8 @@ describe('controllers/common/appeal-multi-file-upload', () => {
 			mapMultiFileDocumentToSavedDocument
 				.mockReturnValueOnce(mockUploadedFile)
 				.mockReturnValueOnce(mockUploadedFile2);
+			createDocument.mockReturnValueOnce(mockUploadedFile).mockReturnValueOnce(mockUploadedFile2);
+
 			createOrUpdateAppeal.mockReturnValue(req.session.appeal);
 
 			const returnedFunction = postAppealMultiFileUpload(
@@ -148,6 +150,7 @@ describe('controllers/common/appeal-multi-file-upload', () => {
 			).toEqual('COMPLETED');
 			expect(postSaveAndReturn).not.toHaveBeenCalled();
 		});
+
 		it('should remove files correctly', async () => {
 			//upload files on first post request
 			req.body.files['file-upload'] = [mockFile, mockFile2, mockFile3];
@@ -157,6 +160,10 @@ describe('controllers/common/appeal-multi-file-upload', () => {
 
 			getValidFiles.mockReturnValueOnce([mockFile, mockFile2, mockFile3]);
 			mapMultiFileDocumentToSavedDocument
+				.mockReturnValueOnce(mockUploadedFile)
+				.mockReturnValueOnce(mockUploadedFile2)
+				.mockReturnValueOnce(mockUploadedFile3);
+			createDocument
 				.mockReturnValueOnce(mockUploadedFile)
 				.mockReturnValueOnce(mockUploadedFile2)
 				.mockReturnValueOnce(mockUploadedFile3);
@@ -323,6 +330,7 @@ describe('controllers/common/appeal-multi-file-upload', () => {
 
 			getValidFiles.mockReturnValueOnce([mockFile]);
 			mapMultiFileDocumentToSavedDocument.mockReturnValueOnce([mockUploadedFile]);
+			createDocument.mockReturnValueOnce([mockUploadedFile]);
 			createOrUpdateAppeal.mockReturnValue(req.session.appeal);
 
 			const returnedFunction = postAppealMultiFileUpload(
@@ -379,6 +387,7 @@ describe('controllers/common/appeal-multi-file-upload', () => {
 			mapMultiFileDocumentToSavedDocument
 				.mockReturnValueOnce(mockUploadedFile)
 				.mockReturnValueOnce(mockUploadedFile2);
+			createDocument.mockReturnValueOnce(mockUploadedFile).mockReturnValueOnce(mockUploadedFile2);
 			createOrUpdateAppeal.mockReturnValue(req.session.appeal);
 
 			const returnedFunction = postAppealMultiFileUpload(
