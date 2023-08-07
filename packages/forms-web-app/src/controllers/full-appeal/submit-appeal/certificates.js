@@ -62,8 +62,8 @@ const postCertificates = async (req, res) => {
 
 			appeal[sectionName][taskName].uploadedFile = mapDocumentToSavedDocument(
 				document,
-				files['file-upload'].name,
-				appeal.lpaCode
+				document.name,
+				files['file-upload'].name
 			);
 		}
 

@@ -85,6 +85,7 @@ describe('controllers/final-comment/upload-documents', () => {
 			mapMultiFileDocumentToSavedDocument
 				.mockReturnValueOnce(mockUploadedFile)
 				.mockReturnValueOnce(mockUploadedFile2);
+			createDocument.mockReturnValueOnce(mockUploadedFile).mockReturnValueOnce(mockUploadedFile2);
 
 			await postUploadDocuments(req, res);
 
@@ -116,6 +117,7 @@ describe('controllers/final-comment/upload-documents', () => {
 			mapMultiFileDocumentToSavedDocument
 				.mockReturnValueOnce(mockUploadedFile)
 				.mockReturnValueOnce(mockUploadedFile2);
+			createDocument.mockReturnValueOnce(mockUploadedFile).mockReturnValueOnce(mockUploadedFile2);
 
 			await postUploadDocuments(req, res);
 
@@ -206,6 +208,7 @@ describe('controllers/final-comment/upload-documents', () => {
 
 			getValidFiles.mockReturnValueOnce([mockFile]);
 			mapMultiFileDocumentToSavedDocument.mockReturnValueOnce(mockUploadedFile);
+			createDocument.mockReturnValueOnce(mockUploadedFile);
 
 			await postUploadDocuments(req, res);
 

@@ -134,6 +134,7 @@ describe('controllers/appellant-submission/upload-decision', () => {
 			createDocument.mockImplementation(() => ({
 				id: fakeFileId,
 				location: '00aa11bb22cc',
+				name: fakeFileName,
 				size: 123
 			}));
 

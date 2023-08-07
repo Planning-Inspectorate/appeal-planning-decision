@@ -37,7 +37,7 @@ const postUploadDocuments = async (req, res) => {
 				);
 
 				req.session.finalComment.supportingDocuments.uploadedFiles.push(
-					mapMultiFileDocumentToSavedDocument(document, file.name)
+					mapMultiFileDocumentToSavedDocument(document, document.name, file.name)
 				);
 			}
 		}

@@ -48,7 +48,7 @@ exports.postSupportingDocuments = async (req, res) => {
 				);
 
 				appeal[sectionName][taskName].uploadedFiles.push(
-					mapMultiFileDocumentToSavedDocument(document, file.name)
+					mapMultiFileDocumentToSavedDocument(document, document.name, file.name)
 				);
 			}
 		}
