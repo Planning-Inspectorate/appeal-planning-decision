@@ -5,8 +5,10 @@ const {
 	rules: appealStatementValidationRules
 } = require('../../../../src/validators/common/appeal-statement');
 const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
+const setSectionAndTaskNames = require('../../../../src/middleware/set-section-and-task-names');
 
 jest.mock('../../../../src/validators/common/appeal-statement');
+jest.mock('../../../../src/middleware/set-section-and-task-names');
 
 describe('routes/appellant-submission/appeal-statement', () => {
 	beforeEach(() => {
@@ -26,6 +28,7 @@ describe('routes/appellant-submission/appeal-statement', () => {
 		);
 		expect(post).toHaveBeenCalledWith(
 			'/appeal-statement',
+			setSectionAndTaskNames(),
 			appealStatementValidationRules(),
 			validationErrorHandler,
 			appealStatementController.postAppealStatement
