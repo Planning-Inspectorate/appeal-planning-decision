@@ -18,15 +18,26 @@ const getAppealDetails = async (req, res) => {
 		caseReference,
 		'Planning%20application%20form'
 	);
-	const applicationForm = {
-		filename: applicationFormMetaData.filename,
-		documentURI: applicationFormMetaData.documentURI
+	const appealStatementMetaData = await getAppealDocumentMetaData(
+		caseReference,
+		'Appeal%20Statement'
+	);
+
+	const documents = {
+		applicationForm: {
+			filename: applicationFormMetaData.filename,
+			documentURI: applicationFormMetaData.documentURI
+		},
+		appealStatement: {
+			filename: appealStatementMetaData.filename,
+			documentURI: appealStatementMetaData.documentURI
+		}
 	};
 
 	return res.render(APPEAL_DETAILS, {
 		dashboardLink: `/${DASHBOARD}`,
 		appeal,
-		applicationForm,
+		documents,
 		questionnaireDueDate: (() => {
 			return new Intl.DateTimeFormat('en-GB', {
 				dateStyle: 'full',
