@@ -39,7 +39,9 @@ class MongoRepository {
 		if (Object.keys(projection).length > 0) {
 			return await mongodb.get().collection(this.collectionName).findOne(query, projection);
 		}
-		return await mongodb.get().collection(this.collectionName).findOne(query);
+
+		const result = await mongodb.get().collection(this.collectionName).findOne(query);
+		return result;
 	}
 
 	/**
