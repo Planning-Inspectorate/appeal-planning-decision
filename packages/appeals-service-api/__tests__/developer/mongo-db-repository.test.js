@@ -54,7 +54,6 @@ describe('mongo-db-repository', () => {
 		});
 		const spy2 = jest.spyOn(collection, 'findOne');
 		const result = await repo.findOneByQuery(query);
-		console.log(result);
 		expect(result).toBeTruthy();
 		expect(result._id).toEqual(expectedDocument._id);
 		expect(spy).toHaveBeenCalledWith(collectionName);
