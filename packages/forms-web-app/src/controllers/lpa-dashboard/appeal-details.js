@@ -18,6 +18,10 @@ const getAppealDetails = async (req, res) => {
 		caseReference,
 		'Planning%20application%20form'
 	);
+	const decisionLetterMetaData = await getAppealDocumentMetaData(
+		caseReference,
+		'Decision%20notice'
+	);
 	const appealStatementMetaData = await getAppealDocumentMetaData(
 		caseReference,
 		'Appeal%20Statement'
@@ -28,7 +32,11 @@ const getAppealDetails = async (req, res) => {
 			filename: applicationFormMetaData.filename,
 			documentURI: applicationFormMetaData.documentURI
 		},
-		appealStatement: {
+		decisionLetterForm: {
+			filename: decisionLetterMetaData.filename,
+			documentURI: decisionLetterMetaData.documentURI
+		},
+		appealStatementForm: {
 			filename: appealStatementMetaData.filename,
 			documentURI: appealStatementMetaData.documentURI
 		}
