@@ -39,11 +39,24 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				doesSiteHaveHealthAndSafetyIssues: 'Yes',
 				healthAndSafetyIssuesDetails: 'The site needs to be seen from a height'
 			};
-			const applicationForm = {
-				filename: 'a.pdf',
-				documentURI: 'https://example.org/a.pdf'
+			const documents = {
+				applicationForm: {
+					filename: 'a.pdf',
+					documentURI: 'https://example.org/a.pdf'
+				},
+				decisionLetterForm: {
+					filename: 'a.pdf',
+					documentURI: 'https://example.org/a.pdf'
+				},
+				appealStatementForm: {
+					filename: 'a.pdf',
+					documentURI: 'https://example.org/a.pdf'
+				}
 			};
-			getAppealDocumentMetaData.mockResolvedValue(applicationForm);
+			getAppealDocumentMetaData.mockResolvedValue(documents.applicationForm);
+			getAppealDocumentMetaData.mockResolvedValue(documents.decisionLetterForm);
+			getAppealDocumentMetaData.mockResolvedValue(documents.appealStatementForm);
+
 			getAppealByLPACodeAndId.mockResolvedValue(appeal);
 			req.session.lpaUser = {
 				lpaCode: 'E9999'
@@ -53,7 +66,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.APPEAL_DETAILS, {
 				dashboardLink: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
 				appeal,
-				applicationForm,
+				documents,
 				questionnaireDueDate: 'Friday, 7 July 2023'
 			});
 		});
