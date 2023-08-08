@@ -46,7 +46,7 @@ describe('mongo-db-repository', () => {
 		const query = {
 			_id: ObjectId('5ca4bbcea2dd94ee58162a65')
 		};
-
+		const [expectedDocument] = seedData.filter((s) => s._id.toString() === query._id.toString());
 		const spy = jest.spyOn(mockedDatabase, 'collection');
 		const collection = mockedDatabase.collection(collectionName);
 		appDbConnection.get = jest.fn().mockReturnValue({
@@ -55,6 +55,7 @@ describe('mongo-db-repository', () => {
 		const spy2 = jest.spyOn(collection, 'findOne');
 		const result = await repo.findOneByQuery(query);
 		expect(result).toBeTruthy();
+		expect(result._id).toEqual(expectedDocument._id);
 		expect(spy).toHaveBeenCalledWith(collectionName);
 		expect(spy2).toHaveBeenCalledWith(query);
 	});
