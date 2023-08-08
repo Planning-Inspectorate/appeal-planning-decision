@@ -24,24 +24,24 @@ class MongoRepository {
 	 * collection specified via the constructor.
 	 */
 	async findOneByQuery(query, sort = {}, projection = {}) {
-		if (Object.keys(sort).length > 0) {
+		if (sort && Object.keys(sort).length > 0) {
 			if (Object.keys(projection).length > 0) {
 				return await mongodb
 					.get()
 					.collection(this.collectionName)
-					.findOne(query, projection, { sort: [sort] });
+					.findOne(query, { sort: sort, projection: projection });
 			}
+			return await mongodb.get().collection(this.collectionName).findOne(query, { sort: sort });
+		}
+
+		if (projection && Object.keys(projection).length > 0) {
 			return await mongodb
 				.get()
 				.collection(this.collectionName)
-				.findOne(query, null, { sort: [sort] });
-		}
-		if (Object.keys(projection).length > 0) {
-			return await mongodb.get().collection(this.collectionName).findOne(query, projection);
+				.findOne(query, { projection: projection });
 		}
 
-		const result = await mongodb.get().collection(this.collectionName).findOne(query);
-		return result;
+		return await mongodb.get().collection(this.collectionName).findOne(query);
 	}
 
 	/**
@@ -59,7 +59,13 @@ class MongoRepository {
 
 	async getAllDocumentsThatMatchQuery(query, projection = undefined) {
 		if (projection && typeof projection === 'object' && Object.keys(projection).length) {
-			return await mongodb.get().collection(this.collectionName).find(query, projection).toArray();
+			const result = await mongodb
+				.get()
+				.collection(this.collectionName)
+				.find(query)
+				.project(projection)
+				.toArray();
+			return result;
 		}
 		return await mongodb.get().collection(this.collectionName).find(query).toArray();
 	}
