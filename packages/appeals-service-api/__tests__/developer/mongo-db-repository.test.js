@@ -54,10 +54,137 @@ describe('mongo-db-repository', () => {
 		});
 		const spy2 = jest.spyOn(collection, 'findOne');
 		const result = await repo.findOneByQuery(query);
+		console.log(result);
 		expect(result).toBeTruthy();
 		expect(result._id).toEqual(expectedDocument._id);
 		expect(spy).toHaveBeenCalledWith(collectionName);
 		expect(spy2).toHaveBeenCalledWith(query);
+	});
+	it('should perform a simple query with a projection, and return 1 document with the correct fields', async () => {
+		const repo = new MongoRepository(collectionName);
+		const query = {
+			_id: ObjectId('5ca4bbcea2dd94ee58162a65')
+		};
+
+		const projection = {
+			username: 1,
+			email: 1
+		};
+
+		const [expectedDocument] = seedData.filter((s) => s._id.toString() === query._id.toString());
+		const spy = jest.spyOn(mockedDatabase, 'collection');
+		const collection = mockedDatabase.collection(collectionName);
+
+		appDbConnection.get = jest.fn().mockReturnValue({
+			collection: () => collection
+		});
+
+		const spy2 = jest.spyOn(collection, 'findOne');
+		const result = await repo.findOneByQuery(query, null, projection);
+		expect(result).toBeTruthy();
+		expect(result._id).toEqual(expectedDocument._id);
+		expect(result.address).toBeFalsy();
+		expect(spy).toHaveBeenCalledWith(collectionName);
+		expect(spy2).toHaveBeenCalledWith(query, {
+			projection: projection
+		});
+	});
+	it('should perform a descended sorted query', async () => {
+		// NB as unintuitive as this sounds a sorted query will affect which document is returned. As in highlander, there can be only one!
+		const repo = new MongoRepository(collectionName);
+		const query = {
+			username: 'fmiller'
+		};
+		const sort = {
+			version: -1 // descending order
+		};
+
+		const [expectedDocument] = seedData.filter(
+			(s) => s.username === query.username && s.version === 3
+		);
+		const spy = jest.spyOn(mockedDatabase, 'collection');
+		const collection = mockedDatabase.collection(collectionName);
+
+		appDbConnection.get = jest.fn().mockReturnValue({
+			collection: () => collection
+		});
+
+		const spy2 = jest.spyOn(collection, 'findOne');
+		const result = await repo.findOneByQuery(query, sort);
+		expect(result).toBeTruthy();
+		expect(result._id).toEqual(expectedDocument._id);
+		expect(result.version).toEqual(expectedDocument.version);
+		expect(spy).toHaveBeenCalledWith(collectionName);
+		expect(spy2).toHaveBeenCalledWith(query, {
+			sort: sort
+		});
+	});
+	it('should perform an ascended sorted query', async () => {
+		// NB as unintuitive as this sounds a sorted query will affect which document is returned. As in highlander, there can be only one!
+		const repo = new MongoRepository(collectionName);
+		const query = {
+			username: 'fmiller'
+		};
+		const sort = {
+			version: 1 // ascending order
+		};
+
+		const [expectedDocument] = seedData.filter(
+			(s) => s.username === query.username && s.version === 1
+		);
+		const spy = jest.spyOn(mockedDatabase, 'collection');
+		const collection = mockedDatabase.collection(collectionName);
+
+		appDbConnection.get = jest.fn().mockReturnValue({
+			collection: () => collection
+		});
+
+		const spy2 = jest.spyOn(collection, 'findOne');
+		const result = await repo.findOneByQuery(query, sort);
+		expect(result).toBeTruthy();
+		expect(result._id).toEqual(expectedDocument._id);
+		expect(result.version).toEqual(expectedDocument.version);
+		expect(spy).toHaveBeenCalledWith(collectionName);
+		expect(spy2).toHaveBeenCalledWith(query, {
+			sort: sort
+		});
+	});
+	it('should perform a descended sorted query with projection', async () => {
+		// NB as unintuitive as this sounds a sorted query will affect which document is returned. As in highlander, there can be only one!
+		const repo = new MongoRepository(collectionName);
+		const query = {
+			username: 'fmiller'
+		};
+		const projection = {
+			username: 1,
+			email: 1,
+			version: 1
+		};
+		const sort = {
+			version: -1 // descending order
+		};
+
+		const [expectedDocument] = seedData.filter(
+			(s) => s.username === query.username && s.version === 3
+		);
+		const spy = jest.spyOn(mockedDatabase, 'collection');
+		const collection = mockedDatabase.collection(collectionName);
+
+		appDbConnection.get = jest.fn().mockReturnValue({
+			collection: () => collection
+		});
+
+		const spy2 = jest.spyOn(collection, 'findOne');
+		const result = await repo.findOneByQuery(query, sort, projection);
+		expect(result).toBeTruthy();
+		expect(result._id).toEqual(expectedDocument._id);
+		expect(result.version).toEqual(expectedDocument.version);
+		expect(result.address).toBeFalsy();
+		expect(spy).toHaveBeenCalledWith(collectionName);
+		expect(spy2).toHaveBeenCalledWith(query, {
+			sort: sort,
+			projection: projection
+		});
 	});
 });
 const _clearDatabaseCollections = async () => {

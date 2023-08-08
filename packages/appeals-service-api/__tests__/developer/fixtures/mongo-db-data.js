@@ -22,10 +22,10 @@ const fakeDocuments = () => {
 					tier: 'Bronze',
 					benefits: ['24 hour dedicated line', 'concierge services'],
 					active: true,
-					id: '699456451cc24f028d2aa99d7534c219',
-					version: 1
+					id: '699456451cc24f028d2aa99d7534c219'
 				}
-			}
+			},
+			version: 1
 		},
 		{
 			_id: ObjectId('5ca4bbcea2dd94ee58162a66'),
@@ -47,10 +47,10 @@ const fakeDocuments = () => {
 					tier: 'Bronze',
 					benefits: ['24 hour dedicated line', 'concierge services'],
 					active: true,
-					id: '699456451cc24f028d2aa99d7534c219',
-					version: 2
+					id: '699456451cc24f028d2aa99d7534c219'
 				}
-			}
+			},
+			version: 2
 		},
 		{
 			_id: ObjectId('5ca4bbcea2dd94ee58162a67'),
@@ -72,10 +72,10 @@ const fakeDocuments = () => {
 					tier: 'Bronze',
 					benefits: ['24 hour dedicated line', 'concierge services'],
 					active: true,
-					id: '699456451cc24f028d2aa99d7534c219',
-					version: 3
+					id: '699456451cc24f028d2aa99d7534c219'
 				}
-			}
+			},
+			version: 3
 		},
 		{
 			_id: ObjectId('5ca4bbcea2dd94ee58162a69'),
