@@ -32,11 +32,11 @@ const getAppealDetails = async (req, res) => {
 			filename: applicationFormMetaData.filename,
 			documentURI: applicationFormMetaData.documentURI
 		},
-		decisionLetterForm: {
+		decisionLetter: {
 			filename: decisionLetterMetaData.filename,
 			documentURI: decisionLetterMetaData.documentURI
 		},
-		appealStatementForm: {
+		appealStatement: {
 			filename: appealStatementMetaData.filename,
 			documentURI: appealStatementMetaData.documentURI
 		}
