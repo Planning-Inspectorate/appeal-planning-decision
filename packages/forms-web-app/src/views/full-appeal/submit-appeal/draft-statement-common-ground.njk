@@ -24,7 +24,7 @@
       <h1 class="govuk-heading-l">Upload your draft statement of common ground</h1>
       {% if uploadedFile.id %}
         <h2 class="govuk-heading-m govuk-!-margin-top-6">Uploaded file</h2>
-        <p class="govuk-body govuk-!-margin-bottom-8"><a href="/document/{{appealId}}/{{uploadedFile.id}}" class="govuk-link">{{ uploadedFile.name }}</a>
+        <p class="govuk-body govuk-!-margin-bottom-8"><a href="/document/{{appealId}}/{{uploadedFile.id}}" class="govuk-link">{{ uploadedFile.originalFileName }}</a>
         {% set labelText = "Replace the file" %}
       {% endif %}
       <form action="" method="post" novalidate enctype="multipart/form-data">
@@ -37,7 +37,7 @@
             classes: "govuk-label--m"
           },
           errorMessage: errors['file-upload'] and { text: errors['file-upload'].msg },
-          value: uploadedFile.name
+          value: uploadedFile.originalFileName
         }) }}
 
         {{ govukDetails({

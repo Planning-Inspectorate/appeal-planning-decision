@@ -6,7 +6,7 @@
       {% if hasLink %}
         <li>{{ uploadedFileLink( appealId, file, { "data-cy": dataCyPrefix + "-" + loop.index } ) }}</li>
       {% else %}
-        <li data-cy="{{ dataCyPrefix }}-{{ loop.index }}">{{ file.name }}</li>
+        <li data-cy="{{ dataCyPrefix }}-{{ loop.index }}">{{ file.originalFileName }}</li>
       {% endif %}
     {% endfor %}
   </ul>

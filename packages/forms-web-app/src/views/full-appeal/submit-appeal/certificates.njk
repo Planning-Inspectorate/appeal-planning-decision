@@ -29,7 +29,7 @@
 
     {% if uploadedFile.id %}
       <h2 class="govuk-heading-m  govuk-!-margin-top-6">Uploaded file</h2>
-      <p class="govuk-body govuk-!-margin-bottom-8"><a href="/document/{{appealId}}/{{uploadedFile.id}}" class="govuk-link">{{ uploadedFile.name }}</a>
+      <p class="govuk-body govuk-!-margin-bottom-8"><a href="/document/{{appealId}}/{{uploadedFile.id}}" class="govuk-link">{{ uploadedFile.originalFileName }}</a>
       {% set labelText = "Replace the file" %}
     {% endif %}
 

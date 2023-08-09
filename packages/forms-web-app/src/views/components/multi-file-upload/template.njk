@@ -7,11 +7,11 @@
 					{% for item in params.uploadedFiles.items %}
 						<li
 							class="govuk-summary-list__row moj-multi-file-upload__row moj-multi-file-upload__list-item"
-							data-fileinfo-name="{{ item.name }}"
+							data-fileinfo-name="{{ item.originalFileName }}"
 							data-fileinfo-size="{{ item.size }}"
 						>
 							<div class="govuk-summary-list__value moj-multi-file-upload__message">
-								<span class="moj-multi-file-upload__filename">{{- item.name | safe if item.name else item.message.text -}}</span>
+								<span class="moj-multi-file-upload__filename">{{- item.originalFileName | safe if item.name else item.message.text -}}</span>
 							</div>
 							<div class="govuk-summary-list__actions moj-multi-file-upload__actions">
 								<button
