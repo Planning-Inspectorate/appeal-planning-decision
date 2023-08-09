@@ -589,7 +589,7 @@
         appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile,
         { "data-cy": "draft-statement-of-common-ground" }
       ) if isPdf !== true else summaryField(
-        appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.name,
+        appeal.appealDecisionSection.draftStatementOfCommonGround.uploadedFile.originalFileName,
         { "data-cy": "draft-statement-of-common-ground" }
       ) },
       actions: draftStatementOfCommonGroundRowActions if isPdf !== true
@@ -628,7 +628,7 @@
         appeal.planningApplicationDocumentsSection.originalDecisionNotice.uploadedFile,
         { "data-cy": "original-decision-notice" }
       ) if isPdf !== true else summaryField(
-        appeal.planningApplicationDocumentsSection.originalDecisionNotice.uploadedFile.name,
+        appeal.planningApplicationDocumentsSection.originalDecisionNotice.uploadedFile.originalFileName,
         { "data-cy": "original-decision-notice" }
       ) } ,
       actions: originalDecisionNoticeRowActions if isPdf !== true
@@ -655,7 +655,7 @@
         appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile,
         { "data-cy": "application-form" }
       ) if isPdf !== true else summaryField(
-        appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.name,
+        appeal.planningApplicationDocumentsSection.originalApplication.uploadedFile.originalFileName,
         { "data-cy": "application-form" }
       ) } ,
       actions: applicationFormRowActions if isPdf !== true
@@ -728,7 +728,7 @@
         appeal.planningApplicationDocumentsSection.ownershipCertificate.uploadedFile,
         { "data-cy": "ownership-certificate" }
       ) if isPdf !== true else summaryField(
-        appeal.planningApplicationDocumentsSection.ownershipCertificate.uploadedFile.name,
+        appeal.planningApplicationDocumentsSection.ownershipCertificate.uploadedFile.originalFileName,
         { "data-cy": "ownership-certificate" }
       ) },
       actions: ownershipCertificateRowActions if isPdf !== true
@@ -827,7 +827,7 @@
         appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile,
         { "data-cy": "design-access-statement" }
       ) if isPdf !== true else summaryField(
-        appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.name,
+        appeal.planningApplicationDocumentsSection.designAccessStatement.uploadedFile.originalFileName,
         { "data-cy": "design-access-statement" }
       ) },
       actions: designAccessStatementRowActions if isPdf !== true
@@ -854,7 +854,7 @@
         appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile,
         { "data-cy": "decision-letter" }
       ) if isPdf !== true else summaryField(
-        appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.name,
+        appeal.planningApplicationDocumentsSection.decisionLetter.uploadedFile.originalFileName,
         { "data-cy": "decision-letter" }
       ) },
       actions: decisionLetterRowActions if isPdf !== true
@@ -881,7 +881,7 @@
         appeal.planningApplicationDocumentsSection.letterConfirmingApplication.uploadedFile,
         { "data-cy": "letter-confirming-planning-application" }
       ) if isPdf !== true else summaryField(
-        appeal.planningApplicationDocumentsSection.letterConfirmingApplication.uploadedFile.name,
+        appeal.planningApplicationDocumentsSection.letterConfirmingApplication.uploadedFile.originalFileName,
         { "data-cy": "letter-confirming-planning-application" }
       ) },
       actions: letterConfirmingPlanningApplicationRowActions if isPdf !== true
@@ -940,7 +940,7 @@
         appeal.appealDocumentsSection.appealStatement.uploadedFile,
         { "data-cy": "appeal-statement" }
       ) if isPdf !== true else summaryField(
-        appeal.appealDocumentsSection.appealStatement.uploadedFile.name,
+        appeal.appealDocumentsSection.appealStatement.uploadedFile.originalFileName,
         { "data-cy": "appeal-statement" }
       ) },
       actions: appealStatementRowActions if isPdf !== true

@@ -112,7 +112,7 @@
               text: "Planning application form"
             },
             value: {
-              text: summaryField(appeal.requiredDocumentsSection.originalApplication.uploadedFile.name, { 'data-cy': "upload-application" })
+              text: summaryField(appeal.requiredDocumentsSection.originalApplication.uploadedFile.originalFileName, { 'data-cy': "upload-application" })
             }
           },
           {
@@ -120,7 +120,7 @@
               text: "Decision letter"
             },
             value: {
-              text: summaryField(appeal.requiredDocumentsSection.decisionLetter.uploadedFile.name, { 'data-cy': "upload-decision" })
+              text: summaryField(appeal.requiredDocumentsSection.decisionLetter.uploadedFile.originalFileName, { 'data-cy': "upload-decision" })
             }
           }
         ]
@@ -136,7 +136,7 @@
             text: "Your appeal statement"
           },
             value: {
-              text: summaryField(appeal.yourAppealSection.appealStatement.uploadedFile.name, { 'data-cy': "appeal-statement" })
+              text: summaryField(appeal.yourAppealSection.appealStatement.uploadedFile.originalFileName, { 'data-cy': "appeal-statement" })
             }
           },
           {
