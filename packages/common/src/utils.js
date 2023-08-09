@@ -61,7 +61,7 @@ module.exports = {
 	 * @param {number} [maxLength=100] - The maximum allowed length of the sanitized filename.
 	 * @returns {string} - The sanitized filename.
 	 */
-	sanitizeCharactersInFilename(filename, maxLength = 100) {
+	sanitizeCharactersInFilename(filename, maxLength = 200) {
 		if (!filename || typeof filename !== 'string') {
 			return filename;
 		}
@@ -73,9 +73,15 @@ module.exports = {
 		const allowedCharsRegex = /[^a-zA-Z0-9.\-_]/g;
 		filename = filename.replace(allowedCharsRegex, '-');
 
-		// Ensure the filename does not exceed the maximum length
-		filename = filename.slice(0, maxLength);
+		// Split the filename into base name and extension
+		const parts = filename.split('.');
+		const baseName = parts[0];
+		const extension = parts.slice(1).join('.');
 
-		return filename;
+		// Ensure the filename does not exceed the maximum length
+		filename = baseName.slice(0, maxLength);
+
+		// Reconstruct the filename with the modified base name
+		return extension ? `${filename}.${extension}` : filename;
 	}
 };
