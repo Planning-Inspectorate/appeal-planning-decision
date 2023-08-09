@@ -71,21 +71,29 @@ describe('Utils test', () => {
 
 		it('should truncate the filename to the specified maximum length', () => {
 			const filename = 'this_is_a_long_filename_with_many_characters.txt';
-			const maxLength = 20;
+			const maxLength = 10;
 			const sanitized = util.sanitizeCharactersInFilename(filename, maxLength);
-			expect(sanitized).toHaveLength(maxLength);
+			expect(sanitized).toHaveLength(maxLength + 4);
+			expect(sanitized).toEqual('this_is_a_.txt');
 		});
 
-		it('should truncate the filename to 100 chars when when no maxlength is specified', () => {
-			const filename = 'a' + 'b'.repeat(200) + '.txt';
+		it('should truncate the filename to 200 chars when when no maxlength is specified but keep the extension intact', () => {
+			const filename = 'a' + 'b'.repeat(250) + '.tst.txt';
 			const sanitized = util.sanitizeCharactersInFilename(filename);
-			expect(sanitized).toHaveLength(100);
+			expect(sanitized).toHaveLength(208);
+			expect(sanitized).toMatch(new RegExp('.tst.txt$'));
 		});
 
 		it('should handle filenames with no disallowed characters', () => {
 			const filename = 'this_is_a_valid_filename.txt';
 			const sanitized = util.sanitizeCharactersInFilename(filename);
 			expect(sanitized).toBe(filename);
+		});
+
+		it('should handle filenames with no extensions', () => {
+			const filename = 'a#a';
+			const sanitized = util.sanitizeCharactersInFilename(filename);
+			expect(sanitized).toBe('a-a');
 		});
 	});
 });

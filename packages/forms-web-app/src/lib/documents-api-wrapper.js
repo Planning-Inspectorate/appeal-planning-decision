@@ -82,8 +82,6 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
 
 	let documentName = fileName || data?.name;
 
-	documentName = utils.sanitizeCharactersInFilename(documentName);
-
 	// add section tag and ref to start of doc name
 	if (documentName) {
 		documentName = documentName?.replace(
@@ -91,6 +89,8 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
 			`${sectionTag} - ${submissionData.referenceNumber} - `
 		);
 	}
+
+	documentName = utils.sanitizeCharactersInFilename(documentName);
 
 	if (isTheFormDataBuffer(data)) {
 		body.append('file', fs.createReadStream(data.tempFilePath), documentName);
