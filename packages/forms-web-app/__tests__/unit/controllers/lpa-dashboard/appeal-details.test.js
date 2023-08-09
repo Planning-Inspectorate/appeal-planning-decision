@@ -6,6 +6,7 @@ const {
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
+const FIXED_SYSTEM_TIME = '2023-07-10T13:53:31.600Z';
 const req = {
 	...mockReq(null)
 };
@@ -16,6 +17,12 @@ jest.mock('../../../../src/lib/appeals-api-wrapper');
 describe('controllers/lpa-dashboard/your-appeals', () => {
 	beforeEach(() => {
 		jest.resetAllMocks();
+		jest.useFakeTimers('modern');
+		jest.setSystemTime(Date.parse(FIXED_SYSTEM_TIME));
+	});
+
+	afterEach(() => {
+		jest.useRealTimers();
 	});
 
 	describe('getAppealDetails', () => {
@@ -80,6 +87,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				dashboardLink: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
 				appeal,
 				documents,
+				dueInDays: -3,
 				questionnaireDueDate: 'Friday, 7 July 2023'
 			});
 		});

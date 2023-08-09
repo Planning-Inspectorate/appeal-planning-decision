@@ -8,6 +8,7 @@ const {
 	}
 } = require('../../lib/views');
 const dateFns = require('date-fns');
+const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
 
 const getAppealDetails = async (req, res) => {
 	const { id } = req.params;
@@ -57,6 +58,7 @@ const getAppealDetails = async (req, res) => {
 		dashboardLink: `/${DASHBOARD}`,
 		appeal,
 		documents,
+		dueInDays: calculateDueInDays(appeal.questionnaireDueDate),
 		questionnaireDueDate: (() => {
 			return new Intl.DateTimeFormat('en-GB', {
 				dateStyle: 'full',
