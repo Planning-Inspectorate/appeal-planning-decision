@@ -103,6 +103,16 @@
           Appeal Submission
         </h1>
 
+        {% set supportingDocumentsList %}
+          {% if documents.supportingDocuments | length %}
+            {% for document in documents.supportingDocuments %}
+              <a href="{{document.documentURI}}" class="govuk-link">{{document.filename}}</a><br>
+            {% endfor %}
+          {% else %}
+            none
+          {% endif %}
+        {% endset %}
+
         {{ govukSummaryList({
           rows: [
             {
@@ -159,6 +169,14 @@
               },
               value: {
                 text: ["<a href='", documents.appealStatement.documentURI, "'>", documents.appealStatement.filename, "</a>" ] | join | safe
+              }
+            },
+            {
+              key: {
+                text: "Supporting Documents"
+              },
+              value: {
+                html: supportingDocumentsList
               }
             }
           ]

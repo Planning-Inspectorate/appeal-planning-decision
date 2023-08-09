@@ -2,8 +2,12 @@ const { DocumentMetadataRepository } = require('../repositories/document-metadat
 
 const documentMetadataRepository = new DocumentMetadataRepository();
 
-const getDocumentMetadata = async (caseRef, documentType) => {
-	const document = await documentMetadataRepository.getDocumentMetadata(caseRef, documentType);
+const getDocumentMetadata = async (caseRef, documentType, returnMultipleDocuments) => {
+	const document = await documentMetadataRepository.getDocumentMetadata(
+		caseRef,
+		documentType,
+		returnMultipleDocuments
+	);
 	return document;
 };
 

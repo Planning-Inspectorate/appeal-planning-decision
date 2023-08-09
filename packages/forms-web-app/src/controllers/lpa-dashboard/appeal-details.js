@@ -26,6 +26,16 @@ const getAppealDetails = async (req, res) => {
 		caseReference,
 		'Appeal%20Statement'
 	);
+	const supportingDocumentsMetaData = await getAppealDocumentMetaData(
+		caseReference,
+		'Supporting%20Documents',
+		true
+	);
+
+	const supportingDocuments = supportingDocumentsMetaData.map((document) => ({
+		filename: document.filename,
+		documentURI: document.documentURI
+	}));
 
 	const documents = {
 		applicationForm: {
@@ -39,7 +49,8 @@ const getAppealDetails = async (req, res) => {
 		appealStatement: {
 			filename: appealStatementMetaData.filename,
 			documentURI: appealStatementMetaData.documentURI
-		}
+		},
+		supportingDocuments
 	};
 
 	return res.render(APPEAL_DETAILS, {

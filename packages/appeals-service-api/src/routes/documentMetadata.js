@@ -6,10 +6,11 @@ router.get('/:caseref', async (req, res) => {
 	let statusCode = 200;
 	const caseRef = req.params.caseref;
 	const documentType = req.query.documenttype;
+	const returnMultipleDocuments = req.query?.returnMultipleDocuments ?? false;
 	let body = '';
 
 	try {
-		body = await getDocumentMetadata(caseRef, documentType);
+		body = await getDocumentMetadata(caseRef, documentType, returnMultipleDocuments);
 	} catch (error) {
 		statusCode = error.code;
 		body = error.message.errors;

@@ -14,22 +14,41 @@ class DocumentMetadataRepository extends MongoRepository {
 	 * @param {DocumentType} documentType
 	 * @return {Promise<any>}
 	 */
-	async getDocumentMetadata(caseRef, documentType) {
-		try {
-			return await this.findOneByQuery(
-				{
-					caseRef: caseRef,
-					documentType: documentType,
-					virusCheckStatus: 'scanned',
-					redactedStatus: 'redacted',
-					publishedStatus: 'published'
-				},
-				{
-					version: -1
-				}
-			);
-		} catch (e) {
-			console.log(e);
+	async getDocumentMetadata(caseRef, documentType, returnMultipleDocuments) {
+		if (returnMultipleDocuments == 'true') {
+			try {
+				return await this.getAllDocumentsThatMatchQuery(
+					{
+						caseRef: caseRef,
+						documentType: documentType,
+						virusCheckStatus: 'scanned',
+						redactedStatus: 'redacted',
+						publishedStatus: 'published'
+					},
+					{
+						version: -1
+					}
+				);
+			} catch (e) {
+				console.log(e);
+			}
+		} else {
+			try {
+				return await this.findOneByQuery(
+					{
+						caseRef: caseRef,
+						documentType: documentType,
+						virusCheckStatus: 'scanned',
+						redactedStatus: 'redacted',
+						publishedStatus: 'published'
+					},
+					{
+						version: -1
+					}
+				);
+			} catch (e) {
+				console.log(e);
+			}
 		}
 	}
 }
