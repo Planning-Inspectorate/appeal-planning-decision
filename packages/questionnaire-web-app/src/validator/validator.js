@@ -15,8 +15,11 @@ const validate = () => {
             case "boolean":
                 validations.push(booleanValidations(questionObj))
                 break;
+            case "boolean-text":
+                validations.push(booleanValidations(questionObj))
+                validations.push(textValidations(questionObj))
+                break;
         }
-
         await Promise.all(validations.map(validation => validation.run(req)));
 
        next();
@@ -25,23 +28,22 @@ const validate = () => {
 
 const booleanValidations = (questionObj) => {
     const rule = body(questionObj.fieldName);
-
     rule
         .exists()
-        .withMessage("Please select a value");
+        .withMessage(questionObj.validator.selectionRequiredErrorMessage ?? "Please select a value");
 
     return rule;
 }
 
 const textValidations = (questionObj) => {
-    const rule = body(questionObj.fieldName);
-
+    const rule = body(questionObj.validator?.textField ?? questionObj.fieldName);
     rule
-        .isLength({ min: 100, max: questionObj.validator.maxLength })
-        .withMessage("too long");
+        .isLength({ min: 5, max: questionObj.validator.maxLength })
+        .withMessage("Incorrect length");
 
     return rule;
 }
+
 
 module.exports = {
     validate

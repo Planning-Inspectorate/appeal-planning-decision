@@ -161,6 +161,7 @@ exports.questions = {
         required: true,
         show: (answers) => { return true; }
     },
+    // Todo uniqueness validation
     potentialSafetyRisks: {
         title: "Potential safety risks",
         question: "Add potential safety risks",
@@ -173,7 +174,7 @@ exports.questions = {
         fieldName: "potential-safety-risks",
         required: false,
         show: (answers) => { return answers["access-for-inspection"] === "yes"; },
-        validator: {type:"text", maxLength: 100}
+        validator: {type:"boolean-text", maxLength: 100, textField:"potential-safety-risks-correct-details", selectionRequiredErrorMessage: "You must select yes or no"}
     }, 
     /*S78 questions */
     rightOfWayCheck: {
