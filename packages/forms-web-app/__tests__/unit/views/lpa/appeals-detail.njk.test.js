@@ -18,9 +18,11 @@ const appeal = {
 	},
 	LPAApplicationReference: '23/04125/FUL'
 };
-const applicationForm = {
-	filename: 'Aubrey House planning application 2023.pdf',
-	documentURI: 'Aubrey House planning application 2023.pdf'
+const documents = {
+	applicationForm: {
+		filename: 'Aubrey House planning application 2023.pdf',
+		documentURI: 'Aubrey House planning application 2023.pdf'
+	}
 };
 
 describe('./src/views/manage-appeals/appeal-details.njk', () => {
@@ -29,7 +31,7 @@ describe('./src/views/manage-appeals/appeal-details.njk', () => {
 			`${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}.njk`,
 			{
 				appeal: appeal,
-				applicationForm
+				documents: documents
 			}
 		);
 
@@ -47,7 +49,7 @@ describe('./src/views/manage-appeals/appeal-details.njk', () => {
 					'#main-content > div.govuk-main-wrapper.govuk-main-wrapper--auto-spacing > div > div > dl > div:nth-child(5) > dd > a'
 				)
 				.textContent.trim()
-		).toEqual(applicationForm.filename);
+		).toEqual(documents.applicationForm.filename);
 
 		expect(
 			document
@@ -55,6 +57,6 @@ describe('./src/views/manage-appeals/appeal-details.njk', () => {
 					'#main-content > div.govuk-main-wrapper.govuk-main-wrapper--auto-spacing > div > div > dl > div:nth-child(5) > dd > a'
 				)
 				.getAttribute('href')
-		).toEqual(applicationForm.documentURI);
+		).toEqual(documents.applicationForm.documentURI);
 	});
 });
