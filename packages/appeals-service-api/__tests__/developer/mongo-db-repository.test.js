@@ -92,7 +92,7 @@ describe('mongo-db-repository', () => {
 		// NB as unintuitive as this sounds a sorted query will affect which document is returned. As in highlander, there can be only one!
 		const repo = new MongoRepository(collectionName);
 		const query = {
-			username: 'fmiller'
+			username: 'ekrabappel'
 		};
 		const sort = {
 			version: -1 // descending order
@@ -122,7 +122,7 @@ describe('mongo-db-repository', () => {
 		// NB as unintuitive as this sounds a sorted query will affect which document is returned. As in highlander, there can be only one!
 		const repo = new MongoRepository(collectionName);
 		const query = {
-			username: 'fmiller'
+			username: 'ekrabappel'
 		};
 		const sort = {
 			version: 1 // ascending order
@@ -152,7 +152,7 @@ describe('mongo-db-repository', () => {
 		// NB as unintuitive as this sounds a sorted query will affect which document is returned. As in highlander, there can be only one!
 		const repo = new MongoRepository(collectionName);
 		const query = {
-			username: 'fmiller'
+			username: 'ekrabappel'
 		};
 		const projection = {
 			username: 1,
