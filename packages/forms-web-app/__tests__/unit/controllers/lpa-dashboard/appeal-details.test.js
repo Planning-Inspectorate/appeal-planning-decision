@@ -44,18 +44,18 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 					filename: 'a.pdf',
 					documentURI: 'https://example.org/a.pdf'
 				},
-				decisionLetterForm: {
+				decisionLetter: {
 					filename: 'a.pdf',
 					documentURI: 'https://example.org/a.pdf'
 				},
-				appealStatementForm: {
+				appealStatement: {
 					filename: 'a.pdf',
 					documentURI: 'https://example.org/a.pdf'
 				}
 			};
 			getAppealDocumentMetaData.mockResolvedValue(documents.applicationForm);
-			getAppealDocumentMetaData.mockResolvedValue(documents.decisionLetterForm);
-			getAppealDocumentMetaData.mockResolvedValue(documents.appealStatementForm);
+			getAppealDocumentMetaData.mockResolvedValue(documents.decisionLetter);
+			getAppealDocumentMetaData.mockResolvedValue(documents.appealStatement);
 
 			getAppealByLPACodeAndId.mockResolvedValue(appeal);
 			req.session.lpaUser = {
