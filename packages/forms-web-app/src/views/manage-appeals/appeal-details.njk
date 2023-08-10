@@ -5,7 +5,7 @@
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "../macros/summary-field.njk" import summaryField %}
 {% from "../macros/address.njk" import address %}
-{% set title="Your appeals - Manage appeals - GOV.UK" %}
+{% set title="Appeal" + appeal.caseReference + "- Manage appeals - GOV.UK" %}
 
 {% block pageTitle %}
   {{ title }}
