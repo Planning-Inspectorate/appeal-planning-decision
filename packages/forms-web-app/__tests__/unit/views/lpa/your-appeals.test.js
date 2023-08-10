@@ -12,7 +12,7 @@ describe('views/lpa/your-appeals', () => {
 				requestNewCodeLink: `/${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}`
 			});
 			expect(document.querySelector('title').textContent.trim()).toEqual(
-				`Your appeals - Manage appeals - GOV.UK`
+				`Manage your appeals - Manage appeals - GOV.UK`
 			);
 		});
 		it('should render the page heading as expected', () => {
@@ -21,7 +21,7 @@ describe('views/lpa/your-appeals', () => {
 			});
 
 			expect(document.querySelector('#main-content h1').textContent.trim()).toEqual(
-				'Manage my appeals'
+				'Manage your appeals'
 			);
 		});
 	});
