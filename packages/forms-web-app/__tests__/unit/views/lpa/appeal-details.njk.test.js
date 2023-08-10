@@ -108,4 +108,13 @@ describe('./src/views/manage-appeals/appeal-details.njk', () => {
 				.textContent.trim()
 		).toEqual('23/04125/FUL');
 	});
+	it('should not render a row for agent or representitive if there is none', () => {
+		document.body.innerHTML = nunjucksTestRenderer.render(
+			`${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}.njk`,
+			{
+				appeal: appeal
+			}
+		);
+		console.log(document.body.innerHTML);
+	});
 });

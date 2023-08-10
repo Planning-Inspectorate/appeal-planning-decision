@@ -70,73 +70,84 @@
           {% endif %}
         {% endset %}
 
-        {{ govukSummaryList({
-          rows: [
-            {
-              key: {
-                text: "Agent or representative"
-              },
-              value: {
-                text: appeal.agent
-              }
+        {% set summaryRows = [] %}
+        
+        {% if appeal.agent %}
+          {% set summaryRows = (summaryRows.push({
+            key: {
+              text: "Agent or representative"
             },
-            {
-              key: {
-                text: "Site ownership"
-              },
-              value: {
-                text: appeal.ownershipCertificate
-              }
-            },
-            {
-              key: {
-                text: "Site visible from a public road or footpath"
-              },
-              value: {
-                text: appeal.isSiteVisible
-              }
-            },
-            {
-              key: {
-                text: "Health and safety issues"
-              },
-              value: {
-                html: appeal.doesSiteHaveHealthAndSafetyIssues + "<br>" + appeal.healthAndSafetyIssuesDetails 
-              }
-            },
-            {
-              key: {
-                text: "Application form"
-              },
-              value: {
-                text: ["<a href='", documents.applicationForm.documentURI, "'>", documents.applicationForm.filename, "</a>" ] | join | safe
-              }
-            },
-            {
-              key: {
-                text: "Decision Letter"
-              },
-              value: {
-                text: ["<a href='", documents.decisionLetter.documentURI, "'>", documents.decisionLetter.filename, "</a>" ] | join | safe
-              }
-            },
-            {
-              key: {
-                text: "Appeal Statement"
-              },
-              value: {
-                text: ["<a href='", documents.appealStatement.documentURI, "'>", documents.appealStatement.filename, "</a>" ] | join | safe
-              }
-            },
-            {
-              key: {
-                text: "Supporting Documents"
-              },
-              value: {
-                html: supportingDocumentsList
-              }
+            value: {
+              text: appeal.agent
             }
-          ]
+          }), summaryRows) %}
+        {% endif %}
+        
+        {% set summaryRows = (summaryRows.push({
+          key: {
+            text: "Site ownership"
+          },
+          value: {
+            text: appeal.ownershipCertificate
+          }
+        }), summaryRows) %}
+
+        {% set summaryRows = (summaryRows.push({
+          key: {
+            text: "Site visible from a public road or footpath"
+          },
+          value: {
+            text: appeal.isSiteVisible
+          }
+        }), summaryRows) %}
+
+        {% set summaryRows = (summaryRows.push({
+          key: {
+            text: "Site visible from a public road or footpath"
+          },
+          value: {
+            text: appeal.isSiteVisible
+          }
+        }), summaryRows) %}
+
+        {% set summaryRows = (summaryRows.push({
+          key: {
+            text: "Health and safety issues"
+          },
+          value: {
+            html: appeal.doesSiteHaveHealthAndSafetyIssues + "<br>" + appeal.healthAndSafetyIssuesDetails 
+          }
+        }), summaryRows) %}
+
+        {% set summaryRows = (summaryRows.push({
+          key: {
+            text: "Application form"
+          },
+          value: {
+            text: ["<a href='", documents.applicationForm.documentURI, "'>", documents.applicationForm.filename, "</a>" ] | join | safe
+          }
+        }), summaryRows) %}
+
+        {% set summaryRows = (summaryRows.push({
+          key: {
+            text: "Decision Letter"
+          },
+          value: {
+            text: ["<a href='", documents.decisionLetter.documentURI, "'>", documents.decisionLetter.filename, "</a>" ] | join | safe
+          }
+        }), summaryRows) %}
+
+        {% set summaryRows = (summaryRows.push({
+          key: {
+            text: "Appeal Statement"
+          },
+          value: {
+            text: ["<a href='", documents.appealStatement.documentURI, "'>", documents.appealStatement.filename, "</a>" ] | join | safe
+          }
+        }), summaryRows) %}
+    
+        {{ govukSummaryList({
+          rows: summaryRows
         }) }}
       </div>
   </div>
