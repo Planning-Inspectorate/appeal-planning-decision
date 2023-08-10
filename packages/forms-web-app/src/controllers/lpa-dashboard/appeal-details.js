@@ -16,19 +16,19 @@ const getAppealDetails = async (req, res) => {
 	const appeal = await getAppealByLPACodeAndId(lpaUser.lpaCode, caseReference);
 	const applicationFormMetaData = await getAppealDocumentMetaData(
 		caseReference,
-		'Planning%20application%20form'
+		encodeURI('Planning application form')
 	);
 	const decisionLetterMetaData = await getAppealDocumentMetaData(
 		caseReference,
-		'Decision%20notice'
+		encodeURI('Decision notice')
 	);
 	const appealStatementMetaData = await getAppealDocumentMetaData(
 		caseReference,
-		'Appeal%20Statement'
+		encodeURI('Appeal Statement')
 	);
 	const supportingDocumentsMetaData = await getAppealDocumentMetaData(
 		caseReference,
-		'Supporting%20Documents',
+		encodeURI('Supporting Documents'),
 		true
 	);
 
