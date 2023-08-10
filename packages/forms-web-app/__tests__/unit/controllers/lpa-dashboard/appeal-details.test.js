@@ -39,6 +39,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				doesSiteHaveHealthAndSafetyIssues: 'Yes',
 				healthAndSafetyIssuesDetails: 'The site needs to be seen from a height'
 			};
+
 			const documents = {
 				applicationForm: {
 					filename: 'a.pdf',
@@ -51,11 +52,23 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appealStatement: {
 					filename: 'a.pdf',
 					documentURI: 'https://example.org/a.pdf'
-				}
+				},
+				supportingDocuments: [
+					{
+						filename: 'a.pdf',
+						documentURI: 'https://example.org/a.pdf'
+					},
+					{
+						filename: 'a.pdf',
+						documentURI: 'https://example.org/a.pdf'
+					}
+				]
 			};
+
 			getAppealDocumentMetaData.mockResolvedValue(documents.applicationForm);
 			getAppealDocumentMetaData.mockResolvedValue(documents.decisionLetter);
 			getAppealDocumentMetaData.mockResolvedValue(documents.appealStatement);
+			getAppealDocumentMetaData.mockResolvedValue(documents.supportingDocuments);
 
 			getAppealByLPACodeAndId.mockResolvedValue(appeal);
 			req.session.lpaUser = {
