@@ -46,29 +46,29 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 					documentURI: 'https://example.org/a.pdf'
 				},
 				decisionLetter: {
-					filename: 'a.pdf',
-					documentURI: 'https://example.org/a.pdf'
+					filename: 'b.pdf',
+					documentURI: 'https://example.org/b.pdf'
 				},
 				appealStatement: {
-					filename: 'a.pdf',
-					documentURI: 'https://example.org/a.pdf'
+					filename: 'c.pdf',
+					documentURI: 'https://example.org/c.pdf'
 				},
 				supportingDocuments: [
 					{
-						filename: 'a.pdf',
-						documentURI: 'https://example.org/a.pdf'
+						filename: 'd.pdf',
+						documentURI: 'https://example.org/d.pdf'
 					},
 					{
-						filename: 'a.pdf',
-						documentURI: 'https://example.org/a.pdf'
+						filename: 'e.pdf',
+						documentURI: 'https://example.org/e.pdf'
 					}
 				]
 			};
 
-			getAppealDocumentMetaData.mockResolvedValue(documents.applicationForm);
-			getAppealDocumentMetaData.mockResolvedValue(documents.decisionLetter);
-			getAppealDocumentMetaData.mockResolvedValue(documents.appealStatement);
-			getAppealDocumentMetaData.mockResolvedValue(documents.supportingDocuments);
+			getAppealDocumentMetaData.mockResolvedValueOnce(documents.applicationForm);
+			getAppealDocumentMetaData.mockResolvedValueOnce(documents.decisionLetter);
+			getAppealDocumentMetaData.mockResolvedValueOnce(documents.appealStatement);
+			getAppealDocumentMetaData.mockResolvedValueOnce(documents.supportingDocuments);
 
 			getAppealByLPACodeAndId.mockResolvedValue(appeal);
 			req.session.lpaUser = {
