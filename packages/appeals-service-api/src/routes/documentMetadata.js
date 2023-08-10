@@ -6,7 +6,7 @@ router.get('/:caseref', async (req, res) => {
 	let statusCode = 200;
 	const caseRef = req.params.caseref;
 	const documentType = req.query.documenttype;
-	const returnMultipleDocuments = req.query?.returnMultipleDocuments ?? false;
+	const returnMultipleDocuments = req.query.returnMultipleDocuments;
 	let body = '';
 
 	try {
