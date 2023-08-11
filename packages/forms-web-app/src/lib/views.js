@@ -209,7 +209,7 @@ const VIEW = {
 	},
 
 	LPA_QUESTIONNAIRE: {
-		QUESTIONNAIRE: 'manage/questionnaire'
+		QUESTIONNAIRE: 'manage-appeals/questionnaire'
 	},
 
 	MESSAGES: {

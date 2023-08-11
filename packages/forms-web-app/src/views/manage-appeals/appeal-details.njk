@@ -31,13 +31,13 @@
           {% if dueInDays < 0 %}
             This appeal was due {{questionnaireDueDate | date('D MMMM YYYY') }}
             <p class="govuk-body">
-              <a class="govuk-notification-banner__link" href="/manage/questionnaire">Submit questionnaire</a>
+              <a class="govuk-notification-banner__link" href="{{appealQuestionnaireLink}}/{{appeal.caseReferenceSlug}}">Submit questionnaire</a>
             </p>
           {% else %}
             You have until 11:59 on {{questionnaireDueDate}} to:
             <ul class="govuk-list govuk-list--bullet">
               <li>
-                <a class="govuk-notification-banner__link" href="/manage/questionnaire">Submit questionnaire</a>
+                <a class="govuk-notification-banner__link" href="{{appealQuestionnaireLink}}/{{appeal.caseReferenceSlug}}">Submit questionnaire</a>
               </li>
             </ul>
           {% endif %}

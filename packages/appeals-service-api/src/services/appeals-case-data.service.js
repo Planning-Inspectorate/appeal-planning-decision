@@ -27,11 +27,7 @@ const getAppealByLpaCodeAndCaseRef = async (lpaCode, caseRef) => {
 	}
 
 	try {
-		const appealsCaseData = await appealsCaseDataRepository.getAppealByLpaCodeAndCaseRef(
-			lpaCode,
-			caseRef
-		);
-		return appealsCaseData;
+		return await appealsCaseDataRepository.getAppealByLpaCodeAndCaseRef(lpaCode, caseRef);
 	} catch (err) {
 		console.log(err);
 		logger.error(err);

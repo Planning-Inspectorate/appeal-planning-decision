@@ -88,6 +88,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appeal,
 				documents,
 				dueInDays: -3,
+				appealQuestionnaireLink: `/${VIEW.LPA_QUESTIONNAIRE.QUESTIONNAIRE}`,
 				questionnaireDueDate: 'Friday, 7 July 2023'
 			});
 		});
