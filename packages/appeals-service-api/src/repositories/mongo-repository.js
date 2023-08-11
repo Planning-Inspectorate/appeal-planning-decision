@@ -58,14 +58,12 @@ class MongoRepository {
 	}
 
 	async getAllDocumentsThatMatchQuery(query, projection = undefined) {
-		if (projection && typeof projection === 'object' && Object.keys(projection).length) {
-			const result = await mongodb
-				.get()
-				.collection(this.collectionName)
-				.find(query)
-				.project(projection)
-				.toArray();
-			return result;
+		if (projection && typeof projection === 'object' && Object.keys(projection).length > 0) {
+			const result = await mongodb.get().collection(this.collectionName).find(query, {
+				projection: projection
+			});
+
+			return result.toArray();
 		}
 		return await mongodb.get().collection(this.collectionName).find(query).toArray();
 	}
