@@ -45,7 +45,7 @@ class AppealsCaseDataRepository extends MongoRepository {
 		return result;
 	}
 	async getAppealByLpaCodeAndCaseRef(lpaCode, caseRef) {
-		return await this.findOneByQuery({
+		const result = await this.findOneByQuery({
 			LPACode: lpaCode,
 			caseReference: caseRef,
 			appealType: HAS,
@@ -53,6 +53,10 @@ class AppealsCaseDataRepository extends MongoRepository {
 			questionnaireDueDate: { $type: 'date' },
 			questionnaireReceived: { $not: { $type: 'date' } }
 		});
+
+		result.caseReferenceSlug = encodeUrlSlug(result.caseReference);
+
+		return result;
 	}
 }
 

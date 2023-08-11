@@ -4,7 +4,8 @@ const {
 } = require('../../lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		LPA_DASHBOARD: { DASHBOARD, APPEAL_DETAILS }
+		LPA_DASHBOARD: { DASHBOARD, APPEAL_DETAILS },
+		LPA_QUESTIONNAIRE: { QUESTIONNAIRE }
 	}
 } = require('../../lib/views');
 const dateFns = require('date-fns');
@@ -59,6 +60,7 @@ const getAppealDetails = async (req, res) => {
 		appeal,
 		documents,
 		dueInDays: calculateDueInDays(appeal.questionnaireDueDate),
+		appealQuestionnaireLink: `/${QUESTIONNAIRE}`,
 		questionnaireDueDate: (() => {
 			return new Intl.DateTimeFormat('en-GB', {
 				dateStyle: 'full',
