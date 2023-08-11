@@ -185,6 +185,37 @@ describe('mongo-db-repository', () => {
 			projection: projection
 		});
 	});
+	it('should get all documents with a projection', async () => {
+		const repo = new MongoRepository(collectionName);
+		const query = {
+			username: 'ekrabappel'
+		};
+		const expectedDocuments = seedData
+			.filter((s) => s.username === query.username)
+			.map((document) => ({
+				_id: document._id,
+				username: document.username,
+				email: document.email
+			}));
+
+		const projection = {
+			username: 1,
+			email: 1
+		};
+
+		const spy = jest.spyOn(mockedDatabase, 'collection');
+		const collection = mockedDatabase.collection(collectionName);
+
+		appDbConnection.get = jest.fn().mockReturnValue({
+			collection: () => collection
+		});
+		const spy2 = jest.spyOn(collection, 'find');
+		const result = await repo.getAllDocumentsThatMatchQuery(query, projection);
+		expect(result).toBeTruthy();
+		expect(result).toEqual(expectedDocuments);
+		expect(spy).toHaveBeenCalledWith(collectionName);
+		expect(spy2).toHaveBeenCalledWith(query, { projection: projection });
+	});
 });
 const _clearDatabaseCollections = async () => {
 	const databaseCollections = await databaseConnection.db(dbName).collections();
