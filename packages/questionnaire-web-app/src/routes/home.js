@@ -1,6 +1,6 @@
 const express = require('express');
 const indexController = require('../controllers');
-const questionnaireController = require('../controllers/questionnaire');
+const questionnaireController = require('../controllers/journey');
 const {validate} = require('../validator/validator')
 const { validationErrorHandler } = require('../validator/validation-error-handler');
 
