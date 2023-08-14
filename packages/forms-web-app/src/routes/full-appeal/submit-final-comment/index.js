@@ -1,5 +1,6 @@
 const express = require('express');
-const featureFlagMiddleware = require('../../../middleware/feature-flag');
+const { featureFlagMiddleware } = require('../../../middleware/feature-flag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 const checkFinalCommentDeadline = require('../../../middleware/final-comment/check-final-comment-deadline');
 const { skipMiddlewareForPaths } = require('../../../middleware/skip-middleware-for-paths');
 
@@ -16,7 +17,7 @@ const documentsCheckRouter = require('../../final-comment/documents-check');
 const uploadDocumentsRouter = require('../../final-comment/upload-documents');
 const checkYourAnswersRouter = require('../../final-comment/check-your-answers');
 
-router.use(featureFlagMiddleware('final-comments', 'enableForAllLPAs'));
+router.use(featureFlagMiddleware(FLAG.FINAL_COMMENTS, 'enableForAllLPAs'));
 router.use(
 	skipMiddlewareForPaths(checkFinalCommentDeadline, [
 		'input-code',
