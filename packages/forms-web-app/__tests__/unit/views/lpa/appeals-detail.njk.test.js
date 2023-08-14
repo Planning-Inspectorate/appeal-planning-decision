@@ -16,6 +16,12 @@ const appeal = {
 		firstName: 'Rachel',
 		lastName: 'Silver'
 	},
+	agent: [
+		{
+			firstName: 'Ray',
+			lastName: 'Gent'
+		}
+	],
 	LPAApplicationReference: '23/04125/FUL'
 };
 const documents = {
