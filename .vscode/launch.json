@@ -1,0 +1,28 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "web-app",
+			"address": "localhost",
+			"localRoot": "${workspaceFolder}/packages/forms-web-app",
+			"restart": true,
+			"remoteRoot": "/opt/app",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/opt/common/**"]
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "appeals-api",
+			"address": "localhost",
+			"localRoot": "${workspaceFolder}/packages/appeals-service-api",
+			"restart": true,
+			"remoteRoot": "/opt/app",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/opt/common/**"]
+		}
+	]
+}
