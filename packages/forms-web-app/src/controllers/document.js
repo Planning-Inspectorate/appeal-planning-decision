@@ -2,6 +2,8 @@ const { fetchDocument } = require('../lib/documents-api-wrapper');
 const logger = require('../lib/logger');
 
 const getDocument = async (req, res) => {
+	// Todo - ideally we should be taking the appeal id from the user session for appelants
+	// Todo - for LPA officers we should take appeal id and the document id from the params, but also validate that the user is an LPA user and that the appeal belongs to their LPA
 	const { appealOrQuestionnaireId, documentId } = req.params;
 
 	try {

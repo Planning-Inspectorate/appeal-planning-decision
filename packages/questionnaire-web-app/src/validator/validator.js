@@ -2,6 +2,7 @@ const { body, validationResult } = require('express-validator');
 const hasQuestionnaire = require('../definitions/questionnaire/hasQuestionnaire');
 const questionnaire = hasQuestionnaire.questionnaire;
 const formHelper = require('../lib/dynamicformhelper');
+const { BooleanValidator } = require('./booleanValidator');
 
 const validate = () => {
     return async (req, res, next) => {
@@ -20,6 +21,15 @@ const validate = () => {
                 validations.push(textValidations(questionObj))
                 break;
         }
+        foreach(validation in validations)
+        {
+            const errors = validationResult(req);
+            const mappedErrors = errors.mapped();
+            if(mappedErrors.length > 0)
+            {
+                next();
+            }
+        }
         await Promise.all(validations.map(validation => validation.run(req)));
 
        next();
@@ -36,9 +46,12 @@ const booleanValidations = (questionObj) => {
 }
 
 const textValidations = (questionObj) => {
-    const rule = body(questionObj.validator?.textField ?? questionObj.fieldName);
+    const rule = body(questionObj[questionObj.validator?.textField] ?? questionObj.fieldName);
     rule
-        .isLength({ min: 5, max: questionObj.validator.maxLength })
+        .notEmpty().optional(questionObj.validator?.empty ?? false)
+        .withMessage(questionObj.validator?.errorMessage ?? "No value provided")
+        .bail()
+        .isLength({ min: 5, max: questionObj.validator.maxLength ?? 99999999 })
         .withMessage("Incorrect length");
 
     return rule;
@@ -48,3 +61,6 @@ const textValidations = (questionObj) => {
 module.exports = {
     validate
 }
+
+min: int and max:int
+empty: bool
