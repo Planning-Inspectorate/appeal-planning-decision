@@ -59,7 +59,10 @@ const getAppealDetails = async (req, res) => {
 	};
 
 	return res.render(APPEAL_DETAILS, {
-		dashboardLink: `/${DASHBOARD}`,
+		backOverride: {
+			text: 'Back to appeals',
+			href: `/${DASHBOARD}`
+		},
 		appeal,
 		documents,
 		dueInDays: calculateDueInDays(appeal.questionnaireDueDate),

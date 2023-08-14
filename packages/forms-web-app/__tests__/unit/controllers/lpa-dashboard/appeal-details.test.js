@@ -61,6 +61,11 @@ const mockDocuments = {
 	]
 };
 
+const backOverride = {
+	href: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
+	text: 'Back to appeals'
+};
+
 describe('controllers/lpa-dashboard/your-appeals', () => {
 	beforeEach(() => {
 		jest.resetAllMocks();
@@ -87,7 +92,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			await getAppealDetails(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.APPEAL_DETAILS, {
-				dashboardLink: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
+				backOverride,
 				appeal: mockAppeal,
 				documents: mockDocuments,
 				dueInDays: -3,
@@ -112,7 +117,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			await getAppealDetails(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.APPEAL_DETAILS, {
-				dashboardLink: `/${VIEW.LPA_DASHBOARD.DASHBOARD}`,
+				backOverride,
 				appeal: mockAppeal,
 				documents: mockDocuments,
 				dueInDays: -3,
