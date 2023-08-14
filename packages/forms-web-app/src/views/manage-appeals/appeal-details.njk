@@ -72,13 +72,17 @@
 
         {% set summaryRows = [] %}
         
-        {% if appeal.agent %}
+        {% if appeal.agent|length %}
+          {% set agents = "" %}
+          {% for agent in appeal.agent %}
+            {% set agents = agents + agent.firstName + " " + agent.lastName + "\n" %}
+          {% endfor %}
           {% set summaryRows = (summaryRows.push({
             key: {
               text: "Agent or representative"
             },
             value: {
-              text: appeal.agent
+              text: agents
             }
           }), summaryRows) %}
         {% endif %}
@@ -97,16 +101,7 @@
             text: "Site visible from a public road or footpath"
           },
           value: {
-            text: appeal.isSiteVisible
-          }
-        }), summaryRows) %}
-
-        {% set summaryRows = (summaryRows.push({
-          key: {
-            text: "Site visible from a public road or footpath"
-          },
-          value: {
-            text: appeal.isSiteVisible
+            text: "Yes" if appeal.isSiteVisible else "No"
           }
         }), summaryRows) %}
 
@@ -115,7 +110,7 @@
             text: "Health and safety issues"
           },
           value: {
-            html: appeal.doesSiteHaveHealthAndSafetyIssues + "<br>" + appeal.healthAndSafetyIssuesDetails 
+            html: "Yes" + "<br>" + appeal.healthAndSafetyIssuesDetails if appeal.doesSiteHaveHealthAndSafetyIssues else "No" 
           }
         }), summaryRows) %}
 
