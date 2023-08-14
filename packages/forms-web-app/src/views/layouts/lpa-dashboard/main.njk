@@ -37,10 +37,22 @@
         }) }}
       {% endblock %}
 
+      {% if backOverride %}
+        {% set back = {
+          text: backOverride.text,
+          href: backOverride.href
+        } %}
+      {% else %}
+        {% set back = {
+          text: "Back",
+          href: navigation[1]
+        } %}
+      {% endif %}
+
       {% block backButton %}
         {{ govukBackLink({
-          text: "Back",
-          href: navigation[1],
+          text: back.text,
+          href: back.href,
           attributes: {
             'data-cy': 'back'
           }
