@@ -6,7 +6,7 @@ class BooleanValidator extends BaseValidator {
 		super();
 		// Todo - either programtically return the type or use a constants file
 		this.type = "boolean";
-		this.errorMessage = "Please select an answer";
+		this.requiredErrorMessage = "Please select an answer";
 	}
 }
 

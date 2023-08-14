@@ -9,11 +9,11 @@ const validate = () => {
         const { appealId, section, question } = req.params;
         var questionObj = formHelper.getQuestionBySectionAndName(questionnaire, section, question);
         
-        foreach(validation in questionObj.validator)
+        foreach(validator in questionObj.validator)
         {
             switch (validation.type) {
                 case "boolean":
-                   await booleanValidations.run(req)
+                   await booleanValidations(questionObj, validator).run(req)
                     break;
             }
             const errors = validationResult(req);
@@ -29,11 +29,11 @@ const validate = () => {
     };
 };
 
-const booleanValidations = (questionObj) => {
+const booleanValidations = (questionObj, validator) => {
     const rule = body(questionObj.fieldName);
     rule
         .exists()
-        .withMessage(questionObj.validator.selectionRequiredErrorMessage ?? "Please select a value");
+        .withMessage(validator.requiredErrorMessage);
 
     return rule;
 }
