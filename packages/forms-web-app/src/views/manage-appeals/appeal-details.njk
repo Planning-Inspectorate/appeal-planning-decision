@@ -3,8 +3,7 @@
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-{% from "../macros/summary-field.njk" import summaryField %}
-{% from "../macros/address.njk" import address %}
+{% from "../macros/appeal-details.njk" import appealDetails %}
 {% set title="Appeal" + appeal.caseReference + "- Manage appeals - GOV.UK" %}
 
 {% block pageTitle %}
@@ -48,61 +47,12 @@
         html: html
       }) }}
 
-        <h1 class="govuk-heading-l">
-          Appeal {{appeal.caseReference}}
-        </h1>
+      <h1 class="govuk-heading-l">
+        Appeal {{appeal.caseReference}}
+      </h1>
 
-        {% set siteAddress = 
-          { 
-            addressLine1: appeal.siteAddressLine1,
-            addressLine2: appeal.siteAddressLine2,
-            town: appeal.siteAddressTown,
-            county: appeal.siteAddressCounty, 
-            postcode: appeal.siteAddressPostcode
-          }
-        %}
+      {{ appealDetails(appeal) }}
 
-        {% set siteAddressRow = {
-          key: { text: summaryField(
-            "Appeal site",
-            { "data-cy": "site-address-label" }
-          ) },
-          value: { text: summaryField(
-            address(siteAddress, true),
-            { "data-cy": "site-address" }
-          ) }
-        } %}
-
-        {{ govukSummaryList({
-          classes: 'appeal-details govuk-summary-list--no-border',
-          rows: [
-            {
-              key: {
-                text: "Appeal type"
-              },
-              value: {
-                text: appeal.appealType
-              }
-            },
-            siteAddressRow,
-            {
-              key: {
-                text: "Applicant"
-              },
-              value: {
-                text: appeal.appellant.firstName + " " + appeal.appellant.lastName
-              }
-            },
-            {
-              key: {
-                text: "Application number"
-              },
-              value: {
-                text: appeal.LPAApplicationReference
-              }
-            }
-          ]
-        }) }}
       <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
       </div>
       <div class="govuk-grid-column-two-thirds">

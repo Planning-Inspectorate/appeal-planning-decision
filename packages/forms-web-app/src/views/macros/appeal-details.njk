@@ -1,0 +1,57 @@
+{% from "./summary-field.njk" import summaryField %}
+{% from "./address.njk" import address %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+
+{% macro appealDetails(appeal) %}
+    {% set siteAddress = 
+        { 
+        addressLine1: appeal.siteAddressLine1,
+        addressLine2: appeal.siteAddressLine2,
+        town: appeal.siteAddressTown,
+        county: appeal.siteAddressCounty, 
+        postcode: appeal.siteAddressPostcode
+        }
+    %}
+
+    {% set siteAddressRow = {
+        key: { text: summaryField(
+        "Appeal site",
+        { "data-cy": "site-address-label" }
+        ) },
+        value: { text: summaryField(
+        address(siteAddress, true),
+        { "data-cy": "site-address" }
+        ) }
+    } %}
+
+    {{ govukSummaryList({
+        classes: 'appeal-details govuk-summary-list--no-border',
+        rows: [
+        {
+            key: {
+            text: "Appeal type"
+            },
+            value: {
+            text: appeal.appealType
+            }
+        },
+        siteAddressRow,
+        {
+            key: {
+            text: "Applicant"
+            },
+            value: {
+            text: appeal.appellant.firstName + " " + appeal.appellant.lastName
+            }
+        },
+        {
+            key: {
+            text: "Application number"
+            },
+            value: {
+            text: appeal.LPAApplicationReference
+            }
+        }
+        ]
+    }) }}
+{% endmacro %}
