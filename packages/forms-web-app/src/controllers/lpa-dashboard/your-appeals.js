@@ -1,4 +1,6 @@
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { isFeatureActive } = require('../../featureFlag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 const {
 	VIEW: {
@@ -26,7 +28,8 @@ const getYourAppeals = async (req, res) => {
 		addOrRemoveLink: `/${ADD_REMOVE_USERS}`,
 		appealsCaseData: appealsCaseData,
 		appealDetailsLink: `/${APPEAL_DETAILS}`,
-		appealQuestionnaireLink: `/${QUESTIONNAIRE}`
+		appealQuestionnaireLink: `/${QUESTIONNAIRE}`,
+		showQuestionnaire: await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, user.lpaCode)
 	});
 };
 

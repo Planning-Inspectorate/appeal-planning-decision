@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-const featureFlagMiddleware = require('../../middleware/feature-flag');
+const { featureFlagMiddleware } = require('../../middleware/feature-flag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 const { skipMiddlewareForPaths } = require('../../middleware/skip-middleware-for-paths');
 const requireUser = require('../../middleware/lpa-dashboard/require-user');
 
-router.use(featureFlagMiddleware('lpa-dashboard'));
+router.use(featureFlagMiddleware(FLAG.LPA_DASHBOARD));
 router.use(
 	skipMiddlewareForPaths(requireUser, [
 		'service-invite',

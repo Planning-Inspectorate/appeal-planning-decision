@@ -43,9 +43,11 @@
         </p>
       {% endset %}
 
-      {{ govukNotificationBanner({
-        html: html
-      }) }}
+      {% if showQuestionnaire %}
+        {{ govukNotificationBanner({
+          html: html
+        }) }}
+      {% endif %}
 
       <h1 class="govuk-heading-l">
         Appeal {{appeal.caseReference}}
