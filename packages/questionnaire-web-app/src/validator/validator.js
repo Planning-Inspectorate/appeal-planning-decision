@@ -8,21 +8,14 @@ const validate = () => {
     return async (req, res, next) => {
         const { appealId, section, question } = req.params;
         var questionObj = formHelper.getQuestionBySectionAndName(questionnaire, section, question);
-        const validations = [];
-        switch (questionObj.validator?.type) {
-            case "text":
-                validations.push(textValidations(questionObj))
-                break;
-            case "boolean":
-                validations.push(booleanValidations(questionObj))
-                break;
-            case "boolean-text":
-                validations.push(booleanValidations(questionObj))
-                validations.push(textValidations(questionObj))
-                break;
-        }
-        foreach(validation in validations)
+        
+        foreach(validation in questionObj.validator)
         {
+            switch (validation.type) {
+                case "boolean":
+                   await booleanValidations.run(req)
+                    break;
+            }
             const errors = validationResult(req);
             const mappedErrors = errors.mapped();
             if(mappedErrors.length > 0)
@@ -30,7 +23,7 @@ const validate = () => {
                 next();
             }
         }
-        await Promise.all(validations.map(validation => validation.run(req)));
+       
 
        next();
     };

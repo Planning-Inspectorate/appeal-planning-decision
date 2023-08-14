@@ -7,9 +7,6 @@ class BaseValidator {
 		this.errorMessage = errorMessage;
 	}
 
-    GetType(){
-        return 
-    }
 }
 
 module.exports = { BaseValidator };
