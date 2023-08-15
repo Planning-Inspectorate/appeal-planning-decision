@@ -1,0 +1,10 @@
+{% from "govuk/components/textarea/macro.njk" import govukTextarea %}
+
+{{ govukTextarea({
+  label: {
+    text: question
+  },
+  id: fieldName,
+  name: fieldName,
+  value: value
+}) }}

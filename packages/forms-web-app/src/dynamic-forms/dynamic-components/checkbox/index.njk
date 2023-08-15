@@ -1,7 +1,7 @@
 {% extends "layouts/no-banner-link/main.njk" %}
 
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set title= question.question + " - Appeal a planning decision - GOV.UK" %}
@@ -19,8 +19,8 @@
       {% endif %}
       <form action="" method="post" novalidate>
         <span class="govuk-caption-l">{{ question.caption }}</span>
-        {{ govukRadios({
-          classes: "govuk-radios",
+        {{ govukCheckboxes({
+          classes: "govuk-checkboxes",
           idPrefix: question.fieldName,
           name: question.fieldName,
           errorMessage: errors[question.fieldName] and {
@@ -33,22 +33,8 @@
               classes: "govuk-fieldset__legend--l"
             }
           },
-          items: [
-            {
-              value: "yes",
-              text: "Yes",
-              attributes: { "data-cy": "answer-yes" },
-              checked: answer == "yes"
-            },
-            {
-              value: "no",
-              text: "No",
-              attributes: { "data-cy": "answer-no" },
-              checked: answer == "no"
-            }
-          ]
+          items: question.options
         }) }}
-
         {{ govukButton({
           text: "Continue",
           type: "submit",
