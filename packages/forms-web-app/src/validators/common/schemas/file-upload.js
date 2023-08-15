@@ -1,12 +1,10 @@
 const validAV = require('@planning-inspectorate/pins-clamav-rest-client');
-const { validMimeType, validateMimeBinaryType } = require('pins-mime-validation');
 const {
 	fileUpload: {
-		pins: { uploadApplicationMaxFileSize }
+		pins: { uploadApplicationMaxFileSize, allowedFileTypes }
 	}
 } = require('../../../config');
 const validateFileSize = require('../../custom/file-size');
-const mimeTypes = require('../../../lib/mime-types');
 
 const hasAlreadyUploadedFile = (task) => {
 	const { uploadedFile = {}, uploadedFiles = [] } = task;
@@ -34,6 +32,7 @@ const schema = (noFilesError) => ({
 
 				const uploadedFiles = !Array.isArray(files[path]) ? [files[path]] : files[path];
 				const isSingleFile = uploadedFiles.length === 1;
+
 				const singleFileMimeTypeErrorMsg =
 					'The selected file must be a pdf, doc, docx, tif, tiff, jpg, jpeg or png';
 				const multiFileMimeTypeErrorMsg = 'must be a DOC, DOCX, PDF, TIF, JPG or PNG';
@@ -42,20 +41,11 @@ const schema = (noFilesError) => ({
 					const errorMsg = isSingleFile
 						? singleFileMimeTypeErrorMsg
 						: `${name} ${multiFileMimeTypeErrorMsg}`;
-					validMimeType(mimetype, Object.values(mimeTypes), errorMsg);
-				});
 
-				await Promise.all(
-					uploadedFiles.map((file) =>
-						validateMimeBinaryType(
-							file,
-							Object.values(mimeTypes),
-							isSingleFile
-								? singleFileMimeTypeErrorMsg
-								: `${file.name} ${multiFileMimeTypeErrorMsg}`
-						)
-					)
-				);
+					if (!Object.values(allowedFileTypes).includes(mimetype)) {
+						throw new Error(errorMsg);
+					}
+				});
 
 				const sizeErrorMsg = isSingleFile ? 'The selected file must be smaller than 15MB' : null;
 

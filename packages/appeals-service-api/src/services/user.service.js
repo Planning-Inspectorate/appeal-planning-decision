@@ -3,7 +3,10 @@ const mongodb = require('../db/db');
 const ObjectId = require('mongodb').ObjectId;
 const ApiError = require('../errors/apiError');
 const LpaService = require('../services/lpa.service');
+const { sendLPADashboardInviteEmail } = require('../lib/notify');
+
 const lpaService = new LpaService();
+const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const userProjection = {
 	projection: {
@@ -11,40 +14,38 @@ const userProjection = {
 		email: 1,
 		lpaCode: 1,
 		isAdmin: 1,
-		enabled: 1
+		status: 1
 	}
 };
 
-function compareUser(a, b) {
-	// isAdmin comes first
-	if (a.isAdmin && !b.isAdmin) {
-		return -1;
-	} else if (!a.isAdmin && b.isAdmin) {
-		return 1;
+function compareUserConfirmedAt(a, b) {
+	if (!b.confirmedAt || !a.confirmedAt) {
+		return 0;
 	}
 
-	// Otherwise sort by name
-	return a.email.localeCompare(b.email);
+	return b.confirmedAt.getTime() - a.confirmedAt.getTime();
 }
 
 const getUsers = async (lpaCode) => {
 	const result = [];
 
 	if (!lpaCode) {
-		throw ApiError.userNoLpaCodeProvided();
+		throw ApiError.noLpaCodeProvided();
 	}
 
 	try {
-		const cursor = await mongodb.get().collection('user').find({ lpaCode: lpaCode, enabled: true });
-		// to sort from mongo instead of locally
-		// .sort({ isAdmin: -1, email: 1 });
+		const cursor = await mongodb
+			.get()
+			.collection('user')
+			.find({ lpaCode: lpaCode, status: STATUS_CONSTANTS.CONFIRMED });
 
 		await cursor.forEach((doc) => {
 			result.push({
 				_id: doc._id,
 				email: doc.email,
 				lpaCode: doc.lpaCode,
-				isAdmin: doc.isAdmin
+				isAdmin: doc.isAdmin,
+				confirmedAt: doc.confirmedAt
 			});
 		});
 	} catch (err) {
@@ -52,7 +53,7 @@ const getUsers = async (lpaCode) => {
 		throw err;
 	}
 
-	result.sort(compareUser);
+	result.sort(compareUserConfirmedAt);
 	return result;
 };
 
@@ -61,8 +62,8 @@ const createUser = async (user) => {
 		throw ApiError.badRequest();
 	}
 
-	user.enabled = true;
 	user.createdAt = new Date();
+	user.status = STATUS_CONSTANTS.ADDED;
 
 	if (!user.isAdmin) {
 		user.isAdmin = false;
@@ -71,8 +72,12 @@ const createUser = async (user) => {
 	try {
 		// ensure only 1 admin per lpa
 		if (user.isAdmin) {
-			const currentUsers = await getUsers(user.lpaCode);
-			if (currentUsers.some((obj) => obj.isAdmin === true)) {
+			const adminCount = await mongodb
+				.get()
+				.collection('user')
+				.countDocuments({ lpaCode: user.lpaCode, isAdmin: true }, { limit: 1 });
+
+			if (adminCount > 0) {
 				throw ApiError.userOnly1Admin();
 			}
 		}
@@ -88,7 +93,7 @@ const createUser = async (user) => {
 	} catch (err) {
 		logger.error(err, `Error: user not created`);
 
-		if (err.code === mongodb.errorCodes.DUPLICATE_KEY) {
+		if (err?.code === mongodb.errorCodes.DUPLICATE_KEY) {
 			throw ApiError.userDuplicate();
 		}
 
@@ -115,7 +120,7 @@ const getUserByEmail = async (email) => {
 		throw ApiError.userNotFound();
 	}
 
-	if (!user.enabled) {
+	if (user.status === STATUS_CONSTANTS.REMOVED) {
 		throw ApiError.userDisabled();
 	}
 
@@ -161,7 +166,7 @@ const disableUser = async (id) => {
 			.collection('user')
 			.findOneAndUpdate(
 				{ _id: new ObjectId(id) },
-				{ $set: { enabled: false } },
+				{ $set: { status: STATUS_CONSTANTS.REMOVED } },
 				{ returnDocument: 'after' }
 			);
 		logger.info(`disabled user: ${disabled._id}`);
@@ -171,9 +176,35 @@ const disableUser = async (id) => {
 	}
 };
 
+const setUserStatus = async (id, status) => {
+	logger.info(`attempting to set user status: ${id}`);
+
+	try {
+		const updated = await mongodb
+			.get()
+			.collection('user')
+			.findOneAndUpdate(
+				{ _id: new ObjectId(id) },
+				{ $set: { confirmedAt: new Date(), status: status } },
+				{ returnDocument: 'after' }
+			);
+		logger.info(`set user status: ${updated._id}`);
+	} catch (err) {
+		logger.error(err, `Error: error attempting to set user status`);
+		throw err;
+	}
+};
+
+const addLPAUserNotify = async (user) => {
+	await sendLPADashboardInviteEmail(user);
+};
+
 module.exports = {
 	getUsers,
 	createUser,
 	getUserByEmail,
-	disableUser
+	getUserById,
+	disableUser,
+	setUserStatus,
+	addLPAUserNotify
 };

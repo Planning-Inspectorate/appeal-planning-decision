@@ -7,6 +7,7 @@
 
 /* Node modules */
 const path = require('path');
+const { parseISO, isValid } = require('date-fns');
 
 /* Third-party modules */
 const { sync: glob } = require('glob');
@@ -85,18 +86,33 @@ module.exports = async function main(log = true) {
 				}
 
 				/* Clear out any existing data */
-				await connection.truncate(name);
+				try {
+					await connection.truncate(name);
+				} catch (err) {
+					console.error(err);
+				}
 
 				const parsedData = data.map((item) => {
-					const now = new Date();
-					if (!item.createdAt && meta.created !== false) {
-						// eslint-disable-next-line no-param-reassign
-						item.createdAt = now;
+					if (name === 'appeals') {
+						const now = new Date();
+						if (!item.createdAt && meta.created !== false) {
+							// eslint-disable-next-line no-param-reassign
+							item.createdAt = now;
+						}
+						if (!item.updatedAt && meta.updated !== false) {
+							// eslint-disable-next-line no-param-reassign
+							item.updatedAt = now;
+						}
 					}
-					if (!item.updatedAt && meta.updated !== false) {
-						// eslint-disable-next-line no-param-reassign
-						item.updatedAt = now;
-					}
+
+					Object.keys(item).forEach(function (key) {
+						if (typeof item[key] === 'string') {
+							const parsedDate = parseISO(item[key]);
+							if (isValid(parsedDate)) {
+								item[key] = parsedDate;
+							}
+						}
+					});
 
 					return item;
 				});

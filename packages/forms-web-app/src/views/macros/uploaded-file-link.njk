@@ -4,6 +4,6 @@
     class="govuk-link"
     {% for attribute, value in attributes %} {{attribute}}="{{value}}"{% endfor %}
   >
-    {{ uploadedFile.name }}
+    {{ uploadedFile.originalFileName }}
   </a>
 {% endmacro %}

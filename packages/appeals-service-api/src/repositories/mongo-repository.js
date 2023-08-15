@@ -18,10 +18,29 @@ class MongoRepository {
 	 * @param {any} query This should be JSON that will enable a query on the collection that this
 	 * repository is intended to handle. See {@link https://www.mongodb.com/docs/manual/tutorial/query-documents/}
 	 * for more details.
+	 * @param {any} sort
+	 * @param {any} projection
 	 * @returns {Promise<any>} The document found as a result of executing the `query` specified on the
 	 * collection specified via the constructor.
 	 */
-	async findOneByQuery(query) {
+	async findOneByQuery(query, sort = {}, projection = {}) {
+		if (sort && Object.keys(sort).length > 0) {
+			if (Object.keys(projection).length > 0) {
+				return await mongodb
+					.get()
+					.collection(this.collectionName)
+					.findOne(query, { sort: sort, projection: projection });
+			}
+			return await mongodb.get().collection(this.collectionName).findOne(query, { sort: sort });
+		}
+
+		if (projection && Object.keys(projection).length > 0) {
+			return await mongodb
+				.get()
+				.collection(this.collectionName)
+				.findOne(query, { projection: projection });
+		}
+
 		return await mongodb.get().collection(this.collectionName).findOne(query);
 	}
 
@@ -38,7 +57,14 @@ class MongoRepository {
 		return await mongodb.get().collection(this.collectionName).find().toArray();
 	}
 
-	async getAllDocumentsThatMatchQuery(query) {
+	async getAllDocumentsThatMatchQuery(query, projection = undefined) {
+		if (projection && typeof projection === 'object' && Object.keys(projection).length > 0) {
+			const result = await mongodb.get().collection(this.collectionName).find(query, {
+				projection: projection
+			});
+
+			return result.toArray();
+		}
 		return await mongodb.get().collection(this.collectionName).find(query).toArray();
 	}
 

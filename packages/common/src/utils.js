@@ -2,7 +2,8 @@
  * Utility methods
  */
 
-const testLPACode = 'E69999999';
+const testLPAONSCode = 'E69999999';
+const testLPACode = 'Q9999';
 
 module.exports = {
 	/**
@@ -49,7 +50,38 @@ module.exports = {
 	 * @return {boolean}
 	 */
 	isTestLPA(lpaCode) {
-		return lpaCode === testLPACode;
+		return lpaCode === testLPACode || lpaCode === testLPAONSCode;
 	},
-	testLPACode
+	testLPACode,
+	testLPAONSCode,
+	/**
+	 * Sanitizes a given filename by removing disallowed characters and ensuring its length does not exceed a maximum value.
+	 *
+	 * @param {string} filename - The original filename to be sanitized.
+	 * @param {number} [maxLength=100] - The maximum allowed length of the sanitized filename.
+	 * @returns {string} - The sanitized filename.
+	 */
+	sanitizeCharactersInFilename(filename, maxLength = 200) {
+		if (!filename || typeof filename !== 'string') {
+			return filename;
+		}
+
+		// Remove any leading or trailing whitespace
+		filename = filename.trim();
+
+		// any character outside of alphanumeric characters, periods, hyphen, underscores replaced with a '-'
+		const allowedCharsRegex = /[^a-zA-Z0-9.\-_]/g;
+		filename = filename.replace(allowedCharsRegex, '-');
+
+		// Split the filename into base name and extension
+		const parts = filename.split('.');
+		const baseName = parts[0];
+		const extension = parts.slice(1).join('.');
+
+		// Ensure the filename does not exceed the maximum length
+		filename = baseName.slice(0, maxLength);
+
+		// Reconstruct the filename with the modified base name
+		return extension ? `${filename}.${extension}` : filename;
+	}
 };

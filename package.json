@@ -3,8 +3,8 @@
 	"version": "0.0.0",
 	"private": true,
 	"engines": {
-		"node": ">=14.0.0 <15.0.0",
-		"npm": ">=6.0.0 <7.0.0"
+		"node": ">=18.0.0 <19.0.0",
+		"npm": ">=9.0.0 <10.0.0"
 	},
 	"description": "Appeal a planning decision - these are utility scripts for the whole repo",
 	"workspaces": [
@@ -58,8 +58,9 @@
 	},
 	"homepage": "https://github.com/foundry4/appeal-planning-decision#readme",
 	"devDependencies": {
-		"@commitlint/cli": "^17.0.1",
+		"@commitlint/cli": "^17.0.0",
 		"@commitlint/config-conventional": "^17.0.0",
+		"@commitlint/cz-commitlint": "^17.0.0",
 		"@semantic-release/exec": "^6.0.3",
 		"commitizen": "^4.3.0",
 		"cz-conventional-changelog": "^3.3.0",
@@ -69,14 +70,15 @@
 		"eslint-plugin-jest": "^26.5.3",
 		"husky": "^8.0.0",
 		"lint-staged": "^10.5.0",
-		"multi-semantic-release": "^2.13.0",
+		"multi-semantic-release": "^3.0.2",
 		"npm-run-all": "^4.1.5",
 		"pino": "^8.4.1",
-		"prettier": "^2.1.2"
+		"prettier": "^2.1.2",
+		"semantic-release": "21.0.5"
 	},
 	"config": {
 		"commitizen": {
-			"path": "./node_modules/cz-conventional-changelog"
+			"path": "./node_modules/@commitlint/cz-commitlint"
 		}
 	},
 	"lint-staged": {

@@ -2,9 +2,7 @@ const { get, post } = require('../../router-mock');
 
 const { getEnterCode, postEnterCode } = require('../../../../../src/controllers/common/enter-code');
 
-const {
-	rules: ruleEnterCode
-} = require('../../../../../src/validators/save-and-return/enter-code');
+const { rules: ruleEnterCode } = require('../../../../../src/validators/common/enter-code');
 
 const {
 	rules: idValidationRules
@@ -15,7 +13,7 @@ const {
 } = require('../../../../../src/validators/validation-error-handler');
 
 jest.mock('../../../../../src/validators/common/check-id-is-uuid');
-jest.mock('../../../../../src/validators/save-and-return/enter-code');
+jest.mock('../../../../../src/validators/common/enter-code');
 jest.mock('../../../../../src/validators/validation-error-handler');
 jest.mock('../../../../../src/controllers/common/enter-code');
 

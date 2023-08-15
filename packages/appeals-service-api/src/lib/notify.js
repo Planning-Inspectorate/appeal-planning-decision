@@ -11,9 +11,22 @@ const LpaService = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
 const { format } = require('date-fns');
 const constants = require('@pins/business-rules/src/constants');
-
+const enterCodeConfig = require('@pins/common/src/enter-code-config');
 const lpaService = new LpaService();
 const { templates } = config.services.notify;
+
+const actionToTemplateMapping = [
+	{
+		action: enterCodeConfig.actions.lpaDashboard,
+		template: templates.LPA_DASHBOARD.enterCodeIntoServiceEmailToLPA
+	}
+];
+
+const mapActionToTemplate = (action) => {
+	let [mapping] = actionToTemplateMapping.filter((a) => a.action === action);
+	if (mapping && mapping.template) return mapping.template;
+	return templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant;
+};
 
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
@@ -171,7 +184,7 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	}
 };
 
-const sendSecurityCodeEmail = async (recipientEmail, code, identifier) => {
+const sendSecurityCodeEmail = async (recipientEmail, code, identifier, action = '') => {
 	try {
 		const variables = {
 			'unique code': code
@@ -182,7 +195,7 @@ const sendSecurityCodeEmail = async (recipientEmail, code, identifier) => {
 			'Sending secure code email to appellant'
 		);
 		await NotifyBuilder.reset()
-			.setTemplateId(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
+			.setTemplateId(mapActionToTemplate(action))
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(identifier)
@@ -223,6 +236,38 @@ const sendFailureToUploadToHorizonEmail = async (appealId) => {
 	}
 };
 
+const sendLPADashboardInviteEmail = async (user) => {
+	try {
+		const lpa = await lpaService.getLpaByCode(user.lpaCode);
+
+		const recipientEmail = user.email;
+		let variables = {
+			'local planning authority': lpa.getName(),
+			'lpa-link': `${config.apps.appeals.baseUrl}/manage-appeals/your-email-address`
+		};
+
+		const reference = user._id;
+
+		logger.debug(
+			{ recipientEmail, variables, reference },
+			'Sending LPA dashboard invitation email'
+		);
+
+		await NotifyBuilder.reset()
+			.setTemplateId(templates.LPA_DASHBOARD.lpaDashboardInviteEmail)
+			.setDestinationEmailAddress(recipientEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err, userId: user._id }, 'Unable to send LPA dashboard invitation email');
+	}
+};
+
 const _formatAddress = (addressJson) => {
 	let address = addressJson.addressLine1;
 	address += addressJson.addressLine2 && `\n${addressJson.addressLine2}`;
@@ -242,5 +287,7 @@ module.exports = {
 	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendSecurityCodeEmail,
-	sendFailureToUploadToHorizonEmail
+	sendFailureToUploadToHorizonEmail,
+	mapActionToTemplate,
+	sendLPADashboardInviteEmail
 };

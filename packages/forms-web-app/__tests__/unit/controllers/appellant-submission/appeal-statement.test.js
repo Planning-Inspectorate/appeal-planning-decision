@@ -143,6 +143,7 @@ describe('controllers/appellant-submission/appeal-statement', () => {
 			createDocument.mockImplementation(() => ({
 				id: fakeFileId,
 				location: '00aa11bb22cc',
+				name: fakeFileName,
 				size: 123
 			}));
 			getNextTask.mockReturnValue({

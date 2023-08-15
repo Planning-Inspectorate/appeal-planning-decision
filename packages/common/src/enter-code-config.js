@@ -1,7 +1,8 @@
 const enterCodeConfig = {
 	actions: {
 		saveAndReturn: 'saveAndReturn',
-		confirmEmail: 'confirmEmail'
+		confirmEmail: 'confirmEmail',
+		lpaDashboard: 'lpa-dashboard'
 	}
 };
 

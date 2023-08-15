@@ -1,0 +1,72 @@
+{% extends "layouts/lpa-dashboard/main-no-back-link.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set title="Enter the code we sent to your email address - Manage appeals - GOV.UK" %}
+
+{% if errors %}
+  {% set title = "Error: " + title %}
+{% endif %}
+
+{% block pageTitle %}{{ title }}{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  {% if showNewCode %}
+    {{ govukNotificationBanner({
+      text: 'We’ve sent a code to your email address.',
+      type: 'success'
+    }) }}
+  {% endif %}  
+
+  <div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+      <form action={{ lpaUserId }} method="POST" novalidate>
+        {% call govukFieldset({
+          legend: {
+            text: "Enter the code we sent to your email address",
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+          }
+        }) %}
+
+        {{ govukInput({
+            classes: "govuk-input govuk-input--width-5",
+            id: "email-code",
+            name: "email-code",
+            spellcheck: false,
+            value: email-code,
+            errorMessage: errors['email-code-name'] and {
+              text: errors['email-code-name'].msg
+            }
+
+          }) }}
+
+        {% endcall %}
+
+        <p class="govuk-body">
+        <a href="{{requestNewCodeLink}}" class="govuk-link">Not received the code?</a>
+        </p>
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+      
+    </div>
+  </div>
+{% endblock %}

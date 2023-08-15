@@ -1,9 +1,42 @@
 const { checkToken } = require('./appeals-api-wrapper');
 const { isTokenExpired } = require('./is-token-expired');
-const { utils, enterCodeConfig } = require('@pins/common');
+const { utils } = require('@pins/common');
 const config = require('../config');
 
 const testConfirmEmailToken = '12345';
+
+const isTestEnvironment = () => config.server.allowTestingOverrides;
+
+/**
+ * Check if LPA is System Test Borough Council and token is test token
+ * @param {string} token
+ * @param {string} lpaCode
+ * @return {boolean}
+ */
+const isTestLpaAndToken = (token, lpaCode) => {
+	return utils.isTestLPA(lpaCode) && token === testConfirmEmailToken;
+};
+
+const getToken = async (id, token, session) => {
+	let tokenDocument;
+	try {
+		tokenDocument = await checkToken(id, token);
+		return tokenDocument;
+	} catch (err) {
+		console.log(err);
+		// todo: can we improve this to not rely on string matching,
+		// handler swallows response and only gives back status message
+		if (err.message === 'Too Many Requests') {
+			return {
+				valid: false,
+				action: session?.enterCode?.action,
+				tooManyAttempts: true
+			};
+		} else {
+			throw err;
+		}
+	}
+};
 
 const isTokenValid = async (id, token, session) => {
 	let result = {
@@ -11,35 +44,12 @@ const isTokenValid = async (id, token, session) => {
 		action: ''
 	};
 
-	if (!id || typeof id !== 'string' || !token || typeof token !== 'string') {
-		return result;
-	}
+	if (!id || typeof id !== 'string' || !token || typeof token !== 'string') return result;
 
-	// is test LPA + Test environment + test token
-	// then allow through as a confirm email token
-	if (
-		config.server.allowTestingOverrides &&
-		utils.isTestLPA(session?.appeal?.lpaCode) &&
-		token === testConfirmEmailToken
-	) {
-		result.valid = true;
-		result.action = enterCodeConfig.actions.confirmEmail;
-		return result;
-	}
+	let tokenDocument = await getToken(id, token, session);
 
-	let tokenDocument;
-	try {
-		tokenDocument = await checkToken(id, token, session?.enterCode?.action);
-	} catch (err) {
-		// todo: can we improve this to not rely on string matching,
-		// handler swallows response and only gives back status message
-		if (err.message === 'Too Many Requests') {
-			result.tooManyAttempts = true;
-			result.action = session?.enterCode?.action;
-			return result;
-		} else {
-			throw err;
-		}
+	if (tokenDocument && 'tooManyAttempts' in tokenDocument && tokenDocument.tooManyAttempts) {
+		return tokenDocument;
 	}
 
 	if (tokenDocument === null || typeof tokenDocument !== 'object') {
@@ -62,5 +72,7 @@ const isTokenValid = async (id, token, session) => {
 
 module.exports = {
 	isTokenValid,
-	testConfirmEmailToken
+	isTestLpaAndToken,
+	testConfirmEmailToken,
+	isTestEnvironment
 };

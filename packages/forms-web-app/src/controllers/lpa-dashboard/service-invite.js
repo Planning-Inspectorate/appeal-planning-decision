@@ -3,7 +3,7 @@ const logger = require('../../lib/logger');
 
 const {
 	VIEW: {
-		LPA_DASHBOARD: { ENTER_EMAIL },
+		LPA_DASHBOARD: { YOUR_EMAIL_ADDRESS },
 		ERROR_PAGES: { UNAUTHORIZED }
 	}
 } = require('../../lib/views');
@@ -28,13 +28,13 @@ const getServiceInvite = async (req, res) => {
 
 		// user already added for lpa so direct to enter email page
 		if (err.message && err.message === errorMessages.user.only1Admin) {
-			return res.redirect(`/${ENTER_EMAIL}`);
+			return res.redirect(`/${YOUR_EMAIL_ADDRESS}`);
 		}
 
 		return genericAuthError(res);
 	}
 
-	return res.redirect(`/${ENTER_EMAIL}`);
+	return res.redirect(`/${YOUR_EMAIL_ADDRESS}`);
 };
 
 function genericAuthError(res) {

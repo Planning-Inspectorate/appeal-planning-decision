@@ -1,7 +1,7 @@
 const { isTokenValid, testConfirmEmailToken } = require('../../../src/lib/is-token-valid');
 const { checkToken } = require('../../../src/lib/appeals-api-wrapper');
 const { isTokenExpired } = require('../../../src/lib/is-token-expired');
-const { utils, enterCodeConfig } = require('@pins/common');
+const { utils } = require('@pins/common');
 const config = require('../../../src/config');
 
 jest.mock('../../../src/lib/appeals-api-wrapper');
@@ -69,29 +69,6 @@ describe('lib/is-token-valid', () => {
 			expect(isTokenExpired).not.toBeCalled();
 			expect(result.valid).toBe(false);
 		});
-		it('should skip check if all testing params are valid', async () => {
-			checkToken.mockReturnValue({
-				id: 'abc',
-				createdAt: '2023-03-17T15:47:55.654Z'
-			});
-			isTokenExpired.mockReturnValue(true);
-
-			config.server = {
-				allowTestingOverrides: true
-			};
-			utils.isTestLPA.mockReturnValue(true);
-
-			const result = await isTokenValid('abc', testConfirmEmailToken, {
-				appeal: {
-					lpaCode: utils.testLPACode
-				}
-			});
-
-			expect(result.valid).toBe(true);
-			expect(result.action).toBe(enterCodeConfig.actions.confirmEmail);
-			expect(checkToken).not.toBeCalled();
-			expect(isTokenExpired).not.toBeCalled();
-		});
 		test.each([
 			[[false, false, 'a']],
 			[[true, false, 'a']],
@@ -138,18 +115,16 @@ describe('lib/is-token-valid', () => {
 		it('should call checkToken if both parameters are valid', async () => {
 			checkToken.mockReturnValue(undefined);
 
-			await isTokenValid('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654', {
-				enterCode: { action: 'test' }
-			});
+			await isTokenValid('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654');
 
-			expect(checkToken).toBeCalledWith('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654', 'test');
+			expect(checkToken).toBeCalledWith('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654');
 		});
 		it('should return false without calling isTokenExpired if returned token document is undefined', async () => {
 			checkToken.mockReturnValue(undefined);
 
-			const result = await isTokenValid('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654', undefined);
+			const result = await isTokenValid('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654');
 
-			expect(checkToken).toBeCalledWith('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654', undefined);
+			expect(checkToken).toBeCalledWith('e2813fb0-e269-4fe2-890e-6405dbd4a5ea', '63654');
 			expect(isTokenExpired).not.toBeCalled();
 			expect(result.valid).toBe(false);
 		});

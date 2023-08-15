@@ -34,7 +34,7 @@ module.exports = class MongoDB {
 		await this.db.db().collection(collection).insertMany(dataArr);
 	}
 
-	async truncate() {
-		await this.db.db().dropDatabase();
+	async truncate(collection) {
+		await this.db.db().collection(collection).drop();
 	}
 };

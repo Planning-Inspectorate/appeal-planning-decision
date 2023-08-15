@@ -33,7 +33,7 @@ async function tokenPut(req, res) {
 
 //checks code against id
 async function tokenPost(req, res) {
-	const { id, token, action } = req.body;
+	const { id, token } = req.body;
 
 	const document = await getTokenDocumentIfExists(id);
 
@@ -42,8 +42,6 @@ async function tokenPost(req, res) {
 	}
 
 	if (document.attempts && document.attempts > 3) {
-		// reset attempts and code
-		await createOrUpdateTokenDocument(id, action);
 		return res.status(429).send({});
 	}
 

@@ -1,0 +1,64 @@
+{% extends "layouts/lpa-dashboard/main-no-back-link.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+{% set title="Enter your email address - Manage my appeals - Planning Inspectorate" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title="Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    {% if errors %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary,
+          attributes: {"data-cy": "error-wrapper"}
+        }) }}
+      {% endif %}
+
+      <form action="" method="post" novalidate>
+
+        <span class="govuk-caption-l"></span>
+
+          <label class="govuk-label govuk-label--l" for="email">
+            Enter your email address
+          </label>
+
+          <p class="govuk-body">
+            We’ll send an access code to this address, if you have an account.
+          </p>
+
+          {{ govukInput({
+          id: "email-address",
+          name: "email-address",
+          attributes: {"data-cy": "email-address"},
+          classes: "govuk-input govuk-input--width-20",
+          spellcheck: false,
+          value: email,
+					autocomplete: "email",
+          errorMessage: errors['email-address'] and {
+            text: errors['email-address'].msg
+          }
+        }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: {"data-cy": "button-save-and-continue"}
+        }) }}
+
+      </form>
+
+    </div>
+  </div>
+
+{% endblock %}

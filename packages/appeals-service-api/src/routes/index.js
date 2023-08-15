@@ -16,6 +16,8 @@ const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
 const apiDocsRouter = require('./api-docs');
 const finalCommentsRouter = require('./final-comments');
 const usersRouter = require('./users');
+const lpaDashboardAppealsRouter = require('./appeals-case-data');
+const documentMetadataRouter = require('./documentMetadata');
 
 router.use('/api/v1/appeals', appealsRouter);
 router.use('/api/v1/back-office', backOfficeRouter);
@@ -26,5 +28,7 @@ router.use('/api/v1/save', saveRouter);
 router.use('/api/v1/token', tokenRouter);
 router.use('/api/v1/final-comments', finalCommentsRouter);
 router.use('/api/v1/users', usersRouter);
+router.use('/api/v1/appeals-case-data', lpaDashboardAppealsRouter);
+router.use('/api/v1/document-meta-data', documentMetadataRouter);
 
 module.exports = router;

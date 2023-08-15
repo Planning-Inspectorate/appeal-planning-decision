@@ -3,8 +3,8 @@
 exports[`views/includes/head should not render if googleAnalyticsId is not set but cookies.cookie_policy.usage is set 1`] = `
 "
 
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css?v1.1.0\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css?v1.1.0\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
   <script>
       window.wfeconfig = window.wfeconfig || {};
@@ -24,8 +24,8 @@ exports[`views/includes/head should not render if googleAnalyticsId is not set b
 exports[`views/includes/head should not render if googleAnalyticsId is set but cookies.cookie_policy.usage is not set 1`] = `
 "
 
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css?v1.1.0\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css?v1.1.0\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
   <script>
       window.wfeconfig = window.wfeconfig || {};
@@ -45,8 +45,8 @@ exports[`views/includes/head should not render if googleAnalyticsId is set but c
 exports[`views/includes/head should not render if googleTagManager and GA are set 1`] = `
 "
 
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css?v1.1.0\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css?v1.1.0\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
   <script>
       window.wfeconfig = window.wfeconfig || {};
@@ -67,8 +67,8 @@ exports[`views/includes/head should not render if googleTagManager and GA are se
 exports[`views/includes/head should not render if no ids set 1`] = `
 "
 
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css?v1.1.0\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css?v1.1.0\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
   <script>
       window.wfeconfig = window.wfeconfig || {};
@@ -88,8 +88,8 @@ exports[`views/includes/head should not render if no ids set 1`] = `
 exports[`views/includes/head should not render if only tagmanager set 1`] = `
 "
 
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css?v1.1.0\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css?v1.1.0\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
   <script>
       window.wfeconfig = window.wfeconfig || {};
@@ -110,8 +110,8 @@ exports[`views/includes/head should not render if only tagmanager set 1`] = `
 exports[`views/includes/head should render if googleAnalyticsId and cookies.cookie_policy.usage are set 1`] = `
 "
 
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css?v1.1.0\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css?v1.1.0\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
   <script>
       window.wfeconfig = window.wfeconfig || {};
@@ -141,8 +141,8 @@ exports[`views/includes/head should render if googleAnalyticsId and cookies.cook
 exports[`views/includes/head should render tagmanager if all are set 1`] = `
 "
 
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css?v1.1.0\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css?v1.1.0\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
   <script>
       window.wfeconfig = window.wfeconfig || {};
@@ -180,8 +180,8 @@ exports[`views/includes/head should render tagmanager if all are set 1`] = `
 exports[`views/includes/head should render tagmanager if tagmanager and id are set 1`] = `
 "
 
-  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
-  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
+  <!--[if lte IE 8]><link href=\\"/public/stylesheets/main-ie8.css?v1.1.0\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><![endif]-->
+  <!--[if gt IE 8]><!--><link href=\\"/public/stylesheets/main.css?v1.1.0\\" media=\\"all\\" rel=\\"stylesheet\\" type=\\"text/css\\" /><!--<![endif]-->
 
   <script>
       window.wfeconfig = window.wfeconfig || {};

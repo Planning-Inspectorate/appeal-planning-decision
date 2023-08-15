@@ -47,7 +47,7 @@
                 data-file-id="{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.id }}"
                 data-file-location="{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.location }}"
                 data-file-size="{{ appeal.requiredDocumentsSection.originalApplication.uploadedFile.size }}">
-              {{- appeal.requiredDocumentsSection.originalApplication.uploadedFile.name -}}
+              {{- appeal.requiredDocumentsSection.originalApplication.uploadedFile.originalFileName -}}
             </li>
           </ul>
         {% endif %}

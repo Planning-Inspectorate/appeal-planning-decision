@@ -4,6 +4,7 @@ const { utils } = require('@pins/common');
 
 const config = require('../config');
 const parentLogger = require('./logger');
+const baseUrl = '/api/v1';
 
 async function handler(path, method = 'GET', opts = {}, headers = {}) {
 	const correlationId = uuid.v4();
@@ -94,6 +95,10 @@ exports.getExistingAppeal = async (appealId) => {
 	return handler(`/api/v1/appeals/${appealId}`);
 };
 
+exports.getExistingAppealByLPACodeAndId = async (lpaCode, appealId) => {
+	return handler(`/api/v1/appeals/${lpaCode}/${appealId}`);
+};
+
 exports.getLPAList = async () => {
 	return handler('/api/v1/local-planning-authorities');
 };
@@ -113,19 +118,18 @@ exports.saveAppeal = async (appeal) => {
 exports.sendToken = async (id, action, emailAddress) => {
 	return handler(`/api/v1/token/`, 'PUT', {
 		body: JSON.stringify({
-			id,
-			action,
-			emailAddress
+			id: id,
+			action: action,
+			emailAddress: emailAddress
 		})
 	});
 };
 
-exports.checkToken = async (id, token, action) => {
+exports.checkToken = async (id, token) => {
 	return handler(`/api/v1/token/`, 'POST', {
 		body: JSON.stringify({
 			id,
-			token,
-			action
+			token
 		})
 	});
 };
@@ -148,6 +152,45 @@ exports.createUser = async (email, isAdmin, lpaCode) => {
 			lpaCode
 		})
 	});
+};
+
+exports.getUserById = async (id) => {
+	return handler(`/api/v1/users/${id}`, 'GET');
+};
+
+exports.getUserByEmail = async (email) => {
+	return handler(`/api/v1/users/${email}`, 'GET');
+};
+
+exports.setUserStatus = async (id, status) => {
+	return handler(`${baseUrl}/users/${id}/status`, 'PUT', {
+		body: JSON.stringify({
+			status: status
+		})
+	});
+};
+
+exports.getUsers = async (lpaCode) => {
+	return handler(`/api/v1/users/?lpaCode=${lpaCode}`, 'GET');
+};
+
+exports.removeUser = async (id) => {
+	return handler(`/api/v1/users/${id}`, 'DELETE');
+};
+
+exports.getAppealsCaseData = async (lpaCode) => {
+	return handler(`/api/v1/appeals-case-data/${lpaCode}`, 'GET');
+};
+
+exports.getAppealByLPACodeAndId = async (lpaCode, id) => {
+	return handler(`/api/v1/appeals-case-data/${lpaCode}/${id}`, 'GET');
+};
+
+exports.getAppealDocumentMetaData = async (caseRef, documentType, returnMultipleDocuments = '') => {
+	return handler(
+		`/api/v1/document-meta-data/${caseRef}?documenttype=${documentType}&returnMultipleDocuments=${returnMultipleDocuments}`,
+		'GET'
+	);
 };
 
 exports.errorMessages = {

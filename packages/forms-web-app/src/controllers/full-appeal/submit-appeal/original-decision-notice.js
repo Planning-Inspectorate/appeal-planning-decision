@@ -59,8 +59,8 @@ const postOriginalDecisionNotice = async (req, res) => {
 			const document = await createDocument(appeal, files['file-upload'], null, taskName);
 			appeal[sectionName][taskName].uploadedFile = mapDocumentToSavedDocument(
 				document,
-				files['file-upload'].name,
-				appeal.lpaCode
+				document.name,
+				files['file-upload'].name
 			);
 		}
 

@@ -1,4 +1,3 @@
-const { validMimeType, validateMimeBinaryType } = require('pins-mime-validation');
 const validAV = require('@planning-inspectorate/pins-clamav-rest-client');
 const {
 	fileUpload: {
@@ -7,10 +6,9 @@ const {
 } = require('../../../../../src/config');
 const fileUploadSchema = require('../../../../../src/validators/common/schemas/file-upload');
 const validateFileSize = require('../../../../../src/validators/custom/file-size');
-const mimeTypes = require('../../../../../src/lib/mime-types');
 const file = require('../../../../fixtures/file-upload');
+const invalidFile = { ...file, mimetype: 'not/valid' };
 
-jest.mock('pins-mime-validation');
 jest.mock('../../../../../src/validators/custom/file-size');
 jest.mock('@planning-inspectorate/pins-clamav-rest-client');
 
@@ -104,38 +102,11 @@ describe('validators/common/schemas/file-upload', () => {
 			expect(() => schema(null, { req })).rejects.toThrow(noFilesError);
 		});
 
-		it('should call the validMimeType validator when given a single file', () => {
-			req.files = { 'file-upload': file };
-
-			schema(null, { req, path: 'file-upload' });
-
-			expect(validMimeType).toHaveBeenCalledTimes(1);
-			expect(validMimeType).toHaveBeenCalledWith(
-				file.mimetype,
-				Object.values(mimeTypes),
-				`The selected file must be a pdf, doc, docx, tif, tiff, jpg, jpeg or png`
-			);
-		});
-
-		it('should call the validateMimeBinaryType validator when given a single file', async () => {
-			req.files = { 'file-upload': file };
-
-			await schema(null, { req, path: 'file-upload' });
-
-			expect(validMimeType).toHaveBeenCalledTimes(1);
-			expect(validateMimeBinaryType).toHaveBeenCalledWith(
-				file,
-				Object.values(mimeTypes),
-				`The selected file must be a pdf, doc, docx, tif, tiff, jpg, jpeg or png`
-			);
-		});
-
 		it('should call the validateFileSize validator when given a single file', async () => {
 			req.files = { 'file-upload': file };
 
 			await schema(null, { req, path: 'file-upload' });
 
-			expect(validMimeType).toHaveBeenCalledTimes(1);
 			expect(validateFileSize).toHaveBeenCalledWith(
 				file.size,
 				uploadApplicationMaxFileSize,
@@ -153,38 +124,11 @@ describe('validators/common/schemas/file-upload', () => {
 			expect(validAV).toHaveBeenCalledWith(file, file.name);
 		});
 
-		it('should call the validMimeType validator when given multiple files', () => {
-			req.files = { 'file-upload': [file, file, file] };
-
-			schema(null, { req, path: 'file-upload' });
-
-			expect(validMimeType).toHaveBeenCalledTimes(3);
-			expect(validMimeType).toHaveBeenCalledWith(
-				file.mimetype,
-				Object.values(mimeTypes),
-				`${file.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
-			);
-		});
-
-		it('should call the validateMimeBinaryType validator when given multiple files', async () => {
-			req.files = { 'file-upload': [file, file, file] };
-
-			await schema(null, { req, path: 'file-upload' });
-
-			expect(validMimeType).toHaveBeenCalledTimes(3);
-			expect(validateMimeBinaryType).toHaveBeenCalledWith(
-				file,
-				Object.values(mimeTypes),
-				`${file.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
-			);
-		});
-
 		it('should call the validateFileSize validator when given multiple files', async () => {
 			req.files = { 'file-upload': [file, file, file] };
 
 			await schema(null, { req, path: 'file-upload' });
 
-			expect(validMimeType).toHaveBeenCalledTimes(3);
 			expect(validateFileSize).toHaveBeenCalledWith(
 				file.size,
 				uploadApplicationMaxFileSize,
@@ -207,6 +151,30 @@ describe('validators/common/schemas/file-upload', () => {
 			const result = await schema(null, { req, path: 'file-upload' });
 
 			expect(result).toBeTruthy();
+		});
+
+		it('should throw error if file is not a valid mimetype (singlefile)', async () => {
+			req.files = { 'file-upload': [invalidFile] };
+
+			try {
+				await schema(null, { req, path: 'file-upload' });
+			} catch (err) {
+				expect(err.message).toEqual(
+					'The selected file must be a pdf, doc, docx, tif, tiff, jpg, jpeg or png'
+				);
+			}
+		});
+
+		it('should throw error if file is not a valid mimetype (multifile', async () => {
+			req.files = { 'file-upload': [file, invalidFile, file] };
+
+			try {
+				await schema(null, { req, path: 'file-upload' });
+			} catch (err) {
+				expect(err.message).toEqual(
+					`${invalidFile.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
+				);
+			}
 		});
 	});
 });

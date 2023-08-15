@@ -1,4 +1,12 @@
-const { getUsers, createUser, getUserByEmail, disableUser } = require('../services/user.service');
+const {
+	getUsers,
+	createUser,
+	getUserByEmail,
+	getUserById,
+	disableUser,
+	setUserStatus,
+	addLPAUserNotify
+} = require('../services/user.service');
 const logger = require('../lib/logger');
 
 async function usersGet(req, res) {
@@ -23,6 +31,7 @@ async function userPost(req, res) {
 
 	try {
 		await createUser(req.body);
+		await addLPAUserNotify(req.body);
 	} catch (error) {
 		logger.error(`Failed to create user: ${error.code} // ${error.message.errors}`);
 		statusCode = error.code;
@@ -47,8 +56,23 @@ async function userGet(req, res) {
 	}
 }
 
+async function userGetById(req, res) {
+	let statusCode = 200;
+	let body = {};
+
+	try {
+		body = await getUserById(req.params.id);
+	} catch (error) {
+		logger.error(`Failed to get users: ${error.code} // ${error.message.errors}`);
+		statusCode = error.code;
+		body = error.message.errors;
+	} finally {
+		res.status(statusCode).send(body);
+	}
+}
+
 async function userDelete(req, res) {
-	let statusCode = 204;
+	let statusCode = 200;
 	let body = {};
 	try {
 		await disableUser(req.params.id);
@@ -61,9 +85,27 @@ async function userDelete(req, res) {
 	}
 }
 
+async function userSetStatus(req, res) {
+	let statusCode = 200;
+	let body = {};
+	try {
+		const { id } = req.params;
+		const { status } = req.body;
+		await setUserStatus(id, status);
+	} catch (error) {
+		logger.error(`Failed to update user status: 500 // ${error.message}`);
+		statusCode = 500;
+		body = error.message.errors;
+	} finally {
+		res.status(statusCode).send(body);
+	}
+}
+
 module.exports = {
 	usersGet,
 	userPost,
 	userGet,
-	userDelete
+	userGetById,
+	userDelete,
+	userSetStatus
 };

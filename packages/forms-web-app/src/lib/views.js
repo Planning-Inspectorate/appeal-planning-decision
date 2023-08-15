@@ -195,7 +195,21 @@ const VIEW = {
 	},
 
 	LPA_DASHBOARD: {
-		ENTER_EMAIL: 'manage-appeals/enter-email'
+		ENTER_CODE: 'manage-appeals/enter-code',
+		CODE_EXPIRED: 'manage-appeals/code-expired',
+		NEED_NEW_CODE: 'manage-appeals/need-new-code',
+		REQUEST_NEW_CODE: 'manage-appeals/request-new-code',
+		DASHBOARD: 'manage-appeals/your-appeals',
+		ADD_REMOVE_USERS: 'manage-appeals/add-remove-users',
+		EMAIL_ADDRESS: 'manage-appeals/email-address',
+		CONFIRM_ADD_USER: 'manage-appeals/confirm-add-user',
+		CONFIRM_REMOVE_USER: 'manage-appeals/confirm-remove-user',
+		YOUR_EMAIL_ADDRESS: 'manage-appeals/your-email-address',
+		APPEAL_DETAILS: 'manage-appeals/appeal-details'
+	},
+
+	LPA_QUESTIONNAIRE: {
+		QUESTIONNAIRE: 'manage-appeals/questionnaire'
 	},
 
 	MESSAGES: {

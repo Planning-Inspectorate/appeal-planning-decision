@@ -1,0 +1,100 @@
+const { validationResult } = require('express-validator');
+const { testExpressValidatorMiddleware } = require('../validation-middleware-helper');
+const { rules } = require('../../../../src/validators/common/check-id-is-email-address');
+
+describe('validators/common/check-id-is-email-address', () => {
+	describe('rules', () => {
+		it(`has a rule for the user's email`, () => {
+			const rule = rules()[0].builder.build();
+			expect(rule.fields).toEqual(['id']);
+			expect(rule.locations).toEqual(['params']);
+			expect(rule.optional).toBeFalsy();
+			expect(rule.stack).toHaveLength(2);
+			expect(rule.stack[1].message).toEqual('User ID is not in a valid format');
+			expect(rule.stack[1].validator.name).toEqual('isEmail');
+		});
+
+		it('should have an array containing 1 rule', () => {
+			expect(rules().length).toEqual(1);
+		});
+		it('should validate a valid user id req param', async () => {
+			const req = {
+				params: {
+					id: 'iamnoone@example.com'
+				}
+			};
+
+			const res = jest.fn();
+			const fieldName = 'id';
+			const targetFieldName = 'id';
+			const invalidError = '';
+
+			await testExpressValidatorMiddleware(
+				req,
+				res,
+				rules({
+					fieldName,
+					targetFieldName,
+					invalidError
+				})
+			);
+
+			const result = validationResult(req);
+
+			expect(result.errors).toHaveLength(0);
+		});
+		it('should validate a valid user id req param with url safe characters', async () => {
+			const req = {
+				params: {
+					id: 'iamnoone%40example.com'
+				}
+			};
+
+			const res = jest.fn();
+			const fieldName = 'id';
+			const targetFieldName = 'id';
+			const invalidError = '';
+
+			await testExpressValidatorMiddleware(
+				req,
+				res,
+				rules({
+					fieldName,
+					targetFieldName,
+					invalidError
+				})
+			);
+
+			const result = validationResult(req);
+
+			expect(result.errors).toHaveLength(0);
+		});
+		it('should invalidate an invalid user id req param', async () => {
+			const req = {
+				params: {
+					id: 'fce1c00c-473b-4329-9767-0bc53d6d957c'
+				}
+			};
+
+			const res = jest.fn();
+			const fieldName = 'id';
+			const targetFieldName = 'id';
+			const invalidError = '';
+
+			await testExpressValidatorMiddleware(
+				req,
+				res,
+				rules({
+					fieldName,
+					targetFieldName,
+					invalidError
+				})
+			);
+
+			const result = validationResult(req);
+
+			expect(result.errors).toHaveLength(1);
+			expect(result.errors[0].msg).toEqual('User ID is not in a valid format');
+		});
+	});
+});
