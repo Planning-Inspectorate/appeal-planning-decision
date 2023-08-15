@@ -1,20 +1,21 @@
 {% extends "../../../views/layouts/lpa-dashboard/main.njk" %}
 {% set title="Appeal questionnaire - Manage appeals - GOV.UK" %}
 {% from "../../../views/macros/appeal-details.njk" import appealDetails %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
 {% block pageTitle %}
   {{ title }}
 {% endblock %}
 
 {% block content %}
-<style>
-  .appeal-details .govuk-summary-list__key,
-  .appeal-details .govuk-summary-list__value,
-  .appeal-details .govuk-summary-list__actions {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-</style>
+  <style>
+    .appeal-details .govuk-summary-list__key,
+    .appeal-details .govuk-summary-list__value,
+    .appeal-details .govuk-summary-list__actions {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  </style>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
@@ -24,9 +25,202 @@
                 Appeal questionnaire
             </h1>
 
-            {{ appealDetails(appeal) }}    
+            {{ appealDetails(appeal) }}
 
         </div>
+
+        <div class="govuk-grid-column-three-quarters-from-desktop">
+          <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
+
+          <h2 class="govuk-heading-s">
+            Complete the questionnaire
+          </h2>
+
+          <p class="govuk-!-margin-bottom-7">You have completed 0 of 7 sections.</p>
+
+        </div>
+
+        <div class="govuk-grid-column-full">
+
+             <h2 class="app-task-list__section">
+              <span class="app-task-list__section-number">1. </span> Constraints, designations and other issues
+
+              {{ govukSummaryList({
+                classes: 'govuk-!-margin-bottom-9',
+                  rows: [
+                    {
+                      key: {
+                        text: "Is the appeal type appropriate?"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }, 
+                    {
+                      key: {
+                        text: "Affects a listed building"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }, 
+                    {
+                      key: {
+                        text: "Conservation area"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }, 
+                    {
+                      key: {
+                        text: "Green belt"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }
+                  ]
+              }) }}
+
+              <h2 class="app-task-list__section">
+              <span class="app-task-list__section-number">2. </span> Notifying relevant parties of the application
+
+              {{ govukSummaryList({
+                classes: 'govuk-!-margin-bottom-9',
+                  rows: [
+                    {
+                      key: {
+                        text: "Who was notified"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }, 
+                    {
+                      key: {
+                        text: "How you notified people"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }
+                  ]
+              }) }}
+
+              <h2 class="app-task-list__section">
+              <span class="app-task-list__section-number">3. </span> Consultation responses and representations
+
+              {{ govukSummaryList({
+                classes: 'govuk-!-margin-bottom-9',
+                  rows: [
+                    {
+                      key: {
+                        text: "Representations from other parties"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }
+                  ]
+              }) }}
+
+              <h2 class="app-task-list__section">
+              <span class="app-task-list__section-number">4. </span> Planning officer’s report and supplementary documents
+
+              {{ govukSummaryList({
+                classes: 'govuk-!-margin-bottom-9',
+                  rows: [
+                    {
+                      key: {
+                        text: "Upload planning officer's report"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }
+                  ]
+              }) }}
+
+              <h2 class="app-task-list__section">
+              <span class="app-task-list__section-number">5. </span> Site access
+
+              {{ govukSummaryList({
+                classes: 'govuk-!-margin-bottom-9',
+                  rows: [
+                    {
+                      key: {
+                        text: "Access for inspection"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }, 
+                    {
+                      key: {
+                        text: "Could a neighbouring site be affected?"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }, 
+                    {
+                      key: {
+                        text: "Potential safety risks"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    } 
+                  ]
+              }) }}
+
+              <h2 class="app-task-list__section">
+              <span class="app-task-list__section-number">6. </span> Appeal process
+
+              {{ govukSummaryList({
+                classes: 'govuk-!-margin-bottom-9',
+                  rows: [
+                    {
+                      key: {
+                        text: "Appeals near the site"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }, 
+                    {
+                      key: {
+                        text: "Add new conditions"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }, 
+                    {
+                      key: {
+                        text: "Conservation area"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }, 
+                    {
+                      key: {
+                        text: "Green belt"
+                      },
+                      value: {
+                        text: ""
+                      }
+                    }
+                  ]
+              }) }}
+
+              <h2 class="app-task-list__section">
+              <span class="app-task-list__section-number">7. </span> Submit
+
+        </div>
+
     </div>
   </div>
 {% endblock %}
