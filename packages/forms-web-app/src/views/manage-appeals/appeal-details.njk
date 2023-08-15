@@ -138,6 +138,15 @@
             text: ["<a href='", documents.appealStatement.documentURI, "'>", documents.appealStatement.filename, "</a>" ] | join | safe
           }
         }), summaryRows) %}
+
+        {% set summaryRows = (summaryRows.push({
+          key: {
+            text: "Supporting Documents"
+          },
+          value: {
+            html: supportingDocumentsList
+          }
+        }), summaryRows) %}
     
         {{ govukSummaryList({
           rows: summaryRows

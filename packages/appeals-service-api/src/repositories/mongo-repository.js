@@ -57,15 +57,15 @@ class MongoRepository {
 		return await mongodb.get().collection(this.collectionName).find().toArray();
 	}
 
-	async getAllDocumentsThatMatchQuery(query, projection = undefined) {
+	async getAllDocumentsThatMatchQuery(query, sort = {}, projection = undefined) {
+		let mongoOptions = { limit: 0 };
 		if (projection && typeof projection === 'object' && Object.keys(projection).length > 0) {
-			const result = await mongodb.get().collection(this.collectionName).find(query, {
-				projection: projection
-			});
-
-			return result.toArray();
+			mongoOptions.projection = projection;
 		}
-		return await mongodb.get().collection(this.collectionName).find(query).toArray();
+		if (sort && typeof sort === 'object' && Object.keys(sort).length > 0) {
+			mongoOptions.sort = sort;
+		}
+		return await mongodb.get().collection(this.collectionName).find(query, mongoOptions).toArray();
 	}
 
 	/**
