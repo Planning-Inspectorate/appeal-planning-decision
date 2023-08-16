@@ -84,11 +84,12 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.appealStatement);
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.supportingDocuments);
 			isFeatureActive.mockResolvedValueOnce(false);
-
 			getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+
 			req.session.lpaUser = {
 				lpaCode: 'E9999'
 			};
+
 			await getAppealDetails(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.APPEAL_DETAILS, {
@@ -102,7 +103,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			});
 		});
 
-		it('should render the view with a link to add-remove', async () => {
+		it('should render the view and show questionnaire', async () => {
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.applicationForm);
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.decisionLetter);
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.appealStatement);
@@ -120,6 +121,36 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				backOverride,
 				appeal: mockAppeal,
 				documents: mockDocuments,
+				dueInDays: -3,
+				appealQuestionnaireLink: `/${VIEW.LPA_QUESTIONNAIRE.QUESTIONNAIRE}`,
+				questionnaireDueDate: 'Friday, 7 July 2023',
+				showQuestionnaire: true
+			});
+		});
+
+		it('should handle no document data', async () => {
+			getAppealDocumentMetaData.mockRejectedValueOnce(new Error('Async error'));
+			getAppealDocumentMetaData.mockRejectedValueOnce(new Error('Async error'));
+			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.appealStatement);
+			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.supportingDocuments);
+			isFeatureActive.mockResolvedValueOnce(true);
+			getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+
+			req.session.lpaUser = {
+				lpaCode: 'E9999'
+			};
+
+			await getAppealDetails(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.APPEAL_DETAILS, {
+				backOverride,
+				appeal: mockAppeal,
+				documents: {
+					applicationForm: null,
+					decisionLetter: null,
+					appealStatement: mockDocuments.appealStatement,
+					supportingDocuments: mockDocuments.supportingDocuments
+				},
 				dueInDays: -3,
 				appealQuestionnaireLink: `/${VIEW.LPA_QUESTIONNAIRE.QUESTIONNAIRE}`,
 				questionnaireDueDate: 'Friday, 7 July 2023',

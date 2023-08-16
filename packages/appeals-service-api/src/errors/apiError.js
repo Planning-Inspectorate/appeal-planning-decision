@@ -93,8 +93,14 @@ class ApiError {
 		return new ApiError(400, { errors: [`Can't match this user to the lpa`] });
 	}
 
+	// appeals case data
 	static appealsCaseDataNotFound() {
 		return new ApiError(404, { errors: [`The appeals case data was not found`] });
+	}
+
+	// document metadata
+	static documentMetadataNotFound(caseRef) {
+		return new ApiError(404, { errors: [`The document metadata ${caseRef} was not found`] });
 	}
 }
 

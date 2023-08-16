@@ -7,7 +7,7 @@ router.get('/:caseref', async (req, res) => {
 	const caseRef = req.params.caseref;
 	const documentType = req.query.documenttype;
 	const returnMultipleDocuments = req.query.returnMultipleDocuments;
-	let body = '';
+	let body = {};
 
 	try {
 		body = await getDocumentMetadata(caseRef, documentType, returnMultipleDocuments);
