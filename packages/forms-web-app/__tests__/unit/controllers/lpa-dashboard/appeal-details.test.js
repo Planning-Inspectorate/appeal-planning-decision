@@ -4,6 +4,7 @@ const {
 	getAppealDocumentMetaData
 } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
+const { baseHASUrl } = require('../../../../src/dynamic-forms/has-questionnaire/journey');
 const { mockReq, mockRes } = require('../../mocks');
 const { isFeatureActive } = require('../../../../src/featureFlag');
 
@@ -97,7 +98,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appeal: mockAppeal,
 				documents: mockDocuments,
 				dueInDays: -3,
-				appealQuestionnaireLink: `/${VIEW.LPA_QUESTIONNAIRE.QUESTIONNAIRE}`,
+				appealQuestionnaireLink: baseHASUrl,
 				questionnaireDueDate: 'Friday, 7 July 2023',
 				showQuestionnaire: false
 			});
@@ -122,7 +123,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appeal: mockAppeal,
 				documents: mockDocuments,
 				dueInDays: -3,
-				appealQuestionnaireLink: `/${VIEW.LPA_QUESTIONNAIRE.QUESTIONNAIRE}`,
+				appealQuestionnaireLink: baseHASUrl,
 				questionnaireDueDate: 'Friday, 7 July 2023',
 				showQuestionnaire: true
 			});
@@ -152,7 +153,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 					supportingDocuments: mockDocuments.supportingDocuments
 				},
 				dueInDays: -3,
-				appealQuestionnaireLink: `/${VIEW.LPA_QUESTIONNAIRE.QUESTIONNAIRE}`,
+				appealQuestionnaireLink: baseHASUrl,
 				questionnaireDueDate: 'Friday, 7 July 2023',
 				showQuestionnaire: true
 			});

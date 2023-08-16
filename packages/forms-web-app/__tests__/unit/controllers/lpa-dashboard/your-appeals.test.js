@@ -2,6 +2,8 @@ const { getYourAppeals } = require('../../../../src/controllers/lpa-dashboard/yo
 const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.service');
 
 const { VIEW } = require('../../../../src/lib/views');
+const { baseHASUrl } = require('../../../../src/dynamic-forms/has-questionnaire/journey');
+
 const { mockReq, mockRes } = require('../../mocks');
 const { getAppealsCaseData } = require('../../../../src/lib/appeals-api-wrapper');
 const { calculateDueInDays } = require('../../../../src/lib/calculate-due-in-days');
@@ -51,7 +53,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				addOrRemoveLink: `/${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}`,
 				appealsCaseData: mockAppealData,
 				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
-				appealQuestionnaireLink: `/${VIEW.LPA_QUESTIONNAIRE.QUESTIONNAIRE}`,
+				appealQuestionnaireLink: baseHASUrl,
 				showQuestionnaire: false
 			});
 		});
@@ -69,7 +71,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				addOrRemoveLink: `/${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}`,
 				appealsCaseData: mockAppealData,
 				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
-				appealQuestionnaireLink: `/${VIEW.LPA_QUESTIONNAIRE.QUESTIONNAIRE}`,
+				appealQuestionnaireLink: baseHASUrl,
 				showQuestionnaire: true
 			});
 		});

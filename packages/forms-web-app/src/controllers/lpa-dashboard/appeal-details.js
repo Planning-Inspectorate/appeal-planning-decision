@@ -5,10 +5,10 @@ const {
 } = require('../../lib/appeals-api-wrapper');
 const {
 	VIEW: {
-		LPA_DASHBOARD: { DASHBOARD, APPEAL_DETAILS },
-		LPA_QUESTIONNAIRE: { QUESTIONNAIRE }
+		LPA_DASHBOARD: { DASHBOARD, APPEAL_DETAILS }
 	}
 } = require('../../lib/views');
+const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
 const dateFns = require('date-fns');
 const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
@@ -77,7 +77,7 @@ const getAppealDetails = async (req, res) => {
 		appeal,
 		documents,
 		dueInDays: calculateDueInDays(appeal.questionnaireDueDate),
-		appealQuestionnaireLink: `/${QUESTIONNAIRE}`,
+		appealQuestionnaireLink: baseHASUrl,
 		showQuestionnaire: await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, user.lpaCode),
 		questionnaireDueDate: (() => {
 			return new Intl.DateTimeFormat('en-GB', {
