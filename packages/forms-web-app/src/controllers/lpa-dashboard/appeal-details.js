@@ -1,3 +1,4 @@
+const logger = require('../../lib/logger');
 const {
 	getAppealByLPACodeAndId,
 	getAppealDocumentMetaData
@@ -14,48 +15,58 @@ const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 
+/**
+ * @typedef {import('../../lib/appeals-api-wrapper').documentMetaData} documentMetaData
+ */
+
+/**
+ * Retrieves specific data from a document's metadata.
+ * @param {documentMetaData | Array<documentMetaData> } docMetaData - Document MetaData or array of Document MetaData
+ * @returns {Object | Array<Object> } An object or array of objects containing extracted data from the document metadata.
+ * @property {string} filename - The name of the document file.
+ * @property {string} documentURI - The URI of the document.
+ */
+function getDocumentViewData(docMetaData) {
+	if (Array.isArray(docMetaData)) {
+		return docMetaData.map((document) => ({
+			filename: document.filename,
+			documentURI: document.documentURI
+		}));
+	}
+
+	return {
+		filename: docMetaData.filename,
+		documentURI: docMetaData.documentURI
+	};
+}
+
+async function getDocument(caseReference, type, multiDoc) {
+	let result = null;
+	try {
+		const metaData = await getAppealDocumentMetaData(
+			caseReference,
+			encodeURI(type),
+			multiDoc ? multiDoc : ''
+		);
+		result = getDocumentViewData(metaData);
+	} catch (err) {
+		logger.error(err);
+	}
+
+	return result;
+}
+
 const getAppealDetails = async (req, res) => {
 	const { id } = req.params;
 	const user = getLPAUserFromSession(req);
 	const caseReference = encodeURIComponent(id);
 	const appeal = await getAppealByLPACodeAndId(user.lpaCode, caseReference);
-	const applicationFormMetaData = await getAppealDocumentMetaData(
-		caseReference,
-		encodeURI('Planning application form')
-	);
-	const decisionLetterMetaData = await getAppealDocumentMetaData(
-		caseReference,
-		encodeURI('Decision notice')
-	);
-	const appealStatementMetaData = await getAppealDocumentMetaData(
-		caseReference,
-		encodeURI('Appeal Statement')
-	);
-	const supportingDocumentsMetaData = await getAppealDocumentMetaData(
-		caseReference,
-		encodeURI('Supporting Documents'),
-		true
-	);
-
-	const supportingDocuments = supportingDocumentsMetaData.map((document) => ({
-		filename: document.filename,
-		documentURI: document.documentURI
-	}));
 
 	const documents = {
-		applicationForm: {
-			filename: applicationFormMetaData.filename,
-			documentURI: applicationFormMetaData.documentURI
-		},
-		decisionLetter: {
-			filename: decisionLetterMetaData.filename,
-			documentURI: decisionLetterMetaData.documentURI
-		},
-		appealStatement: {
-			filename: appealStatementMetaData.filename,
-			documentURI: appealStatementMetaData.documentURI
-		},
-		supportingDocuments
+		applicationForm: await getDocument(caseReference, 'Planning application form'),
+		decisionLetter: await getDocument(caseReference, 'Decision notice'),
+		appealStatement: await getDocument(caseReference, 'Appeal Statement'),
+		supportingDocuments: await getDocument(caseReference, 'Supporting Documents', true)
 	};
 
 	return res.render(APPEAL_DETAILS, {

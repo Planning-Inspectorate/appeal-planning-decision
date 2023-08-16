@@ -186,6 +186,19 @@ exports.getAppealByLPACodeAndId = async (lpaCode, id) => {
 	return handler(`/api/v1/appeals-case-data/${lpaCode}/${id}`, 'GET');
 };
 
+/**
+ * @typedef documentMetaData The metadata associated with a document.
+ * @property {string} documentMetaData.filename - The name of the document file.
+ * @property {string} documentMetaData.documentURI - The URI (Uniform Resource Identifier) of the document.
+ */
+
+/**
+ * @async
+ * @param {string} caseRef
+ * @param {string} documentType
+ * @param {string | boolean} returnMultipleDocuments
+ * @returns { Promise<documentMetaData | Array<documentMetaData>> }
+ */
 exports.getAppealDocumentMetaData = async (caseRef, documentType, returnMultipleDocuments = '') => {
 	return handler(
 		`/api/v1/document-meta-data/${caseRef}?documenttype=${documentType}&returnMultipleDocuments=${returnMultipleDocuments}`,
