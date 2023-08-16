@@ -2,9 +2,23 @@ const { questions } = require('./questions');
 const { Journey } = require('../journey');
 const { Section } = require('../section');
 
+const baseHASUrl = '/manage-appeals/questionnaire';
+
+/**
+ * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ */
+
+/**
+ * A Journey for LPA's responding to a HAS appeal
+ * @class
+ */
 class HasJourney extends Journey {
+	/**
+	 * creates an instance of a HAS Journey
+	 * @param {JourneyResponse} response - an onject that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
+	 */
 	constructor(response) {
-		super(response);
+		super(`${baseHASUrl}/${encodeURIComponent(response.referenceId)}`, response);
 
 		this.sections.push(
 			new Section('Constraints, designations and other issues', 'constraints')
@@ -55,4 +69,4 @@ class HasJourney extends Journey {
 	}
 }
 
-module.exports = { HasJourney };
+module.exports = { HasJourney, baseHASUrl };

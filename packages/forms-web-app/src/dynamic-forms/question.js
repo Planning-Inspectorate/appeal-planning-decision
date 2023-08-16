@@ -1,17 +1,64 @@
-/***********************************************************
- * This file holds the class definitions for the different *
- * components (question types) including base types        *
- ***********************************************************/
-
 const nunjucks = require('nunjucks');
 
+/**
+ * A specific question within a journey which is made up of one (usually) or many (sometimes) components and their required content.
+ * @class
+ */
 class Question {
+	/**
+	 * @type {string} - title used in the summary list
+	 */
 	title;
+	/**
+	 * @type {string} - question shown to user on question page
+	 */
 	question;
+	/**
+	 * @type {string} - additional information to user about the question
+	 */
 	description;
+	/**
+	 * @type {string} the type of the question (could this be removed as we can use instanceOf for the class)
+	 */
 	type;
+	/**
+	 * @type {string} the unique name of the input on the page, also used as a url segment (should this be separated)
+	 */
 	fieldName;
+
+	/**
+	 * @type {boolean} if the question should appear in the journey overview task list or not
+	 */
+	taskList;
+
+	/**
+	 * @type {string} alt text for displaying in tasklist
+	 */
+	altText;
+
+	/**
+	 * @type {function} function that customises the formatting of the question
+	 */
+	format;
+
+	/**
+	 * @type {function} function providing a custom rendering action
+	 */
+	renderAction;
+
+	/**
+	 * @type {function} function providing a custom saving action
+	 */
+	saveAction;
+
+	/**
+	 * @type {Array} array of validators that a question uses to validate answers
+	 */
 	validators = [];
+
+	/**
+	 * @type {string} hint text displayed to user
+	 */
 	hint;
 	bulletPoints = [];
 	details = {

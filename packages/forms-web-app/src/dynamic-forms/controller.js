@@ -1,14 +1,15 @@
 // common controllers for dynamic forms
 const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
-const { HasJourney } = require('./has-questionnaire/journey');
+const {
+	getJourney,
+	getJourneyResponseByType,
+	saveResponseToSessionByType
+} = require('./journey-types');
 
 // todo:
 // test
-// refactor?
-// remove hard coded tie ins to has questionnaire: pass in journey type via route, get links from journey implementation?
 // cleaner means of handling question type in urls
-// jsdoc
 
 const {
 	VIEW: {
@@ -17,80 +18,134 @@ const {
 } = require('./dynamic-components/views');
 //todo: should this be tied to a particular view, or can this be obtained from Journey object?
 
-exports.list = async (req, res) => {
+/**
+ * @typedef {import('./journey-types').JourneyType} JourneyType
+ */
+
+/**
+ * @typedef {Object} SectionView
+ * @property {string} heading
+ * @property {Object} list
+ * @property {Array.<RowView>} list.rows
+ */
+
+/**
+ * @typedef {Object} RowView
+ * @property {Object} key
+ * @property {string} key.text
+ * @property {Object} value
+ * @property {string} value.text
+ * @property {Object} actions
+ * @property {Array.<ActionView>} actions.items
+ */
+
+/**
+ * @typedef {Object} ActionView
+ * @property {string} href
+ * @property {string} text
+ * @property {string} [visuallyHiddenText]
+ */
+
+/**
+ * build a view model for a section in the journey overview
+ * @param {string} name
+ * @returns {SectionView} a representation of a section
+ */
+function buildSectionViewModel(name) {
+	return {
+		heading: name,
+		list: {
+			rows: []
+		}
+	};
+}
+
+/**
+ * build a view model for a row in the journey overview
+ * @param {string} key
+ * @param {string} value
+ * @param {ActionView} action
+ * @returns {RowView} a representation of a row
+ */
+function buildSectionRowViewModel(key, value, action) {
+	return {
+		key: {
+			text: key
+		},
+		value: {
+			text: value
+		},
+		actions: {
+			items: [action]
+		}
+	};
+}
+
+/**
+ * @param {ExpressRequest} req
+ * @param {ExpressResponse} res
+ * @param {JourneyType} journeyId
+ */
+exports.list = async (req, res, journeyId) => {
 	//render check your answers view
-	const { caseRef } = req.params;
+	const { referenceId } = req.params;
 
 	const user = getLPAUserFromSession(req);
-	const caseReference = encodeURIComponent(caseRef);
-	const appeal = await getAppealByLPACodeAndId(user.lpaCode, caseReference);
+	const encodedReferenceId = encodeURIComponent(referenceId);
+	const appeal = await getAppealByLPACodeAndId(user.lpaCode, encodedReferenceId);
 
 	const summaryListData = { sections: [] };
-	const answers = req.session.lpaAnswers || {};
-	const questionnaire = new HasJourney({ answers: answers });
+	const journeyResponse = getJourneyResponseByType(req, journeyId, referenceId);
+	const journey = getJourney(journeyResponse);
 
-	for (let i = 0; i < questionnaire.sections.length; i++) {
-		const section = {
-			heading: questionnaire.sections[i].name,
-			list: {
-				rows: []
+	for (const section of journey.sections) {
+		const sectionView = buildSectionViewModel(section.name);
+
+		for (const question of section.questions) {
+			// don't show question on tasklist if set to false
+			if (question.taskList === false) {
+				continue;
 			}
-		};
-		for (let j = 0; j < questionnaire.sections[i].questions.length; j++) {
-			const question = questionnaire.sections[i].questions[j];
-			if (true && question.taskList !== false) {
-				if (question.format === undefined) {
-					const row = {
-						key: {
-							text: question.title ?? question.question
-						},
-						value: {
-							text: question.altText ?? answers[question.fieldName] ?? 'Not started'
-						},
-						actions: {
-							items: [
-								{
-									href: `/manage-appeals/questionnaire/${encodeURIComponent(caseRef)}/${
-										questionnaire.sections[i].segment
-									}/${questionnaire.sections[i].questions[j].fieldName}`,
-									text: 'Answer',
-									visuallyHiddenText: question.question
-								}
-							]
-						}
+
+			// use custom formatting function
+			if (question.format) {
+				const rows = question.format(
+					journey.response.answers,
+					referenceId,
+					section.segment,
+					question.fieldName
+				);
+
+				for (let rowData of rows) {
+					const action = {
+						href: rowData.ctaLink,
+						text: rowData.ctaText
 					};
-					section.list.rows.push(row);
-				} else {
-					const rows = question.format(
-						answers,
-						caseRef,
-						questionnaire.sections[i].segment,
-						questionnaire.sections[i].questions[j].fieldName
-					);
-					for (let k = 0; k < rows.length; k++) {
-						const row = {
-							key: {
-								text: rows[k].title
-							},
-							value: {
-								text: rows[k].value
-							},
-							actions: {
-								items: [
-									{
-										href: rows[k].ctaLink,
-										text: rows[k].ctaText
-									}
-								]
-							}
-						};
-						section.list.rows.push(row);
-					}
+
+					const row = buildSectionRowViewModel(rowData.title, rowData.value, action);
+					sectionView.list.rows.push(row);
 				}
+
+				continue;
 			}
+
+			// default question format
+			const key = question.title ?? question.question;
+			const value =
+				question.altText ?? journey.response?.answers[question.fieldName] ?? 'Not started';
+			const action = {
+				href: journey.getCurrentQuestionUrl(section.segment, question.fieldName),
+				text: 'Answer',
+				visuallyHiddenText: question.question
+			};
+
+			const row = buildSectionRowViewModel(key, value, action);
+			sectionView.list.rows.push(row);
 		}
-		summaryListData.sections.push(section);
+
+		summaryListData.sections.push(sectionView);
 	}
+
 	return res.render(QUESTIONNAIRE, {
 		appeal,
 		summaryListData,
@@ -98,47 +153,68 @@ exports.list = async (req, res) => {
 	}); //todo: use layout property on HASJourney object
 };
 
-exports.question = async (req, res) => {
+/**
+ * @param {ExpressRequest} req
+ * @param {ExpressResponse} res
+ * @param {JourneyType} journeyId
+ */
+exports.question = async (req, res, journeyId) => {
 	//render an individual question
-	const { caseRef, section, question } = req.params;
-	const answers = req.session.lpaAnswers || {};
-	const questionnaire = new HasJourney({ answers: answers });
+	const { referenceId, section, question } = req.params;
+	const journeyResponse = getJourneyResponseByType(req, journeyId, referenceId);
+	const journey = getJourney(journeyResponse);
 
-	const questionObj = questionnaire.getQuestionBySectionAndName(section, question);
-	if (questionObj.renderAction != undefined) {
-		await questionObj.renderAction(req, res);
-	} else {
-		const answer = answers[questionObj.fieldName] || '';
-		const backLink = questionnaire.getNextQuestionUrl(caseRef, section, question, answers, true);
-		const viewModel = {
-			appealId: caseRef,
-			question: questionObj.prepQuestionForRendering(answers),
-			answer: answer,
-			backLink: backLink,
-			navigation: ['', backLink]
-		};
-		return res.render(`dynamic-components/${questionObj.type}/index`, viewModel);
+	const questionObj = journey.getQuestionBySectionAndName(section, question);
+
+	if (!questionObj) {
+		return res.redirect(journey.baseUrl);
 	}
+
+	if (questionObj.renderAction) {
+		return await questionObj.renderAction(req, res);
+	}
+
+	const answer = journey.response.answers[questionObj.fieldName] || '';
+	const backLink = journey.getNextQuestionUrl(section, question, true);
+	const viewModel = {
+		appealId: referenceId,
+		question: questionObj.prepQuestionForRendering(journeyResponse.answers),
+		answer: answer,
+		backLink: backLink,
+		navigation: ['', backLink]
+	};
+	return res.render(`dynamic-components/${questionObj.type}/index`, viewModel);
 };
 
-exports.save = async (req, res) => {
+/**
+ * @param {ExpressRequest} req
+ * @param {ExpressResponse} res
+ * @param {JourneyType} journeyId
+ */
+exports.save = async (req, res, journeyId) => {
 	//save the response
 	//for now, we'll just save it to the session
 	//TODO: Needs to run validation!
-	const { caseRef, section, question } = req.params;
-	const answers = req.session.lpaAnswers || {};
-	const questionnaire = new HasJourney({ answers: answers });
+	const { referenceId, section, question } = req.params;
+	const journeyResponse = getJourneyResponseByType(req, journeyId, referenceId);
+	const journey = getJourney(journeyResponse);
 
-	const questionObj = questionnaire.getQuestionBySectionAndName(section, question);
+	const questionObj = journey.getQuestionBySectionAndName(section, question);
+
+	if (!questionObj) {
+		return res.redirect(journey.baseUrl);
+	}
+
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 
+	// show errors
 	if (Object.keys(errors).length > 0) {
-		const answer = answers[questionObj.fieldName] || '';
-		const backLink = questionnaire.getCurrentQuestionUrl(caseRef, section, question, answers, true);
+		const answer = journeyResponse.answers[questionObj.fieldName] || '';
+		const backLink = journey.getCurrentQuestionUrl(section, question);
 		const viewModel = {
-			appealId: caseRef,
-			question: questionObj.prepQuestionForRendering(answers),
+			appealId: referenceId,
+			question: questionObj.prepQuestionForRendering(journeyResponse.answers),
 			answer: answer,
 			backLink: backLink,
 			navigation: ['', backLink],
@@ -148,27 +224,23 @@ exports.save = async (req, res) => {
 		return res.render(`dynamic-components/${questionObj.type}/index`, viewModel);
 	}
 
-	if (questionObj.saveAction != undefined) {
-		await questionObj.saveAction(req, res);
-	} else {
-		// const answers = req.body;
-		req.session.lpaAnswers = req.session.lpaAnswers || {};
-		req.session.lpaAnswers[questionObj.fieldName] = req.body[questionObj.fieldName];
-		for (let propName in req.body) {
-			if (propName.startsWith(questionObj.fieldName + '_')) {
-				req.session.lpaAnswers[propName] = req.body[propName];
-			}
-		}
-		//move to the next question
-		const updatedQuestionnaire = new HasJourney({ answers: req.session.lpaAnswers });
-		res.redirect(
-			updatedQuestionnaire.getNextQuestionUrl(
-				caseRef,
-				section,
-				question,
-				req.session.lpaAnswers,
-				false
-			)
-		);
+	// use custom saveAction
+	if (questionObj.saveAction) {
+		return await questionObj.saveAction(req, res);
 	}
+
+	// set answer on response
+	journeyResponse.answers[questionObj.fieldName] = req.body[questionObj.fieldName];
+	for (let propName in req.body) {
+		if (propName.startsWith(questionObj.fieldName + '_')) {
+			journeyResponse.answers[propName] = req.body[propName];
+		}
+	}
+
+	// save response to session
+	saveResponseToSessionByType(req, journeyResponse);
+
+	//move to the next question
+	const updatedQuestionnaire = getJourney(journeyResponse);
+	return res.redirect(updatedQuestionnaire.getNextQuestionUrl(section, question, false));
 };

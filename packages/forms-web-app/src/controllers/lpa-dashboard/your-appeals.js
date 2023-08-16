@@ -4,10 +4,10 @@ const { FLAG } = require('@pins/common/src/feature-flags');
 
 const {
 	VIEW: {
-		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, APPEAL_DETAILS },
-		LPA_QUESTIONNAIRE: { QUESTIONNAIRE }
+		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, APPEAL_DETAILS }
 	}
 } = require('../../lib/views');
+const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
 
 const { getAppealsCaseData } = require('../../lib/appeals-api-wrapper');
 const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
@@ -28,7 +28,7 @@ const getYourAppeals = async (req, res) => {
 		addOrRemoveLink: `/${ADD_REMOVE_USERS}`,
 		appealsCaseData: appealsCaseData,
 		appealDetailsLink: `/${APPEAL_DETAILS}`,
-		appealQuestionnaireLink: `/${QUESTIONNAIRE}`,
+		appealQuestionnaireLink: baseHASUrl,
 		showQuestionnaire: await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, user.lpaCode)
 	});
 };
