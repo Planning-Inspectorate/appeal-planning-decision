@@ -32,16 +32,21 @@
     </div>
   </div>
   <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters-from-desktop">
+      <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
+      <h2 class="govuk-heading-s">Complete the questionnaire</h2>
+      <p class="govuk-!-margin-bottom-7">You have completed 0 of {{summaryListData.sections.length}} sections.</p>
+    </div>
     <div class="govuk-grid-column-full">
-        {% for section in summaryListData.sections %}
-        <h2 class="app-task-list__section">
-            <span class="app-task-list__section-number">{{loop.index}}. </span> {{section.heading}}
-            <strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed">
-            Not started
-            </strong>
-        </h2>
-        {{ govukSummaryList(section.list) }}
-        {% endfor %}
+      {% for section in summaryListData.sections %}
+      <h2 class="app-task-list__section">
+          <span class="app-task-list__section-number">{{loop.index}}. </span> {{section.heading}}
+          <strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed">
+          Not started
+          </strong>
+      </h2>
+      {{ govukSummaryList(section.list) }}
+      {% endfor %}
     </div>
   </div>
 {% endblock %}
