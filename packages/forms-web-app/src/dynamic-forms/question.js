@@ -23,6 +23,8 @@ class Question {
 		this.description = description;
 		this.type = type;
 		this.fieldName = fieldName;
+		//todo: taskList default to true, or pass in as param if question shouldn't be displayed in task (summary) list
+		//or possibly add taskList condition to the Section class as part of withCondition method(or similar) if possible?
 	}
 
 	prepQuestionForRendering(answers) {

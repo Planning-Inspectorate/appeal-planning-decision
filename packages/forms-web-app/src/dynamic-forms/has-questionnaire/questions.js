@@ -6,6 +6,8 @@
  *************************************************************/
 
 const { BooleanQuestion } = require('../dynamic-components/boolean/question');
+const { CheckboxQuestion } = require('../dynamic-components/checkbox/question');
+const { MultiFileUploadQuestion } = require('../dynamic-components/multi-file-upload/question');
 
 // Define all questions
 exports.questions = {
@@ -13,12 +15,12 @@ exports.questions = {
 		title: 'Is this appeal type appriopriate?', //Title used in the summary list
 		question: 'Do you think the appeal type is appropriate?', //The question being asked
 		fieldName: 'appropriate-appeal-type' //The name of the html input field / stem of the name for screens with multiple fields
-	})
-	// listedBuildingCheck: new BooleanQuestion({
-	// 	title: 'Affects a listed building', //Title used in the summary list
-	// 	question: 'Could the plans affect the setting of a listed building or site?', //The question being asked
-	// 	fieldName: 'listed-building-check' //The name of the html input field / stem of the name for screens with multiple fields
-	// }),
+	}),
+	listedBuildingCheck: new BooleanQuestion({
+		title: 'Affects a listed building', //Title used in the summary list
+		question: 'Could the plans affect the setting of a listed building or site?', //The question being asked
+		fieldName: 'listed-building-check' //The name of the html input field / stem of the name for screens with multiple fields
+	}),
 	// listedBuildingDetail: {
 	// 	title: 'Listed buildings',
 	// 	question: 'Add the listed entry number',
@@ -45,11 +47,11 @@ exports.questions = {
 	// 		return answers['listed-detail-list']?.length > 0;
 	// 	}
 	// },
-	// conservationArea: new BooleanQuestion({
-	// 	title: 'Conservation area',
-	// 	question: 'Is the site in or next to a conservation area?',
-	// 	fieldName: 'conservation-area'
-	// }),
+	conservationArea: new BooleanQuestion({
+		title: 'Conservation area',
+		question: 'Is the site in or next to a conservation area?',
+		fieldName: 'conservation-area'
+	}),
 	// conservationAreaUpload: new MultiFileUploadQuestion({
 	// 	title: 'Conservation area map and guidance',
 	// 	question: 'Upload conservation map and guidance',
@@ -57,43 +59,43 @@ exports.questions = {
 	// 		'<a href="https://magic.defra.gov.uk/magicmap.aspx" target="_blank" class="govuk-link">Link to Magic Maps (opens in new tab)</a>',
 	// 	fieldName: 'conservation-area-upload'
 	// }),
-	// greenBelt: new BooleanQuestion({
-	// 	title: 'Green belt',
-	// 	question: 'Is the site in a green belt?',
-	// 	type: 'boolean',
-	// 	fieldName: 'green-belt',
-	// 	required: true,
-	// 	show: (answers) => {
-	// 		return true;
-	// 	}
-	// }),
-	// whoWasNotified: new MultiFileUploadQuestion({
-	// 	title: 'Who was notified',
-	// 	question: 'Who was notified',
-	// 	description: 'This should include internal consultees.',
-	// 	fieldName: 'who-was-notified-upload'
-	// }),
-	// howYouNotifiedPeople: new CheckboxQuestion({
-	// 	title: 'How you notified people',
-	// 	question: 'How did you notify people about the application?',
-	// 	description: 'Select all that apply',
-	// 	fieldName: 'notification-method',
-	// 	options: [
-	// 		//Options for checkboxes / radio buttons
-	// 		{
-	// 			text: 'Site notice',
-	// 			value: 'Site notice'
-	// 		},
-	// 		{
-	// 			text: 'Letters to neighbours',
-	// 			value: 'Letters to neighbours'
-	// 		},
-	// 		{
-	// 			text: 'Advertisement',
-	// 			value: 'Advertisement'
-	// 		}
-	// 	]
-	// }),
+	greenBelt: new BooleanQuestion({
+		title: 'Green belt',
+		question: 'Is the site in a green belt?',
+		type: 'boolean',
+		fieldName: 'green-belt',
+		required: true
+		// show: (answers) => {
+		// 	return true;
+		// }
+	}),
+	whoWasNotified: new MultiFileUploadQuestion({
+		title: 'Who was notified',
+		question: 'Who was notified',
+		description: 'This should include internal consultees.',
+		fieldName: 'who-was-notified-upload'
+	}),
+	howYouNotifiedPeople: new CheckboxQuestion({
+		title: 'How you notified people',
+		question: 'How did you notify people about the application?',
+		description: 'Select all that apply',
+		fieldName: 'notification-method',
+		options: [
+			//Options for checkboxes / radio buttons
+			{
+				text: 'Site notice',
+				value: 'Site notice'
+			},
+			{
+				text: 'Letters to neighbours',
+				value: 'Letters to neighbours'
+			},
+			{
+				text: 'Advertisement',
+				value: 'Advertisement'
+			}
+		]
+	}),
 	// siteNoticeUpload: new MultiFileUploadQuestion({
 	// 	title: 'Site notice',
 	// 	question: 'Upload site notice',
@@ -109,51 +111,66 @@ exports.questions = {
 	// 	question: 'Upload advertisement',
 	// 	fieldName: 'advertisement-upload'
 	// }),
-	// representationsFromOthers: new BooleanQuestion({
-	// 	title: 'Representations from other parties',
-	// 	question: 'Did you receive representations from other parties?',
-	// 	fieldName: 'representations-from-others'
-	// }),
+	representationsFromOthers: new BooleanQuestion({
+		title: 'Representations from other parties',
+		question: 'Did you receive representations from other parties?',
+		fieldName: 'representations-from-others'
+	}),
 	// representationUpload: new MultiFileUploadQuestion({
 	// 	title: 'Upload representations',
 	// 	question: 'Upload representations from other parties',
 	// 	fieldName: 'representation-upload'
 	// }),
-	// planningOfficersUpload: new MultiFileUploadQuestion({
-	// 	title: 'Upload planning officers report',
-	// 	question: 'Upload planning officer’s report',
-	// 	fieldName: 'planning-officers-upload'
-	// }),
-	// accessForInspection: new BooleanQuestion({
-	// 	title: 'Access for inspection',
-	// 	question: 'Might the inspector need access to the appellant’s land or property??',
-	// 	fieldName: 'access-for-inspection'
-	// }),
-	// potentialSafetyRisks: {
-	// 	title: 'Potential safety risks',
-	// 	question: 'Add potential safety risks',
-	// 	subQuestion: 'Are there any potential safety risks?',
-	// 	description:
-	// 		'You need to tell inspectors how to prepare for a site visit and what to bring. \n \n What you tell us might include:',
-	// 	points: [
-	// 		'there is no, or limited mobile reception',
-	// 		'access is blocked',
-	// 		'ladders or other equipment is needed',
-	// 		'site health and safety rules need to be followed (for instance, a hard hat, boots and hi visibility clothing)',
-	// 		'there is livestock or other animals',
-	// 		'there is dangerous debris or overgrown vegetation',
-	// 		'there is potentially hazardous material, such as asbestos'
-	// 	],
-	// 	conditional: 'Add details of the potential risk and what the inspector might need',
-	// 	conditionalId: 'potential-safety-risks-correct-details',
-	// 	type: 'boolean-text',
-	// 	fieldName: 'potential-safety-risks',
-	// 	required: false,
-	// 	show: (answers) => {
-	// 		return answers['access-for-inspection'] === 'yes';
-	// 	},
-	// 	validator: { type: 'text', maxLength: 100 }
-	// },
+	planningOfficersUpload: new MultiFileUploadQuestion({
+		title: 'Upload planning officers report',
+		question: 'Upload planning officer’s report',
+		fieldName: 'planning-officers-upload'
+	}),
+	accessForInspection: new BooleanQuestion({
+		title: 'Access for inspection',
+		question: 'Might the inspector need access to the appellant’s land or property??',
+		fieldName: 'access-for-inspection'
+	}),
+	neighbouringSite: new BooleanQuestion({
+		title: 'Could a neighbouring site be affected?', //Title used in the summary list
+		question: 'Do the plans affect a neighbouring site?', //The question being asked
+		fieldName: 'neighbouring-site-affected' //The name of the html input field / stem of the name for screens with multiple fields
+	}),
+	potentialSafetyRisks: {
+		title: 'Potential safety risks',
+		question: 'Add potential safety risks',
+		subQuestion: 'Are there any potential safety risks?',
+		description:
+			'You need to tell inspectors how to prepare for a site visit and what to bring. \n \n What you tell us might include:',
+		points: [
+			'there is no, or limited mobile reception',
+			'access is blocked',
+			'ladders or other equipment is needed',
+			'site health and safety rules need to be followed (for instance, a hard hat, boots and hi visibility clothing)',
+			'there is livestock or other animals',
+			'there is dangerous debris or overgrown vegetation',
+			'there is potentially hazardous material, such as asbestos'
+		],
+		conditional: 'Add details of the potential risk and what the inspector might need',
+		conditionalId: 'potential-safety-risks-correct-details',
+		type: 'boolean-text',
+		fieldName: 'potential-safety-risks',
+		required: false,
+		show: (answers) => {
+			return answers['access-for-inspection'] === 'yes';
+		},
+		validator: { type: 'text', maxLength: 100 }
+	},
+	appealsNearSite: new BooleanQuestion({
+		title: 'Appeals near the site', //Title used in the summary list
+		question: 'Add another appeal?', //The question being asked
+		fieldName: 'appeals-near-site' //The name of the html input field / stem of the name for screens with multiple fields
+	}),
+	addNewConditions: new BooleanQuestion({
+		title: 'Add new conditions', //Title used in the summary list
+		question: 'Do you want to add new planning conditions to this appeal?', //The question being asked
+		fieldName: 'add-new-conditions' //The name of the html input field / stem of the name for screens with multiple fields
+	})
 	// /*S78 questions */
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',

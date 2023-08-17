@@ -23,6 +23,10 @@ class Section {
 		}
 		return this;
 	}
+
+	//todo: taskList withCondition - i.e. evaluate whether question should be
+	//included in taskList (summary list) or not. See also comment in Question class
+	//constructor - should only evaluate if on task list view
 }
 
 module.exports = { Section };
