@@ -11,8 +11,11 @@ const { HasJourney } = require('./has-questionnaire/journey');
 // jsdoc
 
 const {
-	VIEW: { TASK_LIST }
+	VIEW: {
+		TASK_LIST: { QUESTIONNAIRE }
+	}
 } = require('./dynamic-components/views');
+//todo: should this be tied to a particular view, or can this be obtained from Journey object?
 
 exports.list = async (req, res) => {
 	//render check your answers view
@@ -88,7 +91,11 @@ exports.list = async (req, res) => {
 		}
 		summaryListData.sections.push(section);
 	}
-	return res.render(TASK_LIST, { appeal, summaryListData });
+	return res.render(QUESTIONNAIRE, {
+		appeal,
+		summaryListData,
+		layoutTemplate: '../../../views/layouts/lpa-dashboard/main.njk'
+	}); //todo: use layout property on HASJourney object
 };
 
 exports.question = async (req, res) => {

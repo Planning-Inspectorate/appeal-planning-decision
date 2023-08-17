@@ -177,9 +177,10 @@ describe('dynamic-form/controller', () => {
 
 			await list(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(TASK_LIST, {
+			expect(res.render).toHaveBeenCalledWith(TASK_LIST.QUESTIONNAIRE, {
 				appeal,
-				summaryListData: mockSummaryListData
+				summaryListData: mockSummaryListData,
+				layoutTemplate: '../../../views/layouts/lpa-dashboard/main.njk'
 			});
 		});
 	});
