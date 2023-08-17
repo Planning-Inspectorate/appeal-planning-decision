@@ -5,9 +5,9 @@
  * types without having the overhead of managing duplicates. *
  *************************************************************/
 
-const { BooleanQuestion } = require('../dynamic-components/boolean/question');
 const { CheckboxQuestion } = require('../dynamic-components/checkbox/question');
 const { MultiFileUploadQuestion } = require('../dynamic-components/multi-file-upload/question');
+const BooleanQuestion = require('../dynamic-components/boolean/question');
 
 // Define all questions
 exports.questions = {

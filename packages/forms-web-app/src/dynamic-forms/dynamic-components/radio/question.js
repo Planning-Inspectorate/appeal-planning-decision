@@ -1,4 +1,4 @@
-const { OptionsQuestion } = require('../../question');
+const OptionsQuestion = require('../../optionsQuestion');
 
 class RadioQuestion extends OptionsQuestion {
 	constructor({ title, question, description, fieldName, options } = {}) {
@@ -6,4 +6,4 @@ class RadioQuestion extends OptionsQuestion {
 	}
 }
 
-module.exports = { RadioQuestion };
+module.exports = RadioQuestion;
