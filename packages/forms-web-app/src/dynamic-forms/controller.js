@@ -50,7 +50,7 @@ exports.list = async (req, res) => {
 									href: `/manage-appeals/questionnaire/${encodeURIComponent(caseRef)}/${
 										questionnaire.sections[i].segment
 									}/${questionnaire.sections[i].questions[j].fieldName}`,
-									text: 'Change',
+									text: 'Answer',
 									visuallyHiddenText: question.question
 								}
 							]
