@@ -1,9 +1,9 @@
-const BooleanValidator = require('./booleanValidator');
+const RequiredValidator = require('./requiredValidator');
 describe('./src/dynamic-forms/validator/booleanValidator.test.js', () => {
 	it('should return an error message if the boolean field is missing', () => {
-		const bv = new BooleanValidator();
+		const rv = new RequiredValidator();
 		const message = 'Please select an answer';
-		const rule = bv.validate({}, message).builder.build();
+		const rule = rv.validate({}, message).builder.build();
 		expect(rule.locations[0]).toEqual('body');
 		expect(rule.stack[0].message).toEqual(message);
 		expect(rule.stack[0].validator.name).toEqual('isEmpty');
