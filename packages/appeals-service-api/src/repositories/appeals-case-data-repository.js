@@ -28,6 +28,7 @@ class AppealsCaseDataRepository extends MongoRepository {
 				questionnaireDueDate: { $type: 'date' },
 				questionnaireReceived: { $not: { $type: 'date' } }
 			},
+			{}, //empty sort to ensure projection is sent through correctly
 			appealsProjection
 		);
 		result.forEach((item) => {

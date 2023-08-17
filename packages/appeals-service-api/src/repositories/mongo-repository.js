@@ -58,7 +58,7 @@ class MongoRepository {
 	}
 
 	async getAllDocumentsThatMatchQuery(query, sort = {}, projection = undefined) {
-		let mongoOptions = { limit: 0 };
+		let mongoOptions = {};
 		if (projection && typeof projection === 'object' && Object.keys(projection).length > 0) {
 			mongoOptions.projection = projection;
 		}
