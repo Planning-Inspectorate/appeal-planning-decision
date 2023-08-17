@@ -85,7 +85,7 @@ const mockSummaryListData = {
 							items: [
 								{
 									href: `/manage-appeals/questionnaire/${mockCaseRef}/${mockJourney.sections[0].segment}/${mockJourney.sections[0].questions[0].fieldName}`,
-									text: 'Change',
+									text: 'Answer',
 									visuallyHiddenText: mockJourney.sections[0].questions[0].question
 								}
 							]
@@ -105,7 +105,7 @@ const mockSummaryListData = {
 							items: [
 								{
 									href: `/manage-appeals/questionnaire/${mockCaseRef}/${mockJourney.sections[1].segment}/${mockJourney.sections[1].questions[0].fieldName}`,
-									text: 'Change',
+									text: 'Answer',
 									visuallyHiddenText: mockJourney.sections[1].questions[0].question
 								}
 							]
@@ -118,7 +118,7 @@ const mockSummaryListData = {
 							items: [
 								{
 									href: `/manage-appeals/questionnaire/${mockCaseRef}/${mockJourney.sections[1].segment}/${mockJourney.sections[1].questions[1].fieldName}`,
-									text: 'Change',
+									text: 'Answer',
 									visuallyHiddenText: mockJourney.sections[1].questions[1].question
 								}
 							]
@@ -138,7 +138,7 @@ const mockSummaryListData = {
 							items: [
 								{
 									href: `/manage-appeals/questionnaire/${mockCaseRef}/${mockJourney.sections[2].segment}/${mockJourney.sections[2].questions[1].fieldName}`,
-									text: 'Change',
+									text: 'Answer',
 									visuallyHiddenText: mockJourney.sections[2].questions[1].question
 								}
 							]

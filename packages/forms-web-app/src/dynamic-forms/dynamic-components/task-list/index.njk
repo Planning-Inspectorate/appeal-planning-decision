@@ -9,44 +9,77 @@
 {% endblock %}
 
 {% block content %}
+
 <style>
   .appeal-details .govuk-summary-list__key,
   .appeal-details .govuk-summary-list__value,
   .appeal-details .govuk-summary-list__actions {
-    padding-top: 0;
+    padding-top: 0.2rem;
     padding-bottom: 0;
   }
 </style>
+
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
         <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
             <span class="govuk-caption-l">Appeal {{appeal.caseReference}}</span>
 
             <h1 class="govuk-heading-l">
                 Appeal questionnaire
             </h1>
-
-            {{ appealDetails(appeal) }}    
-
         </div>
-    </div>
+
+          <div class="govuk-grid-column-full">
+            {{ appealDetails(appeal) }}  
+          </div>
   </div>
+
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters-from-desktop">
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
       <h2 class="govuk-heading-s">Complete the questionnaire</h2>
       <p class="govuk-!-margin-bottom-7">You have completed 0 of {{summaryListData.sections.length}} sections.</p>
     </div>
+    
     <div class="govuk-grid-column-full">
+      
+      <style>
+        .app-task-list {
+          padding-left: 0;
+        }
+        .app-task-list>li {
+          position: relative;
+          list-style-type: none;
+
+        }
+        .app-task-list__section .govuk-tag {
+          position: absolute;
+          top: 3px;
+          right: 0;
+        }
+        .app-task-list .govuk-summary-list {
+          border-top: 1px solid #b1b4b6;
+        }
+      </style>
+      
+      <ol class="app-task-list">
       {% for section in summaryListData.sections %}
-      <h2 class="app-task-list__section">
-          <span class="app-task-list__section-number">{{loop.index}}. </span> {{section.heading}}
-          <strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed">
-          Not started
-          </strong>
-      </h2>
-      {{ govukSummaryList(section.list) }}
+        <li class ="govuk-!-margin-bottom-9">
+        <div class="app-task-list__section">
+            <h2 class="govuk-heading-m">
+              <span class="app-task-list__section-number">{{loop.index}}. </span> {{section.heading}}
+              <strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed">
+              Not started
+              </strong>
+            </h2>
+        </div>
+        
+        {% if section.list.rows.length %}
+          {{ govukSummaryList(section.list) }}
+        {% endif %}
+        
+        </li>
       {% endfor %}
+      </ol>
     </div>
   </div>
 {% endblock %}
