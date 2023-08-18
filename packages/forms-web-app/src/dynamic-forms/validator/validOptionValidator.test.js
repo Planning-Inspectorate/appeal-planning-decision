@@ -18,12 +18,36 @@ describe('./src/dynamic-forms/validator/booleanValidator.test.js', () => {
 		const errorMessage = 'Please select only from the supplied options';
 		const question = {
 			fieldName: 'favouriteFruit',
-			options: ['apples', 'pears', 'oranges']
+			options: [
+				{ text: 'Apples', value: 'apples' },
+				{ text: 'Pears', value: 'pears' },
+				{ text: 'Oranges', values: 'oranges' }
+			]
 		};
 		const validationResult = await new ValidOptionValidator()
 			.validate(question, errorMessage)
 			.run(req);
 		expect(validationResult.errors.length).toEqual(1);
 		expect(validationResult.errors[0].msg).toEqual(errorMessage);
+	});
+	it('should not return an error message if the field value is in the list of options defined on the question', async () => {
+		const req = {
+			body: {
+				favouriteFruit: 'apples'
+			}
+		};
+		const errorMessage = 'Please select only from the supplied options';
+		const question = {
+			fieldName: 'favouriteFruit',
+			options: [
+				{ text: 'Apples', value: 'apples' },
+				{ text: 'Pears', value: 'pears' },
+				{ text: 'Oranges', values: 'oranges' }
+			]
+		};
+		const validationResult = await new ValidOptionValidator()
+			.validate(question, errorMessage)
+			.run(req);
+		expect(validationResult.errors.length).toEqual(0);
 	});
 });

@@ -5,7 +5,7 @@ class ValidOptionValidator extends BaseValidator {
 	validate(questionObj, errorMessage) {
 		return body(questionObj.fieldName)
 			.custom((value) => {
-				if (!questionObj.options.includes(value)) throw new Error();
+				return questionObj.options.some((option) => option.value === value);
 			})
 			.withMessage(errorMessage);
 	}
