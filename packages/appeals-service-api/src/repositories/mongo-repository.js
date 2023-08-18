@@ -59,13 +59,18 @@ class MongoRepository {
 
 	async getAllDocumentsThatMatchQuery(query, sort = {}, projection = undefined) {
 		let mongoOptions = {};
-		if (projection && typeof projection === 'object' && Object.keys(projection).length > 0) {
-			mongoOptions.projection = projection;
-		}
-		if (sort && typeof sort === 'object' && Object.keys(sort).length > 0) {
+
+		if (sort && Object.keys(sort).length > 0) {
 			mongoOptions.sort = sort;
 		}
-		return await mongodb.get().collection(this.collectionName).find(query, mongoOptions).toArray();
+
+		if (projection && Object.keys(projection).length > 0) {
+			mongoOptions.projection = projection;
+		}
+
+		const result = await mongodb.get().collection(this.collectionName).find(query, mongoOptions);
+
+		return result.toArray();
 	}
 
 	/**
