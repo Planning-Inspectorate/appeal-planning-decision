@@ -1,4 +1,4 @@
-const { Question } = require('../../question');
+const Question = require('../../question');
 
 class MultiFileUploadQuestion extends Question {
 	constructor({ title, question, description, fieldName } = {}) {
