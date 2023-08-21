@@ -20,14 +20,18 @@ const validate = () => {
 			}
 		});
 
-		const result = await Promise.all(validations.map((validation) => validation.run(req)));
-		const errors = result.reduce((a, b) => a.concat(b.errors), []);
-		if (errors.length === 0) {
-			next();
-			return true;
-		} else {
-			return result;
+		const results = [];
+		let overallResult = true;
+		for (const validation of validations) {
+			let validationResult = await validation.run(req);
+			results.push(validationResult);
+			if (validationResult.errors.length > 0) {
+				next();
+				overallResult = false;
+				break;
+			}
 		}
+		return overallResult;
 	};
 };
 
