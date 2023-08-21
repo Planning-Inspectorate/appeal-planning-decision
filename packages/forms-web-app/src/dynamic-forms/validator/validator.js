@@ -1,49 +1,28 @@
-// const { body, validationResult } = require('express-validator');
-// const hasQuestionnaire = require('../definitions/questionnaire/hasQuestionnaire');
-// const questionnaire = hasQuestionnaire.questionnaire;
-// const formHelper = require('../lib/dynamicformhelper');
+const { body } = require('express-validator');
+const hasQuestionnaire = require('../definitions/questionnaire/hasQuestionnaire');
+const questionnaire = hasQuestionnaire.questionnaire;
+const formHelper = require('../lib/dynamicformhelper');
 
-// const validate = () => {
-//     return async (req, res, next) => {
-//         const { appealId, section, question } = req.params;
-//         var questionObj = formHelper.getQuestionBySectionAndName(questionnaire, section, question);
-//         const validations = [];
-//         switch (questionObj.validator?.type) {
-//             case "text":
-//                 validations.push(textValidations(questionObj))
-//                 break;
-//             case "boolean":
-//                 validations.push(booleanValidations(questionObj))
-//                 break;
-//             case "boolean-text":
-//                 validations.push(booleanValidations(questionObj))
-//                 validations.push(textValidations(questionObj))
-//                 break;
-//         }
-//         await Promise.all(validations.map(validation => validation.run(req)));
+class BooleanValidator {
+	validate(questionObj, errorMessage) {
+		return body(questionObj.fieldName).notEmpty().withMessage(errorMessage);
+	}
+}
 
-//        next();
-//     };
-// };
+const validate = () => {
+	return async (req, res, next) => {
+		const { section, question } = req.params;
+		var questionObj = formHelper.getQuestionBySectionAndName(questionnaire, section, question);
+		const validations = [];
+		switch (questionObj.validator.constructor) {
+			case BooleanValidator:
+				validations.push(new BooleanValidator().validate(questionObj));
+				break;
+		}
+		await Promise.all(validations.map((validation) => validation.run(req)));
 
-// const booleanValidations = (questionObj) => {
-//     const rule = body(questionObj.fieldName);
-//     rule
-//         .exists()
-//         .withMessage(questionObj.validator.selectionRequiredErrorMessage ?? "Please select a value");
+		next();
+	};
+};
 
-//     return rule;
-// }
-
-// const textValidations = (questionObj) => {
-//     const rule = body(questionObj.validator?.textField ?? questionObj.fieldName);
-//     rule
-//         .isLength({ min: 5, max: questionObj.validator.maxLength })
-//         .withMessage("Incorrect length");
-
-//     return rule;
-// }
-
-// module.exports = {
-//     validate
-// }
+module.exports = validate;
