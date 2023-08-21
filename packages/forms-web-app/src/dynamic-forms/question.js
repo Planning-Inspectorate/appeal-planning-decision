@@ -12,6 +12,12 @@ class Question {
 	type;
 	fieldName;
 	validators = [];
+	hint;
+	bulletPoints = [];
+	details = {
+		title: '',
+		text: ''
+	};
 
 	constructor({ title, question, description, type, fieldName } = {}) {
 		if (!title || title === '') throw new Error('title parameter is mandatory');
