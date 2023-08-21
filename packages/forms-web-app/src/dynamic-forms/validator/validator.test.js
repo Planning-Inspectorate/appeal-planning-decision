@@ -20,7 +20,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		const next = jest.fn();
 		const result = await validate()(req, {}, next);
 		expect(result).toEqual(true);
-		expect(next).toHaveBeenCalledTimes(1);
+		expect(next).toHaveBeenCalledTimes(0);
 	});
 	it('should invalidate a single validator', async () => {
 		const req = {
@@ -38,8 +38,8 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		});
 		const next = jest.fn();
 		const result = await validate()(req, {}, next);
-		expect(result.length).toEqual(1);
-		expect(next).toHaveBeenCalledTimes(0);
+		expect(result).toEqual(false);
+		expect(next).toHaveBeenCalledTimes(1);
 	});
 	it('should validate multiple validators', async () => {
 		const req = {
@@ -72,7 +72,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		const next = jest.fn();
 		const result = await validate()(req, {}, next);
 		expect(result).toEqual(true);
-		expect(next).toHaveBeenCalledTimes(1);
+		expect(next).toHaveBeenCalledTimes(0);
 	});
 	it('should invalidate some validators', async () => {
 		const req = {
@@ -104,7 +104,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		});
 		const next = jest.fn();
 		const result = await validate()(req, {}, next);
-		expect(result.length).toEqual(2);
-		expect(next).toHaveBeenCalledTimes(0);
+		expect(result).toEqual(false);
+		expect(next).toHaveBeenCalledTimes(1);
 	});
 });
