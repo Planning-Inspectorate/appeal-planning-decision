@@ -1,27 +1,33 @@
-const { body } = require('express-validator');
-const hasQuestionnaire = require('../definitions/questionnaire/hasQuestionnaire');
-const questionnaire = hasQuestionnaire.questionnaire;
-const formHelper = require('../lib/dynamicformhelper');
-
-class BooleanValidator {
-	validate(questionObj, errorMessage) {
-		return body(questionObj.fieldName).notEmpty().withMessage(errorMessage);
-	}
-}
+const RequiredValidator = require('./requiredValidator');
+const ValidOptionValidator = require('./validOptionValidator');
+const hasJourney = require('../has-questionnaire/journey');
 
 const validate = () => {
 	return async (req, res, next) => {
 		const { section, question } = req.params;
-		var questionObj = formHelper.getQuestionBySectionAndName(questionnaire, section, question);
+		var questionObj = hasJourney.getQuestionBySectionAndName(section, question);
 		const validations = [];
-		switch (questionObj.validator.constructor) {
-			case BooleanValidator:
-				validations.push(new BooleanValidator().validate(questionObj));
-				break;
-		}
-		await Promise.all(validations.map((validation) => validation.run(req)));
+		questionObj.validators.forEach((validator) => {
+			switch (validator.constructor) {
+				case RequiredValidator:
+					validations.push(new RequiredValidator().validate(questionObj));
+					break;
+				case ValidOptionValidator:
+					validations.push(new ValidOptionValidator().validate(questionObj));
+					break;
+				default:
+					throw new Error(`Validator of type ${validator.constructor} not implemented`);
+			}
+		});
 
-		next();
+		const result = await Promise.all(validations.map((validation) => validation.run(req)));
+		const errors = result.reduce((a, b) => a.concat(b.errors), []);
+		if (errors.length === 0) {
+			next();
+			return true;
+		} else {
+			return result;
+		}
 	};
 };
 
