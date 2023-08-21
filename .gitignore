@@ -164,6 +164,7 @@ Thumbs.db
 
 # VSCode
 .vscode
+!.vscode/launch.json
 
 .envrc*
 tmp

@@ -31,11 +31,19 @@ Also switch out the `command` used by this service. This needs to marry up to a 
 
 The important point is that the port matches the exposed port from the docker service - `9229` in this case.
 
+For vscode the launch.json file is committed
+
+For documentation on launch.json see the following: https://code.visualstudio.com/docs/nodejs/nodejs-debugging#_launch-configuration
+
 4. Add a breakpoint:
 
 ![add a breakpoint screenshot](./images/debug/add-a-breakpoint.png 'add a breakpoint screenshot')
 
 5. Start the debugger from your IDE - in WebStorm this is the green bug icon:
+
+vscode ![launch debugger](./images/debug/vscode-debug-menu.png 'launch debugger')
+
+You can select the appropriate app from the debugging dropdown:
 
 ![webstorm debug icon screenshot](./images/debug/webstorm-debug-icon.png 'Webstorm debug icon screenshot')
 
