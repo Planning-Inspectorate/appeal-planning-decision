@@ -17,8 +17,8 @@ describe('./src/dynamic-forms/dynamic-components/boolean/question.js', () => {
 		expect(booleanQuestion.description).toEqual(DESCRIPTION);
 		expect(booleanQuestion.fieldName).toEqual(FIELDNAME);
 		expect(booleanQuestion.options[0].text).toEqual('Yes');
-		expect(booleanQuestion.options[0].value).toEqual(true);
+		expect(booleanQuestion.options[0].value).toEqual('yes');
 		expect(booleanQuestion.options[1].text).toEqual('No');
-		expect(booleanQuestion.options[1].value).toEqual(false);
+		expect(booleanQuestion.options[1].value).toEqual('no');
 	});
 });
