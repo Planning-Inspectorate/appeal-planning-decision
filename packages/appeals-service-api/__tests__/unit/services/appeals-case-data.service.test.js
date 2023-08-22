@@ -1,5 +1,8 @@
-const { getAppeals } = require('../../../src/services/appeals-case-data.service');
-
+const {
+	getAppeals,
+	postAppealCaseData
+} = require('../../../src/services/appeals-case-data.service');
+const AppealsCaseDataRepository = require('../../../src/repositories/appeals-case-data-repository');
 const mongodb = require('../../../src/db/db');
 const ApiError = require('../../../src/errors/apiError');
 const logger = require('../../../src/lib/logger');
@@ -10,7 +13,6 @@ jest.mock('../../../src/lib/logger');
 describe('src/services/appeals-case-data.service.test', () => {
 	// Mock MongoDB collection and methods
 	const collectionMock = {
-		//find: jest.fn(() => ({toArray: jest.fn()}))
 		find: jest.fn()
 	};
 
@@ -129,5 +131,15 @@ describe('src/services/appeals-case-data.service.test', () => {
 			expect(err).toEqual(ApiError.appealsCaseDataNotFound());
 			expect(logger.error).toHaveBeenCalledWith(error);
 		}
+	});
+	it('should create a case', async () => {
+		const spy = jest
+			.spyOn(AppealsCaseDataRepository.prototype, 'postAppealCaseData')
+			.mockImplementation(() => {});
+		const aCase = {
+			id: 1
+		};
+		await postAppealCaseData(aCase);
+		expect(spy).toHaveBeenCalledWith(aCase);
 	});
 });

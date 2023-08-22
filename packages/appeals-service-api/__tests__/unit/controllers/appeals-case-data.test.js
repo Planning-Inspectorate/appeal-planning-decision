@@ -1,7 +1,14 @@
-const { getAppealsByLpaCode } = require('../../../src/controllers/appeals-case-data');
+const {
+	getAppealsByLpaCode,
+	postAppealCase
+} = require('../../../src/controllers/appeals-case-data');
 const ApiError = require('../../../src/errors/apiError');
-const { getAppeals } = require('../../../src/services/appeals-case-data.service');
+const {
+	getAppeals,
+	postAppealCaseData
+} = require('../../../src/services/appeals-case-data.service');
 const { mockReq, mockRes } = require('../mocks');
+const { fakeAppealsCaseData } = require('../../developer/fixtures/appeals-case-data');
 
 jest.mock('../../../src/services/appeals-case-data.service');
 
@@ -35,5 +42,14 @@ describe('../../../src/controllers/appeals-case-data', () => {
 			expect(res.status).toHaveBeenCalledWith(error.code);
 			expect(res.send).toHaveBeenCalledWith(error.message.errors);
 		});
+	});
+	it('should post case data', async () => {
+		const fakeCaseData = fakeAppealsCaseData();
+		const fakeCase = fakeCaseData[0];
+		req.caseData = fakeCase;
+		postAppealCaseData.mockResolvedValue(fakeCase);
+		await postAppealCase(req, res);
+		expect(res.status).toHaveBeenCalledWith(201);
+		expect(res.send).toHaveBeenCalledWith(fakeCase);
 	});
 });

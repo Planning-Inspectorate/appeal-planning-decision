@@ -3,10 +3,11 @@ const router = express.Router();
 
 const {
 	getAppealsByLpaCode,
-	getAppealByCaseRefAndLpaCode
+	getAppealByCaseRefAndLpaCode,
+	postAppealCase
 } = require('../controllers/appeals-case-data');
 
 router.get('/:lpaCode', getAppealsByLpaCode);
 router.get('/:lpaCode/:caseRef', getAppealByCaseRefAndLpaCode);
-
+router.post('/:lpaCode', postAppealCase);
 module.exports = router;
