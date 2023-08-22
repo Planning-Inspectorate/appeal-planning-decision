@@ -59,6 +59,14 @@ class AppealsCaseDataRepository extends MongoRepository {
 
 		return result;
 	}
+	async postAppealCaseData(caseData) {
+		return await this.upsertManyById([
+			{
+				_id: caseData._id,
+				updateSet: caseData
+			}
+		]);
+	}
 }
 
 module.exports = AppealsCaseDataRepository;

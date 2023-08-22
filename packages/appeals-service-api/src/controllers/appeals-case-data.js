@@ -1,6 +1,7 @@
 const {
 	getAppeals,
-	getAppealByLpaCodeAndCaseRef
+	getAppealByLpaCodeAndCaseRef,
+	postAppealCaseData
 } = require('../services/appeals-case-data.service');
 const logger = require('../lib/logger');
 
@@ -33,7 +34,15 @@ const getAppealByCaseRefAndLpaCode = async (req, res) => {
 	}
 };
 
+const postAppealCase = async (req, res) => {
+	let statusCode = 201;
+	const { caseData } = req;
+	const result = postAppealCaseData(caseData);
+	res.status(statusCode).send(result);
+};
+
 module.exports = {
 	getAppealsByLpaCode,
-	getAppealByCaseRefAndLpaCode
+	getAppealByCaseRefAndLpaCode,
+	postAppealCase
 };
