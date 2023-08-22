@@ -75,6 +75,29 @@ class MongoRepository {
 
 	/**
 	 *
+	 * @param {any} filter
+	 * @param {any} set
+	 * @param {boolean} upsert
+	 * @returns
+	 */
+	async updateOne(filter, set, upsert = true) {
+		let dateNow = new Date();
+		let updatedSet = {
+			...set,
+			updatedAt: dateNow
+		};
+		return await mongodb
+			.get()
+			.collection(this.collectionName)
+			.updateOne(
+				filter,
+				{ $set: updatedSet, $setOnInsert: { createdAt: dateNow } },
+				{ upsert: upsert }
+			);
+	}
+
+	/**
+	 *
 	 * @param {any[]} updateOneOperations Mongo JSON structures that represent update operations. Their
 	 * structure should be:
 	 * {

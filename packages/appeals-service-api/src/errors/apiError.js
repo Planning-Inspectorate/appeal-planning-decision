@@ -102,6 +102,19 @@ class ApiError {
 	static documentMetadataNotFound(caseRef) {
 		return new ApiError(404, { errors: [`The document metadata ${caseRef} was not found`] });
 	}
+
+	// questionnaire responses
+	static noReferenceIdProvided() {
+		return new ApiError(400, { errors: ['No reference id was provided'] });
+	}
+
+	static noFormIdProvided() {
+		return new ApiError(400, { errors: ['No form id was provided'] });
+	}
+
+	static unableToUpdateResponse() {
+		return new ApiError(400, { errors: ['Unable to update questionnaire response'] });
+	}
 }
 
 module.exports = ApiError;
