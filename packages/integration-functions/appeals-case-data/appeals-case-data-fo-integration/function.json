@@ -1,0 +1,12 @@
+{
+  "bindings": [
+    {
+      "name": "appealsCaseMessage",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "topicName": "appeals-case-data",
+      "subscriptionName": "fo-appeals-case-data-subscription",
+      "connection": "APPEALS_SERVICE_BUS_CONNECTION"
+    }
+  ]
+}
