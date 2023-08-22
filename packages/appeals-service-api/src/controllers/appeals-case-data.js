@@ -36,8 +36,8 @@ const getAppealByCaseRefAndLpaCode = async (req, res) => {
 
 const postAppealCase = async (req, res) => {
 	let statusCode = 201;
-	const { caseData } = req;
-	const result = postAppealCaseData(caseData);
+	const caseData = req.body;
+	const result = await postAppealCaseData(caseData);
 	res.status(statusCode).send(result);
 };
 
