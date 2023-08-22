@@ -5,11 +5,11 @@ class BooleanQuestion extends RadioQuestion {
 		const options = [
 			{
 				text: 'Yes',
-				value: true
+				value: 'yes'
 			},
 			{
 				text: 'No',
-				value: false
+				value: 'no'
 			}
 		];
 		super({ title, question, description, fieldName, options });
