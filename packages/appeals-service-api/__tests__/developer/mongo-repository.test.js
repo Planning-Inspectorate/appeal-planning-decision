@@ -40,7 +40,7 @@ afterAll(async () => {
 	}
 });
 
-describe('mongo-db-repository', () => {
+describe('mongo-repository', () => {
 	it('should perform a simple query with no projection and return 1 document', async () => {
 		const repo = new MongoRepository(collectionName);
 		const query = {
@@ -263,7 +263,52 @@ describe('mongo-db-repository', () => {
 			projection: projection
 		});
 	});
+
+	it('should insert document using updateOne if filter value does not already exist', async () => {
+		const repo = new MongoRepository('testUpdateCollection');
+		const filter = { id: '1234' };
+		const set = { testField: 'test value' };
+		await repo.updateOne(filter, set);
+
+		const result = await repo.findOneByQuery(filter);
+
+		expect(result.id).toBe('1234');
+		expect(result.createdAt).toBeInstanceOf(Date);
+		expect(result.updatedAt).toEqual(result.createdAt);
+		expect(result.testField).toBe('test value');
+	});
+
+	it('should update document using updateOne if filter value already exists', async () => {
+		let set;
+		const repo = new MongoRepository('testUpdateCollection');
+		const filter = { id: '5678' };
+		set = { testField: 'created', testField2: 'stays the same' };
+
+		//create
+		await repo.updateOne(filter, set);
+		const initialDocument = await repo.findOneByQuery(filter);
+		const initialCreatedAtTime = initialDocument.createdAt;
+
+		//set updated document value
+		set = { testField: 'updated' };
+
+		// update and ensure some time passes to test updatedAt field is updated
+		await new Promise((res) => setTimeout(res, 100));
+		await repo.updateOne(filter, set);
+
+		// check result
+		const result = await repo.findOneByQuery(filter);
+
+		expect(result.id).toBe('5678');
+		expect(result.createdAt).toEqual(initialCreatedAtTime);
+		expect(result.updatedAt).not.toEqual(result.createdAt);
+		expect(result.createdAt).toBeInstanceOf(Date);
+		expect(result.updatedAt).toBeInstanceOf(Date);
+		expect(result.testField).toBe('updated');
+		expect(result.testField2).toBe('stays the same');
+	});
 });
+
 const _clearDatabaseCollections = async () => {
 	const databaseCollections = await databaseConnection.db(dbName).collections();
 	for (const collection of databaseCollections) {
