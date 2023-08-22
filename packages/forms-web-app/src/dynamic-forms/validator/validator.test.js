@@ -18,9 +18,9 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			fieldName: 'field1'
 		});
 		const next = jest.fn();
-		const result = await validate()(req, {}, next);
-		expect(result).toEqual(true);
-		expect(next).toHaveBeenCalledTimes(0);
+		await validate()(req, {}, next);
+		expect(req['express-validator#contexts'][0]._errors.length).toEqual(0);
+		expect(next).toHaveBeenCalledTimes(1);
 	});
 	it('should invalidate a single validator', async () => {
 		const req = {
@@ -37,8 +37,8 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			fieldName: 'field1'
 		});
 		const next = jest.fn();
-		const result = await validate()(req, {}, next);
-		expect(result).toEqual(false);
+		await validate()(req, {}, next);
+		expect(req['express-validator#contexts'][0]._errors.length).toEqual(1);
 		expect(next).toHaveBeenCalledTimes(1);
 	});
 	it('should validate multiple validators', async () => {
@@ -70,9 +70,9 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			]
 		});
 		const next = jest.fn();
-		const result = await validate()(req, {}, next);
-		expect(result).toEqual(true);
-		expect(next).toHaveBeenCalledTimes(0);
+		await validate()(req, {}, next);
+		expect(req['express-validator#contexts'][0]._errors.length).toEqual(0);
+		expect(next).toHaveBeenCalledTimes(1);
 	});
 	it('should invalidate some validators', async () => {
 		const req = {
@@ -103,8 +103,8 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			]
 		});
 		const next = jest.fn();
-		const result = await validate()(req, {}, next);
-		expect(result).toEqual(false);
+		await validate()(req, {}, next);
+		expect(req['express-validator#contexts'][1]._errors.length).toEqual(1);
 		expect(next).toHaveBeenCalledTimes(1);
 	});
 });
