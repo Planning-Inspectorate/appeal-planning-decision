@@ -35,7 +35,11 @@ const getAppealByLpaCodeAndCaseRef = async (lpaCode, caseRef) => {
 	}
 };
 
+const postAppealCaseData = async (caseData) => {
+	await appealsCaseDataRepository.postAppealCaseData(caseData);
+};
 module.exports = {
 	getAppeals,
-	getAppealByLpaCodeAndCaseRef
+	getAppealByLpaCodeAndCaseRef,
+	postAppealCaseData
 };
