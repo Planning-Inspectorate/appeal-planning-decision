@@ -20,18 +20,13 @@ const validate = () => {
 			}
 		});
 
-		const results = [];
-		let overallResult = true;
 		for (const validation of validations) {
 			let validationResult = await validation.run(req);
-			results.push(validationResult);
 			if (validationResult.errors.length > 0) {
-				next();
-				overallResult = false;
 				break;
 			}
 		}
-		return overallResult;
+		return next();
 	};
 };
 
