@@ -8,13 +8,15 @@
 const { CheckboxQuestion } = require('../dynamic-components/checkbox/question');
 const { MultiFileUploadQuestion } = require('../dynamic-components/multi-file-upload/question');
 const BooleanQuestion = require('../dynamic-components/boolean/question');
+const RequiredValidator = require('../validator/required-validator');
 
 // Define all questions
 exports.questions = {
 	appealTypeAppropriate: new BooleanQuestion({
 		title: 'Is this appeal type appriopriate?', //Title used in the summary list
 		question: 'Do you think the appeal type is appropriate?', //The question being asked
-		fieldName: 'correct-appeal-type' //The name of the html input field / stem of the name for screens with multiple fields
+		fieldName: 'correct-appeal-type', //The name of the html input field / stem of the name for screens with multiple fields
+		validators: [new RequiredValidator()]
 	}),
 	listedBuildingCheck: new BooleanQuestion({
 		title: 'Affects a listed building', //Title used in the summary list

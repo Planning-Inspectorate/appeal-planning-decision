@@ -1,6 +1,6 @@
-const BaseValidator = require('./baseValidator');
+const BaseValidator = require('./base-validator');
 
-describe('src/dynamic-forms/validator/baseValidator.js', () => {
+describe('src/dynamic-forms/validator/base-validator.js', () => {
 	it('should not be possible to instantiate the base class', () => {
 		expect(() => new BaseValidator()).toThrow("Abstract classes can't be instantiated.");
 	});

@@ -1,12 +1,11 @@
-const ValidOptionValidator = require('./validOptionValidator');
+const ValidOptionValidator = require('./valid-option-validator');
 
-describe('./src/dynamic-forms/validator/booleanValidator.test.js', () => {
+describe('./src/dynamic-forms/validator/valid-option-validator.js', () => {
 	it('should build a ValidOptionValidator', () => {
 		const vov = new ValidOptionValidator();
-		const message = 'Please select an answer';
-		const rule = vov.validate({}, message).builder.build();
+		const rule = vov.validate({}).builder.build();
 		expect(rule.locations[0]).toEqual('body');
-		expect(rule.stack[0].message).toEqual(message);
+		expect(rule.stack[0].message).toEqual(vov.errorMessage);
 		expect(rule.stack[0].validator.name).toEqual('');
 	});
 	it('should return an error message if the field value is not in the list of options defined on the question', async () => {
@@ -24,8 +23,8 @@ describe('./src/dynamic-forms/validator/booleanValidator.test.js', () => {
 				{ text: 'Oranges', values: 'oranges' }
 			]
 		};
-		const validationResult = await new ValidOptionValidator()
-			.validate(question, errorMessage)
+		const validationResult = await new ValidOptionValidator(errorMessage)
+			.validate(question)
 			.run(req);
 		expect(validationResult.errors.length).toEqual(1);
 		expect(validationResult.errors[0].msg).toEqual(errorMessage);
@@ -36,7 +35,6 @@ describe('./src/dynamic-forms/validator/booleanValidator.test.js', () => {
 				favouriteFruit: 'apples'
 			}
 		};
-		const errorMessage = 'Please select only from the supplied options';
 		const question = {
 			fieldName: 'favouriteFruit',
 			options: [
@@ -45,9 +43,7 @@ describe('./src/dynamic-forms/validator/booleanValidator.test.js', () => {
 				{ text: 'Oranges', values: 'oranges' }
 			]
 		};
-		const validationResult = await new ValidOptionValidator()
-			.validate(question, errorMessage)
-			.run(req);
+		const validationResult = await new ValidOptionValidator().validate(question).run(req);
 		expect(validationResult.errors.length).toEqual(0);
 	});
 });
