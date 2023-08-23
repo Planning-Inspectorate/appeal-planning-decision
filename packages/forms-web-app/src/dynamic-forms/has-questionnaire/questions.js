@@ -14,7 +14,7 @@ exports.questions = {
 	appealTypeAppropriate: new BooleanQuestion({
 		title: 'Is this appeal type appriopriate?', //Title used in the summary list
 		question: 'Do you think the appeal type is appropriate?', //The question being asked
-		fieldName: 'appropriate-appeal-type' //The name of the html input field / stem of the name for screens with multiple fields
+		fieldName: 'correct-appeal-type' //The name of the html input field / stem of the name for screens with multiple fields
 	}),
 	listedBuildingCheck: new BooleanQuestion({
 		title: 'Affects a listed building', //Title used in the summary list
