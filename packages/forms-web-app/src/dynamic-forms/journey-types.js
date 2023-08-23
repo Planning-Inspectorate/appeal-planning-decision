@@ -44,12 +44,12 @@ function getJourneyResponseByType(req, journeyId, referenceId) {
 
 /**
  * returns a default response for a journey
- * @param {string} referenceId - unique ref used in journey url
  * @param {JourneyType} journeyId - the type of journey
+ * @param {string} referenceId - unique ref used in journey url
  * @returns {JourneyResponse}
  */
 function getDefaultResponse(journeyId, referenceId) {
-	return new JourneyResponse(referenceId, journeyId, null);
+	return new JourneyResponse(journeyId, referenceId, null);
 }
 
 /**

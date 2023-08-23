@@ -50,6 +50,8 @@ describe('journey-types', () => {
 		it('should return default response if no session data', () => {
 			const response = getJourneyResponseByType(req, JOURNEY_TYPES.HAS_QUESTIONNAIRE, 'test');
 			expect(response instanceof JourneyResponse).toBe(true);
+			expect(response.journeyId).toBe(JOURNEY_TYPES.HAS_QUESTIONNAIRE);
+			expect(response.referenceId).toBe('test');
 		});
 
 		it('should error if an invalid journey type is used', () => {
