@@ -29,8 +29,8 @@ class JourneyResponse {
 	 * @param {Object | undefined} answers
 	 */
 	constructor(journeyId, referenceId, answers) {
-		this.referenceId = referenceId;
 		this.journeyId = journeyId;
+		this.referenceId = referenceId;
 		if (answers) {
 			this.answers = answers;
 		} else {
