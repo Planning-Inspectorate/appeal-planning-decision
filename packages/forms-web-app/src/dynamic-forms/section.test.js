@@ -1,65 +1,97 @@
-const { Section } = require('./section');
+const { Section, SECTION_STATUS } = require('./section');
+const RequiredValidator = require('./validator/required-validator');
+
+const mockQuestion = {
+	fieldName: 'visitFrequently'
+};
+
 describe('./src/dynamic-forms/section.js', () => {
-	it('should create', () => {
-		const SECTION_NAME = 'Section1';
-		const SEGMENT = 'A SEGMENT';
-		const section = new Section(SECTION_NAME, SEGMENT);
-		expect(section.name).toEqual(SECTION_NAME);
-		expect(section.segment).toEqual(SEGMENT);
+	describe('constructor', () => {
+		it('should create', () => {
+			const SECTION_NAME = 'Section1';
+			const SEGMENT = 'A SEGMENT';
+			const section = new Section(SECTION_NAME, SEGMENT);
+			expect(section.name).toEqual(SECTION_NAME);
+			expect(section.segment).toEqual(SEGMENT);
+		});
 	});
-	it('should return self from addQuestion method as  a fluent api', () => {
-		const section = new Section();
-		const question = {
-			title: 'ice breaker',
-			question: 'Do you come here often?',
-			description: 'Chit chat',
-			type: 'Boolean',
-			fieldName: 'visitFrequently'
-		};
-		const result = section.addQuestion(question);
-		expect(result instanceof Section).toEqual(true);
-		expect(result).toEqual(section);
+
+	describe('addQuestion', () => {
+		it('should return self from addQuestion method as a fluent api', () => {
+			const section = new Section();
+			const result = section.addQuestion(mockQuestion);
+			expect(result instanceof Section).toEqual(true);
+			expect(result).toEqual(section);
+		});
+
+		it('should add a question', () => {
+			const section = new Section();
+			section.addQuestion(mockQuestion);
+			expect(section.questions.length).toEqual(1);
+			expect(section.questions[0]).toEqual(mockQuestion);
+		});
 	});
-	it('should return self from withCondition method as  a fluent api', () => {
-		const section = new Section();
-		const question = {
-			title: 'ice breaker',
-			question: 'Do you come here often?',
-			description: 'Chit chat',
-			type: 'Boolean',
-			fieldName: 'visitFrequently'
-		};
-		section.addQuestion(question);
-		const result = section.withCondition(false);
-		expect(result instanceof Section).toEqual(true);
-		expect(result).toEqual(section);
+
+	describe('withCondition', () => {
+		it('should return self from withCondition method as a fluent api', () => {
+			const section = new Section();
+			section.addQuestion(mockQuestion);
+			const result = section.withCondition(false);
+			expect(result instanceof Section).toEqual(true);
+			expect(result).toEqual(section);
+		});
+
+		it('should remove a question', () => {
+			const section = new Section();
+			section.addQuestion(mockQuestion);
+			section.withCondition(false);
+			expect(section.questions.length).toEqual(0);
+		});
 	});
-	it('should add a question', () => {
-		const section = new Section();
-		const question = {
-			title: 'ice breaker',
-			question: 'Do you come here often?',
-			description: 'Chit chat',
-			type: 'Boolean',
-			fieldName: 'visitFrequently'
-		};
-		section.addQuestion(question);
-		expect(section.questions.length).toEqual(1);
-		expect(section.questions[0]).toEqual(question);
+
+	describe('getStatus', () => {
+		it('should return NOT_STARTED when no answers are given', () => {
+			const mockJourneyResponse = {
+				answers: {}
+			};
+			const section = new Section();
+			section.addQuestion(mockQuestion);
+			const result = section.getStatus(mockJourneyResponse);
+			expect(result).toBe(SECTION_STATUS.NOT_STARTED);
+		});
+
+		it('should return IN_PROGRESS when at least one answer is given', () => {
+			const mockJourneyResponse = {
+				answers: {
+					visitFrequently: 'Answer 1'
+				}
+			};
+
+			const section = new Section();
+			section.addQuestion(mockQuestion);
+			const result = section.getStatus(mockJourneyResponse);
+			expect(result).toBe(SECTION_STATUS.IN_PROGRESS);
+		});
+
+		it('should return COMPLETE when all required answers are given', () => {
+			const mockJourneyResponse = {
+				answers: {
+					visitFrequently: 'Answer 1'
+				}
+			};
+
+			const requiredQuestion = {
+				fieldName: 'visitFrequently',
+				validators: [new RequiredValidator()]
+			};
+
+			const section = new Section();
+			section.addQuestion(requiredQuestion);
+			const result = section.getStatus(mockJourneyResponse);
+			expect(result).toBe(SECTION_STATUS.COMPLETE);
+		});
 	});
-	it('should remove a question', () => {
-		const section = new Section();
-		const question = {
-			title: 'ice breaker',
-			question: 'Do you come here often?',
-			description: 'Chit chat',
-			type: 'Boolean',
-			fieldName: 'visitFrequently'
-		};
-		section.addQuestion(question);
-		section.withCondition(false);
-		expect(section.questions.length).toEqual(0);
-	});
+
 	it('should do a noop', () => {
 		const section = new Section();
 		const question = {

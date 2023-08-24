@@ -2,6 +2,7 @@ const { list, question } = require('./controller');
 const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { Journey } = require('./journey');
+const { SECTION_STATUS } = require('./section');
 const { getJourney, getJourneyResponseByType } = require('./journey-types');
 
 const {
@@ -23,6 +24,9 @@ class TestJourney extends Journey {
 			{
 				name: 'Section 1',
 				segment: 'segment-1',
+				getStatus: () => {
+					return SECTION_STATUS.COMPLETE;
+				},
 				questions: [
 					{
 						title: 'Title 1a',
@@ -41,6 +45,9 @@ class TestJourney extends Journey {
 			{
 				name: 'Section 2',
 				segment: 'segment-2',
+				getStatus: () => {
+					return SECTION_STATUS.IN_PROGRESS;
+				},
 				questions: [
 					{
 						title: 'Title 2a',
@@ -59,6 +66,9 @@ class TestJourney extends Journey {
 			{
 				name: 'Section 3',
 				segment: 'segment-3',
+				getStatus: () => {
+					return SECTION_STATUS.NOT_STARTED;
+				},
 				questions: [
 					{
 						title: 'Title 3a',
@@ -85,9 +95,11 @@ const mockResponse = {
 const mockJourney = new TestJourney(mockResponse);
 
 const mockSummaryListData = {
+	completedSectionCount: 1,
 	sections: [
 		{
 			heading: 'Section 1',
+			status: SECTION_STATUS.COMPLETE,
 			list: {
 				rows: [
 					{
@@ -108,6 +120,7 @@ const mockSummaryListData = {
 		},
 		{
 			heading: 'Section 2',
+			status: SECTION_STATUS.IN_PROGRESS,
 			list: {
 				rows: [
 					{
@@ -141,6 +154,7 @@ const mockSummaryListData = {
 		},
 		{
 			heading: 'Section 3',
+			status: SECTION_STATUS.NOT_STARTED,
 			list: {
 				rows: [
 					{

@@ -1,6 +1,7 @@
 // common controllers for dynamic forms
 const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
+const { SECTION_STATUS } = require('./section');
 const {
 	getJourney,
 	getJourneyResponseByType,
@@ -25,6 +26,7 @@ const {
 /**
  * @typedef {Object} SectionView
  * @property {string} heading
+ * @property {string} status
  * @property {Object} list
  * @property {Array.<RowView>} list.rows
  */
@@ -49,11 +51,13 @@ const {
 /**
  * build a view model for a section in the journey overview
  * @param {string} name
+ * @param {string} status
  * @returns {SectionView} a representation of a section
  */
-function buildSectionViewModel(name) {
+function buildSectionViewModel(name, status) {
 	return {
 		heading: name,
+		status: status,
 		list: {
 			rows: []
 		}
@@ -93,14 +97,24 @@ exports.list = async (req, res, journeyId) => {
 	const user = getLPAUserFromSession(req);
 	const encodedReferenceId = encodeURIComponent(referenceId);
 	const appeal = await getAppealByLPACodeAndId(user.lpaCode, encodedReferenceId);
-
-	const summaryListData = { sections: [] };
 	const journeyResponse = getJourneyResponseByType(req, journeyId, referenceId);
 	const journey = getJourney(journeyResponse);
 
-	for (const section of journey.sections) {
-		const sectionView = buildSectionViewModel(section.name);
+	const summaryListData = {
+		sections: [],
+		completedSectionCount: 0
+	};
 
+	for (const section of journey.sections) {
+		const status = section.getStatus(journeyResponse);
+		const sectionView = buildSectionViewModel(section.name, status);
+
+		// update completed count
+		if (status === SECTION_STATUS.COMPLETE) {
+			summaryListData.completedSectionCount++;
+		}
+
+		// add questions
 		for (const question of section.questions) {
 			// don't show question on tasklist if set to false
 			if (question.taskList === false) {
