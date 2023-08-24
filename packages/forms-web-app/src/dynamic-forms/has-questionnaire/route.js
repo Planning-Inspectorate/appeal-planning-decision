@@ -1,6 +1,6 @@
 const express = require('express');
 const { list, question, save } = require('../controller');
-const { JOURNEY_TYPES } = require('../journey-types');
+const { JOURNEY_TYPES } = require('../journey-factory');
 const validate = require('../validator/validator');
 const { validationErrorHandler } = require('../validator/validation-error-handler');
 

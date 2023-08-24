@@ -1,10 +1,10 @@
 const validate = require('./validator');
-const { getJourney, getJourneyResponseByType } = require('../journey-types');
+const { getJourney, getJourneyResponseByType } = require('../journey-factory');
 
 const RequiredValidator = require('./required-validator');
 const ValidOptionValidator = require('./valid-option-validator');
 
-jest.mock('../journey-types');
+jest.mock('../journey-factory');
 
 describe('./src/dynamic-forms/validator/validator.js', () => {
 	beforeEach(() => {

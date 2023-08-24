@@ -3,14 +3,14 @@ const {
 	getJourney,
 	getJourneyResponseByType,
 	saveResponseToSessionByType
-} = require('./journey-types');
+} = require('./journey-factory');
 
 const { HasJourney } = require('./has-questionnaire/journey');
 const { JourneyResponse } = require('./journey-response');
 
 const { mockReq } = require('../../__tests__/unit/mocks');
 
-describe('journey-types', () => {
+describe('journey-factory', () => {
 	let req;
 
 	beforeEach(() => {

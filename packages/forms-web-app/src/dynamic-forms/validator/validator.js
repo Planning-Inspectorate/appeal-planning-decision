@@ -1,7 +1,7 @@
-const { getJourney, getJourneyResponseByType } = require('../journey-types');
+const { getJourney, getJourneyResponseByType } = require('../journey-factory');
 
 /**
- * @typedef {import('../journey-types').JourneyType} JourneyType
+ * @typedef {import('../journey-factory').JourneyType} JourneyType
  */
 
 /**

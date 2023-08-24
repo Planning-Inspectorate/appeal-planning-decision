@@ -3,7 +3,7 @@ const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
-const { getJourney, getJourneyResponseByType } = require('./journey-types');
+const { getJourney, getJourneyResponseByType } = require('./journey-factory');
 
 const {
 	VIEW: { TASK_LIST }
@@ -185,7 +185,7 @@ const sampleQuestionObj = {
 
 jest.mock('../lib/appeals-api-wrapper');
 jest.mock('../services/lpa-user.service');
-jest.mock('./journey-types');
+jest.mock('./journey-factory');
 
 describe('dynamic-form/controller', () => {
 	let req;
