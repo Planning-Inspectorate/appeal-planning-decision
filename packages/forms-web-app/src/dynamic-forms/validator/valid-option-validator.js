@@ -31,7 +31,7 @@ class ValidOptionValidator extends BaseValidator {
 	validate(questionObj) {
 		return body(questionObj.fieldName)
 			.custom((value) => {
-				return questionObj.options.some((option) => option.value === value);
+				return !value || questionObj.options.some((option) => option.value === value);
 			})
 			.withMessage(this.errorMessage);
 	}

@@ -46,4 +46,45 @@ describe('./src/dynamic-forms/validator/valid-option-validator.js', () => {
 		const validationResult = await new ValidOptionValidator().validate(question).run(req);
 		expect(validationResult.errors.length).toEqual(0);
 	});
+
+	it('should not return an error message if the field value is not provided', async () => {
+		const question = {
+			fieldName: 'favouriteFruit',
+			options: [
+				{ text: 'Apples', value: 'apples' },
+				{ text: 'Pears', value: 'pears' },
+				{ text: 'Oranges', values: 'oranges' }
+			]
+		};
+
+		let req = {
+			body: {
+				favouriteFruit: ''
+			}
+		};
+		let validationResult = await new ValidOptionValidator().validate(question).run(req);
+		expect(validationResult.errors.length).toEqual(0);
+
+		req = {
+			body: {
+				favouriteFruit: null
+			}
+		};
+		validationResult = await new ValidOptionValidator().validate(question).run(req);
+		expect(validationResult.errors.length).toEqual(0);
+
+		req = {
+			body: {
+				favouriteFruit: undefined
+			}
+		};
+		validationResult = await new ValidOptionValidator().validate(question).run(req);
+		expect(validationResult.errors.length).toEqual(0);
+
+		req = {
+			body: {}
+		};
+		validationResult = await new ValidOptionValidator().validate(question).run(req);
+		expect(validationResult.errors.length).toEqual(0);
+	});
 });
