@@ -14,17 +14,23 @@ const JOURNEY_TYPES = {
 };
 
 /**
+ * Returns a journey class based on a type string from JOURNEY_TYPES
+ */
+const JOURNEY_CLASSES = {
+	[JOURNEY_TYPES.HAS_QUESTIONNAIRE]: HasJourney
+};
+
+/**
  * creates an instance of a journey based on the journeyId passed in
  * @param {JourneyResponse} journeyResponse
  * @returns {Journey}
  */
 function getJourney(journeyResponse) {
-	switch (journeyResponse.journeyId) {
-		case JOURNEY_TYPES.HAS_QUESTIONNAIRE:
-			return new HasJourney(journeyResponse);
-		default:
-			throw new Error('invalid journey type');
+	if (JOURNEY_CLASSES[journeyResponse.journeyId] === undefined) {
+		throw new Error('invalid journey type');
 	}
+
+	return new JOURNEY_CLASSES[journeyResponse.journeyId](journeyResponse);
 }
 
 /**

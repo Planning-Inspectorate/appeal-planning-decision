@@ -1,5 +1,5 @@
 /**
- * @typedef {import('./journey-types').JourneyType} JourneyType
+ * @typedef {import('./journey-factory').JourneyType} JourneyType
  */
 
 /**

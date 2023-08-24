@@ -6,7 +6,7 @@ const {
 	getJourney,
 	getJourneyResponseByType,
 	saveResponseToSessionByType
-} = require('./journey-types');
+} = require('./journey-factory');
 
 // todo:
 // test
@@ -20,7 +20,7 @@ const {
 //todo: should this be tied to a particular view, or can this be obtained from Journey object?
 
 /**
- * @typedef {import('./journey-types').JourneyType} JourneyType
+ * @typedef {import('./journey-factory').JourneyType} JourneyType
  */
 
 /**
