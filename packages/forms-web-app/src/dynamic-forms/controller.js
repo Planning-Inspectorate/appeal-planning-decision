@@ -9,15 +9,15 @@ const {
 } = require('./journey-factory');
 
 // todo:
-// test
-// cleaner means of handling question type in urls
+// test save
 
+//todo (aapd-232): add these view paths to Journey object
+const hasJourneyTemplate = 'has-questionnaire/template.njk';
 const {
 	VIEW: {
 		TASK_LIST: { QUESTIONNAIRE }
 	}
 } = require('./dynamic-components/views');
-//todo: should this be tied to a particular view, or can this be obtained from Journey object?
 
 /**
  * @typedef {import('./journey-factory').JourneyType} JourneyType
@@ -163,7 +163,7 @@ exports.list = async (req, res, journeyId) => {
 	return res.render(QUESTIONNAIRE, {
 		appeal,
 		summaryListData,
-		layoutTemplate: '../../../views/layouts/lpa-dashboard/main.njk'
+		layoutTemplate: hasJourneyTemplate
 	}); //todo: use layout property on HASJourney object
 };
 
@@ -195,9 +195,12 @@ exports.question = async (req, res, journeyId) => {
 		question: questionObj.prepQuestionForRendering(journeyResponse.answers),
 		answer: answer,
 		backLink: backLink,
-		navigation: ['', backLink]
+		listLink: journey.baseUrl,
+		navigation: ['', backLink],
+		layoutTemplate: hasJourneyTemplate,
+		showBackToListLink: questionObj.showBackToListLink
 	};
-	return res.render(`dynamic-components/${questionObj.type}/index`, viewModel);
+	return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
 };
 
 /**
@@ -233,9 +236,10 @@ exports.save = async (req, res, journeyId) => {
 			backLink: backLink,
 			navigation: ['', backLink],
 			errors: errors,
-			errorSummary: errorSummary
+			errorSummary: errorSummary,
+			layoutTemplate: hasJourneyTemplate
 		};
-		return res.render(`dynamic-components/${questionObj.type}/index`, viewModel);
+		return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
 	}
 
 	// use custom saveAction

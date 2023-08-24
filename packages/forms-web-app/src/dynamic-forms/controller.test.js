@@ -180,7 +180,7 @@ const sampleQuestionObj = {
 	fieldName: 'sampleFieldName',
 	renderAction: null,
 	prepQuestionForRendering: jest.fn(),
-	type: 'sampleType'
+	viewFolder: 'sampleType'
 };
 
 jest.mock('../lib/appeals-api-wrapper');
@@ -214,7 +214,7 @@ describe('dynamic-form/controller', () => {
 			expect(res.render).toHaveBeenCalledWith(TASK_LIST.QUESTIONNAIRE, {
 				appeal,
 				summaryListData: mockSummaryListData,
-				layoutTemplate: '../../../views/layouts/lpa-dashboard/main.njk'
+				layoutTemplate: 'has-questionnaire/template.njk'
 			});
 		});
 	});

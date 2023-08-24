@@ -18,9 +18,9 @@ class Question {
 	 */
 	description;
 	/**
-	 * @type {string} the type of the question (could this be removed as we can use instanceOf for the class)
+	 * @type {string} the folder name of the view
 	 */
-	type;
+	viewFolder;
 	/**
 	 * @type {string} the unique name of the input on the page, also used as a url segment (should this be separated)
 	 */
@@ -60,20 +60,26 @@ class Question {
 	 * @type {string} hint text displayed to user
 	 */
 	hint;
+
+	/**
+	 * show return to listing page link after question
+	 */
+	showBackToListLink = true;
+
 	bulletPoints = [];
 	details = {
 		title: '',
 		text: ''
 	};
 
-	constructor({ title, question, description, type, fieldName, validators } = {}) {
+	constructor({ title, question, description, viewFolder, fieldName, validators } = {}) {
 		if (!title || title === '') throw new Error('title parameter is mandatory');
 		if (!question || question === '') throw new Error('question parameter is mandatory');
 		if (!fieldName || fieldName === '') throw new Error('fieldName parameter is mandatory');
 		this.title = title;
 		this.question = question;
 		this.description = description;
-		this.type = type;
+		this.viewFolder = viewFolder;
 		this.fieldName = fieldName;
 		this.validators = validators;
 		//todo: taskList default to true, or pass in as param if question shouldn't be displayed in task (summary) list

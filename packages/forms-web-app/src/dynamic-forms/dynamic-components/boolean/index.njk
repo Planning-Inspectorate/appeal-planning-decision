@@ -1,4 +1,4 @@
-{% extends "layouts/no-banner-link/main.njk" %}
+{% extends layoutTemplate %}
 
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
@@ -54,7 +54,7 @@
           type: "submit",
           attributes: { "data-cy":"button-save-and-continue"}
         }) }}
-      </form>
+      </form>      
     </div>
   </div>
 {% endblock %}
