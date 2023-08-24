@@ -12,8 +12,15 @@ class BooleanQuestion extends RadioQuestion {
 				value: 'no'
 			}
 		];
-		super({ title, question, description, fieldName, options, validators });
-		this.type = 'boolean';
+		super({
+			title,
+			question,
+			description,
+			fieldName,
+			viewFolder: 'boolean-text',
+			options,
+			validators
+		});
 	}
 }
 

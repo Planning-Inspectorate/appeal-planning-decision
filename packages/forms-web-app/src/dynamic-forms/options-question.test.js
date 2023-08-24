@@ -15,7 +15,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			title: TITLE,
 			question: QUESTION_STRING,
 			description: DESCRIPTION,
-			type: TYPE,
+			viewFolder: TYPE,
 			fieldName: FIELDNAME,
 			validators: VALIDATORS,
 			options: OPTIONS
@@ -24,7 +24,7 @@ describe('./src/dynamic-forms/question.js', () => {
 		expect(question.title).toEqual(TITLE);
 		expect(question.question).toEqual(QUESTION_STRING);
 		expect(question.description).toEqual(DESCRIPTION);
-		expect(question.type).toEqual(TYPE);
+		expect(question.viewFolder).toEqual(TYPE);
 		expect(question.fieldName).toEqual(FIELDNAME);
 		expect(question.options).toEqual(OPTIONS);
 		expect(question.validators).toEqual([...VALIDATORS, ...[new ValidOptionValidator()]]);

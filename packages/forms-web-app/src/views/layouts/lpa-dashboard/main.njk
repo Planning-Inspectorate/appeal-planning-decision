@@ -60,7 +60,12 @@
       {% endblock %}
 
       <div class="govuk-main-wrapper {{ mainClasses }}">
-        {% block content %}{% endblock %}
+        {% block before_content %}
+        {% endblock before_content %}
+        {% block content %}
+        {% endblock content %}
+        {% block after_content %}
+        {% endblock after_content %}
       </div>
     </main>
   </div>
