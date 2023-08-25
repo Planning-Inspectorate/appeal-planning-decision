@@ -1,5 +1,5 @@
-const { list, question } = require('./controller');
-const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
+const { list, question, save } = require('./controller');
+const { getAppealByLPACodeAndId, patchQuestionResponse } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
@@ -92,89 +92,8 @@ const mockResponse = {
 	answers: {}
 };
 
-const mockJourney = new TestJourney(mockResponse);
-
-const mockSummaryListData = {
-	completedSectionCount: 1,
-	sections: [
-		{
-			heading: 'Section 1',
-			status: SECTION_STATUS.COMPLETE,
-			list: {
-				rows: [
-					{
-						actions: {
-							items: [
-								{
-									href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[0].segment}/${mockJourney.sections[0].questions[0].fieldName}`,
-									text: 'Answer',
-									visuallyHiddenText: mockJourney.sections[0].questions[0].question
-								}
-							]
-						},
-						key: { text: mockJourney.sections[0].questions[0].title },
-						value: { text: 'Not started' }
-					}
-				]
-			}
-		},
-		{
-			heading: 'Section 2',
-			status: SECTION_STATUS.IN_PROGRESS,
-			list: {
-				rows: [
-					{
-						actions: {
-							items: [
-								{
-									href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[1].segment}/${mockJourney.sections[1].questions[0].fieldName}`,
-									text: 'Answer',
-									visuallyHiddenText: mockJourney.sections[1].questions[0].question
-								}
-							]
-						},
-						key: { text: mockJourney.sections[1].questions[0].title },
-						value: { text: 'Not started' }
-					},
-					{
-						actions: {
-							items: [
-								{
-									href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[1].segment}/${mockJourney.sections[1].questions[1].fieldName}`,
-									text: 'Answer',
-									visuallyHiddenText: mockJourney.sections[1].questions[1].question
-								}
-							]
-						},
-						key: { text: mockJourney.sections[1].questions[1].title },
-						value: { text: 'Not started' }
-					}
-				]
-			}
-		},
-		{
-			heading: 'Section 3',
-			status: SECTION_STATUS.NOT_STARTED,
-			list: {
-				rows: [
-					{
-						actions: {
-							items: [
-								{
-									href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[2].segment}/${mockJourney.sections[2].questions[1].fieldName}`,
-									text: 'Answer',
-									visuallyHiddenText: mockJourney.sections[2].questions[1].question
-								}
-							]
-						},
-						key: { text: mockJourney.sections[2].questions[1].title },
-						value: { text: 'Not started' }
-					}
-				]
-			}
-		}
-	]
-};
+let mockJourney;
+let mockSummaryListData;
 
 const sampleQuestionObj = {
 	fieldName: 'sampleFieldName',
@@ -191,6 +110,8 @@ describe('dynamic-form/controller', () => {
 	let req;
 	beforeEach(() => {
 		jest.resetAllMocks();
+		mockJourney = new TestJourney(mockResponse);
+		mockSummaryListData = _getmockSummaryListData(mockJourney);
 		req = {
 			...mockReq(null)
 		};
@@ -276,4 +197,171 @@ describe('dynamic-form/controller', () => {
 			);
 		});
 	});
+
+	describe('save', () => {
+		it('should call API function to patch answer to question and redirect to next question if successful', async () => {
+			const journeyId = 'has-questionnaire';
+
+			req.params = {
+				referenceId: mockRef,
+				section: mockJourney.sections[0].segment,
+				question: mockJourney.sections[0].questions[0].fieldName
+			};
+
+			req.body = {
+				sampleFieldName: true,
+				sampleFieldName_sub: 'send this',
+				notSampleFieldName: 'do not send this'
+			};
+
+			getJourneyResponseByType.mockReturnValue({
+				referenceId: mockRef,
+				journeyId: journeyId,
+				answers: {}
+			});
+			getJourney.mockReturnValue(mockJourney);
+
+			mockJourney.getQuestionBySectionAndName = jest.fn();
+			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObj);
+
+			await save(req, res, journeyId);
+
+			expect(patchQuestionResponse).toHaveBeenCalledWith(journeyId, mockRef, {
+				answers: { sampleFieldName: true, sampleFieldName_sub: 'send this' }
+			});
+			expect(res.redirect).toHaveBeenCalledWith(
+				`${mockBaseUrl}/${mockRef}/${mockJourney.sections[0].segment}/${mockJourney.sections[0].questions[1].fieldName}`
+			);
+		});
+
+		it('should handle error if API function fails', async () => {
+			const journeyId = 'has-questionnaire';
+
+			req.params = {
+				referenceId: mockRef,
+				section: mockJourney.sections[0].segment,
+				question: mockJourney.sections[0].questions[0].fieldName
+			};
+
+			req.body = {
+				sampleFieldName: true
+			};
+
+			getJourneyResponseByType.mockReturnValue({
+				referenceId: mockRef,
+				journeyId: journeyId,
+				answers: {}
+			});
+			getJourney.mockReturnValue(mockJourney);
+
+			mockJourney.getQuestionBySectionAndName = jest.fn();
+			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObj);
+
+			const mockQuestionRendering = 'test';
+			sampleQuestionObj.prepQuestionForRendering = jest.fn();
+			sampleQuestionObj.prepQuestionForRendering.mockReturnValueOnce(mockQuestionRendering);
+
+			mockJourney.getCurrentQuestionUrl = jest.fn();
+			const mockBackLink = 'mock-back-link';
+			mockJourney.getCurrentQuestionUrl.mockReturnValueOnce(mockBackLink);
+
+			const error = new Error('Test error');
+			patchQuestionResponse.mockImplementation(() => Promise.reject(error));
+
+			await save(req, res, journeyId);
+			expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.render).toHaveBeenCalledWith('dynamic-components/sampleType/index', {
+				appealId: mockRef,
+				question: mockQuestionRendering,
+				answer: true,
+				backLink: mockBackLink,
+				navigation: ['', mockBackLink],
+				errorSummary: [{ href: '#', text: 'Error: Test error' }]
+			});
+		});
+	});
 });
+
+const _getmockSummaryListData = (mockJourney) => {
+	return {
+		completedSectionCount: 1,
+		sections: [
+			{
+				heading: 'Section 1',
+				status: SECTION_STATUS.COMPLETE,
+				list: {
+					rows: [
+						{
+							actions: {
+								items: [
+									{
+										href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[0].segment}/${mockJourney.sections[0].questions[0].fieldName}`,
+										text: 'Answer',
+										visuallyHiddenText: mockJourney.sections[0].questions[0].question
+									}
+								]
+							},
+							key: { text: mockJourney.sections[0].questions[0].title },
+							value: { text: 'Not started' }
+						}
+					]
+				}
+			},
+			{
+				heading: 'Section 2',
+				status: SECTION_STATUS.IN_PROGRESS,
+				list: {
+					rows: [
+						{
+							actions: {
+								items: [
+									{
+										href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[1].segment}/${mockJourney.sections[1].questions[0].fieldName}`,
+										text: 'Answer',
+										visuallyHiddenText: mockJourney.sections[1].questions[0].question
+									}
+								]
+							},
+							key: { text: mockJourney.sections[1].questions[0].title },
+							value: { text: 'Not started' }
+						},
+						{
+							actions: {
+								items: [
+									{
+										href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[1].segment}/${mockJourney.sections[1].questions[1].fieldName}`,
+										text: 'Answer',
+										visuallyHiddenText: mockJourney.sections[1].questions[1].question
+									}
+								]
+							},
+							key: { text: mockJourney.sections[1].questions[1].title },
+							value: { text: 'Not started' }
+						}
+					]
+				}
+			},
+			{
+				heading: 'Section 3',
+				status: SECTION_STATUS.NOT_STARTED,
+				list: {
+					rows: [
+						{
+							actions: {
+								items: [
+									{
+										href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[2].segment}/${mockJourney.sections[2].questions[1].fieldName}`,
+										text: 'Answer',
+										visuallyHiddenText: mockJourney.sections[2].questions[1].question
+									}
+								]
+							},
+							key: { text: mockJourney.sections[2].questions[1].title },
+							value: { text: 'Not started' }
+						}
+					]
+				}
+			}
+		]
+	};
+};

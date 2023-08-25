@@ -81,19 +81,10 @@ class MongoRepository {
 	 * @returns
 	 */
 	async updateOne(filter, set, upsert = true) {
-		let dateNow = new Date();
-		let updatedSet = {
-			...set,
-			updatedAt: dateNow
-		};
 		return await mongodb
 			.get()
 			.collection(this.collectionName)
-			.updateOne(
-				filter,
-				{ $set: updatedSet, $setOnInsert: { createdAt: dateNow } },
-				{ upsert: upsert }
-			);
+			.updateOne(filter, set, { upsert: upsert });
 	}
 
 	/**

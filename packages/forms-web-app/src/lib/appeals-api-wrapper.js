@@ -206,6 +206,21 @@ exports.getAppealDocumentMetaData = async (caseRef, documentType, returnMultiple
 	);
 };
 
+/**
+ *
+ * @param {string} formId
+ * @param {string} referenceId
+ * @param {object} answers
+ * @returns {Promise<*>}
+ */
+exports.patchQuestionResponse = async (formId, referenceId, answers) => {
+	return handler(`/api/v1/responses/${formId}/${referenceId}`, 'PATCH', {
+		body: JSON.stringify({
+			answers: answers
+		})
+	});
+};
+
 exports.errorMessages = {
 	user: {
 		only1Admin: 'Only 1 admin is allowed at a time'
