@@ -37,8 +37,17 @@ const getAppealByCaseRefAndLpaCode = async (req, res) => {
 const postAppealCase = async (req, res) => {
 	let statusCode = 201;
 	const caseData = req.body;
-	const result = await postAppealCaseData(caseData);
-	res.status(statusCode).send(result);
+	let body = {};
+
+	try {
+		body = await postAppealCaseData(caseData);
+	} catch (error) {
+		logger.error(`Failed to post appeal case data: ${error.code} // ${error.message.errors}`);
+		statusCode = error.code;
+		body = error.message.errors;
+	} finally {
+		res.status(statusCode).send(body);
+	}
 };
 
 module.exports = {

@@ -36,6 +36,10 @@ const getAppealByLpaCodeAndCaseRef = async (lpaCode, caseRef) => {
 };
 
 const postAppealCaseData = async (caseData) => {
+	if (!caseData || !caseData.lpaCode) {
+		throw ApiError.badRequest();
+	}
+
 	await appealsCaseDataRepository.postAppealCaseData(caseData);
 };
 module.exports = {
