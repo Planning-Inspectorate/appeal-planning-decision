@@ -120,7 +120,7 @@ describe('dynamic-form/controller', () => {
 	describe('list', () => {
 		it('should render the view correctly', async () => {
 			req.params.referenceId = mockRef;
-			const appeal = { a: 1 };
+			const appeal = { a: 1, caseReference: 2 };
 			const lpaUser = {
 				lpaCode: 'E9999'
 			};
@@ -135,7 +135,8 @@ describe('dynamic-form/controller', () => {
 			expect(res.render).toHaveBeenCalledWith(TASK_LIST.QUESTIONNAIRE, {
 				appeal,
 				summaryListData: mockSummaryListData,
-				layoutTemplate: 'has-questionnaire/template.njk'
+				layoutTemplate: 'has-questionnaire/template.njk',
+				pageCaption: `Appeal ${appeal.caseReference}`
 			});
 		});
 	});
@@ -169,6 +170,9 @@ describe('dynamic-form/controller', () => {
 			const mockAnswer = 'sampleAnswer';
 			const mockBackLink = 'back';
 			const mockQuestionRendering = 'test';
+			const mockSection = {
+				name: '123'
+			};
 
 			getJourneyResponseByType.mockReturnValue({});
 			getJourney.mockReturnValue(mockJourney);
@@ -182,6 +186,8 @@ describe('dynamic-form/controller', () => {
 			mockJourney.response.answers.sampleFieldName = mockAnswer;
 			mockJourney.getNextQuestionUrl = jest.fn();
 			mockJourney.getNextQuestionUrl.mockReturnValue(mockBackLink);
+			mockJourney.getSection = jest.fn();
+			mockJourney.getSection.mockReturnValue(mockSection);
 
 			await question(req, res, 'sampleJourneyId');
 
@@ -192,7 +198,9 @@ describe('dynamic-form/controller', () => {
 					question: mockQuestionRendering,
 					answer: mockAnswer,
 					backLink: mockBackLink,
-					navigation: ['', mockBackLink]
+					navigation: ['', mockBackLink],
+					layoutTemplate: 'has-questionnaire/template.njk',
+					pageCaption: mockSection.name
 				})
 			);
 		});

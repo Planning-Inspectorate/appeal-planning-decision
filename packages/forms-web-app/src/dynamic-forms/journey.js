@@ -74,7 +74,7 @@ class Journey {
 	 * @param {string} sectionSegment
 	 * @returns {Section | undefined}
 	 */
-	#getSection(sectionSegment) {
+	getSection(sectionSegment) {
 		return this.sections.find((s) => {
 			return s.segment === sectionSegment;
 		});
@@ -100,7 +100,7 @@ class Journey {
 	 * @returns {Question | undefined} question found by lookup
 	 */
 	getQuestionBySectionAndName(sectionSegment, questionSegment) {
-		const section = this.#getSection(sectionSegment);
+		const section = this.getSection(sectionSegment);
 
 		if (!section) {
 			return undefined;
@@ -158,7 +158,7 @@ class Journey {
 		const unmatchedUrl = this.baseUrl;
 
 		// find section
-		const matchingSection = this.#getSection(sectionSegment);
+		const matchingSection = this.getSection(sectionSegment);
 		if (!matchingSection) {
 			return unmatchedUrl;
 		}

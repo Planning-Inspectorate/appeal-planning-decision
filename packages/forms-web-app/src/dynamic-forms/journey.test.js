@@ -65,6 +65,26 @@ describe('Journey class', () => {
 		});
 	});
 
+	describe('getSection', () => {
+		it('should return the correct section by section segment', () => {
+			const journey = new TestJourney();
+			journey.sections = mockSections;
+
+			const question = journey.getSection(mockSections[0].segment);
+
+			expect(question).toEqual(mockSections[0]);
+		});
+
+		it('should return undefined if section is not found', () => {
+			const journey = new TestJourney();
+			journey.sections = mockSections;
+
+			const section = journey.getSection('a', 'b');
+
+			expect(section).toBe(undefined);
+		});
+	});
+
 	describe('getQuestionBySectionAndName', () => {
 		it('should return the correct question by section and name', () => {
 			const journey = new TestJourney();

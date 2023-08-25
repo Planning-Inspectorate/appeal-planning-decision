@@ -13,8 +13,8 @@ const RequiredValidator = require('../validator/required-validator');
 // Define all questions
 exports.questions = {
 	appealTypeAppropriate: new BooleanQuestion({
-		title: 'Is this appeal type appriopriate?',
-		question: 'Do you think the appeal type is appropriate?',
+		title: 'Is this the correct type of appeal?',
+		question: 'Is this the correct type of appeal?',
 		fieldName: 'correct-appeal-type',
 		validators: [new RequiredValidator()]
 	}),

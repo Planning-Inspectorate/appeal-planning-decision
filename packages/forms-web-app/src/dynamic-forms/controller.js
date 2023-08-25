@@ -165,7 +165,8 @@ exports.list = async (req, res, journeyId) => {
 	return res.render(QUESTIONNAIRE, {
 		appeal,
 		summaryListData,
-		layoutTemplate: hasJourneyTemplate
+		layoutTemplate: hasJourneyTemplate,
+		pageCaption: `Appeal ${appeal.caseReference}`
 	}); //todo: use layout property on HASJourney object
 };
 
@@ -180,6 +181,7 @@ exports.question = async (req, res, journeyId) => {
 	const journeyResponse = getJourneyResponseByType(req, journeyId, referenceId);
 	const journey = getJourney(journeyResponse);
 
+	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
 	if (!questionObj) {
@@ -200,6 +202,7 @@ exports.question = async (req, res, journeyId) => {
 		listLink: journey.baseUrl,
 		navigation: ['', backLink],
 		layoutTemplate: hasJourneyTemplate,
+		pageCaption: sectionObj?.name,
 		showBackToListLink: questionObj.showBackToListLink
 	};
 	return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
@@ -221,6 +224,7 @@ exports.save = async (req, res, journeyId) => {
 
 	const journey = getJourney(journeyResponse);
 
+	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
 	if (!questionObj) {
@@ -242,7 +246,8 @@ exports.save = async (req, res, journeyId) => {
 			navigation: ['', backLink],
 			errors: errors,
 			errorSummary: errorSummary,
-			layoutTemplate: hasJourneyTemplate
+			layoutTemplate: hasJourneyTemplate,
+			pageCaption: sectionObj?.name
 		};
 		return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
 	}
