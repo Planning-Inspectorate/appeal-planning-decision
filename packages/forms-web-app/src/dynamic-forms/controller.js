@@ -1,5 +1,5 @@
 // common controllers for dynamic forms
-const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
+const { getAppealByLPACodeAndId, patchQuestionResponse } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { SECTION_STATUS } = require('./section');
 const {
@@ -7,6 +7,8 @@ const {
 	getJourneyResponseByType,
 	saveResponseToSessionByType
 } = require('./journey-factory');
+
+const logger = require('../lib/logger');
 
 // todo:
 // test save
@@ -212,8 +214,11 @@ exports.save = async (req, res, journeyId) => {
 	//save the response
 	//for now, we'll just save it to the session
 	//TODO: Needs to run validation!
+
 	const { referenceId, section, question } = req.params;
+	const encodedReferenceId = encodeURIComponent(referenceId);
 	const journeyResponse = getJourneyResponseByType(req, journeyId, referenceId);
+
 	const journey = getJourney(journeyResponse);
 
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
@@ -242,23 +247,45 @@ exports.save = async (req, res, journeyId) => {
 		return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
 	}
 
-	// use custom saveAction
-	if (questionObj.saveAction) {
-		return await questionObj.saveAction(req, res);
-	}
-
-	// set answer on response
-	journeyResponse.answers[questionObj.fieldName] = req.body[questionObj.fieldName];
-	for (let propName in req.body) {
-		if (propName.startsWith(questionObj.fieldName + '_')) {
-			journeyResponse.answers[propName] = req.body[propName];
+	try {
+		// use custom saveAction
+		if (questionObj.saveAction) {
+			return await questionObj.saveAction(req, res);
 		}
+
+		// set answer on response
+		let responseToSave = { answers: {} };
+
+		journeyResponse.answers[questionObj.fieldName] = req.body[questionObj.fieldName];
+		responseToSave.answers[questionObj.fieldName] = req.body[questionObj.fieldName];
+		for (let propName in req.body) {
+			if (propName.startsWith(questionObj.fieldName + '_')) {
+				journeyResponse.answers[propName] = req.body[propName];
+				responseToSave.answers[propName] = req.body[propName];
+			}
+		}
+
+		// save answer to database
+		await patchQuestionResponse(journeyId, encodedReferenceId, responseToSave);
+
+		// save response to session
+		saveResponseToSessionByType(req, journeyResponse);
+
+		//move to the next question
+		const updatedQuestionnaire = getJourney(journeyResponse);
+		return res.redirect(updatedQuestionnaire.getNextQuestionUrl(section, question, false));
+	} catch (err) {
+		logger.error(err);
+		const answer = journeyResponse.answers[questionObj.fieldName] || '';
+		const backLink = journey.getCurrentQuestionUrl(section, question);
+		const viewModel = {
+			appealId: referenceId,
+			question: questionObj.prepQuestionForRendering(journeyResponse.answers),
+			answer: answer,
+			backLink: backLink,
+			navigation: ['', backLink],
+			errorSummary: [{ text: err.toString(), href: '#' }]
+		};
+		return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
 	}
-
-	// save response to session
-	saveResponseToSessionByType(req, journeyResponse);
-
-	//move to the next question
-	const updatedQuestionnaire = getJourney(journeyResponse);
-	return res.redirect(updatedQuestionnaire.getNextQuestionUrl(section, question, false));
 };
