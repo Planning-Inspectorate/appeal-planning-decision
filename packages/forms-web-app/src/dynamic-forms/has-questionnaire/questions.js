@@ -21,7 +21,7 @@ exports.questions = {
 	listedBuildingCheck: new BooleanQuestion({
 		title: 'Affects a listed building',
 		question: 'Could the plans affect the setting of a listed building or site?',
-		fieldName: 'listed-building-check'
+		fieldName: 'affect-listed-building'
 	}),
 	// listedBuildingDetail: {
 	// 	title: 'Listed buildings',
