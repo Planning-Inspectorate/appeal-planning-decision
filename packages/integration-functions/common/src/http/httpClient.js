@@ -9,17 +9,7 @@ const METHOD_GET = 'GET';
 const METHOD_PUT = 'PUT';
 const METHOD_POST = 'POST';
 const ALLOWED_METHODS = ['GET', 'POST', 'PUT'];
-const ALLOWED_CONTENT_TYPES = [
-	'application/json',
-	'application/pdf',
-	'application/rtf',
-	'application/vnd.ms-excel',
-	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-	'application/vnd.oasis.opendocument.text',
-	'application/vnd.oasis.opendocument.spreadsheet',
-	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-	'application/msword'
-];
+const ALLOWED_CONTENT_TYPES = ['application/json', 'application/pdf'];
 
 const optionsBuilder = (contentType = CONTENT_TYPE_JSON, json, method, urlObject) => {
 	if (!ALLOWED_METHODS.includes(method.toLocaleUpperCase()))

@@ -4,8 +4,6 @@ Service Bus Namespace:
     Deployment name: appeals-case-data-ukw-dev
     Subscription: pins-odt-apps-dev-sub
     Resource group: pins-rg-appeals-service-dev-uks-001
-    Correlation ID: db204df6-27b9-44de-8d8e-132b78b7898d
-    Connection String: Endpoint=sb://appeals-case-data-ukw-dev.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=ZHLEbaUP/jKVV1Gz5RRnmftEBdHR42Rco+ASbBJhU8w=
 Queue:
     Queue name: appeals-case-data-queue
 */
