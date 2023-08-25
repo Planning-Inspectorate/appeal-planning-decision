@@ -42,9 +42,8 @@ const postAppealCase = async (req, res) => {
 	try {
 		body = await postAppealCaseData(caseData);
 	} catch (error) {
-		logger.error(`Failed to post appeal case data: ${error.code} // ${error.message.errors}`);
+		logger.error(`Failed to post appeal case data: ${error.code}`);
 		statusCode = error.code;
-		body = error.message.errors;
 	} finally {
 		res.status(statusCode).send(body);
 	}

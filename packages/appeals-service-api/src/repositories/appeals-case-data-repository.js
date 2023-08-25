@@ -60,12 +60,14 @@ class AppealsCaseDataRepository extends MongoRepository {
 		return result;
 	}
 	async postAppealCaseData(caseData) {
-		return await this.upsertManyById([
+		return await this.updateOne(
 			{
-				_id: caseData._id,
-				updateSet: caseData
+				_id: caseData._id
+			},
+			{
+				caseData: caseData
 			}
-		]);
+		);
 	}
 }
 
