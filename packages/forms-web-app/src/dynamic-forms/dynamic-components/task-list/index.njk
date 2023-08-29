@@ -1,5 +1,6 @@
 {% extends layoutTemplate %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
 
 {% block pageTitle %}
   {{ title }}
@@ -38,9 +39,24 @@
         <div class="app-task-list__section">
             <h2 class="govuk-heading-m">
               <span class="app-task-list__section-number">{{loop.index}}. </span> {{section.heading}}
-              <strong class="govuk-tag govuk-tag--grey moj-task-list__task-completed">
-                {{section.status}}
-              </strong>
+              {%- if section.status %}
+                {%- if section.status == 'Completed' %}
+                  {{ govukTag({
+                    text: section.status,
+                    classes: 'moj-task-list__task-completed'
+                  }) }}
+                {%- elif section.status == 'In progress' %}
+                  {{ govukTag({
+                    text: section.status,
+                    classes: 'govuk-tag--blue moj-task-list__task-completed'
+                  }) }}
+                {% else %}
+                  {{ govukTag({
+                    text: section.status,
+                    classes: 'govuk-tag--grey moj-task-list__task-completed'
+                  }) }}
+                {% endif -%}
+              {% endif -%}
             </h2>
         </div>
         
