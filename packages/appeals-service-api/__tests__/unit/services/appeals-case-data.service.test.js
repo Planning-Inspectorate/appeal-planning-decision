@@ -137,7 +137,8 @@ describe('src/services/appeals-case-data.service.test', () => {
 			.spyOn(AppealsCaseDataRepository.prototype, 'postAppealCaseData')
 			.mockImplementation(() => {});
 		const aCase = {
-			id: 1
+			id: 1,
+			lpaCode: 'E9999999'
 		};
 		await postAppealCaseData(aCase);
 		expect(spy).toHaveBeenCalledWith(aCase);
