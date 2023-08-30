@@ -1,7 +1,8 @@
 const { HasJourney } = require('./journey');
 
 const mockResponse = {
-	referenceId: '123'
+	referenceId: '123',
+	answers: []
 };
 
 describe('HAS Journey class', () => {
