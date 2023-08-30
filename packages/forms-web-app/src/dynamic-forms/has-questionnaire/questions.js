@@ -21,7 +21,14 @@ exports.questions = {
 	listedBuildingCheck: new BooleanQuestion({
 		title: 'Affects a listed building',
 		question: 'Could the plans affect the setting of a listed building or site?',
-		fieldName: 'affect-listed-building'
+		fieldName: 'affect-listed-building',
+		validators: [new RequiredValidator()]
+	}),
+	listedBuildingNumber: new BooleanQuestion({
+		title: '*************placeholder**************',
+		question: '*************placeholder**************',
+		fieldName: 'listed-building-number',
+		validators: [new RequiredValidator()]
 	}),
 	// listedBuildingDetail: {
 	// 	title: 'Listed buildings',
@@ -52,7 +59,8 @@ exports.questions = {
 	conservationArea: new BooleanQuestion({
 		title: 'Conservation area',
 		question: 'Is the site in or next to a conservation area?',
-		fieldName: 'conservation-area'
+		fieldName: 'conservation-area',
+		validators: [new RequiredValidator()]
 	}),
 	// conservationAreaUpload: new MultiFileUploadQuestion({
 	// 	title: 'Conservation area map and guidance',

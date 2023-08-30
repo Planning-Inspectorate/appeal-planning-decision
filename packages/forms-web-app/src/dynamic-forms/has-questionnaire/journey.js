@@ -24,11 +24,14 @@ class HasJourney extends Journey {
 			new Section('Constraints, designations and other issues', 'constraints')
 				.addQuestion(questions.appealTypeAppropriate)
 				.addQuestion(questions.listedBuildingCheck)
+				.addQuestion(questions.listedBuildingNumber)
+				.withCondition(response.answers[questions.listedBuildingCheck.fieldName] == 'yes')
+				.addQuestion(questions.conservationArea)
 				// .addQuestion(questions.listedBuildingDetail)
 				// .withCondition(response.answers[questions.listedBuildingCheck.fieldName] == 'yes')
 				// .addQuestion(questions.listedBuildingDetailList)
 				// .withCondition(response.answers[questions.listedBuildingCheck.fieldName] == 'yes')
-				.addQuestion(questions.conservationArea)
+
 				// .addQuestion(questions.conservationAreaUpload)
 				// .withCondition(response.answers[questions.conservationArea.fieldName] == 'yes')
 				.addQuestion(questions.greenBelt),
