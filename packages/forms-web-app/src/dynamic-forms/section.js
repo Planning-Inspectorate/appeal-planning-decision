@@ -68,6 +68,7 @@ class Section {
 		let requiredAnswerCount = 0;
 		let answerCount = 0;
 
+		console.log(this.questions);
 		for (let question of this.questions) {
 			const isRequired = question.validators?.some((item) => item instanceof RequiredValidator);
 			const answer = journeyResponse?.answers[question.fieldName];
