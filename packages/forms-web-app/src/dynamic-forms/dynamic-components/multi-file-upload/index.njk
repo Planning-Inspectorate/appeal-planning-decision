@@ -1,4 +1,4 @@
-{% set submissionTypeTemplate = "layouts/no-banner-link/main.njk" %}
+{% set submissionTypeTemplate = layoutTemplate %}
 
 {% extends "layouts/multi-file-upload.njk" %}
 
@@ -6,3 +6,8 @@
 {% set heading = question.question %}
 {% set body = question.description %}
 {% set saveAndReturn = false %}
+{% set caption = pageCaption %}
+
+{% block before_content %}
+{# empty to stop caption coming in #}
+{% endblock before_content %}

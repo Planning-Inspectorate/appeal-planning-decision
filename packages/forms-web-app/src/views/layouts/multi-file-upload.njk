@@ -9,6 +9,8 @@
 
 {% set saveAndReturn = saveAndReturn | default(true) %}
 
+{% set fieldName = question.fieldName | default("file-upload") %}
+
 {% set errorMessageHtml %}
   {% if errorSummary %}
     {%- for error in errorSummary -%}
@@ -19,8 +21,8 @@
 
 {% set uploadHtml %}
   {{ govukFileUpload({
-    id: "file-upload",
-    name: "file-upload",
+    id: fieldName,
+    name: fieldName,
     classes: 'moj-multi-file-upload__input',
     hint: {
       text: 'The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than 15MB'

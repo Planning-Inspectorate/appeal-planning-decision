@@ -23,6 +23,9 @@ const {
 
 /**
  * @typedef {import('./journey-factory').JourneyType} JourneyType
+ * @typedef {import('./journey').Journey} Journey
+ * @typedef {import('./question')} Question
+ * @typedef {import('./section').Section} Section
  */
 
 /**
@@ -171,6 +174,32 @@ exports.list = async (req, res, journeyId) => {
 };
 
 /**
+ * builds a question page view model
+ * @param {Journey} journey
+ * @param {Section} section
+ * @param {Question} question
+ * @param {Answer} answer
+ * @returns {Object}
+ */
+function getQuestionViewModel(journey, section, question, answer) {
+	const backLink = journey.getNextQuestionUrl(section.segment, question.fieldName, true);
+
+	return {
+		appealId: journey.response.referenceId,
+		question: question.prepQuestionForRendering(journey.response.answers),
+		answer: answer,
+
+		layoutTemplate: hasJourneyTemplate,
+		pageCaption: section?.name,
+
+		navigation: ['', backLink],
+		backLink: backLink,
+		showBackToListLink: question.showBackToListLink,
+		listLink: journey.baseUrl
+	};
+}
+
+/**
  * @param {ExpressRequest} req
  * @param {ExpressResponse} res
  * @param {JourneyType} journeyId
@@ -184,7 +213,7 @@ exports.question = async (req, res, journeyId) => {
 	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
-	if (!questionObj) {
+	if (!questionObj || !sectionObj) {
 		return res.redirect(journey.baseUrl);
 	}
 
@@ -193,18 +222,7 @@ exports.question = async (req, res, journeyId) => {
 	}
 
 	const answer = journey.response.answers[questionObj.fieldName] || '';
-	const backLink = journey.getNextQuestionUrl(section, question, true);
-	const viewModel = {
-		appealId: referenceId,
-		question: questionObj.prepQuestionForRendering(journeyResponse.answers),
-		answer: answer,
-		backLink: backLink,
-		listLink: journey.baseUrl,
-		navigation: ['', backLink],
-		layoutTemplate: hasJourneyTemplate,
-		pageCaption: sectionObj?.name,
-		showBackToListLink: questionObj.showBackToListLink
-	};
+	const viewModel = getQuestionViewModel(journey, sectionObj, questionObj, answer);
 	return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
 };
 
@@ -227,7 +245,7 @@ exports.save = async (req, res, journeyId) => {
 	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
-	if (!questionObj) {
+	if (!questionObj || !sectionObj) {
 		return res.redirect(journey.baseUrl);
 	}
 
@@ -237,18 +255,9 @@ exports.save = async (req, res, journeyId) => {
 	// show errors
 	if (Object.keys(errors).length > 0) {
 		const answer = journeyResponse.answers[questionObj.fieldName] || '';
-		const backLink = journey.getCurrentQuestionUrl(section, question);
-		const viewModel = {
-			appealId: referenceId,
-			question: questionObj.prepQuestionForRendering(journeyResponse.answers),
-			answer: answer,
-			backLink: backLink,
-			navigation: ['', backLink],
-			errors: errors,
-			errorSummary: errorSummary,
-			layoutTemplate: hasJourneyTemplate,
-			pageCaption: sectionObj?.name
-		};
+		let viewModel = getQuestionViewModel(journey, sectionObj, questionObj, answer);
+		viewModel.errors = errors;
+		viewModel.errorSummary = errorSummary;
 		return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
 	}
 
@@ -282,15 +291,8 @@ exports.save = async (req, res, journeyId) => {
 	} catch (err) {
 		logger.error(err);
 		const answer = journeyResponse.answers[questionObj.fieldName] || '';
-		const backLink = journey.getCurrentQuestionUrl(section, question);
-		const viewModel = {
-			appealId: referenceId,
-			question: questionObj.prepQuestionForRendering(journeyResponse.answers),
-			answer: answer,
-			backLink: backLink,
-			navigation: ['', backLink],
-			errorSummary: [{ text: err.toString(), href: '#' }]
-		};
+		let viewModel = getQuestionViewModel(journey, sectionObj, questionObj, answer);
+		viewModel.errorSummary = [{ text: err.toString(), href: '#' }];
 		return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
 	}
 };

@@ -89,6 +89,7 @@ class TestJourney extends Journey {
 }
 
 const mockResponse = {
+	referenceId: mockRef,
 	answers: {}
 };
 
@@ -100,6 +101,10 @@ const sampleQuestionObj = {
 	renderAction: null,
 	prepQuestionForRendering: jest.fn(),
 	viewFolder: 'sampleType'
+};
+
+const mockSection = {
+	name: '123'
 };
 
 jest.mock('../lib/appeals-api-wrapper');
@@ -156,6 +161,8 @@ describe('dynamic-form/controller', () => {
 		it('should use custom action if renderAction is defined', async () => {
 			getJourneyResponseByType.mockReturnValue({});
 			getJourney.mockReturnValue(mockJourney);
+			mockJourney.getSection = jest.fn();
+			mockJourney.getSection.mockReturnValueOnce({});
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObj);
 			sampleQuestionObj.renderAction = jest.fn(async () => {});
@@ -170,9 +177,6 @@ describe('dynamic-form/controller', () => {
 			const mockAnswer = 'sampleAnswer';
 			const mockBackLink = 'back';
 			const mockQuestionRendering = 'test';
-			const mockSection = {
-				name: '123'
-			};
 
 			getJourneyResponseByType.mockReturnValue({});
 			getJourney.mockReturnValue(mockJourney);
@@ -200,7 +204,9 @@ describe('dynamic-form/controller', () => {
 					backLink: mockBackLink,
 					navigation: ['', mockBackLink],
 					layoutTemplate: 'has-questionnaire/template.njk',
-					pageCaption: mockSection.name
+					pageCaption: mockSection.name,
+					listLink: '/manage-appeals/questionnaire/' + mockRef,
+					showBackToListLink: undefined
 				})
 			);
 		});
@@ -269,23 +275,32 @@ describe('dynamic-form/controller', () => {
 			sampleQuestionObj.prepQuestionForRendering = jest.fn();
 			sampleQuestionObj.prepQuestionForRendering.mockReturnValueOnce(mockQuestionRendering);
 
-			mockJourney.getCurrentQuestionUrl = jest.fn();
+			mockJourney.getNextQuestionUrl = jest.fn();
 			const mockBackLink = 'mock-back-link';
-			mockJourney.getCurrentQuestionUrl.mockReturnValueOnce(mockBackLink);
+			mockJourney.getNextQuestionUrl.mockReturnValueOnce(mockBackLink);
+			mockJourney.getSection = jest.fn();
+			mockJourney.getSection.mockReturnValue(mockSection);
 
 			const error = new Error('Test error');
 			patchQuestionResponse.mockImplementation(() => Promise.reject(error));
 
 			await save(req, res, journeyId);
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith('dynamic-components/sampleType/index', {
-				appealId: mockRef,
-				question: mockQuestionRendering,
-				answer: true,
-				backLink: mockBackLink,
-				navigation: ['', mockBackLink],
-				errorSummary: [{ href: '#', text: 'Error: Test error' }]
-			});
+			expect(res.render).toHaveBeenCalledWith(
+				'dynamic-components/sampleType/index',
+				expect.objectContaining({
+					appealId: mockRef,
+					question: mockQuestionRendering,
+					answer: true,
+					backLink: mockBackLink,
+					navigation: ['', mockBackLink],
+					layoutTemplate: 'has-questionnaire/template.njk',
+					pageCaption: mockSection.name,
+					listLink: '/manage-appeals/questionnaire/' + mockRef,
+					showBackToListLink: undefined,
+					errorSummary: [{ href: '#', text: 'Error: Test error' }]
+				})
+			);
 		});
 	});
 });
