@@ -75,7 +75,8 @@ exports.questions = {
 		title: 'Who was notified',
 		question: 'Who was notified',
 		description: 'This should include internal consultees.',
-		fieldName: 'who-was-notified-upload'
+		fieldName: 'who-was-notified-upload',
+		validators: [new RequiredValidator('You must add your documents')]
 	}),
 	howYouNotifiedPeople: new CheckboxQuestion({
 		title: 'How you notified people',
