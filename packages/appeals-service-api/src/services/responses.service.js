@@ -13,10 +13,8 @@ const patchResponse = async (formId, referenceId, answers) => {
 		throw ApiError.noReferenceIdProvided();
 	}
 
-	const uniqueId = `${formId}:${referenceId}`;
-
 	try {
-		return await responsesRepository.patchResponses(uniqueId, answers);
+		return await responsesRepository.patchResponses(formId, referenceId, answers);
 	} catch (err) {
 		logger.error(err);
 		throw ApiError.unableToUpdateResponse();

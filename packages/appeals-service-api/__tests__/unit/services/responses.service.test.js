@@ -11,6 +11,8 @@ jest.mock('../../../src/lib/logger', () => {
 
 describe('./src/services/responses.service', () => {
 	let patchResponsesSpy;
+	const formId = 'has-questionnaire';
+	const referenceId = '12345';
 
 	beforeEach(() => {
 		patchResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'patchResponses');
@@ -20,12 +22,12 @@ describe('./src/services/responses.service', () => {
 		jest.clearAllMocks();
 	});
 	describe('patchResponse', () => {
-		it('calls repository with uniqueId and answers and returns response if successful', async () => {
+		it('calls repository with formId, referenceId and answers and returns response if successful', async () => {
 			patchResponsesSpy.mockResolvedValue({});
 
-			const result = await patchResponse('has-questionnaire', '12345', { test: 'testing' });
+			const result = await patchResponse(formId, referenceId, { test: 'testing' });
 
-			expect(patchResponsesSpy).toHaveBeenCalledWith('has-questionnaire:12345', {
+			expect(patchResponsesSpy).toHaveBeenCalledWith(formId, referenceId, {
 				test: 'testing'
 			});
 			expect(result).toEqual({});
@@ -36,9 +38,9 @@ describe('./src/services/responses.service', () => {
 			patchResponsesSpy.mockRejectedValue(error);
 
 			try {
-				await patchResponse('has-questionnaire', '12345', { test: 'testing' });
+				await patchResponse(formId, referenceId, { test: 'testing' });
 			} catch (err) {
-				expect(patchResponsesSpy).toHaveBeenCalledWith('has-questionnaire:12345', {
+				expect(patchResponsesSpy).toHaveBeenCalledWith(formId, referenceId, {
 					test: 'testing'
 				});
 				expect(logger.error).toHaveBeenCalledWith(error);
