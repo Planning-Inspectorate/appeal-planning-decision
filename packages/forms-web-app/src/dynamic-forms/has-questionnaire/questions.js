@@ -19,9 +19,9 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	listedBuildingCheck: new BooleanQuestion({
-		title: 'Affects a listed building',
-		question: 'Could the plans affect the setting of a listed building or site?',
-		fieldName: 'affect-listed-building',
+		title: 'Affects on a listed building or site',
+		question: 'Do the plans affect the setting of a listed building or site?',
+		fieldName: 'affects-listed-building',
 		validators: [new RequiredValidator()]
 	}),
 	listedBuildingNumber: new BooleanQuestion({
