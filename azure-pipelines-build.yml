@@ -15,6 +15,10 @@ parameters:
     displayName: Build Horizon Functions
     type: boolean
     default: true
+  - name: buildIntegrationFunctions
+    displayName: Build Integration Functions
+    type: boolean
+    default: false
   - name: buildPdfApi
     displayName: Build PDF Service API
     type: boolean
@@ -186,6 +190,31 @@ extends:
             parameters:
               nodeVersion: 18
               workingDirectory: $(Build.Repository.LocalPath)/packages/horizon-functions
+      - name: Build Integration Functions
+        condition: >-
+          and(
+            succeeded(),
+            or(
+              and(
+                eq(variables['Build.Reason'], 'Manual'),
+                eq(${{ parameters.buildIntegrationFunctions }}, 'true')
+              ),
+              and(
+                ne(variables['Build.Reason'], 'Manual'),
+                or(
+                  eq(variables['Build.SourceBranchName'], 'main'),
+                  eq(dependencies.run_linting_and_tests.outputs['check_files.integration-functions'], 'true')
+                )
+              )
+            )
+          )
+        dependsOn:
+          - Run Linting & Tests
+        steps:
+          - template: ../steps/function_app_validate.yml@templates
+            parameters:
+              nodeVersion: 18
+              workingDirectory: $(Build.Repository.LocalPath)/packages/integration-functions
       - name: Build PDF Service
         condition: >-
           and(
