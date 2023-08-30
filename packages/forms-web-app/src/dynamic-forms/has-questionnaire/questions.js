@@ -6,7 +6,7 @@
  *************************************************************/
 
 const { CheckboxQuestion } = require('../dynamic-components/checkbox/question');
-const { MultiFileUploadQuestion } = require('../dynamic-components/multi-file-upload/question');
+const MultiFileUploadQuestion = require('../dynamic-components/multi-file-upload/question');
 const BooleanQuestion = require('../dynamic-components/boolean/question');
 const RequiredValidator = require('../validator/required-validator');
 

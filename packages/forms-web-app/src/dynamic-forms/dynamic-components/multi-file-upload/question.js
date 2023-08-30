@@ -13,4 +13,4 @@ class MultiFileUploadQuestion extends Question {
 	}
 }
 
-module.exports = { MultiFileUploadQuestion };
+module.exports = MultiFileUploadQuestion;
