@@ -62,13 +62,13 @@ exports.questions = {
 		fieldName: 'conservation-area',
 		validators: [new RequiredValidator()]
 	}),
-	// conservationAreaUpload: new MultiFileUploadQuestion({
-	// 	title: 'Conservation area map and guidance',
-	// 	question: 'Upload conservation map and guidance',
-	// 	description:
-	// 		'<a href="https://magic.defra.gov.uk/magicmap.aspx" target="_blank" class="govuk-link">Link to Magic Maps (opens in new tab)</a>',
-	// 	fieldName: 'conservation-area-upload'
-	// }),
+	conservationAreaUpload: new MultiFileUploadQuestion({
+		title: 'Conservation area map and guidance',
+		question: 'Upload conservation map and guidance',
+		description:
+			'<a href="https://magic.defra.gov.uk/magicmap.aspx" target="_blank" class="govuk-link">Link to Magic Maps (opens in new tab)</a>',
+		fieldName: 'conservation-area-upload'
+	}),
 	greenBelt: new BooleanQuestion({
 		title: 'Is the site in a green belt?',
 		question: 'Is the site in a green belt?',

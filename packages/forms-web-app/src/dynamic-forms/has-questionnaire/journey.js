@@ -29,6 +29,10 @@ class HasJourney extends Journey {
 					response.answers && response.answers[questions.listedBuildingCheck.fieldName] == 'yes'
 				)
 				.addQuestion(questions.conservationArea)
+				.addQuestion(questions.conservationAreaUpload)
+				.withCondition(
+					response.answers && response.answers[questions.conservationArea.fieldName] == 'yes'
+				)
 				// .addQuestion(questions.listedBuildingDetail)
 				// .withCondition(response.answers[questions.listedBuildingCheck.fieldName] == 'yes')
 				// .addQuestion(questions.listedBuildingDetailList)
