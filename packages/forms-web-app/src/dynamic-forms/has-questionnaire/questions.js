@@ -82,6 +82,20 @@ exports.questions = {
 		fieldName: 'notified-who',
 		validators: [new RequiredValidator('You must add your documents')]
 	}),
+	displaySiteNotice: new BooleanQuestion({
+		title: 'Did you display a notice at the site?',
+		question: 'Did you display a notice at the site?',
+		description: 'Notifying relevant parties of the application',
+		fieldName: 'display-site-notice',
+		validators: [new RequiredValidator()]
+	}),
+	lettersToNeighbours: new BooleanQuestion({
+		title: '************************placeholder********************',
+		question: '***************************placeholder***********************',
+		description: '***********************placeholder**************************',
+		fieldName: 'letters-to-neighbours',
+		validators: [new RequiredValidator()]
+	}),
 	howYouNotifiedPeople: new CheckboxQuestion({
 		title: 'How you notified people',
 		question: 'How did you notify people about the application?',
