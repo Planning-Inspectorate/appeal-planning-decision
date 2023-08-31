@@ -43,7 +43,9 @@ class HasJourney extends Journey {
 				.addQuestion(questions.greenBelt),
 			new Section('Notifying people about the application', 'notification')
 				.addQuestion(questions.whoWasNotified)
-				.addQuestion(questions.howYouNotifiedPeople),
+				.addQuestion(questions.howYouNotifiedPeople)
+				.addQuestion(questions.displaySiteNotice)
+				.addQuestion(questions.lettersToNeighbours),
 			// .addQuestion(questions.siteNoticeUpload)
 			// .withCondition(
 			// 	(response.answers[questions.howYouNotifiedPeople.fieldName] ?? '').includes('Site notice')
