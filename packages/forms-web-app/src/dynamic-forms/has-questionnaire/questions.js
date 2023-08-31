@@ -70,20 +70,16 @@ exports.questions = {
 	// 	fieldName: 'conservation-area-upload'
 	// }),
 	greenBelt: new BooleanQuestion({
-		title: 'Green belt',
+		title: 'Is the site in a green belt?',
 		question: 'Is the site in a green belt?',
-		type: 'boolean',
 		fieldName: 'green-belt',
-		required: true
-		// show: (answers) => {
-		// 	return true;
-		// }
+		validators: [new RequiredValidator()]
 	}),
 	whoWasNotified: new MultiFileUploadQuestion({
 		title: 'Who was notified',
 		question: 'Who was notified',
 		description: 'This should include internal consultees.',
-		fieldName: 'who-was-notified-upload',
+		fieldName: 'notified-who',
 		validators: [new RequiredValidator('You must add your documents')]
 	}),
 	howYouNotifiedPeople: new CheckboxQuestion({
