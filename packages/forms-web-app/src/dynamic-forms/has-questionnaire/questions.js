@@ -57,8 +57,8 @@ exports.questions = {
 	// 	}
 	// },
 	conservationArea: new BooleanQuestion({
-		title: 'Conservation area',
-		question: 'Is the site in or next to a conservation area?',
+		title: 'Is the site in, or next to a conservation area? ',
+		question: 'Is the site in, or next to a conservation area?',
 		fieldName: 'conservation-area',
 		validators: [new RequiredValidator()]
 	}),
