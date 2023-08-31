@@ -25,7 +25,9 @@ class HasJourney extends Journey {
 				.addQuestion(questions.appealTypeAppropriate)
 				.addQuestion(questions.listedBuildingCheck)
 				.addQuestion(questions.listedBuildingNumber)
-				.withCondition(response.answers[questions.listedBuildingCheck.fieldName] == 'yes')
+				.withCondition(
+					response.answers && response.answers[questions.listedBuildingCheck.fieldName] == 'yes'
+				)
 				.addQuestion(questions.conservationArea)
 				// .addQuestion(questions.listedBuildingDetail)
 				// .withCondition(response.answers[questions.listedBuildingCheck.fieldName] == 'yes')
