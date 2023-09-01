@@ -90,9 +90,9 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	lettersToNeighbours: new BooleanQuestion({
-		title: '************************placeholder********************',
-		question: '***************************placeholder***********************',
-		description: '***********************placeholder**************************',
+		title: 'Did you send letters and emails to neighbours?',
+		question: 'Did you send letters and emails to neighbours?',
+		description: 'Did you send letters and emails to neighbours?',
 		fieldName: 'letters-to-neighbours',
 		validators: [new RequiredValidator()]
 	}),
