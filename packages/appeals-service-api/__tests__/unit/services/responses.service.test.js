@@ -1,6 +1,6 @@
 const { patchResponse, getResponse } = require('../../../src/services/responses.service');
 const logger = require('../../../src/lib/logger');
-const ResponsesRepository = require('../../../src/repositories/responses-repository');
+const { ResponsesRepository } = require('../../../src/repositories/responses-repository');
 const ApiError = require('../../../src/errors/apiError');
 
 jest.mock('../../../src/lib/logger', () => {
