@@ -187,7 +187,7 @@ describe('Journey class', () => {
 
 		it('should return the questionnaire URL if there is no next question in the current section', () => {
 			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[2].fieldName;
+			const name = mockSections[0].questions[3].fieldName;
 			const baseUrl = 'base';
 
 			const journey = new TestJourney(baseUrl);
