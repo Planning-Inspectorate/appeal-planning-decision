@@ -88,7 +88,7 @@ class Journey {
 	 */
 	#getQuestion(section, questionSegment) {
 		return section?.questions.find((q) => {
-			return q.fieldName === questionSegment;
+			return q.fieldName === questionSegment || q.url === questionSegment;
 			// todo: should we rename fieldName on question to segment so it's clear it's used as a url
 		});
 	}
@@ -144,7 +144,9 @@ class Journey {
 
 		return this.#buildQuestionUrl(
 			this.sections[sectionIndex].segment,
-			this.sections[sectionIndex].questions[newIndex].fieldName
+			this.sections[sectionIndex].questions[newIndex].url
+				? this.sections[sectionIndex].questions[newIndex].url
+				: this.sections[sectionIndex].questions[newIndex].fieldName
 		);
 	}
 
@@ -169,7 +171,10 @@ class Journey {
 			return unmatchedUrl;
 		}
 
-		return this.#buildQuestionUrl(matchingSection.segment, matchingQuestion.fieldName);
+		return this.#buildQuestionUrl(
+			matchingSection.segment,
+			matchingQuestion.url ? matchingQuestion.url : matchingQuestion.fieldName
+		);
 	};
 }
 

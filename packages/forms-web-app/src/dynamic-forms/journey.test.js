@@ -6,7 +6,8 @@ const mockSections = [
 		questions: [
 			{ fieldName: 'question1', text: 'Question 1' },
 			{ fieldName: 'question2', text: 'Question 2' },
-			{ fieldName: 'question3', text: 'Question 3' }
+			{ fieldName: 'question3', text: 'Question 3' },
+			{ fieldName: 'question4', text: 'Question 4', url: 'q4_alternative_url' }
 		]
 	},
 	{
@@ -247,6 +248,18 @@ describe('Journey class', () => {
 			const nextQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
 			expect(nextQuestionUrl).toBe(`${baseUrl}/${section}/${name}`);
+		});
+
+		it('should return the current question URL using url slug if set', () => {
+			const section = mockSections[0].segment;
+			const name = mockSections[0].questions[3].url;
+
+			const journey = new TestJourney();
+			journey.sections = mockSections;
+
+			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
+
+			expect(currentQuestionUrl).toBe(`/${section}/${name}`);
 		});
 	});
 });
