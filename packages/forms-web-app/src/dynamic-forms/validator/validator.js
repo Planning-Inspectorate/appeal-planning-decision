@@ -1,4 +1,5 @@
-const { getJourney, getJourneyResponseByType } = require('../journey-factory');
+const { getJourney } = require('../journey-factory');
+const getJourneyResponse = require('../middleware/getJourneyResponse');
 
 /**
  * @typedef {import('../journey-factory').JourneyType} JourneyType
@@ -9,8 +10,9 @@ const { getJourney, getJourneyResponseByType } = require('../journey-factory');
  */
 const validate = (journeyId) => {
 	return async (req, res, next) => {
-		const { referenceId, section, question } = req.params;
-		const journeyResponse = getJourneyResponseByType(req, journeyId, referenceId);
+		const { section, question } = req.params;
+
+		const journeyResponse = getJourneyResponse(journeyId);
 		const journey = getJourney(journeyResponse);
 
 		const questionObj = journey.getQuestionBySectionAndName(section, question);

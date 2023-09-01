@@ -1,5 +1,5 @@
 const validate = require('./validator');
-const { getJourney, getJourneyResponseByType } = require('../journey-factory');
+const { getJourney } = require('../journey-factory');
 
 const RequiredValidator = require('./required-validator');
 const ValidOptionValidator = require('./valid-option-validator');
@@ -17,7 +17,6 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			body: {}
 		};
 
-		getJourneyResponseByType.mockReturnValue({});
 		getJourney.mockReturnValue({
 			getQuestionBySectionAndName: function () {
 				return null;
@@ -47,7 +46,6 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourneyResponseByType.mockReturnValue({});
 		getJourney.mockReturnValue({
 			getQuestionBySectionAndName: function () {
 				return {
@@ -76,7 +74,6 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourneyResponseByType.mockReturnValue({});
 		getJourney.mockReturnValue({
 			getQuestionBySectionAndName: function () {
 				return {
@@ -104,7 +101,6 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourneyResponseByType.mockReturnValue({});
 		getJourney.mockReturnValue({
 			getQuestionBySectionAndName: function () {
 				return {
@@ -146,7 +142,6 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourneyResponseByType.mockReturnValue({});
 		getJourney.mockReturnValue({
 			getQuestionBySectionAndName: function () {
 				return {
