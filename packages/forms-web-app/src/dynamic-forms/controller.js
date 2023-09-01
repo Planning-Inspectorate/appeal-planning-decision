@@ -2,12 +2,7 @@
 const { getAppealByLPACodeAndId, patchQuestionResponse } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { SECTION_STATUS } = require('./section');
-const {
-	getJourney,
-	getJourneyResponseByType,
-	saveResponseToSessionByType
-} = require('./journey-factory');
-
+const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
 
 // todo:
@@ -93,16 +88,15 @@ function buildSectionRowViewModel(key, value, action) {
 /**
  * @param {ExpressRequest} req
  * @param {ExpressResponse} res
- * @param {JourneyType} journeyId
  */
-exports.list = async (req, res, journeyId) => {
+exports.list = async (req, res) => {
 	//render check your answers view
 	const { referenceId } = req.params;
 
 	const user = getLPAUserFromSession(req);
 	const encodedReferenceId = encodeURIComponent(referenceId);
 	const appeal = await getAppealByLPACodeAndId(user.lpaCode, encodedReferenceId);
-	const journeyResponse = getJourneyResponseByType(req, journeyId, referenceId);
+	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
 
 	const summaryListData = {
@@ -202,12 +196,11 @@ function getQuestionViewModel(journey, section, question, answer) {
 /**
  * @param {ExpressRequest} req
  * @param {ExpressResponse} res
- * @param {JourneyType} journeyId
  */
-exports.question = async (req, res, journeyId) => {
+exports.question = async (req, res) => {
 	//render an individual question
-	const { referenceId, section, question } = req.params;
-	const journeyResponse = getJourneyResponseByType(req, journeyId, referenceId);
+	const { section, question } = req.params;
+	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
 
 	const sectionObj = journey.getSection(section);
@@ -233,13 +226,11 @@ exports.question = async (req, res, journeyId) => {
  */
 exports.save = async (req, res, journeyId) => {
 	//save the response
-	//for now, we'll just save it to the session
 	//TODO: Needs to run validation!
 
 	const { referenceId, section, question } = req.params;
 	const encodedReferenceId = encodeURIComponent(referenceId);
-	const journeyResponse = getJourneyResponseByType(req, journeyId, referenceId);
-
+	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
 
 	const sectionObj = journey.getSection(section);
@@ -281,9 +272,6 @@ exports.save = async (req, res, journeyId) => {
 
 		// save answer to database
 		await patchQuestionResponse(journeyId, encodedReferenceId, responseToSave);
-
-		// save response to session
-		saveResponseToSessionByType(req, journeyResponse);
 
 		//move to the next question
 		const updatedQuestionnaire = getJourney(journeyResponse);

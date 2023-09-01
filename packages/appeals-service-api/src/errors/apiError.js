@@ -108,12 +108,16 @@ class ApiError {
 		return new ApiError(400, { errors: ['No reference id was provided'] });
 	}
 
-	static noFormIdProvided() {
+	static noJourneyIdProvided() {
 		return new ApiError(400, { errors: ['No form id was provided'] });
 	}
 
 	static unableToUpdateResponse() {
 		return new ApiError(400, { errors: ['Unable to update questionnaire response'] });
+	}
+
+	static unableToGetResponse() {
+		return new ApiError(400, { errors: ['Unable to get questionnaire response'] });
 	}
 }
 

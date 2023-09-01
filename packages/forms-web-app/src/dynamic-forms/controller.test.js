@@ -3,7 +3,7 @@ const { getAppealByLPACodeAndId, patchQuestionResponse } = require('../lib/appea
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
-const { getJourney, getJourneyResponseByType } = require('./journey-factory');
+const { getJourney } = require('./journey-factory');
 
 const {
 	VIEW: { TASK_LIST }
@@ -12,7 +12,6 @@ const {
 const { mockReq, mockRes } = require('../../__tests__/unit/mocks');
 
 const res = mockRes();
-
 const mockBaseUrl = '/manage-appeals/questionnaire';
 const mockRef = '123456';
 
@@ -132,7 +131,6 @@ describe('dynamic-form/controller', () => {
 
 			getAppealByLPACodeAndId.mockResolvedValue(appeal);
 			getLPAUserFromSession.mockReturnValue(lpaUser);
-			getJourneyResponseByType.mockReturnValue({});
 			getJourney.mockReturnValue(mockJourney);
 
 			await list(req, res, '');
@@ -148,7 +146,6 @@ describe('dynamic-form/controller', () => {
 
 	describe('question', () => {
 		it('should redirect if question is not found', async () => {
-			getJourneyResponseByType.mockReturnValue({});
 			getJourney.mockReturnValue(mockJourney);
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(null);
@@ -159,7 +156,6 @@ describe('dynamic-form/controller', () => {
 		});
 
 		it('should use custom action if renderAction is defined', async () => {
-			getJourneyResponseByType.mockReturnValue({});
 			getJourney.mockReturnValue(mockJourney);
 			mockJourney.getSection = jest.fn();
 			mockJourney.getSection.mockReturnValueOnce({});
@@ -178,7 +174,6 @@ describe('dynamic-form/controller', () => {
 			const mockBackLink = 'back';
 			const mockQuestionRendering = 'test';
 
-			getJourneyResponseByType.mockReturnValue({});
 			getJourney.mockReturnValue(mockJourney);
 
 			sampleQuestionObj.renderAction = null;
@@ -222,17 +217,16 @@ describe('dynamic-form/controller', () => {
 				question: mockJourney.sections[0].questions[0].fieldName
 			};
 
+			res.locals.journeyResponse = {
+				answers: {}
+			};
+
 			req.body = {
 				sampleFieldName: true,
 				sampleFieldName_sub: 'send this',
 				notSampleFieldName: 'do not send this'
 			};
 
-			getJourneyResponseByType.mockReturnValue({
-				referenceId: mockRef,
-				journeyId: journeyId,
-				answers: {}
-			});
 			getJourney.mockReturnValue(mockJourney);
 
 			mockJourney.getQuestionBySectionAndName = jest.fn();
@@ -257,15 +251,14 @@ describe('dynamic-form/controller', () => {
 				question: mockJourney.sections[0].questions[0].fieldName
 			};
 
+			res.locals.journeyResponse = {
+				answers: {}
+			};
+
 			req.body = {
 				sampleFieldName: true
 			};
 
-			getJourneyResponseByType.mockReturnValue({
-				referenceId: mockRef,
-				journeyId: journeyId,
-				answers: {}
-			});
 			getJourney.mockReturnValue(mockJourney);
 
 			mockJourney.getQuestionBySectionAndName = jest.fn();

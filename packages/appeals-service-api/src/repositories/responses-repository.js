@@ -6,10 +6,10 @@ class ResponsesRepository extends MongoRepository {
 		super('responses');
 	}
 
-	async patchResponses(formId, referenceId, answers) {
+	async patchResponses(journeyId, referenceId, answers) {
 		let result;
 
-		const filter = { uniqueId: `${formId}:${referenceId}` };
+		const filter = { uniqueId: `${journeyId}:${referenceId}` };
 
 		let dateNow = new Date();
 
@@ -22,7 +22,7 @@ class ResponsesRepository extends MongoRepository {
 
 		result = await this.updateOne(filter, {
 			$set: flattenedAnswers,
-			$setOnInsert: { formId: formId, referenceId: referenceId, startDate: dateNow }
+			$setOnInsert: { journeyId: journeyId, referenceId: referenceId, startDate: dateNow }
 		});
 
 		//todo: at some point we want startDate to reflect when a user actually begins a journey
@@ -31,6 +31,25 @@ class ResponsesRepository extends MongoRepository {
 
 		return result;
 	}
+
+	async getResponses(id, projection) {
+		let result;
+		let sort = {};
+		let responseProjection;
+
+		if (projection) {
+			let formattedProjection = 'answers.' + projection;
+			responseProjection = {
+				[formattedProjection]: 1
+			};
+		}
+
+		const filter = { uniqueId: id };
+
+		result = await this.findOneByQuery(filter, sort, responseProjection);
+
+		return result;
+	}
 }
 
-module.exports = ResponsesRepository;
+module.exports = { ResponsesRepository };
