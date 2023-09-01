@@ -99,7 +99,6 @@ exports.questions = {
 	pressAdvert: new BooleanQuestion({
 		title: 'Did you put an advert in the local press?',
 		question: 'Did you put an advert in the local press?',
-		description: 'Did you put an advert in the local press?',
 		fieldName: 'press-advert',
 		validators: [new RequiredValidator()]
 	}),
