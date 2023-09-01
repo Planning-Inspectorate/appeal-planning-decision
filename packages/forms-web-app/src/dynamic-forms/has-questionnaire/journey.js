@@ -45,7 +45,9 @@ class HasJourney extends Journey {
 				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
 				.addQuestion(questions.displaySiteNotice)
-				.addQuestion(questions.lettersToNeighbours),
+				.addQuestion(questions.lettersToNeighbours)
+				.addQuestion(questions.pressAdvert)
+				.addQuestion(questions.uploadLetters),
 			// .addQuestion(questions.siteNoticeUpload)
 			// .withCondition(
 			// 	(response.answers[questions.howYouNotifiedPeople.fieldName] ?? '').includes('Site notice')

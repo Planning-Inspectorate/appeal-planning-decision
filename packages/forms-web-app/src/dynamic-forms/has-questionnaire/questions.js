@@ -96,6 +96,19 @@ exports.questions = {
 		fieldName: 'letters-to-neighbours',
 		validators: [new RequiredValidator()]
 	}),
+	pressAdvert: new BooleanQuestion({
+		title: 'Did you put an advert in the local press?',
+		question: 'Did you put an advert in the local press?',
+		description: 'Did you put an advert in the local press?',
+		fieldName: 'press-advert',
+		validators: [new RequiredValidator()]
+	}),
+	uploadLetters: new MultiFileUploadQuestion({
+		title: '*********************placeholder**********************',
+		question: '*********************placeholder**********************',
+		description: '*********************placeholder**********************',
+		fieldName: 'upload-letters'
+	}),
 	howYouNotifiedPeople: new CheckboxQuestion({
 		title: 'How you notified people',
 		question: 'How did you notify people about the application?',
