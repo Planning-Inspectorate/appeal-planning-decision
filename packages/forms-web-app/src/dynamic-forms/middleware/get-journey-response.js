@@ -1,13 +1,17 @@
 const { getQuestionResponse } = require('../../lib/appeals-api-wrapper');
 const { JourneyResponse } = require('../journey-response');
+const logger = require('../../lib/logger');
 
 module.exports = (journeyId) => async (req, res, next) => {
-	const referenceId = encodeURIComponent(req.params.referenceId);
+	const referenceId = req.params.referenceId;
+	const encodedReferenceId = encodeURIComponent(referenceId);
 	let result;
 
 	try {
-		result = await getQuestionResponse(journeyId, referenceId);
-	} catch {
+		const dbResponse = await getQuestionResponse(journeyId, encodedReferenceId);
+		result = new JourneyResponse(journeyId, referenceId, dbResponse?.answers);
+	} catch (err) {
+		logger.error(err);
 		result = getDefaultResponse(journeyId, referenceId);
 	}
 

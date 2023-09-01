@@ -7,8 +7,14 @@ const ValidOptionValidator = require('./valid-option-validator');
 jest.mock('../journey-factory');
 
 describe('./src/dynamic-forms/validator/validator.js', () => {
+	let mockRes;
 	beforeEach(() => {
 		jest.resetAllMocks();
+		mockRes = {
+			locals: {
+				journeyResponse: {}
+			}
+		};
 	});
 
 	it('should error with invalid question', async () => {
@@ -26,7 +32,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		const next = jest.fn();
 		let error = null;
 		try {
-			await validate()(req, {}, next);
+			await validate()(req, mockRes, next);
 		} catch (e) {
 			error = e;
 		}
@@ -56,7 +62,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		});
 
 		const next = jest.fn();
-		await validate()(req, {}, next);
+		await validate()(req, mockRes, next);
 
 		expect(req['express-validator#contexts'][0]._errors.length).toEqual(0);
 		expect(next).toHaveBeenCalledTimes(1);
@@ -84,7 +90,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		});
 
 		const next = jest.fn();
-		await validate()(req, {}, next);
+		await validate()(req, mockRes, next);
 
 		expect(req['express-validator#contexts'][0]._errors.length).toEqual(1);
 		expect(next).toHaveBeenCalledTimes(1);
@@ -125,7 +131,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		});
 
 		const next = jest.fn();
-		await validate()(req, {}, next);
+		await validate()(req, mockRes, next);
 
 		expect(req['express-validator#contexts'][0]._errors.length).toEqual(0);
 		expect(next).toHaveBeenCalledTimes(1);
@@ -166,7 +172,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		});
 
 		const next = jest.fn();
-		await validate()(req, {}, next);
+		await validate()(req, mockRes, next);
 
 		expect(req['express-validator#contexts'][1]._errors.length).toEqual(1);
 		expect(next).toHaveBeenCalledTimes(1);
