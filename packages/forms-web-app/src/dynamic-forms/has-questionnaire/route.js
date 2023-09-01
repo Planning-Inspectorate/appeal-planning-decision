@@ -3,7 +3,7 @@ const { list, question, save } = require('../controller');
 const { JOURNEY_TYPES } = require('../journey-factory');
 const validate = require('../validator/validator');
 const { validationErrorHandler } = require('../validator/validation-error-handler');
-const getJourneyResponse = require('../middleware/getJourneyResponse');
+const getJourneyResponse = require('../middleware/get-journey-response');
 
 const router = express.Router();
 
@@ -28,7 +28,7 @@ router.get(
 router.post(
 	'/questionnaire/:referenceId/:section/:question',
 	getJourneyResponse(JOURNEY_TYPES.HAS_QUESTIONNAIRE),
-	validate(JOURNEY_TYPES.HAS_QUESTIONNAIRE),
+	validate(),
 	validationErrorHandler,
 	async (req, res) => {
 		return save(req, res, JOURNEY_TYPES.HAS_QUESTIONNAIRE);
