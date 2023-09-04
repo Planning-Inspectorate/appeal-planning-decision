@@ -9,6 +9,8 @@ const { CheckboxQuestion } = require('../dynamic-components/checkbox/question');
 const MultiFileUploadQuestion = require('../dynamic-components/multi-file-upload/question');
 const BooleanQuestion = require('../dynamic-components/boolean/question');
 const RequiredValidator = require('../validator/required-validator');
+const RequiredFileUploadValidator = require('../validator/required-file-upload-validator');
+const MultifileUploadValidator = require('../validator/multifile-upload-validator');
 
 // Define all questions
 exports.questions = {
@@ -79,7 +81,7 @@ exports.questions = {
 		title: 'Who was notified',
 		question: 'Who did you notify about this application?',
 		fieldName: 'notified-who',
-		validators: []
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
 	displaySiteNotice: new BooleanQuestion({
 		title: 'Site notice',
