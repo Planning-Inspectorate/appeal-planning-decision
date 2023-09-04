@@ -101,6 +101,12 @@ exports.questions = {
 		fieldName: 'press-advert',
 		validators: [new RequiredValidator()]
 	}),
+	pressAdvertUpload: new MultiFileUploadQuestion({
+		title: 'Upload the press advertisement',
+		question: 'Upload the press advertisement',
+		fieldName: 'upload-press-advert',
+		validators: [new RequiredValidator()]
+	}),
 	uploadLetters: new MultiFileUploadQuestion({
 		title: '*********************placeholder**********************',
 		question: '*********************placeholder**********************',
