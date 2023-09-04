@@ -145,23 +145,30 @@ exports.questions = {
 	// }),
 	representationsFromOthers: new BooleanQuestion({
 		title: 'Representations from other parties',
-		question: 'Did you receive representations from other parties?',
-		fieldName: 'representations-from-others'
+		question: 'Did you receive representations from members of the public or other parties?',
+		fieldName: 'representations-other-parties',
+		validators: [new RequiredValidator()]
 	}),
-	// representationUpload: new MultiFileUploadQuestion({
-	// 	title: 'Upload representations',
-	// 	question: 'Upload representations from other parties',
-	// 	fieldName: 'representation-upload'
-	// }),
+	representationUpload: new MultiFileUploadQuestion({
+		title: '**************placeholder*********************',
+		question: '**************placeholder*********************',
+		fieldName: 'representation-upload'
+	}),
+	reportUpload: new MultiFileUploadQuestion({
+		title: '**************placeholder*********************',
+		question: '**************report-upload-placeholder*********************',
+		fieldName: 'report-upload'
+	}),
 	planningOfficersUpload: new MultiFileUploadQuestion({
 		title: 'Upload planning officers report',
 		question: 'Upload planning officer’s report',
 		fieldName: 'planning-officers-upload'
 	}),
 	accessForInspection: new BooleanQuestion({
-		title: 'Access for inspection',
-		question: 'Might the inspector need access to the appellant’s land or property??',
-		fieldName: 'access-for-inspection'
+		title: "Access to the appellant's land",
+		question: 'Might the inspector need access to the appellant’s land or property?',
+		fieldName: 'inspector-visit-appellant',
+		validators: [new RequiredValidator()]
 	}),
 	neighbouringSite: new BooleanQuestion({
 		title: 'Could a neighbouring site be affected?', //Title used in the summary list
