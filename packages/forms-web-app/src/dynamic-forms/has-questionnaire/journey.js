@@ -52,12 +52,7 @@ class HasJourney extends Journey {
 					response.answers && response.answers[questions.pressAdvert.fieldName] == 'yes'
 				)
 				.addQuestion(questions.uploadLetters)
-				.addQuestion(questions.representationsFromOthers)
-				.addQuestion(questions.representationUpload)
-				.withCondition(
-					response.answers &&
-						response.answers[questions.representationsFromOthers.fieldName] == 'yes'
-				),
+				.addQuestion(questions.reportUpload),
 			// .addQuestion(questions.siteNoticeUpload)
 			// .withCondition(
 			// 	(response.answers[questions.howYouNotifiedPeople.fieldName] ?? '').includes('Site notice')
@@ -74,9 +69,13 @@ class HasJourney extends Journey {
 			// 		'Advertisement'
 			// 	)
 			// )
-			new Section('Consultation responses and representations', 'consultation').addQuestion(
-				questions.representationsFromOthers
-			),
+			new Section('Consultation responses and representations', 'consultation')
+				.addQuestion(questions.representationsFromOthers)
+				.addQuestion(questions.representationUpload)
+				.withCondition(
+					response.answers &&
+						response.answers[questions.representationsFromOthers.fieldName] == 'yes'
+				),
 			new Section("Planning officer's report and supplementary documents", 'officer').addQuestion(
 				questions.planningOfficersReportUpload
 			),
