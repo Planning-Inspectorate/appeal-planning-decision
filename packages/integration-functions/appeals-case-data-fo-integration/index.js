@@ -1,4 +1,4 @@
-const httpClient = require('../../common/src/http/httpClient');
+const httpClient = require('../common/src/http/httpClient');
 
 module.exports = async function (context, appealsCaseMessage) {
 	context.log('JavaScript ServiceBus topic trigger function processed message', appealsCaseMessage);

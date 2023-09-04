@@ -18,7 +18,7 @@ parameters:
   - name: buildIntegrationFunctions
     displayName: Build Integration Functions
     type: boolean
-    default: false
+    default: true
   - name: buildPdfApi
     displayName: Build PDF Service API
     type: boolean
@@ -78,6 +78,8 @@ extends:
                   path: packages/document-service-api
                 - name: horizon-functions
                   path: packages/horizon-functions
+                - name: integration-functions
+                  path: packages/integration-functions
                 - name: pdf-api
                   path: packages/pdf-service-api
                 - name: web
@@ -215,6 +217,7 @@ extends:
             parameters:
               nodeVersion: 18
               workingDirectory: $(Build.Repository.LocalPath)/packages/integration-functions
+              artifactName: integration-functions
       - name: Build PDF Service
         condition: >-
           and(
