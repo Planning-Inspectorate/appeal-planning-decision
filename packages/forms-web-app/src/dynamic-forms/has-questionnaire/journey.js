@@ -52,6 +52,7 @@ class HasJourney extends Journey {
 				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
 				.addQuestion(questions.displaySiteNotice)
+				.addQuestion(questions.uploadSiteNotice)
 				.addQuestion(questions.lettersToNeighbours)
 				.addQuestion(questions.pressAdvert)
 				.addQuestion(questions.pressAdvertUpload)
