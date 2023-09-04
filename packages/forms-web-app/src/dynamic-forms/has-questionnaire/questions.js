@@ -97,6 +97,13 @@ exports.questions = {
 		fieldName: 'letters-to-neighbours',
 		validators: [new RequiredValidator()]
 	}),
+	uploadLettersToNeighbours: new MultiFileUploadQuestion({
+		title: 'Uploaded letters',
+		question: 'Upload the letters and emails',
+		fieldName: 'upload-letters-emails',
+		html: 'resources/upload-letters-emails/content.html',
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
+	}),
 	pressAdvert: new BooleanQuestion({
 		title: 'Press Advert',
 		question: 'Did you put an advert in the local press?',
@@ -109,13 +116,7 @@ exports.questions = {
 		fieldName: 'upload-press-advert',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
-	uploadLetters: new MultiFileUploadQuestion({
-		title: '*********************placeholder1**********************',
-		question: '*********************placeholder**********************',
-		description: '*********************placeholder**********************',
-		fieldName: 'upload-letters',
-		html: 'resources/question12/content.html'
-	}),
+
 	howYouNotifiedPeople: new CheckboxQuestion({
 		title: 'How you notified people',
 		question: 'How did you notify people about the application?',
