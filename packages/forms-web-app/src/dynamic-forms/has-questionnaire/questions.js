@@ -171,9 +171,9 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	neighbouringSite: new BooleanQuestion({
-		title: 'Could a neighbouring site be affected?', //Title used in the summary list
-		question: 'Do the plans affect a neighbouring site?', //The question being asked
-		fieldName: 'neighbouring-site-affected' //The name of the html input field / stem of the name for screens with multiple fields
+		title: 'Inspector visit to neighbour?', //Title used in the summary list
+		question: 'Might the inspector need to enter a neighbour’s land or property?', //The question being asked
+		fieldName: 'inspector-visit-neighbour' //The name of the html input field / stem of the name for screens with multiple fields
 	}),
 	potentialSafetyRisks: {
 		title: 'Potential safety risks',
