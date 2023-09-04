@@ -137,11 +137,12 @@ exports.questions = {
 			}
 		]
 	}),
-	// siteNoticeUpload: new MultiFileUploadQuestion({
-	// 	title: 'Site notice',
-	// 	question: 'Upload site notice',
-	// 	fieldName: 'site-notice-upload'
-	// }),
+	uploadSiteNotice: new MultiFileUploadQuestion({
+		title: 'Upload the site notice',
+		question: 'Upload the site notice',
+		fieldName: 'upload-site-notice',
+		validators: [new RequiredValidator('You must add your documents')]
+	}),
 	// lettersToNeighboursUpload: new MultiFileUploadQuestion({
 	// 	title: 'Letters to neighbours',
 	// 	question: 'Upload letters to neighbours',
