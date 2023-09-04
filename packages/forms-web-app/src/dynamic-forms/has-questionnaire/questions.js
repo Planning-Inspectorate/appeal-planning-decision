@@ -66,11 +66,10 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	conservationAreaUpload: new MultiFileUploadQuestion({
-		title: 'Conservation area map and guidance',
+		title: 'Upload conservation map and guidance',
 		question: 'Upload conservation map and guidance',
-		description:
-			'<a href="https://magic.defra.gov.uk/magicmap.aspx" target="_blank" class="govuk-link">Link to Magic Maps (opens in new tab)</a>',
-		fieldName: 'conservation-area-upload'
+		fieldName: 'conservation-area-upload',
+		validators: [new RequiredValidator('You must add your documents')]
 	}),
 	greenBelt: new BooleanQuestion({
 		title: 'Green belt',
