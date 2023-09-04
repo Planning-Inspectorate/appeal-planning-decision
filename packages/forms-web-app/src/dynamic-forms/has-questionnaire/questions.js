@@ -76,9 +76,8 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	whoWasNotified: new MultiFileUploadQuestion({
-		title: 'Who was notified',
-		question: 'Who was notified',
-		description: 'This should include internal consultees.',
+		title: 'Who did you notify?',
+		question: 'Who did you notify about this application?',
 		fieldName: 'notified-who',
 		validators: [new RequiredValidator('You must add your documents')]
 	}),
