@@ -57,8 +57,7 @@ class HasJourney extends Journey {
 				.withCondition(
 					response.answers &&
 						response.answers[questions.representationsFromOthers.fieldName] == 'yes'
-				)
-				.addQuestion(questions.reportUpload),
+				),
 			// .addQuestion(questions.siteNoticeUpload)
 			// .withCondition(
 			// 	(response.answers[questions.howYouNotifiedPeople.fieldName] ?? '').includes('Site notice')
@@ -79,7 +78,7 @@ class HasJourney extends Journey {
 				questions.representationsFromOthers
 			),
 			new Section("Planning officer's report and supplementary documents", 'officer').addQuestion(
-				questions.planningOfficersUpload
+				questions.planningOfficersReportUpload
 			),
 			new Section('Site access', 'site-access')
 				.addQuestion(questions.accessForInspection)
