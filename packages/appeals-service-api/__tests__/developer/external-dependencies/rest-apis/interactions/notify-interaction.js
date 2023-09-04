@@ -57,7 +57,7 @@ module.exports = class NotifyInteraction {
 	static getAppealSubmittedEmailForLpaInteraction(appeal, lpaName, lpaEmail) {
 		const templateVariables = [];
 		const dateRegex = new RegExp(
-			/\d{2} (January|February|March|April|May|June|July|August|SeptemberOctober|November|December) \d{4}/
+			/\d{2} (January|February|March|April|May|June|July|August|September|October|November|December) \d{4}/
 		);
 
 		if (appeal.appealType == '1001') {
