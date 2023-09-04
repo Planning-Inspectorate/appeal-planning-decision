@@ -111,7 +111,7 @@ module.exports = class HorizonIntegrationInputCondition {
 		/////////////////////////////////////
 
 		const dateRegex = new RegExp(
-			/\d{2} (January|February|March|April|May|June|July|August|SeptemberOctober|November|December) \d{4}/
+			/\d{2} (January|February|March|April|May|June|July|August|September|October|November|December) \d{4}/
 		);
 		if (appeal.appealType == '1001') {
 			condition.expectations.emailToLpa.templateVariables.push({ LPA: lpaExpectations.name });
