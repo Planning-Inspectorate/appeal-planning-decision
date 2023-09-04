@@ -160,14 +160,9 @@ exports.questions = {
 		question: '**************placeholder*********************',
 		fieldName: 'representation-upload'
 	}),
-	reportUpload: new MultiFileUploadQuestion({
-		title: '**************placeholder*********************',
-		question: '**************report-upload-placeholder*********************',
-		fieldName: 'report-upload'
-	}),
-	planningOfficersUpload: new MultiFileUploadQuestion({
+	planningOfficersReportUpload: new MultiFileUploadQuestion({
 		title: 'Upload planning officers report',
-		question: 'Upload planning officer’s report',
+		question: 'Upload the planning officer’s report',
 		fieldName: 'planning-officers-upload'
 	}),
 	accessForInspection: new BooleanQuestion({
