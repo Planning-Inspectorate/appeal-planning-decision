@@ -156,9 +156,10 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	representationUpload: new MultiFileUploadQuestion({
-		title: '**************placeholder*********************',
-		question: '**************placeholder*********************',
-		fieldName: 'representation-upload'
+		title: 'Upload representations from other parties',
+		question: 'Upload the representations',
+		fieldName: 'representation-upload',
+		validators: [new RequiredValidator()]
 	}),
 	planningOfficersReportUpload: new MultiFileUploadQuestion({
 		title: 'Upload planning officers report',
