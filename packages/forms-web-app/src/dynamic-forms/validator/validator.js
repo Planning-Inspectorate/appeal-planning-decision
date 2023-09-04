@@ -18,7 +18,10 @@ const validate = () => {
 		}
 
 		for (const validation of questionObj.validators) {
-			let validationResult = await validation.validate(questionObj).run(req);
+			const validator = validation.validate(questionObj, journeyResponse);
+
+			const validationResult = await validator.run(req);
+
 			if (validationResult.errors.length > 0) {
 				break;
 			}
