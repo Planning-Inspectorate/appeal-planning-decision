@@ -70,7 +70,7 @@ class HasJourney extends Journey {
 			new Section("Planning officer's report and supplementary documents", 'officer').addQuestion(
 				questions.planningOfficersUpload
 			),
-			new Section('Site access', 'access')
+			new Section('Site access', 'site-access')
 				.addQuestion(questions.accessForInspection)
 				.addQuestion(questions.neighbouringSite)
 				.addQuestion(questions.potentialSafetyRisks),
