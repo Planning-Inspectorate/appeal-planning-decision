@@ -281,25 +281,47 @@ describe('MultiFileUploadQuestion', () => {
 
 			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
 
-			expect(createDocument).toHaveBeenCalledWith(
-				{
-					id: mockJourneyId,
-					referenceNumber: mockRef
-				},
-				fileUploaded,
-				fileUploaded.name,
-				DOCUMENT_TYPE.name
+			expect(res.redirect).toHaveBeenCalledWith(
+				`/manage-appeals/questionnaire/123456/segment-1/${FIELDNAME}`
 			);
+		});
+
+		it('removes files', async () => {
+			const fileUploaded = {
+				name: 'data'
+			};
+			req.files = {
+				[FIELDNAME]: [fileUploaded, fileUploaded]
+			};
+			req.body = {
+				removedFiles: `[{ "name": "${mockUploadedFile.name}" }]`
+			};
+
+			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
+
+			const multiFileQuestion = getMultiFileUpload();
+
+			const responseWithFiles = {
+				referenceId: mockRef,
+				journeyId: mockJourneyId,
+				answers: {
+					[FIELDNAME]: { uploadedFiles: [mockUploadedFile] }
+				}
+			};
+
+			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
+
+			expect(createDocument).toHaveBeenCalledTimes(2);
 
 			expect(patchQuestionResponse).toHaveBeenCalledWith(mockJourneyId, mockRef, {
 				answers: {
 					files: {
-						uploadedFiles: [mockUploadedFile]
+						uploadedFiles: [mockUploadedFile, mockUploadedFile]
 					}
 				}
 			});
 			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/123456/segment-1/${FIELDNAME}`
+				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
 			);
 		});
 	});
