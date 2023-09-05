@@ -66,7 +66,7 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	conservationAreaUpload: new MultiFileUploadQuestion({
-		title: 'Upload conservation map and guidance',
+		title: 'Conservation area map and guidance',
 		question: 'Upload conservation map and guidance',
 		fieldName: 'conservation-area-upload',
 		validators: [new RequiredValidator('You must add your documents')]
