@@ -1,9 +1,0 @@
-{
-    "azureFunctions.deploySubpath": "packages/integration-functions/appeals-case-data",
-    "azureFunctions.postDeployTask": "npm install (functions)",
-    "azureFunctions.projectLanguage": "JavaScript",
-    "azureFunctions.projectRuntime": "~4",
-    "debug.internalConsoleOptions": "neverOpen",
-    "azureFunctions.projectSubpath": "packages/integration-functions/appeals-case-data",
-    "azureFunctions.preDeployTask": "npm prune (functions)"
-}
