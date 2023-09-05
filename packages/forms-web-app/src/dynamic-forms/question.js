@@ -1,6 +1,16 @@
 const nunjucks = require('nunjucks');
 
 /**
+ * @typedef {Object} ViewData
+ * @property {string} layoutTemplate - path to template file
+ * @property {string} pageCaption - caption displayed above question
+ * @property {string} backLink - url to go back 1 page
+ * @property {string} listLink - url for listing page
+ * @property {Object} answers - all answers to journey so far
+ * @property {Object} answer - answer to current question
+ */
+
+/**
  * A specific question within a journey which is made up of one (usually) or many (sometimes) components and their required content.
  * @class
  */
@@ -77,7 +87,7 @@ class Question {
 	 */
 	url;
 
-	constructor({ title, question, description, viewFolder, fieldName, validators, url } = {}) {
+	constructor({ title, question, description, viewFolder, fieldName, validators, url }) {
 		if (!title || title === '') throw new Error('title parameter is mandatory');
 		if (!question || question === '') throw new Error('question parameter is mandatory');
 		if (!fieldName || fieldName === '') throw new Error('fieldName parameter is mandatory');
@@ -121,6 +131,42 @@ class Question {
 		}
 		return processedQuestion;
 	}
+
+	/**
+	 * renders this question
+	 * @param {ExpressResponse} res
+	 * @param {ViewData} viewModel
+	 * @param {Object|undefined} customViewData
+	 * @returns
+	 */
+	renderPage = (
+		res,
+		{ layoutTemplate, pageCaption, backLink, listLink, answers, answer },
+		customViewData = undefined
+	) => {
+		const viewModel = {
+			question: this.prepQuestionForRendering(answers),
+			answer,
+
+			layoutTemplate,
+			pageCaption,
+
+			navigation: ['', backLink],
+			backLink,
+			showBackToListLink: this.showBackToListLink,
+			listLink
+		};
+
+		if (answer.uploadedFiles) {
+			viewModel.uploadedFiles = answer.uploadedFiles;
+			delete viewModel.answer;
+		}
+
+		return res.render(`dynamic-components/${this.viewFolder}/index`, {
+			...viewModel,
+			...customViewData
+		});
+	};
 }
 
 module.exports = Question;

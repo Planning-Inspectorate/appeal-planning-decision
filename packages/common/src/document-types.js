@@ -221,6 +221,14 @@ const documentTypes = {
 		involvement: '',
 		horizonDocumentType: 'Appellant Final Comments',
 		horizonDocumentGroupType: 'Evidence'
+	},
+	dynamic: {
+		name: 'dynamic',
+		multiple: true,
+		displayName: 'dynamic',
+		involvement: '',
+		horizonDocumentType: '',
+		horizonDocumentGroupType: ''
 	}
 };
 

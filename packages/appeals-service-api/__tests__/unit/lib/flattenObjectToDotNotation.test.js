@@ -32,4 +32,24 @@ describe('flattenObjectToDotNotation', () => {
 
 		expect(flattenObjectToDotNotation(testObject)).toEqual(flattenedTestObject);
 	});
+
+	it('does not flatten arrays or objects in arrays', () => {
+		const testObject = {
+			someKey: [{ a: { a: 1 }, b: 2 }],
+			someNestedKey: {
+				nest: [{ a: 1, b: 2 }]
+			},
+			someOtherKey: 'someValue'
+		};
+
+		const flattenedTestObject = {
+			someKey: testObject.someKey,
+			'someNestedKey.nest': testObject.someNestedKey.nest,
+			someOtherKey: testObject.someOtherKey
+		};
+
+		const result = flattenObjectToDotNotation(testObject);
+
+		expect(result).toEqual(flattenedTestObject);
+	});
 });

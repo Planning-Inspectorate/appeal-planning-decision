@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 const { documentTypes } = require('@pins/common');
 const { createDocument, fetchDocument } = require('../../../src/lib/documents-api-wrapper');
 const config = require('../../../src/config');
+const { utils } = require('@pins/common');
 
 const mockLogger = jest.fn();
 
@@ -33,7 +34,8 @@ describe('lib/documents-api-wrapper', () => {
 		beforeEach(() => {
 			mockAppeal = { id: 123 };
 			data = {
-				tempFilePath: 'some/fake/file.ext'
+				tempFilePath: 'some/fake/file.ext',
+				name: 'testName'
 			};
 		});
 
@@ -172,6 +174,35 @@ describe('lib/documents-api-wrapper', () => {
 				id: '123-abc-456-xyz',
 				name: 'tmp-2-1607684291243'
 			});
+		});
+
+		it('should use reference number in filename', async () => {
+			const refNum = 'ref-num';
+			utils.sanitizeCharactersInFilename = jest.fn();
+			fetch.mockResponse(
+				JSON.stringify({
+					applicationId: 123,
+					id: '123-abc-456-xyz',
+					name: 'tmp-2-1607684291243'
+				}),
+				{ status: 202 }
+			);
+			expect(
+				await createDocument(
+					{ id: 123, referenceNumber: refNum },
+					data,
+					null,
+					documentTypes.appealStatement.name
+				)
+			).toEqual({
+				applicationId: 123,
+				id: '123-abc-456-xyz',
+				name: 'tmp-2-1607684291243'
+			});
+
+			expect(utils.sanitizeCharactersInFilename).toHaveBeenCalledWith(
+				expect.stringContaining(refNum)
+			);
 		});
 	});
 

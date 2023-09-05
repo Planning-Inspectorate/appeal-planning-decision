@@ -28,13 +28,17 @@ class Journey {
 	 * @type {string} baseUrl - base url of the journey, gets prepended to question urls
 	 */
 	baseUrl = '';
+	/**
+	 * @type {string} journeyTemplate - nunjucks template file used for
+	 */
+	journeyTemplate = '';
 
 	/**
 	 * creates an instance of a journey
 	 * @param {string} baseUrl - base url of journey
 	 * @param {JourneyResponse} response - user's response (currently unused)
 	 */
-	constructor(baseUrl, response) {
+	constructor(baseUrl, response, journeyTemplate) {
 		if (this.constructor == Journey) {
 			throw new Error("Abstract classes can't be instantiated.");
 		}
@@ -55,6 +59,11 @@ class Journey {
 		if (baseUrl) {
 			this.baseUrl = trimTrailingSlash(baseUrl);
 		}
+
+		if (!journeyTemplate && typeof journeyTemplate !== 'string') {
+			throw new Error('journeyTemplate should be a string.');
+		}
+		this.journeyTemplate = journeyTemplate;
 
 		this.response = response;
 	}

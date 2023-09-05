@@ -68,6 +68,12 @@ const getCreateDocumentSubmissionData = (submission) => {
 		submissionData.referenceNumber = submission.planningApplicationNumber;
 	}
 
+	// dynamic forms send through reference number
+	if (submission.referenceNumber) {
+		submissionData.referenceNumber = submission.referenceNumber;
+	}
+
+	// final comments uses horizon id for reference number
 	if (submission?.finalComment) {
 		submissionData.referenceNumber = submission.horizonId;
 	}

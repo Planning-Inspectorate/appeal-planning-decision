@@ -8,8 +8,6 @@ const logger = require('../lib/logger');
 // todo:
 // test save
 
-//todo (aapd-232): add these view paths to Journey object
-const hasJourneyTemplate = 'has-questionnaire/template.njk';
 const {
 	VIEW: {
 		TASK_LIST: { QUESTIONNAIRE }
@@ -96,6 +94,7 @@ exports.list = async (req, res) => {
 	const user = getLPAUserFromSession(req);
 	const encodedReferenceId = encodeURIComponent(referenceId);
 	const appeal = await getAppealByLPACodeAndId(user.lpaCode, encodedReferenceId);
+
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
 
@@ -162,36 +161,10 @@ exports.list = async (req, res) => {
 	return res.render(QUESTIONNAIRE, {
 		appeal,
 		summaryListData,
-		layoutTemplate: hasJourneyTemplate,
+		layoutTemplate: journey.journeyTemplate,
 		pageCaption: `Appeal ${appeal.caseReference}`
 	}); //todo: use layout property on HASJourney object
 };
-
-/**
- * builds a question page view model
- * @param {Journey} journey
- * @param {Section} section
- * @param {Question} question
- * @param {Answer} answer
- * @returns {Object}
- */
-function getQuestionViewModel(journey, section, question, answer) {
-	const backLink = journey.getNextQuestionUrl(section.segment, question.fieldName, true);
-
-	return {
-		appealId: journey.response.referenceId,
-		question: question.prepQuestionForRendering(journey.response.answers),
-		answer: answer,
-
-		layoutTemplate: hasJourneyTemplate,
-		pageCaption: section?.name,
-
-		navigation: ['', backLink],
-		backLink: backLink,
-		showBackToListLink: question.showBackToListLink,
-		listLink: journey.baseUrl
-	};
-}
 
 /**
  * @param {ExpressRequest} req
@@ -215,8 +188,15 @@ exports.question = async (req, res) => {
 	}
 
 	const answer = journey.response.answers[questionObj.fieldName] || '';
-	const viewModel = getQuestionViewModel(journey, sectionObj, questionObj, answer);
-	return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
+
+	return questionObj.renderPage(res, {
+		layoutTemplate: journey.journeyTemplate,
+		pageCaption: sectionObj?.name,
+		backLink: journey.getNextQuestionUrl(section, question, true),
+		listLink: journey.baseUrl,
+		answers: journey.response.answers,
+		answer
+	});
 };
 
 /**
@@ -246,16 +226,28 @@ exports.save = async (req, res, journeyId) => {
 	// show errors
 	if (Object.keys(errors).length > 0) {
 		const answer = journeyResponse.answers[questionObj.fieldName] || '';
-		let viewModel = getQuestionViewModel(journey, sectionObj, questionObj, answer);
-		viewModel.errors = errors;
-		viewModel.errorSummary = errorSummary;
-		return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
+
+		return questionObj.renderPage(
+			res,
+			{
+				layoutTemplate: journey.journeyTemplate,
+				pageCaption: sectionObj?.name,
+				backLink: journey.getNextQuestionUrl(section, question, true),
+				listLink: journey.baseUrl,
+				answers: journey.response.answers,
+				answer
+			},
+			{
+				errors,
+				errorSummary
+			}
+		);
 	}
 
 	try {
 		// use custom saveAction
 		if (questionObj.saveAction) {
-			return await questionObj.saveAction(req, res);
+			return await questionObj.saveAction(req, res, journey, sectionObj, journeyResponse);
 		}
 
 		// set answer on response
@@ -279,8 +271,19 @@ exports.save = async (req, res, journeyId) => {
 	} catch (err) {
 		logger.error(err);
 		const answer = journeyResponse.answers[questionObj.fieldName] || '';
-		let viewModel = getQuestionViewModel(journey, sectionObj, questionObj, answer);
-		viewModel.errorSummary = [{ text: err.toString(), href: '#' }];
-		return res.render(`dynamic-components/${questionObj.viewFolder}/index`, viewModel);
+		return questionObj.renderPage(
+			res,
+			{
+				layoutTemplate: journey.journeyTemplate,
+				pageCaption: sectionObj?.name,
+				backLink: journey.getNextQuestionUrl(section, question, true),
+				listLink: journey.baseUrl,
+				answers: journey.response.answers,
+				answer
+			},
+			{
+				errorSummary: [{ text: err.toString(), href: '#' }]
+			}
+		);
 	}
 };
