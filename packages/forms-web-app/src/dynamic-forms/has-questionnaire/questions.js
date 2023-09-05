@@ -19,7 +19,7 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	listedBuildingCheck: new BooleanQuestion({
-		title: 'Affects on a listed building or site',
+		title: 'Affects a listed building',
 		question: 'Do the plans affect the setting of a listed building or site?',
 		fieldName: 'affects-listed-building',
 		validators: [new RequiredValidator()]
@@ -57,7 +57,7 @@ exports.questions = {
 	// 	}
 	// },
 	conservationArea: new BooleanQuestion({
-		title: 'Is the site in, or next to a conservation area? ',
+		title: 'Conservation area',
 		question: 'Is the site in, or next to a conservation area?',
 		fieldName: 'conservation-area',
 		validators: [new RequiredValidator()]
@@ -70,33 +70,33 @@ exports.questions = {
 		fieldName: 'conservation-area-upload'
 	}),
 	greenBelt: new BooleanQuestion({
-		title: 'Is the site in a green belt?',
+		title: 'Green belt',
 		question: 'Is the site in a green belt?',
 		fieldName: 'green-belt',
 		validators: [new RequiredValidator()]
 	}),
 	whoWasNotified: new MultiFileUploadQuestion({
-		title: 'Who did you notify?',
+		title: 'Who was notified',
 		question: 'Who did you notify about this application?',
 		fieldName: 'notified-who',
 		validators: [new RequiredValidator('You must add your documents')]
 	}),
 	displaySiteNotice: new BooleanQuestion({
-		title: 'Did you display a notice at the site?',
+		title: 'Site notice',
 		question: 'Did you display a notice at the site?',
 		description: 'Notifying relevant parties of the application',
 		fieldName: 'display-site-notice',
 		validators: [new RequiredValidator()]
 	}),
 	lettersToNeighbours: new BooleanQuestion({
-		title: 'Did you send letters and emails to neighbours?',
+		title: 'Letters to neighbours',
 		question: 'Did you send letters and emails to neighbours?',
 		description: 'Did you send letters and emails to neighbours?',
 		fieldName: 'letters-to-neighbours',
 		validators: [new RequiredValidator()]
 	}),
 	pressAdvert: new BooleanQuestion({
-		title: 'Did you put an advert in the local press?',
+		title: 'Press Advert',
 		question: 'Did you put an advert in the local press?',
 		fieldName: 'press-advert',
 		validators: [new RequiredValidator()]
@@ -168,13 +168,13 @@ exports.questions = {
 		validators: [new RequiredValidator('You must add your documents')]
 	}),
 	accessForInspection: new BooleanQuestion({
-		title: "Access to the appellant's land",
+		title: 'Access for inspection',
 		question: 'Might the inspector need access to the appellant’s land or property?',
 		fieldName: 'inspector-visit-appellant',
 		validators: [new RequiredValidator()]
 	}),
 	neighbouringSite: new BooleanQuestion({
-		title: 'Inspector visit to neighbour?', //Title used in the summary list
+		title: 'Inspector visit to neighbour', //Title used in the summary list
 		question: 'Might the inspector need to enter a neighbour’s land or property?', //The question being asked
 		fieldName: 'inspector-visit-neighbour' //The name of the html input field / stem of the name for screens with multiple fields
 	}),
