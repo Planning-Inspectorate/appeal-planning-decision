@@ -1,6 +1,6 @@
 const logger = require('../../../lib/logger');
 const { patchQuestionResponse } = require('../../../lib/appeals-api-wrapper');
-// const { removeFiles } = require('../../../lib/multi-file-upload-helpers');
+const { removeFiles } = require('../../../lib/multi-file-upload-helpers');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
 const { documentTypes } = require('@pins/common');
@@ -78,14 +78,14 @@ class MultiFileUploadQuestion extends Question {
 			}
 
 			// remove files from response
-			// if ('removedFiles' in body) {
-			// 	const removedFiles = JSON.parse(body.removedFiles);
+			if ('removedFiles' in body) {
+				const removedFiles = JSON.parse(body.removedFiles);
 
-			// 	journeyResponse.answers[this.fieldName].uploadedFiles = removeFiles(
-			// 		journeyResponse.answers[this.fieldName].uploadedFiles,
-			// 		removedFiles
-			// 	);
-			// }
+				journeyResponse.answers[this.fieldName].uploadedFiles = removeFiles(
+					journeyResponse.answers[this.fieldName].uploadedFiles,
+					removedFiles
+				);
+			}
 
 			// save files to blob storage
 			const uploadedFiles = await this.#saveFilesToBlobStorage(req, journeyResponse);
