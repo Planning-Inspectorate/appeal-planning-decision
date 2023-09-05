@@ -1,4 +1,4 @@
-const { HasJourney } = require('./journey');
+const { HasJourney, baseHASUrl } = require('./journey');
 
 const mockResponse = {
 	referenceId: '123',
@@ -8,19 +8,20 @@ const mockResponse = {
 describe('HAS Journey class', () => {
 	describe('constructor', () => {
 		it('should error if no response', () => {
-			try {
+			expect(() => {
 				new HasJourney();
-			} catch (err) {
-				expect(err.message).toBe("Cannot read properties of undefined (reading 'referenceId')");
-			}
+			}).toThrow("Cannot read properties of undefined (reading 'referenceId')");
 		});
 
-		it('should error if no referenceId is defined on response', () => {
-			try {
-				new HasJourney({});
-			} catch (err) {
-				expect(err.message).toBe("Cannot read properties of undefined (reading 'referenceId')");
-			}
+		it('should set baseUrl', () => {
+			const journey = new HasJourney(mockResponse);
+			expect(journey.baseUrl).toEqual(expect.stringContaining(baseHASUrl));
+			expect(journey.baseUrl).toEqual(expect.stringContaining(mockResponse.referenceId));
+		});
+
+		it('should set template', () => {
+			const journey = new HasJourney(mockResponse);
+			expect(journey.journeyTemplate).toBe('has-questionnaire/template.njk');
 		});
 
 		it('should define sections and questions', () => {

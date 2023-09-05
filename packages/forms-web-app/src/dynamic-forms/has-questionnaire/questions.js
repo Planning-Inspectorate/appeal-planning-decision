@@ -79,7 +79,7 @@ exports.questions = {
 		title: 'Who was notified',
 		question: 'Who did you notify about this application?',
 		fieldName: 'notified-who',
-		validators: [new RequiredValidator('You must add your documents')]
+		validators: []
 	}),
 	displaySiteNotice: new BooleanQuestion({
 		title: 'Site notice',

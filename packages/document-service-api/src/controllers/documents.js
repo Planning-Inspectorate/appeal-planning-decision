@@ -154,7 +154,7 @@ const uploadDocument = async (req, res) => {
 		const metadata = await uploadFile(containerClient, document);
 		await deleteLocalFile(file);
 
-		if (metadata?.horizon_document_type && metadata?.horizon_document_group_type) {
+		if (metadata) {
 			delete metadata['horizon_document_type'];
 			delete metadata['horizon_document_group_type'];
 		}
