@@ -51,8 +51,7 @@ class HasJourney extends Journey {
 				.withCondition(
 					response.answers && response.answers[questions.pressAdvert.fieldName] == 'yes'
 				)
-				.addQuestion(questions.uploadLetters)
-				.addQuestion(questions.reportUpload),
+				.addQuestion(questions.uploadLetters),
 			// .addQuestion(questions.siteNoticeUpload)
 			// .withCondition(
 			// 	(response.answers[questions.howYouNotifiedPeople.fieldName] ?? '').includes('Site notice')
