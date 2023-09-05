@@ -16,7 +16,7 @@ const getValidFiles = (errors, files) => {
 
 const removeFiles = (files, removedFiles) => {
 	for (const removedFile of removedFiles) {
-		files = files.filter((file) => file.name !== removedFile.name);
+		files = files.filter((file) => file.originalFileName !== removedFile.name);
 	}
 	return files;
 };
