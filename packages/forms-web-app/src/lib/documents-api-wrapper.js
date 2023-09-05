@@ -84,10 +84,13 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
 
 	// add section tag and ref to start of doc name
 	if (documentName) {
-		documentName = documentName?.replace(
-			/^/,
-			`${sectionTag} - ${submissionData.referenceNumber} - `
-		);
+		if (submissionData.referenceNumber) {
+			documentName = `${submissionData.referenceNumber}-` + documentName;
+		}
+
+		if (sectionTag) {
+			documentName = `${sectionTag}-` + documentName;
+		}
 	}
 
 	documentName = utils.sanitizeCharactersInFilename(documentName);
