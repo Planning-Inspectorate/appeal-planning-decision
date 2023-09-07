@@ -5,15 +5,6 @@ const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
 
-// todo:
-// test save
-
-const {
-	VIEW: {
-		TASK_LIST: { QUESTIONNAIRE }
-	}
-} = require('./dynamic-components/views');
-
 /**
  * @typedef {import('./journey-factory').JourneyType} JourneyType
  * @typedef {import('./journey').Journey} Journey
@@ -158,12 +149,12 @@ exports.list = async (req, res) => {
 		summaryListData.sections.push(sectionView);
 	}
 
-	return res.render(QUESTIONNAIRE, {
+	return res.render(journey.listingPageViewPath, {
 		appeal,
 		summaryListData,
 		layoutTemplate: journey.journeyTemplate,
 		pageCaption: `Appeal ${appeal.caseReference}`
-	}); //todo: use layout property on HASJourney object
+	});
 };
 
 /**

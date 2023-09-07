@@ -20,8 +20,8 @@ const mockSections = [
 ];
 
 class TestJourney extends Journey {
-	constructor(baseUrl, response, journeyTemplate) {
-		super(baseUrl, response, journeyTemplate);
+	constructor(baseUrl, response, journeyTemplate, listingPageViewPath) {
+		super(baseUrl, response, journeyTemplate, listingPageViewPath);
 	}
 }
 
@@ -32,8 +32,11 @@ describe('Journey class', () => {
 		jest.resetAllMocks();
 		constructorArgs = {
 			baseUrl: '',
-			response: {},
-			journeyTemplate: ''
+			response: {
+				answers: {}
+			},
+			journeyTemplate: '',
+			listingPageViewPath: ''
 		};
 	});
 
@@ -78,6 +81,13 @@ describe('Journey class', () => {
 			const journey = new TestJourney(...Object.values(constructorArgs));
 
 			expect(journey.journeyTemplate).toBe(constructorArgs.journeyTemplate);
+		});
+
+		it('should set listingPageViewPath', () => {
+			constructorArgs.listingPageViewPath = 'test';
+			const journey = new TestJourney(...Object.values(constructorArgs));
+
+			expect(journey.listingPageViewPath).toBe(constructorArgs.listingPageViewPath);
 		});
 	});
 

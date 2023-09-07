@@ -5,20 +5,17 @@ const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
 
-const {
-	VIEW: { TASK_LIST }
-} = require('./dynamic-components/views');
-
 const { mockReq, mockRes } = require('../../__tests__/unit/mocks');
 
 const res = mockRes();
 const mockBaseUrl = '/manage-appeals/questionnaire';
 const mockRef = '123456';
 const mockTemplateUrl = 'template.njk';
+const mockListingPath = 'mockListingPath.njk';
 
 class TestJourney extends Journey {
 	constructor(response) {
-		super(`${mockBaseUrl}/${mockRef}`, response, mockTemplateUrl);
+		super(`${mockBaseUrl}/${mockRef}`, response, mockTemplateUrl, mockListingPath);
 
 		this.sections = [
 			{
@@ -135,9 +132,9 @@ describe('dynamic-form/controller', () => {
 			getLPAUserFromSession.mockReturnValue(lpaUser);
 			getJourney.mockReturnValue(mockJourney);
 
-			await list(req, res, '');
+			await list(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(TASK_LIST.QUESTIONNAIRE, {
+			expect(res.render).toHaveBeenCalledWith(mockJourney.listingPageViewPath, {
 				appeal,
 				summaryListData: mockSummaryListData,
 				layoutTemplate: mockTemplateUrl,

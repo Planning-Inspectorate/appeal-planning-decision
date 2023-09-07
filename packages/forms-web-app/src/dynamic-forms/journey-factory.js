@@ -2,6 +2,7 @@ const { HasJourney } = require('./has-questionnaire/journey');
 
 /**
  * @typedef {import('./journey').Journey} Journey
+ * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {string} JourneyType
  */
 
