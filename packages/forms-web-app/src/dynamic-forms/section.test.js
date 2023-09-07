@@ -1,4 +1,5 @@
 const { Section, SECTION_STATUS } = require('./section');
+const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
 const RequiredValidator = require('./validator/required-validator');
 
 const mockQuestion = {
@@ -76,7 +77,8 @@ describe('./src/dynamic-forms/section.js', () => {
 		it('should return COMPLETE when all required answers are given', () => {
 			const mockJourneyResponse = {
 				answers: {
-					visitFrequently: 'Answer 1'
+					visitFrequently: 'Answer 1',
+					anotherFieldName: 'Answer 2'
 				}
 			};
 
@@ -85,8 +87,21 @@ describe('./src/dynamic-forms/section.js', () => {
 				validators: [new RequiredValidator()]
 			};
 
+			const anotherRequiredQuestion = {
+				fieldName: 'anotherFieldName',
+				validators: [new RequiredFileUploadValidator()]
+			};
+
+			const notARequiredQuestion = {
+				fieldName: 'someQuestion',
+				validators: []
+			};
+
 			const section = new Section();
 			section.addQuestion(requiredQuestion);
+			section.addQuestion(anotherRequiredQuestion);
+			section.addQuestion(notARequiredQuestion);
+
 			const result = section.getStatus(mockJourneyResponse);
 			expect(result).toBe(SECTION_STATUS.COMPLETE);
 		});

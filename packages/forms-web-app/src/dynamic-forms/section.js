@@ -1,3 +1,4 @@
+const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
 const RequiredValidator = require('./validator/required-validator');
 
 /**
@@ -69,7 +70,10 @@ class Section {
 		let answerCount = 0;
 
 		for (let question of this.questions) {
-			const isRequired = question.validators?.some((item) => item instanceof RequiredValidator);
+			//todo: rather than use instanceof can isRequired be a property on BaseValidator?
+			const isRequired = question.validators?.some(
+				(item) => item instanceof RequiredValidator || item instanceof RequiredFileUploadValidator
+			);
 			const answer = journeyResponse?.answers[question.fieldName];
 
 			// increment count of required questions
