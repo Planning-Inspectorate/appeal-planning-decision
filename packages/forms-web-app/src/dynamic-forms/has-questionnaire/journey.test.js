@@ -24,6 +24,11 @@ describe('HAS Journey class', () => {
 			expect(journey.journeyTemplate).toBe('has-questionnaire/template.njk');
 		});
 
+		it('should set listingPageViewPath', () => {
+			const journey = new HasJourney(mockResponse);
+			expect(journey.listingPageViewPath).toBe('dynamic-components/task-list/questionnaire');
+		});
+
 		it('should define sections and questions', () => {
 			const journey = new HasJourney(mockResponse);
 			expect(Array.isArray(journey.sections)).toBe(true);

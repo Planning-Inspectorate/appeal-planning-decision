@@ -29,16 +29,22 @@ class Journey {
 	 */
 	baseUrl = '';
 	/**
-	 * @type {string} journeyTemplate - nunjucks template file used for
+	 * @type {string} journeyTemplate - nunjucks template file used as a template for all views
 	 */
 	journeyTemplate = '';
+	/**
+	 * @type {string} listingPageViewPath - nunjucks template file used for listing page
+	 */
+	listingPageViewPath = '';
 
 	/**
 	 * creates an instance of a journey
 	 * @param {string} baseUrl - base url of journey
-	 * @param {JourneyResponse} response - user's response (currently unused)
+	 * @param {JourneyResponse} response - user's response
+	 * @param {string} journeyTemplate - template used for all views
+	 * @param {string} listingPageViewPath - path to njk view for listing page
 	 */
-	constructor(baseUrl, response, journeyTemplate) {
+	constructor(baseUrl, response, journeyTemplate, listingPageViewPath) {
 		if (this.constructor == Journey) {
 			throw new Error("Abstract classes can't be instantiated.");
 		}
@@ -64,6 +70,11 @@ class Journey {
 			throw new Error('journeyTemplate should be a string.');
 		}
 		this.journeyTemplate = journeyTemplate;
+
+		if (!listingPageViewPath && typeof listingPageViewPath !== 'string') {
+			throw new Error('listingPageViewPath should be a string.');
+		}
+		this.listingPageViewPath = listingPageViewPath;
 
 		this.response = response;
 	}
@@ -98,7 +109,6 @@ class Journey {
 	#getQuestion(section, questionSegment) {
 		return section?.questions.find((q) => {
 			return q.fieldName === questionSegment || q.url === questionSegment;
-			// todo: should we rename fieldName on question to segment so it's clear it's used as a url
 		});
 	}
 
