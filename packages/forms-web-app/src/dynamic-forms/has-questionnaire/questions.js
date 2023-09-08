@@ -212,6 +212,7 @@ exports.questions = {
 	appealsNearSite: new BooleanQuestion({
 		title: 'Appeals near the site',
 		question: 'Are there any other ongoing appeals next to, or close to the site?',
+		pageTitle: 'Are there any other ongoing appeals near the site?',
 		fieldName: 'other-ongoing-appeals',
 		validators: [new RequiredValidator()]
 	}),
