@@ -55,7 +55,8 @@ const viewPaths = [
 	path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend'),
 	path.join(__dirname, '..', 'node_modules', '@pins', 'common', 'src', 'frontend'),
 	path.join(__dirname, 'views'),
-	path.join(__dirname, 'dynamic-forms')
+	path.join(__dirname, 'dynamic-forms'),
+	path.join(__dirname, 'public')
 ];
 
 const env = nunjucks.configure(viewPaths, nunjucksConfig);

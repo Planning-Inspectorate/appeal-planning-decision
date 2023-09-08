@@ -21,6 +21,7 @@ const DESCRIPTION = 'File question';
 const FIELDNAME = 'files';
 const URL = 'url';
 const VALIDATORS = [1, 2];
+const HTML = 'resources/question12/content.html';
 const DOCUMENT_TYPE = {
 	name: '1'
 };
@@ -81,7 +82,8 @@ function getMultiFileUpload(
 	question = QUESTION,
 	description = DESCRIPTION,
 	url = URL,
-	validators = VALIDATORS
+	validators = VALIDATORS,
+	html= HTML
 ) {
 	return new MultiFileUploadQuestion({
 		title: title,
@@ -90,6 +92,7 @@ function getMultiFileUpload(
 		fieldName: fieldName,
 		url: url,
 		validators: validators,
+		html: html,
 		documentType: documentType
 	});
 }
@@ -114,7 +117,6 @@ describe('MultiFileUploadQuestion', () => {
 
 	it('should create', () => {
 		const multiFileQuestion = getMultiFileUpload();
-
 		expect(multiFileQuestion.title).toEqual(TITLE);
 		expect(multiFileQuestion.question).toEqual(QUESTION);
 		expect(multiFileQuestion.description).toEqual(DESCRIPTION);
@@ -123,6 +125,7 @@ describe('MultiFileUploadQuestion', () => {
 		expect(multiFileQuestion.validators).toEqual(VALIDATORS);
 		expect(multiFileQuestion.viewFolder).toEqual('multi-file-upload');
 		expect(multiFileQuestion.documentType).toEqual(DOCUMENT_TYPE);
+		expect(multiFileQuestion.html).toEqual(HTML);
 	});
 
 	it('should create a MultiFileUploadQuestion with default documentType', () => {

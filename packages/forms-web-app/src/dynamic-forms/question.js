@@ -87,7 +87,12 @@ class Question {
 	 */
 	url;
 
-	constructor({ title, question, description, viewFolder, fieldName, validators, url }) {
+	/**
+	 * @type {string} optional html content
+	 */
+	html;
+
+	constructor({ title, question, description, viewFolder, fieldName, validators, url, html } = {}) {
 		if (!title || title === '') throw new Error('title parameter is mandatory');
 		if (!question || question === '') throw new Error('question parameter is mandatory');
 		if (!fieldName || fieldName === '') throw new Error('fieldName parameter is mandatory');
@@ -98,6 +103,7 @@ class Question {
 		this.fieldName = fieldName;
 		this.validators = validators;
 		this.url = url;
+		this.html = html;
 		//todo: taskList default to true, or pass in as param if question shouldn't be displayed in task (summary) list
 		//or possibly add taskList condition to the Section class as part of withCondition method(or similar) if possible?
 	}

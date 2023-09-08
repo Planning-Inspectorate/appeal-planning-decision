@@ -10,4 +10,11 @@
 
 {% block before_content %}
 {# empty to stop caption coming in #}
+
 {% endblock before_content %}
+
+ {% if question.html %}
+    {% block optional_html %}
+        {% include question.html ignore missing %}
+    {% endblock optional_html %}
+{% endif %}

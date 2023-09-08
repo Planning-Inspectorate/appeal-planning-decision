@@ -23,7 +23,7 @@ class MultiFileUploadQuestion extends Question {
 	 */
 	documentType;
 
-	constructor({ title, question, description, fieldName, url, documentType, validators }) {
+	constructor({ title, question, description, fieldName, url, documentType, validators, html }) {
 		super({
 			title,
 			question,
@@ -31,7 +31,8 @@ class MultiFileUploadQuestion extends Question {
 			viewFolder: 'multi-file-upload',
 			fieldName,
 			url,
-			validators
+			validators,
+			html
 		});
 
 		if (documentType) {
