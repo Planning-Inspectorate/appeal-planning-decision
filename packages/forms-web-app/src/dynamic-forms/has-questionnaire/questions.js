@@ -217,9 +217,14 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	addNewConditions: new BooleanQuestion({
-		title: 'Add new conditions', //Title used in the summary list
-		question: 'Do you want to add new planning conditions to this appeal?', //The question being asked
-		fieldName: 'add-new-conditions' //The name of the html input field / stem of the name for screens with multiple fields
+		title: 'Add new conditions',
+		question: 'Do you want to add new planning conditions to this appeal?',
+		fieldName: 'new-planning-conditions'
+	}),
+	otherAppealReference: new BooleanQuestion({
+		title: '*?',
+		question: '*?',
+		fieldName: 'other-appeal-reference'
 	})
 	// /*S78 questions */
 	// rightOfWayCheck: new BooleanQuestion({
