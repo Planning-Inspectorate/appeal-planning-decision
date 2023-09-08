@@ -23,6 +23,16 @@
 			"restart": true,
 			"remoteRoot": "/opt/app",
 			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/opt/common/**"]
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "clamav-rest-server",
+			"address": "localhost",
+			"localRoot": "${workspaceFolder}/packages/clamav-rest-server",
+			"restart": true,
+			"remoteRoot": "/opt/app",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/opt/common/**"]
 		}
 	]
 }

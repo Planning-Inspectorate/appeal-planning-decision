@@ -48,6 +48,7 @@ describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 			expect(validationResult.errors).toHaveLength(0);
 		});
 
+		// Checks that errors are returned for files with an incorrect mime type and too big in size
 		it('should return errors for invalid files', async () => {
 			const req = {
 				body: {
