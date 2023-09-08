@@ -10,53 +10,81 @@ describe('./src/dynamic-forms/question.js', () => {
 	const FIELDNAME = 'favouriteColour';
 	const URL = '/test';
 	const VALIDATORS = [1];
+	const HTML = 'resources/question12/content.html';
 
-	const getTestQuestion = (
+	const getTestQuestion = ({
 		title = TITLE,
 		question = QUESTION_STRING,
 		description = DESCRIPTION,
 		viewFolder = TYPE,
 		fieldName = FIELDNAME,
 		url = URL,
-		validators = VALIDATORS
-	) => {
+		validators = VALIDATORS,
+		pageTitle = undefined,
+		html = undefined
+	} = {}) => {
 		return new Question({
 			title,
+			pageTitle,
 			question,
 			description,
 			viewFolder,
 			fieldName,
 			url,
-			validators
+			validators,
+			html
 		});
 	};
 
 	it('should create', () => {
-		const question = getTestQuestion();
+		const question = getTestQuestion({ html: HTML });
 
 		expect(question).toBeTruthy();
 		expect(question.title).toEqual(TITLE);
 		expect(question.question).toEqual(QUESTION_STRING);
-		expect(question.description).toEqual(DESCRIPTION);
 		expect(question.viewFolder).toEqual(TYPE);
 		expect(question.fieldName).toEqual(FIELDNAME);
 		expect(question.url).toEqual(URL);
+		expect(question.pageTitle).toEqual(QUESTION_STRING);
+		expect(question.description).toEqual(DESCRIPTION);
 		expect(question.validators).toEqual(VALIDATORS);
+		expect(question.html).toEqual(HTML);
+	});
+
+	it('should use pageTitle if set', () => {
+		const pageTitle = 'a';
+
+		const question = getTestQuestion({ pageTitle });
+
+		expect(question.pageTitle).toEqual(pageTitle);
+	});
+
+	it('should not set validators if not an array', () => {
+		const validators = {};
+
+		const question = getTestQuestion({ validators });
+
+		expect(question.validators).toEqual([]);
 	});
 
 	it('should throw if mandatory parameters not supplied to constructor', () => {
 		const TITLE = 'Question1';
 		const QUESTION_STRING = 'What is your favourite colour?';
 		const FIELDNAME = 'favouriteColour';
-		expect(() => new Question({ question: QUESTION_STRING, fieldName: FIELDNAME })).toThrow(
-			'title parameter is mandatory'
-		);
-		expect(() => new Question({ title: TITLE, fieldName: FIELDNAME })).toThrow(
-			'question parameter is mandatory'
-		);
-		expect(() => new Question({ title: TITLE, question: QUESTION_STRING })).toThrow(
-			'fieldName parameter is mandatory'
-		);
+		const VIEWFOLDER = 'view/';
+		expect(
+			() =>
+				new Question({ question: QUESTION_STRING, fieldName: FIELDNAME, viewFolder: VIEWFOLDER })
+		).toThrow('title parameter is mandatory');
+		expect(
+			() => new Question({ title: TITLE, fieldName: FIELDNAME, viewFolder: VIEWFOLDER })
+		).toThrow('question parameter is mandatory');
+		expect(
+			() => new Question({ title: TITLE, question: QUESTION_STRING, viewFolder: VIEWFOLDER })
+		).toThrow('fieldName parameter is mandatory');
+		expect(
+			() => new Question({ title: TITLE, question: QUESTION_STRING, fieldName: FIELDNAME })
+		).toThrow('viewFolder parameter is mandatory');
 	});
 
 	describe('renderPage', () => {
