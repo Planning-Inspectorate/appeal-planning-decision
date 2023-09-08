@@ -110,10 +110,11 @@ exports.questions = {
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
 	uploadLetters: new MultiFileUploadQuestion({
-		title: '*********************placeholder**********************',
+		title: '*********************placeholder1**********************',
 		question: '*********************placeholder**********************',
 		description: '*********************placeholder**********************',
-		fieldName: 'upload-letters'
+		fieldName: 'upload-letters',
+		html: 'resources/question12/content.html'
 	}),
 	howYouNotifiedPeople: new CheckboxQuestion({
 		title: 'How you notified people',
