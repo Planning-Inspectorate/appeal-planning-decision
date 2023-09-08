@@ -209,9 +209,10 @@ exports.questions = {
 		validator: { type: 'text', maxLength: 100 }
 	},
 	appealsNearSite: new BooleanQuestion({
-		title: 'Appeals near the site', //Title used in the summary list
-		question: 'Add another appeal?', //The question being asked
-		fieldName: 'appeals-near-site' //The name of the html input field / stem of the name for screens with multiple fields
+		title: 'Appeals near the site',
+		question: 'Are there any other ongoing appeals next to, or close to the site?',
+		fieldName: 'other-ongoing-appeals',
+		validators: [new RequiredValidator()]
 	}),
 	addNewConditions: new BooleanQuestion({
 		title: 'Add new conditions', //Title used in the summary list

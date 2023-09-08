@@ -94,7 +94,7 @@ class HasJourney extends Journey {
 				.addQuestion(questions.accessForInspection)
 				.addQuestion(questions.neighbouringSite)
 				.addQuestion(questions.potentialSafetyRisks),
-			new Section('Appeal process', 'process')
+			new Section('Appeal process', 'appeal-process')
 				.addQuestion(questions.appealsNearSite)
 				.addQuestion(questions.addNewConditions),
 			new Section('Submit', 'submit')
