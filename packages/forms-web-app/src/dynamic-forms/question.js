@@ -76,7 +76,6 @@ class Question {
 	 */
 	showBackToListLink = true;
 
-	bulletPoints = [];
 	details = {
 		title: '',
 		text: ''

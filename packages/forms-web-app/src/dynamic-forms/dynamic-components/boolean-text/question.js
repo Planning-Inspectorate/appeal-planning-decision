@@ -1,7 +1,7 @@
 const RadioQuestion = require('../radio/question');
 
-class BooleanQuestion extends RadioQuestion {
-	constructor({ title, question, description, fieldName, validators } = {}) {
+class BooleanTextQuestion extends RadioQuestion {
+	constructor({ title, question, description, fieldName, points, validators }) {
 		const options = [
 			{
 				text: 'Yes',
@@ -12,6 +12,7 @@ class BooleanQuestion extends RadioQuestion {
 				value: 'no'
 			}
 		];
+
 		super({
 			title,
 			question,
@@ -21,7 +22,9 @@ class BooleanQuestion extends RadioQuestion {
 			options,
 			validators
 		});
+
+		this.points = points;
 	}
 }
 
-module.exports = { BooleanQuestion };
+module.exports = BooleanTextQuestion;
