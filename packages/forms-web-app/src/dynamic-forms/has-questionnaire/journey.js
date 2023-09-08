@@ -96,7 +96,14 @@ class HasJourney extends Journey {
 				.addQuestion(questions.potentialSafetyRisks),
 			new Section('Appeal process', 'appeal-process')
 				.addQuestion(questions.appealsNearSite)
-				.addQuestion(questions.addNewConditions),
+				.addQuestion(questions.addNewConditions)
+				.withCondition(
+					response.answers && response.answers[questions.appealsNearSite.fieldName] == 'no'
+				)
+				.addQuestion(questions.otherAppealReference)
+				.withCondition(
+					response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
+				),
 			new Section('Submit', 'submit')
 		);
 	}
