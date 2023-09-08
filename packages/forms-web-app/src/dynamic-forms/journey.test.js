@@ -7,7 +7,7 @@ const mockSections = [
 			{ fieldName: 'question1', text: 'Question 1' },
 			{ fieldName: 'question2', text: 'Question 2', prepQuestionForRendering: jest.fn() },
 			{ fieldName: 'question3', text: 'Question 3' },
-			{ fieldName: 'question4', text: 'Question 4', url: 'q4_alternative_url' }
+			{ fieldName: 'question4', text: 'Question 4' }
 		]
 	},
 	{
@@ -15,6 +15,16 @@ const mockSections = [
 		questions: [
 			{ fieldName: 'question3', text: 'Question 3' },
 			{ fieldName: 'question4', text: 'Question 4' }
+		]
+	},
+	{
+		segment: 'section3',
+		questions: [
+			{ fieldName: 'question5', text: 'Question 5' },
+			{ fieldName: 'question6', text: 'Question 6' },
+			{ fieldName: 'question7', text: 'Question 7', url: 'q7_alternative_url' },
+			{ fieldName: 'question8', text: 'Question 8' },
+			{ fieldName: 'question9', text: 'Question 9' }
 		]
 	}
 ];
@@ -31,7 +41,7 @@ describe('Journey class', () => {
 	beforeEach(() => {
 		jest.resetAllMocks();
 		constructorArgs = {
-			baseUrl: '',
+			baseUrl: 'base',
 			response: {
 				answers: {}
 			},
@@ -63,7 +73,6 @@ describe('Journey class', () => {
 		});
 
 		it('should set baseUrl', () => {
-			constructorArgs.baseUrl = '/abc';
 			const journey = new TestJourney(...Object.values(constructorArgs));
 
 			expect(journey.baseUrl).toBe(constructorArgs.baseUrl);
@@ -144,97 +153,211 @@ describe('Journey class', () => {
 	});
 
 	describe('getNextQuestionUrl', () => {
-		it('should return the url for the next question', () => {
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[0].fieldName;
-			const nextQuestionName = mockSections[0].questions[1].fieldName;
+		it.each([[true], [false]])(
+			'should return the baseUrl if section is not found [%s]',
+			(returnToListing) => {
+				const section = 'section3'; // Non-existent section
+				const name = mockSections[0].questions[0].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
-			journey.sections = mockSections;
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = returnToListing;
 
-			const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
 
-			expect(nextQuestionUrl).toBe(`/${section}/${nextQuestionName}`);
-		});
+				expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
+			}
+		);
 
-		it('should return the next question URL with baseUrl', () => {
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[0].fieldName;
-			const nextQuestionName = mockSections[0].questions[1].fieldName;
-			constructorArgs.baseUrl = '/test/test';
+		it.each([[true], [false]])(
+			'should return the baseUrl if question is not found [%s]',
+			(returnToListing) => {
+				const section = mockSections[0].segment;
+				const name = 'nope'; // Non-existent question
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
-			journey.sections = mockSections;
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = returnToListing;
 
-			const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
 
-			expect(nextQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${nextQuestionName}`);
-		});
+				expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
+			}
+		);
 
-		it('should return the previous question url if reversed', () => {
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[1].fieldName;
-			const prevQuestionName = mockSections[0].questions[0].fieldName;
+		it.each([[true], [false]])(
+			'should use the question url prop if provided [%s]',
+			(returnToListing) => {
+				const section = mockSections[2];
+				const name = section.questions[1].fieldName;
+				const nextQuestionName = section.questions[2].url;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
-			journey.sections = mockSections;
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = returnToListing;
 
-			const nextQuestionUrl = journey.getNextQuestionUrl(section, name, true);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
-			expect(nextQuestionUrl).toBe(`/${section}/${prevQuestionName}`);
-		});
+				expect(nextQuestionUrl).toBe(
+					`${constructorArgs.baseUrl}/${section.segment}/${nextQuestionName}`
+				);
+			}
+		);
 
-		it('should return the questionnaire URL if section is not found', () => {
-			const section = 'section3'; // Non-existent section
-			const name = mockSections[0].questions[1].fieldName;
-			constructorArgs.baseUrl = 'base';
+		it.each([
+			[0, true],
+			[1, true],
+			[2, true],
+			[0, false],
+			[1, false],
+			[2, false]
+		])(
+			'should return the url for the next question in the current section [%d] [%s]',
+			(currentSectionIndex, returnToListing) => {
+				const section = mockSections[currentSectionIndex];
+				const name = section.questions[0].fieldName;
+				const nextQuestionName = section.questions[1].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
-			journey.sections = mockSections;
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = returnToListing;
 
-			const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
-			expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
-		});
+				expect(nextQuestionUrl).toBe(
+					`${constructorArgs.baseUrl}/${section.segment}/${nextQuestionName}`
+				);
+			}
+		);
 
-		it('should return the questionnaire URL if question is not found', () => {
-			const section = mockSections[0].segment;
-			const name = 'nope'; // Non-existent question
-			constructorArgs.baseUrl = 'base';
+		it.each([
+			[0, true],
+			[1, true],
+			[2, true],
+			[0, false],
+			[1, false],
+			[2, false]
+		])(
+			'should return the previous question url in current section [%d] if reversed [%s]',
+			(currentSectionIndex, returnToListing) => {
+				const section = mockSections[currentSectionIndex];
+				const name = section.questions[1].fieldName;
+				const prevQuestionName = section.questions[0].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
-			journey.sections = mockSections;
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = returnToListing;
 
-			const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
 
-			expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
-		});
+				expect(nextQuestionUrl).toBe(
+					`${constructorArgs.baseUrl}/${section.segment}/${prevQuestionName}`
+				);
+			}
+		);
 
-		it('should return the questionnaire URL if there is no next question in the current section', () => {
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[3].fieldName;
-			constructorArgs.baseUrl = 'base';
+		it.each([[0], [1]])(
+			'should return the next question if there is one in the next section [%d + 1]',
+			(currentSectionIndex) => {
+				const section = mockSections[currentSectionIndex];
+				const name = section.questions[section.questions.length - 1].fieldName;
+				const nextSection = mockSections[currentSectionIndex + 1];
+				const nextQuestionName = nextSection.questions[0].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
-			journey.sections = mockSections;
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = false;
 
-			const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
-			expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
-		});
+				expect(nextQuestionUrl).toBe(
+					`${constructorArgs.baseUrl}/${nextSection.segment}/${nextQuestionName}`
+				);
+			}
+		);
 
-		it('should return the questionnaire URL if there is no previous question in the current section', () => {
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[0].fieldName;
-			constructorArgs.baseUrl = 'base';
+		it.each([[true], [false]])(
+			'should return the baseUrl if there is no next section [%s]',
+			(returnToListing) => {
+				const section = mockSections[mockSections.length - 1];
+				const name = section.questions[section.questions.length - 1].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
-			journey.sections = mockSections;
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = returnToListing;
 
-			const nextQuestionUrl = journey.getNextQuestionUrl(section, name, true);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
-			expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
-		});
+				expect(nextQuestionUrl).toBe(`${constructorArgs.baseUrl}`);
+			}
+		);
+
+		it.each([[1], [2]])(
+			'should return the previous question if there is one in the previous section [%d - 1]',
+			(currentSectionIndex) => {
+				const section = mockSections[currentSectionIndex];
+				const name = section.questions[0].fieldName;
+				const prevSection = mockSections[currentSectionIndex - 1];
+				const prevQuestionName = prevSection.questions[prevSection.questions.length - 1].fieldName;
+
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = false;
+
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
+
+				expect(nextQuestionUrl).toBe(
+					`${constructorArgs.baseUrl}/${prevSection.segment}/${prevQuestionName}`
+				);
+			}
+		);
+
+		it.each([[true], [false]])(
+			'should return the baseUrl if there is no previous section [%s]',
+			(returnToListing) => {
+				const section = mockSections[0];
+				const name = section.questions[0].fieldName;
+
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = returnToListing;
+
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
+
+				expect(nextQuestionUrl).toBe(`${constructorArgs.baseUrl}`);
+			}
+		);
+
+		it.each([[0], [1], [2]])(
+			'should return the baseUrl if at end of section [%d] and returnToListing is true',
+			(currentSectionIndex) => {
+				const section = mockSections[currentSectionIndex];
+				const name = section.questions[section.questions.length - 1].fieldName;
+
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = true;
+
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
+				expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
+			}
+		);
+
+		it.each([[0], [1], [2]])(
+			'should return the baseUrl if at start of section [%d] and returnToListing is true',
+			(currentSectionIndex) => {
+				const section = mockSections[currentSectionIndex];
+				const name = section.questions[0].fieldName;
+
+				const journey = new TestJourney(...Object.values(constructorArgs));
+				journey.sections = mockSections;
+				journey.returnToListing = true;
+
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
+
+				expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
+			}
+		);
 	});
 
 	describe('getCurrentQuestionUrl', () => {
@@ -247,7 +370,7 @@ describe('Journey class', () => {
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
-			expect(currentQuestionUrl).toBe(`/${section}/${name}`);
+			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}`);
 		});
 
 		it('should return the questionnaire URL if section or question is not found', () => {
@@ -259,44 +382,19 @@ describe('Journey class', () => {
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
-			expect(currentQuestionUrl).toBe(``);
-		});
-
-		it('should return the questionnaire URL with baseUrl', () => {
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[1].fieldName;
-			constructorArgs.baseUrl = '/test/test';
-
-			const journey = new TestJourney(...Object.values(constructorArgs));
-			journey.sections = mockSections;
-
-			const nextQuestionUrl = journey.getCurrentQuestionUrl(section, name);
-
-			expect(nextQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}`);
+			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}`);
 		});
 
 		it('should return the current question URL using url slug if set', () => {
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[3].url;
+			const section = mockSections[2].segment;
+			const name = mockSections[2].questions[2].url;
 
 			const journey = new TestJourney(...Object.values(constructorArgs));
 			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
-			expect(currentQuestionUrl).toBe(`/${section}/${name}`);
-		});
-
-		it('should return the current question URL using url slug if set', () => {
-			const section = mockSections[0].segment;
-			const name = mockSections[0].questions[3].url;
-
-			const journey = new TestJourney(...Object.values(constructorArgs));
-			journey.sections = mockSections;
-
-			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
-
-			expect(currentQuestionUrl).toBe(`/${section}/${name}`);
+			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}`);
 		});
 	});
 });
