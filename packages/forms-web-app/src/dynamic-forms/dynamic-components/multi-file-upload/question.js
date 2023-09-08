@@ -88,8 +88,12 @@ class MultiFileUploadQuestion extends Question {
 				);
 			}
 
-			// save files to blob storage
-			const uploadedFiles = await this.#saveFilesToBlobStorage(req, journeyResponse, errors);
+			// save valid files to blob storage
+			let validFiles = [];
+			if (this.fieldName in req.files) {
+				validFiles = getValidFiles(errors, req.files[this.fieldName]);
+			}
+			const uploadedFiles = await this.#saveFilesToBlobStorage(validFiles, journeyResponse, errors);
 
 			// add saved docs to response
 			responseToSave.answers[this.fieldName].uploadedFiles = [];
@@ -167,28 +171,24 @@ class MultiFileUploadQuestion extends Question {
 		}
 	};
 
-	async #saveFilesToBlobStorage(req, journeyResponse, errors) {
+	async #saveFilesToBlobStorage(files, journeyResponse) {
 		let result = [];
 
-		if (this.fieldName in req.files) {
-			const validFiles = getValidFiles(errors, req.files[this.fieldName]);
+		// eslint-disable-next-line no-restricted-syntax
+		for (const file of files) {
+			const document = await createDocument(
+				{
+					id: journeyResponse.journeyId,
+					referenceNumber: journeyResponse.referenceId
+				},
+				file,
+				file.name,
+				this.documentType.name
+			);
 
-			// eslint-disable-next-line no-restricted-syntax
-			for await (const file of validFiles) {
-				const document = await createDocument(
-					{
-						id: journeyResponse.journeyId,
-						referenceNumber: journeyResponse.referenceId
-					},
-					file,
-					file.name,
-					this.documentType.name
-				);
+			const mappedDoc = mapMultiFileDocumentToSavedDocument(document, document?.name, file.name);
 
-				const mappedDoc = mapMultiFileDocumentToSavedDocument(document, document?.name, file.name);
-
-				result.push(mappedDoc);
-			}
+			result.push(mappedDoc);
 		}
 
 		return result;
