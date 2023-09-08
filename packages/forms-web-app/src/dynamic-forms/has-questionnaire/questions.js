@@ -8,6 +8,7 @@
 const { CheckboxQuestion } = require('../dynamic-components/checkbox/question');
 const MultiFileUploadQuestion = require('../dynamic-components/multi-file-upload/question');
 const BooleanQuestion = require('../dynamic-components/boolean/question');
+const BooleanTextQuestion = require('../dynamic-components/boolean-text/question');
 const RequiredValidator = require('../validator/required-validator');
 const RequiredFileUploadValidator = require('../validator/required-file-upload-validator');
 const MultifileUploadValidator = require('../validator/multifile-upload-validator');
@@ -183,10 +184,10 @@ exports.questions = {
 		question: 'Might the inspector need to enter a neighbour’s land or property?', //The question being asked
 		fieldName: 'inspector-visit-neighbour' //The name of the html input field / stem of the name for screens with multiple fields
 	}),
-	potentialSafetyRisks: {
+	potentialSafetyRisks: new BooleanTextQuestion({
 		title: 'Potential safety risks',
 		question: 'Add potential safety risks',
-		subQuestion: 'Are there any potential safety risks?',
+		//subQuestion: 'Are there any potential safety risks?',
 		description:
 			'You need to tell inspectors how to prepare for a site visit and what to bring. \n \n What you tell us might include:',
 		points: [
@@ -198,16 +199,16 @@ exports.questions = {
 			'there is dangerous debris or overgrown vegetation',
 			'there is potentially hazardous material, such as asbestos'
 		],
-		conditional: 'Add details of the potential risk and what the inspector might need',
-		conditionalId: 'potential-safety-risks-correct-details',
-		type: 'boolean-text',
-		fieldName: 'potential-safety-risks',
-		required: false,
-		show: (answers) => {
-			return answers['access-for-inspection'] === 'yes';
-		},
-		validator: { type: 'text', maxLength: 100 }
-	},
+		//conditional: 'Add details of the potential risk and what the inspector might need',
+		//conditionalId: 'potential-safety-risks-correct-details',
+		fieldName: 'safety-risks',
+		//required: false,
+		// show: (answers) => {
+		// 	return answers['access-for-inspection'] === 'yes';
+		// },
+		//validator: { type: 'text', maxLength: 100 }
+		validators: []
+	}),
 	appealsNearSite: new BooleanQuestion({
 		title: 'Appeals near the site',
 		question: 'Are there any other ongoing appeals next to, or close to the site?',

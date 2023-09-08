@@ -1,6 +1,5 @@
 {% extends layoutTemplate %}
 
-{% from "../macros/bullet-list.njk" import bulletList %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
@@ -42,10 +41,6 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">{{question.question}}</h1>
       <p class="govuk-body">{{question.description}}</p>
-      {% if question.points %}
-        {{bulletList(question.points)}}
-      {% endif %}
-
       <form action="" method="post" novalidate>
         {{ govukRadios({
           classes: "govuk-radios",
