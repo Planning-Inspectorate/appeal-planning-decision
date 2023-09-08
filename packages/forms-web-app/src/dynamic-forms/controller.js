@@ -214,31 +214,31 @@ exports.save = async (req, res, journeyId) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 
-	// show errors
-	if (Object.keys(errors).length > 0) {
-		const answer = journeyResponse.answers[questionObj.fieldName] || '';
-
-		return questionObj.renderPage(
-			res,
-			{
-				layoutTemplate: journey.journeyTemplate,
-				pageCaption: sectionObj?.name,
-				backLink: journey.getNextQuestionUrl(section, question, true),
-				listLink: journey.baseUrl,
-				answers: journey.response.answers,
-				answer
-			},
-			{
-				errors,
-				errorSummary
-			}
-		);
-	}
-
 	try {
 		// use custom saveAction
 		if (questionObj.saveAction) {
 			return await questionObj.saveAction(req, res, journey, sectionObj, journeyResponse);
+		}
+
+		// show errors
+		if (Object.keys(errors).length > 0) {
+			const answer = journeyResponse.answers[questionObj.fieldName] || '';
+
+			return questionObj.renderPage(
+				res,
+				{
+					layoutTemplate: journey.journeyTemplate,
+					pageCaption: sectionObj?.name,
+					backLink: journey.getNextQuestionUrl(section, question, true),
+					listLink: journey.baseUrl,
+					answers: journey.response.answers,
+					answer
+				},
+				{
+					errors,
+					errorSummary
+				}
+			);
 		}
 
 		// set answer on response

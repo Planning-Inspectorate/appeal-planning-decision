@@ -166,8 +166,8 @@ exports.questions = {
 	planningOfficersReportUpload: new MultiFileUploadQuestion({
 		title: 'Upload planning officers report',
 		question: 'Upload the planning officer’s report',
-		fieldName: 'planning-officers-upload',
-		validators: [new RequiredValidator('You must add your documents')]
+		fieldName: 'upload-report',
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
 	accessForInspection: new BooleanQuestion({
 		title: 'Access for inspection',

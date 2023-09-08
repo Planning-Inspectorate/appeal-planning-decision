@@ -1,6 +1,6 @@
 const logger = require('../../../lib/logger');
 const { patchQuestionResponse } = require('../../../lib/appeals-api-wrapper');
-const { removeFiles } = require('../../../lib/multi-file-upload-helpers');
+const { removeFiles, getValidFiles } = require('../../../lib/multi-file-upload-helpers');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
 const { documentTypes } = require('@pins/common');
@@ -54,6 +54,7 @@ class MultiFileUploadQuestion extends Question {
 	saveAction = async (req, res, journey, sectionObj, journeyResponse) => {
 		try {
 			const { body } = req;
+			const { errors = {}, errorSummary = [] } = body;
 			// const { errors = {}, errorSummary = [] } = body;
 			const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
 
@@ -88,7 +89,7 @@ class MultiFileUploadQuestion extends Question {
 			}
 
 			// save files to blob storage
-			const uploadedFiles = await this.#saveFilesToBlobStorage(req, journeyResponse);
+			const uploadedFiles = await this.#saveFilesToBlobStorage(req, journeyResponse, errors);
 
 			// add saved docs to response
 			responseToSave.answers[this.fieldName].uploadedFiles = [];
@@ -106,34 +107,35 @@ class MultiFileUploadQuestion extends Question {
 			// save answer to database
 			await patchQuestionResponse(journeyResponse.journeyId, encodedReferenceId, responseToSave);
 
-			// todo: validation after saving required?
-			// if (Object.keys(errors).length > 0) {
-			// 	const answer = journeyResponse.answers[this.fieldName].uploadedFiles;
-			// 	return this.renderPage(
-			// 		res,
-			// 		{
-			// 			layoutTemplate: journey.journeyTemplate,
-			// 			pageCaption: sectionObj?.name,
-			// 			backLink: journey.getNextQuestionUrl(sectionObj.segment, this.fieldName, true),
-			// 			listLink: journey.baseUrl,
-			// 			answers: journey.response.answers,
-			// 			answer
-			// 		},
-			// 		{
-			// 			errors,
-			// 			errorSummary: errorSummary.map((error) => ({
-			// 				...error,
-			// 				href: '#'
-			// 			}))
-			// 		}
-			// 	);
-			// }
-
 			// map the response back to journeyResponse
 			journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
 
 			// update journey based on response
 			const updatedJourney = new journey.constructor(journeyResponse);
+
+			// todo: validation after saving required?
+			if (Object.keys(errors).length > 0) {
+				const answer = journeyResponse.answers[this.fieldName];
+
+				return this.renderPage(
+					res,
+					{
+						layoutTemplate: journey.journeyTemplate,
+						pageCaption: sectionObj?.name,
+						backLink: journey.getNextQuestionUrl(sectionObj.segment, this.fieldName, true),
+						listLink: journey.baseUrl,
+						answers: journey.response.answers,
+						answer
+					},
+					{
+						errors,
+						errorSummary: errorSummary.map((error) => ({
+							...error,
+							href: '#'
+						}))
+					}
+				);
+			}
 
 			// this is the `name` of the 'upload' button in the template.
 			if (body['upload-and-remain-on-page']) {
@@ -166,13 +168,14 @@ class MultiFileUploadQuestion extends Question {
 		}
 	};
 
-	async #saveFilesToBlobStorage(req, journeyResponse) {
+	async #saveFilesToBlobStorage(req, journeyResponse, errors) {
 		let result = [];
 
 		if (this.fieldName in req.files) {
-			// const validFiles = getValidFiles(errors, body.files[this.fieldName]);
+			const validFiles = getValidFiles(errors, req.files[this.fieldName]);
+
 			// eslint-disable-next-line no-restricted-syntax
-			for await (const file of req.files[this.fieldName]) {
+			for await (const file of validFiles) {
 				const document = await createDocument(
 					{
 						id: journeyResponse.journeyId,

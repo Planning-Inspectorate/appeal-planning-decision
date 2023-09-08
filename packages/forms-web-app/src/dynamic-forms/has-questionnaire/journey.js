@@ -82,9 +82,10 @@ class HasJourney extends Journey {
 					response.answers &&
 						response.answers[questions.representationsFromOthers.fieldName] == 'yes'
 				),
-			new Section("Planning officer's report and supplementary documents", 'officer').addQuestion(
-				questions.planningOfficersReportUpload
-			),
+			new Section(
+				"Planning officer's report and supplementary documents",
+				'planning-officer-report'
+			).addQuestion(questions.planningOfficersReportUpload),
 			new Section('Site access', 'site-access')
 				.addQuestion(questions.accessForInspection)
 				.addQuestion(questions.neighbouringSite)
