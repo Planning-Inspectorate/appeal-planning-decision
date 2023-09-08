@@ -12,11 +12,10 @@ const processFile = async (req, res) => {
 	try {
 		const [uploadedFile] = file;
 		logger.info('sending file to clamav', { controller: 'processFile' });
-		const result = await clamd.sendFile(uploadedFile.buffer);
-		return res.send(result);
+		return res.send(await clamd.sendFile(uploadedFile.buffer));
 	} catch (error) {
 		logger.error(error, 'error uploading file to clamav');
-		return res.send('error uploading file to clamav');
+		return res.sendStatus(500);
 	}
 };
 

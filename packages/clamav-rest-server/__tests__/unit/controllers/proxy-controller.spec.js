@@ -63,6 +63,6 @@ describe('controllers/proxy-controller', () => {
 		};
 
 		await controller.processFile(mockRequest, res);
-		expect(res.send).toHaveBeenCalledWith('error uploading file to clamav');
+		expect(res.sendStatus).toHaveBeenCalledWith(500);
 	});
 });

@@ -5,51 +5,55 @@ const config = require('./config');
 const logger = require('./logger');
 
 const sendFile = async (file) => {
+	console.log(file);
 	if (typeof file === 'undefined') {
 		throw new Error('invalid or empty file');
 	}
 	logger.info('sending file');
-	const ClamScan = new NodeClam().init({
-		removeInfected: true,
-		clamdscan: {
-			host: config.services.clamav.host || 'localhost',
-			port: config.services.clamav.port || 3310,
-			active: true,
-			bypassRest: false
-		},
-		preference: 'clamdscan'
-	});
+	const clamScan = await GetClamCliemt();
+	try {
+		const version = await clamScan.getVersion();
+		console.log(`ClamAV Version: ${version}`);
 
-	// Get instance by resolving ClamScan promise object
-	ClamScan.then(async (client) => {
-		try {
-			// You can re-use the `clamscan` object as many times as you want
-			const version = await client.getVersion();
-			console.log(`ClamAV Version: ${version}`);
+		const fileStream = Readable();
+		fileStream.push(file);
+		fileStream.push(null);
 
-			// const {isInfected, file, viruses} = await client.isInfected('/some/file.zip');
-			// if (isInfected) console.log(`${file} is infected with ${viruses}!`);
+		const result = await clamScan.scanStream(fileStream);
 
-			const fileStream = Readable();
-			fileStream.push(file.data);
-			fileStream.push(null);
-
-			return client.scanStream(fileStream);
-
-			// return client.scanStream(Readable.from(file.toString()));
-		} catch (err) {
-			// Handle any errors raised by the code in the try block
-			console.log(err);
-			logger.error(err, 'error calling clamav client');
-			throw err;
+		// If is infected is null or undefined (which can happen in certain cases) then throw an error
+		if (result.isInfected == null) {
+			throw new Error('Could not scan file');
 		}
-	}).catch((err) => {
+		return result;
+	} catch (err) {
 		// Handle errors that may have occurred during initialization
 		console.log(err);
-		logger.error(err, 'error initializing clamav client');
+		logger.error(err, 'error scanning file');
 		throw err;
-	});
+	}
 };
+
+async function GetClamCliemt() {
+	try {
+		const ClamScan = await new NodeClam().init({
+			removeInfected: true,
+			clamdscan: {
+				host: config.services.clamav.host || 'localhost',
+				port: config.services.clamav.port || 3310,
+				active: true,
+				bypassRest: false
+			},
+			preference: 'clamdscan'
+		});
+		return ClamScan;
+	} catch (err) {
+		// Handle errors that may have occurred during initialization
+		console.log(err);
+		logger.error(err, 'error starting file scan');
+		throw err;
+	}
+}
 
 module.exports = {
 	sendFile
