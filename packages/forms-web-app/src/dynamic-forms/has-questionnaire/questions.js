@@ -5,7 +5,7 @@
  * types without having the overhead of managing duplicates. *
  *************************************************************/
 
-const { CheckboxQuestion } = require('../dynamic-components/checkbox/question');
+const CheckboxQuestion = require('../dynamic-components/checkbox/question');
 const MultiFileUploadQuestion = require('../dynamic-components/multi-file-upload/question');
 const BooleanQuestion = require('../dynamic-components/boolean/question');
 const BooleanTextQuestion = require('../dynamic-components/boolean-text/question');
@@ -190,15 +190,15 @@ exports.questions = {
 		//subQuestion: 'Are there any potential safety risks?',
 		description:
 			'You need to tell inspectors how to prepare for a site visit and what to bring. \n \n What you tell us might include:',
-		points: [
-			'there is no, or limited mobile reception',
-			'access is blocked',
-			'ladders or other equipment is needed',
-			'site health and safety rules need to be followed (for instance, a hard hat, boots and hi visibility clothing)',
-			'there is livestock or other animals',
-			'there is dangerous debris or overgrown vegetation',
-			'there is potentially hazardous material, such as asbestos'
-		],
+		// points: [
+		// 	'there is no, or limited mobile reception',
+		// 	'access is blocked',
+		// 	'ladders or other equipment is needed',
+		// 	'site health and safety rules need to be followed (for instance, a hard hat, boots and hi visibility clothing)',
+		// 	'there is livestock or other animals',
+		// 	'there is dangerous debris or overgrown vegetation',
+		// 	'there is potentially hazardous material, such as asbestos'
+		// ],
 		//conditional: 'Add details of the potential risk and what the inspector might need',
 		//conditionalId: 'potential-safety-risks-correct-details',
 		fieldName: 'safety-risks',
