@@ -324,5 +324,96 @@ describe('MultiFileUploadQuestion', () => {
 				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
 			);
 		});
+
+		it('handles attempts to upload invalid files', async () => {
+			const testUrl = `${mockBaseUrl}/${mockRef}`;
+
+			//given attempt to upload valid and invalid file
+			const validFileUploaded = {
+				name: 'data',
+				tempFilePath: '/tmp/tmp-4-134416293524'
+			};
+			const invalidFile = {
+				name: 'invalid',
+				tempFilePath: '/tmp/tmp-4-1694190443483'
+			};
+
+			req.files = {
+				[FIELDNAME]: [validFileUploaded, invalidFile]
+			};
+
+			//and given validator has returned relevant errors
+			const errors = {
+				[`files.${FIELDNAME}[1]`]: {
+					value: { name: invalidFile.name, tempFilePath: '/tmp/tmp-4-1694190443483' },
+					msg: `${invalidFile.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`,
+					param: `files.${FIELDNAME}[1]`,
+					location: 'body'
+				}
+			};
+
+			const errorSummary = [
+				{
+					text: `${invalidFile.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`,
+					href: '#'
+				}
+			];
+
+			req.body = {
+				errors: errors,
+				errorSummary: errorSummary
+			};
+
+			mapMultiFileDocumentToSavedDocument.mockReturnValue(validFileUploaded);
+
+			const multiFileQuestion = getMultiFileUpload();
+
+			const preppedQuestion = multiFileQuestion.prepQuestionForRendering({
+				files: {
+					uploadedFiles: [validFileUploaded]
+				}
+			});
+
+			//when save action is called on multifile question
+			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
+
+			//then only the valid document will be saved
+			expect(createDocument).toHaveBeenCalledTimes(1);
+			expect(createDocument).toHaveBeenCalledWith(
+				{
+					id: mockJourneyId,
+					referenceNumber: mockRef
+				},
+				validFileUploaded,
+				validFileUploaded.name,
+				DOCUMENT_TYPE.name
+			);
+
+			expect(patchQuestionResponse).toHaveBeenCalledWith(mockJourneyId, mockRef, {
+				answers: {
+					files: {
+						uploadedFiles: [validFileUploaded]
+					}
+				}
+			});
+
+			//and the page will re-render with the valid file listed and the relevant error message(s)
+			expect(res.redirect).not.toHaveBeenCalled();
+			expect(res.render).toHaveBeenCalledWith(
+				`dynamic-components/${multiFileQuestion.viewFolder}/index`,
+				{
+					backLink: testUrl,
+					errors: errors,
+					errorSummary: errorSummary,
+					layoutTemplate: mockTemplateUrl,
+					listLink: testUrl,
+					navigation: ['', testUrl],
+					pageCaption: mockSection.name,
+					question: preppedQuestion,
+					showBackToListLink: true,
+					uploadedFiles: [validFileUploaded]
+				}
+			);
+		});
 	});
 });

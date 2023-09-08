@@ -113,7 +113,6 @@ class MultiFileUploadQuestion extends Question {
 			// update journey based on response
 			const updatedJourney = new journey.constructor(journeyResponse);
 
-			// todo: validation after saving required?
 			if (Object.keys(errors).length > 0) {
 				const answer = journeyResponse.answers[this.fieldName];
 

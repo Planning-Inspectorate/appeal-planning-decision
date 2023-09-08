@@ -203,6 +203,44 @@ describe('dynamic-form/controller', () => {
 	});
 
 	describe('save', () => {
+		it('should use custom action if saveAction is defined on question', async () => {
+			const journeyId = 'has-questionnaire';
+			const sampleQuestionObjWithSaveAction = { ...sampleQuestionObj, saveAction: jest.fn() };
+
+			req.params = {
+				referenceId: mockRef,
+				section: mockJourney.sections[0].segment,
+				question: mockJourney.sections[0].questions[0].fieldName
+			};
+
+			res.locals.journeyResponse = {
+				answers: {}
+			};
+
+			req.body = {
+				sampleFieldName: true,
+				sampleFieldName_sub: 'send this',
+				notSampleFieldName: 'do not send this'
+			};
+
+			getJourney.mockReturnValue(mockJourney);
+
+			mockJourney.getQuestionBySectionAndName = jest.fn();
+			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObjWithSaveAction);
+
+			await save(req, res, journeyId);
+
+			expect(sampleQuestionObjWithSaveAction.saveAction).toHaveBeenCalledWith(
+				req,
+				res,
+				mockJourney,
+				mockJourney.sections[0],
+				res.locals.journeyResponse
+			);
+			expect(patchQuestionResponse).not.toHaveBeenCalled();
+			expect(res.redirect).not.toHaveBeenCalled();
+		});
+
 		it('should call API function to patch answer to question and redirect to next question if successful', async () => {
 			const journeyId = 'has-questionnaire';
 
