@@ -10,7 +10,7 @@ const sendFile = async (file) => {
 		throw new Error('invalid or empty file');
 	}
 	logger.info('sending file');
-	const clamScan = await GetClamCliemt();
+	const clamScan = await GetClamClient();
 	try {
 		const version = await clamScan.getVersion();
 		console.log(`ClamAV Version: ${version}`);
@@ -34,7 +34,7 @@ const sendFile = async (file) => {
 	}
 };
 
-async function GetClamCliemt() {
+async function GetClamClient() {
 	try {
 		const ClamScan = await new NodeClam().init({
 			removeInfected: true,
