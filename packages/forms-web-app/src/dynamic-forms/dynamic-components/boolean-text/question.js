@@ -1,7 +1,17 @@
 const RadioQuestion = require('../radio/question');
 
 class BooleanTextQuestion extends RadioQuestion {
-	constructor({ title, question, description, fieldName, points, validators }) {
+	/**
+	 * @param {Object} params
+	 * @param {string} params.title
+	 * @param {string} params.question
+	 * @param {string} params.fieldName
+	 * @param {string} [params.url]
+	 * @param {string} [params.pageTitle]
+	 * @param {string} [params.description]
+	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 */
+	constructor({ title, question, fieldName, url, pageTitle, description, validators }) {
 		const options = [
 			{
 				text: 'Yes',
@@ -16,14 +26,14 @@ class BooleanTextQuestion extends RadioQuestion {
 		super({
 			title,
 			question,
-			description,
-			fieldName,
 			viewFolder: 'boolean-text',
+			fieldName,
+			url,
+			pageTitle,
+			description,
 			options,
 			validators
 		});
-
-		this.points = points;
 	}
 }
 

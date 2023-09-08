@@ -23,14 +23,35 @@ class MultiFileUploadQuestion extends Question {
 	 */
 	documentType;
 
-	constructor({ title, question, description, fieldName, url, documentType, validators }) {
+	/**
+	 * @param {Object} params
+	 * @param {string} params.title
+	 * @param {string} params.question
+	 * @param {string} params.fieldName
+	 * @param {string} [params.url]
+	 * @param {string} [params.pageTitle]
+	 * @param {string} [params.description]
+	 * @param {Object} [params.documentType]
+	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 */
+	constructor({
+		title,
+		question,
+		fieldName,
+		url,
+		pageTitle,
+		description,
+		documentType,
+		validators
+	}) {
 		super({
 			title,
 			question,
-			description,
 			viewFolder: 'multi-file-upload',
 			fieldName,
 			url,
+			pageTitle,
+			description,
 			validators
 		});
 
