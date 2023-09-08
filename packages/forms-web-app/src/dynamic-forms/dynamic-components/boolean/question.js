@@ -1,7 +1,7 @@
 const RadioQuestion = require('../radio/question');
 
 class BooleanQuestion extends RadioQuestion {
-	constructor({ title, question, description, fieldName, validators } = {}) {
+	constructor({ title, question, description, fieldName, validators }) {
 		const options = [
 			{
 				text: 'Yes',

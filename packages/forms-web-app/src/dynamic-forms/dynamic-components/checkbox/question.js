@@ -1,7 +1,7 @@
 const OptionsQuestion = require('../../options-question');
 
 class CheckboxQuestion extends OptionsQuestion {
-	constructor({ title, question, description, fieldName, options, validators } = {}) {
+	constructor({ title, question, description, fieldName, options, validators }) {
 		super({
 			title,
 			question,
