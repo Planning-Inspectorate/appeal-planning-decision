@@ -16,26 +16,18 @@
  * @abstract
  */
 class Journey {
-	/**
-	 * @type {Array.<Section>} sections - sections within the journey
-	 */
+	/** @type {Array.<Section>} sections - sections within the journey */
 	sections = [];
-	/**
-	 * @type {JourneyResponse} response - the user's response to the journey so far
-	 */
+	/** @type {JourneyResponse} response - the user's response to the journey so far */
 	response;
-	/**
-	 * @type {string} baseUrl - base url of the journey, gets prepended to question urls
-	 */
+	/** @type {string} baseUrl - base url of the journey, gets prepended to question urls */
 	baseUrl = '';
-	/**
-	 * @type {string} journeyTemplate - nunjucks template file used as a template for all views
-	 */
+	/** @type {string} journeyTemplate - nunjucks template file used for */
 	journeyTemplate = '';
-	/**
-	 * @type {string} listingPageViewPath - nunjucks template file used for listing page
-	 */
+	/** @type {string} listingPageViewPath - nunjucks template file used for listing page */
 	listingPageViewPath = '';
+	/** @type {boolean} defines how the next/previous question handles end of sections */
+	returnToListing = false;
 
 	/**
 	 * creates an instance of a journey
@@ -81,8 +73,8 @@ class Journey {
 
 	/**
 	 * utility function to build up a url to a question
-	 * @param {*} sectionSegment url param for a section
-	 * @param {*} questionSegment url param for a question
+	 * @param {string} sectionSegment url param for a section
+	 * @param {string} questionSegment url param for a question
 	 * @returns {string} url for a question
 	 */
 	#buildQuestionUrl(sectionSegment, questionSegment) {
@@ -137,36 +129,49 @@ class Journey {
 	 */
 	getNextQuestionUrl(sectionSegment, questionSegment, reverse) {
 		const unmatchedUrl = this.baseUrl;
+		const numberOfSections = this.sections.length;
+		const sectionsStart = reverse ? numberOfSections - 1 : 0;
 
-		// find section index
-		const sectionIndex = this.sections.findIndex((s) => s.segment === sectionSegment);
-		if (sectionIndex === -1) {
-			return unmatchedUrl;
+		let currentSectionIndex;
+		let foundSection = false;
+		let takeNextQuestion = false;
+
+		for (let i = sectionsStart; reverse ? i >= 0 : i < numberOfSections; reverse ? i-- : i++) {
+			const currentSection = this.sections[i];
+			const numberOfQuestions = currentSection.questions.length;
+
+			if (currentSection.segment === sectionSegment) {
+				foundSection = true;
+				currentSectionIndex = i;
+			}
+
+			if (foundSection) {
+				if (this.returnToListing && i !== currentSectionIndex) {
+					return unmatchedUrl;
+				}
+
+				const questionsStart = reverse ? numberOfQuestions - 1 : 0;
+				for (
+					let j = questionsStart;
+					reverse ? j >= 0 : j < numberOfQuestions;
+					reverse ? j-- : j++
+				) {
+					const question = currentSection.questions[j];
+					if (takeNextQuestion) {
+						return this.#buildQuestionUrl(
+							currentSection.segment,
+							question.url ? question.url : question.fieldName
+						);
+					}
+
+					if (question.fieldName === questionSegment) {
+						takeNextQuestion = true;
+					}
+				}
+			}
 		}
 
-		// find question index
-		const questionIndex = this.sections[sectionIndex].questions.findIndex(
-			(q) => q.fieldName === questionSegment
-		);
-		if (questionIndex === -1) {
-			return unmatchedUrl;
-		}
-
-		// increment or decrement index based on reverse argument
-		const newIndex = questionIndex + (reverse ? -1 : 1);
-
-		// check new question exists
-		const questionExists = newIndex >= 0 && newIndex < this.sections[sectionIndex].questions.length;
-		if (!questionExists) {
-			return unmatchedUrl;
-		}
-
-		return this.#buildQuestionUrl(
-			this.sections[sectionIndex].segment,
-			this.sections[sectionIndex].questions[newIndex].url
-				? this.sections[sectionIndex].questions[newIndex].url
-				: this.sections[sectionIndex].questions[newIndex].fieldName
-		);
+		return unmatchedUrl;
 	}
 
 	/**
