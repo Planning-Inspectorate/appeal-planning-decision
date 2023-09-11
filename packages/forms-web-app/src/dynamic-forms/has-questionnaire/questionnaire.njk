@@ -1,5 +1,5 @@
-{% extends "./index.njk" %}
-{% from "../../../views/macros/appeal-details.njk" import appealDetails %}
+{% extends "dynamic-components/task-list/index.njk" %}
+{% from "macros/appeal-details.njk" import appealDetails %}
 
 {% set title="Appeal questionnaire - Manage appeals - GOV.UK" %}
 
@@ -20,7 +20,7 @@
     </div>
 
     <div class="govuk-grid-column-full">
-      {{ appealDetails(appeal) }}  
+      {{ appealDetails(customData) }}  
     </div>
 
   </div>

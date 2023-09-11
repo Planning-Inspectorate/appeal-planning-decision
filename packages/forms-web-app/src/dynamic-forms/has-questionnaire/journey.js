@@ -1,13 +1,17 @@
+const { getAppealByLPACodeAndId } = require('../../lib/appeals-api-wrapper');
+const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { questions } = require('./questions');
 const { Journey } = require('../journey');
 const { Section } = require('../section');
 
 const baseHASUrl = '/manage-appeals/questionnaire';
 const hasJourneyTemplate = 'has-questionnaire/template.njk';
-const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
+const listingPageViewPath = 'has-questionnaire/questionnaire';
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('../journey').ListingPageData} ListingPageData
+ * @typedef {import('../../../node_modules/express/lib/request')} ExpressRequest
  */
 
 /**
@@ -103,6 +107,23 @@ class HasJourney extends Journey {
 			new Section('Submit', 'submit')
 		);
 	}
+
+	/**
+	 * @param {ExpressRequest} req
+	 * @returns {Promise.<ListingPageData>} listing page data
+	 */
+	getListingPageData = async (req) => {
+		const { referenceId } = req.params;
+		const user = getLPAUserFromSession(req);
+		const encodedReferenceId = encodeURIComponent(referenceId);
+		const appeal = await getAppealByLPACodeAndId(user.lpaCode, encodedReferenceId);
+
+		return {
+			summaryListData: this.buildSummaryPageData(),
+			pageCaption: `Appeal ${appeal.caseReference}`,
+			customData: appeal
+		};
+	};
 }
 
 module.exports = { HasJourney, baseHASUrl };

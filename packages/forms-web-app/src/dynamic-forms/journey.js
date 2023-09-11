@@ -3,11 +3,20 @@
  * (e.g. questionnaire). Specific journeys should be       *
  * defined in a class which extends this one               *
  ***********************************************************/
+const { SECTION_STATUS } = require('./section');
 
 /**
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./section').Section} Section
  * @typedef {import('./question')} Question
+ * @typedef {import('../../node_modules/express/lib/request')} ExpressRequest
+ */
+
+/**
+ * @typedef {Object} ListingPageData
+ * @property {SummaryListView} summaryListData
+ * @property {string|null} pageCaption
+ * @property {Object|null} customData
  */
 
 /**
@@ -199,6 +208,156 @@ class Journey {
 			matchingSection.segment,
 			matchingQuestion.url ? matchingQuestion.url : matchingQuestion.fieldName
 		);
+	};
+
+	/**
+	 * @typedef {Object} SummaryListView
+	 * @property {Array.<SectionView>} sections - an array of sections
+	 * @property {number} completedSectionCount - number of sections that are completed
+	 */
+
+	/**
+	 * @typedef {Object} SectionView
+	 * @property {string} heading
+	 * @property {string} status
+	 * @property {Object} list
+	 * @property {Array.<RowView>} list.rows
+	 */
+
+	/**
+	 * @typedef {Object} RowView
+	 * @property {Object} key
+	 * @property {string} key.text
+	 * @property {Object} value
+	 * @property {string} value.text
+	 * @property {Object} actions
+	 * @property {Array.<ActionView>} actions.items
+	 */
+
+	/**
+	 * @typedef {Object} ActionView
+	 * @property {string} href
+	 * @property {string} text
+	 * @property {string} [visuallyHiddenText]
+	 */
+
+	/**
+	 * build a view model for a section in the journey overview
+	 * @param {string} name
+	 * @param {string} status
+	 * @returns {SectionView} a representation of a section
+	 */
+	#buildSectionViewModel = (name, status) => {
+		return {
+			heading: name,
+			status: status,
+			list: {
+				rows: []
+			}
+		};
+	};
+
+	/**
+	 * build a view model for a row in the journey overview
+	 * @param {string} key
+	 * @param {string} value
+	 * @param {ActionView} action
+	 * @returns {RowView} a representation of a row
+	 */
+	#buildSectionRowViewModel = (key, value, action) => {
+		return {
+			key: {
+				text: key
+			},
+			value: {
+				text: value
+			},
+			actions: {
+				items: [action]
+			}
+		};
+	};
+
+	/**
+	 * @returns {SummaryListView}
+	 */
+	buildSummaryPageData = () => {
+		/**
+		 * @type {SummaryListView}
+		 */
+		const summaryListData = {
+			sections: [],
+			completedSectionCount: 0
+		};
+
+		for (const section of this.sections) {
+			const status = section.getStatus(this.response);
+			const sectionView = this.#buildSectionViewModel(section.name, status);
+
+			// update completed count
+			if (status === SECTION_STATUS.COMPLETE) {
+				summaryListData.completedSectionCount++;
+			}
+
+			// add questions
+			for (const question of section.questions) {
+				// don't show question on tasklist if set to false
+				if (question.taskList === false) {
+					continue;
+				}
+
+				// use custom formatting function
+				if (question.format) {
+					const rows = question.format(
+						this.response.answers,
+						this.response.referenceId,
+						section.segment,
+						question.fieldName
+					);
+
+					for (let rowData of rows) {
+						const action = {
+							href: rowData.ctaLink,
+							text: rowData.ctaText
+						};
+
+						const row = this.#buildSectionRowViewModel(rowData.title, rowData.value, action);
+						sectionView.list.rows.push(row);
+					}
+
+					continue;
+				}
+
+				// default question format
+				const key = question.title ?? question.question;
+				const value =
+					question.altText ?? this.response?.answers[question.fieldName] ?? 'Not started';
+				const action = {
+					href: this.getCurrentQuestionUrl(section.segment, question.fieldName),
+					text: 'Answer',
+					visuallyHiddenText: question.question
+				};
+
+				const row = this.#buildSectionRowViewModel(key, value, action);
+				sectionView.list.rows.push(row);
+			}
+
+			summaryListData.sections.push(sectionView);
+		}
+
+		return summaryListData;
+	};
+
+	/**
+	 * @param {ExpressRequest} req
+	 * @returns {Promise.<ListingPageData>} listing page data
+	 */ // eslint-disable-next-line no-unused-vars
+	getListingPageData = async (req) => {
+		return {
+			summaryListData: this.buildSummaryPageData(),
+			pageCaption: null,
+			customData: null
+		};
 	};
 }
 
