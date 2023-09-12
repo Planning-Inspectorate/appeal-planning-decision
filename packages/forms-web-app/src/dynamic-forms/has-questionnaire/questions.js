@@ -138,10 +138,10 @@ exports.questions = {
 		]
 	}),
 	uploadSiteNotice: new MultiFileUploadQuestion({
-		title: 'Upload the site notice',
+		title: 'Site notice',
 		question: 'Upload the site notice',
 		fieldName: 'upload-site-notice',
-		validators: [new RequiredValidator('You must add your documents')]
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
 	// lettersToNeighboursUpload: new MultiFileUploadQuestion({
 	// 	title: 'Letters to neighbours',
