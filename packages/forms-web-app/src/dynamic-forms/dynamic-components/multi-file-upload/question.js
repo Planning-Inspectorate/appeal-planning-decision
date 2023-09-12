@@ -106,7 +106,7 @@ class MultiFileUploadQuestion extends Question {
 			if ('removedFiles' in body) {
 				const removedFiles = JSON.parse(body.removedFiles);
 
-				journeyResponse.answers[this.fieldName].uploadedFiles = removeFiles(
+				journeyResponse.answers[this.fieldName].uploadedFiles = await removeFiles(
 					journeyResponse.answers[this.fieldName].uploadedFiles,
 					removedFiles
 				);

@@ -22,7 +22,7 @@ const postUploadDocuments = async (req, res) => {
 			const documents = req.session.finalComment.supportingDocuments;
 			const removedFiles = JSON.parse(body.removedFiles);
 
-			documents.uploadedFiles = removeFiles(documents.uploadedFiles, removedFiles);
+			documents.uploadedFiles = await removeFiles(documents.uploadedFiles, removedFiles);
 		}
 
 		if ('files' in body && 'upload-documents' in body.files) {

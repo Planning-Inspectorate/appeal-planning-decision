@@ -32,7 +32,7 @@ exports.postSupportingDocuments = async (req, res) => {
 			const appealTask = appeal[sectionName][taskName];
 			const removedFiles = JSON.parse(body.removedFiles);
 
-			appealTask.uploadedFiles = removeFiles(appealTask.uploadedFiles, removedFiles);
+			appealTask.uploadedFiles = await removeFiles(appealTask.uploadedFiles, removedFiles);
 		}
 
 		if ('files' in body && 'supporting-documents' in body.files) {

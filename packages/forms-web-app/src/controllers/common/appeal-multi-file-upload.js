@@ -30,7 +30,7 @@ const postAppealMultiFileUpload = (
 		try {
 			if ('removedFiles' in body) {
 				const removedFiles = JSON.parse(body.removedFiles);
-				appealTask.uploadedFiles = removeFiles(appealTask.uploadedFiles, removedFiles);
+				appealTask.uploadedFiles = await removeFiles(appealTask.uploadedFiles, removedFiles);
 			}
 
 			if ('files' in body && 'file-upload' in body.files) {
