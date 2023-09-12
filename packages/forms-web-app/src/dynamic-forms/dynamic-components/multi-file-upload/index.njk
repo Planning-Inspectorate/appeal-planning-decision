@@ -13,8 +13,8 @@
 
 {% endblock before_content %}
 
- {% if question.html %}
-    {% block optional_html %}
+{% block optional_html %}
+    {% if question.html %}
         {% include question.html ignore missing %}
-    {% endblock optional_html %}
-{% endif %}
+    {% endif %}
+{% endblock optional_html %}
