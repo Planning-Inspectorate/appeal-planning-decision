@@ -80,8 +80,10 @@ exports.questions = {
 	}),
 	whoWasNotified: new MultiFileUploadQuestion({
 		title: 'Who was notified',
+		pageTitle: 'Who did you notify?',
+		url: 'who-you-notified',
 		question: 'Who did you notify about this application?',
-		fieldName: 'who-you-notified',
+		fieldName: 'notified-who',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
 	displaySiteNotice: new BooleanQuestion({
