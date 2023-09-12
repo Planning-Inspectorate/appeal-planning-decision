@@ -69,7 +69,7 @@ exports.questions = {
 		title: 'Conservation area map and guidance',
 		question: 'Upload conservation map and guidance',
 		fieldName: 'conservation-area-upload',
-		validators: [new RequiredValidator('You must add your documents')]
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
 	greenBelt: new BooleanQuestion({
 		title: 'Green belt',
