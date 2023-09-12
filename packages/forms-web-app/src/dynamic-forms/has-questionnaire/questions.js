@@ -163,7 +163,7 @@ exports.questions = {
 		title: 'Upload representations from other parties',
 		question: 'Upload the representations',
 		fieldName: 'representation-upload',
-		validators: [new RequiredValidator('You must add your documents')]
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
 	planningOfficersReportUpload: new MultiFileUploadQuestion({
 		title: 'Upload planning officers report',
