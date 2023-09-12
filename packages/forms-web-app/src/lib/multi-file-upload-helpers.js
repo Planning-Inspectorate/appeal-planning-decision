@@ -14,7 +14,7 @@ const getValidFiles = (errors, files) => {
 	return files.filter((file) => erroredFilesByTempFilePath.includes(file.tempFilePath) === false);
 };
 
-const removeFiles = (files, removedFiles) => {
+const removeFiles = async (files, removedFiles) => {
 	for (const removedFile of removedFiles) {
 		files = files.filter((file) => file.originalFileName !== removedFile.name);
 	}
