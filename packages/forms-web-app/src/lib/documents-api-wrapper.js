@@ -42,7 +42,7 @@ const handler = async (url, method = 'GET', data = {}, localPlanningAuthorityCod
 		throw new Error(apiResponse.statusText);
 	}
 
-	const ok = [200, 202].includes(await apiResponse.status);
+	const ok = [200, 202, 204].includes(await apiResponse.status);
 
 	if (!ok) {
 		throw new Error(apiResponse.statusText);
@@ -131,10 +131,15 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
 	return response;
 };
 
+const removeDocument = async (id, name) => {
+	return await handler(`${config.documents.url}/api/v1/${id}/${name}`, 'DELETE');
+};
+
 const fetchDocument = (appealOrQuestionnaireId, documentId) =>
 	handler(`${config.documents.url}/api/v1/${appealOrQuestionnaireId}/${documentId}/file`);
 
 module.exports = {
 	createDocument,
-	fetchDocument
+	fetchDocument,
+	removeDocument
 };
