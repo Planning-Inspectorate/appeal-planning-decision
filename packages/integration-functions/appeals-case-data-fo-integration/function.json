@@ -1,14 +1,12 @@
 {
 	"bindings": [
 		{
-			"connection": "APPEALS_SERVICE_BUS_CONNECTION",
+			"connection": "ServiceBusConnection",
 			"name": "appealsCaseMessage",
 			"type": "serviceBusTrigger",
 			"direction": "in",
 			"topicName": "appeal-bo-case",
-			"subscriptionName": "bo-appeals-case-subscription",
-			"autoComplete": true
+			"subscriptionName": "bo-appeals-case-subscription"
 		}
-	],
-	"disabled": false
+	]
 }
