@@ -202,7 +202,7 @@ class MultiFileUploadQuestion extends Question {
 		for (const file of files) {
 			const document = await createDocument(
 				{
-					id: journeyResponse.journeyId,
+					id: `${journeyResponse.journeyId}:${encodeURIComponent(journeyResponse.referenceId)}`,
 					referenceNumber: journeyResponse.referenceId
 				},
 				file,
