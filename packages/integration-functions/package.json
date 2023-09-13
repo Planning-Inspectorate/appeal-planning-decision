@@ -11,5 +11,8 @@
 	},
 	"devDependencies": {
 		"@azure/service-bus": "^7.9.0"
+	},
+	"dependencies": {
+		"got": "*"
 	}
 }
