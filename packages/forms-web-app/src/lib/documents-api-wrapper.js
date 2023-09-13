@@ -15,7 +15,13 @@ function isTheFormDataBuffer(data) {
 	return isDataBuffer(data) && data.tempFilePath;
 }
 
-const handler = async (url, method = 'GET', data = {}, localPlanningAuthorityCode = '') => {
+const handler = async (
+	url,
+	method = 'GET',
+	data = {},
+	localPlanningAuthorityCode = '',
+	allowedResponseCodes = [200, 202]
+) => {
 	const correlationId = uuid.v4();
 	const logger = parentLogger.child({
 		correlationId,
@@ -42,7 +48,7 @@ const handler = async (url, method = 'GET', data = {}, localPlanningAuthorityCod
 		throw new Error(apiResponse.statusText);
 	}
 
-	const ok = [200, 202, 204].includes(await apiResponse.status);
+	const ok = allowedResponseCodes.includes(await apiResponse.status);
 
 	if (!ok) {
 		throw new Error(apiResponse.statusText);
@@ -131,8 +137,14 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
 	return response;
 };
 
-const removeDocument = async (id, name) => {
-	return await handler(`${config.documents.url}/api/v1/${id}/${name}`, 'DELETE');
+const removeDocument = async (appealOrQuestionnaireId, documentId) => {
+	return await handler(
+		`${config.documents.url}/api/v1/${appealOrQuestionnaireId}/${documentId}`,
+		'DELETE',
+		{},
+		'',
+		[204]
+	);
 };
 
 const fetchDocument = (appealOrQuestionnaireId, documentId) =>
