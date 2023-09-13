@@ -61,7 +61,7 @@ async function setupAppealCaseDataIndexes() {
 	try {
 		const caseDataCollection = mongodb.get().collection('appealsCaseData');
 
-		await caseDataCollection.createIndex({ caseReference: 1 }, { unique: true });
+		await caseDataCollection.createIndex({ caseReference: 1 }, { unique: false });
 		await caseDataCollection.createIndex({ LPAApplicationReference: 1 }, { unique: false });
 		await caseDataCollection.createIndex({ LPACode: 1 }, { unique: false });
 		await caseDataCollection.createIndex({ appealType: 1 }, { unique: false });
