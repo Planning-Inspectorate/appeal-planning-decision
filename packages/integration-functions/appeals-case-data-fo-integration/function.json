@@ -6,7 +6,9 @@
 			"type": "serviceBusTrigger",
 			"direction": "in",
 			"topicName": "appeal-bo-case",
-			"subscriptionName": "bo-appeals-case-subscription"
+			"subscriptionName": "bo-appeals-case-subscription",
+			"autoComplete": true
 		}
-	]
+	],
+	"disabled": false
 }
