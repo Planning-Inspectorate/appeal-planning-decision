@@ -183,7 +183,8 @@ exports.questions = {
 	neighbouringSite: new BooleanQuestion({
 		title: 'Inspector visit to neighbour', //Title used in the summary list
 		question: 'Might the inspector need to enter a neighbour’s land or property?', //The question being asked
-		fieldName: 'inspector-visit-neighbour' //The name of the html input field / stem of the name for screens with multiple fields
+		fieldName: 'inspector-visit-neighbour', //The name of the html input field / stem of the name for screens with multiple fields
+		validators: [new RequiredValidator()]
 	}),
 	potentialSafetyRisks: new BooleanTextQuestion({
 		title: 'Potential safety risks',
