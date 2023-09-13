@@ -17,6 +17,13 @@ const getValidFiles = (errors, files) => {
 	return files.filter((file) => erroredFilesByTempFilePath.includes(file.tempFilePath) === false);
 };
 
+/**
+ * Removes files from the array and optionally blob storage
+ * @param {Array.<Object>} files - all of the current files
+ * @param {Array.<Object>} removedFiles - the files selected to be removed
+ * @param {string} baseLocation - if set this will attempt to remove the file id from blob storage in the location baseLocation/file.id
+ * @returns {Promise.<Array.<Object>>} the remaining files after removal, if a file failed to be removed a property is added {failedToRemove: true}
+ */
 const removeFiles = async (files, removedFiles, baseLocation) => {
 	const remainingFiles = [];
 	const removePromises = [];

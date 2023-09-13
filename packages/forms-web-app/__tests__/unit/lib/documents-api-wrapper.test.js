@@ -1,6 +1,10 @@
 const fetch = require('node-fetch');
 const { documentTypes } = require('@pins/common');
-const { createDocument, fetchDocument } = require('../../../src/lib/documents-api-wrapper');
+const {
+	createDocument,
+	fetchDocument,
+	removeDocument
+} = require('../../../src/lib/documents-api-wrapper');
 const config = require('../../../src/config');
 const { utils } = require('@pins/common');
 
@@ -227,6 +231,46 @@ describe('lib/documents-api-wrapper', () => {
 			);
 			/* eslint-disable-next-line no-undef */
 			expect(res).toEqual(new Response(documentBuffer));
+		});
+	});
+
+	describe('removeDocument', () => {
+		let id;
+		let docId;
+
+		beforeEach(() => {
+			id = 'a';
+			docId = 'b';
+		});
+
+		it('should throw if fetch fails', async () => {
+			fetch.mockReject(new Error('fake error message'));
+			expect(removeDocument(id, docId)).rejects.toThrow('fake error message');
+		});
+
+		it('should throw if the remote API response is not ok', async () => {
+			fetch.mockResponse('fake response body', { status: 400 });
+			try {
+				await removeDocument(id, docId);
+				expect('to be').not.toBe('to be');
+			} catch (e) {
+				expect(e.message).toBe('Bad Request');
+			}
+		});
+
+		it('should throw if the response code is not 204', async () => {
+			fetch.mockResponse('a response body', { status: 200 });
+			try {
+				await removeDocument(id, docId);
+				expect('to be').not.toBe('to be');
+			} catch (e) {
+				expect(e.message).toBe('OK');
+			}
+		});
+
+		it('should return the expected response if the fetch status is 202 with form data input', async () => {
+			fetch.mockResponse('', { status: 204 });
+			expect(await removeDocument(id, docId)).toEqual(expect.objectContaining({ status: 204 }));
 		});
 	});
 });

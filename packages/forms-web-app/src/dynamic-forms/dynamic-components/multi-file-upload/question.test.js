@@ -2,14 +2,12 @@ const MultiFileUploadQuestion = require('./question');
 const { documentTypes } = require('@pins/common');
 
 const { patchQuestionResponse } = require('../../../lib/appeals-api-wrapper');
-// const { removeFiles } = require('../../../lib/multi-file-upload-helpers');
-const { createDocument } = require('../../../lib/documents-api-wrapper');
+const { createDocument, removeDocument } = require('../../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
 const { SECTION_STATUS } = require('../../section');
 const { Journey } = require('../../journey');
 
 jest.mock('../../../lib/appeals-api-wrapper');
-// jest.mock('../../../lib/multi-file-upload-helpers');
 jest.mock('../../../lib/documents-api-wrapper');
 jest.mock('../../../mappers/document-mapper');
 
@@ -83,7 +81,7 @@ function getMultiFileUpload(
 	description = DESCRIPTION,
 	url = URL,
 	validators = VALIDATORS,
-	html= HTML
+	html = HTML
 ) {
 	return new MultiFileUploadQuestion({
 		title: title,
@@ -172,7 +170,7 @@ describe('MultiFileUploadQuestion', () => {
 
 			expect(createDocument).toHaveBeenCalledWith(
 				{
-					id: mockJourneyId,
+					id: `${mockJourneyId}:${mockRef}`,
 					referenceNumber: mockRef
 				},
 				fileUploaded,
@@ -210,7 +208,7 @@ describe('MultiFileUploadQuestion', () => {
 			expect(createDocument).toHaveBeenCalledTimes(2);
 			expect(createDocument).toHaveBeenCalledWith(
 				{
-					id: mockJourneyId,
+					id: `${mockJourneyId}:${mockRef}`,
 					referenceNumber: mockRef
 				},
 				fileUploaded,
@@ -289,18 +287,50 @@ describe('MultiFileUploadQuestion', () => {
 			);
 		});
 
-		it('removes files', async () => {
+		it('will uploads files to blob storage but not save to response if one fails', async () => {
+			// may wish to change this functionality to handle saving to blob + response file by file to avoid orphaned files
 			const fileUploaded = {
 				name: 'data'
 			};
 			req.files = {
 				[FIELDNAME]: [fileUploaded, fileUploaded]
 			};
+			req.body = {};
+
+			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
+
+			const expectedError = new Error('test');
+			createDocument.mockResolvedValueOnce();
+			createDocument.mockRejectedValueOnce(expectedError);
+
+			const multiFileQuestion = getMultiFileUpload();
+
+			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
+
+			expect(createDocument).toHaveBeenCalledTimes(2);
+			expect(patchQuestionResponse).not.toHaveBeenCalled();
+
+			expect(res.render).toHaveBeenCalledWith(
+				expect.any(String),
+				expect.objectContaining({
+					errorSummary: [{ text: 'Failed to upload files', href: '#' }]
+				})
+			);
+		});
+
+		it('can remove files and upload files', async () => {
+			const fileUploaded = {
+				name: 'data'
+			};
+			req.files = {
+				[FIELDNAME]: [fileUploaded]
+			};
 			req.body = {
 				removedFiles: `[{ "name": "${mockUploadedFile.name}" }]`
 			};
 
 			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
+			removeDocument.mockResolvedValue();
 
 			const multiFileQuestion = getMultiFileUpload();
 
@@ -314,17 +344,112 @@ describe('MultiFileUploadQuestion', () => {
 
 			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
 
-			expect(createDocument).toHaveBeenCalledTimes(2);
+			expect(createDocument).toHaveBeenCalledTimes(1);
+			expect(removeDocument).toHaveBeenCalledTimes(1);
 
 			expect(patchQuestionResponse).toHaveBeenCalledWith(mockJourneyId, mockRef, {
 				answers: {
 					files: {
-						uploadedFiles: [mockUploadedFile, mockUploadedFile]
+						uploadedFiles: [mockUploadedFile]
 					}
 				}
 			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
+			);
+		});
+
+		it('can remove files', async () => {
+			req.body = {
+				removedFiles: `[{ "name": "${mockUploadedFile.name}" }]`
+			};
+			const remainingFile = { ...mockUploadedFile, originalFileName: 'different.png' };
+
+			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
+			removeDocument.mockResolvedValue();
+
+			const multiFileQuestion = getMultiFileUpload();
+
+			const responseWithFiles = {
+				referenceId: mockRef,
+				journeyId: mockJourneyId,
+				answers: {
+					[FIELDNAME]: {
+						uploadedFiles: [mockUploadedFile, remainingFile]
+					}
+				}
+			};
+
+			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
+
+			expect(createDocument).toHaveBeenCalledTimes(0);
+			expect(removeDocument).toHaveBeenCalledTimes(1);
+
+			expect(patchQuestionResponse).toHaveBeenCalledWith(mockJourneyId, mockRef, {
+				answers: {
+					files: {
+						uploadedFiles: [remainingFile]
+					}
+				}
+			});
+			expect(res.redirect).toHaveBeenCalledWith(
+				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
+			);
+		});
+
+		it('handles failures when removing files', async () => {
+			req.body = {
+				removedFiles: `[{ "name": "${mockUploadedFile.name}" }]`
+			};
+			const remainingFile = { ...mockUploadedFile, originalFileName: 'different.png' };
+
+			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
+			const error = new Error('Some error message');
+			removeDocument.mockRejectedValue(error);
+
+			const multiFileQuestion = getMultiFileUpload();
+
+			const responseWithFiles = {
+				referenceId: mockRef,
+				journeyId: mockJourneyId,
+				answers: {
+					[FIELDNAME]: {
+						uploadedFiles: [mockUploadedFile, remainingFile]
+					}
+				}
+			};
+
+			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
+
+			expect(createDocument).toHaveBeenCalledTimes(0);
+			expect(removeDocument).toHaveBeenCalledTimes(1);
+
+			expect(patchQuestionResponse).toHaveBeenCalledWith(mockJourneyId, mockRef, {
+				answers: {
+					files: {
+						uploadedFiles: [remainingFile, mockUploadedFile]
+					}
+				}
+			});
+
+			const expectedErrorMsg = `Failed to remove file: ${mockUploadedFile.originalFileName}`;
+			expect(res.render).toHaveBeenCalledWith(
+				expect.any(String),
+
+				expect.objectContaining({
+					errors: {
+						[mockUploadedFile.id]: {
+							value: { name: mockUploadedFile.originalFileName },
+							msg: expectedErrorMsg
+						}
+					},
+					errorSummary: [
+						{
+							href: '#files',
+							text: expectedErrorMsg
+						}
+					]
+				})
 			);
 		});
 
@@ -358,7 +483,7 @@ describe('MultiFileUploadQuestion', () => {
 			const errorSummary = [
 				{
 					text: `${invalidFile.name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`,
-					href: '#'
+					href: '#files'
 				}
 			];
 
@@ -368,6 +493,7 @@ describe('MultiFileUploadQuestion', () => {
 			};
 
 			mapMultiFileDocumentToSavedDocument.mockReturnValue(validFileUploaded);
+			removeDocument.mockResolvedValue();
 
 			const multiFileQuestion = getMultiFileUpload();
 
@@ -384,7 +510,7 @@ describe('MultiFileUploadQuestion', () => {
 			expect(createDocument).toHaveBeenCalledTimes(1);
 			expect(createDocument).toHaveBeenCalledWith(
 				{
-					id: mockJourneyId,
+					id: `${mockJourneyId}:${mockRef}`,
 					referenceNumber: mockRef
 				},
 				validFileUploaded,

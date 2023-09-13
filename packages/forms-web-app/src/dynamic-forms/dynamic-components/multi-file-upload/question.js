@@ -79,7 +79,6 @@ class MultiFileUploadQuestion extends Question {
 		try {
 			const { body } = req;
 			const { errors = {}, errorSummary = [] } = body;
-			// const { errors = {}, errorSummary = [] } = body;
 			const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
 
 			// set answer on response
@@ -103,13 +102,24 @@ class MultiFileUploadQuestion extends Question {
 			}
 
 			// remove files from response
+			let failedRemovedFiles = [];
 			if ('removedFiles' in body) {
 				const removedFiles = JSON.parse(body.removedFiles);
 
 				journeyResponse.answers[this.fieldName].uploadedFiles = await removeFiles(
 					journeyResponse.answers[this.fieldName].uploadedFiles,
-					removedFiles
+					removedFiles,
+					`${journeyResponse.journeyId}:${encodedReferenceId}`
 				);
+
+				// get a list of files that failed to be removed
+				// and ensure the failedToRemove property is not stored to the database
+				for (const remainingFile of journeyResponse.answers[this.fieldName].uploadedFiles) {
+					if (remainingFile.failedToRemove) {
+						failedRemovedFiles.push(remainingFile);
+						delete remainingFile.failedToRemove;
+					}
+				}
 			}
 
 			// save valid files to blob storage
@@ -141,6 +151,17 @@ class MultiFileUploadQuestion extends Question {
 			// update journey based on response
 			const updatedJourney = new journey.constructor(journeyResponse);
 
+			for (const failedFile of failedRemovedFiles) {
+				const errorMsg = `Failed to remove file: ${failedFile.originalFileName}`;
+				errors[failedFile.id] = {
+					value: { name: failedFile.originalFileName },
+					msg: errorMsg
+				};
+				errorSummary.push({
+					text: errorMsg
+				});
+			}
+
 			if (Object.keys(errors).length > 0) {
 				const answer = journeyResponse.answers[this.fieldName];
 
@@ -158,7 +179,7 @@ class MultiFileUploadQuestion extends Question {
 						errors,
 						errorSummary: errorSummary.map((error) => ({
 							...error,
-							href: '#'
+							href: `#${this.fieldName}`
 						}))
 					}
 				);
