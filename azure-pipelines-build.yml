@@ -34,7 +34,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.4.0
+      ref: refs/tags/release/3.5.0
 
 extends:
   template: stages/wrapper_ci.yml@templates
@@ -218,6 +218,7 @@ extends:
               nodeVersion: 18
               workingDirectory: $(Build.Repository.LocalPath)/packages/integration-functions
               artifactName: integration-functions
+              script: npm ci --omit=dev --workspaces=false
       - name: Build PDF Service
         condition: >-
           and(
