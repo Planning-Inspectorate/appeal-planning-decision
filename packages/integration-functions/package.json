@@ -1,7 +1,12 @@
 {
 	"name": "integration-functions",
 	"version": "1.0.0",
-	"description": "",
+	"private": true,
+	"engines": {
+		"node": ">=18.0.0 <19.0.0",
+		"npm": ">=9.0.0 <10.0.0"
+	},
+	"description": "Appeals front office integration functions",
 	"scripts": {
 		"lint": "eslint ./",
 		"start": "func start",
