@@ -1,17 +1,31 @@
-const nunjucks = require('nunjucks');
+const { patchQuestionResponse } = require('../lib/appeals-api-wrapper');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
+ * @typedef {import('./journey').Journey} Journey
+ * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('./section').Section} Section
  */
 
 /**
- * @typedef {Object} ViewData
- * @property {string} layoutTemplate - path to template file
- * @property {string} pageCaption - caption displayed above question
- * @property {string} backLink - url to go back 1 page
- * @property {string} listLink - url for listing page
- * @property {Object} answers - all answers to journey so far
- * @property {Object} answer - answer to current question
+ * @typedef {Object} PreppedQuestion
+ * @property {Object} value
+ * @property {string} question
+ * @property {string} fieldName
+ * @property {string} pageTitle
+ * @property {string} [description]
+ * @property {string} [html]
+ */
+
+/**
+ * @typedef {Object} QuestionViewModel
+ * @property {PreppedQuestion} question
+ * @property {string} layoutTemplate
+ * @property {string} pageCaption
+ * @property {Array.<string>} navigation
+ * @property {string} backLink
+ * @property {boolean} showBackToListLink
+ * @property {string} listLink
  */
 
 /**
@@ -35,12 +49,8 @@ class Question {
 	taskList;
 	/** @type {string} alt text for displaying in tasklist */
 	altText;
-	/** @type {function} function that customises the formatting of the question */
+	/** @type {function|undefined} function that customises the formatting of the question in the task list */
 	format;
-	/** @type {function} function providing a custom rendering action */
-	renderAction;
-	/** @type {function} function providing a custom saving action */
-	saveAction;
 	/** @type {Array.<BaseValidator>} array of validators that a question uses to validate answers */
 	validators = [];
 	/** @type {string} hint text displayed to user */
@@ -69,7 +79,6 @@ class Question {
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {string} [params.html]
 	 */
-
 	constructor({
 		title,
 		question,
@@ -102,72 +111,170 @@ class Question {
 		//or possibly add taskList condition to the Section class as part of withCondition method(or similar) if possible?
 	}
 
-	prepQuestionForRendering(answers) {
-		var answer = answers[this.fieldName];
-		var processedQuestion = { ...this };
-		processedQuestion.value = answer;
-		if (this.options !== undefined && this.options.length > 0) {
-			processedQuestion.options = [];
-			for (var i = 0; i < this.options.length; i++) {
-				var option = { ...this.options[i] };
-				if (option.value !== undefined) {
-					option.checked = (',' + answer + ',').includes(',' + option.value + ',');
-				}
-				//also need to handle dependent fields & set their answers
-				if (option.conditional !== undefined) {
-					var conditionalField = { ...option.conditional };
-					conditionalField.fieldName =
-						processedQuestion.fieldName + '_' + conditionalField.fieldName;
-					conditionalField.value = answers[conditionalField.fieldName] || '';
-					option.conditional = {
-						html: nunjucks.render(
-							`../views/questions/conditional/${conditionalField.type}.njk`,
-							conditionalField
-						)
-					};
-				}
-				processedQuestion.options.push(option);
-			}
-		}
-		return processedQuestion;
-	}
-
 	/**
-	 * renders this question
-	 * @param {ExpressResponse} res
-	 * @param {ViewData} viewModel
-	 * @param {Object|undefined} customViewData
-	 * @returns
+	 * gets the view model for this question
+	 * @param {Section} section - the current section
+	 * @param {Journey} journey - the journey we are in
+	 * @param {Object|undefined} [customViewData] additional data to send to view
+	 * @returns {QuestionViewModel}
 	 */
-	renderPage = (
-		res,
-		{ layoutTemplate, pageCaption, backLink, listLink, answers, answer, journeyTitle },
-		customViewData = undefined
-	) => {
+	prepQuestionForRendering(section, journey, customViewData) {
+		const answer = journey.response.answers[this.fieldName] || '';
+		const backLink = journey.getNextQuestionUrl(section.segment, this.fieldName, true);
+
 		const viewModel = {
-			question: this.prepQuestionForRendering(answers),
+			question: {
+				value: answer,
+				question: this.question,
+				fieldName: this.fieldName,
+				pageTitle: this.pageTitle,
+				description: this.description,
+				html: this.html
+			},
 			answer,
 
-			layoutTemplate,
-			pageCaption,
+			layoutTemplate: journey.journeyTemplate,
+			pageCaption: section?.name,
 
 			navigation: ['', backLink],
 			backLink,
 			showBackToListLink: this.showBackToListLink,
-			listLink,
-			journeyTitle
+			listLink: journey.baseUrl,
+			journeyTitle: journey.journeyTitle,
+
+			...customViewData
 		};
 
-		if (answer.uploadedFiles) {
-			viewModel.uploadedFiles = answer.uploadedFiles;
-			delete viewModel.answer;
+		return viewModel;
+	}
+
+	/**
+	 * renders the question
+	 * @param {ExpressResponse} res - the express response
+	 * @param {QuestionViewModel} viewModel additional data to send to view
+	 * @returns {void}
+	 */
+	renderAction(res, viewModel) {
+		return res.render(`dynamic-components/${this.viewFolder}/index`, viewModel);
+	}
+
+	/**
+	 * Save the answer to the question
+	 * @param {ExpressRequest} req
+	 * @param {ExpressResponse} res
+	 * @param {Journey} journey
+	 * @param {Section} section
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {Promise<void>}
+	 */
+	async saveAction(req, res, journey, section, journeyResponse) {
+		// check for validation errors
+		const errorViewModel = this.checkForValidationErrors(req, section, journey);
+		if (errorViewModel) {
+			return this.renderAction(res, errorViewModel);
 		}
 
-		return res.render(`dynamic-components/${this.viewFolder}/index`, {
-			...viewModel,
-			...customViewData
-		});
-	};
+		// save
+		const responseToSave = await this.getDataToSave(req, journeyResponse);
+		await this.saveResponseToDB(journey.response, responseToSave);
+
+		// check for saving errors
+		const saveViewModel = this.checkForSavingErrors(req, section, journey);
+		if (saveViewModel) {
+			return this.renderAction(res, saveViewModel);
+		}
+
+		// move to the next question
+		const updatedJourney = new journey.constructor(journeyResponse);
+		return this.handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
+	}
+
+	/**
+	 * check for validation errors
+	 * @param {ExpressRequest} req
+	 * @param {Journey} journey
+	 * @param {Section} sectionObj
+	 * @returns {Object|undefined} returns the view model for displaying the error or undefined if there are no errors
+	 */
+	checkForValidationErrors(req, sectionObj, journey) {
+		const { body } = req;
+		const { errors = {}, errorSummary = [] } = body;
+
+		if (Object.keys(errors).length > 0) {
+			return this.prepQuestionForRendering(sectionObj, journey, {
+				errors,
+				errorSummary
+			});
+		}
+
+		return;
+	}
+
+	/**
+	 * returns the data to send to the DB
+	 * side effect: modifies journeyResponse with the new answers
+	 * @param {ExpressRequest} req
+	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
+	 * @returns {Promise.<Object>}
+	 */
+	async getDataToSave(req, journeyResponse) {
+		// set answer on response
+		let responseToSave = { answers: {} };
+
+		responseToSave.answers[this.fieldName] = req.body[this.fieldName];
+
+		for (const propName in req.body) {
+			if (propName.startsWith(this.fieldName + '_')) {
+				responseToSave.answers[propName] = req.body[propName];
+				journeyResponse.answers[propName] = req.body[propName];
+			}
+		}
+
+		journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
+
+		return responseToSave;
+	}
+
+	/**
+	 * @param {JourneyResponse} journeyResponse
+	 * @param {Promise<void>} responseToSave
+	 */
+	async saveResponseToDB(journeyResponse, responseToSave) {
+		const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
+		await patchQuestionResponse(journeyResponse.journeyId, encodedReferenceId, responseToSave);
+	}
+
+	/**
+	 * check for errors after saving, by default this does nothing
+	 * @param {ExpressRequest} req
+	 * @param {Journey} journey
+	 * @param {Section} sectionObj
+	 * @returns {Object|undefined} returns the view model for displaying the error or undefined if there are no errors
+	 */ //eslint-disable-next-line no-unused-vars
+	checkForSavingErrors(req, sectionObj, journey) {
+		return;
+	}
+
+	/**
+	 * Handles redirect after saving
+	 * @param {ExpressResponse} res
+	 * @param {Journey} journey
+	 * @param {string} sectionSegment
+	 * @param {string} questionSegment
+	 * @returns {void}
+	 */
+	handleNextQuestion(res, journey, sectionSegment, questionSegment) {
+		return res.redirect(journey.getNextQuestionUrl(sectionSegment, questionSegment, false));
+	}
+
+	/**
+	 * returns answer to the question formatted for a list view
+	 * @param {Object} answer
+	 * @returns {string}
+	 */
+	formatAnswerForSummary(answer) {
+		return this.altText ?? answer ?? 'Not started';
+	}
 }
 
 module.exports = Question;

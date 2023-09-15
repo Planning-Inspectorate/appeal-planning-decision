@@ -1,5 +1,5 @@
 const { list, question, save } = require('./controller');
-const { getAppealByLPACodeAndId, patchQuestionResponse } = require('../lib/appeals-api-wrapper');
+const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
@@ -13,6 +13,7 @@ const mockRef = '123456';
 const mockTemplateUrl = 'template.njk';
 const mockListingPath = 'mockListingPath.njk';
 const mockJourneyTitle = 'Mock Manage Appeals';
+const mockAnswer = 'Not started';
 
 class TestJourney extends Journey {
 	constructor(response) {
@@ -36,13 +37,15 @@ class TestJourney extends Journey {
 						title: 'Title 1a',
 						question: 'Why?',
 						taskList: true,
-						fieldName: 'title-1a'
+						fieldName: 'title-1a',
+						formatAnswerForSummary: jest.fn(() => mockAnswer)
 					},
 					{
 						title: 'Title 1b',
 						question: 'Who?',
 						taskList: false,
-						fieldName: 'title-1b'
+						fieldName: 'title-1b',
+						formatAnswerForSummary: jest.fn(() => mockAnswer)
 					}
 				]
 			},
@@ -57,13 +60,15 @@ class TestJourney extends Journey {
 						title: 'Title 2a',
 						question: 'How?',
 						taskList: true,
-						fieldName: 'title-2a'
+						fieldName: 'title-2a',
+						formatAnswerForSummary: jest.fn(() => mockAnswer)
 					},
 					{
 						title: 'Title 2b',
 						question: 'What?',
 						taskList: true,
-						fieldName: 'title-2b'
+						fieldName: 'title-2b',
+						formatAnswerForSummary: jest.fn(() => mockAnswer)
 					}
 				]
 			},
@@ -78,13 +83,15 @@ class TestJourney extends Journey {
 						title: 'Title 3a',
 						question: 'When?',
 						taskList: false,
-						fieldName: 'title-3a'
+						fieldName: 'title-3a',
+						formatAnswerForSummary: jest.fn(() => mockAnswer)
 					},
 					{
 						title: 'Title 3b',
 						question: 'Really?',
 						taskList: true,
-						fieldName: 'title-3b'
+						fieldName: 'title-3b',
+						formatAnswerForSummary: jest.fn(() => mockAnswer)
 					}
 				]
 			}
@@ -102,8 +109,9 @@ let mockSummaryListData;
 
 const sampleQuestionObj = {
 	fieldName: 'sampleFieldName',
-	renderAction: null,
+	renderAction: jest.fn(),
 	prepQuestionForRendering: jest.fn(),
+	formatAnswerForSummary: jest.fn(),
 	viewFolder: 'sampleType'
 };
 
@@ -172,7 +180,7 @@ describe('dynamic-form/controller', () => {
 
 			await question(req, res);
 
-			expect(sampleQuestionObj.renderAction).toHaveBeenCalledWith(req, res);
+			expect(sampleQuestionObj.renderAction).toHaveBeenCalledWith(res, undefined);
 		});
 
 		it('should render the question template', async () => {
@@ -183,10 +191,7 @@ describe('dynamic-form/controller', () => {
 
 			getJourney.mockReturnValue(mockJourney);
 
-			sampleQuestionObj.renderAction = null;
-			sampleQuestionObj.prepQuestionForRendering = jest.fn();
 			sampleQuestionObj.prepQuestionForRendering.mockReturnValueOnce(mockQuestionRendering);
-			sampleQuestionObj.renderPage = jest.fn();
 
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObj);
@@ -198,21 +203,12 @@ describe('dynamic-form/controller', () => {
 
 			await question(req, res);
 
-			expect(sampleQuestionObj.renderPage).toHaveBeenCalledWith(
-				res,
-				expect.objectContaining({
-					layoutTemplate: mockJourney.journeyTemplate,
-					listLink: mockJourney.baseUrl,
-					answers: mockJourney.response.answers,
-					answer: mockAnswer,
-					journeyTitle: mockJourneyTitle
-				})
-			);
+			expect(sampleQuestionObj.renderAction).toHaveBeenCalledWith(res, mockQuestionRendering);
 		});
 	});
 
 	describe('save', () => {
-		it('should use custom action if saveAction is defined on question', async () => {
+		it('should use question saveAction', async () => {
 			const journeyId = 'has-questionnaire';
 			const sampleQuestionObjWithSaveAction = { ...sampleQuestionObj, saveAction: jest.fn() };
 
@@ -246,12 +242,22 @@ describe('dynamic-form/controller', () => {
 				mockJourney.sections[0],
 				res.locals.journeyResponse
 			);
-			expect(patchQuestionResponse).not.toHaveBeenCalled();
-			expect(res.redirect).not.toHaveBeenCalled();
 		});
 
-		it('should call API function to patch answer to question and redirect to next question if successful', async () => {
+		it('should handle error', async () => {
 			const journeyId = 'has-questionnaire';
+			const expectedViewModel = { a: 1 };
+			const sampleQuestionObjWithActions = {
+				...sampleQuestionObj,
+				saveAction: jest.fn(),
+				prepQuestionForRendering: jest.fn(() => expectedViewModel),
+				renderAction: jest.fn()
+			};
+
+			const saveActionSpy = jest.spyOn(sampleQuestionObjWithActions, 'saveAction');
+			saveActionSpy.mockImplementation(() => {
+				throw new Error('Expected error message');
+			});
 
 			req.params = {
 				referenceId: mockRef,
@@ -272,64 +278,21 @@ describe('dynamic-form/controller', () => {
 			getJourney.mockReturnValue(mockJourney);
 
 			mockJourney.getQuestionBySectionAndName = jest.fn();
-			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObj);
+			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObjWithActions);
 
 			await save(req, res, journeyId);
 
-			expect(patchQuestionResponse).toHaveBeenCalledWith(journeyId, mockRef, {
-				answers: { sampleFieldName: true, sampleFieldName_sub: 'send this' }
-			});
-			expect(res.redirect).toHaveBeenCalledWith(
-				`${mockBaseUrl}/${mockRef}/${mockJourney.sections[0].segment}/${mockJourney.sections[0].questions[1].fieldName}`
-			);
-		});
-
-		it('should handle error if API function fails', async () => {
-			const journeyId = 'has-questionnaire';
-
-			req.params = {
-				referenceId: mockRef,
-				section: mockJourney.sections[0].segment,
-				question: mockJourney.sections[0].questions[0].fieldName
-			};
-
-			res.locals.journeyResponse = {
-				answers: {}
-			};
-
-			req.body = {
-				sampleFieldName: true
-			};
-
-			getJourney.mockReturnValue(mockJourney);
-
-			mockJourney.getQuestionBySectionAndName = jest.fn();
-			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObj);
-
-			const mockQuestionRendering = 'test';
-			sampleQuestionObj.prepQuestionForRendering = jest.fn();
-			sampleQuestionObj.prepQuestionForRendering.mockReturnValueOnce(mockQuestionRendering);
-			sampleQuestionObj.renderPage = jest.fn();
-
-			mockJourney.getNextQuestionUrl = jest.fn();
-			const mockBackLink = 'mock-back-link';
-			mockJourney.getNextQuestionUrl.mockReturnValueOnce(mockBackLink);
-			mockJourney.getSection = jest.fn();
-			mockJourney.getSection.mockReturnValue(mockSection);
-
-			const error = new Error('Test error');
-			patchQuestionResponse.mockImplementation(() => Promise.reject(error));
-
-			await save(req, res, journeyId);
-			expect(res.redirect).not.toHaveBeenCalled();
-			expect(sampleQuestionObj.renderPage).toHaveBeenCalledWith(
+			expect(sampleQuestionObjWithActions.saveAction).toHaveBeenCalledWith(
+				req,
 				res,
-				expect.objectContaining({
-					layoutTemplate: mockJourney.journeyTemplate,
-					listLink: mockJourney.baseUrl,
-					answers: mockJourney.response.answers
-				}),
-				{ errorSummary: [{ href: '#', text: 'Error: Test error' }] }
+				mockJourney,
+				mockJourney.sections[0],
+				res.locals.journeyResponse
+			);
+
+			expect(sampleQuestionObjWithActions.renderAction).toHaveBeenCalledWith(
+				res,
+				expectedViewModel
 			);
 		});
 	});

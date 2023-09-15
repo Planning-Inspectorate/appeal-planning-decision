@@ -1,5 +1,5 @@
 // common controllers for dynamic forms
-const { getAppealByLPACodeAndId, patchQuestionResponse } = require('../lib/appeals-api-wrapper');
+const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
@@ -132,10 +132,10 @@ exports.list = async (req, res) => {
 				continue;
 			}
 
+			const answer = journey.response?.answers[question.fieldName];
 			// default question format
 			const key = question.title ?? question.question;
-			const value =
-				question.altText ?? journey.response?.answers[question.fieldName] ?? 'Not started';
+			const value = question.formatAnswerForSummary(answer);
 			const action = {
 				href: journey.getCurrentQuestionUrl(section.segment, question.fieldName),
 				text: 'Answer',
@@ -175,21 +175,8 @@ exports.question = async (req, res) => {
 		return res.redirect(journey.baseUrl);
 	}
 
-	if (questionObj.renderAction) {
-		return await questionObj.renderAction(req, res);
-	}
-
-	const answer = journey.response.answers[questionObj.fieldName] || '';
-
-	return questionObj.renderPage(res, {
-		layoutTemplate: journey.journeyTemplate,
-		pageCaption: sectionObj?.name,
-		backLink: journey.getNextQuestionUrl(section, question, true),
-		listLink: journey.baseUrl,
-		answers: journey.response.answers,
-		answer,
-		journeyTitle: journey.journeyTitle
-	});
+	const viewModel = questionObj.prepQuestionForRendering(sectionObj, journey);
+	return questionObj.renderAction(res, viewModel);
 };
 
 /**
@@ -198,10 +185,7 @@ exports.question = async (req, res) => {
  */
 exports.save = async (req, res) => {
 	//save the response
-	//TODO: Needs to run validation!
-
-	const { referenceId, section, question } = req.params;
-	const encodedReferenceId = encodeURIComponent(referenceId);
+	const { section, question } = req.params;
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
 
@@ -212,70 +196,14 @@ exports.save = async (req, res) => {
 		return res.redirect(journey.baseUrl);
 	}
 
-	const { body } = req;
-	const { errors = {}, errorSummary = [] } = body;
-
 	try {
-		// use custom saveAction
-		if (questionObj.saveAction) {
-			return await questionObj.saveAction(req, res, journey, sectionObj, journeyResponse);
-		}
-
-		// show errors
-		if (Object.keys(errors).length > 0) {
-			const answer = journeyResponse.answers[questionObj.fieldName] || '';
-
-			return questionObj.renderPage(
-				res,
-				{
-					layoutTemplate: journey.journeyTemplate,
-					pageCaption: sectionObj?.name,
-					backLink: journey.getNextQuestionUrl(section, question, true),
-					listLink: journey.baseUrl,
-					answers: journey.response.answers,
-					answer
-				},
-				{
-					errors,
-					errorSummary
-				}
-			);
-		}
-
-		// set answer on response
-		let responseToSave = { answers: {} };
-
-		journeyResponse.answers[questionObj.fieldName] = req.body[questionObj.fieldName];
-		responseToSave.answers[questionObj.fieldName] = req.body[questionObj.fieldName];
-		for (let propName in req.body) {
-			if (propName.startsWith(questionObj.fieldName + '_')) {
-				journeyResponse.answers[propName] = req.body[propName];
-				responseToSave.answers[propName] = req.body[propName];
-			}
-		}
-
-		// save answer to database
-		await patchQuestionResponse(journeyResponse.journeyId, encodedReferenceId, responseToSave);
-
-		//move to the next question
-		const updatedQuestionnaire = getJourney(journeyResponse);
-		return res.redirect(updatedQuestionnaire.getNextQuestionUrl(section, question, false));
+		return await questionObj.saveAction(req, res, journey, sectionObj, journeyResponse);
 	} catch (err) {
 		logger.error(err);
-		const answer = journeyResponse.answers[questionObj.fieldName] || '';
-		return questionObj.renderPage(
-			res,
-			{
-				layoutTemplate: journey.journeyTemplate,
-				pageCaption: sectionObj?.name,
-				backLink: journey.getNextQuestionUrl(section, question, true),
-				listLink: journey.baseUrl,
-				answers: journey.response.answers,
-				answer
-			},
-			{
-				errorSummary: [{ text: err.toString(), href: '#' }]
-			}
-		);
+
+		const viewModel = questionObj.prepQuestionForRendering(sectionObj, journey, {
+			errorSummary: [{ text: err.toString(), href: '#' }]
+		});
+		return questionObj.renderAction(res, viewModel);
 	}
 };
