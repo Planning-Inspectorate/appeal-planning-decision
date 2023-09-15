@@ -12,18 +12,14 @@ const router = express.Router();
 router.get(
 	'/questionnaire/:referenceId',
 	getJourneyResponse(JOURNEY_TYPES.HAS_QUESTIONNAIRE),
-	async (req, res) => {
-		return list(req, res, JOURNEY_TYPES.HAS_QUESTIONNAIRE);
-	}
+	list
 );
 
 // question
 router.get(
 	'/questionnaire/:referenceId/:section/:question',
 	getJourneyResponse(JOURNEY_TYPES.HAS_QUESTIONNAIRE),
-	async (req, res) => {
-		return question(req, res, JOURNEY_TYPES.HAS_QUESTIONNAIRE);
-	}
+	question
 );
 
 router.post(
@@ -32,9 +28,7 @@ router.post(
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
 	validationErrorHandler,
-	async (req, res) => {
-		return save(req, res, JOURNEY_TYPES.HAS_QUESTIONNAIRE);
-	}
+	save
 );
 
 module.exports = router;

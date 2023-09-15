@@ -195,9 +195,8 @@ exports.question = async (req, res) => {
 /**
  * @param {ExpressRequest} req
  * @param {ExpressResponse} res
- * @param {JourneyType} journeyId
  */
-exports.save = async (req, res, journeyId) => {
+exports.save = async (req, res) => {
 	//save the response
 	//TODO: Needs to run validation!
 
@@ -256,7 +255,7 @@ exports.save = async (req, res, journeyId) => {
 		}
 
 		// save answer to database
-		await patchQuestionResponse(journeyId, encodedReferenceId, responseToSave);
+		await patchQuestionResponse(journeyResponse.journeyId, encodedReferenceId, responseToSave);
 
 		//move to the next question
 		const updatedQuestionnaire = getJourney(journeyResponse);
