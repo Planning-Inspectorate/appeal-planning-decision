@@ -9,5 +9,5 @@ const {
 
 router.get('/:lpaCode', getAppealsByLpaCode);
 router.get('/:lpaCode/:caseRef', getAppealByCaseRefAndLpaCode);
-router.post('/:lpaCode', postAppealCase);
+router.post('/', postAppealCase);
 module.exports = router;
