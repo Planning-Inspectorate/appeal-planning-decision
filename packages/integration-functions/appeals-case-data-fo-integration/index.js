@@ -1,4 +1,4 @@
-const got = require('../node_modules/got');
+const got = require('got');
 
 module.exports = async function (context, appealsCaseMessage) {
 	context.log('JavaScript ServiceBus topic trigger function processed message', appealsCaseMessage);
