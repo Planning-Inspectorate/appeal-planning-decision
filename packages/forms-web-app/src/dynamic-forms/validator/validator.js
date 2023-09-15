@@ -1,4 +1,5 @@
 const { getJourney } = require('../journey-factory');
+const { getSubquestionIfPresent } = require('../middleware/utils');
 
 /**
  * @typedef {import('../journey-factory').JourneyType} JourneyType
@@ -11,7 +12,9 @@ const validate = () => {
 		const journeyResponse = res.locals.journeyResponse;
 		const journey = getJourney(journeyResponse);
 
-		const questionObj = journey.getQuestionBySectionAndName(section, question);
+		let questionObj = journey.getQuestionBySectionAndName(section, question);
+
+		questionObj = getSubquestionIfPresent(req, questionObj);
 
 		if (!questionObj) {
 			throw new Error('unknown question type');

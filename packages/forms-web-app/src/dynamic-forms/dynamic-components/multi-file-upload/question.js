@@ -1,5 +1,3 @@
-const logger = require('../../../lib/logger');
-const { patchQuestionResponse } = require('../../../lib/appeals-api-wrapper');
 const { removeFiles, getValidFiles } = require('../../../lib/multi-file-upload-helpers');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
@@ -11,6 +9,15 @@ const Question = require('../../question');
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../section').Section} Section
+ * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ */
+
+/**
+ * @typedef {Array} UploadedFiles
+ */
+
+/**
+ * @typedef {QuestionViewModel & UploadedFiles} UploadQuestionViewModel
  */
 
 /**
@@ -67,154 +74,125 @@ class MultiFileUploadQuestion extends Question {
 	}
 
 	/**
-	 * Save an uploaded file
-	 * @param {ExpressRequest} req
-	 * @param {ExpressResponse} res
-	 * @param {Journey} journey
-	 * @param {Section} sectionObj
-	 * @param {JourneyResponse} journeyResponse
-	 * @returns
+	 * gets the view model for this question
+	 * @param {Section} section - the current section
+	 * @param {Journey} journey - the journey we are in
+	 * @param {Object|undefined} [customViewData] additional data to send to view
+	 * @returns {UploadQuestionViewModel}
 	 */
-	saveAction = async (req, res, journey, sectionObj, journeyResponse) => {
-		try {
-			const { body } = req;
-			const { errors = {}, errorSummary = [] } = body;
-			const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
+	prepQuestionForRendering(section, journey, customViewData) {
+		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 
-			// set answer on response
-			let responseToSave = {
-				answers: {
-					[this.fieldName]: {
-						uploadedFiles: []
-					}
-				}
+		const answer = journey.response.answers[this.fieldName] || '';
+
+		if (answer.uploadedFiles) {
+			viewModel.uploadedFiles = answer.uploadedFiles;
+		}
+
+		return viewModel;
+	}
+
+	checkForValidationErrors() {
+		// handled after saving any valid files
+		return;
+	}
+
+	/**
+	 * returns the data to send to the DB
+	 * side effect: modifies journeyResponse with the new answers
+	 * @param {ExpressRequest} req
+	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
+	 * @returns {Promise.<Object>}
+	 */
+	async getDataToSave(req, journeyResponse) {
+		const { body } = req;
+		const { errors = {}, errorSummary = [] } = body;
+		const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
+
+		// Ensure we are always working with an array. Single files would otherwise be an object.
+		if (!req.files) {
+			req.files = {
+				[this.fieldName]: []
 			};
+		}
 
-			// Ensure we are always working with an array. Single files would otherwise be an object.
-			if (!req.files) {
-				req.files = {
-					[this.fieldName]: []
-				};
-			}
+		if (!Array.isArray(req.files[this.fieldName])) {
+			req.files[this.fieldName] = [req.files[this.fieldName]];
+		}
 
-			if (!Array.isArray(req.files[this.fieldName])) {
-				req.files[this.fieldName] = [req.files[this.fieldName]];
-			}
+		// remove files from response
+		let failedRemovedFiles = [];
+		if ('removedFiles' in body) {
+			const removedFiles = JSON.parse(body.removedFiles);
 
-			// remove files from response
-			let failedRemovedFiles = [];
-			if ('removedFiles' in body) {
-				const removedFiles = JSON.parse(body.removedFiles);
-
-				journeyResponse.answers[this.fieldName].uploadedFiles = await removeFiles(
-					journeyResponse.answers[this.fieldName].uploadedFiles,
-					removedFiles,
-					`${journeyResponse.journeyId}:${encodedReferenceId}`
-				);
-
-				// get a list of files that failed to be removed
-				// and ensure the failedToRemove property is not stored to the database
-				for (const remainingFile of journeyResponse.answers[this.fieldName].uploadedFiles) {
-					if (remainingFile.failedToRemove) {
-						failedRemovedFiles.push(remainingFile);
-						delete remainingFile.failedToRemove;
-					}
-				}
-			}
-
-			// save valid files to blob storage
-			let validFiles = [];
-			if (this.fieldName in req.files) {
-				validFiles = getValidFiles(errors, req.files[this.fieldName]);
-			}
-			const uploadedFiles = await this.#saveFilesToBlobStorage(validFiles, journeyResponse, errors);
-
-			// add saved docs to response
-			responseToSave.answers[this.fieldName].uploadedFiles = [];
-
-			if (journeyResponse?.answers[this.fieldName]?.uploadedFiles) {
-				responseToSave.answers[this.fieldName].uploadedFiles.push(
-					...journeyResponse.answers[this.fieldName].uploadedFiles
-				);
-			}
-
-			if (uploadedFiles) {
-				responseToSave.answers[this.fieldName].uploadedFiles.push(...uploadedFiles);
-			}
-
-			// save answer to database
-			await patchQuestionResponse(journeyResponse.journeyId, encodedReferenceId, responseToSave);
-
-			// map the response back to journeyResponse
-			journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
-
-			// update journey based on response
-			const updatedJourney = new journey.constructor(journeyResponse);
-
-			for (const failedFile of failedRemovedFiles) {
-				const errorMsg = `Failed to remove file: ${failedFile.originalFileName}`;
-				errors[failedFile.id] = {
-					value: { name: failedFile.originalFileName },
-					msg: errorMsg
-				};
-				errorSummary.push({
-					text: errorMsg
-				});
-			}
-
-			if (Object.keys(errors).length > 0) {
-				const answer = journeyResponse.answers[this.fieldName];
-
-				return this.renderPage(
-					res,
-					{
-						layoutTemplate: journey.journeyTemplate,
-						pageCaption: sectionObj?.name,
-						backLink: journey.getNextQuestionUrl(sectionObj.segment, this.fieldName, true),
-						listLink: journey.baseUrl,
-						answers: journey.response.answers,
-						answer
-					},
-					{
-						errors,
-						errorSummary: errorSummary.map((error) => ({
-							...error,
-							href: `#${this.fieldName}`
-						}))
-					}
-				);
-			}
-
-			// this is the `name` of the 'upload' button in the template.
-			if (body['upload-and-remain-on-page']) {
-				return res.redirect(
-					updatedJourney.getCurrentQuestionUrl(sectionObj.segment, this.fieldName)
-				);
-			}
-
-			return res.redirect(
-				updatedJourney.getNextQuestionUrl(sectionObj.segment, this.fieldName, false)
+			journeyResponse.answers[this.fieldName].uploadedFiles = await removeFiles(
+				journeyResponse.answers[this.fieldName].uploadedFiles,
+				removedFiles,
+				`${journeyResponse.journeyId}:${encodedReferenceId}`
 			);
-		} catch (err) {
-			logger.error(err);
 
-			const answer = journeyResponse.answers[this.fieldName]?.uploadedFiles || '';
-			return this.renderPage(
-				res,
-				{
-					layoutTemplate: journey.journeyTemplate,
-					pageCaption: sectionObj?.name,
-					backLink: journey.getNextQuestionUrl(sectionObj.segment, this.fieldName, true),
-					listLink: journey.baseUrl,
-					answers: journey.response.answers,
-					answer
-				},
-				{
-					errorSummary: [{ text: 'Failed to upload files', href: '#' }]
+			// get a list of files that failed to be removed
+			// and ensure the failedToRemove property is not stored to the database
+			for (const remainingFile of journeyResponse.answers[this.fieldName].uploadedFiles) {
+				if (remainingFile.failedToRemove) {
+					failedRemovedFiles.push(remainingFile);
+					delete remainingFile.failedToRemove;
 				}
+			}
+		}
+
+		// adds validation errors to be checked after
+		for (const failedFile of failedRemovedFiles) {
+			const errorMsg = `Failed to remove file: ${failedFile.originalFileName}`;
+			errors[failedFile.id] = {
+				value: { name: failedFile.originalFileName },
+				msg: errorMsg
+			};
+			errorSummary.push({
+				text: errorMsg
+			});
+		}
+
+		// save valid files to blob storage
+		let validFiles = [];
+		if (this.fieldName in req.files) {
+			validFiles = getValidFiles(errors, req.files[this.fieldName]);
+		}
+		const uploadedFiles = await this.#saveFilesToBlobStorage(validFiles, journeyResponse);
+
+		// add saved docs to response
+		const responseToSave = {
+			answers: {
+				[this.fieldName]: {
+					uploadedFiles: []
+				}
+			}
+		};
+
+		responseToSave.answers[this.fieldName].uploadedFiles = [];
+
+		if (journeyResponse?.answers[this.fieldName]?.uploadedFiles) {
+			responseToSave.answers[this.fieldName].uploadedFiles.push(
+				...journeyResponse.answers[this.fieldName].uploadedFiles
 			);
 		}
-	};
+
+		if (uploadedFiles) {
+			responseToSave.answers[this.fieldName].uploadedFiles.push(...uploadedFiles);
+		}
+
+		journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
+
+		if (Object.keys(errors).length > 0) {
+			req.body.errors = errors;
+			req.body.errorSummary = errorSummary.map((error) => ({
+				...error,
+				href: `#${this.fieldName}`
+			}));
+		}
+
+		return responseToSave;
+	}
 
 	async #saveFilesToBlobStorage(files, journeyResponse) {
 		let result = [];
@@ -237,6 +215,10 @@ class MultiFileUploadQuestion extends Question {
 		}
 
 		return result;
+	}
+
+	checkForSavingErrors(req, section, journey) {
+		return super.checkForValidationErrors(req, section, journey);
 	}
 }
 

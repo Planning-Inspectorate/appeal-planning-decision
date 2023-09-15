@@ -5,7 +5,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "../macros/answer-list.njk" import answerList %}
 
-{% set title= question.pageTitle + " - Appeal a planning decision - GOV.UK" %}
+{% set title= question.pageTitle + " - " + journeyTitle + " - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block content %}
@@ -17,7 +17,6 @@
       {{answerList(addMoreAnswers)}}
 
       <form method="POST" novalidate>
-        <input type="hidden" name="add-more-question" value="yes"/>
         {{ govukRadios({
           classes: "govuk-radios",
           idPrefix: question.fieldName,
@@ -49,6 +48,7 @@
         }) }}
 
         {{ govukButton({
+          name: "add-more-question",
           text: "Continue",
           type: "submit",
           attributes: { "data-cy":"button-save-and-continue"}

@@ -131,6 +131,44 @@ describe('MultiFileUploadQuestion', () => {
 		expect(multiFileQuestion.documentType).toBe(documentTypes.dynamic);
 	});
 
+	describe('prepQuestionForRendering', () => {
+		it('should set uploadedFiles and call super', () => {
+			const question = getMultiFileUpload();
+
+			const journey = {
+				response: {
+					answers: {
+						[question.fieldName]: { uploadedFiles: [1, 2] }
+					}
+				},
+				getNextQuestionUrl: () => {
+					return 'back';
+				}
+			};
+
+			const customViewData = { hello: 'hi' };
+			const result = question.prepQuestionForRendering({}, journey, customViewData);
+
+			expect(result).toEqual(
+				expect.objectContaining({
+					question: expect.objectContaining({
+						value: journey.response.answers[question.fieldName]
+					}),
+					uploadedFiles: journey.response.answers[question.fieldName].uploadedFiles,
+					hello: 'hi'
+				})
+			);
+		});
+	});
+
+	describe('checkForValidationErrors', () => {
+		it('should do nothing', async () => {
+			const question = getMultiFileUpload();
+			const result = question.checkForValidationErrors();
+			expect(result).toEqual(undefined);
+		});
+	});
+
 	describe('saveAction', () => {
 		it('works with no files', async () => {
 			req.body = {};
@@ -265,29 +303,7 @@ describe('MultiFileUploadQuestion', () => {
 			);
 		});
 
-		it('upload-and-remain-on-page redirects', async () => {
-			const fileUploaded = {
-				name: 'data'
-			};
-			req.files = {
-				[FIELDNAME]: fileUploaded
-			};
-			req.body = {
-				'upload-and-remain-on-page': 1
-			};
-
-			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
-
-			const multiFileQuestion = getMultiFileUpload();
-
-			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
-
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/123456/segment-1/${FIELDNAME}`
-			);
-		});
-
-		it('will uploads files to blob storage but not save to response if one fails', async () => {
+		it('will upload files to blob storage but not save to response if one fails', async () => {
 			// may wish to change this functionality to handle saving to blob + response file by file to avoid orphaned files
 			const fileUploaded = {
 				name: 'data'
@@ -305,17 +321,14 @@ describe('MultiFileUploadQuestion', () => {
 
 			const multiFileQuestion = getMultiFileUpload();
 
-			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
+			try {
+				await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
+			} catch (err) {
+				expect(err.message).toEqual('test');
+			}
 
 			expect(createDocument).toHaveBeenCalledTimes(2);
 			expect(patchQuestionResponse).not.toHaveBeenCalled();
-
-			expect(res.render).toHaveBeenCalledWith(
-				expect.any(String),
-				expect.objectContaining({
-					errorSummary: [{ text: 'Failed to upload files', href: '#' }]
-				})
-			);
 		});
 
 		it('can remove files and upload files', async () => {
@@ -454,8 +467,6 @@ describe('MultiFileUploadQuestion', () => {
 		});
 
 		it('handles attempts to upload invalid files', async () => {
-			const testUrl = `${mockBaseUrl}/${mockRef}`;
-
 			//given attempt to upload valid and invalid file
 			const validFileUploaded = {
 				name: 'data',
@@ -497,12 +508,6 @@ describe('MultiFileUploadQuestion', () => {
 
 			const multiFileQuestion = getMultiFileUpload();
 
-			const preppedQuestion = multiFileQuestion.prepQuestionForRendering({
-				files: {
-					uploadedFiles: [validFileUploaded]
-				}
-			});
-
 			//when save action is called on multifile question
 			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
 
@@ -530,19 +535,33 @@ describe('MultiFileUploadQuestion', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${multiFileQuestion.viewFolder}/index`,
-				{
-					backLink: testUrl,
+				expect.objectContaining({
 					errors: errors,
-					errorSummary: errorSummary,
-					layoutTemplate: mockTemplateUrl,
-					listLink: testUrl,
-					navigation: ['', testUrl],
-					pageCaption: mockSection.name,
-					question: preppedQuestion,
-					showBackToListLink: true,
-					uploadedFiles: [validFileUploaded]
-				}
+					errorSummary: errorSummary
+				})
 			);
+		});
+	});
+
+	describe('checkForSavingErrors', () => {
+		it('should return viewmodel if errors present on req', () => {
+			const expectedResult = { a: 1 };
+			const req = { body: { errors: { error: 'we have an error' } } };
+			const question = getMultiFileUpload();
+			question.prepQuestionForRendering = jest.fn(() => expectedResult);
+
+			const result = question.checkForSavingErrors(req);
+
+			expect(result).toEqual(expectedResult);
+		});
+
+		it('should return undefined if errors not present on req', () => {
+			const req = { body: {} };
+			const question = getMultiFileUpload();
+
+			const result = question.checkForSavingErrors(req);
+
+			expect(result).toEqual(undefined);
 		});
 	});
 });
