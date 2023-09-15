@@ -48,7 +48,7 @@ class HasJourney extends Journey {
 				// .addQuestion(questions.conservationAreaUpload)
 				// .withCondition(response.answers[questions.conservationArea.fieldName] == 'yes')
 				.addQuestion(questions.greenBelt),
-			new Section('Notifying people about the application', 'notified')
+			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
 				.addQuestion(questions.displaySiteNotice)
