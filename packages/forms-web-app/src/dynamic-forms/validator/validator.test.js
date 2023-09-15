@@ -3,6 +3,8 @@ const { getJourney } = require('../journey-factory');
 
 const RequiredValidator = require('./required-validator');
 const ValidOptionValidator = require('./valid-option-validator');
+const ListAddMoreQuestion = require('../dynamic-components/list-add-more/question');
+const Question = require('../question');
 
 jest.mock('../journey-factory');
 
@@ -175,6 +177,113 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		await validate()(req, mockRes, next);
 
 		expect(req['express-validator#contexts'][1]._errors.length).toEqual(1);
+		expect(next).toHaveBeenCalledTimes(1);
+	});
+
+	it('should validate subquestion', async () => {
+		const req = {
+			params: {
+				section: 1,
+				question: 1,
+				referenceId: 'abc'
+			},
+			body: {
+				field2: ''
+			}
+		};
+
+		class TestQuestion extends Question {}
+
+		getJourney.mockReturnValue({
+			getQuestionBySectionAndName: function () {
+				return new ListAddMoreQuestion({
+					title: 'title',
+					question: 'question',
+					viewFolder: 'view',
+					validators: [],
+					fieldName: 'field1',
+					subQuestion: new TestQuestion({
+						pageTitle: 'test',
+						title: 'sub-title',
+						question: 'sub-question',
+						viewFolder: 'sub-view',
+						fieldName: 'field2',
+						validators: [new RequiredValidator()]
+					})
+				});
+			}
+		});
+
+		const next = jest.fn();
+		await validate()(req, mockRes, next);
+
+		expect(req['express-validator#contexts'][0]._errors.length).toEqual(1);
+		expect(next).toHaveBeenCalledTimes(1);
+	});
+
+	it('should not validate subquestion if on the add more page', async () => {
+		const req = {
+			params: {
+				section: 1,
+				question: 1,
+				referenceId: 'abc'
+			},
+			body: {
+				field2: '',
+				'add-more-question': ''
+			}
+		};
+
+		getJourney.mockReturnValue({
+			getQuestionBySectionAndName: function () {
+				return {
+					validators: [],
+					fieldName: 'field1',
+					subQuestion: {
+						validators: [new RequiredValidator()],
+						fieldName: 'field2'
+					}
+				};
+			}
+		});
+
+		const next = jest.fn();
+		await validate()(req, mockRes, next);
+
+		expect(req['express-validator#contexts']).toEqual(undefined);
+		expect(next).toHaveBeenCalledTimes(1);
+	});
+
+	it('should validate question if on the add more page', async () => {
+		const req = {
+			params: {
+				section: 1,
+				question: 1,
+				referenceId: 'abc'
+			},
+			body: {
+				field2: '',
+				'add-more-question': ''
+			}
+		};
+
+		getJourney.mockReturnValue({
+			getQuestionBySectionAndName: function () {
+				return {
+					validators: [new RequiredValidator()],
+					fieldName: 'field1',
+					subQuestion: {
+						validators: [new RequiredValidator()],
+						fieldName: 'field2'
+					}
+				};
+			}
+		});
+
+		const next = jest.fn();
+		await validate()(req, mockRes, next);
+
+		expect(req['express-validator#contexts'][0]._errors.length).toEqual(1);
 		expect(next).toHaveBeenCalledTimes(1);
 	});
 });

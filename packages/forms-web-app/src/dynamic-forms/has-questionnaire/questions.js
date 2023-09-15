@@ -230,6 +230,19 @@ exports.questions = {
 		question: '*?',
 		fieldName: 'other-appeal-reference'
 	})
+	// example add more question
+	// testAddMoreQuestion: new ListAddMoreQuestion({
+	// 	title: 'Add More',
+	// 	question: 'Add more?',
+	// 	fieldName: 'add-more',
+	// 	validators: [new RequiredValidator()],
+	// 	subQuestion: new MultiFileUploadQuestion({
+	// 		title: 'Sub',
+	// 		question: 'sub?',
+	// 		fieldName: 'sub-question',
+	// 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
+	// 	})
+	// })
 	// /*S78 questions */
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
