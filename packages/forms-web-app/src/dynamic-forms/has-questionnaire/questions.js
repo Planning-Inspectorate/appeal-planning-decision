@@ -68,7 +68,7 @@ exports.questions = {
 	conservationAreaUpload: new MultiFileUploadQuestion({
 		title: 'Conservation area map and guidance',
 		question: 'Upload conservation map and guidance',
-		fieldName: 'conservation-area-upload',
+		fieldName: 'conservation-upload',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
 	greenBelt: new BooleanQuestion({
