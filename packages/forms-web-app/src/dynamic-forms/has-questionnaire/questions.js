@@ -177,12 +177,14 @@ exports.questions = {
 	accessForInspection: new BooleanQuestion({
 		title: 'Access for inspection',
 		question: 'Might the inspector need access to the appellant’s land or property?',
+		pageTitle: "Access to the appellant's land",
 		fieldName: 'inspector-visit-appellant',
 		validators: [new RequiredValidator()]
 	}),
 	neighbouringSite: new BooleanQuestion({
 		title: 'Inspector visit to neighbour', //Title used in the summary list
 		question: 'Might the inspector need to enter a neighbour’s land or property?', //The question being asked
+		pageTitle: "Access to a neighbour's land",
 		fieldName: 'inspector-visit-neighbour', //The name of the html input field / stem of the name for screens with multiple fields
 		validators: [new RequiredValidator()]
 	}),
