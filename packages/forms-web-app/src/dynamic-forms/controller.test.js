@@ -12,10 +12,17 @@ const mockBaseUrl = '/manage-appeals/questionnaire';
 const mockRef = '123456';
 const mockTemplateUrl = 'template.njk';
 const mockListingPath = 'mockListingPath.njk';
+const mockJourneyTitle = 'Mock Manage Appeals';
 
 class TestJourney extends Journey {
 	constructor(response) {
-		super(`${mockBaseUrl}/${mockRef}`, response, mockTemplateUrl, mockListingPath);
+		super(
+			`${mockBaseUrl}/${mockRef}`,
+			response,
+			mockTemplateUrl,
+			mockListingPath,
+			mockJourneyTitle
+		);
 
 		this.sections = [
 			{
@@ -196,7 +203,8 @@ describe('dynamic-form/controller', () => {
 					layoutTemplate: mockJourney.journeyTemplate,
 					listLink: mockJourney.baseUrl,
 					answers: mockJourney.response.answers,
-					answer: mockAnswer
+					answer: mockAnswer,
+					journeyTitle: mockJourneyTitle
 				})
 			);
 		});

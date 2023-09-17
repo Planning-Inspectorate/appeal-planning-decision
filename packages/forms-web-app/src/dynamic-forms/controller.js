@@ -186,7 +186,8 @@ exports.question = async (req, res) => {
 		backLink: journey.getNextQuestionUrl(section, question, true),
 		listLink: journey.baseUrl,
 		answers: journey.response.answers,
-		answer
+		answer,
+		journeyTitle: journey.journeyTitle
 	});
 };
 

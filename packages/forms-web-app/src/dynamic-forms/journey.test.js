@@ -30,8 +30,8 @@ const mockSections = [
 ];
 
 class TestJourney extends Journey {
-	constructor(baseUrl, response, journeyTemplate, listingPageViewPath) {
-		super(baseUrl, response, journeyTemplate, listingPageViewPath);
+	constructor(baseUrl, response, journeyTemplate, listingPageViewPath, journeyTitle) {
+		super(baseUrl, response, journeyTemplate, listingPageViewPath, journeyTitle);
 	}
 }
 
@@ -46,7 +46,8 @@ describe('Journey class', () => {
 				answers: {}
 			},
 			journeyTemplate: '',
-			listingPageViewPath: ''
+			listingPageViewPath: '',
+			journeyTitle: 'mock title'
 		};
 	});
 
@@ -97,6 +98,13 @@ describe('Journey class', () => {
 			const journey = new TestJourney(...Object.values(constructorArgs));
 
 			expect(journey.listingPageViewPath).toBe(constructorArgs.listingPageViewPath);
+		});
+
+		it('should set journeyTitle', () => {
+			constructorArgs.journeyTitle = 'test';
+			const journey = new TestJourney(...Object.values(constructorArgs));
+
+			expect(journey.journeyTitle).toBe(constructorArgs.journeyTitle);
 		});
 	});
 
