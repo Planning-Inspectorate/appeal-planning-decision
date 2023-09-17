@@ -141,7 +141,7 @@ class Question {
 	 */
 	renderPage = (
 		res,
-		{ layoutTemplate, pageCaption, backLink, listLink, answers, answer },
+		{ layoutTemplate, pageCaption, backLink, listLink, answers, answer, journeyTitle },
 		customViewData = undefined
 	) => {
 		const viewModel = {
@@ -154,7 +154,8 @@ class Question {
 			navigation: ['', backLink],
 			backLink,
 			showBackToListLink: this.showBackToListLink,
-			listLink
+			listLink,
+			journeyTitle
 		};
 
 		if (answer.uploadedFiles) {

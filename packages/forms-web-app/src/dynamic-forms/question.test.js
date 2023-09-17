@@ -96,7 +96,8 @@ describe('./src/dynamic-forms/question.js', () => {
 				pageCaption: 'caption',
 				backLink: 'back',
 				listLink: 'list',
-				answer: { a: 1 }
+				answer: { a: 1 },
+				journeyTitle: 'title'
 			};
 
 			const answers = { question: expectedData.answer };
@@ -125,6 +126,7 @@ describe('./src/dynamic-forms/question.js', () => {
 					backLink: expectedData.backLink,
 					showBackToListLink: question.showBackToListLink,
 					listLink: expectedData.listLink,
+					journeyTitle: expectedData.journeyTitle,
 					...additionalData
 				})
 			);

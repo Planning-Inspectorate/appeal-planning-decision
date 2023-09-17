@@ -28,6 +28,8 @@ class Journey {
 	listingPageViewPath = '';
 	/** @type {boolean} defines how the next/previous question handles end of sections */
 	returnToListing = false;
+	/**@type {string} used as part of the overall page title */
+	journeyTitle;
 
 	/**
 	 * creates an instance of a journey
@@ -35,8 +37,9 @@ class Journey {
 	 * @param {JourneyResponse} response - user's response
 	 * @param {string} journeyTemplate - template used for all views
 	 * @param {string} listingPageViewPath - path to njk view for listing page
+	 * @param {string} journeyTitle - part of the title in the njk view
 	 */
-	constructor(baseUrl, response, journeyTemplate, listingPageViewPath) {
+	constructor(baseUrl, response, journeyTemplate, listingPageViewPath, journeyTitle) {
 		if (this.constructor == Journey) {
 			throw new Error("Abstract classes can't be instantiated.");
 		}
@@ -67,6 +70,11 @@ class Journey {
 			throw new Error('listingPageViewPath should be a string.');
 		}
 		this.listingPageViewPath = listingPageViewPath;
+
+		if (!journeyTitle && typeof journeyTitle !== 'string') {
+			throw new Error('journeyTitle should be a string.');
+		}
+		this.journeyTitle = journeyTitle;
 
 		this.response = response;
 	}
