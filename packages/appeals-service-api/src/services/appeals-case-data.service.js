@@ -36,7 +36,7 @@ const getAppealByLpaCodeAndCaseRef = async (lpaCode, caseRef) => {
 };
 
 const postAppealCaseData = async (caseData) => {
-	if (!caseData || !caseData.lpaCode) {
+	if (!caseData || !caseData.LPACode) {
 		throw ApiError.badRequest();
 	}
 
