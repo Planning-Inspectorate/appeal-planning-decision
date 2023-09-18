@@ -60,14 +60,10 @@ class AppealsCaseDataRepository extends MongoRepository {
 		return result;
 	}
 	async postAppealCaseData(caseData) {
-		return await this.updateOne(
-			{
-				_id: caseData._id
-			},
-			{
-				caseData: caseData
-			}
-		);
+		const filter = { caseReference: `${caseData.caseReference}`, LPACode: `${caseData.LPACode}` };
+		return await this.updateOne(filter, {
+			$set: caseData
+		});
 	}
 }
 
