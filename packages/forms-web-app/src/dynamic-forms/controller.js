@@ -153,7 +153,8 @@ exports.list = async (req, res) => {
 		appeal,
 		summaryListData,
 		layoutTemplate: journey.journeyTemplate,
-		pageCaption: `Appeal ${appeal.caseReference}`
+		pageCaption: `Appeal ${appeal.caseReference}`,
+		journeyTitle: journey.journeyTitle
 	});
 };
 
