@@ -145,7 +145,8 @@ describe('dynamic-form/controller', () => {
 				appeal,
 				summaryListData: mockSummaryListData,
 				layoutTemplate: mockTemplateUrl,
-				pageCaption: `Appeal ${appeal.caseReference}`
+				pageCaption: `Appeal ${appeal.caseReference}`,
+				journeyTitle: mockJourneyTitle
 			});
 		});
 	});
