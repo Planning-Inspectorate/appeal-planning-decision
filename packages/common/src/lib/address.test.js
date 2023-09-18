@@ -5,7 +5,7 @@ describe('Address', () => {
 		const params = {
 			addressLine1: '1 The Street',
 			addressLine2: 'Somewhere',
-			cityTown: 'A Town',
+			townCity: 'A Town',
 			postcode: 'AB1 2CD'
 		};
 
@@ -14,7 +14,7 @@ describe('Address', () => {
 		expect(address instanceof Address).toBeTruthy();
 		expect(address.addressLine1).toBe(params.addressLine1);
 		expect(address.addressLine2).toBe(params.addressLine2);
-		expect(address.cityTown).toBe(params.cityTown);
+		expect(address.townCity).toBe(params.townCity);
 		expect(address.postcode).toBe(params.postcode);
 	});
 
@@ -22,7 +22,7 @@ describe('Address', () => {
 		const params = {
 			postcode: 'EF4 5GH',
 			addressLine1: '42 The Avenue',
-			cityTown: 'A City'
+			townCity: 'A City'
 		};
 
 		const address = new Address(params);
@@ -30,7 +30,7 @@ describe('Address', () => {
 		expect(address instanceof Address).toBeTruthy();
 		expect(address.addressLine1).toBe(params.addressLine1);
 		expect(address.addressLine2).toBe(undefined);
-		expect(address.cityTown).toBe(params.cityTown);
+		expect(address.townCity).toBe(params.townCity);
 		expect(address.postcode).toBe(params.postcode);
 	});
 
@@ -38,7 +38,7 @@ describe('Address', () => {
 		const params = {
 			addressLine1: '42 The Avenue',
 			addressLine2: 'Some more text',
-			cityTown: 'A City'
+			townCity: 'A City'
 		};
 
 		const address = new Address(params);
@@ -46,14 +46,14 @@ describe('Address', () => {
 		expect(address instanceof Address).toBeTruthy();
 		expect(address.addressLine1).toBe(params.addressLine1);
 		expect(address.addressLine2).toBe(params.addressLine2);
-		expect(address.cityTown).toBe(params.cityTown);
+		expect(address.townCity).toBe(params.townCity);
 		expect(address.postcode).toBe(undefined);
 	});
 
 	it('throws error if addressLine1 missing', () => {
 		const params = {
 			addressLine2: 'Somewhere',
-			cityTown: 'A Town',
+			townCity: 'A Town',
 			postcode: 'AB1 2CD'
 		};
 
@@ -62,7 +62,7 @@ describe('Address', () => {
 		}).toThrow('Address requires addressLine1');
 	});
 
-	it('throws error if cityTown missing', () => {
+	it('throws error if townCity missing', () => {
 		const params = {
 			addressLine1: '1 The Street',
 			addressLine2: 'Somewhere',
@@ -71,6 +71,6 @@ describe('Address', () => {
 
 		expect(() => {
 			new Address(params);
-		}).toThrow('Address requires cityTown');
+		}).toThrow('Address requires townCity');
 	});
 });
