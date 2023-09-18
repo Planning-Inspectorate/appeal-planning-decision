@@ -25,7 +25,7 @@ const DOCUMENT_TYPE = {
 };
 class TestJourney extends Journey {
 	constructor(response) {
-		super(`${mockBaseUrl}/${mockRef}`, response, mockTemplateUrl, '', 'mock title');
+		super(`${mockBaseUrl}/${mockRef}`, response, mockTemplateUrl, 'mock path', 'mock title');
 
 		this.sections = [
 			{
