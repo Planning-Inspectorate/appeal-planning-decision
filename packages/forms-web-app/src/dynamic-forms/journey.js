@@ -61,17 +61,17 @@ class Journey {
 			this.baseUrl = trimTrailingSlash(baseUrl);
 		}
 
-		if (!journeyTemplate && typeof journeyTemplate !== 'string') {
+		if (!journeyTemplate || typeof journeyTemplate !== 'string') {
 			throw new Error('journeyTemplate should be a string.');
 		}
 		this.journeyTemplate = journeyTemplate;
 
-		if (!listingPageViewPath && typeof listingPageViewPath !== 'string') {
+		if (!listingPageViewPath || typeof listingPageViewPath !== 'string') {
 			throw new Error('listingPageViewPath should be a string.');
 		}
 		this.listingPageViewPath = listingPageViewPath;
 
-		if (!journeyTitle && typeof journeyTitle !== 'string') {
+		if (!journeyTitle || typeof journeyTitle !== 'string') {
 			throw new Error('journeyTitle should be a string.');
 		}
 		this.journeyTitle = journeyTitle;

@@ -45,8 +45,8 @@ describe('Journey class', () => {
 			response: {
 				answers: {}
 			},
-			journeyTemplate: '',
-			listingPageViewPath: '',
+			journeyTemplate: 'mock template',
+			listingPageViewPath: 'mock path',
 			journeyTitle: 'mock title'
 		};
 	});
@@ -93,6 +93,22 @@ describe('Journey class', () => {
 			expect(journey.journeyTemplate).toBe(constructorArgs.journeyTemplate);
 		});
 
+		it('should error if journeyTemplate not provided', () => {
+			constructorArgs.journeyTemplate = '';
+
+			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
+				'journeyTemplate should be a string.'
+			);
+		});
+
+		it('should error if journeyTemplate not a string', () => {
+			constructorArgs.journeyTemplate = [true, 123, 'test'];
+
+			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
+				'journeyTemplate should be a string.'
+			);
+		});
+
 		it('should set listingPageViewPath', () => {
 			constructorArgs.listingPageViewPath = 'test';
 			const journey = new TestJourney(...Object.values(constructorArgs));
@@ -100,11 +116,43 @@ describe('Journey class', () => {
 			expect(journey.listingPageViewPath).toBe(constructorArgs.listingPageViewPath);
 		});
 
+		it('should error if listingPageViewPath not provided', () => {
+			constructorArgs.listingPageViewPath = '';
+
+			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
+				'listingPageViewPath should be a string.'
+			);
+		});
+
+		it('should error if listingPageViewPath not a string', () => {
+			constructorArgs.listingPageViewPath = 123;
+
+			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
+				'listingPageViewPath should be a string.'
+			);
+		});
+
 		it('should set journeyTitle', () => {
 			constructorArgs.journeyTitle = 'test';
 			const journey = new TestJourney(...Object.values(constructorArgs));
 
 			expect(journey.journeyTitle).toBe(constructorArgs.journeyTitle);
+		});
+
+		it('should error if journeyTitle not provided', () => {
+			constructorArgs.journeyTitle = '';
+
+			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
+				'journeyTitle should be a string.'
+			);
+		});
+
+		it('should error if journeyTitle not a string', () => {
+			constructorArgs.journeyTitle = true;
+
+			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
+				'journeyTitle should be a string.'
+			);
 		});
 	});
 
