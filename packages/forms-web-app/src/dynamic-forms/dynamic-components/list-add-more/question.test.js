@@ -148,21 +148,16 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				}
 			};
 
-			const expectedSaveData = { answers: { [question.subQuestion.fieldName]: { a: 1 } } };
+			const expectedSaveData = {
+				[question.subQuestion.fieldName]: { a: 1, addMoreId: expectedId }
+			};
 			question.subQuestion.getDataToSave = jest.fn(async () => expectedSaveData);
 
 			const result = await question.getDataToSave(req, journeyResponse);
 
 			const expectedResult = {
 				answers: {
-					[question.fieldName]: [
-						{
-							[question.subQuestion.fieldName]: {
-								...expectedSaveData.answers[question.subQuestion.fieldName]
-							},
-							addMoreId: expectedId
-						}
-					]
+					[question.fieldName]: [expectedSaveData]
 				}
 			};
 			expect(result).toEqual(expectedResult);
