@@ -5,6 +5,7 @@ const { Section } = require('../section');
 const baseHASUrl = '/manage-appeals/questionnaire';
 const hasJourneyTemplate = 'has-questionnaire/template.njk';
 const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
+const journeyTitle = 'Manage your appeals';
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -24,7 +25,8 @@ class HasJourney extends Journey {
 			`${baseHASUrl}/${encodeURIComponent(response.referenceId)}`,
 			response,
 			hasJourneyTemplate,
-			listingPageViewPath
+			listingPageViewPath,
+			journeyTitle
 		);
 
 		this.sections.push(
