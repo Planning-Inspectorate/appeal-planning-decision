@@ -5,7 +5,7 @@ describe('src/dynamic-forms/validator/string-validator.js', () => {
 		// eslint-disable-next-line no-unused-vars
 		expect(() => {
 			new StringValidator();
-		}).toThrow('Nothing to do!');
+		}).toThrow('String validator is invoked without any validations set!');
 	});
 	it('should invalidate string that does not match regex', async () => {
 		const req = {
@@ -213,6 +213,6 @@ describe('src/dynamic-forms/validator/string-validator.js', () => {
 		};
 		const validationResult = await new StringValidator(options).validate(question).run(req);
 		expect(validationResult.errors.length).toEqual(1);
-		expect(validationResult.errors[0].msg).toEqual(options.maxLength.mLengthMessage);
+		expect(validationResult.errors[0].msg).toEqual(options.maxLength.maxLengthMessage);
 	});
 });

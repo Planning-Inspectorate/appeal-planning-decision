@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const { body } = require('express-validator');
 const BaseValidator = require('./base-validator.js');
 
@@ -18,7 +17,8 @@ class StringValidator extends BaseValidator {
 	constructor({ regex, minLength, maxLength } = {}) {
 		super();
 
-		if (!regex && !minLength && !maxLength) throw new Error('Nothing to do!');
+		if (!regex && !minLength && !maxLength)
+			throw new Error('String validator is invoked without any validations set!');
 		if (regex && regex.regex) this.regex = regex;
 		if (minLength && minLength.minLength) this.minLength = minLength;
 		if (maxLength && maxLength.maxLength) this.maxLength = maxLength;
