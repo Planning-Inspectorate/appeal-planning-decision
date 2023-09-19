@@ -200,15 +200,23 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				render: jest.fn()
 			};
 
+			const expectedBackLink = 'back';
 			const req = { body: { 'add-more-question': 1, [question.fieldName]: 'yes' } };
-			const journey = { response: { answers: {} }, getNextQuestionUrl: jest.fn() };
+			const journey = {
+				response: { answers: {} },
+				getNextQuestionUrl: jest.fn(),
+				getCurrentQuestionUrl: jest.fn(() => expectedBackLink)
+			};
 			const section = {};
 
 			await question.saveAction(req, res, journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
 				`dynamic-components/${question.subQuestion.viewFolder}/index`,
-				expect.objectContaining({})
+				expect.objectContaining({
+					backLink: expectedBackLink,
+					navigation: ['', expectedBackLink]
+				})
 			);
 		});
 
