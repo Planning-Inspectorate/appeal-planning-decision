@@ -192,7 +192,10 @@ class ListAddMoreQuestion extends Question {
 			}
 
 			if (addMoreAnswer === 'yes') {
-				return this.renderAction(res, this.subQuestion.prepQuestionForRendering(section, journey));
+				const viewModel = this.subQuestion.prepQuestionForRendering(section, journey);
+				viewModel.backLink = journey.getCurrentQuestionUrl(section.segment, this.fieldName);
+				viewModel.navigation = ['', viewModel.backLink];
+				return this.renderAction(res, viewModel);
 			} else if (addMoreAnswer === 'no') {
 				return res.redirect(journey.getNextQuestionUrl(section.segment, this.fieldName, false));
 			}
