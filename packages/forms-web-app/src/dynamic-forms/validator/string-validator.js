@@ -22,6 +22,15 @@ class StringValidator extends BaseValidator {
 		if (regex && regex.regex) this.regex = regex;
 		if (minLength && minLength.minLength) this.minLength = minLength;
 		if (maxLength && maxLength.maxLength) this.maxLength = maxLength;
+		this.regex.regexMessage = this.regex.regexMessage
+			? this.regex.regexMessage
+			: 'Please enter only the allowed characters';
+		this.minLength.minLengthMessage = this.minLength.minLengthMessage
+			? this.minLength.minLengthMessage
+			: `Input too short - Please enter at least ${this.minLength.minLength} characters`;
+		this.maxLength.maxLengthMessage = this.maxLength.maxLengthMessage
+			? this.maxLength.maxLengthMessage
+			: `Input too long - Please enter no more than ${this.maxLength.maxLength} characters`;
 	}
 	validate(questionObj) {
 		const regexValidator = (chain) =>

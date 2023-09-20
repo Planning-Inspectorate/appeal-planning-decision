@@ -21,6 +21,20 @@ describe('src/dynamic-forms/validator/string-validator.js', () => {
 		expect(validationResult.errors.length).toEqual(1);
 		expect(validationResult.errors[0].msg).toEqual(options.regex.regexMessage);
 	});
+	it('should invalidate string that does not match regex and use the default error message when none supplied', async () => {
+		const req = {
+			body: {
+				numberOfToes: 'three'
+			}
+		};
+		const options = { regex: { regex: '^\\d' } };
+		const question = {
+			fieldName: 'numberOfToes'
+		};
+		const validationResult = await new StringValidator(options).validate(question).run(req);
+		expect(validationResult.errors.length).toEqual(1);
+		expect(validationResult.errors[0].msg).toEqual('Please enter only the allowed characters');
+	});
 	it('should validate number that does match regex', async () => {
 		const req = {
 			body: {
@@ -52,6 +66,26 @@ describe('src/dynamic-forms/validator/string-validator.js', () => {
 		const validationResult = await new StringValidator(options).validate(question).run(req);
 		expect(validationResult.errors.length).toEqual(1);
 		expect(validationResult.errors[0].msg).toEqual(options.minLength.minLengthMessage);
+	});
+	it('should invalidate a string that is too short and use the default error message when none supplied', async () => {
+		const req = {
+			body: {
+				shortStatement: 'I am too short'
+			}
+		};
+		const options = {
+			minLength: {
+				minLength: 15
+			}
+		};
+		const question = {
+			fieldName: 'shortStatement'
+		};
+		const validationResult = await new StringValidator(options).validate(question).run(req);
+		expect(validationResult.errors.length).toEqual(1);
+		expect(validationResult.errors[0].msg).toEqual(
+			'Input too short - Please enter at least 15 characters'
+		);
 	});
 	it('should validate a string that is long enough', async () => {
 		const req = {
@@ -89,6 +123,26 @@ describe('src/dynamic-forms/validator/string-validator.js', () => {
 		const validationResult = await new StringValidator(options).validate(question).run(req);
 		expect(validationResult.errors.length).toEqual(1);
 		expect(validationResult.errors[0].msg).toEqual(options.maxLength.maxLengthMessage);
+	});
+	it('should invalidate a string that is too long  and use the default error message when none supplied', async () => {
+		const req = {
+			body: {
+				shortStatement: 'I am too long'
+			}
+		};
+		const options = {
+			maxLength: {
+				maxLength: 10
+			}
+		};
+		const question = {
+			fieldName: 'shortStatement'
+		};
+		const validationResult = await new StringValidator(options).validate(question).run(req);
+		expect(validationResult.errors.length).toEqual(1);
+		expect(validationResult.errors[0].msg).toEqual(
+			'Input too long - Please enter no more than 10 characters'
+		);
 	});
 	it('should validate a string that is not too long', async () => {
 		const req = {
