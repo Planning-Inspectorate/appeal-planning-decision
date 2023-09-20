@@ -1,4 +1,4 @@
-const { list, question, save } = require('./controller');
+const { list, question, save, remove } = require('./controller');
 const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { Journey } = require('./journey');
@@ -14,6 +14,9 @@ const mockTemplateUrl = 'template.njk';
 const mockListingPath = 'mockListingPath.njk';
 const mockJourneyTitle = 'Mock Manage Appeals';
 const mockAnswer = 'Not started';
+
+const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+const Question = require('./question');
 
 class TestJourney extends Journey {
 	constructor(response) {
@@ -294,6 +297,121 @@ describe('dynamic-form/controller', () => {
 				res,
 				expectedViewModel
 			);
+		});
+	});
+
+	describe('remove', () => {
+		const TITLE = 'Question1';
+		const QUESTION_STRING = 'What is your favourite colour?';
+		const FIELDNAME = 'favouriteColour';
+
+		class TestQuestion extends Question {}
+
+		const sampleListAddMoreObj = new ListAddMoreQuestion({
+			title: TITLE,
+			fieldName: FIELDNAME,
+			question: QUESTION_STRING,
+			subQuestion: new TestQuestion({
+				title: TITLE,
+				fieldName: FIELDNAME,
+				question: QUESTION_STRING,
+				viewFolder: 'view'
+			})
+		});
+
+		sampleListAddMoreObj.removeAction = jest.fn();
+		sampleListAddMoreObj.saveAction = jest.fn();
+		sampleListAddMoreObj.renderAction = jest.fn();
+
+		it('should error if not list-add-more question', async () => {
+			req.params = {
+				referenceId: mockRef,
+				section: mockJourney.sections[0].segment,
+				question: mockJourney.sections[0].questions[0].fieldName,
+				answerId: 'answer-id'
+			};
+
+			res.locals.journeyResponse = {
+				answers: {}
+			};
+
+			const expectedViewModel = { a: 1 };
+
+			const sampleQuestionObjWithActions = {
+				...sampleQuestionObj,
+				removeAction: jest.fn(),
+				prepQuestionForRendering: jest.fn(() => expectedViewModel),
+				renderAction: jest.fn()
+			};
+
+			getJourney.mockReturnValue(mockJourney);
+
+			mockJourney.getQuestionBySectionAndName = jest.fn();
+			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObjWithActions);
+
+			await remove(req, res);
+
+			expect(sampleQuestionObjWithActions.removeAction).not.toHaveBeenCalled();
+			expect(sampleQuestionObjWithActions.renderAction).toHaveBeenCalledWith(
+				res,
+				expectedViewModel
+			);
+		});
+
+		it('should use removeAction if a list-add-more question type', async () => {
+			req.params = {
+				referenceId: mockRef,
+				section: mockJourney.sections[0].segment,
+				question: mockJourney.sections[0].questions[0].fieldName,
+				answerId: 'answer-id'
+			};
+
+			res.locals.journeyResponse = {
+				answers: {}
+			};
+
+			getJourney.mockReturnValue(mockJourney);
+
+			mockJourney.getQuestionBySectionAndName = jest.fn();
+			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleListAddMoreObj);
+
+			await remove(req, res);
+
+			expect(sampleListAddMoreObj.removeAction).toHaveBeenCalledWith(
+				res.locals.journeyResponse,
+				req.params.answerId
+			);
+
+			expect(res.redirect).toHaveBeenCalled();
+		});
+
+		it('should handle error from removeAction', async () => {
+			req.params = {
+				referenceId: mockRef,
+				section: mockJourney.sections[0].segment,
+				question: mockJourney.sections[0].questions[0].fieldName,
+				answerId: 'answer-id'
+			};
+
+			res.locals.journeyResponse = {
+				answers: {}
+			};
+
+			const expectedViewModel = { a: 1 };
+			sampleListAddMoreObj.prepQuestionForRendering = jest.fn(() => expectedViewModel);
+			sampleListAddMoreObj.removeAction = jest
+				.fn()
+				.mockImplementation(() => Promise.reject(new Error('Network error')));
+
+			getJourney.mockReturnValue(mockJourney);
+
+			mockJourney.getQuestionBySectionAndName = jest.fn();
+			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleListAddMoreObj);
+
+			await remove(req, res);
+
+			expect(sampleListAddMoreObj.removeAction).toHaveBeenCalled();
+			expect(sampleListAddMoreObj.renderAction).toHaveBeenCalledWith(res, expectedViewModel);
 		});
 	});
 });
