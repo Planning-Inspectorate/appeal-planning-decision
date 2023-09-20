@@ -14,6 +14,7 @@ describe('./src/dynamic-forms/question.js', () => {
 	const URL = '/test';
 	const VALIDATORS = [1];
 	const HTML = 'resources/question12/content.html';
+	const HINT = 'This is how you submit the form';
 
 	const getTestQuestion = ({
 		title = TITLE,
@@ -24,7 +25,8 @@ describe('./src/dynamic-forms/question.js', () => {
 		url = URL,
 		validators = VALIDATORS,
 		pageTitle = undefined,
-		html = undefined
+		html = undefined,
+		hint = undefined
 	} = {}) => {
 		return new Question({
 			title,
@@ -35,13 +37,14 @@ describe('./src/dynamic-forms/question.js', () => {
 			fieldName,
 			url,
 			validators,
-			html
+			html,
+			hint
 		});
 	};
 
 	describe('constructor', () => {
 		it('should create', () => {
-			const question = getTestQuestion({ html: HTML });
+			const question = getTestQuestion({ html: HTML, hint: HINT });
 
 			expect(question).toBeTruthy();
 			expect(question.title).toEqual(TITLE);
@@ -53,6 +56,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			expect(question.description).toEqual(DESCRIPTION);
 			expect(question.validators).toEqual(VALIDATORS);
 			expect(question.html).toEqual(HTML);
+			expect(question.hint).toEqual(HINT);
 		});
 
 		it('should use pageTitle if set', () => {
