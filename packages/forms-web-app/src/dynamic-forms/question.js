@@ -53,7 +53,7 @@ class Question {
 	format;
 	/** @type {Array.<BaseValidator>} array of validators that a question uses to validate answers */
 	validators = [];
-	/** @type {string} hint text displayed to user */
+	/** @type {string|undefined} hint text displayed to user */
 	hint;
 	/** @type {boolean} show return to listing page link after question */
 	showBackToListLink = true;
@@ -78,6 +78,7 @@ class Question {
 	 * @param {string} [params.description]
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {string} [params.html]
+	 * @param {string} [params.hint]
 	 */
 	constructor({
 		title,
@@ -88,7 +89,8 @@ class Question {
 		pageTitle,
 		description,
 		validators,
-		html
+		html,
+		hint
 	}) {
 		if (!title || title === '') throw new Error('title parameter is mandatory');
 		if (!question || question === '') throw new Error('question parameter is mandatory');
@@ -102,6 +104,7 @@ class Question {
 		this.html = html;
 		this.pageTitle = pageTitle ?? question;
 		this.description = description;
+		this.hint = hint;
 
 		if (Array.isArray(validators)) {
 			this.validators = validators;
