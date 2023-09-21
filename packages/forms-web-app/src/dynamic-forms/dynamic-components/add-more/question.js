@@ -17,45 +17,31 @@ class AddMoreQuestion extends Question {
 	 * @param {string} params.title
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
-	 * @param {Question} params.subQuestion
+	 * @param {string} params.viewFolder
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 */
-	constructor({
-		title,
-		question,
-		fieldName,
-		subQuestion,
-		url,
-		pageTitle,
-		description,
-		validators
-	}) {
+	constructor({ title, question, fieldName, viewFolder, url, pageTitle, description, validators }) {
 		super({
 			title,
 			question,
-			viewFolder: 'unused',
+			viewFolder, // should we have a subquestion or a view folder
 			fieldName,
 			url,
 			pageTitle,
 			description,
 			validators
 		});
-
-		if (!subQuestion || !(subQuestion instanceof Question)) {
-			throw new Error('subQuestion parameter is mandatory');
-		}
-
-		this.subQuestion = subQuestion;
 	}
 
 	/**
 	 * adds a uuid to the data to save
 	 */
 	async getDataToSave(req, journeyResponse) {
-		const individual = await this.subQuestion.getDataToSave(req, journeyResponse);
+		// this has side effects on journeyResponse
+		const individual = await super.getDataToSave(req, journeyResponse);
 		individual.answers.addMoreId = uuid.v4();
 		return individual.answers;
 	}

@@ -183,6 +183,7 @@ class ListAddMoreQuestion extends Question {
 		const isAddMorePage = Object.prototype.hasOwnProperty.call(req.body, 'add-more-question');
 		const addMoreAnswer = req.body[this.fieldName];
 
+		// LIST ADD MORE
 		if (isAddMorePage) {
 			const errorViewModel = this.checkForValidationErrors(req, section, journey);
 			if (errorViewModel) {
@@ -198,6 +199,8 @@ class ListAddMoreQuestion extends Question {
 				return res.redirect(journey.getNextQuestionUrl(section.segment, this.fieldName, false));
 			}
 		}
+
+		// ADD MORE
 
 		// check for validation errors
 		const errorViewModel = this.subQuestion.checkForValidationErrors(req, section, journey);

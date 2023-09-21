@@ -1,7 +1,5 @@
 const ListAddMoreQuestion = require('./question');
-const Question = require('../../question');
-const uuid = require('uuid');
-jest.mock('uuid');
+const AddMoreQuestion = require('../add-more/question');
 
 const { mockRes } = require('../../../../__tests__/unit/mocks');
 const res = mockRes();
@@ -13,22 +11,16 @@ const FIELDNAME = 'favouriteColour';
 const URL = '/test';
 const VALIDATORS = [1];
 
-class TestQuestion extends Question {
-	constructor() {
-		super({
-			title: TITLE,
-			question: QUESTION_STRING,
-			description: DESCRIPTION,
-			fieldName: 'sub' + FIELDNAME,
-			url: URL,
-			validators: VALIDATORS,
-			viewFolder: 'view'
-		});
-	}
-}
-
 describe('./src/dynamic-forms/dynamic-components/question.js', () => {
-	const testSubQuestion = new TestQuestion();
+	const testSubQuestion = new AddMoreQuestion({
+		title: TITLE,
+		question: QUESTION_STRING,
+		description: DESCRIPTION,
+		fieldName: 'sub' + FIELDNAME,
+		url: URL,
+		validators: VALIDATORS,
+		viewFolder: 'view'
+	});
 	const testSubQuestionLabel = 'subQuestion';
 	const getTestQuestion = (
 		{ subQuestion = undefined, subQuestionLabel = undefined } = {
@@ -130,9 +122,8 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 	});
 
 	describe('getDataToSave', () => {
-		it('should nest sub question answer into array with id', async () => {
+		it('should nest sub question answer into array', async () => {
 			const expectedId = 'abc';
-			uuid.v4.mockReturnValue(expectedId);
 
 			const question = getTestQuestion();
 
