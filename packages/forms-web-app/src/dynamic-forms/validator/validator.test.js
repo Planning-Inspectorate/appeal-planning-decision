@@ -4,6 +4,7 @@ const { getJourney } = require('../journey-factory');
 const RequiredValidator = require('./required-validator');
 const ValidOptionValidator = require('./valid-option-validator');
 const ListAddMoreQuestion = require('../dynamic-components/list-add-more/question');
+const AddMoreQuestion = require('../dynamic-components/add-more/question');
 const Question = require('../question');
 
 jest.mock('../journey-factory');
@@ -180,7 +181,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		expect(next).toHaveBeenCalledTimes(1);
 	});
 
-	it('should validate subquestion', async () => {
+	it('should validate add more question', async () => {
 		const req = {
 			params: {
 				section: 1,
@@ -199,16 +200,17 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 				return new ListAddMoreQuestion({
 					title: 'title',
 					question: 'question',
-					viewFolder: 'view',
 					validators: [],
 					fieldName: 'field1',
-					subQuestion: new TestQuestion({
-						pageTitle: 'test',
-						title: 'sub-title',
-						question: 'sub-question',
-						viewFolder: 'sub-view',
-						fieldName: 'field2',
-						validators: [new RequiredValidator()]
+					addMore: new AddMoreQuestion({
+						subQuestion: new TestQuestion({
+							pageTitle: 'test',
+							title: 'sub-title',
+							question: 'sub-question',
+							viewFolder: 'sub-view',
+							fieldName: 'field2',
+							validators: [new RequiredValidator()]
+						})
 					})
 				});
 			}

@@ -1,5 +1,5 @@
 const Question = require('../../question');
-const uuid = require('uuid');
+const AddMoreQuestion = require('../add-more/question');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -24,7 +24,7 @@ class ListAddMoreQuestion extends Question {
 	 * @param {string} params.title
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
-	 * @param {Question} params.subQuestion
+	 * @param {AddMoreQuestion} params.addMore
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
@@ -35,7 +35,7 @@ class ListAddMoreQuestion extends Question {
 		title,
 		question,
 		fieldName,
-		subQuestion,
+		addMore,
 		url,
 		pageTitle,
 		description,
@@ -53,11 +53,11 @@ class ListAddMoreQuestion extends Question {
 			validators
 		});
 
-		if (!subQuestion || !(subQuestion instanceof Question)) {
-			throw new Error('subQuestion parameter is mandatory');
+		if (!addMore || !(addMore instanceof AddMoreQuestion)) {
+			throw new Error('addMore is mandatory');
 		}
 
-		this.subQuestion = subQuestion;
+		this.addMore = addMore;
 		this.subQuestionLabel = subQuestionLabel ?? 'Answer';
 	}
 
@@ -82,7 +82,7 @@ class ListAddMoreQuestion extends Question {
 			return super.renderAction(res, viewModel);
 		}
 
-		return this.subQuestion.renderAction(res, viewModel);
+		return this.addMore.renderAction(res, viewModel);
 	}
 
 	/**
@@ -95,15 +95,15 @@ class ListAddMoreQuestion extends Question {
 	prepQuestionForRendering(section, journey, customViewData) {
 		const answers = journey.response.answers[this.fieldName];
 
-		// get viewModel for add more component
+		// get viewModel for listing component
 		if (this.#hasAtLeastOneAnswer(answers)) {
 			const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 			viewModel.addMoreAnswers = this.#addListingDataToViewModel(journey, section);
 			return viewModel;
 		}
 
-		// get viewModel for subQuestion
-		return this.subQuestion.prepQuestionForRendering(section, journey, customViewData);
+		// get viewModel for addMore subquestion
+		return this.addMore.prepQuestionForRendering(section, journey, customViewData);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class ListAddMoreQuestion extends Question {
 			const answer = answers[item];
 			addMoreAnswers.push({
 				label: `${this.subQuestionLabel} ${i}`,
-				answer: this.subQuestion.formatAnswerForSummary(answer[this.subQuestion.fieldName]),
+				answer: this.addMore.formatAnswerForSummary(answer),
 				removeLink:
 					journey.getCurrentQuestionUrl(section.segment, this.fieldName) + '/' + answer.addMoreId
 			});
@@ -132,33 +132,30 @@ class ListAddMoreQuestion extends Question {
 	}
 
 	/**
-	 * Takes the data to save from the subquestion and nests with property name
+	 * Takes the data to save from the addMore and adds to existing array
 	 * @param {ExpressRequest} req
 	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
 	 * @returns {Promise.<Object>}
 	 */
 	async getDataToSave(req, journeyResponse) {
 		// get current answers
-		let responseToSave = {
+		const responseToSave = {
 			answers: {
 				[this.fieldName]: []
 			}
 		};
 
+		// get existing answers
 		if (journeyResponse.answers[this.fieldName]) {
-			responseToSave.answers[this.fieldName] = [...journeyResponse.answers[this.fieldName]];
+			responseToSave.answers[this.fieldName] = journeyResponse.answers[this.fieldName];
 		}
 
-		// get answer to subquestion
-		const individual = await this.subQuestion.getDataToSave(req, journeyResponse);
+		// get answer to addMore
+		const individual = await this.addMore.getDataToSave(req, journeyResponse);
+		responseToSave.answers[this.fieldName].push(individual);
 
-		responseToSave.answers[this.fieldName].push({
-			...individual.answers,
-			addMoreId: uuid.v4()
-		});
-
+		// update journey response
 		journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
-
 		return responseToSave;
 	}
 
@@ -194,7 +191,7 @@ class ListAddMoreQuestion extends Question {
 			}
 
 			if (addMoreAnswer === 'yes') {
-				const viewModel = this.subQuestion.prepQuestionForRendering(section, journey);
+				const viewModel = this.addMore.prepQuestionForRendering(section, journey);
 				viewModel.backLink = journey.getCurrentQuestionUrl(section.segment, this.fieldName);
 				viewModel.navigation = ['', viewModel.backLink];
 				return this.renderAction(res, viewModel);
@@ -204,7 +201,7 @@ class ListAddMoreQuestion extends Question {
 		}
 
 		// check for validation errors
-		const errorViewModel = this.subQuestion.checkForValidationErrors(req, section, journey);
+		const errorViewModel = this.addMore.checkForValidationErrors(req, section, journey);
 		if (errorViewModel) {
 			return this.renderAction(res, errorViewModel);
 		}
@@ -214,7 +211,7 @@ class ListAddMoreQuestion extends Question {
 		await this.saveResponseToDB(journey.response, responseToSave);
 
 		// check for saving errors
-		const saveViewModel = this.subQuestion.checkForSavingErrors(req, section, journey);
+		const saveViewModel = this.addMore.checkForSavingErrors(req, section, journey);
 		if (saveViewModel) {
 			return this.renderAction(res, saveViewModel);
 		}

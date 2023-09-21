@@ -16,6 +16,7 @@ const mockJourneyTitle = 'Mock Manage Appeals';
 const mockAnswer = 'Not started';
 
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+const AddMoreQuestion = require('./dynamic-components/add-more/question');
 const Question = require('./question');
 
 class TestJourney extends Journey {
@@ -311,11 +312,13 @@ describe('dynamic-form/controller', () => {
 			title: TITLE,
 			fieldName: FIELDNAME,
 			question: QUESTION_STRING,
-			subQuestion: new TestQuestion({
-				title: TITLE,
-				fieldName: FIELDNAME,
-				question: QUESTION_STRING,
-				viewFolder: 'view'
+			addMore: new AddMoreQuestion({
+				subQuestion: new TestQuestion({
+					title: TITLE,
+					fieldName: FIELDNAME,
+					question: QUESTION_STRING,
+					viewFolder: 'view'
+				})
 			})
 		});
 
