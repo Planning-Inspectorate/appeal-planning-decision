@@ -1,5 +1,4 @@
 const Question = require('../../question');
-const uuid = require('uuid');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -132,33 +131,30 @@ class ListAddMoreQuestion extends Question {
 	}
 
 	/**
-	 * Takes the data to save from the subquestion and nests with property name
+	 * Takes the data to save from the subquestion and adds to existing array
 	 * @param {ExpressRequest} req
 	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
 	 * @returns {Promise.<Object>}
 	 */
 	async getDataToSave(req, journeyResponse) {
 		// get current answers
-		let responseToSave = {
+		const responseToSave = {
 			answers: {
 				[this.fieldName]: []
 			}
 		};
 
+		// get existing answers
 		if (journeyResponse.answers[this.fieldName]) {
-			responseToSave.answers[this.fieldName] = [...journeyResponse.answers[this.fieldName]];
+			responseToSave.answers[this.fieldName] = journeyResponse.answers[this.fieldName];
 		}
 
 		// get answer to subquestion
 		const individual = await this.subQuestion.getDataToSave(req, journeyResponse);
+		responseToSave.answers[this.fieldName].push(individual);
 
-		responseToSave.answers[this.fieldName].push({
-			...individual.answers,
-			addMoreId: uuid.v4()
-		});
-
+		// update journey response
 		journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
-
 		return responseToSave;
 	}
 
@@ -187,6 +183,7 @@ class ListAddMoreQuestion extends Question {
 		const isAddMorePage = Object.prototype.hasOwnProperty.call(req.body, 'add-more-question');
 		const addMoreAnswer = req.body[this.fieldName];
 
+		// LIST ADD MORE
 		if (isAddMorePage) {
 			const errorViewModel = this.checkForValidationErrors(req, section, journey);
 			if (errorViewModel) {
@@ -202,6 +199,8 @@ class ListAddMoreQuestion extends Question {
 				return res.redirect(journey.getNextQuestionUrl(section.segment, this.fieldName, false));
 			}
 		}
+
+		// ADD MORE
 
 		// check for validation errors
 		const errorViewModel = this.subQuestion.checkForValidationErrors(req, section, journey);
