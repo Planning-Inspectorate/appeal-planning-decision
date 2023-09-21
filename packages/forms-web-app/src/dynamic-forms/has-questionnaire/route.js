@@ -1,5 +1,5 @@
 const express = require('express');
-const { list, question, save } = require('../controller');
+const { list, question, save, remove } = require('../controller');
 const { JOURNEY_TYPES } = require('../journey-factory');
 const validate = require('../validator/validator');
 const { validationErrorHandler } = require('../validator/validation-error-handler');
@@ -22,6 +22,7 @@ router.get(
 	question
 );
 
+// save
 router.post(
 	'/questionnaire/:referenceId/:section/:question',
 	getJourneyResponse(JOURNEY_TYPES.HAS_QUESTIONNAIRE),
@@ -29,6 +30,13 @@ router.post(
 	validate(),
 	validationErrorHandler,
 	save
+);
+
+// remove answer - only available for some question types
+router.get(
+	'/questionnaire/:referenceId/:section/:question/:answerId',
+	getJourneyResponse(JOURNEY_TYPES.HAS_QUESTIONNAIRE),
+	remove
 );
 
 module.exports = router;
