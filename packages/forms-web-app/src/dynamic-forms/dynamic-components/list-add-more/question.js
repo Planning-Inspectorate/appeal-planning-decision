@@ -98,7 +98,7 @@ class ListAddMoreQuestion extends Question {
 		// get viewModel for add more component
 		if (this.#hasAtLeastOneAnswer(answers)) {
 			const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
-			viewModel.addMoreAnswers = this.#addListingDataToViewModel(journey);
+			viewModel.addMoreAnswers = this.#addListingDataToViewModel(journey, section);
 			return viewModel;
 		}
 
@@ -108,9 +108,10 @@ class ListAddMoreQuestion extends Question {
 
 	/**
 	 * @param {Journey} journey
+	 * @param {Section} section - the current section
 	 * @returns {Array.<addMoreAnswer>} list of existing answers to the sub question
 	 */
-	#addListingDataToViewModel(journey) {
+	#addListingDataToViewModel(journey, section) {
 		const addMoreAnswers = [];
 
 		const answers = journey.response.answers[this.fieldName];
@@ -121,7 +122,8 @@ class ListAddMoreQuestion extends Question {
 			addMoreAnswers.push({
 				label: `${this.subQuestionLabel} ${i}`,
 				answer: this.subQuestion.formatAnswerForSummary(answer[this.subQuestion.fieldName]),
-				removeLink: '#' + answer.addMoreId
+				removeLink:
+					journey.getCurrentQuestionUrl(section.segment, this.fieldName) + '/' + answer.addMoreId
 			});
 			i++;
 		}
@@ -221,6 +223,36 @@ class ListAddMoreQuestion extends Question {
 		const updatedJourney = new journey.constructor(journeyResponse);
 		return this.#handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
 	};
+
+	/**
+	 * removes answer with answerId from response if present
+	 * @param {JourneyResponse} journeyResponse
+	 * @param {string} addMoreId
+	 * @returns {JourneyResponse} updated JourneyResponse
+	 */
+	async removeAction(journeyResponse, addMoreId) {
+		let responseToSave = {
+			answers: {
+				[this.fieldName]: []
+			}
+		};
+
+		if (journeyResponse.answers[this.fieldName]) {
+			responseToSave.answers[this.fieldName] = [...journeyResponse.answers[this.fieldName]];
+		}
+
+		const removeIndex = responseToSave.answers[this.fieldName].findIndex(
+			(answer) => answer.addMoreId === addMoreId
+		);
+
+		if (removeIndex >= 0) {
+			responseToSave.answers[this.fieldName].splice(removeIndex, 1);
+			await this.saveResponseToDB(journeyResponse, responseToSave);
+			journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
+		}
+
+		return journeyResponse;
+	}
 }
 
 module.exports = ListAddMoreQuestion;

@@ -4,6 +4,7 @@ const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
+const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 
 /**
  * @typedef {import('./journey-factory').JourneyType} JourneyType
@@ -204,6 +205,37 @@ exports.save = async (req, res) => {
 		const viewModel = questionObj.prepQuestionForRendering(sectionObj, journey, {
 			errorSummary: [{ text: err.toString(), href: '#' }]
 		});
+		return questionObj.renderAction(res, viewModel);
+	}
+};
+
+exports.remove = async (req, res) => {
+	//save the response
+	const { section, question, answerId } = req.params;
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+
+	const sectionObj = journey.getSection(section);
+	const questionObj = journey.getQuestionBySectionAndName(section, question);
+
+	if (!questionObj || !sectionObj) {
+		return res.redirect(journey.baseUrl);
+	}
+
+	try {
+		if (questionObj instanceof ListAddMoreQuestion) {
+			await questionObj.removeAction(journeyResponse, answerId);
+			return res.redirect(journey.getCurrentQuestionUrl(section, question));
+		}
+
+		throw new Error(`Cannot remove answer for ${section}/${question}`);
+	} catch (err) {
+		logger.error(err);
+
+		const viewModel = questionObj.prepQuestionForRendering(sectionObj, journey, {
+			errorSummary: [{ text: 'Failed to remove answer', href: '#' }]
+		});
+
 		return questionObj.renderAction(res, viewModel);
 	}
 };

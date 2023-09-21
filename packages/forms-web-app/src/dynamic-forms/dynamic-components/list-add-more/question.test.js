@@ -108,6 +108,9 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				},
 				getNextQuestionUrl: () => {
 					return 'back';
+				},
+				getCurrentQuestionUrl: () => {
+					return 'current';
 				}
 			};
 
@@ -119,7 +122,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 						{
 							answer: 'yes',
 							label: 'subQuestion 1',
-							removeLink: '#123'
+							removeLink: 'current/123'
 						}
 					]
 				})
@@ -311,6 +314,70 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			await question.saveAction(req, res, journey, section, journey.response);
 
 			expect(res.redirect).toHaveBeenCalledWith(expectedUrl);
+		});
+	});
+
+	describe('removeAction', () => {
+		it('should remove answer', async () => {
+			const question = getTestQuestion();
+			question.saveResponseToDB = jest.fn();
+			const addMoreId = '123';
+
+			const answer0 = { addMoreId: addMoreId, data: { a: 1 } };
+			const answer1 = { addMoreId: 'other', data: { b: 2 } };
+			const journeyResponse = {
+				answers: {
+					[question.fieldName]: [answer0, answer1]
+				}
+			};
+
+			const result = await question.removeAction(journeyResponse, addMoreId);
+
+			const expectedResult = {
+				answers: {
+					[question.fieldName]: [answer1]
+				}
+			};
+			expect(question.saveResponseToDB).toHaveBeenCalledWith(expectedResult, expectedResult);
+			expect(result).toEqual(expectedResult);
+		});
+
+		it('should handle not finding answer answer', async () => {
+			const question = getTestQuestion();
+			question.saveResponseToDB = jest.fn();
+			const addMoreId = '123';
+
+			const answer0 = { addMoreId: 'other', data: { a: 1 } };
+			const journeyResponse = {
+				answers: {
+					[question.fieldName]: [answer0]
+				}
+			};
+
+			const result = await question.removeAction(journeyResponse, addMoreId);
+
+			const expectedResult = {
+				answers: {
+					[question.fieldName]: [answer0]
+				}
+			};
+
+			expect(question.saveResponseToDB).not.toHaveBeenCalled();
+			expect(result).toEqual(expectedResult);
+		});
+
+		it('should handle no current answers', async () => {
+			const question = getTestQuestion();
+			question.saveResponseToDB = jest.fn();
+
+			const journeyResponse = {
+				answers: {}
+			};
+
+			const result = await question.removeAction(journeyResponse, 'nope');
+
+			expect(question.saveResponseToDB).not.toHaveBeenCalled();
+			expect(result).toEqual(journeyResponse);
 		});
 	});
 });
