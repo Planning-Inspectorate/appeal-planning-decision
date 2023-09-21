@@ -1,6 +1,7 @@
 const ListAddMoreQuestion = require('../dynamic-components/list-add-more/question');
+const AddMoreQuestion = require('../dynamic-components/add-more/question');
 const Question = require('../question');
-const { getSubquestionIfPresent } = require('./utils');
+const { getAddMoreIfPresent } = require('./utils');
 
 describe('getSubquestionIfPresent', () => {
 	it('should return subQuestion if not on add more', () => {
@@ -13,18 +14,20 @@ describe('getSubquestionIfPresent', () => {
 			question: 'question',
 			validators: [],
 			fieldName: 'field1',
-			subQuestion: new TestQuestion({
-				pageTitle: 'test',
-				title: 'sub-title',
-				question: 'sub-question',
-				viewFolder: 'sub-view',
-				fieldName: 'field2',
-				validators: []
+			addMore: new AddMoreQuestion({
+				subQuestion: new TestQuestion({
+					pageTitle: 'test',
+					title: 'sub-title',
+					question: 'sub-question',
+					viewFolder: 'sub-view',
+					fieldName: 'field2',
+					validators: []
+				})
 			})
 		});
 
-		const result = getSubquestionIfPresent(req, question);
-		expect(result).toEqual(question.subQuestion);
+		const result = getAddMoreIfPresent(req, question);
+		expect(result).toEqual(question.addMore.subQuestion);
 	});
 
 	it('should return question if on add more', () => {
@@ -34,14 +37,14 @@ describe('getSubquestionIfPresent', () => {
 			}
 		};
 		const question = { subQuestion: {} };
-		const result = getSubquestionIfPresent(req, question);
+		const result = getAddMoreIfPresent(req, question);
 		expect(result).toEqual(question);
 	});
 
 	it('should return question if no subQuestion', () => {
 		const req = { body: {} };
 		const question = {};
-		const result = getSubquestionIfPresent(req, question);
+		const result = getAddMoreIfPresent(req, question);
 		expect(result).toEqual(question);
 	});
 });

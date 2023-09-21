@@ -231,16 +231,30 @@ exports.questions = {
 		fieldName: 'other-appeal-reference'
 	})
 	// example add more question
-	// testAddMoreQuestion: new ListAddMoreQuestion({
+	// exampleAddMoreQuestionNested: new ListAddMoreQuestion({
 	// 	title: 'Add More',
 	// 	question: 'Add more?',
 	// 	fieldName: 'add-more',
 	// 	validators: [new RequiredValidator()],
-	// 	subQuestion: new MultiFileUploadQuestion({
+	// 	addMore: new AddMoreQuestion({
+	// 		subQuestion: new IdentifierQuestion({
+	// 			title: 'Sub',
+	// 			question: 'sub?',
+	// 			fieldName: 'sub-question',
+	// 			validators: [new RequiredValidator()]
+	// 		})
+	// 	})
+	// })
+	// exampleAddMoreQuestion: new ListAddMoreQuestion({
+	// 	title: 'Add More',
+	// 	question: 'Add more?',
+	// 	fieldName: 'add-more',
+	// 	validators: [new RequiredValidator()],
+	// 	subQuestion: new IdentifierQuestion({
 	// 		title: 'Sub',
 	// 		question: 'sub?',
 	// 		fieldName: 'sub-question',
-	// 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
+	// 		validators: [new RequiredValidator()]
 	// 	})
 	// })
 	// /*S78 questions */

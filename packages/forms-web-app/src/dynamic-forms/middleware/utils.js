@@ -10,17 +10,17 @@ const ListAddMoreQuestion = require('../dynamic-components/list-add-more/questio
  * @param {Question|undefined} questionObj
  * @returns
  */
-function getSubquestionIfPresent(req, questionObj) {
+function getAddMoreIfPresent(req, questionObj) {
 	if (!(questionObj instanceof ListAddMoreQuestion)) {
 		return questionObj;
 	}
 
 	const isAddMorePage = Object.prototype.hasOwnProperty.call(req.body, 'add-more-question');
 	if (!isAddMorePage) {
-		questionObj = questionObj.subQuestion;
+		questionObj = questionObj.addMore.subQuestion;
 	}
 
 	return questionObj;
 }
 
-module.exports = { getSubquestionIfPresent };
+module.exports = { getAddMoreIfPresent };
