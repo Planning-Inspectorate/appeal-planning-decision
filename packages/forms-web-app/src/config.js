@@ -79,7 +79,17 @@ module.exports = {
 	validation: {
 		characterLimits: {
 			finalComment: process.env.CHARACTER_LIMIT_FINAL_COMMENT || 32500,
-			emailCode: process.env.CHARACTER_LIMIT_EMAIL_SECURITY_CODE || 5
+			emailCode: process.env.CHARACTER_LIMIT_EMAIL_SECURITY_CODE || 5,
+			questionnaire: {
+				addressLine1MaxLength: process.env.ADDRESS_LINE_1_MAX_LENGTH || 255,
+				addressLine1MinLength: process.env.ADDRESS_LINE_1_MIN_LENGTH || 1,
+				addressLine2MaxLength: process.env.ADDRESS_LINE_2_MAX_LENGTH || 96,
+				addressLine2MinLength: process.env.ADDRESS_LINE_2_MIN_LENGTH || 0,
+				townCityMaxLength: process.env.TOWNCITY_MAX_LENGTH || 64,
+				townCityMinLength: process.env.TOWNCITY_MIN_LENGTH || 1,
+				postcodeMaxLength: process.env.POSTCODE_MAX_LENGTH || 16,
+				postcodeMinLength: process.env.POSTCODE_MIN_LENGTH || 0
+			}
 		}
 	},
 	featureFlagging: {
