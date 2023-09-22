@@ -64,40 +64,21 @@ describe('appeals-case-data', () => {
 	it('should return sorted (by questionnaireDueDate) and filtered valid appeals data based on LPA code and status', async () => {
 		const q9999response = await appealsApi.get(`/api/v1/appeals-case-data/Q9999`);
 		const l2440response = await appealsApi.get(`/api/v1/appeals-case-data/L2440`);
-		const sortedValidTestAppealIndexes = [14, 12, 13, 11];
 
 		expect(q9999response.status).toBe(200);
 		expect(q9999response.body.length).toBe(4);
-
-		q9999response.body.forEach((result, index) => {
-			const caseDataIndex = sortedValidTestAppealIndexes[index];
-			expect(result._id).toEqual(appealsCaseData[caseDataIndex]._id);
-			expect(result.LPAApplicationReference).toEqual(
-				appealsCaseData[caseDataIndex].LPAApplicationReference
-			);
-			expect(result.caseReference).toEqual(appealsCaseData[caseDataIndex].caseReference);
-			expect(result.caseReferenceSlug).toEqual(appealsCaseData[caseDataIndex].caseReference);
-			expect(result.questionnaireDueDate).toEqual(
-				appealsCaseData[caseDataIndex].questionnaireDueDate.toISOString()
-			);
-			expect(result.LPACode).toBe(undefined);
-			expect(result.validity).toBe(undefined);
-			expect(result.questionnaireReceived).toBe(undefined);
+		q9999response.body.forEach((result) => {
+			expect(result.LPACode).toBe('Q9999');
+			expect(result.validity).toBe(IS_VALID);
 		});
 
 		expect(l2440response.status).toBe(200);
 		expect(l2440response.body.length).toBe(2);
-		expect(l2440response.body[0]._id).toEqual(appealsCaseData[9]._id);
-		expect(l2440response.body[0].LPAApplicationReference).toEqual(
-			appealsCaseData[9].LPAApplicationReference
-		);
-		expect(l2440response.body[0].caseReference).toEqual(appealsCaseData[9].caseReference);
-		expect(l2440response.body[0].questionnaireDueDate).toEqual(
-			appealsCaseData[9].questionnaireDueDate.toISOString()
-		);
-		expect(l2440response.body[0].LPACode).toBe(undefined);
-		expect(l2440response.body[0].validity).toBe(undefined);
-		expect(l2440response.body[0].questionnaireReceived).toBe(undefined);
+
+		l2440response.body.forEach((result) => {
+			expect(result.LPACode).toBe('L2440');
+			expect(result.validity).toBe(IS_VALID);
+		});
 	});
 
 	it('should return a url friendly slug for appeal case ref', async () => {

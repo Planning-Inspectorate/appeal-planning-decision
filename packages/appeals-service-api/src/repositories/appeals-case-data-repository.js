@@ -17,7 +17,9 @@ class AppealsCaseDataRepository extends MongoRepository {
 		const appealsProjection = {
 			caseReference: 1,
 			LPAApplicationReference: 1,
-			questionnaireDueDate: 1
+			questionnaireDueDate: 1,
+			validity: 1,
+			LPACode: 1
 		};
 
 		result = await this.getAllDocumentsThatMatchQuery(
