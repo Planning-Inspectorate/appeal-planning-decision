@@ -3,43 +3,30 @@ const uuid = require('uuid');
 const fakeAppealsCaseData = () => {
 	const invalidTestAppeals = [
 		//valid is an empty string
-		_generateFakeAppeal('0000000', '1234567/abc', new Date(Date.UTC(2023, 0, 31)), '', ''),
+		_generateFakeAppeal('0000000', '1234567/abc', '2023-07-06T13:53:31.5993119+00:00', '', ''),
 		//valid is null
-		_generateFakeAppeal('0000001', '1234567/def', new Date(Date.UTC(2023, 0, 31)), '', null),
+		_generateFakeAppeal('0000001', '1234567/def', '2023-07-07T11:53:31.5993119+00:00', '', null),
 		//valid is undefined
-		_generateFakeAppeal('0000002', '1234567/ghi', new Date(Date.UTC(2023, 0, 31)), '', undefined),
-		//valid string is not the required string
-		_generateFakeAppeal('0000003', '1234567/jkl', new Date(Date.UTC(2023, 0, 31)), '', 'Not valid'),
-		//questionnaire due date is null
-		_generateFakeAppeal('0000004', '1234567/mno', null, '', 'Valid'),
-		//questionnaire due date is an empty string
-		_generateFakeAppeal('0000005', '1234567/pqr', '', '', 'Valid'),
-		//questionnaire due date is undefined
-		_generateFakeAppeal('0000006', '1234567/stu', undefined, '', 'Valid'),
-		//questionnaire due date is not a date-time string
-		_generateFakeAppeal('0000007', '1234567/vwx', 'not-a-date-time-string', '', 'Valid'),
-		//questionnaire received date is a valid date-time string
 		_generateFakeAppeal(
-			'0000008',
-			'1234567/yza',
-			new Date(Date.UTC(2023, 0, 31)),
-			new Date(Date.UTC(2023, 1, 1)),
-			'Valid'
-		),
-		//lpaCode is not Q9999
-		_generateFakeAppeal(
-			'0000009',
-			'1234567/bcd',
-			new Date(Date.UTC(2023, 0, 31)),
+			'0000002',
+			'1234567/ghi',
+			'2023-07-07T12:53:31.5993119+00:00',
 			'',
-			'Valid',
-			'L2440'
+			undefined
+		),
+		//valid string is not the required string
+		_generateFakeAppeal(
+			'0000003',
+			'1234567/jkl',
+			'2023-07-08T13:53:31.5993119+00:00',
+			'',
+			'Not valid'
 		),
 		//appealType is not HAS
 		_generateFakeAppeal(
 			'0000010',
 			'1234567/efg',
-			new Date(Date.UTC(2023, 0, 31)),
+			'2023-07-08T13:53:31.5993119+00:00',
 			null,
 			'Valid',
 			'Q9999',
@@ -49,14 +36,20 @@ const fakeAppealsCaseData = () => {
 
 	const validTestAppeals = [
 		//questionnaire received date is null
-		_generateFakeAppeal('0000011', '1234567/hij', new Date(Date.UTC(2023, 0, 31)), null, 'Valid'),
+		_generateFakeAppeal(
+			'0000011',
+			'1234567/hij',
+			'2023-07-06T13:53:31.5993119+00:00',
+			null,
+			'Valid'
+		),
 		//questionnaire received date is an empty string
-		_generateFakeAppeal('0000012', '1234567/klm', new Date(Date.UTC(2023, 0, 29)), '', 'Valid'),
+		_generateFakeAppeal('0000012', '1234567/klm', '2023-07-07T11:53:31.5993119+00:00', '', 'Valid'),
 		//questionnaire received date is not a date-time string
 		_generateFakeAppeal(
 			'0000013',
 			'1234567/nop',
-			new Date(Date.UTC(2023, 0, 30)),
+			'2023-07-08T13:53:31.5993119+00:00',
 			'not-a-date-time-string',
 			'Valid'
 		),
@@ -64,7 +57,7 @@ const fakeAppealsCaseData = () => {
 		_generateFakeAppeal(
 			'0000014',
 			'1234567/qrs',
-			new Date(Date.UTC(2023, 0, 28)),
+			'2023-07-08T13:53:31.5993119+00:00',
 			undefined,
 			'Valid'
 		),
@@ -72,8 +65,16 @@ const fakeAppealsCaseData = () => {
 		_generateFakeAppeal(
 			'/@/1',
 			'1234567/tuv',
-			new Date(Date.UTC(2023, 1, 1)),
+			'2023-07-06T13:53:31.5993119+00:00',
 			undefined,
+			'Valid',
+			'L2440'
+		),
+		_generateFakeAppeal(
+			'0000009',
+			'1234567/bcd',
+			'2023-07-08T13:53:31.5993119+00:00',
+			'',
 			'Valid',
 			'L2440'
 		)
