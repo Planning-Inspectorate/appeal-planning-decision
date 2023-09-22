@@ -104,15 +104,16 @@ module.exports = async function main(log = true) {
 							item.updatedAt = now;
 						}
 					}
-
-					Object.keys(item).forEach(function (key) {
-						if (typeof item[key] === 'string') {
-							const parsedDate = parseISO(item[key]);
-							if (isValid(parsedDate)) {
-								item[key] = parsedDate;
+					if (name !== 'appealsCaseData') {
+						Object.keys(item).forEach(function (key) {
+							if (typeof item[key] === 'string') {
+								const parsedDate = parseISO(item[key]);
+								if (isValid(parsedDate)) {
+									item[key] = parsedDate;
+								}
 							}
-						}
-					});
+						});
+					}
 
 					return item;
 				});

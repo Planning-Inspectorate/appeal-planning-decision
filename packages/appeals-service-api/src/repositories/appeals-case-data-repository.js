@@ -24,23 +24,13 @@ class AppealsCaseDataRepository extends MongoRepository {
 			{
 				LPACode: lpaCode,
 				appealType: HAS,
-				validity: IS_VALID,
-				questionnaireDueDate: { $type: 'date' },
-				questionnaireReceived: { $not: { $type: 'date' } }
+				validity: IS_VALID
 			},
-			{}, //empty sort to ensure projection is sent through correctly
+			{ questionnaireDueDate: -1 },
 			appealsProjection
 		);
 		result.forEach((item) => {
 			item.caseReferenceSlug = encodeUrlSlug(item.caseReference);
-		});
-
-		result.sort((a, b) => {
-			if (!a.questionnaireDueDate || !b.questionnaireDueDate) {
-				return 0;
-			}
-
-			return a.questionnaireDueDate.getTime() - b.questionnaireDueDate.getTime();
 		});
 
 		return result;
@@ -50,9 +40,7 @@ class AppealsCaseDataRepository extends MongoRepository {
 			LPACode: lpaCode,
 			caseReference: caseRef,
 			appealType: HAS,
-			validity: IS_VALID,
-			questionnaireDueDate: { $type: 'date' },
-			questionnaireReceived: { $not: { $type: 'date' } }
+			validity: IS_VALID
 		});
 
 		result.caseReferenceSlug = encodeUrlSlug(result.caseReference);
