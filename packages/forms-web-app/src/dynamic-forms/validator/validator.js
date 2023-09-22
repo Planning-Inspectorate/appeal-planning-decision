@@ -1,3 +1,4 @@
+const { validationResult } = require('express-validator');
 const { getJourney } = require('../journey-factory');
 const { getAddMoreIfPresent } = require('../middleware/utils');
 
@@ -21,12 +22,23 @@ const validate = () => {
 		}
 
 		for (const validation of questionObj.validators) {
-			const validator = validation.validate(questionObj, journeyResponse);
+			const validationRules = validation.validate(questionObj, journeyResponse);
 
-			const validationResult = await validator.run(req);
+			if (validationRules instanceof Array) {
+				await Promise.all(validationRules.map((validator) => validator.run(req)));
 
-			if (validationResult.errors.length > 0) {
-				break;
+				const errors = validationResult(req);
+				const mappedErrors = errors.mapped();
+
+				if (mappedErrors.length > 0) {
+					break;
+				}
+			} else {
+				const validatedRequest = await validationRules.run(req);
+
+				if (validatedRequest.errors.length > 0) {
+					break;
+				}
 			}
 		}
 
