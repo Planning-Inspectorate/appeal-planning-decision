@@ -1,4 +1,5 @@
 const { patchQuestionResponse } = require('../lib/appeals-api-wrapper');
+const { capitalize } = require('../lib/string-functions');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -276,7 +277,8 @@ class Question {
 	 * @returns {string}
 	 */
 	formatAnswerForSummary(answer) {
-		return this.altText ?? answer ?? 'Not started';
+		const formattedAnswer = capitalize(this.altText ?? answer ?? 'Not started');
+		return formattedAnswer;
 	}
 }
 

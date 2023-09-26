@@ -439,7 +439,7 @@ const _getmockSummaryListData = (mockJourney) => {
 								]
 							},
 							key: { text: mockJourney.sections[0].questions[0].title },
-							value: { text: 'Not started' }
+							value: { html: 'Not started' }
 						}
 					]
 				}
@@ -460,7 +460,7 @@ const _getmockSummaryListData = (mockJourney) => {
 								]
 							},
 							key: { text: mockJourney.sections[1].questions[0].title },
-							value: { text: 'Not started' }
+							value: { html: 'Not started' }
 						},
 						{
 							actions: {
@@ -473,7 +473,7 @@ const _getmockSummaryListData = (mockJourney) => {
 								]
 							},
 							key: { text: mockJourney.sections[1].questions[1].title },
-							value: { text: 'Not started' }
+							value: { html: 'Not started' }
 						}
 					]
 				}
@@ -494,7 +494,7 @@ const _getmockSummaryListData = (mockJourney) => {
 								]
 							},
 							key: { text: mockJourney.sections[2].questions[1].title },
-							value: { text: 'Not started' }
+							value: { html: 'Not started' }
 						}
 					]
 				}

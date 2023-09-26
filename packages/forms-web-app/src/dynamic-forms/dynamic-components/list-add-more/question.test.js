@@ -129,7 +129,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				expect.objectContaining({
 					addMoreAnswers: [
 						{
-							answer: 'yes',
+							answer: 'Yes',
 							label: 'subQuestion 1',
 							removeLink: 'current/123'
 						}
