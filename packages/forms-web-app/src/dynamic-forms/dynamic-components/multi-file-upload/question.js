@@ -198,7 +198,7 @@ class MultiFileUploadQuestion extends Question {
 			responseToSave.answers[this.fieldName].uploadedFiles.push(...uploadedFiles);
 		}
 
-		journeyResponse.answers[this.fieldName] = { answers: { 'notified-who': 'this is a test' } };
+		journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
 
 		if (Object.keys(errors).length > 0) {
 			req.body.errors = errors;
