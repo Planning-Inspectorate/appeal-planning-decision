@@ -1,4 +1,5 @@
 // common controllers for dynamic forms
+
 const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { SECTION_STATUS } = require('./section');
@@ -67,7 +68,7 @@ function buildSectionRowViewModel(key, value, action) {
 			text: key
 		},
 		value: {
-			text: value
+			html: value
 		},
 		actions: {
 			items: [action]

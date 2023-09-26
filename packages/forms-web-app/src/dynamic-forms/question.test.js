@@ -348,7 +348,7 @@ describe('./src/dynamic-forms/question.js', () => {
 	describe('formatAnswerForSummary', () => {
 		it('should return altText', async () => {
 			const question = getTestQuestion();
-			question.altText = 'alt';
+			question.altText = 'Alt';
 			const result = question.formatAnswerForSummary({});
 			expect(result).toEqual(question.altText);
 		});
@@ -356,7 +356,7 @@ describe('./src/dynamic-forms/question.js', () => {
 		it('should return answer if no altText', async () => {
 			const question = getTestQuestion();
 			question.altText = null;
-			const answer = 'yes';
+			const answer = 'Yes';
 			const result = question.formatAnswerForSummary(answer);
 			expect(result).toEqual(answer);
 		});

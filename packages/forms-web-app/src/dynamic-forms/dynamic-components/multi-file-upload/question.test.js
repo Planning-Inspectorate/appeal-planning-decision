@@ -161,6 +161,28 @@ describe('MultiFileUploadQuestion', () => {
 		});
 	});
 
+	describe('formatAnswerForSummary', () => {
+		it('should return a single file name if one file uploaded', async () => {
+			const question = getMultiFileUpload();
+			const answer = {
+				uploadedFiles: [mockUploadedFile]
+			};
+			const expectedResult = 'test.png</br>';
+			const result = question.formatAnswerForSummary(answer);
+			expect(result).toEqual(expectedResult);
+		});
+
+		it('should return a list of file names if multiple files are uploaded', async () => {
+			const question = getMultiFileUpload();
+			const answer = {
+				uploadedFiles: [mockUploadedFile, mockUploadedFile]
+			};
+			const expectedResult = 'test.png</br>test.png</br>';
+			const result = question.formatAnswerForSummary(answer);
+			expect(result).toEqual(expectedResult);
+		});
+	});
+
 	describe('checkForValidationErrors', () => {
 		it('should do nothing', async () => {
 			const question = getMultiFileUpload();

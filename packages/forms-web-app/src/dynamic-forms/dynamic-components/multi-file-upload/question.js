@@ -98,6 +98,23 @@ class MultiFileUploadQuestion extends Question {
 	}
 
 	/**
+	 * formats data for display on the summary list
+	 * @param {Answer} answer - the current saved answer for the question
+	 * @returns {formattedAnswer} - uploaded file list as a formatted string rather than array
+	 */
+	formatAnswerForSummary(answer) {
+		let formattedAnswer;
+		if (answer != undefined && answer.uploadedFiles) {
+			formattedAnswer = '';
+			for (const item in answer.uploadedFiles) {
+				formattedAnswer += answer.uploadedFiles[item].originalFileName + '</br>';
+			}
+		}
+
+		return formattedAnswer ?? 'Not started';
+	}
+
+	/**
 	 * returns the data to send to the DB
 	 * side effect: modifies journeyResponse with the new answers
 	 * @param {ExpressRequest} req
@@ -181,7 +198,7 @@ class MultiFileUploadQuestion extends Question {
 			responseToSave.answers[this.fieldName].uploadedFiles.push(...uploadedFiles);
 		}
 
-		journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
+		journeyResponse.answers[this.fieldName] = { answers: { 'notified-who': 'this is a test' } };
 
 		if (Object.keys(errors).length > 0) {
 			req.body.errors = errors;

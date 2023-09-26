@@ -28,7 +28,7 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	listedBuildingNumber: new BooleanQuestion({
-		title: '*************placeholder**************',
+		title: 'Listed 1',
 		question: '*************placeholder**************',
 		fieldName: 'listed-building-number',
 		validators: [new RequiredValidator()]
@@ -113,7 +113,7 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	pressAdvertUpload: new MultiFileUploadQuestion({
-		title: 'Upload the press advertisement',
+		title: 'Uploaded press advert',
 		question: 'Upload the press advertisement',
 		fieldName: 'upload-press-advert',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
@@ -141,7 +141,7 @@ exports.questions = {
 		]
 	}),
 	uploadSiteNotice: new MultiFileUploadQuestion({
-		title: 'Site notice',
+		title: 'Uploaded site notice',
 		question: 'Upload the site notice',
 		fieldName: 'upload-site-notice',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
@@ -169,7 +169,7 @@ exports.questions = {
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
 	planningOfficersReportUpload: new MultiFileUploadQuestion({
-		title: 'Upload planning officers report',
+		title: 'Upload planning officer’s report',
 		question: 'Upload the planning officer’s report',
 		fieldName: 'upload-report',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
