@@ -38,7 +38,10 @@ describe('./src/dynamic-forms/question.js', () => {
 			url,
 			validators,
 			html,
-			hint
+			hint,
+			getAction: () => {
+				return 'http://example.com/action';
+			}
 		});
 	};
 
@@ -346,27 +349,33 @@ describe('./src/dynamic-forms/question.js', () => {
 	});
 
 	describe('formatAnswerForSummary', () => {
-		it('should return altText', async () => {
-			const question = getTestQuestion();
-			question.altText = 'Alt';
-			const result = question.formatAnswerForSummary({});
-			expect(result).toEqual(question.altText);
-		});
-
 		it('should return answer if no altText', async () => {
+			const journey = {
+				getNextQuestionUrl: () => {
+					return 'back';
+				},
+				getCurrentQuestionUrl: () => {
+					return 'current';
+				}
+			};
 			const question = getTestQuestion();
-			question.altText = null;
 			const answer = 'Yes';
-			const result = question.formatAnswerForSummary(answer);
-			expect(result).toEqual(answer);
+			const result = question.formatAnswerForSummary('segment', journey, answer);
+			expect(result[0].value).toEqual(answer);
 		});
 
-		it('should return answer if no altText or answer', async () => {
+		it('should return "Not Started" if no value for answer', async () => {
+			const journey = {
+				getNextQuestionUrl: () => {
+					return 'back';
+				},
+				getCurrentQuestionUrl: () => {
+					return 'current';
+				}
+			};
 			const question = getTestQuestion();
-			question.altText = null;
-			const defaultResponse = 'Not started';
-			const result = question.formatAnswerForSummary(null);
-			expect(result).toEqual(defaultResponse);
+			const result = question.formatAnswerForSummary('segment', journey, null);
+			expect(result[0].value).toEqual(question.NOT_STARTED);
 		});
 	});
 });

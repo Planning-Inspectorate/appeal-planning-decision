@@ -1,4 +1,3 @@
-const Question = require('../../question');
 const ListAddMoreQuestion = require('./question');
 const AddMoreQuestion = require('../add-more/question');
 
@@ -12,22 +11,18 @@ const FIELDNAME = 'favouriteColour';
 const URL = '/test';
 const VALIDATORS = [1];
 
-class TestQuestion extends Question {}
-
 describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 	const testAddMore = new AddMoreQuestion({
-		subQuestion: new TestQuestion({
-			title: TITLE,
-			question: QUESTION_STRING,
-			fieldName: 'sub' + FIELDNAME,
-			validators: VALIDATORS,
-			viewFolder: 'view'
-		})
+		title: TITLE,
+		question: QUESTION_STRING,
+		fieldName: 'sub' + FIELDNAME,
+		validators: VALIDATORS,
+		viewFolder: 'view'
 	});
 	const testSubQuestionLabel = 'subQuestion';
 	const getTestQuestion = (
-		{ addMore, subQuestionLabel } = {
-			addMore: testAddMore,
+		{ subQuestion, subQuestionLabel } = {
+			subQuestion: testAddMore,
 			subQuestionLabel: testSubQuestionLabel
 		}
 	) => {
@@ -38,7 +33,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			fieldName: FIELDNAME,
 			url: URL,
 			validators: VALIDATORS,
-			addMore,
+			subQuestion,
 			subQuestionLabel
 		});
 	};
@@ -48,7 +43,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const question = getTestQuestion();
 
 			expect(question).toBeTruthy();
-			expect(question.addMore).toEqual(testAddMore);
+			expect(question.subQuestion).toEqual(testAddMore);
 			expect(question.subQuestionLabel).toEqual(testSubQuestionLabel);
 			expect(question.viewFolder).toEqual('list-add-more');
 		});
@@ -71,7 +66,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 						question: QUESTION_STRING,
 						description: DESCRIPTION,
 						fieldName: FIELDNAME,
-						addMore: {}
+						subQuestion: {}
 					})
 			).toThrow('addMore is mandatory');
 		});
@@ -86,7 +81,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			question.renderAction(res, viewModel);
 
 			expect(res.render).toHaveBeenCalledWith(
-				`dynamic-components/${question.addMore.viewFolder}/index`,
+				`dynamic-components/${question.subQuestion.viewFolder}/index`,
 				viewModel
 			);
 		});
@@ -108,11 +103,10 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 	describe('prepQuestionForRendering', () => {
 		it('should add addMoreAnswers data to model', () => {
 			const question = getTestQuestion();
-
 			const journey = {
 				response: {
 					answers: {
-						[question.fieldName]: [{ [question.addMore.fieldName]: 'yes', addMoreId: 123 }]
+						[question.fieldName]: [{ addMoreId: 123, value: 'yes' }]
 					}
 				},
 				getNextQuestionUrl: () => {
@@ -124,12 +118,11 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			};
 
 			const result = question.prepQuestionForRendering({}, journey);
-
 			expect(result).toEqual(
 				expect.objectContaining({
 					addMoreAnswers: [
 						{
-							answer: 'Yes',
+							answer: 'yes',
 							label: 'subQuestion 1',
 							removeLink: 'current/123'
 						}
@@ -147,7 +140,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 
 			const req = {
 				body: {
-					[question.addMore.fieldName]: { a: 1 }
+					[question.subQuestion.fieldName]: { a: 1 }
 				}
 			};
 			const journeyResponse = {
@@ -158,9 +151,9 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			};
 
 			const expectedSaveData = {
-				[question.addMore.fieldName]: { a: 1, addMoreId: expectedId }
+				[question.subQuestion.fieldName]: { a: 1, addMoreId: expectedId }
 			};
-			question.addMore.getDataToSave = jest.fn(async () => expectedSaveData);
+			question.subQuestion.getDataToSave = jest.fn(async () => expectedSaveData);
 
 			const result = await question.getDataToSave(req, journeyResponse);
 
@@ -194,7 +187,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			await question.saveAction(req, res, journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
-				`dynamic-components/${question.addMore.viewFolder}/index`,
+				`dynamic-components/${question.subQuestion.viewFolder}/index`,
 				expectedErrors
 			);
 		});
@@ -219,7 +212,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			await question.saveAction(req, res, journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
-				`dynamic-components/${question.addMore.viewFolder}/index`,
+				`dynamic-components/${question.subQuestion.viewFolder}/index`,
 				expect.objectContaining({
 					backLink: expectedBackLink,
 					navigation: ['', expectedBackLink]
@@ -250,7 +243,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				errorViewModel: 'mocked-validation-error'
 			};
 			const question = getTestQuestion();
-			question.addMore.checkForValidationErrors = jest.fn(() => expectedErrors);
+			question.subQuestion.checkForValidationErrors = jest.fn(() => expectedErrors);
 
 			const res = {
 				render: jest.fn()
@@ -263,7 +256,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			await question.saveAction(req, res, journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
-				`dynamic-components/${question.addMore.viewFolder}/index`,
+				`dynamic-components/${question.subQuestion.viewFolder}/index`,
 				expectedErrors
 			);
 		});
@@ -273,10 +266,10 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				errorViewModel: 'mocked-validation-error'
 			};
 			const question = getTestQuestion();
-			question.addMore.checkForValidationErrors = jest.fn();
+			question.subQuestion.checkForValidationErrors = jest.fn();
 			question.getDataToSave = jest.fn();
 			question.saveResponseToDB = jest.fn();
-			question.addMore.checkForSavingErrors = jest.fn(() => expectedErrors);
+			question.subQuestion.checkForSavingErrors = jest.fn(() => expectedErrors);
 
 			const res = {
 				render: jest.fn()
@@ -289,7 +282,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			await question.saveAction(req, res, journey, section, journey.response);
 
 			expect(res.render).toHaveBeenCalledWith(
-				`dynamic-components/${question.addMore.viewFolder}/index`,
+				`dynamic-components/${question.subQuestion.viewFolder}/index`,
 				expectedErrors
 			);
 		});
@@ -298,10 +291,10 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const expectedUrl = 'redirect-url';
 
 			const question = getTestQuestion();
-			question.addMore.checkForValidationErrors = jest.fn();
+			question.subQuestion.checkForValidationErrors = jest.fn();
 			question.getDataToSave = jest.fn();
 			question.saveResponseToDB = jest.fn();
-			question.addMore.checkForSavingErrors = jest.fn();
+			question.subQuestion.checkForSavingErrors = jest.fn();
 			const res = {
 				redirect: jest.fn()
 			};

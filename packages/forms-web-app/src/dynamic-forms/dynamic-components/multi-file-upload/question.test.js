@@ -97,7 +97,10 @@ function getMultiFileUpload(
 		url: url,
 		validators: validators,
 		html: html,
-		documentType: documentType
+		documentType: documentType,
+		getAction: () => {
+			return 'http://exmaple.com/action';
+		}
 	});
 }
 
@@ -174,15 +177,31 @@ describe('MultiFileUploadQuestion', () => {
 			const answer = {
 				uploadedFiles: [mockUploadedFile]
 			};
-			const journeyResponse = {
-				journeyId: '654321',
-				referenceId: 'APP/Q9999/W/22/3221288'
+			const href = 'http://example.com';
+			const journey = {
+				response: {
+					journeyId: '654321',
+					referenceId: 'APP/Q9999/W/22/3221288',
+					answers: {
+						[question.fieldName]: answer.uploadedFiles
+					}
+				},
+				getNextQuestionUrl: () => {
+					return 'back';
+				},
+				getCurrentQuestionUrl: () => {
+					return href;
+				}
 			};
+
 			const sanitisedReferenceId = 'APP_Q9999_W_22_3221288';
 
-			const expectedResult = `<a href="/document/${journeyResponse.journeyId}:${sanitisedReferenceId}/${mockUploadedFile.id}" class="govuk-link">${mockUploadedFile.originalFileName}</a> </br>`;
-			const result = question.formatAnswerForSummary(answer, journeyResponse);
-			expect(result).toEqual(expectedResult);
+			const expectedResult = `<a href="/document/${journey.response.journeyId}:${sanitisedReferenceId}/${mockUploadedFile.id}" class="govuk-link">${mockUploadedFile.originalFileName}</a> </br>`;
+
+			const result = question.formatAnswerForSummary('segment', journey, answer);
+			expect(result[0].value).toEqual(expectedResult);
+			expect(result[0].key).toEqual(TITLE);
+			expect(result[0].action.href).toEqual(href);
 		});
 
 		it('should return a list of file names and download links if multiple files are uploaded', async () => {
@@ -190,16 +209,31 @@ describe('MultiFileUploadQuestion', () => {
 			const answer = {
 				uploadedFiles: [mockUploadedFile, mockUploadedFile]
 			};
-			const journeyResponse = {
-				journeyId: '123456',
-				referenceId: '789-123'
+			const journey = {
+				response: {
+					journeyId: '123456',
+					referenceId: '789-123',
+					answers: {
+						[question.fieldName]: { uploadedFiles: [1, 2] }
+					}
+				},
+				getNextQuestionUrl: () => {
+					return 'back';
+				},
+				getCurrentQuestionUrl: () => {
+					return href;
+				}
 			};
 
-			const url = `<a href="/document/${journeyResponse.journeyId}:${journeyResponse.referenceId}/${mockUploadedFile.id}" class="govuk-link">${mockUploadedFile.originalFileName}</a> </br>`;
+			const url = `<a href="/document/${journey.response.journeyId}:${journey.response.referenceId}/${mockUploadedFile.id}" class="govuk-link">${mockUploadedFile.originalFileName}</a> </br>`;
 			const expectedResult = url + url;
 
-			const result = question.formatAnswerForSummary(answer, journeyResponse);
-			expect(result).toEqual(expectedResult);
+			const href = 'http://example.com';
+
+			const result = question.formatAnswerForSummary('segment', journey, answer);
+			expect(result[0].value).toEqual(expectedResult);
+			expect(result[0].key).toEqual(TITLE);
+			expect(result[0].action.href).toEqual(href);
 		});
 	});
 

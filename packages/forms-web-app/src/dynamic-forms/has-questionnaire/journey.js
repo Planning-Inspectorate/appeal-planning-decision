@@ -1,4 +1,4 @@
-const { questions } = require('./questions');
+const { questions } = require('../questions');
 const { Journey } = require('../journey');
 const { Section } = require('../section');
 
@@ -102,7 +102,7 @@ class HasJourney extends Journey {
 				.withCondition(
 					response.answers && response.answers[questions.appealsNearSite.fieldName] == 'no'
 				)
-				.addQuestion(questions.otherAppealReference)
+				.addQuestion(questions.nearbyAppeals)
 				.withCondition(
 					response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
 				),

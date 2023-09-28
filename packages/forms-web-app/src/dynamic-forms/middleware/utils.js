@@ -15,9 +15,14 @@ function getAddMoreIfPresent(req, questionObj) {
 		return questionObj;
 	}
 
-	const isAddMorePage = Object.prototype.hasOwnProperty.call(req.body, 'add-more-question');
-	if (!isAddMorePage) {
-		questionObj = questionObj.addMore.subQuestion;
+	if (!req.body[questionObj.fieldName]) {
+		if (
+			Object.getOwnPropertyNames(req.body).find(
+				(prop) => prop === questionObj.subQuestion.fieldName
+			)
+		) {
+			questionObj = questionObj.subQuestion;
+		}
 	}
 
 	return questionObj;

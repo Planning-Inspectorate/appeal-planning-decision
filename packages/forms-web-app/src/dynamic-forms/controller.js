@@ -112,41 +112,12 @@ exports.list = async (req, res) => {
 				continue;
 			}
 
-			// use custom formatting function
-			if (question.format) {
-				const rows = question.format(
-					journey.response.answers,
-					referenceId,
-					section.segment,
-					question.fieldName
-				);
-
-				for (let rowData of rows) {
-					const action = {
-						href: rowData.ctaLink,
-						text: rowData.ctaText,
-						visuallyHiddenText: question.question
-					};
-
-					const row = buildSectionRowViewModel(rowData.title, rowData.value, action);
-					sectionView.list.rows.push(row);
-				}
-
-				continue;
-			}
-
 			const answer = journey.response?.answers[question.fieldName];
-			// default question format
-			const key = question.title ?? question.question;
-			const value = question.formatAnswerForSummary(answer, journeyResponse);
-			const action = {
-				href: journey.getCurrentQuestionUrl(section.segment, question.fieldName),
-				text: typeof answer === 'undefined' || answer === null ? 'Answer' : 'Change',
-				visuallyHiddenText: question.question
-			};
-
-			const row = buildSectionRowViewModel(key, value, action);
-			sectionView.list.rows.push(row);
+			const rows = question.formatAnswerForSummary(section.segment, journey, answer);
+			rows.forEach((row) => {
+				let viewModelRow = buildSectionRowViewModel(row.key, row.value, row.action);
+				sectionView.list.rows.push(viewModelRow);
+			});
 		}
 
 		summaryListData.sections.push(sectionView);

@@ -98,17 +98,18 @@ class MultiFileUploadQuestion extends Question {
 	}
 
 	/**
-	 * formats data for display on the summary list
-	 * @param {Answer} answer - the current saved answer for the question
-	 * @param {JourneyResponse} journeyResponse- current journey response
-	 * @returns {formattedAnswer} - uploaded file list as a formatted string rather than array
+	 * returns the formatted answers values to be used to build task list elements
+	 * @param {Object} answer
+	 * @param {Journey} journey
+	 * @param {String} sectionSegment
+	 * @returns {Array.<Object>}
 	 */
-	formatAnswerForSummary(answer, journeyResponse) {
+	formatAnswerForSummary(sectionSegment, journey, answer) {
 		let formattedAnswer;
 		if (answer != undefined && answer.uploadedFiles) {
 			formattedAnswer = '';
 			for (const item in answer.uploadedFiles) {
-				const documentSubmissionId = this.#generateDocumentSubmissionId(journeyResponse);
+				const documentSubmissionId = this.#generateDocumentSubmissionId(journey.response);
 				const documentId = answer.uploadedFiles[item].id;
 				const documentUrl = `/document/${documentSubmissionId}/${documentId}`;
 				const documentLinkText = answer.uploadedFiles[item].originalFileName;
@@ -116,7 +117,26 @@ class MultiFileUploadQuestion extends Question {
 				formattedAnswer += `<a href="${documentUrl}" class="govuk-link">${documentLinkText}</a> </br>`;
 			}
 		}
-		return formattedAnswer ?? 'Not started';
+
+		formattedAnswer = formattedAnswer ?? 'Not started';
+
+		return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
+	}
+
+	/**
+	 * Returns the action link for the question
+	 * @param {Object} answer
+	 * @param {Journey} journey
+	 * @param {String} sectionSegment
+	 * @returns {String}
+	 */
+	getAction(sectionSegment, journey, answer) {
+		const action = {
+			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
+			text: answer ? 'Upload' : 'Remove',
+			visuallyHiddenText: this.question
+		};
+		return action;
 	}
 
 	/**

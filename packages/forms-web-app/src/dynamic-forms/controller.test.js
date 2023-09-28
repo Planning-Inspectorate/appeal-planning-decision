@@ -17,7 +17,6 @@ const mockAnswer = 'Not started';
 
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const AddMoreQuestion = require('./dynamic-components/add-more/question');
-const Question = require('./question');
 
 class TestJourney extends Journey {
 	constructor(response) {
@@ -42,14 +41,34 @@ class TestJourney extends Journey {
 						question: 'Why?',
 						taskList: true,
 						fieldName: 'title-1a',
-						formatAnswerForSummary: jest.fn(() => mockAnswer)
+						formatAnswerForSummary: jest.fn(() => [
+							{
+								key: 'Title 1a',
+								value: mockAnswer,
+								action: {
+									href: '/manage-appeals/questionnaire/123456/segment-1/title-1a',
+									text: 'Answer',
+									visuallyHiddenText: 'Answer'
+								}
+							}
+						])
 					},
 					{
 						title: 'Title 1b',
 						question: 'Who?',
 						taskList: false,
 						fieldName: 'title-1b',
-						formatAnswerForSummary: jest.fn(() => mockAnswer)
+						formatAnswerForSummary: jest.fn(() => [
+							{
+								key: 'Title 1b',
+								value: mockAnswer,
+								action: {
+									href: '/manage-appeals/questionnaire/123456/segment-1/title-1b',
+									text: 'Answer',
+									visuallyHiddenText: 'Answer'
+								}
+							}
+						])
 					}
 				]
 			},
@@ -65,14 +84,34 @@ class TestJourney extends Journey {
 						question: 'How?',
 						taskList: true,
 						fieldName: 'title-2a',
-						formatAnswerForSummary: jest.fn(() => mockAnswer)
+						formatAnswerForSummary: jest.fn(() => [
+							{
+								key: 'Title 2a',
+								value: mockAnswer,
+								action: {
+									href: '/manage-appeals/questionnaire/123456/segment-2/title-2a',
+									text: 'Answer',
+									visuallyHiddenText: 'Answer'
+								}
+							}
+						])
 					},
 					{
 						title: 'Title 2b',
 						question: 'What?',
 						taskList: true,
 						fieldName: 'title-2b',
-						formatAnswerForSummary: jest.fn(() => mockAnswer)
+						formatAnswerForSummary: jest.fn(() => [
+							{
+								key: 'Title 2b',
+								value: mockAnswer,
+								action: {
+									href: '/manage-appeals/questionnaire/123456/segment-2/title-2b',
+									text: 'Answer',
+									visuallyHiddenText: 'Answer'
+								}
+							}
+						])
 					}
 				]
 			},
@@ -88,14 +127,34 @@ class TestJourney extends Journey {
 						question: 'When?',
 						taskList: false,
 						fieldName: 'title-3a',
-						formatAnswerForSummary: jest.fn(() => mockAnswer)
+						formatAnswerForSummary: jest.fn(() => [
+							{
+								key: 'Title 3a',
+								value: mockAnswer,
+								action: {
+									href: '/manage-appeals/questionnaire/123456/segment-3/title-3a',
+									text: 'Answer',
+									visuallyHiddenText: 'Answer'
+								}
+							}
+						])
 					},
 					{
 						title: 'Title 3b',
 						question: 'Really?',
 						taskList: true,
 						fieldName: 'title-3b',
-						formatAnswerForSummary: jest.fn(() => mockAnswer)
+						formatAnswerForSummary: jest.fn(() => [
+							{
+								key: 'Title 3b',
+								value: mockAnswer,
+								action: {
+									href: '/manage-appeals/questionnaire/123456/segment-3/title-3b',
+									text: 'Answer',
+									visuallyHiddenText: 'Answer'
+								}
+							}
+						])
 					}
 				]
 			}
@@ -119,7 +178,7 @@ const sampleQuestionObj = {
 	fieldName: 'sampleFieldName',
 	renderAction: jest.fn(),
 	prepQuestionForRendering: jest.fn(),
-	formatAnswerForSummary: jest.fn(),
+	formatAnswerForSummary: jest.fn(() => [mockAnswer]),
 	viewFolder: 'sampleType'
 };
 
@@ -310,19 +369,15 @@ describe('dynamic-form/controller', () => {
 		const QUESTION_STRING = 'What is your favourite colour?';
 		const FIELDNAME = 'favouriteColour';
 
-		class TestQuestion extends Question {}
-
 		const sampleListAddMoreObj = new ListAddMoreQuestion({
 			title: TITLE,
 			fieldName: FIELDNAME,
 			question: QUESTION_STRING,
-			addMore: new AddMoreQuestion({
-				subQuestion: new TestQuestion({
-					title: TITLE,
-					fieldName: FIELDNAME,
-					question: QUESTION_STRING,
-					viewFolder: 'view'
-				})
+			subQuestion: new AddMoreQuestion({
+				title: TITLE,
+				fieldName: FIELDNAME,
+				question: QUESTION_STRING,
+				viewFolder: 'view'
 			})
 		});
 
@@ -437,8 +492,8 @@ const _getmockSummaryListData = (mockJourney) => {
 								items: [
 									{
 										href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[0].segment}/${mockJourney.sections[0].questions[0].fieldName}`,
-										text: 'Change',
-										visuallyHiddenText: mockJourney.sections[0].questions[0].question
+										text: 'Answer',
+										visuallyHiddenText: 'Answer'
 									}
 								]
 							},
@@ -459,7 +514,7 @@ const _getmockSummaryListData = (mockJourney) => {
 									{
 										href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[1].segment}/${mockJourney.sections[1].questions[0].fieldName}`,
 										text: 'Answer',
-										visuallyHiddenText: mockJourney.sections[1].questions[0].question
+										visuallyHiddenText: 'Answer'
 									}
 								]
 							},
@@ -472,7 +527,7 @@ const _getmockSummaryListData = (mockJourney) => {
 									{
 										href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[1].segment}/${mockJourney.sections[1].questions[1].fieldName}`,
 										text: 'Answer',
-										visuallyHiddenText: mockJourney.sections[1].questions[1].question
+										visuallyHiddenText: 'Answer'
 									}
 								]
 							},
@@ -493,7 +548,7 @@ const _getmockSummaryListData = (mockJourney) => {
 									{
 										href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[2].segment}/${mockJourney.sections[2].questions[1].fieldName}`,
 										text: 'Answer',
-										visuallyHiddenText: mockJourney.sections[2].questions[1].question
+										visuallyHiddenText: 'Answer'
 									}
 								]
 							},
