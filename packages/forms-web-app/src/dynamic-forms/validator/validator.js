@@ -16,7 +16,6 @@ const validate = () => {
 		let questionObj = journey.getQuestionBySectionAndName(section, question);
 
 		questionObj = getAddMoreIfPresent(req, questionObj);
-
 		if (!questionObj) {
 			throw new Error('unknown question type');
 		}

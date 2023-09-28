@@ -28,7 +28,7 @@ class AppealsCaseDataRepository extends MongoRepository {
 				appealType: HAS,
 				validity: IS_VALID
 			},
-			{ questionnaireDueDate: -1 },
+			{ questionnaireDueDate: 1 },
 			appealsProjection
 		);
 		result.forEach((item) => {

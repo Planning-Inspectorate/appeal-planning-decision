@@ -5,7 +5,6 @@ const RequiredValidator = require('./required-validator');
 const ValidOptionValidator = require('./valid-option-validator');
 const ListAddMoreQuestion = require('../dynamic-components/list-add-more/question');
 const AddMoreQuestion = require('../dynamic-components/add-more/question');
-const Question = require('../question');
 const AddressValidator = require('./address-validator');
 
 jest.mock('../journey-factory');
@@ -194,8 +193,6 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		class TestQuestion extends Question {}
-
 		getJourney.mockReturnValue({
 			getQuestionBySectionAndName: function () {
 				return new ListAddMoreQuestion({
@@ -203,15 +200,13 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 					question: 'question',
 					validators: [],
 					fieldName: 'field1',
-					addMore: new AddMoreQuestion({
-						subQuestion: new TestQuestion({
-							pageTitle: 'test',
-							title: 'sub-title',
-							question: 'sub-question',
-							viewFolder: 'sub-view',
-							fieldName: 'field2',
-							validators: [new RequiredValidator()]
-						})
+					subQuestion: new AddMoreQuestion({
+						pageTitle: 'test',
+						title: 'sub-title',
+						question: 'sub-question',
+						viewFolder: 'sub-view',
+						fieldName: 'field2',
+						validators: [new RequiredValidator()]
 					})
 				});
 			}
@@ -219,7 +214,6 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 
 		const next = jest.fn();
 		await validate()(req, mockRes, next);
-
 		expect(req['express-validator#contexts'][0]._errors.length).toEqual(1);
 		expect(next).toHaveBeenCalledTimes(1);
 	});

@@ -48,8 +48,6 @@ class Question {
 	fieldName;
 	/** @type {boolean} if the question should appear in the journey overview task list or not */
 	taskList;
-	/** @type {string} alt text for displaying in tasklist */
-	altText;
 	/** @type {function|undefined} function that customises the formatting of the question in the task list */
 	format;
 	/** @type {Array.<BaseValidator>} array of validators that a question uses to validate answers */
@@ -272,14 +270,43 @@ class Question {
 	}
 
 	/**
-	 * returns answer to the question formatted for a list view
+	 * returns the formatted answers valuyes to be used to build task list elements
 	 * @param {Object} answer
-	 * @returns {string}
+	 * @param {Journey} journey
+	 * @param {String} sectionSegment
+	 * @returns {Array.<Object>}
 	 */
-	formatAnswerForSummary(answer) {
-		const formattedAnswer = capitalize(this.altText ?? answer ?? 'Not started');
-		return formattedAnswer;
+	formatAnswerForSummary(sectionSegment, journey, answer, capitals = true) {
+		const formattedAnswer = capitals
+			? capitalize(answer ?? this.NOT_STARTED)
+			: answer
+			? answer
+			: this.NOT_STARTED;
+		const action = this.getAction(sectionSegment, journey, answer);
+		const key = this.title ?? this.question;
+		let rowParams = [];
+		rowParams.push({ key: key, value: formattedAnswer, action: action });
+		return rowParams;
 	}
+
+	/**
+	 * Returns the action link for the question
+	 * @param {Object} answer
+	 * @param {Journey} journey
+	 * @param {String} sectionSegment
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {String}
+	 */
+	getAction(sectionSegment, journey, answer) {
+		const action = {
+			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
+			text: answer ? 'Change' : 'Answer',
+			visuallyHiddenText: this.question
+		};
+		return action;
+	}
+
+	NOT_STARTED = 'Not started';
 }
 
 module.exports = Question;

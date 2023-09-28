@@ -5,13 +5,15 @@
  * types without having the overhead of managing duplicates. *
  *************************************************************/
 
-const CheckboxQuestion = require('../dynamic-components/checkbox/question');
-const MultiFileUploadQuestion = require('../dynamic-components/multi-file-upload/question');
-const BooleanQuestion = require('../dynamic-components/boolean/question');
-const BooleanTextQuestion = require('../dynamic-components/boolean-text/question');
-const RequiredValidator = require('../validator/required-validator');
-const RequiredFileUploadValidator = require('../validator/required-file-upload-validator');
-const MultifileUploadValidator = require('../validator/multifile-upload-validator');
+const CheckboxQuestion = require('./dynamic-components/checkbox/question');
+const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
+const BooleanQuestion = require('./dynamic-components/boolean/question');
+const BooleanTextQuestion = require('./dynamic-components/boolean-text/question');
+const RequiredValidator = require('./validator/required-validator');
+const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
+const MultifileUploadValidator = require('./validator/multifile-upload-validator');
+const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+const AddMoreQuestion = require('./dynamic-components/add-more/question');
 
 // Define all questions
 exports.questions = {
@@ -220,31 +222,27 @@ exports.questions = {
 		fieldName: 'other-ongoing-appeals',
 		validators: [new RequiredValidator()]
 	}),
+	nearbyAppeals: new ListAddMoreQuestion({
+		title: 'Nearby appeal added to the case',
+		question: 'Add another appeal?',
+		fieldName: 'other-appeals-references',
+		url: 'nearby-appeals-list',
+		subQuestionLabel: 'Appeal ',
+		validators: [new RequiredValidator()],
+		subQuestion: new AddMoreQuestion({
+			title: 'Enter an appeal reference number',
+			question: 'Enter an appeal reference number',
+			fieldName: 'other-appeal-reference',
+			hint: 'Enter an appeal reference number',
+			validators: [new RequiredValidator()],
+			viewFolder: 'identifier'
+		})
+	}),
 	addNewConditions: new BooleanQuestion({
 		title: 'Add new conditions',
 		question: 'Do you want to add new planning conditions to this appeal?',
 		fieldName: 'new-planning-conditions'
-	}),
-	otherAppealReference: new BooleanQuestion({
-		title: '*?',
-		question: '*?',
-		fieldName: 'other-appeal-reference'
 	})
-	// example add more question
-	// exampleAddMoreQuestionNested: new ListAddMoreQuestion({
-	// 	title: 'Add More',
-	// 	question: 'Add more?',
-	// 	fieldName: 'add-more',
-	// 	validators: [new RequiredValidator()],
-	// 	addMore: new AddMoreQuestion({
-	// 		subQuestion: new IdentifierQuestion({
-	// 			title: 'Sub',
-	// 			question: 'sub?',
-	// 			fieldName: 'sub-question',
-	// 			validators: [new RequiredValidator()]
-	// 		})
-	// 	})
-	// })
 	// exampleAddMoreQuestion: new ListAddMoreQuestion({
 	// 	title: 'Add More',
 	// 	question: 'Add more?',
