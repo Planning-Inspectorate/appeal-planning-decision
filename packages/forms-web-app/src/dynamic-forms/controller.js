@@ -124,7 +124,8 @@ exports.list = async (req, res) => {
 				for (let rowData of rows) {
 					const action = {
 						href: rowData.ctaLink,
-						text: rowData.ctaText
+						text: rowData.ctaText,
+						visuallyHiddenText: question.question
 					};
 
 					const row = buildSectionRowViewModel(rowData.title, rowData.value, action);
