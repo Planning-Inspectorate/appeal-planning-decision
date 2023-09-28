@@ -137,7 +137,7 @@ exports.list = async (req, res) => {
 			const answer = journey.response?.answers[question.fieldName];
 			// default question format
 			const key = question.title ?? question.question;
-			const value = question.formatAnswerForSummary(answer);
+			const value = question.formatAnswerForSummary(answer, journeyResponse);
 			const action = {
 				href: journey.getCurrentQuestionUrl(section.segment, question.fieldName),
 				text: 'Answer',

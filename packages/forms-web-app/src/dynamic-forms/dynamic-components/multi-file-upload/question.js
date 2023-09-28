@@ -100,17 +100,22 @@ class MultiFileUploadQuestion extends Question {
 	/**
 	 * formats data for display on the summary list
 	 * @param {Answer} answer - the current saved answer for the question
+	 * @param {JourneyResponse} journeyResponse- current journey response
 	 * @returns {formattedAnswer} - uploaded file list as a formatted string rather than array
 	 */
-	formatAnswerForSummary(answer) {
+	formatAnswerForSummary(answer, journeyResponse) {
 		let formattedAnswer;
 		if (answer != undefined && answer.uploadedFiles) {
 			formattedAnswer = '';
 			for (const item in answer.uploadedFiles) {
-				formattedAnswer += answer.uploadedFiles[item].originalFileName + '</br>';
+				const documentSubmissionId = this.#generateDocumentSubmissionId(journeyResponse);
+				const documentId = answer.uploadedFiles[item].id;
+				const documentUrl = `/document/${documentSubmissionId}/${documentId}`;
+				const documentLinkText = answer.uploadedFiles[item].originalFileName;
+
+				formattedAnswer += `<a href="${documentUrl}" class="govuk-link">${documentLinkText}</a> </br>`;
 			}
 		}
-
 		return formattedAnswer ?? 'Not started';
 	}
 
@@ -218,7 +223,7 @@ class MultiFileUploadQuestion extends Question {
 		for (const file of files) {
 			const document = await createDocument(
 				{
-					id: `${journeyResponse.journeyId}:${encodeURIComponent(journeyResponse.referenceId)}`,
+					id: this.#generateDocumentSubmissionId(journeyResponse),
 					referenceNumber: journeyResponse.referenceId
 				},
 				file,
@@ -232,6 +237,16 @@ class MultiFileUploadQuestion extends Question {
 		}
 
 		return result;
+	}
+
+	#generateDocumentSubmissionId(journeyResponse) {
+		return `${journeyResponse.journeyId}:${encodeURIComponent(
+			this.#sanitiseReferenceId(journeyResponse.referenceId)
+		)}`;
+	}
+
+	#sanitiseReferenceId(referenceId) {
+		return referenceId.replaceAll('/', '_');
 	}
 
 	checkForSavingErrors(req, section, journey) {
