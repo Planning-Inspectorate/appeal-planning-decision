@@ -25,7 +25,13 @@ const DOCUMENT_TYPE = {
 };
 class TestJourney extends Journey {
 	constructor(response) {
-		super(`${mockBaseUrl}/${mockRef}`, response, mockTemplateUrl, 'mock path', 'mock title');
+		super(
+			`${mockBaseUrl}/${encodeURIComponent(mockRef)}`,
+			response,
+			mockTemplateUrl,
+			'mock path',
+			'mock title'
+		);
 
 		this.sections = [
 			{
@@ -55,7 +61,7 @@ class TestJourney extends Journey {
 const res = mockRes();
 const mockBaseUrl = '/manage-appeals/questionnaire';
 const mockTemplateUrl = 'template.njk';
-const mockRef = '123456';
+let mockRef;
 const mockJourneyId = '654321';
 const mockSection = {
 	name: '123',
@@ -102,6 +108,7 @@ describe('MultiFileUploadQuestion', () => {
 
 	beforeEach(() => {
 		jest.resetAllMocks();
+		mockRef = '123456';
 		mockResponse = {
 			referenceId: mockRef,
 			journeyId: mockJourneyId,
@@ -162,23 +169,36 @@ describe('MultiFileUploadQuestion', () => {
 	});
 
 	describe('formatAnswerForSummary', () => {
-		it('should return a single file name if one file uploaded', async () => {
+		it('should return a single file name and download link if one file uploaded', async () => {
 			const question = getMultiFileUpload();
 			const answer = {
 				uploadedFiles: [mockUploadedFile]
 			};
-			const expectedResult = 'test.png</br>';
-			const result = question.formatAnswerForSummary(answer);
+			const journeyResponse = {
+				journeyId: '654321',
+				referenceId: 'APP/Q9999/W/22/3221288'
+			};
+			const sanitisedReferenceId = 'APP_Q9999_W_22_3221288';
+
+			const expectedResult = `<a href="/document/${journeyResponse.journeyId}:${sanitisedReferenceId}/${mockUploadedFile.id}" class="govuk-link">${mockUploadedFile.originalFileName}</a> </br>`;
+			const result = question.formatAnswerForSummary(answer, journeyResponse);
 			expect(result).toEqual(expectedResult);
 		});
 
-		it('should return a list of file names if multiple files are uploaded', async () => {
+		it('should return a list of file names and download links if multiple files are uploaded', async () => {
 			const question = getMultiFileUpload();
 			const answer = {
 				uploadedFiles: [mockUploadedFile, mockUploadedFile]
 			};
-			const expectedResult = 'test.png</br>test.png</br>';
-			const result = question.formatAnswerForSummary(answer);
+			const journeyResponse = {
+				journeyId: '123456',
+				referenceId: '789-123'
+			};
+
+			const url = `<a href="/document/${journeyResponse.journeyId}:${journeyResponse.referenceId}/${mockUploadedFile.id}" class="govuk-link">${mockUploadedFile.originalFileName}</a> </br>`;
+			const expectedResult = url + url;
+
+			const result = question.formatAnswerForSummary(answer, journeyResponse);
 			expect(result).toEqual(expectedResult);
 		});
 	});
@@ -214,6 +234,15 @@ describe('MultiFileUploadQuestion', () => {
 		});
 
 		it('works with a singular file', async () => {
+			mockRef = 'APP/Q9999/W/22/3221288';
+
+			mockResponse = {
+				referenceId: mockRef,
+				journeyId: mockJourneyId,
+				answers: {}
+			};
+			mockJourney = new TestJourney(mockResponse);
+
 			const fileUploaded = {
 				name: 'data'
 			};
@@ -221,6 +250,9 @@ describe('MultiFileUploadQuestion', () => {
 				[FIELDNAME]: fileUploaded
 			};
 			req.body = {};
+
+			const encodedReferenceId = encodeURIComponent(mockResponse.referenceId);
+			const sanitisedResponse = mockResponse.referenceId.replaceAll('/', '_');
 
 			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
 
@@ -230,7 +262,7 @@ describe('MultiFileUploadQuestion', () => {
 
 			expect(createDocument).toHaveBeenCalledWith(
 				{
-					id: `${mockJourneyId}:${mockRef}`,
+					id: `${mockJourneyId}:${sanitisedResponse}`,
 					referenceNumber: mockRef
 				},
 				fileUploaded,
@@ -238,7 +270,7 @@ describe('MultiFileUploadQuestion', () => {
 				DOCUMENT_TYPE.name
 			);
 
-			expect(patchQuestionResponse).toHaveBeenCalledWith(mockJourneyId, mockRef, {
+			expect(patchQuestionResponse).toHaveBeenCalledWith(mockJourneyId, encodedReferenceId, {
 				answers: {
 					files: {
 						uploadedFiles: [mockUploadedFile]
@@ -246,7 +278,7 @@ describe('MultiFileUploadQuestion', () => {
 				}
 			});
 			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
+				`/manage-appeals/questionnaire/${encodedReferenceId}/segment-1/title-1b`
 			);
 		});
 
