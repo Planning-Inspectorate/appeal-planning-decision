@@ -140,7 +140,7 @@ exports.list = async (req, res) => {
 			const value = question.formatAnswerForSummary(answer, journeyResponse);
 			const action = {
 				href: journey.getCurrentQuestionUrl(section.segment, question.fieldName),
-				text: 'Answer',
+				text: typeof answer === 'undefined' || answer === null ? 'Answer' : 'Change',
 				visuallyHiddenText: question.question
 			};
 

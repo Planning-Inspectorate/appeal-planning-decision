@@ -105,7 +105,11 @@ class TestJourney extends Journey {
 
 const mockResponse = {
 	referenceId: mockRef,
-	answers: {}
+	answers: {
+		'title-1a': 'yes',
+		'title-2a': null,
+		'title-2b': undefined
+	}
 };
 
 let mockJourney;
@@ -433,7 +437,7 @@ const _getmockSummaryListData = (mockJourney) => {
 								items: [
 									{
 										href: `${mockBaseUrl}/${mockRef}/${mockJourney.sections[0].segment}/${mockJourney.sections[0].questions[0].fieldName}`,
-										text: 'Answer',
+										text: 'Change',
 										visuallyHiddenText: mockJourney.sections[0].questions[0].question
 									}
 								]
