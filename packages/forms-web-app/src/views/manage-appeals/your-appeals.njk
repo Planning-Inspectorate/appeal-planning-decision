@@ -37,7 +37,10 @@
             {% for item in appealsCaseData %}
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">
-                  <a href="{{appealDetailsLink}}/{{item.caseReferenceSlug}}" class="govuk-link">{{item.caseReference}}</a>
+                  <a href="{{appealDetailsLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                    <span class="govuk-visually-hidden">Appeal details for </span>
+                   {{item.caseReference}}
+                  </a>
                 </td>
                 <td class="govuk-table__cell">{{item.LPAApplicationReference}}</td>
                 <td class="govuk-table__cell">{{item.questionnaireDueDate | date('D MMMM YYYY') }}</td>
@@ -55,7 +58,10 @@
                 </td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">
                    {% if showQuestionnaire %} 
-                      <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">Questionnaire</a>
+                      <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                        Questionnaire
+                        <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
+                      </a>
                    {% endif %}
                 </td>
               </tr>
