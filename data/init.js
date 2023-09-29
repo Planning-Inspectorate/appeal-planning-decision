@@ -34,6 +34,12 @@ async function getConnection() {
 	return db;
 }
 
+function isValidYearFormat(input) {
+	// checks string starts with "YYYY-MM-DD" format
+	const dateFormatRegex = /^\d{4}-\d{2}-\d{2}/;
+	return dateFormatRegex.test(input);
+}
+
 module.exports = async function main(log = true) {
 	const connection = await getConnection();
 
@@ -106,7 +112,7 @@ module.exports = async function main(log = true) {
 					}
 					if (name !== 'appealsCaseData') {
 						Object.keys(item).forEach(function (key) {
-							if (typeof item[key] === 'string') {
+							if (typeof item[key] === 'string' && isValidYearFormat(item[key])) {
 								const parsedDate = parseISO(item[key]);
 								if (isValid(parsedDate)) {
 									item[key] = parsedDate;
