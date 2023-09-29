@@ -86,7 +86,7 @@ describe('appeals-case-data', () => {
 
 		expect(l2440response.status).toBe(200);
 		expect(l2440response.body.length).toEqual(2);
-		expect(l2440response.body[1].caseReferenceSlug).toBe('%2F%40%2F1');
+		expect(l2440response.body[0].caseReferenceSlug).toBe('%2F%40%2F1');
 	});
 
 	it('should 404 if no LPA code', async () => {
