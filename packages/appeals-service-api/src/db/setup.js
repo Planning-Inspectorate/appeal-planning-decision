@@ -91,12 +91,24 @@ async function setupDocumentMetadataIndexes() {
 	}
 }
 
+async function setupListedBuildingIndexes() {
+	try {
+		const collection = mongodb.get().collection('listedBuilding');
+
+		await collection.createIndex({ reference: 1 }, { unique: true });
+	} catch (err) {
+		logger.error(err, `Error: error setting up listedBuilding indexes in mongo`);
+		throw err;
+	}
+}
+
 async function setupIndexes() {
 	try {
 		await setupLpaIndexes();
 		await setupUserIndexes();
 		await setupAppealCaseDataIndexes();
 		await setupDocumentMetadataIndexes();
+		await setupListedBuildingIndexes();
 	} catch (err) {
 		logger.error(err, `Error: error setting up indexes in mongo`);
 	}
