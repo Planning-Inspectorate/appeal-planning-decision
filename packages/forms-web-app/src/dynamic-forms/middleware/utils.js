@@ -18,7 +18,9 @@ function getAddMoreIfPresent(req, questionObj) {
 	if (!req.body[questionObj.fieldName]) {
 		if (
 			Object.getOwnPropertyNames(req.body).find(
-				(prop) => prop === questionObj.subQuestion.fieldName
+				(prop) =>
+					prop === questionObj.subQuestion.fieldName ||
+					prop.includes(questionObj.subQuestion.fieldName)
 			)
 		) {
 			questionObj = questionObj.subQuestion;

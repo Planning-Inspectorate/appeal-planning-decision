@@ -48,8 +48,6 @@ class Question {
 	fieldName;
 	/** @type {boolean} if the question should appear in the journey overview task list or not */
 	taskList;
-	/** @type {function|undefined} function that customises the formatting of the question in the task list */
-	format;
 	/** @type {Array.<BaseValidator>} array of validators that a question uses to validate answers */
 	validators = [];
 	/** @type {string|undefined} hint text displayed to user */
@@ -304,6 +302,15 @@ class Question {
 			visuallyHiddenText: this.question
 		};
 		return action;
+	}
+
+	/**
+	 *
+	 * @param {Object.<Any>} answer
+	 * @returns The formatted address to be presented in the UI
+	 */
+	format(answer) {
+		return answer;
 	}
 
 	NOT_STARTED = 'Not started';

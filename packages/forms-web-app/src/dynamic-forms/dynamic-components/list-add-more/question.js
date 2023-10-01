@@ -29,6 +29,7 @@ class ListAddMoreQuestion extends Question {
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {string} [params.subQuestionLabel]
+	 * @param {string} [params.width]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 */
 	constructor({
@@ -40,7 +41,8 @@ class ListAddMoreQuestion extends Question {
 		pageTitle,
 		description,
 		subQuestionLabel,
-		validators
+		validators,
+		width
 	}) {
 		super({
 			title,
@@ -59,8 +61,10 @@ class ListAddMoreQuestion extends Question {
 
 		this.subQuestion = subQuestion;
 		this.subQuestionLabel = subQuestionLabel ?? 'Answer';
+		this.width = width ?? this.TWO_THIRDS_WIDTH;
 	}
-
+	static FULL_WIDTH = 'govuk-grid-column-full';
+	static TWO_THIRDS_WIDTH = 'govuk-grid-column-two-thirds';
 	/**
 	 * Answers to the question
 	 * @param {Object} answers
@@ -115,11 +119,11 @@ class ListAddMoreQuestion extends Question {
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
 		let rowParams = [];
-		for (let i = 0; i < answer.length; i++) {
+		for (let i = 0; i < answer?.length; i++) {
 			const action = this.getAction(sectionSegment, journey);
 			rowParams.push({
 				key: `${this.subQuestionLabel} ${i + 1}`,
-				value: answer[i].value,
+				value: this.subQuestion.format(answer[i].value),
 				action: action
 			});
 		}
@@ -157,7 +161,7 @@ class ListAddMoreQuestion extends Question {
 			const answer = answers[item];
 			addMoreAnswers.push({
 				label: `${this.subQuestionLabel} ${i}`,
-				answer: answer.value,
+				answer: this.subQuestion.format(answer.value),
 				removeLink:
 					journey.getCurrentQuestionUrl(section.segment, this.fieldName) + '/' + answer.addMoreId
 			});
@@ -220,7 +224,9 @@ class ListAddMoreQuestion extends Question {
 		let isAddMorePage = true;
 		if (!req.body[this.fieldName]) {
 			if (
-				Object.getOwnPropertyNames(req.body).find((prop) => prop === this.subQuestion.fieldName)
+				Object.getOwnPropertyNames(req.body).find(
+					(prop) => prop === this.subQuestion.fieldName || prop.includes(this.subQuestion.fieldName)
+				)
 			) {
 				isAddMorePage = false;
 			}

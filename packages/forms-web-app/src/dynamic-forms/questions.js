@@ -12,8 +12,10 @@ const BooleanTextQuestion = require('./dynamic-components/boolean-text/question'
 const RequiredValidator = require('./validator/required-validator');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
 const MultifileUploadValidator = require('./validator/multifile-upload-validator');
+const AddressValidator = require('./validator/address-validator');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const AddMoreQuestion = require('./dynamic-components/add-more/question');
+const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
 const IdentifierQuestion = require('./dynamic-components/identifier/question');
 const StringEntryValidator = require('./validator/string-validator');
 
@@ -200,6 +202,22 @@ exports.questions = {
 		fieldName: 'inspector-visit-neighbour', //The name of the html input field / stem of the name for screens with multiple fields
 		validators: [new RequiredValidator()]
 	}),
+	neighbouringSitesToBeVisited: new ListAddMoreQuestion({
+		title: 'Neighbour added',
+		question: 'Do you want to add another neighbour to be visited?',
+		fieldName: 'neighbouring-site-visits',
+		url: 'neighbours',
+		subQuestionLabel: 'Neighbour',
+		width: ListAddMoreQuestion.FULL_WIDTH,
+		validators: [new RequiredValidator()],
+		subQuestion: new AddressAddMoreQuestion({
+			title: 'Tell us the address of the neighbour’s land or property',
+			question: 'Tell us the address of the neighbour’s land or property',
+			fieldName: 'neighbour-site-address',
+			validators: [new AddressValidator()],
+			viewFolder: 'address-entry'
+		})
+	}),
 	potentialSafetyRisks: new BooleanTextQuestion({
 		title: 'Potential safety risks',
 		question: 'Add potential safety risks',
@@ -237,13 +255,13 @@ exports.questions = {
 		question: 'Add another appeal?',
 		fieldName: 'other-appeals-references',
 		url: 'nearby-appeals-list',
-		subQuestionLabel: 'Appeal ',
+		subQuestionLabel: 'Appeal',
 		validators: [new RequiredValidator()],
 		subQuestion: new AddMoreQuestion({
 			title: 'Enter an appeal reference number',
 			question: 'Enter an appeal reference number',
 			fieldName: 'other-appeal-reference',
-			hint: 'Enter an appeal reference number',
+			hint: 'You can add more appeals later if there is more than one nearby',
 			validators: [new RequiredValidator()],
 			viewFolder: 'identifier'
 		})

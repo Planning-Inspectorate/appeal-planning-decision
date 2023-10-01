@@ -35,6 +35,20 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 		});
 		return { addMoreId: uuid.v4(), value: address };
 	}
+
+	/**
+	 *
+	 * @param {Object.<Any>} answer
+	 * @returns The formatted address to be presented in the UI
+	 */
+	format(answer) {
+		let addressString = '';
+		addressString += `${answer.addressLine1}, `;
+		addressString += answer.addressLine2 ? `${answer.addressLine2}, ` : ``;
+		addressString += `${answer.townCity}, `;
+		addressString += answer.postcode ? `${answer.postcode} ` : ``;
+		return addressString;
+	}
 }
 
 module.exports = AddressAddMoreQuestion;
