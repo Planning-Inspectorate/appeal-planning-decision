@@ -1,4 +1,5 @@
 const ApiError = require('./apiError');
+const logger = require('../lib/logger');
 
 // eslint-disable-next-line no-unused-vars
 function apiErrorHandler(err, req, res, next) {
@@ -9,6 +10,8 @@ function apiErrorHandler(err, req, res, next) {
 		};
 		return res.status(err.code).json(errorMessage);
 	}
+
+	logger.error(err);
 	return res.status(500).json('Unexpected internal server error while handling API call');
 }
 
