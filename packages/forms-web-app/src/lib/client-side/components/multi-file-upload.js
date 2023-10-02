@@ -203,7 +203,7 @@ function multiFileUpload(document, container) {
 								type="button"
 								name="delete"
 							>
-								${LABELS.addedFileDeleteButtonText}
+								${LABELS.addedFileDeleteButtonText} <span class="govuk-visually-hidden"> ${file.name} </span>
 							</button>
 						</div>
 					</li>
