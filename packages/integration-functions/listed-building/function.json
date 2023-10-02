@@ -1,0 +1,15 @@
+{
+	"bindings": [
+		{
+			"name": "listedBuilding",
+			"type": "serviceBusTrigger",
+			"direction": "in",
+			"topicName": "listed-building",
+			"subscriptionName": "listed-building-subscription",
+			"connection": "ServiceBusConnection",
+			"cardinality": "many",
+			"autoComplete": true
+		}
+	],
+	"disabled": false
+}
