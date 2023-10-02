@@ -14,6 +14,14 @@ const RequiredFileUploadValidator = require('./validator/required-file-upload-va
 const MultifileUploadValidator = require('./validator/multifile-upload-validator');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const AddMoreQuestion = require('./dynamic-components/add-more/question');
+const IdentifierQuestion = require('./dynamic-components/identifier/question');
+const StringEntryValidator = require('./validator/string-validator');
+
+const {
+	validation: {
+		stringValidation: { listedBuildingNumber: listedBuildingNumberValidation }
+	}
+} = require('../../src/config');
 
 // Define all questions
 exports.questions = {
@@ -29,11 +37,13 @@ exports.questions = {
 		fieldName: 'affects-listed-building',
 		validators: [new RequiredValidator()]
 	}),
-	listedBuildingNumber: new BooleanQuestion({
-		title: 'Listed 1',
-		question: '*************placeholder**************',
+	listedBuildingNumber: new IdentifierQuestion({
+		title: 'Tell us the list entry number',
+		pageHeading: 'Tell us the list entry number',
+		question: 'Seven digit number',
 		fieldName: 'listed-building-number',
-		validators: [new RequiredValidator()]
+		html: 'resources/listed-building-number/content.html',
+		validators: [new StringEntryValidator(listedBuildingNumberValidation)]
 	}),
 	// listedBuildingDetail: {
 	// 	title: 'Listed buildings',
