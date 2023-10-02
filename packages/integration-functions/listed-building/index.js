@@ -18,7 +18,7 @@ module.exports = async function (context, msg) {
 async function processListedBuilding(listedBuildingMessages) {
 	const APPEALS_CASE_DATA_URL = `https://${process.env.FO_APPEALS_API}/listed-buildings`;
 	await got
-		.post(APPEALS_CASE_DATA_URL, {
+		.put(APPEALS_CASE_DATA_URL, {
 			json: listedBuildingMessages
 		})
 		.json();
