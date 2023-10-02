@@ -14,7 +14,7 @@ describe('listed-building-fo-integration', () => {
 
 	beforeEach(async () => {
 		jest.clearAllMocks();
-		got.post.mockImplementation(() => {
+		got.put.mockImplementation(() => {
 			return {
 				json: jest.fn()
 			};
@@ -27,7 +27,7 @@ describe('listed-building-fo-integration', () => {
 		await run(ctx, msg);
 
 		expect(ctx.log).toHaveBeenCalledWith('Handle listed building message', msg);
-		expect(got.post).toHaveBeenCalledWith(`https://undefined/listed-building`, { json: msg });
+		expect(got.put).toHaveBeenCalledWith(`https://undefined/listed-building`, { json: msg });
 	});
 
 	it('should send single message to api as an array', async () => {
@@ -36,6 +36,6 @@ describe('listed-building-fo-integration', () => {
 		await run(ctx, msg);
 
 		expect(ctx.log).toHaveBeenCalledWith('Handle listed building message', msg);
-		expect(got.post).toHaveBeenCalledWith(`https://undefined/listed-building`, { json: [msg] });
+		expect(got.put).toHaveBeenCalledWith(`https://undefined/listed-building`, { json: [msg] });
 	});
 });

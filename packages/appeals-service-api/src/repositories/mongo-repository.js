@@ -117,6 +117,39 @@ class MongoRepository {
 
 	/**
 	 *
+	 * @param {string} filterProp the property on the colection to filter on
+	 * @param {any[]} updateOperations Mongo JSON structures that represent update operations. Their
+	 * structure should be:
+	 * {
+	 * 	filterProp: <the property to filter on with the same name as the filterProp param>,
+	 *  updateSet: the updates you want to be commited via $set (see https://www.mongodb.com/docs/manual/reference/operator/update/set/)
+	 * }
+	 * @returns
+	 */
+	async upsertManyByProp(filterProp, updateOperations) {
+		if (!filterProp) {
+			throw new Error('No filterProp to update on passed to upsertManyByProp');
+		}
+
+		const updates = updateOperations.map((updateOneOperation) => {
+			return {
+				updateOne: {
+					filter: {
+						[filterProp]: updateOneOperation[filterProp]
+					},
+					update: {
+						$set: updateOneOperation.updateSet
+					},
+					upsert: true
+				}
+			};
+		});
+
+		return await mongodb.get().collection(this.collectionName).bulkWrite(updates);
+	}
+
+	/**
+	 *
 	 * @param {string[]} ids
 	 * @returns
 	 */
