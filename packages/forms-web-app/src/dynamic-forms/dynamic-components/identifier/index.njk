@@ -37,10 +37,18 @@
                         {% include question.html ignore missing %}
                     {% endif %}
 
-                    {{ govukLabel({
-                        text: question.question,
-                        for: question.fieldName
-                    }) }}
+                    {{ govukInput({
+                        label: {
+                            text: question.question
+                        },
+                        id: question.fieldName,
+                        name: question.fieldName,
+                        hint: { text: question.hint },
+                        errorMessage: errors[question.fieldName] and {
+                            text: errors[question.fieldName].msg
+                        },
+                    classes: question.inputClasses
+                }) }}
                 {% else %}
                     {{ govukLabel({
                         text: question.question,
@@ -51,19 +59,20 @@
 
                     {% if question.html %}
                         {% include question.html ignore missing %}
-                    {% endif %}
-                {% endif %}
+                    {% endif %} 
+                    
+                    {{ govukInput({
+                        id: question.fieldName,
+                        name: question.fieldName,
+                        hint: { text: question.hint },
+                        errorMessage: errors[question.fieldName] and {
+                            text: errors[question.fieldName].msg
+                        },
+                        classes: question.inputClasses
+                    }) }}
 
-                {{ govukInput({
-                    id: question.fieldName,
-                    name: question.fieldName,
-                    hint: { text: question.hint },
-                    errorMessage: errors[question.fieldName] and {
-                        text: errors[question.fieldName].msg
-                    },
-                    classes: question.inputClasses
-                }) }}
-                
+                {% endif %}
+ 
                 {{ govukButton({
                     text: "Continue",
                     type: "submit",

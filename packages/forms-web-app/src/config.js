@@ -90,6 +90,22 @@ module.exports = {
 				postcodeMaxLength: process.env.POSTCODE_MAX_LENGTH || 16,
 				postcodeMinLength: process.env.POSTCODE_MIN_LENGTH || 0
 			}
+		},
+		stringValidation: {
+			listedBuildingNumber: {
+				regex: {
+					regex: '^[0-9]{7}$',
+					regexMessage: 'You must provide a valid number'
+				},
+				maxLength: {
+					maxLength: 7,
+					maxLengthMessage: 'You must provide a valid number'
+				},
+				minLength: {
+					minLength: 1,
+					minLengthMessage: 'Enter a valid number'
+				}
+			}
 		}
 	},
 	featureFlagging: {
