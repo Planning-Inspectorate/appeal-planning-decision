@@ -1,4 +1,4 @@
-//const nunjucks = require('nunjucks');
+const nunjucks = require('nunjucks');
 const Question = require('./question');
 
 const ValidOptionValidator = require('./validator/valid-option-validator');
@@ -93,18 +93,20 @@ class OptionsQuestion extends Question {
 				optionData.checked = (',' + answer + ',').includes(',' + optionData.value + ',');
 			}
 
-			// also need to handle dependent fields & set their answers
-			// if (optionData.conditional !== undefined) {
-			// 	let conditionalField = { ...optionData.conditional };
-			// 	conditionalField.fieldName = this.fieldName + '_' + conditionalField.fieldName;
-			// 	conditionalField.value = journey.response.answers[conditionalField.fieldName] || '';
-			// 	optionData.conditional = {
-			// 		html: nunjucks.render(
-			// 			`../views/questions/conditional/${conditionalField.type}.njk`,
-			// 			conditionalField
-			// 		)
-			// 	};
-			// }
+			// handle conditional (dependant) fields & set their answers
+			if (optionData.conditional !== undefined) {
+				let conditionalField = { ...optionData.conditional };
+
+				conditionalField.fieldName = this.fieldName + '_value';
+				conditionalField.value = journey.response.answers[conditionalField.fieldName] || '';
+
+				optionData.conditional = {
+					html: nunjucks.render(
+						`./dynamic-components/conditional/${conditionalField.type}.njk`,
+						conditionalField
+					)
+				};
+			}
 
 			viewModel.question.options.push(optionData);
 		}
