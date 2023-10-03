@@ -307,7 +307,7 @@ class Question {
 	/**
 	 *
 	 * @param {Object.<Any>} answer
-	 * @returns The formatted address to be presented in the UI
+	 * @returns The formatted value to be presented in the UI
 	 */
 	format(answer) {
 		return answer;
