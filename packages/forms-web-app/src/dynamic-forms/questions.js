@@ -266,10 +266,28 @@ exports.questions = {
 			viewFolder: 'identifier'
 		})
 	}),
-	addNewConditions: new BooleanQuestion({
-		title: 'Add new conditions',
-		question: 'Do you want to add new planning conditions to this appeal?',
-		fieldName: 'new-planning-conditions'
+	addNewConditions: new BooleanTextQuestion({
+		title: 'Add new conditions', // this is summary list title
+		question: 'Add new planning conditions to this appeal', // this text is the page heading
+		description: 'These are additional to the standard planning conditions we would expect to see.',
+		fieldName: 'new-planning-conditions',
+		html: 'resources/new-planning-conditions/content.html',
+		label: 'Are there any new conditions?',
+		validators: [new RequiredValidator()], // todo: new BooleanTestValidator() aapd-393
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Tell us about the new conditions',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
 	})
 	// /*S78 questions */
 	// rightOfWayCheck: new BooleanQuestion({

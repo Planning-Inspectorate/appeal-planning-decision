@@ -6,19 +6,23 @@
 {% from "govuk/components/textarea/macro.njk" import govukTextarea %}
 
 {% set title = question.pageTitle + " - " + journeyTitle + " - GOV.UK" %}
-{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
-{% if question.conditional %}
-  {% set conditionalDetails %}
-    {{ govukTextarea({
-      name: question.conditionalId,
-      id: question.conditionalId,
-      label: {
-        text: question.conditional
-      }
-    }) }}
-  {% endset %}
-{% endif %}
+{% set options = [] %}
+
+{% for option in question.options %}
+  {% set options = (options.push({
+    value: option.value,
+    text: option.text,
+    attributes: { "data-cy": "answer-" + option.value },
+    checked: answer == option.value,      
+    conditional: {
+      html: option.conditional.html,
+      value: option.conditional.fieldName
+    }
+  }), options) %}
+{% endfor %}
+
+{% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block before_content %}
   <div class="govuk-grid-row">
@@ -41,6 +45,9 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">{{question.question}}</h1>
       <p class="govuk-body">{{question.description}}</p>
+      {% if question.html %}
+        {% include question.html ignore missing %}
+      {% endif %}
       <form action="" method="post" novalidate>
         {{ govukRadios({
           classes: "govuk-radios",
@@ -51,28 +58,12 @@
           },
           fieldset: {
             legend: {
-              text: question.subQuestion,
+              text: question.label,
               isPageHeading: true,
               classes: "govuk-fieldset__legend--m"
             }
           },
-          items: [
-            {
-              value: "yes",
-              text: "Yes",
-              attributes: { "data-cy": "answer-yes" },
-              checked: answer == "yes",
-              conditional: {
-                html: conditionalDetails
-              }
-            },
-            {
-              value: "no",
-              text: "No",
-              attributes: { "data-cy": "answer-no" },
-              checked: answer == "no"
-            }
-          ]
+          items: options
         }) }}
         {{ govukButton({
           text: "Continue",

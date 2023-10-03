@@ -1,5 +1,8 @@
 const OptionsQuestion = require('./options-question');
 const ValidOptionValidator = require('./validator/valid-option-validator');
+const nunjucks = require('nunjucks');
+
+jest.mock('nunjucks');
 
 describe('./src/dynamic-forms/question.js', () => {
 	const TITLE = 'Question1';
@@ -94,6 +97,114 @@ describe('./src/dynamic-forms/question.js', () => {
 						question: question.question,
 						options: expectedData.options
 					})
+				})
+			);
+		});
+
+		it('should handle conditional fields in options', () => {
+			nunjucks.render.mockReturnValue('</p>test html</p>');
+			const type = 'textarea';
+			const options = [
+				{
+					text: 'Yes',
+					value: 'yes',
+					conditional: {
+						question: 'a question',
+						type: type
+					}
+				},
+				{
+					text: 'No',
+					value: 'no'
+				}
+			];
+
+			const question = getTestQuestion({ options: options });
+
+			// use deep copy of options
+			const expectedData = JSON.parse(JSON.stringify({ options: options }));
+			expectedData.options[0].checked = false;
+			expectedData.options[0].conditional = { html: '</p>test html</p>' };
+			expectedData.options[1].checked = false;
+
+			const journey = {
+				response: {
+					answers: {}
+				},
+				getNextQuestionUrl: jest.fn()
+			};
+
+			const customViewData = { hello: 'hi' };
+			const result = question.prepQuestionForRendering({}, journey, customViewData);
+
+			expect(nunjucks.render).toHaveBeenCalledWith(`./dynamic-components/conditional/${type}.njk`, {
+				fieldName: `${FIELDNAME}_value`,
+				question: options[0].conditional.question,
+				type: type,
+				value: ''
+			});
+
+			expect(result).toEqual(
+				expect.objectContaining({
+					question: expect.objectContaining({
+						question: question.question,
+						options: expectedData.options
+					}),
+					hello: 'hi'
+				})
+			);
+		});
+
+		it('should handle existing entered values correctly for conditional field', () => {
+			nunjucks.render.mockReturnValue('</p>test html</p>');
+			const type = 'text';
+			const value = 'some text';
+			const options = [
+				{
+					text: 'Yes',
+					value: 'yes',
+					conditional: {
+						question: 'another question',
+						type: 'text'
+					}
+				},
+				{
+					text: 'No',
+					value: 'no'
+				}
+			];
+
+			const question = getTestQuestion({ options: options });
+
+			// use deep copy of options
+			const expectedData = JSON.parse(JSON.stringify({ options: options }));
+			expectedData.options[0].checked = true;
+			expectedData.options[0].conditional = { html: '</p>test html</p>' };
+			expectedData.options[1].checked = false;
+
+			const journey = {
+				response: {
+					answers: { [question.fieldName]: 'yes', [`${question.fieldName}_value`]: value }
+				},
+				getNextQuestionUrl: jest.fn()
+			};
+
+			const customViewData = { hello: 'hi' };
+			const result = question.prepQuestionForRendering({}, journey, customViewData);
+
+			expect(nunjucks.render).toHaveBeenCalledWith(`./dynamic-components/conditional/${type}.njk`, {
+				fieldName: `${FIELDNAME}_value`,
+				question: options[0].conditional.question,
+				type: type,
+				value: value
+			});
+			expect(result).toEqual(
+				expect.objectContaining({
+					question: expect.objectContaining({
+						question: question.question,
+						options: expectedData.options
+					}),
+					hello: 'hi'
 				})
 			);
 		});
