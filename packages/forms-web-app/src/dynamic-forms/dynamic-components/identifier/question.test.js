@@ -12,7 +12,7 @@ describe('./src/dynamic-forms/dynamic-components/identifier/question.js', () => 
 		const HTML = '/path/to/html.njk';
 		const HINT = 'hint';
 		const INPUT_CLASSES = 'govuk-body';
-		const PAGE_HEADING = 'A Heading';
+		const LABEL = 'A label';
 
 		const question = new IdentifierQuestion({
 			title: TITLE,
@@ -25,7 +25,7 @@ describe('./src/dynamic-forms/dynamic-components/identifier/question.js', () => 
 			html: HTML,
 			hint: HINT,
 			inputClasses: INPUT_CLASSES,
-			pageHeading: PAGE_HEADING
+			label: LABEL
 		});
 
 		expect(question.title).toEqual(TITLE);
@@ -39,6 +39,6 @@ describe('./src/dynamic-forms/dynamic-components/identifier/question.js', () => 
 		expect(question.html).toEqual(HTML);
 		expect(question.hint).toEqual(HINT);
 		expect(question.inputClasses).toEqual(INPUT_CLASSES);
-		expect(question.pageHeading).toEqual(PAGE_HEADING);
+		expect(question.label).toEqual(LABEL);
 	});
 });

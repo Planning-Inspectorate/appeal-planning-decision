@@ -41,8 +41,8 @@ exports.questions = {
 	}),
 	listedBuildingNumber: new IdentifierQuestion({
 		title: 'Tell us the list entry number',
-		pageHeading: 'Tell us the list entry number',
-		question: 'Seven digit number',
+		question: 'Tell us the list entry number',
+		label: 'Seven digit number',
 		fieldName: 'listed-building-number',
 		html: 'resources/listed-building-number/content.html',
 		validators: [new StringEntryValidator(listedBuildingNumberValidation)]
@@ -271,18 +271,6 @@ exports.questions = {
 		question: 'Do you want to add new planning conditions to this appeal?',
 		fieldName: 'new-planning-conditions'
 	})
-	// exampleAddMoreQuestion: new ListAddMoreQuestion({
-	// 	title: 'Add More',
-	// 	question: 'Add more?',
-	// 	fieldName: 'add-more',
-	// 	validators: [new RequiredValidator()],
-	// 	subQuestion: new IdentifierQuestion({
-	// 		title: 'Sub',
-	// 		question: 'sub?',
-	// 		fieldName: 'sub-question',
-	// 		validators: [new RequiredValidator()]
-	// 	})
-	// })
 	// /*S78 questions */
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
