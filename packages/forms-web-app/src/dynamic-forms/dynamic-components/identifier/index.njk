@@ -28,9 +28,9 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">  
             <form action="" method="post" novalidate>
-                {% if question.pageHeading %}
+                {% if question.label %}
                     <h1 class="govuk-heading-l">
-                        {{question.pageHeading}}
+                        {{question.question}}
                     </h1>
 
                     {% if question.html %}
@@ -39,7 +39,7 @@
 
                     {{ govukInput({
                         label: {
-                            text: question.question
+                            text: question.label
                         },
                         id: question.fieldName,
                         name: question.fieldName,

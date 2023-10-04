@@ -16,8 +16,8 @@ class IdentifierQuestion extends Question {
 	 * @param {string} [params.description]
 	 * @param {string} [params.html]
 	 * @param {string} [params.hint]
-	 * @param {string} [params.inputClasses]
-	 * @param {string|undefined} [params.pageHeading]
+	 * @param {string} [params.inputClasses] css class string to be added to the input
+	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 */
 	constructor({
@@ -31,7 +31,7 @@ class IdentifierQuestion extends Question {
 		html,
 		hint,
 		inputClasses = 'govuk-input--width-10',
-		pageHeading
+		label
 	}) {
 		super({
 			title,
@@ -47,7 +47,7 @@ class IdentifierQuestion extends Question {
 		});
 
 		this.inputClasses = inputClasses;
-		this.pageHeading = pageHeading;
+		this.label = label;
 	}
 
 	/**
@@ -56,7 +56,7 @@ class IdentifierQuestion extends Question {
 	prepQuestionForRendering(section, journey, customViewData) {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 		viewModel.question.inputClasses = this.inputClasses;
-		viewModel.question.pageHeading = this.pageHeading;
+		viewModel.question.label = this.label;
 		return viewModel;
 	}
 }
