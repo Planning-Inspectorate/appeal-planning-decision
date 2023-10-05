@@ -8,15 +8,16 @@
 const CheckboxQuestion = require('./dynamic-components/checkbox/question');
 const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
 const BooleanQuestion = require('./dynamic-components/boolean/question');
-const BooleanTextQuestion = require('./dynamic-components/boolean-text/question');
-const RequiredValidator = require('./validator/required-validator');
-const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
-const MultifileUploadValidator = require('./validator/multifile-upload-validator');
-const AddressValidator = require('./validator/address-validator');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const AddMoreQuestion = require('./dynamic-components/add-more/question');
 const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
 const IdentifierQuestion = require('./dynamic-components/identifier/question');
+const RadioQuestion = require('./dynamic-components/radio/question');
+
+const RequiredValidator = require('./validator/required-validator');
+const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
+const MultifileUploadValidator = require('./validator/multifile-upload-validator');
+const AddressValidator = require('./validator/address-validator');
 const StringEntryValidator = require('./validator/string-validator');
 
 const {
@@ -218,7 +219,7 @@ exports.questions = {
 			viewFolder: 'address-entry'
 		})
 	}),
-	potentialSafetyRisks: new BooleanTextQuestion({
+	potentialSafetyRisks: new RadioQuestion({
 		title: 'Potential safety risks',
 		question: 'Add potential safety risks',
 		//subQuestion: 'Are there any potential safety risks?',
@@ -266,10 +267,11 @@ exports.questions = {
 			viewFolder: 'identifier'
 		})
 	}),
-	addNewConditions: new BooleanTextQuestion({
+	addNewConditions: new RadioQuestion({
 		title: 'Add new conditions', // this is summary list title
-		question: 'Add new planning conditions to this appeal', // this text is the page heading
+		question: 'Add new planning conditions to this appeal',
 		description: 'These are additional to the standard planning conditions we would expect to see.',
+		viewFolder: 'boolean-text',
 		fieldName: 'new-planning-conditions',
 		html: 'resources/new-planning-conditions/content.html',
 		label: 'Are there any new conditions?',

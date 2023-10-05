@@ -10,6 +10,8 @@ class RadioQuestion extends OptionsQuestion {
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
+	 * @param {string} [params.label]
+	 * @param {string} [params.html]
 	 * @param {Array.<import('../../options-question').Option>} params.options
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 */
@@ -21,6 +23,8 @@ class RadioQuestion extends OptionsQuestion {
 		url,
 		pageTitle,
 		description,
+		label,
+		html,
 		options,
 		validators
 	}) {
@@ -35,6 +39,18 @@ class RadioQuestion extends OptionsQuestion {
 			options,
 			validators
 		});
+
+		this.html = html;
+		this.label = label;
+	}
+
+	/**
+	 * adds label property to view model
+	 */
+	prepQuestionForRendering(section, journey, customViewData) {
+		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+		viewModel.question.label = this.label;
+		return viewModel;
 	}
 }
 

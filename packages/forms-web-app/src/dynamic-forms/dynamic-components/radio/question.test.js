@@ -1,13 +1,14 @@
 const ValidOptionValidator = require('../../validator/valid-option-validator');
-const BooleanTextQuestion = require('./question');
+const RadioQuestion = require('./question');
 const nunjucks = require('nunjucks');
 
 jest.mock('nunjucks');
 
-const TITLE = 'Boolean text question';
-const QUESTION = 'A boolean text question';
-const DESCRIPTION = 'A description of a boolean text question';
-const FIELDNAME = 'boolean-text-question';
+const TITLE = 'Radio question';
+const QUESTION = 'A radio question';
+const DESCRIPTION = 'A description of a radio question';
+const FIELDNAME = 'radio-question';
+const VIEWFOLDER = 'boolean-text';
 const HTML = 'some/html/path';
 const LABEL = 'a label';
 const OPTIONS = [
@@ -25,9 +26,9 @@ const OPTIONS = [
 	}
 ];
 
-describe('./src/dynamic-forms/dynamic-components/boolean/question.js', () => {
+describe('./src/dynamic-forms/dynamic-components/radio/question.js', () => {
 	it('should create', () => {
-		const booleanTextQuestion = new BooleanTextQuestion({
+		const radioQuestion = new RadioQuestion({
 			title: TITLE,
 			question: QUESTION,
 			description: DESCRIPTION,
@@ -37,25 +38,26 @@ describe('./src/dynamic-forms/dynamic-components/boolean/question.js', () => {
 			options: OPTIONS
 		});
 
-		expect(booleanTextQuestion.title).toEqual(TITLE);
-		expect(booleanTextQuestion.question).toEqual(QUESTION);
-		expect(booleanTextQuestion.description).toEqual(DESCRIPTION);
-		expect(booleanTextQuestion.fieldName).toEqual(FIELDNAME);
-		expect(booleanTextQuestion.html).toEqual(HTML);
-		expect(booleanTextQuestion.label).toEqual(LABEL);
-		expect(booleanTextQuestion.options).toEqual(OPTIONS);
-		expect(booleanTextQuestion.validators).toEqual([new ValidOptionValidator()]);
-		expect(booleanTextQuestion.viewFolder).toEqual('boolean-text');
+		expect(radioQuestion.title).toEqual(TITLE);
+		expect(radioQuestion.question).toEqual(QUESTION);
+		expect(radioQuestion.description).toEqual(DESCRIPTION);
+		expect(radioQuestion.fieldName).toEqual(FIELDNAME);
+		expect(radioQuestion.viewFolder).toEqual('radio');
+		expect(radioQuestion.html).toEqual(HTML);
+		expect(radioQuestion.label).toEqual(LABEL);
+		expect(radioQuestion.options).toEqual(OPTIONS);
+		expect(radioQuestion.validators).toEqual([new ValidOptionValidator()]);
 	});
 
 	it('should add label property to view model when preparing question for rendering', () => {
 		nunjucks.render.mockResolvedValue({});
 
-		const booleanTextQuestion = new BooleanTextQuestion({
+		const radioQuestion = new RadioQuestion({
 			title: TITLE,
 			question: QUESTION,
 			description: DESCRIPTION,
 			fieldName: FIELDNAME,
+			viewFolder: VIEWFOLDER,
 			html: HTML,
 			label: LABEL,
 			options: OPTIONS
@@ -81,7 +83,7 @@ describe('./src/dynamic-forms/dynamic-components/boolean/question.js', () => {
 
 		const customViewData = { hello: 'hi' };
 
-		const preppedQuestion = booleanTextQuestion.prepQuestionForRendering(
+		const preppedQuestion = radioQuestion.prepQuestionForRendering(
 			section,
 			journey,
 			customViewData
