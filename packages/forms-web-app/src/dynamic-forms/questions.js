@@ -280,6 +280,7 @@ exports.questions = {
 				value: 'yes',
 				conditional: {
 					question: 'Tell us about the new conditions',
+					fieldName: 'new-conditions-value',
 					type: 'textarea'
 				}
 			},

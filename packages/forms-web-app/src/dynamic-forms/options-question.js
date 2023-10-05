@@ -97,7 +97,7 @@ class OptionsQuestion extends Question {
 			if (optionData.conditional !== undefined) {
 				let conditionalField = { ...optionData.conditional };
 
-				conditionalField.fieldName = this.fieldName + '_value';
+				conditionalField.fieldName = this.fieldName + '_' + conditionalField.fieldName;
 				conditionalField.value = journey.response.answers[conditionalField.fieldName] || '';
 
 				optionData.conditional = {

@@ -110,7 +110,8 @@ describe('./src/dynamic-forms/question.js', () => {
 					value: 'yes',
 					conditional: {
 						question: 'a question',
-						type: type
+						type: type,
+						fieldName: 'another-field-name'
 					}
 				},
 				{
@@ -138,7 +139,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			const result = question.prepQuestionForRendering({}, journey, customViewData);
 
 			expect(nunjucks.render).toHaveBeenCalledWith(`./dynamic-components/conditional/${type}.njk`, {
-				fieldName: `${FIELDNAME}_value`,
+				fieldName: `${FIELDNAME}_${options[0].conditional.fieldName}`,
 				question: options[0].conditional.question,
 				type: type,
 				value: ''
@@ -165,7 +166,8 @@ describe('./src/dynamic-forms/question.js', () => {
 					value: 'yes',
 					conditional: {
 						question: 'another question',
-						type: 'text'
+						type: 'text',
+						fieldName: 'conditional-field-name'
 					}
 				},
 				{
@@ -184,7 +186,10 @@ describe('./src/dynamic-forms/question.js', () => {
 
 			const journey = {
 				response: {
-					answers: { [question.fieldName]: 'yes', [`${question.fieldName}_value`]: value }
+					answers: {
+						[question.fieldName]: 'yes',
+						[`${question.fieldName}_${options[0].conditional.fieldName}`]: value
+					}
 				},
 				getNextQuestionUrl: jest.fn()
 			};
@@ -193,7 +198,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			const result = question.prepQuestionForRendering({}, journey, customViewData);
 
 			expect(nunjucks.render).toHaveBeenCalledWith(`./dynamic-components/conditional/${type}.njk`, {
-				fieldName: `${FIELDNAME}_value`,
+				fieldName: `${FIELDNAME}_${options[0].conditional.fieldName}`,
 				question: options[0].conditional.question,
 				type: type,
 				value: value
