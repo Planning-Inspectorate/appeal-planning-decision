@@ -91,6 +91,9 @@ class OptionsQuestion extends Question {
 			let optionData = { ...option };
 			if (optionData.value !== undefined) {
 				optionData.checked = (',' + answer + ',').includes(',' + optionData.value + ',');
+				if (!optionData.attributes) {
+					optionData.attributes = { 'data-cy': 'answer-' + optionData.value };
+				}
 			}
 
 			// handle conditional (dependant) fields & set their answers

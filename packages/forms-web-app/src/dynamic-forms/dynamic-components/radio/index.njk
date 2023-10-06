@@ -5,22 +5,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set title = question.pageTitle + " - " + journeyTitle + " - GOV.UK" %}
-
-{% set options = [] %}
-
-{% for option in question.options %}
-  {% set options = (options.push({
-    value: option.value,
-    text: option.text,
-    attributes: { "data-cy": "answer-" + option.value },
-    checked: answer == option.value,      
-    conditional: {
-      html: option.conditional.html,
-      value: option.conditional.fieldName
-    }
-  }), options) %}
-{% endfor %}
-
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block before_content %}
@@ -62,7 +46,7 @@
               classes: "govuk-fieldset__legend--m"
             }
           },
-          items: options
+          items: question.options
         }) }}
         {{ govukButton({
           text: "Continue",
