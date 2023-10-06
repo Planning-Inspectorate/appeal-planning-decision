@@ -204,7 +204,8 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	neighbouringSitesToBeVisited: new ListAddMoreQuestion({
-		title: 'Neighbour added',
+		title: 'Inspector visit to neighbour',
+		pageTitle: 'Neighbour added',
 		question: 'Do you want to add another neighbour to be visited?',
 		fieldName: 'neighbouring-site-visits',
 		url: 'neighbours',

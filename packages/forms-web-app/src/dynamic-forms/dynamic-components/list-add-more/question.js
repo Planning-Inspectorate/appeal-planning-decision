@@ -297,8 +297,7 @@ class ListAddMoreQuestion extends Question {
 			await this.saveResponseToDB(journeyResponse, responseToSave);
 			journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
 		}
-
-		return journeyResponse;
+		return journeyResponse.answers[this.fieldName]?.length > 0 ? journeyResponse : true;
 	}
 }
 
