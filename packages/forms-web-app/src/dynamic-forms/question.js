@@ -118,7 +118,7 @@ class Question {
 	 * @param {Object|undefined} [customViewData] additional data to send to view
 	 * @returns {QuestionViewModel}
 	 */
-	prepQuestionForRendering(section, journey, customViewData) {
+	prepQuestionForRendering(section, journey, customViewData, payload) {
 		const answer = journey.response.answers[this.fieldName] || '';
 		const backLink = journey.getNextQuestionUrl(section.segment, this.fieldName, true);
 
@@ -141,6 +141,7 @@ class Question {
 			showBackToListLink: this.showBackToListLink,
 			listLink: journey.baseUrl,
 			journeyTitle: journey.journeyTitle,
+			payload,
 
 			...customViewData
 		};
@@ -201,10 +202,15 @@ class Question {
 		const { errors = {}, errorSummary = [] } = body;
 
 		if (Object.keys(errors).length > 0) {
-			return this.prepQuestionForRendering(sectionObj, journey, {
-				errors,
-				errorSummary
-			});
+			return this.prepQuestionForRendering(
+				sectionObj,
+				journey,
+				{
+					errors,
+					errorSummary
+				},
+				body
+			);
 		}
 
 		return;

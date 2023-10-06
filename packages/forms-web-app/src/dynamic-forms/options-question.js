@@ -2,6 +2,7 @@ const nunjucks = require('nunjucks');
 const Question = require('./question');
 
 const ValidOptionValidator = require('./validator/valid-option-validator');
+const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
 
 /**
  * @typedef {import('./question').QuestionViewModel} QuestionViewModel
@@ -80,10 +81,12 @@ class OptionsQuestion extends Question {
 	 * @param {Object|undefined} [customViewData] additional data to send to view
 	 * @returns {OptionsViewModel}
 	 */
-	prepQuestionForRendering(section, journey, customViewData) {
-		const answer = journey.response.answers[this.fieldName] || '';
+	prepQuestionForRendering(section, journey, customViewData, payload) {
+		const answer = payload
+			? payload[this.fieldName]
+			: journey.response.answers[this.fieldName] || '';
 
-		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+		const viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
 
 		viewModel.question.options = [];
 
@@ -100,14 +103,20 @@ class OptionsQuestion extends Question {
 			if (optionData.conditional !== undefined) {
 				let conditionalField = { ...optionData.conditional };
 
-				conditionalField.fieldName = this.fieldName + '_' + conditionalField.fieldName;
-				conditionalField.value = journey.response.answers[conditionalField.fieldName] || '';
+				conditionalField.fieldName = getConditionalFieldName(
+					this.fieldName,
+					conditionalField.fieldName
+				);
+				conditionalField.value = payload
+					? payload[conditionalField.fieldName]
+					: journey.response.answers[conditionalField.fieldName] || '';
 
 				optionData.conditional = {
-					html: nunjucks.render(
-						`./dynamic-components/conditional/${conditionalField.type}.njk`,
-						conditionalField
-					)
+					html: nunjucks.render(`./dynamic-components/conditional/${conditionalField.type}.njk`, {
+						payload,
+						...conditionalField,
+						...customViewData
+					})
 				};
 			}
 

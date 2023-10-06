@@ -47,8 +47,8 @@ class RadioQuestion extends OptionsQuestion {
 	/**
 	 * adds label property to view model
 	 */
-	prepQuestionForRendering(section, journey, customViewData) {
-		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+	prepQuestionForRendering(section, journey, customViewData, payload) {
+		let viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
 		viewModel.question.label = this.label;
 		return viewModel;
 	}

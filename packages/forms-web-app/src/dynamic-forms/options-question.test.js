@@ -147,6 +147,8 @@ describe('./src/dynamic-forms/question.js', () => {
 			expect(nunjucks.render).toHaveBeenCalledWith(`./dynamic-components/conditional/${type}.njk`, {
 				fieldName: `${FIELDNAME}_${options[0].conditional.fieldName}`,
 				question: options[0].conditional.question,
+				hello: 'hi',
+				payload: undefined,
 				type: type,
 				value: ''
 			});
@@ -208,6 +210,8 @@ describe('./src/dynamic-forms/question.js', () => {
 			expect(nunjucks.render).toHaveBeenCalledWith(`./dynamic-components/conditional/${type}.njk`, {
 				fieldName: `${FIELDNAME}_${options[0].conditional.fieldName}`,
 				question: options[0].conditional.question,
+				hello: 'hi',
+				payload: undefined,
 				type: type,
 				value: value
 			});

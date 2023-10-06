@@ -14,7 +14,7 @@ class StringValidator extends BaseValidator {
 		regex: '',
 		regexMessage: ''
 	};
-	constructor({ minLength, maxLength, regex } = {}) {
+	constructor({ minLength, maxLength, regex, fieldName } = {}) {
 		super();
 
 		if (!minLength && !maxLength && !regex)
@@ -31,6 +31,7 @@ class StringValidator extends BaseValidator {
 		this.regex.regexMessage = this.regex.regexMessage
 			? this.regex.regexMessage
 			: 'Please enter only the allowed characters';
+		this.fieldName = fieldName;
 	}
 	validate(questionObj) {
 		const minLengthValidator = (chain) =>
@@ -44,7 +45,7 @@ class StringValidator extends BaseValidator {
 		const regexValidator = (chain) =>
 			chain.matches(new RegExp(this.regex.regex)).withMessage(this.regex.regexMessage);
 
-		let chain = body(questionObj.fieldName);
+		let chain = body(this.fieldName ? this.fieldName : questionObj.fieldName);
 		if (this.minLength.minLength) {
 			chain = minLengthValidator(chain);
 		}
