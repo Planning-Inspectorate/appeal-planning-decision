@@ -144,6 +144,43 @@ describe('src/dynamic-forms/validator/string-validator.js', () => {
 			'Input too long - Please enter no more than 10 characters'
 		);
 	});
+
+	it('should invalidate a string that is too long given a specific field name', async () => {
+		const req = {
+			body: {
+				'shortStatement_with-condition': 'I am too long'
+			}
+		};
+		const options = {
+			maxLength: {
+				maxLength: 10,
+				maxLengthMessage: 'Short statement should be a maxmimum of 10 characters in length'
+			},
+			fieldName: 'shortStatement_with-condition'
+		};
+		const question = {
+			fieldName: 'shortStatement',
+			options: [
+				{
+					text: 'Yes',
+					value: 'yes',
+					conditional: {
+						question: 'Test question',
+						fieldName: 'with-condition',
+						type: 'textarea'
+					}
+				},
+				{
+					text: 'No',
+					value: 'no'
+				}
+			]
+		};
+		const validationResult = await new StringValidator(options).validate(question).run(req);
+		expect(validationResult.errors.length).toEqual(1);
+		expect(validationResult.errors[0].msg).toEqual(options.maxLength.maxLengthMessage);
+	});
+
 	it('should validate a string that is not too long', async () => {
 		const req = {
 			body: {

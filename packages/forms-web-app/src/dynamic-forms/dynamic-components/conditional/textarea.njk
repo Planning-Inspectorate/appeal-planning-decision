@@ -6,5 +6,8 @@
   },
   id: fieldName,
   name: fieldName,
-  value: value
+  value: value,
+  errorMessage: errors[fieldName] and {
+    text: errors[fieldName].msg
+  }
 }) }}

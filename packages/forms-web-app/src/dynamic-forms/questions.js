@@ -25,6 +25,14 @@ const {
 		stringValidation: { listedBuildingNumber: listedBuildingNumberValidation }
 	}
 } = require('../../src/config');
+const StringValidator = require('./validator/string-validator');
+const {
+	validation: {
+		characterLimits: { finalComment: inputMaxCharacters }
+	}
+} = require('../config');
+const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
+const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
 
 // Define all questions
 exports.questions = {
@@ -243,7 +251,32 @@ exports.questions = {
 		// 	return answers['access-for-inspection'] === 'yes';
 		// },
 		//validator: { type: 'text', maxLength: 100 }
-		validators: []
+		validators: [
+			new RequiredValidator(),
+			new ConditionalRequiredValidator(),
+			new StringValidator({
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Safety risk must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName('safety-risks', 'new-safety-risk-value')
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Add details of the potential risk and what the inspector might need',
+					fieldName: 'new-safety-risk-value',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
 	}),
 	appealsNearSite: new BooleanQuestion({
 		title: 'Appeals near the site',
@@ -275,7 +308,17 @@ exports.questions = {
 		fieldName: 'new-planning-conditions',
 		html: 'resources/new-planning-conditions/content.html',
 		label: 'Are there any new conditions?',
-		validators: [new RequiredValidator()], // todo: new BooleanTestValidator() aapd-393
+		validators: [
+			new RequiredValidator(),
+			new ConditionalRequiredValidator(),
+			new StringValidator({
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `New conditions must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName('new-planning-conditions', 'new-conditions-value')
+			})
+		],
 		options: [
 			{
 				text: 'Yes',
