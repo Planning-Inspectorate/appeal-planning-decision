@@ -271,7 +271,6 @@ exports.questions = {
 		title: 'Add new conditions', // this is summary list title
 		question: 'Add new planning conditions to this appeal',
 		description: 'These are additional to the standard planning conditions we would expect to see.',
-		viewFolder: 'boolean-text',
 		fieldName: 'new-planning-conditions',
 		html: 'resources/new-planning-conditions/content.html',
 		label: 'Are there any new conditions?',
