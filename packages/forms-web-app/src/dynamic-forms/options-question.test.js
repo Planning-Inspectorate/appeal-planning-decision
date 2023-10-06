@@ -73,7 +73,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			);
 		});
 
-		it('should mark all selected options as checked', () => {
+		it('should mark all selected options as checked and with correct attributes', () => {
 			const expectedData = { options: [{ value: 'yes' }, { value: 'maybe' }, { value: 'no' }] };
 			const question = getTestQuestion(expectedData);
 
@@ -91,6 +91,10 @@ describe('./src/dynamic-forms/question.js', () => {
 			expectedData.options[0].checked = true;
 			expectedData.options[1].checked = true;
 			expectedData.options[2].checked = false;
+			expectedData.options[0].attributes = { 'data-cy': 'answer-' + expectedData.options[0].value };
+			expectedData.options[1].attributes = { 'data-cy': 'answer-' + expectedData.options[1].value };
+			expectedData.options[2].attributes = { 'data-cy': 'answer-' + expectedData.options[2].value };
+
 			expect(result).toEqual(
 				expect.objectContaining({
 					question: expect.objectContaining({
@@ -127,6 +131,8 @@ describe('./src/dynamic-forms/question.js', () => {
 			expectedData.options[0].checked = false;
 			expectedData.options[0].conditional = { html: '</p>test html</p>' };
 			expectedData.options[1].checked = false;
+			expectedData.options[0].attributes = { 'data-cy': 'answer-' + options[0].value };
+			expectedData.options[1].attributes = { 'data-cy': 'answer-' + options[1].value };
 
 			const journey = {
 				response: {
@@ -183,6 +189,8 @@ describe('./src/dynamic-forms/question.js', () => {
 			expectedData.options[0].checked = true;
 			expectedData.options[0].conditional = { html: '</p>test html</p>' };
 			expectedData.options[1].checked = false;
+			expectedData.options[0].attributes = { 'data-cy': 'answer-' + options[0].value };
+			expectedData.options[1].attributes = { 'data-cy': 'answer-' + options[1].value };
 
 			const journey = {
 				response: {
