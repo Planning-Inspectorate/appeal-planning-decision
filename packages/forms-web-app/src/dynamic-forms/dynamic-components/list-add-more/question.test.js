@@ -373,7 +373,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const result = await question.removeAction(journeyResponse, 'nope');
 
 			expect(question.saveResponseToDB).not.toHaveBeenCalled();
-			expect(result).toEqual(journeyResponse);
+			expect(result).toEqual(true);
 		});
 	});
 });
