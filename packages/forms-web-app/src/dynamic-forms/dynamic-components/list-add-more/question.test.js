@@ -240,7 +240,8 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 
 		it('should handle subquestion validation errors', async () => {
 			const expectedErrors = {
-				errorViewModel: 'mocked-validation-error'
+				errorViewModel: 'mocked-validation-error',
+				question: {}
 			};
 			const question = getTestQuestion();
 			question.subQuestion.checkForValidationErrors = jest.fn(() => expectedErrors);

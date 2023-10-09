@@ -33,7 +33,7 @@ class HasJourney extends Journey {
 			new Section('Constraints, designations and other issues', 'constraints')
 				.addQuestion(questions.appealTypeAppropriate)
 				.addQuestion(questions.listedBuildingCheck)
-				.addQuestion(questions.listedBuildingNumber)
+				.addQuestion(questions.affectedListedBuildings)
 				.withCondition(
 					response.answers && response.answers[questions.listedBuildingCheck.fieldName] == 'yes'
 				)
