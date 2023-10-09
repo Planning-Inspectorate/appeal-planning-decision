@@ -6,11 +6,12 @@
 {% from "../macros/answer-list.njk" import answerList %}
 
 {% set title= question.pageTitle + " - " + journeyTitle + " - GOV.UK" %}
+{% set rowWidth= width %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block content %}
   <div class="govuk-grid-row">
-    <div class="{{question.width}}">
+    <div class="{{ rowWidth }}">
       {# TODO update to persist main question header text #}
       
       <p class="govuk-heading-l">{{question.pageTitle}}</p>

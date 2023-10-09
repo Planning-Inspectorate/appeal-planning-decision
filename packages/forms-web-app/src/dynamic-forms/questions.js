@@ -286,7 +286,8 @@ exports.questions = {
 		validators: [new RequiredValidator()]
 	}),
 	nearbyAppeals: new ListAddMoreQuestion({
-		title: 'Nearby appeal added to the case',
+		pageTitle: 'Nearby appeal added to the case',
+		title: 'n/a',
 		question: 'Add another appeal?',
 		fieldName: 'other-appeals-references',
 		url: 'nearby-appeals-list',
