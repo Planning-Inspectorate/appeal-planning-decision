@@ -19,6 +19,8 @@ const AddMoreQuestion = require('../add-more/question');
  * @class
  */
 class ListAddMoreQuestion extends Question {
+	static FULL_WIDTH = 'govuk-grid-column-full';
+	static TWO_THIRDS_WIDTH = 'govuk-grid-column-two-thirds';
 	/**
 	 * @param {Object} params
 	 * @param {string} params.title
@@ -61,10 +63,8 @@ class ListAddMoreQuestion extends Question {
 
 		this.subQuestion = subQuestion;
 		this.subQuestionLabel = subQuestionLabel ?? 'Answer';
-		this.width = width ?? this.TWO_THIRDS_WIDTH;
+		this.width = width ?? ListAddMoreQuestion.TWO_THIRDS_WIDTH;
 	}
-	static FULL_WIDTH = 'govuk-grid-column-full';
-	static TWO_THIRDS_WIDTH = 'govuk-grid-column-two-thirds';
 	/**
 	 * Answers to the question
 	 * @param {Object} answers
@@ -98,7 +98,11 @@ class ListAddMoreQuestion extends Question {
 	 */
 	prepQuestionForRendering(section, journey, customViewData) {
 		const answers = journey.response.answers[this.fieldName];
-
+		console.log(customViewData);
+		customViewData = customViewData ?? {};
+		console.log(this.width);
+		customViewData.width = this.width;
+		console.log(customViewData);
 		// get viewModel for listing component
 		if (this.#hasAtLeastOneAnswer(answers)) {
 			const viewModel = super.prepQuestionForRendering(section, journey, customViewData);

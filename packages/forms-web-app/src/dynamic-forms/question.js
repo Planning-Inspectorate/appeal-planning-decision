@@ -129,7 +129,8 @@ class Question {
 				fieldName: this.fieldName,
 				pageTitle: this.pageTitle,
 				description: this.description,
-				html: this.html
+				html: this.html,
+				hint: this.hint
 			},
 			answer,
 
