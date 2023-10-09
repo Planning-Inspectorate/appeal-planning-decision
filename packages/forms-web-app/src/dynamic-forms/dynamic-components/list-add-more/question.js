@@ -43,6 +43,8 @@ class ListAddMoreQuestion extends Question {
 		pageTitle,
 		description,
 		subQuestionLabel,
+		subQuestionFieldLabel,
+		subQuestionInputClasses,
 		validators,
 		width
 	}) {
@@ -63,6 +65,8 @@ class ListAddMoreQuestion extends Question {
 
 		this.subQuestion = subQuestion;
 		this.subQuestionLabel = subQuestionLabel ?? 'Answer';
+		this.subQuestionFieldLabel = subQuestionFieldLabel;
+		this.subQuestionInputClasses = subQuestionInputClasses;
 		this.width = width ?? ListAddMoreQuestion.TWO_THIRDS_WIDTH;
 	}
 	/**
@@ -108,7 +112,10 @@ class ListAddMoreQuestion extends Question {
 		}
 
 		// get viewModel for addMore subquestion
-		return this.subQuestion.prepQuestionForRendering(section, journey, customViewData);
+		const viewModel = this.subQuestion.prepQuestionForRendering(section, journey, customViewData);
+		viewModel.question.label = this.subQuestionFieldLabel;
+		viewModel.question.inputClasses = this.subQuestionInputClasses;
+		return viewModel;
 	}
 
 	/**
@@ -245,6 +252,8 @@ class ListAddMoreQuestion extends Question {
 				const viewModel = this.subQuestion.prepQuestionForRendering(section, journey);
 				viewModel.backLink = journey.getCurrentQuestionUrl(section.segment, this.fieldName);
 				viewModel.navigation = ['', viewModel.backLink];
+				viewModel.question.label = this.subQuestionFieldLabel;
+				viewModel.question.inputClasses = this.subQuestionInputClasses;
 				return this.renderAction(res, viewModel);
 			} else if (addMoreAnswer === 'no') {
 				return res.redirect(journey.getNextQuestionUrl(section.segment, this.fieldName, false));
@@ -254,6 +263,8 @@ class ListAddMoreQuestion extends Question {
 		// check for validation errors
 		const errorViewModel = this.subQuestion.checkForValidationErrors(req, section, journey);
 		if (errorViewModel) {
+			errorViewModel.question.label = this.subQuestionFieldLabel;
+			errorViewModel.question.inputClasses = this.subQuestionInputClasses;
 			return this.renderAction(res, errorViewModel);
 		}
 

@@ -21,14 +21,15 @@ class AddMoreQuestion extends Question {
 	 * @param {string} [params.hint]
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 */
-	constructor({ title, question, fieldName, hint, validators, viewFolder }) {
+	constructor({ title, question, fieldName, hint, validators, viewFolder, html }) {
 		super({
-			title: title,
-			viewFolder: viewFolder,
-			fieldName: fieldName,
-			question: question,
-			validators: validators,
-			hint: hint
+			title,
+			viewFolder,
+			fieldName,
+			question,
+			validators,
+			hint,
+			html
 		});
 	}
 

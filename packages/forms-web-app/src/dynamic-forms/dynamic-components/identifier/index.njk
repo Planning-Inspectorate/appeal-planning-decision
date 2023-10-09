@@ -43,6 +43,7 @@
                         },
                         id: question.fieldName,
                         name: question.fieldName,
+                        value: payload and payload[question.fieldName],
                         hint: { text: question.hint },
                         errorMessage: errors[question.fieldName] and {
                             text: errors[question.fieldName].msg
@@ -64,6 +65,7 @@
                     {{ govukInput({
                         id: question.fieldName,
                         name: question.fieldName,
+                        value: payload and payload[question.fieldName],
                         hint: { text: question.hint },
                         errorMessage: errors[question.fieldName] and {
                             text: errors[question.fieldName].msg

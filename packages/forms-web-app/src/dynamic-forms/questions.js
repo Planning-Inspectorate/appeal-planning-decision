@@ -11,7 +11,6 @@ const BooleanQuestion = require('./dynamic-components/boolean/question');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const AddMoreQuestion = require('./dynamic-components/add-more/question');
 const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
-const IdentifierQuestion = require('./dynamic-components/identifier/question');
 const RadioQuestion = require('./dynamic-components/radio/question');
 
 const RequiredValidator = require('./validator/required-validator');
@@ -33,6 +32,7 @@ const {
 } = require('../config');
 const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
 const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
+const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
 
 // Define all questions
 exports.questions = {
@@ -48,13 +48,25 @@ exports.questions = {
 		fieldName: 'affects-listed-building',
 		validators: [new RequiredValidator()]
 	}),
-	listedBuildingNumber: new IdentifierQuestion({
-		title: 'Tell us the list entry number',
-		question: 'Tell us the list entry number',
-		label: 'Seven digit number',
-		fieldName: 'listed-building-number',
-		html: 'resources/listed-building-number/content.html',
-		validators: [new StringEntryValidator(listedBuildingNumberValidation)]
+	affectedListedBuildings: new ListAddMoreQuestion({
+		title: 'Listed building or site added',
+		pageTitle: 'Listed building or site has been added to the case',
+		question: 'Add another building or site?',
+		fieldName: 'add-listed-buildings',
+		url: 'affected-listed-buildings',
+		subQuestionLabel: 'Listed Building',
+		subQuestionFieldLabel: 'Seven digit number',
+		subQuestionInputClasses: 'govuk-input--width-10',
+		width: ListAddMoreQuestion.FULL_WIDTH,
+		validators: [new RequiredValidator()],
+		subQuestion: new ListedBuildingAddMoreQuestion({
+			title: 'Tell us the list entry number',
+			question: 'Tell us the list entry number',
+			fieldName: 'listed-building-number',
+			html: 'resources/listed-building-number/content.html',
+			validators: [new StringEntryValidator(listedBuildingNumberValidation)],
+			viewFolder: 'identifier'
+		})
 	}),
 	// listedBuildingDetail: {
 	// 	title: 'Listed buildings',
