@@ -98,11 +98,8 @@ class ListAddMoreQuestion extends Question {
 	 */
 	prepQuestionForRendering(section, journey, customViewData) {
 		const answers = journey.response.answers[this.fieldName];
-		console.log(customViewData);
 		customViewData = customViewData ?? {};
-		console.log(this.width);
 		customViewData.width = this.width;
-		console.log(customViewData);
 		// get viewModel for listing component
 		if (this.#hasAtLeastOneAnswer(answers)) {
 			const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
