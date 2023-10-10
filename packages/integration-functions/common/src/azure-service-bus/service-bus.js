@@ -17,7 +17,11 @@ async function sendMessageBatch(serviceBusHostname, topicName, messages) {
 		let batch = await sender.createMessageBatch();
 		for (const message of messages) {
 			// try to add the message to the batch
-			if (!batch.tryAddMessage(message)) {
+			const data = {
+				body: message
+			};
+
+			if (!batch.tryAddMessage(data)) {
 				// if it fails to add the message to the current batch
 				// send the current batch as it is full
 				await sender.sendMessages(batch);
@@ -26,7 +30,7 @@ async function sendMessageBatch(serviceBusHostname, topicName, messages) {
 				batch = await sender.createMessageBatch();
 
 				// now, add the message failed to be added to the previous batch to this batch
-				if (!batch.tryAddMessage(message)) {
+				if (!batch.tryAddMessage(data)) {
 					// if it still can't be added to the batch, the message is probably too big to fit in a batch
 					throw new Error('Message too big to fit in a batch');
 				}
