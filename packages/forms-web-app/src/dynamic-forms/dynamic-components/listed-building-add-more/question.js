@@ -1,5 +1,6 @@
+const { getListedBuilding } = require('../../../lib/appeals-api-wrapper');
 const AddMoreQuestion = require('../add-more/question');
-
+const ListedBuilding = require('@pins/common/src/lib/listed-building');
 const uuid = require('uuid');
 
 class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
@@ -20,7 +21,17 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	 * @returns
 	 */
 	async getDataToSave(req) {
-		return { addMoreId: uuid.v4(), value: { [this.fieldName]: req.body[this.fieldName] } };
+		const listedBuildingReference = req.body[this.fieldName];
+
+		const listedBuildingData = await getListedBuilding(listedBuildingReference);
+
+		const listedBuilding = new ListedBuilding(
+			listedBuildingReference,
+			listedBuildingData.name,
+			listedBuildingData.listedBuildingGrade
+		);
+
+		return { addMoreId: uuid.v4(), value: listedBuilding };
 	}
 
 	/**
@@ -29,9 +40,9 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	 * @returns The formatted string to be presented in the UI
 	 */
 	format(answer) {
-		const identifier = answer[this.fieldName];
-		const grade = 'Grade';
-		const address = 'Address';
+		const identifier = answer.reference;
+		const grade = answer.listedBuildingGrade;
+		const address = answer.name;
 		return [identifier, grade, address].join('<br>');
 	}
 }
