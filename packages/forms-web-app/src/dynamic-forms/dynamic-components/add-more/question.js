@@ -17,9 +17,9 @@ class AddMoreQuestion extends Question {
 	 * @param {string} params.title
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
-	 * @param {string} params.hint
-	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {string} params.viewFolder
+	 * @param {string} [params.hint]
+	 * @param {Array.<BaseValidator>} [params.validators]
 	 */
 	constructor({ title, question, fieldName, hint, validators, viewFolder }) {
 		super({
