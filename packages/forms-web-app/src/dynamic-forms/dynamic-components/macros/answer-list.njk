@@ -15,12 +15,12 @@
             actions: {
                 items: [
                     {
-                    href: item.removeLink,
-                    text: "Remove",
-                    visuallyHiddenText: "remove"
+                        href: item.removeLink,
+                        text: "Remove",
+                        visuallyHiddenText: item.label + ", " + item.answer
                     }
                 ]
-                }
+            }
         }), summaryRows) %}
     {% endfor %}
 

@@ -9,6 +9,7 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 	 * @param {string} params.title
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
+	 * @param {string} params.viewFolder
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 */
 	constructor({ title, question, fieldName, viewFolder, validators }) {
