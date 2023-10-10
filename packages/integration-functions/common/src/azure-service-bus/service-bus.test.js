@@ -54,6 +54,28 @@ describe('service-bus', () => {
 			expect(mockServiceBusClient.close).toHaveBeenCalledTimes(1);
 		});
 
+		it('should format service bus messages', async () => {
+			const mockSender = getMockSender();
+			const mockServiceBusClient = {
+				createSender: jest.fn(() => mockSender),
+				close: jest.fn()
+			};
+
+			ServiceBusClient.mockImplementation(() => mockServiceBusClient);
+
+			mockSender.createMessageBatch.mockResolvedValue(mockSender);
+			mockSender.tryAddMessage.mockReturnValue(true);
+
+			await sendMessageBatch(serviceBusHostname, topicName, messages);
+
+			expect(mockSender.tryAddMessage).toHaveBeenCalledWith({
+				body: messages[0]
+			});
+			expect(mockSender.tryAddMessage).toHaveBeenCalledWith({
+				body: messages[1]
+			});
+		});
+
 		it('should throw an error if tryAddMessage fails twice in a row', async () => {
 			const mockSender = getMockSender();
 			const mockServiceBusClient = {
