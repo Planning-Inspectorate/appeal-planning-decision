@@ -1,0 +1,47 @@
+const { Journey } = require('../journey');
+const { Section } = require('../section');
+
+const baseS78Url = '/manage-appeals/questionnaire';
+//todo: place template in a shared questionnaire folder
+const s78JourneyTemplate = '../has-questionnaire/template.njk';
+const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
+const journeyTitle = 'Manage your appeals';
+
+/**
+ * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ */
+
+/**
+ * A Journey for LPAs responding to a S78 appeal
+ * @class
+ */
+class S78Journey extends Journey {
+	/**
+	 * creates an instance of a S78 Journey
+	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
+	 */
+	constructor(response) {
+		super(
+			`${baseS78Url}/${encodeURIComponent(response.referenceId)}`,
+			response,
+			s78JourneyTemplate,
+			listingPageViewPath,
+			journeyTitle
+		);
+
+		this.sections.push(
+			new Section('Constraints, designations and other issues', 'constraints'),
+			new Section('Environmental impact assessment', 'environmental-impact'),
+			new Section('Notifying relevant parties of the application', 'notified'),
+			new Section('Consultation responses and representations', 'consultation'),
+			new Section(
+				"Planning officer's report and supplementary documents",
+				'planning-officer-report'
+			),
+			new Section('Site access', 'site-access'),
+			new Section('Appeal process', 'appeal-process')
+		);
+	}
+}
+
+module.exports = { S78Journey, baseS78Url };
