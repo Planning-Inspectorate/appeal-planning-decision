@@ -10,7 +10,13 @@ const { HasJourney } = require('./has-questionnaire/journey');
  * @enum {JourneyType}
  */
 const JOURNEY_TYPES = {
-	HAS_QUESTIONNAIRE: 'has-questionnaire'
+	HAS_QUESTIONNAIRE: 'has-questionnaire',
+	S78_QUESTIONNAIRE: 's78-questionnaire'
+};
+
+const JOURNEY_TYPES_FORMATTED = {
+	'Householder (HAS) Appeal': JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+	'Full Planning (S78) Appeal': JOURNEY_TYPES.S78_QUESTIONNAIRE
 };
 
 /**
@@ -35,5 +41,6 @@ function getJourney(journeyResponse) {
 
 module.exports = {
 	JOURNEY_TYPES,
+	JOURNEY_TYPES_FORMATTED,
 	getJourney
 };
