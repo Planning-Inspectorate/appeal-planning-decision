@@ -1,7 +1,4 @@
 // common controllers for dynamic forms
-
-const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
-const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
@@ -82,11 +79,8 @@ function buildSectionRowViewModel(key, value, action) {
  */
 exports.list = async (req, res) => {
 	//render check your answers view
-	const { referenceId } = req.params;
 
-	const user = getLPAUserFromSession(req);
-	const encodedReferenceId = encodeURIComponent(referenceId);
-	const appeal = await getAppealByLPACodeAndId(user.lpaCode, encodedReferenceId);
+	const appeal = res.locals.appeal;
 
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);

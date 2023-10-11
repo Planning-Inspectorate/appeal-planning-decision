@@ -10,7 +10,7 @@ const { HasJourney } = require('./has-questionnaire/journey');
  * @enum {JourneyType}
  */
 const JOURNEY_TYPES = {
-	HAS_QUESTIONNAIRE: 'has-questionnaire'
+	HAS_QUESTIONNAIRE: 'Householder (HAS) Appeal'
 };
 
 /**
