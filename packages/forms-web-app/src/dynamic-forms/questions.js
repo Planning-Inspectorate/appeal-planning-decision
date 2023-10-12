@@ -44,7 +44,8 @@ exports.questions = {
 	}),
 	listedBuildingCheck: new BooleanQuestion({
 		title: 'Affects a listed building',
-		question: 'Do the plans affect the setting of a listed building or site?',
+		pageTitle: 'Affects on a listed building or site',
+		question: 'Does the proposed development affect the setting of listed buildings?',
 		fieldName: 'affects-listed-building',
 		validators: [new RequiredValidator()]
 	}),
