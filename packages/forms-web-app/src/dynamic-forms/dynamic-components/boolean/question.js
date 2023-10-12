@@ -9,9 +9,10 @@ class BooleanQuestion extends RadioQuestion {
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
+	 * @param {string} [params.html]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 */
-	constructor({ title, question, fieldName, url, pageTitle, description, validators }) {
+	constructor({ title, question, fieldName, url, pageTitle, description, html, validators }) {
 		const options = [
 			{
 				text: 'Yes',
@@ -32,7 +33,8 @@ class BooleanQuestion extends RadioQuestion {
 			pageTitle,
 			description,
 			options,
-			validators
+			validators,
+			html
 		});
 	}
 }
