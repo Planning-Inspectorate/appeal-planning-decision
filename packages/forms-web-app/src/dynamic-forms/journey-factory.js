@@ -1,4 +1,5 @@
 const { HasJourney } = require('./has-questionnaire/journey');
+const { S78Journey } = require('./s78-questionnaire/journey');
 
 /**
  * @typedef {import('./journey').Journey} Journey
@@ -23,7 +24,8 @@ const JOURNEY_TYPES_FORMATTED = {
  * Returns a journey class based on a type string from JOURNEY_TYPES
  */
 const JOURNEY_CLASSES = {
-	[JOURNEY_TYPES.HAS_QUESTIONNAIRE]: HasJourney
+	[JOURNEY_TYPES.HAS_QUESTIONNAIRE]: HasJourney,
+	[JOURNEY_TYPES.S78_QUESTIONNAIRE]: S78Journey
 };
 
 /**

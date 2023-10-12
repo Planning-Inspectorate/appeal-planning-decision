@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
 const {
 	APPEALS_CASE_DATA: {
-		APPEAL_TYPE: { HAS },
+		APPEAL_TYPE: { HAS, S78 },
 		VALIDITY: { IS_VALID }
 	}
 } = require('@pins/common/src/constants');
@@ -73,7 +73,7 @@ describe('appeals-case-data', () => {
 		});
 
 		expect(l2440response.status).toBe(200);
-		expect(l2440response.body.length).toBe(2);
+		expect(l2440response.body.length).toBe(3);
 
 		l2440response.body.forEach((result) => {
 			expect(result.LPACode).toBe('L2440');
@@ -85,7 +85,7 @@ describe('appeals-case-data', () => {
 		const l2440response = await appealsApi.get(`/api/v1/appeals-case-data/L2440`);
 
 		expect(l2440response.status).toBe(200);
-		expect(l2440response.body.length).toEqual(2);
+		expect(l2440response.body.length).toEqual(3);
 		expect(l2440response.body[0].caseReferenceSlug).toBe('%2F%40%2F1');
 	});
 
@@ -95,7 +95,7 @@ describe('appeals-case-data', () => {
 		expect(response.status).toBe(404);
 		expect(response.body).toEqual({});
 	});
-	it('should return a specifc case by lpacode and caseref', async () => {
+	it('should return a specific HAS case by lpacode and caseref', async () => {
 		const caseReference = '0000013';
 		const lpaCode = 'Q9999';
 		const q9999response = await appealsApi.get(
@@ -107,6 +107,20 @@ describe('appeals-case-data', () => {
 		expect(q9999response.body.appealType).toEqual(HAS);
 		expect(q9999response.body.caseReference).toEqual(caseReference);
 		expect(q9999response.body.validity).toEqual(IS_VALID);
+	});
+
+	it('should return a specific S78 case by lpacode and caseref', async () => {
+		const caseReference = '0000015';
+		const lpaCode = 'L2440';
+		const s78response = await appealsApi.get(
+			`/api/v1/appeals-case-data/${lpaCode}/${caseReference}`
+		);
+		expect(s78response.status).toBe(200);
+		expect(s78response.body.LPAApplicationReference).toEqual('9991234/abc');
+		expect(s78response.body.LPACode).toEqual(lpaCode);
+		expect(s78response.body.appealType).toEqual(S78);
+		expect(s78response.body.caseReference).toEqual(caseReference);
+		expect(s78response.body.validity).toEqual(IS_VALID);
 	});
 });
 

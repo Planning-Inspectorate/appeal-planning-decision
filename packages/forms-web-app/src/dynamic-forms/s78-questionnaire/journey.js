@@ -2,8 +2,7 @@ const { Journey } = require('../journey');
 const { Section } = require('../section');
 
 const baseS78Url = '/manage-appeals/questionnaire';
-//todo: place template in a shared questionnaire folder
-const s78JourneyTemplate = '../has-questionnaire/template.njk';
+const s78JourneyTemplate = 'questionnaire-template.njk';
 const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
 const journeyTitle = 'Manage your appeals';
 

@@ -3,7 +3,7 @@ const { Journey } = require('../journey');
 const { Section } = require('../section');
 
 const baseHASUrl = '/manage-appeals/questionnaire';
-const hasJourneyTemplate = 'has-questionnaire/template.njk';
+const hasJourneyTemplate = 'questionnaire-template.njk';
 const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
 const journeyTitle = 'Manage your appeals';
 

@@ -21,7 +21,7 @@ describe('HAS Journey class', () => {
 
 		it('should set template', () => {
 			const journey = new HasJourney(mockResponse);
-			expect(journey.journeyTemplate).toBe('has-questionnaire/template.njk');
+			expect(journey.journeyTemplate).toBe('questionnaire-template.njk');
 		});
 
 		it('should set listingPageViewPath', () => {
