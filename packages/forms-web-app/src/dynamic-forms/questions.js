@@ -155,23 +155,25 @@ exports.questions = {
 	}),
 
 	howYouNotifiedPeople: new CheckboxQuestion({
-		title: 'How you notified people',
+		title: 'Type of notification',
 		question: 'How did you notify people about the application?',
 		description: 'Select all that apply',
 		fieldName: 'notification-method',
+		url: 'notification-type',
+		validators: [new RequiredValidator()],
 		options: [
 			//Options for checkboxes / radio buttons
 			{
-				text: 'Site notice',
-				value: 'Site notice'
+				text: 'A site notice',
+				value: 'site-notice'
 			},
 			{
-				text: 'Letters to neighbours',
-				value: 'Letters to neighbours'
+				text: 'Letters or emails to interested parties',
+				value: 'letters-or-emails'
 			},
 			{
-				text: 'Advertisement',
-				value: 'Advertisement'
+				text: 'An advert in the local press',
+				value: 'advert'
 			}
 		]
 	}),
