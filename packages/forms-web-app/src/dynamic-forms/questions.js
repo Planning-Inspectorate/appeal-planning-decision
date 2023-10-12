@@ -347,8 +347,15 @@ exports.questions = {
 				value: 'no'
 			}
 		]
-	})
+	}),
 	// /*S78 questions */
+	emergingPlan: new BooleanQuestion({
+		title: 'Emerging plans',
+		question: "Do you have an emerging plan that's relevant to this appeal?",
+		fieldName: 'emerging-plan',
+		validators: [new RequiredValidator()],
+		html: 'resources/emerging-plan/content.html'
+	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
 	// 	question: 'Would a public right of way need to be removed or diverted?',

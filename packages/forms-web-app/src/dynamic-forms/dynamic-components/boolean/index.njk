@@ -8,6 +8,11 @@
 
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
+{% if question.html %}
+  {% set htmlHint %}
+    {% include question.html ignore missing %}
+  {% endset %}
+{% endif %}
 
 {% block before_content %}
 <div class="govuk-grid-row">
@@ -43,6 +48,7 @@
               classes: "govuk-fieldset__legend--l"
             }
           },
+          hint: { html: htmlHint },
           items: [
             {
               value: "yes",
