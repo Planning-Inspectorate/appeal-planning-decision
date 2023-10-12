@@ -1,9 +1,12 @@
 const { add, endOfDay, isValid: isDateValid } = require('date-fns');
+const { zonedTimeToUtc, utcToZonedTime } = require('date-fns-tz');
+
 const { appeal } = require('../../config');
 const isValid = require('../../validation/appeal/type/is-valid');
 const isValidApplicationDecision = require('../../validation/appeal/application-decision/is-valid');
 const { APPEAL_ID, APPLICATION_DECISION } = require('../../constants');
 const BusinessRulesError = require('../../lib/business-rules-error');
+const targetTimezone = 'Europe/London';
 
 /**
  * @description Given an appeal's decision date, and an expiry period, determine the appeal's
@@ -46,7 +49,16 @@ module.exports = (
 			? appeal.type[type].appealDue.time
 			: appeal.type[type].appealDue[decision].time;
 
-	return add(endOfDay(decisionDate), {
-		[duration]: time
-	});
+	// given a utc datetime get the UK time
+	const decisionDateUK = utcToZonedTime(decisionDate, targetTimezone);
+
+	// run calculations
+	const deadlineDate = endOfDay(
+		add(decisionDateUK, {
+			[duration]: time
+		})
+	);
+
+	// return the equivalent utc datetime
+	return zonedTimeToUtc(deadlineDate, targetTimezone);
 };

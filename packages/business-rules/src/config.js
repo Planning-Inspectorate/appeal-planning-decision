@@ -135,8 +135,8 @@ const config = {
 				name: 'Planning Appeal Section 78',
 				procedureType: [WRITTEN_REPRESENTATION, HEARING, INQUIRY],
 				appealDue: {
-					time: 181,
-					duration: 'days'
+					time: 6,
+					duration: 'months'
 				},
 				questionnaireDue: {
 					time: 1,
