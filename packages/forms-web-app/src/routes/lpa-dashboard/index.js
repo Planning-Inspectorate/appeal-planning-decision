@@ -29,7 +29,7 @@ router.use(require('./your-email-address'));
 // appeals
 router.use(require('./your-appeals'));
 router.use(require('./appeal-details'));
-router.use(require('../../dynamic-forms/has-questionnaire/route'));
+router.use(require('../../dynamic-forms/route'));
 
 // manage users
 router.use(require('./add-remove-users'));

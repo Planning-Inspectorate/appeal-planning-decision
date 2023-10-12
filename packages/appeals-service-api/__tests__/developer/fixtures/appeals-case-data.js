@@ -77,6 +77,16 @@ const fakeAppealsCaseData = () => {
 			'',
 			'Valid',
 			'L2440'
+		),
+		// s78 appeal
+		_generateFakeAppeal(
+			'0000015',
+			'9991234/abc',
+			'2023-07-08T13:53:31.5993119+00:00',
+			'',
+			'Valid',
+			'L2440',
+			'Full Planning (S78) Appeal'
 		)
 	];
 

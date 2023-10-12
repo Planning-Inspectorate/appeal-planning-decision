@@ -1,7 +1,7 @@
 const { MongoRepository } = require('./mongo-repository');
 const {
 	APPEALS_CASE_DATA: {
-		APPEAL_TYPE: { HAS },
+		APPEAL_TYPE: { HAS, S78 },
 		VALIDITY: { IS_VALID }
 	}
 } = require('@pins/common/src/constants');
@@ -25,7 +25,7 @@ class AppealsCaseDataRepository extends MongoRepository {
 		result = await this.getAllDocumentsThatMatchQuery(
 			{
 				LPACode: lpaCode,
-				appealType: HAS,
+				appealType: { $in: [HAS, S78] },
 				validity: IS_VALID
 			},
 			{ questionnaireDueDate: 1 },
@@ -41,7 +41,7 @@ class AppealsCaseDataRepository extends MongoRepository {
 		const result = await this.findOneByQuery({
 			LPACode: lpaCode,
 			caseReference: caseRef,
-			appealType: HAS,
+			appealType: { $in: [HAS, S78] },
 			validity: IS_VALID
 		});
 

@@ -5,7 +5,7 @@ module.exports = {
 		REMOVED: 'removed'
 	},
 	APPEALS_CASE_DATA: {
-		APPEAL_TYPE: { HAS: 'Householder (HAS) Appeal' },
+		APPEAL_TYPE: { HAS: 'Householder (HAS) Appeal', S78: 'Full Planning (S78) Appeal' },
 		VALIDITY: { IS_VALID: 'Valid' }
 	}
 };
