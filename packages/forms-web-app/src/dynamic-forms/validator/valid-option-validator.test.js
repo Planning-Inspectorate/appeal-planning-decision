@@ -29,10 +29,51 @@ describe('./src/dynamic-forms/validator/valid-option-validator.js', () => {
 		expect(validationResult.errors.length).toEqual(1);
 		expect(validationResult.errors[0].msg).toEqual(errorMessage);
 	});
+
+	it('should return an error message if the field value is a list and at least one element is not in the list of options defined on the question', async () => {
+		const req = {
+			body: {
+				favouriteFruit: ['bananas', 'pears']
+			}
+		};
+		const errorMessage = 'Please select only from the supplied options';
+		const question = {
+			fieldName: 'favouriteFruit',
+			options: [
+				{ text: 'Apples', value: 'apples' },
+				{ text: 'Pears', value: 'pears' },
+				{ text: 'Oranges', values: 'oranges' }
+			]
+		};
+		const validationResult = await new ValidOptionValidator(errorMessage)
+			.validate(question)
+			.run(req);
+		expect(validationResult.errors.length).toEqual(1);
+		expect(validationResult.errors[0].msg).toEqual(errorMessage);
+	});
+
 	it('should not return an error message if the field value is in the list of options defined on the question', async () => {
 		const req = {
 			body: {
 				favouriteFruit: 'apples'
+			}
+		};
+		const question = {
+			fieldName: 'favouriteFruit',
+			options: [
+				{ text: 'Apples', value: 'apples' },
+				{ text: 'Pears', value: 'pears' },
+				{ text: 'Oranges', values: 'oranges' }
+			]
+		};
+		const validationResult = await new ValidOptionValidator().validate(question).run(req);
+		expect(validationResult.errors.length).toEqual(0);
+	});
+
+	it('should not return an error message if the field value is a list and all elements are in the list of options defined on the question', async () => {
+		const req = {
+			body: {
+				favouriteFruit: ['apples', 'pears']
 			}
 		};
 		const question = {
