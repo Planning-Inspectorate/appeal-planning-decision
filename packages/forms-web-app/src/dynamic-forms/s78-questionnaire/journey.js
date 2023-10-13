@@ -42,7 +42,7 @@ class S78Journey extends Journey {
 				.addQuestion(questions.emergingPlan)
 				.addQuestion(questions.communityInfrastructureLevy),
 			new Section('Site access', 'site-access'),
-			new Section('Appeal process', 'appeal-process')
+			new Section('Appeal process', 'appeal-process').addQuestion(questions.appealsNearSite)
 		);
 	}
 }
