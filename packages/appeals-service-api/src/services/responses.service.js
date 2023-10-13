@@ -1,10 +1,12 @@
 const ApiError = require('../errors/apiError');
 const logger = require('../lib/logger');
 const { ResponsesRepository } = require('../repositories/responses-repository');
-
 const responsesRepository = new ResponsesRepository();
+const { HasQuestionnaireMapper } = require('../mappers/questionnaire-submission/has-mapper');
+const questionnaireMapper = new HasQuestionnaireMapper();
+const eventClient = require('../infrastructure/event-client');
 
-const patchResponse = async (journeyId, referenceId, answers) => {
+const patchResponse = async (journeyId, referenceId, answers, lpaCode) => {
 	if (!journeyId) {
 		throw ApiError.noJourneyIdProvided();
 	}
@@ -14,14 +16,14 @@ const patchResponse = async (journeyId, referenceId, answers) => {
 	}
 
 	try {
-		return await responsesRepository.patchResponses(journeyId, referenceId, answers);
+		return await responsesRepository.patchResponses(journeyId, referenceId, answers, lpaCode);
 	} catch (err) {
 		logger.error(err);
 		throw ApiError.unableToUpdateResponse();
 	}
 };
 
-const getResponse = async (journeyId, referenceId, projection) => {
+const getResponse = async (journeyId, referenceId, projection, lpaCode) => {
 	if (!journeyId) {
 		throw ApiError.noJourneyIdProvided();
 	}
@@ -33,11 +35,21 @@ const getResponse = async (journeyId, referenceId, projection) => {
 	const uniqueId = `${journeyId}:${referenceId}`;
 
 	try {
-		return await responsesRepository.getResponses(uniqueId, projection);
+		return await responsesRepository.getResponses(uniqueId, lpaCode, projection);
 	} catch (err) {
 		logger.error(err);
 		throw ApiError.unableToGetResponse();
 	}
 };
 
-module.exports = { patchResponse, getResponse };
+const submitResponse = async (questionnaireResponse) => {
+	try {
+		const mappedData = questionnaireMapper.mapToPINSDataModel(questionnaireResponse);
+		return await eventClient.sendEvents('topic', mappedData);
+	} catch (err) {
+		logger.error(err);
+		throw ApiError.unableToSubmitResponse();
+	}
+};
+
+module.exports = { patchResponse, getResponse, submitResponse };

@@ -59,6 +59,8 @@ describe('./src/dynamic-forms/section.js', () => {
 			section.addQuestion(mockQuestion);
 			const result = section.getStatus(mockJourneyResponse);
 			expect(result).toBe(SECTION_STATUS.NOT_STARTED);
+			const isComplete = section.isComplete(mockJourneyResponse);
+			expect(isComplete).toBe(false);
 		});
 
 		it('should return IN_PROGRESS when at least one answer is given', () => {
@@ -72,6 +74,8 @@ describe('./src/dynamic-forms/section.js', () => {
 			section.addQuestion(mockQuestion);
 			const result = section.getStatus(mockJourneyResponse);
 			expect(result).toBe(SECTION_STATUS.IN_PROGRESS);
+			const isComplete = section.isComplete(mockJourneyResponse);
+			expect(isComplete).toBe(false);
 		});
 
 		it('should return COMPLETE when all required answers are given', () => {
@@ -104,6 +108,8 @@ describe('./src/dynamic-forms/section.js', () => {
 
 			const result = section.getStatus(mockJourneyResponse);
 			expect(result).toBe(SECTION_STATUS.COMPLETE);
+			const isComplete = section.isComplete(mockJourneyResponse);
+			expect(isComplete).toBe(true);
 		});
 	});
 

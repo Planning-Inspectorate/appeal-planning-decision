@@ -248,7 +248,12 @@ class Question {
 	 */
 	async saveResponseToDB(journeyResponse, responseToSave) {
 		const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
-		await patchQuestionResponse(journeyResponse.journeyId, encodedReferenceId, responseToSave);
+		await patchQuestionResponse(
+			journeyResponse.journeyId,
+			encodedReferenceId,
+			responseToSave,
+			journeyResponse.LPACode
+		);
 	}
 
 	/**

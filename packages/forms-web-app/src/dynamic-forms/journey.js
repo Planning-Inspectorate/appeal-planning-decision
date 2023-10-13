@@ -8,6 +8,7 @@
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./section').Section} Section
  * @typedef {import('./question')} Question
+ * @typedef {import('./question')} Question
  */
 
 /**
@@ -208,6 +209,14 @@ class Journey {
 			matchingQuestion.url ? matchingQuestion.url : matchingQuestion.fieldName
 		);
 	};
+
+	/**
+	 * Gets the overall completeness status of a journey based on the response associated with it and the complete state of each section.
+	 * @returns {boolean} Boolean indicating if a journey response is complete
+	 */
+	isComplete() {
+		return this.sections.find((section) => !section.isComplete(this.response)) ? false : true;
+	}
 }
 
 module.exports = { Journey };

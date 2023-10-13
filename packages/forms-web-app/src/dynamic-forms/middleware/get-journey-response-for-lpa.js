@@ -21,10 +21,14 @@ module.exports = () => async (req, res, next) => {
 
 	try {
 		const dbResponse = await getQuestionResponse(appealType, encodedReferenceId);
-		result = new JourneyResponse(appealType, referenceId, dbResponse?.answers);
+		result = new JourneyResponse(appealType, referenceId, dbResponse?.answers, dbResponse.LPACode);
 	} catch (err) {
 		logger.error(err);
-		result = getDefaultResponse(appealType, referenceId);
+		result = getDefaultResponse(appealType, referenceId, user.lpaCode);
+	}
+
+	if (result.LPACode !== user.lpaCode) {
+		return res.status(404).render('error/not-found');
 	}
 
 	res.locals.journeyResponse = result;
@@ -36,8 +40,9 @@ module.exports = () => async (req, res, next) => {
  * returns a default response for a journey
  * @param {JourneyType} journeyId - the type of journey
  * @param {string} referenceId - unique ref used in journey url
+ * @param {string} lpaCode - the lpa code the journey resposne belongs to
  * @returns {JourneyResponse}
  */
-function getDefaultResponse(journeyId, referenceId) {
-	return new JourneyResponse(journeyId, referenceId, null);
+function getDefaultResponse(journeyId, referenceId, lpaCode) {
+	return new JourneyResponse(journeyId, referenceId, null, lpaCode);
 }

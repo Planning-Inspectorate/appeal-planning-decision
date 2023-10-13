@@ -1,4 +1,4 @@
-const { list, question, save, remove } = require('./controller');
+const { list, question, save, remove, submit } = require('./controller');
 const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { Journey } = require('./journey');
@@ -19,7 +19,7 @@ const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question
 const AddMoreQuestion = require('./dynamic-components/add-more/question');
 
 class TestJourney extends Journey {
-	constructor(response) {
+	constructor(response, isComplete) {
 		super(
 			`${mockBaseUrl}/${mockRef}`,
 			response,
@@ -34,6 +34,9 @@ class TestJourney extends Journey {
 				segment: 'segment-1',
 				getStatus: () => {
 					return SECTION_STATUS.COMPLETE;
+				},
+				isComplete: () => {
+					return isComplete;
 				},
 				questions: [
 					{
@@ -78,6 +81,9 @@ class TestJourney extends Journey {
 				getStatus: () => {
 					return SECTION_STATUS.IN_PROGRESS;
 				},
+				isComplete: () => {
+					return isComplete;
+				},
 				questions: [
 					{
 						title: 'Title 2a',
@@ -120,6 +126,9 @@ class TestJourney extends Journey {
 				segment: 'segment-3',
 				getStatus: () => {
 					return SECTION_STATUS.NOT_STARTED;
+				},
+				isComplete: () => {
+					return isComplete;
 				},
 				questions: [
 					{
@@ -196,6 +205,10 @@ describe('dynamic-form/controller', () => {
 	beforeEach(() => {
 		jest.resetAllMocks();
 		mockJourney = new TestJourney(mockResponse);
+		const lpaUser = {
+			lpaCode: 'E9999'
+		};
+		getLPAUserFromSession.mockReturnValue(lpaUser);
 		mockSummaryListData = _getmockSummaryListData(mockJourney);
 		req = {
 			...mockReq(null)
@@ -206,12 +219,8 @@ describe('dynamic-form/controller', () => {
 		it('should render the view correctly', async () => {
 			req.params.referenceId = mockRef;
 			const appeal = { a: 1, caseReference: 2 };
-			const lpaUser = {
-				lpaCode: 'E9999'
-			};
 
 			getAppealByLPACodeAndId.mockResolvedValue(appeal);
-			getLPAUserFromSession.mockReturnValue(lpaUser);
 			getJourney.mockReturnValue(mockJourney);
 
 			await list(req, res);
@@ -474,6 +483,23 @@ describe('dynamic-form/controller', () => {
 
 			expect(sampleListAddMoreObj.removeAction).toHaveBeenCalled();
 			expect(sampleListAddMoreObj.renderAction).toHaveBeenCalledWith(res, expectedViewModel);
+		});
+	});
+	describe('submit', () => {
+		it('should submit if all sections are complete', async () => {
+			req.params = {
+				referenceId: mockRef
+			};
+
+			res.locals.journeyResponse = {
+				answers: {}
+			};
+			const mockCompletedJourney = new TestJourney(mockResponse, true);
+
+			getJourney.mockReturnValue(mockCompletedJourney);
+
+			await submit(req, res);
+			expect(res.render).toHaveBeenCalledWith('./dynamic-components/submission-screen/index');
 		});
 	});
 });

@@ -3,7 +3,11 @@ const {
 	getResponseByReferenceId
 } = require('../../../src/controllers/responses');
 const ApiError = require('../../../src/errors/apiError');
-const { patchResponse, getResponse } = require('../../../src/services/responses.service');
+const {
+	patchResponse,
+	getResponse,
+	submitResponse
+} = require('../../../src/services/responses.service');
 const { mockReq, mockRes } = require('../mocks');
 
 const req = mockReq();
@@ -61,6 +65,39 @@ describe('Responses API controller', () => {
 			expect(getResponse).toHaveBeenCalledWith(journeyId, referenceId, projection);
 			expect(res.status).toHaveBeenCalledWith(200);
 			expect(res.send).toHaveBeenCalledWith({ test: 'test' });
+		});
+
+		it('should return error status code and message if service call errors', async () => {
+			const error = ApiError.noReferenceIdProvided();
+			getResponse.mockImplementation(() => {
+				throw error;
+			});
+
+			await getResponseByReferenceId(req, res);
+
+			expect(res.status).toHaveBeenCalledWith(error.code);
+			expect(res.send).toHaveBeenCalledWith(error.message.errors);
+		});
+	});
+
+	describe('submitQuestionnaireResponse', () => {
+		it('should return 200 call submitResponse with questionnaire data if successful', async () => {
+			req.params = {
+				journeyId: journeyId,
+				referenceId: referenceId
+			};
+			let questionnaireResponse;
+
+			getResponse.mockReturnValue({ test: 'test' });
+			questionnaireResponse = await getResponseByReferenceId(req, res);
+
+			expect(getResponse).toHaveBeenCalledWith(journeyId, referenceId, undefined);
+			expect(res.status).toHaveBeenCalledWith(200);
+			expect(res.send).toHaveBeenCalledWith({ test: 'test' });
+
+			await submitResponse(questionnaireResponse);
+			expect(submitResponse).toHaveBeenCalledWith(questionnaireResponse);
+			expect(res.status).toHaveBeenCalledWith(200);
 		});
 
 		it('should return error status code and message if service call errors', async () => {

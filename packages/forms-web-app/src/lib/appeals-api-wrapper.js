@@ -213,8 +213,8 @@ exports.getAppealDocumentMetaData = async (caseRef, documentType, returnMultiple
  * @param {object} answers
  * @returns {Promise<*>}
  */
-exports.patchQuestionResponse = async (journeyId, referenceId, answers) => {
-	return handler(`/api/v1/responses/${journeyId}/${referenceId}`, 'PATCH', {
+exports.patchQuestionResponse = async (journeyId, referenceId, answers, lpaCode) => {
+	return handler(`/api/v1/responses/${journeyId}/${referenceId}/${lpaCode}`, 'PATCH', {
 		body: JSON.stringify({
 			answers: answers
 		})
@@ -230,6 +230,10 @@ exports.patchQuestionResponse = async (journeyId, referenceId, answers) => {
  */
 exports.getQuestionResponse = async (journeyId, referenceId) => {
 	return handler(`/api/v1/responses/${journeyId}/${referenceId}`, 'GET', {});
+};
+
+exports.submitQuestionnaireResponse = async (journeyId, referenceId) => {
+	await handler(`/api/v1/responses/${journeyId}/${referenceId}`, 'POST');
 };
 
 exports.getListedBuilding = async (reference) => {
