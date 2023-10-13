@@ -6,7 +6,7 @@ Monorepo for all PINS Appeal planning decision services and infrastructure
 
 - `make install `
 - `make serve`
-- once the server is running, to populate the Local Planning Authorities database, go to the `/packages/appeals-service-api/data` directory and run: `curl -X POST -d @lpa-list.csv http://localhost:3000/api/v1/local-planning-authorities`
+- once the server is running, to populate the Local Planning Authorities database, run: `npm run populate-db`
 - Go to [localhost:9003/before-you-start](http://localhost:9003/before-you-start)
 
 ## Pre-requisites
