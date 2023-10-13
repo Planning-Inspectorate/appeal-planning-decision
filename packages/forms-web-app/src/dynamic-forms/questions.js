@@ -355,6 +355,12 @@ exports.questions = {
 		fieldName: 'emerging-plan',
 		validators: [new RequiredValidator()],
 		html: 'resources/emerging-plan/content.html'
+	}),
+	communityInfrastructureLevy: new BooleanQuestion({
+		title: 'Community infrastructure levy',
+		question: 'Is the community infrastructure levy formally adopted?',
+		fieldName: 'community-infrastructure-levy',
+		validators: [new RequiredValidator()]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',

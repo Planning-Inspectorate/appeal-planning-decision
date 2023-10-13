@@ -34,10 +34,9 @@ class S78Journey extends Journey {
 			new Section('Environmental impact assessment', 'environmental-impact'),
 			new Section('Notifying relevant parties of the application', 'notified'),
 			new Section('Consultation responses and representations', 'consultation'),
-			new Section(
-				'Planning officer’s report and relevant policies',
-				'planning-officer-report'
-			).addQuestion(questions.emergingPlan),
+			new Section('Planning officer’s report and relevant policies', 'planning-officer-report')
+				.addQuestion(questions.emergingPlan)
+				.addQuestion(questions.communityInfrastructureLevy),
 			new Section('Site access', 'site-access'),
 			new Section('Appeal process', 'appeal-process')
 		);
