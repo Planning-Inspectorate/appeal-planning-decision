@@ -19,11 +19,13 @@ describe('Responses API controller', () => {
 	const journeyId = 'has-questionnaire';
 	const referenceId = '12345';
 	const answers = { test: 'testing' };
+	const lpaCode = 'Q9999';
 	describe('patchResponseByReferenceId', () => {
 		it('should return 200 and data returned from service call if successful', async () => {
 			req.params = {
 				journeyId: journeyId,
-				referenceId: referenceId
+				referenceId: referenceId,
+				lpaCode: lpaCode
 			};
 
 			req.body.answers = answers;
@@ -31,7 +33,7 @@ describe('Responses API controller', () => {
 
 			await patchResponseByReferenceId(req, res);
 
-			expect(patchResponse).toHaveBeenCalledWith(journeyId, referenceId, answers);
+			expect(patchResponse).toHaveBeenCalledWith(journeyId, referenceId, answers, lpaCode);
 			expect(res.status).toHaveBeenCalledWith(200);
 			expect(res.send).toHaveBeenCalledWith({});
 		});
