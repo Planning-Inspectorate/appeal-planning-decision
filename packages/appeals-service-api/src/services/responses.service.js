@@ -23,7 +23,7 @@ const patchResponse = async (journeyId, referenceId, answers, lpaCode) => {
 	}
 };
 
-const getResponse = async (journeyId, referenceId, projection, lpaCode) => {
+const getResponse = async (journeyId, referenceId, projection) => {
 	if (!journeyId) {
 		throw ApiError.noJourneyIdProvided();
 	}
@@ -35,7 +35,7 @@ const getResponse = async (journeyId, referenceId, projection, lpaCode) => {
 	const uniqueId = `${journeyId}:${referenceId}`;
 
 	try {
-		return await responsesRepository.getResponses(uniqueId, lpaCode, projection);
+		return await responsesRepository.getResponses(uniqueId, projection);
 	} catch (err) {
 		logger.error(err);
 		throw ApiError.unableToGetResponse();

@@ -6,18 +6,20 @@ const {
 	HasQuestionnaireMapper
 } = require('../../../src/mappers/questionnaire-submission/has-mapper');
 const questionnaireMapper = new HasQuestionnaireMapper();
-const { LocalEventClient } = require('@pins/common/src/event-client/local-event-client');
+const { LocalEventClient } = require('../../../src/event-client/local-event-client');
 const eventClient = new LocalEventClient();
 
 jest.mock('../../../src/lib/logger', () => {
 	return {
-		error: jest.fn()
+		error: jest.fn(),
+		info: jest.fn()
 	};
 });
 
 describe('./src/services/responses.service', () => {
 	const journeyId = 'has-questionnaire';
 	const referenceId = '12345';
+	const lpaCode = 'Q9999';
 	let patchResponsesSpy, getResponsesSpy, submitResponsesSpy;
 
 	beforeEach(() => {
@@ -33,11 +35,16 @@ describe('./src/services/responses.service', () => {
 		it('calls repository with journeyId, referenceId and answers and returns response if successful', async () => {
 			patchResponsesSpy.mockResolvedValue({});
 
-			const result = await patchResponse(journeyId, referenceId, { test: 'testing' });
+			const result = await patchResponse(journeyId, referenceId, { test: 'testing' }, lpaCode);
 
-			expect(patchResponsesSpy).toHaveBeenCalledWith(journeyId, referenceId, {
-				test: 'testing'
-			});
+			expect(patchResponsesSpy).toHaveBeenCalledWith(
+				journeyId,
+				referenceId,
+				{
+					test: 'testing'
+				},
+				lpaCode
+			);
 			expect(result).toEqual({});
 		});
 
@@ -46,11 +53,16 @@ describe('./src/services/responses.service', () => {
 			patchResponsesSpy.mockRejectedValue(error);
 
 			try {
-				await patchResponse(journeyId, referenceId, { test: 'testing' });
+				await patchResponse(journeyId, referenceId, { test: 'testing' }, lpaCode);
 			} catch (err) {
-				expect(patchResponsesSpy).toHaveBeenCalledWith(journeyId, referenceId, {
-					test: 'testing'
-				});
+				expect(patchResponsesSpy).toHaveBeenCalledWith(
+					journeyId,
+					referenceId,
+					{
+						test: 'testing'
+					},
+					lpaCode
+				);
 				expect(logger.error).toHaveBeenCalledWith(error);
 				expect(err).toEqual(ApiError.unableToUpdateResponse());
 			}
@@ -152,7 +164,7 @@ describe('./src/services/responses.service', () => {
 					test: 'testing'
 				});
 				expect(logger.error).toHaveBeenCalledWith(error);
-				expect(err).toEqual(ApiError.unableToSubmitResponse());
+				expect(err).toEqual(ApiError.unableToGetResponse());
 			}
 		});
 	});
