@@ -27,8 +27,9 @@ class JourneyResponse {
 	 * @param {JourneyType} journeyId
 	 * @param {string} referenceId
 	 * @param {Object | undefined} answers
+	 * @param {string} lpaCode
 	 */
-	constructor(journeyId, referenceId, answers) {
+	constructor(journeyId, referenceId, answers, lpaCode) {
 		this.journeyId = journeyId;
 		this.referenceId = referenceId;
 		if (answers) {
@@ -36,6 +37,7 @@ class JourneyResponse {
 		} else {
 			this.answers = {};
 		}
+		this.LPACode = lpaCode;
 	}
 }
 

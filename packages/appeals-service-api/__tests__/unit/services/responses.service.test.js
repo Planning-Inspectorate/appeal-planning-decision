@@ -2,6 +2,12 @@ const { patchResponse, getResponse } = require('../../../src/services/responses.
 const logger = require('../../../src/lib/logger');
 const { ResponsesRepository } = require('../../../src/repositories/responses-repository');
 const ApiError = require('../../../src/errors/apiError');
+const {
+	HasQuestionnaireMapper
+} = require('../../../src/mappers/questionnaire-submission/has-mapper');
+const questionnaireMapper = new HasQuestionnaireMapper();
+const { LocalEventClient } = require('@pins/common/src/event-client/local-event-client');
+const eventClient = new LocalEventClient();
 
 jest.mock('../../../src/lib/logger', () => {
 	return {
@@ -12,11 +18,12 @@ jest.mock('../../../src/lib/logger', () => {
 describe('./src/services/responses.service', () => {
 	const journeyId = 'has-questionnaire';
 	const referenceId = '12345';
-	let patchResponsesSpy, getResponsesSpy;
+	let patchResponsesSpy, getResponsesSpy, submitResponsesSpy;
 
 	beforeEach(() => {
 		patchResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'patchResponses');
 		getResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'getResponses');
+		submitResponsesSpy = jest.spyOn(eventClient, 'sendEvents');
 	});
 
 	afterEach(() => {
@@ -110,6 +117,42 @@ describe('./src/services/responses.service', () => {
 			} catch (err) {
 				expect(getResponsesSpy).not.toHaveBeenCalled();
 				expect(err).toEqual(ApiError.noJourneyIdProvided());
+			}
+		});
+	});
+
+	describe('submitResponse', () => {
+		it('maps questionnaire data and sends to event client if sucessful', async () => {
+			getResponsesSpy.mockResolvedValue({});
+
+			const questionnaireResponse = {
+				_id: 123456789,
+				answers: {
+					'notified-who': { uploadedFiles: [] },
+					'correct-appeal-type': 'no',
+					'affects-listed-building': 'yes'
+				},
+				journeyId: 'has-questionnaire',
+				referenceId: 'APP/Q9999/W/22/1234567'
+			};
+
+			const mappedData = questionnaireMapper.mapToPINSDataModel(questionnaireResponse);
+			await eventClient.sendEvents('topic', mappedData);
+			expect(submitResponsesSpy).toHaveBeenCalled();
+		});
+
+		it('throws error if submission unsuccessful', async () => {
+			const error = new Error('database error');
+			getResponsesSpy.mockRejectedValue(error);
+
+			try {
+				await getResponse('has-questionnaire', '12345', { test: 'testing' });
+			} catch (err) {
+				expect(getResponsesSpy).toHaveBeenCalledWith('has-questionnaire:12345', {
+					test: 'testing'
+				});
+				expect(logger.error).toHaveBeenCalledWith(error);
+				expect(err).toEqual(ApiError.unableToSubmitResponse());
 			}
 		});
 	});

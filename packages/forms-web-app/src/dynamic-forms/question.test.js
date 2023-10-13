@@ -15,6 +15,7 @@ describe('./src/dynamic-forms/question.js', () => {
 	const VALIDATORS = [1];
 	const HTML = 'resources/question12/content.html';
 	const HINT = 'This is how you submit the form';
+	const LPACode = 'Q9999';
 
 	const getTestQuestion = ({
 		title = TITLE,
@@ -325,7 +326,8 @@ describe('./src/dynamic-forms/question.js', () => {
 		it('should call patchQuestionResponse with encoded ref', async () => {
 			const journeyResponse = {
 				referenceId: '/-123',
-				journeyId: 'abc'
+				journeyId: 'abc',
+				LPACode: LPACode
 			};
 			const responseToSave = { a: 1 };
 
@@ -335,7 +337,8 @@ describe('./src/dynamic-forms/question.js', () => {
 			expect(patchQuestionResponse).toHaveBeenCalledWith(
 				journeyResponse.journeyId,
 				'%2F-123',
-				responseToSave
+				responseToSave,
+				LPACode
 			);
 		});
 	});

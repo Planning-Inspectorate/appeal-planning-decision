@@ -1,11 +1,16 @@
 const logger = require('../lib/logger');
-const { patchResponse, getResponse } = require('../services/responses.service');
+const { patchResponse, getResponse, submitResponse } = require('../services/responses.service');
 
 const patchResponseByReferenceId = async (req, res) => {
 	let statusCode = 200;
 	let body = {};
 	try {
-		body = await patchResponse(req.params.journeyId, req.params.referenceId, req.body.answers);
+		body = await patchResponse(
+			req.params.journeyId,
+			req.params.referenceId,
+			req.body.answers,
+			req.params.lpaCode
+		);
 	} catch (error) {
 		logger.error(`Failed to patch response: ${error.code} // ${error.message.errors}`);
 		statusCode = error.code;
@@ -29,4 +34,23 @@ const getResponseByReferenceId = async (req, res) => {
 	}
 };
 
-module.exports = { patchResponseByReferenceId, getResponseByReferenceId };
+const submitQuestionnaireResponse = async (req, res) => {
+	let statusCode = 200;
+	let body = {};
+	let questionnaireResponse = {};
+	try {
+		questionnaireResponse = await getResponse(req.params.journeyId, req.params.referenceId);
+	} catch (error) {
+		statusCode = error.code;
+		body = error.message.errors;
+	} finally {
+		body = await submitResponse(questionnaireResponse);
+		res.status(statusCode).send(body);
+	}
+};
+
+module.exports = {
+	patchResponseByReferenceId,
+	getResponseByReferenceId,
+	submitQuestionnaireResponse
+};

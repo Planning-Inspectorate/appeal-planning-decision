@@ -108,6 +108,15 @@ class Section {
 		return result;
 	}
 
+	/**
+	 * checks answers on response and return true if the status of the section is complete
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {SectionStatus}
+	 */
+	isComplete(journeyResponse) {
+		return this.getStatus(journeyResponse) === SECTION_STATUS.COMPLETE;
+	}
+
 	//todo: taskList withCondition - i.e. evaluate whether question should be
 	//included in taskList (summary list) or not. See also comment in Question class
 	//constructor - should only evaluate if on task list view

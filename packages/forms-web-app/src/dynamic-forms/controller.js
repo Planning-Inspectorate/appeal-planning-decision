@@ -1,6 +1,10 @@
 // common controllers for dynamic forms
 
-const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
+const {
+	getAppealByLPACodeAndId,
+	submitQuestionnaireResponse
+} = require('../lib/appeals-api-wrapper');
+
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
@@ -214,4 +218,20 @@ exports.remove = async (req, res) => {
 
 		return questionObj.renderAction(res, viewModel);
 	}
+};
+
+/**
+ * @param {ExpressRequest} req
+ * @param {ExpressResponse} res
+ */
+exports.submit = async (req, res) => {
+	const { referenceId } = req.params;
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	if (journey.isComplete()) {
+		await submitQuestionnaireResponse(journeyResponse.journeyId, encodeURIComponent(referenceId));
+		return res.render('./dynamic-components/submission-screen/index');
+	}
+	// return error message
+	return res.sendStatus(400);
 };

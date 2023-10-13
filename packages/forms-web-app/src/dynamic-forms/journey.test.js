@@ -452,5 +452,71 @@ describe('Journey class', () => {
 
 			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}`);
 		});
+		it('should return true for isComplete when all sections are complete', () => {
+			const completeSectionStubs = [
+				{
+					isComplete() {
+						return true;
+					}
+				},
+				{
+					isComplete() {
+						return true;
+					}
+				},
+				{
+					isComplete() {
+						return true;
+					}
+				}
+			];
+			const journey = new TestJourney(...Object.values(constructorArgs));
+			journey.sections = completeSectionStubs;
+			expect(journey.isComplete()).toBe(true);
+		});
+		it('should return false for isComplete when one section is incomplete', () => {
+			const oneIncompleteSectionStubs = [
+				{
+					isComplete() {
+						return false;
+					}
+				},
+				{
+					isComplete() {
+						return true;
+					}
+				},
+				{
+					isComplete() {
+						return true;
+					}
+				}
+			];
+			const journey = new TestJourney(...Object.values(constructorArgs));
+			journey.sections = oneIncompleteSectionStubs;
+			expect(journey.isComplete()).toBe(false);
+		});
+		it('should return false for isComplete when all sections are incomplete', () => {
+			const oneIncompleteSectionStubs = [
+				{
+					isComplete() {
+						return false;
+					}
+				},
+				{
+					isComplete() {
+						return false;
+					}
+				},
+				{
+					isComplete() {
+						return false;
+					}
+				}
+			];
+			const journey = new TestJourney(...Object.values(constructorArgs));
+			journey.sections = oneIncompleteSectionStubs;
+			expect(journey.isComplete()).toBe(false);
+		});
 	});
 });

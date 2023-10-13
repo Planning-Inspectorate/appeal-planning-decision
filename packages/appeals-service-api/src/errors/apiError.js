@@ -120,6 +120,10 @@ class ApiError {
 		return new ApiError(400, { errors: ['Unable to get questionnaire response'] });
 	}
 
+	static unableToSubmitResponse() {
+		return new ApiError(400, { errors: ['Unable to submit questionnaire response'] });
+	}
+
 	// listed building
 	static listedBuildingNotFound(reference) {
 		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });

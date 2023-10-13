@@ -311,4 +311,33 @@ describe('lib/appeals-api-wrapper', () => {
 			}
 		});
 	});
+
+	describe('submitQuestionnaireResponse', () => {
+		it('should remove user by id', async () => {
+			const id = '6492dc1740b8f50012347237';
+			const mockResponse = {};
+			fetch.mockResponseOnce(JSON.stringify(mockResponse));
+			const createResponse = await removeUser(id);
+
+			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v1/users/${id}`, {
+				headers: {
+					'Content-Type': 'application/json',
+					'X-Correlation-ID': uuid.v4()
+				},
+				method: 'DELETE'
+			});
+			expect(createResponse).toEqual(mockResponse);
+		});
+		it('should handle api fetch failure', async () => {
+			fetch.mockResponseOnce(JSON.stringify(['something went wrong']), {
+				status: 400
+			});
+			try {
+				const id = '6492dc1740b8f50012347237';
+				await removeUser(id);
+			} catch (e) {
+				expect(e.toString()).toEqual('Error: something went wrong');
+			}
+		});
+	});
 });
