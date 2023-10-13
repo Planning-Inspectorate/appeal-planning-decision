@@ -38,10 +38,9 @@ class S78Journey extends Journey {
 				questions.howYouNotifiedPeople
 			),
 			new Section('Consultation responses and representations', 'consultation'),
-			new Section(
-				'Planning officer’s report and relevant policies',
-				'planning-officer-report'
-			).addQuestion(questions.emergingPlan),
+			new Section('Planning officer’s report and relevant policies', 'planning-officer-report')
+				.addQuestion(questions.emergingPlan)
+				.addQuestion(questions.communityInfrastructureLevy),
 			new Section('Site access', 'site-access'),
 			new Section('Appeal process', 'appeal-process')
 		);
