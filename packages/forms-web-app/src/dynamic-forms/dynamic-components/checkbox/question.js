@@ -25,6 +25,23 @@ class CheckboxQuestion extends OptionsQuestion {
 			validators
 		});
 	}
+
+	/**
+	 * returns the formatted answers values to be used to build task list elements
+	 * @param {Object} answer
+	 * @param {Journey} journey
+	 * @param {String} sectionSegment
+	 * @returns {Array.<Object>}
+	 */
+	formatAnswerForSummary(sectionSegment, journey, answer) {
+		answer = Array.isArray(answer) ? answer : [answer];
+		const formattedAnswer = this.options
+			.filter((option) => answer.includes(option.value))
+			.map((option) => option.text)
+			.join('<br>');
+
+		return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
+	}
 }
 
 module.exports = CheckboxQuestion;

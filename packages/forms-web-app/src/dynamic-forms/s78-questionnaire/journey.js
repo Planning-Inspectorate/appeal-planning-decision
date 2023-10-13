@@ -34,7 +34,9 @@ class S78Journey extends Journey {
 				questions.listedBuildingCheck
 			),
 			new Section('Environmental impact assessment', 'environmental-impact'),
-			new Section('Notifying relevant parties of the application', 'notified'),
+			new Section('Notifying relevant parties of the application', 'notified').addQuestion(
+				questions.howYouNotifiedPeople
+			),
 			new Section('Consultation responses and representations', 'consultation'),
 			new Section(
 				'Planning officer’s report and relevant policies',
