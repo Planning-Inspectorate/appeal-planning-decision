@@ -362,7 +362,7 @@ exports.questions = {
 	communityInfrastructureLevy: new BooleanQuestion({
 		title: 'Community infrastructure levy',
 		question: 'Is the community infrastructure levy formally adopted?',
-		fieldName: 'community-infrastructure-levy',
+		fieldName: 'community-infrastructure-levy-adopted',
 		validators: [new RequiredValidator()]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
