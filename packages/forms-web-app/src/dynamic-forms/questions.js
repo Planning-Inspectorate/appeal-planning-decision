@@ -249,23 +249,9 @@ exports.questions = {
 		//subQuestion: 'Are there any potential safety risks?',
 		description:
 			'You need to tell inspectors how to prepare for a site visit and what to bring. \n \n What you tell us might include:',
-		// points: [
-		// 	'there is no, or limited mobile reception',
-		// 	'access is blocked',
-		// 	'ladders or other equipment is needed',
-		// 	'site health and safety rules need to be followed (for instance, a hard hat, boots and hi visibility clothing)',
-		// 	'there is livestock or other animals',
-		// 	'there is dangerous debris or overgrown vegetation',
-		// 	'there is potentially hazardous material, such as asbestos'
-		// ],
-		//conditional: 'Add details of the potential risk and what the inspector might need',
-		//conditionalId: 'potential-safety-risks-correct-details',
+		html: 'resources/safety-risks/content.html',
+		label: 'Are there any potential safety risks?',
 		fieldName: 'safety-risks',
-		//required: false,
-		// show: (answers) => {
-		// 	return answers['access-for-inspection'] === 'yes';
-		// },
-		//validator: { type: 'text', maxLength: 100 }
 		validators: [
 			new RequiredValidator(),
 			new ConditionalRequiredValidator(),
