@@ -13,7 +13,7 @@ class HasQuestionnaireMapper {
 					),
 					affectedListedBuildings: () => {
 						if (journeyResponse.answers['affects-listed-building'].value == 'yes') {
-							return this.#convertFrommAddMore(journeyResponse.answers['listed-building-number']);
+							return this.#convertFromAddMore(journeyResponse.answers['listed-building-number']);
 						}
 					},
 					siteWithinGreenBelt: this.#convertToBoolean(journeyResponse.answers['green-belt']),
@@ -24,12 +24,21 @@ class HasQuestionnaireMapper {
 					healthAndSafetyIssuesDetails: () => {
 						if (journeyResponse.answers['safety-risks'].value == 'yes') {
 							// todo use conditonal field from ongoing work
-							return journeyResponse.answers['affects-listed-building'];
+							return journeyResponse.answers['safety-risks_new-safety-risk-value'];
 						}
 					},
 					doesSiteRequireInspectorAccess: this.#convertToBoolean(
 						journeyResponse.answers['inspector-visit-appellant']
 					),
+					hasExtraConditions: this.#convertToBoolean(
+						journeyResponse.answers['new-planning-conditions']
+					),
+					extraConditions: () => {
+						if (journeyResponse.answers['new-planning-conditions'].value == 'yes') {
+							// todo use conditonal field from ongoing work
+							return journeyResponse.answers['safety-risks_new-conditions-value'];
+						}
+					},
 					// todo waititng on odw
 					//journeyResponse.answers['inspector-visit-neighbour'] - should this be housed in the same property as above possibly doNeightboursAffectNeighboringSite
 					// newPlanningConditions: journeyResponse.answers['new-planning-conditions'],
@@ -37,7 +46,7 @@ class HasQuestionnaireMapper {
 					// journeyResponse.answers['other-ongoing-appeals'] // fieldname needs clarifying
 					nearbyCaseReferences: () => {
 						if (journeyResponse.answers['other-ongoing-appeals'].value == 'yes') {
-							return this.#convertFrommAddMore(journeyResponse.answers['other-appeal-reference']);
+							return this.#convertFromAddMore(journeyResponse.answers['other-appeal-reference']);
 						}
 					},
 					documents: [
@@ -92,7 +101,7 @@ class HasQuestionnaireMapper {
 		return value == 'yes' ? true : value == 'no' ? false : null;
 	}
 
-	#convertFrommAddMore(values) {
+	#convertFromAddMore(values) {
 		let sanitisedValues = [];
 		values.forEach((item) => {
 			let sanitisedValue = item.value;
