@@ -38,9 +38,8 @@ describe('S78 Journey class', () => {
 			const journey = new S78Journey(mockResponse);
 			expect(Array.isArray(journey.sections)).toBe(true);
 			expect(journey.sections.length > 0).toBe(true);
-			//todo: when questions are added uncomment the following expectations
-			// expect(Array.isArray(journey.sections[0].questions)).toBe(true);
-			// expect(journey.sections[0].questions.length > 0).toBe(true);
+			expect(Array.isArray(journey.sections[0].questions)).toBe(true);
+			expect(journey.sections[0].questions.length > 0).toBe(true);
 		});
 	});
 });
