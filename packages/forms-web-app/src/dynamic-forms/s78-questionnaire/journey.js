@@ -1,6 +1,7 @@
 const { questions } = require('../questions');
 const { Journey } = require('../journey');
 const { Section } = require('../section');
+const { checkAnswerIncludes } = require('../dynamic-components/utils/check-answer-includes');
 
 const baseS78Url = '/manage-appeals/questionnaire';
 const s78JourneyTemplate = 'questionnaire-template.njk';
@@ -34,13 +35,15 @@ class S78Journey extends Journey {
 				questions.listedBuildingCheck
 			),
 			new Section('Environmental impact assessment', 'environmental-impact'),
-			new Section('Notifying people about the application', 'notified')
+			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.howYouNotifiedPeople)
 				.addQuestion(questions.uploadSiteNotice)
 				.withCondition(
 					response.answers &&
-						(response.answers[questions.howYouNotifiedPeople.fieldName] == 'site-notice' ||
-							response.answers[questions.howYouNotifiedPeople.fieldName]?.includes('site-notice'))
+						checkAnswerIncludes(
+							response.answers[questions.howYouNotifiedPeople.fieldName],
+							'site-notice'
+						)
 				),
 			new Section('Consultation responses and representations', 'consultation'),
 			new Section('Planning officer’s report and relevant policies', 'planning-officer-report')
