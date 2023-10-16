@@ -224,6 +224,7 @@ exports.questions = {
 		question: 'Might the inspector need to enter a neighbour’s land or property?', //The question being asked
 		pageTitle: "Access to a neighbour's land",
 		fieldName: 'inspector-visit-neighbour', //The name of the html input field / stem of the name for screens with multiple fields
+		url: 'inspector-enter-neighbour-site',
 		validators: [new RequiredValidator()]
 	}),
 	neighbouringSitesToBeVisited: new ListAddMoreQuestion({

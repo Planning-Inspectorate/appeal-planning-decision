@@ -49,7 +49,7 @@ class S78Journey extends Journey {
 			new Section('Planning officer’s report and relevant policies', 'planning-officer-report')
 				.addQuestion(questions.emergingPlan)
 				.addQuestion(questions.communityInfrastructureLevy),
-			new Section('Site access', 'site-access'),
+			new Section('Site access', 'site-access').addQuestion(questions.neighbouringSite),
 			new Section('Appeal process', 'appeal-process').addQuestion(questions.appealsNearSite)
 		);
 	}
