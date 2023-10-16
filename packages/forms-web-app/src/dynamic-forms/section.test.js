@@ -159,4 +159,77 @@ describe('./src/dynamic-forms/section.js', () => {
 		expect(section.questions.length).toEqual(1);
 		expect(section.questions[0]).toEqual(question);
 	});
+
+	it('should error with duplicate question fieldName', () => {
+		const commonUrl = 'visitFrequently';
+		const section = new Section();
+		const question = {
+			title: 'ice breaker',
+			question: 'Do you come here often?',
+			description: 'Chit chat',
+			type: 'Boolean',
+			fieldName: commonUrl
+		};
+		section.addQuestion(question);
+
+		expect(() =>
+			section.addQuestion({
+				...question,
+				fieldName: commonUrl
+			})
+		).toThrowError('Duplicate question lookup added to section');
+
+		expect(() =>
+			section.addQuestion({
+				...question,
+				fieldName: 'different',
+				url: commonUrl
+			})
+		).toThrowError('Duplicate question lookup added to section');
+
+		expect(() =>
+			section.addQuestion({
+				...question,
+				fieldName: 'different',
+				url: 'different2'
+			})
+		).not.toThrowError();
+	});
+
+	it('should error with duplicate question url', () => {
+		const commonUrl = 'visitFrequently';
+		const section = new Section();
+		const question = {
+			title: 'ice breaker',
+			question: 'Do you come here often?',
+			description: 'Chit chat',
+			type: 'Boolean',
+			fieldName: 'a-field',
+			url: commonUrl
+		};
+		section.addQuestion(question);
+
+		expect(() =>
+			section.addQuestion({
+				...question,
+				fieldName: commonUrl
+			})
+		).toThrowError('Duplicate question lookup added to section');
+
+		expect(() =>
+			section.addQuestion({
+				...question,
+				fieldName: 'different',
+				url: commonUrl
+			})
+		).toThrowError('Duplicate question lookup added to section');
+
+		expect(() =>
+			section.addQuestion({
+				...question,
+				fieldName: 'different',
+				url: 'different2'
+			})
+		).not.toThrowError();
+	});
 });

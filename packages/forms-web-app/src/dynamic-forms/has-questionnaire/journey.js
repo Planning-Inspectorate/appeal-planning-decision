@@ -30,7 +30,7 @@ class HasJourney extends Journey {
 		);
 
 		this.sections.push(
-			new Section('Constraints, designations and other issues', 'constraints')
+			new Section('Constraints, designations and other issues', 'constraints', this.urlSet)
 				.addQuestion(questions.appealTypeAppropriate)
 				.addQuestion(questions.listedBuildingCheck)
 				.addQuestion(questions.affectedListedBuildings)
@@ -50,7 +50,7 @@ class HasJourney extends Journey {
 				// .addQuestion(questions.conservationAreaUpload)
 				// .withCondition(response.answers[questions.conservationArea.fieldName] == 'yes')
 				.addQuestion(questions.greenBelt),
-			new Section('Notifying relevant parties of the application', 'notified')
+			new Section('Notifying relevant parties of the application', 'notified', this.urlSet)
 				.addQuestion(questions.whoWasNotified)
 				// .addQuestion(questions.howYouNotifiedPeople)
 				.addQuestion(questions.displaySiteNotice)
@@ -84,7 +84,7 @@ class HasJourney extends Journey {
 			// 		'Advertisement'
 			// 	)
 			// )
-			new Section('Consultation responses and representations', 'consultation')
+			new Section('Consultation responses and representations', 'consultation', this.urlSet)
 				.addQuestion(questions.representationsFromOthers)
 				.addQuestion(questions.representationUpload)
 				.withCondition(
@@ -93,9 +93,10 @@ class HasJourney extends Journey {
 				),
 			new Section(
 				"Planning officer's report and supplementary documents",
-				'planning-officer-report'
+				'planning-officer-report',
+				this.urlSet
 			).addQuestion(questions.planningOfficersReportUpload),
-			new Section('Site access', 'site-access')
+			new Section('Site access', 'site-access', this.urlSet)
 				.addQuestion(questions.accessForInspection)
 				.addQuestion(questions.neighbouringSite)
 				.addQuestion(questions.neighbouringSitesToBeVisited)
@@ -103,7 +104,7 @@ class HasJourney extends Journey {
 					response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes'
 				)
 				.addQuestion(questions.potentialSafetyRisks),
-			new Section('Appeal process', 'appeal-process')
+			new Section('Appeal process', 'appeal-process', this.urlSet)
 				.addQuestion(questions.appealsNearSite)
 				.addQuestion(questions.nearbyAppeals)
 				.withCondition(

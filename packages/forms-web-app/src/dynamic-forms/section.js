@@ -30,10 +30,12 @@ class Section {
 	 * creates an instance of a section
 	 * @param {string} name
 	 * @param {string} segment
+	 * @param {Set} [urlSet]
 	 */
-	constructor(name, segment) {
+	constructor(name, segment, urlSet) {
 		this.name = name;
 		this.segment = segment;
+		this.urlSet = urlSet || new Set();
 	}
 
 	/**
@@ -43,7 +45,33 @@ class Section {
 	 */
 	addQuestion(question) {
 		this.questions.push(question);
+
+		this.#checkUrlIsUnique(question, this.urlSet);
+
 		return this;
+	}
+
+	/**
+	 * @param {Question} question
+	 * @param {Set} set
+	 */
+	#checkUrlIsUnique(question, set) {
+		const hasFieldName = set.has(question.fieldName);
+		const hasUrl = set.has(question.url);
+
+		if (hasFieldName) {
+			throw new Error('Duplicate question lookup added to section');
+		}
+
+		if (hasUrl && typeof question.url !== 'undefined') {
+			throw new Error('Duplicate question lookup added to section');
+		}
+
+		set.add(question.fieldName);
+
+		if (typeof question.url !== 'undefined') {
+			set.add(question.url);
+		}
 	}
 
 	/**

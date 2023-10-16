@@ -8,7 +8,6 @@
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./section').Section} Section
  * @typedef {import('./question')} Question
- * @typedef {import('./question')} Question
  */
 
 /**
@@ -78,6 +77,8 @@ class Journey {
 		this.journeyTitle = journeyTitle;
 
 		this.response = response;
+
+		this.urlSet = new Set();
 	}
 
 	/**

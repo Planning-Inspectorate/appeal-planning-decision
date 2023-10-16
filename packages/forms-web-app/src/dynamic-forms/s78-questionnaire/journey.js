@@ -31,7 +31,7 @@ class S78Journey extends Journey {
 		);
 
 		this.sections.push(
-			new Section('Constraints, designations and other issues', 'constraints')
+			new Section('Constraints, designations and other issues', 'constraints', this.urlSet)
 				.addQuestion(questions.appealTypeAppropriate)
 				.addQuestion(questions.changesListedBuilding)
 				.addQuestion(questions.changedListedBuildingNumber)
@@ -53,8 +53,8 @@ class S78Journey extends Journey {
 				.addQuestion(questions.uploadDefinitiveMap)
 				.addQuestion(questions.gypsyOrTraveller)
 				.addQuestion(questions.rightOfWayCheck),
-			new Section('Environmental impact assessment', 'environmental-impact'),
-			new Section('Notifying relevant parties of the application', 'notified')
+			new Section('Environmental impact assessment', 'environmental-impact', this.urlSet),
+			new Section('Notifying relevant parties of the application', 'notified', this.urlSet)
 				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
 				.addQuestion(questions.uploadSiteNotice)
@@ -81,7 +81,7 @@ class S78Journey extends Journey {
 							'advert'
 						)
 				),
-			new Section('Consultation responses and representations', 'consultation')
+			new Section('Consultation responses and representations', 'consultation', this.urlSet)
 				.addQuestion(questions.statutoryConsultees)
 				.addQuestion(questions.consultationResponses)
 				.addQuestion(questions.consultationResponsesUpload)
@@ -91,7 +91,11 @@ class S78Journey extends Journey {
 					response.answers &&
 						response.answers[questions.representationsFromOthers.fieldName] == 'yes'
 				),
-			new Section('Planning officer’s report and supporting documents', 'planning-officer-report')
+			new Section(
+				'Planning officer’s report and supporting documents',
+				'planning-officer-report',
+				this.urlSet
+			)
 				.addQuestion(questions.emergingPlan)
 				.addQuestion(questions.emergingPlanUpload)
 				.withCondition(
@@ -126,7 +130,7 @@ class S78Journey extends Journey {
 						response.answers[questions.communityInfrastructureLevy.fieldName] == 'yes' &&
 						response.answers[questions.communityInfrastructureLevyAdopted.fieldName] == 'no'
 				),
-			new Section('Site access', 'site-access')
+			new Section('Site access', 'site-access', this.urlSet)
 				.addQuestion(questions.accessForInspection)
 				.addQuestion(questions.neighbouringSite)
 				.addQuestion(questions.neighbouringSitesToBeVisited)
@@ -134,7 +138,7 @@ class S78Journey extends Journey {
 					response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes'
 				)
 				.addQuestion(questions.potentialSafetyRisks),
-			new Section('Appeal process', 'appeal-process')
+			new Section('Appeal process', 'appeal-process', this.urlSet)
 				.addQuestion(questions.appealsNearSite)
 				.addQuestion(questions.nearbyAppeals)
 				.addQuestion(questions.addNewConditions)
