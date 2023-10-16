@@ -1,5 +1,5 @@
 const { endOfDay } = require('date-fns');
-const { utcToZonedTime, zonedTimeToUtc } = require('date-fns-tz');
+const { utcToZonedTime, zonedTimeToUtc, formatInTimeZone } = require('date-fns-tz');
 
 const { APPEAL_ID, APPLICATION_DECISION } = require('../../constants');
 const BusinessRulesError = require('../../lib/business-rules-error');
@@ -75,6 +75,21 @@ describe('calculateAppealDeadline', () => {
 		({ input, expected }) => {
 			const result = calculateAppealDeadline(input, APPEAL_ID.PLANNING_SECTION_78);
 			expect(result.toISOString()).toEqual(expected);
+			expect(formatInTimeZone(result, targetTimezone, 'HH:mm:ss')).toEqual('23:59:59');
+		}
+	);
+
+	const s78RolloverTestCases = [
+		{ input: new Date('2020-01-01T23:59:59.999Z'), expected: '2020-07-01T22:59:59.999Z' }, // input at end of day in utc will remain the same
+		{ input: new Date('2020-05-31T23:59:59.999Z'), expected: '2020-12-01T23:59:59.999Z' } // input at end of day in bst will roll over to next day as input is 2020-06-01 in UK time
+	];
+
+	it.each(s78RolloverTestCases)(
+		'PLANNING_SECTION_78 would add 6 months and potentially rollover if times passed through are already at end of day: $input should return $expected',
+		({ input, expected }) => {
+			const result = calculateAppealDeadline(input, APPEAL_ID.PLANNING_SECTION_78);
+			expect(result.toISOString()).toEqual(expected);
+			expect(formatInTimeZone(result, targetTimezone, 'HH:mm:ss')).toEqual('23:59:59');
 		}
 	);
 
@@ -85,6 +100,9 @@ describe('calculateAppealDeadline', () => {
 		const endZoned = endOfDay(zoned);
 		const endUTC = zonedTimeToUtc(endZoned, targetTimezone);
 		expect(endUTC.toISOString()).toEqual('2020-08-01T22:59:59.999Z');
+		expect(formatInTimeZone(endUTC, targetTimezone, 'yyyy-MM-dd HH:mm:ss zzz')).toEqual(
+			'2020-08-01 23:59:59 GMT+1'
+		);
 	});
 
 	it('date-fns should get end of day in GMT timezone', () => {
@@ -94,5 +112,8 @@ describe('calculateAppealDeadline', () => {
 		const endZoned = endOfDay(zoned);
 		const endUTC = zonedTimeToUtc(endZoned, targetTimezone);
 		expect(endUTC.toISOString()).toEqual('2020-01-01T23:59:59.999Z');
+		expect(formatInTimeZone(endUTC, targetTimezone, 'yyyy-MM-dd HH:mm:ss zzz')).toEqual(
+			'2020-01-01 23:59:59 GMT'
+		);
 	});
 });
