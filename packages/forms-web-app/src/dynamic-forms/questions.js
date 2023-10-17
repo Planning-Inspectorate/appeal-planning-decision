@@ -48,7 +48,11 @@ exports.questions = {
 		question: 'Does the proposed development affect the setting of listed buildings?',
 		fieldName: 'affects-listed-building',
 		url: 'affect-listed-building',
-		validators: [new RequiredValidator()]
+		validators: [
+			new RequiredValidator(
+				'Select yes if the proposed development affects the setting of listed buildings'
+			)
+		]
 	}),
 	affectedListedBuildings: new ListAddMoreQuestion({
 		title: 'Listed building or site added',
