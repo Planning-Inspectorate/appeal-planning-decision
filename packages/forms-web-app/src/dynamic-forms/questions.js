@@ -47,6 +47,7 @@ exports.questions = {
 		pageTitle: 'Affects on a listed building or site',
 		question: 'Does the proposed development affect the setting of listed buildings?',
 		fieldName: 'affects-listed-building',
+		url: 'affect-listed-building',
 		validators: [new RequiredValidator()]
 	}),
 	affectedListedBuildings: new ListAddMoreQuestion({
