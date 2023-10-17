@@ -285,6 +285,7 @@ exports.questions = {
 		title: 'Appeals near the site',
 		question: 'Are there any other ongoing appeals next to, or close to the site?',
 		pageTitle: 'Are there any other ongoing appeals near the site?',
+		url: 'ongoing-appeals',
 		fieldName: 'other-ongoing-appeals',
 		validators: [new RequiredValidator()]
 	}),
