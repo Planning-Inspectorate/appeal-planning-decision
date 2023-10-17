@@ -202,8 +202,13 @@ exports.questions = {
 	representationsFromOthers: new BooleanQuestion({
 		title: 'Representations from other parties',
 		question: 'Did you receive representations from members of the public or other parties?',
+		url: 'representations',
 		fieldName: 'representations-other-parties',
-		validators: [new RequiredValidator()]
+		validators: [
+			new RequiredValidator(
+				'Select yes if you received representations from members of the public or other parties'
+			)
+		]
 	}),
 	representationUpload: new MultiFileUploadQuestion({
 		title: 'Upload representations from other parties',
