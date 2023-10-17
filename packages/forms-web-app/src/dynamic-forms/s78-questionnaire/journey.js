@@ -46,7 +46,9 @@ class S78Journey extends Journey {
 							'site-notice'
 						)
 				),
-			new Section('Consultation responses and representations', 'consultation'),
+			new Section('Consultation responses and representations', 'consultation').addQuestion(
+				questions.representationsFromOthers
+			),
 			new Section('Planning officer’s report and relevant policies', 'planning-officer-report')
 				.addQuestion(questions.emergingPlan)
 				.addQuestion(questions.communityInfrastructureLevyAdopted),
