@@ -33,7 +33,8 @@ class S78Journey extends Journey {
 		this.sections.push(
 			new Section('Constraints, designations and other issues', 'constraints')
 				.addQuestion(questions.listedBuildingCheck)
-				.addQuestion(questions.greenBelt),
+				.addQuestion(questions.greenBelt)
+				.addQuestion(questions.conservationArea),
 			new Section('Environmental impact assessment', 'environmental-impact'),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.howYouNotifiedPeople)
