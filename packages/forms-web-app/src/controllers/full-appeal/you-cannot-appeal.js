@@ -8,9 +8,7 @@ const getYouCannotAppeal = async (req, res) => {
 
 	let appealPeriodToBeDisplayed;
 
-	if (appealPeriod === '181 days') {
-		appealPeriodToBeDisplayed = '6 months';
-	} else if (appealPeriod === '83 days') {
+	if (appealPeriod === '84 days') {
 		appealPeriodToBeDisplayed = '12 weeks';
 	} else {
 		appealPeriodToBeDisplayed = appealPeriod;

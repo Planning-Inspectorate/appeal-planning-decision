@@ -16,12 +16,7 @@ const getCannotAppeal = (req, res) => {
 	);
 	let deadlinePeriod = getDeadlinePeriod(appeal.appealType, appeal.eligibility.applicationDecision);
 
-	if (arraysEqual(Object.values(deadlinePeriod), ['days', 181])) {
-		deadlinePeriod = {
-			time: 6,
-			duration: 'months'
-		};
-	} else if (arraysEqual(Object.values(deadlinePeriod), ['days', 83])) {
+	if (arraysEqual(Object.values(deadlinePeriod), ['days', 84])) {
 		deadlinePeriod = {
 			time: 12,
 			duration: 'weeks'

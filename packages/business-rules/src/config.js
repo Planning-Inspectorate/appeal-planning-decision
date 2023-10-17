@@ -29,16 +29,16 @@ const config = {
 				procedureType: [WRITTEN_REPRESENTATION],
 				appealDue: {
 					granted: {
-						time: 181,
-						duration: 'days'
+						time: 6,
+						duration: 'months'
 					},
 					refused: {
-						time: 83,
+						time: 84,
 						duration: 'days'
 					},
 					nodecisionreceived: {
-						time: 181,
-						duration: 'days'
+						time: 6,
+						duration: 'months'
 					}
 				},
 				questionnaireDue: {
