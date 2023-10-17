@@ -346,8 +346,8 @@ exports.questions = {
 		validators: [new RequiredValidator()],
 		html: 'resources/emerging-plan/content.html'
 	}),
-	communityInfrastructureLevy: new BooleanQuestion({
-		title: 'Community infrastructure levy',
+	communityInfrastructureLevyAdopted: new BooleanQuestion({
+		title: 'Community infrastructure levy formally adopted',
 		question: 'Is the community infrastructure levy formally adopted?',
 		fieldName: 'community-infrastructure-levy-adopted',
 		validators: [new RequiredValidator()]
