@@ -5,7 +5,7 @@ const logger = require('../lib/logger.js');
 const eventClient = getEventClient(
 	config.serviceBus.serviceBusEnabled,
 	logger,
-	config.serviceBusOptions?.hostname
+	config.serviceBus.hostname
 );
 
 module.exports = eventClient;

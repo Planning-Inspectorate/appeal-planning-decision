@@ -172,7 +172,8 @@ let config = {
 		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
 	},
 	serviceBus: {
-		serviceBusEnabled: process.env.SERVICE_BUS_ENABLED || false
+		serviceBusEnabled: process.env.SERVICE_BUS_ENABLED || false,
+		hostname: process.env.SERVICE_BUS_HOSTNAME
 	}
 };
 
