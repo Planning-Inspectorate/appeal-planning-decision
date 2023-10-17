@@ -1,6 +1,7 @@
 const {
 	patchResponseByReferenceId,
-	getResponseByReferenceId
+	getResponseByReferenceId,
+	submitQuestionnaireResponse
 } = require('../../../src/controllers/responses');
 const ApiError = require('../../../src/errors/apiError');
 const {
@@ -20,6 +21,9 @@ describe('Responses API controller', () => {
 	const referenceId = '12345';
 	const answers = { test: 'testing' };
 	const lpaCode = 'Q9999';
+	beforeEach(async () => {
+		jest.clearAllMocks();
+	});
 	describe('patchResponseByReferenceId', () => {
 		it('should return 200 and data returned from service call if successful', async () => {
 			req.params = {
@@ -31,11 +35,12 @@ describe('Responses API controller', () => {
 			req.body.answers = answers;
 			patchResponse.mockReturnValue({});
 
-			await patchResponseByReferenceId(req, res);
+			const result = await patchResponseByReferenceId(req, res);
 
 			expect(patchResponse).toHaveBeenCalledWith(journeyId, referenceId, answers, lpaCode);
 			expect(res.status).toHaveBeenCalledWith(200);
 			expect(res.send).toHaveBeenCalledWith({});
+			expect(result).toEqual(res);
 		});
 
 		it('should return error status code and message if service call errors', async () => {
@@ -44,10 +49,24 @@ describe('Responses API controller', () => {
 				throw error;
 			});
 
-			await patchResponseByReferenceId(req, res);
+			const result = await patchResponseByReferenceId(req, res);
 
 			expect(res.status).toHaveBeenCalledWith(error.code);
 			expect(res.send).toHaveBeenCalledWith(error.message.errors);
+			expect(result).toEqual(res);
+		});
+		it('should throw an error if an unexpected error is thrown', async () => {
+			const unexpectedError = new Error('blah');
+			patchResponse.mockImplementation(() => {
+				throw unexpectedError;
+			});
+			try {
+				await patchResponseByReferenceId(req, res);
+			} catch (error) {
+				expect(error).toEqual(unexpectedError);
+			}
+			expect(res.status).not.toHaveBeenCalled();
+			expect(res.send).not.toHaveBeenCalled();
 		});
 	});
 
@@ -62,11 +81,12 @@ describe('Responses API controller', () => {
 
 			getResponse.mockReturnValue({ test: 'test' });
 
-			await getResponseByReferenceId(req, res);
+			const result = await getResponseByReferenceId(req, res);
 
 			expect(getResponse).toHaveBeenCalledWith(journeyId, referenceId, projection);
 			expect(res.status).toHaveBeenCalledWith(200);
 			expect(res.send).toHaveBeenCalledWith({ test: 'test' });
+			expect(result).toEqual(res);
 		});
 
 		it('should return error status code and message if service call errors', async () => {
@@ -75,10 +95,11 @@ describe('Responses API controller', () => {
 				throw error;
 			});
 
-			await getResponseByReferenceId(req, res);
+			const result = await getResponseByReferenceId(req, res);
 
 			expect(res.status).toHaveBeenCalledWith(error.code);
 			expect(res.send).toHaveBeenCalledWith(error.message.errors);
+			expect(result).toEqual(res);
 		});
 	});
 
@@ -88,18 +109,18 @@ describe('Responses API controller', () => {
 				journeyId: journeyId,
 				referenceId: referenceId
 			};
-			let questionnaireResponse;
+			let questionnaireResponse = { test: 'test' };
 
-			getResponse.mockReturnValue({ test: 'test' });
-			questionnaireResponse = await getResponseByReferenceId(req, res);
+			getResponse.mockReturnValue(questionnaireResponse);
+			submitResponse.mockReturnValue({});
 
-			expect(getResponse).toHaveBeenCalledWith(journeyId, referenceId, undefined);
-			expect(res.status).toHaveBeenCalledWith(200);
-			expect(res.send).toHaveBeenCalledWith({ test: 'test' });
+			const result = await submitQuestionnaireResponse(req, res);
 
-			await submitResponse(questionnaireResponse);
+			expect(getResponse).toHaveBeenCalledWith(journeyId, referenceId);
+
 			expect(submitResponse).toHaveBeenCalledWith(questionnaireResponse);
 			expect(res.status).toHaveBeenCalledWith(200);
+			expect(result).toEqual(res);
 		});
 
 		it('should return error status code and message if service call errors', async () => {
@@ -108,10 +129,24 @@ describe('Responses API controller', () => {
 				throw error;
 			});
 
-			await getResponseByReferenceId(req, res);
+			const result = await submitQuestionnaireResponse(req, res);
 
 			expect(res.status).toHaveBeenCalledWith(error.code);
 			expect(res.send).toHaveBeenCalledWith(error.message.errors);
+			expect(result).toEqual(res);
+		});
+		it('should throw an error if an unexpected error is thrown', async () => {
+			const unexpectedError = new Error('blah');
+			getResponse.mockImplementation(() => {
+				throw unexpectedError;
+			});
+			try {
+				await submitQuestionnaireResponse(req, res);
+			} catch (error) {
+				expect(error).toEqual(unexpectedError);
+			}
+			expect(res.status).not.toHaveBeenCalled();
+			expect(res.send).not.toHaveBeenCalled();
 		});
 	});
 });
