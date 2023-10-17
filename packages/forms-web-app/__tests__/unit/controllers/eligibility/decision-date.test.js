@@ -1,6 +1,7 @@
 const appeal = require('@pins/business-rules/test/data/householder-appeal');
 const { subWeeks, addDays, subDays, endOfDay, format, parseISO } = require('date-fns');
 const dateFilter = require('nunjucks-date-filter');
+const { config, constants } = require('@pins/business-rules');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -225,8 +226,11 @@ describe('controllers/eligibility/decision-date', () => {
 		it('should call the correct template with deadline date being 12 weeks after decision date', () => {
 			appeal.decisionDate = '2020-10-10';
 
-			const date = addDays(endOfDay(parseISO(appeal.decisionDate)), 83);
-			expect(dateFilter(date, 'DD MMMM YYYY')).toBe('01 January 2021');
+			const date = addDays(
+				endOfDay(parseISO(appeal.decisionDate)),
+				config.appeal.type[constants.APPEAL_ID.HOUSEHOLDER].appealDue.refused?.time
+			);
+			expect(dateFilter(date, 'DD MMMM YYYY')).toBe('02 January 2021');
 
 			decisionDateController.getDecisionDatePassed(req, res);
 

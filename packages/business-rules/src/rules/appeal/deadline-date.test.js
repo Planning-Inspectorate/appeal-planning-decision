@@ -45,7 +45,7 @@ describe('calculateAppealDeadline', () => {
 
 		const result = calculateAppealDeadline(decisionDate, appealType, applicationDecision);
 
-		expect(result.toISOString()).toEqual('2021-01-11T23:59:59.999Z');
+		expect(result.toISOString()).toEqual('2021-01-12T23:59:59.999Z');
 	});
 
 	it('calculates the appeal deadline with default values when optional arguments are not provided', () => {
@@ -53,7 +53,7 @@ describe('calculateAppealDeadline', () => {
 
 		const result = calculateAppealDeadline(decisionDate);
 
-		expect(result.toISOString()).toEqual('2024-01-11T23:59:59.999Z');
+		expect(result.toISOString()).toEqual('2024-01-12T23:59:59.999Z');
 	});
 
 	const s78TestCases = [

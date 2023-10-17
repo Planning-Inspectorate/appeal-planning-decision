@@ -1,6 +1,7 @@
 const { subWeeks, subDays, add } = require('date-fns');
 const isWithinDecisionDateExpiryPeriod = require('./is-within-decision-date-expiry-period');
 const { APPEAL_ID, APPLICATION_DECISION } = require('../../../constants');
+const { appeal } = require('../../../config');
 
 describe('validation/appeal/decision-date/is-within-decision-date-expiry-period', () => {
 	let currentDate;
@@ -44,7 +45,10 @@ describe('validation/appeal/decision-date/is-within-decision-date-expiry-period'
 	});
 
 	describe('if decision date is 12 weeks ago from today then it...', () => {
-		const decisionDate = subDays(new Date(), 83);
+		const decisionDate = subDays(
+			new Date(),
+			appeal.type[APPEAL_ID.HOUSEHOLDER].appealDue.refused?.time
+		);
 
 		it('should return true if today is before deadline date', () => {
 			expect(
