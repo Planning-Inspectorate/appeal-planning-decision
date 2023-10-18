@@ -93,7 +93,7 @@ exports.postDateDecisionDue = async (req, res) => {
 	);
 
 	const redirectTo = isWithinExpiryPeriod ? navigationPage.nextPage : navigationPage.shutterPage;
-	const { duration, time } = rules.appeal.deadlinePeriod(
+	const deadlinePeriod = rules.appeal.deadlinePeriod(
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);
@@ -106,6 +106,6 @@ exports.postDateDecisionDue = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-	req.session.appeal.eligibility.appealPeriod = `${time} ${duration}`;
+	req.session.appeal.eligibility.appealPeriod = deadlinePeriod.description;
 	res.redirect(redirectTo);
 };

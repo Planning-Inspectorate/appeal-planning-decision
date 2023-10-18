@@ -10,7 +10,7 @@ const BusinessRulesError = require('../../lib/business-rules-error');
  * @param {string} appealType
  * @param {string} applicationDecision
  *
- * @return {string} appeal deadling duration and time
+ * @return {{duration: string, time: string, description: string}} appeal deadling duration and time
  *
  * @throws {BusinessRulesError}
  */
@@ -31,9 +31,18 @@ module.exports = (appealType = APPEAL_ID.HOUSEHOLDER, applicationDecision) => {
 		appeal.type[appealType].appealDue[applicationDecision] === undefined
 			? appeal.type[appealType].appealDue.time
 			: appeal.type[appealType].appealDue[applicationDecision].time;
+	let description =
+		appeal.type[appealType].appealDue[applicationDecision] === undefined
+			? appeal.type[appealType].appealDue.description
+			: appeal.type[appealType].appealDue[applicationDecision].description;
+
+	if (!description) {
+		description = `${time} ${duration}`;
+	}
 
 	return {
 		duration,
-		time
+		time,
+		description
 	};
 };

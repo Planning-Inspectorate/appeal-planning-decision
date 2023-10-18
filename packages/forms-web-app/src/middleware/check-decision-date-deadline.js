@@ -31,11 +31,11 @@ const setShutterPageProps = (req) => {
 			appeal.eligibility.applicationDecision
 		);
 
-	const { duration, time } = rules.appeal.deadlinePeriod(
+	const deadlinePeriod = rules.appeal.deadlinePeriod(
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);
-	req.session.appeal.eligibility.appealPeriod = `${time} ${duration}`;
+	req.session.appeal.eligibility.appealPeriod = deadlinePeriod.description;
 };
 
 const isWithinExpiryPeriod = (appeal) => {

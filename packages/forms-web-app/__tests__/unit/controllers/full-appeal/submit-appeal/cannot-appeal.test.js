@@ -34,7 +34,8 @@ describe('controllers/full-appeal/submit-appeal/cannot-appeal', () => {
 			hasDeadlineDatePassed.mockResolvedValue(false);
 			getDeadlinePeriod.mockResolvedValue({
 				time: 181,
-				duration: 'days'
+				duration: 'days',
+				description: '181 days'
 			});
 			getCannotAppeal(req, res);
 			const { appeal } = req.session;
@@ -53,7 +54,7 @@ describe('controllers/full-appeal/submit-appeal/cannot-appeal', () => {
 			expect(res.render).toHaveBeenCalledWith(CANNOT_APPEAL, {
 				beforeYouStartFirstPage,
 				deadlineDate,
-				deadlinePeriod
+				deadlinePeriod: deadlinePeriod.description
 			});
 		});
 	});

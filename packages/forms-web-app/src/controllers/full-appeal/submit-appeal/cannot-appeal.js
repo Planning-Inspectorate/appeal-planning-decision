@@ -4,7 +4,6 @@ const {
 	}
 } = require('../../../lib/full-appeal/views');
 const { businessRulesDeadline, getDeadlinePeriod } = require('../../../lib/calculate-deadline');
-const { arraysEqual } = require('../../../lib/arrays-equal');
 
 const getCannotAppeal = (req, res) => {
 	const { appeal } = req.session;
@@ -14,19 +13,15 @@ const getCannotAppeal = (req, res) => {
 		appeal.appealType,
 		appeal.eligibility.applicationDecision
 	);
-	let deadlinePeriod = getDeadlinePeriod(appeal.appealType, appeal.eligibility.applicationDecision);
-
-	if (arraysEqual(Object.values(deadlinePeriod), ['days', 84])) {
-		deadlinePeriod = {
-			time: 12,
-			duration: 'weeks'
-		};
-	}
+	const deadlinePeriod = getDeadlinePeriod(
+		appeal.appealType,
+		appeal.eligibility.applicationDecision
+	);
 
 	res.render(CANNOT_APPEAL, {
 		beforeYouStartFirstPage,
 		deadlineDate,
-		deadlinePeriod
+		deadlinePeriod: deadlinePeriod.description
 	});
 };
 

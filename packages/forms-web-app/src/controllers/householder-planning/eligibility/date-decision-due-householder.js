@@ -64,13 +64,13 @@ exports.postDateDecisionDueHouseholder = async (req, res) => {
 	);
 
 	if (!isWithinExpiryPeriod) {
-		const { duration, time } = rules.appeal.deadlinePeriod(
+		const deadline = rules.appeal.deadlinePeriod(
 			appeal.appealType,
 			appeal.eligibility.applicationDecision
 		);
 
 		req.session.appeal.eligibility.appealDeadline = deadlineDate;
-		req.session.appeal.eligibility.appealPeriod = `${time} ${duration}`;
+		req.session.appeal.eligibility.appealPeriod = deadline.description;
 
 		return res.redirect(shutterPage);
 	}
