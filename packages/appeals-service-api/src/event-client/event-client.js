@@ -15,10 +15,8 @@ const { ServiceBusEventClient } = require('./service-bus-event-client.js');
  * @param {string} serviceBusHostname
  * @returns {ServiceBusEventClient | LocalEventClient}
  */
-function getEventClient(serviceBusEnabled, logger, serviceBusHostname = '') {
-	return serviceBusEnabled
-		? new ServiceBusEventClient(logger, serviceBusHostname)
-		: new LocalEventClient(logger);
+function getEventClient(serviceBusEnabled, serviceBusHostname = '') {
+	return serviceBusEnabled ? new ServiceBusEventClient(serviceBusHostname) : new LocalEventClient();
 }
 module.exports = {
 	getEventClient
