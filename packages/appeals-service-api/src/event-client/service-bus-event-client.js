@@ -7,11 +7,8 @@ const DefaultAzureCredential = require('@azure/identity');
  * @class
  */
 class ServiceBusEventClient {
-	constructor() {
-		this.client = new ServiceBusClient(
-			process.env.SERVICE_BUS_HOSTNAME,
-			new DefaultAzureCredential()
-		);
+	constructor(serviceBusHostname) {
+		this.client = new ServiceBusClient(serviceBusHostname, new DefaultAzureCredential());
 	}
 	/**
 	 *
@@ -66,4 +63,4 @@ class ServiceBusEventClient {
 	};
 }
 
-module.exports = ServiceBusEventClient;
+module.exports = { ServiceBusEventClient };
