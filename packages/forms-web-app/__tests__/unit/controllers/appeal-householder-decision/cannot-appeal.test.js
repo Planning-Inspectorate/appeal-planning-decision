@@ -32,8 +32,9 @@ describe('controllers/appeal-householder-decision/cannot-appeal', () => {
 		it('should call the correct template', () => {
 			hasDeadlineDatePassed.mockResolvedValue(false);
 			getDeadlinePeriod.mockResolvedValue({
-				time: 12,
-				duration: 'weeks'
+				time: 84,
+				duration: 'days',
+				description: '12 weeks'
 			});
 			getCannotAppeal(req, res);
 			const { appeal } = req.session;
@@ -51,7 +52,7 @@ describe('controllers/appeal-householder-decision/cannot-appeal', () => {
 			expect(res.render).toHaveBeenCalledWith(CANNOT_APPEAL, {
 				beforeYouStartFirstPage,
 				deadlineDate,
-				deadlinePeriod
+				deadlinePeriod: deadlinePeriod.description
 			});
 		});
 	});

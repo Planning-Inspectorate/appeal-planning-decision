@@ -59,12 +59,12 @@ exports.postDecisionDate = async (req, res) => {
 			appeal.appealType,
 			appeal.eligibility.applicationDecision
 		);
-		const { time, duration } = rules.appeal.deadlinePeriod(
+		const deadlinePeriod = rules.appeal.deadlinePeriod(
 			appeal.appealType,
 			appeal.eligibility.applicationDecision
 		);
 		req.session.appeal.eligibility.appealDeadline = deadlineDate;
-		req.session.appeal.eligibility.appealPeriod = `${time} ${duration}`;
+		req.session.appeal.eligibility.appealPeriod = deadlinePeriod.description;
 
 		return res.redirect(`/before-you-start/you-cannot-appeal`);
 	}
