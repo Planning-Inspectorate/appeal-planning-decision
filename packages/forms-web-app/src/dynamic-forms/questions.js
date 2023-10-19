@@ -227,7 +227,11 @@ exports.questions = {
 		question: 'Might the inspector need access to the appellant’s land or property?',
 		pageTitle: "Access to the appellant's land",
 		fieldName: 'inspector-access-appeal-site',
-		validators: [new RequiredValidator()]
+		validators: [
+			new RequiredValidator(
+				'Select yes if the inspector might need to enter a neighbour’s land or property'
+			)
+		]
 	}),
 	neighbouringSite: new BooleanQuestion({
 		title: 'Inspector visit to neighbour', //Title used in the summary list
