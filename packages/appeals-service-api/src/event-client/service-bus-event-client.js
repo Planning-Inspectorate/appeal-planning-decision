@@ -32,15 +32,17 @@ class ServiceBusEventClient {
 	 *
 	 * @param {object[]} events
 	 * @param {number} traceId
+	 * @param {import('./event-type.js').EventType} type
 	 * @returns {MessageObjectToSend[]}
 	 */
-	#transformMessagesToSend = (events, traceId) => {
+	#transformMessagesToSend = (events, traceId, type) => {
 		return events.map((body) => ({
 			body,
 			contentType: 'application/json',
 			applicationProperties: {
 				version: '0.1',
-				traceId
+				traceId,
+				type
 			}
 		}));
 	};
@@ -49,15 +51,16 @@ class ServiceBusEventClient {
 	 *
 	 * @param {string} topic
 	 * @param {any[]} events
+	 * @param {import('./event-type.js').EventType} eventType
 	 */
-	sendEvents = async (topic, events) => {
+	sendEvents = async (topic, events, eventType) => {
 		const sender = this.#createSender(topic);
 
 		const traceId = this.#createTraceId();
 
 		logger.info(`Publishing ${events.length} events to topic ${topic} with trace id ${traceId}`);
 
-		await sender.sendMessages(this.#transformMessagesToSend(events, traceId));
+		await sender.sendMessages(this.#transformMessagesToSend(events, traceId, eventType));
 
 		return events;
 	};

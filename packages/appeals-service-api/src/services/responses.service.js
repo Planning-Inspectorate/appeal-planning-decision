@@ -5,6 +5,7 @@ const responsesRepository = new ResponsesRepository();
 const { HasQuestionnaireMapper } = require('../mappers/questionnaire-submission/has-mapper');
 const questionnaireMapper = new HasQuestionnaireMapper();
 const eventClient = require('../infrastructure/event-client');
+const { EventType } = require('../event-client/event-type');
 
 const patchResponse = async (journeyId, referenceId, answers, lpaCode) => {
 	if (!journeyId) {
@@ -45,7 +46,11 @@ const getResponse = async (journeyId, referenceId, projection) => {
 const submitResponse = async (questionnaireResponse) => {
 	try {
 		const mappedData = questionnaireMapper.mapToPINSDataModel(questionnaireResponse);
-		return await eventClient.sendEvents('appeal-fo-lpa-response-submission', mappedData);
+		return await eventClient.sendEvents(
+			'appeal-fo-lpa-response-submission',
+			mappedData,
+			EventType.Create
+		);
 	} catch (err) {
 		logger.error(err);
 		throw ApiError.unableToSubmitResponse();
