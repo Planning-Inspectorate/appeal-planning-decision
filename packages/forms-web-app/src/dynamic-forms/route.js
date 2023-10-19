@@ -23,16 +23,6 @@ router.post(
 	save
 );
 
-// save
-router.post(
-	'/questionnaire/:referenceId/:section/:question',
-	getJourneyResponse(),
-	dynamicReqFilesToReqBodyFiles(),
-	validate(),
-	validationErrorHandler,
-	save
-);
-
 // submit
 router.post('/questionnaire/:referenceId/', getJourneyResponse(), validationErrorHandler, submit);
 
