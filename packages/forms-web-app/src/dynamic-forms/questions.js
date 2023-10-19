@@ -33,6 +33,8 @@ const {
 const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
 const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
 const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
+const DateValidator = require('./validator/date-validator');
+const DateQuestion = require('./dynamic-components/date/question');
 
 // Define all questions
 exports.questions = {
@@ -391,6 +393,13 @@ exports.questions = {
 		question: 'Is the community infrastructure levy formally adopted?',
 		fieldName: 'community-infrastructure-levy-adopted',
 		validators: [new RequiredValidator()]
+	}),
+	communityInfrastructureLevyAdoptedDate: new DateQuestion({
+		title: 'Date community infrastructure levy adopted',
+		question: 'When was the community infrastructure levy formally adopted?',
+		fieldName: 'community-infrastructure-levy-adopted-date',
+		hint: 'For example, 7 12 2023',
+		validators: [new DateValidator('the date the infrastructure levy was formally adopted')]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
