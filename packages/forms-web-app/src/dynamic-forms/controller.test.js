@@ -229,6 +229,7 @@ describe('dynamic-form/controller', () => {
 				appeal,
 				summaryListData: mockSummaryListData,
 				layoutTemplate: mockTemplateUrl,
+				journeyComplete: false,
 				pageCaption: `Appeal ${appeal.caseReference}`,
 				journeyTitle: mockJourneyTitle
 			});
