@@ -45,7 +45,7 @@ const getResponse = async (journeyId, referenceId, projection) => {
 const submitResponse = async (questionnaireResponse) => {
 	try {
 		const mappedData = questionnaireMapper.mapToPINSDataModel(questionnaireResponse);
-		return await eventClient.sendEvents('topic', mappedData);
+		return await eventClient.sendEvents('appeal-fo-lpa-response-submission', mappedData);
 	} catch (err) {
 		logger.error(err);
 		throw ApiError.unableToSubmitResponse();
