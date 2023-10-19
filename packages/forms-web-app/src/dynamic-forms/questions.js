@@ -162,7 +162,7 @@ exports.questions = {
 
 	howYouNotifiedPeople: new CheckboxQuestion({
 		title: 'Type of notification',
-		question: 'How did you notify people about the application?',
+		question: 'How did you notify people about the planning application?',
 		description: 'Select all that apply',
 		fieldName: 'notification-method',
 		url: 'notification-type',
