@@ -130,6 +130,7 @@ exports.list = async (req, res) => {
 	return res.render(journey.listingPageViewPath, {
 		appeal,
 		summaryListData,
+		journeyComplete: journey.isComplete(),
 		layoutTemplate: journey.journeyTemplate,
 		pageCaption: `Appeal ${appeal.caseReference}`,
 		journeyTitle: journey.journeyTitle

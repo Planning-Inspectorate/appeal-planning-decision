@@ -109,8 +109,7 @@ class HasJourney extends Journey {
 				.withCondition(
 					response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
 				)
-				.addQuestion(questions.addNewConditions),
-			new Section('Submit', 'submit')
+				.addQuestion(questions.addNewConditions)
 		);
 	}
 }
