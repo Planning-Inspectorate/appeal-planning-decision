@@ -7,8 +7,10 @@ const logger = require('../lib/logger');
 class LocalEventClient {
 	constructor() {}
 
-	sendEvents = async (/** @type {string} */ topic, /** @type {any[]} */ events) => {
-		logger.info(`Dummy publishing events ${JSON.stringify(events)} to topic ${topic}`);
+	sendEvents = async (/** @type {string} */ topic, /** @type {any[]} */ events, type) => {
+		logger.info(
+			`Dummy publishing events ${JSON.stringify(events)} to topic ${topic} of type ${type}`
+		);
 
 		return events;
 	};
