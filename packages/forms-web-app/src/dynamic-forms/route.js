@@ -1,5 +1,5 @@
 const express = require('express');
-const { list, question, save, remove } = require('./controller');
+const { list, question, save, remove, submit } = require('./controller');
 const validate = require('./validator/validator');
 const { validationErrorHandler } = require('./validator/validation-error-handler');
 const getJourneyResponse = require('./middleware/get-journey-response-for-lpa');
@@ -22,6 +22,19 @@ router.post(
 	validationErrorHandler,
 	save
 );
+
+// save
+router.post(
+	'/questionnaire/:referenceId/:section/:question',
+	getJourneyResponse(),
+	dynamicReqFilesToReqBodyFiles(),
+	validate(),
+	validationErrorHandler,
+	save
+);
+
+// submit
+router.post('/questionnaire/:referenceId/', getJourneyResponse(), validationErrorHandler, submit);
 
 // remove answer - only available for some question types
 router.get(

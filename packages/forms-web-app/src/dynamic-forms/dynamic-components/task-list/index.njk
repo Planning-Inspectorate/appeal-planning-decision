@@ -1,6 +1,7 @@
 {% extends layoutTemplate %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block pageTitle %}
   {{ title }}
@@ -63,9 +64,36 @@
         {% if section.list.rows.length %}
           {{ govukSummaryList(section.list) }}
         {% endif %}
-        
+
         </li>
       {% endfor %}
+        <li>
+          <div class="app-task-list__section">
+            <h2 class = 'govuk-heading-m'> 
+              <span class="app-task-list__section-number">{{summaryListData.sections.length + 1}}. </span> 
+              Submit
+            {% if journeyComplete %}
+                <strong class="govuk-tag govuk-tag--blue">
+                  Ready to submit
+                </strong>
+                </h2>
+                <p>By submitting this questionnaire you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+              <form action method="post">
+                {{ govukButton({
+                  text: "Submit questionnaire",
+                  type: "submit",
+                  attributes: { "data-cy":"submit-questionnaire"}
+                }) }}
+              </form>
+            {% else %}
+              <strong class="govuk-tag govuk-tag--grey">
+                Cannot start yet
+              </strong>
+              </h2>
+              <p>You cannot submit the questionnaire until all of the other sections are complete.</p>
+            {% endif %}
+          </div>
+        </li>
       </ol>
     </div>
   </div>
