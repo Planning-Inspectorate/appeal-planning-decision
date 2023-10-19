@@ -1,6 +1,6 @@
 const logger = require('../lib/logger');
 const { ServiceBusClient } = require('@azure/service-bus');
-const DefaultAzureCredential = require('@azure/identity');
+const { DefaultAzureCredential } = require('@azure/identity');
 
 /**
  * Event client used to broadcast messages to service bus topics.
