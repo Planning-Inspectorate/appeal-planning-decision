@@ -159,7 +159,15 @@ exports.questions = {
 		fieldName: 'upload-press-advert',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	}),
-
+	consultationResponsesUpload: new MultiFileUploadQuestion({
+		title: 'Upload the consultation responses and standing advice',
+		question: 'Upload the consultation responses and standing advice',
+		fieldName: 'upload-consultation-responses',
+		validators: [
+			new RequiredFileUploadValidator('Select the consultation responses and standing advice'),
+			new MultifileUploadValidator()
+		]
+	}),
 	howYouNotifiedPeople: new CheckboxQuestion({
 		title: 'Type of notification',
 		question: 'How did you notify people about the planning application?',
