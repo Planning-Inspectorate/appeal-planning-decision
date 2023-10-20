@@ -4,7 +4,7 @@ class HasQuestionnaireMapper {
 			{
 				questionnaire: {
 					LPACode: journeyResponse.LPACode,
-					caseReference: journeyResponse.caseReference,
+					caseReference: journeyResponse.referenceId,
 					isAppealTypeAppropriate: this.#convertToBoolean(
 						journeyResponse.answers['correct-appeal-type']
 					),
