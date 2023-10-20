@@ -229,7 +229,7 @@ exports.questions = {
 		fieldName: 'inspector-access-appeal-site',
 		validators: [
 			new RequiredValidator(
-				'Select yes if the inspector might need to enter a neighbour’s land or property'
+				'Select yes if the inspector might need access to the appellant’s land or property'
 			)
 		]
 	}),
