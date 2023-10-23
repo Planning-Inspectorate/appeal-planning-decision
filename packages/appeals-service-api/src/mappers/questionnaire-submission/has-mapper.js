@@ -28,7 +28,7 @@ class HasQuestionnaireMapper {
 						}
 					},
 					doesSiteRequireInspectorAccess: this.#convertToBoolean(
-						journeyResponse.answers['inspector-visit-appellant']
+						journeyResponse.answers['inspector-visit-neighbour']
 					),
 					hasExtraConditions: this.#convertToBoolean(
 						journeyResponse.answers['new-planning-conditions']
