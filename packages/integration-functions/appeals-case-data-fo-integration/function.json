@@ -5,7 +5,7 @@
 			"name": "appealsCaseMessage",
 			"type": "serviceBusTrigger",
 			"direction": "in",
-			"topicName": "appeal-bo-case",
+			"topicName": "appeal",
 			"subscriptionName": "bo-appeals-case-subscription",
 			"autoComplete": true
 		}

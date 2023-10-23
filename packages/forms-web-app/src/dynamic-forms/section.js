@@ -81,8 +81,8 @@ class Section {
 				requiredQuestionCount++;
 			}
 
-			// move to next question if answer not provided for this question
-			if (!answer) {
+			// move to next question if answer not provided for this questio or for file upload questions the length of uploaded files is less than 1
+			if (!answer || answer.uploadedFiles?.length < 1) {
 				continue;
 			}
 

@@ -112,7 +112,39 @@ describe('./src/dynamic-forms/section.js', () => {
 			expect(isComplete).toBe(true);
 		});
 	});
+	it('should not return COMPLETE when a file upload question has no files associated with it', () => {
+		const mockJourneyResponse = {
+			answers: {
+				visitFrequently: 'Answer 1',
+				anotherFieldName: { uploadedFiles: [] }
+			}
+		};
 
+		const requiredQuestion = {
+			fieldName: 'visitFrequently',
+			validators: [new RequiredValidator()]
+		};
+
+		const anotherRequiredQuestion = {
+			fieldName: 'anotherFieldName',
+			validators: [new RequiredFileUploadValidator()]
+		};
+
+		const notARequiredQuestion = {
+			fieldName: 'someQuestion',
+			validators: []
+		};
+
+		const section = new Section();
+		section.addQuestion(requiredQuestion);
+		section.addQuestion(anotherRequiredQuestion);
+		section.addQuestion(notARequiredQuestion);
+
+		const result = section.getStatus(mockJourneyResponse);
+		expect(result).not.toBe(SECTION_STATUS.COMPLETE);
+		const isComplete = section.isComplete(mockJourneyResponse);
+		expect(isComplete).toBe(false);
+	});
 	it('should do a noop', () => {
 		const section = new Section();
 		const question = {
