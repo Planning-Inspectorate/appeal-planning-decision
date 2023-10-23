@@ -379,6 +379,16 @@ exports.questions = {
 		validators: [new RequiredValidator()],
 		html: 'resources/emerging-plan/content.html'
 	}),
+	emergingPlanUpload: new MultiFileUploadQuestion({
+		title: 'Upload emerging plan and supporting information	',
+		question: 'Upload the emerging plan and supporting information',
+		fieldName: 'upload-emerging-plan',
+		validators: [
+			new RequiredFileUploadValidator('Select the emerging plan and supporting information'),
+			new MultifileUploadValidator()
+		],
+		html: 'resources/emerging-plan-upload/content.html'
+	}),
 	communityInfrastructureLevyUpload: new MultiFileUploadQuestion({
 		title: 'Upload your community infrastructure levy',
 		question: 'Upload your community infrastructure levy',
