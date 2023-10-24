@@ -1,6 +1,9 @@
 const { isBefore, endOfDay, sub } = require('date-fns');
+const { utcToZonedTime, zonedTimeToUtc } = require('date-fns-tz');
+
 const businessRules = require('../../../rules');
 const isValid = require('../../generic/date/is-valid');
+const targetTimezone = 'Europe/London';
 
 /**
  * @description Given a starting point (givenDate), determine the deadline date, and whether
@@ -15,14 +18,24 @@ const isValid = require('../../generic/date/is-valid');
 module.exports = (givenDate, appealType, applicationDecision, now = new Date()) => {
 	[givenDate, now].forEach(isValid);
 
-	const yesterday = sub(endOfDay(now), {
-		days: 1
-	});
+	// given a utc datetime get the UK time
+	const nowUK = utcToZonedTime(now, targetTimezone);
+
+	// run calculations
+	const yesterdayUK = endOfDay(
+		sub(nowUK, {
+			days: 1
+		})
+	);
+
+	// return the equivalent utc datetime
+	const yesterdayUTC = zonedTimeToUtc(yesterdayUK, targetTimezone);
+
 	const deadlineDate = businessRules.appeal.deadlineDate(
 		givenDate,
 		appealType,
 		applicationDecision
 	);
 
-	return isBefore(yesterday, deadlineDate);
+	return isBefore(yesterdayUTC, deadlineDate);
 };
