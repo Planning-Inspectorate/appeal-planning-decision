@@ -55,6 +55,7 @@ class S78Journey extends Journey {
 				.withCondition(
 					response.answers && response.answers[questions.emergingPlan.fieldName] == 'yes'
 				)
+				.addQuestion(questions.uploadOtherRelevantPolicies)
 				.addQuestion(questions.communityInfrastructureLevyUpload)
 				.addQuestion(questions.communityInfrastructureLevyAdopted)
 				.addQuestion(questions.communityInfrastructureLevyAdoptedDate)

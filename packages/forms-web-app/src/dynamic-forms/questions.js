@@ -389,6 +389,15 @@ exports.questions = {
 		],
 		html: 'resources/emerging-plan-upload/content.html'
 	}),
+	uploadOtherRelevantPolicies: new MultiFileUploadQuestion({
+		title: 'Upload other relevant policies',
+		question: 'Upload any other relevant policies',
+		fieldName: 'upload-other-relevant-policies',
+		validators: [
+			new RequiredFileUploadValidator('Select any other relevant policies'),
+			new MultifileUploadValidator()
+		]
+	}),
 	communityInfrastructureLevyUpload: new MultiFileUploadQuestion({
 		title: 'Upload your community infrastructure levy',
 		question: 'Upload your community infrastructure levy',
