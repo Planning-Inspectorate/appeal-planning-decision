@@ -436,7 +436,10 @@ exports.questions = {
 		title: 'Tree Preservation Order extent',
 		question: 'Upload a plan showing the extent of the order',
 		fieldName: 'tree-order-upload',
-		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
+		validators: [
+			new RequiredFileUploadValidator('Select a plan showing the extent of the order'),
+			new MultifileUploadValidator()
+		]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
