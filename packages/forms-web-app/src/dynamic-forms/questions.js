@@ -424,7 +424,12 @@ exports.questions = {
 		title: 'Letter sent to neighbours',
 		question: 'Upload letters or emails sent to interested parties with their addresses',
 		fieldName: 'upload-letters',
-		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select letters or emails sent to interested parties with their addresses'
+			),
+			new MultifileUploadValidator()
+		]
 	}),
 	treePreservationOrder: new BooleanQuestion({
 		title: 'Tree Preservation Order',
