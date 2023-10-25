@@ -35,7 +35,11 @@ class S78Journey extends Journey {
 				.addQuestion(questions.listedBuildingCheck)
 				.addQuestion(questions.greenBelt)
 				.addQuestion(questions.conservationArea)
-				.addQuestion(questions.treePreservationOrder),
+				.addQuestion(questions.treePreservationOrder)
+				.addQuestion(questions.treePreservationPlanUpload)
+				.withCondition(
+					response.answers && response.answers[questions.treePreservationOrder.fieldName] == 'yes'
+				),
 			new Section('Environmental impact assessment', 'environmental-impact'),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.howYouNotifiedPeople)
