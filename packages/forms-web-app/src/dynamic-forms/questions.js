@@ -423,7 +423,7 @@ exports.questions = {
 	uploadNeighbourLetterAddresses: new MultiFileUploadQuestion({
 		title: 'Letter sent to neighbours',
 		question: 'Upload letters or emails sent to interested parties with their addresses',
-		fieldName: 'upload-neighbour-letter-address',
+		fieldName: 'upload-letters',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
