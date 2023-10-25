@@ -54,6 +54,14 @@ class S78Journey extends Journey {
 							response.answers[questions.howYouNotifiedPeople.fieldName],
 							'letters-or-emails'
 						)
+				)
+				.addQuestion(questions.pressAdvertUpload)
+				.withCondition(
+					response.answers &&
+						checkAnswerIncludes(
+							response.answers[questions.howYouNotifiedPeople.fieldName],
+							'advert'
+						)
 				),
 			new Section('Consultation responses and representations', 'consultation')
 				.addQuestion(questions.consultationResponsesUpload)
