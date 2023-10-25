@@ -440,7 +440,7 @@ exports.questions = {
 	treePreservationPlanUpload: new MultiFileUploadQuestion({
 		title: 'Tree Preservation Order extent',
 		question: 'Upload a plan showing the extent of the order',
-		fieldName: 'tree-order-upload',
+		fieldName: 'upload-plan-showing-order',
 		validators: [
 			new RequiredFileUploadValidator('Select a plan showing the extent of the order'),
 			new MultifileUploadValidator()
