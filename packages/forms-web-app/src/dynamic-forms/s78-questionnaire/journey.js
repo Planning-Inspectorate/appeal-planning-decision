@@ -39,7 +39,8 @@ class S78Journey extends Journey {
 				.addQuestion(questions.treePreservationPlanUpload)
 				.withCondition(
 					response.answers && response.answers[questions.treePreservationOrder.fieldName] == 'yes'
-				),
+				)
+				.addQuestion(questions.uploadDefinitiveMap),
 			new Section('Environmental impact assessment', 'environmental-impact'),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.howYouNotifiedPeople)
