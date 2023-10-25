@@ -159,7 +159,10 @@ exports.questions = {
 		title: 'Uploaded press advert',
 		question: 'Upload the press advertisement',
 		fieldName: 'upload-press-advert',
-		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
+		validators: [
+			new RequiredFileUploadValidator('Select the press advertisement'),
+			new MultifileUploadValidator()
+		]
 	}),
 	consultationResponsesUpload: new MultiFileUploadQuestion({
 		title: 'Upload the consultation responses and standing advice',
