@@ -419,6 +419,12 @@ exports.questions = {
 		fieldName: 'community-infrastructure-levy-adopted-date',
 		hint: 'For example, 7 12 2023',
 		validators: [new DateValidator('the date the infrastructure levy was formally adopted')]
+	}),
+	uploadNeighbourLetterAddresses: new MultiFileUploadQuestion({
+		title: 'Letter sent to neighbours',
+		question: 'Upload letters or emails sent to interested parties with their addresses',
+		fieldName: 'upload-neighbour-letter-address',
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
