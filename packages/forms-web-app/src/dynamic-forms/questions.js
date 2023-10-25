@@ -431,6 +431,12 @@ exports.questions = {
 		question: 'Does a Tree Preservation Order (TPO) apply to any part of the appeal site?',
 		fieldName: 'tree-preservation-order',
 		validators: [new RequiredValidator()]
+	}),
+	treePreservationPlanUpload: new MultiFileUploadQuestion({
+		title: 'Tree Preservation Order extent',
+		question: 'Upload a plan showing the extent of the order',
+		fieldName: 'tree-order-upload',
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
