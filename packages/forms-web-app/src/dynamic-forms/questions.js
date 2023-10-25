@@ -445,6 +445,15 @@ exports.questions = {
 			new RequiredFileUploadValidator('Select a plan showing the extent of the order'),
 			new MultifileUploadValidator()
 		]
+	}),
+	uploadDefinitiveMap: new MultiFileUploadQuestion({
+		title: 'Definitive map and statement extract',
+		question: 'Upload the definitive map and statement extract',
+		fieldName: 'upload-definitive-map-statement',
+		validators: [
+			new RequiredFileUploadValidator('Select the definitive map and statement extract'),
+			new MultifileUploadValidator()
+		]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
