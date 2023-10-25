@@ -425,6 +425,12 @@ exports.questions = {
 		question: 'Upload letters or emails sent to interested parties with their addresses',
 		fieldName: 'upload-letters',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
+	}),
+	treePreservationOrder: new BooleanQuestion({
+		title: 'Tree Preservation Order',
+		question: 'Does a Tree Preservation Order (TPO) apply to any part of the appeal site?',
+		fieldName: 'tree-preservation-order',
+		validators: [new RequiredValidator()]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
