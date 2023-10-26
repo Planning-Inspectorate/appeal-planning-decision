@@ -1,13 +1,14 @@
-const { patchResponse, getResponse } = require('../../../src/services/responses.service');
+const {
+	patchResponse,
+	getResponse,
+	submitResponse
+} = require('../../../src/services/responses.service');
 const logger = require('../../../src/lib/logger');
 const { ResponsesRepository } = require('../../../src/repositories/responses-repository');
 const ApiError = require('../../../src/errors/apiError');
 const {
 	HasQuestionnaireMapper
 } = require('../../../src/mappers/questionnaire-submission/has-mapper');
-const questionnaireMapper = new HasQuestionnaireMapper();
-const { LocalEventClient } = require('../../../src/event-client/local-event-client');
-const eventClient = new LocalEventClient();
 
 jest.mock('../../../src/lib/logger', () => {
 	return {
@@ -20,12 +21,12 @@ describe('./src/services/responses.service', () => {
 	const journeyId = 'has-questionnaire';
 	const referenceId = '12345';
 	const lpaCode = 'Q9999';
-	let patchResponsesSpy, getResponsesSpy, submitResponsesSpy;
+	let patchResponsesSpy, getResponsesSpy, hasQuestionniareMapperSpy;
 
 	beforeEach(() => {
 		patchResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'patchResponses');
 		getResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'getResponses');
-		submitResponsesSpy = jest.spyOn(eventClient, 'sendEvents');
+		hasQuestionniareMapperSpy = jest.spyOn(HasQuestionnaireMapper.prototype, 'mapToPINSDataModel');
 	});
 
 	afterEach(() => {
@@ -136,6 +137,7 @@ describe('./src/services/responses.service', () => {
 	describe('submitResponse', () => {
 		it('maps questionnaire data and sends to event client if sucessful', async () => {
 			getResponsesSpy.mockResolvedValue({});
+			hasQuestionniareMapperSpy.mockReturnValue({});
 
 			const questionnaireResponse = {
 				_id: 123456789,
@@ -147,10 +149,8 @@ describe('./src/services/responses.service', () => {
 				journeyId: 'has-questionnaire',
 				referenceId: 'APP/Q9999/W/22/1234567'
 			};
-
-			const mappedData = questionnaireMapper.mapToPINSDataModel(questionnaireResponse);
-			await eventClient.sendEvents('topic', mappedData);
-			expect(submitResponsesSpy).toHaveBeenCalled();
+			await submitResponse(questionnaireResponse);
+			expect(hasQuestionniareMapperSpy).toHaveBeenCalledWith(questionnaireResponse);
 		});
 
 		it('throws error if submission unsuccessful', async () => {
@@ -158,7 +158,7 @@ describe('./src/services/responses.service', () => {
 			getResponsesSpy.mockRejectedValue(error);
 
 			try {
-				await getResponse('has-questionnaire', '12345', { test: 'testing' });
+				await submitResponse('has-questionnaire', '12345', { test: 'testing' });
 			} catch (err) {
 				expect(getResponsesSpy).toHaveBeenCalledWith('has-questionnaire:12345', {
 					test: 'testing'
