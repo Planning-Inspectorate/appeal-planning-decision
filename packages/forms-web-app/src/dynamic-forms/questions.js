@@ -467,6 +467,17 @@ exports.questions = {
 				'Select yes if any supplementary planning documents informed the outcome of the application'
 			)
 		]
+	}),
+	supplementaryPlanningUpload: new MultiFileUploadQuestion({
+		title: 'Upload supplementary planning documents',
+		question: 'Upload relevant policy extracts and supplementary planning documents',
+		fieldName: 'upload-policies-supplementary-planning-documents',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the relevant policy extracts and supplementary planning documents'
+			),
+			new MultifileUploadValidator()
+		]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
