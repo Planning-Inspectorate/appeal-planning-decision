@@ -457,6 +457,16 @@ exports.questions = {
 			new RequiredFileUploadValidator('Select the definitive map and statement extract'),
 			new MultifileUploadValidator()
 		]
+	}),
+	supplementaryPlanning: new BooleanQuestion({
+		title: 'Supplementary planning documents',
+		question: 'Did any supplementary planning documents inform the outcome of the application?',
+		fieldName: 'supplementary-planning-documents',
+		validators: [
+			new RequiredValidator(
+				'Select yes if any supplementary planning documents informed the outcome of the application'
+			)
+		]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
