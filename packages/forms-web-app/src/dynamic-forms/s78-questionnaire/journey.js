@@ -80,6 +80,10 @@ class S78Journey extends Journey {
 				)
 				.addQuestion(questions.uploadOtherRelevantPolicies)
 				.addQuestion(questions.supplementaryPlanning)
+				.addQuestion(questions.supplementaryPlanningUpload)
+				.withCondition(
+					response.answers && response.answers[questions.supplementaryPlanning.fieldName] == 'yes'
+				)
 				.addQuestion(questions.communityInfrastructureLevyUpload)
 				.addQuestion(questions.communityInfrastructureLevyAdopted)
 				.addQuestion(questions.communityInfrastructureLevyAdoptedDate)
