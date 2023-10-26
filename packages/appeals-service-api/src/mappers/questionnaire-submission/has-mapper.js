@@ -11,44 +11,55 @@ class HasQuestionnaireMapper {
 					doesTheDevelopmentAffectTheSettingOfAListedBuilding: this.#convertToBoolean(
 						journeyResponse.answers['affects-listed-building']
 					),
-					affectedListedBuildings: () => {
-						if (journeyResponse.answers['affects-listed-building'].value == 'yes') {
-							return this.#convertFromAddMore(journeyResponse.answers['listed-building-number']);
-						}
-					},
+					affectedListedBuildings:
+						journeyResponse.answers['affects-listed-building'] == 'yes'
+							? this.#convertFromAddMore(journeyResponse.answers['add-listed-buildings'])
+							: null,
+					inCAOrRelatesToCA: this.#convertToBoolean(journeyResponse.answers['conservation-area']),
 					siteWithinGreenBelt: this.#convertToBoolean(journeyResponse.answers['green-belt']),
-					howYouNotifiedPeople: journeyResponse.answers['notification-method'],
+					howYouNotifiedPeople: [
+						journeyResponse.answers['display-site-notice'] == 'yes'
+							? 'A public notice at the site'
+							: undefined,
+						journeyResponse.answers['letters-to-neighbours'] == 'yes'
+							? 'Letters to neighbours'
+							: undefined,
+						journeyResponse.answers['press-advert'] == 'yes'
+							? 'Advert in the local press'
+							: undefined
+					],
+					hasRepresentationsFromOtherParties: this.#convertToBoolean(
+						journeyResponse.answers['representations-other-parties']
+					),
 					doesSiteHaveHealthAndSafetyIssues: this.#convertToBoolean(
 						journeyResponse.answers['safety-risks']
 					),
-					healthAndSafetyIssuesDetails: () => {
-						if (journeyResponse.answers['safety-risks'].value == 'yes') {
-							// todo use conditonal field from ongoing work
-							return journeyResponse.answers['safety-risks_new-safety-risk-value'];
-						}
-					},
+					healthAndSafetyIssuesDetails:
+						journeyResponse.answers['safety-risks'] == 'yes'
+							? journeyResponse.answers['safety-risks_new-safety-risk-value']
+							: null,
 					doesSiteRequireInspectorAccess: this.#convertToBoolean(
+						journeyResponse.answers['inspector-access-appeal-site']
+					),
+					doPlansAffectNeighbouringSite: this.#convertToBoolean(
 						journeyResponse.answers['inspector-visit-neighbour']
 					),
 					hasExtraConditions: this.#convertToBoolean(
 						journeyResponse.answers['new-planning-conditions']
 					),
-					extraConditions: () => {
-						if (journeyResponse.answers['new-planning-conditions'].value == 'yes') {
-							// todo use conditonal field from ongoing work
-							return journeyResponse.answers['safety-risks_new-conditions-value'];
-						}
-					},
+					extraConditions:
+						journeyResponse.answers['new-planning-conditions'] == 'yes'
+							? journeyResponse.answers['safety-risks_new-conditions-value']
+							: null,
 					// todo waititng on odw
 					//journeyResponse.answers['inspector-visit-neighbour'] - should this be housed in the same property as above possibly doNeightboursAffectNeighboringSite
 					// newPlanningConditions: journeyResponse.answers['new-planning-conditions'],
 					// todo this is with odw
 					// journeyResponse.answers['other-ongoing-appeals'] // fieldname needs clarifying
-					nearbyCaseReferences: () => {
-						if (journeyResponse.answers['other-ongoing-appeals'].value == 'yes') {
-							return this.#convertFromAddMore(journeyResponse.answers['other-appeal-reference']);
-						}
-					},
+					nearbyCaseReferences:
+						journeyResponse.answers['other-ongoing-appeals'] == 'yes'
+							? this.#convertFromAddMore(journeyResponse.answers['other-appeal-reference'])
+							: null,
 					// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
 					documents: [
 						// {
