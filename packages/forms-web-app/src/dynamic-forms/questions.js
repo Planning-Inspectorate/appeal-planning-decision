@@ -398,7 +398,7 @@ exports.questions = {
 	uploadOtherRelevantPolicies: new MultiFileUploadQuestion({
 		title: 'Upload other relevant policies',
 		question: 'Upload any other relevant policies',
-		fieldName: 'upload-other-relevant-policies',
+		fieldName: 'upload-other-policies',
 		validators: [
 			new RequiredFileUploadValidator('Select any other relevant policies'),
 			new MultifileUploadValidator()
