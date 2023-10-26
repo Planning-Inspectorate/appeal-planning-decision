@@ -79,6 +79,7 @@ class S78Journey extends Journey {
 					response.answers && response.answers[questions.emergingPlan.fieldName] == 'yes'
 				)
 				.addQuestion(questions.uploadOtherRelevantPolicies)
+				.addQuestion(questions.supplementaryPlanning)
 				.addQuestion(questions.communityInfrastructureLevyUpload)
 				.addQuestion(questions.communityInfrastructureLevyAdopted)
 				.addQuestion(questions.communityInfrastructureLevyAdoptedDate)
