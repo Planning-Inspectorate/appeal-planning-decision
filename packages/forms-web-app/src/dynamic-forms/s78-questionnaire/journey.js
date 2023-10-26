@@ -44,6 +44,7 @@ class S78Journey extends Journey {
 				.addQuestion(questions.uploadDefinitiveMap),
 			new Section('Environmental impact assessment', 'environmental-impact'),
 			new Section('Notifying relevant parties of the application', 'notified')
+				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
 				.addQuestion(questions.uploadSiteNotice)
 				.withCondition(
