@@ -404,6 +404,13 @@ exports.questions = {
 			new MultifileUploadValidator()
 		]
 	}),
+	communityInfrastructureLevy: new BooleanQuestion({
+		title: 'Community infrastructure levy',
+		question: 'Do you have a community infrastructure levy?',
+		fieldName: 'community-infrastructure-levy',
+		validators: [new RequiredValidator('Select yes if you have a community infrastructure levy')],
+		html: 'resources/community-infrastructure-levy/content.html'
+	}),
 	communityInfrastructureLevyUpload: new MultiFileUploadQuestion({
 		title: 'Upload your community infrastructure levy',
 		question: 'Upload your community infrastructure levy',

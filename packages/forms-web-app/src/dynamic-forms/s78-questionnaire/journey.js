@@ -85,11 +85,21 @@ class S78Journey extends Journey {
 				.withCondition(
 					response.answers && response.answers[questions.supplementaryPlanning.fieldName] == 'yes'
 				)
+				.addQuestion(questions.communityInfrastructureLevy)
 				.addQuestion(questions.communityInfrastructureLevyUpload)
+				.withCondition(
+					response.answers &&
+						response.answers[questions.communityInfrastructureLevy.fieldName] == 'yes'
+				)
 				.addQuestion(questions.communityInfrastructureLevyAdopted)
+				.withCondition(
+					response.answers &&
+						response.answers[questions.communityInfrastructureLevy.fieldName] == 'yes'
+				)
 				.addQuestion(questions.communityInfrastructureLevyAdoptedDate)
 				.withCondition(
 					response.answers &&
+						response.answers[questions.communityInfrastructureLevy.fieldName] == 'yes' &&
 						response.answers[questions.communityInfrastructureLevyAdopted.fieldName] == 'yes'
 				),
 			new Section('Site access', 'site-access')
