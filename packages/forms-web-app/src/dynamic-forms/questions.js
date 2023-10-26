@@ -42,7 +42,7 @@ exports.questions = {
 		title: 'Is this the correct type of appeal?',
 		question: 'Is this the correct type of appeal?',
 		fieldName: 'correct-appeal-type',
-		validators: [new RequiredValidator()]
+		validators: [new RequiredValidator('Select yes if this is the correct type of appeal')]
 	}),
 	listedBuildingCheck: new BooleanQuestion({
 		title: 'Affects a listed building',
