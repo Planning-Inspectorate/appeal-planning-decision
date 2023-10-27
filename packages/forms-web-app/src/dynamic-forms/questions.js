@@ -518,6 +518,12 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if the development would affect a scheduled monument')
 		]
+	}),
+	gypsyOrTraveller: new BooleanQuestion({
+		title: 'Gypsy or Traveller',
+		question: 'Does the development relate to anyone claiming to be a Gypsy or Traveller?',
+		fieldName: 'gypsy-traveller',
+		validators: [new RequiredValidator()]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
