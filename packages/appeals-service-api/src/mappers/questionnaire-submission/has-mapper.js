@@ -58,7 +58,7 @@ class HasQuestionnaireMapper {
 					// journeyResponse.answers['other-ongoing-appeals'] // fieldname needs clarifying
 					nearbyCaseReferences:
 						journeyResponse.answers['other-ongoing-appeals'] == 'yes'
-							? this.#convertFromAddMore(journeyResponse.answers['other-appeal-references'])
+							? this.#convertFromAddMore(journeyResponse.answers['other-appeals-references'])
 							: null,
 					// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
 					documents: [
