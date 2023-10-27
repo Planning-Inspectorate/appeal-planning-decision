@@ -72,7 +72,12 @@ class S78Journey extends Journey {
 				),
 			new Section('Consultation responses and representations', 'consultation')
 				.addQuestion(questions.consultationResponsesUpload)
-				.addQuestion(questions.representationsFromOthers),
+				.addQuestion(questions.representationsFromOthers)
+				.addQuestion(questions.representationUpload)
+				.withCondition(
+					response.answers &&
+						response.answers[questions.representationsFromOthers.fieldName] == 'yes'
+				),
 			new Section('Planning officer’s report and supporting documents', 'planning-officer-report')
 				.addQuestion(questions.emergingPlan)
 				.addQuestion(questions.emergingPlanUpload)
