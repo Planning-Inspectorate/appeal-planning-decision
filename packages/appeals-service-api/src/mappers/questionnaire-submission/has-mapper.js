@@ -14,7 +14,7 @@ class HasQuestionnaireMapper {
 					affectedListedBuildings:
 						journeyResponse.answers['affects-listed-building'] == 'yes'
 							? this.#convertFromAddMore(journeyResponse.answers['add-listed-buildings'])
-							: null,
+							: undefined,
 					inCAOrRelatesToCA: this.#convertToBoolean(journeyResponse.answers['conservation-area']),
 					siteWithinGreenBelt: this.#convertToBoolean(journeyResponse.answers['green-belt']),
 					howYouNotifiedPeople: [
@@ -37,7 +37,7 @@ class HasQuestionnaireMapper {
 					healthAndSafetyIssuesDetails:
 						journeyResponse.answers['safety-risks'] == 'yes'
 							? journeyResponse.answers['safety-risks_new-safety-risk-value']
-							: null,
+							: undefined,
 					doesSiteRequireInspectorAccess: this.#convertToBoolean(
 						journeyResponse.answers['inspector-access-appeal-site']
 					),
@@ -50,7 +50,7 @@ class HasQuestionnaireMapper {
 					extraConditions:
 						journeyResponse.answers['new-planning-conditions'] == 'yes'
 							? journeyResponse.answers['safety-risks_new-conditions-value']
-							: null,
+							: undefined,
 					// todo waititng on odw
 					//journeyResponse.answers['inspector-visit-neighbour'] - should this be housed in the same property as above possibly doNeightboursAffectNeighboringSite
 					// newPlanningConditions: journeyResponse.answers['new-planning-conditions'],
@@ -59,7 +59,7 @@ class HasQuestionnaireMapper {
 					nearbyCaseReferences:
 						journeyResponse.answers['other-ongoing-appeals'] == 'yes'
 							? this.#convertFromAddMore(journeyResponse.answers['other-appeals-references'])
-							: null,
+							: undefined,
 					// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
 					documents: [
 						// {
@@ -119,7 +119,7 @@ class HasQuestionnaireMapper {
 			let sanitisedValue = item.value;
 			sanitisedValues.push(sanitisedValue);
 		});
-		return sanitisedValues;
+		return JSON.stringify(sanitisedValues);
 	}
 }
 
