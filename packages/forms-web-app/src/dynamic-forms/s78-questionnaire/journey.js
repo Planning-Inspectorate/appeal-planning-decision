@@ -35,6 +35,10 @@ class S78Journey extends Journey {
 				.addQuestion(questions.appealTypeAppropriate)
 				.addQuestion(questions.listedBuildingCheck)
 				.addQuestion(questions.conservationArea)
+				.addQuestion(questions.conservationAreaUpload)
+				.withCondition(
+					response.answers && response.answers[questions.conservationArea.fieldName] == 'yes'
+				)
 				.addQuestion(questions.greenBelt)
 				.addQuestion(questions.treePreservationOrder)
 				.addQuestion(questions.treePreservationPlanUpload)
