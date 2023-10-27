@@ -438,7 +438,22 @@ exports.questions = {
 		question: 'When was the community infrastructure levy formally adopted?',
 		fieldName: 'community-infrastructure-levy-adopted-date',
 		hint: 'For example, 7 12 2023',
-		validators: [new DateValidator('the date the infrastructure levy was formally adopted')]
+		validators: [
+			new DateValidator('the date the infrastructure levy was formally adopted', {
+				ensurePast: true
+			})
+		]
+	}),
+	communityInfrastructureLevyAdoptDate: new DateQuestion({
+		title: 'Date community infrastructure levy expected to be adopted',
+		question: 'When do you expect to formally adopt the community infrastructure levy?',
+		fieldName: 'community-infrastructure-levy-adopt-date',
+		hint: 'For example, 21 11 2023',
+		validators: [
+			new DateValidator('the date you expect to formally adopt the community infrastructure levy', {
+				ensureFuture: true
+			})
+		]
 	}),
 	uploadNeighbourLetterAddresses: new MultiFileUploadQuestion({
 		title: 'Letter sent to neighbours',
