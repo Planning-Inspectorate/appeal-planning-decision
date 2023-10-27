@@ -495,6 +495,14 @@ exports.questions = {
 			),
 			new MultifileUploadValidator()
 		]
+	}),
+	scheduledMonument: new BooleanQuestion({
+		title: 'Affects a scheduled monument',
+		question: 'Would the development affect a scheduled monument?',
+		fieldName: 'scheduled-monument',
+		validators: [
+			new RequiredValidator('Select yes if the development would affect a scheduled monument')
+		]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
