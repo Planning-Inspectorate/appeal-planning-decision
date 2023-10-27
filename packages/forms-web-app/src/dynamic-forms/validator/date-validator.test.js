@@ -248,7 +248,7 @@ describe('./src/dynamic-forms/validator/date-validator.js', () => {
 			);
 		});
 
-		it('throws error if date is in the future', async () => {
+		it('throws error if date is in the future and ensurePast is true', async () => {
 			let tomorrow = new Date();
 			tomorrow.setDate(tomorrow.getDate() + 1);
 			const day = `${tomorrow.getDate()}`.slice(-2);
@@ -267,12 +267,72 @@ describe('./src/dynamic-forms/validator/date-validator.js', () => {
 				fieldName: 'date-question'
 			};
 
-			const errors = await _validationMappedErrors(req, question, 'the required date');
+			const errors = await _validationMappedErrors(req, question, 'the required date', undefined, {
+				ensurePast: true
+			});
 
 			expect(Object.keys(errors).length).toBe(1);
 			expect(errors[`${question.fieldName}_day`].msg).toBe(
 				'The required date must be today or in the past'
 			);
+		});
+
+		it('throws error if date is in the past and ensureFuture is true', async () => {
+			let yesterday = new Date();
+			yesterday.setDate(yesterday.getDate() - 1);
+			const day = `${yesterday.getDate()}`.slice(-2);
+			const month = `${yesterday.getMonth() + 1}`.slice(-2);
+			const year = yesterday.getFullYear();
+
+			const req = {
+				body: {
+					['date-question_day']: day,
+					['date-question_month']: month,
+					['date-question_year']: year
+				}
+			};
+
+			const question = {
+				fieldName: 'date-question'
+			};
+
+			const errors = await _validationMappedErrors(req, question, 'the required date', undefined, {
+				ensureFuture: true
+			});
+
+			expect(Object.keys(errors).length).toBe(1);
+			expect(errors[`${question.fieldName}_day`].msg).toBe(
+				'The required date must be today or in the future'
+			);
+		});
+
+		it('date validation settings allow today', async () => {
+			let today = new Date();
+			const day = `${today.getDate()}`.slice(-2);
+			const month = `${today.getMonth() + 1}`.slice(-2);
+			const year = today.getFullYear();
+
+			const req = {
+				body: {
+					['date-question_day']: day,
+					['date-question_month']: month,
+					['date-question_year']: year
+				}
+			};
+
+			const question = {
+				fieldName: 'date-question'
+			};
+
+			const errors = await _validationMappedErrors(req, question, 'the required date', undefined, {
+				ensurePast: true
+			});
+			const errors2 = await _validationMappedErrors(req, question, 'the required date', undefined, {
+				ensureFuture: true
+			});
+
+			expect(Object.keys(errors).length).toBe(0);
+			expect(Object.keys(errors2).length).toBe(0);
 		});
 
 		it('throws multiple errors if date has multiple missing/invalid components', async () => {
@@ -355,8 +415,14 @@ describe('./src/dynamic-forms/validator/date-validator.js', () => {
 	});
 });
 
-const _validationMappedErrors = async (req, question, inputLabel, errorMessages) => {
-	const dateValidator = new DateValidator(inputLabel, errorMessages);
+const _validationMappedErrors = async (
+	req,
+	question,
+	inputLabel,
+	errorMessages,
+	dateValidationSettings = undefined
+) => {
+	const dateValidator = new DateValidator(inputLabel, dateValidationSettings, errorMessages);
 
 	const validationRules = dateValidator.validate(question);
 
