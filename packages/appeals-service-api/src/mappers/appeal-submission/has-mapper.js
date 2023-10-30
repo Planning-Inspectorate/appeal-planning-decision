@@ -15,8 +15,11 @@ class HasAppealMapper {
 							? appeal.aboutYouSection.yourDetails.name.split(' ')[0]
 							: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf.split(' ')[0],
 						lastName: appeal.aboutYouSection.yourDetails.isOriginalApplicant
-							? appeal.aboutYouSection.yourDetails.name.split(' ').splice(1).join(' ')
-							: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf.slice(1).join(' '),
+							? appeal.aboutYouSection.yourDetails.name.split(' ').splice(1)?.join(' ')
+							: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf
+									.split(' ')
+									.slice(1)
+									?.join(' '),
 						emailAddress: appeal.aboutYouSection.yourDetails.isOriginalApplicant
 							? appeal.email
 							: undefined
@@ -24,7 +27,7 @@ class HasAppealMapper {
 					agent: !appeal.aboutYouSection.yourDetails.isOriginalApplicant
 						? {
 								firstName: appeal.aboutYouSection.yourDetails.name.split(' ')[0],
-								lastName: appeal.aboutYouSection.yourDetails.name.split(' ').splice(1).join(' '),
+								lastName: appeal.aboutYouSection.yourDetails.name.split(' ').splice(1)?.join(' '),
 								emailAddress: appeal.email
 						  }
 						: undefined,
