@@ -288,15 +288,16 @@ exports.questions = {
 	potentialSafetyRisks: new RadioQuestion({
 		title: 'Potential safety risks',
 		question: 'Add potential safety risks',
-		//subQuestion: 'Are there any potential safety risks?',
-		description:
-			'You need to tell inspectors how to prepare for a site visit and what to bring. \n \n What you tell us might include:',
+		description: 'You need to tell inspectors how to prepare for a site visit and what to bring.',
 		html: 'resources/safety-risks/content.html',
 		label: 'Are there any potential safety risks?',
 		fieldName: 'safety-risks',
+		url: 'potential-safety-risks',
 		validators: [
-			new RequiredValidator(),
-			new ConditionalRequiredValidator(),
+			new RequiredValidator('Select yes if there are any potential safety risks'),
+			new ConditionalRequiredValidator(
+				'Enter the details of the potential risk and what the inspector might need'
+			),
 			new StringValidator({
 				maxLength: {
 					maxLength: inputMaxCharacters,
@@ -305,6 +306,7 @@ exports.questions = {
 				fieldName: getConditionalFieldName('safety-risks', 'new-safety-risk-value')
 			})
 		],
+
 		options: [
 			{
 				text: 'Yes',
