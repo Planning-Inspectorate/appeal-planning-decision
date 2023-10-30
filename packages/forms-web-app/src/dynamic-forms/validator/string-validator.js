@@ -1,6 +1,24 @@
 const { body } = require('express-validator');
 const BaseValidator = require('./base-validator.js');
 
+/**
+ * @typedef {Object} MinLength
+ * @property {Number} minLength
+ * @property {String} minLengthMessage
+ */
+
+/**
+ * @typedef {Object} MaxLength
+ * @property {Number} maxLength
+ * @property {String} maxLengthMessage
+ */
+
+/**
+ * @typedef {Object} Regex
+ * @property {String} regex
+ * @property {String} regexMessage
+ */
+
 class StringValidator extends BaseValidator {
 	minLength = {
 		minLength: 0,
@@ -14,6 +32,14 @@ class StringValidator extends BaseValidator {
 		regex: '',
 		regexMessage: ''
 	};
+
+	/**
+	 * @param {Object} params
+	 * @param {MinLength} [params.minLength]
+	 * @param {MaxLength} [params.maxLength]
+	 * @param {Regex} [params.regex]
+	 * @param {string} [params.fieldName]
+	 */
 	constructor({ minLength, maxLength, regex, fieldName } = {}) {
 		super();
 
