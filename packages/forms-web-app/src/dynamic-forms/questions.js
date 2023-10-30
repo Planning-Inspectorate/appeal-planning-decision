@@ -66,7 +66,7 @@ exports.questions = {
 		subQuestionFieldLabel: 'Seven digit number',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		width: ListAddMoreQuestion.FULL_WIDTH,
-		validators: [new RequiredValidator()],
+		validators: [new RequiredValidator('Select yes to add another building or site')],
 		subQuestion: new ListedBuildingAddMoreQuestion({
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
