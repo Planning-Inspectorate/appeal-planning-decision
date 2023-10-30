@@ -10,6 +10,9 @@ module.exports = {
 		ecmaVersion: 13,
 		sourceType: 'module'
 	},
-	plugins: ['jest'],
+	plugins: ['jest', 'enforce-catch-block-error-type-guards'],
+	// rules: {
+	// 	'enforce-catch-block-error-type-guards/enforce-catch-block-error-type-guards': 'error'
+	// },
 	root: true
 };

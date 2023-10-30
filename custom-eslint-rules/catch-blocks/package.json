@@ -1,0 +1,18 @@
+{
+	"name": "eslint-plugin-enforce-catch-block-error-type-guards",
+	"version": "0.0.1",
+	"description": "",
+	"main": "enforce-catch-block-error-type-guards-plugin.js",
+	"keywords": [
+		"eslint",
+		"eslintplugin"
+	],
+	"scripts": {
+		"test": "node enforce-catch-block-error-type-guards.test.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"peerDependencies": {
+		"eslint": "^8.50.0"
+	}
+}
