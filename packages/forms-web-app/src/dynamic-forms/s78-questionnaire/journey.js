@@ -125,8 +125,8 @@ class S78Journey extends Journey {
 				.addQuestion(questions.neighbouringSitesToBeVisited)
 				.withCondition(
 					response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes'
-				),
-			new Section('Site access', 'site-access').addQuestion(questions.neighbouringSite),
+				)
+				.addQuestion(questions.potentialSafetyRisks),
 			new Section('Appeal process', 'appeal-process').addQuestion(questions.appealsNearSite)
 		);
 	}
