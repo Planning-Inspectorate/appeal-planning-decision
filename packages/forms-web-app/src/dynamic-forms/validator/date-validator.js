@@ -1,12 +1,18 @@
 const { body } = require('express-validator');
-const { endOfDay, isAfter, isValid, parse } = require('date-fns');
+const { startOfDay, endOfDay, isBefore, isAfter, isValid, parse } = require('date-fns');
 const { enGB } = require('date-fns/locale');
 
 const BaseValidator = require('./base-validator.js');
 const { dateInputsToDate } = require('../dynamic-components/utils/date-inputs-to-date.js');
 
 /**
- * @typedef {import('../question.js')} Question
+ * @typedef {import('../dynamic-components/date/question.js')} DateQuestion
+ */
+
+/**
+ * @typedef {Object} DateValidationSettings
+ * @param {Boolean} ensureFuture
+ * @param {Boolean} ensurePast
  */
 
 /**
@@ -14,12 +20,23 @@ const { dateInputsToDate } = require('../dynamic-components/utils/date-inputs-to
  * @class
  */
 class DateValidator extends BaseValidator {
+	/** @type {DateValidationSettings} */
+	dateValidationSettings;
+
 	/**
 	 * creates an instance of a DateValidator
-	 * @param {string} [inputLabel] - string representing the field as displayed on the UI as part of an error message
-	 * @param {Object} [errorMessage] - object containing custom error messages to show on validation failure
+	 * @param {string} inputLabel - string representing the field as displayed on the UI as part of an error message
+	 * @param {DateValidationSettings} [dateValidationSettings] - object containing rules to apply
+	 * @param {Object} [errorMessages] - object containing custom error messages to show on validation failure
 	 */
-	constructor(inputLabel, errorMessages) {
+	constructor(
+		inputLabel,
+		dateValidationSettings = {
+			ensureFuture: false,
+			ensurePast: false
+		},
+		errorMessages
+	) {
 		super();
 
 		const defaultErrorMessages = this.#getDefaultErrorMessages(inputLabel);
@@ -44,11 +61,15 @@ class DateValidator extends BaseValidator {
 			errorMessages?.invalidYearErrorMessage ?? defaultErrorMessages.invalidYearErrorMessage;
 		this.futureDateErrorMessage =
 			errorMessages?.futureDateErrorMessage ?? defaultErrorMessages.futureDateErrorMessage;
+		this.pastDateErrorMessage =
+			errorMessages?.pastDateErrorMessage ?? defaultErrorMessages.pastDateErrorMessage;
+
+		this.dateValidationSettings = dateValidationSettings;
 	}
 
 	/**
 	 * validates the response body, checking the values sent for the date are valid
-	 * @param {Question} questionObj
+	 * @param {DateQuestion} questionObj
 	 */
 	validate(questionObj) {
 		const fieldName = questionObj.fieldName;
@@ -56,7 +77,7 @@ class DateValidator extends BaseValidator {
 		const monthInput = `${fieldName}_month`;
 		const yearInput = `${fieldName}_year`;
 
-		return [
+		const rules = [
 			// check all or some date inputs are not empty
 			body(dayInput)
 				.notEmpty()
@@ -112,20 +133,40 @@ class DateValidator extends BaseValidator {
 					return true;
 				}),
 			body(monthInput).isInt({ min: 1, max: 12 }).withMessage(this.invalidDateErrorMessage),
-			body(yearInput).isInt({ min: 1000, max: 9999 }).withMessage(this.invalidYearErrorMessage),
-
-			//check date is not in the future
-			body(dayInput).custom((value, { req }) => {
-				const inputDate = dateInputsToDate(value, req.body[monthInput], req.body[yearInput]);
-				const today = endOfDay(new Date());
-
-				if (isAfter(inputDate, today)) {
-					throw new Error(this.futureDateErrorMessage);
-				}
-
-				return true;
-			})
+			body(yearInput).isInt({ min: 1000, max: 9999 }).withMessage(this.invalidYearErrorMessage)
 		];
+
+		if (this.dateValidationSettings.ensurePast === true) {
+			rules.push(
+				body(dayInput).custom((value, { req }) => {
+					const inputDate = dateInputsToDate(value, req.body[monthInput], req.body[yearInput]);
+					const today = endOfDay(new Date());
+
+					if (isAfter(inputDate, today)) {
+						throw new Error(this.futureDateErrorMessage);
+					}
+
+					return true;
+				})
+			);
+		}
+
+		if (this.dateValidationSettings.ensureFuture === true) {
+			rules.push(
+				body(dayInput).custom((value, { req }) => {
+					const inputDate = dateInputsToDate(value, req.body[monthInput], req.body[yearInput]);
+					const today = startOfDay(new Date());
+
+					if (isBefore(inputDate, today)) {
+						throw new Error(this.pastDateErrorMessage);
+					}
+
+					return true;
+				})
+			);
+		}
+
+		return rules;
 	}
 
 	/**
@@ -145,7 +186,8 @@ class DateValidator extends BaseValidator {
 			noMonthYearErrorMessage: `${capitalisedInputLabel} must include a month and year`,
 			invalidDateErrorMessage: `${capitalisedInputLabel} must be a real date`,
 			invalidYearErrorMessage: `${capitalisedInputLabel} year must include 4 numbers`,
-			futureDateErrorMessage: `${capitalisedInputLabel} must be today or in the past`
+			futureDateErrorMessage: `${capitalisedInputLabel} must be today or in the past`,
+			pastDateErrorMessage: `${capitalisedInputLabel} must be today or in the future`
 		};
 	}
 

@@ -111,6 +111,12 @@ class S78Journey extends Journey {
 					response.answers &&
 						response.answers[questions.communityInfrastructureLevy.fieldName] == 'yes' &&
 						response.answers[questions.communityInfrastructureLevyAdopted.fieldName] == 'yes'
+				)
+				.addQuestion(questions.communityInfrastructureLevyAdoptDate)
+				.withCondition(
+					response.answers &&
+						response.answers[questions.communityInfrastructureLevy.fieldName] == 'yes' &&
+						response.answers[questions.communityInfrastructureLevyAdopted.fieldName] == 'no'
 				),
 			new Section('Site access', 'site-access')
 				.addQuestion(questions.accessForInspection)
