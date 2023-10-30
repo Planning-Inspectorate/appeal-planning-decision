@@ -17,17 +17,7 @@ class HasQuestionnaireMapper {
 							: undefined,
 					inCAOrRelatesToCA: this.#convertToBoolean(journeyResponse.answers['conservation-area']),
 					siteWithinGreenBelt: this.#convertToBoolean(journeyResponse.answers['green-belt']),
-					howYouNotifiedPeople: [
-						journeyResponse.answers['display-site-notice'] == 'yes'
-							? 'A public notice at the site'
-							: undefined,
-						journeyResponse.answers['letters-to-neighbours'] == 'yes'
-							? 'Letters to neighbours'
-							: undefined,
-						journeyResponse.answers['press-advert'] == 'yes'
-							? 'Advert in the local press'
-							: undefined
-					],
+					howYouNotifiedPeople: this.#howYouNotifiedPeople(journeyResponse),
 					hasRepresentationsFromOtherParties: this.#convertToBoolean(
 						journeyResponse.answers['representations-other-parties']
 					),
@@ -120,6 +110,20 @@ class HasQuestionnaireMapper {
 			sanitisedValues.push(sanitisedValue);
 		});
 		return sanitisedValues;
+	}
+
+	#howYouNotifiedPeople(journeyResponse) {
+		let notifiedPeople = [];
+		if (journeyResponse.answers['display-site-notice'] == 'yes') {
+			notifiedPeople.push('A public notice at the site');
+		}
+		if (journeyResponse.answers['letters-to-neighbours'] == 'yes') {
+			notifiedPeople.push('Letters to neighbours');
+		}
+		if (journeyResponse.answers['press-advert'] == 'yes') {
+			notifiedPeople.push('Advert in the local press');
+		}
+		return notifiedPeople;
 	}
 }
 
