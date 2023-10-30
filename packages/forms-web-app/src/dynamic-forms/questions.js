@@ -526,6 +526,39 @@ exports.questions = {
 		question: 'Does the development relate to anyone claiming to be a Gypsy or Traveller?',
 		fieldName: 'gypsy-traveller',
 		validators: [new RequiredValidator()]
+	}),
+	statutoryConsultees: new RadioQuestion({
+		title: 'Statutory consultees',
+		question: 'Did you consult all the relevant statutory consultees about the development?',
+		fieldName: 'statutory-consultees',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you consulted all the relevant statutory consultees about the development'
+			),
+			new ConditionalRequiredValidator(),
+			new StringValidator({
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Consulted bodies must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName('statutory-consultees', 'consulted-bodies')
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Which bodies did you consult?',
+					fieldName: 'consulted-bodies',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
