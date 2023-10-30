@@ -3,8 +3,14 @@ const {
 	getResponse,
 	submitResponse
 } = require('../../../src/services/responses.service');
+const {
+	patchResponse,
+	getResponse,
+	submitResponse
+} = require('../../../src/services/responses.service');
 const logger = require('../../../src/lib/logger');
 const { ResponsesRepository } = require('../../../src/repositories/responses-repository');
+const { broadcast } = require('../../../src/data-producers/lpa-response-producer');
 const ApiError = require('../../../src/errors/apiError');
 const {
 	HasQuestionnaireMapper
@@ -17,15 +23,19 @@ jest.mock('../../../src/lib/logger', () => {
 	};
 });
 
+jest.mock('../../../src/data-producers/lpa-response-producer');
+
 describe('./src/services/responses.service', () => {
 	const journeyId = 'has-questionnaire';
 	const referenceId = '12345';
 	const lpaCode = 'Q9999';
+
 	let patchResponsesSpy, getResponsesSpy, hasQuestionniareMapperSpy;
 
 	beforeEach(() => {
 		patchResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'patchResponses');
 		getResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'getResponses');
+		hasQuestionniareMapperSpy = jest.spyOn(HasQuestionnaireMapper.prototype, 'mapToPINSDataModel');
 		hasQuestionniareMapperSpy = jest.spyOn(HasQuestionnaireMapper.prototype, 'mapToPINSDataModel');
 	});
 
@@ -138,6 +148,7 @@ describe('./src/services/responses.service', () => {
 		it('maps questionnaire data and sends to event client if sucessful', async () => {
 			getResponsesSpy.mockResolvedValue({});
 			hasQuestionniareMapperSpy.mockReturnValue({});
+			broadcast.mockReturnValue({});
 
 			const questionnaireResponse = {
 				_id: 123456789,
@@ -151,21 +162,18 @@ describe('./src/services/responses.service', () => {
 			};
 			await submitResponse(questionnaireResponse);
 			expect(hasQuestionniareMapperSpy).toHaveBeenCalledWith(questionnaireResponse);
+			expect(broadcast).toHaveBeenCalled();
 		});
+	});
+	it('throws error if submission unsuccessful', async () => {
+		const error = new Error('servcie bus error');
+		broadcast.mockRejectedValue(error);
 
-		it('throws error if submission unsuccessful', async () => {
-			const error = new Error('database error');
-			getResponsesSpy.mockRejectedValue(error);
-
-			try {
-				await submitResponse('has-questionnaire', '12345', { test: 'testing' });
-			} catch (err) {
-				expect(getResponsesSpy).toHaveBeenCalledWith('has-questionnaire:12345', {
-					test: 'testing'
-				});
-				expect(logger.error).toHaveBeenCalledWith(error);
-				expect(err).toEqual(ApiError.unableToGetResponse());
-			}
-		});
+		try {
+			await submitResponse({ test: 'testing' });
+		} catch (err) {
+			expect(logger.error).toHaveBeenCalledWith(error);
+			expect(err).toEqual(ApiError.unableToSubmitResponse());
+		}
 	});
 });

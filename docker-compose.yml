@@ -83,6 +83,7 @@ services:
       APP_LPA_QUESTIONNAIRE_BASE_URL: http://lpa-questionnaire-web-app:9001
       DOCS_API_PATH: /opt/app/api
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+      FEATURE_FLAGS_SETTING: 'ALL_ON'
       HORIZON_HAS_PUBLISHER_HOST: rabbitmq
       HORIZON_HAS_PUBLISHER_PASSWORD: admin
       HORIZON_HAS_PUBLISHER_PORT: 5672
