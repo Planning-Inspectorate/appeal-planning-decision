@@ -3,11 +3,6 @@ const {
 	getResponse,
 	submitResponse
 } = require('../../../src/services/responses.service');
-const {
-	patchResponse,
-	getResponse,
-	submitResponse
-} = require('../../../src/services/responses.service');
 const logger = require('../../../src/lib/logger');
 const { ResponsesRepository } = require('../../../src/repositories/responses-repository');
 const { broadcast } = require('../../../src/data-producers/lpa-response-producer');
@@ -35,7 +30,6 @@ describe('./src/services/responses.service', () => {
 	beforeEach(() => {
 		patchResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'patchResponses');
 		getResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'getResponses');
-		hasQuestionniareMapperSpy = jest.spyOn(HasQuestionnaireMapper.prototype, 'mapToPINSDataModel');
 		hasQuestionniareMapperSpy = jest.spyOn(HasQuestionnaireMapper.prototype, 'mapToPINSDataModel');
 	});
 
