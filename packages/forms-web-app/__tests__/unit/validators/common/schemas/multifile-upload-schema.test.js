@@ -25,7 +25,7 @@ describe('validators/common/schemas/multifile-upload-schema', () => {
 			try {
 				await fn({ mimetype: 'not/valid', name: 'pingu.penguin' });
 			} catch (err) {
-				expect(err.message).toEqual('The selected file must be a DOC, DOCX, PDF, TIF, JPG or PNG');
+				expect(err.message).toEqual('pingu.penguin must be a DOC, DOCX, PDF, TIF, JPG or PNG');
 			}
 		});
 
@@ -37,7 +37,8 @@ describe('validators/common/schemas/multifile-upload-schema', () => {
 			});
 			expect(validateFileSize).toHaveBeenCalledWith(
 				12345,
-				config.fileUpload.pins.supportingDocumentsMaxFileSize
+				config.fileUpload.pins.supportingDocumentsMaxFileSize,
+				'pingu.penguin'
 			);
 		});
 
@@ -50,7 +51,7 @@ describe('validators/common/schemas/multifile-upload-schema', () => {
 			await fn(payload);
 
 			expect(validAV).toHaveBeenCalledTimes(1);
-			expect(validAV).toHaveBeenCalledWith(payload, 'The selected file');
+			expect(validAV).toHaveBeenCalledWith(payload, payload.name);
 		});
 	});
 });
