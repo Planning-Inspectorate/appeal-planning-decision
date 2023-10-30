@@ -117,9 +117,9 @@ class HasQuestionnaireMapper {
 		let sanitisedValues = [];
 		values.forEach((item) => {
 			let sanitisedValue = item.value;
-			sanitisedValues.push(sanitisedValue);
+			sanitisedValues.push(JSON.stringify(sanitisedValue));
 		});
-		return JSON.stringify(sanitisedValues);
+		return sanitisedValues;
 	}
 }
 
