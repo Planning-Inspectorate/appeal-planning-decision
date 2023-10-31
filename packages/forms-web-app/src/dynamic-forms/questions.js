@@ -567,6 +567,12 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if the development would affect a protected species')
 		]
+	}),
+		changesListedBuilding: new BooleanQuestion({
+		title: 'Changes a listed building',
+		question: 'Does the proposed development change a listed building?',
+		fieldName: 'changes-listed-building',
+		validators: [new RequiredValidator()]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',

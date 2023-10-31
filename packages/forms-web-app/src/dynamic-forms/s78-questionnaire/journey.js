@@ -33,6 +33,7 @@ class S78Journey extends Journey {
 		this.sections.push(
 			new Section('Constraints, designations and other issues', 'constraints')
 				.addQuestion(questions.appealTypeAppropriate)
+				.addQuestion(questions.changesListedBuilding)
 				.addQuestion(questions.listedBuildingCheck)
 				.addQuestion(questions.affectedListedBuildings)
 				.addQuestion(questions.scheduledMonument)

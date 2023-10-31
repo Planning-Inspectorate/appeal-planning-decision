@@ -110,8 +110,7 @@ describe('validators/common/schemas/file-upload', () => {
 			expect(validateFileSize).toHaveBeenCalledWith(
 				file.size,
 				uploadApplicationMaxFileSize,
-				file.name,
-				'The selected file must be smaller than 15MB'
+				file.name
 			);
 		});
 
@@ -132,8 +131,7 @@ describe('validators/common/schemas/file-upload', () => {
 			expect(validateFileSize).toHaveBeenCalledWith(
 				file.size,
 				uploadApplicationMaxFileSize,
-				file.name,
-				null
+				file.name
 			);
 		});
 
@@ -160,7 +158,7 @@ describe('validators/common/schemas/file-upload', () => {
 				await schema(null, { req, path: 'file-upload' });
 			} catch (err) {
 				expect(err.message).toEqual(
-					'The selected file must be a pdf, doc, docx, tif, tiff, jpg, jpeg or png'
+					`${invalidFile.fileName} must be a DOC, DOCX, PDF, TIF, JPG or PNG`
 				);
 			}
 		});
