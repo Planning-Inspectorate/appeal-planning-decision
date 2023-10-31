@@ -559,6 +559,12 @@ exports.questions = {
 				value: 'no'
 			}
 		]
+		}),
+		changesListedBuilding: new BooleanQuestion({
+		title: 'Changes a listed building',
+		question: 'Does the proposed development change a listed building?',
+		fieldName: 'changes-listed-building',
+		validators: [new RequiredValidator()]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
