@@ -559,6 +559,14 @@ exports.questions = {
 				value: 'no'
 			}
 		]
+	}),
+	protectedSpecies: new BooleanQuestion({
+		title: 'Protected species',
+		question: 'Would the development affect a protected species?',
+		fieldName: 'protected-species',
+		validators: [
+			new RequiredValidator('Select yes if the development would affect a protected species')
+		]
 	})
 	// rightOfWayCheck: new BooleanQuestion({
 	// 	title: 'Public right of way',
