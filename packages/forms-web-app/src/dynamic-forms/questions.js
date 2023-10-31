@@ -50,7 +50,6 @@ exports.questions = {
 	}),
 	listedBuildingCheck: new BooleanQuestion({
 		title: 'Affects a listed building',
-		pageTitle: 'Affects on a listed building or site',
 		question: 'Does the proposed development affect the setting of listed buildings?',
 		fieldName: 'affects-listed-building',
 		url: 'affect-listed-building',
@@ -495,7 +494,7 @@ exports.questions = {
 	uploadNeighbourLetterAddresses: new MultiFileUploadQuestion({
 		title: 'Letter sent to neighbours',
 		question: 'Upload letters or emails sent to interested parties with their addresses',
-		fieldName: 'upload-letters',
+		fieldName: 'letters-interested-parties',
 		validators: [
 			new RequiredFileUploadValidator(
 				'Select letters or emails sent to interested parties with their addresses'
