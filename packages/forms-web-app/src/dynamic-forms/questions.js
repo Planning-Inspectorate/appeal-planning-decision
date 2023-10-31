@@ -353,15 +353,16 @@ exports.questions = {
 		})
 	}),
 	addNewConditions: new RadioQuestion({
-		title: 'Add new conditions', // this is summary list title
+		title: 'Extra conditions', // this is summary list title
 		question: 'Add new planning conditions to this appeal',
 		description: 'These are additional to the standard planning conditions we would expect to see.',
 		fieldName: 'new-planning-conditions',
+		url: 'add-new-planning-conditions',
 		html: 'resources/new-planning-conditions/content.html',
 		label: 'Are there any new conditions?',
 		validators: [
-			new RequiredValidator(),
-			new ConditionalRequiredValidator(),
+			new RequiredValidator('Select yes if there are any new conditions'),
+			new ConditionalRequiredValidator('Enter the new conditions'),
 			new StringValidator({
 				maxLength: {
 					maxLength: inputMaxCharacters,
