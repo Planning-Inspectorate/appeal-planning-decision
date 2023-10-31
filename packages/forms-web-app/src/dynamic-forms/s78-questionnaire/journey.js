@@ -43,6 +43,7 @@ class S78Journey extends Journey {
 				.withCondition(
 					response.answers && response.answers[questions.conservationArea.fieldName] == 'yes'
 				)
+				.addQuestion(questions.protectedSpecies)
 				.addQuestion(questions.greenBelt)
 				.addQuestion(questions.areaOfOutstandingNaturalBeauty)
 				.addQuestion(questions.treePreservationOrder)
