@@ -131,7 +131,9 @@ class S78Journey extends Journey {
 					response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes'
 				)
 				.addQuestion(questions.potentialSafetyRisks),
-			new Section('Appeal process', 'appeal-process').addQuestion(questions.appealsNearSite)
+			new Section('Appeal process', 'appeal-process')
+				.addQuestion(questions.appealsNearSite)
+				.addQuestion(questions.addNewConditions)
 		);
 	}
 }
