@@ -31,27 +31,17 @@ const schema = (noFilesError) => ({
 				}
 
 				const uploadedFiles = !Array.isArray(files[path]) ? [files[path]] : files[path];
-				const isSingleFile = uploadedFiles.length === 1;
-
-				const singleFileMimeTypeErrorMsg =
-					'The selected file must be a pdf, doc, docx, tif, tiff, jpg, jpeg or png';
-				const multiFileMimeTypeErrorMsg = 'must be a DOC, DOCX, PDF, TIF, JPG or PNG';
+				const errorMsg = 'must be a DOC, DOCX, PDF, TIF, JPG or PNG';
 
 				uploadedFiles.forEach(({ mimetype, name }) => {
-					const errorMsg = isSingleFile
-						? singleFileMimeTypeErrorMsg
-						: `${name} ${multiFileMimeTypeErrorMsg}`;
-
 					if (!Object.values(allowedFileTypes).includes(mimetype)) {
-						throw new Error(errorMsg);
+						throw new Error(`${name} ${errorMsg}`);
 					}
 				});
 
-				const sizeErrorMsg = isSingleFile ? 'The selected file must be smaller than 15MB' : null;
-
 				// must validate file size *before* ClamAV check as otherwise axios will throw request body size error
 				uploadedFiles.forEach(({ size, name }) => {
-					validateFileSize(size, uploadApplicationMaxFileSize, name, sizeErrorMsg);
+					validateFileSize(size, uploadApplicationMaxFileSize, name);
 				});
 
 				//check file for virus
