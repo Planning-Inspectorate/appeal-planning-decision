@@ -94,7 +94,7 @@ module.exports = {
 		stringValidation: {
 			listedBuildingNumber: {
 				regex: {
-					regex: '[0-9]',
+					regex: '^\\d+$',
 					regexMessage: 'Enter a list entry number using numbers 0 to 9'
 				},
 				maxLength: {
@@ -104,6 +104,20 @@ module.exports = {
 				minLength: {
 					minLength: 7,
 					minLengthMessage: 'List entry number must be 7 digits'
+				}
+			},
+			appealReferenceNumber: {
+				regex: {
+					regex: '^\\d+$',
+					regexMessage: 'Enter an appeal reference number using numbers 0 to 9'
+				},
+				maxLength: {
+					maxLength: 7,
+					maxLengthMessage: 'Appeal reference number must be 7 digits'
+				},
+				minLength: {
+					minLength: 7,
+					minLengthMessage: 'Appeal reference number must be 7 digits'
 				}
 			}
 		}

@@ -22,7 +22,10 @@ const StringEntryValidator = require('./validator/string-validator');
 
 const {
 	validation: {
-		stringValidation: { listedBuildingNumber: listedBuildingNumberValidation }
+		stringValidation: {
+			appealReferenceNumber: appealReferenceNumberValidation,
+			listedBuildingNumber: listedBuildingNumberValidation
+		}
 	}
 } = require('../../src/config');
 const StringValidator = require('./validator/string-validator');
@@ -356,15 +359,19 @@ exports.questions = {
 		title: 'n/a',
 		question: 'Add another appeal?',
 		fieldName: 'other-appeals-references',
-		url: 'nearby-appeals-list',
-		subQuestionLabel: 'Appeal',
-		validators: [new RequiredValidator()],
+		url: 'added-nearby-appeal',
+		subQuestionLabel: 'Other appeal',
+		subQuestionInputClasses: 'govuk-input--width-10',
+		validators: [new RequiredValidator('Select yes if you want to add another appeal')],
 		subQuestion: new AddMoreQuestion({
 			title: 'Enter an appeal reference number',
 			question: 'Enter an appeal reference number',
 			fieldName: 'other-appeal-reference',
 			hint: 'You can add more appeals later if there is more than one nearby',
-			validators: [new RequiredValidator()],
+			validators: [
+				new RequiredValidator('Enter an appeal reference number'),
+				new StringEntryValidator(appealReferenceNumberValidation)
+			],
 			viewFolder: 'identifier'
 		})
 	}),
