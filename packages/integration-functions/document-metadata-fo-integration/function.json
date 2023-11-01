@@ -1,0 +1,14 @@
+{
+	"bindings": [
+		{
+			"name": "documentMetadata",
+			"type": "serviceBusTrigger",
+			"direction": "in",
+			"topicName": "appeal-document",
+			"subscriptionName": "bo-appeals-document-subscription",
+			"connection": "ServiceBusConnection",
+			"autoComplete": true
+		}
+	],
+	"disabled": false
+}
