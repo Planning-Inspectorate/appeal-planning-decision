@@ -72,14 +72,14 @@ class StringValidator extends BaseValidator {
 			chain.matches(new RegExp(this.regex.regex)).withMessage(this.regex.regexMessage);
 
 		let chain = body(this.fieldName ? this.fieldName : questionObj.fieldName);
+		if (this.regex.regex) {
+			chain = regexValidator(chain);
+		}
 		if (this.minLength.minLength) {
 			chain = minLengthValidator(chain);
 		}
 		if (this.maxLength.maxLength) {
 			chain = maxLengthValidator(chain);
-		}
-		if (this.regex.regex) {
-			chain = regexValidator(chain);
 		}
 		return chain;
 	}

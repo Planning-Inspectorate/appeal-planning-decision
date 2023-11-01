@@ -53,10 +53,13 @@ class IdentifierQuestion extends Question {
 	/**
 	 * adds custom identifier info to view model
 	 */
-	prepQuestionForRendering(section, journey, customViewData) {
+	prepQuestionForRendering(section, journey, customViewData, payload) {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 		viewModel.question.inputClasses = this.inputClasses;
 		viewModel.question.label = this.label;
+		viewModel.question.value = payload
+			? payload[viewModel.question.fieldName]
+			: viewModel.question.value;
 		return viewModel;
 	}
 }

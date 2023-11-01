@@ -94,16 +94,16 @@ module.exports = {
 		stringValidation: {
 			listedBuildingNumber: {
 				regex: {
-					regex: '^[0-9]{7}$',
-					regexMessage: 'You must provide a valid number'
+					regex: '[0-9]',
+					regexMessage: 'Enter a list entry number using numbers 0 to 9'
 				},
 				maxLength: {
 					maxLength: 7,
-					maxLengthMessage: 'You must provide a valid number'
+					maxLengthMessage: 'List entry number must be 7 digits'
 				},
 				minLength: {
-					minLength: 1,
-					minLengthMessage: 'Enter a valid number'
+					minLength: 7,
+					minLengthMessage: 'List entry number must be 7 digits'
 				}
 			}
 		}
