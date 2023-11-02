@@ -609,6 +609,16 @@ exports.questions = {
 				'Select yes if a public right of way would need to be removed or diverted'
 			)
 		]
+	}),
+	areaOfOutstandingNaturalBeauty: new BooleanQuestion({
+		title: 'Area of outstanding natural beauty',
+		question: 'Is the appeal site in an area of outstanding natural beauty?',
+		fieldName: 'area-of-outstanding-natural-beauty',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the appeal site is in an area of outstanding natural beauty'
+			)
+		]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
