@@ -600,12 +600,17 @@ exports.questions = {
 		question: 'Does the proposed development change a listed building?',
 		fieldName: 'changes-listed-building',
 		validators: [new RequiredValidator()]
+	}),
+	rightOfWayCheck: new BooleanQuestion({
+		title: 'Public right of way',
+		question: 'Would a public right of way need to be removed or diverted?',
+		fieldName: 'public-right-of-way',
+		validators: [
+			new RequiredValidator(
+				'Select yes if a public right of way would need to be removed or diverted'
+			)
+		]
 	})
-	// rightOfWayCheck: new BooleanQuestion({
-	// 	title: 'Public right of way',
-	// 	question: 'Would a public right of way need to be removed or diverted?',
-	// 	fieldName: 'right-of-way-check'
-	// }),
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
 	// 	question: 'Upload the definitive map and statement extract',
