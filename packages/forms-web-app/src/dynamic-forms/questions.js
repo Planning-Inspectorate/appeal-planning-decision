@@ -190,6 +190,17 @@ exports.questions = {
 			new MultifileUploadValidator()
 		]
 	}),
+	consultationResponses: new BooleanQuestion({
+		title: 'Responses or standing advice to upload',
+		question:
+			'Do you have any consultation responses or standing advice from statutory consultees to upload?',
+		fieldName: 'consultation-responses',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have any consultation responses or standing advice from statutory consultees to upload'
+			)
+		]
+	}),
 	consultationResponsesUpload: new MultiFileUploadQuestion({
 		title: 'Upload the consultation responses and standing advice',
 		question: 'Upload the consultation responses and standing advice',

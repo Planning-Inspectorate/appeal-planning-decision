@@ -81,6 +81,7 @@ class S78Journey extends Journey {
 				),
 			new Section('Consultation responses and representations', 'consultation')
 				.addQuestion(questions.statutoryConsultees)
+				.addQuestion(questions.consultationResponses)
 				.addQuestion(questions.consultationResponsesUpload)
 				.addQuestion(questions.representationsFromOthers)
 				.addQuestion(questions.representationUpload)
