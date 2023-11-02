@@ -201,7 +201,7 @@ exports.getAppealByLPACodeAndId = async (lpaCode, id) => {
  */
 exports.getAppealDocumentMetaData = async (caseRef, documentType, returnMultipleDocuments = '') => {
 	return handler(
-		`/api/v1/document-meta-data/${caseRef}?documenttype=${documentType}&returnMultipleDocuments=${returnMultipleDocuments}`,
+		`/api/v1/document-meta-data/case/${caseRef}?documenttype=${documentType}&returnMultipleDocuments=${returnMultipleDocuments}`,
 		'GET'
 	);
 };
