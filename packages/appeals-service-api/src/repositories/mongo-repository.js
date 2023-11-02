@@ -2,6 +2,10 @@ const mongodb = require('../db/db');
 const ObjectId = require('mongodb').ObjectId;
 
 /**
+ * @typedef {import('mongodb').UpdateResult} UpdateResult
+ */
+
+/**
  * This is intended to be used as an [abstract class]{@link https://en.wikipedia.org/wiki/Abstract_type}.
  */
 class MongoRepository {
@@ -47,7 +51,7 @@ class MongoRepository {
 	/**
 	 *
 	 * @param {Model} model The model to insert into the collection specified by the constructor
-	 * @returns {any} The JSON to insert.
+	 * @returns {Promise<any>} The JSON to insert.
 	 */
 	async create(model) {
 		return await mongodb.get().collection(this.collectionName).insertOne(model);
@@ -78,7 +82,7 @@ class MongoRepository {
 	 * @param {any} filter
 	 * @param {any} set
 	 * @param {boolean} upsert
-	 * @returns
+	 * @returns {Promise<UpdateResult>}
 	 */
 	async updateOne(filter, set, upsert = true) {
 		return await mongodb
