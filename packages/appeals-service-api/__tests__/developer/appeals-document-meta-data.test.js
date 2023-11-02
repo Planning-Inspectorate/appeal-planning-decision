@@ -7,6 +7,7 @@ const {
 	getRandomInt,
 	DOCUMENT_TYPES
 } = require('./fixtures/documentMetadata');
+const uuid = require('uuid');
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 const app = require('../../src/app');
 let appealsApi;
@@ -108,6 +109,58 @@ describe('document-meta-data', () => {
 			)}?documenttype=nope`;
 			const response = await appealsApi.get(url);
 			expect(response.status).toEqual(404);
+		});
+	});
+
+	describe('put', () => {
+		it('should add a new document', async () => {
+			const newDoc = { ...fakeDocuments[0], documentId: uuid.v4() };
+			delete newDoc._id;
+
+			const url = `/api/v1/document-meta-data/${newDoc.documentId}`;
+
+			const response = await appealsApi.put(url).send(newDoc);
+
+			expect(response.status).toEqual(200);
+			expect(response.body).toEqual({
+				matchedCount: 0,
+				modifiedCount: 0,
+				upsertedCount: 1
+			});
+
+			const collection = await databaseConnection.db(collectionName).collection(collectionName);
+			const dbdoc = await collection.findOne({ documentId: newDoc.documentId });
+			expect(dbdoc).toEqual(expect.objectContaining(newDoc));
+		});
+
+		it('should update existing document', async () => {
+			const newDoc = { ...fakeDocuments[0], documentId: uuid.v4() };
+			delete newDoc._id;
+			const url = `/api/v1/document-meta-data/${newDoc.documentId}`;
+			await appealsApi.put(url).send(newDoc);
+
+			const updateDoc = { ...newDoc, version: 999, size: 1 };
+			delete updateDoc._id;
+			const response = await appealsApi.put(url).send(updateDoc);
+
+			expect(response.status).toEqual(200);
+			expect(response.body).toEqual({
+				matchedCount: 1,
+				modifiedCount: 1,
+				upsertedCount: 0
+			});
+			const collection = await databaseConnection.db(collectionName).collection(collectionName);
+			const dbdoc = await collection.findOne({ documentId: updateDoc.documentId });
+			expect(dbdoc).toEqual(expect.objectContaining(updateDoc));
+		});
+
+		it('should 400 with bad schema', async () => {
+			const badDoc = { documentId: '123', badData: 'yep' };
+			const url = `/api/v1/document-meta-data/${'123'}`;
+
+			const response = await appealsApi.put(url).send(badDoc);
+
+			expect(response.status).toEqual(400);
 		});
 	});
 });

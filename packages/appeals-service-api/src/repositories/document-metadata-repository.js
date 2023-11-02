@@ -1,18 +1,21 @@
 const { MongoRepository } = require('./mongo-repository');
 
+/**
+ * @typedef {import('@pins/common/schema/documentMetadata.js').DocumentMetadata} DocumentMetadata
+ * @typedef {import('@pins/common/schema/documentMetadata.js').DocumentType} DocumentType
+ * @typedef {import('./mongo-repository').UpdateResult} UpdateResult
+ */
+
 class DocumentMetadataRepository extends MongoRepository {
 	constructor() {
 		super('documentMetadata');
 	}
-	/**
-	 * @typedef {'Supporting Documents' | 'Appeal Statement' | 'Planning application form' | 'Decision notice'} DocumentType
-	 */
 
 	/**
 	 *
 	 * @param {string} caseRef
 	 * @param {DocumentType} documentType
-	 * @return {Promise<any>}
+	 * @return {Promise<Array.<DocumentMetadata>|DocumentMetadata|undefined>}
 	 */
 	async getDocumentMetadata(caseRef, documentType, returnMultipleDocuments) {
 		if (returnMultipleDocuments) {
@@ -50,6 +53,22 @@ class DocumentMetadataRepository extends MongoRepository {
 				console.log(e);
 			}
 		}
+	}
+
+	/**
+	 * Upsert document metadata
+	 * @param {DocumentMetadata} documentMetadata
+	 * @returns {Promise<UpdateResult>}
+	 */
+	async createUpdateDocumentMetadata(documentMetadata) {
+		const filter = {
+			caseRef: `${documentMetadata.caseRef}`,
+			documentId: `${documentMetadata.documentId}`
+		};
+
+		return await this.updateOne(filter, {
+			$set: documentMetadata
+		});
 	}
 }
 
