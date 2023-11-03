@@ -1,5 +1,5 @@
 class HasQuestionnaireMapper {
-	mapToPINSDataModel(journeyResponse) {
+	mapToPINSDataModel(journeyResponse, fileMap) {
 		return [
 			{
 				questionnaire: {
@@ -51,49 +51,24 @@ class HasQuestionnaireMapper {
 							? this.#convertFromAddMore(journeyResponse.answers['other-appeals-references'])
 							: undefined,
 					// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
-					documents: [
-						// {
-						// notifyingParties: journeyResponse.answers['notified-who']
-						// },
-						// {
-						// conservationAreaMap: () => {
-						// if (journeyResponse.answers['conservation-area'].value == 'yes') {
-						// journeyResponse.answers['conservation-upload'];
-						// }
-						// }
-						// },
-						// {
-						// siteNotices: () => {
-						// if (journeyResponse.answers['display-site-notice'].value == 'yes') {
-						// journeyResponse.answers['upload-site-notice'];
-						// }
-						// }
-						// },
-						// {
-						// notifyingParties: () => {
-						// if (journeyResponse.answers['letters-to-neighbours'].value == 'yes') {
-						// journeyResponse.answers['upload-letters-emails'];
-						// }
-						// }
-						// },
-						// {
-						// pressAdvert: () => {
-						// if (journeyResponse.answers['press-advert'].value == 'yes') {
-						// journeyResponse.answers['upload-press-advert'];
-						// }
-						// }
-						// },
-						// {
-						// representations: () => {
-						// if (journeyResponse.answers['representations-other-parties'].value == 'yes') {
-						// journeyResponse.answers['upload-representations'];
-						// }
-						// }
-						// },
-						// {
-						// officersReport: journeyResponse.answers['upload-report']
-						// }
-					]
+					documents: Array.from(fileMap).map(
+						([
+							{ fileName, originalFileName, size },
+							{ lastModified, createdOn, metadata, _response }
+						]) => ({
+							filename: fileName,
+							originalFilename: originalFileName,
+							size: size,
+							mime: metadata.mime_type,
+							documentURI: _response.request.url,
+							dateCreated: createdOn,
+							lastModified,
+							documentType: 'conservationAreaMap',
+							sourceSystem: 'appeals',
+							origin: 'citizen',
+							stage: 'lpa_questionnaire'
+						})
+					)
 				}
 			}
 		];

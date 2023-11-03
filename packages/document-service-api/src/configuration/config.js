@@ -52,7 +52,7 @@ module.exports = {
 		showErrors: process.env.SERVER_SHOW_ERRORS === 'true'
 	},
 	storage: {
-		container: process.env.STORAGE_CONTAINER_NAME || 'document-service-uploads',
+		container: process.env.STORAGE_CONTAINER_NAME || 'uploads',
 		connectionString:
 			process.env.BLOB_STORAGE_CONNECTION_STRING ||
 			'DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1',

@@ -5,7 +5,7 @@ const responsesRepository = new ResponsesRepository();
 const { HasQuestionnaireMapper } = require('../mappers/questionnaire-submission/has-mapper');
 const questionnaireMapper = new HasQuestionnaireMapper();
 const { broadcast } = require('../data-producers/lpa-response-producer');
-const { initContainerClient, getBlobMeta } = require('./object-store');
+const { initContainerClient, blobMetaGetter } = require('./object-store');
 
 const patchResponse = async (journeyId, referenceId, answers, lpaCode) => {
 	if (!journeyId) {
@@ -43,19 +43,26 @@ const getResponse = async (journeyId, referenceId, projection) => {
 	}
 };
 
-const getBlobLocations = (questionnaireResponse) => {
-	Object.values(questionnaireResponse.answers ?? {}).reduce((acc, cur) => {
-		if (!cur?.uploadedFiles) return acc;
-		return [...acc, ...cur.uploadedFiles.map(({ location }) => location)];
-	}, []);
-};
-
 const submitResponse = async (questionnaireResponse) => {
 	try {
-		const blobLocations = getBlobLocations(questionnaireResponse);
-		const blobMeta = await Promise.all(blobLocations.map(getBlobMeta(initContainerClient)));
-		console.log('🚀 ~ file: responses.service.js:59 ~ submitResponse ~ blobMeta:', blobMeta);
-		const mappedData = questionnaireMapper.mapToPINSDataModel(questionnaireResponse);
+		const uploadedFiles = Object.values(questionnaireResponse.answers).reduce((acc, answer) => {
+			if (!answer.uploadedFiles) return acc;
+			return acc.concat(answer.uploadedFiles);
+		}, []);
+
+		const getBlobMeta = blobMetaGetter(initContainerClient);
+
+		const promiseMap = new Map(
+			uploadedFiles.map((uploadedFile) => [uploadedFile, getBlobMeta(uploadedFile.location)])
+		);
+
+		const resolutionMap = new Map();
+		for (const [uploadedFile, promise] of Array.from(promiseMap)) {
+			const resolution = await promise;
+			resolutionMap.set(uploadedFile, resolution);
+		}
+
+		const mappedData = questionnaireMapper.mapToPINSDataModel(questionnaireResponse, resolutionMap);
 		return await broadcast(mappedData);
 	} catch (err) {
 		logger.error(err);
