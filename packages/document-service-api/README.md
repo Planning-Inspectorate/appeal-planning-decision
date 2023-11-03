@@ -65,9 +65,9 @@ Tables port: 10002
 
 Then click Next then Connect.
 
-To see the documents, in the Explorer select `Storage Accounts`, then the connection you just set up (probably `local-1`), then `Blob Containers`, then `document-service-uploads`.
+To see the documents, in the Explorer select `Storage Accounts`, then the connection you just set up (probably `local-1`), then `Blob Containers`, then `uploads`.
 
-Within `document-service-uploads` the document hierarchy is structured as follows:
+Within `uploads` the document hierarchy is structured as follows:
 
 - Application UUID folder
   - Document UUID folder

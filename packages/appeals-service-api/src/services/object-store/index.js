@@ -25,15 +25,17 @@ const initContainerClient = async (config) => {
 	return containerClient;
 };
 
-const getBlobMeta = (initContainerClient) => (location) =>
-	new Promise((resolve) => {
-		initContainerClient(config).then((containerClient) => {
-			const blobClient = containerClient.getBlobClient(location);
-			resolve(blobClient.getProperties());
+const blobMetaGetter = (initContainerClient) => {
+	const containerClient = initContainerClient(config);
+	return (location) =>
+		new Promise((resolve) => {
+			containerClient.then((containerClient) => {
+				const blobClient = containerClient.getBlobClient(location);
+				resolve(blobClient.getProperties());
+			});
 		});
-	});
-
+};
 module.exports = {
 	initContainerClient,
-	getBlobMeta
+	blobMetaGetter
 };
