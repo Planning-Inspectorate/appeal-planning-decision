@@ -270,9 +270,16 @@ exports.questions = {
 	}),
 	planningOfficersReportUpload: new MultiFileUploadQuestion({
 		title: 'Upload planning officer’s report',
-		question: 'Upload the planning officer’s report',
+		question: 'Upload the planning officer’s report or what your decision notice would have said',
 		fieldName: 'upload-report',
-		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
+		html: 'resources/upload-planning-officer-report/content.html',
+		url: 'upload-planning-officers-report-decision-notice',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the planning officer’s report or what your decision notice would have said'
+			),
+			new MultifileUploadValidator()
+		]
 	}),
 	accessForInspection: new BooleanQuestion({
 		title: 'Access for inspection',
