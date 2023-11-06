@@ -13,7 +13,7 @@ jest.mock('@azure/storage-blob', () => ({
 	}
 }));
 
-jest.mock('../configuration/config', () => ({
+const mockConfig = {
 	fileUpload: {
 		path: ''
 	},
@@ -24,11 +24,11 @@ jest.mock('../configuration/config', () => ({
 		connectionString: '',
 		container: ''
 	}
-}));
+};
 
 describe('initContainerClient', () => {
 	it('should return containerClient when the connection is initialised successfully', async () => {
-		const result = await initContainerClient();
+		const result = await initContainerClient(mockConfig);
 
 		expect(result).toStrictEqual(mockGetContainerClient);
 	});
@@ -39,7 +39,7 @@ describe('initContainerClient', () => {
 		});
 
 		try {
-			await initContainerClient();
+			await initContainerClient(mockConfig);
 			throw new Error('Expected error not thrown');
 		} catch (err) {
 			expect(err.message).toEqual('Internal Server Error');

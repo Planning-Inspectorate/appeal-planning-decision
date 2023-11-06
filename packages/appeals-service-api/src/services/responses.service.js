@@ -47,28 +47,36 @@ const getResponse = async (journeyId, referenceId, projection) => {
 	}
 };
 
-const submitResponse = async (questionnaireResponse) => {
+const mapQuestionnaireDataForBackOffice = async (questionnaireResponse) => {
+	const uploadedFiles = Object.values(questionnaireResponse.answers).reduce((acc, answer) => {
+		if (!answer.uploadedFiles) return acc;
+		return acc.concat(answer.uploadedFiles);
+	}, []);
+
+	const uploadedFilesAndBlobMeta = await conjoinedPromises(
+		uploadedFiles,
+		blobMetaGetter(initContainerClient),
+		(uploadedFile) => uploadedFile.location
+	);
+
+	return questionnaireMapper.mapToPINSDataModel(questionnaireResponse, uploadedFilesAndBlobMeta);
+};
+
+const submitResponseFactory = (mapper, callback) => async (questionnaireResponse) => {
 	try {
-		const uploadedFiles = Object.values(questionnaireResponse.answers).reduce((acc, answer) => {
-			if (!answer.uploadedFiles) return acc;
-			return acc.concat(answer.uploadedFiles);
-		}, []);
-
-		const uploadedFilesAndBlobMeta = await conjoinedPromises(
-			uploadedFiles,
-			blobMetaGetter(initContainerClient),
-			(uploadedFile) => uploadedFile.location
-		);
-
-		const mappedData = questionnaireMapper.mapToPINSDataModel(
-			questionnaireResponse,
-			uploadedFilesAndBlobMeta
-		);
-		return await broadcast(mappedData);
+		return await callback(await mapper(questionnaireResponse));
 	} catch (err) {
 		logger.error(err);
 		throw ApiError.unableToSubmitResponse();
 	}
 };
 
-module.exports = { patchResponse, getResponse, submitResponse };
+const submitResponse = submitResponseFactory(mapQuestionnaireDataForBackOffice, broadcast);
+
+module.exports = {
+	getResponse,
+	mapQuestionnaireDataForBackOffice,
+	patchResponse,
+	submitResponse,
+	submitResponseFactory
+};
