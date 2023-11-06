@@ -52,7 +52,7 @@ class HasJourney extends Journey {
 				.addQuestion(questions.greenBelt),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.whoWasNotified)
-				// .addQuestion(questions.howYouNotifiedPeople)
+				.addQuestion(questions.howYouNotifiedPeople)
 				.addQuestion(questions.displaySiteNotice)
 				.addQuestion(questions.uploadSiteNotice)
 				.withCondition(

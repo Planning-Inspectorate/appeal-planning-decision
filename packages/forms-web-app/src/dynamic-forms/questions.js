@@ -211,11 +211,13 @@ exports.questions = {
 	}),
 	howYouNotifiedPeople: new CheckboxQuestion({
 		title: 'Type of notification',
-		question: 'How did you notify people about the planning application?',
+		question: 'How did you notify relevant parties about the planning application?',
 		description: 'Select all that apply',
 		fieldName: 'notification-method',
 		url: 'notification-type',
-		validators: [new RequiredValidator()],
+		validators: [
+			new RequiredValidator('Select how you notified people about the planning application')
+		],
 		options: [
 			//Options for checkboxes / radio buttons
 			{
