@@ -4,10 +4,16 @@ const logger = require('./logger');
 const config = require('../config');
 
 module.exports = () => {
-	const { sessionSecret } = config.server;
+	let { sessionSecret } = config.server;
 
 	if (!sessionSecret) {
 		throw new Error('Session secret must be set');
+	}
+
+	try {
+		sessionSecret = JSON.parse(sessionSecret);
+	} catch (err) {
+		logger.warn('session secret not valid json, entire value will be used as a string');
 	}
 
 	const MongoDBStore = connectMongodb(session);
