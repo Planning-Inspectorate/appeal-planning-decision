@@ -96,4 +96,38 @@ describe('Utils test', () => {
 			expect(sanitized).toBe('a-a');
 		});
 	});
+
+	describe('conjoinedPromises', () => {
+		it('returns a map of objects to associated promise resolutions', async () => {
+			const testObjArr = [1, 2, 3, 4];
+			const testAsyncFunction = async (n) => n;
+
+			const result = await util.conjoinedPromises(testObjArr, testAsyncFunction);
+
+			expect(result).toEqual(
+				new Map([
+					[1, 1],
+					[2, 2],
+					[3, 3],
+					[4, 4]
+				])
+			);
+		});
+
+		it('returns a map that allows for internal transformation of objects without affecting map keys', async () => {
+			const testObjArr = [{ a: 'a' }, { a: 'b' }];
+			const testAsyncFunction = async (str) => (str += 'b');
+
+			const result = await util.conjoinedPromises(testObjArr, testAsyncFunction, (obj) => obj.a);
+
+			expect(result).toEqual(
+				new Map([
+					[{ a: 'a' }, 'ab'],
+					[{ a: 'b' }, 'bb']
+				])
+			);
+			expect(result.get(testObjArr[0])).toBe('ab');
+			expect(result.get(testObjArr[1])).toBe('bb');
+		});
+	});
 });

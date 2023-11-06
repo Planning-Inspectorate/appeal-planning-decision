@@ -1,15 +1,16 @@
 const {
-	patchResponse,
 	getResponse,
-	submitResponse
+	mapQuestionnaireDataForBackOffice,
+	patchResponse,
+	submitResponseFactory
 } = require('../../../src/services/responses.service');
 const logger = require('../../../src/lib/logger');
 const { ResponsesRepository } = require('../../../src/repositories/responses-repository');
-const { broadcast } = require('../../../src/data-producers/lpa-response-producer');
 const ApiError = require('../../../src/errors/apiError');
 const {
-	HasQuestionnaireMapper
-} = require('../../../src/mappers/questionnaire-submission/has-mapper');
+	submittedQuestionnaireObjectPreMap,
+	submittedQuestionnaireObjectPostMap
+} = require('../testConstants');
 
 jest.mock('../../../src/lib/logger', () => {
 	return {
@@ -19,18 +20,33 @@ jest.mock('../../../src/lib/logger', () => {
 });
 
 jest.mock('../../../src/data-producers/lpa-response-producer');
+jest.mock('../../../src/services/object-store', () => ({
+	...jest.requireActual('../../../src/services/object-store'),
+	blobMetaGetter: jest.fn(() => async () => ({
+		createdOn: '2023-11-06T11:40:07.453Z',
+		lastModified: '2023-11-06T11:40:07.453Z',
+		document_type: undefined,
+		metadata: {
+			mime_type: 'image/jpeg'
+		},
+		_response: {
+			request: {
+				url: 'http://blob-storage:10000/devstoreaccount1/uploads/has-questionnaire%3AAPP_Q9999_W_22_1234567/5b857ec6-9317-4530-81c3-d4ed5994ade2/APP-Q9999-W-22-1234567-original_sparkling-enamel-pin-badge-gift-for-awesome-friends.jpg'
+			}
+		}
+	}))
+}));
 
 describe('./src/services/responses.service', () => {
 	const journeyId = 'has-questionnaire';
 	const referenceId = '12345';
 	const lpaCode = 'Q9999';
 
-	let patchResponsesSpy, getResponsesSpy, hasQuestionniareMapperSpy;
+	let patchResponsesSpy, getResponsesSpy;
 
 	beforeEach(() => {
 		patchResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'patchResponses');
 		getResponsesSpy = jest.spyOn(ResponsesRepository.prototype, 'getResponses');
-		hasQuestionniareMapperSpy = jest.spyOn(HasQuestionnaireMapper.prototype, 'mapToPINSDataModel');
 	});
 
 	afterEach(() => {
@@ -138,36 +154,41 @@ describe('./src/services/responses.service', () => {
 		});
 	});
 
-	describe('submitResponse', () => {
-		it('maps questionnaire data and sends to event client if sucessful', async () => {
-			getResponsesSpy.mockResolvedValue({});
-			hasQuestionniareMapperSpy.mockReturnValue({});
-			broadcast.mockReturnValue({});
+	describe('submitResponseFactory', () => {
+		it('maps data and calls the callback function with the map result', async () => {
+			const testMappingFunction = (a) => a + 'b';
 
-			const questionnaireResponse = {
-				_id: 123456789,
-				answers: {
-					'notified-who': { uploadedFiles: [] },
-					'correct-appeal-type': 'no',
-					'affects-listed-building': 'yes'
-				},
-				journeyId: 'has-questionnaire',
-				referenceId: 'APP/Q9999/W/22/1234567'
-			};
-			await submitResponse(questionnaireResponse);
-			expect(hasQuestionniareMapperSpy).toHaveBeenCalledWith(questionnaireResponse);
-			expect(broadcast).toHaveBeenCalled();
+			const testCallback = (a) => a + 'c';
+
+			const submitResponse = submitResponseFactory(testMappingFunction, testCallback);
+
+			expect(await submitResponse('a')).toBe('abc');
 		});
 	});
-	it('throws error if submission unsuccessful', async () => {
-		const error = new Error('servcie bus error');
-		broadcast.mockRejectedValue(error);
 
+	it('throws error if submission unsuccessful', async () => {
+		const testMappingFunction = (a) => a + 'b';
+
+		const testCallback = () => {
+			throw Error('some error');
+		};
+
+		const submitResponse = submitResponseFactory(testMappingFunction, testCallback);
 		try {
-			await submitResponse({ test: 'testing' });
+			await submitResponse('a');
 		} catch (err) {
-			expect(logger.error).toHaveBeenCalledWith(error);
+			expect(logger.error).toHaveBeenCalledWith(Error('some error'));
 			expect(err).toEqual(ApiError.unableToSubmitResponse());
 		}
+
+		expect.hasAssertions();
+	});
+
+	describe('mapQuestionnaireDataForBackOffice', () => {
+		it('maps questionnaire data to the format specified by the PINS data model', async () => {
+			const result = await mapQuestionnaireDataForBackOffice(submittedQuestionnaireObjectPreMap);
+
+			expect(result).toEqual(submittedQuestionnaireObjectPostMap);
+		});
 	});
 });

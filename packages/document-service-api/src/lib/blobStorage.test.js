@@ -1,4 +1,3 @@
-const path = require('path');
 const {
 	downloadFile,
 	uploadFile,
@@ -9,7 +8,7 @@ const {
 } = require('./blobStorage');
 
 const document = {
-	filename: path.join(__dirname, '../configuration/config.js')
+	filename: '.'
 };
 const applicationId = 'eb3bf079-328c-4a9c-bbcb-07432118cd02';
 const documentIdOne = 'c414f732-eecb-489b-9a94-2932d4c074a1';

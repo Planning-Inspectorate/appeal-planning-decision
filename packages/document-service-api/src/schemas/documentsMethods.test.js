@@ -6,6 +6,11 @@ const DocumentsMethods = require('./documentsMethods');
 const { downloadFile } = require('../lib/blobStorage');
 const { initContainerClient } = require('@pins/common');
 
+jest.mock('@pins/common', () => ({
+	...jest.requireActual('@pins/common'),
+	initContainerClient: jest.fn()
+}));
+
 describe('Documents methods', () => {
 	describe('#downloadFileBuffer', () => {
 		it('should download a file buffer', async () => {
