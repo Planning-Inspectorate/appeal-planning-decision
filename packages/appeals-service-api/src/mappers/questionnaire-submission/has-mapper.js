@@ -1,5 +1,5 @@
 class HasQuestionnaireMapper {
-	mapToPINSDataModel(journeyResponse, fileMap) {
+	mapToPINSDataModel(journeyResponse, uploadedFilesAndBlobMeta) {
 		return [
 			{
 				questionnaire: {
@@ -51,7 +51,7 @@ class HasQuestionnaireMapper {
 							? this.#convertFromAddMore(journeyResponse.answers['other-appeals-references'])
 							: undefined,
 					// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
-					documents: Array.from(fileMap).map(
+					documents: Array.from(uploadedFilesAndBlobMeta).map(
 						([
 							{ fileName, originalFileName, size },
 							{ lastModified, createdOn, document_type, metadata, _response }
