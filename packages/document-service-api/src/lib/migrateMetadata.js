@@ -1,3 +1,4 @@
+const config = require('../configuration/config');
 const Documents = require('../schemas/documents');
 const blobStorage = require('./blobStorage');
 const logger = require('./logger');
@@ -16,7 +17,7 @@ const mapMetadata = ({ applicationId, name, uploadDate, id, size, mimeType }) =>
 
 const saveMetadata = async (metadata) => {
 	try {
-		const containerClient = await blobStorage.initContainerClient();
+		const containerClient = await blobStorage.initContainerClient(config);
 		const isSaved = await blobStorage.saveMetadata(containerClient, metadata);
 		return isSaved;
 	} catch (err) {

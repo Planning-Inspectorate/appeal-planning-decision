@@ -83,5 +83,17 @@ module.exports = {
 
 		// Reconstruct the filename with the modified base name
 		return extension ? `${filename}.${extension}` : filename;
+	},
+
+	conjoinedPromises: async (objArr, asyncFunc, asyncDepMapPredicate = (obj) => obj) => {
+		const promiseMap = new Map(objArr.map((obj) => [obj, asyncFunc(asyncDepMapPredicate(obj))]));
+
+		const resolutionMap = new Map();
+		for (const [obj, promise] of Array.from(promiseMap)) {
+			const resolution = await promise;
+			resolutionMap.set(obj, resolution);
+		}
+
+		return resolutionMap;
 	}
 };

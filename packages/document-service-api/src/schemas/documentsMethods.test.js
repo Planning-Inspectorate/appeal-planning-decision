@@ -3,7 +3,8 @@ jest.mock('../lib/blobStorage');
 
 const uuid = require('uuid');
 const DocumentsMethods = require('./documentsMethods');
-const { initContainerClient, downloadFile } = require('../lib/blobStorage');
+const { downloadFile } = require('../lib/blobStorage');
+const { initContainerClient } = require('@pins/common');
 
 describe('Documents methods', () => {
 	describe('#downloadFileBuffer', () => {

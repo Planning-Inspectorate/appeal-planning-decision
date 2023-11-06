@@ -1,5 +1,4 @@
 const {
-	initContainerClient,
 	downloadFile,
 	uploadFile,
 	deleteFile,
@@ -7,15 +6,16 @@ const {
 	getMetadataForSingleFile
 } = require('../lib/blobStorage');
 const deleteLocalFile = require('../lib/deleteLocalFile');
-const { documentTypes } = require('@pins/common');
+const { documentTypes, initContainerClient } = require('@pins/common');
 const { isFeatureActive } = require('../configuration/featureFlag');
 const logger = require('../lib/logger');
+const config = require('../configuration/config');
 
 const getDocumentsForApplication = async (req, res) => {
 	const { applicationId } = req.params;
 
 	try {
-		const containerClient = await initContainerClient();
+		const containerClient = await initContainerClient(config);
 		const documents = await getMetadataForAllFiles(containerClient, applicationId);
 
 		if (documents.length) {
@@ -39,7 +39,7 @@ const getDocumentById = async (req, res) => {
 	const { applicationId, documentId } = req.params;
 
 	try {
-		const containerClient = await initContainerClient();
+		const containerClient = await initContainerClient(config);
 		const document = await getMetadataForSingleFile(containerClient, applicationId, documentId);
 
 		if (document) {
@@ -63,7 +63,7 @@ const serveDocumentById = async (req, res) => {
 	const { applicationId, documentId } = req.params;
 
 	try {
-		const containerClient = await initContainerClient();
+		const containerClient = await initContainerClient(config);
 		const { metadata } =
 			(await getMetadataForSingleFile(containerClient, applicationId, documentId)) || {};
 
@@ -114,7 +114,7 @@ const uploadDocument = async (req, res) => {
 	} = req;
 
 	try {
-		const containerClient = await initContainerClient();
+		const containerClient = await initContainerClient(config);
 
 		req.log.info({ file, applicationId }, 'Uploading new file');
 
@@ -178,7 +178,7 @@ const deleteDocument = async (req, res) => {
 	const { applicationId, documentId } = req.params;
 
 	try {
-		const containerClient = await initContainerClient();
+		const containerClient = await initContainerClient(config);
 		const { metadata } =
 			(await getMetadataForSingleFile(containerClient, applicationId, documentId)) || {};
 
