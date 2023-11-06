@@ -16,6 +16,7 @@
 	},
 	"author": "",
 	"dependencies": {
+		"@azure/storage-blob": "^12.16.0",
 		"@godaddy/terminus": "^4.7.1",
 		"notifications-node-client": "^5.1.1",
 		"pino": "^6.11.3",

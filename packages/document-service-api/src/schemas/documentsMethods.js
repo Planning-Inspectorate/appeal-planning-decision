@@ -1,9 +1,11 @@
 const uuid = require('uuid');
-const { initContainerClient, downloadFile } = require('../lib/blobStorage');
+const { downloadFile } = require('../lib/blobStorage');
+const { initContainerClient } = require('@pins/common');
+const config = require('../configuration/config');
 
 module.exports = class Appeals {
 	async downloadFileBuffer() {
-		return downloadFile(this.get('blobStorageLocation'), await initContainerClient());
+		return downloadFile(this.get('blobStorageLocation'), await initContainerClient(config));
 	}
 
 	generateId() {

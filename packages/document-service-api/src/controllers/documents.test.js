@@ -25,12 +25,16 @@ const multipleFilesReturnValue = [fileOne, fileTwo];
 const singleFileReturnValue = fileOne;
 
 jest.mock('../lib/blobStorage', () => ({
-	initContainerClient: containerClient,
 	getMetadataForAllFiles: jest.fn(),
 	getMetadataForSingleFile: jest.fn(),
 	downloadFile: jest.fn(),
 	uploadFile: jest.fn(),
 	deleteFile: jest.fn()
+}));
+
+jest.mock('@pins/common', () => ({
+	...jest.requireActual('@pins/common'),
+	initContainerClient: containerClient
 }));
 
 jest.mock('../lib/deleteLocalFile');

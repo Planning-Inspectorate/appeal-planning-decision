@@ -5,7 +5,11 @@ const responsesRepository = new ResponsesRepository();
 const { HasQuestionnaireMapper } = require('../mappers/questionnaire-submission/has-mapper');
 const questionnaireMapper = new HasQuestionnaireMapper();
 const { broadcast } = require('../data-producers/lpa-response-producer');
-const { initContainerClient, blobMetaGetter } = require('./object-store');
+const { blobMetaGetter } = require('./object-store');
+const {
+	initContainerClient,
+	utils: { conjoinedPromises }
+} = require('@pins/common');
 
 const patchResponse = async (journeyId, referenceId, answers, lpaCode) => {
 	if (!journeyId) {
@@ -41,19 +45,6 @@ const getResponse = async (journeyId, referenceId, projection) => {
 		logger.error(err);
 		throw ApiError.unableToGetResponse();
 	}
-};
-
-// move this to common, add tests
-const conjoinedPromises = async (objArr, asyncFunc, asyncDepMapPredicate = (obj) => obj) => {
-	const promiseMap = new Map(objArr.map((obj) => [obj, asyncFunc(asyncDepMapPredicate(obj))]));
-
-	const resolutionMap = new Map();
-	for (const [obj, promise] of Array.from(promiseMap)) {
-		const resolution = await promise;
-		resolutionMap.set(obj, resolution);
-	}
-
-	return resolutionMap;
 };
 
 const submitResponse = async (questionnaireResponse) => {
