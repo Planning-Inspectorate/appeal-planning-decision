@@ -55,4 +55,12 @@ describe('lib/session', () => {
 		expect(connectMongodb).toHaveBeenCalledWith(expressSession);
 		expect(mockOn.mock.calls[0][0]).toEqual('error');
 	});
+
+	it('should parse secrets as a json array', () => {
+		config.server.sessionSecret = '["test1","test2"]';
+
+		const configuredSession = session();
+
+		expect(configuredSession.secret).toEqual(['test1', 'test2']);
+	});
 });
