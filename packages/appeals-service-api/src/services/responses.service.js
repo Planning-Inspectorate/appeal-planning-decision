@@ -43,6 +43,19 @@ const getResponse = async (journeyId, referenceId, projection) => {
 	}
 };
 
+// move this to common, add tests
+const conjoinedPromises = async (objArr, asyncFunc, asyncDepMapPredicate = (obj) => obj) => {
+	const promiseMap = new Map(objArr.map((obj) => [obj, asyncFunc(asyncDepMapPredicate(obj))]));
+
+	const resolutionMap = new Map();
+	for (const [obj, promise] of Array.from(promiseMap)) {
+		const resolution = await promise;
+		resolutionMap.set(obj, resolution);
+	}
+
+	return resolutionMap;
+};
+
 const submitResponse = async (questionnaireResponse) => {
 	try {
 		const uploadedFiles = Object.values(questionnaireResponse.answers).reduce((acc, answer) => {
@@ -50,19 +63,16 @@ const submitResponse = async (questionnaireResponse) => {
 			return acc.concat(answer.uploadedFiles);
 		}, []);
 
-		const getBlobMeta = blobMetaGetter(initContainerClient);
-
-		const promiseMap = new Map(
-			uploadedFiles.map((uploadedFile) => [uploadedFile, getBlobMeta(uploadedFile.location)])
+		const uploadedFilesAndBlobMeta = await conjoinedPromises(
+			uploadedFiles,
+			blobMetaGetter(initContainerClient),
+			(uploadedFile) => uploadedFile.location
 		);
 
-		const resolutionMap = new Map();
-		for (const [uploadedFile, promise] of Array.from(promiseMap)) {
-			const resolution = await promise;
-			resolutionMap.set(uploadedFile, resolution);
-		}
-
-		const mappedData = questionnaireMapper.mapToPINSDataModel(questionnaireResponse, resolutionMap);
+		const mappedData = questionnaireMapper.mapToPINSDataModel(
+			questionnaireResponse,
+			uploadedFilesAndBlobMeta
+		);
 		return await broadcast(mappedData);
 	} catch (err) {
 		logger.error(err);
