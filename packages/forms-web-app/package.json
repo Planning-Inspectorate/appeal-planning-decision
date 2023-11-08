@@ -51,7 +51,7 @@
 		"jspdf": "^2.5.1",
 		"lusca": "^1.6.1",
 		"node-fetch": "^2.6.7",
-		"nunjucks": "^3.2.2",
+		"nunjucks": "^3.2.4",
 		"nunjucks-date-filter": "^0.1.1",
 		"pino": "^6.13.4",
 		"sass": "^1.49.0",
