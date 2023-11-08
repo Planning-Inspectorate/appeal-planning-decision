@@ -17,7 +17,8 @@ class HasQuestionnaireMapper {
 							: undefined,
 					inCAOrRelatesToCA: this.#convertToBoolean(journeyResponse.answers['conservation-area']),
 					siteWithinGreenBelt: this.#convertToBoolean(journeyResponse.answers['green-belt']),
-					howYouNotifiedPeople: this.#howYouNotifiedPeople(journeyResponse),
+					// todo #howYouNotifiedPeople to be updated when new checkbox question page added
+					// howYouNotifiedPeople: this.#howYouNotifiedPeople(journeyResponse),
 					hasRepresentationsFromOtherParties: this.#convertToBoolean(
 						journeyResponse.answers['representations-other-parties']
 					),
@@ -87,19 +88,19 @@ class HasQuestionnaireMapper {
 		return sanitisedValues;
 	}
 
-	#howYouNotifiedPeople(journeyResponse) {
-		let notifiedPeople = [];
-		if (journeyResponse.answers['display-site-notice'] == 'yes') {
-			notifiedPeople.push('A public notice at the site');
-		}
-		if (journeyResponse.answers['letters-to-neighbours'] == 'yes') {
-			notifiedPeople.push('Letters to neighbours');
-		}
-		if (journeyResponse.answers['press-advert'] == 'yes') {
-			notifiedPeople.push('Advert in the local press');
-		}
-		return notifiedPeople;
-	}
+	// #howYouNotifiedPeople(journeyResponse) {
+	// 	let notifiedPeople = [];
+	// 	if (journeyResponse.answers['display-site-notice'] == 'yes') {
+	// 		notifiedPeople.push('A public notice at the site');
+	// 	}
+	// 	if (journeyResponse.answers['letters-to-neighbours'] == 'yes') {
+	// 		notifiedPeople.push('Letters to neighbours');
+	// 	}
+	// 	if (journeyResponse.answers['press-advert'] == 'yes') {
+	// 		notifiedPeople.push('Advert in the local press');
+	// 	}
+	// 	return notifiedPeople;
+	// }
 }
 
 module.exports = { HasQuestionnaireMapper };
