@@ -26,6 +26,27 @@ const OPTIONS = [
 	}
 ];
 
+const SECTION = {
+	name: 'section-name'
+};
+
+const JOURNEY = {
+	baseUrl: 'list',
+	journeyTemplate: 'template',
+	journeyTitle: 'title',
+	response: {
+		answers: {
+			[FIELDNAME]: { a: 1 }
+		}
+	},
+	getCurrentQuestionUrl: () => {
+		return '/';
+	},
+	getNextQuestionUrl: () => {
+		return 'back';
+	}
+};
+
 describe('./src/dynamic-forms/dynamic-components/radio/question.js', () => {
 	it('should create', () => {
 		const radioQuestion = new RadioQuestion({
@@ -63,32 +84,70 @@ describe('./src/dynamic-forms/dynamic-components/radio/question.js', () => {
 			options: OPTIONS
 		});
 
-		const section = {
-			name: 'section-name'
-		};
-
-		const journey = {
-			baseUrl: 'list',
-			journeyTemplate: 'template',
-			journeyTitle: 'title',
-			response: {
-				answers: {
-					[FIELDNAME]: { a: 1 }
-				}
-			},
-			getNextQuestionUrl: () => {
-				return 'back';
-			}
-		};
-
 		const customViewData = { hello: 'hi' };
 
 		const preppedQuestion = radioQuestion.prepQuestionForRendering(
-			section,
-			journey,
+			SECTION,
+			JOURNEY,
 			customViewData
 		);
 
 		expect(preppedQuestion.question.label).toEqual(LABEL);
+	});
+
+	it('should customise answer for summary when question has a conditional field filled in', () => {
+		const radioQuestion = new RadioQuestion({
+			title: TITLE,
+			question: QUESTION,
+			description: DESCRIPTION,
+			fieldName: FIELDNAME,
+			viewFolder: VIEWFOLDER,
+			html: HTML,
+			label: LABEL,
+			options: OPTIONS
+		});
+
+		const rowParams = radioQuestion.formatAnswerForSummary(SECTION, JOURNEY, {
+			value: 'yes',
+			conditional: 'test'
+		});
+		expect(rowParams[0].value).toEqual('Yes<br>test');
+	});
+
+	it('should customise answer for summary and add label when question has a conditional field filled in and conditional field has a label', () => {
+		const optionsWithLabel = [...OPTIONS];
+		optionsWithLabel[0].conditional.label = 'label:';
+		const radioQuestion = new RadioQuestion({
+			title: TITLE,
+			question: QUESTION,
+			description: DESCRIPTION,
+			fieldName: FIELDNAME,
+			viewFolder: VIEWFOLDER,
+			html: HTML,
+			label: LABEL,
+			options: optionsWithLabel
+		});
+
+		const rowParams = radioQuestion.formatAnswerForSummary(SECTION, JOURNEY, {
+			value: 'yes',
+			conditional: 'test'
+		});
+		expect(rowParams[0].value).toEqual('Yes<br>label: test');
+	});
+
+	it('should not customise answer for summary when question does not have a conditional field filled in', () => {
+		const radioQuestion = new RadioQuestion({
+			title: TITLE,
+			question: QUESTION,
+			description: DESCRIPTION,
+			fieldName: FIELDNAME,
+			viewFolder: VIEWFOLDER,
+			html: HTML,
+			label: LABEL,
+			options: OPTIONS
+		});
+
+		const rowParams = radioQuestion.formatAnswerForSummary(SECTION, JOURNEY, 'no');
+		expect(rowParams[0].value).toEqual('No');
 	});
 });

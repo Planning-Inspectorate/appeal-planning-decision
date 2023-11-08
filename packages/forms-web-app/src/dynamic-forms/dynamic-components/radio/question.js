@@ -52,6 +52,25 @@ class RadioQuestion extends OptionsQuestion {
 		viewModel.question.label = this.label;
 		return viewModel;
 	}
+
+	/**
+	 * returns the formatted answers values to be used to build task list elements
+	 * @param {Object} answer
+	 * @param {Journey} journey
+	 * @param {String} sectionSegment
+	 * @returns {Array.<Object>}
+	 */
+	formatAnswerForSummary(sectionSegment, journey, answer) {
+		if (answer?.conditional) {
+			const selectedOption = this.options.find((option) => option.value === answer.value);
+			const conditionalAnswerText = selectedOption.conditional?.label
+				? `${selectedOption.conditional.label} ${answer.conditional}`
+				: answer.conditional;
+			const formattedAnswer = [selectedOption.text, conditionalAnswerText].join('<br>');
+			return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
+		}
+		return super.formatAnswerForSummary(sectionSegment, journey, answer);
+	}
 }
 
 module.exports = RadioQuestion;

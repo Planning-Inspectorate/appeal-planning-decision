@@ -361,6 +361,44 @@ exports.questions = {
 			}
 		]
 	}),
+	procedureType: new RadioQuestion({
+		title: 'Procedure type',
+		question: 'Which procedure do you think is most appropriate for this appeal?',
+		fieldName: 'procedure-type',
+		validators: [
+			new RequiredValidator('Select the most appropriate procedure'),
+			new ConditionalRequiredValidator('Enter how many days you expect the inquiry to last'),
+			new StringValidator({
+				regex: {
+					regex: '^(\\s*|\\d+)$',
+					regexMessage: 'How many days you expect the inquiry to last must be a number, like 30'
+				},
+				fieldName: getConditionalFieldName('procedure-type', 'inquiry-duration')
+			})
+		],
+
+		options: [
+			{
+				text: 'Written representations',
+				value: 'written-representations'
+			},
+			{
+				text: 'Hearing',
+				value: 'hearing'
+			},
+			{
+				text: 'Inquiry',
+				value: 'inquiry',
+				conditional: {
+					question: 'How many days would you expect the inquiry to last?',
+					fieldName: 'inquiry-duration',
+					inputClasses: 'govuk-input--width-3',
+					label: 'Length in days:',
+					type: 'text'
+				}
+			}
+		]
+	}),
 	appealsNearSite: new BooleanQuestion({
 		title: 'Appeals near the site',
 		question: 'Are there any other ongoing appeals next to, or close to the site?',
