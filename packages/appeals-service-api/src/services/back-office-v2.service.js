@@ -11,7 +11,7 @@ class BackOfficev2Service {
 		const appealToProcess = await getAppeal(appeal_id);
 		const isBOIntegrationActive = await isFeatureActive(
 			'appeals-bo-submission',
-			appealToProcess.LPACode
+			appealToProcess.lpaCode
 		);
 		if (isBOIntegrationActive && appealToProcess.appealType === '1001') {
 			const mappedData = hasAppealMapper.mapToPINSDataModel(appealToProcess);
