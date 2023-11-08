@@ -10,6 +10,7 @@ const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+const questionUtils = require('./dynamic-components/utils/question-utils');
 
 /**
  * @typedef {import('./journey-factory').JourneyType} JourneyType
@@ -116,7 +117,15 @@ exports.list = async (req, res) => {
 				continue;
 			}
 
-			const answer = journey.response?.answers[question.fieldName];
+			const answers = journey.response?.answers;
+			let answer = answers[question.fieldName];
+			const conditionalAnswer = questionUtils.getConditionalAnswer(answers, question, answer);
+			if (conditionalAnswer) {
+				answer = {
+					value: answer,
+					conditional: conditionalAnswer
+				};
+			}
 			const rows = question.formatAnswerForSummary(section.segment, journey, answer);
 			rows.forEach((row) => {
 				let viewModelRow = buildSectionRowViewModel(row.key, row.value, row.action);

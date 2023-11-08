@@ -17,6 +17,7 @@ const mockAnswer = 'Not started';
 
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const AddMoreQuestion = require('./dynamic-components/add-more/question');
+const questionUtils = require('./dynamic-components/utils/question-utils');
 
 class TestJourney extends Journey {
 	constructor(response, isComplete) {
@@ -233,6 +234,27 @@ describe('dynamic-form/controller', () => {
 				pageCaption: `Appeal ${appeal.caseReference}`,
 				journeyTitle: mockJourneyTitle
 			});
+		});
+
+		it('should format answer summary including conditional answer', async () => {
+			req.params.referenceId = mockRef;
+			const appeal = { a: 1, caseReference: 2 };
+
+			getAppealByLPACodeAndId.mockResolvedValue(appeal);
+			getJourney.mockReturnValue(mockJourney);
+			jest.spyOn(questionUtils, 'getConditionalAnswer').mockReturnValueOnce('test');
+
+			await list(req, res);
+
+			const expectedAnswer = {
+				value: 'yes',
+				conditional: 'test'
+			};
+			expect(mockJourney.sections[0].questions[0].formatAnswerForSummary).toHaveBeenCalledWith(
+				mockJourney.sections[0].segment,
+				mockJourney,
+				expectedAnswer
+			);
 		});
 	});
 

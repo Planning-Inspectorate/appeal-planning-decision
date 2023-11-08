@@ -29,7 +29,7 @@ const validate = () => {
 				const errors = validationResult(req);
 				const mappedErrors = errors.mapped();
 
-				if (mappedErrors.length > 0) {
+				if (Object.keys(mappedErrors).length > 0) {
 					break;
 				}
 			} else {
