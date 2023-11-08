@@ -42,48 +42,22 @@ class HasJourney extends Journey {
 				.withCondition(
 					response.answers && response.answers[questions.conservationArea.fieldName] == 'yes'
 				)
-				// .addQuestion(questions.listedBuildingDetail)
-				// .withCondition(response.answers[questions.listedBuildingCheck.fieldName] == 'yes')
-				// .addQuestion(questions.listedBuildingDetailList)
-				// .withCondition(response.answers[questions.listedBuildingCheck.fieldName] == 'yes')
-
-				// .addQuestion(questions.conservationAreaUpload)
-				// .withCondition(response.answers[questions.conservationArea.fieldName] == 'yes')
 				.addQuestion(questions.greenBelt),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
-				.addQuestion(questions.displaySiteNotice)
 				.addQuestion(questions.uploadSiteNotice)
 				.withCondition(
 					response.answers && response.answers[questions.displaySiteNotice.fieldName] == 'yes'
 				)
-				.addQuestion(questions.lettersToNeighbours)
 				.addQuestion(questions.uploadLettersToNeighbours)
 				.withCondition(
 					response.answers && response.answers[questions.lettersToNeighbours.fieldName] == 'yes'
 				)
-				.addQuestion(questions.pressAdvert)
 				.addQuestion(questions.pressAdvertUpload)
 				.withCondition(
 					response.answers && response.answers[questions.pressAdvert.fieldName] == 'yes'
 				),
-			// .addQuestion(questions.siteNoticeUpload)
-			// .withCondition(
-			// 	(response.answers[questions.howYouNotifiedPeople.fieldName] ?? '').includes('Site notice')
-			// )
-			// .addQuestion(questions.lettersToNeighboursUpload)
-			// .withCondition(
-			// 	(response.answers[questions.howYouNotifiedPeople.fieldName] ?? '').includes(
-			// 		'Letters to neighbours'
-			// 	)
-			// )
-			// .addQuestion(questions.advertisementUpload)
-			// .withCondition(
-			// 	(response.answers[questions.howYouNotifiedPeople.fieldName] ?? '').includes(
-			// 		'Advertisement'
-			// 	)
-			// )
 			new Section('Consultation responses and representations', 'consultation')
 				.addQuestion(questions.representationsFromOthers)
 				.addQuestion(questions.representationUpload)
