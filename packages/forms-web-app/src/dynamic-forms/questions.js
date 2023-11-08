@@ -311,7 +311,7 @@ exports.questions = {
 		pageTitle: 'Neighbour added',
 		question: 'Do you want to add another neighbour to be visited?',
 		fieldName: 'neighbouring-site-visits',
-		url: 'neighbours',
+		url: 'neighbour-address',
 		subQuestionLabel: 'Neighbour',
 		width: ListAddMoreQuestion.FULL_WIDTH,
 		validators: [new RequiredValidator()],
