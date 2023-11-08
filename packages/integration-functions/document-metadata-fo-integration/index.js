@@ -1,6 +1,7 @@
 const got = require('got');
 const VALID_SCAN_STATUSES = ['scanned'];
 const VALID_PUBLISHED_STATUSES = ['published', 'archived'];
+const VALID_REDACTED_STATUSES = ['redacted'];
 
 /**
  * @typedef {import('@pins/common/schema/documentMetadata.js').DocumentMetadata} DocumentMetadata
@@ -31,7 +32,7 @@ async function processDocumentMetadata(context, documentMessage) {
 	}
 
 	context.log('Sending document metadata message to API');
-	const documentMetadataUrl = `https://${process.env.FO_APPEALS_API}/document-metadata/${documentMessage.documentId}`;
+	const documentMetadataUrl = `https://${process.env.FO_APPEALS_API}/document-meta-data/${documentMessage.documentId}`;
 	await got
 		.put(documentMetadataUrl, {
 			json: documentMessage
@@ -53,6 +54,7 @@ function checkMessageIsValid(documentMessage) {
 	if (
 		!documentMessage.virusCheckStatus ||
 		!documentMessage.publishedStatus ||
+		!documentMessage.redactedStatus ||
 		!documentMessage.documentId
 	) {
 		throw new Error('Invalid message schema');
@@ -60,7 +62,8 @@ function checkMessageIsValid(documentMessage) {
 
 	if (
 		VALID_SCAN_STATUSES.includes(documentMessage.virusCheckStatus) &&
-		VALID_PUBLISHED_STATUSES.includes(documentMessage.publishedStatus)
+		VALID_PUBLISHED_STATUSES.includes(documentMessage.publishedStatus) &&
+		VALID_REDACTED_STATUSES.includes(documentMessage.redactedStatus)
 	) {
 		isValid = true;
 	}
