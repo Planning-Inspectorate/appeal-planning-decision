@@ -416,7 +416,7 @@ exports.questions = {
 		title: 'n/a',
 		question: 'Add another appeal?',
 		fieldName: 'other-appeals-references',
-		url: 'added-nearby-appeal',
+		url: 'appeal-reference-number',
 		subQuestionLabel: 'Other appeal',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		validators: [new RequiredValidator('Select yes if you want to add another appeal')],
