@@ -60,7 +60,7 @@ exports.questions = {
 		]
 	}),
 	changedListedBuildingNumber: new IdentifierQuestion({
-		title: 'Tell us the list entry number',
+		title: 'Listed building details',
 		question: 'Tell us the list entry number',
 		label: 'Seven digit number',
 		fieldName: 'changed-listed-building-number',
