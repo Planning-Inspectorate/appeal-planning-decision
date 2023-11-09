@@ -1,7 +1,7 @@
 const { getAppeal } = require('./appeal.service');
 const { HasAppealMapper } = require('../mappers/appeal-submission/has-mapper');
 const hasAppealMapper = new HasAppealMapper();
-const { broadcast } = require('../data-producers/lpa-response-producer');
+const { broadcast } = require('../data-producers/appeal-producer');
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 
 class BackOfficev2Service {
