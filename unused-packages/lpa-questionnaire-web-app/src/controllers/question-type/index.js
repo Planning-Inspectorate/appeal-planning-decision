@@ -1,1 +1,0 @@
-exports.booleanQuestionController = require('./boolean');
