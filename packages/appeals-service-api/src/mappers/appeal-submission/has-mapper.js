@@ -1,9 +1,14 @@
-const LpaService = require('../services/lpa.service');
+const LpaService = require('../../services/lpa.service');
 const lpaService = new LpaService();
-const ApiError = require('../errors/apiError');
+const ApiError = require('../../errors/apiError');
 class HasAppealMapper {
 	async mapToPINSDataModel(appeal) {
-		const lpa = await lpaService.getLpaByCode(appeal.lpaCode);
+		let lpa = {};
+		try {
+			lpa = await lpaService.getLpaByCode(appeal.lpaCode);
+		} catch (err) {
+			lpa = await lpaService.getLpaById(appeal.lpaCode);
+		}
 		if (!lpa) {
 			throw ApiError.lpaNotFound();
 		}
@@ -11,7 +16,7 @@ class HasAppealMapper {
 			{
 				appeal: {
 					LPACode: appeal.lpaCode,
-					LPAName: lpa.LPAName,
+					LPAName: lpa.getName(),
 					appealType: 'Householder (HAS) Appeal',
 					isListedBuilding: false,
 					decision: appeal.eligibility.applicationDecision,

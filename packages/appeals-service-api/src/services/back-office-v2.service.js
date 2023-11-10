@@ -14,7 +14,7 @@ class BackOfficev2Service {
 			appealToProcess.lpaCode
 		);
 		if (isBOIntegrationActive && appealToProcess.appealType === '1001') {
-			const mappedData = hasAppealMapper.mapToPINSDataModel(appealToProcess);
+			const mappedData = await hasAppealMapper.mapToPINSDataModel(appealToProcess);
 			return await broadcast(mappedData);
 		}
 		return;
