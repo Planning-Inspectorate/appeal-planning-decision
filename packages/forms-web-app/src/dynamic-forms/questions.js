@@ -674,6 +674,29 @@ exports.questions = {
 				'Select yes if the appeal site is in an area of outstanding natural beauty'
 			)
 		]
+	}),
+	environmentalImpactSchedule: new RadioQuestion({
+		title: 'Schedule type',
+		question: 'Is the development a schedule 1 or schedule 2 development?',
+		fieldName: 'environmental-impact-schedule',
+		validators: [new RequiredValidator('Select the development schedule')],
+		options: [
+			{
+				text: 'Yes, schedule 1',
+				value: 'schedule-1'
+			},
+			{
+				text: 'Yes, schedule 2',
+				value: 'schedule-2'
+			},
+			{
+				divider: 'or'
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
