@@ -4,7 +4,7 @@ Monorepo for all PINS Appeal planning decision services and infrastructure
 
 ## TL;DR
 
-- `make install `
+- `npm ci`
 - `make serve`
 - once the server is running, to populate the Local Planning Authorities database, run: `npm run populate-db`
 - Go to [localhost:9003/before-you-start](http://localhost:9003/before-you-start)
@@ -30,13 +30,12 @@ nvm alias default 18
 You will need to install the dependencies locally, even though we're using
 Docker Compose to run locally.
 
-The easiest way to do that is to run `make install`, which will cycle through
-every folder and install npm dependencies.
+Run `npm ci` in the root of the repo to install all dependencies.
 
-Adding new dependencies currently requires setting workspaces to false
+Add new dependencies in the usual way:
 
 ```
-npm install #new-package# --workspaces=false
+npm install <new-package>
 ```
 
 ## Running
