@@ -37,6 +37,8 @@ services:
       CLAMAV_PORT: 3310
     working_dir: /opt/app
     volumes:
+      # mount the root node_modules for shared packages
+      - ./node_modules:/opt/node_modules
       - ./packages/common:/opt/app/node_modules/@pins/common # Replace the module to avoid symlink errors
       - ./packages/clamav-rest-server:/opt/app
     restart: on-failure
@@ -139,6 +141,8 @@ services:
       - mongodb
       #- rabbitmq
     volumes:
+      # mount the root node_modules for shared packages
+      - ./node_modules:/opt/node_modules
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/appeals-service-api:/opt/app
@@ -166,6 +170,8 @@ services:
     depends_on:
       - mongodb
     volumes:
+      # mount the root node_modules for shared packages
+      - ./node_modules:/opt/node_modules
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/document-service-api:/opt/app
       - ./tmp/documents-upload:/tmp/upload
@@ -208,6 +214,8 @@ services:
       - mongodb
       - pdf-service-api
     volumes:
+      # mount the root node_modules for shared packages
+      - ./node_modules:/opt/node_modules
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/forms-web-app:/opt/app
@@ -281,6 +289,8 @@ services:
     depends_on:
       - mongodb
     volumes:
+      # mount the root node_modules for shared packages
+      - ./node_modules:/opt/node_modules
       - ./data:/opt/app
     environment:
       SOURCE_DIR: appeals-service-api

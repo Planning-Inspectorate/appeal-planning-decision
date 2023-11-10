@@ -1,31 +1,32 @@
 # Stage 1/2: Build
 FROM node:18-alpine AS build
 
+WORKDIR /opt/packages/forms-web-app
 
-WORKDIR /opt/app
-
-COPY packages/common ../common
-RUN cd ../common && npm ci --workspaces=false
-COPY packages/business-rules ../business-rules
-RUN cd ../business-rules && npm ci --workspaces=false
-
-RUN cd ../app
+# copy app
 COPY packages/forms-web-app/package*.json ./
 COPY packages/forms-web-app/webpack*.js ./
 COPY packages/forms-web-app/src ./src
 COPY packages/forms-web-app/patches ./patches
 
-RUN npm ci --workspaces=false
+# copy workspace deps
+COPY package.json /opt/
+COPY package-lock.json /opt/
+COPY packages/common /opt/packages/common
+COPY packages/business-rules /opt/packages/business-rules
+
+# install from root
+WORKDIR /opt
+RUN npm ci
+
+# build web
+WORKDIR /opt/packages/forms-web-app
 RUN npm run build
 
 # Stage 2/2: App Run
-FROM node:18-alpine AS app
+FROM build AS app
 
-WORKDIR /opt/app
-
-COPY --from=build /opt/app ./
-COPY --from=build /opt/common ../common
-COPY --from=build /opt/business-rules ../business-rules
+WORKDIR /opt/packages/forms-web-app
 
 RUN npm prune --omit=dev && npm rebuild --ignore-scripts
 

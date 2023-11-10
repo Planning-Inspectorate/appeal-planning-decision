@@ -1,27 +1,29 @@
 # Stage 1/2: Build
 FROM node:18-alpine AS build
 
+WORKDIR /opt/packages/appeals-service-api
 
-WORKDIR /opt/app
-
-COPY packages/common ../common
-RUN cd ../common && npm ci --workspaces=false
-COPY packages/business-rules ../business-rules
-RUN cd ../business-rules && npm ci --workspaces=false
-
-RUN cd ../app
-COPY packages/appeals-service-api/package*.json ./
+# copy app
+COPY packages/appeals-service-api/package.json ./
 COPY packages/appeals-service-api/data/lpa-trialists.json ./data/lpa-trialists.json
 COPY packages/appeals-service-api/data/lpa-list.csv ./data/lpa-list.csv
 COPY packages/appeals-service-api/api ./api
 COPY packages/appeals-service-api/src ./src
 
-RUN npm ci --omit=dev --workspaces=false
+# copy workspace deps
+COPY package.json /opt/
+COPY package-lock.json /opt/
+COPY packages/common /opt/packages/common
+COPY packages/business-rules /opt/packages/business-rules
+
+# install from root
+WORKDIR /opt
+RUN npm ci --omit=dev
 
 # Stage 2/2: App Run
 FROM build AS app
 
-WORKDIR /opt/app
+WORKDIR /opt/packages/appeals-service-api
 
 EXPOSE 3000
 

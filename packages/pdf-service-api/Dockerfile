@@ -1,7 +1,6 @@
 # Stage 1/2: Build
 FROM node:18 AS build
 
-
 WORKDIR /puppeteer
 
 RUN apt-get update && \
@@ -12,19 +11,25 @@ RUN apt-get update && \
     libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 \
     libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 xdg-utils
 
-WORKDIR /opt/app
+WORKDIR /opt/packages/pdf-service-api
 
+# copy app
 COPY packages/pdf-service-api/package*.json ./
 COPY packages/pdf-service-api/src ./src
 
+# copy workspace deps
+COPY package.json /opt/
+COPY package-lock.json /opt/
 
-RUN npm ci --omit=dev --workspaces=false
-RUN chmod -R o+rwx node_modules/puppeteer/.local-chromium
+# install from root
+WORKDIR /opt
+RUN npm ci --omit=dev
+RUN chmod -R o+rwx /opt/packages/pdf-service-api/node_modules/puppeteer/.local-chromium
 
 # Stage 2/2: App Run
 FROM build AS app
 
-WORKDIR /opt/app
+WORKDIR /opt/packages/pdf-service-api
 
 EXPOSE 3000
 
