@@ -3,7 +3,7 @@ class HasAppealMapper {
 		return [
 			{
 				appeal: {
-					LPACode: appeal.LPACode,
+					LPACode: appeal.lpaCode,
 					appealType: 'Householder (HAS) Appeal',
 					isListedBuilding: false,
 					decision: appeal.eligibility.applicationDecision,
