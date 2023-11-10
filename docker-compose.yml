@@ -302,15 +302,15 @@ services:
   mock-horizon:
     # @todo generate from Swagger Docs
     build:
-      context: ./mocked-services/horizon
-      dockerfile: ../Dockerfile
+      context: .
+      dockerfile: ./mocked-services/horizon/Dockerfile
     ports:
       - 5000:3000
 
   mock-notify:
     build:
-      context: ./mocked-services/notify
-      dockerfile: ../Dockerfile
+      context: .
+      dockerfile: ./mocked-services/notify/Dockerfile
     ports:
       - 5001:3000
 
