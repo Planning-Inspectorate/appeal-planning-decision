@@ -54,7 +54,7 @@ extends:
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 18
-              script: make install
+              script: npm ci
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
