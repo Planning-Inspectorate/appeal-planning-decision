@@ -50,10 +50,16 @@ const nunjucksConfig = {
 	express: app
 };
 
+// resolve the govuk-frontend module folder
+// */govuk-frontend/govuk/all.js -> */govuk-frontend/
+const govukFrontEndRoot = path.join(require.resolve('govuk-frontend'), '..', '..');
+
 const viewPaths = [
-	path.join(__dirname, '..', 'node_modules', 'govuk-frontend'),
-	path.join(__dirname, '..', 'node_modules', '@ministryofjustice', 'frontend'),
-	path.join(__dirname, '..', 'node_modules', '@pins', 'common', 'src', 'frontend'),
+	govukFrontEndRoot,
+	// */@ministryofjustice/frontend/moj/all.js -> */@ministryofjustice/frontend
+	path.join(require.resolve('@ministryofjustice/frontend'), '..', '..'),
+	// */@pins/common/src/index.js -> */@pins/common/src/frontend
+	path.join(require.resolve('@pins/common'), '..', 'frontend'),
 	path.join(__dirname, 'views'),
 	path.join(__dirname, 'dynamic-forms'),
 	path.join(__dirname, 'public')
@@ -90,13 +96,11 @@ app.use(setLocalslDisplayCookieBannerValue);
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
 	'/assets',
-	express.static(path.join(__dirname, '..', 'node_modules', 'accessible-autocomplete', 'dist')),
-	express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'assets'))
+	// resolve accessible-autocomplete dist folder
+	express.static(path.join(require.resolve('accessible-autocomplete'), '..')),
+	express.static(path.join(govukFrontEndRoot, 'govuk', 'assets'))
 );
-app.use(
-	'/assets/govuk/all.js',
-	express.static(path.join(__dirname, '..', 'node_modules', 'govuk-frontend', 'govuk', 'all.js'))
-);
+app.use('/assets/govuk/all.js', express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js')));
 app.use(fileUpload(config.fileUpload));
 app.use(flashMessageCleanupMiddleware);
 app.use(flashMessageToNunjucks(env));
