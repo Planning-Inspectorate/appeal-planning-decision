@@ -1,26 +1,25 @@
 # Stage 1/2: Build
 FROM node:18-alpine AS build
 
+WORKDIR /opt/packages/clamav-rest-server
 
-WORKDIR /opt/app
-
-COPY packages/common ../common
-RUN cd ../common && npm ci --workspaces=false
-
-RUN cd ../app
-COPY packages/clamav-rest-server/package*.json ./
+# copy app
+COPY packages/clamav-rest-server/package.json ./
 COPY packages/clamav-rest-server/src ./src
 
+# copy workspace deps
+COPY package.json /opt/
+COPY package-lock.json /opt/
+COPY packages/common /opt/packages/common
 
-RUN npm ci --omit=dev --workspaces=false
-
+# install from root
+WORKDIR /opt
+RUN npm ci --omit=dev
 
 # Stage 2/2: App Run
 FROM build AS app
 
-WORKDIR /opt/app
-
-
+WORKDIR /opt/packages/clamav-rest-server
 
 EXPOSE 3000
 
