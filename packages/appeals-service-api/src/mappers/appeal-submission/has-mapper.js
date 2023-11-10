@@ -3,7 +3,7 @@ class HasAppealMapper {
 		return [
 			{
 				appeal: {
-					LPACode: appeal.LPACode,
+					LPACode: appeal.lpaCode,
 					appealType: 'Householder (HAS) Appeal',
 					isListedBuilding: false,
 					decision: appeal.eligibility.applicationDecision,
@@ -37,12 +37,18 @@ class HasAppealMapper {
 					siteAddressCounty: appeal.appealSiteSection.siteAddress.county,
 					siteAddressPostcode: appeal.appealSiteSection.siteAddress.postcode,
 					isSiteFullyOwned: appeal.appealSiteSection.siteOwnership.ownsWholeSite,
-					hasToldOwners: appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold,
+					hasToldOwners: !appeal.appealSiteSection.siteOwnership.ownsWholeSite
+						? appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold
+						: undefined,
 					isSiteVisible: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
-					inspectorAccessDetails: appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted,
+					inspectorAccessDetails: !appeal.appealSiteSection.siteAccess
+						.canInspectorSeeWholeSiteFromPublicRoad
+						? appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted
+						: undefined,
 					doesSiteHaveHealthAndSafetyIssues: appeal.appealSiteSection.healthAndSafety.hasIssues,
-					healthAndSafetyIssuesDetails:
-						appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssuesDetails,
+					healthAndSafetyIssuesDetails: appeal.appealSiteSection.healthAndSafety.hasIssues
+						? appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssuesDetails
+						: undefined,
 					// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
 					documents: []
 				}

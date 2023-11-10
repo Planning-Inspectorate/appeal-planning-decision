@@ -42,7 +42,7 @@ describe('document-metadata-fo-integration', () => {
 		expect(ctx.log).toHaveBeenCalledWith('Handle document metadata message', testData);
 		expect(ctx.log).toHaveBeenCalledWith('Sending document metadata message to API');
 		expect(got.put).toHaveBeenCalledWith(
-			`https://test/document-metadata/${testData.body.documentId}`,
+			`https://test/document-meta-data/${testData.body.documentId}`,
 			{ json: testData.body }
 		);
 		expect(ctx.log).toHaveBeenCalledWith(`Finished handling: ${testData.body.documentId}`);
@@ -95,6 +95,26 @@ describe('document-metadata-fo-integration', () => {
 
 	it.each(invalidVirusStatuses)(
 		'should ignore message if virus status is not valid: [%s]',
+		async (status) => {
+			const ctx = getTestContext();
+			const invalidMessage = {
+				body: {
+					...testData.body,
+					virusCheckStatus: status
+				}
+			};
+
+			await run(ctx, invalidMessage);
+
+			expect(ctx.log).toHaveBeenCalledWith('Invalid message status, skipping');
+			expect(got.put).not.toHaveBeenCalled();
+		}
+	);
+
+	const invalidRedactedStatuses = ['not_redacted', 'unknown'];
+
+	it.each(invalidRedactedStatuses)(
+		'should ignore message if redacted status is not valid: [%s]',
 		async (status) => {
 			const ctx = getTestContext();
 			const invalidMessage = {

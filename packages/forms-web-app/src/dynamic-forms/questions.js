@@ -60,7 +60,7 @@ exports.questions = {
 		]
 	}),
 	changedListedBuildingNumber: new IdentifierQuestion({
-		title: 'Tell us the list entry number',
+		title: 'Listed building details',
 		question: 'Tell us the list entry number',
 		label: 'Seven digit number',
 		fieldName: 'changed-listed-building-number',
@@ -311,7 +311,7 @@ exports.questions = {
 		pageTitle: 'Neighbour added',
 		question: 'Do you want to add another neighbour to be visited?',
 		fieldName: 'neighbouring-site-visits',
-		url: 'neighbours',
+		url: 'neighbour-address',
 		subQuestionLabel: 'Neighbour',
 		width: ListAddMoreQuestion.FULL_WIDTH,
 		validators: [new RequiredValidator()],
@@ -358,6 +358,44 @@ exports.questions = {
 			{
 				text: 'No',
 				value: 'no'
+			}
+		]
+	}),
+	procedureType: new RadioQuestion({
+		title: 'Procedure type',
+		question: 'Which procedure do you think is most appropriate for this appeal?',
+		fieldName: 'procedure-type',
+		validators: [
+			new RequiredValidator('Select the most appropriate procedure'),
+			new ConditionalRequiredValidator('Enter how many days you expect the inquiry to last'),
+			new StringValidator({
+				regex: {
+					regex: '^(\\s*|\\d+)$',
+					regexMessage: 'How many days you expect the inquiry to last must be a number, like 30'
+				},
+				fieldName: getConditionalFieldName('procedure-type', 'inquiry-duration')
+			})
+		],
+
+		options: [
+			{
+				text: 'Written representations',
+				value: 'written-representations'
+			},
+			{
+				text: 'Hearing',
+				value: 'hearing'
+			},
+			{
+				text: 'Inquiry',
+				value: 'inquiry',
+				conditional: {
+					question: 'How many days would you expect the inquiry to last?',
+					fieldName: 'inquiry-duration',
+					inputClasses: 'govuk-input--width-3',
+					label: 'Length in days:',
+					type: 'text'
+				}
 			}
 		]
 	}),

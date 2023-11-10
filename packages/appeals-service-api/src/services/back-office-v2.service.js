@@ -1,7 +1,7 @@
 const { getAppeal } = require('./appeal.service');
 const { HasAppealMapper } = require('../mappers/appeal-submission/has-mapper');
 const hasAppealMapper = new HasAppealMapper();
-const { broadcast } = require('../data-producers/lpa-response-producer');
+const { broadcast } = require('../data-producers/appeal-producer');
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 
 class BackOfficev2Service {
@@ -11,7 +11,7 @@ class BackOfficev2Service {
 		const appealToProcess = await getAppeal(appeal_id);
 		const isBOIntegrationActive = await isFeatureActive(
 			'appeals-bo-submission',
-			appealToProcess.LPACode
+			appealToProcess.lpaCode
 		);
 		if (isBOIntegrationActive && appealToProcess.appealType === '1001') {
 			const mappedData = hasAppealMapper.mapToPINSDataModel(appealToProcess);
