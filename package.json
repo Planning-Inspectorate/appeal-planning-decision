@@ -8,9 +8,11 @@
 	},
 	"description": "Appeal a planning decision - these are utility scripts for the whole repo",
 	"workspaces": [
+		"custom-eslint-rules/*",
+		"data",
+		"mocked-services/*",
 		"packages/*",
-		"!packages/e2e-tests",
-		"!packages/lpa-questionnaire-web-app"
+		"test-packages/*"
 	],
 	"scripts": {
 		"commit": "cz",
