@@ -49,27 +49,27 @@ class HasQuestionnaireMapper {
 					nearbyCaseReferences:
 						journeyResponse.answers['other-ongoing-appeals'] == 'yes'
 							? this.#convertFromAddMore(journeyResponse.answers['other-appeals-references'])
-							: undefined,
-					// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
-					documents: Array.from(uploadedFilesAndBlobMeta).map(
-						([
-							{ fileName, originalFileName, size },
-							{ lastModified, createdOn, document_type, metadata, _response }
-						]) => ({
-							filename: fileName,
-							originalFilename: originalFileName,
-							size: size,
-							mime: metadata.mime_type,
-							documentURI: _response.request.url,
-							dateCreated: createdOn,
-							lastModified,
-							documentType: document_type,
-							sourceSystem: 'appeals',
-							origin: 'citizen',
-							stage: 'lpa_questionnaire'
-						})
-					)
-				}
+							: undefined
+				},
+				// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
+				documents: Array.from(uploadedFilesAndBlobMeta).map(
+					([
+						{ fileName, originalFileName, size },
+						{ lastModified, createdOn, document_type, metadata, _response }
+					]) => ({
+						filename: fileName,
+						originalFilename: originalFileName,
+						size: size,
+						mime: metadata.mime_type,
+						documentURI: _response.request.url,
+						dateCreated: createdOn,
+						lastModified,
+						documentType: document_type,
+						sourceSystem: 'appeals',
+						origin: 'citizen',
+						stage: 'lpa_questionnaire'
+					})
+				)
 			}
 		];
 	}
