@@ -142,6 +142,9 @@ class S78Journey extends Journey {
 				.addQuestion(questions.procedureType)
 				.addQuestion(questions.appealsNearSite)
 				.addQuestion(questions.nearbyAppeals)
+				.withCondition(
+					response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
+				)
 				.addQuestion(questions.addNewConditions)
 		);
 	}

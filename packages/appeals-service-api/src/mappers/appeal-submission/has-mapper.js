@@ -1,9 +1,22 @@
+const LpaService = require('../../services/lpa.service');
+const lpaService = new LpaService();
+const ApiError = require('../../errors/apiError');
 class HasAppealMapper {
-	mapToPINSDataModel(appeal) {
+	async mapToPINSDataModel(appeal) {
+		let lpa = {};
+		try {
+			lpa = await lpaService.getLpaByCode(appeal.lpaCode);
+		} catch (err) {
+			lpa = await lpaService.getLpaById(appeal.lpaCode);
+		}
+		if (!lpa) {
+			throw ApiError.lpaNotFound();
+		}
 		return [
 			{
 				appeal: {
 					LPACode: appeal.lpaCode,
+					LPAName: lpa.getName(),
 					appealType: 'Householder (HAS) Appeal',
 					isListedBuilding: false,
 					decision: appeal.eligibility.applicationDecision,
@@ -47,7 +60,7 @@ class HasAppealMapper {
 						: undefined,
 					doesSiteHaveHealthAndSafetyIssues: appeal.appealSiteSection.healthAndSafety.hasIssues,
 					healthAndSafetyIssuesDetails: appeal.appealSiteSection.healthAndSafety.hasIssues
-						? appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssuesDetails
+						? appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues
 						: undefined,
 					// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
 					documents: []
