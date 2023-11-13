@@ -733,6 +733,16 @@ exports.questions = {
 		fieldName: 'screening-opinion',
 		validators: [new RequiredValidator('Select yes if you have issued a screening opinion')]
 	}),
+	screeningOpinionEnvionmentalStatement: new BooleanQuestion({
+		title: 'Screening opinion environmental statement',
+		question: 'Did your screening opinion say the development needed an environmental statement?',
+		fieldName: 'screening-opinion-environmental-statement',
+		validators: [
+			new RequiredValidator(
+				'Select yes if your screening opinion says the development needs an environmental statement'
+			)
+		]
+	}),
 	environmentalImpactSchedule: new RadioQuestion({
 		title: 'Schedule type',
 		question: 'Is the development a schedule 1 or schedule 2 development?',
