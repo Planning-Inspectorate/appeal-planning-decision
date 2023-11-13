@@ -56,6 +56,7 @@ class S78Journey extends Journey {
 				.addQuestion(questions.rightOfWayCheck),
 			new Section('Environmental impact assessment', 'environmental-impact')
 				.addQuestion(questions.screeningOpinion)
+				.addQuestion(questions.screeningOpinionEnvionmentalStatement)
 				.addQuestion(questions.environmentalImpactSchedule),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.whoWasNotified)
