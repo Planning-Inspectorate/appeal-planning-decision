@@ -676,6 +676,12 @@ exports.questions = {
 			)
 		]
 	}),
+	screeningOpinion: new BooleanQuestion({
+		title: 'Screening opinion',
+		question: 'Have you issued a screening opinion?',
+		fieldName: 'screening-opinion',
+		validators: [new RequiredValidator('Select yes if you have issued a screening opinion')]
+	}),
 	environmentalImpactSchedule: new RadioQuestion({
 		title: 'Schedule type',
 		question: 'Is the development a schedule 1 or schedule 2 development?',
@@ -698,12 +704,6 @@ exports.questions = {
 				value: 'no'
 			}
 		]
-	}),
-	screeningOpinion: new BooleanQuestion({
-		title: 'Screening opinion',
-		question: 'Have you issued a screening opinion?',
-		fieldName: 'screening-opinion',
-		validators: [new RequiredValidator('Select yes if you have issued a screening opinion')]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
