@@ -61,10 +61,10 @@ class HasAppealMapper {
 					doesSiteHaveHealthAndSafetyIssues: appeal.appealSiteSection.healthAndSafety.hasIssues,
 					healthAndSafetyIssuesDetails: appeal.appealSiteSection.healthAndSafety.hasIssues
 						? appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues
-						: undefined,
-					// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
-					documents: []
-				}
+						: undefined
+				},
+				// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
+				documents: []
 			}
 		];
 	}
