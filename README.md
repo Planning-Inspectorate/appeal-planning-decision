@@ -38,6 +38,24 @@ Add new dependencies in the usual way:
 npm install <new-package>
 ```
 
+### Database Setup
+
+#### Database Server Setup
+
+A SQL Server database server has been set up to run when the appeals service api is running.
+
+##### Azure Data Studio
+
+[Azure Data Studio](https://learn.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio) or the [MSSQL VS code extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) can be used as a database client, to create and monitor the database contents.
+
+Install Azure Data Studio or the VS code extension, and connect to the SQL server by using the credentials specified below:
+
+**Server:** localhost
+**Authentication type:** SQL Login
+**User name:** sa
+**Password:** DockerDatabaseP@22word!
+**Trust server certificate:** True
+
 ## Running
 
 > Docker and Docker Compose are both very well documented. Please check their
