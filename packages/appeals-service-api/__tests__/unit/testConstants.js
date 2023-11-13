@@ -75,40 +75,40 @@ const submittedQuestionnaireObjectPostMap = [
 			doPlansAffectNeighbouringSite: false,
 			hasExtraConditions: false,
 			extraConditions: undefined,
-			nearbyCaseReferences: undefined,
-			documents: [
-				{
-					filename: 'APP-Q9999-W-22-1234567-Hero-shot-3.jpg',
-					originalFilename: 'Hero-shot-3.jpg',
-					size: '216963',
-					mime: 'image/jpeg',
-					documentURI:
-						'http://blob-storage:10000/devstoreaccount1/uploads/has-questionnaire%3AAPP_Q9999_W_22_1234567/5b857ec6-9317-4530-81c3-d4ed5994ade2/APP-Q9999-W-22-1234567-original_sparkling-enamel-pin-badge-gift-for-awesome-friends.jpg',
-					dateCreated: testDate,
-					lastModified: testDate,
-					documentType: undefined,
-					sourceSystem: 'appeals',
-					origin: 'citizen',
-					stage: 'lpa_questionnaire'
-				},
+			nearbyCaseReferences: undefined
+		},
+		documents: [
+			{
+				filename: 'APP-Q9999-W-22-1234567-Hero-shot-3.jpg',
+				originalFilename: 'Hero-shot-3.jpg',
+				size: '216963',
+				mime: 'image/jpeg',
+				documentURI:
+					'http://blob-storage:10000/devstoreaccount1/uploads/has-questionnaire%3AAPP_Q9999_W_22_1234567/5b857ec6-9317-4530-81c3-d4ed5994ade2/APP-Q9999-W-22-1234567-original_sparkling-enamel-pin-badge-gift-for-awesome-friends.jpg',
+				dateCreated: testDate,
+				lastModified: testDate,
+				documentType: undefined,
+				sourceSystem: 'appeals',
+				origin: 'citizen',
+				stage: 'lpa_questionnaire'
+			},
 
-				{
-					filename:
-						'APP-Q9999-W-22-1234567-original_sparkling-enamel-pin-badge-gift-for-awesome-friends.jpg',
-					originalFilename: 'original_sparkling-enamel-pin-badge-gift-for-awesome-friends.jpg',
-					size: '234337',
-					mime: 'image/jpeg',
-					documentURI:
-						'http://blob-storage:10000/devstoreaccount1/uploads/has-questionnaire%3AAPP_Q9999_W_22_1234567/5b857ec6-9317-4530-81c3-d4ed5994ade2/APP-Q9999-W-22-1234567-original_sparkling-enamel-pin-badge-gift-for-awesome-friends.jpg',
-					dateCreated: testDate,
-					lastModified: testDate,
-					documentType: undefined,
-					sourceSystem: 'appeals',
-					origin: 'citizen',
-					stage: 'lpa_questionnaire'
-				}
-			]
-		}
+			{
+				filename:
+					'APP-Q9999-W-22-1234567-original_sparkling-enamel-pin-badge-gift-for-awesome-friends.jpg',
+				originalFilename: 'original_sparkling-enamel-pin-badge-gift-for-awesome-friends.jpg',
+				size: '234337',
+				mime: 'image/jpeg',
+				documentURI:
+					'http://blob-storage:10000/devstoreaccount1/uploads/has-questionnaire%3AAPP_Q9999_W_22_1234567/5b857ec6-9317-4530-81c3-d4ed5994ade2/APP-Q9999-W-22-1234567-original_sparkling-enamel-pin-badge-gift-for-awesome-friends.jpg',
+				dateCreated: testDate,
+				lastModified: testDate,
+				documentType: undefined,
+				sourceSystem: 'appeals',
+				origin: 'citizen',
+				stage: 'lpa_questionnaire'
+			}
+		]
 	}
 ];
 
