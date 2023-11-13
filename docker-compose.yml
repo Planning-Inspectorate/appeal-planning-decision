@@ -139,6 +139,7 @@ services:
       - mock-notify
       #      - mock-os-places
       - mongodb
+      - mssql
       #- rabbitmq
     volumes:
       # mount the root node_modules for shared packages
@@ -345,6 +346,21 @@ services:
     image: mongo:3.6.21
     ports:
       - 4000:27017
+
+  mssql:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    container_name: mssql
+    cap_add: ['SYS_PTRACE']
+    user: root
+    environment:
+      - 'ACCEPT_EULA=1'
+      - 'MSSQL_SA_PASSWORD=DockerDatabaseP@22word!'
+    ports:
+      - 1433:1433
+    hostname: mssql
+    volumes:
+      - ./init/mssql/mssql.conf:/var/opt/mssql/mssql.conf
+      - ./init/mssql/data:/var/opt/mssql/data
 
   # In prod we use Azure Service Bus which uses AMQP1.0
   #  rabbitmq:
