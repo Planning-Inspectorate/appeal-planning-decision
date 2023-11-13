@@ -370,8 +370,9 @@ exports.questions = {
 			new ConditionalRequiredValidator('Enter how many days you expect the inquiry to last'),
 			new StringValidator({
 				regex: {
-					regex: '^(\\s*|\\d+)$',
-					regexMessage: 'How many days you expect the inquiry to last must be a number, like 30'
+					regex: '^[1-9]\\d{0,2}$',
+					regexMessage:
+						'The days you would expect the inquiry to last must be a whole number between 1 and 999'
 				},
 				fieldName: getConditionalFieldName('procedure-type', 'inquiry-duration')
 			})
