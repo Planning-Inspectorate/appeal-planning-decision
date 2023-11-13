@@ -676,6 +676,57 @@ exports.questions = {
 			)
 		]
 	}),
+	designatedSitesCheck: new CheckboxQuestion({
+		title: 'Designated sites',
+		question: 'Is the development in, near or likely to affect any designated sites?',
+		fieldName: 'designated-sites-check',
+		url: 'designated-sites',
+		validators: [
+			new RequiredValidator(
+				'Select a designated site, or select ‘No, it is not in, near or likely to affect any designated sites’'
+			),
+			new ConditionalRequiredValidator('Enter other designations')
+		],
+		options: [
+			{
+				text: 'SSSI (site of special scientific interest)',
+				value: 'SSSI'
+			},
+			{
+				text: 'cSAC (candidate special area of conservation)',
+				value: 'cSAC'
+			},
+			{
+				text: 'SAC (special area of conservation)',
+				value: 'SAC'
+			},
+			{
+				text: 'pSPA (potential special protection area)',
+				value: 'pSPA'
+			},
+			{
+				text: 'SPA Ramsar (Ramsar special protection area)',
+				value: 'SPA'
+			},
+			{
+				text: 'Other',
+				value: 'other',
+				conditional: {
+					question: 'Other designation(s)',
+					type: 'text',
+					fieldName: 'other-designations'
+				}
+			},
+			{
+				divider: 'or'
+			},
+			{
+				text: 'No, it is not in, near or likely to affect any designated sites',
+				value: 'None',
+				behaviour: 'exclusive'
+			}
+		]
+	}),
 	screeningOpinion: new BooleanQuestion({
 		title: 'Screening opinion',
 		question: 'Have you issued a screening opinion?',
@@ -710,33 +761,4 @@ exports.questions = {
 	// 	question: 'Upload the definitive map and statement extract',
 	// 	fieldName: 'right-of-way-upload'
 	// }),
-	// designatedSitesCheck: new CheckboxQuestion({
-	// 	title: 'Designated sites',
-	// 	question: 'Is the development in, near or likely to affect any designated sites?',
-	// 	fieldName: 'designated-sites-check',
-	// 	options: [
-	// 		//Options for checkboxes / radio buttons
-	// 		{
-	// 			text: 'SSSI (site of special scientific interest)',
-	// 			value: 'SSSI'
-	// 		},
-	// 		{
-	// 			text: 'Other',
-	// 			value: 'other',
-	// 			conditional: {
-	// 				question: 'Other designation(s)',
-	// 				type: 'text',
-	// 				fieldName: 'other-desigations'
-	// 			}
-	// 		},
-	// 		{
-	// 			divider: 'or'
-	// 		},
-	// 		{
-	// 			text: 'No, it is not in, near or likely to affect any designated sites',
-	// 			value: 'None',
-	// 			behaviour: 'exclusive'
-	// 		}
-	// 	]
-	// })
 };
