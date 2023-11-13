@@ -1,4 +1,6 @@
 FROM node:18-alpine
+
+# copy app
 WORKDIR /opt/mocked-services/notify
 ADD mocked-services/notify .
 
@@ -8,7 +10,7 @@ COPY package-lock.json /opt/
 
 # install from root
 WORKDIR /opt
-RUN npm ci --omit=dev --workspace=notify
+RUN npm ci --omit=dev
 
 WORKDIR /opt/mocked-services/notify
 

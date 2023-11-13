@@ -1,15 +1,16 @@
 FROM node:18-alpine
 
+# copy app
 WORKDIR /opt/mocked-services/horizon
 ADD mocked-services/horizon .
 
 # copy workspace deps
-COPY ../../package.json /opt/
-COPY ../../package-lock.json /opt/
+COPY package.json /opt/
+COPY package-lock.json /opt/
 
 # install from root
 WORKDIR /opt
-RUN npm ci --omit=dev --workspace=horizon
+RUN npm ci --omit=dev
 
 WORKDIR /opt/mocked-services/horizon
 

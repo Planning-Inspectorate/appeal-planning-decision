@@ -283,7 +283,8 @@ services:
   # Populate the database with data - one instance per service
   appeals-service-api-data:
     build:
-      context: ./data
+      context: .
+      dockerfile: ./data/Dockerfile
     links:
       - mongodb
     depends_on:
