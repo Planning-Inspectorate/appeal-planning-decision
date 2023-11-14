@@ -334,7 +334,7 @@ services:
 
   # Third-party services
   blob-storage:
-    image: mcr.microsoft.com/azure-storage/azurite
+    image: mcr.microsoft.com/azure-storage/azurite:3.26.0
     ports:
       - 4002:10000
       - 4003:10001
