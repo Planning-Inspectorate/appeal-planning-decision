@@ -246,7 +246,7 @@ extends:
               # copy root node_modules to function (but don't overwrite)
               mv -n $(Build.Repository.LocalPath)/node_modules/* $(Build.Repository.LocalPath)/packages/integration-functions/node_modules/
               # copy common package to @pins/common folder
-              cp -r $(Build.Repository.LocalPath)/packages/common/* $(Build.Repository.LocalPath)/apps/functions/notify-subscribers/node_modules/@pins/common/
+              cp -r $(Build.Repository.LocalPath)/packages/common/* $(Build.Repository.LocalPath)/packages/integration-functions/node_modules/@pins/common/
           - task: ArchiveFiles@2
             displayName: Archive files
             inputs:
