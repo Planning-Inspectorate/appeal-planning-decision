@@ -7,11 +7,11 @@ WORKDIR /opt/packages/forms-web-app
 COPY packages/forms-web-app/package*.json ./
 COPY packages/forms-web-app/webpack*.js ./
 COPY packages/forms-web-app/src ./src
-COPY packages/forms-web-app/patches ./patches
 
 # copy workspace deps
 COPY package.json /opt/
 COPY package-lock.json /opt/
+COPY patches /opt/patches
 COPY packages/common /opt/packages/common
 COPY packages/business-rules /opt/packages/business-rules
 
