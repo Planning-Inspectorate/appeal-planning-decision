@@ -776,6 +776,39 @@ exports.questions = {
 				'Select yes if the development meets or exceeds the threshold or criteria in column 2'
 			)
 		]
+	}),
+	sensitiveArea: new RadioQuestion({
+		title: 'In, partly in, or likely to affect a sensitive area',
+		question: 'Is the development in, partly in, or likely to affect a sensitive area?',
+		fieldName: 'sensitive-area',
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Tell us about the sensitive area',
+					fieldName: 'sensitive-area-value',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		],
+		validators: [
+			new RequiredValidator(
+				'Select yes if the development is in, partly in, or likely to affect a sensitive area'
+			),
+			new ConditionalRequiredValidator('Enter a description for the sensitive area'),
+			new StringValidator({
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Sensitive area description must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName('safety-risks', 'new-safety-risk-value')
+			})
+		]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
