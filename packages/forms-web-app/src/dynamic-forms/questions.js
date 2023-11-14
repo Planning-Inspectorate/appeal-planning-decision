@@ -806,7 +806,7 @@ exports.questions = {
 					maxLength: inputMaxCharacters,
 					maxLengthMessage: `Sensitive area description must be ${inputMaxCharacters} characters or less`
 				},
-				fieldName: getConditionalFieldName('safety-risks', 'new-safety-risk-value')
+				fieldName: getConditionalFieldName('sensitive-area', 'new-sensitive-area-value')
 			})
 		]
 	})
