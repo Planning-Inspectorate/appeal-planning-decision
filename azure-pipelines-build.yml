@@ -283,7 +283,6 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.Repository.LocalPath)/packages/pdf-service-api/Dockerfile
               repository: appeal-planning-decision/pdf-service-api
-
       - name: Build Web
         condition: >-
           and(
