@@ -88,7 +88,7 @@ extends:
                   repository: appeal-planning-decision/documents-api
           - name: Deploy Horizon Functions
             artifact:
-              name: azure-functions
+              name: horizon-functions
               sourcePipeline: Appeals Service Build
             condition: eq(${{ parameters.deployHorizonFunctions }}, 'true')
             steps:
