@@ -39,6 +39,7 @@ const ConditionalRequiredValidator = require('./validator/conditional-required-v
 const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
 const DateValidator = require('./validator/date-validator');
 const DateQuestion = require('./dynamic-components/date/question');
+const TextEntryQuestion = require('./dynamic-components/text-entry/question');
 
 // Define all questions
 exports.questions = {
@@ -809,6 +810,12 @@ exports.questions = {
 				fieldName: getConditionalFieldName('sensitive-area', 'new-sensitive-area-value')
 			})
 		]
+	}),
+	whyInquiry: new TextEntryQuestion({
+		title: 'Why would you prefer an inquiry?',
+		question: 'Why would you prefer an inquiry?',
+		fieldName: 'procedure-enquiry',
+		validators: [new RequiredValidator('Enter why you would prefer an inquiry')]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',

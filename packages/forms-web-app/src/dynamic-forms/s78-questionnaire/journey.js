@@ -144,6 +144,7 @@ class S78Journey extends Journey {
 				.addQuestion(questions.potentialSafetyRisks),
 			new Section('Appeal process', 'appeal-process')
 				.addQuestion(questions.procedureType)
+				.addQuestion(questions.whyInquiry)
 				.addQuestion(questions.appealsNearSite)
 				.addQuestion(questions.nearbyAppeals)
 				.withCondition(
