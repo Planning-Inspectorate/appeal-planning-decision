@@ -766,6 +766,16 @@ exports.questions = {
 				value: 'no'
 			}
 		]
+	}),
+	meetsColumnTwoThreshold: new BooleanQuestion({
+		title: 'Meets or exceeds the threshold or criteria in column 2	',
+		question: 'Does the development meet or exceed the threshold or criteria in column 2?',
+		fieldName: 'column-2-threshold',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the development meets or exceeds the threshold or criteria in column 2'
+			)
+		]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
