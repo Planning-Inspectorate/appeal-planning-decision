@@ -36,7 +36,7 @@ class ConditionalRequiredValidator extends BaseValidator {
 			if (option.conditional) {
 				schema.push(
 					body(this.getConditionalFieldName(questionObj, option))
-						.if(body(questionObj.fieldName).equals(option.value))
+						.if(this.isValueIncluded(questionObj, option.value))
 						.notEmpty()
 						.withMessage(this.errorMessage)
 				);
@@ -47,6 +47,13 @@ class ConditionalRequiredValidator extends BaseValidator {
 
 	getConditionalFieldName(questionObj, option) {
 		return `${questionObj.fieldName}_${option.conditional.fieldName}`;
+	}
+
+	isValueIncluded(questionObj, value) {
+		return body(questionObj.fieldName).custom((existingValues) => {
+			existingValues = Array.isArray(existingValues) ? existingValues : [existingValues];
+			return existingValues.includes(value);
+		});
 	}
 }
 

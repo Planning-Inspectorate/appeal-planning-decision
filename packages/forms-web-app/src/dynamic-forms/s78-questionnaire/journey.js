@@ -46,6 +46,7 @@ class S78Journey extends Journey {
 				.addQuestion(questions.protectedSpecies)
 				.addQuestion(questions.greenBelt)
 				.addQuestion(questions.areaOfOutstandingNaturalBeauty)
+				.addQuestion(questions.designatedSitesCheck)
 				.addQuestion(questions.treePreservationOrder)
 				.addQuestion(questions.treePreservationPlanUpload)
 				.withCondition(
