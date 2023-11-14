@@ -198,7 +198,7 @@ extends:
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 18
-              script: npm ci --only=prod --workspace=horizon-functions
+              script: npm ci --omit=dev
               workingDirectory: $(Build.Repository.LocalPath)
           - script: |
               source ~/.bashrc
@@ -237,7 +237,7 @@ extends:
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 18
-              script: npm ci --only=prod --workspace=integration-functions
+              script: npm ci --omit=dev
               workingDirectory: $(Build.Repository.LocalPath)
           - script: |
               source ~/.bashrc
