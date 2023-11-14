@@ -195,7 +195,6 @@ extends:
         dependsOn:
           - Run Linting & Tests
         steps:
-          steps:
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 18
