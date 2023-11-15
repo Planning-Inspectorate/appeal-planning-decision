@@ -17,6 +17,9 @@
 	"scripts": {
 		"commit": "cz",
 		"commitlint": "commitlint --from=$(git log origin/main..$(git rev-parse HEAD) --pretty=format:\"%H\" | tail -n 1)",
+		"db:migrate:dev": "npm run db:migrate:dev --workspace appeals-service-api",
+		"db:generate": "npm run db:generate --workspace appeals-service-api",
+		"db:seed": "npm run db:seed --workspace appeals-service-api",
 		"format": "prettier --write \"**/*.{js,ts,json,md}\"",
 		"lint": "run-s --continue-on-error --print-label lint:appeals-api lint:business-rules lint:clamav-rest-server lint:common lint:documents-api lint:horizon-functions lint:pdf-api lint:web lint:integration-functions",
 		"lint:appeals-api": "cd packages/appeals-service-api; eslint ./",
@@ -82,6 +85,7 @@
 		"npm-run-all": "^4.1.5",
 		"pino": "^8.4.1",
 		"prettier": "^2.1.2",
+		"prettier-plugin-prisma": "^5.0.0",
 		"semantic-release": "21.0.5",
 		"uuid": "^9.0.0"
 	},
@@ -94,7 +98,7 @@
 		"*.js": [
 			"eslint --fix"
 		],
-		"*.{js,ts,json,md}": [
+		"*.{js,ts,json,md,prisma}": [
 			"prettier --write"
 		]
 	},
