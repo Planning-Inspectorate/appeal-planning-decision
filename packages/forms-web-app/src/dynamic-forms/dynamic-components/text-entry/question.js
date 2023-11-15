@@ -1,5 +1,4 @@
 const Question = require('../../question');
-const uuid = require('uuid');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -17,10 +16,12 @@ class TextEntryQuestion extends Question {
 	 * @param {string} params.title
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
+	 * @param {string} [params.html]
 	 * @param {string} [params.hint]
+	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 */
-	constructor({ title, question, fieldName, hint, validators, html }) {
+	constructor({ title, question, fieldName, hint, validators, html, label }) {
 		super({
 			title,
 			viewFolder: 'text-entry',
@@ -30,15 +31,17 @@ class TextEntryQuestion extends Question {
 			hint,
 			html
 		});
+
+		this.label = label;
 	}
 
-	/**
-	 * adds a uuid to the data to save
-	 * @param {ExpressRequest} req
-	 * @returns
-	 */
-	async getDataToSave(req) {
-		return { addMoreId: uuid.v4(), value: req.body[this.fieldName] };
+	prepQuestionForRendering(section, journey, customViewData, payload) {
+		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+		viewModel.question.label = this.label;
+		viewModel.question.value = payload
+			? payload[viewModel.question.fieldName]
+			: viewModel.question.value;
+		return viewModel;
 	}
 }
 

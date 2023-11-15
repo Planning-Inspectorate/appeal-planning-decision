@@ -814,7 +814,7 @@ exports.questions = {
 	whyInquiry: new TextEntryQuestion({
 		title: 'Why would you prefer an inquiry?',
 		question: 'Why would you prefer an inquiry?',
-		fieldName: 'procedure-enquiry',
+		fieldName: 'procedure-inquiry',
 		validators: [new RequiredValidator('Enter why you would prefer an inquiry')]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
