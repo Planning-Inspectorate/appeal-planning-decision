@@ -735,7 +735,7 @@ exports.questions = {
 		fieldName: 'screening-opinion',
 		validators: [new RequiredValidator('Select yes if you have issued a screening opinion')]
 	}),
-	screeningOpinionEnvionmentalStatement: new BooleanQuestion({
+	screeningOpinionEnvironmentalStatement: new BooleanQuestion({
 		title: 'Screening opinion environmental statement',
 		question: 'Did your screening opinion say the development needed an environmental statement?',
 		fieldName: 'screening-opinion-environmental-statement',
@@ -814,8 +814,14 @@ exports.questions = {
 	whyInquiry: new TextEntryQuestion({
 		title: 'Why would you prefer an inquiry?',
 		question: 'Why would you prefer an inquiry?',
-		fieldName: 'procedure-inquiry',
+		fieldName: 'prefer-inquiry',
 		validators: [new RequiredValidator('Enter why you would prefer an inquiry')]
+	}),
+	whyHearing: new TextEntryQuestion({
+		title: 'Why would you prefer a hearing?',
+		question: 'Why would you prefer a hearing?',
+		fieldName: 'prefer-hearing',
+		validators: [new RequiredValidator('Enter why you would prefer a hearing')]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
