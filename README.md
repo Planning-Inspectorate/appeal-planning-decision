@@ -44,6 +44,23 @@ npm install <new-package>
 
 A SQL Server database server has been set up to run when the appeals service api is running.
 
+First, make sure you have a `.env` file in `./packages/appeals-service-api` (you can copy the `.env.example`) and it has a `DATABASE_URL` environment variable defined with details pointing to your local database server (`mssql` Docker container).
+
+To set up the SQL Server with tables and some data, you will need to run the following commands (whilst the SQL Server Docker container is running. You can run it by running the appeals service api or forms web app. For example: `make run SERVICE=appeals-service-api`. Alternatively, you can run the Docker container called 'mssql' manually using the Docker interface):
+
+```shell
+npm run db:generate
+npm run db:migrate:dev
+npm run db:seed 
+```
+**npm run db:generate:** To generate the client from the schema
+**run db:migrate:dev:** To apply changes → Creating the database and tables
+**run db:seed :** Populating the database with some initial data
+
+The ORM used by the application to access SQL Server is [Prisma](https://www.prisma.io/). The schema is defined in [schema.prisma](./packages/appeals-service-api/prisma/schema.prisma). 
+
+**Note:** If the `prisma.schema` file has been updated, don't forget to run `npm run db:migrate:dev` to apply the changes.
+
 ##### Azure Data Studio
 
 [Azure Data Studio](https://learn.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio) or the [MSSQL VS code extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) can be used as a database client, to create and monitor the database contents.
@@ -54,6 +71,7 @@ Install Azure Data Studio or the VS code extension, and connect to the SQL serve
 **Authentication type:** SQL Login
 **User name:** sa
 **Password:** DockerDatabaseP@22word!
+**Database:** pins_front_office_development
 **Trust server certificate:** True
 
 ## Running
