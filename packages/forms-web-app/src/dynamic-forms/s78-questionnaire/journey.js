@@ -57,7 +57,7 @@ class S78Journey extends Journey {
 				.addQuestion(questions.rightOfWayCheck),
 			new Section('Environmental impact assessment', 'environmental-impact')
 				.addQuestion(questions.screeningOpinion)
-				.addQuestion(questions.screeningOpinionEnvionmentalStatement)
+				.addQuestion(questions.screeningOpinionEnvironmentalStatement)
 				.addQuestion(questions.environmentalImpactSchedule)
 				.addQuestion(questions.meetsColumnTwoThreshold)
 				.addQuestion(questions.sensitiveArea),
@@ -145,6 +145,13 @@ class S78Journey extends Journey {
 			new Section('Appeal process', 'appeal-process')
 				.addQuestion(questions.procedureType)
 				.addQuestion(questions.whyInquiry)
+				.withCondition(
+					response.answers && response.answers[questions.procedureType.fieldName] == 'inquiry'
+				)
+				.addQuestion(questions.whyHearing)
+				.withCondition(
+					response.answers && response.answers[questions.procedureType.fieldName] == 'hearing'
+				)
 				.addQuestion(questions.appealsNearSite)
 				.addQuestion(questions.nearbyAppeals)
 				.withCondition(
