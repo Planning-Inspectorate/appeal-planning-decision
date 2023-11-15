@@ -488,8 +488,8 @@ exports.questions = {
 		html: 'resources/emerging-plan-upload/content.html'
 	}),
 	uploadOtherRelevantPolicies: new MultiFileUploadQuestion({
-		title: 'Upload other relevant policies',
-		question: 'Upload any other relevant policies',
+		title: 'Upload policies from statutory development plan	',
+		question: 'Upload relevant policies from your statutory development plan',
 		fieldName: 'upload-other-policies',
 		validators: [
 			new RequiredFileUploadValidator('Select any other relevant policies'),

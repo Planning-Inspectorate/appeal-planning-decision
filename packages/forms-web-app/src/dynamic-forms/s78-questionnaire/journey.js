@@ -100,12 +100,12 @@ class S78Journey extends Journey {
 				),
 			new Section('Planning officer’s report and supporting documents', 'planning-officer-report')
 				.addQuestion(questions.planningOfficersReportUpload)
+				.addQuestion(questions.uploadOtherRelevantPolicies)
 				.addQuestion(questions.emergingPlan)
 				.addQuestion(questions.emergingPlanUpload)
 				.withCondition(
 					response.answers && response.answers[questions.emergingPlan.fieldName] == 'yes'
 				)
-				.addQuestion(questions.uploadOtherRelevantPolicies)
 				.addQuestion(questions.supplementaryPlanning)
 				.addQuestion(questions.supplementaryPlanningUpload)
 				.withCondition(
