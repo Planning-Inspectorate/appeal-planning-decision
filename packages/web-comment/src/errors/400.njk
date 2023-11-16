@@ -1,0 +1,13 @@
+{% extends "main.njk" %}
+
+{% block content %}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1>Bad Request</h1>
+
+      <p data-cy="400-error-message">{{ message }}</p>
+    </div>
+  </div>
+
+{% endblock %}
