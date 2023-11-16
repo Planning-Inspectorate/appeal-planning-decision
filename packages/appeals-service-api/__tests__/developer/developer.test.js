@@ -1,8 +1,8 @@
 const http = require('http');
 const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
-const uuid = require('uuid');
 const container = require('rhea');
+const uuid = require('uuid');
 const crypto = require('crypto');
 const jp = require('jsonpath');
 // const logger = require('../../src/lib/logger');
@@ -10,7 +10,6 @@ const jp = require('jsonpath');
 const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
-const TestMessageQueue = require('./external-dependencies/message-queue/test-message-queue');
 const MockedExternalApis = require('./external-dependencies/rest-apis/mocked-external-apis');
 const HorizonInteraction = require('./external-dependencies/rest-apis/interactions/horizon-interaction');
 const NotifyInteraction = require('./external-dependencies/rest-apis/interactions/notify-interaction');
@@ -18,14 +17,10 @@ const AppealFixtures = require('./fixtures/appeals');
 const FinalCommentFixtures = require('./fixtures/finalComments');
 const HorizonIntegrationInputCondition = require('./utils/horizon-integration-input-condition');
 
-const waitFor = require('./utils/waitFor');
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 
 let appealsApi;
 let databaseConnection;
-let messageQueue;
-let messages = [];
-let expectedMessages;
 let mockedExternalApis;
 let expectedHorizonInteractions;
 let expectedNotifyInteractions;
@@ -47,26 +42,6 @@ beforeAll(async () => {
 
 	mockedExternalApis = await MockedExternalApis.setup();
 
-	////////////////////////////
-	///// SETUP TEST QUEUE /////
-	////////////////////////////
-
-	messageQueue = await TestMessageQueue.create();
-	const test_listener = container.create_container();
-
-	test_listener
-		.connect(messageQueue.getTestConfigurationSettingsJSON().connection)
-		.open_receiver(messageQueue.getTestConfigurationSettingsJSON().queue);
-
-	test_listener.on('message', (context) => {
-		const output = context.message.body.content;
-		messages.push(JSON.parse(output.toString()));
-	});
-
-	test_listener.on('disconnected', (context) => {
-		context.connection.close();
-	});
-
 	///////////////////////////////
 	///// SETUP TEST DATABASE /////
 	///////////////////////////////
@@ -78,12 +53,16 @@ beforeAll(async () => {
 	let mockedDatabase = await databaseConnection.db('foo');
 	appDbConnection.get.mockReturnValue(mockedDatabase);
 
+	const test_listener = container.create_container();
+
+	test_listener.on('disconnected', (context) => {
+		context.connection.close();
+	});
+
 	/////////////////////////////
 	///// SETUP TEST CONFIG /////
 	/////////////////////////////
 
-	appConfiguration.messageQueue.horizonHASPublisher =
-		messageQueue.getTestConfigurationSettingsJSON();
 	appConfiguration.secureCodes.finalComments.length = 4;
 	appConfiguration.secureCodes.finalComments.expirationTimeInMinutes = 30;
 	appConfiguration.secureCodes.finalComments.decipher.algorithm = 'aes-256-cbc';
@@ -128,7 +107,6 @@ beforeEach(async () => {
 	await _clearDatabaseCollections();
 	expectedHorizonInteractions = [];
 	expectedNotifyInteractions = [];
-	expectedMessages = [];
 	await mockedExternalApis.mockNotifyResponse({}, 200);
 	isFeatureActive.mockImplementation(() => {
 		return true;
@@ -143,23 +121,10 @@ afterEach(async () => {
 	);
 	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions();
 	jest.clearAllMocks(); // We need to do this so that mock interactions are reset correctly between tests :)
-
-	// THE LINE BELOW IS CRUCIAL: without it, you can get a race condition where a message is produced by the API,
-	// but isn't read in time for the test to make a solid assertion, i.e. you can get false negatives without this.
-	//
-	// NOTE: the message queue is not currently being used, but when it was, setting up the ability to test it was
-	//       incredibly painful so, although the code immediately below has no value currently, it will when the
-	//       message queue is re-introduced in the future.
-	await waitFor(() => messages.length === expectedMessages.length);
-	for (const index in expectedMessages) {
-		expect(messages[index]).toMatchObject(expectedMessages[index]);
-	}
-	messages = [];
 });
 
 afterAll(async () => {
 	await databaseConnection.close();
-	await messageQueue.teardown();
 	await mockedExternalApis.teardown();
 });
 
@@ -178,9 +143,6 @@ describe('Appeals', () => {
 		// Then: we should get a 404 status code for both requests
 		expect(putResponse.status).toBe(404);
 		expect(patchResponse.status).toBe(404);
-
-		// And: there should be no data on the message queue
-		expectedMessages = [];
 
 		// And: external systems should be interacted with in the following ways
 		expectedHorizonInteractions = [];
@@ -202,9 +164,6 @@ describe('Appeals', () => {
 		savedAppeal.updatedAt = patchedAppealResponse.body.updatedAt;
 		expect(patchedAppealResponse.body).toMatchObject(savedAppeal);
 
-		// And: there should be no data on the message queue
-		expectedMessages = [];
-
 		// And: no external systems should be interacted with
 		expectedHorizonInteractions = [];
 		expectedNotifyInteractions = [];
@@ -223,9 +182,6 @@ describe('Appeals', () => {
 		// And: the correct appeal should be returned
 		expect(requestedAppeal.body.id).toEqual(savedAppeal.body.id);
 
-		// And: there should be no data on the message queue
-		expectedMessages = [];
-
 		// And: external systems should be interacted with in the following ways
 		expectedHorizonInteractions = [];
 		expectedNotifyInteractions = [];
@@ -237,9 +193,6 @@ describe('Appeals', () => {
 
 		// Then: we should get a 404 status
 		expect(getAppealResponse.status).toEqual(404);
-
-		// And: there should be no data on the message queue
-		expectedMessages = [];
 
 		// And: external systems should be interacted with in the following ways
 		expectedHorizonInteractions = [];
@@ -284,9 +237,6 @@ describe('Back Office', () => {
 
 			// And: Horizon will not be interacted with
 			expectedHorizonInteractions = [];
-
-			// And: there will be no messages placed on the message queue
-			expectedMessages = [];
 		});
 
 		it.skip('should return a 409 if the direct Horizon integration is being used, and an appeal is loaded for submission twice', async () => {
@@ -325,9 +275,6 @@ describe('Back Office', () => {
 
 			// And: Horizon will not be interacted with
 			expectedHorizonInteractions = [];
-
-			// And: there will be no messages placed on the message queue
-			expectedMessages = [];
 		});
 
 		const householderAppealConditions = [
@@ -800,9 +747,6 @@ describe('Back Office', () => {
 				);
 
 				expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
-
-				// And: there are no messages on the message queue
-				expectedMessages = [];
 			}
 		);
 
@@ -1175,9 +1119,6 @@ describe('Back Office', () => {
 			expectations.createCoreAppealAndDocumentRequests.forEach((expectation) =>
 				expectedHorizonInteractions.push(expectation)
 			);
-
-			// And: There should be no messages sent to the message queue
-			expectedMessages = [];
 		});
 
 		it.skip('should move all appeals to submit after 3 attempts to re-submit Organisations to the dead-letter queue', async () => {
@@ -1305,9 +1246,6 @@ describe('Back Office', () => {
 			expectations.createOrganisationAndContactRequests.forEach((expectation) =>
 				expectedHorizonInteractions.push(expectation)
 			);
-
-			// And: There should be no messages sent to the message queue
-			expectedMessages = [];
 		});
 
 		it.skip('should move all appeals to submit after 3 attempts to re-submit Contacts to the dead-letter queue', async () => {
@@ -1446,9 +1384,6 @@ describe('Back Office', () => {
 			expectations.createOrganisationAndContactRequests.forEach((expectation) =>
 				expectedHorizonInteractions.push(expectation)
 			);
-
-			// And: There should be no messages sent to the message queue
-			expectedMessages = [];
 		});
 
 		it.skip('should move all appeals to submit after 3 attempts to re-submit Appeal data to the dead-letter queue', async () => {
@@ -1608,9 +1543,6 @@ describe('Back Office', () => {
 			expectations.createCoreAppealAndDocumentRequests.forEach((expectation) =>
 				expectedHorizonInteractions.push(expectation)
 			);
-
-			// And: There should be no messages sent to the message queue
-			expectedMessages = [];
 		});
 
 		it.skip('should move all appeals to submit after 3 attempts to re-submit Documents to the dead-letter queue', async () => {
@@ -1797,9 +1729,6 @@ describe('Back Office', () => {
 			expectations.createCoreAppealAndDocumentRequests.forEach((expectation) =>
 				expectedHorizonInteractions.push(expectation)
 			);
-
-			// And: There should be no messages sent to the message queue
-			expectedMessages = [];
 		});
 	});
 });
