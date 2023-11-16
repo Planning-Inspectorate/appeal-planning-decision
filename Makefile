@@ -23,6 +23,10 @@ serve:
 	docker-compose up
 .PHONY: serve
 
+serve-local:
+	docker-compose -f docker-compose-local.yml up
+.PHONY: serve
+
 uninstall:
 	rm -Rf node_modules
 	rm -Rf .git/hooks
