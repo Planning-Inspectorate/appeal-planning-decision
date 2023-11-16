@@ -730,7 +730,7 @@ exports.questions = {
 		]
 	}),
 	screeningOpinion: new BooleanQuestion({
-		title: 'Screening opinion',
+		title: 'Issued screening opinion',
 		question: 'Have you issued a screening opinion?',
 		fieldName: 'screening-opinion',
 		validators: [new RequiredValidator('Select yes if you have issued a screening opinion')]
@@ -766,6 +766,17 @@ exports.questions = {
 				text: 'No',
 				value: 'no'
 			}
+		]
+	}),
+	uploadEnvironmentalStatement: new MultiFileUploadQuestion({
+		title: 'Upload the environmental statement and supporting information',
+		question: 'Upload the environmental statement and supporting information',
+		fieldName: 'upload-environmental-statement',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the environmental statement and supporting information'
+			),
+			new MultifileUploadValidator()
 		]
 	}),
 	meetsColumnTwoThreshold: new BooleanQuestion({
@@ -822,6 +833,25 @@ exports.questions = {
 		question: 'Why would you prefer a hearing?',
 		fieldName: 'prefer-hearing',
 		validators: [new RequiredValidator('Enter why you would prefer a hearing')]
+	}),
+	screeningOpinionUpload: new MultiFileUploadQuestion({
+		title: 'Screening opinion',
+		question: 'Upload your screening opinion and any correspondence',
+		fieldName: 'screening-opinion-upload',
+		url: 'upload-screening-opinion',
+		validators: [
+			new RequiredFileUploadValidator('Select your screening opinion and any correspondence'),
+			new MultifileUploadValidator()
+		]
+	}),
+	uploadScreeningDirection: new MultiFileUploadQuestion({
+		title: 'Upload the screening direction',
+		question: 'Upload the screening direction',
+		fieldName: 'upload-screening-direction',
+		validators: [
+			new RequiredFileUploadValidator('Select the screening direction'),
+			new MultifileUploadValidator()
+		]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
