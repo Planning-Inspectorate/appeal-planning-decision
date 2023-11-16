@@ -493,7 +493,7 @@ exports.questions = {
 		question: 'Upload relevant policies from your statutory development plan',
 		fieldName: 'upload-other-policies',
 		validators: [
-			new RequiredFileUploadValidator('Select any other relevant policies'),
+			new RequiredFileUploadValidator('Select the planning officer’s report or what your decision notice would have said'),
 			new MultifileUploadValidator()
 		]
 	}),
