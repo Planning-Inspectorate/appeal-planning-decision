@@ -194,7 +194,6 @@ extends:
                   APPEALS_API_VERSION=$(cat packages/appeals-service-api/.release-version)
                   CLAMAV_API_VERSION=$(cat packages/clamav-rest-server/.release-version)
                   DOCUMENTS_API_VERSION=$(cat packages/document-service-api/.release-version)
-                  HORIZON_FUNCTIONS_VERSION=$(cat packages/horizon-functions/.release-version)
                   PDF_API_VERSION=$(cat packages/pdf-service-api/.release-version)
                   WEB_VERSION=$(cat packages/forms-web-app/.release-version)
 
