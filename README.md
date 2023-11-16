@@ -476,7 +476,7 @@ We have incorporated Azure feature flag functionality into the common package fo
  and then specifying the name of the feature flag in the parameters, i.e.:
 
 ```
-  if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) { 
+  if (isFeatureActive('horizon-document-labelling')) { 
     `feature implementation goes here`
   }
 ```
