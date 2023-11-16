@@ -9,11 +9,7 @@
 module.exports = {
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
-		redact: [
-			'config.db.mongodb',
-			'config.messageQueue.horizonHASPublisher.connection.password',
-			'config.services.notify.apiKey'
-		]
+		redact: ['config.db.mongodb', 'config.services.notify.apiKey']
 	},
 	server: {
 		port: Number(process.env.SERVER_PORT || 3000),
