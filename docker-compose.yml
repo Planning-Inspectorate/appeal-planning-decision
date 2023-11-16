@@ -226,6 +226,24 @@ services:
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
+  web-comment:
+      image: node:18-alpine
+      environment:
+        LOGGER_LEVEL: 'debug'
+      ports:
+        - 9002:3000
+        # node debugger
+        # - 9229:9229
+      working_dir: /opt/app
+      volumes:
+        # mount the root node_modules for shared packages
+        - ./node_modules:/opt/node_modules
+        - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
+        - ./packages/common:/opt/app/node_modules/@pins/common
+        - ./packages/web-comment:/opt/app
+      command: npm run start:dev
+      # if enabling debug, be sure to uncomment / expose the debug port above.
+      # command: npm run start:dev:debug
 
   #  lpa-questionnaire-web-app:
   #    image: node:18-alpine
