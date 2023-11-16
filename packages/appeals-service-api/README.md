@@ -7,13 +7,13 @@ The microservice API for the appeals service
 We have incorporated Azure feature flag functionality into this repo. Feature flags should be set up in the infra, and can be used by importing the `isFeatureActive` function from `src/configuration/featureFlag`, and specifying the name of the feature flag in the parameters, i.e.:
 
 ```
-if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) 
+if (isFeatureActive('horizon-document-labelling')) 
     { feature implementation goes here }`
 ```
 
 ## Horizon Integration
 
-We encountered some issues with the previous Horizon integration concerning the message queue: specifically, the message queue has been silently dropping messages without error, and without adding these messages to the dead letter queue. As a work around we have temporarily updated the codebase to include a direct integration via the `'send-appeal-direct-to-horizon-wrapper'` feature flag, skipping the queue step, to isolate the problem. In the longer term, when we have greater understanding of the Azure message queue, the intention is to reimplement the message queue.
+Integration with Horizon is done driectly, appeals are palced into table in cosmos which acts as a queue then the appeals api runs a cron job every 15 minutes to send them to horizon.
 
 ## Commands
 

@@ -1,12 +1,4 @@
-// This class uses rhea since it enables us to use AMQP protocol version 1.0 which Azure Service Bus uses.
-// Azure Service Bus doesn't support AMQP protocols less than 1.0, see https://github.com/Azure/azure-service-bus/issues/288
-// ¯\_(ツ)_/¯
-const container = require('rhea');
-
-const { isFeatureActive } = require('../../src/configuration/featureFlag');
-const config = require('../configuration/config');
 const logger = require('../lib/logger');
-const { saveAppealAsSubmittedToBackOffice } = require('../services/appeal.service');
 const BackOfficeMapper = require('../mappers/back-office.mapper');
 const { MongoRepository } = require('./mongo-repository');
 const ApiError = require('../errors/apiError');
@@ -29,37 +21,25 @@ class BackOfficeRepository extends MongoRepository {
 	 * @returns {Promise<void>}
 	 */
 	async saveAppealForSubmission(appealContactDetails, appealToProcess, documentIds) {
-		if (isFeatureActive('send-appeal-direct-to-horizon-wrapper')) {
-			logger.debug('Queuing the appeal for submission via direct Horizon integration');
-			const appealWithIdAlreadyLoaded = await super.findOneByQuery({
-				'appeal.id': appealToProcess.id
-			});
+		logger.debug('Queuing the appeal for submission via direct Horizon integration');
+		const appealWithIdAlreadyLoaded = await super.findOneByQuery({
+			'appeal.id': appealToProcess.id
+		});
 
-			if (appealWithIdAlreadyLoaded) {
-				logger.debug(
-					`Appeal with ID ${appealToProcess.id} has already been submitted for back-office processing`
-				);
-				throw ApiError.appealAlreadySubmitted();
-			}
-
-			const appealToSaveForSubmission = this.#mapper.appealToAppealToBeSubmittedJson(
-				appealContactDetails,
-				appealToProcess.id,
-				documentIds
+		if (appealWithIdAlreadyLoaded) {
+			logger.debug(
+				`Appeal with ID ${appealToProcess.id} has already been submitted for back-office processing`
 			);
-
-			return await super.create(appealToSaveForSubmission);
-		} else {
-			// TODO: this needs testing when it comes back into use!! In these tests, messages need to be known as
-			//       having arrived in a message queue before assertions can be made against the queue's state, but
-			//       this is already set up to be tested (see the `afterEach` method in
-			//       `__tests__/developer/developer.test.js`).
-			logger.debug('Using message queue integration');
-			const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(
-				appealToProcess
-			);
-			this.#sendAppealToBackOfficeMessageQueue(appealAfterSubmissionToBackOffice);
+			throw ApiError.appealAlreadySubmitted();
 		}
+
+		const appealToSaveForSubmission = this.#mapper.appealToAppealToBeSubmittedJson(
+			appealContactDetails,
+			appealToProcess.id,
+			documentIds
+		);
+
+		return await super.create(appealToSaveForSubmission);
 	}
 
 	/**
@@ -124,37 +104,6 @@ class BackOfficeRepository extends MongoRepository {
 
 	async findOneById(id) {
 		return await super.findOneByQuery({ 'appeal.id': id });
-	}
-
-	/**
-	 *
-	 * @deprecated DEPRECATED UNTIL WE BETTER UNDERSTAND AMQP 1.0, AZURE SERVICE BUS, AND AZURE FUNCTIONS.
-	 * @param {string} message
-	 * @return {Promise<void>}
-	 */
-	#sendAppealToBackOfficeMessageQueue(message) {
-		// We don't do this set up in the constructor because, if we do, the message queue to connect
-		// to may not be available, and the app blows up due to timeout exceptions thrown by rhea.
-		// Note that we only want one sender, hence this block of code!
-		if (this.#sender == null) {
-			this.#sender = container
-				.connect(config.messageQueue.horizonHASPublisher.connection)
-				.open_sender(config.messageQueue.horizonHASPublisher.queue);
-		}
-
-		this.#sender.send({
-			body: container.message.data_section(Buffer.from(JSON.stringify(message), 'utf-8')),
-			content_type: 'application/json'
-		});
-		logger.debug(`Message sent to the queue`);
-
-		container.on('error', (err) => {
-			logger.error({ err }, 'There was a problem with the queue');
-		});
-
-		container.on('disconnected', (context) => {
-			context.connection.close();
-		});
 	}
 
 	/**
