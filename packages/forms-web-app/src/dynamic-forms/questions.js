@@ -852,7 +852,64 @@ exports.questions = {
 			new RequiredFileUploadValidator('Select the screening direction'),
 			new MultifileUploadValidator()
 		]
+	}),
+	developmentDescription: new RadioQuestion({
+		title: 'Development description',
+		question: 'Description of development',
+		fieldName: 'development-description',
+		validators: [new RequiredValidator('Select a description of development')],
+		options: [
+			{
+				text: 'Agriculture and aquaculture',
+				value: 'agriculture-aquaculture'
+			},
+			{
+				text: 'Changes and extensions',
+				value: 'change-extensions'
+			},
+			{
+				text: 'Chemical industry (unless included in Schedule 1)',
+				value: 'chemical-industry'
+			},
+			{
+				text: 'Energy industry',
+				value: 'energy-industry'
+			},
+			{
+				text: 'Food industry',
+				value: 'food-industry'
+			},
+			{
+				text: 'Infrastructure projects',
+				value: 'infrastructure-projects'
+			},
+			{
+				text: 'Mineral industry',
+				value: 'mineral-industry'
+			},
+			{
+				text: 'Other projects',
+				value: 'other-projects'
+			},
+			{
+				text: 'Production and processing of metals',
+				value: 'production-processing-of-metals'
+			},
+			{
+				text: 'Rubber industry',
+				value: 'rubber-industry'
+			},
+			{
+				text: 'Textile, leather, wood and paper industries',
+				value: 'textile-industries'
+			},
+			{
+				text: 'Tourism and leisure',
+				value: 'tourism-leisure'
+			}
+		]
 	})
+
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
 	// 	question: 'Upload the definitive map and statement extract',
