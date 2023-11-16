@@ -48,35 +48,6 @@ let config = {
 			'config.services.notify.apiKey'
 		]
 	},
-	messageQueue: {
-		horizonHASPublisher: {
-			connection: {
-				host: process.env.HORIZON_HAS_PUBLISHER_HOST,
-				hostname: process.env.HORIZON_HAS_PUBLISHER_HOSTNAME,
-				reconnect_limit: Number(process.env.HORIZON_HAS_PUBLISHER_RECONNECT_LIMIT || 1),
-				password: process.env.HORIZON_HAS_PUBLISHER_PASSWORD,
-				port: Number(process.env.HORIZON_HAS_PUBLISHER_PORT || 5672),
-				reconnect: process.env.HORIZON_HAS_PUBLISHER_ATTEMPT_RECONNECTION !== 'false',
-				transport: process.env.HORIZON_HAS_PUBLISHER_TRANSPORT,
-				username: process.env.HORIZON_HAS_PUBLISHER_USERNAME
-			},
-			queue: process.env.HORIZON_HAS_PUBLISHER_QUEUE
-		}
-		// TODO: Delete since it doesn't appear to be used
-		// sqlHASAppealsPublisher: {
-		// 	connection: {
-		// 		host: process.env.SQL_HASAPPEALS_PUBLISHER_HOST,
-		// 		hostname: process.env.SQL_HASAPPEALS_PUBLISHER_HOSTNAME,
-		// 		reconnect_limit: Number(process.env.SQL_HASAPPEALS_PUBLISHER_RECONNECT_LIMIT || 1),
-		// 		password: process.env.SQL_HASAPPEALS_PUBLISHER_PASSWORD,
-		// 		port: Number(process.env.SQL_HASAPPEALS_PUBLISHER_PORT || 5672),
-		// 		reconnect: process.env.SQL_HASAPPEALS_PUBLISHER_ATTEMPT_RECONNECTION !== 'false',
-		// 		transport: process.env.SQL_HASAPPEALS_PUBLISHER_TRANSPORT,
-		// 		username: process.env.SQL_HASAPPEALS_PUBLISHER_USERNAME
-		// 	},
-		// 	queue: process.env.SQL_HASAPPEALS_PUBLISHER_QUEUE
-		// }
-	},
 	secureCodes: {
 		finalComments: {
 			length: process.env.FINAL_COMMENTS_PIN_LENGTH,
