@@ -2,31 +2,29 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-	const alice = await prisma.user.upsert({
-		where: { email: 'alice@prisma.io' },
-		update: {},
-		create: {
-			email: 'alice@prisma.io',
-			name: 'Alice'
+	const users = [
+		{
+			email: 'user1@planninginspectorate.gov.uk',
+			isLpaAdmin: false,
+			lpaCode: 'Q9999',
+			lpaStatus: 'added'
+		},
+		{
+			email: 'admin1@planninginspectorate.gov.uk',
+			isLpaAdmin: true,
+			lpaCode: 'Q9999',
+			lpaStatus: 'confirmed'
 		}
-	});
-
-	const bob = await prisma.user.upsert({
-		where: { email: 'bob@prisma.io' },
-		update: {},
-		create: {
-			email: 'bob@prisma.io',
-			name: 'Bob'
-		}
-	});
-	console.log({ alice, bob });
+	];
+	for (const user of users) {
+		await prisma.appealUser.upsert({
+			create: user,
+			update: user,
+			where: { email: user.email }
+		});
+	}
+	// todo: seed more data needed for local dev
+	console.log('dev seed complete');
 }
-main()
-	.then(async () => {
-		await prisma.$disconnect();
-	})
-	.catch(async (e) => {
-		console.error(e);
-		await prisma.$disconnect();
-		process.exit(1);
-	});
+
+main().catch(console.error);

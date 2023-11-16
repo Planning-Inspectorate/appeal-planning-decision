@@ -54,7 +54,7 @@ npm run db:migrate:dev
 npm run db:seed 
 ```
 **npm run db:generate:** To generate the client from the schema
-**run db:migrate:dev:** To apply changes → Creating the database and tables
+**run db:migrate:dev:** To apply changes → Creating the database and tables (this will also run seed)
 **run db:seed :** Populating the database with some initial data
 
 The ORM used by the application to access SQL Server is [Prisma](https://www.prisma.io/). The schema is defined in [schema.prisma](./packages/appeals-service-api/prisma/schema.prisma). 
