@@ -56,11 +56,24 @@ class S78Journey extends Journey {
 				.addQuestion(questions.gypsyOrTraveller)
 				.addQuestion(questions.rightOfWayCheck),
 			new Section('Environmental impact assessment', 'environmental-impact')
-				.addQuestion(questions.screeningOpinion)
-				.addQuestion(questions.screeningOpinionEnvionmentalStatement)
 				.addQuestion(questions.environmentalImpactSchedule)
+				.addQuestion(questions.uploadEnvironmentalStatement)
+				.withCondition(
+					response.answers &&
+						(response.answers[questions.environmentalImpactSchedule.fieldName] === 'schedule-1' ||
+							response.answers[questions.environmentalImpactSchedule.fieldName] === 'schedule-2')
+				)
+				.addQuestion(questions.sensitiveArea)
 				.addQuestion(questions.meetsColumnTwoThreshold)
-				.addQuestion(questions.sensitiveArea),
+				.addQuestion(questions.screeningOpinion)
+				.addQuestion(questions.screeningOpinionUpload)
+				.withCondition(response?.answers?.[questions.screeningOpinion.fieldName] === 'yes')
+				.addQuestion(questions.screeningOpinionEnvironmentalStatement)
+				.addQuestion(questions.uploadScreeningDirection)
+				.withCondition(
+					response.answers &&
+						response.answers[questions.screeningOpinionEnvironmentalStatement.fieldName] === 'yes'
+				),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
@@ -144,6 +157,14 @@ class S78Journey extends Journey {
 				.addQuestion(questions.potentialSafetyRisks),
 			new Section('Appeal process', 'appeal-process')
 				.addQuestion(questions.procedureType)
+				.addQuestion(questions.whyInquiry)
+				.withCondition(
+					response.answers && response.answers[questions.procedureType.fieldName] == 'inquiry'
+				)
+				.addQuestion(questions.whyHearing)
+				.withCondition(
+					response.answers && response.answers[questions.procedureType.fieldName] == 'hearing'
+				)
 				.addQuestion(questions.appealsNearSite)
 				.addQuestion(questions.nearbyAppeals)
 				.withCondition(

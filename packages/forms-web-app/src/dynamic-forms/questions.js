@@ -39,6 +39,7 @@ const ConditionalRequiredValidator = require('./validator/conditional-required-v
 const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
 const DateValidator = require('./validator/date-validator');
 const DateQuestion = require('./dynamic-components/date/question');
+const TextEntryQuestion = require('./dynamic-components/text-entry/question');
 
 // Define all questions
 exports.questions = {
@@ -729,12 +730,12 @@ exports.questions = {
 		]
 	}),
 	screeningOpinion: new BooleanQuestion({
-		title: 'Screening opinion',
+		title: 'Issued screening opinion',
 		question: 'Have you issued a screening opinion?',
 		fieldName: 'screening-opinion',
 		validators: [new RequiredValidator('Select yes if you have issued a screening opinion')]
 	}),
-	screeningOpinionEnvionmentalStatement: new BooleanQuestion({
+	screeningOpinionEnvironmentalStatement: new BooleanQuestion({
 		title: 'Screening opinion environmental statement',
 		question: 'Did your screening opinion say the development needed an environmental statement?',
 		fieldName: 'screening-opinion-environmental-statement',
@@ -765,6 +766,17 @@ exports.questions = {
 				text: 'No',
 				value: 'no'
 			}
+		]
+	}),
+	uploadEnvironmentalStatement: new MultiFileUploadQuestion({
+		title: 'Upload the environmental statement and supporting information',
+		question: 'Upload the environmental statement and supporting information',
+		fieldName: 'upload-environmental-statement',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the environmental statement and supporting information'
+			),
+			new MultifileUploadValidator()
 		]
 	}),
 	meetsColumnTwoThreshold: new BooleanQuestion({
@@ -808,6 +820,37 @@ exports.questions = {
 				},
 				fieldName: getConditionalFieldName('sensitive-area', 'new-sensitive-area-value')
 			})
+		]
+	}),
+	whyInquiry: new TextEntryQuestion({
+		title: 'Why would you prefer an inquiry?',
+		question: 'Why would you prefer an inquiry?',
+		fieldName: 'prefer-inquiry',
+		validators: [new RequiredValidator('Enter why you would prefer an inquiry')]
+	}),
+	whyHearing: new TextEntryQuestion({
+		title: 'Why would you prefer a hearing?',
+		question: 'Why would you prefer a hearing?',
+		fieldName: 'prefer-hearing',
+		validators: [new RequiredValidator('Enter why you would prefer a hearing')]
+	}),
+	screeningOpinionUpload: new MultiFileUploadQuestion({
+		title: 'Screening opinion',
+		question: 'Upload your screening opinion and any correspondence',
+		fieldName: 'screening-opinion-upload',
+		url: 'upload-screening-opinion',
+		validators: [
+			new RequiredFileUploadValidator('Select your screening opinion and any correspondence'),
+			new MultifileUploadValidator()
+		]
+	}),
+	uploadScreeningDirection: new MultiFileUploadQuestion({
+		title: 'Upload the screening direction',
+		question: 'Upload the screening direction',
+		fieldName: 'upload-screening-direction',
+		validators: [
+			new RequiredFileUploadValidator('Select the screening direction'),
+			new MultifileUploadValidator()
 		]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
