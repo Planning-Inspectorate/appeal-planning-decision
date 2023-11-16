@@ -73,7 +73,9 @@ class S78Journey extends Journey {
 				.withCondition(
 					response.answers &&
 						response.answers[questions.screeningOpinionEnvironmentalStatement.fieldName] === 'yes'
-				),
+				)
+				.addQuestion(questions.developmentDescription)
+				.addQuestion(questions.sensitiveArea),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
