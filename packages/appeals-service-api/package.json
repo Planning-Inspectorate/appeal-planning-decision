@@ -17,7 +17,7 @@
 		"db:seed": "npx prisma db seed",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
-		"start": "npm run db:generate && node ./",
+		"start": "node ./",
 		"start:dev": "npm run db:generate && nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
 		"start:dev:debug": "npm run db:generate && node --inspect-brk=0.0.0.0 ./",
 		"test": "jest",
