@@ -18,10 +18,6 @@ parameters:
     displayName: Build Documents Service API
     type: boolean
     default: false
-  - name: buildHorizonFunctions
-    displayName: Build Horizon Functions
-    type: boolean
-    default: true
   - name: buildIntegrationFunctions
     displayName: Build Integration Functions
     type: boolean
