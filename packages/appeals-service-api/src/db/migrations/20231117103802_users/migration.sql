@@ -13,7 +13,7 @@ CREATE TABLE [dbo].[AppealUser] (
     [isLpaAdmin] BIT,
     [status] NVARCHAR(1000),
     CONSTRAINT [AppealUser_pkey] PRIMARY KEY CLUSTERED ([id]),
-    CONSTRAINT [AppealUser_email_key] UNIQUE NONCLUSTERED ([email]),
+    CONSTRAINT [AppealUser_email_key] UNIQUE NONCLUSTERED ([email])
 );
 
 -- CreateTable
@@ -31,12 +31,20 @@ CREATE TABLE [dbo].[SecurityToken] (
 -- CreateTable
 CREATE TABLE [dbo].[Appeal] (
     [id] UNIQUEIDENTIFIER NOT NULL CONSTRAINT [Appeal_id_df] DEFAULT newid(),
-    [appellantUserId] UNIQUEIDENTIFIER,
-    [agentUserId] UNIQUEIDENTIFIER,
     [legacyAppealSubmissionId] NVARCHAR(1000),
     [legacyAppealSubmissionDecisionDate] DATETIME2,
     [legacyAppealSubmissionState] NVARCHAR(1000),
     CONSTRAINT [Appeal_pkey] PRIMARY KEY CLUSTERED ([id])
+);
+
+-- CreateTable
+CREATE TABLE [dbo].[AppealToUser] (
+    [appealId] UNIQUEIDENTIFIER NOT NULL,
+    [userId] UNIQUEIDENTIFIER NOT NULL,
+    [role] NVARCHAR(1000) NOT NULL,
+    CONSTRAINT [AppealToUser_pkey] PRIMARY KEY CLUSTERED ([appealId],[userId]),
+    CONSTRAINT [AppealToUser_appealId_key] UNIQUE NONCLUSTERED ([appealId]),
+    CONSTRAINT [AppealToUser_userId_key] UNIQUE NONCLUSTERED ([userId])
 );
 
 -- CreateTable
@@ -53,10 +61,10 @@ CREATE TABLE [dbo].[AppealCase] (
 ALTER TABLE [dbo].[SecurityToken] ADD CONSTRAINT [SecurityToken_appealUserId_fkey] FOREIGN KEY ([appealUserId]) REFERENCES [dbo].[AppealUser]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE [dbo].[Appeal] ADD CONSTRAINT [Appeal_appellantUserId_fkey] FOREIGN KEY ([appellantUserId]) REFERENCES [dbo].[AppealUser]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE [dbo].[AppealToUser] ADD CONSTRAINT [AppealToUser_appealId_fkey] FOREIGN KEY ([appealId]) REFERENCES [dbo].[Appeal]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE [dbo].[Appeal] ADD CONSTRAINT [Appeal_agentUserId_fkey] FOREIGN KEY ([agentUserId]) REFERENCES [dbo].[AppealUser]([id]) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE [dbo].[AppealToUser] ADD CONSTRAINT [AppealToUser_userId_fkey] FOREIGN KEY ([userId]) REFERENCES [dbo].[AppealUser]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE [dbo].[AppealCase] ADD CONSTRAINT [AppealCase_appealId_fkey] FOREIGN KEY ([appealId]) REFERENCES [dbo].[Appeal]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
