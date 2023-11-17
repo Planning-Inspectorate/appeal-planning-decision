@@ -58,6 +58,7 @@ class S78Journey extends Journey {
 			new Section('Environmental impact assessment', 'environmental-impact')
 				.addQuestion(questions.screeningOpinion)
 				.addQuestion(questions.screeningOpinionEnvironmentalStatement)
+				.addQuestion(questions.submitEnvironmentalStatement)
 				.addQuestion(questions.environmentalImpactSchedule)
 				.addQuestion(questions.meetsColumnTwoThreshold)
 				.addQuestion(questions.sensitiveArea),

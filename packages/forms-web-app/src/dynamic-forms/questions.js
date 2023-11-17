@@ -822,6 +822,24 @@ exports.questions = {
 		question: 'Why would you prefer a hearing?',
 		fieldName: 'prefer-hearing',
 		validators: [new RequiredValidator('Enter why you would prefer a hearing')]
+	}),
+	submitEnvironmentalStatement: new RadioQuestion({
+		title: 'Environmental impact assessment',
+		question: 'Did the applicant submit an environmental statement?',
+		fieldName: 'environmental-statement',
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes'
+			},
+			{
+				text: 'No, they have a negative screening direction',
+				value: 'no'
+			}
+		],
+		validators: [
+			new RequiredValidator('Select yes if the applicant submitted an environmental statement')
+		]
 	})
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
