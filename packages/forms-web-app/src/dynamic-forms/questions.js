@@ -372,7 +372,7 @@ exports.questions = {
 			new ConditionalRequiredValidator('Enter how many days you expect the inquiry to last'),
 			new StringValidator({
 				regex: {
-					regex: '^[1-9]\\d{0,2}$',
+					regex: '^(?:[1-9]\\d{0,2})?$',
 					regexMessage:
 						'The days you would expect the inquiry to last must be a whole number between 1 and 999'
 				},
@@ -493,7 +493,9 @@ exports.questions = {
 		question: 'Upload relevant policies from your statutory development plan',
 		fieldName: 'upload-other-policies',
 		validators: [
-			new RequiredFileUploadValidator('Select the planning officer’s report or what your decision notice would have said'),
+			new RequiredFileUploadValidator(
+				'Select the planning officer’s report or what your decision notice would have said'
+			),
 			new MultifileUploadValidator()
 		]
 	}),
