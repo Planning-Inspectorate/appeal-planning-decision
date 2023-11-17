@@ -11,10 +11,6 @@ parameters:
     displayName: Deploy Documents Service API
     type: boolean
     default: true
-  - name: deployHorizonFunctions
-    displayName: Deploy Horizon Functions
-    type: boolean
-    default: true
   - name: deployIntegrationFunctions
     displayName: Deploy Integration Functions
     type: boolean
