@@ -1,5 +1,4 @@
 const MultiFileUploadQuestion = require('./question');
-const { documentTypes } = require('@pins/common');
 
 const { patchQuestionResponse } = require('../../../lib/appeals-api-wrapper');
 const { createDocument, removeDocument } = require('../../../lib/documents-api-wrapper');
@@ -137,9 +136,10 @@ describe('MultiFileUploadQuestion', () => {
 		expect(multiFileQuestion.html).toEqual(HTML);
 	});
 
-	it('should create a MultiFileUploadQuestion with default documentType', () => {
-		const multiFileQuestion = getMultiFileUpload(null);
-		expect(multiFileQuestion.documentType).toBe(documentTypes.dynamic);
+	it('should throw error if no documentType parameter passed to constructor', () => {
+		expect(() => {
+			getMultiFileUpload(null);
+		}).toThrow(new Error('documentType is mandatory'));
 	});
 
 	describe('prepQuestionForRendering', () => {

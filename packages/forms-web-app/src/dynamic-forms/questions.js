@@ -40,6 +40,7 @@ const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-build
 const DateValidator = require('./validator/date-validator');
 const DateQuestion = require('./dynamic-components/date/question');
 const TextEntryQuestion = require('./dynamic-components/text-entry/question');
+const { documentTypes } = require('@pins/common');
 
 // Define all questions
 exports.questions = {
@@ -136,7 +137,8 @@ exports.questions = {
 		validators: [
 			new RequiredFileUploadValidator('Select a conservation map and guidance'),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.conservationAreaUpload
 	}),
 	greenBelt: new BooleanQuestion({
 		title: 'Green belt',
@@ -153,7 +155,8 @@ exports.questions = {
 			new RequiredFileUploadValidator('Select your document that lists who you notified'),
 			new MultifileUploadValidator()
 		],
-		html: 'resources/notified-who/content.html'
+		html: 'resources/notified-who/content.html',
+		documentType: documentTypes.whoWasNotified
 	}),
 	displaySiteNotice: new BooleanQuestion({
 		title: 'Site notice',
@@ -174,7 +177,8 @@ exports.questions = {
 		question: 'Upload the letters and emails',
 		fieldName: 'upload-letters-emails',
 		html: 'resources/upload-letters-emails/content.html',
-		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
+		documentType: documentTypes.uploadLettersToNeighbours
 	}),
 	pressAdvert: new BooleanQuestion({
 		title: 'Press Advert',
@@ -189,7 +193,8 @@ exports.questions = {
 		validators: [
 			new RequiredFileUploadValidator('Select the press advertisement'),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.pressAdvertUpload
 	}),
 	consultationResponses: new BooleanQuestion({
 		title: 'Responses or standing advice to upload',
@@ -209,7 +214,8 @@ exports.questions = {
 		validators: [
 			new RequiredFileUploadValidator('Select the consultation responses and standing advice'),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.consultationResponsesUpload
 	}),
 	howYouNotifiedPeople: new CheckboxQuestion({
 		title: 'Type of notification',
@@ -240,7 +246,8 @@ exports.questions = {
 		title: 'Uploaded site notice',
 		question: 'Upload the site notice',
 		fieldName: 'upload-site-notice',
-		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()]
+		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
+		documentType: documentTypes.uploadSiteNotice
 	}),
 	// lettersToNeighboursUpload: new MultiFileUploadQuestion({
 	// 	title: 'Letters to neighbours',
@@ -270,7 +277,8 @@ exports.questions = {
 		validators: [
 			new RequiredFileUploadValidator('Select the representations'),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.representationUpload
 	}),
 	planningOfficersReportUpload: new MultiFileUploadQuestion({
 		title: 'Upload planning officer’s report',
@@ -283,7 +291,8 @@ exports.questions = {
 				'Select the planning officer’s report or what your decision notice would have said'
 			),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.planningOfficersReportUpload
 	}),
 	accessForInspection: new BooleanQuestion({
 		title: 'Access for inspection',
@@ -486,7 +495,8 @@ exports.questions = {
 			new RequiredFileUploadValidator('Select the emerging plan and supporting information'),
 			new MultifileUploadValidator()
 		],
-		html: 'resources/emerging-plan-upload/content.html'
+		html: 'resources/emerging-plan-upload/content.html',
+		documentType: documentTypes.emergingPlanUpload
 	}),
 	uploadOtherRelevantPolicies: new MultiFileUploadQuestion({
 		title: 'Upload policies from statutory development plan	',
@@ -497,7 +507,8 @@ exports.questions = {
 				'Select the planning officer’s report or what your decision notice would have said'
 			),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.uploadOtherRelevantPolicies
 	}),
 	communityInfrastructureLevy: new BooleanQuestion({
 		title: 'Community infrastructure levy',
@@ -513,7 +524,8 @@ exports.questions = {
 		validators: [
 			new RequiredFileUploadValidator('Select your community infrastructure levy'),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.communityInfrastructureLevyUpload
 	}),
 	communityInfrastructureLevyAdopted: new BooleanQuestion({
 		title: 'Community infrastructure levy formally adopted',
@@ -552,7 +564,8 @@ exports.questions = {
 				'Select letters or emails sent to interested parties with their addresses'
 			),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.uploadNeighbourLetterAddresses
 	}),
 	treePreservationOrder: new BooleanQuestion({
 		title: 'Tree Preservation Order',
@@ -567,7 +580,8 @@ exports.questions = {
 		validators: [
 			new RequiredFileUploadValidator('Select a plan showing the extent of the order'),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.treePreservationPlanUpload
 	}),
 	uploadDefinitiveMap: new MultiFileUploadQuestion({
 		title: 'Definitive map and statement extract',
@@ -576,7 +590,8 @@ exports.questions = {
 		validators: [
 			new RequiredFileUploadValidator('Select the definitive map and statement extract'),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.uploadDefinitiveMap
 	}),
 	supplementaryPlanning: new BooleanQuestion({
 		title: 'Supplementary planning documents',
@@ -597,7 +612,8 @@ exports.questions = {
 				'Select the relevant policy extracts and supplementary planning documents'
 			),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.supplementaryPlanningUpload
 	}),
 	scheduledMonument: new BooleanQuestion({
 		title: 'Affects a scheduled monument',
@@ -779,7 +795,8 @@ exports.questions = {
 				'Select the environmental statement and supporting information'
 			),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.uploadEnvironmentalStatement
 	}),
 	meetsColumnTwoThreshold: new BooleanQuestion({
 		title: 'Meets or exceeds the threshold or criteria in column 2	',
@@ -844,7 +861,8 @@ exports.questions = {
 		validators: [
 			new RequiredFileUploadValidator('Select your screening opinion and any correspondence'),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.screeningOpinionUpload
 	}),
 	uploadScreeningDirection: new MultiFileUploadQuestion({
 		title: 'Upload the screening direction',
@@ -853,7 +871,8 @@ exports.questions = {
 		validators: [
 			new RequiredFileUploadValidator('Select the screening direction'),
 			new MultifileUploadValidator()
-		]
+		],
+		documentType: documentTypes.uploadScreeningDirection
 	}),
 	developmentDescription: new RadioQuestion({
 		title: 'Development description',

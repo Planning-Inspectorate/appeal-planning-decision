@@ -222,13 +222,149 @@ const documentTypes = {
 		horizonDocumentType: 'Appellant Final Comments',
 		horizonDocumentGroupType: 'Evidence'
 	},
-	dynamic: {
-		name: 'dynamic',
+	conservationAreaUpload: {
+		name: 'conservationAreaUpload',
 		multiple: true,
-		displayName: 'dynamic',
+		displayName: '',
 		involvement: '',
-		horizonDocumentType: '',
-		horizonDocumentGroupType: ''
+		horizonDocumentType: "Local Authority's Questionnaire",
+		horizonDocumentGroupType: 'Evidence'
+	},
+	whoWasNotified: {
+		name: 'whoWasNotified',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: "Local Authority's Questionnaire",
+		horizonDocumentGroupType: 'Evidence'
+	},
+	uploadLettersToNeighbours: {
+		name: 'uploadLettersToNeighbours',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	pressAdvertUpload: {
+		name: 'pressAdvertUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	consultationResponsesUpload: {
+		name: 'consultationResponsesUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'Consultation Responses',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	uploadSiteNotice: {
+		name: 'uploadSiteNotice',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	representationUpload: {
+		name: 'representationUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'Consultation Responses',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	planningOfficersReportUpload: {
+		name: 'planningOfficersReportUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	emergingPlanUpload: {
+		name: 'emergingPlanUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'Emerging Plans',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	uploadOtherRelevantPolicies: {
+		name: 'uploadOtherRelevantPolicies',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	communityInfrastructureLevyUpload: {
+		name: 'communityInfrastructureLevyUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadNeighbourLetterAddresses: {
+		name: 'uploadNeighbourLetterAddresses',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'Appeal Notification Letter',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	treePreservationPlanUpload: {
+		name: 'treePreservationPlanUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	uploadDefinitiveMap: {
+		name: 'uploadDefinitiveMap',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	supplementaryPlanningUpload: {
+		name: 'supplementaryPlanningUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'Supplementary Guidance',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	uploadEnvironmentalStatement: {
+		name: 'uploadEnvironmentalStatement',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	screeningOpinionUpload: {
+		name: 'screeningOpinionUpload',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
+	uploadScreeningDirection: {
+		name: 'uploadScreeningDirection',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 

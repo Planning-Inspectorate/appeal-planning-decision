@@ -55,7 +55,7 @@ class HasQuestionnaireMapper {
 				documents: Array.from(uploadedFilesAndBlobMeta).map(
 					([
 						{ fileName, originalFileName, size },
-						{ lastModified, createdOn, document_type, metadata, _response }
+						{ lastModified, createdOn, metadata, _response }
 					]) => ({
 						filename: fileName,
 						originalFilename: originalFileName,
@@ -64,7 +64,7 @@ class HasQuestionnaireMapper {
 						documentURI: _response.request.url,
 						dateCreated: createdOn,
 						lastModified,
-						documentType: document_type,
+						documentType: metadata.document_type,
 						sourceSystem: 'appeals',
 						origin: 'citizen',
 						stage: 'lpa_questionnaire'

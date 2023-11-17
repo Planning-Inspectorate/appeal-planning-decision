@@ -1,7 +1,6 @@
 const { removeFiles, getValidFiles } = require('../../../lib/multi-file-upload-helpers');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
-const { documentTypes } = require('@pins/common');
 
 const Question = require('../../question');
 
@@ -68,8 +67,7 @@ class MultiFileUploadQuestion extends Question {
 		if (documentType) {
 			this.documentType = documentType;
 		} else {
-			// default doc type
-			this.documentType = documentTypes.dynamic;
+			throw new Error('documentType is mandatory');
 		}
 	}
 
