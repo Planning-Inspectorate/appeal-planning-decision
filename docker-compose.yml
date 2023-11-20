@@ -83,6 +83,7 @@ services:
     environment:
       APP_APPEALS_BASE_URL: http://forms-web-app:9003
       APP_LPA_QUESTIONNAIRE_BASE_URL: http://lpa-questionnaire-web-app:9001
+      DATABASE_URL: "sqlserver://0.0.0.0:1433;database=pins_front_office_development;user=sa;password=DockerDatabaseP@22word!;trustServerCertificate=true"
       DOCS_API_PATH: /opt/app/api
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FEATURE_FLAGS_SETTING: 'ALL_ON'
@@ -349,7 +350,7 @@ services:
 
   mssql:
     image: mcr.microsoft.com/azure-sql-edge:latest
-    container_name: mssql
+    container_name: appeals-mssql
     cap_add: ['SYS_PTRACE']
     user: root
     environment:
@@ -359,8 +360,8 @@ services:
       - 1433:1433
     hostname: mssql
     volumes:
-      - ./init/mssql/mssql.conf:/var/opt/mssql/mssql.conf
-      - ./init/mssql/data:/var/opt/mssql/data
+      - ./dev/mssql.conf:/var/opt/mssql/mssql.conf
+      - ./tmp/mssql-data:/var/opt/mssql/data
 
   # In prod we use Azure Service Bus which uses AMQP1.0
   #  rabbitmq:

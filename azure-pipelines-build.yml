@@ -18,10 +18,6 @@ parameters:
     displayName: Build Documents Service API
     type: boolean
     default: false
-  - name: buildHorizonFunctions
-    displayName: Build Horizon Functions
-    type: boolean
-    default: true
   - name: buildIntegrationFunctions
     displayName: Build Integration Functions
     type: boolean
@@ -83,8 +79,6 @@ extends:
                   path: packages/common
                 - name: documents-api
                   path: packages/document-service-api
-                - name: horizon-functions
-                  path: packages/horizon-functions
                 - name: integration-functions
                   path: packages/integration-functions
                 - name: pdf-api
@@ -174,45 +168,6 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.SourcesDirectory)/packages/document-service-api/Dockerfile
               repository: appeal-planning-decision/documents-api
-      - name: Build Horizon Functions
-        condition: >-
-          and(
-            succeeded(),
-            or(
-              and(
-                eq(variables['Build.Reason'], 'Manual'),
-                eq(${{ parameters.buildHorizonFunctions }}, 'true')
-              ),
-              and(
-                ne(variables['Build.Reason'], 'Manual'),
-                or(
-                  eq(variables['Build.SourceBranchName'], 'main'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.horizon-functions'], 'true')
-                )
-              )
-            )
-          )
-        dependsOn:
-          - Run Linting & Tests
-        steps:
-          - template: ../steps/node_script.yml
-            parameters:
-              nodeVersion: 18
-              script: npm ci --omit=dev
-              workingDirectory: $(Build.Repository.LocalPath)
-          - script: |
-              source ~/.bashrc
-              # copy root node_modules to function (but don't overwrite)
-              mv -n $(Build.Repository.LocalPath)/node_modules/* $(Build.Repository.LocalPath)/packages/horizon-functions/node_modules/
-          - task: ArchiveFiles@2
-            displayName: Archive files
-            inputs:
-              rootFolderOrFile: $(Build.Repository.LocalPath)/packages/horizon-functions
-              includeRootFolder: false
-              archiveFile: $(System.DefaultWorkingDirectory)/functions.zip
-          - publish: $(System.DefaultWorkingDirectory)/functions.zip
-            artifact: horizon-functions
-            displayName: Publish Functions Artifact
       - name: Build Integration Functions
         condition: >-
           and(

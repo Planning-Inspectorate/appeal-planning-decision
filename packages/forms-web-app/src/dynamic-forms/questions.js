@@ -372,7 +372,7 @@ exports.questions = {
 			new ConditionalRequiredValidator('Enter how many days you expect the inquiry to last'),
 			new StringValidator({
 				regex: {
-					regex: '^[1-9]\\d{0,2}$',
+					regex: '^(?:[1-9]\\d{0,2})?$',
 					regexMessage:
 						'The days you would expect the inquiry to last must be a whole number between 1 and 999'
 				},
@@ -489,11 +489,13 @@ exports.questions = {
 		html: 'resources/emerging-plan-upload/content.html'
 	}),
 	uploadOtherRelevantPolicies: new MultiFileUploadQuestion({
-		title: 'Upload other relevant policies',
-		question: 'Upload any other relevant policies',
+		title: 'Upload policies from statutory development plan	',
+		question: 'Upload relevant policies from your statutory development plan',
 		fieldName: 'upload-other-policies',
 		validators: [
-			new RequiredFileUploadValidator('Select any other relevant policies'),
+			new RequiredFileUploadValidator(
+				'Select the planning officer’s report or what your decision notice would have said'
+			),
 			new MultifileUploadValidator()
 		]
 	}),
@@ -730,7 +732,7 @@ exports.questions = {
 		]
 	}),
 	screeningOpinion: new BooleanQuestion({
-		title: 'Screening opinion',
+		title: 'Issued screening opinion',
 		question: 'Have you issued a screening opinion?',
 		fieldName: 'screening-opinion',
 		validators: [new RequiredValidator('Select yes if you have issued a screening opinion')]
@@ -766,6 +768,17 @@ exports.questions = {
 				text: 'No',
 				value: 'no'
 			}
+		]
+	}),
+	uploadEnvironmentalStatement: new MultiFileUploadQuestion({
+		title: 'Upload the environmental statement and supporting information',
+		question: 'Upload the environmental statement and supporting information',
+		fieldName: 'upload-environmental-statement',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the environmental statement and supporting information'
+			),
+			new MultifileUploadValidator()
 		]
 	}),
 	meetsColumnTwoThreshold: new BooleanQuestion({
@@ -839,8 +852,84 @@ exports.questions = {
 		],
 		validators: [
 			new RequiredValidator('Select yes if the applicant submitted an environmental statement')
+    ]
+  }),
+	screeningOpinionUpload: new MultiFileUploadQuestion({
+		title: 'Screening opinion',
+		question: 'Upload your screening opinion and any correspondence',
+		fieldName: 'screening-opinion-upload',
+		url: 'upload-screening-opinion',
+		validators: [
+			new RequiredFileUploadValidator('Select your screening opinion and any correspondence'),
+			new MultifileUploadValidator()
+		]
+	}),
+	uploadScreeningDirection: new MultiFileUploadQuestion({
+		title: 'Upload the screening direction',
+		question: 'Upload the screening direction',
+		fieldName: 'upload-screening-direction',
+		validators: [
+			new RequiredFileUploadValidator('Select the screening direction'),
+			new MultifileUploadValidator()
+		]
+	}),
+	developmentDescription: new RadioQuestion({
+		title: 'Development description',
+		question: 'Description of development',
+		fieldName: 'development-description',
+		validators: [new RequiredValidator('Select a description of development')],
+		options: [
+			{
+				text: 'Agriculture and aquaculture',
+				value: 'agriculture-aquaculture'
+			},
+			{
+				text: 'Changes and extensions',
+				value: 'change-extensions'
+			},
+			{
+				text: 'Chemical industry (unless included in Schedule 1)',
+				value: 'chemical-industry'
+			},
+			{
+				text: 'Energy industry',
+				value: 'energy-industry'
+			},
+			{
+				text: 'Food industry',
+				value: 'food-industry'
+			},
+			{
+				text: 'Infrastructure projects',
+				value: 'infrastructure-projects'
+			},
+			{
+				text: 'Mineral industry',
+				value: 'mineral-industry'
+			},
+			{
+				text: 'Other projects',
+				value: 'other-projects'
+			},
+			{
+				text: 'Production and processing of metals',
+				value: 'production-processing-of-metals'
+			},
+			{
+				text: 'Rubber industry',
+				value: 'rubber-industry'
+			},
+			{
+				text: 'Textile, leather, wood and paper industries',
+				value: 'textile-industries'
+			},
+			{
+				text: 'Tourism and leisure',
+				value: 'tourism-leisure'
+			}
 		]
 	})
+
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
 	// 	question: 'Upload the definitive map and statement extract',

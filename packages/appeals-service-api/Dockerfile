@@ -19,6 +19,8 @@ COPY packages/business-rules /opt/packages/business-rules
 # install from root
 WORKDIR /opt
 RUN npm ci --omit=dev
+# generate prisma client
+RUN npm run db:generate
 
 # Stage 2/2: App Run
 FROM build AS app

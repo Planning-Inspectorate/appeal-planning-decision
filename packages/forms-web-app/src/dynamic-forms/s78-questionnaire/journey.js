@@ -56,11 +56,26 @@ class S78Journey extends Journey {
 				.addQuestion(questions.gypsyOrTraveller)
 				.addQuestion(questions.rightOfWayCheck),
 			new Section('Environmental impact assessment', 'environmental-impact')
-				.addQuestion(questions.screeningOpinion)
-				.addQuestion(questions.screeningOpinionEnvironmentalStatement)
-				.addQuestion(questions.submitEnvironmentalStatement)
 				.addQuestion(questions.environmentalImpactSchedule)
+				.addQuestion(questions.uploadEnvironmentalStatement)
+				.withCondition(
+					response.answers &&
+						(response.answers[questions.environmentalImpactSchedule.fieldName] === 'schedule-1' ||
+							response.answers[questions.environmentalImpactSchedule.fieldName] === 'schedule-2')
+				)
+				.addQuestion(questions.sensitiveArea)
 				.addQuestion(questions.meetsColumnTwoThreshold)
+				.addQuestion(questions.screeningOpinion)
+				.addQuestion(questions.screeningOpinionUpload)
+				.withCondition(response?.answers?.[questions.screeningOpinion.fieldName] === 'yes')
+				.addQuestion(questions.screeningOpinionEnvironmentalStatement)
+				.addQuestion(questions.uploadScreeningDirection)
+				.withCondition(
+					response.answers &&
+						response.answers[questions.screeningOpinionEnvironmentalStatement.fieldName] === 'yes'
+				)
+      	.addQuestion(questions.submitEnvironmentalStatement)
+				.addQuestion(questions.developmentDescription)
 				.addQuestion(questions.sensitiveArea),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.whoWasNotified)
@@ -101,12 +116,12 @@ class S78Journey extends Journey {
 				),
 			new Section('Planning officer’s report and supporting documents', 'planning-officer-report')
 				.addQuestion(questions.planningOfficersReportUpload)
+				.addQuestion(questions.uploadOtherRelevantPolicies)
 				.addQuestion(questions.emergingPlan)
 				.addQuestion(questions.emergingPlanUpload)
 				.withCondition(
 					response.answers && response.answers[questions.emergingPlan.fieldName] == 'yes'
 				)
-				.addQuestion(questions.uploadOtherRelevantPolicies)
 				.addQuestion(questions.supplementaryPlanning)
 				.addQuestion(questions.supplementaryPlanningUpload)
 				.withCondition(

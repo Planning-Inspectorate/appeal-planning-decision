@@ -29,6 +29,10 @@ let config = {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			}
+		},
+		sql: {
+			// don't use the admin connection string for general use
+			connectionString: process.env.SQL_CONNECTION_STRING
 		}
 	},
 	docs: {
@@ -42,40 +46,7 @@ let config = {
 	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
-		redact: [
-			'config.db.mongodb',
-			'config.messageQueue.horizonHASPublisher.connection.password',
-			'config.services.notify.apiKey'
-		]
-	},
-	messageQueue: {
-		horizonHASPublisher: {
-			connection: {
-				host: process.env.HORIZON_HAS_PUBLISHER_HOST,
-				hostname: process.env.HORIZON_HAS_PUBLISHER_HOSTNAME,
-				reconnect_limit: Number(process.env.HORIZON_HAS_PUBLISHER_RECONNECT_LIMIT || 1),
-				password: process.env.HORIZON_HAS_PUBLISHER_PASSWORD,
-				port: Number(process.env.HORIZON_HAS_PUBLISHER_PORT || 5672),
-				reconnect: process.env.HORIZON_HAS_PUBLISHER_ATTEMPT_RECONNECTION !== 'false',
-				transport: process.env.HORIZON_HAS_PUBLISHER_TRANSPORT,
-				username: process.env.HORIZON_HAS_PUBLISHER_USERNAME
-			},
-			queue: process.env.HORIZON_HAS_PUBLISHER_QUEUE
-		}
-		// TODO: Delete since it doesn't appear to be used
-		// sqlHASAppealsPublisher: {
-		// 	connection: {
-		// 		host: process.env.SQL_HASAPPEALS_PUBLISHER_HOST,
-		// 		hostname: process.env.SQL_HASAPPEALS_PUBLISHER_HOSTNAME,
-		// 		reconnect_limit: Number(process.env.SQL_HASAPPEALS_PUBLISHER_RECONNECT_LIMIT || 1),
-		// 		password: process.env.SQL_HASAPPEALS_PUBLISHER_PASSWORD,
-		// 		port: Number(process.env.SQL_HASAPPEALS_PUBLISHER_PORT || 5672),
-		// 		reconnect: process.env.SQL_HASAPPEALS_PUBLISHER_ATTEMPT_RECONNECTION !== 'false',
-		// 		transport: process.env.SQL_HASAPPEALS_PUBLISHER_TRANSPORT,
-		// 		username: process.env.SQL_HASAPPEALS_PUBLISHER_USERNAME
-		// 	},
-		// 	queue: process.env.SQL_HASAPPEALS_PUBLISHER_QUEUE
-		// }
+		redact: ['config.db.mongodb', 'config.services.notify.apiKey']
 	},
 	secureCodes: {
 		finalComments: {
