@@ -20,6 +20,7 @@ const lpaDashboardAppealsRouter = require('./appeals-case-data');
 const documentMetadataRouter = require('./documentMetadata');
 const responsesRouter = require('./responses');
 const listedBuildingRouter = require('./listed-building');
+const appealUsersRouter = require('./appeal-users');
 
 router.use('/api/v1/appeals', appealsRouter);
 router.use('/api/v1/back-office', backOfficeRouter);
@@ -34,5 +35,6 @@ router.use('/api/v1/appeals-case-data', lpaDashboardAppealsRouter);
 router.use('/api/v1/document-meta-data', documentMetadataRouter);
 router.use('/api/v1/responses', responsesRouter);
 router.use('/api/v1/listed-buildings', listedBuildingRouter);
+router.use('/api/v2/users', appealUsersRouter);
 
 module.exports = router;
