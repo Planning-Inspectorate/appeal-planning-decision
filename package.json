@@ -21,6 +21,7 @@
 		"db:migrate:prod": "npm run db:migrate:prod --workspace appeals-service-api",
 		"db:generate": "npm run db:generate --workspace appeals-service-api",
 		"db:seed": "npm run db:seed --workspace appeals-service-api",
+		"db:seed:prod": "npm run db:seed:prod --workspace appeals-service-api",
 		"format": "prettier --write \"**/*.{js,ts,json,md}\"",
 		"lint": "run-s --continue-on-error --print-label lint:appeals-api lint:business-rules lint:clamav-rest-server lint:common lint:documents-api lint:pdf-api lint:web lint:integration-functions",
 		"lint:appeals-api": "cd packages/appeals-service-api; eslint ./",
