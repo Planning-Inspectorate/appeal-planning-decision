@@ -35,8 +35,14 @@ class S78Journey extends Journey {
 				.addQuestion(questions.appealTypeAppropriate)
 				.addQuestion(questions.changesListedBuilding)
 				.addQuestion(questions.changedListedBuildingNumber)
+				.withCondition(
+					response.answers && response.answers[questions.changesListedBuilding.fieldName] == 'yes'
+				)
 				.addQuestion(questions.listedBuildingCheck)
 				.addQuestion(questions.affectedListedBuildings)
+				.withCondition(
+					response.answers && response.answers[questions.listedBuildingCheck.fieldName] == 'yes'
+				)
 				.addQuestion(questions.scheduledMonument)
 				.addQuestion(questions.conservationArea)
 				.addQuestion(questions.conservationAreaUpload)
@@ -74,8 +80,7 @@ class S78Journey extends Journey {
 					response.answers &&
 						response.answers[questions.screeningOpinionEnvironmentalStatement.fieldName] === 'yes'
 				)
-				.addQuestion(questions.developmentDescription)
-				.addQuestion(questions.sensitiveArea),
+				.addQuestion(questions.developmentDescription),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
