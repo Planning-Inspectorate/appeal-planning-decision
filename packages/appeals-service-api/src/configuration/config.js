@@ -29,6 +29,10 @@ let config = {
 				useNewUrlParser: true,
 				useUnifiedTopology: true
 			}
+		},
+		sql: {
+			// don't use the admin connection string for general use
+			connectionString: process.env.SQL_CONNECTION_STRING
 		}
 	},
 	docs: {

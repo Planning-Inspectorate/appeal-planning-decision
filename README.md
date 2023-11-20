@@ -44,7 +44,7 @@ npm install <new-package>
 
 A SQL Server database server has been set up to run when the appeals service api is running.
 
-First, make sure you have a `.env` file in `./packages/appeals-service-api` (you can copy the `.env.example`) and it has a `DATABASE_URL` environment variable defined with details pointing to your local database server (`mssql` Docker container).
+First, make sure you have a `.env` file in `./packages/appeals-service-api` (you can copy the `.env.example`) and it has `SQL_CONNECTION_STRING` and `SQL_CONNECTION_STRING_ADMIN` environment variables defined with details pointing to your local database server (`mssql` Docker container). These values will/can be the same for local development (admin is used for migrations, the other one for the API/app connection).
 
 To set up the SQL Server with tables and some data, you will need to run the following commands (whilst the SQL Server Docker container is running. You can run it by running the appeals service api or forms web app. For example: `make run SERVICE=appeals-service-api`. Alternatively, you can run the Docker container called 'mssql' manually using the Docker interface):
 
