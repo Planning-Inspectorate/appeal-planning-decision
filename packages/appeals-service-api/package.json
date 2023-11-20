@@ -9,12 +9,13 @@
 	"main": "src/main.js",
 	"prisma": {
 		"schema": "src/db/schema.prisma",
-		"seed": "node src/db/seed/seed.js"
+		"seed": "node src/db/seed/seed-dev.js"
 	},
 	"scripts": {
 		"db:migrate:dev": "npx prisma migrate dev",
 		"db:generate": "npx prisma generate",
 		"db:seed": "npx prisma db seed",
+		"db:seed:prod": "npm run db:generate && node src/db/seed/seed-prod.js",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
 		"start": "node ./",

@@ -1,17 +1,150 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "sqlserver"
-  url      = env("DATABASE_URL")
+  url      = env("SQL_CONNECTION_STRING_ADMIN")
 }
 
-model User {
-  id    Int    @id @default(autoincrement())
-  email String @unique
-  name  String
+// NOTES
+//
+// use '//' comments for notes relevant to the schema
+// use '///' comments for notes that should be included in the types definition
+// see https://www.prisma.io/docs/concepts/components/prisma-schema#comments
+//
+// we use GUIDs for IDs (see https://learn.microsoft.com/en-us/sql/t-sql/data-types/uniqueidentifier-transact-sql?view=sql-server-ver16)
+// this is because these IDs may be used in URLs and it makes them harder to guess
+// while we don't rely on that for security, it adds an extra layer 
+// not everything needs this, but easier to make them all consistent and the increase in size (vs int) is negligible
+
+/// AppealUser represents a user of our service(s)
+/// this may be an appellant, agent, or LPA employee
+model AppealUser {
+  id         String  @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  email      String  @unique
+  /// has this user been enrolled?
+  /// in practice this means have they been sent a registration confirmation email
+  /// this is sent to all users when they first use the system
+  ///
+  /// this flag is here for users created as part of migration, or from a back office ServiceUser message
+  /// they need an email sent when they first login
+  isEnrolled Boolean @default(false)
+
+  /// a service user entity will be broadcast by the back office. We match them to AppealUser by email
+  /// appeals will be matched to users by serviceUserId.
+  serviceUserId Int? // unique, with nulls allowed, is enforced in SQL, see first migration script & https://stackoverflow.com/a/767702
+  // -- unique AppealUser.serviceUserId
+  // CREATE UNIQUE NONCLUSTERED INDEX idx_AppealUser_serviceUserId_unique_notnull
+  // ON [dbo].[AppealUser](serviceUserId)
+  // WHERE serviceUserId IS NOT NULL;
+
+  // LPA user fields
+  /// is this an LPA user?
+  isLpaUser  Boolean  @default(false)
+  /// if an LPA user, the LPA this user belongs to
+  lpaCode    String?
+  /// if an LPA user, whether this user is an admin for that LPA
+  isLpaAdmin Boolean?
+  /// if an LPA user, the status of this user, e.g. have they logged in and confirmed their email?
+  lpaStatus  String? /// added | confirmed | removed
+
+  /// appeals this user is linked to, by being the appellant or agent, for example
+  Appeals AppealToUser[]
+
+  /// a security token this user can use to access our service(s)
+  SecurityToken SecurityToken?
+}
+
+/// SecurityToken is used as a mechanism for users to login
+/// They enter their email, a token is generated, emailed to the user, and they enter it to login
+/// A user only ever has one token, which gets updated when a new token is required
+model SecurityToken {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  /// link to a user
+  appealUserId String     @unique @db.UniqueIdentifier
+  AppealUser   AppealUser @relation(fields: [appealUserId], references: [id])
+
+  /// the generated token the user can login with
+  token            String
+  /// the time the token was generated, used for checking token expiry
+  tokenGeneratedAt DateTime
+  /// the number of attempts at entering the code since this token was last generated
+  /// this MUST be updated in a transaction to ensure atomic operation
+  /// see https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#atomic-number-operations
+  attempts         Int      @default(0)
+  /// the action the code was generated for, e.g. confirmEmail
+  action           String?
+}
+
+/// Appeal is the base appeal model, used to link references to other entities, which includes, for example:
+/// - an appeal submission authored in the front office
+/// - a case published by the back office
+/// - an LPA questionnaire submission
+model Appeal {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  /// users linked to this appeal, such as the appellant or agent
+  Users AppealToUser[]
+
+  /// reference to an appeal submission in the Cosmos DB `appeals` collection
+  /// we sync across two properties, as below
+  /// this is so we can query for draft submissions where the deadline date has passed (to delete them)
+  legacyAppealSubmissionId           String?
+  /// the deadline date of the appeal submission in the Cosmos DB `appeals` collection
+  legacyAppealSubmissionDecisionDate DateTime?
+  /// the state of the appeal submission in the Cosmos DB `appeals` collection
+  legacyAppealSubmissionState        String? /// DRAFT || SUBMITTED
+
+  /// link to case (from Back Office)
+  AppealCase AppealCase?
+
+  // todo: in the future link to appeal submission and other data
+}
+
+/// AppealToUser represents the relationships between AppealUser and Appeal
+/// This is a many-to-many relationship.
+model AppealToUser {
+  /// relation to an Appeal
+  appealId   String     @db.UniqueIdentifier
+  Appeal     Appeal     @relation(fields: [appealId], references: [id])
+  /// relation to a User
+  userId     String     @db.UniqueIdentifier
+  AppealUser AppealUser @relation(fields: [userId], references: [id])
+
+  /// the role the user has in relation to the appeal
+  /// must be an AppealToUserRole name value
+  role String
+  Role AppealToUserRole @relation(fields: [role], references: [name])
+
+  @@id([appealId, userId])
+}
+
+/// AppealToUserRole represents the role a user has in relation to an Appeal
+/// This reference table acts as an enum of allowed values
+model AppealToUserRole {
+  /// the unique name of this role such as appellant, agent, interestedParty
+  /// this is a machine-readable name not a user-friendly name; i.e. lowerCamelCase
+  name        String  @id
+  /// the description for this role, such as
+  /// "an agent is a user who submits an appeal on behalf of an appellant"
+  description String?
+
+  AppealToUser AppealToUser[]
+}
+
+/// AppealCase represents an Appeal from the Back Office, and follows the PINS Data Model
+/// Cases aren't linked to users directly, but there's a 1:1 mapping to Appeal, which has a link to user
+model AppealCase {
+  /// this ID is for front office only and won't correlate to other systems
+  id            String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  /// unique case reference
+  caseReference String @unique
+
+  // todo: more fields!
+
+  /// link to root Appeal
+  appealId String @unique @db.UniqueIdentifier
+  Appeal   Appeal @relation(fields: [appealId], references: [id])
 }
