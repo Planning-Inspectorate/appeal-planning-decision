@@ -383,6 +383,23 @@ services:
       - ./dev/mssql.conf:/var/opt/mssql/mssql.conf
       - ./tmp/mssql-data:/var/opt/mssql/data
 
+  test-mssql:
+    image: mcr.microsoft.com/azure-sql-edge:latest
+    restart: always
+    container_name: appeals-test-mssql
+    cap_add: ['SYS_PTRACE']
+    user: root
+    environment:
+      - 'ACCEPT_EULA=1'
+      - 'MSSQL_SA_PASSWORD=DockerDatabaseP@22word!'
+    ports:
+      - 1433:1433
+    hostname: test-mssql
+    profiles: ["test"]
+    volumes:
+      - ./dev/mssql.conf:/var/opt/mssql/mssql.conf
+      - ./tmp/mssql-data:/var/opt/mssql/data
+
   # In prod we use Azure Service Bus which uses AMQP1.0
   #  rabbitmq:
   #    image: rabbitmq:3-management-alpine
