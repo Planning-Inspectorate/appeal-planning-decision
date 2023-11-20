@@ -4,7 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlserver"
-  url      = env("DATABASE_URL")
+  url      = env("SQL_CONNECTION_STRING_ADMIN")
 }
 
 // NOTES
@@ -128,7 +128,7 @@ model AppealToUserRole {
   /// this is a machine-readable name not a user-friendly name; i.e. lowerCamelCase
   name        String  @id
   /// the description for this role, such as
-  /// "an agent is a user who submits an appeal application on behalf of an appellant"
+  /// "an agent is a user who submits an appeal on behalf of an appellant"
   description String?
 
   AppealToUser AppealToUser[]
