@@ -57,7 +57,7 @@ npm run db:seed
 **run db:migrate:dev:** To apply changes → Creating the database and tables (this will also run seed)
 **run db:seed :** Populating the database with some initial data
 
-The ORM used by the application to access SQL Server is [Prisma](https://www.prisma.io/). The schema is defined in [schema.prisma](./packages/appeals-service-api/prisma/schema.prisma). 
+The ORM used by the application to access SQL Server is [Prisma](https://www.prisma.io/). The schema is defined in [schema.prisma](./packages/appeals-service-api/src/db/schema.prisma). 
 
 **Note:** If the `prisma.schema` file has been updated, don't forget to run `npm run db:migrate:dev` to apply the changes.
 
