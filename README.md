@@ -61,6 +61,23 @@ The ORM used by the application to access SQL Server is [Prisma](https://www.pri
 
 **Note:** If the `prisma.schema` file has been updated, don't forget to run `npm run db:migrate:dev` to apply the changes.
 
+#### SQL Azure
+In Azure we have manually created a login/user with db_datareader and db_datawriter roles
+
+The following is run against the server:
+
+```sql
+CREATE LOGIN [loginname] WITH PASSWORD = 'password';
+```
+
+The following is run against the DB:
+
+```sql
+create USER [username] for login [loginname];
+ALTER ROLE db_datareader ADD MEMBER [username];
+ALTER ROLE db_datawriter ADD MEMBER [username];
+```
+
 ##### Azure Data Studio
 
 [Azure Data Studio](https://learn.microsoft.com/en-us/sql/azure-data-studio/download-azure-data-studio) or the [MSSQL VS code extension](https://marketplace.visualstudio.com/items?itemName=ms-mssql.mssql) can be used as a database client, to create and monitor the database contents.

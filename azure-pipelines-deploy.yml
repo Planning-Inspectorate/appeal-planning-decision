@@ -30,6 +30,10 @@ parameters:
       - UK West
       - UK South
     default: UK West
+  - name: schemaMigration
+    displayName: Run Database Migration
+    type: boolean
+    default: true
 
 pr: none
 trigger: none
@@ -58,6 +62,20 @@ extends:
           - name: Deploy Appeals API
             condition: eq(${{ parameters.deployAppealsApi }}, 'true')
             steps:
+              - ${{ if eq(parameters.schemaMigration, true) }}:
+                  - checkout: self
+                  - template: ../steps/azure_get_secrets.yml
+                    parameters:
+                      secrets:
+                        - name: appeals-sql-server-connection-string-admin
+                          variable: DATABASE_URL
+                  - template: ../steps/node_script.yml
+                    parameters:
+                      nodeVersion: 18
+                      environmentVariables:
+                        DATABASE_URL: $(DATABASE_URL)
+                      script: npm run db:migrate:prod
+                      workingDirectory: $(Build.Repository.LocalPath)/packages/appeals-service-api
               - template: ../steps/azure_web_app_deploy.yml
                 parameters:
                   appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001

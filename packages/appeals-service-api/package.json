@@ -13,6 +13,7 @@
 	},
 	"scripts": {
 		"db:migrate:dev": "npx prisma migrate dev",
+		"db:migrate:prod": "npx prisma migrate deploy",
 		"db:generate": "npx prisma generate",
 		"db:seed": "npx prisma db seed",
 		"db:seed:prod": "npm run db:generate && node src/db/seed/seed-prod.js",
