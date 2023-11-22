@@ -31,11 +31,11 @@ parameters:
       - UK South
     default: UK West
   - name: schemaMigration
-    displayName: Run Database Migration
+    displayName: Run SQL Database Migration
     type: boolean
     default: true
   - name: seedData
-    displayName: Add static (required) data to database
+    displayName: Add static (required) data to SQL database
     type: boolean
     default: false
 

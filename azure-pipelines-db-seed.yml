@@ -27,7 +27,7 @@ variables:
 
 jobs:
   - deployment: Seed_DB
-    displayName: Seed ${{ parameters.environment }} Database
+    displayName: Seed ${{ parameters.environment }} SQL Database
     environment: ${{ parameters.environment }}
     strategy:
       runOnce:
@@ -37,25 +37,26 @@ jobs:
             - checkout: self
             - template: steps/node_script.yml@templates
               parameters:
+                nodeVersion: 18
                 script: npm ci
             - template: steps/azure_auth.yml@templates
             - template: steps/azure_get_secrets.yml@templates
               parameters:
                 secrets:
                   - name: appeals-sql-server-connection-string-admin
-                    variable: DATABASE_URL
+                    variable: SQL_CONNECTION_STRING_ADMIN
             - template: steps/node_script.yml@templates
               parameters:
                 condition: ne('${{ parameters.environment }}', 'Prod')
                 environmentVariables:
-                  DATABASE_URL: $(DATABASE_URL)
+                  SQL_CONNECTION_STRING_ADMIN: $(SQL_CONNECTION_STRING_ADMIN)
                 script: npm run db:seed
                 workingDirectory: $(Build.Repository.LocalPath)/packages/appeals-service-api
             - template: steps/node_script.yml@templates
               parameters:
                 condition: eq('${{ parameters.environment }}', 'Prod')
                 environmentVariables:
-                  DATABASE_URL: $(DATABASE_URL)
+                  SQL_CONNECTION_STRING_ADMIN: $(SQL_CONNECTION_STRING_ADMIN)
                 script: npm run db:seed:prod
                 workingDirectory: $(Build.Repository.LocalPath)/packages/appeals-service-api
     workspace:
