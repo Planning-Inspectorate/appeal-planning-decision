@@ -767,6 +767,7 @@ exports.questions = {
 		title: 'Schedule type',
 		question: 'Is the development a schedule 1 or schedule 2 development?',
 		fieldName: 'environmental-impact-schedule',
+		url: 'schedule-1-or-2',
 		validators: [new RequiredValidator('Select the development schedule')],
 		options: [
 			{
