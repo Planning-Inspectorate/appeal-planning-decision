@@ -75,6 +75,7 @@ class S78Journey extends Journey {
 				.addQuestion(questions.screeningOpinionUpload)
 				.withCondition(response?.answers?.[questions.screeningOpinion.fieldName] === 'yes')
 				.addQuestion(questions.screeningOpinionEnvironmentalStatement)
+				.addQuestion(questions.submitEnvironmentalStatement)
 				.addQuestion(questions.uploadScreeningDirection)
 				.withCondition(
 					response.answers &&
