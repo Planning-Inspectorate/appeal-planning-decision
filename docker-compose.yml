@@ -92,6 +92,7 @@ services:
       HORIZON_HAS_PUBLISHER_QUEUE: docker_queue
       HORIZON_HAS_PUBLISHER_USERNAME: admin
       LOGGER_LEVEL: 'debug'
+      LOGGER_PRETTY_PRINT: 'true'
       LPA_DATA_PATH: /opt/app/data/lpa-list.csv
       LPA_TRIALIST_DATA_PATH: /opt/app/data/lpa-trialists.json
       MONGODB_AUTO_INDEX: 'true'

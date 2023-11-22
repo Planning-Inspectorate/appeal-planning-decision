@@ -11,5 +11,5 @@ const config = require('../configuration/config');
 module.exports = pino({
 	level: config.logger.level,
 	redact: config.logger.redact,
-	prettyPrint: true
+	prettyPrint: config.logger.prettyPrint
 });

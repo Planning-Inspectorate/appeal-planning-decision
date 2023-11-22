@@ -46,7 +46,8 @@ let config = {
 	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
-		redact: ['config.db.mongodb', 'config.services.notify.apiKey']
+		redact: ['config.db.mongodb', 'config.services.notify.apiKey'],
+		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true'
 	},
 	secureCodes: {
 		finalComments: {
