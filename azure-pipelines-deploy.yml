@@ -1,3 +1,4 @@
+# packages with infrequent changes do not auto-deploy to dev/test to speed up pipeline
 parameters:
   - name: deployAppealsApi
     displayName: Deploy Appeals Service API
@@ -6,7 +7,7 @@ parameters:
   - name: deployClamAv
     displayName: Deploy ClamAV API
     type: boolean
-    default: true
+    default: false
   - name: deployDocumentsApi
     displayName: Deploy Documents Service API
     type: boolean
@@ -14,11 +15,11 @@ parameters:
   - name: deployIntegrationFunctions
     displayName: Deploy Integration Functions
     type: boolean
-    default: true
+    default: false
   - name: deployPdfApi
     displayName: Deploy PDF Service API
     type: boolean
-    default: true
+    default: false
   - name: deployWeb
     displayName: Deploy Web
     type: boolean
