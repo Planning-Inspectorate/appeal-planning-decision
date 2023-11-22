@@ -30,6 +30,10 @@ parameters:
     displayName: Build Web
     type: boolean
     default: true
+  - name: buildWebComment
+    displayName: Build Web Comment
+    type: boolean
+    default: false
 
 resources:
   repositories:
