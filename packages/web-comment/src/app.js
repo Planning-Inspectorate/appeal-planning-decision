@@ -42,7 +42,10 @@ const viewPaths = [
 	// */@pins/common/src/index.js -> */@pins/common/src/frontend
 	path.join(require.resolve('@pins/common'), '..', 'frontend'),
 	path.join(__dirname, './'),
-	path.join(__dirname, 'public')
+	path.join(__dirname, 'public'),
+	path.join(__dirname, 'src'),
+	path.join(__dirname, 'hello-world'),
+	path.join(__dirname, 'views')
 ];
 
 nunjucks.configure(viewPaths, nunjucksConfig);
