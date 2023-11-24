@@ -50,7 +50,7 @@ jobs:
                 condition: ne('${{ parameters.environment }}', 'Prod')
                 environmentVariables:
                   SQL_CONNECTION_STRING_ADMIN: $(SQL_CONNECTION_STRING_ADMIN)
-                script: npm run db:seed
+                script: npm run db:generate && npm run db:seed
                 workingDirectory: $(Build.Repository.LocalPath)/packages/appeals-service-api
             - template: steps/node_script.yml@templates
               parameters:

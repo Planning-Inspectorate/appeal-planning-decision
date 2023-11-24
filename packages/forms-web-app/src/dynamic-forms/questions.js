@@ -949,7 +949,6 @@ exports.questions = {
 			new RequiredValidator('Select yes if the applicant submitted an environmental statement')
 		]
 	})
-
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
 	// 	question: 'Upload the definitive map and statement extract',
