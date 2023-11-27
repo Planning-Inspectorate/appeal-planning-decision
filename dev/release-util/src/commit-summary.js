@@ -38,7 +38,7 @@ async function run() {
 		.split('\n') // split into lines
 		.filter(Boolean); // filter out blank lines
 
-	const rows = [`commit,ticket,title,status,commit link`];
+	const rows = [`commit,ticket,title,parent,status,commit link`];
 	const tickets = new Map();
 	for await (const commitLine of commits) {
 		const commit = new Commit(commitLine);
@@ -51,7 +51,7 @@ async function run() {
 			continue;
 		}
 		const ticketNumber = commit.ticketNumber;
-		/** @type {IssueDetails} */
+		/** @type {import('./jira-api').IssueDetails} */
 		let details;
 		if (tickets.has(ticketNumber)) {
 			details = tickets.get(ticketNumber);
@@ -64,6 +64,7 @@ async function run() {
 				commit.message,
 				jira.issueLink(ticketNumber),
 				details.title,
+				details.parentTitle || '',
 				details.status,
 				commitLink(commit.has)
 			]

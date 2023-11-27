@@ -2,6 +2,7 @@
  * @typedef {Object} IssueDetails
  * @property {string} title
  * @property {string} status
+ * @property {string} [parentTitle]
  */
 
 /**
@@ -41,7 +42,7 @@ class JiraApi {
 	 * @returns {Promise<IssueDetails>}
 	 */
 	async fetchIssue(id) {
-		const url = `${this.baseUrl}/rest/api/2/issue/${id}?fields=status,summary`;
+		const url = `${this.baseUrl}/rest/api/2/issue/${id}?fields=status,summary,parent`;
 		console.log('GET', url);
 		const res = await fetch(url, {
 			headers: {
@@ -51,7 +52,8 @@ class JiraApi {
 		const json = await res.json();
 		return {
 			title: json.fields.summary,
-			status: json.fields.status.name
+			status: json.fields.status.name,
+			parentTitle: json.fields.parent?.fields?.summary
 		};
 	}
 
