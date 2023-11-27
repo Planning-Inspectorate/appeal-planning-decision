@@ -2,12 +2,13 @@ const dotenv = require('dotenv');
 const { docopt } = require('docopt');
 const { exec } = require('child_process');
 const fs = require('fs/promises');
+const { Commit } = require('./commit');
+const { JiraApi } = require('./jira-api');
 
 dotenv.config(); // load from .env
 const username = process.env.JIRA_USERNAME;
 const apiKey = process.env.JIRA_API_KEY;
 const baseUrl = process.env.JIRA_BASE_URL;
-const auth = Buffer.from(`${username}:${apiKey}`).toString('base64');
 const githubRepoUrl = process.env.GITHUB_REPO_URL;
 
 const docs = `
@@ -28,6 +29,9 @@ async function run() {
 	const argv = docopt(docs);
 	const from = argv['<from>'];
 	const to = argv['<to>'] || 'main';
+
+	const jira = new JiraApi({ baseUrl, username, apiKey });
+
 	const changes = await runCommand(`git log --pretty="%H; %s" ${from}...${to}`);
 
 	const commits = changes
@@ -36,32 +40,35 @@ async function run() {
 
 	const rows = [`commit,ticket,title,status,commit link`];
 	const tickets = new Map();
-	for await (const commit of commits) {
-		const hash = commit.substring(0, 40);
-		const message = commit.substring(42);
-		const match = message.match(/^.*\((.*)\):.*/);
-		if (match === null) {
-			rows.push(`"${message}","N/A"`);
+	for await (const commitLine of commits) {
+		const commit = new Commit(commitLine);
+		if (!commit.hasScope) {
+			rows.push(`"${commit.message}","N/A"`);
 			continue;
 		}
-		const scope = match[1].toLowerCase();
-		if (!scope.match(/(.*)[0-9]+$/)) {
-			rows.push(`"${message}","N/A"`);
+		if (!commit.scopeEndsInDigits) {
+			rows.push(`"${commit.message}","N/A"`);
 			continue;
 		}
-		const ticketNumber = scope.includes('-') ? scope : `aapd-${scope}`;
+		const ticketNumber = commit.ticketNumber;
 		/** @type {IssueDetails} */
 		let details;
 		if (tickets.has(ticketNumber)) {
 			details = tickets.get(ticketNumber);
 		} else {
-			details = await fetchIssue(ticketNumber);
+			details = await jira.fetchIssue(ticketNumber);
 			tickets.set(ticketNumber, details);
 		}
 		rows.push(
-			`"${message}",${issueLink(ticketNumber)},"${details.title}","${details.status}",${commitLink(
-				hash
-			)}`
+			[
+				commit.message,
+				jira.issueLink(ticketNumber),
+				details.title,
+				details.status,
+				commitLink(commit.has)
+			]
+				.map((value) => `"${value}"`)
+				.join(',')
 		);
 	}
 
@@ -88,40 +95,6 @@ function runCommand(cmd) {
 			}
 		});
 	});
-}
-
-/**
- * @typedef {Object} IssueDetails
- * @property {string} title
- * @property {string} status
- */
-
-/**
- * @param {string} id
- * @returns {Promise<IssueDetails>}
- */
-async function fetchIssue(id) {
-	const url = `${baseUrl}/rest/api/2/issue/${id}?fields=status,summary`;
-	console.log('GET', url);
-	const res = await fetch(url, {
-		headers: {
-			Authorization: 'Basic ' + auth
-		}
-	});
-	const json = await res.json();
-	return {
-		title: json.fields.summary,
-		status: json.fields.status.name
-	};
-}
-
-/**
- *
- * @param {string} id
- * @returns {string}
- */
-function issueLink(id) {
-	return `${baseUrl}/browse/${id}`;
 }
 
 /**
