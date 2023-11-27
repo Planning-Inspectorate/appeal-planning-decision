@@ -8,6 +8,7 @@ const username = process.env.JIRA_USERNAME;
 const apiKey = process.env.JIRA_API_KEY;
 const baseUrl = process.env.JIRA_BASE_URL;
 const auth = Buffer.from(`${username}:${apiKey}`).toString('base64');
+const githubRepoUrl = process.env.GITHUB_REPO_URL;
 
 const docs = `
 Usage:
@@ -27,24 +28,25 @@ async function run() {
 	const argv = docopt(docs);
 	const from = argv['<from>'];
 	const to = argv['<to>'] || 'main';
-	const changes = await runCommand(`git log --pretty="- %s" ${from}...${to}`);
+	const changes = await runCommand(`git log --pretty="%H; %s" ${from}...${to}`);
 
 	const commits = changes
 		.split('\n') // split into lines
-		.map((line) => line.substring(2)) // remove "- " prefix
 		.filter(Boolean); // filter out blank lines
 
-	const rows = [`commit,ticket,title,status`];
+	const rows = [`commit,ticket,title,status,commit link`];
 	const tickets = new Map();
 	for await (const commit of commits) {
-		const match = commit.match(/^.*\((.*)\):.*/);
+		const hash = commit.substring(0, 40);
+		const message = commit.substring(42);
+		const match = message.match(/^.*\((.*)\):.*/);
 		if (match === null) {
-			rows.push(`"${commit}","N/A"`);
+			rows.push(`"${message}","N/A"`);
 			continue;
 		}
 		const scope = match[1].toLowerCase();
 		if (!scope.match(/(.*)[0-9]+$/)) {
-			rows.push(`"${commit}","N/A"`);
+			rows.push(`"${message}","N/A"`);
 			continue;
 		}
 		const ticketNumber = scope.includes('-') ? scope : `aapd-${scope}`;
@@ -56,7 +58,11 @@ async function run() {
 			details = await fetchIssue(ticketNumber);
 			tickets.set(ticketNumber, details);
 		}
-		rows.push(`"${commit}",${issueLink(ticketNumber)},"${details.title}","${details.status}"`);
+		rows.push(
+			`"${message}",${issueLink(ticketNumber)},"${details.title}","${details.status}",${commitLink(
+				hash
+			)}`
+		);
 	}
 
 	await fs.writeFile(`./${from}-${to}.commits.csv`, rows.join('\n'));
@@ -116,6 +122,15 @@ async function fetchIssue(id) {
  */
 function issueLink(id) {
 	return `${baseUrl}/browse/${id}`;
+}
+
+/**
+ *
+ * @param {string} hash
+ * @returns {string}
+ */
+function commitLink(hash) {
+	return `${githubRepoUrl}/commit/${hash}`;
 }
 
 run().catch(console.error);
