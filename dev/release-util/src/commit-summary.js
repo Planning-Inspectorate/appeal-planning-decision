@@ -1,0 +1,121 @@
+const dotenv = require('dotenv');
+const { docopt } = require('docopt');
+const { exec } = require('child_process');
+const fs = require('fs/promises');
+
+dotenv.config(); // load from .env
+const username = process.env.JIRA_USERNAME;
+const apiKey = process.env.JIRA_API_KEY;
+const baseUrl = process.env.JIRA_BASE_URL;
+const auth = Buffer.from(`${username}:${apiKey}`).toString('base64');
+
+const docs = `
+Usage:
+    commit-summary <from> [<to>]
+
+        <from> - the git tag to check from (e.g. last release)
+        <to> - the git tag to check upto, defaults to main
+`;
+
+/**
+ * a cli tool to aid with finding a good release candidate/tag
+ * - pulls in commits from a given tag
+ * - fetches ticket numbers from commit(scope)
+ * - prints commit + ticket status
+ */
+async function run() {
+	const argv = docopt(docs);
+	const from = argv['<from>'];
+	const to = argv['<to>'] || 'main';
+	const changes = await runCommand(`git log --pretty="- %s" ${from}...${to}`);
+
+	const commits = changes
+		.split('\n') // split into lines
+		.map((line) => line.substring(2)) // remove "- " prefix
+		.filter(Boolean); // filter out blank lines
+
+	const rows = [`commit,ticket,title,status`];
+	const tickets = new Map();
+	for await (const commit of commits) {
+		const match = commit.match(/^.*\((.*)\):.*/);
+		if (match === null) {
+			rows.push(`"${commit}","N/A"`);
+			continue;
+		}
+		const scope = match[1].toLowerCase();
+		if (!scope.match(/(.*)[0-9]+$/)) {
+			rows.push(`"${commit}","N/A"`);
+			continue;
+		}
+		const ticketNumber = scope.includes('-') ? scope : `aapd-${scope}`;
+		/** @type {IssueDetails} */
+		let details;
+		if (tickets.has(ticketNumber)) {
+			details = tickets.get(ticketNumber);
+		} else {
+			details = await fetchIssue(ticketNumber);
+			tickets.set(ticketNumber, details);
+		}
+		rows.push(`"${commit}",${issueLink(ticketNumber)},"${details.title}","${details.status}"`);
+	}
+
+	await fs.writeFile(`./${from}-${to}.commits.csv`, rows.join('\n'));
+	console.log('done', {
+		commits: commits.length,
+		tickets: tickets.size
+	});
+}
+
+/**
+ * Run a command and resolves with stdout
+ *
+ * @param {string} cmd
+ * @returns {Promise<string>}
+ */
+function runCommand(cmd) {
+	return new Promise((resolve, reject) => {
+		exec(cmd, (error, stdout) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(stdout);
+			}
+		});
+	});
+}
+
+/**
+ * @typedef {Object} IssueDetails
+ * @property {string} title
+ * @property {string} status
+ */
+
+/**
+ * @param {string} id
+ * @returns {Promise<IssueDetails>}
+ */
+async function fetchIssue(id) {
+	const url = `${baseUrl}/rest/api/2/issue/${id}?fields=status,summary`;
+	console.log('GET', url);
+	const res = await fetch(url, {
+		headers: {
+			Authorization: 'Basic ' + auth
+		}
+	});
+	const json = await res.json();
+	return {
+		title: json.fields.summary,
+		status: json.fields.status.name
+	};
+}
+
+/**
+ *
+ * @param {string} id
+ * @returns {string}
+ */
+function issueLink(id) {
+	return `${baseUrl}/browse/${id}`;
+}
+
+run().catch(console.error);

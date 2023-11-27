@@ -1,0 +1,12 @@
+{
+	"name": "release-util",
+	"version": "1.0.0",
+	"description": "Utilities to aid the release process",
+	"scripts": {
+		"commit-summary": "node src/commit-summary.js"
+	},
+	"dependencies": {
+		"docopt": "^0.6.2",
+		"dotenv": "^16.3.1"
+	}
+}
