@@ -98,12 +98,37 @@ function runCommand(cmd) {
 }
 
 /**
+ * @typedef {Object} IssueDetails
+ * @property {string} title
+ * @property {string} status
+ */
+
+/**
+ * @param {string} id
+ * @returns {Promise<IssueDetails>}
+ */
+async function fetchIssue(id) {
+	const url = `${baseUrl}/rest/api/2/issue/${id}?fields=status,summary`;
+	console.log('GET', url);
+	const res = await fetch(url, {
+		headers: {
+			Authorization: 'Basic ' + auth
+		}
+	});
+	const json = await res.json();
+	return {
+		title: json.fields.summary,
+		status: json.fields.status.name
+	};
+}
+
+/**
  *
- * @param {string} hash
+ * @param {string} id
  * @returns {string}
  */
-function commitLink(hash) {
-	return `${githubRepoUrl}/commit/${hash}`;
+function issueLink(id) {
+	return `${baseUrl}/browse/${id}`;
 }
 
 /**
