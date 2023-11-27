@@ -4,7 +4,6 @@ const lusca = require('lusca');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const nunjucks = require('nunjucks');
-const bodyParser = require('body-parser');
 
 const pinoExpress = require('express-pino-logger');
 const uuid = require('uuid');
@@ -22,8 +21,6 @@ app.use(
 		genReqId: () => uuid.v4()
 	})
 );
-
-app.use(bodyParser.json());
 
 const isDev = app.get('env') === 'development';
 
