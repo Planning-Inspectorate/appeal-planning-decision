@@ -71,7 +71,6 @@ app.use('/assets/govuk/all.js', express.static(path.join(govukFrontEndRoot, 'gov
 
 // Routes
 Object.entries(routes).forEach(([baseUrl, router]) => {
-	console.log('🚀 ~ file: app.js:79 ~ Object.entries ~ baseUrl:', baseUrl);
 	app.use(baseUrl, router);
 });
 // View Engine
