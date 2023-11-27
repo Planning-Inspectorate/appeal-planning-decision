@@ -160,6 +160,6 @@ extends:
                   appName: pins-app-appeals-service-web-comment-wfe-$(ENVIRONMENT)-$(REGION_SHORT)-001
                   appResourceGroup: $(resourceGroup)
                   azurecrName: $(azurecrName)
-                  repository: appeal-planning-decision/web-commment
+                  repository: appeal-planning-decision/web-comment
     globalVariables:
       - template: azure-pipelines-variables.yml@self
