@@ -106,4 +106,13 @@ function commitLink(hash) {
 	return `${githubRepoUrl}/commit/${hash}`;
 }
 
+/**
+ *
+ * @param {string} hash
+ * @returns {string}
+ */
+function commitLink(hash) {
+	return `${githubRepoUrl}/commit/${hash}`;
+}
+
 run().catch(console.error);
