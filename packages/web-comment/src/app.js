@@ -4,6 +4,7 @@ const lusca = require('lusca');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const nunjucks = require('nunjucks');
+const bodyParser = require('body-parser');
 
 const pinoExpress = require('express-pino-logger');
 const uuid = require('uuid');
@@ -11,7 +12,7 @@ require('express-async-errors');
 
 const serverConfig = require('./server.config');
 const logger = require('./logging/logger');
-const routes = require('./routes');
+const { routes } = require('./routes');
 
 const app = express();
 
@@ -21,6 +22,8 @@ app.use(
 		genReqId: () => uuid.v4()
 	})
 );
+
+app.use(bodyParser.json());
 
 const isDev = app.get('env') === 'development';
 
@@ -44,7 +47,7 @@ const viewPaths = [
 	path.join(__dirname, './'),
 	path.join(__dirname, 'public'),
 	path.join(__dirname, 'src'),
-	path.join(__dirname, 'hello-world'),
+	path.join(__dirname, 'routes'),
 	path.join(__dirname, 'views')
 ];
 
@@ -70,8 +73,10 @@ app.use(
 app.use('/assets/govuk/all.js', express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js')));
 
 // Routes
-app.use('/', routes);
-
+Object.entries(routes).forEach(([baseUrl, router]) => {
+	console.log('🚀 ~ file: app.js:79 ~ Object.entries ~ baseUrl:', baseUrl);
+	app.use(baseUrl, router);
+});
 // View Engine
 app.set('view engine', 'njk');
 
