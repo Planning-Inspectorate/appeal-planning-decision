@@ -898,6 +898,10 @@ exports.questions = {
 				value: 'energy-industry'
 			},
 			{
+				text: 'Extractive industry',
+				value: 'extractive-industry'
+			},
+			{
 				text: 'Food industry',
 				value: 'food-industry'
 			},
