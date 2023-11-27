@@ -19,7 +19,12 @@ class AppealsCaseDataRepository extends MongoRepository {
 			LPAApplicationReference: 1,
 			questionnaireDueDate: 1,
 			validity: 1,
-			LPACode: 1
+			LPACode: 1,
+			appealType: 1,
+			siteAddressLine1: 1,
+			siteAddressLine2: 1,
+			siteAddressTown: 1,
+			siteAddressPostcode: 1
 		};
 
 		result = await this.getAllDocumentsThatMatchQuery(
