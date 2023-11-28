@@ -10,7 +10,6 @@
 	"workspaces": [
 		"custom-eslint-rules/*",
 		"dev/*",
-		"mocked-services/*",
 		"packages/*",
 		"test-packages/*"
 	],
