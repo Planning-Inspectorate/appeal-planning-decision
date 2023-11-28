@@ -10,9 +10,18 @@ if (config.logger.level === 'debug') {
 	primsaConfig.log = ['query'];
 }
 
-const dbClient = new PrismaClient(primsaConfig);
+let prisma;
+
+const createPrismaClient = () => {
+	if (prisma) {
+		return prisma;
+	}
+
+	prisma = new PrismaClient(primsaConfig);
+	return prisma;
+};
 
 /**
  * @type {import('@prisma/client').PrismaClient}
  */
-module.exports = dbClient;
+module.exports = { createPrismaClient };
