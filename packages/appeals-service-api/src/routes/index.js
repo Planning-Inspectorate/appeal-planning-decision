@@ -12,6 +12,7 @@ const backOfficeRouter = require('./back-office');
 const forManualInterventionRouter = require('./for-manual-intervention');
 const saveRouter = require('./save');
 const tokenRouter = require('./token');
+const tokenRouterV2 = require('./token-v2');
 const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
 const apiDocsRouter = require('./api-docs');
 const finalCommentsRouter = require('./final-comments');
@@ -29,6 +30,7 @@ router.use('/api/v1/local-planning-authorities', localPlanningAuthoritiesRouter)
 router.use('/api-docs', apiDocsRouter);
 router.use('/api/v1/save', saveRouter);
 router.use('/api/v1/token', tokenRouter);
+router.use('/api/v2/token', tokenRouterV2);
 router.use('/api/v1/final-comments', finalCommentsRouter);
 router.use('/api/v1/users', usersRouter);
 router.use('/api/v1/appeals-case-data', lpaDashboardAppealsRouter);

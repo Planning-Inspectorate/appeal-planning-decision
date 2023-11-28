@@ -2,7 +2,7 @@ const { tokenPut, tokenPost } = require('../../../src/controllers/token');
 const {
 	createOrUpdateTokenDocument,
 	getTokenDocumentIfExists,
-	getTokenCreatedAt
+	getTokenDocumentCreatedAt
 } = require('../../../src/services/token.service');
 const { mockReq, mockRes } = require('../mocks');
 const { getAppeal } = require('../../../src/services/appeal.service');
@@ -11,6 +11,8 @@ const { sendSecurityCodeEmail } = require('../../../src/lib/notify');
 jest.mock('../../../src/services/token.service');
 jest.mock('../../../src/services/appeal.service');
 jest.mock('../../../src/lib/notify');
+jest.mock('../../../src/repositories/sql/appeal-user-repository');
+jest.mock('../../../src/db/db-client');
 
 describe('controllers/token', () => {
 	let req;
@@ -119,7 +121,7 @@ describe('controllers/token', () => {
 			jest.useFakeTimers('modern');
 			jest.setSystemTime(Date.parse('2023-03-20T00:00:11Z'));
 
-			getTokenCreatedAt.mockReturnValue('2023-03-20T00:00:02Z');
+			getTokenDocumentCreatedAt.mockReturnValue('2023-03-20T00:00:02Z');
 
 			await tokenPut(req, res);
 
@@ -140,7 +142,7 @@ describe('controllers/token', () => {
 			jest.useFakeTimers('modern');
 			jest.setSystemTime(Date.parse('2023-03-20T00:00:11Z'));
 
-			getTokenCreatedAt.mockReturnValue('2023-03-20T00:00:00Z');
+			getTokenDocumentCreatedAt.mockReturnValue('2023-03-20T00:00:00Z');
 			createOrUpdateTokenDocument.mockReturnValue('98765');
 
 			await tokenPut(req, res);

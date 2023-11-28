@@ -1,5 +1,5 @@
 const { AppealUserRepository } = require('../../../src/repositories/sql/appeal-user-repository');
-const dbClient = require('../../../src/db/db-client');
+const { createPrismaClient } = require('../../../src/db/db-client');
 const ApiError = require('../../../src/errors/apiError');
 
 const TEST_EMAIL = 'test-user1@planninginspectorate.gov.uk';
@@ -13,6 +13,7 @@ const TEST_USER = {
 };
 
 let repo;
+let dbClient;
 
 jest.mock('../../../src/errors/apiError');
 
@@ -20,6 +21,7 @@ beforeAll(async () => {
 	repo = new AppealUserRepository();
 	const error = jest.fn().mockReturnValue(new Error('errorDuplicate'));
 	ApiError.userDuplicate = error;
+	dbClient = createPrismaClient();
 });
 
 beforeEach(() => {

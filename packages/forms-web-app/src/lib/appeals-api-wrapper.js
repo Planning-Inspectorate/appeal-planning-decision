@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 const uuid = require('uuid');
 const { utils } = require('@pins/common');
+const { isFeatureActive } = require('../featureFlag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 const config = require('../config');
 const parentLogger = require('./logger');
@@ -116,7 +118,10 @@ exports.saveAppeal = async (appeal) => {
 };
 
 exports.sendToken = async (id, action, emailAddress) => {
-	return handler(`/api/v1/token/`, 'PUT', {
+	const useV2 = await isFeatureActive(FLAG.ENROL_USERS);
+	const v = useV2 ? 'v2' : 'v1';
+
+	return handler(`/api/${v}/token/`, 'PUT', {
 		body: JSON.stringify({
 			id: id,
 			action: action,
@@ -125,11 +130,15 @@ exports.sendToken = async (id, action, emailAddress) => {
 	});
 };
 
-exports.checkToken = async (id, token) => {
-	return handler(`/api/v1/token/`, 'POST', {
+exports.checkToken = async (id, token, emailAddress) => {
+	const useV2 = await isFeatureActive(FLAG.ENROL_USERS);
+	const v = useV2 ? 'v2' : 'v1';
+
+	return handler(`/api/${v}/token/`, 'POST', {
 		body: JSON.stringify({
 			id,
-			token
+			token,
+			emailAddress
 		})
 	});
 };

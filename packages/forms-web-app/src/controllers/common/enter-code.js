@@ -180,12 +180,12 @@ const postEnterCode = (views) => {
 					action: enterCodeConfig.actions.confirmEmail
 				};
 			} else {
-				return await isTokenValid(id, token, req.session);
+				return await isTokenValid(id, token, null, req.session);
 			}
 		};
 
 		// check token
-		let tokenValid = await tokenValidResult(id, token, req.session);
+		let tokenValid = await tokenValidResult();
 
 		if (tokenValid.tooManyAttempts) {
 			return res.redirect(`/${views.NEED_NEW_CODE}`);
@@ -333,7 +333,7 @@ const postEnterCodeLPA = (views) => {
 		}
 
 		// check token
-		let token = await isTokenValid(id, emailCode);
+		let token = await isTokenValid(id, emailCode, user.email);
 
 		if (!tokenVerification(res, token, views, id)) return;
 

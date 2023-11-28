@@ -1,7 +1,32 @@
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const { createToken } = require('../lib/token');
+const TokenRepository = require('../../src/repositories/sql/token-repository.js');
 
+/**
+ *  @typedef { import("@prisma/client").SecurityToken } SecurityToken
+ */
+
+const tokenRepo = new TokenRepository();
+
+/**
+ * create or update the token using sql
+ * @param {string} appealUserId - id of appeal user
+ * @param {string} action - action token is used for
+ * @returns {Promise<string>}
+ */
+const createOrUpdateToken = async (appealUserId, action) => {
+	const token = createToken();
+	await tokenRepo.create(appealUserId, action, token);
+	return token;
+};
+
+/**
+ * create or update the token using mongo
+ * @param {string} id - id of appeal/user
+ * @param {string} action - action token is used for
+ * @returns {Promise<string>}
+ */
 const createOrUpdateTokenDocument = async (id, action) => {
 	const token = createToken();
 	try {
@@ -27,10 +52,29 @@ const createOrUpdateTokenDocument = async (id, action) => {
 	return token;
 };
 
+/**
+ * look up token in sql by id and update attempts count
+ * @param {string} appealUserId - user the token is associated with
+ * @returns {Promise<null|SecurityToken>}
+ */
+const getTokenIfExists = async (appealUserId) => {
+	const sqlToken = tokenRepo.getByUserId(appealUserId);
+	if (sqlToken) {
+		return sqlToken;
+	}
+
+	return null;
+};
+
+/**
+ * look up token in mongo by id and update attempts count
+ * @param {string} id - id the token is associated with, appeal/user
+ * @returns {Promise<any>}
+ */
 const getTokenDocumentIfExists = async (id) => {
 	let saved = null;
 
-	// look up by id and update attempts count
+	// fallback to mongo
 	await mongodb
 		.get()
 		.collection('securityToken')
@@ -46,7 +90,19 @@ const getTokenDocumentIfExists = async (id) => {
 	return saved?.value;
 };
 
-const getTokenCreatedAt = async (id) => {
+/**
+ * @param {string} appealUserId
+ * @returns {Promise<Date|undefined>}
+ */
+const getTokenCreatedAt = (appealUserId) => {
+	return tokenRepo.getCreatedDate(appealUserId);
+};
+
+/**
+ * @param {string} id
+ * @returns {Promise<Date>}
+ */
+const getTokenDocumentCreatedAt = async (id) => {
 	let saved;
 
 	try {
@@ -73,7 +129,10 @@ const getTokenCreatedAt = async (id) => {
 };
 
 module.exports = {
+	createOrUpdateToken,
 	createOrUpdateTokenDocument,
+	getTokenIfExists,
 	getTokenDocumentIfExists,
-	getTokenCreatedAt
+	getTokenCreatedAt,
+	getTokenDocumentCreatedAt
 };

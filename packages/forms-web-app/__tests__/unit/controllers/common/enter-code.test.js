@@ -652,6 +652,12 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			isTokenValid.mockResolvedValue({
 				valid: true
 			});
+			const mockUser = {
+				email: 'a',
+				enabled: true
+			};
+			getLPAUser.mockResolvedValue(mockUser);
+
 			const returnedFunction = postEnterCodeLPA(views);
 
 			req.params.id = userId;
@@ -681,6 +687,12 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				tooManyAttempts: true
 			});
 
+			const mockUser = {
+				email: 'a',
+				enabled: true
+			};
+			getLPAUser.mockResolvedValue(mockUser);
+
 			const returnedFunction = postEnterCodeLPA(views);
 
 			req.params.id = userId;
@@ -707,6 +719,12 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				valid: false,
 				expired: true
 			});
+
+			const mockUser = {
+				email: 'a',
+				enabled: true
+			};
+			getLPAUser.mockResolvedValue(mockUser);
 
 			const returnedFunction = postEnterCodeLPA(views);
 
@@ -768,7 +786,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				valid: true
 			});
 
-			getUserById.mockResolvedValue(mockUser);
+			getLPAUser.mockResolvedValue(mockUser);
 
 			const returnedFunction = postEnterCodeLPA(views);
 

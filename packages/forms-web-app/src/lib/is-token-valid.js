@@ -17,10 +17,10 @@ const isTestLpaAndToken = (token, lpaCode) => {
 	return utils.isTestLPA(lpaCode) && token === testConfirmEmailToken;
 };
 
-const getToken = async (id, token, session) => {
+const getToken = async (id, token, emailAddress, session) => {
 	let tokenDocument;
 	try {
-		tokenDocument = await checkToken(id, token);
+		tokenDocument = await checkToken(id, token, emailAddress);
 		return tokenDocument;
 	} catch (err) {
 		console.log(err);
@@ -38,7 +38,7 @@ const getToken = async (id, token, session) => {
 	}
 };
 
-const isTokenValid = async (id, token, session) => {
+const isTokenValid = async (id, token, emailAddress, session) => {
 	let result = {
 		valid: false,
 		action: ''
@@ -46,7 +46,7 @@ const isTokenValid = async (id, token, session) => {
 
 	if (!id || typeof id !== 'string' || !token || typeof token !== 'string') return result;
 
-	let tokenDocument = await getToken(id, token, session);
+	let tokenDocument = await getToken(id, token, emailAddress, session);
 
 	if (tokenDocument && 'tooManyAttempts' in tokenDocument && tokenDocument.tooManyAttempts) {
 		return tokenDocument;
