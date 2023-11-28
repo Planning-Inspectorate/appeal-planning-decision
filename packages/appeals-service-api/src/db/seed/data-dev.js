@@ -1,5 +1,5 @@
 /**
- * @type {import('@prisma/client').Prisma.AppealUserCreateInput}
+ * @type {import('@prisma/client').Prisma.AppealUserCreateInput[]}
  */
 const users = [
 	{
@@ -19,7 +19,7 @@ const users = [
 ];
 
 /**
- * @param {import('@prisma/client')} dbClient
+ * @param {import('@prisma/client').PrismaClient} dbClient
  */
 async function seedDev(dbClient) {
 	for (const user of users) {

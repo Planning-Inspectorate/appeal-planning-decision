@@ -9,7 +9,6 @@
 const {
 	constants: { APPEAL_ID }
 } = require('@pins/business-rules');
-const path = require('path');
 
 // NOTE: it is not a mistake that this variable is decalred via `let` since we need to update the state
 //       in tests, so declaring as `const`, makes this very tricky.
@@ -33,11 +32,6 @@ let config = {
 		sql: {
 			// don't use the admin connection string for general use
 			connectionString: process.env.SQL_CONNECTION_STRING
-		}
-	},
-	docs: {
-		api: {
-			path: process.env.DOCS_API_PATH || path.join(__dirname, '..', '..', 'api')
 		}
 	},
 	documents: {
