@@ -5,4 +5,7 @@ const dbClient = new PrismaClient({
 	datasourceUrl: config.db.sql.connectionString
 });
 
+/**
+ * @type {import('@prisma/client').PrismaClient}
+ */
 module.exports = dbClient;

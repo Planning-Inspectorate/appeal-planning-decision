@@ -1,0 +1,20 @@
+components:
+  schemas:
+    AppealSubmission:
+      description: An appeal submission created in the Front Office
+      type: object
+      required:
+        - id
+        - createdAt
+      properties:
+        id:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        lpaCode:
+          type: 
+        # todo: add existing properties
