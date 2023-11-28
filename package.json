@@ -9,7 +9,6 @@
 	"description": "Appeal a planning decision - these are utility scripts for the whole repo",
 	"workspaces": [
 		"custom-eslint-rules/*",
-		"data",
 		"dev/*",
 		"mocked-services/*",
 		"packages/*",
