@@ -1,5 +1,5 @@
 {
-	"name": "notify",
+	"name": "mock-notify",
 	"version": "0.0.0",
 	"description": "Notify mocks",
 	"main": "index.js",

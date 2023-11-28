@@ -326,23 +326,17 @@ services:
     # @todo generate from Swagger Docs
     build:
       context: .
-      dockerfile: ./mocked-services/horizon/Dockerfile
+      dockerfile: ./dev/mock-horizon/Dockerfile
     ports:
       - 5000:3000
 
   mock-notify:
     build:
       context: .
-      dockerfile: ./mocked-services/notify/Dockerfile
+      dockerfile: ./dev/mock-notify/Dockerfile
     ports:
       - 5001:3000
 
-  #  mock-os-places:
-  #    build:
-  #      context: ./mocked-services/os-places
-  #      dockerfile: ../Dockerfile
-  #    ports:
-  #      - 5002:3000
   docs-horizon:
     image: swaggerapi/swagger-ui
     environment:
