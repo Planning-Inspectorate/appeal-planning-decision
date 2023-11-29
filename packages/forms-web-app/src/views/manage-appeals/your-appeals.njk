@@ -31,13 +31,14 @@
 								<td class="govuk-table__cell">{{item.appealType.short}}</td>
                 <td class="govuk-table__cell">
                   {% if item.deadline == 'NEW' %}
-                    <strong class='govuk-tag govuk-tag--green'>NEW</strong>
                   {% else %}
 										{{item.deadline | date('D MMMM YYYY') }}
 									{% endif %}
 								</td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">
-                  {% if item.dueInDays == 'OVERDUE' %}
+									{% if item.deadline == 'NEW' %}
+                    <strong class='govuk-tag govuk-tag--green'>NEW</strong>
+									{% elif item.dueInDays == 'OVERDUE' %}
                     <strong class='govuk-tag govuk-tag--red'>OVERDUE</strong>
                   {% else %}
                     {{item.dueInDays}}
@@ -48,19 +49,19 @@
                       <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
                         Questionnaire
                         <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
-                      </a><br>
+                      </a>
                    {% endif %}
-									 {% if item.displayStatement %}
+									 {% if (not item.displayQuestionnaire) and (item.displayStatement) %}
                       <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
                         Statement
                         <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
-                      </a><br>
+                      </a>
                    {% endif %}
 									 {% if item.displayFinalComment %}
                       <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
                         Final comment
                         <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
-                      </a><br>
+                      </a>
                    {% endif %}
 									 {% if item.displayProofsOfEvidence %}
                       <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
