@@ -29,23 +29,42 @@
                 </td>
                 <td class="govuk-table__cell">{{item.address}}</td>
 								<td class="govuk-table__cell">{{item.appealType.short}}</td>
-                <td class="govuk-table__cell">{{item.questionnaireDueDate | date('D MMMM YYYY') }}</td>
+                <td class="govuk-table__cell">
+                  {% if item.deadline == 'NEW' %}
+                    <strong class='govuk-tag govuk-tag--green'>NEW</strong>
+                  {% else %}
+										{{item.deadline | date('D MMMM YYYY') }}
+									{% endif %}
+								</td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">
-                  {% if item.dueInDays < 0 %}
-                    <strong class='govuk-tag govuk-tag--red'>Overdue</strong>
+                  {% if item.dueInDays == 'OVERDUE' %}
+                    <strong class='govuk-tag govuk-tag--red'>OVERDUE</strong>
                   {% else %}
                     {{item.dueInDays}}
-                    {% if item.dueInDays == 1 %}
-                      day
-                    {% else %}
-                      days
-                    {% endif %}
                   {% endif %}
                 </td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">
-                   {% if showQuestionnaire %}
+                   {% if item.displayQuestionnaire %}
                       <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
                         Questionnaire
+                        <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
+                      </a><br>
+                   {% endif %}
+									 {% if item.displayStatement %}
+                      <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                        Statement
+                        <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
+                      </a><br>
+                   {% endif %}
+									 {% if item.displayFinalComment %}
+                      <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                        Final comment
+                        <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
+                      </a><br>
+                   {% endif %}
+									 {% if item.displayProofsOfEvidence %}
+                      <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                        Proof of Evidence
                         <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
                       </a>
                    {% endif %}
