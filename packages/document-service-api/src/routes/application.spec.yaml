@@ -1,0 +1,149 @@
+paths:
+  "/api/v1/{applicationId}":
+    description: Resources related to application specific documents
+    get:
+      tags:
+        - Document
+      operationId: getApplicationDocuments
+      description: Obtains all document data related to a given application ID
+      parameters:
+        - "$ref": "#/components/parameters/applicationId"
+      responses:
+        '200':
+          description: Successfully retrieved documents for the given Id
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/DocumentList"
+        '404':
+          "$ref": "#/components/responses/NotFound"
+    post:
+      tags:
+        - Document
+      operationId: postDocument
+      description: Creates a new file upload against the specified application Id
+      parameters:
+        - "$ref": "#/components/parameters/applicationId"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '202':
+          description: Confirmation that the file upload has been received but not
+            yet validated (persisted and virus scanned)
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Document"
+        '400':
+          description: The file could not be processed due to a problem with the request
+            (e.g. missing parameter, invalid filename)
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '422':
+          description: The file is too large and cannot be accepted
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '500':
+          description: Server error. Try again later
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+  "/api/v1/{applicationId}/{documentId}":
+    description: Retrieves a specific documents meta-data
+    get:
+      tags:
+        - Document
+      operationId: getDocument
+      description: Returns the specific document meta-data
+      parameters:
+        - "$ref": "#/components/parameters/applicationId"
+        - "$ref": "#/components/parameters/documentId"
+      responses:
+        '200':
+          description: Successfully retrieved this document
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Document"
+        '400':
+          description: Unable to process this request.
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+        '404':
+          description: Document could be found for this Id
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+    delete:
+      tags:
+        - Document
+      operationId: deleteDocument
+      description: Deletes a document by ID
+      parameters:
+        - "$ref": "#/components/parameters/applicationId"
+        - "$ref": "#/components/parameters/documentId"
+      responses:
+        '204':
+          description: Successfully deleted this document
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/DocumentDownload"
+        '404':
+          description: Document could be found for this Id
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
+  "/api/v1/{applicationId}/{documentId}/file":
+    description: Retrieves a specific documents meta-data
+    get:
+      tags:
+        - Document
+      operationId: downloadDocument
+      description: Downloads the document for display
+      parameters:
+        - "$ref": "#/components/parameters/applicationId"
+        - "$ref": "#/components/parameters/documentId"
+        - in: query
+          name: base64
+          schema:
+            type: boolean
+          required: false
+          description: Display the file in base64
+      responses:
+        '200':
+          description: Successfully retrieved this document
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/DocumentDownload"
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Document could be found for this Id
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/Error"
