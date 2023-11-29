@@ -1,3 +1,6 @@
+# DEPRECATED
+# kept here for reference
+# see src/routes and src/spec
 openapi: 3.0.3
 info:
   title: Appeals Service API Documentation

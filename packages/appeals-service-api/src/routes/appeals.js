@@ -8,28 +8,6 @@ const {
 
 const router = express.Router();
 
-/**
- * @openapi
- * /api/v1/appeals/{id}:
- *   get:
- *     description: get a single appeal submission by ID
- *     parameters:
- *          - in: path
- *            name: id
- *            schema:
- *              type: string
- *            required: true
- *            description: appeal submission ID
- *     responses:
- *       200:
- *         description: Returns the appeal submission
- *         schema:
- *           $ref: '#/components/schemas/AppealSubmission'
- *       404:
- *         description: Appeal not found
- *         schema:
- *           $ref: '#/components/schemas/ErrorBody'
- */
 router.get('/:id', async (req, res) => {
 	let statusCode = 200;
 	let body = '';
@@ -43,19 +21,6 @@ router.get('/:id', async (req, res) => {
 	}
 });
 
-/**
- * @openapi
- * /api/v1/appeals:
- *   post:
- *     description: create a new appeal submission
- *     responses:
- *       201:
- *         description: Returns the appeal submission
- *         schema:
- *           $ref: '#/components/schemas/AppealSubmission'
- *       500:
- *         description: Something went wrong
- */
 router.post('/', createAppeal);
 
 router.put('/:id', appealInsertValidationRules, async (req, res) => {
