@@ -12,6 +12,7 @@ const documentRouter = require('../../../src/routes/document');
 const beforeYouStartRouter = require('../../../src/routes/before-you-start/before-you-start');
 const submitAppealRouter = require('../../../src/routes/submit-appeal');
 const saveAndReturnRouter = require('../../../src/routes/save');
+const appealRouter = require('../../../src/routes/appeal');
 const checkDecisionDateDeadline = require('../../../src/middleware/check-decision-date-deadline');
 const checkPathAllowed = require('../../../src/middleware/check-path-allowed');
 const { skipMiddlewareForPaths } = require('../../../src/middleware/skip-middleware-for-paths');
@@ -73,5 +74,6 @@ describe('routes/index', () => {
 			checkDecisionDateDeadline,
 			saveAndReturnRouter
 		);
+		expect(use).toHaveBeenCalledWith(appealRouter);
 	});
 });
