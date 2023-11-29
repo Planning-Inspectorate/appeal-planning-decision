@@ -6,8 +6,6 @@
  * values are required
  */
 
-const path = require('path');
-
 module.exports = {
 	db: {
 		mongodb: {
@@ -20,11 +18,6 @@ module.exports = {
 				useUnifiedTopology: true,
 				useCreateIndex: true
 			}
-		}
-	},
-	docs: {
-		api: {
-			path: process.env.DOCS_API_PATH || path.join(__dirname, '..', 'api')
 		}
 	},
 	featureFlagging: {
