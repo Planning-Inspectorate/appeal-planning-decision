@@ -1,5 +1,28 @@
 /**
- * @typedef AppealType
+ * @typedef LPAAppealData
+ * @type {object}
+ * @property {string} caseReference
+ * @property {string} caseReferenceSlug
+ * @property {string} LPAApplicationReference
+ * @property {string} siteAddressLine1
+ * @property {string} siteAddressLine2
+ * @property {string} siteAddressPostcode
+ * @property {string} siteAddressTown
+ * @property {string} appealType
+ * @property {string} questionnaireDueDate
+ * @property {string} questionnaireReceived
+ * @property {string} statementDueDate
+ * @property {string} LPAStatementSubmitted
+ * @property {string} finalCommentsDueDate
+ * @property {string} LPACommentsSubmitted
+ * @property {string} proofsOfEvidenceDueDate
+ * @property {string} LPAProofsSubmitted
+ * @property {string} validity
+ * @property {string} LPACode
+ */
+
+/**
+ * @typedef DashboardAppealType
  * @type {object}
  * @property {string} long a longer form appeal type string, for appellants
  * @property {string} short a shorter form appeal type string, for lpa users
@@ -25,7 +48,7 @@ const formatAddress = (appealCaseData) => {
 
 /**
  * @param {string} caseDataAppealType
- * @returns {AppealType} returns an object with a long and a short appealType string
+ * @returns {DashboardAppealType} returns an object with a long and a short appealType string
  */
 const formatAppealType = (caseDataAppealType) => {
 	if (caseDataAppealType === 'Householder (HAS) Appeal') {
@@ -42,20 +65,20 @@ const formatAppealType = (caseDataAppealType) => {
 };
 
 /**
- * @param {object} appealCaseData return object from database call
+ * @param {LPAAppealData} appealCaseData return object from database call
  * @returns {string} returns either 'NEW' or the appropriate deadline
  */
 
 const determineDeadlineToDisplayLPADashboard = (appealCaseData) => {
 	if (!appealCaseData.questionnaireDueDate) {
 		return 'NEW';
-	} else if (!appealCaseData.questionnaireReceived) {
+	} else if (isQuestionnaireDue(appealCaseData)) {
 		return appealCaseData.questionnaireDueDate;
-	} else if (appealCaseData.statementDueDate && !appealCaseData.LPAStatementSubmitted) {
+	} else if (isStatementDue(appealCaseData)) {
 		return appealCaseData.statementDueDate;
-	} else if (appealCaseData.finalCommentsDueDate && !appealCaseData.LPACommentsSubmitted) {
+	} else if (isFinalCommentDue(appealCaseData)) {
 		return appealCaseData.finalCommentsDueDate;
-	} else if (appealCaseData.proofsOfEvidenceDueDate && !appealCaseData.LPAProofsSubmitted) {
+	} else if (isProofsOfEvidenceDue(appealCaseData)) {
 		return appealCaseData.proofsOfEvidenceDueDate;
 	}
 
@@ -81,7 +104,7 @@ const displayDueInDaysLPADashboard = (deadline) => {
 };
 
 /**
- * @param {object} appealCaseData return object from database call
+ * @param {LPAAppealData} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isQuestionnaireDue = (appealCaseData) => {
