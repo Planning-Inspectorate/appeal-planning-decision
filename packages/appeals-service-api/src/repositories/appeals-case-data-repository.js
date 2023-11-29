@@ -22,6 +22,7 @@ class AppealsCaseDataRepository extends MongoRepository {
 			statementDueDate: 1,
 			finalCommentsDueDate: 1,
 			proofsOfEvidenceDueDate: 1,
+			LPAStatementSubmitted: 1,
 			validity: 1,
 			LPACode: 1,
 			appealType: 1,

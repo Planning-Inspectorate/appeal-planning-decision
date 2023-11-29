@@ -4,7 +4,13 @@ const { FLAG } = require('@pins/common/src/feature-flags');
 const {
 	extractAppealNumber,
 	formatAddress,
-	formatAppealType
+	formatAppealType,
+	determineDeadlineToDisplayLPADashboard,
+	displayDueInDaysLPADashboard,
+	isQuestionnaireDue,
+	isStatementDue,
+	isFinalCommentDue,
+	isProofsOfEvidenceDue
 } = require('../../lib/dashboard-functions');
 
 const {
@@ -15,7 +21,6 @@ const {
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
 
 const { getAppealsCaseData } = require('../../lib/appeals-api-wrapper');
-const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
 
 const getYourAppeals = async (req, res) => {
 	let appealsCaseData = [];
@@ -25,10 +30,15 @@ const getYourAppeals = async (req, res) => {
 	appealsCaseData = await getAppealsCaseData(user.lpaCode);
 
 	appealsCaseData.forEach((appeal) => {
-		appeal.dueInDays = calculateDueInDays(appeal.questionnaireDueDate);
+		appeal.deadline = determineDeadlineToDisplayLPADashboard(appeal);
+		appeal.dueInDays = displayDueInDaysLPADashboard(appeal.deadline);
 		appeal.appealNumber = extractAppealNumber(appeal.caseReference);
 		appeal.address = formatAddress(appeal);
 		appeal.appealType = formatAppealType(appeal.appealType);
+		appeal.displayQuestionnaire = isQuestionnaireDue(appeal);
+		appeal.displayStatement = isStatementDue(appeal);
+		appeal.displayFinalComment = isFinalCommentDue(appeal);
+		appeal.displayProofsOfEvidence = isProofsOfEvidenceDue(appeal);
 	});
 
 	return res.render(DASHBOARD, {
