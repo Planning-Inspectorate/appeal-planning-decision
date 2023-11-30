@@ -28,6 +28,14 @@
  * @property {string} short a shorter form appeal type string, for lpa users
  */
 
+/**
+ * @typedef DueDocumentType
+ * @type {object}
+ * @property {string} deadline the date by which the document is due
+ * @property {number} dueInDays the number of days remaining until the deadline expires
+ * @property {string} documentDue the type of document which is due next
+ */
+
 const { calculateDueInDays } = require('./calculate-due-in-days');
 
 /**
@@ -66,42 +74,46 @@ const formatAppealType = (caseDataAppealType) => {
 
 /**
  * @param {LPAAppealData} appealCaseData return object from database call
- * @returns {string} returns either 'NEW' or the appropriate deadline
+ * @returns {boolean} returns depending on whether a Questionnaire due date has been set
  */
 
-const determineDeadlineToDisplayLPADashboard = (appealCaseData) => {
-	if (!appealCaseData.questionnaireDueDate) {
-		return 'NEW';
-	} else if (isQuestionnaireDue(appealCaseData)) {
-		return appealCaseData.questionnaireDueDate;
-	} else if (isStatementDue(appealCaseData)) {
-		return appealCaseData.statementDueDate;
-	} else if (isFinalCommentDue(appealCaseData)) {
-		return appealCaseData.finalCommentsDueDate;
-	} else if (isProofsOfEvidenceDue(appealCaseData)) {
-		return appealCaseData.proofsOfEvidenceDueDate;
-	}
-
-	return '';
+const isNewAppeal = (appealCaseData) => {
+	return !appealCaseData.questionnaireDueDate;
 };
 
 /**
- * @param {string} deadline a string of either 'NEW' or the appropriate deadline
- * @returns {string} returns either 'OVERDUE' or the appropriate number of days until deadline
+ * @param {LPAAppealData} appealCaseData return object from database call
+ * @returns {DueDocumentType} object containing details of next due document
  */
-
-const displayDueInDaysLPADashboard = (deadline) => {
-	if (deadline == 'NEW' || deadline == '') {
-		return '';
+const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
+	if (isQuestionnaireDue(appealCaseData)) {
+		return {
+			deadline: appealCaseData.questionnaireDueDate,
+			dueInDays: calculateDueInDays(appealCaseData.questionnaireDueDate),
+			documentDue: 'Questionnaire'
+		};
+	} else if (isStatementDue(appealCaseData)) {
+		return {
+			deadline: appealCaseData.statementDueDate,
+			dueInDays: calculateDueInDays(appealCaseData.statementDueDate),
+			documentDue: 'Statement'
+		};
+	} else if (isFinalCommentDue(appealCaseData)) {
+		return {
+			deadline: appealCaseData.finalCommentsDueDate,
+			dueInDays: calculateDueInDays(appealCaseData.finalCommentsDueDate),
+			documentDue: 'Final comment'
+		};
+	} else if (isProofsOfEvidenceDue(appealCaseData)) {
+		return {
+			deadline: appealCaseData.proofsOfEvidenceDueDate,
+			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
+			documentDue: 'Proofs of Evidence'
+		};
 	}
-	const numberOfDays = calculateDueInDays(deadline);
-	if (numberOfDays < 0) {
-		return 'OVERDUE';
-	} else if (numberOfDays == 1) {
-		return '1 day';
-	}
-	return `${numberOfDays} days`;
 };
+
+// Helper functions, not exported, potential for refactoring as repetitive
 
 /**
  * @param {LPAAppealData} appealCaseData return object from database call
@@ -139,10 +151,6 @@ module.exports = {
 	extractAppealNumber,
 	formatAddress,
 	formatAppealType,
-	determineDeadlineToDisplayLPADashboard,
-	displayDueInDaysLPADashboard,
-	isQuestionnaireDue,
-	isStatementDue,
-	isFinalCommentDue,
-	isProofsOfEvidenceDue
+	isNewAppeal,
+	determineDocumentToDisplayLPADashboard
 };

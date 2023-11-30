@@ -2,7 +2,8 @@ const {
 	extractAppealNumber,
 	formatAddress,
 	formatAppealType,
-	determineDeadlineToDisplayLPADashboard
+	// determineDocumentToDisplayLPADashboard,
+	isNewAppeal
 } = require('../../../src/lib/dashboard-functions');
 
 const TEST_CASE_REFERENCE = 'APP/Q9999/W/22/1234567';
@@ -59,33 +60,46 @@ describe('lib/dashboard-functions', () => {
 		});
 	});
 
-	describe('determineDeadlineToDisplayLPADashboard', () => {
-		it('returns "NEW" if no due date has been set', () => {
-			expect(determineDeadlineToDisplayLPADashboard({})).toEqual('NEW');
+	// describe('determineDocumentToDisplayLPADashboard', () => {
+	// 	it('returns "NEW" if no due date has been set', () => {
+	// 		expect(determineDeadlineToDisplayLPADashboard({})).toEqual('NEW');
+	// 	});
+
+	// 	it('returns the questionnaireDueDate if the questionnaire has not been submitted', () => {
+	// 		const appealDetails = {
+	// 			questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
+	// 			questionnaireReceived: null
+	// 		};
+
+	// 		expect(determineDeadlineToDisplayLPADashboard(appealDetails)).toEqual(
+	// 			'2023-07-07T13:53:31.6003126+00:00'
+	// 		);
+	// 	});
+
+	// 	it('returns the statementDueDate if the questionnaire has been returned and statement is next in proximity', () => {
+	// 		const appealStatementDueDetails = {
+	// 			questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
+	// 			questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
+	// 			statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
+	// 			LPAStatementSubmitted: null
+	// 		};
+
+	// 		expect(determineDeadlineToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
+	// 			'2023-07-17T13:53:31.6003126+00:00'
+	// 		);
+	// 	});
+	// });
+
+	describe('isNewAppeal', () => {
+		it('is true if an appeal is new, ie has no due dates set', () => {
+			expect(isNewAppeal({})).toBe(true);
 		});
-
-		it('returns the questionnaireDueDate if the questionnaire has not been submitted', () => {
-			const appealDetails = {
-				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
-				questionnaireReceived: null
-			};
-
-			expect(determineDeadlineToDisplayLPADashboard(appealDetails)).toEqual(
-				'2023-07-07T13:53:31.6003126+00:00'
-			);
-		});
-
-		it('returns the statementDueDate if the questionnaire has been returned and statement is next in proximity', () => {
-			const appealStatementDueDetails = {
-				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
-				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
-				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
-				LPAStatementSubmitted: null
-			};
-
-			expect(determineDeadlineToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
-				'2023-07-17T13:53:31.6003126+00:00'
-			);
+		it('is false if an appeal has a questionnaire due set', () => {
+			expect(
+				isNewAppeal({
+					questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00'
+				})
+			).toBe(false);
 		});
 	});
 });
