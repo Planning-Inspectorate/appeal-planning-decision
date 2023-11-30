@@ -2,9 +2,13 @@ const {
 	extractAppealNumber,
 	formatAddress,
 	formatAppealType,
-	// determineDocumentToDisplayLPADashboard,
+	determineDocumentToDisplayLPADashboard,
 	isNewAppeal
 } = require('../../../src/lib/dashboard-functions');
+
+const { calculateDueInDays } = require('../../../src/lib/calculate-due-in-days');
+
+jest.mock('../../../src/lib/calculate-due-in-days');
 
 const TEST_CASE_REFERENCE = 'APP/Q9999/W/22/1234567';
 const FULL_TEST_ADDRESS = {
@@ -20,6 +24,10 @@ const NO_LINE_2_ADDRESS = {
 };
 
 describe('lib/dashboard-functions', () => {
+	beforeEach(() => {
+		jest.resetAllMocks();
+	});
+
 	describe('extractAppealNumber', () => {
 		it('extracts the 7 digit appeal number from a longer case reference', () => {
 			expect(extractAppealNumber(TEST_CASE_REFERENCE)).toEqual('1234567');
@@ -60,35 +68,99 @@ describe('lib/dashboard-functions', () => {
 		});
 	});
 
-	// describe('determineDocumentToDisplayLPADashboard', () => {
-	// 	it('returns "NEW" if no due date has been set', () => {
-	// 		expect(determineDeadlineToDisplayLPADashboard({})).toEqual('NEW');
-	// 	});
+	describe('determineDocumentToDisplayLPADashboard', () => {
+		it('returns undefined if no documents are due', () => {
+			expect(determineDocumentToDisplayLPADashboard({})).toEqual(undefined);
+		});
 
-	// 	it('returns the questionnaireDueDate if the questionnaire has not been submitted', () => {
-	// 		const appealDetails = {
-	// 			questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
-	// 			questionnaireReceived: null
-	// 		};
+		it('returns the questionnaire details if the questionnaire has not been submitted', () => {
+			const appealDetails = {
+				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
+				questionnaireReceived: null,
+				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
+				LPAStatementSubmitted: null
+			};
 
-	// 		expect(determineDeadlineToDisplayLPADashboard(appealDetails)).toEqual(
-	// 			'2023-07-07T13:53:31.6003126+00:00'
-	// 		);
-	// 	});
+			const expectedQuestionnaireDetails = {
+				deadline: '2023-07-07T13:53:31.6003126+00:00',
+				dueInDays: 3,
+				documentDue: 'Questionnaire'
+			};
 
-	// 	it('returns the statementDueDate if the questionnaire has been returned and statement is next in proximity', () => {
-	// 		const appealStatementDueDetails = {
-	// 			questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
-	// 			questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
-	// 			statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
-	// 			LPAStatementSubmitted: null
-	// 		};
+			calculateDueInDays.mockReturnValue(3);
 
-	// 		expect(determineDeadlineToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
-	// 			'2023-07-17T13:53:31.6003126+00:00'
-	// 		);
-	// 	});
-	// });
+			expect(determineDocumentToDisplayLPADashboard(appealDetails)).toEqual(
+				expectedQuestionnaireDetails
+			);
+		});
+
+		it('returns the statement details if the statement is next in proximity', () => {
+			const appealStatementDueDetails = {
+				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
+				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
+				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
+				LPAStatementSubmitted: null
+			};
+
+			const expectedStatementDetails = {
+				deadline: '2023-07-17T13:53:31.6003126+00:00',
+				dueInDays: 13,
+				documentDue: 'Statement'
+			};
+
+			calculateDueInDays.mockReturnValue(13);
+
+			expect(determineDocumentToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
+				expectedStatementDetails
+			);
+		});
+
+		it('returns the final comment details if the statement is next in proximity', () => {
+			const appealStatementDueDetails = {
+				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
+				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
+				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
+				LPAStatementSubmitted: '2023-07-17T13:53:31.6003126+00:00',
+				finalCommentsDueDate: '2023-07-27T13:53:31.6003126+00:00',
+				LPACommentsSubmitted: null
+			};
+
+			const expectedFinalCommentDetails = {
+				deadline: '2023-07-27T13:53:31.6003126+00:00',
+				dueInDays: 23,
+				documentDue: 'Final comment'
+			};
+
+			calculateDueInDays.mockReturnValue(23);
+
+			expect(determineDocumentToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
+				expectedFinalCommentDetails
+			);
+		});
+
+		it('returns the proofs of evidence details if the statement is next in proximity', () => {
+			const appealStatementDueDetails = {
+				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
+				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
+				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
+				LPAStatementSubmitted: '2023-07-17T13:53:31.6003126+00:00',
+				proofsOfEvidenceDueDate: '2023-07-27T13:53:31.6003126+00:00',
+				LPAProofsSubmitted: null
+			};
+
+			const expectedProofsDetails = {
+				deadline: '2023-07-27T13:53:31.6003126+00:00',
+				dueInDays: 23,
+				documentDue: 'Proofs of Evidence'
+			};
+
+			calculateDueInDays.mockReturnValue(23);
+
+			expect(determineDocumentToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
+				expectedProofsDetails
+			);
+		});
+	});
 
 	describe('isNewAppeal', () => {
 		it('is true if an appeal is new, ie has no due dates set', () => {
