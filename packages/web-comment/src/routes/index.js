@@ -1,9 +1,15 @@
-const { readdirSync } = require('fs');
+const { readdirSync, lstatSync } = require('fs');
+const path = require('path');
 
 // works line Next, urls come from dir names in routes director
 
-const dirNames = readdirSync(__dirname).filter((name) => /.*(?<!(\.js))$/.exec(name));
+const dirNames = readdirSync(__dirname).filter((name) =>
+	lstatSync(path.join(__dirname, name)).isDirectory()
+);
 
+/**
+ * @type {Object<urlPath: string, router: import('express').IRouter>}
+ */
 const routes = dirNames.reduce((acc, dirName) => {
 	const { router } = require(`./${dirName}`);
 	return {
