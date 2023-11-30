@@ -5,12 +5,8 @@ const {
 	extractAppealNumber,
 	formatAddress,
 	formatAppealType,
-	determineDeadlineToDisplayLPADashboard,
-	displayDueInDaysLPADashboard,
-	isQuestionnaireDue,
-	isStatementDue,
-	isFinalCommentDue,
-	isProofsOfEvidenceDue
+	isNewAppeal,
+	determineDocumentToDisplayLPADashboard
 } = require('../../lib/dashboard-functions');
 
 const {
@@ -30,15 +26,11 @@ const getYourAppeals = async (req, res) => {
 	appealsCaseData = await getAppealsCaseData(user.lpaCode);
 
 	appealsCaseData.forEach((appeal) => {
-		appeal.deadline = determineDeadlineToDisplayLPADashboard(appeal);
-		appeal.dueInDays = displayDueInDaysLPADashboard(appeal.deadline);
 		appeal.appealNumber = extractAppealNumber(appeal.caseReference);
 		appeal.address = formatAddress(appeal);
 		appeal.appealType = formatAppealType(appeal.appealType);
-		appeal.displayQuestionnaire = isQuestionnaireDue(appeal);
-		appeal.displayStatement = isStatementDue(appeal);
-		appeal.displayFinalComment = isFinalCommentDue(appeal);
-		appeal.displayProofsOfEvidence = isProofsOfEvidenceDue(appeal);
+		appeal.nextDocumentDue = determineDocumentToDisplayLPADashboard(appeal);
+		appeal.isNewAppeal = isNewAppeal(appeal);
 	});
 
 	return res.render(DASHBOARD, {

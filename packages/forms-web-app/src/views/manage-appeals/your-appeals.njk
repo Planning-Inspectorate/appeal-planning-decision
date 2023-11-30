@@ -30,45 +30,30 @@
                 <td class="govuk-table__cell">{{item.address}}</td>
 								<td class="govuk-table__cell">{{item.appealType.short}}</td>
                 <td class="govuk-table__cell">
-                  {% if item.deadline == 'NEW' %}
+                  {% if item.isNewAppeal %}
                   {% else %}
-										{{item.deadline | date('D MMMM YYYY') }}
+										{{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
 									{% endif %}
 								</td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">
-									{% if item.deadline == 'NEW' %}
+									{% if item.isNewAppeal %}
                     <strong class='govuk-tag govuk-tag--green'>NEW</strong>
-									{% elif item.dueInDays == 'OVERDUE' %}
+									{% elif item.nextDocumentDue.dueInDays < 0 %}
                     <strong class='govuk-tag govuk-tag--red'>OVERDUE</strong>
                   {% else %}
-                    {{item.dueInDays}}
+                    {{item.nextDocumentDue.dueInDays}}
+										{% if item.nextDocumentDue.dueInDays == 1 %}
+                      day
+                    {% else %}
+                      days
+                    {% endif %}
                   {% endif %}
                 </td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">
-                   {% if item.displayQuestionnaire %}
                       <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
-                        Questionnaire
+                        {{item.nextDocumentDue.documentDue}}
                         <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
                       </a>
-                   {% endif %}
-									 {% if (not item.displayQuestionnaire) and (item.displayStatement) %}
-                      <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
-                        Statement
-                        <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
-                      </a>
-                   {% endif %}
-									 {% if item.displayFinalComment %}
-                      <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
-                        Final comment
-                        <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
-                      </a>
-                   {% endif %}
-									 {% if item.displayProofsOfEvidence %}
-                      <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
-                        Proof of Evidence
-                        <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
-                      </a>
-                   {% endif %}
                 </td>
               </tr>
             {% endfor %}
