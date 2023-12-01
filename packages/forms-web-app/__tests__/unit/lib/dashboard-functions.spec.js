@@ -69,8 +69,12 @@ describe('lib/dashboard-functions', () => {
 	});
 
 	describe('determineDocumentToDisplayLPADashboard', () => {
-		it('returns undefined if no documents are due', () => {
-			expect(determineDocumentToDisplayLPADashboard({})).toEqual(undefined);
+		it('returns default values if no documents are due', () => {
+			expect(determineDocumentToDisplayLPADashboard({})).toEqual({
+				deadline: null,
+				dueInDays: 100000,
+				documentDue: null
+			});
 		});
 
 		it('returns the questionnaire details if the questionnaire has not been submitted', () => {

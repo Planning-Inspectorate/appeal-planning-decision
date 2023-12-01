@@ -138,9 +138,9 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 	}
 
 	return {
-		deadline: '',
-		dueInDays: 1000000,
-		documentDue: ''
+		deadline: null,
+		dueInDays: 100000,
+		documentDue: null
 	};
 };
 
