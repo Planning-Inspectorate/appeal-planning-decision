@@ -9,7 +9,154 @@ components:
       properties:
         id:
           type: string
+          format: uuid
+          description: front office appeal case ID
         caseReference:
           type: string
+          description: appeal case reference (aka appeal number)
           example: "6123456"
+        LPACode:
+          type: string
+          description: a code to identify the LPA this case relates to
+          example: "Q9999"
+
+        # appellant case
+        LPAName:
+          type: string
+          description: the name of the LPA this case relates to
+          example: "System Test Borough Council"
+        appealTypeCode:
+          type: string
+          description: appeal type short-code such as HAS or S78
+          example: HAS
+        appealTypeName:
+          type: string
+          example: Householder
+        decision:
+          type: string
+          enum: ['granted', 'refused']
+          description: original planning application decision by the LPA
+        originalCaseDecisionDate:
+          type: string
+          format: date-time
+          description: the date the original planning application was decided by the LPA
+        costsAppliedForIndicator:
+          type: boolean
+        LPAApplicationReference:
+          type: string
+          description: the LPA's reference for the original planning application
+        
+        
+        siteAddressLine1:
+          type: string
+        siteAddressLine2:
+          type: string
+        siteAddressTown:
+          type: string
+        siteAddressCounty:
+          type: string
+        siteAddressPostcode:
+          type: string
+
+        # LPA Questionnaire
+        questionnaireDueDate:
+          type: string
+          format: date-time
+          description: the date LPA's questionnaire is due
+        questionnaireReceived:
+          type: string
+          format: date-time
+          description: the date LPA's questionnaire was received
+        doesAffectAScheduledMonument:
+          type: boolean
+
+        # case dates
+        receiptDate:
+          type: string
+          format: date-time
+          description: the date the appeal was received
+        startDate:
+          type: string
+          format: date-time
+          description: the date the appeal was started
+        appealValidDate:
+          type: string
+          format: date-time
+          description: the date the appeal was marked valid
+        caseDecisionDate:
+          type: string
+          format: date-time
+          description: the date the appeal was decided
+        interestedPartyRepsDueDate:
+          type: string
+          format: date-time
+          description: the date interested party comments are accepted until
+
+        # statement
+        statementDueDate:
+          type: string
+          format: date-time
+          description: the date statements are due
+        appellantStatementForwarded:
+          type: string
+          format: date-time
+          description: the date the appellant's statement was forwarded
+        appellantStatementSubmitted:
+          type: string
+          format: date-time
+          description: the date the appellant's statement was received
+        LPAStatementForwarded:
+          type: string
+          format: date-time
+          description: the date the LPA's statement was forwarded
+        LPAStatementSubmitted:
+          type: string
+          format: date-time
+          description: the date the LPA's statement was received
+
+          
+        # comments
+        finalCommentsDueDate:
+          type: string
+          format: date-time
+          description: the date comments are due
+        appellantCommentsForwarded:
+          type: string
+          format: date-time
+          description: the date the appellant's comments were forwarded
+        appellantCommentsSubmitted:
+          type: string
+          format: date-time
+          description: the date the appellant's comments were received
+        LPACommentsForwarded:
+          type: string
+          format: date-time
+          description: the date the LPA's comments were forwarded
+        LPACommentsSubmitted:
+          type: string
+          format: date-time
+          description: the date the LPA's comments were received
+
+        
+        # proofs of evidence
+        proofsOfEvidenceDueDate:
+          type: string
+          format: date-time
+          description: the date proofs of evidence are due
+        appellantsProofsForwarded:
+          type: string
+          format: date-time
+          description: the date the appellant's proofs of evidence were forwarded
+        appellantsProofsSubmitted:
+          type: string
+          format: date-time
+          description: the date the appellant's proofs of evidence were received
+        LPAProofsForwarded:
+          type: string
+          format: date-time
+          description: the date the LPA's proofs of evidence were forwarded
+        LPAProofsSubmitted:
+          type: string
+          format: date-time
+          description: the date the LPA's proofs of evidence were received
         # todo: add properties from data model

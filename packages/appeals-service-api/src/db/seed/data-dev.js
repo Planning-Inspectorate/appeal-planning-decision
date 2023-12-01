@@ -1,3 +1,8 @@
+const { pickRandom, datesLastMonth, datesNextMonth } = require('./util');
+
+const pastDates = datesLastMonth();
+const futureDates = datesNextMonth();
+
 /**
  * @type {import('@prisma/client').Prisma.AppealUserCreateInput[]}
  */
@@ -19,6 +24,34 @@ const users = [
 ];
 
 /**
+ * @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]}
+ */
+const appeals = [
+	{
+		Appeal: {
+			connectOrCreate: {
+				where: { id: '756d6bfb-dde8-4532-a041-86c226a23a07' },
+				create: {}
+			}
+		},
+		caseReference: '1010101',
+		LPACode: 'Q9999',
+		LPAName: 'System Test Borough Council',
+		appealTypeCode: 'HAS',
+		appealTypeName: 'Householder',
+		decision: 'refused',
+		originalCaseDecisionDate: pickRandom(pastDates),
+		costsAppliedForIndicator: false,
+		LPAApplicationReference: '12/2323232/PLA',
+		siteAddressLine1: '123 Fake Street',
+		siteAddressTown: 'Testville',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		questionnaireDueDate: pickRandom(futureDates)
+	}
+];
+
+/**
  * @param {import('@prisma/client').PrismaClient} dbClient
  */
 async function seedDev(dbClient) {
@@ -29,6 +62,16 @@ async function seedDev(dbClient) {
 			where: { email: user.email }
 		});
 	}
+	for (const appeal of appeals) {
+		await dbClient.appealCase.upsert({
+			create: appeal,
+			update: appeal,
+			where: { caseReference: appeal.caseReference }
+		});
+	}
+
+	// todo: link some appellant/agent users to some appeals
+
 	// todo: seed more data needed for local dev
 	console.log('dev seed complete');
 }
