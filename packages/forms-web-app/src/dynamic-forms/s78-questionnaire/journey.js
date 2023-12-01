@@ -112,6 +112,7 @@ class S78Journey extends Journey {
 				.addQuestion(questions.statutoryConsultees)
 				.addQuestion(questions.consultationResponses)
 				.addQuestion(questions.consultationResponsesUpload)
+				.withCondition(questionHasAnswer(questions.consultationResponses, 'yes'))
 				.addQuestion(questions.representationsFromOthers)
 				.addQuestion(questions.representationUpload)
 				.withCondition(questionHasAnswer(questions.representationsFromOthers, 'yes')),
