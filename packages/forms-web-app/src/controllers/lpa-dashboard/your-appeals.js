@@ -2,11 +2,8 @@ const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const {
-	extractAppealNumber,
-	formatAddress,
-	formatAppealType,
-	isNewAppeal,
-	determineDocumentToDisplayLPADashboard
+	mapToLPADashboardDisplayData,
+	isToDoLPADashboard
 } = require('../../lib/dashboard-functions');
 
 const {
@@ -25,18 +22,29 @@ const getYourAppeals = async (req, res) => {
 
 	appealsCaseData = await getAppealsCaseData(user.lpaCode);
 
-	appealsCaseData.forEach((appeal) => {
-		appeal.appealNumber = extractAppealNumber(appeal.caseReference);
-		appeal.address = formatAddress(appeal);
-		appeal.appealType = formatAppealType(appeal.appealType);
-		appeal.nextDocumentDue = determineDocumentToDisplayLPADashboard(appeal);
-		appeal.isNewAppeal = isNewAppeal(appeal);
-	});
+	const displayDetails = appealsCaseData.map((appeal) => mapToLPADashboardDisplayData(appeal));
+
+	const { toDoAppeals, waitingForReviewAppeals } = displayDetails.reduce(
+		(acc, cur) => {
+			if (isToDoLPADashboard(cur)) {
+				return {
+					...acc,
+					toDoAppeals: [...acc.toDoAppeals, cur]
+				};
+			}
+			return {
+				...acc,
+				waitingForReviewAppeals: [...acc.waitingForReviewAppeals, cur]
+			};
+		},
+		{ toDoAppeals: [], waitingForReviewAppeals: [] }
+	);
 
 	return res.render(DASHBOARD, {
 		lpaName: user.lpaName,
 		addOrRemoveLink: `/${ADD_REMOVE_USERS}`,
-		appealsCaseData: appealsCaseData,
+		toDoAppeals: toDoAppeals,
+		waitingForReviewAppeals: waitingForReviewAppeals,
 		appealDetailsLink: `/${APPEAL_DETAILS}`,
 		appealQuestionnaireLink: baseHASUrl,
 		showQuestionnaire: await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, user.lpaCode)

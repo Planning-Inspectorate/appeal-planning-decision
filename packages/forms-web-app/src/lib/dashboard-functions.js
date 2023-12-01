@@ -38,6 +38,31 @@
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
 
+const mapToLPADashboardDisplayData = (appealCaseData) => {
+	return {
+		...appealCaseData,
+		appealNumber: extractAppealNumber(appealCaseData.caseReference),
+		address: formatAddress(appealCaseData),
+		appealType: formatAppealType(appealCaseData.appealType),
+		nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
+		isNewAppeal: isNewAppeal(appealCaseData)
+	};
+};
+
+const isToDoLPADashboard = (appeal) => {
+	if (
+		appeal.isNewAppeal ||
+		(appeal.nextDocumentDue &&
+			!(
+				appeal.nextDocumentDue.dueInDays < 0 &&
+				appeal.nextDocumentDue.documentDue !== 'Questionnaire'
+			))
+	) {
+		return true;
+	}
+	return false;
+};
+
 /**
  * @param {string} caseReference
  * @returns {string} returns the seven digit appeal number as a string string
@@ -152,5 +177,7 @@ module.exports = {
 	formatAddress,
 	formatAppealType,
 	isNewAppeal,
-	determineDocumentToDisplayLPADashboard
+	determineDocumentToDisplayLPADashboard,
+	mapToLPADashboardDisplayData,
+	isToDoLPADashboard
 };
