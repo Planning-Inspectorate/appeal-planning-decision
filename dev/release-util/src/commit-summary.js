@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 const { docopt } = require('docopt');
-const { exec } = require('child_process');
 const fs = require('fs/promises');
+const { runCommand } = require('./command');
 const { Commit } = require('./commit');
 const { JiraApi } = require('./jira-api');
 
@@ -38,7 +38,7 @@ async function run() {
 		.split('\n') // split into lines
 		.filter(Boolean); // filter out blank lines
 
-	const rows = [`commit,ticket,title,status,commit link`];
+	const rows = [`commit,ticket,title,parent,status,commit link`];
 	const tickets = new Map();
 	for await (const commitLine of commits) {
 		const commit = new Commit(commitLine);
@@ -51,7 +51,7 @@ async function run() {
 			continue;
 		}
 		const ticketNumber = commit.ticketNumber;
-		/** @type {IssueDetails} */
+		/** @type {import('./jira-api').IssueDetails} */
 		let details;
 		if (tickets.has(ticketNumber)) {
 			details = tickets.get(ticketNumber);
@@ -64,6 +64,7 @@ async function run() {
 				commit.message,
 				jira.issueLink(ticketNumber),
 				details.title,
+				details.parentTitle || '',
 				details.status,
 				commitLink(commit.has)
 			]
@@ -77,58 +78,6 @@ async function run() {
 		commits: commits.length,
 		tickets: tickets.size
 	});
-}
-
-/**
- * Run a command and resolves with stdout
- *
- * @param {string} cmd
- * @returns {Promise<string>}
- */
-function runCommand(cmd) {
-	return new Promise((resolve, reject) => {
-		exec(cmd, (error, stdout) => {
-			if (error) {
-				reject(error);
-			} else {
-				resolve(stdout);
-			}
-		});
-	});
-}
-
-/**
- * @typedef {Object} IssueDetails
- * @property {string} title
- * @property {string} status
- */
-
-/**
- * @param {string} id
- * @returns {Promise<IssueDetails>}
- */
-async function fetchIssue(id) {
-	const url = `${baseUrl}/rest/api/2/issue/${id}?fields=status,summary`;
-	console.log('GET', url);
-	const res = await fetch(url, {
-		headers: {
-			Authorization: 'Basic ' + auth
-		}
-	});
-	const json = await res.json();
-	return {
-		title: json.fields.summary,
-		status: json.fields.status.name
-	};
-}
-
-/**
- *
- * @param {string} id
- * @returns {string}
- */
-function issueLink(id) {
-	return `${baseUrl}/browse/${id}`;
 }
 
 /**
