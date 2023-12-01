@@ -1,0 +1,94 @@
+paths:
+  /api/v2/appeal-cases:
+    get:
+      description: List appeal cases. Either lpa-code or postcode is required.
+      parameters:
+          - $ref: '#/components/parameters/lpa-code'
+          - $ref: '#/components/parameters/decided-only'
+          - $ref: '#/components/parameters/postcode'
+      responses:
+        200:
+          description: List of appeal cases
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AppealCase'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appeal-cases/{caseReference}:
+    get:
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          example: '1010101'
+          description: appeal case reference
+      responses:
+        200:
+          description: Returns the appeal case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppealCase'
+        404:
+          description: Appeal not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appeal-cases/count:
+    get:
+      description: Count appeal cases.
+      parameters:
+          - $ref: '#/components/parameters/lpa-code'
+          - $ref: '#/components/parameters/decided-only'
+      responses:
+        200:
+          description: Number of appeal cases
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: number
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+components:
+  parameters:
+    lpa-code:
+      name: lpa-code
+      in: query
+      schema:
+        type: string
+      description: filter by LPA code
+    decided-only:
+      name: decided-only
+      in: query
+      schema:
+        type: string
+        enum: ['true']
+      description: Return only decided cases. If omitted, returns only cases not yet decided.
+    postcode:
+      name: postcode
+      in: query
+      schema:
+        type: string
+      examples:
+        half:
+          value: BS1
+        full:
+          value: BS1 6PN
+      description: full or half postcode to filter on

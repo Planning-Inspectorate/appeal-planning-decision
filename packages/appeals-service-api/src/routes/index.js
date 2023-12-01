@@ -41,4 +41,9 @@ for (const [url, handler] of Object.entries(v2Routes)) {
 	router.use(`/api/v2/${url}`, handler);
 }
 
+// v2 routes loaded from the file structure
+for (const [url, handler] of Object.entries(v2Routes)) {
+	router.use(`/api/v2/${url}`, handler);
+}
+
 module.exports = router;

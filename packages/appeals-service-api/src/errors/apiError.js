@@ -5,6 +5,14 @@ class ApiError {
 	}
 
 	// generic
+	/**
+	 * @param {number} code
+	 * @param {string} message
+	 */
+	static withMessage(code, message) {
+		return new ApiError(code, { errors: [message] });
+	}
+
 	static badRequest(msg) {
 		return new ApiError(400, msg);
 	}
