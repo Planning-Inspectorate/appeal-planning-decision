@@ -8,9 +8,7 @@
 	},
 	"description": "Appeal a planning decision - these are utility scripts for the whole repo",
 	"workspaces": [
-		"custom-eslint-rules/*",
-		"data",
-		"mocked-services/*",
+		"dev/*",
 		"packages/*",
 		"test-packages/*"
 	],
@@ -72,10 +70,11 @@
 		"@semantic-release/exec": "^6.0.3",
 		"commitizen": "^4.3.0",
 		"cz-conventional-changelog": "^3.3.0",
+		"dotenv-cli": "^7.3.0",
 		"eslint": "^8.17.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-cypress": "^2.12.1",
-		"eslint-plugin-enforce-catch-block-error-type-guards": "file:custom-eslint-rules/catch-blocks",
+		"eslint-plugin-enforce-catch-block-error-type-guards": "file:dev/eslint-custom-catch-blocks",
 		"eslint-plugin-jest": "^26.5.3",
 		"husky": "^8.0.0",
 		"jest": "^28.1.1",

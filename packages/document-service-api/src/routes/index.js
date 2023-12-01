@@ -5,7 +5,7 @@
  */
 
 const { Router } = require('express');
-const apiDocs = require('./apiDocs');
+const apiDocs = require('./api-docs');
 const application = require('./application');
 const migrateMetadata = require('./migrateMetadata');
 

@@ -1,0 +1,23 @@
+components:
+  examples:
+    documentUpload:
+      description: A sample file upload
+      value:
+        id: 78afb587-68ae-4961-a290-ba02193b9328
+        applicationId: 14/D/00217
+        name: site215-appeal-document.pdf
+        uploadDate: '2020-01-01T05:59:00Z'
+        mimeType: application/pdf
+        size: 748246
+    documentDownload:
+      description: An example of a document response returned from the API for a previously
+        uploaded and persisted document
+      value:
+        id: 30e8fb77-2f42-4aab-8e83-ed1e39e79c3e
+        applicationId: 14/D/00217
+        name: site0345d-barratt-appeal-document.pdf
+        uploadDate: '2020-01-01T05:59:00Z'
+        mimeType: application/pdf
+        blobStorageLocation: 1234567890/99c6cbd9-6c3d-4241-8d96-8765a6ecd700/sample-appeal-document.pdf
+        location: https://lpatest.blob.core.windows.net/pins-documents/site0345d-barratt-appeal-document.pdf
+        size: 2128246

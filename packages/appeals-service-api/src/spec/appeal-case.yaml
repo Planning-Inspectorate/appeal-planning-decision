@@ -1,0 +1,15 @@
+components:
+  schemas:
+    AppealCase:
+      description: An appeal case from the Back Office
+      type: object
+      required:
+        - id
+        - caseReference
+      properties:
+        id:
+          type: string
+        caseReference:
+          type: string
+          example: "6123456"
+        # todo: add properties from data model

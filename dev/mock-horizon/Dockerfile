@@ -1,8 +1,8 @@
 FROM node:18-alpine
 
 # copy app
-WORKDIR /opt/mocked-services/notify
-ADD mocked-services/notify .
+WORKDIR /opt/dev/mock-horizon
+ADD dev/mock-horizon .
 
 # copy workspace deps
 COPY package.json /opt/
@@ -12,6 +12,6 @@ COPY package-lock.json /opt/
 WORKDIR /opt
 RUN npm ci --omit=dev
 
-WORKDIR /opt/mocked-services/notify
+WORKDIR /opt/dev/mock-horizon
 
 CMD [ "npm", "start" ]

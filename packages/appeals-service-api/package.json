@@ -17,6 +17,8 @@
 		"db:generate": "npx prisma generate",
 		"db:seed": "npx prisma db seed",
 		"db:seed:prod": "npm run db:generate && node src/db/seed/seed-prod.js",
+		"db:setup:test": "docker-compose up -d test-mssql && sleep 5 && npm run db:generate && dotenv -e .env.test npm run db:migrate:dev",
+		"db:close:test": "docker-compose stop test-mssql",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
 		"start": "node ./",
@@ -25,7 +27,7 @@
 		"test": "jest",
 		"test:cov": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand",
-		"integration-test": "jest --config ./jest.developer-test.config.js"
+		"integration-test": "npm run db:setup:test && (jest --config ./jest.developer-test.config.js && npm run db:close:test) || npm run db:close:test"
 	},
 	"author": "Foundry4 <www.foundry4.com>",
 	"dependencies": {
@@ -64,6 +66,7 @@
 		"rhea": "^1.0.24",
 		"secure-pin": "^1.0.14",
 		"supertest": "^6.2.2",
+		"swagger-jsdoc": "^6.2.8",
 		"swagger-ui-express": "^4.3.0",
 		"uuid": "^8.3.1"
 	},

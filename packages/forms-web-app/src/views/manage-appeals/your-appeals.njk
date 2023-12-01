@@ -1,7 +1,98 @@
 {% extends "layouts/lpa-dashboard/main-no-back-link.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/tabs/macro.njk" import govukTabs %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
 
 {% set title="Manage your appeals - Manage appeals - GOV.UK" %}
+
+{% set toDoHtml %}
+<div>
+      <table class="govuk-table govuk-!-margin-top-3">
+        <caption class="govuk-table__caption govuk-table__caption--l">To do</caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Appeal number</th>
+            <th scope="col" class="govuk-table__header">Address</th>
+						<th scope="col" class="govuk-table__header">Appeal type</th>
+            <th scope="col" class="govuk-table__header">Deadline</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Due in</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">To do</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            {% for item in appealsCaseData %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                  <a href="{{appealDetailsLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                   {{item.appealNumber}}
+                  </a>
+                </td>
+                <td class="govuk-table__cell">{{item.address}}</td>
+								<td class="govuk-table__cell">{{item.appealType.short}}</td>
+                <td class="govuk-table__cell">{{item.questionnaireDueDate | date('D MMMM YYYY') }}</td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">
+                  {% if item.dueInDays < 0 %}
+                    <strong class='govuk-tag govuk-tag--red'>Overdue</strong>
+                  {% else %}
+                    {{item.dueInDays}}
+                    {% if item.dueInDays == 1 %}
+                      day
+                    {% else %}
+                      days
+                    {% endif %}
+                  {% endif %}
+                </td>
+                <td class="govuk-table__cell govuk-table__cell--numeric">
+                   {% if showQuestionnaire %}
+                      <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                        Questionnaire
+                        <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
+                      </a>
+                   {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+
+        </tbody>
+      </table>
+   </div>
+{% endset %}
+
+{% set waitingForReviewHtml %}
+<h2 class="govuk-heading-l">Waiting for review</h2>
+{{ govukTable({
+  head: [
+    {
+      text: "Appeal number"
+    },
+    {
+      text: "Address"
+    },
+    {
+      text: "Appeal type"
+    },
+		{
+      text: "Status"
+    }
+  ],
+  rows: [
+    [
+      {
+        text: "1"
+      },
+      {
+        text: "Somewhere"
+      },
+      {
+        text: "S78"
+      },
+			{
+        text: "Status"
+      }
+    ]
+  ]
+}) }}
+{% endset -%}
 
 {% block pageTitle %}
   {{ title }}
@@ -20,55 +111,27 @@
         <a href="{{addOrRemoveLink}}" class="govuk-link">Add and remove users</a>
       </p>
     </div>
-
-    <div class="govuk-grid-column-full">
-      <table class="govuk-table govuk-!-margin-top-3">
-        <caption class="govuk-table__caption govuk-table__caption--l">Appeals in progress</caption>
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header">Appeal number</th>
-            <th scope="col" class="govuk-table__header">Application number</th>
-            <th scope="col" class="govuk-table__header">Deadline</th>
-            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Due in</th>
-            <th scope="col" class="govuk-table__header govuk-table__header--numeric">To do</th>
-          </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-            {% for item in appealsCaseData %}
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">
-                  <a href="{{appealDetailsLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
-                    <span class="govuk-visually-hidden">Appeal details for </span>
-                   {{item.caseReference}}
-                  </a>
-                </td>
-                <td class="govuk-table__cell">{{item.LPAApplicationReference}}</td>
-                <td class="govuk-table__cell">{{item.questionnaireDueDate | date('D MMMM YYYY') }}</td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">
-                  {% if item.dueInDays < 0 %}
-                    <strong class='govuk-tag govuk-tag--red'>Overdue</strong>
-                  {% else %}
-                    {{item.dueInDays}} 
-                    {% if item.dueInDays == 1 %} 
-                      day 
-                    {% else %}
-                      days 
-                    {% endif %}
-                  {% endif %} 
-                </td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">
-                   {% if showQuestionnaire %} 
-                      <a href="{{appealQuestionnaireLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
-                        Questionnaire
-                        <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
-                      </a>
-                   {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-
-        </tbody>
-      </table>
-   </div>
   </div>
+
+	<div>
+		{{ govukTabs({
+  		items: [
+    		{
+      		label: "To do",
+      		id: "to-do",
+     			panel: {
+        		html: toDoHtml
+      		}
+    		},
+				{
+					label: "Waiting for review",
+					id: "waiting-for-review",
+					panel: {
+						html: waitingForReviewHtml
+					}
+				}
+  		]
+		}) }}
+	</div>
+
 {% endblock %}

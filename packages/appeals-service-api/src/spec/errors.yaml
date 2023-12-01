@@ -1,0 +1,7 @@
+components:
+  schemas:
+    ErrorBody:
+      type: array
+      items:
+        type: string
+

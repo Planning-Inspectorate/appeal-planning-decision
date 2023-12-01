@@ -1,6 +1,11 @@
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const {
+	extractAppealNumber,
+	formatAddress,
+	formatAppealType
+} = require('../../lib/dashboard-functions');
 
 const {
 	VIEW: {
@@ -21,6 +26,9 @@ const getYourAppeals = async (req, res) => {
 
 	appealsCaseData.forEach((appeal) => {
 		appeal.dueInDays = calculateDueInDays(appeal.questionnaireDueDate);
+		appeal.appealNumber = extractAppealNumber(appeal.caseReference);
+		appeal.address = formatAddress(appeal);
+		appeal.appealType = formatAppealType(appeal.appealType);
 	});
 
 	return res.render(DASHBOARD, {

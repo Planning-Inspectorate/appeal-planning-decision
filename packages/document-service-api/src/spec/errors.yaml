@@ -1,0 +1,32 @@
+components:
+  schemas:
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Meaningful error description
+    MigrateMetadataError:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Failed to migrate document ab575383-5c51-42d7-9c56-d2d21313d4fe - The specified blob does not exist.\nRequestId:112b0a60-1530-497e-8c9c-5b1a4519543c\nTime:2021-09-06T15:45:50.636Z
+  responses:
+    Error:
+      description: Error
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Error"
+          example:
+            message: Invalid mime type
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Error"
+          example:
+            message: Not found
+
