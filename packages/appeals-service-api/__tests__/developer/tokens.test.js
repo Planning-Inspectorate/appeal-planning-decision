@@ -3,17 +3,18 @@ const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
 const container = require('rhea');
 
-const app = require('../../../src/app');
-const appDbConnection = require('../../../src/db/db');
-const appConfiguration = require('../../../src/configuration/config');
-const { createPrismaClient } = require('../../../src/db/db-client');
+const app = require('../../src/app');
+const appDbConnection = require('../../src/db/db');
+const appConfiguration = require('../../src/configuration/config');
+const { createPrismaClient } = require('../../src/db/db-client');
 
-const MockedExternalApis = require('../external-dependencies/rest-apis/mocked-external-apis');
+const MockedExternalApis = require('./external-dependencies/rest-apis/mocked-external-apis');
 // const NotifyInteraction = require('../external-dependencies/rest-apis/interactions/notify-interaction');
-const AppealFixtures = require('../fixtures/appeals');
+const AppealFixtures = require('./fixtures/appeals');
 
-const { isFeatureActive } = require('../../../src/configuration/featureFlag');
+const { isFeatureActive } = require('../../src/configuration/featureFlag');
 const enterCodeConfig = require('@pins/common/src/enter-code-config');
+const { MILLISECONDS_BETWEEN_TOKENS } = require('../../src/controllers/token');
 
 let sqlClient;
 let appealsApi;
@@ -22,8 +23,8 @@ let mockedExternalApis;
 // let expectedNotifyInteractions;
 
 jest.setTimeout(140000);
-jest.mock('../../../src/db/db');
-jest.mock('../../../src/configuration/featureFlag');
+jest.mock('../../src/db/db');
+jest.mock('../../src/configuration/featureFlag');
 
 // const { AppealUserRepository } = require('../../../src/repositories/sql/appeal-user-repository');
 // const ApiError = require('../../../src/errors/apiError');
@@ -147,20 +148,34 @@ describe('tokens v2', () => {
 			// expectedNotifyInteractions = [emailToLpaInteraction];
 		});
 
-		it('should create new appeal user and token from appeal id', async () => {
+		it('should avoid sending multiple tokens in quick succession', async () => {
 			const tokenResponse = await appealsApi.put('/api/v2/token').send({
 				id: TEST_APPEAL.id,
 				action: enterCodeConfig.actions.saveAndReturn
 			});
-
-			expect(tokenResponse.status).toBe(200);
-
-			const appealUser = await sqlClient.appealUser.findFirst();
 			const securityToken = await sqlClient.securityToken.findFirst();
 
-			expect(appealUser?.email).toEqual(TEST_APPEAL.email);
-			expect(appealUser?.isEnrolled).toEqual(false);
-			expect(securityToken?.appealUserId).toEqual(appealUser?.id);
+			const tokenResponse2 = await appealsApi.put('/api/v2/token').send({
+				id: TEST_APPEAL.id,
+				action: enterCodeConfig.actions.saveAndReturn
+			});
+			const securityToken2 = await sqlClient.securityToken.findFirst();
+
+			await new Promise((resolve) => {
+				setTimeout(resolve, MILLISECONDS_BETWEEN_TOKENS);
+			});
+
+			const tokenResponse3 = await appealsApi.put('/api/v2/token').send({
+				id: TEST_APPEAL.id,
+				action: enterCodeConfig.actions.saveAndReturn
+			});
+			const securityToken3 = await sqlClient.securityToken.findFirst();
+
+			expect(tokenResponse.status).toBe(200);
+			expect(tokenResponse2.status).toBe(200);
+			expect(tokenResponse3.status).toBe(200);
+			expect(securityToken).toEqual(securityToken2);
+			expect(securityToken).not.toEqual(securityToken3);
 		});
 
 		it('should create token for existing user from appeal id', async () => {
@@ -240,6 +255,10 @@ describe('tokens v2', () => {
 	});
 
 	describe('post', () => {
+		const invalidTokenResponseBody = {
+			code: 400,
+			errors: ['Invalid Token']
+		};
 		it('should check token by appeal id', async () => {
 			await appealsApi.put('/api/v2/token').send({
 				id: TEST_APPEAL.id,
@@ -277,9 +296,9 @@ describe('tokens v2', () => {
 			});
 			const appealUser = await sqlClient.appealUser.findFirst();
 
-			expect(tokenResponse.status).toBe(200);
+			expect(tokenResponse.status).toBe(400);
 			expect(appealUser?.isEnrolled).toEqual(false);
-			expect(tokenResponse.body).toEqual({});
+			expect(tokenResponse.body).toEqual(invalidTokenResponseBody);
 		});
 
 		it('should check token by email', async () => {
@@ -328,9 +347,9 @@ describe('tokens v2', () => {
 
 			appealUser = await sqlClient.appealUser.findFirst();
 
-			expect(tokenResponse.status).toBe(200);
+			expect(tokenResponse.status).toBe(400);
 			expect(appealUser?.isEnrolled).toEqual(false);
-			expect(tokenResponse.body).toEqual({});
+			expect(tokenResponse.body).toEqual(invalidTokenResponseBody);
 		});
 
 		it('should 429 for too many attempts', async () => {
@@ -357,20 +376,21 @@ describe('tokens v2', () => {
 			});
 			const securityToken = await sqlClient.securityToken.findFirst();
 
+			// 4th attempt should 429
+			expect(securityToken?.attempts).toEqual(4);
+			expect(tokenResponse1.status).toBe(400);
+			expect(tokenResponse2.status).toBe(400);
+			expect(tokenResponse3.status).toBe(400);
+			expect(tokenResponse4.status).toBe(429);
+			expect(tokenResponse1.body).toEqual(invalidTokenResponseBody);
+			expect(tokenResponse4.body).toEqual({});
+
+			// check subsequent attempts have the same result
 			const tokenResponse5 = await appealsApi.post('/api/v2/token').send({
 				id: TEST_APPEAL.id,
 				token: securityToken?.token
 			});
-
-			expect(securityToken?.attempts).toEqual(4);
-
-			expect(tokenResponse1.status).toBe(200);
-			expect(tokenResponse2.status).toBe(200);
-			expect(tokenResponse3.status).toBe(200);
-			expect(tokenResponse4.status).toBe(429);
 			expect(tokenResponse5.status).toBe(429);
-			expect(tokenResponse1.body).toEqual({});
-			expect(tokenResponse4.body).toEqual({});
 			expect(tokenResponse5.body).toEqual({});
 		});
 

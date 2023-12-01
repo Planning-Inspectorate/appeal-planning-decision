@@ -1,0 +1,83 @@
+paths:
+  /api/v2/token:
+    put:
+      tags:
+        - token
+      description: create or update a token for an appeal/user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - action
+              properties:
+                action:
+                  type: string
+                  example: confirmEmail
+              oneOf:
+                - properties:
+                    id:
+                      description: appeal id
+                      type: string
+                - properties:
+                    email:
+                      description: email of user
+                      type: string
+                      example: test@example.com
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        404:
+          description: Appeal/User not found
+          schema:
+            $ref: '#/components/schemas/ErrorBody'
+        500:
+          description: Something went wrong
+    post:
+      tags:
+        - token
+      description: check token against token in db
+      type: object
+      required:
+        - token
+        - action
+      properties:
+        id:
+          type: string
+        token:
+          type: string
+          example: '12345'
+        action:
+          type: string
+          example: 'confirmEmail'
+      responses:
+        200:
+          description: Confirmation of token check
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  action:
+                    type: string
+                    example: confirmEmail
+        400:
+          description: Invalid token
+          schema:
+            $ref: '#/components/schemas/ErrorBody'
+        404:
+          description: Appeal/User not found
+          schema:
+            $ref: '#/components/schemas/ErrorBody'
+        429:
+          description: Too many attempts, new token needed
+          schema:
+            $ref: '#/components/schemas/ErrorBody'
+        500:
+          description: Something went wrong

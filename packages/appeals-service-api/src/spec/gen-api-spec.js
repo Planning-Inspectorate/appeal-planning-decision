@@ -15,7 +15,12 @@ const options = {
 			name: 'MIT',
 			url: 'https://opensource.org/licenses/MIT'
 		},
-		servers: [{ url: 'http://localhost:3000/', description: 'local dev' }]
+		servers: [{ url: 'http://localhost:3000/', description: 'local dev' }],
+		tags: [
+			{
+				name: 'token'
+			}
+		]
 	},
 	// files containing annotations and any other yaml files that can be included
 	apis: ['./src/routes/**/*.js', './src/routes/**/*.yaml', './src/spec/*.yaml']

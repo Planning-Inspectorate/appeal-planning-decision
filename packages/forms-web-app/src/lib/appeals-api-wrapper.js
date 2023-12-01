@@ -117,11 +117,16 @@ exports.saveAppeal = async (appeal) => {
 	return handler(`/api/v1/save`, 'POST', { body: JSON.stringify(appeal) });
 };
 
+/**
+ * @param {string} id - appealId
+ * @param {string} action - enter code action
+ * @param {string} [emailAddress] - email address of user
+ * @returns { Promise<void> }
+ */
 exports.sendToken = async (id, action, emailAddress) => {
-	const useV2 = await isFeatureActive(FLAG.ENROL_USERS);
-	const v = useV2 ? 'v2' : 'v1';
+	const version = await getTokenEndpointVersion();
 
-	return handler(`/api/${v}/token/`, 'PUT', {
+	return handler(`/api/${version}/token/`, 'PUT', {
 		body: JSON.stringify({
 			id: id,
 			action: action,
@@ -130,11 +135,23 @@ exports.sendToken = async (id, action, emailAddress) => {
 	});
 };
 
-exports.checkToken = async (id, token, emailAddress) => {
-	const useV2 = await isFeatureActive(FLAG.ENROL_USERS);
-	const v = useV2 ? 'v2' : 'v1';
+/**
+ * @typedef TokenCheckResult Result of a token check
+ * @property {string} [id] - appealId
+ * @property {string} action - enter code action
+ * @property {string} createdAt - Time Token created
+ */
 
-	return handler(`/api/${v}/token/`, 'POST', {
+/**
+ * @param {string} id - appealId
+ * @param {string} token - token user supplied
+ * @param {string} [emailAddress] - email address of user
+ * @returns { Promise<TokenCheckResult> }
+ */
+exports.checkToken = async (id, token, emailAddress) => {
+	const version = await getTokenEndpointVersion();
+
+	return handler(`/api/${version}/token/`, 'POST', {
 		body: JSON.stringify({
 			id,
 			token,
@@ -253,4 +270,9 @@ exports.errorMessages = {
 	user: {
 		only1Admin: 'Only 1 admin is allowed at a time'
 	}
+};
+
+const getTokenEndpointVersion = async () => {
+	const useV2 = await isFeatureActive(FLAG.ENROL_USERS);
+	return useV2 ? 'v2' : 'v1';
 };
