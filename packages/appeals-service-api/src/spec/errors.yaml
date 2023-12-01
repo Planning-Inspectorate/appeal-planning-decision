@@ -1,7 +1,12 @@
 components:
   schemas:
     ErrorBody:
-      type: array
-      items:
-        type: string
+      type: object
+      properties:
+        code:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
 
