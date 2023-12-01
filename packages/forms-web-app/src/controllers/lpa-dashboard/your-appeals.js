@@ -22,23 +22,25 @@ const getYourAppeals = async (req, res) => {
 
 	appealsCaseData = await getAppealsCaseData(user.lpaCode);
 
-	const displayDetails = appealsCaseData.map((appeal) => mapToLPADashboardDisplayData(appeal));
-
-	const { toDoAppeals, waitingForReviewAppeals } = displayDetails.reduce(
-		(acc, cur) => {
-			if (isToDoLPADashboard(cur)) {
+	const { toDoAppeals, waitingForReviewAppeals } = appealsCaseData
+		.map((appeal) => mapToLPADashboardDisplayData(appeal))
+		.reduce(
+			(acc, cur) => {
+				if (isToDoLPADashboard(cur)) {
+					return {
+						...acc,
+						toDoAppeals: [...acc.toDoAppeals, cur]
+					};
+				}
 				return {
 					...acc,
-					toDoAppeals: [...acc.toDoAppeals, cur]
+					waitingForReviewAppeals: [...acc.waitingForReviewAppeals, cur]
 				};
-			}
-			return {
-				...acc,
-				waitingForReviewAppeals: [...acc.waitingForReviewAppeals, cur]
-			};
-		},
-		{ toDoAppeals: [], waitingForReviewAppeals: [] }
-	);
+			},
+			{ toDoAppeals: [], waitingForReviewAppeals: [] }
+		);
+
+	toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
 
 	return res.render(DASHBOARD, {
 		lpaName: user.lpaName,

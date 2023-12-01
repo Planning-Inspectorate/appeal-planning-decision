@@ -52,7 +52,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => {
 const isToDoLPADashboard = (appeal) => {
 	if (
 		appeal.isNewAppeal ||
-		(appeal.nextDocumentDue &&
+		(appeal.nextDocumentDue.documentDue &&
 			!(
 				appeal.nextDocumentDue.dueInDays < 0 &&
 				appeal.nextDocumentDue.documentDue !== 'Questionnaire'
@@ -136,6 +136,12 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 			documentDue: 'Proofs of Evidence'
 		};
 	}
+
+	return {
+		deadline: '',
+		dueInDays: 1000000,
+		documentDue: ''
+	};
 };
 
 // Helper functions, not exported, potential for refactoring as repetitive
