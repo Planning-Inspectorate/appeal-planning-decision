@@ -13,6 +13,8 @@ const ApiError = require('../errors/apiError');
 
 const appealUserRepository = new AppealUserRepository();
 
+const MILLISECONDS_BETWEEN_TOKENS = 10_000;
+
 /**
  * sends a code to user email
  * @type {import('express').Handler}
@@ -29,9 +31,8 @@ async function tokenPut(req, res) {
 	const tokenCreatedAt = await getTokenDocumentCreatedAt(id);
 
 	if (tokenCreatedAt) {
-		const timeSinceTokenCreatedInSeconds =
-			(new Date().getTime() - new Date(tokenCreatedAt).getTime()) / 1000;
-		if (timeSinceTokenCreatedInSeconds < 10) {
+		const secondsSinceTokenCreation = getMilliSecondsSinceDate(tokenCreatedAt);
+		if (secondsSinceTokenCreation < MILLISECONDS_BETWEEN_TOKENS) {
 			res.status(200).send({});
 			return;
 		}
@@ -54,9 +55,14 @@ async function tokenPutV2(req, res) {
 	let user;
 
 	if (!emailAddress) {
+		// look up email from appeal
 		const savedAppeal = await getAppeal(id);
 		emailAddress = savedAppeal.email;
+
+		// check if user exists already
 		user = await appealUserRepository.getByEmail(emailAddress);
+
+		// create new user for email in appeal
 		if (!user) {
 			user = await appealUserRepository.createUser({
 				email: emailAddress,
@@ -74,9 +80,9 @@ async function tokenPutV2(req, res) {
 	const tokenCreatedAt = await getTokenCreatedAt(user.id);
 
 	if (tokenCreatedAt) {
-		const timeSinceTokenCreatedInSeconds =
-			(new Date().getTime() - new Date(tokenCreatedAt).getTime()) / 1000;
-		if (timeSinceTokenCreatedInSeconds < 10) {
+		// to avoid issue with multiple requests sending multiple emails
+		const secondsSinceTokenCreation = getMilliSecondsSinceDate(tokenCreatedAt);
+		if (secondsSinceTokenCreation < MILLISECONDS_BETWEEN_TOKENS) {
 			res.status(200).send({});
 			return;
 		}
@@ -86,6 +92,14 @@ async function tokenPutV2(req, res) {
 	await sendSecurityCodeEmail(emailAddress, token, id);
 
 	res.status(200).send({});
+}
+
+/**
+ * @param {Date} date
+ * @returns {number}
+ */
+function getMilliSecondsSinceDate(date) {
+	return new Date().getTime() - new Date(date).getTime();
 }
 
 /**
@@ -142,8 +156,7 @@ async function tokenPostV2(req, res) {
 	const securityToken = await getTokenIfExists(user.id);
 
 	if (!securityToken) {
-		res.status(200).send({});
-		return;
+		throw ApiError.invalidToken();
 	}
 
 	if (securityToken.attempts && securityToken.attempts > 3) {
@@ -152,11 +165,11 @@ async function tokenPostV2(req, res) {
 	}
 
 	if (securityToken.token !== token) {
-		res.status(200).send({});
-		return;
+		throw ApiError.invalidToken();
 	}
 
-	if (user && !user.isEnrolled) {
+	// user has confirmed email for first time so set enrolled flag
+	if (!user.isEnrolled) {
 		user.isEnrolled = true;
 		await appealUserRepository.updateUser(user);
 	}
@@ -172,5 +185,6 @@ module.exports = {
 	tokenPut,
 	tokenPutV2,
 	tokenPost,
-	tokenPostV2
+	tokenPostV2,
+	MILLISECONDS_BETWEEN_TOKENS
 };

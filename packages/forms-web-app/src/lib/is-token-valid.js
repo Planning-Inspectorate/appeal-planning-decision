@@ -32,6 +32,12 @@ const getToken = async (id, token, emailAddress, session) => {
 				action: session?.enterCode?.action,
 				tooManyAttempts: true
 			};
+		} else if (err.message === 'Invalid Token') {
+			return {
+				valid: false,
+				action: session?.enterCode?.action,
+				tooManyAttempts: false
+			};
 		} else {
 			throw err;
 		}
