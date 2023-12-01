@@ -136,15 +136,82 @@ model AppealToUserRole {
 
 /// AppealCase represents an Appeal from the Back Office, and follows the PINS Data Model
 /// Cases aren't linked to users directly, but there's a 1:1 mapping to Appeal, which has a link to user
+// NOTE: field names match the model rather than the usual camelCase. This avoids extra mapping.
 model AppealCase {
   /// this ID is for front office only and won't correlate to other systems
-  id            String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  //***************************************************************************
+  // general fields
+  //***************************************************************************
+
   /// unique case reference
   caseReference String @unique
+  LPACode       String
 
-  // todo: more fields!
+  //***************************************************************************
+  // appellant case fields
+  //***************************************************************************
+
+  LPAName                  String
+  appealTypeCode           String // type shortcode such as HAS or S78
+  appealTypeName           String // type name such as Householder or Full Planning
+  decision                 String
+  originalCaseDecisionDate DateTime
+  costsAppliedForIndicator Boolean
+  LPAApplicationReference  String
+
+  siteAddressLine1    String
+  siteAddressLine2    String?
+  siteAddressTown     String?
+  siteAddressCounty   String?
+  siteAddressPostcode String
+
+  //***************************************************************************
+  // LPA questionnaire fields
+  //***************************************************************************
+
+  questionnaireDueDate  DateTime?
+  questionnaireReceived DateTime?
+
+  doesAffectAScheduledMonument Boolean?
+
+  //***************************************************************************
+  // case dates
+  //***************************************************************************
+
+  receiptDate                DateTime?
+  startDate                  DateTime?
+  appealValidDate            DateTime?
+  caseDecisionDate           DateTime?
+  interestedPartyRepsDueDate DateTime?
+
+  // statement
+  statementDueDate            DateTime?
+  appellantStatementForwarded DateTime?
+  appellantStatementSubmitted DateTime?
+  LPAStatementForwarded       DateTime?
+  LPAStatementSubmitted       DateTime?
+
+  // comments
+  finalCommentsDueDate       DateTime?
+  appellantCommentsForwarded DateTime?
+  appellantCommentsSubmitted DateTime?
+  LPACommentsForwarded       DateTime?
+  LPACommentsSubmitted       DateTime?
+
+  // proofs of evidence
+  proofsOfEvidenceDueDate   DateTime?
+  appellantsProofsForwarded DateTime?
+  appellantsProofsSubmitted DateTime?
+  LPAProofsForwarded        DateTime?
+  LPAProofsSubmitted        DateTime?
+
+  // todo: there are many more fields! waiting on the model definition
 
   /// link to root Appeal
   appealId String @unique @db.UniqueIdentifier
   Appeal   Appeal @relation(fields: [appealId], references: [id])
+
+  // todo: indexes
 }
