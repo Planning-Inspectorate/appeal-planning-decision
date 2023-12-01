@@ -16,5 +16,5 @@ components:
           type: string
           format: date-time
         lpaCode:
-          type: 
+          type: string
         # todo: add existing properties
