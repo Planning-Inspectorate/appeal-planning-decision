@@ -1,6 +1,10 @@
+const { createToken } = require('../../../lib/token');
 const { createPrismaClient } = require('../../../db/db-client');
 
+const MILLISECONDS_BETWEEN_TOKENS = 10_000;
+
 /**
+ * @typedef { import("@prisma/client").PrismaClient } PrismaClient
  * @typedef { import("@prisma/client").SecurityToken } SecurityToken
  * @typedef { import("@prisma/client").Prisma.SecurityTokenCreateInput } SecurityTokenCreateInput
  */
@@ -16,22 +20,52 @@ class TokenRepository {
 	 * Upsert a new SecurityToken
 	 * @param {string} appealUserId
 	 * @param {string} action
-	 * @param {string} token
-	 * @returns {Promise<SecurityToken>}
+	 * @returns {Promise<string|null>}
 	 */
-	async create(appealUserId, action, token) {
-		const securityToken = {
-			token: token,
-			action: action,
-			attempts: 0,
-			tokenGeneratedAt: new Date()
-		};
+	async createOrUpdate(appealUserId, action) {
+		return this.dbClient.$transaction(async (tx) => {
+			const tokenCreatedAt = await tx.securityToken.findUnique({
+				where: { appealUserId: appealUserId },
+				select: {
+					tokenGeneratedAt: true
+				}
+			});
 
-		return this.dbClient.securityToken.upsert({
-			create: { ...securityToken, appealUserId: appealUserId },
-			update: { ...securityToken },
-			where: { appealUserId: appealUserId }
+			if (tokenCreatedAt) {
+				// to avoid issue with multiple requests sending multiple emails
+				const milliSecondsSinceTokenCreation = this.#getMilliSecondsSinceDate(
+					tokenCreatedAt.tokenGeneratedAt
+				);
+				if (milliSecondsSinceTokenCreation < MILLISECONDS_BETWEEN_TOKENS) {
+					return null;
+				}
+			}
+
+			const token = createToken();
+
+			const securityToken = {
+				token: token,
+				action: action,
+				attempts: 0,
+				tokenGeneratedAt: new Date()
+			};
+
+			const tokenResult = await tx.securityToken.upsert({
+				create: { ...securityToken, appealUserId: appealUserId },
+				update: { ...securityToken },
+				where: { appealUserId: appealUserId }
+			});
+
+			return tokenResult.token;
 		});
+	}
+
+	/**
+	 * @param {Date} date
+	 * @returns {number}
+	 */
+	#getMilliSecondsSinceDate(date) {
+		return new Date().getTime() - new Date(date).getTime();
 	}
 
 	/**
@@ -48,22 +82,6 @@ class TokenRepository {
 			},
 			where: { appealUserId: appealUserId }
 		});
-	}
-
-	/**
-	 * Get a token's createdAt date or undefined if one doesn't exist
-	 * @param {string} appealUserId
-	 * @returns {Promise<Date|undefined>}
-	 */
-	async getCreatedDate(appealUserId) {
-		const result = await this.dbClient.securityToken.findUnique({
-			where: { appealUserId: appealUserId },
-			select: {
-				tokenGeneratedAt: true
-			}
-		});
-
-		return result?.tokenGeneratedAt;
 	}
 }
 
