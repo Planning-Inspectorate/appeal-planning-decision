@@ -14,7 +14,7 @@ const AppealFixtures = require('./fixtures/appeals');
 
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 const enterCodeConfig = require('@pins/common/src/enter-code-config');
-const { MILLISECONDS_BETWEEN_TOKENS } = require('../../src/controllers/token');
+const { MILLISECONDS_BETWEEN_TOKENS } = require('../../src/routes/v2/token/controller');
 
 let sqlClient;
 let appealsApi;
@@ -53,7 +53,7 @@ beforeAll(async () => {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	});
-	let mockedDatabase = await databaseConnection.db('bar');
+	let mockedDatabase = await databaseConnection.db('integration-test-tokens-db');
 	appDbConnection.get.mockReturnValue(mockedDatabase);
 
 	const test_listener = container.create_container();
