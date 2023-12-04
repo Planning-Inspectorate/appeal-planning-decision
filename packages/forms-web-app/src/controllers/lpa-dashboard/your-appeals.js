@@ -27,15 +27,11 @@ const getYourAppeals = async (req, res) => {
 		.reduce(
 			(acc, cur) => {
 				if (isToDoLPADashboard(cur)) {
-					return {
-						...acc,
-						toDoAppeals: [...acc.toDoAppeals, cur]
-					};
+					acc.toDoAppeals.push(cur);
+				} else {
+					acc.waitingForReviewAppeals.push(cur);
 				}
-				return {
-					...acc,
-					waitingForReviewAppeals: [...acc.waitingForReviewAppeals, cur]
-				};
+				return acc;
 			},
 			{ toDoAppeals: [], waitingForReviewAppeals: [] }
 		);
