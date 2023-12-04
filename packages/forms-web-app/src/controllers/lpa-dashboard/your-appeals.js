@@ -23,7 +23,7 @@ const getYourAppeals = async (req, res) => {
 	appealsCaseData = await getAppealsCaseData(user.lpaCode);
 
 	const { toDoAppeals, waitingForReviewAppeals } = appealsCaseData
-		.map((appeal) => mapToLPADashboardDisplayData(appeal))
+		.map(mapToLPADashboardDisplayData)
 		.reduce(
 			(acc, cur) => {
 				if (isToDoLPADashboard(cur)) {

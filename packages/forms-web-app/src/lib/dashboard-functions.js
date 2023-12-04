@@ -44,29 +44,33 @@ const statementBaseUrl = '/manage-appeals/appeal-statement';
 const finalCommentBaseUrl = '/manage-appeals/appeal-comment';
 const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
 
-const mapToLPADashboardDisplayData = (appealCaseData) => {
-	return {
-		...appealCaseData,
-		appealNumber: extractAppealNumber(appealCaseData.caseReference),
-		address: formatAddress(appealCaseData),
-		appealType: formatAppealType(appealCaseData.appealType),
-		nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
-		isNewAppeal: isNewAppeal(appealCaseData)
-	};
-};
+const mapToLPADashboardDisplayData = (appealCaseData) => ({
+	...appealCaseData,
+	appealNumber: extractAppealNumber(appealCaseData.caseReference),
+	address: formatAddress(appealCaseData),
+	appealType: formatAppealType(appealCaseData.appealType),
+	nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
+	isNewAppeal: isNewAppeal(appealCaseData)
+});
 
 const isToDoLPADashboard = (appeal) => {
-	if (
-		appeal.isNewAppeal ||
-		(appeal.nextDocumentDue.documentDue &&
-			!(
-				appeal.nextDocumentDue.dueInDays < 0 &&
-				appeal.nextDocumentDue.documentDue !== 'Questionnaire'
-			))
-	) {
-		return true;
-	}
-	return false;
+	return appeal.isNewAppeal || displayDocumentOnToDo(appeal.nextDocumentDue);
+};
+
+/**
+ * @param {DueDocumentType} dueDocument
+ * @returns {boolean}
+ */
+const displayDocumentOnToDo = (dueDocument) => {
+	return dueDocument.documentDue && !overdueDocumentNotToBeDisplayed(dueDocument);
+};
+
+/**
+ * @param {DueDocumentType} dueDocument
+ * @returns {boolean}
+ */
+const overdueDocumentNotToBeDisplayed = (dueDocument) => {
+	return dueDocument.dueInDays < 0 && dueDocument.documentDue !== 'Questionnaire';
 };
 
 /**
