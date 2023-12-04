@@ -1,5 +1,5 @@
-const { createToken } = require('../../../lib/token');
-const { createPrismaClient } = require('../../../db/db-client');
+const { createToken } = require('#lib/token');
+const { createPrismaClient } = require('#db-client');
 
 const MILLISECONDS_BETWEEN_TOKENS = 10_000;
 
@@ -22,7 +22,7 @@ class TokenRepository {
 	 * @param {string} action
 	 * @returns {Promise<string|null>}
 	 */
-	async createOrUpdate(appealUserId, action) {
+	createOrUpdate(appealUserId, action) {
 		return this.dbClient.$transaction(async (tx) => {
 			const tokenCreatedAt = await tx.securityToken.findUnique({
 				where: { appealUserId: appealUserId },
@@ -73,8 +73,8 @@ class TokenRepository {
 	 * @param {string} appealUserId
 	 * @returns {Promise<SecurityToken|null>}
 	 */
-	async getByUserId(appealUserId) {
-		return await this.dbClient.securityToken.update({
+	getByUserId(appealUserId) {
+		return this.dbClient.securityToken.update({
 			data: {
 				attempts: {
 					increment: 1

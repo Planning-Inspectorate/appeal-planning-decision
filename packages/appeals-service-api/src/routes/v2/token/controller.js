@@ -1,9 +1,9 @@
-const ApiError = require('../../../errors/apiError');
-const { sendSecurityCodeEmail } = require('../../../lib/notify');
+const ApiError = require('#errors/apiError');
+const { sendSecurityCodeEmail } = require('#lib/notify');
 const { getAppeal } = require('../../../services/appeal.service');
 
 const TokenRepository = require('./repo');
-const { AppealUserRepository } = require('../../../repositories/sql/appeal-user-repository');
+const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
 const appealUserRepository = new AppealUserRepository();
 const tokenRepo = new TokenRepository();
 
