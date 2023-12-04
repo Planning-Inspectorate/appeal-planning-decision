@@ -41,7 +41,7 @@ const createOrUpdateTokenDocument = async (id, action) => {
 const getTokenDocumentIfExists = async (id) => {
 	let saved = null;
 
-	// fallback to mongo
+	// look up by id and update attempts count
 	await mongodb
 		.get()
 		.collection('securityToken')
