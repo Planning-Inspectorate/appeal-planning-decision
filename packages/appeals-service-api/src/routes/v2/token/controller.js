@@ -1,73 +1,37 @@
-const {
-	createOrUpdateToken,
-	getTokenIfExists,
-	getTokenCreatedAt
-} = require('../../../services/token.service');
-const { getAppeal } = require('../../..//services/appeal.service');
-const { sendSecurityCodeEmail } = require('../../../lib/notify');
-const { AppealUserRepository } = require('../../../repositories/sql/appeal-user-repository');
 const ApiError = require('../../../errors/apiError');
+const { sendSecurityCodeEmail } = require('../../../lib/notify');
+const { getAppeal } = require('../../../services/appeal.service');
 
+const TokenRepository = require('./repo');
+const { AppealUserRepository } = require('../../../repositories/sql/appeal-user-repository');
 const appealUserRepository = new AppealUserRepository();
+const tokenRepo = new TokenRepository();
 
 const MILLISECONDS_BETWEEN_TOKENS = 10_000;
+
+/**
+ * @typedef { import("@prisma/client").AppealUser } AppealUser
+ */
 
 /**
  * sends a code to user email
  * @type {import('express').Handler}
  */
 async function tokenPutV2(req, res) {
-	const { id, action } = req.body;
-	let { emailAddress } = req.body;
+	const { id, action, emailAddress } = req.body;
 
-	let user;
-
-	if (!emailAddress) {
-		// look up email from appeal
-		const savedAppeal = await getAppeal(id);
-		emailAddress = savedAppeal.email;
-
-		// check if user exists already
-		user = await appealUserRepository.getByEmail(emailAddress);
-
-		// create new user for email in appeal
-		if (!user) {
-			user = await appealUserRepository.createUser({
-				email: emailAddress,
-				isEnrolled: false
-			});
-		}
-	} else {
-		user = await appealUserRepository.getByEmail(emailAddress);
-	}
-
+	const user = await getUser(emailAddress, id, true);
 	if (!user) {
 		throw ApiError.userNotFound();
 	}
 
-	const tokenCreatedAt = await getTokenCreatedAt(user.id);
+	const token = await tokenRepo.createOrUpdate(user.id, action);
 
-	if (tokenCreatedAt) {
-		// to avoid issue with multiple requests sending multiple emails
-		const secondsSinceTokenCreation = getMilliSecondsSinceDate(tokenCreatedAt);
-		if (secondsSinceTokenCreation < MILLISECONDS_BETWEEN_TOKENS) {
-			res.status(200).send({});
-			return;
-		}
+	if (token) {
+		await sendSecurityCodeEmail(user.email, token, user.id);
 	}
 
-	const token = await createOrUpdateToken(user.id, action);
-	await sendSecurityCodeEmail(emailAddress, token, id);
-
 	res.status(200).send({});
-}
-
-/**
- * @param {Date} date
- * @returns {number}
- */
-function getMilliSecondsSinceDate(date) {
-	return new Date().getTime() - new Date(date).getTime();
 }
 
 /**
@@ -77,20 +41,13 @@ function getMilliSecondsSinceDate(date) {
 async function tokenPostV2(req, res) {
 	const { token, emailAddress } = req.body;
 	const { id } = req.body;
-	let user;
 
-	if (emailAddress) {
-		user = await appealUserRepository.getByEmail(emailAddress);
-	} else {
-		const savedAppeal = await getAppeal(id);
-		user = await appealUserRepository.getByEmail(savedAppeal.email);
-	}
-
+	const user = await getUser(emailAddress, id);
 	if (!user) {
 		throw ApiError.userNotFound();
 	}
 
-	const securityToken = await getTokenIfExists(user.id);
+	const securityToken = await tokenRepo.getByUserId(user.id);
 
 	if (!securityToken) {
 		throw ApiError.invalidToken();
@@ -116,6 +73,31 @@ async function tokenPostV2(req, res) {
 		action: securityToken?.action,
 		createdAt: securityToken?.tokenGeneratedAt
 	});
+}
+
+/**
+ * gets a user by either email or looks up the user associated with an appeal
+ * @param {string} emailAddress - user email
+ * @param {string} id - appeal id
+ * @param {boolean} [createUserFromAppealIfMissing]
+ * @returns {Promise<AppealUser|null>}
+ */
+async function getUser(emailAddress, id, createUserFromAppealIfMissing = false) {
+	if (emailAddress) {
+		return await appealUserRepository.getByEmail(emailAddress);
+	}
+
+	const savedAppeal = await getAppeal(id);
+	const appealUser = await appealUserRepository.getByEmail(savedAppeal.email);
+
+	if (!appealUser && createUserFromAppealIfMissing) {
+		return await appealUserRepository.createUser({
+			email: savedAppeal.email,
+			isEnrolled: false
+		});
+	}
+
+	return appealUser;
 }
 
 module.exports = {
