@@ -27,13 +27,13 @@ parameters:
     type: boolean
     default: false
   - name: buildWeb
-    displayName: Build Web
+    displayName: Build Web Appeal
     type: boolean
     default: true
   - name: buildWebComment
     displayName: Build Web Comment
     type: boolean
-    default: false
+    default: true
 
 resources:
   repositories:

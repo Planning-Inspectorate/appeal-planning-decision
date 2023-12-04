@@ -21,13 +21,13 @@ parameters:
     type: boolean
     default: false
   - name: deployWeb
-    displayName: Deploy Web
+    displayName: Deploy Web Appeal
     type: boolean
     default: true
   - name: deployWebComment
     displayName: Deploy Web Comment
     type: boolean
-    default: false
+    default: true
   - name: region
     displayName: Region
     type: string
