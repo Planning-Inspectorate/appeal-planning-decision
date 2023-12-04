@@ -34,9 +34,15 @@
  * @property {string} deadline the date by which the document is due
  * @property {number} dueInDays the number of days remaining until the deadline expires
  * @property {string} documentDue the type of document which is due next
+ * @property {string} baseUrl the base url for the document type
  */
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
+
+const questionnaireBaseUrl = '/manage-appeals/questionnaire';
+const statementBaseUrl = '/manage-appeals/appeal-statement';
+const finalCommentBaseUrl = '/manage-appeals/appeal-comment';
+const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
 
 const mapToLPADashboardDisplayData = (appealCaseData) => {
 	return {
@@ -115,32 +121,37 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 		return {
 			deadline: appealCaseData.questionnaireDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.questionnaireDueDate),
-			documentDue: 'Questionnaire'
+			documentDue: 'Questionnaire',
+			baseUrl: questionnaireBaseUrl
 		};
 	} else if (isStatementDue(appealCaseData)) {
 		return {
 			deadline: appealCaseData.statementDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.statementDueDate),
-			documentDue: 'Statement'
+			documentDue: 'Statement',
+			baseUrl: statementBaseUrl
 		};
 	} else if (isFinalCommentDue(appealCaseData)) {
 		return {
 			deadline: appealCaseData.finalCommentsDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.finalCommentsDueDate),
-			documentDue: 'Final comment'
+			documentDue: 'Final comment',
+			baseUrl: finalCommentBaseUrl
 		};
 	} else if (isProofsOfEvidenceDue(appealCaseData)) {
 		return {
 			deadline: appealCaseData.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
-			documentDue: 'Proofs of Evidence'
+			documentDue: 'Proofs of Evidence',
+			baseUrl: proofsBaseUrl
 		};
 	}
 
 	return {
 		deadline: null,
 		dueInDays: 100000,
-		documentDue: null
+		documentDue: null,
+		baseUrl: null
 	};
 };
 
