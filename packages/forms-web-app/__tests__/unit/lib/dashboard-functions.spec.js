@@ -22,6 +22,10 @@ const NO_LINE_2_ADDRESS = {
 	siteAddressTown: 'Test Town',
 	siteAddressPostcode: 'TS1 1TT'
 };
+const questionnaireBaseUrl = '/manage-appeals/questionnaire';
+const statementBaseUrl = '/manage-appeals/appeal-statement';
+const finalCommentBaseUrl = '/manage-appeals/appeal-comment';
+const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
 
 describe('lib/dashboard-functions', () => {
 	beforeEach(() => {
@@ -73,7 +77,8 @@ describe('lib/dashboard-functions', () => {
 			expect(determineDocumentToDisplayLPADashboard({})).toEqual({
 				deadline: null,
 				dueInDays: 100000,
-				documentDue: null
+				documentDue: null,
+				baseUrl: null
 			});
 		});
 
@@ -88,7 +93,8 @@ describe('lib/dashboard-functions', () => {
 			const expectedQuestionnaireDetails = {
 				deadline: '2023-07-07T13:53:31.6003126+00:00',
 				dueInDays: 3,
-				documentDue: 'Questionnaire'
+				documentDue: 'Questionnaire',
+				baseUrl: questionnaireBaseUrl
 			};
 
 			calculateDueInDays.mockReturnValue(3);
@@ -109,7 +115,8 @@ describe('lib/dashboard-functions', () => {
 			const expectedStatementDetails = {
 				deadline: '2023-07-17T13:53:31.6003126+00:00',
 				dueInDays: 13,
-				documentDue: 'Statement'
+				documentDue: 'Statement',
+				baseUrl: statementBaseUrl
 			};
 
 			calculateDueInDays.mockReturnValue(13);
@@ -132,7 +139,8 @@ describe('lib/dashboard-functions', () => {
 			const expectedFinalCommentDetails = {
 				deadline: '2023-07-27T13:53:31.6003126+00:00',
 				dueInDays: 23,
-				documentDue: 'Final comment'
+				documentDue: 'Final comment',
+				baseUrl: finalCommentBaseUrl
 			};
 
 			calculateDueInDays.mockReturnValue(23);
@@ -155,7 +163,8 @@ describe('lib/dashboard-functions', () => {
 			const expectedProofsDetails = {
 				deadline: '2023-07-27T13:53:31.6003126+00:00',
 				dueInDays: 23,
-				documentDue: 'Proofs of Evidence'
+				documentDue: 'Proofs of Evidence',
+				baseUrl: proofsBaseUrl
 			};
 
 			calculateDueInDays.mockReturnValue(23);
