@@ -26,11 +26,6 @@ jest.setTimeout(140000);
 jest.mock('../../src/db/db');
 jest.mock('../../src/configuration/featureFlag');
 
-// const { AppealUserRepository } = require('../../../src/repositories/sql/appeal-user-repository');
-// const ApiError = require('../../../src/errors/apiError');
-
-// let appealUserRepo;
-
 const TEST_EMAIL = 'test-user1@example.com';
 const TEST_USER = {
 	email: TEST_EMAIL,
@@ -139,9 +134,10 @@ describe('tokens v2', () => {
 			const appealUser = await sqlClient.appealUser.findFirst();
 			const securityToken = await sqlClient.securityToken.findFirst();
 
-			expect(appealUser?.email).toEqual(TEST_APPEAL.email);
-			expect(appealUser?.isEnrolled).toEqual(false);
-			expect(securityToken?.appealUserId).toEqual(appealUser?.id);
+			expect(appealUser.email).toEqual(TEST_APPEAL.email);
+			expect(appealUser.isEnrolled).toEqual(false);
+			expect(securityToken.appealUserId).toBeDefined();
+			expect(securityToken.appealUserId).toEqual(appealUser.id);
 
 			// check email sent
 			// const emailToLpaInteraction = NotifyInteraction.getCodeSentInteraction();
@@ -192,7 +188,8 @@ describe('tokens v2', () => {
 
 			const securityToken = await sqlClient.securityToken.findFirst();
 
-			expect(securityToken?.appealUserId).toEqual(appealUser?.id);
+			expect(securityToken.appealUserId).toBeDefined();
+			expect(securityToken.appealUserId).toEqual(appealUser.id);
 		});
 
 		it('should error if appeal id not found', async () => {
@@ -219,7 +216,8 @@ describe('tokens v2', () => {
 
 			const securityToken = await sqlClient.securityToken.findFirst();
 
-			expect(securityToken?.appealUserId).toEqual(appealUser?.id);
+			expect(securityToken.appealUserId).toBeDefined();
+			expect(securityToken.appealUserId).toEqual(appealUser.id);
 		});
 
 		it('should create lpa token for existing email user', async () => {
@@ -236,7 +234,8 @@ describe('tokens v2', () => {
 
 			const securityToken = await sqlClient.securityToken.findFirst();
 
-			expect(securityToken?.appealUserId).toEqual(appealUser?.id);
+			expect(securityToken.appealUserId).toBeDefined();
+			expect(securityToken.appealUserId).toEqual(appealUser.id);
 		});
 
 		it('should error if email not found', async () => {
@@ -269,12 +268,12 @@ describe('tokens v2', () => {
 
 			const tokenResponse = await appealsApi.post('/api/v2/token').send({
 				id: TEST_APPEAL.id,
-				token: securityToken?.token
+				token: securityToken.token
 			});
 			const appealUser = await sqlClient.appealUser.findFirst();
 
 			expect(tokenResponse.status).toBe(200);
-			expect(appealUser?.isEnrolled).toEqual(true);
+			expect(appealUser.isEnrolled).toEqual(true);
 			expect(tokenResponse.body).toEqual(
 				expect.objectContaining({
 					id: TEST_APPEAL.id,
@@ -297,7 +296,7 @@ describe('tokens v2', () => {
 			const appealUser = await sqlClient.appealUser.findFirst();
 
 			expect(tokenResponse.status).toBe(400);
-			expect(appealUser?.isEnrolled).toEqual(false);
+			expect(appealUser.isEnrolled).toEqual(false);
 			expect(tokenResponse.body).toEqual(invalidTokenResponseBody);
 		});
 
@@ -315,13 +314,13 @@ describe('tokens v2', () => {
 
 			const tokenResponse = await appealsApi.post('/api/v2/token').send({
 				emailAddress: appealUser.email,
-				token: securityToken?.token
+				token: securityToken.token
 			});
 
 			appealUser = await sqlClient.appealUser.findFirst();
 
 			expect(tokenResponse.status).toBe(200);
-			expect(appealUser?.isEnrolled).toEqual(true);
+			expect(appealUser.isEnrolled).toEqual(true);
 			expect(tokenResponse.body).toEqual(
 				expect.objectContaining({
 					action: enterCodeConfig.actions.confirmEmail,
@@ -348,7 +347,7 @@ describe('tokens v2', () => {
 			appealUser = await sqlClient.appealUser.findFirst();
 
 			expect(tokenResponse.status).toBe(400);
-			expect(appealUser?.isEnrolled).toEqual(false);
+			expect(appealUser.isEnrolled).toEqual(false);
 			expect(tokenResponse.body).toEqual(invalidTokenResponseBody);
 		});
 
@@ -377,7 +376,7 @@ describe('tokens v2', () => {
 			const securityToken = await sqlClient.securityToken.findFirst();
 
 			// 4th attempt should 429
-			expect(securityToken?.attempts).toEqual(4);
+			expect(securityToken.attempts).toEqual(4);
 			expect(tokenResponse1.status).toBe(400);
 			expect(tokenResponse2.status).toBe(400);
 			expect(tokenResponse3.status).toBe(400);
@@ -388,7 +387,7 @@ describe('tokens v2', () => {
 			// check subsequent attempts have the same result
 			const tokenResponse5 = await appealsApi.post('/api/v2/token').send({
 				id: TEST_APPEAL.id,
-				token: securityToken?.token
+				token: securityToken.token
 			});
 			expect(tokenResponse5.status).toBe(429);
 			expect(tokenResponse5.body).toEqual({});
