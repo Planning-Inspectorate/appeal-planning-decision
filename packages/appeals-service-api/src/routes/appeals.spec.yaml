@@ -1,6 +1,8 @@
 paths:
   /api/v1/appeals:
     post:
+      tags:
+        - v1
       description: create a new appeal submission
       responses:
         201:
@@ -13,6 +15,8 @@ paths:
           description: Something went wrong
   /api/v1/appeals/{id}:
     get:
+      tags:
+        - v1
       description: get a single appeal submission by ID
       parameters:
           - in: path

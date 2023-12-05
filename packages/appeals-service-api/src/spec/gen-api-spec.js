@@ -18,7 +18,16 @@ const options = {
 		servers: [{ url: 'http://localhost:3000/', description: 'local dev' }],
 		tags: [
 			{
+				name: 'appeal-cases'
+			},
+			{
 				name: 'token'
+			},
+			{
+				name: 'users'
+			},
+			{
+				name: 'v1'
 			}
 		]
 	},
