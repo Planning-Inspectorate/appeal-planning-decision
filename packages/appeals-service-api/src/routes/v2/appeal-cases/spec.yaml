@@ -1,6 +1,8 @@
 paths:
   /api/v2/appeal-cases:
     get:
+      tags:
+        - appeal-cases
       description: List appeal cases. Either lpa-code or postcode is required.
       parameters:
           - $ref: '#/components/parameters/lpa-code'
@@ -23,6 +25,8 @@ paths:
                  $ref: '#/components/schemas/ErrorBody'
   /api/v2/appeal-cases/{caseReference}:
     get:
+      tags:
+        - appeal-cases
       parameters:
         - in: path
           name: caseReference
@@ -46,6 +50,8 @@ paths:
                 $ref: '#/components/schemas/ErrorBody'
   /api/v2/appeal-cases/count:
     get:
+      tags:
+        - appeal-cases
       description: Count appeal cases.
       parameters:
           - $ref: '#/components/parameters/lpa-code'

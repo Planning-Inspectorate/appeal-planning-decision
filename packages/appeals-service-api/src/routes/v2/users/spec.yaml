@@ -1,6 +1,8 @@
 paths:
   /api/v2/users/:
     post:
+      tags:
+        - users
       description: Create a new user
       requestBody:
         description: user to create, `id` is not allowed
@@ -23,6 +25,8 @@ paths:
                  $ref: '#/components/schemas/ErrorBody'
   /api/v2/users/{email}:
     get:
+      tags:
+        - users
       parameters:
         - in: path
           name: email
