@@ -9,17 +9,11 @@ const days = Array.from({ length: 28 }, (_, i) => i + 1);
  * @returns {Date}
  */
 function dateFromYMD(year, month, day) {
-	const yearStr = year.toString();
-	month++; // one-index
-	// wrap around
-	if (month < 1) {
-		month += 12;
-	} else if (month > 12) {
-		month -= 12;
-	}
-	const monthStr = month.toString().padStart(2, '0');
-	const dayStr = day.toString().padStart(2, '0');
-	return new Date(`${yearStr}-${monthStr}-${dayStr}T09:00:00Z`);
+	const d = new Date();
+	d.setFullYear(year, month, day);
+	d.setHours(9, 0, 0, 0);
+	d.setMinutes(0);
+	return d;
 }
 
 module.exports = {
