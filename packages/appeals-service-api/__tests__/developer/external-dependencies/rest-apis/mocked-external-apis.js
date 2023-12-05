@@ -1,6 +1,7 @@
 const jp = require('jsonpath');
 const { GenericContainer, Wait } = require('testcontainers/');
 const axios = require('axios');
+const crypto = require('crypto');
 // const logger = require('../../../logger');
 
 /**
@@ -33,8 +34,10 @@ module.exports = class MockedExternalApis {
 	///////////////////
 
 	static async setup() {
+		// support multiple instances with a random suffix
+		const instance = crypto.randomBytes(8).toString('hex');
 		const startedContainer = await new GenericContainer('mockserver/mockserver')
-			.withName('mockserver-for-appeals-api-test')
+			.withName(`mockserver-for-appeals-api-test-${instance}`)
 			.withExposedPorts(1080)
 			.withWaitStrategy(Wait.forLogMessage(/.*started on port: 1080.*/))
 			.start();
