@@ -1,0 +1,36 @@
+components:
+  schemas:
+    AppealUser:
+      description: An appeal user
+      type: object
+      required:
+        - id
+        - email
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: appeal user ID
+        email:
+          type: string
+          format: email
+          description: the user's email address
+        isEnrolled:
+          type: boolean
+          description: is this user enrolled? (have they been sent a registration confirmation email)
+        serviceUserId:
+          type: number
+          description: service user ID to map to service users
+        isLpaUser:
+          type: boolean
+          description: is this an LPA user?
+        lpaCode:
+          type: string
+          description: if an LPA user, the LPA this user belongs to
+        isLpaAdmin:
+          type: boolean
+          description: if an LPA user, whether this user is an admin for that LPA
+        lpaStatus:
+          type: string
+          enum: ['added', 'confirmed', 'removed']
+          description: if an LPA user, the status of this user, e.g. have they logged in and confirmed their email?

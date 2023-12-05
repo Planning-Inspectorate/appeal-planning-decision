@@ -18,7 +18,7 @@ const options = {
 		servers: [{ url: 'http://localhost:3000/', description: 'local dev' }]
 	},
 	// files containing annotations and any other yaml files that can be included
-	apis: ['./src/routes/*.js', './src/routes/*.yaml', './src/spec/*.yaml']
+	apis: ['./src/routes/**/*.js', './src/routes/**/*.yaml', './src/spec/*.yaml']
 };
 
 /**

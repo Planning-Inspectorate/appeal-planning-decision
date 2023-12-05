@@ -1,0 +1,28 @@
+{% extends "../../index.njk" %}
+{% set title = "Enter appeal reference" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% block content %}
+    <form method="post">
+        <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--l" for="appeal-reference">Enter the appeal reference</label>
+            <p class="govuk-body">Enter the reference number from the local planning authority.</p>
+            {{ govukInput({
+                        "classes": "govuk-input--width-10",
+                        "hint": {
+                        "text": "For example, 0221532."
+                        },
+                        "name": "appeal-reference",
+                        "inputmode": "numeric",
+                        "spellcheck": false,
+                        "errorMessage": inlineErrorMessage,
+                        "value": value
+                        }) 
+            }}
+        </div>
+        <p class="govuk-body">
+            <a href="find-planning-appeal?search=postcode">I do not have an appeal reference</a>
+        </p>
+        {{ govukButton({"text": "Continue", "type": "submit"}) }}
+    </form>
+{% endblock content %}

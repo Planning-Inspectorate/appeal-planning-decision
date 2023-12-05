@@ -1,6 +1,6 @@
-const { getUserByEmail, createUser } = require('../services/appeal-user.service');
-const logger = require('../lib/logger');
-const ApiError = require('../errors/apiError');
+const { getUserByEmail, createUser } = require('./service');
+const logger = require('#lib/logger');
+const ApiError = require('#errors/apiError');
 
 /**
  * @type {import('express').Handler}
@@ -19,7 +19,7 @@ async function userGet(req, res) {
 		} else {
 			logger.error('Error:', error);
 			statusCode = 500;
-			body = 'An unexpected error occured';
+			body = 'An unexpected error occurred';
 		}
 	} finally {
 		res.status(statusCode).send(body);
@@ -30,6 +30,9 @@ async function userGet(req, res) {
  * @type {import('express').Handler}
  */
 async function userPost(req, res) {
+	if ('id' in req.body) {
+		throw ApiError.badRequest({ errors: ['id is not allowed'] });
+	}
 	let statusCode = 200;
 	let body = {};
 
@@ -43,7 +46,7 @@ async function userPost(req, res) {
 		} else {
 			logger.error('Error:', error);
 			statusCode = 500;
-			body = 'An unexpected error occured';
+			body = 'An unexpected error occurred';
 		}
 	} finally {
 		res.status(statusCode).send(body);

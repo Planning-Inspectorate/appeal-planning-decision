@@ -1,5 +1,5 @@
-const { AppealUserRepository } = require('../repositories/sql/appeal-user-repository');
-const ApiError = require('../errors/apiError');
+const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
+const ApiError = require('#errors/apiError');
 
 const appealUserRepository = new AppealUserRepository();
 

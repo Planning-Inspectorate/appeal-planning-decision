@@ -7,6 +7,7 @@ module.exports = {
 	},
 	appeals: {
 		startingPoint: '/before-you-start',
+		startingPointEnrolUsersActive: '/appeal/new-saved-appeal',
 		timeout: Number(process.env.APPEALS_SERVICE_API_TIMEOUT || 10000),
 		url: process.env.APPEALS_SERVICE_API_URL
 	},
@@ -60,7 +61,12 @@ module.exports = {
 	isProduction: process.env.NODE_ENV === 'production',
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
-		redact: ['opts.body', 'config.db.session.uri', 'config.server.sessionSecret']
+		redact: [
+			'opts.body',
+			'config.db.session.uri',
+			'config.server.sessionSecret',
+			'config.featureFlagging.endpoint'
+		]
 	},
 	server: {
 		host: process.env.HOST_URL || `http://localhost:${httpPort}`, // This is used for the HTML generator

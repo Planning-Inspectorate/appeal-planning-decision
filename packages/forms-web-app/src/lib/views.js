@@ -184,6 +184,11 @@ const VIEW = {
 		YOU_CANNOT_APPEAL: 'full-appeal/you-cannot-appeal'
 	},
 
+	APPEAL: {
+		NEW_OR_SAVED_APPEAL: 'appeal/new-or-saved-appeal',
+		EMAIL_ADDRESS: 'appeal/email-address'
+	},
+
 	SUBMIT_APPEAL: {
 		APPLICATION_SAVED: 'submit-appeal/application-saved',
 		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details'

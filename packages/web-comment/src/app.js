@@ -11,7 +11,7 @@ require('express-async-errors');
 
 const serverConfig = require('./server.config');
 const logger = require('./logging/logger');
-const routes = require('./routes');
+const { routes } = require('./routes');
 
 const app = express();
 
@@ -44,7 +44,7 @@ const viewPaths = [
 	path.join(__dirname, './'),
 	path.join(__dirname, 'public'),
 	path.join(__dirname, 'src'),
-	path.join(__dirname, 'hello-world'),
+	path.join(__dirname, 'routes'),
 	path.join(__dirname, 'views')
 ];
 
@@ -70,8 +70,9 @@ app.use(
 app.use('/assets/govuk/all.js', express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js')));
 
 // Routes
-app.use('/', routes);
-
+Object.entries(routes).forEach(([baseUrl, router]) => {
+	app.use(baseUrl, router);
+});
 // View Engine
 app.set('view engine', 'njk');
 

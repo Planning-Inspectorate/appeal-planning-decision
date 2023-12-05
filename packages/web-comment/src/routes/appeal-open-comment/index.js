@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-	return res.render(`hello-world/hello-world`);
+	res.render(`appeal-open-comment/index`);
 });
 
-module.exports = router;
+module.exports = { router };

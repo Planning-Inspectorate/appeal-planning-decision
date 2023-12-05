@@ -1,0 +1,47 @@
+paths:
+  /api/v2/users/:
+    post:
+      description: Create a new user
+      requestBody:
+        description: user to create, `id` is not allowed
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppealUser'
+      responses:
+        200:
+          description: Created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppealUser'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/users/{email}:
+    get:
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+            format: email
+          example: 'me@example.com'
+          description: user email
+      responses:
+        200:
+          description: The appeal user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppealUser'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

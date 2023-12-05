@@ -112,18 +112,23 @@ class S78Journey extends Journey {
 				.addQuestion(questions.statutoryConsultees)
 				.addQuestion(questions.consultationResponses)
 				.addQuestion(questions.consultationResponsesUpload)
+				.withCondition(questionHasAnswer(questions.consultationResponses, 'yes'))
 				.addQuestion(questions.representationsFromOthers)
 				.addQuestion(questions.representationUpload)
 				.withCondition(questionHasAnswer(questions.representationsFromOthers, 'yes')),
 			new Section('Planning officer’s report and supporting documents', 'planning-officer-report')
 				.addQuestion(questions.planningOfficersReportUpload)
-				.addQuestion(questions.uploadOtherRelevantPolicies)
+
 				.addQuestion(questions.emergingPlan)
 				.addQuestion(questions.emergingPlanUpload)
 				.withCondition(questionHasAnswer(questions.emergingPlan, 'yes'))
+
+				.addQuestion(questions.uploadOtherRelevantPolicies)
+
 				.addQuestion(questions.supplementaryPlanning)
 				.addQuestion(questions.supplementaryPlanningUpload)
 				.withCondition(questionHasAnswer(questions.supplementaryPlanning, 'yes'))
+
 				.addQuestion(questions.communityInfrastructureLevy)
 				.addQuestion(questions.communityInfrastructureLevyUpload)
 				.withCondition(questionHasAnswer(questions.communityInfrastructureLevy, 'yes'))
