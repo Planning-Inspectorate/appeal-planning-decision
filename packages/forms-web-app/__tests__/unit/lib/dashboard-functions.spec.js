@@ -126,7 +126,7 @@ describe('lib/dashboard-functions', () => {
 			);
 		});
 
-		it('returns the final comment details if the statement is next in proximity', () => {
+		it('returns the final comment details if the comments are next in proximity', () => {
 			const appealStatementDueDetails = {
 				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
 				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
@@ -150,7 +150,7 @@ describe('lib/dashboard-functions', () => {
 			);
 		});
 
-		it('returns the proofs of evidence details if the statement is next in proximity', () => {
+		it('returns the proofs of evidence details if the proofs are next in proximity', () => {
 			const appealStatementDueDetails = {
 				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
 				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',

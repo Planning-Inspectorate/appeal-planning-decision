@@ -128,7 +128,10 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 			documentDue: 'Questionnaire',
 			baseUrl: questionnaireBaseUrl
 		};
-	} else if (isStatementDue(appealCaseData)) {
+	} else if (
+		isStatementDue(appealCaseData) &&
+		!(calculateDueInDays(appealCaseData.statementDueDate) < 0)
+	) {
 		return {
 			deadline: appealCaseData.statementDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.statementDueDate),
