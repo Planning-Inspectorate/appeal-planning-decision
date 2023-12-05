@@ -14,8 +14,8 @@ class AppealCaseRepository {
 	 * @param {string} caseReference
 	 * @returns {Promise<AppealCase|null>}
 	 */
-	async getByCaseReference(caseReference) {
-		return await dbClient.appealCase.findUnique({
+	getByCaseReference(caseReference) {
+		return dbClient.appealCase.findUnique({
 			where: {
 				caseReference
 			}
