@@ -1,4 +1,4 @@
-const logger = require('#lib/logger.js');
+const logger = require('#lib/logger');
 const ApiError = require('../../../errors/apiError');
 const { AppealCaseRepository } = require('./repo');
 
