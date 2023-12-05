@@ -2,6 +2,12 @@ const logger = require('../lib/logger');
 const mongodb = require('../db/db');
 const { createToken } = require('../lib/token');
 
+/**
+ * create or update the token using mongo
+ * @param {string} id - id of appeal/user
+ * @param {string} action - action token is used for
+ * @returns {Promise<string>}
+ */
 const createOrUpdateTokenDocument = async (id, action) => {
 	const token = createToken();
 	try {
@@ -27,6 +33,11 @@ const createOrUpdateTokenDocument = async (id, action) => {
 	return token;
 };
 
+/**
+ * look up token in mongo by id and update attempts count
+ * @param {string} id - id the token is associated with, appeal/user
+ * @returns {Promise<any>}
+ */
 const getTokenDocumentIfExists = async (id) => {
 	let saved = null;
 
@@ -46,7 +57,11 @@ const getTokenDocumentIfExists = async (id) => {
 	return saved?.value;
 };
 
-const getTokenCreatedAt = async (id) => {
+/**
+ * @param {string} id
+ * @returns {Promise<Date>}
+ */
+const getTokenDocumentCreatedAt = async (id) => {
 	let saved;
 
 	try {
@@ -75,5 +90,5 @@ const getTokenCreatedAt = async (id) => {
 module.exports = {
 	createOrUpdateTokenDocument,
 	getTokenDocumentIfExists,
-	getTokenCreatedAt
+	getTokenDocumentCreatedAt
 };

@@ -93,6 +93,11 @@ class ApiError {
 		return new ApiError(400, { errors: [`Can't match this user to the lpa`] });
 	}
 
+	// Token
+	static invalidToken() {
+		return new ApiError(400, { errors: [`Invalid Token`] });
+	}
+
 	// appeals case data
 	static appealsCaseDataNotFound() {
 		return new ApiError(404, { errors: [`The appeals case data was not found`] });

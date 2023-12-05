@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 const uuid = require('uuid');
 const { utils } = require('@pins/common');
+const { isFeatureActive } = require('../featureFlag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 const config = require('../config');
 const parentLogger = require('./logger');
@@ -115,8 +117,16 @@ exports.saveAppeal = async (appeal) => {
 	return handler(`/api/v1/save`, 'POST', { body: JSON.stringify(appeal) });
 };
 
+/**
+ * @param {string} id - appealId
+ * @param {string} action - enter code action
+ * @param {string} [emailAddress] - email address of user
+ * @returns { Promise<void> }
+ */
 exports.sendToken = async (id, action, emailAddress) => {
-	return handler(`/api/v1/token/`, 'PUT', {
+	const version = await getTokenEndpointVersion();
+
+	return handler(`/api/${version}/token/`, 'PUT', {
 		body: JSON.stringify({
 			id: id,
 			action: action,
@@ -125,11 +135,27 @@ exports.sendToken = async (id, action, emailAddress) => {
 	});
 };
 
-exports.checkToken = async (id, token) => {
-	return handler(`/api/v1/token/`, 'POST', {
+/**
+ * @typedef TokenCheckResult Result of a token check
+ * @property {string} [id] - appealId
+ * @property {string} action - enter code action
+ * @property {string} createdAt - Time Token created
+ */
+
+/**
+ * @param {string} id - appealId
+ * @param {string} token - token user supplied
+ * @param {string} [emailAddress] - email address of user
+ * @returns { Promise<TokenCheckResult> }
+ */
+exports.checkToken = async (id, token, emailAddress) => {
+	const version = await getTokenEndpointVersion();
+
+	return handler(`/api/${version}/token/`, 'POST', {
 		body: JSON.stringify({
 			id,
-			token
+			token,
+			emailAddress
 		})
 	});
 };
@@ -244,4 +270,9 @@ exports.errorMessages = {
 	user: {
 		only1Admin: 'Only 1 admin is allowed at a time'
 	}
+};
+
+const getTokenEndpointVersion = async () => {
+	const useV2 = await isFeatureActive(FLAG.ENROL_USERS);
+	return useV2 ? 'v2' : 'v1';
 };

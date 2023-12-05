@@ -69,36 +69,33 @@ class S78Journey extends Journey {
 				.addQuestion(questions.meetsColumnTwoThreshold)
 				.withCondition(questionHasAnswer(questions.environmentalImpactSchedule, 'schedule-2'))
 				.addQuestion(questions.screeningOpinion)
-				.withCondition(questionHasAnswer(questions.environmentalImpactSchedule, 'no'))
-				.addQuestion(questions.screeningOpinionUpload)
-				.withCondition(
-					questionsHaveAnswers([
-						[questions.environmentalImpactSchedule, 'no'],
-						[questions.screeningOpinion, 'yes']
-					])
-				)
-				.addQuestion(questions.screeningOpinionEnvironmentalStatement)
-				.withCondition(
-					questionsHaveAnswers([
-						[questions.environmentalImpactSchedule, 'no'],
-						[questions.screeningOpinion, 'yes']
-					])
-				)
-				.addQuestion(questions.submitEnvironmentalStatement)
 				.withCondition(
 					questionsHaveAnswers(
 						[
-							[questions.environmentalImpactSchedule, 'schedule-1'],
+							[questions.environmentalImpactSchedule, 'schedule-2'],
 							[questions.environmentalImpactSchedule, 'no']
 						],
 						{ logicalCombinator: 'or' }
 					)
 				)
+				.addQuestion(questions.screeningOpinionUpload)
+				.withCondition(questionHasAnswer(questions.screeningOpinion, 'yes'))
+				.addQuestion(questions.screeningOpinionEnvironmentalStatement)
+				.withCondition(
+					questionsHaveAnswers(
+						[
+							[questions.environmentalImpactSchedule, 'schedule-2'],
+							[questions.environmentalImpactSchedule, 'no']
+						],
+						{ logicalCombinator: 'or' }
+					)
+				)
+				.withCondition(questionHasAnswer(questions.screeningOpinion, 'yes'))
+				.addQuestion(questions.submitEnvironmentalStatement)
 				.addQuestion(questions.uploadEnvironmentalStatement)
-				.withCondition(questionHasAnswer(questions.submitEnvironmentalStatement, 'yes')),
-			// Not yet decided whether this question is necessary
-			// .addQuestion(questions.uploadScreeningDirection)
-			// .withCondition(meetsCondition('screeningOpinionEnvironmentalStatement', 'yes')),
+				.withCondition(questionHasAnswer(questions.submitEnvironmentalStatement, 'yes'))
+				.addQuestion(questions.uploadScreeningDirection)
+				.withCondition(questionHasAnswer(questions.submitEnvironmentalStatement, 'no')),
 			new Section('Notifying relevant parties of the application', 'notified')
 				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
