@@ -522,14 +522,24 @@ exports.questions = {
 		html: 'resources/emerging-plan-upload/content.html',
 		documentType: documentTypes.emergingPlanUpload
 	}),
-	uploadOtherRelevantPolicies: new MultiFileUploadQuestion({
-		title: 'Upload policies from statutory development plan	',
+	uploadDevelopmentPlanPolicies: new MultiFileUploadQuestion({
+		title: 'Upload policies from statutory development plan',
 		question: 'Upload relevant policies from your statutory development plan',
-		fieldName: 'upload-other-policies',
+		fieldName: 'upload-development-plan-policies',
 		validators: [
 			new RequiredFileUploadValidator(
-				'Select the planning officer’s report or what your decision notice would have said'
+				'Select the relevant policies from your statutory development plan'
 			),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadDevelopmentPlanPolicies
+	}),
+	uploadOtherRelevantPolicies: new MultiFileUploadQuestion({
+		title: 'Upload any other relevant policies',
+		question: 'Upload any other relevant policies',
+		fieldName: 'upload-other-policies',
+		validators: [
+			new RequiredFileUploadValidator('Select any other relevant policies'),
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadOtherRelevantPolicies
