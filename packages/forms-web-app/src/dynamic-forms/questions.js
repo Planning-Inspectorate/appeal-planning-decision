@@ -305,16 +305,40 @@ exports.questions = {
 			)
 		]
 	}),
-	neighbouringSite: new BooleanQuestion({
-		title: 'Inspector visit to neighbour', //Title used in the summary list
-		question: 'Might the inspector need to enter a neighbour’s land or property?', //The question being asked
-		pageTitle: "Access to a neighbour's land",
-		fieldName: 'inspector-visit-neighbour', //The name of the html input field / stem of the name for screens with multiple fields
-		url: 'inspector-enter-neighbour-site',
+	neighbouringSite: new RadioQuestion({
+		title: 'Might the inspector need to enter a neighbour’s land or property?',
+		question: 'Might the inspector need to enter a neighbour’s land or property?',
+		fieldName: 'inspector-enter-neighbour-site',
 		validators: [
 			new RequiredValidator(
 				'Select yes if the inspector might need to enter a neighbour’s land or property'
-			)
+			),
+			new ConditionalRequiredValidator(),
+			new StringValidator({
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName(
+					'inspector-enter-neighbour-site',
+					'reason-for-neighbour-inspection'
+				)
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Enter the reason',
+					fieldName: 'reason-for-neighbour-inspection',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
 		]
 	}),
 	neighbouringSitesToBeVisited: new ListAddMoreQuestion({

@@ -125,7 +125,6 @@ class S78Journey extends Journey {
 				.addQuestion(questions.supplementaryPlanning)
 				.addQuestion(questions.supplementaryPlanningUpload)
 				.withCondition(questionHasAnswer(questions.supplementaryPlanning, 'yes'))
-
 				.addQuestion(questions.communityInfrastructureLevy)
 				.addQuestion(questions.communityInfrastructureLevyUpload)
 				.withCondition(questionHasAnswer(questions.communityInfrastructureLevy, 'yes'))
