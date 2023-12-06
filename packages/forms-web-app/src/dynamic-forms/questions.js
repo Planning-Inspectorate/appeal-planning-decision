@@ -294,7 +294,7 @@ exports.questions = {
 		],
 		documentType: documentTypes.planningOfficersReportUpload
 	}),
-	accessForInspection: new BooleanQuestion({
+	accessForInspection: new RadioQuestion({
 		title: 'Access for inspection',
 		question: 'Might the inspector need access to the appellant’s land or property?',
 		pageTitle: "Access to the appellant's land",
@@ -302,7 +302,37 @@ exports.questions = {
 		validators: [
 			new RequiredValidator(
 				'Select yes if the inspector might need access to the appellant’s land or property'
-			)
+			),
+			new ConditionalRequiredValidator('Enter the reason'),
+			new StringValidator({
+				regex: {
+					regex: new RegExp(`^[0-9a-z- '()]{1,${inputMaxCharacters}}$`, 'gi'),
+					regexMessage: 'Reason must only include letters a to z, hyphens, spaces and apostrophes.'
+				},
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName(
+					'inspector-access-appeal-site',
+					'reason-for-inspector-access'
+				)
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Enter the reason',
+					fieldName: 'reason-for-inspector-access',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
 		]
 	}),
 	neighbouringSite: new BooleanQuestion({
