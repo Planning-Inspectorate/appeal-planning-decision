@@ -46,19 +46,24 @@ paths:
       tags:
         - token
       description: check token against token in db
-      type: object
-      required:
-        - token
-        - action
-      properties:
-        id:
-          type: string
-        token:
-          type: string
-          example: '12345'
-        action:
-          type: string
-          example: 'confirmEmail'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+                - action
+              properties:
+                id:
+                  type: string
+                token:
+                  type: string
+                  example: '12345'
+                action:
+                  type: string
+                  example: 'confirmEmail'
       responses:
         200:
           description: Confirmation of token check
