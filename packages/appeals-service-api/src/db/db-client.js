@@ -1,6 +1,7 @@
 const { PrismaClient } = require('@prisma/client');
 const config = require('../configuration/config');
 
+/** @type {import('@prisma/client').Prisma.PrismaClientOptions} */
 let prismaConfig = {
 	datasourceUrl: config.db.sql.connectionString
 };
@@ -10,6 +11,7 @@ if (config.logger.level === 'debug') {
 	prismaConfig.log = ['query'];
 }
 
+/** @type {import('@prisma/client').PrismaClient} */
 let prisma;
 
 /**

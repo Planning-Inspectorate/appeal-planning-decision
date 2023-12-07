@@ -1,5 +1,7 @@
+/** @typedef { 'appellant' | 'agent' | 'interestedParty' } AppealToUserRoles */
+
 /**
- * @type {import('@prisma/client').Prisma.AppealToUserRoleCreateInput}
+ * @type {Array.<import('@prisma/client').Prisma.AppealToUserRoleCreateInput>}
  */
 const appealToUserRoles = [
 	{
@@ -17,7 +19,7 @@ const appealToUserRoles = [
 ];
 
 /**
- * @param {import('@prisma/client')} dbClient
+ * @param {import('@prisma/client').PrismaClient} dbClient
  */
 async function seedStaticData(dbClient) {
 	for (const role of appealToUserRoles) {
