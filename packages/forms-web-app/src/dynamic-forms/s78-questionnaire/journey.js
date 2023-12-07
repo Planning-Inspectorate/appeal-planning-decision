@@ -40,7 +40,7 @@ class S78Journey extends Journey {
 			new Section('Constraints, designations and other issues', 'constraints')
 				.addQuestion(questions.appealTypeAppropriate)
 				.addQuestion(questions.changesListedBuilding)
-				.addQuestion(questions.changedListedBuildingNumber)
+				.addQuestion(questions.changedListedBuildings)
 				.withCondition(questionHasAnswer(questions.changesListedBuilding, 'yes'))
 				.addQuestion(questions.listedBuildingCheck)
 				.addQuestion(questions.affectedListedBuildings)

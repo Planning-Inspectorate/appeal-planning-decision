@@ -12,8 +12,6 @@ const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question
 const AddMoreQuestion = require('./dynamic-components/add-more/question');
 const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
 const RadioQuestion = require('./dynamic-components/radio/question');
-const IdentifierQuestion = require('./dynamic-components/identifier/question');
-
 const RequiredValidator = require('./validator/required-validator');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
 const MultifileUploadValidator = require('./validator/multifile-upload-validator');
@@ -61,18 +59,41 @@ exports.questions = {
 			)
 		]
 	}),
-	changedListedBuildingNumber: new IdentifierQuestion({
-		title: 'Listed building details',
-		pageTitle: 'Listed building details',
-		question: 'Tell us the list entry number',
-		label: 'Seven digit number',
-		fieldName: 'changed-listed-building-number',
-		url: 'changed-listed-building-details',
-		html: 'resources/listed-building-number/content.html',
-		validators: [
-			new RequiredValidator('Enter a list entry number'),
-			new StringEntryValidator(listedBuildingNumberValidation)
-		]
+	// changedListedBuildingNumber: new IdentifierQuestion({
+	// 	title: 'Listed building details',
+	// 	pageTitle: 'Listed building details',
+	// 	question: 'Tell us the list entry number',
+	// 	label: 'Seven digit number',
+	// 	fieldName: 'changed-listed-building-number',
+	// 	url: 'changed-listed-building-details',
+	// 	html: 'resources/listed-building-number/content.html',
+	// 	validators: [
+	// 		new RequiredValidator('Enter a list entry number'),
+	// 		new StringEntryValidator(listedBuildingNumberValidation)
+	// 	]
+	// }),
+	changedListedBuildings: new ListAddMoreQuestion({
+		title: 'Listed building or site added',
+		pageTitle: 'Listed building or site has been added to the case',
+		question: 'Add another building or site?',
+		fieldName: 'add-listed-buildings',
+		url: 'changed-listed-buildings',
+		subQuestionLabel: 'Listed Building',
+		subQuestionFieldLabel: 'Seven digit number',
+		subQuestionInputClasses: 'govuk-input--width-10',
+		width: ListAddMoreQuestion.FULL_WIDTH,
+		validators: [new RequiredValidator('Select yes to add another building or site')],
+		subQuestion: new ListedBuildingAddMoreQuestion({
+			title: 'Tell us the list entry number',
+			question: 'Tell us the list entry number',
+			fieldName: 'listed-building-number',
+			html: 'resources/listed-building-number/content.html',
+			validators: [
+				new RequiredValidator('Enter a list entry number'),
+				new StringEntryValidator(listedBuildingNumberValidation)
+			],
+			viewFolder: 'identifier'
+		})
 	}),
 	affectedListedBuildings: new ListAddMoreQuestion({
 		title: 'Listed building or site added',

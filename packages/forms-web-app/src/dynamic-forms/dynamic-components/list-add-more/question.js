@@ -31,6 +31,8 @@ class ListAddMoreQuestion extends Question {
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {string} [params.subQuestionLabel]
+	 * @param {string} [params.subQuestionFieldLabel]
+	 * @param {string} [params.subQuestionInputClasses]
 	 * @param {string} [params.width]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 */
