@@ -62,7 +62,21 @@ class AppealsApiClient {
 		const endpoint = urlParams.toString()
 			? '/api/v2/appeal-cases?' + urlParams.toString()
 			: '/api/v2/appeal-cases';
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
 
+	/**
+	 * @typedef {import('appeals-service-api').Api.AppealCase} AppealCase
+	 * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
+	 */
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<(AppealCase|AppealSubmission)[]>}
+	 */
+	async getUserAppealsById(id) {
+		const endpoint = `${v2}/users/${id}/appeals`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}

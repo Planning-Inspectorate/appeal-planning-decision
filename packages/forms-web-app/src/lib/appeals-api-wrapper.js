@@ -117,49 +117,6 @@ exports.saveAppeal = async (appeal) => {
 	return handler(`/api/v1/save`, 'POST', { body: JSON.stringify(appeal) });
 };
 
-/**
- * @param {string} id - appealId
- * @param {string} action - enter code action
- * @param {string} [emailAddress] - email address of user
- * @returns { Promise<void> }
- */
-exports.sendToken = async (id, action, emailAddress) => {
-	const version = await getTokenEndpointVersion();
-
-	return handler(`/api/${version}/token/`, 'PUT', {
-		body: JSON.stringify({
-			id: id,
-			action: action,
-			emailAddress: emailAddress
-		})
-	});
-};
-
-/**
- * @typedef TokenCheckResult Result of a token check
- * @property {string} [id] - appealId
- * @property {string} action - enter code action
- * @property {string} createdAt - Time Token created
- */
-
-/**
- * @param {string} id - appealId
- * @param {string} token - token user supplied
- * @param {string} [emailAddress] - email address of user
- * @returns { Promise<TokenCheckResult> }
- */
-exports.checkToken = async (id, token, emailAddress) => {
-	const version = await getTokenEndpointVersion();
-
-	return handler(`/api/${version}/token/`, 'POST', {
-		body: JSON.stringify({
-			id,
-			token,
-			emailAddress
-		})
-	});
-};
-
 exports.getFinalCommentData = async (caseReference) => {
 	return handler(`/api/v1/final-comments/appeal/${caseReference}`, 'GET');
 };
@@ -268,8 +225,51 @@ exports.errorMessages = {
 	}
 };
 
-exports.getUserAppealsById = async (id) => {
-	return handler(`/api/v2/users/${id}/appeals`, 'GET');
+exports.getUserByEmail = async (email) => {
+	return handler(`/api/v1/users/${email}`, 'GET');
+};
+
+/**
+ * @param {string} id - appealId
+ * @param {string} action - enter code action
+ * @param {string} [emailAddress] - email address of user
+ * @returns { Promise<void> }
+ */
+exports.sendToken = async (id, action, emailAddress) => {
+	const version = await getTokenEndpointVersion();
+
+	return handler(`/api/${version}/token/`, 'PUT', {
+		body: JSON.stringify({
+			id: id,
+			action: action,
+			emailAddress: emailAddress
+		})
+	});
+};
+
+/**
+ * @typedef TokenCheckResult Result of a token check
+ * @property {string} [id] - appealId
+ * @property {string} action - enter code action
+ * @property {string} createdAt - Time Token created
+ */
+
+/**
+ * @param {string} id - appealId
+ * @param {string} token - token user supplied
+ * @param {string} [emailAddress] - email address of user
+ * @returns { Promise<TokenCheckResult> }
+ */
+exports.checkToken = async (id, token, emailAddress) => {
+	const version = await getTokenEndpointVersion();
+
+	return handler(`/api/${version}/token/`, 'POST', {
+		body: JSON.stringify({
+			id,
+			token,
+			emailAddress
+		})
+	});
 };
 
 exports.getUserByEmail = async (email, useApiVersion2) => {

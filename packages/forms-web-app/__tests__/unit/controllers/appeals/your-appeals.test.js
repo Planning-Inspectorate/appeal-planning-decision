@@ -1,11 +1,11 @@
-const { getUserByEmail, getUserAppealsById } = require('../../../../src/lib/appeals-api-wrapper');
+const { apiClient } = require('../../../../src/lib/appeals-api-client');
 const { get } = require('../../../../src/controllers/appeals/your-appeals');
 
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 const { mapToAppellantDashboardDisplayData } = require('../../../../src/lib/dashboard-functions');
 
-jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('../../../../src/lib/appeals-api-client');
 jest.mock('../../../../src/lib/dashboard-functions');
 
 describe('controllers/appeals/your-appeals', () => {
@@ -20,8 +20,8 @@ describe('controllers/appeals/your-appeals', () => {
 		jest.resetAllMocks();
 
 		appeals = [{ id: 'appeal123' }];
-		getUserByEmail.mockImplementation(() => Promise.resolve({ id: '123' }));
-		getUserAppealsById.mockImplementation(() => Promise.resolve(appeals));
+		apiClient.getUserByEmailV2.mockImplementation(() => Promise.resolve({ id: '123' }));
+		apiClient.getUserAppealsById.mockImplementation(() => Promise.resolve(appeals));
 		mapToAppellantDashboardDisplayData.mockImplementation((appeal) => appeal);
 	});
 

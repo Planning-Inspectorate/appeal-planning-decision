@@ -25,6 +25,7 @@ const {
 const {
 	isTokenValid,
 	isTestEnvironment,
+	isTestToken,
 	isTestLpaAndToken
 } = require('../../../../src/lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
@@ -34,7 +35,12 @@ const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('@pins/common/src/client/appeals-api-client');
 jest.mock('../../../../src/lib/is-token-valid');
-jest.mock('../../../../src/lib/is-token-valid');
+jest.mock('@pins/common/src/utils', () => {
+	return {
+		testLPACode: 'Q9999',
+		isTestLPA: jest.fn()
+	};
+});
 jest.mock('../../../../src/services/lpa-user.service', () => {
 	return {
 		getLPAUserStatus: jest.fn(),
@@ -63,7 +69,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			const { REQUEST_NEW_CODE, ENTER_CODE, EMAIL_ADDRESS } = householderAppealViews;
 			const url = `/${REQUEST_NEW_CODE}`;
 
-			const returnedFunction = getEnterCode({ REQUEST_NEW_CODE, ENTER_CODE, EMAIL_ADDRESS });
+			const returnedFunction = getEnterCode({ REQUEST_NEW_CODE, ENTER_CODE, EMAIL_ADDRESS }, true);
 			await returnedFunction(req, res);
 
 			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, {
@@ -79,7 +85,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			const { ENTER_CODE, EMAIL_ADDRESS } = fullAppealViews;
 			req.session.appeal = fullAppeal;
 
-			const returnedFunction = getEnterCode({ ENTER_CODE, EMAIL_ADDRESS });
+			const returnedFunction = getEnterCode({ ENTER_CODE_URL: ENTER_CODE, EMAIL_ADDRESS }, true);
 			await returnedFunction(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${req.session.appeal.id}`);
@@ -94,7 +100,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				newCode: true
 			};
 
-			const returnedFunction = getEnterCode({ ENTER_CODE, EMAIL_ADDRESS });
+			const returnedFunction = getEnterCode({ ENTER_CODE, EMAIL_ADDRESS }, true);
 			await returnedFunction(req, res);
 
 			expect(req.session.enterCode?.newCode).toBe(undefined);
@@ -110,7 +116,10 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				};
 				sendToken.mockReturnValue({});
 
-				const returnedFunction = getEnterCode({ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS });
+				const returnedFunction = getEnterCode(
+					{ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS },
+					true
+				);
 				await returnedFunction(req, res);
 
 				expect(sendToken).toBeCalled();
@@ -135,7 +144,10 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 					action: enterCodeConfig.actions.confirmEmail
 				};
 
-				const returnedFunction = getEnterCode({ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS });
+				const returnedFunction = getEnterCode(
+					{ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS },
+					true
+				);
 				await returnedFunction(req, res);
 
 				expect(sendToken).toBeCalled();
@@ -160,7 +172,10 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 					}
 				};
 
-				const returnedFunction = getEnterCode({ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS });
+				const returnedFunction = getEnterCode(
+					{ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS },
+					true
+				);
 				await returnedFunction(req, res);
 
 				expect(sendToken).not.toBeCalled();
@@ -183,7 +198,10 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 					new Error('error');
 				});
 
-				const returnedFunction = getEnterCode({ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS });
+				const returnedFunction = getEnterCode(
+					{ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS },
+					true
+				);
 				await returnedFunction(req, res);
 
 				expect(sendToken).toBeCalled();
@@ -203,7 +221,10 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				};
 				sendToken.mockReturnValue({});
 
-				const returnedFunction = getEnterCode({ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS });
+				const returnedFunction = getEnterCode(
+					{ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS },
+					true
+				);
 				await returnedFunction(req, res);
 
 				expect(req.session.enterCode.action).toEqual('saveAndReturn');
@@ -217,7 +238,10 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				};
 				sendToken.mockReturnValue({});
 
-				const returnedFunction = getEnterCode({ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS });
+				const returnedFunction = getEnterCode(
+					{ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS },
+					true
+				);
 				await returnedFunction(req, res);
 
 				expect(req.session.enterCode.action).toEqual('test');
@@ -232,7 +256,10 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				};
 				sendToken.mockReturnValue({});
 
-				const returnedFunction = getEnterCode({ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS });
+				const returnedFunction = getEnterCode(
+					{ ENTER_CODE, REQUEST_NEW_CODE, EMAIL_ADDRESS },
+					true
+				);
 				await returnedFunction(req, res);
 
 				expect(req.session.enterCode.newCode).not.toBeDefined();
@@ -255,7 +282,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				params: { id: 'not-a-valid-id' }
 			};
 
-			const returnedFunction = postEnterCode({ ENTER_CODE });
+			const returnedFunction = postEnterCode({ ENTER_CODE }, true);
 			await returnedFunction(req, res);
 
 			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, {
@@ -283,7 +310,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				tooManyAttempts: true
 			});
 
-			const returnedFunction = postEnterCode({ NEED_NEW_CODE });
+			const returnedFunction = postEnterCode({ NEED_NEW_CODE }, true);
 			await returnedFunction(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${NEED_NEW_CODE}`);
@@ -304,7 +331,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				expired: true
 			});
 
-			const returnedFunction = postEnterCode({ CODE_EXPIRED });
+			const returnedFunction = postEnterCode({ CODE_EXPIRED }, true);
 			await returnedFunction(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${CODE_EXPIRED}`);
@@ -322,7 +349,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				valid: false
 			});
 
-			const returnedFunction = postEnterCode({ ENTER_CODE });
+			const returnedFunction = postEnterCode({ ENTER_CODE }, true);
 			await returnedFunction(req, res);
 
 			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, {
@@ -343,7 +370,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				action: enterCodeConfig.actions.confirmEmail
 			});
 
-			const returnedFunction = postEnterCode({ EMAIL_CONFIRMED });
+			const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, true);
 			await returnedFunction(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${EMAIL_CONFIRMED}`);
@@ -364,7 +391,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				new Error('error');
 			});
 
-			const returnedFunction = postEnterCode({ ENTER_CODE });
+			const returnedFunction = postEnterCode({ ENTER_CODE }, true);
 			await returnedFunction(req, res);
 
 			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, {
@@ -391,7 +418,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				state: 'SUBMITTED'
 			});
 
-			const returnedFunction = postEnterCode({ APPEAL_ALREADY_SUBMITTED });
+			const returnedFunction = postEnterCode({ APPEAL_ALREADY_SUBMITTED }, true);
 			await returnedFunction(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${APPEAL_ALREADY_SUBMITTED}`);
@@ -414,7 +441,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			});
 			getExistingAppeal.mockReturnValue(draftAppeal);
 
-			const returnedFunction = postEnterCode({ TASK_LIST });
+			const returnedFunction = postEnterCode({ TASK_LIST }, true);
 			await returnedFunction(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${TASK_LIST}`);
@@ -430,12 +457,14 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				createdAt: '2022-07-14T13:00:48.024Z'
 			});
 			isTestEnvironment.mockReturnValue(true);
-			isTestLpaAndToken.mockReturnValue(true);
-			const returnedFunction = postEnterCode({ EMAIL_CONFIRMED });
+			isTestToken.mockReturnValue(true);
+			utils.isTestLPA.mockReturnValue(true);
+			const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, true);
 			await returnedFunction(req, res);
 			expect(isTokenValid).not.toBeCalled();
 			expect(res.redirect).toBeCalledWith(`/${EMAIL_CONFIRMED}`);
 		});
+
 		it('should render page with error message if test token used but test environment is false', async () => {
 			const { ENTER_CODE } = fullAppealViews;
 			let token = '12345';
@@ -450,7 +479,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			};
 			isTestEnvironment.mockReturnValue(false);
 			isTokenValid.mockReturnValue({ valid: false });
-			const returnedFunction = postEnterCode({ ENTER_CODE });
+			const returnedFunction = postEnterCode({ ENTER_CODE }, true);
 			await returnedFunction(req, res);
 
 			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, {
@@ -473,7 +502,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			};
 			isTestEnvironment.mockReturnValue(true);
 			isTokenValid.mockReturnValue({ valid: false });
-			const returnedFunction = postEnterCode({ ENTER_CODE });
+			const returnedFunction = postEnterCode({ ENTER_CODE }, true);
 			await returnedFunction(req, res);
 
 			expect(res.render).toBeCalledWith(`${ENTER_CODE}`, {
@@ -737,6 +766,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			await returnedFunction(req, res);
 			expect(res.redirect).toBeCalledWith(`/manage-appeals/code-expired/${userId}`);
 		});
+
 		it('should redirect on test environment', async () => {
 			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
 			const views = {

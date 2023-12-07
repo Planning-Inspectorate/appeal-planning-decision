@@ -1,5 +1,4 @@
 const express = require('express');
-const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
 const newOrSavedAppealController = require('../../controllers/appeal/new-saved-appeal');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 const { rules: optionsValidationRules } = require('../../validators/common/options');
@@ -9,7 +8,7 @@ const {
 
 const router = express.Router();
 
-router.get('/new-saved-appeal', [fetchExistingAppealMiddleware], newOrSavedAppealController.get);
+router.get('/new-saved-appeal', newOrSavedAppealController.get);
 router.post(
 	'/new-saved-appeal',
 	optionsValidationRules({

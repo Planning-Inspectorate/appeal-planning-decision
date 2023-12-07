@@ -1,8 +1,20 @@
 const { get } = require('../router-mock');
 
-const emailAddressController = require('../../../../src/controllers/appeal/email-address');
+const commonEmailAddressController = require('../../../../src/controllers/common/email-address');
+const {
+	VIEW: {
+		APPEAL: { EMAIL_ADDRESS, ENTER_CODE }
+	}
+} = require('../../../../src/lib/views');
+
+jest.mock('../../../../src/controllers/common/email-address');
 
 describe('routes/appeal/email-address', () => {
+	const views = {
+		EMAIL_ADDRESS,
+		ENTER_CODE
+	};
+
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
 		require('../../../../src/routes/appeal/email-address');
@@ -13,6 +25,9 @@ describe('routes/appeal/email-address', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/email-address', emailAddressController.get);
+		expect(get).toHaveBeenCalledWith(
+			'/email-address',
+			commonEmailAddressController.getEmailAddress(views)
+		);
 	});
 });

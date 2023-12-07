@@ -1,5 +1,4 @@
 const { get, post } = require('../../../../src/controllers/appeal/new-saved-appeal');
-const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
@@ -10,9 +9,13 @@ describe('controllers/appeal/new-or-saved-appeal', () => {
 	let req;
 	let res;
 	beforeEach(() => {
-		req = mockReq({ newOrSavedAppeal: 'save-new' });
+		req = mockReq();
 		res = mockRes();
-		createOrUpdateAppeal.mockImplementation((appeal) => appeal);
+		req.session = { newOrSavedAppeal: 'save-new' };
+	});
+
+	afterEach(() => {
+		jest.clearAllMocks();
 	});
 
 	it('Test get method calls the correct template', async () => {
@@ -44,8 +47,7 @@ describe('controllers/appeal/new-or-saved-appeal', () => {
 		};
 		await post(req, res);
 
-		expect(createOrUpdateAppeal).toHaveBeenCalledWith({ newOrSavedAppeal: 'save-new' });
-		expect(req.session.appeal).toEqual({ newOrSavedAppeal: 'save-new' });
+		expect(req.session).toEqual({ newOrSavedAppeal: 'save-new' });
 	});
 
 	it('Test post method redirects to correct page when user chose to start a new appeal', async () => {

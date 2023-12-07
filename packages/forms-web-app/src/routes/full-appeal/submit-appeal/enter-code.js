@@ -16,38 +16,40 @@ const {
 			APPEAL_ALREADY_SUBMITTED,
 			EMAIL_CONFIRMED,
 			EMAIL_ADDRESS
-		}
+		},
+		COMMON
 	}
 } = require('../../../lib/views');
 
 const views = {
 	TASK_LIST,
-	ENTER_CODE,
+	ENTER_CODE_URL: ENTER_CODE,
 	REQUEST_NEW_CODE,
 	CODE_EXPIRED,
 	NEED_NEW_CODE,
 	APPEAL_ALREADY_SUBMITTED,
 	EMAIL_CONFIRMED,
-	EMAIL_ADDRESS
+	EMAIL_ADDRESS,
+	ENTER_CODE: COMMON.ENTER_CODE
 };
 
 const router = express.Router();
 
 //this route allows use of old enter code URLS (without id params)
-router.get('/submit-appeal/enter-code', getEnterCode(views));
+router.get('/submit-appeal/enter-code', getEnterCode(views, true));
 
 router.get(
 	'/submit-appeal/enter-code/:id',
 	idValidationRules(),
 	validationErrorHandler,
-	getEnterCode(views)
+	getEnterCode(views, true)
 );
 
 router.post(
 	'/submit-appeal/enter-code/:id',
 	ruleEnterCode(),
 	validationErrorHandler,
-	postEnterCode(views)
+	postEnterCode(views, true)
 );
 
 module.exports = router;
