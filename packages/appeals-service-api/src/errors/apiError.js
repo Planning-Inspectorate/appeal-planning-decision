@@ -42,6 +42,10 @@ class ApiError {
 		return new ApiError(409, { errors: ['Cannot update appeal that is already SUBMITTED'] });
 	}
 
+	static appealDuplicate() {
+		return new ApiError(400, { errors: [`This appeal already exists`] });
+	}
+
 	// final comments
 	static finalCommentAlreadySubmitted() {
 		return new ApiError(409, { errors: [`Cannot submit more than one final comment per email`] });
