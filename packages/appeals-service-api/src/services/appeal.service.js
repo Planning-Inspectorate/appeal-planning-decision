@@ -9,13 +9,20 @@ const logger = require('../lib/logger');
 const ApiError = require('../errors/apiError');
 const validateFullAppeal = require('../validators/validate-full-appeal');
 const { validateAppeal } = require('../validators/validate-appeal');
-const { AppealsRepository } = require('../repositories/appeals-repository');
+const {
+	AppealsRepository: AppealsCosmosRepository
+} = require('../repositories/appeals-repository');
+const {
+	AppealsRepository: AppealsSQLRepository
+} = require('../repositories/sql/appeals-repository');
 const uuid = require('uuid');
 const DocumentService = require('./document.service');
 const AppealContactValueObject = require('../value-objects/appeal/contact.value');
 const AppealContactsValueObject = require('../value-objects/appeal/contacts.value');
 
-const appealsRepository = new AppealsRepository();
+const appealsCosmosRepository = new AppealsCosmosRepository();
+const appealsSQLRepository = new AppealsSQLRepository();
+
 const documentService = new DocumentService();
 
 async function createAppeal(req, res) {
@@ -29,7 +36,8 @@ async function createAppeal(req, res) {
 	logger.debug(`Creating appeal ${appeal.id} ...`);
 	logger.debug({ appeal }, 'Appeal data in createAppeal');
 
-	const document = await appealsRepository.create(appeal);
+	const document = await appealsCosmosRepository.create(appeal);
+	await appealsSQLRepository.createAppeal({ legacyAppealSubmissionId: appeal.id });
 
 	if (document.result && document.result.ok) {
 		logger.debug(`Appeal ${appeal.id} created`);
@@ -43,7 +51,7 @@ async function createAppeal(req, res) {
 
 async function getAppeal(id) {
 	logger.info(`Retrieving appeal ${id} ...`);
-	const document = await appealsRepository.getById(id);
+	const document = await appealsCosmosRepository.getById(id);
 
 	if (document === null) {
 		logger.info(`Appeal ${id} not found`);
@@ -56,7 +64,7 @@ async function getAppeal(id) {
 
 async function getAppealByLPACodeAndId(lpaCode, id) {
 	logger.info(`Retrieving appeal ${id} ... for lpaCode ${lpaCode}`);
-	const document = await appealsRepository.getByLPACodeAndId(lpaCode, id);
+	const document = await appealsCosmosRepository.getByLPACodeAndId(lpaCode, id);
 
 	if (document === null) {
 		logger.info(`Appeal ${id} not found`);
@@ -69,7 +77,7 @@ async function getAppealByLPACodeAndId(lpaCode, id) {
 
 async function getAppealByHorizonId(horizonId) {
 	logger.info(`Retrieving appeal ${horizonId} ...`);
-	const document = await appealsRepository.getByHorizonId(horizonId);
+	const document = await appealsCosmosRepository.getByHorizonId(horizonId);
 
 	if (document === null) {
 		logger.info(`Appeal ${horizonId} not found`);
@@ -104,7 +112,7 @@ function isValidAppeal(appeal) {
 async function updateAppeal(id, appealUpdate) {
 	logger.debug(appealUpdate, `Attempting to update appeal with ID ${id} with`);
 
-	const savedAppealEntity = await appealsRepository.getById(id);
+	const savedAppealEntity = await appealsCosmosRepository.getById(id);
 
 	if (savedAppealEntity === null) {
 		throw ApiError.appealNotFound(id);
@@ -116,7 +124,7 @@ async function updateAppeal(id, appealUpdate) {
 
 	/* eslint no-param-reassign: ["error", { "props": false }] */
 	appeal.updatedAt = new Date(new Date().toISOString());
-	const updatedAppealEntity = await appealsRepository.update(appeal);
+	const updatedAppealEntity = await appealsCosmosRepository.update(appeal);
 	const updatedAppeal = updatedAppealEntity.value.appeal;
 	logger.debug(updatedAppeal, `Appeal updated to`);
 	return updatedAppeal;
