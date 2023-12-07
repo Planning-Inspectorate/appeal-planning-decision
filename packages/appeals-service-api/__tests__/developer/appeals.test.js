@@ -8,6 +8,7 @@ const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
 const { createPrismaClient } = require('../../src/db/db-client');
+const { seedStaticData } = require('../../src/db/seed/data-static');
 
 const MockedExternalApis = require('./external-dependencies/rest-apis/mocked-external-apis');
 const AppealFixtures = require('./fixtures/appeals');
@@ -94,12 +95,15 @@ beforeAll(async () => {
 	let server = http.createServer(app);
 	appealsApi = supertest(server);
 
-	/////////////////////////
-	///// POPULATE LPAS /////
-	/////////////////////////
+	/////////////////////////////////
+	///// POPULATE Static Data /////
+	///////////////////////////////
 
 	const testLpaJson = `{OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n323;${testLpaCodeEngland};;${testLpaNameEngland};${testLpaEmail};;TRUE\n324;${testLpaCodeWales};${testHorizonLpaCodeWales};${testLpaNameWales};${testLpaEmail};;TRUE}`;
 	await appealsApi.post('/api/v1/local-planning-authorities').send(testLpaJson);
+
+	// static data in sql, could move to global test setup
+	await seedStaticData(sqlClient);
 });
 
 beforeEach(async () => {
@@ -147,7 +151,7 @@ describe('Appeals', () => {
 
 	it("should apply patch updates correctly when data to patch-in isn't a full appeal", async () => {
 		// Given: an appeal is created
-		const savedAppealResponse = await _createAppeal();
+		const { appealResponse: savedAppealResponse, userResponse: user } = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
 
 		// When: the appeal is patched
@@ -160,13 +164,93 @@ describe('Appeals', () => {
 		savedAppeal.updatedAt = patchedAppealResponse.body.updatedAt;
 		expect(patchedAppealResponse.body).toMatchObject(savedAppeal);
 
+		const userLink = await sqlClient.appealToUser.findFirst();
+		expect(userLink?.role).toBe('appellant');
+		expect(userLink?.userId).toBe(user.id);
+
+		// And: no external systems should be interacted with
+		expectedNotifyInteractions = [];
+	});
+
+	it('should set agent role if setting isOriginalApplicant false on HAS appeal', async () => {
+		// Given: an appeal is created
+		const householderAppeal = AppealFixtures.newHouseholderAppeal();
+		householderAppeal.aboutYouSection.yourDetails.isOriginalApplicant = true;
+
+		const { appealResponse: savedAppealResponse, userResponse: user } = await _createAppeal(
+			householderAppeal
+		);
+
+		if (!savedAppealResponse.ok) {
+			throw new Error('failed to create appeal');
+		}
+
+		let savedAppeal = savedAppealResponse.body;
+
+		const dataToSend = {
+			aboutYouSection: {
+				yourDetails: {
+					isOriginalApplicant: false
+				}
+			}
+		};
+
+		// When: the appeal is patched
+		const patchedAppealResponse = await appealsApi
+			.patch(`/api/v1/appeals/${savedAppeal.id}`)
+			.send(dataToSend);
+
+		expect(patchedAppealResponse.body.aboutYouSection.yourDetails.isOriginalApplicant).toBe(false);
+
+		const userLink = await sqlClient.appealToUser.findFirst();
+		expect(userLink?.role).toBe('agent');
+		expect(userLink?.userId).toBe(user.id);
+
+		// And: no external systems should be interacted with
+		expectedNotifyInteractions = [];
+	});
+
+	it('should set agent role if setting isOriginalApplicant false on S76 appeal', async () => {
+		// Given: an appeal is created
+		const fullAppeal = AppealFixtures.newFullAppeal();
+		fullAppeal.contactDetailsSection.isOriginalApplicant = true;
+
+		const { appealResponse: savedAppealResponse, userResponse: user } = await _createAppeal(
+			fullAppeal
+		);
+
+		if (!savedAppealResponse.ok) {
+			throw new Error('failed to create appeal');
+		}
+
+		let savedAppeal = savedAppealResponse.body;
+
+		const dataToSend = {
+			aboutYouSection: {
+				yourDetails: {
+					isOriginalApplicant: false
+				}
+			}
+		};
+
+		// When: the appeal is patched
+		const patchedAppealResponse = await appealsApi
+			.patch(`/api/v1/appeals/${savedAppeal.id}`)
+			.send(dataToSend);
+
+		expect(patchedAppealResponse.body.aboutYouSection.yourDetails.isOriginalApplicant).toBe(false);
+
+		const userLink = await sqlClient.appealToUser.findFirst();
+		expect(userLink?.role).toBe('agent');
+		expect(userLink?.userId).toBe(user.id);
+
 		// And: no external systems should be interacted with
 		expectedNotifyInteractions = [];
 	});
 
 	it('should return the relevant appeal when requested after the appeal has been saved', async () => {
 		// Given: an appeal is created
-		const savedAppeal = await _createAppeal();
+		const { appealResponse: savedAppeal } = await _createAppeal();
 
 		// When: we try to request that appeal
 		const requestedAppeal = await appealsApi.get(`/api/v1/appeals/${savedAppeal.body.id}`);
@@ -193,16 +277,22 @@ describe('Appeals', () => {
 	});
 });
 
+/**
+ * @param {*} householderAppeal
+ * @returns {Promise.<{appealResponse: *, userResponse: import('@prisma/client').AppealUser}>}
+ */
 const _createAppeal = async (householderAppeal = AppealFixtures.newHouseholderAppeal()) => {
 	const appealCreatedResponse = await appealsApi.post('/api/v1/appeals');
 	const appealCreated = appealCreatedResponse.body;
+
+	const user = await createSqlUser(householderAppeal.email);
 
 	householderAppeal.id = appealCreated.id;
 	const savedAppealResponse = await appealsApi
 		.put(`/api/v1/appeals/${appealCreated.id}`)
 		.send(householderAppeal);
 
-	return savedAppealResponse;
+	return { appealResponse: savedAppealResponse, userResponse: user };
 };
 
 /**
@@ -221,9 +311,30 @@ const _clearDatabaseCollections = async () => {
 	}
 };
 
+/**
+ * @returns {Promise.<void>}
+ */
 const _clearSqlData = async () => {
-	// await sqlClient.appealToUser.deleteMany();
-	// await sqlClient.appealUser.deleteMany();
-	// await sqlClient.appealCase.(deleteMany);
-	// await sqlClient.appeal.deleteMany();
+	await sqlClient.appealToUser.deleteMany();
+	await sqlClient.appealUser.deleteMany();
+	await sqlClient.appealCase.deleteMany();
+	await sqlClient.appeal.deleteMany();
+};
+
+/**
+ *
+ * @param {string} email
+ * @returns {Promise.<import('@prisma/client').AppealUser>}
+ */
+const createSqlUser = async (email) => {
+	return await sqlClient.appealUser.upsert({
+		create: {
+			email: email,
+			isEnrolled: true
+		},
+		update: {
+			isEnrolled: true
+		},
+		where: { email: email }
+	});
 };

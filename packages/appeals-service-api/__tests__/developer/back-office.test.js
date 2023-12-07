@@ -7,6 +7,8 @@ const jp = require('jsonpath');
 const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
+const { createPrismaClient } = require('../../src/db/db-client');
+const { seedStaticData } = require('../../src/db/seed/data-static');
 
 const MockedExternalApis = require('./external-dependencies/rest-apis/mocked-external-apis');
 const HorizonInteraction = require('./external-dependencies/rest-apis/interactions/horizon-interaction');
@@ -16,6 +18,8 @@ const HorizonIntegrationInputCondition = require('./utils/horizon-integration-in
 
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 
+/** @type {import('@prisma/client').PrismaClient} */
+let sqlClient;
 /** @type {import('supertest').SuperTest<import('supertest').Test>} */
 let appealsApi;
 /** @type {import('mongodb').MongoClient} */
@@ -66,6 +70,9 @@ beforeAll(async () => {
 		context.connection.close();
 	});
 
+	// sql client
+	sqlClient = createPrismaClient();
+
 	/////////////////////////////
 	///// SETUP TEST CONFIG /////
 	/////////////////////////////
@@ -100,10 +107,14 @@ beforeAll(async () => {
 
 	const testLpaJson = `{OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n323;${testLpaCodeEngland};;${testLpaNameEngland};${testLpaEmail};;TRUE\n324;${testLpaCodeWales};${testHorizonLpaCodeWales};${testLpaNameWales};${testLpaEmail};;TRUE}`;
 	await appealsApi.post('/api/v1/local-planning-authorities').send(testLpaJson);
+
+	// static data in sql, could move to global test setup
+	await seedStaticData(sqlClient);
 });
 
 beforeEach(async () => {
 	await _clearDatabaseCollections();
+	await _clearSqlData();
 	expectedHorizonInteractions = [];
 	expectedNotifyInteractions = [];
 	await mockedExternalApis.mockNotifyResponse({}, 200);
@@ -123,6 +134,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
+	await sqlClient.$disconnect();
 	await databaseConnection.close();
 	await mockedExternalApis.teardown();
 });
@@ -1664,6 +1676,8 @@ const _createAppeal = async (householderAppeal = AppealFixtures.newHouseholderAp
 	const appealCreatedResponse = await appealsApi.post('/api/v1/appeals');
 	const appealCreated = appealCreatedResponse.body;
 
+	await createSqlUser(householderAppeal.email);
+
 	householderAppeal.id = appealCreated.id;
 	const savedAppealResponse = await appealsApi
 		.put(`/api/v1/appeals/${appealCreated.id}`)
@@ -1686,4 +1700,32 @@ const _clearDatabaseCollections = async () => {
 	for (const collection of databaseCollectionsFiltered) {
 		await collection.drop();
 	}
+};
+
+/**
+ * @returns {Promise.<void>}
+ */
+const _clearSqlData = async () => {
+	await sqlClient.appealToUser.deleteMany();
+	await sqlClient.appealUser.deleteMany();
+	await sqlClient.appealCase.deleteMany();
+	await sqlClient.appeal.deleteMany();
+};
+
+/**
+ *
+ * @param {string} email
+ * @returns {Promise.<import('@prisma/client').AppealUser>}
+ */
+const createSqlUser = async (email) => {
+	return await sqlClient.appealUser.upsert({
+		create: {
+			email: email,
+			isEnrolled: true
+		},
+		update: {
+			isEnrolled: true
+		},
+		where: { email: email }
+	});
 };

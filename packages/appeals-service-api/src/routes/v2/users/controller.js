@@ -1,4 +1,4 @@
-const { getUserByEmail, createUser } = require('./service');
+const { getUserByEmail, createUser, linkUserToAppeal } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
 
@@ -53,7 +53,24 @@ async function userPost(req, res) {
 	}
 }
 
+/**
+ * @type {import('express').Handler}
+ */
+async function userLink(req, res) {
+	const { email, appealId } = req.params;
+	const role = req.body.role;
+
+	const result = await linkUserToAppeal(email, appealId, role);
+
+	res.status(200).send({
+		email,
+		appealId: result.appealId,
+		role: result.role
+	});
+}
+
 module.exports = {
 	userGet,
-	userPost
+	userPost,
+	userLink
 };

@@ -1,20 +1,43 @@
+/**
+ * @typedef {Object} ErrorMessages
+ * @property {Array.<string>} errors
+ */
+
 class ApiError {
-	constructor(code, message) {
+	/**
+	 * @param {number} code
+	 * @param {ErrorMessages} messages
+	 */
+	constructor(code, messages) {
 		this.code = code;
-		this.message = message;
+		this.message = messages;
+	}
+
+	/**
+	 * @param {String|ErrorMessages|undefined} message
+	 * @returns {ErrorMessages}
+	 */
+	static buildErrorFormat(message) {
+		if (!message) return { errors: [] };
+
+		return typeof message === 'string' ? { errors: [message] } : message;
 	}
 
 	// generic
+
 	/**
 	 * @param {number} code
-	 * @param {string} message
+	 * @param {string|ErrorMessages} message
 	 */
 	static withMessage(code, message) {
-		return new ApiError(code, { errors: [message] });
+		return new ApiError(code, ApiError.buildErrorFormat(message));
 	}
 
+	/**
+	 * @param {string|ErrorMessages|undefined} msg
+	 */
 	static badRequest(msg) {
-		return new ApiError(400, msg);
+		return new ApiError(400, ApiError.buildErrorFormat(msg));
 	}
 
 	// appeal
@@ -36,6 +59,10 @@ class ApiError {
 		return new ApiError(409, {
 			errors: ['The provided id in path must be the same as the appeal id in the request body']
 		});
+	}
+
+	static appealDuplicate() {
+		return new ApiError(400, { errors: [`This appeal already exists`] });
 	}
 
 	static appealAlreadySubmitted() {

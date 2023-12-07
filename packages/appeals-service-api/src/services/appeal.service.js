@@ -10,13 +10,25 @@ const ApiError = require('../errors/apiError');
 const validateFullAppeal = require('../validators/validate-full-appeal');
 const { validateAppeal } = require('../validators/validate-appeal');
 const { AppealsRepository } = require('../repositories/appeals-repository');
+const { AppealUserRepository } = require('../repositories/sql/appeal-user-repository');
+const {
+	AppealsRepository: AppealsSQLRepository
+} = require('../repositories/sql/appeals-repository');
 const uuid = require('uuid');
 const DocumentService = require('./document.service');
 const AppealContactValueObject = require('../value-objects/appeal/contact.value');
 const AppealContactsValueObject = require('../value-objects/appeal/contacts.value');
+const { isFeatureActive } = require('../../src/configuration/featureFlag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 const appealsRepository = new AppealsRepository();
 const documentService = new DocumentService();
+const appealUserRepository = new AppealUserRepository();
+const appealsSQLRepository = new AppealsSQLRepository();
+
+/**
+ * @typedef {import('@prisma/client').Appeal} Appeal
+ */
 
 async function createAppeal(req, res) {
 	const appeal = {};
@@ -30,6 +42,7 @@ async function createAppeal(req, res) {
 	logger.debug({ appeal }, 'Appeal data in createAppeal');
 
 	const document = await appealsRepository.create(appeal);
+	await appealsSQLRepository.createAppeal({ legacyAppealSubmissionId: appeal.id });
 
 	if (document.result && document.result.ok) {
 		logger.debug(`Appeal ${appeal.id} created`);
@@ -111,6 +124,10 @@ async function updateAppeal(id, appealUpdate) {
 	}
 
 	let appeal = savedAppealEntity.appeal;
+
+	// set link to user
+	await linkToUser(appealUpdate, appeal);
+
 	Object.assign(appeal, appealUpdate);
 	isValidAppeal(appeal);
 
@@ -120,6 +137,74 @@ async function updateAppeal(id, appealUpdate) {
 	const updatedAppeal = updatedAppealEntity.value.appeal;
 	logger.debug(updatedAppeal, `Appeal updated to`);
 	return updatedAppeal;
+}
+
+/**
+ * @param {*} appealUpdate - appeal to update
+ * @param {*} appeal - existing appeal
+ * @returns {Promise<void>}
+ */
+async function linkToUser(appealUpdate, appeal) {
+	const updateLinkForS76 =
+		appealUpdate?.contactDetailsSection?.isOriginalApplicant !== undefined &&
+		(appeal?.contactDetailsSection?.isOriginalApplicant === undefined ||
+			appealUpdate?.contactDetailsSection?.isOriginalApplicant !==
+				appeal?.contactDetailsSection?.isOriginalApplicant);
+
+	const updateLinkForHAS =
+		appealUpdate?.aboutYouSection?.yourDetails?.isOriginalApplicant !== undefined &&
+		(appeal?.aboutYouSection?.yourDetails?.isOriginalApplicant === undefined ||
+			appealUpdate?.aboutYouSection?.yourDetails?.isOriginalApplicant !==
+				appeal?.aboutYouSection?.yourDetails?.isOriginalApplicant);
+
+	/** @type {import("../db/seed/data-static").AppealToUserRoles|undefined} */
+	let role;
+
+	if (updateLinkForS76) {
+		role = appealUpdate.contactDetailsSection.isOriginalApplicant ? 'appellant' : 'agent';
+	}
+
+	if (updateLinkForHAS) {
+		role = appealUpdate.aboutYouSection.yourDetails.isOriginalApplicant ? 'appellant' : 'agent';
+	}
+
+	if (!role) {
+		return;
+	}
+
+	if (!(await isFeatureActive(FLAG.ENROL_USERS))) {
+		return;
+	}
+
+	const emailAddress = appeal.email ? appeal.email : appealUpdate.email;
+
+	if (!emailAddress) {
+		logger.info(`Cannot link user to appeal with no email: ${appealUpdate.id}`);
+		return;
+	}
+
+	const sqlData = await Promise.all([
+		appealUserRepository.getByEmail(emailAddress),
+		appealsSQLRepository.getByLegacyId(appealUpdate.id)
+	]).catch((err) => {
+		logger.error(err);
+		throw ApiError.withMessage(500, 'failed to find user or appeal to link');
+	});
+
+	const sqlUser = sqlData[0];
+	const sqlAppeal = sqlData[1];
+
+	if (!sqlUser) {
+		throw ApiError.userNotFound();
+	}
+
+	if (!sqlAppeal) {
+		throw ApiError.appealNotFound();
+	}
+
+	logger.info(`set role: ${role} between user: ${sqlUser.id} and appeal: ${sqlAppeal.id}`);
+
+	await appealUserRepository.linkUserToAppeal(sqlUser.id, sqlAppeal.id, role);
 }
 
 /**

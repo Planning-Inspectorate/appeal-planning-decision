@@ -101,8 +101,7 @@ beforeEach(async () => {
 	await mockedExternalApis.mockNotifyResponse({}, 200);
 
 	// clear sql db
-	await sqlClient.securityToken.deleteMany();
-	await sqlClient.appealUser.deleteMany();
+	await _clearSqlData();
 
 	// clear expected api calls
 	// expectedNotifyInteractions = [];
@@ -427,10 +426,41 @@ const _createAppeal = async (householderAppeal = AppealFixtures.newHouseholderAp
 	const appealCreatedResponse = await appealsApi.post('/api/v1/appeals');
 	const appealCreated = appealCreatedResponse.body;
 
+	await createSqlUser(householderAppeal.email);
+
 	householderAppeal.id = appealCreated.id;
 	const savedAppealResponse = await appealsApi
 		.put(`/api/v1/appeals/${appealCreated.id}`)
 		.send(householderAppeal);
 
 	return savedAppealResponse;
+};
+
+/**
+ * @returns {Promise.<void>}
+ */
+const _clearSqlData = async () => {
+	await sqlClient.securityToken.deleteMany();
+	await sqlClient.appealToUser.deleteMany();
+	await sqlClient.appealUser.deleteMany();
+	await sqlClient.appealCase.deleteMany();
+	await sqlClient.appeal.deleteMany();
+};
+
+/**
+ *
+ * @param {string} email
+ * @returns {Promise.<import('@prisma/client').AppealUser>}
+ */
+const createSqlUser = async (email) => {
+	return await sqlClient.appealUser.upsert({
+		create: {
+			email: email,
+			isEnrolled: true
+		},
+		update: {
+			isEnrolled: true
+		},
+		where: { email: email }
+	});
 };

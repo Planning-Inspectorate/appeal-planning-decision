@@ -7,6 +7,7 @@ const { FLAG } = require('@pins/common/src/feature-flags');
 const config = require('../config');
 const parentLogger = require('./logger');
 const baseUrl = '/api/v1';
+const baseUrlV2 = '/api/v2';
 
 async function handler(path, method = 'GET', opts = {}, headers = {}) {
 	const correlationId = uuid.v4();
@@ -124,9 +125,9 @@ exports.saveAppeal = async (appeal) => {
  * @returns { Promise<void> }
  */
 exports.sendToken = async (id, action, emailAddress) => {
-	const version = await getTokenEndpointVersion();
+	const base = await getTokenEndpointVersion();
 
-	return handler(`/api/${version}/token/`, 'PUT', {
+	return handler(`${base}/token/`, 'PUT', {
 		body: JSON.stringify({
 			id: id,
 			action: action,
@@ -149,9 +150,9 @@ exports.sendToken = async (id, action, emailAddress) => {
  * @returns { Promise<TokenCheckResult> }
  */
 exports.checkToken = async (id, token, emailAddress) => {
-	const version = await getTokenEndpointVersion();
+	const base = await getTokenEndpointVersion();
 
-	return handler(`/api/${version}/token/`, 'POST', {
+	return handler(`${base}/token/`, 'POST', {
 		body: JSON.stringify({
 			id,
 			token,
@@ -272,7 +273,35 @@ exports.errorMessages = {
 	}
 };
 
+/**
+ * @param {string} email
+ * @param {string} appealSqlId
+ * @param {string} [role]
+ * @returns {Promise<*>}
+ */
+exports.linkUserToV2Appeal = async (email, appealSqlId, role) => {
+	let roleBody;
+
+	if (role) {
+		roleBody = {
+			body: JSON.stringify({
+				role: role
+			})
+		};
+	}
+
+	return handler(`${baseUrlV2}/users/${email}/appeal/${appealSqlId}`, 'PUT', roleBody);
+};
+
+/**
+ * @param {string} email
+ * @returns {Promise<*>}
+ */
+exports.getUserByEmailV2 = async (email) => {
+	return handler(`${baseUrlV2}/users/${email}`, 'GET');
+};
+
 const getTokenEndpointVersion = async () => {
 	const useV2 = await isFeatureActive(FLAG.ENROL_USERS);
-	return useV2 ? 'v2' : 'v1';
+	return useV2 ? baseUrlV2 : baseUrl;
 };
