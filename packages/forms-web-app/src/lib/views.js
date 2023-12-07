@@ -186,7 +186,18 @@ const VIEW = {
 
 	APPEAL: {
 		NEW_OR_SAVED_APPEAL: 'appeal/new-or-saved-appeal',
-		EMAIL_ADDRESS: 'appeal/email-address'
+		EMAIL_ADDRESS: 'appeal/email-address',
+		ENTER_CODE: 'appeal/enter-code',
+		REQUEST_NEW_CODE: 'appeal/request-new-code',
+		CODE_EXPIRED: 'appeal/code-expired',
+		NEED_NEW_CODE: 'appeal/need-new-code'
+	},
+
+	COMMON: {
+		ENTER_CODE: 'common/enter-code',
+		REQUEST_NEW_CODE: 'common/request-new-code',
+		CODE_EXPIRED: 'common/code-expired',
+		NEED_NEW_CODE: 'common/need-new-code'
 	},
 
 	APPEALS: {

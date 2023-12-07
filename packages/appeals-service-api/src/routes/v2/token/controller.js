@@ -1,10 +1,12 @@
 const ApiError = require('#errors/apiError');
-const { sendSecurityCodeEmail } = require('#lib/notify');
+const { sendSecurityCodeEmail, sendConfirmRegistrationEmailToAppellant } = require('#lib/notify');
 const { getAppeal } = require('../../../services/appeal.service');
-
+const { isFeatureActive } = require('../../../configuration/featureFlag');
 const TokenRepository = require('./repo');
 const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
+
 const appealUserRepository = new AppealUserRepository();
+const { FLAG } = require('@pins/common/src/feature-flags');
 const tokenRepo = new TokenRepository();
 
 const MILLISECONDS_BETWEEN_TOKENS = 10_000;
@@ -66,6 +68,9 @@ async function tokenPostV2(req, res) {
 	if (!user.isEnrolled) {
 		user.isEnrolled = true;
 		await appealUserRepository.updateUser(user);
+		if (await isFeatureActive(FLAG.ENROL_USERS)) {
+			await sendConfirmRegistrationEmailToAppellant(user.email, user.id, user.email);
+		}
 	}
 
 	res.status(200).send({

@@ -7,7 +7,8 @@ const {
 
 const {
 	VIEW: {
-		FULL_APPEAL: { REQUEST_NEW_CODE, NEED_NEW_CODE, ENTER_CODE }
+		FULL_APPEAL: { ENTER_CODE },
+		COMMON: { REQUEST_NEW_CODE, NEED_NEW_CODE }
 	}
 } = require('../../../lib/views');
 

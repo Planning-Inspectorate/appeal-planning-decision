@@ -184,6 +184,32 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	}
 };
 
+/**
+ * Sends an email to appellant confirming their registration and provides a link to continue
+ * @param {string} recipientEmail
+ * @param {string} userId
+ * @param {string} fullName
+ */
+const sendConfirmRegistrationEmailToAppellant = async (recipientEmail, userId, fullName) => {
+	const variables = {
+		'appellant name': fullName,
+		'lpa-link': `${config.apps.appeals.baseUrl}/appeals/your-appeals`
+	};
+
+	logger.debug({ recipientEmail, variables }, 'Sending registration confirmation email');
+
+	await NotifyBuilder.reset()
+		.setTemplateId(templates.APPELLANT_LOGIN.confirmRegistrationEmailToAppellant)
+		.setDestinationEmailAddress(recipientEmail)
+		.setTemplateVariablesFromObject(variables)
+		.setReference(userId + 'registration')
+		.sendEmail(
+			config.services.notify.baseUrl,
+			config.services.notify.serviceId,
+			config.services.notify.apiKey
+		);
+};
+
 const sendSecurityCodeEmail = async (recipientEmail, code, identifier, action = '') => {
 	try {
 		const variables = {
@@ -286,6 +312,7 @@ module.exports = {
 	sendSubmissionConfirmationEmailToAppellant,
 	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
+	sendConfirmRegistrationEmailToAppellant,
 	sendSecurityCodeEmail,
 	sendFailureToUploadToHorizonEmail,
 	mapActionToTemplate,

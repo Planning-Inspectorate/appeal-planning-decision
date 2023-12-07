@@ -10,16 +10,20 @@ const {
 	getLPAUserStatus,
 	setLPAUserStatus
 } = require('../../services/lpa-user.service');
-const { isTokenValid, isTestLpaAndToken, isTestEnvironment } = require('../../lib/is-token-valid');
-
-const { enterCodeConfig } = require('@pins/common');
-
+const {
+	isTokenValid,
+	isTestToken,
+	isTestEnvironment,
+	isTestLpaAndToken
+} = require('../../lib/is-token-valid');
+const { enterCodeConfig, utils } = require('@pins/common');
 const logger = require('../../../src/lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { apiClient } = require('#lib/appeals-api-client');
+const { getSessionEmail, getSessionAppealSqlId } = require('../../lib/session-helper');
 
 /**
  * @typedef {Object} Token
@@ -102,7 +106,7 @@ async function sendTokenToLpaUser(req) {
 	}
 }
 
-const getEnterCode = (views) => {
+const getEnterCode = (views, appealInSession) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {} }
@@ -126,8 +130,8 @@ const getEnterCode = (views) => {
 			action === enterCodeConfig.actions.confirmEmail ? `/${views.EMAIL_ADDRESS}` : null;
 
 		//this handles old save & return url (without id params)
-		if (req.session.appeal?.id && !req.params.id) {
-			res.redirect(`/${views.ENTER_CODE}/${req.session.appeal.id}`);
+		if (appealInSession && req.session.appeal?.id && !req.params.id) {
+			res.redirect(`/${views.ENTER_CODE_URL}/${req.session.appeal.id}`);
 			return;
 		}
 
@@ -162,7 +166,7 @@ const getEnterCode = (views) => {
 	};
 };
 
-const postEnterCode = (views) => {
+const postEnterCode = (views, appealInSession) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {}, errorSummary = [] },
@@ -179,8 +183,14 @@ const postEnterCode = (views) => {
 			});
 		}
 
+		const isReturningUser = req.session.newOrSavedAppeal === 'return';
+
 		let tokenValidResult = async () => {
-			if (isTestEnvironment() && isTestLpaAndToken(token, req.session?.appeal?.lpaCode)) {
+			const isTestScenario =
+				isTestEnvironment() &&
+				isTestToken(token) &&
+				(isReturningUser || utils.isTestLPA(req.session?.appeal?.lpaCode));
+			if (isTestScenario) {
 				return {
 					valid: true,
 					action: enterCodeConfig.actions.confirmEmail
@@ -215,8 +225,8 @@ const postEnterCode = (views) => {
 		let user;
 
 		// get user and set session
-		if (enrolUsersFlag) {
-			user = await apiClient.getUserByEmailV2(req.session.appeal.email);
+		if (enrolUsersFlag && appealInSession) {
+			user = await apiClient.getUserByEmailV2(getSessionEmail(req.session, appealInSession));
 
 			if (!user) {
 				throw new Error('user not found after entering code');
@@ -227,9 +237,12 @@ const postEnterCode = (views) => {
 		// session will be in browser so can redirect here and consider email confirmed
 		if (tokenValid.action === enterCodeConfig.actions.confirmEmail) {
 			if (enrolUsersFlag && user) {
-				await apiClient.linkUserToV2Appeal(user.email, req.session.appeal.appealSqlId);
+				await apiClient.linkUserToV2Appeal(user.email, getSessionAppealSqlId(req.session));
 			}
 
+			if (isReturningUser) {
+				return res.redirect(`/${views.YOUR_APPEALS}`);
+			}
 			delete req.session?.enterCode?.action;
 			return res.redirect(`/${views.EMAIL_CONFIRMED}`);
 		}

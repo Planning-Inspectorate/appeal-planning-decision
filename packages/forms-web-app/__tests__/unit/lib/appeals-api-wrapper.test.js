@@ -241,28 +241,6 @@ describe('lib/appeals-api-wrapper', () => {
 			expect(createResponse).toEqual(mockResponse);
 		});
 
-		it('should get user by email (v2)', async () => {
-			const email = 'admin1%40example.com';
-			const mockResponse = {
-				_id: '6492dc1740b8f50012347237',
-				email: email,
-				isAdmin: true,
-				enabled: true,
-				lpaCode: 'Q9999'
-			};
-			fetch.mockResponseOnce(JSON.stringify(mockResponse));
-			const createResponse = await getUserByEmail(email, true);
-
-			expect(fetch).toHaveBeenCalledWith(`${config.appeals.url}/api/v2/users/${email}`, {
-				headers: {
-					'Content-Type': 'application/json',
-					'X-Correlation-ID': uuid.v4()
-				},
-				method: 'GET'
-			});
-			expect(createResponse).toEqual(mockResponse);
-		});
-
 		it('should handle api fetch failure', async () => {
 			fetch.mockResponseOnce(JSON.stringify(['something went wrong']), {
 				status: 400

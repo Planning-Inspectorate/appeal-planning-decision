@@ -18,12 +18,12 @@ const {
 
 const views = { YOUR_EMAIL_ADDRESS, ENTER_CODE };
 
-router.get('/your-email-address', getYourEmailAddress(views));
+router.get('/your-email-address', getYourEmailAddress(views, true));
 router.post(
 	'/your-email-address',
 	emailAddressValidationRules('email-address'),
 	validationErrorHandler,
-	postYourEmailAddress(views)
+	postYourEmailAddress(views, true)
 );
 
 module.exports = router;

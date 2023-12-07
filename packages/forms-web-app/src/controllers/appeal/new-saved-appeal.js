@@ -4,19 +4,15 @@ const { VIEW } = require('../../lib/views');
 const {
 	constants: { NEW_OR_SAVED_APPEAL_OPTION }
 } = require('@pins/business-rules');
-const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 
 exports.get = async (req, res) => {
-	const { appeal } = req.session;
-	res.render(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
-		newOrSavedAppeal: appeal?.newOrSavedAppeal
-	});
+	const { newOrSavedAppeal } = req.session;
+	res.render(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, { newOrSavedAppeal });
 };
 
 exports.post = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
-	const { appeal } = req.session;
 
 	if (Object.keys(errors).length > 0) {
 		res.render(VIEW.APPEAL.NEW_OR_SAVED_APPEAL, {
@@ -28,8 +24,7 @@ exports.post = async (req, res) => {
 	}
 
 	try {
-		appeal.newOrSavedAppeal = body['new-or-saved-appeal'];
-		req.session.appeal = await createOrUpdateAppeal(appeal);
+		req.session.newOrSavedAppeal = body['new-or-saved-appeal'];
 	} catch (e) {
 		logger.error(e);
 
