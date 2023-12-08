@@ -294,6 +294,14 @@ const documentTypes = {
 		horizonDocumentType: 'Emerging Plans',
 		horizonDocumentGroupType: 'Evidence'
 	},
+	uploadDevelopmentPlanPolicies: {
+		name: 'uploadDevelopmentPlanPolicies',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		horizonDocumentType: 'LPA Questionnaire Documents',
+		horizonDocumentGroupType: 'Evidence'
+	},
 	uploadOtherRelevantPolicies: {
 		name: 'uploadOtherRelevantPolicies',
 		multiple: true,

@@ -12,8 +12,6 @@ const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question
 const AddMoreQuestion = require('./dynamic-components/add-more/question');
 const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
 const RadioQuestion = require('./dynamic-components/radio/question');
-const IdentifierQuestion = require('./dynamic-components/identifier/question');
-
 const RequiredValidator = require('./validator/required-validator');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
 const MultifileUploadValidator = require('./validator/multifile-upload-validator');
@@ -61,18 +59,28 @@ exports.questions = {
 			)
 		]
 	}),
-	changedListedBuildingNumber: new IdentifierQuestion({
-		title: 'Listed building details',
-		pageTitle: 'Listed building details',
-		question: 'Tell us the list entry number',
-		label: 'Seven digit number',
-		fieldName: 'changed-listed-building-number',
-		url: 'changed-listed-building-details',
-		html: 'resources/listed-building-number/content.html',
-		validators: [
-			new RequiredValidator('Enter a list entry number'),
-			new StringEntryValidator(listedBuildingNumberValidation)
-		]
+	changedListedBuildings: new ListAddMoreQuestion({
+		title: 'Listed building or site added',
+		pageTitle: 'Listed building or site has been added to the case',
+		question: 'Add another building or site?',
+		fieldName: 'add-listed-buildings',
+		url: 'changed-listed-buildings',
+		subQuestionLabel: 'Listed Building',
+		subQuestionFieldLabel: 'Seven digit number',
+		subQuestionInputClasses: 'govuk-input--width-10',
+		width: ListAddMoreQuestion.FULL_WIDTH,
+		validators: [new RequiredValidator('Select yes to add another building or site')],
+		subQuestion: new ListedBuildingAddMoreQuestion({
+			title: 'Tell us the list entry number',
+			question: 'Tell us the list entry number',
+			fieldName: 'listed-building-number',
+			html: 'resources/listed-building-number/content.html',
+			validators: [
+				new RequiredValidator('Enter a list entry number'),
+				new StringEntryValidator(listedBuildingNumberValidation)
+			],
+			viewFolder: 'identifier'
+		})
 	}),
 	affectedListedBuildings: new ListAddMoreQuestion({
 		title: 'Listed building or site added',
@@ -335,16 +343,40 @@ exports.questions = {
 			}
 		]
 	}),
-	neighbouringSite: new BooleanQuestion({
-		title: 'Inspector visit to neighbour', //Title used in the summary list
-		question: 'Might the inspector need to enter a neighbour’s land or property?', //The question being asked
-		pageTitle: "Access to a neighbour's land",
-		fieldName: 'inspector-visit-neighbour', //The name of the html input field / stem of the name for screens with multiple fields
-		url: 'inspector-enter-neighbour-site',
+	neighbouringSite: new RadioQuestion({
+		title: 'Might the inspector need to enter a neighbour’s land or property?',
+		question: 'Might the inspector need to enter a neighbour’s land or property?',
+		fieldName: 'inspector-enter-neighbour-site',
 		validators: [
 			new RequiredValidator(
 				'Select yes if the inspector might need to enter a neighbour’s land or property'
-			)
+			),
+			new ConditionalRequiredValidator(),
+			new StringValidator({
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName(
+					'inspector-enter-neighbour-site',
+					'reason-for-neighbour-inspection'
+				)
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Enter the reason',
+					fieldName: 'reason-for-neighbour-inspection',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
 		]
 	}),
 	neighbouringSitesToBeVisited: new ListAddMoreQuestion({
@@ -528,14 +560,24 @@ exports.questions = {
 		html: 'resources/emerging-plan-upload/content.html',
 		documentType: documentTypes.emergingPlanUpload
 	}),
-	uploadOtherRelevantPolicies: new MultiFileUploadQuestion({
-		title: 'Upload policies from statutory development plan	',
+	uploadDevelopmentPlanPolicies: new MultiFileUploadQuestion({
+		title: 'Upload policies from statutory development plan',
 		question: 'Upload relevant policies from your statutory development plan',
-		fieldName: 'upload-other-policies',
+		fieldName: 'upload-development-plan-policies',
 		validators: [
 			new RequiredFileUploadValidator(
-				'Select the planning officer’s report or what your decision notice would have said'
+				'Select the relevant policies from your statutory development plan'
 			),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadDevelopmentPlanPolicies
+	}),
+	uploadOtherRelevantPolicies: new MultiFileUploadQuestion({
+		title: 'Upload any other relevant policies',
+		question: 'Upload any other relevant policies',
+		fieldName: 'upload-other-policies',
+		validators: [
+			new RequiredFileUploadValidator('Select any other relevant policies'),
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadOtherRelevantPolicies

@@ -15,7 +15,7 @@ class HasAppealMapper {
 		return [
 			{
 				appeal: {
-					LPACode: appeal.lpaCode,
+					LPACode: lpa.getLpaCode(), // use Q9999 format, appeal uses E69999999
 					LPAName: lpa.getName(),
 					appealType: 'Householder (HAS) Appeal',
 					isListedBuilding: false,

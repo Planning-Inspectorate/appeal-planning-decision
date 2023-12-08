@@ -16,12 +16,14 @@ try {
 	logger.error(`problem generating api spec doc\n${err}`);
 }
 
-router.use(
-	'/',
-	swaggerUi.serve,
-	swaggerUi.setup(spec, {
-		explorer: true
-	})
-);
+const options = {
+	swaggerOptions: {
+		url: '/api-docs/swagger.json'
+	},
+	explorer: true
+};
+
+router.use('/swagger.json', (req, res) => res.json(spec));
+router.use('/', swaggerUi.serveFiles(null, options), swaggerUi.setup(spec, options));
 
 module.exports = router;
