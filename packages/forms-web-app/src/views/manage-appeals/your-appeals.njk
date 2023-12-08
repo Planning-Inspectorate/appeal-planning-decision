@@ -64,40 +64,37 @@
 {% endset %}
 
 {% set waitingForReviewHtml %}
-<h2 class="govuk-heading-l">Waiting for review</h2>
-{{ govukTable({
-  head: [
-    {
-      text: "Appeal number"
-    },
-    {
-      text: "Address"
-    },
-    {
-      text: "Appeal type"
-    },
-		{
-      text: "Status"
-    }
-  ],
-  rows: [
-    [
-      {
-        text: "1"
-      },
-      {
-        text: "Somewhere"
-      },
-      {
-        text: "S78"
-      },
-			{
-        text: "Status"
-      }
-    ]
-  ]
-}) }}
-{% endset -%}
+<div>
+      <table class="govuk-table govuk-!-margin-top-3">
+        <caption class="govuk-table__caption govuk-table__caption--l">Waiting for review</caption>
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Appeal number</th>
+            <th scope="col" class="govuk-table__header">Address</th>
+						<th scope="col" class="govuk-table__header">Appeal type</th>
+            <th scope="col" class="govuk-table__header">Status</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+            {% for item in waitingForReviewAppeals %}
+              <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                  <a href="{{appealDetailsLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                   {{item.appealNumber}}
+                  </a>
+                </td>
+                <td class="govuk-table__cell">{{item.address}}</td>
+								<td class="govuk-table__cell">{{item.appealType.short}}</td>
+                <td class="govuk-table__cell">
+                  <strong class='govuk-tag govuk-tag--blue'>WITH CASE OFFICER</strong>
+								</td>
+              </tr>
+            {% endfor %}
+
+        </tbody>
+      </table>
+   </div>
+{% endset %}
 
 {% block pageTitle %}
   {{ title }}
