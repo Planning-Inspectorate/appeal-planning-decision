@@ -1,6 +1,11 @@
 const { getAppealByLPACodeAndId } = require('../../../src/services/appeal.service');
-// eslint-disable-next-line no-unused-vars
 const { AppealsRepository } = require('../../../src/repositories/appeals-repository');
+
+jest.mock('../../../src/repositories/sql/appeals-repository', () => ({
+	AppealsRepository: class {
+		createAppeal = Promise.resolve;
+	}
+}));
 
 describe('./src/services/appeal.service', () => {
 	it('should retrieve', async () => {
