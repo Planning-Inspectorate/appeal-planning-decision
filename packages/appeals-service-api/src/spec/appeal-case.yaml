@@ -1,5 +1,13 @@
 components:
   schemas:
+    AppealCaseWithAppellant:
+      description: An appeal case from the Back Office, with appellant service user
+      allOf:
+          - $ref: '#/components/schemas/AppealCase'
+          - type: object
+            properties:
+              appellant:
+                $ref: '#/components/schemas/ServiceUser'
     AppealCase:
       description: An appeal case from the Back Office
       type: object

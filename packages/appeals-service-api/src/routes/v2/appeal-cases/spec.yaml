@@ -8,6 +8,7 @@ paths:
           - $ref: '#/components/parameters/lpa-code'
           - $ref: '#/components/parameters/decided-only'
           - $ref: '#/components/parameters/postcode'
+          - $ref: '#/components/parameters/with-appellant'
       responses:
         200:
           description: List of appeal cases
@@ -16,7 +17,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AppealCase'
+                  $ref: '#/components/schemas/AppealCaseWithAppellant'
         400:
           description: Bad request
           content:
@@ -41,7 +42,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppealCase'
+                $ref: '#/components/schemas/AppealCaseWithAppellant'
         404:
           description: Appeal not found
           content:
@@ -98,3 +99,10 @@ components:
         full:
           value: BS1 6PN
       description: full or half postcode to filter on
+    with-appellant:
+      name: with-appellant
+      in: query
+      schema:
+        type: string
+        enum: ['true']
+      description: Include the appellant service user if available

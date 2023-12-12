@@ -1,6 +1,11 @@
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
 const { AppealCaseRepository } = require('./repo');
+const {
+	getCaseAndAppellant,
+	listByLpaCodeWithAppellant,
+	listByPostcodeWithAppellant
+} = require('./service');
 
 const repo = new AppealCaseRepository();
 
@@ -14,7 +19,7 @@ async function getByCaseReference(req, res) {
 		throw ApiError.withMessage(400, 'case reference is required');
 	}
 	try {
-		const appealCase = await repo.getByCaseReference(caseReference);
+		const appealCase = await getCaseAndAppellant(caseReference);
 		if (!appealCase) {
 			throw ApiError.withMessage(404, 'not found');
 		}
@@ -44,14 +49,23 @@ async function list(req, res, next) {
  * @type {import('express').RequestHandler}
  */
 async function listByLpaCode(req, res) {
-	const { 'lpa-code': lpaCode, 'decided-only': decidedOnly } = req.query;
+	const {
+		'lpa-code': lpaCode,
+		'decided-only': decidedOnly,
+		'with-appellant': withAppellant
+	} = req.query;
 
 	if (!lpaCode || typeof lpaCode !== 'string') {
 		throw ApiError.withMessage(400, 'lpa-code is required');
 	}
 	const isDecidedOnly = decidedOnly === 'true';
+	const isWithAppellant = withAppellant === 'true';
 	try {
-		const appealCases = await repo.listByLpaCode({ lpaCode, decidedOnly: isDecidedOnly });
+		const appealCases = await listByLpaCodeWithAppellant({
+			lpaCode,
+			decidedOnly: isDecidedOnly,
+			withAppellant: isWithAppellant
+		});
 		res.status(200).send(appealCases);
 	} catch (err) {
 		logger.error({ error: err, lpaCode, decidedOnly }, 'error fetching cases by lpa code');
@@ -63,14 +77,23 @@ async function listByLpaCode(req, res) {
  * @type {import('express').RequestHandler}
  */
 async function listByPostcode(req, res) {
-	const { postcode: postcode, 'decided-only': decidedOnly } = req.query;
+	const {
+		postcode: postcode,
+		'decided-only': decidedOnly,
+		'with-appellant': withAppellant
+	} = req.query;
 
 	if (!postcode || typeof postcode !== 'string') {
 		throw ApiError.withMessage(400, 'postcode is required');
 	}
 	const isDecidedOnly = decidedOnly === 'true';
+	const isWithAppellant = withAppellant === 'true';
 	try {
-		const appealCases = await repo.listByPostCode({ postcode, decidedOnly: isDecidedOnly });
+		const appealCases = await listByPostcodeWithAppellant({
+			postcode,
+			decidedOnly: isDecidedOnly,
+			withAppellant: isWithAppellant
+		});
 		res.status(200).send(appealCases);
 	} catch (err) {
 		logger.error({ error: err, postcode, decidedOnly }, 'error fetching cases by postcode');

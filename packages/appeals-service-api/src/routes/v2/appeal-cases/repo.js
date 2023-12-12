@@ -1,4 +1,4 @@
-const dbClient = require('#db-client');
+const { createPrismaClient } = require('#db-client');
 
 /**
  * @typedef {import("@prisma/client").AppealCase} AppealCase
@@ -8,6 +8,12 @@ const dbClient = require('#db-client');
  */
 
 class AppealCaseRepository {
+	dbClient;
+
+	constructor() {
+		this.dbClient = createPrismaClient();
+	}
+
 	/**
 	 * Get an appeal by case reference (aka appeal number)
 	 *
@@ -15,7 +21,7 @@ class AppealCaseRepository {
 	 * @returns {Promise<AppealCase|null>}
 	 */
 	getByCaseReference(caseReference) {
-		return dbClient.appealCase.findUnique({
+		return this.dbClient.appealCase.findUnique({
 			where: {
 				caseReference
 			}
@@ -41,7 +47,7 @@ class AppealCaseRepository {
 			}
 		};
 		// todo: probably pagination
-		return await dbClient.appealCase.findMany(query);
+		return await this.dbClient.appealCase.findMany(query);
 	}
 
 	/**
@@ -62,7 +68,7 @@ class AppealCaseRepository {
 				AND
 			}
 		};
-		return await dbClient.appealCase.count(query);
+		return await this.dbClient.appealCase.count(query);
 	}
 
 	/**
@@ -84,7 +90,7 @@ class AppealCaseRepository {
 			}
 		};
 		// todo: probably pagination
-		return await dbClient.appealCase.findMany(query);
+		return await this.dbClient.appealCase.findMany(query);
 	}
 }
 
