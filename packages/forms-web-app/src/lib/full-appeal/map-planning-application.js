@@ -1,6 +1,6 @@
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
-module.exports = (application) => {
+const mapPlanningApplication = (application) => {
 	switch (application) {
 		case 'full-appeal':
 		case 'outline-planning':
@@ -15,4 +15,20 @@ module.exports = (application) => {
 		default:
 			return undefined;
 	}
+};
+
+const getAppealTypeName = (appealId) => {
+	switch (appealId) {
+		case APPEAL_ID.PLANNING_SECTION_78:
+			return 'Full appeal';
+		case APPEAL_ID.HOUSEHOLDER:
+			return 'Householder appeal';
+		default:
+			return '';
+	}
+};
+
+module.exports = {
+	getAppealTypeName,
+	mapPlanningApplication
 };

@@ -189,6 +189,10 @@ const VIEW = {
 		EMAIL_ADDRESS: 'appeal/email-address'
 	},
 
+	APPEALS: {
+		YOUR_APPEALS: 'appeals/your-appeals'
+	},
+
 	SUBMIT_APPEAL: {
 		APPLICATION_SAVED: 'submit-appeal/application-saved',
 		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details'
