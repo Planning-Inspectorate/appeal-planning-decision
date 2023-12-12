@@ -1,0 +1,30 @@
+paths:
+  /api/v2/users/{id}/appeals:
+    get:
+      tags:
+        - users
+      description: Get appeals for a user
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: user ID
+      responses:
+        200:
+          description: Appeals
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/AppealCase'
+                    - $ref: '#/components/schemas/AppealSubmission'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorBody'
