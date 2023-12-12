@@ -3,6 +3,23 @@ const { pickRandom, datesLastMonth, datesNextMonth } = require('./util');
 const pastDates = datesLastMonth();
 const futureDates = datesNextMonth();
 
+// some data here so we can reference in multiple places
+// IDs have no specific meaning, just valid UUIDs and used for upsert/relations
+
+const appellantOne = {
+	id: '29670d0f-c4b4-4047-8ee0-d62b93e91a18',
+	email: 'appellant1@planninginspectorate.gov.uk'
+};
+
+const appealOne = {
+	id: '756d6bfb-dde8-4532-a041-86c226a23a07'
+};
+
+const appealSubmissionDraft = {
+	// ID in Cosmos, see dev/data
+	id: '89aa8504-773c-42be-bb68-029716ad9756'
+};
+
 /**
  * @type {import('@prisma/client').Prisma.AppealUserCreateInput[]}
  */
@@ -20,19 +37,31 @@ const users = [
 		isLpaAdmin: true,
 		lpaCode: 'Q9999',
 		lpaStatus: 'confirmed'
+	},
+	appellantOne
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.AppealCreateInput[]}
+ */
+const appeals = [
+	{
+		id: appealOne.id
+	},
+	{
+		id: appealSubmissionDraft.id,
+		legacyAppealSubmissionId: appealSubmissionDraft.id,
+		legacyAppealSubmissionState: 'DRAFT'
 	}
 ];
 
 /**
  * @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]}
  */
-const appeals = [
+const appealCases = [
 	{
 		Appeal: {
-			connectOrCreate: {
-				where: { id: '756d6bfb-dde8-4532-a041-86c226a23a07' },
-				create: {}
-			}
+			connect: { id: appealOne.id }
 		},
 		caseReference: '1010101',
 		LPACode: 'Q9999',
@@ -48,6 +77,24 @@ const appeals = [
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(futureDates)
+	}
+];
+
+/**
+ * Link users to appeals
+ *
+ * @type {{appealId: string, userId: string, role: string}[]}
+ */
+const appealToUsers = [
+	{
+		appealId: appealOne.id,
+		userId: appellantOne.id,
+		role: 'appellant'
+	},
+	{
+		appealId: appealSubmissionDraft.id,
+		userId: appellantOne.id,
+		role: 'appellant'
 	}
 ];
 
@@ -77,6 +124,10 @@ const serviceUsers = [
  * @param {import('@prisma/client').PrismaClient} dbClient
  */
 async function seedDev(dbClient) {
+	// ordering here is important to ensure relations are built up
+	// e.g. appeals + users before appeal-to-users
+
+	// create some users
 	for (const user of users) {
 		await dbClient.appealUser.upsert({
 			create: user,
@@ -84,11 +135,47 @@ async function seedDev(dbClient) {
 			where: { email: user.email }
 		});
 	}
+
+	// create some appeals (linked to Cosmos data)
 	for (const appeal of appeals) {
-		await dbClient.appealCase.upsert({
+		await dbClient.appeal.upsert({
 			create: appeal,
 			update: appeal,
-			where: { caseReference: appeal.caseReference }
+			where: { id: appeal.id }
+		});
+	}
+
+	// create some appeal cases
+	for (const appealCase of appealCases) {
+		await dbClient.appealCase.upsert({
+			create: appealCase,
+			update: appealCase,
+			where: { caseReference: appealCase.caseReference }
+		});
+	}
+
+	// link some users to appeals (e.g. appellants/agents)
+	for (const { appealId, userId, role } of appealToUsers) {
+		const appealToUser = {
+			Appeal: {
+				connect: { id: appealId }
+			},
+			Role: {
+				connect: { name: role }
+			},
+			AppealUser: {
+				connect: { id: userId }
+			}
+		};
+		await dbClient.appealToUser.upsert({
+			create: appealToUser,
+			update: appealToUser,
+			where: {
+				appealId_userId: {
+					appealId: appealId,
+					userId: userId
+				}
+			}
 		});
 	}
 	for (const serviceUser of serviceUsers) {
