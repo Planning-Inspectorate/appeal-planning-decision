@@ -2,9 +2,16 @@
 {% set title = "Enter appeal reference" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% block content %}
     <form method="post">
         <div class="govuk-form-group">
+            {% if errorList %}
+                {{ govukErrorSummary({
+                                "titleText": "There is a problem",
+                                "errorList": errorList
+                                }) }}
+            {% endif %}
             <h1 class="govuk-label govuk-label--l">Find a planning appeal</h1>
             <label class="govuk-label govuk-label--m" for="postcode">Enter the postcode</label>
             <p class="govuk-body">Enter the reference number from the local planning authority.</p>
