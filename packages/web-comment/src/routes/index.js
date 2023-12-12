@@ -1,22 +1,38 @@
 const { readdirSync, lstatSync } = require('fs');
 const path = require('path');
-
 // works line Next, urls come from dir names in routes director
 
-const dirNames = readdirSync(__dirname).filter((name) =>
-	lstatSync(path.join(__dirname, name)).isDirectory()
-);
-
 /**
- * @type {Object<urlPath: string, router: import('express').IRouter>}
+ * Recursively list folders from the given directory that include an index.js file
+ *
+ * @param {string} directory
+ * @param {boolean} [includeRoot]
+ * @returns {string[]}
  */
-const routes = dirNames.reduce((acc, dirName) => {
-	const { router } = require(`./${dirName}`);
-	return {
-		...acc,
-		[`/${dirName}`]: router
-	};
-}, {});
+function getRoutes(directory = __dirname, includeRoot = false) {
+	/** @type {string[]} */
+	const paths = [];
+	for (const entry of readdirSync(directory)) {
+		const entryPath = path.join(directory, entry);
+		const isDir = lstatSync(entryPath).isDirectory();
+
+		if (isDir) {
+			paths.push(...getRoutes(entryPath, true));
+		} else if (entry === 'index.js' && includeRoot) {
+			paths.push(directory);
+		}
+	}
+	return paths;
+}
+
+const routePaths = getRoutes();
+const routes = {};
+
+for (const dirName of routePaths) {
+	const { router } = require(`${dirName}`);
+	const relativePath = dirName.replace(__dirname, '').replace('/index.js', '');
+	routes[relativePath] = router;
+}
 
 module.exports = {
 	routes
@@ -29,7 +45,7 @@ module.exports = {
 /*
 routes
 |  top-level
-|  |  index.js  
+|  |  index.js
 |  (stuff)
 |  |  thing-1
 |  |  |  index.js

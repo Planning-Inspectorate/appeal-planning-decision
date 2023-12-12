@@ -1,0 +1,35 @@
+{% extends "../../../index.njk" %}
+{% set title = "Enter appeal reference" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% block content %}
+		<div class="govuk-form-group">
+				<h1 class="govuk-label govuk-label--l">Appeals at {{ postcode }}</h1>
+				<h2 class="govuk-label govuk-label--m">Current appeals</h2>
+				<table class="govuk-table govuk-!-margin-top-3">
+					<thead class="govuk-table__head">
+						<tr class="govuk-table__row">
+							<th scope="col" class="govuk-table__header">Appeal number</th>
+							<th scope="col" class="govuk-table__header">Appeal site</th>
+							<th scope="col" class="govuk-table__header">Applicant</th>
+							<th scope="col" class="govuk-table__header">Comment</th>
+						</tr>
+					</thead>
+					<tbody class="govuk-table__body">
+						<tr class="govuk-table__row">
+                <td class="govuk-table__cell">testAppealNumber</td>
+                <td class="govuk-table__cell">testAppealSite</td>
+                <td class="govuk-table__cell">testApplicant</td>
+                <td class="govuk-table__cell">testComment</td>
+						</tr>
+					</tbody>
+				</table>
+				<h2 class="govuk-label govuk-label--m">Decided appeals</h2>
+				<p class="govuk-body">
+						If you cannot find an appeal, we may have made a decision.
+				</p>
+				<p class="govuk-body">
+						<a href="decided-appeals">View decided appeals for {{ postcode }}</a>
+				</p>
+		</div>
+{% endblock content %}
