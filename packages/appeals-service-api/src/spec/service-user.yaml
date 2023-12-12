@@ -1,0 +1,30 @@
+components:
+  schemas:
+    ServiceUser:
+      description: A Service User
+      type: object
+      required:
+        - id
+        - serviceUserType
+        - caseReference
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: front office appeal case ID
+        caseReference:
+          type: string
+          description: appeal case reference (aka appeal number)
+          example: '6123456'
+        serviceUserType:
+          type: string
+          enum: ['Applicant', 'Appellant', 'Agent', 'RepresentationContact', 'Subscriber']
+        salutation:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        emailAddress:
+          type: string
+
