@@ -15,6 +15,7 @@ const yourPlanningAppealRouter = require('./your-planning-appeal');
 const documentRouter = require('./document');
 const submitAppealRouter = require('./submit-appeal');
 const appealRouter = require('./appeal/');
+const appealsRouter = require('./appeals/');
 const saveAndReturnRouter = require('./save');
 const saveAndReturnHasRouter = require('./appeal-householder-decision/save');
 const appealHouseholderdecision = require('./appeal-householder-decision');
@@ -55,6 +56,7 @@ router.use('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 router.use('/your-planning-appeal', yourPlanningAppealRouter);
 router.use('/before-you-start', beforeYouStartRouter);
 router.use('/appeal', appealRouter);
+router.use('/appeals', appealsRouter);
 router.use(
 	'/before-you-start',
 	checkPathAllowed,
