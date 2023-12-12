@@ -52,6 +52,28 @@ const appeals = [
 ];
 
 /**
+ * @type {import('@prisma/client').Prisma.ServiceUserCreateInput[]}
+ */
+const serviceUsers = [
+	{
+		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a80',
+		id: '12345',
+		serviceUserType: 'Appellant',
+		caseReference: '1010101',
+		firstName: 'Appellant',
+		lastName: 'One'
+	},
+	{
+		internalId: '90e7e328-0631-4373-8bd6-0d431b736120',
+		id: '12346',
+		serviceUserType: 'Agent',
+		caseReference: '1010101',
+		firstName: 'Agent',
+		lastName: 'One'
+	}
+];
+
+/**
  * @param {import('@prisma/client').PrismaClient} dbClient
  */
 async function seedDev(dbClient) {
@@ -67,6 +89,13 @@ async function seedDev(dbClient) {
 			create: appeal,
 			update: appeal,
 			where: { caseReference: appeal.caseReference }
+		});
+	}
+	for (const serviceUser of serviceUsers) {
+		await dbClient.serviceUser.upsert({
+			create: serviceUser,
+			update: serviceUser,
+			where: { internalId: serviceUser.internalId }
 		});
 	}
 
