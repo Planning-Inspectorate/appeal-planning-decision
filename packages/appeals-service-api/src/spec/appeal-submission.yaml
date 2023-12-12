@@ -4,10 +4,12 @@ components:
       description: An appeal submission created in the Front Office
       type: object
       required:
-        - id
+        - uuid
         - createdAt
       properties:
-        id:
+        _id:
+          type: string
+        uuid:
           type: string
         createdAt:
           type: string
@@ -15,6 +17,17 @@ components:
         updatedAt:
           type: string
           format: date-time
-        lpaCode:
-          type: string
+        appeal:
+          type: object
+          properties:
+            id:
+              type: string
+            state:
+              type: string
+              enum: ['DRAFT', 'SUBMITTED']
+            lpaCode:
+              type: string
+            decisionDate:
+              type: string
+              format: date-time
         # todo: add existing properties

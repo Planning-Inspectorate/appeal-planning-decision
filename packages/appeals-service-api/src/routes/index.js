@@ -38,12 +38,8 @@ router.use('/api/v1/listed-buildings', listedBuildingRouter);
 
 // v2 routes loaded from the file structure
 for (const [url, handler] of Object.entries(v2Routes)) {
-	router.use(`/api/v2/${url}`, handler);
-}
-
-// v2 routes loaded from the file structure
-for (const [url, handler] of Object.entries(v2Routes)) {
-	router.use(`/api/v2/${url}`, handler);
+	const suffix = url.startsWith('/') ? url : `/${url}`;
+	router.use(`/api/v2${suffix}`, handler);
 }
 
 module.exports = router;
