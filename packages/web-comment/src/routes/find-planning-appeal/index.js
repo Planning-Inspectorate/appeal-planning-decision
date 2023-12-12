@@ -18,6 +18,7 @@ router.post('/', (req, res) => {
 	if (!postcode) {
 		return res.render(`find-planning-appeal/index`, {
 			inlineErrorMessage: { text: 'Enter a postcode' },
+			errorList: [{ text: 'Enter a postcode', href: '#postcode' }],
 			value: postcode
 		});
 	}
@@ -25,6 +26,7 @@ router.post('/', (req, res) => {
 	if (!partialPostcodeRegex.exec(postcode) && !fullPostcodeRegex.exec(postcode)) {
 		return res.render(`find-planning-appeal/index`, {
 			inlineErrorMessage: { text: 'Enter a real postcode' },
+			errorList: [{ text: 'Enter a real postcode', href: '#postcode' }],
 			value: postcode
 		});
 	}
