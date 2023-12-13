@@ -10,8 +10,15 @@ async function saveAndReturnCreate(req, res) {
 		res.status(400).send('Invalid Id');
 		throw new Error('');
 	}
+
+	const sendEmail = appeal.skipReturnEmail !== true;
+
 	await createSavedAppealDocument(appeal.id);
-	await sendContinueWithAppealEmail(appeal);
+
+	if (sendEmail) {
+		await sendContinueWithAppealEmail(appeal);
+	}
+
 	res.status(201).send(appeal);
 }
 
