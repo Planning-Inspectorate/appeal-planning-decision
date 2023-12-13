@@ -38,6 +38,8 @@ const getYourAppeals = async (req, res) => {
 
 	toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
 
+	waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
+
 	return res.render(DASHBOARD, {
 		lpaName: user.lpaName,
 		addOrRemoveLink: `/${ADD_REMOVE_USERS}`,

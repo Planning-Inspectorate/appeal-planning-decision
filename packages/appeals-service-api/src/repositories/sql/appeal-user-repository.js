@@ -28,7 +28,7 @@ class AppealUserRepository {
 			});
 		} catch (err) {
 			logger.error(err);
-			if (err instanceof Prisma.PrismaClientKnownRequestError) {
+			if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
 				throw ApiError.userDuplicate();
 			}
 			throw err;
