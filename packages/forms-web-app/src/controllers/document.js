@@ -1,6 +1,16 @@
 const { fetchDocument } = require('../lib/documents-api-wrapper');
+const { saveAppeal, getExistingAppeal } = require('../lib/appeals-api-wrapper');
+const {
+	config: {
+		appeal: { type: appealTypeConfig }
+	}
+} = require('@pins/business-rules');
 const logger = require('../lib/logger');
 
+/**
+ * links user to a document, requires an active session
+ * @type {import('express').Handler}
+ */
 const getDocument = async (req, res) => {
 	const { appealOrQuestionnaireId, documentId } = req.params;
 
@@ -12,19 +22,52 @@ const getDocument = async (req, res) => {
 
 			if (sessionLpaCode != associatedLpaCode) {
 				logger.error('Failed to get document');
-				return res.sendStatus(401);
+				res.sendStatus(401);
+				return;
 			}
 
 			return await returnResult(headers, body, res);
 		} else {
-			const sessionAppealId = req.session.appeal.id;
+			const sessionAppealId = req?.session?.appeal?.id;
+
+			if (!sessionAppealId || sessionAppealId !== appealOrQuestionnaireId) {
+				// create save/return entry
+				const tempAppeal = {
+					id: appealOrQuestionnaireId,
+					skipReturnEmail: true
+				};
+				await saveAppeal(tempAppeal); //create save/return
+
+				// remove existing appeal in session
+				if (req?.session?.appeal) {
+					delete req.session.appeal;
+				}
+
+				// lookup appeal to get type - don't trust this as user hasn't proven access to appeal via email yet
+				const appeal = await getExistingAppeal(appealOrQuestionnaireId);
+
+				if (!appeal || !appeal.appealType) {
+					throw new Error('Access denied');
+				}
+
+				const saveAndContinueConfig = appealTypeConfig[
+					appeal.appealType
+				].email.saveAndReturnContinueAppeal(appeal, '', Date.now());
+
+				req.session.loginRedirect = `${req.baseUrl}${req.url}`;
+
+				res.redirect(`${saveAndContinueConfig.variables.link}`);
+				return;
+			}
+
 			const { headers, body } = await fetchDocument(sessionAppealId, documentId);
 
 			return await returnResult(headers, body, res);
 		}
 	} catch (err) {
 		logger.error({ err }, 'Failed to get document');
-		return res.sendStatus(500);
+		res.sendStatus(500);
+		return;
 	}
 };
 
