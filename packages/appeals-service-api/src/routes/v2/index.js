@@ -2,12 +2,29 @@ const { readdirSync, lstatSync } = require('fs');
 const path = require('path');
 
 /**
- * folders in this directory
- * @type {string[]}
+ * Recursively list folders from the given directory that include an index.js file
+ *
+ * @param {string} directory
+ * @param {boolean} [includeRoot]
+ * @returns {string[]}
  */
-const dirNames = readdirSync(__dirname).filter((name) =>
-	lstatSync(path.join(__dirname, name)).isDirectory()
-);
+function getRoutes(directory = __dirname, includeRoot = false) {
+	/** @type {string[]} */
+	const paths = [];
+	for (const entry of readdirSync(directory)) {
+		const entryPath = path.join(directory, entry);
+		const isDir = lstatSync(entryPath).isDirectory();
+
+		if (isDir) {
+			paths.push(...getRoutes(entryPath, true));
+		} else if (entry === 'index.js' && includeRoot) {
+			paths.push(directory);
+		}
+	}
+	return paths;
+}
+
+const routePaths = getRoutes();
 
 /**
  * Routes loaded from each directory
@@ -16,9 +33,10 @@ const dirNames = readdirSync(__dirname).filter((name) =>
  */
 const routes = {};
 
-for (const dirName of dirNames) {
-	const { router } = require(`./${dirName}`);
-	routes[dirName] = router;
+for (const dirName of routePaths) {
+	const { router } = require(`${dirName}`);
+	const relativePath = dirName.replace(__dirname, '').replace('/index.js', '');
+	routes[relativePath] = router;
 }
 
 module.exports = { routes };
