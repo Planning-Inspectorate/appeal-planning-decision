@@ -208,6 +208,12 @@ exports.getAppealsCaseData = async (lpaCode) => {
 	return handler(`/api/v1/appeals-case-data/${lpaCode}`, 'GET');
 };
 
+exports.getAppealsCaseDataV2 = async (lpaCode) => {
+	const urlParams = new URLSearchParams();
+	urlParams.append('lpaCode', lpaCode);
+	return handler(`/api/v2/appeal-cases?${urlParams.toString()}`, 'GET');
+};
+
 exports.getAppealByLPACodeAndId = async (lpaCode, id) => {
 	return handler(`/api/v1/appeals-case-data/${lpaCode}/${id}`, 'GET');
 };
