@@ -46,7 +46,7 @@ class AppealsRepository {
 			return await this.dbClient.appeal.update({
 				data: appeal,
 				where: {
-					legacyAppealSubmissionId: appeal.legacyAppealSubmissionId || ''
+					id: appeal.id
 				}
 			});
 		} catch (err) {
