@@ -28,7 +28,7 @@
                   </a>
                 </td>
                 <td class="govuk-table__cell">{{item.address}}</td>
-								<td class="govuk-table__cell">{{item.appealType.short}}</td>
+								<td class="govuk-table__cell">{{item.appealType}}</td>
                 <td class="govuk-table__cell">
                   {% if item.isNewAppeal %}
                   {% else %}
@@ -138,7 +138,7 @@
 
   <div>
     <p class="govuk-body">
-        <a href="{{decidedAppealsLink}}" class="govuk-link">X decided appeals</a>
+        <a href="{{decidedAppealsLink}}" class="govuk-link">{{decidedAppealsNumber}} decided appeals</a>
     </p>
   </div>
 

@@ -4,7 +4,7 @@
 {% block backButton %}
     {{ govukBackLink({
         text: "Back to manage appeals",
-        href: yourAppealsLink, 
+        href: yourAppealsLink,
         attributes: {
         'data-cy': 'back'
         }
@@ -36,13 +36,26 @@
           <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Appeal number</th>
             <th scope="col" class="govuk-table__header">Site address</th>
-			<th scope="col" class="govuk-table__header">Decision date</th>
+						<th scope="col" class="govuk-table__header">Decision date</th>
             <th scope="col" class="govuk-table__header">Appeal type</th>
             <th scope="col" class="govuk-table__header">Decision</th>
           </tr>
         </thead>
 
         <tbody class="govuk-table__body">
+					{% for appeal in decidedAppeals %}
+						<tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                  <a href="{{appealDetailsLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                   {{appeal.appealNumber}}
+                  </a>
+                </td>
+                <td class="govuk-table__cell">{{appeal.address}}</td>
+                <td class="govuk-table__cell">{{appeal.caseDecisionDate}}</td>
+								<td class="govuk-table__cell">{{appeal.appealType}}</td>
+                <td class="govuk-table__cell">{{appeal.decision}}</td>
+              </tr>
+					{% endfor %}
         </tbody>
       </table>
    </div>

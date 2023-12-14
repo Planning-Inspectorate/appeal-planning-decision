@@ -8,7 +8,7 @@
  * @property {string} siteAddressLine2
  * @property {string} siteAddressPostcode
  * @property {string} siteAddressTown
- * @property {string} appealType
+ * @property {string} appealTypeCode
  * @property {string} questionnaireDueDate
  * @property {string} questionnaireReceived
  * @property {string} statementDueDate
@@ -46,11 +46,13 @@ const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
 
 const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	...appealCaseData,
-	appealNumber: extractAppealNumber(appealCaseData.caseReference),
+	appealNumber: appealCaseData.caseReference,
 	address: formatAddress(appealCaseData),
-	appealType: formatAppealType(appealCaseData.appealType),
+	appealType: appealCaseData.appealTypeCode,
 	nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
-	isNewAppeal: isNewAppeal(appealCaseData)
+	isNewAppeal: isNewAppeal(appealCaseData),
+	decision: appealCaseData.decision,
+	caseDecisionDate: appealCaseData.caseDecisionDate
 });
 
 const isToDoLPADashboard = (appeal) => {
@@ -77,9 +79,11 @@ const overdueDocumentNotToBeDisplayed = (dueDocument) => {
  * @param {string} caseReference
  * @returns {string} returns the seven digit appeal number as a string string
  */
-const extractAppealNumber = (caseReference) => {
-	return caseReference.split('/').pop();
-};
+// Only required if using old mongo instance rather than sql v2 api
+
+// const extractAppealNumber = (caseReference) => {
+// 	return caseReference.split('/').pop();
+// };
 
 const formatAddress = (appealCaseData) => {
 	if (appealCaseData.siteAddressLine2) {
@@ -93,19 +97,22 @@ const formatAddress = (appealCaseData) => {
  * @param {string} caseDataAppealType
  * @returns {DashboardAppealType} returns an object with a long and a short appealType string
  */
-const formatAppealType = (caseDataAppealType) => {
-	if (caseDataAppealType === 'Householder (HAS) Appeal') {
-		return {
-			long: 'Householder',
-			short: 'HAS'
-		};
-	} else if (caseDataAppealType === 'Full Planning (S78) Appeal') {
-		return {
-			long: 'Full planning',
-			short: 'S78'
-		};
-	}
-};
+
+// Only required if using old mongo instance rather than sql v2 api
+
+// const formatAppealType = (caseDataAppealType) => {
+// 	if (caseDataAppealType === 'Householder (HAS) Appeal') {
+// 		return {
+// 			long: 'Householder',
+// 			short: 'HAS'
+// 		};
+// 	} else if (caseDataAppealType === 'Full Planning (S78) Appeal') {
+// 		return {
+// 			long: 'Full planning',
+// 			short: 'S78'
+// 		};
+// 	}
+// };
 
 /**
  * @param {LPAAppealData} appealCaseData return object from database call
@@ -197,9 +204,9 @@ const isProofsOfEvidenceDue = (appealCaseData) => {
 };
 
 module.exports = {
-	extractAppealNumber,
+	// extractAppealNumber,
 	formatAddress,
-	formatAppealType,
+	// formatAppealType,
 	isNewAppeal,
 	determineDocumentToDisplayLPADashboard,
 	mapToLPADashboardDisplayData,

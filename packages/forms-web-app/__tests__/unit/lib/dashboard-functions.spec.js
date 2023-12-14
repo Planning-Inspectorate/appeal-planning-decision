@@ -1,7 +1,7 @@
 const {
-	extractAppealNumber,
+	// extractAppealNumber,
 	formatAddress,
-	formatAppealType,
+	// formatAppealType,
 	determineDocumentToDisplayLPADashboard,
 	isNewAppeal
 } = require('../../../src/lib/dashboard-functions');
@@ -10,7 +10,7 @@ const { calculateDueInDays } = require('../../../src/lib/calculate-due-in-days')
 
 jest.mock('../../../src/lib/calculate-due-in-days');
 
-const TEST_CASE_REFERENCE = 'APP/Q9999/W/22/1234567';
+// const TEST_CASE_REFERENCE = 'APP/Q9999/W/22/1234567';
 const FULL_TEST_ADDRESS = {
 	siteAddressLine1: 'Test Address Line 1',
 	siteAddressLine2: 'Test Address Line 2',
@@ -32,11 +32,11 @@ describe('lib/dashboard-functions', () => {
 		jest.resetAllMocks();
 	});
 
-	describe('extractAppealNumber', () => {
-		it('extracts the 7 digit appeal number from a longer case reference', () => {
-			expect(extractAppealNumber(TEST_CASE_REFERENCE)).toEqual('1234567');
-		});
-	});
+	// describe('extractAppealNumber', () => {
+	// 	it('extracts the 7 digit appeal number from a longer case reference', () => {
+	// 		expect(extractAppealNumber(TEST_CASE_REFERENCE)).toEqual('1234567');
+	// 	});
+	// });
 
 	describe('formatAddress', () => {
 		it('formats address parts into a single string', () => {
@@ -52,25 +52,25 @@ describe('lib/dashboard-functions', () => {
 		});
 	});
 
-	describe('formatAppealType', () => {
-		it('returns appeal types for a HAS appeal', () => {
-			const hasAppeal = 'Householder (HAS) Appeal';
+	// describe('formatAppealType', () => {
+	// 	it('returns appeal types for a HAS appeal', () => {
+	// 		const hasAppeal = 'Householder (HAS) Appeal';
 
-			expect(formatAppealType(hasAppeal)).toEqual({
-				long: 'Householder',
-				short: 'HAS'
-			});
-		});
+	// 		expect(formatAppealType(hasAppeal)).toEqual({
+	// 			long: 'Householder',
+	// 			short: 'HAS'
+	// 		});
+	// 	});
 
-		it('returns appeal types for a s.78 appeal', () => {
-			const s78Appeal = 'Full Planning (S78) Appeal';
+	// 	it('returns appeal types for a s.78 appeal', () => {
+	// 		const s78Appeal = 'Full Planning (S78) Appeal';
 
-			expect(formatAppealType(s78Appeal)).toEqual({
-				long: 'Full planning',
-				short: 'S78'
-			});
-		});
-	});
+	// 		expect(formatAppealType(s78Appeal)).toEqual({
+	// 			long: 'Full planning',
+	// 			short: 'S78'
+	// 		});
+	// 	});
+	// });
 
 	describe('determineDocumentToDisplayLPADashboard', () => {
 		it('returns default values if no documents are due', () => {

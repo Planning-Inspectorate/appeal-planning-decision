@@ -22,19 +22,31 @@ const getYourAppeals = async (req, res) => {
 
 	appealsCaseData = await getAppealsCaseDataV2(user.lpaCode);
 
-	const { toDoAppeals, waitingForReviewAppeals } = appealsCaseData
+	const { undecidedAppealsCaseData, decidedAppeals } = appealsCaseData
 		.map(mapToLPADashboardDisplayData)
 		.reduce(
 			(acc, cur) => {
-				if (isToDoLPADashboard(cur)) {
-					acc.toDoAppeals.push(cur);
+				if (cur.decision) {
+					acc.decidedAppeals.push(cur);
 				} else {
-					acc.waitingForReviewAppeals.push(cur);
+					acc.undecidedAppealsCaseData.push(cur);
 				}
 				return acc;
 			},
-			{ toDoAppeals: [], waitingForReviewAppeals: [] }
+			{ undecidedAppealsCaseData: [], decidedAppeals: [] }
 		);
+
+	const { toDoAppeals, waitingForReviewAppeals } = undecidedAppealsCaseData.reduce(
+		(acc, cur) => {
+			if (isToDoLPADashboard(cur)) {
+				acc.toDoAppeals.push(cur);
+			} else {
+				acc.waitingForReviewAppeals.push(cur);
+			}
+			return acc;
+		},
+		{ toDoAppeals: [], waitingForReviewAppeals: [] }
+	);
 
 	toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
 
@@ -48,7 +60,8 @@ const getYourAppeals = async (req, res) => {
 		appealDetailsLink: `/${APPEAL_DETAILS}`,
 		appealQuestionnaireLink: baseHASUrl,
 		showQuestionnaire: await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, user.lpaCode),
-		decidedAppealsLink: `/${DECIDED_APPEALS}`
+		decidedAppealsLink: `/${DECIDED_APPEALS}`,
+		decidedAppealsNumber: decidedAppeals.length
 	});
 };
 

@@ -210,7 +210,7 @@ exports.getAppealsCaseData = async (lpaCode) => {
 
 exports.getAppealsCaseDataV2 = async (lpaCode) => {
 	const urlParams = new URLSearchParams();
-	urlParams.append('lpaCode', lpaCode);
+	urlParams.append('lpa-code', lpaCode);
 	return handler(`/api/v2/appeal-cases?${urlParams.toString()}`, 'GET');
 };
 

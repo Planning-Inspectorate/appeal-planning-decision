@@ -64,7 +64,8 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
 				appealQuestionnaireLink: baseHASUrl,
 				showQuestionnaire: false,
-				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`
+				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
+				decidedAppealsNumber: 0
 			});
 		});
 
@@ -86,7 +87,8 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
 				appealQuestionnaireLink: baseHASUrl,
 				showQuestionnaire: true,
-				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`
+				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
+				decidedAppealsNumber: 0
 			});
 		});
 
