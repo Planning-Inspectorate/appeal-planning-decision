@@ -126,20 +126,12 @@ async function updateAppeal(id, appealUpdate) {
 	const updatedAppealEntity = await appealsCosmosRepository.update(appeal);
 	const updatedAppeal = updatedAppealEntity.value.appeal;
 
-	if (appealUpdate.state || appealUpdate.decisionDate) {
-		/** 
-		 	@type Partial<import('../repositories/sql/appeals-repository').AppealCreateInput>
-		*/
-		let sqlUpdate = {
-			legacyAppealSubmissionId: id
-		};
-		if (appealUpdate.decisionDate) {
-			sqlUpdate.legacyAppealSubmissionDecisionDate = appealUpdate.decisionDate;
-		}
-		if (appealUpdate.state) {
-			sqlUpdate.legacyAppealSubmissionState = appealUpdate.state;
-		}
-		appealsSQLRepository.updateAppealByLegacyAppealSubmissionId(sqlUpdate);
+	if (Object.hasOwn(appealUpdate, 'state') || Object.hasOwn(appealUpdate, 'decisionDate')) {
+		await appealsSQLRepository.updateAppealByLegacyAppealSubmissionId({
+			legacyAppealSubmissionId: id,
+			legacyAppealSubmissionDecisionDate: appealUpdate.decisionDate,
+			legacyAppealSubmissionState: appealUpdate.state
+		});
 	}
 
 	logger.debug(updatedAppeal, `Appeal updated to`);
