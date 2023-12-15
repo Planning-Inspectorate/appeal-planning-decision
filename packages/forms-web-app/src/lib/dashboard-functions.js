@@ -39,6 +39,9 @@
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
 
+const { APPEAL_STATE } = require('@pins/business-rules/src/constants');
+const { getAppealTypeName } = require('./full-appeal/map-planning-application');
+
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
 const finalCommentBaseUrl = '/manage-appeals/appeal-comment';
@@ -60,6 +63,13 @@ const mapToLPADecidedData = (appealCaseData) => ({
 	appealType: appealCaseData.appealTypeCode,
 	decision: formatDecision(appealCaseData.decision),
 	caseDecisionDate: appealCaseData.caseDecisionDate
+});
+
+const mapToAppellantDashboardDisplayData = (appealCaseData) => ({
+	...appealCaseData,
+	address: formatAddress(appealCaseData),
+	isDraft: appealCaseData?.appeal?.state === APPEAL_STATE.DRAFT,
+	appealType: getAppealType(appealCaseData)
 });
 
 const isToDoLPADashboard = (appeal) => {
@@ -93,6 +103,10 @@ const overdueDocumentNotToBeDisplayed = (dueDocument) => {
 // };
 
 const formatAddress = (appealCaseData) => {
+	if (!appealCaseData.siteAddressLine1) {
+		return '';
+	}
+
 	if (appealCaseData.siteAddressLine2) {
 		return `${appealCaseData.siteAddressLine1}, ${appealCaseData.siteAddressLine2}, ${appealCaseData.siteAddressTown}, ${appealCaseData.siteAddressPostcode}`;
 	}
@@ -223,6 +237,17 @@ const isProofsOfEvidenceDue = (appealCaseData) => {
 	return appealCaseData.proofsOfEvidenceDueDate && !appealCaseData.LPAProofsSubmitted;
 };
 
+/**
+ * @param {object} appealCaseData return object from database call
+ * @returns {string}
+ */
+const getAppealType = (appealCaseData) => {
+	if (appealCaseData?.appeal?.state === APPEAL_STATE.DRAFT) {
+		return getAppealTypeName(appealCaseData.appeal.appealType);
+	}
+	return `${appealCaseData.appealTypeName} appeal`;
+};
+
 module.exports = {
 	// extractAppealNumber,
 	formatAddress,
@@ -231,5 +256,6 @@ module.exports = {
 	determineDocumentToDisplayLPADashboard,
 	mapToLPADashboardDisplayData,
 	mapToLPADecidedData,
-	isToDoLPADashboard
+	isToDoLPADashboard,
+	mapToAppellantDashboardDisplayData
 };

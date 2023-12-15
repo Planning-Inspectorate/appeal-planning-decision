@@ -278,6 +278,10 @@ exports.errorMessages = {
 	}
 };
 
+exports.getUserAppealsById = async (id) => {
+	return handler(`/api/v2/users/${id}/appeals`, 'GET');
+};
+
 const getTokenEndpointVersion = async () => {
 	const useV2 = await isFeatureActive(FLAG.ENROL_USERS);
 	return useV2 ? 'v2' : 'v1';

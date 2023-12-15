@@ -16,7 +16,7 @@ const {
 		FULL_APPEAL: { TYPE_OF_PLANNING_APPLICATION }
 	}
 } = require('../../lib/views');
-const mapPlanningApplication = require('../../lib/full-appeal/map-planning-application');
+const { mapPlanningApplication } = require('../../lib/full-appeal/map-planning-application');
 
 const getTypeOfPlanningApplication = (req, res) => {
 	const { appeal } = req.session;
