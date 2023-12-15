@@ -193,6 +193,10 @@ const VIEW = {
 		YOUR_APPEALS: 'appeals/your-appeals'
 	},
 
+	YOUR_APPEALS: {
+		DECIDED_APPEALS: 'appeals/your-appeals/decided-appeals'
+	},
+
 	SUBMIT_APPEAL: {
 		APPLICATION_SAVED: 'submit-appeal/application-saved',
 		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details'
