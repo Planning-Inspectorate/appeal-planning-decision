@@ -17,6 +17,7 @@
 		"db:generate": "npx prisma generate",
 		"db:seed": "npx prisma db seed",
 		"db:seed:prod": "npm run db:generate && node src/db/seed/seed-prod.js",
+		"gen-api-types": "node src/spec/gen-api-types.js",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
 		"start": "node ./",
@@ -65,6 +66,7 @@
 		"secure-pin": "^1.0.14",
 		"supertest": "^6.2.2",
 		"swagger-jsdoc": "^6.2.8",
+		"swagger-typescript-api": "^13.0.3",
 		"swagger-ui-express": "^4.3.0",
 		"uuid": "^8.3.1"
 	},
