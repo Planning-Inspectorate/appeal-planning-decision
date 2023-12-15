@@ -12,3 +12,31 @@ appeals.js
 // contains the route/path specifications
 appeals.spec.yaml
 ```
+
+## Types
+
+To use the API types from another package, use `import` like this:
+
+API response type
+
+```
+/**
+ * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ */
+```
+
+DB schema type
+
+```
+/**
+ * @typedef {import('appeals-service-api').Schema.AppealUser} AppealUser
+ */
+```
+
+### Updates
+
+When updating the API spec, generate the corresponding types with:
+
+`packages/appeals-service-api> npm run gen-api-types`
+
+which will update `packages/appeals-service-api/src/spec/api-types.d.ts`

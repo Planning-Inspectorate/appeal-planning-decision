@@ -31,18 +31,19 @@ All these are to be run with `npm run <command>`.
 
 ## Endpoints
 
-The API spec doc is available at `/api/openapi.yaml`.
-The app will serve this at the `/api-docs` endpoint.
+The API spec doc is generate at run-time, see `src/spec/gen-api-spec.js`.
+The app will serve the spec at the `/api-docs` endpoint.
 
 ## Project Structure
 
 This application will be deployed as a separate, non-publicly exposed service.
-It exists to allow the Forms Web App to interact with the database
 
 - `/src` - contains the application.
 - `/src/controllers` - the application controllers.
 - `/src/lib` - any common "library" files.
 - `/src/routes` - the HTTP endpoints to be created.
+
+Note: new `v2` routes exist in `src/routes/v2`, where controllers, routers, and services existing in a folder per endpoint.
 
 ### Config
 
