@@ -65,11 +65,13 @@ class AppealsRepository {
 	 * @returns {Promise<Appeal>}
 	 */
 	async updateAppealByLegacyAppealSubmissionId(appeal) {
+		if (!appeal.legacyAppealSubmissionId)
+			throw ApiError.badRequest('No legacyAppealSubmissionId provided');
 		await this.dbClient.$transaction(async (transaction) => {
 			const { count } = await transaction.appeal.updateMany({
 				data: appeal,
 				where: {
-					legacyAppealSubmissionId: appeal.legacyAppealSubmissionId || ''
+					legacyAppealSubmissionId: appeal.legacyAppealSubmissionId
 				}
 			});
 
