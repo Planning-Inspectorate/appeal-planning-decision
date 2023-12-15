@@ -1,11 +1,11 @@
 const express = require('express');
+const {
+	appealSearchNoResults
+} = require('../../../controllers/comment-appeal/appeal-search-no-results/controller');
+const asyncHandler = require('../../../utils/asyncHandler');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-	res.render(`comment-appeal/appeal-search-no-results/index`, {
-		appealReference: req.query.search
-	});
-});
+router.get('/', asyncHandler(appealSearchNoResults));
 
 module.exports = { router };

@@ -4,8 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block content %}
 	<div class="govuk-form-group">
-			<h1 class="govuk-label govuk-label--l">Decided Appeals found {{postcode}}</h1>
-			<h2 class="govuk-label govuk-label--m">Current appeals</h2>
+			<h1 class="govuk-label govuk-label--l">{{ decidedAppeals.length }} decided Appeals found {{postcode}}</h1>
 			<table class="govuk-table govuk-!-margin-top-3">
 				<thead class="govuk-table__head">
 					<tr class="govuk-table__row">
@@ -17,21 +16,18 @@
 					</tr>
 				</thead>
 				<tbody class="govuk-table__body">
+				{% for appeal in decidedAppeals %}
+
 					<tr class="govuk-table__row">
-							<td class="govuk-table__cell">testAppealNumber</td>
-							<td class="govuk-table__cell">testAddress</td>
-							<td class="govuk-table__cell">testDecisionDate</td>
-							<td class="govuk-table__cell">testAppealType</td>
-							<td class="govuk-table__cell">testDecision</td>
+						<td class="govuk-table__cell">{{ appeal.caseReference }}</td>
+						<td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
+						<td class="govuk-table__cell">{{ appeal.formattedCaseDecisionDate }}</td>
+						<td class="govuk-table__cell">{{ appeal.appealTypeName }}</td>
+						<td class="govuk-table__cell"><strong class="govuk-tag govuk-tag--{{ appeal.formattedDecisionColour }}">{{ appeal.decision }}</strong></td>
 					</tr>
+
+				{% endfor %}
 				</tbody>
 			</table>
-			<h2 class="govuk-label govuk-label--m">Decided appeals</h2>
-			<p class="govuk-body">
-					If you cannot find an appeal, we may have made a decision.
-			</p>
-			<p class="govuk-body">
-					<a href="decided-appeals">View decided appeals for {{ postcode }}</a>
-			</p>
 	</div>
 {% endblock content %}
