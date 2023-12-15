@@ -193,11 +193,16 @@ services:
     image: node:18-alpine
     environment:
       LOGGER_LEVEL: 'debug'
+      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
     ports:
       - 9002:3000
       # node debugger
       # - 9229:9229
     working_dir: /opt/app
+    links:
+      - appeals-service-api
+    depends_on:
+      - appeals-service-api
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules

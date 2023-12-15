@@ -1,18 +1,63 @@
-const { pickRandom, datesLastMonth, datesNextMonth } = require('./util');
-
-const pastDates = datesLastMonth();
-const futureDates = datesNextMonth();
+const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 
 // some data here so we can reference in multiple places
 // IDs have no specific meaning, just valid UUIDs and used for upsert/relations
 
-const appellantOne = {
-	id: '29670d0f-c4b4-4047-8ee0-d62b93e91a18',
-	email: 'appellant1@planninginspectorate.gov.uk'
+const appellants = {
+	appellantOne: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a11',
+		email: 'appellant1@planninginspectorate.gov.uk'
+	},
+	appellantTwo: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a12',
+		email: 'appellant2@planninginspectorate.gov.uk'
+	},
+	appellantThree: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a13',
+		email: 'appellant3@planninginspectorate.gov.uk'
+	},
+	appellantFour: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a14',
+		email: 'appellant4@planninginspectorate.gov.uk'
+	},
+	appellantFive: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a15',
+		email: 'appellant5@planninginspectorate.gov.uk'
+	},
+	appellantSix: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a16',
+		email: 'appellant6@planninginspectorate.gov.uk'
+	},
+	appellantSeven: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a17',
+		email: 'appellant7@planninginspectorate.gov.uk'
+	},
+	appellantEight: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a18',
+		email: 'appellant8@planninginspectorate.gov.uk'
+	}
 };
 
-const appealOne = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23a07'
+const appealIds = {
+	appealOne: '756d6bfb-dde8-4532-a041-86c226a23a01',
+	appealTwo: '756d6bfb-dde8-4532-a041-86c226a23a02',
+	appealThree: '756d6bfb-dde8-4532-a041-86c226a23a03',
+	appealFour: '756d6bfb-dde8-4532-a041-86c226a23a04',
+	appealFive: '756d6bfb-dde8-4532-a041-86c226a23a05',
+	appealSix: '756d6bfb-dde8-4532-a041-86c226a23a06',
+	appealSeven: '756d6bfb-dde8-4532-a041-86c226a23a07',
+	appealEight: '756d6bfb-dde8-4532-a041-86c226a23a08'
+};
+
+const caseReferences = {
+	caseReferenceOne: '1010101',
+	caseReferenceTwo: '1010102',
+	caseReferenceThree: '1010103',
+	caseReferenceFour: '1010104',
+	caseReferenceFive: '1010105',
+	caseReferenceSix: '1010106',
+	caseReferenceSeven: '1010107',
+	caseReferenceEight: '1010108'
 };
 
 const appealSubmissionDraft = {
@@ -38,16 +83,28 @@ const users = [
 		lpaCode: 'Q9999',
 		lpaStatus: 'confirmed'
 	},
-	appellantOne
+	appellants.appellantOne,
+	appellants.appellantTwo,
+	appellants.appellantThree,
+	appellants.appellantFour,
+	appellants.appellantFive,
+	appellants.appellantSix,
+	appellants.appellantSeven,
+	appellants.appellantEight
 ];
 
 /**
  * @type {import('@prisma/client').Prisma.AppealCreateInput[]}
  */
 const appeals = [
-	{
-		id: appealOne.id
-	},
+	{ id: appealIds.appealOne },
+	{ id: appealIds.appealTwo },
+	{ id: appealIds.appealThree },
+	{ id: appealIds.appealFour },
+	{ id: appealIds.appealFive },
+	{ id: appealIds.appealSix },
+	{ id: appealIds.appealSeven },
+	{ id: appealIds.appealEight },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -55,29 +112,121 @@ const appeals = [
 	}
 ];
 
+const commonAppealProperties = {
+	LPACode: 'Q9999',
+	LPAName: 'System Test Borough Council',
+	appealTypeCode: 'HAS',
+	appealTypeName: 'Householder',
+	siteAddressLine1: '123 Fake Street',
+	siteAddressTown: 'Testville',
+	siteAddressCounty: 'Countyshire',
+	siteAddressPostcode: 'BS1 6PN',
+	costsAppliedForIndicator: false
+};
+
 /**
  * @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]}
  */
 const appealCases = [
 	{
 		Appeal: {
-			connect: { id: appealOne.id }
+			connect: { id: appealIds.appealOne }
 		},
-		caseReference: '1010101',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
-		appealTypeCode: 'HAS',
-		appealTypeName: 'Householder',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
-		outcome: 'allowed',
-		costsAppliedForIndicator: false,
+		...commonAppealProperties,
+		caseReference: caseReferences.caseReferenceOne,
+		decision: '',
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		LPAApplicationReference: '12/2323231/PLA',
+		questionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appealTwo }
+		},
+		...commonAppealProperties,
+		caseReference: caseReferences.caseReferenceTwo,
+		decision: '',
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(2)),
 		LPAApplicationReference: '12/2323232/PLA',
-		siteAddressLine1: '123 Fake Street',
-		siteAddressTown: 'Testville',
-		siteAddressCounty: 'Countyshire',
-		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(futureDates)
+		questionnaireDueDate: pickRandom(datesNMonthsAhead(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(2))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appealThree }
+		},
+		...commonAppealProperties,
+		caseReference: caseReferences.caseReferenceThree,
+		decision: '',
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		LPAApplicationReference: '12/2323233/PLA',
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appealFour }
+		},
+		...commonAppealProperties,
+		caseReference: caseReferences.caseReferenceFour,
+		decision: '',
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		LPAApplicationReference: '12/2323234/PLA',
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appealFive }
+		},
+		...commonAppealProperties,
+		caseReference: caseReferences.caseReferenceFive,
+		decision: 'allowed',
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		LPAApplicationReference: '12/2323235/PLA',
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
+		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appealSix }
+		},
+		...commonAppealProperties,
+		caseReference: caseReferences.caseReferenceSix,
+		decision: 'dismissed',
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		LPAApplicationReference: '12/2323236/PLA',
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
+		caseDecisionDate: pickRandom(datesNMonthsAgo(2))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appealSeven }
+		},
+		...commonAppealProperties,
+		caseReference: caseReferences.caseReferenceSeven,
+		decision: 'allowed in part',
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		LPAApplicationReference: '12/2323237/PLA',
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
+		caseDecisionDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: appealIds.appealEight }
+		},
+		...commonAppealProperties,
+		caseReference: caseReferences.caseReferenceEight,
+		decision: 'other',
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		LPAApplicationReference: '12/2323238/PLA',
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
+		caseDecisionDate: pickRandom(datesNMonthsAgo(4))
 	}
 ];
 
@@ -88,13 +237,48 @@ const appealCases = [
  */
 const appealToUsers = [
 	{
-		appealId: appealOne.id,
-		userId: appellantOne.id,
+		appealId: appealIds.appealOne,
+		userId: appellants.appellantOne.id,
+		role: 'appellant'
+	},
+	{
+		appealId: appealIds.appealTwo,
+		userId: appellants.appellantTwo.id,
+		role: 'appellant'
+	},
+	{
+		appealId: appealIds.appealThree,
+		userId: appellants.appellantThree.id,
+		role: 'appellant'
+	},
+	{
+		appealId: appealIds.appealFour,
+		userId: appellants.appellantFour.id,
+		role: 'appellant'
+	},
+	{
+		appealId: appealIds.appealFive,
+		userId: appellants.appellantFive.id,
+		role: 'appellant'
+	},
+	{
+		appealId: appealIds.appealSix,
+		userId: appellants.appellantSix.id,
+		role: 'appellant'
+	},
+	{
+		appealId: appealIds.appealSeven,
+		userId: appellants.appellantSeven.id,
+		role: 'appellant'
+	},
+	{
+		appealId: appealIds.appealEight,
+		userId: appellants.appellantEight.id,
 		role: 'appellant'
 	},
 	{
 		appealId: appealSubmissionDraft.id,
-		userId: appellantOne.id,
+		userId: appellants.appellantOne.id,
 		role: 'appellant'
 	}
 ];
@@ -104,18 +288,74 @@ const appealToUsers = [
  */
 const serviceUsers = [
 	{
-		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a80',
-		id: '12345',
+		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a81',
+		id: '123451',
 		serviceUserType: 'Appellant',
-		caseReference: '1010101',
+		caseReference: caseReferences.caseReferenceOne,
 		firstName: 'Appellant',
 		lastName: 'One'
+	},
+	{
+		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a82',
+		id: '123452',
+		serviceUserType: 'Appellant',
+		caseReference: caseReferences.caseReferenceTwo,
+		firstName: 'Appellant',
+		lastName: 'Two'
+	},
+	{
+		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a83',
+		id: '123453',
+		serviceUserType: 'Appellant',
+		caseReference: caseReferences.caseReferenceThree,
+		firstName: 'Appellant',
+		lastName: 'Three'
+	},
+	{
+		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a84',
+		id: '123454',
+		serviceUserType: 'Appellant',
+		caseReference: caseReferences.caseReferenceFour,
+		firstName: 'Appellant',
+		lastName: 'Four'
+	},
+	{
+		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a85',
+		id: '123455',
+		serviceUserType: 'Appellant',
+		caseReference: caseReferences.caseReferenceFive,
+		firstName: 'Appellant',
+		lastName: 'Five'
+	},
+	{
+		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a86',
+		id: '123456',
+		serviceUserType: 'Appellant',
+		caseReference: caseReferences.caseReferenceSix,
+		firstName: 'Appellant',
+		lastName: 'Six'
+	},
+	{
+		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a87',
+		id: '123457',
+		serviceUserType: 'Appellant',
+		caseReference: caseReferences.caseReferenceSeven,
+		firstName: 'Appellant',
+		lastName: 'Seven'
+	},
+	{
+		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a88',
+		id: '123458',
+		serviceUserType: 'Appellant',
+		caseReference: caseReferences.caseReferenceEight,
+		firstName: 'Appellant',
+		lastName: 'Eight'
 	},
 	{
 		internalId: '90e7e328-0631-4373-8bd6-0d431b736120',
 		id: '12346',
 		serviceUserType: 'Agent',
-		caseReference: '1010101',
+		caseReference: caseReferences.caseReferenceOne,
 		firstName: 'Agent',
 		lastName: 'One'
 	}
