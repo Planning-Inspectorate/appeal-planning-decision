@@ -207,6 +207,9 @@ model AppealCase {
   LPAProofsForwarded        DateTime?
   LPAProofsSubmitted        DateTime?
 
+  // unconfirmed
+  outcome String?
+
   // todo: there are many more fields! waiting on the model definition
 
   /// link to root Appeal

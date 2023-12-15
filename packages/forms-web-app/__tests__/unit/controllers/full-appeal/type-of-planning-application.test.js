@@ -12,7 +12,9 @@ const {
 	}
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
-const mapPlanningApplication = require('../../../../src/lib/full-appeal/map-planning-application');
+const {
+	mapPlanningApplication
+} = require('../../../../src/lib/full-appeal/map-planning-application');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
