@@ -53,7 +53,14 @@
                 <td class="govuk-table__cell">{{appeal.address}}</td>
                 <td class="govuk-table__cell">{{appeal.caseDecisionDate}}</td>
 								<td class="govuk-table__cell">{{appeal.appealType}}</td>
-                <td class="govuk-table__cell">{{appeal.decision}}</td>
+								<td class="govuk-table__cell">
+									{% if appeal.decision === 'ALLOWED' %}
+										<strong class='govuk-tag govuk-tag--green'>
+          				{% else %}
+            				<strong class='govuk-tag govuk-tag--yellow'>
+          				{% endif %}
+									{{appeal.decision}}
+								</td>
               </tr>
 					{% endfor %}
         </tbody>

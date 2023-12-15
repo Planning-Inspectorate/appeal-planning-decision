@@ -51,7 +51,14 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	appealType: appealCaseData.appealTypeCode,
 	nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
 	isNewAppeal: isNewAppeal(appealCaseData),
-	decision: appealCaseData.decision,
+	decision: appealCaseData.decision
+});
+
+const mapToLPADecidedData = (appealCaseData) => ({
+	appealNumber: appealCaseData.caseReference,
+	address: formatAddress(appealCaseData),
+	appealType: appealCaseData.appealTypeCode,
+	decision: formatDecision(appealCaseData.decision),
 	caseDecisionDate: appealCaseData.caseDecisionDate
 });
 
@@ -93,12 +100,12 @@ const formatAddress = (appealCaseData) => {
 	return `${appealCaseData.siteAddressLine1}, ${appealCaseData.siteAddressTown}, ${appealCaseData.siteAddressPostcode}`;
 };
 
-/**
- * @param {string} caseDataAppealType
- * @returns {DashboardAppealType} returns an object with a long and a short appealType string
- */
+// /**
+//  * @param {string} caseDataAppealType
+//  * @returns {DashboardAppealType} returns an object with a long and a short appealType string
+//  */
 
-// Only required if using old mongo instance rather than sql v2 api
+// // Only required if using old mongo instance rather than sql v2 api
 
 // const formatAppealType = (caseDataAppealType) => {
 // 	if (caseDataAppealType === 'Householder (HAS) Appeal') {
@@ -113,6 +120,19 @@ const formatAddress = (appealCaseData) => {
 // 		};
 // 	}
 // };
+
+const formatDecision = (decision) => {
+	switch (decision) {
+		case 'allowed':
+			return 'ALLOWED';
+		case 'dismissed':
+			return 'DISMISSED';
+		case 'split':
+			return 'ALLOWED IN PART (SPLIT DECISION)';
+		default:
+			return decision;
+	}
+};
 
 /**
  * @param {LPAAppealData} appealCaseData return object from database call
@@ -210,5 +230,6 @@ module.exports = {
 	isNewAppeal,
 	determineDocumentToDisplayLPADashboard,
 	mapToLPADashboardDisplayData,
+	mapToLPADecidedData,
 	isToDoLPADashboard
 };
