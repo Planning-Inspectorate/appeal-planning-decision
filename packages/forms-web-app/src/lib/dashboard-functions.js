@@ -39,7 +39,7 @@
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
 
-const { APPEAL_STATE } = require('@pins/business-rules/src/constants');
+const { APPEAL_STATE, DECISION_OUTCOME } = require('@pins/business-rules/src/constants');
 const { getAppealTypeName } = require('./full-appeal/map-planning-application');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
@@ -60,7 +60,8 @@ const mapToAppellantDashboardDisplayData = (appealCaseData) => ({
 	...appealCaseData,
 	address: formatAddress(appealCaseData),
 	isDraft: appealCaseData?.appeal?.state === APPEAL_STATE.DRAFT,
-	appealType: getAppealType(appealCaseData)
+	appealType: getAppealType(appealCaseData),
+	decisionOutcome: getDecisionOutcome(appealCaseData.outcome)
 });
 
 const isToDoLPADashboard = (appeal) => {
@@ -221,6 +222,24 @@ const getAppealType = (appealCaseData) => {
 	return `${appealCaseData.appealTypeName} appeal`;
 };
 
+/**
+ * @param {import('appeals-service-api').Api.AppealCase} appealCaseData
+ * @returns {string | null }
+ */
+const getDecisionOutcome = (outcome) => {
+	if (!outcome) return null;
+	switch (outcome) {
+		case DECISION_OUTCOME.ALLOWED:
+			return 'allowed';
+		case DECISION_OUTCOME.DISMISSED:
+			return 'dismissed';
+		case DECISION_OUTCOME.SPLIT_DECISION:
+			return 'allowed in part';
+		default:
+			return outcome;
+	}
+};
+
 module.exports = {
 	extractAppealNumber,
 	formatAddress,
@@ -229,5 +248,6 @@ module.exports = {
 	determineDocumentToDisplayLPADashboard,
 	mapToLPADashboardDisplayData,
 	isToDoLPADashboard,
-	mapToAppellantDashboardDisplayData
+	mapToAppellantDashboardDisplayData,
+	getDecisionOutcome
 };

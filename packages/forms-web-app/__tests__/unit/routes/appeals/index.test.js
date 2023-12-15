@@ -12,6 +12,6 @@ describe('routes/appeals/index', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(use).toHaveBeenCalledWith(yourAppealsRouter);
+		expect(use).toHaveBeenCalledWith('/your-appeals', yourAppealsRouter);
 	});
 });

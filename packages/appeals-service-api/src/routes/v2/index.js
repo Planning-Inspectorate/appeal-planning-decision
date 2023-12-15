@@ -37,7 +37,7 @@ for (const dirName of routePaths) {
 	const { router } = require(`${dirName}`);
 	const relativePath = dirName
 		.replace(__dirname, '') // just need relative path
-		.replace(/^_/, ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
+		.replace('_', ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
 		.replace('/index.js', '');
 	routes[relativePath] = router;
 }

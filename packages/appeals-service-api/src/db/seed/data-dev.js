@@ -70,6 +70,7 @@ const appealCases = [
 		appealTypeName: 'Householder',
 		decision: 'refused',
 		originalCaseDecisionDate: pickRandom(pastDates),
+		outcome: 'allowed',
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: '123 Fake Street',
