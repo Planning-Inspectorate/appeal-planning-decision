@@ -1,28 +1,33 @@
-/** @typedef { 'appellant' | 'agent' | 'interestedParty' } AppealToUserRoles */
+/**
+ * @typedef { 'appellant' | 'agent' | 'interestedParty' } AppealToUserRoles
+ * @typedef {import('@prisma/client').Prisma.AppealToUserRoleCreateInput} AppealToUserRoleCreateInput
+ */
 
 /**
- * @type {Array.<import('@prisma/client').Prisma.AppealToUserRoleCreateInput>}
+ * @type {Object<string, AppealToUserRoleCreateInput>}
  */
-const appealToUserRoles = [
-	{
+const APPEAL_USER_ROLES = {
+	appellant: {
 		name: 'appellant',
-		description: `Appellant is the person who's planning application decision is being appealled`
+		description: `Appellant is the person who's planning application decision is being appealed`
 	},
-	{
+	agent: {
 		name: 'agent',
 		description: `An agent is a user who submits an appeal on behalf of an appellant`
 	},
-	{
+	interestedParty: {
 		name: 'interestedParty',
 		description: `An interested party is a user who submits a comment on an appeal`
 	}
-];
+};
+
+const APPEAL_USER_ROLES_ARRAY = Object.values(APPEAL_USER_ROLES);
 
 /**
  * @param {import('@prisma/client').PrismaClient} dbClient
  */
 async function seedStaticData(dbClient) {
-	for (const role of appealToUserRoles) {
+	for (const role of APPEAL_USER_ROLES_ARRAY) {
 		await dbClient.appealToUserRole.upsert({
 			create: role,
 			update: role,
@@ -33,5 +38,7 @@ async function seedStaticData(dbClient) {
 }
 
 module.exports = {
-	seedStaticData
+	seedStaticData,
+	APPEAL_USER_ROLES,
+	APPEAL_USER_ROLES_ARRAY
 };
