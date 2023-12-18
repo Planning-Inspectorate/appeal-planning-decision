@@ -60,12 +60,21 @@ describe('controllers/document', () => {
 			expect(mockFetchDocument.body.pipe).toHaveBeenCalledWith(res);
 		});
 
-		it('should redirect s78 if no appeal in session', async () => {
+		it.each([
+			{
+				appealType: constants.APPEAL_ID.PLANNING_SECTION_78,
+				url: `/full-appeal/submit-appeal/enter-code/`
+			},
+			{
+				appealType: constants.APPEAL_ID.HOUSEHOLDER,
+				url: `/appeal-householder-decision/enter-code/`
+			}
+		])('should redirect: $appealType if no appeal in session', async ({ appealType, url }) => {
 			delete req.session.appeal;
 
 			getExistingAppeal.mockResolvedValue({
 				id: req.params.appealOrQuestionnaireId,
-				appealType: constants.APPEAL_ID.PLANNING_SECTION_78
+				appealType
 			});
 
 			req.baseUrl = '/document';
@@ -74,28 +83,7 @@ describe('controllers/document', () => {
 			await getDocument(req, res);
 
 			expect(req.session.loginRedirect).toBe(req.baseUrl + req.url);
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/full-appeal/submit-appeal/enter-code/${req.params.appealOrQuestionnaireId}`
-			);
-		});
-
-		it('should redirect HAS if no appeal in session', async () => {
-			delete req.session.appeal;
-
-			getExistingAppeal.mockResolvedValue({
-				id: req.params.appealOrQuestionnaireId,
-				appealType: constants.APPEAL_ID.HOUSEHOLDER
-			});
-
-			req.baseUrl = '/document';
-			req.url = `/${req.params.appealOrQuestionnaireId}/doc-id`;
-
-			await getDocument(req, res);
-
-			expect(req.session.loginRedirect).toBe(req.baseUrl + req.url);
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/appeal-householder-decision/enter-code/${req.params.appealOrQuestionnaireId}`
-			);
+			expect(res.redirect).toHaveBeenCalledWith(`${url}${req.params.appealOrQuestionnaireId}`);
 		});
 
 		it('should return an error if an error is thrown', async () => {
