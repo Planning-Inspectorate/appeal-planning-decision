@@ -54,14 +54,14 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	appealType: appealCaseData.appealTypeCode,
 	nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
 	isNewAppeal: isNewAppeal(appealCaseData),
-	decision: appealCaseData.decision
+	decision: appealCaseData.outcome
 });
 
 const mapToLPADecidedData = (appealCaseData) => ({
 	appealNumber: appealCaseData.caseReference,
 	address: formatAddress(appealCaseData),
 	appealType: appealCaseData.appealTypeCode,
-	decision: formatDecision(appealCaseData.decision),
+	decision: formatDecision(appealCaseData.outcome),
 	caseDecisionDate: appealCaseData.caseDecisionDate
 });
 
@@ -141,7 +141,7 @@ const formatDecision = (decision) => {
 			return 'ALLOWED';
 		case 'dismissed':
 			return 'DISMISSED';
-		case 'split':
+		case 'split decision':
 			return 'ALLOWED IN PART (SPLIT DECISION)';
 		default:
 			return decision;

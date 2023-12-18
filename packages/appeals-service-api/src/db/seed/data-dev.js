@@ -1,4 +1,5 @@
 const { pickRandom, datesLastMonth, datesNextMonth } = require('./util');
+const { appealCaseData } = require('./appeal-case-data-dev');
 
 const pastDates = datesLastMonth();
 const futureDates = datesNextMonth();
@@ -147,6 +148,14 @@ async function seedDev(dbClient) {
 
 	// create some appeal cases
 	for (const appealCase of appealCases) {
+		await dbClient.appealCase.upsert({
+			create: appealCase,
+			update: appealCase,
+			where: { caseReference: appealCase.caseReference }
+		});
+	}
+
+	for (const appealCase of appealCaseData) {
 		await dbClient.appealCase.upsert({
 			create: appealCase,
 			update: appealCase,

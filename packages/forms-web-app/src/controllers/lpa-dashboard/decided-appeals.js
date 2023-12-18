@@ -15,7 +15,7 @@ const getDecidedAppeals = async (req, res) => {
 	appealsCaseData = await getAppealsCaseDataV2(user.lpaCode);
 
 	const decidedAppeals = appealsCaseData
-		.filter((appeal) => appeal.decision)
+		.filter((appeal) => appeal.outcome)
 		.map(mapToLPADecidedData);
 
 	decidedAppeals.sort((a, b) => a.caseDecisionDate - b.caseDecisionDate);
