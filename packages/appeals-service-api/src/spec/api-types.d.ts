@@ -180,6 +180,23 @@ export interface AppealSubmission {
 	};
 }
 
+/** An mapping of an appeal to a user */
+export interface AppealToUser {
+	/**
+	 * user email
+	 * @format email
+	 * @example "me@example.com"
+	 */
+	email: string;
+	/**
+	 * Unique identifier of appeal (SQL)
+	 * @format uuid
+	 */
+	appealId: string;
+	/** Role user has on the appeal */
+	role: 'appellant' | 'agent' | 'interestedParty';
+}
+
 /** An appeal user */
 export interface AppealUser {
 	/**

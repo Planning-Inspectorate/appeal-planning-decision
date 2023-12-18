@@ -37,10 +37,13 @@ async function createAppeal(req, res) {
 	logger.debug({ appeal }, 'Appeal data in createAppeal');
 
 	const document = await appealsCosmosRepository.create(appeal);
-	await appealsSQLRepository.createAppeal({ legacyAppealSubmissionId: appeal.id });
+	const sqlAppeal = await appealsSQLRepository.createAppeal({
+		legacyAppealSubmissionId: appeal.id
+	});
 
 	if (document.result && document.result.ok) {
 		logger.debug(`Appeal ${appeal.id} created`);
+		appeal.appealSqlId = sqlAppeal.id;
 		res.status(201).send(appeal);
 		return;
 	}

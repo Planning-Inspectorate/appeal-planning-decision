@@ -1,8 +1,10 @@
 const express = require('express');
-const { userGet, userPost } = require('./controller');
+const { userGet, userPost, userLink } = require('./controller');
 const router = express.Router();
+const asyncHandler = require('../../../middleware/async-handler');
 
-router.get('/:email', userGet);
-router.post('/', userPost);
+router.get('/:email', asyncHandler(userGet));
+router.post('/', asyncHandler(userPost));
+router.post('/:email/appeal/:appealId', asyncHandler(userLink));
 
 module.exports = { router };
