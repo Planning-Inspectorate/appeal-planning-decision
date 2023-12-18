@@ -13,7 +13,7 @@ try {
 	spec = generateOpenApiSpec();
 	logger.debug(`generated api spec`);
 } catch (err) {
-	logger.error(`problem generating api spec doc\n${err}`);
+	logger.error(err, `problem generating api spec doc`);
 }
 
 const options = {
