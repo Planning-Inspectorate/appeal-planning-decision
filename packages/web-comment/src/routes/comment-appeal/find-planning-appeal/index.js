@@ -1,8 +1,5 @@
 const express = require('express');
-const {
-	findPlanningAppealGet,
-	findPlanningAppealPost
-} = require('../../../controllers/comment-appeal/find-planning-appeal/controller');
+const { findPlanningAppealGet, findPlanningAppealPost } = require('./controller');
 const asyncHandler = require('../../../utils/asyncHandler');
 
 const router = express.Router();
