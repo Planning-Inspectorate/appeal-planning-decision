@@ -1,7 +1,5 @@
 const express = require('express');
-const {
-	decidedAppeals
-} = require('../../../controllers/comment-appeal/decided-appeals/controller');
+const { decidedAppeals } = require('./controller');
 const asyncHandler = require('../../../utils/asyncHandler');
 
 const router = express.Router();

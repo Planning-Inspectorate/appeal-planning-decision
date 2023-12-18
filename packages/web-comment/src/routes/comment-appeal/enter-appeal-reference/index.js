@@ -1,8 +1,5 @@
 const express = require('express');
-const {
-	enterAppealReferenceGet,
-	enterAppealReferencePost
-} = require('../../../controllers/comment-appeal/enter-appeal-reference/controller');
+const { enterAppealReferenceGet, enterAppealReferencePost } = require('./controller');
 const asyncHandler = require('../../../utils/asyncHandler');
 
 const router = express.Router();
