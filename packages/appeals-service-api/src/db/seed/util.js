@@ -23,8 +23,8 @@ module.exports = {
 	 *
 	 * @returns {Date[]}
 	 */
-	datesLastMonth() {
-		const month = now.getMonth() - 1;
+	datesNMonthsAgo(n) {
+		const month = now.getMonth() - n;
 		return days.map((day) => dateFromYMD(year, month, day));
 	},
 	/**
@@ -32,8 +32,8 @@ module.exports = {
 	 *
 	 * @returns {Date[]}
 	 */
-	datesNextMonth() {
-		const month = now.getMonth() + 1; // next month
+	datesNMonthsAhead(n) {
+		const month = now.getMonth() + n; // next month
 		return days.map((day) => dateFromYMD(year, month, day));
 	},
 	/**

@@ -1,5 +1,5 @@
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
-const { getAppealsCaseDataV2 } = require('../../lib/appeals-api-wrapper');
+const { getDecidedAppealsCaseDataV2 } = require('../../lib/appeals-api-wrapper');
 const { mapToLPADecidedData } = require('../../lib/dashboard-functions');
 const {
 	VIEW: {
@@ -12,11 +12,9 @@ const getDecidedAppeals = async (req, res) => {
 
 	const user = getLPAUserFromSession(req);
 
-	appealsCaseData = await getAppealsCaseDataV2(user.lpaCode);
+	appealsCaseData = await getDecidedAppealsCaseDataV2(user.lpaCode);
 
-	const decidedAppeals = appealsCaseData
-		.filter((appeal) => appeal.outcome)
-		.map(mapToLPADecidedData);
+	const decidedAppeals = appealsCaseData.map(mapToLPADecidedData);
 
 	decidedAppeals.sort((a, b) => a.caseDecisionDate - b.caseDecisionDate);
 

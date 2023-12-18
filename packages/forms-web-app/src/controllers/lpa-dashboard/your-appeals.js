@@ -13,7 +13,10 @@ const {
 } = require('../../lib/views');
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
 
-const { getAppealsCaseDataV2 } = require('../../lib/appeals-api-wrapper');
+const {
+	getAppealsCaseDataV2,
+	getDecidedAppealsCaseDataV2
+} = require('../../lib/appeals-api-wrapper');
 
 const getYourAppeals = async (req, res) => {
 	let appealsCaseData = [];
@@ -22,31 +25,21 @@ const getYourAppeals = async (req, res) => {
 
 	appealsCaseData = await getAppealsCaseDataV2(user.lpaCode);
 
-	const { undecidedAppealsCaseData, decidedAppeals } = appealsCaseData
+	const decidedAppeals = await getDecidedAppealsCaseDataV2(user.lpaCode);
+
+	const { toDoAppeals, waitingForReviewAppeals } = appealsCaseData
 		.map(mapToLPADashboardDisplayData)
 		.reduce(
 			(acc, cur) => {
-				if (cur.decision) {
-					acc.decidedAppeals.push(cur);
+				if (isToDoLPADashboard(cur)) {
+					acc.toDoAppeals.push(cur);
 				} else {
-					acc.undecidedAppealsCaseData.push(cur);
+					acc.waitingForReviewAppeals.push(cur);
 				}
 				return acc;
 			},
-			{ undecidedAppealsCaseData: [], decidedAppeals: [] }
+			{ toDoAppeals: [], waitingForReviewAppeals: [] }
 		);
-
-	const { toDoAppeals, waitingForReviewAppeals } = undecidedAppealsCaseData.reduce(
-		(acc, cur) => {
-			if (isToDoLPADashboard(cur)) {
-				acc.toDoAppeals.push(cur);
-			} else {
-				acc.waitingForReviewAppeals.push(cur);
-			}
-			return acc;
-		},
-		{ toDoAppeals: [], waitingForReviewAppeals: [] }
-	);
 
 	toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
 

@@ -103,15 +103,14 @@ const overdueDocumentNotToBeDisplayed = (dueDocument) => {
 // };
 
 const formatAddress = (appealCaseData) => {
-	if (!appealCaseData.siteAddressLine1) {
-		return '';
-	}
+	const addressComponents = [
+		appealCaseData.siteAddressLine1,
+		appealCaseData.siteAddressLine2,
+		appealCaseData.siteAddressTown,
+		appealCaseData.siteAddressPostcode
+	];
 
-	if (appealCaseData.siteAddressLine2) {
-		return `${appealCaseData.siteAddressLine1}, ${appealCaseData.siteAddressLine2}, ${appealCaseData.siteAddressTown}, ${appealCaseData.siteAddressPostcode}`;
-	}
-
-	return `${appealCaseData.siteAddressLine1}, ${appealCaseData.siteAddressTown}, ${appealCaseData.siteAddressPostcode}`;
+	return addressComponents.filter(Boolean).join(', ');
 };
 
 // /**

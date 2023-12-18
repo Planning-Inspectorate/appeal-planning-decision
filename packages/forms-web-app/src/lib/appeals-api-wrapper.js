@@ -214,6 +214,13 @@ exports.getAppealsCaseDataV2 = async (lpaCode) => {
 	return handler(`/api/v2/appeal-cases?${urlParams.toString()}`, 'GET');
 };
 
+exports.getDecidedAppealsCaseDataV2 = async (lpaCode) => {
+	const urlParams = new URLSearchParams();
+	urlParams.append('lpa-code', lpaCode);
+	urlParams.append('decided-only', 'true');
+	return handler(`/api/v2/appeal-cases?${urlParams.toString()}`, 'GET');
+};
+
 exports.getAppealByLPACodeAndId = async (lpaCode, id) => {
 	return handler(`/api/v1/appeals-case-data/${lpaCode}/${id}`, 'GET');
 };

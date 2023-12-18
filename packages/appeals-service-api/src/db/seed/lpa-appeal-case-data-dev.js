@@ -1,72 +1,61 @@
-const { pickRandom, datesLastMonth, datesNextMonth } = require('./util');
-const pastDates = datesLastMonth();
-const futureDates = datesNextMonth();
-const uuid = require('uuid');
+const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 
-const appealOne = {
-	id: uuid.v4()
+const appealSubmissionDraft = {
+	// ID in Cosmos, see dev/data
+	id: '89aa8504-773c-42be-bb68-029716ad9756'
 };
 
-const appealTwo = {
-	id: uuid.v4()
+const lpaAppealIds = {
+	appealOne: '756d6bfb-dde8-4532-a041-86c226a23b01',
+	appealTwo: '756d6bfb-dde8-4532-a041-86c226a23b02',
+	appealThree: '756d6bfb-dde8-4532-a041-86c226a23b03',
+	appealFour: '756d6bfb-dde8-4532-a041-86c226a23b04',
+	appealFive: '756d6bfb-dde8-4532-a041-86c226a23b05',
+	appealSix: '756d6bfb-dde8-4532-a041-86c226a23b06',
+	appealSeven: '756d6bfb-dde8-4532-a041-86c226a23b07',
+	appealEight: '756d6bfb-dde8-4532-a041-86c226a23b08',
+	appealNine: '756d6bfb-dde8-4532-a041-86c226a23b09',
+	appealTen: '756d6bfb-dde8-4532-a041-86c226a23b10',
+	appealEleven: '756d6bfb-dde8-4532-a041-86c226a23b11',
+	appealTwelve: '756d6bfb-dde8-4532-a041-86c226a23b12',
+	appealThirteen: '756d6bfb-dde8-4532-a041-86c226a23b13',
+	appealFourteen: '756d6bfb-dde8-4532-a041-86c226a23b14',
+	appealFifteen: '756d6bfb-dde8-4532-a041-86c226a23b15'
 };
 
-const appealThree = {
-	id: uuid.v4()
-};
+/**
+ * @type {import('@prisma/client').Prisma.AppealCreateInput[]}
+ */
+const lpaAppeals = [
+	{ id: lpaAppealIds.appealOne },
+	{ id: lpaAppealIds.appealTwo },
+	{ id: lpaAppealIds.appealThree },
+	{ id: lpaAppealIds.appealFour },
+	{ id: lpaAppealIds.appealFive },
+	{ id: lpaAppealIds.appealSix },
+	{ id: lpaAppealIds.appealSeven },
+	{ id: lpaAppealIds.appealEight },
+	{ id: lpaAppealIds.appealNine },
+	{ id: lpaAppealIds.appealTen },
+	{ id: lpaAppealIds.appealEleven },
+	{ id: lpaAppealIds.appealTwelve },
+	{ id: lpaAppealIds.appealThirteen },
+	{ id: lpaAppealIds.appealFourteen },
+	{ id: lpaAppealIds.appealFifteen },
+	{
+		id: appealSubmissionDraft.id,
+		legacyAppealSubmissionId: appealSubmissionDraft.id,
+		legacyAppealSubmissionState: 'DRAFT'
+	}
+];
 
-const appealFour = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b04'
-};
-
-const appealFive = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b05'
-};
-
-const appealSix = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b06'
-};
-
-const appealSeven = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b07'
-};
-
-const appealEight = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b08'
-};
-
-const appealNine = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b09'
-};
-
-const appealTen = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b10'
-};
-
-const appealEleven = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b11'
-};
-
-const appealTwelve = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b12'
-};
-
-const appealThirteen = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b13'
-};
-
-const appealFourteen = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b14'
-};
-
-const appealFifteen = {
-	id: '756d6bfb-dde8-4532-a041-86c226a23b15'
-};
-
-const appealCaseData = [
+/**
+ * @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]}
+ */
+const lpaAppealCaseData = [
 	{
 		Appeal: {
-			connect: { id: appealOne.id }
+			connect: { id: lpaAppealIds.appealOne }
 		},
 		caseReference: '0000000',
 		LPACode: 'Q9999',
@@ -74,7 +63,7 @@ const appealCaseData = [
 		appealTypeCode: 'HAS',
 		appealTypeName: 'Householder',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'New appeal',
@@ -95,7 +84,7 @@ const appealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: appealTwo.id }
+			connect: { id: lpaAppealIds.appealTwo }
 		},
 		caseReference: '0000001',
 		LPACode: 'Q9999',
@@ -103,7 +92,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement due',
@@ -111,9 +100,9 @@ const appealCaseData = [
 		siteAddressTown: 'Not submitted',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(futureDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
 		questionnaireReceived: null,
-		statementDueDate: pickRandom(futureDates),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
 		LPAStatementSubmitted: null,
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
@@ -124,7 +113,7 @@ const appealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: appealThree.id }
+			connect: { id: lpaAppealIds.appealThree }
 		},
 		caseReference: '0000002',
 		LPACode: 'Q9999',
@@ -132,7 +121,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire overdue',
@@ -140,9 +129,9 @@ const appealCaseData = [
 		siteAddressTown: null,
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		questionnaireReceived: null,
-		statementDueDate: pickRandom(futureDates),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
 		LPAStatementSubmitted: null,
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
@@ -153,7 +142,7 @@ const appealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: appealFour.id }
+			connect: { id: lpaAppealIds.appealFour }
 		},
 		caseReference: '0000003',
 		LPACode: 'Q9999',
@@ -161,7 +150,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire submitted',
@@ -169,9 +158,9 @@ const appealCaseData = [
 		siteAddressTown: 'Statement due',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(futureDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
 		LPAStatementSubmitted: null,
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
@@ -182,7 +171,7 @@ const appealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: appealFive.id }
+			connect: { id: lpaAppealIds.appealFive }
 		},
 		caseReference: '0000004',
 		LPACode: 'Q9999',
@@ -190,7 +179,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire submitted',
@@ -198,9 +187,9 @@ const appealCaseData = [
 		siteAddressTown: 'Statement overdue',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: null,
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
@@ -211,7 +200,7 @@ const appealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: appealSix.id }
+			connect: { id: lpaAppealIds.appealSix }
 		},
 		caseReference: '0000005',
 		LPACode: 'Q9999',
@@ -219,7 +208,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
@@ -227,10 +216,10 @@ const appealCaseData = [
 		siteAddressTown: 'no comments or proofs due',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
-		LPAStatementSubmitted: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
 		proofsOfEvidenceDueDate: null,
@@ -240,7 +229,7 @@ const appealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: appealSeven.id }
+			connect: { id: lpaAppealIds.appealSeven }
 		},
 		caseReference: '0000006',
 		LPACode: 'Q9999',
@@ -248,7 +237,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
@@ -256,11 +245,11 @@ const appealCaseData = [
 		siteAddressTown: 'Comments due',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
-		LPAStatementSubmitted: pickRandom(pastDates),
-		finalCommentsDueDate: pickRandom(futureDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
 		LPACommentsSubmitted: null,
 		proofsOfEvidenceDueDate: null,
 		LPAProofsSubmitted: null,
@@ -269,7 +258,7 @@ const appealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: appealEight.id }
+			connect: { id: lpaAppealIds.appealEight }
 		},
 		caseReference: '0000007',
 		LPACode: 'Q9999',
@@ -277,7 +266,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
@@ -285,11 +274,11 @@ const appealCaseData = [
 		siteAddressTown: 'Comments overdue',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
-		LPAStatementSubmitted: pickRandom(pastDates),
-		finalCommentsDueDate: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPACommentsSubmitted: null,
 		proofsOfEvidenceDueDate: null,
 		LPAProofsSubmitted: null,
@@ -298,7 +287,7 @@ const appealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: appealNine.id }
+			connect: { id: lpaAppealIds.appealNine }
 		},
 		caseReference: '0000008',
 		LPACode: 'Q9999',
@@ -306,7 +295,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
@@ -314,12 +303,12 @@ const appealCaseData = [
 		siteAddressTown: 'Comments submitted',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
-		LPAStatementSubmitted: pickRandom(pastDates),
-		finalCommentsDueDate: pickRandom(pastDates),
-		LPACommentsSubmitted: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: null,
 		LPAProofsSubmitted: null,
 		outcome: null,
@@ -327,7 +316,7 @@ const appealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: appealTen.id }
+			connect: { id: lpaAppealIds.appealTen }
 		},
 		caseReference: '0000009',
 		LPACode: 'Q9999',
@@ -335,7 +324,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
@@ -343,20 +332,20 @@ const appealCaseData = [
 		siteAddressTown: 'proofs due',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
-		LPAStatementSubmitted: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: pickRandom(futureDates),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
 		LPAProofsSubmitted: null,
 		outcome: null,
 		caseDecisionDate: null
 	},
 	{
 		Appeal: {
-			connect: { id: appealEleven.id }
+			connect: { id: lpaAppealIds.appealEleven }
 		},
 		caseReference: '0000010',
 		LPACode: 'Q9999',
@@ -364,7 +353,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
@@ -372,20 +361,20 @@ const appealCaseData = [
 		siteAddressTown: 'proofs overdue',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
-		LPAStatementSubmitted: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: pickRandom(pastDates),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: null,
 		outcome: null,
 		caseDecisionDate: null
 	},
 	{
 		Appeal: {
-			connect: { id: appealTwelve.id }
+			connect: { id: lpaAppealIds.appealTwelve }
 		},
 		caseReference: '0000011',
 		LPACode: 'Q9999',
@@ -393,7 +382,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
@@ -401,20 +390,20 @@ const appealCaseData = [
 		siteAddressTown: 'Proofs submitted',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
-		LPAStatementSubmitted: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: pickRandom(pastDates),
-		LPAProofsSubmitted: pickRandom(pastDates),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		outcome: null,
 		caseDecisionDate: null
 	},
 	{
 		Appeal: {
-			connect: { id: appealThirteen.id }
+			connect: { id: lpaAppealIds.appealThirteen }
 		},
 		caseReference: '1000012',
 		LPACode: 'Q9999',
@@ -422,7 +411,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Decided',
@@ -430,20 +419,20 @@ const appealCaseData = [
 		siteAddressTown: 'Allowed',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
-		LPAStatementSubmitted: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: pickRandom(pastDates),
-		LPAProofsSubmitted: pickRandom(pastDates),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		outcome: 'allowed',
-		caseDecisionDate: pickRandom(pastDates)
+		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
-			connect: { id: appealFourteen.id }
+			connect: { id: lpaAppealIds.appealFourteen }
 		},
 		caseReference: '1000013',
 		LPACode: 'Q9999',
@@ -451,7 +440,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Decided',
@@ -459,20 +448,20 @@ const appealCaseData = [
 		siteAddressTown: 'Allowed',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
-		LPAStatementSubmitted: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: pickRandom(pastDates),
-		LPAProofsSubmitted: pickRandom(pastDates),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		outcome: 'dismissed',
-		caseDecisionDate: pickRandom(pastDates)
+		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
-			connect: { id: appealFifteen.id }
+			connect: { id: lpaAppealIds.appealFifteen }
 		},
 		caseReference: '1000014',
 		LPACode: 'Q9999',
@@ -480,7 +469,7 @@ const appealCaseData = [
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(pastDates),
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		costsAppliedForIndicator: false,
 		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Decided',
@@ -488,19 +477,20 @@ const appealCaseData = [
 		siteAddressTown: 'Allowed',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: pickRandom(pastDates),
-		questionnaireReceived: pickRandom(pastDates),
-		statementDueDate: pickRandom(pastDates),
-		LPAStatementSubmitted: pickRandom(pastDates),
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: null,
 		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: pickRandom(pastDates),
-		LPAProofsSubmitted: pickRandom(pastDates),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		outcome: 'split decision',
-		caseDecisionDate: pickRandom(pastDates)
+		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
 	}
 ];
 
 module.exports = {
-	appealCaseData
+	lpaAppealCaseData,
+	lpaAppeals
 };
