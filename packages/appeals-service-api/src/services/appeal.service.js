@@ -122,10 +122,18 @@ async function updateAppeal(id, appealUpdate) {
 	Object.assign(appeal, appealUpdate);
 	isValidAppeal(appeal);
 
-	/* eslint no-param-reassign: ["error", { "props": false }] */
 	appeal.updatedAt = new Date(new Date().toISOString());
 	const updatedAppealEntity = await appealsCosmosRepository.update(appeal);
 	const updatedAppeal = updatedAppealEntity.value.appeal;
+
+	if (Object.hasOwn(appealUpdate, 'state') || Object.hasOwn(appealUpdate, 'decisionDate')) {
+		await appealsSQLRepository.updateAppealByLegacyAppealSubmissionId({
+			legacyAppealSubmissionId: id,
+			legacyAppealSubmissionDecisionDate: appealUpdate.decisionDate,
+			legacyAppealSubmissionState: appealUpdate.state
+		});
+	}
+
 	logger.debug(updatedAppeal, `Appeal updated to`);
 	return updatedAppeal;
 }

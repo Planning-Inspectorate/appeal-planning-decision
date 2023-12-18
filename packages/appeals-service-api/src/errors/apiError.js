@@ -46,6 +46,12 @@ class ApiError {
 		return new ApiError(400, { errors: [`This appeal already exists`] });
 	}
 
+	static appealDuplicateLegacyAppealSubmissionId() {
+		return new ApiError(400, {
+			errors: [`There are multiple appeals with this legacy appeal submission id`]
+		});
+	}
+
 	// final comments
 	static finalCommentAlreadySubmitted() {
 		return new ApiError(409, { errors: [`Cannot submit more than one final comment per email`] });

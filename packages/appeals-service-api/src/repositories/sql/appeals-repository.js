@@ -59,6 +59,38 @@ class AppealsRepository {
 	}
 
 	/**
+	 * Updates Appeal by legacyAppealSubmissionId
+	 *
+	 * @param {AppealCreateInput} appeal
+	 * @returns {Promise<Appeal>}
+	 */
+	async updateAppealByLegacyAppealSubmissionId(appeal) {
+		if (!appeal.legacyAppealSubmissionId)
+			throw ApiError.badRequest('No legacyAppealSubmissionId provided');
+		await this.dbClient.$transaction(async (transaction) => {
+			const { count } = await transaction.appeal.updateMany({
+				data: appeal,
+				where: {
+					legacyAppealSubmissionId: appeal.legacyAppealSubmissionId
+				}
+			});
+
+			if (count > 1) throw ApiError.appealDuplicateLegacyAppealSubmissionId();
+			if (count === 0) throw ApiError.appealNotFound();
+		});
+		const updatedAppeals = await this.dbClient.appeal.findMany({
+			where: {
+				legacyAppealSubmissionId: appeal.legacyAppealSubmissionId || ''
+			}
+		});
+
+		if (updatedAppeals.length > 1) throw ApiError.appealDuplicateLegacyAppealSubmissionId();
+		if (updatedAppeals.length === 0) throw ApiError.appealNotFound();
+
+		return updatedAppeals[0];
+	}
+
+	/**
 	 * Get an appeal by id
 	 *
 	 * @param {string} id
