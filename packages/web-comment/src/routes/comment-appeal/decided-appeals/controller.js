@@ -18,7 +18,7 @@ const decidedAppeals = async (req, res) => {
 	decidedAppeals.forEach((appeal) => {
 		appeal.formattedAddress = formatAddress(appeal);
 		appeal.formattedCaseDecisionDate = formatDate(appeal.caseDecisionDate);
-		appeal.formattedDecisionColour = mapDecisionColour(appeal.decision);
+		appeal.formattedDecisionColour = mapDecisionColour(appeal.outcome);
 	});
 	decidedAppeals.sort(sortByCaseDecisionDate);
 
@@ -26,7 +26,7 @@ const decidedAppeals = async (req, res) => {
 };
 
 /**
- * @param {string} decision
+ * @param {string|undefined} decision
  * @returns {string}
  */
 const mapDecisionColour = (decision) => {
@@ -37,7 +37,7 @@ const mapDecisionColour = (decision) => {
 		['other', 'grey']
 	]);
 
-	return decisionColourMap.get(decision) || 'grey';
+	return (decision && decisionColourMap.get(decision)) || 'grey';
 };
 
 module.exports = { decidedAppeals };
