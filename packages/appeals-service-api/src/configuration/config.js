@@ -14,6 +14,7 @@ const {
 //       in tests, so declaring as `const`, makes this very tricky.
 // TODO: find some way to enable profile-specific configs to remove the `let` here.
 let config = {
+	enableApiDocs: process.env.NODE_ENV !== 'test',
 	data: {
 		lpa: {
 			listPath: process.env.LPA_DATA_PATH,
