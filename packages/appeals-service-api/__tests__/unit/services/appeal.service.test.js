@@ -1,5 +1,7 @@
 const { getAppealByLPACodeAndId } = require('../../../src/services/appeal.service');
 const { AppealsRepository } = require('../../../src/repositories/appeals-repository');
+jest.mock('../../../src/repositories/sql/appeal-user-repository');
+jest.mock('../../../src/repositories/sql/appeals-repository');
 
 jest.mock('../../../src/repositories/sql/appeals-repository', () => ({
 	AppealsRepository: class {

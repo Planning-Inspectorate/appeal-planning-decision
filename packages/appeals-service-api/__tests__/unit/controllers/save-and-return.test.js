@@ -9,11 +9,8 @@ const {
 jest.mock('../../../src/services/save-and-return.service');
 jest.mock('../../../src/services/appeal.service');
 jest.mock('../../../../common/src/lib/notify/notify-builder', () => ({}));
-jest.mock('../../../src/repositories/sql/appeals-repository', () => ({
-	AppealsRepository: class {
-		createAppeal = Promise.resolve;
-	}
-}));
+jest.mock('../../../src/repositories/sql/appeal-user-repository');
+jest.mock('../../../src/repositories/sql/appeals-repository');
 
 describe('Save And Return API', () => {
 	let req;

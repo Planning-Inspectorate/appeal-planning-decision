@@ -26,7 +26,7 @@
 		"test": "jest",
 		"test:cov": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand",
-		"integration-test": "npm run db:generate && jest --config ./jest.developer-test.config.js"
+		"integration-test": "npm run db:generate && jest --runInBand --config ./jest.developer-test.config.js"
 	},
 	"author": "Foundry4 <www.foundry4.com>",
 	"dependencies": {
