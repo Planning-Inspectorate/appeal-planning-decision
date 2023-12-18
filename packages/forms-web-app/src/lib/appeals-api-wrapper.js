@@ -7,6 +7,7 @@ const { FLAG } = require('@pins/common/src/feature-flags');
 const config = require('../config');
 const parentLogger = require('./logger');
 const baseUrl = '/api/v1';
+const baseUrlV2 = '/api/v2';
 
 async function handler(path, method = 'GET', opts = {}, headers = {}) {
 	const correlationId = uuid.v4();
@@ -274,6 +275,38 @@ exports.errorMessages = {
 
 exports.getUserAppealsById = async (id) => {
 	return handler(`/api/v2/users/${id}/appeals`, 'GET');
+};
+
+/**
+ * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ */
+
+/**
+ * @param {string} email
+ * @param {string} appealSqlId
+ * @param {string} [role]
+ * @returns {Promise<AppealCaseWithAppellant>}
+ */
+exports.linkUserToV2Appeal = async (email, appealSqlId, role) => {
+	let roleBody;
+
+	if (role) {
+		roleBody = {
+			body: JSON.stringify({
+				role: role
+			})
+		};
+	}
+
+	return handler(`${baseUrlV2}/users/${email}/appeal/${appealSqlId}`, 'POST', roleBody);
+};
+
+/**
+ * @param {string} email
+ * @returns {Promise<*>}
+ */
+exports.getUserByEmailV2 = async (email) => {
+	return handler(`${baseUrlV2}/users/${email}`, 'GET');
 };
 
 const getTokenEndpointVersion = async () => {
