@@ -4,10 +4,12 @@ const fullPostcodeRegex =
 const partialPostcodeRegex =
 	/^((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([AZa-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))))$/;
 
+/** @type {import('express').RequestHandler} */
 const findPlanningAppealGet = (req, res) => {
 	res.render(`comment-appeal/find-planning-appeal/index`);
 };
 
+/** @type {import('express').RequestHandler} */
 const findPlanningAppealPost = (req, res) => {
 	const { postcode } = req.body;
 

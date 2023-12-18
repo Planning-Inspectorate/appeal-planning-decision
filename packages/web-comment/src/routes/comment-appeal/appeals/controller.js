@@ -7,6 +7,7 @@ const {
 const { formatAddress } = require('../../../utils/formatAddress');
 const { AppealsApiClient } = require('../../../utils/appealsApiClient');
 
+/** @type {import('express').RequestHandler} */
 const appeals = async (req, res) => {
 	const postcode = req.query.search;
 	const postcodeSearchResults = await new AppealsApiClient().getPostcodeSearchResults({
