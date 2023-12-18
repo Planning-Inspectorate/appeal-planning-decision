@@ -1,6 +1,10 @@
 const fetch = require('node-fetch');
 const { appealsApi } = require('../server.config');
 
+/**
+ * @typedef {import('./appeals-view').AppealViewModel} AppealViewModel
+ */
+
 class AppealsApiClient {
 	constructor(baseUrl = appealsApi.baseUrl) {
 		this.baseUrl = baseUrl;
@@ -8,7 +12,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {Object<string, any>} params
-	 * @returns {Promise<any[]>} // todo: use exported API types
+	 * @returns {Promise<AppealViewModel[]>} // todo: use exported API types
 	 */
 	async getPostcodeSearchResults(params = {}) {
 		const urlParams = new URLSearchParams();
