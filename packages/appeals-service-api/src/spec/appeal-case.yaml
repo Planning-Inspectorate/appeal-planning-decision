@@ -167,4 +167,10 @@ components:
           type: string
           format: date-time
           description: the date the LPA's proofs of evidence were received
+
+        # unconfirmed
+        outcome:
+          type: string
+          enum: ['allowed', 'dismissed', 'split decision', 'invalid']
+          description: the Inspector's outcome/decision for this case
         # todo: add properties from data model

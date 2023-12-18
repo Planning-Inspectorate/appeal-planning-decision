@@ -189,6 +189,10 @@ const VIEW = {
 		EMAIL_ADDRESS: 'appeal/email-address'
 	},
 
+	APPEALS: {
+		YOUR_APPEALS: 'appeals/your-appeals'
+	},
+
 	SUBMIT_APPEAL: {
 		APPLICATION_SAVED: 'submit-appeal/application-saved',
 		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details'
@@ -210,7 +214,8 @@ const VIEW = {
 		CONFIRM_ADD_USER: 'manage-appeals/confirm-add-user',
 		CONFIRM_REMOVE_USER: 'manage-appeals/confirm-remove-user',
 		YOUR_EMAIL_ADDRESS: 'manage-appeals/your-email-address',
-		APPEAL_DETAILS: 'manage-appeals/appeal-details'
+		APPEAL_DETAILS: 'manage-appeals/appeal-details',
+		DECIDED_APPEALS: 'manage-appeals/decided-appeals'
 	},
 
 	MESSAGES: {

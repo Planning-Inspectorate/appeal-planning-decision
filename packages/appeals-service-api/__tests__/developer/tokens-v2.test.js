@@ -16,10 +16,15 @@ const { isFeatureActive } = require('../../src/configuration/featureFlag');
 const enterCodeConfig = require('@pins/common/src/enter-code-config');
 const { MILLISECONDS_BETWEEN_TOKENS } = require('../../src/routes/v2/token/controller');
 
+/** @type {import('@prisma/client').PrismaClient} */
 let sqlClient;
+/** @type {import('supertest').SuperTest<import('supertest').Test>} */
 let appealsApi;
+/** @type {import('mongodb').MongoClient} */
 let databaseConnection;
+/** @type {import('./external-dependencies/rest-apis/mocked-external-apis')} */
 let mockedExternalApis;
+// /** @type {Array.<*>} */
 // let expectedNotifyInteractions;
 
 jest.setTimeout(140000);
@@ -48,6 +53,9 @@ beforeAll(async () => {
 	///////////////////////////////
 	///// SETUP TEST DATABASE ////
 	/////////////////////////////
+	if (!process.env.INTEGRATION_TEST_DB_URL) {
+		throw new Error('process.env.INTEGRATION_TEST_DB_URL not set');
+	}
 
 	databaseConnection = await MongoClient.connect(process.env.INTEGRATION_TEST_DB_URL, {
 		useNewUrlParser: true,

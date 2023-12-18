@@ -65,8 +65,12 @@ module.exports = class MockedExternalApis {
 		const actualHorizonInteractions = await this.getRecordedRequestsForHorizon();
 		const actualNotifyInteractions = await this.getRecordedRequestsForNotify();
 
-		this.verifyInteractions(expectedHorizonInteractions, actualHorizonInteractions);
-		this.verifyInteractions(expectedNotifyInteractions, actualNotifyInteractions);
+		if (expectedHorizonInteractions !== undefined) {
+			this.verifyInteractions(expectedHorizonInteractions, actualHorizonInteractions);
+		}
+		if (expectedNotifyInteractions !== undefined) {
+			this.verifyInteractions(expectedNotifyInteractions, actualNotifyInteractions);
+		}
 	}
 
 	async teardown() {
