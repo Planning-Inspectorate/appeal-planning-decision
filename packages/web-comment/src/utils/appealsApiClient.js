@@ -6,6 +6,10 @@ class AppealsApiClient {
 		this.baseUrl = baseUrl;
 	}
 
+	/**
+	 * @param {Object<string, any>} params
+	 * @returns {Promise<any[]>} // todo: use exported API types
+	 */
 	async getPostcodeSearchResults(params = {}) {
 		const urlParams = new URLSearchParams();
 		for (let key in params) {
@@ -20,10 +24,19 @@ class AppealsApiClient {
 		return result.json();
 	}
 
+	/**
+	 * @param {string} endpoint
+	 * @returns {any}
+	 */
 	makeGetRequest(endpoint) {
 		return fetch(this.baseUrl + endpoint);
 	}
 
+	/**
+	 * @param {string} endpoint
+	 * @param {any} data
+	 * @returns {any}
+	 */
 	makePostRequest(endpoint, data) {
 		return fetch(this.baseUrl + endpoint, {
 			method: 'POST',

@@ -3,6 +3,7 @@ const { formatDate } = require('../../../utils/formatDate');
 const { sortByCaseDecisionDate } = require('../../../utils/appealSorting');
 const { AppealsApiClient } = require('../../../utils/appealsApiClient');
 
+/** @type {import('express').RequestHandler} */
 const decidedAppeals = async (req, res) => {
 	const postcode = req.query.search;
 	const decidedAppeals = await new AppealsApiClient().getPostcodeSearchResults({
@@ -24,6 +25,10 @@ const decidedAppeals = async (req, res) => {
 	res.render(`comment-appeal/decided-appeals/index`, { postcode, decidedAppeals });
 };
 
+/**
+ * @param {string} decision
+ * @returns {string}
+ */
 const mapDecisionColour = (decision) => {
 	const decisionColourMap = new Map([
 		['allowed', 'green'],
@@ -32,7 +37,7 @@ const mapDecisionColour = (decision) => {
 		['other', 'grey']
 	]);
 
-	return decisionColourMap.get(decision);
+	return decisionColourMap.get(decision) || 'grey';
 };
 
 module.exports = { decidedAppeals };

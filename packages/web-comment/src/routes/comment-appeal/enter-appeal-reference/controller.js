@@ -1,7 +1,9 @@
+/** @type {import('express').RequestHandler} */
 const enterAppealReferenceGet = (req, res) => {
 	res.render(`comment-appeal/enter-appeal-reference/index`);
 };
 
+/** @type {import('express').RequestHandler} */
 const enterAppealReferencePost = (req, res) => {
 	const { 'appeal-reference': appealReference } = req.body;
 

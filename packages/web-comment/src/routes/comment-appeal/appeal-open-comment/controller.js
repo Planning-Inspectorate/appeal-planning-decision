@@ -1,3 +1,4 @@
+/** @type {import('express').RequestHandler} */
 const appealOpenComment = async (req, res) => {
 	res.render(`comment-appeal/appeal-open-comment/index`);
 };
