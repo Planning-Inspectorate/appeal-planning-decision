@@ -1,7 +1,7 @@
-const { formatAddress } = require('../../../utils/formatAddress');
-const { formatDate } = require('../../../utils/formatDate');
-const { sortByCaseDecisionDate } = require('../../../utils/appealSorting');
-const { AppealsApiClient } = require('../../../utils/appealsApiClient');
+const { formatAddress } = require('../../../utils/format-address');
+const { formatDate } = require('../../../utils/format-date');
+const { sortByCaseDecisionDate } = require('../../../utils/appeal-sorting');
+const { AppealsApiClient } = require('../../../utils/appeals-api-client');
 
 /** @type {import('express').RequestHandler} */
 const decidedAppeals = async (req, res) => {

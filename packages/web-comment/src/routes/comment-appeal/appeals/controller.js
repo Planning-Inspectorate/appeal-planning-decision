@@ -3,9 +3,9 @@ const {
 	getClosedAppeals,
 	sortByInterestedPartyRepsDueDate,
 	sortByCaseReference
-} = require('../../../utils/appealSorting');
-const { formatAddress } = require('../../../utils/formatAddress');
-const { AppealsApiClient } = require('../../../utils/appealsApiClient');
+} = require('../../../utils/appeal-sorting');
+const { formatAddress } = require('../../../utils/format-address');
+const { AppealsApiClient } = require('../../../utils/appeals-api-client');
 
 /** @type {import('express').RequestHandler} */
 const appeals = async (req, res) => {

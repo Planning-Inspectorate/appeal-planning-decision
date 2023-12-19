@@ -1,4 +1,4 @@
-const { sortByDateFieldDesc } = require('./appealSorting');
+const { sortByDateFieldDesc } = require('./appeal-sorting');
 
 describe('appealSorting', () => {
 	describe('sortByDateFieldDesc', () => {
