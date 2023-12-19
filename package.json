@@ -49,6 +49,7 @@
 		"test:documents-api": "cd packages/document-service-api; npm run test",
 		"test:pdf-api": "cd packages/pdf-service-api; npm run test",
 		"test:web": "cd packages/forms-web-app; npm run test",
+		"test:web-comment": "cd packages/web-comment; npm run test",
 		"integration-test": "run-s --continue-on-error --print-label \"integration-test:*\"",
 		"integration-test:appeals-api": "cd packages/appeals-service-api; npm run integration-test",
 		"populate-db": "cd packages/appeals-service-api/data; ./populate-db.sh"
