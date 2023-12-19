@@ -3,6 +3,7 @@ const axios = require('axios');
 const logger = require('../lib/logger');
 const { HorizonMapper } = require('../mappers/horizon-mapper');
 const HorizonResponseValue = require('../value-objects/horizon/horizon-response.value');
+const { msToDurationString } = require('#lib/duration');
 
 class HorizonGateway {
 	#horizonMapper;
@@ -208,10 +209,16 @@ class HorizonGateway {
 		logger.debug(body, `Sending ${descriptionOfRequest} request to ${url} with body`);
 
 		// set request timeout
-		options.timeout = config.services.horizon.timeout;
+		// TODO: enable this when we know how long requests need, document updates could be slow
+		// options.timeout = config.services.horizon.timeout;
 
 		try {
+			const requestStart = Date.now();
 			const responseJson = await axios.post(url, body, options);
+			if (config.services.horizon.logRequestTime) {
+				const requestTime = Date.now() - requestStart;
+				logger.info({ endpoint }, `Horizon request took ${msToDurationString(requestTime)}`);
+			}
 			return new HorizonResponseValue(responseJson.data.Envelope.Body, false);
 		} catch (error) {
 			if (error.response) {
