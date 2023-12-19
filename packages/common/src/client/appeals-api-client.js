@@ -1,38 +1,20 @@
 const { default: fetch, AbortError } = require('node-fetch');
 const uuid = require('uuid');
+const AppealsApiError = require('./appeals-api-error');
 
 const config = require('../config');
-const parentLogger = require('./logger');
+const parentLogger = require('../lib/logger');
 
 const v2 = '/api/v2';
 
 /**
  * @class Api Client for v2 urls in appeals-service-api
  */
-class AppealsApiError extends Error {
-	/**
-	 * @param {string} message
-	 * @param {string|number} code
-	 * @param {Array.<string>} [errors]
-	 */
-	constructor(message, code, errors) {
-		super(message);
-		this.name = 'AppealsApiError';
-		/** @type {string|number} */
-		this.code = code;
-		/** @type {Array.<string>|undefined} */
-		this.errors = errors;
-	}
-}
-
-/**
- * @class Api Client for v2 urls in appeals-service-api
- */
 class AppealsApiClient {
 	/**
-	 * @param {string|undefined} baseUrl - defaults to config.appeals.url
+	 * @param {string|undefined} baseUrl - defaults to config.apis.appealsApi.url
 	 */
-	constructor(baseUrl = config.appeals.url) {
+	constructor(baseUrl = config.apis.appealsApi.url) {
 		if (!baseUrl) {
 			throw new Error('baseUrl is required');
 		}
@@ -97,7 +79,7 @@ class AppealsApiClient {
 		const controller = new AbortController();
 		const timeout = setTimeout(() => {
 			controller.abort();
-		}, config.appeals.timeout);
+		}, config.apis.appealsApi.timeout);
 
 		let response;
 		try {

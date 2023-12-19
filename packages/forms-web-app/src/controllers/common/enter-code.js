@@ -4,7 +4,7 @@ const {
 	sendToken,
 	getUserById
 } = require('../../lib/appeals-api-wrapper');
-const { AppealsApiClient } = require('../../lib/appeals-api-client');
+const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
 const {
 	getLPAUser,
 	createLPAUserSession,
