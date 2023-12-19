@@ -2,10 +2,9 @@ const {
 	getSavedAppeal,
 	getExistingAppeal,
 	sendToken,
-	getUserById,
-	linkUserToV2Appeal,
-	getUserByEmailV2
+	getUserById
 } = require('../../lib/appeals-api-wrapper');
+const { AppealsApiClient } = require('../../lib/appeals-api-client');
 const {
 	getLPAUser,
 	createLPAUserSession,
@@ -213,9 +212,11 @@ const postEnterCode = (views) => {
 		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
 		let user;
 
+		const apiClient = new AppealsApiClient();
+
 		// get user and set session
 		if (enrolUsersFlag) {
-			user = await getUserByEmailV2(req.session.appeal.email);
+			user = await apiClient.getUserByEmailV2(req.session.appeal.email);
 
 			if (!user) {
 				throw new Error('user not found after entering code');
@@ -226,7 +227,7 @@ const postEnterCode = (views) => {
 		// session will be in browser so can redirect here and consider email confirmed
 		if (tokenValid.action === enterCodeConfig.actions.confirmEmail) {
 			if (enrolUsersFlag && user) {
-				await linkUserToV2Appeal(user.email, req.session.appeal.appealSqlId);
+				await apiClient.linkUserToV2Appeal(user.email, req.session.appeal.appealSqlId);
 			}
 
 			delete req.session?.enterCode?.action;
