@@ -3,10 +3,12 @@ const {
 	formatAddress,
 	// formatAppealType,
 	determineDocumentToDisplayLPADashboard,
-	isNewAppeal
+	isNewAppeal,
+	getDecisionOutcome
 } = require('../../../src/lib/dashboard-functions');
 
 const { calculateDueInDays } = require('../../../src/lib/calculate-due-in-days');
+const { DECISION_OUTCOME } = require('@pins/business-rules/src/constants');
 
 jest.mock('../../../src/lib/calculate-due-in-days');
 
@@ -185,6 +187,17 @@ describe('lib/dashboard-functions', () => {
 					questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00'
 				})
 			).toBe(false);
+		});
+	});
+
+	describe('getDecisionOutcome', () => {
+		it.each([
+			{ outcome: DECISION_OUTCOME.ALLOWED, label: 'allowed' },
+			{ outcome: DECISION_OUTCOME.DISMISSED, label: 'dismissed' },
+			{ outcome: DECISION_OUTCOME.SPLIT_DECISION, label: 'allowed in part' },
+			{ outcome: 'unknown', label: 'unknown' }
+		])('returns label $label when outcome is $outcome', ({ outcome, label }) => {
+			expect(getDecisionOutcome(outcome)).toEqual(label);
 		});
 	});
 });

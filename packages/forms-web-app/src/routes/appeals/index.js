@@ -2,8 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-const yourAppealsRouter = require('./your-appeals');
+const yourAppealsRouter = require('./your-appeals/index');
 
-router.use(yourAppealsRouter);
+router.use('/your-appeals', yourAppealsRouter);
 
 module.exports = router;

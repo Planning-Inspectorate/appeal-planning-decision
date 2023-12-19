@@ -233,7 +233,13 @@ const postEnterCode = (views) => {
 		req.session.appeal = await getExistingAppeal(savedAppeal.appealId);
 
 		// redirect
-		if (req.session.appeal.state === 'SUBMITTED') {
+		if (req.session.loginRedirect) {
+			// before appeal.state check in case this is an attempt to download the appeal pdf
+			const redirect = req.session.loginRedirect;
+			delete req.session.loginRedirect;
+			res.redirect(redirect);
+			return;
+		} else if (req.session.appeal.state === 'SUBMITTED') {
 			return res.redirect(`/${views.APPEAL_ALREADY_SUBMITTED}`);
 		} else {
 			return res.redirect(`/${views.TASK_LIST}`);

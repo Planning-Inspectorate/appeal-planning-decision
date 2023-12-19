@@ -81,6 +81,12 @@ const NEW_OR_SAVED_APPEAL_OPTION = {
 	RETURN: 'return'
 };
 
+const DECISION_OUTCOME = {
+	ALLOWED: 'allowed',
+	DISMISSED: 'dismissed',
+	SPLIT_DECISION: 'split decision'
+};
+
 module.exports = {
 	APPEAL_ID,
 	APPEAL_STATE,
@@ -93,5 +99,6 @@ module.exports = {
 	TYPE_OF_PLANNING_APPLICATION,
 	I_AGREE,
 	STANDARD_TRIPLE_CONFIRM_OPTIONS,
-	NEW_OR_SAVED_APPEAL_OPTION
+	NEW_OR_SAVED_APPEAL_OPTION,
+	DECISION_OUTCOME
 };

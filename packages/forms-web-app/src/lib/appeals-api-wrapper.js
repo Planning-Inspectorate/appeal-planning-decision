@@ -184,10 +184,6 @@ exports.getUserById = async (id) => {
 	return handler(`/api/v1/users/${id}`, 'GET');
 };
 
-exports.getUserByEmail = async (email) => {
-	return handler(`/api/v1/users/${email}`, 'GET');
-};
-
 exports.setUserStatus = async (id, status) => {
 	return handler(`${baseUrl}/users/${id}/status`, 'PUT', {
 		body: JSON.stringify({
@@ -287,6 +283,11 @@ exports.errorMessages = {
 
 exports.getUserAppealsById = async (id) => {
 	return handler(`/api/v2/users/${id}/appeals`, 'GET');
+};
+
+exports.getUserByEmail = async (email, useApiVersion2) => {
+	if (useApiVersion2) return handler(`/api/v2/users/${email}`, 'GET');
+	return handler(`/api/v1/users/${email}`, 'GET');
 };
 
 const getTokenEndpointVersion = async () => {
