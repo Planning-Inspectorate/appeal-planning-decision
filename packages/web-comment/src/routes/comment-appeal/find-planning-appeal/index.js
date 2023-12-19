@@ -1,6 +1,6 @@
 const express = require('express');
 const { findPlanningAppealGet, findPlanningAppealPost } = require('./controller');
-const asyncHandler = require('../../../utils/asyncHandler');
+const asyncHandler = require('../../../utils/async-handler');
 
 const router = express.Router();
 
