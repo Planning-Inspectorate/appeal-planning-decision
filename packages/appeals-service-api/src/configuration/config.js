@@ -71,6 +71,7 @@ let config = {
 	},
 	services: {
 		horizon: {
+			timeout: parseInt(process.env.SRV_HORIZON_TIMEOUT, 10) || 30 * 1000, // 30s by default
 			url: process.env.SRV_HORIZON_URL
 		},
 		notify: {

@@ -203,9 +203,12 @@ class HorizonGateway {
 	 * provided by Horizon. If no error occurred, `getValue()` will return the JSON response returned by
 	 * Horizon after digging down to `Envelope.Body` since this JSON path is common to all responses.
 	 */
-	async #makeRequestAndHandleAnyErrors(endpoint, body, descriptionOfRequest, options = null) {
+	async #makeRequestAndHandleAnyErrors(endpoint, body, descriptionOfRequest, options = {}) {
 		const url = `${config.services.horizon.url}/${endpoint}`;
 		logger.debug(body, `Sending ${descriptionOfRequest} request to ${url} with body`);
+
+		// set request timeout
+		options.timeout = config.services.horizon.timeout;
 
 		try {
 			const responseJson = await axios.post(url, body, options);
