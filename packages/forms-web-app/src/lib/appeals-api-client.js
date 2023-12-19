@@ -1,6 +1,29 @@
-const fetch = require('node-fetch');
+const { default: fetch, AbortError } = require('node-fetch');
+const uuid = require('uuid');
+
 const config = require('../config');
+const parentLogger = require('./logger');
+
 const v2 = '/api/v2';
+
+/**
+ * @class Api Client for v2 urls in appeals-service-api
+ */
+class AppealsApiError extends Error {
+	/**
+	 * @param {string} message
+	 * @param {string|number} code
+	 * @param {Array.<string>} [errors]
+	 */
+	constructor(message, code, errors) {
+		super(message);
+		this.name = 'AppealsApiError';
+		/** @type {string|number} */
+		this.code = code;
+		/** @type {Array.<string>|undefined} */
+		this.errors = errors;
+	}
+}
 
 /**
  * @class Api Client for v2 urls in appeals-service-api
@@ -51,25 +74,117 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * Handles error responses and timeouts from calls to appeals api
+	 * @param {string} path endpoint to call e.g. /api/v2/users
+	 * @param {'GET'|'POST'|'PUT'|'DELETE'} [method] - request method, defaults to 'GET'
+	 * @param {object|undefined} [opts] - options to pass to fetch can include request body
+	 * @param {object|undefined} [headers] - headers to add to request
+	 * @returns {Promise<import('node-fetch').Response>}
+	 * @throws {AppealsApiError|Error}
+	 */
+	async #handler(path, method = 'GET', opts = {}, headers = {}) {
+		const correlationId = uuid.v4();
+		const url = `${this.baseUrl}${path}`;
+
+		const logger = parentLogger.child({
+			correlationId,
+			service: 'Appeals Service API'
+		});
+
+		logger.debug({ url, method, opts, headers }, 'appeals api call');
+
+		// timeout the request
+		const controller = new AbortController();
+		const timeout = setTimeout(() => {
+			controller.abort();
+		}, config.appeals.timeout);
+
+		let response;
+		try {
+			response = await fetch(url, {
+				method,
+				headers: {
+					'Content-Type': 'application/json',
+					...headers
+				},
+				...opts,
+				signal: controller.signal
+			});
+		} catch (error) {
+			if (error instanceof AbortError) {
+				logger.error(error, 'appeals api error: timeout');
+			} else {
+				logger.error(error, 'appeals api error: unhandled fetch error');
+			}
+
+			throw error;
+		} finally {
+			clearTimeout(timeout);
+		}
+
+		if (response.ok) {
+			return response; // allow caller to handle ok response
+		}
+
+		const contentType = response.headers.get('content-type');
+
+		// unlikely scenario probably an api bug
+		if (!contentType) {
+			logger.error(contentType, 'appeals api error: no content type on response');
+			throw new AppealsApiError(response.statusText, response.status);
+		}
+
+		// e.g. 500 error
+		if (!contentType.startsWith('application/json;')) {
+			try {
+				const responseMessage = await response.text();
+				throw new AppealsApiError(responseMessage, response.status);
+			} catch {
+				logger.error(contentType, 'appeals api error: could not read error response');
+				throw new AppealsApiError(response.statusText, response.status);
+			}
+		}
+
+		let errorResponse;
+
+		try {
+			errorResponse = await response.json();
+		} catch (error) {
+			// server has indicated json but provided invalid json response
+			logger.warn(error, 'appeals api error: failed to parse error response');
+			throw new AppealsApiError(response.statusText, response.status);
+		}
+
+		if (Array.isArray(errorResponse)) {
+			// list of errors on response body
+			logger.warn(errorResponse, 'appeals api error: errorResponse.array');
+			throw new AppealsApiError(response.statusText, response.status, errorResponse);
+		}
+
+		logger.error(errorResponse, 'appeals api error: unknown error format');
+		throw new AppealsApiError(response.statusText, response.status);
+	}
+
+	/**
 	 * @param {string} endpoint
 	 * @returns {Promise<import('node-fetch').Response>}
+	 * @throws {AppealsApiError|Error}
 	 */
 	#makeGetRequest(endpoint) {
-		return fetch(this.baseUrl + endpoint);
+		return this.#handler(endpoint);
 	}
 
 	/**
 	 * @param {string} endpoint
 	 * @param {any} data
 	 * @returns {Promise<import('node-fetch').Response>}
+	 * @throws {AppealsApiError|Error}
 	 */
-	#makePostRequest(endpoint, data) {
-		return fetch(this.baseUrl + endpoint, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
+	#makePostRequest(endpoint, data = {}) {
+		return this.#handler(endpoint, 'POST', {
 			body: JSON.stringify(data)
 		});
 	}
 }
 
-module.exports = { AppealsApiClient };
+module.exports = { AppealsApiClient, AppealsApiError };
