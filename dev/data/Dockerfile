@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 # copy app
 WORKDIR /opt/app/data
-ADD data .
+ADD dev/data .
 
 # copy workspace deps
 WORKDIR /opt/app
