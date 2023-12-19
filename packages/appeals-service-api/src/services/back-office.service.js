@@ -74,11 +74,21 @@ class BackOfficeService {
 			}
 
 			if (completedAppealSubmissions.length > 0) {
-				await this.#backOfficeRepository.deleteAppealSubmissions(completedAppealSubmissions);
+				try {
+					await this.#backOfficeRepository.deleteAppealSubmissions(completedAppealSubmissions);
+				} catch (error) {
+					logger.error(error, `error deleting completed submissions`);
+					errors['deletingCompleted'] = error;
+				}
 			}
 
 			if (uncompletedAppealSubmissions.length > 0) {
-				await this.#backOfficeRepository.updateAppealSubmissions(uncompletedAppealSubmissions);
+				try {
+					await this.#backOfficeRepository.updateAppealSubmissions(uncompletedAppealSubmissions);
+				} catch (error) {
+					logger.error(error, `error updating uncompleted submissions`);
+					errors['updatingUncompleted'] = error;
+				}
 			}
 			return {
 				completed: completedAppealSubmissions.length,
