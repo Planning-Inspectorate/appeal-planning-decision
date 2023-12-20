@@ -12,7 +12,10 @@ const {
 	setLPAUserStatus
 } = require('../../services/lpa-user.service');
 const { isTokenValid, isTestLpaAndToken, isTestEnvironment } = require('../../lib/is-token-valid');
+
 const { enterCodeConfig } = require('@pins/common');
+const config = require('../../config');
+
 const logger = require('../../../src/lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
@@ -212,7 +215,7 @@ const postEnterCode = (views) => {
 		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
 		let user;
 
-		const apiClient = new AppealsApiClient();
+		const apiClient = new AppealsApiClient(config.appeals.url, config.appeals.timeout);
 
 		// get user and set session
 		if (enrolUsersFlag) {

@@ -1,26 +1,28 @@
 const { default: fetch, AbortError } = require('node-fetch');
-const uuid = require('uuid');
 const AppealsApiError = require('./appeals-api-error');
 
-const config = require('../config');
 const parentLogger = require('../lib/logger');
 
 const v2 = '/api/v2';
+const trailingSlashRegex = /\/$/;
 
 /**
  * @class Api Client for v2 urls in appeals-service-api
  */
 class AppealsApiClient {
 	/**
-	 * @param {string|undefined} baseUrl - defaults to config.apis.appealsApi.url
+	 * @param {string} baseUrl - e.g. https://example.com
+	 * @param {number} [timeout] - timeout in ms defaults to 1000 (ms)
 	 */
-	constructor(baseUrl = config.apis.appealsApi.url) {
+	constructor(baseUrl, timeout = 1000) {
 		if (!baseUrl) {
 			throw new Error('baseUrl is required');
 		}
 
 		/** @type {string} */
-		this.baseUrl = baseUrl;
+		this.baseUrl = baseUrl.replace(trailingSlashRegex, '');
+		/** @type {number} */
+		this.timeout = timeout;
 	}
 
 	/**
@@ -59,13 +61,13 @@ class AppealsApiClient {
 	 * Handles error responses and timeouts from calls to appeals api
 	 * @param {string} path endpoint to call e.g. /api/v2/users
 	 * @param {'GET'|'POST'|'PUT'|'DELETE'} [method] - request method, defaults to 'GET'
-	 * @param {object|undefined} [opts] - options to pass to fetch can include request body
-	 * @param {object|undefined} [headers] - headers to add to request
+	 * @param {object} [opts] - options to pass to fetch can include request body
+	 * @param {object} [headers] - headers to add to request
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {AppealsApiError|Error}
 	 */
 	async #handler(path, method = 'GET', opts = {}, headers = {}) {
-		const correlationId = uuid.v4();
+		const correlationId = crypto.randomUUID();
 		const url = `${this.baseUrl}${path}`;
 
 		const logger = parentLogger.child({
@@ -79,7 +81,7 @@ class AppealsApiClient {
 		const controller = new AbortController();
 		const timeout = setTimeout(() => {
 			controller.abort();
-		}, config.apis.appealsApi.timeout);
+		}, this.timeout);
 
 		let response;
 		try {
