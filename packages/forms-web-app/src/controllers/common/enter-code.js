@@ -4,7 +4,6 @@ const {
 	sendToken,
 	getUserById
 } = require('../../lib/appeals-api-wrapper');
-const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
 const {
 	getLPAUser,
 	createLPAUserSession,
@@ -14,13 +13,13 @@ const {
 const { isTokenValid, isTestLpaAndToken, isTestEnvironment } = require('../../lib/is-token-valid');
 
 const { enterCodeConfig } = require('@pins/common');
-const config = require('../../config');
 
 const logger = require('../../../src/lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const { apiClient } = require('#lib/appeals-api-client');
 
 /**
  * @typedef {Object} Token
@@ -214,8 +213,6 @@ const postEnterCode = (views) => {
 
 		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
 		let user;
-
-		const apiClient = new AppealsApiClient(config.appeals.url, config.appeals.timeout);
 
 		// get user and set session
 		if (enrolUsersFlag) {

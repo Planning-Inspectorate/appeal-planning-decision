@@ -1,0 +1,11 @@
+{
+	"extends": "../../jsconfig.json",
+	"include": ["**/*.js"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"#lib/*": ["./src/lib/*.js"],
+			"#middleware/*": ["./src/middleware/*.js"]
+		}
+	}
+}

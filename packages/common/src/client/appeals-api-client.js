@@ -1,4 +1,5 @@
 const { default: fetch, AbortError } = require('node-fetch');
+const crypto = require('crypto');
 const AppealsApiError = require('./appeals-api-error');
 
 const parentLogger = require('../lib/logger');
@@ -53,6 +54,24 @@ class AppealsApiClient {
 	 */
 	async getUserByEmailV2(email) {
 		const endpoint = `${v2}/users/${email}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {Object<string, any>} params
+	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant[]>}
+	 */
+	async getPostcodeSearchResults(params = {}) {
+		const urlParams = new URLSearchParams();
+		for (let key in params) {
+			urlParams.append(key, params[key]);
+		}
+
+		const endpoint = urlParams.toString()
+			? '/api/v2/appeal-cases?' + urlParams.toString()
+			: '/api/v2/appeal-cases';
+
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
