@@ -1,4 +1,3 @@
-const crypto = require('crypto');
 const http = require('http');
 const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
@@ -118,6 +117,8 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions();
+	jest.clearAllMocks(); // We need to do this so that mock interactions are reset correctly between tests :)
 	await _clearDatabaseCollections();
 	expectedHorizonInteractions = [];
 	expectedNotifyInteractions = [];
@@ -129,12 +130,11 @@ beforeEach(async () => {
 
 // We check mock and message interactions consistently here so that they're not forgotten for each test :)
 afterEach(async () => {
+	// runs expect calls so may exit early
 	await mockedExternalApis.checkInteractions(
 		expectedHorizonInteractions,
 		expectedNotifyInteractions
 	);
-	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions();
-	jest.clearAllMocks(); // We need to do this so that mock interactions are reset correctly between tests :)
 });
 
 afterAll(async () => {
@@ -1678,8 +1678,6 @@ describe('Back Office', () => {
 });
 
 const _createAppeal = async (appeal = AppealFixtures.newHouseholderAppeal()) => {
-	appeal.email = crypto.randomUUID() + appeal.email;
-
 	const appealCreatedResponse = await appealsApi.post('/api/v1/appeals');
 	const appealCreated = appealCreatedResponse.body;
 

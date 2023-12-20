@@ -129,7 +129,7 @@ async function updateAppeal(id, appealUpdate) {
 	let appeal = savedAppealEntity.appeal;
 
 	// set link to user
-	await linkToUser(appealUpdate, appeal);
+	await linkToUser(appeal, appealUpdate);
 
 	Object.assign(appeal, appealUpdate);
 	isValidAppeal(appeal);
@@ -151,32 +151,34 @@ async function updateAppeal(id, appealUpdate) {
 }
 
 /**
- * @param {*} appealUpdate - appeal to update
  * @param {*} appeal - existing appeal
+ * @param {*} appealUpdate - updated appeal
  * @returns {Promise<void>}
  */
-async function linkToUser(appealUpdate, appeal) {
-	const updateLinkForS76 =
-		appealUpdate?.contactDetailsSection?.isOriginalApplicant !== undefined &&
-		(appeal?.contactDetailsSection?.isOriginalApplicant === undefined ||
-			appealUpdate?.contactDetailsSection?.isOriginalApplicant !==
-				appeal?.contactDetailsSection?.isOriginalApplicant);
-
-	const updateLinkForHAS =
-		appealUpdate?.aboutYouSection?.yourDetails?.isOriginalApplicant !== undefined &&
-		(appeal?.aboutYouSection?.yourDetails?.isOriginalApplicant === undefined ||
-			appealUpdate?.aboutYouSection?.yourDetails?.isOriginalApplicant !==
-				appeal?.aboutYouSection?.yourDetails?.isOriginalApplicant);
-
+async function linkToUser(appeal, appealUpdate) {
 	/** @type {import("../db/seed/data-static").AppealToUserRoles|undefined} */
 	let role;
 
-	if (updateLinkForS76) {
-		role = appealUpdate.contactDetailsSection.isOriginalApplicant ? 'appellant' : 'agent';
+	/**
+	 * checks new bool is defined and is different from original bool
+	 * @param {boolean|undefined} original
+	 * @param {boolean|undefined} update
+	 * @returns {boolean}
+	 */
+	function isBoolChanged(original, update) {
+		return update !== undefined && (original === undefined || update !== original);
 	}
 
-	if (updateLinkForHAS) {
-		role = appealUpdate.aboutYouSection.yourDetails.isOriginalApplicant ? 'appellant' : 'agent';
+	const currentIsOrigApplicantS78 = appeal?.contactDetailsSection?.isOriginalApplicant;
+	const updateIsOrigApplicantS78 = appealUpdate?.contactDetailsSection?.isOriginalApplicant;
+	if (isBoolChanged(currentIsOrigApplicantS78, updateIsOrigApplicantS78)) {
+		role = updateIsOrigApplicantS78 ? 'appellant' : 'agent';
+	}
+
+	const currentIsOrigApplicantHAS = appeal?.aboutYouSection?.yourDetails?.isOriginalApplicant;
+	const updateIsOrigApplicantHAS = appealUpdate?.aboutYouSection?.yourDetails?.isOriginalApplicant;
+	if (isBoolChanged(currentIsOrigApplicantHAS, updateIsOrigApplicantHAS)) {
+		role = updateIsOrigApplicantHAS ? 'appellant' : 'agent';
 	}
 
 	if (!role) {
