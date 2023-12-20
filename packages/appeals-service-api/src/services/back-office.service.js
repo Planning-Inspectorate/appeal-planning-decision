@@ -42,58 +42,101 @@ class BackOfficeService {
 		}
 	}
 
+	/**
+	 * Submit appeals to Horizon
+	 *
+	 * @returns {Promise<{completed: number, uncompleted: number, failures: number, errors: Object<string, *>}>}
+	 */
 	async submitAppeals() {
 		try {
-			let completedAppealSubmissions = [];
-			let uncompletedAppealSubmissions = [];
+			const completedAppealSubmissions = [];
+			const uncompletedAppealSubmissions = [];
+			let failures = 0;
+			/** @type {Object<string, *>} */
+			const errors = {};
 			const backOfficeSubmissions = await this.#backOfficeRepository.getAppealsForSubmission();
 
 			for (const backOfficeSubmission of backOfficeSubmissions) {
-				const id = backOfficeSubmission.getAppealId();
-				logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
-				let appealToSubmitToBackOffice = await getAppeal(id);
-
-				const updatedBackOfficeSubmission = await this.#horizonService.submitAppeal(
-					appealToSubmitToBackOffice,
-					backOfficeSubmission
-				);
-
-				if (updatedBackOfficeSubmission.isComplete()) {
-					logger.debug('Appeal submission to back office is complete');
-					const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(
-						appealToSubmitToBackOffice,
-						updatedBackOfficeSubmission.getAppealBackOfficeId()
-					);
-					await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
-					completedAppealSubmissions.push(updatedBackOfficeSubmission.getId());
-				}
-				else if (updatedBackOfficeSubmission.someEntitiesHaveMaximumFailures()) {
-					await sendFailureToUploadToHorizonEmail(id);
-					await this.#forManualInterventionService.createAppealForManualIntervention(
-						updatedBackOfficeSubmission
-					);
-					await this.#backOfficeRepository.deleteAppealSubmission(
-						updatedBackOfficeSubmission.getId()
-					);
-				}
-				else {
-					logger.debug('Appeal submission to back office is incomplete');
-					uncompletedAppealSubmissions.push(updatedBackOfficeSubmission);
-				}
-
-				if (completedAppealSubmissions.length > 0) {
-					this.#backOfficeRepository.deleteAppealSubmissions(completedAppealSubmissions);
-				}
-
-				if (uncompletedAppealSubmissions.length > 0) {
-					await this.#backOfficeRepository.updateAppealSubmissions(uncompletedAppealSubmissions);
+				// try/catch for each submission so submissions aren't 'blocked' by a failing submission
+				try {
+					const { complete, failed, submission } = await this.submitAppeal(backOfficeSubmission);
+					if (complete) {
+						completedAppealSubmissions.push(submission.getId());
+					} else if (!failed) {
+						uncompletedAppealSubmissions.push(submission);
+					} else {
+						failures++;
+					}
+				} catch (error) {
+					logger.error(error, `error submitting ${backOfficeSubmission.getId()}`);
+					errors[backOfficeSubmission.getId()] = error;
 				}
 			}
-			return `Successfully processed appeals for submission. ${completedAppealSubmissions.length} completed. ${uncompletedAppealSubmissions.length} incomplete`;
+
+			if (completedAppealSubmissions.length > 0) {
+				try {
+					await this.#backOfficeRepository.deleteAppealSubmissions(completedAppealSubmissions);
+				} catch (error) {
+					logger.error(error, `error deleting completed submissions`);
+					errors['deletingCompleted'] = error;
+				}
+			}
+
+			if (uncompletedAppealSubmissions.length > 0) {
+				try {
+					await this.#backOfficeRepository.updateAppealSubmissions(uncompletedAppealSubmissions);
+				} catch (error) {
+					logger.error(error, `error updating uncompleted submissions`);
+					errors['updatingUncompleted'] = error;
+				}
+			}
+			return {
+				completed: completedAppealSubmissions.length,
+				uncompleted: uncompletedAppealSubmissions.length,
+				failures,
+				errors
+			};
 		} catch (error) {
-			logger.debug(`Error processing: ${error}`);
+			logger.debug(error, `Error processing`);
 			throw error;
 		}
+	}
+
+	/**
+	 * @param {*} backOfficeSubmission
+	 * @returns {Promise<{complete: boolean, failed: boolean, submission: *}>}
+	 */
+	async submitAppeal(backOfficeSubmission) {
+		const id = backOfficeSubmission.getAppealId();
+		logger.debug(`Attempting to submit appeal with ID ${id} to the back office`);
+		let appealToSubmitToBackOffice = await getAppeal(id);
+
+		const updatedBackOfficeSubmission = await this.#horizonService.submitAppeal(
+			appealToSubmitToBackOffice,
+			backOfficeSubmission
+		);
+
+		let complete = false;
+		let failed = false;
+
+		if (updatedBackOfficeSubmission.isComplete()) {
+			const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(
+				appealToSubmitToBackOffice,
+				updatedBackOfficeSubmission.getAppealBackOfficeId()
+			);
+			await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
+			complete = true;
+		} else if (updatedBackOfficeSubmission.someEntitiesHaveMaximumFailures()) {
+			// after a certain number of failures, remove the submission from the queue and send a notification (email)
+			await sendFailureToUploadToHorizonEmail(id);
+			await this.#forManualInterventionService.createAppealForManualIntervention(
+				updatedBackOfficeSubmission
+			);
+			await this.#backOfficeRepository.deleteAppealSubmission(updatedBackOfficeSubmission.getId());
+			failed = true;
+		}
+		logger.debug({ complete, failed }, 'appeal submission status');
+		return { complete, failed, submission: updatedBackOfficeSubmission };
 	}
 
 	async getAppealForSubmission(id) {

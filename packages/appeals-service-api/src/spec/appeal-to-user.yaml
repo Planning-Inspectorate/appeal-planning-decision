@@ -1,0 +1,23 @@
+components:
+  schemas:
+    AppealToUser:
+      description: An mapping of an appeal to a user
+      type: object
+      required:
+        - email
+        - appealId
+        - role
+      properties:
+        email:
+          type: string
+          format: email
+          example: 'me@example.com'
+          description: user email
+        appealId:
+          type: string
+          format: uuid
+          description: Unique identifier of appeal (SQL)
+        role:
+          type: string
+          enum: ['appellant', 'agent', 'interestedParty']
+          description: Role user has on the appeal

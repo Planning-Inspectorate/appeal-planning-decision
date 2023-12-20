@@ -71,7 +71,9 @@ let config = {
 	},
 	services: {
 		horizon: {
-			url: process.env.SRV_HORIZON_URL
+			timeout: parseInt(process.env.SRV_HORIZON_TIMEOUT, 10) || 30 * 1000, // 30s by default
+			url: process.env.SRV_HORIZON_URL,
+			logRequestTime: process.env.SRV_HORIZON_LOG_REQUEST_TIME === 'true'
 		},
 		notify: {
 			baseUrl: process.env.SRV_NOTIFY_BASE_URL,

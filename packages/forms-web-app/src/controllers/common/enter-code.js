@@ -4,6 +4,7 @@ const {
 	sendToken,
 	getUserById
 } = require('../../lib/appeals-api-wrapper');
+const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
 const {
 	getLPAUser,
 	createLPAUserSession,
@@ -11,9 +12,15 @@ const {
 	setLPAUserStatus
 } = require('../../services/lpa-user.service');
 const { isTokenValid, isTestLpaAndToken, isTestEnvironment } = require('../../lib/is-token-valid');
+
 const { enterCodeConfig } = require('@pins/common');
+const config = require('../../config');
+
 const logger = require('../../../src/lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
+
+const { isFeatureActive } = require('../../featureFlag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 /**
  * @typedef {Object} Token
@@ -205,16 +212,34 @@ const postEnterCode = (views) => {
 			});
 		}
 
+		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
+		let user;
+
+		const apiClient = new AppealsApiClient(config.appeals.url, config.appeals.timeout);
+
+		// get user and set session
+		if (enrolUsersFlag) {
+			user = await apiClient.getUserByEmailV2(req.session.appeal.email);
+
+			if (!user) {
+				throw new Error('user not found after entering code');
+			}
+		}
+
 		// if handling an email confirmation
 		// session will be in browser so can redirect here and consider email confirmed
 		if (tokenValid.action === enterCodeConfig.actions.confirmEmail) {
+			if (enrolUsersFlag && user) {
+				await apiClient.linkUserToV2Appeal(user.email, req.session.appeal.appealSqlId);
+			}
+
 			delete req.session?.enterCode?.action;
 			return res.redirect(`/${views.EMAIL_CONFIRMED}`);
 		}
 
 		// n.b. older save and return objects in db may not have an action - May 2023
 
-		// delete user session
+		// delete temp user token from session
 		delete req.session.userTokenId;
 
 		// look up appeal from db

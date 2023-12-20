@@ -32,6 +32,7 @@ const { utils } = require('@pins/common');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('@pins/common/src/client/appeals-api-client');
 jest.mock('../../../../src/lib/is-token-valid');
 jest.mock('../../../../src/lib/is-token-valid');
 jest.mock('../../../../src/services/lpa-user.service', () => {

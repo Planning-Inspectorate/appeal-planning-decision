@@ -22,7 +22,7 @@ paths:
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ErrorBody'
+                $ref: '#/components/schemas/ErrorBody'
   /api/v2/users/{email}:
     get:
       tags:
@@ -49,3 +49,50 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/users/{email}/appeal/{appealId}:
+    put:
+      tags:
+        - users
+      description: Link a user to an appeal
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+            format: email
+          example: me@example.com
+          description: user email
+        - in: appealId
+          name: appealId
+          required: true
+          schema:
+            type: string
+            format: uuid
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+          description: Unique identifier of appeal (SQL)
+      requestBody:
+        description: role
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role:
+                  type: string
+                  enum: ['appellant', 'agent', 'interestedParty']
+      responses:
+        200:
+          description: Created role
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppealToUser'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        500:
+          description: Something went wrong
