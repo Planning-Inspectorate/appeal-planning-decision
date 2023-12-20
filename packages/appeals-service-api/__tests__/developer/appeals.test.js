@@ -111,6 +111,9 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions();
+	jest.clearAllMocks();
+
 	await _clearDatabaseCollections();
 	expectedNotifyInteractions = [];
 	await mockedExternalApis.mockNotifyResponse({}, 200);
@@ -121,9 +124,8 @@ beforeEach(async () => {
 
 // We check mock and message interactions consistently here so that they're not forgotten for each test :)
 afterEach(async () => {
+	// runs expect calls so may exit early
 	await mockedExternalApis.checkInteractions(expectedNotifyInteractions);
-	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions();
-	jest.clearAllMocks(); // We need to do this so that mock interactions are reset correctly between tests :)
 });
 
 afterAll(async () => {

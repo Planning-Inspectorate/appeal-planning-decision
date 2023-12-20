@@ -98,6 +98,16 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions();
+	jest.clearAllMocks();
+	await sqlClient.securityToken.deleteMany({
+		where: {
+			appealUserId: {
+				in: userIds
+			}
+		}
+	});
+
 	await mockedExternalApis.mockNotifyResponse({}, 200);
 
 	// clear expected api calls
@@ -110,17 +120,8 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-	await sqlClient.securityToken.deleteMany({
-		where: {
-			appealUserId: {
-				in: userIds
-			}
-		}
-	});
-	// check and clear external api interactions
+	// runs expect calls so may exit early
 	// await mockedExternalApis.checkInteractions(expectedNotifyInteractions);
-	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions();
-	jest.clearAllMocks();
 });
 
 afterAll(async () => {
