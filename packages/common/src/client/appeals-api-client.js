@@ -59,6 +59,24 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {Object<string, any>} params
+	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant[]>}
+	 */
+	async getPostcodeSearchResults(params = {}) {
+		const urlParams = new URLSearchParams();
+		for (let key in params) {
+			urlParams.append(key, params[key]);
+		}
+
+		const endpoint = urlParams.toString()
+			? '/api/v2/appeal-cases?' + urlParams.toString()
+			: '/api/v2/appeal-cases';
+
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * Handles error responses and timeouts from calls to appeals api
 	 * @param {string} path endpoint to call e.g. /api/v2/users
 	 * @param {'GET'|'POST'|'PUT'|'DELETE'} [method] - request method, defaults to 'GET'
