@@ -103,6 +103,20 @@ class AppealsRepository {
 			}
 		});
 	}
+
+	/**
+	 * Get by legacy appeal id
+	 *
+	 * @param {string} id
+	 * @returns {Promise<Appeal|null>}
+	 */
+	async getByLegacyId(id) {
+		return await this.dbClient.appeal.findFirst({
+			where: {
+				legacyAppealSubmissionId: id
+			}
+		});
+	}
 }
 
 module.exports = { AppealsRepository };

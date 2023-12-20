@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const http = require('http');
 const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
@@ -7,6 +8,8 @@ const jp = require('jsonpath');
 const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
+const { createPrismaClient } = require('../../src/db/db-client');
+const { seedStaticData } = require('../../src/db/seed/data-static');
 
 const MockedExternalApis = require('./external-dependencies/rest-apis/mocked-external-apis');
 const HorizonInteraction = require('./external-dependencies/rest-apis/interactions/horizon-interaction');
@@ -16,6 +19,8 @@ const HorizonIntegrationInputCondition = require('./utils/horizon-integration-in
 
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 
+/** @type {import('@prisma/client').PrismaClient} */
+let sqlClient;
 /** @type {import('supertest').SuperTest<import('supertest').Test>} */
 let appealsApi;
 /** @type {import('mongodb').MongoClient} */
@@ -38,6 +43,11 @@ jest.mock('../../src/db/db'); // TODO: We shouldn't need to do this, but we didn
 jest.mock('../../src/configuration/featureFlag');
 
 const dbName = 'integration-test-back-office-db';
+
+/** @type {Array.<string>} */
+const userIds = [];
+/** @type {Array.<string>} */
+const appealIds = [];
 
 beforeAll(async () => {
 	///////////////////////////////
@@ -65,6 +75,9 @@ beforeAll(async () => {
 	test_listener.on('disconnected', (context) => {
 		context.connection.close();
 	});
+
+	// sql client
+	sqlClient = createPrismaClient();
 
 	/////////////////////////////
 	///// SETUP TEST CONFIG /////
@@ -100,6 +113,8 @@ beforeAll(async () => {
 
 	const testLpaJson = `{OBJECTID;LPA19CD;LPA CODE;LPA19NM;EMAIL;DOMAIN;LPA ONBOARDED\n323;${testLpaCodeEngland};;${testLpaNameEngland};${testLpaEmail};;TRUE\n324;${testLpaCodeWales};${testHorizonLpaCodeWales};${testLpaNameWales};${testLpaEmail};;TRUE}`;
 	await appealsApi.post('/api/v1/local-planning-authorities').send(testLpaJson);
+
+	await seedStaticData(sqlClient);
 });
 
 beforeEach(async () => {
@@ -123,6 +138,8 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
+	await _clearSqlData();
+	await sqlClient.$disconnect();
 	await databaseConnection.close();
 	await mockedExternalApis.teardown();
 });
@@ -1660,14 +1677,20 @@ describe('Back Office', () => {
 	});
 });
 
-const _createAppeal = async (householderAppeal = AppealFixtures.newHouseholderAppeal()) => {
+const _createAppeal = async (appeal = AppealFixtures.newHouseholderAppeal()) => {
+	appeal.email = crypto.randomUUID() + appeal.email;
+
 	const appealCreatedResponse = await appealsApi.post('/api/v1/appeals');
 	const appealCreated = appealCreatedResponse.body;
 
-	householderAppeal.id = appealCreated.id;
+	appealIds.push(appealCreated.appealSqlId);
+
+	await _createSqlUser(appeal.email);
+
+	appeal.id = appealCreated.id;
 	const savedAppealResponse = await appealsApi
 		.put(`/api/v1/appeals/${appealCreated.id}`)
-		.send(householderAppeal);
+		.send(appeal);
 
 	return savedAppealResponse;
 };
@@ -1686,4 +1709,56 @@ const _clearDatabaseCollections = async () => {
 	for (const collection of databaseCollectionsFiltered) {
 		await collection.drop();
 	}
+};
+
+/**
+ * @returns {Promise.<void>}
+ */
+const _clearSqlData = async () => {
+	const testUsersClause = {
+		in: userIds
+	};
+	const testAppealsClause = {
+		in: appealIds
+	};
+
+	await sqlClient.appealToUser.deleteMany({
+		where: {
+			userId: testUsersClause
+		}
+	});
+
+	await sqlClient.appealUser.deleteMany({
+		where: {
+			id: testUsersClause
+		}
+	});
+
+	await sqlClient.appeal.deleteMany({
+		where: {
+			id: testAppealsClause
+		}
+	});
+};
+
+/**
+ *
+ * @param {string} email
+ * @returns {Promise.<import('@prisma/client').AppealUser>}
+ */
+const _createSqlUser = async (email) => {
+	const user = await sqlClient.appealUser.upsert({
+		create: {
+			email: email,
+			isEnrolled: true
+		},
+		update: {
+			isEnrolled: true
+		},
+		where: { email: email }
+	});
+
+	userIds.push(user.id);
+
+	return user;
 };

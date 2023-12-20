@@ -12,6 +12,7 @@ jest.mock('../../../src/services/token.service');
 jest.mock('../../../src/services/appeal.service');
 jest.mock('../../../src/lib/notify');
 jest.mock('../../../src/repositories/sql/appeal-user-repository');
+jest.mock('../../../src/repositories/sql/appeals-repository');
 jest.mock('../../../src/db/db-client');
 
 describe('controllers/token', () => {
