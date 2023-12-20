@@ -1,12 +1,13 @@
 const { formatAddress } = require('#utils/format-address');
 const { formatDate } = require('#utils/format-date');
 const { sortByCaseDecisionDate } = require('#utils/appeal-sorting');
-const { AppealsApiClient } = require('#utils/appeals-api-client');
+const { apiClient } = require('#utils/appeals-api-client');
 
 /** @type {import('express').RequestHandler} */
 const decidedAppeals = async (req, res) => {
 	const postcode = req.query.search;
-	const decidedAppeals = await new AppealsApiClient().getPostcodeSearchResults({
+	/** @type {import('../../../utils/appeals-view').AppealViewModel[]} */
+	const decidedAppeals = await apiClient.getPostcodeSearchResults({
 		postcode,
 		'decided-only': true
 	});

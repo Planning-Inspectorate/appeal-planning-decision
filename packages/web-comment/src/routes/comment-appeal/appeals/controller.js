@@ -5,12 +5,13 @@ const {
 	sortByCaseReference
 } = require('#utils/appeal-sorting');
 const { formatAddress } = require('#utils/format-address');
-const { AppealsApiClient } = require('#utils/appeals-api-client');
+const { apiClient } = require('#utils/appeals-api-client');
 
 /** @type {import('express').RequestHandler} */
 const appeals = async (req, res) => {
 	const postcode = req.query.search;
-	const postcodeSearchResults = await new AppealsApiClient().getPostcodeSearchResults({
+	/** @type {import('../../../utils/appeals-view').AppealViewModel[]} */
+	const postcodeSearchResults = await apiClient.getPostcodeSearchResults({
 		postcode,
 		'with-appellant': true
 	});
