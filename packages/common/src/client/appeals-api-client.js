@@ -1,4 +1,5 @@
 const { default: fetch, AbortError } = require('node-fetch');
+const crypto = require('crypto');
 const AppealsApiError = require('./appeals-api-error');
 
 const parentLogger = require('../lib/logger');
