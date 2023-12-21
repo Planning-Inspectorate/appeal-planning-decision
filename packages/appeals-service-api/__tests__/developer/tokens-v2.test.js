@@ -81,6 +81,8 @@ beforeAll(async () => {
 	appConfiguration.services.notify.templates.LPA_DASHBOARD.enterCodeIntoServiceEmailToLPA = '1';
 	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant =
 		'2';
+	appConfiguration.services.notify.templates.APPELLANT_LOGIN.confirmRegistrationEmailToAppellant =
+		'3';
 
 	/////////////////////
 	///// SETUP APP ////
