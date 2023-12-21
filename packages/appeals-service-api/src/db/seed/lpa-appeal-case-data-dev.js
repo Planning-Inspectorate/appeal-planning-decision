@@ -49,6 +49,15 @@ const lpaAppeals = [
 	}
 ];
 
+const commonAppealCaseDataProperties = {
+	LPACode: 'Q9999',
+	LPAName: 'System Test Borough Council',
+	decision: 'refused',
+	originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+	costsAppliedForIndicator: false,
+	LPAApplicationReference: '12/2323232/PLA'
+};
+
 /**
  * @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]}
  */
@@ -57,102 +66,56 @@ const lpaAppealCaseData = [
 		Appeal: {
 			connect: { id: lpaAppealIds.appealOne }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000000',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'HAS',
 		appealTypeName: 'Householder',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'New appeal',
 		siteAddressLine2: null,
 		siteAddressTown: 'No due dates',
 		siteAddressCounty: 'Countyshire',
-		siteAddressPostcode: 'BS1 6PN',
-		questionnaireDueDate: null,
-		questionnaireReceived: null,
-		statementDueDate: null,
-		LPAStatementSubmitted: null,
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: null,
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		siteAddressPostcode: 'BS1 6PN'
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealTwo }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000001',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement due',
 		siteAddressLine2: null,
 		siteAddressTown: 'Not submitted',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
-		questionnaireReceived: null,
-		statementDueDate: pickRandom(datesNMonthsAhead(1)),
-		LPAStatementSubmitted: null,
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: null,
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		statementDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealThree }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000002',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire overdue',
 		siteAddressLine2: null,
 		siteAddressTown: null,
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
-		questionnaireReceived: null,
-		statementDueDate: pickRandom(datesNMonthsAhead(1)),
-		LPAStatementSubmitted: null,
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: null,
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		statementDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealFour }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000003',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire submitted',
 		siteAddressLine2: null,
 		siteAddressTown: 'Statement due',
@@ -160,22 +123,14 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
-		statementDueDate: pickRandom(datesNMonthsAhead(1)),
-		LPAStatementSubmitted: null,
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: null,
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		statementDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealFive }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000004',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
 		decision: 'refused',
@@ -189,28 +144,16 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
-		statementDueDate: pickRandom(datesNMonthsAgo(1)),
-		LPAStatementSubmitted: null,
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: null,
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		statementDueDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealSix }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000005',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
 		siteAddressLine2: null,
 		siteAddressTown: 'no comments or proofs due',
@@ -219,27 +162,16 @@ const lpaAppealCaseData = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
-		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: null,
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealSeven }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000006',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
 		siteAddressLine2: null,
 		siteAddressTown: 'Comments due',
@@ -249,26 +181,16 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
-		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: null,
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealEight }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000007',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
 		siteAddressLine2: null,
 		siteAddressTown: 'Comments overdue',
@@ -278,26 +200,16 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
-		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: null,
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealNine }
 		},
-		caseReference: '0000008',
-		LPACode: 'Q9999',
+		...commonAppealCaseDataProperties,
 		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
 		siteAddressLine2: null,
 		siteAddressTown: 'Comments submitted',
@@ -308,25 +220,16 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
-		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		proofsOfEvidenceDueDate: null,
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealTen }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000009',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
 		siteAddressLine2: null,
 		siteAddressTown: 'proofs due',
@@ -336,26 +239,16 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealEleven }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000010',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
 		siteAddressLine2: null,
 		siteAddressTown: 'proofs overdue',
@@ -365,26 +258,16 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
-		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
-		LPAProofsSubmitted: null,
-		outcome: null,
-		caseDecisionDate: null
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealTwelve }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '0000011',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Questionnaire and statement submitted',
 		siteAddressLine2: null,
 		siteAddressTown: 'Proofs submitted',
@@ -394,26 +277,17 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
-		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		outcome: null,
-		caseDecisionDate: null
+		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
 			connect: { id: lpaAppealIds.appealThirteen }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '1000012',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Decided',
 		siteAddressLine2: null,
 		siteAddressTown: 'Allowed',
@@ -423,8 +297,6 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		outcome: 'allowed',
@@ -434,26 +306,19 @@ const lpaAppealCaseData = [
 		Appeal: {
 			connect: { id: lpaAppealIds.appealFourteen }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '1000013',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Decided',
 		siteAddressLine2: null,
-		siteAddressTown: 'Allowed',
+		siteAddressTown: 'dismissed',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		outcome: 'dismissed',
@@ -463,26 +328,19 @@ const lpaAppealCaseData = [
 		Appeal: {
 			connect: { id: lpaAppealIds.appealFifteen }
 		},
+		...commonAppealCaseDataProperties,
 		caseReference: '1000014',
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
-		decision: 'refused',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323232/PLA',
 		siteAddressLine1: 'Decided',
 		siteAddressLine2: null,
-		siteAddressTown: 'Allowed',
+		siteAddressTown: 'split decision',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: null,
-		LPACommentsSubmitted: null,
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		outcome: 'split decision',

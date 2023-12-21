@@ -1,31 +1,5 @@
 /**
- * @typedef LPAAppealData
- * @type {object}
- * @property {string} caseReference
- * @property {string} caseReferenceSlug
- * @property {string} LPAApplicationReference
- * @property {string} siteAddressLine1
- * @property {string} siteAddressLine2
- * @property {string} siteAddressPostcode
- * @property {string} siteAddressTown
- * @property {string} appealTypeCode
- * @property {string} questionnaireDueDate
- * @property {string} questionnaireReceived
- * @property {string} statementDueDate
- * @property {string} LPAStatementSubmitted
- * @property {string} finalCommentsDueDate
- * @property {string} LPACommentsSubmitted
- * @property {string} proofsOfEvidenceDueDate
- * @property {string} LPAProofsSubmitted
- * @property {string} validity
- * @property {string} LPACode
- */
-
-/**
- * @typedef DashboardAppealType
- * @type {object}
- * @property {string} long a longer form appeal type string, for appellants
- * @property {string} short a shorter form appeal type string, for lpa users
+ * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  */
 
 /**
@@ -94,15 +68,9 @@ const overdueDocumentNotToBeDisplayed = (dueDocument) => {
 };
 
 /**
- * @param {string} caseReference
- * @returns {string} returns the seven digit appeal number as a string string
+ * @param {AppealCaseWithAppellant} appealCaseData
+ * @returns {string}
  */
-// Only required if using old mongo instance rather than sql v2 api
-
-// const extractAppealNumber = (caseReference) => {
-// 	return caseReference.split('/').pop();
-// };
-
 const formatAddress = (appealCaseData) => {
 	const addressComponents = [
 		appealCaseData.siteAddressLine1,
@@ -114,27 +82,6 @@ const formatAddress = (appealCaseData) => {
 	return addressComponents.filter(Boolean).join(', ');
 };
 
-// /**
-//  * @param {string} caseDataAppealType
-//  * @returns {DashboardAppealType} returns an object with a long and a short appealType string
-//  */
-
-// // Only required if using old mongo instance rather than sql v2 api
-
-// const formatAppealType = (caseDataAppealType) => {
-// 	if (caseDataAppealType === 'Householder (HAS) Appeal') {
-// 		return {
-// 			long: 'Householder',
-// 			short: 'HAS'
-// 		};
-// 	} else if (caseDataAppealType === 'Full Planning (S78) Appeal') {
-// 		return {
-// 			long: 'Full planning',
-// 			short: 'S78'
-// 		};
-// 	}
-// };
-
 const formatDecision = (decision) => {
 	switch (decision) {
 		case 'allowed':
@@ -142,14 +89,14 @@ const formatDecision = (decision) => {
 		case 'dismissed':
 			return 'DISMISSED';
 		case 'split decision':
-			return 'ALLOWED IN PART (SPLIT DECISION)';
+			return 'allowed in part';
 		default:
 			return decision;
 	}
 };
 
 /**
- * @param {LPAAppealData} appealCaseData return object from database call
+ * @param {AppealCaseWithAppellant} appealCaseData return object from database call
  * @returns {boolean} returns depending on whether a Questionnaire due date has been set
  */
 
@@ -158,7 +105,7 @@ const isNewAppeal = (appealCaseData) => {
 };
 
 /**
- * @param {LPAAppealData} appealCaseData return object from database call
+ * @param {AppealCaseWithAppellant} appealCaseData return object from database call
  * @returns {DueDocumentType} object containing details of next due document
  */
 const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
@@ -206,7 +153,7 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 // Helper functions, not exported, potential for refactoring as repetitive
 
 /**
- * @param {LPAAppealData} appealCaseData return object from database call
+ * @param {AppealCaseWithAppellant} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isQuestionnaireDue = (appealCaseData) => {
@@ -214,7 +161,7 @@ const isQuestionnaireDue = (appealCaseData) => {
 };
 
 /**
- * @param {object} appealCaseData return object from database call
+ * @param {AppealCaseWithAppellant} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isStatementDue = (appealCaseData) => {
@@ -222,7 +169,7 @@ const isStatementDue = (appealCaseData) => {
 };
 
 /**
- * @param {object} appealCaseData return object from database call
+ * @param {AppealCaseWithAppellant} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isFinalCommentDue = (appealCaseData) => {
@@ -230,7 +177,7 @@ const isFinalCommentDue = (appealCaseData) => {
 };
 
 /**
- * @param {object} appealCaseData return object from database call
+ * @param {AppealCaseWithAppellant} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isProofsOfEvidenceDue = (appealCaseData) => {
@@ -238,7 +185,7 @@ const isProofsOfEvidenceDue = (appealCaseData) => {
 };
 
 /**
- * @param {object} appealCaseData return object from database call
+ * @param {AppealCaseWithAppellant} appealCaseData return object from database call
  * @returns {string}
  */
 const getAppealType = (appealCaseData) => {
@@ -248,10 +195,6 @@ const getAppealType = (appealCaseData) => {
 	return `${appealCaseData.appealTypeName} appeal`;
 };
 
-/**
- * @param {import('appeals-service-api').Api.AppealCase} appealCaseData
- * @returns {string | null }
- */
 const getDecisionOutcome = (outcome) => {
 	if (!outcome) return null;
 	switch (outcome) {
@@ -267,9 +210,7 @@ const getDecisionOutcome = (outcome) => {
 };
 
 module.exports = {
-	// extractAppealNumber,
 	formatAddress,
-	// formatAppealType,
 	isNewAppeal,
 	determineDocumentToDisplayLPADashboard,
 	mapToLPADashboardDisplayData,

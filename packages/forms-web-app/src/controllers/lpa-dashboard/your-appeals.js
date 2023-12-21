@@ -13,19 +13,14 @@ const {
 } = require('../../lib/views');
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
 
-const {
-	getAppealsCaseDataV2,
-	getDecidedAppealsCaseDataV2
-} = require('../../lib/appeals-api-wrapper');
+const { getAppealsCaseDataV2, getDecidedAppealsCountV2 } = require('../../lib/appeals-api-wrapper');
 
 const getYourAppeals = async (req, res) => {
-	let appealsCaseData = [];
-
 	const user = getLPAUserFromSession(req);
 
-	appealsCaseData = await getAppealsCaseDataV2(user.lpaCode);
+	const appealsCaseData = await getAppealsCaseDataV2(user.lpaCode);
 
-	const decidedAppeals = await getDecidedAppealsCaseDataV2(user.lpaCode);
+	const decidedAppealsCount = await getDecidedAppealsCountV2(user.lpaCode);
 
 	const { toDoAppeals, waitingForReviewAppeals } = appealsCaseData
 		.map(mapToLPADashboardDisplayData)
@@ -54,7 +49,7 @@ const getYourAppeals = async (req, res) => {
 		appealQuestionnaireLink: baseHASUrl,
 		showQuestionnaire: await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, user.lpaCode),
 		decidedAppealsLink: `/${DECIDED_APPEALS}`,
-		decidedAppealsNumber: decidedAppeals.length
+		decidedAppealsCount: decidedAppealsCount.count
 	});
 };
 

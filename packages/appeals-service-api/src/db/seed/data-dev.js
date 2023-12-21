@@ -110,7 +110,8 @@ const appeals = [
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
 		legacyAppealSubmissionState: 'DRAFT'
-	}
+	},
+	...lpaAppeals
 ];
 
 const commonAppealProperties = {
@@ -228,7 +229,8 @@ const appealCases = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionDate: pickRandom(datesNMonthsAgo(4))
-	}
+	},
+	...lpaAppealCaseData
 ];
 
 /**
@@ -387,24 +389,8 @@ async function seedDev(dbClient) {
 		});
 	}
 
-	for (const appeal of lpaAppeals) {
-		await dbClient.appeal.upsert({
-			create: appeal,
-			update: appeal,
-			where: { id: appeal.id }
-		});
-	}
-
 	// create some appeal cases
 	for (const appealCase of appealCases) {
-		await dbClient.appealCase.upsert({
-			create: appealCase,
-			update: appealCase,
-			where: { caseReference: appealCase.caseReference }
-		});
-	}
-
-	for (const appealCase of lpaAppealCaseData) {
 		await dbClient.appealCase.upsert({
 			create: appealCase,
 			update: appealCase,
