@@ -9,7 +9,6 @@ exports.get = async (req, res) => {
 	try {
 		const user = await apiClient.getUserByEmailV2(email);
 		let appeals = await apiClient.getUserAppealsById(user.id);
-		console.log('okok', appeals);
 		if (appeals?.length > 0) {
 			appeals = appeals.map(mapToAppellantDashboardDisplayData);
 			viewContext = { appeals };

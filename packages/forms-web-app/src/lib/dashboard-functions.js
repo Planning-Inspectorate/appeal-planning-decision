@@ -44,7 +44,7 @@ const mapToAppellantDashboardDisplayData = (appealCaseData) => ({
 	address: formatAddress(appealCaseData),
 	isDraft: appealCaseData?.appeal?.state === APPEAL_STATE.DRAFT,
 	appealType: getAppealType(appealCaseData),
-	decisionOutcome: getDecisionOutcome(appealCaseData.outcome)
+	decisionOutcome: getDecisionOutcome(appealCaseData.decision)
 });
 
 const isToDoLPADashboard = (appeal) => {
