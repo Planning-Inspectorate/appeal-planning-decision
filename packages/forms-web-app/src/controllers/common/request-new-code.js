@@ -3,6 +3,7 @@ const logger = require('../../lib/logger');
 
 const getRequestNewCode = (requestNewCodeView) => {
 	return async (_, res) => {
+		console.log('this is the view', requestNewCodeView);
 		res.render(requestNewCodeView);
 	};
 };
@@ -21,7 +22,8 @@ const postRequestNewCode = (enterCodeView) => {
 		req.session.enterCode = req.session.enterCode || {};
 		req.session.enterCode.newCode = true;
 
-		res.redirect(`/${enterCodeView}/${id}`);
+		const params = id ? `/${id}` : '';
+		res.redirect(`/${enterCodeView}${params}`);
 	};
 };
 

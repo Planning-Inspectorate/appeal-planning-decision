@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const http = require('http');
 const supertest = require('supertest');
 const { MongoClient } = require('mongodb');
@@ -31,17 +32,14 @@ jest.setTimeout(140000);
 jest.mock('../../src/db/db');
 jest.mock('../../src/configuration/featureFlag');
 
-const TEST_EMAIL = 'test-user1@example.com';
-const TEST_USER = {
-	email: TEST_EMAIL,
-	isEnrolled: true,
-	isLpaUser: true,
-	isLpaAdmin: true,
-	lpaCode: 'Q9999',
-	lpaStatus: 'confirmed'
-};
-// let TEST_USER_ID = '';
 let TEST_APPEAL;
+/** @type {import('@prisma/client').AppealUser} */
+let TEST_USER;
+
+/** @type {Array.<string>} */
+const userIds = [];
+/** @type {Array.<string>} */
+const appealIds = [];
 
 beforeAll(async () => {
 	///////////////////////////////
@@ -83,6 +81,8 @@ beforeAll(async () => {
 	appConfiguration.services.notify.templates.LPA_DASHBOARD.enterCodeIntoServiceEmailToLPA = '1';
 	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant =
 		'2';
+	appConfiguration.services.notify.templates.APPELLANT_LOGIN.confirmRegistrationEmailToAppellant =
+		'3';
 
 	/////////////////////
 	///// SETUP APP ////
@@ -94,15 +94,23 @@ beforeAll(async () => {
 	////////////////////////////
 	///// Add static data /////
 	//////////////////////////
-	TEST_APPEAL = (await _createAppeal()).body;
+	const { appealResponse, userResponse } = await _createAppeal();
+	TEST_APPEAL = appealResponse.body;
+	TEST_USER = userResponse;
 });
 
 beforeEach(async () => {
-	await mockedExternalApis.mockNotifyResponse({}, 200);
+	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions();
+	jest.clearAllMocks();
+	await sqlClient.securityToken.deleteMany({
+		where: {
+			appealUserId: {
+				in: userIds
+			}
+		}
+	});
 
-	// clear sql db
-	await sqlClient.securityToken.deleteMany();
-	await sqlClient.appealUser.deleteMany();
+	await mockedExternalApis.mockNotifyResponse({}, 200);
 
 	// clear expected api calls
 	// expectedNotifyInteractions = [];
@@ -114,13 +122,13 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-	// check and clear external api interactions
+	// runs expect calls so may exit early
 	// await mockedExternalApis.checkInteractions(expectedNotifyInteractions);
-	await mockedExternalApis.clearAllMockedResponsesAndRecordedInteractions();
-	jest.clearAllMocks();
 });
 
 afterAll(async () => {
+	await _clearSqlData();
+
 	// close db connections
 	await sqlClient.$disconnect();
 	await databaseConnection.close();
@@ -139,13 +147,20 @@ describe('tokens v2', () => {
 
 			expect(tokenResponse.status).toBe(200);
 
-			const appealUser = await sqlClient.appealUser.findFirst();
-			const securityToken = await sqlClient.securityToken.findFirst();
+			const appealUser = await sqlClient.appealUser.findFirstOrThrow({
+				where: {
+					email: TEST_USER.email
+				}
+			});
+			const securityToken = await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: appealUser?.id
+				}
+			});
 
 			expect(appealUser.email).toEqual(TEST_APPEAL.email);
 			expect(appealUser.isEnrolled).toEqual(false);
 			expect(securityToken.appealUserId).toBeDefined();
-			expect(securityToken.appealUserId).toEqual(appealUser.id);
 
 			// check email sent
 			// const emailToLpaInteraction = NotifyInteraction.getCodeSentInteraction();
@@ -157,13 +172,21 @@ describe('tokens v2', () => {
 				id: TEST_APPEAL.id,
 				action: enterCodeConfig.actions.saveAndReturn
 			});
-			const securityToken = await sqlClient.securityToken.findFirst();
+			const securityToken = await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: TEST_USER.id
+				}
+			});
 
 			const tokenResponse2 = await appealsApi.put('/api/v2/token').send({
 				id: TEST_APPEAL.id,
 				action: enterCodeConfig.actions.saveAndReturn
 			});
-			const securityToken2 = await sqlClient.securityToken.findFirst();
+			const securityToken2 = await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: TEST_USER.id
+				}
+			});
 
 			await new Promise((resolve) => {
 				setTimeout(resolve, MILLISECONDS_BETWEEN_TOKENS);
@@ -173,7 +196,11 @@ describe('tokens v2', () => {
 				id: TEST_APPEAL.id,
 				action: enterCodeConfig.actions.saveAndReturn
 			});
-			const securityToken3 = await sqlClient.securityToken.findFirst();
+			const securityToken3 = await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: TEST_USER.id
+				}
+			});
 
 			expect(tokenResponse.status).toBe(200);
 			expect(tokenResponse2.status).toBe(200);
@@ -183,10 +210,6 @@ describe('tokens v2', () => {
 		});
 
 		it('should create token for existing user from appeal id', async () => {
-			const appealUser = await sqlClient.appealUser.create({
-				data: { email: TEST_APPEAL.email }
-			});
-
 			const tokenResponse = await appealsApi.put('/api/v2/token').send({
 				id: TEST_APPEAL.id,
 				action: enterCodeConfig.actions.confirmEmail
@@ -194,10 +217,11 @@ describe('tokens v2', () => {
 
 			expect(tokenResponse.status).toBe(200);
 
-			const securityToken = await sqlClient.securityToken.findFirst();
-
-			expect(securityToken.appealUserId).toBeDefined();
-			expect(securityToken.appealUserId).toEqual(appealUser.id);
+			await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: TEST_USER.id
+				}
+			});
 		});
 
 		it('should error if appeal id not found', async () => {
@@ -211,46 +235,36 @@ describe('tokens v2', () => {
 		});
 
 		it('should create token for existing email user', async () => {
-			const appealUser = await sqlClient.appealUser.create({
-				data: TEST_USER
-			});
-
 			const tokenResponse = await appealsApi.put('/api/v2/token').send({
-				emailAddress: appealUser.email,
+				emailAddress: TEST_USER.email,
 				action: enterCodeConfig.actions.confirmEmail
 			});
 
 			expect(tokenResponse.status).toBe(200);
 
-			const securityToken = await sqlClient.securityToken.findFirst();
-
-			expect(securityToken.appealUserId).toBeDefined();
-			expect(securityToken.appealUserId).toEqual(appealUser.id);
+			await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: TEST_USER.id
+				}
+			});
 		});
 
 		it('should create lpa token for existing email user', async () => {
-			const appealUser = await sqlClient.appealUser.create({
-				data: TEST_USER
-			});
-
 			const tokenResponse = await appealsApi.put('/api/v2/token').send({
-				emailAddress: appealUser.email,
+				emailAddress: TEST_USER.email,
 				action: enterCodeConfig.actions.lpaDashboard
 			});
 
 			expect(tokenResponse.status).toBe(200);
 
-			const securityToken = await sqlClient.securityToken.findFirst();
-
-			expect(securityToken.appealUserId).toBeDefined();
-			expect(securityToken.appealUserId).toEqual(appealUser.id);
+			await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: TEST_USER.id
+				}
+			});
 		});
 
 		it('should error if email not found', async () => {
-			await sqlClient.appealUser.create({
-				data: TEST_USER
-			});
-
 			const tokenResponse = await appealsApi.put('/api/v2/token').send({
 				emailAddress: 'abc',
 				action: enterCodeConfig.actions.confirmEmail
@@ -267,18 +281,28 @@ describe('tokens v2', () => {
 			errors: ['Invalid Token']
 		};
 		it('should check token by appeal id', async () => {
+			let appealUser = await _createSqlUser(TEST_USER.email);
+
 			await appealsApi.put('/api/v2/token').send({
 				id: TEST_APPEAL.id,
 				action: enterCodeConfig.actions.confirmEmail
 			});
 
-			const securityToken = await sqlClient.securityToken.findFirst();
+			const securityToken = await sqlClient.securityToken.findFirst({
+				where: {
+					appealUserId: TEST_USER.id
+				}
+			});
 
 			const tokenResponse = await appealsApi.post('/api/v2/token').send({
 				id: TEST_APPEAL.id,
 				token: securityToken.token
 			});
-			const appealUser = await sqlClient.appealUser.findFirst();
+			appealUser = await sqlClient.appealUser.findFirstOrThrow({
+				where: {
+					id: TEST_USER.id
+				}
+			});
 
 			expect(tokenResponse.status).toBe(200);
 			expect(appealUser.isEnrolled).toEqual(true);
@@ -292,6 +316,8 @@ describe('tokens v2', () => {
 		});
 
 		it('should fail token by appeal id', async () => {
+			let appealUser = await _createSqlUser(TEST_USER.email);
+
 			await appealsApi.put('/api/v2/token').send({
 				id: TEST_APPEAL.id,
 				action: enterCodeConfig.actions.confirmEmail
@@ -301,7 +327,11 @@ describe('tokens v2', () => {
 				id: TEST_APPEAL.id,
 				token: 'nope'
 			});
-			const appealUser = await sqlClient.appealUser.findFirst();
+			appealUser = await sqlClient.appealUser.findFirstOrThrow({
+				where: {
+					id: TEST_USER.id
+				}
+			});
 
 			expect(tokenResponse.status).toBe(400);
 			expect(appealUser.isEnrolled).toEqual(false);
@@ -309,24 +339,29 @@ describe('tokens v2', () => {
 		});
 
 		it('should check token by email', async () => {
-			let appealUser = await sqlClient.appealUser.create({
-				data: TEST_USER
-			});
+			let appealUser = await _createSqlUser(TEST_USER.email);
 
 			await appealsApi.put('/api/v2/token').send({
-				emailAddress: appealUser.email,
+				emailAddress: TEST_USER.email,
 				action: enterCodeConfig.actions.confirmEmail
 			});
 
-			const securityToken = await sqlClient.securityToken.findFirst();
+			const securityToken = await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: TEST_USER.id
+				}
+			});
 
 			const tokenResponse = await appealsApi.post('/api/v2/token').send({
-				emailAddress: appealUser.email,
+				emailAddress: TEST_USER.email,
 				token: securityToken.token
 			});
 
-			appealUser = await sqlClient.appealUser.findFirst();
-
+			appealUser = await sqlClient.appealUser.findFirstOrThrow({
+				where: {
+					id: TEST_USER.id
+				}
+			});
 			expect(tokenResponse.status).toBe(200);
 			expect(appealUser.isEnrolled).toEqual(true);
 			expect(tokenResponse.body).toEqual(
@@ -338,9 +373,7 @@ describe('tokens v2', () => {
 		});
 
 		it('should fail token by email', async () => {
-			let appealUser = await sqlClient.appealUser.create({
-				data: { ...TEST_USER, isEnrolled: false }
-			});
+			let appealUser = await _createSqlUser(TEST_USER.email);
 
 			await appealsApi.put('/api/v2/token').send({
 				emailAddress: appealUser.email,
@@ -352,8 +385,11 @@ describe('tokens v2', () => {
 				token: 'nope'
 			});
 
-			appealUser = await sqlClient.appealUser.findFirst();
-
+			appealUser = await sqlClient.appealUser.findFirstOrThrow({
+				where: {
+					id: TEST_USER.id
+				}
+			});
 			expect(tokenResponse.status).toBe(400);
 			expect(appealUser.isEnrolled).toEqual(false);
 			expect(tokenResponse.body).toEqual(invalidTokenResponseBody);
@@ -381,7 +417,11 @@ describe('tokens v2', () => {
 				id: TEST_APPEAL.id,
 				token: 'nope'
 			});
-			const securityToken = await sqlClient.securityToken.findFirst();
+			const securityToken = await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: TEST_USER.id
+				}
+			});
 
 			// 4th attempt should 429
 			expect(securityToken.attempts).toEqual(4);
@@ -423,14 +463,78 @@ describe('tokens v2', () => {
 	});
 });
 
-const _createAppeal = async (householderAppeal = AppealFixtures.newHouseholderAppeal()) => {
+/**
+ * @returns {Promise.<void>}
+ */
+const _clearSqlData = async () => {
+	const testUsersClause = {
+		in: userIds
+	};
+	const testAppealsClause = {
+		in: appealIds
+	};
+
+	await sqlClient.securityToken.deleteMany({
+		where: {
+			appealUserId: testUsersClause
+		}
+	});
+
+	await sqlClient.appealToUser.deleteMany({
+		where: {
+			userId: testUsersClause
+		}
+	});
+
+	await sqlClient.appealUser.deleteMany({
+		where: {
+			id: testUsersClause
+		}
+	});
+
+	await sqlClient.appeal.deleteMany({
+		where: {
+			id: testAppealsClause
+		}
+	});
+};
+
+const _createAppeal = async (appeal = AppealFixtures.newHouseholderAppeal()) => {
+	appeal.email = crypto.randomUUID() + appeal.email;
+
 	const appealCreatedResponse = await appealsApi.post('/api/v1/appeals');
 	const appealCreated = appealCreatedResponse.body;
 
-	householderAppeal.id = appealCreated.id;
+	appealIds.push(appealCreated.appealSqlId);
+
+	const user = await _createSqlUser(appeal.email);
+
+	appeal.id = appealCreated.id;
 	const savedAppealResponse = await appealsApi
 		.put(`/api/v1/appeals/${appealCreated.id}`)
-		.send(householderAppeal);
+		.send(appeal);
 
-	return savedAppealResponse;
+	return { appealResponse: savedAppealResponse, userResponse: user };
+};
+
+/**
+ *
+ * @param {string} email
+ * @returns {Promise.<import('@prisma/client').AppealUser>}
+ */
+const _createSqlUser = async (email) => {
+	const user = await sqlClient.appealUser.upsert({
+		create: {
+			email: email,
+			isEnrolled: false
+		},
+		update: {
+			isEnrolled: false
+		},
+		where: { email: email }
+	});
+
+	userIds.push(user.id);
+
+	return user;
 };

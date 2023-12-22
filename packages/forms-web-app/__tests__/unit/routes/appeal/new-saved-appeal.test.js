@@ -6,8 +6,6 @@ const { rules: optionsValidationRules } = require('../../../../src/validators/co
 
 const { validationErrorHandler } = require('../../../../src/validators/validation-error-handler');
 
-const fetchExistingAppealMiddleware = require('../../../../src/middleware/fetch-existing-appeal');
-
 const {
 	constants: { NEW_OR_SAVED_APPEAL_OPTION }
 } = require('@pins/business-rules');
@@ -26,11 +24,7 @@ describe('routes/appeal/new-saved-appeal', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith(
-			'/new-saved-appeal',
-			[fetchExistingAppealMiddleware],
-			newSavedAppealController.get
-		);
+		expect(get).toHaveBeenCalledWith('/new-saved-appeal', newSavedAppealController.get);
 		expect(post).toHaveBeenCalledWith(
 			'/new-saved-appeal',
 			optionsValidationRules(),

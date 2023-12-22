@@ -1,5 +1,5 @@
 const getNeedNewCode = (views) => {
-	return async (req, res) => {
+	return async (_, res) => {
 		res.render(views.NEED_NEW_CODE);
 	};
 };
@@ -9,7 +9,8 @@ const postNeedNewCode = (views) => {
 		req.session.enterCode = req.session.enterCode || {};
 		req.session.enterCode.newCode = true;
 
-		const url = `/${views.ENTER_CODE}/${req.params.id}`;
+		const params = req.params.id ? `/${req.params.id}` : '';
+		const url = `/${views.ENTER_CODE}${params}`;
 		res.redirect(url);
 	};
 };

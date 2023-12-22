@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const http = require('http');
 const supertest = require('supertest');
 
@@ -16,7 +17,10 @@ jest.mock('../../../configuration/featureFlag');
 
 jest.setTimeout(140000);
 
-const TEST_EMAIL = 'test-user1@example.com';
+/** @type {Array.<string>} */
+const usersIds = [];
+/** @type {Array.<string>} */
+const appealIds = [];
 
 beforeAll(async () => {
 	///////////////////////////////
@@ -34,9 +38,6 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-	// clear sql db
-	await _clearSqlData();
-
 	// turn all feature flags on
 	isFeatureActive.mockImplementation(() => {
 		return true;
@@ -48,6 +49,8 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
+	// clear sql db
+	await _clearSqlData();
 	await sqlClient.$disconnect();
 });
 
@@ -69,19 +72,22 @@ describe('users v2', () => {
 		});
 
 		it('should return 404 if appeal not found', async () => {
-			await _createSqlUser(TEST_EMAIL);
+			const testEmail = crypto.randomUUID() + '@example.com';
+			await _createSqlUser(testEmail);
 
-			const response = await appealsApi.post(`/api/v2/users/${TEST_EMAIL}/appeal/123`).send();
+			const response = await appealsApi.post(`/api/v2/users/${testEmail}/appeal/123`).send();
 			expect(response.status).toBe(404);
 			expect(response.body.errors[0]).toEqual(`The appeal 123 was not found`);
 		});
 
 		it('should default to appellant if no role supplied', async () => {
-			await _createSqlUser(TEST_EMAIL);
+			const testEmail = crypto.randomUUID() + '@example.com';
+
+			await _createSqlUser(testEmail);
 			const appeal = await _createSqlAppeal();
 
 			const response = await appealsApi
-				.post(`/api/v2/users/${TEST_EMAIL}/appeal/${appeal.id}`)
+				.post(`/api/v2/users/${testEmail}/appeal/${appeal.id}`)
 				.send();
 
 			expect(response.status).toBe(200);
@@ -89,11 +95,13 @@ describe('users v2', () => {
 		});
 
 		it('should use role supplied if valid', async () => {
-			await _createSqlUser(TEST_EMAIL);
+			const testEmail = crypto.randomUUID() + '@example.com';
+
+			await _createSqlUser(testEmail);
 			const appeal = await _createSqlAppeal();
 
 			const response = await appealsApi
-				.post(`/api/v2/users/${TEST_EMAIL}/appeal/${appeal.id}`)
+				.post(`/api/v2/users/${testEmail}/appeal/${appeal.id}`)
 				.send({
 					role: 'agent'
 				});
@@ -108,11 +116,36 @@ describe('users v2', () => {
  * @returns {Promise.<void>}
  */
 const _clearSqlData = async () => {
-	await sqlClient.securityToken.deleteMany();
-	await sqlClient.appealToUser.deleteMany();
-	await sqlClient.appealUser.deleteMany();
-	await sqlClient.appealCase.deleteMany();
-	await sqlClient.appeal.deleteMany();
+	const testUsersClause = {
+		in: usersIds
+	};
+	const testAppealsClause = {
+		in: appealIds
+	};
+
+	await sqlClient.securityToken.deleteMany({
+		where: {
+			appealUserId: testUsersClause
+		}
+	});
+
+	await sqlClient.appealToUser.deleteMany({
+		where: {
+			userId: testUsersClause
+		}
+	});
+
+	await sqlClient.appealUser.deleteMany({
+		where: {
+			id: testUsersClause
+		}
+	});
+
+	await sqlClient.appeal.deleteMany({
+		where: {
+			id: testAppealsClause
+		}
+	});
 };
 
 /**
@@ -120,7 +153,7 @@ const _clearSqlData = async () => {
  * @returns {Promise.<import('@prisma/client').AppealUser>}
  */
 const _createSqlUser = async (email) => {
-	return await sqlClient.appealUser.upsert({
+	const user = await sqlClient.appealUser.upsert({
 		create: {
 			email: email,
 			isEnrolled: true
@@ -130,11 +163,19 @@ const _createSqlUser = async (email) => {
 		},
 		where: { email: email }
 	});
+
+	usersIds.push(user.id);
+
+	return user;
 };
 
 /**
  * @returns {Promise.<import('@prisma/client').Appeal>}
  */
 const _createSqlAppeal = async () => {
-	return await sqlClient.appeal.create({});
+	const appeal = await sqlClient.appeal.create({});
+
+	appealIds.push(appeal.id);
+
+	return appeal;
 };

@@ -1,4 +1,4 @@
-const { default: fetch, AbortError } = require('node-fetch');
+const { default: fetch } = require('node-fetch');
 const crypto = require('crypto');
 const AppealsApiError = require('./appeals-api-error');
 
@@ -33,16 +33,7 @@ class AppealsApiClient {
 	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant>}
 	 */
 	async linkUserToV2Appeal(email, appealSqlId, role) {
-		let roleBody;
-
-		if (role) {
-			roleBody = {
-				body: JSON.stringify({
-					role: role
-				})
-			};
-		}
-
+		let roleBody = role ? { role: role } : undefined;
 		const endpoint = `${v2}/users/${email}/appeal/${appealSqlId}`;
 		const response = await this.#makePostRequest(endpoint, roleBody);
 		return response.json();
@@ -71,7 +62,21 @@ class AppealsApiClient {
 		const endpoint = urlParams.toString()
 			? '/api/v2/appeal-cases?' + urlParams.toString()
 			: '/api/v2/appeal-cases';
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
 
+	/**
+	 * @typedef {import('appeals-service-api').Api.AppealCase} AppealCase
+	 * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
+	 */
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<(AppealCase|AppealSubmission)[]>}
+	 */
+	async getUserAppealsById(id) {
+		const endpoint = `${v2}/users/${id}/appeals`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
@@ -85,7 +90,7 @@ class AppealsApiClient {
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {AppealsApiError|Error}
 	 */
-	async #handler(path, method = 'GET', opts = {}, headers = {}) {
+	async handler(path, method = 'GET', opts = {}, headers = {}) {
 		const correlationId = crypto.randomUUID();
 		const url = `${this.baseUrl}${path}`;
 
@@ -114,7 +119,7 @@ class AppealsApiClient {
 				signal: controller.signal
 			});
 		} catch (error) {
-			if (error instanceof AbortError) {
+			if (error.name === 'AbortError') {
 				logger.error(error, 'appeals api error: timeout');
 			} else {
 				logger.error(error, 'appeals api error: unhandled fetch error');
@@ -139,13 +144,16 @@ class AppealsApiClient {
 
 		// e.g. 500 error
 		if (!contentType.startsWith('application/json;')) {
+			let error;
 			try {
 				const responseMessage = await response.text();
-				throw new AppealsApiError(responseMessage, response.status);
-			} catch {
-				logger.error(contentType, 'appeals api error: could not read error response');
-				throw new AppealsApiError(response.statusText, response.status);
+				error = new AppealsApiError(responseMessage, response.status);
+			} catch (err) {
+				logger.error(err, `appeals api error: could not read error response ${contentType}`);
+				error = new AppealsApiError(response.statusText, response.status);
 			}
+
+			throw error;
 		}
 
 		let errorResponse;
@@ -174,7 +182,7 @@ class AppealsApiClient {
 	 * @throws {AppealsApiError|Error}
 	 */
 	#makeGetRequest(endpoint) {
-		return this.#handler(endpoint);
+		return this.handler(endpoint);
 	}
 
 	/**
@@ -184,7 +192,7 @@ class AppealsApiClient {
 	 * @throws {AppealsApiError|Error}
 	 */
 	#makePostRequest(endpoint, data = {}) {
-		return this.#handler(endpoint, 'POST', {
+		return this.handler(endpoint, 'POST', {
 			body: JSON.stringify(data)
 		});
 	}

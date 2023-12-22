@@ -17,6 +17,13 @@ const isTestLpaAndToken = (token, lpaCode) => {
 	return utils.isTestLPA(lpaCode) && token === testConfirmEmailToken;
 };
 
+/**
+ * Check if token is test token
+ * @param {string} token
+ * @return {boolean}
+ */
+const isTestToken = (token) => token === testConfirmEmailToken;
+
 const getToken = async (id, token, emailAddress, session) => {
 	let tokenDocument;
 	try {
@@ -78,6 +85,7 @@ const isTokenValid = async (id, token, emailAddress, session) => {
 
 module.exports = {
 	isTokenValid,
+	isTestToken,
 	isTestLpaAndToken,
 	testConfirmEmailToken,
 	isTestEnvironment

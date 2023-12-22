@@ -16,6 +16,14 @@ async function createUser(user) {
 	return await appealUserRepository.createUser(user);
 }
 
+async function updateUser(user) {
+	if (!user || !user.email) {
+		throw ApiError.badRequest();
+	}
+
+	return await appealUserRepository.updateUser(user);
+}
+
 async function getUserByEmail(email) {
 	if (!email) throw ApiError.badRequest();
 	const user = await appealUserRepository.getByEmail(email);
@@ -51,5 +59,6 @@ async function linkUserToAppeal(email, appealId, role) {
 module.exports = {
 	createUser,
 	getUserByEmail,
-	linkUserToAppeal
+	linkUserToAppeal,
+	updateUser
 };
