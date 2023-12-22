@@ -1,4 +1,5 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
+const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
 
 // some data here so we can reference in multiple places
 // IDs have no specific meaning, just valid UUIDs and used for upsert/relations
@@ -109,7 +110,8 @@ const appeals = [
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
 		legacyAppealSubmissionState: 'DRAFT'
-	}
+	},
+	...lpaAppeals
 ];
 
 const commonAppealProperties = {
@@ -227,7 +229,8 @@ const appealCases = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionDate: pickRandom(datesNMonthsAgo(4))
-	}
+	},
+	...lpaAppealCaseData
 ];
 
 /**
