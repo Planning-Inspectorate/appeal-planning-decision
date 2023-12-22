@@ -19,9 +19,25 @@ run:
 		${CMD}
 .PHONY: run
 
+# all services
 serve:
-	docker-compose up
+	docker compose --profile all -f docker-compose.yml -f docker-compose.full.yml up
 .PHONY: serve
+
+# all services slimmed down by mocking some more services
+slim:
+	docker compose --profile all -f docker-compose.yml -f docker-compose.slim.yml up
+.PHONY: slim
+
+# only services required for web-comment
+web-comment:
+	docker compose --profile comment -f docker-compose.yml -f docker-compose.slim.yml up
+.PHONY: web-comment
+
+# only services required for appeals/forms-web-app
+appeals:
+	docker compose --profile appeals -f docker-compose.yml -f docker-compose.slim.yml up
+.PHONY: appeals
 
 uninstall:
 	rm -Rf node_modules
