@@ -207,6 +207,7 @@ const lpaAppealCaseData = [
 			connect: { id: lpaAppealIds.appealNine }
 		},
 		...commonAppealCaseDataProperties,
+		caseReference: '0000008',
 		LPAName: 'System Test Borough Council',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
