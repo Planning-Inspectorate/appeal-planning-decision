@@ -5,7 +5,10 @@ const { VIEW } = require('../../../../src/lib/views');
 const { baseHASUrl } = require('../../../../src/dynamic-forms/has-questionnaire/journey');
 
 const { mockReq, mockRes } = require('../../mocks');
-const { getAppealsCaseData } = require('../../../../src/lib/appeals-api-wrapper');
+const {
+	getAppealsCaseDataV2,
+	getDecidedAppealsCountV2
+} = require('../../../../src/lib/appeals-api-wrapper');
 const {
 	mapToLPADashboardDisplayData,
 	isToDoLPADashboard
@@ -40,6 +43,10 @@ const mockAppealData = {
 	siteAddressPostcode: 'TS1 1TT'
 };
 
+const mockDecidedCount = {
+	count: 1
+};
+
 describe('controllers/lpa-dashboard/your-appeals', () => {
 	beforeEach(() => {
 		jest.resetAllMocks();
@@ -48,7 +55,8 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 	describe('getYourAppeals', () => {
 		it('should render the view with a link to add-remove', async () => {
 			getLPAUserFromSession.mockReturnValue(mockUser);
-			getAppealsCaseData.mockResolvedValue([mockAppealData]);
+			getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
+			getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
 			isToDoLPADashboard.mockReturnValue(true);
 			isFeatureActive.mockResolvedValueOnce(false);
@@ -64,13 +72,15 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
 				appealQuestionnaireLink: baseHASUrl,
 				showQuestionnaire: false,
-				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`
+				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
+				decidedAppealsCount: 1
 			});
 		});
 
 		it('should show questionnaire ', async () => {
 			getLPAUserFromSession.mockReturnValue(mockUser);
-			getAppealsCaseData.mockResolvedValue([mockAppealData]);
+			getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
+			getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
 			isToDoLPADashboard.mockReturnValue(true);
 			isFeatureActive.mockResolvedValueOnce(true);
@@ -86,19 +96,21 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appealDetailsLink: `/${VIEW.LPA_DASHBOARD.APPEAL_DETAILS}`,
 				appealQuestionnaireLink: baseHASUrl,
 				showQuestionnaire: true,
-				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`
+				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
+				decidedAppealsCount: 1
 			});
 		});
 
 		it('should call API to fetch appeals case data', async () => {
 			getLPAUserFromSession.mockReturnValue(mockUser);
-			getAppealsCaseData.mockResolvedValue([mockAppealData]);
+			getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
+			getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
 			isToDoLPADashboard.mockReturnValue(true);
 
 			await getYourAppeals(req, res);
 
-			expect(getAppealsCaseData).toHaveBeenCalledWith(mockUser.lpaCode);
+			expect(getAppealsCaseDataV2).toHaveBeenCalledWith(mockUser.lpaCode);
 		});
 	});
 });
