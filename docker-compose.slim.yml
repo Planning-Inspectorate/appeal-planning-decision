@@ -1,0 +1,34 @@
+# Port ranges (by convention):
+#  - API: 3000-3999
+#  - Services: 4000-4999
+#  - Mocks: 5000-5999
+#  - Documentation: 7000-7999
+#  - Websites: 9000-9999
+#
+
+version: '3.7'
+
+services:
+  clamav-server:
+    profiles: ['all', 'appeals']
+    image: node:18-alpine
+    ports:
+      - 3310:3310
+    working_dir: /opt/mock-clamav
+    volumes:
+      # mount the root node_modules for shared packages
+      - ./node_modules:/opt/node_modules
+      - ./dev/mock-clamav:/opt/mock-clamav
+    command: npm run start
+
+  pdf-service-api:
+    profiles: ['all', 'appeals']
+    image: node:18-alpine
+    ports:
+      - 3003:3003
+    working_dir: /opt/mock-pdf
+    volumes:
+      # mount the root node_modules for shared packages
+      - ./node_modules:/opt/node_modules
+      - ./dev/mock-pdf:/opt/mock-pdf
+    command: npm run start

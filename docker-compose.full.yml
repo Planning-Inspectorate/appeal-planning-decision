@@ -1,0 +1,28 @@
+# Port ranges (by convention):
+#  - API: 3000-3999
+#  - Services: 4000-4999
+#  - Mocks: 5000-5999
+#  - Documentation: 7000-7999
+#  - Websites: 9000-9999
+#
+
+version: '3.7'
+
+services:
+  clamav-server:
+    profiles: ['all', 'appeals']
+    image: 'clamav/clamav:stable'
+    ports:
+      - 3310:3310
+    restart: unless-stopped
+
+  pdf-service-api:
+    profiles: ['all', 'appeals']
+    build:
+      context: .
+      dockerfile: ./packages/pdf-service-api/Dockerfile
+    environment:
+      SERVER_SHOW_ERRORS: 'true'
+      LOGGER_LEVEL: 'debug'
+    ports:
+      - 3003:3000
