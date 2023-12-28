@@ -195,6 +195,53 @@ const getAppealType = (appealCaseData) => {
 	return `${appealCaseData.appealTypeName} appeal`;
 };
 
+/**
+ * @param {AppealCaseWithAppellant} appealCaseData
+ * @returns {boolean}
+ */
+const isEligibilityCompleted = (appealCaseData) => {
+	if (appealCaseData?.appeal?.state === APPEAL_STATE.DRAFT) {
+		const eligibility = appealCaseData.appeal.eligibility;
+		return (
+			eligibility !== undefined &&
+			eligibility.enforcementNotice !== null &&
+			eligibility.applicationDecision !== null &&
+			eligibility.applicationCategories !== null
+		);
+	}
+	return true;
+};
+
+/**
+ * @param {AppealCaseWithAppellant} appealCaseData
+ * @returns {boolean}
+ */
+const hasDecisionDate = (appealCaseData) => {
+	if (appealCaseData?.appeal?.state === APPEAL_STATE.DRAFT) {
+		return appealCaseData.appeal.decisionDate !== null;
+	}
+	return appealCaseData.caseDecisionDate !== null;
+};
+
+/**
+ * @param {AppealCaseWithAppellant} appealCaseData
+ * @returns {boolean}
+ */
+const hasFutureDueDate = (appealCaseData) => {
+	const currentDate = new Date();
+	return (
+		[
+			appealCaseData.questionnaireDueDate,
+			appealCaseData.statementDueDate,
+			appealCaseData.finalCommentsDueDate,
+			appealCaseData.proofsOfEvidenceDueDate
+		].find((date) => {
+			if (!date) return false;
+			return new Date(date) > currentDate;
+		}) !== undefined
+	);
+};
+
 const getDecisionOutcome = (outcome) => {
 	if (!outcome) return null;
 	switch (outcome) {
@@ -217,5 +264,8 @@ module.exports = {
 	mapToLPADecidedData,
 	isToDoLPADashboard,
 	mapToAppellantDashboardDisplayData,
-	getDecisionOutcome
+	getDecisionOutcome,
+	isEligibilityCompleted,
+	hasDecisionDate,
+	hasFutureDueDate
 };
