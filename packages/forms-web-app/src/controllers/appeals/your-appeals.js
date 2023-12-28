@@ -1,4 +1,9 @@
-const { mapToAppellantDashboardDisplayData } = require('../../lib/dashboard-functions');
+const {
+	mapToAppellantDashboardDisplayData,
+	isEligibilityCompleted,
+	hasDecisionDate,
+	hasFutureDueDate
+} = require('../../lib/dashboard-functions');
 const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
 const { apiClient } = require('../../lib/appeals-api-client');
@@ -11,7 +16,12 @@ exports.get = async (req, res) => {
 		let appeals = await apiClient.getUserAppealsById(user.id);
 		if (appeals?.length > 0) {
 			appeals = appeals.map(mapToAppellantDashboardDisplayData);
-			viewContext = { toDoAppeals: appeals, waitingForReviewAppeals: appeals };
+			const toDoAppeals = appeals.filter((appeal) => {
+				return (
+					isEligibilityCompleted(appeal) && !hasDecisionDate(appeal) && hasFutureDueDate(appeal)
+				);
+			});
+			viewContext = { toDoAppeals, waitingForReviewAppeals: appeals };
 		} else {
 			viewContext = {
 				errorSummary: [{ text: 'There are no associated appeals with this email', href: '#' }]
