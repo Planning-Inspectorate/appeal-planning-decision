@@ -100,13 +100,37 @@ To run the development stack, you can run this in Docker Compose. This will
 run all services, including databases, and pre-fill all stubbed data into the
 databases.
 
-To run the whole stack:
+To run the whole stack
+
+With make:
 
 ```
 make serve
 ```
 
-You have to manually populate the LPA database - once the server is running go to the `/packages/appeals-service-api/data` directory and run: `curl -X POST -d @lpa-list.csv http://localhost:3000/api/v1/local-planning-authorities`
+With npm: 
+
+```
+npm run docker:all
+```
+
+You can run less services at once using a combination of profiles and compose files
+
+see the following make/equivalent npm scripts
+
+```
+make slim
+make appeals
+make web-comment
+```
+
+```
+npm run docker:slim
+npm run docker:appeals
+npm run docker:comment
+```
+
+You can add more LPAs to the db - once the server is running go to the `/packages/appeals-service-api/data` directory and run: `curl -X POST -d @lpa-list.csv http://localhost:3000/api/v1/local-planning-authorities`
 
 Then go to [localhost:9003/before-you-start](http://localhost:9003/before-you-start) (forms-web-app) or
 [localhost:3000](http://localhost:3000) (appeals-service-api)

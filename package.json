@@ -13,6 +13,10 @@
 		"test-packages/*"
 	],
 	"scripts": {
+		"docker:all": "docker compose --profile all -f docker-compose.yml -f docker-compose.full.yml up",
+		"docker:slim": "docker compose --profile all -f docker-compose.yml -f docker-compose.slim.yml up",
+		"docker:appeals": "docker compose --profile comment -f docker-compose.yml -f docker-compose.slim.yml up",
+		"docker:comment": "docker compose --profile appeals -f docker-compose.yml -f docker-compose.slim.yml up",
 		"commit": "cz",
 		"commitlint": "commitlint --from=$(git log origin/main..$(git rev-parse HEAD) --pretty=format:\"%H\" | tail -n 1)",
 		"db:migrate:dev": "npm run db:migrate:dev --workspace appeals-service-api",
