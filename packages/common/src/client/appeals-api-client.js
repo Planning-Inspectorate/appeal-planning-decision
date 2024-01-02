@@ -1,6 +1,7 @@
 const { default: fetch } = require('node-fetch');
 const crypto = require('crypto');
 const AppealsApiError = require('./appeals-api-error');
+const { buildQueryString } = require('./utils');
 
 const parentLogger = require('../lib/logger');
 
@@ -54,14 +55,7 @@ class AppealsApiClient {
 	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant[]>}
 	 */
 	async getPostcodeSearchResults(params = {}) {
-		const urlParams = new URLSearchParams();
-		for (let key in params) {
-			urlParams.append(key, params[key]);
-		}
-
-		const endpoint = urlParams.toString()
-			? '/api/v2/appeal-cases?' + urlParams.toString()
-			: '/api/v2/appeal-cases';
+		const endpoint = '/api/v2/appeal-cases' + buildQueryString(params);
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
