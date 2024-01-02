@@ -27,6 +27,11 @@ class Section {
 	questions = [];
 
 	/**
+	 * @type {boolean} - if a condition has just been added ensure a question is added before the next condition
+	 */
+	#conditionAdded = false;
+
+	/**
 	 * creates an instance of a section
 	 * @param {string} name
 	 * @param {string} segment
@@ -43,6 +48,7 @@ class Section {
 	 */
 	addQuestion(question) {
 		this.questions.push(question);
+		this.#conditionAdded = false; // reset condition flag
 		return this;
 	}
 
@@ -52,6 +58,11 @@ class Section {
 	 * @returns {Section}
 	 */
 	withCondition(shouldIncludeQuestion) {
+		if (this.#conditionAdded) {
+			// don't allow two conditions in a row
+			throw new Error('conditions must follow a question');
+		}
+		this.#conditionAdded = true; // set condition flag
 		if (!shouldIncludeQuestion) {
 			this.questions.pop();
 		}
