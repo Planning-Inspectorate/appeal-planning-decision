@@ -305,7 +305,7 @@ exports.questions = {
 	accessForInspection: new RadioQuestion({
 		title: 'Access for inspection',
 		question: 'Might the inspector need access to the appellant’s land or property?',
-		pageTitle: "Access to the appellant's land",
+		pageTitle: 'Might the inspector need access to the appellant’s land or property?',
 		fieldName: 'inspector-access-appeal-site',
 		validators: [
 			new RequiredValidator(
