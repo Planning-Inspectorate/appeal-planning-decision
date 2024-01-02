@@ -25,6 +25,9 @@ async function getByCaseReference(req, res) {
 		}
 		res.status(200).send(appealCase);
 	} catch (err) {
+		if (err instanceof ApiError) {
+			throw err; // re-throw 404
+		}
 		logger.error({ error: err, caseReference }, 'error fetching case by reference');
 		throw ApiError.withMessage(500, 'unexpected error');
 	}
@@ -35,11 +38,11 @@ async function getByCaseReference(req, res) {
  */
 async function list(req, res, next) {
 	if ('lpa-code' in req.query) {
-		listByLpaCode(req, res, next);
+		await listByLpaCode(req, res, next);
 		return;
 	}
 	if ('postcode' in req.query) {
-		listByPostcode(req, res, next);
+		await listByPostcode(req, res, next);
 		return;
 	}
 	throw ApiError.withMessage(400, 'lpa-code || postcode is required');
@@ -57,6 +60,12 @@ async function listByLpaCode(req, res) {
 
 	if (!lpaCode || typeof lpaCode !== 'string') {
 		throw ApiError.withMessage(400, 'lpa-code is required');
+	}
+	if (!isValidBooleanString(decidedOnly)) {
+		throw ApiError.withMessage(400, 'decided-only must be true or false');
+	}
+	if (!isValidBooleanString(withAppellant)) {
+		throw ApiError.withMessage(400, 'with-appellant must be true or false');
 	}
 	const isDecidedOnly = decidedOnly === 'true';
 	const isWithAppellant = withAppellant === 'true';
@@ -86,6 +95,12 @@ async function listByPostcode(req, res) {
 	if (!postcode || typeof postcode !== 'string') {
 		throw ApiError.withMessage(400, 'postcode is required');
 	}
+	if (!isValidBooleanString(decidedOnly)) {
+		throw ApiError.withMessage(400, 'decided-only must be true or false');
+	}
+	if (!isValidBooleanString(withAppellant)) {
+		throw ApiError.withMessage(400, 'with-appellant must be true or false');
+	}
 	const isDecidedOnly = decidedOnly === 'true';
 	const isWithAppellant = withAppellant === 'true';
 	try {
@@ -106,7 +121,7 @@ async function listByPostcode(req, res) {
  */
 async function getCount(req, res, next) {
 	if ('lpa-code' in req.query) {
-		countByLpaCode(req, res, next);
+		await countByLpaCode(req, res, next);
 		return;
 	}
 	throw ApiError.withMessage(400, 'lpa-code is required');
@@ -121,6 +136,9 @@ async function countByLpaCode(req, res) {
 	if (!lpaCode || typeof lpaCode !== 'string') {
 		throw ApiError.withMessage(400, 'lpa-code is required');
 	}
+	if (!isValidBooleanString(decidedOnly)) {
+		throw ApiError.withMessage(400, 'decided-only must be true or false');
+	}
 	const isDecidedOnly = decidedOnly === 'true';
 	try {
 		const count = await repo.countByLpaCode({ lpaCode, decidedOnly: isDecidedOnly });
@@ -129,6 +147,17 @@ async function countByLpaCode(req, res) {
 		logger.error({ error: err, lpaCode, decidedOnly }, 'error counting cases by lpa code');
 		throw ApiError.withMessage(500, 'unexpected error');
 	}
+}
+
+/**
+ * @param {any|undefined} bool
+ * @returns {boolean}
+ */
+function isValidBooleanString(bool) {
+	if (bool === undefined) {
+		return true;
+	}
+	return bool === 'true' || bool === 'false';
 }
 
 module.exports = {
