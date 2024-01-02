@@ -35,7 +35,7 @@ describe('./src/dynamic-forms/section.js', () => {
 
 	describe('withCondition', () => {
 		it('should return self from withCondition method as a fluent api', () => {
-			const section = new Section();
+			const section = new Section('s1', 'S');
 			section.addQuestion(mockQuestion);
 			const result = section.withCondition(false);
 			expect(result instanceof Section).toEqual(true);
@@ -43,10 +43,35 @@ describe('./src/dynamic-forms/section.js', () => {
 		});
 
 		it('should remove a question', () => {
-			const section = new Section();
+			const section = new Section('s1', 'S');
 			section.addQuestion(mockQuestion);
 			section.withCondition(false);
 			expect(section.questions.length).toEqual(0);
+		});
+
+		it('should not allow two conditions in a row', () => {
+			const section = new Section('s1', 'S');
+			section.addQuestion(mockQuestion);
+			section.withCondition(false);
+			expect(() => section.withCondition(false)).toThrow();
+		});
+
+		it('should allow alternating questions & conditions', () => {
+			const section = new Section('s1', 'S');
+			section
+				.addQuestion(mockQuestion)
+				.withCondition(false)
+				.addQuestion(mockQuestion)
+				.withCondition(true)
+				.addQuestion(mockQuestion)
+				.withCondition(true)
+				.addQuestion(mockQuestion)
+				.withCondition(true)
+				.addQuestion(mockQuestion)
+				.withCondition(true)
+				.addQuestion(mockQuestion)
+				.withCondition(false);
+			expect(section.questions.length).toEqual(4);
 		});
 	});
 
