@@ -8,6 +8,7 @@ const {
 	addLPAUserNotify
 } = require('../services/user.service');
 const logger = require('../lib/logger');
+const { validationResult } = require('express-validator');
 
 async function usersGet(req, res) {
 	const { lpaCode } = req.query;
@@ -42,6 +43,12 @@ async function userPost(req, res) {
 }
 
 async function userGet(req, res) {
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		res.status(400).send();
+		return;
+	}
+
 	let statusCode = 200;
 	let body = {};
 
