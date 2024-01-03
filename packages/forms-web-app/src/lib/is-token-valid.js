@@ -57,7 +57,11 @@ const isTokenValid = async (id, token, emailAddress, session) => {
 		action: ''
 	};
 
-	if (!id || typeof id !== 'string' || !token || typeof token !== 'string') return result;
+	if (!token || typeof token !== 'string') return result;
+
+	if ((!id || typeof id !== 'string') && (!emailAddress || typeof emailAddress !== 'string')) {
+		return result;
+	}
 
 	let tokenDocument = await getToken(id, token, emailAddress, session);
 

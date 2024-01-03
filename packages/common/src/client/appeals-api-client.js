@@ -51,6 +51,18 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} email
+	 * @returns {Promise<import('appeals-service-api').Api.AppealUser>}
+	 */
+	async createUser(email) {
+		const endpoint = `${v2}/users`;
+		const response = await this.#makePostRequest(endpoint, {
+			email: email
+		});
+		return response.json();
+	}
+
+	/**
 	 * @param {string} ref
 	 * @returns {Promise<boolean>}
 	 */
