@@ -121,7 +121,7 @@ see the following make/equivalent npm scripts
 ```
 make slim
 make appeals
-make web-comment
+make comment
 ```
 
 ```

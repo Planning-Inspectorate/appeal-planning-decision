@@ -30,9 +30,9 @@ slim:
 .PHONY: slim
 
 # only services required for web-comment
-web-comment:
+comment:
 	docker compose --profile comment -f docker-compose.yml -f docker-compose.slim.yml up
-.PHONY: web-comment
+.PHONY: comment
 
 # only services required for appeals/forms-web-app
 appeals:
