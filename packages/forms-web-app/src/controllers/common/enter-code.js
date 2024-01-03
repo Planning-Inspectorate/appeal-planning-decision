@@ -135,6 +135,14 @@ const getEnterCode = (views, appealInSession) => {
 			return;
 		}
 
+		let sessionEmail;
+
+		try {
+			sessionEmail = getSessionEmail(req.session, appealInSession);
+		} catch (error) {
+			logger.warn('no session email exists, allow page to render');
+		}
+
 		//this handles new save & return url (with id params)
 		if (req.params.id) {
 			req.session.userTokenId = req.params.id;
@@ -149,6 +157,12 @@ const getEnterCode = (views, appealInSession) => {
 			//and render page if API response errors
 			try {
 				await sendToken(req.params.id, action);
+			} catch (e) {
+				return renderEnterCodePage();
+			}
+		} else if (sessionEmail) {
+			try {
+				await sendToken(undefined, action, sessionEmail);
 			} catch (e) {
 				return renderEnterCodePage();
 			}
@@ -183,21 +197,37 @@ const postEnterCode = (views, appealInSession) => {
 			});
 		}
 
+		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
 		const isReturningUser = req.session.newOrSavedAppeal === 'return';
 
-		let tokenValidResult = async () => {
+		/** @type {import('appeals-service-api').Api.AppealUser|undefined} */
+		let user;
+		/** @type {string|undefined} */
+		let sessionEmail;
+
+		if (enrolUsersFlag) {
+			sessionEmail = getSessionEmail(req.session, appealInSession);
+			user = await apiClient.getUserByEmailV2(sessionEmail);
+
+			if (!user) {
+				throw new Error('user not found after entering code');
+			}
+		}
+
+		const tokenValidResult = async () => {
 			const isTestScenario =
 				isTestEnvironment() &&
 				isTestToken(token) &&
 				(isReturningUser || utils.isTestLPA(req.session?.appeal?.lpaCode));
+
 			if (isTestScenario) {
 				return {
 					valid: true,
 					action: enterCodeConfig.actions.confirmEmail
 				};
-			} else {
-				return await isTokenValid(id, token, null, req.session);
 			}
+
+			return await isTokenValid(id, token, sessionEmail, req.session);
 		};
 
 		// check token
@@ -221,22 +251,10 @@ const postEnterCode = (views, appealInSession) => {
 			});
 		}
 
-		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
-		let user;
-
-		// get user and set session
-		if (enrolUsersFlag && appealInSession) {
-			user = await apiClient.getUserByEmailV2(getSessionEmail(req.session, appealInSession));
-
-			if (!user) {
-				throw new Error('user not found after entering code');
-			}
-		}
-
 		// if handling an email confirmation
 		// session will be in browser so can redirect here and consider email confirmed
 		if (tokenValid.action === enterCodeConfig.actions.confirmEmail) {
-			if (enrolUsersFlag && user) {
+			if (enrolUsersFlag && user && appealInSession) {
 				await apiClient.linkUserToV2Appeal(user.email, getSessionAppealSqlId(req.session));
 			}
 

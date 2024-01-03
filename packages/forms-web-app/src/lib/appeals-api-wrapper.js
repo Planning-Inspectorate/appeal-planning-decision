@@ -250,7 +250,7 @@ exports.getUserByEmail = async (email) => {
 };
 
 /**
- * @param {string} id - appealId
+ * @param {string|undefined} id - appealId
  * @param {string} action - enter code action
  * @param {string} [emailAddress] - email address of user
  * @returns { Promise<void> }

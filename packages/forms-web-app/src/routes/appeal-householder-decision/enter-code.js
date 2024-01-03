@@ -17,6 +17,7 @@ const {
 			EMAIL_CONFIRMED,
 			EMAIL_ADDRESS
 		},
+		APPEALS: { YOUR_APPEALS },
 		COMMON
 	}
 } = require('../../lib/views');
@@ -30,6 +31,7 @@ const views = {
 	APPEAL_ALREADY_SUBMITTED,
 	EMAIL_CONFIRMED,
 	EMAIL_ADDRESS,
+	YOUR_APPEALS,
 	ENTER_CODE: COMMON.ENTER_CODE
 };
 
