@@ -13,16 +13,16 @@ const postYourEmailAddress = (views) => {
 	return async (req, res) => {
 		const { body } = req;
 		const { errors = {}, errorSummary = [] } = body;
+		const emailErrorSummary = [
+			{
+				text: 'Enter an email address in the correct format, like name@example.com',
+				href: '#your-email-address'
+			}
+		];
 		if (!body['email-address'] || body['email-address'] === '') {
-			const customErrorSummary = [
-				{
-					text: 'Enter an email address in the correct format, like name@example.com',
-					href: '#your-email-address'
-				}
-			];
 			res.render(views.YOUR_EMAIL_ADDRESS, {
 				errors,
-				errorSummary: customErrorSummary
+				errorSummary: emailErrorSummary
 			});
 			return;
 		}
@@ -30,6 +30,7 @@ const postYourEmailAddress = (views) => {
 		const email = body['email-address'];
 
 		if (Object.keys(errors).length > 0) {
+			console.log('errors', errors);
 			res.render(views.YOUR_EMAIL_ADDRESS, {
 				email,
 				errors,
@@ -38,10 +39,26 @@ const postYourEmailAddress = (views) => {
 			return;
 		}
 
-		const user = await getUserByEmail(email);
-		const id = user._id;
+		try {
+			const user = await getUserByEmail(email);
+			if (!user) {
+				throw new Error('user not found');
+			}
+			const id = user._id;
 
-		res.redirect(`/${views.ENTER_CODE}/${id}`);
+			res.redirect(`/${views.ENTER_CODE}/${id}`);
+		} catch (e) {
+			res.render(views.YOUR_EMAIL_ADDRESS, {
+				email,
+				errors: {
+					'email-address': {
+						msg: 'Enter an email address in the correct format, like name@example.com'
+					}
+				},
+				errorSummary: emailErrorSummary
+			});
+			return;
+		}
 	};
 };
 
