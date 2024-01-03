@@ -119,7 +119,7 @@
 		]
 	},
 	"dependencies": {
-		"applicationinsights": "^2.7.0",
+		"applicationinsights": "^2.9.0",
 		"patch-package": "^6.5.1"
 	}
 }
