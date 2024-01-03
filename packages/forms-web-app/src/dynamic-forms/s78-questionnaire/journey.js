@@ -81,15 +81,6 @@ class S78Journey extends Journey {
 				.addQuestion(questions.screeningOpinionUpload)
 				.withCondition(questionHasAnswer(questions.screeningOpinion, 'yes'))
 				.addQuestion(questions.screeningOpinionEnvironmentalStatement)
-				.withCondition(
-					questionsHaveAnswers(
-						[
-							[questions.environmentalImpactSchedule, 'schedule-2'],
-							[questions.environmentalImpactSchedule, 'no']
-						],
-						{ logicalCombinator: 'or' }
-					)
-				)
 				.withCondition(questionHasAnswer(questions.screeningOpinion, 'yes'))
 				.addQuestion(questions.submitEnvironmentalStatement)
 				.addQuestion(questions.uploadEnvironmentalStatement)
