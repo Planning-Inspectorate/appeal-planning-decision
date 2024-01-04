@@ -6,7 +6,7 @@ const partialPostcodeRegex =
 
 /** @type {import('express').RequestHandler} */
 const findPlanningAppealGet = (req, res) => {
-	res.render(`comment-appeal/find-planning-appeal/index`);
+	res.render(`find-planning-appeal/index`);
 };
 
 /** @type {import('express').RequestHandler} */
@@ -14,21 +14,21 @@ const findPlanningAppealPost = (req, res) => {
 	const { postcode } = req.body;
 
 	if (!postcode) {
-		return res.render(`/comment-appeal/find-planning-appeal/index`, {
+		return res.render(`find-planning-appeal/index`, {
 			inlineErrorMessage: { text: 'Enter a postcode' },
 			value: postcode
 		});
 	}
 
 	if (!partialPostcodeRegex.exec(postcode) && !fullPostcodeRegex.exec(postcode)) {
-		return res.render(`/comment-appeal/find-planning-appeal/index`, {
+		return res.render(`find-planning-appeal/index`, {
 			inlineErrorMessage: { text: 'Enter a real postcode' },
 			value: postcode
 		});
 	}
 
 	// eslint-disable-next-line no-unreachable
-	res.redirect(`/comment-appeal/appeals?search=${postcode}`);
+	res.redirect(`appeals?search=${postcode}`);
 };
 
 module.exports = { findPlanningAppealGet, findPlanningAppealPost };

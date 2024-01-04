@@ -10,14 +10,14 @@ const { apiClient } = require('#utils/appeals-api-client');
 /** @type {import('express').RequestHandler} */
 const appeals = async (req, res) => {
 	const postcode = req.query.search;
-	/** @type {import('../../../utils/appeals-view').AppealViewModel[]} */
+	/** @type {import('../../utils/appeals-view').AppealViewModel[]} */
 	const postcodeSearchResults = await apiClient.getPostcodeSearchResults({
 		postcode,
 		'with-appellant': true
 	});
 
 	if (!postcodeSearchResults.length) {
-		return res.redirect(`/comment-appeal/appeal-search-no-results?search=${postcode}`);
+		return res.redirect(`appeal-search-no-results?search=${postcode}`);
 	}
 
 	postcodeSearchResults.forEach((appeal) => (appeal.formattedAddress = formatAddress(appeal)));
@@ -28,7 +28,7 @@ const appeals = async (req, res) => {
 	const closedAppeals = getClosedAppeals(postcodeSearchResults);
 	closedAppeals.sort(sortByCaseReference);
 
-	res.render(`comment-appeal/appeals/index`, { postcode, openAppeals, closedAppeals });
+	res.render(`appeals/index`, { postcode, openAppeals, closedAppeals });
 };
 
 module.exports = { appeals };
