@@ -47,6 +47,7 @@ const postEmailAddress = (views, appealInSession) => {
 				setSessionAppeal(req.session, await createOrUpdateAppeal(appeal));
 				setSession();
 				res.redirect(`/${views.ENTER_CODE}/${getSessionAppealId(req.session)}`);
+				return;
 			} catch (e) {
 				logger.error(e);
 				res.render(views.EMAIL_ADDRESS, {
@@ -63,7 +64,7 @@ const postEmailAddress = (views, appealInSession) => {
 		try {
 			user = await apiClient.getUserByEmailV2(email);
 		} catch (err) {
-			if (!(err instanceof AppealsApiError) || !err.errors?.includes('The user was not found')) {
+			if (!(err instanceof AppealsApiError) || err.code != 404) {
 				throw err;
 			}
 		}
