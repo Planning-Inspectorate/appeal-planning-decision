@@ -1,10 +1,12 @@
+const { apiClient } = require('#utils/appeals-api-client');
+
 /** @type {import('express').RequestHandler} */
 const enterAppealReferenceGet = (req, res) => {
 	res.render(`enter-appeal-reference/index`);
 };
 
 /** @type {import('express').RequestHandler} */
-const enterAppealReferencePost = (req, res) => {
+const enterAppealReferencePost = async (req, res) => {
 	const { 'appeal-reference': appealReference } = req.body;
 
 	if (!appealReference) {
@@ -21,12 +23,12 @@ const enterAppealReferencePost = (req, res) => {
 		});
 	}
 
-	// if (/* do sql */) {
-	return res.redirect(`appeal-search-no-results?search=${appealReference}`);
-	// }
+	if (await apiClient.appealCaseRefExists(appealReference)) {
+		res.redirect('appeal-open-comment');
+		return;
+	}
 
-	// eslint-disable-next-line no-unreachable
-	res.redirect('appeal-open-comment');
+	return res.redirect(`appeal-search-no-results?search=${appealReference}`);
 };
 
 module.exports = { enterAppealReferenceGet, enterAppealReferencePost };
