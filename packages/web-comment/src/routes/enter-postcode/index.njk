@@ -6,12 +6,6 @@
 {% block content %}
     <form method="post">
         <div class="govuk-form-group">
-            {% if errorList %}
-                {{ govukErrorSummary({
-                                "titleText": "There is a problem",
-                                "errorList": errorList
-                                }) }}
-            {% endif %}
             <label class="govuk-label govuk-label--l" for="postcode">Enter the postcode</label>
             {{ govukInput({
                     "classes": "govuk-input--width-5",
@@ -22,7 +16,7 @@
                     "name": "postcode",
                     "inputmode": "numeric",
                     "spellcheck": false,
-                    "errorMessage": inlineErrorMessage,
+                    "errorMessage": error,
                     "value": value
                 })
             }}

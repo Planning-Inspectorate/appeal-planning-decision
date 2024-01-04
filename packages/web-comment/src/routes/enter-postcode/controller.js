@@ -15,14 +15,14 @@ const enterPostcodePost = (req, res) => {
 
 	if (!postcode) {
 		return res.render(`enter-postcode/index`, {
-			inlineErrorMessage: { text: 'Enter a postcode' },
+			error: { text: 'Enter a postcode', href: '#postcode' },
 			value: postcode
 		});
 	}
 
 	if (!partialPostcodeRegex.exec(postcode) && !fullPostcodeRegex.exec(postcode)) {
 		return res.render(`enter-postcode/index`, {
-			inlineErrorMessage: { text: 'Enter a real postcode' },
+			error: { text: 'Enter a real postcode', href: '#postcode' },
 			value: postcode
 		});
 	}

@@ -9,14 +9,14 @@ const enterAppealReferencePost = (req, res) => {
 
 	if (!appealReference) {
 		return res.render(`enter-appeal-reference/index`, {
-			inlineErrorMessage: { text: 'Enter the appeal reference' },
+			error: { text: 'Enter the appeal reference', href: '#appeal-reference' },
 			value: appealReference
 		});
 	}
 
 	if (!/^[0-9]{7}$/.exec(appealReference)) {
 		return res.render(`enter-appeal-reference/index`, {
-			inlineErrorMessage: { text: 'Enter the appeal reference using numbers 0 to 9' },
+			error: { text: 'Enter the appeal reference using numbers 0 to 9', href: '#appeal-reference' },
 			value: appealReference
 		});
 	}
