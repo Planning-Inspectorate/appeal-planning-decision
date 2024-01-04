@@ -61,7 +61,7 @@
                         </td>
                         <td class="govuk-table__cell">{{item.appealType}}</td>
                         <td class="govuk-table__cell">
-                            {{item.questionnaireDueDate | date('D MMMM YYYY') }}
+                            {{item.appealDueDate | date('D MMMM YYYY') }}
                         </td>
                         <td class="govuk-table__cell">
                           {% if item.isDraft %}
@@ -145,4 +145,4 @@
         </p>
      </div>
    </div>
- {% endblock %} 
+ {% endblock %}

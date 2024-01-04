@@ -15,6 +15,7 @@ const { calculateDueInDays } = require('./calculate-due-in-days');
 
 const { APPEAL_STATE, DECISION_OUTCOME } = require('@pins/business-rules/src/constants');
 const { getAppealTypeName } = require('./full-appeal/map-planning-application');
+const { householderApplication, fullAppealApplication } = require('./calculate-deadline');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
@@ -41,6 +42,10 @@ const mapToLPADecidedData = (appealCaseData) => ({
 
 const mapToAppellantDashboardDisplayData = (appealCaseData) => ({
 	...appealCaseData,
+	appealDueDate: calculateAppealDueDeadline(
+		appealCaseData.appealTypeCode,
+		appealCaseData.originalCaseDecisionDate
+	),
 	address: formatAddress(appealCaseData),
 	isDraft: appealCaseData?.appeal?.state === APPEAL_STATE.DRAFT,
 	appealType: getAppealType(appealCaseData),
@@ -80,6 +85,15 @@ const formatAddress = (appealCaseData) => {
 	];
 
 	return addressComponents.filter(Boolean).join(', ');
+};
+
+const calculateAppealDueDeadline = (appealType, originalCaseDecisionDate) => {
+	if (appealType === 'HAS') {
+		return householderApplication(originalCaseDecisionDate);
+	} else if (appealType === 'S78') {
+		return fullAppealApplication(originalCaseDecisionDate);
+	}
+	return 'No due date';
 };
 
 const formatDecision = (decision) => {
@@ -231,7 +245,10 @@ const hasFutureDueDate = (appealCaseData) => {
 	const currentDate = new Date();
 	return (
 		[
-			appealCaseData.questionnaireDueDate,
+			calculateAppealDueDeadline(
+				appealCaseData.appealTypeCode,
+				appealCaseData.originalCaseDecisionDate
+			),
 			appealCaseData.statementDueDate,
 			appealCaseData.finalCommentsDueDate,
 			appealCaseData.proofsOfEvidenceDueDate
