@@ -1,4 +1,4 @@
-const mongoClient = require('mongodb').MongoClient;
+const { MongoClient, Logger } = require('mongodb');
 const config = require('../configuration/config');
 const logger = require('../lib/logger');
 
@@ -6,8 +6,7 @@ let mongodb;
 
 function connect(callback) {
 	logger.info('Connecting to MongoDB...');
-	mongoClient
-		.connect(config.db.mongodb.url, { useUnifiedTopology: true })
+	MongoClient.connect(config.db.mongodb.url, { useUnifiedTopology: true })
 		.then(async (client) => {
 			mongodb = client;
 			await callback();
@@ -19,6 +18,10 @@ function connect(callback) {
 }
 
 function get() {
+	if (config.logger.level === 'debug') {
+		Logger.setLevel('debug');
+	}
+
 	return mongodb && mongodb.db(config.db.mongodb.dbName);
 }
 

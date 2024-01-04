@@ -1,0 +1,59 @@
+paths:
+  /api/v2/migrate/appeals:
+    get:
+      tags:
+        - migrate
+      description: migrate appeals from mongo to sql
+      parameters:
+        - $ref: '#/components/parameters/exclude'
+        - $ref: '#/components/parameters/batchSize'
+        - $ref: '#/components/parameters/batchDelay'
+      responses:
+        200:
+          description: Successful operation with stats about records processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MigrateResult'
+        500:
+          description: Something went wrong
+
+components:
+  parameters:
+    exclude:
+      name: exclude
+      in: query
+      schema:
+        type: string
+      description: add exclude as a query param to pass the already processed ids to mongo to skip, may have issues with large arrays
+    batchSize:
+      name: batchSize
+      in: query
+      schema:
+        type: number
+      description: size of batch to fetch from mongo at a time
+    batchDelay:
+      name: batchDelay
+      in: query
+      schema:
+        type: number
+      description: delay between batches in ms
+  schemas:
+    MigrateResult:
+      type: object
+      properties:
+        total:
+          type: number
+          description: records checked
+        alreadyProcessed:
+          type: number
+          description: already migrated
+        skipped:
+          type: number
+          description: skipped due to missing data on appeal
+        migrated:
+          type: number
+          description: successfully migrated
+        errors:
+          type: array
+          description: array appeal id with error message
