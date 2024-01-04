@@ -12,21 +12,19 @@
                                 "errorList": errorList
                                 }) }}
             {% endif %}
-            <h1 class="govuk-label govuk-label--l">Find a planning appeal</h1>
-            <label class="govuk-label govuk-label--m" for="postcode">Enter the postcode</label>
-            <p class="govuk-body">Enter the reference number from the local planning authority.</p>
+            <label class="govuk-label govuk-label--l" for="postcode">Enter the postcode</label>
             {{ govukInput({
-                        "classes": "govuk-input--width-5",
-                        "hint": {
+                    "classes": "govuk-input--width-5",
+                    "hint": {
                         "text": "For example, BS1 6PN"
-                        },
-                        "id": "postcode",
-                        "name": "postcode",
-                        "inputmode": "numeric",
-                        "spellcheck": false,
-                        "errorMessage": inlineErrorMessage,
-                        "value": value
-                        })
+                    },
+                    "id": "postcode",
+                    "name": "postcode",
+                    "inputmode": "numeric",
+                    "spellcheck": false,
+                    "errorMessage": inlineErrorMessage,
+                    "value": value
+                })
             }}
         </div>
         {{ govukButton({"text": "Continue", "type": "submit"}) }}
