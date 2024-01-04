@@ -208,10 +208,6 @@ const postEnterCode = (views, appealInSession) => {
 		if (enrolUsersFlag) {
 			sessionEmail = getSessionEmail(req.session, appealInSession);
 			user = await apiClient.getUserByEmailV2(sessionEmail);
-
-			if (!user) {
-				throw new Error('user not found after entering code');
-			}
 		}
 
 		const tokenValidResult = async () => {

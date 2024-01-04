@@ -4,13 +4,13 @@
 class AppealsApiError extends Error {
 	/**
 	 * @param {string} message
-	 * @param {string|number} code
+	 * @param {number} code
 	 * @param {Array.<string>} [errors]
 	 */
 	constructor(message, code, errors) {
 		super(message);
 		this.name = 'AppealsApiError';
-		/** @type {string|number} */
+		/** @type {number} */
 		this.code = code;
 		/** @type {Array.<string>|undefined} */
 		this.errors = errors;
