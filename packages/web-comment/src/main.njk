@@ -2,6 +2,8 @@
 {% from "govuk/components/header/macro.njk" import govukHeader %}
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+
 {% block head %}
   {% include "includes/head.njk" %}
 {% endblock head %}
@@ -43,6 +45,16 @@
                 }) }}
       {% endblock backButton %}
       <div class="govuk-main-wrapper {{ mainClasses }}">
+        {% block errorSummary %}
+          {% if errors or error %}
+            {{ 
+              govukErrorSummary({
+                titleText: "There is a problem",
+                errorList: errors | default(error) | mapToErrorSummary
+              })
+            }}
+          {% endif %}
+        {% endblock errorSummary %}
         {% block content %}
         {% endblock content %}
       </div>
