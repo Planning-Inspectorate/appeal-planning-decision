@@ -5,30 +5,29 @@ const partialPostcodeRegex =
 	/^((([A-Za-z][0-9]{1,2})|(([A-Za-z][A-Ha-hJ-Yj-y][0-9]{1,2})|(([AZa-z][0-9][A-Za-z])|([A-Za-z][A-Ha-hJ-Yj-y][0-9]?[A-Za-z])))))$/;
 
 /** @type {import('express').RequestHandler} */
-const findPlanningAppealGet = (req, res) => {
-	res.render(`find-planning-appeal/index`);
+const enterPostcodeGet = (req, res) => {
+	res.render(`enter-postcode/index`);
 };
 
 /** @type {import('express').RequestHandler} */
-const findPlanningAppealPost = (req, res) => {
+const enterPostcodePost = (req, res) => {
 	const { postcode } = req.body;
 
 	if (!postcode) {
-		return res.render(`find-planning-appeal/index`, {
+		return res.render(`enter-postcode/index`, {
 			inlineErrorMessage: { text: 'Enter a postcode' },
 			value: postcode
 		});
 	}
 
 	if (!partialPostcodeRegex.exec(postcode) && !fullPostcodeRegex.exec(postcode)) {
-		return res.render(`find-planning-appeal/index`, {
+		return res.render(`enter-postcode/index`, {
 			inlineErrorMessage: { text: 'Enter a real postcode' },
 			value: postcode
 		});
 	}
 
-	// eslint-disable-next-line no-unreachable
 	res.redirect(`appeals?search=${postcode}`);
 };
 
-module.exports = { findPlanningAppealGet, findPlanningAppealPost };
+module.exports = { enterPostcodeGet, enterPostcodePost };
