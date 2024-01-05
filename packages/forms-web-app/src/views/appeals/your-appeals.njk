@@ -61,7 +61,7 @@
                         </td>
                         <td class="govuk-table__cell">{{item.appealType}}</td>
                         <td class="govuk-table__cell">
-                            {{item.appealDueDate | date('D MMMM YYYY') }}
+                            {{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
                         </td>
                         <td class="govuk-table__cell">
                           {% if item.isDraft %}
@@ -70,7 +70,7 @@
                             </a>
                           {%else %}
                             <a href="#" class="govuk-link">
-                              Final comment
+                              {{item.nextDocumentDue.documentDue}}
                             </a>
                           {% endif %}
                         </td>
