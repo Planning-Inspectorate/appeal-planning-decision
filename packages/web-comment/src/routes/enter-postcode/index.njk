@@ -1,5 +1,5 @@
 {% extends "../../index.njk" %}
-{% set title = "Enter appeal reference" %}
+{% set title = "Enter the postcode" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
@@ -8,17 +8,17 @@
         <div class="govuk-form-group">
             <label class="govuk-label govuk-label--l" for="postcode">Enter the postcode</label>
             {{ govukInput({
-                    "classes": "govuk-input--width-5",
-                    "hint": {
+                        "classes": "govuk-input--width-5",
+                        "hint": {
                         "text": "For example, BS1 6PN"
-                    },
-                    "id": "postcode",
-                    "name": "postcode",
-                    "inputmode": "numeric",
-                    "spellcheck": false,
-                    "errorMessage": error,
-                    "value": value
-                })
+                        },
+                        "id": "postcode",
+                        "name": "postcode",
+                        "inputmode": "numeric",
+                        "spellcheck": false,
+                        "errorMessage": error,
+                        "value": value
+                        }) 
             }}
         </div>
         {{ govukButton({"text": "Continue", "type": "submit"}) }}

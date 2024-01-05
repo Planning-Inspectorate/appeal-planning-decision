@@ -1,6 +1,6 @@
 const { readdirSync, lstatSync } = require('fs');
 const path = require('path');
-// works line Next, urls come from dir names in routes director
+// works like Next, urls come from dir names in routes director
 
 /**
  * Recursively list folders from the given directory that include an index.js file
