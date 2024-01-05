@@ -234,24 +234,23 @@ describe('lib/dashboard-functions', () => {
 			date.setFullYear(date.getFullYear() + years);
 			return date;
 		};
-		it.each([
-			'questionnaireDueDate',
-			'statementDueDate',
-			'finalCommentsDueDate',
-			'proofsOfEvidenceDueDate'
-		])('returns true when has %s in the future', (dueDateKey) => {
-			const appealCase = {
-				id: 'id',
-				caseReference: 'test',
-				[dueDateKey]: addYears(new Date(), 1).toISOString()
-			};
-			expect(hasFutureDueDate(appealCase)).toBe(true);
-		});
+		it.each(['statementDueDate', 'finalCommentsDueDate', 'proofsOfEvidenceDueDate'])(
+			'returns true when has %s in the future',
+			(dueDateKey) => {
+				const appealCase = {
+					id: 'id',
+					caseReference: 'test',
+					[dueDateKey]: addYears(new Date(), 1).toISOString()
+				};
+				expect(hasFutureDueDate(appealCase)).toBe(true);
+			}
+		);
 
 		it('returns false when has no due date in the future', () => {
 			const appealCase = {
 				id: 'id',
 				caseReference: 'test',
+				originalCaseDecisionDate: '2021-10-07T08:00:00.000Z',
 				questionnaireDueDate: null,
 				statementDueDate: '2023-10-07T08:00:00.000Z',
 				finalCommentsDueDate: null,

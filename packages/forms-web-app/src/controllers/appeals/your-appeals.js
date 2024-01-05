@@ -15,13 +15,23 @@ exports.get = async (req, res) => {
 		const user = await apiClient.getUserByEmailV2(email);
 		let appeals = await apiClient.getUserAppealsById(user.id);
 		if (appeals?.length > 0) {
-			appeals = appeals.map(mapToAppellantDashboardDisplayData);
-			const toDoAppeals = appeals.filter((appeal) => {
-				return (
-					isEligibilityCompleted(appeal) && !hasDecisionDate(appeal) && hasFutureDueDate(appeal)
-				);
-			});
-			viewContext = { toDoAppeals, waitingForReviewAppeals: appeals };
+			const undecidedAppeals = appeals
+				.map(mapToAppellantDashboardDisplayData)
+				.filter((appeal) => !appeal.decisionOutcome);
+			const { toDoAppeals, waitingForReviewAppeals } = undecidedAppeals.reduce(
+				(acc, cur) => {
+					if (isToDoAppellantDashboard(cur)) {
+						acc.toDoAppeals.push(cur);
+					} else {
+						acc.waitingForReviewAppeals.push(cur);
+					}
+					return acc;
+				},
+				{ toDoAppeals: [], waitingForReviewAppeals: [] }
+			);
+
+			waitingForReviewAppeals.sort((a, b) => a.caseReference - b.caseReference);
+			viewContext = { toDoAppeals, waitingForReviewAppeals };
 		} else {
 			viewContext = {
 				errorSummary: [{ text: 'There are no associated appeals with this email', href: '#' }]
@@ -32,4 +42,8 @@ exports.get = async (req, res) => {
 	} finally {
 		res.render(VIEW.APPEALS.YOUR_APPEALS, viewContext);
 	}
+};
+
+const isToDoAppellantDashboard = (appeal) => {
+	return isEligibilityCompleted(appeal) && !hasDecisionDate(appeal) && hasFutureDueDate(appeal);
 };
