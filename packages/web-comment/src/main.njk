@@ -3,7 +3,9 @@
 {% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
-
+{% block pageTitle %}
+  {{ title }}  - Comment on a planning appeal - Welcome to GOV.UK
+{% endblock pageTitle %}
 {% block head %}
   {% include "includes/head.njk" %}
 {% endblock head %}
@@ -47,11 +49,10 @@
       <div class="govuk-main-wrapper {{ mainClasses }}">
         {% block errorSummary %}
           {% if errors or error %}
-            {{ 
-              govukErrorSummary({
-                titleText: "There is a problem",
-                errorList: errors | default(error) | mapToErrorSummary
-              })
+            {{ govukErrorSummary({
+                        titleText: "There is a problem",
+                        errorList: errors | default(error) | mapToErrorSummary
+            })
             }}
           {% endif %}
         {% endblock errorSummary %}

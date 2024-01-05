@@ -1,5 +1,5 @@
 {% extends "../../index.njk" %}
-{% set title = "Enter appeal reference" %}
+{% set title = "Enter the appeal reference" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block content %}
@@ -8,17 +8,17 @@
             <label class="govuk-label govuk-label--l" for="appeal-reference">Enter the appeal reference</label>
             <p class="govuk-body">Enter the reference number from the local planning authority.</p>
             {{ govukInput({
-                    "classes": "govuk-input--width-10",
-                    "hint": {
+                        "classes": "govuk-input--width-10",
+                        "hint": {
                         "text": "For example, 0221532."
-                    },
-                    "id": "appeal-reference",
-                    "name": "appeal-reference",
-                    "inputmode": "numeric",
-                    "spellcheck": false,
-                    "errorMessage": error,
-                    "value": value
-                })
+                        },
+                        "id": "appeal-reference",
+                        "name": "appeal-reference",
+                        "inputmode": "numeric",
+                        "spellcheck": false,
+                        "errorMessage": error,
+                        "value": value
+                        }) 
             }}
         </div>
         <p class="govuk-body">
