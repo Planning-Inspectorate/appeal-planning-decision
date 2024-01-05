@@ -2,13 +2,16 @@ const { createPrismaClient } = require('#db-client');
 const mongodb = require('../../../db/db');
 const config = require('../../../configuration/config');
 
+const MAX_IDS_TO_LOG = 10_000;
+
 /**
  * @type {import('express').Handler}
  */
 async function migrateAppeals(req, res) {
-	const { exclude, batchSize, batchDelay } = req.query;
+	const { exclude, batchSize, batchDelay, stopAfter } = req.query;
 	const BATCH_SIZE = parseInt(batchSize, 10) || config.migration.defaultBatchSize;
 	const BATCH_DELAY_MS = parseInt(batchDelay, 10) || config.migration.defaultDelayBetweenBatchesMS;
+	const STOP_AFTER = parseInt(stopAfter, 10) || 0;
 	const sqlClient = createPrismaClient();
 
 	const result = {
@@ -16,6 +19,7 @@ async function migrateAppeals(req, res) {
 		alreadyProcessed: 0, // already migrated
 		skipped: 0, // not enough data
 		migrated: 0, // successfully migrated
+		migratedIds: [], // appeal ids that were successful
 		errors: [] // appeal id with error message
 	};
 
@@ -27,16 +31,25 @@ async function migrateAppeals(req, res) {
 
 	let processed = 0;
 
-	while (await cursor.hasNext()) {
-		// delay between batches, query is sent on hasNext
-		if (processed === BATCH_SIZE - 1) {
-			await delay(BATCH_DELAY_MS);
-			processed = 0;
-		}
-		processed++;
+	try {
+		while (await cursor.hasNext()) {
+			// delay between batches, query is sent on hasNext
+			if (processed === BATCH_SIZE - 1) {
+				await delay(BATCH_DELAY_MS);
+				processed = 0;
+			}
+			processed++;
 
-		const doc = await cursor.next();
-		await processAppeal(doc);
+			const doc = await cursor.next();
+			await processAppeal(doc);
+
+			// if defined stop processing
+			if (STOP_AFTER && result.migrated >= STOP_AFTER) {
+				break;
+			}
+		}
+	} finally {
+		await cursor.close();
 	}
 
 	res.status(200).send(result);
@@ -133,6 +146,16 @@ async function migrateAppeals(req, res) {
 			await createAndLinkAppeal(doc, userId);
 
 			result.migrated++;
+
+			// Stop holding record of migrated appeals after count exceeds threshold
+			// avoid excessive memory usage + response size
+			if (result.migrated <= MAX_IDS_TO_LOG) {
+				result.migratedIds.push(doc._id);
+			}
+
+			if (result.migrated === MAX_IDS_TO_LOG + 1) {
+				result.migratedIds.push('ending id logs...');
+			}
 		} catch (err) {
 			result.errors.push({ appealId: doc._id, error: err.message });
 		}

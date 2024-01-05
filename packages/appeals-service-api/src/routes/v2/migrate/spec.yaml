@@ -8,6 +8,7 @@ paths:
         - $ref: '#/components/parameters/exclude'
         - $ref: '#/components/parameters/batchSize'
         - $ref: '#/components/parameters/batchDelay'
+        - $ref: '#/components/parameters/stopAfter'
       responses:
         200:
           description: Successful operation with stats about records processed
@@ -38,6 +39,13 @@ components:
       schema:
         type: number
       description: delay between batches in ms
+    stopAfter:
+      name: stopAfter
+      in: query
+      schema:
+        type: number
+      description: number of records to attempt to process
+
   schemas:
     MigrateResult:
       type: object
