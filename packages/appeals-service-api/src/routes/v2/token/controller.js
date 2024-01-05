@@ -69,7 +69,7 @@ async function tokenPostV2(req, res) {
 		user.isEnrolled = true;
 		await appealUserRepository.updateUser(user);
 		if (await isFeatureActive(FLAG.ENROL_USERS)) {
-			await sendConfirmRegistrationEmailToAppellant(user.email, user.id, user.email);
+			await sendConfirmRegistrationEmailToAppellant(user.email, user.id);
 		}
 	}
 
