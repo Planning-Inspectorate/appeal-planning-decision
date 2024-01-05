@@ -177,6 +177,16 @@ export interface AppealSubmission {
 		lpaCode?: string;
 		/** @format date-time */
 		decisionDate?: string;
+		typeOfPlanningAppeal?: string;
+		appealSiteSection?: {
+			siteAddress?: {
+				postcode?: string;
+				county?: string;
+				town?: string;
+				addressLine1?: string;
+				addressLine2?: string;
+			};
+		};
 	};
 }
 

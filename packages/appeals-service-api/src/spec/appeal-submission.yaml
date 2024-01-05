@@ -30,4 +30,22 @@ components:
             decisionDate:
               type: string
               format: date-time
+            typeOfPlanningAppeal:
+              type: string
+            appealSiteSection:
+              type: object
+              properties:
+                siteAddress:
+                  type: object
+                  properties:
+                    postcode:
+                      type: string
+                    county:
+                      type: string
+                    town:
+                      type: string
+                    addressLine1:
+                      type: string
+                    addressLine2:
+                      type: string
         # todo: add existing properties
