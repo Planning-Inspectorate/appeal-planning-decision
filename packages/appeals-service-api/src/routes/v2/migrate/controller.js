@@ -110,7 +110,9 @@ async function migrateAppeals(req, res) {
 					_id: 1,
 					'appeal.email': 1,
 					'appeal.decisionDate': 1,
-					'appeal.state': 1
+					'appeal.state': 1,
+					'appeal.contactDetailsSection.isOriginalApplicant': 1, // S78
+					'appeal.aboutYouSection.yourDetails.isOriginalApplicant': 1 // HAS
 				}
 			});
 	}
@@ -118,7 +120,19 @@ async function migrateAppeals(req, res) {
 	/**
 	 * @typedef {Object} AppealQueryResult
 	 * @property {string} _id
-	 * @property {{email: string, decisionDate: string, state: string}} appeal
+	 * @property {{
+	 * 	email: string,
+	 *  decisionDate: string|Date,
+	 *  state: string,
+	 *  contactDetailsSection: {
+	 * 		isOriginalApplicant: boolean
+	 * },
+	 * aboutYouSection: {
+	 * 		yourDetails: {
+	 *			isOriginalApplicant: boolean
+	 *		}
+	 * }
+	 * }} appeal
 	 */
 
 	/**
@@ -187,20 +201,31 @@ async function migrateAppeals(req, res) {
 	 * @param {string} userId
 	 */
 	async function createAndLinkAppeal(doc, userId) {
-		const appeal = await sqlClient.appeal.create({
-			data: {
-				legacyAppealSubmissionId: doc._id,
-				legacyAppealSubmissionDecisionDate: doc.appeal.decisionDate,
-				legacyAppealSubmissionState: doc.appeal.state
-			}
-		});
+		await sqlClient.$transaction(async (transaction) => {
+			const appeal = await transaction.appeal.create({
+				data: {
+					legacyAppealSubmissionId: doc._id,
+					legacyAppealSubmissionDecisionDate: doc.appeal.decisionDate,
+					legacyAppealSubmissionState: doc.appeal.state
+				}
+			});
 
-		await sqlClient.appealToUser.create({
-			data: {
-				appealId: appeal.id,
-				userId: userId,
-				role: 'appellant'
+			let role = 'appellant';
+
+			if (
+				doc.appeal?.contactDetailsSection?.isOriginalApplicant === false ||
+				doc.appeal?.aboutYouSection?.yourDetails?.isOriginalApplicant === false
+			) {
+				role = 'agent';
 			}
+
+			await transaction.appealToUser.create({
+				data: {
+					appealId: appeal.id,
+					userId: userId,
+					role: role
+				}
+			});
 		});
 	}
 }
