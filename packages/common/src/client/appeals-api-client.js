@@ -51,6 +51,37 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} email
+	 * @returns {Promise<import('appeals-service-api').Api.AppealUser>}
+	 */
+	async createUser(email) {
+		const endpoint = `${v2}/users`;
+		const response = await this.#makePostRequest(endpoint, {
+			email: email
+		});
+		return response.json();
+	}
+
+	/**
+	 * @param {string} ref
+	 * @returns {Promise<boolean>}
+	 */
+	async appealCaseRefExists(ref) {
+		const endpoint = '/api/v2/appeal-cases/' + ref;
+		try {
+			const response = await this.#makeGetRequest(endpoint);
+			return response.status === 200;
+		} catch (error) {
+			if (error instanceof AppealsApiError) {
+				if (error.code === 404) {
+					return false;
+				}
+			}
+			throw error;
+		}
+	}
+
+	/**
 	 * @param {Object<string, any>} params
 	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant[]>}
 	 */

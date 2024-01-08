@@ -1,5 +1,5 @@
-{% extends "../../../index.njk" %}
-{% set title = "Enter appeal reference" %}
+{% extends "../../index.njk" %}
+{% set title = ["Appeal ", appealReference] | join %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block content %}

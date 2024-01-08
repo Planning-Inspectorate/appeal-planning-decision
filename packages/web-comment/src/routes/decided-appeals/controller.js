@@ -6,14 +6,14 @@ const { apiClient } = require('#utils/appeals-api-client');
 /** @type {import('express').RequestHandler} */
 const decidedAppeals = async (req, res) => {
 	const postcode = req.query.search;
-	/** @type {import('../../../utils/appeals-view').AppealViewModel[]} */
+	/** @type {import('../../utils/appeals-view').AppealViewModel[]} */
 	const decidedAppeals = await apiClient.getPostcodeSearchResults({
 		postcode,
 		'decided-only': true
 	});
 
 	if (!decidedAppeals.length) {
-		return res.redirect(`/comment-appeal/appeal-search-no-results?search=${postcode}`);
+		return res.redirect(`appeal-search-no-results?search=${postcode}`);
 	}
 
 	decidedAppeals.forEach((appeal) => {
@@ -23,7 +23,7 @@ const decidedAppeals = async (req, res) => {
 	});
 	decidedAppeals.sort(sortByCaseDecisionDate);
 
-	res.render(`comment-appeal/decided-appeals/index`, { postcode, decidedAppeals });
+	res.render(`decided-appeals/index`, { postcode, decidedAppeals });
 };
 
 /**

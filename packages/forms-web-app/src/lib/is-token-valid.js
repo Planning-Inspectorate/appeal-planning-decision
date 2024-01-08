@@ -24,6 +24,14 @@ const isTestLpaAndToken = (token, lpaCode) => {
  */
 const isTestToken = (token) => token === testConfirmEmailToken;
 
+/**
+ *
+ * @param {string|undefined} id
+ * @param {string} token
+ * @param {string} [emailAddress]
+ * @param {any} [session]
+ * @returns {Promise<TokenValidResult|import('#lib/appeals-api-wrapper').TokenCheckResult>}
+ */
 const getToken = async (id, token, emailAddress, session) => {
 	let tokenDocument;
 	try {
@@ -51,13 +59,39 @@ const getToken = async (id, token, emailAddress, session) => {
 	}
 };
 
+/**
+ * @typedef {Object} TokenValidResult
+ * @property {boolean} valid
+ * @property {string} action
+ * @property {Date} [createdAt]
+ * @property {boolean} [expired]
+ * @property {boolean} [tooManyAttempts]
+ */
+
+/**
+ * @param {string|undefined} id // todo: reorder param to after token and make optional
+ * @param {string} token
+ * @param {string} [emailAddress]
+ * @param {any} [session] Express request session data
+ * @returns {Promise<TokenValidResult>}
+ */
 const isTokenValid = async (id, token, emailAddress, session) => {
+	/** @type {TokenValidResult} */
 	let result = {
 		valid: false,
 		action: ''
 	};
 
-	if (!id || typeof id !== 'string' || !token || typeof token !== 'string') return result;
+	/**
+	 * @param {any} val
+	 * @returns {boolean}
+	 */
+	const isNonEmptyString = (val) => {
+		return val && typeof val === 'string';
+	};
+
+	if (!isNonEmptyString(token)) return result;
+	if (!isNonEmptyString(id) && !isNonEmptyString(emailAddress)) return result;
 
 	let tokenDocument = await getToken(id, token, emailAddress, session);
 
