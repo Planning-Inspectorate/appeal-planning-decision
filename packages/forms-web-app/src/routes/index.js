@@ -20,7 +20,7 @@ const saveAndReturnRouter = require('./save');
 const saveAndReturnHasRouter = require('./appeal-householder-decision/save');
 const appealHouseholderdecision = require('./appeal-householder-decision');
 const checkDecisionDateDeadline = require('../middleware/check-decision-date-deadline');
-const checkPathAllowed = require('../middleware/check-path-allowed');
+const checkAppealExists = require('../middleware/check-appeal-exists');
 const checkDebugAllowed = require('../middleware/check-debug-allowed');
 const { skipMiddlewareForPaths } = require('../middleware/skip-middleware-for-paths');
 const accessibilityStatementRouter = require('./accessibility-statement/accessibility-statement');
@@ -35,15 +35,15 @@ router.use('/accessibility-statement', accessibilityStatementRouter);
 router.use('/error', errorPageRouter);
 router.use(
 	'/appellant-submission',
-	checkPathAllowed,
+	checkAppealExists,
 	checkDecisionDateDeadline,
 	appellantSubmissionRouter
 );
 
 router.use(
 	'/full-appeal',
-	skipMiddlewareForPaths(checkPathAllowed, ['submit-final-comment', 'enter-code']),
-	//skipMiddlewareIfFinalComments(checkPathAllowed),
+	skipMiddlewareForPaths(checkAppealExists, ['submit-final-comment', 'enter-code']),
+	//skipMiddlewareIfFinalComments(checkAppealExists),
 	//todo: we will likely want to use the deadline checking middleware
 	//when it has been refactored to work with final comments
 	//as well as appeal objects
@@ -59,30 +59,30 @@ router.use('/appeal', appealRouter);
 router.use('/appeals', appealsRouter);
 router.use(
 	'/before-you-start',
-	checkPathAllowed,
+	checkAppealExists,
 	checkDecisionDateDeadline,
 	fullAppealBeforeYouStartRouter
 );
 router.use(
 	'/before-you-start',
-	checkPathAllowed,
+	checkAppealExists,
 	checkDecisionDateDeadline,
 	householderPlanningRouter
 );
 router.use('/document', documentRouter);
-router.use('/submit-appeal', checkPathAllowed, checkDecisionDateDeadline, submitAppealRouter);
-router.use('/save-and-return', checkPathAllowed, checkDecisionDateDeadline, saveAndReturnRouter);
+router.use('/submit-appeal', checkAppealExists, checkDecisionDateDeadline, submitAppealRouter);
+router.use('/save-and-return', checkAppealExists, checkDecisionDateDeadline, saveAndReturnRouter);
 
 router.use(
 	'/appeal-householder-decision/save-and-return',
-	checkPathAllowed,
+	checkAppealExists,
 	checkDecisionDateDeadline,
 	saveAndReturnHasRouter
 );
 
 router.use(
 	'/appeal-householder-decision',
-	skipMiddlewareForPaths(checkPathAllowed, ['enter-code']),
+	skipMiddlewareForPaths(checkAppealExists, ['enter-code']),
 	checkDecisionDateDeadline,
 	appealHouseholderdecision
 );
