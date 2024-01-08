@@ -20,7 +20,7 @@
  * @typedef DueDocumentType
  * @type {object}
  * @property {string} deadline the date by which the document is due
- * @property {number} dueInDays the number of days remaining until the deadline expires
+ * @property {number} [dueInDays] the number of days remaining until the deadline expires
  * @property {string} documentDue the type of document which is due next
  * @property {string} [baseUrl] the base url for the document type
  */
