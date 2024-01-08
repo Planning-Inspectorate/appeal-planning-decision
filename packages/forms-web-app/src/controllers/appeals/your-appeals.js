@@ -1,7 +1,6 @@
 const {
 	mapToAppellantDashboardDisplayData,
 	isEligibilityCompleted,
-	hasDecisionDate,
 	hasFutureDueDate
 } = require('../../lib/dashboard-functions');
 const { VIEW } = require('../../lib/views');
@@ -18,6 +17,7 @@ exports.get = async (req, res) => {
 			const undecidedAppeals = appeals
 				.map(mapToAppellantDashboardDisplayData)
 				.filter((appeal) => !appeal.decisionOutcome);
+
 			const { toDoAppeals, waitingForReviewAppeals } = undecidedAppeals.reduce(
 				(acc, cur) => {
 					if (isToDoAppellantDashboard(cur)) {
@@ -30,7 +30,7 @@ exports.get = async (req, res) => {
 				{ toDoAppeals: [], waitingForReviewAppeals: [] }
 			);
 
-			waitingForReviewAppeals.sort((a, b) => a.caseReference - b.caseReference);
+			waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
 			viewContext = { toDoAppeals, waitingForReviewAppeals };
 		} else {
 			viewContext = {
@@ -45,5 +45,5 @@ exports.get = async (req, res) => {
 };
 
 const isToDoAppellantDashboard = (appeal) => {
-	return isEligibilityCompleted(appeal) && !hasDecisionDate(appeal) && hasFutureDueDate(appeal);
+	return isEligibilityCompleted(appeal) && hasFutureDueDate(appeal);
 };
