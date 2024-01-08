@@ -1,4 +1,4 @@
-const checkPathAllowed = (req, res, next) => {
+const checkAppealExists = (req, res, next) => {
 	const { session: { appeal } = {} } = req;
 
 	// todo: avoid hardcoded list
@@ -33,7 +33,7 @@ const checkPathAllowed = (req, res, next) => {
 		return next();
 	}
 
-	return res.redirect('/before-you-start');
+	return res.redirect('/');
 };
 
-module.exports = checkPathAllowed;
+module.exports = checkAppealExists;

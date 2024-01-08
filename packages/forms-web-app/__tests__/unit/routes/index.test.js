@@ -14,7 +14,7 @@ const submitAppealRouter = require('../../../src/routes/submit-appeal');
 const saveAndReturnRouter = require('../../../src/routes/save');
 const appealRouter = require('../../../src/routes/appeal');
 const checkDecisionDateDeadline = require('../../../src/middleware/check-decision-date-deadline');
-const checkPathAllowed = require('../../../src/middleware/check-path-allowed');
+const checkAppealExists = require('../../../src/middleware/check-appeal-exists');
 const { skipMiddlewareForPaths } = require('../../../src/middleware/skip-middleware-for-paths');
 
 jest.mock('../../../src/middleware/skip-middleware-for-paths');
@@ -35,13 +35,13 @@ describe('routes/index', () => {
 		expect(use).toHaveBeenCalledWith('/cookies', cookieRouter);
 		expect(use).toHaveBeenCalledWith(
 			'/appellant-submission',
-			checkPathAllowed,
+			checkAppealExists,
 			checkDecisionDateDeadline,
 			appellantSubmissionRouter
 		);
 		expect(use).toHaveBeenCalledWith(
 			'/full-appeal',
-			skipMiddlewareForPaths(checkPathAllowed, ['submit-final-comment', 'enter-code']),
+			skipMiddlewareForPaths(checkAppealExists, ['submit-final-comment', 'enter-code']),
 			skipMiddlewareForPaths(checkDecisionDateDeadline, ['submit-final-comment']),
 			fullAppealRouter
 		);
@@ -49,13 +49,13 @@ describe('routes/index', () => {
 		expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
 		expect(use).toHaveBeenCalledWith(
 			'/before-you-start',
-			checkPathAllowed,
+			checkAppealExists,
 			checkDecisionDateDeadline,
 			fullAppealBeforeYouStartRouter
 		);
 		expect(use).toHaveBeenCalledWith(
 			'/before-you-start',
-			checkPathAllowed,
+			checkAppealExists,
 			checkDecisionDateDeadline,
 			householderPlanningRouter
 		);
@@ -64,13 +64,13 @@ describe('routes/index', () => {
 		expect(use).toHaveBeenCalledWith('/before-you-start', beforeYouStartRouter);
 		expect(use).toHaveBeenCalledWith(
 			'/submit-appeal',
-			checkPathAllowed,
+			checkAppealExists,
 			checkDecisionDateDeadline,
 			submitAppealRouter
 		);
 		expect(use).toHaveBeenCalledWith(
 			'/save-and-return',
-			checkPathAllowed,
+			checkAppealExists,
 			checkDecisionDateDeadline,
 			saveAndReturnRouter
 		);
