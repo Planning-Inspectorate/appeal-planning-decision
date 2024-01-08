@@ -7,9 +7,9 @@
  * @typedef DueDocumentType
  * @type {object}
  * @property {string} deadline the date by which the document is due
- * @property {number} dueInDays the number of days remaining until the deadline expires
+ * @property {number} [dueInDays] the number of days remaining until the deadline expires
  * @property {string} documentDue the type of document which is due next
- * @property {string} baseUrl the base url for the document type
+ * @property {string} [baseUrl] the base url for the document type
  */
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
@@ -22,6 +22,8 @@ const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
 const finalCommentBaseUrl = '/manage-appeals/appeal-comment';
 const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
+
+// MAP DATABASE RETURN OBJECTS TO DASHBOARD DISPLAY DATA
 
 /**
  * @param {AppealCaseWithAppellant} appealCaseData
@@ -45,7 +47,7 @@ const mapToLPADecidedData = (appealCaseData) => ({
 	appealNumber: appealCaseData.caseReference,
 	address: formatAddress(appealCaseData),
 	appealType: appealCaseData.appealTypeCode,
-	decision: formatDecision(appealCaseData.outcome),
+	decision: getDecisionOutcome(appealCaseData.outcome),
 	caseDecisionDate: appealCaseData.caseDecisionDate
 });
 
@@ -55,12 +57,15 @@ const mapToLPADecidedData = (appealCaseData) => ({
 
 const mapToAppellantDashboardDisplayData = (appealData) => ({
 	...appealData,
+	appealNumber: isAppealSubmission(appealData) ? null : appealData.caseReference,
 	address: formatAddress(appealData),
 	isDraft: isAppealSubmission(appealData),
 	appealType: getAppealType(appealData),
 	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
-	decisionOutcome: getDecisionOutcome(appealData.outcome)
+	decisionOutcome: isAppealSubmission(appealData) ? null : getDecisionOutcome(appealData.outcome)
 });
+
+// HELPER FUNCTIONS
 
 const isToDoLPADashboard = (appeal) => {
 	return appeal.isNewAppeal || displayDocumentOnToDo(appeal.nextDocumentDue);
@@ -83,10 +88,14 @@ const overdueDocumentNotToBeDisplayed = (dueDocument) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData
+ * @param {AppealCaseWithAppellant | AppealSubmission} appealCaseData
  * @returns {string}
  */
 const formatAddress = (appealCaseData) => {
+	if (isAppealSubmission(appealCaseData)) {
+		return formatAppealSubmissionAddress(appealCaseData);
+	}
+
 	const addressComponents = [
 		appealCaseData.siteAddressLine1,
 		appealCaseData.siteAddressLine2,
@@ -98,31 +107,43 @@ const formatAddress = (appealCaseData) => {
 };
 
 /**
- * @param {AppealSubmission} appealCaseData return object from database call
- * @returns {boolean} returns depending on whether a Questionnaire due date has been set
+ * @param {AppealSubmission} appealSubmission
+ * @returns {string}
+ */
+const formatAppealSubmissionAddress = (appealSubmission) => {
+	if (!appealSubmission.appeal?.appealSiteSection?.siteAddress) {
+		return '';
+	}
+	const address = appealSubmission.appeal?.appealSiteSection?.siteAddress;
+
+	const addressComponents = [
+		address.addressLine1,
+		address.addressLine2,
+		address.town,
+		address.postcode
+	];
+
+	return addressComponents.filter(Boolean).join(', ');
+};
+
+/**
+ * @param {AppealSubmission} appealSubmission return object from database call
+ * @returns {Date | object} returns appeal deadline - note: should return Date as rawDate param set as true
  */
 
-const calculateAppealDueDeadline = (appealCaseData) => {
+const calculateAppealDueDeadline = (appealSubmission) => {
 	return businessRulesDeadline(
-		appealCaseData.appeal?.decisionDate,
-		appealCaseData.appeal?.typeOfPlanningAppeal,
+		appealSubmission.appeal?.decisionDate,
+		appealSubmission.appeal?.typeOfPlanningAppeal,
 		null,
 		true
 	);
 };
 
-const formatDecision = (decision) => {
-	switch (decision) {
-		case 'allowed':
-			return 'ALLOWED';
-		case 'dismissed':
-			return 'DISMISSED';
-		case 'split decision':
-			return 'ALLOWED IN PART';
-		default:
-			return decision;
-	}
-};
+/**
+ * @param {string | undefined} decision the decision in relation to the appeal
+ * @returns {string | undefined}
+ */
 
 /**
  * @param {AppealCaseWithAppellant} appealCaseData return object from database call
@@ -249,12 +270,12 @@ const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData return object from database call
+ * @param {AppealCaseWithAppellant | AppealSubmission} appealCaseData return object from database call
  * @returns {string}
  */
 const getAppealType = (appealCaseData) => {
-	if (appealCaseData?.appeal?.state === APPEAL_STATE.DRAFT) {
-		return getAppealTypeName(appealCaseData.appeal.appealType);
+	if (isAppealSubmission(appealCaseData)) {
+		return getAppealTypeName(appealCaseData.appeal?.appealType);
 	}
 	return `${appealCaseData.appealTypeName} appeal`;
 };
@@ -274,17 +295,6 @@ const isEligibilityCompleted = (appealCaseData) => {
 		);
 	}
 	return true;
-};
-
-/**
- * @param {AppealCaseWithAppellant | AppealSubmission } appealCaseData
- * @returns {boolean}
- */
-const hasDecisionDate = (appealCaseData) => {
-	if (appealCaseData?.appeal?.state === APPEAL_STATE.DRAFT) {
-		return appealCaseData.appeal.decisionDate !== null;
-	}
-	return appealCaseData.caseDecisionDate !== null;
 };
 
 /**
@@ -308,6 +318,11 @@ const hasFutureDueDate = (appealCaseData) => {
 		}) !== undefined
 	);
 };
+
+/**
+ * @param {string | undefined} outcome the decision in relation to the appeal
+ * @returns {string | null}
+ */
 
 const getDecisionOutcome = (outcome) => {
 	if (!outcome) return null;
@@ -341,6 +356,5 @@ module.exports = {
 	mapToAppellantDashboardDisplayData,
 	getDecisionOutcome,
 	isEligibilityCompleted,
-	hasDecisionDate,
 	hasFutureDueDate
 };

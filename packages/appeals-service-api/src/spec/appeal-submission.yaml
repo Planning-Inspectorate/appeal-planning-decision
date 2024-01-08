@@ -30,6 +30,8 @@ components:
             decisionDate:
               type: string
               format: date-time
+            appealType:
+              type: string
             typeOfPlanningAppeal:
               type: string
             appealSiteSection:

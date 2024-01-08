@@ -177,6 +177,7 @@ export interface AppealSubmission {
 		lpaCode?: string;
 		/** @format date-time */
 		decisionDate?: string;
+		appealType?: string;
 		typeOfPlanningAppeal?: string;
 		appealSiteSection?: {
 			siteAddress?: {
