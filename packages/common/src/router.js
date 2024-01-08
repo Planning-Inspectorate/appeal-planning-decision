@@ -8,10 +8,11 @@ const path = require('path');
  * @param {boolean} [includeRoot]
  * @returns {string[]}
  */
-function getRoutePaths(directory = __dirname, includeRoot = false) {
+const getRoutePaths = (directory = __dirname, includeRoot = false) => {
 	/** @type {string[]} */
 	const paths = [];
-	for (const entry of readdirSync(directory)) {
+	const entries = readdirSync(directory);
+	for (const entry of entries) {
 		const entryPath = path.join(directory, entry);
 		const isDir = lstatSync(entryPath).isDirectory();
 
@@ -22,29 +23,37 @@ function getRoutePaths(directory = __dirname, includeRoot = false) {
 		}
 	}
 	return paths;
-}
+};
+
+/**
+ * @param {(path: string) => { router: import('express').IRouter }} importFunc
+ * @returns {(directory: string) => Object<string, import('express').IRouter>}
+ */
+const getRoutesWithInjectableImporter =
+	(importFunc) =>
+	(directory = __dirname) => {
+		const routePaths = getRoutePaths(directory);
+		/**
+		 * @type {Object<string, import('express').IRouter>}
+		 */
+		const routes = {};
+
+		for (const dirName of routePaths) {
+			const { router } = importFunc(`${dirName}`);
+			const relativePath = dirName
+				.replace(directory, '') // just need relative path
+				.replace('_', ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
+				.replace('/index.js', '');
+			routes[relativePath] = router;
+		}
+
+		return routes;
+	};
 
 /**
  * @param {string} directory
  * @returns {Object<string, import('express').IRouter>}
  */
-const getRoutes = (directory = __dirname) => {
-	const routePaths = getRoutePaths(directory);
-	/**
-	 * @type {Object<string, import('express').IRouter>}
-	 */
-	const routes = {};
+const getRoutes = getRoutesWithInjectableImporter(require);
 
-	for (const dirName of routePaths) {
-		const { router } = require(`${dirName}`);
-		const relativePath = dirName
-			.replace(directory, '') // just need relative path
-			.replace('_', ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
-			.replace('/index.js', '');
-		routes[relativePath] = router;
-	}
-
-	return routes;
-};
-
-module.exports = { getRoutes };
+module.exports = { getRoutePaths, getRoutesWithInjectableImporter, getRoutes };
