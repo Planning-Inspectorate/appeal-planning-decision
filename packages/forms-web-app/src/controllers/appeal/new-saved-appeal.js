@@ -41,3 +41,8 @@ exports.post = async (req, res) => {
 		res.redirect(config.appeals.startingPoint);
 	}
 };
+
+exports.startNew = async (req, res) => {
+	req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.START_NEW;
+	res.redirect(`/${VIEW.BEFORE_YOU_START.LOCAL_PLANNING}`);
+};
