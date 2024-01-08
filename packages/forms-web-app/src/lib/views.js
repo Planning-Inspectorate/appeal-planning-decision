@@ -6,6 +6,7 @@ const VIEW = {
 
 	BEFORE_YOU_START: {
 		FIRST_PAGE: 'before-you-start/first-page',
+		LOCAL_PLANNING: 'before-you-start/local-planning-department',
 		USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
 			'before-you-start/use-existing-service-enforcement-notice',
 
