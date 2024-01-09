@@ -47,18 +47,11 @@ const planningObligationDeadlineRouter = require('./planning-obligation-deadline
 const planningObligationDraftRouter = require('./draft-planning-obligation');
 const letterConfirmingApplicationRouter = require('./letter-confirming-application');
 const planningApplicationNumberRouter = require('./planning-application-number');
-const enterCodeRouter = require('./enter-code');
-const emailAddressRouter = require('./email-address');
 const emailConfirmedRouter = require('./email-address-confirmed');
 const listOfDocuments = require('./list-of-documents');
 const listOfDocumentsRouter = require('./list-of-documents');
 const cannotAppealRouter = require('./cannot-appeal');
 const appealAlreadySubmittedRouter = require('./appeal-already-submitted');
-const codeExpiredRouter = require('./code-expired');
-
-const requestNewCodeRouter = require('./request-new-code');
-
-const submitFinalCommentRouter = require('../submit-final-comment');
 
 const router = express.Router();
 
@@ -110,16 +103,10 @@ router.use(planningObligationDraftRouter);
 router.use(planningObligationDeadlineRouter);
 router.use(letterConfirmingApplicationRouter);
 router.use(planningApplicationNumberRouter);
-router.use(enterCodeRouter);
-router.use(emailAddressRouter);
 router.use(emailConfirmedRouter);
 router.use(listOfDocuments);
 router.use(listOfDocumentsRouter);
 router.use(cannotAppealRouter);
 router.use(appealAlreadySubmittedRouter);
-router.use(requestNewCodeRouter);
-router.use(codeExpiredRouter);
-
-router.use('/submit-final-comment', submitFinalCommentRouter);
 
 module.exports = router;

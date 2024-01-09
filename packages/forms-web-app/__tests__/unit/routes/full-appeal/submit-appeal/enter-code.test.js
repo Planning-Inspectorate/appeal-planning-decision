@@ -20,7 +20,7 @@ jest.mock('../../../../../src/controllers/common/enter-code');
 describe('routes/full-appeal/submit-appeal/enter-code', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../../src/routes/full-appeal/submit-appeal/enter-code');
+		require('../../../../../src/routes/full-appeal/login/enter-code');
 	});
 
 	afterEach(() => {
