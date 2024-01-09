@@ -189,7 +189,8 @@ const appealCases = [
 		LPAApplicationReference: '12/2323235/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
+		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		outcome: 'allowed'
 	},
 	{
 		Appeal: {
@@ -202,7 +203,8 @@ const appealCases = [
 		LPAApplicationReference: '12/2323236/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(2))
+		caseDecisionDate: pickRandom(datesNMonthsAgo(2)),
+		outcome: 'dismissed'
 	},
 	{
 		Appeal: {
@@ -215,7 +217,8 @@ const appealCases = [
 		LPAApplicationReference: '12/2323237/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(3))
+		caseDecisionDate: pickRandom(datesNMonthsAgo(3)),
+		outcome: 'split decision'
 	},
 	{
 		Appeal: {
@@ -223,12 +226,13 @@ const appealCases = [
 		},
 		...commonAppealProperties,
 		caseReference: caseReferences.caseReferenceEight,
-		decision: 'other',
+		decision: '',
 		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		LPAApplicationReference: '12/2323238/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(4))
+		caseDecisionDate: pickRandom(datesNMonthsAgo(4)),
+		outcome: 'other'
 	},
 	...lpaAppealCaseData
 ];

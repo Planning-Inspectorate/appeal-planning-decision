@@ -59,13 +59,13 @@ const mapToAppellantDashboardDisplayData = (appealData) => ({
 	...appealData,
 	appealNumber: isAppealSubmission(appealData) ? null : appealData.caseReference,
 	address: formatAddress(appealData),
-	isDraft: isAppealSubmission(appealData),
 	appealType: getAppealType(appealData),
 	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
+	isDraft: isAppealSubmission(appealData),
 	decisionOutcome: isAppealSubmission(appealData) ? null : getDecisionOutcome(appealData.outcome)
 });
 
-// HELPER FUNCTIONS
+// LPADashboard - ToDo or WaitingToReview FUNCTIONS
 
 const isToDoLPADashboard = (appeal) => {
 	return appeal.isNewAppeal || displayDocumentOnToDo(appeal.nextDocumentDue);
@@ -85,6 +85,12 @@ const displayDocumentOnToDo = (dueDocument) => {
  */
 const overdueDocumentNotToBeDisplayed = (dueDocument) => {
 	return dueDocument.dueInDays < 0 && dueDocument.documentDue !== 'Questionnaire';
+};
+
+// Appellant Dashboard - ToDo or WaitingToReview FUNCTIONS
+
+const isToDoAppellantDashboard = (appeal) => {
+	return displayDocumentOnToDo(appeal.nextDocumentDue);
 };
 
 /**
@@ -134,7 +140,7 @@ const formatAppealSubmissionAddress = (appealSubmission) => {
 const calculateAppealDueDeadline = (appealSubmission) => {
 	return businessRulesDeadline(
 		appealSubmission.appeal?.decisionDate,
-		appealSubmission.appeal?.typeOfPlanningAppeal,
+		appealSubmission.appeal?.appealType,
 		null,
 		true
 	);
@@ -200,23 +206,38 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 	};
 };
 
+/**
+ * @param {AppealCaseWithAppellant | AppealSubmission} caseOrSubmission return object from database call
+ * @returns {DueDocumentType} object containing details of next due document
+ */
+
 const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
 	if (isAppealSubmission(caseOrSubmission)) {
+		const deadline = calculateAppealDueDeadline(caseOrSubmission);
 		return {
-			deadline: calculateAppealDueDeadline(caseOrSubmission),
+			deadline,
+			dueInDays: calculateDueInDays(deadline),
 			documentDue: 'Continue'
 		};
 	} else if (isAppellantFinalCommentDue(caseOrSubmission)) {
 		return {
 			deadline: caseOrSubmission.finalCommentsDueDate,
+			dueInDays: calculateDueInDays(caseOrSubmission.finalCommentsDueDate),
 			documentDue: 'Final comments'
 		};
 	} else if (isAppellantProofsOfEvidenceDue(caseOrSubmission)) {
 		return {
 			deadline: caseOrSubmission.proofsOfEvidenceDueDate,
+			dueInDays: calculateDueInDays(caseOrSubmission.proofsOfEvidenceDueDate),
 			documentDue: 'Proofs of evidence'
 		};
 	}
+
+	return {
+		deadline: null,
+		dueInDays: 100000,
+		documentDue: null
+	};
 };
 
 // Helper functions, not exported, potential for refactoring as repetitive
@@ -297,27 +318,27 @@ const isEligibilityCompleted = (appealCaseData) => {
 	return true;
 };
 
-/**
- * @param {AppealCaseWithAppellant} appealCaseData
- * @returns {boolean}
- */
-const hasFutureDueDate = (appealCaseData) => {
-	const currentDate = new Date();
-	return (
-		[
-			calculateAppealDueDeadline(
-				appealCaseData.appealTypeCode,
-				appealCaseData.originalCaseDecisionDate
-			),
-			appealCaseData.statementDueDate,
-			appealCaseData.finalCommentsDueDate,
-			appealCaseData.proofsOfEvidenceDueDate
-		].find((date) => {
-			if (!date) return false;
-			return new Date(date) > currentDate;
-		}) !== undefined
-	);
-};
+// /**
+//  * @param {AppealCaseWithAppellant} appealCaseData
+//  * @returns {boolean}
+//  */
+// const hasFutureDueDate = (appealCaseData) => {
+// 	const currentDate = new Date();
+// 	return (
+// 		[
+// 			calculateAppealDueDeadline(
+// 				appealCaseData.appealTypeCode,
+// 				appealCaseData.originalCaseDecisionDate
+// 			),
+// 			appealCaseData.statementDueDate,
+// 			appealCaseData.finalCommentsDueDate,
+// 			appealCaseData.proofsOfEvidenceDueDate
+// 		].find((date) => {
+// 			if (!date) return false;
+// 			return new Date(date) > currentDate;
+// 		}) !== undefined
+// 	);
+// };
 
 /**
  * @param {string | undefined} outcome the decision in relation to the appeal
@@ -353,8 +374,8 @@ module.exports = {
 	mapToLPADashboardDisplayData,
 	mapToLPADecidedData,
 	isToDoLPADashboard,
+	isToDoAppellantDashboard,
 	mapToAppellantDashboardDisplayData,
 	getDecisionOutcome,
-	isEligibilityCompleted,
-	hasFutureDueDate
+	isEligibilityCompleted
 };
