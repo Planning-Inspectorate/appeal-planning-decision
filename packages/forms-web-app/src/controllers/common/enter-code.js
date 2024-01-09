@@ -10,6 +10,7 @@ const {
 	getLPAUserStatus,
 	setLPAUserStatus
 } = require('../../services/lpa-user.service');
+const { createAppealUserSession } = require('../../services/appeal-user.service');
 const {
 	isTokenValid,
 	isTestToken,
@@ -247,6 +248,11 @@ const postEnterCode = (views, appealInSession) => {
 			});
 		}
 
+		// is valid so set user in session
+		if (enrolUsersFlag && user) {
+			createAppealUserSession(req, user);
+		}
+
 		// if handling an email confirmation
 		// session will be in browser so can redirect here and consider email confirmed
 		if (tokenValid.action === enterCodeConfig.actions.confirmEmail) {
@@ -254,11 +260,15 @@ const postEnterCode = (views, appealInSession) => {
 				await apiClient.linkUserToV2Appeal(user.email, getSessionAppealSqlId(req.session));
 			}
 
-			if (isReturningUser) {
-				return res.redirect(`/${views.YOUR_APPEALS}`);
-			}
 			delete req.session?.enterCode?.action;
-			return res.redirect(`/${views.EMAIL_CONFIRMED}`);
+
+			if (req.session.loginRedirect) {
+				return handleCustomRedirect();
+			} else if (isReturningUser) {
+				return res.redirect(`/${views.YOUR_APPEALS}`);
+			} else {
+				return res.redirect(`/${views.EMAIL_CONFIRMED}`);
+			}
 		}
 
 		// n.b. older save and return objects in db may not have an action - May 2023
@@ -283,15 +293,17 @@ const postEnterCode = (views, appealInSession) => {
 
 		// redirect
 		if (req.session.loginRedirect) {
-			// before appeal.state check in case this is an attempt to download the appeal pdf
-			const redirect = req.session.loginRedirect;
-			delete req.session.loginRedirect;
-			res.redirect(redirect);
-			return;
+			return handleCustomRedirect();
 		} else if (req.session.appeal.state === 'SUBMITTED') {
 			return res.redirect(`/${views.APPEAL_ALREADY_SUBMITTED}`);
 		} else {
 			return res.redirect(`/${views.TASK_LIST}`);
+		}
+
+		function handleCustomRedirect() {
+			const redirect = req.session.loginRedirect;
+			delete req.session.loginRedirect;
+			res.redirect(redirect);
 		}
 	};
 };

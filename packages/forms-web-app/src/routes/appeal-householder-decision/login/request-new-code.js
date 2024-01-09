@@ -3,13 +3,13 @@ const express = require('express');
 const {
 	getRequestNewCode,
 	postRequestNewCode
-} = require('../../controllers/common/request-new-code');
+} = require('../../../controllers/common/request-new-code');
 
 const {
 	VIEW: {
 		APPELLANT_SUBMISSION: { REQUEST_NEW_CODE, NEED_NEW_CODE, ENTER_CODE }
 	}
-} = require('../../lib/views');
+} = require('#lib/views');
 
 const router = express.Router();
 

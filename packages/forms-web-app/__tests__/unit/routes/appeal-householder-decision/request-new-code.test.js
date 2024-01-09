@@ -6,7 +6,7 @@ jest.mock('../../../../src/controllers/common/request-new-code');
 describe('routes/appeal-householder-decision/request-new-code', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/appeal-householder-decision/request-new-code');
+		require('../../../../src/routes/appeal-householder-decision/login/request-new-code');
 	});
 
 	afterEach(() => {

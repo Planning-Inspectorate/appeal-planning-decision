@@ -19,7 +19,7 @@ describe('routes/full-appeal/index', () => {
 		jest.resetModules();
 
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/full-appeal/index');
+		require('../../../../src/routes/full-appeal');
 	});
 
 	it('should define the expected routes', () => {

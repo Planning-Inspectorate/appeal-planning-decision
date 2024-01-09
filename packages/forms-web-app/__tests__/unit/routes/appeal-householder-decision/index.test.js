@@ -1,6 +1,6 @@
 const { use } = require('../router-mock');
 
-const codeExpiredRouter = require('../../../../src/routes/appeal-householder-decision/code-expired');
+const codeExpiredRouter = require('../../../../src/routes/appeal-householder-decision/login/code-expired');
 
 describe('routes/appeal-householder-decision/index', () => {
 	beforeEach(() => {

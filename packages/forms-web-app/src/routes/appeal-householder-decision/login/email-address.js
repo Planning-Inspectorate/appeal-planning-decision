@@ -1,14 +1,14 @@
 const express = require('express');
 
-const fetchExistingAppealMiddleware = require('../../middleware/fetch-existing-appeal');
+const fetchExistingAppealMiddleware = require('../../../middleware/fetch-existing-appeal');
 const {
 	getEmailAddress,
 	postEmailAddress
-} = require('../../controllers/appeal-householder-decision/email-address');
-const { validationErrorHandler } = require('../../validators/validation-error-handler');
+} = require('../../../controllers/appeal-householder-decision/email-address');
+const { validationErrorHandler } = require('../../../validators/validation-error-handler');
 const {
 	rules: emailAddressValidationRules
-} = require('../../validators/full-appeal/email-address');
+} = require('../../../validators/full-appeal/email-address');
 
 const router = express.Router();
 

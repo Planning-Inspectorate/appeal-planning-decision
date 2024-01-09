@@ -16,7 +16,7 @@ jest.mock('../../../../src/controllers/common/enter-code');
 describe('routes/appeal-householder-planning/enter-code', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/appeal-householder-decision/enter-code');
+		require('../../../../src/routes/appeal-householder-decision/login/enter-code');
 	});
 
 	afterEach(() => {
