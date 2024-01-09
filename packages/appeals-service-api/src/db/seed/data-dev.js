@@ -242,6 +242,13 @@ const appealCases = [
  *
  * @type {{appealId: string, userId: string, role: string}[]}
  */
+
+const linkedLpaAppeals = lpaAppeals.map((appeal) => ({
+	appealId: appeal.id,
+	userId: appellants.appellantOne.id,
+	role: 'appellant'
+}));
+
 const appealToUsers = [
 	{
 		appealId: appealIds.appealOne,
@@ -287,7 +294,8 @@ const appealToUsers = [
 		appealId: appealSubmissionDraft.id,
 		userId: appellants.appellantOne.id,
 		role: 'appellant'
-	}
+	},
+	...linkedLpaAppeals
 ];
 
 /**
