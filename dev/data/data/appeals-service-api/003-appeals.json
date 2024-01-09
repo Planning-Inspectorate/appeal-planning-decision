@@ -93,7 +93,8 @@
 				}
 			},
 			"state": "DRAFT",
-			"decisionDate": "2021-01-01T12:00:00Z",
+			"decisionDate": "2024-01-01T12:00:00Z",
+			"appealType": "1005",
 			"lpaCode": "E69999999",
 			"id": "89aa8504-773c-42be-bb68-029716ad9756"
 		}

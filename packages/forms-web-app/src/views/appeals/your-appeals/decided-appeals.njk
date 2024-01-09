@@ -47,7 +47,7 @@
             </tr>
           </thead>
           <tbody class="govuk-table__body">
-              {% for item in appeals %}
+              {% for item in decidedAppeals %}
                 <tr class="govuk-table__row">
                   <td class="govuk-table__cell">
                     <a href="#" class="govuk-link">
@@ -58,7 +58,7 @@
                     {{ item.address }}
                   </td>
                   <td class="govuk-table__cell">
-                      {{item.originalCaseDecisionDate | date('D MMM YYYY') }}
+                      {{item.caseDecisionDate | date('D MMM YYYY') }}
                   </td>
                   <td class="govuk-table__cell">{{item.appealType}}</td>
                   <td class="govuk-table__cell">
@@ -80,4 +80,4 @@
         </table>
      </div>
    </div>
- {% endblock %} 
+ {% endblock %}

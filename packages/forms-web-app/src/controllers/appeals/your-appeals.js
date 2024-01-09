@@ -1,7 +1,6 @@
 const {
 	mapToAppellantDashboardDisplayData,
-	isEligibilityCompleted,
-	hasFutureDueDate
+	isToDoAppellantDashboard
 } = require('../../lib/dashboard-functions');
 const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
@@ -30,6 +29,7 @@ exports.get = async (req, res) => {
 				{ toDoAppeals: [], waitingForReviewAppeals: [] }
 			);
 
+			toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
 			waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
 			viewContext = { toDoAppeals, waitingForReviewAppeals };
 		} else {
@@ -42,8 +42,4 @@ exports.get = async (req, res) => {
 	} finally {
 		res.render(VIEW.APPEALS.YOUR_APPEALS, viewContext);
 	}
-};
-
-const isToDoAppellantDashboard = (appeal) => {
-	return isEligibilityCompleted(appeal) && hasFutureDueDate(appeal);
 };

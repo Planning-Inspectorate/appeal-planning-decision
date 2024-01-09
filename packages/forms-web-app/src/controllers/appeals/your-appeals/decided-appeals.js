@@ -2,7 +2,7 @@ const { mapToAppellantDashboardDisplayData } = require('../../../lib/dashboard-f
 const { VIEW } = require('../../../lib/views');
 const logger = require('../../../lib/logger');
 const { apiClient } = require('../../../lib/appeals-api-client');
-const { sortByCaseDecisionDate } = require('@pins/common/src/lib/appeal-sorting');
+const { sortByDateFieldDesc } = require('@pins/common/src/lib/appeal-sorting');
 
 exports.get = async (req, res) => {
 	const { email } = req.session;
@@ -14,8 +14,8 @@ exports.get = async (req, res) => {
 			const decidedAppeals = appeals
 				.map(mapToAppellantDashboardDisplayData)
 				.filter((appeal) => appeal.decisionOutcome);
-			decidedAppeals.sort(sortByCaseDecisionDate);
-			viewContext = { appeals };
+			decidedAppeals.sort(sortByDateFieldDesc('caseDecisionDate'));
+			viewContext = { decidedAppeals };
 		}
 	} catch (error) {
 		logger.error(`Failed to get user decided appeals: ${error}`);
