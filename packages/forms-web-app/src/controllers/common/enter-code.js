@@ -24,7 +24,11 @@ const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { apiClient } = require('#lib/appeals-api-client');
-const { getSessionEmail, getSessionAppealSqlId } = require('../../lib/session-helper');
+const {
+	getSessionEmail,
+	setSessionEmail,
+	getSessionAppealSqlId
+} = require('../../lib/session-helper');
 
 /**
  * @typedef {Object} Token
@@ -118,6 +122,11 @@ const getEnterCode = (views, appealInSession) => {
 		if (action === enterCodeConfig.actions.saveAndReturn) {
 			req.session.enterCode = req.session.enterCode || {};
 			req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
+			appealInSession = false;
+
+			// lookup user email from appeal id, user hasn't proved they own this appeal/email yet
+			const savedAppeal = await getExistingAppeal(req.params.id);
+			setSessionEmail(req.session, savedAppeal.email, false);
 		}
 
 		// show new code success message only once
@@ -199,12 +208,17 @@ const postEnterCode = (views, appealInSession) => {
 		}
 
 		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
+
+		// this is when a user clicks on return to appeal from home page not following a link in email
 		const isReturningUser = req.session.newOrSavedAppeal === 'return';
 
 		/** @type {import('appeals-service-api').Api.AppealUser|undefined} */
 		let user;
 		/** @type {string|undefined} */
 		let sessionEmail;
+
+		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
+		appealInSession = action === enterCodeConfig.actions.saveAndReturn ? false : appealInSession;
 
 		if (enrolUsersFlag) {
 			sessionEmail = getSessionEmail(req.session, appealInSession);
