@@ -11,7 +11,7 @@ jest.mock('../../../../../src/lib/appeals-api-client');
 jest.mock('../../../../../src/lib/dashboard-functions');
 
 describe('controllers/appeals/your-appeals/decided-appeals', () => {
-	let appeals;
+	let decidedAppeals;
 	let req;
 	let res;
 
@@ -21,17 +21,17 @@ describe('controllers/appeals/your-appeals/decided-appeals', () => {
 
 		jest.resetAllMocks();
 
-		appeals = [{ id: 'appeal123', decisionOutcome: 'allowed' }];
+		decidedAppeals = [{ id: 'appeal123', decisionOutcome: 'allowed' }];
 		apiClient.getUserByEmailV2.mockImplementation(() => Promise.resolve({ id: '123' }));
-		apiClient.getUserAppealsById.mockImplementation(() => Promise.resolve(appeals));
+		apiClient.getUserAppealsById.mockImplementation(() => Promise.resolve(decidedAppeals));
 		mapToAppellantDashboardDisplayData.mockImplementation((appeal) => appeal);
 	});
 
 	it('Test get method calls the correct template and view context', async () => {
 		await get(req, res);
 
-		expect(res.render).toBeCalledWith(VIEW.YOUR_APPEALS.DECIDED_APPEALS, {
-			appeals
+		expect(res.render).toHaveBeenCalledWith(VIEW.YOUR_APPEALS.DECIDED_APPEALS, {
+			decidedAppeals
 		});
 	});
 });

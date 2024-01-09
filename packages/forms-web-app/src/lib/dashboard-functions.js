@@ -14,7 +14,7 @@
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
 
-const { APPEAL_STATE, DECISION_OUTCOME } = require('@pins/business-rules/src/constants');
+const { DECISION_OUTCOME } = require('@pins/business-rules/src/constants');
 const { getAppealTypeName } = require('./full-appeal/map-planning-application');
 const { businessRulesDeadline } = require('./calculate-deadline');
 
@@ -302,45 +302,6 @@ const getAppealType = (appealCaseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData
- * @returns {boolean}
- */
-const isEligibilityCompleted = (appealCaseData) => {
-	if (appealCaseData?.appeal?.state === APPEAL_STATE.DRAFT) {
-		const eligibility = appealCaseData.appeal.eligibility;
-		return (
-			eligibility !== undefined &&
-			eligibility.enforcementNotice !== null &&
-			eligibility.applicationDecision !== null &&
-			eligibility.applicationCategories !== null
-		);
-	}
-	return true;
-};
-
-// /**
-//  * @param {AppealCaseWithAppellant} appealCaseData
-//  * @returns {boolean}
-//  */
-// const hasFutureDueDate = (appealCaseData) => {
-// 	const currentDate = new Date();
-// 	return (
-// 		[
-// 			calculateAppealDueDeadline(
-// 				appealCaseData.appealTypeCode,
-// 				appealCaseData.originalCaseDecisionDate
-// 			),
-// 			appealCaseData.statementDueDate,
-// 			appealCaseData.finalCommentsDueDate,
-// 			appealCaseData.proofsOfEvidenceDueDate
-// 		].find((date) => {
-// 			if (!date) return false;
-// 			return new Date(date) > currentDate;
-// 		}) !== undefined
-// 	);
-// };
-
-/**
  * @param {string | undefined} outcome the decision in relation to the appeal
  * @returns {string | null}
  */
@@ -376,6 +337,5 @@ module.exports = {
 	isToDoLPADashboard,
 	isToDoAppellantDashboard,
 	mapToAppellantDashboardDisplayData,
-	getDecisionOutcome,
-	isEligibilityCompleted
+	getDecisionOutcome
 };

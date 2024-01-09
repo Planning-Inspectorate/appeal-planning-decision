@@ -2,14 +2,11 @@ const {
 	formatAddress,
 	determineDocumentToDisplayLPADashboard,
 	isNewAppeal,
-	getDecisionOutcome,
-	isEligibilityCompleted,
-	hasDecisionDate,
-	hasFutureDueDate
+	getDecisionOutcome
 } = require('../../../src/lib/dashboard-functions');
 
 const { calculateDueInDays } = require('../../../src/lib/calculate-due-in-days');
-const { DECISION_OUTCOME, APPEAL_STATE } = require('@pins/business-rules/src/constants');
+const { DECISION_OUTCOME } = require('@pins/business-rules/src/constants');
 
 jest.mock('../../../src/lib/calculate-due-in-days');
 
@@ -172,91 +169,6 @@ describe('lib/dashboard-functions', () => {
 			{ outcome: 'unknown', label: 'unknown' }
 		])('returns label $label when outcome is $outcome', ({ outcome, label }) => {
 			expect(getDecisionOutcome(outcome)).toEqual(label);
-		});
-	});
-
-	describe('isEligibilityCompleted', () => {
-		it('returns true when eligibility is completed on a draft application', () => {
-			const appealCase = {
-				id: 'id',
-				caseReference: 'test',
-				appeal: {
-					state: APPEAL_STATE.DRAFT,
-					eligibility: {
-						enforcementNotice: false,
-						applicationDecision: 'granted',
-						applicationCategories: ['none_of_these']
-					}
-				}
-			};
-			expect(isEligibilityCompleted(appealCase)).toBe(true);
-		});
-
-		it('returns true when application is submitted', () => {
-			const appealCase = {
-				id: 'id',
-				caseReference: 'test',
-				appeal: {
-					state: APPEAL_STATE.SUBMITTED
-				}
-			};
-			expect(isEligibilityCompleted(appealCase)).toBe(true);
-		});
-
-		it('returns false when eligibility is not completed on a draft application', () => {
-			const appealCase = {
-				id: 'id',
-				caseReference: 'test',
-				appeal: {
-					state: APPEAL_STATE.DRAFT
-				}
-			};
-			expect(isEligibilityCompleted(appealCase)).toBe(false);
-		});
-	});
-
-	describe('hasDecisionDate', () => {
-		it.each([
-			{
-				caseData: { appeal: { state: APPEAL_STATE.DRAFT, decisionDate: 'not null' } },
-				expected: true
-			},
-			{ caseData: { appeal: { state: APPEAL_STATE.DRAFT, decisionDate: null } }, expected: false },
-			{ caseData: { caseDecisionDate: 'not null' }, expected: true },
-			{ caseData: { caseDecisionDate: null }, expected: false }
-		])('returns $expected when case data is $caseData', ({ caseData, expected }) => {
-			expect(hasDecisionDate(caseData)).toEqual(expected);
-		});
-	});
-
-	describe('hasFutureDate', () => {
-		const addYears = (date, years) => {
-			date.setFullYear(date.getFullYear() + years);
-			return date;
-		};
-		it.each(['statementDueDate', 'finalCommentsDueDate', 'proofsOfEvidenceDueDate'])(
-			'returns true when has %s in the future',
-			(dueDateKey) => {
-				const appealCase = {
-					id: 'id',
-					caseReference: 'test',
-					[dueDateKey]: addYears(new Date(), 1).toISOString()
-				};
-				expect(hasFutureDueDate(appealCase)).toBe(true);
-			}
-		);
-
-		it('returns false when has no due date in the future', () => {
-			const appealCase = {
-				id: 'id',
-				caseReference: 'test',
-				originalCaseDecisionDate: '2021-10-07T08:00:00.000Z',
-				questionnaireDueDate: null,
-				statementDueDate: '2023-10-07T08:00:00.000Z',
-				finalCommentsDueDate: null,
-				proofsOfEvidenceDueDate: null
-			};
-			expect(hasFutureDueDate(appealCase)).toBe(false);
 		});
 	});
 });
