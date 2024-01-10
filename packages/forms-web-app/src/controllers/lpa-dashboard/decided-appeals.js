@@ -1,6 +1,6 @@
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { getDecidedAppealsCaseDataV2 } = require('../../lib/appeals-api-wrapper');
-const { mapToLPADecidedData } = require('../../lib/dashboard-functions');
+const { mapToLPADashboardDisplayData } = require('../../lib/dashboard-functions');
 const { sortByCaseDecisionDate } = require('@pins/common/src/lib/appeal-sorting');
 
 const {
@@ -14,7 +14,7 @@ const getDecidedAppeals = async (req, res) => {
 
 	const appealsCaseData = await getDecidedAppealsCaseDataV2(user.lpaCode);
 
-	const decidedAppeals = appealsCaseData.map(mapToLPADecidedData);
+	const decidedAppeals = appealsCaseData.map(mapToLPADashboardDisplayData);
 
 	decidedAppeals.sort(sortByCaseDecisionDate);
 
