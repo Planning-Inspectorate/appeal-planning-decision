@@ -110,35 +110,29 @@ async function sendTokenToLpaUser(req) {
 	}
 }
 
-const getEnterCode = (views, isAppealJourney) => {
+/**
+ * @param {{EMAIL_ADDRESS: string, ENTER_CODE: string, REQUEST_NEW_CODE: string}} views
+ * @param {boolean} [isGeneralLogin]
+ * @returns {import('express').Handler}
+ */
+const getEnterCode = (views, isGeneralLogin) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {} }
 		} = req;
 
-		// flag off:
-		// save/return
-		// confirm email for appeal
-		// pdf works
-
-		// flag on:
+		// flag on/off:
 		// save/return
 		// general login
 		// confirm email for appeal
 		// pdf works
 
 		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
-		let appealInSession = isAppealJourney;
+		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
+		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
 
-		if (action === enterCodeConfig.actions.saveAndReturn) {
-			req.session.enterCode = req.session.enterCode || {};
-			req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
-			appealInSession = false;
-
-			// lookup user email from appeal id, user hasn't proved they own this appeal/email yet
-			const savedAppeal = await getExistingAppeal(req.params.id);
-			setSessionEmail(req.session, savedAppeal.email, appealInSession);
-		}
+		/** @type {string|undefined} */
+		const appealId = req.params.id;
 
 		// show new code success message only once
 		const newCode = req.session?.enterCode?.newCode;
@@ -146,27 +140,36 @@ const getEnterCode = (views, isAppealJourney) => {
 			delete req.session?.enterCode?.newCode;
 		}
 
-		const url = `/${views.REQUEST_NEW_CODE}`;
-		const confirmEmailUrl =
-			action === enterCodeConfig.actions.confirmEmail ? `/${views.EMAIL_ADDRESS}` : null;
+		if (isGeneralLogin) {
+			const email = getSessionEmail(req.session, false);
 
-		//this handles old save & return url (without id params)
-		if (appealInSession && req.session.appeal?.id && !req.params.id) {
-			res.redirect(`/${views.ENTER_CODE_URL}/${req.session.appeal.id}`);
-			return;
+			try {
+				await sendToken(undefined, action, email);
+			} catch (e) {
+				logger.error(e, 'failed to send token to general login user');
+			}
+
+			return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
 		}
 
-		let sessionEmail;
+		if (isAppealConfirmation) {
+			try {
+				await sendToken(appealId, action);
+			} catch (e) {
+				logger.error(e, 'failed to send token for appeal email confirmation');
+			}
 
-		try {
-			sessionEmail = getSessionEmail(req.session, appealInSession);
-		} catch (error) {
-			logger.warn('no session email exists, allow page to render');
+			return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
 		}
 
-		//this handles new save & return url (with id params)
-		if (req.params.id) {
-			req.session.userTokenId = req.params.id;
+		if (isReturningFromEmail) {
+			req.session.enterCode = req.session.enterCode || {};
+			req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
+			req.session.userTokenId = appealId; // appeal id not user id?
+
+			// lookup user email from appeal id, user hasn't proved they own this appeal/email yet
+			const savedAppeal = await getExistingAppeal(req.params.id);
+			setSessionEmail(req.session, savedAppeal.email, false);
 
 			//if middleware UUID validation fails, render the page
 			//but do not attempt to send code email to user
@@ -174,26 +177,24 @@ const getEnterCode = (views, isAppealJourney) => {
 				return renderEnterCodePage();
 			}
 
-			//attempt to send code email to user
-			//and render page if API response errors
+			// attempt to send code email to user, render page on failure
 			try {
 				await sendToken(req.params.id, action);
 			} catch (e) {
-				return renderEnterCodePage();
+				logger.error(e, 'failed to send token to returning user');
 			}
-		} else if (sessionEmail) {
-			try {
-				await sendToken(undefined, action, sessionEmail);
-			} catch (e) {
-				return renderEnterCodePage();
-			}
+
+			return renderEnterCodePage();
 		}
 
-		return renderEnterCodePage();
+		throw new Error('unhandled journey for GET: enter-code');
 
-		function renderEnterCodePage() {
+		/**
+		 * @param {string} [confirmEmailUrl]
+		 */
+		function renderEnterCodePage(confirmEmailUrl) {
 			res.render(views.ENTER_CODE, {
-				requestNewCodeLink: url,
+				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`,
 				confirmEmailLink: confirmEmailUrl,
 				showNewCode: newCode
 			});
