@@ -1,9 +1,4 @@
-const {
-	getSavedAppeal,
-	getExistingAppeal,
-	sendToken,
-	getUserById
-} = require('../../lib/appeals-api-wrapper');
+const { getExistingAppeal, sendToken, getUserById } = require('../../lib/appeals-api-wrapper');
 const {
 	getLPAUser,
 	createLPAUserSession,
@@ -121,18 +116,15 @@ const getEnterCode = (views, isGeneralLogin) => {
 			body: { errors = {} }
 		} = req;
 
-		// flag on/off:
-		// save/return
-		// general login
-		// confirm email for appeal
-		// pdf works
+		/** @type {string|undefined} */
+		const enterCodeId = req.params.id;
+		if (enterCodeId) {
+			req.session.enterCodeId = enterCodeId;
+		}
 
 		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
 		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
 		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
-
-		/** @type {string|undefined} */
-		const appealId = req.params.id;
 
 		// show new code success message only once
 		const newCode = req.session?.enterCode?.newCode;
@@ -154,7 +146,7 @@ const getEnterCode = (views, isGeneralLogin) => {
 
 		if (isAppealConfirmation) {
 			try {
-				await sendToken(appealId, action);
+				await sendToken(enterCodeId, action);
 			} catch (e) {
 				logger.error(e, 'failed to send token for appeal email confirmation');
 			}
@@ -165,7 +157,6 @@ const getEnterCode = (views, isGeneralLogin) => {
 		if (isReturningFromEmail) {
 			req.session.enterCode = req.session.enterCode || {};
 			req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
-			req.session.userTokenId = appealId; // appeal id not user id?
 
 			// lookup user email from appeal id, user hasn't proved they own this appeal/email yet
 			const savedAppeal = await getExistingAppeal(req.params.id);
@@ -280,8 +271,7 @@ const postEnterCode = (views, isGeneralLogin) => {
 
 		if (isReturningFromEmail) {
 			try {
-				const savedAppeal = await getSavedAppeal(id);
-				req.session.appeal = await getExistingAppeal(savedAppeal.appealId);
+				req.session.appeal = await getExistingAppeal(id);
 			} catch (err) {
 				const customErrorSummary = [
 					{ text: 'We did not find your appeal. Enter the correct code', href: '#email-code' }
@@ -304,7 +294,7 @@ const postEnterCode = (views, isGeneralLogin) => {
 		throw new Error('unhandled journey for POST: enter-code');
 
 		function deleteTempSessionValues() {
-			delete req.session.userTokenId;
+			delete req.session.enterCodeId;
 			delete req.session?.enterCode?.action;
 		}
 

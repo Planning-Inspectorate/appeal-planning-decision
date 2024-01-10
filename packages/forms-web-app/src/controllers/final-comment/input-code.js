@@ -26,7 +26,7 @@ const getInputCode = async (req, res) => {
 
 	if (!req.session.finalComment || req.session.finalComment.horizonId !== caseReference) {
 		try {
-			req.session.userTokenId = caseReference;
+			req.session.enterCodeId = caseReference;
 			req.session.finalComment = await getFinalCommentData(caseReference);
 		} catch (err) {
 			logger.error(err, `Final Comment API Error for case reference ${caseReference}`);
@@ -37,7 +37,7 @@ const getInputCode = async (req, res) => {
 			return;
 		}
 	} else {
-		req.session.userTokenId = req.session.finalComment.horizonId;
+		req.session.enterCodeId = req.session.finalComment.horizonId;
 	}
 
 	const {
@@ -94,7 +94,7 @@ const postInputCode = async (req, res) => {
 		return;
 	}
 
-	delete req.session.userTokenId;
+	delete req.session.enterCodeId;
 	delete req.session?.enterCode?.action;
 
 	return res.redirect(`/${VIEW.FINAL_COMMENT.COMMENTS_QUESTION}`);

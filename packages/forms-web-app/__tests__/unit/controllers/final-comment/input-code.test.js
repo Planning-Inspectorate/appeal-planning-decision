@@ -43,7 +43,7 @@ describe('controllers/final-comment/input-code', () => {
 			await getInputCode(req, res);
 
 			expect(getFinalCommentData).not.toBeCalled();
-			expect(req.session.userTokenId).toEqual('123456789');
+			expect(req.session.enterCodeId).toEqual('123456789');
 		});
 
 		it('should call getFinalCommentData if final comment in session with different case reference', async () => {
@@ -55,7 +55,7 @@ describe('controllers/final-comment/input-code', () => {
 			await getInputCode(req, res);
 
 			expect(getFinalCommentData).toBeCalledWith('123456789');
-			expect(req.session.userTokenId).toEqual('123456789');
+			expect(req.session.enterCodeId).toEqual('123456789');
 		});
 
 		it('should re-render input code page if final comment api throws an error', async () => {
@@ -201,7 +201,7 @@ describe('controllers/final-comment/input-code', () => {
 			req.body = {
 				'email-code': '68365'
 			};
-			req.session.userTokenId = 'mock-id';
+			req.session.enterCodeId = 'mock-id';
 			req.session.enterCode = { action: 'test' };
 
 			isTokenValid.mockReturnValue({ valid: true });
@@ -210,7 +210,7 @@ describe('controllers/final-comment/input-code', () => {
 
 			expect(res.redirect).toBeCalledWith(`/${COMMENTS_QUESTION}`);
 			expect(req.session.finalComment.secureCodeEnteredCorrectly).toBe(true);
-			expect(req.session.userTokenId).toBe(undefined);
+			expect(req.session.enterCodeId).toBe(undefined);
 			expect(req.session.enterCode.action).toBe(undefined);
 		});
 	});

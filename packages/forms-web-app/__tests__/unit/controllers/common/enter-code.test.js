@@ -78,7 +78,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				showNewCode: undefined
 			});
 			expect(sendToken).not.toBeCalled();
-			expect(req.session.userTokenId).not.toBeDefined();
+			expect(req.session.enterCodeId).not.toBeDefined();
 		});
 
 		it('should redirect to enter-code/:id when an appeal id exists in session and no req.params.id provided', async () => {
@@ -90,7 +90,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 
 			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${req.session.appeal.id}`);
 			expect(sendToken).not.toBeCalled();
-			expect(req.session.userTokenId).not.toBeDefined();
+			expect(req.session.enterCodeId).not.toBeDefined();
 		});
 
 		it('should delete newCode from session if present', async () => {
@@ -128,7 +128,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 					confirmEmailLink: null,
 					showNewCode: undefined
 				});
-				expect(req.session.userTokenId).toEqual(req.params.id);
+				expect(req.session.enterCodeId).toEqual(req.params.id);
 			});
 
 			it('should set confirm email url if action is set', async () => {
@@ -156,7 +156,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 					confirmEmailLink: `/${EMAIL_ADDRESS}`,
 					showNewCode: undefined
 				});
-				expect(req.session.userTokenId).toEqual(req.params.id);
+				expect(req.session.enterCodeId).toEqual(req.params.id);
 			});
 
 			it('should render page but not call sendToken if validation errors in req.session', async () => {
@@ -184,7 +184,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 					confirmEmailLink: null,
 					showNewCode: undefined
 				});
-				expect(req.session.userTokenId).toEqual(req.params.id);
+				expect(req.session.enterCodeId).toEqual(req.params.id);
 			});
 
 			it('should render page if sendToken call fails', async () => {
@@ -210,7 +210,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 					confirmEmailLink: null,
 					showNewCode: undefined
 				});
-				expect(req.session.userTokenId).toEqual(req.params.id);
+				expect(req.session.enterCodeId).toEqual(req.params.id);
 			});
 
 			it('should set req.session.enterCode.action if value is not set', async () => {
