@@ -13,6 +13,7 @@
  * @property {boolean} [isNewAppeal] whether this is a new appeal
  * @property {boolean} [isDraft] whether the appeal submission is in draft state
  * @property {string | undefined | null} appealDecision the PINS decision in respect of the appeal
+ * @property {string | undefined | null} caseDecisionDate
  */
 
 /**
@@ -47,17 +48,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	appealType: appealCaseData.appealTypeCode,
 	nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
 	isNewAppeal: isNewAppeal(appealCaseData),
-	appealDecision: appealCaseData.outcome
-});
-
-/**
- * @param {AppealCaseWithAppellant} appealCaseData
- */
-const mapToLPADecidedData = (appealCaseData) => ({
-	appealNumber: appealCaseData.caseReference,
-	address: formatAddress(appealCaseData),
-	appealType: appealCaseData.appealTypeCode,
-	appealDecision: getDecisionOutcome(appealCaseData.outcome),
+	appealDecision: appealCaseData.outcome,
 	caseDecisionDate: appealCaseData.caseDecisionDate
 });
 
@@ -71,7 +62,8 @@ const mapToAppellantDashboardDisplayData = (appealData) => ({
 	appealType: getAppealType(appealData),
 	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
 	isDraft: isAppealSubmission(appealData),
-	appealDecision: isAppealSubmission(appealData) ? null : getDecisionOutcome(appealData.outcome)
+	appealDecision: isAppealSubmission(appealData) ? null : getDecisionOutcome(appealData.outcome),
+	caseDecisionDate: isAppealSubmission(appealData) ? null : appealData.caseDecisionDate
 });
 
 // LPADashboard - ToDo or WaitingToReview FUNCTIONS
@@ -341,7 +333,6 @@ module.exports = {
 	isNewAppeal,
 	determineDocumentToDisplayLPADashboard,
 	mapToLPADashboardDisplayData,
-	mapToLPADecidedData,
 	isToDoLPADashboard,
 	isToDoAppellantDashboard,
 	mapToAppellantDashboardDisplayData,
