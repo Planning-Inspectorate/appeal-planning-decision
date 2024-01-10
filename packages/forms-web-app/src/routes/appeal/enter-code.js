@@ -30,6 +30,6 @@ const router = express.Router();
 
 router.get('/enter-code', getEnterCode(views, true));
 
-router.post('/enter-code', ruleEnterCode(), validationErrorHandler, postEnterCode(views));
+router.post('/enter-code', ruleEnterCode(), validationErrorHandler, postEnterCode(views, true));
 
 module.exports = router;
