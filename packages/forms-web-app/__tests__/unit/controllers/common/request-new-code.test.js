@@ -56,14 +56,14 @@ describe('controllers/common/enter-code', () => {
 			} = require('../../../../src/lib/views');
 			const tokenId = '1552441a-1e56-4e83-8d85-de7b246d2594';
 			req.session = {
-				userTokenId: tokenId
+				enterCodeId: tokenId
 			};
 
 			const returnedFunction = postRequestNewCode(ENTER_CODE);
 			returnedFunction(req, res);
 
 			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${tokenId}`);
-			expect(req.session.userTokenId).not.toBeDefined();
+			expect(req.session.enterCodeId).not.toBeDefined();
 			expect(req.session.enterCode.newCode).toBe(true);
 		});
 	});

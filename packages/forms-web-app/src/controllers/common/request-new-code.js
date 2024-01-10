@@ -16,8 +16,8 @@ const getRequestNewCodeLPA = (requestNewCodeView) => {
 
 const postRequestNewCode = (enterCodeView) => {
 	return async (req, res) => {
-		const id = req.session.userTokenId;
-		delete req.session.userTokenId;
+		const id = req.session.enterCodeId;
+		delete req.session.enterCodeId;
 
 		req.session.enterCode = req.session.enterCode || {};
 		req.session.enterCode.newCode = true;
