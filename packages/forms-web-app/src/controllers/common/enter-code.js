@@ -61,7 +61,6 @@ const renderErrorPageLPA = (res, view, context) => {
 };
 
 const redirectToEnterLPAEmail = (res, views) => {
-	console.log(views);
 	res.redirect(`/${views.YOUR_EMAIL_ADDRESS}`);
 };
 
@@ -111,13 +110,25 @@ async function sendTokenToLpaUser(req) {
 	}
 }
 
-const getEnterCode = (views, appealInSession) => {
+const getEnterCode = (views, isAppealJourney) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {} }
 		} = req;
 
+		// flag off:
+		// save/return
+		// confirm email for appeal
+		// pdf works
+
+		// flag on:
+		// save/return
+		// general login
+		// confirm email for appeal
+		// pdf works
+
 		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
+		let appealInSession = isAppealJourney;
 
 		if (action === enterCodeConfig.actions.saveAndReturn) {
 			req.session.enterCode = req.session.enterCode || {};
@@ -126,7 +137,7 @@ const getEnterCode = (views, appealInSession) => {
 
 			// lookup user email from appeal id, user hasn't proved they own this appeal/email yet
 			const savedAppeal = await getExistingAppeal(req.params.id);
-			setSessionEmail(req.session, savedAppeal.email, false);
+			setSessionEmail(req.session, savedAppeal.email, appealInSession);
 		}
 
 		// show new code success message only once
@@ -190,7 +201,7 @@ const getEnterCode = (views, appealInSession) => {
 	};
 };
 
-const postEnterCode = (views, appealInSession) => {
+const postEnterCode = (views, isAppealJourney) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {}, errorSummary = [] },
@@ -209,6 +220,17 @@ const postEnterCode = (views, appealInSession) => {
 
 		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
 
+		// flag off:
+		// save/return
+		// confirm email for appeal
+		// pdf works
+
+		// flag on:
+		// save/return
+		// general login
+		// confirm email for appeal
+		// pdf works
+
 		// this is when a user clicks on return to appeal from home page not following a link in email
 		const isReturningUser = req.session.newOrSavedAppeal === 'return';
 
@@ -218,7 +240,8 @@ const postEnterCode = (views, appealInSession) => {
 		let sessionEmail;
 
 		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
-		appealInSession = action === enterCodeConfig.actions.saveAndReturn ? false : appealInSession;
+		let appealInSession =
+			action === enterCodeConfig.actions.saveAndReturn ? false : isAppealJourney;
 
 		if (enrolUsersFlag) {
 			sessionEmail = getSessionEmail(req.session, appealInSession);
