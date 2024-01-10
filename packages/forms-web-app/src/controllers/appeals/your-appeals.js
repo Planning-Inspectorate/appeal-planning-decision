@@ -15,7 +15,7 @@ exports.get = async (req, res) => {
 		if (appeals?.length > 0) {
 			const undecidedAppeals = appeals
 				.map(mapToAppellantDashboardDisplayData)
-				.filter((appeal) => !appeal.decisionOutcome);
+				.filter((appeal) => !appeal.appealDecision);
 
 			const { toDoAppeals, waitingForReviewAppeals } = undecidedAppeals.reduce(
 				(acc, cur) => {
