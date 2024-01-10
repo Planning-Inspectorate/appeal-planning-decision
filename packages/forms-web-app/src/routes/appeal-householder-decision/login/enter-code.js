@@ -38,6 +38,6 @@ const views = {
 const router = express.Router();
 
 router.get('/enter-code/:id', idValidationRules(), validationErrorHandler, getEnterCode(views));
-router.post('/enter-code/:id', ruleEnterCode(), validationErrorHandler, postEnterCode(views, true));
+router.post('/enter-code/:id', ruleEnterCode(), validationErrorHandler, postEnterCode(views));
 
 module.exports = router;

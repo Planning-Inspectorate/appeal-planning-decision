@@ -17,7 +17,7 @@ const {
 	isTestEnvironment,
 	isTestLpaAndToken
 } = require('../../lib/is-token-valid');
-const { enterCodeConfig, utils } = require('@pins/common');
+const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../../src/lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
@@ -202,7 +202,20 @@ const getEnterCode = (views, isGeneralLogin) => {
 	};
 };
 
-const postEnterCode = (views, isAppealJourney) => {
+/**
+ * @param {{
+ *  NEED_NEW_CODE: string,
+ *  CODE_EXPIRED: string,
+ *  ENTER_CODE: string,
+ *  YOUR_APPEALS: string
+ *  APPEAL_ALREADY_SUBMITTED : string
+ *  TASK_LIST: string
+ *  EMAIL_CONFIRMED: string
+ * }} views
+ * @param {boolean} [isGeneralLogin]
+ * @returns {import('express').Handler}
+ */
+const postEnterCode = (views, isGeneralLogin) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {}, errorSummary = [] },
@@ -212,61 +225,20 @@ const postEnterCode = (views, isAppealJourney) => {
 
 		// show error page
 		if (Object.keys(errors).length > 0) {
-			return res.render(views.ENTER_CODE, {
-				token,
-				errors,
-				errorSummary
-			});
+			return renderError(errorSummary);
 		}
+
+		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
+		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
+		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
 
 		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
 
-		// flag off:
-		// save/return
-		// confirm email for appeal
-		// pdf works
+		const sessionEmail = getSessionEmail(req.session, isAppealConfirmation);
 
-		// flag on:
-		// save/return
-		// general login
-		// confirm email for appeal
-		// pdf works
+		const isTestScenario = isTestEnvironment() && isTestToken(token);
 
-		// this is when a user clicks on return to appeal from home page not following a link in email
-		const isReturningUser = req.session.newOrSavedAppeal === 'return';
-
-		/** @type {import('appeals-service-api').Api.AppealUser|undefined} */
-		let user;
-		/** @type {string|undefined} */
-		let sessionEmail;
-
-		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
-		let appealInSession =
-			action === enterCodeConfig.actions.saveAndReturn ? false : isAppealJourney;
-
-		if (enrolUsersFlag) {
-			sessionEmail = getSessionEmail(req.session, appealInSession);
-			user = await apiClient.getUserByEmailV2(sessionEmail);
-		}
-
-		const tokenValidResult = async () => {
-			const isTestScenario =
-				isTestEnvironment() &&
-				isTestToken(token) &&
-				(isReturningUser || utils.isTestLPA(req.session?.appeal?.lpaCode));
-
-			if (isTestScenario) {
-				return {
-					valid: true,
-					action: enterCodeConfig.actions.confirmEmail
-				};
-			}
-
-			return await isTokenValid(id, token, sessionEmail, req.session);
-		};
-
-		// check token
-		let tokenValid = await tokenValidResult();
+		const tokenValid = await isTokenValid(id, token, sessionEmail, req.session, isTestScenario);
 
 		if (tokenValid.tooManyAttempts) {
 			return res.redirect(`/${views.NEED_NEW_CODE}`);
@@ -278,64 +250,70 @@ const postEnterCode = (views, isAppealJourney) => {
 
 		if (!tokenValid.valid) {
 			const customErrorSummary = [{ text: 'Enter a correct code', href: '#email-code' }];
-
-			return res.render(views.ENTER_CODE, {
-				token,
-				errors: {},
-				errorSummary: customErrorSummary
-			});
+			return renderError(customErrorSummary);
 		}
 
-		// is valid so set user in session
-		if (enrolUsersFlag && user) {
+		if (enrolUsersFlag) {
+			// is valid so set user in session
+			const user = await apiClient.getUserByEmailV2(sessionEmail);
 			createAppealUserSession(req, user);
 		}
 
-		// if handling an email confirmation
-		// session will be in browser so can redirect here and consider email confirmed
-		if (tokenValid.action === enterCodeConfig.actions.confirmEmail) {
-			if (enrolUsersFlag && user && appealInSession) {
-				await apiClient.linkUserToV2Appeal(user.email, getSessionAppealSqlId(req.session));
+		if (isGeneralLogin) {
+			deleteTempSessionValues();
+			return res.redirect(`/${views.YOUR_APPEALS}`);
+		}
+
+		if (isAppealConfirmation) {
+			if (enrolUsersFlag) {
+				await apiClient.linkUserToV2Appeal(sessionEmail, getSessionAppealSqlId(req.session));
 			}
 
-			delete req.session?.enterCode?.action;
+			deleteTempSessionValues();
 
 			if (req.session.loginRedirect) {
 				return handleCustomRedirect();
-			} else if (isReturningUser) {
-				return res.redirect(`/${views.YOUR_APPEALS}`);
 			} else {
 				return res.redirect(`/${views.EMAIL_CONFIRMED}`);
 			}
 		}
 
-		// n.b. older save and return objects in db may not have an action - May 2023
-
-		// delete temp user token from session
-		delete req.session.userTokenId;
-
-		// look up appeal from db
-		let savedAppeal;
-		try {
-			savedAppeal = await getSavedAppeal(id);
-		} catch (err) {
-			return res.render(views.ENTER_CODE, {
-				errors,
-				errorSummary: [
+		if (isReturningFromEmail) {
+			try {
+				const savedAppeal = await getSavedAppeal(id);
+				req.session.appeal = await getExistingAppeal(savedAppeal.appealId);
+			} catch (err) {
+				const customErrorSummary = [
 					{ text: 'We did not find your appeal. Enter the correct code', href: '#email-code' }
-				]
-			});
+				];
+				return renderError(customErrorSummary);
+			}
+
+			deleteTempSessionValues();
+
+			// redirect
+			if (req.session.loginRedirect) {
+				return handleCustomRedirect();
+			} else if (req.session.appeal.state === 'SUBMITTED') {
+				return res.redirect(`/${views.APPEAL_ALREADY_SUBMITTED}`);
+			} else {
+				return res.redirect(`/${views.TASK_LIST}`);
+			}
 		}
 
-		req.session.appeal = await getExistingAppeal(savedAppeal.appealId);
+		throw new Error('unhandled journey for POST: enter-code');
 
-		// redirect
-		if (req.session.loginRedirect) {
-			return handleCustomRedirect();
-		} else if (req.session.appeal.state === 'SUBMITTED') {
-			return res.redirect(`/${views.APPEAL_ALREADY_SUBMITTED}`);
-		} else {
-			return res.redirect(`/${views.TASK_LIST}`);
+		function deleteTempSessionValues() {
+			delete req.session.userTokenId;
+			delete req.session?.enterCode?.action;
+		}
+
+		function renderError(errorSummary) {
+			res.render(views.ENTER_CODE, {
+				token,
+				errors: {},
+				errorSummary: errorSummary
+			});
 		}
 
 		function handleCustomRedirect() {

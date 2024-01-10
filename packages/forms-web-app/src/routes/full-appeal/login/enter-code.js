@@ -48,7 +48,7 @@ router.post(
 	'/submit-appeal/enter-code/:id',
 	ruleEnterCode(),
 	validationErrorHandler,
-	postEnterCode(views, true)
+	postEnterCode(views)
 );
 
 module.exports = router;

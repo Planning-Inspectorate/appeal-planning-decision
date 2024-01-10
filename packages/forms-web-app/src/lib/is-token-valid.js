@@ -1,6 +1,6 @@
 const { checkToken } = require('./appeals-api-wrapper');
 const { isTokenExpired } = require('./is-token-expired');
-const { utils } = require('@pins/common');
+const { utils, enterCodeConfig } = require('@pins/common');
 const config = require('../config');
 
 const testConfirmEmailToken = '12345';
@@ -73,9 +73,17 @@ const getToken = async (id, token, emailAddress, session) => {
  * @param {string} token
  * @param {string} [emailAddress]
  * @param {any} [session] Express request session data
+ * @param {boolean} [isTestScenario] is test scenario
  * @returns {Promise<TokenValidResult>}
  */
-const isTokenValid = async (id, token, emailAddress, session) => {
+const isTokenValid = async (id, token, emailAddress, session, isTestScenario) => {
+	if (isTestScenario) {
+		return {
+			valid: true,
+			action: enterCodeConfig.actions.confirmEmail
+		};
+	}
+
 	/** @type {TokenValidResult} */
 	let result = {
 		valid: false,
