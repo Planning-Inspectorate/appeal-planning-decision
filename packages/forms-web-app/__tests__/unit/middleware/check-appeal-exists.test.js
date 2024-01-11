@@ -23,43 +23,6 @@ describe('middleware/check-appeal-exists', () => {
 		};
 	});
 
-	it('should call next() for the `/before-you-start/local-planning-department` page', () => {
-		req.originalUrl = '/before-you-start/local-planning-department';
-		checkAppealExists(req, res, next);
-		expect(next).toBeCalled();
-		expect(res.redirect).not.toBeCalled();
-	});
-
-	it('should call next() for the `/before-you-start/type-of-planning-application` page', () => {
-		req.originalUrl = '/before-you-start/type-of-planning-application';
-		checkAppealExists(req, res, next);
-		expect(next).toBeCalled();
-		expect(res.redirect).not.toBeCalled();
-	});
-
-	it('should call next() for the `/before-you-start/use-a-different-service` page', () => {
-		req.originalUrl = '/before-you-start/use-a-different-service';
-		checkAppealExists(req, res, next);
-		expect(next).toBeCalled();
-		expect(res.redirect).not.toBeCalled();
-	});
-
-	it('should call next() for the `/appellant-submission/submission-information/6e1195ad-176d-4ca3-a944-525218780a7e` page', () => {
-		req.originalUrl =
-			'/appellant-submission/submission-information/6e1195ad-176d-4ca3-a944-525218780a7e';
-		checkAppealExists(req, res, next);
-		expect(next).toBeCalled();
-		expect(res.redirect).not.toBeCalled();
-	});
-
-	it('should call next() for the `/full-appeal/submit-appeal/declaration-information/6e1195ad-176d-4ca3-a944-525218780a7e` page', () => {
-		req.originalUrl =
-			'/full-appeal/submit-appeal/declaration-information/6e1195ad-176d-4ca3-a944-525218780a7e';
-		checkAppealExists(req, res, next);
-		expect(next).toBeCalled();
-		expect(res.redirect).not.toBeCalled();
-	});
-
 	it('should call next() if appealType is set', () => {
 		req.session.appeal.appealType = '1005';
 		checkAppealExists(req, res, next);
@@ -67,7 +30,7 @@ describe('middleware/check-appeal-exists', () => {
 		expect(res.redirect).not.toBeCalled();
 	});
 
-	it('should redirect to the `/` page if the page is not in allowList and the appealType is not set', () => {
+	it('should redirect to the `/` page if the appealType is not set', () => {
 		delete req.session.appeal.appealType;
 		req.originalUrl = '/full-appeal/submit-appeal/task-list';
 		checkAppealExists(req, res, next);
