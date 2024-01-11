@@ -56,8 +56,18 @@ class Commit {
 	 * @returns {string}
 	 */
 	get ticketNumber() {
-		const scope = this.scope;
-		return scope.includes('-') ? scope : `aapd-${scope}`;
+		const scope = this.scope
+			// handle common typos
+			.replace(/^appd/, 'aapd')
+			.replace(/^aadp/, 'aapd')
+			.replace(/^apd/, 'aapd');
+		if (scope.includes('-')) {
+			return scope;
+		}
+		if (scope.startsWith('aapd')) {
+			return scope.replace('aapd', 'aapd-');
+		}
+		return `aapd-${scope}`;
 	}
 }
 
