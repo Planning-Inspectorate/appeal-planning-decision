@@ -163,6 +163,7 @@ Thumbs.db
 
 # VSCode
 .vscode
+!.vscode/extensions.json
 !.vscode/launch.json
 
 .envrc*
