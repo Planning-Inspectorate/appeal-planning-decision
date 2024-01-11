@@ -12,7 +12,7 @@ const isLoggedIn = async (req, res, next) => {
 	const enrolUsers = await isFeatureActive(FLAG.ENROL_USERS);
 
 	if (!enrolUsers) {
-		next();
+		return next();
 	}
 
 	const user = getAppealUserSession(req);
