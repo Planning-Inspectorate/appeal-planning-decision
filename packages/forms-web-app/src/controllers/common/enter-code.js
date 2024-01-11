@@ -1,4 +1,4 @@
-const { getExistingAppeal, sendToken, getUserById } = require('../../lib/appeals-api-wrapper');
+const { getExistingAppeal, sendToken, getUserById } = require('#lib/appeals-api-wrapper');
 const {
 	getLPAUser,
 	createLPAUserSession,
@@ -11,19 +11,15 @@ const {
 	isTestToken,
 	isTestEnvironment,
 	isTestLpaAndToken
-} = require('../../lib/is-token-valid');
+} = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
-const logger = require('../../../src/lib/logger');
+const logger = require('#lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { apiClient } = require('#lib/appeals-api-client');
-const {
-	getSessionEmail,
-	setSessionEmail,
-	getSessionAppealSqlId
-} = require('../../lib/session-helper');
+const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
 
 /**
  * @typedef {Object} Token
@@ -133,6 +129,10 @@ const getEnterCode = (views, isGeneralLogin) => {
 		}
 
 		if (isGeneralLogin) {
+			if (!(await isFeatureActive(FLAG.ENROL_USERS))) {
+				throw new Error('unhandled journey for GET: enter-code');
+			}
+
 			const email = getSessionEmail(req.session, false);
 
 			try {
@@ -216,7 +216,7 @@ const postEnterCode = (views, isGeneralLogin) => {
 
 		// show error page
 		if (Object.keys(errors).length > 0) {
-			return renderError(errorSummary);
+			return renderError(errorSummary, errors);
 		}
 
 		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
@@ -251,6 +251,9 @@ const postEnterCode = (views, isGeneralLogin) => {
 		}
 
 		if (isGeneralLogin) {
+			if (!enrolUsersFlag) {
+				throw new Error('unhandled journey for POST: enter-code');
+			}
 			deleteTempSessionValues();
 			return res.redirect(`/${views.YOUR_APPEALS}`);
 		}
@@ -298,10 +301,10 @@ const postEnterCode = (views, isGeneralLogin) => {
 			delete req.session?.enterCode?.action;
 		}
 
-		function renderError(errorSummary) {
+		function renderError(errorSummary, errors = {}) {
 			res.render(views.ENTER_CODE, {
 				token,
-				errors: {},
+				errors: errors,
 				errorSummary: errorSummary
 			});
 		}

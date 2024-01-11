@@ -28,7 +28,6 @@ describe('routes/full-appeal/submit-appeal/enter-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/submit-appeal/enter-code', getEnterCode());
 		expect(get).toHaveBeenCalledWith(
 			'/submit-appeal/enter-code/:id',
 			idValidationRules(),
