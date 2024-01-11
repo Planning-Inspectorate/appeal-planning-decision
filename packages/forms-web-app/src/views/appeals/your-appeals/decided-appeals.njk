@@ -62,16 +62,16 @@
                   </td>
                   <td class="govuk-table__cell">{{item.appealType}}</td>
                   <td class="govuk-table__cell">
-                    {% if item.decisionOutcome == 'allowed'%}
+                    {% if item.appealDecision == 'allowed'%}
                       {% set tagClass = "govuk-tag--green" %}
-                    {% elif item.decisionOutcome == 'dismissed'%}
+                    {% elif item.appealDecision == 'dismissed'%}
                       {% set tagClass = "govuk-tag--orange" %}
-                    {% elif item.decisionOutcome == 'allowed in part'%}
+                    {% elif item.appealDecision == 'allowed in part'%}
                       {% set tagClass = "govuk-tag--yellow" %}
                     {% else %}
                       {% set tagClass = "govuk-tag--grey"%}
                     {% endif %}
-                    <strong class='govuk-tag {{ tagClass }}'>{{ item.decisionOutcome | capitalize }}</strong>
+                    <strong class='govuk-tag {{ tagClass }}'>{{ item.appealDecision | capitalize }}</strong>
                   </td>
                 </tr>
               {% endfor %}
