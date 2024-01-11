@@ -6,6 +6,14 @@ We use a Cosmos DB instance historically for data, and are migrating to Azure SQ
 
 For SQL we use [Prisma](https://www.prisma.io/) as an ORM. The schema is in this folder: [schema.prisma](./schema.prisma).
 
+### Schema Changes
+
+To update the schema, follow these steps:
+
+1. Make changes to the `schema.prisma` file, see [Field Types](https://www.prisma.io/docs/orm/reference/prisma-schema-reference#model-field-scalar-types) and associated Prisma documentation.
+2. Run `npm run db:migrate:dev` in the api package, this will prompt for a migration name (this can include spaces, they'll be replaced with underscores)
+3. Commit the schema + migration script
+
 ### Comments
 
 Prisma schemas support comments, please add them to any models and fields/columns to explain the purpose and any important context. Comments that are only relevant in the context of the schema should start with `//`, comments that are relevant to users of the model should use `///`. Comments with `///` will end up in the generated type definitions, which is useful for users of the models. See https://www.prisma.io/docs/concepts/components/prisma-schema#comments.
