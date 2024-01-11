@@ -5,12 +5,10 @@ const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadl
 const checkAppealExists = require('#middleware/check-appeal-exists');
 const checkLoggedIn = require('#middleware/check-logged-in');
 
-// pre login
-router.use(checkAppealExists, checkDecisionDateDeadline, require('./planning-application-number'));
 router.use(require('./cannot-appeal'));
-
-// login
 router.use(require('./login'));
+
+router.use(checkAppealExists, checkDecisionDateDeadline, require('./planning-application-number'));
 
 // post login
 router.use(checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, require('./task-list'));

@@ -2,10 +2,10 @@ const { use } = require('../router-mock');
 
 const anyOfFollowingRouter = require('../../../../src/routes/full-appeal/any-of-following');
 const grantedOrRefusedRouter = require('../../../../src/routes/full-appeal/granted-or-refused');
-const localPlanningDepartmentRouter = require('../../../../src/routes/full-appeal/local-planning-department');
-const typeOfPlanningRouter = require('../../../../src/routes/full-appeal/type-of-planning-application');
-const useADifferentServiceRouter = require('../../../../src/routes/full-appeal/use-a-different-service');
-const useExistingServiceApplicationType = require('../../../../src/routes/full-appeal/use-existing-service-application-type');
+const localPlanningDepartmentRouter = require('../../../../src/routes/before-you-start/local-planning-department');
+const typeOfPlanningRouter = require('../../../../src/routes/before-you-start/type-of-planning-application');
+const useADifferentServiceRouter = require('../../../../src/routes/before-you-start/use-a-different-service');
+const useExistingServiceApplicationType = require('../../../../src/routes/before-you-start/use-existing-service-application-type');
 const useExistingServiceLocalPlanningDepartment = require('../../../../src/routes/full-appeal/use-existing-service-local-planning-department');
 const outOfTimeRouter = require('../../../../src/routes/full-appeal/you-cannot-appeal');
 const enforcementNoticeRouter = require('../../../../src/routes/full-appeal/enforcement-notice');
