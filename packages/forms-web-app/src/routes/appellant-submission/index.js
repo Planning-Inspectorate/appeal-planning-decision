@@ -4,7 +4,6 @@ const router = express.Router();
 
 const appealStatementRouter = require('./appeal-statement');
 const applicantNameRouter = require('./applicant-name');
-const applicationNumberRouter = require('./application-number');
 const siteAccessRouter = require('./site-access');
 const siteAccessSafetyRouter = require('./site-access-safety');
 const siteLocationRouter = require('./site-location');
@@ -23,7 +22,6 @@ const submissionInformationRouter = require('./submission-information');
 
 router.use(appealStatementRouter);
 router.use(applicantNameRouter);
-router.use(applicationNumberRouter);
 router.use(siteAccessRouter);
 router.use(siteAccessSafetyRouter);
 router.use(siteLocationRouter);
