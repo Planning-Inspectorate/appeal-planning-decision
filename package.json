@@ -15,6 +15,7 @@
 	"scripts": {
 		"docker:all": "docker compose --profile all -f docker-compose.yml -f docker-compose.full.yml up",
 		"docker:slim": "docker compose --profile all -f docker-compose.yml -f docker-compose.slim.yml up",
+		"docker:api": "docker compose --profile api -f docker-compose.yml -f docker-compose.slim.yml up",
 		"docker:appeals": "docker compose --profile appeals -f docker-compose.yml -f docker-compose.slim.yml up",
 		"docker:comment": "docker compose --profile comment -f docker-compose.yml -f docker-compose.slim.yml up",
 		"commit": "cz",
