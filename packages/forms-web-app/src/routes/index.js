@@ -17,6 +17,7 @@ const submit = require('./submit-appeal');
 const submission = require('./appellant-submission');
 const lpaDashboard = require('./lpa-dashboard');
 const debug = require('./debug');
+const { getDocument } = require('../controllers/document');
 
 const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadline');
 const checkAppealExists = require('#middleware/check-appeal-exists');
@@ -48,7 +49,7 @@ router.use('/appeal', appeal);
 
 /// post login shared appeals pages ///
 router.use('/appeals', checkLoggedIn, appeals);
-router.use('/document', checkLoggedIn, require('./document'));
+router.use('/document/:appealOrQuestionnaireId/:documentId', checkLoggedIn, getDocument);
 router.use('/save-and-return', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, save);
 router.use('/submit-appeal', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, submit);
 router.use(
