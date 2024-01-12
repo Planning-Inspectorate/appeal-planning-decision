@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin"]
 }
 
 datasource db {
@@ -271,4 +272,77 @@ model ServiceUser {
   serviceUserType String
   /// case reference this user + user-type relates to
   caseReference   String
+}
+
+/// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser
+model LPAQuestionnaireSubmission {
+  /// this ID is for front office only and won't correlate to other systems
+  internalId String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  id String
+
+  // s78 questionnaire
+
+  changesListedBuilding           Boolean?
+  changedListedBuildingNumber     Int?
+  addChangedListedBuilding        Boolean?
+  affectsScheduledMonument        Boolean?
+  conservationArea                Boolean?
+  //upload conservation map?
+  protectedSpecies                Boolean?
+  greenBelt                       Boolean?
+  areaOutstandingBeauty           Boolean?
+  // designatedSites
+  otherDesignationDetails         String?
+  treePreservationOrder           Boolean?
+  //upload tree preservation order?
+  gypsyTraveller                  Boolean?
+  publicRightOfWay                Boolean?
+  //upload definitive map?
+  // environmentalImpactSchedule
+  // developmentDescription
+  sensitiveArea                   Boolean?
+  sensitiveAreaDetails            String?
+  columnTwoThreshold              Boolean?
+  screeningOpinion                Boolean?
+  requiresEnvironmentalStatement  Boolean?
+  completedEnvironmentalStatement Boolean?
+  statutoryConsultees             Boolean?
+  consultedBodiesDetails          String?
+  consultationResponses           Boolean?
+  otherPartyRepresentations       Boolean?
+  emergingPlan                    Boolean?
+  supplementaryPlanningDocs       Boolean?
+  infrastructureLevy              Boolean?
+  infrastructureLevyAdopted       Boolean?
+  infrastructureLevyAdoptedDate   DateTime?
+  infrastructureLevyExpectedDate  DateTime?
+  appealSiteAccess                Boolean?
+  // appealSiteAccessDetails							String?
+  neighbourSiteAccess             Boolean?
+  // neighbourSiteAccessDetails				String?
+  // neighbourSiteAddress
+  // lpaProcedurePreference							String?
+  lpaPreferHearingDetails         String?
+  // lpaPreferInquiryDuration						String?
+  lpaPreferInquiryDetails         String?
+  nearbyAppeals                   Boolean?
+  nearbyAppealReference           String?
+  addNearbyAppeal                 Boolean?
+  newConditions                   Boolean?
+  newConditionDetails             String?
+  lpaStatement                    String?
+  lpaStatementDocuments           Boolean?
+  lpaFinalComment                 Boolean?
+  lpaFinalCommentDetails          String?
+  lpaWitnesses                    Boolean?
+
+  // HAS questionnaire
+  correctAppealType            Boolean?
+  affectsListedBuilding        Boolean?
+  affectedListedBuildingNumber Int?
+  addAffectedListedBuilding    Boolean?
+  addNeighbourSiteAccess       Boolean?
+  lpaSiteSafetyRisks           Boolean?
+  lpaSiteSafetyRiskDetails     String?
 }
