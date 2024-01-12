@@ -19,6 +19,8 @@ const uuid = require('uuid');
 const DocumentService = require('./document.service');
 const AppealContactValueObject = require('../value-objects/appeal/contact.value');
 const AppealContactsValueObject = require('../value-objects/appeal/contacts.value');
+const { isFeatureActive } = require('../../src/configuration/featureFlag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 const appealsCosmosRepository = new AppealsCosmosRepository();
 const appealsSQLRepository = new AppealsSQLRepository();
@@ -37,7 +39,10 @@ async function createAppeal(req, res) {
 	logger.debug({ appeal }, 'Appeal data in createAppeal');
 
 	const document = await appealsCosmosRepository.create(appeal);
-	await appealsSQLRepository.createAppeal({ legacyAppealSubmissionId: appeal.id });
+
+	if (await isFeatureActive(FLAG.ENROL_USERS)) {
+		await appealsSQLRepository.createAppeal({ legacyAppealSubmissionId: appeal.id });
+	}
 
 	if (document.result && document.result.ok) {
 		logger.debug(`Appeal ${appeal.id} created`);
@@ -127,11 +132,13 @@ async function updateAppeal(id, appealUpdate) {
 	const updatedAppeal = updatedAppealEntity.value.appeal;
 
 	if (Object.hasOwn(appealUpdate, 'state') || Object.hasOwn(appealUpdate, 'decisionDate')) {
-		await appealsSQLRepository.updateAppealByLegacyAppealSubmissionId({
-			legacyAppealSubmissionId: id,
-			legacyAppealSubmissionDecisionDate: appealUpdate.decisionDate,
-			legacyAppealSubmissionState: appealUpdate.state
-		});
+		if (await isFeatureActive(FLAG.ENROL_USERS)) {
+			await appealsSQLRepository.updateAppealByLegacyAppealSubmissionId({
+				legacyAppealSubmissionId: id,
+				legacyAppealSubmissionDecisionDate: appealUpdate.decisionDate,
+				legacyAppealSubmissionState: appealUpdate.state
+			});
+		}
 	}
 
 	logger.debug(updatedAppeal, `Appeal updated to`);
