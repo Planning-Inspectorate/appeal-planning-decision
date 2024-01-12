@@ -1,4 +1,4 @@
-const validAV = require('@planning-inspectorate/pins-clamav-rest-client');
+const ClamAVClient = require('@pins/common/src/client/clamav-rest-client');
 const config = require('../../../config');
 const validateFileSize = require('../../custom/file-size');
 
@@ -23,7 +23,11 @@ const schema = (path) => ({
 				validateFileSize(size, config.fileUpload.pins.uploadApplicationMaxFileSize, name);
 
 				// check file for Virus
-				await validAV(value, name);
+				const clamAVClient = new ClamAVClient(
+					config.fileUpload.clamAVHost,
+					config.fileUpload.pins.uploadApplicationMaxFileSize
+				);
+				await clamAVClient.scan(value, name);
 
 				return true;
 			}
