@@ -31,7 +31,6 @@
 		"@ministryofjustice/frontend": "^1.6.4",
 		"@pins/business-rules": "file:../business-rules",
 		"@pins/common": "file:../common",
-		"@planning-inspectorate/pins-clamav-rest-client": "^1.0.0",
 		"accessible-autocomplete": "^2.0.3",
 		"applicationinsights": "^2.9.0",
 		"compression": "^1.7.4",
