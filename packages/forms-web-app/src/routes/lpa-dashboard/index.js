@@ -4,6 +4,7 @@ const router = express.Router();
 const { featureFlagMiddleware } = require('#middleware/feature-flag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const requireLpaUser = require('#middleware/lpa-dashboard/require-user');
+const { getDocument } = require('../../controllers/document');
 
 router.use(featureFlagMiddleware(FLAG.LPA_DASHBOARD));
 
@@ -29,5 +30,9 @@ router.use(require('./add-remove-users'));
 router.use(require('./email-address'));
 router.use(require('./confirm-add-user'));
 router.use(require('./confirm-remove-user'));
+
+// documents
+// todo: update document links for lpa appeal details to include lpa base path: /manage-appeals
+router.use('/document/:appealOrQuestionnaireId/:documentId', getDocument);
 
 module.exports = router;
