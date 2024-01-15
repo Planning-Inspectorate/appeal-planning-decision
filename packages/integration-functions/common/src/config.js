@@ -14,5 +14,9 @@ module.exports = {
 				FILENAME: 'listed-building.json'
 			}
 		}
+	},
+	API: {
+		HOSTNAME: process.env.FO_APPEALS_API_HOSTNAME,
+		TIMEOUT: parseInt(process.env.FO_APPEALS_API || '10000')
 	}
 };
