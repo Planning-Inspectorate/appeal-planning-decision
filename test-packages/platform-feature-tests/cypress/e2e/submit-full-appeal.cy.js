@@ -301,7 +301,7 @@ describe('Appeal uploads', () => {
 					// TODO: check error message is visible on page (and check if Abby/Kehinde has updated AS-5433 with correct error message): 'Select your final comments'
 
 					// TODO: Upload .txt (should fail)
-					// TODO: Upload file greater than 15mb
+					// TODO: Upload file greater than 25MB
 					// TODO: Upload valid DOC/DOCX/TIF/JPEG/PNG files
 					cy.uploadFileFromFixturesDirectory('additional-final-comments-1.pdf');
 					cy.uploadFileFromFixturesDirectory('additional-final-comments-2.pdf');
@@ -309,7 +309,7 @@ describe('Appeal uploads', () => {
 					cy.get('[data-cy="continue"]').click(); // TODO: check if this is the correct selector!
 					// TODO: check that error messages are visible on page:
 					//   - '{file name} must be a DOC, DOCX, PDF, TIF, JPG or PNG' is shown
-					//   - '{file name} must be smaller than 15mb'
+					//   - '{file name} must be smaller than 25MB'
 					// TODO: remove the invalid files
 					cy.get('[data-cy="continue"]').click(); // TODO: check if this is the correct selector!
 				} else {
