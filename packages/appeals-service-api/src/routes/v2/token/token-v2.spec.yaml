@@ -38,7 +38,6 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: '#/components/schemas/ErrorBody'
         500:
           description: Something went wrong
@@ -80,21 +79,18 @@ paths:
           content:
             application/json:
               schema:
-                type: object
                 $ref: '#/components/schemas/ErrorBody'
         404:
           description: Appeal/User not found
           content:
             application/json:
               schema:
-                type: object
                 $ref: '#/components/schemas/ErrorBody'
         429:
           description: Too many attempts, new token needed
           content:
             application/json:
               schema:
-                type: object
                 $ref: '#/components/schemas/ErrorBody'
         500:
           description: Something went wrong
