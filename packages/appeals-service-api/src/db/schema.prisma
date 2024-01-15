@@ -281,6 +281,8 @@ model LPAQuestionnaireSubmission {
 
   id String
 
+  caseReference String
+
   // s78 questionnaire
 
   changesListedBuilding           Boolean?
