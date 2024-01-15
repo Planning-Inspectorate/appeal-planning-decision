@@ -12,8 +12,16 @@ components:
       description: An appeal case from the Back Office
       type: object
       required:
-        - id
         - caseReference
+        - LPACode
+        - LPAName
+        - appealTypeCode
+        - decision
+        - originalCaseDecisionDate
+        - costsAppliedForIndicator
+        - LPAApplicationReference
+        - siteAddressLine1
+        - siteAddressPostcode
       properties:
         id:
           type: string
