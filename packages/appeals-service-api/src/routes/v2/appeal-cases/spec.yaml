@@ -49,6 +49,36 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+    put:
+      tags:
+        - appeal-cases
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          example: '1010101'
+          description: appeal case reference
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppealCase'
+      responses:
+        200:
+          description: Returns the appeal case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppealCase'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
   /api/v2/appeal-cases/count:
     get:
       tags:
