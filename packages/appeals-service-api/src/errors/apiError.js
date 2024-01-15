@@ -170,6 +170,12 @@ class ApiError {
 		return new ApiError(400, { errors: ['Unable to submit questionnaire response'] });
 	}
 
+	static questionnaireNotFound(caseReference) {
+		return new ApiError(404, {
+			errors: [`Unable to locate questionnaire in respect of appeal ${caseReference}`]
+		});
+	}
+
 	// listed building
 	static listedBuildingNotFound(reference) {
 		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });
