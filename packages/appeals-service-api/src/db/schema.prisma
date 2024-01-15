@@ -207,8 +207,23 @@ model AppealCase {
   LPAProofsForwarded        DateTime?
   LPAProofsSubmitted        DateTime?
 
-  // unconfirmed
-  outcome String?
+  // viewAppeal epic aapd-1187
+  outcome                          String?
+  procedure                        String?
+  appellantFirstName               String  @default("")
+  appellantLastName                String  @default("")
+  appellantCasePublished           Boolean @default(false)
+  lpaQuestionnairePublished        Boolean @default(false)
+  lpaQuestionnaireSubmitted        Boolean @default(false)
+  rule6StatementPublished          Boolean @default(false)
+  interestedPartyCommentsPublished Boolean @default(false)
+  appellantFinalCommentsSubmitted  Boolean @default(false)
+  lpaFinalCommentsPublished        Boolean @default(false)
+  appellantProofEvidenceSubmitted  Boolean @default(false)
+  appellantProofEvidencePublished  Boolean @default(false)
+  lpaProofEvidenceSubmitted        Boolean @default(false)
+  lpaProofEvidencePublished        Boolean @default(false)
+  caseDecisionOutcome              String?
 
   // todo: there are many more fields! waiting on the model definition
 
