@@ -64,4 +64,6 @@ components:
           description: successfully migrated
         errors:
           type: array
+          items:
+            type: string
           description: array appeal id with error message
