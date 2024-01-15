@@ -46,6 +46,7 @@ exports.questions = {
 		title: 'Is this the correct type of appeal?',
 		question: 'Is this the correct type of appeal?',
 		fieldName: 'correct-appeal-type',
+		url: 'correct-appeal-type',
 		validators: [new RequiredValidator('Select yes if this is the correct type of appeal')]
 	}),
 	listedBuildingCheck: new BooleanQuestion({
@@ -135,6 +136,7 @@ exports.questions = {
 		title: 'Conservation area',
 		question: 'Is the site in, or next to a conservation area?',
 		fieldName: 'conservation-area',
+		url: 'conservation-area',
 		validators: [new RequiredValidator()]
 	}),
 	conservationAreaUpload: new MultiFileUploadQuestion({
@@ -152,6 +154,7 @@ exports.questions = {
 		title: 'Green belt',
 		question: 'Is the site in a green belt?',
 		fieldName: 'green-belt',
+		url: 'green-belt',
 		validators: [new RequiredValidator()]
 	}),
 	whoWasNotified: new MultiFileUploadQuestion({
@@ -171,6 +174,7 @@ exports.questions = {
 		question: 'Did you display a notice at the site?',
 		description: 'Notifying relevant parties of the application',
 		fieldName: 'display-site-notice',
+		url: 'display-site-notice',
 		validators: [new RequiredValidator()]
 	}),
 	lettersToNeighbours: new BooleanQuestion({
@@ -178,12 +182,14 @@ exports.questions = {
 		question: 'Did you send letters and emails to neighbours?',
 		description: 'Did you send letters and emails to neighbours?',
 		fieldName: 'letters-to-neighbours',
+		url: 'letters-to-neighbours',
 		validators: [new RequiredValidator()]
 	}),
 	uploadLettersToNeighbours: new MultiFileUploadQuestion({
 		title: 'Uploaded letters',
 		question: 'Upload the letters and emails',
 		fieldName: 'upload-letters-emails',
+		url: 'upload-letters-emails',
 		html: 'resources/upload-letters-emails/content.html',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
 		documentType: documentTypes.uploadLettersToNeighbours
@@ -192,12 +198,14 @@ exports.questions = {
 		title: 'Press Advert',
 		question: 'Did you put an advert in the local press?',
 		fieldName: 'press-advert',
+		url: 'press-advert',
 		validators: [new RequiredValidator()]
 	}),
 	pressAdvertUpload: new MultiFileUploadQuestion({
 		title: 'Uploaded press advert',
 		question: 'Upload the press advertisement',
 		fieldName: 'upload-press-advert',
+		url: 'upload-press-advert',
 		validators: [
 			new RequiredFileUploadValidator('Select the press advertisement'),
 			new MultifileUploadValidator()
@@ -209,6 +217,7 @@ exports.questions = {
 		question:
 			'Do you have any consultation responses or standing advice from statutory consultees to upload?',
 		fieldName: 'consultation-responses',
+		url: 'consultation-responses',
 		validators: [
 			new RequiredValidator(
 				'Select yes if you have any consultation responses or standing advice from statutory consultees to upload'
@@ -219,6 +228,7 @@ exports.questions = {
 		title: 'Upload the consultation responses and standing advice',
 		question: 'Upload the consultation responses and standing advice',
 		fieldName: 'upload-consultation-responses',
+		url: 'upload-consultation-responses',
 		validators: [
 			new RequiredFileUploadValidator('Select the consultation responses and standing advice'),
 			new MultifileUploadValidator()
@@ -254,6 +264,7 @@ exports.questions = {
 		title: 'Uploaded site notice',
 		question: 'Upload the site notice',
 		fieldName: 'upload-site-notice',
+		url: 'upload-site-notice',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
 		documentType: documentTypes.uploadSiteNotice
 	}),
@@ -282,6 +293,7 @@ exports.questions = {
 		title: 'Upload representations from other parties',
 		question: 'Upload the representations',
 		fieldName: 'upload-representations',
+		url: 'upload-representations',
 		validators: [
 			new RequiredFileUploadValidator('Select the representations'),
 			new MultifileUploadValidator()
@@ -307,6 +319,7 @@ exports.questions = {
 		question: 'Might the inspector need access to the appellant’s land or property?',
 		pageTitle: 'Might the inspector need access to the appellant’s land or property?',
 		fieldName: 'inspector-access-appeal-site',
+		url: 'inspector-access-appeal-site',
 		validators: [
 			new RequiredValidator(
 				'Select yes if the inspector might need access to the appellant’s land or property'
@@ -347,6 +360,7 @@ exports.questions = {
 		title: 'Might the inspector need to enter a neighbour’s land or property?',
 		question: 'Might the inspector need to enter a neighbour’s land or property?',
 		fieldName: 'inspector-enter-neighbour-site',
+		url: 'inspector-enter-neighbour-site',
 		validators: [
 			new RequiredValidator(
 				'Select yes if the inspector might need to enter a neighbour’s land or property'
@@ -438,6 +452,7 @@ exports.questions = {
 		title: 'Procedure type',
 		question: 'Which procedure do you think is most appropriate for this appeal?',
 		fieldName: 'procedure-type',
+		url: 'procedure-type',
 		validators: [
 			new RequiredValidator('Select the most appropriate procedure'),
 			new ConditionalRequiredValidator('Enter how many days you expect the inquiry to last'),
@@ -546,6 +561,7 @@ exports.questions = {
 		title: 'Emerging plans',
 		question: "Do you have an emerging plan that's relevant to this appeal?",
 		fieldName: 'emerging-plan',
+		url: 'emerging-plan',
 		validators: [new RequiredValidator()],
 		html: 'resources/emerging-plan/content.html'
 	}),
@@ -553,6 +569,7 @@ exports.questions = {
 		title: 'Upload emerging plan and supporting information	',
 		question: 'Upload the emerging plan and supporting information',
 		fieldName: 'upload-emerging-plan',
+		url: 'upload-emerging-plan',
 		validators: [
 			new RequiredFileUploadValidator('Select the emerging plan and supporting information'),
 			new MultifileUploadValidator()
@@ -564,6 +581,7 @@ exports.questions = {
 		title: 'Upload policies from statutory development plan',
 		question: 'Upload relevant policies from your statutory development plan',
 		fieldName: 'upload-development-plan-policies',
+		url: 'upload-development-plan-policies',
 		validators: [
 			new RequiredFileUploadValidator(
 				'Select the relevant policies from your statutory development plan'
@@ -576,6 +594,7 @@ exports.questions = {
 		title: 'Upload any other relevant policies',
 		question: 'Upload any other relevant policies',
 		fieldName: 'upload-other-policies',
+		url: 'upload-other-policies',
 		validators: [
 			new RequiredFileUploadValidator('Select any other relevant policies'),
 			new MultifileUploadValidator()
@@ -586,6 +605,7 @@ exports.questions = {
 		title: 'Community infrastructure levy',
 		question: 'Do you have a community infrastructure levy?',
 		fieldName: 'community-infrastructure-levy',
+		url: 'community-infrastructure-levy',
 		validators: [new RequiredValidator('Select yes if you have a community infrastructure levy')],
 		html: 'resources/community-infrastructure-levy/content.html'
 	}),
@@ -593,6 +613,7 @@ exports.questions = {
 		title: 'Upload your community infrastructure levy',
 		question: 'Upload your community infrastructure levy',
 		fieldName: 'upload-community-infrastructure-levy',
+		url: 'upload-community-infrastructure-levy',
 		validators: [
 			new RequiredFileUploadValidator('Select your community infrastructure levy'),
 			new MultifileUploadValidator()
@@ -603,6 +624,7 @@ exports.questions = {
 		title: 'Community infrastructure levy formally adopted',
 		question: 'Is the community infrastructure levy formally adopted?',
 		fieldName: 'community-infrastructure-levy-adopted',
+		url: 'community-infrastructure-levy-adopted',
 		validators: [new RequiredValidator()]
 	}),
 	communityInfrastructureLevyAdoptedDate: new DateQuestion({
@@ -631,6 +653,7 @@ exports.questions = {
 		title: 'Letter sent to neighbours',
 		question: 'Upload letters or emails sent to interested parties with their addresses',
 		fieldName: 'letters-interested-parties',
+		url: 'letters-interested-parties',
 		validators: [
 			new RequiredFileUploadValidator(
 				'Select letters or emails sent to interested parties with their addresses'
@@ -643,12 +666,14 @@ exports.questions = {
 		title: 'Tree Preservation Order',
 		question: 'Does a Tree Preservation Order (TPO) apply to any part of the appeal site?',
 		fieldName: 'tree-preservation-order',
+		url: 'tree-preservation-order',
 		validators: [new RequiredValidator()]
 	}),
 	treePreservationPlanUpload: new MultiFileUploadQuestion({
 		title: 'Tree Preservation Order extent',
 		question: 'Upload a plan showing the extent of the order',
 		fieldName: 'upload-plan-showing-order',
+		url: 'upload-plan-showing-order',
 		validators: [
 			new RequiredFileUploadValidator('Select a plan showing the extent of the order'),
 			new MultifileUploadValidator()
@@ -659,6 +684,7 @@ exports.questions = {
 		title: 'Definitive map and statement extract',
 		question: 'Upload the definitive map and statement extract',
 		fieldName: 'upload-definitive-map-statement',
+		url: 'upload-definitive-map-statement',
 		validators: [
 			new RequiredFileUploadValidator('Select the definitive map and statement extract'),
 			new MultifileUploadValidator()
@@ -669,6 +695,7 @@ exports.questions = {
 		title: 'Supplementary planning documents',
 		question: 'Did any supplementary planning documents inform the outcome of the application?',
 		fieldName: 'supplementary-planning-documents',
+		url: 'supplementary-planning-documents',
 		validators: [
 			new RequiredValidator(
 				'Select yes if any supplementary planning documents informed the outcome of the application'
@@ -679,6 +706,7 @@ exports.questions = {
 		title: 'Upload supplementary planning documents',
 		question: 'Upload relevant policy extracts and supplementary planning documents',
 		fieldName: 'upload-policies-supplementary-planning-documents',
+		url: 'upload-policies-supplementary-planning-documents',
 		validators: [
 			new RequiredFileUploadValidator(
 				'Select the relevant policy extracts and supplementary planning documents'
@@ -691,6 +719,7 @@ exports.questions = {
 		title: 'Affects a scheduled monument',
 		question: 'Would the development affect a scheduled monument?',
 		fieldName: 'scheduled-monument',
+		url: 'scheduled-monument',
 		validators: [
 			new RequiredValidator('Select yes if the development would affect a scheduled monument')
 		]
@@ -699,12 +728,14 @@ exports.questions = {
 		title: 'Gypsy or Traveller',
 		question: 'Does the development relate to anyone claiming to be a Gypsy or Traveller?',
 		fieldName: 'gypsy-traveller',
+		url: 'gypsy-traveller',
 		validators: [new RequiredValidator()]
 	}),
 	statutoryConsultees: new RadioQuestion({
 		title: 'Statutory consultees',
 		question: 'Did you consult all the relevant statutory consultees about the development?',
 		fieldName: 'statutory-consultees',
+		url: 'statutory-consultees',
 		validators: [
 			new RequiredValidator(
 				'Select yes if you consulted all the relevant statutory consultees about the development'
@@ -738,6 +769,7 @@ exports.questions = {
 		title: 'Protected species',
 		question: 'Would the development affect a protected species?',
 		fieldName: 'protected-species',
+		url: 'protected-species',
 		validators: [
 			new RequiredValidator('Select yes if the development would affect a protected species')
 		]
@@ -746,12 +778,14 @@ exports.questions = {
 		title: 'Changes a listed building',
 		question: 'Does the proposed development change a listed building?',
 		fieldName: 'changes-listed-building',
+		url: 'changes-listed-building',
 		validators: [new RequiredValidator()]
 	}),
 	rightOfWayCheck: new BooleanQuestion({
 		title: 'Public right of way',
 		question: 'Would a public right of way need to be removed or diverted?',
 		fieldName: 'public-right-of-way',
+		url: 'public-right-of-way',
 		validators: [
 			new RequiredValidator(
 				'Select yes if a public right of way would need to be removed or diverted'
@@ -762,6 +796,7 @@ exports.questions = {
 		title: 'Area of outstanding natural beauty',
 		question: 'Is the appeal site in an area of outstanding natural beauty?',
 		fieldName: 'area-of-outstanding-natural-beauty',
+		url: 'area-of-outstanding-natural-beauty',
 		validators: [
 			new RequiredValidator(
 				'Select yes if the appeal site is in an area of outstanding natural beauty'
@@ -823,12 +858,14 @@ exports.questions = {
 		title: 'Issued screening opinion',
 		question: 'Have you issued a screening opinion?',
 		fieldName: 'screening-opinion',
+		url: 'screening-opinion',
 		validators: [new RequiredValidator('Select yes if you have issued a screening opinion')]
 	}),
 	screeningOpinionEnvironmentalStatement: new BooleanQuestion({
 		title: 'Screening opinion environmental statement',
 		question: 'Did your screening opinion say the development needed an environmental statement?',
 		fieldName: 'screening-opinion-environmental-statement',
+		url: 'screening-opinion-environmental-statement',
 		validators: [
 			new RequiredValidator(
 				'Select yes if your screening opinion says the development needs an environmental statement'
@@ -863,6 +900,7 @@ exports.questions = {
 		title: 'Upload the environmental statement and supporting information',
 		question: 'Upload the environmental statement and supporting information',
 		fieldName: 'upload-environmental-statement',
+		url: 'upload-environmental-statement',
 		validators: [
 			new RequiredFileUploadValidator(
 				'Select the environmental statement and supporting information'
@@ -875,6 +913,7 @@ exports.questions = {
 		title: 'Meets or exceeds the threshold or criteria in column 2	',
 		question: 'Does the development meet or exceed the threshold or criteria in column 2?',
 		fieldName: 'column-2-threshold',
+		url: 'column-2-threshold',
 		validators: [
 			new RequiredValidator(
 				'Select yes if the development meets or exceeds the threshold or criteria in column 2'
@@ -885,6 +924,7 @@ exports.questions = {
 		title: 'In, partly in, or likely to affect a sensitive area',
 		question: 'Is the development in, partly in, or likely to affect a sensitive area?',
 		fieldName: 'sensitive-area',
+		url: 'sensitive-area',
 		options: [
 			{
 				text: 'Yes',
@@ -941,6 +981,7 @@ exports.questions = {
 		title: 'Upload the screening direction',
 		question: 'Upload the screening direction',
 		fieldName: 'upload-screening-direction',
+		url: 'upload-screening-direction',
 		validators: [
 			new RequiredFileUploadValidator('Select the screening direction'),
 			new MultifileUploadValidator()
@@ -951,6 +992,7 @@ exports.questions = {
 		title: 'Development description',
 		question: 'Description of development',
 		fieldName: 'development-description',
+		url: 'development-description',
 		validators: [new RequiredValidator('Select a description of development')],
 		options: [
 			{
@@ -1011,6 +1053,7 @@ exports.questions = {
 		title: 'Environmental impact assessment',
 		question: 'Did the applicant submit an environmental statement?',
 		fieldName: 'environmental-statement',
+		url: 'environmental-statement',
 		options: [
 			{
 				text: 'Yes',
