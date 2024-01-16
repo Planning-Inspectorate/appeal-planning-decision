@@ -139,11 +139,13 @@ async function updateAppeal(id, appealUpdate) {
 	const updatedAppeal = updatedAppealEntity.value.appeal;
 
 	if (Object.hasOwn(appealUpdate, 'state') || Object.hasOwn(appealUpdate, 'decisionDate')) {
-		await appealsSQLRepository.updateAppealByLegacyAppealSubmissionId({
-			legacyAppealSubmissionId: id,
-			legacyAppealSubmissionDecisionDate: appealUpdate.decisionDate,
-			legacyAppealSubmissionState: appealUpdate.state
-		});
+		if (await isFeatureActive(FLAG.ENROL_USERS)) {
+			await appealsSQLRepository.updateAppealByLegacyAppealSubmissionId({
+				legacyAppealSubmissionId: id,
+				legacyAppealSubmissionDecisionDate: appealUpdate.decisionDate,
+				legacyAppealSubmissionState: appealUpdate.state
+			});
+		}
 	}
 
 	logger.debug(updatedAppeal, `Appeal updated to`);
