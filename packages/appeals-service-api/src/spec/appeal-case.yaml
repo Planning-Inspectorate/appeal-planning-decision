@@ -53,7 +53,19 @@ components:
         LPAApplicationReference:
           type: string
           description: the LPA's reference for the original planning application
+        apellantCasePublished:
+          type: string
+        appellantProofEvidenceSubmitted:
+          type: boolean
+        appellantProofEvidencePublished:
+          type: boolean
+        appellantFinalCommentsSubmitted:
+          type: boolean
         
+        appellantFirstName:
+          type: string
+        appellantLastName:
+          type: string
         
         siteAddressLine1:
           type: string
@@ -75,7 +87,26 @@ components:
           type: string
           format: date-time
           description: the date LPA's questionnaire was received
+        
+        lpaQuestionnairePublished:
+          type: boolean
+        lpaQuestionnaireSubmitted:
+          type: boolean
         doesAffectAScheduledMonument:
+          type: boolean
+        lpaProofEvidenceSubmitted:
+          type: boolean
+        lpaProofEvidencePublished:
+          type: boolean
+        lpaFinalCommentsPublished:
+          type: boolean
+
+        # rule 6 
+        rule6StatementPublished:
+          type: boolean
+
+        # interested party
+        interestedPartyCommentsPublished:
           type: boolean
 
         # case dates
@@ -169,8 +200,15 @@ components:
           description: the date the LPA's proofs of evidence were received
 
         # unconfirmed
+        procedure:
+          type: string
         outcome:
           type: string
           enum: ['allowed', 'dismissed', 'split decision', 'invalid']
           description: the Inspector's outcome/decision for this case
+        caseDecisionOutcome:
+          type: string
+          enum: ['allowed', 'dismissed', 'split decision', 'invalid']
+          description: the Inspector's outcome/decision for this case
+        
         # todo: add properties from data model

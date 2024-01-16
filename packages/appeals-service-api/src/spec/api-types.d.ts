@@ -1,3 +1,16 @@
+export interface MigrateResult {
+	/** records checked */
+	total?: number;
+	/** already migrated */
+	alreadyProcessed?: number;
+	/** skipped due to missing data on appeal */
+	skipped?: number;
+	/** successfully migrated */
+	migrated?: number;
+	/** array appeal id with error message */
+	errors?: any[];
+}
+
 /** An appeal case from the Back Office, with appellant service user */
 export type AppealCaseWithAppellant = AppealCase & {
 	/** A Service User */
@@ -43,6 +56,12 @@ export interface AppealCase {
 	costsAppliedForIndicator?: boolean;
 	/** the LPA's reference for the original planning application */
 	LPAApplicationReference?: string;
+	apellantCasePublished?: string;
+	appellantProofEvidenceSubmitted?: boolean;
+	appellantProofEvidencePublished?: boolean;
+	appellantFinalCommentsSubmitted?: boolean;
+	appellantFirstName?: string;
+	appellantLastName?: string;
 	siteAddressLine1?: string;
 	siteAddressLine2?: string;
 	siteAddressTown?: string;
@@ -58,7 +77,14 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	questionnaireReceived?: string;
+	lpaQuestionnairePublished?: boolean;
+	lpaQuestionnaireSubmitted?: boolean;
 	doesAffectAScheduledMonument?: boolean;
+	lpaProofEvidenceSubmitted?: boolean;
+	lpaProofEvidencePublished?: boolean;
+	lpaFinalCommentsPublished?: boolean;
+	rule6StatementPublished?: boolean;
+	interestedPartyCommentsPublished?: boolean;
 	/**
 	 * the date the appeal was received
 	 * @format date-time
@@ -159,8 +185,11 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	LPAProofsSubmitted?: string;
+	procedure?: string;
 	/** the Inspector's outcome/decision for this case */
 	outcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
+	/** the Inspector's outcome/decision for this case */
+	caseDecisionOutcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
 }
 
 /** An appeal submission created in the Front Office */
