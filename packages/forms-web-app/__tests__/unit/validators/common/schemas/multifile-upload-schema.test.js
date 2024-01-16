@@ -61,7 +61,11 @@ describe('validators/common/schemas/multifile-upload-schema', () => {
 			await fn(payload);
 
 			expect(mockScan).toHaveBeenCalledTimes(1);
-			expect(mockScan).toHaveBeenCalledWith(payload, payload.name);
+			expect(mockScan).toHaveBeenCalledWith(
+				payload,
+				payload.name,
+				config.fileUpload.pins.appealStatementMaxFileSize
+			);
 		});
 	});
 });

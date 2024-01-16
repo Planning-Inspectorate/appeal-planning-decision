@@ -124,7 +124,7 @@ describe('validators/common/schemas/file-upload', () => {
 			await schema(null, { req, path: 'file-upload' });
 
 			expect(mockScan).toHaveBeenCalledTimes(1);
-			expect(mockScan).toHaveBeenCalledWith(file, file.name);
+			expect(mockScan).toHaveBeenCalledWith(file, file.name, uploadApplicationMaxFileSize);
 		});
 
 		it('should call the validateFileSize validator when given multiple files', async () => {

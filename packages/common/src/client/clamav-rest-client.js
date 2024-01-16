@@ -7,25 +7,24 @@ const trailingSlashRegex = /\/$/;
 class ClamAVClient {
 	/**
 	 * @param {string} host - e.g. https://example.com
-	 * @param {number} [maxBodyLength] - maxBodySize in bytes used by axios
 	 */
-	constructor(host, maxBodyLength) {
+	constructor(host) {
 		if (!host) {
 			throw new Error('host is required');
 		}
 
 		/** @type {string} */
 		this.host = host.replace(trailingSlashRegex, '');
-		this.maxBodyLength = maxBodyLength ? maxBodyLength * 1.1 : maxBodyLength; // add headroom
 	}
 
 	/**
 	 * sends file to clamav rest server
 	 * @param {import('express-fileupload').UploadedFile} fileInformation
 	 * @param {string} fileName
+	 * @param {number} [maxBodyLength] - maxBodyLength in bytes used by axios
 	 * @returns {Promise<boolean>}
 	 */
-	async scan(fileInformation, fileName) {
+	async scan(fileInformation, fileName, maxBodyLength) {
 		if (typeof fileInformation?.tempFilePath !== 'undefined') {
 			const readableStream = fs.createReadStream(fileInformation?.tempFilePath);
 
@@ -37,7 +36,7 @@ class ClamAVClient {
 				url: this.host,
 				data: form,
 				method: 'POST',
-				maxBodyLength: this.maxBodyLength
+				maxBodyLength: maxBodyLength ? maxBodyLength * 1.1 : maxBodyLength // add headroom
 			});
 
 			if (data?.isInfected === true) {
