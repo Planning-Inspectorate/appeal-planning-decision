@@ -5,7 +5,6 @@ const config = require('./config');
 const logger = require('./logger');
 
 const sendFile = async (file) => {
-	// console.log(file);
 	if (typeof file === 'undefined') {
 		throw new Error('invalid or empty file');
 	}
