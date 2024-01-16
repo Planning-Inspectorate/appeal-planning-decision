@@ -1,6 +1,5 @@
 const axios = require('axios').default;
 const FormData = require('form-data');
-// const { Readable } = require('stream');
 const fs = require('fs');
 
 const trailingSlashRegex = /\/$/;
