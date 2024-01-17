@@ -38,14 +38,14 @@ const views = {
 const router = express.Router();
 
 router.get(
-	'/submit-appeal/enter-code/:id',
+	'/submit-appeal/enter-code/:enterCodeId',
 	idValidationRules(),
 	validationErrorHandler,
 	getEnterCode(views, { isGeneralLogin: false })
 );
 
 router.post(
-	'/submit-appeal/enter-code/:id',
+	'/submit-appeal/enter-code/:enterCodeId',
 	ruleEnterCode(),
 	validationErrorHandler,
 	postEnterCode(views, { isGeneralLogin: false })
