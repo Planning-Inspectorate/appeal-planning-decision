@@ -74,7 +74,7 @@ describe('controllers/common/enter-code', () => {
 		async function getConfirmEmailTest(newCode = undefined) {
 			req = {
 				...req,
-				params: { id: TEST_ID },
+				params: { enterCodeId: TEST_ID },
 				session: { enterCode: { action: enterCodeConfig.actions.confirmEmail, newCode } }
 			};
 			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: false });
@@ -97,7 +97,7 @@ describe('controllers/common/enter-code', () => {
 		async function getIsReturningFromEmailTest(newCode = undefined) {
 			req = {
 				...req,
-				params: { id: TEST_ID },
+				params: { enterCodeId: TEST_ID },
 				session: { enterCode: { action: enterCodeConfig.actions.saveAndReturn, newCode } }
 			};
 
@@ -212,7 +212,7 @@ describe('controllers/common/enter-code', () => {
 					errors,
 					errorSummary
 				},
-				params: { id: 'not-a-valid-id' }
+				params: { enterCodeId: 'not-a-valid-id' }
 			};
 
 			const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });

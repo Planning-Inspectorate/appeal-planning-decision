@@ -37,7 +37,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 		} = req;
 
 		/** @type {string|undefined} */
-		const enterCodeId = req.params.id;
+		const enterCodeId = req.params.enterCodeId;
 		if (enterCodeId) {
 			req.session.enterCodeId = enterCodeId;
 		}
@@ -83,7 +83,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
 
 			// lookup user email from appeal id, user hasn't proved they own this appeal/email yet
-			const savedAppeal = await getExistingAppeal(req.params.id);
+			const savedAppeal = await getExistingAppeal(enterCodeId);
 			setSessionEmail(req.session, savedAppeal.email, false);
 
 			//if middleware UUID validation fails, render the page
@@ -94,7 +94,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 			// attempt to send code email to user, render page on failure
 			try {
-				await sendToken(req.params.id, action);
+				await sendToken(enterCodeId, action);
 			} catch (e) {
 				logger.error(e, 'failed to send token to returning user');
 			}
@@ -134,7 +134,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {}, errorSummary = [] },
-			params: { id }
+			params: { enterCodeId }
 		} = req;
 		const token = req.body['email-code'];
 
@@ -153,7 +153,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 
 		const tokenValid = await isTokenValid(
 			token,
-			id,
+			enterCodeId,
 			sessionEmail,
 			action,
 			req.session?.appeal?.lpaCode
@@ -202,7 +202,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 
 		if (isReturningFromEmail) {
 			try {
-				req.session.appeal = await getExistingAppeal(id);
+				req.session.appeal = await getExistingAppeal(enterCodeId);
 			} catch (err) {
 				const customErrorSummary = [
 					{ text: 'We did not find your appeal. Enter the correct code', href: '#email-code' }

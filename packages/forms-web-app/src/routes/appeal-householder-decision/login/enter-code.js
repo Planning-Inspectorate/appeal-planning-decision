@@ -38,13 +38,13 @@ const views = {
 const router = express.Router();
 
 router.get(
-	'/enter-code/:id',
+	'/enter-code/:enterCodeId',
 	idValidationRules(),
 	validationErrorHandler,
 	getEnterCode(views, { isGeneralLogin: false })
 );
 router.post(
-	'/enter-code/:id',
+	'/enter-code/:enterCodeId',
 	ruleEnterCode(),
 	validationErrorHandler,
 	postEnterCode(views, { isGeneralLogin: false })
