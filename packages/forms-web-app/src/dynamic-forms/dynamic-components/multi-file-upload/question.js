@@ -1,6 +1,9 @@
 const { removeFiles, getValidFiles } = require('../../../lib/multi-file-upload-helpers');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
+const {
+	utils: { conjoinedPromises }
+} = require('@pins/common');
 
 const Question = require('../../question');
 
@@ -235,11 +238,8 @@ class MultiFileUploadQuestion extends Question {
 	}
 
 	async #saveFilesToBlobStorage(files, journeyResponse) {
-		let result = [];
-
-		// eslint-disable-next-line no-restricted-syntax
-		for (const file of files) {
-			const document = await createDocument(
+		const resolutions = await conjoinedPromises(files, createDocument, {
+			asyncDepMapPredicate: (file) => [
 				{
 					id: this.#generateDocumentSubmissionId(journeyResponse),
 					referenceNumber: journeyResponse.referenceId
@@ -247,12 +247,13 @@ class MultiFileUploadQuestion extends Question {
 				file,
 				file.name,
 				this.documentType.name
-			);
+			],
+			applyMode: true
+		});
 
-			const mappedDoc = mapMultiFileDocumentToSavedDocument(document, document?.name, file.name);
-
-			result.push(mappedDoc);
-		}
+		const result = Array.from(resolutions).map(([file, document]) =>
+			mapMultiFileDocumentToSavedDocument(document, document?.name, file.name)
+		);
 
 		return result;
 	}

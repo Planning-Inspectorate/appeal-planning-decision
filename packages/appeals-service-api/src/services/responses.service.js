@@ -56,7 +56,7 @@ const mapQuestionnaireDataForBackOffice = async (questionnaireResponse) => {
 	const uploadedFilesAndBlobMeta = await conjoinedPromises(
 		uploadedFiles,
 		blobMetaGetter(initContainerClient),
-		(uploadedFile) => uploadedFile.location
+		{ asyncDepMapPredicate: (uploadedFile) => uploadedFile.location }
 	);
 
 	return questionnaireMapper.mapToPINSDataModel(questionnaireResponse, uploadedFilesAndBlobMeta);
