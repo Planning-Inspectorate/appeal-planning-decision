@@ -44,7 +44,11 @@ async function getAppealsForUser(userId) {
 	);
 
 	// return all cases + drafts
-	return [...cases, ...draftSubmissions];
+	return [
+		...cases,
+		// any drafts that aren't found in cosmos will be null, filter those outs
+		...draftSubmissions.filter(filterNotNull)
+	];
 }
 
 module.exports = {
