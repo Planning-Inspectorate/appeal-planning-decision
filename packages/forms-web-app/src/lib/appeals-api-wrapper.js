@@ -275,12 +275,12 @@ exports.sendToken = async (id, action, emailAddress) => {
  */
 
 /**
- * @param {string} id - appealId
  * @param {string} token - token user supplied
+ * @param {string} [id] - appealId
  * @param {string} [emailAddress] - email address of user
  * @returns { Promise<TokenCheckResult> }
  */
-exports.checkToken = async (id, token, emailAddress) => {
+exports.checkToken = async (token, id, emailAddress) => {
 	const version = await getTokenEndpointVersion();
 
 	return handler(`/api/${version}/token/`, 'POST', {

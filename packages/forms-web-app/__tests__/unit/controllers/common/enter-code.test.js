@@ -23,7 +23,7 @@ const {
 	setLPAUserStatus,
 	getLPAUser
 } = require('../../../../src/services/lpa-user.service');
-const { isTokenValid, isTestEnvironment, isTestLpaAndToken } = require('#lib/is-token-valid');
+const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../../../src/featureFlag');
@@ -806,37 +806,6 @@ describe('controllers/common/enter-code', () => {
 			expect(res.redirect).toHaveBeenCalledWith(`/manage-appeals/code-expired/${userId}`);
 		});
 
-		it('should redirect on test environment', async () => {
-			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
-			const views = {
-				ENTER_CODE,
-				CODE_EXPIRED,
-				NEED_NEW_CODE,
-				REQUEST_NEW_CODE,
-				DASHBOARD
-			};
-			const userId = '649418158b915f0018524cb7';
-			const code = '12345';
-
-			isTestEnvironment.mockReturnValue(true);
-			isTestLpaAndToken.mockReturnValue(true);
-			getLPAUser.mockResolvedValue({
-				_id: userId,
-				email: 'admin1@planninginspectorate.gov.uk',
-				isAdmin: true,
-				enabled: true,
-				lpaCode: 'Q9999'
-			});
-			const returnedFunction = postEnterCodeLPA(views);
-
-			req.params.id = userId;
-			req.body = {
-				'email-code': code
-			};
-
-			await returnedFunction(req, res);
-			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-appeals');
-		});
 		it('should set the user session', async () => {
 			const { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD } = lpaViews;
 			const views = {

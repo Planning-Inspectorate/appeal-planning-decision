@@ -6,12 +6,7 @@ const {
 	setLPAUserStatus
 } = require('../../services/lpa-user.service');
 const { createAppealUserSession } = require('../../services/appeal-user.service');
-const {
-	isTokenValid,
-	isTestToken,
-	isTestEnvironment,
-	isTestLpaAndToken
-} = require('#lib/is-token-valid');
+const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('#lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
@@ -22,88 +17,12 @@ const { apiClient } = require('#lib/appeals-api-client');
 const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
 
 /**
- * @typedef {Object} Token
- * @property {string} id
- * @property {string} token
- * @property {boolean} tooManyAttempts
- * @property {boolean} expired
- * @property {boolean} valid
- * @property {"confirmEmail" | "saveAndReturn" | "lpa-dashboard"} action
- * @property {number} attempts The number of attempted and failed logins
- * @property {Number} createdAt Epoch time
- *
+ * @typedef {import('#lib/is-token-valid').TokenValidResult} TokenValidResult
  */
-
-/**
- * The Context for the View to be rendered, with any error information
- * @typedef {Object} ViewContext
- * @property {Token} token
- * @property {Array} errors
- * @property {string} errorSummary
- */
-
-/**
- * Renders the Error Page for the LPA User who was unsuccessful at logging in
- * @param {string} view The view file to be rendered by Nunjucks
- * @param {ViewContext} context
- */
-const renderErrorPageLPA = (res, view, context) => {
-	return res.render(view, context);
-};
-
-const redirectToEnterLPAEmail = (res, views) => {
-	res.redirect(`/${views.YOUR_EMAIL_ADDRESS}`);
-};
-
-const redirectToLPADashboard = (res, views) => {
-	res.redirect(`/${views.DASHBOARD}`);
-};
-
-/**
- * Verifies the token and redirects on failure
- * @param {import('express').Response} res
- * @param {Token} token
- * @param {Object} views
- * @returns
- */
-const tokenVerification = (res, token, views, id) => {
-	if (token.tooManyAttempts) {
-		res.redirect(`/${views.NEED_NEW_CODE}/${id}`);
-		return false;
-	} else if (token.expired) {
-		res.redirect(`/${views.CODE_EXPIRED}/${id}`);
-		return false;
-	} else if (!token.valid) {
-		renderErrorPageLPA(res, views.ENTER_CODE, {
-			lpaUserId: id,
-			token,
-			errors: {},
-			errorSummary: [{ text: 'Enter a correct code', href: '#email-code' }]
-		});
-		return false;
-	} else if (token.valid) {
-		return true;
-	}
-	return false;
-};
-
-/**
- * Sends a new token to the lpa user referenced by the id in the url params
- * @async
- * @param {import('express').Request} req
- * @returns {Promise<void>}
- */
-async function sendTokenToLpaUser(req) {
-	const user = await getUserById(req.params.id);
-
-	if (user?.email) {
-		await sendToken(req.params.id, enterCodeConfig.actions.lpaDashboard, user.email);
-	}
-}
 
 /**
  * @typedef {Object} enterCodeOptions
- * @property {boolean} isGeneralLogin - defines if this entercode journey is for a general appeal log in, unrelated to an appeal
+ * @property {boolean} isGeneralLogin - defines if this enter code journey is for a general appeal log in, unrelated to an appeal
  */
 
 /**
@@ -232,9 +151,13 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 
 		const sessionEmail = getSessionEmail(req.session, isAppealConfirmation);
 
-		const isTestScenario = isTestEnvironment() && isTestToken(token);
-
-		const tokenValid = await isTokenValid(id, token, sessionEmail, req.session, isTestScenario);
+		const tokenValid = await isTokenValid(
+			token,
+			id,
+			sessionEmail,
+			action,
+			req.session?.appeal?.lpaCode
+		);
 
 		if (tokenValid.tooManyAttempts) {
 			return res.redirect(`/${views.NEED_NEW_CODE}`);
@@ -322,6 +245,73 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 	};
 };
 
+/**
+ * The Context for the View to be rendered, with any error information
+ * @typedef {Object} ViewContext
+ * @property {TokenValidResult} token
+ * @property {Array} errors
+ * @property {string} errorSummary
+ */
+
+/**
+ * Renders the Error Page for the LPA User who was unsuccessful at logging in
+ * @param {string} view The view file to be rendered by Nunjucks
+ * @param {ViewContext} context
+ */
+const renderErrorPageLPA = (res, view, context) => {
+	return res.render(view, context);
+};
+
+const redirectToEnterLPAEmail = (res, views) => {
+	res.redirect(`/${views.YOUR_EMAIL_ADDRESS}`);
+};
+
+const redirectToLPADashboard = (res, views) => {
+	res.redirect(`/${views.DASHBOARD}`);
+};
+
+/**
+ * Verifies the token and redirects on failure
+ * @param {import('express').Response} res
+ * @param {TokenValidResult} token
+ * @param {Object} views
+ * @returns
+ */
+const lpaTokenVerification = (res, token, views, id) => {
+	if (token.tooManyAttempts) {
+		res.redirect(`/${views.NEED_NEW_CODE}/${id}`);
+		return false;
+	} else if (token.expired) {
+		res.redirect(`/${views.CODE_EXPIRED}/${id}`);
+		return false;
+	} else if (!token.valid) {
+		renderErrorPageLPA(res, views.ENTER_CODE, {
+			lpaUserId: id,
+			token,
+			errors: {},
+			errorSummary: [{ text: 'Enter a correct code', href: '#email-code' }]
+		});
+		return false;
+	} else if (token.valid) {
+		return true;
+	}
+	return false;
+};
+
+/**
+ * Sends a new token to the lpa user referenced by the id in the url params
+ * @async
+ * @param {import('express').Request} req
+ * @returns {Promise<void>}
+ */
+async function sendTokenToLpaUser(req) {
+	const user = await getUserById(req.params.id);
+
+	if (user?.email) {
+		await sendToken(req.params.id, enterCodeConfig.actions.lpaDashboard, user.email);
+	}
+}
+
 const getEnterCodeLPA = (views) => {
 	return async (req, res) => {
 		const {
@@ -395,28 +385,13 @@ const postEnterCodeLPA = (views) => {
 				valid: false
 			};
 
-			return tokenVerification(res, failedToken, views, id);
-		}
-
-		if (isTestEnvironment() && isTestLpaAndToken(emailCode, user.lpaCode)) {
-			try {
-				await createLPAUserSession(req, user);
-				redirectToLPADashboard(res, views);
-				return;
-			} catch (e) {
-				logger.error(`Failed to create user session for user id ${id}`);
-				logger.error(e);
-				return {
-					valid: false,
-					action: enterCodeConfig.actions.lpaDashboard
-				};
-			}
+			return lpaTokenVerification(res, failedToken, views, id);
 		}
 
 		// check token
-		let token = await isTokenValid(id, emailCode, user.email);
+		const tokenResult = await isTokenValid(emailCode, id, user.email, req.session, user.lpaCode);
 
-		if (!tokenVerification(res, token, views, id)) return;
+		if (!lpaTokenVerification(res, tokenResult, views, id)) return;
 
 		try {
 			const currentUserStatus = await getLPAUserStatus(id);
