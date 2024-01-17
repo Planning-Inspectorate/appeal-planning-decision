@@ -61,7 +61,7 @@ const redirectToLPADashboard = (res, views) => {
 
 /**
  * Verifies the token and redirects on failure
- * @param {ExpressResponse} res
+ * @param {import('express').Response} res
  * @param {Token} token
  * @param {Object} views
  * @returns
@@ -90,7 +90,7 @@ const tokenVerification = (res, token, views, id) => {
 /**
  * Sends a new token to the lpa user referenced by the id in the url params
  * @async
- * @param {ExpressRequest} req
+ * @param {import('express').Request} req
  * @returns {Promise<void>}
  */
 async function sendTokenToLpaUser(req) {
@@ -102,11 +102,16 @@ async function sendTokenToLpaUser(req) {
 }
 
 /**
+ * @typedef {Object} enterCodeOptions
+ * @property {boolean} isGeneralLogin - defines if this entercode journey is for a general appeal log in, unrelated to an appeal
+ */
+
+/**
  * @param {{EMAIL_ADDRESS: string, ENTER_CODE: string, REQUEST_NEW_CODE: string}} views
- * @param {boolean} [isGeneralLogin]
+ * @param {enterCodeOptions} enterCodeOptions
  * @returns {import('express').Handler}
  */
-const getEnterCode = (views, isGeneralLogin) => {
+const getEnterCode = (views, { isGeneralLogin = true }) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {} }
@@ -203,10 +208,10 @@ const getEnterCode = (views, isGeneralLogin) => {
  *  TASK_LIST: string
  *  EMAIL_CONFIRMED: string
  * }} views
- * @param {boolean} [isGeneralLogin]
+ * @param {enterCodeOptions} enterCodeOptions
  * @returns {import('express').Handler}
  */
-const postEnterCode = (views, isGeneralLogin) => {
+const postEnterCode = (views, { isGeneralLogin = true }) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {}, errorSummary = [] },

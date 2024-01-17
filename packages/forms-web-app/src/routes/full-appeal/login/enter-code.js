@@ -41,14 +41,14 @@ router.get(
 	'/submit-appeal/enter-code/:id',
 	idValidationRules(),
 	validationErrorHandler,
-	getEnterCode(views)
+	getEnterCode(views, { isGeneralLogin: false })
 );
 
 router.post(
 	'/submit-appeal/enter-code/:id',
 	ruleEnterCode(),
 	validationErrorHandler,
-	postEnterCode(views)
+	postEnterCode(views, { isGeneralLogin: false })
 );
 
 module.exports = router;
