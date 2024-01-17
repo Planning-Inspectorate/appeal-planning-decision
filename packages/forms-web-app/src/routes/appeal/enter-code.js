@@ -28,8 +28,13 @@ const views = {
 
 const router = express.Router();
 
-router.get('/enter-code', getEnterCode(views, true));
+router.get('/enter-code', getEnterCode(views, { isGeneralLogin: true }));
 
-router.post('/enter-code', ruleEnterCode(), validationErrorHandler, postEnterCode(views, true));
+router.post(
+	'/enter-code',
+	ruleEnterCode(),
+	validationErrorHandler,
+	postEnterCode(views, { isGeneralLogin: true })
+);
 
 module.exports = router;

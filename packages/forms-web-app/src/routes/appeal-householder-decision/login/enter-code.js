@@ -37,7 +37,17 @@ const views = {
 
 const router = express.Router();
 
-router.get('/enter-code/:id', idValidationRules(), validationErrorHandler, getEnterCode(views));
-router.post('/enter-code/:id', ruleEnterCode(), validationErrorHandler, postEnterCode(views));
+router.get(
+	'/enter-code/:id',
+	idValidationRules(),
+	validationErrorHandler,
+	getEnterCode(views, { isGeneralLogin: false })
+);
+router.post(
+	'/enter-code/:id',
+	ruleEnterCode(),
+	validationErrorHandler,
+	postEnterCode(views, { isGeneralLogin: false })
+);
 
 module.exports = router;

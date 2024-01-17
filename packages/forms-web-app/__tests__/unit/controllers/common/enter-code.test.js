@@ -77,7 +77,7 @@ describe('controllers/common/enter-code', () => {
 				params: { id: TEST_ID },
 				session: { enterCode: { action: enterCodeConfig.actions.confirmEmail, newCode } }
 			};
-			const returnedFunction = getEnterCode(householderAppealViews, false);
+			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: false });
 			await returnedFunction(req, res);
 			expect(sendToken).toHaveBeenCalledWith(TEST_ID, enterCodeConfig.actions.confirmEmail);
 			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
@@ -103,7 +103,7 @@ describe('controllers/common/enter-code', () => {
 
 			getExistingAppeal.mockResolvedValue(fullAppeal);
 
-			const returnedFunction = getEnterCode(householderAppealViews, false);
+			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: false });
 			await returnedFunction(req, res);
 			expect(sendToken).toHaveBeenCalledWith(TEST_ID, enterCodeConfig.actions.saveAndReturn);
 			expect(setSessionEmail).toHaveBeenCalledWith(req.session, fullAppeal.email, false);
@@ -124,7 +124,7 @@ describe('controllers/common/enter-code', () => {
 			});
 
 			it('should not allow general log on', async () => {
-				const returnedFunction = getEnterCode(householderAppealViews, true);
+				const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: true });
 				await expect(returnedFunction(req, res)).rejects.toThrow(
 					'unhandled journey for GET: enter-code'
 				);
@@ -154,7 +154,7 @@ describe('controllers/common/enter-code', () => {
 
 			it('should handle general log in', async () => {
 				getSessionEmail.mockReturnValue(TEST_EMAIL);
-				const returnedFunction = getEnterCode(householderAppealViews, true);
+				const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: true });
 				await returnedFunction(req, res);
 				expect(sendToken).toHaveBeenCalledWith(
 					undefined,
@@ -215,7 +215,7 @@ describe('controllers/common/enter-code', () => {
 				params: { id: 'not-a-valid-id' }
 			};
 
-			const returnedFunction = postEnterCode({ ENTER_CODE });
+			const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });
 			await returnedFunction(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
@@ -239,7 +239,7 @@ describe('controllers/common/enter-code', () => {
 				tooManyAttempts: true
 			});
 
-			const returnedFunction = postEnterCode({ NEED_NEW_CODE });
+			const returnedFunction = postEnterCode({ NEED_NEW_CODE }, { isGeneralLogin: false });
 			await returnedFunction(req, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${NEED_NEW_CODE}`);
@@ -256,7 +256,7 @@ describe('controllers/common/enter-code', () => {
 				expired: true
 			});
 
-			const returnedFunction = postEnterCode({ CODE_EXPIRED }, true);
+			const returnedFunction = postEnterCode({ CODE_EXPIRED }, { isGeneralLogin: true });
 			await returnedFunction(req, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${CODE_EXPIRED}`);
@@ -270,7 +270,7 @@ describe('controllers/common/enter-code', () => {
 				valid: false
 			});
 
-			const returnedFunction = postEnterCode({ ENTER_CODE }, true);
+			const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: true });
 			await returnedFunction(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
@@ -288,7 +288,7 @@ describe('controllers/common/enter-code', () => {
 			it('should not allow general log on', async () => {
 				const { EMAIL_CONFIRMED } = fullAppealViews;
 
-				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, true);
+				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, { isGeneralLogin: true });
 
 				await expect(returnedFunction(req, res)).rejects.toThrow(
 					new Error('unhandled journey for POST: enter-code')
@@ -301,7 +301,7 @@ describe('controllers/common/enter-code', () => {
 					action: enterCodeConfig.actions.confirmEmail
 				};
 
-				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, false);
+				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith(`/${EMAIL_CONFIRMED}`);
@@ -315,7 +315,7 @@ describe('controllers/common/enter-code', () => {
 
 				req.session.loginRedirect = '/test';
 
-				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, false);
+				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith('/test');
@@ -331,7 +331,7 @@ describe('controllers/common/enter-code', () => {
 				const error = new AppealsApiError('no appeal', 404);
 				getExistingAppeal.mockImplementation(() => Promise.reject(error));
 
-				const returnedFunction = postEnterCode({ ENTER_CODE }, false);
+				const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
 				expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
@@ -353,7 +353,7 @@ describe('controllers/common/enter-code', () => {
 
 				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
 
-				const returnedFunction = postEnterCode({}, false);
+				const returnedFunction = postEnterCode({}, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith('/test');
@@ -370,7 +370,10 @@ describe('controllers/common/enter-code', () => {
 
 				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
 
-				const returnedFunction = postEnterCode({ APPEAL_ALREADY_SUBMITTED }, false);
+				const returnedFunction = postEnterCode(
+					{ APPEAL_ALREADY_SUBMITTED },
+					{ isGeneralLogin: false }
+				);
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith(`/${APPEAL_ALREADY_SUBMITTED}`);
@@ -387,7 +390,7 @@ describe('controllers/common/enter-code', () => {
 
 				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
 
-				const returnedFunction = postEnterCode({ TASK_LIST }, false);
+				const returnedFunction = postEnterCode({ TASK_LIST }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
@@ -415,7 +418,7 @@ describe('controllers/common/enter-code', () => {
 
 				apiClient.getUserByEmailV2.mockImplementation(() => Promise.reject(error));
 
-				const returnedFunction = postEnterCode({}, true);
+				const returnedFunction = postEnterCode({}, { isGeneralLogin: true });
 				await expect(returnedFunction(req, res)).rejects.toThrow(error);
 
 				expect(req.session.appealUser).toBe(undefined);
@@ -425,7 +428,7 @@ describe('controllers/common/enter-code', () => {
 				const error = new AppealsApiError('no user', 404);
 				apiClient.getUserByEmailV2.mockImplementation(() => Promise.reject(error));
 
-				const returnedFunction = postEnterCode({}, false);
+				const returnedFunction = postEnterCode({}, { isGeneralLogin: false });
 				await expect(returnedFunction(req, res)).rejects.toThrow(error);
 
 				expect(req.session.appealUser).toBe(undefined);
@@ -434,7 +437,7 @@ describe('controllers/common/enter-code', () => {
 			it('should redirect to your appeals for general log on', async () => {
 				const { YOUR_APPEALS } = fullAppealViews;
 
-				const returnedFunction = postEnterCode({ YOUR_APPEALS }, true);
+				const returnedFunction = postEnterCode({ YOUR_APPEALS }, { isGeneralLogin: true });
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith(`/${YOUR_APPEALS}`);
@@ -447,7 +450,7 @@ describe('controllers/common/enter-code', () => {
 					action: enterCodeConfig.actions.confirmEmail
 				};
 
-				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, false);
+				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith(`/${EMAIL_CONFIRMED}`);
@@ -462,7 +465,7 @@ describe('controllers/common/enter-code', () => {
 
 				req.session.loginRedirect = '/test';
 
-				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, false);
+				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith('/test');
@@ -478,7 +481,7 @@ describe('controllers/common/enter-code', () => {
 				const error = new AppealsApiError('no appeal', 404);
 				getExistingAppeal.mockImplementation(() => Promise.reject(error));
 
-				const returnedFunction = postEnterCode({ ENTER_CODE }, false);
+				const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
 				expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
@@ -500,7 +503,7 @@ describe('controllers/common/enter-code', () => {
 
 				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
 
-				const returnedFunction = postEnterCode({}, false);
+				const returnedFunction = postEnterCode({}, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith('/test');
@@ -517,7 +520,10 @@ describe('controllers/common/enter-code', () => {
 
 				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
 
-				const returnedFunction = postEnterCode({ APPEAL_ALREADY_SUBMITTED }, false);
+				const returnedFunction = postEnterCode(
+					{ APPEAL_ALREADY_SUBMITTED },
+					{ isGeneralLogin: false }
+				);
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith(`/${APPEAL_ALREADY_SUBMITTED}`);
@@ -534,7 +540,7 @@ describe('controllers/common/enter-code', () => {
 
 				getExistingAppeal.mockImplementation(() => Promise.resolve(appealLookup));
 
-				const returnedFunction = postEnterCode({ TASK_LIST }, false);
+				const returnedFunction = postEnterCode({ TASK_LIST }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith(`/${TASK_LIST}`);
