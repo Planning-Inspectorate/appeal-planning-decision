@@ -276,38 +276,43 @@ model ServiceUser {
 
 /// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser
 model LPAQuestionnaireSubmission {
-  /// this ID is for front office only and won't correlate to other systems
-  internalId String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-
-  id String
-
+  id            String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
   caseReference String @unique
 
   // link the submission to the appeal
 
-  correctAppealType              Boolean?
-  affectsListedBuilding          Boolean?
-  affectedListedBuildingNumber   Int? // String?
-  addAffectedListedBuilding      Boolean?
-  changesListedBuilding          Boolean?
-  changedListedBuildingNumber    Int? // string?
-  addChangedListedBuilding       Boolean?
-  conservationArea               Boolean?
-  //uploadConservation
-  greenBelt                      Boolean?
-  // uploadWhoNotified
+  correctAppealType            Boolean?
+  affectsListedBuilding        Boolean?
+  affectedListedBuildingNumber Int? // String?
+  addAffectedListedBuilding    Boolean?
+  changesListedBuilding        Boolean?
+  changedListedBuildingNumber  Int? // string?
+  addChangedListedBuilding     Boolean?
+  conservationArea             Boolean?
+  // uploadConservation           String                   @db.UniqueIdentifier
+  // SubmissionDocumentUpload     SubmissionDocumentUpload @relation(fields: [uploadConservation], references: [id])
+  greenBelt                    Boolean?
+  // uploadWhoNotified 						String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadWhoNotified], references: [id])
+
   displaySiteNotice              Boolean?
   lettersToNeighbours            Boolean?
-  // uploadLettersEmails
+  // uploadLettersEmails				String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadLettersEmails], references: [id])
   pressAdvert                    Boolean?
-  // uploadPressAdvert
+  // uploadPressAdvert			String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadPressAdvert], references: [id])
   consultationResponses          Boolean?
-  //uploadConsultationResponses
+  //uploadConsultationResponses	String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadConsultationResponses], references: [id])
   notificationMethod             String? // array? checkbox
-  // uploadSiteNotice
+  // uploadSiteNotice	String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadSiteNotice], references: [id])
   otherPartyRepresentations      Boolean?
-  // uploadRepresentations
-  // uploadPlanningOfficerReport
+  // uploadRepresentations   String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadRepresentations], references: [id])
+  // uploadPlanningOfficerReport		String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadPlanningOfficerReport], references: [id])
   lpaSiteAccess                  Boolean? // aka inspectorAccessAppealSite - radio
   lpaSiteAccessDetails           String?
   neighbourSiteAccess            Boolean? // radio?
@@ -327,20 +332,28 @@ model LPAQuestionnaireSubmission {
   newConditions                  Boolean?
   newConditionDetails            String?
   emergingPlan                   Boolean?
-  // uploadEmergingPlan
-  // uploadDevelopmentPlanPolicies
-  // uploadOtherPolicies
+  // uploadEmergingPlan		String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadEmergingPlan], references: [id])
+  // uploadDevelopmentPlanPolicies  String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadDevelopmentPlanPolicies], references: [id])
+  // uploadOtherPolicies  String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadOtherPolicies], references: [id])
   infrastructureLevy             Boolean?
-  // uploadInfrastructureLevy
+  // uploadInfrastructureLevy   String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadInfrastructureLevy], references: [id])
   infrastructureLevyAdopted      Boolean?
   infrastructureLevyAdoptedDate  DateTime?
   infrastructureLevyExpectedDate DateTime?
-  // uploadLettersInterestedParties
+  // uploadLettersInterestedParties   String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadLettersInterestedParties], references: [id])
   treePreservationOrder          Boolean?
-  //uploadTreePreservationOrder
-  // uploadDefinitiveMap
+  //uploadTreePreservationOrder			String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadTreePreservationOrder], references: [id])
+  // uploadDefinitiveMap			String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadDefinitiveMap], references: [id])
   supplementaryPlanningDocs      Boolean?
-  // uploadSupplementaryPlanningDocs
+  // uploadSupplementaryPlanningDocs			String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadSupplementaryPlanningDocs], references: [id])
   affectsScheduledMonument       Boolean?
   gypsyTraveller                 Boolean?
   statutoryConsultees            Boolean? // radio?
@@ -350,14 +363,17 @@ model LPAQuestionnaireSubmission {
   areaOutstandingBeauty          Boolean?
   designatedSites                String? // array? checkbox
   screeningOpinion               Boolean?
-  // uploadScreeningOpinion
+  // uploadScreeningOpinion			String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadScreeningOpinion], references: [id])
   environmentalStatement         Boolean? // yes / no?
   environmentalImpactSchedule    String? // radio
-  // uploadEnvironmentalStatement
+  // uploadEnvironmentalStatement			String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadEnvironmentalStatement], references: [id])
   columnTwoThreshold             Boolean?
   sensitiveArea                  Boolean?
   sensitiveAreaDetails           String?
-  // uploadScreeningDirection
+  // uploadScreeningDirection			String     @db.UniqueIdentifier
+  // SubmissionDocumentUpload		SubmissionDocumentUpload    @relation(fields: [uploadScreeningDirection], references: [id])
   developmentDescription         String? // array? radio
   requiresEnvironmentalStatement Boolean? // radio
 
@@ -372,4 +388,18 @@ model LPAQuestionnaireSubmission {
   // lpaFinalComment                 Boolean?
   // lpaFinalCommentDetails          String?
   // lpaWitnesses                    Boolean?
+
+  // Uploaded documents linked to this appeal
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
+model SubmissionDocumentUpload {
+  questionnaireId            String                     @db.UniqueIdentifier
+  LPAQuestionnaireSubmission LPAQuestionnaireSubmission @relation(fields: [questionnaireId], references: [id])
+
+  id               String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  name             String @default("")
+  fileName         String @default("")
+  originalFileName String @default("")
+  location         String @default("")
 }
