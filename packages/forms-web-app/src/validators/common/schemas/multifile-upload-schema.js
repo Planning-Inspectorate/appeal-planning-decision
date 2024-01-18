@@ -1,6 +1,6 @@
 const config = require('../../../config');
 const validateFileSize = require('../../custom/file-size');
-const ClamAVClient = require('@pins/common/src/client/clamav-rest-client');
+const getClamAVClient = require('#lib/clam-av-client-get');
 
 /**
  *	Schema validation in express validator makes use of wild card patterns to select fields for validation.
@@ -23,7 +23,7 @@ const schema = (path) => ({
 				validateFileSize(size, config.fileUpload.pins.uploadApplicationMaxFileSize, name);
 
 				// check file for Virus
-				const clamAVClient = new ClamAVClient(config.fileUpload.clamAVHost);
+				const clamAVClient = getClamAVClient();
 				await clamAVClient.scan(value, name, config.fileUpload.pins.uploadApplicationMaxFileSize);
 
 				return true;
