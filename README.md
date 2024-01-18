@@ -1,6 +1,8 @@
 # Appeal Planning Decision
 
-Monorepo for all PINS Appeal planning decision services and infrastructure
+Monorepo for all PINS Appeal planning decision services.
+
+> Note: some documentation also lives in [docs](./docs).
 
 ## TL;DR
 

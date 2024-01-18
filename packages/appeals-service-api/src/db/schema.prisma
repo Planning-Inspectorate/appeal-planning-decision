@@ -248,6 +248,10 @@ model AppealCase {
 /// ServiceUser represents any user of PINS Services, and follows the PINS Data Model
 /// A given person may be represented by multiple ServiceUser entries, for example an agent
 /// would have one entry per appeal
+///
+/// NOTE: ServiceUser should not be used for general queries, use AppealUser and AppealToUser
+/// this just exists so we can create the relationships in our model, from Back Office data - which may come out of order
+/// we may get an AppealCase before associated ServiceUsers, and visa versa. So we save them to reconcile afterwards.
 model ServiceUser {
   /// this ID is for front office only and won't correlate to other systems
   internalId String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
