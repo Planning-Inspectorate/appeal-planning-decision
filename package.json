@@ -61,14 +61,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/foundry4/appeal-planning-decision.git"
+		"url": "git+https://github.com/Planning-Inspectorate/appeal-planning-decision.git"
 	},
-	"author": "Foundry4 <www.foundry4.com>",
+	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/foundry4/appeal-planning-decision/issues"
+		"url": "https://github.com/Planning-Inspectorate/appeal-planning-decision/issues"
 	},
-	"homepage": "https://github.com/foundry4/appeal-planning-decision#readme",
+	"homepage": "https://github.com/Planning-Inspectorate/appeal-planning-decision#readme",
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.0",
 		"@commitlint/config-conventional": "^17.0.0",
