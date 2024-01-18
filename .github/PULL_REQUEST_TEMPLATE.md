@@ -20,4 +20,4 @@ https://pins-ds.atlassian.net/browse/AAPD-
 
 ## Important
 
-Please do not merge from `main` (please only [rebase](https://github.com/foundry4/appeal-planning-decision/wiki/An-intro-to-Git-Rebase)). This keeps the history linear and easier to debug.
+Please do not merge from `main` (please only [rebase](https://github.com/Planning-Inspectorate/appeal-planning-decision/wiki/An-intro-to-Git-Rebase)). This keeps the history linear and easier to debug.

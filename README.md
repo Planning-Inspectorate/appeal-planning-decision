@@ -221,7 +221,7 @@ Without the `feat`, it would create no new release.
    reasons for failure give a clue as to what went wrong (and then fix). There is a job
    called `Next version` which will tell you the version number that this should create
    if successful.
-2. Check a [new release was made](https://github.com/foundry4/appeal-planning-decision/releases).
+2. Check a [new release was made](https://github.com/Planning-Inspectorate/appeal-planning-decision/releases).
    Dependent upon whether it was made from the `develop` or `main` branch, you will be
    looking for either a pre-release version or a release. If no release has been made,
    ensure that your commit message was formatted correctly and begins with `feat` or `fix`.
@@ -241,7 +241,7 @@ bf2a09e erm, not sure why CI has broken so another go
 067c88e gah, I'm stupid. I can see why CI broke
 ```
 
-This is not linear because you're fixing something inside the PR. This should be [rebased](https://github.com/foundry4/appeal-planning-decision/wiki/An-intro-to-Git-Rebase)
+This is not linear because you're fixing something inside the PR. This should be [rebased](https://github.com/Planning-Inspectorate/appeal-planning-decision/wiki/An-intro-to-Git-Rebase)
 so it's linear:
 
 ```shell
