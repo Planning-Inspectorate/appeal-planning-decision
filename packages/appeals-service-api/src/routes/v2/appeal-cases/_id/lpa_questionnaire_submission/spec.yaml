@@ -1,26 +1,26 @@
-# paths:
-#   /api/v2/appeal-cases/{id}/lpa-questionnaire-submission:
-#     get:
-#       tags:
-#         - lpa-questionnaire-submission
-#       description: Get a questionnaire submitted by the LPA
-#       parameters:
-#         - in: path
-#           name: id
-#           required: true
-#           schema:
-#             type: string
-#           description: appeal reference number
-#       responses:
-#         200:
-#           description: Returns the questionnaire
-#           content:
-#             application/json:
-#               schema:
-#                 $ref: '#/components/schemas/LPAQuestionnaireSubmission'
-#         404:
-#           description: Not found
-#           content:
-#             application/json:
-#               schema:
-#                  $ref: '#/components/schemas/ErrorBody'
+paths:
+  /api/v2/appeal-cases/{id}/lpa-questionnaire-submission:
+    get:
+      tags:
+        - lpa-questionnaire-submission
+      description: Get a questionnaire submitted by the LPA
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: appeal case id
+      responses:
+        200:
+          description: Returns the questionnaire
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPAQuestionnaireSubmission'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorBody'
