@@ -170,9 +170,9 @@ class ApiError {
 		return new ApiError(400, { errors: ['Unable to submit questionnaire response'] });
 	}
 
-	static questionnaireNotFound(caseReference) {
+	static questionnaireNotFound() {
 		return new ApiError(404, {
-			errors: [`Unable to locate questionnaire in respect of appeal ${caseReference}`]
+			errors: ['Unable to locate questionnaire']
 		});
 	}
 
