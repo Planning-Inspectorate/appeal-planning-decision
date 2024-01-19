@@ -45,8 +45,8 @@ async function createLPAQuestionnaire(appealCaseId) {
  * @param {LPAQuestionnaireSubmission} data
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
-async function putLPAQuestionnaireByAppealId(appealCaseId, data) {
-	const questionnaire = repo.putLPAQuestionnaireByAppealId(appealCaseId, data);
+async function patchLPAQuestionnaireByAppealId(appealCaseId, data) {
+	const questionnaire = repo.patchLPAQuestionnaireByAppealId(appealCaseId, data);
 
 	if (!questionnaire) {
 		return null;
@@ -58,5 +58,5 @@ async function putLPAQuestionnaireByAppealId(appealCaseId, data) {
 module.exports = {
 	getLPAQuestionnaireByAppealId,
 	createLPAQuestionnaire,
-	putLPAQuestionnaireByAppealId
+	patchLPAQuestionnaireByAppealId
 };

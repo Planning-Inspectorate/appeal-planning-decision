@@ -1,7 +1,7 @@
 const express = require('express');
 const {
 	getLPAQuestionnaireSubmission,
-	putLPAQuestionnaireSubmission,
+	patchLPAQuestionnaireSubmission,
 	createLPAQuestionnaireSubmission
 } = require('./controller');
 const asyncHandler = require('#middleware/async-handler');
@@ -9,6 +9,6 @@ const router = express.Router({ mergeParams: true });
 
 router.get('/', asyncHandler(getLPAQuestionnaireSubmission));
 router.post('/', asyncHandler(createLPAQuestionnaireSubmission));
-router.put('/', asyncHandler(putLPAQuestionnaireSubmission));
+router.patch('/', asyncHandler(patchLPAQuestionnaireSubmission));
 
 module.exports = { router };
