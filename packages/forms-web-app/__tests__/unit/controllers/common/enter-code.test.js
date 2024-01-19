@@ -273,10 +273,14 @@ describe('controllers/common/enter-code', () => {
 			const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: true });
 			await returnedFunction(req, res);
 
+			const errorMessage = 'Enter a correct code';
+
 			expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
 				token: req.body['email-code'],
-				errors: {},
-				errorSummary: [{ text: 'Enter a correct code', href: '#email-code' }]
+				errors: {
+					'email-code': { msg: errorMessage }
+				},
+				errorSummary: [{ text: errorMessage, href: '#email-code' }]
 			});
 		});
 
@@ -334,12 +338,14 @@ describe('controllers/common/enter-code', () => {
 				const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
+				const errorMessage = 'We did not find your appeal. Enter the correct code';
+
 				expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
 					token: req.body['email-code'],
-					errors: {},
-					errorSummary: [
-						{ href: '#email-code', text: 'We did not find your appeal. Enter the correct code' }
-					]
+					errors: {
+						'email-code': { msg: errorMessage }
+					},
+					errorSummary: [{ href: '#email-code', text: errorMessage }]
 				});
 			});
 
@@ -484,12 +490,13 @@ describe('controllers/common/enter-code', () => {
 				const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
+				const errorMessage = 'We did not find your appeal. Enter the correct code';
 				expect(res.render).toHaveBeenCalledWith(`${ENTER_CODE}`, {
 					token: req.body['email-code'],
-					errors: {},
-					errorSummary: [
-						{ href: '#email-code', text: 'We did not find your appeal. Enter the correct code' }
-					]
+					errors: {
+						'email-code': { msg: errorMessage }
+					},
+					errorSummary: [{ href: '#email-code', text: errorMessage }]
 				});
 			});
 
