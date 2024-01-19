@@ -168,8 +168,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		}
 
 		if (!tokenValid.valid) {
-			const customErrorSummary = [{ text: 'Enter a correct code', href: '#email-code' }];
-			return renderError(customErrorSummary);
+			return renderError('Enter a correct code');
 		}
 
 		if (enrolUsersFlag) {
@@ -204,10 +203,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			try {
 				req.session.appeal = await getExistingAppeal(enterCodeId);
 			} catch (err) {
-				const customErrorSummary = [
-					{ text: 'We did not find your appeal. Enter the correct code', href: '#email-code' }
-				];
-				return renderError(customErrorSummary);
+				return renderError('We did not find your appeal. Enter the correct code');
 			}
 
 			deleteTempSessionValues();
@@ -229,11 +225,20 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			delete req.session?.enterCode?.action;
 		}
 
+		/**
+		 * @param {Array<Object>|string} errorSummary - if just a string will add single error to form and summary
+		 * @param {Object} [errors]
+		 */
 		function renderError(errorSummary, errors = {}) {
+			if (typeof errorSummary === 'string') {
+				errors = { 'email-code': { msg: errorSummary } };
+				errorSummary = [{ text: errorSummary, href: '#email-code' }];
+			}
+
 			res.render(views.ENTER_CODE, {
 				token,
-				errors: errors,
-				errorSummary: errorSummary
+				errors,
+				errorSummary
 			});
 		}
 
@@ -249,8 +254,8 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
  * The Context for the View to be rendered, with any error information
  * @typedef {Object} ViewContext
  * @property {TokenValidResult} token
- * @property {Array} errors
- * @property {string} errorSummary
+ * @property {Array<Object>} errors
+ * @property {Object} errorSummary
  */
 
 /**
@@ -285,11 +290,13 @@ const lpaTokenVerification = (res, token, views, id) => {
 		res.redirect(`/${views.CODE_EXPIRED}/${id}`);
 		return false;
 	} else if (!token.valid) {
+		const errorMessage = 'Enter a correct code';
+
 		renderErrorPageLPA(res, views.ENTER_CODE, {
 			lpaUserId: id,
 			token,
-			errors: {},
-			errorSummary: [{ text: 'Enter a correct code', href: '#email-code' }]
+			errors: { 'email-code': { msg: errorMessage } },
+			errorSummary: [{ text: errorMessage, href: '#email-code' }]
 		});
 		return false;
 	} else if (token.valid) {
@@ -399,10 +406,9 @@ const postEnterCodeLPA = (views) => {
 				await setLPAUserStatus(id, STATUS_CONSTANTS.CONFIRMED);
 			}
 			await createLPAUserSession(req, user);
-		} catch (e) {
-			logger.error(`Failed to create user session for user id ${id}`);
-			logger.error(e);
-			throw new Error('Failed to create user session');
+		} catch (err) {
+			logger.error(err, `Failed to create user session for user id ${id}`);
+			throw err;
 		}
 
 		redirectToLPADashboard(res, views);
