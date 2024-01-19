@@ -24,3 +24,27 @@ paths:
             application/json:
               schema:
                  $ref: '#/components/schemas/ErrorBody'
+    post:
+      tags:
+        - lpa-questionnaire-submission
+      description: Create a questionnaire to be submitted by the LPA
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: appeal case id
+      responses:
+        200:
+          description: Returns the questionnaire
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPAQuestionnaireSubmission'
+        400:
+          description: Unable to create
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorBody'
