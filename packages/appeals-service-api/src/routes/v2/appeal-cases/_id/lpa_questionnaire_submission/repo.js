@@ -37,6 +37,20 @@ class LPAQuestionnaireSubmissionRepository {
 	}
 
 	/**
+	 * Create questionnaire for given appeal
+	 *
+	 * @param {string} id
+	 * @returns {Promise<LPAQuestionnaireSubmission|null>}
+	 */
+	async createQuestionnaire(id) {
+		return await this.dbClient.lPAQuestionnaireSubmission.create({
+			data: {
+				appealCaseId: id
+			}
+		});
+	}
+
+	/**
 	 *
 	 * @param {*} id
 	 * @param {*} data

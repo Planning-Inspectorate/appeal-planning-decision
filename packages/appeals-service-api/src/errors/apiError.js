@@ -176,6 +176,12 @@ class ApiError {
 		});
 	}
 
+	static unableToCreateQuestionnaire() {
+		return new ApiError(400, {
+			errors: ['Unable to create questionnaire']
+		});
+	}
+
 	// listed building
 	static listedBuildingNotFound(reference) {
 		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });

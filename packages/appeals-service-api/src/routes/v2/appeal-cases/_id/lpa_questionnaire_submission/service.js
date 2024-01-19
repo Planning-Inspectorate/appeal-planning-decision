@@ -23,6 +23,22 @@ async function getLPAQuestionnaireByAppealId(appealCaseId) {
 }
 
 /**
+ * Create Questionnaire for an appealCase
+ *
+ * @param {string} appealCaseId
+ * @return {Promise<LPAQuestionnaireSubmission|null>}
+ */
+async function createLPAQuestionnaire(appealCaseId) {
+	const questionnaire = repo.createQuestionnaire(appealCaseId);
+
+	if (!questionnaire) {
+		return null;
+	}
+
+	return questionnaire;
+}
+
+/**
  * Put Questionnaire for an appealCase
  *
  * @param {string} appealCaseId
@@ -41,5 +57,6 @@ async function putLPAQuestionnaireByAppealId(appealCaseId, data) {
 
 module.exports = {
 	getLPAQuestionnaireByAppealId,
+	createLPAQuestionnaire,
 	putLPAQuestionnaireByAppealId
 };
