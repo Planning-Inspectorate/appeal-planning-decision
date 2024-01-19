@@ -12,6 +12,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppealCase} AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
+ * @typedef {import('appeals-service-api').Api.LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  */
 
 /**
@@ -195,6 +196,37 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} id
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
+	 */
+	async getLPAQuestionnaire(id) {
+		const endpoint = `${v2}/appeal-cases/${id}/lpa-questionnaire-submission`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
+	 */
+	async postLPAQuestionnaire(id) {
+		const endpoint = `${v2}/appeal-cases/${id}/lpa-questionnaire-submission`;
+		const response = await this.#makePostRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} id
+	 * @param {object} data
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
+	 */
+	async patchLPAQuestionnaire(id, data) {
+		const endpoint = `${v2}/appeal-cases/${id}/lpa-questionnaire-submission`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
 	 * Handles error responses and timeouts from calls to appeals api
 	 * @param {string} path endpoint to call e.g. /api/v2/users
 	 * @param {'GET'|'POST'|'PUT'|'DELETE'} [method] - request method, defaults to 'GET'
@@ -317,6 +349,18 @@ class AppealsApiClient {
 	 * @throws {AppealsApiError|Error}
 	 */
 	#makePutRequest(endpoint, data = {}) {
+		return this.handler(endpoint, 'PUT', {
+			body: JSON.stringify(data)
+		});
+	}
+
+	/**
+	 * @param {string} endpoint
+	 * @param {any} data
+	 * @returns {Promise<import('node-fetch').Response>}
+	 * @throws {AppealsApiError|Error}
+	 */
+	#makePatchRequest(endpoint, data = {}) {
 		return this.handler(endpoint, 'PUT', {
 			body: JSON.stringify(data)
 		});
