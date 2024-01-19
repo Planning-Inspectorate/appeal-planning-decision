@@ -35,6 +35,22 @@ class LPAQuestionnaireSubmissionRepository {
 			throw e;
 		}
 	}
+
+	/**
+	 *
+	 * @param {*} id
+	 * @param {*} data
+	 * @returns
+	 */
+	async putLPAQuestionnaireByAppealId(id, data) {
+		return await this.dbClient.lPAQuestionnaireSubmission.upsert({
+			create: { ...data, appealCaseId: id },
+			update: data,
+			where: {
+				appealCaseId: id
+			}
+		});
+	}
 }
 
 module.exports = { LPAQuestionnaireSubmissionRepository };
