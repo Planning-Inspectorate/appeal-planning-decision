@@ -1,7 +1,7 @@
 const {
 	getLPAQuestionnaireByAppealId,
 	createLPAQuestionnaire,
-	putLPAQuestionnaireByAppealId
+	patchLPAQuestionnaireByAppealId
 } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
@@ -51,9 +51,9 @@ async function createLPAQuestionnaireSubmission(req, res) {
 /**
  * @type {import('express').RequestHandler}
  */
-async function putLPAQuestionnaireSubmission(req, res) {
+async function patchLPAQuestionnaireSubmission(req, res) {
 	try {
-		const content = await putLPAQuestionnaireByAppealId(req.params.id, req.body);
+		const content = await patchLPAQuestionnaireByAppealId(req.params.id, req.body);
 		if (!content) {
 			throw ApiError.questionnaireNotFound();
 		}
@@ -72,5 +72,5 @@ async function putLPAQuestionnaireSubmission(req, res) {
 module.exports = {
 	getLPAQuestionnaireSubmission,
 	createLPAQuestionnaireSubmission,
-	putLPAQuestionnaireSubmission
+	patchLPAQuestionnaireSubmission
 };

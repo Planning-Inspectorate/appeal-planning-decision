@@ -56,13 +56,12 @@ class LPAQuestionnaireSubmissionRepository {
 	 * @param {*} data
 	 * @returns
 	 */
-	async putLPAQuestionnaireByAppealId(id, data) {
-		return await this.dbClient.lPAQuestionnaireSubmission.upsert({
-			create: { ...data, appealCaseId: id },
-			update: data,
+	async patchLPAQuestionnaireByAppealId(id, data) {
+		return await this.dbClient.lPAQuestionnaireSubmission.update({
 			where: {
 				appealCaseId: id
-			}
+			},
+			data
 		});
 	}
 }
