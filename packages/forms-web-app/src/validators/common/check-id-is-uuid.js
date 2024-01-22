@@ -1,6 +1,11 @@
 const { check } = require('express-validator');
 
-const rules = () => [check('id').isUUID(4).withMessage(`Appeal ID is not in a valid format`)];
+/**
+ * @param {string} paramName -  the param to check is a uuid
+ */
+const rules = (paramName) => [
+	check(paramName).isUUID(4).withMessage(`${paramName} is not in a valid format`)
+];
 
 module.exports = {
 	rules
