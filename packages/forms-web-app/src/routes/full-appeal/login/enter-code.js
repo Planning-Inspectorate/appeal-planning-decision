@@ -39,7 +39,7 @@ const router = express.Router();
 
 router.get(
 	'/submit-appeal/enter-code/:enterCodeId',
-	idValidationRules(),
+	idValidationRules('enterCodeId'),
 	validationErrorHandler,
 	getEnterCode(views, { isGeneralLogin: false })
 );

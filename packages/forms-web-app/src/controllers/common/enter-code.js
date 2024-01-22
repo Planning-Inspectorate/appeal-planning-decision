@@ -89,6 +89,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			//if middleware UUID validation fails, render the page
 			//but do not attempt to send code email to user
 			if (Object.keys(errors).length > 0) {
+				logger.error(errors, 'failed to send token to returning user');
 				return renderEnterCodePage();
 			}
 
