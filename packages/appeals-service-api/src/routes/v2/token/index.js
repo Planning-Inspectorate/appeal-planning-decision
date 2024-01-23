@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { tokenPutV2, tokenPostV2 } = require('./controller');
-const asyncHandler = require('../../../middleware/async-handler');
+const asyncHandler = require('@pins/common/src/middleware/async-handler');
 
 const router = express.Router();
 

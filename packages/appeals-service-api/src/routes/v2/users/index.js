@@ -1,7 +1,7 @@
 const express = require('express');
 const { userGet, userPost, userLink } = require('./controller');
 const router = express.Router();
-const asyncHandler = require('../../../middleware/async-handler');
+const asyncHandler = require('@pins/common/src/middleware/async-handler');
 
 router.get('/:email', asyncHandler(userGet));
 router.post('/', asyncHandler(userPost));
