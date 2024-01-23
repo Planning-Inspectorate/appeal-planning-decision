@@ -1,3 +1,5 @@
+const { mapDecisionColour } = require('@pins/business-rules/src/utils/decision-outcome');
+
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
@@ -13,6 +15,7 @@
  * @property {boolean} [isNewAppeal] whether this is a new appeal
  * @property {boolean} [isDraft] whether the appeal submission is in draft state
  * @property {string | undefined | null} appealDecision the PINS decision in respect of the appeal
+ * @property {string | null} [appealDecisionColor] tag color to use for the decision
  * @property {string | undefined | null} caseDecisionDate
  */
 
@@ -49,6 +52,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
 	isNewAppeal: isNewAppeal(appealCaseData),
 	appealDecision: appealCaseData.outcome,
+	appealDecisionColor: mapDecisionColour(appealCaseData.outcome),
 	caseDecisionDate: appealCaseData.caseDecisionDate
 });
 
@@ -63,6 +67,9 @@ const mapToAppellantDashboardDisplayData = (appealData) => ({
 	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
 	isDraft: isAppealSubmission(appealData),
 	appealDecision: isAppealSubmission(appealData) ? null : getDecisionOutcome(appealData.outcome),
+	appealDecisionColor: isAppealSubmission(appealData)
+		? null
+		: mapDecisionColour(appealData.outcome),
 	caseDecisionDate: isAppealSubmission(appealData) ? null : appealData.caseDecisionDate
 });
 
