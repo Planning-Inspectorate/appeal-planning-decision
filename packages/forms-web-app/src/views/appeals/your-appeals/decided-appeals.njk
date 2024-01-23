@@ -64,8 +64,8 @@
                   <td class="govuk-table__cell">{{item.appealType}}</td>
                   <td class="govuk-table__cell">
                     {{ govukTag({
-                      text: item.appealDecision | capitalize,
-                      classes: "govuk-tag--{{item.appealDecisionColor}}"
+                      text: item.appealDecision,
+                      classes: "govuk-tag--" + item.appealDecisionColor
                     }) }}
                   </td>
                 </tr>
