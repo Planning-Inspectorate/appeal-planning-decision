@@ -4,7 +4,7 @@ const {
 	sortByInterestedPartyRepsDueDate,
 	sortByCaseReference
 } = require('#utils/appeal-sorting');
-const { formatAddress } = require('#utils/format-address');
+const { formatAddress } = require('@pins/common/src/lib/format-address');
 const { apiClient } = require('#utils/appeals-api-client');
 
 /** @type {import('express').RequestHandler} */
