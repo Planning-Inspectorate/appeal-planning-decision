@@ -1,5 +1,7 @@
 const { mapDecisionColour } = require('@pins/business-rules/src/utils/decision-outcome');
 
+const { formatAddress, isAppealSubmission } = require('@pins/common/src/lib/format-address');
+
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
@@ -107,45 +109,6 @@ const overdueDocumentNotToBeDisplayed = (dueDocument) => {
  */
 const isToDoAppellantDashboard = (dashboardData) => {
 	return displayDocumentOnToDo(dashboardData.nextDocumentDue);
-};
-
-/**
- * @param {AppealCaseWithAppellant | AppealSubmission} appealCaseData
- * @returns {string}
- */
-const formatAddress = (appealCaseData) => {
-	if (isAppealSubmission(appealCaseData)) {
-		return formatAppealSubmissionAddress(appealCaseData);
-	}
-
-	const addressComponents = [
-		appealCaseData.siteAddressLine1,
-		appealCaseData.siteAddressLine2,
-		appealCaseData.siteAddressTown,
-		appealCaseData.siteAddressPostcode
-	];
-
-	return addressComponents.filter(Boolean).join(', ');
-};
-
-/**
- * @param {AppealSubmission} appealSubmission
- * @returns {string}
- */
-const formatAppealSubmissionAddress = (appealSubmission) => {
-	if (!appealSubmission.appeal?.appealSiteSection?.siteAddress) {
-		return '';
-	}
-	const address = appealSubmission.appeal?.appealSiteSection?.siteAddress;
-
-	const addressComponents = [
-		address.addressLine1,
-		address.addressLine2,
-		address.town,
-		address.postcode
-	];
-
-	return addressComponents.filter(Boolean).join(', ');
 };
 
 /**
@@ -326,14 +289,6 @@ const getDecisionOutcome = (outcome) => {
 			return outcome;
 	}
 };
-
-/**
- * @param {AppealSubmission | AppealCaseWithAppellant} caseOrSubmission
- * @returns {caseOrSubmission is AppealSubmission}
- */
-function isAppealSubmission(caseOrSubmission) {
-	return Object.hasOwn(caseOrSubmission, 'appeal');
-}
 
 module.exports = {
 	formatAddress,
