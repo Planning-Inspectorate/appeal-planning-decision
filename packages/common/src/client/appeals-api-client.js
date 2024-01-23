@@ -151,6 +151,15 @@ class AppealsApiClient {
 		urlParams.append('lpa-code', lpaCode);
 		urlParams.append('decided-only', 'true');
 		const endpoint = `${v2}/appeal-cases?${urlParams.toString()}`;
+    const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+  }
+  /**
+	 * @param {{ userId: string, appealSubmissionId: string }} params
+	 * @returns {Promise<(AppealSubmission)>}
+	 */
+	async getUserAppealById({ userId, appealSubmissionId }) {
+		const endpoint = `${v2}/users/${userId}/appeal-submissions/${appealSubmissionId}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}

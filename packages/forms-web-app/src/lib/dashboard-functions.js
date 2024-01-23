@@ -10,6 +10,7 @@ const { formatAddress, isAppealSubmission } = require('@pins/common/src/lib/form
 /**
  * @typedef DashboardDisplayData
  * @type {object}
+ * @property {string} [appealId] the uuid of the appeal in our db
  * @property {string} appealNumber the caseReference for the appeal
  * @property {string} address the address of the site subject to the appeal
  * @property {string | undefined | null} appealType the type of appeal
@@ -19,6 +20,7 @@ const { formatAddress, isAppealSubmission } = require('@pins/common/src/lib/form
  * @property {string | undefined | null} appealDecision the PINS decision in respect of the appeal
  * @property {string | null} [appealDecisionColor] tag color to use for the decision
  * @property {string | undefined | null} caseDecisionDate
+ * @property {{ appealType: string | undefined, appealId: string | undefined }} [continueParams]
  */
 
 /**
@@ -62,6 +64,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
  * @returns {DashboardDisplayData}
  */
 const mapToAppellantDashboardDisplayData = (appealData) => ({
+	appealId: isAppealSubmission(appealData) ? appealData._id : appealData.id,
 	appealNumber: isAppealSubmission(appealData) ? '' : appealData.caseReference,
 	address: formatAddress(appealData),
 	appealType: getAppealType(appealData),
@@ -217,7 +220,7 @@ const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
  * @returns {boolean}
  */
 const isQuestionnaireDue = (appealCaseData) => {
-	return appealCaseData.questionnaireDueDate && !appealCaseData.questionnaireReceived;
+	return !!appealCaseData.questionnaireDueDate && !appealCaseData.questionnaireReceived;
 };
 
 /**
@@ -225,7 +228,7 @@ const isQuestionnaireDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const isStatementDue = (appealCaseData) => {
-	return appealCaseData.statementDueDate && !appealCaseData.LPAStatementSubmitted;
+	return !!appealCaseData.statementDueDate && !appealCaseData.LPAStatementSubmitted;
 };
 
 /**
@@ -233,7 +236,7 @@ const isStatementDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const isFinalCommentDue = (appealCaseData) => {
-	return appealCaseData.finalCommentsDueDate && !appealCaseData.LPACommentsSubmitted;
+	return !!appealCaseData.finalCommentsDueDate && !appealCaseData.LPACommentsSubmitted;
 };
 
 /**
@@ -241,7 +244,7 @@ const isFinalCommentDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const isProofsOfEvidenceDue = (appealCaseData) => {
-	return appealCaseData.proofsOfEvidenceDueDate && !appealCaseData.LPAProofsSubmitted;
+	return !!appealCaseData.proofsOfEvidenceDueDate && !appealCaseData.LPAProofsSubmitted;
 };
 
 /**
@@ -249,7 +252,7 @@ const isProofsOfEvidenceDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const isAppellantFinalCommentDue = (appealCaseData) => {
-	return appealCaseData.finalCommentsDueDate && !appealCaseData.appellantCommentsSubmitted;
+	return !!appealCaseData.finalCommentsDueDate && !appealCaseData.appellantCommentsSubmitted;
 };
 
 /**
@@ -257,7 +260,7 @@ const isAppellantFinalCommentDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
-	return appealCaseData.proofsOfEvidenceDueDate && !appealCaseData.appellantsProofsSubmitted;
+	return !!appealCaseData.proofsOfEvidenceDueDate && !appealCaseData.appellantsProofsSubmitted;
 };
 
 /**

@@ -1,13 +1,15 @@
-const { getAppealsForUser } = require('./service');
+const { getAppealSubmissionForUser } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
 
 /**
  * @type {import('express').Handler}
+ * @param {import('express').Request<{ id: string, appealSubmissionId: string }>} req
  */
-async function getUserAppeals(req, res) {
+async function getUserAppealSubmission(req, res) {
+	const { id: userId, appealSubmissionId } = req.params;
 	try {
-		const content = await getAppealsForUser(req.params.id);
+		const content = await getAppealSubmissionForUser({ userId, appealSubmissionId });
 		if (!content) {
 			throw ApiError.userNotFound();
 		}
@@ -23,5 +25,5 @@ async function getUserAppeals(req, res) {
 }
 
 module.exports = {
-	getUserAppeals
+	getUserAppealSubmission
 };

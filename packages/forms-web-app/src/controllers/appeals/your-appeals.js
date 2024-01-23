@@ -18,11 +18,11 @@ exports.get = async (req, res) => {
 				.filter((appeal) => !appeal.appealDecision);
 
 			const { toDoAppeals, waitingForReviewAppeals } = undecidedAppeals.reduce(
-				(acc, cur) => {
-					if (isToDoAppellantDashboard(cur)) {
-						acc.toDoAppeals.push(cur);
+				(acc, appeal) => {
+					if (isToDoAppellantDashboard(appeal)) {
+						acc.toDoAppeals.push(appeal);
 					} else {
-						acc.waitingForReviewAppeals.push(cur);
+						acc.waitingForReviewAppeals.push(appeal);
 					}
 					return acc;
 				},
