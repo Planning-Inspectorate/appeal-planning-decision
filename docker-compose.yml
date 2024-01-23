@@ -81,6 +81,9 @@ services:
     profiles: ['all', 'api', 'appeals']
     image: node:18-alpine
     environment:
+      BO_STORAGE_CONTAINER_HOST: http://bo-blob-storage:10000/devstoreaccount1
+      BO_STORAGE_CONTAINER_NAME: bo-appeals-documents
+      BO_BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://bo-blob-storage:10000/devstoreaccount1;
       BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;
       STORAGE_CONTAINER_NAME: uploads
       FILE_MAX_SIZE_IN_BYTES: 26214400
@@ -89,6 +92,7 @@ services:
       MONGODB_URL: mongodb://mongodb:27017/document-service-api
       SERVER_SHOW_ERRORS: 'true'
       PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING:
+      #NODE_TLS_REJECT_UNAUTHORIZED: 0
     ports:
       - 3001:3000
     working_dir: /opt/app
@@ -225,6 +229,20 @@ services:
       - 4003:10001
     volumes:
       - ./tmp/blob-storage:/data
+
+  bo-blob-storage:
+    profiles: ['all', 'appeals', 'comment']
+    image: mcr.microsoft.com/azure-storage/azurite:3.26.0
+    ports:
+      - 4004:10000
+      - 4005:10001
+    volumes:
+      - ./tmp/bo-blob-storage:/data
+      #- ./local-cert:/workspace
+    command: azurite -l /data --blobHost 0.0.0.0
+    #--oauth basic
+    #--cert /workspace/local-cert.pfx --pwd $$$
+    #--cert /workspace/local-cert.pem --key /workspace/local-cert.key
 
   mongodb:
     profiles: ['all', 'api', 'appeals', 'comment']

@@ -191,3 +191,5 @@ packages/platform-feature-tests/cypress/videos/
 init/mssql
 !init/mssql/mssql.conf
 
+#local certs
+local-cert
