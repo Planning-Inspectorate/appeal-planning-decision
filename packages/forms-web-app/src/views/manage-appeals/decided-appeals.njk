@@ -1,5 +1,6 @@
 {% extends "layouts/lpa-dashboard/main.njk" %}
 {% from "govuk/components/back-link/macro.njk" import govukBackLink %}
+{%- from "govuk/components/tag/macro.njk" import govukTag -%}
 
 {% block backButton %}
     {{ govukBackLink({
@@ -54,12 +55,10 @@
                 <td class="govuk-table__cell">{{appeal.caseDecisionDate}}</td>
 								<td class="govuk-table__cell">{{appeal.appealType}}</td>
 								<td class="govuk-table__cell">
-									{% if appeal.appealDecision === 'ALLOWED' %}
-										<strong class='govuk-tag govuk-tag--green'>
-          				{% else %}
-            				<strong class='govuk-tag govuk-tag--yellow'>
-          				{% endif %}
-									{{appeal.appealDecision}}
+                  {{ govukTag({
+                      text: item.appealDecision,
+                      classes: "govuk-tag--{{item.appealDecisionColor}}"
+                    }) }}
 								</td>
               </tr>
 					{% endfor %}

@@ -2,6 +2,8 @@
 {% set title = "Decided Appeals" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+ {%- from "govuk/components/tag/macro.njk" import govukTag -%}
+
 {% block content %}
   <div class="govuk-form-group">
     <h1 class="govuk-label govuk-label--l">{{ decidedAppeals.length }} decided Appeals found {{ postcode }}</h1>
@@ -23,7 +25,10 @@
             <td class="govuk-table__cell">{{ appeal.formattedCaseDecisionDate }}</td>
             <td class="govuk-table__cell">{{ appeal.appealTypeName }}</td>
             <td class="govuk-table__cell">
-              <strong class="govuk-tag govuk-tag--{{ appeal.formattedDecisionColour }}">{{ appeal.outcome }}</strong>
+              {{ govukTag({
+                text: item.outcome,
+                classes: "govuk-tag--{{item.formattedDecisionColour}}"
+              }) }}
             </td>
           </tr>
         {% endfor %}
