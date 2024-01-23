@@ -7,6 +7,11 @@
  */
 
 module.exports = {
+	boStorage: {
+		container: process.env.BO_STORAGE_CONTAINER_NAME,
+		host: process.env.BO_STORAGE_CONTAINER_HOST,
+		connectionString: process.env.BO_BLOB_STORAGE_CONNECTION_STRING
+	},
 	db: {
 		mongodb: {
 			url: process.env.MONGODB_URL || 'mongodb://localhost:27017/document-service-api',

@@ -16,7 +16,8 @@
 	},
 	"author": "",
 	"dependencies": {
-		"@azure/storage-blob": "^12.16.0",
+		"@azure/identity": "^4.0.1",
+		"@azure/storage-blob": "^12.17.0",
 		"@godaddy/terminus": "^4.7.1",
 		"axios": "^1.6.5",
 		"form-data": "^4.0.0",
