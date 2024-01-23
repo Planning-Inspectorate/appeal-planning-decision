@@ -1,7 +1,7 @@
 const OpenApiValidator = require('express-openapi-validator');
-const { generateOpenApiSpec } = require('../spec/gen-api-spec');
 const ApiError = require('#errors/apiError');
 const { BadRequest } = require('express-openapi-validator/dist/openapi.validator');
+const { generateOpenApiSpec } = require('../spec/gen-api-spec');
 
 /**
  * Create middleware to validate requests against the OpenApi spec

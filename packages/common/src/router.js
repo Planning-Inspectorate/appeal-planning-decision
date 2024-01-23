@@ -42,7 +42,7 @@ const getRoutesWithInjectableImporter =
 			const { router } = importFunc(`${dirName}`);
 			const relativePath = dirName
 				.replace(directory, '') // just need relative path
-				.replace('_', ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
+				.replace(/_/g, ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
 				.replace('/index.js', '');
 			routes[relativePath] = router;
 		}

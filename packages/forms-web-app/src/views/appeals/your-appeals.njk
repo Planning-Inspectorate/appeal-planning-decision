@@ -65,10 +65,10 @@
                         </td>
                         <td class="govuk-table__cell">
                           {% if item.isDraft %}
-                            <a href="#" class="govuk-link">
+                            <a href="/appeals/your-appeals/continue/{{item.appealId}}" class="govuk-link">
                               Continue
                             </a>
-                          {%else %}
+                          {% else %}
                             <a href="#" class="govuk-link">
                               {{item.nextDocumentDue.documentDue}}
                             </a>
