@@ -1,6 +1,6 @@
 const express = require('express');
 const { list, getByCaseReference, putByCaseReference, getCount } = require('./controller');
-const asyncHandler = require('#middleware/async-handler');
+const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const { openApiValidatorMiddleware } = require('../../../validators/validate-open-api');
 const router = express.Router();
 
