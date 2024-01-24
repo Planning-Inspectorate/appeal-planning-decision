@@ -27,7 +27,7 @@
             <td class="govuk-table__cell">
               {{ govukTag({
                 text: item.outcome,
-                classes: "govuk-tag--{{item.formattedDecisionColour}}"
+                classes: "govuk-tag--" + item.formattedDecisionColour
               }) }}
             </td>
           </tr>
