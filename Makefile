@@ -39,6 +39,11 @@ appeals:
 	docker compose --profile appeals -f docker-compose.yml -f docker-compose.slim.yml up
 .PHONY: appeals
 
+# only services required for documents
+documents:
+	docker compose --profile documents -f docker-compose.yml -f docker-compose.slim.yml up
+.PHONY: appeals
+
 uninstall:
 	rm -Rf node_modules
 	rm -Rf .git/hooks

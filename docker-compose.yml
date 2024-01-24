@@ -78,7 +78,7 @@ services:
     # command: npm run start:dev:debug
 
   document-service-api: &document-service
-    profiles: ['all', 'api', 'appeals']
+    profiles: ['all', 'api', 'appeals', 'documents']
     image: node:18-alpine
     environment:
       BO_STORAGE_CONTAINER_HOST: http://bo-blob-storage:10000/devstoreaccount1
@@ -223,8 +223,8 @@ services:
 
   # Third-party services
   blob-storage:
-    profiles: ['all', 'appeals', 'comment']
-    image: mcr.microsoft.com/azure-storage/azurite:3.26.0
+    profiles: ['all', 'appeals', 'comment', 'documents']
+    image: mcr.microsoft.com/azure-storage/azurite:3.29.0
     ports:
       - 4002:10000
       - 4003:10001
@@ -232,8 +232,8 @@ services:
       - ./tmp/blob-storage:/data
 
   bo-blob-storage:
-    profiles: ['all', 'appeals', 'comment']
-    image: mcr.microsoft.com/azure-storage/azurite:3.26.0
+    profiles: ['all', 'appeals', 'comment', 'documents']
+    image: mcr.microsoft.com/azure-storage/azurite:3.29.0
     ports:
       - 4004:10000
       - 4005:10001
@@ -246,7 +246,7 @@ services:
     #--cert /workspace/local-cert.pem --key /workspace/local-cert.key
 
   mongodb:
-    profiles: ['all', 'api', 'appeals', 'comment']
+    profiles: ['all', 'api', 'appeals', 'comment', 'documents']
     image: mongo:3.6.21
     ports:
       - 4000:27017
