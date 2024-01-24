@@ -12,6 +12,13 @@ const { routes: v2Routes } = require('./v2');
 
 const router = Router();
 
+/**
+ * index route to avoid azure always on ping 404s
+ */
+router.get('/', (req, res) => {
+	res.sendStatus(204);
+});
+
 router.use('/api-docs', apiDocs);
 router.use('/api/v1/migrate-metadata', migrateMetadata);
 //TODO: remove applicationId here since there isn't any notion of an appeal (its named incorrectly as well...) on any data store backing this API
