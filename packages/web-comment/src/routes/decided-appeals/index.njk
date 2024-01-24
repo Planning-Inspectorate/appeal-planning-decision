@@ -26,8 +26,8 @@
             <td class="govuk-table__cell">{{ appeal.appealTypeName }}</td>
             <td class="govuk-table__cell">
               {{ govukTag({
-                text: item.outcome,
-                classes: "govuk-tag--" + item.formattedDecisionColour
+                text: appeal.outcome,
+                classes: "govuk-tag--" + appeal.formattedDecisionColour
               }) }}
             </td>
           </tr>
