@@ -22,6 +22,13 @@ const listedBuildingRouter = require('./listed-building');
 const { routes: v2Routes } = require('./v2');
 const config = require('../configuration/config');
 
+/**
+ * index route to avoid azure always on ping 404s
+ */
+router.get('/', (req, res) => {
+	res.sendStatus(204);
+});
+
 router.use('/api/v1/appeals', appealsRouter);
 router.use('/api/v1/back-office', backOfficeRouter);
 router.use('/api/v1/for-manual-intervention', forManualInterventionRouter);
