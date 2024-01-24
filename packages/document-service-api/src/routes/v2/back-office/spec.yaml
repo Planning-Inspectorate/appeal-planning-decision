@@ -1,0 +1,61 @@
+paths:
+  /api/v2/back-office/{document}:
+    parameters:
+      - $ref: '#/components/parameters/document'
+    get:
+      tags:
+        - back-office
+      description: Gets a temporary SAS url to the document specified
+      responses:
+        200:
+          description: The SAS url for the document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SAS-URL'
+        404:
+          description: Document could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /api/v2/back-office/download/{document}:
+    get:
+      tags:
+        - back-office
+      description: Downloads the document specified
+      parameters:
+        - $ref: '#/components/parameters/document'
+      responses:
+        200:
+          description: Successfully retrieved this document
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        404:
+          description: Document could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  parameters:
+    document:
+      in: path
+      name: document
+      required: true
+      description: path to document in BO storage account, url encoded
+      schema:
+        type: string
+      example: 'folder-one%2Ffolder-two%2Ffile-name.txt'
+
+  schemas:
+    SAS-URL:
+      type: object
+      properties:
+        url:
+          type: string
+          description: sas url for the given document - will be time limited so don't display on webpage, redirect instead

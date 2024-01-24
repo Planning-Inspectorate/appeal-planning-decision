@@ -47,5 +47,9 @@
 		"supertest": "^6.2.4",
 		"testcontainers": "^9.8.0",
 		"testcontainers-mongoose": "^0.2.3"
+	},
+	"imports": {
+		"#config/*": "./src/configuration/*.js",
+		"#lib/*": "./src/lib/*.js"
 	}
 }

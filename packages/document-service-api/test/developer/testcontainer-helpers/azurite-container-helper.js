@@ -11,17 +11,24 @@ const { GenericContainer, Wait } = require('testcontainers');
 let startedContainer;
 
 const createAzuriteContainer = async () => {
-	startedContainer = await new GenericContainer('mcr.microsoft.com/azure-storage/azurite:3.26.0')
+	startedContainer = await new GenericContainer('mcr.microsoft.com/azure-storage/azurite:3.29.0')
 		.withName('documents-api-it-azurite')
 		.withExposedPorts(10000)
 		.withCommand(['azurite-blob', '--blobHost', '0.0.0.0']) // 0.0.0.0 is important since the document API system can't reach the Azurite container if its started with the 127.0.0.1 default
 		.withWaitStrategy(Wait.forLogMessage(/Azurite Blob service successfully listens on .*/))
 		.start();
 
-	process.env.BLOB_STORAGE_CONNECTION_STRING = `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://0.0.0.0:${startedContainer.getMappedPort(
-		10000
-	)}/devstoreaccount1;`;
+	const azuriteHost = `http://0.0.0.0:${startedContainer.getMappedPort(10000)}/devstoreaccount1`;
+	const connectionString = `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=${azuriteHost};`;
+
+	// FO container settings
+	process.env.BLOB_STORAGE_CONNECTION_STRING = connectionString;
 	process.env.STORAGE_CONTAINER_NAME = 'documents-api-it-azurite';
+
+	// BO container settings reused
+	process.env.BO_STORAGE_CONTAINER_HOST = azuriteHost;
+	process.env.BO_STORAGE_CONTAINER_NAME = 'documents-api-it-azurite';
+	process.env.BO_BLOB_STORAGE_CONNECTION_STRING = connectionString;
 };
 
 const isBlobInStorage = async (blobId) => {
