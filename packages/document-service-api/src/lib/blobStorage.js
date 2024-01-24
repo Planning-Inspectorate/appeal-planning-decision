@@ -73,6 +73,9 @@ const getMetadataForAllFiles = async (containerClient, applicationId) => {
 
 const getMetadataForSingleFile = async (containerClient, applicationId, documentId) => {
 	try {
+		// todo: retrieve single file metadata only, below example needs testing
+		// return await containerClient.getBlockBlobClient(`${applicationId}/${documentId}`).getProperties();
+
 		const blobs = await getMetadataForAllFiles(containerClient, applicationId);
 		const files = blobs.filter(({ metadata = {} }) => metadata.id === documentId);
 		return files.length ? files[0] : null;
