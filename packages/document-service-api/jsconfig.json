@@ -1,0 +1,11 @@
+{
+	"extends": "../../jsconfig.json",
+	"include": ["**/*.js"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"#config/*": ["./src/configuration/*.js"],
+			"#lib/*": ["./src/lib/*.js"]
+		}
+	}
+}

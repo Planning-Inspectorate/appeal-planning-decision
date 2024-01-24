@@ -77,14 +77,12 @@ class BlobStorageClient {
 		if (this.isSharedKeyCredential) {
 			logger.info(`creating shared-key sas url`);
 
-			const url = blob.generateSasUrl({
+			return await blob.generateSasUrl({
 				protocol: SASProtocol.Https,
 				startsOn: startsOn,
 				expiresOn: expiresOn,
 				permissions: BlobSASPermissions.parse(blobPermissions)
 			});
-
-			return url;
 		}
 
 		logger.info(`creating user delegation sas url`);
