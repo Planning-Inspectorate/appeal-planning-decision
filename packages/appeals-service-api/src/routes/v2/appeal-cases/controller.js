@@ -3,6 +3,7 @@ const ApiError = require('#errors/apiError');
 const { AppealCaseRepository } = require('./repo');
 const {
 	getCaseAndAppellant,
+	putCase,
 	listByLpaCodeWithAppellant,
 	listByPostcodeWithAppellant
 } = require('./service');
@@ -29,6 +30,27 @@ async function getByCaseReference(req, res) {
 			throw err; // re-throw 404
 		}
 		logger.error({ error: err, caseReference }, 'error fetching case by reference');
+		throw ApiError.withMessage(500, 'unexpected error');
+	}
+}
+
+/**
+ * @type {import('express').RequestHandler}
+ */
+async function putByCaseReference(req, res) {
+	const { caseReference } = req.params;
+
+	if (!caseReference) {
+		throw ApiError.withMessage(400, 'case reference is required');
+	}
+	try {
+		const appealCase = await putCase(caseReference, req.body);
+		res.status(200).send(appealCase);
+	} catch (err) {
+		if (err instanceof ApiError) {
+			throw err; // re-throw service errors
+		}
+		logger.error({ error: err, caseReference }, 'error upserting case by reference');
 		throw ApiError.withMessage(500, 'unexpected error');
 	}
 }
@@ -163,5 +185,6 @@ function isValidBooleanString(bool) {
 module.exports = {
 	list,
 	getByCaseReference,
+	putByCaseReference,
 	getCount
 };

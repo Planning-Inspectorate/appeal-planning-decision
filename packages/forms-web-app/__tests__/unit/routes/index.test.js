@@ -1,23 +1,32 @@
 const { use } = require('./router-mock');
-const appellantSubmissionRouter = require('../../../src/routes/appellant-submission');
-const eligibilityRouter = require('../../../src/routes/eligibility');
+
 const homeRouter = require('../../../src/routes/home');
 const cookieRouter = require('../../../src/routes/cookies');
+const accessibilityRouter = require('../../../src/routes/accessibility-statement/accessibility-statement');
+const errorRouter = require('../../../src/routes/error');
+const beforeYouStartRouter = require('../../../src/routes/before-you-start/before-you-start');
+const fullAppealBeforeStartRouter = require('../../../src/routes/full-appeal/before-you-start');
+const householderBeforeYouStart = require('../../../src/routes/householder-planning/before-you-start');
+const householderPlanningRouter = require('../../../src/routes/appeal-householder-decision/');
+const fullAppealRouter = require('../../../src/routes/full-appeal');
+const appealRouter = require('../../../src/routes/appeal');
+const appealsRouter = require('../../../src/routes/appeals');
+
+const saveAndReturnRouter = require('../../../src/routes/save');
+const submitAppealRouter = require('../../../src/routes/submit-appeal');
+const appellantSubmissionRouter = require('../../../src/routes/appellant-submission');
+
+const lpaRouter = require('../../../src/routes/lpa-dashboard');
+const debugRouter = require('../../../src/routes//debug');
+
+const eligibilityRouter = require('../../../src/routes/eligibility');
 const guidancePagesRouter = require('../../../src/routes/guidance-pages');
 const yourPlanningAppealRouter = require('../../../src/routes/your-planning-appeal');
-const fullAppealRouter = require('../../../src/routes/full-appeal/submit-appeal');
-const fullAppealBeforeYouStartRouter = require('../../../src/routes/full-appeal/index');
-const householderPlanningRouter = require('../../../src/routes/householder-planning/index');
-const documentRouter = require('../../../src/routes/document');
-const beforeYouStartRouter = require('../../../src/routes/before-you-start/before-you-start');
-const submitAppealRouter = require('../../../src/routes/submit-appeal');
-const saveAndReturnRouter = require('../../../src/routes/save');
-const appealRouter = require('../../../src/routes/appeal');
-const checkDecisionDateDeadline = require('../../../src/middleware/check-decision-date-deadline');
-const checkPathAllowed = require('../../../src/middleware/check-path-allowed');
-const { skipMiddlewareForPaths } = require('../../../src/middleware/skip-middleware-for-paths');
 
-jest.mock('../../../src/middleware/skip-middleware-for-paths');
+const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadline');
+const checkAppealExists = require('#middleware/check-appeal-exists');
+const checkLoggedIn = require('#middleware/check-logged-in');
+const checkDebugAllowed = require('#middleware/check-debug-allowed');
 
 describe('routes/index', () => {
 	beforeEach(() => {
@@ -31,49 +40,61 @@ describe('routes/index', () => {
 
 	it('should define the expected routes', () => {
 		expect(use).toHaveBeenCalledWith('/', homeRouter);
-		expect(use).toHaveBeenCalledWith('/', guidancePagesRouter);
 		expect(use).toHaveBeenCalledWith('/cookies', cookieRouter);
-		expect(use).toHaveBeenCalledWith(
-			'/appellant-submission',
-			checkPathAllowed,
-			checkDecisionDateDeadline,
-			appellantSubmissionRouter
-		);
-		expect(use).toHaveBeenCalledWith(
-			'/full-appeal',
-			skipMiddlewareForPaths(checkPathAllowed, ['submit-final-comment', 'enter-code']),
-			skipMiddlewareForPaths(checkDecisionDateDeadline, ['submit-final-comment']),
-			fullAppealRouter
-		);
-		expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
-		expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
-		expect(use).toHaveBeenCalledWith(
-			'/before-you-start',
-			checkPathAllowed,
-			checkDecisionDateDeadline,
-			fullAppealBeforeYouStartRouter
-		);
-		expect(use).toHaveBeenCalledWith(
-			'/before-you-start',
-			checkPathAllowed,
-			checkDecisionDateDeadline,
-			householderPlanningRouter
-		);
-		expect(use).toHaveBeenCalledWith('/document', documentRouter);
+		expect(use).toHaveBeenCalledWith('/accessibility-statement', accessibilityRouter);
+		expect(use).toHaveBeenCalledWith('/error', errorRouter);
 
 		expect(use).toHaveBeenCalledWith('/before-you-start', beforeYouStartRouter);
 		expect(use).toHaveBeenCalledWith(
-			'/submit-appeal',
-			checkPathAllowed,
+			'/before-you-start',
+			checkAppealExists,
 			checkDecisionDateDeadline,
-			submitAppealRouter
+			fullAppealBeforeStartRouter
 		);
 		expect(use).toHaveBeenCalledWith(
+			'/before-you-start',
+			checkAppealExists,
+			checkDecisionDateDeadline,
+			householderBeforeYouStart
+		);
+
+		expect(use).toHaveBeenCalledWith('/appeal-householder-decision', householderPlanningRouter);
+		expect(use).toHaveBeenCalledWith('/full-appeal', fullAppealRouter);
+
+		expect(use).toHaveBeenCalledWith('/appeal', appealRouter);
+
+		expect(use).toHaveBeenCalledWith('/appeals', checkLoggedIn, appealsRouter);
+
+		expect(use).toHaveBeenCalledWith(
 			'/save-and-return',
-			checkPathAllowed,
+			checkLoggedIn,
+			checkAppealExists,
 			checkDecisionDateDeadline,
 			saveAndReturnRouter
 		);
-		expect(use).toHaveBeenCalledWith(appealRouter);
+
+		expect(use).toHaveBeenCalledWith(
+			'/submit-appeal',
+			checkLoggedIn,
+			checkAppealExists,
+			checkDecisionDateDeadline,
+			submitAppealRouter
+		);
+
+		expect(use).toHaveBeenCalledWith(
+			'/appellant-submission',
+			checkLoggedIn,
+			checkAppealExists,
+			checkDecisionDateDeadline,
+			appellantSubmissionRouter
+		);
+
+		expect(use).toHaveBeenCalledWith('/manage-appeals', lpaRouter);
+
+		expect(use).toHaveBeenCalledWith('/debug', checkDebugAllowed, debugRouter);
+
+		expect(use).toHaveBeenCalledWith(guidancePagesRouter);
+		expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
+		expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 	});
 });

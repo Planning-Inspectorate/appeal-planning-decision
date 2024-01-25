@@ -5,7 +5,6 @@ const config = require('./config');
 const logger = require('./logger');
 
 const sendFile = async (file) => {
-	console.log(file);
 	if (typeof file === 'undefined') {
 		throw new Error('invalid or empty file');
 	}
@@ -13,7 +12,7 @@ const sendFile = async (file) => {
 	const clamScan = await GetClamClient();
 	try {
 		const version = await clamScan.getVersion();
-		console.log(`ClamAV Version: ${version}`);
+		logger.info(`ClamAV Version: ${version}`);
 
 		const fileStream = Readable();
 		fileStream.push(file);
@@ -21,14 +20,16 @@ const sendFile = async (file) => {
 
 		const result = await clamScan.scanStream(fileStream);
 
+		logger.info(result);
+
 		// If is infected is null or undefined (which can happen in certain cases) then throw an error
 		if (result.isInfected == null) {
 			throw new Error('Could not scan file');
 		}
+
 		return result;
 	} catch (err) {
 		// Handle errors that may have occurred during initialization
-		console.log(err);
 		logger.error(err, 'error scanning file');
 		throw err;
 	}

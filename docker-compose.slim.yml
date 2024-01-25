@@ -25,7 +25,7 @@ services:
     profiles: ['all', 'appeals']
     image: node:18-alpine
     ports:
-      - 3003:3003
+      - 3004:3000
     working_dir: /opt/mock-pdf
     volumes:
       # mount the root node_modules for shared packages

@@ -1,3 +1,16 @@
+export interface MigrateResult {
+	/** records checked */
+	total?: number;
+	/** already migrated */
+	alreadyProcessed?: number;
+	/** skipped due to missing data on appeal */
+	skipped?: number;
+	/** successfully migrated */
+	migrated?: number;
+	/** array appeal id with error message */
+	errors?: string[];
+}
+
 /** An appeal case from the Back Office, with appellant service user */
 export type AppealCaseWithAppellant = AppealCase & {
 	/** A Service User */
@@ -10,7 +23,7 @@ export interface AppealCase {
 	 * front office appeal case ID
 	 * @format uuid
 	 */
-	id: string;
+	id?: string;
 	/**
 	 * appeal case reference (aka appeal number)
 	 * @example "6123456"
@@ -20,34 +33,40 @@ export interface AppealCase {
 	 * a code to identify the LPA this case relates to
 	 * @example "Q9999"
 	 */
-	LPACode?: string;
+	LPACode: string;
 	/**
 	 * the name of the LPA this case relates to
 	 * @example "System Test Borough Council"
 	 */
-	LPAName?: string;
+	LPAName: string;
 	/**
 	 * appeal type short-code such as HAS or S78
 	 * @example "HAS"
 	 */
-	appealTypeCode?: string;
+	appealTypeCode: string;
 	/** @example "Householder" */
 	appealTypeName?: string;
 	/** original planning application decision by the LPA */
-	decision?: 'granted' | 'refused';
+	decision: 'granted' | 'refused';
 	/**
 	 * the date the original planning application was decided by the LPA
 	 * @format date-time
 	 */
-	originalCaseDecisionDate?: string;
-	costsAppliedForIndicator?: boolean;
+	originalCaseDecisionDate: string;
+	costsAppliedForIndicator: boolean;
 	/** the LPA's reference for the original planning application */
-	LPAApplicationReference?: string;
-	siteAddressLine1?: string;
+	LPAApplicationReference: string;
+	apellantCasePublished?: string;
+	appellantProofEvidenceSubmitted?: boolean;
+	appellantProofEvidencePublished?: boolean;
+	appellantFinalCommentsSubmitted?: boolean;
+	appellantFirstName?: string;
+	appellantLastName?: string;
+	siteAddressLine1: string;
 	siteAddressLine2?: string;
 	siteAddressTown?: string;
 	siteAddressCounty?: string;
-	siteAddressPostcode?: string;
+	siteAddressPostcode: string;
 	/**
 	 * the date LPA's questionnaire is due
 	 * @format date-time
@@ -58,7 +77,14 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	questionnaireReceived?: string;
+	lpaQuestionnairePublished?: boolean;
+	lpaQuestionnaireSubmitted?: boolean;
 	doesAffectAScheduledMonument?: boolean;
+	lpaProofEvidenceSubmitted?: boolean;
+	lpaProofEvidencePublished?: boolean;
+	lpaFinalCommentsPublished?: boolean;
+	rule6StatementPublished?: boolean;
+	interestedPartyCommentsPublished?: boolean;
 	/**
 	 * the date the appeal was received
 	 * @format date-time
@@ -159,8 +185,11 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	LPAProofsSubmitted?: string;
+	procedure?: string;
 	/** the Inspector's outcome/decision for this case */
 	outcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
+	/** the Inspector's outcome/decision for this case */
+	caseDecisionOutcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
 }
 
 /** An appeal submission created in the Front Office */
@@ -177,6 +206,17 @@ export interface AppealSubmission {
 		lpaCode?: string;
 		/** @format date-time */
 		decisionDate?: string;
+		appealType?: string;
+		typeOfPlanningAppeal?: string;
+		appealSiteSection?: {
+			siteAddress?: {
+				postcode?: string;
+				county?: string;
+				town?: string;
+				addressLine1?: string;
+				addressLine2?: string;
+			};
+		};
 	};
 }
 

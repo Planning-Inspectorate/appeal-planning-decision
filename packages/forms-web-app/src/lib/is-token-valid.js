@@ -1,48 +1,58 @@
 const { checkToken } = require('./appeals-api-wrapper');
 const { isTokenExpired } = require('./is-token-expired');
-const { utils } = require('@pins/common');
 const config = require('../config');
-
-const testConfirmEmailToken = '12345';
-
-const isTestEnvironment = () => config.server.allowTestingOverrides;
+const { isTestLPA } = require('@pins/common/src/utils');
+const logger = require('#lib/logger');
 
 /**
- * Check if LPA is System Test Borough Council and token is test token
- * @param {string} token
- * @param {string} lpaCode
- * @return {boolean}
+ * @typedef {Object} TokenValidResult
+ * @property {boolean} valid
+ * @property {string} [action]
+ * @property {Date} [createdAt]
+ * @property {boolean} [expired]
+ * @property {boolean} [tooManyAttempts]
  */
-const isTestLpaAndToken = (token, lpaCode) => {
-	return utils.isTestLPA(lpaCode) && token === testConfirmEmailToken;
-};
 
 /**
  * Check if token is test token
  * @param {string} token
  * @return {boolean}
  */
-const isTestToken = (token) => token === testConfirmEmailToken;
+const isTestToken = (token) => token === '12345';
 
-const getToken = async (id, token, emailAddress, session) => {
+/**
+ * Checks if app is running in a test environment
+ * @return {boolean}
+ */
+const isTestEnvironment = () => config.server.allowTestingOverrides;
+
+/**
+ * @param {string} token
+ * @param {string} [id]
+ * @param {string} [emailAddress]
+ * @param {string} [action]
+ * @returns {Promise<TokenValidResult|import('#lib/appeals-api-wrapper').TokenCheckResult>}
+ */
+const getToken = async (token, id, emailAddress, action) => {
 	let tokenDocument;
 	try {
-		tokenDocument = await checkToken(id, token, emailAddress);
+		tokenDocument = await checkToken(token, id, emailAddress);
 		return tokenDocument;
 	} catch (err) {
-		console.log(err);
+		logger.error(err, 'Failed token check');
+
 		// todo: can we improve this to not rely on string matching,
 		// handler swallows response and only gives back status message
 		if (err.message === 'Too Many Requests') {
 			return {
 				valid: false,
-				action: session?.enterCode?.action,
+				action: action,
 				tooManyAttempts: true
 			};
 		} else if (err.message === 'Invalid Token') {
 			return {
 				valid: false,
-				action: session?.enterCode?.action,
+				action: action,
 				tooManyAttempts: false
 			};
 		} else {
@@ -51,15 +61,40 @@ const getToken = async (id, token, emailAddress, session) => {
 	}
 };
 
-const isTokenValid = async (id, token, emailAddress, session) => {
+/**
+ * @param {string} token
+ * @param {string} [id] - appealId or userid
+ * @param {string} [emailAddress] - user's email
+ * @param {string} [action] - token action
+ * @param {string} [lpaCode] - if provided will be included in isTestScenario check
+ * @returns {Promise<TokenValidResult>}
+ */
+const isTokenValid = async (token, id, emailAddress, action, lpaCode) => {
+	const isTestScenario =
+		isTestEnvironment() && isTestToken(token) && (!lpaCode || isTestLPA(lpaCode));
+	if (isTestScenario) {
+		return {
+			valid: true
+		};
+	}
+
+	/** @type {TokenValidResult} */
 	let result = {
-		valid: false,
-		action: ''
+		valid: false
 	};
 
-	if (!id || typeof id !== 'string' || !token || typeof token !== 'string') return result;
+	/**
+	 * @param {any} val
+	 * @returns {boolean}
+	 */
+	const isNonEmptyString = (val) => {
+		return val && typeof val === 'string';
+	};
 
-	let tokenDocument = await getToken(id, token, emailAddress, session);
+	if (!isNonEmptyString(token)) return result;
+	if (!isNonEmptyString(id) && !isNonEmptyString(emailAddress)) return result;
+
+	let tokenDocument = await getToken(token, id, emailAddress, action);
 
 	if (tokenDocument && 'tooManyAttempts' in tokenDocument && tokenDocument.tooManyAttempts) {
 		return tokenDocument;
@@ -84,9 +119,5 @@ const isTokenValid = async (id, token, emailAddress, session) => {
 };
 
 module.exports = {
-	isTokenValid,
-	isTestToken,
-	isTestLpaAndToken,
-	testConfirmEmailToken,
-	isTestEnvironment
+	isTokenValid
 };

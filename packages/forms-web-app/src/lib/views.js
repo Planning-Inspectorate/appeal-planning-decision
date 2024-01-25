@@ -6,6 +6,7 @@ const VIEW = {
 
 	BEFORE_YOU_START: {
 		FIRST_PAGE: 'before-you-start/first-page',
+		LOCAL_PLANNING: 'before-you-start/local-planning-department',
 		USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE:
 			'before-you-start/use-existing-service-enforcement-notice',
 
@@ -35,7 +36,6 @@ const VIEW = {
 	APPELLANT_SUBMISSION: {
 		TASK_LIST: 'appeal-householder-decision/task-list',
 		APPEAL_STATEMENT: 'appellant-submission/appeal-statement',
-		APPLICATION_NUMBER: 'appellant-submission/application-number',
 		SITE_LOCATION: 'appellant-submission/site-location',
 		SITE_OWNERSHIP: 'appellant-submission/site-ownership',
 		SITE_OWNERSHIP_CERTB: 'appellant-submission/site-ownership-certb',
@@ -229,7 +229,7 @@ const VIEW = {
 		CONFIRM_ADD_USER: 'manage-appeals/confirm-add-user',
 		CONFIRM_REMOVE_USER: 'manage-appeals/confirm-remove-user',
 		YOUR_EMAIL_ADDRESS: 'manage-appeals/your-email-address',
-		APPEAL_DETAILS: 'manage-appeals/appeal-details',
+		APPEAL_DETAILS: 'manage-appeals/appeal-',
 		DECIDED_APPEALS: 'manage-appeals/decided-appeals'
 	},
 

@@ -3,6 +3,8 @@
 		"_id": "89aa8504-773c-42be-bb68-029716ad9756",
 		"uuid": "89aa8504-773c-42be-bb68-029716ad9756",
 		"appeal": {
+			"email": "test@example.com",
+
 			"sectionStates": {
 				"aboutYouSection": {
 					"yourDetails": "COMPLETED"
@@ -91,7 +93,8 @@
 				}
 			},
 			"state": "DRAFT",
-			"decisionDate": "2021-01-01T12:00:00Z",
+			"decisionDate": "2024-01-01T12:00:00Z",
+			"appealType": "1005",
 			"lpaCode": "E69999999",
 			"id": "89aa8504-773c-42be-bb68-029716ad9756"
 		}
@@ -106,6 +109,7 @@
 			"decisionDate": "2021-05-05T12:00:00.000Z",
 			"submissionDate": "2021-06-04T08:48:36.802Z",
 			"state": "SUBMITTED",
+			"email": "test@example.com",
 			"eligibility": {
 				"enforcementNotice": false,
 				"householderPlanningPermission": true,
@@ -214,6 +218,392 @@
 			},
 			"createdAt": "2021-06-04T08:48:22.342Z",
 			"updatedAt": "2021-06-04T08:48:36.802Z"
+		}
+	},
+	{
+		"example-return-url": "/full-appeal/submit-appeal/enter-code/e86827e3-96de-4ce4-a346-4f1b42c065d4",
+		"_id": "e86827e3-96de-4ce4-a346-4f1b42c065d4",
+		"uuid": "e86827e3-96de-4ce4-a346-4f1b42c065d4",
+		"appeal": {
+			"id": "e86827e3-96de-4ce4-a346-4f1b42c065d4",
+			"createdAt": "2024-01-04T16:27:09.527Z",
+			"updatedAt": "2024-01-04T16:28:35.499Z",
+			"appealSqlId": "d4ded440-4a24-4885-a29f-4014e3264db8",
+			"lpaCode": "E69999999",
+			"sectionStates": {
+				"appealDocumentsSection": {
+					"newSupportingDocuments": "NOT STARTED",
+					"supportingDocuments": "COMPLETED",
+					"draftPlanningObligations": "NOT STARTED",
+					"planningObligationDeadline": "NOT STARTED",
+					"planningObligationDocuments": "NOT STARTED",
+					"planningObligationStatus": "NOT STARTED",
+					"plansPlanningObligation": "COMPLETED",
+					"newPlansDrawings": "COMPLETED",
+					"plansDrawings": "NOT STARTED",
+					"appealStatement": "COMPLETED"
+				},
+				"planningApplicationDocumentsSection": {
+					"letterConfirmingApplication": "NOT STARTED",
+					"originalDecisionNotice": "NOT STARTED",
+					"designAccessStatementSubmitted": "COMPLETED",
+					"designAccessStatement": "NOT STARTED",
+					"decisionLetter": "COMPLETED",
+					"originalApplication": "COMPLETED",
+					"plansDrawingsSupportingDocuments": "COMPLETED",
+					"descriptionDevelopmentCorrect": "COMPLETED",
+					"ownershipCertificate": "COMPLETED"
+				},
+				"appealDecisionSection": {
+					"draftStatementOfCommonGround": "NOT STARTED",
+					"inquiryExpectedDays": "NOT STARTED",
+					"inquiry": "NOT STARTED",
+					"hearing": "NOT STARTED",
+					"procedureType": "COMPLETED"
+				},
+				"appealSiteSection": {
+					"tellingTheLandowners": "COMPLETED",
+					"advertisingYourAppeal": "NOT STARTED",
+					"identifyingTheLandOwners": "NOT STARTED",
+					"knowTheOwners": "COMPLETED",
+					"someOfTheLand": "COMPLETED",
+					"healthAndSafety": "COMPLETED",
+					"visibleFromRoad": "COMPLETED",
+					"otherTenants": "NOT STARTED",
+					"tellingTheTenants": "NOT STARTED",
+					"areYouATenant": "NOT STARTED",
+					"agriculturalHolding": "COMPLETED",
+					"ownsAllTheLand": "COMPLETED",
+					"siteAddress": "COMPLETED"
+				},
+				"contactDetailsSection": {
+					"appealingOnBehalfOf": "NOT STARTED",
+					"contact": "COMPLETED",
+					"isOriginalApplicant": "COMPLETED"
+				}
+			},
+			"appealSubmission": {
+				"appealPDFStatement": {
+					"uploadedFile": {
+						"size": null,
+						"location": null,
+						"originalFileName": "",
+						"fileName": "",
+						"name": "",
+						"id": null
+					}
+				}
+			},
+			"appealDocumentsSection": {
+				"supportingDocuments": {
+					"uploadedFiles": [],
+					"hasSupportingDocuments": false
+				},
+				"planningObligationDeadline": {
+					"planningObligationStatus": null,
+					"plansPlanningObligation": null
+				},
+				"draftPlanningObligations": {
+					"uploadedFiles": [],
+					"planningObligationStatus": null,
+					"plansPlanningObligation": null
+				},
+				"planningObligations": {
+					"uploadedFiles": [],
+					"planningObligationStatus": null,
+					"plansPlanningObligation": false
+				},
+				"plansDrawings": {
+					"uploadedFiles": [],
+					"hasPlansDrawings": false
+				},
+				"appealStatement": {
+					"hasSensitiveInformation": false,
+					"uploadedFile": {
+						"size": 35297,
+						"location": "e86827e3-96de-4ce4-a346-4f1b42c065d4/7e3e8ba7-7854-4b7c-a6c9-44e1de90af38/test-full-draft-statement-of-common-ground.pdf",
+						"originalFileName": "draft-statement-of-common-ground.pdf",
+						"fileName": "test-full-draft-statement-of-common-ground.pdf",
+						"name": "test-full-draft-statement-of-common-ground.pdf",
+						"id": "7e3e8ba7-7854-4b7c-a6c9-44e1de90af38"
+					}
+				}
+			},
+			"planningApplicationDocumentsSection": {
+				"originalDecisionNotice": {
+					"uploadedFile": {
+						"size": null,
+						"location": null,
+						"originalFileName": "",
+						"fileName": "",
+						"name": "",
+						"id": null
+					}
+				},
+				"letterConfirmingApplication": {
+					"uploadedFile": {
+						"size": null,
+						"location": null,
+						"originalFileName": "",
+						"fileName": "",
+						"name": "",
+						"id": null
+					}
+				},
+				"designAccessStatement": {
+					"uploadedFile": {
+						"originalFileName": "",
+						"fileName": "",
+						"name": "",
+						"id": null
+					},
+					"isSubmitted": false
+				},
+				"decisionLetter": {
+					"uploadedFile": {
+						"size": 35297,
+						"location": "e86827e3-96de-4ce4-a346-4f1b42c065d4/d128743d-8729-48d5-a904-b3bb37666f73/LPA-DECISION-NOTICE-test-full-draft-statement-of-common-ground.pdf",
+						"originalFileName": "draft-statement-of-common-ground.pdf",
+						"fileName": "LPA-DECISION-NOTICE-test-full-draft-statement-of-common-ground.pdf",
+						"name": "LPA-DECISION-NOTICE-test-full-draft-statement-of-common-ground.pdf",
+						"id": "d128743d-8729-48d5-a904-b3bb37666f73"
+					}
+				},
+				"originalApplication": {
+					"uploadedFile": {
+						"size": 35297,
+						"location": "e86827e3-96de-4ce4-a346-4f1b42c065d4/79b940db-9fc8-4839-aa50-25dc144b2677/APPLICATION-FORM-test-full-draft-statement-of-common-ground.pdf",
+						"originalFileName": "draft-statement-of-common-ground.pdf",
+						"fileName": "APPLICATION-FORM-test-full-draft-statement-of-common-ground.pdf",
+						"name": "APPLICATION-FORM-test-full-draft-statement-of-common-ground.pdf",
+						"id": "79b940db-9fc8-4839-aa50-25dc144b2677"
+					}
+				},
+				"plansDrawingsSupportingDocuments": {
+					"uploadedFiles": [
+						{
+							"size": 25692,
+							"location": "e86827e3-96de-4ce4-a346-4f1b42c065d4/32874b57-c57c-4241-885c-4104d3baa174/test-full-other-supporting-docs.pdf",
+							"originalFileName": "other-supporting-docs.pdf",
+							"fileName": "test-full-other-supporting-docs.pdf",
+							"name": "test-full-other-supporting-docs.pdf",
+							"id": "32874b57-c57c-4241-885c-4104d3baa174"
+						}
+					]
+				},
+				"descriptionDevelopmentCorrect": {
+					"isCorrect": true,
+					"details": ""
+				},
+				"ownershipCertificate": {
+					"uploadedFile": {
+						"originalFileName": "",
+						"fileName": "",
+						"name": "",
+						"id": null
+					},
+					"submittedSeparateCertificate": false
+				}
+			},
+			"appealDecisionSection": {
+				"draftStatementOfCommonGround": {
+					"uploadedFile": {
+						"size": null,
+						"location": null,
+						"originalFileName": "",
+						"fileName": "",
+						"name": "",
+						"id": null
+					}
+				},
+				"inquiry": {
+					"expectedDays": null,
+					"reason": null
+				},
+				"hearing": {
+					"reason": null
+				},
+				"procedureType": "Written Representation"
+			},
+			"appealSiteSection": {
+				"healthAndSafety": {
+					"hasIssues": false,
+					"details": ""
+				},
+				"visibleFromRoad": {
+					"isVisible": true,
+					"details": ""
+				},
+				"agriculturalHolding": {
+					"tellingTheTenants": null,
+					"hasOtherTenants": null,
+					"isTenant": null,
+					"isAgriculturalHolding": false
+				},
+				"siteOwnership": {
+					"advertisingYourAppeal": null,
+					"tellingTheLandowners": ["toldAboutMyAppeal", "withinLast21Days", "useCopyOfTheForm"],
+					"hasIdentifiedTheOwners": null,
+					"knowsTheOwners": "yes",
+					"ownsAllTheLand": false,
+					"ownsSomeOfTheLand": false
+				},
+				"siteAddress": {
+					"addressLine1": "Test",
+					"addressLine2": "",
+					"town": "TestTown",
+					"county": "Wigan",
+					"postcode": "wn1 1ab"
+				}
+			},
+			"contactDetailsSection": {
+				"appealingOnBehalfOf": {
+					"companyName": null,
+					"name": null
+				},
+				"contact": {
+					"name": "Test",
+					"companyName": "test"
+				},
+				"isOriginalApplicant": true
+			},
+			"eligibility": {
+				"hasHouseholderPermissionConditions": null,
+				"hasPriorApprovalForExistingHome": null,
+				"enforcementNotice": false,
+				"applicationDecision": "refused",
+				"applicationCategories": ["none_of_these"]
+			},
+			"typeOfPlanningApplication": "full-appeal",
+			"appealType": "1005",
+			"state": "DRAFT",
+			"decisionDate": "2024-01-01T00:00:00.000Z",
+			"planningApplicationNumber": "test-full",
+			"email": "test@example.com"
+		}
+	},
+	{
+		"example-return-url": "/appeal-householder-decision/enter-code/7a6f3ed1-3d7c-4647-a6a2-e02f1d894f9d",
+		"_id": "7a6f3ed1-3d7c-4647-a6a2-e02f1d894f9d",
+		"uuid": "7a6f3ed1-3d7c-4647-a6a2-e02f1d894f9d",
+		"appeal": {
+			"id": "7a6f3ed1-3d7c-4647-a6a2-e02f1d894f9d",
+			"createdAt": "2024-01-04T16:33:25.582Z",
+			"updatedAt": "2024-01-04T16:34:39.539Z",
+			"appealSqlId": "88e975e5-9d66-4205-a68e-c3c853ff12dc",
+			"lpaCode": "E69999999",
+			"sectionStates": {
+				"appealSiteSection": {
+					"healthAndSafety": "COMPLETED",
+					"siteOwnership": "COMPLETED",
+					"siteAccess": "COMPLETED",
+					"siteAddress": "COMPLETED"
+				},
+				"yourAppealSection": {
+					"otherDocuments": "COMPLETED",
+					"appealStatement": "COMPLETED"
+				},
+				"requiredDocumentsSection": {
+					"decisionLetter": "COMPLETED",
+					"originalApplication": "COMPLETED"
+				},
+				"aboutYouSection": {
+					"yourDetails": "COMPLETED"
+				}
+			},
+			"appealSiteSection": {
+				"healthAndSafety": {
+					"healthAndSafetyIssues": "",
+					"hasIssues": false
+				},
+				"siteAccess": {
+					"howIsSiteAccessRestricted": null,
+					"canInspectorSeeWholeSiteFromPublicRoad": true
+				},
+				"siteOwnership": {
+					"haveOtherOwnersBeenTold": null,
+					"ownsWholeSite": true
+				},
+				"siteAddress": {
+					"postcode": "wn1 1ab",
+					"county": "Wigan",
+					"town": "TestTown",
+					"addressLine2": "",
+					"addressLine1": "Test"
+				}
+			},
+			"appealSubmission": {
+				"appealPDFStatement": {
+					"uploadedFile": {
+						"size": null,
+						"location": null,
+						"originalFileName": "",
+						"fileName": "",
+						"name": "",
+						"id": null
+					}
+				}
+			},
+			"yourAppealSection": {
+				"otherDocuments": {
+					"uploadedFiles": []
+				},
+				"appealStatement": {
+					"hasSensitiveInformation": false,
+					"uploadedFile": {
+						"size": 88200,
+						"location": "7a6f3ed1-3d7c-4647-a6a2-e02f1d894f9d/3490348a-3af1-4d55-b3d6-410b923fef0f/test-has-draft-planning-obligation.pdf",
+						"originalFileName": "draft-planning-obligation.pdf",
+						"fileName": "test-has-draft-planning-obligation.pdf",
+						"name": "test-has-draft-planning-obligation.pdf",
+						"id": "3490348a-3af1-4d55-b3d6-410b923fef0f"
+					}
+				}
+			},
+			"requiredDocumentsSection": {
+				"decisionLetter": {
+					"uploadedFile": {
+						"size": 88200,
+						"location": "7a6f3ed1-3d7c-4647-a6a2-e02f1d894f9d/03e83906-919d-4ec0-831a-abfee9a246cb/LPA-DECISION-NOTICE-test-has-draft-planning-obligation.pdf",
+						"originalFileName": "draft-planning-obligation.pdf",
+						"fileName": "LPA-DECISION-NOTICE-test-has-draft-planning-obligation.pdf",
+						"name": "LPA-DECISION-NOTICE-test-has-draft-planning-obligation.pdf",
+						"id": "03e83906-919d-4ec0-831a-abfee9a246cb"
+					}
+				},
+				"originalApplication": {
+					"uploadedFile": {
+						"size": 88200,
+						"location": "7a6f3ed1-3d7c-4647-a6a2-e02f1d894f9d/d6e09d4e-4c7d-4130-bef0-25106e1966b9/test-has-draft-planning-obligation.pdf",
+						"originalFileName": "draft-planning-obligation.pdf",
+						"fileName": "test-has-draft-planning-obligation.pdf",
+						"name": "test-has-draft-planning-obligation.pdf",
+						"id": "d6e09d4e-4c7d-4130-bef0-25106e1966b9"
+					}
+				}
+			},
+			"aboutYouSection": {
+				"yourDetails": {
+					"appealingOnBehalfOf": null,
+					"name": "Test",
+					"isOriginalApplicant": true
+				}
+			},
+			"eligibility": {
+				"hasHouseholderPermissionConditions": null,
+				"hasPriorApprovalForExistingHome": null,
+				"isListedBuilding": false,
+				"isClaimingCosts": false,
+				"householderPlanningPermission": null,
+				"enforcementNotice": false,
+				"applicationDecision": "refused"
+			},
+			"typeOfPlanningApplication": "householder-planning",
+			"appealType": "1001",
+			"state": "DRAFT",
+			"decisionDate": "2024-01-01T00:00:00.000Z",
+			"planningApplicationNumber": "test-has",
+			"email": "test@example.com"
 		}
 	}
 ]

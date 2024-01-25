@@ -14,7 +14,7 @@ const postSaveAndReturn = async (req, res) => {
 	res.redirect('/appeal-householder-decision/application-saved');
 };
 
-//todo: is this controller required/used?
+//todo: is this controller required/used - old emails?
 const continueAppeal = async (req, res) => {
 	const { appeal } = req.session;
 	const deadlineHasPassed = calculateDeadline.hasDeadlineDatePassed(

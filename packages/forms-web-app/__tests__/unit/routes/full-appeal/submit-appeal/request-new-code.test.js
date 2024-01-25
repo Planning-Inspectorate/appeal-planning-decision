@@ -6,7 +6,7 @@ jest.mock('../../../../../src/controllers/common/request-new-code');
 describe('routes/full-appeal/submit-appeal/request-new-code', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../../src/routes/full-appeal/submit-appeal/request-new-code');
+		require('../../../../../src/routes/full-appeal/login/request-new-code');
 	});
 
 	afterEach(() => {

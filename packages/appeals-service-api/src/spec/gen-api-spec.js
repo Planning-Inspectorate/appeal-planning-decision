@@ -17,10 +17,6 @@ const options = {
 			description: 'An API to service the needs of the Appeals Service',
 			version: '1.0.4'
 		},
-		license: {
-			name: 'MIT',
-			url: 'https://opensource.org/licenses/MIT'
-		},
 		servers: [{ url: 'http://localhost:3000/', description: 'local dev' }],
 		tags: [
 			{

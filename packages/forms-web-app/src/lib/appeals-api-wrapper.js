@@ -161,26 +161,6 @@ exports.getAppealsCaseData = async (lpaCode) => {
 	return handler(`/api/v1/appeals-case-data/${lpaCode}`, 'GET');
 };
 
-exports.getAppealsCaseDataV2 = async (lpaCode) => {
-	const urlParams = new URLSearchParams();
-	urlParams.append('lpa-code', lpaCode);
-	return handler(`/api/v2/appeal-cases?${urlParams.toString()}`, 'GET');
-};
-
-exports.getDecidedAppealsCaseDataV2 = async (lpaCode) => {
-	const urlParams = new URLSearchParams();
-	urlParams.append('lpa-code', lpaCode);
-	urlParams.append('decided-only', 'true');
-	return handler(`/api/v2/appeal-cases?${urlParams.toString()}`, 'GET');
-};
-
-exports.getDecidedAppealsCountV2 = async (lpaCode) => {
-	const urlParams = new URLSearchParams();
-	urlParams.append('lpa-code', lpaCode);
-	urlParams.append('decided-only', 'true');
-	return handler(`/api/v2/appeal-cases/count?${urlParams.toString()}`, 'GET');
-};
-
 exports.getAppealByLPACodeAndId = async (lpaCode, id) => {
 	return handler(`/api/v1/appeals-case-data/${lpaCode}/${id}`, 'GET');
 };
@@ -250,7 +230,7 @@ exports.getUserByEmail = async (email) => {
 };
 
 /**
- * @param {string} id - appealId
+ * @param {string|undefined} id - appealId
  * @param {string} action - enter code action
  * @param {string} [emailAddress] - email address of user
  * @returns { Promise<void> }
@@ -275,12 +255,12 @@ exports.sendToken = async (id, action, emailAddress) => {
  */
 
 /**
- * @param {string} id - appealId
  * @param {string} token - token user supplied
+ * @param {string} [id] - appealId
  * @param {string} [emailAddress] - email address of user
  * @returns { Promise<TokenCheckResult> }
  */
-exports.checkToken = async (id, token, emailAddress) => {
+exports.checkToken = async (token, id, emailAddress) => {
 	const version = await getTokenEndpointVersion();
 
 	return handler(`/api/${version}/token/`, 'POST', {

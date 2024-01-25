@@ -4,7 +4,7 @@ const useADifferentServiceController = require('../../../../src/controllers/full
 describe('routes/full-appeal/use-a-different-service', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/full-appeal/use-a-different-service');
+		require('../../../../src/routes/before-you-start/use-a-different-service');
 	});
 
 	it('should define the expected routes', () => {

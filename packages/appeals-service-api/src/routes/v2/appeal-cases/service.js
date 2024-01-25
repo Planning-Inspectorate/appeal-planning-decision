@@ -3,12 +3,15 @@ const {
 	ServiceUserType
 } = require('#repositories/sql/service-user-repository');
 const { AppealCaseRepository } = require('./repo');
+const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
+const ApiError = require('#errors/apiError');
 
 const repo = new AppealCaseRepository();
 const serviceUserRepo = new ServiceUserRepository();
 
 /**
  * @typedef {import("@prisma/client").AppealCase} AppealCase
+ * @typedef {import('@prisma/client').Prisma.AppealCaseCreateInput} AppealCaseCreateInput
  * @typedef {import("@prisma/client").ServiceUser} ServiceUser
  * @typedef {AppealCase & {appellant?: ServiceUser}} AppealCaseWithAppellant
  */
@@ -25,6 +28,24 @@ async function getCaseAndAppellant(caseReference) {
 		return null;
 	}
 	return await appendAppellant(appeal);
+}
+
+/**
+ * Get an appeal case and appellant by case reference
+ *
+ * @param {string} caseReference
+ * @param {AppealCaseCreateInput} data
+ * @returns {Promise<AppealCase>}
+ */
+async function putCase(caseReference, data) {
+	try {
+		return await repo.putByCaseReference(caseReference, data);
+	} catch (err) {
+		if (err instanceof PrismaClientValidationError) {
+			throw ApiError.badRequest(err.message);
+		}
+		throw err;
+	}
 }
 
 /**
@@ -86,6 +107,7 @@ async function appendAppellant(appeal) {
 
 module.exports = {
 	getCaseAndAppellant,
+	putCase,
 	listByLpaCodeWithAppellant,
 	listByPostcodeWithAppellant
 };

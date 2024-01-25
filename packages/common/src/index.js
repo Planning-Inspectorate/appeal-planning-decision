@@ -4,6 +4,7 @@ const utils = require('./utils');
 const documentTypes = require('./document-types');
 const enterCodeConfig = require('./enter-code-config.js');
 const blobStorage = require('./blobStorage');
+const { getRoutes } = require('./router');
 
 module.exports = {
 	healthcheck,
@@ -11,5 +12,6 @@ module.exports = {
 	utils,
 	documentTypes,
 	enterCodeConfig,
-	...blobStorage
+	...blobStorage,
+	getRoutes
 };

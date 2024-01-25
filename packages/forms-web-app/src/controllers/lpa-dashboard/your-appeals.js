@@ -13,14 +13,14 @@ const {
 } = require('../../lib/views');
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
 
-const { getAppealsCaseDataV2, getDecidedAppealsCountV2 } = require('../../lib/appeals-api-wrapper');
+const { apiClient } = require('../../lib/appeals-api-client');
 
 const getYourAppeals = async (req, res) => {
 	const user = getLPAUserFromSession(req);
 
-	const appealsCaseData = await getAppealsCaseDataV2(user.lpaCode);
+	const appealsCaseData = await apiClient.getAppealsCaseDataV2(user.lpaCode);
 
-	const decidedAppealsCount = await getDecidedAppealsCountV2(user.lpaCode);
+	const decidedAppealsCount = await apiClient.getDecidedAppealsCountV2(user.lpaCode);
 
 	const { toDoAppeals, waitingForReviewAppeals } = appealsCaseData
 		.map(mapToLPADashboardDisplayData)

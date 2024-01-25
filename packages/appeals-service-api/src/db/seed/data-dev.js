@@ -1,5 +1,8 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
+const {
+	constants: { DECISION_OUTCOME }
+} = require('@pins/business-rules');
 
 // some data here so we can reference in multiple places
 // IDs have no specific meaning, just valid UUIDs and used for upsert/relations
@@ -189,7 +192,8 @@ const appealCases = [
 		LPAApplicationReference: '12/2323235/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
+		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		outcome: DECISION_OUTCOME.ALLOWED
 	},
 	{
 		Appeal: {
@@ -202,7 +206,8 @@ const appealCases = [
 		LPAApplicationReference: '12/2323236/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(2))
+		caseDecisionDate: pickRandom(datesNMonthsAgo(2)),
+		outcome: DECISION_OUTCOME.DISMISSED
 	},
 	{
 		Appeal: {
@@ -215,7 +220,8 @@ const appealCases = [
 		LPAApplicationReference: '12/2323237/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(3))
+		caseDecisionDate: pickRandom(datesNMonthsAgo(3)),
+		outcome: DECISION_OUTCOME.SPLIT_DECISION
 	},
 	{
 		Appeal: {
@@ -223,12 +229,13 @@ const appealCases = [
 		},
 		...commonAppealProperties,
 		caseReference: caseReferences.caseReferenceEight,
-		decision: 'other',
+		decision: '',
 		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		LPAApplicationReference: '12/2323238/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(4))
+		caseDecisionDate: pickRandom(datesNMonthsAgo(4)),
+		outcome: 'other'
 	},
 	...lpaAppealCaseData
 ];
@@ -238,6 +245,13 @@ const appealCases = [
  *
  * @type {{appealId: string, userId: string, role: string}[]}
  */
+
+const linkedLpaAppeals = lpaAppeals.map((appeal) => ({
+	appealId: appeal.id,
+	userId: appellants.appellantOne.id,
+	role: 'appellant'
+}));
+
 const appealToUsers = [
 	{
 		appealId: appealIds.appealOne,
@@ -283,7 +297,8 @@ const appealToUsers = [
 		appealId: appealSubmissionDraft.id,
 		userId: appellants.appellantOne.id,
 		role: 'appellant'
-	}
+	},
+	...linkedLpaAppeals
 ];
 
 /**

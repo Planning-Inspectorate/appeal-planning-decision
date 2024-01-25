@@ -188,12 +188,10 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
  * Sends an email to appellant confirming their registration and provides a link to continue
  * @param {string} recipientEmail
  * @param {string} userId
- * @param {string} fullName
  */
-const sendConfirmRegistrationEmailToAppellant = async (recipientEmail, userId, fullName) => {
+const sendConfirmRegistrationEmailToAppellant = async (recipientEmail, userId) => {
 	const variables = {
-		'appellant name': fullName,
-		'lpa-link': `${config.apps.appeals.baseUrl}/appeals/your-appeals`
+		link: `${config.apps.appeals.baseUrl}/appeals/your-appeals`
 	};
 
 	logger.debug({ recipientEmail, variables }, 'Sending registration confirmation email');

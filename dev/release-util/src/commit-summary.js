@@ -66,7 +66,7 @@ async function run() {
 				details.title,
 				details.parentTitle || '',
 				details.status,
-				commitLink(commit.has)
+				commitLink(commit.hash)
 			]
 				.map((value) => `"${value}"`)
 				.join(',')

@@ -20,4 +20,6 @@ router.post(
 	newOrSavedAppealController.post
 );
 
+router.get('/start-new', newOrSavedAppealController.startNew);
+
 module.exports = router;

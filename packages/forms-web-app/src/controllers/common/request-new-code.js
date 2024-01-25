@@ -3,7 +3,6 @@ const logger = require('../../lib/logger');
 
 const getRequestNewCode = (requestNewCodeView) => {
 	return async (_, res) => {
-		console.log('this is the view', requestNewCodeView);
 		res.render(requestNewCodeView);
 	};
 };
@@ -16,8 +15,8 @@ const getRequestNewCodeLPA = (requestNewCodeView) => {
 
 const postRequestNewCode = (enterCodeView) => {
 	return async (req, res) => {
-		const id = req.session.userTokenId;
-		delete req.session.userTokenId;
+		const id = req.session.enterCodeId;
+		delete req.session.enterCodeId;
 
 		req.session.enterCode = req.session.enterCode || {};
 		req.session.enterCode.newCode = true;

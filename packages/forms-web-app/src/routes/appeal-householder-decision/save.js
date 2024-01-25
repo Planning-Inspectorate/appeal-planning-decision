@@ -3,6 +3,6 @@ const { postSaveAndReturn } = require('../../controllers/appeal-householder-deci
 
 const router = express.Router();
 
-router.post('/', postSaveAndReturn);
+router.post('/save-and-return', postSaveAndReturn);
 
 module.exports = router;

@@ -28,7 +28,7 @@
         <h1 class="govuk-heading-l">Your appeals</h1>
 
         <p class="govuk-body">
-            <a href="/before-you-start/local-planning-department" class="govuk-link">Start a new appeal</a>
+            <a href="/appeal/start-new" class="govuk-link">Start a new appeal</a>
         </p>
 
         {% set toDoHtml %}
@@ -52,7 +52,7 @@
                             <strong class='govuk-tag govuk-tag--yellow'>DRAFT</strong>
                           {%else %}
                             <a href="#" class="govuk-link">
-                              {{item.caseReference}}
+                              {{item.appealNumber}}
                             </a>
                           {% endif %}
                         </td>
@@ -61,7 +61,7 @@
                         </td>
                         <td class="govuk-table__cell">{{item.appealType}}</td>
                         <td class="govuk-table__cell">
-                            {{item.questionnaireDueDate | date('D MMMM YYYY') }}
+                            {{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
                         </td>
                         <td class="govuk-table__cell">
                           {% if item.isDraft %}
@@ -70,7 +70,7 @@
                             </a>
                           {%else %}
                             <a href="#" class="govuk-link">
-                              Final comment
+                              {{item.nextDocumentDue.documentDue}}
                             </a>
                           {% endif %}
                         </td>
@@ -95,14 +95,14 @@
                   </tr>
                 </thead>
                 <tbody class="govuk-table__body">
-                    {% for item in toDoAppeals %}
+                    {% for item in waitingForReviewAppeals %}
                       <tr class="govuk-table__row">
                         <td class="govuk-table__cell">
                           {% if item.isDraft %}
                             <strong class='govuk-tag govuk-tag--yellow'>DRAFT</strong>
                           {%else %}
                             <a href="#" class="govuk-link">
-                              {{item.caseReference}}
+                              {{item.appealNumber}}
                             </a>
                           {% endif %}
                         </td>
@@ -145,4 +145,4 @@
         </p>
      </div>
    </div>
- {% endblock %} 
+ {% endblock %}

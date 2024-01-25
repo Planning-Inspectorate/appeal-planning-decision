@@ -1,0 +1,11 @@
+{% extends "../../index.njk" %}
+{% set title = "Appeal open comment" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% block content %}
+    <form method="post">
+        <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--l" for="appeal-reference">Appeal open comment</label>
+        </div>
+    </form>
+{% endblock content %}

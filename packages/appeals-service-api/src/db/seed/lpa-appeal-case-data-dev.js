@@ -1,9 +1,7 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
-
-const appealSubmissionDraft = {
-	// ID in Cosmos, see dev/data
-	id: '89aa8504-773c-42be-bb68-029716ad9756'
-};
+const {
+	constants: { DECISION_OUTCOME }
+} = require('@pins/business-rules');
 
 const lpaAppealIds = {
 	appealOne: '756d6bfb-dde8-4532-a041-86c226a23b01',
@@ -41,12 +39,7 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appealTwelve },
 	{ id: lpaAppealIds.appealThirteen },
 	{ id: lpaAppealIds.appealFourteen },
-	{ id: lpaAppealIds.appealFifteen },
-	{
-		id: appealSubmissionDraft.id,
-		legacyAppealSubmissionId: appealSubmissionDraft.id,
-		legacyAppealSubmissionState: 'DRAFT'
-	}
+	{ id: lpaAppealIds.appealFifteen }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -162,7 +155,8 @@ const lpaAppealCaseData = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
-		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1))
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		appellantStatementSubmitted: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
@@ -221,7 +215,8 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
-		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1))
+		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		appellantCommentsSubmitted: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
@@ -279,7 +274,8 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
-		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1))
+		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
@@ -300,7 +296,8 @@ const lpaAppealCaseData = [
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		outcome: 'allowed',
+		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		outcome: DECISION_OUTCOME.ALLOWED,
 		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
@@ -322,7 +319,8 @@ const lpaAppealCaseData = [
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		outcome: 'dismissed',
+		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		outcome: DECISION_OUTCOME.DISMISSED,
 		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
@@ -344,7 +342,8 @@ const lpaAppealCaseData = [
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		outcome: 'split decision',
+		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		outcome: DECISION_OUTCOME.SPLIT_DECISION,
 		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
 	}
 ];

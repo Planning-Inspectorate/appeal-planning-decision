@@ -9,7 +9,7 @@ const appealUserRepository = new AppealUserRepository();
  */
 
 async function createUser(user) {
-	if (!user || !user.lpaCode || !user.email) {
+	if (!user || !user.email) {
 		throw ApiError.badRequest();
 	}
 

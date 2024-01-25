@@ -1,5 +1,10 @@
 const config = require('../../config');
 const MultifileUploadValidator = require('./multifile-upload-validator');
+jest.mock('@pins/common/src/client/clamav-rest-client', () => {
+	return jest.fn().mockImplementation(() => {
+		return { scan: jest.fn };
+	});
+});
 
 describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 	describe('validate', () => {

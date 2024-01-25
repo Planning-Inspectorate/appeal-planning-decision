@@ -20,7 +20,7 @@ jest.mock('../../../../../src/controllers/common/enter-code');
 describe('routes/full-appeal/submit-appeal/enter-code', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../../src/routes/full-appeal/submit-appeal/enter-code');
+		require('../../../../../src/routes/full-appeal/login/enter-code');
 	});
 
 	afterEach(() => {
@@ -28,15 +28,14 @@ describe('routes/full-appeal/submit-appeal/enter-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/submit-appeal/enter-code', getEnterCode());
 		expect(get).toHaveBeenCalledWith(
-			'/submit-appeal/enter-code/:id',
+			'/submit-appeal/enter-code/:enterCodeId',
 			idValidationRules(),
 			validationErrorHandler,
 			getEnterCode()
 		);
 		expect(post).toHaveBeenCalledWith(
-			'/submit-appeal/enter-code/:id',
+			'/submit-appeal/enter-code/:enterCodeId',
 			ruleEnterCode(),
 			validationErrorHandler,
 			postEnterCode()

@@ -56,7 +56,8 @@ module.exports = {
 			}
 		},
 		tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
-		useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true'
+		useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true',
+		clamAVHost: process.env.CLAM_AV_HOST
 	},
 	isProduction: process.env.NODE_ENV === 'production',
 	logger: {

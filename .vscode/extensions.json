@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"prisma.prisma",
+		"mongodb.mongodb-vscode",
+		"ms-azuretools.vscode-docker",
+		"eseom.nunjucks-template",
+		"ms-mssql.mssql",
+		"redhat.vscode-yaml"
+	]
+}

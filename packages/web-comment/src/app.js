@@ -12,6 +12,7 @@ require('express-async-errors');
 const serverConfig = require('./server.config');
 const logger = require('./logging/logger');
 const { routes } = require('./routes');
+const { mapToErrorSummary } = require('#utils/filters/map-to-error-summary');
 
 const app = express();
 
@@ -48,7 +49,8 @@ const viewPaths = [
 	path.join(__dirname, 'views')
 ];
 
-nunjucks.configure(viewPaths, nunjucksConfig);
+const nj = nunjucks.configure(viewPaths, nunjucksConfig);
+nj.addFilter('mapToErrorSummary', mapToErrorSummary);
 
 if (serverConfig.server.useSecureSessionCookie) {
 	app.set('trust proxy', 1); // trust first proxy

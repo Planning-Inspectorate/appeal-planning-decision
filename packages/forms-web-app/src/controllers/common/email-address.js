@@ -1,4 +1,6 @@
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
+const { apiClient } = require('#lib/appeals-api-client');
+const AppealsApiError = require('@pins/common/src/client/appeals-api-error');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../lib/logger');
 const {
@@ -43,6 +45,9 @@ const postEmailAddress = (views, appealInSession) => {
 		if (appealInSession) {
 			try {
 				setSessionAppeal(req.session, await createOrUpdateAppeal(appeal));
+				setSession();
+				res.redirect(`/${views.ENTER_CODE}/${getSessionAppealId(req.session)}`);
+				return;
 			} catch (e) {
 				logger.error(e);
 				res.render(views.EMAIL_ADDRESS, {
@@ -54,13 +59,26 @@ const postEmailAddress = (views, appealInSession) => {
 			}
 		}
 
-		setSessionEnterCode(req.session, {}, true);
-		setSessionEnterCodeAction(req.session, enterCodeConfig.actions.confirmEmail);
+		let user;
 
-		if (appealInSession) {
-			res.redirect(`/${views.ENTER_CODE}/${getSessionAppealId(req.session)}`);
-		} else {
-			res.redirect(`/${views.ENTER_CODE}`);
+		try {
+			user = await apiClient.getUserByEmailV2(email);
+		} catch (err) {
+			if (!(err instanceof AppealsApiError) || err.code != 404) {
+				throw err;
+			}
+		}
+
+		if (!user) {
+			user = await apiClient.createUser(email);
+		}
+
+		setSession();
+		res.redirect(`/${views.ENTER_CODE}`);
+
+		function setSession() {
+			setSessionEnterCode(req.session, {}, true);
+			setSessionEnterCodeAction(req.session, enterCodeConfig.actions.confirmEmail);
 		}
 	};
 };

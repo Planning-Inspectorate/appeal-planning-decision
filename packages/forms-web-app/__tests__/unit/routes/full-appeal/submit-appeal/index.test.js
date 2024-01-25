@@ -47,8 +47,8 @@ const certificatesRouter = require('../../../../../src/routes/full-appeal/submit
 const planningApplicationNumberRouter = require('../../../../../src/routes/full-appeal/submit-appeal/planning-application-number');
 const emailConfirmedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/email-address-confirmed');
 const appealAlreadySubmittedRouter = require('../../../../../src/routes/full-appeal/submit-appeal/appeal-already-submitted');
-const requestNewCodeRouter = require('../../../../../src/routes/full-appeal/submit-appeal/request-new-code');
-const codeExpiredRouter = require('../../../../../src/routes/full-appeal/submit-appeal/code-expired');
+const requestNewCodeRouter = require('../../../../../src/routes/full-appeal/login/request-new-code');
+const codeExpiredRouter = require('../../../../../src/routes/full-appeal/login/code-expired');
 
 describe('routes/full-appeal/submit-appeal/index', () => {
 	beforeEach(() => {

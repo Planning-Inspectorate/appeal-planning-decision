@@ -16,7 +16,7 @@ jest.mock('../../../../src/controllers/common/enter-code');
 describe('routes/appeal-householder-planning/enter-code', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/appeal-householder-decision/enter-code');
+		require('../../../../src/routes/appeal-householder-decision/login/enter-code');
 	});
 
 	afterEach(() => {
@@ -24,15 +24,14 @@ describe('routes/appeal-householder-planning/enter-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/enter-code', getEnterCode());
 		expect(get).toHaveBeenCalledWith(
-			'/enter-code/:id',
+			'/enter-code/:enterCodeId',
 			idValidationRules(),
 			validationErrorHandler,
 			getEnterCode()
 		);
 		expect(post).toHaveBeenCalledWith(
-			'/enter-code/:id',
+			'/enter-code/:enterCodeId',
 			ruleEnterCode(),
 			validationErrorHandler,
 			postEnterCode()

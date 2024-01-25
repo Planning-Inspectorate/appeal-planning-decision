@@ -49,6 +49,10 @@ let config = {
 		],
 		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true'
 	},
+	migration: {
+		defaultBatchSize: parseInt(process.env.MIGRATION_BATCHSIZE, 10) || 100,
+		defaultDelayBetweenBatchesMS: parseInt(process.env.MIGRATION_BATCHDELAY, 10) || 500
+	},
 	secureCodes: {
 		finalComments: {
 			length: process.env.FINAL_COMMENTS_PIN_LENGTH,

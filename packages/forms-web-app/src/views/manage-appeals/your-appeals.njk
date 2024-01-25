@@ -23,7 +23,7 @@
             {% for item in toDoAppeals %}
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">
-                  <a href="{{appealDetailsLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                  <a href="{{appealDetailsLink}}{{item.appealNumber}}" class="govuk-link">
                    {{item.appealNumber}}
                   </a>
                 </td>
@@ -50,9 +50,9 @@
                   {% endif %}
                 </td>
                 <td class="govuk-table__cell govuk-table__cell--numeric">
-                      <a href="{{item.nextDocumentDue.baseUrl}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                      <a href="{{item.nextDocumentDue.baseUrl}}/{{item.appealNumber}}" class="govuk-link">
                         {{item.nextDocumentDue.documentDue}}
-                        <span class="govuk-visually-hidden"> for {{item.caseReference}}</span>
+                        <span class="govuk-visually-hidden"> for {{item.appealNumber}}</span>
                       </a>
                 </td>
               </tr>
@@ -79,12 +79,12 @@
             {% for item in waitingForReviewAppeals %}
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">
-                  <a href="{{appealDetailsLink}}/{{item.caseReferenceSlug}}" class="govuk-link">
+                  <a href="{{appealDetailsLink}}{{item.appealNumber}}" class="govuk-link">
                    {{item.appealNumber}}
                   </a>
                 </td>
                 <td class="govuk-table__cell">{{item.address}}</td>
-								<td class="govuk-table__cell">{{item.appealType.short}}</td>
+								<td class="govuk-table__cell">{{item.appealType}}</td>
                 <td class="govuk-table__cell">
                   <strong class='govuk-tag govuk-tag--blue'>WITH CASE OFFICER</strong>
 								</td>

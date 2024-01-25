@@ -25,4 +25,4 @@ services:
       SERVER_SHOW_ERRORS: 'true'
       LOGGER_LEVEL: 'debug'
     ports:
-      - 3003:3000
+      - 3004:3000
