@@ -69,12 +69,10 @@ components:
           type: boolean
         appellantFinalCommentsSubmitted:
           type: boolean
-
         appellantFirstName:
           type: string
         appellantLastName:
           type: string
-
         siteAddressLine1:
           type: string
         siteAddressLine2:
@@ -95,7 +93,6 @@ components:
           type: string
           format: date-time
           description: the date LPA's questionnaire was received
-
         lpaQuestionnairePublished:
           type: boolean
         lpaQuestionnaireSubmitted:
