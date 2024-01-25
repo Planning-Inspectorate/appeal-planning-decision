@@ -1,0 +1,163 @@
+components:
+  schemas:
+    LPAQuestionnaireSubmission:
+      description: A questionnaire submitted by an LPA
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        appealCaseId:
+          type: string
+        correctAppealType:
+          type: boolean
+        affectsListedBuilding:
+          type: boolean
+        affectedListedBuildingNumber:
+          type: string
+        addAffectedListedBuilding:
+          type: boolean
+        changesListedBuilding:
+          type: boolean
+        changedListedBuildingNumber:
+          type: string
+        addChangedListedBuilding:
+          type: boolean
+        conservationArea:
+          type: boolean
+        uploadConservation:
+          type: boolean
+        greenBelt:
+          type: boolean
+        uploadWhoNotified:
+          type: boolean
+        displaySiteNotice:
+          type: boolean
+        lettersToNeighbours:
+          type: boolean
+        uploadLettersEmails:
+          type: boolean
+        pressAdvert:
+          type: boolean
+        uploadPressAdvert:
+          type: boolean
+        consultationResponses:
+          type: boolean
+        uploadConsultationResponses:
+          type: boolean
+        notificationMethod:
+          type: string
+        uploadSiteNotice:
+          type: boolean
+        otherPartyRepresentations:
+          type: boolean
+        uploadRepresentations:
+          type: boolean
+        uploadPlanningOfficerReport:
+          type: boolean
+        lpaSiteAccess:
+          type: boolean
+        lpaSiteAccessDetails:
+          type: string
+        neighbourSiteAccess:
+          type: boolean
+        neighbourSiteAccessDetails:
+          type: string
+        addNeighbourSiteAccess:
+          type: boolean
+        neighbourSiteAddress:
+          type: boolean
+        lpaSiteSafetyRisks:
+          type: boolean
+        lpaSiteSafetyRiskDetails:
+          type: string
+        lpaProcedurePreference:
+          type: string
+        lpaPreferHearingDetails:
+          type: string
+        lpaPreferInquiryDuration:
+          type: string
+        lpaPreferInquiryDetails:
+          type: string
+        nearbyAppeals:
+          type: boolean
+        nearbyAppealReference:
+          type: string
+        addNearbyAppeal:
+          type: boolean
+        newConditions:
+          type: boolean
+        newConditionDetails:
+          type: string
+        emergingPlan:
+          type: boolean
+        uploadEmergingPlan:
+          type: boolean
+        uploadDevelopmentPlanPolicies:
+          type: boolean
+        uploadOtherPolicies:
+          type: boolean
+        infrastructureLevy:
+          type: boolean
+        uploadInfrastructureLevy:
+          type: boolean
+        infrastructureLevyAdopted:
+          type: boolean
+        infrastructureLevyAdoptedDate:
+          type: string
+          format: date-time
+        infrastructureLevyExpectedDate:
+          type: string
+          format: date-time
+        uploadLettersInterestedParties:
+          type: boolean
+        treePreservationOrder:
+          type: boolean
+        uploadTreePreservationOrder:
+          type: boolean
+        uploadDefinitiveMapStatement:
+          type: boolean
+        supplementaryPlanningDocs:
+          type: boolean
+        uploadSupplementaryPlanningDocs:
+          type: boolean
+        affectsScheduledMonument:
+          type: boolean
+        gypsyTraveller:
+          type: boolean
+        statutoryConsultees:
+          type: boolean
+        consultedBodiesDetails:
+          type: string
+        protectedSpecies:
+          type: boolean
+        publicRightOfWay:
+          type: boolean
+        areaOutstandingBeauty:
+          type: boolean
+        designatedSites:
+          type: string
+        otherDesignations:
+          type: string
+        screeningOpinion:
+          type: boolean
+        environmentalStatement:
+          type: boolean
+        environmentalImpactSchedule:
+          type: string
+        uploadEnvironmentalStatement:
+          type: boolean
+        columnTwoThreshold:
+          type: boolean
+        sensitiveArea:
+          type: boolean
+        sensitiveAreaDetails:
+          type: string
+        uploadScreeningOpinion:
+          type: boolean
+        uploadScreeningDirection:
+          type: boolean
+        developmentDescription:
+          type: string
+        requiresEnvironmentalStatement:
+          type: boolean

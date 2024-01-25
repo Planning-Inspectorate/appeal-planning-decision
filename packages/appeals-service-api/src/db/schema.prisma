@@ -331,7 +331,7 @@ model LPAQuestionnaireSubmission {
   uploadDevelopmentPlanPolicies   Boolean?
   uploadOtherPolicies             Boolean?
   infrastructureLevy              Boolean?
-  upploadInfrastructureLevy       Boolean?
+  uploadInfrastructureLevy        Boolean?
   infrastructureLevyAdopted       Boolean?
   infrastructureLevyAdoptedDate   DateTime?
   infrastructureLevyExpectedDate  DateTime?

@@ -290,6 +290,90 @@ export interface ErrorBody {
 	errors?: string[];
 }
 
+/** A questionnaire submitted by an LPA */
+export interface LPAQuestionnaireSubmission {
+	/** @format uuid */
+	id?: string;
+	appealCaseId?: string;
+	correctAppealType?: boolean;
+	affectsListedBuilding?: boolean;
+	affectedListedBuildingNumber?: string;
+	addAffectedListedBuilding?: boolean;
+	changesListedBuilding?: boolean;
+	changedListedBuildingNumber?: string;
+	addChangedListedBuilding?: boolean;
+	conservationArea?: boolean;
+	uploadConservation?: boolean;
+	greenBelt?: boolean;
+	uploadWhoNotified?: boolean;
+	displaySiteNotice?: boolean;
+	lettersToNeighbours?: boolean;
+	uploadLettersEmails?: boolean;
+	pressAdvert?: boolean;
+	uploadPressAdvert?: boolean;
+	consultationResponses?: boolean;
+	uploadConsultationResponses?: boolean;
+	notificationMethod?: string;
+	uploadSiteNotice?: boolean;
+	otherPartyRepresentations?: boolean;
+	uploadRepresentations?: boolean;
+	uploadPlanningOfficerReport?: boolean;
+	lpaSiteAccess?: boolean;
+	lpaSiteAccessDetails?: string;
+	neighbourSiteAccess?: boolean;
+	neighbourSiteAccessDetails?: string;
+	addNeighbourSiteAccess?: boolean;
+	neighbourSiteAddress?: boolean;
+	lpaSiteSafetyRisks?: boolean;
+	lpaSiteSafetyRiskDetails?: string;
+	lpaProcedurePreference?: string;
+	lpaPreferHearingDetails?: string;
+	lpaPreferInquiryDuration?: string;
+	lpaPreferInquiryDetails?: string;
+	nearbyAppeals?: boolean;
+	nearbyAppealReference?: string;
+	addNearbyAppeal?: boolean;
+	newConditions?: boolean;
+	newConditionDetails?: string;
+	emergingPlan?: boolean;
+	uploadEmergingPlan?: boolean;
+	uploadDevelopmentPlanPolicies?: boolean;
+	uploadOtherPolicies?: boolean;
+	infrastructureLevy?: boolean;
+	uploadInfrastructureLevy?: boolean;
+	infrastructureLevyAdopted?: boolean;
+	/** @format date-time */
+	infrastructureLevyAdoptedDate?: string;
+	/** @format date-time */
+	infrastructureLevyExpectedDate?: string;
+	uploadLettersInterestedParties?: boolean;
+	treePreservationOrder?: boolean;
+	uploadTreePreservationOrder?: boolean;
+	uploadDefinitiveMapStatement?: boolean;
+	supplementaryPlanningDocs?: boolean;
+	uploadSupplementaryPlanningDocs?: boolean;
+	affectsScheduledMonument?: boolean;
+	gypsyTraveller?: boolean;
+	statutoryConsultees?: boolean;
+	consultedBodiesDetails?: string;
+	protectedSpecies?: boolean;
+	publicRightOfWay?: boolean;
+	areaOutstandingBeauty?: boolean;
+	designatedSites?: string;
+	otherDesignations?: string;
+	screeningOpinion?: boolean;
+	environmentalStatement?: boolean;
+	environmentalImpactSchedule?: string;
+	uploadEnvironmentalStatement?: boolean;
+	columnTwoThreshold?: boolean;
+	sensitiveArea?: boolean;
+	sensitiveAreaDetails?: string;
+	uploadScreeningOpinion?: boolean;
+	uploadScreeningDirection?: boolean;
+	developmentDescription?: string;
+	requiresEnvironmentalStatement?: boolean;
+}
+
 /** A Service User */
 export interface ServiceUser {
 	/**
