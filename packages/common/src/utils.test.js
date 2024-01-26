@@ -179,5 +179,26 @@ describe('Utils test', () => {
 			expect(result.get(testObjArr[0])).toBe('a1');
 			expect(result.get(testObjArr[1])).toBe('b2');
 		});
+
+		it('Runs the promises in parallel', async () => {
+			/**
+			 *
+			 * @param {number} ms
+			 * @returns Promise<string>
+			 */
+			const promiser = (ms) =>
+				new Promise((resolve) => {
+					setTimeout(() => {
+						resolve(`Waited ${ms}ms`);
+					}, ms);
+				});
+
+			const then = new Date();
+			await util.conjoinedPromises([100, 200, 300, 400], promiser);
+			const now = new Date();
+
+			// allow single digit ms for sync processes
+			expect(now - then).toBeCloseTo(400, -1);
+		});
 	});
 });
