@@ -11,17 +11,20 @@ module.exports = {
 	 *
 	 * Add a timeout to a promise.
 	 *
+	 * @template T
 	 * @param {number} timeoutValue
-	 * @param {Promise} promise
-	 * @return {Promise<any>}
+	 * @param {Promise<T>} promise
+	 * @return {Promise<T>}
 	 */
 	promiseTimeout(timeoutValue, promise) {
+		/**
+		 * @type NodeJS.Timeout | undefined
+		 */
 		let timeoutId;
 		return Promise.race([
 			Promise.resolve().then(async () => {
 				const result = await promise;
 
-				/* istanbul ignore else */
 				if (timeoutId) {
 					clearTimeout(timeoutId);
 					timeoutId = undefined;
@@ -31,7 +34,6 @@ module.exports = {
 			}),
 			new Promise((resolve, reject) => {
 				timeoutId = setTimeout(() => {
-					/* istanbul ignore next */
 					if (timeoutId) {
 						clearTimeout(timeoutId);
 						timeoutId = undefined;
@@ -91,8 +93,8 @@ module.exports = {
 	 * @param {Obj[]} objArr
 	 * @param {(MappedObj) => Promise<unknown>} asyncFunc
 	 * @param {{
-	 *   asyncDepMapPredicate: (arg0: Obj) => MappedObj | Obj,
-	 *   applyMode: boolean
+	 *   asyncDepMapPredicate?: (arg0: Obj) => MappedObj | Obj,
+	 *   applyMode?: boolean
 	 * }} options
 	 * @returns
 	 */
