@@ -42,11 +42,11 @@ const postAppealMultiFileUpload = (
 					applyMode: true
 				});
 
-				const result = Array.from(resolutions).map(([file, document]) =>
-					mapMultiFileDocumentToSavedDocument(document, document?.name, file.name)
+				appealTask.uploadedFiles.push(
+					...Array.from(resolutions).map(([file, document]) =>
+						mapMultiFileDocumentToSavedDocument(document, document?.name, file.name)
+					)
 				);
-
-				appealTask.uploadedFiles.concat(result);
 			}
 
 			req.session.appeal = await createOrUpdateAppeal(appeal);
