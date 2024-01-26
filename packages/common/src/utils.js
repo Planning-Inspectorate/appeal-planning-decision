@@ -85,6 +85,17 @@ module.exports = {
 		return extension ? `${filename}.${extension}` : filename;
 	},
 
+	/**
+	 * @template Obj
+	 * @template MappedObj
+	 * @param {Obj[]} objArr
+	 * @param {(MappedObj) => Promise<unknown>} asyncFunc
+	 * @param {{
+	 *   asyncDepMapPredicate: (arg0: Obj) => MappedObj | Obj,
+	 *   applyMode: boolean
+	 * }} options
+	 * @returns
+	 */
 	conjoinedPromises: async (
 		objArr,
 		asyncFunc,
@@ -96,6 +107,7 @@ module.exports = {
 		const promiseMap = new Map(
 			objArr.map((obj) => [
 				obj,
+				// @ts-ignore
 				asyncFunc[applyMode ? 'apply' : 'call'](null, asyncDepMapPredicate(obj))
 			])
 		);

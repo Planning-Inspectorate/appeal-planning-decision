@@ -5,6 +5,7 @@ const { COMPLETED, IN_PROGRESS } = require('../../services/task-status/task-stat
 const { createDocument } = require('../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../mappers/document-mapper');
 const { postSaveAndReturn } = require('../save');
+const { conjoinedPromises } = require('@pins/common/src/utils');
 
 const getAppealMultiFileUpload = (view) => {
 	return async (req, res) => {
@@ -36,14 +37,16 @@ const postAppealMultiFileUpload = (
 			if ('files' in body && 'file-upload' in body.files) {
 				const validFiles = getValidFiles(errors, body.files['file-upload']);
 
-				// eslint-disable-next-line no-restricted-syntax
-				for await (const file of validFiles) {
-					const document = await createDocument(appeal, file, file.name, documentType, sectionTag);
+				const resolutions = await conjoinedPromises(validFiles, createDocument, {
+					asyncDepMapPredicate: (file) => [appeal, file, file.name, documentType, sectionTag],
+					applyMode: true
+				});
 
-					appealTask.uploadedFiles.push(
-						mapMultiFileDocumentToSavedDocument(document, document?.name, file.name)
-					);
-				}
+				const result = Array.from(resolutions).map(([file, document]) =>
+					mapMultiFileDocumentToSavedDocument(document, document?.name, file.name)
+				);
+
+				appealTask.uploadedFiles.concat(result);
 			}
 
 			req.session.appeal = await createOrUpdateAppeal(appeal);
