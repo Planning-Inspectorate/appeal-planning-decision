@@ -1,9 +1,10 @@
-const { getQuestionResponse } = require('../../lib/appeals-api-wrapper');
+// const { getQuestionResponse } = require('../../lib/appeals-api-wrapper');
 const { JourneyResponse } = require('../journey-response');
 const { JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('../../lib/logger');
 const { getAppealByLPACodeAndId } = require('../../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { apiClient } = require('../../lib/appeals-api-client');
 
 module.exports = () => async (req, res, next) => {
 	const referenceId = req.params.referenceId;
@@ -20,10 +21,13 @@ module.exports = () => async (req, res, next) => {
 	}
 
 	try {
-		const dbResponse = await getQuestionResponse(appealType, encodedReferenceId);
-		result = new JourneyResponse(appealType, referenceId, dbResponse?.answers, dbResponse.LPACode);
+		// const dbResponse = await getQuestionResponse(appealType, encodedReferenceId);
+		const dbResponse = await apiClient.getLPAQuestionnaire(referenceId);
+		// result = new JourneyResponse(appealType, referenceId, dbResponse?.answers, dbResponse.LPACode);
+		result = new JourneyResponse(appealType, referenceId, dbResponse, dbResponse.lpaCode);
 	} catch (err) {
 		logger.error(err);
+		await apiClient.postLPAQuestionnaire(referenceId, user.lpaCode);
 		result = getDefaultResponse(appealType, referenceId, user.lpaCode);
 	}
 
@@ -40,7 +44,7 @@ module.exports = () => async (req, res, next) => {
  * returns a default response for a journey
  * @param {JourneyType} journeyId - the type of journey
  * @param {string} referenceId - unique ref used in journey url
- * @param {string} lpaCode - the lpa code the journey resposne belongs to
+ * @param {string} lpaCode - the lpa code the journey response belongs to
  * @returns {JourneyResponse}
  */
 function getDefaultResponse(journeyId, referenceId, lpaCode) {

@@ -45,16 +45,16 @@ exports.questions = {
 	appealTypeAppropriate: new BooleanQuestion({
 		title: 'Is this the correct type of appeal?',
 		question: 'Is this the correct type of appeal?',
-		fieldName: 'correct-appeal-type',
-		// fieldName: 'correctAppealType',
+		// fieldName: 'correct-appeal-type',
+		fieldName: 'correctAppealType',
 		url: 'correct-appeal-type',
 		validators: [new RequiredValidator('Select yes if this is the correct type of appeal')]
 	}),
 	listedBuildingCheck: new BooleanQuestion({
 		title: 'Affects a listed building',
 		question: 'Does the proposed development affect the setting of listed buildings?',
-		fieldName: 'affects-listed-building',
-		// fieldName: 'affectsListedBuilding',
+		// fieldName: 'affects-listed-building',
+		fieldName: 'affectsListedBuilding',
 		url: 'affect-listed-building',
 		validators: [
 			new RequiredValidator(
@@ -65,8 +65,8 @@ exports.questions = {
 	changesListedBuilding: new BooleanQuestion({
 		title: 'Changes a listed building',
 		question: 'Does the proposed development change a listed building?',
-		fieldName: 'changes-listed-building',
-		// fieldName: 'changesListedBuilding',
+		// fieldName: 'changes-listed-building',
+		fieldName: 'changesListedBuilding',
 		url: 'changes-listed-building',
 		validators: [new RequiredValidator()]
 	}),

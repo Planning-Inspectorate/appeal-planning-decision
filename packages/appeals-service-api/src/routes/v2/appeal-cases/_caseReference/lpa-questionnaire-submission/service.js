@@ -26,10 +26,11 @@ async function getLPAQuestionnaireByAppealId(appealCaseId) {
  * Create Questionnaire for an appealCase
  *
  * @param {string} appealCaseId
+ * @param {string} lpaCode
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
-async function createLPAQuestionnaire(appealCaseId) {
-	const questionnaire = repo.createQuestionnaire(appealCaseId);
+async function createLPAQuestionnaire(appealCaseId, lpaCode) {
+	const questionnaire = repo.createQuestionnaire(appealCaseId, lpaCode);
 
 	if (!questionnaire) {
 		return null;

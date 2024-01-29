@@ -1,16 +1,16 @@
 paths:
-  /api/v2/appeal-cases/{id}/lpa-questionnaire-submission:
+  /api/v2/appeal-cases/{caseReference}/lpa-questionnaire-submission:
     get:
       tags:
         - lpa-questionnaire-submission
       description: Get a questionnaire submitted by the LPA
       parameters:
         - in: path
-          name: id
+          name: caseReference
           required: true
           schema:
             type: string
-          description: appeal case id
+          description: appeal case reference
       responses:
         200:
           description: Returns the questionnaire
@@ -30,11 +30,11 @@ paths:
       description: Create a questionnaire to be submitted by the LPA
       parameters:
         - in: path
-          name: id
+          name: caseReference
           required: true
           schema:
             type: string
-          description: appeal case id
+          description: appeal case reference
       responses:
         200:
           description: Returns the questionnaire

@@ -196,32 +196,35 @@ class AppealsApiClient {
 	}
 
 	/**
-	 * @param {string} id
+	 * @param {string} caseReference
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async getLPAQuestionnaire(id) {
-		const endpoint = `${v2}/appeal-cases/${id}/lpa-questionnaire-submission`;
+	async getLPAQuestionnaire(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
 
 	/**
-	 * @param {string} id
+	 * @param {string} caseReference
+	 * @param {string} lpaCode
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async postLPAQuestionnaire(id) {
-		const endpoint = `${v2}/appeal-cases/${id}/lpa-questionnaire-submission`;
+	async postLPAQuestionnaire(caseReference, lpaCode) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('lpa-code', lpaCode);
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission?${urlParams.toString()}`;
 		const response = await this.#makePostRequest(endpoint);
 		return response.json();
 	}
 
 	/**
-	 * @param {string} id
+	 * @param {string} caseReference
 	 * @param {object} data
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async patchLPAQuestionnaire(id, data) {
-		const endpoint = `${v2}/appeal-cases/${id}/lpa-questionnaire-submission`;
+	async patchLPAQuestionnaire(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission`;
 		const response = await this.#makePatchRequest(endpoint, data);
 		return response.json();
 	}
@@ -229,7 +232,7 @@ class AppealsApiClient {
 	/**
 	 * Handles error responses and timeouts from calls to appeals api
 	 * @param {string} path endpoint to call e.g. /api/v2/users
-	 * @param {'GET'|'POST'|'PUT'|'DELETE'} [method] - request method, defaults to 'GET'
+	 * @param {'GET'|'POST'|'PUT'|'DELETE'|'PATCH'} [method] - request method, defaults to 'GET'
 	 * @param {object} [opts] - options to pass to fetch can include request body
 	 * @param {object} [headers] - headers to add to request
 	 * @returns {Promise<import('node-fetch').Response>}
@@ -360,8 +363,8 @@ class AppealsApiClient {
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {AppealsApiError|Error}
 	 */
-	#makePatchRequest(endpoint, data = {}) {
-		return this.handler(endpoint, 'PUT', {
+	#makePatchRequest(endpoint, data) {
+		return this.handler(endpoint, 'PATCH', {
 			body: JSON.stringify(data)
 		});
 	}
