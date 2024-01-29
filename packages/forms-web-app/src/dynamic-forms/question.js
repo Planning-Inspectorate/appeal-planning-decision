@@ -289,9 +289,7 @@ class Question {
 	formatAnswerForSummary(sectionSegment, journey, answer, capitals = true) {
 		const formattedAnswer = capitals
 			? capitalize(answer ?? this.NOT_STARTED)
-			: answer
-			? answer
-			: this.NOT_STARTED;
+			: answer || this.NOT_STARTED;
 		const action = this.getAction(sectionSegment, journey, answer);
 		const key = this.title ?? this.question;
 		let rowParams = [];

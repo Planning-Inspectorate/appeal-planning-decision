@@ -107,7 +107,7 @@ class MultiFileUploadQuestion extends Question {
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
 		let formattedAnswer;
-		if (answer != undefined && answer.uploadedFiles) {
+		if (answer?.uploadedFiles) {
 			formattedAnswer = '';
 			for (const item in answer.uploadedFiles) {
 				const documentSubmissionId = this.#generateDocumentSubmissionId(journey.response);

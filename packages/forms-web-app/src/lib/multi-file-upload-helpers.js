@@ -23,7 +23,7 @@ const getValidFiles = (errors, files) => {
 	 * @type string[]
 	 */
 	const erroredFilesByTempFilePath = Object.values(errors).reduce((acc, error) => {
-		if (!error.value || !error.value.tempFilePath) {
+		if (!error.value?.tempFilePath) {
 			return acc;
 		}
 		return [...acc, error.value.tempFilePath];

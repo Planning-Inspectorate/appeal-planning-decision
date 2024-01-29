@@ -2,13 +2,28 @@ const MultiFileUploadQuestion = require('./question');
 
 const { patchQuestionResponse } = require('../../../lib/appeals-api-wrapper');
 const { createDocument, removeDocument } = require('../../../lib/documents-api-wrapper');
-const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
 const { SECTION_STATUS } = require('../../section');
 const { Journey } = require('../../journey');
 
 jest.mock('../../../lib/appeals-api-wrapper');
-jest.mock('../../../lib/documents-api-wrapper');
-jest.mock('../../../mappers/document-mapper');
+jest.mock('../../../lib/documents-api-wrapper', () => ({
+	...jest.requireActual('../../../lib/documents-api-wrapper'),
+	removeDocument: jest.fn(async () => {}),
+	createDocument: jest.fn(async (_, { name = 'test.png' }) => {
+		return {
+			id: 'id-1',
+			name: name,
+			fileName: 'test.png',
+			originalFileName: name,
+			message: {
+				text: 'test.png'
+			},
+			location: 'a/b',
+			size: 200
+		};
+	})
+}));
+// jest.mock('../../../mappers/document-mapper');
 
 const { mockReq, mockRes } = require('../../../../__tests__/unit/mocks');
 
@@ -22,7 +37,11 @@ const HTML = 'resources/question12/content.html';
 const DOCUMENT_TYPE = {
 	name: '1'
 };
+// @ts-ignore
 class TestJourney extends Journey {
+	/**
+	 * @param {import("../../journey-response").JourneyResponse} response
+	 */
 	constructor(response) {
 		super(
 			`${mockBaseUrl}/${encodeURIComponent(mockRef)}`,
@@ -60,23 +79,46 @@ class TestJourney extends Journey {
 const res = mockRes();
 const mockBaseUrl = '/manage-appeals/questionnaire';
 const mockTemplateUrl = 'template.njk';
+/**
+ * @type {string | number | boolean}
+ */
 let mockRef;
 const mockJourneyId = '654321';
 const mockSection = {
 	name: '123',
 	segment: 'segment-1'
 };
-const mockUploadedFile = {
-	id: 'id-1',
-	name: 'test.png',
-	fileName: 'test.png',
-	originalFileName: 'test.png',
-	message: {
-		text: 'test.png'
-	},
-	location: 'a/b',
-	size: 200
-};
+const mockUploadedFile = (
+	{
+		id = 'id-1',
+		name = 'test.png',
+		fileName = 'test.png',
+		originalFileName = 'test.png',
+		message = {
+			text: 'test.png'
+		},
+		location = 'a/b',
+		size = 200
+	} = {
+		id: 'id-1',
+		name: 'test.png',
+		fileName: 'test.png',
+		originalFileName: 'test.png',
+		message: {
+			text: 'test.png'
+		},
+		location: 'a/b',
+		size: 200
+	}
+) => ({
+	id,
+	name,
+	fileName,
+	originalFileName,
+	message,
+	location,
+	size
+});
 
 function getMultiFileUpload(
 	documentType = DOCUMENT_TYPE,
@@ -109,7 +151,7 @@ describe('MultiFileUploadQuestion', () => {
 	let mockResponse;
 
 	beforeEach(() => {
-		jest.resetAllMocks();
+		jest.clearAllMocks();
 		mockRef = '123456';
 		mockResponse = {
 			referenceId: mockRef,
@@ -284,7 +326,7 @@ describe('MultiFileUploadQuestion', () => {
 			mockJourney = new TestJourney(mockResponse);
 
 			const fileUploaded = {
-				name: 'data'
+				name: 'test.png'
 			};
 			req.files = {
 				[FIELDNAME]: fileUploaded
@@ -293,8 +335,6 @@ describe('MultiFileUploadQuestion', () => {
 
 			const encodedReferenceId = encodeURIComponent(mockResponse.referenceId);
 			const sanitisedResponse = mockResponse.referenceId.replaceAll('/', '_');
-
-			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
 
 			const multiFileQuestion = getMultiFileUpload();
 
@@ -316,7 +356,7 @@ describe('MultiFileUploadQuestion', () => {
 				{
 					answers: {
 						files: {
-							uploadedFiles: [mockUploadedFile]
+							uploadedFiles: [mockUploadedFile()]
 						}
 					}
 				},
@@ -328,30 +368,40 @@ describe('MultiFileUploadQuestion', () => {
 		});
 
 		it('works with multiple files', async () => {
-			const fileUploaded = {
-				name: 'data'
-			};
 			req.files = {
-				[FIELDNAME]: [fileUploaded, fileUploaded]
+				[FIELDNAME]: [{ name: 'file-1' }, { name: 'file-2' }]
 			};
 			req.body = {};
-
-			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
 
 			const multiFileQuestion = getMultiFileUpload();
 
 			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
 
 			expect(createDocument).toHaveBeenCalledTimes(2);
-			expect(createDocument).toHaveBeenCalledWith(
-				{
-					id: `${mockJourneyId}:${mockRef}`,
-					referenceNumber: mockRef
-				},
-				fileUploaded,
-				fileUploaded.name,
-				DOCUMENT_TYPE.name
-			);
+			expect(createDocument.mock.calls).toEqual([
+				[
+					{
+						id: `${mockJourneyId}:${mockRef}`,
+						referenceNumber: mockRef
+					},
+					{
+						name: 'file-1'
+					},
+					'file-1',
+					DOCUMENT_TYPE.name
+				],
+				[
+					{
+						id: `${mockJourneyId}:${mockRef}`,
+						referenceNumber: mockRef
+					},
+					{
+						name: 'file-2'
+					},
+					'file-2',
+					DOCUMENT_TYPE.name
+				]
+			]);
 
 			expect(patchQuestionResponse).toHaveBeenCalledWith(
 				mockJourneyId,
@@ -359,7 +409,20 @@ describe('MultiFileUploadQuestion', () => {
 				{
 					answers: {
 						files: {
-							uploadedFiles: [mockUploadedFile, mockUploadedFile]
+							uploadedFiles: [
+								mockUploadedFile({
+									name: 'file-1',
+									fileName: 'file-1',
+									originalFileName: 'file-1',
+									message: { text: 'file-1' }
+								}),
+								mockUploadedFile({
+									name: 'file-2',
+									fileName: 'file-2',
+									originalFileName: 'file-2',
+									message: { text: 'file-2' }
+								})
+							]
 						}
 					}
 				},
@@ -371,15 +434,10 @@ describe('MultiFileUploadQuestion', () => {
 		});
 
 		it('works with existing files', async () => {
-			const fileUploaded = {
-				name: 'data'
-			};
 			req.files = {
-				[FIELDNAME]: [fileUploaded, fileUploaded]
+				[FIELDNAME]: [{ name: 'file-1' }, { name: 'file-2' }]
 			};
 			req.body = {};
-
-			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
 
 			const multiFileQuestion = getMultiFileUpload();
 
@@ -387,7 +445,16 @@ describe('MultiFileUploadQuestion', () => {
 				referenceId: mockRef,
 				journeyId: mockJourneyId,
 				answers: {
-					[FIELDNAME]: { uploadedFiles: [mockUploadedFile] }
+					[FIELDNAME]: {
+						uploadedFiles: [
+							mockUploadedFile({
+								name: 'file-3',
+								fileName: 'file-3',
+								originalFileName: 'file-3',
+								message: { text: 'file-3' }
+							})
+						]
+					}
 				}
 			};
 
@@ -401,7 +468,26 @@ describe('MultiFileUploadQuestion', () => {
 				{
 					answers: {
 						files: {
-							uploadedFiles: [mockUploadedFile, mockUploadedFile, mockUploadedFile]
+							uploadedFiles: [
+								mockUploadedFile({
+									name: 'file-3',
+									fileName: 'file-3',
+									originalFileName: 'file-3',
+									message: { text: 'file-3' }
+								}),
+								mockUploadedFile({
+									name: 'file-1',
+									fileName: 'file-1',
+									originalFileName: 'file-1',
+									message: { text: 'file-1' }
+								}),
+								mockUploadedFile({
+									name: 'file-2',
+									fileName: 'file-2',
+									originalFileName: 'file-2',
+									message: { text: 'file-2' }
+								})
+							]
 						}
 					}
 				},
@@ -422,8 +508,6 @@ describe('MultiFileUploadQuestion', () => {
 			};
 			req.body = {};
 
-			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
-
 			const expectedError = new Error('test');
 			createDocument.mockResolvedValueOnce();
 			createDocument.mockRejectedValueOnce(expectedError);
@@ -442,17 +526,14 @@ describe('MultiFileUploadQuestion', () => {
 
 		it('can remove files and upload files', async () => {
 			const fileUploaded = {
-				name: 'data'
+				name: 'test.png'
 			};
 			req.files = {
 				[FIELDNAME]: [fileUploaded]
 			};
 			req.body = {
-				removedFiles: `[{ "name": "${mockUploadedFile.name}" }]`
+				removedFiles: JSON.stringify([{ name: mockUploadedFile().name }])
 			};
-
-			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
-			removeDocument.mockResolvedValue();
 
 			const multiFileQuestion = getMultiFileUpload();
 
@@ -460,7 +541,7 @@ describe('MultiFileUploadQuestion', () => {
 				referenceId: mockRef,
 				journeyId: mockJourneyId,
 				answers: {
-					[FIELDNAME]: { uploadedFiles: [mockUploadedFile] }
+					[FIELDNAME]: { uploadedFiles: [mockUploadedFile()] }
 				}
 			};
 
@@ -475,7 +556,7 @@ describe('MultiFileUploadQuestion', () => {
 				{
 					answers: {
 						files: {
-							uploadedFiles: [mockUploadedFile]
+							uploadedFiles: [mockUploadedFile()]
 						}
 					}
 				},
@@ -488,12 +569,9 @@ describe('MultiFileUploadQuestion', () => {
 
 		it('can remove files', async () => {
 			req.body = {
-				removedFiles: `[{ "name": "${mockUploadedFile.name}" }]`
+				removedFiles: JSON.stringify([{ name: mockUploadedFile().name }])
 			};
-			const remainingFile = { ...mockUploadedFile, originalFileName: 'different.png' };
-
-			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
-			removeDocument.mockResolvedValue();
+			const remainingFile = { ...mockUploadedFile(), originalFileName: 'different.png' };
 
 			const multiFileQuestion = getMultiFileUpload();
 
@@ -502,7 +580,7 @@ describe('MultiFileUploadQuestion', () => {
 				journeyId: mockJourneyId,
 				answers: {
 					[FIELDNAME]: {
-						uploadedFiles: [mockUploadedFile, remainingFile]
+						uploadedFiles: [mockUploadedFile(), remainingFile]
 					}
 				}
 			};
@@ -531,11 +609,10 @@ describe('MultiFileUploadQuestion', () => {
 
 		it('handles failures when removing files', async () => {
 			req.body = {
-				removedFiles: `[{ "name": "${mockUploadedFile.name}" }]`
+				removedFiles: JSON.stringify([{ name: mockUploadedFile().name }])
 			};
-			const remainingFile = { ...mockUploadedFile, originalFileName: 'different.png' };
+			const remainingFile = { ...mockUploadedFile(), originalFileName: 'different.png' };
 
-			mapMultiFileDocumentToSavedDocument.mockReturnValue(mockUploadedFile);
 			const error = new Error('Some error message');
 			removeDocument.mockRejectedValue(error);
 
@@ -546,7 +623,7 @@ describe('MultiFileUploadQuestion', () => {
 				journeyId: mockJourneyId,
 				answers: {
 					[FIELDNAME]: {
-						uploadedFiles: [mockUploadedFile, remainingFile]
+						uploadedFiles: [mockUploadedFile(), remainingFile]
 					}
 				}
 			};
@@ -562,21 +639,21 @@ describe('MultiFileUploadQuestion', () => {
 				{
 					answers: {
 						files: {
-							uploadedFiles: [remainingFile, mockUploadedFile]
+							uploadedFiles: [remainingFile, mockUploadedFile()]
 						}
 					}
 				},
 				mockResponse.LPACode
 			);
 
-			const expectedErrorMsg = `Failed to remove file: ${mockUploadedFile.originalFileName}`;
+			const expectedErrorMsg = `Failed to remove file: ${mockUploadedFile().originalFileName}`;
 			expect(res.render).toHaveBeenCalledWith(
 				expect.any(String),
 
 				expect.objectContaining({
 					errors: {
-						[mockUploadedFile.id]: {
-							value: { name: mockUploadedFile.originalFileName },
+						[mockUploadedFile().id]: {
+							value: { name: mockUploadedFile().originalFileName },
 							msg: expectedErrorMsg
 						}
 					},
@@ -593,7 +670,7 @@ describe('MultiFileUploadQuestion', () => {
 		it('handles attempts to upload invalid files', async () => {
 			//given attempt to upload valid and invalid file
 			const validFileUploaded = {
-				name: 'data',
+				name: 'test.png',
 				tempFilePath: '/tmp/tmp-4-134416293524'
 			};
 			const invalidFile = {
@@ -627,7 +704,6 @@ describe('MultiFileUploadQuestion', () => {
 				errorSummary: errorSummary
 			};
 
-			mapMultiFileDocumentToSavedDocument.mockReturnValue(validFileUploaded);
 			removeDocument.mockResolvedValue();
 
 			const multiFileQuestion = getMultiFileUpload();
@@ -653,7 +729,7 @@ describe('MultiFileUploadQuestion', () => {
 				{
 					answers: {
 						files: {
-							uploadedFiles: [validFileUploaded]
+							uploadedFiles: [mockUploadedFile()]
 						}
 					}
 				},
