@@ -118,9 +118,7 @@ describe('Utils test', () => {
 			const testObjArr = [{ a: 'a' }, { a: 'b' }];
 			const testAsyncFunction = async (str) => (str += 'b');
 
-			const result = await util.conjoinedPromises(testObjArr, testAsyncFunction, {
-				asyncDepMapPredicate: (obj) => obj.a
-			});
+			const result = await util.conjoinedPromises(testObjArr, (obj) => testAsyncFunction(obj.a));
 
 			expect(result).toEqual(
 				new Map([
@@ -132,7 +130,7 @@ describe('Utils test', () => {
 			expect(result.get(testObjArr[1])).toBe('bb');
 		});
 
-		it('allows the dep map predicate to provide multiple arguments to the promise', async () => {
+		it('allows the provision of multiple arguments to the promise', async () => {
 			const testObjArr = [
 				{ a: 'a', b: 1 },
 				{ a: 'b', b: 2 }
@@ -142,33 +140,9 @@ describe('Utils test', () => {
 				return str + num;
 			};
 
-			const result = await util.conjoinedPromises(testObjArr, testAsyncFunction, {
-				asyncDepMapPredicate: (obj) => [obj.a, obj.b],
-				applyMode: true
-			});
-
-			expect(result).toEqual(
-				new Map([
-					[{ a: 'a', b: 1 }, 'a1'],
-					[{ a: 'b', b: 2 }, 'b2']
-				])
+			const result = await util.conjoinedPromises(testObjArr, (obj) =>
+				testAsyncFunction(obj.a, obj.b)
 			);
-			expect(result.get(testObjArr[0])).toBe('a1');
-			expect(result.get(testObjArr[1])).toBe('b2');
-		});
-
-		it("doesn't botch arguments that are intended to be arrays", async () => {
-			const testObjArr = [
-				{ a: 'a', b: 1 },
-				{ a: 'b', b: 2 }
-			];
-			const testAsyncFunction = async ([str, num]) => {
-				return str + num;
-			};
-
-			const result = await util.conjoinedPromises(testObjArr, testAsyncFunction, {
-				asyncDepMapPredicate: (obj) => [obj.a, obj.b]
-			});
 
 			expect(result).toEqual(
 				new Map([
@@ -182,7 +156,6 @@ describe('Utils test', () => {
 
 		it('Runs the promises in parallel', async () => {
 			/**
-			 *
 			 * @param {number} ms
 			 * @returns Promise<string>
 			 */
