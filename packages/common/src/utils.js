@@ -88,36 +88,19 @@ module.exports = {
 	},
 
 	/**
-	 * @template Obj
-	 * @template MappedObj
-	 * @param {Obj[]} objArr
-	 * @param {(MappedObj) => Promise<unknown>} asyncFunc
-	 * @param {{
-	 *   asyncDepMapPredicate?: (arg0: Obj) => MappedObj | Obj,
-	 *   applyMode?: boolean
-	 * }} options
+	 * @template Arg
+	 * @template TResolution
+	 * @param {Arg[]} argArr
+	 * @param {(arg0: Arg) => Promise<TResolution>} asyncFunc
 	 * @returns
 	 */
-	conjoinedPromises: async (
-		objArr,
-		asyncFunc,
-		{ asyncDepMapPredicate = (obj) => obj, applyMode = false } = {
-			asyncDepMapPredicate: (obj) => obj,
-			applyMode: false
-		}
-	) => {
-		const promiseMap = new Map(
-			objArr.map((obj) => [
-				obj,
-				// @ts-ignore
-				asyncFunc[applyMode ? 'apply' : 'call'](null, asyncDepMapPredicate(obj))
-			])
-		);
+	conjoinedPromises: async (argArr, asyncFunc) => {
+		const promiseMap = new Map(argArr.map((arg) => [arg, asyncFunc(arg)]));
 
 		const resolutionMap = new Map();
-		for (const [obj, promise] of Array.from(promiseMap)) {
+		for (const [arg, promise] of Array.from(promiseMap)) {
 			const resolution = await promise;
-			resolutionMap.set(obj, resolution);
+			resolutionMap.set(arg, resolution);
 		}
 
 		return resolutionMap;

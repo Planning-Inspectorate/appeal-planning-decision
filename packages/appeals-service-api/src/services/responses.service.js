@@ -53,10 +53,10 @@ const mapQuestionnaireDataForBackOffice = async (questionnaireResponse) => {
 		return acc.concat(answer.uploadedFiles);
 	}, []);
 
-	const uploadedFilesAndBlobMeta = await conjoinedPromises(
-		uploadedFiles,
-		blobMetaGetter(initContainerClient),
-		{ asyncDepMapPredicate: (uploadedFile) => uploadedFile.location }
+	const getBlobMeta = blobMetaGetter(initContainerClient);
+
+	const uploadedFilesAndBlobMeta = await conjoinedPromises(uploadedFiles, (uploadedFile) =>
+		getBlobMeta(uploadedFile.location)
 	);
 
 	return questionnaireMapper.mapToPINSDataModel(questionnaireResponse, uploadedFilesAndBlobMeta);

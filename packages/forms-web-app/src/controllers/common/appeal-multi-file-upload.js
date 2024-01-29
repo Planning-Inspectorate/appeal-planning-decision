@@ -37,10 +37,9 @@ const postAppealMultiFileUpload = (
 			if ('files' in body && 'file-upload' in body.files) {
 				const validFiles = getValidFiles(errors, body.files['file-upload']);
 
-				const resolutions = await conjoinedPromises(validFiles, createDocument, {
-					asyncDepMapPredicate: (file) => [appeal, file, file.name, documentType, sectionTag],
-					applyMode: true
-				});
+				const resolutions = await conjoinedPromises(validFiles, (file) =>
+					createDocument(appeal, file, file.name, documentType, sectionTag)
+				);
 
 				appealTask.uploadedFiles.push(
 					...Array.from(resolutions).map(([file, document]) =>

@@ -238,8 +238,8 @@ class MultiFileUploadQuestion extends Question {
 	}
 
 	async #saveFilesToBlobStorage(files, journeyResponse) {
-		const resolutions = await conjoinedPromises(files, createDocument, {
-			asyncDepMapPredicate: (file) => [
+		const resolutions = await conjoinedPromises(files, (file) =>
+			createDocument(
 				{
 					id: this.#generateDocumentSubmissionId(journeyResponse),
 					referenceNumber: journeyResponse.referenceId
@@ -247,9 +247,8 @@ class MultiFileUploadQuestion extends Question {
 				file,
 				file.name,
 				this.documentType.name
-			],
-			applyMode: true
-		});
+			)
+		);
 
 		const result = Array.from(resolutions).map(([file, document]) =>
 			mapMultiFileDocumentToSavedDocument(document, document?.name, file.name)
