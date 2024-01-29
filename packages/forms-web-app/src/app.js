@@ -32,11 +32,6 @@ const routes = require('./routes');
 
 const app = express();
 
-app.post('/*', (req, _res, next) => {
-	console.log('😭😭😭😭😭😭 Start request');
-	next();
-});
-
 prometheus.init(app);
 
 app.use(
@@ -106,17 +101,7 @@ app.use(
 	express.static(path.join(govukFrontEndRoot, 'govuk', 'assets'))
 );
 app.use('/assets/govuk/all.js', express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js')));
-
-app.use((req, res, next) => {
-	console.log('before fileUpload: ', new Date());
-	next();
-});
 app.use(fileUpload({ ...config.fileUpload /*useTempFiles: true*/ }));
-app.use((req, res, next) => {
-	console.log('after fileUpload: ', new Date());
-	next();
-});
-
 app.use(flashMessageCleanupMiddleware);
 app.use(flashMessageToNunjucks(env));
 app.use(navigationHistoryMiddleware());
