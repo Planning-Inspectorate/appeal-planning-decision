@@ -258,3 +258,13 @@ exports.submitted = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-screen/index');
 };
+
+exports.submitted = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	if (journey.isComplete()) {
+		return res.render('./dynamic-components/submission-screen/index');
+	}
+	// return error message and redirect
+	return res.status(400).render('./error/not-found.njk');
+};
