@@ -240,8 +240,20 @@ exports.submit = async (req, res) => {
 	const journey = getJourney(journeyResponse);
 	if (journey.isComplete()) {
 		await submitQuestionnaireResponse(journeyResponse.journeyId, encodeURIComponent(referenceId));
-		return res.render('./dynamic-components/submission-screen/index');
+		return res.redirect(
+			'/manage-appeals/questionnaire-submitted/' + encodeURIComponent(referenceId)
+		);
 	}
 	// return error message
 	return res.sendStatus(400);
+};
+
+exports.submitted = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	if (journey.isComplete()) {
+		return res.render('./dynamic-components/submission-screen/index');
+	}
+	// return error message and redirect
+	return res.status(400).render('./error/not-found.njk');
 };
