@@ -32,7 +32,6 @@ const { formatAddress, isAppealSubmission } = require('@pins/common/src/lib/form
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
 
-const { DECISION_OUTCOME } = require('@pins/business-rules/src/constants');
 const { getAppealTypeName } = require('./full-appeal/map-planning-application');
 const { businessRulesDeadline } = require('./calculate-deadline');
 
@@ -68,7 +67,7 @@ const mapToAppellantDashboardDisplayData = (appealData) => ({
 	appealType: getAppealType(appealData),
 	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
 	isDraft: isAppealSubmission(appealData),
-	appealDecision: isAppealSubmission(appealData) ? null : getDecisionOutcome(appealData.outcome),
+	appealDecision: isAppealSubmission(appealData) ? null : appealData.outcome,
 	appealDecisionColor: isAppealSubmission(appealData)
 		? null
 		: mapDecisionColour(appealData.outcome),
@@ -272,24 +271,6 @@ const getAppealType = (appealCaseData) => {
 	return `${appealCaseData.appealTypeName} appeal`;
 };
 
-/**
- * @param {string | undefined} outcome the decision in relation to the appeal
- * @returns {string | null}
- */
-const getDecisionOutcome = (outcome) => {
-	if (!outcome) return null;
-	switch (outcome) {
-		case DECISION_OUTCOME.ALLOWED:
-			return 'allowed';
-		case DECISION_OUTCOME.DISMISSED:
-			return 'dismissed';
-		case DECISION_OUTCOME.SPLIT_DECISION:
-			return 'allowed in part';
-		default:
-			return outcome;
-	}
-};
-
 module.exports = {
 	formatAddress,
 	isNewAppeal,
@@ -297,6 +278,5 @@ module.exports = {
 	mapToLPADashboardDisplayData,
 	isToDoLPADashboard,
 	isToDoAppellantDashboard,
-	mapToAppellantDashboardDisplayData,
-	getDecisionOutcome
+	mapToAppellantDashboardDisplayData
 };
