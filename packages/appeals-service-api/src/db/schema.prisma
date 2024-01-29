@@ -281,8 +281,10 @@ model ServiceUser {
 model LPAQuestionnaireSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
-  appealCaseId String     @unique @db.UniqueIdentifier
-  AppealCase   AppealCase @relation(fields: [appealCaseId], references: [id])
+  appealCaseReference String     @unique
+  AppealCase          AppealCase @relation(fields: [appealCaseReference], references: [caseReference])
+
+  lpaCode String
 
   // link the submission to the appeal
 

@@ -3,11 +3,17 @@ components:
     LPAQuestionnaireSubmission:
       description: A questionnaire submitted by an LPA
       type: object
+      required:
+        - id
+        - appealCaseId
+        - lpaCode
       properties:
         id:
           type: string
           format: uuid
-        appealCaseId:
+        appealCaseReference:
+          type: string
+        lpaCode:
           type: string
         correctAppealType:
           type: boolean

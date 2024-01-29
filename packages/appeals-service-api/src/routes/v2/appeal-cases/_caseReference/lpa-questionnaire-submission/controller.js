@@ -11,7 +11,7 @@ const ApiError = require('#errors/apiError');
  */
 async function getLPAQuestionnaireSubmission(req, res) {
 	try {
-		const content = await getLPAQuestionnaireByAppealId(req.params.id);
+		const content = await getLPAQuestionnaireByAppealId(req.params.caseReference);
 		if (!content) {
 			throw ApiError.questionnaireNotFound();
 		}
@@ -32,7 +32,11 @@ async function getLPAQuestionnaireSubmission(req, res) {
  */
 async function createLPAQuestionnaireSubmission(req, res) {
 	try {
-		const content = await createLPAQuestionnaire(req.params.id);
+		const { 'lpa-code': lpaCode } = req.query;
+		if (!lpaCode || typeof lpaCode !== 'string') {
+			throw ApiError.withMessage(400, 'lpa-code is required');
+		}
+		const content = await createLPAQuestionnaire(req.params.caseReference, lpaCode);
 		if (!content) {
 			throw ApiError.unableToCreateQuestionnaire();
 		}
@@ -53,7 +57,10 @@ async function createLPAQuestionnaireSubmission(req, res) {
  */
 async function patchLPAQuestionnaireSubmission(req, res) {
 	try {
-		const content = await patchLPAQuestionnaireByAppealId(req.params.id, req.body);
+		const content = await patchLPAQuestionnaireByAppealId(
+			req.params.caseReference,
+			req.body.answers
+		);
 		if (!content) {
 			throw ApiError.questionnaireNotFound();
 		}

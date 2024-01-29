@@ -1,5 +1,6 @@
-const { patchQuestionResponse } = require('../lib/appeals-api-wrapper');
+// const { patchQuestionResponse } = require('../lib/appeals-api-wrapper');
 const { capitalize } = require('../lib/string-functions');
+const { apiClient } = require('../lib/appeals-api-client');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -178,6 +179,8 @@ class Question {
 
 		// save
 		const responseToSave = await this.getDataToSave(req, journeyResponse);
+		console.log('response to save!');
+		console.log(responseToSave);
 		await this.saveResponseToDB(journey.response, responseToSave);
 
 		// check for saving errors
@@ -227,8 +230,13 @@ class Question {
 	async getDataToSave(req, journeyResponse) {
 		// set answer on response
 		let responseToSave = { answers: {} };
-
-		responseToSave.answers[this.fieldName] = req.body[this.fieldName];
+		if (req.body[this.fieldName] === 'yes') {
+			responseToSave.answers[this.fieldName] === true;
+		} else if (req.body[this.fieldName] === 'no') {
+			responseToSave.answers[this.fieldName] === false;
+		} else {
+			responseToSave.answers[this.fieldName] = req.body[this.fieldName];
+		}
 
 		for (const propName in req.body) {
 			if (propName.startsWith(this.fieldName + '_')) {
@@ -247,13 +255,14 @@ class Question {
 	 * @param {Promise<void>} responseToSave
 	 */
 	async saveResponseToDB(journeyResponse, responseToSave) {
-		const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
-		await patchQuestionResponse(
-			journeyResponse.journeyId,
-			encodedReferenceId,
-			responseToSave,
-			journeyResponse.LPACode
-		);
+		// const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
+		// await patchQuestionResponse(
+		// 	journeyResponse.journeyId,
+		// 	encodedReferenceId,
+		// 	responseToSave,
+		// 	journeyResponse.LPACode
+		// );
+		await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave);
 	}
 
 	/**
@@ -280,7 +289,7 @@ class Question {
 	}
 
 	/**
-	 * returns the formatted answers valuyes to be used to build task list elements
+	 * returns the formatted answers values to be used to build task list elements
 	 * @param {Object} answer
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
