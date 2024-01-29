@@ -11,7 +11,7 @@ jest.mock('../../../../src/validators/full-appeal/type-of-planning-application')
 describe('routes/eligibility/planning-department', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/full-appeal/type-of-planning-application');
+		require('../../../../src/routes/before-you-start/type-of-planning-application');
 	});
 
 	it('should define the expected routes', () => {

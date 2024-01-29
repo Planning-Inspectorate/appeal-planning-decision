@@ -9,6 +9,12 @@ const v2 = '/api/v2';
 const trailingSlashRegex = /\/$/;
 
 /**
+ * @typedef {import('appeals-service-api').Api.AppealCase} AppealCase
+ * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
+ */
+
+/**
  * @class Api Client for v2 urls in appeals-service-api
  */
 class AppealsApiClient {
@@ -82,6 +88,16 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {AppealCase} data
+	 * @returns {Promise<AppealCase>}
+	 */
+	async putAppealCase(data) {
+		const endpoint = '/api/v2/appeal-cases/' + data.caseReference;
+		const response = await this.#makePutRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {Object<string, any>} params
 	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant[]>}
 	 */
@@ -92,16 +108,49 @@ class AppealsApiClient {
 	}
 
 	/**
-	 * @typedef {import('appeals-service-api').Api.AppealCase} AppealCase
-	 * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
-	 */
-
-	/**
 	 * @param {string} id
 	 * @returns {Promise<(AppealCase|AppealSubmission)[]>}
 	 */
 	async getUserAppealsById(id) {
 		const endpoint = `${v2}/users/${id}/appeals`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} lpaCode
+	 * @returns {Promise<AppealCaseWithAppellant[]>}
+	 */
+	async getAppealsCaseDataV2(lpaCode) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('lpa-code', lpaCode);
+		const endpoint = `${v2}/appeal-cases?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} lpaCode
+	 * @returns {Promise<{count: number}>}
+	 */
+	async getDecidedAppealsCountV2(lpaCode) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('lpa-code', lpaCode);
+		urlParams.append('decided-only', 'true');
+		const endpoint = `${v2}/appeal-cases/count?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} lpaCode
+	 * @returns {Promise<AppealCaseWithAppellant[]>}
+	 */
+	async getDecidedAppealsCaseDataV2(lpaCode) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('lpa-code', lpaCode);
+		urlParams.append('decided-only', 'true');
+		const endpoint = `${v2}/appeal-cases?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
@@ -218,6 +267,18 @@ class AppealsApiClient {
 	 */
 	#makePostRequest(endpoint, data = {}) {
 		return this.handler(endpoint, 'POST', {
+			body: JSON.stringify(data)
+		});
+	}
+
+	/**
+	 * @param {string} endpoint
+	 * @param {any} data
+	 * @returns {Promise<import('node-fetch').Response>}
+	 * @throws {AppealsApiError|Error}
+	 */
+	#makePutRequest(endpoint, data = {}) {
+		return this.handler(endpoint, 'PUT', {
 			body: JSON.stringify(data)
 		});
 	}

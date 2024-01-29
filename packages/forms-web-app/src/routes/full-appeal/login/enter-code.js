@@ -37,21 +37,18 @@ const views = {
 
 const router = express.Router();
 
-//this route allows use of old enter code URLS (without id params)
-router.get('/submit-appeal/enter-code', getEnterCode(views, true));
-
 router.get(
-	'/submit-appeal/enter-code/:id',
-	idValidationRules(),
+	'/submit-appeal/enter-code/:enterCodeId',
+	idValidationRules('enterCodeId'),
 	validationErrorHandler,
-	getEnterCode(views, true)
+	getEnterCode(views, { isGeneralLogin: false })
 );
 
 router.post(
-	'/submit-appeal/enter-code/:id',
+	'/submit-appeal/enter-code/:enterCodeId',
 	ruleEnterCode(),
 	validationErrorHandler,
-	postEnterCode(views, true)
+	postEnterCode(views, { isGeneralLogin: false })
 );
 
 module.exports = router;

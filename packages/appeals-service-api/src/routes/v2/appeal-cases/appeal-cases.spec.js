@@ -243,6 +243,32 @@ describe('appeal-cases', () => {
 			expect(response.status).toBe(404);
 		});
 	});
+
+	describe('put', () => {
+		afterAll(async () => {
+			await _clearSqlData();
+		});
+
+		for (const testCase of testCases) {
+			it(`upserts case for ${testCase.caseReference}`, async () => {
+				const response = await appealsApi
+					.put(`/api/v2/appeal-cases/` + testCase.caseReference)
+					.send(testCase);
+				expect(response.status).toBe(200);
+				expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
+			});
+		}
+
+		it(`returns 400 for bad requests`, async () => {
+			const data = {
+				...testCases[2]
+			};
+			// @ts-ignore
+			delete data.appealTypeCode;
+			const response = await appealsApi.put(`/api/v2/appeal-cases/abcdefg`).send(data);
+			expect(response.status).toBe(400);
+		});
+	});
 });
 
 /**

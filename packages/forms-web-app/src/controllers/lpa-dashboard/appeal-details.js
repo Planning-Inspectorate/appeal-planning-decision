@@ -14,7 +14,6 @@ const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
-
 /**
  * @typedef {import('../../lib/appeals-api-wrapper').documentMetaData} documentMetaData
  */

@@ -5,14 +5,21 @@ const {
 	constants: { NEW_OR_SAVED_APPEAL_OPTION }
 } = require('@pins/business-rules');
 
+const { saveAppeal, getExistingAppeal } = require('../lib/appeals-api-wrapper');
+const {
+	config: {
+		appeal: { type: appealTypeConfig }
+	}
+} = require('@pins/business-rules');
+
 /**
  * @type {import('express').RequestHandler}
  */
-const isLoggedIn = async (req, res, next) => {
+const checkLoggedIn = async (req, res, next) => {
 	const enrolUsers = await isFeatureActive(FLAG.ENROL_USERS);
 
 	if (!enrolUsers) {
-		next();
+		return next();
 	}
 
 	const user = getAppealUserSession(req);
@@ -21,26 +28,53 @@ const isLoggedIn = async (req, res, next) => {
 		return next();
 	}
 
-	const pathRequiresCustomRedirect = requiresCustomRedirect(req.originalUrl);
-
-	req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;
-
-	if (pathRequiresCustomRedirect) {
-		req.session.loginRedirect = req.originalUrl; // will redirect after enter code
+	// document url - email sent to users with link to download
+	if (req.originalUrl.startsWith('/document/') && req.params?.appealOrQuestionnaireId) {
+		return await handleSaveAndReturnRedirect(req.params.appealOrQuestionnaireId);
 	}
 
+	req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;
 	return res.redirect('/appeal/email-address');
+
+	/**
+	 * @param {string} appealId
+	 * @returns {Promise<void>}
+	 */
+	async function handleSaveAndReturnRedirect(appealId) {
+		if (req?.session?.appeal) {
+			delete req.session.appeal;
+		}
+		req.session.loginRedirect = req.originalUrl;
+		return res.redirect(await createSaveAndReturnUrl(appealId));
+	}
 };
 
 /**
- * checks if url belongs to a list of urls that expect the user to navigate directly to them after logging in
- * @param {string} originalUrl
- * @returns {boolean}
+ * @param {string} appealId
+ * @returns {Promise<string>}
  */
-function requiresCustomRedirect(originalUrl) {
-	const returnToPageList = ['/document/'];
-	const isInReturnToPageList = returnToPageList.some((path) => originalUrl.startsWith(path));
-	return isInReturnToPageList;
+async function createSaveAndReturnUrl(appealId) {
+	const tempAppeal = {
+		id: appealId,
+		skipReturnEmail: true
+	};
+
+	await saveAppeal(tempAppeal); //create save/return
+
+	// lookup appeal to get type - don't trust this as user hasn't proven access to appeal via email yet
+	const appeal = await getExistingAppeal(appealId);
+
+	if (!appeal || !appeal.appealType) {
+		throw new Error('Access denied');
+	}
+
+	const saveAndReturn = appealTypeConfig[appeal.appealType].email.saveAndReturnContinueAppeal(
+		appeal,
+		'',
+		Date.now()
+	);
+
+	return saveAndReturn.variables.link;
 }
 
-module.exports = isLoggedIn;
+module.exports = checkLoggedIn;

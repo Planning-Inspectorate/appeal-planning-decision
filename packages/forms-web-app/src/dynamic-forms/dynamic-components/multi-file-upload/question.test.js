@@ -239,7 +239,7 @@ describe('MultiFileUploadQuestion', () => {
 
 			const sanitisedReferenceId = 'APP_Q9999_W_22_3221288';
 
-			const expectedResult = `<a href="/document/${journey.response.journeyId}:${sanitisedReferenceId}/${mockUploadedFile.id}" class="govuk-link">${mockUploadedFile.originalFileName}</a> </br>`;
+			const expectedResult = `<a href="/manage-appeals/document/${journey.response.journeyId}:${sanitisedReferenceId}/${mockUploadedFile.id}" class="govuk-link">${mockUploadedFile.originalFileName}</a> </br>`;
 
 			const result = question.formatAnswerForSummary('segment', journey, answer);
 			expect(result[0].value).toEqual(expectedResult);
@@ -268,7 +268,7 @@ describe('MultiFileUploadQuestion', () => {
 				}
 			};
 
-			const url = `<a href="/document/${journey.response.journeyId}:${journey.response.referenceId}/${mockUploadedFile.id}" class="govuk-link">${mockUploadedFile.originalFileName}</a> </br>`;
+			const url = `<a href="/manage-appeals/document/${journey.response.journeyId}:${journey.response.referenceId}/${mockUploadedFile.id}" class="govuk-link">${mockUploadedFile.originalFileName}</a> </br>`;
 			const expectedResult = url + url;
 
 			const href = 'http://example.com';

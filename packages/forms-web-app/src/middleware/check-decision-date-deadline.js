@@ -10,16 +10,7 @@ const {
 		APPELLANT_SUBMISSION: { CANNOT_APPEAL: cannotAppealHAS }
 	}
 } = require('../lib/views');
-const validationExclusionPages = [
-	'/before-you-start/you-cannot-appeal',
-	'/before-you-start/decision-date',
-	'/before-you-start/date-decision-due',
-	'/before-you-start/decision-date-householder',
-	'/before-you-start/date-decision-due-householder',
-	'/before-you-start/type-of-planning-application',
-	`/${cannotAppealFP}`,
-	`/${cannotAppealHAS}`
-];
+const validationExclusionPages = ['/before-you-start', `/${cannotAppealFP}`, `/${cannotAppealHAS}`];
 
 const setShutterPageProps = (req) => {
 	const { appeal } = req.session;
@@ -50,7 +41,9 @@ const checkDecisionDateDeadline = (req, res, next) => {
 	const { appeal } = req.session;
 
 	if (appeal && appeal.decisionDate) {
-		if (appeal.appealType && !validationExclusionPages.includes(req.originalUrl)) {
+		const isInAllowList = validationExclusionPages.some((path) => req.originalUrl.includes(path));
+
+		if (appeal.appealType && !isInAllowList) {
 			if (!isWithinExpiryPeriod(appeal)) {
 				setShutterPageProps(req);
 				if (appeal.appealType === '1001') {

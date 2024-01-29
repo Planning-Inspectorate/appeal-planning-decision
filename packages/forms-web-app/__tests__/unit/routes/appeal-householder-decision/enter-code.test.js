@@ -24,15 +24,14 @@ describe('routes/appeal-householder-planning/enter-code', () => {
 	});
 
 	it('should define the expected routes', () => {
-		expect(get).toHaveBeenCalledWith('/enter-code', getEnterCode());
 		expect(get).toHaveBeenCalledWith(
-			'/enter-code/:id',
+			'/enter-code/:enterCodeId',
 			idValidationRules(),
 			validationErrorHandler,
 			getEnterCode()
 		);
 		expect(post).toHaveBeenCalledWith(
-			'/enter-code/:id',
+			'/enter-code/:enterCodeId',
 			ruleEnterCode(),
 			validationErrorHandler,
 			postEnterCode()

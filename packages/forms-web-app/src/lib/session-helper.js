@@ -11,6 +11,11 @@ const getSessionAppealId = (session) => session[APPEAL_KEY][ID];
 
 const getSessionAppealSqlId = (session) => session[APPEAL_KEY][APPEAL_SQL_ID];
 
+/**
+ * @param {import('express-session').Session} session
+ * @param {boolean} appealInSession
+ * @returns {string}
+ */
 const getSessionEmail = (session, appealInSession) => {
 	if (appealInSession) {
 		return session[APPEAL_KEY][EMAIL_KEY];

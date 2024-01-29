@@ -1,9 +1,4 @@
-const {
-	getSavedAppeal,
-	getExistingAppeal,
-	sendToken,
-	getUserById
-} = require('../../lib/appeals-api-wrapper');
+const { getExistingAppeal, sendToken, getUserById } = require('#lib/appeals-api-wrapper');
 const {
 	getLPAUser,
 	createLPAUserSession,
@@ -11,40 +6,257 @@ const {
 	setLPAUserStatus
 } = require('../../services/lpa-user.service');
 const { createAppealUserSession } = require('../../services/appeal-user.service');
-const {
-	isTokenValid,
-	isTestToken,
-	isTestEnvironment,
-	isTestLpaAndToken
-} = require('../../lib/is-token-valid');
-const { enterCodeConfig, utils } = require('@pins/common');
-const logger = require('../../../src/lib/logger');
+const { isTokenValid } = require('#lib/is-token-valid');
+const { enterCodeConfig } = require('@pins/common');
+const logger = require('#lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { apiClient } = require('#lib/appeals-api-client');
-const { getSessionEmail, getSessionAppealSqlId } = require('../../lib/session-helper');
+const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
 
 /**
- * @typedef {Object} Token
- * @property {string} id
- * @property {string} token
- * @property {boolean} tooManyAttempts
- * @property {boolean} expired
- * @property {boolean} valid
- * @property {"confirmEmail" | "saveAndReturn" | "lpa-dashboard"} action
- * @property {number} attempts The number of attempted and failed logins
- * @property {Number} createdAt Epoch time
- *
+ * @typedef {import('#lib/is-token-valid').TokenValidResult} TokenValidResult
  */
+
+/**
+ * @typedef {Object} enterCodeOptions
+ * @property {boolean} isGeneralLogin - defines if this enter code journey is for a general appeal log in, unrelated to an appeal
+ */
+
+/**
+ * @param {{EMAIL_ADDRESS: string, ENTER_CODE: string, REQUEST_NEW_CODE: string}} views
+ * @param {enterCodeOptions} enterCodeOptions
+ * @returns {import('express').Handler}
+ */
+const getEnterCode = (views, { isGeneralLogin = true }) => {
+	return async (req, res) => {
+		const {
+			body: { errors = {} }
+		} = req;
+
+		/** @type {string|undefined} */
+		const enterCodeId = req.params.enterCodeId;
+		if (enterCodeId) {
+			req.session.enterCodeId = enterCodeId;
+		}
+
+		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
+		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
+		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
+
+		// show new code success message only once
+		const newCode = req.session?.enterCode?.newCode;
+		if (newCode) {
+			delete req.session?.enterCode?.newCode;
+		}
+
+		if (isGeneralLogin) {
+			if (!(await isFeatureActive(FLAG.ENROL_USERS))) {
+				throw new Error('unhandled journey for GET: enter-code');
+			}
+
+			const email = getSessionEmail(req.session, false);
+
+			try {
+				await sendToken(undefined, action, email);
+			} catch (e) {
+				logger.error(e, 'failed to send token to general login user');
+			}
+
+			return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
+		}
+
+		if (isAppealConfirmation) {
+			try {
+				await sendToken(enterCodeId, action);
+			} catch (e) {
+				logger.error(e, 'failed to send token for appeal email confirmation');
+			}
+
+			return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
+		}
+
+		if (isReturningFromEmail) {
+			req.session.enterCode = req.session.enterCode || {};
+			req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
+
+			// lookup user email from appeal id, user hasn't proved they own this appeal/email yet
+			const savedAppeal = await getExistingAppeal(enterCodeId);
+			setSessionEmail(req.session, savedAppeal.email, false);
+
+			//if middleware UUID validation fails, render the page
+			//but do not attempt to send code email to user
+			if (Object.keys(errors).length > 0) {
+				logger.error(errors, 'failed to send token to returning user');
+				return renderEnterCodePage();
+			}
+
+			// attempt to send code email to user, render page on failure
+			try {
+				await sendToken(enterCodeId, action);
+			} catch (e) {
+				logger.error(e, 'failed to send token to returning user');
+			}
+
+			return renderEnterCodePage();
+		}
+
+		throw new Error('unhandled journey for GET: enter-code');
+
+		/**
+		 * @param {string} [confirmEmailUrl]
+		 */
+		function renderEnterCodePage(confirmEmailUrl) {
+			res.render(views.ENTER_CODE, {
+				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`,
+				confirmEmailLink: confirmEmailUrl,
+				showNewCode: newCode
+			});
+		}
+	};
+};
+
+/**
+ * @param {{
+ *  NEED_NEW_CODE: string,
+ *  CODE_EXPIRED: string,
+ *  ENTER_CODE: string,
+ *  YOUR_APPEALS: string
+ *  APPEAL_ALREADY_SUBMITTED : string
+ *  TASK_LIST: string
+ *  EMAIL_CONFIRMED: string
+ * }} views
+ * @param {enterCodeOptions} enterCodeOptions
+ * @returns {import('express').Handler}
+ */
+const postEnterCode = (views, { isGeneralLogin = true }) => {
+	return async (req, res) => {
+		const {
+			body: { errors = {}, errorSummary = [] },
+			params: { enterCodeId }
+		} = req;
+		const token = req.body['email-code'];
+
+		// show error page
+		if (Object.keys(errors).length > 0) {
+			return renderError(errorSummary, errors);
+		}
+
+		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
+		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
+		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
+
+		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
+
+		const sessionEmail = getSessionEmail(req.session, isAppealConfirmation);
+
+		const tokenValid = await isTokenValid(
+			token,
+			enterCodeId,
+			sessionEmail,
+			action,
+			req.session?.appeal?.lpaCode
+		);
+
+		if (tokenValid.tooManyAttempts) {
+			return res.redirect(`/${views.NEED_NEW_CODE}`);
+		}
+
+		if (tokenValid.expired) {
+			return res.redirect(`/${views.CODE_EXPIRED}`);
+		}
+
+		if (!tokenValid.valid) {
+			return renderError('Enter a correct code');
+		}
+
+		if (enrolUsersFlag) {
+			// is valid so set user in session
+			const user = await apiClient.getUserByEmailV2(sessionEmail);
+			createAppealUserSession(req, user);
+		}
+
+		if (isGeneralLogin) {
+			if (!enrolUsersFlag) {
+				throw new Error('unhandled journey for POST: enter-code');
+			}
+			deleteTempSessionValues();
+			return res.redirect(`/${views.YOUR_APPEALS}`);
+		}
+
+		if (isAppealConfirmation) {
+			if (enrolUsersFlag) {
+				await apiClient.linkUserToV2Appeal(sessionEmail, getSessionAppealSqlId(req.session));
+			}
+
+			deleteTempSessionValues();
+
+			if (req.session.loginRedirect) {
+				return handleCustomRedirect();
+			} else {
+				return res.redirect(`/${views.EMAIL_CONFIRMED}`);
+			}
+		}
+
+		if (isReturningFromEmail) {
+			try {
+				req.session.appeal = await getExistingAppeal(enterCodeId);
+			} catch (err) {
+				return renderError('We did not find your appeal. Enter the correct code');
+			}
+
+			deleteTempSessionValues();
+
+			// redirect
+			if (req.session.loginRedirect) {
+				return handleCustomRedirect();
+			} else if (req.session.appeal.state === 'SUBMITTED') {
+				return res.redirect(`/${views.APPEAL_ALREADY_SUBMITTED}`);
+			} else {
+				return res.redirect(`/${views.TASK_LIST}`);
+			}
+		}
+
+		throw new Error('unhandled journey for POST: enter-code');
+
+		function deleteTempSessionValues() {
+			delete req.session.enterCodeId;
+			delete req.session?.enterCode?.action;
+		}
+
+		/**
+		 * @param {Array<Object>|string} errorSummary - if just a string will add single error to form and summary
+		 * @param {Object} [errors]
+		 */
+		function renderError(errorSummary, errors = {}) {
+			if (typeof errorSummary === 'string') {
+				errors = { 'email-code': { msg: errorSummary } };
+				errorSummary = [{ text: errorSummary, href: '#email-code' }];
+			}
+
+			res.render(views.ENTER_CODE, {
+				token,
+				errors,
+				errorSummary
+			});
+		}
+
+		function handleCustomRedirect() {
+			const redirect = req.session.loginRedirect;
+			delete req.session.loginRedirect;
+			res.redirect(redirect);
+		}
+	};
+};
 
 /**
  * The Context for the View to be rendered, with any error information
  * @typedef {Object} ViewContext
- * @property {Token} token
- * @property {Array} errors
- * @property {string} errorSummary
+ * @property {TokenValidResult} token
+ * @property {Array<Object>} errors
+ * @property {Object} errorSummary
  */
 
 /**
@@ -57,7 +269,6 @@ const renderErrorPageLPA = (res, view, context) => {
 };
 
 const redirectToEnterLPAEmail = (res, views) => {
-	console.log(views);
 	res.redirect(`/${views.YOUR_EMAIL_ADDRESS}`);
 };
 
@@ -67,12 +278,12 @@ const redirectToLPADashboard = (res, views) => {
 
 /**
  * Verifies the token and redirects on failure
- * @param {ExpressResponse} res
- * @param {Token} token
+ * @param {import('express').Response} res
+ * @param {TokenValidResult} token
  * @param {Object} views
  * @returns
  */
-const tokenVerification = (res, token, views, id) => {
+const lpaTokenVerification = (res, token, views, id) => {
 	if (token.tooManyAttempts) {
 		res.redirect(`/${views.NEED_NEW_CODE}/${id}`);
 		return false;
@@ -80,11 +291,13 @@ const tokenVerification = (res, token, views, id) => {
 		res.redirect(`/${views.CODE_EXPIRED}/${id}`);
 		return false;
 	} else if (!token.valid) {
+		const errorMessage = 'Enter a correct code';
+
 		renderErrorPageLPA(res, views.ENTER_CODE, {
 			lpaUserId: id,
 			token,
-			errors: {},
-			errorSummary: [{ text: 'Enter a correct code', href: '#email-code' }]
+			errors: { 'email-code': { msg: errorMessage } },
+			errorSummary: [{ text: errorMessage, href: '#email-code' }]
 		});
 		return false;
 	} else if (token.valid) {
@@ -96,7 +309,7 @@ const tokenVerification = (res, token, views, id) => {
 /**
  * Sends a new token to the lpa user referenced by the id in the url params
  * @async
- * @param {ExpressRequest} req
+ * @param {import('express').Request} req
  * @returns {Promise<void>}
  */
 async function sendTokenToLpaUser(req) {
@@ -106,207 +319,6 @@ async function sendTokenToLpaUser(req) {
 		await sendToken(req.params.id, enterCodeConfig.actions.lpaDashboard, user.email);
 	}
 }
-
-const getEnterCode = (views, appealInSession) => {
-	return async (req, res) => {
-		const {
-			body: { errors = {} }
-		} = req;
-
-		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
-
-		if (action === enterCodeConfig.actions.saveAndReturn) {
-			req.session.enterCode = req.session.enterCode || {};
-			req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
-		}
-
-		// show new code success message only once
-		const newCode = req.session?.enterCode?.newCode;
-		if (newCode) {
-			delete req.session?.enterCode?.newCode;
-		}
-
-		const url = `/${views.REQUEST_NEW_CODE}`;
-		const confirmEmailUrl =
-			action === enterCodeConfig.actions.confirmEmail ? `/${views.EMAIL_ADDRESS}` : null;
-
-		//this handles old save & return url (without id params)
-		if (appealInSession && req.session.appeal?.id && !req.params.id) {
-			res.redirect(`/${views.ENTER_CODE_URL}/${req.session.appeal.id}`);
-			return;
-		}
-
-		let sessionEmail;
-
-		try {
-			sessionEmail = getSessionEmail(req.session, appealInSession);
-		} catch (error) {
-			logger.warn('no session email exists, allow page to render');
-		}
-
-		//this handles new save & return url (with id params)
-		if (req.params.id) {
-			req.session.userTokenId = req.params.id;
-
-			//if middleware UUID validation fails, render the page
-			//but do not attempt to send code email to user
-			if (Object.keys(errors).length > 0) {
-				return renderEnterCodePage();
-			}
-
-			//attempt to send code email to user
-			//and render page if API response errors
-			try {
-				await sendToken(req.params.id, action);
-			} catch (e) {
-				return renderEnterCodePage();
-			}
-		} else if (sessionEmail) {
-			try {
-				await sendToken(undefined, action, sessionEmail);
-			} catch (e) {
-				return renderEnterCodePage();
-			}
-		}
-
-		return renderEnterCodePage();
-
-		function renderEnterCodePage() {
-			res.render(views.ENTER_CODE, {
-				requestNewCodeLink: url,
-				confirmEmailLink: confirmEmailUrl,
-				showNewCode: newCode
-			});
-		}
-	};
-};
-
-const postEnterCode = (views, appealInSession) => {
-	return async (req, res) => {
-		const {
-			body: { errors = {}, errorSummary = [] },
-			params: { id }
-		} = req;
-		const token = req.body['email-code'];
-
-		// show error page
-		if (Object.keys(errors).length > 0) {
-			return res.render(views.ENTER_CODE, {
-				token,
-				errors,
-				errorSummary
-			});
-		}
-
-		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
-		const isReturningUser = req.session.newOrSavedAppeal === 'return';
-
-		/** @type {import('appeals-service-api').Api.AppealUser|undefined} */
-		let user;
-		/** @type {string|undefined} */
-		let sessionEmail;
-
-		if (enrolUsersFlag) {
-			sessionEmail = getSessionEmail(req.session, appealInSession);
-			user = await apiClient.getUserByEmailV2(sessionEmail);
-		}
-
-		const tokenValidResult = async () => {
-			const isTestScenario =
-				isTestEnvironment() &&
-				isTestToken(token) &&
-				(isReturningUser || utils.isTestLPA(req.session?.appeal?.lpaCode));
-
-			if (isTestScenario) {
-				return {
-					valid: true,
-					action: enterCodeConfig.actions.confirmEmail
-				};
-			}
-
-			return await isTokenValid(id, token, sessionEmail, req.session);
-		};
-
-		// check token
-		let tokenValid = await tokenValidResult();
-
-		if (tokenValid.tooManyAttempts) {
-			return res.redirect(`/${views.NEED_NEW_CODE}`);
-		}
-
-		if (tokenValid.expired) {
-			return res.redirect(`/${views.CODE_EXPIRED}`);
-		}
-
-		if (!tokenValid.valid) {
-			const customErrorSummary = [{ text: 'Enter a correct code', href: '#email-code' }];
-
-			return res.render(views.ENTER_CODE, {
-				token,
-				errors: {},
-				errorSummary: customErrorSummary
-			});
-		}
-
-		// is valid so set user in session
-		if (enrolUsersFlag && user) {
-			createAppealUserSession(req, user);
-		}
-
-		// if handling an email confirmation
-		// session will be in browser so can redirect here and consider email confirmed
-		if (tokenValid.action === enterCodeConfig.actions.confirmEmail) {
-			if (enrolUsersFlag && user && appealInSession) {
-				await apiClient.linkUserToV2Appeal(user.email, getSessionAppealSqlId(req.session));
-			}
-
-			delete req.session?.enterCode?.action;
-
-			if (req.session.loginRedirect) {
-				return handleCustomRedirect();
-			} else if (isReturningUser) {
-				return res.redirect(`/${views.YOUR_APPEALS}`);
-			} else {
-				return res.redirect(`/${views.EMAIL_CONFIRMED}`);
-			}
-		}
-
-		// n.b. older save and return objects in db may not have an action - May 2023
-
-		// delete temp user token from session
-		delete req.session.userTokenId;
-
-		// look up appeal from db
-		let savedAppeal;
-		try {
-			savedAppeal = await getSavedAppeal(id);
-		} catch (err) {
-			return res.render(views.ENTER_CODE, {
-				errors,
-				errorSummary: [
-					{ text: 'We did not find your appeal. Enter the correct code', href: '#email-code' }
-				]
-			});
-		}
-
-		req.session.appeal = await getExistingAppeal(savedAppeal.appealId);
-
-		// redirect
-		if (req.session.loginRedirect) {
-			return handleCustomRedirect();
-		} else if (req.session.appeal.state === 'SUBMITTED') {
-			return res.redirect(`/${views.APPEAL_ALREADY_SUBMITTED}`);
-		} else {
-			return res.redirect(`/${views.TASK_LIST}`);
-		}
-
-		function handleCustomRedirect() {
-			const redirect = req.session.loginRedirect;
-			delete req.session.loginRedirect;
-			res.redirect(redirect);
-		}
-	};
-};
 
 const getEnterCodeLPA = (views) => {
 	return async (req, res) => {
@@ -381,28 +393,13 @@ const postEnterCodeLPA = (views) => {
 				valid: false
 			};
 
-			return tokenVerification(res, failedToken, views, id);
-		}
-
-		if (isTestEnvironment() && isTestLpaAndToken(emailCode, user.lpaCode)) {
-			try {
-				await createLPAUserSession(req, user);
-				redirectToLPADashboard(res, views);
-				return;
-			} catch (e) {
-				logger.error(`Failed to create user session for user id ${id}`);
-				logger.error(e);
-				return {
-					valid: false,
-					action: enterCodeConfig.actions.lpaDashboard
-				};
-			}
+			return lpaTokenVerification(res, failedToken, views, id);
 		}
 
 		// check token
-		let token = await isTokenValid(id, emailCode, user.email);
+		const tokenResult = await isTokenValid(emailCode, id, user.email, req.session, user.lpaCode);
 
-		if (!tokenVerification(res, token, views, id)) return;
+		if (!lpaTokenVerification(res, tokenResult, views, id)) return;
 
 		try {
 			const currentUserStatus = await getLPAUserStatus(id);
@@ -410,10 +407,9 @@ const postEnterCodeLPA = (views) => {
 				await setLPAUserStatus(id, STATUS_CONSTANTS.CONFIRMED);
 			}
 			await createLPAUserSession(req, user);
-		} catch (e) {
-			logger.error(`Failed to create user session for user id ${id}`);
-			logger.error(e);
-			throw new Error('Failed to create user session');
+		} catch (err) {
+			logger.error(err, `Failed to create user session for user id ${id}`);
+			throw err;
 		}
 
 		redirectToLPADashboard(res, views);

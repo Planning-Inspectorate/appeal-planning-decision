@@ -4,7 +4,7 @@ const useExistingServiceApplicationType = require('../../../../src/controllers/f
 describe('routes/full-appeal/use-existing-service-application-type', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/full-appeal/use-existing-service-application-type');
+		require('../../../../src/routes/before-you-start/use-existing-service-application-type');
 	});
 
 	it('should define the expected routes', () => {

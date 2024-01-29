@@ -15,6 +15,7 @@
 	"scripts": {
 		"docker:all": "docker compose --profile all -f docker-compose.yml -f docker-compose.full.yml up",
 		"docker:slim": "docker compose --profile all -f docker-compose.yml -f docker-compose.slim.yml up",
+		"docker:api": "docker compose --profile api -f docker-compose.yml -f docker-compose.slim.yml up",
 		"docker:appeals": "docker compose --profile appeals -f docker-compose.yml -f docker-compose.slim.yml up",
 		"docker:comment": "docker compose --profile comment -f docker-compose.yml -f docker-compose.slim.yml up",
 		"commit": "cz",
@@ -60,14 +61,14 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/foundry4/appeal-planning-decision.git"
+		"url": "git+https://github.com/Planning-Inspectorate/appeal-planning-decision.git"
 	},
-	"author": "Foundry4 <www.foundry4.com>",
+	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"license": "ISC",
 	"bugs": {
-		"url": "https://github.com/foundry4/appeal-planning-decision/issues"
+		"url": "https://github.com/Planning-Inspectorate/appeal-planning-decision/issues"
 	},
-	"homepage": "https://github.com/foundry4/appeal-planning-decision#readme",
+	"homepage": "https://github.com/Planning-Inspectorate/appeal-planning-decision#readme",
 	"devDependencies": {
 		"@commitlint/cli": "^17.0.0",
 		"@commitlint/config-conventional": "^17.0.0",

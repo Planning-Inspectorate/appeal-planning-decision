@@ -6,6 +6,8 @@ const {
 	}
 } = require('@pins/business-rules');
 const logger = require('../lib/logger');
+const { isFeatureActive } = require('../featureFlag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 /**
  * links user to a document, requires an active session
@@ -15,6 +17,7 @@ const getDocument = async (req, res) => {
 	const { appealOrQuestionnaireId, documentId } = req.params;
 
 	try {
+		// lpa users
 		if (req.session.lpaUser) {
 			const { headers, body } = await fetchDocument(appealOrQuestionnaireId, documentId);
 			const sessionLpaCode = req.session.lpaUser.lpaCode;
@@ -27,7 +30,10 @@ const getDocument = async (req, res) => {
 			}
 
 			return await returnResult(headers, body, res);
-		} else {
+		}
+
+		// enrol users feature will check user access via routing middleware
+		if (!(await isFeatureActive(FLAG.ENROL_USERS))) {
 			const sessionAppealId = req?.session?.appeal?.id;
 
 			if (!sessionAppealId || sessionAppealId !== appealOrQuestionnaireId) {
@@ -59,11 +65,10 @@ const getDocument = async (req, res) => {
 				res.redirect(`${saveAndContinueConfig.variables.link}`);
 				return;
 			}
-
-			const { headers, body } = await fetchDocument(sessionAppealId, documentId);
-
-			return await returnResult(headers, body, res);
 		}
+
+		const { headers, body } = await fetchDocument(appealOrQuestionnaireId, documentId);
+		return await returnResult(headers, body, res);
 	} catch (err) {
 		logger.error({ err }, 'Failed to get document');
 		res.sendStatus(500);

@@ -223,6 +223,14 @@ describe('Users', () => {
 		expect(userResponse.body.status).toBe(STATUS_CONSTANTS.ADDED);
 	});
 
+	it('should 400 for malformed email', async () => {
+		// when: using a malformed email
+		const user = await appealsApi.get(`/api/v1/users/testuser1example.com`);
+
+		// then: a 400 is returned
+		expect(user.status).toBe(400);
+	});
+
 	it('should 404 with nonexistent user', async () => {
 		// when: getting a nonexistent user
 		const user = await appealsApi.get(`/api/v1/users/testuser1@example.com`);

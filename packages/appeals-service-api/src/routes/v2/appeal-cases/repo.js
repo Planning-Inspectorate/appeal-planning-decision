@@ -2,6 +2,7 @@ const { createPrismaClient } = require('#db-client');
 
 /**
  * @typedef {import("@prisma/client").AppealCase} AppealCase
+ * @typedef {import("@prisma/client").Prisma.AppealCaseCreateInput} AppealCaseCreateInput
  * @typedef {import('@prisma/client').Prisma.AppealCaseFindManyArgs} AppealCaseFindManyArgs
  * @typedef {import('@prisma/client').Prisma.AppealCaseWhereInput} AppealCaseWhereInput
  * @typedef {import('@prisma/client').Prisma.AppealCaseCountArgs} AppealCaseCountArgs
@@ -22,6 +23,23 @@ class AppealCaseRepository {
 	 */
 	getByCaseReference(caseReference) {
 		return this.dbClient.appealCase.findUnique({
+			where: {
+				caseReference
+			}
+		});
+	}
+
+	/**
+	 * Get an appeal by case reference (aka appeal number)
+	 *
+	 * @param {string} caseReference
+	 * @param {AppealCaseCreateInput} data
+	 * @returns {Promise<AppealCase>}
+	 */
+	putByCaseReference(caseReference, data) {
+		return this.dbClient.appealCase.upsert({
+			create: { ...data, Appeal: { create: {} } }, // create with parent Appeal
+			update: data,
 			where: {
 				caseReference
 			}

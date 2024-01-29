@@ -1,7 +1,8 @@
-const { formatAddress } = require('#utils/format-address');
+const { formatAddress } = require('@pins/common/src/lib/format-address');
 const { formatDate } = require('#utils/format-date');
 const { sortByCaseDecisionDate } = require('#utils/appeal-sorting');
 const { apiClient } = require('#utils/appeals-api-client');
+const { mapDecisionColour } = require('@pins/business-rules/src/utils/decision-outcome');
 
 /** @type {import('express').RequestHandler} */
 const decidedAppeals = async (req, res) => {
@@ -24,21 +25,6 @@ const decidedAppeals = async (req, res) => {
 	decidedAppeals.sort(sortByCaseDecisionDate);
 
 	res.render(`decided-appeals/index`, { postcode, decidedAppeals });
-};
-
-/**
- * @param {string|undefined} decision
- * @returns {string}
- */
-const mapDecisionColour = (decision) => {
-	const decisionColourMap = new Map([
-		['allowed', 'green'],
-		['dismissed', 'orange'],
-		['allowed in part', 'yellow'],
-		['other', 'grey']
-	]);
-
-	return (decision && decisionColourMap.get(decision)) || 'grey';
 };
 
 module.exports = { decidedAppeals };

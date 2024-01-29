@@ -63,7 +63,7 @@ paths:
             format: email
           example: me@example.com
           description: user email
-        - in: appealId
+        - in: path
           name: appealId
           required: true
           schema:

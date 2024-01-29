@@ -13,6 +13,11 @@ router.use(require('./login'));
 /// as well as appeal objects
 router.use('/submit-final-comment', require('./submit-final-comment'));
 
+router.use(
+	checkAppealExists,
+	checkDecisionDateDeadline,
+	require('./submit-appeal/planning-application-number')
+);
 router.use(checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, require('./submit-appeal'));
 
 module.exports = router;

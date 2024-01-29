@@ -11,7 +11,7 @@ jest.mock('../../../../src/validators/full-appeal/local-planning-department');
 describe('routes/full-appeal/local-planning-department', () => {
 	beforeEach(() => {
 		// eslint-disable-next-line global-require
-		require('../../../../src/routes/full-appeal/local-planning-department');
+		require('../../../../src/routes/before-you-start/local-planning-department');
 	});
 
 	it('should define the expected routes', () => {

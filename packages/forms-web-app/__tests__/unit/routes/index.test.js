@@ -11,7 +11,6 @@ const householderPlanningRouter = require('../../../src/routes/appeal-householde
 const fullAppealRouter = require('../../../src/routes/full-appeal');
 const appealRouter = require('../../../src/routes/appeal');
 const appealsRouter = require('../../../src/routes/appeals');
-const documentRouter = require('../../../src/routes/document');
 
 const saveAndReturnRouter = require('../../../src/routes/save');
 const submitAppealRouter = require('../../../src/routes/submit-appeal');
@@ -65,7 +64,6 @@ describe('routes/index', () => {
 		expect(use).toHaveBeenCalledWith('/appeal', appealRouter);
 
 		expect(use).toHaveBeenCalledWith('/appeals', checkLoggedIn, appealsRouter);
-		expect(use).toHaveBeenCalledWith('/document', checkLoggedIn, documentRouter);
 
 		expect(use).toHaveBeenCalledWith(
 			'/save-and-return',

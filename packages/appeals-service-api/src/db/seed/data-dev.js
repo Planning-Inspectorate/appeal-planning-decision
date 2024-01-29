@@ -1,5 +1,8 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
+const {
+	constants: { DECISION_OUTCOME }
+} = require('@pins/business-rules');
 
 // some data here so we can reference in multiple places
 // IDs have no specific meaning, just valid UUIDs and used for upsert/relations
@@ -190,7 +193,7 @@ const appealCases = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		outcome: 'allowed'
+		outcome: DECISION_OUTCOME.ALLOWED
 	},
 	{
 		Appeal: {
@@ -204,7 +207,7 @@ const appealCases = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionDate: pickRandom(datesNMonthsAgo(2)),
-		outcome: 'dismissed'
+		outcome: DECISION_OUTCOME.DISMISSED
 	},
 	{
 		Appeal: {
@@ -218,7 +221,7 @@ const appealCases = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionDate: pickRandom(datesNMonthsAgo(3)),
-		outcome: 'split decision'
+		outcome: DECISION_OUTCOME.SPLIT_DECISION
 	},
 	{
 		Appeal: {
