@@ -1,0 +1,39 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+
+ {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+ {% from "govuk/components/button/macro.njk" import govukButton %}
+ {% from "govuk/components/radios/macro.njk" import govukRadios %}
+ {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+ {% from "govuk/components/table/macro.njk" import govukTable %}
+
+ {% set title="
+ Appeal " + appeal.appealNumber + " - Appeal a planning decision - GOV.UK" %}
+
+ {% block backButton %}
+  {{ govukBackLink({
+    text: "Back to your appeals",
+    href: "/appeals/your-appeals",
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+ {% endblock %}
+
+ {% block pageTitle %}
+   {{ title }}
+ {% endblock %}
+
+ {% block content %}
+   <div class="govuk-grid-row">
+     <div class="govuk-grid-column-full">
+
+       {% if errorSummary %}
+         {{ govukErrorSummary({
+           titleText: "There is a problem",
+           errorList: errorSummary
+         }) }}
+       {% endif %}
+
+       <h1 class="govuk-heading-l">Appeal {{appeal.appealNumber}}</h1>
+
+ {% endblock %}

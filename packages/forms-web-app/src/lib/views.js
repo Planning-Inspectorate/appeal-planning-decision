@@ -208,6 +208,10 @@ const VIEW = {
 		DECIDED_APPEALS: 'appeals/your-appeals/decided-appeals'
 	},
 
+	SELECTED_APPEAL: {
+		APPEAL: 'selected-appeal/appeal'
+	},
+
 	SUBMIT_APPEAL: {
 		APPLICATION_SAVED: 'submit-appeal/application-saved',
 		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details'
