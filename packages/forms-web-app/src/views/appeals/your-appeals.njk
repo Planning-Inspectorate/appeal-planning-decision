@@ -51,7 +51,7 @@
                           {% if item.isDraft %}
                             <strong class='govuk-tag govuk-tag--yellow'>DRAFT</strong>
                           {%else %}
-                            <a href="#" class="govuk-link">
+                            <a href="/appeals/your-appeals/{{item.appealNumber}}/appeal" class="govuk-link">
                               {{item.appealNumber}}
                             </a>
                           {% endif %}
@@ -101,7 +101,7 @@
                           {% if item.isDraft %}
                             <strong class='govuk-tag govuk-tag--yellow'>DRAFT</strong>
                           {%else %}
-                            <a href="#" class="govuk-link">
+                            <a href="/appeals/your-appeals/{{item.appealNumber}}/appeal" class="govuk-link">
                               {{item.appealNumber}}
                             </a>
                           {% endif %}
