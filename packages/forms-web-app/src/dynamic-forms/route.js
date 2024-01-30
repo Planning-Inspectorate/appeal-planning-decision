@@ -27,7 +27,7 @@ router.post(
 router.post('/questionnaire/:referenceId/', getJourneyResponse(), validationErrorHandler, submit);
 
 router.get(
-	'/questionnaire-submitted/:referenceId',
+	'/:referenceId/questionnaire-submitted',
 	getJourneyResponse(),
 	validationErrorHandler,
 	submitted

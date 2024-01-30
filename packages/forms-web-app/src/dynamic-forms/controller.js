@@ -241,7 +241,7 @@ exports.submit = async (req, res) => {
 	if (journey.isComplete()) {
 		await submitQuestionnaireResponse(journeyResponse.journeyId, encodeURIComponent(referenceId));
 		return res.redirect(
-			'/manage-appeals/questionnaire-submitted/' + encodeURIComponent(referenceId)
+			'/manage-appeals/' + encodeURIComponent(referenceId) + '/questionnaire-submitted/'
 		);
 	}
 	// return error message

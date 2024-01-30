@@ -522,7 +522,7 @@ describe('dynamic-form/controller', () => {
 			getJourney.mockReturnValue(mockCompletedJourney);
 
 			await submit(req, res);
-			expect(res.render).toHaveBeenCalledWith('./dynamic-components/submission-screen/index');
+			expect(res.redirect).toHaveBeenCalledTimes(1);
 		});
 	});
 });
