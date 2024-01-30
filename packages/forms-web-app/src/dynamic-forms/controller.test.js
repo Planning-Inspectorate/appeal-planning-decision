@@ -522,7 +522,9 @@ describe('dynamic-form/controller', () => {
 			getJourney.mockReturnValue(mockCompletedJourney);
 
 			await submit(req, res);
-			expect(res.redirect).toHaveBeenCalledTimes(1);
+			expect(res.redirect).toHaveBeenCalledWith(
+				expect.stringMatching(/^\/manage-appeals\/.+\/questionnaire-submitted\/$/)
+			);
 		});
 	});
 });
