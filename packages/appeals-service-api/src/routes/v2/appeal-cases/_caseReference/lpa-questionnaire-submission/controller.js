@@ -57,10 +57,7 @@ async function createLPAQuestionnaireSubmission(req, res) {
  */
 async function patchLPAQuestionnaireSubmission(req, res) {
 	try {
-		const content = await patchLPAQuestionnaireByAppealId(
-			req.params.caseReference,
-			req.body.answers
-		);
+		const content = await patchLPAQuestionnaireByAppealId(req.params.caseReference, req.body);
 		if (!content) {
 			throw ApiError.questionnaireNotFound();
 		}

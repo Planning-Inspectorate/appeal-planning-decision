@@ -74,8 +74,8 @@ exports.questions = {
 		title: 'Listed building or site added',
 		pageTitle: 'Listed building or site has been added to the case',
 		question: 'Add another building or site?',
-		fieldName: 'add-listed-buildings',
-		// fieldName: 'addChangedListedBuilding',
+		// fieldName: 'add-listed-buildings',
+		fieldName: 'addChangedListedBuilding',
 		url: 'changed-listed-buildings',
 		subQuestionLabel: 'Listed Building',
 		subQuestionFieldLabel: 'Seven digit number',
@@ -85,8 +85,8 @@ exports.questions = {
 		subQuestion: new ListedBuildingAddMoreQuestion({
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
-			fieldName: 'listed-building-number',
-			// fieldName: 'changedListedBuildingNumber',
+			// fieldName: 'listed-building-number',
+			fieldName: 'changedListedBuildingNumber',
 			html: 'resources/listed-building-number/content.html',
 			validators: [
 				new RequiredValidator('Enter a list entry number'),
@@ -99,8 +99,8 @@ exports.questions = {
 		title: 'Listed building or site added',
 		pageTitle: 'Listed building or site has been added to the case',
 		question: 'Add another building or site?',
-		fieldName: 'add-listed-buildings',
-		// fieldName: 'addAffectedListedBuilding',
+		// fieldName: 'add-listed-buildings',
+		fieldName: 'addAffectedListedBuilding',
 		url: 'affected-listed-buildings',
 		subQuestionLabel: 'Listed Building',
 		subQuestionFieldLabel: 'Seven digit number',
@@ -110,8 +110,8 @@ exports.questions = {
 		subQuestion: new ListedBuildingAddMoreQuestion({
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
-			fieldName: 'listed-building-number',
-			// fieldName: 'affectedListedBuildingNumber',
+			// fieldName: 'listed-building-number',
+			fieldName: 'affectedListedBuildingNumber',
 			html: 'resources/listed-building-number/content.html',
 			validators: [
 				new RequiredValidator('Enter a list entry number'),
@@ -149,8 +149,8 @@ exports.questions = {
 	conservationArea: new BooleanQuestion({
 		title: 'Conservation area',
 		question: 'Is the site in, or next to a conservation area?',
-		fieldName: 'conservation-area',
-		// fieldName: 'conservationArea',
+		// fieldName: 'conservation-area',
+		fieldName: 'conservationArea',
 		url: 'conservation-area',
 		validators: [new RequiredValidator()]
 	}),
