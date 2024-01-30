@@ -4,10 +4,6 @@ parameters:
     displayName: Deploy Appeals Service API
     type: boolean
     default: true
-  - name: deployClamAv
-    displayName: Deploy ClamAV API
-    type: boolean
-    default: false
   - name: deployDocumentsApi
     displayName: Deploy Documents Service API
     type: boolean
@@ -106,15 +102,6 @@ extends:
                   appResourceGroup: $(resourceGroup)
                   azurecrName: $(azurecrName)
                   repository: appeal-planning-decision/appeals-service-api
-          - name: Deploy ClamAV API
-            condition: eq(${{ parameters.deployClamAv }}, 'true')
-            steps:
-              - template: ../steps/azure_web_app_deploy.yml
-                parameters:
-                  appName: pins-app-appeals-service-clamav-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
-                  appResourceGroup: $(resourceGroup)
-                  azurecrName: $(azurecrName)
-                  repository: appeal-planning-decision/clamav-api
           - name: Deploy Documents API
             condition: eq(${{ parameters.deployDocumentsApi }}, 'true')
             steps:

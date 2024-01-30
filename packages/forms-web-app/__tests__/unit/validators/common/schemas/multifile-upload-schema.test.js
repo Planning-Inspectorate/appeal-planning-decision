@@ -1,12 +1,12 @@
 const schema = require('../../../../../src/validators/common/schemas/multifile-upload-schema');
 const validateFileSize = require('../../../../../src/validators/custom/file-size');
-const ClamAVClient = require('@pins/common/src/client/clamav-rest-client');
+const ClamAVClient = require('@pins/common/src/client/clamav-client');
 const config = require('../../../../../src/config');
 
 jest.mock('../../../../../src/validators/custom/file-size');
 jest.mock('../../../../../src/config');
 const mockScan = jest.fn();
-jest.mock('@pins/common/src/client/clamav-rest-client', () => {
+jest.mock('@pins/common/src/client/clamav-client', () => {
 	return jest.fn().mockImplementation(() => {
 		return { scan: mockScan };
 	});
@@ -61,11 +61,7 @@ describe('validators/common/schemas/multifile-upload-schema', () => {
 			await fn(payload);
 
 			expect(mockScan).toHaveBeenCalledTimes(1);
-			expect(mockScan).toHaveBeenCalledWith(
-				payload,
-				payload.name,
-				config.fileUpload.pins.appealStatementMaxFileSize
-			);
+			expect(mockScan).toHaveBeenCalledWith(payload, payload.name);
 		});
 	});
 });

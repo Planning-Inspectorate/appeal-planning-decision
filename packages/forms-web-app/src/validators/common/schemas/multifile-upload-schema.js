@@ -18,13 +18,12 @@ const schema = (path) => ({
 					throw new Error(`${name} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);
 				}
 
-				// must validate file size *before* ClamAV check as otherwise axios will throw request body size error
 				// check file size
 				validateFileSize(size, config.fileUpload.pins.uploadApplicationMaxFileSize, name);
 
 				// check file for Virus
 				const clamAVClient = getClamAVClient();
-				await clamAVClient.scan(value, name, config.fileUpload.pins.uploadApplicationMaxFileSize);
+				await clamAVClient.scan(value, name);
 
 				return true;
 			}

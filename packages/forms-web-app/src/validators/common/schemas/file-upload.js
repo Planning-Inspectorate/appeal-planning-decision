@@ -39,7 +39,6 @@ const schema = (noFilesError) => ({
 					}
 				});
 
-				// must validate file size *before* ClamAV check as otherwise axios will throw request body size error
 				uploadedFiles.forEach(({ size, name }) => {
 					validateFileSize(size, uploadApplicationMaxFileSize, name);
 				});
@@ -47,7 +46,7 @@ const schema = (noFilesError) => ({
 				//check file for virus
 				const { name } = req.files[path];
 				const clamAVClient = getClamAVClient();
-				await clamAVClient.scan(req.files['file-upload'], name, uploadApplicationMaxFileSize);
+				await clamAVClient.scan(req.files['file-upload'], name);
 
 				return true;
 			}

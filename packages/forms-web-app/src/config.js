@@ -1,5 +1,19 @@
+/**
+ *
+ * @param {*} value
+ * @param {number} fallback
+ * @returns {number}
+ */
+function numberWithDefault(value, fallback) {
+	const num = parseInt(value);
+	if (isNaN(num)) {
+		return fallback;
+	}
+	return num;
+}
+
 const oneGigabyte = 1024 * 1024 * 1024;
-const httpPort = Number(process.env.PORT || 3000);
+const httpPort = numberWithDefault(process.env.PORT, 3000);
 
 module.exports = {
 	application: {
@@ -8,7 +22,7 @@ module.exports = {
 	appeals: {
 		startingPoint: '/before-you-start',
 		startingPointEnrolUsersActive: '/appeal/new-saved-appeal',
-		timeout: Number(process.env.APPEALS_SERVICE_API_TIMEOUT || 10000),
+		timeout: numberWithDefault(process.env.APPEALS_SERVICE_API_TIMEOUT, 10000),
 		url: process.env.APPEALS_SERVICE_API_URL
 	},
 	db: {
@@ -26,7 +40,7 @@ module.exports = {
 		}
 	},
 	documents: {
-		timeout: Number(process.env.DOCUMENTS_SERVICE_API_TIMEOUT || 10000),
+		timeout: numberWithDefault(process.env.DOCUMENTS_SERVICE_API_TIMEOUT, 10000),
 		url: process.env.DOCUMENTS_SERVICE_API_URL
 	},
 	pdf: {
@@ -35,16 +49,22 @@ module.exports = {
 	fileUpload: {
 		debug: process.env.FILE_UPLOAD_DEBUG === 'true',
 		pins: {
-			appealStatementMaxFileSize: Number(
-				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
+			appealStatementMaxFileSize: numberWithDefault(
+				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES,
+				oneGigabyte
 			),
-			supportingDocumentsMaxFileSize: Number(
-				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
+			supportingDocumentsMaxFileSize: numberWithDefault(
+				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES,
+				oneGigabyte
 			),
-			uploadApplicationMaxFileSize: Number(
-				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte
+			uploadApplicationMaxFileSize: numberWithDefault(
+				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES,
+				oneGigabyte
 			),
-			uploadDecisionMaxFileSize: Number(process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES || oneGigabyte),
+			uploadDecisionMaxFileSize: numberWithDefault(
+				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES,
+				oneGigabyte
+			),
 			allowedFileTypes: {
 				MIME_TYPE_DOC: 'application/msword',
 				MIME_BINARY_TYPE_DOC: 'application/x-cfb',
@@ -57,7 +77,8 @@ module.exports = {
 		},
 		tempFileDir: process.env.FILE_UPLOAD_TMP_PATH,
 		useTempFiles: process.env.FILE_UPLOAD_USE_TEMP_FILES === 'true',
-		clamAVHost: process.env.CLAM_AV_HOST
+		clamAVHost: process.env.CLAMAV_HOST,
+		clamAVPort: numberWithDefault(process.env.CLAMAV_PORT, 3310)
 	},
 	isProduction: process.env.NODE_ENV === 'production',
 	logger: {
@@ -74,7 +95,7 @@ module.exports = {
 		port: httpPort,
 		sessionSecret: process.env.SESSION_KEY,
 		// https://expressjs.com/en/5x/api.html#app.set - to account for .gov.uk
-		subdomainOffset: parseInt(process.env.SUBDOMAIN_OFFSET, 10) || 3,
+		subdomainOffset: numberWithDefault(process.env.SUBDOMAIN_OFFSET, 3),
 		useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',
 		googleAnalyticsId: process.env.GOOGLE_ANALYTICS_ID,
 		googleTagManagerId: process.env.GOOGLE_TAG_MANAGER_ID,

@@ -75,25 +75,6 @@ extends:
             variables:
               - name: appealsApiVersion
                 value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.appealsApiVersion'] ]
-          - name: Stage ClamAV API
-            condition: eq(stageDependencies.semantic_release.run_semantic_release.outputs['versions.clamAvApiVersion'], 'true')
-            steps:
-              - template: ../steps/azure_web_app_docker_tag.yml
-                parameters:
-                  azurecrName: $(azurecrName)
-                  repository: appeal-planning-decision/clamav-api
-                  tag: v$(clamAvApiVersion)
-              - template: ../steps/azure_web_app_deploy.yml
-                parameters:
-                  appName: pins-app-appeals-service-clamav-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
-                  appResourceGroup: $(resourceGroup)
-                  appSlotName: staging
-                  azurecrName: $(azurecrName)
-                  repository: appeal-planning-decision/clamav-api
-                  tag: v$(appealsApiVersion)
-            variables:
-              - name: clamAvApiVersion
-                value: $[ stageDependencies.semantic_release.run_semantic_release.outputs['versions.clamAvApiVersion'] ]
           - name: Stage Documents API
             condition: eq(stageDependencies.semantic_release.run_semantic_release.outputs['versions.documentsApiVersion'], 'true')
             steps:
@@ -163,14 +144,6 @@ extends:
                   appResourceGroup: $(resourceGroup)
                   appStagingSlotName: staging
                   appTargetSlotName: production
-          - name: Deploy ClamAV API
-            steps:
-              - template: ../steps/azure_web_app_slot_swap.yml
-                parameters:
-                  appName: pins-app-appeals-service-clamav-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
-                  appResourceGroup: $(resourceGroup)
-                  appStagingSlotName: staging
-                  appTargetSlotName: production
           - name: Deploy Documents API
             steps:
               - template: ../steps/azure_web_app_slot_swap.yml
@@ -223,7 +196,6 @@ extends:
                     GH_TOKEN: $(GH_TOKEN)
               - script: |
                   APPEALS_API_VERSION=$(cat packages/appeals-service-api/.release-version)
-                  CLAMAV_API_VERSION=$(cat packages/clamav-rest-server/.release-version)
                   DOCUMENTS_API_VERSION=$(cat packages/document-service-api/.release-version)
                   PDF_API_VERSION=$(cat packages/pdf-service-api/.release-version)
                   WEB_VERSION=$(cat packages/forms-web-app/.release-version)
@@ -238,16 +210,6 @@ extends:
                   else
                     APPEALS_API_VERSION=$(git describe --match "applications-service-api@*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
                     echo "API version: $APPEALS_API_VERSION (No change)"
-                  fi
-
-                  if [[ ! -z "$CLAMAV_API_VERSION" ]]; then
-                    echo "API version: $CLAMAV_API_VERSION"
-                    echo "##vso[task.setvariable variable=clamAvApiVersion;isOutput=true]$CLAMAV_API_VERSION"
-                    echo "##vso[task.setvariable variable=clamAvApiRelease;isOutput=true]true"
-                    RELEASE=true
-                  else
-                    CLAMAV_API_VERSION=$(git describe --match "applications-service-api@*" --abbrev=0 --tags $(git rev-list --tags --max-count=1))
-                    echo "API version: $CLAMAV_API_VERSION (No change)"
                   fi
 
                   if [[ ! -z "$DOCUMENTS_API_VERSION" ]]; then
