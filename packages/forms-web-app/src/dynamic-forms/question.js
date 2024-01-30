@@ -179,8 +179,6 @@ class Question {
 
 		// save
 		const responseToSave = await this.getDataToSave(req, journeyResponse);
-		console.log('response to save!');
-		console.log(responseToSave);
 		await this.saveResponseToDB(journey.response, responseToSave);
 
 		// check for saving errors
@@ -230,10 +228,11 @@ class Question {
 	async getDataToSave(req, journeyResponse) {
 		// set answer on response
 		let responseToSave = { answers: {} };
+
 		if (req.body[this.fieldName] === 'yes') {
-			responseToSave.answers[this.fieldName] === true;
+			responseToSave.answers[this.fieldName] = true;
 		} else if (req.body[this.fieldName] === 'no') {
-			responseToSave.answers[this.fieldName] === false;
+			responseToSave.answers[this.fieldName] = false;
 		} else {
 			responseToSave.answers[this.fieldName] = req.body[this.fieldName];
 		}
@@ -252,17 +251,10 @@ class Question {
 
 	/**
 	 * @param {JourneyResponse} journeyResponse
-	 * @param {Promise<void>} responseToSave
+	 * @param {object} responseToSave
 	 */
 	async saveResponseToDB(journeyResponse, responseToSave) {
-		// const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
-		// await patchQuestionResponse(
-		// 	journeyResponse.journeyId,
-		// 	encodedReferenceId,
-		// 	responseToSave,
-		// 	journeyResponse.LPACode
-		// );
-		await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave);
+		await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);
 	}
 
 	/**
