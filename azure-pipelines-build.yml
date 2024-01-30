@@ -10,10 +10,6 @@ parameters:
     displayName: Build Appeals Service API
     type: boolean
     default: true
-  - name: buildClamAv
-    displayName: Build ClamAV API
-    type: boolean
-    default: false
   - name: buildDocumentsApi
     displayName: Build Documents Service API
     type: boolean
@@ -77,8 +73,6 @@ extends:
                   path: packages/appeals-service-api
                 - name: business-rules
                   path: packages/business-rules
-                - name: clamav
-                  path: packages/clamav-rest-server
                 - name: common
                   path: packages/common
                 - name: documents-api
@@ -120,33 +114,6 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.SourcesDirectory)/packages/appeals-service-api/Dockerfile
               repository: appeal-planning-decision/appeals-service-api
-      - name: Build ClamAV Service
-        condition: >-
-          and(
-            succeeded(),
-            or(
-              and(
-                eq(variables['Build.Reason'], 'Manual'),
-                eq(${{ parameters.buildClamAv }}, 'true')
-              ),
-              and(
-                ne(variables['Build.Reason'], 'Manual'),
-                or(
-                 eq(variables['Build.SourceBranchName'], 'main'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.clamav'], 'true'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true')
-                )
-              )
-            )
-          )
-        dependsOn:
-          - Run Linting & Tests
-        steps:
-          - template: ../steps/azure_web_app_docker_build_push.yml@templates
-            parameters:
-              azurecrName: $(azurecrName)
-              dockerfilePath: $(Build.SourcesDirectory)/packages/clamav-rest-server/Dockerfile
-              repository: appeal-planning-decision/clamav-api
       - name: Build Documents API
         condition: >-
           and(

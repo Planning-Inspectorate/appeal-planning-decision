@@ -8,25 +8,6 @@
 
 version: '3.7'
 services:
-  clamav-rest-server:
-    image: node:18-alpine
-    profiles: ['all', 'appeals']
-    ports:
-      - 3100:3000
-    depends_on:
-      - clamav-server
-    environment:
-      CLAMAV_HOST: clamav-server
-      CLAMAV_PORT: 3310
-    working_dir: /opt/app
-    volumes:
-      # mount the root node_modules for shared packages
-      - ./node_modules:/opt/node_modules
-      - ./packages/common:/opt/app/node_modules/@pins/common # Replace the module to avoid symlink errors
-      - ./packages/clamav-rest-server:/opt/app
-    restart: on-failure
-    command: npm run start:dev
-
   appeals-service-api:
     profiles: ['all', 'api', 'appeals', 'comment']
     image: node:18-alpine
@@ -125,7 +106,8 @@ services:
     profiles: ['all', 'appeals']
     image: node:18-alpine
     environment:
-      CLAM_AV_HOST: http://clamav-rest-server:3000
+      CLAMAV_HOST: clamav-server
+      CLAMAV_PORT: 3310
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FILE_UPLOAD_DEBUG: 'false'
@@ -152,7 +134,6 @@ services:
       - appeals-service-api
       - document-service-api
       - mongodb
-      - clamav-rest-server
       - pdf-service-api
     volumes:
       # mount the root node_modules for shared packages

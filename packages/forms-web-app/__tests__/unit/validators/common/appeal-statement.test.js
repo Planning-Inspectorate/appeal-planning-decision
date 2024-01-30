@@ -3,7 +3,7 @@ const { testExpressValidatorMiddleware } = require('../validation-middleware-hel
 const { rules } = require('../../../../src/validators/common/appeal-statement');
 const config = require('../../../../src/config');
 
-jest.mock('@pins/common/src/client/clamav-rest-client');
+jest.mock('@pins/common/src/client/clamav-client');
 
 describe('validators/common/appeal-statement', () => {
 	const sessionWithAppealSubmitted = {

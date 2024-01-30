@@ -1,7 +1,7 @@
 // these are integration tests so can only be run with a running clamav host
 
-const ClamAVClient = require('./clamav-rest-client');
-const clamAVClient = new ClamAVClient('http://localhost:3100');
+const ClamAVClient = require('./clamav-client');
+const clamAVClient = new ClamAVClient('localhost', 3310);
 
 describe('clamav', () => {
 	it.skip('should scan uploaded txt file with positive result', async () => {

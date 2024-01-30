@@ -10,7 +10,7 @@ const invalidFile = { ...file, mimetype: 'not/valid' };
 
 jest.mock('../../../../../src/validators/custom/file-size');
 const mockScan = jest.fn();
-jest.mock('@pins/common/src/client/clamav-rest-client', () => {
+jest.mock('@pins/common/src/client/clamav-client', () => {
 	return jest.fn().mockImplementation(() => {
 		return { scan: mockScan };
 	});
@@ -124,7 +124,7 @@ describe('validators/common/schemas/file-upload', () => {
 			await schema(null, { req, path: 'file-upload' });
 
 			expect(mockScan).toHaveBeenCalledTimes(1);
-			expect(mockScan).toHaveBeenCalledWith(file, file.name, uploadApplicationMaxFileSize);
+			expect(mockScan).toHaveBeenCalledWith(file, file.name);
 		});
 
 		it('should call the validateFileSize validator when given multiple files', async () => {
