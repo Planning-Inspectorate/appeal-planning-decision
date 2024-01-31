@@ -228,14 +228,9 @@ class Question {
 	async getDataToSave(req, journeyResponse) {
 		// set answer on response
 		let responseToSave = { answers: {} };
+		const fieldValue = req.body[this.fieldName];
 
-		if (req.body[this.fieldName] === 'yes') {
-			responseToSave.answers[this.fieldName] = true;
-		} else if (req.body[this.fieldName] === 'no') {
-			responseToSave.answers[this.fieldName] = false;
-		} else {
-			responseToSave.answers[this.fieldName] = req.body[this.fieldName];
-		}
+		responseToSave.answers[this.fieldName] = this.convertFieldValueToSqlFormat(fieldValue);
 
 		for (const propName in req.body) {
 			if (propName.startsWith(this.fieldName + '_')) {
@@ -244,7 +239,7 @@ class Question {
 			}
 		}
 
-		journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
+		journeyResponse.answers[this.fieldName] = fieldValue;
 
 		return responseToSave;
 	}
