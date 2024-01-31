@@ -10,6 +10,5 @@ const selectedAppealRouter = require('./selected-appeal');
 router.get('/', yourAppealsController.get);
 router.get('/continue/:appealId', yourAppealsContinueController.get);
 router.use(decidedAppealsRouter);
-router.use(selectedAppealRouter);
 
 module.exports = router;

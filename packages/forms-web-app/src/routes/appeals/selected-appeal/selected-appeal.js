@@ -4,6 +4,6 @@ const selectedAppealController = require('../../../controllers/selected-appeal/s
 
 const router = express.Router();
 
-router.get('/:appealNumber/appeal', selectedAppealController.get);
+router.get('/:appealNumber', selectedAppealController.get);
 
 module.exports = router;
