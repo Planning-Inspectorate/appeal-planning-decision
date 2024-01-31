@@ -73,7 +73,7 @@ class AppealsApiClient {
 	 * @returns {Promise<boolean>}
 	 */
 	async appealCaseRefExists(ref) {
-		const endpoint = '/api/v2/appeal-cases/' + ref;
+		const endpoint = `${v2}/appeal-cases/${ref}`;
 		try {
 			const response = await this.#makeGetRequest(endpoint);
 			return response.status === 200;
@@ -92,7 +92,7 @@ class AppealsApiClient {
 	 * @returns {Promise<AppealCase>}
 	 */
 	async putAppealCase(data) {
-		const endpoint = '/api/v2/appeal-cases/' + data.caseReference;
+		const endpoint = `${v2}/appeal-cases/${data.caseReference}`;
 		const response = await this.#makePutRequest(endpoint);
 		return response.json();
 	}
@@ -102,7 +102,7 @@ class AppealsApiClient {
 	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant[]>}
 	 */
 	async getPostcodeSearchResults(params = {}) {
-		const endpoint = '/api/v2/appeal-cases' + buildQueryString(params);
+		const endpoint = `${v2}/appeal-cases${buildQueryString(params)}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
@@ -151,10 +151,10 @@ class AppealsApiClient {
 		urlParams.append('lpa-code', lpaCode);
 		urlParams.append('decided-only', 'true');
 		const endpoint = `${v2}/appeal-cases?${urlParams.toString()}`;
-    const response = await this.#makeGetRequest(endpoint);
+		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
-  }
-  /**
+	}
+	/**
 	 * @param {{ userId: string, appealSubmissionId: string }} params
 	 * @returns {Promise<(AppealSubmission)>}
 	 */

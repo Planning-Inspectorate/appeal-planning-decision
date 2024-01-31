@@ -241,7 +241,8 @@ const VIEW = {
 
 	ERROR_PAGES: {
 		SERVICE_UNAVAILABLE: 'error/service-unavailable',
-		UNAUTHORIZED: 'error/401'
+		UNAUTHORIZED: 'error/401',
+		FIREWALL_ERROR: 'error/unhandled-exception'
 	}
 };
 
