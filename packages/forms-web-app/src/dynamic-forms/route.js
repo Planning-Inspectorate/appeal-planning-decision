@@ -1,5 +1,5 @@
 const express = require('express');
-const { list, question, save, remove, submit } = require('./controller');
+const { list, question, save, remove, submit, submitted } = require('./controller');
 const validate = require('./validator/validator');
 const { validationErrorHandler } = require('./validator/validation-error-handler');
 const getJourneyResponse = require('./middleware/get-journey-response-for-lpa');
@@ -25,6 +25,13 @@ router.post(
 
 // submit
 router.post('/questionnaire/:referenceId/', getJourneyResponse(), validationErrorHandler, submit);
+
+router.get(
+	'/:referenceId/questionnaire-submitted',
+	getJourneyResponse(),
+	validationErrorHandler,
+	submitted
+);
 
 // remove answer - only available for some question types
 router.get(
