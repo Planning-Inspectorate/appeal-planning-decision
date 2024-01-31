@@ -2,6 +2,7 @@ const ListAddMoreQuestion = require('../dynamic-components/list-add-more/questio
 
 /**
  * @typedef {import('../question')} Question
+ * @typedef {import('appeals-service-api/src/spec/api-types').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  */
 
 /**
@@ -30,4 +31,24 @@ function getAddMoreIfPresent(req, questionObj) {
 	return questionObj;
 }
 
-module.exports = { getAddMoreIfPresent };
+/**
+ * Converts booleans in the LPAQuestionnaireSubmission db model into yes/no strings
+ * @param {LPAQuestionnaireSubmission} dbResponse
+ */
+
+function convertDBResponseBooleansToStrings(dbResponse) {
+	let convertedResponse = {};
+	for (const key of Object.keys(dbResponse)) {
+		if (dbResponse[key] === true) {
+			convertedResponse[key] = 'yes';
+		} else if (dbResponse[key] === false) {
+			convertedResponse[key] = 'no';
+		} else {
+			convertedResponse[key] = dbResponse[key];
+		}
+	}
+
+	return convertedResponse;
+}
+
+module.exports = { getAddMoreIfPresent, convertDBResponseBooleansToStrings };

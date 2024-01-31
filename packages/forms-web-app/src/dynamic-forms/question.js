@@ -257,6 +257,38 @@ class Question {
 		await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);
 	}
 
+	convertFieldValueToSqlFormat(fieldValue) {
+		if (typeof fieldValue === 'string') {
+			return this.convertStringValueToSqlFormat(fieldValue);
+		}
+
+		if (Array.isArray(fieldValue)) {
+			return fieldValue.join(',');
+		}
+
+		// if (fieldValue.uploadedFiles) {
+		// 	create a new upload in UploadDB
+		// 	save the reference
+		// }
+
+		// if neighbour addressses
+	}
+
+	/**
+	 *
+	 * @param {string} stringValue
+	 * @returns {string | boolean}
+	 */
+	convertStringValueToSqlFormat(stringValue) {
+		if (stringValue === 'yes') {
+			return true;
+		} else if (stringValue === 'no') {
+			return false;
+		} else {
+			return stringValue;
+		}
+	}
+
 	/**
 	 * check for errors after saving, by default this does nothing
 	 * @param {ExpressRequest} req
