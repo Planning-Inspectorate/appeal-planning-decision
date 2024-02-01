@@ -182,6 +182,12 @@ class ApiError {
 		});
 	}
 
+	static unableToCreateDocumentUpload() {
+		return new ApiError(400, {
+			errors: ['Unable to create document upload']
+		});
+	}
+
 	// listed building
 	static listedBuildingNotFound(reference) {
 		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });
