@@ -261,11 +261,6 @@ class Question {
 			return fieldValue.join(',');
 		}
 
-		// if (fieldValue.uploadedFiles) {
-		// 	create a new upload in UploadDB
-		// 	save the reference
-		// }
-
 		// if neighbour addressses
 	}
 

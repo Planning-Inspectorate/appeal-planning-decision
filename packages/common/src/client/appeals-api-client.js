@@ -221,11 +221,26 @@ class AppealsApiClient {
 	/**
 	 * @param {string} caseReference
 	 * @param {object} data
-	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
 	async patchLPAQuestionnaire(caseReference, data) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission`;
 		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} questionnaireId
+	 * @param {object} data
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
+	 */
+	async postSubmissionDocumentUpload(caseReference, questionnaireId, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/documentUpload`;
+		const uploadData = {
+			...data,
+			questionnaireId
+		};
+		const response = await this.#makePostRequest(endpoint, uploadData);
 		return response.json();
 	}
 
