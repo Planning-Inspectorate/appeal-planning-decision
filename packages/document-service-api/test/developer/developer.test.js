@@ -101,10 +101,20 @@ describe('document-service-api', () => {
 		describe('/back-office', () => {
 			// v2 back office
 
-			describe('/:document GET', () => {
+			describe('/sas-url POST', () => {
+				it('should 400 with no doc', async () => {
+					// When
+					const response = await api.post(`/api/v2/back-office/sas-url`);
+
+					// Then
+					expect(response.statusCode).toBe(400);
+				});
+
 				it('should 404 with invalid doc', async () => {
 					// When
-					const response = await api.get(`/api/v2/back-office/unknown%2Ffile.txt`);
+					const response = await api.post(`/api/v2/back-office/sas-url`).send({
+						document: 'unknown/file.txt'
+					});
 
 					// Then
 					expect(response.statusCode).toBe(404);
@@ -116,9 +126,9 @@ describe('document-service-api', () => {
 					const savedDocument = await _createDocument(docType.name);
 
 					// When
-					const response = await api.get(
-						`/api/v2/back-office/${savedDocument.body.application_id}%2F${savedDocument.body.id}%2F${savedDocument.body.name}`
-					);
+					const response = await api.post(`/api/v2/back-office/sas-url`).send({
+						document: `${savedDocument.body.application_id}/${savedDocument.body.id}/${savedDocument.body.name}`
+					});
 
 					// Then
 					expect(response.statusCode).toBe(200);
@@ -130,10 +140,11 @@ describe('document-service-api', () => {
 				});
 			});
 
-			describe('/download/:document GET', () => {
+			describe('/:document GET', () => {
 				it('should 404 with invalid doc', async () => {
 					// When
-					const response = await api.get(`/api/v2/back-office/download/unknown%2Ffile.txt`);
+					const blobName = Buffer.from('unknown/file.txt').toString('base64url');
+					const response = await api.get(`/api/v2/back-office/${blobName}`);
 
 					// Then
 					expect(response.statusCode).toBe(404);
@@ -145,9 +156,11 @@ describe('document-service-api', () => {
 					const savedDocument = await _createDocument(docType.name);
 
 					// When
-					const response = await api.get(
-						`/api/v2/back-office/download/${savedDocument.body.application_id}%2F${savedDocument.body.id}%2F${savedDocument.body.name}`
-					);
+					const blobName = Buffer.from(
+						`${savedDocument.body.application_id}/${savedDocument.body.id}/${savedDocument.body.name}`
+					).toString('base64url');
+
+					const response = await api.get(`/api/v2/back-office/${blobName}`);
 
 					// Then
 					expect(response.statusCode).toBe(200);
