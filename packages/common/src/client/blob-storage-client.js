@@ -8,9 +8,11 @@ const {
 const logger = require('../lib/logger');
 const BlobStorageError = require('./blob-storage-error');
 
+const trailingSlashRegex = /\/$/;
+
 /**
  * todo: seed local files
- * todo: get user delegation working locally
+ * todo: get user delegation working locally - requires self signed cert trusted in docker + browser
  */
 class BlobStorageClient {
 	/**
@@ -22,7 +24,8 @@ class BlobStorageClient {
 			throw new Error('host is required');
 		}
 
-		this.host = host;
+		this.host = host.replace(trailingSlashRegex, '');
+		this.accountName = new URL(this.host).hostname.split('.')[0];
 
 		if (!connectionString) {
 			// use azure rbac + managed identity to access (preferred route)
@@ -50,7 +53,7 @@ class BlobStorageClient {
 	/**
 	 * Generates a url with short lived access to the given blob
 	 * @param {string} containerName - Blob storage container name
-	 * @param {string} blobName - Blob storage container name
+	 * @param {string} blobName - Blob name e.g. doc/path/file.txt or complete uri to blob
 	 * @param {Date} [expiresOn] The end time for the user delegation SAS. Must be within 7 days of the current time, defaults to 10 mins from now
 	 * @returns {Promise<string>} - empty string if the
 	 */
@@ -58,6 +61,8 @@ class BlobStorageClient {
 		const TEN_MINUTES = 10 * 60 * 1000;
 		const NOW = new Date();
 		const startsOn = new Date(NOW.valueOf() - TEN_MINUTES);
+
+		blobName = blobName.replace(`${this.host}/${containerName}/`, ''); // remove host + container if provided
 
 		if (!expiresOn) {
 			expiresOn = new Date(NOW.valueOf() + TEN_MINUTES);
@@ -77,12 +82,20 @@ class BlobStorageClient {
 		if (this.isSharedKeyCredential) {
 			logger.info(`creating shared-key sas url`);
 
-			return await blob.generateSasUrl({
-				protocol: SASProtocol.Https,
+			let url = await blob.generateSasUrl({
+				protocol: SASProtocol.HttpsAndHttp,
 				startsOn: startsOn,
 				expiresOn: expiresOn,
 				permissions: BlobSASPermissions.parse(blobPermissions)
 			});
+
+			// fix for localhost, replace docker dns with localhost entry
+			const path = url.split(':10000/devstoreaccount1/');
+			if (path.length === 2) {
+				url = `${this.host}/${path[1]}`;
+			}
+
+			return url;
 		}
 
 		logger.info(`creating user delegation sas url`);
@@ -106,7 +119,7 @@ class BlobStorageClient {
 		const sasToken = generateBlobSASQueryParameters(
 			sasOptions,
 			userDelegationKey,
-			this.host
+			this.accountName
 		).toString();
 
 		return `${this.host}/${containerName}/${blobName}?${sasToken}`;
@@ -122,7 +135,7 @@ class BlobStorageClient {
 		const blob = this.#getBlockBlobClient(containerName, blobName);
 
 		if (!(await blob.exists())) {
-			logger.error('blob does not exist');
+			logger.error(`blob ${blobName} does not exist`);
 			throw new BlobStorageError('blob does not exist', 404);
 		}
 
@@ -141,7 +154,7 @@ class BlobStorageClient {
 		const blob = this.#getBlockBlobClient(containerName, blobName);
 
 		if (!(await blob.exists())) {
-			logger.error('blob does not exist');
+			logger.error(`blob ${blobName} does not exist`);
 			throw new BlobStorageError('blob does not exist', 404);
 		}
 
