@@ -1,11 +1,15 @@
 paths:
-  /api/v2/back-office/{document}:
-    parameters:
-      - $ref: '#/components/parameters/document'
-    get:
+  /api/v2/back-office/sas-url:
+    post:
       tags:
         - back-office
-      description: Gets a temporary SAS url to the document specified
+      description: Creates a temporary SAS url to the document specified
+      requestBody:
+        description: details of blob to retrieve
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/documentRequest'
       responses:
         200:
           description: The SAS url for the document
@@ -19,7 +23,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-  /api/v2/back-office/download/{document}:
+  /api/v2/back-office/{document}:
     get:
       tags:
         - back-office
@@ -47,10 +51,10 @@ components:
       in: path
       name: document
       required: true
-      description: path to document in BO storage account, url encoded
+      description: path to document in BO storage account, base64url encoded e.g. Buffer.from(blobPath).toString('base64url')
       schema:
         type: string
-      example: 'folder-one%2Ffolder-two%2Ffile-name.txt'
+      example: 'Zm9sZGVyLW9uZS9mb2xkZXItdHdvL2ZpbGUtbmFtZS50eHQ'
 
   schemas:
     SAS-URL:
@@ -59,3 +63,9 @@ components:
         url:
           type: string
           description: sas url for the given document - will be time limited so don't display on webpage, redirect instead
+    documentRequest:
+      type: object
+      properties:
+        document:
+          type: string
+          description: name of document to retrieve or full uri to document
