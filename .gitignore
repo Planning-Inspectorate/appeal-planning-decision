@@ -193,3 +193,6 @@ init/mssql
 
 #local certs
 local-cert
+
+#eicar testing file
+eicar.com.txt
