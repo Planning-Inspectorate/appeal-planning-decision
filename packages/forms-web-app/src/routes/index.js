@@ -16,6 +16,7 @@ const save = require('./save');
 const submit = require('./submit-appeal');
 const submission = require('./appellant-submission');
 const lpaDashboard = require('./lpa-dashboard');
+const rule6Appeals = require('./rule-6-appeals');
 const debug = require('./debug');
 const { getDocument } = require('../controllers/document');
 
@@ -26,6 +27,9 @@ const checkLoggedIn = require('#middleware/check-logged-in');
 
 /// LPA ///
 router.use('/manage-appeals', lpaDashboard);
+
+/// Rule 6 ///
+router.use('/rule-6-appeals', rule6Appeals);
 
 /// General Pages ///
 router.use('/', home);

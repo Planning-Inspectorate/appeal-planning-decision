@@ -24,6 +24,7 @@ router.use(require('./your-appeals'));
 router.use(require('./appeal-details'));
 router.use(require('../../dynamic-forms/route'));
 router.use(require('./decided-appeals'));
+router.use(require('./selected-appeal'));
 
 // manage users
 router.use(require('./add-remove-users'));
