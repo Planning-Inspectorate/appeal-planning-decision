@@ -9,16 +9,6 @@
  {% set title="
  Appeal " + appeal.appealNumber + " - Appeal a planning decision - GOV.UK" %}
 
- {% block backButton %}
-  {{ govukBackLink({
-    text: "Back to your appeals",
-    href: "/appeals/your-appeals",
-    attributes: {
-      'data-cy': 'back'
-    }
-  }) }}
- {% endblock %}
-
  {% block pageTitle %}
    {{ title }}
  {% endblock %}

@@ -23,7 +23,7 @@
             {% for item in toDoAppeals %}
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">
-                  <a href="{{appealDetailsLink}}{{item.appealNumber}}" class="govuk-link">
+                  <a href="/manage-appeals/{{item.appealNumber}}" class="govuk-link">
                    {{item.appealNumber}}
                   </a>
                 </td>
@@ -79,7 +79,7 @@
             {% for item in waitingForReviewAppeals %}
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">
-                  <a href="{{appealDetailsLink}}{{item.appealNumber}}" class="govuk-link">
+                  <a href="/manage-appeals/{{item.appealNumber}}" class="govuk-link">
                    {{item.appealNumber}}
                   </a>
                 </td>
