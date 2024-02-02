@@ -1,7 +1,12 @@
+const { apiClient } = require('../../../lib/appeals-api-client');
 const AddMoreQuestion = require('../add-more/question');
 const Address = require('@pins/common/src/lib/address');
 
-const uuid = require('uuid');
+/**
+ * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
+ */
+
+// const uuid = require('uuid');
 
 class AddressAddMoreQuestion extends AddMoreQuestion {
 	/**
@@ -25,16 +30,24 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 	/**
 	 * adds a uuid and an address object for save data using req body fields
 	 * @param {ExpressRequest} req
+	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
 	 * @returns
 	 */
-	async getDataToSave(req) {
+	async getDataToSave(req, journeyResponse) {
 		const address = new Address({
 			addressLine1: req.body[this.fieldName + '_addressLine1'],
 			addressLine2: req.body[this.fieldName + '_addressLine2'],
 			townCity: req.body[this.fieldName + '_townCity'],
 			postcode: req.body[this.fieldName + '_postcode']
 		});
-		return { addMoreId: uuid.v4(), value: address };
+
+		await apiClient.postSubmissionNeighbourAddress(
+			journeyResponse.referenceId,
+			journeyResponse.answers.id,
+			address
+		);
+
+		return true;
 	}
 
 	/**
