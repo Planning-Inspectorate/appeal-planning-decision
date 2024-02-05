@@ -114,7 +114,7 @@
         </details>
 
         {{ govukInsetText({
-          text: "File size should be no more than " + fileSizeLimits.appealStatementMaxFileSize | formatBytes
+          text: "File size should be no more than " + fileSizeLimits.maxFileUploadSize | formatBytes
         }) }}
 
         {% if appeal.yourAppealSection.appealStatement.uploadedFile.id %}

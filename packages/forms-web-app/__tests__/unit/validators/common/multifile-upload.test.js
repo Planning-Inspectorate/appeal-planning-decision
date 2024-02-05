@@ -80,7 +80,7 @@ describe('validators/common/multifile-upload', () => {
 							'supporting-documents': [
 								{
 									mimetype: config.fileUpload.pins.allowedFileTypes.MIME_TYPE_JPEG,
-									size: config.fileUpload.pins.uploadApplicationMaxFileSize + 1
+									size: config.fileUpload.pins.maxFileUploadSize + 1
 								}
 							]
 						}
@@ -100,7 +100,7 @@ describe('validators/common/multifile-upload', () => {
 						'supporting-documents': [
 							{
 								mimetype: config.fileUpload.pins.allowedFileTypes.MIME_TYPE_JPEG,
-								size: config.fileUpload.pins.uploadApplicationMaxFileSize - 1
+								size: config.fileUpload.pins.maxFileUploadSize - 1
 							}
 						]
 					}

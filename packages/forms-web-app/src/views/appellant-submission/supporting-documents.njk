@@ -71,7 +71,7 @@
         <p>You do not need to upload the plans from your original planning application.</p>
 
         {{ govukInsetText({
-          text: "File size should be no more than " + fileSizeLimits.supportingDocumentsMaxFileSize | formatBytes
+          text: "File size should be no more than " + fileSizeLimits.maxFileUploadSize | formatBytes
         }) }}
 
         {{ mojMultiFileUpload({

@@ -29,8 +29,8 @@
             classes: 'govuk-label--m'
           },
     hint: {
-      text: 'The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than 25MB'
-      },
+      text: 'The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than ' + fileSizeLimits.maxFileUploadSize | formatBytes
+    },
     attributes: { multiple: '' },
     errorMessage: errorSummary and {
       html: errorMessageHtml

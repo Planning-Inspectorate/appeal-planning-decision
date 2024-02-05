@@ -27,6 +27,16 @@ describe('lib/file-size-display-helper', () => {
 			expected: '1MB'
 		},
 		{
+			given: 26214400,
+			expected: '25MB',
+			binary: true
+		},
+		{
+			given: 26214400,
+			expected: '26MB',
+			binary: false
+		},
+		{
 			given: 1024 ** 3,
 			expected: '1GB'
 		},
@@ -82,9 +92,9 @@ describe('lib/file-size-display-helper', () => {
 			given: 52428800,
 			expected: '52MB'
 		}
-	].forEach(({ given, expected }) => {
+	].forEach(({ given, expected, binary = false }) => {
 		it(`should display the expected file size - ${expected}`, () => {
-			expect(fileSizeDisplayHelper(given)).toBe(expected);
+			expect(fileSizeDisplayHelper(given, binary)).toBe(expected);
 		});
 	});
 });

@@ -29,7 +29,7 @@
         <p>This is the letter from the local planning department telling you about the decision on your planning application.</p>
 
         {{ govukInsetText({
-          text: "File size should be no more than " + fileSizeLimits.uploadDecisionMaxFileSize | formatBytes
+          text: "File size should be no more than " + fileSizeLimits.maxFileUploadSize | formatBytes
         }) }}
 
         {% if appeal.requiredDocumentsSection.decisionLetter.uploadedFile.id %}

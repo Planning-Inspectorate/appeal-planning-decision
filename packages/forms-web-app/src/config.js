@@ -49,19 +49,7 @@ module.exports = {
 	fileUpload: {
 		debug: process.env.FILE_UPLOAD_DEBUG === 'true',
 		pins: {
-			appealStatementMaxFileSize: numberWithDefault(
-				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES,
-				oneGigabyte
-			),
-			supportingDocumentsMaxFileSize: numberWithDefault(
-				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES,
-				oneGigabyte
-			),
-			uploadApplicationMaxFileSize: numberWithDefault(
-				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES,
-				oneGigabyte
-			),
-			uploadDecisionMaxFileSize: numberWithDefault(
+			maxFileUploadSize: numberWithDefault(
 				process.env.FILE_UPLOAD_MAX_FILE_SIZE_BYTES,
 				oneGigabyte
 			),
