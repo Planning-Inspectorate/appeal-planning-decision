@@ -36,7 +36,7 @@
         <p>If you do not have your original planning application form, you can find it by searching for your planning application on your local planning department's website.</p>
 
         {{ govukInsetText({
-          text: "File size should be no more than " + fileSizeLimits.uploadApplicationMaxFileSize | formatBytes
+          text: "File size should be no more than " + fileSizeLimits.maxFileUploadSize | formatBytes
         }) }}
 
         {% if appeal.requiredDocumentsSection.originalApplication.uploadedFile.id %}

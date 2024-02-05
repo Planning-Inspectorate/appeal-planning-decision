@@ -67,7 +67,7 @@ describe('./src/dynamic-forms/validator/multifile-upload-validator.js', () => {
 							{
 								mimetype: config.fileUpload.pins.allowedFileTypes.MIME_TYPE_DOC,
 								name: 'invalidFile2tooBig.doc',
-								size: config.fileUpload.pins.uploadApplicationMaxFileSize + 1
+								size: config.fileUpload.pins.maxFileUploadSize + 1
 							},
 							{
 								mimetype: config.fileUpload.pins.allowedFileTypes.MIME_TYPE_JPEG,

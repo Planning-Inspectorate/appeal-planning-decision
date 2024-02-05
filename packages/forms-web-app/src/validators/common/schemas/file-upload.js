@@ -1,6 +1,6 @@
 const {
 	fileUpload: {
-		pins: { uploadApplicationMaxFileSize, allowedFileTypes }
+		pins: { maxFileUploadSize, allowedFileTypes }
 	}
 } = require('../../../config');
 const validateFileSize = require('../../custom/file-size');
@@ -40,7 +40,7 @@ const schema = (noFilesError) => ({
 				});
 
 				uploadedFiles.forEach(({ size, name }) => {
-					validateFileSize(size, uploadApplicationMaxFileSize, name);
+					validateFileSize(size, maxFileUploadSize, name);
 				});
 
 				//check file for virus
