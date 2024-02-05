@@ -7,21 +7,38 @@ const repo = new SubmissionNeighbourAddressRepository();
  */
 
 /**
+ * get SubmissionNeighbourAddress entries associated with specified questionnaire
+ *
+ * @param {string} questionnaireId
+ * @return {Promise<SubmissionNeighbourAddress[]|null>}
+ */
+async function getNeighbourAddresses(questionnaireId) {
+	const uploadedAddresses = repo.getNeighbourAddresses(questionnaireId);
+
+	if (!uploadedAddresses) {
+		return null;
+	}
+
+	return uploadedAddresses;
+}
+
+/**
  * Create a SubmissionNeighbourAddress entry
  *
  * @param {object} uploadData
  * @return {Promise<SubmissionNeighbourAddress|null>}
  */
 async function createNeighbourAddress(uploadData) {
-	const uploadedDocument = repo.createNeighbourAddress(uploadData);
+	const uploadedAddress = repo.createNeighbourAddress(uploadData);
 
-	if (!uploadedDocument) {
+	if (!uploadedAddress) {
 		return null;
 	}
 
-	return uploadedDocument;
+	return uploadedAddress;
 }
 
 module.exports = {
+	getNeighbourAddresses,
 	createNeighbourAddress
 };

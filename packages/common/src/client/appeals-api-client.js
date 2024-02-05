@@ -258,6 +258,18 @@ class AppealsApiClient {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} questionnaireId
+	 */
+	async getSubmissionNeighbourAddresses(caseReference, questionnaireId) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('questionnaire-id', questionnaireId);
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/neighbourAddress?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} questionnaireId
 	 * @param {object} data
 	 */
 	async postSubmissionNeighbourAddress(caseReference, questionnaireId, data) {

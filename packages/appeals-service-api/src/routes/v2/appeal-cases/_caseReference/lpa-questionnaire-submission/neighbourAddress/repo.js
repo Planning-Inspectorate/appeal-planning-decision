@@ -13,6 +13,21 @@ class SubmissionNeighbourAddressRepository {
 	}
 
 	/**
+	 * Get all submission documents for given questionnaire
+	 *
+	 * @param {string} questionnaireId
+	 * @returns {Promise<SubmissionNeighbourAddress[]|null>}
+	 */
+
+	async getNeighbourAddresses(questionnaireId) {
+		return await this.dbClient.submissionNeighbourAddress.findMany({
+			where: {
+				questionnaireId
+			}
+		});
+	}
+
+	/**
 	 * Create questionnaire for given appeal
 	 *
 	 * @param {object} addressData
@@ -31,21 +46,6 @@ class SubmissionNeighbourAddressRepository {
 			}
 		});
 	}
-
-	// /**
-	//  *
-	//  * @param {*} caseReference
-	//  * @param {*} data
-	//  * @returns
-	//  */
-	// async patchSubmissionDocument(caseReference, data) {
-	// 	return await this.dbClient.submissionDocumentUpload.update({
-	// 		where: {
-	// 			appealCaseReference: caseReference
-	// 		},
-	// 		data
-	// 	});
-	// }
 }
 
 module.exports = { SubmissionNeighbourAddressRepository };

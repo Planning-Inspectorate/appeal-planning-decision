@@ -194,6 +194,12 @@ class ApiError {
 		});
 	}
 
+	static unableToGetNeighbourAddresses() {
+		return new ApiError(400, {
+			errors: ['Unable to get SubmissionNeighbourAddress entries']
+		});
+	}
+
 	static unableToCreateNeighbourAddress() {
 		return new ApiError(400, {
 			errors: ['Unable to create new SubmissionNeighbourAddress entry']
