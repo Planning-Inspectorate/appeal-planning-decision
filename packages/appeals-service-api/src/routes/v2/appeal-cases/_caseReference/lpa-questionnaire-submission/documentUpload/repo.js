@@ -13,7 +13,22 @@ class SubmissionDocumentUploadRepository {
 	}
 
 	/**
-	 * Create questionnaire for given appeal
+	 * Get all submission documents for given questionnaire
+	 *
+	 * @param {string} questionnaireId
+	 * @returns {Promise<SubmissionDocumentUpload[]|null>}
+	 */
+
+	async getDocumentUploads(questionnaireId) {
+		return await this.dbClient.submissionDocumentUpload.findMany({
+			where: {
+				questionnaireId
+			}
+		});
+	}
+
+	/**
+	 * Create submission document for given questionnaire
 	 *
 	 * @param {object} uploadData
 	 * @returns {Promise<SubmissionDocumentUpload|null>}
