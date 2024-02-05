@@ -36,7 +36,7 @@ function getAddMoreIfPresent(req, questionObj) {
  * @param {LPAQuestionnaireSubmission} dbResponse
  */
 
-function convertDBResponseBooleansToStrings(dbResponse) {
+function mapDBResponseToJourneyResponseFormat(dbResponse) {
 	let convertedResponse = {};
 	for (const key of Object.keys(dbResponse)) {
 		if (dbResponse[key] === true) {
@@ -51,4 +51,4 @@ function convertDBResponseBooleansToStrings(dbResponse) {
 	return convertedResponse;
 }
 
-module.exports = { getAddMoreIfPresent, convertDBResponseBooleansToStrings };
+module.exports = { getAddMoreIfPresent, mapDBResponseToJourneyResponseFormat };

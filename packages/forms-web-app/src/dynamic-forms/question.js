@@ -228,9 +228,8 @@ class Question {
 	async getDataToSave(req, journeyResponse) {
 		// set answer on response
 		let responseToSave = { answers: {} };
-		const fieldValue = req.body[this.fieldName];
 
-		responseToSave.answers[this.fieldName] = this.convertFieldValueToSqlFormat(fieldValue);
+		responseToSave.answers[this.fieldName] = req.body[this.fieldName];
 
 		for (const propName in req.body) {
 			if (propName.startsWith(this.fieldName + '_')) {
@@ -239,7 +238,7 @@ class Question {
 			}
 		}
 
-		journeyResponse.answers[this.fieldName] = fieldValue;
+		journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
 
 		return responseToSave;
 	}
@@ -250,33 +249,6 @@ class Question {
 	 */
 	async saveResponseToDB(journeyResponse, responseToSave) {
 		await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);
-	}
-
-	convertFieldValueToSqlFormat(fieldValue) {
-		if (typeof fieldValue === 'string') {
-			return this.convertStringValueToSqlFormat(fieldValue);
-		}
-
-		if (Array.isArray(fieldValue)) {
-			return fieldValue.join(',');
-		}
-
-		// if neighbour addressses
-	}
-
-	/**
-	 *
-	 * @param {string} stringValue
-	 * @returns {string | boolean}
-	 */
-	convertStringValueToSqlFormat(stringValue) {
-		if (stringValue === 'yes') {
-			return true;
-		} else if (stringValue === 'no') {
-			return false;
-		} else {
-			return stringValue;
-		}
 	}
 
 	/**

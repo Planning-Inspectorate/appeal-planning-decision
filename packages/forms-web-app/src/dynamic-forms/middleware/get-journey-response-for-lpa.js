@@ -5,7 +5,7 @@ const logger = require('../../lib/logger');
 const { getAppealByLPACodeAndId } = require('../../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { apiClient } = require('../../lib/appeals-api-client');
-const { convertDBResponseBooleansToStrings } = require('./utils');
+const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 
 module.exports = () => async (req, res, next) => {
 	const referenceId = req.params.referenceId;
@@ -25,7 +25,7 @@ module.exports = () => async (req, res, next) => {
 		// const dbResponse = await getQuestionResponse(appealType, encodedReferenceId);
 		const dbResponse = await apiClient.getLPAQuestionnaire(referenceId);
 		// result = new JourneyResponse(appealType, referenceId, dbResponse?.answers, dbResponse.LPACode);
-		const convertedResponse = convertDBResponseBooleansToStrings(dbResponse);
+		const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
 		result = new JourneyResponse(appealType, referenceId, convertedResponse, dbResponse.lpaCode);
 	} catch (err) {
 		logger.error(err);
