@@ -1,6 +1,6 @@
 const { apiClient } = require('#lib/appeals-api-client');
-const { isAppealSubmission } = require('#lib/dashboard-functions');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { isAppealSubmission } = require('@pins/common/src/lib/format-address');
 
 const appealSubmissionContinueUrls = {
 	[APPEAL_ID.HOUSEHOLDER]: '/appeal-householder-decision/task-list',
