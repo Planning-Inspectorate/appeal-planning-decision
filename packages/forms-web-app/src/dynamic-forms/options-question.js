@@ -125,6 +125,38 @@ class OptionsQuestion extends Question {
 
 		return viewModel;
 	}
+
+	/**
+	 * returns the data to send to the DB
+	 * side effect: modifies journeyResponse with the new answers
+	 * @param {ExpressRequest} req
+	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
+	 * @returns {Promise.<Object>}
+	 */
+	async getDataToSave(req, journeyResponse) {
+		// set answer on response
+		let responseToSave = { answers: {} };
+		const fieldValue = req.body[this.fieldName];
+
+		if (Array.isArray(fieldValue)) {
+			responseToSave.answers[this.fieldName] = fieldValue.join(',');
+		} else {
+			responseToSave.answers[this.fieldName] = fieldValue;
+		}
+
+		responseToSave.answers;
+
+		for (const propName in req.body) {
+			if (propName.startsWith(this.fieldName + '_')) {
+				responseToSave.answers[propName] = req.body[propName];
+				journeyResponse.answers[propName] = req.body[propName];
+			}
+		}
+
+		journeyResponse.answers[this.fieldName] = fieldValue;
+
+		return responseToSave;
+	}
 }
 
 module.exports = OptionsQuestion;

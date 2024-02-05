@@ -311,13 +311,13 @@ model LPAQuestionnaireSubmission {
   otherPartyRepresentations                       Boolean?
   uploadRepresentations                           Boolean?
   uploadPlanningOfficerReport                     Boolean?
-  lpaSiteAccess                                   Boolean?
+  lpaSiteAccess                                   String?
   lpaSiteAccess_lpaSiteAccessDetails              String?
-  neighbourSiteAccess                             Boolean?
+  neighbourSiteAccess                             String?
   neighbourSiteAccess_neighbourSiteAccessDetails  String?
   addNeighbourSiteAccess                          Boolean?
   neighbourSiteAddress                            Boolean?
-  lpaSiteSafetyRisks                              Boolean?
+  lpaSiteSafetyRisks                              String?
   lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails     String?
   lpaProcedurePreference                          String?
   lpaPreferHearingDetails                         String?
@@ -326,7 +326,7 @@ model LPAQuestionnaireSubmission {
   nearbyAppeals                                   Boolean?
   nearbyAppealReference                           String?
   addNearbyAppeal                                 Boolean?
-  newConditions                                   Boolean?
+  newConditions                                   String?
   newConditions_newConditionDetails               String?
   emergingPlan                                    Boolean?
   uploadEmergingPlan                              Boolean?
@@ -345,7 +345,7 @@ model LPAQuestionnaireSubmission {
   uploadSupplementaryPlanningDocs                 Boolean?
   affectsScheduledMonument                        Boolean?
   gypsyTraveller                                  Boolean?
-  statutoryConsultees                             Boolean?
+  statutoryConsultees                             String?
   statutoryConsultees_consultedBodiesDetails      String?
   protectedSpecies                                Boolean?
   publicRightOfWay                                Boolean?
@@ -357,12 +357,12 @@ model LPAQuestionnaireSubmission {
   environmentalImpactSchedule                     String?
   uploadEnvironmentalStatement                    Boolean?
   columnTwoThreshold                              Boolean?
-  sensitiveArea                                   Boolean?
+  sensitiveArea                                   String?
   sensitiveArea_sensitiveAreaDetails              String?
   uploadScreeningOpinion                          Boolean?
   uploadScreeningDirection                        Boolean?
   developmentDescription                          String?
-  requiresEnvironmentalStatement                  Boolean?
+  requiresEnvironmentalStatement                  String?
 
   // Fields below in confluence master doc but no corresponding question yet
 

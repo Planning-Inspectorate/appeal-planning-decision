@@ -3,7 +3,7 @@ const {
 	getSubmissionNeighbourAddresses,
 	createSubmissionNeighbourAddress
 } = require('./controller');
-const asyncHandler = require('#middleware/async-handler');
+const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const router = express.Router({ mergeParams: true });
 
 // Document upload routes

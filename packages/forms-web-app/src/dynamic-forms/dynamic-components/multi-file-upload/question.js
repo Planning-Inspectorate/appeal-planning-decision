@@ -204,7 +204,39 @@ class MultiFileUploadQuestion extends Question {
 		}
 		const uploadedFiles = await this.#saveFilesToBlobStorage(validFiles, journeyResponse);
 
-		console.log(journeyResponse);
+		const journeyFiles = {
+			answers: {
+				[this.fieldName]: {
+					uploadedFiles: []
+				}
+			}
+		};
+
+		journeyFiles.answers[this.fieldName].uploadedFiles = [];
+
+		if (journeyResponse?.answers[this.fieldName]?.uploadedFiles) {
+			journeyFiles.answers[this.fieldName].uploadedFiles.push(
+				...journeyResponse.answers[this.fieldName].uploadedFiles
+			);
+		}
+
+		if (uploadedFiles) {
+			journeyFiles.answers[this.fieldName].uploadedFiles.push(...uploadedFiles);
+		}
+
+		journeyResponse.answers[this.fieldName] = journeyFiles.answers[this.fieldName];
+
+		uploadedFiles.forEach((file) => {
+			const data = {
+				...file,
+				type: this.documentType.name
+			};
+			apiClient.postSubmissionDocumentUpload(
+				journeyResponse.referenceId,
+				journeyResponse.answers.id,
+				data
+			);
+		});
 
 		const responseToSave = {
 			answers: {
@@ -212,44 +244,13 @@ class MultiFileUploadQuestion extends Question {
 			}
 		};
 
-		uploadedFiles.forEach((file) =>
-			apiClient.postSubmissionDocumentUpload(
-				journeyResponse.referenceId,
-				journeyResponse.answers.id,
-				file
-			)
-		);
-
-		// // add saved docs to response
-		// const responseToSave = {
-		// 	answers: {
-		// 		[this.fieldName]: {
-		// 			uploadedFiles: []
-		// 		}
-		// 	}
-		// };
-
-		// responseToSave.answers[this.fieldName].uploadedFiles = [];
-
-		// if (journeyResponse?.answers[this.fieldName]?.uploadedFiles) {
-		// 	responseToSave.answers[this.fieldName].uploadedFiles.push(
-		// 		...journeyResponse.answers[this.fieldName].uploadedFiles
-		// 	);
-		// }
-
-		// if (uploadedFiles) {
-		// 	responseToSave.answers[this.fieldName].uploadedFiles.push(...uploadedFiles);
-		// }
-
-		// journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
-
-		// if (Object.keys(errors).length > 0) {
-		// 	req.body.errors = errors;
-		// 	req.body.errorSummary = errorSummary.map((error) => ({
-		// 		...error,
-		// 		href: `#${this.fieldName}`
-		// 	}));
-		// }
+		if (Object.keys(errors).length > 0) {
+			req.body.errors = errors;
+			req.body.errorSummary = errorSummary.map((error) => ({
+				...error,
+				href: `#${this.fieldName}`
+			}));
+		}
 
 		return responseToSave;
 	}
