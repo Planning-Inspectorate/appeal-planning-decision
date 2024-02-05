@@ -231,6 +231,18 @@ class AppealsApiClient {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} questionnaireId
+	 */
+	async getSubmissionDocumentUploads(caseReference, questionnaireId) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('questionnaire-id', questionnaireId);
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/documentUpload?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} questionnaireId
 	 * @param {object} data
 	 */
 	async postSubmissionDocumentUpload(caseReference, questionnaireId, data) {

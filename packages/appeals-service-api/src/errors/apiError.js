@@ -182,6 +182,12 @@ class ApiError {
 		});
 	}
 
+	static unableToGetDocumentUploads() {
+		return new ApiError(400, {
+			errors: ['Unable to retrieve document uploads']
+		});
+	}
+
 	static unableToCreateDocumentUpload() {
 		return new ApiError(400, {
 			errors: ['Unable to create document upload']

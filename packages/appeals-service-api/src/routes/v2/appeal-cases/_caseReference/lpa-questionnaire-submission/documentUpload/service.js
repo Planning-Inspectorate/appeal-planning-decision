@@ -7,6 +7,22 @@ const repo = new SubmissionDocumentUploadRepository();
  */
 
 /**
+ * Get all SubmissionDocumentUpload entries for a specified questionnaire
+ *
+ * @param {string} questionnaireId
+ * @return {Promise<SubmissionDocumentUpload[]|null>}
+ */
+async function getDocumentUploads(questionnaireId) {
+	const uploadedDocument = repo.getDocumentUploads(questionnaireId);
+
+	if (!uploadedDocument) {
+		return null;
+	}
+
+	return uploadedDocument;
+}
+
+/**
  * Create a SubmissionDocumentUpload entry
  *
  * @param {object} uploadData
@@ -23,5 +39,6 @@ async function createSubmissionDocument(uploadData) {
 }
 
 module.exports = {
-	createSubmissionDocument
+	createSubmissionDocument,
+	getDocumentUploads
 };
