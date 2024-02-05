@@ -5,6 +5,7 @@ const clamAVClient = new ClamAVClient('localhost', 3310);
 
 describe('clamav', () => {
 	it.skip('should scan uploaded txt file with positive result', async () => {
+		// test file can be retrieved from: https://en.wikipedia.org/wiki/EICAR_test_file
 		const file = {
 			name: 'eicar.com.txt',
 			tempFilePath: 'packages/common/__tests__/artifacts/eicar.com.txt'

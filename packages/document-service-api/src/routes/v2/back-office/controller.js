@@ -3,6 +3,7 @@ const config = require('#config/config');
 const { isFeatureActive } = require('#config/featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const BlobStorageError = require('@pins/common/src/client/blob-storage-error');
+
 /**
  * @type {import('express').Handler}
  */
@@ -12,7 +13,7 @@ async function getDocumentUrl(req, res) {
 		return;
 	}
 
-	const docName = req.params.document;
+	const docName = req.body?.document;
 
 	if (!docName) {
 		res.sendStatus(400);
@@ -42,7 +43,8 @@ async function downloadDocument(req, res) {
 		return;
 	}
 
-	const docName = req.params.document;
+	// decode base64 encoded string
+	const docName = Buffer.from(req.params.document, 'base64url').toString();
 
 	if (!docName) {
 		res.sendStatus(400);
