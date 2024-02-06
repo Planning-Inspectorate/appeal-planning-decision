@@ -1,6 +1,8 @@
 const AddMoreQuestion = require('../add-more/question');
 const AddressAddMoreQuestion = require('./question');
-const uuid = require('uuid');
+const { apiClient } = require('../../../lib/appeals-api-client');
+const Address = require('@pins/common/src/lib/address');
+jest.mock('../../../lib/appeals-api-client');
 
 describe('AddressAddMoreQuestion', () => {
 	const TITLE = 'title';
@@ -24,7 +26,7 @@ describe('AddressAddMoreQuestion', () => {
 	});
 
 	describe('getDataToSave', () => {
-		it('should return data correctly', async () => {
+		it('should format the data correctly and call postSubmissionNeighbourAddress', async () => {
 			const addressAddMoreQuestion = new AddressAddMoreQuestion({
 				title: TITLE,
 				question: QUESTION,
@@ -42,13 +44,30 @@ describe('AddressAddMoreQuestion', () => {
 				}
 			};
 
-			const result = await addressAddMoreQuestion.getDataToSave(req);
+			const testJourneyResponse = {
+				referenceId: 'testRef',
+				answers: {
+					id: 'testQuestionnaireId'
+				},
+				journeyId: 'testJourneyId',
+				LPACode: 'testLPACode'
+			};
 
-			expect(uuid.validate(result.addMoreId)).toBeTruthy();
-			expect(result.value.addressLine1).toEqual('Address Line 1');
-			expect(result.value.addressLine2).toEqual('Address Line 2');
-			expect(result.value.townCity).toEqual('Test Town');
-			expect(result.value.postcode).toEqual('WC2A 2AE');
+			const testAddress = new Address({
+				addressLine1: 'Address Line 1',
+				addressLine2: 'Address Line 2',
+				townCity: 'Test Town',
+				postcode: 'WC2A 2AE'
+			});
+
+			const result = await addressAddMoreQuestion.getDataToSave(req, testJourneyResponse);
+
+			expect(apiClient.postSubmissionNeighbourAddress).toHaveBeenCalledWith(
+				'testRef',
+				'testQuestionnaireId',
+				testAddress
+			);
+			expect(result).toEqual(true);
 		});
 	});
 });

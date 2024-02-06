@@ -6,8 +6,6 @@ const Address = require('@pins/common/src/lib/address');
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  */
 
-// const uuid = require('uuid');
-
 class AddressAddMoreQuestion extends AddMoreQuestion {
 	/**
 	 * @param {Object} params
