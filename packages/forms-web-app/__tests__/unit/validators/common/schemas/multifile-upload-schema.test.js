@@ -46,7 +46,7 @@ describe('validators/common/schemas/multifile-upload-schema', () => {
 			});
 			expect(validateFileSize).toHaveBeenCalledWith(
 				12345,
-				config.fileUpload.pins.supportingDocumentsMaxFileSize,
+				config.fileUpload.pins.maxFileUploadSize,
 				'pingu.penguin'
 			);
 		});

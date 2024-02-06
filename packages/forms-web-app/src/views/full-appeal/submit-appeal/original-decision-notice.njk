@@ -53,9 +53,7 @@
                   <li>PNG</li>
                   <li>TIF or TIFF</li>
                 </ul>
-                <p class="govuk-body">
-                  Your file must be smaller than 25MB.
-                </p>'
+                <p class="govuk-body">Your file must be smaller than ' + fileSizeLimits.maxFileUploadSize | formatBytes + '.</p>'
         }) }}
 
         {{ govukButton({

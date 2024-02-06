@@ -19,7 +19,7 @@ const schema = (path) => ({
 				}
 
 				// check file size
-				validateFileSize(size, config.fileUpload.pins.uploadApplicationMaxFileSize, name);
+				validateFileSize(size, config.fileUpload.pins.maxFileUploadSize, name);
 
 				// check file for Virus
 				const clamAVClient = getClamAVClient();

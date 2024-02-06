@@ -1,6 +1,6 @@
 const {
 	fileUpload: {
-		pins: { uploadApplicationMaxFileSize }
+		pins: { maxFileUploadSize }
 	}
 } = require('../../../../../src/config');
 const fileUploadSchema = require('../../../../../src/validators/common/schemas/file-upload');
@@ -111,11 +111,7 @@ describe('validators/common/schemas/file-upload', () => {
 
 			await schema(null, { req, path: 'file-upload' });
 
-			expect(validateFileSize).toHaveBeenCalledWith(
-				file.size,
-				uploadApplicationMaxFileSize,
-				file.name
-			);
+			expect(validateFileSize).toHaveBeenCalledWith(file.size, maxFileUploadSize, file.name);
 		});
 
 		it('should call the antivirus validator when given a single file', async () => {
@@ -132,11 +128,7 @@ describe('validators/common/schemas/file-upload', () => {
 
 			await schema(null, { req, path: 'file-upload' });
 
-			expect(validateFileSize).toHaveBeenCalledWith(
-				file.size,
-				uploadApplicationMaxFileSize,
-				file.name
-			);
+			expect(validateFileSize).toHaveBeenCalledWith(file.size, maxFileUploadSize, file.name);
 		});
 
 		it('should return true when given a single valid file', async () => {
