@@ -1,4 +1,3 @@
-// const { getQuestionResponse } = require('../../lib/appeals-api-wrapper');
 const { JourneyResponse } = require('../journey-response');
 const { JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('../../lib/logger');
@@ -22,9 +21,7 @@ module.exports = () => async (req, res, next) => {
 	}
 
 	try {
-		// const dbResponse = await getQuestionResponse(appealType, encodedReferenceId);
 		const dbResponse = await apiClient.getLPAQuestionnaire(referenceId);
-		// result = new JourneyResponse(appealType, referenceId, dbResponse?.answers, dbResponse.LPACode);
 		const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
 		result = new JourneyResponse(appealType, referenceId, convertedResponse, dbResponse.lpaCode);
 	} catch (err) {

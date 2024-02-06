@@ -1,6 +1,6 @@
 const Question = require('./question');
-const { patchQuestionResponse } = require('../lib/appeals-api-wrapper');
-jest.mock('../lib/appeals-api-wrapper');
+const { apiClient } = require('../lib/appeals-api-client');
+jest.mock('../lib/appeals-api-client');
 
 const { mockRes } = require('../../__tests__/unit/mocks');
 const res = mockRes();
@@ -263,7 +263,7 @@ describe('./src/dynamic-forms/question.js', () => {
 	});
 
 	describe('getDataToSave', () => {
-		it('should return anwser from req.body and modify journeyResponse', async () => {
+		it('should return answer from req.body and modify journeyResponse', async () => {
 			const question = getTestQuestion();
 
 			const req = {
@@ -329,17 +329,12 @@ describe('./src/dynamic-forms/question.js', () => {
 				journeyId: 'abc',
 				LPACode: LPACode
 			};
-			const responseToSave = { a: 1 };
+			const responseToSave = { answers: { a: 1 } };
 
 			const question = getTestQuestion();
 			await question.saveResponseToDB(journeyResponse, responseToSave);
 
-			expect(patchQuestionResponse).toHaveBeenCalledWith(
-				journeyResponse.journeyId,
-				'%2F-123',
-				responseToSave,
-				LPACode
-			);
+			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('/-123', responseToSave.answers);
 		});
 	});
 
