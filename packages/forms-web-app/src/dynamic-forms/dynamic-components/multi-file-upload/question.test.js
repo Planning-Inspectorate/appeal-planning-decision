@@ -1,11 +1,12 @@
 const MultiFileUploadQuestion = require('./question');
 
-const { patchQuestionResponse } = require('../../../lib/appeals-api-wrapper');
+const { apiClient } = require('../../../lib/appeals-api-client');
 const { createDocument, removeDocument } = require('../../../lib/documents-api-wrapper');
 const { SECTION_STATUS } = require('../../section');
 const { Journey } = require('../../journey');
 
 jest.mock('../../../lib/appeals-api-wrapper');
+jest.mock('../../../lib/appeals-api-client');
 jest.mock('../../../lib/documents-api-wrapper', () => ({
 	...jest.requireActual('../../../lib/documents-api-wrapper'),
 	removeDocument: jest.fn(async () => {}),
@@ -297,19 +298,9 @@ describe('MultiFileUploadQuestion', () => {
 			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
 
 			expect(createDocument).not.toHaveBeenCalled();
+			expect(apiClient.postSubmissionDocumentUpload).not.toHaveBeenCalled();
+			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalled();
 
-			expect(patchQuestionResponse).toHaveBeenCalledWith(
-				mockJourneyId,
-				mockRef,
-				{
-					answers: {
-						files: {
-							uploadedFiles: []
-						}
-					}
-				},
-				mockResponse.LPACode
-			);
 			expect(res.redirect).toHaveBeenCalledWith(
 				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
 			);
@@ -350,18 +341,11 @@ describe('MultiFileUploadQuestion', () => {
 				DOCUMENT_TYPE.name
 			);
 
-			expect(patchQuestionResponse).toHaveBeenCalledWith(
-				mockJourneyId,
-				encodedReferenceId,
-				{
-					answers: {
-						files: {
-							uploadedFiles: [mockUploadedFile()]
-						}
-					}
-				},
-				mockResponse.LPACode
-			);
+			expect(apiClient.postSubmissionDocumentUpload).toHaveBeenCalled();
+
+			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockResponse.referenceId, {
+				files: true
+			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				`/manage-appeals/questionnaire/${encodedReferenceId}/segment-1/title-1b`
 			);
@@ -402,32 +386,11 @@ describe('MultiFileUploadQuestion', () => {
 					DOCUMENT_TYPE.name
 				]
 			]);
+			expect(apiClient.postSubmissionDocumentUpload).toHaveBeenCalledTimes(2);
 
-			expect(patchQuestionResponse).toHaveBeenCalledWith(
-				mockJourneyId,
-				mockRef,
-				{
-					answers: {
-						files: {
-							uploadedFiles: [
-								mockUploadedFile({
-									name: 'file-1',
-									fileName: 'file-1',
-									originalFileName: 'file-1',
-									message: { text: 'file-1' }
-								}),
-								mockUploadedFile({
-									name: 'file-2',
-									fileName: 'file-2',
-									originalFileName: 'file-2',
-									message: { text: 'file-2' }
-								})
-							]
-						}
-					}
-				},
-				mockResponse.LPACode
-			);
+			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockResponse.referenceId, {
+				files: true
+			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
 			);
@@ -461,38 +424,11 @@ describe('MultiFileUploadQuestion', () => {
 			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
 
 			expect(createDocument).toHaveBeenCalledTimes(2);
+			expect(apiClient.postSubmissionDocumentUpload).toHaveBeenCalledTimes(2);
 
-			expect(patchQuestionResponse).toHaveBeenCalledWith(
-				mockJourneyId,
-				mockRef,
-				{
-					answers: {
-						files: {
-							uploadedFiles: [
-								mockUploadedFile({
-									name: 'file-3',
-									fileName: 'file-3',
-									originalFileName: 'file-3',
-									message: { text: 'file-3' }
-								}),
-								mockUploadedFile({
-									name: 'file-1',
-									fileName: 'file-1',
-									originalFileName: 'file-1',
-									message: { text: 'file-1' }
-								}),
-								mockUploadedFile({
-									name: 'file-2',
-									fileName: 'file-2',
-									originalFileName: 'file-2',
-									message: { text: 'file-2' }
-								})
-							]
-						}
-					}
-				},
-				mockResponse.LPACode
-			);
+			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockResponse.referenceId, {
+				files: true
+			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
 			);
@@ -521,7 +457,7 @@ describe('MultiFileUploadQuestion', () => {
 			}
 
 			expect(createDocument).toHaveBeenCalledTimes(2);
-			expect(patchQuestionResponse).not.toHaveBeenCalled();
+			expect(apiClient.patchLPAQuestionnaire).not.toHaveBeenCalled();
 		});
 
 		it('can remove files and upload files', async () => {
@@ -550,18 +486,9 @@ describe('MultiFileUploadQuestion', () => {
 			expect(createDocument).toHaveBeenCalledTimes(1);
 			expect(removeDocument).toHaveBeenCalledTimes(1);
 
-			expect(patchQuestionResponse).toHaveBeenCalledWith(
-				mockJourneyId,
-				mockRef,
-				{
-					answers: {
-						files: {
-							uploadedFiles: [mockUploadedFile()]
-						}
-					}
-				},
-				mockResponse.LPACode
-			);
+			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(responseWithFiles.referenceId, {
+				files: true
+			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
 			);
@@ -590,18 +517,9 @@ describe('MultiFileUploadQuestion', () => {
 			expect(createDocument).toHaveBeenCalledTimes(0);
 			expect(removeDocument).toHaveBeenCalledTimes(1);
 
-			expect(patchQuestionResponse).toHaveBeenCalledWith(
-				mockJourneyId,
-				mockRef,
-				{
-					answers: {
-						files: {
-							uploadedFiles: [remainingFile]
-						}
-					}
-				},
-				mockResponse.LPACode
-			);
+			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockRef, {
+				files: true
+			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
 			);
@@ -632,19 +550,9 @@ describe('MultiFileUploadQuestion', () => {
 
 			expect(createDocument).toHaveBeenCalledTimes(0);
 			expect(removeDocument).toHaveBeenCalledTimes(1);
-
-			expect(patchQuestionResponse).toHaveBeenCalledWith(
-				mockJourneyId,
-				mockRef,
-				{
-					answers: {
-						files: {
-							uploadedFiles: [remainingFile, mockUploadedFile()]
-						}
-					}
-				},
-				mockResponse.LPACode
-			);
+			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockRef, {
+				files: true
+			});
 
 			const expectedErrorMsg = `Failed to remove file: ${mockUploadedFile().originalFileName}`;
 			expect(res.render).toHaveBeenCalledWith(
@@ -723,18 +631,9 @@ describe('MultiFileUploadQuestion', () => {
 				DOCUMENT_TYPE.name
 			);
 
-			expect(patchQuestionResponse).toHaveBeenCalledWith(
-				mockJourneyId,
-				mockRef,
-				{
-					answers: {
-						files: {
-							uploadedFiles: [mockUploadedFile()]
-						}
-					}
-				},
-				mockResponse.LPACode
-			);
+			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockRef, {
+				files: true
+			});
 
 			//and the page will re-render with the valid file listed and the relevant error message(s)
 			expect(res.redirect).not.toHaveBeenCalled();
