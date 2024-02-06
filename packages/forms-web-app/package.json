@@ -54,7 +54,6 @@
 		"nunjucks-date-filter": "^0.1.1",
 		"pino": "^6.13.4",
 		"sass": "^1.49.0",
-		"sinon": "^13.0.0",
 		"uuid": "^8.3.1"
 	},
 	"devDependencies": {
@@ -71,6 +70,7 @@
 		"nodemon": "^2.0.21",
 		"npm-run-all": "^4.1.5",
 		"pino-pretty": "^4.8.0",
+		"sinon": "^13.0.0",
 		"webpack": "^5.76.1",
 		"webpack-cli": "^4.9.2",
 		"webpack-merge": "^5.8.0"

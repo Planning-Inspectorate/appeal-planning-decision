@@ -54,7 +54,6 @@
 		"nunjucks-date-filter": "^0.1.1",
 		"pino": "^6.13.4",
 		"sass": "^1.49.0",
-		"sinon": "^13.0.0",
 		"uuid": "^8.3.1"
 	},
 	"devDependencies": {
