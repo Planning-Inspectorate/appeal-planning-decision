@@ -142,6 +142,16 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<AppealCaseWithAppellant[]>}
+	 */
+	async getAppealCaseDataByCaseReference(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {string} lpaCode
 	 * @returns {Promise<{count: number}>}
 	 */

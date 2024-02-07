@@ -1,7 +1,10 @@
 const { VIEW } = require('../../lib/views');
+const { apiClient } = require('../../lib/appeals-api-client');
 
-exports.get = (req, res) => {
+exports.get = async (req, res) => {
 	const appealNumber = req.params.appealNumber;
+
+	const caseData = await apiClient.getAppealCaseDataByCaseReference(appealNumber);
 
 	// type
 	// procedure
@@ -11,7 +14,8 @@ exports.get = (req, res) => {
 
 	const viewContext = {
 		appeal: {
-			appealNumber: appealNumber
+			appealNumber: appealNumber,
+			appealType: caseData[0].appealTypeName
 		}
 	};
 
