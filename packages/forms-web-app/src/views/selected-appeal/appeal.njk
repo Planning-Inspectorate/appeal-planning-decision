@@ -10,6 +10,8 @@
  {% set title="
  Appeal " + appeal.appealNumber + " - Appeal a planning decision - GOV.UK" %}
 
+ {% set headlineData = {{appeal.headlineData}} %}
+
  {% block pageTitle %}
    {{ title }}
  {% endblock %}
@@ -41,48 +43,7 @@
 
 			{{ govukSummaryList({
 				classes: "appeal-details govuk-summary-list--no-border",
-				rows: [
-					{
-						key: {
-							text: "Appeal type"
-						},
-						value: {
-							text: "placeholding"
-						}
-					},
-					{
-						key: {
-							text: "Appeal procedure"
-						},
-						value: {
-							text: "placeholding"
-						}
-					},
-					{
-						key: {
-							text: "Appeal site"
-						},
-						value: {
-							text: "placeholding"
-						}
-					},
-					{
-						key: {
-							text: "Applicant"
-						},
-						value: {
-							text: "placeholding"
-						}
-					},
-					{
-						key: {
-							text: "Application number"
-						},
-						value: {
-							text: "placeholding"
-						}
-					}
-				]
+				rows: headlineData
 			}) }}
 
 		</div>
