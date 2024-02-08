@@ -13,7 +13,7 @@ exports.get = async (req, res) => {
 
 	console.log(caseData);
 
-	const headlineData = formatHeadlineData(caseData[0]);
+	const headlineData = formatHeadlineData(caseData);
 
 	const viewContext = {
 		appeal: {
