@@ -1,15 +1,12 @@
 {% extends "layouts/no-banner-link/main.njk" %}
 
  {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
- {% from "govuk/components/button/macro.njk" import govukButton %}
- {% from "govuk/components/radios/macro.njk" import govukRadios %}
- {% from "govuk/components/tabs/macro.njk" import govukTabs %}
- {% from "govuk/components/table/macro.njk" import govukTable %}
  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
  {% set title="
  Appeal " + appeal.appealNumber + " - Appeal a planning decision - GOV.UK" %}
 
+ {# is this variable necessary? #}
  {% set headlineData = appeal.headlineData %}
 
  {% block pageTitle %}
@@ -36,6 +33,7 @@
 					padding-top: .2rem;
 					padding-bottom: 0;
 				}
+				{# I can't tell what this is doing #}
 				.app-task-list__section {
 					padding-right: 140px
 				}

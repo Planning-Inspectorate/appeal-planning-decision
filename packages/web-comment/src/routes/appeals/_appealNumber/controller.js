@@ -1,29 +1,23 @@
-const { openOrClosed } = require('#utils/open-or-closed');
+const { getAppealStatus } = require('#utils/appeal-status');
+const { apiClient } = require('#utils/appeals-api-client');
+const { formatHeadlineData } = require('@pins/common');
 
 const selectedAppeal = async (req, res) => {
 	const appealNumber = req.params.appealNumber;
 
-	let viewContext = {};
+	// TODO update to a new endpoint
+	// this API doesn't really satisfy the spec of AAPD-1247
+	// but I think we should move forward with this to get
+	// this code merged, then create a new endpoint and hook
+	// it up in a later iteration.
+	const appeal = await apiClient.getAppealCaseDataByCaseReference(appealNumber);
 
-	// temporary data
-	const appeal = {
-		caseReference: appealNumber,
-		LPACode: 'Q9999',
-		LPAName: 'System Test Borough Council',
-		appealTypeCode: '',
-		decision: '',
-		originalCaseDecisionDate: '',
-		costsAppliedForIndicator: false,
-		LPAApplicationReference: '12/2323231/PLA',
-		siteAddressLine1: '',
-		siteAddressPostcode: ''
-	};
+	const headlineData = formatHeadlineData(appeal);
 
-	openOrClosed(appeal);
-
-	viewContext = { appeal };
-
-	res.render(`appeals/_appealNumber/index`, viewContext);
+	res.render(`appeals/_appealNumber/index`, {
+		appeal: { ...appeal, status: getAppealStatus(appeal) },
+		headlineData
+	});
 };
 
 module.exports = { selectedAppeal };
