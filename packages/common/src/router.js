@@ -4,11 +4,11 @@ const path = require('path');
 /**
  * Recursively list folders from the given directory that include an index.js file
  *
- * @param {string} directory
- * @param {boolean} [includeRoot]
+ * @param {string} [directory]
+ * @param {{ includeRoot?: boolean }} [options]
  * @returns {string[]}
  */
-const getRoutePaths = (directory = __dirname, includeRoot = false) => {
+const getRoutePaths = (directory = __dirname, { includeRoot = false } = { includeRoot: false }) => {
 	/** @type {string[]} */
 	const paths = [];
 	const entries = readdirSync(directory);
@@ -17,7 +17,7 @@ const getRoutePaths = (directory = __dirname, includeRoot = false) => {
 		const isDir = lstatSync(entryPath).isDirectory();
 
 		if (isDir) {
-			paths.push(...getRoutePaths(entryPath, true));
+			paths.push(...getRoutePaths(entryPath, { includeRoot: true }));
 		} else if (entry === 'index.js' && includeRoot) {
 			paths.push(directory);
 		}
