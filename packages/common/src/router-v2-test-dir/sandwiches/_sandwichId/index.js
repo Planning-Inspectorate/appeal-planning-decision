@@ -6,7 +6,7 @@ const { sandwiches } = require('../constants');
 
 /** @type Handler */
 exports.get = (req, res) => {
-	const sandwich = sandwiches[Number(req.params.id)];
+	const sandwich = sandwiches[Number(req.params.sandwichId)];
 	if (!sandwich) res.sendStatus(404);
 	res.send(sandwich);
 };

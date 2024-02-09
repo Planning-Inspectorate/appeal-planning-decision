@@ -19,10 +19,6 @@ exports.delete = (req, res) => {
 exports.rogueFunction = () => {};
 
 /** @type Handler */
-exports.connect = (req, res) => {
-	res.send(`connect at /drinks/${req.params.id}`);
-};
-/** @type Handler */
 exports.head = (req, res) => {
 	res.send(`head at /drinks/${req.params.id}`);
 };

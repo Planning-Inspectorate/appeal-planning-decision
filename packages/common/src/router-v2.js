@@ -23,41 +23,28 @@ const HttpMethods = [
 const stringIsHttpMethod = (str) => HttpMethods.includes(str);
 
 /**
- * @param {(path: string) => import('./router-v2-types').RouterModule} importFunc
- * @returns {(directory?: string, options?: { includeRoot?: boolean }) => RouteDict}
+ * @param {string} [directory]
+ * @param {{ includeRoot?: boolean }} [options]
+ * @returns {IRouter}
  */
-exports.getRoutesWithInjectableImporter =
-	(importFunc) =>
-	(directory = __dirname, options) => {
-		const routePaths = getRoutePaths(directory, options);
-		/** @type RouteDict */
-		const routes = {};
-
-		for (const dirName of routePaths) {
-			const router = Router();
-			const module = importFunc(`${dirName}`);
-
-			Object.entries(module).forEach((entry) => {
-				if (!stringIsHttpMethod(entry[0])) {
-					console.warn(
-						`Skipping ${entry[0]} function exported by ${dirName}/index.js as the function name is not a recognised HTTP method.`
-					);
-					return;
-				}
-				router[entry[0]] = entry[1];
-			});
-
+exports.getRouter = (directory = __dirname, options) =>
+	getRoutePaths(directory, options).reduce((router, dirName) => {
+		Object.entries(require(`${dirName}`)).forEach(([method, handler]) => {
+			if (!stringIsHttpMethod(method)) {
+				console.warn(
+					`Skipping ${method} function exported by ${dirName}/index.js as the function name is not a recognised HTTP method.`
+				);
+				return;
+			}
 			const relativePath = dirName
 				.replace(new RegExp(`^${directory}/?`), '/') // just need relative path
 				.replace(/_/g, ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
 				.replace('/index.js', '');
-			routes[relativePath] = router;
-		}
+			router[method](relativePath, handler);
+		});
 
-		return routes;
-	};
-
-exports.getRoutes = exports.getRoutesWithInjectableImporter(require);
+		return router;
+	}, Router());
 
 /**
  * @param {import('express').Express} app
@@ -66,8 +53,6 @@ exports.getRoutes = exports.getRoutesWithInjectableImporter(require);
  * @returns {void}
  */
 exports.spoolRoutes = (app, directory, options) => {
-	const routes = exports.getRoutes(directory, options);
-	Object.entries(routes).forEach(([baseUrl, router]) => {
-		app.use(baseUrl, router);
-	});
+	const router = exports.getRouter(directory, options);
+	app.use(router);
 };

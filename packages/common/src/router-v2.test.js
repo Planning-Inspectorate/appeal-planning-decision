@@ -6,10 +6,11 @@ const { spoolRoutes } = require('./router-v2');
 /** @type {Array<[string, Array<import('./router-v2-types').HttpMethods>]>} */
 const expectedRouteDictShape = [
 	['/', ['get', 'post']],
-	['/drinks/:id', ['get', 'delete', 'connect', 'head', 'options', 'patch', 'post', 'put', 'trace']],
+	['/drinks/2', ['get', 'delete', 'head', 'options', 'patch', 'post', 'put', 'trace']],
 	['/drinks', ['get']],
-	['/sandwiches/:id', ['get']],
-	['/sandwiches', ['get']]
+	['/sandwiches/0', ['get']],
+	['/sandwiches', ['get']],
+	['/sandwiches/2/ingredients/1', ['get']]
 ];
 
 describe('getRoutesV2', () => {
@@ -17,12 +18,12 @@ describe('getRoutesV2', () => {
 	const app = express();
 	spoolRoutes(app, routeDirectory, { includeRoot: true });
 
-	it('Creates a route dictionary given a root directory', () => {
-		expectedRouteDictShape.forEach(([path, methods]) => {
-			methods.forEach((method) => {
-				request(app)[method](path).expect(200);
-			});
-		});
+	it('Creates a route dictionary given a root directory', async () => {
+		for (const [path, methods] of expectedRouteDictShape) {
+			for (const method of methods) {
+				await request(app)[method](path).expect(200);
+			}
+		}
 	});
 
 	it("Doesn't create methods where none is specified", () => {

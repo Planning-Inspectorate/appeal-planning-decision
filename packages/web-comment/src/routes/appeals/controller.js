@@ -9,6 +9,7 @@ const { apiClient } = require('#utils/appeals-api-client');
 
 /** @type {import('express').RequestHandler} */
 const appeals = async (req, res) => {
+	console.log('👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️👷‍♀️');
 	const postcode = req.query.search;
 	/** @type {import('../../utils/appeals-view').AppealViewModel[]} */
 	const postcodeSearchResults = await apiClient.getPostcodeSearchResults({
