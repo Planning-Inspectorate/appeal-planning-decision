@@ -85,13 +85,60 @@ class MultiFileUploadQuestion extends Question {
 	prepQuestionForRendering(section, journey, customViewData) {
 		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 
-		const answer = journey.response.answers[this.fieldName] || '';
+		const uploadedFiles = journey.response.answers.SubmissionDocumentUpload || [];
 
-		if (answer.uploadedFiles) {
-			viewModel.uploadedFiles = answer.uploadedFiles;
+		const relevantUploadedFiles = uploadedFiles.filter(
+			(upload) => upload.type === this.documentType
+		);
+
+		if (relevantUploadedFiles.length > 0) {
+			viewModel.uploadedFiles = relevantUploadedFiles;
 		}
 
 		return viewModel;
+	}
+
+	/**
+	 * Save the answer to the question
+	 * @param {ExpressRequest} req
+	 * @param {ExpressResponse} res
+	 * @param {Journey} journey
+	 * @param {Section} section
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {Promise<void>}
+	 */
+	async saveAction(req, res, journey, section, journeyResponse) {
+		// check for validation errors
+		const errorViewModel = this.checkForValidationErrors(req, section, journey);
+		if (errorViewModel) {
+			return this.renderAction(res, errorViewModel);
+		}
+
+		// save
+		const { uploadedFiles } = await this.getDataToSave(req, journeyResponse);
+		await uploadedFiles.forEach(async (file) => {
+			const data = {
+				...file,
+				type: this.documentType.name
+			};
+			await apiClient.postSubmissionDocumentUpload(journeyResponse.referenceId, data);
+		});
+		const responseToSave = {
+			answers: {
+				[this.fieldName]: true
+			}
+		};
+		await this.saveResponseToDB(journey.response, responseToSave);
+
+		// check for saving errors
+		const saveViewModel = this.checkForSavingErrors(req, section, journey);
+		if (saveViewModel) {
+			return this.renderAction(res, saveViewModel);
+		}
+
+		// move to the next question
+		const updatedJourney = new journey.constructor(journeyResponse);
+		return this.handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
 	}
 
 	checkForValidationErrors() {
@@ -226,20 +273,6 @@ class MultiFileUploadQuestion extends Question {
 
 		journeyResponse.answers[this.fieldName] = journeyFiles.answers[this.fieldName];
 
-		uploadedFiles.forEach(async (file) => {
-			const data = {
-				...file,
-				type: this.documentType.name
-			};
-			await apiClient.postSubmissionDocumentUpload(journeyResponse.referenceId, data);
-		});
-
-		const responseToSave = {
-			answers: {
-				[this.fieldName]: true
-			}
-		};
-
 		if (Object.keys(errors).length > 0) {
 			req.body.errors = errors;
 			req.body.errorSummary = errorSummary.map((error) => ({
@@ -248,7 +281,9 @@ class MultiFileUploadQuestion extends Question {
 			}));
 		}
 
-		return responseToSave;
+		return {
+			uploadedFiles: journeyFiles.answers[this.fieldName].uploadedFiles
+		};
 	}
 
 	async #saveFilesToBlobStorage(files, journeyResponse) {
