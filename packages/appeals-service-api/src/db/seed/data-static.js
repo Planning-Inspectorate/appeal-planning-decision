@@ -18,6 +18,10 @@ const APPEAL_USER_ROLES = {
 	interestedParty: {
 		name: 'interestedParty',
 		description: `An interested party is a user who submits a comment on an appeal`
+	},
+	rule6Party: {
+		name: 'rule-6-party',
+		description: '' /* TODO: I forgot what this is, sorry! */
 	}
 };
 
