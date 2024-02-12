@@ -1,6 +1,5 @@
 generator client {
-  provider      = "prisma-client-js"
-  binaryTargets = ["native", "darwin"]
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -284,8 +283,6 @@ model LPAQuestionnaireSubmission {
   appealCaseReference String     @unique
   AppealCase          AppealCase @relation(fields: [appealCaseReference], references: [caseReference])
 
-  lpaCode String
-
   // link the submission to the appeal
 
   correctAppealType                               Boolean?
@@ -364,42 +361,32 @@ model LPAQuestionnaireSubmission {
   developmentDescription                          String?
   requiresEnvironmentalStatement                  String?
 
-  // Fields below in confluence master doc but no corresponding question yet
-
-  // otherDesignationDetails         String?
-  // completedEnvironmentalStatement Boolean?
-  // appealSiteAccess                Boolean?
-  // appealSiteAccessDetails							String?
-  // lpaStatement                    String?
-  // lpaStatementDocuments           Boolean?
-  // lpaFinalComment                 Boolean?
-  // lpaFinalCommentDetails          String?
-  // lpaWitnesses                    Boolean?
-
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload   SubmissionDocumentUpload[]
   SubmissionNeighbourAddress SubmissionNeighbourAddress[]
 }
 
 model SubmissionDocumentUpload {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
   questionnaireId            String                     @db.UniqueIdentifier
   LPAQuestionnaireSubmission LPAQuestionnaireSubmission @relation(fields: [questionnaireId], references: [id])
 
-  id               String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  name             String @default("")
-  fileName         String @default("")
-  originalFileName String @default("")
-  location         String @default("")
-  type             String @default("")
+  name             String
+  fileName         String
+  originalFileName String
+  location         String
+  type             String
 }
 
 model SubmissionNeighbourAddress {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
   questionnaireId            String                     @db.UniqueIdentifier
   LPAQuestionnaireSubmission LPAQuestionnaireSubmission @relation(fields: [questionnaireId], references: [id])
 
-  id           String  @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  addressLine1 String  @default("")
+  addressLine1 String
   addressLine2 String?
-  townCity     String  @default("")
-  postcode     String  @default("")
+  townCity     String
+  postcode     String
 }

@@ -18,11 +18,20 @@ class LPAQuestionnaireSubmissionRepository {
 	 * @param {string} caseReference
 	 * @returns {Promise<LPAQuestionnaireSubmission|null>}
 	 */
-	async getLPAQuestionnaireByAppealId(caseReference) {
+	async getLPAQuestionnaireByAppealRef(caseReference) {
 		try {
 			return await this.dbClient.lPAQuestionnaireSubmission.findUnique({
 				where: {
 					appealCaseReference: caseReference
+				},
+				include: {
+					AppealCase: {
+						select: {
+							LPACode: true
+						}
+					},
+					SubmissionDocumentUpload: true,
+					SubmissionNeighbourAddress: true
 				}
 			});
 		} catch (e) {
@@ -40,14 +49,12 @@ class LPAQuestionnaireSubmissionRepository {
 	 * Create questionnaire for given appeal
 	 *
 	 * @param {string} caseReference
-	 * @param {string} lpaCode
-	 * @returns {Promise<LPAQuestionnaireSubmission|null>}
+	 * @returns {Promise<LPAQuestionnaireSubmission>}
 	 */
-	async createQuestionnaire(caseReference, lpaCode) {
+	async createQuestionnaire(caseReference) {
 		return await this.dbClient.lPAQuestionnaireSubmission.create({
 			data: {
-				appealCaseReference: caseReference,
-				lpaCode
+				appealCaseReference: caseReference
 			}
 		});
 	}
@@ -56,7 +63,7 @@ class LPAQuestionnaireSubmissionRepository {
 	 *
 	 * @param {*} caseReference
 	 * @param {*} data
-	 * @returns
+	 * @returns {Promise<LPAQuestionnaireSubmission>}
 	 */
 	async patchLPAQuestionnaireByAppealId(caseReference, data) {
 		return await this.dbClient.lPAQuestionnaireSubmission.update({

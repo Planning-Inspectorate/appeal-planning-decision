@@ -6,14 +6,11 @@ components:
       required:
         - id
         - appealCaseId
-        - lpaCode
       properties:
         id:
           type: string
           format: uuid
         appealCaseReference:
-          type: string
-        lpaCode:
           type: string
         correctAppealType:
           type: boolean

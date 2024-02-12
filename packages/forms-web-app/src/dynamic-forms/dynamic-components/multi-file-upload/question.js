@@ -226,16 +226,12 @@ class MultiFileUploadQuestion extends Question {
 
 		journeyResponse.answers[this.fieldName] = journeyFiles.answers[this.fieldName];
 
-		uploadedFiles.forEach((file) => {
+		uploadedFiles.forEach(async (file) => {
 			const data = {
 				...file,
 				type: this.documentType.name
 			};
-			apiClient.postSubmissionDocumentUpload(
-				journeyResponse.referenceId,
-				journeyResponse.answers.id,
-				data
-			);
+			await apiClient.postSubmissionDocumentUpload(journeyResponse.referenceId, data);
 		});
 
 		const responseToSave = {
