@@ -39,11 +39,7 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 			postcode: req.body[this.fieldName + '_postcode']
 		});
 
-		await apiClient.postSubmissionNeighbourAddress(
-			journeyResponse.referenceId,
-			journeyResponse.answers.id,
-			address
-		);
+		await apiClient.postSubmissionNeighbourAddress(journeyResponse.referenceId, address);
 
 		return true;
 	}
