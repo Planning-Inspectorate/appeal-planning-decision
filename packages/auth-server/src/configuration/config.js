@@ -1,3 +1,5 @@
+import oidc from './oidc-config.js';
+
 /**
  * @param {*} value
  * @param {number} fallback
@@ -14,26 +16,14 @@ function numberWithDefault(value, fallback) {
 const config = {
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
-		redact: ['config.oauth.options.clients'],
-		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true'
+		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true',
+		redact: ['config.oidc.options.clients']
 	},
 	server: {
 		port: numberWithDefault(process.env.SERVER_PORT, 3000),
 		showErrors: process.env.SERVER_SHOW_ERRORS === 'true'
 	},
-	oauth: {
-		host: process.env.OIDC_HOST,
-		options: {
-			clients: [
-				{
-					name: 'forms-web-app',
-					client_id: process.env.FORMS_WEB_APP_CLIENT_ID,
-					client_secret: process.env.FORMS_WEB_APP_CLIENT_SECRET,
-					redirect_uris: [process.env.FORMS_WEB_APP_REDIRECT_URI]
-				}
-			]
-		}
-	}
+	oidc
 };
 
 export default config;

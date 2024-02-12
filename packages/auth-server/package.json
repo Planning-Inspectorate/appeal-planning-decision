@@ -10,13 +10,17 @@
 	},
 	"scripts": {
 		"lint": "eslint ./",
+		"gen-secret": "node ./gen-client-secret.js",
+		"gen-keys": "node ./gen-keys.js",
 		"start": "node ./src/main.js",
 		"start:dev": "nodemon ./src/main.js | pino-pretty -tlc",
+		"start:dev:debug": "nodemon --inspect=0.0.0.0 ./src/main.js",
 		"test": "jest --passWithNoTests"
 	},
 	"dependencies": {
 		"applicationinsights": "^2.9.0",
 		"express-pino-logger": "^5.0.0",
+		"jose": "^5.2.1",
 		"oidc-provider": "^8.4.5",
 		"pino": "^6.14.0"
 	},

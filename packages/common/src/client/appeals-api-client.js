@@ -154,6 +154,7 @@ class AppealsApiClient {
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
+
 	/**
 	 * @param {{ userId: string, appealSubmissionId: string }} params
 	 * @returns {Promise<(AppealSubmission)>}
@@ -161,6 +162,12 @@ class AppealsApiClient {
 	async getUserAppealById({ userId, appealSubmissionId }) {
 		const endpoint = `${v2}/users/${userId}/appeal-submissions/${appealSubmissionId}`;
 		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	async getAuth(token) {
+		const endpoint = `${v2}/token/test`;
+		const response = await this.#makeGetRequest(endpoint, token);
 		return response.json();
 	}
 
@@ -173,7 +180,7 @@ class AppealsApiClient {
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {AppealsApiError|Error}
 	 */
-	async handler(path, method = 'GET', opts = {}, headers = {}) {
+	async handler(path, method = 'GET', opts = {}, headers = {}, token) {
 		const correlationId = crypto.randomUUID();
 		const url = `${this.baseUrl}${path}`;
 
@@ -196,7 +203,8 @@ class AppealsApiClient {
 				method,
 				headers: {
 					'Content-Type': 'application/json',
-					...headers
+					...headers,
+					Authorization: 'Bearer ' + token
 				},
 				...opts,
 				signal: controller.signal
@@ -264,8 +272,8 @@ class AppealsApiClient {
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {AppealsApiError|Error}
 	 */
-	#makeGetRequest(endpoint) {
-		return this.handler(endpoint);
+	#makeGetRequest(endpoint, token) {
+		return this.handler(endpoint, 'GET', undefined, undefined, token);
 	}
 
 	/**
@@ -274,10 +282,16 @@ class AppealsApiClient {
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {AppealsApiError|Error}
 	 */
-	#makePostRequest(endpoint, data = {}) {
-		return this.handler(endpoint, 'POST', {
-			body: JSON.stringify(data)
-		});
+	#makePostRequest(endpoint, data = {}, token) {
+		return this.handler(
+			endpoint,
+			'POST',
+			{
+				body: JSON.stringify(data)
+			},
+			undefined,
+			token
+		);
 	}
 
 	/**
@@ -286,10 +300,16 @@ class AppealsApiClient {
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {AppealsApiError|Error}
 	 */
-	#makePutRequest(endpoint, data = {}) {
-		return this.handler(endpoint, 'PUT', {
-			body: JSON.stringify(data)
-		});
+	#makePutRequest(endpoint, data = {}, token) {
+		return this.handler(
+			endpoint,
+			'PUT',
+			{
+				body: JSON.stringify(data)
+			},
+			undefined,
+			token
+		);
 	}
 }
 

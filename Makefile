@@ -42,7 +42,12 @@ appeals:
 # only services required for documents
 documents:
 	docker compose --profile documents -f docker-compose.yml -f docker-compose.slim.yml up
-.PHONY: appeals
+.PHONY: documents
+
+# only services required for auth
+auth:
+	docker compose --profile auth -f docker-compose.yml -f docker-compose.slim.yml up
+.PHONY: auth
 
 uninstall:
 	rm -Rf node_modules

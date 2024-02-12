@@ -75,7 +75,8 @@ module.exports = {
 			'opts.body',
 			'config.db.session.uri',
 			'config.server.sessionSecret',
-			'config.featureFlagging.endpoint'
+			'config.featureFlagging.endpoint',
+			'config.oauth'
 		]
 	},
 	server: {
@@ -141,5 +142,9 @@ module.exports = {
 	featureFlagging: {
 		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING,
 		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
+	},
+	oauth: {
+		clientID: process.env.CLIENT_ID,
+		clientSecret: process.env.CLIENT_SECRET
 	}
 };

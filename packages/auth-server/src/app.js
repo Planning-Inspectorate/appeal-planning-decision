@@ -6,10 +6,16 @@ import OIDC from 'oidc-provider';
 import config from './configuration/config.js';
 import logger from './lib/logger.js';
 import apiErrorHandler from './errors/api-error-handler.js';
-
+import * as ropc from './lib/ropc-grant-handler.js';
 const app = express();
 
-const oidc = new OIDC(`${config.oauth.host}:${config.server.port}`, config.oauth.options);
+const oidc = new OIDC(`${config.oidc.host}:${config.server.port}`, config.oidc.configuration);
+oidc.registerGrantType(ropc.gty, ropc.handler, ropc.parameters, []);
+
+/** @type {import('express').Handler} */
+const noContentHandler = (req, res) => {
+	res.sendStatus(204);
+};
 
 app
 	.use(
@@ -18,13 +24,9 @@ app
 			genReqId: (req) => req.headers['x-correlation-id'] || crypto.randomUUID()
 		})
 	)
-	.use('/oidc', oidc.callback())
-	.get('/test', (req, res) => {
-		res.status(200).send('200 - test');
-	})
-	.get('/favicon.ico', (req, res) => {
-		res.sendStatus(204);
-	})
+	.get('/', noContentHandler)
+	.get('/favicon.ico', noContentHandler)
+	.use('/oidc', oidc.callback()) // /oidc/.well-known/openid-configuration
 	.use(apiErrorHandler);
 
 export default app;
