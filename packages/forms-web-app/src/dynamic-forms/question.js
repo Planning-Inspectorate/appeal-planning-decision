@@ -1,4 +1,3 @@
-// const { patchQuestionResponse } = require('../lib/appeals-api-wrapper');
 const { capitalize } = require('../lib/string-functions');
 const { apiClient } = require('../lib/appeals-api-client');
 
@@ -245,7 +244,7 @@ class Question {
 
 	/**
 	 * @param {JourneyResponse} journeyResponse
-	 * @param {object} responseToSave
+	 * @param {Promise<*>} responseToSave
 	 */
 	async saveResponseToDB(journeyResponse, responseToSave) {
 		await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);

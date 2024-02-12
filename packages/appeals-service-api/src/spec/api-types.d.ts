@@ -295,7 +295,6 @@ export interface LPAQuestionnaireSubmission {
 	/** @format uuid */
 	id: string;
 	appealCaseReference?: string;
-	lpaCode: string;
 	correctAppealType?: boolean;
 	affectsListedBuilding?: boolean;
 	affectedListedBuildingNumber?: string;

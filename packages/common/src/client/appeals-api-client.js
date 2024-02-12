@@ -207,13 +207,10 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} lpaCode
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async postLPAQuestionnaire(caseReference, lpaCode) {
-		const urlParams = new URLSearchParams();
-		urlParams.append('lpa-code', lpaCode);
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission?${urlParams.toString()}`;
+	async postLPAQuestionnaire(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission`;
 		const response = await this.#makePostRequest(endpoint);
 		return response.json();
 	}
@@ -221,6 +218,7 @@ class AppealsApiClient {
 	/**
 	 * @param {string} caseReference
 	 * @param {object} data
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
 	async patchLPAQuestionnaire(caseReference, data) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission`;
@@ -230,55 +228,23 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} questionnaireId
-	 */
-	async getSubmissionDocumentUploads(caseReference, questionnaireId) {
-		const urlParams = new URLSearchParams();
-		urlParams.append('questionnaire-id', questionnaireId);
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/documentUpload?${urlParams.toString()}`;
-		const response = await this.#makeGetRequest(endpoint);
-		return response.json();
-	}
-
-	/**
-	 * @param {string} caseReference
-	 * @param {string} questionnaireId
 	 * @param {object} data
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async postSubmissionDocumentUpload(caseReference, questionnaireId, data) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/documentUpload`;
-		const uploadData = {
-			...data,
-			questionnaireId
-		};
-		const response = await this.#makePostRequest(endpoint, uploadData);
+	async postSubmissionDocumentUpload(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/document-upload`;
+		const response = await this.#makePostRequest(endpoint, data);
 		return response.json();
 	}
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} questionnaireId
-	 */
-	async getSubmissionNeighbourAddresses(caseReference, questionnaireId) {
-		const urlParams = new URLSearchParams();
-		urlParams.append('questionnaire-id', questionnaireId);
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/neighbourAddress?${urlParams.toString()}`;
-		const response = await this.#makeGetRequest(endpoint);
-		return response.json();
-	}
-
-	/**
-	 * @param {string} caseReference
-	 * @param {string} questionnaireId
 	 * @param {object} data
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async postSubmissionNeighbourAddress(caseReference, questionnaireId, data) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/neighbourAddress`;
-		const uploadData = {
-			...data,
-			questionnaireId
-		};
-		const response = await this.#makePostRequest(endpoint, uploadData);
+	async postSubmissionNeighbourAddress(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/neighbour-address`;
+		const response = await this.#makePostRequest(endpoint, data);
 		return response.json();
 	}
 

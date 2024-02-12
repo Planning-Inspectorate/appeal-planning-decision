@@ -183,7 +183,7 @@ class ApiError {
 	}
 
 	static unableToGetDocumentUploads() {
-		return new ApiError(400, {
+		return new ApiError(404, {
 			errors: ['Unable to retrieve document uploads']
 		});
 	}
@@ -195,7 +195,7 @@ class ApiError {
 	}
 
 	static unableToGetNeighbourAddresses() {
-		return new ApiError(400, {
+		return new ApiError(404, {
 			errors: ['Unable to get SubmissionNeighbourAddress entries']
 		});
 	}

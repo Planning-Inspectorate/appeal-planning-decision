@@ -32,11 +32,7 @@ async function getLPAQuestionnaireSubmission(req, res) {
  */
 async function createLPAQuestionnaireSubmission(req, res) {
 	try {
-		const { 'lpa-code': lpaCode } = req.query;
-		if (!lpaCode || typeof lpaCode !== 'string') {
-			throw ApiError.withMessage(400, 'lpa-code is required');
-		}
-		const content = await createLPAQuestionnaire(req.params.caseReference, lpaCode);
+		const content = await createLPAQuestionnaire(req.params.caseReference);
 		if (!content) {
 			throw ApiError.unableToCreateQuestionnaire();
 		}

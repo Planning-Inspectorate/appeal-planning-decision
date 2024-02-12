@@ -37,18 +37,22 @@ function getAddMoreIfPresent(req, questionObj) {
  */
 
 function mapDBResponseToJourneyResponseFormat(dbResponse) {
-	let convertedResponse = {};
-	for (const key of Object.keys(dbResponse)) {
-		if (dbResponse[key] === true) {
-			convertedResponse[key] = 'yes';
-		} else if (dbResponse[key] === false) {
-			convertedResponse[key] = 'no';
-		} else {
-			convertedResponse[key] = dbResponse[key];
-		}
-	}
-
-	return convertedResponse;
+	return Object.entries(dbResponse).reduce(
+		(acc, [key, value]) => ({
+			...acc,
+			[key]: (() => {
+				switch (value) {
+					case true:
+						return 'yes';
+					case false:
+						return 'no';
+					default:
+						return value;
+				}
+			})()
+		}),
+		{}
+	);
 }
 
 module.exports = { getAddMoreIfPresent, mapDBResponseToJourneyResponseFormat };

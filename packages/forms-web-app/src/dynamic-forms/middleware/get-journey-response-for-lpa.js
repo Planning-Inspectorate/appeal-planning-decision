@@ -23,10 +23,15 @@ module.exports = () => async (req, res, next) => {
 	try {
 		const dbResponse = await apiClient.getLPAQuestionnaire(referenceId);
 		const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
-		result = new JourneyResponse(appealType, referenceId, convertedResponse, dbResponse.lpaCode);
+		result = new JourneyResponse(
+			appealType,
+			referenceId,
+			convertedResponse,
+			dbResponse.AppealCase?.LPACode
+		);
 	} catch (err) {
 		logger.error(err);
-		await apiClient.postLPAQuestionnaire(referenceId, user.lpaCode);
+		await apiClient.postLPAQuestionnaire(referenceId);
 		result = getDefaultResponse(appealType, referenceId, user.lpaCode);
 	}
 
