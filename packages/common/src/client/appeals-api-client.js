@@ -130,6 +130,18 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {{ caseReference: string, userId: string, role: string }} params
+	 * @returns {Promise<AppealCase>}
+	 */
+	async getUsersAppealCase({ caseReference, userId, role }) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('role', role);
+		const endpoint = `${v2}/users/${userId}/appeal-cases${caseReference}?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {string} lpaCode
 	 * @returns {Promise<{count: number}>}
 	 */
