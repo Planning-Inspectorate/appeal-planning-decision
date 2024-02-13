@@ -20,7 +20,7 @@ module.exports = {
 	now,
 	/**
 	 * Generate some dates in the previous month
-	 *
+	 * @param {number} n
 	 * @returns {Date[]}
 	 */
 	datesNMonthsAgo(n) {
@@ -29,7 +29,7 @@ module.exports = {
 	},
 	/**
 	 * Generate some dates in the next month
-	 *
+	 * @param {number} n
 	 * @returns {Date[]}
 	 */
 	datesNMonthsAhead(n) {

@@ -16,6 +16,7 @@ services:
       LOGGER_PRETTY_PRINT: 'true'
       SERVER_SHOW_ERRORS: 'true'
       OIDC_HOST: 'http://localhost'
+      SQL_CONNECTION_STRING: 'sqlserver://mssql:1433;database=pins_front_office_development;user=sa;password=DockerDatabaseP@22word!;trustServerCertificate=true'
 
       # Clients
       FORMS_WEB_APP_CLIENT_ID: '4dbd45cb-f591-414f-a6d9-34f1103b63fd'
@@ -24,13 +25,15 @@ services:
     ports:
       - 3005:3000
       # node debugger
-      - 9229:9229
+      # - 9229:9229
     working_dir: /opt/app
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
+      - ./packages/database/src/:/opt/database/src
+      - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/auth-server:/opt/app
-    command: npm run start:dev:debug
+    command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
 
@@ -75,7 +78,6 @@ services:
       SRV_NOTIFY_CONFIRM_EMAIL_TEMPLATE_ID: '4156c7ac-a235-4577-b976-44020bec4d5f'
       SRV_ADMIN_MONITORING_EMAIL: 'test@pins.gov.uk'
       SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID: '49413491-90fd-4ce8-b061-e2f4758b636b'
-      SQL_CONNECTION_STRING_ADMIN: 'sqlserver://mssql:1433;database=pins_front_office_development;user=sa;password=DockerDatabaseP@22word!;trustServerCertificate=true'
       SQL_CONNECTION_STRING: 'sqlserver://mssql:1433;database=pins_front_office_development;user=sa;password=DockerDatabaseP@22word!;trustServerCertificate=true'
       TASK_SUBMIT_TO_HORIZON_CRON_STRING: '*/10 * * * *'
       TASK_SUBMIT_TO_HORIZON_TRIGGER: 'false'
@@ -98,6 +100,8 @@ services:
       - ./node_modules:/opt/node_modules
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/database/src/:/opt/database/src
+      - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/appeals-service-api:/opt/app
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.

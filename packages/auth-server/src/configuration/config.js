@@ -14,6 +14,13 @@ function numberWithDefault(value, fallback) {
 }
 
 const config = {
+	db: {
+		sql: {
+			// todo: different user/login for auth server - different table access
+			// don't use the admin connection string for general use
+			connectionString: process.env.SQL_CONNECTION_STRING
+		}
+	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
 		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true',

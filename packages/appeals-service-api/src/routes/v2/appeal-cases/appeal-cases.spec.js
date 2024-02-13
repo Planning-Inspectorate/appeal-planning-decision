@@ -3,7 +3,7 @@ const supertest = require('supertest');
 const { buildQueryString } = require('@pins/common/src/client/utils');
 const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
-const { seedStaticData } = require('../../../db/seed/data-static');
+const { seedStaticData } = require('@pins/database/src/seed/data-static');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 

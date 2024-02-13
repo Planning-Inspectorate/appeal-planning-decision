@@ -2,10 +2,10 @@ const { createPrismaClient } = require('../../db/db-client');
 const { Prisma } = require('@prisma/client');
 const logger = require('../../lib/logger');
 const ApiError = require('../../errors/apiError');
-const { APPEAL_USER_ROLES } = require('../../db/seed/data-static');
+const { APPEAL_USER_ROLES } = require('@pins/database/src/seed/data-static');
 
 /**
- * @typedef { import("../../db/seed/data-static").AppealToUserRoles } AppealToUserRoles
+ * @typedef { import("@pins/database/src/seed/data-static").AppealToUserRoles } AppealToUserRoles
  * @typedef { import("@prisma/client").AppealUser } AppealUser
  * @typedef { import("@prisma/client").AppealToUser } AppealToUser
  * @typedef { import("@prisma/client").Prisma.AppealUserCreateInput } AppealUserCreateInput
@@ -93,7 +93,7 @@ class AppealUserRepository {
 	 * Sets user's role on an appeal
 	 * @param {string} userId
 	 * @param {string} appealId
-	 * @param {import("../../db/seed/data-static").AppealToUserRoles|undefined} role
+	 * @param {import("@pins/database/src/seed/data-static").AppealToUserRoles|undefined} role
 	 * @returns {Promise<AppealToUser>}
 	 */
 	async linkUserToAppeal(userId, appealId, role) {

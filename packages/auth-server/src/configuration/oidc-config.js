@@ -1,5 +1,6 @@
 import resourceFeature from './resources.js';
 import clientList from './clients.js';
+import adapter from '../adapter/prisma-adapter.js';
 
 export default {
 	host: process.env.OIDC_HOST,
@@ -27,7 +28,8 @@ export default {
 			// userinfo: {
 			// 	enabled: true
 			// }
-		}
+		},
+		adapter
 		// todo: set these properly - handle expiry
 		// ttl: {
 		// 	IdToken: 3600 /* 1 hour in seconds */,

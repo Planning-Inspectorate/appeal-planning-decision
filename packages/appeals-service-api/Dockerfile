@@ -14,12 +14,14 @@ COPY packages/appeals-service-api/src ./src
 COPY package.json /opt/
 COPY package-lock.json /opt/
 COPY packages/common /opt/packages/common
+COPY packages/database /opt/packages/database
 COPY packages/business-rules /opt/packages/business-rules
 
 # install from root
 WORKDIR /opt
 RUN npm ci --omit=dev
 # generate prisma client
+WORKDIR /opt/packages/appeals-service-api
 RUN npm run db:generate
 
 # Stage 2/2: App Run
