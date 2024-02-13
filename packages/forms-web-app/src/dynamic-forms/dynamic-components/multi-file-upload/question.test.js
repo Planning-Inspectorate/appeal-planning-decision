@@ -189,10 +189,15 @@ describe('MultiFileUploadQuestion', () => {
 		it('should set uploadedFiles and call super', () => {
 			const question = getMultiFileUpload();
 
+			const uploadedDocument = {
+				name: 'test',
+				type: DOCUMENT_TYPE.name
+			};
+
 			const journey = {
 				response: {
 					answers: {
-						[question.fieldName]: { uploadedFiles: [1, 2] }
+						SubmissionDocumentUpload: [uploadedDocument]
 					}
 				},
 				getNextQuestionUrl: () => {
@@ -206,9 +211,9 @@ describe('MultiFileUploadQuestion', () => {
 			expect(result).toEqual(
 				expect.objectContaining({
 					question: expect.objectContaining({
-						value: journey.response.answers[question.fieldName]
+						fieldName: FIELDNAME
 					}),
-					uploadedFiles: journey.response.answers[question.fieldName].uploadedFiles,
+					uploadedFiles: [uploadedDocument],
 					hello: 'hi'
 				})
 			);
@@ -424,7 +429,7 @@ describe('MultiFileUploadQuestion', () => {
 			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
 
 			expect(createDocument).toHaveBeenCalledTimes(2);
-			expect(apiClient.postSubmissionDocumentUpload).toHaveBeenCalledTimes(2);
+			expect(apiClient.postSubmissionDocumentUpload).toHaveBeenCalledTimes(3);
 
 			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockResponse.referenceId, {
 				files: true
