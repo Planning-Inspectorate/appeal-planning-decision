@@ -1,8 +1,7 @@
 const AddMoreQuestion = require('../add-more/question');
 const AddressAddMoreQuestion = require('./question');
-const { apiClient } = require('../../../lib/appeals-api-client');
 const Address = require('@pins/common/src/lib/address');
-jest.mock('../../../lib/appeals-api-client');
+const uuid = require('uuid');
 
 describe('AddressAddMoreQuestion', () => {
 	const TITLE = 'title';
@@ -26,7 +25,7 @@ describe('AddressAddMoreQuestion', () => {
 	});
 
 	describe('getDataToSave', () => {
-		it('should format the data correctly and call postSubmissionNeighbourAddress', async () => {
+		it('should format the data correctly', async () => {
 			const addressAddMoreQuestion = new AddressAddMoreQuestion({
 				title: TITLE,
 				question: QUESTION,
@@ -62,12 +61,8 @@ describe('AddressAddMoreQuestion', () => {
 
 			const result = await addressAddMoreQuestion.getDataToSave(req, testJourneyResponse);
 
-			expect(apiClient.postSubmissionNeighbourAddress).toHaveBeenCalledWith(
-				'testRef',
-				'testQuestionnaireId',
-				testAddress
-			);
-			expect(result).toEqual(true);
+			expect(uuid.validate(result.addMoreId)).toBeTruthy();
+			expect(result.value).toEqual(testAddress);
 		});
 	});
 });

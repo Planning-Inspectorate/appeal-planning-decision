@@ -88,7 +88,7 @@ class MultiFileUploadQuestion extends Question {
 		const uploadedFiles = journey.response.answers.SubmissionDocumentUpload || [];
 
 		const relevantUploadedFiles = uploadedFiles.filter(
-			(upload) => upload.type === this.documentType
+			(upload) => upload.type === this.documentType.name
 		);
 
 		if (relevantUploadedFiles.length > 0) {

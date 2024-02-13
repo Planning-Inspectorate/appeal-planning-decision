@@ -20,7 +20,7 @@ describe('getJourneyResponse', () => {
 	const mockValidNotTestLpaUser = { lpaCode: noneTestLPACode };
 	const invalidLpaUser = {};
 	const mockAppeal = { appealType: 'Householder (HAS) Appeal' };
-	const testDBResponse = { answer1: '1', lpaCode: testLPACode };
+	const testDBResponse = { answer1: '1', AppealCase: { LPACode: testLPACode } };
 
 	beforeEach(() => {
 		req = {
@@ -76,10 +76,7 @@ describe('getJourneyResponse', () => {
 		expect(apiClient.getLPAQuestionnaire).toHaveBeenCalledWith(refId);
 		expect(res.locals.journeyResponse).toBeInstanceOf(JourneyResponse);
 		expect(res.locals.journeyResponse.LPACode).toEqual(mockValidTestLpaUser.lpaCode);
-		expect(apiClient.postLPAQuestionnaire).toHaveBeenCalledWith(
-			refId,
-			mockValidTestLpaUser.lpaCode
-		);
+		expect(apiClient.postLPAQuestionnaire).toHaveBeenCalledWith(refId);
 		expect(next).toHaveBeenCalled();
 	});
 
