@@ -1,0 +1,20 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[AppealCase] ADD [casePublished] BIT NOT NULL CONSTRAINT [AppealCase_casePublished_df] DEFAULT 0,
+[casePublishedDate] DATETIME2;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

@@ -90,6 +90,13 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	receiptDate?: string;
+	/** whether the appeal is published */
+	casePublished?: boolean;
+	/**
+	 * the date the appeal was published
+	 * @format date-time
+	 */
+	casePublishedDate?: string;
 	/**
 	 * the date the appeal was started
 	 * @format date-time
