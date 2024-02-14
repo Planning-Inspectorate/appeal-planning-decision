@@ -17,7 +17,7 @@ exports.formatHeadlineData = (caseData, userType = 'interestedParty') => {
 
 	const address = formatAddress(caseData);
 
-	let headlines = [
+	const headlines = [
 		{
 			key: { text: 'Appeal type' },
 			value: { text: appealTypeName }
