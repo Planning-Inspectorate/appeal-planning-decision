@@ -11,16 +11,24 @@ const { determineUser } = require('../../lib/determine-user');
 exports.get = async (req, res) => {
 	const appealNumber = req.params.appealNumber;
 	const userRouteUrl = req.originalUrl;
-	// TODO update to a new endpoint
-	// this API doesn't really satisfy the spec of AAPD-1247
-	// but I think we should move forward with this to get
-	// this code merged, then create a new endpoint and hook
-	// it up in a later iteration.
-	const caseData = await apiClient.getAppealCaseDataByCaseReference(appealNumber);
 
 	// determine user based on route to selected appeal
-	//i.e '/manage-appeals/' = agent
+	//i.e '/appeals/' = appellant | agent
 	const userType = determineUser(userRouteUrl);
+
+	let caseData;
+
+	if (userType) {
+		// TODO: determine user ID (can get from API via email, in session)
+		caseData = await apiClient.getUsersAppealCase({
+			caseReference: appealNumber,
+			role: userType,
+			userId: ''
+		});
+	} else {
+		// TODO: handle LPA
+		caseData = await apiClient.getAppealCaseDataByCaseReference(appealNumber);
+	}
 
 	const headlineData = formatHeadlineData(caseData, userType);
 
