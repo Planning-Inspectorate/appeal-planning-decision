@@ -2,7 +2,7 @@ const { createPrismaClient } = require('../../db/db-client');
 const { Prisma } = require('@prisma/client');
 const logger = require('../../lib/logger');
 const ApiError = require('../../errors/apiError');
-const { APPEAL_USER_ROLES } = require('../../db/seed/data-static');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
  * @typedef { import("../../db/seed/data-static").AppealToUserRoles } AppealToUserRoles
@@ -104,7 +104,7 @@ class AppealUserRepository {
 			};
 
 			// default to appellant as when creating new appeal we do not know the role yet
-			const roleWithDefault = role !== undefined ? role : APPEAL_USER_ROLES.appellant.name;
+			const roleWithDefault = role !== undefined ? role : APPEAL_USER_ROLES.APPELLANT;
 
 			return await this.dbClient.appealToUser.upsert({
 				create: { ...link, role: roleWithDefault },
