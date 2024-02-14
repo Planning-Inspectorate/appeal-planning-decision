@@ -21,7 +21,7 @@ const APPEAL_USER_ROLES = {
 	},
 	rule6Party: {
 		name: 'rule-6-party',
-		description: '' /* TODO: I forgot what this is, sorry! */
+		description: `A rule 6 party is a group who are considered a main party for an appeal`
 	}
 };
 
