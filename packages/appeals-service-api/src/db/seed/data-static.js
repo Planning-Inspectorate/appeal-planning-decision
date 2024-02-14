@@ -1,7 +1,6 @@
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
- * @typedef { 'appellant' | 'agent' | 'interestedParty' | 'rule-6-party' } AppealToUserRoles
  * @typedef {import('@prisma/client').Prisma.AppealToUserRoleCreateInput} AppealToUserRoleCreateInput
  */
 

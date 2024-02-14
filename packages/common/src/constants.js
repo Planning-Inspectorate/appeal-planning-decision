@@ -1,3 +1,7 @@
+/**
+ * @typedef { 'appellant' | 'agent' | 'interestedParty' | 'rule-6-party' } AppealToUserRoles
+ */
+
 module.exports = {
 	STATUS_CONSTANTS: {
 		ADDED: 'added',
@@ -8,6 +12,9 @@ module.exports = {
 		APPEAL_TYPE: { HAS: 'Householder (HAS) Appeal', S78: 'Full Planning (S78) Appeal' },
 		VALIDITY: { IS_VALID: 'Valid' }
 	},
+	/**
+	 * @type {Object<string, AppealToUserRoles>}
+	 */
 	APPEAL_USER_ROLES: {
 		APPELLANT: 'appellant',
 		AGENT: 'agent',
