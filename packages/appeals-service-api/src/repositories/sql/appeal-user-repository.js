@@ -5,7 +5,7 @@ const ApiError = require('../../errors/apiError');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
- * @typedef { import("../../db/seed/data-static").AppealToUserRoles } AppealToUserRoles
+ * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
  * @typedef { import("@prisma/client").AppealUser } AppealUser
  * @typedef { import("@prisma/client").AppealToUser } AppealToUser
  * @typedef { import("@prisma/client").Prisma.AppealUserCreateInput } AppealUserCreateInput
@@ -93,7 +93,7 @@ class AppealUserRepository {
 	 * Sets user's role on an appeal
 	 * @param {string} userId
 	 * @param {string} appealId
-	 * @param {import("../../db/seed/data-static").AppealToUserRoles|undefined} role
+	 * @param {AppealToUserRoles|undefined} role
 	 * @returns {Promise<AppealToUser>}
 	 */
 	async linkUserToAppeal(userId, appealId, role) {

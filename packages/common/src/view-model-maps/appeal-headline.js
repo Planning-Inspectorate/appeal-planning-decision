@@ -2,7 +2,7 @@ const { formatAddress } = require('../lib/format-address');
 
 /**
  * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
- * @param {import("../../../appeals-service-api/src/db/seed/data-static").AppealToUserRoles} userType
+ * @param {import('@pins/common/src/constants').AppealToUserRoles} userType
  */
 exports.formatHeadlineData = (caseData, userType = 'interestedParty') => {
 	const {
