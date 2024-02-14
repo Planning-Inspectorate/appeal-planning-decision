@@ -6,9 +6,6 @@
  {% set title="
  Appeal " + appeal.appealNumber + " - Appeal a planning decision - GOV.UK" %}
 
- {# is this variable necessary? #}
- {% set headlineData = appeal.headlineData %}
-
  {% block pageTitle %}
    {{ title }}
  {% endblock %}
@@ -26,23 +23,10 @@
 
        <h1 class="govuk-heading-l">Appeal {{appeal.appealNumber}}</h1>
 
-			<style>
-				.appeal-details .govuk-summary-list__key,
-				.appeal-details .govuk-summary-list__value,
-				.appeal-details .govuk-summary-list__actions {
-					padding-top: .2rem;
-					padding-bottom: 0;
-				}
-				{# I can't tell what this is doing #}
-				.app-task-list__section {
-					padding-right: 140px
-				}
-			</style>
-
-			{{ govukSummaryList({
-				classes: "appeal-details govuk-summary-list--no-border",
-				rows: headlineData
-			}) }}
+		{{ govukSummaryList({
+			classes: "appeal-headlines govuk-summary-list--no-border",
+			rows: appeal.headlineData
+		}) }}
 
 		</div>
 	</div>

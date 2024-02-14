@@ -23,22 +23,11 @@
 
        <h1 class="govuk-heading-l">Appeal {{appeal.status}} for comment</h1>
 
-      <style>
-				.appeal-details .govuk-summary-list__key,
-				.appeal-details .govuk-summary-list__value,
-				.appeal-details .govuk-summary-list__actions {
-					padding-top: .2rem;
-					padding-bottom: 0;
-				}
-				{# I can't tell what this is doing #}
-				.app-task-list__section {
-					padding-right: 140px
-				}
-			</style>
-
-			{{ govukSummaryList({
-				classes: "appeal-details govuk-summary-list--no-border",
-				rows: headlineData
-			}) }}
+		{{ govukSummaryList({
+			classes: "appeal-headlines govuk-summary-list--no-border",
+			rows: headlineData
+		}) }}
+	 </div>
+	</div>
 
  {% endblock %}
