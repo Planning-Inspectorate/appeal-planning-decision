@@ -122,6 +122,13 @@ components:
           type: string
           format: date-time
           description: the date the appeal was received
+        casePublished:
+          type: boolean
+          description: whether the appeal is published
+        casePublishedDate:
+          type: string
+          format: date-time
+          description: the date the appeal was published
         startDate:
           type: string
           format: date-time

@@ -204,6 +204,9 @@ model AppealCase {
   // case dates
   //***************************************************************************
 
+  casePublished     Boolean   @default(false)
+  casePublishedDate DateTime?
+
   receiptDate                DateTime?
   startDate                  DateTime?
   appealValidDate            DateTime?
