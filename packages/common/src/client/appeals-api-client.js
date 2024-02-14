@@ -136,7 +136,7 @@ class AppealsApiClient {
 	async getUsersAppealCase({ caseReference, userId, role }) {
 		const urlParams = new URLSearchParams();
 		urlParams.append('role', role);
-		const endpoint = `${v2}/users/${userId}/appeal-cases${caseReference}?${urlParams.toString()}`;
+		const endpoint = `${v2}/users/${userId}/appeal-cases/${caseReference}?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
