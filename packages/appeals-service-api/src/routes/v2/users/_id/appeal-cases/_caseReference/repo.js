@@ -77,4 +77,35 @@ module.exports = class Repo {
 			throw e;
 		}
 	}
+
+	/**
+	 * Get appeals for the given LPA user
+	 *
+	 * @param {{ caseReference: string, userId: string }} params
+	 * @returns {Promise<import('@prisma/client').AppealCase|null>}
+	 */
+	async getForLpaUser({ caseReference, userId }) {
+		try {
+			return await this.dbClient.$transaction(async (tx) => {
+				const user = await tx.appealUser.findUnique({ where: { id: userId } });
+				if (!user || !user.isLpaUser || !user.lpaCode) {
+					return null;
+				}
+				return await this.dbClient.appealCase.findUnique({
+					where: {
+						caseReference,
+						LPACode: user.lpaCode
+					}
+				});
+			});
+		} catch (e) {
+			if (e instanceof PrismaClientKnownRequestError) {
+				if (e.code === 'P2023') {
+					// probably an invalid ID/GUID
+					return null;
+				}
+			}
+			throw e;
+		}
+	}
 };

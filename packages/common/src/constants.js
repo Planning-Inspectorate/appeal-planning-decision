@@ -20,5 +20,7 @@ module.exports = {
 		AGENT: 'agent',
 		INTERESTED_PARTY: 'interestedParty',
 		RULE_6_PARTY: 'rule-6-party'
-	}
+	},
+	// not strictly appeal-user role, there is no link between LPA user and an appeal, it's via the lpa-code on the user and appeal
+	LPA_USER_ROLE: 'lpa-user'
 };
