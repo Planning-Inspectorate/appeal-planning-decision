@@ -28,6 +28,7 @@ paths:
     get:
       tags:
         - appeal-cases
+      description: Get an appeal case by reference. 'Public' API, for interested parties. For other users, use the users appeal cases endpoint.
       parameters:
         - in: path
           name: caseReference

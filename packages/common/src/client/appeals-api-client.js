@@ -69,6 +69,10 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * 'Public' API, only checks published cases.
+	 *
+	 * Check if a case reference exists.
+	 *
 	 * @param {string} ref
 	 * @returns {Promise<boolean>}
 	 */
@@ -88,6 +92,18 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * 'Public' API, only returns published cases.
+	 *
+	 * @param {object} caseReference
+	 * @returns {Promise<AppealCaseWithAppellant>}
+	 */
+	async getAppealCaseByCaseRef(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {AppealCase} data
 	 * @returns {Promise<AppealCase>}
 	 */
@@ -98,6 +114,8 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * 'Public' API, only checks published cases.
+	 *
 	 * @param {Object<string, any>} params
 	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant[]>}
 	 */
@@ -125,6 +143,18 @@ class AppealsApiClient {
 		const urlParams = new URLSearchParams();
 		urlParams.append('lpa-code', lpaCode);
 		const endpoint = `${v2}/appeal-cases?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {{ caseReference: string, userId: string, role: string }} params
+	 * @returns {Promise<AppealCase>}
+	 */
+	async getUsersAppealCase({ caseReference, userId, role }) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('role', role);
+		const endpoint = `${v2}/users/${userId}/appeal-cases/${caseReference}?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}

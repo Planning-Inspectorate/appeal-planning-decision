@@ -6,6 +6,7 @@ const enterCodeConfig = require('./enter-code-config.js');
 const blobStorage = require('./blobStorage');
 const { getRoutes } = require('./router');
 const { spoolRoutes } = require('./router-v2');
+const viewModelMaps = require('./view-model-maps');
 
 module.exports = {
 	healthcheck,
@@ -15,5 +16,6 @@ module.exports = {
 	enterCodeConfig,
 	...blobStorage,
 	getRoutes,
-	spoolRoutes
+	spoolRoutes,
+	...viewModelMaps
 };

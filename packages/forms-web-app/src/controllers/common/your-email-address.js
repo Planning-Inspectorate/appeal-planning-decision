@@ -12,22 +12,20 @@ const getYourEmailAddress = (views) => {
 const postYourEmailAddress = (views) => {
 	return async (req, res) => {
 		const { body } = req;
-		const { errors = {}, errorSummary = [] } = body;
+		const { errors = {}, errorSummary = [], 'email-address': email } = body;
 		const emailErrorSummary = [
 			{
 				text: 'Enter an email address in the correct format, like name@example.com',
 				href: '#your-email-address'
 			}
 		];
-		if (!body['email-address'] || body['email-address'] === '') {
+		if (!email) {
 			res.render(views.YOUR_EMAIL_ADDRESS, {
 				errors,
 				errorSummary: emailErrorSummary
 			});
 			return;
 		}
-
-		const email = body['email-address'];
 
 		if (Object.keys(errors).length > 0) {
 			console.log('errors', errors);
@@ -52,6 +50,8 @@ const postYourEmailAddress = (views) => {
 				email,
 				errors: {
 					'email-address': {
+						// TODO concoct an error message that communicates that the
+						// email provided doesn't belong to an admin
 						msg: 'Enter an email address in the correct format, like name@example.com'
 					}
 				},

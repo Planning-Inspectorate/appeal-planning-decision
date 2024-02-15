@@ -158,7 +158,7 @@ async function updateAppeal(id, appealUpdate) {
  * @returns {Promise<void>}
  */
 async function linkToUser(appeal, appealUpdate) {
-	/** @type {import("../db/seed/data-static").AppealToUserRoles|undefined} */
+	/** @type {import('@pins/common/src/constants').AppealToUserRoles|undefined} */
 	let role;
 
 	/**

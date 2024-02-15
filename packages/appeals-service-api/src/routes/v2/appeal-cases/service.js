@@ -19,11 +19,13 @@ const serviceUserRepo = new ServiceUserRepository();
 /**
  * Get an appeal case and appellant by case reference
  *
- * @param {string} caseReference
+ * @param {object} opts
+ * @param {string} opts.caseReference
+ * @param {boolean} opts.casePublished
  * @returns {Promise<AppealCaseWithAppellant|null>}
  */
-async function getCaseAndAppellant(caseReference) {
-	const appeal = await repo.getByCaseReference(caseReference);
+async function getCaseAndAppellant(opts) {
+	const appeal = await repo.getByCaseReference(opts);
 	if (!appeal) {
 		return null;
 	}

@@ -34,7 +34,7 @@ class ApiError {
 	}
 
 	/**
-	 * @param {string|ErrorMessages|undefined} msg
+	 * @param {string|ErrorMessages} [msg]
 	 */
 	static badRequest(msg) {
 		return new ApiError(400, ApiError.buildErrorFormat(msg));
