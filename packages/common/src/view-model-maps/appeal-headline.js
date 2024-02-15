@@ -1,10 +1,11 @@
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { formatAddress } = require('../lib/format-address');
 
 /**
  * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
- * @param {import('@pins/common/src/constants').AppealToUserRoles} userType
+ * @param {import('@pins/common/src/constants').AppealToUserRoles|string|null} userType
  */
-exports.formatHeadlineData = (caseData, userType = 'interestedParty') => {
+exports.formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_PARTY) => {
 	const {
 		caseReference,
 		LPAName,
