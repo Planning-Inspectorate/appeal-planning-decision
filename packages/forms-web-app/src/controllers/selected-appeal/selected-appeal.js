@@ -7,6 +7,54 @@ const { determineUser } = require('../../lib/determine-user');
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  */
 
+/**
+ * @type {Array<{ heading: string, links: Array<{ url: string, text: string, condition: (appealCase: AppealCaseWithAppellant) => boolean }> }>}
+ */
+const conditionalSections = [
+	{
+		heading: 'Questionnaire',
+		links: [
+			{
+				url: 'anything',
+				text: 'View questionnaire',
+				condition: (appealCase) => appealCase.hasQuestionnaire
+			},
+			{
+				url: 'anything',
+				text: 'Do something else',
+				condition: (appealCase) => appealCase.hasOtherThing
+			}
+		]
+	},
+	{
+		heading: 'Next thing',
+		links: [
+			{
+				url: 'anything',
+				text: 'Do something else',
+				condition: (appealCase) => appealCase.hasThis
+			}
+		]
+	},
+	{
+		heading: 'Last thing',
+		links: [
+			{
+				url: 'anything',
+				text: 'Do something else',
+				condition: (appealCase) => appealCase.hasThat
+			}
+		]
+	}
+];
+
+const fakeAppeal = {
+	hasQuestionnaire: true,
+	hasOtherThing: false,
+	hasThis: false,
+	hasThat: true
+};
+
 // Shared controller for /appeals/:caseRef and manage-appeals/:caseRef
 exports.get = async (req, res) => {
 	const appealNumber = req.params.appealNumber;
@@ -47,17 +95,10 @@ exports.get = async (req, res) => {
 			appealNumber: appealNumber,
 			headlineData,
 			// placeholder sections info
-			sections: [
-				{
-					heading: 'Questionnaire',
-					links: [
-						{
-							url: 'anything',
-							text: 'View questionnaire'
-						}
-					]
-				}
-			]
+			sections: conditionalSections.map((section) => ({
+				...section,
+				links: section.links.filter(({ condition }) => condition(fakeAppeal))
+			}))
 		}
 	};
 
