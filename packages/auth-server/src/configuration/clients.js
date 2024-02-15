@@ -1,4 +1,4 @@
-import { gty } from '../lib/ropc-grant-handler.js';
+import { gty } from '../grants/ropc-grant-handler.js';
 
 /**
  * @param {*} val

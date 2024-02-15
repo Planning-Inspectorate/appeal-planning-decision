@@ -17,7 +17,7 @@ async function getClient() {
 	const client = new issuer.Client({
 		client_id: config.oauth.clientID,
 		client_secret: config.oauth.clientSecret,
-		redirect_uris: ['http://localhost:9003/debug/oidc'],
+		//redirect_uris: ['http://localhost:9003/debug/oidc'],
 		response_types: ['code'],
 		token_endpoint_auth_method: 'client_secret_jwt'
 	});
@@ -31,7 +31,7 @@ const clientCreds = async (req, res) => {
 		const client = await getClient();
 
 		const tokenSet = await client.grant({
-			resource: 'http://appeals-service-api',
+			resource: 'appeals-front-office',
 			grant_type: 'client_credentials',
 			scope: 'read write'
 		});
@@ -53,17 +53,28 @@ const password = async (req, res) => {
 	try {
 		const client = await getClient();
 
-		const tokenSet = await client.grant({
-			resource: 'http://appeals-service-api',
-			grant_type: 'ropc-otp',
-			scope: 'openid name email',
-			username: 'bryn2',
-			otp: '123'
-		});
+		let tokenSet;
+		try {
+			tokenSet = await client.grant({
+				resource: 'appeals-front-office',
+				grant_type: 'ropc-otp',
+				scope: 'userinfo openid email appeals:read',
+				email: 'test@example.com',
+				otp: 'abcde'
+			});
+		} catch (err) {
+			tokenSet = err.response.statusCode;
+		}
+
+		req.session.access_token = tokenSet.access_token;
 
 		let test = {};
-		//test = await client.userinfo(tokenSet.access_token); // todo: check this returns idtoken once db setup
-		test = await apiClient.getAuth(tokenSet.access_token);
+		try {
+			test = await apiClient.getAuth(tokenSet.access_token);
+		} catch (err) {
+			test = err;
+		}
+
 		res.status(200).send({ test, tokenSet });
 	} catch (err) {
 		console.log(err);
@@ -72,6 +83,32 @@ const password = async (req, res) => {
 };
 
 router.get('/password', password);
+
+router.get('/userinfo', async function (req, res) {
+	const issuer = await oidcClient.Issuer.discover(
+		'http://auth-server:3000/oidc/.well-known/openid-configuration'
+	);
+
+	const client = new issuer.Client({
+		client_id: config.oauth.clientID,
+		client_secret: config.oauth.clientSecret,
+		response_types: ['code'],
+		token_endpoint_auth_method: 'client_secret_jwt'
+	});
+
+	const access_token = req.session.access_token;
+	let test;
+	try {
+		test = await client.userinfo(access_token);
+	} catch (err) {
+		test = err;
+	}
+
+	res.status(200).send({ test });
+});
+
+// 	res.status(200).send({ test, access_token });
+// });
 
 // unused auth code flow examples, currently not working fully - is it resource server defining jwt format?
 // router.get('/auth', async function (req, res) {
@@ -85,7 +122,7 @@ router.get('/password', password);
 
 // 		const url = client.authorizationUrl({
 // 			scope: 'read write',
-// 			resource: 'http://appeals-service-api',
+// 			resource: 'appeals-front-office',
 // 			code_challenge,
 // 			code_challenge_method: 'S256'
 // 		});

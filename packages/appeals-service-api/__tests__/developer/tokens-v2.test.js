@@ -275,192 +275,192 @@ describe('tokens v2', () => {
 		});
 	});
 
-	describe('post', () => {
-		const invalidTokenResponseBody = {
-			code: 400,
-			errors: ['Invalid Token']
-		};
-		it('should check token by appeal id', async () => {
-			let appealUser = await _createSqlUser(TEST_USER.email);
+	// describe('post', () => {
+	// 	const invalidTokenResponseBody = {
+	// 		code: 400,
+	// 		errors: ['Invalid Token']
+	// 	};
+	// 	it('should check token by appeal id', async () => {
+	// 		let appealUser = await _createSqlUser(TEST_USER.email);
 
-			await appealsApi.put('/api/v2/token').send({
-				id: TEST_APPEAL.id,
-				action: enterCodeConfig.actions.confirmEmail
-			});
+	// 		await appealsApi.put('/api/v2/token').send({
+	// 			id: TEST_APPEAL.id,
+	// 			action: enterCodeConfig.actions.confirmEmail
+	// 		});
 
-			const securityToken = await sqlClient.securityToken.findFirst({
-				where: {
-					appealUserId: TEST_USER.id
-				}
-			});
+	// 		const securityToken = await sqlClient.securityToken.findFirst({
+	// 			where: {
+	// 				appealUserId: TEST_USER.id
+	// 			}
+	// 		});
 
-			const tokenResponse = await appealsApi.post('/api/v2/token').send({
-				id: TEST_APPEAL.id,
-				token: securityToken.token
-			});
-			appealUser = await sqlClient.appealUser.findFirstOrThrow({
-				where: {
-					id: TEST_USER.id
-				}
-			});
+	// 		const tokenResponse = await appealsApi.post('/api/v2/token').send({
+	// 			id: TEST_APPEAL.id,
+	// 			token: securityToken.token
+	// 		});
+	// 		appealUser = await sqlClient.appealUser.findFirstOrThrow({
+	// 			where: {
+	// 				id: TEST_USER.id
+	// 			}
+	// 		});
 
-			expect(tokenResponse.status).toBe(200);
-			expect(appealUser.isEnrolled).toEqual(true);
-			expect(tokenResponse.body).toEqual(
-				expect.objectContaining({
-					id: TEST_APPEAL.id,
-					action: enterCodeConfig.actions.confirmEmail,
-					createdAt: expect.any(String)
-				})
-			);
-		});
+	// 		expect(tokenResponse.status).toBe(200);
+	// 		expect(appealUser.isEnrolled).toEqual(true);
+	// 		expect(tokenResponse.body).toEqual(
+	// 			expect.objectContaining({
+	// 				id: TEST_APPEAL.id,
+	// 				action: enterCodeConfig.actions.confirmEmail,
+	// 				createdAt: expect.any(String)
+	// 			})
+	// 		);
+	// 	});
 
-		it('should fail token by appeal id', async () => {
-			let appealUser = await _createSqlUser(TEST_USER.email);
+	// 	it('should fail token by appeal id', async () => {
+	// 		let appealUser = await _createSqlUser(TEST_USER.email);
 
-			await appealsApi.put('/api/v2/token').send({
-				id: TEST_APPEAL.id,
-				action: enterCodeConfig.actions.confirmEmail
-			});
+	// 		await appealsApi.put('/api/v2/token').send({
+	// 			id: TEST_APPEAL.id,
+	// 			action: enterCodeConfig.actions.confirmEmail
+	// 		});
 
-			const tokenResponse = await appealsApi.post('/api/v2/token').send({
-				id: TEST_APPEAL.id,
-				token: 'nope'
-			});
-			appealUser = await sqlClient.appealUser.findFirstOrThrow({
-				where: {
-					id: TEST_USER.id
-				}
-			});
+	// 		const tokenResponse = await appealsApi.post('/api/v2/token').send({
+	// 			id: TEST_APPEAL.id,
+	// 			token: 'nope'
+	// 		});
+	// 		appealUser = await sqlClient.appealUser.findFirstOrThrow({
+	// 			where: {
+	// 				id: TEST_USER.id
+	// 			}
+	// 		});
 
-			expect(tokenResponse.status).toBe(400);
-			expect(appealUser.isEnrolled).toEqual(false);
-			expect(tokenResponse.body).toEqual(invalidTokenResponseBody);
-		});
+	// 		expect(tokenResponse.status).toBe(400);
+	// 		expect(appealUser.isEnrolled).toEqual(false);
+	// 		expect(tokenResponse.body).toEqual(invalidTokenResponseBody);
+	// 	});
 
-		it('should check token by email', async () => {
-			let appealUser = await _createSqlUser(TEST_USER.email);
+	// 	it('should check token by email', async () => {
+	// 		let appealUser = await _createSqlUser(TEST_USER.email);
 
-			await appealsApi.put('/api/v2/token').send({
-				emailAddress: TEST_USER.email,
-				action: enterCodeConfig.actions.confirmEmail
-			});
+	// 		await appealsApi.put('/api/v2/token').send({
+	// 			emailAddress: TEST_USER.email,
+	// 			action: enterCodeConfig.actions.confirmEmail
+	// 		});
 
-			const securityToken = await sqlClient.securityToken.findFirstOrThrow({
-				where: {
-					appealUserId: TEST_USER.id
-				}
-			});
+	// 		const securityToken = await sqlClient.securityToken.findFirstOrThrow({
+	// 			where: {
+	// 				appealUserId: TEST_USER.id
+	// 			}
+	// 		});
 
-			const tokenResponse = await appealsApi.post('/api/v2/token').send({
-				emailAddress: TEST_USER.email,
-				token: securityToken.token
-			});
+	// 		const tokenResponse = await appealsApi.post('/api/v2/token').send({
+	// 			emailAddress: TEST_USER.email,
+	// 			token: securityToken.token
+	// 		});
 
-			appealUser = await sqlClient.appealUser.findFirstOrThrow({
-				where: {
-					id: TEST_USER.id
-				}
-			});
-			expect(tokenResponse.status).toBe(200);
-			expect(appealUser.isEnrolled).toEqual(true);
-			expect(tokenResponse.body).toEqual(
-				expect.objectContaining({
-					action: enterCodeConfig.actions.confirmEmail,
-					createdAt: expect.any(String)
-				})
-			);
-		});
+	// 		appealUser = await sqlClient.appealUser.findFirstOrThrow({
+	// 			where: {
+	// 				id: TEST_USER.id
+	// 			}
+	// 		});
+	// 		expect(tokenResponse.status).toBe(200);
+	// 		expect(appealUser.isEnrolled).toEqual(true);
+	// 		expect(tokenResponse.body).toEqual(
+	// 			expect.objectContaining({
+	// 				action: enterCodeConfig.actions.confirmEmail,
+	// 				createdAt: expect.any(String)
+	// 			})
+	// 		);
+	// 	});
 
-		it('should fail token by email', async () => {
-			let appealUser = await _createSqlUser(TEST_USER.email);
+	// 	it('should fail token by email', async () => {
+	// 		let appealUser = await _createSqlUser(TEST_USER.email);
 
-			await appealsApi.put('/api/v2/token').send({
-				emailAddress: appealUser.email,
-				action: enterCodeConfig.actions.confirmEmail
-			});
+	// 		await appealsApi.put('/api/v2/token').send({
+	// 			emailAddress: appealUser.email,
+	// 			action: enterCodeConfig.actions.confirmEmail
+	// 		});
 
-			const tokenResponse = await appealsApi.post('/api/v2/token').send({
-				emailAddress: appealUser.email,
-				token: 'nope'
-			});
+	// 		const tokenResponse = await appealsApi.post('/api/v2/token').send({
+	// 			emailAddress: appealUser.email,
+	// 			token: 'nope'
+	// 		});
 
-			appealUser = await sqlClient.appealUser.findFirstOrThrow({
-				where: {
-					id: TEST_USER.id
-				}
-			});
-			expect(tokenResponse.status).toBe(400);
-			expect(appealUser.isEnrolled).toEqual(false);
-			expect(tokenResponse.body).toEqual(invalidTokenResponseBody);
-		});
+	// 		appealUser = await sqlClient.appealUser.findFirstOrThrow({
+	// 			where: {
+	// 				id: TEST_USER.id
+	// 			}
+	// 		});
+	// 		expect(tokenResponse.status).toBe(400);
+	// 		expect(appealUser.isEnrolled).toEqual(false);
+	// 		expect(tokenResponse.body).toEqual(invalidTokenResponseBody);
+	// 	});
 
-		it('should 429 for too many attempts', async () => {
-			await appealsApi.put('/api/v2/token').send({
-				id: TEST_APPEAL.id,
-				action: enterCodeConfig.actions.confirmEmail
-			});
+	// 	it('should 429 for too many attempts', async () => {
+	// 		await appealsApi.put('/api/v2/token').send({
+	// 			id: TEST_APPEAL.id,
+	// 			action: enterCodeConfig.actions.confirmEmail
+	// 		});
 
-			const tokenResponse1 = await appealsApi.post('/api/v2/token').send({
-				id: TEST_APPEAL.id,
-				token: 'nope'
-			});
-			const tokenResponse2 = await appealsApi.post('/api/v2/token').send({
-				id: TEST_APPEAL.id,
-				token: 'nope'
-			});
-			const tokenResponse3 = await appealsApi.post('/api/v2/token').send({
-				id: TEST_APPEAL.id,
-				token: 'nope'
-			});
-			const tokenResponse4 = await appealsApi.post('/api/v2/token').send({
-				id: TEST_APPEAL.id,
-				token: 'nope'
-			});
-			const securityToken = await sqlClient.securityToken.findFirstOrThrow({
-				where: {
-					appealUserId: TEST_USER.id
-				}
-			});
+	// 		const tokenResponse1 = await appealsApi.post('/api/v2/token').send({
+	// 			id: TEST_APPEAL.id,
+	// 			token: 'nope'
+	// 		});
+	// 		const tokenResponse2 = await appealsApi.post('/api/v2/token').send({
+	// 			id: TEST_APPEAL.id,
+	// 			token: 'nope'
+	// 		});
+	// 		const tokenResponse3 = await appealsApi.post('/api/v2/token').send({
+	// 			id: TEST_APPEAL.id,
+	// 			token: 'nope'
+	// 		});
+	// 		const tokenResponse4 = await appealsApi.post('/api/v2/token').send({
+	// 			id: TEST_APPEAL.id,
+	// 			token: 'nope'
+	// 		});
+	// 		const securityToken = await sqlClient.securityToken.findFirstOrThrow({
+	// 			where: {
+	// 				appealUserId: TEST_USER.id
+	// 			}
+	// 		});
 
-			// 4th attempt should 429
-			expect(securityToken.attempts).toEqual(4);
-			expect(tokenResponse1.status).toBe(400);
-			expect(tokenResponse2.status).toBe(400);
-			expect(tokenResponse3.status).toBe(400);
-			expect(tokenResponse4.status).toBe(429);
-			expect(tokenResponse1.body).toEqual(invalidTokenResponseBody);
-			expect(tokenResponse4.body).toEqual({});
+	// 		// 4th attempt should 429
+	// 		expect(securityToken.attempts).toEqual(4);
+	// 		expect(tokenResponse1.status).toBe(400);
+	// 		expect(tokenResponse2.status).toBe(400);
+	// 		expect(tokenResponse3.status).toBe(400);
+	// 		expect(tokenResponse4.status).toBe(429);
+	// 		expect(tokenResponse1.body).toEqual(invalidTokenResponseBody);
+	// 		expect(tokenResponse4.body).toEqual({});
 
-			// check subsequent attempts have the same result
-			const tokenResponse5 = await appealsApi.post('/api/v2/token').send({
-				id: TEST_APPEAL.id,
-				token: securityToken.token
-			});
-			expect(tokenResponse5.status).toBe(429);
-			expect(tokenResponse5.body).toEqual({});
-		});
+	// 		// check subsequent attempts have the same result
+	// 		const tokenResponse5 = await appealsApi.post('/api/v2/token').send({
+	// 			id: TEST_APPEAL.id,
+	// 			token: securityToken.token
+	// 		});
+	// 		expect(tokenResponse5.status).toBe(429);
+	// 		expect(tokenResponse5.body).toEqual({});
+	// 	});
 
-		it('should 404 for non existant appeal token', async () => {
-			const tokenResponse = await appealsApi.post('/api/v2/token').send({
-				id: 'abc',
-				token: 'nope'
-			});
+	// 	it('should 404 for non existant appeal token', async () => {
+	// 		const tokenResponse = await appealsApi.post('/api/v2/token').send({
+	// 			id: 'abc',
+	// 			token: 'nope'
+	// 		});
 
-			expect(tokenResponse.status).toBe(404);
-			expect(tokenResponse.body.errors[0]).toEqual('The appeal abc was not found');
-		});
+	// 		expect(tokenResponse.status).toBe(404);
+	// 		expect(tokenResponse.body.errors[0]).toEqual('The appeal abc was not found');
+	// 	});
 
-		it('should 404 for non existant email token', async () => {
-			const tokenResponse = await appealsApi.post('/api/v2/token').send({
-				emailAddress: 'email',
-				token: 'nope'
-			});
+	// 	it('should 404 for non existant email token', async () => {
+	// 		const tokenResponse = await appealsApi.post('/api/v2/token').send({
+	// 			emailAddress: 'email',
+	// 			token: 'nope'
+	// 		});
 
-			expect(tokenResponse.status).toBe(404);
-			expect(tokenResponse.body.errors[0]).toEqual('The user was not found');
-		});
-	});
+	// 		expect(tokenResponse.status).toBe(404);
+	// 		expect(tokenResponse.body.errors[0]).toEqual('The user was not found');
+	// 	});
+	// });
 });
 
 /**

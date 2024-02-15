@@ -12,11 +12,32 @@ services:
     profiles: ['all', 'api', 'appeals', 'auth', 'comment', 'documents']
     image: node:18-alpine
     environment:
+      # Logging
       LOGGER_LEVEL: 'debug'
       LOGGER_PRETTY_PRINT: 'true'
       SERVER_SHOW_ERRORS: 'true'
+
+      # Hosts
+      APP_APPEALS_BASE_URL: 'http://localhost:9003'
       OIDC_HOST: 'http://localhost'
+
+      # Mongo will we need these?
+      # MONGODB_DB_NAME: appeals-service-api
+      # MONGODB_URL: mongodb://mongodb:27017
+
+      # SQL
       SQL_CONNECTION_STRING: 'sqlserver://mssql:1433;database=pins_front_office_development;user=sa;password=DockerDatabaseP@22word!;trustServerCertificate=true'
+
+      # Notify
+      SRV_NOTIFY_BASE_URL: http://mock-notify:3000
+      SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
+      SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
+      SRV_NOTIFY_APPELLANT_LOGIN_CONFIRM_REGISTRATION_TEMPLATE_ID: 'f0781589-8df5-4717-ab87-1dc5c2d5a9de'
+
+      # Feature Flags
+      FEATURE_FLAGS_SETTING: 'ALL_ON'
+      PINS_FEATURE_FLAG_AZURE_ENDPOINT:
+      FEATURE_FLAG_CACHE_TIMER:
 
       # Clients
       FORMS_WEB_APP_CLIENT_ID: '4dbd45cb-f591-414f-a6d9-34f1103b63fd'
@@ -25,11 +46,12 @@ services:
     ports:
       - 3005:3000
       # node debugger
-      # - 9229:9229
+      #- 9229:9229
     working_dir: /opt/app
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
+      - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/database/src/:/opt/database/src
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/auth-server:/opt/app
@@ -74,7 +96,6 @@ services:
       SRV_NOTIFY_FULL_APPEAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID: '799a27da-b640-4852-a070-e83ff54401f0'
       SRV_NOTIFY_SAVE_AND_RETURN_CONTINUE_WITH_APPEAL_TEMPLATE_ID: 'b3651e9d-5cc3-4258-82b4-04ec2ba3d10e'
       SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID: 'e509eee7-f0bd-4d63-9203-d598ddd5b31e'
-      SRV_NOTIFY_APPELLANT_LOGIN_CONFIRM_REGISTRATION_TEMPLATE_ID: 'f0781589-8df5-4717-ab87-1dc5c2d5a9de'
       SRV_NOTIFY_CONFIRM_EMAIL_TEMPLATE_ID: '4156c7ac-a235-4577-b976-44020bec4d5f'
       SRV_ADMIN_MONITORING_EMAIL: 'test@pins.gov.uk'
       SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID: '49413491-90fd-4ce8-b061-e2f4758b636b'
@@ -165,7 +186,7 @@ services:
     ports:
       - 9003:3000
       # node debugger
-      # - 9229:9229
+      #- 9229:9229
     working_dir: /opt/app
     depends_on:
       - appeals-service-api

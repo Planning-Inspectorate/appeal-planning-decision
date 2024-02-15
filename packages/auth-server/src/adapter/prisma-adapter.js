@@ -33,7 +33,7 @@ const prepare = (doc) => {
 	const payload = isPayloadJson ? JSON.parse(doc.payload) : {};
 
 	return {
-		payload: payload,
+		...payload,
 		...(doc.consumedAt ? { consumed: true } : undefined)
 	};
 };

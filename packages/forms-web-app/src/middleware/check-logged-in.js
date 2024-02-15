@@ -24,7 +24,7 @@ const checkLoggedIn = async (req, res, next) => {
 
 	const user = getAppealUserSession(req);
 
-	if (user && user?.id) {
+	if (user && user?.access_token) {
 		return next();
 	}
 

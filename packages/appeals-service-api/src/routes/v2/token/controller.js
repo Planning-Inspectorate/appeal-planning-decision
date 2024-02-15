@@ -1,12 +1,10 @@
 const ApiError = require('#errors/apiError');
-const { sendSecurityCodeEmail, sendConfirmRegistrationEmailToAppellant } = require('#lib/notify');
+const { sendSecurityCodeEmail } = require('#lib/notify');
 const { getAppeal } = require('../../../services/appeal.service');
-const { isFeatureActive } = require('../../../configuration/featureFlag');
 const TokenRepository = require('./repo');
 const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
 
 const appealUserRepository = new AppealUserRepository();
-const { FLAG } = require('@pins/common/src/feature-flags');
 const tokenRepo = new TokenRepository();
 
 const MILLISECONDS_BETWEEN_TOKENS = 10_000;
@@ -16,6 +14,7 @@ const MILLISECONDS_BETWEEN_TOKENS = 10_000;
  */
 
 /**
+ * todo: move to auth server
  * sends a code to user email
  * @type {import('express').Handler}
  */
@@ -34,50 +33,6 @@ async function tokenPutV2(req, res) {
 	}
 
 	res.status(200).send({});
-}
-
-/**
- * checks code against id
- * @type {import('express').Handler}
- */
-async function tokenPostV2(req, res) {
-	const { token, emailAddress } = req.body;
-	const { id } = req.body;
-
-	const user = await getUser(emailAddress, id);
-	if (!user) {
-		throw ApiError.userNotFound();
-	}
-
-	const securityToken = await tokenRepo.getByUserId(user.id);
-
-	if (!securityToken) {
-		throw ApiError.invalidToken();
-	}
-
-	if (securityToken.attempts && securityToken.attempts > 3) {
-		res.status(429).send({});
-		return;
-	}
-
-	if (securityToken.token !== token) {
-		throw ApiError.invalidToken();
-	}
-
-	// user has confirmed email for first time so set enrolled flag
-	if (!user.isEnrolled) {
-		user.isEnrolled = true;
-		await appealUserRepository.updateUser(user);
-		if (await isFeatureActive(FLAG.ENROL_USERS)) {
-			await sendConfirmRegistrationEmailToAppellant(user.email, user.id);
-		}
-	}
-
-	res.status(200).send({
-		id: id,
-		action: securityToken?.action,
-		createdAt: securityToken?.tokenGeneratedAt
-	});
 }
 
 /**
@@ -107,6 +62,5 @@ async function getUser(emailAddress, id, createUserFromAppealIfMissing = false) 
 
 module.exports = {
 	tokenPutV2,
-	tokenPostV2,
 	MILLISECONDS_BETWEEN_TOKENS
 };

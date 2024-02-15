@@ -1,18 +1,26 @@
 import resourceFeature from './resources.js';
 import clientList from './clients.js';
-import adapter from '../adapter/prisma-adapter.js';
+import Adapter from '../adapter/prisma-adapter.js';
+import Account from '../account/account.js';
 
-export default {
+const oidc = {
 	host: process.env.OIDC_HOST,
 	/** @type {import('oidc-provider').Configuration} */
 	configuration: {
 		clientAuthMethods: ['client_secret_jwt'], //todo: check the one we end up using e.g. 'client_secret_basic', 'client_secret_post'
 		clients: clientList,
+		claims: { allowed: ['email'] }, // used for opaque token + userinfo endpoint (not currently used)
 		features: {
 			resourceIndicators: resourceFeature,
 			clientCredentials: {
 				enabled: true
+			},
+			devInteractions: {
+				enabled: false
 			}
+			// userinfo: {
+			// 	enabled: true
+			// },
 			// claimsParameter: {
 			// 	enabled: true
 			// },
@@ -21,15 +29,8 @@ export default {
 			// },
 			// jwtUserinfo: {
 			// 	enabled: true
-			// },
-			// devInteractions: {
-			// 	enabled: false
-			// },
-			// userinfo: {
-			// 	enabled: true
 			// }
-		},
-		adapter
+		}
 		// todo: set these properly - handle expiry
 		// ttl: {
 		// 	IdToken: 3600 /* 1 hour in seconds */,
@@ -41,7 +42,10 @@ export default {
 		// }
 	}
 };
+
+oidc.configuration.findAccount = Account.findAccount;
+oidc.configuration.adapter = Adapter;
+
+export default oidc;
 // WARNING: configuration cookies.keys is missing, this option is critical to detect and ignore tampered cookies
-// WARNING: a quick start development-only in-memory adapter is used, you MUST change it in order to not lose all stateful provider data upon restart and to be able to share these between processes
 // WARNING: a quick start development-only signing keys are used, you are expected to provide your own in configuration "jwks" property
-// WARNING: a quick start development-only feature devInteractions is enabled, you are expected to disable these interactions and provide your own

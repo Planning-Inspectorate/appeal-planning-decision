@@ -96,3 +96,29 @@ paths:
                 $ref: '#/components/schemas/ErrorBody'
         500:
           description: Something went wrong
+  /api/v2/users/appeal/{appealId}:
+    get:
+      tags:
+        - users
+      parameters:
+        - in: path
+          name: email
+          required: true
+          schema:
+            type: string
+            format: email
+          example: 'me@example.com'
+          description: user email
+      responses:
+        200:
+          description: The appeal user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppealUser'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
