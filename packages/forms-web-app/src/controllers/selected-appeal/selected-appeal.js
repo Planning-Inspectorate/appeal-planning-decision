@@ -46,14 +46,14 @@ exports.get = async (req, res) => {
 		appeal: {
 			appealNumber: appealNumber,
 			headlineData,
-			// placeholder documents info
-			documents: [
+			// placeholder sections info
+			sections: [
 				{
 					heading: 'Questionnaire',
 					links: [
 						{
-							link: 'anything',
-							linkText: '3 points each'
+							url: 'anything',
+							text: 'View questionnaire'
 						}
 					]
 				}
