@@ -75,6 +75,10 @@ env.addFilter('formatBytes', fileSizeDisplayHelper);
 env.addFilter('filterByKey', filterByKey);
 env.addFilter('addKeyValuePair', addKeyValuePair);
 env.addFilter('render', renderTemplateFilter(nunjucks));
+env.addFilter('hasItems', (maybeArray) => {
+	if (!Array.isArray(maybeArray)) return false;
+	return !!maybeArray.length;
+});
 env.addGlobal('fileSizeLimits', config.fileUpload.pins);
 env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
 env.addGlobal('googleTagManagerId', config.server.googleTagManagerId);
