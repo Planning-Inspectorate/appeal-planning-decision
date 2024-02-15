@@ -3,23 +3,7 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
 /**
- * @typedef {import('@prisma/client').Prisma.AppealCaseGetPayload<{
- *  where: {
- *    caseReference: any;
- *  };
- *  include: {
- *    Appeal: {
- *      include: {
- *        Users: {
- *          where: {
- *            userId: string;
- *            role: any;
- *          };
- *        };
- *      };
- *    };
- *  };
- *}>} AppealCaseWithUser
+ * @typedef {import('@prisma/client').AppealCase} AppealCase
  */
 
 module.exports = class Repo {
@@ -33,7 +17,7 @@ module.exports = class Repo {
 	 * Get appeals for the given user
 	 *
 	 * @param {{ caseReference: string, userId: string, role: string }} params
-	 * @returns {Promise<AppealCaseWithUser|null>}
+	 * @returns {Promise<AppealCase|null>}
 	 */
 	async get({ caseReference, role, userId }) {
 		try {
@@ -55,14 +39,10 @@ module.exports = class Repo {
 
 			return await this.dbClient.appealCase.findUnique({
 				where: {
-					caseReference
-				},
-				include: {
+					caseReference,
 					Appeal: {
-						include: {
-							Users: {
-								where
-							}
+						Users: {
+							some: where
 						}
 					}
 				}
@@ -82,7 +62,7 @@ module.exports = class Repo {
 	 * Get appeals for the given LPA user
 	 *
 	 * @param {{ caseReference: string, userId: string }} params
-	 * @returns {Promise<import('@prisma/client').AppealCase|null>}
+	 * @returns {Promise<AppealCase|null>}
 	 */
 	async getForLpaUser({ caseReference, userId }) {
 		try {
