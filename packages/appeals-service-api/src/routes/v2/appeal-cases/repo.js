@@ -102,7 +102,7 @@ class AppealCaseRepository {
 	 */
 	async listByPostCode({ postcode, decidedOnly }) {
 		/** @type {AppealCaseWhereInput[]}	*/
-		const AND = [{ siteAddressPostcode: { startsWith: postcode } }];
+		const AND = [{ siteAddressPostcode: { startsWith: postcode } }, { casePublished: true }];
 		addDecidedClauseToQuery(AND, decidedOnly);
 		/** @type {AppealCaseFindManyArgs}	*/
 		const query = {
