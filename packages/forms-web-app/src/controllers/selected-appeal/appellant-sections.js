@@ -3,37 +3,92 @@
  */
 exports.sections = [
 	{
+		heading: 'Appeal details',
+		links: [
+			{
+				// tbc
+				url: '/appeal-details',
+				text: 'View your appeal details',
+				condition: (appealCase) => appealCase.caseReceived
+			}
+		]
+	},
+	{
 		heading: 'Questionnaire',
 		links: [
 			{
-				url: 'anything',
+				// tbc
+				url: '/questionnaire',
 				text: 'View questionnaire',
-				condition: (appealCase) => appealCase.hasQuestionnaire
+				condition: (appealCase) => appealCase.lpaQuestionnairePublished
+			}
+		]
+	},
+	{
+		heading: 'Statements',
+		links: [
+			{
+				// tbc
+				url: '/lpa-statement',
+				text: 'View local planning authority statement',
+				condition: (appealCase) => appealCase.lpaStatementPublished
 			},
 			{
-				url: 'anything',
-				text: 'Do something else',
-				condition: (appealCase) => appealCase.hasOtherThing
+				// tbc
+				url: '/rule-6-statements',
+				text: 'View other party statements',
+				condition: (appealCase) => appealCase.appealRule6PartyStatementsPublished
 			}
 		]
 	},
 	{
-		heading: 'Next thing',
+		heading: 'Interested party comments',
 		links: [
 			{
-				url: 'anything',
-				text: 'Do something else',
-				condition: (appealCase) => appealCase.hasThis
+				// tbc
+				url: '/ip-comments',
+				text: 'View interested party comments',
+				condition: (appealCase) => appealCase.interestedPartyCommentsPublished
 			}
 		]
 	},
 	{
-		heading: 'Last thing',
+		heading: 'Final comments',
 		links: [
 			{
-				url: 'anything',
-				text: 'Do something else',
-				condition: (appealCase) => appealCase.hasThat
+				// tbc
+				url: '/final-comments',
+				text: 'View your final comments',
+				condition: (appealCase) => appealCase.appellantFinalCommentReceived
+			},
+			{
+				// tbc
+				url: '/lpa-final-comments',
+				text: 'View local planning authority final comments',
+				condition: (appealCase) => appealCase.lpaFinalCommentPublished
+			}
+		]
+	},
+	{
+		heading: 'Proof of evidence and witnesses',
+		links: [
+			{
+				// tbc
+				url: '/proof-of-evidences',
+				text: 'View your proof of evidence and witnesses',
+				condition: (appealCase) => appealCase.appellantProofEvidenceReceived
+			},
+			{
+				// tbc
+				url: '/lpa-proof-of-evidences',
+				text: 'View the local planning authority proof of evidence and witnesses',
+				condition: (appealCase) => appealCase.lpaProofEvidencePublished
+			},
+			{
+				// tbc
+				url: '/rule-6-proof-of-evidences',
+				text: 'View other party proof of evidence and witnesses',
+				condition: (appealCase) => appealCase.appealRule6PartyProofsEvidencePublished
 			}
 		]
 	}
