@@ -2,6 +2,7 @@ const { VIEW } = require('../../lib/views');
 const { apiClient } = require('../../lib/appeals-api-client');
 const { formatHeadlineData } = require('@pins/common');
 const { determineUser } = require('../../lib/determine-user');
+const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
@@ -22,9 +23,9 @@ exports.get = async (req, res) => {
 
 	let userEmail;
 
-	if (req.session.lpaUser) {
+	if (userType === LPA_USER_ROLE) {
 		userEmail = req.session.lpaUser.email;
-	} else if (req.session.email) {
+	} else {
 		userEmail = req.session.email;
 	}
 
