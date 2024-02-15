@@ -18,13 +18,16 @@ class AppealCaseRepository {
 	/**
 	 * Get an appeal by case reference (aka appeal number)
 	 *
-	 * @param {string} caseReference
+	 * @param {object} opts
+	 * @param {string} opts.caseReference
+	 * @param {boolean} opts.casePublished
 	 * @returns {Promise<AppealCase|null>}
 	 */
-	getByCaseReference(caseReference) {
+	getByCaseReference({ caseReference, casePublished = true }) {
 		return this.dbClient.appealCase.findUnique({
 			where: {
-				caseReference
+				caseReference,
+				casePublished
 			}
 		});
 	}
