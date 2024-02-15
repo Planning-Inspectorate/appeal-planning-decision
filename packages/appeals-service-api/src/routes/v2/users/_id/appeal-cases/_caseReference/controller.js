@@ -9,10 +9,12 @@ exports.get = async (req, res) => {
 	let statusCode = 200;
 	let body = {};
 
-	const { caseReference, userId } = req.params;
+	const { caseReference, id: userId } = req.params;
 	const { role } = req.query;
 
-	if (!caseReference || !userId || !role || typeof role !== 'string') throw ApiError.badRequest();
+	if (!caseReference || !userId || !role || typeof role !== 'string') {
+		throw ApiError.badRequest();
+	}
 
 	try {
 		body = await service.get({
