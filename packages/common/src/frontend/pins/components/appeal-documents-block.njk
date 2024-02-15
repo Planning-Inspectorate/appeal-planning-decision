@@ -1,0 +1,15 @@
+{% macro appealDocumentsBlock(documents) %}
+
+{%for document in documents %}
+
+			<h2 class="govuk-heading-l"> {{document.heading}} </h2>
+
+	{%for link in document.links%}
+			<p class="govuk-body">
+				<a href="{{link.link}}"> {{link.linkText}} </a>
+			</p>
+{% endfor %}
+			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+
+		{% endfor %}
+{% endmacro %}
