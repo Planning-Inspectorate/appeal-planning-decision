@@ -114,6 +114,8 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * 'Public' API, only checks published cases.
+	 *
 	 * @param {Object<string, any>} params
 	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant[]>}
 	 */

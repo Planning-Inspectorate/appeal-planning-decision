@@ -26,9 +26,10 @@ let caseRef = 1000000;
  *
  * @param {string} lpaCode
  * @param {string} postCode
+ * @param {boolean} casePublished
  * @returns {import('@prisma/client').Prisma.AppealCaseCreateInput}
  */
-function appealCase(lpaCode, postCode) {
+function appealCase(lpaCode, postCode, casePublished = true) {
 	caseRef++;
 	return {
 		Appeal: { create: {} },
@@ -44,14 +45,15 @@ function appealCase(lpaCode, postCode) {
 		siteAddressPostcode: postCode,
 		costsAppliedForIndicator: false,
 		LPACode: lpaCode,
-		LPAName: lpaCode
+		LPAName: lpaCode,
+		casePublished
 	};
 }
 const postCodes = ['BS1 6PM', 'BS1 6PN', 'BS1 6PO', 'BS1 6PP'];
 const LPAs = ['LPA1', 'LPA1a', 'LPA2', 'LPA2a', 'LPA3', 'LPA3a'];
 
 /** @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]} */
-const testCases = [
+const publishedTestCases = [
 	appealCase('LPA1', 'BS1 6PM'),
 	appealCase('LPA1', 'BS1 6PN'),
 	appealCase('LPA1', 'BS1 6PO'),
@@ -63,6 +65,23 @@ const testCases = [
 	appealCase('LPA3', 'BS1 6PO'),
 	appealCase('LPA3a', 'BS1 6PO')
 ];
+
+/** @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]} */
+const notPublishedCases = [
+	appealCase('LPA1', 'BS1 6PM', false),
+	appealCase('LPA1', 'BS1 6PN', false),
+	appealCase('LPA1', 'BS1 6PO', false),
+	appealCase('LPA1a', 'BS1 6PP', false),
+	appealCase('LPA1', 'BS1 6PP', false),
+	appealCase('LPA2', 'BS1 6PM', false),
+	appealCase('LPA2a', 'BS1 6PN', false),
+	appealCase('LPA2', 'BS1 6PN', false),
+	appealCase('LPA3', 'BS1 6PO', false),
+	appealCase('LPA3a', 'BS1 6PO', false)
+];
+
+/** @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]} */
+const testCases = [...publishedTestCases, ...notPublishedCases];
 
 beforeAll(async () => {
 	///////////////////////////////
@@ -184,7 +203,8 @@ describe('appeal-cases', () => {
 						.send();
 					expect(response.status).toBe(200);
 					expect(response.body.length).toEqual(
-						testCases.filter((c) => c.siteAddressPostcode === postCode).length
+						// only published cases
+						publishedTestCases.filter((c) => c.siteAddressPostcode === postCode).length
 					);
 				});
 			}
@@ -228,13 +248,24 @@ describe('appeal-cases', () => {
 			await _clearSqlData();
 		});
 
-		for (const testCase of testCases) {
+		// only published cases
+		for (const testCase of publishedTestCases) {
 			it(`returns case for ${testCase.caseReference}`, async () => {
 				const response = await appealsApi
 					.get(`/api/v2/appeal-cases/` + testCase.caseReference)
 					.send();
 				expect(response.status).toBe(200);
 				expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
+			});
+		}
+
+		// only not published cases
+		for (const testCase of notPublishedCases) {
+			it(`doesn't return non-published case ${testCase.caseReference}`, async () => {
+				const response = await appealsApi
+					.get(`/api/v2/appeal-cases/` + testCase.caseReference)
+					.send();
+				expect(response.status).toBe(404);
 			});
 		}
 
