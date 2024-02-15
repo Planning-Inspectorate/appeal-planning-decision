@@ -45,7 +45,19 @@ exports.get = async (req, res) => {
 	const viewContext = {
 		appeal: {
 			appealNumber: appealNumber,
-			headlineData
+			headlineData,
+			// placeholder documents info
+			documents: [
+				{
+					heading: 'Questionnaire',
+					links: [
+						{
+							link: 'anything',
+							linkText: '3 points each'
+						}
+					]
+				}
+			]
 		}
 	};
 

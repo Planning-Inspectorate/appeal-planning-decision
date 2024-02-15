@@ -2,6 +2,7 @@
 
  {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
  {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+	{% from  "pins/components/appeal-documents-block.njk" import appealDocumentsBlock %}
 
  {% set title="
  Appeal " + appeal.appealNumber + " - Appeal a planning decision - GOV.UK" %}
@@ -12,7 +13,7 @@
 
  {% block content %}
   <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-full">
 
        {% if errorSummary %}
          {{ govukErrorSummary({
@@ -28,7 +29,15 @@
 			rows: appeal.headlineData
 		}) }}
 
+		<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+
+
 		</div>
+
+		<div class="govuk-grid-column-two-thirds">
+				{{ appealDocumentsBlock(appeal.documents) }}
+		</div>
+
 	</div>
 
  {% endblock %}
