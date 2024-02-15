@@ -69,6 +69,10 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * 'Public' API, only checks published cases.
+	 *
+	 * Check if a case reference exists.
+	 *
 	 * @param {string} ref
 	 * @returns {Promise<boolean>}
 	 */
@@ -85,6 +89,18 @@ class AppealsApiClient {
 			}
 			throw error;
 		}
+	}
+
+	/**
+	 * 'Public' API, only returns published cases.
+	 *
+	 * @param {object} caseReference
+	 * @returns {Promise<AppealCaseWithAppellant>}
+	 */
+	async getAppealCaseByCaseRef(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
 	}
 
 	/**
@@ -137,16 +153,6 @@ class AppealsApiClient {
 		const urlParams = new URLSearchParams();
 		urlParams.append('role', role);
 		const endpoint = `${v2}/users/${userId}/appeal-cases/${caseReference}?${urlParams.toString()}`;
-		const response = await this.#makeGetRequest(endpoint);
-		return response.json();
-	}
-
-	/**
-	 * @param {string} caseReference
-	 * @returns {Promise<AppealCaseWithAppellant>}
-	 */
-	async getAppealCaseDataByCaseReference(caseReference) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}

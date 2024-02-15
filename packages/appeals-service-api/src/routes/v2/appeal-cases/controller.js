@@ -20,7 +20,8 @@ async function getByCaseReference(req, res) {
 		throw ApiError.withMessage(400, 'case reference is required');
 	}
 	try {
-		const appealCase = await getCaseAndAppellant(caseReference);
+		// only check published cases
+		const appealCase = await getCaseAndAppellant({ caseReference, casePublished: true });
 		if (!appealCase) {
 			throw ApiError.withMessage(404, 'not found');
 		}
