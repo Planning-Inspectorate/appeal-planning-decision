@@ -2,7 +2,7 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
 
 /**
  * @param {string} url
- * @returns {import('@pins/common/src/constants').AppealToUserRoles|string|null}
+ * @returns {import('@pins/common/src/constants').AppealToUserRoles|LPA_USER_ROLE|null}
  */
 const determineUser = (url) => {
 	if (url.includes('/rule-6-appeals/')) {
