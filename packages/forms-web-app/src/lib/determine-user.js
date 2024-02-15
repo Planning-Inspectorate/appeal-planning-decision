@@ -11,8 +11,9 @@ const determineUser = (url) => {
 		return APPEAL_USER_ROLES.APPELLANT;
 	} else if (url.includes('/manage-appeals/')) {
 		return LPA_USER_ROLE;
+	} else {
+		return null;
 	}
-	return null;
 };
 
 module.exports = { determineUser };
