@@ -41,7 +41,7 @@ exports.formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_
 		}
 	];
 
-	if (userType === 'interestedParty') {
+	if (userType === APPEAL_USER_ROLES.INTERESTED_PARTY) {
 		headlines.unshift({
 			key: { text: 'Appeal reference' },
 			value: { text: caseReference }
