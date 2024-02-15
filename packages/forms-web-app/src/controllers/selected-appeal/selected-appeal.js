@@ -28,6 +28,10 @@ exports.get = async (req, res) => {
 		userEmail = req.session.email;
 	}
 
+	if (!userEmail) {
+		throw new Error('no session email');
+	}
+
 	const user = await apiClient.getUserByEmailV2(userEmail);
 
 	const caseData = await apiClient.getUsersAppealCase({
