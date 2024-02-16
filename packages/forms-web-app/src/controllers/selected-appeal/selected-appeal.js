@@ -4,13 +4,14 @@ const { VIEW } = require('../../lib/views');
 const { apiClient } = require('../../lib/appeals-api-client');
 const { determineUser } = require('../../lib/determine-user');
 const { sections: appellantSections } = require('./appellant-sections');
+const { sections: lpaUserSections } = require('./lpa-user-sections');
 
 /**
  * @type {{ [userType: import('@pins/common/src/constants').AppealToUserRoles|LPA_USER_ROLE]: import('./section').Section }}
  */
 const userSections = {
 	[APPEAL_USER_ROLES.APPELLANT]: appellantSections,
-	[LPA_USER_ROLE]: appellantSections
+	[LPA_USER_ROLE]: lpaUserSections
 };
 
 /**

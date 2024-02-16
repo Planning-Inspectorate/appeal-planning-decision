@@ -15,7 +15,7 @@ datasource db {
 //
 // we use GUIDs for IDs (see https://learn.microsoft.com/en-us/sql/t-sql/data-types/uniqueidentifier-transact-sql?view=sql-server-ver16)
 // this is because these IDs may be used in URLs and it makes them harder to guess
-// while we don't rely on that for security, it adds an extra layer 
+// while we don't rely on that for security, it adds an extra layer
 // not everything needs this, but easier to make them all consistent and the increase in size (vs int) is negligible
 
 /// AppealUser represents a user of our service(s)
@@ -184,6 +184,7 @@ model AppealCase {
   lpaQuestionnairePublished    Boolean  @default(false)
   lpaQuestionnaireSubmitted    Boolean  @default(false)
   doesAffectAScheduledMonument Boolean?
+  lpaStatementPublished        Boolean  @default(false)
   lpaProofEvidenceSubmitted    Boolean  @default(false)
   lpaProofEvidencePublished    Boolean  @default(false)
   lpaFinalCommentsPublished    Boolean  @default(false)
@@ -192,7 +193,8 @@ model AppealCase {
   // rule 6 fields
   //***************************************************************************
 
-  rule6StatementPublished Boolean @default(false)
+  rule6StatementPublished      Boolean @default(false)
+  rule6ProofsEvidencePublished Boolean @default(false)
 
   //***************************************************************************
   // interested party fields
@@ -235,9 +237,10 @@ model AppealCase {
   LPAProofsSubmitted        DateTime?
 
   // viewAppeal epic aapd-1187
-  procedure           String?
-  outcome             String?
-  caseDecisionOutcome String?
+  procedure             String?
+  outcome               String?
+  caseDecisionOutcome   String?
+  caseDecisionPublished Boolean? @default(false)
 
   // todo: there are many more fields! waiting on the model definition
 

@@ -3,11 +3,11 @@ components:
     AppealCaseWithAppellant:
       description: An appeal case from the Back Office, with appellant service user
       allOf:
-          - $ref: '#/components/schemas/AppealCase'
-          - type: object
-            properties:
-              appellant:
-                $ref: '#/components/schemas/ServiceUser'
+        - $ref: '#/components/schemas/AppealCase'
+        - type: object
+          properties:
+            appellant:
+              $ref: '#/components/schemas/ServiceUser'
     AppealCase:
       description: An appeal case from the Back Office
       type: object
@@ -30,17 +30,17 @@ components:
         caseReference:
           type: string
           description: appeal case reference (aka appeal number)
-          example: "6123456"
+          example: '6123456'
         LPACode:
           type: string
           description: a code to identify the LPA this case relates to
-          example: "Q9999"
+          example: 'Q9999'
 
         # appellant case
         LPAName:
           type: string
           description: the name of the LPA this case relates to
-          example: "System Test Borough Council"
+          example: 'System Test Borough Council'
         appealTypeCode:
           type: string
           description: appeal type short-code such as HAS or S78
@@ -69,12 +69,12 @@ components:
           type: boolean
         appellantFinalCommentsSubmitted:
           type: boolean
-        
+
         appellantFirstName:
           type: string
         appellantLastName:
           type: string
-        
+
         siteAddressLine1:
           type: string
         siteAddressLine2:
@@ -95,12 +95,14 @@ components:
           type: string
           format: date-time
           description: the date LPA's questionnaire was received
-        
+
         lpaQuestionnairePublished:
           type: boolean
         lpaQuestionnaireSubmitted:
           type: boolean
         doesAffectAScheduledMonument:
+          type: boolean
+        lpaStatementPublished:
           type: boolean
         lpaProofEvidenceSubmitted:
           type: boolean
@@ -109,8 +111,10 @@ components:
         lpaFinalCommentsPublished:
           type: boolean
 
-        # rule 6 
+        # rule 6
         rule6StatementPublished:
+          type: boolean
+        rule6ProofsEvidencePublished:
           type: boolean
 
         # interested party
@@ -168,7 +172,6 @@ components:
           format: date-time
           description: the date the LPA's statement was received
 
-          
         # comments
         finalCommentsDueDate:
           type: string
@@ -191,7 +194,6 @@ components:
           format: date-time
           description: the date the LPA's comments were received
 
-        
         # proofs of evidence
         proofsOfEvidenceDueDate:
           type: string
@@ -225,5 +227,7 @@ components:
           type: string
           enum: ['allowed', 'dismissed', 'split decision', 'invalid']
           description: the Inspector's outcome/decision for this case
-        
+        caseDecisionPublished:
+          type: boolean
+
         # todo: add properties from data model
