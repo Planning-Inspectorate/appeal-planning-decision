@@ -1,4 +1,5 @@
 const OptionsQuestion = require('../../options-question');
+const questionUtils = require('../utils/question-utils');
 
 class CheckboxQuestion extends OptionsQuestion {
 	/**
@@ -35,10 +36,39 @@ class CheckboxQuestion extends OptionsQuestion {
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
 		answer = Array.isArray(answer) ? answer : [answer];
-		const formattedAnswer = this.options
-			.filter((option) => answer.includes(option.value))
-			.map((option) => option.text)
-			.join('<br>');
+
+		let formattedAnswerArray = [];
+
+		answer.forEach((answer) => {
+			if (answer?.conditional) {
+				const selectedOption = this.options.find((option) => option.value === answer.value);
+
+				const conditionalAnswerText = selectedOption.conditional?.label
+					? `${selectedOption.conditional.label} ${answer.conditional}`
+					: answer.conditional;
+
+				const formattedConditionalText = [selectedOption.text, conditionalAnswerText].join('<br>');
+
+				formattedAnswerArray.push(formattedConditionalText);
+			} else {
+				const selectedOption = this.options.find((option) => option.value === answer);
+
+				const conditionalAnswer = questionUtils.getConditionalAnswer(
+					journey.response.answers,
+					this,
+					answer
+				);
+
+				if (conditionalAnswer) {
+					const formattedBlag = [selectedOption.text, conditionalAnswer].join('<br>');
+
+					formattedAnswerArray.push(formattedBlag);
+				} else {
+					formattedAnswerArray.push(selectedOption.text);
+				}
+			}
+		});
+		const formattedAnswer = formattedAnswerArray.join('<br>');
 
 		return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
 	}
