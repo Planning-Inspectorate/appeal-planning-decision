@@ -1,7 +1,15 @@
 const { getRoutePaths } = require('./router');
 const { Router } = require('express');
 
-/** @type {Array<import('./router-v2-types').HttpMethods>} */
+/**
+ * @typedef {import('express').IRouter} IRouter
+ * @typedef {Object<string, IRouter>} RouteDict
+ * @typedef {import('./router-v2-types').HttpMethods} HttpMethods
+ * @typedef {import('./router-v2-types').RouterModule} RouterModule
+ * @typedef {{ includeRoot?: boolean, backwardsCompatibilityModeEnabled?: boolean }} Options
+ */
+
+/** @type {Array<HttpMethods>} */
 const HttpMethods = [
 	'connect',
 	'delete',
@@ -14,32 +22,39 @@ const HttpMethods = [
 	'trace'
 ];
 
-/**
- * @typedef {import('express').IRouter} IRouter
- * @typedef {Object<string, IRouter>} RouteDict
- */
-
-/** @type {(str: *) => str is import('./router-v2-types').HttpMethods} */
+/** @type {(str: *) => str is HttpMethods} */
 const stringIsHttpMethod = (str) => HttpMethods.includes(str);
 
 /**
  * @param {string} [directory]
- * @param {{ includeRoot?: boolean }} [options]
+ * @param {Options} [options]
  * @returns {IRouter}
  */
-exports.getRouter = (directory = __dirname, options) =>
+exports.getRouter = (
+	directory = __dirname,
+	{ backwardsCompatibilityModeEnabled = false, ...options } = {
+		includeRoot: false,
+		backwardsCompatibilityModeEnabled: false
+	}
+) =>
 	getRoutePaths(directory, options).reduce((router, dirName) => {
-		Object.entries(require(`${dirName}`)).forEach(([method, handler]) => {
+		/** @type {RouterModule} */
+		const module = require(`${dirName}`);
+		Object.entries(module).forEach(([method, handler]) => {
+			const relativePath = dirName
+				.replace(new RegExp(`^${directory}/?`), '/') // just need relative path
+				.replace(/_/g, ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
+				.replace('/index.js', '');
+			if (backwardsCompatibilityModeEnabled && method === 'router') {
+				router.use(relativePath, handler); // in this instance "handler" should actually be a router
+				return;
+			}
 			if (!stringIsHttpMethod(method)) {
 				console.warn(
 					`Skipping ${method} function exported by ${dirName}/index.js as the function name is not a recognised HTTP method.`
 				);
 				return;
 			}
-			const relativePath = dirName
-				.replace(new RegExp(`^${directory}/?`), '/') // just need relative path
-				.replace(/_/g, ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
-				.replace('/index.js', '');
 			router[method](relativePath, handler);
 		});
 
@@ -49,7 +64,7 @@ exports.getRouter = (directory = __dirname, options) =>
 /**
  * @param {import('express').Express} app
  * @param {string} [directory]
- * @param {{ includeRoot?: boolean }} [options]
+ * @param {Options} [options]
  * @returns {void}
  */
 exports.spoolRoutes = (app, directory, options) => {

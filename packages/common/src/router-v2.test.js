@@ -2,6 +2,7 @@ const path = require('path');
 const request = require('supertest');
 const express = require('express');
 const { spoolRoutes } = require('./router-v2');
+const { pencils } = require('./router-v2-test-dir/pencils');
 
 /** @type {Array<[string, Array<import('./router-v2-types').HttpMethods>]>} */
 const expectedRouteDictShape = [
@@ -31,5 +32,16 @@ describe('getRoutesV2', () => {
 			.put('/')
 			.expect(404)
 			.end(() => {});
+	});
+
+	it('Has a backwards compatibility mode to interop with router v1 modules', async () => {
+		const backwardsCompatibleApp = express();
+		spoolRoutes(backwardsCompatibleApp, routeDirectory, {
+			includeRoot: true,
+			backwardsCompatibilityModeEnabled: true
+		});
+
+		const res = await request(backwardsCompatibleApp).get('/pencils');
+		expect(JSON.parse(res.text)).toEqual(pencils);
 	});
 });

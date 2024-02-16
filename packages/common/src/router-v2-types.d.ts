@@ -1,4 +1,4 @@
-const { Handler } = require('express');
+import type { Handler } from 'express';
 
 export type HttpMethods =
 	| 'connect'
