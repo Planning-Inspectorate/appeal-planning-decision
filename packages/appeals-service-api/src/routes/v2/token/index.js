@@ -1,6 +1,7 @@
 const express = require('express');
 const { auth, requiredScopes } = require('express-oauth2-jwt-bearer');
-
+const { AUTH } = require('@pins/common/src/constants');
+const config = require('../../../configuration/config');
 const router = express.Router();
 
 const { tokenPutV2 } = require('./controller');
@@ -10,14 +11,14 @@ router.put('/', asyncHandler(tokenPutV2));
 
 router.use(
 	auth({
-		issuerBaseURL: 'http://auth-server:3000/oidc',
-		audience: 'appeals-front-office'
+		issuerBaseURL: config.auth.authServerUrl + AUTH.OIDC_ENDPOINT,
+		audience: AUTH.RESOURCE
 	}),
-	requiredScopes('appeals:read')
+	requiredScopes(AUTH.SCOPES.APPEALS_API.READ)
 );
 
 router.get('/test', function (req, res) {
-	res.status(200).send({ hello: 'hi!' });
+	res.status(200).send({ auth: req.auth });
 });
 
 module.exports = { router };

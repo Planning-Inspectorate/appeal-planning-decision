@@ -15,6 +15,9 @@ const {
 // TODO: find some way to enable profile-specific configs to remove the `let` here.
 let config = {
 	enableApiDocs: process.env.NODE_ENV !== 'test',
+	auth: {
+		authServerUrl: process.env.AUTH_SERVER_URL
+	},
 	data: {
 		lpa: {
 			listPath: process.env.LPA_DATA_PATH,

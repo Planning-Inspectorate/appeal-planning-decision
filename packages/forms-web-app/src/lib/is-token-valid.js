@@ -2,6 +2,7 @@ const { checkToken } = require('./appeals-api-wrapper');
 const { isTokenExpired } = require('./is-token-expired');
 const config = require('../config');
 const { isTestLPA } = require('@pins/common/src/utils');
+const { AUTH } = require('@pins/common/src/constants');
 const logger = require('#lib/logger');
 const oidcClient = require('openid-client');
 
@@ -116,7 +117,7 @@ const authToken = async (token, emailAddress, action) => {
 			email: emailAddress,
 			otp: token,
 			scope: 'openid email',
-			resource: 'appeals-front-office'
+			resource: AUTH.RESOURCE
 		});
 
 		valid.access_token = authResult.access_token;

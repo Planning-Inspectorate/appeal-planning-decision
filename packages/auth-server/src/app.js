@@ -3,6 +3,7 @@ import pinoExpress from 'express-pino-logger';
 import crypto from 'crypto';
 import OIDC from 'oidc-provider';
 
+import consts from '@pins/common/src/constants.js';
 import config from './configuration/config.js';
 import logger from './lib/logger.js';
 import { subscribe } from './lib/oidc-logging.js';
@@ -28,7 +29,7 @@ app
 	)
 	.get('/', noContentHandler)
 	.get('/favicon.ico', noContentHandler)
-	.use('/oidc', oidc.callback()) // /oidc/.well-known/openid-configuration
+	.use(consts.AUTH.OIDC_ENDPOINT, oidc.callback()) // /oidc/.well-known/openid-configuration
 	.use(apiErrorHandler);
 
 export default app;

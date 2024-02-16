@@ -259,7 +259,44 @@ model AppealCase {
   appealId String @unique @db.UniqueIdentifier
   Appeal   Appeal @relation(fields: [appealId], references: [id])
 
+  // Docs reference
+  Documents Document[]
+
   // todo: indexes
+}
+
+/// Document represents a document from the Back Office, and follows the PINS Data Model
+/// todo: linked to an appeal?
+// NOTE: field names match the model rather than the usual camelCase. This avoids extra mapping.
+model Document {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // file info
+  filename         String
+  originalFilename String
+  size             Int
+  mime             String
+  documentURI      String
+
+  // dates
+  dateCreated  DateTime
+  dateReceived DateTime?
+  lastModified DateTime?
+
+  // states
+  virusCheckStatus String? // nullble?
+  published        Boolean @default(false)
+  redacted         Boolean @default(false)
+
+  // info
+  documentType String
+  sourceSystem String
+  origin       String
+  stage        String
+
+  // relations
+  caseReference String
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 }
 
 /// ServiceUser represents any user of PINS Services, and follows the PINS Data Model

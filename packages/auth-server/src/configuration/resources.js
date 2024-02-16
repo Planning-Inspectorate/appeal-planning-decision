@@ -1,21 +1,11 @@
 const tokenLength = 3600; // 1 hour in seconds | todo: how does this play with ttl config settings + setting in grant?
-const appeals_fo_resource = 'appeals-front-office';
-// todo: get these from env vars?
+import consts from '@pins/common/src/constants.js';
+import flatten from '@pins/common/src/lib/flattenObjectToDotNotation.js';
+
 const resources = {
-	[appeals_fo_resource]: {
-		name: appeals_fo_resource,
-		scopes: [
-			// api validators
-			'appeals:read',
-			'appeals:write',
-			'documents:read',
-			'documents:write',
-			'bo-documents:read',
-			// user details requested
-			'openid',
-			'userinfo',
-			'email'
-		]
+	[consts.AUTH.RESOURCE]: {
+		name: consts.AUTH.RESOURCE,
+		scopes: Object.values(flatten(consts.AUTH.SCOPES))
 	}
 };
 
@@ -24,7 +14,7 @@ const resources = {
 export default {
 	enabled: true,
 	defaultResource: async () => {
-		return appeals_fo_resource;
+		return consts.AUTH.RESOURCE;
 	},
 	/**
 	 * @param {import('oidc-provider').KoaContextWithOIDC} ctx
@@ -40,7 +30,7 @@ export default {
 				sign: { alg: 'RS256' }
 			},
 			accessTokenTTL: tokenLength,
-			scope: resources[indicator].scopes.map(({ name }) => name).join(' '),
+			scope: resources[indicator].scopes.join(' '),
 			audience: indicator
 		};
 	}

@@ -1,6 +1,6 @@
 const { default: fetch } = require('node-fetch');
 const crypto = require('crypto');
-const AppealsApiError = require('./appeals-api-error');
+const { handleApiErrors, ApiClientError } = require('./api-client-error');
 const { buildQueryString } = require('./utils');
 
 const parentLogger = require('../lib/logger');
@@ -31,6 +31,8 @@ class AppealsApiClient {
 		this.baseUrl = baseUrl.replace(trailingSlashRegex, '');
 		/** @type {number} */
 		this.timeout = timeout;
+		/** @type {string} */
+		this.name = 'Appeals Service API';
 	}
 
 	/**
@@ -78,7 +80,7 @@ class AppealsApiClient {
 			const response = await this.#makeGetRequest(endpoint);
 			return response.status === 200;
 		} catch (error) {
-			if (error instanceof AppealsApiError) {
+			if (error instanceof ApiClientError) {
 				if (error.code === 404) {
 					return false;
 				}
@@ -165,6 +167,10 @@ class AppealsApiClient {
 		return response.json();
 	}
 
+	/**
+	 * @param {*} token
+	 * @returns
+	 */
 	async getAuth(token) {
 		const endpoint = `${v2}/token/test`;
 		const response = await this.#makeGetRequest(endpoint, token);
@@ -177,8 +183,9 @@ class AppealsApiClient {
 	 * @param {'GET'|'POST'|'PUT'|'DELETE'} [method] - request method, defaults to 'GET'
 	 * @param {object} [opts] - options to pass to fetch can include request body
 	 * @param {object} [headers] - headers to add to request
+	 * @param {string} [token]
 	 * @returns {Promise<import('node-fetch').Response>}
-	 * @throws {AppealsApiError|Error}
+	 * @throws {ApiClientError|Error}
 	 */
 	async handler(path, method = 'GET', opts = {}, headers = {}, token) {
 		const correlationId = crypto.randomUUID();
@@ -211,9 +218,9 @@ class AppealsApiClient {
 			});
 		} catch (error) {
 			if (error.name === 'AbortError') {
-				logger.error(error, 'appeals api error: timeout');
+				logger.error(error, this.name + ' error: timeout');
 			} else {
-				logger.error(error, 'appeals api error: unhandled fetch error');
+				logger.error(error, this.name + ' error: unhandled fetch error');
 			}
 
 			throw error;
@@ -225,52 +232,14 @@ class AppealsApiClient {
 			return response; // allow caller to handle ok response
 		}
 
-		const contentType = response.headers.get('content-type');
-
-		// unlikely scenario probably an api bug
-		if (!contentType) {
-			logger.error(contentType, 'appeals api error: no content type on response');
-			throw new AppealsApiError(response.statusText, response.status);
-		}
-
-		// e.g. 500 error
-		if (!contentType.startsWith('application/json;')) {
-			let error;
-			try {
-				const responseMessage = await response.text();
-				error = new AppealsApiError(responseMessage, response.status);
-			} catch (err) {
-				logger.error(err, `appeals api error: could not read error response ${contentType}`);
-				error = new AppealsApiError(response.statusText, response.status);
-			}
-
-			throw error;
-		}
-
-		let errorResponse;
-
-		try {
-			errorResponse = await response.json();
-		} catch (error) {
-			// server has indicated json but provided invalid json response
-			logger.warn(error, 'appeals api error: failed to parse error response');
-			throw new AppealsApiError(response.statusText, response.status);
-		}
-
-		if (Array.isArray(errorResponse)) {
-			// list of errors on response body
-			logger.warn(errorResponse, 'appeals api error: errorResponse.array');
-			throw new AppealsApiError(response.statusText, response.status, errorResponse);
-		}
-
-		logger.error(errorResponse, 'appeals api error: unknown error format');
-		throw new AppealsApiError(response.statusText, response.status);
+		return await handleApiErrors(response, logger, this.name);
 	}
 
 	/**
 	 * @param {string} endpoint
+	 * @param {string} token
 	 * @returns {Promise<import('node-fetch').Response>}
-	 * @throws {AppealsApiError|Error}
+	 * @throws {ApiClientError|Error}
 	 */
 	#makeGetRequest(endpoint, token) {
 		return this.handler(endpoint, 'GET', undefined, undefined, token);
@@ -280,17 +249,16 @@ class AppealsApiClient {
 	 * @param {string} endpoint
 	 * @param {any} data
 	 * @returns {Promise<import('node-fetch').Response>}
-	 * @throws {AppealsApiError|Error}
+	 * @throws {ApiClientError|Error}
 	 */
-	#makePostRequest(endpoint, data = {}, token) {
+	#makePostRequest(endpoint, data = {}) {
 		return this.handler(
 			endpoint,
 			'POST',
 			{
 				body: JSON.stringify(data)
 			},
-			undefined,
-			token
+			undefined
 		);
 	}
 
@@ -298,19 +266,18 @@ class AppealsApiClient {
 	 * @param {string} endpoint
 	 * @param {any} data
 	 * @returns {Promise<import('node-fetch').Response>}
-	 * @throws {AppealsApiError|Error}
+	 * @throws {ApiClientError|Error}
 	 */
-	#makePutRequest(endpoint, data = {}, token) {
+	#makePutRequest(endpoint, data = {}) {
 		return this.handler(
 			endpoint,
 			'PUT',
 			{
 				body: JSON.stringify(data)
 			},
-			undefined,
-			token
+			undefined
 		);
 	}
 }
 
-module.exports = { AppealsApiClient, AppealsApiError };
+module.exports = { AppealsApiClient, ApiClientError };

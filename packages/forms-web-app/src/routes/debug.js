@@ -1,5 +1,6 @@
 const express = require('express');
 const { setCommentDeadline } = require('../controllers/debug');
+const { AUTH } = require('@pins/common/src/constants');
 
 const router = express.Router();
 
@@ -31,13 +32,18 @@ const clientCreds = async (req, res) => {
 		const client = await getClient();
 
 		const tokenSet = await client.grant({
-			resource: 'appeals-front-office',
+			resource: AUTH.RESOURCE,
 			grant_type: 'client_credentials',
-			scope: 'read write'
+			scope: 'userinfo openid email appeals:read'
 		});
 
 		let test = {};
-		test = await apiClient.getAuth(tokenSet.access_token);
+		try {
+			test = await apiClient.getAuth(tokenSet.access_token);
+		} catch (err) {
+			test = err;
+		}
+
 		//test = await client.userinfo(tokenSet.access_token); // todo: check this returns idtoken once db setup
 
 		res.status(200).send({ test, tokenSet });
@@ -56,7 +62,7 @@ const password = async (req, res) => {
 		let tokenSet;
 		try {
 			tokenSet = await client.grant({
-				resource: 'appeals-front-office',
+				resource: AUTH.RESOURCE,
 				grant_type: 'ropc-otp',
 				scope: 'userinfo openid email appeals:read',
 				email: 'test@example.com',

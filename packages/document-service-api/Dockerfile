@@ -10,7 +10,8 @@ COPY packages/document-service-api/src ./src
 # copy workspace deps
 COPY package.json /opt/
 COPY package-lock.json /opt/
-COPY packages/common /opt/packages//common
+COPY packages/common /opt/packages/common
+COPY packages/business-rules /opt/packages/business-rules
 
 # install from root
 WORKDIR /opt

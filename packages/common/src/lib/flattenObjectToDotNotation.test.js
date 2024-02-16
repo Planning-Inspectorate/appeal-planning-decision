@@ -1,4 +1,5 @@
-const flattenObjectToDotNotation = require('../../../src/lib/flattenObjectToDotNotation');
+const flattenObjectToDotNotation = require('./flattenObjectToDotNotation');
+const consts = require('@pins/common/src/constants');
 
 describe('flattenObjectToDotNotation', () => {
 	it('flattens an object to dot notation', () => {
@@ -15,6 +16,23 @@ describe('flattenObjectToDotNotation', () => {
 		};
 
 		expect(flattenObjectToDotNotation(testObject)).toEqual(flattenedTestObject);
+	});
+
+	it('flattens scopes', () => {
+		const flattenedTestObject = {
+			'USER_DETAILS.OPENID': 'openid',
+			'USER_DETAILS.USER_INFO': 'userinfo',
+			'USER_DETAILS.EMAIL': 'email',
+			'APPEALS_API.READ': 'appeals:read',
+			'APPEALS_API.WRITE': 'appeals:write',
+			'DOCS_API.READ': 'documents:read',
+			'DOCS_API.WRITE': 'documents:write',
+			'BO_DOCS_API.READ': 'bo-documents:read'
+		};
+
+		const result = flattenObjectToDotNotation(consts.AUTH.SCOPES);
+
+		expect(result).toEqual(flattenedTestObject);
 	});
 
 	it('flattens an object that includes date objects', () => {

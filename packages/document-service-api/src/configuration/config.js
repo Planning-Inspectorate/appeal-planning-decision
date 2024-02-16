@@ -7,6 +7,9 @@
  */
 
 module.exports = {
+	auth: {
+		authServerUrl: process.env.AUTH_SERVER_URL
+	},
 	boStorage: {
 		container: process.env.BO_STORAGE_CONTAINER_NAME,
 		host: process.env.BO_STORAGE_CONTAINER_HOST,

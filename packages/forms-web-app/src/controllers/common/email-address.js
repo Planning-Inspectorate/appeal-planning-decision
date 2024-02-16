@@ -1,6 +1,6 @@
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const { apiClient } = require('#lib/appeals-api-client');
-const AppealsApiError = require('@pins/common/src/client/appeals-api-error');
+const { ApiClientError } = require('@pins/common/src/client/api-client-error');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../lib/logger');
 const {
@@ -64,7 +64,7 @@ const postEmailAddress = (views, appealInSession) => {
 		try {
 			user = await apiClient.getUserByEmailV2(email);
 		} catch (err) {
-			if (!(err instanceof AppealsApiError) || err.code != 404) {
+			if (!(err instanceof ApiClientError) || err.code != 404) {
 				throw err;
 			}
 		}

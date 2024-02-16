@@ -20,11 +20,7 @@ const buildClient = (name) => {
 		client_name: name,
 		client_id: process.env[name + '_CLIENT_ID'],
 		client_secret: process.env[name + '_CLIENT_SECRET'],
-		redirect_uris: [
-			process.env[name + '_REDIRECT_URI'],
-			'http://localhost:9003/debug/oidc',
-			'http://localhost:9003/debug/log'
-		],
+		redirect_uris: [process.env[name + '_REDIRECT_URI']],
 		grant_types: ['client_credentials', 'authorization_code', gty],
 		token_endpoint_auth_method: 'client_secret_jwt'
 	};
