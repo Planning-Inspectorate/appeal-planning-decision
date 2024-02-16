@@ -31,9 +31,9 @@ exports.get = async (req, res) => {
 
 	let userEmail;
 
-	if (req.session.lpaUser) {
+	if (userType === LPA_USER_ROLE) {
 		userEmail = req.session.lpaUser.email;
-	} else if (req.session.email) {
+	} else {
 		userEmail = req.session.email;
 	}
 
