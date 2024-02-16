@@ -29,6 +29,7 @@ require('express-async-errors');
 const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
+const { arrayHasItems } = require('#lib/array-has-items');
 
 const app = express();
 
@@ -75,10 +76,7 @@ env.addFilter('formatBytes', fileSizeDisplayHelper);
 env.addFilter('filterByKey', filterByKey);
 env.addFilter('addKeyValuePair', addKeyValuePair);
 env.addFilter('render', renderTemplateFilter(nunjucks));
-env.addFilter('hasItems', (maybeArray) => {
-	if (!Array.isArray(maybeArray)) return false;
-	return !!maybeArray.length;
-});
+env.addFilter('hasItems', arrayHasItems);
 env.addGlobal('fileSizeLimits', config.fileUpload.pins);
 env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
 env.addGlobal('googleTagManagerId', config.server.googleTagManagerId);

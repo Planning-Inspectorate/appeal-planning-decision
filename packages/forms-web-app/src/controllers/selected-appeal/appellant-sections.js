@@ -9,7 +9,7 @@ exports.sections = [
 				// tbc
 				url: '/appeal-details',
 				text: 'View your appeal details',
-				condition: (appealCase) => appealCase.caseReceived
+				condition: (appealCase) => appealCase.caseReceived // casePublished?
 			}
 		]
 	},
@@ -20,7 +20,7 @@ exports.sections = [
 				// tbc
 				url: '/questionnaire',
 				text: 'View questionnaire',
-				condition: (appealCase) => appealCase.lpaQuestionnairePublished
+				condition: (appealCase) => appealCase.lpaQuestionnairePublished // schema matched ticket
 			}
 		]
 	},
@@ -31,13 +31,13 @@ exports.sections = [
 				// tbc
 				url: '/lpa-statement',
 				text: 'View local planning authority statement',
-				condition: (appealCase) => appealCase.lpaStatementPublished
+				condition: (appealCase) => appealCase.lpaStatementPublished // LPAStatementSubmitted?
 			},
 			{
 				// tbc
 				url: '/rule-6-statements',
 				text: 'View other party statements',
-				condition: (appealCase) => appealCase.appealRule6PartyStatementsPublished
+				condition: (appealCase) => appealCase.rule6StatementPublished // changed from appealRule6PartyStatementsPublished
 			}
 		]
 	},
@@ -48,7 +48,7 @@ exports.sections = [
 				// tbc
 				url: '/ip-comments',
 				text: 'View interested party comments',
-				condition: (appealCase) => appealCase.interestedPartyCommentsPublished
+				condition: (appealCase) => appealCase.interestedPartyCommentsPublished // schema matched ticket
 			}
 		]
 	},
@@ -59,13 +59,13 @@ exports.sections = [
 				// tbc
 				url: '/final-comments',
 				text: 'View your final comments',
-				condition: (appealCase) => appealCase.appellantFinalCommentReceived
+				condition: (appealCase) => appealCase.appellantFinalCommentReceived // appellantCommentsSubmitted?
 			},
 			{
 				// tbc
 				url: '/lpa-final-comments',
 				text: 'View local planning authority final comments',
-				condition: (appealCase) => appealCase.lpaFinalCommentPublished
+				condition: (appealCase) => appealCase.lpaFinalCommentsPublished // changed from lpaFinalCommentPublished
 			}
 		]
 	},
@@ -76,19 +76,19 @@ exports.sections = [
 				// tbc
 				url: '/proof-of-evidences',
 				text: 'View your proof of evidence and witnesses',
-				condition: (appealCase) => appealCase.appellantProofEvidenceReceived
+				condition: (appealCase) => appealCase.appellantProofEvidenceReceived // appellantsProofsSubmitted?
 			},
 			{
 				// tbc
 				url: '/lpa-proof-of-evidences',
 				text: 'View the local planning authority proof of evidence and witnesses',
-				condition: (appealCase) => appealCase.lpaProofEvidencePublished
+				condition: (appealCase) => appealCase.lpaProofEvidencePublished // schema matched ticket
 			},
 			{
 				// tbc
 				url: '/rule-6-proof-of-evidences',
 				text: 'View other party proof of evidence and witnesses',
-				condition: (appealCase) => appealCase.appealRule6PartyProofsEvidencePublished
+				condition: (appealCase) => appealCase.appealRule6PartyProofsEvidencePublished // just doesn't seem to be a thing
 			}
 		]
 	}
