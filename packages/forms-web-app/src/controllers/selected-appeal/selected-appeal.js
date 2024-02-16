@@ -59,9 +59,7 @@ exports.get = async (req, res) => {
 			// placeholder sections info
 			sections: userSections[userType].map((section) => ({
 				...section,
-				links: section.links.filter(({ condition }) =>
-					condition({ hasQuestionnaire: true, hasOtherThing: true })
-				)
+				links: section.links.filter(({ condition }) => condition(caseData))
 			}))
 		}
 	};

@@ -5,6 +5,6 @@ export type Section = Array<{
 	links: Array<{
 		url: string;
 		text: string;
-		condition: (appealCase: Api.AppealCaseWithAppellant) => boolean | undefined;
+		condition: (appealCase: Api.AppealCase) => boolean | undefined;
 	}>;
 }>;
