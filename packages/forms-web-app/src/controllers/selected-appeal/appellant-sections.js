@@ -1,8 +1,4 @@
 /**
- * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
- */
-
-/**
  * @type {import('./section').Section}
  */
 exports.sections = [
