@@ -80,10 +80,12 @@ export interface AppealCase {
 	lpaQuestionnairePublished?: boolean;
 	lpaQuestionnaireSubmitted?: boolean;
 	doesAffectAScheduledMonument?: boolean;
+	lpaStatementPublished?: boolean;
 	lpaProofEvidenceSubmitted?: boolean;
 	lpaProofEvidencePublished?: boolean;
 	lpaFinalCommentsPublished?: boolean;
 	rule6StatementPublished?: boolean;
+	rule6ProofsEvidencePublished?: boolean;
 	interestedPartyCommentsPublished?: boolean;
 	/**
 	 * the date the appeal was received
@@ -197,6 +199,7 @@ export interface AppealCase {
 	outcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
 	/** the Inspector's outcome/decision for this case */
 	caseDecisionOutcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
+	caseDecisionPublished?: boolean;
 }
 
 /** An appeal submission created in the Front Office */
