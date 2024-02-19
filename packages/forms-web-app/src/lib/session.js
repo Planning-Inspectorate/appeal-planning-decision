@@ -2,6 +2,7 @@ const connectMongodb = require('connect-mongodb-session');
 const session = require('express-session');
 const logger = require('./logger');
 const config = require('../config');
+const { CONSTS } = require('../consts');
 
 module.exports = () => {
 	let { sessionSecret } = config.server;
@@ -28,6 +29,7 @@ module.exports = () => {
 	const sessionConfig = {
 		store,
 		secret: sessionSecret,
+		name: CONSTS.SESSION_COOKIE_NAME,
 		resave: false,
 		saveUninitialized: true,
 		cookie: {

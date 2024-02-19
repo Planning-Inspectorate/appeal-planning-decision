@@ -4,6 +4,7 @@ const { storePdfAppeal } = require('../../services/pdf.service');
 const { VIEW } = require('../../lib/views');
 const { submitAppealForBackOfficeProcessing } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+const { CONSTS } = require('../../consts');
 
 exports.getSubmission = (req, res) => {
 	res.render(VIEW.APPELLANT_SUBMISSION.SUBMISSION);
@@ -44,7 +45,10 @@ exports.postSubmission = async (req, res) => {
 	}
 
 	try {
-		const { id, name, location, size } = await storePdfAppeal(appeal);
+		const { id, name, location, size } = await storePdfAppeal(
+			appeal,
+			req.cookies[CONSTS.SESSION_COOKIE_NAME]
+		);
 
 		appeal.state = 'SUBMITTED';
 

@@ -7,6 +7,7 @@ const { getHtmlAppeal } = require('../../../src/services/pdf.service');
 const { createDocument } = require('../../../src/lib/documents-api-wrapper');
 const config = require('../../../src/config');
 const { VIEW } = require('../../../src/lib/views');
+const { CONSTS } = require('../../../src/consts');
 const {
 	VIEW: { FULL_APPEAL }
 } = require('../../../src/lib/full-appeal/views');
@@ -60,9 +61,10 @@ describe('services/pdf.service', () => {
 
 		it('should return the expected response if the fetch status is 200 for appellant submission', async () => {
 			fetch.mockResponse(htmlContent, { status: 200 });
-			expect(await getHtmlAppeal(mockAppeal)).toEqual(htmlContent);
+			expect(await getHtmlAppeal(mockAppeal, 'test')).toEqual(htmlContent);
 			expect(fetch).toBeCalledWith(
-				`${config.server.host}/${VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION}/${mockAppeal.id}`
+				`${config.server.host}/${VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION}/${mockAppeal.id}`,
+				{ headers: { cookie: 'connect.sid=test' } }
 			);
 		});
 
@@ -72,9 +74,14 @@ describe('services/pdf.service', () => {
 				appealType: APPEAL_ID.PLANNING_SECTION_78
 			};
 			fetch.mockResponse(htmlContent, { status: 200 });
-			expect(await getHtmlAppeal(fullAppeal)).toEqual(htmlContent);
-			expect(fetch).toBeCalledWith(
-				`${config.server.host}/${FULL_APPEAL.DECLARATION_INFORMATION}/${fullAppeal.id}`
+			expect(await getHtmlAppeal(fullAppeal, 'test')).toEqual(htmlContent);
+			expect(fetch).toHaveBeenCalledWith(
+				`${config.server.host}/${FULL_APPEAL.DECLARATION_INFORMATION}/${fullAppeal.id}`,
+				{
+					headers: {
+						cookie: `${CONSTS.SESSION_COOKIE_NAME}=test`
+					}
+				}
 			);
 		});
 	});

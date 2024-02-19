@@ -3,6 +3,7 @@ const { storePdfAppeal } = require('../../../services/pdf.service');
 const { VIEW } = require('../../../lib/full-appeal/views');
 const { submitAppealForBackOfficeProcessing } = require('../../../lib/appeals-api-wrapper');
 const logger = require('../../../lib/logger');
+const { CONSTS } = require('../../../consts');
 
 const {
 	FULL_APPEAL: { DECLARATION, APPEAL_SUBMITTED }
@@ -31,7 +32,8 @@ const postDeclaration = async (req, res) => {
 			`planning-appeal-for-planning-application-${appeal.planningApplicationNumber.replace(
 				/\//g,
 				'-'
-			)}`
+			)}`,
+			req.cookies[CONSTS.SESSION_COOKIE_NAME]
 		);
 
 		appeal.state = 'SUBMITTED';

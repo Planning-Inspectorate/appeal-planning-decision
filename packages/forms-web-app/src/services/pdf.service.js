@@ -13,6 +13,7 @@ const {
 } = require('../lib/full-appeal/views');
 const logger = require('../lib/logger');
 const { textToPdf } = require('../lib/textToPdf');
+const { CONSTS } = require('../consts');
 
 const defaultFileName = 'appeal-form';
 
@@ -27,7 +28,7 @@ const buildAppealUrl = (appeal) => {
 	return `${config.server.host}/${urlPart}/${appeal.id}`;
 };
 
-const getHtmlAppeal = async (appeal) => {
+const getHtmlAppeal = async (appeal, sid) => {
 	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
 	/* URL back to this service front-end */
@@ -38,7 +39,13 @@ const getHtmlAppeal = async (appeal) => {
 	try {
 		log.info({ url }, 'Generating HTML appeal');
 
-		response = await fetch(url);
+		const opts = {
+			headers: {
+				cookie: `${CONSTS.SESSION_COOKIE_NAME}=${sid}`
+			}
+		};
+
+		response = await fetch(url, opts);
 
 		log.debug(
 			{
@@ -66,13 +73,13 @@ const getHtmlAppeal = async (appeal) => {
 	return response.text();
 };
 
-const storePdfAppeal = async (appeal, fileName) => {
+const storePdfAppeal = async (appeal, fileName, sid) => {
 	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
 	log.info('Attempting to store PDF document');
 
 	try {
-		const htmlContent = await getHtmlAppeal(appeal);
+		const htmlContent = await getHtmlAppeal(appeal, sid);
 
 		log.debug('Generating PDF of appeal');
 

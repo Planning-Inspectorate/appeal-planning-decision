@@ -51,7 +51,10 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 		it('should re-render the template with errors if there is any appeals api call error', async () => {
 			const mockRequest = {
 				...req,
-				body: {}
+				body: {},
+				cookies: {
+					['connect.sid']: 'test'
+				}
 			};
 
 			mockRequest.session.appeal.decisionDate = new Date().toISOString();
@@ -65,7 +68,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName);
+			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName, 'test');
 
 			expect(submitAppealForBackOfficeProcessing).toHaveBeenCalledWith({
 				...appeal,
@@ -89,7 +92,10 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 		it('should re-render the template with errors if there is any pdf api call error', async () => {
 			const mockRequest = {
 				...req,
-				body: {}
+				body: {},
+				cookies: {
+					['connect.sid']: 'test'
+				}
 			};
 
 			mockRequest.session.appeal.decisionDate = new Date().toISOString();
@@ -103,7 +109,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			expect(submitAppealForBackOfficeProcessing).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName);
+			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName, 'test');
 
 			expect(res.render).toHaveBeenCalledWith(DECLARATION, {
 				errors: {},
