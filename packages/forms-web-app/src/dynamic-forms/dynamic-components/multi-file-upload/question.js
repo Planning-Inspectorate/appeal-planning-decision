@@ -116,13 +116,15 @@ class MultiFileUploadQuestion extends Question {
 
 		// save
 		const { uploadedFiles } = await this.getDataToSave(req, journeyResponse);
-		await uploadedFiles.forEach(async (file) => {
-			const data = {
-				...file,
-				type: this.documentType.name
-			};
-			await apiClient.postSubmissionDocumentUpload(journeyResponse.referenceId, data);
-		});
+		await Promise.all(
+			uploadedFiles.map((file) => {
+				const data = {
+					...file,
+					type: this.documentType.name
+				};
+				return apiClient.postSubmissionDocumentUpload(journeyResponse.referenceId, data);
+			})
+		);
 		const responseToSave = {
 			answers: {
 				[this.fieldName]: true
