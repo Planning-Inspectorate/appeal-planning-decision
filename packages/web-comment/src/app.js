@@ -8,10 +8,10 @@ const nunjucks = require('nunjucks');
 const pinoExpress = require('express-pino-logger');
 const uuid = require('uuid');
 require('express-async-errors');
+const { spoolRoutes } = require('@pins/common');
 
 const serverConfig = require('./server.config');
 const logger = require('./logging/logger');
-const { routes } = require('./routes');
 const { mapToErrorSummary } = require('#utils/filters/map-to-error-summary');
 
 const app = express();
@@ -72,9 +72,8 @@ app.use(
 app.use('/assets/govuk/all.js', express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js')));
 
 // Routes
-Object.entries(routes).forEach(([baseUrl, router]) => {
-	app.use(baseUrl, router);
-});
+spoolRoutes(app, path.join(__dirname, './routes'));
+
 // View Engine
 app.set('view engine', 'njk');
 
