@@ -2,7 +2,17 @@ const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
 /**
- * @typedef {import('@prisma/client').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('@prisma/client').Prisma.LPAQuestionnaireSubmissionGetPayload<
+ * {
+ * 	include: {
+ *		AppealCase: {
+ *			select: {
+ *				LPACode: true
+ *			}
+ *		}
+ * 	}
+ * }
+ * >} LPAQuestionnaireSubmission
  */
 
 class LPAQuestionnaireSubmissionRepository {
@@ -55,6 +65,13 @@ class LPAQuestionnaireSubmissionRepository {
 		return await this.dbClient.lPAQuestionnaireSubmission.create({
 			data: {
 				appealCaseReference: caseReference
+			},
+			include: {
+				AppealCase: {
+					select: {
+						LPACode: true
+					}
+				}
 			}
 		});
 	}
@@ -70,7 +87,14 @@ class LPAQuestionnaireSubmissionRepository {
 			where: {
 				appealCaseReference: caseReference
 			},
-			data
+			data,
+			include: {
+				AppealCase: {
+					select: {
+						LPACode: true
+					}
+				}
+			}
 		});
 	}
 }

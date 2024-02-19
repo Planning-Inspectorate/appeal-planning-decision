@@ -13,7 +13,7 @@ const repo = new LPAQuestionnaireSubmissionRepository();
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function getLPAQuestionnaireByAppealId(appealCaseId) {
-	const questionnaire = repo.getLPAQuestionnaireByAppealRef(appealCaseId);
+	const questionnaire = await repo.getLPAQuestionnaireByAppealRef(appealCaseId);
 
 	if (!questionnaire) {
 		return null;
@@ -29,7 +29,7 @@ async function getLPAQuestionnaireByAppealId(appealCaseId) {
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function createLPAQuestionnaire(appealCaseId) {
-	const questionnaire = repo.createQuestionnaire(appealCaseId);
+	const questionnaire = await repo.createQuestionnaire(appealCaseId);
 
 	if (!questionnaire) {
 		return null;
@@ -46,7 +46,7 @@ async function createLPAQuestionnaire(appealCaseId) {
  * @return {Promise<LPAQuestionnaireSubmission|null>}
  */
 async function patchLPAQuestionnaireByAppealId(appealCaseId, data) {
-	const questionnaire = repo.patchLPAQuestionnaireByAppealId(appealCaseId, data);
+	const questionnaire = await repo.patchLPAQuestionnaireByAppealId(appealCaseId, data);
 
 	if (!questionnaire) {
 		return null;

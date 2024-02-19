@@ -294,7 +294,10 @@ export interface ErrorBody {
 export interface LPAQuestionnaireSubmission {
 	/** @format uuid */
 	id: string;
-	appealCaseReference?: string;
+	AppealCase: {
+		LPACode: string;
+	};
+	appealCaseReference: string;
 	correctAppealType?: boolean;
 	affectsListedBuilding?: boolean;
 	affectedListedBuildingNumber?: string;
