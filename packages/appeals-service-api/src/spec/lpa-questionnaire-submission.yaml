@@ -5,11 +5,19 @@ components:
       type: object
       required:
         - id
-        - appealCaseId
+        - AppealCase
+        - appealCaseReference
       properties:
         id:
           type: string
           format: uuid
+        AppealCase: # partial AppealCase data
+          type: object
+          required:
+            - LPACode
+          properties:
+            LPACode:
+              type: string
         appealCaseReference:
           type: string
         correctAppealType:
