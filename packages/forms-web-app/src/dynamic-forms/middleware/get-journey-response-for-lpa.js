@@ -34,11 +34,11 @@ module.exports = () => async (req, res, next) => {
 		if (err instanceof AppealsApiError && err.code === 404) {
 			logger.debug('questionnaire not found, creating and returning default response');
 			await apiClient.postLPAQuestionnaire(referenceId);
-			result = getDefaultResponse(appealType, referenceId, user.lpaCode);
 		} else {
 			logger.error(err);
-			throw err;
 		}
+		// return default response
+		result = getDefaultResponse(appealType, referenceId, user.lpaCode);
 	}
 
 	if (result.LPACode !== user.lpaCode) {

@@ -5,6 +5,7 @@ const { getAppealByLPACodeAndId } = require('../../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
+const AppealsApiError = require('@pins/common/src/client/appeals-api-error');
 
 jest.mock('../../lib/appeals-api-client');
 jest.mock('../../lib/appeals-api-wrapper');
@@ -70,6 +71,19 @@ describe('getJourneyResponse', () => {
 		getLPAUserFromSession.mockReturnValue(mockValidTestLpaUser);
 		getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
 		apiClient.getLPAQuestionnaire.mockRejectedValue(new Error('Your error message'));
+
+		await getJourneyResponse()(req, res, next);
+
+		expect(apiClient.getLPAQuestionnaire).toHaveBeenCalledWith(refId);
+		expect(res.locals.journeyResponse).toBeInstanceOf(JourneyResponse);
+		expect(res.locals.journeyResponse.LPACode).toEqual(mockValidTestLpaUser.lpaCode);
+		expect(next).toHaveBeenCalled();
+	});
+
+	it('should handle errors and create questionnaire if not found', async () => {
+		getLPAUserFromSession.mockReturnValue(mockValidTestLpaUser);
+		getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+		apiClient.getLPAQuestionnaire.mockRejectedValue(new AppealsApiError('not found', 404, []));
 
 		await getJourneyResponse()(req, res, next);
 
