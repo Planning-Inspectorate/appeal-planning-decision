@@ -3,6 +3,7 @@ const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
 const {
 	constants: { DECISION_OUTCOME }
 } = require('@pins/business-rules');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 // some data here so we can reference in multiple places
 // IDs have no specific meaning, just valid UUIDs and used for upsert/relations
@@ -39,6 +40,41 @@ const appellants = {
 	appellantEight: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a18',
 		email: 'appellant8@planninginspectorate.gov.uk'
+	}
+};
+
+const rule6Parties = {
+	r6One: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b11',
+		email: 'r6-1@planninginspectorate.gov.uk'
+	},
+	r6Two: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b12',
+		email: 'r6-2@planninginspectorate.gov.uk'
+	},
+	r6Three: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b13',
+		email: 'r6-3@planninginspectorate.gov.uk'
+	},
+	r6Four: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b14',
+		email: 'r6-4@planninginspectorate.gov.uk'
+	},
+	r6Five: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b15',
+		email: 'r6-5@planninginspectorate.gov.uk'
+	},
+	r6Six: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b16',
+		email: 'r6-6@planninginspectorate.gov.uk'
+	},
+	r6Seven: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b17',
+		email: 'r6-7@planninginspectorate.gov.uk'
+	},
+	r6Eight: {
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b18',
+		email: 'r6-8@planninginspectorate.gov.uk'
 	}
 };
 
@@ -94,7 +130,15 @@ const users = [
 	appellants.appellantFive,
 	appellants.appellantSix,
 	appellants.appellantSeven,
-	appellants.appellantEight
+	appellants.appellantEight,
+	rule6Parties.r6One,
+	rule6Parties.r6Two,
+	rule6Parties.r6Three,
+	rule6Parties.r6Four,
+	rule6Parties.r6Five,
+	rule6Parties.r6Six,
+	rule6Parties.r6Seven,
+	rule6Parties.r6Eight
 ];
 
 /**
@@ -126,7 +170,8 @@ const commonAppealProperties = {
 	siteAddressTown: 'Testville',
 	siteAddressCounty: 'Countyshire',
 	siteAddressPostcode: 'BS1 6PN',
-	costsAppliedForIndicator: false
+	costsAppliedForIndicator: false,
+	casePublished: true
 };
 
 /**
@@ -245,60 +290,105 @@ const appealCases = [
  *
  * @type {{appealId: string, userId: string, role: string}[]}
  */
-
 const linkedLpaAppeals = lpaAppeals.map((appeal) => ({
 	appealId: appeal.id,
 	userId: appellants.appellantOne.id,
-	role: 'appellant'
+	role: APPEAL_USER_ROLES.APPELLANT
 }));
 
 const appealToUsers = [
 	{
 		appealId: appealIds.appealOne,
 		userId: appellants.appellantOne.id,
-		role: 'appellant'
+		role: APPEAL_USER_ROLES.APPELLANT
 	},
 	{
 		appealId: appealIds.appealTwo,
 		userId: appellants.appellantTwo.id,
-		role: 'appellant'
+		role: APPEAL_USER_ROLES.APPELLANT
 	},
 	{
 		appealId: appealIds.appealThree,
 		userId: appellants.appellantThree.id,
-		role: 'appellant'
+		role: APPEAL_USER_ROLES.APPELLANT
 	},
 	{
 		appealId: appealIds.appealFour,
 		userId: appellants.appellantFour.id,
-		role: 'appellant'
+		role: APPEAL_USER_ROLES.APPELLANT
 	},
 	{
 		appealId: appealIds.appealFive,
 		userId: appellants.appellantFive.id,
-		role: 'appellant'
+		role: APPEAL_USER_ROLES.APPELLANT
 	},
 	{
 		appealId: appealIds.appealSix,
 		userId: appellants.appellantSix.id,
-		role: 'appellant'
+		role: APPEAL_USER_ROLES.APPELLANT
 	},
 	{
 		appealId: appealIds.appealSeven,
 		userId: appellants.appellantSeven.id,
-		role: 'appellant'
+		role: APPEAL_USER_ROLES.APPELLANT
 	},
 	{
 		appealId: appealIds.appealEight,
 		userId: appellants.appellantEight.id,
-		role: 'appellant'
+		role: APPEAL_USER_ROLES.APPELLANT
 	},
 	{
 		appealId: appealSubmissionDraft.id,
 		userId: appellants.appellantOne.id,
-		role: 'appellant'
+		role: APPEAL_USER_ROLES.APPELLANT
 	},
-	...linkedLpaAppeals
+	...linkedLpaAppeals,
+	// rule 6 party links
+	{
+		appealId: appealIds.appealOne,
+		userId: rule6Parties.r6One.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appealOne,
+		userId: rule6Parties.r6Two.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appealTwo,
+		userId: rule6Parties.r6Two.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appealThree,
+		userId: rule6Parties.r6Three.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appealFour,
+		userId: rule6Parties.r6Four.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appealFive,
+		userId: rule6Parties.r6Five.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appealSix,
+		userId: rule6Parties.r6Six.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appealSeven,
+		userId: rule6Parties.r6Seven.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	},
+	{
+		appealId: appealIds.appealEight,
+		userId: rule6Parties.r6Eight.id,
+		role: APPEAL_USER_ROLES.RULE_6_PARTY
+	}
 ];
 
 /**
