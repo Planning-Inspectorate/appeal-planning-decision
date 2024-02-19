@@ -75,6 +75,8 @@ extends:
                   path: packages/business-rules
                 - name: common
                   path: packages/common
+                - name: database
+                  path: packages/database
                 - name: documents-api
                   path: packages/document-service-api
                 - name: integration-functions
@@ -101,7 +103,8 @@ extends:
                   eq(variables['Build.SourceBranchName'], 'main'),
                   eq(dependencies.run_linting_and_tests.outputs['check_files.appeals-api'], 'true'),
                   eq(dependencies.run_linting_and_tests.outputs['check_files.business-rules'], 'true'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true')
+                  eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true'),
+                  eq(dependencies.run_linting_and_tests.outputs['check_files.database'], 'true')
                 )
               )
             )

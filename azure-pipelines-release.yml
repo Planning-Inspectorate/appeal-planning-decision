@@ -48,6 +48,8 @@ extends:
                       secrets:
                         - name: appeals-sql-server-connection-string-admin
                           variable: SQL_CONNECTION_STRING_ADMIN
+                        - name: appeals-sql-server-connection-string-app
+                          variable: SQL_CONNECTION_STRING
                   - ${{ if eq(parameters.schemaMigration, true) }}:
                       - template: ../steps/node_script.yml
                         parameters:
@@ -55,15 +57,15 @@ extends:
                           environmentVariables:
                             SQL_CONNECTION_STRING_ADMIN: $(SQL_CONNECTION_STRING_ADMIN)
                           script: npm run db:migrate:prod
-                          workingDirectory: $(Build.Repository.LocalPath)/packages/appeals-service-api
+                          workingDirectory: $(Build.Repository.LocalPath)/packages/database
                   - ${{ if eq(parameters.seedData, true) }}:
                       - template: ../steps/node_script.yml
                         parameters:
                           nodeVersion: 18
                           environmentVariables:
-                            SQL_CONNECTION_STRING_ADMIN: $(SQL_CONNECTION_STRING_ADMIN)
+                            SQL_CONNECTION_STRING: $(SQL_CONNECTION_STRING)
                           script: npm run db:seed:prod
-                          workingDirectory: $(Build.Repository.LocalPath)/packages/appeals-service-api
+                          workingDirectory: $(Build.Repository.LocalPath)/packages/database
               - template: ../steps/azure_web_app_deploy.yml
                 parameters:
                   appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001

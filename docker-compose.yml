@@ -49,7 +49,6 @@ services:
       SRV_NOTIFY_CONFIRM_EMAIL_TEMPLATE_ID: '4156c7ac-a235-4577-b976-44020bec4d5f'
       SRV_ADMIN_MONITORING_EMAIL: 'test@pins.gov.uk'
       SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID: '49413491-90fd-4ce8-b061-e2f4758b636b'
-      SQL_CONNECTION_STRING_ADMIN: 'sqlserver://mssql:1433;database=pins_front_office_development;user=sa;password=DockerDatabaseP@22word!;trustServerCertificate=true'
       SQL_CONNECTION_STRING: 'sqlserver://mssql:1433;database=pins_front_office_development;user=sa;password=DockerDatabaseP@22word!;trustServerCertificate=true'
       TASK_SUBMIT_TO_HORIZON_CRON_STRING: '*/10 * * * *'
       TASK_SUBMIT_TO_HORIZON_TRIGGER: 'false'
@@ -72,6 +71,8 @@ services:
       - ./node_modules:/opt/node_modules
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/database/src/:/opt/database/src
+      - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/appeals-service-api:/opt/app
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
@@ -111,25 +112,25 @@ services:
     profiles: ['all', 'appeals']
     image: node:18-alpine
     environment:
+      ALLOW_TESTING_OVERRIDES: 'true'
+      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       CLAMAV_HOST: clamav-server
       CLAMAV_PORT: 3310
-      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
+      FEATURE_FLAGS_SETTING: 'ALL_ON'
       FILE_UPLOAD_DEBUG: 'false'
       FILE_UPLOAD_MAX_FILE_SIZE_BYTES: 26214400
       FILE_UPLOAD_USE_TEMP_FILES: 'true'
       FILE_UPLOAD_TMP_PATH: '/tmp'
       GOOGLE_ANALYTICS_ID: G-TZBWMVPTHV
+      LOGGER_LEVEL: 'debug'
+      PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
+      PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING:
       SESSION_MONGODB_URL: mongodb://mongodb:27017/lpa-sessions
       SESSION_KEY: some_secure_key_goes_here
       # please override this locally if using not using localhost or ip address to browse the site in dev.
       SUBDOMAIN_OFFSET: 0
       USE_SECURE_SESSION_COOKIES: 'false'
-      PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
-      LOGGER_LEVEL: 'debug'
-      PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING:
-      FEATURE_FLAGS_SETTING: 'ALL_ON'
-      ALLOW_TESTING_OVERRIDES: 'true'
     ports:
       - 9003:3000
       # node debugger

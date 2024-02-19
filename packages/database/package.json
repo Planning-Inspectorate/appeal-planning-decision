@@ -1,0 +1,35 @@
+{
+	"name": "@pins/database",
+	"version": "0.0.0",
+	"description": "Common sql database access",
+	"private": true,
+	"engines": {
+		"node": ">=18.0.0 <19.0.0",
+		"npm": ">=9.0.0 <11.0.0"
+	},
+	"prisma": {
+		"schema": "src/schema.prisma",
+		"seed": "node src/seed/seed-dev.js"
+	},
+	"scripts": {
+		"migrate:dev": "npx prisma migrate dev",
+		"migrate:prod": "npx prisma migrate deploy",
+		"generate": "npx prisma generate",
+		"seed": "npx prisma db seed",
+		"seed:prod": "npm run generate && node src/seed/seed-prod.js",
+		"lint": "eslint ./"
+	},
+	"author": "Planning-Inspectorate <https://gov.uk/pins>",
+	"license": "ISC",
+	"dependencies": {
+		"@pins/business-rules": "file:../business-rules",
+		"@pins/common": "file:../common",
+		"@prisma/client": "^5.6.0"
+	},
+	"devDependencies": {
+		"eslint": "^8.17.0",
+		"eslint-config-prettier": "^8.5.0",
+		"eslint-plugin-jest": "^24.4.0",
+		"prisma": "^5.6.0"
+	}
+}

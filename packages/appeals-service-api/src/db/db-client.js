@@ -1,8 +1,8 @@
-const { PrismaClient } = require('@prisma/client');
+const createClient = require('@pins/database/src/create-client');
 const config = require('../configuration/config');
 
-/** @type {import('@prisma/client').Prisma.PrismaClientOptions} */
-let prismaConfig = {
+/** @type {import('@pins/database/src/create-client').prismaConfig} */
+const prismaConfig = {
 	datasourceUrl: config.db.sql.connectionString
 };
 
@@ -11,19 +11,11 @@ if (config.logger.level === 'debug') {
 	prismaConfig.log = ['query'];
 }
 
-/** @type {import('@prisma/client').PrismaClient} */
-let prisma;
-
 /**
  * @returns {import('@prisma/client').PrismaClient}
  */
 const createPrismaClient = () => {
-	if (prisma) {
-		return prisma;
-	}
-
-	prisma = new PrismaClient(prismaConfig);
-	return prisma;
+	return createClient(prismaConfig);
 };
 
 module.exports = { createPrismaClient };
