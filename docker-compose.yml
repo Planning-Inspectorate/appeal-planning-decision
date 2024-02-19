@@ -261,6 +261,7 @@ services:
     container_name: appeals-mssql
     cap_add: ['SYS_PTRACE']
     user: root
+    init: true
     environment:
       - 'ACCEPT_EULA=1'
       - 'MSSQL_SA_PASSWORD=DockerDatabaseP@22word!'
@@ -270,13 +271,3 @@ services:
     volumes:
       - ./dev/mssql.conf:/var/opt/mssql/mssql.conf
       - ./tmp/mssql-data:/var/opt/mssql/data
-
-  # do people use this?
-  # mongoExpress:
-  #   image: mongo-express
-  #   environment:
-  #     - ME_CONFIG_MONGODB_SERVER=mongodb
-  #   depends_on:
-  #     - mongodb
-  #   ports:
-  #     - '5003:8081'
