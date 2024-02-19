@@ -8,15 +8,10 @@
 	},
 	"main": "src/main.js",
 	"prisma": {
-		"schema": "src/db/schema.prisma",
-		"seed": "node src/db/seed/seed-dev.js"
+		"schema": "../database/src/schema.prisma"
 	},
 	"scripts": {
-		"db:migrate:dev": "npx prisma migrate dev",
-		"db:migrate:prod": "npx prisma migrate deploy",
 		"db:generate": "npx prisma generate",
-		"db:seed": "npx prisma db seed",
-		"db:seed:prod": "npm run db:generate && node src/db/seed/seed-prod.js",
 		"gen-api-types": "node src/spec/write-api-types.js",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
@@ -38,6 +33,7 @@
 		"@azure/service-bus": "^7.7.3",
 		"@pins/business-rules": "file:../business-rules",
 		"@pins/common": "file:../common",
+		"@pins/database": "file:../database",
 		"@prisma/client": "^5.6.0",
 		"applicationinsights": "^2.9.0",
 		"axios": "^1.6.5",
@@ -78,7 +74,6 @@
 		"nodemon": "^2.0.15",
 		"path": "^0.12.7",
 		"pino-pretty": "^4.8.0",
-		"prisma": "^5.6.0",
 		"rhea-promise": "^2.1.0",
 		"supertest": "^6.2.2",
 		"swagger-cli": "^4.0.4",

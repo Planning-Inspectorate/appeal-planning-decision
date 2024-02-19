@@ -8,7 +8,7 @@ const app = require('../../src/app');
 const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
 const { createPrismaClient } = require('../../src/db/db-client');
-const { seedStaticData } = require('../../src/db/seed/data-static');
+const { seedStaticData } = require('@pins/database/src/seed/data-static');
 
 const MockedExternalApis = require('./external-dependencies/rest-apis/mocked-external-apis');
 const HorizonInteraction = require('./external-dependencies/rest-apis/interactions/horizon-interaction');
