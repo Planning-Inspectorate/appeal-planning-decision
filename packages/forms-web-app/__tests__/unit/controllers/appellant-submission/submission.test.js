@@ -66,6 +66,9 @@ describe('controllers/appellant-submission/submission', () => {
 				...req,
 				body: {
 					'appellant-confirmation': 'i-agree'
+				},
+				cookies: {
+					['connect.sid']: 'test'
 				}
 			};
 
@@ -80,7 +83,7 @@ describe('controllers/appellant-submission/submission', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith(appeal);
+			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, 'test');
 
 			expect(submitAppealForBackOfficeProcessing).toHaveBeenCalledWith({
 				...appeal,
@@ -106,6 +109,9 @@ describe('controllers/appellant-submission/submission', () => {
 				...req,
 				body: {
 					'appellant-confirmation': 'i-agree'
+				},
+				cookies: {
+					['connect.sid']: 'test'
 				}
 			};
 
@@ -120,7 +126,7 @@ describe('controllers/appellant-submission/submission', () => {
 
 			expect(submitAppealForBackOfficeProcessing).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith(appeal);
+			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, 'test');
 
 			expect(res.render).toHaveBeenCalledWith(SUBMISSION, {
 				errors: {},

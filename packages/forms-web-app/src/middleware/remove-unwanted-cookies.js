@@ -1,5 +1,6 @@
 const { removeUnwantedCookies } = require('../lib/remove-unwanted-cookies');
 const cookieConfig = require('../lib/client-side/cookie/cookie-config');
+const { CONSTS } = require('../consts');
 
 /**
  * Middleware to ensure any unwanted third party cookies are removed if the user has chosen not
@@ -25,7 +26,7 @@ module.exports = (req, res, next) => {
 		activeCookiePolicy = JSON.parse(req.cookies[cookieConfig.COOKIE_POLICY_KEY]);
 	} catch (e) {
 		// something went wrong decoding the cookie policy JSON, so lets wipe it and start again
-		removeUnwantedCookies(req, res, ['connect.sid']);
+		removeUnwantedCookies(req, res, [CONSTS.SESSION_COOKIE_NAME]);
 		req.log.warn(e, 'Erasing all cookies due to JSON decoding error in the stored cookie policy.');
 		return next();
 	}
