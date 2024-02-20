@@ -70,7 +70,7 @@ const getTokenDocumentCreatedAt = async (id) => {
 			.collection('securityToken')
 			.findOne(
 				{
-					id: id
+					_id: id
 				},
 				{
 					projection: {
