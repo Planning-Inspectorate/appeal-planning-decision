@@ -2,7 +2,7 @@ paths:
   /api/v2/appeal-cases/{caseReference}/lpa-questionnaire-submission:
     get:
       tags:
-        - lpa-questionnaire-submission
+        - submissions
       description: Get a questionnaire submitted by the LPA
       parameters:
         - in: path
@@ -26,7 +26,7 @@ paths:
                  $ref: '#/components/schemas/ErrorBody'
     post:
       tags:
-        - lpa-questionnaire-submission
+        - submissions
       description: Create a questionnaire to be submitted by the LPA
       parameters:
         - in: path
@@ -44,6 +44,42 @@ paths:
                 $ref: '#/components/schemas/LPAQuestionnaireSubmission'
         400:
           description: Unable to create
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorBody'
+    patch:
+      tags:
+        - submissions
+      description: Update a questionnaire submission
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          description: appeal case reference
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LPAQuestionnaireSubmission'
+      responses:
+        200:
+          description: Returns the questionnaire
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPAQuestionnaireSubmission'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorBody'
+        404:
+          description: Not found
           content:
             application/json:
               schema:
