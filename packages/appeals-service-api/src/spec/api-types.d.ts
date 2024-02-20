@@ -377,6 +377,71 @@ export interface LPAQuestionnaireSubmission {
 	requiresEnvironmentalStatement?: boolean;
 }
 
+/** Information about a rule 6 party involved in an appeal */
+export interface Rule6Party {
+	/**
+	 * identifier for rule 6 party
+	 * @format uuid
+	 */
+	id: string;
+	/** appeal reference the rule 6 party is associated to */
+	caseReference: string;
+	/** first name of the main contact for rule 6 party */
+	firstName: string;
+	/** last name of the main contact for rule 6 party */
+	lastName: string;
+	/** whether the rule 6 party is over 18 */
+	over18: boolean;
+	/** the name of the rule 6 party */
+	partyName: string;
+	/**
+	 * email address of the rule 6 party
+	 * @format email
+	 */
+	partyEmail: string;
+	/** first line of address of the rule 6 party */
+	addressLine1: string;
+	/** second line of address of the rule 6 party */
+	addressLine2?: string;
+	/** town of the rule 6 party's address */
+	addressTown?: string;
+	/** county of the rule 6 party */
+	addressCounty?: string;
+	/** postcode of the rule 6 party */
+	addressPostcode: string;
+	/** the status of the rule 6 party's involvement */
+	partyStatus?: string;
+	/** the statement from the rule 6 party */
+	statement?: string;
+	/** indicates if the rule 6 party has submitted documents */
+	statementDocuments?: boolean;
+	/** indicates if the rule 6 party has submitted witness information */
+	witnesses?: boolean;
+	/** indicates if the rule 6 party statement has been submitted */
+	statementSubmitted?: boolean;
+	/**
+	 * the date and time the statement was submitted
+	 * @format date-time
+	 */
+	statementSubmittedDate?: string;
+	/** indicates if the rule 6 party statement has been received */
+	statementReceived?: boolean;
+	/**
+	 * the date and time the statement was received
+	 * @format date-time
+	 */
+	statementReceivedDate?: string;
+	/** the validation outcome of the rule 6 party statement */
+	statementValidationOutcome?: string;
+	/**
+	 * the date and time the validation outcome was given
+	 * @format date-time
+	 */
+	statementValidationOutcomeDate?: string;
+	/** details about the validation of the rule 6 party statement */
+	statementValidationDetails?: string;
+}
+
 /** A Service User */
 export interface ServiceUser {
 	/**
