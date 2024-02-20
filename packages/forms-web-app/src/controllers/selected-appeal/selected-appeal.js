@@ -6,17 +6,19 @@ const { determineUser } = require('../../lib/determine-user');
 const { sections: appellantSections } = require('./appellant-sections');
 const { sections: lpaUserSections } = require('./lpa-user-sections');
 const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');
+const { sections: rule6Sections } = require('./rule-6-sections');
 
 /**
  * @type {{ [userType: import('@pins/common/src/constants').AppealToUserRoles|LPA_USER_ROLE]: import('./section').Section }}
  */
 const userSections = {
 	[APPEAL_USER_ROLES.APPELLANT]: appellantSections,
-	[LPA_USER_ROLE]: lpaUserSections
+	[LPA_USER_ROLE]: lpaUserSections,
+	[APPEAL_USER_ROLES.RULE_6_PARTY]: rule6Sections
 };
 
 /**
- * Shared controller for /appeals/:caseRef and manage-appeals/:caseRef
+ * Shared controller for /appeals/:caseRef, manage-appeals/:caseRef rule-6-appeals/:caseRef
  * @type {import('express').Handler}
  */
 exports.get = async (req, res) => {
