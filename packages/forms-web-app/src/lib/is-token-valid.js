@@ -33,6 +33,7 @@ async function getAuthClient() {
  * @property {boolean} [expired]
  * @property {boolean} [tooManyAttempts]
  * @property {string} [access_token]
+ * @property {Date} [access_token_expiry]
  * @property {string} [id_token]
  */
 
@@ -122,6 +123,7 @@ const authToken = async (token, emailAddress, action) => {
 
 		valid.access_token = authResult.access_token;
 		valid.id_token = authResult.id_token;
+		valid.access_token_expiry = new Date(authResult.expires_at * 1000); // seconds to ms
 		return valid;
 	} catch (err) {
 		if (err?.response?.statusCode === 429) {
@@ -147,14 +149,6 @@ const authToken = async (token, emailAddress, action) => {
  * @returns {Promise<TokenValidResult>}
  */
 const isTokenValid = async (token, id, emailAddress, action, lpaCode, enrolUsersFlag) => {
-	const isTestScenario =
-		isTestEnvironment() && isTestToken(token) && (!lpaCode || isTestLPA(lpaCode));
-	if (isTestScenario) {
-		return {
-			valid: true
-		};
-	}
-
 	/** @type {TokenValidResult} */
 	let result = {
 		valid: false
@@ -177,6 +171,14 @@ const isTokenValid = async (token, id, emailAddress, action, lpaCode, enrolUsers
 	}
 
 	// legacy path
+	const isTestScenario =
+		isTestEnvironment() && isTestToken(token) && (!lpaCode || isTestLPA(lpaCode));
+	if (isTestScenario) {
+		return {
+			valid: true
+		};
+	}
+
 	let tokenDocument = await getToken(token, id, emailAddress, action);
 
 	if (tokenDocument && 'tooManyAttempts' in tokenDocument && tokenDocument.tooManyAttempts) {

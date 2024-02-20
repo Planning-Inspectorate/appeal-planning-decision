@@ -175,7 +175,12 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 
 		if (enrolUsersFlag) {
 			// is valid so set user in session
-			createAppealUserSession(req, tokenValid.access_token, tokenValid.id_token);
+			createAppealUserSession(
+				req,
+				tokenValid.access_token,
+				tokenValid.id_token,
+				tokenValid.access_token_expiry
+			);
 		}
 
 		if (isGeneralLogin) {
@@ -414,7 +419,13 @@ const postEnterCodeLPA = (views) => {
 			if (currentUserStatus === STATUS_CONSTANTS.ADDED) {
 				await setLPAUserStatus(id, STATUS_CONSTANTS.CONFIRMED);
 			}
-			await createLPAUserSession(req, user);
+			await createLPAUserSession(
+				req,
+				user,
+				tokenResult.access_token,
+				tokenResult.id_token,
+				tokenResult.access_token_expiry
+			);
 		} catch (err) {
 			logger.error(err, `Failed to create user session for user id ${id}`);
 			throw err;

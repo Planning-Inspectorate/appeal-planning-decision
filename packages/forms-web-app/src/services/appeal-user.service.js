@@ -2,6 +2,7 @@
  * @typedef {Object} AppealUserSession
  * @property {string} access_token
  * @property {string} id_token
+ * @property {Date} expiry
  */
 
 /**
@@ -9,12 +10,14 @@
  * @param {import('express').Request} req
  * @param {string} access_token
  * @param {string} id_token
+ * @param {Date} expiry
  * @returns {void}
  */
-const createAppealUserSession = (req, access_token, id_token) => {
+const createAppealUserSession = (req, access_token, id_token, expiry) => {
 	req.session.appealUser = {
 		access_token: access_token,
-		id_token: id_token
+		id_token: id_token,
+		expiry: expiry
 	};
 };
 

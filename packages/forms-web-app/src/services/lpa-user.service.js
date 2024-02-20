@@ -18,20 +18,10 @@ const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
  */
 
 /**
- * An LPA user from the DB
- * @typedef {Object} DBUser
- * @property {UserId} _id - The id of the user.
- * @property {string} email - The email of the user.
- * @property {boolean} isAdmin - If the user is an admin user (cannot be deleted).
- * @property {string} status - The status of a user (STATUS_CONSTANTS)
- * @property {string} lpaCode - If code of the lpa the user belongs to.
- */
-
-/**
  * Gets lpaUser by their id
  * @async
  * @param {UserId} userId
- * @returns {Promise<DBUser>}
+ * @returns {Promise<import('appeals-service-api').Api.AppealUser>}
  */
 const getLPAUser = async (userId) => {
 	return await getUserById(userId);
@@ -40,11 +30,14 @@ const getLPAUser = async (userId) => {
 /**
  * Creates the user object within the session object of the request for the successfully logged in LPAUser
  * @async
- * @param {ExpressRequest} req
- * @param {DBUser} user
+ * @param {import('express').Request} req
+ * @param {Promise<import('appeals-service-api').Api.AppealUser>} user
+ * @param {string} access_token
+ * @param {string} id_token
+ * @param {Date} expiry
  * @returns {Promise<void>}
  */
-const createLPAUserSession = async (req, user) => {
+const createLPAUserSession = async (req, user, access_token, id_token, expiry) => {
 	req.session.lpaUser = user;
 
 	let lpa = await getLPA(user.lpaCode);
@@ -52,13 +45,16 @@ const createLPAUserSession = async (req, user) => {
 	req.session.lpaUser = {
 		...req.session.lpaUser,
 		lpaName: lpa.name,
-		lpaDomain: lpa.domain
+		lpaDomain: lpa.domain,
+		access_token: access_token,
+		id_token: id_token,
+		expiry: expiry
 	};
 };
 
 /**
- * retrives the LPAUser from session
- * @param {ExpressRequest} req
+ * retrieves the LPAUser from session
+ * @param {import('express').Request} req
  * @returns {User} lpa user
  */
 const getLPAUserFromSession = (req) => {

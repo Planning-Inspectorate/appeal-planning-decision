@@ -11,6 +11,20 @@ import {
 
 import createPrismaClient from '../adapter/prisma-client.js';
 import TokenRepo from './ropc-repo.js';
+import config from '../configuration/config.js';
+
+/**
+ * Check if token is test token
+ * @param {string} token
+ * @return {boolean}
+ */
+const isTestToken = (token) => token === '12345';
+
+/**
+ * Checks if app is running in a test environment
+ * @return {boolean}
+ */
+const isTestEnvironment = () => config.server.allowTestingOverrides;
 
 export const gty = 'ropc-otp'; // Resource Owner Password Credentials Grant using a one time password/code
 export const parameters = new Set(['scope', 'resource', 'email', 'otp']);
@@ -66,8 +80,13 @@ const performRopcOtpGrant = async (ctx) => {
 	const { email, otp, scope } = ctx.oidc.params;
 
 	const account = await findAccount(ctx, email);
-	await validateToken(account, otp);
-	await account.enrolUser();
+
+	const isTestScenario = isTestEnvironment() && isTestToken(otp);
+
+	if (!isTestScenario) {
+		await validateToken(account, otp);
+		await account.enrolUser();
+	}
 
 	const claims = await account.claims('', scope, {}, []);
 	const { accessTokenValue, accessToken } = await createAccessToken(ctx, account, claims);
@@ -107,7 +126,7 @@ async function validateToken(account, otp) {
 	 * @returns {boolean}
 	 */
 	const isTokenExpired = (minutes, timeCreated, timeNow = new Date()) => {
-		return Math.ceil((timeNow - timeCreated) / 60000) > minutes;
+		return Math.ceil((timeNow.getTime() - timeCreated.getTime()) / 60000) > minutes;
 	};
 
 	const securityToken = await tokenRepo.getByUserId(account.accountId);

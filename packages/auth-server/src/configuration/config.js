@@ -44,6 +44,7 @@ const config = {
 		redact: ['config.db', 'config.oidc.options.clients', 'config.services.notify.apiKey']
 	},
 	server: {
+		allowTestingOverrides: process.env.ALLOW_TESTING_OVERRIDES === 'true',
 		port: numberWithDefault(process.env.SERVER_PORT, 3000),
 		showErrors: process.env.SERVER_SHOW_ERRORS === 'true'
 	},
