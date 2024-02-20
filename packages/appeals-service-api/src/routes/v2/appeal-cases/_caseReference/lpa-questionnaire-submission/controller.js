@@ -5,6 +5,7 @@ const {
 } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
+const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
 
 /**
  * @type {import('express').RequestHandler}
@@ -62,6 +63,9 @@ async function patchLPAQuestionnaireSubmission(req, res) {
 		if (error instanceof ApiError) {
 			logger.error(`Failed to update questionnaire: ${error.code} // ${error.message.errors}`);
 			res.status(error.code || 500).send(error.message.errors);
+		} else if (error instanceof PrismaClientValidationError) {
+			logger.error(`invalid request: ${error.message}`);
+			res.status(400).send({ errors: ['Bad request'] });
 		} else {
 			logger.error(error);
 			res.status(500).send('An unexpected error occurred');

@@ -17,6 +17,9 @@ const options = {
 				name: 'appeal-cases'
 			},
 			{
+				name: 'submissions'
+			},
+			{
 				name: 'token'
 			},
 			{
