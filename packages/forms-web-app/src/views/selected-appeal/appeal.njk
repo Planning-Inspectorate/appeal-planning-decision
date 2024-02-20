@@ -1,43 +1,48 @@
 {% extends "layouts/no-banner-link/main.njk" %}
 
- {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
- {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
-	{% from  "pins/components/appeal-sections-block.njk" import appealSectionsBlock %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "pins/components/appeal-sections-block.njk" import appealSectionsBlock %}
 
- {% set title="
- Appeal " + appeal.appealNumber + " - " + titleSuffix + " - GOV.UK" %}
+{% set title="Appeal " + appeal.appealNumber + " - " + titleSuffix + " - GOV.UK" %}
 
- {% block pageTitle %}
-   {{ title }}
- {% endblock %}
+{% block pageTitle %}
+	{{ title }}
+{% endblock %}
 
- {% block content %}
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-full">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+			{% endif %}
 
-       {% if errorSummary %}
-         {{ govukErrorSummary({
-           titleText: "There is a problem",
-           errorList: errorSummary
-         }) }}
-       {% endif %}
+      <h1 class="govuk-heading-l">Appeal {{appeal.appealNumber}}</h1>
 
-       <h1 class="govuk-heading-l">Appeal {{appeal.appealNumber}}</h1>
+			{% if appeal.decision %}
+				<div class="govuk-grid-column-two-thirds">
+					<h2 class="govuk-heading-l">Appeal decision</h2>
+					{{ govukTag({
+						text: appeal.decision.label,
+						classes: "govuk-tag--" + appeal.decision.color
+					}) }}
+				</div>
+			{% endif %}
 
-		{{ govukSummaryList({
-			classes: "appeal-headlines govuk-summary-list--no-border",
-			rows: appeal.headlineData
-		}) }}
+			{{ govukSummaryList({
+				classes: "appeal-headlines govuk-summary-list--no-border",
+				rows: appeal.headlineData
+			}) }}
 
-		<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
-
-
+			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 		</div>
 
 		<div class="govuk-grid-column-two-thirds">
-				{{ appealSectionsBlock(appeal.sections) }}
+			{{ appealSectionsBlock(appeal.sections) }}
 		</div>
-
 	</div>
-
- {% endblock %}
+{% endblock %}
