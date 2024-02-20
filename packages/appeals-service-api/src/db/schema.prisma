@@ -196,6 +196,9 @@ model AppealCase {
   rule6StatementPublished      Boolean @default(false)
   rule6ProofsEvidencePublished Boolean @default(false)
 
+  // Rule 6 parties related to the appeal
+  rule6Parties Rule6Party[]
+
   //***************************************************************************
   // interested party fields
   //***************************************************************************
@@ -389,4 +392,34 @@ model SubmissionNeighbourAddress {
   addressLine2 String?
   townCity     String
   postcode     String
+}
+
+model Rule6Party {
+  id                             String    @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  caseReference                  String
+  firstName                      String
+  lastName                       String
+  over18                         Boolean
+  partyName                      String
+  partyEmail                     String
+  addressLine1                   String
+  addressLine2                   String?
+  addressTown                    String?
+  addressCounty                  String?
+  addressPostcode                String?
+  partyStatus                    String
+  statement                      String
+  statementDocuments             Boolean
+  witnesses                      Boolean
+  statementSubmitted             Boolean
+  statementSubmittedDate         DateTime?
+  statementReceived              Boolean
+  statementReceivedDate          DateTime?
+  statementValidationOutcome     String?
+  statementValidationOutcomeDate DateTime?
+  statementValidationDetails     String?
+
+  //Optional link to AppealCase
+  appealCaseReference String?     @unique
+  AppealCase          AppealCase? @relation(fields: [appealCaseReference], references: [caseReference])
 }
