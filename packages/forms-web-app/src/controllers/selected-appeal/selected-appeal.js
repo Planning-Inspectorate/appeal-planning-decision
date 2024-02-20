@@ -49,13 +49,13 @@ exports.get = async (req, res) => {
 	const viewContext = {
 		titleSuffix: formatTitleSuffix(userType),
 		appeal: {
-			appealNumber: appealNumber,
+			appealNumber,
 			headlineData,
-			// placeholder sections info
 			sections: userSections[userType].map((section) => ({
 				...section,
 				links: section.links.filter(({ condition }) => condition(caseData))
-			}))
+			})),
+			decision: formatDecision({ ...caseData, caseDecisionOutcome: 'invalid' })
 		}
 	};
 
@@ -69,4 +69,29 @@ exports.get = async (req, res) => {
 const formatTitleSuffix = (userType) => {
 	if (userType === LPA_USER_ROLE) return 'Manage your appeals';
 	return 'Appeal a planning decision';
+};
+
+/**
+ * @param {import('appeals-service-api').Api.AppealCase} caseData
+ * @returns {{ color: string, label: string } | null}
+ */
+const formatDecision = ({ caseDecisionOutcome }) => {
+	if (!caseDecisionOutcome || caseDecisionOutcome === 'invalid') return null;
+
+	const colors = {
+		['allowed']: 'green',
+		['split decision']: 'orange',
+		['dismissed']: 'yellow'
+	};
+
+	const labels = {
+		['allowed']: 'Allowed',
+		['split decision']: 'Allowed in part',
+		['dismissed']: 'Dismissed'
+	};
+
+	return {
+		color: colors[caseDecisionOutcome],
+		label: labels[caseDecisionOutcome]
+	};
 };
