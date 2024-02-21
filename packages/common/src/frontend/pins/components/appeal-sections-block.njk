@@ -1,10 +1,10 @@
 {% macro appealSectionsBlock(sections) %}
 	{% for section in sections %}
 		{% if section.links|hasItems %}
-			<h2 class="govuk-heading-l"> {{section.heading}} </h2>
+			<h2 class="govuk-heading-l">{{section.heading}}</h2>
 			{%for link in section.links%}
 				<p class="govuk-body">
-					<a href="{{link.url}}"> {{link.text}} </a>
+					<a href="{{link.url}}">{{link.text}}</a>
 				</p>
 			{% endfor %}
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">

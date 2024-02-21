@@ -1,33 +1,40 @@
 {% extends "../../../index.njk" %}
 
- {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
- {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 
- {% set title="
- Appeal " + appeal.status + " for comment - Comment on a planning appeal - GOV.UK" %}
+{% set title="Appeal " + appeal.status + " for comment - Comment on a planning appeal - GOV.UK" %}
 
- {% block pageTitle %}
-   {{ title }}
- {% endblock %}
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
 
- {% block content %}
-   <div class="govuk-grid-row">
-     <div class="govuk-grid-column-full">
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+      {% endif %}
 
-       {% if errorSummary %}
-         {{ govukErrorSummary({
-           titleText: "There is a problem",
-           errorList: errorSummary
-         }) }}
-       {% endif %}
+      <h1 class="govuk-heading-l">Appeal {{appeal.status}} for comment</h1>
 
-       <h1 class="govuk-heading-l">Appeal {{appeal.status}} for comment</h1>
+      {{ govukSummaryList({
+        classes: "appeal-headlines govuk-summary-list--no-border",
+        rows: headlineData
+      }) }}
 
-		{{ govukSummaryList({
-			classes: "appeal-headlines govuk-summary-list--no-border",
-			rows: headlineData
-		}) }}
-	 </div>
-	</div>
+      {% if appeal.casePublished %}
+        <h2 class="govuk-heading-l">Appeal details</h2>
 
- {% endblock %}
+        <p class="govuk-body">
+          <a href="/appeal-details">Appeal details</a>
+        </p>
+      {% endif %}
+
+      <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+    </div>
+  </div>
+{% endblock %}
