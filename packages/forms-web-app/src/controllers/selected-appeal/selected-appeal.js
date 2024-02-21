@@ -5,6 +5,7 @@ const { apiClient } = require('../../lib/appeals-api-client');
 const { determineUser } = require('../../lib/determine-user');
 const { sections: appellantSections } = require('./appellant-sections');
 const { sections: lpaUserSections } = require('./lpa-user-sections');
+const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');
 
 /**
  * @type {{ [userType: import('@pins/common/src/constants').AppealToUserRoles|LPA_USER_ROLE]: import('./section').Section }}
@@ -55,7 +56,7 @@ exports.get = async (req, res) => {
 				...section,
 				links: section.links.filter(({ condition }) => condition(caseData))
 			})),
-			decision: formatDecision({ ...caseData, caseDecisionOutcome: 'invalid' })
+			decision: mapDecisionTag(caseData.caseDecisionOutcome)
 		}
 	};
 
@@ -69,29 +70,4 @@ exports.get = async (req, res) => {
 const formatTitleSuffix = (userType) => {
 	if (userType === LPA_USER_ROLE) return 'Manage your appeals';
 	return 'Appeal a planning decision';
-};
-
-/**
- * @param {import('appeals-service-api').Api.AppealCase} caseData
- * @returns {{ color: string, label: string } | null}
- */
-const formatDecision = ({ caseDecisionOutcome }) => {
-	if (!caseDecisionOutcome || caseDecisionOutcome === 'invalid') return null;
-
-	const colors = {
-		['allowed']: 'green',
-		['split decision']: 'orange',
-		['dismissed']: 'yellow'
-	};
-
-	const labels = {
-		['allowed']: 'Allowed',
-		['split decision']: 'Allowed in part',
-		['dismissed']: 'Dismissed'
-	};
-
-	return {
-		color: colors[caseDecisionOutcome],
-		label: labels[caseDecisionOutcome]
-	};
 };
