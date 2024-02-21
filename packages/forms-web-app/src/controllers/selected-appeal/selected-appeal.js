@@ -30,13 +30,7 @@ exports.get = async (req, res) => {
 		throw new Error('Unknown role');
 	}
 
-	let userEmail;
-
-	if (userType === LPA_USER_ROLE) {
-		userEmail = req.session.lpaUser.email;
-	} else {
-		userEmail = req.session.email;
-	}
+	const userEmail = userType === LPA_USER_ROLE ? req.session.lpaUser?.email : req.session.email;
 
 	if (!userEmail) {
 		throw new Error('no session email');
@@ -53,6 +47,7 @@ exports.get = async (req, res) => {
 	const headlineData = formatHeadlineData(caseData, userType);
 
 	const viewContext = {
+		titleSuffix: formatTitleSuffix(userType),
 		appeal: {
 			appealNumber: appealNumber,
 			headlineData,
@@ -65,4 +60,13 @@ exports.get = async (req, res) => {
 	};
 
 	res.render(VIEW.SELECTED_APPEAL.APPEAL, viewContext);
+};
+
+/**
+ * @param {string} userType
+ * @returns {string}
+ */
+const formatTitleSuffix = (userType) => {
+	if (userType === LPA_USER_ROLE) return 'Manage your appeals';
+	return 'Appeal a planning decision';
 };
