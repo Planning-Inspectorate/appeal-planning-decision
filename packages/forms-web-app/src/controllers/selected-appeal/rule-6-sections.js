@@ -29,10 +29,14 @@ exports.sections = [
 		heading: 'Statements',
 		links: [
 			{
-				// TODO Theirs - needs logic to determine which to show
 				url: '/your-statement',
 				text: 'View your statement',
-				condition: (appealCase) => appealCase.rule6StatementPublished
+				condition: (appealCase, userEmail) => {
+					const currentRule6User = appealCase.Rule6Parties?.find(
+						(party) => party.partyEmail === userEmail
+					);
+					return currentRule6User?.statementReceived;
+				}
 			},
 			{
 				url: '/statement',
@@ -40,7 +44,6 @@ exports.sections = [
 				condition: (appealCase) => appealCase.lpaStatementPublished
 			},
 			{
-				// TODO Others - needs logic to determine which to show
 				url: '/other-party-statements',
 				text: 'View your statement',
 				condition: (appealCase) => appealCase.rule6StatementPublished
@@ -63,10 +66,14 @@ exports.sections = [
 		links: [
 			{
 				// tbc
-				// TODO Theirs - needs logic to determine which to show
 				url: '/proof-evidence',
 				text: 'View your proof of evidence and witnesses',
-				condition: (appealCase) => appealCase.rule6ProofsEvidencePublished
+				condition: (appealCase, userEmail) => {
+					const currentRule6User = appealCase.Rule6Parties?.find(
+						(party) => party.partyEmail === userEmail
+					);
+					return currentRule6User?.rule6ProofsEvidenceReceived;
+				}
 			},
 			{
 				// tbc
@@ -82,7 +89,6 @@ exports.sections = [
 			},
 			{
 				// tbc
-				// TODO Others - needs logic to determine which to show
 				url: '/other-party-proof-evidence',
 				text: 'View proof of evidence and witnesses from other parties',
 				condition: (appealCase) => appealCase.rule6ProofsEvidencePublished

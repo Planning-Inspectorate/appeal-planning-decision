@@ -56,7 +56,7 @@ exports.get = async (req, res) => {
 			headlineData,
 			sections: userSections[userType].map((section) => ({
 				...section,
-				links: section.links.filter(({ condition }) => condition(caseData))
+				links: section.links.filter(({ condition }) => condition(caseData, userEmail))
 			})),
 			decision: mapDecisionTag(caseData.caseDecisionOutcome)
 		}
