@@ -48,7 +48,10 @@ const commonAppealCaseDataProperties = {
 	decision: 'refused',
 	originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 	costsAppliedForIndicator: false,
-	LPAApplicationReference: '12/2323232/PLA'
+	LPAApplicationReference: '12/2323232/PLA',
+	procedure: 'inquiry',
+	appellantFirstName: 'Test',
+	appellantLastName: 'Appellant'
 };
 
 /**
