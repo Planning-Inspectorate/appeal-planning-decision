@@ -13,6 +13,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
  * @typedef {import('appeals-service-api').Api.LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('appeals-service-api').Api.AppealCaseWithRule6Parties} AppealCaseWithRule6Parties
  */
 
 /**
@@ -150,7 +151,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {{ caseReference: string, userId: string, role: string }} params
-	 * @returns {Promise<AppealCase>}
+	 * @returns {Promise<AppealCaseWithRule6Parties>}
 	 */
 	async getUsersAppealCase({ caseReference, userId, role }) {
 		const urlParams = new URLSearchParams();

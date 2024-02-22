@@ -8,6 +8,16 @@ components:
           properties:
             appellant:
               $ref: '#/components/schemas/ServiceUser'
+    AppealCaseWithRule6Parties:
+      description: An appeal case with rule 6 parties
+      allOf:
+        - $ref: '#/components/schemas/AppealCase'
+        - type: object
+          properties:
+            Rule6Parties:
+              type: array
+              items: 
+                $ref: '#/components/schemas/Rule6Party'
     AppealCase:
       description: An appeal case from the Back Office
       type: object

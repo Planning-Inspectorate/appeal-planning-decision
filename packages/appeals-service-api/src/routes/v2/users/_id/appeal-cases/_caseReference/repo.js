@@ -45,6 +45,9 @@ module.exports = class Repo {
 							some: where
 						}
 					}
+				},
+				include: {
+					Rule6Parties: true
 				}
 			});
 		} catch (e) {

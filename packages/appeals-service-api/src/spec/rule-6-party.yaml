@@ -55,6 +55,9 @@ components:
         partyStatus:
           type: string
           description: the status of the rule 6 party's involvement
+        rule6ProofsEvidenceReceived:
+          type: boolean
+          description: indicates if the rule 6 party evidence has been received
         statement: 
           type: string
           description: the statement from the rule 6 party

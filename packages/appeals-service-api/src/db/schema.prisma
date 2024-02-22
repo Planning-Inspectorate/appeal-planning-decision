@@ -52,6 +52,8 @@ model AppealUser {
   /// appeals this user is linked to, by being the appellant or agent, for example
   Appeals AppealToUser[]
 
+  rule6PartyAppealUser Rule6Party[]
+
   /// a security token this user can use to access our service(s)
   SecurityToken SecurityToken?
 }
@@ -197,7 +199,7 @@ model AppealCase {
   rule6ProofsEvidencePublished Boolean @default(false)
 
   // Rule 6 parties related to the appeal
-  rule6Parties Rule6Party[]
+  Rule6Parties Rule6Party[]
 
   //***************************************************************************
   // interested party fields
@@ -408,6 +410,7 @@ model Rule6Party {
   addressCounty                  String?
   addressPostcode                String?
   partyStatus                    String
+  rule6ProofsEvidenceReceived    Boolean
   statement                      String
   statementDocuments             Boolean
   witnesses                      Boolean
@@ -418,6 +421,10 @@ model Rule6Party {
   statementValidationOutcome     String?
   statementValidationOutcomeDate DateTime?
   statementValidationDetails     String?
+
+  // Link to AppealUser
+  appealUserId String     @db.UniqueIdentifier
+  AppealUser   AppealUser @relation(fields: [appealUserId], references: [id])
 
   //Optional link to AppealCase
   appealCaseReference String?     @unique
