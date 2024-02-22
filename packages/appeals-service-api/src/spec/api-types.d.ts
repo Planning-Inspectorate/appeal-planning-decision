@@ -17,6 +17,11 @@ export type AppealCaseWithAppellant = AppealCase & {
 	appellant?: ServiceUser;
 };
 
+/** An appeal case with rule 6 parties */
+export type AppealCaseWithRule6Parties = AppealCase & {
+	Rule6Parties?: Rule6Party[];
+};
+
 /** An appeal case from the Back Office */
 export interface AppealCase {
 	/**
@@ -411,6 +416,8 @@ export interface Rule6Party {
 	addressPostcode: string;
 	/** the status of the rule 6 party's involvement */
 	partyStatus?: string;
+	/** indicates if the rule 6 party evidence has been received */
+	rule6ProofsEvidenceReceived?: boolean;
 	/** the statement from the rule 6 party */
 	statement?: string;
 	/** indicates if the rule 6 party has submitted documents */
