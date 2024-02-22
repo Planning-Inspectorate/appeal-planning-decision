@@ -91,7 +91,7 @@ describe('services/pdf.service', () => {
 			fetch.mockResponse(htmlContent, { status: 400 });
 			await createDocument.mockResolvedValue({ data: [] });
 			try {
-				await storePdfAppeal(mockAppeal);
+				await storePdfAppeal({ appeal: mockAppeal });
 				expect('to be').not.toBe('to be');
 			} catch (e) {
 				expect(e.message).toBe('Error during the appeal pdf generation');
@@ -102,7 +102,7 @@ describe('services/pdf.service', () => {
 			fetch.mockResponse(htmlContent, { status: 200 });
 			createDocument.mockImplementation(() => Promise.reject(new Error()));
 			try {
-				await storePdfAppeal(mockAppeal);
+				await storePdfAppeal({ appeal: mockAppeal });
 				expect('to be').not.toBe('to be');
 			} catch (e) {
 				expect(e.message).toBe('Error during the appeal pdf generation');
@@ -112,7 +112,7 @@ describe('services/pdf.service', () => {
 		it('should return the expected response if no error were triggered fetch status is 200', async () => {
 			await createDocument.mockResolvedValue({ data: [] });
 			fetch.mockResponse(htmlContent, { status: 200 });
-			expect(await storePdfAppeal(mockAppeal)).toEqual({ data: [] });
+			expect(await storePdfAppeal({ appeal: mockAppeal })).toEqual({ data: [] });
 		});
 	});
 	describe('storeTextAsDocument', () => {

@@ -73,7 +73,13 @@ const getHtmlAppeal = async (appeal, sid) => {
 	return response.text();
 };
 
-const storePdfAppeal = async (appeal, fileName, sid) => {
+/**
+ * @param {Object} params
+ * @param {*} params.appeal - appeal
+ * @param {string} [params.fileName] - optional filename
+ * @param {string} params.sid - session cookie
+ */
+const storePdfAppeal = async ({ appeal, fileName, sid }) => {
 	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
 	log.info('Attempting to store PDF document');

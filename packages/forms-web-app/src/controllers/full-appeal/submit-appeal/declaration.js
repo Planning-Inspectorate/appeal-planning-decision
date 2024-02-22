@@ -27,14 +27,14 @@ const postDeclaration = async (req, res) => {
 	log.info('Submitting the appeal');
 
 	try {
-		const { id, name, location, size } = await storePdfAppeal(
+		const { id, name, location, size } = await storePdfAppeal({
 			appeal,
-			`planning-appeal-for-planning-application-${appeal.planningApplicationNumber.replace(
+			fileName: `planning-appeal-for-planning-application-${appeal.planningApplicationNumber.replace(
 				/\//g,
 				'-'
 			)}`,
-			req.cookies[CONSTS.SESSION_COOKIE_NAME]
-		);
+			sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
+		});
 
 		appeal.state = 'SUBMITTED';
 		appeal.appealSubmission = {
