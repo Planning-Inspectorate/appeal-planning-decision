@@ -45,10 +45,10 @@ exports.postSubmission = async (req, res) => {
 	}
 
 	try {
-		const { id, name, location, size } = await storePdfAppeal(
+		const { id, name, location, size } = await storePdfAppeal({
 			appeal,
-			req.cookies[CONSTS.SESSION_COOKIE_NAME]
-		);
+			sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
+		});
 
 		appeal.state = 'SUBMITTED';
 

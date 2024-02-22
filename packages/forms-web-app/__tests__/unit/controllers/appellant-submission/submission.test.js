@@ -83,7 +83,7 @@ describe('controllers/appellant-submission/submission', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, 'test');
+			expect(storePdfAppeal).toHaveBeenCalledWith({ appeal, sid: 'test' });
 
 			expect(submitAppealForBackOfficeProcessing).toHaveBeenCalledWith({
 				...appeal,
@@ -126,7 +126,7 @@ describe('controllers/appellant-submission/submission', () => {
 
 			expect(submitAppealForBackOfficeProcessing).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, 'test');
+			expect(storePdfAppeal).toHaveBeenCalledWith({ appeal, sid: 'test' });
 
 			expect(res.render).toHaveBeenCalledWith(SUBMISSION, {
 				errors: {},

@@ -68,7 +68,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName, 'test');
+			expect(storePdfAppeal).toHaveBeenCalledWith({ appeal, fileName, sid: 'test' });
 
 			expect(submitAppealForBackOfficeProcessing).toHaveBeenCalledWith({
 				...appeal,
@@ -109,7 +109,7 @@ describe('controllers/full-appeal/submit-appeal/declaration', () => {
 
 			expect(submitAppealForBackOfficeProcessing).not.toHaveBeenCalled();
 
-			expect(storePdfAppeal).toHaveBeenCalledWith(appeal, fileName, 'test');
+			expect(storePdfAppeal).toHaveBeenCalledWith({ appeal, fileName, sid: 'test' });
 
 			expect(res.render).toHaveBeenCalledWith(DECLARATION, {
 				errors: {},
