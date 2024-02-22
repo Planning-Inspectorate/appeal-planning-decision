@@ -3,7 +3,7 @@ const router = express.Router();
 const ApiError = require('../errors/apiError');
 
 const BackOfficeService = require('../services/back-office.service');
-const BackOfficeV2Service = require('../services/back-office-v2.service');
+const BackOfficeV2Service = require('../services/back-office-v2');
 
 const backOfficeService = new BackOfficeService();
 const backOfficeV2Service = new BackOfficeV2Service();

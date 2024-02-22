@@ -1,6 +1,9 @@
 const logger = require('../lib/logger');
-const { patchResponse, getResponse, submitResponse } = require('../services/responses.service');
+const { patchResponse, getResponse } = require('../services/responses.service');
 const ApiError = require('../errors/apiError');
+const BackOfficeV2Service = require('../services/back-office-v2');
+
+const backOfficeV2Service = new BackOfficeV2Service();
 
 const patchResponseByReferenceId = async (req, res) => {
 	let statusCode = 200;
@@ -42,11 +45,11 @@ const getResponseByReferenceId = async (req, res) => {
 
 const submitQuestionnaireResponse = async (req, res) => {
 	let statusCode = 200;
-	let body = {};
+	let body;
 	let questionnaireResponse = {};
 	try {
 		questionnaireResponse = await getResponse(req.params.journeyId, req.params.referenceId);
-		body = await submitResponse(questionnaireResponse);
+		body = await backOfficeV2Service.submitQuestionnaire(questionnaireResponse);
 	} catch (error) {
 		if (!(error instanceof ApiError)) {
 			throw error;

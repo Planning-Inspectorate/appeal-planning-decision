@@ -30,6 +30,10 @@ const appealUserRepository = new AppealUserRepository();
 
 const documentService = new DocumentService();
 
+/**
+ * @typedef {import('src/spec/api-types').AppealSubmission} AppealSubmission
+ */
+
 async function createAppeal(req, res) {
 	const appeal = {};
 
@@ -57,6 +61,10 @@ async function createAppeal(req, res) {
 	res.status(500).send(appeal);
 }
 
+/**
+ * @param {string} id
+ * @returns {Promise<AppealSubmission['appeal']>}
+ */
 async function getAppeal(id) {
 	logger.info(`Retrieving appeal ${id} ...`);
 	const document = await appealsCosmosRepository.getById(id);
