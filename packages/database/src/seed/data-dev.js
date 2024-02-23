@@ -105,6 +105,75 @@ const appealSubmissionDraft = {
 	id: '89aa8504-773c-42be-bb68-029716ad9756'
 };
 
+const rule6Documents = {
+	proofEvidenceSubmitted: false,
+	proofEvidenceReceived: false,
+	statementDocuments: false,
+	witnesses: false,
+	statementSubmitted: false,
+	statementReceived: false
+};
+
+const rule6PartyGroups = [
+	{
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c11',
+		caseReference: caseReferences.caseReferenceOne,
+		firstName: 'Group',
+		lastName: '1',
+		over18: true,
+		partyName: 'Group 1',
+		partyEmail: rule6Parties.r6One.email,
+		addressLine1: '321 Fake Street',
+		partyStatus: 'confirmed',
+		...rule6Documents,
+		appealUserId: rule6Parties.r6One.id
+	},
+	{
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c12',
+		caseReference: caseReferences.caseReferenceTwo,
+		firstName: 'Group',
+		lastName: '2',
+		over18: true,
+		partyName: 'Group 2',
+		partyEmail: rule6Parties.r6Two.email,
+		addressLine1: '321 Fake Street',
+		partyStatus: 'confirmed',
+		...rule6Documents,
+		statementReceived: true,
+		appealUserId: rule6Parties.r6Two.id
+	},
+	{
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c13',
+		caseReference: caseReferences.caseReferenceThree,
+		firstName: 'Group',
+		lastName: '3',
+		over18: true,
+		partyName: 'Group 3',
+		partyEmail: rule6Parties.r6Three.email,
+		addressLine1: '321 Fake Street',
+		partyStatus: 'confirmed',
+		...rule6Documents,
+		statementReceived: true,
+		proofEvidenceReceived: true,
+		appealUserId: rule6Parties.r6Three.id
+	},
+	{
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c14',
+		caseReference: caseReferences.caseReferenceThree,
+		firstName: 'Group',
+		lastName: '4',
+		over18: true,
+		partyName: 'Group 4',
+		partyEmail: rule6Parties.r6Four.email,
+		addressLine1: '321 Fake Street',
+		partyStatus: 'confirmed',
+		...rule6Documents,
+		statementReceived: true,
+		proofEvidenceReceived: true,
+		appealUserId: rule6Parties.r6Four.id
+	}
+];
+
 /**
  * @type {import('@prisma/client').Prisma.AppealUserCreateInput[]}
  */
@@ -188,7 +257,16 @@ const appealCases = [
 		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		LPAApplicationReference: '12/2323231/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
-		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1))
+		procedure: 'Inquiry',
+		appellantFirstName: 'Test',
+		appellantLastName: 'Appellant 1',
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnairePublished: true,
+		lpaStatementPublished: true,
+		rule6StatementPublished: true,
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(2)),
+		interestedPartyCommentsPublished: true
 	},
 	{
 		Appeal: {
@@ -200,7 +278,18 @@ const appealCases = [
 		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(2)),
 		LPAApplicationReference: '12/2323232/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAhead(2)),
-		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(2))
+		procedure: 'Inquiry',
+		appellantFirstName: 'Test',
+		appellantLastName: 'Appellant 2',
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnairePublished: true,
+		lpaStatementPublished: true,
+		rule6StatementPublished: true,
+		interestedPartyCommentsPublished: true,
+		appellantProofEvidencePublished: true,
+		lpaProofEvidencePublished: true,
+		rule6ProofsEvidencePublished: true
 	},
 	{
 		Appeal: {
@@ -212,7 +301,20 @@ const appealCases = [
 		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		LPAApplicationReference: '12/2323233/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
-		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
+		procedure: 'Inquiry',
+		appellantFirstName: 'Test',
+		appellantLastName: 'Appellant 3',
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnairePublished: true,
+		lpaStatementPublished: true,
+		rule6StatementPublished: true,
+		interestedPartyCommentsPublished: true,
+		appellantProofEvidencePublished: true,
+		lpaProofEvidencePublished: true,
+		rule6ProofsEvidencePublished: true,
+		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED
 	},
 	{
 		Appeal: {
@@ -224,7 +326,16 @@ const appealCases = [
 		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		LPAApplicationReference: '12/2323234/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
-		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2))
+		procedure: 'Written representation',
+		appellantFirstName: 'Test',
+		appellantLastName: 'Appellant 4',
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnairePublished: true,
+		lpaStatementPublished: true,
+		interestedPartyCommentsPublished: true,
+		lpaFinalCommentsPublished: true,
+		appellantFinalCommentsSubmitted: true
 	},
 	{
 		Appeal: {
@@ -237,8 +348,7 @@ const appealCases = [
 		LPAApplicationReference: '12/2323235/PLA',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		outcome: DECISION_OUTCOME.ALLOWED
+		casePublished: false
 	},
 	{
 		Appeal: {
@@ -252,7 +362,7 @@ const appealCases = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionDate: pickRandom(datesNMonthsAgo(2)),
-		outcome: DECISION_OUTCOME.DISMISSED
+		caseDecisionOutcome: DECISION_OUTCOME.DISMISSED
 	},
 	{
 		Appeal: {
@@ -266,7 +376,7 @@ const appealCases = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionDate: pickRandom(datesNMonthsAgo(3)),
-		outcome: DECISION_OUTCOME.SPLIT_DECISION
+		caseDecisionOutcome: DECISION_OUTCOME.SPLIT_DECISION
 	},
 	{
 		Appeal: {
@@ -280,7 +390,7 @@ const appealCases = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionDate: pickRandom(datesNMonthsAgo(4)),
-		outcome: 'other'
+		caseDecisionOutcome: 'other'
 	},
 	...lpaAppealCaseData
 ];
@@ -532,6 +642,14 @@ async function seedDev(dbClient) {
 			create: serviceUser,
 			update: serviceUser,
 			where: { internalId: serviceUser.internalId }
+		});
+	}
+
+	for (const rule6PartyGroup of rule6PartyGroups) {
+		await dbClient.rule6Party.upsert({
+			create: rule6PartyGroup,
+			update: rule6PartyGroup,
+			where: { id: rule6PartyGroup.id }
 		});
 	}
 

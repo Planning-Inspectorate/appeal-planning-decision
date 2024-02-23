@@ -24,14 +24,15 @@
       <h1 class="govuk-heading-l">Appeal {{appeal.appealNumber}}</h1>
 
 			{% if appeal.decision %}
-				<div class="govuk-grid-column-two-thirds">
-					<h2 class="govuk-heading-l">Appeal decision</h2>
+				<div class="appeal-decision govuk-grid-column-two-thirds">
+					<h2 class="govuk-heading-2">Appeal decision</h2>
 					{{ govukTag({
 						text: appeal.decision.label,
 						classes: "govuk-tag--" + appeal.decision.color
 					}) }}
+					<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 				</div>
-				<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+				
 			{% endif %}
 
 			{{ govukSummaryList({

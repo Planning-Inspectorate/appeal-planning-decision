@@ -300,7 +300,7 @@ const lpaAppealCaseData = [
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		outcome: DECISION_OUTCOME.ALLOWED,
+		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED,
 		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
@@ -323,7 +323,7 @@ const lpaAppealCaseData = [
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		outcome: DECISION_OUTCOME.DISMISSED,
+		caseDecisionOutcome: DECISION_OUTCOME.DISMISSED,
 		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
@@ -346,7 +346,7 @@ const lpaAppealCaseData = [
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		outcome: DECISION_OUTCOME.SPLIT_DECISION,
+		caseDecisionOutcome: DECISION_OUTCOME.SPLIT_DECISION,
 		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
 	}
 ];
