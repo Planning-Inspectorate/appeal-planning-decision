@@ -1,16 +1,7 @@
-const {
-	getResponse,
-	mapQuestionnaireDataForBackOffice,
-	patchResponse,
-	submitResponseFactory
-} = require('../../../src/services/responses.service');
+const { getResponse, patchResponse } = require('../../../src/services/responses.service');
 const logger = require('../../../src/lib/logger');
 const { ResponsesRepository } = require('../../../src/repositories/responses-repository');
 const ApiError = require('../../../src/errors/apiError');
-const {
-	submittedQuestionnaireObjectPreMap,
-	submittedQuestionnaireObjectPostMap
-} = require('../testConstants');
 
 jest.mock('../../../src/lib/logger', () => {
 	return {
@@ -151,44 +142,6 @@ describe('./src/services/responses.service', () => {
 				expect(getResponsesSpy).not.toHaveBeenCalled();
 				expect(err).toEqual(ApiError.noJourneyIdProvided());
 			}
-		});
-	});
-
-	describe('submitResponseFactory', () => {
-		it('maps data and calls the callback function with the map result', async () => {
-			const testMappingFunction = (a) => a + 'b';
-
-			const testCallback = (a) => a + 'c';
-
-			const submitResponse = submitResponseFactory(testMappingFunction, testCallback);
-
-			expect(await submitResponse('a')).toBe('abc');
-		});
-	});
-
-	it('throws error if submission unsuccessful', async () => {
-		const testMappingFunction = (a) => a + 'b';
-
-		const testCallback = () => {
-			throw Error('some error');
-		};
-
-		const submitResponse = submitResponseFactory(testMappingFunction, testCallback);
-		try {
-			await submitResponse('a');
-		} catch (err) {
-			expect(logger.error).toHaveBeenCalledWith(Error('some error'));
-			expect(err).toEqual(ApiError.unableToSubmitResponse());
-		}
-
-		expect.hasAssertions();
-	});
-
-	describe('mapQuestionnaireDataForBackOffice', () => {
-		it('maps questionnaire data to the format specified by the PINS data model', async () => {
-			const result = await mapQuestionnaireDataForBackOffice(submittedQuestionnaireObjectPreMap);
-
-			expect(result).toEqual(submittedQuestionnaireObjectPostMap);
 		});
 	});
 });
