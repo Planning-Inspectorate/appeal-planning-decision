@@ -1,6 +1,5 @@
 const CheckboxQuestion = require('./question');
 const ValidOptionValidator = require('../../validator/valid-option-validator');
-
 describe('./src/dynamic-forms/dynamic-components/checkbox/question.js', () => {
 	const TITLE = 'title';
 	const QUESTION = 'Question?';
@@ -39,15 +38,25 @@ describe('./src/dynamic-forms/dynamic-components/checkbox/question.js', () => {
 
 	it('should return option label when formatAnswerForSummary is called with one answer', () => {
 		const question = new CheckboxQuestion(CHECKBOX_PARAMS);
+		const journey = {
+			response: {
+				answers: {}
+			}
+		};
 		question.getAction = () => {};
-		const formattedAnswer = question.formatAnswerForSummary({}, {}, '1');
+		const formattedAnswer = question.formatAnswerForSummary({}, journey, '1');
 		expect(formattedAnswer[0].value).toEqual('a');
 	});
 
 	it('should return formatted option labels when formatAnswerForSummary is called with several answers', () => {
 		const question = new CheckboxQuestion(CHECKBOX_PARAMS);
+		const journey = {
+			response: {
+				answers: {}
+			}
+		};
 		question.getAction = () => {};
-		const formattedAnswer = question.formatAnswerForSummary({}, {}, ['1', '2']);
+		const formattedAnswer = question.formatAnswerForSummary({}, journey, ['1', '2']);
 		expect(formattedAnswer[0].value).toEqual('a<br>b');
 	});
 });
