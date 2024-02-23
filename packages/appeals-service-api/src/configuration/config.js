@@ -155,7 +155,11 @@ let config = {
 	},
 	serviceBus: {
 		serviceBusEnabled: process.env.SERVICE_BUS_ENABLED || false,
-		hostname: process.env.SERVICE_BUS_HOSTNAME
+		hostname: process.env.SERVICE_BUS_HOSTNAME,
+		topics: {
+			appellantSubmission: process.env.BACK_OFFICE_APPELLANT_SUBMISSION_TOPIC,
+			lpaSubmission: process.env.BACK_OFFICE_LPA_RESPONSE_SUBMISSION_TOPIC
+		}
 	},
 	storage: {
 		container: process.env.STORAGE_CONTAINER_NAME || 'uploads',
