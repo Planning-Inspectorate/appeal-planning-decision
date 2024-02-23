@@ -54,8 +54,8 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	appealType: appealCaseData.appealTypeCode,
 	nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
 	isNewAppeal: isNewAppeal(appealCaseData),
-	appealDecision: appealCaseData.outcome,
-	appealDecisionColor: mapDecisionColour(appealCaseData.outcome),
+	appealDecision: appealCaseData.caseDecisionOutcome,
+	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
 	caseDecisionDate: appealCaseData.caseDecisionDate
 });
 
@@ -70,10 +70,10 @@ const mapToAppellantDashboardDisplayData = (appealData) => ({
 	appealType: getAppealType(appealData),
 	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
 	isDraft: isAppealSubmission(appealData),
-	appealDecision: isAppealSubmission(appealData) ? null : appealData.outcome,
+	appealDecision: isAppealSubmission(appealData) ? null : appealData.caseDecisionOutcome,
 	appealDecisionColor: isAppealSubmission(appealData)
 		? null
-		: mapDecisionColour(appealData.outcome),
+		: mapDecisionColour(appealData.caseDecisionOutcome),
 	caseDecisionDate: isAppealSubmission(appealData) ? null : appealData.caseDecisionDate
 });
 
