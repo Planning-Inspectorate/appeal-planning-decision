@@ -417,10 +417,12 @@ We have incorporated Azure feature flag functionality into the common package fo
  and then specifying the name of the feature flag in the parameters, i.e.:
 
 ```
-  if (isFeatureActive('horizon-document-labelling')) { 
+  if (isFeatureActive(FLAGS.HORIZON_DOCUMENT_LABELLING)) { 
     `feature implementation goes here`
   }
 ```
+
+N.B a feature flag enum analog is available in `packages/common/src/feature-flags.js`
 
 ## Common issues and fixes
 

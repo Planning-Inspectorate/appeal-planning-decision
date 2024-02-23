@@ -10,6 +10,7 @@ const { documentTypes, initContainerClient } = require('@pins/common');
 const { isFeatureActive } = require('../configuration/featureFlag');
 const logger = require('../lib/logger');
 const config = require('../configuration/config');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 const getDocumentsForApplication = async (req, res) => {
 	const { applicationId } = req.params;
@@ -134,7 +135,7 @@ const uploadDocument = async (req, res) => {
 		if (
 			req.headers &&
 			(await isFeatureActive(
-				'horizon-document-labelling',
+				FLAG.HORIZON_DOCUMENT_LABELLING,
 				req.headers['local-planning-authority-code']
 			))
 		) {

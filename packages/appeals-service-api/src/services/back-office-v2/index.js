@@ -1,7 +1,8 @@
 const { getAppeal } = require('../appeal.service');
-const { broadcast } = require('../../data-producers/appeal-producer');
 const { isFeatureActive } = require('../../configuration/featureFlag');
 const formatters = require('./formatters');
+const forwarders = require('./forwarders');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 class BackOfficeV2Service {
 	constructor() {}
@@ -15,13 +16,13 @@ class BackOfficeV2Service {
 
 		if (!appeal) throw new Error(`Appeal ${appealId} not found`);
 
-		const isBOIntegrationActive = await isFeatureActive('appeals-bo-submission', appeal.lpaCode);
+		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, appeal.lpaCode);
 		if (!isBOIntegrationActive) return;
 
 		if (!appeal.appealType)
 			throw new Error(`Appeal type could not be determined on appeal ${appealId}`);
 
-		return await broadcast(formatters.appeal[appeal.appealType](appeal));
+		return await forwarders.appeal(formatters.appeal[appeal.appealType](appeal));
 	}
 
 	/**
@@ -30,13 +31,13 @@ class BackOfficeV2Service {
 	 */
 	async submitQuestionnaire(questionnaireResponse) {
 		const isBOIntegrationActive = await isFeatureActive(
-			'appeals-bo-submission',
+			FLAG.APPEALS_BO_SUBMISSION,
 			questionnaireResponse.LPACode
 		);
 		if (!isBOIntegrationActive) return;
 
 		// Need to find a way to get that 1001 programmatically
-		return await broadcast(formatters.questionnaire[1001](questionnaireResponse));
+		return await forwarders.questionnaire(formatters.questionnaire[1001](questionnaireResponse));
 	}
 }
 
