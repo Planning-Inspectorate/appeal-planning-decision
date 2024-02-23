@@ -55,9 +55,30 @@ components:
         partyStatus:
           type: string
           description: the status of the rule 6 party's involvement
-        rule6ProofsEvidenceReceived:
+        proofEvidenceSubmitted:
+          type: boolean
+          description: indicates if the rule 6 party evidence has been submitted
+        proofEvidenceSubmittedDate:
+          type: string
+          format: date-time
+          description: the date and time the evidence was submitted
+        proofEvidenceReceived:
           type: boolean
           description: indicates if the rule 6 party evidence has been received
+        proofEvidenceReceivedDate:
+          type: string
+          format: date-time
+          description: the date and time the evidence was received
+        proofEvidenceValidationOutcome:
+          type: string
+          description: the validation outcome of the rule 6 party evidence
+        proofEvidenceValidationOutcomeDate:
+          type: string
+          format: date-time
+          description: the date and time the validation outcome was given
+        proofEvidenceValidationDetails:
+          type: string
+          description: details about the validation of the rule 6 party evidence
         statement: 
           type: string
           description: the statement from the rule 6 party
