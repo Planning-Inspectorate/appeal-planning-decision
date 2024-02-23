@@ -1,6 +1,17 @@
 const OptionsQuestion = require('../../options-question');
 const questionUtils = require('../utils/question-utils');
 
+/**
+ * @typedef {import('../../journey').Journey} Journey
+ */
+
+/**
+ * @typedef ConditionalAnswerObject
+ * @type {object}
+ * @property {string} value the checkbox answer
+ * @property {string} conditional the conditional text input
+ */
+
 class CheckboxQuestion extends OptionsQuestion {
 	/**
 	 * @param {Object} params
@@ -29,46 +40,46 @@ class CheckboxQuestion extends OptionsQuestion {
 
 	/**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @param {Object} answer
+	 * @param {string | ConditionalAnswerObject } answer will be a single value string, a comma-separated string representing multiple values (one of which may be a conditional) or a single ConditionalAnswerObject
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
 	 * @returns {Array.<Object>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
-		answer = Array.isArray(answer) ? answer : [answer];
+		if (!answer) {
+			return super.formatAnswerForSummary(sectionSegment, journey, answer, false);
+		}
 
-		let formattedAnswerArray = [];
+		// answer is single ConditionalAnswerObject
+		if (answer?.conditional) {
+			const selectedOption = this.options.find((option) => option.value === answer.value);
 
-		answer.forEach((answer) => {
-			if (answer?.conditional) {
-				const selectedOption = this.options.find((option) => option.value === answer.value);
+			const conditionalAnswerText = selectedOption.conditional?.label
+				? `${selectedOption.conditional.label} ${answer.conditional}`
+				: answer.conditional;
 
-				const conditionalAnswerText = selectedOption.conditional?.label
-					? `${selectedOption.conditional.label} ${answer.conditional}`
-					: answer.conditional;
+			const formattedConditionalText = [selectedOption.text, conditionalAnswerText].join('<br>');
 
-				const formattedConditionalText = [selectedOption.text, conditionalAnswerText].join('<br>');
+			return super.formatAnswerForSummary(sectionSegment, journey, formattedConditionalText, false);
+		}
 
-				formattedAnswerArray.push(formattedConditionalText);
-			} else {
-				const selectedOption = this.options.find((option) => option.value === answer);
+		// answer is a string
+		const answerArray = answer.split(',');
 
-				const conditionalAnswer = questionUtils.getConditionalAnswer(
-					journey.response.answers,
-					this,
-					answer
-				);
-
-				if (conditionalAnswer) {
-					const formattedBlag = [selectedOption.text, conditionalAnswer].join('<br>');
-
-					formattedAnswerArray.push(formattedBlag);
-				} else {
-					formattedAnswerArray.push(selectedOption.text);
+		const formattedAnswer = this.options
+			.filter((option) => answerArray.includes(option.value))
+			.map((option) => {
+				if (option.conditional) {
+					const conditionalAnswer =
+						journey.response.answers[
+							questionUtils.getConditionalFieldName(this.fieldName, option.conditional.fieldName)
+						];
+					return [option.text, conditionalAnswer].join('<br>');
 				}
-			}
-		});
-		const formattedAnswer = formattedAnswerArray.join('<br>');
+
+				return option.text;
+			})
+			.join('<br>');
 
 		return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
 	}
