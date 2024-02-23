@@ -72,7 +72,7 @@ exports.sections = [
 					const currentRule6User = appealCase.Rule6Parties?.find(
 						(party) => party.partyEmail === userEmail
 					);
-					return currentRule6User?.rule6ProofsEvidenceReceived;
+					return currentRule6User?.proofEvidenceReceived;
 				}
 			},
 			{

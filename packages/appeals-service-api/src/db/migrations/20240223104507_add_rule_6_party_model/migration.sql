@@ -17,7 +17,13 @@ CREATE TABLE [dbo].[Rule6Party] (
     [addressCounty] NVARCHAR(1000),
     [addressPostcode] NVARCHAR(1000),
     [partyStatus] NVARCHAR(1000) NOT NULL,
-    [statement] NVARCHAR(1000) NOT NULL,
+    [proofEvidenceSubmitted] BIT NOT NULL,
+    [proofEvidenceSubmittedDate] DATETIME2,
+    [proofEvidenceReceived] BIT NOT NULL,
+    [proofEvidenceReceivedDate] DATETIME2,
+    [proofEvidenceValidationOutcome] NVARCHAR(1000),
+    [proofEvidenceValidationOutcomeDate] DATETIME2,
+    [proofEvidenceValidationDetails] NVARCHAR(1000),
     [statementDocuments] BIT NOT NULL,
     [witnesses] BIT NOT NULL,
     [statementSubmitted] BIT NOT NULL,
@@ -27,13 +33,15 @@ CREATE TABLE [dbo].[Rule6Party] (
     [statementValidationOutcome] NVARCHAR(1000),
     [statementValidationOutcomeDate] DATETIME2,
     [statementValidationDetails] NVARCHAR(1000),
-    [appealCaseReference] NVARCHAR(1000),
-    CONSTRAINT [Rule6Party_pkey] PRIMARY KEY CLUSTERED ([id]),
-    CONSTRAINT [Rule6Party_appealCaseReference_key] UNIQUE NONCLUSTERED ([appealCaseReference])
+    [appealUserId] UNIQUEIDENTIFIER NOT NULL,
+    CONSTRAINT [Rule6Party_pkey] PRIMARY KEY CLUSTERED ([id])
 );
 
 -- AddForeignKey
-ALTER TABLE [dbo].[Rule6Party] ADD CONSTRAINT [Rule6Party_appealCaseReference_fkey] FOREIGN KEY ([appealCaseReference]) REFERENCES [dbo].[AppealCase]([caseReference]) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE [dbo].[Rule6Party] ADD CONSTRAINT [Rule6Party_appealUserId_fkey] FOREIGN KEY ([appealUserId]) REFERENCES [dbo].[AppealUser]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Rule6Party] ADD CONSTRAINT [Rule6Party_caseReference_fkey] FOREIGN KEY ([caseReference]) REFERENCES [dbo].[AppealCase]([caseReference]) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 COMMIT TRAN;
 

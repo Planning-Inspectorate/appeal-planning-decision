@@ -416,8 +416,29 @@ export interface Rule6Party {
 	addressPostcode: string;
 	/** the status of the rule 6 party's involvement */
 	partyStatus?: string;
+	/** indicates if the rule 6 party evidence has been submitted */
+	proofEvidenceSubmitted?: boolean;
+	/**
+	 * the date and time the evidence was submitted
+	 * @format date-time
+	 */
+	proofEvidenceSubmittedDate?: string;
 	/** indicates if the rule 6 party evidence has been received */
-	rule6ProofsEvidenceReceived?: boolean;
+	proofEvidenceReceived?: boolean;
+	/**
+	 * the date and time the evidence was received
+	 * @format date-time
+	 */
+	proofEvidenceReceivedDate?: string;
+	/** the validation outcome of the rule 6 party evidence */
+	proofEvidenceValidationOutcome?: string;
+	/**
+	 * the date and time the validation outcome was given
+	 * @format date-time
+	 */
+	proofEvidenceValidationOutcomeDate?: string;
+	/** details about the validation of the rule 6 party evidence */
+	proofEvidenceValidationDetails?: string;
 	/** the statement from the rule 6 party */
 	statement?: string;
 	/** indicates if the rule 6 party has submitted documents */
