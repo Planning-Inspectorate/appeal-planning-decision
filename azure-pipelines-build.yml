@@ -6,6 +6,10 @@ trigger:
 pr: none
 
 parameters:
+  - name: runValidation
+    displayName: Run linting and tests
+    type: boolean
+    default: true
   - name: buildAppealsApi
     displayName: Build Appeals Service API
     type: boolean
@@ -46,6 +50,7 @@ extends:
       - template: azure-pipelines-variables.yml@self
     validationJobs:
       - name: Run Linting & Tests
+        condition: ${{ eq(parameters.runValidation, true) }}
         steps:
           - template: ../steps/node_script.yml
             parameters:
@@ -91,23 +96,23 @@ extends:
       - name: Build Appeals API
         condition: >-
           and(
-            succeeded(),
+            ne(variables['Agent.JobStatus'], 'Failed'),
             or(
-              and(
-                eq(variables['Build.Reason'], 'Manual'),
-                eq(${{ parameters.buildAppealsApi }}, 'true')
-              ),
-              and(
-                ne(variables['Build.Reason'], 'Manual'),
-                or(
-                  eq(variables['Build.SourceBranchName'], 'main'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.appeals-api'], 'true'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.business-rules'], 'true'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.database'], 'true')
-                )
+            and(
+              eq(variables['Build.Reason'], 'Manual'),
+              eq(${{ parameters.buildAppealsApi }}, 'true')
+            ),
+            and(
+              ne(variables['Build.Reason'], 'Manual'),
+              or(
+                eq(variables['Build.SourceBranchName'], 'main'),
+                eq(dependencies.run_linting_and_tests.outputs['check_files.appeals-api'], 'true'),
+                eq(dependencies.run_linting_and_tests.outputs['check_files.business-rules'], 'true'),
+                eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true'),
+                eq(dependencies.run_linting_and_tests.outputs['check_files.database'], 'true')
               )
             )
+          )
           )
         dependsOn:
           - Run Linting & Tests
@@ -120,7 +125,7 @@ extends:
       - name: Build Documents API
         condition: >-
           and(
-            succeeded(),
+            ne(variables['Agent.JobStatus'], 'Failed'),
             or(
               and(
                 eq(variables['Build.Reason'], 'Manual'),
@@ -147,7 +152,7 @@ extends:
       - name: Build Integration Functions
         condition: >-
           and(
-            succeeded(),
+            ne(variables['Agent.JobStatus'], 'Failed'),
             or(
               and(
                 eq(variables['Build.Reason'], 'Manual'),
@@ -190,7 +195,7 @@ extends:
       - name: Build PDF Service
         condition: >-
           and(
-            succeeded(),
+            ne(variables['Agent.JobStatus'], 'Failed'),
             or(
               and(
                 eq(variables['Build.Reason'], 'Manual'),
@@ -216,7 +221,7 @@ extends:
       - name: Build Web
         condition: >-
           and(
-            succeeded(),
+            ne(variables['Agent.JobStatus'], 'Failed'),
             or(
               and(
                 eq(variables['Build.Reason'], 'Manual'),
@@ -244,7 +249,7 @@ extends:
       - name: Build Web Comment
         condition: >-
           and(
-            succeeded(),
+            ne(variables['Agent.JobStatus'], 'Failed'),
             or(
               and(
                 eq(variables['Build.Reason'], 'Manual'),

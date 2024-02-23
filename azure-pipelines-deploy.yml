@@ -49,7 +49,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.5.0
+      ref: refs/tags/release/3.6.0
   pipelines:
     - pipeline: build
       source: Appeals Service Build
@@ -70,34 +70,38 @@ extends:
     deploymentStages:
       - name: Deploy Applications
         deploymentJobs:
+          - name: Migrate
+            condition: ${{ or(eq(parameters.schemaMigration, true), eq(parameters.seedData, true)) }}
+            steps:
+              - checkout: self
+              - template: ../steps/azure_get_secrets.yml
+                parameters:
+                  secrets:
+                    - name: appeals-sql-server-connection-string-admin
+                      variable: SQL_CONNECTION_STRING_ADMIN
+                    - name: appeals-sql-server-connection-string-app
+                      variable: SQL_CONNECTION_STRING
+              - ${{ if eq(parameters.schemaMigration, true) }}:
+                  - template: ../steps/node_script.yml
+                    parameters:
+                      nodeVersion: 18
+                      environmentVariables:
+                        SQL_CONNECTION_STRING_ADMIN: $(SQL_CONNECTION_STRING_ADMIN)
+                      script: npm run migrate:prod
+                      workingDirectory: $(Build.Repository.LocalPath)/packages/database
+              - ${{ if eq(parameters.seedData, true) }}:
+                  - template: ../steps/node_script.yml
+                    parameters:
+                      nodeVersion: 18
+                      environmentVariables:
+                        SQL_CONNECTION_STRING: $(SQL_CONNECTION_STRING)
+                      script: npm run seed:prod
+                      workingDirectory: $(Build.Repository.LocalPath)/packages/database
           - name: Deploy Appeals API
+            dependsOn:
+              - Migrate
             condition: eq(${{ parameters.deployAppealsApi }}, 'true')
             steps:
-              - ${{ if or(eq(parameters.schemaMigration, true), eq(parameters.seedData, true)) }}:
-                  - checkout: self
-                  - template: ../steps/azure_get_secrets.yml
-                    parameters:
-                      secrets:
-                        - name: appeals-sql-server-connection-string-admin
-                          variable: SQL_CONNECTION_STRING_ADMIN
-                        - name: appeals-sql-server-connection-string-app
-                          variable: SQL_CONNECTION_STRING
-                  - ${{ if eq(parameters.schemaMigration, true) }}:
-                      - template: ../steps/node_script.yml
-                        parameters:
-                          nodeVersion: 18
-                          environmentVariables:
-                            SQL_CONNECTION_STRING_ADMIN: $(SQL_CONNECTION_STRING_ADMIN)
-                          script: npm run db:migrate:prod
-                          workingDirectory: $(Build.Repository.LocalPath)/packages/database
-                  - ${{ if eq(parameters.seedData, true) }}:
-                      - template: ../steps/node_script.yml
-                        parameters:
-                          nodeVersion: 18
-                          environmentVariables:
-                            SQL_CONNECTION_STRING: $(SQL_CONNECTION_STRING)
-                          script: npm run db:seed:prod
-                          workingDirectory: $(Build.Repository.LocalPath)/packages/database
               - template: ../steps/azure_web_app_deploy.yml
                 parameters:
                   appName: pins-app-appeals-service-appeals-api-$(ENVIRONMENT)-$(REGION_SHORT)-001
@@ -105,6 +109,8 @@ extends:
                   azurecrName: $(azurecrName)
                   repository: appeal-planning-decision/appeals-service-api
           - name: Deploy Documents API
+            dependsOn:
+              - Migrate
             condition: eq(${{ parameters.deployDocumentsApi }}, 'true')
             steps:
               - template: ../steps/azure_web_app_deploy.yml
@@ -117,6 +123,8 @@ extends:
             artifact:
               name: integration-functions
               sourcePipeline: Appeals Service Build
+            dependsOn:
+              - Migrate
             condition: eq(${{ parameters.deployIntegrationFunctions }}, 'true')
             steps:
               - template: ../steps/function_app_deploy.yml
@@ -124,6 +132,8 @@ extends:
                   appName: pins-func-appeals-fo-integration-$(ENVIRONMENT)-$(REGION_SHORT)-001
                   resourceGroup: $(resourceGroup)
           - name: Deploy PDF API
+            dependsOn:
+              - Migrate
             condition: eq(${{ parameters.deployPdfApi }}, 'true')
             steps:
               - template: ../steps/azure_web_app_deploy.yml
@@ -133,6 +143,8 @@ extends:
                   azurecrName: $(azurecrName)
                   repository: appeal-planning-decision/pdf-service-api
           - name: Deploy Web
+            dependsOn:
+              - Migrate
             condition: eq(${{ parameters.deployWeb }}, 'true')
             steps:
               - template: ../steps/azure_web_app_deploy.yml
@@ -142,6 +154,8 @@ extends:
                   azurecrName: $(azurecrName)
                   repository: appeal-planning-decision/forms-web-app
           - name: Deploy Web Comment
+            dependsOn:
+              - Migrate
             condition: eq(${{ parameters.deployWebComment }}, 'true')
             steps:
               - template: ../steps/azure_web_app_deploy.yml
