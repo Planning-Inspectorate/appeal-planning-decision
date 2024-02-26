@@ -1,8 +1,8 @@
 import resourceFeature from './resources.js';
 import clientList from './clients.js';
-import Adapter from '../adapter/prisma-adapter.js';
-import Account from '../account/account.js';
-import logger from '../lib/logger.js';
+import Adapter from '../../adapter/prisma-adapter.js';
+import Account from '../../account/account.js';
+import logger from '../../lib/logger.js';
 
 let cookie_keys;
 try {
@@ -32,7 +32,7 @@ const oidc = {
 	host: process.env.OIDC_HOST,
 	/** @type {import('oidc-provider').Configuration} */
 	configuration: {
-		clientAuthMethods: ['client_secret_jwt'], //todo: check the one we end up using e.g. 'client_secret_basic', 'client_secret_post'
+		clientAuthMethods: ['client_secret_post'], //todo: check the one we end up using e.g. 'client_secret_basic', 'client_secret_post', 'client_secret_jwt
 		clients: clientList,
 		claims: { allowed: ['email'] }, // used for opaque token + userinfo endpoint (not currently used)
 		cookies: {
@@ -51,6 +51,7 @@ const oidc = {
 			}
 		},
 		ttl: {
+			ClientCredentials: 86400 /* 24 hours in seconds */,
 			IdToken: 86400 /* 24 hours in seconds */,
 			RefreshToken: 86400 /* 24 hours in seconds */,
 			AccessToken: 86400 /* 24 hours in seconds */,

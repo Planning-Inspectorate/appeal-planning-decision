@@ -10,6 +10,9 @@ const config = require('../config');
 const oidcClient = require('openid-client');
 const { apiClient } = require('#lib/appeals-api-client');
 
+const testEmail = 'appellant1@example.com';
+const testOTP = '12345';
+
 async function getClient() {
 	const issuer = await oidcClient.Issuer.discover(
 		'http://auth-server:3000/oidc/.well-known/openid-configuration'
@@ -20,7 +23,7 @@ async function getClient() {
 		client_secret: config.oauth.clientSecret,
 		//redirect_uris: ['http://localhost:9003/debug/oidc'],
 		response_types: ['code'],
-		token_endpoint_auth_method: 'client_secret_jwt'
+		token_endpoint_auth_method: 'client_secret_post'
 	});
 
 	return client;
@@ -55,7 +58,8 @@ const clientCreds = async (req, res) => {
 
 router.get('/clientCreds', clientCreds);
 
-const password = async (req, res) => {
+// todo: use this endpoint in code
+const otp = async (req, res) => {
 	try {
 		const client = await getClient();
 
@@ -63,10 +67,35 @@ const password = async (req, res) => {
 		try {
 			tokenSet = await client.grant({
 				resource: AUTH.RESOURCE,
-				grant_type: 'ropc-otp',
+				grant_type: 'otp',
+				email: testEmail,
+				action: 'lpa-dashboard'
+			});
+		} catch (err) {
+			tokenSet = err.response.statusCode;
+		}
+
+		res.status(200).send({ tokenSet, expires: new Date(tokenSet.expires_at * 1000).toISOString() });
+	} catch (err) {
+		console.log(err);
+		res.status(500).send(err);
+	}
+};
+
+router.get('/otp', otp);
+
+const ropc = async (req, res) => {
+	try {
+		const client = await getClient();
+
+		let tokenSet;
+		try {
+			tokenSet = await client.grant({
+				resource: AUTH.RESOURCE,
+				grant_type: 'ropc',
 				scope: 'userinfo openid email appeals:read',
-				email: 'test@example.com',
-				otp: 'abcde'
+				email: testEmail,
+				otp: testOTP
 			});
 		} catch (err) {
 			tokenSet = err.response.statusCode;
@@ -88,7 +117,7 @@ const password = async (req, res) => {
 	}
 };
 
-router.get('/password', password);
+router.get('/ropc', ropc);
 
 router.get('/userinfo', async function (req, res) {
 	const issuer = await oidcClient.Issuer.discover(
@@ -99,7 +128,7 @@ router.get('/userinfo', async function (req, res) {
 		client_id: config.oauth.clientID,
 		client_secret: config.oauth.clientSecret,
 		response_types: ['code'],
-		token_endpoint_auth_method: 'client_secret_jwt'
+		token_endpoint_auth_method: 'client_secret_post'
 	});
 
 	const access_token = req.session.access_token;

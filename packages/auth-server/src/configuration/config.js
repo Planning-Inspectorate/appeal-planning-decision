@@ -1,5 +1,3 @@
-import oidc from './oidc-config.js';
-
 /**
  * @param {*} value
  * @param {number} fallback
@@ -46,7 +44,8 @@ const config = {
 	server: {
 		allowTestingOverrides: process.env.ALLOW_TESTING_OVERRIDES === 'true',
 		port: numberWithDefault(process.env.SERVER_PORT, 3000),
-		showErrors: process.env.SERVER_SHOW_ERRORS === 'true'
+		showErrors: process.env.SERVER_SHOW_ERRORS === 'true',
+		tokenExpiry: 1800
 	},
 	services: {
 		notify: {
@@ -57,11 +56,14 @@ const config = {
 				APPELLANT_LOGIN: {
 					confirmRegistrationEmailToAppellant:
 						process.env.SRV_NOTIFY_APPELLANT_LOGIN_CONFIRM_REGISTRATION_TEMPLATE_ID
+				},
+				SAVE_AND_RETURN: {
+					enterCodeIntoServiceEmail:
+						process.env.SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID
 				}
 			}
 		}
-	},
-	oidc
+	}
 };
 
 export default config;

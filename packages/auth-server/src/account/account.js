@@ -2,6 +2,7 @@ import { UnknownUserId } from 'oidc-provider/lib/helpers/errors.js';
 import { isFeatureActive } from '../configuration/featureFlag.js';
 import features from '@pins/common/src/feature-flags.js';
 import { sendConfirmRegistrationEmailToAppellant } from '../lib/notify.js';
+import { isEmailLike } from '../validators/email.js';
 
 import Repository from './repository.js';
 const repo = new Repository();
@@ -70,13 +71,19 @@ class Account {
 	static async findAccount(ctx, id, token) {
 		if (!store.get(id)) {
 			let user;
-			if (id.includes('@')) user = await repo.getByEmail(id);
-			else user = await repo.getById(id);
+
+			if (isEmailLike(id)) {
+				id = id.trim();
+				user = await repo.getByEmail(id);
+			} else {
+				user = await repo.getById(id);
+			}
 
 			if (!user) throw new UnknownUserId(id);
 
 			return new Account(user.id, user);
 		}
+
 		return store.get(id);
 	}
 }

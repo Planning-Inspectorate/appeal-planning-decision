@@ -1,16 +1,15 @@
 import instance from 'oidc-provider/lib/helpers/weak_cache.js';
-
 import { InvalidClient } from 'oidc-provider/lib/helpers/errors.js';
+
 import {
-	InvalidOtpGrant,
+	InvalidRopcGrant,
 	TooManyAttempts,
 	IncorrectCode,
 	CodeExpired,
 	UserNotFound
-} from './ropc-grant-errors.js';
-
+} from './custom-grant-errors.js';
 import createPrismaClient from '../adapter/prisma-client.js';
-import TokenRepo from './ropc-repo.js';
+import { TokenRepository } from './token-repo.js';
 import config from '../configuration/config.js';
 
 /**
@@ -26,10 +25,10 @@ const isTestToken = (token) => token === '12345';
  */
 const isTestEnvironment = () => config.server.allowTestingOverrides;
 
-export const gty = 'ropc-otp'; // Resource Owner Password Credentials Grant using a one time password/code
+export const gty = 'ropc'; // Resource Owner Password Credentials Grant using one time password
 export const parameters = new Set(['scope', 'resource', 'email', 'otp']);
 
-const tokenRepo = new TokenRepo(createPrismaClient());
+const tokenRepo = new TokenRepository(createPrismaClient());
 
 /**
  * @param {import('oidc-provider').KoaContextWithOIDC} ctx
@@ -39,7 +38,7 @@ export const handler = async function (ctx, next) {
 	const { client, params } = ctx.oidc;
 
 	if (!params || !params.otp) {
-		throw new InvalidOtpGrant('params missing');
+		throw new InvalidRopcGrant('params missing');
 	}
 
 	if (!client) {
@@ -47,7 +46,7 @@ export const handler = async function (ctx, next) {
 	}
 
 	try {
-		ctx.body = await performRopcOtpGrant(ctx);
+		ctx.body = await performRopcGrant(ctx);
 	} catch (err) {
 		if (err instanceof TooManyAttempts) {
 			ctx.status = 429;
@@ -76,7 +75,7 @@ export const handler = async function (ctx, next) {
  * @param {import('oidc-provider').KoaContextWithOIDC} ctx
  * @returns {Promise<{access_token: string,	expires_in: number, token_type: string, scope: string|undefined, id_token: string|undefined}>}
  */
-const performRopcOtpGrant = async (ctx) => {
+const performRopcGrant = async (ctx) => {
 	const { email, otp, scope } = ctx.oidc.params;
 
 	const account = await findAccount(ctx, email);
@@ -119,21 +118,25 @@ async function findAccount(ctx, email) {
  * @returns {Promise<void>}
  */
 async function validateToken(account, otp) {
+	const ttl = config.server.tokenExpiry;
+
 	/**
-	 * @param {number} minutes
+	 * @param {number} seconds
 	 * @param {Date} timeCreated
 	 * @param {Date} timeNow
 	 * @returns {boolean}
 	 */
-	const isTokenExpired = (minutes, timeCreated, timeNow = new Date()) => {
-		return Math.ceil((timeNow.getTime() - timeCreated.getTime()) / 60000) > minutes;
+	const isTokenExpired = (seconds, timeCreated, timeNow = new Date()) => {
+		const msPassed = timeNow.getTime() - timeCreated.getTime();
+		const secondsPassed = Math.ceil(msPassed / 1000);
+		return secondsPassed > seconds;
 	};
 
 	const securityToken = await tokenRepo.getByUserId(account.accountId);
-	if (!securityToken) throw new InvalidOtpGrant(`no token for account: ${account.accountId}`);
+	if (!securityToken) throw new InvalidRopcGrant(`no token for account: ${account.accountId}`);
 	if (securityToken?.attempts > 3) throw new TooManyAttempts();
 	if (securityToken.token !== otp) throw new IncorrectCode();
-	if (isTokenExpired(30, securityToken.tokenGeneratedAt)) throw new CodeExpired();
+	if (isTokenExpired(ttl, securityToken.tokenGeneratedAt)) throw new CodeExpired();
 }
 
 /**
@@ -151,7 +154,7 @@ async function createAccessToken(ctx, account, claims) {
 	if (!client) throw new InvalidClient('client not found');
 
 	const { resource, scope } = ctx.oidc.params;
-	const scopes = scope.split(' ');
+	const scopes = scope ? scope.split(' ') : [];
 
 	const grant = new ctx.oidc.provider.Grant({
 		accountId: ctx.oidc.account.accountId,
@@ -204,7 +207,7 @@ async function createAccessToken(ctx, account, claims) {
  */
 async function createIdToken(ctx, claims) {
 	const { scope } = ctx.oidc.params;
-	const scopes = scope.split(' ');
+	const scopes = scope ? scope.split(' ') : [];
 
 	if (scopes.includes('openid')) {
 		const { IdToken } = ctx.oidc.provider;

@@ -1,5 +1,12 @@
 import { InvalidGrant } from 'oidc-provider/lib/helpers/errors.js';
 
+export class InvalidRopcGrant extends InvalidGrant {
+	constructor(detail) {
+		super('invalid_ropc_grant');
+		Object.assign(this, { error_description: detail, error_detail: detail });
+	}
+}
+
 export class InvalidOtpGrant extends InvalidGrant {
 	constructor(detail) {
 		super('invalid_otp_grant');

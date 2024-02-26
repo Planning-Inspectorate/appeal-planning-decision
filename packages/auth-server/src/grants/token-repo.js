@@ -1,6 +1,6 @@
-import { createToken } from './ropc-token.js';
+import { createToken } from './token.js';
 
-const MILLISECONDS_BETWEEN_TOKENS = 10_000;
+export const MILLISECONDS_BETWEEN_TOKENS = 10_000;
 
 /**
  * @typedef { import("@prisma/client").PrismaClient } PrismaClient
@@ -8,7 +8,7 @@ const MILLISECONDS_BETWEEN_TOKENS = 10_000;
  * @typedef { import("@prisma/client").Prisma.SecurityTokenCreateInput } SecurityTokenCreateInput
  */
 
-class TokenRepository {
+export class TokenRepository {
 	dbClient;
 
 	/**
@@ -86,5 +86,3 @@ class TokenRepository {
 		});
 	}
 }
-
-export default TokenRepository;

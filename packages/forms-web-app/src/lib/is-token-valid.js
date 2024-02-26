@@ -18,7 +18,7 @@ async function getAuthClient() {
 			client_secret: config.oauth.clientSecret,
 			//redirect_uris: ['http://localhost:9003/debug/oidc'],
 			response_types: ['code'],
-			token_endpoint_auth_method: 'client_secret_jwt'
+			token_endpoint_auth_method: 'client_secret_post'
 		});
 	}
 
@@ -114,7 +114,7 @@ const authToken = async (token, emailAddress, action) => {
 	const client = await getAuthClient();
 	try {
 		const authResult = await client.grant({
-			grant_type: 'ropc-otp',
+			grant_type: 'ropc',
 			email: emailAddress,
 			otp: token,
 			scope: 'openid email',

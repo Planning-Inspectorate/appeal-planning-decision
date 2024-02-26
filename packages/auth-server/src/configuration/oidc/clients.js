@@ -1,4 +1,5 @@
-import { gty } from '../grants/ropc-grant-handler.js';
+import { gty as ropc } from '../../grants/ropc-grant-handler.js';
+import { gty as otp } from '../../grants/otp-grant-handler.js';
 
 /**
  * @param {*} val
@@ -21,8 +22,8 @@ const buildClient = (name) => {
 		client_id: process.env[name + '_CLIENT_ID'],
 		client_secret: process.env[name + '_CLIENT_SECRET'],
 		redirect_uris: [process.env[name + '_REDIRECT_URI']],
-		grant_types: ['client_credentials', 'authorization_code', gty],
-		token_endpoint_auth_method: 'client_secret_jwt'
+		grant_types: ['client_credentials', 'authorization_code', otp, ropc],
+		token_endpoint_auth_method: 'client_secret_post'
 	};
 
 	if (

@@ -38,6 +38,7 @@ services:
       SRV_NOTIFY_SERVICE_ID: 'dummy-service-id-for-notify'
       SRV_NOTIFY_API_KEY: 'dummy-api-key-for-notify'
       SRV_NOTIFY_APPELLANT_LOGIN_CONFIRM_REGISTRATION_TEMPLATE_ID: 'f0781589-8df5-4717-ab87-1dc5c2d5a9de'
+      SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID: 'e509eee7-f0bd-4d63-9203-d598ddd5b31e'
 
       # Feature Flags
       FEATURE_FLAGS_SETTING: 'ALL_ON'
@@ -194,7 +195,7 @@ services:
     ports:
       - 9003:3000
       # node debugger
-      - 9229:9229
+      #- 9229:9229
     working_dir: /opt/app
     depends_on:
       - appeals-service-api
@@ -207,7 +208,7 @@ services:
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/forms-web-app:/opt/app
-    command: npm run start:dev:debug
+    command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
 
