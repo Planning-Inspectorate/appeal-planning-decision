@@ -2,10 +2,7 @@ const { validationResult } = require('express-validator');
 const { getJourney } = require('../journey-factory');
 const { getAddMoreIfPresent } = require('../middleware/utils');
 
-/**
- * @typedef {import('../journey-factory').JourneyType} JourneyType
- */
-
+/** @type {() => import('express').Handler} */
 const validate = () => {
 	return async (req, res, next) => {
 		const { section, question } = req.params;

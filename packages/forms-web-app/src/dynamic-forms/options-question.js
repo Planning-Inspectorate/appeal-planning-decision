@@ -16,26 +16,20 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
  *   text: string;
  *   value: string;
  *   checked?: boolean | undefined;
+ *   attributes?: Record<string, string>;
  *   conditional?: {
  *     question: string;
  *     type: string;
  *     fieldName: string;
  * 		 inputClasses?: string;
+ * 		 html?: string;
+ *     value?: unknown;
  *   };
  *}} Option
- * @property {string} text - text shown to user
- * @property {string} value - value on form
- * @property {boolean|undefined} [checked] - if the
- * @property {Object|undefined} [conditional]
  */
 
 /**
- * @typedef {QuestionViewModel & { question: OptionsProperty }} OptionsViewModel
- */
-
-/**
- * @typedef {Object} OptionsProperty
- * @property {Array<Option>} options - An array of options.
+ * @typedef {QuestionViewModel & { question: { options: Option[] } }} OptionsViewModel
  */
 
 class OptionsQuestion extends Question {
@@ -89,8 +83,9 @@ class OptionsQuestion extends Question {
 	 * gets the view model for this question
 	 * @param {Section} section - the current section
 	 * @param {Journey} journey - the journey we are in
-	 * @param {Object|undefined} [customViewData] additional data to send to view
-	 * @returns {OptionsViewModel}
+	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [payload]
+	 * @returns {QuestionViewModel}
 	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		const answer = payload
@@ -123,6 +118,7 @@ class OptionsQuestion extends Question {
 					: journey.response.answers[conditionalField.fieldName] || '';
 
 				optionData.conditional = {
+					...optionData.conditional,
 					html: nunjucks.render(`./dynamic-components/conditional/${conditionalField.type}.njk`, {
 						payload,
 						...conditionalField,
@@ -182,7 +178,7 @@ class OptionsQuestion extends Question {
 
 		// add data from each valid conditional answer to data to be saved
 		validConditionalFieldNames.forEach((validConditionalFieldName) => {
-			const key = `${this.fieldName}_${validConditionalFieldName}`;
+			const key = getConditionalFieldName(this.fieldName, validConditionalFieldName);
 			const conditionalAnswer = req.body[key];
 			if (!conditionalAnswer) return;
 			responseToSave.answers[key] = req.body[key];
@@ -191,7 +187,7 @@ class OptionsQuestion extends Question {
 
 		// nullify data in each conditional answer where data might have been before
 		invalidConditionalFieldNames.forEach((invalidConditionalFieldName) => {
-			const key = `${this.fieldName}_${invalidConditionalFieldName}`;
+			const key = getConditionalFieldName(this.fieldName, invalidConditionalFieldName);
 			responseToSave.answers[key] = null;
 			journeyResponse.answers[key] = null;
 		});

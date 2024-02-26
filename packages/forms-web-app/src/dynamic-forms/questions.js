@@ -358,7 +358,7 @@ exports.questions = {
 			new ConditionalRequiredValidator('Enter the reason'),
 			new StringValidator({
 				regex: {
-					regex: new RegExp(`^[0-9a-z- '()]{1,${inputMaxCharacters}}$`, 'gi'),
+					regex: new RegExp(`^[0-9a-z- '()]{0,${inputMaxCharacters}}$`, 'gi'),
 					regexMessage: 'Reason must only include letters a to z, hyphens, spaces and apostrophes.'
 				},
 				maxLength: {
