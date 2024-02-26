@@ -115,7 +115,8 @@ class Question {
 	 * gets the view model for this question
 	 * @param {Section} section - the current section
 	 * @param {Journey} journey - the journey we are in
-	 * @param {Object|undefined} [customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
+	 * @param {unknown} [payload]
 	 * @returns {QuestionViewModel}
 	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
@@ -152,7 +153,7 @@ class Question {
 
 	/**
 	 * renders the question
-	 * @param {ExpressResponse} res - the express response
+	 * @param {import('express').Response} res - the express response
 	 * @param {QuestionViewModel} viewModel additional data to send to view
 	 * @returns {void}
 	 */
@@ -162,8 +163,8 @@ class Question {
 
 	/**
 	 * Save the answer to the question
-	 * @param {ExpressRequest} req
-	 * @param {ExpressResponse} res
+	 * @param {import('express').Request} req
+	 * @param {import('express').Response} res
 	 * @param {Journey} journey
 	 * @param {Section} section
 	 * @param {JourneyResponse} journeyResponse
@@ -187,16 +188,16 @@ class Question {
 		}
 
 		// move to the next question
-		const updatedJourney = new journey.constructor(journeyResponse);
+		const updatedJourney = journey.constructor(journeyResponse);
 		return this.handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
 	}
 
 	/**
 	 * check for validation errors
-	 * @param {ExpressRequest} req
+	 * @param {import('express').Request} req
 	 * @param {Journey} journey
 	 * @param {Section} sectionObj
-	 * @returns {Object|undefined} returns the view model for displaying the error or undefined if there are no errors
+	 * @returns {QuestionViewModel|undefined} returns the view model for displaying the error or undefined if there are no errors
 	 */
 	checkForValidationErrors(req, sectionObj, journey) {
 		const { body } = req;
@@ -213,19 +214,19 @@ class Question {
 				body
 			);
 		}
-
-		return;
 	}
 
 	/**
 	 * returns the data to send to the DB
 	 * side effect: modifies journeyResponse with the new answers
-	 * @param {ExpressRequest} req
+	 * @param {import('express').Request} req
 	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
-	 * @returns {Promise.<Object>}
+	 * @returns {Promise<{ answers: Record<string, unknown> }>}
 	 */
 	async getDataToSave(req, journeyResponse) {
-		// set answer on response
+		/**
+		 * @type {{ answers: Record<string, unknown> }}
+		 */
 		let responseToSave = { answers: {} };
 
 		responseToSave.answers[this.fieldName] = req.body[this.fieldName];
@@ -244,7 +245,7 @@ class Question {
 
 	/**
 	 * @param {JourneyResponse} journeyResponse
-	 * @param {Promise<*>} responseToSave
+	 * @param {{ answers: Record<string, unknown> }} responseToSave
 	 */
 	async saveResponseToDB(journeyResponse, responseToSave) {
 		await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);
@@ -252,10 +253,10 @@ class Question {
 
 	/**
 	 * check for errors after saving, by default this does nothing
-	 * @param {ExpressRequest} req
+	 * @param {import('express').Request} req
 	 * @param {Journey} journey
 	 * @param {Section} sectionObj
-	 * @returns {Object|undefined} returns the view model for displaying the error or undefined if there are no errors
+	 * @returns {QuestionViewModel | undefined} returns the view model for displaying the error or undefined if there are no errors
 	 */ //eslint-disable-next-line no-unused-vars
 	checkForSavingErrors(req, sectionObj, journey) {
 		return;
@@ -263,7 +264,7 @@ class Question {
 
 	/**
 	 * Handles redirect after saving
-	 * @param {ExpressResponse} res
+	 * @param {import('express').Response} res
 	 * @param {Journey} journey
 	 * @param {string} sectionSegment
 	 * @param {string} questionSegment
@@ -278,7 +279,15 @@ class Question {
 	 * @param {Object} answer
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
-	 * @returns {Array.<Object>}
+	 * @returns {Array<{
+	 *   key: string;
+	 *   value: string | Object;
+	 *   action: {
+	 *     href: string;
+	 *     text: string;
+	 *     visuallyHiddenText: string;
+	 *   };
+	 * }>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer, capitals = true) {
 		const formattedAnswer = capitals
@@ -296,8 +305,7 @@ class Question {
 	 * @param {Object} answer
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
-	 * @param {JourneyResponse} journeyResponse
-	 * @returns {String}
+	 * @returns {{ href: string; text: string; visuallyHiddenText: string; }}
 	 */
 	getAction(sectionSegment, journey, answer) {
 		const action = {
@@ -309,9 +317,8 @@ class Question {
 	}
 
 	/**
-	 *
-	 * @param {Object.<Any>} answer
-	 * @returns The formatted value to be presented in the UI
+	 * @param {unknown} answer
+	 * @returns {unknown}
 	 */
 	format(answer) {
 		return answer;

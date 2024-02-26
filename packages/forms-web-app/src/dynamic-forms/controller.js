@@ -29,12 +29,9 @@ const questionUtils = require('./dynamic-components/utils/question-utils');
 
 /**
  * @typedef {Object} RowView
- * @property {Object} key
- * @property {string} key.text
- * @property {Object} value
- * @property {string} value.text
- * @property {Object} actions
- * @property {Array.<ActionView>} actions.items
+ * @property {{ text: string }} key
+ * @property {{ text: string } | { html: string }} value
+ * @property {{ items: ActionView[] }} actions
  */
 
 /**
@@ -82,8 +79,7 @@ function buildSectionRowViewModel(key, value, action) {
 }
 
 /**
- * @param {ExpressRequest} req
- * @param {ExpressResponse} res
+ * @type {import('express').Handler}
  */
 exports.list = async (req, res) => {
 	//render check your answers view
@@ -147,8 +143,7 @@ exports.list = async (req, res) => {
 };
 
 /**
- * @param {ExpressRequest} req
- * @param {ExpressResponse} res
+ * @type {import('express').Handler}
  */
 exports.question = async (req, res) => {
 	//render an individual question
@@ -168,8 +163,7 @@ exports.question = async (req, res) => {
 };
 
 /**
- * @param {ExpressRequest} req
- * @param {ExpressResponse} res
+ * @type {import('express').Handler}
  */
 exports.save = async (req, res) => {
 	//save the response
@@ -196,6 +190,9 @@ exports.save = async (req, res) => {
 	}
 };
 
+/**
+ * @type {import('express').Handler}
+ */
 exports.remove = async (req, res) => {
 	//save the response
 	const { section, question, answerId } = req.params;
@@ -231,8 +228,7 @@ exports.remove = async (req, res) => {
 };
 
 /**
- * @param {ExpressRequest} req
- * @param {ExpressResponse} res
+ * @type {import('express').Handler}
  */
 exports.submit = async (req, res) => {
 	const { referenceId } = req.params;
@@ -245,9 +241,12 @@ exports.submit = async (req, res) => {
 		);
 	}
 	// return error message
-	return res.sendStatus(400);
+	res.sendStatus(400);
 };
 
+/**
+ * @type {import('express').Handler}
+ */
 exports.submitted = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
