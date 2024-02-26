@@ -7,6 +7,7 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
 /**
  * @typedef {import('./question').QuestionViewModel} QuestionViewModel
  * @typedef {import('./journey').Journey} Journey
+ * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./section').Section} Section
  */
 
@@ -18,8 +19,9 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
  *   conditional?: {
  *     question: string;
  *     type: string;
- *     fieldName?: string;
- *   } | undefined;
+ *     fieldName: string;
+ * 		 inputClasses?: string;
+ *   };
  *}} Option
  * @property {string} text - text shown to user
  * @property {string} value - value on form
@@ -138,31 +140,63 @@ class OptionsQuestion extends Question {
 	/**
 	 * returns the data to send to the DB
 	 * side effect: modifies journeyResponse with the new answers
-	 * @param {ExpressRequest} req
+	 * @param {import('express').Request} req
 	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
-	 * @returns {Promise.<Object>}
+	 * @returns {Promise<{ answers: Record<string, unknown> }>}
 	 */
 	async getDataToSave(req, journeyResponse) {
-		// set answer on response
+		/**
+		 * @type {{ answers: Record<string, unknown> }}
+		 */
 		let responseToSave = { answers: {} };
-		const fieldValue = req.body[this.fieldName];
 
-		if (Array.isArray(fieldValue)) {
-			responseToSave.answers[this.fieldName] = fieldValue.join(',');
-		} else {
-			responseToSave.answers[this.fieldName] = fieldValue;
-		}
+		const fieldValues = Array.isArray(req.body[this.fieldName])
+			? req.body[this.fieldName]
+			: [req.body[this.fieldName]];
 
-		responseToSave.answers;
+		const selectedOptions = this.options.filter(({ value }) => {
+			return fieldValues.includes(value);
+		});
 
-		for (const propName in req.body) {
-			if (propName.startsWith(this.fieldName + '_')) {
-				responseToSave.answers[propName] = req.body[propName];
-				journeyResponse.answers[propName] = req.body[propName];
-			}
-		}
+		if (!selectedOptions.length)
+			throw new Error(
+				`User submitted option(s) did not correlate with valid answers to ${this.fieldName} question`
+			);
 
-		journeyResponse.answers[this.fieldName] = fieldValue;
+		responseToSave.answers[this.fieldName] = fieldValues.join(',');
+		journeyResponse.answers[this.fieldName] = fieldValues;
+
+		// sort conditional subsections they should be able to answer form those they shouldn't
+		const [validConditionalFieldNames, invalidConditionalFieldNames] = this.options.reduce(
+			(/** @type {[string[], string[]]} */ acc, option) => {
+				if (!option.conditional) return acc;
+				const optionIsSelectedOption = selectedOptions.some(
+					(selectedOption) =>
+						option.text === selectedOption.text && option.value === selectedOption.value
+				);
+				if (!optionIsSelectedOption) return [acc[0], [...acc[1], option.conditional.fieldName]];
+				return [[...acc[0], option.conditional.fieldName], acc[1]];
+			},
+			[[], []]
+		);
+
+		// add data from each valid conditional answer to data to be saved
+		validConditionalFieldNames.forEach((validConditionalFieldName) => {
+			const key = `${this.fieldName}_${validConditionalFieldName}`;
+			const conditionalAnswer = req.body[key];
+			if (!conditionalAnswer) return;
+			responseToSave.answers[key] = req.body[key];
+			journeyResponse.answers[key] = req.body[key];
+		});
+
+		// nullify data in each conditional answer where data might have been before
+		invalidConditionalFieldNames.forEach((invalidConditionalFieldName) => {
+			const key = `${this.fieldName}_${invalidConditionalFieldName}`;
+			responseToSave.answers[key] = null;
+			journeyResponse.answers[key] = null;
+		});
+
+		console.log('🚀 ~ OptionsQuestion ~ getDataToSave ~ responseToSave:', responseToSave);
 
 		return responseToSave;
 	}
