@@ -214,7 +214,7 @@ class Journey {
 	 * @returns {boolean} Boolean indicating if a journey response is complete
 	 */
 	isComplete() {
-		return this.sections.find((section) => !section.isComplete(this.response)) ? false : true;
+		return !this.sections.find((section) => !section.isComplete(this.response));
 	}
 }
 

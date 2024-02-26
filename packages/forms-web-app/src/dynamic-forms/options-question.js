@@ -11,7 +11,16 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
  */
 
 /**
- * @typedef {Object} Option
+ * @typedef {{
+ *   text: string;
+ *   value: string;
+ *   checked?: boolean | undefined;
+ *   conditional?: {
+ *     question: string;
+ *     type: string;
+ *     fieldName?: string;
+ *   } | undefined;
+ *}} Option
  * @property {string} text - text shown to user
  * @property {string} value - value on form
  * @property {boolean|undefined} [checked] - if the
@@ -24,11 +33,11 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
 
 /**
  * @typedef {Object} OptionsProperty
- * @property {Array.<Option> | Array} options - An array of options.
+ * @property {Array<Option>} options - An array of options.
  */
 
 class OptionsQuestion extends Question {
-	/** @type {Array.<Option>} */
+	/** @type {Array<Option>} */
 	options;
 
 	/**
@@ -40,8 +49,8 @@ class OptionsQuestion extends Question {
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
-	 * @param {Array.<Option>} params.options
-	 * @param {Array.<import('./question').BaseValidator>} [params.validators]
+	 * @param {Array<Option>} params.options
+	 * @param {Array<import('./question').BaseValidator>} [params.validators]
 	 */
 	constructor({
 		title,
