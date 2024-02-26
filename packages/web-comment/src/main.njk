@@ -12,10 +12,11 @@
 {% block header %}
   {% include "includes/cookie-banner.njk" %}
   {{ govukHeader({
-    "homepageUrl": "https://www.gov.uk/",
-    "serviceName": "Comment on a planning appeal",
-    "serviceUrl": "/",
-    "containerClasses": "govuk-width-container"
+    homepageUrl: "https://www.gov.uk/",
+    serviceName: "Comment on a planning appeal",
+    serviceUrl: "/",
+    containerClasses: "govuk-width-container",
+    useTudorCrown: true
   }) }}
 {% endblock header %}
 {% block bodyStart %}
