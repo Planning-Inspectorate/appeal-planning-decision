@@ -9,15 +9,6 @@ const getBlobMeta = blobMetaGetter(initContainerClient);
  * @returns {Promise<*>}
  */
 exports.formatter = async ({ LPACode, referenceId, answers }) => {
-	const uploadedFiles = Object.values(answers).reduce((acc, answer) => {
-		if (!answer.uploadedFiles) return acc;
-		return acc.concat(answer.uploadedFiles);
-	}, []);
-
-	const uploadedFilesAndBlobMeta = await conjoinedPromises(uploadedFiles, (uploadedFile) =>
-		getBlobMeta(uploadedFile.location)
-	);
-
 	return [
 		{
 			questionnaire: {
@@ -27,10 +18,7 @@ exports.formatter = async ({ LPACode, referenceId, answers }) => {
 				doesTheDevelopmentAffectTheSettingOfAListedBuilding: convertToBoolean(
 					answers['affects-listed-building']
 				),
-				affectedListedBuildings:
-					answers['affects-listed-building'] === 'yes'
-						? convertFromAddMore(answers['add-listed-buildings'])
-						: undefined,
+				affectedListedBuildings: convertFromAddMore(answers['add-listed-buildings']),
 				inCAOrRelatesToCA: convertToBoolean(answers['conservation-area']),
 				siteWithinGreenBelt: convertToBoolean(answers['green-belt']),
 				howYouNotifiedPeople: howYouNotifiedPeople(answers),
@@ -38,45 +26,19 @@ exports.formatter = async ({ LPACode, referenceId, answers }) => {
 					answers['representations-other-parties']
 				),
 				doesSiteHaveHealthAndSafetyIssues: convertToBoolean(answers['safety-risks']),
-				healthAndSafetyIssuesDetails:
-					answers['safety-risks'] === 'yes'
-						? answers['safety-risks_new-safety-risk-value']
-						: undefined,
+				healthAndSafetyIssuesDetails: answers['safety-risks_new-safety-risk-value'],
 				doesSiteRequireInspectorAccess: convertToBoolean(answers['inspector-access-appeal-site']),
 				doPlansAffectNeighbouringSite: convertToBoolean(answers['inspector-visit-neighbour']),
 				hasExtraConditions: convertToBoolean(answers['new-planning-conditions']),
-				extraConditions:
-					answers['new-planning-conditions'] === 'yes'
-						? answers['safety-risks_new-conditions-value']
-						: undefined,
+				extraConditions: answers['safety-risks_new-conditions-value'],
 				// todo waititng on odw
 				// answers['inspector-visit-neighbour'] - should this be housed in the same property as above possibly doNeightboursAffectNeighboringSite
 				// newPlanningConditions: answers['new-planning-conditions'],
 				// todo this is with odw
 				// answers['other-ongoing-appeals'] // fieldname needs clarifying
-				nearbyCaseReferences:
-					answers['other-ongoing-appeals'] === 'yes'
-						? convertFromAddMore(answers['other-appeals-references'])
-						: undefined
+				nearbyCaseReferences: convertFromAddMore(answers['other-appeals-references'])
 			},
-			documents: Array.from(uploadedFilesAndBlobMeta).map(
-				([
-					{ fileName, originalFileName, size },
-					{ lastModified, createdOn, metadata, _response }
-				]) => ({
-					filename: fileName,
-					originalFilename: originalFileName,
-					size: size,
-					mime: metadata.mime_type,
-					documentURI: _response.request.url,
-					dateCreated: createdOn,
-					lastModified,
-					documentType: metadata.document_type,
-					sourceSystem: 'appeals',
-					origin: 'citizen',
-					stage: 'lpa_questionnaire'
-				})
-			)
+			documents: await getDocuments(answers)
 		}
 	];
 };
@@ -118,4 +80,47 @@ const howYouNotifiedPeople = (answers) => {
 		notifiedPeople.push('Advert in the local press');
 	}
 	return notifiedPeople;
+};
+
+/**
+ * @param {*} answers
+ * @returns {Promise<{
+ *   filename: string;
+ *   originalFilename: string;
+ *   size: number;
+ *   mime: string;
+ *   documentURI: string;
+ *   dateCreated: string;
+ *   lastModified: string;
+ *   documentType: string;
+ *   sourceSystem: string;
+ *   origin: string;
+ *   stage: string;
+ * }[]>}
+ */
+const getDocuments = async (answers) => {
+	const uploadedFiles = Object.values(answers).reduce((acc, answer) => {
+		if (!answer.uploadedFiles) return acc;
+		return acc.concat(answer.uploadedFiles);
+	}, []);
+
+	const uploadedFilesAndBlobMeta = await conjoinedPromises(uploadedFiles, (uploadedFile) =>
+		getBlobMeta(uploadedFile.location)
+	);
+
+	return Array.from(uploadedFilesAndBlobMeta).map(
+		([{ fileName, originalFileName, size }, { lastModified, createdOn, metadata, _response }]) => ({
+			filename: fileName,
+			originalFilename: originalFileName,
+			size: size,
+			mime: metadata.mime_type,
+			documentURI: _response.request.url,
+			dateCreated: createdOn,
+			lastModified,
+			documentType: metadata.document_type,
+			sourceSystem: 'appeals',
+			origin: 'citizen',
+			stage: 'lpa_questionnaire'
+		})
+	);
 };
