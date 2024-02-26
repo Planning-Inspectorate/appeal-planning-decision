@@ -209,7 +209,8 @@ const VIEW = {
 	},
 
 	SELECTED_APPEAL: {
-		APPEAL: 'selected-appeal/appeal'
+		APPEAL: 'selected-appeal/appeal',
+		APPEAL_DETAILS: 'selected-appeal/appeal-details'
 	},
 
 	SUBMIT_APPEAL: {
