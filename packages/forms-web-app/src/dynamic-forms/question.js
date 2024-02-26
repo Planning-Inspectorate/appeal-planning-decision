@@ -188,7 +188,8 @@ class Question {
 		}
 
 		// move to the next question
-		const updatedJourney = journey.constructor(journeyResponse);
+		// @ts-ignore this feels grim
+		const updatedJourney = new journey.constructor(journeyResponse);
 		return this.handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
 	}
 
