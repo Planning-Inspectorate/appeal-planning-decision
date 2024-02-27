@@ -92,7 +92,7 @@ module.exports = {
 	 * @template TResolution
 	 * @param {Arg[]} argArr
 	 * @param {(arg0: Arg) => Promise<TResolution>} asyncFunc
-	 * @returns
+	 * @returns {Promise<Map<Arg, TResolution>>}
 	 */
 	conjoinedPromises: async (argArr, asyncFunc) => {
 		const promiseMap = new Map(argArr.map((arg) => [arg, asyncFunc(arg)]));

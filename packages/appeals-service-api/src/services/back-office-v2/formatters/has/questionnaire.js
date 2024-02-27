@@ -2,41 +2,43 @@ const { initContainerClient } = require('@pins/common');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { blobMetaGetter } = require('../../../../services/object-store');
 
+/**
+ * @typedef {import('../../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {Omit<LPAQuestionnaireSubmission, "AppealCase">} Answers
+ */
+
 const getBlobMeta = blobMetaGetter(initContainerClient);
 
 /**
- * @param {*} questionnaireResponse
+ * @param {string} caseReference
+ * @param {LPAQuestionnaireSubmission} questionnaireResponse
  * @returns {Promise<*>}
  */
-exports.formatter = async ({ LPACode, referenceId, answers }) => {
+exports.formatter = async (caseReference, { AppealCase: { LPACode }, ...answers }) => {
 	return [
 		{
 			questionnaire: {
 				LPACode: LPACode,
-				caseReference: referenceId,
-				isAppealTypeAppropriate: convertToBoolean(answers['correct-appeal-type']),
-				doesTheDevelopmentAffectTheSettingOfAListedBuilding: convertToBoolean(
-					answers['affects-listed-building']
-				),
-				affectedListedBuildings: convertFromAddMore(answers['add-listed-buildings']),
-				inCAOrRelatesToCA: convertToBoolean(answers['conservation-area']),
-				siteWithinGreenBelt: convertToBoolean(answers['green-belt']),
+				caseReference,
+				isAppealTypeAppropriate: answers.correctAppealType,
+				doesTheDevelopmentAffectTheSettingOfAListedBuilding: answers.affectsListedBuilding,
+				affectedListedBuildings: answers.affectedListedBuildingNumber,
+				inCAOrRelatesToCA: answers.conservationArea,
+				siteWithinGreenBelt: answers.greenBelt,
 				howYouNotifiedPeople: howYouNotifiedPeople(answers),
-				hasRepresentationsFromOtherParties: convertToBoolean(
-					answers['representations-other-parties']
-				),
-				doesSiteHaveHealthAndSafetyIssues: convertToBoolean(answers['safety-risks']),
-				healthAndSafetyIssuesDetails: answers['safety-risks_new-safety-risk-value'],
-				doesSiteRequireInspectorAccess: convertToBoolean(answers['inspector-access-appeal-site']),
-				doPlansAffectNeighbouringSite: convertToBoolean(answers['inspector-visit-neighbour']),
-				hasExtraConditions: convertToBoolean(answers['new-planning-conditions']),
-				extraConditions: answers['safety-risks_new-conditions-value'],
+				hasRepresentationsFromOtherParties: answers.otherPartyRepresentations,
+				doesSiteHaveHealthAndSafetyIssues: answers.lpaSiteSafetyRisks,
+				healthAndSafetyIssuesDetails: answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails,
+				doesSiteRequireInspectorAccess: answers.lpaSiteAccess,
+				doPlansAffectNeighbouringSite: answers.neighbourSiteAccess,
+				hasExtraConditions: answers.newConditions,
+				extraConditions: answers.newConditions_newConditionDetails,
 				// todo waititng on odw
 				// answers['inspector-visit-neighbour'] - should this be housed in the same property as above possibly doNeightboursAffectNeighboringSite
 				// newPlanningConditions: answers['new-planning-conditions'],
 				// todo this is with odw
 				// answers['other-ongoing-appeals'] // fieldname needs clarifying
-				nearbyCaseReferences: convertFromAddMore(answers['other-appeals-references'])
+				nearbyCaseReferences: answers.nearbyAppealReference
 			},
 			documents: await getDocuments(answers)
 		}
@@ -44,46 +46,25 @@ exports.formatter = async ({ LPACode, referenceId, answers }) => {
 };
 
 /**
- * @param {string} value
- * @returns {boolean | null}
- */
-const convertToBoolean = (value) => {
-	switch (value) {
-		case 'yes':
-			return true;
-		case 'no':
-			return false;
-		default:
-			return null;
-	}
-};
-
-/**
- * @param {Array<{ value: unknown }>} values
- * @returns {Array<unknown>}
- */
-const convertFromAddMore = (values) => values.map(({ value }) => value, []);
-
-/**
- * @param {*} answers
+ * @param {Answers} answers
  * @returns {string[]}
  */
 const howYouNotifiedPeople = (answers) => {
 	let notifiedPeople = [];
-	if (answers['display-site-notice'] === 'yes') {
+	if (answers.displaySiteNotice) {
 		notifiedPeople.push('A public notice at the site');
 	}
-	if (answers['letters-to-neighbours'] === 'yes') {
+	if (answers.lettersToNeighbours) {
 		notifiedPeople.push('Letters to neighbours');
 	}
-	if (answers['press-advert'] === 'yes') {
+	if (answers.pressAdvert) {
 		notifiedPeople.push('Advert in the local press');
 	}
 	return notifiedPeople;
 };
 
 /**
- * @param {*} answers
+ * @param {Answers} answers
  * @returns {Promise<{
  *   filename: string;
  *   originalFilename: string;
@@ -98,18 +79,15 @@ const howYouNotifiedPeople = (answers) => {
  *   stage: string;
  * }[]>}
  */
-const getDocuments = async (answers) => {
-	const uploadedFiles = Object.values(answers).reduce((acc, answer) => {
-		if (!answer.uploadedFiles) return acc;
-		return acc.concat(answer.uploadedFiles);
-	}, []);
 
-	const uploadedFilesAndBlobMeta = await conjoinedPromises(uploadedFiles, (uploadedFile) =>
-		getBlobMeta(uploadedFile.location)
+const getDocuments = async ({ SubmissionDocumentUpload }) => {
+	const uploadedFilesAndBlobMeta = await conjoinedPromises(
+		SubmissionDocumentUpload,
+		(uploadedFile) => getBlobMeta(uploadedFile.location)
 	);
 
 	return Array.from(uploadedFilesAndBlobMeta).map(
-		([{ fileName, originalFileName, size }, { lastModified, createdOn, metadata, _response }]) => ({
+		([{ fileName, originalFileName }, { lastModified, createdOn, metadata, size, _response }]) => ({
 			filename: fileName,
 			originalFilename: originalFileName,
 			size: size,

@@ -157,8 +157,10 @@ let config = {
 		serviceBusEnabled: process.env.SERVICE_BUS_ENABLED || false,
 		hostname: process.env.SERVICE_BUS_HOSTNAME,
 		topics: {
-			appellantSubmission: process.env.BACK_OFFICE_APPELLANT_SUBMISSION_TOPIC,
-			lpaSubmission: process.env.BACK_OFFICE_LPA_RESPONSE_SUBMISSION_TOPIC
+			appellantSubmission:
+				process.env.BACK_OFFICE_APPELLANT_SUBMISSION_TOPIC || 'appeal-fo-appellant-submission',
+			lpaSubmission:
+				process.env.BACK_OFFICE_LPA_RESPONSE_SUBMISSION_TOPIC || 'appeal-fo-lpa-response-submission'
 		}
 	},
 	storage: {

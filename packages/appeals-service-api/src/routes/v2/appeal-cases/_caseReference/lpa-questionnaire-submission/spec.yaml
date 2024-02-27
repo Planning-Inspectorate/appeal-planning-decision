@@ -84,3 +84,25 @@ paths:
             application/json:
               schema:
                  $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appeal-cases/{caseReference}/lpa-questionnaire-submission/submit:
+    post:
+      tags:
+        - submissions
+      description: Submit a questionnaire to back office
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          description: appeal case reference
+      responses:
+        200:
+          description: The questionnaire has been submitted successfully
+          content: 'Ok'
+        404:
+          description: Questionnaire not found
+          content:
+            application/json:
+              schema:
+                 $ref: '#/components/schemas/ErrorBody'

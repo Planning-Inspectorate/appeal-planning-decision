@@ -3,7 +3,7 @@ const { LPAQuestionnaireSubmissionRepository } = require('./repo');
 const repo = new LPAQuestionnaireSubmissionRepository();
 
 /**
- * @typedef {import("@prisma/client").LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('./questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  */
 
 /**
@@ -26,7 +26,7 @@ async function getLPAQuestionnaireByAppealId(appealCaseId) {
  * Create Questionnaire for an appealCase
  *
  * @param {string} appealCaseId
- * @return {Promise<LPAQuestionnaireSubmission|null>}
+ * @returns {Promise<Omit<LPAQuestionnaireSubmission, 'SubmissionDocumentUpload' | 'SubmissionNeighbourAddress'> | null>}
  */
 async function createLPAQuestionnaire(appealCaseId) {
 	const questionnaire = await repo.createQuestionnaire(appealCaseId);
@@ -43,7 +43,7 @@ async function createLPAQuestionnaire(appealCaseId) {
  *
  * @param {string} appealCaseId
  * @param {LPAQuestionnaireSubmission} data
- * @return {Promise<LPAQuestionnaireSubmission|null>}
+ * @returns {Promise<Omit<LPAQuestionnaireSubmission, 'SubmissionDocumentUpload' | 'SubmissionNeighbourAddress'> | null>}
  */
 async function patchLPAQuestionnaireByAppealId(appealCaseId, data) {
 	const questionnaire = await repo.patchLPAQuestionnaireByAppealId(appealCaseId, data);
