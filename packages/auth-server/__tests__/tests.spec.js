@@ -1,4 +1,3 @@
-// todo: mock notify, test for token 30 min expiry
 import http from 'http';
 import supertest from 'supertest';
 
@@ -18,7 +17,6 @@ let authServer;
 import { MILLISECONDS_BETWEEN_TOKENS } from '../src/grants/token-repo.js';
 
 jest.setTimeout(100_000); // 10 sec
-jest.mock('');
 
 /** @type {Array.<string>} */
 const usersIds = [];
@@ -202,7 +200,7 @@ describe('auth server', () => {
 		});
 	});
 
-	describe('One time password', () => {
+	describe('Get one time password', () => {
 		it('should 200 with unknown user', async () => {
 			const response = await performOTP();
 
@@ -349,6 +347,7 @@ describe('auth server', () => {
 			});
 
 			expect(response.status).toEqual(401);
+			expect(response.text).toEqual('IncorrectCode');
 			expect(recheckUser.isEnrolled).toEqual(false);
 			expect(securityToken.attempts).toEqual(1);
 		});
@@ -396,6 +395,28 @@ describe('auth server', () => {
 				otp: 'nope'
 			});
 			expect(tokenResponse5.status).toEqual(429);
+		});
+
+		it('should 401 for expired token', async () => {
+			const user = await _createSqlUser('expire-token-test@example.com');
+			await performOTP({ email: user.email });
+
+			const halfAnHourExpiry = 30 * 60 * 1000;
+
+			const securityTokenUpdate = await sqlClient.securityToken.update({
+				data: {
+					tokenGeneratedAt: new Date(Date.now() - halfAnHourExpiry)
+				},
+				where: { appealUserId: user.id }
+			});
+
+			const tokenResponse1 = await performRPOC({
+				email: user.email,
+				otp: securityTokenUpdate.token
+			});
+
+			expect(tokenResponse1.status).toEqual(401);
+			expect(tokenResponse1.text).toEqual('CodeExpired');
 		});
 
 		it('should 400 with no params', async () => {
