@@ -17,6 +17,7 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
  *   value: string;
  *   checked?: boolean | undefined;
  *   attributes?: Record<string, string>;
+ *   behaviour?: 'exclusive';
  *   conditional?: {
  *     question: string;
  *     type: string;
@@ -24,6 +25,7 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
  * 		 inputClasses?: string;
  * 		 html?: string;
  *     value?: unknown;
+ * 		 label?: string;
  *   };
  *}} Option
  */
@@ -191,8 +193,6 @@ class OptionsQuestion extends Question {
 			responseToSave.answers[key] = null;
 			journeyResponse.answers[key] = null;
 		});
-
-		console.log('🚀 ~ OptionsQuestion ~ getDataToSave ~ responseToSave:', responseToSave);
 
 		return responseToSave;
 	}

@@ -27,7 +27,7 @@ const {
 	}
 } = require('../../src/config');
 const StringValidator = require('./validator/string-validator');
-const {
+let {
 	validation: {
 		characterLimits: { finalComment: inputMaxCharacters }
 	}
@@ -39,6 +39,8 @@ const DateValidator = require('./validator/date-validator');
 const DateQuestion = require('./dynamic-components/date/question');
 const TextEntryQuestion = require('./dynamic-components/text-entry/question');
 const { documentTypes } = require('@pins/common');
+
+inputMaxCharacters = Math.min(Number(inputMaxCharacters), 32500);
 
 // Define all questions
 exports.questions = {
