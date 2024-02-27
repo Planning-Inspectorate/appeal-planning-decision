@@ -5,6 +5,7 @@ export type LPAQuestionnaireSubmission = Prisma.LPAQuestionnaireSubmissionGetPay
 		AppealCase: {
 			select: {
 				LPACode: true;
+				appealTypeCode: true;
 			};
 		};
 		SubmissionDocumentUpload: true;
