@@ -15,7 +15,7 @@ const BaseValidator = require('./base-validator.js');
 
 /**
  * @typedef {Object} Regex
- * @property {String} regex
+ * @property {String | RegExp} regex
  * @property {String} regexMessage
  */
 
