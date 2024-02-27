@@ -27,7 +27,8 @@ class LPAQuestionnaireSubmissionRepository {
 				include: {
 					AppealCase: {
 						select: {
-							LPACode: true
+							LPACode: true,
+							appealTypeCode: true
 						}
 					},
 					SubmissionDocumentUpload: true,
@@ -59,7 +60,8 @@ class LPAQuestionnaireSubmissionRepository {
 			include: {
 				AppealCase: {
 					select: {
-						LPACode: true
+						LPACode: true,
+						appealTypeCode: true
 					}
 				}
 			}
@@ -81,7 +83,8 @@ class LPAQuestionnaireSubmissionRepository {
 			include: {
 				AppealCase: {
 					select: {
-						LPACode: true
+						LPACode: true,
+						appealTypeCode: true
 					}
 				}
 			}
