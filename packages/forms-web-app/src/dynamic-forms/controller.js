@@ -1,9 +1,6 @@
 // common controllers for dynamic forms
 
-const {
-	getAppealByLPACodeAndId,
-	submitQuestionnaireResponse
-} = require('../lib/appeals-api-wrapper');
+const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
 
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { SECTION_STATUS } = require('./section');
@@ -11,6 +8,7 @@ const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
+const { apiClient } = require('#lib/appeals-api-client');
 
 /**
  * @typedef {import('./journey-factory').JourneyType} JourneyType
@@ -234,14 +232,14 @@ exports.submit = async (req, res) => {
 	const { referenceId } = req.params;
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
-	if (journey.isComplete()) {
-		await submitQuestionnaireResponse(journeyResponse.journeyId, encodeURIComponent(referenceId));
-		return res.redirect(
-			'/manage-appeals/' + encodeURIComponent(referenceId) + '/questionnaire-submitted/'
-		);
+	if (!journey.isComplete()) {
+		res.sendStatus(400);
+		return;
 	}
-	// return error message
-	res.sendStatus(400);
+	await apiClient.submitLPAQuestionnaire(referenceId);
+	return res.redirect(
+		'/manage-appeals/' + encodeURIComponent(referenceId) + '/questionnaire-submitted/'
+	);
 };
 
 /**

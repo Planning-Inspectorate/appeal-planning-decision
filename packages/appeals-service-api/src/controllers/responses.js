@@ -1,9 +1,8 @@
 const logger = require('../lib/logger');
 const { patchResponse, getResponse } = require('../services/responses.service');
 const ApiError = require('../errors/apiError');
-const BackOfficeV2Service = require('../services/back-office-v2');
 
-const backOfficeV2Service = new BackOfficeV2Service();
+// Might be able to bin this whole file
 
 const patchResponseByReferenceId = async (req, res) => {
 	let statusCode = 200;
@@ -43,25 +42,7 @@ const getResponseByReferenceId = async (req, res) => {
 	return res.status(statusCode).send(body);
 };
 
-const submitQuestionnaireResponse = async (req, res) => {
-	let statusCode = 200;
-	let body;
-	let questionnaireResponse = {};
-	try {
-		questionnaireResponse = await getResponse(req.params.journeyId, req.params.referenceId);
-		body = await backOfficeV2Service.submitQuestionnaire(questionnaireResponse);
-	} catch (error) {
-		if (!(error instanceof ApiError)) {
-			throw error;
-		}
-		statusCode = error.code;
-		body = error.message.errors;
-	}
-	return res.status(statusCode).send(body);
-};
-
 module.exports = {
 	patchResponseByReferenceId,
-	getResponseByReferenceId,
-	submitQuestionnaireResponse
+	getResponseByReferenceId
 };

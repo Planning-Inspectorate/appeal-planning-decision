@@ -211,10 +211,6 @@ exports.getQuestionResponse = async (journeyId, referenceId) => {
 	return handler(`/api/v1/responses/${journeyId}/${referenceId}`, 'GET', {});
 };
 
-exports.submitQuestionnaireResponse = async (journeyId, referenceId) => {
-	await handler(`/api/v1/responses/${journeyId}/${referenceId}`, 'POST');
-};
-
 exports.getListedBuilding = async (reference) => {
 	return handler(`/api/v1/listed-buildings/${reference}`);
 };

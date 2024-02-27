@@ -250,6 +250,15 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitLPAQuestionnaire(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/submit`;
+		await this.#makePostRequest(endpoint);
+	}
+
+	/**
 	 * Handles error responses and timeouts from calls to appeals api
 	 * @param {string} path endpoint to call e.g. /api/v2/users
 	 * @param {'GET'|'POST'|'PUT'|'DELETE'|'PATCH'} [method] - request method, defaults to 'GET'
