@@ -1,5 +1,5 @@
 /**
- * @type {import('./section').Section}
+ * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
  */
 exports.sections = [
 	{

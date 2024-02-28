@@ -1,7 +1,22 @@
 const { getAppealStatus } = require('#utils/appeal-status');
 const { apiClient } = require('#utils/appeals-api-client');
-const { formatHeadlineData } = require('@pins/common');
+const { formatHeadlineData, formatSections } = require('@pins/common');
 
+/** @type {import('@pins/common/src/view-model-maps/sections/def').Sections} */
+const sections = [
+	{
+		heading: 'Appeal details',
+		links: [
+			{
+				url: '/appeal-details',
+				text: 'Appeal details',
+				condition: (appeal) => appeal.casePublished
+			}
+		]
+	}
+];
+
+/** @type {import('express').Handler} */
 const selectedAppeal = async (req, res) => {
 	const appealNumber = req.params.appealNumber;
 
@@ -10,7 +25,14 @@ const selectedAppeal = async (req, res) => {
 	const headlineData = formatHeadlineData(appeal);
 
 	res.render(`appeals/_appealNumber/index`, {
-		appeal: { ...appeal, status: getAppealStatus(appeal) },
+		appeal: {
+			...appeal,
+			status: getAppealStatus(appeal),
+			sections: formatSections({
+				caseData: appeal,
+				sections: formatSections({ caseData: appeal, sections })
+			})
+		},
 		headlineData
 	});
 };

@@ -1,5 +1,5 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { formatHeadlineData } = require('@pins/common');
+const { formatHeadlineData, formatSections, isSection } = require('@pins/common');
 const { VIEW } = require('../../lib/views');
 const { apiClient } = require('../../lib/appeals-api-client');
 const { determineUser } = require('../../lib/determine-user');
@@ -8,10 +8,8 @@ const { sections: lpaUserSections } = require('./lpa-user-sections');
 const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');
 const { sections: rule6Sections } = require('./rule-6-sections');
 
-/**
- * @type {{ [userType: import('@pins/common/src/constants').AppealToUserRoles|LPA_USER_ROLE]: import('./section').Section }}
- */
-const userSections = {
+/** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
+const userSectionsDict = {
 	[APPEAL_USER_ROLES.APPELLANT]: appellantSections,
 	[LPA_USER_ROLE]: lpaUserSections,
 	[APPEAL_USER_ROLES.RULE_6_PARTY]: rule6Sections
@@ -49,15 +47,15 @@ exports.get = async (req, res) => {
 
 	const headlineData = formatHeadlineData(caseData, userType);
 
+	const sections = userSectionsDict[userType];
+	if (!isSection(sections)) throw new Error(`No sections configured for user type ${userType}`);
+
 	const viewContext = {
 		titleSuffix: formatTitleSuffix(userType),
 		appeal: {
 			appealNumber,
 			headlineData,
-			sections: userSections[userType].map((section) => ({
-				...section,
-				links: section.links.filter(({ condition }) => condition(caseData, userEmail))
-			})),
+			sections: formatSections({ caseData, sections, userEmail }),
 			decision: mapDecisionTag(caseData.caseDecisionOutcome)
 		}
 	};

@@ -1,8 +1,13 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
+ * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
+ * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
+ */
+
+/**
  * @param {string} url
- * @returns {import('@pins/common/src/constants').AppealToUserRoles|LPA_USER_ROLE|null}
+ * @returns {AppealToUserRoles|LpaUserRole|null}
  */
 const determineUser = (url) => {
 	if (url.includes('/rule-6-appeals/')) {
