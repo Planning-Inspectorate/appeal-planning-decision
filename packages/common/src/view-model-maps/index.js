@@ -1,3 +1,4 @@
 module.exports = {
-	...require('./appeal-headline')
+	...require('./appeal-headline'),
+	...require('./sections')
 };

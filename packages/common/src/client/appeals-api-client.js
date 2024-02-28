@@ -96,7 +96,7 @@ class AppealsApiClient {
 	/**
 	 * 'Public' API, only returns published cases.
 	 *
-	 * @param {object} caseReference
+	 * @param {string} caseReference
 	 * @returns {Promise<AppealCaseWithAppellant>}
 	 */
 	async getAppealCaseByCaseRef(caseReference) {

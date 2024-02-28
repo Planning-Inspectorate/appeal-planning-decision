@@ -1,5 +1,6 @@
 /**
  * @typedef { 'appellant' | 'agent' | 'interestedParty' | 'rule-6-party' } AppealToUserRoles
+ * @typedef { 'lpa-user' } LpaUserRole
  */
 
 module.exports = {
@@ -13,7 +14,7 @@ module.exports = {
 		VALIDITY: { IS_VALID: 'Valid' }
 	},
 	/**
-	 * @type {Object<string, AppealToUserRoles>}
+	 * @type {Record<string, AppealToUserRoles>}
 	 */
 	APPEAL_USER_ROLES: {
 		APPELLANT: 'appellant',
@@ -21,6 +22,9 @@ module.exports = {
 		INTERESTED_PARTY: 'interestedParty',
 		RULE_6_PARTY: 'rule-6-party'
 	},
-	// not strictly appeal-user role, there is no link between LPA user and an appeal, it's via the lpa-code on the user and appeal
+	/**
+	 * not strictly appeal-user role, there is no link between LPA user and an appeal, it's via the lpa-code on the user and appeal
+	 * @type {LpaUserRole}
+	 */
 	LPA_USER_ROLE: 'lpa-user'
 };
