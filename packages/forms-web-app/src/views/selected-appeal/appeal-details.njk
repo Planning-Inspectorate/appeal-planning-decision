@@ -21,27 +21,22 @@
         }) }}
 			{% endif %}
 
-      <h1 class="govuk-heading-l">Appeal {{appeal.appealNumber}}</h1>
+      <span class="govuk-caption-xl">Appeal {{appeal.appealNumber}}</span>
+			<h1 class="govuk-heading-xl">Appeal details</h1>
 
-			{% if appeal.decision %}
-				<div class="govuk-grid-column-two-thirds">
-					<h2 class="govuk-heading-l">Appeal decision</h2>
-					{{ govukTag({
-						text: appeal.decision.label,
-						classes: "govuk-tag--" + appeal.decision.color
-					}) }}
-				</div>
-				<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
-			{% endif %}
-
-			<h2>{{appeal.headlineData}}</h2>
-
-			{# {{ govukSummaryList({
+			{{ govukSummaryList({
 				classes: "appeal-headlines govuk-summary-list--no-border",
 				rows: appeal.headlineData
-			}) }} #}
+			}) }}
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+
+			{# <h2 class="govuk-heading-l">Your appeal</h2>
+
+			{{ govukSummaryList({
+				classes: "govuk-summary-list long-answers",
+				rows: appeal.appealDetails
+			}) }} #}
 		</div>
 
 	</div>
