@@ -1,5 +1,8 @@
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { formatHeadlineData } = require('@pins/common');
+
 const { VIEW } = require('../../../lib/views');
+const { apiClient } = require('../../../lib/appeals-api-client');
 const { determineUser } = require('../../../lib/determine-user');
 
 /**
@@ -17,11 +20,29 @@ exports.get = async (req, res) => {
 		throw new Error('Unknown role');
 	}
 
+	const userEmail = userType === LPA_USER_ROLE ? req.session.lpaUser?.email : req.session.email;
+
+	if (!userEmail) {
+		throw new Error('no session email');
+	}
+
+	const user = await apiClient.getUserByEmailV2(userEmail);
+
+	const caseData = await apiClient.getUsersAppealCase({
+		caseReference: appealNumber,
+		role: userType,
+		userId: user.id
+	});
+
+	const headlineData = formatHeadlineData(caseData, userType);
+	// const appealDetails = formatAppealDetails(caseData)
+
 	const viewContext = {
 		titleSuffix: formatTitleSuffix(userType),
 		appeal: {
 			appealNumber,
-			headlineData: 'this is it for now'
+			headlineData
+			// appealDetails
 		}
 	};
 
