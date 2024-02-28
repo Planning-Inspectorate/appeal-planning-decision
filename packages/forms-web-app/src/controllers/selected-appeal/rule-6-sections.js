@@ -45,7 +45,7 @@ exports.sections = [
 			},
 			{
 				url: '/other-party-statements',
-				text: 'View your statement',
+				text: 'View other party statements',
 				condition: (appealCase) => appealCase.rule6StatementPublished
 			}
 		]
