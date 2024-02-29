@@ -4,6 +4,10 @@ parameters:
     displayName: Deploy Appeals Service API
     type: boolean
     default: true
+  - name: deployAuthServer
+    displayName: Deploy Auth Server
+    type: boolean
+    default: false
   - name: deployDocumentsApi
     displayName: Deploy Documents Service API
     type: boolean
@@ -108,6 +112,17 @@ extends:
                   appResourceGroup: $(resourceGroup)
                   azurecrName: $(azurecrName)
                   repository: appeal-planning-decision/appeals-service-api
+          - name: Deploy Auth Server
+            dependsOn:
+              - Migrate
+            condition: eq(${{ parameters.deployAuthServer }}, 'true')
+            steps:
+              - template: ../steps/azure_web_app_deploy.yml
+                parameters:
+                  appName: pins-app-appeals-service-auth-server-$(ENVIRONMENT)-$(REGION_SHORT)-001
+                  appResourceGroup: $(resourceGroup)
+                  azurecrName: $(azurecrName)
+                  repository: appeal-planning-decision/auth-server
           - name: Deploy Documents API
             dependsOn:
               - Migrate
