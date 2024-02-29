@@ -400,43 +400,27 @@ describe('controllers/common/enter-code', () => {
 		});
 
 		describe('POST flag on', () => {
-			const TEST_USER = { id: '123', email: TEST_EMAIL, otherData: 'abc' };
-
 			beforeEach(() => {
 				isFeatureActive.mockResolvedValue(true);
-				apiClient.getUserByEmailV2.mockImplementation(() => Promise.resolve(TEST_USER));
 			});
 
 			const expectUserInSession = () => {
 				expect(req.session.appealUser).toEqual({
-					id: TEST_USER.id,
-					email: TEST_USER.email
+					access_token: 'access',
+					id_token: 'id',
+					expiry: 'expiry'
 				});
 			};
 
-			it('should error if user not found for general log on', async () => {
-				const error = new ApiClientError('no user', 404);
-
-				apiClient.getUserByEmailV2.mockImplementation(() => Promise.reject(error));
-
-				const returnedFunction = postEnterCode({}, { isGeneralLogin: true });
-				await expect(returnedFunction(req, res)).rejects.toThrow(error);
-
-				expect(req.session.appealUser).toBe(undefined);
-			});
-
-			it('should error if user not found for other log on', async () => {
-				const error = new ApiClientError('no user', 404);
-				apiClient.getUserByEmailV2.mockImplementation(() => Promise.reject(error));
-
-				const returnedFunction = postEnterCode({}, { isGeneralLogin: false });
-				await expect(returnedFunction(req, res)).rejects.toThrow(error);
-
-				expect(req.session.appealUser).toBe(undefined);
-			});
-
 			it('should redirect to your appeals for general log on', async () => {
 				const { YOUR_APPEALS } = fullAppealViews;
+
+				isTokenValid.mockResolvedValue({
+					valid: true,
+					access_token: 'access',
+					id_token: 'id',
+					access_token_expiry: 'expiry'
+				});
 
 				const returnedFunction = postEnterCode({ YOUR_APPEALS }, { isGeneralLogin: true });
 				await returnedFunction(req, res);
@@ -451,6 +435,13 @@ describe('controllers/common/enter-code', () => {
 					action: enterCodeConfig.actions.confirmEmail
 				};
 
+				isTokenValid.mockResolvedValue({
+					valid: true,
+					access_token: 'access',
+					id_token: 'id',
+					access_token_expiry: 'expiry'
+				});
+
 				const returnedFunction = postEnterCode({ EMAIL_CONFIRMED }, { isGeneralLogin: false });
 				await returnedFunction(req, res);
 
@@ -463,6 +454,13 @@ describe('controllers/common/enter-code', () => {
 				req.session.enterCode = {
 					action: enterCodeConfig.actions.confirmEmail
 				};
+
+				isTokenValid.mockResolvedValue({
+					valid: true,
+					access_token: 'access',
+					id_token: 'id',
+					access_token_expiry: 'expiry'
+				});
 
 				req.session.loginRedirect = '/test';
 

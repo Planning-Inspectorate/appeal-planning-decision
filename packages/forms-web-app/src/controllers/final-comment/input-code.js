@@ -73,7 +73,7 @@ const postInputCode = async (req, res) => {
 		return;
 	}
 
-	const tokenResult = await isTokenValid(token, id, undefined, req.session);
+	const tokenResult = await isTokenValid(token, id, undefined, req.session, undefined, true);
 
 	req.session.finalComment.secureCodeEnteredCorrectly = tokenResult.valid;
 

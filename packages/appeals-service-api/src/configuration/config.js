@@ -103,10 +103,6 @@ let config = {
 					enterCodeIntoServiceEmailToAppellant:
 						process.env.SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID
 				},
-				APPELLANT_LOGIN: {
-					confirmRegistrationEmailToAppellant:
-						process.env.SRV_NOTIFY_APPELLANT_LOGIN_CONFIRM_REGISTRATION_TEMPLATE_ID
-				},
 				ERROR_MONITORING: {
 					failureToUploadToHorizon: process.env.SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID
 				},

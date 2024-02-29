@@ -11,22 +11,8 @@ const LpaService = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
 const { format } = require('date-fns');
 const constants = require('@pins/business-rules/src/constants');
-const enterCodeConfig = require('@pins/common/src/enter-code-config');
 const lpaService = new LpaService();
 const { templates } = config.services.notify;
-
-const actionToTemplateMapping = [
-	{
-		action: enterCodeConfig.actions.lpaDashboard,
-		template: templates.LPA_DASHBOARD.enterCodeIntoServiceEmailToLPA
-	}
-];
-
-const mapActionToTemplate = (action) => {
-	let [mapping] = actionToTemplateMapping.filter((a) => a.action === action);
-	if (mapping && mapping.template) return mapping.template;
-	return templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant;
-};
 
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
@@ -184,31 +170,7 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	}
 };
 
-/**
- * Sends an email to appellant confirming their registration and provides a link to continue
- * @param {string} recipientEmail
- * @param {string} userId
- */
-const sendConfirmRegistrationEmailToAppellant = async (recipientEmail, userId) => {
-	const variables = {
-		link: `${config.apps.appeals.baseUrl}/appeals/your-appeals`
-	};
-
-	logger.debug({ recipientEmail, variables }, 'Sending registration confirmation email');
-
-	await NotifyBuilder.reset()
-		.setTemplateId(templates.APPELLANT_LOGIN.confirmRegistrationEmailToAppellant)
-		.setDestinationEmailAddress(recipientEmail)
-		.setTemplateVariablesFromObject(variables)
-		.setReference(userId + 'registration')
-		.sendEmail(
-			config.services.notify.baseUrl,
-			config.services.notify.serviceId,
-			config.services.notify.apiKey
-		);
-};
-
-const sendSecurityCodeEmail = async (recipientEmail, code, identifier, action = '') => {
+const sendSecurityCodeEmail = async (recipientEmail, code, identifier) => {
 	try {
 		const variables = {
 			'unique code': code
@@ -219,7 +181,7 @@ const sendSecurityCodeEmail = async (recipientEmail, code, identifier, action = 
 			'Sending secure code email to appellant'
 		);
 		await NotifyBuilder.reset()
-			.setTemplateId(mapActionToTemplate(action))
+			.setTemplateId(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(identifier)
@@ -310,9 +272,7 @@ module.exports = {
 	sendSubmissionConfirmationEmailToAppellant,
 	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
-	sendConfirmRegistrationEmailToAppellant,
 	sendSecurityCodeEmail,
 	sendFailureToUploadToHorizonEmail,
-	mapActionToTemplate,
 	sendLPADashboardInviteEmail
 };

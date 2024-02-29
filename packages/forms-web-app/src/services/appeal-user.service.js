@@ -1,19 +1,23 @@
 /**
  * @typedef {Object} AppealUserSession
- * @property {string} id
- * @property {string} email
+ * @property {string} access_token
+ * @property {string} id_token
+ * @property {Date} expiry
  */
 
 /**
  * Adds appealUser to session req.session.appealUser
  * @param {import('express').Request} req
- * @param {import('appeals-service-api').Api.AppealUser} user
+ * @param {string} access_token
+ * @param {string} id_token
+ * @param {Date} expiry
  * @returns {void}
  */
-const createAppealUserSession = (req, user) => {
+const createAppealUserSession = (req, access_token, id_token, expiry) => {
 	req.session.appealUser = {
-		id: user.id,
-		email: user.email
+		access_token: access_token,
+		id_token: id_token,
+		expiry: expiry
 	};
 };
 

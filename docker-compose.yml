@@ -23,7 +23,7 @@ services:
 
       # server
       ALLOW_TESTING_OVERRIDES: 'true'
-      COOKIE_KEYS: '["GZ0SyRAjF3LYzI7mbTEbNHQGpB029tq428J/BUf7wnY="]'
+      COOKIE_KEYS: '["auth-server-local-secret"]'
       JWKS: '[{"kty":"RSA","n":"rlIVVOCURwZtIxt05AbAX2GGG62nrlAVwler50J8ebckXl-HOKWV1948ZuK1-QcJWM0KHQM4M21PD-WqIYtHdz4Ynzy8xY9pJw9w-SA5Zebo149rIJvSSZF-5CiZnaBRIT9QXdbmE8hZoH_0LKvnkcy-RbjqZCr6FBtxCNSXj5X1vcqYyix1VgdpncaYk-nIg-mMaJ3nxfWx_oBbXb0o0H-LBdP2JowbsTzr9efGzpGZuf67Z0ZRttvJ9wjUapZ0WV_DTsg7YRZ2eqP2huABUawSaxQncR_laoD2joEntP06qK314J9Lf_9Ix9_KJhJ1X_QbMXEciQQkbEkahp7Vlw","e":"AQAB","d":"UuujzwSnM-PoLU-FumRFxPlIiEkCHuZke1Yl5PNY77MA_01UrssBbLZ_p_dG1YcV2KJsIaHi7X-dILRASgWNQLkOkEydhSJzRAvR0weTlhgRgVxs-o10qd8ma5Suge79OKH78i9jsVxX2gOTnF5HYLDyf4r3IB_bZo4pJiiuUbObusD8SNOLUTQ_hznfJ_NykiSr338KTx_4ucTrvyI83MyUxtxinhQa-m-EfRWT_V-JeycDDRALocElfrRzjlhqfR0Xn_TzlT4yZVI2rjFSfD4HINaNaJsQIOfhmTnuHzbPEx_WK0JvJ9qn1tVOoKyW6TE57wlH8qyyz3l5POgq5Q","p":"4wdco8coGY5ynMCIuO6dYRtpDACR87AYV_O6nWI9ESuKCGE0Tfd52fbAnLj5l_Xc_0-xvy2xdRhyC45s0ZsdPaJN8qnU_0tPGgSV1gKQ3HWIO0E7KcqNAUlbEY-b_vaHRCK7ADD87PpwoGty8ftcX08stZ1K1WLSJT77Z8cYm2U","q":"xJDWivHyLjCGH7BlzPDJ_uIQXmh1P0zm9wSDiLY2jR9l5JDMh97eWWgutVB_qMOUjsPjSftzLejReUQjEJqZAdnlNNMDifsiFZ4SEZWZYsGSC2AdNF1oEprKOLseVdipRsHv8Yz1e2E98BM7WhpZ_FCkKKP-FML_yisJ774Yo0s","dp":"uVhJSWxOUI77Av4soM4trhmyqRnODiS1uxhAQjzxnhLtnem9yelAkbHhjhF1s5oF0mo9stabCf3rHYQpUvZP6QGYoYQFYGcbLSKRMSbnHRTXI4kdxACZHXPF5ZBYys55oCa6hG16D_5l9JHERcnwn98DoUHI1mzXI5FHrnHcpQ","dq":"Hh57YUr1avJwesaSsrZqnS2SiITFAnAMK-l7JiWVckZPXJh7Xo5dz6FRFuNAzGE7kCyf1SQ8X9p-znAMV2z46Pm0T0XOEwRyEpHn_t3HZQR4Floh33Y4jjE9rzeszEaomXj6BS8uJjueO_0WaRYEl87beIa4VgITI604lo2wRMU","qi":"pQjwIT7mY5oaukTpkYc46xm3bKpatEc77BqHONNpqPq3r-PqKxPKtEX8vuTr4a0UWoM0HkR2OBR5F-j3GpOxrfrHd-VhNQIvMYEWKjmJk0qKLHJQjlO3AqM6en8pYqbBQ4KxcdMBExCeWniB70ZPa8XZMmE_OLte9XTo6ousnwk"}]'
 
       # SQL
@@ -53,7 +53,7 @@ services:
     ports:
       - 3005:3000
       # node debugger
-      #- 9229:9229
+      - 9229:9229
     working_dir: /opt/app
     volumes:
       # mount the root node_modules for shared packages
@@ -62,7 +62,7 @@ services:
       - ./packages/database/src/:/opt/database/src
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/auth-server:/opt/app
-    command: npm run start:dev
+    command: npm run start:dev:debug
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
 
@@ -98,7 +98,6 @@ services:
       SRV_NOTIFY_FULL_APPEAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID: '799a27da-b640-4852-a070-e83ff54401f0'
       SRV_NOTIFY_SAVE_AND_RETURN_CONTINUE_WITH_APPEAL_TEMPLATE_ID: 'b3651e9d-5cc3-4258-82b4-04ec2ba3d10e'
       SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID: 'e509eee7-f0bd-4d63-9203-d598ddd5b31e'
-      SRV_NOTIFY_APPELLANT_LOGIN_CONFIRM_REGISTRATION_TEMPLATE_ID: 'f0781589-8df5-4717-ab87-1dc5c2d5a9de'
       SRV_NOTIFY_CONFIRM_EMAIL_TEMPLATE_ID: '4156c7ac-a235-4577-b976-44020bec4d5f'
       SRV_ADMIN_MONITORING_EMAIL: 'test@pins.gov.uk'
       SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID: '49413491-90fd-4ce8-b061-e2f4758b636b'
@@ -167,8 +166,11 @@ services:
     environment:
       ALLOW_TESTING_OVERRIDES: 'true'
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
+      AUTH_BASE_URL: http://auth-server:3000
       CLAMAV_HOST: clamav-server
       CLAMAV_PORT: 3310
+      CLIENT_ID: '4dbd45cb-f591-414f-a6d9-34f1103b63fd'
+      CLIENT_SECRET: 'forms-web-app-local-secret'
       DASHBOARDS_ENABLED: 'true'
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FEATURE_FLAGS_SETTING: 'ALL_ON'
