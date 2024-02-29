@@ -7,7 +7,7 @@ exports.sections = [
 		heading: 'Appeal details',
 		links: [
 			{
-				url: 'anything',
+				url: '/appeal-details',
 				text: 'View appeal details',
 				condition: (appealCase) => appealCase.casePublished
 			}
@@ -17,7 +17,7 @@ exports.sections = [
 		heading: 'Questionnaire',
 		links: [
 			{
-				url: 'anything',
+				url: '/questionnaire',
 				text: 'View questionnaire',
 				condition: (appealCase) => appealCase.lpaQuestionnairePublished
 			}
@@ -27,12 +27,12 @@ exports.sections = [
 		heading: 'Statements',
 		links: [
 			{
-				url: 'anything',
+				url: '/lpa-statement',
 				text: 'View your statement',
 				condition: (appealCase) => appealCase.lpaStatementPublished
 			},
 			{
-				url: 'anything',
+				url: '/rule-6-statements',
 				text: 'View other party statements',
 				condition: (appealCase) => appealCase.rule6StatementPublished
 			}
@@ -42,7 +42,7 @@ exports.sections = [
 		heading: 'Interested party comments',
 		links: [
 			{
-				url: 'anything',
+				url: '/ip-comments',
 				text: 'View interested party comments',
 				condition: (appealCase) => appealCase.interestedPartyCommentsPublished
 			}
@@ -52,12 +52,12 @@ exports.sections = [
 		heading: 'Final comments',
 		links: [
 			{
-				url: 'anything',
+				url: '/lpa-final-comments',
 				text: 'View your final comments',
 				condition: (appealCase) => appealCase.lpaFinalCommentsPublished
 			},
 			{
-				url: 'anything',
+				url: '/final-comments',
 				text: 'View appellant final comments',
 				condition: (appealCase) => appealCase.appellantFinalCommentsSubmitted
 			}
@@ -67,17 +67,17 @@ exports.sections = [
 		heading: 'Proof of evidence and witnesses',
 		links: [
 			{
-				url: 'anything',
+				url: '/lpa-proof-of-evidences',
 				text: 'View your proof of evidence and witnesses',
 				condition: (appealCase) => appealCase.lpaProofEvidencePublished
 			},
 			{
-				url: 'anything',
+				url: '/proof-of-evidences',
 				text: 'View the appellant proof of evidence and witnesses',
 				condition: (appealCase) => appealCase.appellantProofEvidencePublished
 			},
 			{
-				url: 'anything',
+				url: '/rule-6-proof-of-evidences',
 				text: 'View proof of evidence and witnesses from other parties',
 				condition: (appealCase) => appealCase.rule6ProofsEvidencePublished
 			}
