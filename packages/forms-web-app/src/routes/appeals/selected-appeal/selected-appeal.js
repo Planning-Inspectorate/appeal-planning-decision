@@ -1,7 +1,7 @@
 const express = require('express');
 
-const selectedAppealController = require('../../../controllers/selected-appeal/selected-appeal');
-const appealDetailsController = require('../../../controllers/selected-appeal/appeal-details/appeal-details');
+const selectedAppealController = require('../../../controllers/selected-appeal');
+const appealDetailsController = require('../../../controllers/selected-appeal/appeal-details');
 
 const router = express.Router({ mergeParams: true });
 
