@@ -56,6 +56,7 @@ exports.get = async (req, res) => {
 			appealNumber,
 			headlineData,
 			sections: formatSections({ caseData, sections, userEmail }),
+			baseUrl: userRouteUrl,
 			decision: mapDecisionTag(caseData.caseDecisionOutcome)
 		}
 	};
