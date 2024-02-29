@@ -157,7 +157,8 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			enterCodeId,
 			sessionEmail,
 			action,
-			req.session?.appeal?.lpaCode
+			req.session?.appeal?.lpaCode,
+			enrolUsersFlag
 		);
 
 		if (tokenValid.tooManyAttempts) {
@@ -174,8 +175,12 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 
 		if (enrolUsersFlag) {
 			// is valid so set user in session
-			const user = await apiClient.getUserByEmailV2(sessionEmail);
-			createAppealUserSession(req, user);
+			createAppealUserSession(
+				req,
+				tokenValid.access_token,
+				tokenValid.id_token,
+				tokenValid.access_token_expiry
+			);
 		}
 
 		if (isGeneralLogin) {
@@ -397,7 +402,15 @@ const postEnterCodeLPA = (views) => {
 		}
 
 		// check token
-		const tokenResult = await isTokenValid(emailCode, id, user.email, req.session, user.lpaCode);
+		const enrolUsers = true;
+		const tokenResult = await isTokenValid(
+			emailCode,
+			id,
+			user.email,
+			req.session,
+			user.lpaCode,
+			enrolUsers
+		);
 
 		if (!lpaTokenVerification(res, tokenResult, views, id)) return;
 
@@ -406,7 +419,13 @@ const postEnterCodeLPA = (views) => {
 			if (currentUserStatus === STATUS_CONSTANTS.ADDED) {
 				await setLPAUserStatus(id, STATUS_CONSTANTS.CONFIRMED);
 			}
-			await createLPAUserSession(req, user);
+			await createLPAUserSession(
+				req,
+				user,
+				tokenResult.access_token,
+				tokenResult.id_token,
+				tokenResult.access_token_expiry
+			);
 		} catch (err) {
 			logger.error(err, `Failed to create user session for user id ${id}`);
 			throw err;

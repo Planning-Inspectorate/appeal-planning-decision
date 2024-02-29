@@ -1,8 +1,4 @@
-const {
-	sendSecurityCodeEmail,
-	mapActionToTemplate,
-	sendLPADashboardInviteEmail
-} = require('../../../src/lib/notify');
+const { sendSecurityCodeEmail, sendLPADashboardInviteEmail } = require('../../../src/lib/notify');
 const enterCodeConfig = require('../../../../common/src/enter-code-config');
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const config = require('../../../src/configuration/config');
@@ -35,17 +31,6 @@ jest.mock('../../../src/services/lpa.service');
 jest.mock('../../../src/lib/logger');
 
 describe('appeals-service-api/src/lib/notify.js', () => {
-	describe('mapActionToTemplate', () => {
-		it('should map an action to a default template if not action specified', () => {
-			const result = mapActionToTemplate();
-			expect(result).toEqual(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant);
-		});
-		it('should map the lpa-dashboard action to lpa send code email template', () => {
-			const result = mapActionToTemplate();
-			expect(result).toEqual(templates.LPA_DASHBOARD.enterCodeIntoServiceEmailToLPA);
-		});
-	});
-
 	describe('sendSecurityCodeEmail', () => {
 		it('should default to templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant when no action specified', () => {
 			const recipientEmail = 'iamnoone@example.com';

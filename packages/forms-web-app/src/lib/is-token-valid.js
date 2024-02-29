@@ -1,8 +1,11 @@
 const { checkToken } = require('./appeals-api-wrapper');
 const { isTokenExpired } = require('./is-token-expired');
 const config = require('../config');
-const { isTestLPA } = require('@pins/common/src/utils');
 const logger = require('#lib/logger');
+
+const { isTestLPA } = require('@pins/common/src/utils');
+const { AUTH } = require('@pins/common/src/constants');
+const getAuthClient = require('@pins/common/src/client/auth-client');
 
 /**
  * @typedef {Object} TokenValidResult
@@ -11,6 +14,9 @@ const logger = require('#lib/logger');
  * @property {Date} [createdAt]
  * @property {boolean} [expired]
  * @property {boolean} [tooManyAttempts]
+ * @property {string} [access_token]
+ * @property {Date} [access_token_expiry]
+ * @property {string} [id_token]
  */
 
 /**
@@ -63,21 +69,73 @@ const getToken = async (token, id, emailAddress, action) => {
 
 /**
  * @param {string} token
- * @param {string} [id] - appealId or userid
+ * @param {string} [emailAddress]
+ * @param {string} [action]
+ * @returns {Promise<TokenValidResult>}
+ */
+const authToken = async (token, emailAddress, action) => {
+	const tooManyAttempts = {
+		valid: false,
+		action: action,
+		tooManyAttempts: true
+	};
+	const invalidCode = {
+		valid: false,
+		action: action
+	};
+	const codeExpired = {
+		valid: false,
+		action: action,
+		expired: true
+	};
+	const valid = {
+		valid: true,
+		action: action
+	};
+
+	const client = await getAuthClient(
+		config.oauth.baseUrl,
+		config.oauth.clientID,
+		config.oauth.clientSecret
+	);
+
+	try {
+		const authResult = await client.grant({
+			grant_type: 'ropc',
+			email: emailAddress,
+			otp: token,
+			scope: 'openid email',
+			resource: AUTH.RESOURCE
+		});
+
+		valid.access_token = authResult.access_token;
+		valid.id_token = authResult.id_token;
+		valid.access_token_expiry = new Date(authResult.expires_at * 1000); // seconds to ms
+		return valid;
+	} catch (err) {
+		if (err?.response?.statusCode === 429) {
+			return tooManyAttempts;
+		}
+		if (err?.response?.statusMessage === 'IncorrectCode') {
+			return invalidCode;
+		}
+		if (err?.response?.statusMessage === 'CodeExpired') {
+			return codeExpired;
+		}
+		throw err;
+	}
+};
+
+/**
+ * @param {string} token
+ * @param {string} [id] - appealId
  * @param {string} [emailAddress] - user's email
  * @param {string} [action] - token action
  * @param {string} [lpaCode] - if provided will be included in isTestScenario check
+ * @param {boolean} [enrolUsersFlag]
  * @returns {Promise<TokenValidResult>}
  */
-const isTokenValid = async (token, id, emailAddress, action, lpaCode) => {
-	const isTestScenario =
-		isTestEnvironment() && isTestToken(token) && (!lpaCode || isTestLPA(lpaCode));
-	if (isTestScenario) {
-		return {
-			valid: true
-		};
-	}
-
+const isTokenValid = async (token, id, emailAddress, action, lpaCode, enrolUsersFlag) => {
 	/** @type {TokenValidResult} */
 	let result = {
 		valid: false
@@ -93,6 +151,20 @@ const isTokenValid = async (token, id, emailAddress, action, lpaCode) => {
 
 	if (!isNonEmptyString(token)) return result;
 	if (!isNonEmptyString(id) && !isNonEmptyString(emailAddress)) return result;
+
+	// use auth token going forward
+	if (enrolUsersFlag) {
+		return await authToken(token, emailAddress, action);
+	}
+
+	// legacy path
+	const isTestScenario =
+		isTestEnvironment() && isTestToken(token) && (!lpaCode || isTestLPA(lpaCode));
+	if (isTestScenario) {
+		return {
+			valid: true
+		};
+	}
 
 	let tokenDocument = await getToken(token, id, emailAddress, action);
 

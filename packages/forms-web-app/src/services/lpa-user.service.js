@@ -27,9 +27,12 @@ const getLPAUser = async (userId) => {
  * @async
  * @param {import('express').Request} req
  * @param {Promise<import('appeals-service-api').Api.AppealUser>} user
+ * @param {string} access_token
+ * @param {string} id_token
+ * @param {Date} expiry
  * @returns {Promise<void>}
  */
-const createLPAUserSession = async (req, user) => {
+const createLPAUserSession = async (req, user, access_token, id_token, expiry) => {
 	req.session.lpaUser = user;
 
 	let lpa = await getLPA(user.lpaCode);
@@ -37,7 +40,10 @@ const createLPAUserSession = async (req, user) => {
 	req.session.lpaUser = {
 		...req.session.lpaUser,
 		lpaName: lpa.name,
-		lpaDomain: lpa.domain
+		lpaDomain: lpa.domain,
+		access_token: access_token,
+		id_token: id_token,
+		expiry: expiry
 	};
 };
 
