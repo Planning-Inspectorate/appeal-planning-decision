@@ -14,6 +14,10 @@ parameters:
     displayName: Build Appeals Service API
     type: boolean
     default: true
+  - name: buildAuthServer
+    displayName: Build Auth Server
+    type: boolean
+    default: false
   - name: buildDocumentsApi
     displayName: Build Documents Service API
     type: boolean
@@ -76,6 +80,8 @@ extends:
               pathFilters:
                 - name: appeals-api
                   path: packages/appeals-service-api
+                - name: auth-server
+                  path: packages/auth-server
                 - name: business-rules
                   path: packages/business-rules
                 - name: common
@@ -122,6 +128,35 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.SourcesDirectory)/packages/appeals-service-api/Dockerfile
               repository: appeal-planning-decision/appeals-service-api
+      - name: Build Auth Server
+        condition: >-
+          and(
+            ne(variables['Agent.JobStatus'], 'Failed'),
+            or(
+            and(
+              eq(variables['Build.Reason'], 'Manual'),
+              eq(${{ parameters.buildAuthServer }}, 'true')
+            ),
+            and(
+              ne(variables['Build.Reason'], 'Manual'),
+              or(
+                eq(variables['Build.SourceBranchName'], 'main'),
+                eq(dependencies.run_linting_and_tests.outputs['check_files.auth-server'], 'true'),
+                eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true'),
+                eq(dependencies.run_linting_and_tests.outputs['check_files.database'], 'true')
+              )
+            )
+          )
+          )
+        dependsOn:
+          - Run Linting & Tests
+        steps:
+          - template: ../steps/azure_web_app_docker_build_push.yml@templates
+            parameters:
+              azurecrName: $(azurecrName)
+              dockerfilePath: $(Build.SourcesDirectory)/packages/auth-server/Dockerfile
+              repository: appeal-planning-decision/auth-server
+
       - name: Build Documents API
         condition: >-
           and(
