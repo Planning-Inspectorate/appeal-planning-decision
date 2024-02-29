@@ -1,0 +1,12 @@
+{
+	"include": ["**/*.js"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"#lib/*": ["./src/lib/*.js"]
+		},
+		"checkJs": true,
+		"strict": true,
+		"moduleResolution": "node"
+	}
+}

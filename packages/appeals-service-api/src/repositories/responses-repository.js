@@ -1,4 +1,4 @@
-const flattenObjectToDotNotation = require('../lib/flattenObjectToDotNotation');
+const flattenObjectToDotNotation = require('@pins/common/src/lib/flattenObjectToDotNotation');
 const { MongoRepository } = require('./mongo-repository');
 
 class ResponsesRepository extends MongoRepository {

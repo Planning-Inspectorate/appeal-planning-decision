@@ -1,0 +1,16 @@
+/**
+ * Logger
+ *
+ * Creates a log instance with common configuration that can be
+ * used throughout the application
+ */
+
+import pino from 'pino';
+
+import config from '../configuration/config.js';
+
+export default pino({
+	level: config.logger.level,
+	redact: config.logger.redact,
+	prettyPrint: config.logger.prettyPrint
+});

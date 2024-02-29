@@ -26,5 +26,29 @@ module.exports = {
 	 * not strictly appeal-user role, there is no link between LPA user and an appeal, it's via the lpa-code on the user and appeal
 	 * @type {LpaUserRole}
 	 */
-	LPA_USER_ROLE: 'lpa-user'
+	LPA_USER_ROLE: 'lpa-user',
+	AUTH: {
+		RESOURCE: 'http://appeals-front-office', // represents all appeals apis, single access token shared between all
+		OIDC_ENDPOINT: '/oidc',
+		/** @type {import('oidc-provider').ClientAuthMethod} */
+		CLIENT_AUTH_METHOD: 'client_secret_post',
+		SCOPES: {
+			USER_DETAILS: {
+				OPENID: 'openid',
+				USER_INFO: 'userinfo',
+				EMAIL: 'email'
+			},
+			// APPEALS_API: {
+			// 	READ: 'appeals:read',
+			// 	WRITE: 'appeals:write'
+			// },
+			// DOCS_API: {
+			// 	READ: 'documents:read',
+			// 	WRITE: 'documents:write'
+			// },
+			BO_DOCS_API: {
+				READ: 'bo-documents:read'
+			}
+		}
+	}
 };
