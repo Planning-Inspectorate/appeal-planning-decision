@@ -23,6 +23,25 @@ const formatAddress = (appealCaseData) => {
 };
 
 /**
+ * @param {AppealCaseWithAppellant | AppealSubmission} appealCaseData
+ * @returns {string}
+ */
+const formatAddressWithBreaks = (appealCaseData) => {
+	if (isAppealSubmission(appealCaseData)) {
+		return formatAppealSubmissionAddress(appealCaseData);
+	}
+
+	const addressComponents = [
+		appealCaseData.siteAddressLine1,
+		appealCaseData.siteAddressLine2,
+		appealCaseData.siteAddressTown,
+		appealCaseData.siteAddressPostcode
+	];
+
+	return addressComponents.filter(Boolean).join(', ');
+};
+
+/**
  * @param {AppealSubmission} appealSubmission
  * @returns {string}
  */
@@ -39,7 +58,7 @@ const formatAppealSubmissionAddress = (appealSubmission) => {
 		address.postcode
 	];
 
-	return addressComponents.filter(Boolean).join(', ');
+	return addressComponents.filter(Boolean).join('<br>');
 };
 
 /**
@@ -52,5 +71,6 @@ function isAppealSubmission(caseOrSubmission) {
 
 module.exports = {
 	formatAddress,
+	formatAddressWithBreaks,
 	isAppealSubmission
 };
