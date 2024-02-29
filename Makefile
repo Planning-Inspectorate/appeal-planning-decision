@@ -42,7 +42,7 @@ appeals:
 # only services required for documents
 documents:
 	docker compose --profile documents -f docker-compose.yml -f docker-compose.slim.yml up
-.PHONY: appeals
+.PHONY: documents
 
 database:
 	docker compose --profile database -f docker-compose.yml -f docker-compose.slim.yml up
