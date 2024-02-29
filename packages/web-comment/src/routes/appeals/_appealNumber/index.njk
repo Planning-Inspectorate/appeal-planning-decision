@@ -2,6 +2,7 @@
 
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "pins/components/appeal-sections-block.njk" import appealSectionsBlock %}
 
 {% set title="Appeal " + appeal.status + " for comment - Comment on a planning appeal - GOV.UK" %}
 
@@ -26,15 +27,11 @@
         rows: headlineData
       }) }}
 
-      {% if appeal.casePublished %}
-        <h2 class="govuk-heading-l">Appeal details</h2>
-
-        <p class="govuk-body">
-          <a href="/appeal-details">Appeal details</a>
-        </p>
-      {% endif %}
-
       <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
     </div>
+
+		<div class="govuk-grid-column-two-thirds">
+			{{ appealSectionsBlock(appeal.sections) }}
+		</div>
   </div>
 {% endblock %}

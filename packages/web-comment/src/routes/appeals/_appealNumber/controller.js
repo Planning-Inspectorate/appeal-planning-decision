@@ -30,7 +30,7 @@ const selectedAppeal = async (req, res) => {
 			status: getAppealStatus(appeal),
 			sections: formatSections({
 				caseData: appeal,
-				sections: formatSections({ caseData: appeal, sections })
+				sections: sections
 			})
 		},
 		headlineData
