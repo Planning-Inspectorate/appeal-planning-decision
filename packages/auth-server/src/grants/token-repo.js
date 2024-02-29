@@ -1,7 +1,6 @@
-const { createToken } = require('@pins/common/src/lib/token.js');
-const { createPrismaClient } = require('#db-client');
+import { createToken } from '@pins/common/src/lib/token.js';
 
-const MILLISECONDS_BETWEEN_TOKENS = 10_000;
+export const MILLISECONDS_BETWEEN_TOKENS = 10_000;
 
 /**
  * @typedef { import("@prisma/client").PrismaClient } PrismaClient
@@ -9,11 +8,14 @@ const MILLISECONDS_BETWEEN_TOKENS = 10_000;
  * @typedef { import("@prisma/client").Prisma.SecurityTokenCreateInput } SecurityTokenCreateInput
  */
 
-class TokenRepository {
+export class TokenRepository {
 	dbClient;
 
-	constructor() {
-		this.dbClient = createPrismaClient();
+	/**
+	 * @param {import('@prisma/client').PrismaClient} client
+	 */
+	constructor(client) {
+		this.dbClient = client;
 	}
 
 	/**
@@ -84,5 +86,3 @@ class TokenRepository {
 		});
 	}
 }
-
-module.exports = TokenRepository;

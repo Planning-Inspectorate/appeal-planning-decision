@@ -1,6 +1,6 @@
 const logger = require('../lib/logger');
 const mongodb = require('../db/db');
-const { createToken } = require('../lib/token');
+const { createToken } = require('@pins/common/src/lib/token.js');
 
 /**
  * create or update the token using mongo

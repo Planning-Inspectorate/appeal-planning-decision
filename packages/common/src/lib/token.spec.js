@@ -1,15 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-const crypto = require('crypto');
-const { createToken } = require('../../../src/lib/token');
-
-/*eslint-disable no-unused-labels */
-jest.mock('crypto', () => {
-	return {
-		randomBytes: () => ({
-			toString: () => 'aeiouAEIOU0b1c2d='
-		})
-	};
-});
+const { createToken } = require('./token');
 
 describe('lib/token', () => {
 	describe('createToken', () => {

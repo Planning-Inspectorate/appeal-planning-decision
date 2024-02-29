@@ -1,4 +1,4 @@
-const flattenObjectToDotNotation = require('../../../src/lib/flattenObjectToDotNotation');
+const flattenObjectToDotNotation = require('./flattenObjectToDotNotation');
 
 describe('flattenObjectToDotNotation', () => {
 	it('flattens an object to dot notation', () => {
