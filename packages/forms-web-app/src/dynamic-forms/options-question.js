@@ -120,7 +120,6 @@ class OptionsQuestion extends Question {
 					: journey.response.answers[conditionalField.fieldName] || '';
 
 				optionData.conditional = {
-					...optionData.conditional,
 					html: nunjucks.render(`./dynamic-components/conditional/${conditionalField.type}.njk`, {
 						payload,
 						...conditionalField,

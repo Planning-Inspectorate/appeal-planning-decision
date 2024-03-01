@@ -10,7 +10,6 @@ jest.mock('../../../src/lib/logger', () => {
 	};
 });
 
-jest.mock('../../../src/data-producers/lpa-response-producer');
 jest.mock('../../../src/services/object-store', () => ({
 	...jest.requireActual('../../../src/services/object-store'),
 	blobMetaGetter: jest.fn(() => async () => ({

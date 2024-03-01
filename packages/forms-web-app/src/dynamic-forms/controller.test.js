@@ -198,6 +198,7 @@ const mockSection = {
 };
 
 jest.mock('../lib/appeals-api-wrapper');
+jest.mock('../lib/appeals-api-client');
 jest.mock('../services/lpa-user.service');
 jest.mock('./journey-factory');
 

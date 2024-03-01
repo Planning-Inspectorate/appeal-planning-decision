@@ -1,14 +1,9 @@
 const {
 	patchResponseByReferenceId,
-	getResponseByReferenceId,
-	submitQuestionnaireResponse
+	getResponseByReferenceId
 } = require('../../../src/controllers/responses');
 const ApiError = require('../../../src/errors/apiError');
-const {
-	patchResponse,
-	getResponse,
-	submitResponse
-} = require('../../../src/services/responses.service');
+const { patchResponse, getResponse } = require('../../../src/services/responses.service');
 const { mockReq, mockRes } = require('../mocks');
 
 const req = mockReq();
@@ -100,53 +95,6 @@ describe('Responses API controller', () => {
 			expect(res.status).toHaveBeenCalledWith(error.code);
 			expect(res.send).toHaveBeenCalledWith(error.message.errors);
 			expect(result).toEqual(res);
-		});
-	});
-
-	describe('submitQuestionnaireResponse', () => {
-		it('should return 200 call submitResponse with questionnaire data if successful', async () => {
-			req.params = {
-				journeyId: journeyId,
-				referenceId: referenceId
-			};
-			let questionnaireResponse = { test: 'test' };
-
-			getResponse.mockReturnValue(questionnaireResponse);
-			submitResponse.mockReturnValue({});
-
-			const result = await submitQuestionnaireResponse(req, res);
-
-			expect(getResponse).toHaveBeenCalledWith(journeyId, referenceId);
-
-			expect(submitResponse).toHaveBeenCalledWith(questionnaireResponse);
-			expect(res.status).toHaveBeenCalledWith(200);
-			expect(result).toEqual(res);
-		});
-
-		it('should return error status code and message if service call errors', async () => {
-			const error = ApiError.noReferenceIdProvided();
-			getResponse.mockImplementation(() => {
-				throw error;
-			});
-
-			const result = await submitQuestionnaireResponse(req, res);
-
-			expect(res.status).toHaveBeenCalledWith(error.code);
-			expect(res.send).toHaveBeenCalledWith(error.message.errors);
-			expect(result).toEqual(res);
-		});
-		it('should throw an error if an unexpected error is thrown', async () => {
-			const unexpectedError = new Error('blah');
-			getResponse.mockImplementation(() => {
-				throw unexpectedError;
-			});
-			try {
-				await submitQuestionnaireResponse(req, res);
-			} catch (error) {
-				expect(error).toEqual(unexpectedError);
-			}
-			expect(res.status).not.toHaveBeenCalled();
-			expect(res.send).not.toHaveBeenCalled();
 		});
 	});
 });
