@@ -64,9 +64,8 @@ class BackOfficeV2Service {
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error("Questionnaire's associated AppealCase has an invalid appealTypeCode");
 
-		// Need to find a way to get that 1001 programmatically
 		return await forwarders.questionnaire(
-			formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
+			await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
 				caseReference,
 				questionnaire
 			)

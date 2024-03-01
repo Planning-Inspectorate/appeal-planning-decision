@@ -99,7 +99,10 @@ paths:
       responses:
         200:
           description: The questionnaire has been submitted successfully
-          content: 'Ok'
+          content:
+            'text/html':
+              schema:
+                type: string
         404:
           description: Questionnaire not found
           content:
