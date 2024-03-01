@@ -57,17 +57,7 @@ jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 	sendEvents: jest.fn()
 }));
 
-jest.mock('../../../../../../../src/services/object-store', () => ({
-	blobMetaGetter() {
-		return async () => ({
-			lastModified: '2024-03-01T14:48:35.847Z',
-			createdOn: '2024-03-01T13:48:35.847Z',
-			metadata: { mime_type: 'image/jpeg' },
-			size: 10293,
-			_response: { request: { url: 'https://example.com' } }
-		});
-	}
-}));
+jest.mock('../../../../../../../src/services/object-store');
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	it('Formats the given questionnaire then sends it to back office', async () => {

@@ -10,23 +10,6 @@ jest.mock('../../../src/lib/logger', () => {
 	};
 });
 
-jest.mock('../../../src/services/object-store', () => ({
-	...jest.requireActual('../../../src/services/object-store'),
-	blobMetaGetter: jest.fn(() => async () => ({
-		createdOn: '2023-11-06T11:40:07.453Z',
-		lastModified: '2023-11-06T11:40:07.453Z',
-		document_type: undefined,
-		metadata: {
-			mime_type: 'image/jpeg'
-		},
-		_response: {
-			request: {
-				url: 'http://blob-storage:10000/devstoreaccount1/uploads/has-questionnaire%3AAPP_Q9999_W_22_1234567/5b857ec6-9317-4530-81c3-d4ed5994ade2/APP-Q9999-W-22-1234567-original_sparkling-enamel-pin-badge-gift-for-awesome-friends.jpg'
-			}
-		}
-	}))
-}));
-
 describe('./src/services/responses.service', () => {
 	const journeyId = 'has-questionnaire';
 	const referenceId = '12345';
