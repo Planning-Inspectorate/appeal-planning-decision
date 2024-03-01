@@ -1,5 +1,5 @@
 /** @type {(maybeSections: unknown) => maybeSections is import('./def').Sections} */
-exports.isSection = (maybeSections) => !maybeSections;
+exports.isSection = (maybeSections) => !!maybeSections;
 
 /**
  * @param {{
