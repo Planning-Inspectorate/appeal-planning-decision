@@ -31,6 +31,7 @@ let mockedExternalApis;
 jest.setTimeout(140000);
 jest.mock('../../src/db/db');
 jest.mock('../../src/configuration/featureFlag');
+jest.mock('../../src/services/object-store');
 
 let TEST_APPEAL;
 /** @type {import('@prisma/client').AppealUser} */
