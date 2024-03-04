@@ -6,6 +6,7 @@ const { createPrismaClient } = require('../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
+const { blobMetaGetter } = require('../../../../src/services/object-store');
 
 /** @type {import('@prisma/client').PrismaClient} */
 let sqlClient;
@@ -13,7 +14,9 @@ let sqlClient;
 let appealsApi;
 
 jest.mock('../../../configuration/featureFlag');
-jest.mock('../../src/services/object-store');
+jest.mock('../../../../src/services/object-store');
+
+blobMetaGetter;
 
 jest.setTimeout(10000);
 
