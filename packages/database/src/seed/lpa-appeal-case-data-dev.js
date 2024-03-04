@@ -74,6 +74,22 @@ const lpaAppealCaseData = [
 	},
 	{
 		Appeal: {
+			connect: { id: lpaAppealIds.appealOne }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000100',
+		appealTypeCode: 'HAS',
+		appealTypeName: 'Householder',
+		siteAddressLine1: 'HAS Questionnaire and statement due',
+		siteAddressLine2: null,
+		siteAddressTown: 'Not submitted',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		questionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1))
+	},
+	{
+		Appeal: {
 			connect: { id: lpaAppealIds.appealTwo }
 		},
 		...commonAppealCaseDataProperties,
