@@ -1,4 +1,4 @@
-const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatHeadlineData, formatAppealDetails } = require('@pins/common');
 
 const { VIEW } = require('../../../lib/views');
@@ -39,6 +39,7 @@ exports.get = async (req, res) => {
 
 	const viewContext = {
 		titleSuffix: formatTitleSuffix(userType),
+		appealDetailsSuffix: formatDetailsSuffix(userType),
 		appeal: {
 			appealNumber,
 			headlineData,
@@ -56,4 +57,15 @@ exports.get = async (req, res) => {
 const formatTitleSuffix = (userType) => {
 	if (userType === LPA_USER_ROLE) return 'Manage your appeals';
 	return 'Appeal a planning decision';
+};
+
+/**
+ * @param {string} userType
+ * @returns {string}
+ */
+const formatDetailsSuffix = (userType) => {
+	if (userType === (APPEAL_USER_ROLES.APPELLANT || APPEAL_USER_ROLES.AGENT)) {
+		return 'Your';
+	}
+	return "Appellant's";
 };
