@@ -16,6 +16,7 @@ const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
 const filterByKey = require('./lib/filter-by-key');
 const addKeyValuePair = require('./lib/add-key-value-pair');
 const renderTemplateFilter = require('./lib/render-template-filter');
+const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 const flashMessageCleanupMiddleware = require('./middleware/flash-message-cleanup');
 const flashMessageToNunjucks = require('./middleware/flash-message-to-nunjucks');
 const removeUnwantedCookiesMiddelware = require('./middleware/remove-unwanted-cookies');
@@ -29,7 +30,6 @@ require('express-async-errors');
 const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
-const { arrayHasItems } = require('#lib/array-has-items');
 
 const app = express();
 
