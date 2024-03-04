@@ -40,7 +40,8 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appealTwelve },
 	{ id: lpaAppealIds.appealThirteen },
 	{ id: lpaAppealIds.appealFourteen },
-	{ id: lpaAppealIds.appealFifteen }
+	{ id: lpaAppealIds.appealFifteen },
+	{ id: lpaAppealIds.appeal16 }
 ];
 
 const commonAppealCaseDataProperties = {
