@@ -44,9 +44,9 @@ npm install <new-package>
 
 #### Database Server Setup
 
-A SQL Server database server has been set up to run when the appeals service api is running.
+A SQL Server database server is required for the api to run. This will start automatically with docker compose. However it is required to migrate and seed the database which can be done from scripts in the database package.
 
-First, make sure you have a `.env` file in `./packages/appeals-service-api` (you can copy the `.env.example`) and it has `SQL_CONNECTION_STRING` and `SQL_CONNECTION_STRING_ADMIN` environment variables defined with details pointing to your local database server (`mssql` Docker container). These values will/can be the same for local development (admin is used for migrations, the other one for the API/app connection).
+First, make sure you have a `.env` file in `./packages/database` (you can copy the `.env.example`) and it has `SQL_CONNECTION_STRING` and `SQL_CONNECTION_STRING_ADMIN` environment variables defined with details pointing to your local database server (`mssql` Docker container). These values will/can be the same for local development (admin is used for migrations, the other one for the seeding).
 
 To set up the SQL Server with tables and some data, you will need to run the following commands (whilst the SQL Server Docker container is running. You can run it by running the appeals service api or forms web app. For example: `make run SERVICE=appeals-service-api`. Alternatively, you can run the Docker container called 'mssql' manually using the Docker interface):
 
@@ -402,9 +402,9 @@ Where appropriate the source code must be split out into a hierarchy by appeal t
 
 ### Test structure
 
-On a per project basis, unit tests shoudl live under a dir with the following pattern __tests__/unit/ and integration tests should live under __tests__/developer/, this is so integration and unit tests can be ran separately.
+On a per project basis, unit tests should live under a dir with the following pattern __tests__/unit/ and integration tests should live under __tests__/developer/, this is so integration and unit tests can be ran separately.
 
-UAT test packages requiring cypress have been m,pved to live under a route of /test-packages/ so they can be built and linted spearately.
+UAT test packages requiring cypress have been moved to live under a route of /test-packages/ so they can be built and linted separately.
 
 ## Feature Flag
 
