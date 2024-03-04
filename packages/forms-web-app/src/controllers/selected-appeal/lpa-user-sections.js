@@ -73,7 +73,7 @@ exports.sections = [
 			},
 			{
 				url: '/proof-of-evidences',
-				text: 'View the appellant proof of evidence and witnesses',
+				text: "View the appellant's proof of evidence and witnesses",
 				condition: (appealCase) => appealCase.appellantProofEvidencePublished
 			},
 			{
