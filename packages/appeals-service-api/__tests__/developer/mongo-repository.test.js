@@ -11,6 +11,7 @@ let databaseConnection;
 
 jest.setTimeout(120000);
 jest.mock('../../src/db/db');
+jest.mock('../../src/services/object-store');
 
 let mockedDatabase;
 
