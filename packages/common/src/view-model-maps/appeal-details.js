@@ -108,7 +108,7 @@ const formatProcedure = (caseData) => {
 		caseData.appellantPreferInquiryDetails
 	];
 
-	const valueText = possibleProcedures.filter(Boolean).join('<br');
+	const valueText = possibleProcedures.filter(Boolean).join('<br>');
 
 	return valueText ? createRow(keyText, valueText) : null;
 };

@@ -104,7 +104,15 @@ const lpaAppealCaseData = [
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
-		statementDueDate: pickRandom(datesNMonthsAhead(1))
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		ownsAllLand: true,
+		agriculturalHolding: true,
+		appellantSiteAccess: true,
+		appellantSiteAccessDetails: 'Clear access',
+		appellantSiteSafety: true,
+		appellantSiteSafetyDetails: 'Cattle',
+		appellantProcedurePreference: 'Hearing',
+		appellantPreferHearingDetails: 'Would like day in court'
 	},
 	{
 		Appeal: {
@@ -120,7 +128,18 @@ const lpaAppealCaseData = [
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
-		statementDueDate: pickRandom(datesNMonthsAhead(1))
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		yourFirstName: 'Test',
+		yourLastName: 'Agent',
+		yourCompanyName: 'Test Agency Ltd',
+		ownsSomeLand: true,
+		agriculturalHolding: true,
+		appellantSiteAccess: false,
+		appellantSiteAccessDetails: 'Blocked access',
+		appellantSiteSafety: false,
+		appellantSiteSafetyDetails: 'No issues',
+		appellantProcedurePreference: 'Inquiry',
+		appellantPreferInquiryDetails: 'Would like longer consideration'
 	},
 	{
 		Appeal: {

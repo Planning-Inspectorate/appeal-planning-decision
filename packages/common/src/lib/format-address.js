@@ -38,7 +38,7 @@ const formatAddressWithBreaks = (appealCaseData) => {
 		appealCaseData.siteAddressPostcode
 	];
 
-	return addressComponents.filter(Boolean).join(', ');
+	return addressComponents.filter(Boolean).join('<br>');
 };
 
 /**
@@ -58,7 +58,7 @@ const formatAppealSubmissionAddress = (appealSubmission) => {
 		address.postcode
 	];
 
-	return addressComponents.filter(Boolean).join('<br>');
+	return addressComponents.filter(Boolean).join(', ');
 };
 
 /**
