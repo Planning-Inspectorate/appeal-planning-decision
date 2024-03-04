@@ -13,6 +13,7 @@ const serverConfig = require('./server.config');
 const logger = require('./logging/logger');
 const { routes } = require('./routes');
 const { mapToErrorSummary } = require('#utils/filters/map-to-error-summary');
+const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 
 const app = express();
 
@@ -51,6 +52,7 @@ const viewPaths = [
 
 const nj = nunjucks.configure(viewPaths, nunjucksConfig);
 nj.addFilter('mapToErrorSummary', mapToErrorSummary);
+nj.addFilter('hasItems', arrayHasItems);
 
 if (serverConfig.server.useSecureSessionCookie) {
 	app.set('trust proxy', 1); // trust first proxy
