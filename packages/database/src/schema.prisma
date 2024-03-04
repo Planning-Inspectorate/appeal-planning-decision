@@ -247,6 +247,32 @@ model AppealCase {
   caseDecisionOutcome   String?
   caseDecisionPublished Boolean? @default(false)
 
+  // appeal details
+  yourFirstName   String?
+  yourLastName    String?
+  yourCompanyName String?
+
+  ownsAllLand      Boolean?
+  ownsSomeLand     Boolean?
+  knowsOtherOwners Boolean?
+  identifiedOwners Boolean?
+  advertisedAppeal Boolean?
+  informedOwners   Boolean?
+
+  agriculturalHolding                Boolean?
+  tenantAgriculturalHolding          Boolean?
+  otherTenantsAgriculturalHolding    Boolean?
+  informedTenantsAgriculturalHolding Boolean?
+
+  appellantSiteAccess        Boolean?
+  appellantSiteAccessDetails String?
+  appellantSiteSafety        Boolean?
+  appellantSiteSafetyDetails String?
+
+  appellantProcedurePreference  String?
+  appellantPreferHearingDetails String?
+  appellantPreferInquiryDetails String?
+
   // todo: there are many more fields! waiting on the model definition
 
   /// link to root Appeal
