@@ -17,6 +17,7 @@ const { fakeDocuments } = fakeDocumentMetadata();
 
 jest.mock('../../src/db/db');
 jest.mock('../../src/configuration/featureFlag');
+jest.mock('../../src/services/object-store');
 
 beforeAll(async () => {
 	///////////////////////////////
