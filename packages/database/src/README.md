@@ -11,7 +11,7 @@ For SQL we use [Prisma](https://www.prisma.io/) as an ORM. The schema is in this
 To update the schema, follow these steps:
 
 1. Make changes to the `schema.prisma` file, see [Field Types](https://www.prisma.io/docs/orm/reference/prisma-schema-reference#model-field-scalar-types) and associated Prisma documentation.
-2. Run `npm run db:migrate:dev` in the api package, this will prompt for a migration name (this can include spaces, they'll be replaced with underscores)
+2. Run `npm run db:migrate:dev` in the root package, this will prompt for a migration name (this can include spaces, they'll be replaced with underscores)
 3. Commit the schema + migration script
 
 ### Comments
