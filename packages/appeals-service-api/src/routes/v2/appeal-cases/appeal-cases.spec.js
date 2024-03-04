@@ -13,6 +13,7 @@ let sqlClient;
 let appealsApi;
 
 jest.mock('../../../configuration/featureFlag');
+jest.mock('../../src/services/object-store');
 
 jest.setTimeout(10000);
 
