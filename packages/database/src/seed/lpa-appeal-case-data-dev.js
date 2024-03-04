@@ -18,7 +18,8 @@ const lpaAppealIds = {
 	appealTwelve: '756d6bfb-dde8-4532-a041-86c226a23b12',
 	appealThirteen: '756d6bfb-dde8-4532-a041-86c226a23b13',
 	appealFourteen: '756d6bfb-dde8-4532-a041-86c226a23b14',
-	appealFifteen: '756d6bfb-dde8-4532-a041-86c226a23b15'
+	appealFifteen: '756d6bfb-dde8-4532-a041-86c226a23b15',
+	appeal16: '756d6bfb-dde8-4532-a041-86c226a23b16'
 };
 
 /**
@@ -74,7 +75,7 @@ const lpaAppealCaseData = [
 	},
 	{
 		Appeal: {
-			connect: { id: lpaAppealIds.appealOne }
+			connect: { id: lpaAppealIds.appeal16 }
 		},
 		...commonAppealCaseDataProperties,
 		caseReference: '0000100',
