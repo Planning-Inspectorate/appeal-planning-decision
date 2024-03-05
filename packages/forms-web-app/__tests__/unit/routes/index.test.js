@@ -1,5 +1,7 @@
 const { use } = require('./router-mock');
 
+const config = require('../../../src/config');
+
 const homeRouter = require('../../../src/routes/home');
 const cookieRouter = require('../../../src/routes/cookies');
 const accessibilityRouter = require('../../../src/routes/accessibility-statement/accessibility-statement');
@@ -63,7 +65,9 @@ describe('routes/index', () => {
 
 		expect(use).toHaveBeenCalledWith('/appeal', appealRouter);
 
-		expect(use).toHaveBeenCalledWith('/appeals', checkLoggedIn, appealsRouter);
+		if (config.dashboardsEnabled) {
+			expect(use).toHaveBeenCalledWith('/appeals', checkLoggedIn, appealsRouter);
+		}
 
 		expect(use).toHaveBeenCalledWith(
 			'/save-and-return',
@@ -89,7 +93,9 @@ describe('routes/index', () => {
 			appellantSubmissionRouter
 		);
 
-		expect(use).toHaveBeenCalledWith('/manage-appeals', lpaRouter);
+		if (config.dashboardsEnabled) {
+			expect(use).toHaveBeenCalledWith('/manage-appeals', lpaRouter);
+		}
 
 		expect(use).toHaveBeenCalledWith('/debug', checkDebugAllowed, debugRouter);
 
