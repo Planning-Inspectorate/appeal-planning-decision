@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const config = require('../config');
 
 const home = require('./home');
 const cookies = require('./cookies');
@@ -26,10 +27,14 @@ const checkDebugAllowed = require('#middleware/check-debug-allowed');
 const checkLoggedIn = require('#middleware/check-logged-in');
 
 /// LPA ///
-router.use('/manage-appeals', lpaDashboard);
+if (config.dashboardsEnabled) {
+	router.use('/manage-appeals', lpaDashboard);
+}
 
 /// Rule 6 ///
-router.use('/rule-6-appeals', rule6Appeals);
+if (config.dashboardsEnabled) {
+	router.use('/rule-6-appeals', rule6Appeals);
+}
 
 /// General Pages ///
 router.use('/', home);
@@ -52,7 +57,10 @@ router.use('/full-appeal', fullAppeal);
 router.use('/appeal', appeal);
 
 /// post login shared appeals pages ///
-router.use('/appeals', checkLoggedIn, appeals);
+if (config.dashboardsEnabled) {
+	router.use('/appeals', checkLoggedIn, appeals);
+}
+
 router.use('/document/:appealOrQuestionnaireId/:documentId', checkLoggedIn, getDocument);
 router.use('/save-and-return', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, save);
 router.use('/submit-appeal', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, submit);
