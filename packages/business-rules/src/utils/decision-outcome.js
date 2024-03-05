@@ -9,8 +9,8 @@ const { DECISION_OUTCOME } = require('../constants');
 function mapDecisionColour(decision) {
 	const decisionColourMap = new Map([
 		[DECISION_OUTCOME.ALLOWED, 'green'],
-		[DECISION_OUTCOME.DISMISSED, 'orange'],
-		[DECISION_OUTCOME.SPLIT_DECISION, 'yellow']
+		[DECISION_OUTCOME.DISMISSED, 'yellow'],
+		[DECISION_OUTCOME.SPLIT_DECISION, 'orange']
 	]);
 
 	return (decision && decisionColourMap.get(decision)) || 'grey';
