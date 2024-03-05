@@ -163,34 +163,17 @@ class OptionsQuestion extends Question {
 		responseToSave.answers[this.fieldName] = fieldValues.join(',');
 		journeyResponse.answers[this.fieldName] = fieldValues;
 
-		// sort conditional subsections they should be able to answer form those they shouldn't
-		const [validConditionalFieldNames, invalidConditionalFieldNames] = this.options.reduce(
-			(/** @type {[string[], string[]]} */ acc, option) => {
-				if (!option.conditional) return acc;
-				const optionIsSelectedOption = selectedOptions.some(
-					(selectedOption) =>
-						option.text === selectedOption.text && option.value === selectedOption.value
-				);
-				if (!optionIsSelectedOption) return [acc[0], [...acc[1], option.conditional.fieldName]];
-				return [[...acc[0], option.conditional.fieldName], acc[1]];
-			},
-			[[], []]
-		);
+		this.options.forEach((option) => {
+			if (!option.conditional) return;
+			const key = getConditionalFieldName(this.fieldName, option.conditional.fieldName);
+			const optionIsSelectedOption = selectedOptions.some(
+				(selectedOption) =>
+					option.text === selectedOption.text && option.value === selectedOption.value
+			);
 
-		// add data from each valid conditional answer to data to be saved
-		validConditionalFieldNames.forEach((validConditionalFieldName) => {
-			const key = getConditionalFieldName(this.fieldName, validConditionalFieldName);
-			const conditionalAnswer = req.body[key];
-			if (!conditionalAnswer) return;
-			responseToSave.answers[key] = req.body[key];
-			journeyResponse.answers[key] = req.body[key];
-		});
-
-		// nullify data in each conditional answer where data might have been before
-		invalidConditionalFieldNames.forEach((invalidConditionalFieldName) => {
-			const key = getConditionalFieldName(this.fieldName, invalidConditionalFieldName);
-			responseToSave.answers[key] = null;
-			journeyResponse.answers[key] = null;
+			const value = optionIsSelectedOption ? req.body[key] : null;
+			responseToSave.answers[key] = value;
+			journeyResponse.answers[key] = value;
 		});
 
 		return responseToSave;
