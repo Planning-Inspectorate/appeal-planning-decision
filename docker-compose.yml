@@ -116,6 +116,7 @@ services:
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
       CLAMAV_HOST: clamav-server
       CLAMAV_PORT: 3310
+      DASHBOARDS_ENABLED: 'true'
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FEATURE_FLAGS_SETTING: 'ALL_ON'
       FILE_UPLOAD_DEBUG: 'false'

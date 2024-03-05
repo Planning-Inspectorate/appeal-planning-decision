@@ -25,6 +25,7 @@ module.exports = {
 		timeout: numberWithDefault(process.env.APPEALS_SERVICE_API_TIMEOUT, 10000),
 		url: process.env.APPEALS_SERVICE_API_URL
 	},
+	dashboardsEnabled: process.env.DASHBOARDS_ENABLED === 'true',
 	db: {
 		session: {
 			uri: process.env.SESSION_MONGODB_URL,
