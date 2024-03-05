@@ -29,6 +29,8 @@ const createAzuriteContainer = async () => {
 	process.env.BO_STORAGE_CONTAINER_HOST = azuriteHost;
 	process.env.BO_STORAGE_CONTAINER_NAME = 'documents-api-it-azurite';
 	process.env.BO_BLOB_STORAGE_CONNECTION_STRING = connectionString;
+
+	process.env.BO_DOCUMENTS_ENDPOINT = azuriteHost + '/documents-api-it-azurite';
 };
 
 const isBlobInStorage = async (blobId) => {

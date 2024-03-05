@@ -1,9 +1,28 @@
 const express = require('express');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
-const { getDocumentUrl, downloadDocument } = require('./controller');
+const { AUTH } = require('@pins/common/src/constants');
+const config = require('../../../configuration/config');
+const { getDocumentUrl } = require('./controller');
+const { auth } = require('express-oauth2-jwt-bearer');
+const validateToken = require('@pins/common/src/middleware/validate-token');
+
 const router = express.Router();
 
+router.use(
+	auth({
+		issuerBaseURL: `${config.auth.authServerUrl}${AUTH.OIDC_ENDPOINT}`,
+		audience: AUTH.RESOURCE
+	})
+);
+router.use(
+	validateToken({
+		headerName: 'authentication',
+		reqPropertyName: 'id_token',
+		jwksUri: `${config.auth.authServerUrl}${AUTH.JWKS_ENDPOINT}`,
+		enforceToken: false
+	})
+);
+
 router.post('/sas-url', asyncHandler(getDocumentUrl));
-router.get('/:document', asyncHandler(downloadDocument));
 
 module.exports = { router };

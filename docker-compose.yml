@@ -53,7 +53,7 @@ services:
     ports:
       - 3005:3000
       # node debugger
-      - 9229:9229
+      # - 9229:9229
     working_dir: /opt/app
     volumes:
       # mount the root node_modules for shared packages
@@ -62,7 +62,7 @@ services:
       - ./packages/database/src/:/opt/database/src
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/auth-server:/opt/app
-    command: npm run start:dev:debug
+    command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
 
@@ -72,6 +72,7 @@ services:
     environment:
       APP_APPEALS_BASE_URL: http://forms-web-app:9003
       APP_LPA_QUESTIONNAIRE_BASE_URL: http://lpa-questionnaire-web-app:9001
+      AUTH_BASE_URL: http://auth-server:3000
       DOCS_API_PATH: /opt/app/api
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FEATURE_FLAGS_SETTING: 'ALL_ON'
@@ -134,31 +135,42 @@ services:
     profiles: ['all', 'api', 'appeals', 'documents']
     image: node:18-alpine
     environment:
+      AUTH_BASE_URL: http://auth-server:3000
       BO_STORAGE_CONTAINER_HOST: http://localhost:4004/devstoreaccount1
       BO_STORAGE_CONTAINER_NAME: bo-appeals-documents
       BO_BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://bo-blob-storage:10000/devstoreaccount1;
       BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;
-      STORAGE_CONTAINER_NAME: uploads
+      FEATURE_FLAGS_SETTING: 'ALL_ON'
       FILE_MAX_SIZE_IN_BYTES: 26214400
       FILE_UPLOAD_PATH: /tmp/upload
+      LOGGER_LEVEL: 'debug'
       MONGODB_AUTO_INDEX: 'true'
       MONGODB_URL: mongodb://mongodb:27017/document-service-api
-      SERVER_SHOW_ERRORS: 'true'
       PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING:
-      FEATURE_FLAGS_SETTING: 'ALL_ON'
+      SERVER_SHOW_ERRORS: 'true'
+      SQL_CONNECTION_STRING: 'sqlserver://mssql:1433;database=pins_front_office_development;user=sa;password=DockerDatabaseP@22word!;trustServerCertificate=true'
+      STORAGE_CONTAINER_NAME: uploads
+
       #NODE_TLS_REJECT_UNAUTHORIZED: 0
     ports:
       - 3001:3000
+      # node debugger
+      # - 9229:9229
     working_dir: /opt/app
     depends_on:
       - mongodb
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
+      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/database/src/:/opt/database/src
+      - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/document-service-api:/opt/app
       - ./tmp/documents-upload:/tmp/upload
     command: npm run start:dev
+    # if enabling debug, be sure to uncomment / expose the debug port above.
+    # command: npm run start:dev:debug
 
   forms-web-app:
     profiles: ['all', 'appeals']
@@ -213,6 +225,7 @@ services:
     environment:
       LOGGER_LEVEL: 'debug'
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
+      AUTH_BASE_URL: http://auth-server:3000
     ports:
       - 9002:3000
       # node debugger

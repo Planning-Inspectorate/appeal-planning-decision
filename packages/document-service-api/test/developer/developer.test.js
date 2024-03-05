@@ -1,3 +1,4 @@
+const config = require('../../src/configuration/config');
 const { documentTypes } = require('@pins/common'); // TODO: remove this when the document types from @pins/common are brought into this API.
 const supertest = require('supertest');
 const app = require('../../src/app');
@@ -5,10 +6,68 @@ const api = supertest(app);
 const path = require('path');
 const each = require('jest-each').default;
 const { isBlobInStorage } = require('./testcontainer-helpers/azurite-container-helper');
+const { createPrismaClient } = require('../../src/db/db-client');
+const { seedStaticData } = require('@pins/database/src/seed/data-static');
+const { seedDev } = require('@pins/database/src/seed/data-dev');
+const { appealDocuments } = require('@pins/database/src/seed/appeal-documents-dev');
+const blobClient = require('#lib/back-office-storage-client');
+const fs = require('fs');
+
+jest.setTimeout(20000);
 
 jest.mock('../../src/configuration/featureFlag', () => ({
 	isFeatureActive: () => true
 }));
+
+jest.mock('express-oauth2-jwt-bearer', () => {
+	return {
+		auth: jest.fn(() => {
+			return (req, res, next) => {
+				req.auth = {
+					payload: {
+						sub: '29670d0f-c4b4-4047-8ee0-d62b93e91a11'
+					}
+				};
+				next();
+			};
+		})
+	};
+});
+
+jest.mock('@pins/common/src/middleware/validate-token', () => {
+	return jest.fn(() => {
+		return (req, res, next) => {
+			req.id_token = {};
+			next();
+		};
+	});
+});
+
+const getDoc = ({ published = true, redacted = true, virusCheckStatus = 'checked' } = {}) => {
+	const doc = appealDocuments.find(
+		(item) =>
+			item.published === published &&
+			item.redacted === redacted &&
+			item.virusCheckStatus === virusCheckStatus
+	);
+	return doc;
+};
+
+/** @type {import('@prisma/client').PrismaClient} */
+let sqlClient;
+
+beforeAll(async () => {
+	// sql client
+	const exampleFile = fs.createReadStream(path.join(__dirname, './test-files/example.txt'));
+	sqlClient = createPrismaClient();
+	await seedStaticData(sqlClient);
+	await seedDev(sqlClient);
+	await blobClient.uploadBlob(config.boStorage.container, 'example.txt', {}, exampleFile);
+});
+
+afterAll(async () => {
+	await sqlClient.$disconnect();
+});
 
 async function _createDocument(documentType) {
 	return await api
@@ -99,13 +158,10 @@ describe('document-service-api', () => {
 
 	describe('api/v2', () => {
 		describe('/back-office', () => {
-			// v2 back office
-
 			describe('/sas-url POST', () => {
 				it('should 400 with no doc', async () => {
 					// When
 					const response = await api.post(`/api/v2/back-office/sas-url`);
-
 					// Then
 					expect(response.statusCode).toBe(400);
 				});
@@ -115,56 +171,71 @@ describe('document-service-api', () => {
 					const response = await api.post(`/api/v2/back-office/sas-url`).send({
 						document: 'unknown/file.txt'
 					});
-
 					// Then
 					expect(response.statusCode).toBe(404);
 				});
 
-				it('should return sas url', async () => {
+				it('should 401 for unredacted', async () => {
 					// Given
-					const docType = documentTypes.appealPdf;
-					const savedDocument = await _createDocument(docType.name);
+					const appealDoc = getDoc({
+						published: true,
+						redacted: false,
+						virusCheckStatus: 'checked'
+					});
 
 					// When
 					const response = await api.post(`/api/v2/back-office/sas-url`).send({
-						document: `${savedDocument.body.application_id}/${savedDocument.body.id}/${savedDocument.body.name}`
+						document: appealDoc.id
+					});
+					// Then
+					expect(response.statusCode).toBe(401);
+				});
+
+				it('should 401 for not_checked', async () => {
+					// Given
+					const appealDoc = getDoc({
+						published: true,
+						redacted: true,
+						virusCheckStatus: 'not_checked'
 					});
 
+					// When
+					const response = await api.post(`/api/v2/back-office/sas-url`).send({
+						document: appealDoc.id
+					});
+					// Then
+					expect(response.statusCode).toBe(401);
+				});
+
+				it('should 401 for failed_virus_check', async () => {
+					// Given
+					const appealDoc = getDoc({
+						published: true,
+						redacted: true,
+						virusCheckStatus: 'failed_virus_check'
+					});
+
+					// When
+					const response = await api.post(`/api/v2/back-office/sas-url`).send({
+						document: appealDoc.id
+					});
+					// Then
+					expect(response.statusCode).toBe(401);
+				});
+
+				it('should return sas url for published doc', async () => {
+					// Given
+					const appealDoc = getDoc();
+
+					// When
+					const response = await api.post(`/api/v2/back-office/sas-url`).send({
+						document: appealDoc.id
+					});
 					// Then
 					expect(response.statusCode).toBe(200);
 					const sasUrl = response.body.url;
-					const expectedPath = `/${savedDocument.body.application_id}/${savedDocument.body.id}/${savedDocument.body.name}?`;
-
-					expect(sasUrl).toContain(expectedPath); // path to doc
+					expect(sasUrl).toContain(appealDoc.documentURI); // path to doc
 					expect(sasUrl).toContain('&sig='); // sas signature
-				});
-			});
-
-			describe('/:document GET', () => {
-				it('should 404 with invalid doc', async () => {
-					// When
-					const blobName = Buffer.from('unknown/file.txt').toString('base64url');
-					const response = await api.get(`/api/v2/back-office/${blobName}`);
-
-					// Then
-					expect(response.statusCode).toBe(404);
-				});
-
-				it('should return file content', async () => {
-					// Given
-					const docType = documentTypes.appealPdf;
-					const savedDocument = await _createDocument(docType.name);
-
-					// When
-					const blobName = Buffer.from(
-						`${savedDocument.body.application_id}/${savedDocument.body.id}/${savedDocument.body.name}`
-					).toString('base64url');
-
-					const response = await api.get(`/api/v2/back-office/${blobName}`);
-
-					// Then
-					expect(response.statusCode).toBe(200);
-					expect(response.header['content-type']).toBe('application/pdf');
 				});
 			});
 		});

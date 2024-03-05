@@ -33,6 +33,16 @@
 			"restart": true,
 			"remoteRoot": "/opt/app",
 			"skipFiles": ["<node_internals>/**"]
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "docs-api",
+			"address": "localhost",
+			"localRoot": "${workspaceFolder}/packages/document-service-api",
+			"restart": true,
+			"remoteRoot": "/opt/app",
+			"skipFiles": ["<node_internals>/**", "**/node_modules/**", "**/opt/common/**"]
 		}
 	]
 }
