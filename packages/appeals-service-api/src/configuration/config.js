@@ -14,6 +14,9 @@ const {
 //       in tests, so declaring as `const`, makes this very tricky.
 // TODO: find some way to enable profile-specific configs to remove the `let` here.
 let config = {
+	auth: {
+		authServerUrl: process.env.AUTH_BASE_URL
+	},
 	enableApiDocs: process.env.NODE_ENV !== 'test',
 	data: {
 		lpa: {

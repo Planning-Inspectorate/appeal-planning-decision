@@ -63,7 +63,7 @@ router.use(
 );
 
 router.get('/test', function (req, res) {
-	res.status(200).send({ auth: req.payload });
+	res.status(200).send({ auth: req.auth.payload });
 });
 ```
 
