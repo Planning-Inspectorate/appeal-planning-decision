@@ -27,11 +27,40 @@ router.post(
 router.post('/questionnaire/:referenceId/', getJourneyResponse(), validationErrorHandler, submit);
 
 router.get(
-	'/:referenceId/questionnaire-submitted',
+	'/full-planning/:referenceId/questionnaire-submitted',
 	getJourneyResponse(),
 	validationErrorHandler,
 	submitted
 );
+
+router.get(
+	'/householder/:referenceId/questionnaire-submitted',
+	getJourneyResponse(),
+	validationErrorHandler,
+	submitted
+);
+
+// const appealTypes = {
+//     HAS: 'householder',
+//     S78: 'full planning'
+// };
+
+// for (const urlPartOne of Object.values(appealTypes)) {
+//     router.get(
+//         `${urlpartOne}/:referenceId/questionnaire-submitted`,
+// 		getJourneyResponse(),
+// 		validationErrorHandler,
+// 		submitted
+//     );
+// }
+
+// router.get(
+
+// 	'/:referenceId/questionnaire-submitted',
+// 	getJourneyResponse(),
+// 	validationErrorHandler,
+// 	submitted
+// );
 
 // remove answer - only available for some question types
 router.get(
