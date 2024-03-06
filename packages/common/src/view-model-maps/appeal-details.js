@@ -31,8 +31,8 @@ exports.formatAppealDetails = (caseData) => {
 		appellantNameRow,
 		applicationReferenceRow,
 		siteAddressRow,
-		ownership,
-		agricultural,
+		...ownership,
+		...agricultural,
 		visibility,
 		safetyIssues,
 		procedurePreference
@@ -61,21 +61,23 @@ const formatAgentDetails = (caseData) => {
 };
 
 const formatOwnership = (caseData) => {
-	if (caseData.ownsAllLand) {
-		return createRow('Site fully owned', 'Yes');
-	} else if (caseData.ownsSomeLand) {
-		return createRow('Site partly owned', 'Yes');
+	const displayOptions = ownershipOptions.filter(({ condition }) => condition(caseData));
+
+	if (displayOptions.length > 0) {
+		return displayOptions.map((option) => createRow(option.text, 'Yes'));
 	}
 
-	return null;
+	return [null];
 };
 
 const formatAgriculturalHolding = (caseData) => {
-	if (caseData.agriculturalHolding || caseData.otherTenantsAgriculturalHolding) {
-		return createRow('Agricultural holding', 'Yes');
+	const displayOptions = agriculturalOptions.filter(({ condition }) => condition(caseData));
+
+	if (displayOptions.length > 0) {
+		return displayOptions.map((option) => createRow(option.text, 'Yes'));
 	}
 
-	return createRow('Agricultural holding', 'No');
+	return [createRow('Agricultural holding', 'No')];
 };
 
 const formatVisibility = (caseData) => {
@@ -90,7 +92,7 @@ const formatVisibility = (caseData) => {
 };
 
 const formatHealthAndSafety = (caseData) => {
-	const keyText = 'Sitehealth and safety issues';
+	const keyText = 'Site health and safety issues';
 	const safetyIssues = caseData.appellantSiteSafety ? 'Yes' : 'No';
 
 	if (caseData.appellantSiteAccessDetails) {
@@ -112,3 +114,49 @@ const formatProcedure = (caseData) => {
 
 	return valueText ? createRow(keyText, valueText) : null;
 };
+
+const agriculturalOptions = [
+	{
+		text: 'Agricultural holding',
+		condition: (caseData) => caseData.agriculturalHolding
+	},
+	{
+		text: 'Tenant on agricultural holding',
+		condition: (caseData) => caseData.tenantAgriculturalHolding
+	},
+	{
+		text: 'Other agricultural holding tenants',
+		condition: (caseData) => caseData.otherTenantsAgriculturalHolding
+	},
+	{
+		text: 'Informed other agricultural holding tenants',
+		condition: (caseData) => caseData.informedTenantsAgriculturalHolding
+	}
+];
+
+const ownershipOptions = [
+	{
+		text: 'Site fully owned',
+		condition: (caseData) => caseData.ownsAllLand
+	},
+	{
+		text: 'Site partly owned',
+		condition: (caseData) => caseData.ownsSomeLand
+	},
+	{
+		text: 'Other owners known',
+		condition: (caseData) => caseData.knowsOtherOwners
+	},
+	{
+		text: 'Other owners identified',
+		condition: (caseData) => caseData.identifiedOwners
+	},
+	{
+		text: 'Advertised appeal',
+		condition: (caseData) => caseData.informedTenantsAgriculturalHolding
+	},
+	{
+		text: 'Other owners informed',
+		condition: (caseData) => caseData.advertisedAppeal
+	}
+];
