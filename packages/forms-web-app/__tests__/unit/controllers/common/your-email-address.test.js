@@ -3,12 +3,12 @@ const {
 	postYourEmailAddress
 } = require('../../../../src/controllers/common/your-email-address');
 
-const { getUserByEmail } = require('../../../../src/lib/appeals-api-wrapper');
+const { apiClient } = require('#lib/appeals-api-client');
 const { mockReq, mockRes } = require('../../mocks');
-const views = require('../../../../src/lib/views');
+const views = require('#lib/views');
 const lpaViews = views.VIEW.LPA_DASHBOARD;
 
-jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('#lib/appeals-api-client');
 
 describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	let req;
@@ -23,6 +23,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 		res = mockRes();
 		jest.resetAllMocks();
 	});
+
 	describe('getYourEmailAddress', () => {
 		it('controllers/common/getYourEmailAddress.js', async () => {
 			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
@@ -34,23 +35,27 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 			});
 		});
 	});
+
 	describe('postYourEmailAddress', () => {
-		it('/controllers/common/getYourEmailAddress.js', async () => {
+		it('redirect to enter code', async () => {
 			const testId = '64c789bf8672ef00122fe30c';
 			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
-			getUserByEmail.mockResolvedValue({
-				_id: '64c789bf8672ef00122fe30c',
-				email: 'admin1@planninginspectorate.gov.uk',
-				isAdmin: true,
-				status: 'confirmed',
-				lpaCode: 'Q9999'
-			});
+			apiClient.getUserByEmailV2.mockImplementation(() =>
+				Promise.resolve({
+					id: '64c789bf8672ef00122fe30c',
+					email: 'admin1@planninginspectorate.gov.uk',
+					isAdmin: true,
+					status: 'confirmed',
+					lpaCode: 'Q9999'
+				})
+			);
+
 			req.body['email-address'] = testEmail;
 			const returnedFunction = postYourEmailAddress(lpaViews);
 			await returnedFunction(req, res);
 			expect(res.redirect).toBeCalledWith(`/${lpaViews.ENTER_CODE}/${testId}`);
 		});
-		it('/controllers.common.getYourEmailAddress.js missing email address', async () => {
+		it('should error with missing email address', async () => {
 			const customErrorSummary = [
 				{
 					text: 'Enter an email address in the correct format, like name@example.com',

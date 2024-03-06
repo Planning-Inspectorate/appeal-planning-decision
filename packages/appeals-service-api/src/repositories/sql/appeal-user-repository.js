@@ -2,7 +2,7 @@ const { createPrismaClient } = require('../../db/db-client');
 const { Prisma } = require('@prisma/client');
 const logger = require('../../lib/logger');
 const ApiError = require('../../errors/apiError');
-const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { APPEAL_USER_ROLES, STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
@@ -25,6 +25,11 @@ class AppealUserRepository {
 	 * @returns {Promise<AppealUser>}
 	 */
 	async createUser(user) {
+		if (user.isLpaUser) {
+			user.lpaStatus = STATUS_CONSTANTS.ADDED;
+			user.isLpaAdmin = user.isLpaAdmin ?? false;
+		}
+
 		try {
 			return await this.dbClient.appealUser.create({
 				data: user
@@ -59,6 +64,17 @@ class AppealUserRepository {
 			}
 			throw err;
 		}
+	}
+
+	/**
+	 * Search users
+	 * @param {import('@prisma/client').Prisma.AppealUserWhereInput} [searchOptions]
+	 * @returns {Promise<AppealUser[]>}
+	 */
+	async search(searchOptions) {
+		return this.dbClient.appealUser.findMany({
+			where: searchOptions
+		});
 	}
 
 	/**

@@ -7,6 +7,7 @@ const { sections: appellantSections } = require('./appellant-sections');
 const { sections: lpaUserSections } = require('./lpa-user-sections');
 const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');
 const { sections: rule6Sections } = require('./rule-6-sections');
+const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 
 /** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
 const userSectionsDict = {
@@ -25,13 +26,15 @@ exports.get = async (req, res) => {
 
 	// determine user based on route to selected appeal
 	//i.e '/appeals/' = appellant | agent
+	// todo: use oauth token
 	const userType = determineUser(userRouteUrl);
 
 	if (userType === null) {
 		throw new Error('Unknown role');
 	}
 
-	const userEmail = userType === LPA_USER_ROLE ? req.session.lpaUser?.email : req.session.email;
+	const userEmail =
+		userType === LPA_USER_ROLE ? getLPAUserFromSession(req).email : req.session.email;
 
 	if (!userEmail) {
 		throw new Error('no session email');

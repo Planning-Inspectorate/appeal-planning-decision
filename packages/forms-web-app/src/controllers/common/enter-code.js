@@ -1,4 +1,4 @@
-const { getExistingAppeal, sendToken, getUserById } = require('#lib/appeals-api-wrapper');
+const { getExistingAppeal, sendToken } = require('#lib/appeals-api-wrapper');
 const {
 	getLPAUser,
 	createLPAUserSession,
@@ -313,7 +313,7 @@ const lpaTokenVerification = (res, token, views, id) => {
  * @returns {Promise<void>}
  */
 async function sendTokenToLpaUser(req) {
-	const user = await getUserById(req.params.id);
+	const user = await getLPAUser(req.params.id);
 
 	if (user?.email) {
 		await sendToken(req.params.id, enterCodeConfig.actions.lpaDashboard, user.email);
@@ -327,7 +327,7 @@ const getEnterCodeLPA = (views) => {
 			params: { id }
 		} = req;
 
-		if (!id || !id.match(/^[a-f\d]{24}$/i)) {
+		if (!id) {
 			redirectToEnterLPAEmail(res, views);
 			return;
 		}

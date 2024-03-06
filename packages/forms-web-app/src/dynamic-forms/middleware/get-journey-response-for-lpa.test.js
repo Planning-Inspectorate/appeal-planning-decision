@@ -1,14 +1,13 @@
 const getJourneyResponse = require('./get-journey-response-for-lpa');
-const { apiClient } = require('../../lib/appeals-api-client');
+const { apiClient } = require('#lib/appeals-api-client');
 const { JourneyResponse } = require('../journey-response');
-const { getAppealByLPACodeAndId } = require('../../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
+const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
-jest.mock('../../lib/appeals-api-client');
-jest.mock('../../lib/appeals-api-wrapper');
+jest.mock('#lib/appeals-api-client');
 jest.mock('../../services/lpa-user.service');
 jest.mock('./utils');
 
@@ -17,10 +16,10 @@ describe('getJourneyResponse', () => {
 	const testLPACode = 'Q9999';
 	const noneTestLPACode = 'Q1111';
 	const refId = 'ref';
-	const mockValidTestLpaUser = { lpaCode: testLPACode };
+	const mockValidTestLpaUser = { id: '123', lpaCode: testLPACode };
 	const mockValidNotTestLpaUser = { lpaCode: noneTestLPACode };
 	const invalidLpaUser = {};
-	const mockAppeal = { appealType: 'Householder (HAS) Appeal' };
+	const mockAppeal = { appealTypeCode: 'HAS' };
 	const testDBResponse = { answer1: '1', AppealCase: { LPACode: testLPACode } };
 
 	beforeEach(() => {
@@ -47,18 +46,22 @@ describe('getJourneyResponse', () => {
 
 	it('should set res.locals.journeyResponse with a successful response', async () => {
 		getLPAUserFromSession.mockReturnValue(mockValidTestLpaUser);
-		getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+		apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 		apiClient.getLPAQuestionnaire.mockResolvedValue(testDBResponse);
 		mapDBResponseToJourneyResponseFormat.mockReturnValue(testDBResponse);
 
 		await getJourneyResponse()(req, res, next);
 
 		expect(getLPAUserFromSession).toHaveBeenCalledWith(req);
-		expect(getAppealByLPACodeAndId).toHaveBeenCalledWith(mockValidTestLpaUser.lpaCode, refId);
+		expect(apiClient.getUsersAppealCase).toHaveBeenCalledWith({
+			caseReference: 'ref',
+			userId: mockValidTestLpaUser.id,
+			role: LPA_USER_ROLE
+		});
 		expect(apiClient.getLPAQuestionnaire).toHaveBeenCalledWith(refId);
 		expect(res.locals.journeyResponse).toEqual(
 			new JourneyResponse(
-				JOURNEY_TYPES_FORMATTED[mockAppeal.appealType],
+				JOURNEY_TYPES_FORMATTED[mockAppeal.appealTypeCode],
 				refId,
 				testDBResponse,
 				testLPACode
@@ -69,7 +72,7 @@ describe('getJourneyResponse', () => {
 
 	it('should handle errors and set res.locals.journeyResponse with a default response', async () => {
 		getLPAUserFromSession.mockReturnValue(mockValidTestLpaUser);
-		getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+		apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 		apiClient.getLPAQuestionnaire.mockRejectedValue(new Error('Your error message'));
 
 		await getJourneyResponse()(req, res, next);
@@ -82,7 +85,7 @@ describe('getJourneyResponse', () => {
 
 	it('should handle errors and create questionnaire if not found', async () => {
 		getLPAUserFromSession.mockReturnValue(mockValidTestLpaUser);
-		getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+		apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 		apiClient.getLPAQuestionnaire.mockRejectedValue(new ApiClientError('not found', 404, []));
 
 		await getJourneyResponse()(req, res, next);
@@ -96,7 +99,7 @@ describe('getJourneyResponse', () => {
 
 	it('should return a 404 not found response if user lpa does not match', async () => {
 		getLPAUserFromSession.mockReturnValue(mockValidNotTestLpaUser);
-		getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+		apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 		apiClient.getLPAQuestionnaire.mockResolvedValue(testDBResponse);
 		mapDBResponseToJourneyResponseFormat.mockReturnValue(testDBResponse);
 
@@ -109,7 +112,7 @@ describe('getJourneyResponse', () => {
 
 	it('should return a 404 not found response if user lpa not set', async () => {
 		getLPAUserFromSession.mockReturnValue(invalidLpaUser);
-		getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+		apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 		apiClient.getLPAQuestionnaire.mockResolvedValue(testDBResponse);
 		mapDBResponseToJourneyResponseFormat.mockReturnValue(testDBResponse);
 
@@ -122,7 +125,9 @@ describe('getJourneyResponse', () => {
 
 	it('should throw error if unknown appealType', async () => {
 		getLPAUserFromSession.mockReturnValue(mockValidTestLpaUser);
-		getAppealByLPACodeAndId.mockResolvedValue({ appealType: 'nope' });
+		apiClient.getUsersAppealCase.mockImplementation(() =>
+			Promise.resolve({ appealTypeCode: 'nope' })
+		);
 
 		await expect(getJourneyResponse()(req, res, next)).rejects.toThrowError('');
 

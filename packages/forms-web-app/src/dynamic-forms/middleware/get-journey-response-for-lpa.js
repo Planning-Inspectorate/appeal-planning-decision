@@ -1,11 +1,11 @@
 const { JourneyResponse } = require('../journey-response');
 const { JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
-const logger = require('../../lib/logger');
-const { getAppealByLPACodeAndId } = require('../../lib/appeals-api-wrapper');
+const logger = require('#lib/logger');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
-const { apiClient } = require('../../lib/appeals-api-client');
+const { apiClient } = require('#lib/appeals-api-client');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
+const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 module.exports = () => async (req, res, next) => {
 	const referenceId = req.params.referenceId;
@@ -13,9 +13,14 @@ module.exports = () => async (req, res, next) => {
 	let result;
 
 	const user = getLPAUserFromSession(req);
-	const appeal = await getAppealByLPACodeAndId(user.lpaCode, encodedReferenceId);
 
-	const appealType = JOURNEY_TYPES_FORMATTED[appeal.appealType];
+	const appeal = await apiClient.getUsersAppealCase({
+		caseReference: encodedReferenceId,
+		userId: user.id,
+		role: LPA_USER_ROLE
+	});
+
+	const appealType = JOURNEY_TYPES_FORMATTED[appeal.appealTypeCode];
 
 	if (typeof appealType === 'undefined') {
 		throw new Error('appealType is undefined');

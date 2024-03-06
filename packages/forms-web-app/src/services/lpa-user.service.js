@@ -1,47 +1,32 @@
-const { getUserById, setUserStatus, getLPA } = require('../lib/appeals-api-wrapper');
+const { getLPA } = require('../lib/appeals-api-wrapper');
+const { apiClient } = require('../lib/appeals-api-client');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
-/**
- * The id of the user, in mongodb object id format: /^[a-f\\d]{24}$/i
- * @typedef {string} UserId
- */
 
 /**
- * An LPA user
- * @typedef {Object} User
- * @property {UserId} _id - The id of the user.
- * @property {string} email - The email of the user.
- * @property {boolean} isAdmin - If the user is an admin user (cannot be deleted).
- * @property {string} status - The status of a user (STATUS_CONSTANTS)
- * @property {string} lpaCode - If code of the lpa the user belongs to.
+ * @typedef {Object} LpaUserAdditions
  * @property {string} lpaName - Name of the lpa the user belongs to.
  * @property {string} lpaDomain - Domain of the lpa the user belongs to.
- */
-
-/**
- * An LPA user from the DB
- * @typedef {Object} DBUser
- * @property {UserId} _id - The id of the user.
- * @property {string} email - The email of the user.
- * @property {boolean} isAdmin - If the user is an admin user (cannot be deleted).
- * @property {string} status - The status of a user (STATUS_CONSTANTS)
- * @property {string} lpaCode - If code of the lpa the user belongs to.
+ *
+ * @typedef {import('appeals-service-api').Api.AppealUser & LpaUserAdditions} LPAUser
  */
 
 /**
  * Gets lpaUser by their id
  * @async
- * @param {UserId} userId
- * @returns {Promise<DBUser>}
+ * @param {string} userId
+ * @returns {Promise<import('appeals-service-api').Api.AppealUser>}
  */
 const getLPAUser = async (userId) => {
-	return await getUserById(userId);
+	const user = await apiClient.getUserById(userId);
+	if (!user.isLpaUser) throw new Error('not an lpa user');
+	return user;
 };
 
 /**
  * Creates the user object within the session object of the request for the successfully logged in LPAUser
  * @async
- * @param {ExpressRequest} req
- * @param {DBUser} user
+ * @param {import('express').Request} req
+ * @param {Promise<import('appeals-service-api').Api.AppealUser>} user
  * @returns {Promise<void>}
  */
 const createLPAUserSession = async (req, user) => {
@@ -57,9 +42,9 @@ const createLPAUserSession = async (req, user) => {
 };
 
 /**
- * retrives the LPAUser from session
- * @param {ExpressRequest} req
- * @returns {User} lpa user
+ * retrieves the LPAUser from session
+ * @param {import('express').Request} req
+ * @returns {LPAUser} lpa user
  */
 const getLPAUserFromSession = (req) => {
 	return req.session.lpaUser;
@@ -68,17 +53,23 @@ const getLPAUserFromSession = (req) => {
 /**
  * Returns the status of the LPA User. Status is either 'added' or 'confirmed'
  * @async
- * @param {UserId} userId
- * @returns {Promise<string>}
+ * @param {string} userId
+ * @returns {Promise<string|undefined>}
  */
 const getLPAUserStatus = async (userId) => {
 	const user = await getLPAUser(userId);
-	return user.status;
+	return user.lpaStatus;
 };
 
+/**
+ *
+ * @param {string} userId
+ * @param {"added" | "confirmed" | "removed"} status
+ * @returns {Promise<void>}
+ */
 const setLPAUserStatus = async (userId, status) => {
 	if (!Object.values(STATUS_CONSTANTS).includes(status)) return;
-	await setUserStatus(userId, status);
+	await apiClient.setLPAUserStatus(userId, status);
 };
 
 module.exports = {

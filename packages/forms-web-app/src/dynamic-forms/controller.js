@@ -1,7 +1,5 @@
 // common controllers for dynamic forms
 
-const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
-
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
@@ -9,6 +7,7 @@ const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
 const { apiClient } = require('#lib/appeals-api-client');
+const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('./journey-factory').JourneyType} JourneyType
@@ -85,7 +84,11 @@ exports.list = async (req, res) => {
 
 	const user = getLPAUserFromSession(req);
 	const encodedReferenceId = encodeURIComponent(referenceId);
-	const appeal = await getAppealByLPACodeAndId(user.lpaCode, encodedReferenceId);
+	const appeal = await apiClient.getUsersAppealCase({
+		caseReference: encodedReferenceId,
+		userId: user.id,
+		role: LPA_USER_ROLE
+	});
 
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);

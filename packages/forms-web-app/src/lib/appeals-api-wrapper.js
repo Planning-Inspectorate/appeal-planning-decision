@@ -6,7 +6,6 @@ const { FLAG } = require('@pins/common/src/feature-flags');
 
 const config = require('../config');
 const parentLogger = require('./logger');
-const baseUrl = '/api/v1';
 
 async function handler(path, method = 'GET', opts = {}, headers = {}) {
 	const correlationId = uuid.v4();
@@ -127,44 +126,6 @@ exports.submitFinalComment = async (finalComment) => {
 	});
 };
 
-exports.createUser = async (email, isAdmin, lpaCode) => {
-	return handler(`/api/v1/users/`, 'POST', {
-		body: JSON.stringify({
-			email,
-			isAdmin,
-			lpaCode
-		})
-	});
-};
-
-exports.getUserById = async (id) => {
-	return handler(`/api/v1/users/${id}`, 'GET');
-};
-
-exports.setUserStatus = async (id, status) => {
-	return handler(`${baseUrl}/users/${id}/status`, 'PUT', {
-		body: JSON.stringify({
-			status: status
-		})
-	});
-};
-
-exports.getUsers = async (lpaCode) => {
-	return handler(`/api/v1/users/?lpaCode=${lpaCode}`, 'GET');
-};
-
-exports.removeUser = async (id) => {
-	return handler(`/api/v1/users/${id}`, 'DELETE');
-};
-
-exports.getAppealsCaseData = async (lpaCode) => {
-	return handler(`/api/v1/appeals-case-data/${lpaCode}`, 'GET');
-};
-
-exports.getAppealByLPACodeAndId = async (lpaCode, id) => {
-	return handler(`/api/v1/appeals-case-data/${lpaCode}/${id}`, 'GET');
-};
-
 /**
  * @typedef documentMetaData The metadata associated with a document.
  * @property {string} documentMetaData.filename - The name of the document file.
@@ -172,6 +133,7 @@ exports.getAppealByLPACodeAndId = async (lpaCode, id) => {
  */
 
 /**
+ * todo: move to v2
  * @async
  * @param {string} caseRef
  * @param {string} documentType
@@ -186,31 +148,8 @@ exports.getAppealDocumentMetaData = async (caseRef, documentType, returnMultiple
 };
 
 /**
- *
- * @param {string} journeyId
- * @param {string} referenceId
- * @param {object} answers
- * @returns {Promise<*>}
+ * todo move to v2
  */
-exports.patchQuestionResponse = async (journeyId, referenceId, answers, lpaCode) => {
-	return handler(`/api/v1/responses/${journeyId}/${referenceId}/${lpaCode}`, 'PATCH', {
-		body: JSON.stringify({
-			answers: answers
-		})
-	});
-};
-
-/**
- *
- * @param {string} journeyId
- * @param {string} referenceId
- * @param {object} projection
- * @returns {Promise<responseObject>}
- */
-exports.getQuestionResponse = async (journeyId, referenceId) => {
-	return handler(`/api/v1/responses/${journeyId}/${referenceId}`, 'GET', {});
-};
-
 exports.getListedBuilding = async (reference) => {
 	return handler(`/api/v1/listed-buildings/${reference}`);
 };
@@ -219,10 +158,6 @@ exports.errorMessages = {
 	user: {
 		only1Admin: 'Only 1 admin is allowed at a time'
 	}
-};
-
-exports.getUserByEmail = async (email) => {
-	return handler(`/api/v1/users/${email}`, 'GET');
 };
 
 /**
@@ -266,11 +201,6 @@ exports.checkToken = async (token, id, emailAddress) => {
 			emailAddress
 		})
 	});
-};
-
-exports.getUserByEmail = async (email, useApiVersion2) => {
-	if (useApiVersion2) return handler(`/api/v2/users/${email}`, 'GET');
-	return handler(`/api/v1/users/${email}`, 'GET');
 };
 
 const getTokenEndpointVersion = async () => {

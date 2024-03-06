@@ -1,8 +1,8 @@
 const { getAddRemoveUsers } = require('../../../../src/controllers/lpa-dashboard/add-remove-users');
-const { VIEW } = require('../../../../src/lib/views');
+const { VIEW } = require('#lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const { apiClient } = require('#lib/appeals-api-client');
 
-const { getUsers } = require('../../../../src/lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.service');
 
 const req = {
@@ -10,7 +10,8 @@ const req = {
 };
 const res = mockRes();
 
-jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('#lib/appeals-api-wrapper');
+jest.mock('#lib/appeals-api-client');
 jest.mock('../../../../src/services/lpa-user.service');
 
 const mockUser = {
@@ -28,7 +29,7 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 	describe('getAddRemoveUsers', () => {
 		it('should render the view with backlink to dashboard and link to email-address', async () => {
 			getLPAUserFromSession.mockReturnValue(mockUser);
-			getUsers.mockResolvedValue(mockUsersResponse);
+			apiClient.getUsers.mockImplementation(() => Promise.resolve(mockUsersResponse));
 
 			await getAddRemoveUsers(req, res);
 
@@ -48,7 +49,7 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 			];
 
 			getLPAUserFromSession.mockReturnValue(mockUser);
-			getUsers.mockResolvedValue(mockUsersResponse);
+			apiClient.getUsers.mockImplementation(() => Promise.resolve(mockUsersResponse));
 
 			await getAddRemoveUsers(req, res);
 
@@ -67,7 +68,7 @@ describe('controllers/lpa-dashboard/add-remove-users', () => {
 			const successMessage = [`test@example.com has been removed`];
 
 			getLPAUserFromSession.mockReturnValue(mockUser);
-			getUsers.mockResolvedValue(mockUsersResponse);
+			apiClient.getUsers.mockImplementation(() => Promise.resolve(mockUsersResponse));
 
 			await getAddRemoveUsers(req, res);
 

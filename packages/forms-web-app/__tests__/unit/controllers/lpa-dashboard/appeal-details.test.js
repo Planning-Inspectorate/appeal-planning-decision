@@ -1,8 +1,6 @@
 const { getAppealDetails } = require('../../../../src/controllers/lpa-dashboard/appeal-details');
-const {
-	getAppealByLPACodeAndId,
-	getAppealDocumentMetaData
-} = require('../../../../src/lib/appeals-api-wrapper');
+const { getAppealDocumentMetaData } = require('#lib/appeals-api-wrapper');
+const { apiClient } = require('#lib/appeals-api-client');
 const { VIEW } = require('../../../../src/lib/views');
 const { baseHASUrl } = require('../../../../src/dynamic-forms/has-questionnaire/journey');
 const { mockReq, mockRes } = require('../../mocks');
@@ -14,7 +12,8 @@ const req = {
 };
 const res = mockRes();
 
-jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('#lib/appeals-api-wrapper');
+jest.mock('#lib/appeals-api-client');
 jest.mock('../../../../src/featureFlag');
 
 const mockAppeal = {
@@ -85,7 +84,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.appealStatement);
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.supportingDocuments);
 			isFeatureActive.mockResolvedValueOnce(false);
-			getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+			apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 
 			req.session.lpaUser = {
 				lpaCode: 'E9999'
@@ -110,7 +109,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.appealStatement);
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.supportingDocuments);
 			isFeatureActive.mockResolvedValueOnce(true);
-			getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+			apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 
 			req.session.lpaUser = {
 				lpaCode: 'E9999'
@@ -135,7 +134,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.appealStatement);
 			getAppealDocumentMetaData.mockResolvedValueOnce(mockDocuments.supportingDocuments);
 			isFeatureActive.mockResolvedValueOnce(true);
-			getAppealByLPACodeAndId.mockResolvedValue(mockAppeal);
+			apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 
 			req.session.lpaUser = {
 				lpaCode: 'E9999'

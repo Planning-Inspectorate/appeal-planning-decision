@@ -1,6 +1,6 @@
 const requireUser = require('../../../../src/middleware/lpa-dashboard/require-user');
 const { mockReq, mockRes } = require('../../mocks');
-const { VIEW } = require('../../../../src/lib/views');
+const { VIEW } = require('#lib/views');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 describe('requireUser', () => {
@@ -40,7 +40,7 @@ describe('requireUser', () => {
 
 		userEnabledStates.forEach((state) => {
 			req.session.lpaUser = {
-				enabled: state
+				lpaStatus: state
 			};
 
 			requireUser(req, res, next);

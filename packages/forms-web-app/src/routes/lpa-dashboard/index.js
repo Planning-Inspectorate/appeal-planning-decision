@@ -24,7 +24,6 @@ router.use(require('./your-appeals'));
 router.use(require('./appeal-details'));
 router.use(require('../../dynamic-forms/route'));
 router.use(require('./decided-appeals'));
-router.use(require('./selected-appeal'));
 
 // manage users
 router.use(require('./add-remove-users'));
@@ -35,5 +34,8 @@ router.use(require('./confirm-remove-user'));
 // documents
 // todo: update document links for lpa appeal details to include lpa base path: /manage-appeals
 router.use('/document/:appealOrQuestionnaireId/:documentId', getDocument);
+
+// todo: leave at end or fix the urls defined in these routes, currently catches anything else as :appealNumber
+router.use(require('./selected-appeal'));
 
 module.exports = router;

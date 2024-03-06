@@ -47,28 +47,245 @@ beforeEach(async () => {
 
 afterEach(async () => {
 	jest.clearAllMocks();
+	await _clearSqlData();
 });
 
 afterAll(async () => {
-	// clear sql db
-	await _clearSqlData();
 	await sqlClient.$disconnect();
 });
 
 describe('users v2', () => {
+	describe('create user', () => {
+		it('should return 400 if bad user data supplied', async () => {
+			const response1 = await appealsApi.post('/api/v2/users').send({});
+			const response2 = await appealsApi.post('/api/v2/users').send({
+				id: '123',
+				email: 'nope@example.com'
+			});
+
+			expect(response1.status).toEqual(400);
+			expect(response2.status).toEqual(400);
+		});
+
+		it('should return 500 if unknown field supplied', async () => {
+			const response = await appealsApi.post('/api/v2/users').send({
+				email: 'nope@example.com',
+				unknownField: '123'
+			});
+
+			expect(response.status).toBe(500);
+		});
+
+		it('should return 400 if duplicate user supplied', async () => {
+			await appealsApi.post('/api/v2/users').send({
+				email: 'test-duplicate@example.com'
+			});
+
+			const response = await appealsApi.post('/api/v2/users').send({
+				email: 'test-duplicate@example.com'
+			});
+
+			expect(response.status).toEqual(400);
+		});
+
+		it('should create user', async () => {
+			const response = await appealsApi.post('/api/v2/users').send({
+				email: 'working-user-creation@example.com'
+			});
+
+			expect(response.status).toEqual(200);
+			expect(response.body.email).toBe('working-user-creation@example.com');
+			expect(response.body.isLpaUser).toBe(false);
+			expect(response.body.isLpaAdmin).toBe(null);
+			expect(response.body.lpaCode).toBe(null);
+			expect(response.body.lpaStatus).toBe(null);
+		});
+
+		it('should create lpa user', async () => {
+			const response = await appealsApi.post('/api/v2/users').send({
+				email: 'working-lpa-creation@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+
+			expect(response.status).toEqual(200);
+			expect(response.body.email).toBe('working-lpa-creation@example.com');
+			expect(response.body.isLpaUser).toBe(true);
+			expect(response.body.isLpaAdmin).toBe(false);
+			expect(response.body.lpaCode).toBe('Q9999');
+			expect(response.body.lpaStatus).toBe('added');
+		});
+	});
+
+	describe('search users', () => {
+		it('should return user list', async () => {
+			const response = await appealsApi.get('/api/v2/users');
+			expect(response.status).toEqual(200);
+			expect(Array.isArray(response.body)).toBe(true);
+		});
+
+		it('should return lpa user list', async () => {
+			await appealsApi.post('/api/v2/users').send({
+				email: 'lpa-list@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			const response = await appealsApi.get('/api/v2/users?lpaCode=Q9999');
+			expect(response.status).toEqual(200);
+			expect(Array.isArray(response.body)).toBe(true);
+			expect(response.body.some((user) => user.email === 'lpa-list@example.com')).toBe(true);
+		});
+
+		it('should return empty user list with wrong lpa code', async () => {
+			const response = await appealsApi.get('/api/v2/users?lpaCode=abc');
+			expect(response.status).toEqual(200);
+			expect(Array.isArray(response.body)).toBe(true);
+			expect(response.body.length).toEqual(0);
+		});
+
+		it('should return only return active lpa users', async () => {
+			await appealsApi.post('/api/v2/users').send({
+				email: 'lpa-active1@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			await appealsApi.post('/api/v2/users').send({
+				email: 'lpa-inactive2@example.com',
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+			await appealsApi.delete(`/api/v2/users/${'lpa-inactive2@example.com'}`).send();
+			const response = await appealsApi.get('/api/v2/users?lpaCode=Q9999');
+			expect(response.status).toEqual(200);
+			expect(Array.isArray(response.body)).toBe(true);
+			expect(response.body.length).toEqual(1);
+		});
+	});
+
+	describe('get user', () => {
+		it('should 404 with unknown user', async () => {
+			const response1 = await appealsApi.get('/api/v2/users/abc');
+			const response2 = await appealsApi.get('/api/v2/users/abc@exmaple.com');
+			expect(response1.status).toEqual(404);
+			expect(response2.status).toEqual(404);
+		});
+
+		it('should 200 with email', async () => {
+			const testEmail = 'user-get-email@example.com';
+			await appealsApi.post('/api/v2/users').send({
+				email: testEmail
+			});
+			const response = await appealsApi.get(`/api/v2/users/${testEmail}`);
+			expect(response.status).toEqual(200);
+			expect(response.body.email).toBe(testEmail);
+		});
+
+		it('should 200 with id', async () => {
+			const createResponse = await appealsApi.post('/api/v2/users').send({
+				email: 'user-get-id@example.com'
+			});
+			const response = await appealsApi.get(`/api/v2/users/${createResponse.body.id}`);
+			expect(response.status).toEqual(200);
+			expect(response.body.email).toBe('user-get-id@example.com');
+		});
+	});
+
+	describe('update user', () => {
+		it('should 404 with unknown user', async () => {
+			const response = await appealsApi.patch('/api/v2/users/nope').send({
+				data: 'change'
+			});
+
+			expect(response.status).toEqual(404);
+		});
+
+		it('should update with email', async () => {
+			const testEmail = 'user-get-email@example.com';
+			await appealsApi.post('/api/v2/users').send({
+				email: testEmail
+			});
+			const response = await appealsApi.patch(`/api/v2/users/${testEmail}`).send({
+				isEnrolled: true
+			});
+
+			expect(response.status).toEqual(200);
+			expect(response.body.isEnrolled).toEqual(true);
+		});
+
+		it('should update with id', async () => {
+			const createUser = await appealsApi.post('/api/v2/users').send({
+				email: 'user-get-email@example.com'
+			});
+			const response = await appealsApi.patch(`/api/v2/users/${createUser.body.id}`).send({
+				isEnrolled: true
+			});
+
+			expect(response.status).toEqual(200);
+			expect(response.body.isEnrolled).toEqual(true);
+		});
+
+		it('should not update unexpected fields', async () => {
+			const createUser = await appealsApi.post('/api/v2/users').send({
+				email: 'user-get-email@example.com'
+			});
+			const response = await appealsApi.patch(`/api/v2/users/${createUser.body.id}`).send({
+				isLpaUser: true,
+				unknownField: 1
+			});
+
+			expect(response.status).toEqual(200);
+			expect(response.body.isLpaUser).toEqual(false);
+			expect(response.body.unknownField).toEqual(undefined);
+		});
+	});
+
+	describe('delete user', () => {
+		it('should 400 with non lpa user', async () => {
+			const email = 'delete-not-lpa@example.com';
+			await appealsApi.post('/api/v2/users').send({
+				email
+			});
+
+			const response = await appealsApi.delete(`/api/v2/users/${email}`).send();
+			expect(response.status).toEqual(400);
+
+			const user = await appealsApi.get(`/api/v2/users/${email}`).send();
+			expect(user.status).toEqual(200);
+			expect(user.body.lpaStatus).toBe(null);
+		});
+
+		it('should set removed status on lpa user', async () => {
+			const email = 'delete-lpa@example.com';
+			await appealsApi.post('/api/v2/users').send({
+				email,
+				isLpaUser: true,
+				lpaCode: 'Q9999'
+			});
+
+			const response = await appealsApi.delete(`/api/v2/users/${email}`).send();
+			expect(response.status).toEqual(200);
+
+			const user = await appealsApi.get(`/api/v2/users/${email}`).send();
+			expect(user.status).toBe(200);
+			expect(user.body.lpaStatus).toBe('removed');
+		});
+	});
+
 	describe('link user', () => {
 		it('should return 400 if invalid role supplied', async () => {
-			const response = await appealsApi.post('/api/v2/users/abc/appeal/123').send({
+			const testEmail = crypto.randomUUID() + '@example.com';
+			await _createSqlUser(testEmail);
+			const response = await appealsApi.post(`/api/v2/users/${testEmail}/appeal/123`).send({
 				role: 'nope'
 			});
 
-			expect(response.status).toBe(400);
+			expect(response.status).toEqual(400);
 			expect(response.body.errors[0]).toEqual('invalid role');
 		});
 
 		it('should return 404 if user not found', async () => {
 			const response = await appealsApi.post('/api/v2/users/abc/appeal/123').send();
-			expect(response.status).toBe(404);
+			expect(response.status).toEqual(404);
 			expect(response.body.errors[0]).toEqual('The user was not found');
 		});
 
@@ -77,7 +294,7 @@ describe('users v2', () => {
 			await _createSqlUser(testEmail);
 
 			const response = await appealsApi.post(`/api/v2/users/${testEmail}/appeal/123`).send();
-			expect(response.status).toBe(404);
+			expect(response.status).toEqual(404);
 			expect(response.body.errors[0]).toEqual(`The appeal 123 was not found`);
 		});
 
@@ -91,7 +308,7 @@ describe('users v2', () => {
 				.post(`/api/v2/users/${testEmail}/appeal/${appeal.id}`)
 				.send();
 
-			expect(response.status).toBe(200);
+			expect(response.status).toEqual(200);
 			expect(response.body.role).toEqual('appellant');
 		});
 
@@ -107,7 +324,7 @@ describe('users v2', () => {
 					role: 'agent'
 				});
 
-			expect(response.status).toBe(200);
+			expect(response.status).toEqual(200);
 			expect(response.body.role).toEqual('agent');
 		});
 	});
@@ -117,12 +334,8 @@ describe('users v2', () => {
  * @returns {Promise.<void>}
  */
 const _clearSqlData = async () => {
-	const testUsersClause = {
-		in: usersIds
-	};
-	const testAppealsClause = {
-		in: appealIds
-	};
+	const testUsersClause = {};
+	const testAppealsClause = {};
 
 	await sqlClient.securityToken.deleteMany({
 		where: {

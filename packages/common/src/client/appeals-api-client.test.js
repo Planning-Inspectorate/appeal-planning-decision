@@ -164,7 +164,7 @@ describe('appeals-api-client', () => {
 			const createResponse = await apiClient.getUserByEmailV2(TEST_EMAIL);
 
 			expect(fetch).toHaveBeenCalledWith(
-				`${TEST_BASEURL}${v2}/users/${TEST_EMAIL}`,
+				`${TEST_BASEURL}${v2}/users/${encodeURIComponent(TEST_EMAIL)}`,
 				expect.objectContaining({
 					method: 'GET'
 				})

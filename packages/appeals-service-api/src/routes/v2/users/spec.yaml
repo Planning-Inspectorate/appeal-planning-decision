@@ -23,19 +23,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
-  /api/v2/users/{email}:
     get:
       tags:
         - users
       parameters:
-        - in: path
-          name: email
-          required: true
-          schema:
-            type: string
-            format: email
-          example: 'me@example.com'
-          description: user email
+        - $ref: '#/components/parameters/lpaCode'
+      description: Search users
+      responses:
+        200:
+          description: Array of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppealUsers'
+
+  /api/v2/users/{userLookup}:
+    get:
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/userLookup'
       responses:
         200:
           description: The appeal user
@@ -49,6 +56,58 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+    patch:
+      tags:
+        - users
+      description: Update an appeal user
+      parameters:
+        - $ref: '#/components/parameters/userLookup'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppealUserUpdate'
+      responses:
+        200:
+          description: Returns the updated AppealUser
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppealUser'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+    delete:
+      tags:
+        - users
+      parameters:
+        - $ref: '#/components/parameters/userLookup'
+      responses:
+        200:
+          description: The appeal user was removed
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        404:
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+
   /api/v2/users/{email}/appeal/{appealId}:
     put:
       tags:
@@ -96,3 +155,35 @@ paths:
                 $ref: '#/components/schemas/ErrorBody'
         500:
           description: Something went wrong
+
+components:
+  schemas:
+    AppealUsers:
+      type: array
+      items:
+        $ref: '#/components/schemas/AppealUser'
+    AppealUserUpdate:
+      type: object
+      properties:
+        isEnrolled:
+          type: boolean
+          example: 'false'
+        lpaStatus:
+          type: string
+          enum: ['added', 'confirmed', 'removed']
+
+  parameters:
+    userLookup:
+      name: userLookup
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 'me@example.com or e46ff3f1-2771-4d79-8573-11029ac94c00'
+      description: user email or user id
+    lpaCode:
+      name: lpaCode
+      in: query
+      schema:
+        type: string
+      description: local planning authority code

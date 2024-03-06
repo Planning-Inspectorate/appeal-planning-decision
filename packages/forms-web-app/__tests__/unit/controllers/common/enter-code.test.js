@@ -10,12 +10,7 @@ const fullAppealViews = views.VIEW.FULL_APPEAL;
 const lpaViews = views.VIEW.LPA_DASHBOARD;
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { mockReq, mockRes } = require('../../mocks');
-const {
-	getSavedAppeal,
-	getExistingAppeal,
-	sendToken,
-	getUserById
-} = require('#lib/appeals-api-wrapper');
+const { getSavedAppeal, getExistingAppeal, sendToken } = require('#lib/appeals-api-wrapper');
 const { apiClient } = require('#lib/appeals-api-client');
 const { getSessionEmail, setSessionEmail } = require('#lib/session-helper');
 const {
@@ -577,30 +572,6 @@ describe('controllers/common/enter-code', () => {
 			await returnedFunction(req, res);
 			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
 		});
-		it('should redirect if user id is not in a valid format', async () => {
-			const userId = 'i_am_not_a_valid_user_id';
-			const {
-				ENTER_CODE,
-				CODE_EXPIRED,
-				NEED_NEW_CODE,
-				REQUEST_NEW_CODE,
-				DASHBOARD,
-				YOUR_EMAIL_ADDRESS
-			} = lpaViews;
-			const views = {
-				ENTER_CODE,
-				CODE_EXPIRED,
-				NEED_NEW_CODE,
-				REQUEST_NEW_CODE,
-				DASHBOARD,
-				YOUR_EMAIL_ADDRESS
-			};
-			const expectedURL = `/${views.YOUR_EMAIL_ADDRESS}`;
-			const returnedFunction = getEnterCodeLPA(views);
-			req.params.id = userId;
-			await returnedFunction(req, res);
-			expect(res.redirect).toHaveBeenCalledWith(expectedURL);
-		});
 		it('should redirect if user id is not supplied', async () => {
 			const {
 				ENTER_CODE,
@@ -667,7 +638,7 @@ describe('controllers/common/enter-code', () => {
 				DASHBOARD
 			};
 
-			getUserById.mockResolvedValue(fakeUserResponse);
+			getLPAUser.mockResolvedValue(fakeUserResponse);
 
 			const returnedFunction = getEnterCodeLPA(views);
 			req.params.id = userId;
@@ -675,7 +646,6 @@ describe('controllers/common/enter-code', () => {
 			await returnedFunction(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
-			expect(getUserById).toHaveBeenCalledWith(userId);
 			expect(sendToken).toHaveBeenCalledWith(
 				userId,
 				enterCodeConfig.actions.lpaDashboard,
@@ -698,9 +668,7 @@ describe('controllers/common/enter-code', () => {
 				DASHBOARD
 			};
 
-			getUserById.mockImplementation(() => {
-				throw new Error('Failed');
-			});
+			getLPAUser.mockRejectedValue(new Error('Failed'));
 
 			const returnedFunction = getEnterCodeLPA(views);
 			req.params.id = userId;
@@ -708,7 +676,7 @@ describe('controllers/common/enter-code', () => {
 			await returnedFunction(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
-			expect(getUserById).toHaveBeenCalledWith(userId);
+			expect(getLPAUser).toHaveBeenCalledWith(userId);
 			expect(sendToken).not.toBeCalled();
 		});
 	});

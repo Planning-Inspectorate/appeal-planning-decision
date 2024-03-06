@@ -8,6 +8,7 @@ const {
 const logger = require('../lib/logger');
 const { isFeatureActive } = require('../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const { getLPAUserFromSession } = require('../services/lpa-user.service');
 
 /**
  * links user to a document, requires an active session
@@ -17,10 +18,11 @@ const getDocument = async (req, res) => {
 	const { appealOrQuestionnaireId, documentId } = req.params;
 
 	try {
+		const lpaUser = getLPAUserFromSession(req);
 		// lpa users
-		if (req.session.lpaUser) {
+		if (lpaUser) {
 			const { headers, body } = await fetchDocument(appealOrQuestionnaireId, documentId);
-			const sessionLpaCode = req.session.lpaUser.lpaCode;
+			const sessionLpaCode = lpaUser.lpaCode;
 			const associatedLpaCode = headers.get('x-original-file-name').match(/[A-z][0-9]{4}/gm)[0];
 
 			if (sessionLpaCode != associatedLpaCode) {
