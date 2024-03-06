@@ -70,7 +70,9 @@ const postEmailAddress = (views, appealInSession) => {
 		}
 
 		if (!user) {
-			user = await apiClient.createUser(email);
+			user = await apiClient.createUser({
+				email: email
+			});
 		}
 
 		setSession();

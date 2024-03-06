@@ -5,10 +5,10 @@ paths:
         - appeal-cases
       description: List appeal cases. Either lpa-code or postcode is required.
       parameters:
-          - $ref: '#/components/parameters/lpa-code'
-          - $ref: '#/components/parameters/decided-only'
-          - $ref: '#/components/parameters/postcode'
-          - $ref: '#/components/parameters/with-appellant'
+        - $ref: '#/components/parameters/lpa-code'
+        - $ref: '#/components/parameters/decided-only'
+        - $ref: '#/components/parameters/postcode'
+        - $ref: '#/components/parameters/with-appellant'
       responses:
         200:
           description: List of appeal cases
@@ -23,20 +23,14 @@ paths:
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ErrorBody'
+                $ref: '#/components/schemas/ErrorBody'
   /api/v2/appeal-cases/{caseReference}:
     get:
       tags:
         - appeal-cases
       description: Get an appeal case by reference. 'Public' API, for interested parties. For other users, use the users appeal cases endpoint.
       parameters:
-        - in: path
-          name: caseReference
-          required: true
-          schema:
-            type: string
-          example: '1010101'
-          description: appeal case reference
+        - $ref: '#/components/parameters/caseReference'
       responses:
         200:
           description: Returns the appeal case
@@ -54,13 +48,7 @@ paths:
       tags:
         - appeal-cases
       parameters:
-        - in: path
-          name: caseReference
-          required: true
-          schema:
-            type: string
-          example: '1010101'
-          description: appeal case reference
+        - $ref: '#/components/parameters/caseReference'
       requestBody:
         required: true
         content:
@@ -86,8 +74,8 @@ paths:
         - appeal-cases
       description: Count appeal cases.
       parameters:
-          - $ref: '#/components/parameters/lpa-code'
-          - $ref: '#/components/parameters/decided-only'
+        - $ref: '#/components/parameters/lpa-code'
+        - $ref: '#/components/parameters/decided-only'
       responses:
         200:
           description: Number of appeal cases
@@ -104,8 +92,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+
 components:
   parameters:
+    caseReference:
+      name: caseReference
+      in: path
+      required: true
+      schema:
+        type: string
+      example: '1010101'
+      description: appeal case reference
+
     lpa-code:
       name: lpa-code
       in: query

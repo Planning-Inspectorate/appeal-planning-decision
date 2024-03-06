@@ -1,4 +1,4 @@
-const { getUserByEmail } = require('../../lib/appeals-api-wrapper');
+const { apiClient } = require('../../lib/appeals-api-client');
 
 const getYourEmailAddress = (views) => {
 	return (req, res) => {
@@ -38,11 +38,11 @@ const postYourEmailAddress = (views) => {
 		}
 
 		try {
-			const user = await getUserByEmail(email);
+			const user = await apiClient.getUserByEmailV2(email);
 			if (!user) {
 				throw new Error('user not found');
 			}
-			const id = user._id;
+			const id = user.id;
 
 			res.redirect(`/${views.ENTER_CODE}/${id}`);
 		} catch (e) {

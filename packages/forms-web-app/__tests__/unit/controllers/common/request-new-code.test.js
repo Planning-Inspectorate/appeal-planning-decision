@@ -3,9 +3,10 @@ const {
 	postRequestNewCode,
 	postRequestNewCodeLPA
 } = require('../../../../src/controllers/common/request-new-code');
-const { getUserByEmail } = require('../../../../src/lib/appeals-api-wrapper');
 const { mockRes, mockReq } = require('../../mocks');
-jest.mock('../../../../src/lib/appeals-api-wrapper');
+const { apiClient } = require('#lib/appeals-api-client');
+
+jest.mock('#lib/appeals-api-client');
 
 describe('controllers/common/enter-code', () => {
 	let req;
@@ -47,6 +48,7 @@ describe('controllers/common/enter-code', () => {
 			expect(res.render).toBeCalledWith(`${REQUEST_NEW_CODE}`);
 		});
 	});
+
 	describe('postRequestNewCode', () => {
 		it('should redirect to correct page', () => {
 			const {
@@ -67,6 +69,7 @@ describe('controllers/common/enter-code', () => {
 			expect(req.session.enterCode.newCode).toBe(true);
 		});
 	});
+
 	describe('postRequestNewCodeLPA', () => {
 		it('should redirect to enter-code page if the email is correct', async () => {
 			const {
@@ -86,16 +89,18 @@ describe('controllers/common/enter-code', () => {
 				enabled: true,
 				lpaCode: 'Q9999'
 			};
-			getUserByEmail.mockReturnValue(user);
+			apiClient.getUserByEmailV2.mockImplementation(() => Promise.resolve(user));
+
 			req.body = {
 				emailAddress: email_address
 			};
 			const returnedFunction = postRequestNewCodeLPA(views);
 			await returnedFunction(req, res);
-			expect(getUserByEmail).toBeCalledWith(email_address);
+			expect(apiClient.getUserByEmailV2).toBeCalledWith(email_address);
 			expect(res.render).not.toHaveBeenCalled();
-			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${user._id}`);
+			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${user.id}`);
 		});
+
 		it('should redirect to request-new-code page if the email is incorrect', async () => {
 			const {
 				VIEW: {
@@ -113,14 +118,11 @@ describe('controllers/common/enter-code', () => {
 				emailAddress: email_address
 			};
 
-			getUserByEmail.mockRejectedValue({
-				type: 'Error',
-				message: 'The user was not found'
-			});
+			apiClient.getUserByEmailV2.mockImplementation(() => Promise.reject(new Error()));
 
 			const returnedFunction = postRequestNewCodeLPA(views);
 			await returnedFunction(req, res);
-			expect(getUserByEmail).toBeCalledWith(email_address);
+			expect(apiClient.getUserByEmailV2).toBeCalledWith(email_address);
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(`${REQUEST_NEW_CODE}`, {
 				errorSummary: customErrorSummary,

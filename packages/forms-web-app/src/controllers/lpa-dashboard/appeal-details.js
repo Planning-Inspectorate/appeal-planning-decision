@@ -1,8 +1,6 @@
 const logger = require('../../lib/logger');
-const {
-	getAppealByLPACodeAndId,
-	getAppealDocumentMetaData
-} = require('../../lib/appeals-api-wrapper');
+const { getAppealDocumentMetaData } = require('../../lib/appeals-api-wrapper');
+const { apiClient } = require('../../lib/appeals-api-client');
 const {
 	VIEW: {
 		LPA_DASHBOARD: { DASHBOARD, APPEAL_DETAILS }
@@ -14,6 +12,8 @@ const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+
 /**
  * @typedef {import('../../lib/appeals-api-wrapper').documentMetaData} documentMetaData
  */
@@ -59,7 +59,11 @@ const getAppealDetails = async (req, res) => {
 	const { id } = req.params;
 	const user = getLPAUserFromSession(req);
 	const caseReference = encodeURIComponent(id);
-	const appeal = await getAppealByLPACodeAndId(user.lpaCode, caseReference);
+	const appeal = await apiClient.getUsersAppealCase({
+		caseReference,
+		userId: user.id,
+		role: LPA_USER_ROLE
+	});
 
 	const documents = {
 		applicationForm: await getDocument(caseReference, 'Planning application form'),

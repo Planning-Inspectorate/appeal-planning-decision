@@ -14,6 +14,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
  * @typedef {import('appeals-service-api').Api.LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {import('appeals-service-api').Api.AppealCaseWithRule6Parties} AppealCaseWithRule6Parties
+ * @typedef {import('appeals-service-api').Api.AppealUser} AppealUser
  */
 
 /**
@@ -41,7 +42,7 @@ class AppealsApiClient {
 	 * @param {string} email
 	 * @param {string} appealSqlId
 	 * @param {string} [role]
-	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant>}
+	 * @returns {Promise<AppealCaseWithAppellant>}
 	 */
 	async linkUserToV2Appeal(email, appealSqlId, role) {
 		let roleBody = role ? { role: role } : undefined;
@@ -52,22 +53,62 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} email
-	 * @returns {Promise<import('appeals-service-api').Api.AppealUser>}
+	 * @returns {Promise<AppealUser>}
 	 */
 	async getUserByEmailV2(email) {
-		const endpoint = `${v2}/users/${email}`;
+		const endpoint = `${v2}/users/${encodeURIComponent(email)}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
 
 	/**
-	 * @param {string} email
-	 * @returns {Promise<import('appeals-service-api').Api.AppealUser>}
+	 * @param {string} id
+	 * @returns {Promise<AppealUser>}
 	 */
-	async createUser(email) {
+	async getUserById(id) {
+		const endpoint = `${v2}/users/${id}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} lpaCode
+	 * @returns {Promise<AppealUser[]>}
+	 */
+	async getUsers(lpaCode) {
+		const endpoint = `${v2}/users/?lpaCode=${lpaCode}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {AppealUser} user
+	 * @returns {Promise<AppealUser>}
+	 */
+	async createUser(user) {
 		const endpoint = `${v2}/users`;
-		const response = await this.#makePostRequest(endpoint, {
-			email: email
+		const response = await this.#makePostRequest(endpoint, user);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<void>}
+	 */
+	async removeLPAUser(id) {
+		const endpoint = `${v2}/users/${id}`;
+		await this.#makeDeleteRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} id
+	 * @param {string} status
+	 * @returns {Promise<AppealUser>} - updated user
+	 */
+	async setLPAUserStatus(id, status) {
+		const endpoint = `${v2}/users/${id}/status`;
+		const response = await this.#makePatchRequest(endpoint, {
+			status: status
 		});
 		return response.json();
 	}
@@ -360,6 +401,16 @@ class AppealsApiClient {
 		return this.handler(endpoint, 'PATCH', {
 			body: JSON.stringify(data)
 		});
+	}
+
+	/**
+	 * @param {string} endpoint
+	 * @param {any} data
+	 * @returns {Promise<import('node-fetch').Response>}
+	 * @throws {AppealsApiError|Error}
+	 */
+	#makeDeleteRequest(endpoint) {
+		return this.handler(endpoint, 'DELETE');
 	}
 }
 

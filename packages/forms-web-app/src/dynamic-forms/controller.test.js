@@ -1,5 +1,5 @@
 const { list, question, save, remove, submit } = require('./controller');
-const { getAppealByLPACodeAndId } = require('../lib/appeals-api-wrapper');
+const { apiClient } = require('#lib/appeals-api-client');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
@@ -197,8 +197,7 @@ const mockSection = {
 	segment: 'test'
 };
 
-jest.mock('../lib/appeals-api-wrapper');
-jest.mock('../lib/appeals-api-client');
+jest.mock('#lib/appeals-api-client');
 jest.mock('../services/lpa-user.service');
 jest.mock('./journey-factory');
 
@@ -222,7 +221,7 @@ describe('dynamic-form/controller', () => {
 			req.params.referenceId = mockRef;
 			const appeal = { a: 1, caseReference: 2 };
 
-			getAppealByLPACodeAndId.mockResolvedValue(appeal);
+			apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(appeal));
 			getJourney.mockReturnValue(mockJourney);
 
 			await list(req, res);
@@ -241,7 +240,7 @@ describe('dynamic-form/controller', () => {
 			req.params.referenceId = mockRef;
 			const appeal = { a: 1, caseReference: 2 };
 
-			getAppealByLPACodeAndId.mockResolvedValue(appeal);
+			apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(appeal));
 			getJourney.mockReturnValue(mockJourney);
 			jest.spyOn(questionUtils, 'getConditionalAnswer').mockReturnValueOnce('test');
 

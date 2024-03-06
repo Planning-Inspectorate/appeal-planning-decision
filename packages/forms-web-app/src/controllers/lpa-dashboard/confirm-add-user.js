@@ -1,4 +1,4 @@
-const { createUser } = require('../../lib/appeals-api-wrapper');
+const { apiClient } = require('../../lib/appeals-api-client');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const {
 	VIEW: {
@@ -17,7 +17,11 @@ const postConfirmAddUser = async (req, res) => {
 	const user = getLPAUserFromSession(req);
 
 	try {
-		await createUser(req.session.addUserEmailAddress, false, user.lpaCode);
+		await apiClient.createUser({
+			email: req.session.addUserEmailAddress,
+			isLpaUser: true,
+			lpaCode: user.lpaCode
+		});
 	} catch (e) {
 		logger.error(e);
 		return res.render(CONFIRM_ADD_USER, {

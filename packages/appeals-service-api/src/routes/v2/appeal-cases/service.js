@@ -26,9 +26,11 @@ const serviceUserRepo = new ServiceUserRepository();
  */
 async function getCaseAndAppellant(opts) {
 	const appeal = await repo.getByCaseReference(opts);
+
 	if (!appeal) {
 		return null;
 	}
+
 	return await appendAppellant(appeal);
 }
 
@@ -111,5 +113,6 @@ module.exports = {
 	getCaseAndAppellant,
 	putCase,
 	listByLpaCodeWithAppellant,
-	listByPostcodeWithAppellant
+	listByPostcodeWithAppellant,
+	appendAppellant
 };

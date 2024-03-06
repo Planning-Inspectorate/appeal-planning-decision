@@ -1,12 +1,16 @@
 const express = require('express');
-const { userGet, userPost, userLink } = require('./controller');
+const { userPost, userSearch, userGet, userUpdate, userDelete, userLink } = require('./controller');
 const router = express.Router();
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
+const { openApiValidatorMiddleware } = require('../../../validators/validate-open-api');
 
-// Would be nice to untangle this at some point, we're using
-// this first param for email and id
-router.get('/:email', asyncHandler(userGet));
-router.post('/', asyncHandler(userPost));
-router.post('/:email/appeal/:appealId', asyncHandler(userLink));
+router.post('/', openApiValidatorMiddleware(), asyncHandler(userPost));
+router.get('/', openApiValidatorMiddleware(), asyncHandler(userSearch));
+router.get('/:userLookup', openApiValidatorMiddleware(), asyncHandler(userGet));
+router.patch('/:userLookup', openApiValidatorMiddleware(), asyncHandler(userUpdate));
+router.delete('/:userLookup', openApiValidatorMiddleware(), asyncHandler(userDelete));
+
+// todo: move this
+router.post('/:userLookup/appeal/:appealId', openApiValidatorMiddleware(), asyncHandler(userLink));
 
 module.exports = { router };

@@ -1,4 +1,4 @@
-const { getUserByEmail } = require('../../lib/appeals-api-wrapper');
+const { apiClient } = require('../../lib/appeals-api-client');
 const logger = require('../../lib/logger');
 
 const getRequestNewCode = (requestNewCodeView) => {
@@ -43,7 +43,7 @@ const postRequestNewCodeLPA = (enterCodeView) => {
 		let user;
 
 		try {
-			user = await getUserByEmail(emailAddress);
+			user = await apiClient.getUserByEmailV2(emailAddress);
 		} catch (e) {
 			logger.info(e.message);
 		}
@@ -56,7 +56,7 @@ const postRequestNewCodeLPA = (enterCodeView) => {
 			});
 		}
 
-		res.redirect(`/${enterCodeView.ENTER_CODE}/${user._id}`);
+		res.redirect(`/${enterCodeView.ENTER_CODE}/${user.id}`);
 	};
 };
 

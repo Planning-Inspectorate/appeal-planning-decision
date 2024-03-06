@@ -6,12 +6,7 @@ const router = express.Router();
 
 router.get('/', asyncHandler(list));
 router.get('/count', asyncHandler(getCount));
-router.get('/:caseReference', asyncHandler(getByCaseReference));
-router.put(
-	'/:caseReference',
-	// validate requests against OpenAPI spec
-	openApiValidatorMiddleware(),
-	asyncHandler(putByCaseReference)
-);
+router.get('/:caseReference', openApiValidatorMiddleware(), asyncHandler(getByCaseReference));
+router.put('/:caseReference', openApiValidatorMiddleware(), asyncHandler(putByCaseReference));
 
 module.exports = { router };

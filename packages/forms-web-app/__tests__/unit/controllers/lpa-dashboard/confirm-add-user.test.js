@@ -2,12 +2,12 @@ const {
 	getConfirmAddUser,
 	postConfirmAddUser
 } = require('../../../../src/controllers/lpa-dashboard/confirm-add-user');
-const { createUser } = require('../../../../src/lib/appeals-api-wrapper');
+const { apiClient } = require('#lib/appeals-api-client');
 const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.service');
-const { VIEW } = require('../../../../src/lib/views');
+const { VIEW } = require('#lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
-jest.mock('../../../../src/lib/appeals-api-wrapper');
+jest.mock('#lib/appeals-api-client');
 jest.mock('../../../../src/services/lpa-user.service');
 
 const req = {
@@ -45,13 +45,18 @@ describe('controllers/lpa-dashboard/get-confirm-add-user', () => {
 
 			await postConfirmAddUser(req, res);
 
-			expect(createUser).toHaveBeenCalledWith(addUserEmailAddress, false, mockUser.lpaCode);
+			expect(apiClient.createUser).toHaveBeenCalledWith({
+				email: addUserEmailAddress,
+				isLpaUser: true,
+				lpaCode: mockUser.lpaCode
+			});
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.ADD_REMOVE_USERS}`);
 		});
 
 		it('should re-render template with errors if any api errors', async () => {
 			const error = 'API error';
-			createUser.mockImplementation(() => Promise.reject(error));
+			apiClient.createUser.mockImplementation(() => Promise.reject(error));
+
 			req.session.addUserEmailAddress = 'test@example.com';
 			getLPAUserFromSession.mockReturnValue(mockUser);
 
