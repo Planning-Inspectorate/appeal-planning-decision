@@ -12,5 +12,3 @@ export type LPAQuestionnaireSubmission = Prisma.LPAQuestionnaireSubmissionGetPay
 		SubmissionNeighbourAddress: true;
 	};
 }>;
-
-type thing = LPAQuestionnaireSubmission[''];
