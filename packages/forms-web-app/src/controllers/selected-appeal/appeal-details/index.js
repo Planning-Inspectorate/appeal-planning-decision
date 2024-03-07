@@ -4,6 +4,7 @@ const { formatHeadlineData, formatAppealDetails } = require('@pins/common');
 const { VIEW } = require('../../../lib/views');
 const { apiClient } = require('../../../lib/appeals-api-client');
 const { determineUser } = require('../../../lib/determine-user');
+const { rows } = require('./appeal-details-rows');
 
 /**
  * @type {import('express').Handler}
@@ -35,7 +36,9 @@ exports.get = async (req, res) => {
 	});
 
 	const headlineData = formatHeadlineData(caseData, userType);
-	const appealDetails = formatAppealDetails(caseData);
+	const appealDetailsRows = rows(caseData);
+
+	const appealDetails = formatAppealDetails(appealDetailsRows, caseData);
 
 	const viewContext = {
 		titleSuffix: formatTitleSuffix(userType),
