@@ -24,7 +24,7 @@ const enterAppealReferencePost = async (req, res) => {
 	}
 
 	if (await apiClient.appealCaseRefExists(appealReference)) {
-		res.redirect('appeal-open-comment');
+		res.redirect(`/appeals/${appealReference}`);
 		return;
 	}
 
