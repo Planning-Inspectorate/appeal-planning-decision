@@ -1,25 +1,4 @@
 /**
- * @param {import("../../../forms-web-app/src/controllers/selected-appeal/appeal-details/rows").Rows} rows
- * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
- */
-exports.formatAppealDetails = (rows, caseData) => {
-	const displayRows = rows.filter(({ condition }) => condition(caseData));
-
-	return displayRows.map((row) => createRow(row.keyText, row.valueText));
-};
-
-/**
- * @param { string } keyText
- * @param { string } valueText
- */
-const createRow = (keyText, valueText) => {
-	return {
-		key: { text: keyText },
-		value: { html: valueText }
-	};
-};
-
-/**
  * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
  */
 exports.formatAgentDetails = (caseData) => {

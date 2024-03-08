@@ -8,8 +8,8 @@ const {
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
- * @typedef {import("./rows").Rows} Rows
-
+ * @typedef {import("@pins/common/src/view-model-maps/rows/def").Rows} Rows
+ */
 
 /**
  * @param {AppealCaseWithAppellant } caseData
