@@ -1,6 +1,6 @@
 const fetchMock = require('jest-fetch-mock');
 const { default: fetch } = require('node-fetch');
-const { AppealsApiClient, AppealsApiError } = require('./appeals-api-client');
+const { AppealsApiClient, ApiClientError } = require('./appeals-api-client');
 
 const mockLogger = jest.fn();
 
@@ -130,8 +130,8 @@ describe('appeals-api-client', () => {
 			try {
 				await apiClient.makeTestRequest('/test');
 			} catch (err) {
-				if (!(err instanceof AppealsApiError)) {
-					throw new Error("didn't throw AppealsApiError");
+				if (!(err instanceof ApiClientError)) {
+					throw new Error("didn't throw ApiClientError");
 				}
 
 				expect(err.message).toBe(errorVal);

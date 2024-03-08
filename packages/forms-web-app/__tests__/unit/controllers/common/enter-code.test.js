@@ -27,7 +27,7 @@ const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../../../src/featureFlag');
-const AppealsApiError = require('@pins/common/src/client/appeals-api-error');
+const { ApiClientError } = require('@pins/common/src/client/api-client-error');
 
 jest.mock('#lib/appeals-api-wrapper');
 jest.mock('@pins/common/src/client/appeals-api-client');
@@ -332,7 +332,7 @@ describe('controllers/common/enter-code', () => {
 					action: enterCodeConfig.actions.saveAndReturn
 				};
 
-				const error = new AppealsApiError('no appeal', 404);
+				const error = new ApiClientError('no appeal', 404);
 				getExistingAppeal.mockImplementation(() => Promise.reject(error));
 
 				const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });
@@ -420,7 +420,7 @@ describe('controllers/common/enter-code', () => {
 			};
 
 			it('should error if user not found for general log on', async () => {
-				const error = new AppealsApiError('no user', 404);
+				const error = new ApiClientError('no user', 404);
 
 				apiClient.getUserByEmailV2.mockImplementation(() => Promise.reject(error));
 
@@ -431,7 +431,7 @@ describe('controllers/common/enter-code', () => {
 			});
 
 			it('should error if user not found for other log on', async () => {
-				const error = new AppealsApiError('no user', 404);
+				const error = new ApiClientError('no user', 404);
 				apiClient.getUserByEmailV2.mockImplementation(() => Promise.reject(error));
 
 				const returnedFunction = postEnterCode({}, { isGeneralLogin: false });
@@ -484,7 +484,7 @@ describe('controllers/common/enter-code', () => {
 					action: enterCodeConfig.actions.saveAndReturn
 				};
 
-				const error = new AppealsApiError('no appeal', 404);
+				const error = new ApiClientError('no appeal', 404);
 				getExistingAppeal.mockImplementation(() => Promise.reject(error));
 
 				const returnedFunction = postEnterCode({ ENTER_CODE }, { isGeneralLogin: false });

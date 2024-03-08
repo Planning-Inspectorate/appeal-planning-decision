@@ -24,6 +24,7 @@ All these are to be run with `npm run <command>`.
 - `lint`: test the JS style is correct (fix issues with `npm run lint -- --fix`)
 - `start`: starts the application
 - `start:dev`: starts the application in development mode, with live reload
+- `seed:dev`: adds example files to containers
 - `test`: runs the unit test suite
 - `test:cov`: runs the unit test suite and tests coverage
 - `test:watch`: runs the unit test suite and watches for changes

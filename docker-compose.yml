@@ -234,7 +234,7 @@ services:
       - ./tmp/blob-storage:/data
 
   bo-blob-storage:
-    profiles: ['all', 'appeals', 'comment', 'documents']
+    profiles: ['all', 'appeals', 'comment', 'documents', 'storage']
     image: mcr.microsoft.com/azure-storage/azurite:3.29.0
     ports:
       - 4004:10000
@@ -258,7 +258,7 @@ services:
     #       memory: 250M
 
   mssql:
-    profiles: ['all', 'api', 'appeals', 'comment']
+    profiles: ['all', 'api', 'appeals', 'comment', 'database']
     image: mcr.microsoft.com/azure-sql-edge:latest
     container_name: appeals-mssql
     cap_add: ['SYS_PTRACE']

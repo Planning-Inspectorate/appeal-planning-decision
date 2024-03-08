@@ -44,6 +44,14 @@ documents:
 	docker compose --profile documents -f docker-compose.yml -f docker-compose.slim.yml up
 .PHONY: appeals
 
+database:
+	docker compose --profile database -f docker-compose.yml -f docker-compose.slim.yml up
+.PHONY: database
+
+storage:
+	docker compose --profile storage -f docker-compose.yml -f docker-compose.slim.yml up
+.PHONY: storage
+
 uninstall:
 	rm -Rf node_modules
 	rm -Rf .git/hooks

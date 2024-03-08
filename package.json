@@ -44,6 +44,7 @@
 		"postinstall": "patch-package",
 		"prepare": "node -e \"try { require('husky').install() } catch (e) {if (e.code !== 'MODULE_NOT_FOUND') throw e}\"",
 		"release": "multi-semantic-release --ignore-packages=\"packages/appeal-reply-service-api,packages/common,packages/business-rules,packages/ping,packages/queue-retry\"",
+		"seed:blob": "cd packages/document-service-api; dotenv -- npm run seed:dev",
 		"test": "run-s --continue-on-error --print-label \"test:*\"",
 		"test:appeals-api": "cd packages/appeals-service-api; npm run test",
 		"test:business-rules": "cd packages/business-rules; npm run test",
