@@ -15,16 +15,7 @@ const getBlobMeta = blobMetaGetter(initContainerClient);
  * @param {string | null} str
  * @returns {boolean}
  */
-exports.toBool = (str) => {
-	switch (str) {
-		case 'yes':
-			return true;
-		case 'no':
-			return false;
-		default:
-			return false;
-	}
-};
+exports.toBool = (str) => str === 'yes';
 
 /**
  * @param {{
