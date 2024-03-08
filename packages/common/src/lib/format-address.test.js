@@ -28,7 +28,7 @@ describe('Address Formatting:', () => {
 			expect(formatAddress(testAddressData)).toEqual(expectedResult);
 		});
 
-		it('format address fields into a string separated by html line breaks', () => {
+		it('takes an optional joinString when formatting address fields', () => {
 			const testAddressData = {
 				siteAddressLine1: 'Test Line 1',
 				siteAddressLine2: 'Test Line 2',
@@ -38,7 +38,7 @@ describe('Address Formatting:', () => {
 
 			const expectedResult = 'Test Line 1<br>Test Line 2<br>Test Town<br>TS1 1TS';
 
-			expect(formatAddress(testAddressData, true)).toEqual(expectedResult);
+			expect(formatAddress(testAddressData, '<br>')).toEqual(expectedResult);
 		});
 
 		it('formats the address fields in a submission', () => {

@@ -36,7 +36,7 @@ exports.rows = (caseData) => {
 
 		{
 			keyText: 'Site Address',
-			valueText: formatAddress(caseData, true),
+			valueText: formatAddress(caseData, '<br>'),
 			condition: (caseData) => caseData.siteAddressLine1
 		},
 		{
