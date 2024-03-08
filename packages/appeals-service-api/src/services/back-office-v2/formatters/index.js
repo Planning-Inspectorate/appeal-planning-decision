@@ -27,7 +27,8 @@ const { APPEAL_ID } = require('@pins/business-rules/src/constants');
  */
 
 const appealTypeToDirName = {
-	[APPEAL_ID.HOUSEHOLDER]: 'has'
+	[APPEAL_ID.HOUSEHOLDER]: 'has',
+	[APPEAL_ID.PLANNING_SECTION_78]: 's78'
 };
 
 /**
@@ -41,7 +42,7 @@ const reduceFormatters =
 	(submittable) =>
 	(formatters, [appealType, dirName]) => ({
 		...formatters,
-		[appealType]: require(`./${dirName}/${submittable}`).formatter
+		[appealType]: require(`./${dirName}/${submittable}`)?.formatter
 	});
 
 /**
