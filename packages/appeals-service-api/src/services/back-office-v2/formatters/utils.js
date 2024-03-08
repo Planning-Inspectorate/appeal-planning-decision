@@ -11,29 +11,10 @@ const { conjoinedPromises } = require('@pins/common/src/utils');
 const getBlobMeta = blobMetaGetter(initContainerClient);
 
 /**
- *
  * @param {string | null} str
  * @returns {boolean}
  */
 exports.toBool = (str) => str === 'yes';
-
-/**
- * @param {{
- *  id: string;
- *  questionnaireId: string;
- *  addressLine1: string;
- *  addressLine2: string | null;
- *  townCity: string;
- *  postcode: string;
- * }[]} addresses
- * @returns {{
- *   line1: string | null;
- *   line2: string | null;
- *   town: string | null;
- *   county: string | null;
- *   postcode: string | null;
- * }[]}
- */
 
 /**
  * @param {Answers} answers
