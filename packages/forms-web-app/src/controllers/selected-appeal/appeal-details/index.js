@@ -1,5 +1,5 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { formatHeadlineData, formatAppealDetails } = require('@pins/common');
+const { formatHeadlineData, formatRows } = require('@pins/common');
 
 const { VIEW } = require('../../../lib/views');
 const { apiClient } = require('../../../lib/appeals-api-client');
@@ -38,7 +38,7 @@ exports.get = async (req, res) => {
 	const headlineData = formatHeadlineData(caseData, userType);
 	const appealDetailsRows = rows(caseData);
 
-	const appealDetails = formatAppealDetails(appealDetailsRows, caseData);
+	const appealDetails = formatRows(appealDetailsRows, caseData);
 
 	const viewContext = {
 		titleSuffix: formatTitleSuffix(userType),

@@ -1,5 +1,6 @@
 module.exports = {
 	...require('./appeal-headline'),
-	...require('./appeal-details'),
-	...require('./sections')
+	...require('../lib/format-appeal-details'),
+	...require('./sections'),
+	...require('./rows')
 };
