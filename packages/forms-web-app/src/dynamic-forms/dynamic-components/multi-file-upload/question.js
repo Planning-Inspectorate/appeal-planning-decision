@@ -156,14 +156,18 @@ class MultiFileUploadQuestion extends Question {
 	 * @returns {Array.<Object>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
+		const uploadedFiles = journey.response.answers.SubmissionDocumentUpload || [];
+
+		const relevantUploadedFiles = uploadedFiles.filter(
+			(upload) => upload.type === this.documentType.name
+		);
+
 		let formattedAnswer;
-		if (answer?.uploadedFiles) {
+		if (relevantUploadedFiles.length > 0 && answer) {
 			formattedAnswer = '';
-			for (const item in answer.uploadedFiles) {
-				const documentSubmissionId = this.#generateDocumentSubmissionId(journey.response);
-				const documentId = answer.uploadedFiles[item].id;
-				const documentUrl = `/manage-appeals/document/${documentSubmissionId}/${documentId}`;
-				const documentLinkText = answer.uploadedFiles[item].originalFileName;
+			for (const item in relevantUploadedFiles) {
+				const documentLinkText = relevantUploadedFiles[item].originalFileName;
+				const documentUrl = `/manage-appeals/document/${documentLinkText}`;
 
 				formattedAnswer += `<a href="${documentUrl}" class="govuk-link">${documentLinkText}</a> </br>`;
 			}
