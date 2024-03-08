@@ -4,11 +4,7 @@
 exports.formatAgentDetails = (caseData) => {
 	const agentName = `${caseData.yourFirstName} ${caseData.yourLastName}`;
 
-	const agentDetails = caseData.yourCompanyName
-		? `${agentName}<br>${caseData.yourCompanyName}`
-		: agentName;
-
-	return agentDetails;
+	return agentName + (caseData.yourCompanyName && `<br>${caseData.yourCompanyName}`);
 };
 
 /**
@@ -17,11 +13,10 @@ exports.formatAgentDetails = (caseData) => {
 exports.formatVisibility = (caseData) => {
 	const visibility = caseData.appellantSiteAccess ? 'Yes' : 'No';
 
-	if (caseData.appellantSiteAccessDetails) {
-		return `${visibility}<br>${caseData.appellantSiteAccessDetails}`;
-	}
-
-	return visibility;
+	return (
+		visibility +
+		(caseData.appellantSiteAccessDetails && `<br>${caseData.appellantSiteAccessDetails}`)
+	);
 };
 
 /**
@@ -30,11 +25,10 @@ exports.formatVisibility = (caseData) => {
 exports.formatHealthAndSafety = (caseData) => {
 	const safetyIssues = caseData.appellantSiteSafety ? 'Yes' : 'No';
 
-	if (caseData.appellantSiteAccessDetails) {
-		return `${safetyIssues}<br>${caseData.appellantSiteSafetyDetails}`;
-	}
-
-	return safetyIssues;
+	return (
+		safetyIssues +
+		(caseData.appellantSiteSafetyDetails && `<br>${caseData.appellantSiteSafetyDetails}`)
+	);
 };
 
 /**

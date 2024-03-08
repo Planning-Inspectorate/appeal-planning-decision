@@ -8,7 +8,7 @@
  * @param { boolean } breaks
  * @returns {string}
  */
-const formatAddress = (appealCaseData, breaks = false) => {
+const formatAddress = (appealCaseData, joinString = ', ') => {
 	if (isAppealSubmission(appealCaseData)) {
 		return formatAppealSubmissionAddress(appealCaseData);
 	}
@@ -19,8 +19,6 @@ const formatAddress = (appealCaseData, breaks = false) => {
 		appealCaseData.siteAddressTown,
 		appealCaseData.siteAddressPostcode
 	];
-
-	const joinString = breaks ? '<br>' : ', ';
 
 	return addressComponents.filter(Boolean).join(joinString);
 };
