@@ -1,4 +1,4 @@
-const { formatAddress, formatAddressWithBreaks } = require('./format-address');
+const { formatAddress } = require('./format-address');
 
 describe('Address Formatting:', () => {
 	describe('formatAddress', () => {
@@ -28,6 +28,19 @@ describe('Address Formatting:', () => {
 			expect(formatAddress(testAddressData)).toEqual(expectedResult);
 		});
 
+		it('format address fields into a string separated by html line breaks', () => {
+			const testAddressData = {
+				siteAddressLine1: 'Test Line 1',
+				siteAddressLine2: 'Test Line 2',
+				siteAddressTown: 'Test Town',
+				siteAddressPostcode: 'TS1 1TS'
+			};
+
+			const expectedResult = 'Test Line 1<br>Test Line 2<br>Test Town<br>TS1 1TS';
+
+			expect(formatAddress(testAddressData, true)).toEqual(expectedResult);
+		});
+
 		it('formats the address fields in a submission', () => {
 			const testSubmissionAddressData = {
 				appeal: {
@@ -45,21 +58,6 @@ describe('Address Formatting:', () => {
 			const expectedResult = 'Test Line 1, Test Line 2, Test Town, TS1 1TS';
 
 			expect(formatAddress(testSubmissionAddressData)).toEqual(expectedResult);
-		});
-	});
-
-	describe('formatAddressWithBreaks', () => {
-		it('format address fields into a string separated by html line breaks', () => {
-			const testAddressData = {
-				siteAddressLine1: 'Test Line 1',
-				siteAddressLine2: 'Test Line 2',
-				siteAddressTown: 'Test Town',
-				siteAddressPostcode: 'TS1 1TS'
-			};
-
-			const expectedResult = 'Test Line 1<br>Test Line 2<br>Test Town<br>TS1 1TS';
-
-			expect(formatAddressWithBreaks(testAddressData)).toEqual(expectedResult);
 		});
 	});
 });
