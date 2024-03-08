@@ -205,6 +205,26 @@ export interface AppealCase {
 	/** the Inspector's outcome/decision for this case */
 	caseDecisionOutcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
 	caseDecisionPublished?: boolean;
+	yourFirstName?: string;
+	yourLastName?: string;
+	yourCompanyName?: string;
+	ownsAllLand?: boolean;
+	ownsSomeLand?: boolean;
+	knowsOtherOwners?: boolean;
+	identifiedOwners?: boolean;
+	advertisedAppeal?: boolean;
+	informedOwners?: boolean;
+	agriculturalHolding?: boolean;
+	tenantAgriculturalHolding?: boolean;
+	otherTenantsAgriculturalHolding?: boolean;
+	informedTenantsAgriculturalHolding?: boolean;
+	appellantSiteAccess?: boolean;
+	appellantSiteAccessDetails?: string;
+	appellantSiteSafety?: boolean;
+	appellantSiteSafetyDetails?: string;
+	appellantProcedurePreference?: string;
+	appellantPreferHearingDetails?: string;
+	appellantPreferInquiryDetails?: string;
 }
 
 /** An appeal submission created in the Front Office */
