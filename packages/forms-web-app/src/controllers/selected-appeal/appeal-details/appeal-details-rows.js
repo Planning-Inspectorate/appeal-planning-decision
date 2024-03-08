@@ -1,4 +1,4 @@
-const { formatAddressWithBreaks } = require('@pins/common/src/lib/format-address');
+const { formatAddress } = require('@pins/common/src/lib/format-address');
 const {
 	formatAgentDetails,
 	formatVisibility,
@@ -36,7 +36,7 @@ exports.rows = (caseData) => {
 
 		{
 			keyText: 'Site Address',
-			valueText: formatAddressWithBreaks(caseData),
+			valueText: formatAddress(caseData, true),
 			condition: (caseData) => caseData.siteAddressLine1
 		},
 		{
