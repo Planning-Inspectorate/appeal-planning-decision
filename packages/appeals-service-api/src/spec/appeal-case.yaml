@@ -16,7 +16,7 @@ components:
           properties:
             Rule6Parties:
               type: array
-              items: 
+              items:
                 $ref: '#/components/schemas/Rule6Party'
     AppealCase:
       description: An appeal case from the Back Office
@@ -236,5 +236,51 @@ components:
           description: the Inspector's outcome/decision for this case
         caseDecisionPublished:
           type: boolean
+
+        # appeal details
+        yourFirstName:
+          type: string
+        yourLastName:
+          type: string
+        yourCompanyName:
+          type: string
+
+        ownsAllLand:
+          type: boolean
+        ownsSomeLand:
+          type: boolean
+        knowsOtherOwners:
+          type: boolean
+        identifiedOwners:
+          type: boolean
+        advertisedAppeal:
+          type: boolean
+        informedOwners:
+          type: boolean
+
+        agriculturalHolding:
+          type: boolean
+        tenantAgriculturalHolding:
+          type: boolean
+        otherTenantsAgriculturalHolding:
+          type: boolean
+        informedTenantsAgriculturalHolding:
+          type: boolean
+
+        appellantSiteAccess:
+          type: boolean
+        appellantSiteAccessDetails:
+          type: string
+        appellantSiteSafety:
+          type: boolean
+        appellantSiteSafetyDetails:
+          type: string
+
+        appellantProcedurePreference:
+          type: string
+        appellantPreferHearingDetails:
+          type: string
+        appellantPreferInquiryDetails:
+          type: string
 
         # todo: add properties from data model
