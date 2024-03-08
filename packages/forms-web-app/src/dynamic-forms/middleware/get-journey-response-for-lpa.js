@@ -5,7 +5,7 @@ const { getAppealByLPACodeAndId } = require('../../lib/appeals-api-wrapper');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { apiClient } = require('../../lib/appeals-api-client');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
-const AppealsApiError = require('@pins/common/src/client/appeals-api-error');
+const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 
 module.exports = () => async (req, res, next) => {
 	const referenceId = req.params.referenceId;
@@ -31,7 +31,7 @@ module.exports = () => async (req, res, next) => {
 			dbResponse.AppealCase?.LPACode
 		);
 	} catch (err) {
-		if (err instanceof AppealsApiError && err.code === 404) {
+		if (err instanceof ApiClientError && err.code === 404) {
 			logger.debug('questionnaire not found, creating and returning default response');
 			await apiClient.postLPAQuestionnaire(referenceId);
 		} else {

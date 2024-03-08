@@ -580,6 +580,60 @@ const serviceUsers = [
 ];
 
 /**
+ * @type {import('@prisma/client').Prisma.DocumentCreateInput[]}
+ */
+const documents = [
+	{
+		id: '0fc15038-7b19-4f36-92aa-bddc611f5bba',
+		filename: 'example.txt',
+		originalFilename: 'example.txt',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(Date.now()),
+		published: true,
+		redacted: true,
+		documentType: 'Planning application form',
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
+	},
+	{
+		id: '18d3ced6-c913-4662-ac62-e60ad0e06461',
+		filename: 'example-pub.txt',
+		originalFilename: 'example.txt',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(Date.now()),
+		published: false,
+		redacted: true,
+		documentType: 'Decision notice',
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
+	},
+	{
+		id: 'eda2618c-1c29-46e2-a009-fe78eaefe2fc',
+		filename: 'example-redact.txt',
+		originalFilename: 'example.txt',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(Date.now()),
+		published: true,
+		redacted: false,
+		documentType: 'Appeal Statement',
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
+	}
+];
+
+/**
  * @param {import('@prisma/client').PrismaClient} dbClient
  */
 async function seedDev(dbClient) {
@@ -604,13 +658,29 @@ async function seedDev(dbClient) {
 		});
 	}
 
+	const caseIds = [];
 	// create some appeal cases
 	for (const appealCase of appealCases) {
-		await dbClient.appealCase.upsert({
+		const createdCase = await dbClient.appealCase.upsert({
 			create: appealCase,
 			update: appealCase,
 			where: { caseReference: appealCase.caseReference }
 		});
+		caseIds.push(createdCase.id);
+	}
+
+	for (const caseId of caseIds) {
+		for (const document of documents) {
+			document.AppealCase = {
+				connect: { id: caseId }
+			};
+
+			await dbClient.document.upsert({
+				create: document,
+				update: document,
+				where: { id: document.id }
+			});
+		}
 	}
 
 	// link some users to appeals (e.g. appellants/agents)
