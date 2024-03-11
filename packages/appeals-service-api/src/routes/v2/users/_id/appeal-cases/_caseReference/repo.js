@@ -48,7 +48,8 @@ module.exports = class Repo {
 				},
 				include: {
 					Rule6Parties: true,
-					NeighbouringAddresses: true
+					NeighbouringAddresses: true,
+					Documents: true
 				}
 			});
 		} catch (e) {
@@ -79,6 +80,9 @@ module.exports = class Repo {
 					where: {
 						caseReference,
 						LPACode: user.lpaCode
+					},
+					include: {
+						Documents: true
 					}
 				});
 			});

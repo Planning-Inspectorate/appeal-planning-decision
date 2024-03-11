@@ -526,4 +526,9 @@ components:
         appellantPreferInquiryDetails:
           type: string
 
-        # todo: add properties from data model
+        Documents:
+          type: array
+          items:
+            type: object
+
+				# todo: add properties from data model

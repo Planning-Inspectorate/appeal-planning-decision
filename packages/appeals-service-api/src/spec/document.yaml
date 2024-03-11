@@ -1,0 +1,55 @@
+components:
+  schemas:
+    Document:
+      description: A document associated with an appeal
+      type: object
+      required:
+        - id
+        - filename
+        - originalFilename
+        - size
+        - mime
+        - documentURI
+        - dateCreated
+        - documentType
+        - sourceSystem
+        - origin
+        - stage
+        - caseReference
+      properties:
+        id:
+          type: string
+          description: document ID
+        filename:
+          type: string
+        originalFilename:
+          type: string
+        size:
+          type: number
+        documentURI:
+          type: string
+        dateCreated:
+          type: string
+          format: date-time
+        dateReceived:
+          type: string
+          format: date-time
+        lastModified:
+          type: string
+          format: date-time
+        virusCheckStatus:
+          type: string
+        published:
+          type: boolean
+        redacted:
+          type: boolean
+        documentType:
+          type: string
+        sourceSystem:
+          type: string
+        origin:
+          type: string
+        stage:
+          type: string
+        caseReference:
+          type: string
