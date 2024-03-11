@@ -43,11 +43,11 @@ services:
 
       # Clients
       FORMS_WEB_APP_CLIENT_ID: '4dbd45cb-f591-414f-a6d9-34f1103b63fd'
-      FORMS_WEB_APP_CLIENT_SECRET: '8sBg3pVq5f+p9pFyvK13fginGotkGosE/s9/lWg8RiA='
+      FORMS_WEB_APP_CLIENT_SECRET: 'forms-web-app-local-secret'
       FORMS_WEB_APP_REDIRECT_URI: 'http://localhost:9003/oidc'
 
       WEB_COMMENT_CLIENT_ID: '64d173bc-c38e-45bc-b36b-3f85251e52a0'
-      WEB_COMMENT_CLIENT_SECRET: 'xyAzo7YyqFwLyg/SuYc4IXPInT2iz7IelnKuamSqZ7k='
+      WEB_COMMENT_CLIENT_SECRET: 'web-comment-local-secret'
       WEB_COMMENT_REDIRECT_URI: 'http://localhost:9002/oidc'
 
     ports:

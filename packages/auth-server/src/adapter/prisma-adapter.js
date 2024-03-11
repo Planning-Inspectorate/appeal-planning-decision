@@ -1,5 +1,6 @@
 // From https://github.com/Mostafatalaat770/node-oidc-provider-prisma-adapter - MIT
 import createPrismaClient from './prisma-client.js';
+import logger from '../lib/logger.js';
 
 const prisma = createPrismaClient();
 
@@ -7,6 +8,7 @@ const prisma = createPrismaClient();
  * @typedef {import("oidc-provider").AdapterPayload} AdapterPayload
  */
 
+/** @type { Object.<string, number> } */
 const types = [
 	'Session',
 	'AccessToken',
@@ -25,20 +27,6 @@ const types = [
 ].reduce((map, name, i) => ({ ...map, [name]: i + 1 }), {});
 
 /**
- * @param { import("@prisma/client").Oidc } doc
- */
-const prepare = (doc) => {
-	const isPayloadJson = doc.payload && typeof doc.payload === 'string';
-
-	const payload = isPayloadJson ? JSON.parse(doc.payload) : {};
-
-	return {
-		...payload,
-		...(doc.consumedAt ? { consumed: true } : undefined)
-	};
-};
-
-/**
  * @param {number} [expiresIn]
  * @returns {Date | null}
  */
@@ -55,6 +43,8 @@ export default class PrismaAdapter {
 	 * @param {string} name
 	 */
 	constructor(name) {
+		if (!Object.prototype.hasOwnProperty.call(types, name)) throw new Error('unknown oidc type');
+
 		this.type = types[name];
 	}
 
@@ -91,7 +81,7 @@ export default class PrismaAdapter {
 				}
 			});
 		} catch (err) {
-			console.log(err);
+			logger.error({ err }, 'failed to upsert oidc record');
 			throw err;
 		}
 	}
@@ -101,20 +91,16 @@ export default class PrismaAdapter {
 	 * @returns {Promise<AdapterPayload | undefined>}
 	 */
 	async find(id) {
-		const doc = await prisma.oidc.findUnique({
-			where: {
-				id_type: {
-					id,
-					type: this.type
+		return this.#get(() =>
+			prisma.oidc.findUnique({
+				where: {
+					id_type: {
+						id,
+						type: this.type
+					}
 				}
-			}
-		});
-
-		if (!doc || (doc.expiresAt && doc.expiresAt < new Date())) {
-			return undefined;
-		}
-
-		return prepare(doc);
+			})
+		);
 	}
 
 	/**
@@ -122,17 +108,13 @@ export default class PrismaAdapter {
 	 * @returns {Promise<AdapterPayload | undefined>}
 	 */
 	async findByUserCode(userCode) {
-		const doc = await prisma.oidc.findFirst({
-			where: {
-				userCode
-			}
-		});
-
-		if (!doc || (doc.expiresAt && doc.expiresAt < new Date())) {
-			return undefined;
-		}
-
-		return prepare(doc);
+		return this.#get(() =>
+			prisma.oidc.findFirst({
+				where: {
+					userCode
+				}
+			})
+		);
 	}
 
 	/**
@@ -140,17 +122,13 @@ export default class PrismaAdapter {
 	 * @returns {Promise<AdapterPayload | undefined> }
 	 */
 	async findByUid(uid) {
-		const doc = await prisma.oidc.findUnique({
-			where: {
-				uid
-			}
-		});
-
-		if (!doc || (doc.expiresAt && doc.expiresAt < new Date())) {
-			return undefined;
-		}
-
-		return prepare(doc);
+		return this.#get(() =>
+			prisma.oidc.findFirst({
+				where: {
+					uid: uid
+				}
+			})
+		);
 	}
 
 	/**
@@ -196,5 +174,47 @@ export default class PrismaAdapter {
 				grantId
 			}
 		});
+	}
+
+	/**
+	 * Validates and transforms Oidc result
+	 * @param { () => (Promise<import('@prisma/client').Oidc|null>) } query
+	 * @returns {Promise<AdapterPayload|undefined>}
+	 */
+	async #get(query) {
+		const doc = await query();
+
+		if (!this.#isValidOidc(doc)) {
+			return undefined;
+		}
+
+		return this.#convertPayloadJson(doc);
+	}
+
+	/**
+	 * @param { import("@prisma/client").Oidc|null } doc
+	 * @returns {boolean}
+	 */
+	#isValidOidc(doc) {
+		if (!doc || (doc.expiresAt && doc.expiresAt < new Date())) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Parse json field from db before returning it
+	 * @param { import("@prisma/client").Oidc } doc
+	 * @returns {AdapterPayload}
+	 */
+	#convertPayloadJson(doc) {
+		const isPayloadJson = doc.payload && typeof doc.payload === 'string';
+		const payload = isPayloadJson ? JSON.parse(doc.payload) : {};
+
+		return {
+			...payload,
+			...(doc.consumedAt ? { consumed: true } : undefined)
+		};
 	}
 }

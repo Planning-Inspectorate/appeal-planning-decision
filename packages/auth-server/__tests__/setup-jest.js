@@ -23,9 +23,9 @@ process.env.SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID =
 
 // Clients
 process.env.FORMS_WEB_APP_CLIENT_ID = '4dbd45cb-f591-414f-a6d9-34f1103b63fd';
-process.env.FORMS_WEB_APP_CLIENT_SECRET = '8sBg3pVq5f+p9pFyvK13fginGotkGosE/s9/lWg8RiA=';
+process.env.FORMS_WEB_APP_CLIENT_SECRET = 'forms-web-app-local-secret';
 process.env.FORMS_WEB_APP_REDIRECT_URI = 'http://localhost:9003/oidc';
 
 process.env.WEB_COMMENT_CLIENT_ID = '64d173bc-c38e-45bc-b36b-3f85251e52a0';
-process.env.WEB_COMMENT_CLIENT_SECRET = 'xyAzo7YyqFwLyg/SuYc4IXPInT2iz7IelnKuamSqZ7k=';
+process.env.WEB_COMMENT_CLIENT_SECRET = 'web-comment-local-secret';
 process.env.WEB_COMMENT_REDIRECT_URI = 'http://localhost:9002/oidc';
