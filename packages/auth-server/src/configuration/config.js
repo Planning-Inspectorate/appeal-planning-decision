@@ -1,9 +1,10 @@
 import { numberWithDefault, getJsonArray } from './config-helpers.js';
+import schema from './schema.js';
 
 /** @type {number} */
 export const dayInSeconds = 86_400;
 
-export const config = {
+const { value, error } = schema.validate({
 	apps: {
 		appeals: {
 			baseUrl: process.env.APP_APPEALS_BASE_URL
@@ -62,7 +63,7 @@ export const config = {
 		allowTestingOverrides: process.env.ALLOW_TESTING_OVERRIDES === 'true',
 		port: numberWithDefault(process.env.SERVER_PORT, 3000),
 		showErrors: process.env.SERVER_SHOW_ERRORS === 'true',
-		tokenExpiry: 1800
+		tokenExpiry: 1800 // otp email code validity length
 	},
 	services: {
 		notify: {
@@ -81,6 +82,11 @@ export const config = {
 			}
 		}
 	}
-};
+});
 
+if (error) {
+	throw new Error(error.message);
+}
+
+export const config = value;
 export default config;
