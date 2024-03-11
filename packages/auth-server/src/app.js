@@ -4,7 +4,7 @@ import crypto from 'crypto';
 import OIDC from 'oidc-provider';
 
 import config from './configuration/config.js';
-import oidcConfig from './configuration/oidc/index.js';
+import oidcConfig from './oidc/index.js';
 import consts from '@pins/common/src/constants.js';
 
 import logger from './lib/logger.js';

@@ -1,6 +1,9 @@
-import { numberWithDefault } from './config-helpers.js';
+import { numberWithDefault, getJsonArray } from './config-helpers.js';
 
-const config = {
+/** @type {number} */
+export const dayInSeconds = 86_400;
+
+export const config = {
 	apps: {
 		appeals: {
 			baseUrl: process.env.APP_APPEALS_BASE_URL
@@ -18,7 +21,42 @@ const config = {
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
 		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true',
-		redact: ['config.db', 'config.services.notify.apiKey']
+		redact: [
+			'config.db',
+			'config.oidc.clients.formsWebApp.clientSecret',
+			'config.oidc.clients.webComment.clientSecret',
+			'config.oidc.cookie_keys',
+			'config.oidc.jwks',
+			'config.services.notify.apiKey'
+		]
+	},
+	oidc: {
+		accessTokenFormat: process.env.ACCESS_TOKEN_FORMAT || 'jwt',
+		clients: {
+			formsWebApp: {
+				clientId: process.env.FORMS_WEB_APP_CLIENT_ID,
+				clientSecret: process.env.FORMS_WEB_APP_CLIENT_SECRET,
+				redirectUris: [process.env.FORMS_WEB_APP_REDIRECT_URI]
+			},
+			webComment: {
+				clientId: process.env.WEB_COMMENT_CLIENT_ID,
+				clientSecret: process.env.WEB_COMMENT_CLIENT_SECRET,
+				redirectUris: [process.env.WEB_COMMENT_REDIRECT_URI]
+			}
+		},
+		cookie_keys: getJsonArray('COOKIE_KEYS', 'string'),
+		host: process.env.OIDC_HOST,
+		jwks: getJsonArray('JWKS'),
+		jwtSigningAlg: process.env.JWT_SIGNING_ALG || 'RS256',
+		ttl: {
+			AccessToken: numberWithDefault(process.env.TTL_ACCESS_TOKEN, dayInSeconds),
+			ClientCredentials: numberWithDefault(process.env.TTL_CLIENT_CREDS, dayInSeconds),
+			IdToken: numberWithDefault(process.env.TTL_ID_TOKEN, dayInSeconds),
+			Grant: numberWithDefault(process.env.TTL_GRANT, dayInSeconds), // unused
+			Interaction: numberWithDefault(process.env.TTL_INTERACTION, dayInSeconds), // unused
+			RefreshToken: numberWithDefault(process.env.TTL_REFRESH_TOKEN, dayInSeconds), // unused
+			Session: numberWithDefault(process.env.TTL_SESSION, dayInSeconds) // unused
+		}
 	},
 	server: {
 		allowTestingOverrides: process.env.ALLOW_TESTING_OVERRIDES === 'true',
