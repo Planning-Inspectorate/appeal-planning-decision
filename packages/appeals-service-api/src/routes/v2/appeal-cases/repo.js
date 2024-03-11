@@ -28,6 +28,9 @@ class AppealCaseRepository {
 			where: {
 				caseReference,
 				casePublished
+			},
+			include: {
+				Documents: true
 			}
 		});
 	}

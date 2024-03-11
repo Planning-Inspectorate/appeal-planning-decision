@@ -37,6 +37,13 @@
 				classes: "govuk-summary-list long-answers",
 				rows: appeal.appealDetails
 			}) }}
+
+			<h2 class="govuk-heading-l">{{ appealDetailsSuffix }} documents</h2>
+
+			{{ govukSummaryList({
+				classes: "govuk-summary-list long-answers",
+				rows: appeal.appealDocuments
+			}) }}
 		</div>
 
 	</div>

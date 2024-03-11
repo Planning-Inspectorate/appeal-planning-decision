@@ -390,6 +390,7 @@ export interface AppealCase {
 	appellantProcedurePreference?: string;
 	appellantPreferHearingDetails?: string;
 	appellantPreferInquiryDetails?: string;
+	Documents?: object[];
 }
 
 /** An appeal submission created in the Front Office */
@@ -473,6 +474,30 @@ export interface AppealUser {
 	isLpaAdmin?: boolean;
 	/** if an LPA user, the status of this user, e.g. have they logged in and confirmed their email? */
 	lpaStatus?: 'added' | 'confirmed' | 'removed';
+}
+
+/** A document associated with an appeal */
+export interface Document {
+	/** document ID */
+	id: string;
+	filename: string;
+	originalFilename: string;
+	size: number;
+	documentURI: string;
+	/** @format date-time */
+	dateCreated: string;
+	/** @format date-time */
+	dateReceived?: string;
+	/** @format date-time */
+	lastModified?: string;
+	virusCheckStatus?: string;
+	published?: boolean;
+	redacted?: boolean;
+	documentType: string;
+	sourceSystem: string;
+	origin: string;
+	stage: string;
+	caseReference: string;
 }
 
 export interface ErrorBody {

@@ -16,7 +16,7 @@ const {
  * @returns {Rows}
  */
 
-exports.rows = (caseData) => {
+exports.detailsRows = (caseData) => {
 	return [
 		{
 			keyText: 'Agent name',
@@ -99,7 +99,6 @@ exports.rows = (caseData) => {
 			valueText: formatVisibility(caseData),
 			condition: (caseData) => caseData
 		},
-
 		{
 			keyText: 'Site health and safety issues',
 			valueText: formatHealthAndSafety(caseData),

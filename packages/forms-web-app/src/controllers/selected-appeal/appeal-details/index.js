@@ -4,8 +4,10 @@ const { formatHeadlineData, formatRows } = require('@pins/common');
 const { VIEW } = require('../../../lib/views');
 const { apiClient } = require('../../../lib/appeals-api-client');
 const { determineUser } = require('../../../lib/determine-user');
-const { rows } = require('./appeal-details-rows');
 const { getLPAUserFromSession } = require('../../../services/lpa-user.service');
+const { detailsRows } = require('./appeal-details-rows');
+const { documentsRows } = require('./appeal-documents-rows');
+
 
 /**
  * @type {import('express').Handler}
@@ -38,9 +40,12 @@ exports.get = async (req, res) => {
 	});
 
 	const headlineData = formatHeadlineData(caseData, userType);
-	const appealDetailsRows = rows(caseData);
 
+	const appealDetailsRows = detailsRows(caseData);
 	const appealDetails = formatRows(appealDetailsRows, caseData);
+
+	const appealDocumentsRows = documentsRows(caseData);
+	const appealDocuments = formatRows(appealDocumentsRows, caseData);
 
 	const viewContext = {
 		titleSuffix: formatTitleSuffix(userType),
@@ -48,7 +53,8 @@ exports.get = async (req, res) => {
 		appeal: {
 			appealNumber,
 			headlineData,
-			appealDetails
+			appealDetails,
+			appealDocuments
 		}
 	};
 
