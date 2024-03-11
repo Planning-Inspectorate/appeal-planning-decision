@@ -1,5 +1,6 @@
 import consts from '@pins/common/src/constants.js';
 import flatten from '@pins/common/src/lib/flattenObjectToDotNotation.js';
+import config from '../configuration/config.js';
 
 const resources = {
 	[consts.AUTH.RESOURCE]: {
@@ -24,9 +25,9 @@ export default {
 	 */ // eslint-disable-next-line no-unused-vars
 	getResourceServerInfo: async (ctx, indicator, client) => {
 		return {
-			accessTokenFormat: 'jwt',
+			accessTokenFormat: config.oidc.accessTokenFormat,
 			jwt: {
-				sign: { alg: 'RS256' }
+				sign: { alg: config.oidc.jwtSigningAlg }
 			},
 			scope: resources[indicator].scopes.join(' '),
 			audience: indicator

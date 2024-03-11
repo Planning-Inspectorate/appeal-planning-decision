@@ -4,8 +4,7 @@ import supertest from 'supertest';
 import { jest } from '@jest/globals';
 
 import consts from '@pins/common/src/constants.js';
-import { dayInSeconds } from '../src/configuration/oidc/ttl-defaults.js';
-import clients from '../src/configuration/oidc/clients.js';
+import { dayInSeconds, config } from '../src/configuration/config.js';
 import app from '../src/app.js';
 import createPrismaClient from '../src/adapter/prisma-client.js';
 import { seedStaticData } from '@pins/database/src/seed/data-static';
@@ -53,8 +52,8 @@ afterAll(async () => {
 
 describe('auth server', () => {
 	const getDefaultGrantParams = ({
-		client_id = clients[0].client_id,
-		client_secret = clients[0].client_secret,
+		client_id = config.oidc.clients.formsWebApp.clientId,
+		client_secret = config.oidc.clients.formsWebApp.clientSecret,
 		resource = consts.AUTH.RESOURCE
 	} = {}) => {
 		return new URLSearchParams({
@@ -69,8 +68,8 @@ describe('auth server', () => {
 	};
 
 	const performClientCreds = async ({
-		client_id = clients[0].client_id,
-		client_secret = clients[0].client_secret,
+		client_id = config.oidc.clients.formsWebApp.clientId,
+		client_secret = config.oidc.clients.formsWebApp.clientSecret,
 		resource = consts.AUTH.RESOURCE,
 		scope = undefined
 	} = {}) => {
@@ -90,8 +89,8 @@ describe('auth server', () => {
 	};
 
 	const performOTP = async ({
-		client_id = clients[0].client_id,
-		client_secret = clients[0].client_secret,
+		client_id = config.oidc.clients.formsWebApp.clientId,
+		client_secret = config.oidc.clients.formsWebApp.clientSecret,
 		resource = consts.AUTH.RESOURCE,
 		email = TEST_EMAIL
 	} = {}) => {
@@ -111,8 +110,8 @@ describe('auth server', () => {
 	};
 
 	const performRPOC = async ({
-		client_id = clients[0].client_id,
-		client_secret = clients[0].client_secret,
+		client_id = config.oidc.clients.formsWebApp.clientId,
+		client_secret = config.oidc.clients.formsWebApp.clientSecret,
 		resource = consts.AUTH.RESOURCE,
 		email = undefined,
 		otp = undefined,

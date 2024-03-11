@@ -1,8 +1,9 @@
 import createClient from '@pins/database/src/create-client.js';
+import config from '../configuration/config.js';
 
 /** @type {import('@pins/database/src/create-client').prismaConfig} */
 const prismaConfig = {
-	datasourceUrl: process.env.SQL_CONNECTION_STRING
+	datasourceUrl: config.db.sql.connectionString
 };
 
 /**
