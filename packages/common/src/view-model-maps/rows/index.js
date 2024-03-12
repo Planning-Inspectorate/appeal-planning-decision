@@ -9,6 +9,19 @@ exports.formatRows = (rows, caseData) => {
 };
 
 /**
+ * @param {import('./def').Rows} rows
+ * @param {import("appeals-service-api").Api.AppealCaseWithAppellant} questionnaireData
+ */
+exports.formatQuestionnaireRows = (rows, questionnaireData) => {
+	const displayRows = rows.filter(
+		({ condition }) =>
+			condition(questionnaireData) !== undefined && condition(questionnaireData) !== null
+	);
+
+	return displayRows.map((row) => createRow(row.keyText, row.valueText));
+};
+
+/**
  * @param { string } keyText
  * @param { string } valueText
  */

@@ -1,5 +1,5 @@
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { formatHeadlineData } = require('@pins/common');
+const { formatHeadlineData, formatQuestionnaireRows } = require('@pins/common');
 
 const { VIEW } = require('../../../lib/views');
 const { apiClient } = require('../../../lib/appeals-api-client');
@@ -9,6 +9,7 @@ const {
 	formatTitleSuffix,
 	determineServicePage
 } = require('../../../lib/selected-appeal-page-setup');
+const { constraintsRows } = require('./questionnaire-details-rows');
 
 /**
  * @type {import('express').Handler}
@@ -39,7 +40,10 @@ exports.get = async (req, res) => {
 		userId: user.id
 	});
 
+	// console.log('HEELLO', questionnaireData)
 	const headlineData = formatHeadlineData(caseData, userType);
+	const constraintsDetailsRows = constraintsRows(caseData);
+	const constraintsDetails = formatQuestionnaireRows(constraintsDetailsRows, caseData);
 
 	const viewContext = {
 		servicePage: determineServicePage(userType),
@@ -47,7 +51,8 @@ exports.get = async (req, res) => {
 		mainHeading: formatQuestionnaireHeading(userType),
 		appeal: {
 			appealNumber,
-			headlineData
+			headlineData,
+			constraintsDetails
 		}
 	};
 
