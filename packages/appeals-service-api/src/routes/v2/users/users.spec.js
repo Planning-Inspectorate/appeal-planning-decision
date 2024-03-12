@@ -118,10 +118,9 @@ describe('users v2', () => {
 	});
 
 	describe('search users', () => {
-		it('should return user list', async () => {
+		it('should not return all users', async () => {
 			const response = await appealsApi.get('/api/v2/users');
-			expect(response.status).toEqual(200);
-			expect(Array.isArray(response.body)).toBe(true);
+			expect(response.status).toEqual(400);
 		});
 
 		it('should return lpa user list', async () => {

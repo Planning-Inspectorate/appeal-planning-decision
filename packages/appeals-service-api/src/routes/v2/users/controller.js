@@ -26,6 +26,10 @@ async function userPost(req, res) {
 async function userSearch(req, res) {
 	const { lpaCode } = req.query;
 
+	if (!lpaCode) {
+		throw ApiError.badRequest({ errors: ['lpaCode is required'] });
+	}
+
 	const body = await searchUsers({
 		lpaCode: lpaCode?.trim()
 	});
@@ -48,7 +52,7 @@ async function userUpdate(req, res) {
 	const user = await resolveUser(req.params.userLookup);
 
 	const { isEnrolled, lpaStatus } = req.body;
-	if (isEnrolled) user.isEnrolled = isEnrolled;
+	if (isEnrolled) user.isEnrolled = isEnrolled; // should not be possible to update this to false
 	if (lpaStatus) user.lpaStatus = lpaStatus;
 
 	const body = await updateUser(user);
@@ -87,17 +91,13 @@ async function userLink(req, res) {
  * @returns {Promise<import('@prisma/client').AppealUser>}
  */
 async function resolveUser(userLookup) {
-	let user;
-
 	userLookup = userLookup.trim();
 
 	if (userLookup.includes('@')) {
-		user = await getUserByEmail(userLookup);
+		return getUserByEmail(userLookup);
 	} else {
-		user = await getUserById(userLookup);
+		return getUserById(userLookup);
 	}
-
-	return user;
 }
 
 module.exports = {
