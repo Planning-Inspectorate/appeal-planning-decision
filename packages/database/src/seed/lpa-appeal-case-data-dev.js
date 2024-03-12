@@ -53,7 +53,9 @@ const commonAppealCaseDataProperties = {
 	LPAApplicationReference: '12/2323232/PLA',
 	procedure: 'inquiry',
 	appellantFirstName: 'Test',
-	appellantLastName: 'Appellant'
+	appellantLastName: 'Appellant',
+	rule6StatementPublished: true,
+	casePublished: true
 };
 
 /**
