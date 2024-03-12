@@ -406,6 +406,12 @@ const linkedLpaAppeals = lpaAppeals.map((appeal) => ({
 	role: APPEAL_USER_ROLES.APPELLANT
 }));
 
+const linkedLpaR6Appeals = lpaAppeals.map((appeal) => ({
+	appealId: appeal.id,
+	userId: rule6Parties.r6One.id,
+	role: APPEAL_USER_ROLES.RULE_6_PARTY
+}));
+
 const appealToUsers = [
 	{
 		appealId: appealIds.appealOne,
@@ -498,7 +504,8 @@ const appealToUsers = [
 		appealId: appealIds.appealEight,
 		userId: rule6Parties.r6Eight.id,
 		role: APPEAL_USER_ROLES.RULE_6_PARTY
-	}
+	},
+	...linkedLpaR6Appeals
 ];
 
 /**
