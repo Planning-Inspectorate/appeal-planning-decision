@@ -27,5 +27,5 @@ exports.formatNewDescription = (caseData) => {
  * @returns {string}
  */
 const formatDocumentLink = (document) => {
-	return `<a href=${document.documentURI} class="govuk-link">${document.filename}</a>`;
+	return `<a href=# class="govuk-link">${document.filename}</a>`;
 };
