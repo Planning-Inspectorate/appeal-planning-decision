@@ -11,6 +11,14 @@ export interface MigrateResult {
 	errors?: string[];
 }
 
+export type AppealUsers = AppealUser[];
+
+export interface AppealUserUpdate {
+	/** @example "false" */
+	isEnrolled?: boolean;
+	lpaStatus?: 'added' | 'confirmed' | 'removed';
+}
+
 /** An appeal case from the Back Office, with appellant service user */
 export type AppealCaseWithAppellant = AppealCase & {
 	/** A Service User */
@@ -390,6 +398,9 @@ export interface AppealCase {
 	appellantProcedurePreference?: string;
 	appellantPreferHearingDetails?: string;
 	appellantPreferInquiryDetails?: string;
+	updateDevelopmentDescription?: boolean;
+	developmentDescriptionDetails?: string;
+	statusPlanningObligation?: string;
 	Documents?: object[];
 }
 

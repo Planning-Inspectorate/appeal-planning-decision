@@ -372,6 +372,12 @@ model AppealCase {
   appellantPreferHearingDetails String?
   appellantPreferInquiryDetails String?
 
+  // questions relating to appeal documents (aapd-1126)
+
+  updateDevelopmentDescription  Boolean?
+  developmentDescriptionDetails String?
+  statusPlanningObligation      String?
+
   // todo: there are many more fields! waiting on the model definition
 
   /// link to root Appeal

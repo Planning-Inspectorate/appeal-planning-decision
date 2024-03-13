@@ -1,5 +1,6 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
+const { appealDocuments } = require('./appeal-documents-dev');
 const {
 	constants: { DECISION_OUTCOME }
 } = require('@pins/business-rules');
@@ -638,7 +639,9 @@ const documents = [
 		origin: 'pins',
 		stage: 'decision',
 		AppealCase: {}
-	}
+	},
+	// NOTE - FOLLOWING DOCUMENTS NOT IN STORAGE, ARE USED TO TEST APPEAL DOCS DISPLAY ONLY
+	...appealDocuments
 ];
 
 /**

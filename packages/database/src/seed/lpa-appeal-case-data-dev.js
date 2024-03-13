@@ -114,7 +114,10 @@ const lpaAppealCaseData = [
 		appellantSiteSafety: true,
 		appellantSiteSafetyDetails: 'Cattle',
 		appellantProcedurePreference: 'Hearing',
-		appellantPreferHearingDetails: 'Would like day in court'
+		appellantPreferHearingDetails: 'Would like day in court',
+		updateDevelopmentDescription: true,
+		developmentDescriptionDetails: 'a test development',
+		statusPlanningObligation: 'a test planning status obligation'
 	},
 	{
 		Appeal: {
