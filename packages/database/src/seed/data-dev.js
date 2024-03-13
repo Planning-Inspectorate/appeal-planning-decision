@@ -4,6 +4,7 @@ const {
 	constants: { DECISION_OUTCOME }
 } = require('@pins/business-rules');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const config = require('../configuration/config.js');
 
 // some data here so we can reference in multiple places
 // IDs have no specific meaning, just valid UUIDs and used for upsert/relations
@@ -678,6 +679,8 @@ async function seedDev(dbClient) {
 
 	for (const caseId of caseIds) {
 		for (const document of documents) {
+			document.documentUri = `${config.storage.boEndpoint}/${document.filename}`;
+
 			document.AppealCase = {
 				connect: { id: caseId }
 			};
