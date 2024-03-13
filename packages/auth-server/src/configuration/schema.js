@@ -13,7 +13,7 @@ export default joi
 			})
 		}),
 		featureFlagging: joi.object({
-			endpoint: joi.string().uri().optional(),
+			endpoint: joi.string().optional(),
 			timeToLiveInMinutes: joi.number().positive()
 		}),
 		logger: joi.object({
