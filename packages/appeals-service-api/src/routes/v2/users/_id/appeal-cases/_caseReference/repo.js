@@ -47,7 +47,8 @@ module.exports = class Repo {
 					}
 				},
 				include: {
-					Rule6Parties: true
+					Rule6Parties: true,
+					NeighbouringAddresses: true
 				}
 			});
 		} catch (e) {
