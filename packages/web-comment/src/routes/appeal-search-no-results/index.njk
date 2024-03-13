@@ -1,14 +1,15 @@
 {% extends "../../index.njk" %}
-{% set title = ["Appeal ", appealReference] | join %}
+{% set title = [pageTitle, searchQuery] | join %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block content %}
     <form method="post">
         <div class="govuk-form-group">
-            <label class="govuk-label govuk-label--l" for="appeal-reference">Appeal {{ appealReference }}</label>
-            <p class="govuk-body">We could not find an appeal for this reference number.</p>
+            <label class="govuk-label govuk-label--l" for="appeal-reference">{{pageHeading}} {{ searchQuery }}</label>
+            <p class="govuk-body govuk-label--m"><strong>0 results</strong></p>
+            <p class="govuk-body">{{paragraph}} {{searchQuery}}.</p>
             <p class="govuk-body">
-                <a href="enter-appeal-reference" class="govuk-link">Find a planning appeal</a>
+                <a href="{{linkToRelatedSearchPage}}" class="govuk-link">Find a planning appeal</a>
             </p>
         </div>
     </form>
