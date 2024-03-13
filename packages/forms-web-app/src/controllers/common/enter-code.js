@@ -402,7 +402,7 @@ const postEnterCodeLPA = (views) => {
 		}
 
 		// check token
-		const enrolUsers = true;
+		const enrolUsers = true; // lpa relies on sql user, potentially split this flag into sql-user and appellant-dashboard
 		const tokenResult = await isTokenValid(
 			emailCode,
 			id,

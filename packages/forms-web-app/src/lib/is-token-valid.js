@@ -73,7 +73,7 @@ const getToken = async (token, id, emailAddress, action) => {
  * @param {string} [action]
  * @returns {Promise<TokenValidResult>}
  */
-const authToken = async (token, emailAddress, action) => {
+const getAuthToken = async (token, emailAddress, action) => {
 	const tooManyAttempts = {
 		valid: false,
 		action: action,
@@ -154,7 +154,7 @@ const isTokenValid = async (token, id, emailAddress, action, lpaCode, enrolUsers
 
 	// use auth token going forward
 	if (enrolUsersFlag) {
-		return await authToken(token, emailAddress, action);
+		return await getAuthToken(token, emailAddress, action);
 	}
 
 	// legacy path
