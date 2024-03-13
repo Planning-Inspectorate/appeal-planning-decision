@@ -89,6 +89,171 @@ export interface AppealCase {
 	lpaProofEvidenceSubmitted?: boolean;
 	lpaProofEvidencePublished?: boolean;
 	lpaFinalCommentsPublished?: boolean;
+	/** Is this the correct type of appeal */
+	correctAppealType?: boolean;
+	/** Does the development change a listed building */
+	changesListedBuilding?: boolean;
+	/** the list entry number */
+	changedListedBuildingNumber?: number;
+	/** Add another building or site */
+	addChangedListedBuilding?: boolean;
+	/** Does the proposed development affect the setting of listed buildings */
+	affectsListedBuilding?: boolean;
+	/** the list entry number */
+	affectedListedBuildingNumber?: number;
+	/** Add another building or site */
+	addAffectedListedBuilding?: boolean;
+	/** Would the development affect a scheduled monument */
+	scheduledMonument?: boolean;
+	/** Is the site in, or next to a conservation area */
+	conservationArea?: boolean;
+	/** Upload conservation map and guidance */
+	uploadConservation?: boolean;
+	/** Would the development affect a protected species */
+	protectedSpecies?: boolean;
+	/** Is the site in a green belt */
+	greenBelt?: boolean;
+	/** Is the appeal site in an area of outstanding natural beauty */
+	areaOutstandingBeauty?: boolean;
+	/** Is the development in, near or likely to affect any designated sites */
+	designatedSites?: string;
+	otherDesignationDetails?: string;
+	/** Does a Tree Preservation Order (TPO) apply to any part of the appeal site */
+	treePreservationOrder?: boolean;
+	/** Upload a plan showing the extent of the order */
+	uploadTreePreservationOrder?: boolean;
+	/** Does the development relate to anyone claiming to be a Gypsy or Traveller */
+	gypsyTraveller?: boolean;
+	/** Would a public right of way need to be removed or diverted */
+	publicRightOfWay?: boolean;
+	/** Upload the definitive map and statement extract */
+	uploadDefinitiveMapStatement?: boolean;
+	/** Is the development a schedule 1 or schedule 2 development */
+	environmentalImpactSchedule?: string;
+	/** Description of development */
+	developmentDescription?: string;
+	/** Is the development in, partly in, or likely to affect a sensitive area */
+	sensitiveArea?: boolean;
+	/** Tell us about the sensitive area */
+	sensitiveAreaDetails?: string;
+	/** Does the development meet or exceed the threshold or criteria in column 2 */
+	columnTwoThreshold?: boolean;
+	/** Have you issued a screening opinion */
+	screeningOpinion?: boolean;
+	/** Upload your screening opinion and any correspondence */
+	uploadScreeningOpinion?: boolean;
+	/** Did your screening opinion say the development needed an environmental statement */
+	requiresEnvironmentalStatement?: boolean;
+	/** Upload the screening direction */
+	uploadScreeningDirection?: boolean;
+	/** Upload the environmental statement and supporting information */
+	uploadEnvironmentalStatement?: boolean;
+	/** Did the applicant submit an environmental statement */
+	completedEnvironmentalStatement?: boolean;
+	/** Who did you notify about this application */
+	uploadWhoNotified?: boolean;
+	/** How did you notify relevant parties about the planning application */
+	notificationMethod?: string;
+	/** Upload the site notice */
+	uploadSiteNotice?: boolean;
+	/** Upload the letters and emails */
+	uploadLettersEmails?: boolean;
+	/** Upload the press advertisement */
+	uploadPressAdvert?: boolean;
+	/** Did you consult all the relevant statutory consultees about the development */
+	statutoryConsultees?: boolean;
+	/** Which bodies did you consult */
+	consultedBodiesDetails?: string;
+	/** Do you have any consultation responses or standing advice from statutory consultees to upload */
+	consultationResponses?: boolean;
+	/** Upload the consultation responses and standing advice */
+	uploadConsultationResponses?: boolean;
+	/** Did you receive representations from members of the public or other parties */
+	otherPartyRepresentations?: boolean;
+	/** Upload the representations */
+	uploadRepresentations?: boolean;
+	/** Upload the planning officers report */
+	uploadPlanningOfficerReport?: boolean;
+	/** Upload relevant policies from your statutory development plan */
+	uploadDevelopmentPlanPolicies?: boolean;
+	/** Do you have an emerging plan that is relevant to this appeal */
+	emergingPlan?: boolean;
+	/** Upload the emerging plan and supporting information */
+	uploadEmergingPlan?: boolean;
+	/** Upload any other relevant policies */
+	uploadOtherPolicies?: boolean;
+	/** Did any supplementary planning documents inform the outcome of the application */
+	supplementaryPlanningDocs?: boolean;
+	/** Upload the relevant supplementary planning documents */
+	uploadSupplementaryPlanningDocs?: boolean;
+	/** Do you have a community infrastructure levy */
+	infrastructureLevy?: boolean;
+	/** Upload your community infrastructure levy */
+	uploadInfrastructureLevy?: boolean;
+	/** Is the community infrastructure levy formally adopted */
+	infrastructureLevyAdopted?: boolean;
+	/**
+	 * When was the community infrastructure levy formally adopted
+	 * @format date-time
+	 */
+	infrastructureLevyAdoptedDate?: string;
+	/**
+	 * When do you expect to formally adopt the community infrastructure levy
+	 * @format date-time
+	 */
+	infrastructureLevyExpectedDate?: string;
+	/** Might the inspector need access to the appellants land or property */
+	lpaSiteAccess?: boolean;
+	/** the reason */
+	lpaSiteAccessDetails?: string;
+	/** Might the inspector need to enter a neighbours land or property */
+	neighbouringSiteAccess?: boolean;
+	/** the reason */
+	neighbouringSiteAccessDetails?: string;
+	/** Do you want to add another neighbour to be visited */
+	addNeighbouringSiteAccess?: boolean;
+	/** Are there any potential safety risks */
+	lpaSiteSafetyRisks?: boolean;
+	/** Add details of the potential risk and what the inspector might need */
+	lpaSiteSafetyRiskDetails?: string;
+	/** Which procedure do you think is most appropriate for this appeal */
+	lpaProcedurePreference?: string;
+	/** Why would you prefer a hearing */
+	lpaPreferHearingDetails?: string;
+	/** How many days would you expect the inquiry to last */
+	lpaPreferInquiryDuration?: string;
+	/** Why would you prefer an inquiry */
+	lpaPreferInquiryDetails?: string;
+	/** Are there any other ongoing appeals next to, or close to the site */
+	nearbyAppeals?: boolean;
+	/** Enter an appeal reference number */
+	nearbyAppealReference?: string;
+	/** Add another appeal */
+	addNearbyAppeal?: boolean;
+	/** Are there any new conditions */
+	newConditions?: boolean;
+	/** Tell us about the new conditions */
+	newConditionDetails?: string;
+	/** Enter your statement */
+	lpaStatement?: string;
+	/** Do you have additional documents to support your appeal statement */
+	lpaStatementDocuments?: boolean;
+	/** Upload your new supporting documents */
+	uploadLpaStatementDocuments?: boolean;
+	/** Do you want to submit a final comment */
+	lpaFinalComment?: boolean;
+	/** What are your final comments */
+	lpaFinalCommentDetails?: string;
+	/** Upload your proof of evidence and summary */
+	uploadLpaProofEvidence?: boolean;
+	/** Do you need to add any witnesses */
+	lpaWitnesses?: boolean;
+	/** Upload your witnesses and their evidence */
+	uploadLpaWitnessEvidence?: boolean;
+	/** Upload witness timings */
+	uploadLpaWitnessTimings?: boolean;
+	/** Upload rebuttals */
+	uploadLpaRebuttal?: boolean;
 	rule6StatementPublished?: boolean;
 	rule6ProofsEvidencePublished?: boolean;
 	interestedPartyCommentsPublished?: boolean;
@@ -400,6 +565,23 @@ export interface LPAQuestionnaireSubmission {
 	uploadScreeningDirection?: boolean;
 	developmentDescription?: string;
 	requiresEnvironmentalStatement?: boolean;
+}
+
+/** The neighbouring address related to an appeal */
+export interface NeighbouringAddress {
+	/**
+	 * identifier for the neighbouring address of an associated appeal
+	 * @format uuid
+	 */
+	id: string;
+	/** appeal reference the address is associated to */
+	caseReference: string;
+	/** first line of the address */
+	addressLine1: string;
+	/** the town or city of the address */
+	townCity: string;
+	/** the postcode of the adress */
+	postcode: string;
 }
 
 /** Information about a rule 6 party involved in an appeal */

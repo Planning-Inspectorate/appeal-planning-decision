@@ -1,0 +1,29 @@
+components:
+  schemas:
+    NeighbouringAddress:
+      type: object
+      description: The neighbouring address related to an appeal
+      required:
+        - id
+        - caseReference
+        - addressLine1
+        - townCity
+        - postcode
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier for the neighbouring address of an associated appeal
+        caseReference:
+          type: string
+          description: appeal reference the address is associated to
+        addressLine1:
+          type: string
+          description: first line of the address
+        townCity:
+          type: string
+          description: the town or city of the address
+        postcode: 
+          type: string
+          description: the postcode of the adress
+        
