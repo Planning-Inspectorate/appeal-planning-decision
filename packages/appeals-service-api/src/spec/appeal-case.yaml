@@ -119,7 +119,7 @@ components:
           type: boolean
 
         #Published questionnaire details
-        correctAppealType: 
+        correctAppealType:
           type: boolean
           description: Is this the correct type of appeal
         changesListedBuilding:
@@ -155,7 +155,7 @@ components:
         greenBelt:
           type: boolean
           description: Is the site in a green belt
-        areaOutstandingBeauty: 
+        areaOutstandingBeauty:
           type: boolean
           description: Is the appeal site in an area of outstanding natural beauty
         designatedSites:
@@ -241,25 +241,25 @@ components:
         otherPartyRepresentations:
           type: boolean
           description: Did you receive representations from members of the public or other parties
-        uploadRepresentations: 
+        uploadRepresentations:
           type: boolean
           description: Upload the representations
         uploadPlanningOfficerReport:
           type: boolean
-          description: Upload the planning officers report 
+          description: Upload the planning officers report
         uploadDevelopmentPlanPolicies:
           type: boolean
           description: Upload relevant policies from your statutory development plan
-        emergingPlan: 
+        emergingPlan:
           type: boolean
           description: Do you have an emerging plan that is relevant to this appeal
-        uploadEmergingPlan: 
+        uploadEmergingPlan:
           type: boolean
           description: Upload the emerging plan and supporting information
         uploadOtherPolicies:
           type: boolean
           description: Upload any other relevant policies
-        supplementaryPlanningDocs: 
+        supplementaryPlanningDocs:
           type: boolean
           description: Did any supplementary planning documents inform the outcome of the application
         uploadSupplementaryPlanningDocs:
@@ -274,7 +274,7 @@ components:
         infrastructureLevyAdopted:
           type: boolean
           description: Is the community infrastructure levy formally adopted
-        infrastructureLevyAdoptedDate:  
+        infrastructureLevyAdoptedDate:
           type: string
           format: date-time
           description: When was the community infrastructure levy formally adopted
@@ -282,7 +282,7 @@ components:
           type: string
           format: date-time
           description: When do you expect to formally adopt the community infrastructure levy
-        lpaSiteAccess:  
+        lpaSiteAccess:
           type: boolean
           description: Might the inspector need access to the appellants land or property
         lpaSiteAccessDetails:
@@ -303,7 +303,7 @@ components:
         lpaSiteSafetyRiskDetails:
           type: string
           description: Add details of the potential risk and what the inspector might need
-        lpaProcedurePreference: 
+        lpaProcedurePreference:
           type: string
           description: Which procedure do you think is most appropriate for this appeal
         lpaPreferHearingDetails:
@@ -315,8 +315,8 @@ components:
         lpaPreferInquiryDetails:
           type: string
           description: Why would you prefer an inquiry
-        nearbyAppeals: 
-          type: boolean 
+        nearbyAppeals:
+          type: boolean
           description: Are there any other ongoing appeals next to, or close to the site
         nearbyAppealReference:
           type: string
@@ -330,7 +330,7 @@ components:
         newConditionDetails:
           type: string
           description: Tell us about the new conditions
-        lpaStatement: 
+        lpaStatement:
           type: string
           description: Enter your statement
         lpaStatementDocuments:
@@ -524,6 +524,13 @@ components:
         appellantPreferHearingDetails:
           type: string
         appellantPreferInquiryDetails:
+          type: string
+
+        updateDevelopmentDescription:
+          type: boolean
+        developmentDescriptionDetails:
+          type: string
+        statusPlanningObligation:
           type: string
 
         Documents:
