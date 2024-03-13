@@ -208,6 +208,88 @@ model AppealCase {
   lpaProofEvidencePublished    Boolean  @default(false)
   lpaFinalCommentsPublished    Boolean  @default(false)
 
+  // Published questionnaire details
+  correctAppealType               Boolean?
+  changesListedBuilding           Boolean?
+  changedListedBuildingNumber     Int?
+  addChangedListedBuilding        Boolean?
+  affectsListedBuilding           Boolean?
+  affectedListedBuildingNumber    Int?
+  addAffectedListedBuilding       Boolean?
+  scheduledMonument               Boolean?
+  conservationArea                Boolean?
+  uploadConservation              Boolean?
+  protectedSpecies                Boolean?
+  greenBelt                       Boolean?
+  areaOutstandingBeauty           Boolean?
+  designatedSites                 String?
+  otherDesignationDetails         String?
+  treePreservationOrder           Boolean?
+  uploadTreePreservationOrder     Boolean?
+  gypsyTraveller                  Boolean?
+  publicRightOfWay                Boolean?
+  uploadDefinitiveMapStatement    Boolean?
+  environmentalImpactSchedule     String?
+  developmentDescription          String?
+  sensitiveArea                   Boolean?
+  sensitiveAreaDetails            String?
+  columnTwoThreshold              Boolean?
+  screeningOpinion                Boolean?
+  uploadScreeningOpinion          Boolean?
+  requiresEnvironmentalStatement  Boolean?
+  uploadScreeningDirection        Boolean?
+  uploadEnvironmentalStatement    Boolean?
+  completedEnvironmentalStatement Boolean?
+  uploadWhoNotified               Boolean?
+  notificationMethod              String?
+  uploadSiteNotice                Boolean?
+  uploadLettersEmails             Boolean?
+  uploadPressAdvert               Boolean?
+  statutoryConsultees             Boolean?
+  consultedBodiesDetails          String?
+  consultationResponses           Boolean?
+  uploadConsultationResponses     Boolean?
+  otherPartyRepresentations       Boolean?
+  uploadRepresentations           Boolean?
+  uploadPlanningOfficerReport     Boolean?
+  uploadDevelopmentPlanPolicies   Boolean?
+  emergingPlan                    Boolean?
+  uploadEmergingPlan              Boolean?
+  uploadOtherPolicies             Boolean?
+  supplementaryPlanningDocs       Boolean?
+  uploadSupplementaryPlanningDocs Boolean?
+  infrastructureLevy              Boolean?
+  uploadInfrastructureLevy        Boolean?
+  infrastructureLevyAdopted       Boolean?
+  infrastructureLevyAdoptedDate   DateTime?
+  infrastructureLevyExpectedDate  DateTime?
+  lpaSiteAccess                   Boolean?
+  lpaSiteAccessDetails            String?
+  neighbouringSiteAccess          Boolean?
+  neighbouringSiteAccessDetails   String?
+  addNeighbouringSiteAccess       Boolean?
+  lpaSiteSafetyRisks              Boolean?
+  lpaSiteSafetyRiskDetails        String?
+  lpaProcedurePreference          String?
+  lpaPreferHearingDetails         String?
+  lpaPreferInquiryDuration        String?
+  lpaPreferInquiryDetails         String?
+  nearbyAppeals                   Boolean?
+  nearbyAppealReference           String?
+  addNearbyAppeal                 Boolean?
+  newConditions                   Boolean?
+  newConditionDetails             String?
+  lpaStatement                    String?
+  lpaStatementDocuments           Boolean?
+  uploadLpaStatementDocuments     Boolean?
+  lpaFinalComment                 Boolean?
+  lpaFinalCommentDetails          String?
+  uploadLpaProofEvidence          Boolean?
+  lpaWitnesses                    Boolean?
+  uploadLpaWitnessEvidence        Boolean?
+  uploadLpaWitnessTimings         Boolean?
+  uploadLpaRebuttal               Boolean?
+
   //***************************************************************************
   // rule 6 fields
   //***************************************************************************
@@ -299,10 +381,26 @@ model AppealCase {
   // Docs reference
   Documents Document[]
 
+  // Neighbour address reference
+  NeighbouringAddresses NeighbouringAddress[]
+
   // todo: indexes
 
   // Questionnaires linked to this appeal case
   LPAQuestionnaireSubmission LPAQuestionnaireSubmission?
+}
+
+model NeighbouringAddress {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  addressLine1 String
+  addressLine2 String?
+  townCity     String
+  postcode     String
+
+  // relations
+  caseReference String
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 }
 
 /// Document represents a document from the Back Office, and follows the PINS Data Model

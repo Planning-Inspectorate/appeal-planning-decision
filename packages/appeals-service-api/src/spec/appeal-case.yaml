@@ -118,6 +118,249 @@ components:
         lpaFinalCommentsPublished:
           type: boolean
 
+        #Published questionnaire details
+        correctAppealType: 
+          type: boolean
+          description: Is this the correct type of appeal
+        changesListedBuilding:
+          type: boolean
+          description: Does the development change a listed building
+        changedListedBuildingNumber:
+          type: number
+          description: the list entry number
+        addChangedListedBuilding:
+          type: boolean
+          description: Add another building or site
+        affectsListedBuilding:
+          type: boolean
+          description: Does the proposed development affect the setting of listed buildings
+        affectedListedBuildingNumber:
+          type: number
+          description: the list entry number
+        addAffectedListedBuilding:
+          type: boolean
+          description: Add another building or site
+        scheduledMonument:
+          type: boolean
+          description: Would the development affect a scheduled monument
+        conservationArea:
+          type: boolean
+          description: Is the site in, or next to a conservation area
+        uploadConservation:
+          type: boolean
+          description: Upload conservation map and guidance
+        protectedSpecies:
+          type: boolean
+          description: Would the development affect a protected species
+        greenBelt:
+          type: boolean
+          description: Is the site in a green belt
+        areaOutstandingBeauty: 
+          type: boolean
+          description: Is the appeal site in an area of outstanding natural beauty
+        designatedSites:
+          type: string
+          description: Is the development in, near or likely to affect any designated sites
+        otherDesignationDetails:
+          type: string
+        treePreservationOrder:
+          type: boolean
+          description: Does a Tree Preservation Order (TPO) apply to any part of the appeal site
+        uploadTreePreservationOrder:
+          type: boolean
+          description: Upload a plan showing the extent of the order
+        gypsyTraveller:
+          type: boolean
+          description: Does the development relate to anyone claiming to be a Gypsy or Traveller
+        publicRightOfWay:
+          type: boolean
+          description: Would a public right of way need to be removed or diverted
+        uploadDefinitiveMapStatement:
+          type: boolean
+          description: Upload the definitive map and statement extract
+        environmentalImpactSchedule:
+          type: string
+          description: Is the development a schedule 1 or schedule 2 development
+        developmentDescription:
+          type: string
+          description: Description of development
+        sensitiveArea:
+          type: boolean
+          description: Is the development in, partly in, or likely to affect a sensitive area
+        sensitiveAreaDetails:
+          type: string
+          description: Tell us about the sensitive area
+        columnTwoThreshold:
+          type: boolean
+          description: Does the development meet or exceed the threshold or criteria in column 2
+        screeningOpinion:
+          type: boolean
+          description: Have you issued a screening opinion
+        uploadScreeningOpinion:
+          type: boolean
+          description: Upload your screening opinion and any correspondence
+        requiresEnvironmentalStatement:
+          type: boolean
+          description: Did your screening opinion say the development needed an environmental statement
+        uploadScreeningDirection:
+          type: boolean
+          description: Upload the screening direction
+        uploadEnvironmentalStatement:
+          type: boolean
+          description: Upload the environmental statement and supporting information
+        completedEnvironmentalStatement:
+          type: boolean
+          description: Did the applicant submit an environmental statement
+        uploadWhoNotified:
+          type: boolean
+          description: Who did you notify about this application
+        notificationMethod:
+          type: string
+          description: How did you notify relevant parties about the planning application
+        uploadSiteNotice:
+          type: boolean
+          description: Upload the site notice
+        uploadLettersEmails:
+          type: boolean
+          description: Upload the letters and emails
+        uploadPressAdvert:
+          type: boolean
+          description: Upload the press advertisement
+        statutoryConsultees:
+          type: boolean
+          description: Did you consult all the relevant statutory consultees about the development
+        consultedBodiesDetails:
+          type: string
+          description: Which bodies did you consult
+        consultationResponses:
+          type: boolean
+          description: Do you have any consultation responses or standing advice from statutory consultees to upload
+        uploadConsultationResponses:
+          type: boolean
+          description: Upload the consultation responses and standing advice
+        otherPartyRepresentations:
+          type: boolean
+          description: Did you receive representations from members of the public or other parties
+        uploadRepresentations: 
+          type: boolean
+          description: Upload the representations
+        uploadPlanningOfficerReport:
+          type: boolean
+          description: Upload the planning officers report 
+        uploadDevelopmentPlanPolicies:
+          type: boolean
+          description: Upload relevant policies from your statutory development plan
+        emergingPlan: 
+          type: boolean
+          description: Do you have an emerging plan that is relevant to this appeal
+        uploadEmergingPlan: 
+          type: boolean
+          description: Upload the emerging plan and supporting information
+        uploadOtherPolicies:
+          type: boolean
+          description: Upload any other relevant policies
+        supplementaryPlanningDocs: 
+          type: boolean
+          description: Did any supplementary planning documents inform the outcome of the application
+        uploadSupplementaryPlanningDocs:
+          type: boolean
+          description: Upload the relevant supplementary planning documents
+        infrastructureLevy:
+          type: boolean
+          description: Do you have a community infrastructure levy
+        uploadInfrastructureLevy:
+          type: boolean
+          description: Upload your community infrastructure levy
+        infrastructureLevyAdopted:
+          type: boolean
+          description: Is the community infrastructure levy formally adopted
+        infrastructureLevyAdoptedDate:  
+          type: string
+          format: date-time
+          description: When was the community infrastructure levy formally adopted
+        infrastructureLevyExpectedDate:
+          type: string
+          format: date-time
+          description: When do you expect to formally adopt the community infrastructure levy
+        lpaSiteAccess:  
+          type: boolean
+          description: Might the inspector need access to the appellants land or property
+        lpaSiteAccessDetails:
+          type: string
+          description: the reason
+        neighbouringSiteAccess:
+          type: boolean
+          description: Might the inspector need to enter a neighbours land or property
+        neighbouringSiteAccessDetails:
+          type: string
+          description: the reason
+        addNeighbouringSiteAccess:
+          type: boolean
+          description: Do you want to add another neighbour to be visited
+        lpaSiteSafetyRisks:
+          type: boolean
+          description: Are there any potential safety risks
+        lpaSiteSafetyRiskDetails:
+          type: string
+          description: Add details of the potential risk and what the inspector might need
+        lpaProcedurePreference: 
+          type: string
+          description: Which procedure do you think is most appropriate for this appeal
+        lpaPreferHearingDetails:
+          type: string
+          description: Why would you prefer a hearing
+        lpaPreferInquiryDuration:
+          type: string
+          description: How many days would you expect the inquiry to last
+        lpaPreferInquiryDetails:
+          type: string
+          description: Why would you prefer an inquiry
+        nearbyAppeals: 
+          type: boolean 
+          description: Are there any other ongoing appeals next to, or close to the site
+        nearbyAppealReference:
+          type: string
+          description: Enter an appeal reference number
+        addNearbyAppeal:
+          type: boolean
+          description: Add another appeal
+        newConditions:
+          type: boolean
+          description: Are there any new conditions
+        newConditionDetails:
+          type: string
+          description: Tell us about the new conditions
+        lpaStatement: 
+          type: string
+          description: Enter your statement
+        lpaStatementDocuments:
+          type: boolean
+          description: Do you have additional documents to support your appeal statement
+        uploadLpaStatementDocuments:
+          type: boolean
+          description: Upload your new supporting documents
+        lpaFinalComment:
+          type: boolean
+          description: Do you want to submit a final comment
+        lpaFinalCommentDetails:
+          type: string
+          description: What are your final comments
+        uploadLpaProofEvidence:
+          type: boolean
+          description: Upload your proof of evidence and summary
+        lpaWitnesses:
+          type: boolean
+          description: Do you need to add any witnesses
+        uploadLpaWitnessEvidence:
+          type: boolean
+          description: Upload your witnesses and their evidence
+        uploadLpaWitnessTimings:
+          type: boolean
+          description: Upload witness timings
+        uploadLpaRebuttal:
+          type: boolean
+          description: Upload rebuttals
+
         # rule 6
         rule6StatementPublished:
           type: boolean
