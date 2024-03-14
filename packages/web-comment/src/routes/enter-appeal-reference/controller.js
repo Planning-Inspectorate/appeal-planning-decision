@@ -28,7 +28,7 @@ const enterAppealReferencePost = async (req, res) => {
 		return;
 	}
 
-	return res.redirect(`appeal-search-no-results?search=${appealReference}`);
+	return res.redirect(`appeal-search-no-results?search=${appealReference}&type=appeal-reference`);
 };
 
 module.exports = { enterAppealReferenceGet, enterAppealReferencePost };

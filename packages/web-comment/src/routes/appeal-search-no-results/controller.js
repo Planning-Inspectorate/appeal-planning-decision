@@ -1,5 +1,4 @@
 const {
-	isPostcodeOrReferenceNumber,
 	formatTitlePrefix,
 	formatParagraphWording,
 	formatLink
@@ -8,7 +7,14 @@ const {
 /** @type {import('express').RequestHandler} */
 const appealSearchNoResults = async (req, res) => {
 	const searchQuery = req.query.search;
-	const typeOfSearch = isPostcodeOrReferenceNumber(searchQuery);
+	let typeOfSearch = req.query.type;
+	const defaultSearchType = 'postcode';
+
+	// handle case if user enters url with no search params
+	if (typeOfSearch === undefined) {
+		return res.redirect(`enter-postcode`);
+	}
+	typeOfSearch = typeof typeOfSearch === 'string' ? typeOfSearch : defaultSearchType;
 
 	const pageTitle = formatTitlePrefix(typeOfSearch);
 	const pageHeading = pageTitle;
