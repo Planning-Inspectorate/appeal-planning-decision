@@ -17,8 +17,8 @@ import apiErrorHandler from './errors/api-error-handler.js';
 const app = express();
 
 const oidc = new OIDC(`${oidcConfig.host}:${config.server.port}`, oidcConfig.configuration);
-oidc.registerGrantType(otp.gty, otp.handler, otp.parameters, []);
-oidc.registerGrantType(ropc.gty, ropc.handler, ropc.parameters, []);
+oidc.registerGrantType(consts.AUTH.GRANT_TYPE.OTP, otp.handler, otp.parameters, []);
+oidc.registerGrantType(consts.AUTH.GRANT_TYPE.ROPC, ropc.handler, ropc.parameters, []);
 subscribe(oidc);
 
 /** @type {import('express').Handler} */

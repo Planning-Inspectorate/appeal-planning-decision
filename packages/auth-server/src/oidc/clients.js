@@ -1,7 +1,5 @@
 import CONSTS from '@pins/common/src/constants.js';
 import { isNonEmptyString } from '../validators/string.js';
-import { gty as ropc } from '../grants/ropc-grant-handler.js';
-import { gty as otp } from '../grants/otp-grant-handler.js';
 
 /**
  * @param {Object} options
@@ -20,7 +18,12 @@ export const buildClient = ({ name, id, secret, redirects }) => {
 		client_id: id,
 		client_secret: secret,
 		redirect_uris: redirects,
-		grant_types: ['client_credentials', 'authorization_code', otp, ropc],
+		grant_types: [
+			'client_credentials',
+			'authorization_code',
+			CONSTS.AUTH.GRANT_TYPE.OTP,
+			CONSTS.AUTH.GRANT_TYPE.ROPC
+		],
 		token_endpoint_auth_method: CONSTS.AUTH.CLIENT_AUTH_METHOD
 	};
 

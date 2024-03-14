@@ -1,8 +1,6 @@
 const fetch = require('node-fetch');
 const uuid = require('uuid');
 const { utils } = require('@pins/common');
-const { isFeatureActive } = require('../featureFlag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 
 const config = require('../config');
 const parentLogger = require('./logger');
@@ -167,9 +165,7 @@ exports.errorMessages = {
  * @returns { Promise<void> }
  */
 exports.sendToken = async (id, action, emailAddress) => {
-	const version = await getTokenEndpointVersion();
-
-	return handler(`/api/${version}/token/`, 'PUT', {
+	return handler(`/api/v1/token/`, 'PUT', {
 		body: JSON.stringify({
 			id: id,
 			action: action,
@@ -192,18 +188,11 @@ exports.sendToken = async (id, action, emailAddress) => {
  * @returns { Promise<TokenCheckResult> }
  */
 exports.checkToken = async (token, id, emailAddress) => {
-	const version = await getTokenEndpointVersion();
-
-	return handler(`/api/${version}/token/`, 'POST', {
+	return handler(`/api/v1/token/`, 'POST', {
 		body: JSON.stringify({
 			id,
 			token,
 			emailAddress
 		})
 	});
-};
-
-const getTokenEndpointVersion = async () => {
-	const useV2 = await isFeatureActive(FLAG.ENROL_USERS);
-	return useV2 ? 'v2' : 'v1';
 };

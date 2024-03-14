@@ -23,6 +23,8 @@ const { enterCodeConfig } = require('@pins/common');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../../../src/featureFlag');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error');
+let getAuthClient = require('@pins/common/src/client/auth-client');
+const { AUTH } = require('@pins/common/src/constants');
 
 jest.mock('#lib/appeals-api-wrapper');
 jest.mock('@pins/common/src/client/appeals-api-client');
@@ -43,9 +45,24 @@ jest.mock('../../../../src/services/lpa-user.service', () => {
 });
 jest.mock('../../../../src/featureFlag');
 jest.mock('#lib/session-helper');
-
+jest.mock('@pins/common/src/client/auth-client');
 const TEST_EMAIL = 'test@example.com';
 const TEST_ID = '89aa8504-773c-42be-bb68-029716ad9756';
+
+let mockedGrant = jest.fn().mockResolvedValue();
+/**
+ * @param {boolean} [succeed]
+ * @returns {void}
+ */
+const mockGrant = (succeed = true) => {
+	mockedGrant = succeed
+		? jest.fn().mockResolvedValue()
+		: jest.fn().mockRejectedValue(new Error('auth error'));
+
+	getAuthClient.mockResolvedValue({
+		grant: mockedGrant
+	});
+};
 
 describe('controllers/common/enter-code', () => {
 	let req;
@@ -66,15 +83,28 @@ describe('controllers/common/enter-code', () => {
 		/**
 		 * @param {boolean} [newCode]
 		 */
-		async function getConfirmEmailTest(newCode = undefined) {
+		async function getConfirmEmailTest(v2 = true, newCode = undefined) {
 			req = {
 				...req,
 				params: { enterCodeId: TEST_ID },
 				session: { enterCode: { action: enterCodeConfig.actions.confirmEmail, newCode } }
 			};
 			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: false });
+			mockGrant();
+
 			await returnedFunction(req, res);
-			expect(sendToken).toHaveBeenCalledWith(TEST_ID, enterCodeConfig.actions.confirmEmail);
+
+			if (v2) {
+				expect(mockedGrant).toHaveBeenCalledWith({
+					action: enterCodeConfig.actions.confirmEmail,
+					email: TEST_EMAIL,
+					grant_type: AUTH.GRANT_TYPE.OTP,
+					resource: AUTH.RESOURCE
+				});
+			} else {
+				expect(sendToken).toHaveBeenCalledWith(TEST_ID, enterCodeConfig.actions.confirmEmail);
+			}
+
 			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
 				requestNewCodeLink: `/${householderAppealViews.REQUEST_NEW_CODE}`,
 				confirmEmailLink: `/${householderAppealViews.EMAIL_ADDRESS}`,
@@ -89,18 +119,30 @@ describe('controllers/common/enter-code', () => {
 		/**
 		 * @param {boolean} [newCode]
 		 */
-		async function getIsReturningFromEmailTest(newCode = undefined) {
+		async function getIsReturningFromEmailTest(v2 = true, newCode = undefined) {
 			req = {
 				...req,
 				params: { enterCodeId: TEST_ID },
 				session: { enterCode: { action: enterCodeConfig.actions.saveAndReturn, newCode } }
 			};
 
+			mockGrant();
 			getExistingAppeal.mockResolvedValue(fullAppeal);
 
 			const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: false });
 			await returnedFunction(req, res);
-			expect(sendToken).toHaveBeenCalledWith(TEST_ID, enterCodeConfig.actions.saveAndReturn);
+
+			if (v2) {
+				expect(mockedGrant).toHaveBeenCalledWith({
+					action: enterCodeConfig.actions.saveAndReturn,
+					email: fullAppeal.email,
+					grant_type: AUTH.GRANT_TYPE.OTP,
+					resource: AUTH.RESOURCE
+				});
+			} else {
+				expect(sendToken).toHaveBeenCalledWith(TEST_ID, enterCodeConfig.actions.saveAndReturn);
+			}
+
 			expect(setSessionEmail).toHaveBeenCalledWith(req.session, fullAppeal.email, false);
 			expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
 				requestNewCodeLink: `/${householderAppealViews.REQUEST_NEW_CODE}`,
@@ -126,19 +168,19 @@ describe('controllers/common/enter-code', () => {
 			});
 
 			it('should handle confirm email for appeal', async () => {
-				await getConfirmEmailTest();
+				await getConfirmEmailTest(false);
 			});
 
 			it('should handle newCode confirm email', async () => {
-				await getConfirmEmailTest(true);
+				await getConfirmEmailTest(false, true);
 			});
 
 			it('should handle save and return', async () => {
-				await getIsReturningFromEmailTest();
+				await getIsReturningFromEmailTest(false);
 			});
 
 			it('should handle newCode save and return', async () => {
-				await getIsReturningFromEmailTest(true);
+				await getIsReturningFromEmailTest(false, true);
 			});
 		});
 
@@ -150,12 +192,17 @@ describe('controllers/common/enter-code', () => {
 			it('should handle general log in', async () => {
 				getSessionEmail.mockReturnValue(TEST_EMAIL);
 				const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: true });
+				mockGrant();
+
 				await returnedFunction(req, res);
-				expect(sendToken).toHaveBeenCalledWith(
-					undefined,
-					enterCodeConfig.actions.saveAndReturn,
-					TEST_EMAIL
-				);
+
+				expect(mockedGrant).toHaveBeenCalledWith({
+					action: enterCodeConfig.actions.saveAndReturn,
+					email: TEST_EMAIL,
+					grant_type: AUTH.GRANT_TYPE.OTP,
+					resource: AUTH.RESOURCE
+				});
+
 				expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
 					confirmEmailLink: `/${householderAppealViews.EMAIL_ADDRESS}`,
 					requestNewCodeLink: `/${householderAppealViews.REQUEST_NEW_CODE}`,
@@ -164,11 +211,13 @@ describe('controllers/common/enter-code', () => {
 			});
 
 			it('should handle confirm email for appeal', async () => {
-				await getConfirmEmailTest();
+				getSessionEmail.mockReturnValue(TEST_EMAIL);
+				await getConfirmEmailTest(true);
 			});
 
 			it('should handle newCode confirm email', async () => {
-				await getConfirmEmailTest(true);
+				getSessionEmail.mockReturnValue(TEST_EMAIL);
+				await getConfirmEmailTest(true, true);
 			});
 
 			it('should handle save and return', async () => {
@@ -176,7 +225,7 @@ describe('controllers/common/enter-code', () => {
 			});
 
 			it('should handle newCode save and return', async () => {
-				await getIsReturningFromEmailTest(true);
+				await getIsReturningFromEmailTest(true, true);
 			});
 		});
 	});
@@ -637,6 +686,7 @@ describe('controllers/common/enter-code', () => {
 			};
 
 			getLPAUser.mockResolvedValue(fakeUserResponse);
+			mockGrant();
 
 			const returnedFunction = getEnterCodeLPA(views);
 			req.params.id = userId;
@@ -644,11 +694,12 @@ describe('controllers/common/enter-code', () => {
 			await returnedFunction(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
-			expect(sendToken).toHaveBeenCalledWith(
-				userId,
-				enterCodeConfig.actions.lpaDashboard,
-				fakeUserResponse.email
-			);
+			expect(mockedGrant).toHaveBeenCalledWith({
+				action: enterCodeConfig.actions.lpaDashboard,
+				email: fakeUserResponse.email,
+				grant_type: AUTH.GRANT_TYPE.OTP,
+				resource: AUTH.RESOURCE
+			});
 		});
 		it('should not send token to user if user lookup fails, but still render page', async () => {
 			const userId = '649418158b915f0018524cb7';

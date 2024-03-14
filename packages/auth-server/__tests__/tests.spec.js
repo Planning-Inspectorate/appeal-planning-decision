@@ -100,7 +100,7 @@ describe('auth server', () => {
 			resource
 		});
 
-		params.append('grant_type', 'otp');
+		params.append('grant_type', consts.AUTH.GRANT_TYPE.OTP);
 
 		if (email) {
 			params.append('email', email);
@@ -109,7 +109,7 @@ describe('auth server', () => {
 		return sendGrantRequest(params);
 	};
 
-	const performRPOC = async ({
+	const performROPC = async ({
 		client_id = config.oidc.clients.formsWebApp.clientId,
 		client_secret = config.oidc.clients.formsWebApp.clientSecret,
 		resource = consts.AUTH.RESOURCE,
@@ -123,7 +123,7 @@ describe('auth server', () => {
 			resource
 		});
 
-		params.append('grant_type', 'ropc');
+		params.append('grant_type', consts.AUTH.GRANT_TYPE.ROPC);
 
 		if (scope) params.append('scope', scope);
 		if (email) params.append('email', email);
@@ -137,8 +137,8 @@ describe('auth server', () => {
 			const response = await authServer.get('/oidc/.well-known/openid-configuration');
 
 			expect(response.status).toEqual(200);
-			expect(response.body.grant_types_supported).toContain('ropc');
-			expect(response.body.grant_types_supported).toContain('otp');
+			expect(response.body.grant_types_supported).toContain(consts.AUTH.GRANT_TYPE.ROPC);
+			expect(response.body.grant_types_supported).toContain(consts.AUTH.GRANT_TYPE.OTP);
 		});
 	});
 
@@ -268,7 +268,7 @@ describe('auth server', () => {
 				}
 			});
 
-			const response = await performRPOC({
+			const response = await performROPC({
 				email: user.email,
 				otp: securityToken.token
 			});
@@ -296,7 +296,7 @@ describe('auth server', () => {
 				}
 			});
 
-			const response = await performRPOC({
+			const response = await performROPC({
 				email: user.email,
 				otp: securityToken.token,
 				scope: 'openid'
@@ -317,7 +317,7 @@ describe('auth server', () => {
 				}
 			});
 
-			const response = await performRPOC({
+			const response = await performROPC({
 				email: 'bad-email@example.com',
 				otp: securityToken.token
 			});
@@ -329,7 +329,7 @@ describe('auth server', () => {
 			const user = await _createSqlUser('ropc-otp-test@example.com');
 			await performOTP({ email: user.email });
 
-			const response = await performRPOC({
+			const response = await performROPC({
 				email: user.email,
 				otp: 'nope'
 			});
@@ -355,22 +355,22 @@ describe('auth server', () => {
 			const user = await _createSqlUser('429-test@example.com');
 			await performOTP({ email: user.email });
 
-			const tokenResponse1 = await performRPOC({
+			const tokenResponse1 = await performROPC({
 				email: user.email,
 				otp: 'nope'
 			});
 
-			const tokenResponse2 = await performRPOC({
+			const tokenResponse2 = await performROPC({
 				email: user.email,
 				otp: 'nope'
 			});
 
-			const tokenResponse3 = await performRPOC({
+			const tokenResponse3 = await performROPC({
 				email: user.email,
 				otp: 'nope'
 			});
 
-			const tokenResponse4 = await performRPOC({
+			const tokenResponse4 = await performROPC({
 				email: user.email,
 				otp: 'nope'
 			});
@@ -389,7 +389,7 @@ describe('auth server', () => {
 			expect(tokenResponse4.status).toEqual(429);
 
 			// check subsequent attempts have the same result
-			const tokenResponse5 = await performRPOC({
+			const tokenResponse5 = await performROPC({
 				email: user.email,
 				otp: 'nope'
 			});
@@ -409,7 +409,7 @@ describe('auth server', () => {
 				where: { appealUserId: user.id }
 			});
 
-			const tokenResponse1 = await performRPOC({
+			const tokenResponse1 = await performROPC({
 				email: user.email,
 				otp: securityTokenUpdate.token
 			});
@@ -420,7 +420,7 @@ describe('auth server', () => {
 
 		it('should 400 with no params', async () => {
 			await performOTP();
-			const response = await performRPOC();
+			const response = await performROPC();
 			expect(response.status).toEqual(400);
 		});
 	});
