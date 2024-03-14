@@ -17,7 +17,7 @@ const appeals = async (req, res) => {
 	});
 
 	if (!postcodeSearchResults.length) {
-		return res.redirect(`appeal-search-no-results?search=${postcode}`);
+		return res.redirect(`appeal-search-no-results?search=${postcode}&type=postcode`);
 	}
 
 	postcodeSearchResults.forEach((appeal) => (appeal.formattedAddress = formatAddress(appeal)));
