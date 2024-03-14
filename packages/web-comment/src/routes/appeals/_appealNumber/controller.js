@@ -9,7 +9,7 @@ const sections = [
 		links: [
 			{
 				url: '/appeal-details',
-				text: 'Appeal details',
+				text: 'View appeal details',
 				condition: (appeal) => appeal.casePublished
 			}
 		]
