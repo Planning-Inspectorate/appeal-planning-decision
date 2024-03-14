@@ -49,6 +49,10 @@ module.exports = {
 			BO_DOCS_API: {
 				READ: 'bo-documents:read'
 			}
+		},
+		GRANT_TYPE: {
+			OTP: 'otp', // one time password grant
+			ROPC: 'ropc' // resource owner password grant
 		}
 	}
 };

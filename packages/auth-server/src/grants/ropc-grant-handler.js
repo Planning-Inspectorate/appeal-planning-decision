@@ -11,6 +11,7 @@ import {
 import createPrismaClient from '../adapter/prisma-client.js';
 import { TokenRepository } from './token-repo.js';
 import config from '../configuration/config.js';
+import consts from '@pins/common/src/constants.js';
 
 /**
  * Check if token is test token
@@ -25,7 +26,6 @@ const isTestToken = (token) => token === '12345';
  */
 const isTestEnvironment = () => config.server.allowTestingOverrides;
 
-export const gty = 'ropc'; // Resource Owner Password Credentials Grant using one time password
 export const parameters = new Set(['scope', 'resource', 'email', 'otp']);
 
 const tokenRepo = new TokenRepository(createPrismaClient());
@@ -169,7 +169,7 @@ async function createAccessToken(ctx, account, claims) {
 
 	const { AccessToken } = ctx.oidc.provider;
 	const accessToken = new AccessToken({
-		gty,
+		gty: consts.AUTH.GRANT_TYPE.ROPC,
 		accountId: account.accountId,
 		clientId: client.clientId,
 		client: client,

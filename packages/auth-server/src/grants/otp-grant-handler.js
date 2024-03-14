@@ -8,7 +8,6 @@ import { TokenRepository } from './token-repo.js';
 import UserRepository from '../account/repository.js';
 import { isEmailLike } from '../validators/email.js';
 
-export const gty = 'otp'; // create and send a one time password
 export const parameters = new Set(['resource', 'email', 'action']);
 
 const tokenRepo = new TokenRepository(createPrismaClient());

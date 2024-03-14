@@ -101,7 +101,7 @@ const getAuthToken = async (token, emailAddress, action) => {
 
 	try {
 		const authResult = await client.grant({
-			grant_type: 'ropc',
+			grant_type: AUTH.GRANT_TYPE.ROPC,
 			email: emailAddress,
 			otp: token,
 			scope: 'openid email',

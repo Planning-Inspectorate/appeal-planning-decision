@@ -15,6 +15,9 @@ const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { apiClient } = require('#lib/appeals-api-client');
 const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
+const getAuthClient = require('@pins/common/src/client/auth-client');
+const config = require('../../config');
+const { AUTH } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('#lib/is-token-valid').TokenValidResult} TokenValidResult
@@ -24,6 +27,27 @@ const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#li
  * @typedef {Object} enterCodeOptions
  * @property {boolean} isGeneralLogin - defines if this enter code journey is for a general appeal log in, unrelated to an appeal
  */
+
+/**
+ * Creates a one time password grant via the auth server
+ * @param {string} email
+ * @param {string} action
+ * @returns {Promise<void>}
+ */
+const createOTPGrant = async (email, action) => {
+	const client = await getAuthClient(
+		config.oauth.baseUrl,
+		config.oauth.clientID,
+		config.oauth.clientSecret
+	);
+
+	await client.grant({
+		grant_type: AUTH.GRANT_TYPE.OTP,
+		email: email,
+		action: action,
+		resource: AUTH.RESOURCE
+	});
+};
 
 /**
  * @param {{EMAIL_ADDRESS: string, ENTER_CODE: string, REQUEST_NEW_CODE: string}} views
@@ -52,15 +76,17 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			delete req.session?.enterCode?.newCode;
 		}
 
+		const sqlUser = await isFeatureActive(FLAG.ENROL_USERS);
+
 		if (isGeneralLogin) {
-			if (!(await isFeatureActive(FLAG.ENROL_USERS))) {
+			if (!sqlUser) {
 				throw new Error('unhandled journey for GET: enter-code');
 			}
 
 			const email = getSessionEmail(req.session, false);
 
 			try {
-				await sendToken(undefined, action, email);
+				await createOTPGrant(email, action);
 			} catch (e) {
 				logger.error(e, 'failed to send token to general login user');
 			}
@@ -70,7 +96,12 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 		if (isAppealConfirmation) {
 			try {
-				await sendToken(enterCodeId, action);
+				if (sqlUser) {
+					const email = getSessionEmail(req.session, true);
+					await createOTPGrant(email, action);
+				} else {
+					await sendToken(enterCodeId, action);
+				}
 			} catch (e) {
 				logger.error(e, 'failed to send token for appeal email confirmation');
 			}
@@ -95,7 +126,11 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 			// attempt to send code email to user, render page on failure
 			try {
-				await sendToken(enterCodeId, action);
+				if (sqlUser) {
+					await createOTPGrant(savedAppeal.email, action);
+				} else {
+					await sendToken(enterCodeId, action);
+				}
 			} catch (e) {
 				logger.error(e, 'failed to send token to returning user');
 			}
@@ -317,13 +352,13 @@ const lpaTokenVerification = (res, token, views, id) => {
  * @param {import('express').Request} req
  * @returns {Promise<void>}
  */
-async function sendTokenToLpaUser(req) {
+const sendTokenToLpaUser = async (req) => {
 	const user = await getLPAUser(req.params.id);
 
 	if (user?.email) {
-		await sendToken(req.params.id, enterCodeConfig.actions.lpaDashboard, user.email);
+		await createOTPGrant(user.email, enterCodeConfig.actions.lpaDashboard);
 	}
-}
+};
 
 const getEnterCodeLPA = (views) => {
 	return async (req, res) => {
