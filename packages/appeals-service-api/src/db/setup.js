@@ -44,53 +44,6 @@ async function setupLpaIndexes() {
 	}
 }
 
-async function setupUserIndexes() {
-	try {
-		const usersCollection = mongodb.get().collection('user');
-
-		await usersCollection.createIndex({ email: 1 }, { unique: true });
-		await usersCollection.createIndex({ lpaCode: 1 }, { unique: false });
-		await usersCollection.createIndex({ status: 1 }, { unique: false });
-	} catch (err) {
-		logger.error(err, `Error: error setting up user indexes in mongo`);
-		throw err;
-	}
-}
-
-async function setupAppealCaseDataIndexes() {
-	try {
-		const caseDataCollection = mongodb.get().collection('appealsCaseData');
-
-		await caseDataCollection.createIndex({ caseReference: 1 }, { unique: false });
-		await caseDataCollection.createIndex({ LPAApplicationReference: 1 }, { unique: false });
-		await caseDataCollection.createIndex({ LPACode: 1 }, { unique: false });
-		await caseDataCollection.createIndex({ appealType: 1 }, { unique: false });
-		await caseDataCollection.createIndex({ validity: 1 }, { unique: false });
-		await caseDataCollection.createIndex({ questionnaireDueDate: 1 }, { unique: false });
-		await caseDataCollection.createIndex({ questionnaireReceived: 1 }, { unique: false });
-	} catch (err) {
-		logger.error(err, `Error: error setting up appealsCaseData indexes in mongo`);
-		throw err;
-	}
-}
-
-async function setupDocumentMetadataIndexes() {
-	try {
-		const documentCollection = mongodb.get().collection('documentMetadata');
-
-		await documentCollection.createIndex({ caseRef: 1 }, { unique: false });
-		await documentCollection.createIndex({ version: 1 }, { unique: false });
-		await documentCollection.createIndex({ documentId: 1 }, { unique: false });
-		await documentCollection.createIndex({ documentType: 1 }, { unique: false });
-		await documentCollection.createIndex({ virusCheckStatus: 1 }, { unique: false });
-		await documentCollection.createIndex({ redactedStatus: 1 }, { unique: false });
-		await documentCollection.createIndex({ publishedStatus: 1 }, { unique: false });
-	} catch (err) {
-		logger.error(err, `Error: error setting up documentMetadata indexes in mongo`);
-		throw err;
-	}
-}
-
 async function setupListedBuildingIndexes() {
 	try {
 		const collection = mongodb.get().collection('listedBuilding');
@@ -105,9 +58,6 @@ async function setupListedBuildingIndexes() {
 async function setupIndexes() {
 	try {
 		await setupLpaIndexes();
-		await setupUserIndexes();
-		await setupAppealCaseDataIndexes();
-		await setupDocumentMetadataIndexes();
 		await setupListedBuildingIndexes();
 	} catch (err) {
 		logger.error(err, `Error: error setting up indexes in mongo`);
