@@ -3,21 +3,23 @@
  */
 
 /**
- * @param {AppealCaseWithAppellant} questionnaireData
+ * @param {AppealCaseWithAppellant} caseData
  * @param {keyof AppealCaseWithAppellant} propertyName
  */
-exports.formatYesOrNo = (questionnaireData, propertyName) => {
-	return questionnaireData[propertyName] === true ? 'Yes' : 'No';
-};
+exports.formatYesOrNo = (caseData, propertyName) => (caseData[propertyName] ? 'Yes' : 'No');
 
 /**
- * @param {AppealCaseWithAppellant} questionnaireData
+ * @param {AppealCaseWithAppellant} caseData
  */
-exports.formatListedBuildings = (questionnaireData) => {
+exports.formatListedBuildings = (caseData) => {
 	const allListedBuildings = [];
-	const changedListedBuildingNumber = questionnaireData.changedListedBuildingNumber;
-	const affectedListedBuildingNumber = questionnaireData.affectedListedBuildingNumber;
+	const changedListedBuildingNumber = caseData.changedListedBuildingNumber;
+	const affectedListedBuildingNumber = caseData.affectedListedBuildingNumber;
 	const listedBuildingUrl = 'https://historicengland.org.uk/listing/the-list/list-entry/';
+
+	if (!changedListedBuildingNumber && !affectedListedBuildingNumber) {
+		return '';
+	}
 
 	if (changedListedBuildingNumber) {
 		allListedBuildings.push(
@@ -31,11 +33,32 @@ exports.formatListedBuildings = (questionnaireData) => {
 		);
 	}
 
-	if (allListedBuildings.length === 0) {
-		return '';
-	}
-
 	return allListedBuildings.length > 1
 		? allListedBuildings.join('<br>')
 		: allListedBuildings.toString();
 };
+
+/**
+ * @param {AppealCaseWithAppellant} caseData
+ */
+exports.formatDesignations = (caseData) => {
+	if (caseData.designatedSites === 'None') {
+		return 'No';
+	}
+
+	if (caseData.designatedSites === 'other' && caseData.otherDesignationDetails) {
+		return caseData.otherDesignationDetails;
+	}
+
+	if (caseData.designatedSites && caseData.designatedSites !== 'None') {
+		return caseData.designatedSites;
+	}
+
+	return '';
+};
+
+/**
+ * @param {AppealCaseWithAppellant} caseData
+ */
+exports.formatSensitiveArea = (caseData) =>
+	caseData.sensitiveArea ? `Yes<br>${caseData.sensitiveAreaDetails}` : 'No';
