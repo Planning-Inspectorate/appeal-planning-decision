@@ -1,0 +1,37 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title="There are no appeals with your email address - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters govuk-grid-column-two-thirds-from-desktop">
+
+      <h1 class="govuk-heading-l">
+        There are no appeals with your email address
+      </h1>
+
+      <p class="govuk-body">
+        You can start a new appeal or enter a different email address.
+      </p>
+
+      {{ govukButton({
+          text: "Start new appeal",
+          href: startNewUrl,
+          attributes: { "data-cy":"button-start-new"}
+      }) }}
+
+      <p class="govuk-body">
+        <a href="{{emailUrl}}" class="govuk-link--no-visited-state">
+          Enter a different email address
+        </a>
+      </p>
+
+    </div>
+  </div>
+{% endblock %}
