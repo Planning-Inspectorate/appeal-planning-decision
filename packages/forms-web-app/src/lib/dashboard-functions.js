@@ -1,4 +1,7 @@
-const { mapDecisionColour } = require('@pins/business-rules/src/utils/decision-outcome');
+const {
+	mapDecisionColour,
+	mapDecisionLabel
+} = require('@pins/business-rules/src/utils/decision-outcome');
 
 const { formatAddress, isAppealSubmission } = require('@pins/common/src/lib/format-address');
 
@@ -54,7 +57,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	appealType: appealCaseData.appealTypeCode,
 	nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
 	isNewAppeal: isNewAppeal(appealCaseData),
-	appealDecision: appealCaseData.caseDecisionOutcome,
+	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
 	caseDecisionDate: appealCaseData.caseDecisionDate
 });
@@ -70,7 +73,9 @@ const mapToAppellantDashboardDisplayData = (appealData) => ({
 	appealType: getAppealType(appealData),
 	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
 	isDraft: isAppealSubmission(appealData),
-	appealDecision: isAppealSubmission(appealData) ? null : appealData.caseDecisionOutcome,
+	appealDecision: isAppealSubmission(appealData)
+		? null
+		: mapDecisionLabel(appealData.caseDecisionOutcome),
 	appealDecisionColor: isAppealSubmission(appealData)
 		? null
 		: mapDecisionColour(appealData.caseDecisionOutcome),
