@@ -682,7 +682,7 @@ async function seedDev(dbClient) {
 
 	for (const caseId of caseIds) {
 		for (const document of documents) {
-			document.documentUri = `${config.storage.boEndpoint}/${document.filename}`;
+			document.documentURI = `${config.storage.boEndpoint}/${document.filename}`;
 
 			document.AppealCase = {
 				connect: { id: caseId }
