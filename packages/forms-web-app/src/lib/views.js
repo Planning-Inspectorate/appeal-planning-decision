@@ -190,7 +190,8 @@ const VIEW = {
 		ENTER_CODE: 'appeal/enter-code',
 		REQUEST_NEW_CODE: 'appeal/request-new-code',
 		CODE_EXPIRED: 'appeal/code-expired',
-		NEED_NEW_CODE: 'appeal/need-new-code'
+		NEED_NEW_CODE: 'appeal/need-new-code',
+		START_NEW: 'appeal/start-new' // redirect only
 	},
 
 	COMMON: {
@@ -201,7 +202,8 @@ const VIEW = {
 	},
 
 	APPEALS: {
-		YOUR_APPEALS: 'appeals/your-appeals'
+		YOUR_APPEALS: 'appeals/your-appeals',
+		NO_APPEALS: 'appeals/no-appeals'
 	},
 
 	YOUR_APPEALS: {
