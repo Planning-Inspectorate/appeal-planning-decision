@@ -5,7 +5,7 @@ const appealDetailsController = require('../../../controllers/selected-appeal/ap
 
 const router = express.Router({ mergeParams: true });
 
-router.get('/:appealNumber', selectedAppealController.get);
-router.get('/:appealNumber/appeal-details', appealDetailsController.get);
+router.get('/:appealNumber', selectedAppealController.get());
+router.get('/:appealNumber/appeal-details', appealDetailsController.get());
 
 module.exports = router;

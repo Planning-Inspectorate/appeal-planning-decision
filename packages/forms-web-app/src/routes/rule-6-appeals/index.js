@@ -4,7 +4,7 @@ const router = express.Router();
 const selectedAppealController = require('../../controllers/selected-appeal');
 const appealDetailsController = require('../../controllers/selected-appeal/appeal-details');
 
-router.get('/:appealNumber', selectedAppealController.get);
-router.get('/:appealNumber/appeal-details', appealDetailsController.get);
+router.get('/:appealNumber', selectedAppealController.get());
+router.get('/:appealNumber/appeal-details', appealDetailsController.get());
 
 module.exports = router;
