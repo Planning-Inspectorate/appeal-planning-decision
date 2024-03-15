@@ -9,7 +9,7 @@ const {
 	formatTitleSuffix,
 	determineServicePage
 } = require('../../../lib/selected-appeal-page-setup');
-const { constraintsRows } = require('./questionnaire-details-rows');
+const { constraintsRows, environmentalRows } = require('./questionnaire-details-rows');
 
 /**
  * @type {import('express').Handler}
@@ -40,10 +40,14 @@ exports.get = async (req, res) => {
 		userId: user.id
 	});
 
-	// console.log('HEELLO', questionnaireData)
+	// headline data
 	const headlineData = formatHeadlineData(caseData, userType);
+	// constraints details
 	const constraintsDetailsRows = constraintsRows(caseData);
 	const constraintsDetails = formatQuestionnaireRows(constraintsDetailsRows, caseData);
+	// environmental rows
+	const environmentalDetailsRows = environmentalRows(caseData);
+	const environmentalDetails = formatQuestionnaireRows(environmentalDetailsRows, caseData);
 
 	const viewContext = {
 		servicePage: determineServicePage(userType),
@@ -52,7 +56,8 @@ exports.get = async (req, res) => {
 		appeal: {
 			appealNumber,
 			headlineData,
-			constraintsDetails
+			constraintsDetails,
+			environmentalDetails
 		}
 	};
 

@@ -39,6 +39,15 @@
 					rows: appeal.constraintsDetails
 				}) }}
 			</div> 
+
+			<div class="appeal-decision govuk-grid-column-two-thirds">
+				<h2 class="govuk-heading-l">Environmental impact assessment</h2>
+
+				{{ govukSummaryList({
+					classes: "govuk-summary-list long-answers",
+					rows: appeal.environmentalDetails
+				}) }}
+			</div> 
 		</div>
 
 	</div>
