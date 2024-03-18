@@ -82,7 +82,8 @@ module.exports = class Repo {
 						LPACode: user.lpaCode
 					},
 					include: {
-						Documents: true
+						Documents: true,
+						NeighbouringAddresses: true
 					}
 				});
 			});
