@@ -1,4 +1,7 @@
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { existsSync } = require('fs');
+const path = require('path');
+
 /**
  * @typedef {import('src/spec/api-types').AppealSubmission['appeal']} AppealSubmission
  * @typedef {AppealSubmission['appealType']} AppealType
@@ -40,10 +43,24 @@ const appealTypeToDirName = {
  */
 const reduceFormatters =
 	(submittable) =>
-	(formatters, [appealType, dirName]) => ({
-		...formatters,
-		[appealType]: require(`./${dirName}/${submittable}`)?.formatter
-	});
+	(formatters, [appealType, dirName]) => {
+		const requireableFormatterPath = `./${dirName}/${submittable}`;
+		const fullFormatterPath = path.join(__dirname, requireableFormatterPath) + '.js';
+		const formatterFileExists = existsSync(fullFormatterPath);
+		if (!formatterFileExists) {
+			console.warn(`No formatter file found at ${fullFormatterPath}`);
+			return formatters;
+		}
+		const formatterModule = require(requireableFormatterPath);
+		if (!formatterModule.formatter) {
+			console.warn(`No formatter function found in  file found at ${fullFormatterPath}`);
+			return formatters;
+		}
+		return {
+			...formatters,
+			[appealType]: formatterModule.formatter
+		};
+	};
 
 /**
  * @template TArg0
