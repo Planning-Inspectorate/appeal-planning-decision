@@ -5,6 +5,7 @@ const { conjoinedPromises } = require('@pins/common/src/utils');
 /**
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {Omit<LPAQuestionnaireSubmission, "AppealCase">} Answers
+ * @typedef {import('./has/has').Submission} HASBOSubmission
  * @typedef {import('./documents').Documents} Documents
  */
 
@@ -45,21 +46,8 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }) => {
 };
 
 /**
- * @param {{
- *  id: string;
- *  questionnaireId: string;
- *  addressLine1: string;
- *  addressLine2: string | null;
- *  townCity: string;
- *  postcode: string;
- * }[]} addresses
- * @returns {{
- *   line1: string | null;
- *   line2: string | null;
- *   town: string | null;
- *   county: string | null;
- *   postcode: string | null;
- * }[]}
+ * @param {LPAQuestionnaireSubmission["SubmissionNeighbourAddress"]} addresses
+ * @returns {HASBOSubmission['neighbouring-address']}
  */
 exports.formatAddresses = (addresses) =>
 	addresses.map((address) => ({
