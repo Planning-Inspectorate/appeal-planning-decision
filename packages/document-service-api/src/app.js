@@ -3,14 +3,11 @@ const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const pinoExpress = require('express-pino-logger');
-const { prometheus } = require('@pins/common');
 const uuid = require('uuid');
 const logger = require('./lib/logger');
 const routes = require('./routes');
 require('express-async-errors');
 const app = express();
-
-prometheus.init(app);
 
 app
 	.use(bodyParser.json())

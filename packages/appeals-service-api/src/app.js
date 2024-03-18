@@ -3,7 +3,6 @@ const pinoExpress = require('express-pino-logger');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const uuid = require('uuid');
-const { prometheus } = require('@pins/common');
 const logger = require('./lib/logger');
 const routes = require('./routes');
 const apiErrorHandler = require('./errors/apiErrorHandler');
@@ -11,8 +10,6 @@ const { openApiValidationErrorHandler } = require('./validators/validate-open-ap
 require('express-async-errors');
 require('./controllers/appeals-for-submission-to-horizon-scheduler')();
 const app = express();
-
-prometheus.init(app);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

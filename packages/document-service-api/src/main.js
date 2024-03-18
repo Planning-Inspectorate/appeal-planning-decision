@@ -5,7 +5,6 @@
  * configures
  */
 const appInsights = require('applicationinsights');
-const main = require('./lib/mongooseBootstrap');
 const logger = require('./lib/logger');
 const server = require('./server');
 
@@ -18,9 +17,10 @@ try {
 	logger.warn({ err }, 'Application insights failed to start: ');
 }
 
-main()
-	.then(() => server())
-	.catch((err) => {
-		logger.fatal({ err }, 'Unable to start application');
-		process.exit(1);
-	});
+const main = async () => {
+	server();
+};
+
+main().catch((err) => {
+	logger.fatal({ err }, 'Unable to start application');
+});
