@@ -248,7 +248,9 @@ exports.submit = async (req, res) => {
 		res.sendStatus(400);
 		return;
 	}
+
 	await apiClient.submitLPAQuestionnaire(referenceId);
+
 	return res.redirect(
 		'/manage-appeals/' +
 			journeyUrl(journeyResponse.journeyId) +
