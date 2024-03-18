@@ -75,11 +75,6 @@ services:
       DOCS_API_PATH: /opt/app/api
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FEATURE_FLAGS_SETTING: 'ALL_ON'
-      HORIZON_HAS_PUBLISHER_HOST: rabbitmq
-      HORIZON_HAS_PUBLISHER_PASSWORD: admin
-      HORIZON_HAS_PUBLISHER_PORT: 5672
-      HORIZON_HAS_PUBLISHER_QUEUE: docker_queue
-      HORIZON_HAS_PUBLISHER_USERNAME: admin
       LOGGER_LEVEL: 'debug'
       LOGGER_PRETTY_PRINT: 'true'
       LPA_DATA_PATH: /opt/app/data/lpa-list.csv

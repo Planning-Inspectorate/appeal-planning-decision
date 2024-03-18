@@ -9,7 +9,6 @@ const session = require('express-session');
 const pinoExpress = require('express-pino-logger');
 const uuid = require('uuid');
 const fileUpload = require('express-fileupload');
-const { prometheus } = require('@pins/common');
 const sessionConfig = require('./lib/session');
 const appealSiteAddressToArray = require('./lib/appeal-site-address-to-array');
 const fileSizeDisplayHelper = require('./lib/file-size-display-helper');
@@ -32,8 +31,6 @@ const logger = require('./lib/logger');
 const routes = require('./routes');
 
 const app = express();
-
-prometheus.init(app);
 
 app.use(
 	pinoExpress({

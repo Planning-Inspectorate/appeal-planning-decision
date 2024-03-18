@@ -12,19 +12,6 @@ module.exports = {
 		host: process.env.BO_STORAGE_CONTAINER_HOST,
 		connectionString: process.env.BO_BLOB_STORAGE_CONNECTION_STRING
 	},
-	db: {
-		mongodb: {
-			url: process.env.MONGODB_URL || 'mongodb://localhost:27017/document-service-api',
-			opts: {
-				autoIndex: process.env.MONGODB_AUTO_INDEX !== 'false',
-				dbName: process.env.MONGODB_DB_NAME,
-				useFindAndModify: false,
-				useNewUrlParser: true,
-				useUnifiedTopology: true,
-				useCreateIndex: true
-			}
-		}
-	},
 	featureFlagging: {
 		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_ENDPOINT,
 		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
@@ -43,7 +30,7 @@ module.exports = {
 	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || /* istanbul ignore next */ 'info',
-		redact: ['config.db.mongodb', 'config.storage.connectionString']
+		redact: ['config.storage.connectionString']
 	},
 	server: {
 		port: Number(process.env.SERVER_PORT || 3000),

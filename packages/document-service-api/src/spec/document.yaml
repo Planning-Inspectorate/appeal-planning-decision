@@ -14,7 +14,7 @@ components:
       required: true
       schema:
         type: string
-        pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+        pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
       description: The uuid for this specific document
   schemas:
     Document:
@@ -22,7 +22,7 @@ components:
       properties:
         id:
           type: string
-          pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
+          pattern: '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'
           description: The unique ID (uuid) for this document upload
         applicationId:
           type: string
@@ -59,12 +59,11 @@ components:
     DocumentList:
       type: array
       items:
-        "$ref": "#/components/schemas/Document"
+        '$ref': '#/components/schemas/Document'
     DocumentDownload:
       allOf:
-        - "$ref": "#/components/schemas/Document"
-        -
-          type: object
+        - '$ref': '#/components/schemas/Document'
+        - type: object
           properties:
             dataSize:
               type: integer
@@ -72,91 +71,3 @@ components:
             data:
               type: string
               format: byte
-    MigrateMetadata:
-      type: object
-      properties:
-        documentsFound:
-          type: integer
-          description: The number of documents found that can be migrated
-          example: 1
-        documentsMigrated:
-          type: integer
-          description: The number of documents that were migrated
-          example: 1
-        migratedDocuments:
-          type: array
-          items:
-            type: object
-            properties:
-              cosmosDbMetadata:
-                type: object
-                properties:
-                  upload:
-                    type: object
-                    properties:
-                      processed:
-                        type: boolean
-                        example: true
-                      processAttempts:
-                        type: integer
-                        example: 1
-                  _id:
-                    type: string
-                    example: 6135ed925ea4be0106eb4f31
-                  applicationId:
-                    type: string
-                    example: 6e60a67e-8941-4e20-b580-8dbd69096ee5
-                  name:
-                    type: string
-                    example: test-pdf.pdf
-                  uploadDate:
-                    type: string
-                    example: 2021-09-06T10:29:38.386Z
-                  mimeType:
-                    type: string
-                    example: application/pdf
-                  location:
-                    type: string
-                    example: 5daa6bd935fe6d260fb694cadb58d94a
-                  size:
-                    type: integer
-                    example: 8334
-                  id:
-                    type: string
-                    example: 62494719-48e2-4615-9541-48634a940a36
-                  createdAt:
-                    type: string
-                    example: 2021-09-06T10:29:38.393Z
-                  updatedAt:
-                    type: string
-                    example: 2021-09-06T10:29:38.500Z
-                  __v:
-                    type: integer
-                    example: 0
-                  blobStorageLocation:
-                    type: string
-                    example: 6e60a67e-8941-4e20-b580-8dbd69096ee5/62494719-48e2-4615-9541-48634a940a36/test-pdf.pdf
-              blobStorageMetadata:
-                type: object
-                properties:
-                  application_id:
-                    type: string
-                    example: 6e60a67e-8941-4e20-b580-8dbd69096ee5
-                  name:
-                    type: string
-                    example: test-pdf.pdf
-                  upload_date:
-                    type: string
-                    example: 2021-09-06T10:29:38.386Z
-                  mime_type:
-                    type: string
-                    example: application/pdf
-                  location:
-                    type: string
-                    example: 6e60a67e-8941-4e20-b580-8dbd69096ee5/62494719-48e2-4615-9541-48634a940a36/test-pdf.pdf
-                  size:
-                    type: string
-                    example: '8334'
-                  id:
-                    type: string
-                    example: 62494719-48e2-4615-9541-48634a940a36
