@@ -235,13 +235,25 @@ exports.submit = async (req, res) => {
 	const { referenceId } = req.params;
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
+
+	const journeyUrl = (journeyId) => {
+		if (journeyId === 'has-questionnaire') {
+			return 'householder/';
+		} else if (journeyId === 's78-questionnaire') {
+			return 'full-planning/';
+		} else return '';
+	};
+
 	if (!journey.isComplete()) {
 		res.sendStatus(400);
 		return;
 	}
 	await apiClient.submitLPAQuestionnaire(referenceId);
 	return res.redirect(
-		'/manage-appeals/' + encodeURIComponent(referenceId) + '/questionnaire-submitted/'
+		'/manage-appeals/' +
+			journeyUrl(journeyResponse.journeyId) +
+			encodeURIComponent(referenceId) +
+			'/questionnaire-submitted/'
 	);
 };
 

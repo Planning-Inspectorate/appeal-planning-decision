@@ -40,28 +40,6 @@ router.get(
 	submitted
 );
 
-// const appealTypes = {
-//     HAS: 'householder',
-//     S78: 'full planning'
-// };
-
-// for (const urlPartOne of Object.values(appealTypes)) {
-//     router.get(
-//         `${urlpartOne}/:referenceId/questionnaire-submitted`,
-// 		getJourneyResponse(),
-// 		validationErrorHandler,
-// 		submitted
-//     );
-// }
-
-// router.get(
-
-// 	'/:referenceId/questionnaire-submitted',
-// 	getJourneyResponse(),
-// 	validationErrorHandler,
-// 	submitted
-// );
-
 // remove answer - only available for some question types
 router.get(
 	'/questionnaire/:referenceId/:section/:question/:answerId',
