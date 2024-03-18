@@ -20,6 +20,9 @@ components:
         addressLine1:
           type: string
           description: first line of the address
+        addressLine2:
+          type: string
+          description: first line of the address
         townCity:
           type: string
           description: the town or city of the address
