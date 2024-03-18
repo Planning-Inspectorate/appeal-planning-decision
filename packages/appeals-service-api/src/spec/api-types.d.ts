@@ -402,6 +402,7 @@ export interface AppealCase {
 	developmentDescriptionDetails?: string;
 	statusPlanningObligation?: string;
 	Documents?: object[];
+	NeighbouringAddresses?: object[];
 }
 
 /** An appeal submission created in the Front Office */
