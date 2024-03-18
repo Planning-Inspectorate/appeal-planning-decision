@@ -615,6 +615,8 @@ export interface NeighbouringAddress {
 	caseReference: string;
 	/** first line of the address */
 	addressLine1: string;
+	/** first line of the address */
+	addressLine2?: string;
 	/** the town or city of the address */
 	townCity: string;
 	/** the postcode of the adress */
