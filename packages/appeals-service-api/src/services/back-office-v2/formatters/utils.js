@@ -46,17 +46,17 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }) => {
 };
 
 /**
- * @param {LPAQuestionnaireSubmission["SubmissionNeighbourAddress"]} addresses
+ * @param {LPAQuestionnaireSubmission["SubmissionNeighbourAddress"]} [addresses]
  * @returns {HASBOSubmission['neighbouring-address']}
  */
 exports.formatAddresses = (addresses) =>
-	addresses.map((address) => ({
+	addresses?.map((address) => ({
 		line1: address.addressLine1,
 		line2: address.addressLine2,
 		town: address.townCity,
 		county: null,
 		postcode: address.postcode
-	}));
+	})) || [];
 
 /**
  * @param {Answers} answers
