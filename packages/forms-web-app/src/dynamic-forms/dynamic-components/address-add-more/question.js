@@ -48,12 +48,14 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 	 * @returns The formatted address to be presented in the UI
 	 */
 	format(answer) {
-		let addressString = '';
-		addressString += `${answer.addressLine1}, `;
-		addressString += answer.addressLine2 ? `${answer.addressLine2}, ` : ``;
-		addressString += `${answer.townCity}, `;
-		addressString += answer.postcode ? `${answer.postcode} ` : ``;
-		return addressString;
+		const addressComponents = [
+			answer.addressLine1,
+			answer.addressLine2,
+			answer.townCity,
+			answer.postcode
+		];
+
+		return addressComponents.filter(Boolean).join(', ');
 	}
 }
 
