@@ -26,9 +26,9 @@
 				{% set html %}
 					<p class="govuk-notification-banner__heading">
 						You must submit this questionnaire by {{appeal.questionnaireDueDate}}.&nbsp
-							<a href="/manage-appeals/questionnaire/0000001" class="govuk-link">
+							<a href="/manage-appeals/questionnaire/{{appeal.appealNumber}}" class="govuk-link">
 								Submit questionnaire
-								<span class="govuk-visually-hidden"> for 0000001</span>
+								<span class="govuk-visually-hidden"> for {{appeal.appealNumber}}</span>
 							</a>.
 					</p>
 				{% endset %}		
