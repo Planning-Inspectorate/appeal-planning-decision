@@ -8,6 +8,7 @@ const { sections: lpaUserSections } = require('./lpa-user-sections');
 const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');
 const { sections: rule6Sections } = require('./rule-6-sections');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { format: formatDate } = require('date-fns');
 
 /** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
 const userSectionsDict = {
@@ -58,12 +59,17 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
+			shouldDisplayQuestionnaireDueNotification: shouldDisplayQuestionnaireDueNotification(
+				caseData,
+				userType
+			),
 			appeal: {
 				appealNumber,
 				headlineData,
 				sections: formatSections({ caseData, sections, userEmail }),
 				baseUrl: userRouteUrl,
-				decision: mapDecisionTag(caseData.caseDecisionOutcome)
+				decision: mapDecisionTag(caseData.caseDecisionOutcome),
+				questionnaireDueDate: formatDateForNotification(caseData.questionnaireDueDate)
 			}
 		};
 
@@ -72,10 +78,29 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 };
 
 /**
- * @param {string} userType
+ * @param {import('@pins/common/src/constants').AppealToUserRoles | "lpa-user" | null} userType
  * @returns {string}
  */
 const formatTitleSuffix = (userType) => {
 	if (userType === LPA_USER_ROLE) return 'Manage your appeals';
 	return 'Appeal a planning decision';
+};
+
+/**
+ * @param {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} caseData
+ * @param {import('@pins/common/src/constants').AppealToUserRoles | "lpa-user" | null} userType
+ * @returns {boolean}
+ */
+const shouldDisplayQuestionnaireDueNotification = (caseData, userType) =>
+	userType === 'lpa-user' && !caseData.lpaQuestionnaireSubmitted;
+
+/**
+ *
+ * @param {string | undefined} dateStr
+ * @returns {string | undefined}
+ */
+const formatDateForNotification = (dateStr) => {
+	if (!dateStr) return;
+	const date = new Date(dateStr);
+	return `${formatDate(date, 'h:mmaaa')} on ${formatDate(date, 'd LLLL yyyy')}`; // eg 11:59pm on 21 March 2024
 };
