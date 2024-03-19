@@ -9,7 +9,7 @@ describe('validators/common/email-address', () => {
 			expect(rule.fields).toEqual(['appellant-email']);
 			expect(rule.locations).toEqual(['body']);
 			expect(rule.optional).toBeFalsy();
-			expect(rule.stack).toHaveLength(7);
+			expect(rule.stack).toHaveLength(5);
 			expect(rule.stack[0].message).toEqual('Enter your email address');
 			expect(rule.stack[2].validator.name).toEqual('isEmail');
 		});
@@ -68,24 +68,6 @@ describe('validators/common/email-address', () => {
 					);
 					expect(result.errors[0].param).toEqual('appellant-email');
 					expect(result.errors[0].value).toEqual(13);
-				}
-			},
-
-			{
-				title: 'invalid email - fail 1',
-				given: () => ({
-					body: {
-						'appellant-email': 'thomas-@example.com'
-					}
-				}),
-				expected: (result) => {
-					expect(result.errors).toHaveLength(1);
-					expect(result.errors[0].location).toEqual('body');
-					expect(result.errors[0].msg).toEqual(
-						'Enter an email address in the correct format, like name@example.com'
-					);
-					expect(result.errors[0].param).toEqual('appellant-email');
-					expect(result.errors[0].value).toEqual('thomas-@example.com');
 				}
 			},
 			{

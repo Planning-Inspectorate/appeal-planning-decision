@@ -52,20 +52,11 @@ const update = pinsYup
 		contactDetailsSection: pinsYup.object().shape({
 			isOriginalApplicant: pinsYup.bool().required(),
 			contact: pinsYup.object().shape({
-				name: pinsYup
-					.string()
-					.min(2)
-					.max(80)
-					.matches(/^[a-z\-' ]+$/i)
-					.required(),
+				name: pinsYup.string().min(2).max(80).required(),
 				companyName: pinsYup.string().max(50).nullable()
 			}),
 			appealingOnBehalfOf: pinsYup.object().shape({
-				name: pinsYup
-					.string()
-					.max(80)
-					.matches(/^[a-z\-' ]*$/i)
-					.nullable(),
+				name: pinsYup.string().max(80).nullable(),
 				companyName: pinsYup.string().nullable()
 			})
 		}),
