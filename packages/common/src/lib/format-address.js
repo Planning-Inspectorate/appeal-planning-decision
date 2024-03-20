@@ -1,6 +1,7 @@
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
+ * @typedef {import('appeals-service-api').Api.NeighbouringAddress} NeighbouringAddress
  */
 
 /**
@@ -63,6 +64,21 @@ const formatAppealSubmissionAddress = (appealSubmission) => {
 };
 
 /**
+ * @param {NeighbouringAddress} neighbourAddress
+ * @returns {string}
+ */
+const formatNeibouringAddressWithBreaks = (neighbourAddress) => {
+	const addressComponents = [
+		neighbourAddress.addressLine1,
+		neighbourAddress.addressLine2,
+		neighbourAddress.townCity,
+		neighbourAddress.postcode
+	];
+
+	return addressComponents.filter(Boolean).join('<br>');
+};
+
+/**
  * @param {AppealSubmission | AppealCaseWithAppellant} caseOrSubmission
  * @returns {caseOrSubmission is AppealSubmission}
  */
@@ -73,5 +89,6 @@ function isAppealSubmission(caseOrSubmission) {
 module.exports = {
 	formatAddress,
 	formatAddressWithBreaks,
+	formatNeibouringAddressWithBreaks,
 	isAppealSubmission
 };

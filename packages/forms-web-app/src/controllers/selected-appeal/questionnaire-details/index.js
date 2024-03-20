@@ -9,7 +9,15 @@ const {
 	formatTitleSuffix,
 	determineServicePage
 } = require('../../../lib/selected-appeal-page-setup');
-const { constraintsRows, environmentalRows } = require('./questionnaire-details-rows');
+const {
+	constraintsRows,
+	environmentalRows,
+	notifiedRows,
+	consultationRows,
+	planningOfficerReportRows,
+	siteAccessRows,
+	appealProcessRows
+} = require('./questionnaire-details-rows');
 
 /**
  * @type {import('express').Handler}
@@ -39,7 +47,7 @@ exports.get = async (req, res) => {
 		role: userType,
 		userId: user.id
 	});
-
+	console.log('HEELLO', caseData.Documents);
 	// headline data
 	const headlineData = formatHeadlineData(caseData, userType);
 	// constraints details
@@ -48,7 +56,23 @@ exports.get = async (req, res) => {
 	// environmental rows
 	const environmentalDetailsRows = environmentalRows(caseData);
 	const environmentalDetails = formatQuestionnaireRows(environmentalDetailsRows, caseData);
+	// notified rows
+	const notifiedDetailsRows = notifiedRows(caseData);
+	const notifiedDetails = formatQuestionnaireRows(notifiedDetailsRows, caseData);
+	// consultation rows
+	const consultationDetailsRows = consultationRows(caseData);
+	const consultationDetails = formatQuestionnaireRows(consultationDetailsRows, caseData);
+	// planning officer report rows
+	const planningOfficerDetailsRows = planningOfficerReportRows(caseData);
+	const planningOfficerDetails = formatQuestionnaireRows(planningOfficerDetailsRows, caseData);
+	// site access rows
+	const siteAccessDetailsRows = siteAccessRows(caseData);
+	const siteAccessDetails = formatQuestionnaireRows(siteAccessDetailsRows, caseData);
+	// appeal process rows
+	const appealProcessDetailsRows = appealProcessRows(caseData);
+	const appealProcessDetails = formatQuestionnaireRows(appealProcessDetailsRows, caseData);
 
+	console.log('HEELLOO', caseData.NeighbouringAddresses);
 	const viewContext = {
 		servicePage: determineServicePage(userType),
 		titleSuffix: formatTitleSuffix(userType),
@@ -57,7 +81,12 @@ exports.get = async (req, res) => {
 			appealNumber,
 			headlineData,
 			constraintsDetails,
-			environmentalDetails
+			environmentalDetails,
+			notifiedDetails,
+			consultationDetails,
+			planningOfficerDetails,
+			siteAccessDetails,
+			appealProcessDetails
 		}
 	};
 

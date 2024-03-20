@@ -1,4 +1,16 @@
-const { formatYesOrNo, formatDesignations, formatSensitiveArea } = require('@pins/common');
+const {
+	formatYesOrNo,
+	formatDesignations,
+	formatSensitiveArea,
+	formatDocumentDetails,
+	formatEnvironmentalImpactSchedule,
+	formatDevelopmentDescription,
+	formatDate,
+	formatSiteSafetyRisks,
+	formatProcedurePreference,
+	formatConditions
+} = require('@pins/common');
+const { formatNeibouringAddressWithBreaks } = require('@pins/common/src/lib/format-address');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
@@ -11,6 +23,7 @@ const { formatYesOrNo, formatDesignations, formatSensitiveArea } = require('@pin
  */
 
 exports.constraintsRows = (caseData) => {
+	const documents = caseData.Documents || [];
 	return [
 		{
 			keyText: 'Is this the correct type of appeal',
@@ -23,17 +36,19 @@ exports.constraintsRows = (caseData) => {
 			condition: (caseData) => caseData.changesListedBuilding
 		},
 		{
+			keyText: 'Listed Building details',
+			valueText: '', // TODO data model will need adjusting for possible multiple buildings
+			condition: (caseData) => (caseData.changedListedBuildingNumber ? true : undefined)
+		},
+		{
 			keyText: 'Affects a listed building',
 			valueText: formatYesOrNo(caseData, 'affectsListedBuilding'),
 			condition: (caseData) => caseData.affectsListedBuilding
 		},
 		{
-			keyText: 'Listed Buildings',
-			valueText: '', //TODO ? needs another entity with 1:many relation
-			condition: (caseData) =>
-				caseData.affectedListedBuildingNumber || caseData.changedListedBuildingNumber
-					? true
-					: undefined
+			keyText: 'Listed Building details',
+			valueText: '', // TODO data model will need adjusting for possible multiple buildings
+			condition: (caseData) => (caseData.affectedListedBuildingNumber ? true : undefined)
 		},
 		{
 			keyText: 'Affects a scheduled monument',
@@ -47,7 +62,7 @@ exports.constraintsRows = (caseData) => {
 		},
 		{
 			keyText: 'Conservation area map and guidance',
-			valueText: '', //TODO add document
+			valueText: formatDocumentDetails(documents, 'conservationMap'),
 			condition: (caseData) => caseData.uploadConservation
 		},
 		{
@@ -77,7 +92,7 @@ exports.constraintsRows = (caseData) => {
 		},
 		{
 			keyText: 'Tree Preservation Order plan',
-			valueText: '', //TODO add document
+			valueText: formatDocumentDetails(documents, 'treePreservationPlan'),
 			condition: (caseData) => caseData.uploadTreePreservationOrder
 		},
 		{
@@ -92,7 +107,7 @@ exports.constraintsRows = (caseData) => {
 		},
 		{
 			keyText: 'Definitive map and statement extract',
-			valueText: '', //TODO add document
+			valueText: formatDocumentDetails(documents, 'definitiveMap'),
 			condition: (caseData) => caseData.uploadDefinitiveMapStatement
 		}
 	];
@@ -103,15 +118,16 @@ exports.constraintsRows = (caseData) => {
  * @returns {Rows}
  */
 exports.environmentalRows = (caseData) => {
+	const documents = caseData.Documents || [];
 	return [
 		{
 			keyText: 'Schedule type',
-			valueText: `${caseData.environmentalImpactSchedule}`,
+			valueText: formatEnvironmentalImpactSchedule(caseData),
 			condition: (caseData) => caseData.environmentalImpactSchedule
 		},
 		{
 			keyText: 'Development description',
-			valueText: `${caseData.developmentDescription}`,
+			valueText: formatDevelopmentDescription(caseData),
 			condition: (caseData) => caseData.developmentDescription
 		},
 		{
@@ -131,7 +147,7 @@ exports.environmentalRows = (caseData) => {
 		},
 		{
 			keyText: 'Screening opinion correspondence',
-			valueText: '', //TODO add document
+			valueText: formatDocumentDetails(documents, 'screeningOpinion'),
 			condition: (caseData) => caseData.uploadScreeningOpinion
 		},
 		{
@@ -146,13 +162,236 @@ exports.environmentalRows = (caseData) => {
 		},
 		{
 			keyText: 'Environmental statement and supporting information',
-			valueText: '', // TODO add document
+			valueText: formatDocumentDetails(documents, 'environmentalStatement'),
 			condition: (caseData) => caseData.uploadEnvironmentalStatement
 		},
 		{
 			keyText: 'Screening direction',
-			valueText: '', // TODO add document
+			valueText: formatDocumentDetails(documents, 'screeningDirection'),
 			condition: (caseData) => caseData.uploadScreeningDirection
+		}
+	];
+};
+
+/**
+ * @param {AppealCaseWithAppellant } caseData
+ * @returns {Rows}
+ */
+exports.notifiedRows = (caseData) => {
+	const documents = caseData.Documents || [];
+	return [
+		{
+			keyText: 'Who was notified',
+			valueText: formatDocumentDetails(documents, 'whoNotified'),
+			condition: (caseData) => caseData.uploadWhoNotified
+		},
+		// TODO data model will need adjusting for possible multiple answers
+		// {
+		// 	keyText: 'Type of Notification',
+		// 	valueText: formatNotificationMethod(caseData),
+		// 	condition: (caseData) => caseData.notificationMethod
+		// },
+		{
+			keyText: 'Site notice',
+			valueText: formatDocumentDetails(documents, 'siteNotice'),
+			condition: (caseData) => caseData.uploadSiteNotice
+		},
+		{
+			keyText: 'Letters to neighbours',
+			valueText: formatDocumentDetails(documents, 'lettersNeighbours'),
+			condition: (caseData) => caseData.uploadLettersEmails
+		},
+		{
+			keyText: 'Press advert',
+			valueText: formatDocumentDetails(documents, 'pressAdvert'),
+			condition: (caseData) => caseData.uploadPressAdvert
+		}
+	];
+};
+
+/**
+ * @param {AppealCaseWithAppellant } caseData
+ * @returns {Rows}
+ */
+exports.consultationRows = (caseData) => {
+	const documents = caseData.Documents || [];
+	return [
+		{
+			keyText: 'Statutory consultees',
+			valueText: formatYesOrNo(caseData, 'statutoryConsultees'),
+			condition: (caseData) => caseData.statutoryConsultees
+		},
+		{
+			keyText: 'Responses or standing advice to upload',
+			valueText: formatYesOrNo(caseData, 'consultationResponses'),
+			condition: (caseData) => caseData.consultationResponses
+		},
+		{
+			keyText: 'Consultation responses',
+			valueText: formatDocumentDetails(documents, 'consultationResponses'),
+			condition: (caseData) => caseData.uploadConsultationResponses
+		},
+		{
+			keyText: 'Representations from other parties',
+			valueText: formatYesOrNo(caseData, 'otherPartyRepresentations'),
+			condition: (caseData) => caseData.otherPartyRepresentations
+		},
+		{
+			keyText: 'Upload representations from other parties',
+			valueText: formatDocumentDetails(documents, 'otherPartyRepresentations'),
+			condition: (caseData) => caseData.uploadRepresentations
+		}
+	];
+};
+
+/**
+ * @param {AppealCaseWithAppellant } caseData
+ * @returns {Rows}
+ */
+exports.planningOfficerReportRows = (caseData) => {
+	const documents = caseData.Documents || [];
+	return [
+		{
+			keyText: 'Planning officer’s report',
+			valueText: formatDocumentDetails(documents, 'planningOfficerReport'),
+			condition: (caseData) => caseData.uploadPlanningOfficerReport
+		},
+		{
+			keyText: 'Upload policies from statutory development plan',
+			valueText: formatDocumentDetails(documents, 'developmentPlanPolicies'),
+			condition: (caseData) => caseData.uploadDevelopmentPlanPolicies
+		},
+		{
+			keyText: 'Emerging plan',
+			valueText: formatYesOrNo(caseData, 'emergingPlan'),
+			condition: (caseData) => caseData.emergingPlan
+		},
+		{
+			keyText: 'Uploaded emerging plan and supporting information',
+			valueText: formatDocumentDetails(documents, 'emergingPlan'),
+			condition: (caseData) => caseData.uploadEmergingPlan
+		},
+		{
+			keyText: 'Uploaded other relevant policies',
+			valueText: formatDocumentDetails(documents, 'otherRelevantPolicies'),
+			condition: (caseData) => caseData.uploadOtherPolicies
+		},
+		{
+			keyText: 'Supplementary planning documents',
+			valueText: formatYesOrNo(caseData, 'supplementaryPlanningDocs'),
+			condition: (caseData) => caseData.supplementaryPlanningDocs
+		},
+		{
+			keyText: 'Uploaded supplementary planning documents',
+			valueText: formatDocumentDetails(documents, 'supplementaryPlanningDocs'),
+			condition: (caseData) => caseData.uploadSupplementaryPlanningDocs
+		},
+		{
+			keyText: 'Community infrastructure levy',
+			valueText: formatYesOrNo(caseData, 'infrastructureLevy'),
+			condition: (caseData) => caseData.infrastructureLevy
+		},
+		{
+			keyText: 'Uploaded community infrastructure levy',
+			valueText: formatDocumentDetails(documents, 'infrastructureLevy'),
+			condition: (caseData) => caseData.uploadInfrastructureLevy
+		},
+		{
+			keyText: 'Community infrastructure levy formally adopted',
+			valueText: formatYesOrNo(caseData, 'infrastructureLevyAdopted'),
+			condition: (caseData) => caseData.infrastructureLevyAdopted
+		},
+		{
+			keyText: 'Date community infrastructure levy adopted',
+			valueText: formatDate(caseData.infrastructureLevyAdoptedDate),
+			condition: (caseData) => caseData.infrastructureLevyAdoptedDate
+		},
+		{
+			keyText: 'Date community infrastructure levy expected to be adopted',
+			valueText: formatDate(caseData.infrastructureLevyExpectedDate),
+			condition: (caseData) => caseData.infrastructureLevyExpectedDate
+		}
+	];
+};
+
+/**
+ * @param {AppealCaseWithAppellant } caseData
+ * @returns {Rows}
+ */
+exports.siteAccessRows = (caseData) => {
+	const neighbourAdresses = caseData.NeighbouringAddresses || [];
+	/**
+	 * @type {Rows}
+	 */
+	const rows = [
+		{
+			keyText: 'Access for inspection',
+			valueText: formatYesOrNo(caseData, 'lpaSiteAccess'),
+			condition: (caseData) => caseData.uploadPlanningOfficerReport
+		},
+		{
+			keyText: 'Reason for Inspector access',
+			valueText: `${caseData.lpaSiteAccessDetails}`,
+			condition: (caseData) => caseData.lpaSiteAccessDetails
+		},
+		{
+			keyText: 'Inspector visit to neighbour',
+			valueText: formatYesOrNo(caseData, 'neighbouringSiteAccess'),
+			condition: (caseData) => caseData.neighbouringSiteAccess
+		},
+		{
+			keyText: 'Reason for Inspector visit',
+			valueText: `${caseData.neighbouringSiteAccessDetails}`,
+			condition: (caseData) => caseData.neighbouringSiteAccessDetails
+		}
+	];
+
+	if (caseData.addNeighbouringSiteAccess) {
+		neighbourAdresses.forEach((address, index) => {
+			const formattedAddress = formatNeibouringAddressWithBreaks(address);
+			rows.push({
+				keyText: `Neighbouring site ${index + 1}`,
+				valueText: formattedAddress,
+				condition: () => true
+			});
+		});
+	}
+
+	if (caseData.lpaSiteSafetyRisks) {
+		rows.push({
+			keyText: 'Potential safety risks',
+			valueText: formatSiteSafetyRisks(caseData),
+			condition: () => true
+		});
+	}
+	return rows;
+};
+
+/**
+ * @param {AppealCaseWithAppellant } caseData
+ * @returns {Rows}
+ */
+exports.appealProcessRows = (caseData) => {
+	return [
+		{
+			keyText: 'Appeal procedure',
+			valueText: formatProcedurePreference(caseData),
+			condition: (caseData) => caseData.lpaProcedurePreference
+		},
+		{
+			keyText: 'Appeals near the site',
+			valueText: formatYesOrNo(caseData, 'nearbyAppeals'),
+			condition: (caseData) => caseData.nearbyAppeals
+		},
+		{
+			keyText: 'Appeal references',
+			valueText: '', // TODO data model will need adjusting for possible multiple appeals
+			condition: (caseData) => caseData.nearbyAppealReference
+		},
+		{
+			keyText: 'Extra conditions',
+			valueText: formatConditions(caseData),
+			condition: (caseData) => caseData.newConditions
 		}
 	];
 };
