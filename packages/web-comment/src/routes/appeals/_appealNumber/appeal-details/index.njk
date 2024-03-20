@@ -1,0 +1,54 @@
+{% extends "../../../../index.njk" %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "pins/components/appeal-sections-block.njk" import appealSectionsBlock %}
+
+{% set title="Appeal " + appeal.status + " for comment - Comment on a planning appeal - GOV.UK" %}
+
+{% block pageTitle %}
+	{{ title }}
+{% endblock %}
+
+{% block content %}
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-full">
+      {% if errorSummary %}
+        {{ govukErrorSummary({
+          titleText: "There is a problem",
+          errorList: errorSummary
+        }) }}
+			{% endif %}
+
+      <span class="govuk-caption-xl">Appeal {{appeal.appealNumber}}</span>
+			<h1 class="govuk-heading-xl">Appeal details</h1>
+
+			{{ govukSummaryList({
+				classes: "appeal-headlines govuk-summary-list--no-border",
+				rows: appeal.headlineData
+			}) }}
+
+			<p>
+				{{ appeal.deadlineText }}
+			</p>
+
+			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+
+			<h2 class="govuk-heading-l">{{ appealDetailsSuffix }} appeal</h2>
+
+			{{ govukSummaryList({
+				classes: "govuk-summary-list long-answers",
+				rows: appeal.appealDetails
+			}) }}
+
+			<h2 class="govuk-heading-l">{{ appealDetailsSuffix }} documents</h2>
+
+			{{ govukSummaryList({
+				classes: "govuk-summary-list long-answers",
+				rows: appeal.appealDocuments
+			}) }}
+		</div>
+
+	</div>
+{% endblock %}
