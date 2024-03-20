@@ -48,6 +48,51 @@
 					rows: appeal.environmentalDetails
 				}) }}
 			</div> 
+
+			<div class="appeal-decision govuk-grid-column-two-thirds">
+				<h2 class="govuk-heading-l">Notifying people about the application</h2>
+
+				{{ govukSummaryList({
+					classes: "govuk-summary-list long-answers",
+					rows: appeal.notifiedDetails
+				}) }}
+			</div>
+
+			<div class="appeal-decision govuk-grid-column-two-thirds">
+				<h2 class="govuk-heading-l">Consultation responses and representations</h2>
+
+				{{ govukSummaryList({
+					classes: "govuk-summary-list long-answers",
+					rows: appeal.consultationDetails
+				}) }}
+			</div>
+
+			<div class="appeal-decision govuk-grid-column-two-thirds">
+				<h2 class="govuk-heading-l">Planning officer’s report and supplementary documents</h2>
+
+				{{ govukSummaryList({
+					classes: "govuk-summary-list long-answers",
+					rows: appeal.planningOfficerDetails
+				}) }}
+			</div>
+
+			<div class="appeal-decision govuk-grid-column-two-thirds">
+				<h2 class="govuk-heading-l">Site access</h2>
+
+				{{ govukSummaryList({
+					classes: "govuk-summary-list long-answers",
+					rows: appeal.siteAccessDetails
+				}) }}
+			</div>
+
+			<div class="appeal-decision govuk-grid-column-two-thirds">
+				<h2 class="govuk-heading-l">Appeal process</h2>
+
+				{{ govukSummaryList({
+					classes: "govuk-summary-list long-answers",
+					rows: appeal.appealProcessDetails
+				}) }}
+			</div>
 		</div>
 
 	</div>
