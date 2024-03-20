@@ -76,10 +76,10 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			delete req.session?.enterCode?.newCode;
 		}
 
-		const sqlUser = await isFeatureActive(FLAG.ENROL_USERS);
+		const isEnrolUsersFlagActive = await isFeatureActive(FLAG.ENROL_USERS);
 
 		if (isGeneralLogin) {
-			if (!sqlUser) {
+			if (!isEnrolUsersFlagActive) {
 				throw new Error('unhandled journey for GET: enter-code');
 			}
 
@@ -96,7 +96,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 		if (isAppealConfirmation) {
 			try {
-				if (sqlUser) {
+				if (isEnrolUsersFlagActive) {
 					const email = getSessionEmail(req.session, true);
 					await createOTPGrant(email, action);
 				} else {
@@ -126,7 +126,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 			// attempt to send code email to user, render page on failure
 			try {
-				if (sqlUser) {
+				if (isEnrolUsersFlagActive) {
 					await createOTPGrant(savedAppeal.email, action);
 				} else {
 					await sendToken(enterCodeId, action);
