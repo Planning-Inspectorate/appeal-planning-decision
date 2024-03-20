@@ -7,6 +7,6 @@ const questionnaireDetailsController = require('../../controllers/selected-appea
 
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());
-router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get);
+router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get());
 
 module.exports = router;
