@@ -1,0 +1,10 @@
+{
+	"include": ["**/*.js", "**/*.mjs"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"checkJs": true,
+		"strict": true,
+		"moduleResolution": "node",
+		"target": "esnext"
+	}
+}
