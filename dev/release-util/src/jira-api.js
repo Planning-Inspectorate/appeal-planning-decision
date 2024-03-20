@@ -64,9 +64,9 @@ class JiraApi {
 		});
 		const json = await res.json();
 		return {
-			title: json.fields.summary,
-			status: json.fields.status.name,
-			parentTitle: json.fields.parent?.fields?.summary
+			title: json.fields?.summary,
+			status: json.fields?.status?.name,
+			parentTitle: json.fields?.parent?.fields?.summary
 		};
 	}
 
