@@ -645,6 +645,47 @@ const documents = [
 ];
 
 /**
+ * @type {import('@prisma/client').Prisma.NeighbouringAddressCreateInput[]}
+ */
+const neighbourAddresses = [
+	{
+		id: '72177e1e-8891-4e2a-bd24-64f848fd84ef',
+		addressLine1: '172 York Road',
+		townCity: 'Bristol',
+		postcode: 'BS3 4AL',
+		AppealCase: {
+			connect: {
+				caseReference: '1000014'
+			}
+		}
+	},
+	{
+		id: '7c78d411-8de2-4a46-9b69-176328cf9625',
+		addressLine1: 'Screwfix',
+		addressLine2: '170 York Road',
+		townCity: 'Bristol',
+		postcode: 'BS3 4AL',
+		AppealCase: {
+			connect: {
+				caseReference: '1000014'
+			}
+		}
+	},
+	{
+		id: '9460d680-d056-4d92-8ac9-7e4d1725afc4',
+		addressLine1: 'B&Q',
+		addressLine2: '17 York Road',
+		townCity: 'Bristol',
+		postcode: 'BS3 4AL',
+		AppealCase: {
+			connect: {
+				caseReference: '1010101'
+			}
+		}
+	}
+];
+
+/**
  * @param {import('@prisma/client').PrismaClient} dbClient
  */
 async function seedDev(dbClient) {
@@ -733,6 +774,14 @@ async function seedDev(dbClient) {
 			create: rule6PartyGroup,
 			update: rule6PartyGroup,
 			where: { id: rule6PartyGroup.id }
+		});
+	}
+
+	for (const neighbourAddress of neighbourAddresses) {
+		await dbClient.neighbouringAddress.upsert({
+			create: neighbourAddress,
+			update: neighbourAddress,
+			where: { id: neighbourAddress.id }
 		});
 	}
 
