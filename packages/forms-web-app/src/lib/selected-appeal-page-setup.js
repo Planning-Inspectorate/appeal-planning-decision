@@ -10,15 +10,6 @@ const formatTitleSuffix = (userType) => {
 	return 'Appeal a planning decision';
 };
 
-/**
- * @param {string} userType
- * @returns {string}
- */
-const determineServicePage = (userType) => {
-	if (userType === LPA_USER_ROLE) return 'layouts/lpa-dashboard/main.njk';
-	return 'layouts/no-banner-link/main.njk';
-};
-
 //Questionnaire
 /**
  * @param {string} userType
@@ -31,6 +22,5 @@ const formatQuestionnaireHeading = (userType) => {
 
 module.exports = {
 	formatTitleSuffix,
-	formatQuestionnaireHeading,
-	determineServicePage
+	formatQuestionnaireHeading
 };

@@ -8,6 +8,6 @@ const router = express.Router({ mergeParams: true });
 
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());
-router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get);
+router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get());
 
 module.exports = router;

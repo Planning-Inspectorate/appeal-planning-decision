@@ -10,6 +10,9 @@ router.get(
 	'/:appealNumber/appeal-details',
 	appealDetailsController.get('layouts/lpa-dashboard/main.njk')
 );
-router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get);
+router.get(
+	'/:appealNumber/questionnaire',
+	questionnaireDetailsController.get('layouts/lpa-dashboard/main.njk')
+);
 
 module.exports = router;
