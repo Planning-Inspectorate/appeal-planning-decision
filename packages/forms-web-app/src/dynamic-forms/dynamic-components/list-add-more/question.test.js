@@ -266,9 +266,13 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const expectedErrors = {
 				errorViewModel: 'mocked-validation-error'
 			};
+			const testResponseToSave = {
+				answers: {}
+			};
+			testResponseToSave.answers[FIELDNAME] = 'test';
 			const question = getTestQuestion();
 			question.subQuestion.checkForValidationErrors = jest.fn();
-			question.getDataToSave = jest.fn();
+			question.getDataToSave = jest.fn(() => testResponseToSave);
 			question.saveResponseToDB = jest.fn();
 			question.subQuestion.checkForSavingErrors = jest.fn(() => expectedErrors);
 
@@ -277,7 +281,9 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			};
 
 			const req = { body: {} };
-			const journey = {};
+			const journey = {
+				response: {}
+			};
 			const section = {};
 
 			await question.saveAction(req, res, journey, section, journey.response);
@@ -291,9 +297,13 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 		it('should handle subquestion saving', async () => {
 			const expectedUrl = 'redirect-url';
 
+			const testResponseToSave = {
+				answers: {}
+			};
+			testResponseToSave.answers[FIELDNAME] = 'test';
 			const question = getTestQuestion();
 			question.subQuestion.checkForValidationErrors = jest.fn();
-			question.getDataToSave = jest.fn();
+			question.getDataToSave = jest.fn(() => testResponseToSave);
 			question.saveResponseToDB = jest.fn();
 			question.subQuestion.checkForSavingErrors = jest.fn();
 			const res = {
