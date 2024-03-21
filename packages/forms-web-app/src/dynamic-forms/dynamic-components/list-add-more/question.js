@@ -287,8 +287,6 @@ class ListAddMoreQuestion extends Question {
 
 		if (this.subQuestion instanceof AddressAddMoreQuestion) {
 			const addresses = responseToSave.answers[this.fieldName];
-			console.log('hehehe');
-			console.log(addresses);
 			await Promise.all(
 				addresses.map((address) => {
 					return apiClient.postSubmissionNeighbourAddress(
