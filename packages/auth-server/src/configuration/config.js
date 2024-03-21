@@ -62,6 +62,7 @@ const { value, error } = schema.validate({
 	server: {
 		allowTestingOverrides: process.env.ALLOW_TESTING_OVERRIDES === 'true',
 		port: numberWithDefault(process.env.SERVER_PORT, 3000),
+		proxy: process.env.USES_PROXY !== 'false',
 		showErrors: process.env.SERVER_SHOW_ERRORS === 'true',
 		tokenExpiry: 1800 // otp email code validity length
 	},

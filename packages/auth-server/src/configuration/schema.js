@@ -66,6 +66,7 @@ export default joi
 		server: joi.object({
 			allowTestingOverrides: joi.boolean(),
 			port: joi.number().positive(),
+			proxy: joi.boolean(),
 			showErrors: joi.boolean(),
 			tokenExpiry: joi.number().positive()
 		}),
