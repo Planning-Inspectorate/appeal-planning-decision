@@ -268,7 +268,56 @@ const appealCases = [
 		lpaStatementPublished: true,
 		rule6StatementPublished: true,
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(2)),
-		interestedPartyCommentsPublished: true
+		interestedPartyCommentsPublished: true,
+		// questionnaire details
+		// constraints
+		correctAppealType: true,
+		changesListedBuilding: false,
+		affectsListedBuilding: false,
+		scheduledMonument: false,
+		conservationArea: false,
+		uploadConservation: null,
+		protectedSpecies: false,
+		greenBelt: false,
+		areaOutstandingBeauty: false,
+		designatedSites: 'None',
+		treePreservationOrder: false,
+		uploadTreePreservationOrder: null,
+		gypsyTraveller: true,
+		publicRightOfWay: false,
+		// environmental
+		environmentalImpactSchedule: 'no',
+		sensitiveArea: false,
+		columnTwoThreshold: false,
+		screeningOpinion: false,
+		requiresEnvironmentalStatement: false,
+		// notified
+		uploadWhoNotified: true,
+		uploadPressAdvert: true,
+		// consultations
+		statutoryConsultees: false,
+		consultationResponses: false,
+		otherPartyRepresentations: false,
+		// planning officer reports
+		uploadPlanningOfficerReport: null,
+		emergingPlan: false,
+		supplementaryPlanningDocs: false,
+		infrastructureLevy: true,
+		uploadInfrastructureLevy: null,
+		infrastructureLevyAdopted: false,
+		infrastructureLevyExpectedDate: new Date(Date.now()),
+		// site access
+		lpaSiteAccess: false,
+		neighbouringSiteAccess: false,
+		addNeighbouringSiteAccess: true,
+		lpaSiteSafetyRisks: false,
+		// appeal process
+		lpaProcedurePreference: 'inquiry',
+		lpaPreferInquiryDetails: 'Example preference',
+		lpaPreferInquiryDuration: '6',
+		nearbyAppeals: true,
+		newConditions: true,
+		newConditionDetails: 'Example new conditions'
 	},
 	{
 		Appeal: {
