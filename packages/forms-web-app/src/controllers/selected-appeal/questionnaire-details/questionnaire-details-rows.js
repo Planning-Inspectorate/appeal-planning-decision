@@ -61,7 +61,7 @@ exports.constraintsRows = (caseData) => {
 			condition: (caseData) => caseData.conservationArea
 		},
 		{
-			keyText: 'Conservation area map and guidance',
+			keyText: 'Uploaded conservation area map and guidance',
 			valueText: formatDocumentDetails(documents, 'conservationMap'),
 			condition: (caseData) => caseData.uploadConservation
 		},
@@ -91,7 +91,7 @@ exports.constraintsRows = (caseData) => {
 			condition: (caseData) => caseData.treePreservationOrder
 		},
 		{
-			keyText: 'Tree Preservation Order plan',
+			keyText: 'Uploaded Tree Preservation Order extent',
 			valueText: formatDocumentDetails(documents, 'treePreservationPlan'),
 			condition: (caseData) => caseData.uploadTreePreservationOrder
 		},
@@ -106,7 +106,7 @@ exports.constraintsRows = (caseData) => {
 			condition: (caseData) => caseData.publicRightOfWay
 		},
 		{
-			keyText: 'Definitive map and statement extract',
+			keyText: 'Uploaded definitive map and statement extract',
 			valueText: formatDocumentDetails(documents, 'definitiveMap'),
 			condition: (caseData) => caseData.uploadDefinitiveMapStatement
 		}
@@ -131,12 +131,12 @@ exports.environmentalRows = (caseData) => {
 			condition: (caseData) => caseData.developmentDescription
 		},
 		{
-			keyText: 'Sensitive area',
+			keyText: 'In, partly in, or likely to affect sensitive area',
 			valueText: formatSensitiveArea(caseData),
 			condition: (caseData) => caseData.sensitiveArea
 		},
 		{
-			keyText: 'Meets column 2 threshold',
+			keyText: 'Meets or exceeds threshold or criteria in column 2',
 			valueText: formatYesOrNo(caseData, 'columnTwoThreshold'),
 			condition: (caseData) => caseData.columnTwoThreshold
 		},
@@ -146,22 +146,22 @@ exports.environmentalRows = (caseData) => {
 			condition: (caseData) => caseData.screeningOpinion
 		},
 		{
-			keyText: 'Screening opinion correspondence',
+			keyText: 'Uploaded screening opinion',
 			valueText: formatDocumentDetails(documents, 'screeningOpinion'),
 			condition: (caseData) => caseData.uploadScreeningOpinion
 		},
 		{
-			keyText: 'Requires environmental statement',
+			keyText: 'Screening opinion indicated environmental statement needed',
 			valueText: formatYesOrNo(caseData, 'requiresEnvironmentalStatement'),
 			condition: (caseData) => caseData.requiresEnvironmentalStatement
 		},
 		{
-			keyText: 'Completed environmental statement',
+			keyText: 'Did Environmental statement',
 			valueText: formatYesOrNo(caseData, 'completedEnvironmentalStatement'),
 			condition: (caseData) => caseData.completedEnvironmentalStatement
 		},
 		{
-			keyText: 'Environmental statement and supporting information',
+			keyText: 'Uploaded environmental statement',
 			valueText: formatDocumentDetails(documents, 'environmentalStatement'),
 			condition: (caseData) => caseData.uploadEnvironmentalStatement
 		},
@@ -197,7 +197,7 @@ exports.notifiedRows = (caseData) => {
 			condition: (caseData) => caseData.uploadSiteNotice
 		},
 		{
-			keyText: 'Letters to neighbours',
+			keyText: 'Letters sent to neighbours',
 			valueText: formatDocumentDetails(documents, 'lettersNeighbours'),
 			condition: (caseData) => caseData.uploadLettersEmails
 		},
@@ -222,12 +222,12 @@ exports.consultationRows = (caseData) => {
 			condition: (caseData) => caseData.statutoryConsultees
 		},
 		{
-			keyText: 'Responses or standing advice to upload',
+			keyText: 'Responses or standing advice',
 			valueText: formatYesOrNo(caseData, 'consultationResponses'),
 			condition: (caseData) => caseData.consultationResponses
 		},
 		{
-			keyText: 'Consultation responses',
+			keyText: 'Uploaded consultation responses and standing advice',
 			valueText: formatDocumentDetails(documents, 'consultationResponses'),
 			condition: (caseData) => caseData.uploadConsultationResponses
 		},
@@ -237,7 +237,7 @@ exports.consultationRows = (caseData) => {
 			condition: (caseData) => caseData.otherPartyRepresentations
 		},
 		{
-			keyText: 'Upload representations from other parties',
+			keyText: 'Uploaded representations from other parties',
 			valueText: formatDocumentDetails(documents, 'otherPartyRepresentations'),
 			condition: (caseData) => caseData.uploadRepresentations
 		}
@@ -252,12 +252,12 @@ exports.planningOfficerReportRows = (caseData) => {
 	const documents = caseData.Documents || [];
 	return [
 		{
-			keyText: 'Planning officer’s report',
+			keyText: 'Uploaded planning officer’s report',
 			valueText: formatDocumentDetails(documents, 'planningOfficerReport'),
 			condition: (caseData) => caseData.uploadPlanningOfficerReport
 		},
 		{
-			keyText: 'Upload policies from statutory development plan',
+			keyText: 'Uploaded policies from statutory development plan',
 			valueText: formatDocumentDetails(documents, 'developmentPlanPolicies'),
 			condition: (caseData) => caseData.uploadDevelopmentPlanPolicies
 		},
