@@ -1,20 +1,9 @@
 const { getAppealStatus } = require('#utils/appeal-status');
 const { apiClient } = require('#utils/appeals-api-client');
-const { formatHeadlineData, formatSections } = require('@pins/common');
-
-/** @type {import('@pins/common/src/view-model-maps/sections/def').Sections} */
-const sections = [
-	{
-		heading: 'Appeal details',
-		links: [
-			{
-				url: '/appeal-details',
-				text: 'View appeal details',
-				condition: (appeal) => appeal.casePublished
-			}
-		]
-	}
-];
+const { formatDeadlineText } = require('#utils/format-deadline-text');
+const { formatHeadlineData, formatRows } = require('@pins/common');
+const { appealSubmissionRows } = require('./ip-appeal-submission-rows');
+const { applicationRows } = require('./ip-application-rows');
 
 /** @type {import('express').Handler} */
 const selectedAppeal = async (req, res) => {
@@ -24,14 +13,23 @@ const selectedAppeal = async (req, res) => {
 
 	const headlineData = formatHeadlineData(appeal);
 
+	const status = getAppealStatus(appeal);
+
+	const deadlineText = formatDeadlineText(appeal, status);
+
+	const submissionRows = appealSubmissionRows(appeal);
+	const appealSubmission = formatRows(submissionRows, appeal);
+
+	const originalApplicationRows = applicationRows(appeal);
+	const application = formatRows(originalApplicationRows, appeal);
+
 	res.render(`appeals/_appealNumber/index`, {
 		appeal: {
 			...appeal,
-			status: getAppealStatus(appeal),
-			sections: formatSections({
-				caseData: appeal,
-				sections: sections
-			})
+			status,
+			deadlineText,
+			appealSubmission,
+			application
 		},
 		headlineData
 	});
