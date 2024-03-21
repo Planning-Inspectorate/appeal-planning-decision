@@ -8,15 +8,13 @@ const {
 	formatQuestionnaireHeading,
 	formatTitleSuffix
 } = require('../../../lib/selected-appeal-page-setup');
-const {
-	constraintsRows,
-	environmentalRows,
-	notifiedRows,
-	consultationRows,
-	planningOfficerReportRows,
-	siteAccessRows,
-	appealProcessRows
-} = require('./questionnaire-details-rows');
+const { constraintsRows } = require('./constraints-details-rows');
+const { appealProcessRows } = require('./appeal-process-details-rows');
+const { consultationRows } = require('./consultation-details-rows');
+const { environmentalRows } = require('./environmental-details-rows');
+const { notifiedRows } = require('./notified-details-rows');
+const { planningOfficerReportRows } = require('./planning-officer-details-rows');
+const { siteAccessRows } = require('./site-access-details-rows');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
