@@ -8,35 +8,38 @@
  */
 exports.formatYesOrNo = (caseData, propertyName) => (caseData[propertyName] ? 'Yes' : 'No');
 
-/**
- * @param {AppealCaseWithAppellant} caseData
- */
-exports.formatListedBuildings = (caseData) => {
-	const allListedBuildings = [];
-	const changedListedBuildingNumber = caseData.changedListedBuildingNumber;
-	const affectedListedBuildingNumber = caseData.affectedListedBuildingNumber;
-	const listedBuildingUrl = 'https://historicengland.org.uk/listing/the-list/list-entry/';
+// TODO the associated changed and affected listed building numbers may be more than 1
+// the current data model does not support multiple entries.
+// function will need refactoring once data model updated
+// /**
+//  * @param {AppealCaseWithAppellant} caseData
+//  */
+// exports.formatListedBuildings = (caseData) => {
+// 	const allListedBuildings = [];
+// 	const changedListedBuildingNumber = caseData.changedListedBuildingNumber;
+// 	const affectedListedBuildingNumber = caseData.affectedListedBuildingNumber;
+// 	const listedBuildingUrl = 'https://historicengland.org.uk/listing/the-list/list-entry/';
 
-	if (!changedListedBuildingNumber && !affectedListedBuildingNumber) {
-		return '';
-	}
+// 	if (!changedListedBuildingNumber && !affectedListedBuildingNumber) {
+// 		return '';
+// 	}
 
-	if (changedListedBuildingNumber) {
-		allListedBuildings.push(
-			`<a href="${listedBuildingUrl}${changedListedBuildingNumber}">${changedListedBuildingNumber}</a>`
-		);
-	}
+// 	if (changedListedBuildingNumber) {
+// 		allListedBuildings.push(
+// 			`<a href="${listedBuildingUrl}${changedListedBuildingNumber}">${changedListedBuildingNumber}</a>`
+// 		);
+// 	}
 
-	if (affectedListedBuildingNumber) {
-		allListedBuildings.push(
-			`<a href="${listedBuildingUrl}${affectedListedBuildingNumber}">${affectedListedBuildingNumber}</a>`
-		);
-	}
+// 	if (affectedListedBuildingNumber) {
+// 		allListedBuildings.push(
+// 			`<a href="${listedBuildingUrl}${affectedListedBuildingNumber}">${affectedListedBuildingNumber}</a>`
+// 		);
+// 	}
 
-	return allListedBuildings.length > 1
-		? allListedBuildings.join('<br>')
-		: allListedBuildings.toString();
-};
+// 	return allListedBuildings.length > 1
+// 		? allListedBuildings.join('<br>')
+// 		: allListedBuildings.toString();
+// };
 
 /**
  * @param {AppealCaseWithAppellant} caseData
