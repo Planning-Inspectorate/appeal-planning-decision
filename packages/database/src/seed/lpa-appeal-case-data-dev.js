@@ -161,7 +161,22 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
-		statementDueDate: pickRandom(datesNMonthsAhead(1))
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		ownsSomeLand: true,
+		knowsOtherOwners: true,
+		identifiedOwners: true,
+		advertisedAppeal: true,
+		informedOwners: true,
+		agriculturalHolding: true,
+		tenantAgriculturalHolding: true,
+		otherTenantsAgriculturalHolding: true,
+		informedTenantsAgriculturalHolding: true,
+		appellantSiteAccess: false,
+		appellantSiteAccessDetails: 'Blocked access',
+		appellantSiteSafety: false,
+		appellantSiteSafetyDetails: 'No issues',
+		appellantProcedurePreference: 'Inquiry',
+		appellantPreferInquiryDetails: 'Would like longer consideration'
 	},
 	{
 		Appeal: {

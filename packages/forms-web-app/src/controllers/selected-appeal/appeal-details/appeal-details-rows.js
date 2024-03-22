@@ -35,7 +35,7 @@ exports.detailsRows = (caseData) => {
 		},
 
 		{
-			keyText: 'Site Address',
+			keyText: 'Site address',
 			valueText: formatAddress(caseData, '<br>'),
 			condition: (caseData) => caseData.siteAddressLine1
 		},
@@ -62,12 +62,12 @@ exports.detailsRows = (caseData) => {
 		{
 			keyText: 'Advertised appeal',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.informedTenantsAgriculturalHolding
+			condition: (caseData) => caseData.advertisedAppeal
 		},
 		{
 			keyText: 'Other owners informed',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.advertisedAppeal
+			condition: (caseData) => caseData.informedOwners
 		},
 		{
 			keyText: 'Agricultural holding',
