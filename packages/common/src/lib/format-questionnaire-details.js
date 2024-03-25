@@ -1,3 +1,5 @@
+const { format } = require('date-fns');
+
 /**
  * @typedef {import("../client/appeals-api-client").AppealCaseWithAppellant} AppealCaseWithAppellant
  */
@@ -82,39 +84,32 @@ exports.formatEnvironmentalImpactSchedule = (caseData) => {
 };
 
 /**
+ * @type {Object.<string, string>}
+ */
+const developmentDescriptions = {
+	'agriculture-aquaculture': 'Agriculture and aquaculture',
+	'change-extensions': 'Changes and extensions',
+	'chemical-industry': 'Chemical industry',
+	'energy-industry': 'Energy industry',
+	'extractive-industry': 'Extractive industry',
+	'food-industry': 'Food industry',
+	'infrastructure-projects': 'Infrastructure projects',
+	'mineral-industry': 'Mineral industry',
+	'other-projects': 'Other projects',
+	'production-processing-of-metals': 'Production and processing of metals',
+	'rubber-industry': 'Rubber industry',
+	'textile-industries': 'Textile, leather, wood and paper industries',
+	'tourism-leisure': 'Tourism and leisure'
+};
+
+/**
  * @param {AppealCaseWithAppellant} caseData
  */
 exports.formatDevelopmentDescription = (caseData) => {
-	switch (caseData.developmentDescription) {
-		case 'agriculture-aquaculture':
-			return 'Agriculture and aquaculture';
-		case 'change-extensions':
-			return 'Changes and extensions';
-		case 'chemical-industry':
-			return 'Chemical industry';
-		case 'energy-industry':
-			return 'Energy industry';
-		case 'extractive-industry':
-			return 'Extractive industry';
-		case 'food-industry':
-			return 'Food industry';
-		case 'infrastructure-projects':
-			return 'Infrastructure projects';
-		case 'mineral-industry':
-			return 'Mineral industry';
-		case 'other-projects':
-			return 'Other projects';
-		case 'production-processing-of-metals':
-			return 'Production and processing of metals';
-		case 'rubber-industry':
-			return 'Rubber industry';
-		case 'textile-industries':
-			return 'Textile, leather, wood and paper industries';
-		case 'tourism-leisure':
-			return 'Tourism and leisure';
-		default:
-			return 'None';
-	}
+	const key = caseData.developmentDescription;
+	return key !== undefined && key in developmentDescriptions
+		? developmentDescriptions[key]
+		: 'None';
 };
 
 // TODO the associated question is checkbox meaning there could be multiple answers
@@ -159,11 +154,7 @@ exports.formatDate = (dateStr) => {
 
 	const date = new Date(dateStr);
 
-	const day = date.getDate().toString().padStart(2, '0');
-	const month = (date.getMonth() + 1).toString().padStart(2, '0');
-	const year = date.getFullYear();
-
-	return `${day}-${month}-${year}`;
+	return format(date, 'dd-MMM-yyyy');
 };
 
 /**
@@ -196,4 +187,4 @@ exports.formatProcedurePreference = (caseData) => {
  * @param {AppealCaseWithAppellant} caseData
  */
 exports.formatConditions = (caseData) =>
-	caseData.newConditions === true ? `Yes<br>${caseData.newConditionDetails}` : 'No';
+	(caseData.newConditions && `Yes<br>${caseData.newConditionDetails}`) || 'No';
