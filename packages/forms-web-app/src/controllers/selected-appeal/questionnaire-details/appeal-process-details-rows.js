@@ -9,22 +9,22 @@ exports.appealProcessRows = (caseData) => {
 		{
 			keyText: 'Appeal procedure',
 			valueText: formatProcedurePreference(caseData),
-			condition: (caseData) => caseData.lpaProcedurePreference
+			condition: () => caseData.lpaProcedurePreference
 		},
 		{
 			keyText: 'Appeals near the site',
 			valueText: formatYesOrNo(caseData, 'nearbyAppeals'),
-			condition: (caseData) => caseData.nearbyAppeals
+			condition: () => caseData.nearbyAppeals
 		},
 		{
 			keyText: 'Appeal references',
 			valueText: '', // TODO data model will need adjusting for possible multiple appeals
-			condition: (caseData) => caseData.nearbyAppealReference
+			condition: () => caseData.nearbyAppealReference
 		},
 		{
 			keyText: 'Extra conditions',
 			valueText: formatConditions(caseData),
-			condition: (caseData) => caseData.newConditions
+			condition: () => caseData.newConditions
 		}
 	];
 };

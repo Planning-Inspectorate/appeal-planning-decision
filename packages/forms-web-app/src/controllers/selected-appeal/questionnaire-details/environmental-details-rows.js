@@ -16,52 +16,52 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'Schedule type',
 			valueText: formatEnvironmentalImpactSchedule(caseData),
-			condition: (caseData) => caseData.environmentalImpactSchedule
+			condition: () => caseData.environmentalImpactSchedule
 		},
 		{
 			keyText: 'Development description',
 			valueText: formatDevelopmentDescription(caseData),
-			condition: (caseData) => caseData.developmentDescription
+			condition: () => caseData.developmentDescription
 		},
 		{
 			keyText: 'In, partly in, or likely to affect sensitive area',
 			valueText: formatSensitiveArea(caseData),
-			condition: (caseData) => caseData.sensitiveArea
+			condition: () => caseData.sensitiveArea
 		},
 		{
 			keyText: 'Meets or exceeds threshold or criteria in column 2',
 			valueText: formatYesOrNo(caseData, 'columnTwoThreshold'),
-			condition: (caseData) => caseData.columnTwoThreshold
+			condition: () => caseData.columnTwoThreshold
 		},
 		{
 			keyText: 'Issued screening opinion',
 			valueText: formatYesOrNo(caseData, 'screeningOpinion'),
-			condition: (caseData) => caseData.screeningOpinion
+			condition: () => caseData.screeningOpinion
 		},
 		{
 			keyText: 'Uploaded screening opinion',
 			valueText: formatDocumentDetails(documents, 'screeningOpinion'),
-			condition: (caseData) => caseData.uploadScreeningOpinion
+			condition: () => caseData.uploadScreeningOpinion
 		},
 		{
 			keyText: 'Screening opinion indicated environmental statement needed',
 			valueText: formatYesOrNo(caseData, 'requiresEnvironmentalStatement'),
-			condition: (caseData) => caseData.requiresEnvironmentalStatement
+			condition: () => caseData.requiresEnvironmentalStatement
 		},
 		{
 			keyText: 'Did Environmental statement',
 			valueText: formatYesOrNo(caseData, 'completedEnvironmentalStatement'),
-			condition: (caseData) => caseData.completedEnvironmentalStatement
+			condition: () => caseData.completedEnvironmentalStatement
 		},
 		{
 			keyText: 'Uploaded environmental statement',
 			valueText: formatDocumentDetails(documents, 'environmentalStatement'),
-			condition: (caseData) => caseData.uploadEnvironmentalStatement
+			condition: () => caseData.uploadEnvironmentalStatement
 		},
 		{
 			keyText: 'Screening direction',
 			valueText: formatDocumentDetails(documents, 'screeningDirection'),
-			condition: (caseData) => caseData.uploadScreeningDirection
+			condition: () => caseData.uploadScreeningDirection
 		}
 	];
 };

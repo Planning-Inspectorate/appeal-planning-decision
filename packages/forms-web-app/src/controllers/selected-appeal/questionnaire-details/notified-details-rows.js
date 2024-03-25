@@ -10,28 +10,28 @@ exports.notifiedRows = (caseData) => {
 		{
 			keyText: 'Who was notified',
 			valueText: formatDocumentDetails(documents, 'whoNotified'),
-			condition: (caseData) => caseData.uploadWhoNotified
+			condition: () => caseData.uploadWhoNotified
 		},
 		// TODO data model will need adjusting for possible multiple answers
 		// {
 		// 	keyText: 'Type of Notification',
 		// 	valueText: formatNotificationMethod(caseData),
-		// 	condition: (caseData) => caseData.notificationMethod
+		// 	condition: () => caseData.notificationMethod
 		// },
 		{
 			keyText: 'Site notice',
 			valueText: formatDocumentDetails(documents, 'siteNotice'),
-			condition: (caseData) => caseData.uploadSiteNotice
+			condition: () => caseData.uploadSiteNotice
 		},
 		{
 			keyText: 'Letters sent to neighbours',
 			valueText: formatDocumentDetails(documents, 'lettersNeighbours'),
-			condition: (caseData) => caseData.uploadLettersEmails
+			condition: () => caseData.uploadLettersEmails
 		},
 		{
 			keyText: 'Press advert',
 			valueText: formatDocumentDetails(documents, 'pressAdvert'),
-			condition: (caseData) => caseData.uploadPressAdvert
+			condition: () => caseData.uploadPressAdvert
 		}
 	];
 };
