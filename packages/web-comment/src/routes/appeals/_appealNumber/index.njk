@@ -28,6 +28,12 @@
         rows: headlineData
       }) }}
 
+			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
+		</div>
+	</div>
+
+	<div class="govuk-grid-row">
+		<div class="govuk-grid-column-full">
 			<p>
 				{{ appeal.deadlineText }}
 			</p>
@@ -35,11 +41,13 @@
 				{{ govukButton({
 					text: "Comment on this appeal",
 					href: "#",
-					classes: "govuk-button--secondary"
+					classes: "govuk-button--secondary govuk-!-margin-bottom-1"
 				}) }}
+			{% else %}
+				<p> You cannot add a comment. </p>
 			{% endif %}
 
-      <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+      <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
     </div>
 
 		<div class="govuk-grid-column-full">
