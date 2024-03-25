@@ -119,6 +119,8 @@ model Appeal {
   /// link to case (from Back Office)
   AppealCase AppealCase?
 
+  AppellantSubmission AppellantSubmission?
+
   // todo: in the future link to appeal submission and other data
 }
 
@@ -463,6 +465,14 @@ model ServiceUser {
   serviceUserType String
   /// case reference this user + user-type relates to
   caseReference   String
+}
+
+model AppellantSubmission {
+  id             String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  LPACode        String
+  appealTypeCode String // type shortcode such as HAS or S78
+  appealId       String @unique @db.UniqueIdentifier
+  Appeal         Appeal @relation(fields: [appealId], references: [id])
 }
 
 /// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser

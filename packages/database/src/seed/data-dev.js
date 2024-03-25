@@ -735,6 +735,19 @@ const neighbourAddresses = [
 ];
 
 /**
+ * @type {import('@prisma/client').Prisma.AppellantSubmissionCreateInput[]}
+ */
+const appellantSubmissions = [
+	{
+		LPACode: 'Q9999',
+		appealTypeCode: 'HAS',
+		Appeal: {
+			connect: { id: appealIds.appealOne }
+		}
+	}
+];
+
+/**
  * @param {import('@prisma/client').PrismaClient} dbClient
  */
 async function seedDev(dbClient) {
@@ -831,6 +844,14 @@ async function seedDev(dbClient) {
 			create: neighbourAddress,
 			update: neighbourAddress,
 			where: { id: neighbourAddress.id }
+		});
+	}
+
+	for (const appellantSubmission of appellantSubmissions) {
+		await dbClient.appellantSubmission.upsert({
+			create: appellantSubmission,
+			update: appellantSubmission,
+			where: { id: appellantSubmission.id }
 		});
 	}
 
