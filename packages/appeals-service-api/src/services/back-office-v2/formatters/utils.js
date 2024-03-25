@@ -46,7 +46,7 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }) => {
 };
 
 /**
- * @param {LPAQuestionnaireSubmission["SubmissionNeighbourAddress"]} [addresses]
+ * @param {LPAQuestionnaireSubmission["SubmissionAddress"]} [addresses]
  * @returns {HASBOSubmission['neighbouring-address']}
  */
 exports.formatAddresses = (addresses) =>

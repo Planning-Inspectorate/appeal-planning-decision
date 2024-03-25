@@ -52,7 +52,7 @@ class SubmissionDocumentUploadRepository {
 					}
 				},
 				SubmissionDocumentUpload: true,
-				SubmissionNeighbourAddress: true
+				SubmissionAddress: true
 			}
 		});
 	}

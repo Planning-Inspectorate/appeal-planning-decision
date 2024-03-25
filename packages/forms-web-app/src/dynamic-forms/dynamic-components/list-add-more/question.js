@@ -2,6 +2,7 @@ const { apiClient } = require('#lib/appeals-api-client');
 const Question = require('../../question');
 const AddMoreQuestion = require('../add-more/question');
 const AddressAddMoreQuestion = require('../address-add-more/question');
+const { getAddressesForQuestion } = require('../utils/question-utils');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -107,7 +108,7 @@ class ListAddMoreQuestion extends Question {
 	prepQuestionForRendering(section, journey, customViewData) {
 		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
 		const answers = isAddressQuestion
-			? journey.response.answers.SubmissionNeighbourAddress
+			? getAddressesForQuestion(journey.response, this.subQuestion.fieldName)
 			: journey.response.answers[this.fieldName];
 		customViewData = customViewData ?? {};
 		customViewData.width = this.width;
@@ -136,7 +137,7 @@ class ListAddMoreQuestion extends Question {
 		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
 		let rowParams = [];
 		const answerArray = isAddressQuestion
-			? journey.response.answers.SubmissionNeighbourAddress
+			? getAddressesForQuestion(journey.response, this.subQuestion.fieldName)
 			: answer;
 		for (let i = 0; i < answerArray?.length; i++) {
 			const action = this.getAction(sectionSegment, journey);
@@ -174,7 +175,7 @@ class ListAddMoreQuestion extends Question {
 		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
 		const addMoreAnswers = [];
 		const answers = isAddressQuestion
-			? journey.response.answers.SubmissionNeighbourAddress
+			? journey.response.answers.SubmissionAddress
 			: journey.response.answers[this.fieldName];
 
 		let i = 1;
@@ -212,6 +213,8 @@ class ListAddMoreQuestion extends Question {
 		}
 
 		// get answer to addMore
+		console.log('ohno');
+		console.log(journeyResponse.answers[this.subQuestion.fieldName]);
 		const individual = await this.subQuestion.getDataToSave(req, journeyResponse);
 		responseToSave.answers[this.fieldName].push(individual);
 
@@ -289,10 +292,9 @@ class ListAddMoreQuestion extends Question {
 			const addresses = responseToSave.answers[this.fieldName];
 			await Promise.all(
 				addresses.map((address) => {
-					return apiClient.postSubmissionNeighbourAddress(
-						journeyResponse.referenceId,
-						address.value
-					);
+					const addressData = address.value;
+					address.fieldName = this.subQuestion.fieldName;
+					return apiClient.postSubmissionAddress(journeyResponse.referenceId, addressData);
 				})
 			);
 			responseToSave = {
