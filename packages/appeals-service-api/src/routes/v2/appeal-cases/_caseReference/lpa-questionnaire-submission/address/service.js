@@ -1,0 +1,29 @@
+const { SubmissionAddressRepository } = require('./repo');
+
+const repo = new SubmissionAddressRepository();
+
+/**
+ * @typedef {import("@prisma/client").LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('./repo').AddressData} AddressData
+ */
+
+/**
+ * Create a SubmissionAddress entry
+ *
+ * @param {string} caseReference
+ * @param {AddressData} uploadData
+ * @return {Promise<LPAQuestionnaireSubmission|null>}
+ */
+async function createAddress(caseReference, uploadData) {
+	const updatedQuestionnaire = repo.createAddress(caseReference, uploadData);
+
+	if (!updatedQuestionnaire) {
+		return null;
+	}
+
+	return updatedQuestionnaire;
+}
+
+module.exports = {
+	createAddress
+};

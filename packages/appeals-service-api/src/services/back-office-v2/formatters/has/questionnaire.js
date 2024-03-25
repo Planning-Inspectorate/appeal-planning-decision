@@ -38,7 +38,7 @@ exports.formatter = async (caseReference, { AppealCase: { LPACode }, ...answers 
 			lpaStatementDocuments: null, // are we collecting this?
 			nearbyAppeals: answers.nearbyAppeals,
 			nearbyAppealReference: answers.nearbyAppealReference,
-			'neighbouring-address': formatAddresses(answers.SubmissionNeighbourAddress),
+			'neighbouring-address': formatAddresses(answers.SubmissionAddress),
 			neighbouringSiteAccess: toBool(answers.neighbourSiteAccess),
 			neighbouringSiteAccessDetails: answers.neighbourSiteAccess_neighbourSiteAccessDetails,
 			newConditionDetails: answers.newConditions_newConditionDetails,

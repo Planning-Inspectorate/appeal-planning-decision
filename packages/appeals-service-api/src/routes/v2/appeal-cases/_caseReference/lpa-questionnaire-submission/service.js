@@ -26,7 +26,7 @@ async function getLPAQuestionnaireByAppealId(appealCaseId) {
  * Create Questionnaire for an appealCase
  *
  * @param {string} appealCaseId
- * @returns {Promise<Omit<LPAQuestionnaireSubmission, 'SubmissionDocumentUpload' | 'SubmissionNeighbourAddress'> | null>}
+ * @returns {Promise<Omit<LPAQuestionnaireSubmission, 'SubmissionDocumentUpload' | 'SubmissionAddress'> | null>}
  */
 async function createLPAQuestionnaire(appealCaseId) {
 	const questionnaire = await repo.createQuestionnaire(appealCaseId);
@@ -43,7 +43,7 @@ async function createLPAQuestionnaire(appealCaseId) {
  *
  * @param {string} appealCaseId
  * @param {LPAQuestionnaireSubmission} data
- * @returns {Promise<Omit<LPAQuestionnaireSubmission, 'SubmissionDocumentUpload' | 'SubmissionNeighbourAddress'> | null>}
+ * @returns {Promise<Omit<LPAQuestionnaireSubmission, 'SubmissionDocumentUpload' | 'SubmissionAddress'> | null>}
  */
 async function patchLPAQuestionnaireByAppealId(appealCaseId, data) {
 	const questionnaire = await repo.patchLPAQuestionnaireByAppealId(appealCaseId, data);

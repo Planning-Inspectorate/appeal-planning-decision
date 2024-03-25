@@ -287,8 +287,8 @@ class AppealsApiClient {
 	 * @param {object} data
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async postSubmissionNeighbourAddress(caseReference, data) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/neighbour-address`;
+	async postSubmissionAddress(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/address`;
 		const response = await this.#makePostRequest(endpoint, data);
 		return response.json();
 	}

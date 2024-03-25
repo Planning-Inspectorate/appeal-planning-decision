@@ -561,8 +561,8 @@ model LPAQuestionnaireSubmission {
   requiresEnvironmentalStatement                  String?
 
   // Uploaded documents and details linked to this appeal
-  SubmissionDocumentUpload   SubmissionDocumentUpload[]
-  SubmissionNeighbourAddress SubmissionNeighbourAddress[]
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+  SubmissionAddress        SubmissionAddress[]
 }
 
 model SubmissionDocumentUpload {
@@ -578,7 +578,7 @@ model SubmissionDocumentUpload {
   type             String
 }
 
-model SubmissionNeighbourAddress {
+model SubmissionAddress {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
   questionnaireId            String                     @db.UniqueIdentifier
@@ -588,6 +588,9 @@ model SubmissionNeighbourAddress {
   addressLine2 String?
   townCity     String
   postcode     String
+
+  // the fieldName of the questionnaire question / subquestion - required for display filtering
+  fieldName String
 }
 
 model Rule6Party {

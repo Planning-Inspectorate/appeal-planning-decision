@@ -39,7 +39,7 @@ jest.mock('../service', () => ({
 						LPACode: 'LPA_001',
 						appealTypeCode: 'HAS'
 					},
-					SubmissionNeighbourAddress: [
+					SubmissionAddress: [
 						{
 							id: 'add_001',
 							questionnaireId: '001',
@@ -98,7 +98,7 @@ jest.mock('../service', () => ({
 						LPACode: 'LPA_001',
 						appealTypeCode: 'S78'
 					},
-					SubmissionNeighbourAddress: [
+					SubmissionAddress: [
 						{
 							id: 'add_001',
 							questionnaireId: '001',

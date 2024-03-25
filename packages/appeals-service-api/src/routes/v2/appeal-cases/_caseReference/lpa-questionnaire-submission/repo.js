@@ -32,7 +32,7 @@ class LPAQuestionnaireSubmissionRepository {
 						}
 					},
 					SubmissionDocumentUpload: true,
-					SubmissionNeighbourAddress: true
+					SubmissionAddress: true
 				}
 			});
 		} catch (e) {
@@ -50,7 +50,7 @@ class LPAQuestionnaireSubmissionRepository {
 	 * Create questionnaire for given appeal
 	 *
 	 * @param {string} caseReference
-	 * @returns {Promise<Omit<LPAQuestionnaireSubmission, 'SubmissionDocumentUpload' | 'SubmissionNeighbourAddress'>>}
+	 * @returns {Promise<Omit<LPAQuestionnaireSubmission, 'SubmissionDocumentUpload' | 'SubmissionAddress'>>}
 	 */
 	async createQuestionnaire(caseReference) {
 		return await this.dbClient.lPAQuestionnaireSubmission.create({
@@ -72,7 +72,7 @@ class LPAQuestionnaireSubmissionRepository {
 	 *
 	 * @param {*} caseReference
 	 * @param {*} data
-	 * @returns {Promise<Omit<LPAQuestionnaireSubmission, 'SubmissionDocumentUpload' | 'SubmissionNeighbourAddress'>>}
+	 * @returns {Promise<Omit<LPAQuestionnaireSubmission, 'SubmissionDocumentUpload' | 'SubmissionAddress'>>}
 	 */
 	async patchLPAQuestionnaireByAppealId(caseReference, data) {
 		return await this.dbClient.lPAQuestionnaireSubmission.update({
