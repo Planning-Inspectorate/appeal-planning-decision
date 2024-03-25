@@ -10,62 +10,62 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Uploaded planning officer’s report',
 			valueText: formatDocumentDetails(documents, 'planningOfficerReport'),
-			condition: (caseData) => caseData.uploadPlanningOfficerReport
+			condition: () => caseData.uploadPlanningOfficerReport
 		},
 		{
 			keyText: 'Uploaded policies from statutory development plan',
 			valueText: formatDocumentDetails(documents, 'developmentPlanPolicies'),
-			condition: (caseData) => caseData.uploadDevelopmentPlanPolicies
+			condition: () => caseData.uploadDevelopmentPlanPolicies
 		},
 		{
 			keyText: 'Emerging plan',
 			valueText: formatYesOrNo(caseData, 'emergingPlan'),
-			condition: (caseData) => caseData.emergingPlan
+			condition: () => caseData.emergingPlan
 		},
 		{
 			keyText: 'Uploaded emerging plan and supporting information',
 			valueText: formatDocumentDetails(documents, 'emergingPlan'),
-			condition: (caseData) => caseData.uploadEmergingPlan
+			condition: () => caseData.uploadEmergingPlan
 		},
 		{
 			keyText: 'Uploaded other relevant policies',
 			valueText: formatDocumentDetails(documents, 'otherRelevantPolicies'),
-			condition: (caseData) => caseData.uploadOtherPolicies
+			condition: () => caseData.uploadOtherPolicies
 		},
 		{
 			keyText: 'Supplementary planning documents',
 			valueText: formatYesOrNo(caseData, 'supplementaryPlanningDocs'),
-			condition: (caseData) => caseData.supplementaryPlanningDocs
+			condition: () => caseData.supplementaryPlanningDocs
 		},
 		{
 			keyText: 'Uploaded supplementary planning documents',
 			valueText: formatDocumentDetails(documents, 'supplementaryPlanningDocs'),
-			condition: (caseData) => caseData.uploadSupplementaryPlanningDocs
+			condition: () => caseData.uploadSupplementaryPlanningDocs
 		},
 		{
 			keyText: 'Community infrastructure levy',
 			valueText: formatYesOrNo(caseData, 'infrastructureLevy'),
-			condition: (caseData) => caseData.infrastructureLevy
+			condition: () => caseData.infrastructureLevy
 		},
 		{
 			keyText: 'Uploaded community infrastructure levy',
 			valueText: formatDocumentDetails(documents, 'infrastructureLevy'),
-			condition: (caseData) => caseData.uploadInfrastructureLevy
+			condition: () => caseData.uploadInfrastructureLevy
 		},
 		{
 			keyText: 'Community infrastructure levy formally adopted',
 			valueText: formatYesOrNo(caseData, 'infrastructureLevyAdopted'),
-			condition: (caseData) => caseData.infrastructureLevyAdopted
+			condition: () => caseData.infrastructureLevyAdopted
 		},
 		{
 			keyText: 'Date community infrastructure levy adopted',
 			valueText: formatDate(caseData.infrastructureLevyAdoptedDate),
-			condition: (caseData) => caseData.infrastructureLevyAdoptedDate
+			condition: () => caseData.infrastructureLevyAdoptedDate
 		},
 		{
 			keyText: 'Date community infrastructure levy expected to be adopted',
 			valueText: formatDate(caseData.infrastructureLevyExpectedDate),
-			condition: (caseData) => caseData.infrastructureLevyExpectedDate
+			condition: () => caseData.infrastructureLevyExpectedDate
 		}
 	];
 };

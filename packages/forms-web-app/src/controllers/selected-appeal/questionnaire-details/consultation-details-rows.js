@@ -10,27 +10,27 @@ exports.consultationRows = (caseData) => {
 		{
 			keyText: 'Statutory consultees',
 			valueText: formatYesOrNo(caseData, 'statutoryConsultees'),
-			condition: (caseData) => caseData.statutoryConsultees
+			condition: () => caseData.statutoryConsultees
 		},
 		{
 			keyText: 'Responses or standing advice',
 			valueText: formatYesOrNo(caseData, 'consultationResponses'),
-			condition: (caseData) => caseData.consultationResponses
+			condition: () => caseData.consultationResponses
 		},
 		{
 			keyText: 'Uploaded consultation responses and standing advice',
 			valueText: formatDocumentDetails(documents, 'consultationResponses'),
-			condition: (caseData) => caseData.uploadConsultationResponses
+			condition: () => caseData.uploadConsultationResponses
 		},
 		{
 			keyText: 'Representations from other parties',
 			valueText: formatYesOrNo(caseData, 'otherPartyRepresentations'),
-			condition: (caseData) => caseData.otherPartyRepresentations
+			condition: () => caseData.otherPartyRepresentations
 		},
 		{
 			keyText: 'Uploaded representations from other parties',
 			valueText: formatDocumentDetails(documents, 'otherPartyRepresentations'),
-			condition: (caseData) => caseData.uploadRepresentations
+			condition: () => caseData.uploadRepresentations
 		}
 	];
 };

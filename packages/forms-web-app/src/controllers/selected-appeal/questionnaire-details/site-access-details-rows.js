@@ -14,22 +14,22 @@ exports.siteAccessRows = (caseData) => {
 		{
 			keyText: 'Access for inspection',
 			valueText: formatYesOrNo(caseData, 'lpaSiteAccess'),
-			condition: (caseData) => caseData.uploadPlanningOfficerReport
+			condition: () => caseData.uploadPlanningOfficerReport
 		},
 		{
 			keyText: 'Reason for Inspector access',
 			valueText: `${caseData.lpaSiteAccessDetails}`,
-			condition: (caseData) => caseData.lpaSiteAccessDetails
+			condition: () => caseData.lpaSiteAccessDetails
 		},
 		{
 			keyText: 'Inspector visit to neighbour',
 			valueText: formatYesOrNo(caseData, 'neighbouringSiteAccess'),
-			condition: (caseData) => caseData.neighbouringSiteAccess
+			condition: () => caseData.neighbouringSiteAccess
 		},
 		{
 			keyText: 'Reason for Inspector visit',
 			valueText: `${caseData.neighbouringSiteAccessDetails}`,
-			condition: (caseData) => caseData.neighbouringSiteAccessDetails
+			condition: () => caseData.neighbouringSiteAccessDetails
 		}
 	];
 
