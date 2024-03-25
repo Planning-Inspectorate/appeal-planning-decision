@@ -14,14 +14,14 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-full">
-      {% if errorSummary %}
-        {{ govukErrorSummary({
-          titleText: "There is a problem",
-          errorList: errorSummary
-        }) }}
+      		{% if errorSummary %}
+        		{{ govukErrorSummary({
+          			titleText: "There is a problem",
+          			errorList: errorSummary
+        		}) }}
 			{% endif %}
 
-      <span class="govuk-caption-xl">Appeal {{appeal.appealNumber}}</span>
+      		<span class="govuk-caption-xl">Appeal {{appeal.appealNumber}}</span>
 			<h1 class="govuk-heading-xl">{{mainHeading}}</h1>
 
 			{{ govukSummaryList({
@@ -31,69 +31,25 @@
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 
-			<div class="appeal-decision govuk-grid-column-two-thirds">
-				<h2 class="govuk-heading-l">Constraints, designations and other issues</h2>
+			{% set sections = [
+                { title: "Constraints, designations and other issues", details: appeal.constraintsDetails },
+                { title: "Environmental impact assessment", details: appeal.environmentalDetails },
+                { title: "Notifying people about the application", details: appeal.notifiedDetails },
+                { title: "Consultation responses and representations", details: appeal.consultationDetails },
+                { title: "Planning officer’s report and supplementary documents", details: appeal.planningOfficerDetails },
+                { title: "Site access", details: appeal.siteAccessDetails },
+                { title: "Appeal process", details: appeal.appealProcessDetails }
+            ] %}
 
-				{{ govukSummaryList({
-					classes: "questionnaire-details govuk-summary-list long-answers",
-					rows: appeal.constraintsDetails
-				}) }}
-			</div> 
-
-			<div class="appeal-decision govuk-grid-column-two-thirds">
-				<h2 class="govuk-heading-l">Environmental impact assessment</h2>
-
-				{{ govukSummaryList({
-					classes: "questionnaire-details govuk-summary-list long-answers",
-					rows: appeal.environmentalDetails
-				}) }}
-			</div> 
-
-			<div class="appeal-decision govuk-grid-column-two-thirds">
-				<h2 class="govuk-heading-l">Notifying people about the application</h2>
-
-				{{ govukSummaryList({
-					classes: "questionnaire-details govuk-summary-list long-answers",
-					rows: appeal.notifiedDetails
-				}) }}
-			</div>
-
-			<div class="appeal-decision govuk-grid-column-two-thirds">
-				<h2 class="govuk-heading-l">Consultation responses and representations</h2>
-
-				{{ govukSummaryList({
-					classes: "questionnaire-details govuk-summary-list long-answers",
-					rows: appeal.consultationDetails
-				}) }}
-			</div>
-
-			<div class="appeal-decision govuk-grid-column-two-thirds">
-				<h2 class="govuk-heading-l">Planning officer’s report and supplementary documents</h2>
-
-				{{ govukSummaryList({
-					classes: "questionnaire-details govuk-summary-list long-answers",
-					rows: appeal.planningOfficerDetails
-				}) }}
-			</div>
-
-			<div class="appeal-decision govuk-grid-column-two-thirds">
-				<h2 class="govuk-heading-l">Site access</h2>
-
-				{{ govukSummaryList({
-					classes: "questionnaire-details govuk-summary-list long-answers",
-					rows: appeal.siteAccessDetails
-				}) }}
-			</div>
-
-			<div class="appeal-decision govuk-grid-column-two-thirds">
-				<h2 class="govuk-heading-l">Appeal process</h2>
-
-				{{ govukSummaryList({
-					classes: "questionnaire-details govuk-summary-list long-answers",
-					rows: appeal.appealProcessDetails
-				}) }}
-			</div>
-		</div>
-
-	</div>
+            {% for section in sections %}
+                <div class="appeal-decision govuk-grid-column-two-thirds">
+                    <h2 class="govuk-heading-l">{{ section.title }}</h2>
+                    {{ govukSummaryList({
+                        classes: "questionnaire-details govuk-summary-list long-answers",
+                        rows: section.details
+                    }) }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}
