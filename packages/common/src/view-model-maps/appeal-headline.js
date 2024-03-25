@@ -47,7 +47,7 @@ exports.formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_
 			value: { text: caseReference }
 		});
 		headlines.splice(5, 0, {
-			key: { text: 'Local Planning Authority' },
+			key: { text: 'Local planning authority' },
 			value: { text: LPAName }
 		});
 	}

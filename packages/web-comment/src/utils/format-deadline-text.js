@@ -11,9 +11,9 @@ exports.formatDeadlineText = (appeal, status) => {
 
 	switch (status) {
 		case 'open':
-			return `<p>You can comment on this appeal until 11:59pm on ${formattedDeadline}.</p>`;
+			return `You can comment on this appeal until 11:59pm on ${formattedDeadline}.`;
 		case 'closed':
-			return `<p>The deadline for comment was ${formattedDeadline}.</p><p>You cannot add a comment</>`;
+			return `The deadline for comment was ${formattedDeadline}.`;
 		default:
 			return '';
 	}

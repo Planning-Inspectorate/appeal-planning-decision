@@ -90,7 +90,8 @@ const lpaAppealCaseData = [
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
-		statementDueDate: pickRandom(datesNMonthsAhead(1))
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	{
 		Appeal: {
@@ -107,6 +108,7 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
 		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
 		ownsAllLand: true,
 		agriculturalHolding: true,
 		appellantSiteAccess: true,
@@ -134,6 +136,7 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
 		yourFirstName: 'Test',
 		yourLastName: 'Agent',
 		yourCompanyName: 'Test Agency Ltd',
@@ -162,6 +165,7 @@ const lpaAppealCaseData = [
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
 		ownsSomeLand: true,
 		knowsOtherOwners: true,
 		identifiedOwners: true,
@@ -197,7 +201,8 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
-		statementDueDate: pickRandom(datesNMonthsAgo(1))
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	{
 		Appeal: {
@@ -216,7 +221,8 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		appellantStatementSubmitted: pickRandom(datesNMonthsAgo(1))
+		appellantStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	{
 		Appeal: {
@@ -235,7 +241,8 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1))
+		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	{
 		Appeal: {
@@ -254,7 +261,8 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1))
+		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
@@ -276,7 +284,8 @@ const lpaAppealCaseData = [
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		appellantCommentsSubmitted: pickRandom(datesNMonthsAgo(1))
+		appellantCommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
@@ -295,7 +304,8 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1))
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
@@ -314,7 +324,8 @@ const lpaAppealCaseData = [
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
-		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1))
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
@@ -335,7 +346,8 @@ const lpaAppealCaseData = [
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1))
+		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
@@ -358,7 +370,8 @@ const lpaAppealCaseData = [
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED,
-		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
+		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
@@ -381,7 +394,8 @@ const lpaAppealCaseData = [
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		caseDecisionOutcome: DECISION_OUTCOME.DISMISSED,
-		caseDecisionDate: pickRandom(datesNMonthsAgo(1))
+		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
 	},
 	{
 		Appeal: {
@@ -468,7 +482,8 @@ const lpaAppealCaseData = [
 		lpaPreferInquiryDuration: '6',
 		nearbyAppeals: true,
 		newConditions: true,
-		newConditionDetails: 'Example new conditions'
+		newConditionDetails: 'Example new conditions',
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
 	}
 ];
 
