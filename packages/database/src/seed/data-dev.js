@@ -851,7 +851,7 @@ async function seedDev(dbClient) {
 		await dbClient.appellantSubmission.upsert({
 			create: appellantSubmission,
 			update: appellantSubmission,
-			where: { id: appellantSubmission.id }
+			where: { appealId: appellantSubmission.Appeal.connect?.id }
 		});
 	}
 
