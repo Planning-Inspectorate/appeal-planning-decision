@@ -28,7 +28,7 @@ class SubmissionDocumentUploadRepository {
 	 * @returns {Promise<LPAQuestionnaireSubmission>}
 	 */
 	async createSubmissionDocument(caseReference, uploadData) {
-		const { name, fileName, originalFileName, location, type } = uploadData;
+		const { name, fileName, originalFileName, location, type, id } = uploadData;
 
 		return await this.dbClient.lPAQuestionnaireSubmission.update({
 			where: {
@@ -41,7 +41,8 @@ class SubmissionDocumentUploadRepository {
 						fileName,
 						originalFileName,
 						location,
-						type
+						type,
+						storageId: id
 					}
 				}
 			},

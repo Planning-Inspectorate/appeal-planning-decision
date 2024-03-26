@@ -576,6 +576,7 @@ model SubmissionDocumentUpload {
   originalFileName String
   location         String
   type             String
+  storageId        String
 }
 
 model SubmissionAddress {

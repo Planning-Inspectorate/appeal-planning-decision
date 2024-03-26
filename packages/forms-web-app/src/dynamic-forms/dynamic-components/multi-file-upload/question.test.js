@@ -100,7 +100,8 @@ const mockUploadedFile = (
 		},
 		location = 'a/b',
 		size = 200,
-		type = DOCUMENT_TYPE.name
+		type = DOCUMENT_TYPE.name,
+		storageId = 'id-1'
 	} = {
 		id: 'id-1',
 		name: 'test.png',
@@ -111,7 +112,8 @@ const mockUploadedFile = (
 		},
 		location: 'a/b',
 		size: 200,
-		type: DOCUMENT_TYPE.name
+		type: DOCUMENT_TYPE.name,
+		storageId: 'id-1'
 	}
 ) => ({
 	id,
@@ -121,7 +123,8 @@ const mockUploadedFile = (
 	message,
 	location,
 	size,
-	type
+	type,
+	storageId
 });
 
 function getMultiFileUpload(
@@ -234,7 +237,7 @@ describe('MultiFileUploadQuestion', () => {
 			const journey = {
 				response: {
 					journeyId: '654321',
-					referenceId: 'APP/Q9999/W/22/3221288',
+					referenceId: '3221288',
 					answers: {
 						[question.fieldName]: answer.uploadedFiles,
 						SubmissionDocumentUpload: [upload]
@@ -248,7 +251,7 @@ describe('MultiFileUploadQuestion', () => {
 				}
 			};
 
-			const expectedResult = `<a href="/manage-appeals/document/${upload.originalFileName}" class="govuk-link">${upload.originalFileName}</a> </br>`;
+			const expectedResult = `<a href="/manage-appeals/document/${journey.response.journeyId}:${journey.response.referenceId}/${upload.storageId}" class="govuk-link">${upload.originalFileName}</a> </br>`;
 
 			const result = question.formatAnswerForSummary('segment', journey, answer);
 			expect(result[0].value).toEqual(expectedResult);
@@ -279,7 +282,7 @@ describe('MultiFileUploadQuestion', () => {
 				}
 			};
 
-			const url = `<a href="/manage-appeals/document/${upload.originalFileName}" class="govuk-link">${upload.originalFileName}</a> </br>`;
+			const url = `<a href="/manage-appeals/document/${journey.response.journeyId}:${journey.response.referenceId}/${upload.storageId}" class="govuk-link">${upload.originalFileName}</a> </br>`;
 			const expectedResult = url + url;
 
 			const href = 'http://example.com';
