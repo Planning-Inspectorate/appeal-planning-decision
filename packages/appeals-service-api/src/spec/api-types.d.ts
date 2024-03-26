@@ -500,6 +500,15 @@ export interface AppealUser {
 	lpaStatus?: 'added' | 'confirmed' | 'removed';
 }
 
+/** An appellant submission */
+export interface AppellantSubmission {
+	/** @format uuid */
+	id: string;
+	LPACode: string;
+	appealTypeCode: string;
+	appealId: string;
+}
+
 /** A document associated with an appeal */
 export interface Document {
 	/** document ID */

@@ -1,0 +1,85 @@
+paths:
+  /api/v2/appellant-submissions/:
+    put:
+      tags:
+        - appellant submissions
+      description: Create a new appellant submission
+      requestBody:
+        description: appellant submission to create, `id` is not allowed
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppellantSubmission'
+      responses:
+        200:
+          description: Created appellant submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppellantSubmission'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appellant-submissions/{id}:
+    get:
+      tags:
+        - appellant submissions
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: appellant submission guid
+      responses:
+        200:
+          description: The appellant submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppellantSubmission'
+        404:
+          description: Appellant submission not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+    patch:
+      tags:
+        - users
+      description: Update an appeal user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: appellant submission guid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppellantSubmission'
+      responses:
+        200:
+          description: Returns the updated AppellantSubmission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppellantSubmission'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

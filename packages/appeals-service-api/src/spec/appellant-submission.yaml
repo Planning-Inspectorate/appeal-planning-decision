@@ -1,0 +1,21 @@
+components:
+  schemas:
+    AppellantSubmission:
+      description: An appellant submission 
+      type: object
+      required:
+        - id
+        - LPACode
+        - appealTypeCode
+        - appealId
+      properties:
+        id:
+          type: string
+          format: uuid
+        LPACode: 
+          type: string
+        appealTypeCode: 
+          type: string
+        appealId: 
+          type: string
+        
