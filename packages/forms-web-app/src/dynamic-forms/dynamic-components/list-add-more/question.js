@@ -1,5 +1,8 @@
+const { apiClient } = require('#lib/appeals-api-client');
 const Question = require('../../question');
 const AddMoreQuestion = require('../add-more/question');
+const AddressAddMoreQuestion = require('../address-add-more/question');
+const { getAddressesForQuestion } = require('../utils/question-utils');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -103,7 +106,10 @@ class ListAddMoreQuestion extends Question {
 	 * @returns {QuestionViewModel}
 	 */
 	prepQuestionForRendering(section, journey, customViewData) {
-		const answers = journey.response.answers[this.fieldName];
+		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
+		const answers = isAddressQuestion
+			? getAddressesForQuestion(journey.response, this.subQuestion.fieldName)
+			: journey.response.answers[this.fieldName];
 		customViewData = customViewData ?? {};
 		customViewData.width = this.width;
 		// get viewModel for listing component
@@ -121,19 +127,23 @@ class ListAddMoreQuestion extends Question {
 	}
 
 	/**
-	 * returns the formatted answers valuyes to be used to build task list elements
+	 * returns the formatted answers values to be used to build task list elements
 	 * @param {Object} answer
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
 	 * @returns {Array.<Object>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
+		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
 		let rowParams = [];
-		for (let i = 0; i < answer?.length; i++) {
+		const answerArray = isAddressQuestion
+			? getAddressesForQuestion(journey.response, this.subQuestion.fieldName)
+			: answer;
+		for (let i = 0; i < answerArray?.length; i++) {
 			const action = this.getAction(sectionSegment, journey);
 			rowParams.push({
 				key: `${this.subQuestionLabel} ${i + 1}`,
-				value: this.subQuestion.format(answer[i].value),
+				value: this.subQuestion.format(isAddressQuestion ? answerArray[i] : answerArray[i].value),
 				action: action
 			});
 		}
@@ -162,16 +172,18 @@ class ListAddMoreQuestion extends Question {
 	 * @returns {Array.<addMoreAnswer>} list of existing answers to the sub question
 	 */
 	#addListingDataToViewModel(journey, section) {
+		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
 		const addMoreAnswers = [];
-
-		const answers = journey.response.answers[this.fieldName];
+		const answers = isAddressQuestion
+			? journey.response.answers.SubmissionAddress
+			: journey.response.answers[this.fieldName];
 
 		let i = 1;
 		for (const item in answers) {
 			const answer = answers[item];
 			addMoreAnswers.push({
 				label: `${this.subQuestionLabel} ${i}`,
-				answer: this.subQuestion.format(answer.value),
+				answer: this.subQuestion.format(isAddressQuestion ? answer : answer.value),
 				removeLink:
 					journey.getCurrentQuestionUrl(section.segment, this.fieldName) + '/' + answer.addMoreId
 			});
@@ -271,7 +283,25 @@ class ListAddMoreQuestion extends Question {
 		}
 
 		// save
-		const responseToSave = await this.getDataToSave(req, journeyResponse);
+		let responseToSave = await this.getDataToSave(req, journeyResponse);
+		journey.response[this.fieldName] = responseToSave.answers[this.fieldName];
+
+		if (this.subQuestion instanceof AddressAddMoreQuestion) {
+			const addresses = responseToSave.answers[this.fieldName];
+			await Promise.all(
+				addresses.map((address) => {
+					const addressData = address.value;
+					addressData.fieldName = this.subQuestion.fieldName;
+					return apiClient.postSubmissionAddress(journeyResponse.referenceId, addressData);
+				})
+			);
+			responseToSave = {
+				answers: {
+					[this.fieldName]: true
+				}
+			};
+		}
+
 		await this.saveResponseToDB(journey.response, responseToSave);
 
 		// check for saving errors

@@ -1,16 +1,16 @@
-const { createNeighbourAddress } = require('./service');
+const { createAddress } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
 
 /**
  * @type {import('express').RequestHandler}
  */
-async function createSubmissionNeighbourAddress(req, res) {
+async function createSubmissionAddress(req, res) {
 	try {
 		const caseReference = req.params.caseReference;
-		const content = await createNeighbourAddress(caseReference, req.body);
+		const content = await createAddress(caseReference, req.body);
 		if (!content) {
-			throw ApiError.unableToCreateNeighbourAddress();
+			throw ApiError.unableToCreateAddress();
 		}
 		res.status(200).send(content);
 	} catch (error) {
@@ -25,5 +25,5 @@ async function createSubmissionNeighbourAddress(req, res) {
 }
 
 module.exports = {
-	createSubmissionNeighbourAddress
+	createSubmissionAddress
 };

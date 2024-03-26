@@ -5,14 +5,15 @@ const { createPrismaClient } = require('#db-client');
  */
 
 /**
- * @typedef {Object} NeighbourAddressData
+ * @typedef {Object} AddressData
  * @property {string} addressLine1
  * @property {string} addressLine2
  * @property {string} townCity
  * @property {string} postcode
+ * @property {string} fieldName
  */
 
-class SubmissionNeighbourAddressRepository {
+class SubmissionAddressRepository {
 	dbClient;
 
 	constructor() {
@@ -20,26 +21,27 @@ class SubmissionNeighbourAddressRepository {
 	}
 
 	/**
-	 * Create submission neighbour address for a given questionnaire
+	 * Create submission address for a given questionnaire
 	 *
 	 * @param {string} caseReference
-	 * @param {NeighbourAddressData} addressData
+	 * @param {AddressData} addressData
 	 * @returns {Promise<LPAQuestionnaireSubmission>}
 	 */
-	async createNeighbourAddress(caseReference, addressData) {
-		const { addressLine1, addressLine2, townCity, postcode } = addressData;
+	async createAddress(caseReference, addressData) {
+		const { addressLine1, addressLine2, townCity, postcode, fieldName } = addressData;
 
 		return await this.dbClient.lPAQuestionnaireSubmission.update({
 			where: {
 				appealCaseReference: caseReference
 			},
 			data: {
-				SubmissionNeighbourAddress: {
+				SubmissionAddress: {
 					create: {
 						addressLine1,
 						addressLine2,
 						townCity,
-						postcode
+						postcode,
+						fieldName
 					}
 				}
 			},
@@ -50,10 +52,10 @@ class SubmissionNeighbourAddressRepository {
 					}
 				},
 				SubmissionDocumentUpload: true,
-				SubmissionNeighbourAddress: true
+				SubmissionAddress: true
 			}
 		});
 	}
 }
 
-module.exports = { SubmissionNeighbourAddressRepository };
+module.exports = { SubmissionAddressRepository };
