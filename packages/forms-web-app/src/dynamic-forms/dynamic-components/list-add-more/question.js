@@ -213,8 +213,6 @@ class ListAddMoreQuestion extends Question {
 		}
 
 		// get answer to addMore
-		console.log('ohno');
-		console.log(journeyResponse.answers[this.subQuestion.fieldName]);
 		const individual = await this.subQuestion.getDataToSave(req, journeyResponse);
 		responseToSave.answers[this.fieldName].push(individual);
 
@@ -293,7 +291,7 @@ class ListAddMoreQuestion extends Question {
 			await Promise.all(
 				addresses.map((address) => {
 					const addressData = address.value;
-					address.fieldName = this.subQuestion.fieldName;
+					addressData.fieldName = this.subQuestion.fieldName;
 					return apiClient.postSubmissionAddress(journeyResponse.referenceId, addressData);
 				})
 			);

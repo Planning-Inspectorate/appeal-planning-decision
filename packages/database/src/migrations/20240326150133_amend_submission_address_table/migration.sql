@@ -2,6 +2,7 @@
   Warnings:
 
   - You are about to drop the `SubmissionNeighbourAddress` table. If the table is not empty, all the data it contains will be lost.
+  - Added the required column `storageId` to the `SubmissionDocumentUpload` table without a default value. This is not possible if the table is not empty.
 
 */
 BEGIN TRY
@@ -10,6 +11,9 @@ BEGIN TRAN;
 
 -- DropForeignKey
 ALTER TABLE [dbo].[SubmissionNeighbourAddress] DROP CONSTRAINT [SubmissionNeighbourAddress_questionnaireId_fkey];
+
+-- AlterTable
+ALTER TABLE [dbo].[SubmissionDocumentUpload] ADD [storageId] NVARCHAR(1000) NOT NULL;
 
 -- DropTable
 DROP TABLE [dbo].[SubmissionNeighbourAddress];
@@ -22,6 +26,7 @@ CREATE TABLE [dbo].[SubmissionAddress] (
     [addressLine2] NVARCHAR(1000),
     [townCity] NVARCHAR(1000) NOT NULL,
     [postcode] NVARCHAR(1000) NOT NULL,
+    [fieldName] NVARCHAR(1000) NOT NULL,
     CONSTRAINT [SubmissionAddress_pkey] PRIMARY KEY CLUSTERED ([id])
 );
 

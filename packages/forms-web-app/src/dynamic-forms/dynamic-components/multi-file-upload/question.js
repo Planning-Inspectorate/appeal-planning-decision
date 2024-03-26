@@ -166,8 +166,10 @@ class MultiFileUploadQuestion extends Question {
 		if (relevantUploadedFiles.length > 0 && answer) {
 			formattedAnswer = '';
 			for (const item in relevantUploadedFiles) {
+				const documentSubmissionId = this.#generateDocumentSubmissionId(journey.response);
+				const documentId = relevantUploadedFiles[item].storageId;
 				const documentLinkText = relevantUploadedFiles[item].originalFileName;
-				const documentUrl = `/manage-appeals/document/${documentLinkText}`;
+				const documentUrl = `/manage-appeals/document/${documentSubmissionId}/${documentId}`;
 
 				formattedAnswer += `<a href="${documentUrl}" class="govuk-link">${documentLinkText}</a> </br>`;
 			}
