@@ -17,27 +17,27 @@ const appealSubmissionRows = (caseData) => {
 		{
 			keyText: 'Draft statement of common ground',
 			valueText: formatDocumentDetails(documents, 'statementCommonGround'),
-			condition: (caseData) => caseData
+			condition: () => caseData
 		},
 		{
 			keyText: 'Appeal statement',
 			valueText: formatDocumentDetails(documents, 'appellantStatement'),
-			condition: (caseData) => caseData
+			condition: () => caseData
 		},
 		{
 			keyText: 'Plans or drawings',
 			valueText: formatDocumentDetails(documents, 'plansDrawings'),
-			condition: (caseData) => caseData
+			condition: () => caseData
 		},
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, 'planningObligation'),
-			condition: (caseData) => caseData
+			condition: () => caseData
 		},
 		{
 			keyText: 'Supporting documents',
 			valueText: formatDocumentDetails(documents, 'otherNewDocuments'),
-			condition: (caseData) => caseData
+			condition: () => caseData
 		}
 	];
 };
