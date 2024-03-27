@@ -17,27 +17,27 @@ const applicationRows = (caseData) => {
 		{
 			keyText: 'Description of development',
 			valueText: caseData.developmentDescription,
-			condition: (caseData) => caseData.developmentDescription
+			condition: () => caseData.developmentDescription
 		},
 		{
 			keyText: 'Application decision notice',
 			valueText: formatDocumentDetails(documents, 'applicationDecision'),
-			condition: (caseData) => caseData
+			condition: () => caseData
 		},
 		{
 			keyText: 'Application',
 			valueText: formatDocumentDetails(documents, 'originalApplicationForm'),
-			condition: (caseData) => caseData
+			condition: () => caseData
 		},
 		{
 			keyText: 'Plans, drawings and supporting documents',
 			valueText: formatDocumentDetails(documents, 'plansDrawings'),
-			condition: (caseData) => caseData
+			condition: () => caseData
 		},
 		{
 			keyText: 'Design and access statement',
 			valueText: formatDocumentDetails(documents, 'designAccessStatement'),
-			condition: (caseData) => caseData
+			condition: () => caseData
 		}
 	];
 };
