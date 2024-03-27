@@ -106,9 +106,9 @@ class AppealsApiClient {
 	 * @returns {Promise<AppealUser>} - updated user
 	 */
 	async setLPAUserStatus(id, status) {
-		const endpoint = `${v2}/users/${id}/status`;
+		const endpoint = `${v2}/users/${id}`;
 		const response = await this.#makePatchRequest(endpoint, {
-			status: status
+			lpaStatus: status
 		});
 		return response.json();
 	}

@@ -7,7 +7,8 @@ const FLAG = {
 	HORIZON_DOCUMENT_LABELLING: 'horizon-document-labelling',
 	LPA_DASHBOARD: 'lpa-dashboard',
 	SEND_APPEAL_DIRECT_TO_HORIZON_WRAPPER: 'send-appeal-direct-to-horizon-wrapper',
-	SERVE_BO_DOCUMENTS: 'serve-back-office-documents'
+	SERVE_BO_DOCUMENTS: 'serve-back-office-documents',
+	SQL_USERS: 'sql-users'
 };
 
 module.exports = {

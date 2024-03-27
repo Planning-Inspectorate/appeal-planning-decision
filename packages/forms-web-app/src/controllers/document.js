@@ -6,8 +6,6 @@ const {
 	}
 } = require('@pins/business-rules');
 const logger = require('../lib/logger');
-const { isFeatureActive } = require('../featureFlag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 const { getLPAUserFromSession } = require('../services/lpa-user.service');
 
 /**
@@ -34,39 +32,36 @@ const getDocument = async (req, res) => {
 			return await returnResult(headers, body, res);
 		}
 
-		// enrol users feature will check user access via routing middleware
-		if (!(await isFeatureActive(FLAG.ENROL_USERS))) {
-			const sessionAppealId = req?.session?.appeal?.id;
+		const sessionAppealId = req?.session?.appeal?.id;
 
-			if (!sessionAppealId || sessionAppealId !== appealOrQuestionnaireId) {
-				// create save/return entry
-				const tempAppeal = {
-					id: appealOrQuestionnaireId,
-					skipReturnEmail: true
-				};
-				await saveAppeal(tempAppeal); //create save/return
+		if (!sessionAppealId || sessionAppealId !== appealOrQuestionnaireId) {
+			// create save/return entry
+			const tempAppeal = {
+				id: appealOrQuestionnaireId,
+				skipReturnEmail: true
+			};
+			await saveAppeal(tempAppeal); //create save/return
 
-				// remove existing appeal in session
-				if (req?.session?.appeal) {
-					delete req.session.appeal;
-				}
-
-				// lookup appeal to get type - don't trust this as user hasn't proven access to appeal via email yet
-				const appeal = await getExistingAppeal(appealOrQuestionnaireId);
-
-				if (!appeal || !appeal.appealType) {
-					throw new Error('Access denied');
-				}
-
-				const saveAndContinueConfig = appealTypeConfig[
-					appeal.appealType
-				].email.saveAndReturnContinueAppeal(appeal, '', Date.now());
-
-				req.session.loginRedirect = `${req.baseUrl}${req.url}`;
-
-				res.redirect(`${saveAndContinueConfig.variables.link}`);
-				return;
+			// remove existing appeal in session
+			if (req?.session?.appeal) {
+				delete req.session.appeal;
 			}
+
+			// lookup appeal to get type - don't trust this as user hasn't proven access to appeal via email yet
+			const appeal = await getExistingAppeal(appealOrQuestionnaireId);
+
+			if (!appeal || !appeal.appealType) {
+				throw new Error('Access denied');
+			}
+
+			const saveAndContinueConfig = appealTypeConfig[
+				appeal.appealType
+			].email.saveAndReturnContinueAppeal(appeal, '', Date.now());
+
+			req.session.loginRedirect = `${req.baseUrl}${req.url}`;
+
+			res.redirect(`${saveAndContinueConfig.variables.link}`);
+			return;
 		}
 
 		const { headers, body } = await fetchDocument(appealOrQuestionnaireId, documentId);

@@ -160,13 +160,6 @@ describe('controllers/common/enter-code', () => {
 				isFeatureActive.mockResolvedValue(false);
 			});
 
-			it('should not allow general log on', async () => {
-				const returnedFunction = getEnterCode(householderAppealViews, { isGeneralLogin: true });
-				await expect(returnedFunction(req, res)).rejects.toThrow(
-					'unhandled journey for GET: enter-code'
-				);
-			});
-
 			it('should handle confirm email for appeal', async () => {
 				await getConfirmEmailTest(false);
 			});

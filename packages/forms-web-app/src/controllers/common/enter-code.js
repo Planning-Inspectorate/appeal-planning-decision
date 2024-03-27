@@ -76,13 +76,9 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			delete req.session?.enterCode?.newCode;
 		}
 
-		const isEnrolUsersFlagActive = await isFeatureActive(FLAG.ENROL_USERS);
+		const isSqlUsersActive = await isFeatureActive(FLAG.SQL_USERS);
 
 		if (isGeneralLogin) {
-			if (!isEnrolUsersFlagActive) {
-				throw new Error('unhandled journey for GET: enter-code');
-			}
-
 			const email = getSessionEmail(req.session, false);
 
 			try {
@@ -96,7 +92,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 		if (isAppealConfirmation) {
 			try {
-				if (isEnrolUsersFlagActive) {
+				if (isSqlUsersActive) {
 					const email = getSessionEmail(req.session, true);
 					await createOTPGrant(email, action);
 				} else {
@@ -126,7 +122,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 			// attempt to send code email to user, render page on failure
 			try {
-				if (isEnrolUsersFlagActive) {
+				if (isSqlUsersActive) {
 					await createOTPGrant(savedAppeal.email, action);
 				} else {
 					await sendToken(enterCodeId, action);
@@ -183,7 +179,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
 		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
 
-		const enrolUsersFlag = await isFeatureActive(FLAG.ENROL_USERS);
+		const sqlUsersFlag = await isFeatureActive(FLAG.SQL_USERS);
 
 		const sessionEmail = getSessionEmail(req.session, isAppealConfirmation);
 
@@ -193,7 +189,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			sessionEmail,
 			action,
 			req.session?.appeal?.lpaCode,
-			enrolUsersFlag
+			sqlUsersFlag
 		);
 
 		if (tokenValid.tooManyAttempts) {
@@ -208,7 +204,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			return renderError('Enter a correct code');
 		}
 
-		if (enrolUsersFlag) {
+		if (sqlUsersFlag) {
 			// is valid so set user in session
 			createAppealUserSession(
 				req,
@@ -219,15 +215,16 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		}
 
 		if (isGeneralLogin) {
-			if (!enrolUsersFlag) {
+			if (!(await isFeatureActive(FLAG.ENROL_USERS))) {
 				throw new Error('unhandled journey for POST: enter-code');
 			}
+
 			deleteTempSessionValues();
 			return res.redirect(`/${views.YOUR_APPEALS}`);
 		}
 
 		if (isAppealConfirmation) {
-			if (enrolUsersFlag) {
+			if (sqlUsersFlag) {
 				await apiClient.linkUserToV2Appeal(sessionEmail, getSessionAppealSqlId(req.session));
 			}
 

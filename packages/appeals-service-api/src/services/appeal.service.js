@@ -147,7 +147,7 @@ async function updateAppeal(id, appealUpdate) {
 	const updatedAppeal = updatedAppealEntity.value.appeal;
 
 	if (Object.hasOwn(appealUpdate, 'state') || Object.hasOwn(appealUpdate, 'decisionDate')) {
-		if (await isFeatureActive(FLAG.ENROL_USERS)) {
+		if (await isFeatureActive(FLAG.SQL_USERS)) {
 			await appealsSQLRepository.updateAppealByLegacyAppealSubmissionId({
 				legacyAppealSubmissionId: id,
 				legacyAppealSubmissionDecisionDate: appealUpdate.decisionDate,
@@ -195,7 +195,7 @@ async function linkToUser(appeal, appealUpdate) {
 		return;
 	}
 
-	if (!(await isFeatureActive(FLAG.ENROL_USERS))) {
+	if (!(await isFeatureActive(FLAG.SQL_USERS))) {
 		return;
 	}
 
