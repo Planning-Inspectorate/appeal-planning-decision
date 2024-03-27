@@ -10,12 +10,7 @@ const contactDetailsValidation = () => {
 				.shape({
 					name: pinsYup.lazy((name) => {
 						if (name) {
-							return pinsYup
-								.string()
-								.min(2)
-								.max(80)
-								.matches(/^[a-z\-' ]+$/i)
-								.required();
+							return pinsYup.string().min(2).max(80).required();
 						}
 						return pinsYup.string().nullable();
 					}),
@@ -25,11 +20,7 @@ const contactDetailsValidation = () => {
 			appealingOnBehalfOf: pinsYup
 				.object()
 				.shape({
-					name: pinsYup
-						.string()
-						.max(80)
-						.matches(/^[a-z\-' ]*$/i)
-						.nullable(),
+					name: pinsYup.string().max(80).nullable(),
 					companyName: pinsYup.string().nullable()
 				})
 				.noUnknown(true)

@@ -1042,14 +1042,6 @@ describe('schemas/full-appeal/update', () => {
 				});
 
 				describe('contactDetailsSection.contact.name', () => {
-					it('should throw an error when not given a string value', async () => {
-						appeal.contactDetailsSection.contact.name = 123;
-
-						await expect(() => update.validate(appeal, config)).rejects.toThrow(
-							`contactDetailsSection.contact.name must match the following: "/^[a-z\\-' ]+$/i"`
-						);
-					});
-
 					it('should throw an error when given a value with less than 2 characters', async () => {
 						appeal.contactDetailsSection.contact.name = 'a';
 
@@ -1063,14 +1055,6 @@ describe('schemas/full-appeal/update', () => {
 
 						await expect(() => update.validate(appeal, config)).rejects.toThrow(
 							'contactDetailsSection.contact.name must be at most 80 characters'
-						);
-					});
-
-					it('should throw an error when given a value with invalid characters', async () => {
-						appeal.contactDetailsSection.contact.name = '!?<>';
-
-						await expect(() => update.validate(appeal, config)).rejects.toThrow(
-							`contactDetailsSection.contact.name must match the following: "/^[a-z\\-' ]+$/i"`
 						);
 					});
 
@@ -1137,27 +1121,11 @@ describe('schemas/full-appeal/update', () => {
 				});
 
 				describe('contactDetailsSection.appealingOnBehalfOf.name', () => {
-					it('should throw an error when not given a string value', async () => {
-						appeal.contactDetailsSection.appealingOnBehalfOf.name = 123;
-
-						await expect(() => update.validate(appeal, config)).rejects.toThrow(
-							`contactDetailsSection.appealingOnBehalfOf.name must match the following: "/^[a-z\\-' ]*$/i"`
-						);
-					});
-
 					it('should throw an error when given a value with more than 80 characters', async () => {
 						appeal.contactDetailsSection.appealingOnBehalfOf.name = 'a'.repeat(81);
 
 						await expect(() => update.validate(appeal, config)).rejects.toThrow(
 							'contactDetailsSection.appealingOnBehalfOf.name must be at most 80 characters'
-						);
-					});
-
-					it('should throw an error when given a value with invalid characters', async () => {
-						appeal.contactDetailsSection.appealingOnBehalfOf.name = '!?<>';
-
-						await expect(() => update.validate(appeal, config)).rejects.toThrow(
-							`contactDetailsSection.appealingOnBehalfOf.name must match the following: "/^[a-z\\-' ]*$/i"`
 						);
 					});
 

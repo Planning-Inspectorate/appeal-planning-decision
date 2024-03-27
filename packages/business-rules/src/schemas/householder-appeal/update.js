@@ -80,17 +80,8 @@ const update = pinsYup
 			.shape({
 				yourDetails: pinsYup.object().shape({
 					isOriginalApplicant: pinsYup.bool().required(),
-					name: pinsYup
-						.string()
-						.min(2)
-						.max(80)
-						.matches(/^[a-z\-' ]+$/i)
-						.required(),
-					appealingOnBehalfOf: pinsYup
-						.string()
-						.max(80)
-						.matches(/^[a-z\-' ]*$/i)
-						.nullable()
+					name: pinsYup.string().min(2).max(80).required(),
+					appealingOnBehalfOf: pinsYup.string().max(80).nullable()
 				})
 			})
 			.noUnknown(true),

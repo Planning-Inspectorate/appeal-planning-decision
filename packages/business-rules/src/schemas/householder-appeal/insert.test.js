@@ -456,14 +456,6 @@ describe('schemas/householder-appeal/insert', () => {
 		});
 
 		describe('aboutYouSection.yourDetails.name', () => {
-			it('should throw an error when not given a string value', async () => {
-				appeal.aboutYouSection.yourDetails.name = 123;
-
-				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-					`aboutYouSection.yourDetails.name must match the following: "/^[a-z\\-' ]+$/i"`
-				);
-			});
-
 			it('should throw an error when given a value with less than 2 characters', async () => {
 				appeal.aboutYouSection.yourDetails.name = 'a';
 
@@ -480,14 +472,6 @@ describe('schemas/householder-appeal/insert', () => {
 				);
 			});
 
-			it('should throw an error when given a value with invalid characters', async () => {
-				appeal.aboutYouSection.yourDetails.name = '!?<>';
-
-				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-					`aboutYouSection.yourDetails.name must match the following: "/^[a-z\\-' ]+$/i"`
-				);
-			});
-
 			it('should not throw an error when not given a value', async () => {
 				delete appeal.aboutYouSection.yourDetails.name;
 
@@ -497,27 +481,11 @@ describe('schemas/householder-appeal/insert', () => {
 		});
 
 		describe('aboutYouSection.yourDetails.appealingOnBehalfOf', () => {
-			it('should throw an error when not given a string value', async () => {
-				appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = 123;
-
-				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-					`aboutYouSection.yourDetails.appealingOnBehalfOf must match the following: "/^[a-z\\-' ]*$/i"`
-				);
-			});
-
 			it('should throw an error when given a value with more than 80 characters', async () => {
 				appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = 'a'.repeat(81);
 
 				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
 					'aboutYouSection.yourDetails.appealingOnBehalfOf must be at most 80 characters'
-				);
-			});
-
-			it('should throw an error when given a value with invalid characters', async () => {
-				appeal.aboutYouSection.yourDetails.appealingOnBehalfOf = '!?<>';
-
-				await expect(() => insert.validate(appeal, config)).rejects.toThrow(
-					`aboutYouSection.yourDetails.appealingOnBehalfOf must match the following: "/^[a-z\\-' ]*$/i"`
 				);
 			});
 
