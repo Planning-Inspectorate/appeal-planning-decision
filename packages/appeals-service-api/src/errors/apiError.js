@@ -210,6 +210,15 @@ class ApiError {
 	static listedBuildingNotFound(reference) {
 		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });
 	}
+
+	// appellant submission
+	/**
+	 * @param {string} reference
+	 * @returns {ApiError}
+	 */
+	static appellantSubmissionNotFound(reference) {
+		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });
+	}
 }
 
 module.exports = ApiError;
