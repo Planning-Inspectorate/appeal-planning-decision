@@ -1,8 +1,40 @@
 const blobClient = require('#lib/back-office-storage-client');
+const logger = require('#lib/logger');
 const config = require('#config/config');
 const { isFeatureActive } = require('#config/featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const BlobStorageError = require('@pins/common/src/client/blob-storage-error');
+const { canAccessBODocument } = require('./access-rules');
+const { AppealUserRepository } = require('../../../db/repos/repository');
+const repo = new AppealUserRepository();
+
+/**
+ * @param {import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string} }} documentWithAppeal
+ * @param {object} access_token
+ * @param {object} id_token
+ * @param {import('express-oauth2-jwt-bearer').JWTPayload} access_token
+ */
+async function checkDocAccess(documentWithAppeal, access_token, id_token) {
+	let role = null;
+
+	if (access_token.sub === access_token.aud) {
+		role = 'client-credentials';
+	} else if (id_token?.lpaCode === documentWithAppeal.AppealCase.LPACode) {
+		role = LPA_USER_ROLE;
+	} else {
+		const appealUser = await repo.getAppealUser({
+			appealId: documentWithAppeal.AppealCase.appealId,
+			userId: access_token.sub
+		});
+		role = appealUser?.role;
+	}
+
+	return canAccessBODocument({
+		docMetaData: documentWithAppeal,
+		role
+	});
+}
 
 /**
  * @type {import('express').Handler}
@@ -13,15 +45,32 @@ async function getDocumentUrl(req, res) {
 		return;
 	}
 
-	const docName = req.body?.document;
+	const docRef = req.body?.document;
 
-	if (!docName) {
+	if (!docRef) {
 		res.sendStatus(400);
 		return;
 	}
 
+	let documentWithAppeal;
 	try {
-		const sasUrl = await blobClient.getBlobSASUrl(config.boStorage.container, docName);
+		documentWithAppeal = await repo.getDocumentWithAppeal(docRef);
+	} catch (err) {
+		logger.error({ err }, `failed to find doc ${docRef}`);
+		res.sendStatus(404);
+		return;
+	}
+
+	if (!(await checkDocAccess(documentWithAppeal, req.auth.payload, req.id_token))) {
+		res.sendStatus(401);
+		return;
+	}
+
+	try {
+		const sasUrl = await blobClient.getBlobSASUrl(
+			config.boStorage.container,
+			documentWithAppeal.documentURI
+		);
 		res.status(200).send({
 			url: sasUrl
 		});
@@ -34,43 +83,6 @@ async function getDocumentUrl(req, res) {
 	}
 }
 
-/**
- * @type {import('express').Handler}
- */
-async function downloadDocument(req, res) {
-	if (!(await isFeatureActive(FLAG.SERVE_BO_DOCUMENTS))) {
-		res.sendStatus(501);
-		return;
-	}
-
-	// decode base64 encoded string
-	const docName = Buffer.from(req.params.document, 'base64url').toString();
-
-	if (!docName) {
-		res.sendStatus(400);
-		return;
-	}
-
-	try {
-		const blobProperties = await blobClient.getProperties(config.boStorage.container, docName);
-		const blob = await blobClient.downloadBlob(config.boStorage.container, docName);
-
-		res.set({
-			'content-length': blobProperties.contentLength,
-			'content-type': blobProperties.contentType ?? 'application/octet-stream',
-			'content-disposition': `attachment;filename="${docName}"`
-		});
-		blob.readableStreamBody.pipe(res);
-	} catch (error) {
-		if (!(error instanceof BlobStorageError)) {
-			throw error;
-		}
-
-		res.sendStatus(error.code);
-	}
-}
-
 module.exports = {
-	getDocumentUrl,
-	downloadDocument
+	getDocumentUrl
 };

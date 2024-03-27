@@ -19,6 +19,9 @@ module.exports = {
 		baseUrl: process.env.APPEALS_SERVICE_API_URL || `http://localhost:3000`,
 		timeout: numberWithDefault(process.env.APPEALS_SERVICE_API_TIMEOUT, 10000)
 	},
+	auth: {
+		authServerUrl: process.env.AUTH_BASE_URL
+	},
 	server: {
 		host: process.env.HOST_URL || `http://localhost:${httpPort}`, // This is used for the HTML generator
 		port: httpPort,

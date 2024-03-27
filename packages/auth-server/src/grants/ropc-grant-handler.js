@@ -216,9 +216,7 @@ async function createIdToken(ctx, claims) {
 
 		if (id.available) {
 			Object.entries(id.available).forEach(([key, value]) => {
-				if (scopes.includes(key) || key === 'sub') {
-					id.set(key, value);
-				}
+				id.set(key, value);
 			});
 		}
 

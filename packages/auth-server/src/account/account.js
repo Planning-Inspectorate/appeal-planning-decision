@@ -46,10 +46,18 @@ class Account {
 	 * @returns {Promise<import('oidc-provider').UnknownObject>}
 	 */ // eslint-disable-next-line no-unused-vars
 	async claims(use, scope, claims, rejected) {
-		return {
+		const details = {
 			sub: this.accountId, // it is essential to always return a sub claim
 			email: this.user.email
 		};
+
+		if (this.user.isLpaUser) {
+			details.lpaCode = this.user.lpaCode;
+			details.isLpaAdmin = this.user.isLpaAdmin;
+			details.lpaStatus = this.user.lpaStatus;
+		}
+
+		return details;
 
 		// if additional db lookups are required for some scope requests,
 		// can add them here so db call only made when requested

@@ -22,6 +22,11 @@ module.exports = {
 		INTERESTED_PARTY: 'interestedParty',
 		RULE_6_PARTY: 'rule-6-party'
 	},
+	VIRUS_CHECK_STATUSES: {
+		CHECKED: 'checked',
+		NOT_CHECKED: 'not_checked',
+		FAILED: 'failed_virus_check'
+	},
 	/**
 	 * not strictly appeal-user role, there is no link between LPA user and an appeal, it's via the lpa-code on the user and appeal
 	 * @type {LpaUserRole}
@@ -30,6 +35,7 @@ module.exports = {
 	AUTH: {
 		RESOURCE: 'http://appeals-front-office', // represents all appeals apis, single access token shared between all
 		OIDC_ENDPOINT: '/oidc',
+		JWKS_ENDPOINT: '/oidc/jwks',
 		/** @type {import('oidc-provider').ClientAuthMethod} */
 		CLIENT_AUTH_METHOD: 'client_secret_post',
 		SCOPES: {

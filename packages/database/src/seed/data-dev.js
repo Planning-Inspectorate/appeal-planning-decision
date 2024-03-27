@@ -638,62 +638,6 @@ const serviceUsers = [
 ];
 
 /**
- * @type {import('@prisma/client').Prisma.DocumentCreateInput[]}
- */
-const documents = [
-	{
-		id: '0fc15038-7b19-4f36-92aa-bddc611f5bba',
-		filename: 'example.txt',
-		originalFilename: 'example.txt',
-		size: 16,
-		mime: 'text/plain',
-		documentURI: '',
-		dateCreated: new Date(Date.now()),
-		published: true,
-		redacted: true,
-		documentType: 'Planning application form',
-		sourceSystem: 'appeals',
-		origin: 'pins',
-		stage: 'decision',
-		AppealCase: {}
-	},
-	{
-		id: '18d3ced6-c913-4662-ac62-e60ad0e06461',
-		filename: 'example-pub.txt',
-		originalFilename: 'example.txt',
-		size: 16,
-		mime: 'text/plain',
-		documentURI: '',
-		dateCreated: new Date(Date.now()),
-		published: false,
-		redacted: true,
-		documentType: 'Decision notice',
-		sourceSystem: 'appeals',
-		origin: 'pins',
-		stage: 'decision',
-		AppealCase: {}
-	},
-	{
-		id: 'eda2618c-1c29-46e2-a009-fe78eaefe2fc',
-		filename: 'example-redact.txt',
-		originalFilename: 'example.txt',
-		size: 16,
-		mime: 'text/plain',
-		documentURI: '',
-		dateCreated: new Date(Date.now()),
-		published: true,
-		redacted: false,
-		documentType: 'Appeal Statement',
-		sourceSystem: 'appeals',
-		origin: 'pins',
-		stage: 'decision',
-		AppealCase: {}
-	},
-	// NOTE - FOLLOWING DOCUMENTS NOT IN STORAGE, ARE USED TO TEST APPEAL DOCS DISPLAY ONLY
-	...appealDocuments
-];
-
-/**
  * @type {import('@prisma/client').Prisma.NeighbouringAddressCreateInput[]}
  */
 const neighbourAddresses = [
@@ -784,7 +728,7 @@ async function seedDev(dbClient) {
 	}
 
 	for (const caseId of caseIds) {
-		for (const document of documents) {
+		for (const document of appealDocuments) {
 			document.documentURI = `${config.storage.boEndpoint}/${document.filename}`;
 
 			document.AppealCase = {

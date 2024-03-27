@@ -7,10 +7,18 @@
  */
 
 module.exports = {
+	auth: {
+		authServerUrl: process.env.AUTH_BASE_URL
+	},
 	boStorage: {
 		container: process.env.BO_STORAGE_CONTAINER_NAME,
 		host: process.env.BO_STORAGE_CONTAINER_HOST,
 		connectionString: process.env.BO_BLOB_STORAGE_CONNECTION_STRING
+	},
+	db: {
+		sql: {
+			connectionString: process.env.SQL_CONNECTION_STRING
+		}
 	},
 	featureFlagging: {
 		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_ENDPOINT,
@@ -30,7 +38,7 @@ module.exports = {
 	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || /* istanbul ignore next */ 'info',
-		redact: ['config.storage.connectionString']
+		redact: ['config.storage.connectionString', 'config.db.sql.connectionString']
 	},
 	server: {
 		port: Number(process.env.SERVER_PORT || 3000),
