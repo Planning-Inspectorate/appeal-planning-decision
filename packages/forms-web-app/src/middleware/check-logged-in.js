@@ -16,9 +16,7 @@ const {
  * @type {import('express').RequestHandler}
  */
 const checkLoggedIn = async (req, res, next) => {
-	const enrolUsers = await isFeatureActive(FLAG.ENROL_USERS);
-
-	if (!enrolUsers) {
+	if (!(await isFeatureActive(FLAG.SQL_USERS))) {
 		return next();
 	}
 

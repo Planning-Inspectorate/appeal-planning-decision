@@ -132,10 +132,10 @@ const getAuthToken = async (token, emailAddress, action) => {
  * @param {string} [emailAddress] - user's email
  * @param {string} [action] - token action
  * @param {string} [lpaCode] - if provided will be included in isTestScenario check
- * @param {boolean} [enrolUsersFlag]
+ * @param {boolean} [sqlUsersFlag]
  * @returns {Promise<TokenValidResult>}
  */
-const isTokenValid = async (token, id, emailAddress, action, lpaCode, enrolUsersFlag) => {
+const isTokenValid = async (token, id, emailAddress, action, lpaCode, sqlUsersFlag) => {
 	/** @type {TokenValidResult} */
 	let result = {
 		valid: false
@@ -153,7 +153,7 @@ const isTokenValid = async (token, id, emailAddress, action, lpaCode, enrolUsers
 	if (!isNonEmptyString(id) && !isNonEmptyString(emailAddress)) return result;
 
 	// use auth token going forward
-	if (enrolUsersFlag) {
+	if (sqlUsersFlag) {
 		return await getAuthToken(token, emailAddress, action);
 	}
 
