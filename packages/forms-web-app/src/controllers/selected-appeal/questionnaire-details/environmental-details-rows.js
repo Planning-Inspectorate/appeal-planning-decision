@@ -34,6 +34,11 @@ exports.environmentalRows = (caseData) => {
 			condition: () => caseData.columnTwoThreshold
 		},
 		{
+			keyText: 'Uploaded screening direction',
+			valueText: formatDocumentDetails(documents, 'screeningDirection'),
+			condition: () => caseData.uploadScreeningDirection
+		},
+		{
 			keyText: 'Issued screening opinion',
 			valueText: formatYesOrNo(caseData, 'screeningOpinion'),
 			condition: () => caseData.screeningOpinion
@@ -57,11 +62,6 @@ exports.environmentalRows = (caseData) => {
 			keyText: 'Uploaded environmental statement',
 			valueText: formatDocumentDetails(documents, 'environmentalStatement'),
 			condition: () => caseData.uploadEnvironmentalStatement
-		},
-		{
-			keyText: 'Screening direction',
-			valueText: formatDocumentDetails(documents, 'screeningDirection'),
-			condition: () => caseData.uploadScreeningDirection
 		}
 	];
 };

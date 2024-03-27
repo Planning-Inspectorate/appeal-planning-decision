@@ -50,7 +50,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		// headline data
 		const headlineData = formatHeadlineData(caseData, userType);
 		// constraints details
-		const constraintsDetailsRows = constraintsRows(caseData);
+		const constraintsDetailsRows = constraintsRows(caseData, userType);
 		const constraintsDetails = formatQuestionnaireRows(constraintsDetailsRows, caseData);
 		// environmental rows
 		const environmentalDetailsRows = environmentalRows(caseData);
