@@ -1,4 +1,5 @@
 const { formatYesOrNo, formatDesignations, formatDocumentDetails } = require('@pins/common');
+const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
@@ -96,7 +97,7 @@ exports.constraintsRows = (caseData, user) => {
 		}
 	];
 
-	if (user === 'lpa-user') {
+	if (user === LPA_USER_ROLE) {
 		rows.unshift({
 			keyText: 'Is this the correct type of appeal',
 			valueText: formatYesOrNo(caseData, 'correctAppealType'),
