@@ -13,7 +13,7 @@ BEGIN TRAN;
 ALTER TABLE [dbo].[SubmissionNeighbourAddress] DROP CONSTRAINT [SubmissionNeighbourAddress_questionnaireId_fkey];
 
 -- AlterTable
-ALTER TABLE [dbo].[SubmissionDocumentUpload] ADD [storageId] NVARCHAR(1000) NOT NULL;
+ALTER TABLE [dbo].[SubmissionDocumentUpload] ADD [storageId] NVARCHAR(1000) NOT NULL CONSTRAINT [SubmissionDocumentUpload_storageId_df] DEFAULT '';
 
 -- DropTable
 DROP TABLE [dbo].[SubmissionNeighbourAddress];
