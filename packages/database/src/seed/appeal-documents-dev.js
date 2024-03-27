@@ -307,6 +307,22 @@ const appealDocuments = [
 		AppealCase: {}
 	},
 	{
+		id: '4346fcc0-ec18-11ee-86b5-3bd620465af1',
+		filename: 'test-155-York-Rd-press-advert.pdf',
+		originalFilename: 'test-155-York-Rd-press-advert.pdf',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(),
+		published: true,
+		redacted: false,
+		documentType: 'pressAdvert',
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
+	},
+	{
 		id: '13da68dd-6c0c-591f-a183-3fadbbb30c37',
 		filename: 'test-155-York-Rd-representations-2023.pdf',
 		originalFilename: 'test-155-York-Rd-representations-2023.pdf',

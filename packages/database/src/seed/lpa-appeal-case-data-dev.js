@@ -451,6 +451,7 @@ const lpaAppealCaseData = [
 		notificationMethod: 'site-notice letters-or-emails',
 		uploadSiteNotice: true,
 		uploadLettersEmails: true,
+		uploadPressAdvert: true,
 		// consultations
 		statutoryConsultees: false,
 		consultationResponses: false,
