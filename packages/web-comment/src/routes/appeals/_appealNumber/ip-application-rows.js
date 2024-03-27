@@ -15,11 +15,6 @@ const applicationRows = (caseData) => {
 
 	return [
 		{
-			keyText: 'Planning application number',
-			valueText: caseData.LPAApplicationReference,
-			condition: (caseData) => caseData.LPAApplicationReference
-		},
-		{
 			keyText: 'Description of development',
 			valueText: caseData.developmentDescription,
 			condition: (caseData) => caseData.developmentDescription
