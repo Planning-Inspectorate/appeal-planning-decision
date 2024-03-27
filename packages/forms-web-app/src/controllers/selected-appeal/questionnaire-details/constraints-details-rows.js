@@ -1,25 +1,26 @@
 const { formatYesOrNo, formatDesignations, formatDocumentDetails } = require('@pins/common');
 
 /**
+ * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
+ * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
+ */
+
+/**
  * @param {import('appeals-service-api').Api.AppealCaseWithAppellant} caseData
+ * @param {AppealToUserRoles|LpaUserRole|null} user
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
 
-exports.constraintsRows = (caseData) => {
+exports.constraintsRows = (caseData, user) => {
 	const documents = caseData.Documents || [];
-	return [
-		{
-			keyText: 'Is this the correct type of appeal',
-			valueText: formatYesOrNo(caseData, 'correctAppealType'),
-			condition: () => caseData.correctAppealType
-		},
+	const rows = [
 		{
 			keyText: 'Changes a listed building',
 			valueText: formatYesOrNo(caseData, 'changesListedBuilding'),
 			condition: () => caseData.changesListedBuilding
 		},
 		{
-			keyText: 'Listed Building details',
+			keyText: 'Listed building details',
 			valueText: '', // TODO data model will need adjusting for possible multiple buildings
 			condition: () => (caseData.changedListedBuildingNumber ? true : undefined)
 		},
@@ -29,7 +30,7 @@ exports.constraintsRows = (caseData) => {
 			condition: () => caseData.affectsListedBuilding
 		},
 		{
-			keyText: 'Listed Building details',
+			keyText: 'Listed building details',
 			valueText: '', // TODO data model will need adjusting for possible multiple buildings
 			condition: () => (caseData.affectedListedBuildingNumber ? true : undefined)
 		},
@@ -49,7 +50,7 @@ exports.constraintsRows = (caseData) => {
 			condition: () => caseData.uploadConservation
 		},
 		{
-			keyText: 'Protected Species',
+			keyText: 'Protected species',
 			valueText: formatYesOrNo(caseData, 'protectedSpecies'),
 			condition: () => caseData.protectedSpecies
 		},
@@ -94,4 +95,14 @@ exports.constraintsRows = (caseData) => {
 			condition: () => caseData.uploadDefinitiveMapStatement
 		}
 	];
+
+	if (user === 'lpa-user') {
+		rows.unshift({
+			keyText: 'Is this the correct type of appeal',
+			valueText: formatYesOrNo(caseData, 'correctAppealType'),
+			condition: () => caseData.correctAppealType
+		});
+	}
+
+	return rows;
 };
