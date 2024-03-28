@@ -26,6 +26,7 @@
 
     <div class="govuk-grid-column-two-thirds">
       <form method="POST" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
 
         {{ govukInput({
             classes: 'govuk-!-width-two-thirds',

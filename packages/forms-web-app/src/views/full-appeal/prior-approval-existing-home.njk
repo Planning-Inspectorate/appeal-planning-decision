@@ -18,6 +18,7 @@
         }) }}
       {% endif %}
       <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         <span class="govuk-caption-l">Before you start</span>
         {{ govukRadios({
           classes: "govuk-radios",

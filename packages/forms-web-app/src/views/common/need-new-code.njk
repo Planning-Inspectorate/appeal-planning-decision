@@ -12,6 +12,7 @@
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">You need a new code</h1>      
       <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         {{ govukButton({
           text: "Send a new code",
           type: "submit",

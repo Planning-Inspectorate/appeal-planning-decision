@@ -101,6 +101,7 @@ app.use(
 );
 app.use('/assets/govuk/all.js', express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js')));
 app.use(fileUpload({ ...config.fileUpload /*useTempFiles: true*/ }));
+app.use(lusca.csrf()); // must come after fileupload for csrf token to be extracted on a multipart request
 app.use(flashMessageCleanupMiddleware);
 app.use(flashMessageToNunjucks(env));
 app.use(navigationHistoryMiddleware());

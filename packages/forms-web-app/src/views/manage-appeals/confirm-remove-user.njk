@@ -32,6 +32,7 @@
         <p class="govuk-body-l">{{removeUserEmailAddress}}</p>
         <p class="govuk-body">When you remove a user, the email address will not have access to manage appeals and will not receive appeal notifications.</p>
         <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
           {{ govukButton({
             text: "Remove user",
             type: "submit",

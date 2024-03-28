@@ -5,6 +5,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% block content %}
     <form method="post">
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         <div class="govuk-form-group">
             <label class="govuk-label govuk-label--l" for="postcode">Enter a postcode</label>
             {{ govukInput({

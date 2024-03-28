@@ -4,6 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block content %}
     <form method="post">
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         <div class="govuk-form-group">
             <label class="govuk-label govuk-label--l" for="appeal-reference">{{pageHeading}} {{ searchQuery }}</label>
             <p class="govuk-body govuk-label--m"><strong>0 results</strong></p>

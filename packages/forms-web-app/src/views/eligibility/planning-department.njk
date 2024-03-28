@@ -28,6 +28,7 @@
       <p class="govuk-visually-hidden" data-cy="ineligible-departments">{{ ineligibleDepartments }}</p>
 
       <form action="" method="POST" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         <div class="govuk-form-group {{ 'govuk-form-group--error' if errors }}">
           <span class="govuk-caption-l">Before you start</span>
 

@@ -19,6 +19,7 @@
         }) }}
       {% endif %}
       <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         <span class="govuk-caption-l">Tell us how you would prefer us to decide your appeal</span>
         {{ govukTextarea({
           name: "why-hearing",

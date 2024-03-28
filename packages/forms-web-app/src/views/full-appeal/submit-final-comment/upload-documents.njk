@@ -62,6 +62,7 @@
       {% endif %}
 
       <form action="" method="post" novalidate encType="multipart/form-data">
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         <h1 class="govuk-heading-l">Upload your new supporting documents</h1>
        
         {{ mojMultiFileUpload({
