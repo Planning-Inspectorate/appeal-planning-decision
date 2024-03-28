@@ -43,6 +43,7 @@ exports.post = async (req, res) => {
 };
 
 exports.startNew = async (req, res) => {
+	req.session.appeal = undefined;
 	req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.START_NEW;
 	res.redirect(`/${VIEW.BEFORE_YOU_START.LOCAL_PLANNING}`);
 };
