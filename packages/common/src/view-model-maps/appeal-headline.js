@@ -1,11 +1,17 @@
-const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatAddress } = require('../lib/format-address');
 
 /**
- * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
- * @param {import('@pins/common/src/constants').AppealToUserRoles|string|null} userType
+ * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
+ * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
+ * @typedef {import("../client/appeals-api-client").AppealCaseWithAppellant} AppealCaseWithAppellant
  */
-exports.formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_PARTY) => {
+
+/**
+ * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealToUserRoles|LpaUserRole|null} userType
+ */
+const formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_PARTY) => {
 	const {
 		caseReference,
 		LPAName,
@@ -54,3 +60,26 @@ exports.formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_
 
 	return headlines;
 };
+
+/**
+ * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealToUserRoles|LpaUserRole|null} userType
+ */
+const displayHeadlinesByUser = (caseData, userType) => {
+	const {
+		caseReceived,
+		appealValidDate,
+		lpaQuestionnaireSubmittedDate,
+		lpaQuestionnairePublishedDate
+	} = caseData;
+
+	if (userType === APPEAL_USER_ROLES.APPELLANT && caseReceived && lpaQuestionnairePublishedDate) {
+		return formatHeadlineData(caseData, userType);
+	} else if (userType === LPA_USER_ROLE && appealValidDate && lpaQuestionnaireSubmittedDate) {
+		return formatHeadlineData(caseData, userType);
+	} else {
+		return null;
+	}
+};
+
+module.exports = { formatHeadlineData, displayHeadlinesByUser };

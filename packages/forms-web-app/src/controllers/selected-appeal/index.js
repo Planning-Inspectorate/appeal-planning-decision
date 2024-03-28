@@ -1,5 +1,5 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { formatHeadlineData, formatSections, isSection } = require('@pins/common');
+const { formatSections, isSection, displayHeadlinesByUser } = require('@pins/common');
 const { VIEW } = require('../../lib/views');
 const { apiClient } = require('../../lib/appeals-api-client');
 const { determineUser } = require('../../lib/determine-user');
@@ -51,7 +51,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			userId: user.id
 		});
 
-		const headlineData = formatHeadlineData(caseData, userType);
+		const headlineData = displayHeadlinesByUser(caseData, userType);
 
 		const sections = userSectionsDict[userType];
 		if (!isSection(sections)) throw new Error(`No sections configured for user type ${userType}`);
