@@ -4,6 +4,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block content %}
     <form method="post">
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         <div class="govuk-form-group">
             <label class="govuk-label govuk-label--l" for="appeal-reference">Enter the appeal reference</label>
             <p class="govuk-body">Enter the reference number from the local planning authority.</p>

@@ -63,6 +63,7 @@
       {% endif %}
 
       <form action="" method="post" novalidate encType="multipart/form-data">
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         <span class="govuk-caption-l">Your appeal</span>
         <h1 class="govuk-heading-l">
           Any other documents to support your appeal

@@ -19,6 +19,7 @@
         }) }}
       {% endif %}
       <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         {{ govukRadios({
             classes: "govuk-radios",
             idPrefix: "comments-question",

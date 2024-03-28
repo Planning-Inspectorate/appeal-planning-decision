@@ -24,6 +24,7 @@
       <h1 class="govuk-heading-l">Request a new code</h1>
       <p class="govuk-body">Emails sometimes take a few minutes to arrive. If you do not receive the code, you can request a new one.</p>
       <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
          {% call govukFieldset({
           legend: {
             text: "Enter your email address",

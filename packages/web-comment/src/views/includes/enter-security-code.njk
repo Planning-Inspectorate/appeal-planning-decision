@@ -15,6 +15,7 @@
 
 	<div class="govuk-grid-column-two-thirds">
 		<form action="" method="POST" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
 			{{ govukInput({
 					label: {
 						text: "Enter the code we sent to your email address",

@@ -22,6 +22,7 @@
         }) }}
       {% endif %}
       <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         <span class="govuk-caption-l">Tell us about the appeal site</span>
         <h1 data-cy="title" class="govuk-heading-l">{{ heading }}</h1>
         <p class="govuk-body">You must have told all the {{ otherText }}landowners about your appeal.</p>

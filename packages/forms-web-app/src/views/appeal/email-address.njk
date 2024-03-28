@@ -23,6 +23,7 @@ What is the email address you used to save the appeal? - Appeal a planning decis
       {% endif %}
 
       <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         {{ govukInput({
           label: {
             text: "What is the email address you used to save the appeal?",

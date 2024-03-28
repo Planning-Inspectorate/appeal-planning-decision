@@ -23,6 +23,7 @@
       <span class="govuk-caption-l">Before you start</span>
 
       <form action="" method="POST" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
 
         {{ govukDateInput( {
           id: "decision-date",

@@ -23,6 +23,7 @@ Do you want to start a new appeal or return to a saved appeal? - Appeal a planni
       {% endif %}
 
       <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
         {{ govukRadios({
         name: "new-or-saved-appeal",
         fieldset: {
