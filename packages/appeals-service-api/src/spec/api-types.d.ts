@@ -90,6 +90,16 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	questionnaireReceived?: string;
+	/**
+	 * the date LPA's questionnaire was submitted
+	 * @format date-time
+	 */
+	lpaQuestionnaireSubmittedDate?: string;
+	/**
+	 * the date LPA's questionnaire was published
+	 * @format date-time
+	 */
+	lpaQuestionnairePublishedDate?: string;
 	lpaQuestionnairePublished?: boolean;
 	lpaQuestionnaireSubmitted?: boolean;
 	doesAffectAScheduledMonument?: boolean;
@@ -265,6 +275,8 @@ export interface AppealCase {
 	rule6StatementPublished?: boolean;
 	rule6ProofsEvidencePublished?: boolean;
 	interestedPartyCommentsPublished?: boolean;
+	/** whether the appeal was received */
+	caseReceived?: boolean;
 	/**
 	 * the date the appeal was received
 	 * @format date-time

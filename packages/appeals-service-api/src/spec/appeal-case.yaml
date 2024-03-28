@@ -103,6 +103,14 @@ components:
           type: string
           format: date-time
           description: the date LPA's questionnaire was received
+        lpaQuestionnaireSubmittedDate:
+          type: string
+          format: date-time
+          description: the date LPA's questionnaire was submitted
+        lpaQuestionnairePublishedDate:
+          type: string
+          format: date-time
+          description: the date LPA's questionnaire was published
         lpaQuestionnairePublished:
           type: boolean
         lpaQuestionnaireSubmitted:
@@ -372,6 +380,9 @@ components:
           type: boolean
 
         # case dates
+        caseReceived:
+          type: boolean
+          description: whether the appeal was received
         receiptDate:
           type: string
           format: date-time
