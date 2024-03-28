@@ -199,8 +199,10 @@ model AppealCase {
   // LPA questionnaire fields
   //***************************************************************************
 
-  questionnaireDueDate  DateTime?
-  questionnaireReceived DateTime?
+  questionnaireDueDate          DateTime?
+  questionnaireReceived         DateTime?
+  lpaQuestionnaireSubmittedDate DateTime?
+  lpaQuestionnairePublishedDate DateTime?
 
   lpaQuestionnairePublished    Boolean  @default(false)
   lpaQuestionnaireSubmitted    Boolean  @default(false)
@@ -312,6 +314,7 @@ model AppealCase {
   // case dates
   //***************************************************************************
 
+  caseReceived      Boolean?
   casePublished     Boolean   @default(false)
   casePublishedDate DateTime?
 
