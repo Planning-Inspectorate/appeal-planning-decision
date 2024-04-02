@@ -65,21 +65,27 @@ const formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_PA
  * @param {AppealCaseWithAppellant} caseData
  * @param {AppealToUserRoles|LpaUserRole|null} userType
  */
-const displayHeadlinesByUser = (caseData, userType) => {
-	const {
-		caseReceived,
-		appealValidDate,
-		lpaQuestionnaireSubmittedDate,
-		lpaQuestionnairePublishedDate
-	} = caseData;
-
-	if (userType === APPEAL_USER_ROLES.APPELLANT && caseReceived && lpaQuestionnairePublishedDate) {
-		return formatHeadlineData(caseData, userType);
-	} else if (userType === LPA_USER_ROLE && appealValidDate && lpaQuestionnaireSubmittedDate) {
-		return formatHeadlineData(caseData, userType);
-	} else {
-		return null;
+const shouldFormatHeadlines = (
+	{ caseReceived, appealValidDate, lpaQuestionnaireSubmittedDate, lpaQuestionnairePublishedDate },
+	userType
+) => {
+	if (userType === APPEAL_USER_ROLES.APPELLANT) {
+		return caseReceived && lpaQuestionnairePublishedDate;
+	} else if (userType === LPA_USER_ROLE) {
+		return appealValidDate && lpaQuestionnaireSubmittedDate;
 	}
+	return false;
+};
+
+/**
+ * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealToUserRoles|LpaUserRole|null} userType
+ */
+const displayHeadlinesByUser = (caseData, userType) => {
+	if (shouldFormatHeadlines(caseData, userType)) {
+		return formatHeadlineData(caseData, userType);
+	}
+	return null;
 };
 
 module.exports = { formatHeadlineData, displayHeadlinesByUser };
