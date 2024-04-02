@@ -217,7 +217,7 @@ class ApiError {
 	 * @returns {ApiError}
 	 */
 	static appellantSubmissionNotFound(reference) {
-		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });
+		return new ApiError(404, { errors: [`The appellant submission ${reference} was not found`] });
 	}
 }
 

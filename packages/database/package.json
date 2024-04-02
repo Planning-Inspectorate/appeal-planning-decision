@@ -23,13 +23,13 @@
 	"license": "ISC",
 	"dependencies": {
 		"@pins/business-rules": "file:../business-rules",
-		"@pins/common": "file:../common",
-		"@prisma/client": "^5.6.0"
+		"@pins/common": "file:../common"
 	},
 	"devDependencies": {
+		"@prisma/client": "^5.11.0",
 		"eslint": "^8.17.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-jest": "^24.4.0",
-		"prisma": "^5.6.0"
+		"prisma": "^5.11.0"
 	}
 }
