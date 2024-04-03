@@ -505,7 +505,7 @@ export interface AppellantSubmission {
 	/** @format uuid */
 	id: string;
 	LPACode: string;
-	appealTypeCode: string;
+	appealTypeCode: 'HAS' | 'S78';
 	appealId: string;
 }
 
