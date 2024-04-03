@@ -22,7 +22,7 @@ router.use(requireLpaUser);
 // appeals
 router.use(require('./your-appeals'));
 router.use(require('./appeal-details'));
-router.use(require('../../dynamic-forms/route'));
+router.use(require('./questionnaire'));
 router.use(require('./decided-appeals'));
 
 // manage users
