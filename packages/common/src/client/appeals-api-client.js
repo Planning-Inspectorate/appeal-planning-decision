@@ -15,6 +15,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {import('appeals-service-api').Api.AppealCaseWithRule6Parties} AppealCaseWithRule6Parties
  * @typedef {import('appeals-service-api').Api.AppealUser} AppealUser
+ * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  */
 
 /**
@@ -303,6 +304,34 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} id
+	 * @returns {Promise<AppellantSubmission>}
+	 */
+	async getAppellantSubmission(id) {
+		const endpoint = `${v2}/appellant-submissions/${id}`;
+		return (await this.#makeGetRequest(endpoint)).json();
+	}
+
+	/**
+	 * @param {string} id
+	 * @param {AppellantSubmission} data
+	 * @returns {Promise<AppellantSubmission>}
+	 */
+	async updateAppellantSubmission(id, data) {
+		const endpoint = `${v2}/appellant-submissions/${id}`;
+		return (await this.#makePatchRequest(endpoint, data)).json();
+	}
+
+	/**
+	 * @param {Omit<AppellantSubmission, 'id'>} data
+	 * @returns {Promise<AppellantSubmission>}
+	 */
+	async createAppellantSubmission(data) {
+		const endpoint = `${v2}/appellant-submissions`;
+		return (await this.#makePostRequest(endpoint, data)).json();
+	}
+
+	/**
 	 * Handles error responses and timeouts from calls to appeals api
 	 * @param {string} path endpoint to call e.g. /api/v2/users
 	 * @param {'GET'|'POST'|'PUT'|'DELETE'|'PATCH'} [method] - request method, defaults to 'GET'
@@ -405,7 +434,6 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} endpoint
-	 * @param {any} data
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {AppealsApiError|Error}
 	 */

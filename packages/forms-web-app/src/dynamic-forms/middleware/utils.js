@@ -33,7 +33,7 @@ function getAddMoreIfPresent(req, questionObj) {
 
 /**
  * Converts booleans in the LPAQuestionnaireSubmission db model into yes/no strings
- * @param {LPAQuestionnaireSubmission} dbResponse
+ * @param {Record<any, any>} dbResponse
  */
 
 function mapDBResponseToJourneyResponseFormat(dbResponse) {
