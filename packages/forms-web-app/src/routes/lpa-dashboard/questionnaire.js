@@ -1,9 +1,18 @@
 const express = require('express');
-const { list, question, save, remove, submit, submitted } = require('./controller');
-const validate = require('./validator/validator');
-const { validationErrorHandler } = require('./validator/validation-error-handler');
-const getJourneyResponse = require('./middleware/get-journey-response-for-lpa');
-const dynamicReqFilesToReqBodyFiles = require('./middleware/dynamic-req-files-to-req-body-files');
+const {
+	list,
+	question,
+	save,
+	remove,
+	submit,
+	submitted
+} = require('../../dynamic-forms/controller');
+const validate = require('../../dynamic-forms/validator/validator');
+const {
+	validationErrorHandler
+} = require('../../dynamic-forms/validator/validation-error-handler');
+const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-lpa');
+const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 
 const router = express.Router();
 
