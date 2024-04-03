@@ -12,7 +12,9 @@ const { S78Journey } = require('./s78-questionnaire/journey');
  */
 const JOURNEY_TYPES = {
 	HAS_QUESTIONNAIRE: 'has-questionnaire',
-	S78_QUESTIONNAIRE: 's78-questionnaire'
+	S78_QUESTIONNAIRE: 's78-questionnaire',
+	HAS_APPEAL_FORM: 'has-appeal-form',
+	S78_APPEAL_FORM: 's78-appeal-form'
 };
 
 const JOURNEY_TYPES_FORMATTED = {
@@ -25,7 +27,9 @@ const JOURNEY_TYPES_FORMATTED = {
  */
 const JOURNEY_CLASSES = {
 	[JOURNEY_TYPES.HAS_QUESTIONNAIRE]: HasJourney,
-	[JOURNEY_TYPES.S78_QUESTIONNAIRE]: S78Journey
+	[JOURNEY_TYPES.S78_QUESTIONNAIRE]: S78Journey,
+	[JOURNEY_TYPES.HAS_APPEAL_FORM]: '', // TODO: add appeal form journey when created
+	[JOURNEY_TYPES.S78_APPEAL_FORM]: '' // TODO: add appeal form journey when created
 };
 
 /**
