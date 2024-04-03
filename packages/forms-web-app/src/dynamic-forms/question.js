@@ -1,5 +1,6 @@
 const { capitalize } = require('../lib/string-functions');
 const { apiClient } = require('../lib/appeals-api-client');
+const { JOURNEY_TYPES } = require('./journey-factory');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -249,7 +250,15 @@ class Question {
 	 * @param {{ answers: Record<string, unknown> }} responseToSave
 	 */
 	async saveResponseToDB(journeyResponse, responseToSave) {
-		await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);
+		const journeyType = journeyResponse.journeyId;
+
+		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyType)) {
+			await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);
+		} else if (
+			[JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyType)
+		) {
+			// await apiClient.updateAppellantSubmission(journeyResponse.referenceId, responseToSave.answers);
+		}
 	}
 
 	/**
