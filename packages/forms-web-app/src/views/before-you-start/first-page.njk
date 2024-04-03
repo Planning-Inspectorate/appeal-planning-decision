@@ -17,6 +17,7 @@
       <p class="govuk-body">Before you start, we'll check if you can use this service by asking some questions about your appeal.</p>
       <p class="govuk-body">If you cannot use this service, you can still appeal using the existing service.</p>
       <form action="" method="post" novalidate>
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
         {{ govukButton({ text: "Continue", type: submit, attributes: { "data-cy":"start-button"} }) }}
       </form>
     </div>
