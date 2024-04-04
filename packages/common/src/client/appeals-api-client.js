@@ -314,7 +314,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} id
-	 * @param {AppellantSubmission} data
+	 * @param {Object} data
 	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async updateAppellantSubmission(id, data) {
