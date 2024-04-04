@@ -84,7 +84,7 @@ const mockTemplateUrl = 'template.njk';
  * @type {string | number | boolean}
  */
 let mockRef;
-const mockJourneyId = '654321';
+const mockJourneyId = 'has-questionnaire';
 const mockSection = {
 	name: '123',
 	segment: 'segment-1'

@@ -1,4 +1,5 @@
-const { JOURNEY_TYPES, getJourney } = require('./journey-factory');
+const { getJourney } = require('./journey-factory');
+const { JOURNEY_TYPES } = require('./journey-types');
 
 const { HasJourney } = require('./has-questionnaire/journey');
 const { S78Journey } = require('./s78-questionnaire/journey');

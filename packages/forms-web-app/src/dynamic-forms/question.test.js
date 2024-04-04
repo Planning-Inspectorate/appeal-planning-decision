@@ -326,7 +326,7 @@ describe('./src/dynamic-forms/question.js', () => {
 		it('should call patchQuestionResponse with encoded ref', async () => {
 			const journeyResponse = {
 				referenceId: '/-123',
-				journeyId: 'abc',
+				journeyId: 'has-questionnaire',
 				LPACode: LPACode
 			};
 			const responseToSave = { answers: { a: 1 } };
@@ -335,6 +335,22 @@ describe('./src/dynamic-forms/question.js', () => {
 			await question.saveResponseToDB(journeyResponse, responseToSave);
 
 			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('/-123', responseToSave.answers);
+		});
+		it('should call updateAppellantSubmission with encoded ref', async () => {
+			const journeyResponse = {
+				referenceId: '/-123',
+				journeyId: 'has-appeal-form',
+				LPACode: LPACode
+			};
+			const responseToSave = { answers: { a: 1 } };
+
+			const question = getTestQuestion();
+			await question.saveResponseToDB(journeyResponse, responseToSave);
+
+			expect(apiClient.updateAppellantSubmission).toHaveBeenCalledWith(
+				'/-123',
+				responseToSave.answers
+			);
 		});
 	});
 
