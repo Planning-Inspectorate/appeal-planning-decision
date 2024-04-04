@@ -16,6 +16,9 @@ components:
           type: string
         appealTypeCode: 
           type: string
+          enum: 
+           - "HAS"
+           - "S78"
         appealId: 
           type: string
         

@@ -26,7 +26,7 @@ class JourneyResponse {
 	 * creates an instance of a JourneyResponse
 	 * @param {JourneyType} journeyId
 	 * @param {string} referenceId
-	 * @param {Record<string, unknown> | undefined} answers
+	 * @param {Record<string, unknown> | null} answers
 	 * @param {string} lpaCode
 	 */
 	constructor(journeyId, referenceId, answers, lpaCode) {
