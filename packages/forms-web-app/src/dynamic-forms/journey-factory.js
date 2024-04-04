@@ -1,21 +1,11 @@
+const { JOURNEY_TYPES } = require('./journey-types');
 const { HasJourney } = require('./has-questionnaire/journey');
 const { S78Journey } = require('./s78-questionnaire/journey');
 
 /**
  * @typedef {import('./journey').Journey} Journey
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
- * @typedef {string} JourneyType
  */
-
-/**
- * @enum {JourneyType}
- */
-const JOURNEY_TYPES = {
-	HAS_QUESTIONNAIRE: 'has-questionnaire',
-	S78_QUESTIONNAIRE: 's78-questionnaire',
-	HAS_APPEAL_FORM: 'has-appeal-form',
-	S78_APPEAL_FORM: 's78-appeal-form'
-};
 
 const JOURNEY_TYPES_FORMATTED = {
 	HAS: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
@@ -42,11 +32,11 @@ function getJourney(journeyResponse) {
 		throw new Error('invalid journey type');
 	}
 
+	// @ts-ignore remove ignore once HAS_APPEAL_FORM and S78_APPEAL_FORM journeys are added
 	return new JOURNEY_CLASSES[journeyResponse.journeyId](journeyResponse);
 }
 
 module.exports = {
-	JOURNEY_TYPES,
 	JOURNEY_TYPES_FORMATTED,
 	getJourney
 };
