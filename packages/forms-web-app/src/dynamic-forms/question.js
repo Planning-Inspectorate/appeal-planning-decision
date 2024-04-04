@@ -1,6 +1,6 @@
 const { capitalize } = require('../lib/string-functions');
 const { apiClient } = require('../lib/appeals-api-client');
-const { JOURNEY_TYPES } = require('./journey-factory');
+const { JOURNEY_TYPES } = require('./journey-types');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
