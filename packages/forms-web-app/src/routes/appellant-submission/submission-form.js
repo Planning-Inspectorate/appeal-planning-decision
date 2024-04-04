@@ -5,20 +5,17 @@ const {
 	validationErrorHandler
 } = require('../../dynamic-forms/validator/validation-error-handler');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
+const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-appellant');
 
 const router = express.Router();
 
 // question
-router.get(
-	'/appeals/householder/:question',
-	// add new journey response middleware
-	question
-);
+router.get('/appeals/householder/:question', getJourneyResponse, question);
 
 // save
 router.post(
 	'/appeals/householder/:question',
-	// add new journey response middleware
+	getJourneyResponse,
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
 	validationErrorHandler,
@@ -26,8 +23,4 @@ router.post(
 );
 
 // remove answer - only available for some question types
-router.get(
-	'/appeals/householder/:question/:answerId',
-	// add new journey response middleware
-	remove
-);
+router.get('/appeals/householder/:question/:answerId', getJourneyResponse, remove);

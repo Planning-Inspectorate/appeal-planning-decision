@@ -257,7 +257,10 @@ class Question {
 		} else if (
 			[JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyType)
 		) {
-			// await apiClient.updateAppellantSubmission(journeyResponse.referenceId, responseToSave.answers);
+			await apiClient.updateAppellantSubmission(
+				journeyResponse.referenceId,
+				responseToSave.answers
+			);
 		}
 	}
 
