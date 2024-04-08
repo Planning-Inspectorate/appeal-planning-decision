@@ -63,6 +63,7 @@ router.use('/appeal', appeal);
 if (config.dashboardsEnabled) {
 	router.use('/appeals', checkLoggedIn, appeals);
 }
+router.use(require('./appellant-submission/submission-form'));
 
 router.use('/document/:appealOrQuestionnaireId/:documentId', checkLoggedIn, getDocument);
 router.use('/save-and-return', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, save);
