@@ -24,7 +24,7 @@ const createAppealUserSession = (req, access_token, id_token, expiry) => {
 /**
  * retrieves the appealUser from session
  * @param {import('express').Request} req
- * @returns {AppealUserSession} lpa user
+ * @returns {AppealUserSession} appellant user
  */
 const getAppealUserSession = (req) => {
 	return req.session.appealUser;

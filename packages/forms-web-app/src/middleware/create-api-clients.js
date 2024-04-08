@@ -1,0 +1,63 @@
+const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
+const { DocumentsApiClient } = require('@pins/common/src/client/documents-api-client');
+const getAuthClient = require('@pins/common/src/client/auth-client');
+const { AUTH } = require('@pins/common/src/constants');
+
+const { getAppealUserSession } = require('../services/appeal-user.service');
+const { getLPAUserFromSession } = require('../services/lpa-user.service');
+const config = require('../config');
+
+/** @type {import('openid-client').TokenSet} */
+let clientCredentials;
+
+const TEN_MINS_IN_SECONDS = 600;
+
+/**
+ * @returns {Promise<string|undefined>}
+ */
+const getClientCredentials = async () => {
+	if (clientCredentials && clientCredentials.expires_in) {
+		if (clientCredentials.expires_in > TEN_MINS_IN_SECONDS) {
+			return clientCredentials.access_token;
+		}
+	}
+
+	const client = await getAuthClient(
+		config.oauth.baseUrl,
+		config.oauth.clientID,
+		config.oauth.clientSecret
+	);
+
+	clientCredentials = await client.grant({
+		resource: AUTH.RESOURCE,
+		grant_type: AUTH.GRANT_TYPE.CLIENT_CREDENTIALS
+	});
+
+	return clientCredentials.access_token;
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+const createApiClients = async (req, res, next) => {
+	const lpaUser = getLPAUserFromSession(req);
+	const appellantUser = getAppealUserSession(req);
+
+	/** @type {import('@pins/common/src/client/appeals-api-client').AuthTokens} */
+	const auth = {
+		access_token: lpaUser?.access_token ?? appellantUser?.access_token,
+		id_token: lpaUser?.id_token ?? appellantUser?.id_token,
+		client_creds: undefined
+	};
+
+	if (!auth.access_token) {
+		auth.client_creds = await getClientCredentials();
+	}
+
+	req.appealsApiClient = new AppealsApiClient(config.appeals.url, auth, config.appeals.timeout);
+	req.docsApiClient = new DocumentsApiClient(config.documents.url, auth, config.documents.timeout);
+
+	next();
+};
+
+module.exports = createApiClients;
