@@ -702,6 +702,7 @@ const neighbourAddresses = [
  */
 const appellantSubmissions = [
 	{
+		id: 'a99c8871-2a4a-4e9c-85b3-498e39d5fafb',
 		LPACode: 'Q9999',
 		appealTypeCode: 'HAS',
 		Appeal: {
@@ -810,6 +811,7 @@ async function seedDev(dbClient) {
 		});
 	}
 
+	await dbClient.appellantSubmission.deleteMany({});
 	for (const appellantSubmission of appellantSubmissions) {
 		await dbClient.appellantSubmission.upsert({
 			create: appellantSubmission,
