@@ -8,9 +8,14 @@ const { HasAppealFormJourney } = require('./has-appeal-form/journey');
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  */
 
-const JOURNEY_TYPES_FORMATTED = {
+const LPA_JOURNEY_TYPES_FORMATTED = {
 	HAS: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 	S78: JOURNEY_TYPES.S78_QUESTIONNAIRE
+};
+
+const APPELLANT_JOURNEY_TYPES_FORMATTED = {
+	HAS: JOURNEY_TYPES.HAS_APPEAL_FORM,
+	S78: JOURNEY_TYPES.S78_APPEAL_FORM
 };
 
 /**
@@ -38,6 +43,7 @@ function getJourney(journeyResponse) {
 }
 
 module.exports = {
-	JOURNEY_TYPES_FORMATTED,
+	LPA_JOURNEY_TYPES_FORMATTED,
+	APPELLANT_JOURNEY_TYPES_FORMATTED,
 	getJourney
 };

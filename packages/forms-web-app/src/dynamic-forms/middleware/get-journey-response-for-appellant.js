@@ -1,5 +1,5 @@
 const { JourneyResponse } = require('../journey-response');
-const { JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
+const { APPELLANT_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
@@ -34,7 +34,7 @@ module.exports = async (request, response, next) => {
 
 	if (!submission) return response.status(404).render('error/not-found');
 
-	const appealType = JOURNEY_TYPES_FORMATTED[submission.appealTypeCode];
+	const appealType = APPELLANT_JOURNEY_TYPES_FORMATTED[submission.appealTypeCode];
 
 	if (typeof appealType === 'undefined') {
 		throw new Error('appealType is undefined');

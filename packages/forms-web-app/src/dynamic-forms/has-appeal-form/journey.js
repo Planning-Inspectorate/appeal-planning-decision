@@ -22,7 +22,7 @@ class HasAppealFormJourney extends Journey {
 	 */
 	constructor(response) {
 		super(
-			`${baseHASSubmissionUrl}`,
+			`${baseHASSubmissionUrl}?id=${response.referenceId}`,
 			response,
 			hasJourneyTemplate,
 			listingPageViewPath,
