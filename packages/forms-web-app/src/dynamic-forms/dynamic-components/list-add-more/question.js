@@ -174,17 +174,17 @@ class ListAddMoreQuestion extends Question {
 		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
 		const addMoreAnswers = [];
 		const answers = isAddressQuestion
-			? journey.response.answers.SubmissionAddress
+			? getAddressesForQuestion(journey.response, this.subQuestion.fieldName)
 			: journey.response.answers[this.fieldName];
 
 		let i = 1;
 		for (const item in answers) {
 			const answer = answers[item];
+			const answerId = isAddressQuestion ? answer.id : answer.addMoreId;
 			addMoreAnswers.push({
 				label: `${this.subQuestionLabel} ${i}`,
 				answer: this.subQuestion.format(isAddressQuestion ? answer : answer.value),
-				removeLink:
-					journey.getCurrentQuestionUrl(section.segment, this.fieldName) + '/' + answer.addMoreId
+				removeLink: journey.getCurrentQuestionUrl(section.segment, this.fieldName) + '/' + answerId
 			});
 			i++;
 		}
@@ -320,23 +320,31 @@ class ListAddMoreQuestion extends Question {
 	/**
 	 * removes answer with answerId from response if present
 	 * @param {JourneyResponse} journeyResponse
-	 * @param {string} addMoreId
+	 * @param {string} answerId
 	 * @returns {JourneyResponse} updated JourneyResponse
 	 */
-	async removeAction(journeyResponse, addMoreId) {
+	async removeAction(journeyResponse, answerId) {
 		let responseToSave = {
 			answers: {
 				[this.fieldName]: []
 			}
 		};
 
+		console.log('ohoh');
+		console.log(answerId);
+		console.log(journeyResponse.answers);
+
 		if (journeyResponse.answers[this.fieldName]) {
 			responseToSave.answers[this.fieldName] = [...journeyResponse.answers[this.fieldName]];
 		}
 
 		const removeIndex = responseToSave.answers[this.fieldName].findIndex(
-			(answer) => answer.addMoreId === addMoreId
+			(answer) => answer.addMoreId === answerId
 		);
+
+		// if (this.subQuestion instanceof AddressAddMoreQuestion) {
+		// 	await apiClient.
+		// }
 
 		if (removeIndex >= 0) {
 			responseToSave.answers[this.fieldName].splice(removeIndex, 1);
