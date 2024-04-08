@@ -1,0 +1,38 @@
+const { questions } = require('../questions');
+const { Journey } = require('../journey');
+const { Section } = require('../section');
+
+const baseHASSubmissionUrl = '/appeals/householder';
+const hasJourneyTemplate = 'submission-form-template.njk';
+const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
+const journeyTitle = 'Appeal a planning decision';
+
+/**
+ * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ */
+
+/**
+ * A Journey for appellants starting an appeal
+ * @class
+ */
+class HasAppealFormJourney extends Journey {
+	/**
+	 * creates an instance of a HAS Journey
+	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
+	 */
+	constructor(response) {
+		super(
+			`${baseHASSubmissionUrl}`,
+			response,
+			hasJourneyTemplate,
+			listingPageViewPath,
+			journeyTitle
+		);
+
+		this.sections.push(
+			new Section('Land ownership', 'land-ownership').addQuestion(questions.ownsAllLand)
+		);
+	}
+}
+
+module.exports = { HasAppealFormJourney, baseHASSubmissionUrl };
