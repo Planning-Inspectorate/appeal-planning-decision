@@ -24,3 +24,5 @@ router.post(
 
 // remove answer - only available for some question types
 router.get('/appeals/:appealType/:section/:question/:answerId', getJourneyResponse, remove);
+
+module.exports = router;
