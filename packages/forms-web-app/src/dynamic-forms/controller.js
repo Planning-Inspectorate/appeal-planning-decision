@@ -10,7 +10,7 @@ const { apiClient } = require('#lib/appeals-api-client');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
- * @typedef {import('./journey-factory').JourneyType} JourneyType
+ * @typedef {import('./journey-types').JourneyType} JourneyType
  * @typedef {import('./journey').Journey} Journey
  * @typedef {import('./question')} Question
  * @typedef {import('./section').Section} Section
@@ -151,7 +151,7 @@ exports.question = async (req, res) => {
 	const { section, question } = req.params;
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
-
+	console.log('HEELLOO');
 	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 

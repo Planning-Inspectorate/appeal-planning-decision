@@ -10,7 +10,7 @@ const { ApiClientError } = require('@pins/common/src/client/api-client-error.js'
  * @param {unknown} submissionId
  * @returns {submissionId is string}
  */
-const isValidSubmissionId = (submissionId) => !!submissionId && typeof submissionId !== 'string';
+const isValidSubmissionId = (submissionId) => !!submissionId && typeof submissionId === 'string';
 
 /**
  * @type {import('express').Handler}

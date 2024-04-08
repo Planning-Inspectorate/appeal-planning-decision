@@ -1,6 +1,7 @@
 const { JOURNEY_TYPES } = require('./journey-types');
 const { HasJourney } = require('./has-questionnaire/journey');
 const { S78Journey } = require('./s78-questionnaire/journey');
+const { HasAppealFormJourney } = require('./has-appeal-form/journey');
 
 /**
  * @typedef {import('./journey').Journey} Journey
@@ -18,7 +19,7 @@ const JOURNEY_TYPES_FORMATTED = {
 const JOURNEY_CLASSES = {
 	[JOURNEY_TYPES.HAS_QUESTIONNAIRE]: HasJourney,
 	[JOURNEY_TYPES.S78_QUESTIONNAIRE]: S78Journey,
-	[JOURNEY_TYPES.HAS_APPEAL_FORM]: '', // TODO: add appeal form journey when created
+	[JOURNEY_TYPES.HAS_APPEAL_FORM]: HasAppealFormJourney,
 	[JOURNEY_TYPES.S78_APPEAL_FORM]: '' // TODO: add appeal form journey when created
 };
 
