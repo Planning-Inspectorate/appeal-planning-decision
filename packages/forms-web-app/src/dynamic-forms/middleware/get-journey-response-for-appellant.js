@@ -1,7 +1,6 @@
 const { JourneyResponse } = require('../journey-response');
 const { JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
-const { apiClient } = require('#lib/appeals-api-client');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 
@@ -24,7 +23,7 @@ module.exports = async (request, response, next) => {
 
 	let submission;
 	try {
-		submission = await apiClient.getAppellantSubmission(submissionId);
+		submission = await request.appealsApiClient.getAppellantSubmission(submissionId);
 	} catch (error) {
 		if (error instanceof ApiClientError && error.code === 404) {
 			return response.status(404).render('error/not-found');
