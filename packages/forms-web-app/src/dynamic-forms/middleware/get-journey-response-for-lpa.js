@@ -1,5 +1,5 @@
 const { JourneyResponse } = require('../journey-response');
-const { JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
+const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
 const { getLPAUserFromSession } = require('../../services/lpa-user.service');
 const { apiClient } = require('#lib/appeals-api-client');
@@ -20,7 +20,7 @@ module.exports = () => async (req, res, next) => {
 		role: LPA_USER_ROLE
 	});
 
-	const appealType = JOURNEY_TYPES_FORMATTED[appeal.appealTypeCode];
+	const appealType = LPA_JOURNEY_TYPES_FORMATTED[appeal.appealTypeCode];
 
 	if (typeof appealType === 'undefined') {
 		throw new Error('appealType is undefined');

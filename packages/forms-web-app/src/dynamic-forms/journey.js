@@ -44,21 +44,12 @@ class Journey {
 			throw new Error("Abstract classes can't be instantiated.");
 		}
 
-		/**
-		 * trim the final slash off of a string
-		 * @param {string} urlPath
-		 * @returns {string} returns a string without a trailing slash
-		 */
-		function trimTrailingSlash(urlPath) {
-			return urlPath.endsWith('/') ? urlPath.slice(0, -1) : urlPath;
-		}
-
 		if (baseUrl !== undefined && typeof baseUrl !== 'string') {
 			throw new Error('baseUrl should be a string.');
 		}
 
 		if (baseUrl) {
-			this.baseUrl = trimTrailingSlash(baseUrl);
+			this.baseUrl = this.#trimTrailingSlash(baseUrl);
 		}
 
 		if (!journeyTemplate || typeof journeyTemplate !== 'string') {
@@ -80,13 +71,33 @@ class Journey {
 	}
 
 	/**
+	 * trim the final slash off of a string
+	 * @param {string} urlPath
+	 * @returns {string} returns a string without a trailing slash
+	 */
+	#trimTrailingSlash(urlPath) {
+		return urlPath.endsWith('/') ? urlPath.slice(0, -1) : urlPath;
+	}
+
+	/**
+	 * @param {string} originalUrl
+	 * @param {string} pathToPrepend
+	 * @returns {string}
+	 */
+	#prependPathToUrl(originalUrl, pathToPrepend) {
+		const urlObject = new URL(originalUrl, 'http://example.com'); // requires a base url, not returned
+		urlObject.pathname = this.#trimTrailingSlash(urlObject.pathname) + '/' + pathToPrepend;
+		return urlObject.pathname + urlObject.search;
+	}
+
+	/**
 	 * utility function to build up a url to a question
 	 * @param {string} sectionSegment url param for a section
 	 * @param {string} questionSegment url param for a question
 	 * @returns {string} url for a question
 	 */
 	#buildQuestionUrl(sectionSegment, questionSegment) {
-		return `${this.baseUrl}/${sectionSegment}/${questionSegment}`;
+		return this.#prependPathToUrl(this.baseUrl, `${sectionSegment}/${questionSegment}`);
 	}
 
 	/**

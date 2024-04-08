@@ -80,7 +80,9 @@ function buildSectionRowViewModel(key, value, action) {
  */
 exports.list = async (req, res) => {
 	//render check your answers view
-	const { referenceId } = req.params;
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	const referenceId = res.locals.journeyResponse.referenceId;
 
 	const user = getLPAUserFromSession(req);
 	const encodedReferenceId = encodeURIComponent(referenceId);
@@ -89,9 +91,6 @@ exports.list = async (req, res) => {
 		userId: user.id,
 		role: LPA_USER_ROLE
 	});
-
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
 
 	const summaryListData = {
 		sections: [],
@@ -232,9 +231,9 @@ exports.remove = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.submit = async (req, res) => {
-	const { referenceId } = req.params;
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
+	const referenceId = res.locals.journeyResponse.referenceId;
 
 	const journeyUrl = (journeyId) => {
 		if (journeyId === 'has-questionnaire') {
