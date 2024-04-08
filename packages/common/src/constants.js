@@ -58,7 +58,8 @@ module.exports = {
 		},
 		GRANT_TYPE: {
 			OTP: 'otp', // one time password grant
-			ROPC: 'ropc' // resource owner password grant
+			ROPC: 'ropc', // resource owner password grant
+			CLIENT_CREDENTIALS: 'client_credentials' // client credentials grant
 		}
 	}
 };

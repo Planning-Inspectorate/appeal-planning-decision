@@ -18,7 +18,7 @@ class TestApiClient extends AppealsApiClient {
 	 * @param {number} [timeout] - timeout in ms defaults to 1000 (ms)
 	 */
 	constructor(baseUrl, timeout) {
-		super(baseUrl, timeout);
+		super(baseUrl, undefined, timeout);
 	}
 
 	/**
@@ -65,6 +65,7 @@ describe('appeals-api-client', () => {
 				await new Promise((resolve) => setTimeout(resolve, 50));
 			});
 			const testClient = new TestApiClient(TEST_BASEURL, 1);
+
 			await expect(testClient.makeTestRequest('/test')).rejects.toThrow(
 				'The operation was aborted. '
 			);

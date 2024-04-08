@@ -19,20 +19,27 @@ const trailingSlashRegex = /\/$/;
  */
 
 /**
+ * @typedef {{access_token: string|undefined, id_token: string|undefined, client_creds: string|undefined}} AuthTokens
+ */
+
+/**
  * @class Api Client for v2 urls in appeals-service-api
  */
 class AppealsApiClient {
 	/**
 	 * @param {string} baseUrl - e.g. https://example.com
+	 * @param {AuthTokens} [tokens]
 	 * @param {number} [timeout] - timeout in ms defaults to 1000 (ms)
 	 */
-	constructor(baseUrl, timeout = 1000) {
+	constructor(baseUrl, tokens, timeout = 1000) {
 		if (!baseUrl) {
 			throw new Error('baseUrl is required');
 		}
 
 		/** @type {string} */
 		this.baseUrl = baseUrl.replace(trailingSlashRegex, '');
+		/** @type {AuthTokens|undefined} */
+		this.tokens = tokens;
 		/** @type {number} */
 		this.timeout = timeout;
 		/** @type {string} */
@@ -335,12 +342,17 @@ class AppealsApiClient {
 	 * Handles error responses and timeouts from calls to appeals api
 	 * @param {string} path endpoint to call e.g. /api/v2/users
 	 * @param {'GET'|'POST'|'PUT'|'DELETE'|'PATCH'} [method] - request method, defaults to 'GET'
-	 * @param {object} [opts] - options to pass to fetch can include request body
-	 * @param {object} [headers] - headers to add to request
+	 * @param {import('node-fetch').RequestInit} [opts] - options to pass to fetch can include request body
+	 * @param {import('node-fetch').HeadersInit} [headers] - headers to add to request
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {ApiClientError|Error}
 	 */
 	async handler(path, method = 'GET', opts = {}, headers = {}) {
+		//todo: can we reuse this handler
+
+		headers = this.#addAuthHeaders({
+			...headers
+		});
 		const correlationId = crypto.randomUUID();
 		const url = `${this.baseUrl}${path}`;
 
@@ -385,6 +397,24 @@ class AppealsApiClient {
 		}
 
 		return await handleApiErrors(response, logger, this.name);
+	}
+
+	/**
+	 * @param {import('node-fetch').HeadersInit} headers - headers to add to request
+	 * @returns {import('node-fetch').HeadersInit}
+	 */
+	#addAuthHeaders(headers) {
+		if (this.tokens?.access_token) {
+			headers['Authorization'] = 'Bearer ' + this.tokens.access_token;
+		} else if (this.tokens?.client_creds) {
+			headers['Authorization'] = 'Bearer ' + this.tokens.client_creds;
+		}
+
+		if (this.tokens?.id_token) {
+			headers['Authentication'] = this.tokens.id_token;
+		}
+
+		return headers;
 	}
 
 	/**

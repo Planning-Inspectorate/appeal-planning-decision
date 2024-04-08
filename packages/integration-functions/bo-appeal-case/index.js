@@ -14,6 +14,6 @@ module.exports = async function (context, msg) {
 	if (config.API.HOSTNAME === undefined) {
 		throw new Error('process.env.FO_APPEALS_API_HOSTNAME not set');
 	}
-	const client = new AppealsApiClient(config.API.HOSTNAME, config.API.TIMEOUT);
+	const client = new AppealsApiClient(config.API.HOSTNAME, undefined, config.API.TIMEOUT);
 	await client.putAppealCase(msg); // API will validate the message and throw if there is an error
 };

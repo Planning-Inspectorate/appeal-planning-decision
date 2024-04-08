@@ -25,6 +25,9 @@ const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadl
 const checkAppealExists = require('#middleware/check-appeal-exists');
 const checkDebugAllowed = require('#middleware/check-debug-allowed');
 const checkLoggedIn = require('#middleware/check-logged-in');
+const createApiClients = require('#middleware/create-api-clients');
+
+router.use(createApiClients);
 
 /// LPA ///
 if (config.dashboardsEnabled) {
