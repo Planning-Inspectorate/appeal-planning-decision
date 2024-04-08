@@ -1139,10 +1139,20 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if the applicant submitted an environmental statement')
 		]
-	})
+	}),
 	// rightOfWayUpload: new MultiFileUploadQuestion({
 	// 	title: 'Definitive map and statement extract',
 	// 	question: 'Upload the definitive map and statement extract',
 	// 	fieldName: 'right-of-way-upload'
 	// }),
+	ownsAllLand: new BooleanQuestion({
+		title: 'Do you own all the land involved in the appeal?',
+		question: 'Do you own all the land involved in the appeal?',
+		// fieldName: 'screening-opinion',
+		fieldName: 'ownsAllLand',
+		url: 'owns-all-land',
+		validators: [
+			new RequiredValidator('Select yes if you own all of the land involved in the appeal')
+		]
+	})
 };
