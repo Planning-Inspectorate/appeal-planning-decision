@@ -10,11 +10,11 @@ const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-r
 const router = express.Router();
 
 // question
-router.get('/appeals/:appealType/:section/:question', getJourneyResponse, question);
+router.get('/:section/:question', getJourneyResponse, question);
 
 // save
 router.post(
-	'/appeals/:appealType/:section/:question',
+	'/:section/:question',
 	getJourneyResponse,
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
@@ -23,6 +23,6 @@ router.post(
 );
 
 // remove answer - only available for some question types
-router.get('/appeals/:appealType/:section/:question/:answerId', getJourneyResponse, remove);
+router.get('/:section/:question/:answerId', getJourneyResponse, remove);
 
 module.exports = router;
