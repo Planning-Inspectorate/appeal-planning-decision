@@ -4,7 +4,7 @@ const { Section } = require('../section');
 
 const baseHASSubmissionUrl = '/appeals/householder';
 const hasJourneyTemplate = 'submission-form-template.njk';
-const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
+const listingPageViewPath = 'dynamic-components/task-list/submission'; // Page does not exist yet
 const journeyTitle = 'Appeal a planning decision';
 
 /**
@@ -30,7 +30,7 @@ class HasAppealFormJourney extends Journey {
 		);
 
 		this.sections.push(
-			new Section('Land ownership', 'land-ownership').addQuestion(questions.ownsAllLand)
+			new Section('Site details', 'site-details').addQuestion(questions.ownsAllLand)
 		);
 	}
 }
