@@ -476,6 +476,8 @@ model AppellantSubmission {
   appealTypeCode String // type shortcode such as HAS or S78
   appealId       String @unique @db.UniqueIdentifier
   Appeal         Appeal @relation(fields: [appealId], references: [id])
+
+  ownsAllLand String?
 }
 
 /// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser

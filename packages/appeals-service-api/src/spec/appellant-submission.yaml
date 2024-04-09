@@ -21,4 +21,6 @@ components:
            - "S78"
         appealId: 
           type: string
+        ownsAllLand:
+          type: string
         
