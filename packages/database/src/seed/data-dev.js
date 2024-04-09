@@ -811,7 +811,6 @@ async function seedDev(dbClient) {
 		});
 	}
 
-	await dbClient.appellantSubmission.deleteMany({});
 	for (const appellantSubmission of appellantSubmissions) {
 		await dbClient.appellantSubmission.upsert({
 			create: appellantSubmission,

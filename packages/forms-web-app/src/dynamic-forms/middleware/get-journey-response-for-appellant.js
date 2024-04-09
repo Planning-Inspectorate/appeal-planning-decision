@@ -47,7 +47,7 @@ module.exports = async (request, response, next) => {
 		convertedResponse,
 		submission.LPACode
 	);
-	console.log('INSIDE', submission);
+
 	response.locals.journeyResponse = journeyResponse;
 
 	return next();

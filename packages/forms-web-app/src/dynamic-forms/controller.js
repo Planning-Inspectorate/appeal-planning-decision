@@ -150,7 +150,7 @@ exports.question = async (req, res) => {
 	const { section, question } = req.params;
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
-	console.log('HEELLOO');
+
 	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
