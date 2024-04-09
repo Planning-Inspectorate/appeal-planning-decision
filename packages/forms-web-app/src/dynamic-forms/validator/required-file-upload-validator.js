@@ -31,7 +31,10 @@ class RequiredFileUploadValidator extends BaseValidator {
 	 */
 	validate(questionObj, journeyResponse) {
 		const path = questionObj.fieldName;
-		return checkSchema(requiredFileUploadSchema(path, journeyResponse, this.errorMessage))[0];
+		const documentType = questionObj.documentType.name;
+		return checkSchema(
+			requiredFileUploadSchema(path, journeyResponse, documentType, this.errorMessage)
+		)[0];
 	}
 }
 

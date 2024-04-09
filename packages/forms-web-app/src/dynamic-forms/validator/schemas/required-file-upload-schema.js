@@ -1,11 +1,15 @@
-const schema = (path, journeyResponse, errorMsg = 'Select a file to upload') => ({
+const schema = (path, journeyResponse, documentType, errorMsg = 'Select a file to upload') => ({
 	[path]: {
 		custom: {
 			options: async (value, { req }) => {
 				if (!req.files) {
-					const uploadedFiles = journeyResponse.answers[path]?.uploadedFiles;
+					const uploadedFiles = journeyResponse.answers.SubmissionDocumentUpload || [];
 
-					if (uploadedFiles) {
+					const relevantUploadedFiles = uploadedFiles.filter(
+						(upload) => upload.type === documentType
+					);
+
+					if (relevantUploadedFiles) {
 						//at this stage, uploadedFiles will still contain any files flagged for removal
 						//so we need to disregard them when checking uploadedFiles
 						let removedFiles = [];
@@ -14,7 +18,7 @@ const schema = (path, journeyResponse, errorMsg = 'Select a file to upload') => 
 							removedFiles = JSON.parse(req.body.removedFiles) || [];
 						}
 
-						if (uploadedFiles.length - removedFiles.length < 1) {
+						if (relevantUploadedFiles.length - removedFiles.length < 1) {
 							throw new Error(errorMsg);
 						}
 
