@@ -87,7 +87,12 @@ class Journey {
 	#prependPathToUrl(originalUrl, pathToPrepend) {
 		const urlObject = new URL(originalUrl, 'http://example.com'); // requires a base url, not returned
 		urlObject.pathname = this.#trimTrailingSlash(urlObject.pathname) + '/' + pathToPrepend;
-		return urlObject.pathname + urlObject.search;
+
+		let relativeUrl = urlObject.pathname + urlObject.search;
+
+		if (!originalUrl.startsWith('/')) relativeUrl = relativeUrl.substring(1);
+
+		return relativeUrl;
 	}
 
 	/**

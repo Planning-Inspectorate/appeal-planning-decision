@@ -205,6 +205,7 @@ describe('dynamic-form/controller', () => {
 	let req;
 	beforeEach(() => {
 		jest.resetAllMocks();
+		res.locals.journeyResponse = {};
 		mockJourney = new TestJourney(mockResponse);
 		const lpaUser = {
 			lpaCode: 'E9999'
@@ -218,7 +219,7 @@ describe('dynamic-form/controller', () => {
 
 	describe('list', () => {
 		it('should render the view correctly', async () => {
-			req.params.referenceId = mockRef;
+			res.locals.journeyResponse.referenceId = mockRef;
 			const appeal = { a: 1, caseReference: 2 };
 
 			apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(appeal));
@@ -237,7 +238,7 @@ describe('dynamic-form/controller', () => {
 		});
 
 		it('should format answer summary including conditional answer', async () => {
-			req.params.referenceId = mockRef;
+			res.locals.journeyResponse.referenceId = mockRef;
 			const appeal = { a: 1, caseReference: 2 };
 
 			apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(appeal));
