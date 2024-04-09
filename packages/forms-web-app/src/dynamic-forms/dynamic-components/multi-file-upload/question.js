@@ -222,16 +222,22 @@ class MultiFileUploadQuestion extends Question {
 		let failedRemovedFiles = [];
 		if ('removedFiles' in body) {
 			const removedFiles = JSON.parse(body.removedFiles);
+			const uploadedFiles = journeyResponse.answers.SubmissionDocumentUpload || [];
 
-			journeyResponse.answers[this.fieldName].uploadedFiles = await removeFiles(
-				journeyResponse.answers[this.fieldName].uploadedFiles,
+			const relevantUploadedFiles = uploadedFiles.filter(
+				(upload) => upload.type === this.documentType.name
+			);
+
+			const remainingUploadedFiles = await removeFiles(
+				relevantUploadedFiles,
 				removedFiles,
+				journeyResponse.referenceId,
 				`${journeyResponse.journeyId}:${encodedReferenceId}`
 			);
 
 			// get a list of files that failed to be removed
 			// and ensure the failedToRemove property is not stored to the database
-			for (const remainingFile of journeyResponse.answers[this.fieldName].uploadedFiles) {
+			for (const remainingFile of remainingUploadedFiles) {
 				if (remainingFile.failedToRemove) {
 					failedRemovedFiles.push(remainingFile);
 					delete remainingFile.failedToRemove;

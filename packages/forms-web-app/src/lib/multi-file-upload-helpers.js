@@ -1,4 +1,5 @@
 const { removeDocument } = require('../lib/documents-api-wrapper');
+const { apiClient } = require('./appeals-api-client');
 const logger = require('./logger');
 
 /**
@@ -33,24 +34,27 @@ const getValidFiles = (errors, files) => {
 
 /**
  * Removes files from the array and optionally blob storage
- * @param {Array.<{ id: string, originalFileName: string }>} files - all of the current files
- * @param {Array.<{ name: string }>} removedFiles - the files selected to be removed
+ * @param {Array.<{ storageId: string, originalFileName: string, id: string }>} files - all of the current files
+ * @param {Array.<{ name: string }>} removedFiles - the files selected to be removed,
+ * @param {string} caseReference
  * @param {string} [baseLocation] - if set this will attempt to remove the file id from blob storage in the location baseLocation/file.id
+ *
  * @returns {Promise.<Array.<Object>>} the remaining files after removal, if a file failed to be removed a property is added {failedToRemove: true}
  */
-const removeFiles = async (files, removedFiles, baseLocation) => {
+const removeFiles = async (files, removedFiles, caseReference, baseLocation) => {
 	const remainingFiles = [];
 	const removePromises = [];
 
 	for (const file of files) {
+		console.log(file);
 		const isBeingRemoved = removedFiles.some(
 			(removeFile) => removeFile.name === file.originalFileName
 		);
 
 		if (isBeingRemoved) {
 			if (baseLocation) {
-				const removePromise = removeDocument(baseLocation, file.id)
-					.then()
+				const removePromise = removeDocument(baseLocation, file.storageId)
+					.then(async () => await apiClient.deleteSubmissionDocumentUpload(caseReference, file.id))
 					.catch((error) => {
 						logger.error(error);
 						remainingFiles.push({ ...file, failedToRemove: true });
