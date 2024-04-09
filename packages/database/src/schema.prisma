@@ -470,6 +470,7 @@ model ServiceUser {
   caseReference   String
 }
 
+/// AppellantSubmission represents an appeal submitted by an appellant
 model AppellantSubmission {
   id             String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
   LPACode        String
@@ -477,7 +478,55 @@ model AppellantSubmission {
   appealId       String @unique @db.UniqueIdentifier
   Appeal         Appeal @relation(fields: [appealId], references: [id])
 
-  ownsAllLand String?
+  // state
+  caseTermsAccepted     Boolean? /// set when user clicks submit
+  submittedToBackOffice Boolean? /// set when added to the message queue
+
+  // dates
+  onApplicationDate DateTime?
+
+  // boolean
+  ownsAllLand                  Boolean?
+  ownsSomeLand                 Boolean?
+  knowsAllOwners               Boolean?
+  knowsOtherOwners             Boolean?
+  informedOwners               Boolean?
+  advertisedAppeal             Boolean?
+  appellantGreenBelt           Boolean?
+  updateDevelopmentDescription Boolean?
+  identifiedOwners             Boolean?
+
+  // boolean text
+  appellantSiteSafety                            String?
+  appellantSiteSafety_appellantSiteSafetyDetails String?
+  appellantSiteAccess                            String?
+  appellantSiteAccess_appellantSiteAccessDetails String?
+
+  // plain text
+  applicationReference           String?
+  developmentDescriptionOriginal String?
+  appellantLinkedCaseReference   String?
+  appellantPhoneNumber           String?
+
+  // number entries
+  siteAreaSquareMetres Int?
+
+  // Linked cases
+  appellantLinkedCaseAdd Boolean?
+  appellantLinkedCase    Boolean?
+  SubmissionLinkedCase   SubmissionLinkedCase[]
+
+  // file uploads
+  uploadOriginalApplicationForm   Boolean?
+  uploadApplicationDecisionLetter Boolean?
+  uploadAppellantStatement        Boolean?
+  costApplication                 Boolean?
+  uploadCostApplication           Boolean?
+  SubmissionDocumentUpload        SubmissionDocumentUpload[]
+
+  // addresses
+  siteAddress       Boolean?
+  SubmissionAddress SubmissionAddress[]
 }
 
 /// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser
@@ -573,8 +622,11 @@ model LPAQuestionnaireSubmission {
 model SubmissionDocumentUpload {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
-  questionnaireId            String                     @db.UniqueIdentifier
-  LPAQuestionnaireSubmission LPAQuestionnaireSubmission @relation(fields: [questionnaireId], references: [id])
+  questionnaireId            String?                     @db.UniqueIdentifier
+  LPAQuestionnaireSubmission LPAQuestionnaireSubmission? @relation(fields: [questionnaireId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  appellantSubmissionId String?              @db.UniqueIdentifier
+  AppellantSubmission   AppellantSubmission? @relation(fields: [appellantSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   name             String
   fileName         String
@@ -587,13 +639,28 @@ model SubmissionDocumentUpload {
 model SubmissionAddress {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
-  questionnaireId            String                     @db.UniqueIdentifier
-  LPAQuestionnaireSubmission LPAQuestionnaireSubmission @relation(fields: [questionnaireId], references: [id])
+  questionnaireId            String?                     @db.UniqueIdentifier
+  LPAQuestionnaireSubmission LPAQuestionnaireSubmission? @relation(fields: [questionnaireId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  appellantSubmissionId String?              @db.UniqueIdentifier
+  AppellantSubmission   AppellantSubmission? @relation(fields: [appellantSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   addressLine1 String
   addressLine2 String?
   townCity     String
   postcode     String
+
+  // the fieldName of the questionnaire question / subquestion - required for display filtering
+  fieldName String
+}
+
+model SubmissionLinkedCase {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  appellantSubmissionId String?              @db.UniqueIdentifier
+  AppellantSubmission   AppellantSubmission? @relation(fields: [appellantSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  caseReference String
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
   fieldName String
