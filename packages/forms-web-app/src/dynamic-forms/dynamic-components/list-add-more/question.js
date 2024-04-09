@@ -330,10 +330,6 @@ class ListAddMoreQuestion extends Question {
 			}
 		};
 
-		console.log('ohoh');
-		console.log(answerId);
-		console.log(journeyResponse.answers);
-
 		if (journeyResponse.answers[this.fieldName]) {
 			responseToSave.answers[this.fieldName] = [...journeyResponse.answers[this.fieldName]];
 		}
@@ -341,10 +337,6 @@ class ListAddMoreQuestion extends Question {
 		const removeIndex = responseToSave.answers[this.fieldName].findIndex(
 			(answer) => answer.addMoreId === answerId
 		);
-
-		// if (this.subQuestion instanceof AddressAddMoreQuestion) {
-		// 	await apiClient.
-		// }
 
 		if (removeIndex >= 0) {
 			responseToSave.answers[this.fieldName].splice(removeIndex, 1);
