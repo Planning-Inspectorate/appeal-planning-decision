@@ -194,6 +194,12 @@ class ApiError {
 		});
 	}
 
+	static unableToDeleteDocumentUpload() {
+		return new ApiError(400, {
+			errors: ['Unable to delete document upload']
+		});
+	}
+
 	static unableToGetAddresses() {
 		return new ApiError(404, {
 			errors: ['Unable to get SubmissionAddress entries']

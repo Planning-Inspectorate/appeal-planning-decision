@@ -24,6 +24,24 @@ async function createSubmissionDocument(caseReference, uploadData) {
 	return updatedQuestionnaire;
 }
 
+/**
+ * Delete a SubmissionDocumentUpload entry
+ *
+ * @param {string} caseReference
+ * @param {string} documentId
+ * @return {Promise<LPAQuestionnaireSubmission|null>}
+ */
+async function deleteSubmissionDocument(caseReference, documentId) {
+	const updatedQuestionnaire = repo.deleteSubmissionDocument(caseReference, documentId);
+
+	if (!updatedQuestionnaire) {
+		return null;
+	}
+
+	return updatedQuestionnaire;
+}
+
 module.exports = {
-	createSubmissionDocument
+	createSubmissionDocument,
+	deleteSubmissionDocument
 };

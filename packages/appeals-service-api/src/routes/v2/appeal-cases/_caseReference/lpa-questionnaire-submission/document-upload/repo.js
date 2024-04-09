@@ -57,6 +57,37 @@ class SubmissionDocumentUploadRepository {
 			}
 		});
 	}
+
+	/**
+	 * Delete submission document
+	 *
+	 * @param {string} caseReference
+	 * @param {string} documentId
+	 * @returns {Promise<LPAQuestionnaireSubmission>}
+	 */
+	async deleteSubmissionDocument(caseReference, documentId) {
+		return await this.dbClient.lPAQuestionnaireSubmission.update({
+			where: {
+				appealCaseReference: caseReference
+			},
+			data: {
+				SubmissionDocumentUpload: {
+					delete: {
+						id: documentId
+					}
+				}
+			},
+			include: {
+				AppealCase: {
+					select: {
+						LPACode: true
+					}
+				},
+				SubmissionDocumentUpload: true,
+				SubmissionAddress: true
+			}
+		});
+	}
 }
 
 module.exports = { SubmissionDocumentUploadRepository };
