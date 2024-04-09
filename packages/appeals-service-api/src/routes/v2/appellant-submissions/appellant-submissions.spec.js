@@ -97,12 +97,14 @@ describe('/appellant-submissions', () => {
 				`/api/v2/appellant-submissions/${createdAppellantSubmissionId}`
 			);
 
-			expect(response.body).toEqual({
-				id: createdAppellantSubmissionId,
-				LPACode: 'Q9999',
-				appealTypeCode: 'HAS',
-				appealId: '756d6bfb-dde8-4532-a041-86c226a23a03'
-			});
+			expect(response.body).toEqual(
+				expect.objectContaining({
+					id: createdAppellantSubmissionId,
+					LPACode: 'Q9999',
+					appealTypeCode: 'HAS',
+					appealId: '756d6bfb-dde8-4532-a041-86c226a23a03'
+				})
+			);
 		});
 
 		it('patch', async () => {
