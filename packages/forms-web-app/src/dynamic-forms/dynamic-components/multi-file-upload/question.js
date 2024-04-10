@@ -4,7 +4,6 @@ const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/docume
 const {
 	utils: { conjoinedPromises }
 } = require('@pins/common');
-const { apiClient } = require('../../../lib/appeals-api-client');
 
 const Question = require('../../question');
 
@@ -100,8 +99,8 @@ class MultiFileUploadQuestion extends Question {
 
 	/**
 	 * Save the answer to the question
-	 * @param {ExpressRequest} req
-	 * @param {ExpressResponse} res
+	 * @param {import('express').Request} req
+	 * @param {import('express').Response} res
 	 * @param {Journey} journey
 	 * @param {Section} section
 	 * @param {JourneyResponse} journeyResponse
@@ -122,7 +121,7 @@ class MultiFileUploadQuestion extends Question {
 					...file,
 					type: this.documentType.name
 				};
-				return apiClient.postSubmissionDocumentUpload(journeyResponse.referenceId, data);
+				return req.appealsApiClient.postSubmissionDocumentUpload(journeyResponse.referenceId, data);
 			})
 		);
 		const responseToSave = {
@@ -130,7 +129,7 @@ class MultiFileUploadQuestion extends Question {
 				[this.fieldName]: true
 			}
 		};
-		await this.saveResponseToDB(journey.response, responseToSave);
+		await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
 
 		// check for saving errors
 		const saveViewModel = this.checkForSavingErrors(req, section, journey);
@@ -199,7 +198,7 @@ class MultiFileUploadQuestion extends Question {
 	/**
 	 * returns the data to send to the DB
 	 * side effect: modifies journeyResponse with the new answers
-	 * @param {ExpressRequest} req
+	 * @param {import('express').Request} req
 	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
 	 * @returns {Promise.<Object>}
 	 */

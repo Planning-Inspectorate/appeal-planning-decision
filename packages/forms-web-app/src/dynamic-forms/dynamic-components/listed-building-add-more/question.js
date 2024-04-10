@@ -17,7 +17,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 
 	/**
 	 * adds a uuid to save the listed building
-	 * @param {ExpressRequest} req
+	 * @param {import('express').Request} req
 	 * @returns
 	 */
 	async getDataToSave(req) {

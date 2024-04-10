@@ -3,11 +3,6 @@ components:
     AppellantSubmission:
       description: An appellant submission
       type: object
-      required:
-        - id
-        - LPACode
-        - appealTypeCode
-        - appealId
       properties:
         id:
           type: string
