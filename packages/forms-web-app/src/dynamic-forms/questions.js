@@ -1148,11 +1148,19 @@ exports.questions = {
 	ownsAllLand: new BooleanQuestion({
 		title: 'Do you own all the land involved in the appeal?',
 		question: 'Do you own all the land involved in the appeal?',
-		// fieldName: 'screening-opinion',
 		fieldName: 'ownsAllLand',
 		url: 'owns-all-land',
 		validators: [
 			new RequiredValidator('Select yes if you own all of the land involved in the appeal')
+		]
+	}),
+	ownsSomeLand: new BooleanQuestion({
+		title: 'Do you own some of the land involved in the appeal?',
+		question: 'Do you own some of the land involved in the appeal?',
+		fieldName: 'ownsSomeLand',
+		url: 'own-some-land',
+		validators: [
+			new RequiredValidator(' Select yes if you own some of the land involved in the appeal')
 		]
 	})
 };

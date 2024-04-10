@@ -30,7 +30,12 @@ class HasAppealFormJourney extends Journey {
 		);
 
 		this.sections.push(
-			new Section('Site details', 'site-details').addQuestion(questions.ownsAllLand)
+			new Section('Site details', 'site-details')
+				.addQuestion(questions.ownsAllLand)
+				.addQuestion(questions.ownsSomeLand)
+			// .withCondition(
+			// 	response.answers && response.answers[questions.ownsAllLand.fieldName] == 'no'
+			// )
 		);
 	}
 }
