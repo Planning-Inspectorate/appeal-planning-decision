@@ -1,7 +1,7 @@
 components:
   schemas:
     AppellantSubmission:
-      description: An appellant submission 
+      description: An appellant submission
       type: object
       required:
         - id
@@ -12,15 +12,67 @@ components:
         id:
           type: string
           format: uuid
-        LPACode: 
+        LPACode:
           type: string
-        appealTypeCode: 
+        appealTypeCode:
           type: string
-          enum: 
-           - "HAS"
-           - "S78"
-        appealId: 
+          enum:
+            - 'HAS'
+            - 'S78'
+        appealId:
           type: string
+        caseTermsAccepted:
+          type: boolean
+        submittedToBackOffice:
+          type: boolean
+        onApplicationDate:
+          type: string
+          format: date-time
         ownsAllLand:
+          type: boolean
+        ownsSomeLand:
+          type: boolean
+        knowsAllOwners:
+          type: boolean
+        knowsOtherOwners:
+          type: boolean
+        informedOwners:
+          type: boolean
+        advertisedAppeal:
+          type: boolean
+        appellantGreenBelt:
+          type: boolean
+        updateDevelopmentDescription:
+          type: boolean
+        identifiedOwners:
+          type: boolean
+        appellantSiteSafety:
+          type: boolean
+        appellantSiteSafetyDetails:
           type: string
-        
+        appellantSiteAccess:
+          type: boolean
+        appellantSiteAccessDetails:
+          type: string
+        applicationReference:
+          type: string
+        developmentDescriptionOriginal:
+          type: string
+        appellantLinkedCaseReference:
+          type: string
+        appellantPhoneNumber:
+          type: string
+        siteAreaSquareMetres:
+          type: integer
+        uploadOriginalApplicationForm:
+          type: boolean
+        uploadApplicationDecisionLetter:
+          type: boolean
+        uploadAppellantStatement:
+          type: boolean
+        costApplication:
+          type: boolean
+        uploadCostApplication:
+          type: boolean
+        siteAddress:
+          type: boolean
