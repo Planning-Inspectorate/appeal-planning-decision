@@ -33,9 +33,9 @@ class HasAppealFormJourney extends Journey {
 			new Section('Site details', 'site-details')
 				.addQuestion(questions.ownsAllLand)
 				.addQuestion(questions.ownsSomeLand)
-			// .withCondition(
-			// 	response.answers && response.answers[questions.ownsAllLand.fieldName] == 'no'
-			// )
+				.withCondition(
+					response.answers && response.answers[questions.ownsAllLand.fieldName] == 'no'
+				)
 		);
 	}
 }
