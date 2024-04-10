@@ -507,6 +507,34 @@ export interface AppellantSubmission {
 	LPACode: string;
 	appealTypeCode: 'HAS' | 'S78';
 	appealId: string;
+	caseTermsAccepted?: boolean;
+	submittedToBackOffice?: boolean;
+	/** @format date-time */
+	onApplicationDate?: string;
+	ownsAllLand?: boolean;
+	ownsSomeLand?: boolean;
+	knowsAllOwners?: boolean;
+	knowsOtherOwners?: boolean;
+	informedOwners?: boolean;
+	advertisedAppeal?: boolean;
+	appellantGreenBelt?: boolean;
+	updateDevelopmentDescription?: boolean;
+	identifiedOwners?: boolean;
+	appellantSiteSafety?: boolean;
+	appellantSiteSafetyDetails?: string;
+	appellantSiteAccess?: boolean;
+	appellantSiteAccessDetails?: string;
+	applicationReference?: string;
+	developmentDescriptionOriginal?: string;
+	appellantLinkedCaseReference?: string;
+	appellantPhoneNumber?: string;
+	siteAreaSquareMetres?: number;
+	uploadOriginalApplicationForm?: boolean;
+	uploadApplicationDecisionLetter?: boolean;
+	uploadAppellantStatement?: boolean;
+	costApplication?: boolean;
+	uploadCostApplication?: boolean;
+	siteAddress?: boolean;
 }
 
 /** A document associated with an appeal */
