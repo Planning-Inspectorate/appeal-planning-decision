@@ -1,4 +1,4 @@
-const { removeFiles, getValidFiles } = require('../../../lib/multi-file-upload-helpers');
+const { removeLPAQFiles, getValidFiles } = require('../../../lib/multi-file-upload-helpers');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
 const {
@@ -219,42 +219,28 @@ class MultiFileUploadQuestion extends Question {
 		}
 
 		// remove files from response
-		let failedRemovedFiles = [];
 		if ('removedFiles' in body) {
 			const removedFiles = JSON.parse(body.removedFiles);
-			const uploadedFiles = journeyResponse.answers.SubmissionDocumentUpload || [];
+			const currentUploadedFiles = journeyResponse.answers.SubmissionDocumentUpload || [];
 
-			const relevantUploadedFiles = uploadedFiles.filter(
-				(upload) => upload.type === this.documentType.name
-			);
-
-			const remainingUploadedFiles = await removeFiles(
-				relevantUploadedFiles,
+			const failedRemovedFiles = await removeLPAQFiles(
+				currentUploadedFiles,
 				removedFiles,
 				journeyResponse.referenceId,
 				`${journeyResponse.journeyId}:${encodedReferenceId}`
 			);
 
-			// get a list of files that failed to be removed
-			// and ensure the failedToRemove property is not stored to the database
-			for (const remainingFile of remainingUploadedFiles) {
-				if (remainingFile.failedToRemove) {
-					failedRemovedFiles.push(remainingFile);
-					delete remainingFile.failedToRemove;
-				}
+			// adds validation errors to be checked after
+			for (const { storageId, originalFileName } of failedRemovedFiles) {
+				const errorMsg = `Failed to remove file: ${originalFileName}`;
+				errors[storageId] = {
+					value: { name: originalFileName },
+					msg: errorMsg
+				};
+				errorSummary.push({
+					text: errorMsg
+				});
 			}
-		}
-
-		// adds validation errors to be checked after
-		for (const failedFile of failedRemovedFiles) {
-			const errorMsg = `Failed to remove file: ${failedFile.originalFileName}`;
-			errors[failedFile.id] = {
-				value: { name: failedFile.originalFileName },
-				msg: errorMsg
-			};
-			errorSummary.push({
-				text: errorMsg
-			});
 		}
 
 		// save valid files to blob storage

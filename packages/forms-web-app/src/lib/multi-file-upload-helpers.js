@@ -36,25 +36,23 @@ const getValidFiles = (errors, files) => {
  * Removes files from the array and optionally blob storage
  * @param {Array.<{ storageId: string, originalFileName: string, id: string }>} files - all of the current files
  * @param {Array.<{ name: string }>} removedFiles - the files selected to be removed,
- * @param {string} caseReference
  * @param {string} [baseLocation] - if set this will attempt to remove the file id from blob storage in the location baseLocation/file.id
  *
  * @returns {Promise.<Array.<Object>>} the remaining files after removal, if a file failed to be removed a property is added {failedToRemove: true}
  */
-const removeFiles = async (files, removedFiles, caseReference, baseLocation) => {
+const removeFiles = async (files, removedFiles, baseLocation) => {
 	const remainingFiles = [];
 	const removePromises = [];
 
 	for (const file of files) {
-		console.log(file);
 		const isBeingRemoved = removedFiles.some(
 			(removeFile) => removeFile.name === file.originalFileName
 		);
 
 		if (isBeingRemoved) {
 			if (baseLocation) {
-				const removePromise = removeDocument(baseLocation, file.storageId)
-					.then(async () => await apiClient.deleteSubmissionDocumentUpload(caseReference, file.id))
+				const removePromise = removeDocument(baseLocation, file.id)
+					.then()
 					.catch((error) => {
 						logger.error(error);
 						remainingFiles.push({ ...file, failedToRemove: true });
@@ -72,7 +70,46 @@ const removeFiles = async (files, removedFiles, caseReference, baseLocation) => 
 	return remainingFiles;
 };
 
+/**
+ * Removes files from the array and optionally blob storage
+ * @param {Array.<{ storageId: string, originalFileName: string, id: string }>} files - all of the current files
+ * @param {Array.<{ name: string }>} removedFiles - the files selected to be removed,
+ * @param {string} caseReference
+ * @param {string} baseLocation - if set this will attempt to remove the file id from blob storage in the location baseLocation/file.id
+ *
+ * @returns {Promise.<Array<{storageId: string, originalFileName: string}>>} the remaining files after removal, if a file failed to be removed a property is added {failedToRemove: true}
+ */
+const removeLPAQFiles = async (files, removedFiles, caseReference, baseLocation) => {
+	/** @type {{storageId: string, originalFileName: string}[]} */
+	const failedRemovals = [];
+	const promises = removedFiles.map(
+		({ name: removedFileName }) =>
+			new Promise((resolve, reject) => {
+				const fileDetails = files.find((file) => removedFileName === file.originalFileName);
+				if (!fileDetails) return reject('Removed file not found in uploaded files');
+				const { storageId, id, originalFileName } = fileDetails;
+				removeDocument(baseLocation, storageId)
+					.then(
+						() => apiClient.deleteSubmissionDocumentUpload(caseReference, id),
+						(error) => {
+							failedRemovals.push({ storageId, originalFileName });
+							reject(error);
+						}
+					)
+					.then(resolve, (error) => {
+						failedRemovals.push({ storageId, originalFileName });
+						reject(error);
+					});
+			})
+	);
+
+	await Promise.allSettled(promises);
+
+	return failedRemovals;
+};
+
 module.exports = {
 	getValidFiles,
-	removeFiles
+	removeFiles,
+	removeLPAQFiles
 };
