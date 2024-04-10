@@ -5,6 +5,7 @@ const { SECTION_STATUS } = require('../../section');
 const { Journey } = require('../../journey');
 
 jest.mock('../../../lib/appeals-api-wrapper');
+jest.mock('../../../lib/appeals-api-client');
 jest.mock('../../../lib/documents-api-wrapper', () => ({
 	...jest.requireActual('../../../lib/documents-api-wrapper'),
 	removeDocument: jest.fn(async () => {}),
@@ -517,6 +518,9 @@ describe('MultiFileUploadQuestion', () => {
 					files: true
 				}
 			);
+			expect(res.redirect).toHaveBeenCalledWith(
+				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
+			);
 		});
 
 		it('can remove files', async () => {
@@ -543,6 +547,9 @@ describe('MultiFileUploadQuestion', () => {
 			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockRef, {
 				files: true
 			});
+			expect(res.redirect).toHaveBeenCalledWith(
+				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
+			);
 		});
 
 		it('handles failures when removing files', async () => {
