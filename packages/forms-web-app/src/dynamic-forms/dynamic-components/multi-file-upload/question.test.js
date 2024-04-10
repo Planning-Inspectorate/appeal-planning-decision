@@ -488,11 +488,12 @@ describe('MultiFileUploadQuestion', () => {
 			const fileUploaded = {
 				name: 'test.png'
 			};
+			const upload = mockUploadedFile();
 			req.files = {
 				[FIELDNAME]: [fileUploaded]
 			};
 			req.body = {
-				removedFiles: JSON.stringify([{ name: mockUploadedFile().name }])
+				removedFiles: JSON.stringify([{ name: upload.name }])
 			};
 
 			const multiFileQuestion = getMultiFileUpload();
@@ -501,7 +502,7 @@ describe('MultiFileUploadQuestion', () => {
 				referenceId: mockRef,
 				journeyId: mockJourneyId,
 				answers: {
-					[FIELDNAME]: { uploadedFiles: [mockUploadedFile()] }
+					SubmissionDocumentUpload: [upload]
 				}
 			};
 
@@ -522,10 +523,10 @@ describe('MultiFileUploadQuestion', () => {
 		});
 
 		it('can remove files', async () => {
+			const upload = mockUploadedFile();
 			req.body = {
-				removedFiles: JSON.stringify([{ name: mockUploadedFile().name }])
+				removedFiles: JSON.stringify([{ name: upload.name }])
 			};
-			const remainingFile = { ...mockUploadedFile(), originalFileName: 'different.png' };
 
 			const multiFileQuestion = getMultiFileUpload();
 
@@ -533,9 +534,7 @@ describe('MultiFileUploadQuestion', () => {
 				referenceId: mockRef,
 				journeyId: mockJourneyId,
 				answers: {
-					[FIELDNAME]: {
-						uploadedFiles: [mockUploadedFile(), remainingFile]
-					}
+					SubmissionDocumentUpload: [upload]
 				}
 			};
 
@@ -553,10 +552,10 @@ describe('MultiFileUploadQuestion', () => {
 		});
 
 		it('handles failures when removing files', async () => {
+			const upload = mockUploadedFile();
 			req.body = {
-				removedFiles: JSON.stringify([{ name: mockUploadedFile().name }])
+				removedFiles: JSON.stringify([{ name: upload.name }])
 			};
-			const remainingFile = { ...mockUploadedFile(), originalFileName: 'different.png' };
 
 			const error = new Error('Some error message');
 			removeDocument.mockRejectedValue(error);
@@ -567,9 +566,7 @@ describe('MultiFileUploadQuestion', () => {
 				referenceId: mockRef,
 				journeyId: mockJourneyId,
 				answers: {
-					[FIELDNAME]: {
-						uploadedFiles: [mockUploadedFile(), remainingFile]
-					}
+					SubmissionDocumentUpload: [upload]
 				}
 			};
 
@@ -581,13 +578,13 @@ describe('MultiFileUploadQuestion', () => {
 				files: true
 			});
 
-			const expectedErrorMsg = `Failed to remove file: ${mockUploadedFile().originalFileName}`;
+			const expectedErrorMsg = `Failed to remove file: ${upload.originalFileName}`;
 			expect(res.render).toHaveBeenCalledWith(
 				expect.any(String),
 
 				expect.objectContaining({
 					errors: {
-						[mockUploadedFile().id]: {
+						[upload.storageId]: {
 							value: { name: mockUploadedFile().originalFileName },
 							msg: expectedErrorMsg
 						}
