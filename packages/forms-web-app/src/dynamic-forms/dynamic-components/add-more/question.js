@@ -35,7 +35,7 @@ class AddMoreQuestion extends Question {
 
 	/**
 	 * adds a uuid to the data to save
-	 * @param {ExpressRequest} req
+	 * @param {import('express').Request} req
 	 * @returns
 	 */
 	async getDataToSave(req) {

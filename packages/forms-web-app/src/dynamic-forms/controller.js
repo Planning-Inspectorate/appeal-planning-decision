@@ -6,7 +6,6 @@ const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
-const { apiClient } = require('#lib/appeals-api-client');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
@@ -86,7 +85,7 @@ exports.list = async (req, res) => {
 
 	const user = getLPAUserFromSession(req);
 	const encodedReferenceId = encodeURIComponent(referenceId);
-	const appeal = await apiClient.getUsersAppealCase({
+	const appeal = await req.appealsApiClient.getUsersAppealCase({
 		caseReference: encodedReferenceId,
 		userId: user.id,
 		role: LPA_USER_ROLE
@@ -248,7 +247,7 @@ exports.submit = async (req, res) => {
 		return;
 	}
 
-	await apiClient.submitLPAQuestionnaire(referenceId);
+	await req.appealsApiClient.submitLPAQuestionnaire(referenceId);
 
 	return res.redirect(
 		'/manage-appeals/' +

@@ -28,7 +28,7 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 
 	/**
 	 * adds a uuid and an address object for save data using req body fields
-	 * @param {ExpressRequest} req
+	 * @param {import('express').Request} req
 	 * @returns
 	 */
 	async getDataToSave(req) {

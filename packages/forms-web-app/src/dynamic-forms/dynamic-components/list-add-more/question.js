@@ -1,4 +1,3 @@
-const { apiClient } = require('#lib/appeals-api-client');
 const Question = require('../../question');
 const AddMoreQuestion = require('../add-more/question');
 const AddressAddMoreQuestion = require('../address-add-more/question');
@@ -85,7 +84,7 @@ class ListAddMoreQuestion extends Question {
 
 	/**
 	 * renders the question
-	 * @param {ExpressResponse} res - the express response
+	 * @param {import('express').Response} res - the express response
 	 * @param {QuestionViewModel} viewModel additional data to send to view
 	 * @returns {void}
 	 */
@@ -195,7 +194,7 @@ class ListAddMoreQuestion extends Question {
 
 	/**
 	 * Takes the data to save from the addMore and adds to existing array
-	 * @param {ExpressRequest} req
+	 * @param {import('express').Request} req
 	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
 	 * @returns {Promise.<Object>}
 	 */
@@ -223,7 +222,7 @@ class ListAddMoreQuestion extends Question {
 
 	/**
 	 * Handles redirect after saving, add more questions loop back to themselves
-	 * @param {ExpressResponse} res
+	 * @param {import('express').Response} res
 	 * @param {Journey} journey
 	 * @param {string} sectionSegment
 	 * @param {string} questionSegment
@@ -235,8 +234,8 @@ class ListAddMoreQuestion extends Question {
 
 	/**
 	 * Save an uploaded file
-	 * @param {ExpressRequest} req
-	 * @param {ExpressResponse} res
+	 * @param {import('express').Request} req
+	 * @param {import('express').Response} res
 	 * @param {Journey} journey
 	 * @param {Section} section
 	 * @param {JourneyResponse} journeyResponse
@@ -292,7 +291,10 @@ class ListAddMoreQuestion extends Question {
 				addresses.map((address) => {
 					const addressData = address.value;
 					addressData.fieldName = this.subQuestion.fieldName;
-					return apiClient.postSubmissionAddress(journeyResponse.referenceId, addressData);
+					return req.appealsApiClient.postSubmissionAddress(
+						journeyResponse.referenceId,
+						addressData
+					);
 				})
 			);
 			responseToSave = {
@@ -302,7 +304,7 @@ class ListAddMoreQuestion extends Question {
 			};
 		}
 
-		await this.saveResponseToDB(journey.response, responseToSave);
+		await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
 
 		// check for saving errors
 		const saveViewModel = this.subQuestion.checkForSavingErrors(req, section, journey);

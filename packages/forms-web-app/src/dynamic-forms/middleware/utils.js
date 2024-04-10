@@ -7,7 +7,7 @@ const ListAddMoreQuestion = require('../dynamic-components/list-add-more/questio
 
 /**
  * returns the sub question we're on a ListAddMoreQuestion and we're not on the add more page
- * @param {ExpressRequest} req
+ * @param {import('express').Request} req
  * @param {Question|undefined} questionObj
  * @returns
  */

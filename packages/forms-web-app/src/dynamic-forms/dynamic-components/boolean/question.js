@@ -41,7 +41,7 @@ class BooleanQuestion extends RadioQuestion {
 	/**
 	 * returns the data to send to the DB
 	 * side effect: modifies journeyResponse with the new answers
-	 * @param {ExpressRequest} req
+	 * @param {import('express').Request} req
 	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
 	 * @returns {Promise.<Object>}
 	 */

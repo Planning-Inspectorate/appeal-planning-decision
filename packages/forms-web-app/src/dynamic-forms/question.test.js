@@ -1,9 +1,12 @@
 const Question = require('./question');
-const { apiClient } = require('../lib/appeals-api-client');
-jest.mock('../lib/appeals-api-client');
 
 const { mockRes } = require('../../__tests__/unit/mocks');
 const res = mockRes();
+
+const apiClient = {
+	patchLPAQuestionnaire: jest.fn(),
+	updateAppellantSubmission: jest.fn()
+};
 
 describe('./src/dynamic-forms/question.js', () => {
 	const TITLE = 'Question1';
@@ -332,7 +335,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			const responseToSave = { answers: { a: 1 } };
 
 			const question = getTestQuestion();
-			await question.saveResponseToDB(journeyResponse, responseToSave);
+			await question.saveResponseToDB(apiClient, journeyResponse, responseToSave);
 
 			expect(apiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('/-123', responseToSave.answers);
 		});
@@ -345,7 +348,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			const responseToSave = { answers: { a: 1 } };
 
 			const question = getTestQuestion();
-			await question.saveResponseToDB(journeyResponse, responseToSave);
+			await question.saveResponseToDB(apiClient, journeyResponse, responseToSave);
 
 			expect(apiClient.updateAppellantSubmission).toHaveBeenCalledWith(
 				'/-123',

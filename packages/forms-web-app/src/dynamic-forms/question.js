@@ -1,5 +1,4 @@
 const { capitalize } = require('../lib/string-functions');
-const { apiClient } = require('../lib/appeals-api-client');
 const { JOURNEY_TYPES } = require('./journey-types');
 
 /**
@@ -180,7 +179,7 @@ class Question {
 
 		// save
 		const responseToSave = await this.getDataToSave(req, journeyResponse);
-		await this.saveResponseToDB(journey.response, responseToSave);
+		await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
 
 		// check for saving errors
 		const saveViewModel = this.checkForSavingErrors(req, section, journey);
@@ -246,10 +245,11 @@ class Question {
 	}
 
 	/**
+	 * @param {import('@pins/common/src/client/appeals-api-client').AppealsApiClient} apiClient
 	 * @param {JourneyResponse} journeyResponse
 	 * @param {{ answers: Record<string, unknown> }} responseToSave
 	 */
-	async saveResponseToDB(journeyResponse, responseToSave) {
+	async saveResponseToDB(apiClient, journeyResponse, responseToSave) {
 		const journeyType = journeyResponse.journeyId;
 
 		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyType)) {
