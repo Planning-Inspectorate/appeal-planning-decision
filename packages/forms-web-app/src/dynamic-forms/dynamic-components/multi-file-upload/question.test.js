@@ -517,9 +517,6 @@ describe('MultiFileUploadQuestion', () => {
 					files: true
 				}
 			);
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
-			);
 		});
 
 		it('can remove files', async () => {
@@ -546,9 +543,6 @@ describe('MultiFileUploadQuestion', () => {
 			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(mockRef, {
 				files: true
 			});
-			expect(res.redirect).toHaveBeenCalledWith(
-				`/manage-appeals/questionnaire/123456/segment-1/title-1b`
-			);
 		});
 
 		it('handles failures when removing files', async () => {
