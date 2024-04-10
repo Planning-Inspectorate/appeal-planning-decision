@@ -34,7 +34,7 @@ const getValidFiles = (errors, files) => {
 
 /**
  * Removes files from the array and optionally blob storage
- * @param {Array.<{ storageId: string, originalFileName: string, id: string }>} files - all of the current files
+ * @param {Array.<{ id: string, originalFileName: string }>} files - all of the current files
  * @param {Array.<{ name: string }>} removedFiles - the files selected to be removed,
  * @param {string} [baseLocation] - if set this will attempt to remove the file id from blob storage in the location baseLocation/file.id
  *
