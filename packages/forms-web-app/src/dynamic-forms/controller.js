@@ -207,7 +207,7 @@ exports.remove = async (req, res) => {
 
 	try {
 		if (questionObj instanceof ListAddMoreQuestion) {
-			const goBack = await questionObj.removeAction(journeyResponse, answerId);
+			const goBack = await questionObj.removeAction(req, journeyResponse, answerId);
 			if (goBack === true) {
 				return res.redirect(journey.getNextQuestionUrl(section, questionObj.fieldName, goBack));
 			}

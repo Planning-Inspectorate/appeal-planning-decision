@@ -205,9 +205,10 @@ class ListAddMoreQuestion extends Question {
 				[this.fieldName]: []
 			}
 		};
+		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
 
 		// get existing answers
-		if (journeyResponse.answers[this.fieldName]) {
+		if (!isAddressQuestion && journeyResponse.answers[this.fieldName]) {
 			responseToSave.answers[this.fieldName] = journeyResponse.answers[this.fieldName];
 		}
 
@@ -319,16 +320,28 @@ class ListAddMoreQuestion extends Question {
 
 	/**
 	 * removes answer with answerId from response if present
+	 * @param {import('express').Request} req
 	 * @param {JourneyResponse} journeyResponse
 	 * @param {string} answerId
-	 * @returns {JourneyResponse} updated JourneyResponse
+	 * @returns {Promise<JourneyResponse | boolean> } updated JourneyResponse
 	 */
-	async removeAction(journeyResponse, answerId) {
+	async removeAction(req, journeyResponse, answerId) {
 		let responseToSave = {
 			answers: {
 				[this.fieldName]: []
 			}
 		};
+
+		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
+		if (isAddressQuestion) {
+			const updatedLPA = await req.appealsApiClient.deleteSubmissionAddress(
+				journeyResponse.referenceId,
+				answerId
+			);
+			console.log(journeyResponse);
+			journeyResponse.answers = updatedLPA;
+			return updatedLPA.SubmissionAddress?.length > 0 ? journeyResponse : true;
+		}
 
 		if (journeyResponse.answers[this.fieldName]) {
 			responseToSave.answers[this.fieldName] = [...journeyResponse.answers[this.fieldName]];

@@ -56,6 +56,37 @@ class SubmissionAddressRepository {
 			}
 		});
 	}
+
+	/**
+	 * Delete address
+	 *
+	 * @param {string} caseReference
+	 * @param {string} addressId
+	 * @returns {Promise<LPAQuestionnaireSubmission>}
+	 */
+	async deleteAddress(caseReference, addressId) {
+		return await this.dbClient.lPAQuestionnaireSubmission.update({
+			where: {
+				appealCaseReference: caseReference
+			},
+			data: {
+				SubmissionAddress: {
+					delete: {
+						id: addressId
+					}
+				}
+			},
+			include: {
+				AppealCase: {
+					select: {
+						LPACode: true
+					}
+				},
+				SubmissionDocumentUpload: true,
+				SubmissionAddress: true
+			}
+		});
+	}
 }
 
 module.exports = { SubmissionAddressRepository };

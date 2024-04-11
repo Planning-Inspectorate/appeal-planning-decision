@@ -37,7 +37,7 @@ async function deleteSubmissionDocumentUpload(req, res) {
 		res.status(200).send(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
-			logger.error(`Failed to create document upload: ${error.code} // ${error.message.errors}`);
+			logger.error(`Failed to delete document upload: ${error.code} // ${error.message.errors}`);
 			res.status(error.code || 500).send(error.message.errors);
 		} else {
 			logger.error(error);
