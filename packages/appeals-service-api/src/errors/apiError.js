@@ -212,6 +212,12 @@ class ApiError {
 		});
 	}
 
+	static unableToDeleteAddress() {
+		return new ApiError(400, {
+			errors: ['Unable to delete SubmissionAddress entry']
+		});
+	}
+
 	// listed building
 	static listedBuildingNotFound(reference) {
 		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });

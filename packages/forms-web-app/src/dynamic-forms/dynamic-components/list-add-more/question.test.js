@@ -325,6 +325,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 	});
 
 	describe('removeAction', () => {
+		const req = {};
 		it('should remove answer', async () => {
 			const question = getTestQuestion();
 			question.saveResponseToDB = jest.fn();
@@ -338,7 +339,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				}
 			};
 
-			const result = await question.removeAction(journeyResponse, addMoreId);
+			const result = await question.removeAction(req, journeyResponse, addMoreId);
 
 			const expectedResult = {
 				answers: {
@@ -361,7 +362,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				}
 			};
 
-			const result = await question.removeAction(journeyResponse, addMoreId);
+			const result = await question.removeAction(req, journeyResponse, addMoreId);
 
 			const expectedResult = {
 				answers: {
@@ -381,7 +382,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				answers: {}
 			};
 
-			const result = await question.removeAction(journeyResponse, 'nope');
+			const result = await question.removeAction(req, journeyResponse, 'nope');
 
 			expect(question.saveResponseToDB).not.toHaveBeenCalled();
 			expect(result).toEqual(true);

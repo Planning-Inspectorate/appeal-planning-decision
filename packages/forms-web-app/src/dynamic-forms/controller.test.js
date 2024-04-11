@@ -475,6 +475,7 @@ describe('dynamic-form/controller', () => {
 			await remove(req, res);
 
 			expect(sampleListAddMoreObj.removeAction).toHaveBeenCalledWith(
+				req,
 				res.locals.journeyResponse,
 				req.params.answerId
 			);

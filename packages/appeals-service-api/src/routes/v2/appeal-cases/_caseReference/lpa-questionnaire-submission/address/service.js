@@ -24,6 +24,24 @@ async function createAddress(caseReference, uploadData) {
 	return updatedQuestionnaire;
 }
 
+/**
+ * Delete a SubmissionAddress entry
+ *
+ * @param {string} caseReference
+ * @param {string} addressId
+ * @return {Promise<LPAQuestionnaireSubmission|null>}
+ */
+async function deleteAddress(caseReference, addressId) {
+	const updatedQuestionnaire = repo.deleteAddress(caseReference, addressId);
+
+	if (!updatedQuestionnaire) {
+		return null;
+	}
+
+	return updatedQuestionnaire;
+}
+
 module.exports = {
-	createAddress
+	createAddress,
+	deleteAddress
 };

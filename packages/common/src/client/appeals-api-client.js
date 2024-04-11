@@ -314,6 +314,17 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
+	 * @param {string} addressId
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
+	 */
+	async deleteSubmissionAddress(caseReference, addressId) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/address/${addressId}`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
 	 * @returns {Promise<void>}
 	 */
 	async submitLPAQuestionnaire(caseReference) {
