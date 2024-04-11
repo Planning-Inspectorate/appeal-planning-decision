@@ -1145,6 +1145,7 @@ exports.questions = {
 	// 	question: 'Upload the definitive map and statement extract',
 	// 	fieldName: 'right-of-way-upload'
 	// }),
+	// HAS APPEAL FORM QUESTIONS
 	ownsAllLand: new BooleanQuestion({
 		title: 'Do you own all the land involved in the appeal?',
 		question: 'Do you own all the land involved in the appeal?',
@@ -1309,4 +1310,5 @@ exports.questions = {
 		],
 		documentType: documentTypes.uploadChangeOfDescriptionEvidence
 	})
+	// enterApplicationReference: new
 };
