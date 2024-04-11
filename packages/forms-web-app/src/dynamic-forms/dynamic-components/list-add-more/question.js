@@ -338,7 +338,6 @@ class ListAddMoreQuestion extends Question {
 				journeyResponse.referenceId,
 				answerId
 			);
-			console.log(journeyResponse);
 			journeyResponse.answers = updatedLPA;
 			return updatedLPA.SubmissionAddress?.length > 0 ? journeyResponse : true;
 		}
