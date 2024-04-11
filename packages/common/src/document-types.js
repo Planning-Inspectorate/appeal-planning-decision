@@ -423,6 +423,33 @@ const documentTypes = {
 		owner: lpaOwner,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	originalApplicationForm: {
+		name: 'originalApplicationForm',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: lpaOwner,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	applicationDecisionLetter: {
+		name: 'applicationDecisionLetter',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: lpaOwner,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	changeOfDescriptionEvidence: {
+		name: 'changeOfDescriptionEvidence',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: lpaOwner,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 
