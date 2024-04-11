@@ -1162,5 +1162,45 @@ exports.questions = {
 		validators: [
 			new RequiredValidator(' Select yes if you own some of the land involved in the appeal')
 		]
+	}),
+	originalApplicationForm: new MultiFileUploadQuestion({
+		title: 'Upload your separate ownership certificate and agricultural land declaration',
+		question: 'Upload your separate ownership certificate and agricultural land declaration',
+		fieldName: 'uploadConservation',
+		url: 'upload-application-form',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select your separate ownership certificate and agricultural land declaration'
+			),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.originalApplicationForm
+	}),
+	applicationDecisionLetter: new MultiFileUploadQuestion({
+		title: 'Upload the decision letter from the local planning authority',
+		question: 'Upload the decision letter from the local planning authority',
+		description: `This letter tells you about the decision on your application. \nWe need the letter from the local planning authority that tells you their decision on your planning application (also called a ‘decision notice’).\nDo not upload the planning officer’s report.`,
+		fieldName: 'applicationDecisionLetter',
+		url: 'upload-decision-letter',
+		validators: [
+			new RequiredFileUploadValidator('Select the decision letter'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.applicationDecisionLetter
+	}),
+	changeOfDescriptionEvidence: new MultiFileUploadQuestion({
+		title: 'Upload evidence of your agreement to change the description of development',
+		question: 'Upload evidence of your agreement to change the description of development',
+		description:
+			'For example, an email or letter from the local planning authority that confirms they have changed the description of development.',
+		fieldName: 'changeOfDescriptionEvidence',
+		url: 'upload-description-evidence',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select the evidence of your agreement to change the description of development'
+			),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.changeOfDescriptionEvidence
 	})
 };
