@@ -1160,7 +1160,32 @@ exports.questions = {
 		fieldName: 'ownsSomeLand',
 		url: 'own-some-land',
 		validators: [
-			new RequiredValidator(' Select yes if you own some of the land involved in the appeal')
+			new RequiredValidator('Select yes if you own some of the land involved in the appeal')
+		]
+	}),
+	ownsRestOfLand: new RadioQuestion({
+		title: 'Do you own some of the land involved in the appeal?',
+		question: 'Do you own some of the land involved in the appeal?',
+		fieldName: 'ownsRestOfLand',
+		url: 'owns-rest-of-land',
+		options: [
+			{
+				text: 'Yes, I know who owns all of the land',
+				value: 'yes'
+			},
+			{
+				text: 'I know who owns some of the land',
+				value: 'some'
+			},
+			{
+				text: 'No, I do not know who owns any of the land',
+				value: 'no'
+			}
+		],
+		validators: [
+			new RequiredValidator(
+				'Select if you know who owns the rest of the land involved in the appeal'
+			)
 		]
 	}),
 	originalApplicationForm: new MultiFileUploadQuestion({
