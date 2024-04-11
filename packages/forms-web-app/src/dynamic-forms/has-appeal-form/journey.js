@@ -43,7 +43,9 @@ class HasAppealFormJourney extends Journey {
 				)
 				.addQuestion(questions.ownsLandInvolved)
 				.withCondition(
-					response.answers && response.answers[questions.ownsSomeLand.fieldName] == 'no'
+					response.answers &&
+						response.answers[questions.ownsSomeLand.fieldName] == 'no' &&
+						response.answers[questions.ownsAllLand.fieldName] == 'no'
 				)
 			new Section('Application', 'application')
 				.addQuestion(questions.originalApplicationForm)
