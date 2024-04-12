@@ -8,6 +8,7 @@ class RadioQuestion extends OptionsQuestion {
 	 * @param {string} params.fieldName
 	 * @param {string} [params.viewFolder]
 	 * @param {string} [params.url]
+	 * @param {string} [params.hint]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {string} [params.label]
@@ -21,6 +22,7 @@ class RadioQuestion extends OptionsQuestion {
 		fieldName,
 		viewFolder,
 		url,
+		hint,
 		pageTitle,
 		description,
 		label,
@@ -34,6 +36,7 @@ class RadioQuestion extends OptionsQuestion {
 			viewFolder: !viewFolder ? 'radio' : viewFolder,
 			fieldName,
 			url,
+			hint,
 			pageTitle,
 			description,
 			options,

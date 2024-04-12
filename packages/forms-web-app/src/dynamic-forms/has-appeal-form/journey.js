@@ -89,7 +89,11 @@ class HasAppealFormJourney extends Journey {
 			new Section('Application', 'application')
 				.addQuestion(questions.uploadOriginalApplicationForm)
 				.addQuestion(questions.uploadChangeOfDescriptionEvidence)
-				.addQuestion(questions.uploadApplicationDecisionLetter)
+				.addQuestion(questions.uploadApplicationDecisionLetter),
+			new Section('Your application', 'your-application')
+				.addQuestion(questions.planningApplicationDate)
+				.addQuestion(questions.enterDevelopmentDescription)
+				.addQuestion(questions.updateDevelopmentDescription)
 		);
 	}
 }
