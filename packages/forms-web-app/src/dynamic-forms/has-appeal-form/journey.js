@@ -1,6 +1,10 @@
 const { questions } = require('../questions');
 const { Journey } = require('../journey');
 const { Section } = require('../section');
+const {
+	questionHasAnswerBuilder,
+	questionsHaveAnswersBuilder
+} = require('../dynamic-components/utils/question-has-answer');
 
 const baseHASSubmissionUrl = '/appeals/householder';
 const hasJourneyTemplate = 'submission-form-template.njk';
@@ -29,24 +33,27 @@ class HasAppealFormJourney extends Journey {
 			journeyTitle
 		);
 
+		const questionHasAnswer = questionHasAnswerBuilder(response);
+		const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
+
 		this.sections.push(
 			new Section('Site details', 'site-details')
 				.addQuestion(questions.greenBelt)
 				.addQuestion(questions.ownsAllLand)
 				.addQuestion(questions.ownsSomeLand)
-				.withCondition(
-					response.answers && response.answers[questions.ownsAllLand.fieldName] == 'no'
-				)
+				.withCondition(questionHasAnswer(questions.ownsAllLand, 'no'))
 				.addQuestion(questions.ownsRestOfLand)
-				.withCondition(
-					response.answers && response.answers[questions.ownsSomeLand.fieldName] == 'yes'
-				)
+				.withCondition(questionHasAnswer(questions.ownsSomeLand, 'yes'))
 				.addQuestion(questions.ownsLandInvolved)
 				.withCondition(
-					response.answers &&
-						response.answers[questions.ownsSomeLand.fieldName] == 'no' &&
-						response.answers[questions.ownsAllLand.fieldName] == 'no'
-				)
+					questionsHaveAnswers(
+						[
+							[questions.ownsSomeLand, 'no'],
+							[questions.ownsAllLand, 'no']
+						],
+						{ logicalCombinator: 'and' }
+					)
+				),
 			new Section('Application', 'application')
 				.addQuestion(questions.originalApplicationForm)
 				.addQuestion(questions.changeOfDescriptionEvidence)
