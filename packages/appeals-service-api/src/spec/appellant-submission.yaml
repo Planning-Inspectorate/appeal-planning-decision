@@ -38,7 +38,7 @@ components:
         appellantGreenBelt:
           type: boolean
         updateDevelopmentDescription:
-          type: boolean
+          type: string
         identifiedOwners:
           type: boolean
         appellantSiteSafety:

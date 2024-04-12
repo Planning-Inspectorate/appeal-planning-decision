@@ -19,16 +19,18 @@ class DateQuestion extends Question {
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
 	 * @param {string} params.hint
+	 * @param {string} [params.url]
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 */
-	constructor({ title, question, fieldName, validators, hint }) {
+	constructor({ title, question, fieldName, validators, hint, url }) {
 		super({
 			title: title,
 			viewFolder: 'date',
 			fieldName: fieldName,
 			question: question,
 			validators: validators,
-			hint: hint
+			hint: hint,
+			url: url
 		});
 	}
 

@@ -379,7 +379,7 @@ model AppealCase {
 
   // questions relating to appeal documents (aapd-1126)
 
-  updateDevelopmentDescription  Boolean?
+  updateDevelopmentDescription  String?
   developmentDescriptionDetails String?
   statusPlanningObligation      String?
 

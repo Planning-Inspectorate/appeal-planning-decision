@@ -45,6 +45,7 @@ class OptionsQuestion extends Question {
 	 * @param {string} params.viewFolder
 	 * @param {string} params.fieldName
 	 * @param {string} [params.url]
+	 * @param {string} [params.hint]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {Array<Option>} params.options
@@ -56,6 +57,7 @@ class OptionsQuestion extends Question {
 		viewFolder,
 		fieldName,
 		url,
+		hint,
 		pageTitle,
 		description,
 		options,
@@ -73,6 +75,7 @@ class OptionsQuestion extends Question {
 			viewFolder,
 			fieldName,
 			url,
+			hint,
 			pageTitle,
 			description,
 			validators: optionsValidators

@@ -1311,4 +1311,47 @@ exports.questions = {
 		documentType: documentTypes.uploadChangeOfDescriptionEvidence
 	})
 	// enterApplicationReference: new
+	planningApplicationDate: new DateQuestion({
+		title: 'What date did you submit your planning application?',
+		question: 'What date did you submit your planning application?',
+		fieldName: 'onApplicationDate',
+		url: 'planning-application-date',
+		hint: 'For example, 21 01 2024',
+		validators: [
+			new DateValidator('the date you expect to formally adopt the community infrastructure levy', {
+				ensureFuture: true
+			})
+		]
+	}),
+	enterDevelopmentDescription: new TextEntryQuestion({
+		title: 'Enter the description of development that you submitted in your planning application',
+		question:
+			'Enter the description of development that you submitted in your planning application',
+		fieldName: 'developmentDescriptionOriginal',
+		url: 'enter-description-of-development',
+		hint: 'If the local planning authority changed the description of development, you can upload evidence of your agreement to change the description later.',
+		validators: [new RequiredValidator('Enter a description')]
+	}),
+	updateDevelopmentDescription: new RadioQuestion({
+		title: 'Did the local planning authority change the description of development? ',
+		question: 'Did the local planning authority change the description of development? ',
+		fieldName: 'updateDevelopmentDescription',
+		url: 'development-description-correct',
+		hint: 'We need to know if the description of development is the same as what is on your planning application.',
+		validators: [
+			new RequiredValidator(
+				'Select yes if the local planning authority changed the description of development'
+			)
+		],
+		options: [
+			{
+				text: 'Yes, I agreed a new description with the local planning authority',
+				value: 'yes'
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
+	})
 };
