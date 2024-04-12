@@ -53,7 +53,8 @@ class HasAppealFormJourney extends Journey {
 						],
 						{ logicalCombinator: 'and' }
 					)
-				),
+				)
+				.addQuestion(questions.tellingLandowners),
 			new Section('Application', 'application')
 				.addQuestion(questions.uploadOriginalApplicationForm)
 				.addQuestion(questions.uploadChangeOfDescriptionEvidence)
