@@ -503,18 +503,18 @@ export interface AppealUser {
 /** An appellant submission */
 export interface AppellantSubmission {
 	/** @format uuid */
-	id: string;
-	LPACode: string;
-	appealTypeCode: 'HAS' | 'S78';
-	appealId: string;
+	id?: string;
+	LPACode?: string;
+	appealTypeCode?: 'HAS' | 'S78';
+	appealId?: string;
 	caseTermsAccepted?: boolean;
 	submittedToBackOffice?: boolean;
 	/** @format date-time */
 	onApplicationDate?: string;
 	ownsAllLand?: boolean;
 	ownsSomeLand?: boolean;
-	knowsAllOwners?: boolean;
-	knowsOtherOwners?: boolean;
+	knowsAllOwners?: string;
+	knowsOtherOwners?: string;
 	informedOwners?: boolean;
 	advertisedAppeal?: boolean;
 	appellantGreenBelt?: boolean;

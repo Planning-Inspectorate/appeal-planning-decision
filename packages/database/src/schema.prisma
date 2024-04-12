@@ -488,8 +488,8 @@ model AppellantSubmission {
   // boolean
   ownsAllLand                  Boolean?
   ownsSomeLand                 Boolean?
-  knowsAllOwners               Boolean?
-  knowsOtherOwners             Boolean?
+  knowsAllOwners               String?
+  knowsOtherOwners             String?
   informedOwners               Boolean?
   advertisedAppeal             Boolean?
   appellantGreenBelt           Boolean?
