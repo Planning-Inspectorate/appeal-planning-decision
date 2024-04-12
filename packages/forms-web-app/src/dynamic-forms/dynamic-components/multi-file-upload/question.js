@@ -1,4 +1,4 @@
-const { removeLPAQFiles, getValidFiles } = require('../../../lib/multi-file-upload-helpers');
+const { getValidFiles, removeFilesV2 } = require('../../../lib/multi-file-upload-helpers');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
 const {
@@ -6,6 +6,7 @@ const {
 } = require('@pins/common');
 
 const Question = require('../../question');
+const { JOURNEY_TYPES } = require('../../journey-types');
 
 /**
  * @typedef {import('../../journey').Journey} Journey
@@ -121,7 +122,13 @@ class MultiFileUploadQuestion extends Question {
 					...file,
 					type: this.documentType.name
 				};
-				return req.appealsApiClient.postSubmissionDocumentUpload(journeyResponse.referenceId, data);
+
+				return this.uploadDocuments(
+					req.appealsApiClient,
+					journeyResponse.referenceId,
+					journeyResponse.journeyId,
+					data
+				);
 			})
 		);
 		const responseToSave = {
@@ -140,6 +147,26 @@ class MultiFileUploadQuestion extends Question {
 		// move to the next question
 		const updatedJourney = new journey.constructor(journeyResponse);
 		return this.handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
+	}
+
+	uploadDocuments(apiClient, referenceId, journeyId, data) {
+		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+			return apiClient.postLPASubmissionDocumentUpload(referenceId, data);
+		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+			return apiClient.postAppellantSubmissionDocumentUpload(referenceId, data);
+		}
+	}
+
+	removeDocuments(apiClient, journeyId) {
+		return (submissionId, documentId) => {
+			if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+				return apiClient.deleteLPASubmissionDocumentUpload(submissionId, documentId);
+			} else if (
+				[JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)
+			) {
+				return apiClient.deleteAppellantSubmissionDocumentUpload(submissionId, documentId);
+			}
+		};
 	}
 
 	checkForValidationErrors() {
@@ -223,11 +250,12 @@ class MultiFileUploadQuestion extends Question {
 			const removedFiles = JSON.parse(body.removedFiles);
 			const currentUploadedFiles = journeyResponse.answers.SubmissionDocumentUpload || [];
 
-			const failedRemovedFiles = await removeLPAQFiles(
+			const failedRemovedFiles = await removeFilesV2(
 				currentUploadedFiles,
 				removedFiles,
 				journeyResponse.referenceId,
-				`${journeyResponse.journeyId}:${encodedReferenceId}`
+				`${journeyResponse.journeyId}:${encodedReferenceId}`,
+				this.removeDocuments(req.appealsApiClient, journeyResponse.journeyId)
 			);
 
 			// adds validation errors to be checked after

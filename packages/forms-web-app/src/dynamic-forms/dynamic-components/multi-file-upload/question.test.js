@@ -168,7 +168,7 @@ describe('MultiFileUploadQuestion', () => {
 		mockJourney = new TestJourney(mockResponse);
 		req = {
 			appealsApiClient: {
-				postSubmissionDocumentUpload: jest.fn(),
+				postLPASubmissionDocumentUpload: jest.fn(),
 				patchLPAQuestionnaire: jest.fn()
 			},
 			...mockReq(null)
@@ -314,7 +314,7 @@ describe('MultiFileUploadQuestion', () => {
 			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, mockResponse);
 
 			expect(createDocument).not.toHaveBeenCalled();
-			expect(req.appealsApiClient.postSubmissionDocumentUpload).not.toHaveBeenCalled();
+			expect(req.appealsApiClient.postLPASubmissionDocumentUpload).not.toHaveBeenCalled();
 			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalled();
 
 			expect(res.redirect).toHaveBeenCalledWith(
@@ -357,7 +357,7 @@ describe('MultiFileUploadQuestion', () => {
 				DOCUMENT_TYPE.name
 			);
 
-			expect(req.appealsApiClient.postSubmissionDocumentUpload).toHaveBeenCalled();
+			expect(req.appealsApiClient.postLPASubmissionDocumentUpload).toHaveBeenCalled();
 
 			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(
 				mockResponse.referenceId,
@@ -405,7 +405,7 @@ describe('MultiFileUploadQuestion', () => {
 					DOCUMENT_TYPE.name
 				]
 			]);
-			expect(req.appealsApiClient.postSubmissionDocumentUpload).toHaveBeenCalledTimes(2);
+			expect(req.appealsApiClient.postLPASubmissionDocumentUpload).toHaveBeenCalledTimes(2);
 
 			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(
 				mockResponse.referenceId,
@@ -446,7 +446,7 @@ describe('MultiFileUploadQuestion', () => {
 			await multiFileQuestion.saveAction(req, res, mockJourney, mockSection, responseWithFiles);
 
 			expect(createDocument).toHaveBeenCalledTimes(2);
-			expect(req.appealsApiClient.postSubmissionDocumentUpload).toHaveBeenCalledTimes(3);
+			expect(req.appealsApiClient.postLPASubmissionDocumentUpload).toHaveBeenCalledTimes(3);
 
 			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith(
 				mockResponse.referenceId,
