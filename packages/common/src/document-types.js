@@ -424,8 +424,8 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
-	originalApplicationForm: {
-		name: 'originalApplicationForm',
+	uploadOriginalApplicationForm: {
+		name: 'uploadOriginalApplicationForm',
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -433,8 +433,8 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
-	applicationDecisionLetter: {
-		name: 'applicationDecisionLetter',
+	uploadApplicationDecisionLetter: {
+		name: 'uploadApplicationDecisionLetter',
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -442,8 +442,8 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
-	changeOfDescriptionEvidence: {
-		name: 'changeOfDescriptionEvidence',
+	uploadChangeOfDescriptionEvidence: {
+		name: 'uploadChangeOfDescriptionEvidence',
 		multiple: true,
 		displayName: '',
 		involvement: '',

@@ -55,9 +55,9 @@ class HasAppealFormJourney extends Journey {
 					)
 				),
 			new Section('Application', 'application')
-				.addQuestion(questions.originalApplicationForm)
-				.addQuestion(questions.changeOfDescriptionEvidence)
-				.addQuestion(questions.applicationDecisionLetter)
+				.addQuestion(questions.uploadOriginalApplicationForm)
+				.addQuestion(questions.uploadChangeOfDescriptionEvidence)
+				.addQuestion(questions.uploadApplicationDecisionLetter)
 		);
 	}
 }

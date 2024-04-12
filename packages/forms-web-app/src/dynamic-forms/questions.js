@@ -1211,10 +1211,10 @@ exports.questions = {
 			new RequiredValidator(' Select if you know who owns the land involved in the appeal')
 		]
 	}),
-	originalApplicationForm: new MultiFileUploadQuestion({
+	uploadOriginalApplicationForm: new MultiFileUploadQuestion({
 		title: 'Upload your separate ownership certificate and agricultural land declaration',
 		question: 'Upload your separate ownership certificate and agricultural land declaration',
-		fieldName: 'uploadConservation',
+		fieldName: 'uploadOriginalApplicationForm',
 		url: 'upload-application-form',
 		validators: [
 			new RequiredFileUploadValidator(
@@ -1222,26 +1222,26 @@ exports.questions = {
 			),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.originalApplicationForm
+		documentType: documentTypes.uploadOriginalApplicationForm
 	}),
-	applicationDecisionLetter: new MultiFileUploadQuestion({
+	uploadApplicationDecisionLetter: new MultiFileUploadQuestion({
 		title: 'Upload the decision letter from the local planning authority',
 		question: 'Upload the decision letter from the local planning authority',
 		description: `This letter tells you about the decision on your application. \nWe need the letter from the local planning authority that tells you their decision on your planning application (also called a ‘decision notice’).\nDo not upload the planning officer’s report.`,
-		fieldName: 'applicationDecisionLetter',
+		fieldName: 'uploadApplicationDecisionLetter',
 		url: 'upload-decision-letter',
 		validators: [
 			new RequiredFileUploadValidator('Select the decision letter'),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.applicationDecisionLetter
+		documentType: documentTypes.uploadApplicationDecisionLetter
 	}),
-	changeOfDescriptionEvidence: new MultiFileUploadQuestion({
+	uploadChangeOfDescriptionEvidence: new MultiFileUploadQuestion({
 		title: 'Upload evidence of your agreement to change the description of development',
 		question: 'Upload evidence of your agreement to change the description of development',
 		description:
 			'For example, an email or letter from the local planning authority that confirms they have changed the description of development.',
-		fieldName: 'changeOfDescriptionEvidence',
+		fieldName: 'uploadChangeOfDescriptionEvidence',
 		url: 'upload-description-evidence',
 		validators: [
 			new RequiredFileUploadValidator(
@@ -1249,6 +1249,6 @@ exports.questions = {
 			),
 			new MultifileUploadValidator()
 		],
-		documentType: documentTypes.changeOfDescriptionEvidence
+		documentType: documentTypes.uploadChangeOfDescriptionEvidence
 	})
 };

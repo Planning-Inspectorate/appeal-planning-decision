@@ -284,8 +284,19 @@ class AppealsApiClient {
 	 * @param {object} data
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async postSubmissionDocumentUpload(caseReference, data) {
+	async postLPASubmissionDocumentUpload(caseReference, data) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/document-upload`;
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} id
+	 * @param {object} data
+	 * @returns {Promise<(AppellantSubmission)>}
+	 */
+	async postAppellantSubmissionDocumentUpload(id, data) {
+		const endpoint = `${v2}/appellant-submissions/${id}/document-upload`;
 		const response = await this.#makePostRequest(endpoint, data);
 		return response.json();
 	}
@@ -295,8 +306,19 @@ class AppealsApiClient {
 	 * @param {string} documentId
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async deleteSubmissionDocumentUpload(caseReference, documentId) {
+	async deleteLPASubmissionDocumentUpload(caseReference, documentId) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/document-upload/${documentId}`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} id
+	 * @param {string} documentId
+	 * @returns {Promise<(AppellantSubmission)>}
+	 */
+	async deleteAppellantSubmissionDocumentUpload(id, documentId) {
+		const endpoint = `${v2}/appellant-submissions/${id}/document-upload/${documentId}`;
 		const response = await this.#makeDeleteRequest(endpoint);
 		return response.json();
 	}

@@ -41,6 +41,10 @@ module.exports = class Repo {
 								}
 							}
 						}
+					},
+					include: {
+						SubmissionDocumentUpload: true,
+						SubmissionAddress: true
 					}
 				});
 			});

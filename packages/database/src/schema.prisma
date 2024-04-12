@@ -517,12 +517,13 @@ model AppellantSubmission {
   SubmissionLinkedCase   SubmissionLinkedCase[]
 
   // file uploads
-  uploadOriginalApplicationForm   Boolean?
-  uploadApplicationDecisionLetter Boolean?
-  uploadAppellantStatement        Boolean?
-  costApplication                 Boolean?
-  uploadCostApplication           Boolean?
-  SubmissionDocumentUpload        SubmissionDocumentUpload[]
+  uploadOriginalApplicationForm     Boolean?
+  uploadApplicationDecisionLetter   Boolean?
+  uploadAppellantStatement          Boolean?
+  costApplication                   Boolean?
+  uploadCostApplication             Boolean?
+  uploadChangeOfDescriptionEvidence Boolean?
+  SubmissionDocumentUpload          SubmissionDocumentUpload[]
 
   // addresses
   siteAddress       Boolean?

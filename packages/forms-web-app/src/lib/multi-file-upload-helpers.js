@@ -1,5 +1,4 @@
 const { removeDocument } = require('../lib/documents-api-wrapper');
-const { apiClient } = require('./appeals-api-client');
 const logger = require('./logger');
 
 /**
@@ -74,12 +73,19 @@ const removeFiles = async (files, removedFiles, baseLocation) => {
  * Removes files from the array and optionally blob storage
  * @param {Array.<{ storageId: string, originalFileName: string, id: string }>} files - all of the current files
  * @param {Array.<{ name: string }>} removedFiles - the files selected to be removed,
- * @param {string} caseReference
+ * @param {string} referenceId
  * @param {string} baseLocation - if set this will attempt to remove the file id from blob storage in the location baseLocation/file.id
+ * @param {(referenceId: string, documentId: string) => Promise<unknown>} deleteDocumentUploadFunction - function that deletes the document in the SQL db
  *
  * @returns {Promise.<Array<{storageId: string, originalFileName: string}>>} the remaining files after removal, if a file failed to be removed a property is added {failedToRemove: true}
  */
-const removeLPAQFiles = async (files, removedFiles, caseReference, baseLocation) => {
+const removeFilesV2 = async (
+	files,
+	removedFiles,
+	referenceId,
+	baseLocation,
+	deleteDocumentUploadFunction
+) => {
 	/** @type {{storageId: string, originalFileName: string}[]} */
 	const failedRemovals = [];
 	const promises = removedFiles.map(
@@ -90,7 +96,7 @@ const removeLPAQFiles = async (files, removedFiles, caseReference, baseLocation)
 				const { storageId, id, originalFileName } = fileDetails;
 				removeDocument(baseLocation, storageId)
 					.then(
-						() => apiClient.deleteSubmissionDocumentUpload(caseReference, id),
+						() => deleteDocumentUploadFunction(referenceId, id),
 						(error) => {
 							failedRemovals.push({ storageId, originalFileName });
 							reject(error);
@@ -111,5 +117,5 @@ const removeLPAQFiles = async (files, removedFiles, caseReference, baseLocation)
 module.exports = {
 	getValidFiles,
 	removeFiles,
-	removeLPAQFiles
+	removeFilesV2
 };
