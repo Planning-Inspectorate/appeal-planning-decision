@@ -28,9 +28,9 @@ components:
         ownsSomeLand:
           type: boolean
         knowsAllOwners:
-          type: boolean
+          type: string
         knowsOtherOwners:
-          type: boolean
+          type: string
         informedOwners:
           type: boolean
         advertisedAppeal:

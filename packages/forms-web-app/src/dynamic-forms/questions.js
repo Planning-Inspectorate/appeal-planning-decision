@@ -1166,7 +1166,7 @@ exports.questions = {
 	ownsRestOfLand: new RadioQuestion({
 		title: 'Do you know who owns the rest of the land involved in the appeal?',
 		question: 'Do you know who owns the rest of the land involved in the appeal?',
-		fieldName: 'ownsRestOfLand',
+		fieldName: 'knowsOtherOwners',
 		url: 'owns-rest-of-land',
 		options: [
 			{
@@ -1191,7 +1191,7 @@ exports.questions = {
 	ownsLandInvolved: new RadioQuestion({
 		title: 'Do you know who owns the land involved in the appeal?',
 		question: 'Do you know who owns the land involved in the appeal?',
-		fieldName: 'ownsLandInvolved',
+		fieldName: 'knowsAllOwners',
 		url: 'owns-land-involved',
 		options: [
 			{
