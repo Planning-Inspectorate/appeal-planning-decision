@@ -8,7 +8,11 @@ const mockReq = (appeal = householderAppeal) => ({
 	params: {},
 	session: {
 		appeal
-	},
+	}
+});
+
+const mockReqWithApiClient = (appeal = householderAppeal) => ({
+	...mockReq(appeal),
 	appealsApiClient: {
 		postLPASubmissionDocumentUpload: jest.fn(),
 		postAppellantSubmissionDocumentUpload: jest.fn(),
@@ -31,5 +35,6 @@ const mockRes = () => ({
 
 module.exports = {
 	mockReq,
+	mockReqWithApiClient,
 	mockRes
 };
