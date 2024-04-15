@@ -38,6 +38,7 @@ const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-build
 const DateValidator = require('./validator/date-validator');
 const DateQuestion = require('./dynamic-components/date/question');
 const TextEntryQuestion = require('./dynamic-components/text-entry/question');
+const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
 const { documentTypes } = require('@pins/common');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 32500);
@@ -1309,8 +1310,15 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadChangeOfDescriptionEvidence
-	})
-	// enterApplicationReference: new
+	}),
+	enterApplicationReference: new SingleLineInputQuestion({
+		title: 'What is the planning application reference number?',
+		question: 'What is the planning application reference number?',
+		fieldName: 'applicationReference',
+		url: 'reference-number',
+		hint: 'You can find this on any correspondence from the local planning authority. For example, the letter confirming your application.',
+		validators: [new RequiredValidator('Enter the planning application reference number')]
+	}),
 	planningApplicationDate: new DateQuestion({
 		title: 'What date did you submit your planning application?',
 		question: 'What date did you submit your planning application?',

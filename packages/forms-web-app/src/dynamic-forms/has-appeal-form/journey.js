@@ -91,6 +91,7 @@ class HasAppealFormJourney extends Journey {
 				.addQuestion(questions.uploadChangeOfDescriptionEvidence)
 				.addQuestion(questions.uploadApplicationDecisionLetter),
 			new Section('Your application', 'your-application')
+				.addQuestion(questions.enterApplicationReference)
 				.addQuestion(questions.planningApplicationDate)
 				.addQuestion(questions.enterDevelopmentDescription)
 				.addQuestion(questions.updateDevelopmentDescription)
