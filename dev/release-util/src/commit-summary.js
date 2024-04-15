@@ -29,6 +29,7 @@ async function run() {
 	const argv = docopt(docs);
 	const from = argv['<from>'];
 	const to = argv['<to>'] || 'main';
+	const separator = ',';
 
 	const jira = new JiraApi({ baseUrl, username, apiKey });
 
@@ -38,16 +39,18 @@ async function run() {
 		.split('\n') // split into lines
 		.filter(Boolean); // filter out blank lines
 
-	const rows = [`commit,ticket,title,parent,status,commit link`];
+	const rows = [
+		`commit${separator}ticket${separator}title${separator}parent${separator}status${separator}commit link`
+	];
 	const tickets = new Map();
 	for await (const commitLine of commits) {
 		const commit = new Commit(commitLine);
 		if (!commit.hasScope) {
-			rows.push(`"${commit.message}","N/A"`);
+			rows.push(`"${commit.message}"${separator}"N/A"`);
 			continue;
 		}
 		if (!commit.scopeEndsInDigits) {
-			rows.push(`"${commit.message}","N/A"`);
+			rows.push(`"${commit.message}"${separator}"N/A"`);
 			continue;
 		}
 		const ticketNumber = commit.ticketNumber;
@@ -69,7 +72,7 @@ async function run() {
 				commitLink(commit.hash)
 			]
 				.map((value) => `"${value}"`)
-				.join(',')
+				.join(separator)
 		);
 	}
 
