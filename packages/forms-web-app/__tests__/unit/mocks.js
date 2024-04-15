@@ -8,6 +8,14 @@ const mockReq = (appeal = householderAppeal) => ({
 	params: {},
 	session: {
 		appeal
+	},
+	appealsApiClient: {
+		postLPASubmissionDocumentUpload: jest.fn(),
+		postAppellantSubmissionDocumentUpload: jest.fn(),
+		deleteLPASubmissionDocumentUpload: jest.fn(),
+		deleteAppellantSubmissionDocumentUpload: jest.fn(),
+		patchLPAQuestionnaire: jest.fn(),
+		updateAppellantSubmission: jest.fn()
 	}
 });
 

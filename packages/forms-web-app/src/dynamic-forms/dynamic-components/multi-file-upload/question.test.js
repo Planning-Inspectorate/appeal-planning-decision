@@ -5,7 +5,6 @@ const { SECTION_STATUS } = require('../../section');
 const { Journey } = require('../../journey');
 
 jest.mock('../../../lib/appeals-api-wrapper');
-jest.mock('../../../lib/appeals-api-client');
 jest.mock('../../../lib/documents-api-wrapper', () => ({
 	...jest.requireActual('../../../lib/documents-api-wrapper'),
 	removeDocument: jest.fn(async () => {}),
