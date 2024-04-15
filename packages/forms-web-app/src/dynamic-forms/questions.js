@@ -1227,7 +1227,45 @@ exports.questions = {
 		],
 		validators: [
 			new RequiredValidator(
-				'You must confirm that I’ve told all the landowners about my appeal within the last 21 days using a copy of the form in annexe 2A or 2B'
+				'You must confirm that you’ve told all the landowners about your appeal within the last 21 days using a copy of the form in annexe 2A or 2B'
+			)
+		]
+	}),
+	identifyingLandowners: new BooleanQuestion({
+		title: 'Identifying the landowners?',
+		question: 'Identifying the landowners',
+		type: 'checkbox',
+		html: 'resources/land-ownership/identifying-landowners.html',
+		fieldName: 'identifiedOwners',
+		url: 'identifying-landowners',
+		options: [
+			{
+				text: 'I confirm that I’ve attempted to identify all the landowners, but have not been successful',
+				value: 'yes'
+			}
+		],
+		validators: [
+			new RequiredValidator(
+				'You must confirm that you’ve attempted to identify all the landowners, but have not been successful'
+			)
+		]
+	}),
+	advertisingAppeal: new BooleanQuestion({
+		title: 'Advertising your appeal',
+		question: 'Advertising your appeal',
+		type: 'checkbox',
+		html: 'resources/land-ownership/advertised-appeal.html',
+		fieldName: 'advertisedAppeal',
+		url: 'advertising-appeal',
+		options: [
+			{
+				text: 'I confirm that I’ve advertised my appeal in the press within the last 21 days using a copy of the form in annexe 2A or 2B',
+				value: 'yes'
+			}
+		],
+		validators: [
+			new RequiredValidator(
+				'You must confirm that you’ve advertised your appeal in the press within the last 21 days using a copy of the form in annexe 2A or 2B'
 			)
 		]
 	}),

@@ -54,7 +54,38 @@ class HasAppealFormJourney extends Journey {
 						{ logicalCombinator: 'and' }
 					)
 				)
-				.addQuestion(questions.tellingLandowners),
+				.addQuestion(questions.identifyingLandowners)
+				.withCondition(
+					questionsHaveAnswers(
+						[
+							[questions.ownsRestOfLand, 'some'],
+							[questions.ownsRestOfLand, 'no'],
+							[questions.ownsLandInvolved, 'some'],
+							[questions.ownsLandInvolved, 'no']
+						],
+						{ logicalCombinator: 'or' }
+					)
+				)
+				.addQuestion(questions.advertisingAppeal)
+				.withCondition(questionHasAnswer(questions.identifyingLandowners, 'yes'))
+				.addQuestion(questions.tellingLandowners)
+				.withCondition(
+					questionsHaveAnswers(
+						[
+							[questions.ownsRestOfLand, 'yes'],
+							[questions.ownsLandInvolved, 'yes']
+						],
+						{ logicalCombinator: 'or' }
+					) ||
+						(questionsHaveAnswers(
+							[
+								[questions.ownsRestOfLand, 'some'],
+								[questions.ownsLandInvolved, 'some']
+							],
+							{ logicalCombinator: 'or' }
+						) &&
+							questionHasAnswer(questions.advertisingAppeal, 'yes'))
+				),
 			new Section('Application', 'application')
 				.addQuestion(questions.uploadOriginalApplicationForm)
 				.addQuestion(questions.uploadChangeOfDescriptionEvidence)
