@@ -1214,10 +1214,17 @@ exports.questions = {
 	tellingLandowners: new BooleanQuestion({
 		title: 'Telling the landowners',
 		question: 'Telling the landowners',
+		type: 'checkbox',
 		html: 'resources/land-ownership/telling-landowners.html',
 		description: 'Have the landowners been told about the appeal?',
 		fieldName: 'informedOwners',
 		url: 'telling-landowners',
+		options: [
+			{
+				text: 'I confirm that I’ve told all the landowners about my appeal within the last 21 days using a copy of the form in annexe 2A or 2B',
+				value: 'yes'
+			}
+		],
 		validators: [
 			new RequiredValidator(
 				'You must confirm that I’ve told all the landowners about my appeal within the last 21 days using a copy of the form in annexe 2A or 2B'
