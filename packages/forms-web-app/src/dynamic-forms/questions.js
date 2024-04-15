@@ -1318,8 +1318,8 @@ exports.questions = {
 		url: 'planning-application-date',
 		hint: 'For example, 21 01 2024',
 		validators: [
-			new DateValidator('the date you expect to formally adopt the community infrastructure levy', {
-				ensureFuture: true
+			new DateValidator('the date you submitted your planning application', {
+				ensurePast: true
 			})
 		]
 	}),
