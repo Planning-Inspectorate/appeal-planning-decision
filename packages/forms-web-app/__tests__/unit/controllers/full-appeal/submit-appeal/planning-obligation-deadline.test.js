@@ -12,15 +12,8 @@ const {
 	}
 } = require('../../../../../src/lib/views');
 
-const { mockReq: mockReqWithApiClient, mockRes } = require('../../../mocks');
+const { mockReq, mockRes } = require('../../../mocks');
 const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-
-const mockReq = (appeal) => {
-	// @ts-ignore
-	// eslint-disable-next-line no-unused-vars
-	const { appealsApiClient, ...rest } = mockReqWithApiClient(appeal);
-	return rest;
-};
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');

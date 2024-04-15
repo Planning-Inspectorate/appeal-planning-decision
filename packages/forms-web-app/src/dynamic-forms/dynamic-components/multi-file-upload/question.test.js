@@ -24,7 +24,7 @@ jest.mock('../../../lib/documents-api-wrapper', () => ({
 }));
 // jest.mock('../../../mappers/document-mapper');
 
-const { mockReq, mockRes } = require('../../../../__tests__/unit/mocks');
+const { mockReqWithApiClient: mockReq, mockRes } = require('../../../../__tests__/unit/mocks');
 
 const TITLE = 'A multifile question';
 const QUESTION = 'Do you like files?';
