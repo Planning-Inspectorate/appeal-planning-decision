@@ -2,6 +2,7 @@
 
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "govuk/components/checkboxes/macro.njk" import govukCheckboxes %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% set title = question.pageTitle + " - " + journeyTitle + " - GOV.UK" %}
@@ -35,6 +36,7 @@
     <div class="govuk-grid-column-two-thirds">
       <form action="" method="post" novalidate>
 <input type="hidden" name="_csrf" value="{{_csrf}}">
+      {% if question.type === 'radio' %}
         {{ govukRadios({
           classes: "govuk-radios",
           idPrefix: question.fieldName,
@@ -65,7 +67,28 @@
             }
           ]
         }) }}
-
+          
+        {% elif question.type === 'checkbox' %}
+          {{ govukCheckboxes({
+          classes: "govuk-checkboxes",
+          idPrefix: question.fieldName,
+          name: question.fieldName,
+          errorMessage: errors[question.fieldName] and {
+            text: errors[question.fieldName].msg
+          },
+          hint: {
+            html: htmlHint
+          },
+          fieldset: {
+            legend: {
+              text: question.question,
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--l"
+            }
+          },
+          items: question.options
+        }) }}
+        {% endif %}
         {{ govukButton({
           text: "Continue",
           type: "submit",

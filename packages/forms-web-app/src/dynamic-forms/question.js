@@ -58,6 +58,8 @@ class Question {
 	url;
 	/** @type {string|undefined} optional html content */
 	html;
+	/** @type {string|undefined} optional question type */
+	type;
 
 	details = {
 		title: '',
@@ -76,6 +78,7 @@ class Question {
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {string} [params.html]
 	 * @param {string} [params.hint]
+	 * @param {string} [params.type]
 	 */
 	constructor({
 		title,
@@ -87,7 +90,8 @@ class Question {
 		description,
 		validators,
 		html,
-		hint
+		hint,
+		type
 	}) {
 		if (!title || title === '') throw new Error('title parameter is mandatory');
 		if (!question || question === '') throw new Error('question parameter is mandatory');
@@ -102,6 +106,7 @@ class Question {
 		this.pageTitle = pageTitle ?? question;
 		this.description = description;
 		this.hint = hint;
+		this.type = type;
 
 		if (Array.isArray(validators)) {
 			this.validators = validators;
@@ -131,7 +136,8 @@ class Question {
 				pageTitle: this.pageTitle,
 				description: this.description,
 				html: this.html,
-				hint: this.hint
+				hint: this.hint,
+				type: this.type
 			},
 			answer,
 

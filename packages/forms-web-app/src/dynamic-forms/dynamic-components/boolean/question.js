@@ -10,10 +10,23 @@ class BooleanQuestion extends RadioQuestion {
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {string} [params.html]
+	 * @param {string} [params.type]
+	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 */
-	constructor({ title, question, fieldName, url, pageTitle, description, html, validators }) {
-		const options = [
+	constructor({
+		title,
+		question,
+		fieldName,
+		url,
+		pageTitle,
+		description,
+		html,
+		validators,
+		type = 'radio',
+		options
+	}) {
+		let defaultOptions = [
 			{
 				text: 'Yes',
 				value: 'yes'
@@ -24,6 +37,10 @@ class BooleanQuestion extends RadioQuestion {
 			}
 		];
 
+		if (type === 'checkbox') {
+			defaultOptions = options || [{ text: 'Confirm', value: 'yes' }];
+		}
+
 		super({
 			title,
 			question,
@@ -32,10 +49,12 @@ class BooleanQuestion extends RadioQuestion {
 			url,
 			pageTitle,
 			description,
-			options,
+			options: defaultOptions,
 			validators,
 			html
 		});
+
+		this.type = type;
 	}
 
 	/**
