@@ -1361,5 +1361,45 @@ exports.questions = {
 				value: 'no'
 			}
 		]
+	}),
+	uploadAppellantStatement: new MultiFileUploadQuestion({
+		title: 'Upload your appeal statement',
+		question: 'Upload your appeal statement',
+		description:
+			'Your appeal statement explains why you disagree with the local planning authority’s decision.\nYou can upload any documents that you refer to in your appeal statement later.',
+		fieldName: 'uploadAppellantStatement',
+		url: 'upload-appeal-statement',
+		validators: [
+			new RequiredFileUploadValidator('Select your appeal statement'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadAppellantStatement
+	}),
+	costApplication: new RadioQuestion({
+		title: 'Do you need to apply for an award of appeal costs?',
+		question: 'Do you need to apply for an award of appeal costs?',
+		fieldName: 'costApplication',
+		url: 'apply-appeal-costs',
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes'
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
+	}),
+	uploadCostApplication: new MultiFileUploadQuestion({
+		title: 'Upload your application for an award of appeal costs',
+		question: 'Upload your application for an award of appeal costs',
+		fieldName: 'uploadCostApplication',
+		url: 'upload-appeal-costs-application',
+		validators: [
+			new RequiredFileUploadValidator('Select your application for an award of appeal costs'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadCostApplication
 	})
 };

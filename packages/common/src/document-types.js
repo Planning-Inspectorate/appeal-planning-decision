@@ -450,6 +450,24 @@ const documentTypes = {
 		owner: appeallantOwner,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadAppellantStatement: {
+		name: 'uploadAppellantStatement',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: appeallantOwner,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadCostApplication: {
+		name: 'uploadCostApplication',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: appeallantOwner,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 
