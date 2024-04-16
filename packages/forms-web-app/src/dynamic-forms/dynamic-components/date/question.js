@@ -24,13 +24,13 @@ class DateQuestion extends Question {
 	 */
 	constructor({ title, question, fieldName, validators, hint, url }) {
 		super({
-			title: title,
+			title,
 			viewFolder: 'date',
-			fieldName: fieldName,
-			question: question,
-			validators: validators,
-			hint: hint,
-			url: url
+			fieldName,
+			question,
+			validators,
+			hint,
+			url
 		});
 	}
 
