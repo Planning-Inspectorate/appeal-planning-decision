@@ -85,7 +85,8 @@ class HasAppealFormJourney extends Journey {
 							{ logicalCombinator: 'or' }
 						) &&
 							questionHasAnswer(questions.advertisingAppeal, 'yes'))
-				),
+				)
+				.addQuestion(questions.inspectorAccess),
 			new Section('Your application', 'your-application')
 				.addQuestion(questions.enterApplicationReference)
 				.addQuestion(questions.planningApplicationDate)

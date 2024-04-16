@@ -26,6 +26,7 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
  * 		 html?: string;
  *     value?: unknown;
  * 		 label?: string;
+ * 		 hint?: string
  *   };
  *}} Option
  */
@@ -48,6 +49,7 @@ class OptionsQuestion extends Question {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
+	 * @param {string} [params.hint]
 	 * @param {Array<Option>} params.options
 	 * @param {Array<import('./question').BaseValidator>} [params.validators]
 	 */
@@ -61,7 +63,8 @@ class OptionsQuestion extends Question {
 		pageTitle,
 		description,
 		options,
-		validators
+		validators,
+		hint
 	}) {
 		// add default valid options validator to all options questions
 		let optionsValidators = [new ValidOptionValidator()];
@@ -80,7 +83,7 @@ class OptionsQuestion extends Question {
 			description,
 			validators: optionsValidators
 		});
-
+		this.hint = hint;
 		this.options = options;
 	}
 
