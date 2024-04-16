@@ -86,15 +86,15 @@ class HasAppealFormJourney extends Journey {
 						) &&
 							questionHasAnswer(questions.advertisingAppeal, 'yes'))
 				),
-			new Section('Application', 'application')
-				.addQuestion(questions.uploadOriginalApplicationForm)
-				.addQuestion(questions.uploadChangeOfDescriptionEvidence)
-				.addQuestion(questions.uploadApplicationDecisionLetter),
 			new Section('Your application', 'your-application')
 				.addQuestion(questions.enterApplicationReference)
 				.addQuestion(questions.planningApplicationDate)
 				.addQuestion(questions.enterDevelopmentDescription)
-				.addQuestion(questions.updateDevelopmentDescription)
+				.addQuestion(questions.updateDevelopmentDescription),
+			new Section('Application', 'application')
+				.addQuestion(questions.uploadOriginalApplicationForm)
+				.addQuestion(questions.uploadChangeOfDescriptionEvidence)
+				.addQuestion(questions.uploadApplicationDecisionLetter)
 		);
 	}
 }
