@@ -1271,6 +1271,50 @@ exports.questions = {
 			)
 		]
 	}),
+	inspectorAccess: new RadioQuestion({
+		title: 'Will an inspector need to access your land or property?',
+		question: 'Will an inspector need to access your land or property?',
+		html: 'resources/inspector-access/content.html',
+		fieldName: 'appellantSiteAccess',
+		url: 'inspector-need-access',
+		validators: [
+			new RequiredValidator('Select yes if an inspector will need to access your land or property'),
+			new ConditionalRequiredValidator(
+				'Enter a reason why an inspector cannot view the appeal site from a public road or footpath'
+			),
+			new StringValidator({
+				regex: {
+					regex: new RegExp(`^[0-9a-z- '()]{0,${inputMaxCharacters}}$`, 'gi'),
+					regexMessage: 'Reason must only include letters a to z, hyphens, spaces and apostrophes.'
+				},
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName(
+					'appellantSiteAccess',
+					'appellantSiteAccess_appellantSiteAccessDetails'
+				)
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question:
+						'Enter a reason why an inspector cannot view the appeal site from a public road or footpath.',
+					hint: 'For example, the appeal site is at the rear of a terraced property.',
+					fieldName: 'appellantSiteAccess_appellantSiteAccessDetails',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
+	}),
 	uploadOriginalApplicationForm: new MultiFileUploadQuestion({
 		title: 'Upload your separate ownership certificate and agricultural land declaration',
 		question: 'Upload your separate ownership certificate and agricultural land declaration',
