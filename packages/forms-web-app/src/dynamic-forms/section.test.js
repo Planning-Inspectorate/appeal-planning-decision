@@ -137,11 +137,16 @@ describe('./src/dynamic-forms/section.js', () => {
 			expect(isComplete).toBe(true);
 		});
 	});
-	it('should not return COMPLETE when a file upload question has no files associated with it', () => {
+	it('should return COMPLETE when a file upload question has files associated with it', () => {
 		const mockJourneyResponse = {
 			answers: {
 				visitFrequently: 'Answer 1',
-				anotherFieldName: { uploadedFiles: [] }
+				anotherFieldName: 'yes',
+				SubmissionDocumentUpload: [
+					{
+						type: 'testDocType'
+					}
+				]
 			}
 		};
 
@@ -152,7 +157,51 @@ describe('./src/dynamic-forms/section.js', () => {
 
 		const anotherRequiredQuestion = {
 			fieldName: 'anotherFieldName',
-			validators: [new RequiredFileUploadValidator()]
+			validators: [new RequiredFileUploadValidator()],
+			documentType: {
+				name: 'testDocType'
+			}
+		};
+
+		const notARequiredQuestion = {
+			fieldName: 'someQuestion',
+			validators: []
+		};
+
+		const section = new Section();
+		section.addQuestion(requiredQuestion);
+		section.addQuestion(anotherRequiredQuestion);
+		section.addQuestion(notARequiredQuestion);
+
+		const result = section.getStatus(mockJourneyResponse);
+		expect(result).toBe(SECTION_STATUS.COMPLETE);
+		const isComplete = section.isComplete(mockJourneyResponse);
+		expect(isComplete).toBe(true);
+	});
+	it('should not return COMPLETE when a file upload question has no files associated with it', () => {
+		const mockJourneyResponse = {
+			answers: {
+				visitFrequently: 'Answer 1',
+				anotherFieldName: 'yes',
+				SubmissionDocumentUpload: [
+					{
+						type: 'notTestDocType'
+					}
+				]
+			}
+		};
+
+		const requiredQuestion = {
+			fieldName: 'visitFrequently',
+			validators: [new RequiredValidator()]
+		};
+
+		const anotherRequiredQuestion = {
+			fieldName: 'anotherFieldName',
+			validators: [new RequiredFileUploadValidator()],
+			documentType: {
+				name: 'testDocType'
+			}
 		};
 
 		const notARequiredQuestion = {

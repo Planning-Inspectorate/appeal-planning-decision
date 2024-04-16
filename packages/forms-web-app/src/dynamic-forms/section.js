@@ -79,6 +79,7 @@ class Section {
 		let requiredQuestionCount = 0;
 		let requiredAnswerCount = 0;
 		let answerCount = 0;
+		let missingRequiredFiles = false;
 
 		for (let question of this.questions) {
 			//todo: rather than use instanceof can isRequired be a property on BaseValidator?
@@ -92,8 +93,15 @@ class Section {
 				requiredQuestionCount++;
 			}
 
-			// move to next question if answer not provided for this questio or for file upload questions the length of uploaded files is less than 1
-			if (!answer || answer.uploadedFiles?.length < 1) {
+			if (question.documentType && answer === 'yes') {
+				const relevantDocs = journeyResponse.answers.SubmissionDocumentUpload.filter(
+					(upload) => upload.type === question.documentType.name
+				);
+				missingRequiredFiles = relevantDocs.length < 1 ? true : false;
+			}
+
+			// move to next question if answer not provided for this question or for file upload questions the length of uploaded files is less than 1
+			if (!answer || missingRequiredFiles) {
 				continue;
 			}
 
