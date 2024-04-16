@@ -94,10 +94,9 @@ class Section {
 			}
 
 			if (question.documentType && answer === 'yes') {
-				const relevantDocs = journeyResponse.answers.SubmissionDocumentUpload.filter(
+				missingRequiredFiles = !journeyResponse.answers.SubmissionDocumentUpload.some(
 					(upload) => upload.type === question.documentType.name
 				);
-				missingRequiredFiles = relevantDocs.length < 1 ? true : false;
 			}
 
 			// move to next question if answer not provided for this question or for file upload questions the length of uploaded files is less than 1
