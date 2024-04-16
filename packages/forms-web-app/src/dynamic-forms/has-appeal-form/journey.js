@@ -94,7 +94,12 @@ class HasAppealFormJourney extends Journey {
 			new Section('Application', 'application')
 				.addQuestion(questions.uploadOriginalApplicationForm)
 				.addQuestion(questions.uploadChangeOfDescriptionEvidence)
-				.addQuestion(questions.uploadApplicationDecisionLetter)
+				.addQuestion(questions.uploadApplicationDecisionLetter),
+			new Section('Appeal documents', 'appeal-documents')
+				.addQuestion(questions.uploadAppellantStatement)
+				.addQuestion(questions.costApplication)
+				.addQuestion(questions.uploadCostApplication)
+				.withCondition(questionHasAnswer(questions.costApplication, 'yes'))
 		);
 	}
 }
