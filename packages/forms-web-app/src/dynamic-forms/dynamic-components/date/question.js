@@ -20,7 +20,7 @@ class DateQuestion extends Question {
 	 * @param {string} params.fieldName
 	 * @param {string} params.hint
 	 * @param {string} [params.url]
-	 * @param {Array.<BaseValidator>} [params.validators]
+	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
 	 */
 	constructor({ title, question, fieldName, validators, hint, url }) {
 		super({
