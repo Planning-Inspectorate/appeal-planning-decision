@@ -1,3 +1,4 @@
+const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
 const RequiredValidator = require('./validator/required-validator');
 
@@ -70,7 +71,7 @@ class Section {
 	}
 
 	/**
-	 * checks answers on response to ensure that a answer is provded for each required question in the section
+	 * checks answers on response to ensure that a answer is provided for each required question in the section
 	 * @param {JourneyResponse} journeyResponse
 	 * @returns {SectionStatus}
 	 */
@@ -99,7 +100,13 @@ class Section {
 				);
 			}
 
-			// move to next question if answer not provided for this question or for file upload questions the length of uploaded files is less than 1
+			if (question.subQuestion instanceof AddressAddMoreQuestion) {
+				missingRequiredFiles = !journeyResponse.answers.SubmissionAddress.some(
+					(address) => address.fieldName === question.subQuestion.fieldName
+				);
+			}
+
+			// move to next question if answer not provided for this question or for file / address upload questions the length of uploaded files is less than 1
 			if (!answer || missingRequiredFiles) {
 				continue;
 			}
