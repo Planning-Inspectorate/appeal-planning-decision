@@ -522,9 +522,9 @@ export interface AppellantSubmission {
 	appellantGreenBelt?: boolean;
 	updateDevelopmentDescription?: string;
 	identifiedOwners?: boolean;
-	appellantSiteSafety?: boolean;
+	appellantSiteSafety?: string;
 	appellantSiteSafetyDetails?: string;
-	appellantSiteAccess?: boolean;
+	appellantSiteAccess?: string;
 	appellantSiteAccessDetails?: string;
 	applicationReference?: string;
 	developmentDescriptionOriginal?: string;
