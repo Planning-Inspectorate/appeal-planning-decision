@@ -44,7 +44,8 @@ module.exports = class Repo {
 					},
 					include: {
 						SubmissionDocumentUpload: true,
-						SubmissionAddress: true
+						SubmissionAddress: true,
+						SubmissionLinkedCase: true
 					}
 				});
 			});

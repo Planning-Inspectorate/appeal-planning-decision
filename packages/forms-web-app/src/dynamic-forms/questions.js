@@ -1508,5 +1508,37 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadCostApplication
+	}),
+	anyOtherAppeals: new BooleanQuestion({
+		title: 'Are there other appeals linked to your development?',
+		question: 'Are there other appeals linked to your development?',
+		fieldName: 'appellantLinkedCase',
+		url: 'other-appeals',
+		html: 'resources/other-appeals/content.html',
+		validators: [
+			new RequiredValidator('Select yes if there are other appeals linked to your development')
+		]
+	}),
+	linkAppeals: new ListAddMoreQuestion({
+		pageTitle: 'Nearby appeal added to the case',
+		title: 'n/a',
+		question: 'Are there other appeals linked to your development?',
+		fieldName: 'appellantLinkedCaseAdd',
+		url: 'enter-appeal-reference',
+		subQuestionLabel: 'Linked appeal',
+		subQuestionInputClasses: 'govuk-input--width-10',
+		validators: [new RequiredValidator('Select yes if you want to add another linked appeal')],
+		subQuestion: new CaseAddMoreQuestion({
+			title: 'Enter the appeal reference number',
+			question: 'Enter the appeal reference number',
+			fieldName: 'appellantLinkedCase',
+			html: 'resources/appellant-linked-case/content.html',
+			hint: 'For example, 0221532.',
+			validators: [
+				new RequiredValidator('Enter the appeal reference number'),
+				new StringEntryValidator(appealReferenceNumberValidation)
+			],
+			viewFolder: 'identifier'
+		})
 	})
 };
