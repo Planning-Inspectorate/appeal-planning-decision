@@ -2,18 +2,10 @@ const { createPrismaClient } = require('#db-client');
 
 /**
  * @typedef {import('@prisma/client').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
+ * @typedef {import('@prisma/client').Prisma.SubmissionLinkedCaseCreateInput} LinkedCaseData
  */
 
-/**
- * @typedef {Object} DocumentUploadData
- * @property {string} name
- * @property {string} fileName
- * @property {string} originalFileName
- * @property {string} location
- * @property {string} type
- */
-
-class SubmissionDocumentUploadRepository {
+class LinkedCaseRepository {
 	dbClient;
 
 	constructor() {
@@ -21,28 +13,21 @@ class SubmissionDocumentUploadRepository {
 	}
 
 	/**
-	 * Create submission document for given questionnaire
+	 * Create submission address for a given questionnaire
 	 *
 	 * @param {string} caseReference
-	 * @param {DocumentUploadData} uploadData
+	 * @param {LinkedCaseData} linkedCase
 	 * @returns {Promise<LPAQuestionnaireSubmission>}
 	 */
-	async createSubmissionDocument(caseReference, uploadData) {
-		const { name, fileName, originalFileName, location, type, id } = uploadData;
-
+	async createLinkedCase(caseReference, linkedCase) {
 		return await this.dbClient.lPAQuestionnaireSubmission.update({
 			where: {
 				appealCaseReference: caseReference
 			},
 			data: {
-				SubmissionDocumentUpload: {
+				SubmissionLinkedCase: {
 					create: {
-						name,
-						fileName,
-						originalFileName,
-						location,
-						type,
-						storageId: id
+						...linkedCase
 					}
 				}
 			},
@@ -60,21 +45,21 @@ class SubmissionDocumentUploadRepository {
 	}
 
 	/**
-	 * Delete submission document
+	 * Delete address
 	 *
 	 * @param {string} caseReference
-	 * @param {string} documentId
+	 * @param {string} linkedCaseId
 	 * @returns {Promise<LPAQuestionnaireSubmission>}
 	 */
-	async deleteSubmissionDocument(caseReference, documentId) {
+	async deleteLinkedCase(caseReference, linkedCaseId) {
 		return await this.dbClient.lPAQuestionnaireSubmission.update({
 			where: {
 				appealCaseReference: caseReference
 			},
 			data: {
-				SubmissionDocumentUpload: {
+				SubmissionLinkedCase: {
 					delete: {
-						id: documentId
+						id: linkedCaseId
 					}
 				}
 			},
@@ -92,4 +77,4 @@ class SubmissionDocumentUploadRepository {
 	}
 }
 
-module.exports = { SubmissionDocumentUploadRepository };
+module.exports = { LinkedCaseRepository };

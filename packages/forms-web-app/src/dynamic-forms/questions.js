@@ -5,18 +5,26 @@
  * types without having the overhead of managing duplicates. *
  *************************************************************/
 
-const CheckboxQuestion = require('./dynamic-components/checkbox/question');
-const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
-const BooleanQuestion = require('./dynamic-components/boolean/question');
-const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
-const AddMoreQuestion = require('./dynamic-components/add-more/question');
 const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
+const BooleanQuestion = require('./dynamic-components/boolean/question');
+const CaseAddMoreQuestion = require('./dynamic-components/case-add-more/question');
+const CheckboxQuestion = require('./dynamic-components/checkbox/question');
+const DateQuestion = require('./dynamic-components/date/question');
+const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
+const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
 const RadioQuestion = require('./dynamic-components/radio/question');
+const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
+const TextEntryQuestion = require('./dynamic-components/text-entry/question');
+
+const AddressValidator = require('./validator/address-validator');
+const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
+const DateValidator = require('./validator/date-validator');
+const MultifileUploadValidator = require('./validator/multifile-upload-validator');
 const RequiredValidator = require('./validator/required-validator');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
-const MultifileUploadValidator = require('./validator/multifile-upload-validator');
-const AddressValidator = require('./validator/address-validator');
 const StringEntryValidator = require('./validator/string-validator');
+const StringValidator = require('./validator/string-validator');
 
 const {
 	validation: {
@@ -26,19 +34,12 @@ const {
 		}
 	}
 } = require('../../src/config');
-const StringValidator = require('./validator/string-validator');
 let {
 	validation: {
 		characterLimits: { finalComment: inputMaxCharacters }
 	}
 } = require('../config');
 const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
-const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
-const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
-const DateValidator = require('./validator/date-validator');
-const DateQuestion = require('./dynamic-components/date/question');
-const TextEntryQuestion = require('./dynamic-components/text-entry/question');
-const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
 const { documentTypes } = require('@pins/common');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 32500);
@@ -562,7 +563,7 @@ exports.questions = {
 		subQuestionLabel: 'Other appeal',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		validators: [new RequiredValidator('Select yes if you want to add another appeal')],
-		subQuestion: new AddMoreQuestion({
+		subQuestion: new CaseAddMoreQuestion({
 			title: 'Enter an appeal reference number',
 			question: 'Enter an appeal reference number',
 			// fieldName: 'other-appeal-reference',
@@ -1401,5 +1402,37 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadCostApplication
+	}),
+	anyOtherAppeals: new BooleanQuestion({
+		title: 'Are there other appeals linked to your development?',
+		question: 'Are there other appeals linked to your development?',
+		fieldName: 'appellantLinkedCase',
+		url: 'other-appeals',
+		html: 'resources/other-appeals/content.html',
+		validators: [
+			new RequiredValidator('Select yes if there are other appeals linked to your development')
+		]
+	}),
+	linkAppeals: new ListAddMoreQuestion({
+		pageTitle: 'Nearby appeal added to the case',
+		title: 'n/a',
+		question: 'Are there other appeals linked to your development?',
+		fieldName: 'appellantLinkedCaseAdd',
+		url: 'enter-appeal-reference',
+		subQuestionLabel: 'Linked appeal',
+		subQuestionInputClasses: 'govuk-input--width-10',
+		validators: [new RequiredValidator('Select yes if you want to add another linked appeal')],
+		subQuestion: new CaseAddMoreQuestion({
+			title: 'Enter the appeal reference number',
+			question: 'Enter the appeal reference number',
+			fieldName: 'appellantLinkedCase',
+			html: 'resources/appellant-linked-case/content.html',
+			hint: 'For example, 0221532.',
+			validators: [
+				new RequiredValidator('Enter the appeal reference number'),
+				new StringEntryValidator(appealReferenceNumberValidation)
+			],
+			viewFolder: 'identifier'
+		})
 	})
 };

@@ -17,9 +17,18 @@ exports.getConditionalAnswer = (answers, question, answer) => {
  * @param {JourneyResponse} journeyResponse
  * @param {string} fieldName
  */
-
 exports.getAddressesForQuestion = (journeyResponse, fieldName) => {
 	const addresses = journeyResponse.answers?.SubmissionAddress || [];
 
 	return addresses.filter((address) => address.fieldName == fieldName);
+};
+
+/**
+ * @param {JourneyResponse} journeyResponse
+ * @param {string} fieldName
+ */
+exports.getLinkedCasesForQuestion = (journeyResponse, fieldName) => {
+	const linkedCases = journeyResponse.answers?.SubmissionLinkedCase || [];
+
+	return linkedCases.filter((linkedCase) => linkedCase.fieldName == fieldName);
 };

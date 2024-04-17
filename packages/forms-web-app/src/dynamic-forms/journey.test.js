@@ -414,6 +414,20 @@ describe('Journey class', () => {
 				expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
 			}
 		);
+
+		it('should handle querystring in baseUrl', () => {
+			constructorArgs.baseUrl = 'base?id=1';
+			const section = mockSections[2];
+			const name = section.questions[1].fieldName;
+			const nextQuestionName = section.questions[2].url;
+
+			const journey = new TestJourney(...Object.values(constructorArgs));
+			journey.sections = mockSections;
+
+			const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
+
+			expect(nextQuestionUrl).toBe(`base/${section.segment}/${nextQuestionName}?id=1`);
+		});
 	});
 
 	describe('getCurrentQuestionUrl', () => {
@@ -452,6 +466,22 @@ describe('Journey class', () => {
 
 			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}`);
 		});
+
+		it('should handle querystring in baseUrl', () => {
+			constructorArgs.baseUrl = 'base?id=1';
+			const section = mockSections[0].segment;
+			const name = mockSections[0].questions[1].fieldName;
+
+			const journey = new TestJourney(...Object.values(constructorArgs));
+			journey.sections = mockSections;
+
+			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
+
+			expect(currentQuestionUrl).toBe(`base/${section}/${name}?id=1`);
+		});
+	});
+
+	describe('isComplete', () => {
 		it('should return true for isComplete when all sections are complete', () => {
 			const completeSectionStubs = [
 				{
@@ -474,6 +504,7 @@ describe('Journey class', () => {
 			journey.sections = completeSectionStubs;
 			expect(journey.isComplete()).toBe(true);
 		});
+
 		it('should return false for isComplete when one section is incomplete', () => {
 			const oneIncompleteSectionStubs = [
 				{
@@ -496,6 +527,7 @@ describe('Journey class', () => {
 			journey.sections = oneIncompleteSectionStubs;
 			expect(journey.isComplete()).toBe(false);
 		});
+
 		it('should return false for isComplete when all sections are incomplete', () => {
 			const oneIncompleteSectionStubs = [
 				{
@@ -517,6 +549,57 @@ describe('Journey class', () => {
 			const journey = new TestJourney(...Object.values(constructorArgs));
 			journey.sections = oneIncompleteSectionStubs;
 			expect(journey.isComplete()).toBe(false);
+		});
+	});
+
+	describe('addToCurrentQuestionUrl', () => {
+		it('should return the current question URL if found', () => {
+			const section = mockSections[0].segment;
+			const name = mockSections[0].questions[1].fieldName;
+
+			const journey = new TestJourney(...Object.values(constructorArgs));
+			journey.sections = mockSections;
+
+			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
+
+			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}/add`);
+		});
+
+		it('should return the questionnaire URL if section or question is not found', () => {
+			const section = 'nope';
+			const name = mockSections[0].questions[1].fieldName;
+
+			const journey = new TestJourney(...Object.values(constructorArgs));
+			journey.sections = mockSections;
+
+			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
+
+			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}`);
+		});
+
+		it('should return the current question URL using url slug if set', () => {
+			const section = mockSections[2].segment;
+			const name = mockSections[2].questions[2].url;
+
+			const journey = new TestJourney(...Object.values(constructorArgs));
+			journey.sections = mockSections;
+
+			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
+
+			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}/add`);
+		});
+
+		it('should handle querystring in baseUrl', () => {
+			constructorArgs.baseUrl = 'base?id=1';
+			const section = mockSections[0].segment;
+			const name = mockSections[0].questions[1].fieldName;
+
+			const journey = new TestJourney(...Object.values(constructorArgs));
+			journey.sections = mockSections;
+
+			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
+
+			expect(currentQuestionUrl).toBe(`base/${section}/${name}/add?id=1`);
 		});
 	});
 });

@@ -226,6 +226,33 @@ class Journey {
 	};
 
 	/**
+	 * Gets the url for the current question
+	 * @param {string} sectionSegment - section segment name
+	 * @param {string} questionSegment - question segment name
+	 * @param {string} addition - question segment name
+	 * @returns {string} url for the current question
+	 */
+	addToCurrentQuestionUrl = (sectionSegment, questionSegment, addition) => {
+		const unmatchedUrl = this.baseUrl;
+
+		// find section
+		const matchingSection = this.getSection(sectionSegment);
+		if (!matchingSection) {
+			return unmatchedUrl;
+		}
+
+		// find question
+		const matchingQuestion = this.#getQuestion(matchingSection, questionSegment);
+		if (!matchingQuestion) {
+			return unmatchedUrl;
+		}
+
+		const questionUrl = matchingQuestion.url ?? matchingQuestion.fieldName;
+
+		return this.#buildQuestionUrl(matchingSection.segment, questionUrl + addition);
+	};
+
+	/**
 	 * Gets the overall completeness status of a journey based on the response associated with it and the complete state of each section.
 	 * @returns {boolean} Boolean indicating if a journey response is complete
 	 */

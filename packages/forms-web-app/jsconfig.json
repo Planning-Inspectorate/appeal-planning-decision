@@ -7,5 +7,6 @@
 			"#lib/*": ["./src/lib/*.js"],
 			"#middleware/*": ["./src/middleware/*.js"]
 		}
-	}
+	},
+	"typeRoots": ["./typings", "./node_modules/@types"]
 }

@@ -192,6 +192,7 @@ services:
       FILE_UPLOAD_TMP_PATH: '/tmp'
       GOOGLE_ANALYTICS_ID: G-TZBWMVPTHV
       LOGGER_LEVEL: 'debug'
+      LOGGER_PRETTY_PRINT: 'true'
       PDF_SERVICE_API_URL: 'http://pdf-service-api:3000'
       PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING:
       SESSION_MONGODB_URL: mongodb://mongodb:27017/lpa-sessions

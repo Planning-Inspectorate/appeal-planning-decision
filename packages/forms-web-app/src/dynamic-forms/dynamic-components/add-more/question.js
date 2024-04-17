@@ -1,12 +1,4 @@
 const Question = require('../../question');
-const uuid = require('uuid');
-
-/**
- * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
- * @typedef {import('../../journey').Journey} Journey
- * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
- * @typedef {import('../../section').Section} Section
- */
 
 /**
  * @class
@@ -19,9 +11,11 @@ class AddMoreQuestion extends Question {
 	 * @param {string} params.fieldName
 	 * @param {string} params.viewFolder
 	 * @param {string} [params.hint]
-	 * @param {Array.<BaseValidator>} [params.validators]
+	 * @param {string} [params.html]
+	 * @param {string} [params.addMoreType]
+	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
 	 */
-	constructor({ title, question, fieldName, hint, validators, viewFolder, html }) {
+	constructor({ title, question, fieldName, hint, validators, viewFolder, html, addMoreType }) {
 		super({
 			title,
 			viewFolder,
@@ -31,15 +25,8 @@ class AddMoreQuestion extends Question {
 			hint,
 			html
 		});
-	}
 
-	/**
-	 * adds a uuid to the data to save
-	 * @param {import('express').Request} req
-	 * @returns
-	 */
-	async getDataToSave(req) {
-		return { addMoreId: uuid.v4(), value: req.body[this.fieldName] };
+		this.addMoreType = addMoreType;
 	}
 }
 

@@ -32,7 +32,8 @@ class LPAQuestionnaireSubmissionRepository {
 						}
 					},
 					SubmissionDocumentUpload: true,
-					SubmissionAddress: true
+					SubmissionAddress: true,
+					SubmissionLinkedCase: true
 				}
 			});
 		} catch (e) {

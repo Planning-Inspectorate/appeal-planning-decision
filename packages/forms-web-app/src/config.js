@@ -78,7 +78,8 @@ module.exports = {
 			'config.server.sessionSecret',
 			'config.featureFlagging.endpoint',
 			'config.oauth'
-		]
+		],
+		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true'
 	},
 	server: {
 		host: process.env.HOST_URL || `http://localhost:${httpPort}`, // This is used for the HTML generator

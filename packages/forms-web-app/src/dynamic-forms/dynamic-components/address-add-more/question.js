@@ -1,7 +1,7 @@
 const AddMoreQuestion = require('../add-more/question');
 const Address = require('@pins/common/src/lib/address');
-
-const uuid = require('uuid');
+const { getAddressesForQuestion } = require('../utils/question-utils');
+const { randomUUID } = require('crypto');
 
 /**
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
@@ -14,7 +14,7 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
 	 * @param {string} params.viewFolder
-	 * @param {Array.<BaseValidator>} [params.validators]
+	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
 	 */
 	constructor({ title, question, fieldName, viewFolder, validators }) {
 		super({
@@ -39,11 +39,10 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 			postcode: req.body[this.fieldName + '_postcode']
 		});
 
-		return { addMoreId: uuid.v4(), value: address };
+		return { addMoreId: randomUUID(), value: address };
 	}
 
 	/**
-	 *
 	 * @param {Object.<Any>} answer
 	 * @returns The formatted address to be presented in the UI
 	 */
@@ -56,6 +55,51 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 		];
 
 		return addressComponents.filter(Boolean).join(', ');
+	}
+
+	/**
+	 * @param {JourneyResponse} journeyResponse
+	 * @param {string} fieldName
+	 */
+	getAddMoreAnswers(journeyResponse, fieldName) {
+		return getAddressesForQuestion(journeyResponse, fieldName);
+	}
+
+	/**
+	 * @param {import('express').Request} req
+	 * @param {string} parentFieldName
+	 * @param {JourneyResponse} journeyResponse
+	 * @param {Object} responseToSave
+	 */
+	async saveList(req, parentFieldName, journeyResponse, responseToSave) {
+		const addresses = responseToSave.answers[parentFieldName];
+		await Promise.all(
+			addresses.map((address) => {
+				const addressData = address.value;
+				addressData.fieldName = this.fieldName;
+				return req.appealsApiClient.postSubmissionAddress(
+					journeyResponse.journeyId,
+					journeyResponse.referenceId,
+					addressData
+				);
+			})
+		);
+	}
+
+	/**
+	 * removes answer with answerId from response if present
+	 * @param {import('express').Request} req
+	 * @param {JourneyResponse} journeyResponse
+	 * @param {string} answerId
+	 * @returns {Promise<JourneyResponse | boolean> } updated JourneyResponse
+	 */
+	async removeList(req, journeyResponse, answerId) {
+		const updatedLPA = await req.appealsApiClient.deleteSubmissionAddress(
+			journeyResponse.referenceId,
+			answerId
+		);
+		journeyResponse.answers = updatedLPA;
+		return updatedLPA.SubmissionAddress?.length > 0 ? journeyResponse : true;
 	}
 }
 

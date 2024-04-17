@@ -1,5 +1,5 @@
 const { capitalize } = require('../lib/string-functions');
-const { JOURNEY_TYPES } = require('./journey-types');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator

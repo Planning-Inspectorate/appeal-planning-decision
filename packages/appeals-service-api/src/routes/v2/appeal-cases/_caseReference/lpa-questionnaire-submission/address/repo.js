@@ -52,7 +52,8 @@ class SubmissionAddressRepository {
 					}
 				},
 				SubmissionDocumentUpload: true,
-				SubmissionAddress: true
+				SubmissionAddress: true,
+				SubmissionLinkedCase: true
 			}
 		});
 	}
@@ -83,7 +84,8 @@ class SubmissionAddressRepository {
 					}
 				},
 				SubmissionDocumentUpload: true,
-				SubmissionAddress: true
+				SubmissionAddress: true,
+				SubmissionLinkedCase: true
 			}
 		});
 	}

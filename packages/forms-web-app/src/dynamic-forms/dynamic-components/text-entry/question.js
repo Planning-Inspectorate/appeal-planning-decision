@@ -20,7 +20,7 @@ class TextEntryQuestion extends Question {
 	 * @param {string} [params.html]
 	 * @param {string} [params.hint]
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
-	 * @param {Array.<BaseValidator>} [params.validators]
+	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
 	 */
 	constructor({ title, question, fieldName, url, hint, validators, html, label }) {
 		super({
