@@ -1305,7 +1305,49 @@ exports.questions = {
 					question:
 						'Enter a reason why an inspector cannot view the appeal site from a public road or footpath.',
 					hint: 'For example, the appeal site is at the rear of a terraced property.',
-					fieldName: 'appellantSiteAccess_appellantSiteAccessDetails',
+					fieldName: 'appellantSiteAccessDetails',
+					type: 'textarea'
+				}
+			},
+			{
+				text: 'No',
+				value: 'no'
+			}
+		]
+	}),
+	healthAndSafety: new RadioQuestion({
+		title: 'Health and safety issues',
+		question: 'Health and safety issues',
+		html: 'resources/health-and-safety/content.html',
+		fieldName: 'appellantSiteSafety',
+		url: 'health-safety-issues',
+		validators: [
+			new RequiredValidator(
+				' Select yes if there are any health and safety issues on the appeal site'
+			),
+			new ConditionalRequiredValidator('?'),
+			new StringValidator({
+				regex: {
+					regex: new RegExp(`^[0-9a-z- '()]{0,${inputMaxCharacters}}$`, 'gi'),
+					regexMessage: 'Reason must only include letters a to z, hyphens, spaces and apostrophes.'
+				},
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+				},
+				fieldName: getConditionalFieldName(
+					'appellantSiteSafety',
+					'appellantSiteSafety_appellantSiteSafetyDetails'
+				)
+			})
+		],
+		options: [
+			{
+				text: 'Yes',
+				value: 'yes',
+				conditional: {
+					question: 'Tell us about the health and safety issues',
+					fieldName: 'appellantSiteSafetyDetails',
 					type: 'textarea'
 				}
 			},
