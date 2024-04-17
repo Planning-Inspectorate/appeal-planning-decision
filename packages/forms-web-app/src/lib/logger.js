@@ -10,5 +10,6 @@ const config = require('../config');
 
 module.exports = pino({
 	level: config.logger.level,
-	redact: config.logger.redact
+	redact: config.logger.redact,
+	prettyPrint: config.logger.prettyPrint
 });
