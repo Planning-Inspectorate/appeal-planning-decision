@@ -1,21 +1,30 @@
 const { getJourney } = require('./journey-factory');
-const { JOURNEY_TYPES } = require('./journey-types');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 const { HasJourney } = require('./has-questionnaire/journey');
 const { S78Journey } = require('./s78-questionnaire/journey');
+const { HasAppealFormJourney } = require('./has-appeal-form/journey');
 
 describe('journey-factory', () => {
 	describe('getJourney', () => {
-		it('should create a journey based on the journeyId', () => {
-			const hasJourney = getJourney({
+		it('should create LPA Questionnaire journeys based on the journeyId', () => {
+			const hasQuestionnaireJourney = getJourney({
 				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE
 			});
-			const s78Journey = getJourney({
+			const s78QuestionnaireJourney = getJourney({
 				journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE
 			});
 
-			expect(hasJourney instanceof HasJourney).toBe(true);
-			expect(s78Journey instanceof S78Journey).toBe(true);
+			expect(hasQuestionnaireJourney instanceof HasJourney).toBe(true);
+			expect(s78QuestionnaireJourney instanceof S78Journey).toBe(true);
+		});
+
+		it('should create Appeal Form journeys based on the journeyId', () => {
+			const hasAppealJourney = getJourney({
+				journeyId: JOURNEY_TYPES.HAS_APPEAL_FORM
+			});
+
+			expect(hasAppealJourney instanceof HasAppealFormJourney).toBe(true);
 		});
 
 		it('should error if an invalid journey type is used', () => {

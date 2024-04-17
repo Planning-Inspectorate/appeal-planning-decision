@@ -6,7 +6,7 @@ const {
 } = require('@pins/common');
 
 const Question = require('../../question');
-const { JOURNEY_TYPES } = require('../../journey-types');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 /**
  * @typedef {import('../../journey').Journey} Journey

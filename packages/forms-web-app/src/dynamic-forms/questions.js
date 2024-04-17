@@ -9,7 +9,7 @@ const CheckboxQuestion = require('./dynamic-components/checkbox/question');
 const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
 const BooleanQuestion = require('./dynamic-components/boolean/question');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
-const AddMoreQuestion = require('./dynamic-components/add-more/question');
+const CaseAddMoreQuestion = require('./dynamic-components/case-add-more/question');
 const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
 const RadioQuestion = require('./dynamic-components/radio/question');
 const RequiredValidator = require('./validator/required-validator');
@@ -562,7 +562,7 @@ exports.questions = {
 		subQuestionLabel: 'Other appeal',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		validators: [new RequiredValidator('Select yes if you want to add another appeal')],
-		subQuestion: new AddMoreQuestion({
+		subQuestion: new CaseAddMoreQuestion({
 			title: 'Enter an appeal reference number',
 			question: 'Enter an appeal reference number',
 			// fieldName: 'other-appeal-reference',

@@ -1,7 +1,5 @@
 const Question = require('../../question');
 const AddMoreQuestion = require('../add-more/question');
-const AddressAddMoreQuestion = require('../address-add-more/question');
-const { getAddressesForQuestion } = require('../utils/question-utils');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -23,6 +21,7 @@ const { getAddressesForQuestion } = require('../utils/question-utils');
 class ListAddMoreQuestion extends Question {
 	static FULL_WIDTH = 'govuk-grid-column-full';
 	static TWO_THIRDS_WIDTH = 'govuk-grid-column-two-thirds';
+
 	/**
 	 * @param {Object} params
 	 * @param {string} params.title
@@ -73,6 +72,7 @@ class ListAddMoreQuestion extends Question {
 		this.subQuestionInputClasses = subQuestionInputClasses;
 		this.width = width ?? ListAddMoreQuestion.TWO_THIRDS_WIDTH;
 	}
+
 	/**
 	 * Answers to the question
 	 * @param {Object} answers
@@ -105,10 +105,10 @@ class ListAddMoreQuestion extends Question {
 	 * @returns {QuestionViewModel}
 	 */
 	prepQuestionForRendering(section, journey, customViewData) {
-		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
-		const answers = isAddressQuestion
-			? getAddressesForQuestion(journey.response, this.subQuestion.fieldName)
-			: journey.response.answers[this.fieldName];
+		const answers = this.subQuestion.getAddMoreAnswers(
+			journey.response,
+			this.subQuestion.fieldName
+		);
 		customViewData = customViewData ?? {};
 		customViewData.width = this.width;
 		// get viewModel for listing component
@@ -127,22 +127,24 @@ class ListAddMoreQuestion extends Question {
 
 	/**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @param {Object} answer
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
 	 * @returns {Array.<Object>}
 	 */
-	formatAnswerForSummary(sectionSegment, journey, answer) {
-		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
+	formatAnswerForSummary(sectionSegment, journey) {
 		let rowParams = [];
-		const answerArray = isAddressQuestion
-			? getAddressesForQuestion(journey.response, this.subQuestion.fieldName)
-			: answer;
+
+		const answerArray = this.subQuestion.getAddMoreAnswers(
+			journey.response,
+			this.subQuestion.fieldName
+		);
+
 		for (let i = 0; i < answerArray?.length; i++) {
+			const answer = answerArray[i];
 			const action = this.getAction(sectionSegment, journey);
 			rowParams.push({
 				key: `${this.subQuestionLabel} ${i + 1}`,
-				value: this.subQuestion.format(isAddressQuestion ? answerArray[i] : answerArray[i].value),
+				value: this.subQuestion.format(answer),
 				action: action
 			});
 		}
@@ -171,20 +173,20 @@ class ListAddMoreQuestion extends Question {
 	 * @returns {Array.<addMoreAnswer>} list of existing answers to the sub question
 	 */
 	#addListingDataToViewModel(journey, section) {
-		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
 		const addMoreAnswers = [];
-		const answers = isAddressQuestion
-			? getAddressesForQuestion(journey.response, this.subQuestion.fieldName)
-			: journey.response.answers[this.fieldName];
+		const answers = this.subQuestion.getAddMoreAnswers(
+			journey.response,
+			this.subQuestion.fieldName
+		);
 
 		let i = 1;
 		for (const item in answers) {
 			const answer = answers[item];
-			const answerId = isAddressQuestion ? answer.id : answer.addMoreId;
+			const answerId = answer.id;
 			addMoreAnswers.push({
 				label: `${this.subQuestionLabel} ${i}`,
-				answer: this.subQuestion.format(isAddressQuestion ? answer : answer.value),
-				removeLink: journey.getCurrentQuestionUrl(section.segment, this.fieldName) + '/' + answerId
+				answer: this.subQuestion.format(answer),
+				removeLink: journey.addToCurrentQuestionUrl(section.segment, this.fieldName, '/' + answerId)
 			});
 			i++;
 		}
@@ -205,12 +207,6 @@ class ListAddMoreQuestion extends Question {
 				[this.fieldName]: []
 			}
 		};
-		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
-
-		// get existing answers
-		if (!isAddressQuestion && journeyResponse.answers[this.fieldName]) {
-			responseToSave.answers[this.fieldName] = journeyResponse.answers[this.fieldName];
-		}
 
 		// get answer to addMore
 		const individual = await this.subQuestion.getDataToSave(req, journeyResponse);
@@ -254,13 +250,13 @@ class ListAddMoreQuestion extends Question {
 			}
 		}
 
-		const addMoreAnswer = req.body[this.fieldName];
-
 		if (isAddMorePage) {
 			const errorViewModel = this.checkForValidationErrors(req, section, journey);
 			if (errorViewModel) {
 				return this.renderAction(res, errorViewModel);
 			}
+
+			const addMoreAnswer = req.body[this.fieldName];
 
 			if (addMoreAnswer === 'yes') {
 				const viewModel = this.subQuestion.prepQuestionForRendering(section, journey);
@@ -286,24 +282,13 @@ class ListAddMoreQuestion extends Question {
 		let responseToSave = await this.getDataToSave(req, journeyResponse);
 		journey.response[this.fieldName] = responseToSave.answers[this.fieldName];
 
-		if (this.subQuestion instanceof AddressAddMoreQuestion) {
-			const addresses = responseToSave.answers[this.fieldName];
-			await Promise.all(
-				addresses.map((address) => {
-					const addressData = address.value;
-					addressData.fieldName = this.subQuestion.fieldName;
-					return req.appealsApiClient.postSubmissionAddress(
-						journeyResponse.referenceId,
-						addressData
-					);
-				})
-			);
-			responseToSave = {
-				answers: {
-					[this.fieldName]: true
-				}
-			};
-		}
+		this.subQuestion.saveList(req, this.fieldName, journeyResponse, responseToSave);
+
+		responseToSave = {
+			answers: {
+				[this.fieldName]: true
+			}
+		};
 
 		await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
 
@@ -326,36 +311,7 @@ class ListAddMoreQuestion extends Question {
 	 * @returns {Promise<JourneyResponse | boolean> } updated JourneyResponse
 	 */
 	async removeAction(req, journeyResponse, answerId) {
-		let responseToSave = {
-			answers: {
-				[this.fieldName]: []
-			}
-		};
-
-		const isAddressQuestion = this.subQuestion instanceof AddressAddMoreQuestion;
-		if (isAddressQuestion) {
-			const updatedLPA = await req.appealsApiClient.deleteSubmissionAddress(
-				journeyResponse.referenceId,
-				answerId
-			);
-			journeyResponse.answers = updatedLPA;
-			return updatedLPA.SubmissionAddress?.length > 0 ? journeyResponse : true;
-		}
-
-		if (journeyResponse.answers[this.fieldName]) {
-			responseToSave.answers[this.fieldName] = [...journeyResponse.answers[this.fieldName]];
-		}
-
-		const removeIndex = responseToSave.answers[this.fieldName].findIndex(
-			(answer) => answer.addMoreId === answerId
-		);
-
-		if (removeIndex >= 0) {
-			responseToSave.answers[this.fieldName].splice(removeIndex, 1);
-			await this.saveResponseToDB(journeyResponse, responseToSave);
-			journeyResponse.answers[this.fieldName] = responseToSave.answers[this.fieldName];
-		}
-		return journeyResponse.answers[this.fieldName]?.length > 0 ? journeyResponse : true;
+		return this.subQuestion.removeList(req, journeyResponse, answerId);
 	}
 }
 

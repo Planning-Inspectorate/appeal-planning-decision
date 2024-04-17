@@ -1,4 +1,4 @@
-const { JOURNEY_TYPES } = require('./journey-types');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { HasJourney } = require('./has-questionnaire/journey');
 const { S78Journey } = require('./s78-questionnaire/journey');
 const { HasAppealFormJourney } = require('./has-appeal-form/journey');

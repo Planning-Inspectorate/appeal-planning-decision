@@ -9,7 +9,7 @@ const questionUtils = require('./dynamic-components/utils/question-utils');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
- * @typedef {import('./journey-types').JourneyType} JourneyType
+ * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
  * @typedef {import('./journey').Journey} Journey
  * @typedef {import('./question')} Question
  * @typedef {import('./section').Section} Section
