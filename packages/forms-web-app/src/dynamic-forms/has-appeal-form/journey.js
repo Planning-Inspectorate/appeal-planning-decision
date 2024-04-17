@@ -86,7 +86,8 @@ class HasAppealFormJourney extends Journey {
 						) &&
 							questionHasAnswer(questions.advertisingAppeal, 'yes'))
 				)
-				.addQuestion(questions.inspectorAccess),
+				.addQuestion(questions.inspectorAccess)
+				.addQuestion(questions.healthAndSafety),
 			new Section('Your application', 'your-application')
 				.addQuestion(questions.enterApplicationReference)
 				.addQuestion(questions.planningApplicationDate)
