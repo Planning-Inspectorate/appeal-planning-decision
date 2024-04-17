@@ -218,6 +218,18 @@ class ApiError {
 		});
 	}
 
+	static unableToCreateLinkedCase() {
+		return new ApiError(400, {
+			errors: ['Unable to create new SubmissionLinkedCase entry']
+		});
+	}
+
+	static unableToDeleteLinkedCase() {
+		return new ApiError(400, {
+			errors: ['Unable to delete SubmissionLinkedCase entry']
+		});
+	}
+
 	// listed building
 	static listedBuildingNotFound(reference) {
 		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });

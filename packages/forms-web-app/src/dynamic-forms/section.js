@@ -1,4 +1,5 @@
 const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
+const CaseAddMoreQuestion = require('./dynamic-components/case-add-more/question');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
 const RequiredValidator = require('./validator/required-validator');
 
@@ -103,6 +104,12 @@ class Section {
 			if (question.subQuestion instanceof AddressAddMoreQuestion) {
 				missingRequiredFiles = !journeyResponse.answers.SubmissionAddress.some(
 					(address) => address.fieldName === question.subQuestion.fieldName
+				);
+			}
+
+			if (question.subQuestion instanceof CaseAddMoreQuestion) {
+				missingRequiredFiles = !journeyResponse.answers.SubmissionLinkedCase.some(
+					(caseref) => caseref.fieldName === question.subQuestion.fieldName
 				);
 			}
 

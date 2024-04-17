@@ -575,7 +575,6 @@ model LPAQuestionnaireSubmission {
   lpaProcedurePreference_lpaPreferInquiryDuration String?
   lpaPreferInquiryDetails                         String?
   nearbyAppeals                                   Boolean?
-  nearbyAppealReference                           String?
   addNearbyAppeal                                 Boolean?
   newConditions                                   String?
   newConditions_newConditionDetails               String?
@@ -618,6 +617,7 @@ model LPAQuestionnaireSubmission {
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
   SubmissionAddress        SubmissionAddress[]
+  SubmissionLinkedCase     SubmissionLinkedCase[]
 }
 
 model SubmissionDocumentUpload {
@@ -657,6 +657,9 @@ model SubmissionAddress {
 
 model SubmissionLinkedCase {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  lPAQuestionnaireSubmissionId String?                     @db.UniqueIdentifier
+  LPAQuestionnaireSubmission   LPAQuestionnaireSubmission? @relation(fields: [lPAQuestionnaireSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   appellantSubmissionId String?              @db.UniqueIdentifier
   AppellantSubmission   AppellantSubmission? @relation(fields: [appellantSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)

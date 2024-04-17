@@ -3,14 +3,13 @@
 {% macro answerList(answers) %}
     {% set summaryRows = [] %}
 
-    {% for item in answers %}
-        {# TODO format item.answer to handle address input also #}
+    {% for item in answers %}        
         {% set summaryRows = (summaryRows.push({
             key: {
-            text: item.label
+                text: item.label
             },
             value: {
-            html: item.answer
+                html: item.answer
             },
             actions: {
                 items: [

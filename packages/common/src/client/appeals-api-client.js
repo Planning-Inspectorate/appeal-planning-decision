@@ -2,6 +2,7 @@ const { default: fetch } = require('node-fetch');
 const crypto = require('crypto');
 const { handleApiErrors, ApiClientError } = require('./api-client-error');
 const { buildQueryString } = require('./utils');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 const parentLogger = require('../lib/logger');
 
@@ -324,23 +325,91 @@ class AppealsApiClient {
 	}
 
 	/**
-	 * @param {string} caseReference
+	 * @param {string} journeyId
+	 * @param {string} referenceId
 	 * @param {object} data
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async postSubmissionAddress(caseReference, data) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/address`;
+	async postSubmissionAddress(journeyId, referenceId, data) {
+		let endpoint;
+
+		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address`;
+		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+			endpoint = `${v2}/appellant-submissions/${referenceId}/address`;
+		}
+
+		if (!endpoint) {
+			throw new Error(`unknown journey type: ${journeyId}`);
+		}
+
 		const response = await this.#makePostRequest(endpoint, data);
 		return response.json();
 	}
 
 	/**
-	 * @param {string} caseReference
+	 * @param {string} journeyId
+	 * @param {string} referenceId
 	 * @param {string} addressId
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
-	async deleteSubmissionAddress(caseReference, addressId) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/address/${addressId}`;
+	async deleteSubmissionAddress(journeyId, referenceId, addressId) {
+		let endpoint;
+
+		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/address/${addressId}`;
+		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+			endpoint = `${v2}/appellant-submissions/${referenceId}/address/${addressId}`;
+		}
+
+		if (!endpoint) {
+			throw new Error(`unknown journey type: ${journeyId}`);
+		}
+
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} journeyId
+	 * @param {string} referenceId
+	 * @param {object} data
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
+	 */
+	async postSubmissionLinkedCase(journeyId, referenceId, data) {
+		let endpoint;
+		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case`;
+		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+			endpoint = `${v2}/appellant-submissions/${referenceId}/linked-case`;
+		}
+
+		if (!endpoint) {
+			throw new Error(`unknown journey type: ${journeyId}`);
+		}
+
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} journeyId
+	 * @param {string} referenceId
+	 * @param {string} linkedCaseId
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
+	 */
+	async deleteSubmissionLinkedCase(journeyId, referenceId, linkedCaseId) {
+		let endpoint;
+		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/linked-case/${linkedCaseId}`;
+		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
+			endpoint = `${v2}/appellant-submissions/${referenceId}/linked-case/${linkedCaseId}`;
+		}
+
+		if (!endpoint) {
+			throw new Error(`unknown journey type: ${journeyId}`);
+		}
+
 		const response = await this.#makeDeleteRequest(endpoint);
 		return response.json();
 	}
