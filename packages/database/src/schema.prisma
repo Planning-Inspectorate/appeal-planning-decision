@@ -523,7 +523,6 @@ model AppellantSubmission {
   uploadAppellantStatement          Boolean?
   uploadCostApplication             Boolean?
   uploadChangeOfDescriptionEvidence Boolean?
-  appellantStatement                Boolean?
   SubmissionDocumentUpload          SubmissionDocumentUpload[]
 
   // addresses
