@@ -102,7 +102,11 @@ class HasAppealFormJourney extends Journey {
 				.addQuestion(questions.uploadAppellantStatement)
 				.addQuestion(questions.costApplication)
 				.addQuestion(questions.uploadCostApplication)
-				.withCondition(questionHasAnswer(questions.costApplication, 'yes'))
+				.withCondition(questionHasAnswer(questions.costApplication, 'yes')),
+			new Section('Your appeal', 'your-appeal')
+				.addQuestion(questions.anyOtherAppeals)
+				.addQuestion(questions.linkAppeals)
+				.withCondition(questionHasAnswer(questions.anyOtherAppeals, 'yes'))
 		);
 	}
 }
