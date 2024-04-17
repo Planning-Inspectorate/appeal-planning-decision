@@ -2,7 +2,7 @@ const express = require('express');
 const { auth } = require('express-oauth2-jwt-bearer');
 const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../configuration/config');
-const { put } = require('./controller');
+const { put, post } = require('./controller');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const validateToken = require('@pins/common/src/middleware/validate-token');
 const { openApiValidatorMiddleware } = require('../../../validators/validate-open-api');
@@ -26,5 +26,6 @@ router.use(
 );
 
 router.put('/', openApiValidatorMiddleware(), asyncHandler(put));
+router.post('/', asyncHandler(post));
 
 module.exports = { router };
