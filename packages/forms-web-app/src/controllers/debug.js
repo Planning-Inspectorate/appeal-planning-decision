@@ -16,6 +16,15 @@ const setCommentDeadline = async (req, res) => {
 	return res.sendStatus(200);
 };
 
+const createHASAppeal = async (req, res) => {
+	const data = await req.appealsApiClient.createAppellantSubmission({
+		LPACode: 'Q9999',
+		appealTypeCode: 'HAS'
+	});
+	return res.status(200).send(data);
+};
+
 module.exports = {
-	setCommentDeadline
+	setCommentDeadline,
+	createHASAppeal
 };

@@ -87,6 +87,42 @@ module.exports = class Repo {
 	}
 
 	/**
+	 * Create an appellant submission
+	 *
+	 * @param {{ userId: string, data: AppellantSubmissionCreateInput }} params
+	 * @returns {Promise<AppellantSubmission>}
+	 */
+	async post({ userId, data }) {
+		return await this.dbClient.$transaction(async (tx) => {
+			return await tx.appeal.create({
+				select: {
+					AppellantSubmission: {
+						select: {
+							id: true,
+							LPACode: true,
+							appealTypeCode: true,
+							appealId: true
+						}
+					}
+				},
+				data: {
+					Users: {
+						create: {
+							userId,
+							role: APPEAL_USER_ROLES.APPELLANT
+						}
+					},
+					AppellantSubmission: {
+						create: {
+							...data
+						}
+					}
+				}
+			});
+		});
+	}
+
+	/**
 	 * Update an appellant submission
 	 *
 	 * @param {{ appellantSubmissionId: string, userId: string, data: AppellantSubmissionUpdateInput }} params
