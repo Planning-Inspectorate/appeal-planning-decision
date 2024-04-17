@@ -42,11 +42,11 @@ components:
         identifiedOwners:
           type: boolean
         appellantSiteSafety:
-          type: boolean
+          type: string
         appellantSiteSafetyDetails:
           type: string
         appellantSiteAccess:
-          type: boolean
+          type: string
         appellantSiteAccessDetails:
           type: string
         applicationReference:
