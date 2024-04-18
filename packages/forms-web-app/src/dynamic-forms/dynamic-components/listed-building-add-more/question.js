@@ -1,6 +1,8 @@
 const { getListedBuilding } = require('../../../lib/appeals-api-wrapper');
 const AddMoreQuestion = require('../add-more/question');
 const ListedBuilding = require('@pins/common/src/lib/listed-building');
+const { getListedBuildingForQuestion } = require('../utils/question-utils');
+
 const { randomUUID } = require('crypto');
 
 /**
@@ -55,8 +57,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	 * @param {string} fieldName
 	 */
 	getAddMoreAnswers(journeyResponse, fieldName) {
-		const listedBuildings = journeyResponse.answers?.SubmissionListedBuilding || [];
-		return listedBuildings.filter((listedBuilding) => listedBuilding.fieldName == fieldName);
+		return getListedBuildingForQuestion(journeyResponse, fieldName);
 	}
 
 	/**
@@ -72,6 +73,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 				const listedBuildingData = listedBuilding.value;
 				listedBuildingData.fieldName = this.fieldName;
 				return req.appealsApiClient.postSubmissionListedBuilding(
+					journeyResponse.journeyId,
 					journeyResponse.referenceId,
 					listedBuildingData
 				);
@@ -87,12 +89,13 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	 * @returns {Promise<JourneyResponse | boolean> } updated JourneyResponse
 	 */
 	async removeList(req, journeyResponse, answerId) {
-		const updatedLPA = await req.appealsApiClient.deleteSubmissionListedBuilding(
+		const updated = await req.appealsApiClient.deleteSubmissionListedBuilding(
+			journeyResponse.journeyId,
 			journeyResponse.referenceId,
 			answerId
 		);
-		journeyResponse.answers = updatedLPA;
-		return updatedLPA.SubmissionListedBuilding?.length > 0 ? journeyResponse : true;
+		journeyResponse.answers = updated;
+		return updated.SubmissionListedBuilding?.length > 0 ? journeyResponse : true;
 	}
 }
 

@@ -230,6 +230,18 @@ class ApiError {
 		});
 	}
 
+	static unableToCreateListedBuilding() {
+		return new ApiError(400, {
+			errors: ['Unable to create new SubmissionListedBuilding entry']
+		});
+	}
+
+	static unableToDeleteListedBuilding() {
+		return new ApiError(400, {
+			errors: ['Unable to delete SubmissionListedBuilding entry']
+		});
+	}
+
 	// listed building
 	static listedBuildingNotFound(reference) {
 		return new ApiError(404, { errors: [`The listedBuilding ${reference} was not found`] });

@@ -282,7 +282,7 @@ class ListAddMoreQuestion extends Question {
 		let responseToSave = await this.getDataToSave(req, journeyResponse);
 		journey.response[this.fieldName] = responseToSave.answers[this.fieldName];
 
-		this.subQuestion.saveList(req, this.fieldName, journeyResponse, responseToSave);
+		await this.subQuestion.saveList(req, this.fieldName, journeyResponse, responseToSave);
 
 		responseToSave = {
 			answers: {

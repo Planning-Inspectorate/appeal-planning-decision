@@ -32,3 +32,13 @@ exports.getLinkedCasesForQuestion = (journeyResponse, fieldName) => {
 
 	return linkedCases.filter((linkedCase) => linkedCase.fieldName == fieldName);
 };
+
+/**
+ * @param {JourneyResponse} journeyResponse
+ * @param {string} fieldName
+ */
+exports.getListedBuildingForQuestion = (journeyResponse, fieldName) => {
+	const listedBuildings = journeyResponse.answers?.SubmissionListedBuilding || [];
+
+	return listedBuildings.filter((listedBuilding) => listedBuilding.fieldName == fieldName);
+};

@@ -1,5 +1,6 @@
 const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
 const CaseAddMoreQuestion = require('./dynamic-components/case-add-more/question');
+const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
 const RequiredValidator = require('./validator/required-validator');
 
@@ -81,7 +82,7 @@ class Section {
 		let requiredQuestionCount = 0;
 		let requiredAnswerCount = 0;
 		let answerCount = 0;
-		let missingRequiredFiles = false;
+		let missingRequiredItems = false;
 
 		for (let question of this.questions) {
 			//todo: rather than use instanceof can isRequired be a property on BaseValidator?
@@ -96,25 +97,31 @@ class Section {
 			}
 
 			if (question.documentType && answer === 'yes') {
-				missingRequiredFiles = !journeyResponse.answers.SubmissionDocumentUpload.some(
+				missingRequiredItems = !journeyResponse.answers.SubmissionDocumentUpload.some(
 					(upload) => upload.type === question.documentType.name
 				);
 			}
 
 			if (question.subQuestion instanceof AddressAddMoreQuestion) {
-				missingRequiredFiles = !journeyResponse.answers.SubmissionAddress.some(
+				missingRequiredItems = !journeyResponse.answers.SubmissionAddress.some(
 					(address) => address.fieldName === question.subQuestion.fieldName
 				);
 			}
 
 			if (question.subQuestion instanceof CaseAddMoreQuestion) {
-				missingRequiredFiles = !journeyResponse.answers.SubmissionLinkedCase.some(
+				missingRequiredItems = !journeyResponse.answers.SubmissionLinkedCase.some(
 					(caseref) => caseref.fieldName === question.subQuestion.fieldName
 				);
 			}
 
+			if (question.subQuestion instanceof ListedBuildingAddMoreQuestion) {
+				missingRequiredItems = !journeyResponse.answers.SubmissionListedBuilding.some(
+					(listed) => listed.fieldName === question.subQuestion.fieldName
+				);
+			}
+
 			// move to next question if answer not provided for this question or for file / address upload questions the length of uploaded files is less than 1
-			if (!answer || missingRequiredFiles) {
+			if (!answer || missingRequiredItems) {
 				continue;
 			}
 

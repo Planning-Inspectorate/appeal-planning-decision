@@ -11,5 +11,6 @@ export type LPAQuestionnaireSubmission = Prisma.LPAQuestionnaireSubmissionGetPay
 		SubmissionDocumentUpload: true;
 		SubmissionAddress: true;
 		SubmissionLinkedCase: true;
+		SubmissionListedBuilding: true;
 	};
 }>;

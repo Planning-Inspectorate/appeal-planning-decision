@@ -415,6 +415,46 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} journeyId
+	 * @param {string} referenceId
+	 * @param {object} data
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
+	 */
+	async postSubmissionListedBuilding(journeyId, referenceId, data) {
+		let endpoint;
+		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/listed-building`;
+		}
+
+		if (!endpoint) {
+			throw new Error(`unknown journey type: ${journeyId}`);
+		}
+
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} journeyId
+	 * @param {string} referenceId
+	 * @param {string} listedBuildingId
+	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
+	 */
+	async deleteSubmissionListedBuilding(journeyId, referenceId, listedBuildingId) {
+		let endpoint;
+		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
+			endpoint = `${v2}/appeal-cases/${referenceId}/lpa-questionnaire-submission/listed-building/${listedBuildingId}`;
+		}
+
+		if (!endpoint) {
+			throw new Error(`unknown journey type: ${journeyId}`);
+		}
+
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {string} caseReference
 	 * @returns {Promise<void>}
 	 */

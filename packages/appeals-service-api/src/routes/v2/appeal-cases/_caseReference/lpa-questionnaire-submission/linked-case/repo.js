@@ -39,7 +39,8 @@ class LinkedCaseRepository {
 				},
 				SubmissionDocumentUpload: true,
 				SubmissionAddress: true,
-				SubmissionLinkedCase: true
+				SubmissionLinkedCase: true,
+				SubmissionListedBuilding: true
 			}
 		});
 	}
@@ -71,7 +72,8 @@ class LinkedCaseRepository {
 				},
 				SubmissionDocumentUpload: true,
 				SubmissionAddress: true,
-				SubmissionLinkedCase: true
+				SubmissionLinkedCase: true,
+				SubmissionListedBuilding: true
 			}
 		});
 	}
