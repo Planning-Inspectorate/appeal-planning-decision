@@ -22,7 +22,8 @@ const {
 	validation: {
 		stringValidation: {
 			appealReferenceNumber: appealReferenceNumberValidation,
-			listedBuildingNumber: listedBuildingNumberValidation
+			listedBuildingNumber: listedBuildingNumberValidation,
+			appealSiteArea: { minValue }
 		}
 	}
 } = require('../../src/config');
@@ -40,6 +41,8 @@ const DateQuestion = require('./dynamic-components/date/question');
 const TextEntryQuestion = require('./dynamic-components/text-entry/question');
 const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
 const { documentTypes } = require('@pins/common');
+const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
+const NumericValidator = require('./validator/numeric-validator');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 32500);
 
@@ -1147,6 +1150,24 @@ exports.questions = {
 	// 	fieldName: 'right-of-way-upload'
 	// }),
 	// HAS APPEAL FORM QUESTIONS
+	siteArea: new NumberEntryQuestion({
+		title: 'What is the area of the appeal site?',
+		question: 'What is the area of the appeal site?',
+		suffix: 'm\u00B2',
+		fieldName: 'siteAreaSquareMetres',
+		hint: 'Total site area, in square metres.',
+		url: 'site-area',
+		validators: [
+			new RequiredValidator('Enter the area of the appeal site'),
+			new NumericValidator({
+				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
+				regexMessage: 'Enter the area of the site using numbers 0 to 9',
+				min: minValue,
+				minMessage: `Appeal site area must be at least ${minValue}m\u00B2`,
+				fieldName: 'siteAreaSquareMetres'
+			})
+		]
+	}),
 	ownsAllLand: new BooleanQuestion({
 		title: 'Do you own all the land involved in the appeal?',
 		question: 'Do you own all the land involved in the appeal?',
@@ -1323,9 +1344,9 @@ exports.questions = {
 		url: 'health-safety-issues',
 		validators: [
 			new RequiredValidator(
-				' Select yes if there are any health and safety issues on the appeal site'
+				'Select yes if there are any health and safety issues on the appeal site'
 			),
-			new ConditionalRequiredValidator('?'),
+			new ConditionalRequiredValidator('Enter the health and safety issues'),
 			new StringValidator({
 				regex: {
 					regex: new RegExp(`^[0-9a-z- '()]{0,${inputMaxCharacters}}$`, 'gi'),
