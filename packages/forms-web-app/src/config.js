@@ -138,6 +138,9 @@ module.exports = {
 					minLength: 7,
 					minLengthMessage: 'Appeal reference number must be 7 digits'
 				}
+			},
+			appealSiteArea: {
+				minValue: 1
 			}
 		}
 	},

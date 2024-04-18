@@ -1,5 +1,6 @@
 const { capitalize } = require('../lib/string-functions');
-const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const { JOURNEY_TYPES } = require('./journey-types');
+const { numericFields } = require('./dynamic-components/utils/numeric-fields');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -242,6 +243,12 @@ class Question {
 			if (propName.startsWith(this.fieldName + '_')) {
 				responseToSave.answers[propName] = req.body[propName];
 				journeyResponse.answers[propName] = req.body[propName];
+			} else if (numericFields.has(propName)) {
+				const numericValue = Number(req.body[propName]);
+				if (!isNaN(numericValue)) {
+					responseToSave.answers[propName] = numericValue;
+					journeyResponse.answers[propName] = numericValue;
+				}
 			}
 		}
 
