@@ -12,6 +12,8 @@ let sqlClient;
 let appealsApi;
 
 jest.mock('../../../../../configuration/featureFlag');
+jest.mock('../../../../../../src/services/object-store');
+
 jest.mock('express-oauth2-jwt-bearer', () => ({
 	// eslint-disable-next-line no-unused-vars
 	auth: jest.fn((_options) => {
