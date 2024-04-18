@@ -527,8 +527,9 @@ model AppellantSubmission {
   SubmissionDocumentUpload          SubmissionDocumentUpload[]
 
   // addresses
-  siteAddress       Boolean?
-  SubmissionAddress SubmissionAddress[]
+  siteAddress              Boolean?
+  SubmissionAddress        SubmissionAddress[]
+  SubmissionListedBuilding SubmissionListedBuilding[]
 }
 
 /// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser
@@ -619,6 +620,7 @@ model LPAQuestionnaireSubmission {
   SubmissionDocumentUpload SubmissionDocumentUpload[]
   SubmissionAddress        SubmissionAddress[]
   SubmissionLinkedCase     SubmissionLinkedCase[]
+  SubmissionListedBuilding SubmissionListedBuilding[]
 }
 
 model SubmissionDocumentUpload {
@@ -666,6 +668,23 @@ model SubmissionLinkedCase {
   AppellantSubmission   AppellantSubmission? @relation(fields: [appellantSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   caseReference String
+
+  // the fieldName of the questionnaire question / subquestion - required for display filtering
+  fieldName String
+}
+
+model SubmissionListedBuilding {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  lPAQuestionnaireSubmissionId String?                     @db.UniqueIdentifier
+  LPAQuestionnaireSubmission   LPAQuestionnaireSubmission? @relation(fields: [lPAQuestionnaireSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  appellantSubmissionId String?              @db.UniqueIdentifier
+  AppellantSubmission   AppellantSubmission? @relation(fields: [appellantSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  reference           String
+  name                String
+  listedBuildingGrade String
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
   fieldName String
