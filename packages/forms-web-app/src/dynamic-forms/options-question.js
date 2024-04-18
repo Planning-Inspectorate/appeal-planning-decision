@@ -49,7 +49,6 @@ class OptionsQuestion extends Question {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
-	 * @param {string} [params.hint]
 	 * @param {Array<Option>} params.options
 	 * @param {Array<import('./question').BaseValidator>} [params.validators]
 	 */
@@ -63,8 +62,7 @@ class OptionsQuestion extends Question {
 		pageTitle,
 		description,
 		options,
-		validators,
-		hint
+		validators
 	}) {
 		// add default valid options validator to all options questions
 		let optionsValidators = [new ValidOptionValidator()];
