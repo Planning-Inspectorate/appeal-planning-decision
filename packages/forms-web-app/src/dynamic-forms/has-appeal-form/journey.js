@@ -37,6 +37,7 @@ class HasAppealFormJourney extends Journey {
 		const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
 
 		this.sections.push(
+			new Section('Your details', 'your-details').addQuestion(questions.contactPhoneNumber),
 			new Section('Site details', 'site-details')
 				.addQuestion(questions.siteArea)
 				.addQuestion(questions.greenBelt)

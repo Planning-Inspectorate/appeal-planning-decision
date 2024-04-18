@@ -12,18 +12,33 @@ const Question = require('../../question');
  * @class
  */
 class SingleLineInputQuestion extends Question {
+	/** @type {Record<string, string>} */
+	inputAttributes;
+
 	/**
 	 * @param {Object} params
 	 * @param {string} params.title
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
+	 * @param {string} [params.description]
 	 * @param {string} [params.url]
 	 * @param {string} [params.html]
 	 * @param {string} [params.hint]
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 * @param {Array.<BaseValidator>} [params.validators]
+	 * @param {Record<string, string>} [params.inputAttributes] html attributes to add to the input
 	 */
-	constructor({ title, question, fieldName, url, hint, validators, html, label }) {
+	constructor({
+		title,
+		question,
+		fieldName,
+		url,
+		hint,
+		validators,
+		html,
+		label,
+		inputAttributes = {}
+	}) {
 		super({
 			title,
 			viewFolder: 'single-line-input',
@@ -36,12 +51,14 @@ class SingleLineInputQuestion extends Question {
 		});
 
 		this.label = label;
+		this.inputAttributes = inputAttributes;
 	}
 
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 		viewModel.question.label = this.label;
-		viewModel.question.value = payload
+		viewModel.question.value = payload;
+		viewModel.question.attributes = this.inputAttributes
 			? payload[viewModel.question.fieldName]
 			: viewModel.question.value;
 		return viewModel;
