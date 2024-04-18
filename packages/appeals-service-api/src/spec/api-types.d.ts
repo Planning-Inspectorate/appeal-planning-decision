@@ -309,6 +309,8 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	interestedPartyRepsDueDate?: string;
+	/** @format date-time */
+	caseValidDate?: string;
 	/**
 	 * the date statements are due
 	 * @format date-time
@@ -518,7 +520,7 @@ export interface AppellantSubmission {
 	informedOwners?: boolean;
 	advertisedAppeal?: boolean;
 	appellantGreenBelt?: boolean;
-	updateDevelopmentDescription?: boolean;
+	updateDevelopmentDescription?: string;
 	identifiedOwners?: boolean;
 	appellantSiteSafety?: boolean;
 	appellantSiteSafetyDetails?: string;

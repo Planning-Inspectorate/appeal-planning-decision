@@ -410,7 +410,10 @@ components:
           type: string
           format: date-time
           description: the date interested party comments are accepted until
-
+        caseValidDate:
+          type: string
+          format: date-time
+          
         # statement
         statementDueDate:
           type: string

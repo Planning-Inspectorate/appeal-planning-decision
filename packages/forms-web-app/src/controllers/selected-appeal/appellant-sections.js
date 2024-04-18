@@ -9,7 +9,7 @@ exports.sections = [
 				// tbc
 				url: '/appeal-details',
 				text: 'View your appeal details',
-				condition: (appealCase) => appealCase.casePublished // caseReceived on ticket?
+				condition: (appealCase) => appealCase.caseReceived
 			}
 		]
 	},
@@ -20,7 +20,7 @@ exports.sections = [
 				// tbc
 				url: '/questionnaire',
 				text: 'View questionnaire',
-				condition: (appealCase) => appealCase.lpaQuestionnairePublished // schema matched ticket
+				condition: (appealCase) => appealCase.lpaQuestionnairePublished
 			}
 		]
 	},
