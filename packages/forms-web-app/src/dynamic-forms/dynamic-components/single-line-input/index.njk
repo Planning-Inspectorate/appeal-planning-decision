@@ -34,6 +34,12 @@
                         {{question.question}}
                     </h1>
 
+                    {% if question.description %}
+                        <p class="govuk-body">
+                            {{question.description}}
+                        </p>
+                    {% endif %}
+
                     {% if question.html %}
                         {% include question.html ignore missing %}
                     {% endif %}
@@ -41,9 +47,9 @@
                     {{ govukInput({
                         label: {
                             text: question.label,
-														classes: 'govuk-label--l',
-														for: question.fieldName,
-														isPageHeading: true
+                            classes: 'govuk-label--l',
+                            for: question.fieldName,
+                            isPageHeading: true
                         },
                         id: question.fieldName,
                         name: question.fieldName,
@@ -52,7 +58,9 @@
                         errorMessage: errors[question.fieldName] and {
                             text: errors[question.fieldName].msg
                         },
-                    classes: "govuk-input--width-10"
+                        classes: "govuk-input--width-10",
+                        attributes: input.attributes
+                        
                 }) }}
                 {% else %}
                     {% if question.html %}
@@ -62,9 +70,9 @@
                     {{ govukInput({
                         label: {
                             text: question.question,
-														classes: 'govuk-label--l',
-														for: question.fieldName,
-														isPageHeading: true
+                            classes: 'govuk-label--l',
+                            for: question.fieldName,
+                            isPageHeading: true
                         },
                         id: question.fieldName,
                         name: question.fieldName,
@@ -73,7 +81,8 @@
                         errorMessage: errors[question.fieldName] and {
                             text: errors[question.fieldName].msg
                         },
-                    classes: "govuk-input--width-10"
+                        classes: "govuk-input--width-10",
+                        attributes: input.attributes
                 }) }}
 
                 {% endif %}

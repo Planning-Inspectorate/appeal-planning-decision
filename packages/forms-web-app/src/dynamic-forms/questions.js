@@ -1540,5 +1540,23 @@ exports.questions = {
 			],
 			viewFolder: 'identifier'
 		})
+	}),
+	contactPhoneNumber: new SingleLineInputQuestion({
+		title: 'What is your phone number?',
+		question: 'What is your phone number?',
+		description: 'We may use your phone number to contact you about the appeal.',
+		fieldName: 'appellantPhoneNumber',
+		url: 'phone-number',
+		inputAttributes: { type: 'tel', autocomplete: 'tel' },
+		validators: [
+			new RequiredValidator('Enter a phone number'),
+			new StringValidator({
+				regex: {
+					regex: /^\+?[0-9 ]{10,15}$/,
+					regexMessage:
+						'Enter a phone number, like 01632 960 001, 07700 900 982 or +44 808 157 0192'
+				}
+			})
+		]
 	})
 };
