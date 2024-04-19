@@ -260,7 +260,7 @@ exports.submit = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
-exports.submitted = async (req, res) => {
+exports.lpaSubmitted = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
 	if (!journey.isComplete()) {
@@ -268,10 +268,13 @@ exports.submitted = async (req, res) => {
 		return res.status(400).render('./error/not-found.njk');
 	}
 
-	return res.render('./dynamic-components/submission-screen/index');
+	return res.render('./dynamic-components/submission-screen/lpa');
 };
 
-exports.submitted = async (req, res) => {
+/**
+ * @type {import('express').Handler}
+ */
+exports.appellantSubmitted = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
 	if (!journey.isComplete()) {
@@ -279,5 +282,5 @@ exports.submitted = async (req, res) => {
 		return res.status(400).render('./error/not-found.njk');
 	}
 
-	return res.render('./dynamic-components/submission-screen/index');
+	return res.render('./dynamic-components/submission-screen/appellant');
 };
