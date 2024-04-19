@@ -1,5 +1,5 @@
 const express = require('express');
-const { question, save, remove } = require('../../dynamic-forms/controller');
+const { question, save, remove, appellantSubmitted } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
 	validationErrorHandler
@@ -26,3 +26,10 @@ router.post(
 router.get('/:section/:question/:answerId', getJourneyResponse, remove);
 
 module.exports = router;
+
+router.get(
+	'/householder/submit/submitted',
+	getJourneyResponse,
+	validationErrorHandler,
+	appellantSubmitted
+);

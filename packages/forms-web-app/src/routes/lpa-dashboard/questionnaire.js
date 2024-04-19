@@ -5,7 +5,7 @@ const {
 	save,
 	remove,
 	submit,
-	submitted
+	lpaSubmitted
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -39,14 +39,14 @@ router.get(
 	'/full-planning/:referenceId/questionnaire-submitted',
 	getJourneyResponse(),
 	validationErrorHandler,
-	submitted
+	lpaSubmitted
 );
 
 router.get(
 	'/householder/:referenceId/questionnaire-submitted',
 	getJourneyResponse(),
 	validationErrorHandler,
-	submitted
+	lpaSubmitted
 );
 
 // remove answer - only available for some question types
