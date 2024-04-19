@@ -57,6 +57,8 @@ class DateValidator extends BaseValidator {
 			errorMessages?.noMonthYearErrorMessage ?? defaultErrorMessages.noMonthYearErrorMessage;
 		this.invalidDateErrorMessage =
 			errorMessages?.invalidDateErrorMessage ?? defaultErrorMessages.invalidDateErrorMessage;
+		this.invalidMonthErrorMessage =
+			errorMessages?.invalidMonthErrorMessage ?? defaultErrorMessages.invalidMonthErrorMessage;
 		this.invalidYearErrorMessage =
 			errorMessages?.invalidYearErrorMessage ?? defaultErrorMessages.invalidYearErrorMessage;
 		this.futureDateErrorMessage =
@@ -132,7 +134,7 @@ class DateValidator extends BaseValidator {
 
 					return true;
 				}),
-			body(monthInput).isInt({ min: 1, max: 12 }).withMessage(this.invalidDateErrorMessage),
+			body(monthInput).isInt({ min: 1, max: 12 }).withMessage(this.invalidMonthErrorMessage),
 			body(yearInput).isInt({ min: 1000, max: 9999 }).withMessage(this.invalidYearErrorMessage)
 		];
 
@@ -185,6 +187,7 @@ class DateValidator extends BaseValidator {
 			noDayYearErrorMessage: `${capitalisedInputLabel} must include a day and year`,
 			noMonthYearErrorMessage: `${capitalisedInputLabel} must include a month and year`,
 			invalidDateErrorMessage: `${capitalisedInputLabel} must be a real date`,
+			invalidMonthErrorMessage: `${capitalisedInputLabel} month must be a real month`,
 			invalidYearErrorMessage: `${capitalisedInputLabel} year must include 4 numbers`,
 			futureDateErrorMessage: `${capitalisedInputLabel} must be today or in the past`,
 			pastDateErrorMessage: `${capitalisedInputLabel} must be today or in the future`
