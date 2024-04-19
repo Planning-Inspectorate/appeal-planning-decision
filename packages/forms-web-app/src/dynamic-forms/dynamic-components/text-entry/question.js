@@ -38,16 +38,11 @@ class TextEntryQuestion extends Question {
 	}
 
 	prepQuestionForRendering(section, journey, customViewData, payload) {
-		console.log('arrg');
-		console.log(journey);
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 		viewModel.question.label = this.label;
 		viewModel.question.value = payload
 			? payload[viewModel.question.fieldName]
 			: viewModel.question.value;
-		console.log('BOO');
-		console.log(payload);
-		console.log(viewModel.question);
 		return viewModel;
 	}
 }
