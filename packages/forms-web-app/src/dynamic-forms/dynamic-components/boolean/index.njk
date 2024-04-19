@@ -52,22 +52,9 @@
             }
           },
           hint: { html: htmlHint },
-          items: [
-            {
-              value: "yes",
-              text: "Yes",
-              attributes: { "data-cy": "answer-yes" },
-              checked: answer == "yes"
-            },
-            {
-              value: "no",
-              text: "No",
-              attributes: { "data-cy": "answer-no" },
-              checked: answer == "no"
-            }
-          ]
+          items: question.options
         }) }}
-          
+
         {% elif question.type === 'checkbox' %}
           {{ govukCheckboxes({
           classes: "govuk-checkboxes",
@@ -94,7 +81,7 @@
           type: "submit",
           attributes: { "data-cy":"button-save-and-continue"}
         }) }}
-      </form>      
+      </form>
     </div>
   </div>
 {% endblock %}

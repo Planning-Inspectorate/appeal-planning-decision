@@ -119,14 +119,14 @@ class S78Journey extends Journey {
 				.withCondition(questionHasAnswer(questions.communityInfrastructureLevy, 'yes'))
 				.addQuestion(questions.communityInfrastructureLevyAdopted)
 				.withCondition(questionHasAnswer(questions.communityInfrastructureLevy, 'yes'))
-				.addQuestion(questions.communityInfrastructureLevyAdoptedDate)
+				.addQuestion(questions.communityInfrastructureLevyAdoptedDate())
 				.withCondition(
 					questionsHaveAnswers([
 						[questions.communityInfrastructureLevy, 'yes'],
 						[questions.communityInfrastructureLevyAdopted, 'yes']
 					])
 				)
-				.addQuestion(questions.communityInfrastructureLevyAdoptDate)
+				.addQuestion(questions.communityInfrastructureLevyAdoptDate())
 				.withCondition(
 					questionsHaveAnswers([
 						[questions.communityInfrastructureLevy, 'yes'],

@@ -223,7 +223,7 @@ describe('./src/dynamic-forms/validator/date-validator.js', () => {
 
 			expect(Object.keys(errors).length).toBe(1);
 			expect(errors[`${question.fieldName}_month`].msg).toBe(
-				'The required date must be a real date'
+				'The required date month must be a real month'
 			);
 		});
 
@@ -353,7 +353,7 @@ describe('./src/dynamic-forms/validator/date-validator.js', () => {
 			expect(Object.keys(errors).length).toBe(3);
 			expect(errors[`${question.fieldName}_day`].msg).toBe('The required date must be a real date');
 			expect(errors[`${question.fieldName}_month`].msg).toBe(
-				'The required date must be a real date'
+				'The required date month must be a real month'
 			);
 			expect(errors[`${question.fieldName}_year`].msg).toBe(
 				'The required date year must include 4 numbers'
@@ -378,7 +378,7 @@ describe('./src/dynamic-forms/validator/date-validator.js', () => {
 			expect(Object.keys(errors).length).toBe(3);
 			expect(errors[`${question.fieldName}_day`].msg).toBe('The required date must be a real date');
 			expect(errors[`${question.fieldName}_month`].msg).toBe(
-				'The required date must be a real date'
+				'The required date month must be a real month'
 			);
 			expect(errors[`${question.fieldName}_year`].msg).toBe(
 				'The required date year must include 4 numbers'
@@ -401,7 +401,7 @@ describe('./src/dynamic-forms/validator/date-validator.js', () => {
 			const errorMessages = {
 				emptyErrorMessage: `Enter the date custom message`,
 				noDayErrorMessage: `Custom message for missing day`,
-				invalidDateErrorMessage: `Custom message for invalid date`,
+				invalidMonthErrorMessage: `Custom message for invalid month`,
 				invalidYearErrorMessage: `Custom invalid year message`
 			};
 
@@ -409,7 +409,9 @@ describe('./src/dynamic-forms/validator/date-validator.js', () => {
 
 			expect(Object.keys(errors).length).toBe(3);
 			expect(errors[`${question.fieldName}_day`].msg).toBe(errorMessages.noDayErrorMessage);
-			expect(errors[`${question.fieldName}_month`].msg).toBe(errorMessages.invalidDateErrorMessage);
+			expect(errors[`${question.fieldName}_month`].msg).toBe(
+				errorMessages.invalidMonthErrorMessage
+			);
 			expect(errors[`${question.fieldName}_year`].msg).toBe(errorMessages.invalidYearErrorMessage);
 		});
 	});

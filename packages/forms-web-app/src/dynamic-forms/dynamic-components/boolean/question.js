@@ -7,6 +7,7 @@ class BooleanQuestion extends RadioQuestion {
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
 	 * @param {string} [params.url]
+	 * @param {string} [params.hint]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {string} [params.html]
@@ -19,6 +20,7 @@ class BooleanQuestion extends RadioQuestion {
 		question,
 		fieldName,
 		url,
+		hint,
 		pageTitle,
 		description,
 		html,
@@ -26,7 +28,7 @@ class BooleanQuestion extends RadioQuestion {
 		type = 'radio',
 		options
 	}) {
-		let defaultOptions = [
+		let defaultOptions = options || [
 			{
 				text: 'Yes',
 				value: 'yes'
@@ -47,6 +49,7 @@ class BooleanQuestion extends RadioQuestion {
 			viewFolder: 'boolean',
 			fieldName,
 			url,
+			hint,
 			pageTitle,
 			description,
 			options: defaultOptions,

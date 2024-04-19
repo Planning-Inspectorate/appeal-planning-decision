@@ -5,6 +5,8 @@
  * types without having the overhead of managing duplicates. *
  *************************************************************/
 
+const { add, sub, format: formatDate } = require('date-fns');
+
 const CheckboxQuestion = require('./dynamic-components/checkbox/question');
 const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
 const BooleanQuestion = require('./dynamic-components/boolean/question');
@@ -45,6 +47,21 @@ const NumberEntryQuestion = require('./dynamic-components/number-entry/question'
 const NumericValidator = require('./validator/numeric-validator');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 32500);
+
+/**
+ * @param {'past' | 'future'} tense
+ * @param {number} days
+ * @return {string} returns date string in d M yyyy format
+ */
+
+const getDate = (tense, days = 60) =>
+	formatDate(
+		{
+			past: sub,
+			future: add
+		}[tense](new Date(), { days }),
+		'd M yyyy'
+	);
 
 // Define all questions
 exports.questions = {
@@ -693,30 +710,35 @@ exports.questions = {
 		url: 'community-infrastructure-levy-adopted',
 		validators: [new RequiredValidator()]
 	}),
-	communityInfrastructureLevyAdoptedDate: new DateQuestion({
-		title: 'Date community infrastructure levy adopted',
-		question: 'When was the community infrastructure levy formally adopted?',
-		// fieldName: 'community-infrastructure-levy-adopted-date',
-		fieldName: 'infrastructureLevyAdoptedDate',
-		hint: 'For example, 7 12 2023',
-		validators: [
-			new DateValidator('the date the infrastructure levy was formally adopted', {
-				ensurePast: true
-			})
-		]
-	}),
-	communityInfrastructureLevyAdoptDate: new DateQuestion({
-		title: 'Date community infrastructure levy expected to be adopted',
-		question: 'When do you expect to formally adopt the community infrastructure levy?',
-		// fieldName: 'community-infrastructure-levy-adopt-date',
-		fieldName: 'infrastructureLevyExpectedDate',
-		hint: 'For example, 21 11 2023',
-		validators: [
-			new DateValidator('the date you expect to formally adopt the community infrastructure levy', {
-				ensureFuture: true
-			})
-		]
-	}),
+	communityInfrastructureLevyAdoptedDate: () =>
+		new DateQuestion({
+			title: 'Date community infrastructure levy adopted',
+			question: 'When was the community infrastructure levy formally adopted?',
+			// fieldName: 'community-infrastructure-levy-adopted-date',
+			fieldName: 'infrastructureLevyAdoptedDate',
+			hint: `For example, ${getDate('past')}`,
+			validators: [
+				new DateValidator('the date the infrastructure levy was formally adopted', {
+					ensurePast: true
+				})
+			]
+		}),
+	communityInfrastructureLevyAdoptDate: () =>
+		new DateQuestion({
+			title: 'Date community infrastructure levy expected to be adopted',
+			question: 'When do you expect to formally adopt the community infrastructure levy?',
+			// fieldName: 'community-infrastructure-levy-adopt-date',
+			fieldName: 'infrastructureLevyExpectedDate',
+			hint: `For example, ${getDate('future')}`,
+			validators: [
+				new DateValidator(
+					'the date you expect to formally adopt the community infrastructure levy',
+					{
+						ensureFuture: true
+					}
+				)
+			]
+		}),
 	uploadNeighbourLetterAddresses: new MultiFileUploadQuestion({
 		title: 'Letter sent to neighbours',
 		question: 'Upload letters or emails sent to interested parties with their addresses',
@@ -1424,20 +1446,33 @@ exports.questions = {
 		fieldName: 'applicationReference',
 		url: 'reference-number',
 		hint: 'You can find this on any correspondence from the local planning authority. For example, the letter confirming your application.',
-		validators: [new RequiredValidator('Enter the planning application reference number')]
-	}),
-	planningApplicationDate: new DateQuestion({
-		title: 'What date did you submit your planning application?',
-		question: 'What date did you submit your planning application?',
-		fieldName: 'onApplicationDate',
-		url: 'planning-application-date',
-		hint: 'For example, 21 01 2024',
 		validators: [
-			new DateValidator('the date you submitted your planning application', {
-				ensurePast: true
+			new RequiredValidator('Enter the planning application reference number'),
+			new StringValidator({
+				regex: {
+					regex: new RegExp(`^[a-z0-9]{0,250}$`, 'gi'),
+					regexMessage: 'Enter a reference number using letters a to z and numbers 0 to 9'
+				},
+				maxLength: {
+					maxLength: 250,
+					maxLengthMessage: `Reference number must be 250 characters or less`
+				}
 			})
 		]
 	}),
+	planningApplicationDate: () =>
+		new DateQuestion({
+			title: 'What date did you submit your planning application?',
+			question: 'What date did you submit your planning application?',
+			fieldName: 'onApplicationDate',
+			url: 'planning-application-date',
+			hint: `For example, ${getDate('past')}`,
+			validators: [
+				new DateValidator('the date you submitted your planning application', {
+					ensurePast: true
+				})
+			]
+		}),
 	enterDevelopmentDescription: new TextEntryQuestion({
 		title: 'Enter the description of development that you submitted in your planning application',
 		question:
@@ -1445,14 +1480,27 @@ exports.questions = {
 		fieldName: 'developmentDescriptionOriginal',
 		url: 'enter-description-of-development',
 		hint: 'If the local planning authority changed the description of development, you can upload evidence of your agreement to change the description later.',
-		validators: [new RequiredValidator('Enter a description')]
+		validators: [
+			new RequiredValidator('Enter a description'),
+			new StringValidator({
+				regex: {
+					regex: new RegExp(`^[0-9a-z- ']{0,${inputMaxCharacters}}$`, 'gi'),
+					regexMessage:
+						'Your description must only include letters a to z, numbers 0-9, hyphens, spaces and apostrophes.'
+				},
+				maxLength: {
+					maxLength: inputMaxCharacters,
+					maxLengthMessage: `Your description must be ${inputMaxCharacters} characters or less`
+				}
+			})
+		]
 	}),
-	updateDevelopmentDescription: new RadioQuestion({
+	updateDevelopmentDescription: new BooleanQuestion({
 		title: 'Did the local planning authority change the description of development? ',
 		question: 'Did the local planning authority change the description of development? ',
 		fieldName: 'updateDevelopmentDescription',
 		url: 'development-description-correct',
-		hint: 'We need to know if the description of development is the same as what is on your planning application.',
+		html: 'resources/development-description/content.html',
 		validators: [
 			new RequiredValidator(
 				'Select yes if the local planning authority changed the description of development'

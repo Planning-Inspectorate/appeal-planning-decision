@@ -66,7 +66,7 @@
                     {{ govukTextarea({
                         id: question.fieldName,
                         name: question.fieldName,
-                        value: payload and payload[question.fieldName],
+                        value: question.value,
                         hint: { text: question.hint },
                         errorMessage: errors[question.fieldName] and {
                             text: errors[question.fieldName].msg

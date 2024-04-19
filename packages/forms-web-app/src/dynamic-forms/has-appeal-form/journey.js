@@ -92,7 +92,7 @@ class HasAppealFormJourney extends Journey {
 				.addQuestion(questions.healthAndSafety),
 			new Section('Your application', 'your-application')
 				.addQuestion(questions.enterApplicationReference)
-				.addQuestion(questions.planningApplicationDate)
+				.addQuestion(questions.planningApplicationDate())
 				.addQuestion(questions.enterDevelopmentDescription)
 				.addQuestion(questions.updateDevelopmentDescription),
 			new Section('Application', 'application')
