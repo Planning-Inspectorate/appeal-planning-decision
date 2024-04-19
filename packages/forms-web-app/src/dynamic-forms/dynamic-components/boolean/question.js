@@ -31,11 +31,13 @@ class BooleanQuestion extends RadioQuestion {
 		let defaultOptions = options || [
 			{
 				text: 'Yes',
-				value: 'yes'
+				value: 'yes',
+				attributes: { 'data-cy': 'answer-yes' }
 			},
 			{
 				text: 'No',
-				value: 'no'
+				value: 'no',
+				attributes: { 'data-cy': 'answer-no' }
 			}
 		];
 

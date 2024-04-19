@@ -57,10 +57,10 @@ class SingleLineInputQuestion extends Question {
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 		viewModel.question.label = this.label;
-		viewModel.question.value = payload;
-		viewModel.question.attributes = this.inputAttributes
+		viewModel.question.value = payload
 			? payload[viewModel.question.fieldName]
 			: viewModel.question.value;
+		viewModel.question.attributes = this.inputAttributes;
 		return viewModel;
 	}
 }

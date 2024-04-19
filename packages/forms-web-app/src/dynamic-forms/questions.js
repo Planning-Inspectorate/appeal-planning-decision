@@ -1509,11 +1509,13 @@ exports.questions = {
 		options: [
 			{
 				text: 'Yes, I agreed a new description with the local planning authority',
-				value: 'yes'
+				value: 'yes',
+				attributes: { 'data-cy': 'answer-yes' }
 			},
 			{
 				text: 'No',
-				value: 'no'
+				value: 'no',
+				attributes: { 'data-cy': 'answer-no' }
 			}
 		]
 	}),

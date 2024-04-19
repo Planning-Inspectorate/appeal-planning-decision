@@ -520,7 +520,7 @@ export interface AppellantSubmission {
 	informedOwners?: boolean;
 	advertisedAppeal?: boolean;
 	appellantGreenBelt?: boolean;
-	updateDevelopmentDescription?: string;
+	updateDevelopmentDescription?: boolean;
 	identifiedOwners?: boolean;
 	appellantSiteSafety?: string;
 	appellantSiteSafetyDetails?: string;
