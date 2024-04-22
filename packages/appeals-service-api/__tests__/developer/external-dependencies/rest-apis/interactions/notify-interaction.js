@@ -3,9 +3,9 @@ const JsonPathExpression = require('../json-path-expression');
 const appConfiguration = require('../../../../../src/configuration/config');
 
 module.exports = class NotifyInteraction {
-	static getAppealSubmittedEmailForAppellantInteraction(appeal, appellantName, lpaName) {
+	static getAppealSubmittedEmailForAppellantInteraction(appeal, appellantName) {
 		return new Interaction('Send appeal successfully submitted email to appellant')
-			.setNumberOfKeysExpectedInJson(8)
+			.setNumberOfKeysExpectedInJson(5)
 			.addJsonValueExpectation(
 				JsonPathExpression.create('$.template_id'),
 				appConfiguration.services.notify.templates[appeal.appealType]
@@ -13,7 +13,24 @@ module.exports = class NotifyInteraction {
 			)
 			.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), appeal.email)
 			.addJsonValueExpectation(JsonPathExpression.create('$.reference'), appeal.id)
+			.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.name'), appellantName);
+	}
+
+	static getAppealReceivedEmailForAppellantInteraction(appeal, appellantName, lpaName) {
+		return new Interaction('Send appeal successfully received email to appellant')
+			.setNumberOfKeysExpectedInJson(9)
+			.addJsonValueExpectation(
+				JsonPathExpression.create('$.template_id'),
+				appConfiguration.services.notify.templates[appeal.appealType]
+					.appealSubmissionReceivedEmailToAppellant
+			)
+			.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), appeal.email)
+			.addJsonValueExpectation(JsonPathExpression.create('$.reference'), appeal.id)
 			.addJsonValueExpectation(JsonPathExpression.create('$.personalisation.name'), appellantName)
+			.addJsonValueExpectation(
+				JsonPathExpression.create("$.personalisation['appeal reference number']"),
+				appeal.horizonIdFull
+			)
 			.addJsonValueExpectation(
 				JsonPathExpression.create("$.personalisation['appeal site address']"),
 				appeal.appealSiteSection.siteAddress.addressLine1 +

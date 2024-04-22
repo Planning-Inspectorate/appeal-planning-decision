@@ -1,6 +1,7 @@
 const logger = require('../lib/logger');
 const {
 	sendSubmissionReceivedEmailToLpa,
+	sendSubmissionReceivedEmailToAppellant,
 	sendSubmissionConfirmationEmailToAppellant,
 	sendFailureToUploadToHorizonEmail
 } = require('../lib/notify');
@@ -122,9 +123,11 @@ class BackOfficeService {
 		if (updatedBackOfficeSubmission.isComplete()) {
 			const appealAfterSubmissionToBackOffice = await saveAppealAsSubmittedToBackOffice(
 				appealToSubmitToBackOffice,
-				updatedBackOfficeSubmission.getAppealBackOfficeId()
+				updatedBackOfficeSubmission.getAppealBackOfficeId(true),
+				updatedBackOfficeSubmission.getAppealBackOfficeId(false)
 			);
 			await sendSubmissionReceivedEmailToLpa(appealAfterSubmissionToBackOffice);
+			await sendSubmissionReceivedEmailToAppellant(appealAfterSubmissionToBackOffice);
 			complete = true;
 		} else if (updatedBackOfficeSubmission.someEntitiesHaveMaximumFailures()) {
 			// after a certain number of failures, remove the submission from the queue and send a notification (email)

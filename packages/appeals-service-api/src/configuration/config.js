@@ -89,14 +89,20 @@ let config = {
 			templates: {
 				[APPEAL_ID.HOUSEHOLDER]: {
 					appealSubmissionConfirmationEmailToAppellant:
-						process.env.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
+						process.env
+							.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID_V1_1,
+					appealSubmissionReceivedEmailToAppellant:
+						process.env.SRV_NOTIFY_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
 					appealNotificationEmailToLpa:
 						process.env.SRV_NOTIFY_APPEAL_SUBMISSION_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
 					startEmailToLpa: process.env.SRV_NOTIFY_START_EMAIL_TO_LPA_TEMPLATE_ID
 				},
 				[APPEAL_ID.PLANNING_SECTION_78]: {
 					appealSubmissionConfirmationEmailToAppellant:
-						process.env.SRV_NOTIFY_FULL_APPEAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
+						process.env
+							.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID_V1_1,
+					appealSubmissionReceivedEmailToAppellant:
+						process.env.SRV_NOTIFY_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
 					appealNotificationEmailToLpa:
 						process.env.SRV_NOTIFY_FULL_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID
 				},

@@ -74,7 +74,7 @@ class HorizonService {
 			const documentSubmissions = await this.#submitDocumentsToHorizon(
 				documentsPendingSubmission,
 				appeal,
-				submissionStateJson.appeal.getBackOfficeId()
+				submissionStateJson.appeal.getBackOfficeId(true)
 			);
 			for (const documentSubmission of documentSubmissions) {
 				submissionStateJson.documents[documentSubmission.getId()] = documentSubmission;

@@ -45,11 +45,11 @@ class BackOfficeAppealSubmissionAggregate {
 	}
 
 	/**
-	 *
-	 * @returns {string|null}
+	 * @param {boolean} getShortRef - attempts to retrieve final section of id after the last '/' used for horizon appeal refs
+	 * @returns {string|null|undefined}
 	 */
-	getAppealBackOfficeId() {
-		return this.#appeal.getBackOfficeId();
+	getAppealBackOfficeId(getShortRef = true) {
+		return this.#appeal.getBackOfficeId(getShortRef);
 	}
 
 	getAppealFailures() {

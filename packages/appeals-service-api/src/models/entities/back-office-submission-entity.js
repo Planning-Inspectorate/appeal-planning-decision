@@ -20,7 +20,14 @@ class BackOfficeSubmissionEntity {
 		return this.#id;
 	}
 
-	getBackOfficeId() {
+	/**
+	 * @param {boolean} getShortRef - attempts to retrieve final section of id after the last '/' used for horizon appeal refs
+	 * @returns {string|null|undefined}
+	 */
+	getBackOfficeId(getShortRef = false) {
+		// case IDs are in format APP/W4705/D/21/3218521 - we need the characters after the final slash
+		if (getShortRef) return this.#backOfficeId?.split('/').slice(-1).pop();
+
 		return this.#backOfficeId;
 	}
 

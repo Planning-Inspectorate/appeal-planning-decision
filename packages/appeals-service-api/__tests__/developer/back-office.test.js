@@ -91,10 +91,12 @@ beforeAll(async () => {
 	appConfiguration.services.notify.templates[
 		'1001'
 	].appealSubmissionConfirmationEmailToAppellant = 1;
+	appConfiguration.services.notify.templates['1001'].appealSubmissionReceivedEmailToAppellant = 7;
 	appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa = 2;
 	appConfiguration.services.notify.templates[
 		'1005'
 	].appealSubmissionConfirmationEmailToAppellant = 3;
+	appConfiguration.services.notify.templates['1005'].appealSubmissionReceivedEmailToAppellant = 8;
 	appConfiguration.services.notify.templates['1005'].appealNotificationEmailToLpa = 4;
 	appConfiguration.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant = 5;
 	appConfiguration.services.notify.templates.ERROR_MONITORING.failureToUploadToHorizon = 6;
@@ -177,8 +179,7 @@ describe('Back Office', () => {
 			const emailSentToAppellantInteraction =
 				NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
 					createdAppeal,
-					'Agent Name',
-					testLpaNameEngland
+					'Agent Name'
 				);
 			expectedNotifyInteractions.push(emailSentToAppellantInteraction);
 
@@ -215,8 +216,7 @@ describe('Back Office', () => {
 			const emailSentToAppellantInteraction =
 				NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
 					createdAppeal,
-					'Agent Name',
-					testLpaNameEngland
+					'Agent Name'
 				);
 			expectedNotifyInteractions.push(emailSentToAppellantInteraction);
 
@@ -647,6 +647,7 @@ describe('Back Office', () => {
 				createdAppeal.submissionDate = retrievedAppealResponse.body.submissionDate;
 				createdAppeal.updatedAt = retrievedAppealResponse.body.updatedAt;
 				createdAppeal.horizonId = '3218465';
+				createdAppeal.horizonIdFull = mockedCaseReference;
 				expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
 
 				// And: Horizon has been interacted with as expected
@@ -683,17 +684,27 @@ describe('Back Office', () => {
 				const emailToAppellantInteraction =
 					NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
 						condition.appeal,
+						condition.expectations.emailToAppellant.name
+					);
+				condition.appeal.horizonId = createdAppeal.horizonId;
+				condition.appeal.horizonIdFull = mockedCaseReference;
+				const emailToReceivedAppellantInteraction =
+					NotifyInteraction.getAppealReceivedEmailForAppellantInteraction(
+						condition.appeal,
 						condition.expectations.emailToAppellant.name,
 						condition.lpa.name
 					);
-				condition.appeal.horizonId = createdAppeal.horizonId;
 				const emailToLpaInteraction = NotifyInteraction.getAppealSubmittedEmailForLpaInteraction(
 					condition.appeal,
 					condition.lpa.name,
 					condition.lpa.email
 				);
 
-				expectedNotifyInteractions = [emailToAppellantInteraction, emailToLpaInteraction];
+				expectedNotifyInteractions = [
+					emailToAppellantInteraction,
+					emailToLpaInteraction,
+					emailToReceivedAppellantInteraction
+				];
 			}
 		);
 
@@ -762,8 +773,7 @@ describe('Back Office', () => {
 				expectedNotifyInteractions.push(
 					NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
 						inputs[key].appeal,
-						inputs[key].expectations.emailToAppellant.name,
-						inputs[key].lpa.name
+						inputs[key].expectations.emailToAppellant.name
 					)
 				);
 			}
@@ -1134,8 +1144,7 @@ describe('Back Office', () => {
 				expectedNotifyInteractions.push(
 					NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
 						inputs[key].appeal,
-						inputs[key].expectations.emailToAppellant.name,
-						inputs[key].lpa.name
+						inputs[key].expectations.emailToAppellant.name
 					)
 				);
 			}
@@ -1261,8 +1270,7 @@ describe('Back Office', () => {
 				expectedNotifyInteractions.push(
 					NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
 						inputs[key].appeal,
-						inputs[key].expectations.emailToAppellant.name,
-						inputs[key].lpa.name
+						inputs[key].expectations.emailToAppellant.name
 					)
 				);
 			}
@@ -1399,8 +1407,7 @@ describe('Back Office', () => {
 				expectedNotifyInteractions.push(
 					NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
 						inputs[key].appeal,
-						inputs[key].expectations.emailToAppellant.name,
-						inputs[key].lpa.name
+						inputs[key].expectations.emailToAppellant.name
 					)
 				);
 			}
@@ -1558,8 +1565,7 @@ describe('Back Office', () => {
 				expectedNotifyInteractions.push(
 					NotifyInteraction.getAppealSubmittedEmailForAppellantInteraction(
 						inputs[key].appeal,
-						inputs[key].expectations.emailToAppellant.name,
-						inputs[key].lpa.name
+						inputs[key].expectations.emailToAppellant.name
 					)
 				);
 			}

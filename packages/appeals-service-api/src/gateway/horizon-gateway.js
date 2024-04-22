@@ -93,8 +93,7 @@ class HorizonGateway {
 
 		if (response.isNotAnError()) {
 			return new HorizonResponseValue(
-				// case IDs are in format APP/W4705/D/21/3218521 - we need the characters after the final slash
-				response.getValue().CreateCaseResponse.CreateCaseResult.value.split('/').slice(-1).pop(),
+				response.getValue().CreateCaseResponse.CreateCaseResult.value,
 				false
 			);
 		}

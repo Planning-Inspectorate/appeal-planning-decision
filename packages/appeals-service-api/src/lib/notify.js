@@ -16,22 +16,20 @@ const { templates } = config.services.notify;
 
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
-		const lpa = await lpaService.getLpaById(appeal.lpaCode);
-
 		const recipientEmail = appeal.email;
 		let variables = {
 			name:
 				appeal.appealType == '1001'
 					? appeal.aboutYouSection.yourDetails.name
-					: appeal.contactDetailsSection.contact.name,
-			'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-			'local planning department': lpa.getName(),
-			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+					: appeal.contactDetailsSection.contact.name
 		};
 
 		const reference = appeal.id;
 
-		logger.debug({ recipientEmail, variables, reference }, 'Sending email to appellant');
+		logger.debug(
+			{ recipientEmail, variables, reference },
+			'Sending submission confirmation email to appellant'
+		);
 
 		await NotifyBuilder.reset()
 			.setTemplateId(templates[appeal.appealType].appealSubmissionConfirmationEmailToAppellant)
@@ -135,6 +133,48 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		logger.error(
 			{ err, lpaCode: appeal.lpaCode },
 			'Unable to send submission received email to LPA'
+		);
+	}
+};
+
+const sendSubmissionReceivedEmailToAppellant = async (appeal) => {
+	try {
+		const lpa = await lpaService.getLpaById(appeal.lpaCode);
+		const appealRef = appeal.horizonIdFull ?? 'ID not provided';
+
+		const recipientEmail = appeal.email;
+		let variables = {
+			name:
+				appeal.appealType == '1001'
+					? appeal.aboutYouSection.yourDetails.name
+					: appeal.contactDetailsSection.contact.name,
+			'appeal reference number': appealRef,
+			'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
+			'local planning department': lpa.getName(),
+			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+		};
+
+		const reference = appeal.id;
+
+		logger.debug(
+			{ recipientEmail, variables, reference },
+			'Sending submission received email to appellant'
+		);
+
+		await NotifyBuilder.reset()
+			.setTemplateId(templates[appeal.appealType].appealSubmissionReceivedEmailToAppellant)
+			.setDestinationEmailAddress(recipientEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, appealId: appeal.id },
+			'Unable to send submission received email to appellant'
 		);
 	}
 };
@@ -269,6 +309,7 @@ const _getYesOrNoForBoolean = (booleanToUse) => {
 
 module.exports = {
 	sendSubmissionReceivedEmailToLpa,
+	sendSubmissionReceivedEmailToAppellant,
 	sendSubmissionConfirmationEmailToAppellant,
 	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
