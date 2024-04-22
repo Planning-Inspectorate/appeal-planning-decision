@@ -260,6 +260,22 @@ exports.submit = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
+exports.appellantSubmissionDeclaration = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	// if (!journey.isComplete()) {
+	// 	// return error message and redirect
+	// 	return res.status(400).render('./error/not-found.njk');
+	// }
+
+	return res.render('./dynamic-components/submission-declaration/index', {
+		layoutTemplate: journey.journeyTemplate
+	});
+};
+
+/**
+ * @type {import('express').Handler}
+ */
 exports.lpaSubmitted = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);

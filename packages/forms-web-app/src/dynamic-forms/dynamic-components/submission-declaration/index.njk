@@ -4,7 +4,7 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set title = question.pageTitle + " - " + journeyTitle + " - GOV.UK" %}
+{% set title = "Declaration - Appeal a planning decision  - GOV.UK" %}
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
 
 {% block before_content %}
@@ -30,17 +30,17 @@
 			<p class="govuk-!-margin-bottom-2">By submitting the appeal, you confirm that you:</p>
 			<ul class="govuk-list govuk-list--bullet">
 				<li>
-					undertand that this is your only opportunity to submit the appeal
+					understand that this is your only opportunity to submit the appeal
 				</li>
 				<li>
-					undertand that if you have not included all the information we've requested, we may not be able to progress your appeal
+					understand that if you have not included all the information we’ve requested, we may not be able to progress your appeal
 				</li>
 				<li>
 					have read and agree to our <a href='https://www.gov.uk/government/publications/planning-inspectorate-privacy-notices/customer-privacy-notice' class="govuk-link">privacy notice</a>
 				</li>
 			</ul>
 			<p class="govuk-body">
-				You also confirm that, to the best of your knowledge, the details you are providing are correct.
+				You also confirm that the details you are providing are correct.
 			</p>
 
 			<form action method="post">
