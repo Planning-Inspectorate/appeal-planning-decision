@@ -8,25 +8,29 @@ import logger from './logger.js';
  * @param {string} userId
  */
 export const sendConfirmRegistrationEmailToAppellant = async (recipientEmail, userId) => {
-	const variables = {
-		link: `${config.apps.appeals.baseUrl}/appeals/your-appeals`
-	};
+	try {
+		const variables = {
+			link: `${config.apps.appeals.baseUrl}/appeals/your-appeals`
+		};
 
-	logger.info({ recipientEmail }, 'Sending registration confirmation email');
-	logger.debug({ recipientEmail, variables }, 'Sending registration confirmation email');
+		logger.info({ recipientEmail }, 'Sending registration confirmation email');
+		logger.debug({ recipientEmail, variables }, 'Sending registration confirmation email');
 
-	await NotifyBuilder.reset()
-		.setTemplateId(
-			config.services.notify.templates.APPELLANT_LOGIN.confirmRegistrationEmailToAppellant
-		)
-		.setDestinationEmailAddress(recipientEmail)
-		.setTemplateVariablesFromObject(variables)
-		.setReference(userId + 'registration')
-		.sendEmail(
-			config.services.notify.baseUrl,
-			config.services.notify.serviceId,
-			config.services.notify.apiKey
-		);
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				config.services.notify.templates.APPELLANT_LOGIN.confirmRegistrationEmailToAppellant
+			)
+			.setDestinationEmailAddress(recipientEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(userId + 'registration')
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err }, 'failed to send ConfirmRegistrationEmailToAppellant');
+	}
 };
 
 /**
@@ -36,21 +40,25 @@ export const sendConfirmRegistrationEmailToAppellant = async (recipientEmail, us
  * @param {string} userId
  */
 export const sendSecurityCodeEmail = async (recipientEmail, code, userId) => {
-	const variables = {
-		'unique code': code
-	};
+	try {
+		const variables = {
+			'unique code': code
+		};
 
-	logger.info({ recipientEmail }, 'Sending secure code email');
-	logger.debug({ recipientEmail, variables, userId }, 'Sending secure code email');
+		logger.info({ recipientEmail }, 'Sending secure code email');
+		logger.debug({ recipientEmail, variables, userId }, 'Sending secure code email');
 
-	await NotifyBuilder.reset()
-		.setTemplateId(config.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmail)
-		.setDestinationEmailAddress(recipientEmail)
-		.setTemplateVariablesFromObject(variables)
-		.setReference(userId)
-		.sendEmail(
-			config.services.notify.baseUrl,
-			config.services.notify.serviceId,
-			config.services.notify.apiKey
-		);
+		await NotifyBuilder.reset()
+			.setTemplateId(config.services.notify.templates.SAVE_AND_RETURN.enterCodeIntoServiceEmail)
+			.setDestinationEmailAddress(recipientEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(userId)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err }, 'failed to send SecurityCodeEmail');
+	}
 };

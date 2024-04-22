@@ -246,7 +246,17 @@ async function getAppealDocumentInBase64Encoding(appeal, documentId) {
 	return await documentService.getAppealDocumentInBase64Encoding(appeal.id, documentId);
 }
 
-async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
+/**
+ * @param {any} appeal
+ * @param {string} horizonCaseReference
+ * @param {string} horizonCaseReferenceFull
+ * @returns {Promise<any>}
+ */
+async function saveAppealAsSubmittedToBackOffice(
+	appeal,
+	horizonCaseReference,
+	horizonCaseReferenceFull
+) {
 	logger.debug(
 		appeal,
 		`Saving the following appeal as submitted to the back office, with a case reference of ${horizonCaseReference}`
@@ -254,6 +264,7 @@ async function saveAppealAsSubmittedToBackOffice(appeal, horizonCaseReference) {
 	appeal.submissionDate = new Date(new Date().toISOString());
 	appeal.state = 'SUBMITTED';
 	appeal.horizonId = horizonCaseReference;
+	appeal.horizonIdFull = horizonCaseReferenceFull;
 	logger.debug(appeal, 'Appeal after setting "submitted to back-office" updates');
 	return await updateAppeal(appeal.id, appeal);
 }
