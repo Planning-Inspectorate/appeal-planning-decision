@@ -1499,7 +1499,7 @@ exports.questions = {
 		title: 'Did the local planning authority change the description of development? ',
 		question: 'Did the local planning authority change the description of development? ',
 		fieldName: 'updateDevelopmentDescription',
-		url: 'development-description-correct',
+		url: 'description-development-correct',
 		html: 'resources/development-description/content.html',
 		validators: [
 			new RequiredValidator(
