@@ -1,0 +1,86 @@
+const { createPrismaClient } = require('#db-client');
+
+/**
+ * @typedef {import('@prisma/client').AppellantSubmission} AppellantSubmission
+ */
+
+/**
+ * @typedef {Object} AddressData
+ * @property {string} addressLine1
+ * @property {string} addressLine2
+ * @property {string} townCity
+ * @property {string} postcode
+ * @property {string} county
+ * @property {string} fieldName
+ */
+
+class SubmissionAddressRepository {
+	dbClient;
+
+	constructor() {
+		this.dbClient = createPrismaClient();
+	}
+
+	/**
+	 * Create submission address for a given questionnaire
+	 *
+	 * @param {string} id
+	 * @param {AddressData} addressData
+	 * @returns {Promise<AppellantSubmission>}
+	 */
+	async createAddress(id, addressData) {
+		const { addressLine1, addressLine2, townCity, postcode, county, fieldName } = addressData;
+
+		return await this.dbClient.appellantSubmission.update({
+			where: {
+				id
+			},
+			data: {
+				SubmissionAddress: {
+					create: {
+						addressLine1,
+						addressLine2,
+						townCity,
+						postcode,
+						county,
+						fieldName
+					}
+				}
+			},
+			include: {
+				SubmissionDocumentUpload: true,
+				SubmissionAddress: true,
+				SubmissionLinkedCase: true
+			}
+		});
+	}
+
+	/**
+	 * Delete address
+	 *
+	 * @param {string} id
+	 * @param {string} addressId
+	 * @returns {Promise<AppellantSubmission>}
+	 */
+	async deleteAddress(id, addressId) {
+		return await this.dbClient.appellantSubmission.update({
+			where: {
+				id
+			},
+			data: {
+				SubmissionAddress: {
+					delete: {
+						id: addressId
+					}
+				}
+			},
+			include: {
+				SubmissionDocumentUpload: true,
+				SubmissionAddress: true,
+				SubmissionLinkedCase: true
+			}
+		});
+	}
+}
+
+module.exports = { SubmissionAddressRepository };
