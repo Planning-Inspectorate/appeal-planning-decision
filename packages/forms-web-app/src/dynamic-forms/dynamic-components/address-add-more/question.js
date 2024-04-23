@@ -36,6 +36,7 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 			addressLine1: req.body[this.fieldName + '_addressLine1'],
 			addressLine2: req.body[this.fieldName + '_addressLine2'],
 			townCity: req.body[this.fieldName + '_townCity'],
+			county: req.body[this.fieldName + '_county'],
 			postcode: req.body[this.fieldName + '_postcode']
 		});
 
@@ -51,6 +52,7 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 			answer.addressLine1,
 			answer.addressLine2,
 			answer.townCity,
+			answer.county,
 			answer.postcode
 		];
 
