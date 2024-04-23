@@ -1570,12 +1570,12 @@ exports.questions = {
 		]
 	}),
 	linkAppeals: new ListAddMoreQuestion({
-		pageTitle: 'Nearby appeal added to the case',
+		pageTitle: 'You’ve added a linked appeal',
 		title: 'n/a',
-		question: 'Are there other appeals linked to your development?',
+		question: 'Add another appeal?',
 		fieldName: 'appellantLinkedCaseAdd',
 		url: 'enter-appeal-reference',
-		subQuestionLabel: 'Linked appeal',
+		subQuestionLabel: 'Other appeal',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		validators: [new RequiredValidator('Select yes if you want to add another linked appeal')],
 		subQuestion: new CaseAddMoreQuestion({
