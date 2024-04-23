@@ -29,7 +29,8 @@ exports.sections = [
 			{
 				url: '/lpa-statement',
 				text: 'View your statement',
-				condition: (appealCase) => appealCase.lpaStatementPublished
+				condition: (appealCase) =>
+					!!appealCase.lpaStatementPublishedDate && appealCase.lpaStatementPublished
 			},
 			{
 				url: '/rule-6-statements',

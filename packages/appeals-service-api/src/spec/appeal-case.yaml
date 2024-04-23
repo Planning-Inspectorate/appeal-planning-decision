@@ -119,6 +119,10 @@ components:
           type: boolean
         lpaStatementPublished:
           type: boolean
+        lpaStatementPublishedDate:
+          type: string
+          format: date-time
+          description: the date the lpa statement was published
         lpaProofEvidenceSubmitted:
           type: boolean
         lpaProofEvidencePublished:
@@ -417,7 +421,6 @@ components:
         caseValidDate:
           type: string
           format: date-time
-          
         # statement
         statementDueDate:
           type: string
@@ -555,10 +558,10 @@ components:
           type: array
           items:
             type: object
-        
+
         NeighbouringAddresses:
           type: array
           items:
             type: object
 
-				# todo: add properties from data model
+    # todo: add properties from data model

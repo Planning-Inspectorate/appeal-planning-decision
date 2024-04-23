@@ -104,6 +104,11 @@ export interface AppealCase {
 	lpaQuestionnaireSubmitted?: boolean;
 	doesAffectAScheduledMonument?: boolean;
 	lpaStatementPublished?: boolean;
+	/**
+	 * the date the lpa statement was published
+	 * @format date-time
+	 */
+	lpaStatementPublishedDate?: string;
 	lpaProofEvidenceSubmitted?: boolean;
 	lpaProofEvidencePublished?: boolean;
 	lpaFinalCommentsPublished?: boolean;

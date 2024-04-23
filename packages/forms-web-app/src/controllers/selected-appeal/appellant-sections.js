@@ -31,7 +31,8 @@ exports.sections = [
 				// tbc
 				url: '/lpa-statement',
 				text: 'View local planning authority statement',
-				condition: (appealCase) => appealCase.lpaStatementPublished // lpaStatementPublished on ticket?
+				condition: (appealCase) =>
+					!!appealCase.lpaStatementPublishedDate && appealCase.lpaStatementPublished
 			},
 			{
 				// tbc
