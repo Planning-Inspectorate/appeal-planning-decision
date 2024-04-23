@@ -11,6 +11,7 @@
 {% set addressLine1= question.fieldName + "_addressLine1" %}
 {% set addressLine2= question.fieldName + "_addressLine2" %}
 {% set townCity= question.fieldName + "_townCity" %}
+{% set county= question.fieldName + "_county" %}
 {% set postcode= question.fieldName + "_postcode" %}
 
 {% block before_content %}
@@ -76,6 +77,19 @@
                     autocomplete: "address-level2",
                     errorMessage: errors[townCity] and {
                         text: errors[townCity].msg 
+                    }
+                }) }}
+
+                {{ govukInput({
+                    label: {
+                    text: "County (optional)"
+                    },
+                    classes: "govuk-!-width-two-thirds",
+                    id: "address-county",
+                    name: county,
+                    autocomplete: "address-level1",
+                    errorMessage: errors[county] and {
+                        text: errors[county].msg 
                     }
                 }) }}
 

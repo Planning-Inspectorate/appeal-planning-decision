@@ -652,6 +652,7 @@ model SubmissionAddress {
   addressLine1 String
   addressLine2 String?
   townCity     String
+  county       String?
   postcode     String
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
