@@ -275,6 +275,11 @@ export interface AppealCase {
 	rule6StatementPublished?: boolean;
 	rule6ProofsEvidencePublished?: boolean;
 	interestedPartyCommentsPublished?: boolean;
+	/**
+	 * the date the interested party comments were published
+	 * @format date-time
+	 */
+	interestedPartyCommentsPublishedDate?: string;
 	/** whether the appeal was received */
 	caseReceived?: boolean;
 	/**

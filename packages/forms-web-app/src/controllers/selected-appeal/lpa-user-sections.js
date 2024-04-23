@@ -44,7 +44,9 @@ exports.sections = [
 			{
 				url: '/ip-comments',
 				text: 'View interested party comments',
-				condition: (appealCase) => appealCase.interestedPartyCommentsPublished
+				condition: (appealCase) =>
+					!!appealCase.interestedPartyCommentsPublishedDate &&
+					appealCase.interestedPartyCommentsPublished
 			}
 		]
 	},

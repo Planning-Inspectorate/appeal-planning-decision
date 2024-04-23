@@ -378,6 +378,10 @@ components:
         # interested party
         interestedPartyCommentsPublished:
           type: boolean
+        interestedPartyCommentsPublishedDate:
+          type: string
+          format: date-time
+          description: the date the interested party comments were published
 
         # case dates
         caseReceived:

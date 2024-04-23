@@ -48,7 +48,9 @@ exports.sections = [
 				// tbc
 				url: '/ip-comments',
 				text: 'View interested party comments',
-				condition: (appealCase) => appealCase.interestedPartyCommentsPublished // schema matched ticket
+				condition: (appealCase) =>
+					!!appealCase.interestedPartyCommentsPublishedDate &&
+					appealCase.interestedPartyCommentsPublished
 			}
 		]
 	},

@@ -308,7 +308,8 @@ model AppealCase {
   // interested party fields
   //***************************************************************************
 
-  interestedPartyCommentsPublished Boolean @default(false)
+  interestedPartyCommentsPublished     Boolean   @default(false)
+  interestedPartyCommentsPublishedDate DateTime?
 
   //***************************************************************************
   // case dates

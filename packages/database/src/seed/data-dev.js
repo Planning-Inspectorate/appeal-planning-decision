@@ -275,6 +275,7 @@ const appealCases = [
 		rule6StatementPublished: true,
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(2)),
 		interestedPartyCommentsPublished: true,
+		interestedPartyCommentsPublishedDate: pickRandom(datesNMonthsAgo(1)),
 		// questionnaire details
 		// constraints
 		correctAppealType: true,
@@ -350,6 +351,7 @@ const appealCases = [
 		lpaStatementPublished: true,
 		rule6StatementPublished: true,
 		interestedPartyCommentsPublished: true,
+		interestedPartyCommentsPublishedDate: pickRandom(datesNMonthsAgo(1)),
 		appellantProofEvidencePublished: true,
 		lpaProofEvidencePublished: true,
 		rule6ProofsEvidencePublished: true
@@ -379,6 +381,7 @@ const appealCases = [
 		caseValidDate: new Date(),
 		rule6StatementPublished: true,
 		interestedPartyCommentsPublished: true,
+		interestedPartyCommentsPublishedDate: pickRandom(datesNMonthsAgo(1)),
 		appellantProofEvidencePublished: true,
 		lpaProofEvidencePublished: true,
 		rule6ProofsEvidencePublished: true,
@@ -408,6 +411,7 @@ const appealCases = [
 		lpaStatementPublished: true,
 		caseValidDate: new Date(),
 		interestedPartyCommentsPublished: true,
+		interestedPartyCommentsPublishedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaFinalCommentsPublished: true,
 		appellantFinalCommentsSubmitted: true
 	},
