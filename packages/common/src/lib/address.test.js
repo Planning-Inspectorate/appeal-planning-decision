@@ -6,6 +6,7 @@ describe('Address', () => {
 			addressLine1: '1 The Street',
 			addressLine2: 'Somewhere',
 			townCity: 'A Town',
+			county: 'The County',
 			postcode: 'AB1 2CD'
 		};
 
@@ -15,6 +16,7 @@ describe('Address', () => {
 		expect(address.addressLine1).toBe(params.addressLine1);
 		expect(address.addressLine2).toBe(params.addressLine2);
 		expect(address.townCity).toBe(params.townCity);
+		expect(address.county).toBe(params.county);
 		expect(address.postcode).toBe(params.postcode);
 	});
 
@@ -32,6 +34,24 @@ describe('Address', () => {
 		expect(address.addressLine2).toBe(undefined);
 		expect(address.townCity).toBe(params.townCity);
 		expect(address.postcode).toBe(params.postcode);
+	});
+
+	it('allows county to be optional', () => {
+		const params = {
+			postcode: 'EF4 5GH',
+			addressLine1: '42 The Avenue',
+			addressLine2: 'Somewhere',
+			townCity: 'A City'
+		};
+
+		const address = new Address(params);
+
+		expect(address instanceof Address).toBeTruthy();
+		expect(address.addressLine1).toBe(params.addressLine1);
+		expect(address.addressLine2).toBe(params.addressLine2);
+		expect(address.townCity).toBe(params.townCity);
+		expect(address.postcode).toBe(params.postcode);
+		expect(address.county).toBe(undefined);
 	});
 
 	it('allows postcode to be optional', () => {
