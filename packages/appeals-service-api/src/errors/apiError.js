@@ -259,6 +259,10 @@ class ApiError {
 	static appellantSubmissionNotFound(reference) {
 		return new ApiError(404, { errors: [`The appellant submission ${reference} was not found`] });
 	}
+
+	static unableToSubmitAppellantSubmission() {
+		return new ApiError(400, { errors: ['Unable to submit appellant submission'] });
+	}
 }
 
 module.exports = ApiError;
