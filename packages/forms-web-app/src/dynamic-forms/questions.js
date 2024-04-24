@@ -1594,6 +1594,26 @@ exports.questions = {
 			viewFolder: 'identifier'
 		})
 	}),
+	applicationName: new BooleanQuestion({
+		title: 'Was the application made in your name? ',
+		question: 'Was the application made in your name?',
+		fieldName: 'isAppellant',
+		url: 'application-name',
+		html: 'resources/your-details/application-name.html',
+		validators: [new RequiredValidator('Select yes if the application was made in your name')],
+		options: [
+			{
+				text: 'Yes, the application was made in my name',
+				value: 'yes',
+				attributes: { 'data-cy': 'answer-yes' }
+			},
+			{
+				text: "No, I'm acting on behalf of the applicant",
+				value: 'no',
+				attributes: { 'data-cy': 'answer-no' }
+			}
+		]
+	}),
 	contactPhoneNumber: new SingleLineInputQuestion({
 		title: 'What is your phone number?',
 		question: 'What is your phone number?',
