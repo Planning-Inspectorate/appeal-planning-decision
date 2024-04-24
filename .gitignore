@@ -161,11 +161,6 @@ dist
 .DS_Store
 Thumbs.db
 
-# VSCode
-.vscode
-!.vscode/extensions.json
-!.vscode/launch.json
-
 .envrc*
 tmp
 .kubeconfig
