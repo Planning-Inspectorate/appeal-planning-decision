@@ -227,14 +227,15 @@ describe('dynamic-form/controller', () => {
 			req.appealsApiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(appeal));
 			getJourney.mockReturnValue(mockJourney);
 
-			await list(req, res);
+			const pageCaption = `Appeal ${appeal.caseReference}`;
+			await list(req, res, pageCaption, { appeal });
 
 			expect(res.render).toHaveBeenCalledWith(mockJourney.listingPageViewPath, {
 				appeal,
 				summaryListData: mockSummaryListData,
 				layoutTemplate: mockTemplateUrl,
 				journeyComplete: false,
-				pageCaption: `Appeal ${appeal.caseReference}`,
+				pageCaption: pageCaption,
 				journeyTitle: mockJourneyTitle
 			});
 		});
