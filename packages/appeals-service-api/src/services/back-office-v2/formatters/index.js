@@ -5,6 +5,9 @@ const path = require('path');
 /**
  * @typedef {import('src/spec/api-types').AppealSubmission['appeal']} AppealSubmission
  * @typedef {AppealSubmission['appealType']} AppealType
+ *
+ * @typedef {import('src/spec/api-types').AppellantSubmission} AppellantSubmission
+ *
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  */
 
