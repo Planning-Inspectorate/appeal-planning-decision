@@ -45,6 +45,7 @@ const SingleLineInputQuestion = require('./dynamic-components/single-line-input/
 const { documentTypes } = require('@pins/common');
 const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
 const NumericValidator = require('./validator/numeric-validator');
+const SiteAddressQuestion = require('./dynamic-components/site-address/question');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 32500);
 
@@ -1608,5 +1609,14 @@ exports.questions = {
 				}
 			})
 		]
+	}),
+	appealSiteAddress: new SiteAddressQuestion({
+		title: 'What is the address of the appeal site?',
+		question: 'What is the address of the appeal site?',
+		hint: 'The address should match what is on the application to the local planning authority.',
+		fieldName: 'siteAddress',
+		url: 'appeal-site-address',
+		viewFolder: 'address-entry',
+		validators: [new AddressValidator()]
 	})
 };
