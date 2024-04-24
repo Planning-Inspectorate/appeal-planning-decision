@@ -41,7 +41,7 @@ class HasAppealFormJourney extends Journey {
 			new Section('Site details', 'site-details')
 				.addQuestion(questions.appealSiteAddress)
 				.addQuestion(questions.siteArea)
-				.addQuestion(questions.greenBelt)
+				.addQuestion(questions.appellantGreenBelt)
 				.addQuestion(questions.ownsAllLand)
 				.addQuestion(questions.ownsSomeLand)
 				.withCondition(questionHasAnswer(questions.ownsAllLand, 'no'))

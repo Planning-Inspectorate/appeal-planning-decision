@@ -1618,5 +1618,12 @@ exports.questions = {
 		url: 'appeal-site-address',
 		viewFolder: 'address-entry',
 		validators: [new AddressValidator()]
+	}),
+	appellantGreenBelt: new BooleanQuestion({
+		title: 'Is the appeal site in a green belt?',
+		question: 'Is the appeal site in a green belt?',
+		fieldName: 'appellantGreenBelt',
+		url: 'green-belt',
+		validators: [new RequiredValidator('Select yes if the appeal site is in a green belt')]
 	})
 };
