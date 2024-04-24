@@ -39,6 +39,7 @@ class HasAppealFormJourney extends Journey {
 		this.sections.push(
 			new Section('Your details', 'your-details').addQuestion(questions.contactPhoneNumber),
 			new Section('Site details', 'site-details')
+				.addQuestion(questions.appealSiteAddress)
 				.addQuestion(questions.siteArea)
 				.addQuestion(questions.greenBelt)
 				.addQuestion(questions.ownsAllLand)

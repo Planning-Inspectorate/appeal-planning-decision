@@ -9,6 +9,8 @@ const {
 				addressLine2MinLength: addressLine2MinLength,
 				townCityMaxLength: townCityMaxLength,
 				townCityMinLength: townCityMinLength,
+				countyMaxLength: countyMaxLength,
+				countyMinLength: countyMinLength,
 				postcodeMaxLength: postcodeMaxLength,
 				postcodeMinLength: postcodeMinLength
 			}
@@ -42,6 +44,7 @@ class AddressValidator extends BaseValidator {
 			this.#addressLine1Rule(fieldName),
 			this.#addressLine2Rule(fieldName),
 			this.#townCityRule(fieldName),
+			this.#countyRule(fieldName),
 			this.#postCodeRule(fieldName)
 		];
 	}
@@ -86,14 +89,28 @@ class AddressValidator extends BaseValidator {
 	}
 
 	/**
+	 * a validation chain for county
+	 * @param {string} fieldName
+	 */
+	#countyRule(fieldName) {
+		return body(fieldName + '_county')
+			.isLength({ min: countyMinLength, max: countyMaxLength })
+			.bail()
+			.withMessage(`The county must be ${countyMaxLength} characters or fewer`);
+	}
+
+	/**
 	 * a validation chain for postcode
 	 * @param {string} fieldName
 	 */
 	#postCodeRule(fieldName) {
 		return body(fieldName + '_postcode')
+			.notEmpty()
+			.bail()
+			.withMessage('Enter postcode')
 			.isLength({ min: postcodeMinLength, max: postcodeMaxLength })
 			.bail()
-			.withMessage('Enter a valid postcode')
+			.withMessage('Enter a full UK postcode')
 			.if(body(fieldName + '_postcode').notEmpty())
 			.custom((postcode) => validatePostcode(postcode));
 	}
