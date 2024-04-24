@@ -5,6 +5,7 @@
 		"ms-azuretools.vscode-docker",
 		"eseom.nunjucks-template",
 		"ms-mssql.mssql",
-		"redhat.vscode-yaml"
+		"redhat.vscode-yaml",
+		"firsttris.vscode-jest-runner"
 	]
 }
