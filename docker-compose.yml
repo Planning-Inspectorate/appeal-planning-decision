@@ -55,6 +55,9 @@ services:
       # node debugger
       # - 9229:9229
     working_dir: /opt/app
+    depends_on:
+      - mock-notify
+      - mssql
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
@@ -115,12 +118,13 @@ services:
       # - 9229:9229
     working_dir: /opt/app
     depends_on:
+      - mongodb
+      - mssql
       - appeals-service-api-data
+      - auth-server
       - document-service-api
       - mock-horizon
       - mock-notify
-      - mongodb
-      - mssql
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
@@ -161,6 +165,10 @@ services:
     working_dir: /opt/app
     depends_on:
       - mongodb
+      - mssql
+      - blob-storage
+      - bo-blob-storage
+      - auth-server
     volumes:
       # mount the root node_modules for shared packages
       - ./node_modules:/opt/node_modules
