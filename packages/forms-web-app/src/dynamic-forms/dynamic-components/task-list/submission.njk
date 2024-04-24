@@ -1,0 +1,32 @@
+{% extends "./index.njk" %}
+
+{% set title = "Your appeal - " + journeyTitle + " - GOV.UK" %}
+
+{% block beforeTaskList %}
+  <style>
+  .appeal-details .govuk-summary-list__key,
+  .appeal-details .govuk-summary-list__value,
+  .appeal-details .govuk-summary-list__actions {
+      padding-top: 0.2rem;
+      padding-bottom: 0;
+  }
+  </style>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
+        <h1 class="govuk-heading-l">
+            Your appeal
+        </h1>
+    </div>
+
+    <div class="govuk-grid-column-full">
+    </div>
+
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters-from-desktop">
+      <h2 class="govuk-heading-s">Appeal incomplete</h2>
+      <p class="govuk-!-margin-bottom-7">You have completed {{summaryListData.completedSectionCount}} of {{summaryListData.sections.length}} sections.</p>
+    </div>
+  </div>
+{% endblock %}
