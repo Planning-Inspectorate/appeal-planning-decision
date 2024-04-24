@@ -287,6 +287,18 @@ export interface AppealCase {
 	interestedPartyCommentsPublishedDate?: string;
 	/** whether the appeal was received */
 	caseReceived?: boolean;
+
+	/**
+	 * the date the appeal was received into BO
+	 * @format date-time
+	 */
+	caseReceivedDate?: string;
+	/**
+	 * the date the appeal was marked as started - should normally be the same as valid but could process could change this
+	 * @format date-time
+	 */
+	caseStartedDate?: string;
+
 	/**
 	 * the date the appeal was received
 	 * @format date-time

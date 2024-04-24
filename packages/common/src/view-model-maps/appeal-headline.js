@@ -66,11 +66,17 @@ const formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_PA
  * @param {AppealToUserRoles|LpaUserRole|null} userType
  */
 const shouldFormatHeadlines = (
-	{ caseReceived, appealValidDate, lpaQuestionnaireSubmittedDate, lpaQuestionnairePublishedDate },
+	{
+		caseReceived,
+		caseReceivedDate,
+		appealValidDate,
+		lpaQuestionnaireSubmittedDate,
+		lpaQuestionnairePublishedDate
+	},
 	userType
 ) => {
 	if (userType === APPEAL_USER_ROLES.APPELLANT) {
-		return caseReceived && lpaQuestionnairePublishedDate;
+		return caseReceived && caseReceivedDate && lpaQuestionnairePublishedDate;
 	} else if (userType === LPA_USER_ROLE) {
 		return appealValidDate && lpaQuestionnaireSubmittedDate;
 	}

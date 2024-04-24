@@ -317,6 +317,8 @@ model AppealCase {
   //***************************************************************************
 
   caseReceived      Boolean?
+  caseReceivedDate  DateTime?
+  caseStartedDate   DateTime?
   casePublished     Boolean   @default(false)
   casePublishedDate DateTime?
   caseValidDate     DateTime?

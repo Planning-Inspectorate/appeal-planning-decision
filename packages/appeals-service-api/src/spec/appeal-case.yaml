@@ -391,6 +391,14 @@ components:
         caseReceived:
           type: boolean
           description: whether the appeal was received
+        caseReceivedDate:
+          type: string
+          format: date-time
+          description: the date the appeal was received into BO system
+        caseStartedDate:
+          type: string
+          format: date-time
+          description: the date the appeal was marked as started - should normally be the same as valid but could process could change this
         receiptDate:
           type: string
           format: date-time

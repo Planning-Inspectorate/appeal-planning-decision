@@ -429,6 +429,8 @@ const lpaAppealCaseData = [
 		appealValidDate: new Date(),
 		lpaQuestionnaireSubmittedDate: new Date(),
 		caseReceived: true,
+		caseReceivedDate: pickRandom(datesNMonthsAgo(2)),
+		caseStartedDate: pickRandom(datesNMonthsAgo(2)),
 		lpaQuestionnairePublishedDate: new Date(),
 		lpaQuestionnairePublished: true,
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),

@@ -9,7 +9,7 @@ exports.sections = [
 				// tbc
 				url: '/appeal-details',
 				text: 'View your appeal details',
-				condition: (appealCase) => appealCase.caseReceived
+				condition: (appealCase) => !!appealCase.caseReceivedDate && appealCase.caseReceived
 			}
 		]
 	},

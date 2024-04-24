@@ -9,7 +9,7 @@ exports.sections = [
 			{
 				url: '/appeal-details',
 				text: 'View appeal details',
-				condition: (appealCase) => !!appealCase.caseValidDate
+				condition: (appealCase) => !!appealCase.caseStartedDate
 			}
 		]
 	},
