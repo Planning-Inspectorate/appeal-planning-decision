@@ -466,6 +466,15 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} id
+	 * @returns {Promise<void>}
+	 */
+	async submitAppellantSubmission(id) {
+		const endpoint = `${v2}/appellant-submissions/${id}/submit`;
+		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} id
 	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async getAppellantSubmission(id) {

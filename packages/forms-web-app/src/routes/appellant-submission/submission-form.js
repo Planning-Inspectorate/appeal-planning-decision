@@ -5,7 +5,8 @@ const {
 	save,
 	remove,
 	appellantSubmissionDeclaration,
-	appellantSubmitted
+	appellantSubmitted,
+	appellantSubmit
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -44,6 +45,9 @@ router.get(
 	checkNotSubmitted(dashboardUrl),
 	appellantSubmissionDeclaration
 );
+
+router.post('/submit/declaration', getJourneyResponse, validationErrorHandler, appellantSubmit);
+
 
 router.get('/submit/submitted', getJourneyResponse, validationErrorHandler, appellantSubmitted);
 

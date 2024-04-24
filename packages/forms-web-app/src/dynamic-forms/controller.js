@@ -251,13 +251,31 @@ exports.submit = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
+exports.appellantSubmit = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	const id = res.locals.journeyResponse.referenceId;
+
+	if (!journey.isComplete()) {
+		res.sendStatus(400);
+		return;
+	}
+
+	await req.appealsApiClient.submitLPAQuestionnaire(id);
+
+	return res.redirect('/appeals/householder/submit/submitted?id=' + encodeURIComponent(id));
+};
+
+/**
+ * @type {import('express').Handler}
+ */
 exports.appellantSubmissionDeclaration = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
-	// if (!journey.isComplete()) {
-	// 	// return error message and redirect
-	// 	return res.status(400).render('./error/not-found.njk');
-	// }
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.status(400).render('./error/not-found.njk');
+	}
 
 	return res.render('./dynamic-components/submission-declaration/index', {
 		layoutTemplate: journey.journeyTemplate
