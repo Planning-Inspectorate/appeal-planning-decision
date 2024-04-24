@@ -30,6 +30,24 @@ const isValidAppealTypeCode = (maybeTypeCode) =>
 class BackOfficeV2Service {
 	constructor() {}
 
+	// /**
+	//  * @param {string} appealId
+	//  * @returns {Promise<Array<*> | void>}
+	//  */
+	// async submitAppeal(appealId) {
+	// 	const appeal = await getAppeal(appealId);
+
+	// 	if (!appeal) throw new Error(`Appeal ${appealId} not found`);
+
+	// 	const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, appeal.lpaCode);
+	// 	if (!isBOIntegrationActive) return;
+
+	// 	if (!appeal.appealType)
+	// 		throw new Error(`Appeal type could not be determined on appeal ${appealId}`);
+
+	// 	return await forwarders.appeal(formatters.appeal[appeal.appealType](appeal));
+	// }
+
 	/**
 	 * @param {string} appellantSubmissionId
 	 * @param {string} userId
@@ -54,6 +72,33 @@ class BackOfficeV2Service {
 		await markAppealAsSubmitted(appeal.id);
 
 		return result;
+
+	}
+
+	/**
+	 * @param { {appellantSubmissionId: string, userId: string} } params
+	 * @returns {Promise<Array<*> | void>}
+	 */
+	async submitAppellantSubmission({ appellantSubmissionId, userId }) {
+		const appellantSubmission = await get({ appellantSubmissionId, userId });
+
+		if (!appellantSubmission)
+			throw new Error(`Appeal submission ${appellantSubmissionId} not found`);
+
+		const isBOIntegrationActive = await isFeatureActive(
+			FLAG.APPEALS_BO_SUBMISSION,
+			appellantSubmission.LPACode
+		);
+		if (!isBOIntegrationActive) return;
+
+		if (!isValidAppealTypeCode(appellantSubmission.appealTypeCode))
+			throw new Error(`Appeal submission ${appellantSubmissionId} has an invalid appealTypeCode`);
+
+		return await forwarders.appeal(
+			formatters.appeal[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]](
+				appellantSubmission
+			)
+		);
 	}
 
 	/**

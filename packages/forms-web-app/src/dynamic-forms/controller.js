@@ -261,7 +261,7 @@ exports.appellantSubmit = async (req, res) => {
 		return;
 	}
 
-	await req.appealsApiClient.submitLPAQuestionnaire(id);
+	await req.appealsApiClient.submitAppellantSubmission(id);
 
 	return res.redirect('/appeals/householder/submit/submitted?id=' + encodeURIComponent(id));
 };
