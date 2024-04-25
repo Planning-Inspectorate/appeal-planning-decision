@@ -63,7 +63,8 @@ describe('SiteAddressQuestion', () => {
 					townCity: expectedAddress.townCity,
 					postcode: expectedAddress.postcode
 				}),
-				fieldName: FIELDNAME
+				fieldName: FIELDNAME,
+				siteAddressSet: true
 			});
 		});
 	});

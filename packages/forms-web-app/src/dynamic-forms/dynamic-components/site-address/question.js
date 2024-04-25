@@ -50,7 +50,7 @@ class SiteAddressQuestion extends Question {
 			postcode: req.body[this.fieldName + '_postcode']
 		});
 
-		return { address: address, fieldName: this.fieldName };
+		return { address: address, siteAddressSet: true, fieldName: this.fieldName };
 	}
 
 	/**
@@ -70,7 +70,7 @@ class SiteAddressQuestion extends Question {
 		}
 
 		// save
-		const { address, fieldName } = await this.getDataToSave(req);
+		const { address, siteAddressSet, fieldName } = await this.getDataToSave(req);
 		await req.appealsApiClient.postSubmissionAddress(
 			journeyResponse.journeyId,
 			journeyResponse.referenceId,
@@ -80,9 +80,12 @@ class SiteAddressQuestion extends Question {
 			}
 		);
 
-		await req.appealsApiClient.updateAppellantSubmission(journeyResponse.referenceId, {
-			siteAddress: true
-		});
+		if (siteAddressSet) {
+			await req.appealsApiClient.updateAppellantSubmission(journeyResponse.referenceId, {
+				siteAddress: siteAddressSet
+			});
+			journeyResponse.answers.siteAddress = siteAddressSet;
+		}
 
 		// check for saving errors
 		const saveViewModel = this.checkForSavingErrors(req, section, journey);
@@ -93,6 +96,7 @@ class SiteAddressQuestion extends Question {
 		// move to the next question
 		// @ts-ignore this feels grim
 		const updatedJourney = new journey.constructor(journeyResponse);
+		console.log('INSIDE', updatedJourney);
 		return this.handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
 	}
 
