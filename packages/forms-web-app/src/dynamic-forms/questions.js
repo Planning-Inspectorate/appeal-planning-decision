@@ -25,7 +25,7 @@ const {
 		stringValidation: {
 			appealReferenceNumber: appealReferenceNumberValidation,
 			listedBuildingNumber: listedBuildingNumberValidation,
-			appealSiteArea: { minValue }
+			appealSiteArea: { minValue, maxValue }
 		}
 	}
 } = require('../../src/config');
@@ -1187,6 +1187,8 @@ exports.questions = {
 				regexMessage: 'Enter the area of the site using numbers 0 to 9',
 				min: minValue,
 				minMessage: `Appeal site area must be at least ${minValue}m\u00B2`,
+				max: maxValue,
+				maxMessage: `Appeal site area must be ${maxValue.toLocaleString()}m\u00B2 or less`,
 				fieldName: 'siteAreaSquareMetres'
 			})
 		]
