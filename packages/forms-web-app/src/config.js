@@ -142,7 +142,8 @@ module.exports = {
 				}
 			},
 			appealSiteArea: {
-				minValue: 1
+				minValue: 1,
+				maxValue: 1000000
 			}
 		}
 	},
