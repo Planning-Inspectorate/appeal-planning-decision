@@ -34,7 +34,7 @@ describe('AddressValidator', () => {
 		expect(Object.keys(errors).length).toBe(0);
 	});
 
-	it('should validate address with empty addressLine2 and postcode without errors', async () => {
+	it('should validate address with empty addressLine2 and county without errors', async () => {
 		const question = {
 			fieldName: 'testField'
 		};
@@ -44,7 +44,8 @@ describe('AddressValidator', () => {
 				testField_addressLine1: 'A Building',
 				testField_addressLine2: '',
 				testField_townCity: 'Test city',
-				testField_postcode: ''
+				testField_postcode: 'BS1 6PN',
+				county: ''
 			}
 		};
 
@@ -100,7 +101,7 @@ describe('AddressValidator', () => {
 		expect(errors.testField_townCity.msg).toEqual(
 			`Town or city must be ${townCityMaxLength} characters or fewer`
 		);
-		expect(errors.testField_postcode.msg).toEqual('Enter a valid postcode');
+		expect(errors.testField_postcode.msg).toEqual('Enter a full UK postcode');
 	});
 });
 
