@@ -22,6 +22,8 @@ class Journey {
 	response;
 	/** @type {string} baseUrl - base url of the journey, gets prepended to question urls */
 	baseUrl = '';
+	/** @type {string} taskListUrl - url that renders the task list */
+	taskListUrl = '';
 	/** @type {string} journeyTemplate - nunjucks template file used for */
 	journeyTemplate = '';
 	/** @type {string} listingPageViewPath - nunjucks template file used for listing page */
@@ -33,13 +35,22 @@ class Journey {
 
 	/**
 	 * creates an instance of a journey
-	 * @param {string} baseUrl - base url of journey
-	 * @param {JourneyResponse} response - user's response
-	 * @param {string} journeyTemplate - template used for all views
-	 * @param {string} listingPageViewPath - path to njk view for listing page
-	 * @param {string} journeyTitle - part of the title in the njk view
+	 * @param {object} options - base url of journey
+	 * @param {string} options.baseUrl - base url of journey
+	 * @param {string} [options.taskListUrl] - task list url - added to base url, can be left undefined
+	 * @param {JourneyResponse} options.response - user's response
+	 * @param {string} options.journeyTemplate - template used for all views
+	 * @param {string} options.listingPageViewPath - path to njk view for listing page
+	 * @param {string} options.journeyTitle - part of the title in the njk view
 	 */
-	constructor(baseUrl, response, journeyTemplate, listingPageViewPath, journeyTitle) {
+	constructor({
+		baseUrl,
+		taskListUrl,
+		response,
+		journeyTemplate,
+		listingPageViewPath,
+		journeyTitle
+	}) {
 		if (this.constructor == Journey) {
 			throw new Error("Abstract classes can't be instantiated.");
 		}
@@ -51,6 +62,8 @@ class Journey {
 		if (baseUrl) {
 			this.baseUrl = this.#trimTrailingSlash(baseUrl);
 		}
+
+		this.taskListUrl = this.#prependPathToUrl(this.baseUrl, taskListUrl);
 
 		if (!journeyTemplate || typeof journeyTemplate !== 'string') {
 			throw new Error('journeyTemplate should be a string.');
@@ -81,10 +94,12 @@ class Journey {
 
 	/**
 	 * @param {string} originalUrl
-	 * @param {string} pathToPrepend
+	 * @param {string} [pathToPrepend]
 	 * @returns {string}
 	 */
 	#prependPathToUrl(originalUrl, pathToPrepend) {
+		if (!pathToPrepend) return originalUrl;
+
 		const urlObject = new URL(originalUrl, 'http://example.com'); // requires a base url, not returned
 		urlObject.pathname = this.#trimTrailingSlash(urlObject.pathname) + '/' + pathToPrepend;
 
@@ -152,7 +167,7 @@ class Journey {
 	 * @returns {string} url for the next question
 	 */
 	getNextQuestionUrl(sectionSegment, questionSegment, reverse) {
-		const unmatchedUrl = this.baseUrl;
+		const unmatchedUrl = this.taskListUrl;
 		const numberOfSections = this.sections.length;
 		const sectionsStart = reverse ? numberOfSections - 1 : 0;
 
@@ -205,7 +220,7 @@ class Journey {
 	 * @returns {string} url for the current question
 	 */
 	getCurrentQuestionUrl = (sectionSegment, questionSegment) => {
-		const unmatchedUrl = this.baseUrl;
+		const unmatchedUrl = this.taskListUrl;
 
 		// find section
 		const matchingSection = this.getSection(sectionSegment);
@@ -233,7 +248,7 @@ class Journey {
 	 * @returns {string} url for the current question
 	 */
 	addToCurrentQuestionUrl = (sectionSegment, questionSegment, addition) => {
-		const unmatchedUrl = this.baseUrl;
+		const unmatchedUrl = this.taskListUrl;
 
 		// find section
 		const matchingSection = this.getSection(sectionSegment);

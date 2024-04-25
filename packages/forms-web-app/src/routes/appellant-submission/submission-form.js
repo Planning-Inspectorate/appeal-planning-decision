@@ -23,7 +23,7 @@ const householderTaskList = async (req, res) => {
 	return list(req, res, 'Householder Appeal', {});
 };
 
-router.get('/', getJourneyResponse, householderTaskList);
+router.get('/appeal-form/your-appeal', getJourneyResponse, householderTaskList);
 
 router.get('/submit/declaration', getJourneyResponse, appellantSubmissionDeclaration);
 

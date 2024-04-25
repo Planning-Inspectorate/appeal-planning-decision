@@ -148,7 +148,7 @@ class Question {
 			navigation: ['', backLink],
 			backLink,
 			showBackToListLink: this.showBackToListLink,
-			listLink: journey.baseUrl,
+			listLink: journey.taskListUrl,
 			journeyTitle: journey.journeyTitle,
 			payload,
 

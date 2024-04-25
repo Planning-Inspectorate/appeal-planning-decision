@@ -25,13 +25,14 @@ class HasAppealFormJourney extends Journey {
 	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
 	 */
 	constructor(response) {
-		super(
-			`${baseHASSubmissionUrl}?id=${response.referenceId}`,
-			response,
-			hasJourneyTemplate,
-			listingPageViewPath,
-			journeyTitle
-		);
+		super({
+			baseUrl: `${baseHASSubmissionUrl}?id=${response.referenceId}`,
+			taskListUrl: 'appeal-form/your-appeal',
+			response: response,
+			journeyTemplate: hasJourneyTemplate,
+			listingPageViewPath: listingPageViewPath,
+			journeyTitle: journeyTitle
+		});
 
 		const questionHasAnswer = questionHasAnswerBuilder(response);
 		const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
