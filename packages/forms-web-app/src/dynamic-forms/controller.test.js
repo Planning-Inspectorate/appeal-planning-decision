@@ -20,13 +20,13 @@ const questionUtils = require('./dynamic-components/utils/question-utils');
 
 class TestJourney extends Journey {
 	constructor(response, isComplete) {
-		super(
-			`${mockBaseUrl}/${mockRef}`,
-			response,
-			mockTemplateUrl,
-			mockListingPath,
-			mockJourneyTitle
-		);
+		super({
+			baseUrl: `${mockBaseUrl}/${mockRef}`,
+			response: response,
+			journeyTemplate: mockTemplateUrl,
+			listingPageViewPath: mockListingPath,
+			journeyTitle: mockJourneyTitle
+		});
 
 		this.sections = [
 			{
@@ -270,7 +270,7 @@ describe('dynamic-form/controller', () => {
 
 			await question(req, res);
 
-			expect(res.redirect).toHaveBeenCalledWith(mockJourney.baseUrl);
+			expect(res.redirect).toHaveBeenCalledWith(mockJourney.taskListUrl);
 		});
 
 		it('should use custom action if renderAction is defined', async () => {

@@ -76,7 +76,8 @@ describe('DataQuestion', () => {
 			};
 
 			const journey = {
-				baseUrl: 'list',
+				baseUrl: '',
+				taskListUrl: 'list',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
 				response: {
@@ -109,7 +110,7 @@ describe('DataQuestion', () => {
 					payload: undefined,
 					backLink: 'back',
 					showBackToListLink: dateQuestion.showBackToListLink,
-					listLink: journey.baseUrl,
+					listLink: journey.taskListUrl,
 					journeyTitle: journey.journeyTitle
 				})
 			);
@@ -135,7 +136,8 @@ describe('DataQuestion', () => {
 			};
 
 			const journey = {
-				baseUrl: 'list',
+				baseUrl: '',
+				taskListUrl: 'list',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
 				response: {
@@ -175,7 +177,7 @@ describe('DataQuestion', () => {
 					payload: undefined,
 					backLink: 'back',
 					showBackToListLink: dateQuestion.showBackToListLink,
-					listLink: journey.baseUrl,
+					listLink: journey.taskListUrl,
 					journeyTitle: journey.journeyTitle
 				})
 			);
@@ -195,7 +197,8 @@ describe('DataQuestion', () => {
 			};
 
 			const journey = {
-				baseUrl: 'list',
+				baseUrl: '',
+				taskListUrl: 'list',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
 				response: {
@@ -232,7 +235,7 @@ describe('DataQuestion', () => {
 					payload: undefined,
 					backLink: 'back',
 					showBackToListLink: dateQuestion.showBackToListLink,
-					listLink: journey.baseUrl,
+					listLink: journey.taskListUrl,
 					journeyTitle: journey.journeyTitle
 				})
 			);

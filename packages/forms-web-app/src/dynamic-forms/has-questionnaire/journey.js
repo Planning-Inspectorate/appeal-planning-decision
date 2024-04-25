@@ -21,13 +21,13 @@ class HasJourney extends Journey {
 	 * @param {JourneyResponse} response - an onject that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
 	 */
 	constructor(response) {
-		super(
-			`${baseHASUrl}/${encodeURIComponent(response.referenceId)}`,
-			response,
-			hasJourneyTemplate,
-			listingPageViewPath,
-			journeyTitle
-		);
+		super({
+			baseUrl: `${baseHASUrl}/${encodeURIComponent(response.referenceId)}`,
+			response: response,
+			journeyTemplate: hasJourneyTemplate,
+			listingPageViewPath: listingPageViewPath,
+			journeyTitle: journeyTitle
+		});
 
 		this.sections.push(
 			new Section('Constraints, designations and other issues', 'constraints')

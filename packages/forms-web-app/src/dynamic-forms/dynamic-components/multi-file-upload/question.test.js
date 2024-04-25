@@ -42,13 +42,14 @@ class TestJourney extends Journey {
 	 * @param {import("../../journey-response").JourneyResponse} response
 	 */
 	constructor(response) {
-		super(
-			`${mockBaseUrl}/${encodeURIComponent(mockRef)}`,
-			response,
-			mockTemplateUrl,
-			'mock path',
-			'mock title'
-		);
+		super({
+			baseUrl: `${mockBaseUrl}/${encodeURIComponent(mockRef)}`,
+			taskListUrl: 'list',
+			response: response,
+			journeyTemplate: mockTemplateUrl,
+			listingPageViewPath: 'mock path',
+			journeyTitle: 'mock title'
+		});
 
 		this.sections = [
 			{

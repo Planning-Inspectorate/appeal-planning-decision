@@ -145,7 +145,7 @@ exports.question = async (req, res) => {
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
 	if (!questionObj || !sectionObj) {
-		return res.redirect(journey.baseUrl);
+		return res.redirect(journey.taskListUrl);
 	}
 
 	const viewModel = questionObj.prepQuestionForRendering(sectionObj, journey);
@@ -165,7 +165,7 @@ exports.save = async (req, res) => {
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
 	if (!questionObj || !sectionObj) {
-		return res.redirect(journey.baseUrl);
+		return res.redirect(journey.taskListUrl);
 	}
 
 	try {
@@ -193,7 +193,7 @@ exports.remove = async (req, res) => {
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
 	if (!questionObj || !sectionObj) {
-		return res.redirect(journey.baseUrl);
+		return res.redirect(journey.taskListUrl);
 	}
 
 	try {

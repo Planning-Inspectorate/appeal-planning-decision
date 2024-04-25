@@ -25,13 +25,13 @@ class S78Journey extends Journey {
 	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
 	 */
 	constructor(response) {
-		super(
-			`${baseS78Url}/${encodeURIComponent(response.referenceId)}`,
-			response,
-			s78JourneyTemplate,
-			listingPageViewPath,
-			journeyTitle
-		);
+		super({
+			baseUrl: `${baseS78Url}/${encodeURIComponent(response.referenceId)}`,
+			response: response,
+			journeyTemplate: s78JourneyTemplate,
+			listingPageViewPath: listingPageViewPath,
+			journeyTitle: journeyTitle
+		});
 
 		const questionHasAnswer = questionHasAnswerBuilder(response);
 		const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
