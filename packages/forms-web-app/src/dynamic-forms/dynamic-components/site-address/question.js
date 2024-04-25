@@ -31,11 +31,6 @@ class SiteAddressQuestion extends Question {
 		this.url = url;
 	}
 
-	prepQuestionForRendering(section, journey, customViewData, payload) {
-		let viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
-		return viewModel;
-	}
-
 	/**
 	 * adds a uuid and an address object for save data using req body fields
 	 * @param {import('express').Request} req
@@ -96,7 +91,6 @@ class SiteAddressQuestion extends Question {
 		// move to the next question
 		// @ts-ignore this feels grim
 		const updatedJourney = new journey.constructor(journeyResponse);
-		console.log('INSIDE', updatedJourney);
 		return this.handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
 	}
 
