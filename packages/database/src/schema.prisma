@@ -486,6 +486,12 @@ model AppellantSubmission {
   // dates
   onApplicationDate DateTime?
 
+  //appellant / agent details
+  isAppellant          Boolean?
+  appellantFirstName   String?
+  appellantLastName    String?
+  appellantCompanyName String?
+
   // boolean
   ownsAllLand                  Boolean?
   ownsSomeLand                 Boolean?
