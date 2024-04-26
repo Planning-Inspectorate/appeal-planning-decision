@@ -24,26 +24,41 @@ class SubmissionAddressRepository {
 	/**
 	 * Create submission address for a given questionnaire
 	 *
-	 * @param {string} id
+	 * @param {string} appellantSubmissionId
 	 * @param {AddressData} addressData
 	 * @returns {Promise<AppellantSubmission>}
 	 */
-	async createAddress(id, addressData) {
+	async createAddress(appellantSubmissionId, addressData) {
 		const { addressLine1, addressLine2, townCity, postcode, county, fieldName } = addressData;
+
+		const exisitingAddress = await this.dbClient.submissionAddress.findFirst({
+			where: { appellantSubmissionId: appellantSubmissionId }
+		});
 
 		return await this.dbClient.appellantSubmission.update({
 			where: {
-				id
+				id: appellantSubmissionId
 			},
 			data: {
 				SubmissionAddress: {
-					create: {
-						addressLine1,
-						addressLine2,
-						townCity,
-						postcode,
-						county,
-						fieldName
+					upsert: {
+						where: { id: exisitingAddress ? exisitingAddress.id : appellantSubmissionId },
+						update: {
+							addressLine1,
+							addressLine2,
+							townCity,
+							postcode,
+							county,
+							fieldName
+						},
+						create: {
+							addressLine1,
+							addressLine2,
+							townCity,
+							postcode,
+							county,
+							fieldName
+						}
 					}
 				}
 			},
