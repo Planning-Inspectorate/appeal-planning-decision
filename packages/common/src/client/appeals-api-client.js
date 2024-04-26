@@ -488,6 +488,15 @@ class AppealsApiClient {
 	 */
 	async createAppellantSubmission(data) {
 		const endpoint = `${v2}/appellant-submissions`;
+		return (await this.#makePutRequest(endpoint, data)).json();
+	}
+
+	/**
+	 * @param {Omit<AppellantSubmission, 'id'>} data
+	 * @returns {Promise<AppellantSubmission>}
+	 */
+	async createDebugAppellantSubmission(data) {
+		const endpoint = `${v2}/appellant-submissions`;
 		return (await this.#makePostRequest(endpoint, data)).json();
 	}
 

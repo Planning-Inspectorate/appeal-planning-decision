@@ -7,6 +7,7 @@ const {
 } = require('../dynamic-components/utils/question-has-answer');
 
 const baseHASSubmissionUrl = '/appeals/householder';
+const taskListUrl = 'appeal-form/your-appeal';
 const hasJourneyTemplate = 'submission-form-template.njk';
 const listingPageViewPath = 'dynamic-components/task-list/submission'; // Page does not exist yet
 const journeyTitle = 'Appeal a planning decision';
@@ -27,7 +28,7 @@ class HasAppealFormJourney extends Journey {
 	constructor(response) {
 		super({
 			baseUrl: `${baseHASSubmissionUrl}?id=${response.referenceId}`,
-			taskListUrl: 'appeal-form/your-appeal',
+			taskListUrl: taskListUrl,
 			response: response,
 			journeyTemplate: hasJourneyTemplate,
 			listingPageViewPath: listingPageViewPath,
@@ -116,4 +117,4 @@ class HasAppealFormJourney extends Journey {
 	}
 }
 
-module.exports = { HasAppealFormJourney, baseHASSubmissionUrl };
+module.exports = { HasAppealFormJourney, baseHASSubmissionUrl, taskListUrl };
