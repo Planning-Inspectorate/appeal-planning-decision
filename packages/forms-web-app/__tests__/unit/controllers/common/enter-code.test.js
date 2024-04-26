@@ -17,7 +17,7 @@ const {
 	getLPAUserStatus,
 	setLPAUserStatus,
 	getLPAUser
-} = require('../../../../src/services/lpa-user.service');
+} = require('../../../../src/services/user.service');
 const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
@@ -35,10 +35,18 @@ jest.mock('@pins/common/src/utils', () => {
 		isTestLPA: jest.fn()
 	};
 });
-jest.mock('../../../../src/services/lpa-user.service', () => {
+jest.mock('../../../../src/services/user.service', () => {
 	return {
 		getLPAUserStatus: jest.fn(),
 		createLPAUserSession: jest.fn(),
+		createAppealUserSession: (req, access_token, id_token, expiry, email) => {
+			req.session.user = {
+				access_token: access_token,
+				id_token: id_token,
+				expiry: expiry,
+				email
+			};
+		},
 		setLPAUserStatus: jest.fn(),
 		getLPAUser: jest.fn()
 	};
@@ -447,7 +455,7 @@ describe('controllers/common/enter-code', () => {
 			});
 
 			const expectUserInSession = () => {
-				expect(req.session.appealUser).toEqual({
+				expect(req.session.user).toEqual({
 					access_token: 'access',
 					id_token: 'id',
 					expiry: 'expiry'

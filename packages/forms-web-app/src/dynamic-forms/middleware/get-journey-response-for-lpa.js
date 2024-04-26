@@ -1,7 +1,7 @@
 const { JourneyResponse } = require('../journey-response');
 const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
-const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { getUserFromSession } = require('../../services/user.service');
 const { apiClient } = require('#lib/appeals-api-client');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
@@ -12,7 +12,7 @@ module.exports = () => async (req, res, next) => {
 	const encodedReferenceId = encodeURIComponent(referenceId);
 	let result;
 
-	const user = getLPAUserFromSession(req);
+	const user = getUserFromSession(req);
 
 	const appeal = await apiClient.getUsersAppealCase({
 		caseReference: encodedReferenceId,

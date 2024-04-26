@@ -1,4 +1,4 @@
-const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { getUserFromSession } = require('../../services/user.service');
 
 const {
 	VIEW: {
@@ -7,7 +7,7 @@ const {
 } = require('../../lib/views');
 
 const getEmailAddress = async (req, res) => {
-	const user = getLPAUserFromSession(req);
+	const user = getUserFromSession(req);
 
 	return res.render(EMAIL_ADDRESS, {
 		lpaDomain: `@${user.lpaDomain}`
@@ -17,7 +17,7 @@ const getEmailAddress = async (req, res) => {
 const postEmailAddress = async (req, res) => {
 	const { errors = {}, errorSummary = [] } = req.body;
 
-	const user = getLPAUserFromSession(req);
+	const user = getUserFromSession(req);
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(EMAIL_ADDRESS, {

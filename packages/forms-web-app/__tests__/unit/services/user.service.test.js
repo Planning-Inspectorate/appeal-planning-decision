@@ -1,8 +1,8 @@
 const {
 	createLPAUserSession,
-	getLPAUserFromSession,
+	getUserFromSession,
 	setLPAUserStatus
-} = require('../../../src/services/lpa-user.service');
+} = require('../../../src/services/user.service');
 const { getLPA } = require('#lib/appeals-api-wrapper');
 const { apiClient } = require('#lib/appeals-api-client');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
@@ -14,7 +14,7 @@ jest.mock('#lib/appeals-api-wrapper', () => {
 });
 jest.mock('#lib/appeals-api-client');
 
-describe('services/lpa-user.service', () => {
+describe('services/user.service', () => {
 	beforeEach(() => {
 		jest.resetAllMocks();
 	});
@@ -32,11 +32,11 @@ describe('services/lpa-user.service', () => {
 
 			await createLPAUserSession(mockReq, mockUser);
 
-			expect(mockReq.session.lpaUser).toEqual(expectedResult);
+			expect(mockReq.session.user).toEqual(expectedResult);
 		});
 	});
 
-	describe('getLPAUserFromSession', () => {
+	describe('getUserFromSession', () => {
 		it('should return user from session ', async () => {
 			const mockReq = {
 				session: {
@@ -44,9 +44,9 @@ describe('services/lpa-user.service', () => {
 				}
 			};
 
-			const result = getLPAUserFromSession(mockReq);
+			const result = getUserFromSession(mockReq);
 
-			expect(result).toEqual(mockReq.session.lpaUser);
+			expect(result).toEqual(mockReq.session.user);
 		});
 	});
 

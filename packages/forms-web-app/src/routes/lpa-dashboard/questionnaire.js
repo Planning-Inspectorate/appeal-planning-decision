@@ -14,7 +14,7 @@ const {
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-lpa');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 
-const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { getUserFromSession } = require('../../services/user.service');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 const router = express.Router();
@@ -24,7 +24,7 @@ const router = express.Router();
  */
 const questionnaireTaskList = async (req, res) => {
 	const referenceId = res.locals.journeyResponse.referenceId;
-	const user = getLPAUserFromSession(req);
+	const user = getUserFromSession(req);
 	const encodedReferenceId = encodeURIComponent(referenceId);
 	const appeal = await req.appealsApiClient.getUsersAppealCase({
 		caseReference: encodedReferenceId,

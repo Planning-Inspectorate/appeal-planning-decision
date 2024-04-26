@@ -3,12 +3,12 @@ const {
 	postConfirmAddUser
 } = require('../../../../src/controllers/lpa-dashboard/confirm-add-user');
 const { apiClient } = require('#lib/appeals-api-client');
-const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.service');
+const { getUserFromSession } = require('../../../../src/services/user.service');
 const { VIEW } = require('#lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('#lib/appeals-api-client');
-jest.mock('../../../../src/services/lpa-user.service');
+jest.mock('../../../../src/services/user.service');
 
 const req = {
 	...mockReq(null)
@@ -41,7 +41,7 @@ describe('controllers/lpa-dashboard/get-confirm-add-user', () => {
 		it('should call createUser with email address and redirect to correct page', async () => {
 			const addUserEmailAddress = 'addUser@example.com';
 			req.session.addUserEmailAddress = addUserEmailAddress;
-			getLPAUserFromSession.mockReturnValue(mockUser);
+			getUserFromSession.mockReturnValue(mockUser);
 
 			await postConfirmAddUser(req, res);
 
@@ -58,7 +58,7 @@ describe('controllers/lpa-dashboard/get-confirm-add-user', () => {
 			apiClient.createUser.mockImplementation(() => Promise.reject(error));
 
 			req.session.addUserEmailAddress = 'test@example.com';
-			getLPAUserFromSession.mockReturnValue(mockUser);
+			getUserFromSession.mockReturnValue(mockUser);
 
 			await postConfirmAddUser(req, res);
 

@@ -1,5 +1,5 @@
 const { list, question, save, remove, submit } = require('./controller');
-const { getLPAUserFromSession } = require('../services/lpa-user.service');
+const { getUserFromSession } = require('../services/user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
@@ -196,7 +196,7 @@ const mockSection = {
 	segment: 'test'
 };
 
-jest.mock('../services/lpa-user.service');
+jest.mock('../services/user.service');
 jest.mock('./journey-factory');
 
 describe('dynamic-form/controller', () => {
@@ -208,7 +208,7 @@ describe('dynamic-form/controller', () => {
 		const lpaUser = {
 			lpaCode: 'E9999'
 		};
-		getLPAUserFromSession.mockReturnValue(lpaUser);
+		getUserFromSession.mockReturnValue(lpaUser);
 		mockSummaryListData = _getmockSummaryListData(mockJourney);
 		req = {
 			appealsApiClient: {

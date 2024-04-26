@@ -4,7 +4,7 @@ const { formatHeadlineData, formatRows } = require('@pins/common');
 const { VIEW } = require('../../../lib/views');
 const { apiClient } = require('../../../lib/appeals-api-client');
 const { determineUser } = require('../../../lib/determine-user');
-const { getLPAUserFromSession } = require('../../../services/lpa-user.service');
+const { getUserFromSession } = require('../../../services/user.service');
 const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
 
@@ -27,8 +27,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			throw new Error('Unknown role');
 		}
 
-		const userEmail =
-			userType === LPA_USER_ROLE ? getLPAUserFromSession(req).email : req.session.email;
+		const userEmail = getUserFromSession(req).email;
 
 		if (!userEmail) {
 			throw new Error('no session email');
