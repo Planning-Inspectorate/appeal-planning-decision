@@ -1,5 +1,5 @@
 const { apiClient } = require('../../lib/appeals-api-client');
-const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { getUserFromSession } = require('../../services/user.service');
 
 const {
 	VIEW: {
@@ -21,7 +21,7 @@ const getAddRemoveUsers = async (req, res) => {
 		delete req.session.removeUserEmailAddress;
 	}
 
-	const user = getLPAUserFromSession(req);
+	const user = getUserFromSession(req);
 	const usersList = await apiClient.getUsers(user.lpaCode);
 
 	return res.render(ADD_REMOVE_USERS, {

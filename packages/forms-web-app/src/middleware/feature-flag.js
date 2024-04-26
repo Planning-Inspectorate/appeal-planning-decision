@@ -1,5 +1,5 @@
 const { isFeatureActive } = require('../featureFlag');
-const { getLPAUserFromSession } = require('../services/lpa-user.service');
+const { getUserFromSession } = require('../services/user.service');
 
 const featureFlagMiddleware = (featureFlag, lpaCode) => {
 	return async (req, res, next) => {
@@ -13,7 +13,7 @@ const featureFlagMiddleware = (featureFlag, lpaCode) => {
 
 const lpaUserFeatureFlagMiddleware = (featureFlag) => {
 	return async (req, res, next) => {
-		const user = getLPAUserFromSession(req);
+		const user = getUserFromSession(req);
 		if (await isFeatureActive(featureFlag, user?.lpaCode)) {
 			next();
 		} else {

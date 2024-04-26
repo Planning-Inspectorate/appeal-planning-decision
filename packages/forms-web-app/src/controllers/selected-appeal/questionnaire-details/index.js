@@ -15,6 +15,7 @@ const { environmentalRows } = require('./environmental-details-rows');
 const { notifiedRows } = require('./notified-details-rows');
 const { planningOfficerReportRows } = require('./planning-officer-details-rows');
 const { siteAccessRows } = require('./site-access-details-rows');
+const { getUserFromSession } = require('../../../services/user.service');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -34,7 +35,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			throw new Error('Unknown role');
 		}
 
-		const userEmail = userType === LPA_USER_ROLE ? req.session.lpaUser?.email : req.session.email;
+		const lpaUser = getUserFromSession(req);
+		const userEmail = userType === LPA_USER_ROLE ? lpaUser?.email : req.session.email;
 
 		if (!userEmail) {
 			throw new Error('no session email');
