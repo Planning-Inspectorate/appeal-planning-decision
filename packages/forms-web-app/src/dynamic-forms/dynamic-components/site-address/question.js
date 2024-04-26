@@ -32,7 +32,7 @@ class SiteAddressQuestion extends Question {
 	}
 
 	prepQuestionForRendering(section, journey, customViewData) {
-		const answers = journey.response.answers.SubmissionAddress[0];
+		const answers = journey.response.answers.SubmissionAddress[0] || {};
 
 		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 
@@ -79,7 +79,7 @@ class SiteAddressQuestion extends Question {
 		if (errorViewModel) {
 			return this.renderAction(res, errorViewModel);
 		}
-		// console.log('INSIDE2',journeyResponse.journeyId, journeyResponse.referenceId, journeyResponse.answers )
+
 		// save
 		const { address, siteAddressSet, fieldName } = await this.getDataToSave(req);
 
