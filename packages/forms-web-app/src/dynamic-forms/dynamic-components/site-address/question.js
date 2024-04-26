@@ -31,6 +31,22 @@ class SiteAddressQuestion extends Question {
 		this.url = url;
 	}
 
+	prepQuestionForRendering(section, journey, customViewData) {
+		const answers = journey.response.answers.SubmissionAddress[0];
+
+		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+
+		viewModel.question.value = {
+			addressLine1: answers.addressLine1 || '',
+			addressLine2: answers.addressLine2 || '',
+			townCity: answers.townCity || '',
+			county: answers.county || '',
+			postcode: answers.postcode || ''
+		};
+
+		return viewModel;
+	}
+
 	/**
 	 * adds a uuid and an address object for save data using req body fields
 	 * @param {import('express').Request} req
@@ -63,9 +79,10 @@ class SiteAddressQuestion extends Question {
 		if (errorViewModel) {
 			return this.renderAction(res, errorViewModel);
 		}
-
+		// console.log('INSIDE2',journeyResponse.journeyId, journeyResponse.referenceId, journeyResponse.answers )
 		// save
 		const { address, siteAddressSet, fieldName } = await this.getDataToSave(req);
+
 		await req.appealsApiClient.postSubmissionAddress(
 			journeyResponse.journeyId,
 			journeyResponse.referenceId,
