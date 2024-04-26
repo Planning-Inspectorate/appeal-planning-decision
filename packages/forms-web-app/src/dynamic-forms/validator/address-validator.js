@@ -57,7 +57,7 @@ class AddressValidator extends BaseValidator {
 		return body(fieldName + '_addressLine1')
 			.notEmpty()
 			.bail()
-			.withMessage('Enter an address')
+			.withMessage('Enter address line 1')
 			.isLength({ min: addressLine1MinLength, max: addressLine1MaxLength })
 			.bail()
 			.withMessage(`The address line must be ${addressLine1MaxLength} characters or fewer`);
@@ -107,7 +107,7 @@ class AddressValidator extends BaseValidator {
 		return body(fieldName + '_postcode')
 			.notEmpty()
 			.bail()
-			.withMessage('Enter postcode')
+			.withMessage('Enter a full UK postcode')
 			.isLength({ min: postcodeMinLength, max: postcodeMaxLength })
 			.bail()
 			.withMessage('Enter a full UK postcode')
