@@ -26,6 +26,8 @@ router.use(
 );
 
 router.put('/', openApiValidatorMiddleware(), asyncHandler(put));
+
+// debug route, delete once no longer required
 router.post('/', asyncHandler(post));
 
 module.exports = { router };

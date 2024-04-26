@@ -81,6 +81,7 @@ class LpaService {
 			await cursor.forEach((doc) => {
 				lpaList.push({
 					id: doc.lpa19CD,
+					lpaCode: doc.lpaCode,
 					name: doc.name,
 					inTrial: doc.inTrial,
 					email: doc.email,

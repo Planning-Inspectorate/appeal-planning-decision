@@ -102,6 +102,10 @@ exports.getLPAList = async () => {
 	return handler('/api/v1/local-planning-authorities');
 };
 
+exports.getLPAById = async (lpaCode) => {
+	return handler(`/api/v1/local-planning-authorities/${lpaCode}`);
+};
+
 exports.getLPA = async (lpaCode) => {
 	return handler(`/api/v1/local-planning-authorities/lpaCode/${lpaCode}`);
 };

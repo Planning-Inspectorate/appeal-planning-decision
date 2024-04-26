@@ -3,6 +3,8 @@ const { APPELLANT_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
+const { isFeatureActive } = require('../../featureFlag');
+const { FLAG } = require('@pins/common/src/feature-flags');
 
 /**
  *
@@ -32,7 +34,9 @@ module.exports = async (request, response, next) => {
 		logger.error(error);
 	}
 
-	if (!submission) return response.status(404).render('error/not-found');
+	if (!submission || !(await isFeatureActive(FLAG.APPEAL_FORM_V2, submission.LPACode))) {
+		return response.status(404).render('error/not-found');
+	}
 
 	const appealType = APPELLANT_JOURNEY_TYPES_FORMATTED[submission.appealTypeCode];
 
