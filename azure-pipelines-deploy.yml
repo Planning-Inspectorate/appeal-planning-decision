@@ -7,7 +7,7 @@ parameters:
   - name: deployAuthServer
     displayName: Deploy Auth Server
     type: boolean
-    default: false
+    default: true
   - name: deployDocumentsApi
     displayName: Deploy Documents Service API
     type: boolean
