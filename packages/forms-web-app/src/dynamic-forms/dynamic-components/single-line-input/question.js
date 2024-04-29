@@ -28,30 +28,14 @@ class SingleLineInputQuestion extends Question {
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {Record<string, string>} [params.inputAttributes] html attributes to add to the input
 	 */
-	constructor({
-		title,
-		question,
-		fieldName,
-		url,
-		hint,
-		validators,
-		html,
-		label,
-		inputAttributes = {}
-	}) {
+	constructor(params) {
 		super({
-			title,
-			viewFolder: 'single-line-input',
-			fieldName,
-			url,
-			question,
-			validators,
-			hint,
-			html
+			...params,
+			viewFolder: 'single-line-input'
 		});
 
-		this.label = label;
-		this.inputAttributes = inputAttributes;
+		this.label = params.label;
+		this.inputAttributes = params.inputAttributes || {};
 	}
 
 	prepQuestionForRendering(section, journey, customViewData, payload) {
