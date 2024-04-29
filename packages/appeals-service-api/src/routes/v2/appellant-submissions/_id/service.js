@@ -30,3 +30,12 @@ exports.patch = async ({ appellantSubmissionId, userId, data }) => {
 
 	return submission;
 };
+
+/**
+ * mark appeal as submitted to back office
+ * @param {string} appealId
+ * @return {Promise<{id: string}>}
+ */
+exports.markAppealAsSubmitted = (appealId) => {
+	return repo.markAppealAsSubmitted(appealId);
+};

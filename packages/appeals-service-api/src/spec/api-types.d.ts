@@ -510,7 +510,8 @@ export interface AppellantSubmission {
 	appealTypeCode?: 'HAS' | 'S78';
 	appealId?: string;
 	caseTermsAccepted?: boolean;
-	submittedToBackOffice?: boolean;
+	/** whether the appeal has been submitted to BO */
+	submitted?: boolean;
 	/** @format date-time */
 	onApplicationDate?: string;
 	isAppellant?: boolean;
@@ -586,6 +587,8 @@ export interface LPAQuestionnaireSubmission {
 	AppealCase: {
 		LPACode: string;
 	};
+	/** whether the questionnaire has been submitted to BO */
+	submitted?: boolean;
 	appealCaseReference: string;
 	correctAppealType?: boolean;
 	affectsListedBuilding?: boolean;

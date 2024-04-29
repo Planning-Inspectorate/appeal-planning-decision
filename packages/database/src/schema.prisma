@@ -485,8 +485,8 @@ model AppellantSubmission {
   Appeal   Appeal @relation(fields: [appealId], references: [id])
 
   // state
-  caseTermsAccepted     Boolean? /// set when user clicks submit
-  submittedToBackOffice Boolean? /// set when added to the message queue
+  caseTermsAccepted Boolean? /// set when user clicks submit
+  submitted         Boolean  @default(false) /// whether the questionnaire has been submitted to BO
 
   // dates
   onApplicationDate DateTime?
@@ -547,10 +547,12 @@ model AppellantSubmission {
 model LPAQuestionnaireSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
+  // link the submission to the appeal
   appealCaseReference String     @unique
   AppealCase          AppealCase @relation(fields: [appealCaseReference], references: [caseReference])
 
-  // link the submission to the appeal
+  // state
+  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
 
   correctAppealType                               Boolean?
   affectsListedBuilding                           Boolean?
