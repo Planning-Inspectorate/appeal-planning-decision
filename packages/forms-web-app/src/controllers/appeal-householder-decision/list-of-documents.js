@@ -22,7 +22,7 @@ const postListOfDocuments = async (req, res) => {
 		if (req.body['save-and-return'] !== '') {
 			const appeal = req.session.appeal;
 
-			const usingV2Form = await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, appeal.lpaCode);
+			const usingV2Form = await isFeatureActive(FLAG.APPEAL_FORM_V2, appeal.lpaCode);
 
 			// v1
 			if (!usingV2Form) {
