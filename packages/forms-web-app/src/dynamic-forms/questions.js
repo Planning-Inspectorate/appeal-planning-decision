@@ -1404,8 +1404,10 @@ exports.questions = {
 		]
 	}),
 	uploadOriginalApplicationForm: new MultiFileUploadQuestion({
-		title: 'Upload your separate ownership certificate and agricultural land declaration',
-		question: 'Upload your separate ownership certificate and agricultural land declaration',
+		title: 'Upload your planning application form',
+		question: 'Upload your planning application form',
+		description:
+			'Upload the application form that you sent to the local planning authority, including the date. Do not upload a draft application.\nIf you do not have your application form, you can search for it on the local planning authority’s website.',
 		fieldName: 'uploadOriginalApplicationForm',
 		url: 'upload-application-form',
 		validators: [
@@ -1444,8 +1446,8 @@ exports.questions = {
 		documentType: documentTypes.uploadChangeOfDescriptionEvidence
 	}),
 	enterApplicationReference: new SingleLineInputQuestion({
-		title: 'What is the planning application reference number?',
-		question: 'What is the planning application reference number?',
+		title: 'What is the application reference number?',
+		question: 'What is the application reference number?',
 		fieldName: 'applicationReference',
 		url: 'reference-number',
 		hint: 'You can find this on any correspondence from the local planning authority. For example, the letter confirming your application.',
@@ -1477,9 +1479,8 @@ exports.questions = {
 			]
 		}),
 	enterDevelopmentDescription: new TextEntryQuestion({
-		title: 'Enter the description of development that you submitted in your planning application',
-		question:
-			'Enter the description of development that you submitted in your planning application',
+		title: 'Enter the description of development that you submitted in your application.',
+		question: 'Enter the description of development that you submitted in your application.',
 		fieldName: 'developmentDescriptionOriginal',
 		url: 'enter-description-of-development',
 		hint: 'If the local planning authority changed the description of development, you can upload evidence of your agreement to change the description later.',
@@ -1636,7 +1637,6 @@ exports.questions = {
 	appealSiteAddress: new SiteAddressQuestion({
 		title: 'What is the address of the appeal site?',
 		question: 'What is the address of the appeal site?',
-		hint: 'The address should match what is on the application to the local planning authority.',
 		fieldName: 'siteAddress',
 		url: 'appeal-site-address',
 		viewFolder: 'address-entry',
