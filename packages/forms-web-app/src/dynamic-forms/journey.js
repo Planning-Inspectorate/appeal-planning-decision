@@ -42,6 +42,7 @@ class Journey {
 	 * @param {string} options.journeyTemplate - template used for all views
 	 * @param {string} options.listingPageViewPath - path to njk view for listing page
 	 * @param {string} options.journeyTitle - part of the title in the njk view
+	 * @param {boolean} [options.returnToListing] - defines how the next/previous question handles end of sections
 	 */
 	constructor({
 		baseUrl,
@@ -49,7 +50,8 @@ class Journey {
 		response,
 		journeyTemplate,
 		listingPageViewPath,
-		journeyTitle
+		journeyTitle,
+		returnToListing
 	}) {
 		if (this.constructor == Journey) {
 			throw new Error("Abstract classes can't be instantiated.");
@@ -79,6 +81,8 @@ class Journey {
 			throw new Error('journeyTitle should be a string.');
 		}
 		this.journeyTitle = journeyTitle;
+
+		this.returnToListing = returnToListing ?? false;
 
 		this.response = response;
 	}
