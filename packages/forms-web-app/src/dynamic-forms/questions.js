@@ -42,6 +42,7 @@ const DateValidator = require('./validator/date-validator');
 const DateQuestion = require('./dynamic-components/date/question');
 const TextEntryQuestion = require('./dynamic-components/text-entry/question');
 const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
+const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
 const { documentTypes } = require('@pins/common');
 const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
 const NumericValidator = require('./validator/numeric-validator');
@@ -1614,6 +1615,28 @@ exports.questions = {
 				attributes: { 'data-cy': 'answer-no' }
 			}
 		]
+	}),
+	applicantName: new MultiFieldInputQuestion({
+		title: "What is the applicant's name?",
+		question: "What is the applicant's name?",
+		html: 'resources/your-details/applicant-name.html',
+		fieldName: 'applicantName',
+		url: 'applicant-name',
+		inputFields: [
+			{
+				fieldName: 'appellantFirstName',
+				label: 'First name'
+			},
+			{
+				fieldName: 'appellantLastName',
+				label: 'Last name'
+			},
+			{
+				fieldName: 'appellantCompanyName',
+				label: 'Company name (optional)'
+			}
+		],
+		validators: [new RequiredValidator("Enter the applicant's name")]
 	}),
 	contactPhoneNumber: new SingleLineInputQuestion({
 		title: 'What is your phone number?',

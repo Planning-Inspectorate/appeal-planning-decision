@@ -42,6 +42,7 @@ class HasAppealFormJourney extends Journey {
 		this.sections.push(
 			new Section('Your details', 'your-details')
 				.addQuestion(questions.applicationName)
+				.addQuestion(questions.applicantName)
 				.addQuestion(questions.contactPhoneNumber),
 			new Section('Site details', 'site-details')
 				.addQuestion(questions.appealSiteAddress)
