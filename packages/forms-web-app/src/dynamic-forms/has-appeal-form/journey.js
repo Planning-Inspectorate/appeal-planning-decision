@@ -32,7 +32,8 @@ class HasAppealFormJourney extends Journey {
 			response: response,
 			journeyTemplate: hasJourneyTemplate,
 			listingPageViewPath: listingPageViewPath,
-			journeyTitle: journeyTitle
+			journeyTitle: journeyTitle,
+			returnToListing: true
 		});
 
 		const questionHasAnswer = questionHasAnswerBuilder(response);
