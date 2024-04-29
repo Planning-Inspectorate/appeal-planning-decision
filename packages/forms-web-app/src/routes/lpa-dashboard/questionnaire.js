@@ -13,9 +13,17 @@ const {
 } = require('../../dynamic-forms/validator/validation-error-handler');
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-lpa');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
+const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
 
 const { getUserFromSession } = require('../../services/user.service');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+
+const {
+	VIEW: {
+		LPA_DASHBOARD: { DASHBOARD }
+	}
+} = require('#lib/views');
+const dashboardUrl = `/${DASHBOARD}`;
 
 const router = express.Router();
 
@@ -38,15 +46,26 @@ const questionnaireTaskList = async (req, res) => {
 };
 
 // list
-router.get('/questionnaire/:referenceId', getJourneyResponse(), questionnaireTaskList);
+router.get(
+	'/questionnaire/:referenceId',
+	getJourneyResponse(),
+	checkNotSubmitted(dashboardUrl),
+	questionnaireTaskList
+);
 
 // question
-router.get('/questionnaire/:referenceId/:section/:question', getJourneyResponse(), question);
+router.get(
+	'/questionnaire/:referenceId/:section/:question',
+	getJourneyResponse(),
+	checkNotSubmitted(dashboardUrl),
+	question
+);
 
 // save
 router.post(
 	'/questionnaire/:referenceId/:section/:question',
 	getJourneyResponse(),
+	checkNotSubmitted(dashboardUrl),
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
 	validationErrorHandler,
@@ -54,7 +73,13 @@ router.post(
 );
 
 // submit
-router.post('/questionnaire/:referenceId/', getJourneyResponse(), validationErrorHandler, submit);
+router.post(
+	'/questionnaire/:referenceId/',
+	getJourneyResponse(),
+	checkNotSubmitted(dashboardUrl),
+	validationErrorHandler,
+	submit
+);
 
 router.get(
 	'/full-planning/:referenceId/questionnaire-submitted',
@@ -74,6 +99,7 @@ router.get(
 router.get(
 	'/questionnaire/:referenceId/:section/:question/:answerId',
 	getJourneyResponse(),
+	checkNotSubmitted(dashboardUrl),
 	remove
 );
 

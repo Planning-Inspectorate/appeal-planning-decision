@@ -1,11 +1,14 @@
-const { getAppeal } = require('../appeal.service');
 const { isFeatureActive } = require('../../configuration/featureFlag');
 const formatters = require('./formatters');
 const forwarders = require('./forwarders');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const {
-	getLPAQuestionnaireByAppealId
+	getLPAQuestionnaireByAppealId,
+	markQuestionnaireAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service');
+
+const { get, markAppealAsSubmitted } = require('../../routes/v2/appellant-submissions/_id/service');
+
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
@@ -28,21 +31,29 @@ class BackOfficeV2Service {
 	constructor() {}
 
 	/**
-	 * @param {string} appealId
+	 * @param {string} appellantSubmissionId
+	 * @param {string} userId
 	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitAppeal(appealId) {
-		const appeal = await getAppeal(appealId);
+	async submitAppeal(appellantSubmissionId, userId) {
+		const appeal = await get({
+			appellantSubmissionId,
+			userId
+		});
 
-		if (!appeal) throw new Error(`Appeal ${appealId} not found`);
+		if (!appeal) throw new Error(`Appeal ${appellantSubmissionId} not found`);
 
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, appeal.lpaCode);
+		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION);
 		if (!isBOIntegrationActive) return;
 
-		if (!appeal.appealType)
-			throw new Error(`Appeal type could not be determined on appeal ${appealId}`);
+		if (!appeal.appealTypeCode)
+			throw new Error(`Appeal type could not be determined on appeal ${appellantSubmissionId}`);
 
-		return await forwarders.appeal(formatters.appeal[appeal.appealType](appeal));
+		const result = await forwarders.appeal(formatters.appeal[appeal.appealTypeCode](appeal));
+
+		await markAppealAsSubmitted(appeal.id);
+
+		return result;
 	}
 
 	/**
@@ -64,12 +75,16 @@ class BackOfficeV2Service {
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error("Questionnaire's associated AppealCase has an invalid appealTypeCode");
 
-		return await forwarders.questionnaire(
+		const result = await forwarders.questionnaire(
 			await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
 				caseReference,
 				questionnaire
 			)
 		);
+
+		await markQuestionnaireAsSubmitted(questionnaire.id);
+
+		return result;
 	}
 }
 

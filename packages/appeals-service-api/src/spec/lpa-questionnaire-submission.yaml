@@ -18,6 +18,9 @@ components:
           properties:
             LPACode:
               type: string
+        submitted:
+          type: boolean
+          description: whether the questionnaire has been submitted to BO
         appealCaseReference:
           type: string
         correctAppealType:

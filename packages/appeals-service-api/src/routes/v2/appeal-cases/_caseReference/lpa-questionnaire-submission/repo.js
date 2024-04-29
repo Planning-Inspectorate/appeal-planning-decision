@@ -92,6 +92,24 @@ class LPAQuestionnaireSubmissionRepository {
 			}
 		});
 	}
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<{id: string}>}
+	 */
+	markLPAQuestionnaireAsSubmitted(id) {
+		return this.dbClient.lPAQuestionnaireSubmission.update({
+			where: {
+				id: id
+			},
+			data: {
+				submitted: true
+			},
+			select: {
+				id: true
+			}
+		});
+	}
 }
 
 module.exports = { LPAQuestionnaireSubmissionRepository };
