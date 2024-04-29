@@ -1618,6 +1618,7 @@ exports.questions = {
 		title: 'What is your phone number?',
 		question: 'What is your phone number?',
 		description: 'We may use your phone number to contact you about the appeal.',
+		label: 'UK telephone number',
 		fieldName: 'appellantPhoneNumber',
 		url: 'phone-number',
 		inputAttributes: { type: 'tel', autocomplete: 'tel' },
