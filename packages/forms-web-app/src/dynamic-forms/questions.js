@@ -1638,6 +1638,27 @@ exports.questions = {
 		],
 		validators: [new RequiredValidator("Enter the applicant's name")]
 	}),
+	contactDetails: new MultiFieldInputQuestion({
+		title: 'Contact details',
+		question: 'Contact details',
+		fieldName: 'contactDetails',
+		url: 'contact-details',
+		inputFields: [
+			{
+				fieldName: 'contactFirstName',
+				label: 'First name'
+			},
+			{
+				fieldName: 'contactLastName',
+				label: 'Last name'
+			},
+			{
+				fieldName: 'contactCompanyName',
+				label: 'Organisation name (optional)'
+			}
+		],
+		validators: [new RequiredValidator('Enter your contact details')]
+	}),
 	contactPhoneNumber: new SingleLineInputQuestion({
 		title: 'What is your phone number?',
 		question: 'What is your phone number?',

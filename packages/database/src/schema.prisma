@@ -496,6 +496,9 @@ model AppellantSubmission {
   appellantFirstName   String?
   appellantLastName    String?
   appellantCompanyName String?
+  contactFirstName     String?
+  contactLastName      String?
+  contactCompanyName   String?
 
   // boolean
   ownsAllLand                  Boolean?
