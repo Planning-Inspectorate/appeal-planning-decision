@@ -22,7 +22,10 @@ const postListOfDocuments = async (req, res) => {
 		if (req.body['save-and-return'] !== '') {
 			const appeal = req.session.appeal;
 
-			const usingV2Form = await isFeatureActive(FLAG.APPEAL_FORM_V2, appeal.lpaCode);
+			const lpa = await getDepartmentFromId(appeal.lpaCode);
+			const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
+
+			const usingV2Form = await isFeatureActive(FLAG.APPEAL_FORM_V2, lpaCode);
 
 			// v1
 			if (!usingV2Form) {
@@ -30,9 +33,6 @@ const postListOfDocuments = async (req, res) => {
 			}
 
 			// v2
-			const lpa = await getDepartmentFromId(appeal.lpaCode);
-			const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
-
 			const appealSubmission = await req.appealsApiClient.createAppellantSubmission({
 				appealId: appeal.appealSqlId,
 				LPACode: lpaCode,
