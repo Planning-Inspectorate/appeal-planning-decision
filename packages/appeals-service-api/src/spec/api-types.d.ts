@@ -518,6 +518,9 @@ export interface AppellantSubmission {
 	appellantFirstName?: string;
 	appellantLastName?: string;
 	appellantCompanyName?: string;
+	contactFirstName?: string;
+	contactLastName?: string;
+	contactCompanyName?: string;
 	ownsAllLand?: boolean;
 	ownsSomeLand?: boolean;
 	knowsAllOwners?: string;

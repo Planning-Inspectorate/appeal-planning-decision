@@ -35,6 +35,12 @@ components:
           type: string
         appellantCompanyName:
           type: string
+        contactFirstName:
+          type: string
+        contactLastName:
+          type: string
+        contactCompanyName:
+          type: string
 
         ownsAllLand:
           type: boolean
