@@ -1534,7 +1534,7 @@ exports.questions = {
 		],
 		documentType: documentTypes.uploadAppellantStatement
 	}),
-	costApplication: new RadioQuestion({
+	costApplication: new BooleanQuestion({
 		title: 'Do you need to apply for an award of appeal costs?',
 		question: 'Do you need to apply for an award of appeal costs?',
 		fieldName: 'costApplication',
@@ -1548,6 +1548,9 @@ exports.questions = {
 				text: 'No',
 				value: 'no'
 			}
+		],
+		validators: [
+			new RequiredValidator('Select yes if you need to apply for an award of appeal costs')
 		]
 	}),
 	uploadCostApplication: new MultiFileUploadQuestion({
