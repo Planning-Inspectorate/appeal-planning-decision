@@ -1483,7 +1483,7 @@ exports.questions = {
 		question: 'Enter the description of development that you submitted in your application.',
 		fieldName: 'developmentDescriptionOriginal',
 		url: 'enter-description-of-development',
-		hint: 'If the local planning authority changed the description of development, you can upload evidence of your agreement to change the description later.',
+		hint: 'Enter the description of development that you submitted in your application.',
 		validators: [
 			new RequiredValidator('Enter a description'),
 			new StringValidator({
