@@ -27,7 +27,7 @@ class MultiFieldInputQuestion extends Question {
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {Record<string, string>} [params.inputAttributes] html attributes to add to the input
-	 * @param {Object[]} [params.inputFields] input fields
+	 * @param {Object[]} params.inputFields input fields
 	 */
 	constructor({
 		title,
@@ -51,21 +51,53 @@ class MultiFieldInputQuestion extends Question {
 			hint,
 			html
 		});
-		this.inputFields = inputFields;
 		this.label = label;
 		this.inputAttributes = inputAttributes;
+
+		if (inputFields) {
+			this.inputFields = inputFields;
+		} else {
+			throw new Error('inputFields are mandatory');
+		}
 	}
 
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
-		viewModel.question.inputFields = this.inputFields;
+
+		const inputFields = this.inputFields.map((inputField) => {
+			return payload
+				? { ...inputField, value: payload[inputField.fieldName] }
+				: { ...inputField, value: journey.response.answers[inputField.fieldName] };
+		});
+
+		viewModel.question.inputFields = inputFields;
 		viewModel.question.label = this.label;
-		viewModel.question.value = payload
-			? payload[viewModel.question.fieldName]
-			: viewModel.question.value;
 		viewModel.question.attributes = this.inputAttributes;
 		return viewModel;
 	}
+
+	/**
+	 * returns the data to send to the DB
+	 * side effect: modifies journeyResponse with the new answers
+	 * @param {import('express').Request} req
+	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
+	 * @returns {Promise<{ answers: Record<string, unknown> }>}
+	 */
+	async getDataToSave(req, journeyResponse) {
+		/**
+		 * @type {{ answers: Record<string, unknown> }}
+		 */
+		let responseToSave = { answers: {} };
+
+		for (const inputField of this.inputFields) {
+			responseToSave.answers[inputField.fieldName] = req.body[inputField.fieldName];
+			journeyResponse.answers[inputField.fieldName] = responseToSave.answers[inputField.fieldName];
+		}
+
+		return responseToSave;
+	}
+
+	// TODO - formatAnswerForSummary, getAction, consider Section isComplete...
 }
 
 module.exports = MultiFieldInputQuestion;
