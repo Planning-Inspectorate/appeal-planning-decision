@@ -47,6 +47,7 @@ const { documentTypes } = require('@pins/common');
 const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
 const NumericValidator = require('./validator/numeric-validator');
 const SiteAddressQuestion = require('./dynamic-components/site-address/question');
+const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 32500);
 
@@ -1636,7 +1637,31 @@ exports.questions = {
 				label: 'Company name (optional)'
 			}
 		],
-		validators: [new RequiredValidator("Enter the applicant's name")]
+		validators: [
+			new MultiFieldInputValidator({
+				requiredFields: [
+					{
+						fieldName: 'appellantFirstName',
+						errorMessage: "Enter the applicant's first name",
+						regex: {
+							regex: new RegExp(`^[a-z- ']{0,250}$`, 'gi'),
+							regexMessage:
+								'First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes'
+						}
+					},
+					{
+						fieldName: 'appellantLastName',
+						errorMessage: "Enter the applicant's last name",
+						regex: {
+							regex: new RegExp(`^[a-z- ']{0,250}$`, 'gi'),
+							regexMessage:
+								'Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes'
+						}
+					}
+				],
+				noInputsMessage: "Enter the applicant's name"
+			})
+		]
 	}),
 	contactDetails: new MultiFieldInputQuestion({
 		title: 'Contact details',
@@ -1656,8 +1681,9 @@ exports.questions = {
 				fieldName: 'contactCompanyName',
 				label: 'Organisation name (optional)'
 			}
-		],
-		validators: [new RequiredValidator('Enter your contact details')]
+		]
+		// ],
+		// validators: [new RequiredValidator('Enter your contact details')]
 	}),
 	contactPhoneNumber: new SingleLineInputQuestion({
 		title: 'What is your phone number?',
