@@ -1,6 +1,8 @@
 const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const ApiError = require('#errors/apiError');
+const logger = require('#lib/logger');
 
 /**
  * @typedef {import('@prisma/client').AppellantSubmission} AppellantSubmission
@@ -13,6 +15,41 @@ module.exports = class Repo {
 
 	constructor() {
 		this.dbClient = createPrismaClient();
+	}
+
+	/**
+	 * @param {{ appellantSubmissionId: string, userId: string }} params
+	 */
+	async userOwnsAppealSubmission({ appellantSubmissionId, userId }) {
+		try {
+			const result = await this.dbClient.appellantSubmission.findUniqueOrThrow({
+				where: {
+					id: appellantSubmissionId
+				},
+				select: {
+					Appeal: {
+						select: {
+							id: true,
+							Users: {
+								where: {
+									userId,
+									role: APPEAL_USER_ROLES.APPELLANT
+								}
+							}
+						}
+					}
+				}
+			});
+
+			if (!result.Appeal.Users.some((x) => x.userId.toLowerCase() === userId.toLowerCase())) {
+				throw ApiError.forbidden();
+			}
+
+			return true;
+		} catch (err) {
+			logger.error({ err }, 'invalid user access');
+			throw ApiError.forbidden();
+		}
 	}
 
 	/**

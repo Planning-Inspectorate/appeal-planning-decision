@@ -1,0 +1,42 @@
+components:
+  schemas:
+    SubmissionAddress:
+      type: object
+      description: The address related to a submission
+      required:
+        - id
+        - fieldName
+        - addressLine1
+        - townCity
+        - postcode
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier for the submission address of an associated appeal
+        questionnaireId:
+          type: string
+          format: uuid
+          description: lpa questionnaire id this address is associated with, can be null
+        appellantSubmissionId:
+          type: string
+          format: uuid
+          description: appeal submission id this address is associated with, can be null
+        fieldName:
+          type: string
+          description: which question this address is associated with for the submission
+        addressLine1:
+          type: string
+          description: first line of the address
+        addressLine2:
+          type: string
+          description: first line of the address
+        townCity:
+          type: string
+          description: the town or city of the address
+        county:
+          type: string
+          description: the county address
+        postcode:
+          type: string
+          description: the postcode of the address

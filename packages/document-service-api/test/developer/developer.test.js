@@ -35,12 +35,14 @@ jest.mock('express-oauth2-jwt-bearer', () => {
 });
 
 jest.mock('@pins/common/src/middleware/validate-token', () => {
-	return jest.fn(() => {
-		return (req, res, next) => {
-			req.id_token = {};
-			next();
-		};
-	});
+	return {
+		validateToken: jest.fn(() => {
+			return (req, res, next) => {
+				req.id_token = {};
+				next();
+			};
+		})
+	};
 });
 
 const getDoc = ({ published = true, redacted = true, virusCheckStatus = 'checked' } = {}) => {

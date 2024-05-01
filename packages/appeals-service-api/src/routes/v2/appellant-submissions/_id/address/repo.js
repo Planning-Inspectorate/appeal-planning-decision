@@ -6,6 +6,7 @@ const { createPrismaClient } = require('#db-client');
 
 /**
  * @typedef {Object} AddressData
+ * @property {string} [id]
  * @property {string} addressLine1
  * @property {string} addressLine2
  * @property {string} townCity
@@ -29,11 +30,39 @@ class SubmissionAddressRepository {
 	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async createAddress(appellantSubmissionId, addressData) {
-		const { addressLine1, addressLine2, townCity, postcode, county, fieldName } = addressData;
+		const { addressLine1, addressLine2, townCity, postcode, county, fieldName, id } = addressData;
 
-		const exisitingAddress = await this.dbClient.submissionAddress.findFirst({
-			where: { appellantSubmissionId: appellantSubmissionId }
-		});
+		if (id) {
+			const exisitingAddress = await this.dbClient.submissionAddress.findUniqueOrThrow({
+				where: { id: id }
+			});
+
+			return await this.dbClient.appellantSubmission.update({
+				where: {
+					id: appellantSubmissionId
+				},
+				data: {
+					SubmissionAddress: {
+						update: {
+							where: { id: exisitingAddress.id },
+							data: {
+								addressLine1,
+								addressLine2,
+								townCity,
+								postcode,
+								county,
+								fieldName
+							}
+						}
+					}
+				},
+				include: {
+					SubmissionDocumentUpload: true,
+					SubmissionAddress: true,
+					SubmissionLinkedCase: true
+				}
+			});
+		}
 
 		return await this.dbClient.appellantSubmission.update({
 			where: {
@@ -41,24 +70,13 @@ class SubmissionAddressRepository {
 			},
 			data: {
 				SubmissionAddress: {
-					upsert: {
-						where: { id: exisitingAddress ? exisitingAddress.id : appellantSubmissionId },
-						update: {
-							addressLine1,
-							addressLine2,
-							townCity,
-							postcode,
-							county,
-							fieldName
-						},
-						create: {
-							addressLine1,
-							addressLine2,
-							townCity,
-							postcode,
-							county,
-							fieldName
-						}
+					create: {
+						addressLine1,
+						addressLine2,
+						townCity,
+						postcode,
+						county,
+						fieldName
 					}
 				}
 			},

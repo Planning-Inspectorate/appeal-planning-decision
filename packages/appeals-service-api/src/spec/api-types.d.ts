@@ -797,3 +797,34 @@ export interface ServiceUser {
 	lastName?: string;
 	emailAddress?: string;
 }
+
+/** The address related to a submission */
+export interface SubmissionAddress {
+	/**
+	 * identifier for the submission address of an associated appeal
+	 * @format uuid
+	 */
+	id: string;
+	/**
+	 * lpa questionnaire id this address is associated with, can be null
+	 * @format uuid
+	 */
+	questionnaireId?: string;
+	/**
+	 * appeal submission id this address is associated with, can be null
+	 * @format uuid
+	 */
+	appellantSubmissionId?: string;
+	/** which question this address is associated with for the submission */
+	fieldName: string;
+	/** first line of the address */
+	addressLine1: string;
+	/** first line of the address */
+	addressLine2?: string;
+	/** the town or city of the address */
+	townCity: string;
+	/** the county address */
+	county?: string;
+	/** the postcode of the address */
+	postcode: string;
+}

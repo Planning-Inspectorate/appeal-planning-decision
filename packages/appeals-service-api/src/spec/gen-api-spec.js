@@ -11,24 +11,7 @@ const options = {
 			description: 'An API to service the needs of the Appeals Service',
 			version: '1.0.4'
 		},
-		servers: [{ url: 'http://localhost:3000/', description: 'local dev' }],
-		tags: [
-			{
-				name: 'appeal-cases'
-			},
-			{
-				name: 'submissions'
-			},
-			{
-				name: 'token'
-			},
-			{
-				name: 'users'
-			},
-			{
-				name: 'v1'
-			}
-		]
+		servers: [{ url: 'http://localhost:3000/', description: 'local dev' }]
 	},
 	// files containing annotations and any other yaml files that can be included
 	apis: ['./src/routes/**/*.js', './src/routes/**/*.yaml', './src/spec/*.yaml']

@@ -2,7 +2,7 @@ paths:
   /api/v2/appeal-cases/{caseReference}/lpa-questionnaire-submission:
     get:
       tags:
-        - submissions
+        - lpa submissions
       description: Get a questionnaire submitted by the LPA
       parameters:
         - in: path
@@ -23,10 +23,10 @@ paths:
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ErrorBody'
+                $ref: '#/components/schemas/ErrorBody'
     post:
       tags:
-        - submissions
+        - lpa submissions
       description: Create a questionnaire to be submitted by the LPA
       parameters:
         - in: path
@@ -47,10 +47,10 @@ paths:
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ErrorBody'
+                $ref: '#/components/schemas/ErrorBody'
     patch:
       tags:
-        - submissions
+        - lpa submissions
       description: Update a questionnaire submission
       parameters:
         - in: path
@@ -77,17 +77,17 @@ paths:
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ErrorBody'
+                $ref: '#/components/schemas/ErrorBody'
         404:
           description: Not found
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ErrorBody'
+                $ref: '#/components/schemas/ErrorBody'
   /api/v2/appeal-cases/{caseReference}/lpa-questionnaire-submission/submit:
     post:
       tags:
-        - submissions
+        - lpa submissions
       description: Submit a questionnaire to back office
       parameters:
         - in: path
@@ -108,4 +108,4 @@ paths:
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ErrorBody'
+                $ref: '#/components/schemas/ErrorBody'

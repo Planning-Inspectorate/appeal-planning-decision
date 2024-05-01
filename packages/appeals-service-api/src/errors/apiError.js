@@ -139,6 +139,10 @@ class ApiError {
 		return new ApiError(400, { errors: [`Invalid Token`] });
 	}
 
+	static forbidden() {
+		return new ApiError(403, { errors: [`forbidden`] });
+	}
+
 	// appeals case data
 	static appealsCaseDataNotFound() {
 		return new ApiError(404, { errors: [`The appeals case data was not found`] });

@@ -49,8 +49,8 @@ paths:
                 $ref: '#/components/schemas/ErrorBody'
     patch:
       tags:
-        - users
-      description: Update an appeal user
+        - appellant submissions
+      description: Update an Appellant Submission
       parameters:
         - in: path
           name: id
