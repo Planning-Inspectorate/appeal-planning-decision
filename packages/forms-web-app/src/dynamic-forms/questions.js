@@ -1411,9 +1411,7 @@ exports.questions = {
 		fieldName: 'uploadOriginalApplicationForm',
 		url: 'upload-application-form',
 		validators: [
-			new RequiredFileUploadValidator(
-				'Select your separate ownership certificate and agricultural land declaration'
-			),
+			new RequiredFileUploadValidator('Select your planning application form'),
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadOriginalApplicationForm
