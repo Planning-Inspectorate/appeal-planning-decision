@@ -26,7 +26,7 @@
       {% endif %}
 
       <form action="" method="post" novalidate>
-<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
 
         <span class="govuk-caption-l"></span>
 
@@ -35,12 +35,19 @@
           </label>
 
           <p class="govuk-body">
-            We’ll use this email to contact you about your appeal.
+            We will only use this to:
           </p>
-
-          <p class="govuk-body">
-            We’ll send you a code to confirm the email address is yours.
-          </p>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>
+              send you a code to sign into the service
+            </li>
+            <li>
+              contact you about the appeal
+            </li>
+            <li>
+              let the local planning authority know where to send their appeal questionnaire
+            </li>
+          </ul>
 
           {{ govukInput({
           id: "email-address",
