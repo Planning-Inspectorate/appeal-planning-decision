@@ -1647,6 +1647,10 @@ exports.questions = {
 							regex: new RegExp(`^[a-z- ']{0,250}$`, 'gi'),
 							regexMessage:
 								'First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes'
+						},
+						maxLength: {
+							maxLength: 250,
+							maxLengthMessage: 'First name must be 250 characters or less'
 						}
 					},
 					{
@@ -1656,6 +1660,10 @@ exports.questions = {
 							regex: new RegExp(`^[a-z- ']{0,250}$`, 'gi'),
 							regexMessage:
 								'Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes'
+						},
+						maxLength: {
+							maxLength: 250,
+							maxLengthMessage: 'Last name must be 250 characters or less'
 						}
 					}
 				],
@@ -1681,9 +1689,40 @@ exports.questions = {
 				fieldName: 'contactCompanyName',
 				label: 'Organisation name (optional)'
 			}
+		],
+		validators: [
+			new MultiFieldInputValidator({
+				requiredFields: [
+					{
+						fieldName: 'contactFirstName',
+						errorMessage: 'Enter your first name',
+						regex: {
+							regex: new RegExp(`^[a-z- ']{0,250}$`, 'gi'),
+							regexMessage:
+								'First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes'
+						},
+						maxLength: {
+							maxLength: 250,
+							maxLengthMessage: 'First name must be 250 characters or less'
+						}
+					},
+					{
+						fieldName: 'contactLastName',
+						errorMessage: 'Enter your last name',
+						regex: {
+							regex: new RegExp(`^[a-z- ']{0,250}$`, 'gi'),
+							regexMessage:
+								'Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes'
+						},
+						maxLength: {
+							maxLength: 250,
+							maxLengthMessage: 'Last name must be 250 characters or less'
+						}
+					}
+				],
+				noInputsMessage: "Enter the applicant's name"
+			})
 		]
-		// ],
-		// validators: [new RequiredValidator('Enter your contact details')]
 	}),
 	contactPhoneNumber: new SingleLineInputQuestion({
 		title: 'What is your phone number?',
