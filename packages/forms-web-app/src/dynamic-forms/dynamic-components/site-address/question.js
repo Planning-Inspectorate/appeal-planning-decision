@@ -1,10 +1,14 @@
 const Question = require('../../question');
 const Address = require('@pins/common/src/lib/address');
+const { getAddressesForQuestion } = require('../utils/question-utils');
 
 /**
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../section').Section} Section
+ * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+ * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
+
  */
 
 class SiteAddressQuestion extends Question {
@@ -31,18 +35,41 @@ class SiteAddressQuestion extends Question {
 		this.url = url;
 	}
 
-	prepQuestionForRendering(section, journey, customViewData) {
-		const answers = journey.response.answers.SubmissionAddress[0] || {};
+	/**
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {SubmissionAddress|null}
+	 */
+	#getExisingAddress(journeyResponse) {
+		const addresses = getAddressesForQuestion(journeyResponse, this.fieldName);
+		// will only ever have 1
+		if (addresses.length) {
+			return addresses[0];
+		}
 
+		return null;
+	}
+
+	/**
+	 * @param {Section} section
+	 * @param {Journey} journey
+	 * @param {Record<string, unknown>} customViewData
+	 * @returns {QuestionViewModel}
+	 */
+	prepQuestionForRendering(section, journey, customViewData) {
 		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 
-		viewModel.question.value = {
-			addressLine1: answers.addressLine1 || '',
-			addressLine2: answers.addressLine2 || '',
-			townCity: answers.townCity || '',
-			county: answers.county || '',
-			postcode: answers.postcode || ''
-		};
+		const address = this.#getExisingAddress(journey.response);
+
+		// will only ever have 1
+		if (address) {
+			viewModel.question.value = {
+				addressLine1: address.addressLine1 || '',
+				addressLine2: address.addressLine2 || '',
+				townCity: address.townCity || '',
+				county: address.county || '',
+				postcode: address.postcode || ''
+			};
+		}
 
 		return viewModel;
 	}
@@ -50,9 +77,12 @@ class SiteAddressQuestion extends Question {
 	/**
 	 * adds a uuid and an address object for save data using req body fields
 	 * @param {import('express').Request} req
-	 * @returns
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {Promise<{address:Address, siteAddressSet: boolean, fieldName: string, addressId: string|undefined }>}
 	 */
-	async getDataToSave(req) {
+	async getDataToSave(req, journeyResponse) {
+		const existingAddressId = this.#getExisingAddress(journeyResponse)?.id;
+
 		const address = new Address({
 			addressLine1: req.body[this.fieldName + '_addressLine1'],
 			addressLine2: req.body[this.fieldName + '_addressLine2'],
@@ -61,7 +91,12 @@ class SiteAddressQuestion extends Question {
 			postcode: req.body[this.fieldName + '_postcode']
 		});
 
-		return { address: address, siteAddressSet: true, fieldName: this.fieldName };
+		return {
+			address: address,
+			siteAddressSet: true,
+			fieldName: this.fieldName,
+			addressId: existingAddressId
+		};
 	}
 
 	/**
@@ -81,14 +116,18 @@ class SiteAddressQuestion extends Question {
 		}
 
 		// save
-		const { address, siteAddressSet, fieldName } = await this.getDataToSave(req);
+		const { address, siteAddressSet, fieldName, addressId } = await this.getDataToSave(
+			req,
+			journeyResponse
+		);
 
 		await req.appealsApiClient.postSubmissionAddress(
 			journeyResponse.journeyId,
 			journeyResponse.referenceId,
 			{
 				...address,
-				fieldName
+				fieldName,
+				id: addressId
 			}
 		);
 
@@ -125,6 +164,28 @@ class SiteAddressQuestion extends Question {
 		];
 
 		return addressComponents.filter(Boolean).join(', ');
+	}
+
+	/**
+	 * returns the formatted answers values to be used to build task list elements
+	 * @param {Journey} journey
+	 * @param {String} sectionSegment
+	 * @returns {Array.<Object>}
+	 */
+	formatAnswerForSummary(sectionSegment, journey) {
+		let rowParams = [];
+
+		const address = this.#getExisingAddress(journey.response);
+
+		if (address) {
+			rowParams.push({
+				key: `${this.title}`,
+				value: this.format(address),
+				action: this.getAction(sectionSegment, journey, address)
+			});
+		}
+
+		return rowParams;
 	}
 }
 

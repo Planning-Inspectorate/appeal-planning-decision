@@ -80,6 +80,25 @@ const rule6Parties = {
 	}
 };
 
+const lpaUsers = {
+	lpaUser: {
+		id: '248c46a4-400a-4128-9ea9-fc35c2420b9e',
+		email: 'user1@planninginspectorate.gov.uk',
+		isLpaUser: true,
+		isLpaAdmin: false,
+		lpaCode: 'Q9999',
+		lpaStatus: 'added'
+	},
+	lpaAdmin: {
+		id: '3e0b7bc5-c91a-456c-b36d-260b2a52aa70',
+		email: 'admin1@planninginspectorate.gov.uk',
+		isLpaUser: true,
+		isLpaAdmin: true,
+		lpaCode: 'Q9999',
+		lpaStatus: 'confirmed'
+	}
+};
+
 const appealIds = {
 	appealOne: '756d6bfb-dde8-4532-a041-86c226a23a01',
 	appealTwo: '756d6bfb-dde8-4532-a041-86c226a23a02',
@@ -180,20 +199,8 @@ const rule6PartyGroups = [
  * @type {import('@prisma/client').Prisma.AppealUserCreateInput[]}
  */
 const users = [
-	{
-		email: 'user1@planninginspectorate.gov.uk',
-		isLpaUser: true,
-		isLpaAdmin: false,
-		lpaCode: 'Q9999',
-		lpaStatus: 'added'
-	},
-	{
-		email: 'admin1@planninginspectorate.gov.uk',
-		isLpaUser: true,
-		isLpaAdmin: true,
-		lpaCode: 'Q9999',
-		lpaStatus: 'confirmed'
-	},
+	lpaUsers.lpaUser,
+	lpaUsers.lpaAdmin,
 	appellants.appellantOne,
 	appellants.appellantTwo,
 	appellants.appellantThree,

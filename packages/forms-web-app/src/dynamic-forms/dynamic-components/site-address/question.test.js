@@ -55,7 +55,11 @@ describe('SiteAddressQuestion', () => {
 		it('should format the data correctly to be saved', async () => {
 			const expectedAddress = new Address(testAddress);
 
-			const dataToSave = await question.getDataToSave(req);
+			const journeyResponse = {
+				answers: {}
+			};
+
+			const dataToSave = await question.getDataToSave(req, journeyResponse);
 
 			expect(dataToSave).toEqual({
 				address: expect.objectContaining({

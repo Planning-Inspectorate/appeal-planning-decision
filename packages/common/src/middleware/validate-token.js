@@ -46,4 +46,4 @@ const validateToken = (options) => {
 	};
 };
 
-module.exports = validateToken;
+module.exports = { validateToken };

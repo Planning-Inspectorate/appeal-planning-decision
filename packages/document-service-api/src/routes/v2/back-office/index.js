@@ -4,7 +4,7 @@ const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../configuration/config');
 const { getDocumentUrl } = require('./controller');
 const { auth } = require('express-oauth2-jwt-bearer');
-const validateToken = require('@pins/common/src/middleware/validate-token');
+const { validateToken } = require('@pins/common/src/middleware/validate-token');
 
 const router = express.Router();
 
