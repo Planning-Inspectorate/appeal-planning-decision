@@ -10,6 +10,7 @@ const { createPrismaClient } = require('#db-client');
  * @property {string} addressLine2
  * @property {string} townCity
  * @property {string} postcode
+ * @property {string} county
  * @property {string} fieldName
  */
 
@@ -28,7 +29,7 @@ class SubmissionAddressRepository {
 	 * @returns {Promise<LPAQuestionnaireSubmission>}
 	 */
 	async createAddress(caseReference, addressData) {
-		const { addressLine1, addressLine2, townCity, postcode, fieldName } = addressData;
+		const { addressLine1, addressLine2, townCity, postcode, county, fieldName } = addressData;
 
 		return await this.dbClient.lPAQuestionnaireSubmission.update({
 			where: {
@@ -41,6 +42,7 @@ class SubmissionAddressRepository {
 						addressLine2,
 						townCity,
 						postcode,
+						county,
 						fieldName
 					}
 				}

@@ -1,4 +1,4 @@
-const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { getUserFromSession } = require('../../services/user.service');
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const {
@@ -16,7 +16,7 @@ const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
 const { apiClient } = require('../../lib/appeals-api-client');
 
 const getYourAppeals = async (req, res) => {
-	const user = getLPAUserFromSession(req);
+	const user = getUserFromSession(req);
 
 	const appealsCaseData = await apiClient.getAppealsCaseDataV2(user.lpaCode);
 

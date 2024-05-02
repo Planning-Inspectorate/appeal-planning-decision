@@ -14,10 +14,31 @@ const {
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-lpa');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 
+const { getUserFromSession } = require('../../services/user.service');
+const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+
 const router = express.Router();
 
+/**
+ * @type {import('express').Handler}
+ */
+const questionnaireTaskList = async (req, res) => {
+	const referenceId = res.locals.journeyResponse.referenceId;
+	const user = getUserFromSession(req);
+	const encodedReferenceId = encodeURIComponent(referenceId);
+	const appeal = await req.appealsApiClient.getUsersAppealCase({
+		caseReference: encodedReferenceId,
+		userId: user.id,
+		role: LPA_USER_ROLE
+	});
+
+	const pageCaption = `Appeal ${appeal.caseReference}`;
+
+	return list(req, res, pageCaption, { appeal });
+};
+
 // list
-router.get('/questionnaire/:referenceId', getJourneyResponse(), list);
+router.get('/questionnaire/:referenceId', getJourneyResponse(), questionnaireTaskList);
 
 // question
 router.get('/questionnaire/:referenceId/:section/:question', getJourneyResponse(), question);

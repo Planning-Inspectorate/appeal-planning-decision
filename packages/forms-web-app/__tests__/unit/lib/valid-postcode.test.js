@@ -50,7 +50,7 @@ describe('validatePostcode', () => {
 		invalidPostcodes.forEach((postcode) => {
 			expect(() => {
 				validatePostcode(postcode);
-			}).toThrow('Enter a valid postcode');
+			}).toThrow('Enter a full UK postcode');
 		});
 	});
 

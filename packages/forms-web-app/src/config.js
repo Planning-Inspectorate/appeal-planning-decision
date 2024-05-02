@@ -106,6 +106,8 @@ module.exports = {
 				addressLine2MinLength: process.env.ADDRESS_LINE_2_MIN_LENGTH || 0,
 				townCityMaxLength: process.env.TOWNCITY_MAX_LENGTH || 64,
 				townCityMinLength: process.env.TOWNCITY_MIN_LENGTH || 1,
+				countyMaxLength: process.env.COUNTY_MAX_LENGTH || 64,
+				countyMinLength: process.env.COUNTY_MIN_LENGTH || 0,
 				postcodeMaxLength: process.env.POSTCODE_MAX_LENGTH || 16,
 				postcodeMinLength: process.env.POSTCODE_MIN_LENGTH || 0
 			}
@@ -140,7 +142,8 @@ module.exports = {
 				}
 			},
 			appealSiteArea: {
-				minValue: 1
+				minValue: 1,
+				maxValue: 1000000
 			}
 		}
 	},

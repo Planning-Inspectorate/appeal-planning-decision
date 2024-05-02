@@ -25,7 +25,7 @@ const {
 		stringValidation: {
 			appealReferenceNumber: appealReferenceNumberValidation,
 			listedBuildingNumber: listedBuildingNumberValidation,
-			appealSiteArea: { minValue }
+			appealSiteArea: { minValue, maxValue }
 		}
 	}
 } = require('../../src/config');
@@ -45,6 +45,7 @@ const SingleLineInputQuestion = require('./dynamic-components/single-line-input/
 const { documentTypes } = require('@pins/common');
 const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
 const NumericValidator = require('./validator/numeric-validator');
+const SiteAddressQuestion = require('./dynamic-components/site-address/question');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 32500);
 
@@ -1186,6 +1187,8 @@ exports.questions = {
 				regexMessage: 'Enter the area of the site using numbers 0 to 9',
 				min: minValue,
 				minMessage: `Appeal site area must be at least ${minValue}m\u00B2`,
+				max: maxValue,
+				maxMessage: `Appeal site area must be ${maxValue.toLocaleString()}m\u00B2 or less`,
 				fieldName: 'siteAreaSquareMetres'
 			})
 		]
@@ -1401,14 +1404,14 @@ exports.questions = {
 		]
 	}),
 	uploadOriginalApplicationForm: new MultiFileUploadQuestion({
-		title: 'Upload your separate ownership certificate and agricultural land declaration',
-		question: 'Upload your separate ownership certificate and agricultural land declaration',
+		title: 'Upload your planning application form',
+		question: 'Upload your planning application form',
+		description:
+			'Upload the application form that you sent to the local planning authority, including the date. Do not upload a draft application.\nIf you do not have your application form, you can search for it on the local planning authority’s website.',
 		fieldName: 'uploadOriginalApplicationForm',
 		url: 'upload-application-form',
 		validators: [
-			new RequiredFileUploadValidator(
-				'Select your separate ownership certificate and agricultural land declaration'
-			),
+			new RequiredFileUploadValidator('Select your planning application form'),
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadOriginalApplicationForm
@@ -1416,7 +1419,7 @@ exports.questions = {
 	uploadApplicationDecisionLetter: new MultiFileUploadQuestion({
 		title: 'Upload the decision letter from the local planning authority',
 		question: 'Upload the decision letter from the local planning authority',
-		description: `This letter tells you about the decision on your application. \nWe need the letter from the local planning authority that tells you their decision on your planning application (also called a ‘decision notice’).\nDo not upload the planning officer’s report.`,
+		description: `This letter tells you about the decision on your application. \n\nWe need the letter from the local planning authority that tells you their decision on your planning application (also called a ‘decision notice’).\n\nDo not upload the planning officer’s report.`,
 		fieldName: 'uploadApplicationDecisionLetter',
 		url: 'upload-decision-letter',
 		validators: [
@@ -1441,8 +1444,8 @@ exports.questions = {
 		documentType: documentTypes.uploadChangeOfDescriptionEvidence
 	}),
 	enterApplicationReference: new SingleLineInputQuestion({
-		title: 'What is the planning application reference number?',
-		question: 'What is the planning application reference number?',
+		title: 'What is the application reference number?',
+		question: 'What is the application reference number?',
 		fieldName: 'applicationReference',
 		url: 'reference-number',
 		hint: 'You can find this on any correspondence from the local planning authority. For example, the letter confirming your application.',
@@ -1474,12 +1477,11 @@ exports.questions = {
 			]
 		}),
 	enterDevelopmentDescription: new TextEntryQuestion({
-		title: 'Enter the description of development that you submitted in your planning application',
-		question:
-			'Enter the description of development that you submitted in your planning application',
+		title: 'Enter the description of development that you submitted in your application.',
+		question: 'Enter the description of development that you submitted in your application.',
 		fieldName: 'developmentDescriptionOriginal',
 		url: 'enter-description-of-development',
-		hint: 'If the local planning authority changed the description of development, you can upload evidence of your agreement to change the description later.',
+		hint: 'Enter the description of development that you submitted in your application.',
 		validators: [
 			new RequiredValidator('Enter a description'),
 			new StringValidator({
@@ -1591,10 +1593,31 @@ exports.questions = {
 			viewFolder: 'identifier'
 		})
 	}),
+	applicationName: new BooleanQuestion({
+		title: 'Was the application made in your name? ',
+		question: 'Was the application made in your name?',
+		fieldName: 'isAppellant',
+		url: 'application-name',
+		html: 'resources/your-details/application-name.html',
+		validators: [new RequiredValidator('Select yes if the application was made in your name')],
+		options: [
+			{
+				text: 'Yes, the application was made in my name',
+				value: 'yes',
+				attributes: { 'data-cy': 'answer-yes' }
+			},
+			{
+				text: "No, I'm acting on behalf of the applicant",
+				value: 'no',
+				attributes: { 'data-cy': 'answer-no' }
+			}
+		]
+	}),
 	contactPhoneNumber: new SingleLineInputQuestion({
 		title: 'What is your phone number?',
 		question: 'What is your phone number?',
 		description: 'We may use your phone number to contact you about the appeal.',
+		label: 'UK telephone number',
 		fieldName: 'appellantPhoneNumber',
 		url: 'phone-number',
 		inputAttributes: { type: 'tel', autocomplete: 'tel' },
@@ -1608,5 +1631,20 @@ exports.questions = {
 				}
 			})
 		]
+	}),
+	appealSiteAddress: new SiteAddressQuestion({
+		title: 'What is the address of the appeal site?',
+		question: 'What is the address of the appeal site?',
+		fieldName: 'siteAddress',
+		url: 'appeal-site-address',
+		viewFolder: 'address-entry',
+		validators: [new AddressValidator()]
+	}),
+	appellantGreenBelt: new BooleanQuestion({
+		title: 'Is the appeal site in a green belt?',
+		question: 'Is the appeal site in a green belt?',
+		fieldName: 'appellantGreenBelt',
+		url: 'green-belt',
+		validators: [new RequiredValidator('Select yes if the appeal site is in a green belt')]
 	})
 };

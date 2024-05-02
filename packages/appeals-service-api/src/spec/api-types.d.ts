@@ -513,6 +513,10 @@ export interface AppellantSubmission {
 	submittedToBackOffice?: boolean;
 	/** @format date-time */
 	onApplicationDate?: string;
+	isAppellant?: boolean;
+	appellantFirstName?: string;
+	appellantLastName?: string;
+	appellantCompanyName?: string;
 	ownsAllLand?: boolean;
 	ownsSomeLand?: boolean;
 	knowsAllOwners?: string;
@@ -522,21 +526,28 @@ export interface AppellantSubmission {
 	appellantGreenBelt?: boolean;
 	updateDevelopmentDescription?: boolean;
 	identifiedOwners?: boolean;
+	costApplication?: boolean;
 	appellantSiteSafety?: string;
-	appellantSiteSafetyDetails?: string;
+	appellantSiteSafety_appellantSiteSafetyDetails?: string;
 	appellantSiteAccess?: string;
-	appellantSiteAccessDetails?: string;
+	appellantSiteAccess_appellantSiteAccessDetails?: string;
 	applicationReference?: string;
 	developmentDescriptionOriginal?: string;
 	appellantLinkedCaseReference?: string;
 	appellantPhoneNumber?: string;
 	siteAreaSquareMetres?: number;
+	appellantLinkedCaseAdd?: boolean;
+	appellantLinkedCase?: boolean;
+	SubmissionLinkedCase?: object[];
 	uploadOriginalApplicationForm?: boolean;
 	uploadApplicationDecisionLetter?: boolean;
 	uploadAppellantStatement?: boolean;
-	costApplication?: boolean;
 	uploadCostApplication?: boolean;
+	uploadChangeOfDescriptionEvidence?: boolean;
+	SubmissionDocumentUpload?: object[];
 	siteAddress?: boolean;
+	SubmissionAddress?: object[];
+	SubmissionListedBuilding?: object[];
 }
 
 /** A document associated with an appeal */

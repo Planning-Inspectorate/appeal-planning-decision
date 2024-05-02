@@ -18,6 +18,11 @@ describe('HAS Appeal Form Journey class', () => {
 			expect(journey.baseUrl).toEqual(expect.stringContaining(mockResponse.referenceId));
 		});
 
+		it('should set taskListUrl', () => {
+			const journey = new HasAppealFormJourney(mockResponse);
+			expect(journey.taskListUrl).toEqual('/appeals/householder/appeal-form/your-appeal?id=123');
+		});
+
 		it('should set template', () => {
 			const journey = new HasAppealFormJourney(mockResponse);
 			expect(journey.journeyTemplate).toBe('submission-form-template.njk');

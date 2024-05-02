@@ -3,8 +3,7 @@ const { DocumentsApiClient } = require('@pins/common/src/client/documents-api-cl
 const getAuthClient = require('@pins/common/src/client/auth-client');
 const { AUTH } = require('@pins/common/src/constants');
 
-const { getAppealUserSession } = require('../services/appeal-user.service');
-const { getLPAUserFromSession } = require('../services/lpa-user.service');
+const { getUserFromSession } = require('../services/user.service');
 const config = require('../config');
 
 /** @type {import('openid-client').TokenSet} */
@@ -40,13 +39,12 @@ const getClientCredentials = async () => {
  * @type {import('express').Handler}
  */
 const createApiClients = async (req, res, next) => {
-	const lpaUser = getLPAUserFromSession(req);
-	const appellantUser = getAppealUserSession(req);
+	const user = getUserFromSession(req);
 
 	/** @type {import('@pins/common/src/client/appeals-api-client').AuthTokens} */
 	const auth = {
-		access_token: lpaUser?.access_token ?? appellantUser?.access_token,
-		id_token: lpaUser?.id_token ?? appellantUser?.id_token,
+		access_token: user?.access_token,
+		id_token: user?.id_token,
 		client_creds: undefined
 	};
 

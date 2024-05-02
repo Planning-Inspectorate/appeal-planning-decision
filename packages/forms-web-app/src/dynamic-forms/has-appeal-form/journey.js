@@ -7,6 +7,7 @@ const {
 } = require('../dynamic-components/utils/question-has-answer');
 
 const baseHASSubmissionUrl = '/appeals/householder';
+const taskListUrl = 'appeal-form/your-appeal';
 const hasJourneyTemplate = 'submission-form-template.njk';
 const listingPageViewPath = 'dynamic-components/task-list/submission'; // Page does not exist yet
 const journeyTitle = 'Appeal a planning decision';
@@ -25,22 +26,26 @@ class HasAppealFormJourney extends Journey {
 	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
 	 */
 	constructor(response) {
-		super(
-			`${baseHASSubmissionUrl}?id=${response.referenceId}`,
-			response,
-			hasJourneyTemplate,
-			listingPageViewPath,
-			journeyTitle
-		);
+		super({
+			baseUrl: `${baseHASSubmissionUrl}?id=${response.referenceId}`,
+			taskListUrl: taskListUrl,
+			response: response,
+			journeyTemplate: hasJourneyTemplate,
+			listingPageViewPath: listingPageViewPath,
+			journeyTitle: journeyTitle
+		});
 
 		const questionHasAnswer = questionHasAnswerBuilder(response);
 		const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
 
 		this.sections.push(
-			new Section('Your details', 'your-details').addQuestion(questions.contactPhoneNumber),
+			new Section('Your details', 'your-details')
+				.addQuestion(questions.applicationName)
+				.addQuestion(questions.contactPhoneNumber),
 			new Section('Site details', 'site-details')
+				.addQuestion(questions.appealSiteAddress)
 				.addQuestion(questions.siteArea)
-				.addQuestion(questions.greenBelt)
+				.addQuestion(questions.appellantGreenBelt)
 				.addQuestion(questions.ownsAllLand)
 				.addQuestion(questions.ownsSomeLand)
 				.withCondition(questionHasAnswer(questions.ownsAllLand, 'no'))
@@ -112,4 +117,4 @@ class HasAppealFormJourney extends Journey {
 	}
 }
 
-module.exports = { HasAppealFormJourney, baseHASSubmissionUrl };
+module.exports = { HasAppealFormJourney, baseHASSubmissionUrl, taskListUrl };

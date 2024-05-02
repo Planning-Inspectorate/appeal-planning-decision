@@ -476,8 +476,13 @@ model AppellantSubmission {
   id             String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
   LPACode        String
   appealTypeCode String // type shortcode such as HAS or S78
-  appealId       String @unique @db.UniqueIdentifier
-  Appeal         Appeal @relation(fields: [appealId], references: [id])
+
+  // application
+  applicationDecisionDate DateTime?
+  applicationDecision     String?
+
+  appealId String @unique @db.UniqueIdentifier
+  Appeal   Appeal @relation(fields: [appealId], references: [id])
 
   // state
   caseTermsAccepted     Boolean? /// set when user clicks submit
@@ -485,6 +490,12 @@ model AppellantSubmission {
 
   // dates
   onApplicationDate DateTime?
+
+  //appellant / agent details
+  isAppellant          Boolean?
+  appellantFirstName   String?
+  appellantLastName    String?
+  appellantCompanyName String?
 
   // boolean
   ownsAllLand                  Boolean?
@@ -652,6 +663,7 @@ model SubmissionAddress {
   addressLine1 String
   addressLine2 String?
   townCity     String
+  county       String?
   postcode     String
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering

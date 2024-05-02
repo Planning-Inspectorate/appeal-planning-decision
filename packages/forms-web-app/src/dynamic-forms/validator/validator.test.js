@@ -320,7 +320,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		expect(addressLine1._errors.length).toEqual(1);
 		expect(addressLine2._errors.length).toEqual(0);
 		expect(townCity._errors.length).toEqual(1);
-		expect(postcode._errors.length).toEqual(0);
+		expect(postcode._errors.length).toEqual(1);
 		expect(next).toHaveBeenCalledTimes(1);
 	});
 });

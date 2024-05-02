@@ -7,7 +7,7 @@ const { sections: appellantSections } = require('./appellant-sections');
 const { sections: lpaUserSections } = require('./lpa-user-sections');
 const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');
 const { sections: rule6Sections } = require('./rule-6-sections');
-const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { getUserFromSession } = require('../../services/user.service');
 const { format: formatDate } = require('date-fns');
 
 /** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
@@ -36,8 +36,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			throw new Error('Unknown role');
 		}
 
-		const userEmail =
-			userType === LPA_USER_ROLE ? getLPAUserFromSession(req).email : req.session.email;
+		const userEmail = getUserFromSession(req).email;
 
 		if (!userEmail) {
 			throw new Error('no session email');

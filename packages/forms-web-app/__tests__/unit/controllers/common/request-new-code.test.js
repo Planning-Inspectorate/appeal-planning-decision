@@ -85,7 +85,7 @@ describe('controllers/common/enter-code', () => {
 			const user = {
 				_id: '649954a21134d20012a8eb12',
 				email: 'admin1@planninginspectorate.gov.uk',
-				isAdmin: true,
+				isLpaAdmin: true,
 				enabled: true,
 				lpaCode: 'Q9999'
 			};

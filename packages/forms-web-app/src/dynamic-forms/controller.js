@@ -1,12 +1,9 @@
 // common controllers for dynamic forms
-
-const { getLPAUserFromSession } = require('../services/lpa-user.service');
 const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
-const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
@@ -75,21 +72,15 @@ function buildSectionRowViewModel(key, value, action) {
 }
 
 /**
- * @type {import('express').Handler}
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ * @param {string} pageCaption
+ * @param {object} viewData
  */
-exports.list = async (req, res) => {
+exports.list = async (req, res, pageCaption, viewData) => {
 	//render check your answers view
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
-	const referenceId = res.locals.journeyResponse.referenceId;
-
-	const user = getLPAUserFromSession(req);
-	const encodedReferenceId = encodeURIComponent(referenceId);
-	const appeal = await req.appealsApiClient.getUsersAppealCase({
-		caseReference: encodedReferenceId,
-		userId: user.id,
-		role: LPA_USER_ROLE
-	});
 
 	const summaryListData = {
 		sections: [],
@@ -132,11 +123,11 @@ exports.list = async (req, res) => {
 	}
 
 	return res.render(journey.listingPageViewPath, {
-		appeal,
+		...viewData,
+		pageCaption,
 		summaryListData,
 		journeyComplete: journey.isComplete(),
 		layoutTemplate: journey.journeyTemplate,
-		pageCaption: `Appeal ${appeal.caseReference}`,
 		journeyTitle: journey.journeyTitle
 	});
 };
@@ -154,7 +145,7 @@ exports.question = async (req, res) => {
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
 	if (!questionObj || !sectionObj) {
-		return res.redirect(journey.baseUrl);
+		return res.redirect(journey.taskListUrl);
 	}
 
 	const viewModel = questionObj.prepQuestionForRendering(sectionObj, journey);
@@ -174,7 +165,7 @@ exports.save = async (req, res) => {
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
 	if (!questionObj || !sectionObj) {
-		return res.redirect(journey.baseUrl);
+		return res.redirect(journey.taskListUrl);
 	}
 
 	try {
@@ -202,7 +193,7 @@ exports.remove = async (req, res) => {
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
 	if (!questionObj || !sectionObj) {
-		return res.redirect(journey.baseUrl);
+		return res.redirect(journey.taskListUrl);
 	}
 
 	try {

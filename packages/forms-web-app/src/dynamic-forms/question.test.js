@@ -112,7 +112,8 @@ describe('./src/dynamic-forms/question.js', () => {
 			};
 
 			const journey = {
-				baseUrl: 'list',
+				baseUrl: '',
+				taskListUrl: 'task',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
 				response: {
@@ -144,7 +145,7 @@ describe('./src/dynamic-forms/question.js', () => {
 					navigation: ['', 'back'],
 					backLink: 'back',
 					showBackToListLink: question.showBackToListLink,
-					listLink: journey.baseUrl,
+					listLink: journey.taskListUrl,
 					journeyTitle: journey.journeyTitle,
 					hello: 'hi'
 				})

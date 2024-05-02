@@ -21,7 +21,9 @@ describe('requireUser', () => {
 	});
 
 	it('calls next if user is in session', () => {
-		req.session.lpaUser = {};
+		req.session.user = {
+			isLpaUser: true
+		};
 
 		requireUser(req, res, next);
 
@@ -39,7 +41,7 @@ describe('requireUser', () => {
 		const userEnabledStates = [STATUS_CONSTANTS.REMOVED];
 
 		userEnabledStates.forEach((state) => {
-			req.session.lpaUser = {
+			req.session.user = {
 				lpaStatus: state
 			};
 
