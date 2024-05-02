@@ -1,5 +1,5 @@
 paths:
-  /api/v2/appellant-submissions/{id}/address:
+  /api/v2/appellant-submissions/{id}/address/:
     post:
       tags:
         - appellant submissions

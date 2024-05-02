@@ -2,7 +2,8 @@ const supertest = require('supertest');
 const app = require('../../../../../app');
 const { createPrismaClient } = require('../../../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
-const { seedDev } = require('@pins/database/src/seed/data-dev');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const crypto = require('crypto');
 
 const { isFeatureActive } = require('../../../../../configuration/featureFlag');
 
@@ -11,14 +12,16 @@ let sqlClient;
 /** @type {import('supertest').SuperTest<import('supertest').Test>} */
 let appealsApi;
 
-const testAppellantSubmissionId = 'a99c8871-2a4a-4e9c-85b3-498e39d5fafb';
-const invalidUser = '29670d0f-c4b4-4047-8ee0-d62b93e91a12';
-const validUser = '29670d0f-c4b4-4047-8ee0-d62b93e91a11';
+let testAppellantSubmissionId;
+let invalidUser;
+let validUser;
+
+const addressIds = [];
 
 jest.mock('../../../../../configuration/featureFlag');
 jest.mock('../../../../../../src/services/object-store');
 jest.mock('express-oauth2-jwt-bearer', () => {
-	let currentSub = validUser;
+	let currentSub = '';
 
 	return {
 		auth: jest.fn(() => {
@@ -51,7 +54,39 @@ beforeAll(async () => {
 	appealsApi = supertest(app);
 
 	await seedStaticData(sqlClient);
-	await seedDev(sqlClient);
+
+	const user = await sqlClient.appealUser.create({
+		data: {
+			email: crypto.randomUUID() + '@example.com'
+		}
+	});
+	const user2 = await sqlClient.appealUser.create({
+		data: {
+			email: crypto.randomUUID() + '@example.com'
+		}
+	});
+	const appeal = await sqlClient.appeal.create({
+		select: {
+			AppellantSubmission: true
+		},
+		data: {
+			Users: {
+				create: {
+					userId: user.id,
+					role: APPEAL_USER_ROLES.APPELLANT
+				}
+			},
+			AppellantSubmission: {
+				create: {
+					LPACode: 'Q9999',
+					appealTypeCode: 'has'
+				}
+			}
+		}
+	});
+	validUser = user.id;
+	invalidUser = user2.id;
+	testAppellantSubmissionId = appeal.AppellantSubmission?.id;
 });
 
 beforeEach(async () => {
@@ -90,6 +125,9 @@ describe('/appellant-submissions/_id/address', () => {
 			.post(`/api/v2/appellant-submissions/${testAppellantSubmissionId}/address`)
 			.send(testAddress);
 
+		const addressId = addressResponse.body.SubmissionAddress[0].id;
+		addressIds.push(addressId);
+
 		expect(addressResponse.status).toEqual(200);
 		expect(addressResponse.body.SubmissionAddress.length).toBe(1);
 		expect(addressResponse.body.SubmissionAddress[0]).toEqual(expect.objectContaining(testAddress));
@@ -104,6 +142,9 @@ describe('/appellant-submissions/_id/address', () => {
 				addressLine1: 'changed'
 			});
 
+		const addressId2 = addressResponse2.body.SubmissionAddress[0].id;
+		addressIds.push(addressId2);
+
 		expect(addressResponse2.status).toEqual(200);
 		expect(addressResponse2.body.SubmissionAddress.length).toBe(1);
 		expect(addressResponse2.body.SubmissionAddress[0]).toEqual(
@@ -117,6 +158,9 @@ describe('/appellant-submissions/_id/address', () => {
 		const addressResponse3 = await appealsApi
 			.post(`/api/v2/appellant-submissions/${testAppellantSubmissionId}/address`)
 			.send(testAddress);
+
+		const addressId3 = addressResponse3.body.SubmissionAddress[0].id;
+		addressIds.push(addressId3);
 
 		expect(addressResponse3.status).toEqual(200);
 		expect(addressResponse3.body.SubmissionAddress.length).toBe(2);
@@ -135,7 +179,6 @@ describe('/appellant-submissions/_id/address', () => {
 			county: 'county'
 		};
 
-		// adds first address
 		const addressResponse = await appealsApi
 			.post(`/api/v2/appellant-submissions/${testAppellantSubmissionId}/address`)
 			.send(testAddress);
@@ -194,7 +237,9 @@ describe('/appellant-submissions/_id/address', () => {
 			.send(testAddress);
 
 		expect(addressResponse.status).toEqual(200);
+
 		const addressId = addressResponse.body.SubmissionAddress[0].id;
+		addressIds.push(addressId);
 
 		setCurrentSub(invalidUser);
 
@@ -211,5 +256,11 @@ describe('/appellant-submissions/_id/address', () => {
  * @returns {Promise.<void>}
  */
 const _clearSqlData = async () => {
-	await sqlClient.submissionAddress.deleteMany();
+	await sqlClient.submissionAddress.deleteMany({
+		where: {
+			id: {
+				in: addressIds
+			}
+		}
+	});
 };
