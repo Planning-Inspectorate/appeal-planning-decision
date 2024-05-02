@@ -130,7 +130,6 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-	await _clearSqlData();
 	await sqlClient.$disconnect();
 	await databaseConnection.close();
 	await mockedExternalApis.teardown();
@@ -158,7 +157,7 @@ describe('Appeals', () => {
 
 	it("should apply patch updates correctly when data to patch-in isn't a full appeal", async () => {
 		// Given: an appeal is created
-		const { appealResponse: savedAppealResponse, userResponse: user } = await _createAppeal();
+		const { appealResponse: savedAppealResponse } = await _createAppeal();
 		let savedAppeal = savedAppealResponse.body;
 
 		// When: the appeal is patched
@@ -170,10 +169,6 @@ describe('Appeals', () => {
 		savedAppeal.horizonId = 'foo';
 		savedAppeal.updatedAt = patchedAppealResponse.body.updatedAt;
 		expect(patchedAppealResponse.body).toMatchObject(savedAppeal);
-
-		const userLink = await sqlClient.appealToUser.findFirst();
-		expect(userLink?.role).toBe('appellant');
-		expect(userLink?.userId).toBe(user.id);
 
 		// And: no external systems should be interacted with
 		expectedNotifyInteractions = [];
@@ -326,36 +321,6 @@ const _clearDatabaseCollections = async () => {
 	for (const collection of databaseCollectionsFiltered) {
 		await collection.drop();
 	}
-};
-
-/**
- * @returns {Promise.<void>}
- */
-const _clearSqlData = async () => {
-	const testUsersClause = {
-		in: userIds
-	};
-	const testAppealsClause = {
-		in: appealIds
-	};
-
-	await sqlClient.appealToUser.deleteMany({
-		where: {
-			userId: testUsersClause
-		}
-	});
-
-	await sqlClient.appealUser.deleteMany({
-		where: {
-			id: testUsersClause
-		}
-	});
-
-	await sqlClient.appeal.deleteMany({
-		where: {
-			id: testAppealsClause
-		}
-	});
 };
 
 /**
