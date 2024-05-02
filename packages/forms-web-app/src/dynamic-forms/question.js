@@ -165,8 +165,6 @@ class Question {
 	 * @returns {void}
 	 */
 	renderAction(res, viewModel) {
-		console.log('hjhj');
-		console.log(viewModel.question.inputFields);
 		return res.render(`dynamic-components/${this.viewFolder}/index`, viewModel);
 	}
 
@@ -212,9 +210,6 @@ class Question {
 	checkForValidationErrors(req, sectionObj, journey) {
 		const { body } = req;
 		const { errors = {}, errorSummary = [] } = body;
-
-		console.log('mnmn');
-		console.log(journey);
 
 		if (Object.keys(errors).length > 0) {
 			return this.prepQuestionForRendering(
