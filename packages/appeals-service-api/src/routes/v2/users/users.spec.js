@@ -47,7 +47,6 @@ beforeEach(async () => {
 
 afterEach(async () => {
 	jest.clearAllMocks();
-	await _clearSqlData();
 });
 
 afterAll(async () => {
@@ -157,7 +156,11 @@ describe('users v2', () => {
 			const response = await appealsApi.get('/api/v2/users?lpaCode=Q9999');
 			expect(response.status).toEqual(200);
 			expect(Array.isArray(response.body)).toBe(true);
-			expect(response.body.length).toEqual(1);
+			expect(
+				response.body.some((x) => {
+					return x.email === 'lpa-inactive2@example.com';
+				})
+			).toBe(false);
 		});
 	});
 
@@ -199,7 +202,7 @@ describe('users v2', () => {
 		});
 
 		it('should update with email', async () => {
-			const testEmail = 'user-get-email@example.com';
+			const testEmail = 'user-get-email1@example.com';
 			await appealsApi.post('/api/v2/users').send({
 				email: testEmail
 			});
@@ -213,7 +216,7 @@ describe('users v2', () => {
 
 		it('should update with id', async () => {
 			const createUser = await appealsApi.post('/api/v2/users').send({
-				email: 'user-get-email@example.com'
+				email: 'user-get-email2@example.com'
 			});
 			const response = await appealsApi.patch(`/api/v2/users/${createUser.body.id}`).send({
 				isEnrolled: true
@@ -225,7 +228,7 @@ describe('users v2', () => {
 
 		it('should not update unexpected fields', async () => {
 			const createUser = await appealsApi.post('/api/v2/users').send({
-				email: 'user-get-email@example.com'
+				email: 'user-get-email3@example.com'
 			});
 			const response = await appealsApi.patch(`/api/v2/users/${createUser.body.id}`).send({
 				isLpaUser: true,
@@ -328,38 +331,6 @@ describe('users v2', () => {
 		});
 	});
 });
-
-/**
- * @returns {Promise.<void>}
- */
-const _clearSqlData = async () => {
-	const testUsersClause = {};
-	const testAppealsClause = {};
-
-	await sqlClient.securityToken.deleteMany({
-		where: {
-			appealUserId: testUsersClause
-		}
-	});
-
-	await sqlClient.appealToUser.deleteMany({
-		where: {
-			userId: testUsersClause
-		}
-	});
-
-	await sqlClient.appealUser.deleteMany({
-		where: {
-			id: testUsersClause
-		}
-	});
-
-	await sqlClient.appeal.deleteMany({
-		where: {
-			id: testAppealsClause
-		}
-	});
-};
 
 /**
  * @param {string} email

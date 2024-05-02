@@ -79,7 +79,7 @@ beforeAll(async () => {
 			AppellantSubmission: {
 				create: {
 					LPACode: 'Q9999',
-					appealTypeCode: 'has'
+					appealTypeCode: 'HAS'
 				}
 			}
 		}
@@ -101,9 +101,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-	// clear sql db
 	await sqlClient.$disconnect();
-	await _clearSqlData();
 });
 
 describe('/appellant-submissions/_id/address', () => {
@@ -251,16 +249,3 @@ describe('/appellant-submissions/_id/address', () => {
 		expect(deleteResponse.status).toEqual(403);
 	});
 });
-
-/**
- * @returns {Promise.<void>}
- */
-const _clearSqlData = async () => {
-	await sqlClient.submissionAddress.deleteMany({
-		where: {
-			id: {
-				in: addressIds
-			}
-		}
-	});
-};

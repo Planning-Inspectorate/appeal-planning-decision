@@ -143,7 +143,6 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-	await _clearSqlData();
 	await sqlClient.$disconnect();
 	await databaseConnection.close();
 	await mockedExternalApis.teardown();
@@ -1716,36 +1715,6 @@ const _clearDatabaseCollections = async () => {
 	for (const collection of databaseCollectionsFiltered) {
 		await collection.drop();
 	}
-};
-
-/**
- * @returns {Promise.<void>}
- */
-const _clearSqlData = async () => {
-	const testUsersClause = {
-		in: userIds
-	};
-	const testAppealsClause = {
-		in: appealIds
-	};
-
-	await sqlClient.appealToUser.deleteMany({
-		where: {
-			userId: testUsersClause
-		}
-	});
-
-	await sqlClient.appealUser.deleteMany({
-		where: {
-			id: testUsersClause
-		}
-	});
-
-	await sqlClient.appeal.deleteMany({
-		where: {
-			id: testAppealsClause
-		}
-	});
 };
 
 /**
