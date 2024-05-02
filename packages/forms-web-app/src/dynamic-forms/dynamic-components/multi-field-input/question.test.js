@@ -7,7 +7,7 @@ const VALIDATORS = [1, 2];
 const HTML = '/path/to/html.njk';
 const HINT = 'hint';
 const LABEL = 'A label';
-const INPUTFIELDS = [{ fieldName: 'a' }, { fieldName: 'b' }];
+const INPUTFIELDS = [{ fieldName: 'testField1' }, { fieldName: 'testField2' }];
 
 function createMultiFieldInputQuestion(
 	title = TITLE,
@@ -61,7 +61,61 @@ describe('./src/dynamic-forms/dynamic-components/single-line-input/question.js',
 		}).toThrow(new Error('inputFields are mandatory'));
 	});
 
-	// describe('getDataToSave', () => {
+	describe('prepQuestionForRendering', () => {
+		it('should call super and set inputFields', () => {
+			const question = createMultiFieldInputQuestion();
 
-	// })
+			const journey = {
+				response: {
+					answers: {}
+				},
+				getNextQuestionUrl: () => {
+					return 'back';
+				}
+			};
+
+			const customViewData = { hello: 'hi' };
+
+			const result = question.prepQuestionForRendering({}, journey, customViewData);
+
+			expect(result).toEqual(
+				expect.objectContaining({
+					question: expect.objectContaining({
+						fieldName: FIELDNAME,
+						inputFields: INPUTFIELDS
+					}),
+					hello: 'hi'
+				})
+			);
+		});
+	});
+
+	describe('getDataToSave', () => {
+		it('should return values for all completed fields', async () => {
+			const question = createMultiFieldInputQuestion();
+
+			const testRequest = {
+				body: {
+					testField1: 'testInput',
+					testField2: 'more test input',
+					notATestField: 'we should not see this'
+				}
+			};
+
+			const journeyResponse = {
+				answers: {}
+			};
+
+			const expectedResponseToSave = {
+				answers: {
+					testField1: 'testInput',
+					testField2: 'more test input'
+				}
+			};
+
+			const result = await question.getDataToSave(testRequest, journeyResponse);
+
+			expect(result).toEqual(expectedResponseToSave);
+		});
+	});
 });
