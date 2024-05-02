@@ -31,10 +31,10 @@ const BaseValidator = require('./base-validator.js');
 class MultiFieldInputValidator extends BaseValidator {
 	/**
 	 * @param {Object} params
-	 * @param {RequiredField[]} params.requiredFields
+	 * @param {RequiredField[]} [params.requiredFields]
 	 * @param {string} [params.noInputsMessage]
 	 */
-	constructor({ requiredFields, noInputsMessage }) {
+	constructor({ requiredFields, noInputsMessage } = {}) {
 		super();
 
 		if (!requiredFields)
@@ -44,47 +44,41 @@ class MultiFieldInputValidator extends BaseValidator {
 	}
 
 	/**
-	 * validates response body using questionObj inputFields fieldNames
+	 * validates response body against question's required fields
 	 */
 
 	validate() {
 		// const requiredFieldNames = this.requiredFields.map((requiredField) => requiredField.fieldName);
 
-		let results = [];
+		let rules = [];
 
 		// results.push(body(requiredFieldNames).notEmpty().withMessage(this.noInputsMessage));
 
 		for (const requiredField of this.requiredFields) {
-			results.push(
-				body(requiredField.fieldName).notEmpty().withMessage(requiredField.errorMessage)
-			);
+			const { minLength, maxLength, regex, fieldName, errorMessage } = requiredField;
 
-			if (requiredField.minLength) {
-				results.push(
-					body(requiredField.fieldName)
-						.isLength({ min: requiredField.minLength.minLength })
-						.withMessage(requiredField.minLength.minLengthMessage)
+			const fieldBody = body(fieldName);
+
+			rules.push(fieldBody.notEmpty().withMessage(errorMessage));
+
+			if (minLength) {
+				rules.push(
+					fieldBody.isLength({ min: minLength.minLength }).withMessage(minLength.minLengthMessage)
 				);
 			}
 
-			if (requiredField.maxLength) {
-				results.push(
-					body(requiredField.fieldName)
-						.isLength({ max: requiredField.maxLength.maxLength })
-						.withMessage(requiredField.maxLength.maxLengthMessage)
+			if (maxLength) {
+				rules.push(
+					fieldBody.isLength({ max: maxLength.maxLength }).withMessage(maxLength.maxLengthMessage)
 				);
 			}
 
-			if (requiredField.regex) {
-				results.push(
-					body(requiredField.fieldName)
-						.matches(new RegExp(requiredField.regex.regex))
-						.withMessage(requiredField.regex.regexMessage)
-				);
+			if (regex) {
+				rules.push(fieldBody.matches(new RegExp(regex.regex)).withMessage(regex.regexMessage));
 			}
 		}
 
-		return results;
+		return rules;
 	}
 }
 
