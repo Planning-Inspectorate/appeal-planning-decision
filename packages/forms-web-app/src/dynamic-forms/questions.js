@@ -1524,8 +1524,7 @@ exports.questions = {
 	uploadAppellantStatement: new MultiFileUploadQuestion({
 		title: 'Upload your appeal statement',
 		question: 'Upload your appeal statement',
-		description:
-			'Your appeal statement explains why you disagree with the local planning authority’s decision.\nYou can upload any documents that you refer to in your appeal statement later.',
+		html: 'resources/upload-appeal-statement/content.html',
 		fieldName: 'uploadAppellantStatement',
 		url: 'upload-appeal-statement',
 		validators: [
