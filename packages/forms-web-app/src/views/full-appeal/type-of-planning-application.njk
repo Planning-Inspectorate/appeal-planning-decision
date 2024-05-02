@@ -3,7 +3,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
-{% set title="What type of planning application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK" %}
+{% set title="What type of application is your appeal about? - Before you start - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {% if errors %}
@@ -33,13 +33,13 @@
             name: "type-of-planning-application",
             fieldset: {
               legend: {
-                text: "What type of planning application is your appeal about?",
+                text: "What type of application is your appeal about?",
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--l"
               }
             },
 						hint: {
-							text: "You can check this on your planning application form."
+							text: "You can check this on your application form."
 						},
             errorMessage: errors['type-of-planning-application'] and {
               text: errors['type-of-planning-application'].msg

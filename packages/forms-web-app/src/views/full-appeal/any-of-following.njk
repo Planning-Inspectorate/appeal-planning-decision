@@ -6,7 +6,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 
 {% set applicationCategories = applicationCategories or [] %}
-{% set title = "Was your planning application about any of the following? - Before you start - Appeal a planning decision - GOV.UK" %}
+{% set title = "Was your application about any of the following? - Before you start - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {% if errors %}
@@ -32,7 +32,7 @@
         name: "any-of-following",
         fieldset: {
             legend: {
-                text: "Was your planning application about any of the following?",
+                text: "Was your application about any of the following?",
                 isPageHeading: true,
                 classes: "govuk-fieldset__legend--l"
             }
