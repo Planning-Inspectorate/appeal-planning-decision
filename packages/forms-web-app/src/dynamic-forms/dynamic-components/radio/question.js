@@ -69,7 +69,7 @@ class RadioQuestion extends OptionsQuestion {
 			const conditionalAnswerText = selectedOption.conditional?.label
 				? `${selectedOption.conditional.label} ${answer.conditional}`
 				: answer.conditional;
-			const formattedAnswer = [selectedOption.text, conditionalAnswerText].join('<br>');
+			const formattedAnswer = [selectedOption.text, conditionalAnswerText].join('\n');
 			return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
 		}
 		return super.formatAnswerForSummary(sectionSegment, journey, answer);

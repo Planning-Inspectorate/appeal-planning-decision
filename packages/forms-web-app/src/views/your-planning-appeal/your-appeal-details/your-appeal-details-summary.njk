@@ -37,7 +37,7 @@
         Appeal site
       </dt>
       <dd class="govuk-summary-list__value">
-        {{ summaryField(appeal | appealSiteAddressToArray | join("<br>") | safe, { 'data-cy': "appeal-site" }) }}
+        {{ summaryField(appeal | appealSiteAddressToArray | join("\n") | escape | nl2br | safe, { 'data-cy': "appeal-site" }) }}
       </dd>
     </div>
 

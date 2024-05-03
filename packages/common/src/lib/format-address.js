@@ -10,6 +10,10 @@
  * @returns {string}
  */
 const formatAddress = (appealCaseData, joinString = ', ') => {
+	if (joinString.includes('<')) {
+		throw new Error('unsafe joinString');
+	}
+
 	if (isAppealSubmission(appealCaseData)) {
 		return formatAppealSubmissionAddress(appealCaseData);
 	}
@@ -40,7 +44,7 @@ const formatAddressWithBreaks = (appealCaseData) => {
 		appealCaseData.siteAddressPostcode
 	];
 
-	return addressComponents.filter(Boolean).join('<br>');
+	return addressComponents.filter(Boolean).join('\n');
 };
 
 /**
@@ -75,7 +79,7 @@ const formatNeibouringAddressWithBreaks = (neighbourAddress) => {
 		neighbourAddress.postcode
 	];
 
-	return addressComponents.filter(Boolean).join('<br>');
+	return addressComponents.filter(Boolean).join('\n');
 };
 
 /**
