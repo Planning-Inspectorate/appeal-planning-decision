@@ -54,7 +54,15 @@ class HasAppealFormJourney extends Journey {
 				.addQuestion(questions.ownsSomeLand)
 				.withCondition(questionHasAnswer(questions.ownsAllLand, 'no'))
 				.addQuestion(questions.ownsRestOfLand)
-				.withCondition(questionHasAnswer(questions.ownsSomeLand, 'yes'))
+				.withCondition(
+					questionsHaveAnswers(
+						[
+							[questions.ownsSomeLand, 'yes'],
+							[questions.ownsAllLand, 'no']
+						],
+						{ logicalCombinator: 'and' }
+					)
+				)
 				.addQuestion(questions.ownsLandInvolved)
 				.withCondition(
 					questionsHaveAnswers(
@@ -67,35 +75,68 @@ class HasAppealFormJourney extends Journey {
 				)
 				.addQuestion(questions.identifyingLandowners)
 				.withCondition(
-					questionsHaveAnswers(
-						[
-							[questions.ownsRestOfLand, 'some'],
-							[questions.ownsRestOfLand, 'no'],
-							[questions.ownsLandInvolved, 'some'],
-							[questions.ownsLandInvolved, 'no']
-						],
-						{ logicalCombinator: 'or' }
-					)
+					questionHasAnswer(questions.ownsAllLand, 'no') &&
+						((questionHasAnswer(questions.ownsSomeLand, 'yes') &&
+							questionsHaveAnswers(
+								[
+									[questions.ownsRestOfLand, 'some'],
+									[questions.ownsRestOfLand, 'no']
+								],
+								{ logicalCombinator: 'or' }
+							)) ||
+							(questionHasAnswer(questions.ownsSomeLand, 'no') &&
+								questionsHaveAnswers(
+									[
+										[questions.ownsLandInvolved, 'some'],
+										[questions.ownsLandInvolved, 'no']
+									],
+									{ logicalCombinator: 'or' }
+								)))
 				)
 				.addQuestion(questions.advertisingAppeal)
-				.withCondition(questionHasAnswer(questions.identifyingLandowners, 'yes'))
+				.withCondition(
+					questionHasAnswer(questions.ownsAllLand, 'no') &&
+						((questionHasAnswer(questions.ownsSomeLand, 'yes') &&
+							questionsHaveAnswers(
+								[
+									[questions.ownsRestOfLand, 'some'],
+									[questions.ownsRestOfLand, 'no']
+								],
+								{ logicalCombinator: 'or' }
+							)) ||
+							(questionHasAnswer(questions.ownsSomeLand, 'no') &&
+								questionsHaveAnswers(
+									[
+										[questions.ownsLandInvolved, 'some'],
+										[questions.ownsLandInvolved, 'no']
+									],
+									{ logicalCombinator: 'or' }
+								))) &&
+						questionHasAnswer(questions.identifyingLandowners, 'yes')
+				)
 				.addQuestion(questions.tellingLandowners)
 				.withCondition(
-					questionsHaveAnswers(
-						[
-							[questions.ownsRestOfLand, 'yes'],
-							[questions.ownsLandInvolved, 'yes']
-						],
-						{ logicalCombinator: 'or' }
-					) ||
-						(questionsHaveAnswers(
-							[
-								[questions.ownsRestOfLand, 'some'],
-								[questions.ownsLandInvolved, 'some']
-							],
-							{ logicalCombinator: 'or' }
-						) &&
-							questionHasAnswer(questions.advertisingAppeal, 'yes'))
+					questionHasAnswer(questions.ownsAllLand, 'no') &&
+						((questionHasAnswer(questions.ownsSomeLand, 'yes') &&
+							(questionHasAnswer(questions.ownsRestOfLand, 'yes') ||
+								questionsHaveAnswers(
+									[
+										[questions.ownsRestOfLand, 'some'],
+										[questions.identifyingLandowners, 'yes'],
+										[questions.advertisingAppeal, 'yes']
+									],
+									{ logicalCombinator: 'and' }
+								))) ||
+							(questionHasAnswer(questions.ownsSomeLand, 'no') &&
+								(questionHasAnswer(questions.ownsLandInvolved, 'yes') ||
+									questionsHaveAnswers(
+										[
+											[questions.ownsLandInvolved, 'some'],
+											[questions.identifyingLandowners, 'yes'],
+											[questions.advertisingAppeal, 'yes']
+										],
+										{ logicalCombinator: 'and' }
+									))))
 				)
 				.addQuestion(questions.inspectorAccess)
 				.addQuestion(questions.healthAndSafety),
