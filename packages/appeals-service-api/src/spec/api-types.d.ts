@@ -532,9 +532,9 @@ export interface AppellantSubmission {
 	identifiedOwners?: boolean;
 	costApplication?: boolean;
 	appellantSiteSafety?: string;
-	appellantSiteSafety_appellantSiteSafetyDetails?: string;
+	appellantSiteSafety_appellantSiteSafetyDetails?: string | null;
 	appellantSiteAccess?: string;
-	appellantSiteAccess_appellantSiteAccessDetails?: string;
+	appellantSiteAccess_appellantSiteAccessDetails?: string | null;
 	applicationReference?: string;
 	developmentDescriptionOriginal?: string;
 	appellantLinkedCaseReference?: string;
