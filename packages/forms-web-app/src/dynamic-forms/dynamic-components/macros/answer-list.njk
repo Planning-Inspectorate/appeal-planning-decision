@@ -9,7 +9,7 @@
                 text: item.label
             },
             value: {
-                html: item.answer
+                html: { item.answer | escape | nl2br | safe }
             },
             actions: {
                 items: [

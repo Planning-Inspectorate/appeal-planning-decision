@@ -39,7 +39,7 @@ exports.formatYesOrNo = (caseData, propertyName) => (caseData[propertyName] ? 'Y
 // 	}
 
 // 	return allListedBuildings.length > 1
-// 		? allListedBuildings.join('<br>')
+// 		? allListedBuildings.join('\n')
 // 		: allListedBuildings.toString();
 // };
 
@@ -52,7 +52,7 @@ exports.formatDesignations = (caseData) => {
 	}
 
 	if (caseData.designatedSites === 'other' && caseData.otherDesignationDetails) {
-		return `Other<br>${caseData.otherDesignationDetails}`;
+		return `Other\n${caseData.otherDesignationDetails}`;
 	}
 
 	if (caseData.designatedSites && caseData.designatedSites !== 'None') {
@@ -66,7 +66,7 @@ exports.formatDesignations = (caseData) => {
  * @param {AppealCaseWithAppellant} caseData
  */
 exports.formatSensitiveArea = (caseData) =>
-	caseData.sensitiveArea ? `Yes<br>${caseData.sensitiveAreaDetails}` : 'No';
+	caseData.sensitiveArea ? `Yes\n${caseData.sensitiveAreaDetails ?? ''}` : 'No';
 
 /**
  * @param {AppealCaseWithAppellant} caseData
@@ -141,7 +141,7 @@ exports.formatDevelopmentDescription = (caseData) => {
 // 	if (!notifcationTypes) {
 // 		return 'None';
 // 	}
-// 	return notifcationTypes.join('<br>');
+// 	return notifcationTypes.join('\n');
 // };
 
 /**
@@ -162,7 +162,7 @@ exports.formatDate = (dateStr) => {
  */
 exports.formatSiteSafetyRisks = (caseData) => {
 	if (caseData.lpaSiteSafetyRisks) {
-		return `Yes<br>${caseData.lpaSiteSafetyRiskDetails}`;
+		return `Yes\n${caseData.lpaSiteSafetyRiskDetails ?? ''}`;
 	} else {
 		return 'No';
 	}
@@ -175,9 +175,11 @@ exports.formatProcedurePreference = (caseData) => {
 	if (caseData.lpaProcedurePreference === 'written-representations') {
 		return `Written representations`;
 	} else if (caseData.lpaProcedurePreference === 'hearing') {
-		return `Hearing<br>${caseData.lpaPreferHearingDetails}`;
+		return `Hearing\n${caseData.lpaPreferHearingDetails ?? ''}`;
 	} else if (caseData.lpaProcedurePreference === 'inquiry') {
-		return `Inquiry<br>${caseData.lpaPreferInquiryDetails}<br>Expected duration: ${caseData.lpaPreferInquiryDuration} days`;
+		return `Inquiry\n${caseData.lpaPreferInquiryDetails ?? ''}\nExpected duration: ${
+			caseData.lpaPreferInquiryDuration ?? ''
+		} days`;
 	} else {
 		return '';
 	}
@@ -187,4 +189,4 @@ exports.formatProcedurePreference = (caseData) => {
  * @param {AppealCaseWithAppellant} caseData
  */
 exports.formatConditions = (caseData) =>
-	(caseData.newConditions && `Yes<br>${caseData.newConditionDetails}`) || 'No';
+	(caseData.newConditions && `Yes\n${caseData.newConditionDetails ?? ''}`) || 'No';

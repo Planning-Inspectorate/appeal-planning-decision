@@ -88,6 +88,17 @@ module.exports = {
 	},
 
 	/**
+	 * replaces new line chars with a <br>
+	 * @param {string} [value]
+	 * @returns {string}
+	 */
+	nl2br(value) {
+		if (!value) return '';
+
+		return value.replace(/\r\n|\n/g, '<br>');
+	},
+
+	/**
 	 * @template Arg
 	 * @template TResolution
 	 * @param {Arg[]} argArr

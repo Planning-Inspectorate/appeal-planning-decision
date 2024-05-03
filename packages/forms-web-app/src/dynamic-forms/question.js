@@ -1,6 +1,8 @@
 const { capitalize } = require('../lib/string-functions');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { numericFields } = require('./dynamic-components/utils/numeric-fields');
+const escape = require('escape-html');
+const { nl2br } = require('@pins/common/src/utils');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -322,7 +324,11 @@ class Question {
 		const action = this.getAction(sectionSegment, journey, answer);
 		const key = this.title ?? this.question;
 		let rowParams = [];
-		rowParams.push({ key: key, value: formattedAnswer, action: action });
+		rowParams.push({
+			key: key,
+			value: nl2br(escape(formattedAnswer)),
+			action: action
+		});
 		return rowParams;
 	}
 
