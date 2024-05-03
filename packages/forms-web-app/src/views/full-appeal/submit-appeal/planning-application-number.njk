@@ -4,7 +4,7 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 
-{% set title="What's your planning application number? - Appeal a planning decision - GOV.UK" %}
+{% set title="What is the application reference number? - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
   {% if errors %}
@@ -31,7 +31,7 @@
 
         {{ govukInput({
           label: {
-            text: "What's your planning application number?",
+            text: "What is the application reference number?",
             classes: "govuk-label govuk-label--l",
             isPageHeading: true
           },
@@ -41,7 +41,7 @@
           classes: "govuk-!-width-one-half",
           spellcheck: false,
           hint: {
-            text: "You can find this on communications from your local planning department about your application"
+            text: "You can find this on any correspondence from the local planning authority. For example, the letter confirming your application"
           },
           value: planningApplicationNumber,
           errorMessage: errors['application-number'] and {

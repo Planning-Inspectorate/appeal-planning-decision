@@ -169,4 +169,22 @@ module.exports = class Repo {
 			throw e;
 		}
 	}
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<{id: string}>}
+	 */
+	markAppealAsSubmitted(id) {
+		return this.dbClient.appellantSubmission.update({
+			where: {
+				id: id
+			},
+			data: {
+				submitted: true
+			},
+			select: {
+				id: true
+			}
+		});
+	}
 };

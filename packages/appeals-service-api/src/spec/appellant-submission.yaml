@@ -19,8 +19,9 @@ components:
 
         caseTermsAccepted:
           type: boolean
-        submittedToBackOffice:
+        submitted:
           type: boolean
+          description: whether the appeal has been submitted to BO
 
         onApplicationDate:
           type: string

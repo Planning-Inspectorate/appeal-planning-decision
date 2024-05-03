@@ -1524,8 +1524,7 @@ exports.questions = {
 	uploadAppellantStatement: new MultiFileUploadQuestion({
 		title: 'Upload your appeal statement',
 		question: 'Upload your appeal statement',
-		description:
-			'Your appeal statement explains why you disagree with the local planning authority’s decision.\nYou can upload any documents that you refer to in your appeal statement later.',
+		html: 'resources/upload-appeal-statement/content.html',
 		fieldName: 'uploadAppellantStatement',
 		url: 'upload-appeal-statement',
 		validators: [
@@ -1534,7 +1533,7 @@ exports.questions = {
 		],
 		documentType: documentTypes.uploadAppellantStatement
 	}),
-	costApplication: new RadioQuestion({
+	costApplication: new BooleanQuestion({
 		title: 'Do you need to apply for an award of appeal costs?',
 		question: 'Do you need to apply for an award of appeal costs?',
 		fieldName: 'costApplication',
@@ -1548,6 +1547,9 @@ exports.questions = {
 				text: 'No',
 				value: 'no'
 			}
+		],
+		validators: [
+			new RequiredValidator('Select yes if you need to apply for an award of appeal costs')
 		]
 	}),
 	uploadCostApplication: new MultiFileUploadQuestion({

@@ -30,14 +30,23 @@ const mockSections = [
 ];
 
 class TestJourney extends Journey {
-	constructor(baseUrl, taskListUrl, response, journeyTemplate, listingPageViewPath, journeyTitle) {
+	constructor(
+		baseUrl,
+		taskListUrl,
+		response,
+		journeyTemplate,
+		listingPageViewPath,
+		journeyTitle,
+		returnToListing
+	) {
 		super({
 			baseUrl,
 			taskListUrl,
 			response,
 			journeyTemplate,
 			listingPageViewPath,
-			journeyTitle
+			journeyTitle,
+			returnToListing
 		});
 	}
 }
@@ -167,6 +176,26 @@ describe('Journey class', () => {
 			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
 				'journeyTitle should be a string.'
 			);
+		});
+
+		it('should set returnToListing - true', () => {
+			constructorArgs.returnToListing = true;
+			const journey = new TestJourney(...Object.values(constructorArgs));
+
+			expect(journey.returnToListing).toBe(true);
+		});
+
+		it('should set returnToListing - false', () => {
+			constructorArgs.returnToListing = false;
+			const journey = new TestJourney(...Object.values(constructorArgs));
+
+			expect(journey.returnToListing).toBe(false);
+		});
+
+		it('should handle returnToListing not defined', () => {
+			const journey = new TestJourney(...Object.values(constructorArgs));
+
+			expect(journey.returnToListing).toBe(false);
 		});
 	});
 
