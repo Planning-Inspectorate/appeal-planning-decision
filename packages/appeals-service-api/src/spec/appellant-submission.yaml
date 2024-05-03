@@ -67,10 +67,12 @@ components:
           type: string
         appellantSiteSafety_appellantSiteSafetyDetails:
           type: string
+          nullable: true
         appellantSiteAccess:
           type: string
         appellantSiteAccess_appellantSiteAccessDetails:
           type: string
+          nullable: true
 
         applicationReference:
           type: string
