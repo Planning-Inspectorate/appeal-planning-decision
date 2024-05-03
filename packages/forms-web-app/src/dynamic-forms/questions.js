@@ -1479,11 +1479,11 @@ exports.questions = {
 			]
 		}),
 	enterDevelopmentDescription: new TextEntryQuestion({
-		title: 'Enter the description of development that you submitted in your application.',
-		question: 'Enter the description of development that you submitted in your application.',
+		title: 'Enter the description of development that you submitted in your application',
+		question: 'Enter the description of development that you submitted in your application',
 		fieldName: 'developmentDescriptionOriginal',
 		url: 'enter-description-of-development',
-		hint: 'Enter the description of development that you submitted in your application.',
+		hint: 'If the local planning authority changed the description of development, you can upload evidence of your agreement to change the description later.',
 		validators: [
 			new RequiredValidator('Enter a description'),
 			new StringValidator({
