@@ -39,6 +39,46 @@ class HasAppealFormJourney extends Journey {
 		const questionHasAnswer = questionHasAnswerBuilder(response);
 		const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
 
+		const shouldDisplayIdentifyingLandowners = (() => {
+			if (questionHasAnswer(questions.ownsAllLand, 'yes')) return false;
+			if (
+				questionHasAnswer(questions.ownsSomeLand, 'yes') &&
+				questionHasAnswer(questions.knowsWhoOwnsRestOfLand, 'yes')
+			)
+				return false;
+			if (
+				questionHasAnswer(questions.ownsSomeLand, 'no') &&
+				questionHasAnswer(questions.knowsWhoOwnsLandInvolved, 'yes')
+			)
+				return false;
+
+			return true;
+		})();
+
+		const shouldDisplayTellingLandowners = (() => {
+			if (questionHasAnswer(questions.ownsAllLand, 'yes')) return false;
+
+			if (
+				questionsHaveAnswers(
+					[
+						[questions.ownsSomeLand, 'yes'],
+						[questions.knowsWhoOwnsRestOfLand, 'no']
+					],
+					{ logicalCombinator: 'and' }
+				) ||
+				questionsHaveAnswers(
+					[
+						[questions.ownsSomeLand, 'no'],
+						[questions.knowsWhoOwnsLandInvolved, 'no']
+					],
+					{ logicalCombinator: 'and' }
+				)
+			)
+				return false;
+
+			return true;
+		})();
+
 		this.sections.push(
 			new Section('Your details', 'your-details')
 				.addQuestion(questions.applicationName)
@@ -53,9 +93,17 @@ class HasAppealFormJourney extends Journey {
 				.addQuestion(questions.ownsAllLand)
 				.addQuestion(questions.ownsSomeLand)
 				.withCondition(questionHasAnswer(questions.ownsAllLand, 'no'))
-				.addQuestion(questions.ownsRestOfLand)
-				.withCondition(questionHasAnswer(questions.ownsSomeLand, 'yes'))
-				.addQuestion(questions.ownsLandInvolved)
+				.addQuestion(questions.knowsWhoOwnsRestOfLand)
+				.withCondition(
+					questionsHaveAnswers(
+						[
+							[questions.ownsSomeLand, 'yes'],
+							[questions.ownsAllLand, 'no']
+						],
+						{ logicalCombinator: 'and' }
+					)
+				)
+				.addQuestion(questions.knowsWhoOwnsLandInvolved)
 				.withCondition(
 					questionsHaveAnswers(
 						[
@@ -66,37 +114,14 @@ class HasAppealFormJourney extends Journey {
 					)
 				)
 				.addQuestion(questions.identifyingLandowners)
-				.withCondition(
-					questionsHaveAnswers(
-						[
-							[questions.ownsRestOfLand, 'some'],
-							[questions.ownsRestOfLand, 'no'],
-							[questions.ownsLandInvolved, 'some'],
-							[questions.ownsLandInvolved, 'no']
-						],
-						{ logicalCombinator: 'or' }
-					)
-				)
+				.withCondition(shouldDisplayIdentifyingLandowners)
 				.addQuestion(questions.advertisingAppeal)
-				.withCondition(questionHasAnswer(questions.identifyingLandowners, 'yes'))
-				.addQuestion(questions.tellingLandowners)
 				.withCondition(
-					questionsHaveAnswers(
-						[
-							[questions.ownsRestOfLand, 'yes'],
-							[questions.ownsLandInvolved, 'yes']
-						],
-						{ logicalCombinator: 'or' }
-					) ||
-						(questionsHaveAnswers(
-							[
-								[questions.ownsRestOfLand, 'some'],
-								[questions.ownsLandInvolved, 'some']
-							],
-							{ logicalCombinator: 'or' }
-						) &&
-							questionHasAnswer(questions.advertisingAppeal, 'yes'))
+					shouldDisplayIdentifyingLandowners &&
+						questionHasAnswer(questions.identifyingLandowners, 'yes')
 				)
+				.addQuestion(questions.tellingLandowners)
+				.withCondition(shouldDisplayTellingLandowners)
 				.addQuestion(questions.inspectorAccess)
 				.addQuestion(questions.healthAndSafety),
 			new Section('Your application', 'your-application')
