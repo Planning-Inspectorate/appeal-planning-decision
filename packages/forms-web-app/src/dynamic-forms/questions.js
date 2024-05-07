@@ -1213,7 +1213,7 @@ exports.questions = {
 			new RequiredValidator('Select yes if you own some of the land involved in the appeal')
 		]
 	}),
-	ownsRestOfLand: new RadioQuestion({
+	knowsWhoOwnsRestOfLand: new RadioQuestion({
 		title: 'Do you know who owns the rest of the land involved in the appeal?',
 		question: 'Do you know who owns the rest of the land involved in the appeal?',
 		fieldName: 'knowsOtherOwners',
@@ -1238,7 +1238,7 @@ exports.questions = {
 			)
 		]
 	}),
-	ownsLandInvolved: new RadioQuestion({
+	knowsWhoOwnsLandInvolved: new RadioQuestion({
 		title: 'Do you know who owns the land involved in the appeal?',
 		question: 'Do you know who owns the land involved in the appeal?',
 		fieldName: 'knowsAllOwners',
