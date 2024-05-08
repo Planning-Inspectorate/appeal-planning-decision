@@ -525,7 +525,7 @@ model AppellantSubmission {
   appellantPhoneNumber           String?
 
   // number entries
-  siteAreaSquareMetres Float?
+  siteAreaSquareMetres Decimal?
 
   // Linked cases
   appellantLinkedCaseAdd Boolean?
