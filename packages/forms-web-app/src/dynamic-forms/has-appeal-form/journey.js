@@ -36,6 +36,8 @@ class HasAppealFormJourney extends Journey {
 			returnToListing: true
 		});
 
+		console.log('👷‍♀️', response.answers);
+
 		const questionHasAnswer = questionHasAnswerBuilder(response);
 		const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
 

@@ -1,5 +1,9 @@
 const Question = require('../../question');
 
+/**
+ * @typedef {import('../../journey').Journey} Journey
+ */
+
 class NumberEntryQuestion extends Question {
 	/**
 	 * @param {Object} params
@@ -39,6 +43,25 @@ class NumberEntryQuestion extends Question {
 		viewModel.question.suffix = this.suffix;
 
 		return viewModel;
+	}
+
+	/**
+	 * returns the formatted answers values to be used to build task list elements
+	 * @param {Object} answer
+	 * @param {Journey} journey
+	 * @param {String} sectionSegment
+	 * @returns {Array<{
+	 *   key: string;
+	 *   value: string | Object;
+	 *   action: {
+	 *     href: string;
+	 *     text: string;
+	 *     visuallyHiddenText: string;
+	 *   };
+	 * }>}
+	 */
+	formatAnswerForSummary(sectionSegment, journey, answer) {
+		return super.formatAnswerForSummary(sectionSegment, journey, answer, false);
 	}
 }
 
