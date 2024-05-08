@@ -383,10 +383,6 @@ exports.questions = {
 			),
 			new ConditionalRequiredValidator('Enter the reason'),
 			new StringValidator({
-				regex: {
-					regex: new RegExp(`^[0-9a-z- '()]{0,${inputMaxCharacters}}$`, 'gi'),
-					regexMessage: 'Reason must only include letters a to z, hyphens, spaces and apostrophes.'
-				},
 				maxLength: {
 					maxLength: inputMaxCharacters,
 					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
@@ -1331,10 +1327,6 @@ exports.questions = {
 				'Enter a reason why an inspector cannot view the appeal site from a public road or footpath'
 			),
 			new StringValidator({
-				regex: {
-					regex: new RegExp(`^[0-9a-z- '()]{0,${inputMaxCharacters}}$`, 'gi'),
-					regexMessage: 'Reason must only include letters a to z, hyphens, spaces and apostrophes.'
-				},
 				maxLength: {
 					maxLength: inputMaxCharacters,
 					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
@@ -1375,10 +1367,6 @@ exports.questions = {
 			),
 			new ConditionalRequiredValidator('Enter the health and safety issues'),
 			new StringValidator({
-				regex: {
-					regex: new RegExp(`^[0-9a-z- '()]{0,${inputMaxCharacters}}$`, 'gi'),
-					regexMessage: 'Reason must only include letters a to z, hyphens, spaces and apostrophes.'
-				},
 				maxLength: {
 					maxLength: inputMaxCharacters,
 					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
@@ -1454,10 +1442,6 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Enter the planning application reference number'),
 			new StringValidator({
-				regex: {
-					regex: new RegExp(`^[a-z0-9]{0,250}$`, 'gi'),
-					regexMessage: 'Enter a reference number using letters a to z and numbers 0 to 9'
-				},
 				maxLength: {
 					maxLength: 250,
 					maxLengthMessage: `Reference number must be 250 characters or less`
@@ -1487,11 +1471,6 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Enter a description'),
 			new StringValidator({
-				regex: {
-					regex: new RegExp(`^[0-9a-z- ']{0,${inputMaxCharacters}}$`, 'gi'),
-					regexMessage:
-						'Your description must only include letters a to z, numbers 0-9, hyphens, spaces and apostrophes.'
-				},
 				maxLength: {
 					maxLength: inputMaxCharacters,
 					maxLengthMessage: `Your description must be ${inputMaxCharacters} characters or less`
@@ -1643,11 +1622,6 @@ exports.questions = {
 					{
 						fieldName: 'appellantFirstName',
 						errorMessage: "Enter the applicant's first name",
-						regex: {
-							regex: new RegExp(`^[a-z- ']{0,250}$`, 'gi'),
-							regexMessage:
-								'First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes'
-						},
 						maxLength: {
 							maxLength: 250,
 							maxLengthMessage: 'First name must be 250 characters or less'
@@ -1656,11 +1630,6 @@ exports.questions = {
 					{
 						fieldName: 'appellantLastName',
 						errorMessage: "Enter the applicant's last name",
-						regex: {
-							regex: new RegExp(`^[a-z- ']{0,250}$`, 'gi'),
-							regexMessage:
-								'Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes'
-						},
 						maxLength: {
 							maxLength: 250,
 							maxLengthMessage: 'Last name must be 250 characters or less'
@@ -1696,11 +1665,6 @@ exports.questions = {
 					{
 						fieldName: 'contactFirstName',
 						errorMessage: 'Enter your first name',
-						regex: {
-							regex: new RegExp(`^[a-z- ']{0,250}$`, 'gi'),
-							regexMessage:
-								'First name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes'
-						},
 						maxLength: {
 							maxLength: 250,
 							maxLengthMessage: 'First name must be 250 characters or less'
@@ -1709,11 +1673,6 @@ exports.questions = {
 					{
 						fieldName: 'contactLastName',
 						errorMessage: 'Enter your last name',
-						regex: {
-							regex: new RegExp(`^[a-z- ']{0,250}$`, 'gi'),
-							regexMessage:
-								'Last name must only include letters a to z, and special characters such as hyphens, spaces and apostrophes'
-						},
 						maxLength: {
 							maxLength: 250,
 							maxLengthMessage: 'Last name must be 250 characters or less'
