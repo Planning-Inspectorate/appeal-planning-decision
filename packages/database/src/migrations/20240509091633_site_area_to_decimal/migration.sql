@@ -3,7 +3,7 @@ BEGIN TRY
 BEGIN TRAN;
 
 -- AlterTable
-ALTER TABLE [dbo].[AppellantSubmission] ALTER COLUMN [siteAreaSquareMetres] FLOAT(53) NULL;
+ALTER TABLE [dbo].[AppellantSubmission] ALTER COLUMN [siteAreaSquareMetres] DECIMAL(32,16) NULL;
 
 COMMIT TRAN;
 
