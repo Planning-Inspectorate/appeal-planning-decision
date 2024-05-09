@@ -48,7 +48,6 @@ router.get(
 
 router.post('/submit/declaration', getJourneyResponse, validationErrorHandler, appellantSubmit);
 
-
 router.get('/submit/submitted', getJourneyResponse, validationErrorHandler, appellantSubmitted);
 
 // question

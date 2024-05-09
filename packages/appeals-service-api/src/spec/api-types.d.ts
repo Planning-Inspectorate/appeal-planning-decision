@@ -508,6 +508,9 @@ export interface AppellantSubmission {
 	id?: string;
 	LPACode?: string;
 	appealTypeCode?: 'HAS' | 'S78';
+	/** @format date-time */
+	applicationDecisionDate?: string;
+	applicationDecision?: string;
 	appealId?: string;
 	caseTermsAccepted?: boolean;
 	/** whether the appeal has been submitted to BO */
