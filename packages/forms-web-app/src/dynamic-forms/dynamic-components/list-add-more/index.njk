@@ -19,7 +19,7 @@
       {{answerList(addMoreAnswers)}}
 
       <form method="POST" novalidate>
-<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
         {{ govukRadios({
           classes: "govuk-radios",
           idPrefix: question.fieldName,
