@@ -1457,7 +1457,7 @@ exports.questions = {
 			url: 'planning-application-date',
 			hint: `For example, ${getDate('past')}`,
 			validators: [
-				new DateValidator('Enter the date you submitted your application', {
+				new DateValidator('the date you submitted your application', {
 					ensurePast: true
 				})
 			]
