@@ -39,7 +39,7 @@ class SiteAddressQuestion extends Question {
 	 * @param {JourneyResponse} journeyResponse
 	 * @returns {SubmissionAddress|null}
 	 */
-	#getExisingAddress(journeyResponse) {
+	#getExistingAddress(journeyResponse) {
 		const addresses = getAddressesForQuestion(journeyResponse, this.fieldName);
 		// will only ever have 1
 		if (addresses.length) {
@@ -58,7 +58,7 @@ class SiteAddressQuestion extends Question {
 	prepQuestionForRendering(section, journey, customViewData) {
 		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 
-		const address = this.#getExisingAddress(journey.response);
+		const address = this.#getExistingAddress(journey.response);
 
 		// will only ever have 1
 		if (address) {
@@ -81,7 +81,7 @@ class SiteAddressQuestion extends Question {
 	 * @returns {Promise<{address:Address, siteAddressSet: boolean, fieldName: string, addressId: string|undefined }>}
 	 */
 	async getDataToSave(req, journeyResponse) {
-		const existingAddressId = this.#getExisingAddress(journeyResponse)?.id;
+		const existingAddressId = this.#getExistingAddress(journeyResponse)?.id;
 
 		const address = new Address({
 			addressLine1: req.body[this.fieldName + '_addressLine1'],
@@ -175,7 +175,7 @@ class SiteAddressQuestion extends Question {
 	formatAnswerForSummary(sectionSegment, journey) {
 		let rowParams = [];
 
-		const address = this.#getExisingAddress(journey.response);
+		const address = this.#getExistingAddress(journey.response);
 
 		if (address) {
 			rowParams.push({
