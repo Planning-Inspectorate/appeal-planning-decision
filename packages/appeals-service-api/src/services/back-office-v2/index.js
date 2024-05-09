@@ -11,6 +11,7 @@ const { get, markAppealAsSubmitted } = require('../../routes/v2/appellant-submis
 
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -31,49 +32,31 @@ class BackOfficeV2Service {
 	constructor() {}
 
 	// /**
-	//  * @param {string} appealId
+	//  * @param {string} appellantSubmissionId
+	//  * @param {string} userId
 	//  * @returns {Promise<Array<*> | void>}
 	//  */
-	// async submitAppeal(appealId) {
-	// 	const appeal = await getAppeal(appealId);
+	// async submitAppeal(appellantSubmissionId, userId) {
+	// 	const appeal = await get({
+	// 		appellantSubmissionId,
+	// 		userId
+	// 	});
 
-	// 	if (!appeal) throw new Error(`Appeal ${appealId} not found`);
+	// 	if (!appeal) throw new Error(`Appeal ${appellantSubmissionId} not found`);
 
-	// 	const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION, appeal.lpaCode);
+	// 	const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION);
 	// 	if (!isBOIntegrationActive) return;
 
-	// 	if (!appeal.appealType)
-	// 		throw new Error(`Appeal type could not be determined on appeal ${appealId}`);
+	// 	if (!appeal.appealTypeCode)
+	// 		throw new Error(`Appeal type could not be determined on appeal ${appellantSubmissionId}`);
 
-	// 	return await forwarders.appeal(formatters.appeal[appeal.appealType](appeal));
+	// 	const result = await forwarders.appeal(formatters.appeal[appeal.appealTypeCode](appeal));
+
+	// 	await markAppealAsSubmitted(appeal.id);
+
+	// 	return result;
+
 	// }
-
-	/**
-	 * @param {string} appellantSubmissionId
-	 * @param {string} userId
-	 * @returns {Promise<Array<*> | void>}
-	 */
-	async submitAppeal(appellantSubmissionId, userId) {
-		const appeal = await get({
-			appellantSubmissionId,
-			userId
-		});
-
-		if (!appeal) throw new Error(`Appeal ${appellantSubmissionId} not found`);
-
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION);
-		if (!isBOIntegrationActive) return;
-
-		if (!appeal.appealTypeCode)
-			throw new Error(`Appeal type could not be determined on appeal ${appellantSubmissionId}`);
-
-		const result = await forwarders.appeal(formatters.appeal[appeal.appealTypeCode](appeal));
-
-		await markAppealAsSubmitted(appeal.id);
-
-		return result;
-
-	}
 
 	/**
 	 * @param { {appellantSubmissionId: string, userId: string} } params
@@ -94,11 +77,17 @@ class BackOfficeV2Service {
 		if (!isValidAppealTypeCode(appellantSubmission.appealTypeCode))
 			throw new Error(`Appeal submission ${appellantSubmissionId} has an invalid appealTypeCode`);
 
-		return await forwarders.appeal(
+		const result = await forwarders.appeal(
 			formatters.appeal[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]](
 				appellantSubmission
 			)
 		);
+
+		await markAppealAsSubmitted(appellantSubmission.id);
+
+		await sendSubmissionConfirmationEmailToAppellantV2(appellantSubmission);
+
+		return result;
 	}
 
 	/**

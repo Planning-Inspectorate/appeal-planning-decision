@@ -11,8 +11,21 @@ const LpaService = require('../services/lpa.service');
 const { parseISO } = require('date-fns');
 const { format } = require('date-fns');
 const constants = require('@pins/business-rules/src/constants');
+const { formatSubmissionAddress } = require('@pins/common/src/lib/format-address');
 const lpaService = new LpaService();
+const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { templates } = config.services.notify;
+
+/**
+ * @typedef {"HAS" | "S78"} AppealTypeCode
+ * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
+ */
+
+/** @type {Record<AppealTypeCode, string>} */
+const appealTypeCodeToAppealId = {
+	HAS: APPEAL_ID.HOUSEHOLDER,
+	S78: APPEAL_ID.PLANNING_SECTION_78
+};
 
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
@@ -44,6 +57,53 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	} catch (err) {
 		logger.error(
 			{ err, appealId: appeal.id },
+			'Unable to send submission confirmation email to appellant'
+		);
+	}
+};
+
+/**
+ * @param { AppellantSubmission } appellantSubmission
+ */
+const sendSubmissionConfirmationEmailToAppellantV2 = async (appellantSubmission) => {
+	try {
+		const recipientEmail = appellantSubmission.appellantEmailAddress;
+		const address = appellantSubmission.SubmissionAddress?.find(
+			(address) => address.fieldName === 'siteAddress'
+		);
+		const formattedAddress = formatSubmissionAddress(address);
+		const lpa = await lpaService.getLpaById(appellantSubmission.LPACode);
+
+		let variables = {
+			appeal_reference_number: appellantSubmission.appealId,
+			'appeal site address': formattedAddress,
+			'local planning department': lpa
+			// 'link to pdf': generate the link?
+		};
+
+		const reference = appellantSubmission.id;
+
+		logger.debug(
+			{ recipientEmail, variables, reference },
+			'Sending submission confirmation email to appellant'
+		);
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]]
+					.appealSubmissionConfirmationEmailToAppellant
+			)
+			.setDestinationEmailAddress(recipientEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, appealId: appellantSubmission.id },
 			'Unable to send submission confirmation email to appellant'
 		);
 	}
@@ -311,6 +371,7 @@ module.exports = {
 	sendSubmissionReceivedEmailToLpa,
 	sendSubmissionReceivedEmailToAppellant,
 	sendSubmissionConfirmationEmailToAppellant,
+	sendSubmissionConfirmationEmailToAppellantV2,
 	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendSecurityCodeEmail,

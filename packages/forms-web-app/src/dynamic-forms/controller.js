@@ -257,7 +257,7 @@ exports.appellantSubmit = async (req, res) => {
 	const id = res.locals.journeyResponse.referenceId;
 
 	if (!journey.isComplete()) {
-		res.sendStatus(400);
+		res.sendStatus(400).render('./error/not-found.njk');
 		return;
 	}
 
