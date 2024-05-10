@@ -72,6 +72,11 @@ exports.documentsRows = (caseData) => {
 			keyText: 'Draft statement of common ground',
 			valueText: formatDocumentDetails(documents, 'statementCommonGround'),
 			condition: (caseData) => caseData
+		},
+		{
+			keyText: 'Evidence of agreement to change description of development',
+			valueText: formatDocumentDetails(documents, 'changedDescription'),
+			condition: (caseData) => caseData
 		}
 	];
 };

@@ -108,6 +108,48 @@ exports.detailsRows = (caseData) => {
 			keyText: 'Preferred procedure',
 			valueText: formatProcedure(caseData),
 			condition: (caseData) => caseData.appellantProcedurePreference
+		},
+		{
+			keyText: 'Phone number',
+			valueText: caseData.appellantPhoneNumber,
+			condition: (caseData) => caseData.appellantPhoneNumber
+		},
+
+		{
+			keyText: 'Site area',
+			valueText: caseData.siteAreaSquareMetres,
+			condition: (caseData) => caseData.siteAreaSquareMetres
+		},
+		{
+			keyText: 'Green belt',
+			valueText: 'Yes',
+			condition: (caseData) => caseData.appellantGreenBelt
+		},
+		{
+			keyText: 'Inspector access',
+			valueText: caseData.appellantSiteAccess,
+			condition: (caseData) => caseData.appellantSiteAccess
+		},
+		{
+			keyText: 'Inspector access details',
+			valueText: caseData.appellantSiteAccessDetails,
+			condition: (caseData) => caseData.appellantSiteAccessDetails
+		},
+		{
+			keyText: 'Date of application',
+			valueText: caseData.onApplicationDate,
+			condition: (caseData) => caseData.onApplicationDate
+		},
+		{
+			keyText: 'Description of development',
+			valueText: caseData.developmentDescriptionDetails,
+			condition: (caseData) => caseData.developmentDescriptionDetails
 		}
+
+		// {
+		// 	keyText: 'Other linked appeals',
+		// 	// valueText: formatLinkedAppeals(caseData),
+		// 	condition: (caseData) => caseData.appellantLinkedCase
+		// }
 	];
 };
