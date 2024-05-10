@@ -69,7 +69,7 @@ export interface AppealCase {
 	costsAppliedForIndicator: boolean;
 	/** the LPA's reference for the original planning application */
 	LPAApplicationReference: string;
-	apellantCasePublished?: string;
+	appellantCasePublished?: string;
 	appellantProofEvidenceSubmitted?: boolean;
 	appellantProofEvidencePublished?: boolean;
 	appellantFinalCommentsSubmitted?: boolean;
@@ -395,12 +395,17 @@ export interface AppealCase {
 	yourFirstName?: string;
 	yourLastName?: string;
 	yourCompanyName?: string;
+	appellantPhoneNumber?: string;
+	/** @format date-time */
+	onApplicationDate?: string;
 	ownsAllLand?: boolean;
 	ownsSomeLand?: boolean;
 	knowsOtherOwners?: boolean;
 	identifiedOwners?: boolean;
 	advertisedAppeal?: boolean;
 	informedOwners?: boolean;
+	appellantGreenBelt?: boolean;
+	siteAreaSquareMeters?: number;
 	agriculturalHolding?: boolean;
 	tenantAgriculturalHolding?: boolean;
 	otherTenantsAgriculturalHolding?: boolean;
@@ -417,6 +422,7 @@ export interface AppealCase {
 	statusPlanningObligation?: string;
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
+	SubmissionLinkedCase?: object[];
 }
 
 /** An appeal submission created in the Front Office */

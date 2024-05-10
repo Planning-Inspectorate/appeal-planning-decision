@@ -114,7 +114,6 @@ exports.detailsRows = (caseData) => {
 			valueText: caseData.appellantPhoneNumber,
 			condition: (caseData) => caseData.appellantPhoneNumber
 		},
-
 		{
 			keyText: 'Site area',
 			valueText: caseData.siteAreaSquareMetres,
