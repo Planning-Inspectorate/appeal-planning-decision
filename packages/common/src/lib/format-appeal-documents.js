@@ -45,3 +45,20 @@ exports.formatProcedure = (caseData) => {
 
 	return valueText;
 };
+
+/**
+ * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
+ */
+exports.formatLinkedAppeals = (caseData) => {
+	if (!caseData.appellantLinkedCase) return 'No';
+
+	const appellantLinkedCases = caseData.SubmissionLinkedCase || [];
+
+	const linkedCasesDisplayDetails = appellantLinkedCases
+		.map((linkedCase) => linkedCase.caseReference)
+		.join('\n');
+
+	const valueText = `Yes'\n'${linkedCasesDisplayDetails}`;
+
+	return valueText;
+};
