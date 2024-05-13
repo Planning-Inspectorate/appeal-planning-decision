@@ -12,9 +12,6 @@ module.exports = (req, res, next) => {
 	 */
 	const flashMessages = req.session.flashMessages || [];
 
-	// reset the `req.session.flashMessages` container
-	req.session.flashMessages = [];
-
 	// store the messages for one time use on the current request.
 	res.locals.flashMessages = flashMessages;
 
