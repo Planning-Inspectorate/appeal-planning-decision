@@ -2,18 +2,23 @@ const config = require('../config');
 
 const defaultOptions = {
 	fallbackPath: config.appeals.startingPoint,
-	stackSize: 255
+	stackSize: 50
 };
 
+/**
+ *
+ * @param {{fallbackPath: string; stackSize: number }} options
+ * @returns {import('express').Handler}
+ */
 module.exports =
 	(options = defaultOptions) =>
-	(req, res, next) => {
+	(req, _res, next) => {
 		const activeOptions = {
 			...defaultOptions,
 			...options
 		};
 
-		if (!req.session) {
+		if (Object.keys(req.session).length === 1 && Object.hasOwn(req.session, 'cookie')) {
 			next();
 			return;
 		}
