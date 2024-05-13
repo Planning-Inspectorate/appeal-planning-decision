@@ -104,18 +104,10 @@ class MultiFieldInputQuestion extends Question {
 	 * @returns {Array.<Object>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey) {
-		let summaryDetails = '';
-
-		this.inputFields.forEach((field, index) => {
+		const summaryDetails = this.inputFields.reduce((acc, field) => {
 			const answer = journey.response.answers[field.fieldName];
-			if (answer !== undefined && answer !== null && answer !== '') {
-				summaryDetails += answer;
-
-				if (index < this.inputFields.length - 1) {
-					summaryDetails += ' ';
-				}
-			}
-		});
+			return answer ? acc + (acc ? ' ' : '') + answer : acc;
+		}, '');
 
 		return [
 			{
