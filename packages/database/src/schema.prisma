@@ -353,6 +353,7 @@ model AppealCase {
   caseDecisionPublished Boolean? @default(false)
 
   // appeal details
+  isAppellant     Boolean?
   yourFirstName   String?
   yourLastName    String?
   yourCompanyName String?
@@ -384,6 +385,8 @@ model AppealCase {
   appellantProcedurePreference  String?
   appellantPreferHearingDetails String?
   appellantPreferInquiryDetails String?
+
+  appellantLinkedCase Boolean?
 
   // questions relating to appeal documents (aapd-1126)
 

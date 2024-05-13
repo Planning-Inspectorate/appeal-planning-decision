@@ -3,7 +3,8 @@ const {
 	formatAgentDetails,
 	formatVisibility,
 	formatHealthAndSafety,
-	formatProcedure
+	formatProcedure,
+	formatLinkedAppeals
 } = require('@pins/common');
 
 /**
@@ -29,15 +30,29 @@ exports.detailsRows = (caseData) => {
 			condition: (caseData) => caseData.appellantFirstName
 		},
 		{
+			keyText: 'Phone number',
+			valueText: caseData.appellantPhoneNumber,
+			condition: (caseData) => caseData.appellantPhoneNumber
+		},
+		{
 			keyText: 'Application reference',
 			valueText: caseData.LPAApplicationReference,
 			condition: (caseData) => caseData.LPAApplicationReference
 		},
-
 		{
 			keyText: 'Site address',
 			valueText: formatAddress(caseData, '\n'),
 			condition: (caseData) => caseData.siteAddressLine1
+		},
+		{
+			keyText: 'Site area',
+			valueText: caseData.siteAreaSquareMetres,
+			condition: (caseData) => caseData.siteAreaSquareMetres
+		},
+		{
+			keyText: 'Green belt',
+			valueText: 'Yes',
+			condition: (caseData) => caseData.appellantGreenBelt
 		},
 		{
 			keyText: 'Site fully owned',
@@ -68,6 +83,16 @@ exports.detailsRows = (caseData) => {
 			keyText: 'Other owners informed',
 			valueText: 'Yes',
 			condition: (caseData) => caseData.informedOwners
+		},
+		{
+			keyText: 'Inspector access',
+			valueText: caseData.appellantSiteAccess,
+			condition: (caseData) => caseData.appellantSiteAccess
+		},
+		{
+			keyText: 'Inspector access details',
+			valueText: caseData.appellantSiteAccessDetails,
+			condition: (caseData) => caseData.appellantSiteAccessDetails
 		},
 		{
 			keyText: 'Agricultural holding',
@@ -105,36 +130,6 @@ exports.detailsRows = (caseData) => {
 			condition: (caseData) => caseData
 		},
 		{
-			keyText: 'Preferred procedure',
-			valueText: formatProcedure(caseData),
-			condition: (caseData) => caseData.appellantProcedurePreference
-		},
-		{
-			keyText: 'Phone number',
-			valueText: caseData.appellantPhoneNumber,
-			condition: (caseData) => caseData.appellantPhoneNumber
-		},
-		{
-			keyText: 'Site area',
-			valueText: caseData.siteAreaSquareMetres,
-			condition: (caseData) => caseData.siteAreaSquareMetres
-		},
-		{
-			keyText: 'Green belt',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.appellantGreenBelt
-		},
-		{
-			keyText: 'Inspector access',
-			valueText: caseData.appellantSiteAccess,
-			condition: (caseData) => caseData.appellantSiteAccess
-		},
-		{
-			keyText: 'Inspector access details',
-			valueText: caseData.appellantSiteAccessDetails,
-			condition: (caseData) => caseData.appellantSiteAccessDetails
-		},
-		{
 			keyText: 'Date of application',
 			valueText: caseData.onApplicationDate,
 			condition: (caseData) => caseData.onApplicationDate
@@ -143,12 +138,16 @@ exports.detailsRows = (caseData) => {
 			keyText: 'Description of development',
 			valueText: caseData.developmentDescriptionDetails,
 			condition: (caseData) => caseData.developmentDescriptionDetails
+		},
+		{
+			keyText: 'Preferred procedure',
+			valueText: formatProcedure(caseData),
+			condition: (caseData) => caseData.appellantProcedurePreference
+		},
+		{
+			keyText: 'Are there other appeals linked to your development',
+			valueText: formatLinkedAppeals(caseData),
+			condition: (caseData) => caseData
 		}
-
-		// {
-		// 	keyText: 'Other linked appeals',
-		// 	// valueText: formatLinkedAppeals(caseData),
-		// 	condition: (caseData) => caseData.appellantLinkedCase
-		// }
 	];
 };
