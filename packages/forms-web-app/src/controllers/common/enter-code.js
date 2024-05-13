@@ -329,7 +329,7 @@ const lpaTokenVerification = (res, token, views, id) => {
 		res.redirect(`/${views.CODE_EXPIRED}/${id}`);
 		return false;
 	} else if (!token.valid) {
-		const errorMessage = 'Enter a correct code';
+		const errorMessage = 'Enter the code';
 
 		renderErrorPageLPA(res, views.ENTER_CODE, {
 			lpaUserId: id,

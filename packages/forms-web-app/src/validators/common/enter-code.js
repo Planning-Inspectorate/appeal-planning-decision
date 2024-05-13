@@ -8,17 +8,15 @@ const ruleEnterCode = () =>
 		.withMessage('Enter the code')
 		.bail()
 		.isLength({ min: 5 })
-		.withMessage('You’ve not entered enough characters, the code must be 5 characters')
+		.withMessage('Enter the code')
 		.bail()
 		.isLength({ max: 5 })
-		.withMessage('You’ve entered too many characters, the code must be 5 characters')
+		.withMessage('Enter the code')
 		.bail()
 		.custom((value) => {
 			return !(value.match(isAlphaNumericRegEx) || value.match(isVowelOrZeroRegEx));
 		})
-		.withMessage(
-			'Code must contain numbers from 1-9 and letters from the alphabet exluding vowels'
-		);
+		.withMessage('Enter the code');
 
 const rules = () => {
 	return [ruleEnterCode()];
