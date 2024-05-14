@@ -1,3 +1,6 @@
+// NOTE - Test is commented out for time being as relies upon formatting for BO submission and
+// format not yet confirmed
+
 // const supertest = require('supertest');
 // const http = require('http');
 // const app = require('../../../../../../app');
@@ -12,43 +15,52 @@
 
 // jest.mock('../service', () => ({
 // 	/**
-// 	 * @param {string} caseReference
+// 	 * @param {{string:, string}} caseReference
 // 	 * @returns {Partial<LPAQuestionnaireSubmission> | null}
 // 	 */
-// 	getLPAQuestionnaireByAppealId: (caseReference) => {
-// 		switch (caseReference) {
+// 	get: ({appellantSubmissionId, userID}) => {
+// 		switch (appellantSubmissionId) {
 // 			case '001':
 // 				return {
-// 					correctAppealType: true,
-// 					affectsListedBuilding: true,
-// 					affectedListedBuildingNumber: '10101',
-// 					conservationArea: true,
-// 					greenBelt: true,
-// 					otherPartyRepresentations: true,
-// 					lpaSiteSafetyRisks: 'yes',
-// 					lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails: "oh it's bad",
-// 					lpaSiteAccess: 'yes',
-// 					neighbourSiteAccess: 'yes',
-// 					newConditions: 'yes',
-// 					newConditions_newConditionDetails: 'I have new conditions',
-// 					nearbyAppealReference: '002',
-// 					displaySiteNotice: true,
-// 					lettersToNeighbours: true,
-// 					pressAdvert: true,
-// 					AppealCase: {
-// 						LPACode: 'LPA_001',
-// 						appealTypeCode: 'HAS'
-// 					},
-// 					SubmissionAddress: [
-// 						{
-// 							id: 'add_001',
-// 							questionnaireId: '001',
-// 							addressLine1: 'Somewhere',
-// 							addressLine2: 'Somewhere St',
-// 							townCity: 'Somewhereville',
-// 							postcode: 'SOM3 W3R'
-// 						}
-// 					],
+// 					LPACode: 'LPA_001',
+// 					appealTypeCode: 'HAS',
+// 					applicationDecisionDate: '2024-01-01',
+// 					applicationDecision: 'denied',
+// 					onApplicationDate: '2024-01-01',
+// 					isAppellant: true,
+// 					// appellantFirstName:   String?
+// 					// appellantLastName:    String?
+// 					// appellantCompanyName: String?
+// 					contactFirstName: 'Testy',
+// 					contactLastName: 'McTest',
+// 					// contactCompanyName:   String?
+// 					ownsAllLand: true,
+// 					// ownsSomeLand:                 Boolean?
+// 					// knowsAllOwners:               String?
+// 					// knowsOtherOwners:             String?
+// 					// informedOwners:               Boolean?
+// 					// advertisedAppeal:             Boolean?
+// 					appellantGreenBelt: false,
+// 					updateDevelopmentDescription: false,
+// 					// identifiedOwners:             Boolean?
+// 					costApplication: false,
+// 					appellantSiteSafety: 'yes',
+// 					appellantSiteSafety_appellantSiteSafetyDetails: "It's dangerous",
+// 					appellantSiteAccess: 'yes',
+// 					appellantSiteAccess_appellantSiteAccessDetails: "Come and see",
+// 					applicationReference: '123',
+// 					developmentDescriptionOriginal: 'A test description',
+// 					appellantLinkedCaseReference: 'no',
+// 					appellantPhoneNumber: '12345657',
+// 					siteAreaSquareMetres: 22.0,
+// 					appellantLinkedCaseAdd: false,
+// 					appellantLinkedCase: false,
+// 					SubmissionLinkedCase:[],
+// 					uploadOriginalApplicationForm: true,
+// 					uploadApplicationDecisionLetter: false,
+// 					uploadAppellantStatement: false,
+// 					uploadCostApplication: false,
+// 					uploadChangeOfDescriptionEvidence: false,
 // 					SubmissionDocumentUpload: [
 // 						{
 // 							id: 'img_001',
@@ -59,7 +71,19 @@
 // 							location: '/img.jpg',
 // 							type: 'jpg'
 // 						}
-// 					]
+// 					],
+// 					siteAddress: true,
+// 					SubmissionAddress: [
+// 						{
+// 							id: 'add_001',
+// 							questionnaireId: '001',
+// 							addressLine1: 'Somewhere',
+// 							addressLine2: 'Somewhere St',
+// 							townCity: 'Somewhereville',
+// 							postcode: 'SOM3 W3R'
+// 						}
+// 					],
+// 					SubmissionListedBuilding: []
 // 				};
 // 			case '002':
 // 				return {
@@ -138,7 +162,7 @@
 
 // jest.mock('../../../../../../../src/services/object-store');
 
-// const formattedHAS = {
+// const formattedHAS1 = {
 // 	LPACode: 'LPA_001',
 // 	caseReference: '001',
 // 	documents: [
@@ -195,70 +219,13 @@
 // 	}
 // };
 
-// const formattedS78 = {
-// 	LPACode: 'LPA_001',
-// 	caseReference: '002',
-// 	documents: [
-// 		{
-// 			dateCreated: '2024-03-01T13:48:35.847Z',
-// 			documentType: undefined,
-// 			documentURI: 'https://example.com',
-// 			filename: 'img.jpg',
-// 			lastModified: '2024-03-01T14:48:35.847Z',
-// 			mime: 'image/jpeg',
-// 			origin: 'citizen',
-// 			originalFilename: 'oimg.jpg',
-// 			size: 10293,
-// 			sourceSystem: 'appeals',
-// 			stage: 'lpa_questionnaire'
-// 		}
-// 	],
-// 	questionnaire: {
-// 		addChangedListedBuilding: true,
-// 		areaOutstandingBeauty: true,
-// 		changedListedBuildingNumber: 10101,
-// 		changesListedBuilding: true,
-// 		columnTwoThreshold: true,
-// 		completedEnvironmentalStatement: true,
-// 		consultationResponses: true,
-// 		consultedBodiesDetails: 'consultation details',
-// 		designatedSites: 'yes',
-// 		developmentDescription: '',
-// 		emergingPlan: true,
-// 		environmentalImpactSchedule: '',
-// 		gypsyTraveller: true,
-// 		infrastructureLevy: false,
-// 		infrastructureLevyAdopted: false,
-// 		infrastructureLevyAdoptedDate: null,
-// 		infrastructureLevyExpectedDate: null,
-// 		lpaFinalComment: null,
-// 		lpaFinalCommentDetails: null,
-// 		lpaPreferHearingDetails: 'Hearing details',
-// 		lpaPreferInquiryDetails: 'Inquiry details',
-// 		lpaPreferInquiryDuration: 'Very long',
-// 		lpaProcedurePreference: 'Hearing',
-// 		lpaWitnesses: null,
-// 		otherDesignationDetails: 'other designations',
-// 		protectedSpecies: false,
-// 		publicRightOfWay: true,
-// 		requiresEnvironmentalStatement: true,
-// 		scheduledMonument: true,
-// 		screeningOpinion: false,
-// 		sensitiveArea: true,
-// 		sensitiveAreaDetails: 'Sensitive area details',
-// 		statutoryConsultees: false,
-// 		supplementaryPlanningDocs: true,
-// 		treePreservationOrder: false
-// 	}
-// };
-
 // describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 // 	it.each([
-// 		['HAS', '001', formattedHAS],
-// 		['S78', '002', formattedS78]
-// 	])('Formats %s questionnaires then sends it to back office', async (_, id, expectation) => {
+// 		['HAS', '001', formattedHAS1],
+// 		['HAS', '002', formattedHAS2]
+// 	])('Formats %s appeal submission then sends it to back office', async (_, id, expectation) => {
 // 		await appealsApi
-// 			.post(`/api/v2/appeal-cases/${id}/lpa-questionnaire-submission/submit`)
+// 			.post(`/api/v2/appellant-submissions/${id}/submit`)
 // 			.expect(200);
 
 // 		expect(sendEvents).toHaveBeenCalledWith(
@@ -268,9 +235,9 @@
 // 		);
 // 	});
 
-// 	it('404s if the questionnaire can not be found', () => {
+// 	it('404s if the appeal submission can not be found', () => {
 // 		appealsApi
-// 			.post('/api/v2/appeal-cases/003/lpa-questionnaire-submission/submit')
+// 			.post('/api/v2/appellant-submissions/003/submit')
 // 			.expect(404)
 // 			.end(() => {});
 // 	});

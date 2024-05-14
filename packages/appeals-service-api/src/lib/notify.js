@@ -91,7 +91,7 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (appellantSubmission)
 		await NotifyBuilder.reset()
 			.setTemplateId(
 				templates[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]]
-					.appealSubmissionConfirmationEmailToAppellant
+					.appealSubmissionConfirmationEmailToAppellantV2
 			)
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
