@@ -31,33 +31,6 @@ const isValidAppealTypeCode = (maybeTypeCode) =>
 class BackOfficeV2Service {
 	constructor() {}
 
-	// /**
-	//  * @param {string} appellantSubmissionId
-	//  * @param {string} userId
-	//  * @returns {Promise<Array<*> | void>}
-	//  */
-	// async submitAppeal(appellantSubmissionId, userId) {
-	// 	const appeal = await get({
-	// 		appellantSubmissionId,
-	// 		userId
-	// 	});
-
-	// 	if (!appeal) throw new Error(`Appeal ${appellantSubmissionId} not found`);
-
-	// 	const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION);
-	// 	if (!isBOIntegrationActive) return;
-
-	// 	if (!appeal.appealTypeCode)
-	// 		throw new Error(`Appeal type could not be determined on appeal ${appellantSubmissionId}`);
-
-	// 	const result = await forwarders.appeal(formatters.appeal[appeal.appealTypeCode](appeal));
-
-	// 	await markAppealAsSubmitted(appeal.id);
-
-	// 	return result;
-
-	// }
-
 	/**
 	 * @param { {appellantSubmissionId: string, userId: string} } params
 	 * @returns {Promise<Array<*> | void>}

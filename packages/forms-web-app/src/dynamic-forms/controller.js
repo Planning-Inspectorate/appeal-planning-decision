@@ -251,7 +251,7 @@ exports.submit = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
-exports.appellantSubmit = async (req, res) => {
+exports.submitAppellantSubmission = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
 	const id = res.locals.journeyResponse.referenceId;
