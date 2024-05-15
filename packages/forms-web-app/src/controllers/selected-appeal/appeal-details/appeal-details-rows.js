@@ -4,7 +4,8 @@ const {
 	formatVisibility,
 	formatHealthAndSafety,
 	formatProcedure,
-	formatLinkedAppeals
+	formatLinkedAppeals,
+	formatYesOrNo
 } = require('@pins/common');
 
 /**
@@ -20,14 +21,19 @@ const {
 exports.detailsRows = (caseData) => {
 	return [
 		{
-			keyText: 'Agent name',
-			valueText: formatAgentDetails(caseData),
-			condition: (caseData) => caseData.yourFirstName
+			keyText: 'Was the application made in your name?',
+			valueText: formatYesOrNo(caseData, 'isAppellant'),
+			condition: () => true
 		},
 		{
-			keyText: 'Named on the application',
+			keyText: 'Agent name',
+			valueText: formatAgentDetails(caseData),
+			condition: (caseData) => !caseData.isAppellant
+		},
+		{
+			keyText: 'Contact details',
 			valueText: `${caseData.appellantFirstName} ${caseData.appellantLastName}`,
-			condition: (caseData) => caseData.appellantFirstName
+			condition: () => true
 		},
 		{
 			keyText: 'Phone number',
@@ -35,22 +41,17 @@ exports.detailsRows = (caseData) => {
 			condition: (caseData) => caseData.appellantPhoneNumber
 		},
 		{
-			keyText: 'Application reference',
-			valueText: caseData.LPAApplicationReference,
-			condition: (caseData) => caseData.LPAApplicationReference
-		},
-		{
 			keyText: 'Site address',
 			valueText: formatAddress(caseData, '\n'),
 			condition: (caseData) => caseData.siteAddressLine1
 		},
 		{
-			keyText: 'Site area',
-			valueText: caseData.siteAreaSquareMetres,
-			condition: (caseData) => caseData.siteAreaSquareMetres
+			keyText: 'What is the area of the appeal site?',
+			valueText: `${caseData.siteAreaSquareMeters}m<sup>2</sup>`,
+			condition: (caseData) => caseData.siteAreaSquareMeters
 		},
 		{
-			keyText: 'Green belt',
+			keyText: 'Is the site in a green belt',
 			valueText: 'Yes',
 			condition: (caseData) => caseData.appellantGreenBelt
 		},
@@ -85,14 +86,9 @@ exports.detailsRows = (caseData) => {
 			condition: (caseData) => caseData.informedOwners
 		},
 		{
-			keyText: 'Inspector access',
+			keyText: 'Will an inspector need to access your land or property?',
 			valueText: caseData.appellantSiteAccess,
 			condition: (caseData) => caseData.appellantSiteAccess
-		},
-		{
-			keyText: 'Inspector access details',
-			valueText: caseData.appellantSiteAccessDetails,
-			condition: (caseData) => caseData.appellantSiteAccessDetails
 		},
 		{
 			keyText: 'Agricultural holding',
@@ -130,12 +126,22 @@ exports.detailsRows = (caseData) => {
 			condition: (caseData) => caseData
 		},
 		{
-			keyText: 'Date of application',
+			keyText: 'Application reference',
+			valueText: caseData.LPAApplicationReference,
+			condition: (caseData) => caseData.LPAApplicationReference
+		},
+		{
+			keyText: 'What date did you submit your planning application?',
 			valueText: caseData.onApplicationDate,
 			condition: (caseData) => caseData.onApplicationDate
 		},
 		{
-			keyText: 'Description of development',
+			keyText: 'Enter the description of development',
+			valueText: caseData.developmentDescriptionDetails,
+			condition: (caseData) => caseData.developmentDescriptionDetails
+		},
+		{
+			keyText: 'Did the local planning authority change the description of development?',
 			valueText: caseData.developmentDescriptionDetails,
 			condition: (caseData) => caseData.developmentDescriptionDetails
 		},
@@ -145,7 +151,7 @@ exports.detailsRows = (caseData) => {
 			condition: (caseData) => caseData.appellantProcedurePreference
 		},
 		{
-			keyText: 'Are there other appeals linked to your development',
+			keyText: 'Are there other appeals linked to your development?',
 			valueText: formatLinkedAppeals(caseData),
 			condition: (caseData) => caseData
 		}
