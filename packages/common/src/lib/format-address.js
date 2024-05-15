@@ -107,10 +107,22 @@ function isAppealSubmission(caseOrSubmission) {
 	return Object.hasOwn(caseOrSubmission, 'appeal');
 }
 
+/**
+ * @param {AppealSubmission | AppealCaseWithAppellant} caseOrSubmission
+ * @returns {boolean}
+ */
+function isV2Submission(caseOrSubmission) {
+	if (caseOrSubmission?.AppellantSubmission?.submitted === false) {
+		return true;
+	}
+	return false;
+}
+
 module.exports = {
 	formatAddress,
 	formatAddressWithBreaks,
 	formatNeibouringAddressWithBreaks,
 	formatSubmissionAddress,
-	isAppealSubmission
+	isAppealSubmission,
+	isV2Submission
 };
