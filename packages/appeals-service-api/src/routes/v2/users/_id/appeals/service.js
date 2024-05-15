@@ -24,7 +24,7 @@ async function getAppealsForUser(userId) {
 		return null;
 	}
 
-	// find draft submissions
+	// find v1 draft submissions
 	const draftSubmissionIds = user.Appeals.filter(
 		(appealToUser) =>
 			appealToUser.Appeal?.legacyAppealSubmissionId &&
@@ -33,6 +33,13 @@ async function getAppealsForUser(userId) {
 		.map((appealToUser) => appealToUser.Appeal?.legacyAppealSubmissionId)
 		.filter(filterNotNull);
 
+	// find v2 draft submissions
+	const v2Drafts = user.Appeals.filter(
+		(appealToUser) =>
+			appealToUser.Appeal?.AppellantSubmission?.submitted === false &&
+			appealToUser.Appeal?.AppealCase === null
+	).map((appealToUser) => appealToUser.Appeal);
+	console.log('Inside', v2Drafts);
 	// find appeal cases
 	const cases = user.Appeals.map((appealToUser) => appealToUser.Appeal?.AppealCase).filter(
 		filterNotNull
@@ -46,6 +53,7 @@ async function getAppealsForUser(userId) {
 	// return all cases + drafts
 	return [
 		...cases,
+		...v2Drafts,
 		// any drafts that aren't found in cosmos will be null, filter those outs
 		...draftSubmissions.filter(filterNotNull)
 	];

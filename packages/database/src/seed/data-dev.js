@@ -107,7 +107,8 @@ const appealIds = {
 	appealFive: '756d6bfb-dde8-4532-a041-86c226a23a05',
 	appealSix: '756d6bfb-dde8-4532-a041-86c226a23a06',
 	appealSeven: '756d6bfb-dde8-4532-a041-86c226a23a07',
-	appealEight: '756d6bfb-dde8-4532-a041-86c226a23a08'
+	appealEight: '756d6bfb-dde8-4532-a041-86c226a23a08',
+	appealNine: 'd8290e68-bfbb-3bc8-b621-5a9590aa29fd'
 };
 
 const caseReferences = {
@@ -231,6 +232,7 @@ const appeals = [
 	{ id: appealIds.appealSix },
 	{ id: appealIds.appealSeven },
 	{ id: appealIds.appealEight },
+	{ id: appealIds.appealNine },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -539,6 +541,11 @@ const appealToUsers = [
 		userId: appellants.appellantOne.id,
 		role: APPEAL_USER_ROLES.APPELLANT
 	},
+	{
+		appealId: appealIds.appealNine,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
 	...linkedLpaAppeals,
 	// rule 6 party links
 	{
@@ -718,6 +725,15 @@ const appellantSubmissions = [
 		appealTypeCode: 'HAS',
 		Appeal: {
 			connect: { id: appealIds.appealOne }
+		}
+	},
+	{
+		id: '13da68dd-6c0c-591f-a183-3fadbbb30c37',
+		LPACode: 'Q9999',
+		appealTypeCode: 'HAS',
+		applicationDecisionDate: new Date(),
+		Appeal: {
+			connect: { id: appealIds.appealNine }
 		}
 	}
 ];
