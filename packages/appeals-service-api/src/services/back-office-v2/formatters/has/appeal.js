@@ -34,7 +34,7 @@ exports.formatter = async (appellantSubmission) => {
 				appealType: 'Householder (HAS) Appeal',
 				isListedBuilding: false,
 				decision: appellantSubmission.applicationDecision,
-				originalCaseDecisionDate: appellantSubmission.applicationDecisionDate.toISOString(),
+				// originalCaseDecisionDate: appellantSubmission.applicationDecisionDate.toISOString(),
 				costsAppliedForIndicator: appellantSubmission.costApplication,
 				LPAApplicationReference: appellantSubmission.applicationReference,
 				appellant: {
