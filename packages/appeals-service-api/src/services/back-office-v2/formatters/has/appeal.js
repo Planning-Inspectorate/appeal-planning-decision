@@ -22,9 +22,9 @@ exports.formatter = async (appellantSubmission) => {
 		throw ApiError.lpaNotFound();
 	}
 
-	const address = appellantSubmission.SubmissionAddress?.find(
-		(address) => address.fieldName === 'siteAddress'
-	);
+	// const address = appellantSubmission.SubmissionAddress?.find(
+	// 	(address) => address.fieldName === 'siteAddress'
+	// );
 
 	return [
 		{
@@ -53,11 +53,11 @@ exports.formatter = async (appellantSubmission) => {
 							emailAddress: appellantSubmission.appellantEmailAddress
 					  }
 					: undefined,
-				siteAddressLine1: address.addressLine1,
-				siteAddressLine2: address.addressLine2,
-				siteAddressTown: address.town,
-				siteAddressCounty: address.county,
-				siteAddressPostcode: address.postcode,
+				// siteAddressLine1: address.addressLine1,
+				// siteAddressLine2: address.addressLine2,
+				// siteAddressTown: address.town,
+				// siteAddressCounty: address.county,
+				// siteAddressPostcode: address.postcode,
 				isSiteFullyOwned: appellantSubmission.ownsAllLand,
 				hasToldOwners: !appellantSubmission.ownsAllLand
 					? appellantSubmission.informedOwners
