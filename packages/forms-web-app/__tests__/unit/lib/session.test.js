@@ -31,7 +31,7 @@ describe('lib/session', () => {
 			httpOnly: true
 		});
 		expect(configuredSession.resave).toEqual(false);
-		expect(configuredSession.saveUninitialized).toEqual(true);
+		expect(configuredSession.saveUninitialized).toEqual(false);
 		expect(configuredSession.secret).toEqual(config.server.sessionSecret);
 		expect(configuredSession.store.on).toBeDefined();
 
@@ -47,7 +47,7 @@ describe('lib/session', () => {
 
 		expect(configuredSession.cookie.secure).toEqual(true);
 		expect(configuredSession.resave).toEqual(false);
-		expect(configuredSession.saveUninitialized).toEqual(true);
+		expect(configuredSession.saveUninitialized).toEqual(false);
 		expect(configuredSession.secret).toEqual(config.server.sessionSecret);
 		expect(configuredSession.store.on).toBeDefined();
 		expect(configuredSession.store.on).toHaveBeenCalledWith('error', expect.any(Function));

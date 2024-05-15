@@ -18,7 +18,10 @@ module.exports =
 			...options
 		};
 
-		if (Object.keys(req.session).length === 1 && Object.hasOwn(req.session, 'cookie')) {
+		if (
+			!req.session ||
+			(Object.keys(req.session).length === 1 && Object.hasOwn(req.session, 'cookie'))
+		) {
 			next();
 			return;
 		}
