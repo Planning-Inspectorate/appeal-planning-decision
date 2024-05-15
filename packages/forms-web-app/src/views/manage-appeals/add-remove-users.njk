@@ -52,7 +52,7 @@
                 {{item.email}}
               </dt>
               <dd class="govuk-summary-list__actions">
-                {% if not item.isAdmin %}
+                {% if not item.isLpaAdmin %}
                   <a href="{{removeUserLink}}/{{item.id}}">
                     Remove<span class="govuk-visually-hidden"> {{item.email}}</span>
                   </a>

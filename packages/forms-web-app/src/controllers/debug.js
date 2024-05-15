@@ -17,7 +17,7 @@ const setCommentDeadline = async (req, res) => {
 };
 
 const createHASAppeal = async (req, res) => {
-	const data = await req.appealsApiClient.createAppellantSubmission({
+	const data = await req.appealsApiClient.createDebugAppellantSubmission({
 		LPACode: 'Q9999',
 		appealTypeCode: 'HAS'
 	});

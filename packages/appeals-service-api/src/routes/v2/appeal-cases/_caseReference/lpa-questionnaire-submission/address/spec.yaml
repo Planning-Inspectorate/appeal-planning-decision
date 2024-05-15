@@ -1,0 +1,75 @@
+paths:
+  /api/v2/appeal-cases/{caseReference}/lpa-questionnaire-submission/address/:
+    post:
+      tags:
+        - lpa submissions
+      description: Add an address to the questionnaire submitted by the LPA
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          description: appeal case reference
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmissionAddress'
+      responses:
+        200:
+          description: Returns the updated questionnaire
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPAQuestionnaireSubmission'
+        404:
+          description: Unable to find case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        400:
+          description: Unable to create address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appeal-cases/{caseReference}/lpa-questionnaire-submission/address/{addressId}:
+    delete:
+      tags:
+        - lpa submissions
+      description: delete an address from the questionnaire submitted by the LPA
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          description: appeal case reference
+        - in: path
+          name: addressId
+          required: true
+          schema:
+            type: string
+          description: address reference
+      responses:
+        200:
+          description: Returns the updated questionnaire
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPAQuestionnaireSubmission'
+        404:
+          description: Unable to find address to delete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        400:
+          description: Unable to delete address
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

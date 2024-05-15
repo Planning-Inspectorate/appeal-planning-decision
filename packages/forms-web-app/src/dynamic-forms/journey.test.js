@@ -30,8 +30,24 @@ const mockSections = [
 ];
 
 class TestJourney extends Journey {
-	constructor(baseUrl, response, journeyTemplate, listingPageViewPath, journeyTitle) {
-		super(baseUrl, response, journeyTemplate, listingPageViewPath, journeyTitle);
+	constructor(
+		baseUrl,
+		taskListUrl,
+		response,
+		journeyTemplate,
+		listingPageViewPath,
+		journeyTitle,
+		returnToListing
+	) {
+		super({
+			baseUrl,
+			taskListUrl,
+			response,
+			journeyTemplate,
+			listingPageViewPath,
+			journeyTitle,
+			returnToListing
+		});
 	}
 }
 
@@ -42,6 +58,7 @@ describe('Journey class', () => {
 		jest.resetAllMocks();
 		constructorArgs = {
 			baseUrl: 'base',
+			taskListUrl: 'task-list',
 			response: {
 				answers: {}
 			},
@@ -53,7 +70,7 @@ describe('Journey class', () => {
 
 	describe('constructor', () => {
 		it('should not be possible to instantiate the base class', () => {
-			expect(() => new Journey()).toThrow("Abstract classes can't be instantiated.");
+			expect(() => new Journey({})).toThrow("Abstract classes can't be instantiated.");
 		});
 
 		it('should throw if no arguments passed into constructor', () => {
@@ -84,6 +101,12 @@ describe('Journey class', () => {
 			const journey = new TestJourney(...Object.values(constructorArgs));
 
 			expect(journey.baseUrl).toBe('/abc');
+		});
+
+		it('should set taskListUrl', () => {
+			const journey = new TestJourney(...Object.values(constructorArgs));
+
+			expect(journey.taskListUrl).toBe(constructorArgs.baseUrl + '/' + constructorArgs.taskListUrl);
 		});
 
 		it('should set journeyTemplate', () => {
@@ -154,6 +177,26 @@ describe('Journey class', () => {
 				'journeyTitle should be a string.'
 			);
 		});
+
+		it('should set returnToListing - true', () => {
+			constructorArgs.returnToListing = true;
+			const journey = new TestJourney(...Object.values(constructorArgs));
+
+			expect(journey.returnToListing).toBe(true);
+		});
+
+		it('should set returnToListing - false', () => {
+			constructorArgs.returnToListing = false;
+			const journey = new TestJourney(...Object.values(constructorArgs));
+
+			expect(journey.returnToListing).toBe(false);
+		});
+
+		it('should handle returnToListing not defined', () => {
+			const journey = new TestJourney(...Object.values(constructorArgs));
+
+			expect(journey.returnToListing).toBe(false);
+		});
 	});
 
 	describe('getSection', () => {
@@ -221,7 +264,7 @@ describe('Journey class', () => {
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
 
-				expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
+				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
 		);
 
@@ -237,7 +280,7 @@ describe('Journey class', () => {
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
 
-				expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
+				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
 		);
 
@@ -344,7 +387,7 @@ describe('Journey class', () => {
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
-				expect(nextQuestionUrl).toBe(`${constructorArgs.baseUrl}`);
+				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
 		);
 
@@ -380,7 +423,7 @@ describe('Journey class', () => {
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
 
-				expect(nextQuestionUrl).toBe(`${constructorArgs.baseUrl}`);
+				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
 		);
 
@@ -395,7 +438,7 @@ describe('Journey class', () => {
 				journey.returnToListing = true;
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
-				expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
+				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
 		);
 
@@ -411,7 +454,7 @@ describe('Journey class', () => {
 
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
 
-				expect(nextQuestionUrl).toBe(constructorArgs.baseUrl);
+				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
 		);
 
@@ -452,7 +495,7 @@ describe('Journey class', () => {
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
-			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}`);
+			expect(currentQuestionUrl).toBe(journey.taskListUrl);
 		});
 
 		it('should return the current question URL using url slug if set', () => {
@@ -574,7 +617,7 @@ describe('Journey class', () => {
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
 
-			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}`);
+			expect(currentQuestionUrl).toBe(journey.taskListUrl);
 		});
 
 		it('should return the current question URL using url slug if set', () => {

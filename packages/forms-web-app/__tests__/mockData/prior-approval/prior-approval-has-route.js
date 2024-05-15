@@ -218,7 +218,9 @@ const appeal = {
 
 		applicationDecision: 'refused',
 
-		isListedBuilding: false
+		isListedBuilding: false,
+
+		isClaimingCosts: false
 	},
 
 	typeOfPlanningApplication: 'prior-approval',

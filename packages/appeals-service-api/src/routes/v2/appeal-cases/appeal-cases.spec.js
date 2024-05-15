@@ -24,7 +24,7 @@ jest.setTimeout(10000);
 let appealCaseIds = [];
 
 const now = new Date();
-let caseRef = 1000000;
+let caseRef = 5555555;
 
 /**
  *
@@ -53,19 +53,19 @@ function appealCase(lpaCode, postCode, casePublished = true) {
 		casePublished
 	};
 }
-const postCodes = ['BS1 6PM', 'BS1 6PN', 'BS1 6PO', 'BS1 6PP'];
+const postCodes = ['BS1 6PM', 'BS1 6AA', 'BS1 6PO', 'BS1 6PP'];
 const LPAs = ['LPA1', 'LPA1a', 'LPA2', 'LPA2a', 'LPA3', 'LPA3a'];
 
 /** @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]} */
 const publishedTestCases = [
 	appealCase('LPA1', 'BS1 6PM'),
-	appealCase('LPA1', 'BS1 6PN'),
+	appealCase('LPA1', 'BS1 6AA'),
 	appealCase('LPA1', 'BS1 6PO'),
 	appealCase('LPA1a', 'BS1 6PP'),
 	appealCase('LPA1', 'BS1 6PP'),
 	appealCase('LPA2', 'BS1 6PM'),
-	appealCase('LPA2a', 'BS1 6PN'),
-	appealCase('LPA2', 'BS1 6PN'),
+	appealCase('LPA2a', 'BS1 6AA'),
+	appealCase('LPA2', 'BS1 6AA'),
 	appealCase('LPA3', 'BS1 6PO'),
 	appealCase('LPA3a', 'BS1 6PO')
 ];
@@ -73,13 +73,13 @@ const publishedTestCases = [
 /** @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]} */
 const notPublishedCases = [
 	appealCase('LPA1', 'BS1 6PM', false),
-	appealCase('LPA1', 'BS1 6PN', false),
+	appealCase('LPA1', 'BS1 6AA', false),
 	appealCase('LPA1', 'BS1 6PO', false),
 	appealCase('LPA1a', 'BS1 6PP', false),
 	appealCase('LPA1', 'BS1 6PP', false),
 	appealCase('LPA2', 'BS1 6PM', false),
-	appealCase('LPA2a', 'BS1 6PN', false),
-	appealCase('LPA2', 'BS1 6PN', false),
+	appealCase('LPA2a', 'BS1 6AA', false),
+	appealCase('LPA2', 'BS1 6AA', false),
 	appealCase('LPA3', 'BS1 6PO', false),
 	appealCase('LPA3a', 'BS1 6PO', false)
 ];
@@ -114,7 +114,6 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-	// clear sql db
 	await _clearSqlData();
 	await sqlClient.$disconnect();
 });

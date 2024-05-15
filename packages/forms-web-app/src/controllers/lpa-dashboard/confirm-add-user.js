@@ -1,5 +1,5 @@
 const { apiClient } = require('../../lib/appeals-api-client');
-const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { getUserFromSession } = require('../../services/user.service');
 const {
 	VIEW: {
 		LPA_DASHBOARD: { CONFIRM_ADD_USER, ADD_REMOVE_USERS }
@@ -14,7 +14,7 @@ const getConfirmAddUser = async (req, res) => {
 };
 
 const postConfirmAddUser = async (req, res) => {
-	const user = getLPAUserFromSession(req);
+	const user = getUserFromSession(req);
 
 	try {
 		await apiClient.createUser({

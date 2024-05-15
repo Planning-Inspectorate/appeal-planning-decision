@@ -197,7 +197,7 @@
               text: "Address of the appeal site"
             },
             value: {
-              text: summaryField(appeal | appealSiteAddressToArray | join("\n") | nl2br | safe, { 'data-cy': "site-location" })
+              text: summaryField(appeal | appealSiteAddressToArray | join("\n") | escape | nl2br | safe, { 'data-cy': "site-location" })
             },
             actions: {
               items: [

@@ -44,7 +44,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 				Promise.resolve({
 					id: '64c789bf8672ef00122fe30c',
 					email: 'admin1@planninginspectorate.gov.uk',
-					isAdmin: true,
+					isLpaAdmin: true,
 					status: 'confirmed',
 					lpaCode: 'Q9999'
 				})

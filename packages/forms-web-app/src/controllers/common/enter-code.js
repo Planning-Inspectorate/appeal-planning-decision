@@ -4,8 +4,8 @@ const {
 	createLPAUserSession,
 	getLPAUserStatus,
 	setLPAUserStatus
-} = require('../../services/lpa-user.service');
-const { createAppealUserSession } = require('../../services/appeal-user.service');
+} = require('../../services/user.service');
+const { createAppealUserSession } = require('../../services/user.service');
 const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('#lib/logger');
@@ -210,7 +210,8 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 				req,
 				tokenValid.access_token,
 				tokenValid.id_token,
-				tokenValid.access_token_expiry
+				tokenValid.access_token_expiry,
+				sessionEmail
 			);
 		}
 
@@ -328,7 +329,7 @@ const lpaTokenVerification = (res, token, views, id) => {
 		res.redirect(`/${views.CODE_EXPIRED}/${id}`);
 		return false;
 	} else if (!token.valid) {
-		const errorMessage = 'Enter a correct code';
+		const errorMessage = 'Enter the code';
 
 		renderErrorPageLPA(res, views.ENTER_CODE, {
 			lpaUserId: id,

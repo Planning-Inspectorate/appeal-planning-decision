@@ -6,10 +6,12 @@ const { createPrismaClient } = require('#db-client');
 
 /**
  * @typedef {Object} AddressData
+ * @property {string} [id]
  * @property {string} addressLine1
  * @property {string} addressLine2
  * @property {string} townCity
  * @property {string} postcode
+ * @property {string} county
  * @property {string} fieldName
  */
 
@@ -28,7 +30,39 @@ class SubmissionAddressRepository {
 	 * @returns {Promise<LPAQuestionnaireSubmission>}
 	 */
 	async createAddress(caseReference, addressData) {
-		const { addressLine1, addressLine2, townCity, postcode, fieldName } = addressData;
+		const { addressLine1, addressLine2, townCity, postcode, county, fieldName, id } = addressData;
+
+		if (id) {
+			const exisitingAddress = await this.dbClient.submissionAddress.findUniqueOrThrow({
+				where: { id: id }
+			});
+
+			return await this.dbClient.lPAQuestionnaireSubmission.update({
+				where: {
+					appealCaseReference: caseReference
+				},
+				data: {
+					SubmissionAddress: {
+						update: {
+							where: { id: exisitingAddress.id },
+							data: {
+								addressLine1,
+								addressLine2,
+								townCity,
+								postcode,
+								county,
+								fieldName
+							}
+						}
+					}
+				},
+				include: {
+					SubmissionDocumentUpload: true,
+					SubmissionAddress: true,
+					SubmissionLinkedCase: true
+				}
+			});
+		}
 
 		return await this.dbClient.lPAQuestionnaireSubmission.update({
 			where: {
@@ -41,6 +75,7 @@ class SubmissionAddressRepository {
 						addressLine2,
 						townCity,
 						postcode,
+						county,
 						fieldName
 					}
 				}

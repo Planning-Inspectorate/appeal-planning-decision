@@ -1,4 +1,4 @@
-const { getAppealUserSession } = require('../services/appeal-user.service');
+const { getUserFromSession } = require('../services/user.service');
 const { isFeatureActive } = require('../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const {
@@ -20,7 +20,7 @@ const checkLoggedIn = async (req, res, next) => {
 		return next();
 	}
 
-	const user = getAppealUserSession(req);
+	const user = getUserFromSession(req);
 
 	if (user && user?.expiry.getTime() > Date.now()) {
 		return next();

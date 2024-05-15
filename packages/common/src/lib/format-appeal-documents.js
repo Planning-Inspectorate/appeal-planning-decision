@@ -4,7 +4,7 @@
 exports.formatAgentDetails = (caseData) => {
 	const agentName = `${caseData.yourFirstName} ${caseData.yourLastName}`;
 
-	return agentName + (caseData.yourCompanyName && `<br>${caseData.yourCompanyName}`);
+	return agentName + (caseData.yourCompanyName ? `\n${caseData.yourCompanyName}` : '');
 };
 
 /**
@@ -15,7 +15,7 @@ exports.formatVisibility = (caseData) => {
 
 	return (
 		visibility +
-		(caseData.appellantSiteAccessDetails && `<br>${caseData.appellantSiteAccessDetails}`)
+		(caseData.appellantSiteAccessDetails ? `\n${caseData.appellantSiteAccessDetails}` : '')
 	);
 };
 
@@ -27,7 +27,7 @@ exports.formatHealthAndSafety = (caseData) => {
 
 	return (
 		safetyIssues +
-		(caseData.appellantSiteSafetyDetails && `<br>${caseData.appellantSiteSafetyDetails}`)
+		(caseData.appellantSiteSafetyDetails ? `\n${caseData.appellantSiteSafetyDetails}` : '')
 	);
 };
 
@@ -36,12 +36,12 @@ exports.formatHealthAndSafety = (caseData) => {
  */
 exports.formatProcedure = (caseData) => {
 	const possibleProcedures = [
-		caseData.appellantProcedurePreference,
-		caseData.appellantPreferHearingDetails,
-		caseData.appellantPreferInquiryDetails
+		caseData.appellantProcedurePreference ?? '',
+		caseData.appellantPreferHearingDetails ?? '',
+		caseData.appellantPreferInquiryDetails ?? ''
 	];
 
-	const valueText = possibleProcedures.filter(Boolean).join('<br>');
+	const valueText = possibleProcedures.filter(Boolean).join('\n');
 
 	return valueText;
 };

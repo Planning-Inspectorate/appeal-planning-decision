@@ -49,7 +49,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 		const identifier = answer.reference;
 		const grade = answer.listedBuildingGrade;
 		const address = answer.name;
-		return [identifier, grade, address].join('<br>');
+		return [identifier, grade, address].join('\n');
 	}
 
 	/**

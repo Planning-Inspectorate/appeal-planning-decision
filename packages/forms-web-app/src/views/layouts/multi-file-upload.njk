@@ -68,7 +68,7 @@
       {% block optional_html %}
       {% endblock optional_html %}
       <form action="" method="post" novalidate enctype="multipart/form-data">
-<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
 
         {{ mojMultiFileUpload({
           uploadedFiles: {

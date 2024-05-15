@@ -19,6 +19,11 @@ describe('HAS Journey class', () => {
 			expect(journey.baseUrl).toEqual(expect.stringContaining(mockResponse.referenceId));
 		});
 
+		it('should set taskListUrl', () => {
+			const journey = new HasJourney(mockResponse);
+			expect(journey.taskListUrl).toEqual('/manage-appeals/questionnaire/123');
+		});
+
 		it('should set template', () => {
 			const journey = new HasJourney(mockResponse);
 			expect(journey.journeyTemplate).toBe('questionnaire-template.njk');

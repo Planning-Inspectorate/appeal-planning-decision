@@ -36,9 +36,9 @@ describe('Address Formatting:', () => {
 				siteAddressPostcode: 'TS1 1TS'
 			};
 
-			const expectedResult = 'Test Line 1<br>Test Line 2<br>Test Town<br>TS1 1TS';
+			const expectedResult = 'Test Line 1\nTest Line 2\nTest Town\nTS1 1TS';
 
-			expect(formatAddress(testAddressData, '<br>')).toEqual(expectedResult);
+			expect(formatAddress(testAddressData, '\n')).toEqual(expectedResult);
 		});
 
 		it('formats the address fields in a submission', () => {

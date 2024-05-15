@@ -58,7 +58,7 @@ class CheckboxQuestion extends OptionsQuestion {
 				? `${selectedOption.conditional.label} ${answer.conditional}`
 				: answer.conditional;
 
-			const formattedConditionalText = [selectedOption.text, conditionalAnswerText].join('<br>');
+			const formattedConditionalText = [selectedOption.text, conditionalAnswerText].join('\n');
 
 			return super.formatAnswerForSummary(sectionSegment, journey, formattedConditionalText, false);
 		}
@@ -74,12 +74,12 @@ class CheckboxQuestion extends OptionsQuestion {
 						journey.response.answers[
 							questionUtils.getConditionalFieldName(this.fieldName, option.conditional.fieldName)
 						];
-					return [option.text, conditionalAnswer].join('<br>');
+					return [option.text, conditionalAnswer].join('\n');
 				}
 
 				return option.text;
 			})
-			.join('<br>');
+			.join('\n');
 
 		return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
 	}

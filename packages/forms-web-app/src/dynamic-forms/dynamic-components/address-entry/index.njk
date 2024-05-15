@@ -11,6 +11,7 @@
 {% set addressLine1= question.fieldName + "_addressLine1" %}
 {% set addressLine2= question.fieldName + "_addressLine2" %}
 {% set townCity= question.fieldName + "_townCity" %}
+{% set county= question.fieldName + "_county" %}
 {% set postcode= question.fieldName + "_postcode" %}
 
 {% block before_content %}
@@ -48,6 +49,7 @@
                     },
                     id: "address-line-1",
                     name: addressLine1,
+                    value: question.value.addressLine1,
                     autocomplete: "address-line1",
                     errorMessage: errors[addressLine1] and {
                         text: errors[addressLine1].msg 
@@ -60,6 +62,7 @@
                     },
                     id: "address-line-2",
                     name: addressLine2,
+                    value: question.value.addressLine2,
                     autocomplete: "address-line2",
                     errorMessage: errors[addressLine2] and {
                         text: errors[addressLine2].msg 
@@ -73,9 +76,24 @@
                     classes: "govuk-!-width-two-thirds",
                     id: "address-town",
                     name: townCity,
+                    value: question.value.townCity,
                     autocomplete: "address-level2",
                     errorMessage: errors[townCity] and {
                         text: errors[townCity].msg 
+                    }
+                }) }}
+
+                {{ govukInput({
+                    label: {
+                    text: "County (optional)"
+                    },
+                    classes: "govuk-!-width-two-thirds",
+                    id: "address-county",
+                    name: county,
+                    value: question.value.county,
+                    autocomplete: "address-level1",
+                    errorMessage: errors[county] and {
+                        text: errors[county].msg 
                     }
                 }) }}
 
@@ -86,6 +104,7 @@
                     classes: "govuk-input--width-10",
                     id: "address-postcode",
                     name: postcode,
+                    value: question.value.postcode,
                     autocomplete: "postal-code",
                     errorMessage: errors[postcode] and {
                         text: errors[postcode].msg 

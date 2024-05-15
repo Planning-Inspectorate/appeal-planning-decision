@@ -17,6 +17,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppealCaseWithRule6Parties} AppealCaseWithRule6Parties
  * @typedef {import('appeals-service-api').Api.AppealUser} AppealUser
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
+ * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
  */
 
 /**
@@ -327,7 +328,7 @@ class AppealsApiClient {
 	/**
 	 * @param {string} journeyId
 	 * @param {string} referenceId
-	 * @param {object} data
+	 * @param {SubmissionAddress} data
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
 	async postSubmissionAddress(journeyId, referenceId, data) {
@@ -487,6 +488,15 @@ class AppealsApiClient {
 	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async createAppellantSubmission(data) {
+		const endpoint = `${v2}/appellant-submissions`;
+		return (await this.#makePutRequest(endpoint, data)).json();
+	}
+
+	/**
+	 * @param {Omit<AppellantSubmission, 'id'>} data
+	 * @returns {Promise<AppellantSubmission>}
+	 */
+	async createDebugAppellantSubmission(data) {
 		const endpoint = `${v2}/appellant-submissions`;
 		return (await this.#makePostRequest(endpoint, data)).json();
 	}

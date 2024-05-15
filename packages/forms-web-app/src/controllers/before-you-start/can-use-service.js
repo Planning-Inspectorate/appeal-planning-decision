@@ -40,7 +40,12 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 		appeal.eligibility.applicationDecision
 	);
 
-	const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
+	const claimingCosts =
+		typeof appeal.eligibility.isClaimingCosts === 'boolean'
+			? appeal.eligibility.isClaimingCosts
+				? 'Yes'
+				: 'No'
+			: null;
 
 	res.render(canUseServiceHouseholder, {
 		deadlineDate,
@@ -111,7 +116,12 @@ const canUseServicePriorApproval = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
+		const claimingCosts =
+			typeof appeal.eligibility.isClaimingCosts === 'boolean'
+				? appeal.eligibility.isClaimingCosts
+					? 'Yes'
+					: 'No'
+				: null;
 
 		res.render(canUseServicePriorApprovalHouseholder, {
 			deadlineDate,
@@ -172,7 +182,12 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 			appeal.eligibility.applicationDecision
 		);
 
-		const claimingCosts = appeal.eligibility.isClaimingCosts ? 'Yes' : 'No';
+		const claimingCosts =
+			typeof appeal.eligibility.isClaimingCosts === 'boolean'
+				? appeal.eligibility.isClaimingCosts
+					? 'Yes'
+					: 'No'
+				: null;
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
 			deadlineDate,

@@ -25,7 +25,7 @@ const {
 		stringValidation: {
 			appealReferenceNumber: appealReferenceNumberValidation,
 			listedBuildingNumber: listedBuildingNumberValidation,
-			appealSiteArea: { minValue }
+			appealSiteArea: { minValue, maxValue }
 		}
 	}
 } = require('../../src/config');
@@ -42,9 +42,12 @@ const DateValidator = require('./validator/date-validator');
 const DateQuestion = require('./dynamic-components/date/question');
 const TextEntryQuestion = require('./dynamic-components/text-entry/question');
 const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
+const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
 const { documentTypes } = require('@pins/common');
 const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
 const NumericValidator = require('./validator/numeric-validator');
+const SiteAddressQuestion = require('./dynamic-components/site-address/question');
+const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 32500);
 
@@ -380,10 +383,6 @@ exports.questions = {
 			),
 			new ConditionalRequiredValidator('Enter the reason'),
 			new StringValidator({
-				regex: {
-					regex: new RegExp(`^[0-9a-z- '()]{0,${inputMaxCharacters}}$`, 'gi'),
-					regexMessage: 'Reason must only include letters a to z, hyphens, spaces and apostrophes.'
-				},
 				maxLength: {
 					maxLength: inputMaxCharacters,
 					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
@@ -1186,6 +1185,8 @@ exports.questions = {
 				regexMessage: 'Enter the area of the site using numbers 0 to 9',
 				min: minValue,
 				minMessage: `Appeal site area must be at least ${minValue}m\u00B2`,
+				max: maxValue,
+				maxMessage: `Appeal site area must be ${maxValue.toLocaleString()}m\u00B2 or less`,
 				fieldName: 'siteAreaSquareMetres'
 			})
 		]
@@ -1208,7 +1209,7 @@ exports.questions = {
 			new RequiredValidator('Select yes if you own some of the land involved in the appeal')
 		]
 	}),
-	ownsRestOfLand: new RadioQuestion({
+	knowsWhoOwnsRestOfLand: new RadioQuestion({
 		title: 'Do you know who owns the rest of the land involved in the appeal?',
 		question: 'Do you know who owns the rest of the land involved in the appeal?',
 		fieldName: 'knowsOtherOwners',
@@ -1233,7 +1234,7 @@ exports.questions = {
 			)
 		]
 	}),
-	ownsLandInvolved: new RadioQuestion({
+	knowsWhoOwnsLandInvolved: new RadioQuestion({
 		title: 'Do you know who owns the land involved in the appeal?',
 		question: 'Do you know who owns the land involved in the appeal?',
 		fieldName: 'knowsAllOwners',
@@ -1326,10 +1327,6 @@ exports.questions = {
 				'Enter a reason why an inspector cannot view the appeal site from a public road or footpath'
 			),
 			new StringValidator({
-				regex: {
-					regex: new RegExp(`^[0-9a-z- '()]{0,${inputMaxCharacters}}$`, 'gi'),
-					regexMessage: 'Reason must only include letters a to z, hyphens, spaces and apostrophes.'
-				},
 				maxLength: {
 					maxLength: inputMaxCharacters,
 					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
@@ -1370,10 +1367,6 @@ exports.questions = {
 			),
 			new ConditionalRequiredValidator('Enter the health and safety issues'),
 			new StringValidator({
-				regex: {
-					regex: new RegExp(`^[0-9a-z- '()]{0,${inputMaxCharacters}}$`, 'gi'),
-					regexMessage: 'Reason must only include letters a to z, hyphens, spaces and apostrophes.'
-				},
 				maxLength: {
 					maxLength: inputMaxCharacters,
 					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
@@ -1401,14 +1394,14 @@ exports.questions = {
 		]
 	}),
 	uploadOriginalApplicationForm: new MultiFileUploadQuestion({
-		title: 'Upload your separate ownership certificate and agricultural land declaration',
-		question: 'Upload your separate ownership certificate and agricultural land declaration',
+		title: 'Upload your application form',
+		question: 'Upload your application form',
+		description:
+			'Upload the application form that you sent to the local planning authority, including the date. Do not upload a draft application.\nIf you do not have your application form, you can search for it on the local planning authority’s website.',
 		fieldName: 'uploadOriginalApplicationForm',
 		url: 'upload-application-form',
 		validators: [
-			new RequiredFileUploadValidator(
-				'Select your separate ownership certificate and agricultural land declaration'
-			),
+			new RequiredFileUploadValidator('Select your application form'),
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadOriginalApplicationForm
@@ -1416,7 +1409,7 @@ exports.questions = {
 	uploadApplicationDecisionLetter: new MultiFileUploadQuestion({
 		title: 'Upload the decision letter from the local planning authority',
 		question: 'Upload the decision letter from the local planning authority',
-		description: `This letter tells you about the decision on your application. \nWe need the letter from the local planning authority that tells you their decision on your planning application (also called a ‘decision notice’).\nDo not upload the planning officer’s report.`,
+		description: `This letter tells you about the decision on your application. \n\nWe need the letter from the local planning authority that tells you their decision on your planning application (also called a ‘decision notice’).\n\nDo not upload the planning officer’s report.`,
 		fieldName: 'uploadApplicationDecisionLetter',
 		url: 'upload-decision-letter',
 		validators: [
@@ -1441,18 +1434,14 @@ exports.questions = {
 		documentType: documentTypes.uploadChangeOfDescriptionEvidence
 	}),
 	enterApplicationReference: new SingleLineInputQuestion({
-		title: 'What is the planning application reference number?',
-		question: 'What is the planning application reference number?',
+		title: 'What is the application reference number?',
+		question: 'What is the application reference number?',
 		fieldName: 'applicationReference',
 		url: 'reference-number',
 		hint: 'You can find this on any correspondence from the local planning authority. For example, the letter confirming your application.',
 		validators: [
 			new RequiredValidator('Enter the planning application reference number'),
 			new StringValidator({
-				regex: {
-					regex: new RegExp(`^[a-z0-9]{0,250}$`, 'gi'),
-					regexMessage: 'Enter a reference number using letters a to z and numbers 0 to 9'
-				},
 				maxLength: {
 					maxLength: 250,
 					maxLengthMessage: `Reference number must be 250 characters or less`
@@ -1462,32 +1451,26 @@ exports.questions = {
 	}),
 	planningApplicationDate: () =>
 		new DateQuestion({
-			title: 'What date did you submit your planning application?',
-			question: 'What date did you submit your planning application?',
+			title: 'What date did you submit your application?',
+			question: 'What date did you submit your application?',
 			fieldName: 'onApplicationDate',
 			url: 'planning-application-date',
 			hint: `For example, ${getDate('past')}`,
 			validators: [
-				new DateValidator('the date you submitted your planning application', {
+				new DateValidator('the date you submitted your application', {
 					ensurePast: true
 				})
 			]
 		}),
 	enterDevelopmentDescription: new TextEntryQuestion({
-		title: 'Enter the description of development that you submitted in your planning application',
-		question:
-			'Enter the description of development that you submitted in your planning application',
+		title: 'Enter the description of development that you submitted in your application',
+		question: 'Enter the description of development that you submitted in your application',
 		fieldName: 'developmentDescriptionOriginal',
 		url: 'enter-description-of-development',
 		hint: 'If the local planning authority changed the description of development, you can upload evidence of your agreement to change the description later.',
 		validators: [
 			new RequiredValidator('Enter a description'),
 			new StringValidator({
-				regex: {
-					regex: new RegExp(`^[0-9a-z- ']{0,${inputMaxCharacters}}$`, 'gi'),
-					regexMessage:
-						'Your description must only include letters a to z, numbers 0-9, hyphens, spaces and apostrophes.'
-				},
 				maxLength: {
 					maxLength: inputMaxCharacters,
 					maxLengthMessage: `Your description must be ${inputMaxCharacters} characters or less`
@@ -1496,8 +1479,8 @@ exports.questions = {
 		]
 	}),
 	updateDevelopmentDescription: new BooleanQuestion({
-		title: 'Did the local planning authority change the description of development? ',
-		question: 'Did the local planning authority change the description of development? ',
+		title: 'Did the local planning authority change the description of development?',
+		question: 'Did the local planning authority change the description of development?',
 		fieldName: 'updateDevelopmentDescription',
 		url: 'description-development-correct',
 		html: 'resources/development-description/content.html',
@@ -1522,8 +1505,7 @@ exports.questions = {
 	uploadAppellantStatement: new MultiFileUploadQuestion({
 		title: 'Upload your appeal statement',
 		question: 'Upload your appeal statement',
-		description:
-			'Your appeal statement explains why you disagree with the local planning authority’s decision.\nYou can upload any documents that you refer to in your appeal statement later.',
+		html: 'resources/upload-appeal-statement/content.html',
 		fieldName: 'uploadAppellantStatement',
 		url: 'upload-appeal-statement',
 		validators: [
@@ -1532,7 +1514,7 @@ exports.questions = {
 		],
 		documentType: documentTypes.uploadAppellantStatement
 	}),
-	costApplication: new RadioQuestion({
+	costApplication: new BooleanQuestion({
 		title: 'Do you need to apply for an award of appeal costs?',
 		question: 'Do you need to apply for an award of appeal costs?',
 		fieldName: 'costApplication',
@@ -1546,6 +1528,9 @@ exports.questions = {
 				text: 'No',
 				value: 'no'
 			}
+		],
+		validators: [
+			new RequiredValidator('Select yes if you need to apply for an award of appeal costs')
 		]
 	}),
 	uploadCostApplication: new MultiFileUploadQuestion({
@@ -1591,10 +1576,118 @@ exports.questions = {
 			viewFolder: 'identifier'
 		})
 	}),
+	applicationName: new BooleanQuestion({
+		title: 'Was the application made in your name? ',
+		question: 'Was the application made in your name?',
+		fieldName: 'isAppellant',
+		url: 'application-name',
+		html: 'resources/your-details/application-name.html',
+		validators: [new RequiredValidator('Select yes if the application was made in your name')],
+		options: [
+			{
+				text: 'Yes, the application was made in my name',
+				value: 'yes',
+				attributes: { 'data-cy': 'answer-yes' }
+			},
+			{
+				text: "No, I'm acting on behalf of the applicant",
+				value: 'no',
+				attributes: { 'data-cy': 'answer-no' }
+			}
+		]
+	}),
+	applicantName: new MultiFieldInputQuestion({
+		title: "What is the applicant's name?",
+		question: "What is the applicant's name?",
+		html: 'resources/your-details/applicant-name.html',
+		fieldName: 'applicantName',
+		url: 'applicant-name',
+		inputFields: [
+			{
+				fieldName: 'appellantFirstName',
+				label: 'First name'
+			},
+			{
+				fieldName: 'appellantLastName',
+				label: 'Last name'
+			},
+			{
+				fieldName: 'appellantCompanyName',
+				label: 'Company name (optional)'
+			}
+		],
+		validators: [
+			new MultiFieldInputValidator({
+				requiredFields: [
+					{
+						fieldName: 'appellantFirstName',
+						errorMessage: "Enter the applicant's first name",
+						maxLength: {
+							maxLength: 250,
+							maxLengthMessage: 'First name must be 250 characters or less'
+						}
+					},
+					{
+						fieldName: 'appellantLastName',
+						errorMessage: "Enter the applicant's last name",
+						maxLength: {
+							maxLength: 250,
+							maxLengthMessage: 'Last name must be 250 characters or less'
+						}
+					}
+				],
+				noInputsMessage: "Enter the applicant's name"
+			})
+		]
+	}),
+	contactDetails: new MultiFieldInputQuestion({
+		title: 'Contact details',
+		question: 'Contact details',
+		fieldName: 'contactDetails',
+		url: 'contact-details',
+		inputFields: [
+			{
+				fieldName: 'contactFirstName',
+				label: 'First name'
+			},
+			{
+				fieldName: 'contactLastName',
+				label: 'Last name'
+			},
+			{
+				fieldName: 'contactCompanyName',
+				label: 'Organisation name (optional)'
+			}
+		],
+		validators: [
+			new MultiFieldInputValidator({
+				requiredFields: [
+					{
+						fieldName: 'contactFirstName',
+						errorMessage: 'Enter your first name',
+						maxLength: {
+							maxLength: 250,
+							maxLengthMessage: 'First name must be 250 characters or less'
+						}
+					},
+					{
+						fieldName: 'contactLastName',
+						errorMessage: 'Enter your last name',
+						maxLength: {
+							maxLength: 250,
+							maxLengthMessage: 'Last name must be 250 characters or less'
+						}
+					}
+				],
+				noInputsMessage: "Enter the applicant's name"
+			})
+		]
+	}),
 	contactPhoneNumber: new SingleLineInputQuestion({
 		title: 'What is your phone number?',
 		question: 'What is your phone number?',
 		description: 'We may use your phone number to contact you about the appeal.',
+		label: 'UK telephone number',
 		fieldName: 'appellantPhoneNumber',
 		url: 'phone-number',
 		inputAttributes: { type: 'tel', autocomplete: 'tel' },
@@ -1608,5 +1701,20 @@ exports.questions = {
 				}
 			})
 		]
+	}),
+	appealSiteAddress: new SiteAddressQuestion({
+		title: 'What is the address of the appeal site?',
+		question: 'What is the address of the appeal site?',
+		fieldName: 'siteAddress',
+		url: 'appeal-site-address',
+		viewFolder: 'address-entry',
+		validators: [new AddressValidator()]
+	}),
+	appellantGreenBelt: new BooleanQuestion({
+		title: 'Is the appeal site in a green belt?',
+		question: 'Is the appeal site in a green belt?',
+		fieldName: 'appellantGreenBelt',
+		url: 'green-belt',
+		validators: [new RequiredValidator('Select yes if the appeal site is in a green belt')]
 	})
 };

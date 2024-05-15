@@ -3,7 +3,7 @@ paths:
     get:
       tags:
         - users
-      description: Get appeals for a user
+      description: Get appeal submissions for a user
       parameters:
         - in: path
           name: userId
@@ -29,4 +29,4 @@ paths:
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ErrorBody'
+                $ref: '#/components/schemas/ErrorBody'

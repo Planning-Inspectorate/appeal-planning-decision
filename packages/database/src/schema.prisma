@@ -476,15 +476,29 @@ model AppellantSubmission {
   id             String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
   LPACode        String
   appealTypeCode String // type shortcode such as HAS or S78
-  appealId       String @unique @db.UniqueIdentifier
-  Appeal         Appeal @relation(fields: [appealId], references: [id])
+
+  // application
+  applicationDecisionDate DateTime?
+  applicationDecision     String?
+
+  appealId String @unique @db.UniqueIdentifier
+  Appeal   Appeal @relation(fields: [appealId], references: [id])
 
   // state
-  caseTermsAccepted     Boolean? /// set when user clicks submit
-  submittedToBackOffice Boolean? /// set when added to the message queue
+  caseTermsAccepted Boolean? /// set when user clicks submit
+  submitted         Boolean  @default(false) /// whether the questionnaire has been submitted to BO
 
   // dates
   onApplicationDate DateTime?
+
+  //appellant / agent details
+  isAppellant          Boolean?
+  appellantFirstName   String?
+  appellantLastName    String?
+  appellantCompanyName String?
+  contactFirstName     String?
+  contactLastName      String?
+  contactCompanyName   String?
 
   // boolean
   ownsAllLand                  Boolean?
@@ -511,7 +525,7 @@ model AppellantSubmission {
   appellantPhoneNumber           String?
 
   // number entries
-  siteAreaSquareMetres Int?
+  siteAreaSquareMetres Decimal?
 
   // Linked cases
   appellantLinkedCaseAdd Boolean?
@@ -536,10 +550,12 @@ model AppellantSubmission {
 model LPAQuestionnaireSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
+  // link the submission to the appeal
   appealCaseReference String     @unique
   AppealCase          AppealCase @relation(fields: [appealCaseReference], references: [caseReference])
 
-  // link the submission to the appeal
+  // state
+  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
 
   correctAppealType                               Boolean?
   affectsListedBuilding                           Boolean?
@@ -652,6 +668,7 @@ model SubmissionAddress {
   addressLine1 String
   addressLine2 String?
   townCity     String
+  county       String?
   postcode     String
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering

@@ -1,5 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const logger = require('#lib/logger');
+const ApiError = require('#errors/apiError');
 
 /**
  * @typedef {import('./questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -10,6 +12,28 @@ class LPAQuestionnaireSubmissionRepository {
 
 	constructor() {
 		this.dbClient = createPrismaClient();
+	}
+
+	/**
+	 * @param {{ caseReference: string, userLpa: string }} params
+	 */
+	async lpaCanModifyCase({ caseReference, userLpa }) {
+		try {
+			await this.dbClient.appealCase.findUniqueOrThrow({
+				where: {
+					caseReference,
+					LPACode: userLpa
+				},
+				select: {
+					id: true
+				}
+			});
+
+			return true;
+		} catch (err) {
+			logger.error({ err }, 'invalid user access');
+			throw ApiError.forbidden();
+		}
 	}
 
 	/**
@@ -89,6 +113,24 @@ class LPAQuestionnaireSubmissionRepository {
 						appealTypeCode: true
 					}
 				}
+			}
+		});
+	}
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<{id: string}>}
+	 */
+	markLPAQuestionnaireAsSubmitted(id) {
+		return this.dbClient.lPAQuestionnaireSubmission.update({
+			where: {
+				id: id
+			},
+			data: {
+				submitted: true
+			},
+			select: {
+				id: true
 			}
 		});
 	}

@@ -4,7 +4,7 @@ const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../configuration/config');
 const { put, post } = require('./controller');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
-const validateToken = require('@pins/common/src/middleware/validate-token');
+const { validateToken } = require('@pins/common/src/middleware/validate-token');
 const { openApiValidatorMiddleware } = require('../../../validators/validate-open-api');
 
 const router = express.Router();
@@ -26,6 +26,8 @@ router.use(
 );
 
 router.put('/', openApiValidatorMiddleware(), asyncHandler(put));
+
+// debug route, delete once no longer required
 router.post('/', asyncHandler(post));
 
 module.exports = { router };

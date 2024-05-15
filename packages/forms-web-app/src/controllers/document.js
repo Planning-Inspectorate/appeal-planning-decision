@@ -6,7 +6,7 @@ const {
 	}
 } = require('@pins/business-rules');
 const logger = require('../lib/logger');
-const { getLPAUserFromSession } = require('../services/lpa-user.service');
+const { getUserFromSession } = require('../services/user.service');
 
 /**
  * links user to a document, requires an active session
@@ -16,7 +16,7 @@ const getDocument = async (req, res) => {
 	const { appealOrQuestionnaireId, documentId } = req.params;
 
 	try {
-		const lpaUser = getLPAUserFromSession(req);
+		const lpaUser = getUserFromSession(req);
 		// lpa users
 		if (lpaUser) {
 			const { headers, body } = await fetchDocument(appealOrQuestionnaireId, documentId);

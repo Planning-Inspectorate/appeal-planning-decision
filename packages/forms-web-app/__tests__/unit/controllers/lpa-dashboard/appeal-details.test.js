@@ -86,7 +86,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			isFeatureActive.mockResolvedValueOnce(false);
 			apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 
-			req.session.lpaUser = {
+			req.session.user = {
 				lpaCode: 'E9999'
 			};
 
@@ -111,7 +111,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			isFeatureActive.mockResolvedValueOnce(true);
 			apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 
-			req.session.lpaUser = {
+			req.session.user = {
 				lpaCode: 'E9999'
 			};
 
@@ -136,7 +136,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 			isFeatureActive.mockResolvedValueOnce(true);
 			apiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(mockAppeal));
 
-			req.session.lpaUser = {
+			req.session.user = {
 				lpaCode: 'E9999'
 			};
 

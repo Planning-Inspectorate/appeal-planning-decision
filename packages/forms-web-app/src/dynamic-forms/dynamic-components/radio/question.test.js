@@ -31,7 +31,8 @@ const SECTION = {
 };
 
 const JOURNEY = {
-	baseUrl: 'list',
+	baseUrl: '',
+	taskListUrl: 'list',
 	journeyTemplate: 'template',
 	journeyTitle: 'title',
 	response: {

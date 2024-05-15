@@ -4,7 +4,7 @@ const { get, patch } = require('./controller');
 const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../../configuration/config');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
-const validateToken = require('@pins/common/src/middleware/validate-token');
+const { validateToken } = require('@pins/common/src/middleware/validate-token');
 const { openApiValidatorMiddleware } = require('../../../../validators/validate-open-api');
 
 const router = express.Router({ mergeParams: true });

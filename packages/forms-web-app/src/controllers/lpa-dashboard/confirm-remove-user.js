@@ -1,5 +1,5 @@
 const { apiClient } = require('../../lib/appeals-api-client');
-const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { getUserFromSession } = require('../../services/user.service');
 const logger = require('../../lib/logger');
 
 const {
@@ -10,7 +10,7 @@ const {
 
 // todo: handle this via api somehow?
 async function checkUserAllowedToRemove(req, userToRemove) {
-	const user = getLPAUserFromSession(req);
+	const user = getUserFromSession(req);
 
 	if (userToRemove.lpaCode !== user.lpaCode) {
 		throw new Error('Auth: Cannot remove this user');

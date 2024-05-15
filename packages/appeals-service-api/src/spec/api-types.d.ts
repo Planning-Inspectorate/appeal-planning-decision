@@ -510,9 +510,17 @@ export interface AppellantSubmission {
 	appealTypeCode?: 'HAS' | 'S78';
 	appealId?: string;
 	caseTermsAccepted?: boolean;
-	submittedToBackOffice?: boolean;
+	/** whether the appeal has been submitted to BO */
+	submitted?: boolean;
 	/** @format date-time */
 	onApplicationDate?: string;
+	isAppellant?: boolean;
+	appellantFirstName?: string;
+	appellantLastName?: string;
+	appellantCompanyName?: string;
+	contactFirstName?: string;
+	contactLastName?: string;
+	contactCompanyName?: string;
 	ownsAllLand?: boolean;
 	ownsSomeLand?: boolean;
 	knowsAllOwners?: string;
@@ -522,21 +530,28 @@ export interface AppellantSubmission {
 	appellantGreenBelt?: boolean;
 	updateDevelopmentDescription?: boolean;
 	identifiedOwners?: boolean;
+	costApplication?: boolean;
 	appellantSiteSafety?: string;
-	appellantSiteSafetyDetails?: string;
+	appellantSiteSafety_appellantSiteSafetyDetails?: string | null;
 	appellantSiteAccess?: string;
-	appellantSiteAccessDetails?: string;
+	appellantSiteAccess_appellantSiteAccessDetails?: string | null;
 	applicationReference?: string;
 	developmentDescriptionOriginal?: string;
 	appellantLinkedCaseReference?: string;
 	appellantPhoneNumber?: string;
 	siteAreaSquareMetres?: number;
+	appellantLinkedCaseAdd?: boolean;
+	appellantLinkedCase?: boolean;
+	SubmissionLinkedCase?: object[];
 	uploadOriginalApplicationForm?: boolean;
 	uploadApplicationDecisionLetter?: boolean;
 	uploadAppellantStatement?: boolean;
-	costApplication?: boolean;
 	uploadCostApplication?: boolean;
+	uploadChangeOfDescriptionEvidence?: boolean;
+	SubmissionDocumentUpload?: object[];
 	siteAddress?: boolean;
+	SubmissionAddress?: object[];
+	SubmissionListedBuilding?: object[];
 }
 
 /** A document associated with an appeal */
@@ -575,6 +590,8 @@ export interface LPAQuestionnaireSubmission {
 	AppealCase: {
 		LPACode: string;
 	};
+	/** whether the questionnaire has been submitted to BO */
+	submitted?: boolean;
 	appealCaseReference: string;
 	correctAppealType?: boolean;
 	affectsListedBuilding?: boolean;
@@ -779,4 +796,35 @@ export interface ServiceUser {
 	firstName?: string;
 	lastName?: string;
 	emailAddress?: string;
+}
+
+/** The address related to a submission */
+export interface SubmissionAddress {
+	/**
+	 * identifier for the submission address of an associated appeal
+	 * @format uuid
+	 */
+	id: string;
+	/**
+	 * lpa questionnaire id this address is associated with, can be null
+	 * @format uuid
+	 */
+	questionnaireId?: string;
+	/**
+	 * appeal submission id this address is associated with, can be null
+	 * @format uuid
+	 */
+	appellantSubmissionId?: string;
+	/** which question this address is associated with for the submission */
+	fieldName: string;
+	/** first line of the address */
+	addressLine1: string;
+	/** first line of the address */
+	addressLine2?: string;
+	/** the town or city of the address */
+	townCity: string;
+	/** the county address */
+	county?: string;
+	/** the postcode of the address */
+	postcode: string;
 }

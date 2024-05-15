@@ -1,3 +1,6 @@
+const escape = require('escape-html');
+const { nl2br } = require('../../utils');
+
 /**
  * @param {import('./def').Rows} rows
  * @param {import("appeals-service-api").Api.AppealCaseWithAppellant} caseData
@@ -26,8 +29,9 @@ exports.formatQuestionnaireRows = (rows, questionnaireData) => {
  * @param { string } valueText
  */
 const createRow = (keyText, valueText) => {
+	valueText = valueText ?? '';
 	return {
 		key: { text: keyText },
-		value: { html: valueText }
+		value: { html: nl2br(escape(valueText)) }
 	};
 };

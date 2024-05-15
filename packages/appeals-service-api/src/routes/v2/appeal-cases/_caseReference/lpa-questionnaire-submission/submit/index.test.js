@@ -2,6 +2,7 @@ const supertest = require('supertest');
 const http = require('http');
 const app = require('../../../../../../app');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
+const { markQuestionnaireAsSubmitted } = require('../service');
 
 const server = http.createServer(app);
 const appealsApi = supertest(server);
@@ -123,7 +124,8 @@ jest.mock('../service', () => ({
 			default:
 				return null;
 		}
-	}
+	},
+	markQuestionnaireAsSubmitted: jest.fn()
 }));
 
 jest.mock('../../../../../../../src/configuration/featureFlag', () => ({
@@ -266,6 +268,8 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 			expectation,
 			'Create'
 		);
+
+		expect(markQuestionnaireAsSubmitted).toHaveBeenCalled();
 	});
 
 	it('404s if the questionnaire can not be found', () => {

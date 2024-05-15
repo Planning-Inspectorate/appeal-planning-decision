@@ -5,9 +5,7 @@
 exports.formatDocumentDetails = (documents, documentType) => {
 	const filteredDocuments = documents.filter((document) => document.documentType === documentType);
 
-	return filteredDocuments.length > 0
-		? filteredDocuments.map(formatDocumentLink).join('<br>')
-		: 'No';
+	return filteredDocuments.length > 0 ? filteredDocuments.map(formatDocumentLink).join('\n') : 'No';
 };
 
 /**

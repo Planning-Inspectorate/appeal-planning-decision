@@ -2,13 +2,13 @@ const {
 	getEmailAddress,
 	postEmailAddress
 } = require('../../../../src/controllers/lpa-dashboard/email-address');
-const { getLPAUserFromSession } = require('../../../../src/services/lpa-user.service');
+const { getUserFromSession } = require('../../../../src/services/user.service');
 
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
-jest.mock('../../../../src/services/lpa-user.service');
+jest.mock('../../../../src/services/user.service');
 
 const res = mockRes();
 
@@ -35,11 +35,11 @@ describe('controllers/lpa-dashboard/email-address', () => {
 
 	describe('getEmailAddress', () => {
 		it('should render the view', async () => {
-			getLPAUserFromSession.mockReturnValue(mockUser);
+			getUserFromSession.mockReturnValue(mockUser);
 
 			await getEmailAddress(req, res);
 
-			expect(getLPAUserFromSession).toHaveBeenCalledWith(req);
+			expect(getUserFromSession).toHaveBeenCalledWith(req);
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.EMAIL_ADDRESS, {
 				lpaDomain: `@${mockUser.lpaDomain}`
 			});
@@ -48,7 +48,7 @@ describe('controllers/lpa-dashboard/email-address', () => {
 
 	describe('postEmailAddress', () => {
 		it('should redirect to confirm page', async () => {
-			getLPAUserFromSession.mockReturnValue(mockUser);
+			getUserFromSession.mockReturnValue(mockUser);
 			req.body = { 'add-user': 'test' };
 
 			await postEmailAddress(req, res);
@@ -57,7 +57,7 @@ describe('controllers/lpa-dashboard/email-address', () => {
 		});
 
 		it('should store the new user email address in session', async () => {
-			getLPAUserFromSession.mockReturnValue(mockUser);
+			getUserFromSession.mockReturnValue(mockUser);
 			req.body = { 'add-user': 'test' };
 
 			await postEmailAddress(req, res);
@@ -75,11 +75,11 @@ describe('controllers/lpa-dashboard/email-address', () => {
 				}
 			};
 
-			getLPAUserFromSession.mockReturnValue(mockUser);
+			getUserFromSession.mockReturnValue(mockUser);
 
 			await postEmailAddress(req, res);
 
-			expect(getLPAUserFromSession).toHaveBeenCalledWith(req);
+			expect(getUserFromSession).toHaveBeenCalledWith(req);
 			expect(res.render).toHaveBeenCalledWith(VIEW.LPA_DASHBOARD.EMAIL_ADDRESS, {
 				lpaDomain: `@${mockUser.lpaDomain}`,
 				errorSummary,

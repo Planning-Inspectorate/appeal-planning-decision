@@ -24,12 +24,8 @@ jest.mock('@pins/common/src/client/auth-client', () => {
 	return getClient; // Return the mocked getClient function
 });
 
-jest.mock('../services/appeal-user.service', () => ({
-	getAppealUserSession: jest.fn()
-}));
-
-jest.mock('../services/lpa-user.service', () => ({
-	getLPAUserFromSession: jest.fn()
+jest.mock('../services/user.service', () => ({
+	getUserFromSession: jest.fn()
 }));
 
 const config = require('../config');
@@ -48,11 +44,8 @@ describe('createApiClients middleware', () => {
 	});
 
 	it('should create API clients with access tokens from request session', async () => {
-		require('../services/appeal-user.service').getAppealUserSession.mockReturnValueOnce({
+		require('../services/user.service').getUserFromSession.mockReturnValueOnce({
 			access_token: 'appellantAccessToken'
-		});
-		require('../services/lpa-user.service').getLPAUserFromSession.mockReturnValueOnce({
-			access_token: 'lpaUserAccessToken'
 		});
 
 		await createApiClients(req, res, next);
@@ -65,7 +58,7 @@ describe('createApiClients middleware', () => {
 		).toHaveBeenCalledWith(
 			config.appeals.url,
 			{
-				access_token: 'lpaUserAccessToken',
+				access_token: 'appellantAccessToken',
 				id_token: undefined,
 				client_creds: undefined
 			},
@@ -77,7 +70,7 @@ describe('createApiClients middleware', () => {
 		).toHaveBeenCalledWith(
 			config.documents.url,
 			{
-				access_token: 'lpaUserAccessToken',
+				access_token: 'appellantAccessToken',
 				id_token: undefined,
 				client_creds: undefined
 			},
@@ -89,7 +82,7 @@ describe('createApiClients middleware', () => {
 	});
 
 	it('should create API clients with client credentials if no access token in request session', async () => {
-		require('../services/lpa-user.service').getLPAUserFromSession.mockReturnValueOnce(null);
+		require('../services/user.service').getUserFromSession.mockReturnValueOnce(null);
 
 		await createApiClients(req, res, next);
 

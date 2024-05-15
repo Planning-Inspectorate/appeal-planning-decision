@@ -203,7 +203,16 @@ class MultiFileUploadQuestion extends Question {
 
 		formattedAnswer = formattedAnswer ?? 'Not started';
 
-		return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
+		const action = this.getAction(sectionSegment, journey, answer);
+		const key = this.title ?? this.question;
+
+		const rowParams = [];
+		rowParams.push({
+			key: key,
+			value: formattedAnswer,
+			action: action
+		});
+		return rowParams;
 	}
 
 	/**

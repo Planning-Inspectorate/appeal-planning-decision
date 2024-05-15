@@ -11,6 +11,7 @@ module.exports = {
 	},
 	APPEALS_CASE_DATA: {
 		APPEAL_TYPE: { HAS: 'Householder (HAS) Appeal', S78: 'Full Planning (S78) Appeal' },
+		APPEAL_TYPE_CODE: { HAS: 'HAS', S78: 'S78' },
 		VALIDITY: { IS_VALID: 'Valid' }
 	},
 	/**

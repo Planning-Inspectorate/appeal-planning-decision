@@ -9,7 +9,7 @@ const {
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
 const dateFns = require('date-fns');
 const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
-const { getLPAUserFromSession } = require('../../services/lpa-user.service');
+const { getUserFromSession } = require('../../services/user.service');
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
@@ -57,7 +57,7 @@ async function getDocument(caseReference, type, multiDoc) {
 
 const getAppealDetails = async (req, res) => {
 	const { id } = req.params;
-	const user = getLPAUserFromSession(req);
+	const user = getUserFromSession(req);
 	const caseReference = encodeURIComponent(id);
 	const appeal = await apiClient.getUsersAppealCase({
 		caseReference,

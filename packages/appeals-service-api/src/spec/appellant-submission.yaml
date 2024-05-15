@@ -16,13 +16,32 @@ components:
             - 'S78'
         appealId:
           type: string
+
         caseTermsAccepted:
           type: boolean
-        submittedToBackOffice:
+        submitted:
           type: boolean
+          description: whether the appeal has been submitted to BO
+
         onApplicationDate:
           type: string
           format: date-time
+
+        isAppellant:
+          type: boolean
+        appellantFirstName:
+          type: string
+        appellantLastName:
+          type: string
+        appellantCompanyName:
+          type: string
+        contactFirstName:
+          type: string
+        contactLastName:
+          type: string
+        contactCompanyName:
+          type: string
+
         ownsAllLand:
           type: boolean
         ownsSomeLand:
@@ -41,14 +60,20 @@ components:
           type: boolean
         identifiedOwners:
           type: boolean
+        costApplication:
+          type: boolean
+
         appellantSiteSafety:
           type: string
-        appellantSiteSafetyDetails:
+        appellantSiteSafety_appellantSiteSafetyDetails:
           type: string
+          nullable: true
         appellantSiteAccess:
           type: string
-        appellantSiteAccessDetails:
+        appellantSiteAccess_appellantSiteAccessDetails:
           type: string
+          nullable: true
+
         applicationReference:
           type: string
         developmentDescriptionOriginal:
@@ -57,17 +82,41 @@ components:
           type: string
         appellantPhoneNumber:
           type: string
+
         siteAreaSquareMetres:
           type: integer
+
+        appellantLinkedCaseAdd:
+          type: boolean
+        appellantLinkedCase:
+          type: boolean
+        SubmissionLinkedCase:
+          type: array
+          items:
+            type: object
+
         uploadOriginalApplicationForm:
           type: boolean
         uploadApplicationDecisionLetter:
           type: boolean
         uploadAppellantStatement:
           type: boolean
-        costApplication:
-          type: boolean
         uploadCostApplication:
           type: boolean
+        uploadChangeOfDescriptionEvidence:
+          type: boolean
+        SubmissionDocumentUpload:
+          type: array
+          items:
+            type: object
+
         siteAddress:
           type: boolean
+        SubmissionAddress:
+          type: array
+          items:
+            type: object
+        SubmissionListedBuilding:
+          type: array
+          items:
+            type: object
