@@ -78,14 +78,9 @@
                 </strong>
                 </h2>
                 <p>By submitting this questionnaire you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
-              <form action method="post">
-<input type="hidden" name="_csrf" value="{{_csrf}}">
-                {{ govukButton({
-                  text: "Submit questionnaire",
-                  type: "submit",
-                  attributes: { "data-cy":"submit-questionnaire"}
-                }) }}
-              </form>
+                {% block formButton %}
+                {% endblock %}
+              
             {% else %}
               <strong class="govuk-tag govuk-tag--grey">
                 Cannot start yet
