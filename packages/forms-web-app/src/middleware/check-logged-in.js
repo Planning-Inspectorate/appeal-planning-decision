@@ -12,6 +12,11 @@ const {
 	}
 } = require('@pins/business-rules');
 
+const {
+	server: { sessionIdleTimeoutAppellant, sessionIdleTimeoutDelay }
+} = require('../config');
+const isIdle = require('../lib/check-session-idle');
+
 /**
  * @type {import('express').RequestHandler}
  */
@@ -22,29 +27,33 @@ const checkLoggedIn = async (req, res, next) => {
 
 	const user = getUserFromSession(req);
 
-	if (user && user?.expiry.getTime() > Date.now()) {
+	if (
+		user &&
+		user?.expiry.getTime() > Date.now() &&
+		!isIdle(req, sessionIdleTimeoutAppellant, sessionIdleTimeoutDelay)
+	) {
 		return next();
 	}
 
-	// document url - email sent to users with link to download
+	let docRedirectUrl;
 	if (req.originalUrl.startsWith('/document/') && req.params?.appealOrQuestionnaireId) {
-		return await handleSaveAndReturnRedirect(req.params.appealOrQuestionnaireId);
+		docRedirectUrl = await createSaveAndReturnUrl(req.params?.appealOrQuestionnaireId);
 	}
 
-	req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;
-	return res.redirect('/appeal/email-address');
-
-	/**
-	 * @param {string} appealId
-	 * @returns {Promise<void>}
-	 */
-	async function handleSaveAndReturnRedirect(appealId) {
-		if (req?.session?.appeal) {
-			delete req.session.appeal;
+	// reset session
+	req.session.regenerate((err) => {
+		if (err) {
+			req.session = {};
 		}
-		req.session.loginRedirect = req.originalUrl;
-		return res.redirect(await createSaveAndReturnUrl(appealId));
-	}
+
+		if (docRedirectUrl) {
+			req.session.loginRedirect = req.originalUrl;
+			return res.redirect(docRedirectUrl);
+		}
+
+		req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;
+		return res.redirect('/appeal/email-address');
+	});
 };
 
 /**
