@@ -36,12 +36,11 @@
 {% endblock %}
 
 {% block formButton %}
-  <form action method="post">
-    <input type="hidden" name="_csrf" value="{{_csrf}}">
       {{ govukButton({
         text: "Submit questionnaire",
-        type: "submit",
+        href: declarationUrl,
+        type: "button",
         attributes: { "data-cy":"submit-questionnaire"}
       }) }}
-  </form>
+
 {% endblock %}

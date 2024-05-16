@@ -122,8 +122,11 @@ exports.list = async (req, res, pageCaption, viewData) => {
 		summaryListData.sections.push(sectionView);
 	}
 
+	const declarationUrl = `/appeals/householder/submit/declaration?id=${journey.response.referenceId}`;
+
 	return res.render(journey.listingPageViewPath, {
 		...viewData,
+		declarationUrl,
 		pageCaption,
 		summaryListData,
 		journeyComplete: journey.isComplete(),
@@ -264,21 +267,6 @@ exports.submitAppellantSubmission = async (req, res) => {
 	await req.appealsApiClient.submitAppellantSubmission(id);
 
 	return res.redirect('/appeals/householder/submit/submitted?id=' + encodeURIComponent(id));
-};
-
-/**
- * @type {import('express').Handler}
- */
-exports.redirectToDeclaration = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
-	const id = res.locals.journeyResponse.referenceId;
-	if (!journey.isComplete()) {
-		// return error message and redirect
-		return res.status(400).render('./error/not-found.njk');
-	}
-
-	return res.redirect('/appeals/householder/submit/declaration?id=' + encodeURIComponent(id));
 };
 
 /**

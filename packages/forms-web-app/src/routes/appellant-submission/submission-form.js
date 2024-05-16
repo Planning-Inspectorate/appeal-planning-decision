@@ -6,8 +6,7 @@ const {
 	remove,
 	appellantSubmissionDeclaration,
 	appellantSubmitted,
-	submitAppellantSubmission,
-	redirectToDeclaration
+	submitAppellantSubmission
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -38,12 +37,6 @@ router.get(
 	getJourneyResponse,
 	checkNotSubmitted(dashboardUrl),
 	householderTaskList
-);
-router.post(
-	'/appeal-form/your-appeal',
-	getJourneyResponse,
-	checkNotSubmitted(dashboardUrl),
-	redirectToDeclaration
 );
 router.get(
 	'/submit/declaration',
