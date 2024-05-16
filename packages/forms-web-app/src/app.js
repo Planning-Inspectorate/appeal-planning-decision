@@ -89,7 +89,6 @@ app.use(lusca.xssProtection(true));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session(sessionConfig()));
 app.use(removeUnwantedCookiesMiddelware);
 app.use(setLocalslDisplayCookieBannerValue);
 app.use('/public', express.static(path.join(__dirname, 'public')));
@@ -101,10 +100,11 @@ app.use(
 );
 app.use('/assets/govuk/all.js', express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js')));
 app.use(fileUpload({ ...config.fileUpload /*useTempFiles: true*/ }));
-app.use(lusca.csrf()); // must come after fileupload for csrf token to be extracted on a multipart request
+app.use(session(sessionConfig()));
+app.use(navigationHistoryMiddleware()); // Above lusca so csrf token isn't in session yet
+app.use(lusca.csrf()); // Depends on fileupload and session
 app.use(flashMessageCleanupMiddleware);
 app.use(flashMessageToNunjucks(env));
-app.use(navigationHistoryMiddleware());
 app.use(navigationHistoryToNunjucksMiddleware(env));
 
 // Routes

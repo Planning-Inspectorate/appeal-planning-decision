@@ -31,7 +31,7 @@ module.exports = () => {
 		secret: sessionSecret,
 		name: CONSTS.SESSION_COOKIE_NAME,
 		resave: false,
-		saveUninitialized: true,
+		saveUninitialized: false,
 		cookie: {
 			sameSite: 'lax',
 			httpOnly: true

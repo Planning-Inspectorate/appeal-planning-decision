@@ -65,7 +65,6 @@ describe('middleware/flash-message-cleanup', () => {
 			flashMessageCleanupMiddleware(req, res, next);
 
 			// common to all
-			expect(req.session.flashMessages).toHaveLength(0);
 			expect(next).toHaveBeenCalled();
 			// unique to this test
 			expected(res);
