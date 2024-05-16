@@ -77,7 +77,7 @@
                   Ready to submit
                 </strong>
                 </h2>
-                <p>By submitting this questionnaire you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+                <p>By submitting this {{ submissionType }} you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
                 {% block formButton %}
                 {% endblock %}
               
@@ -86,7 +86,7 @@
                 Cannot start yet
               </strong>
               </h2>
-              <p>You cannot submit the questionnaire until all of the other sections are complete.</p>
+              <p>You cannot submit the {{ submissionType }} until all of the other sections are complete.</p>
             {% endif %}
           </div>
         </li>
