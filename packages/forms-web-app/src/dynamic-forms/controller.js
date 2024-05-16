@@ -269,6 +269,21 @@ exports.submitAppellantSubmission = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
+exports.redirectToDeclaration = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	const id = res.locals.journeyResponse.referenceId;
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.status(400).render('./error/not-found.njk');
+	}
+
+	return res.redirect('/appeals/householder/submit/declaration?id=' + encodeURIComponent(id));
+};
+
+/**
+ * @type {import('express').Handler}
+ */
 exports.appellantSubmissionDeclaration = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);

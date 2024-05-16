@@ -25,8 +25,23 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters-from-desktop">
-      <h2 class="govuk-heading-s">Appeal incomplete</h2>
+      {% if journeyComplete %}
+          <h2 class="govuk-heading-s">Appeal complete</h2>
+        {% else %}
+          <h2 class="govuk-heading-s">Appeal incomplete</h2>   
+      {% endif %}
       <p class="govuk-!-margin-bottom-7">You have completed {{summaryListData.completedSectionCount}} of {{summaryListData.sections.length}} sections.</p>
     </div>
   </div>
+{% endblock %}
+
+{% block formButton %}
+  <form action method="post">
+    <input type="hidden" name="_csrf" value="{{_csrf}}">
+      {{ govukButton({
+        text: "Submit questionnaire",
+        type: "submit",
+        attributes: { "data-cy":"submit-questionnaire"}
+      }) }}
+  </form>
 {% endblock %}
