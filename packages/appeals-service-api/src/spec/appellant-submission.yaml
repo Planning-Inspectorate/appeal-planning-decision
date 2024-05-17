@@ -14,6 +14,13 @@ components:
           enum:
             - 'HAS'
             - 'S78'
+
+        applicationDecisionDate:
+          type: string
+          format: date-time
+        applicationDecision:
+          type: string
+
         appealId:
           type: string
 

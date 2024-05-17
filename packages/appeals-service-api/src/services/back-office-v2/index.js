@@ -11,6 +11,7 @@ const { get, markAppealAsSubmitted } = require('../../routes/v2/appellant-submis
 
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -31,27 +32,33 @@ class BackOfficeV2Service {
 	constructor() {}
 
 	/**
-	 * @param {string} appellantSubmissionId
-	 * @param {string} userId
+	 * @param { {appellantSubmissionId: string, userId: string} } params
 	 * @returns {Promise<Array<*> | void>}
 	 */
-	async submitAppeal(appellantSubmissionId, userId) {
-		const appeal = await get({
-			appellantSubmissionId,
-			userId
-		});
+	async submitAppellantSubmission({ appellantSubmissionId, userId }) {
+		const appellantSubmission = await get({ appellantSubmissionId, userId });
 
-		if (!appeal) throw new Error(`Appeal ${appellantSubmissionId} not found`);
+		if (!appellantSubmission)
+			throw new Error(`Appeal submission ${appellantSubmissionId} not found`);
 
-		const isBOIntegrationActive = await isFeatureActive(FLAG.APPEALS_BO_SUBMISSION);
+		const isBOIntegrationActive = await isFeatureActive(
+			FLAG.APPEALS_BO_SUBMISSION,
+			appellantSubmission.LPACode
+		);
 		if (!isBOIntegrationActive) return;
 
-		if (!appeal.appealTypeCode)
-			throw new Error(`Appeal type could not be determined on appeal ${appellantSubmissionId}`);
+		if (!isValidAppealTypeCode(appellantSubmission.appealTypeCode))
+			throw new Error(`Appeal submission ${appellantSubmissionId} has an invalid appealTypeCode`);
 
-		const result = await forwarders.appeal(formatters.appeal[appeal.appealTypeCode](appeal));
+		const result = await forwarders.appeal(
+			formatters.appeal[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]](
+				appellantSubmission
+			)
+		);
 
-		await markAppealAsSubmitted(appeal.id);
+		await markAppealAsSubmitted(appellantSubmission.id);
+
+		await sendSubmissionConfirmationEmailToAppellantV2(appellantSubmission);
 
 		return result;
 	}

@@ -91,6 +91,9 @@ let config = {
 					appealSubmissionConfirmationEmailToAppellant:
 						process.env
 							.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID_V1_1,
+					appealSubmissionConfirmationEmailToAppellantV2:
+						process.env
+							.SRV_NOTIFY_HAS_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
 					appealSubmissionReceivedEmailToAppellant:
 						process.env.SRV_NOTIFY_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
 					appealNotificationEmailToLpa:

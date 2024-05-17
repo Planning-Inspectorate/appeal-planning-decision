@@ -4,23 +4,27 @@ const ApiError = require('../../../../errors/apiError');
 
 /**
  *
- * @param {import('src/spec/api-types').AppealSubmission['appeal']} appeal
+ * @param {import('src/spec/api-types').AppellantSubmission} appellantSubmission
  * @returns
  */
-exports.formatter = async (appeal) => {
-	if (!appeal) throw new Error(`Appeal could not be formatted`);
+exports.formatter = async (appellantSubmission) => {
+	if (!appellantSubmission) throw new Error(`Appeal submission could not be formatted`);
 
 	let lpa;
 
 	try {
-		lpa = await lpaService.getLpaByCode(appeal.lpaCode);
+		lpa = await lpaService.getLpaByCode(appellantSubmission.LPACode);
 	} catch (err) {
-		lpa = await lpaService.getLpaById(appeal.lpaCode);
+		lpa = await lpaService.getLpaById(appellantSubmission.LPACode);
 	}
 
 	if (!lpa) {
 		throw ApiError.lpaNotFound();
 	}
+
+	// const address = appellantSubmission.SubmissionAddress?.find(
+	// 	(address) => address.fieldName === 'siteAddress'
+	// );
 
 	return [
 		{
@@ -29,45 +33,42 @@ exports.formatter = async (appeal) => {
 				LPAName: lpa.getName(),
 				appealType: 'Householder (HAS) Appeal',
 				isListedBuilding: false,
-				decision: appeal.eligibility.applicationDecision,
-				originalCaseDecisionDate: appeal.decisionDate.toISOString(),
-				costsAppliedForIndicator: false,
-				LPAApplicationReference: appeal.planningApplicationNumber,
+				decision: appellantSubmission.applicationDecision,
+				// originalCaseDecisionDate: appellantSubmission.applicationDecisionDate.toISOString(),
+				costsAppliedForIndicator: appellantSubmission.costApplication,
+				LPAApplicationReference: appellantSubmission.applicationReference,
 				appellant: {
-					firstName: appeal.aboutYouSection.yourDetails.isOriginalApplicant
-						? appeal.aboutYouSection.yourDetails.name.split(' ')[0]
-						: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf.split(' ')[0],
-					lastName: appeal.aboutYouSection.yourDetails.isOriginalApplicant
-						? appeal.aboutYouSection.yourDetails.name.split(' ').splice(1)?.join(' ')
-						: appeal.aboutYouSection.yourDetails.appealingOnBehalfOf.split(' ').slice(1)?.join(' '),
-					emailAddress: appeal.aboutYouSection.yourDetails.isOriginalApplicant
-						? appeal.email
-						: undefined
+					firstName: appellantSubmission.isAppellant
+						? appellantSubmission.contactFirstName
+						: appellantSubmission.appellantFirstName,
+					lastName: appellantSubmission.isAppellant
+						? appellantSubmission.contactLastName
+						: appellantSubmission.appellantLastName,
+					emailAddress: appellantSubmission.appellantEmailAddress
 				},
-				agent: !appeal.aboutYouSection.yourDetails.isOriginalApplicant
+				agent: !appellantSubmission.isAppellant
 					? {
-							firstName: appeal.aboutYouSection.yourDetails.name.split(' ')[0],
-							lastName: appeal.aboutYouSection.yourDetails.name.split(' ').splice(1)?.join(' '),
-							emailAddress: appeal.email
+							firstName: appellantSubmission.contactFirstName,
+							lastName: appellantSubmission.contactLastName,
+							emailAddress: appellantSubmission.appellantEmailAddress
 					  }
 					: undefined,
-				siteAddressLine1: appeal.appealSiteSection.siteAddress.addressLine1,
-				siteAddressLine2: appeal.appealSiteSection.siteAddress.addressLine2,
-				siteAddressTown: appeal.appealSiteSection.siteAddress.town,
-				siteAddressCounty: appeal.appealSiteSection.siteAddress.county,
-				siteAddressPostcode: appeal.appealSiteSection.siteAddress.postcode,
-				isSiteFullyOwned: appeal.appealSiteSection.siteOwnership.ownsWholeSite,
-				hasToldOwners: !appeal.appealSiteSection.siteOwnership.ownsWholeSite
-					? appeal.appealSiteSection.siteOwnership.haveOtherOwnersBeenTold
+				// siteAddressLine1: address.addressLine1,
+				// siteAddressLine2: address.addressLine2,
+				// siteAddressTown: address.town,
+				// siteAddressCounty: address.county,
+				// siteAddressPostcode: address.postcode,
+				isSiteFullyOwned: appellantSubmission.ownsAllLand,
+				hasToldOwners: !appellantSubmission.ownsAllLand
+					? appellantSubmission.informedOwners
 					: undefined,
-				isSiteVisible: appeal.appealSiteSection.siteAccess.canInspectorSeeWholeSiteFromPublicRoad,
-				inspectorAccessDetails: !appeal.appealSiteSection.siteAccess
-					.canInspectorSeeWholeSiteFromPublicRoad
-					? appeal.appealSiteSection.siteAccess.howIsSiteAccessRestricted
+				isSiteVisible: appellantSubmission.appellantSiteAccess,
+				inspectorAccessDetails: appellantSubmission.appellantSiteAccess
+					? appellantSubmission.appellantSiteAccess_appellantSiteAccessDetails
 					: undefined,
-				doesSiteHaveHealthAndSafetyIssues: appeal.appealSiteSection.healthAndSafety.hasIssues,
-				healthAndSafetyIssuesDetails: appeal.appealSiteSection.healthAndSafety.hasIssues
-					? appeal.appealSiteSection.healthAndSafety.healthAndSafetyIssues
+				doesSiteHaveHealthAndSafetyIssues: appellantSubmission.appellantSiteSafety,
+				healthAndSafetyIssuesDetails: appellantSubmission.appellantSiteSafety
+					? appellantSubmission.appellantsiteSafety_appellantSiteAccessDetails
 					: undefined
 			},
 			// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this

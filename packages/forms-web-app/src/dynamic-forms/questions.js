@@ -1394,14 +1394,14 @@ exports.questions = {
 		]
 	}),
 	uploadOriginalApplicationForm: new MultiFileUploadQuestion({
-		title: 'Upload your planning application form',
-		question: 'Upload your planning application form',
+		title: 'Upload your application form',
+		question: 'Upload your application form',
 		description:
 			'Upload the application form that you sent to the local planning authority, including the date. Do not upload a draft application.\nIf you do not have your application form, you can search for it on the local planning authority’s website.',
 		fieldName: 'uploadOriginalApplicationForm',
 		url: 'upload-application-form',
 		validators: [
-			new RequiredFileUploadValidator('Select your planning application form'),
+			new RequiredFileUploadValidator('Select your application form'),
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadOriginalApplicationForm
@@ -1451,13 +1451,13 @@ exports.questions = {
 	}),
 	planningApplicationDate: () =>
 		new DateQuestion({
-			title: 'What date did you submit your planning application?',
-			question: 'What date did you submit your planning application?',
+			title: 'What date did you submit your application?',
+			question: 'What date did you submit your application?',
 			fieldName: 'onApplicationDate',
 			url: 'planning-application-date',
 			hint: `For example, ${getDate('past')}`,
 			validators: [
-				new DateValidator('the date you submitted your planning application', {
+				new DateValidator('the date you submitted your application', {
 					ensurePast: true
 				})
 			]

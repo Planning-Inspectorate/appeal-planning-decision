@@ -6,6 +6,7 @@ describe('validators/common/enter-code', () => {
 	const res = jest.fn();
 	const fieldName = 'email-code';
 	const targetFieldName = 'email-code';
+  
 	const emptyError = 'Enter the correct code';
 	const tooLongError = 'How visibility is restricted must be $maxLength characters or less';
 
@@ -30,6 +31,7 @@ describe('validators/common/enter-code', () => {
 		const result = validationResult(req);
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
+    
 		expect(result.errors[0].msg).toEqual('Enter the correct code');
 		expect(result.errors[0].param).toEqual('email-code');
 	});
@@ -54,7 +56,9 @@ describe('validators/common/enter-code', () => {
 		const result = validationResult(req);
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
+
 		expect(result.errors[0].msg).toEqual('Enter the correct code');
+
 		expect(result.errors[0].param).toEqual('email-code');
 	});
 	it('invalid alpha characters entered', async () => {
@@ -78,7 +82,9 @@ describe('validators/common/enter-code', () => {
 		const result = validationResult(req);
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
+
 		expect(result.errors[0].msg).toEqual('Enter the correct code');
+
 		expect(result.errors[0].param).toEqual('email-code');
 	});
 	it('invalid alpha characters entered not at start of string', async () => {
@@ -102,7 +108,9 @@ describe('validators/common/enter-code', () => {
 		const result = validationResult(req);
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
+
 		expect(result.errors[0].msg).toEqual('Enter the correct code');
+
 		expect(result.errors[0].param).toEqual('email-code');
 	});
 	it('invalid non alphanumeric characters entered', async () => {
@@ -126,7 +134,9 @@ describe('validators/common/enter-code', () => {
 		const result = validationResult(req);
 		expect(result.errors).toHaveLength(1);
 		expect(result.errors[0].location).toEqual('body');
+
 		expect(result.errors[0].msg).toEqual('Enter the correct code');
+
 		expect(result.errors[0].param).toEqual('email-code');
 	});
 	it('no characters entered', async () => {

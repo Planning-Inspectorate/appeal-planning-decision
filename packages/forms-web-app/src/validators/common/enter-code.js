@@ -18,6 +18,7 @@ const ruleEnterCode = () =>
 		})
 		.withMessage('Enter the correct code');
 
+
 const rules = () => {
 	return [ruleEnterCode()];
 };
