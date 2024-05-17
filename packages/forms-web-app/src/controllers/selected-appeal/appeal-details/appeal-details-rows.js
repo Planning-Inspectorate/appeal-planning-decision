@@ -1,11 +1,12 @@
 const { formatAddress } = require('@pins/common/src/lib/format-address');
 const {
-	formatAgentDetails,
-	formatVisibility,
+	formatApplicantDetails,
 	formatHealthAndSafety,
 	formatProcedure,
 	formatLinkedAppeals,
-	formatYesOrNo
+	formatYesOrNo,
+	formatContactDetails,
+	formatAccessDetails
 } = require('@pins/common');
 
 /**
@@ -26,13 +27,13 @@ exports.detailsRows = (caseData) => {
 			condition: () => true
 		},
 		{
-			keyText: 'Agent name',
-			valueText: formatAgentDetails(caseData),
+			keyText: "Applicant's name",
+			valueText: formatApplicantDetails(caseData),
 			condition: (caseData) => !caseData.isAppellant
 		},
 		{
 			keyText: 'Contact details',
-			valueText: `${caseData.appellantFirstName} ${caseData.appellantLastName}`,
+			valueText: formatContactDetails(caseData),
 			condition: () => true
 		},
 		{
@@ -86,8 +87,8 @@ exports.detailsRows = (caseData) => {
 			condition: (caseData) => caseData.informedOwners
 		},
 		{
-			keyText: 'Will an inspector need to access your land or property?',
-			valueText: caseData.appellantSiteAccess,
+			keyText: 'Will an inspector need to access the land or property?',
+			valueText: formatAccessDetails(caseData),
 			condition: (caseData) => caseData.appellantSiteAccess
 		},
 		{
@@ -116,11 +117,6 @@ exports.detailsRows = (caseData) => {
 			condition: (caseData) => caseData.informedTenantsAgriculturalHolding
 		},
 		{
-			keyText: 'Visibility',
-			valueText: formatVisibility(caseData),
-			condition: (caseData) => caseData
-		},
-		{
 			keyText: 'Site health and safety issues',
 			valueText: formatHealthAndSafety(caseData),
 			condition: (caseData) => caseData
@@ -142,8 +138,8 @@ exports.detailsRows = (caseData) => {
 		},
 		{
 			keyText: 'Did the local planning authority change the description of development?',
-			valueText: caseData.developmentDescriptionDetails,
-			condition: (caseData) => caseData.developmentDescriptionDetails
+			valueText: caseData.updateDevelopmentDescription,
+			condition: (caseData) => caseData.updateDevelopmentDescription
 		},
 		{
 			keyText: 'Preferred procedure',

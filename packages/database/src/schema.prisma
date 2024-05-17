@@ -353,10 +353,11 @@ model AppealCase {
   caseDecisionPublished Boolean? @default(false)
 
   // appeal details
-  isAppellant     Boolean?
-  yourFirstName   String?
-  yourLastName    String?
-  yourCompanyName String?
+  isAppellant          Boolean?
+  appellantCompanyName String?
+  contactFirstName     String?
+  contactLastName      String?
+  contactCompanyName   String?
 
   appellantPhoneNumber String?
 
