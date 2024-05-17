@@ -6,8 +6,8 @@
 {% from "../macros/summary-field.njk" import summaryField %}
 
 {% block head %}
-  <style>{{ css | safe }}</style>
-  <style>.govuk-template { background-color: #FFFFFF; }</style>
+  <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>{{ css | safe }}</style>
+  <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>.govuk-template { background-color: #FFFFFF; }</style>
 {% endblock %}
 
 {% block pageTitle %}

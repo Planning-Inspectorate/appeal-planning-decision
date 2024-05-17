@@ -1,6 +1,7 @@
 const express = require('express');
 const compression = require('compression');
 const lusca = require('lusca');
+const { configureCSP } = require('./csp');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const nunjucks = require('nunjucks');
@@ -83,9 +84,8 @@ if (config.server.useSecureSessionCookie) {
 	app.set('trust proxy', 1); // trust first proxy
 }
 
+app.disable('x-powered-by');
 app.use(compression());
-app.use(lusca.xframe('SAMEORIGIN'));
-app.use(lusca.xssProtection(true));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -103,6 +103,7 @@ app.use(fileUpload({ ...config.fileUpload /*useTempFiles: true*/ }));
 app.use(session(sessionConfig()));
 app.use(navigationHistoryMiddleware()); // Above lusca so csrf token isn't in session yet
 app.use(lusca.csrf()); // Depends on fileupload and session
+configureCSP(app);
 app.use(flashMessageCleanupMiddleware);
 app.use(flashMessageToNunjucks(env));
 app.use(navigationHistoryToNunjucksMiddleware(env));

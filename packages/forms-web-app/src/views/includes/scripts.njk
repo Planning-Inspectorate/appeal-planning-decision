@@ -1,5 +1,5 @@
 <!-- Javascript -->
 <script src="/assets/govuk/all.js"></script>
-<script>
+<script {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
   window.GOVUKFrontend.initAll()
 </script>
