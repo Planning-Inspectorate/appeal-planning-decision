@@ -80,13 +80,12 @@ class HasAppealFormJourney extends Journey {
 		})();
 
 		this.sections.push(
-			new Section('Your details', 'your-details')
+			new Section('Prepare appeal', 'prepare-appeal')
 				.addQuestion(questions.applicationName)
 				.addQuestion(questions.applicantName)
 				.withCondition(questionHasAnswer(questions.applicationName, 'no'))
 				.addQuestion(questions.contactDetails)
-				.addQuestion(questions.contactPhoneNumber),
-			new Section('Site details', 'site-details')
+				.addQuestion(questions.contactPhoneNumber)
 				.addQuestion(questions.appealSiteAddress)
 				.addQuestion(questions.siteArea)
 				.addQuestion(questions.appellantGreenBelt)
@@ -123,22 +122,19 @@ class HasAppealFormJourney extends Journey {
 				.addQuestion(questions.tellingLandowners)
 				.withCondition(shouldDisplayTellingLandowners)
 				.addQuestion(questions.inspectorAccess)
-				.addQuestion(questions.healthAndSafety),
-			new Section('Your application', 'your-application')
+				.addQuestion(questions.healthAndSafety)
 				.addQuestion(questions.enterApplicationReference)
 				.addQuestion(questions.planningApplicationDate())
 				.addQuestion(questions.enterDevelopmentDescription)
-				.addQuestion(questions.updateDevelopmentDescription),
-			new Section('Your appeal', 'your-appeal')
+				.addQuestion(questions.updateDevelopmentDescription)
 				.addQuestion(questions.anyOtherAppeals)
 				.addQuestion(questions.linkAppeals)
 				.withCondition(questionHasAnswer(questions.anyOtherAppeals, 'yes')),
-			new Section('Application', 'application')
+			new Section('Upload documents', 'upload-documents')
 				.addQuestion(questions.uploadOriginalApplicationForm)
 				.addQuestion(questions.uploadChangeOfDescriptionEvidence)
 				.withCondition(questionHasAnswer(questions.updateDevelopmentDescription, 'yes'))
-				.addQuestion(questions.uploadApplicationDecisionLetter),
-			new Section('Appeal documents', 'appeal-documents')
+				.addQuestion(questions.uploadApplicationDecisionLetter)
 				.addQuestion(questions.uploadAppellantStatement)
 				.addQuestion(questions.costApplication)
 				.addQuestion(questions.uploadCostApplication)

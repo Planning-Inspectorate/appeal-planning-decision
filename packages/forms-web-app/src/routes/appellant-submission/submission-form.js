@@ -38,7 +38,6 @@ router.get(
 	checkNotSubmitted(dashboardUrl),
 	householderTaskList
 );
-
 router.get(
 	'/submit/declaration',
 	getJourneyResponse,

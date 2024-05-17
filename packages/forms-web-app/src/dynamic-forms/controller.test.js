@@ -230,13 +230,16 @@ describe('dynamic-form/controller', () => {
 			const pageCaption = `Appeal ${appeal.caseReference}`;
 			await list(req, res, pageCaption, { appeal });
 
+			const expectedUrl = `/appeals/householder/submit/declaration?id=${mockRef}`;
+
 			expect(res.render).toHaveBeenCalledWith(mockJourney.listingPageViewPath, {
 				appeal,
 				summaryListData: mockSummaryListData,
 				layoutTemplate: mockTemplateUrl,
 				journeyComplete: false,
 				pageCaption: pageCaption,
-				journeyTitle: mockJourneyTitle
+				journeyTitle: mockJourneyTitle,
+				declarationUrl: expectedUrl
 			});
 		});
 

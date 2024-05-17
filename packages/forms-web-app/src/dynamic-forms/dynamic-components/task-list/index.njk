@@ -77,21 +77,16 @@
                   Ready to submit
                 </strong>
                 </h2>
-                <p>By submitting this questionnaire you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
-              <form action method="post">
-<input type="hidden" name="_csrf" value="{{_csrf}}">
-                {{ govukButton({
-                  text: "Submit questionnaire",
-                  type: "submit",
-                  attributes: { "data-cy":"submit-questionnaire"}
-                }) }}
-              </form>
+                <p>By submitting this {{ submissionType }} you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+                {% block formButton %}
+                {% endblock %}
+              
             {% else %}
               <strong class="govuk-tag govuk-tag--grey">
                 Cannot start yet
               </strong>
               </h2>
-              <p>You cannot submit the questionnaire until all of the other sections are complete.</p>
+              <p>You cannot submit the {{ submissionType }} until all of the other sections are complete.</p>
             {% endif %}
           </div>
         </li>

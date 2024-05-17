@@ -122,8 +122,11 @@ exports.list = async (req, res, pageCaption, viewData) => {
 		summaryListData.sections.push(sectionView);
 	}
 
+	const declarationUrl = `/appeals/householder/submit/declaration?id=${journey.response.referenceId}`;
+
 	return res.render(journey.listingPageViewPath, {
 		...viewData,
+		declarationUrl,
 		pageCaption,
 		summaryListData,
 		journeyComplete: journey.isComplete(),
