@@ -64,10 +64,17 @@ exports.formatLinkedAppeals = (caseData) => {
 	const appellantLinkedCases = caseData.SubmissionLinkedCase || [];
 
 	const linkedCasesDisplayDetails = appellantLinkedCases
-		.map((linkedCase) => linkedCase.caseReference)
+		.map(formatLinkedAppealHyperlink)
 		.join('\n');
 
 	const valueText = `Yes'\n'${linkedCasesDisplayDetails}`;
 
 	return valueText;
+};
+
+/**
+ * @param {import('appeals-service-api').Api.SubmissionLinkedCase} linkedAppeal
+ */
+const formatLinkedAppealHyperlink = (linkedAppeal) => {
+	return `<a href=# class="govuk-link">${linkedAppeal.caseReference}</a>`;
 };

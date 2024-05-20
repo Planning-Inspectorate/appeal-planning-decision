@@ -415,7 +415,17 @@ const lpaAppealCaseData = [
 		Appeal: {
 			connect: { id: lpaAppealIds.appealFifteen }
 		},
-		...commonAppealCaseDataProperties,
+		LPACode: 'Q9999',
+		LPAName: 'System Test Borough Council',
+		decision: 'refused',
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		costsAppliedForIndicator: true,
+		LPAApplicationReference: '12/2323232/PLA',
+		procedure: 'inquiry',
+		appellantFirstName: 'Test',
+		appellantLastName: 'Appellant',
+		rule6StatementPublished: true,
+		casePublished: true,
 		caseReference: '1000014',
 		appealTypeCode: 'S78',
 		appealTypeName: 'Full Planning',
