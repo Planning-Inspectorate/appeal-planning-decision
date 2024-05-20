@@ -54,7 +54,7 @@
     </div>
   </div>
   <script src="/assets/accessible-autocomplete.min.js"></script>
-  <script>
+  <script {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
     accessibleAutocomplete.enhanceSelectElement({
       selectElement: document.querySelector('#local-planning-department')
     })

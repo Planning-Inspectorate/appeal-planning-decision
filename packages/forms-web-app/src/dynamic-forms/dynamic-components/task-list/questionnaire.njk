@@ -5,7 +5,7 @@
 {% set submissionType = "questionnaire" %}
 
 {% block beforeTaskList %}
-  <style>
+  <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
   .appeal-details .govuk-summary-list__key,
   .appeal-details .govuk-summary-list__value,
   .appeal-details .govuk-summary-list__actions {
