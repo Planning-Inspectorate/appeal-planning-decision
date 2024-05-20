@@ -4,6 +4,8 @@ import schema from './schema.js';
 /** @type {number} */
 export const dayInSeconds = 86_400;
 
+const oidcTokenExpiry = numberWithDefault(process.env.OIDC_TOKEN_EXPIRY_SECONDS, dayInSeconds);
+
 const { value, error } = schema.validate({
 	apps: {
 		appeals: {
@@ -50,13 +52,13 @@ const { value, error } = schema.validate({
 		jwks: getJsonArray('JWKS'),
 		jwtSigningAlg: process.env.JWT_SIGNING_ALG || 'RS256',
 		ttl: {
-			AccessToken: numberWithDefault(process.env.TTL_ACCESS_TOKEN, dayInSeconds),
-			ClientCredentials: numberWithDefault(process.env.TTL_CLIENT_CREDS, dayInSeconds),
-			IdToken: numberWithDefault(process.env.TTL_ID_TOKEN, dayInSeconds),
-			Grant: numberWithDefault(process.env.TTL_GRANT, dayInSeconds), // unused
-			Interaction: numberWithDefault(process.env.TTL_INTERACTION, dayInSeconds), // unused
-			RefreshToken: numberWithDefault(process.env.TTL_REFRESH_TOKEN, dayInSeconds), // unused
-			Session: numberWithDefault(process.env.TTL_SESSION, dayInSeconds) // unused
+			AccessToken: numberWithDefault(process.env.TTL_ACCESS_TOKEN, oidcTokenExpiry),
+			ClientCredentials: numberWithDefault(process.env.TTL_CLIENT_CREDS, oidcTokenExpiry),
+			IdToken: numberWithDefault(process.env.TTL_ID_TOKEN, oidcTokenExpiry),
+			Grant: numberWithDefault(process.env.TTL_GRANT, oidcTokenExpiry), // unused
+			Interaction: numberWithDefault(process.env.TTL_INTERACTION, oidcTokenExpiry), // unused
+			RefreshToken: numberWithDefault(process.env.TTL_REFRESH_TOKEN, oidcTokenExpiry), // unused
+			Session: numberWithDefault(process.env.TTL_SESSION, oidcTokenExpiry) // unused
 		}
 	},
 	server: {
