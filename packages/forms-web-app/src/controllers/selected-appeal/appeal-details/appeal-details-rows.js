@@ -8,6 +8,7 @@ const {
 	formatContactDetails,
 	formatAccessDetails
 } = require('@pins/common');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
@@ -16,13 +17,18 @@ const {
 
 /**
  * @param {AppealCaseWithAppellant } caseData
+ * @param {string} userType
  * @returns {Rows}
  */
 
-exports.detailsRows = (caseData) => {
+exports.detailsRows = (caseData, userType) => {
+	const isAppellantOrAgent = userType === (APPEAL_USER_ROLES.APPELLANT || APPEAL_USER_ROLES.AGENT);
+
 	return [
 		{
-			keyText: 'Was the application made in your name?',
+			keyText: isAppellantOrAgent
+				? 'Was the application made in your name?'
+				: "Was the application made in the appellant's name",
 			valueText: formatYesOrNo(caseData, 'isAppellant'),
 			condition: () => true
 		},
@@ -150,6 +156,11 @@ exports.detailsRows = (caseData) => {
 			keyText: 'Are there other appeals linked to your development?',
 			valueText: formatLinkedAppeals(caseData),
 			condition: (caseData) => caseData
+		},
+		{
+			keyText: 'Award of costs',
+			valueText: 'Yes',
+			condition: (caseData) => isAppellantOrAgent && caseData.costsAppliedForIndicator
 		}
 	];
 };

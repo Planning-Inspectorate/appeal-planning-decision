@@ -1,5 +1,5 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { formatHeadlineData, formatRows, formatDocumentDetails } = require('@pins/common');
+const { formatHeadlineData, formatRows } = require('@pins/common');
 
 const { VIEW } = require('../../../lib/views');
 const { apiClient } = require('../../../lib/appeals-api-client');
@@ -43,10 +43,10 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		const headlineData = formatHeadlineData(caseData, userType);
 
-		const appealDetailsRows = retrieveDetailsRowsForUser(caseData, userType);
+		const appealDetailsRows = detailsRows(caseData, userType);
 		const appealDetails = formatRows(appealDetailsRows, caseData);
 
-		const appealDocumentsRows = retrieveDocumentsRowsForUser(caseData, userType);
+		const appealDocumentsRows = documentsRows(caseData, userType);
 		const appealDocuments = formatRows(appealDocumentsRows, caseData);
 
 		const viewContext = {
@@ -83,46 +83,4 @@ const formatDetailsSuffix = (userType) => {
 		return 'Your';
 	}
 	return "Appellant's";
-};
-
-/**
- * @param {import('appeals-service-api/src/spec/api-types').AppealCaseWithAppellant} caseData
- * @param {string} userType
- * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
- */
-
-const retrieveDetailsRowsForUser = (caseData, userType) => {
-	const rows = detailsRows(caseData);
-
-	if (userType === (APPEAL_USER_ROLES.APPELLANT || APPEAL_USER_ROLES.AGENT)) {
-		rows.push({
-			keyText: 'Award of costs',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.costsAppliedForIndicator
-		});
-	}
-
-	return rows;
-};
-
-/**
- * @param {import('appeals-service-api/src/spec/api-types').AppealCaseWithAppellant} caseData
- * @param {string} userType
- * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
- */
-
-const retrieveDocumentsRowsForUser = (caseData, userType) => {
-	const rows = documentsRows(caseData);
-
-	const documents = caseData.Documents || [];
-
-	if (userType === (APPEAL_USER_ROLES.APPELLANT || APPEAL_USER_ROLES.AGENT)) {
-		rows.push({
-			keyText: 'Costs application',
-			valueText: formatDocumentDetails(documents, 'costsApplication'),
-			condition: (caseData) => caseData
-		});
-	}
-
-	return rows;
 };
