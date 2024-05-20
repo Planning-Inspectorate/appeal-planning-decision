@@ -125,7 +125,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Site health and safety issues',
 			valueText: formatHealthAndSafety(caseData),
-			condition: (caseData) => caseData
+			condition: () => true
 		},
 		{
 			keyText: 'Application reference',
@@ -155,7 +155,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Are there other appeals linked to your development?',
 			valueText: formatLinkedAppeals(caseData),
-			condition: (caseData) => caseData
+			condition: () => true
 		},
 		{
 			keyText: 'Award of costs',

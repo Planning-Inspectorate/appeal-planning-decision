@@ -840,3 +840,31 @@ export interface SubmissionAddress {
 	/** the postcode of the address */
 	postcode: string;
 }
+
+/** A case linked to a submitted appeal or questionnaire */
+export interface SubmissionLinkedCase {
+	/**
+	 * identifier for the submission linked case
+	 * @format uuid
+	 */
+	id: string;
+	/**
+	 * lpa questionnaire id this linked appeal is associated with, can be null
+	 * @format uuid
+	 */
+	lpaQuestionnaireSubmissionId?: string;
+	/**
+	 * appeal submission id this linked appeal is associated with, can be null
+	 * @format uuid
+	 */
+	appellantSubmissionId?: string;
+	/** which question this linked case is associated with for the submission */
+	fieldName: string;
+	/** case reference for linked appeal */
+	caseReference: string;
+	/**
+	 * the appeal case id that the linked appeal is associated with once submission or questionnaire accepted by back office
+	 * @format uuid
+	 */
+	appealCaseId?: string;
+}
