@@ -39,7 +39,7 @@ async function getAppealsForUser(userId) {
 			appealToUser.Appeal?.AppellantSubmission?.submitted === false &&
 			appealToUser.Appeal?.AppealCase === null
 	).map((appealToUser) => appealToUser.Appeal);
-	console.log('Inside', v2Drafts);
+
 	// find appeal cases
 	const cases = user.Appeals.map((appealToUser) => appealToUser.Appeal?.AppealCase).filter(
 		filterNotNull

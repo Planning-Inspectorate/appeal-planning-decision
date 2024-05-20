@@ -76,11 +76,8 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
  */
 const mapToAppellantDashboardDisplayData = (appealData) => ({
 	appealId: isAppealSubmission(appealData) ? appealData._id : appealData.id,
-	appealNumber: isAppealSubmission(appealData)
-		? ''
-		: isV2Submission(appealData)
-		? ''
-		: appealData.caseReference,
+	appealNumber:
+		isAppealSubmission(appealData) || isV2Submission(appealData) ? '' : appealData.caseReference,
 	address: formatAddress(appealData),
 	appealType: getAppealType(appealData),
 	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
@@ -88,16 +85,14 @@ const mapToAppellantDashboardDisplayData = (appealData) => ({
 	appealDecision: isAppealSubmission(appealData)
 		? null
 		: mapDecisionLabel(appealData.caseDecisionOutcome),
-	appealDecisionColor: isAppealSubmission(appealData)
-		? null
-		: isV2Submission(appealData)
-		? null
-		: mapDecisionColour(appealData.caseDecisionOutcome),
-	caseDecisionDate: isAppealSubmission(appealData)
-		? null
-		: isV2Submission(appealData)
-		? null
-		: appealData.caseDecisionDate
+	appealDecisionColor:
+		isAppealSubmission(appealData) || isV2Submission(appealData)
+			? null
+			: mapDecisionColour(appealData.caseDecisionOutcome),
+	caseDecisionDate:
+		isAppealSubmission(appealData) || isV2Submission(appealData)
+			? null
+			: appealData.caseDecisionDate
 });
 
 // LPADashboard - ToDo or WaitingToReview FUNCTIONS

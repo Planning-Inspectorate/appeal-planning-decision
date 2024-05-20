@@ -1,6 +1,7 @@
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
+ * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.NeighbouringAddress} NeighbouringAddress
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
  */
@@ -15,7 +16,7 @@ const formatAddress = (appealCaseData, joinString = ', ') => {
 		throw new Error('unsafe joinString');
 	}
 
-	if (isAppealSubmission(appealCaseData)) {
+	if (isAppealSubmission(appealCaseData) || isV2Submission(appealCaseData)) {
 		return formatAppealSubmissionAddress(appealCaseData);
 	}
 
@@ -49,23 +50,43 @@ const formatAddressWithBreaks = (appealCaseData) => {
 };
 
 /**
- * @param {AppealSubmission} appealSubmission
+ * @param {AppealSubmission| AppellantSubmission} appealSubmission
  * @returns {string}
  */
 const formatAppealSubmissionAddress = (appealSubmission) => {
-	if (!appealSubmission.appeal?.appealSiteSection?.siteAddress) {
+	if (isAppealSubmission(appealSubmission)) {
+		if (!appealSubmission.appeal?.appealSiteSection?.siteAddress) {
+			return '';
+		}
+		const address = appealSubmission.appeal?.appealSiteSection?.siteAddress;
+
+		const addressComponents = [
+			address.addressLine1,
+			address.addressLine2,
+			address.town,
+			address.county,
+			address.postcode
+		];
+
+		return addressComponents.filter(Boolean).join(', ');
+	} else if (isV2Submission(appealSubmission)) {
+		// appellant submission should only contain one address
+		const v2Address = appealSubmission?.AppellantSubmission?.SubmissionAddress[0];
+		if (!v2Address) {
+			return '';
+		}
+
+		const addressComponents = [
+			v2Address.addressLine1,
+			v2Address.addressLine2,
+			v2Address.townCity,
+			v2Address.county,
+			v2Address.postcode
+		];
+		return addressComponents.filter(Boolean).join(', ');
+	} else {
 		return '';
 	}
-	const address = appealSubmission.appeal?.appealSiteSection?.siteAddress;
-
-	const addressComponents = [
-		address.addressLine1,
-		address.addressLine2,
-		address.town,
-		address.postcode
-	];
-
-	return addressComponents.filter(Boolean).join(', ');
 };
 
 /**
