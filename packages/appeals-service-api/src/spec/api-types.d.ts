@@ -392,9 +392,11 @@ export interface AppealCase {
 	/** the Inspector's outcome/decision for this case */
 	caseDecisionOutcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
 	caseDecisionPublished?: boolean;
-	yourFirstName?: string;
-	yourLastName?: string;
-	yourCompanyName?: string;
+	isAppellant?: boolean;
+	appellantCompanyName?: string;
+	contactFirstName?: string;
+	contactLastName?: string;
+	contactCompanyName?: string;
 	appellantPhoneNumber?: string;
 	/** @format date-time */
 	onApplicationDate?: string;
@@ -405,7 +407,7 @@ export interface AppealCase {
 	advertisedAppeal?: boolean;
 	informedOwners?: boolean;
 	appellantGreenBelt?: boolean;
-	siteAreaSquareMeters?: number;
+	siteAreaSquareMetres?: number;
 	agriculturalHolding?: boolean;
 	tenantAgriculturalHolding?: boolean;
 	otherTenantsAgriculturalHolding?: boolean;
@@ -417,6 +419,7 @@ export interface AppealCase {
 	appellantProcedurePreference?: string;
 	appellantPreferHearingDetails?: string;
 	appellantPreferInquiryDetails?: string;
+	appellantLinkedCase?: boolean;
 	updateDevelopmentDescription?: boolean;
 	developmentDescriptionDetails?: string;
 	statusPlanningObligation?: string;

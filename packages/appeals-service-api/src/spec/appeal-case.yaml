@@ -495,11 +495,15 @@ components:
           type: boolean
 
         # appeal details
-        yourFirstName:
+        isAppellant:
+          type: boolean
+        appellantCompanyName:
           type: string
-        yourLastName:
+        contactFirstName:
           type: string
-        yourCompanyName:
+        contactLastName:
+          type: string
+        contactCompanyName:
           type: string
 
         appellantPhoneNumber:
@@ -524,7 +528,7 @@ components:
         appellantGreenBelt:
           type: boolean
 
-        siteAreaSquareMeters:
+        siteAreaSquareMetres:
           type: integer
 
         agriculturalHolding:
@@ -551,6 +555,9 @@ components:
           type: string
         appellantPreferInquiryDetails:
           type: string
+
+        appellantLinkedCase:
+          type: boolean
 
         updateDevelopmentDescription:
           type: boolean
