@@ -30,7 +30,11 @@ class UserAppealsRepository {
 							Appeal: {
 								include: {
 									AppealCase: true,
-									AppellantSubmission: true
+									AppellantSubmission: {
+										include: {
+											SubmissionAddress: true
+										}
+									}
 								}
 							}
 						}
