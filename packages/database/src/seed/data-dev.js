@@ -132,7 +132,8 @@ const appellantSubmissionIds = {
 
 const appealSubmissionDraft = {
 	// ID in Cosmos, see dev/data
-	id: '89aa8504-773c-42be-bb68-029716ad9756'
+	id: '89aa8504-773c-42be-bb68-029716ad9756',
+	idTwo: 'ac3643e6-e680-4230-9c3c-66d90c3ecdfe'
 };
 
 const rule6Documents = {
@@ -245,6 +246,11 @@ const appeals = [
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
+		legacyAppealSubmissionState: 'DRAFT'
+	},
+	{
+		id: appealSubmissionDraft.idTwo,
+		legacyAppealSubmissionId: appealSubmissionDraft.idTwo,
 		legacyAppealSubmissionState: 'DRAFT'
 	},
 	...lpaAppeals
@@ -547,6 +553,11 @@ const appealToUsers = [
 	},
 	{
 		appealId: appealSubmissionDraft.id,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealSubmissionDraft.idTwo,
 		userId: appellants.appellantOne.id,
 		role: APPEAL_USER_ROLES.APPELLANT
 	},

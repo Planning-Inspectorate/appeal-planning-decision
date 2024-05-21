@@ -100,6 +100,106 @@
 		}
 	},
 	{
+		"_id": "ac3643e6-e680-4230-9c3c-66d90c3ecdfe",
+		"uuid": "ac3643e6-e680-4230-9c3c-66d90c3ecdfe",
+		"appeal": {
+			"email": "test@example.com",
+
+			"sectionStates": {
+				"aboutYouSection": {
+					"yourDetails": "COMPLETED"
+				},
+				"requiredDocumentsSection": {
+					"applicationNumber": "COMPLETED",
+					"originalApplication": "NOT STARTED",
+					"decisionLetter": "NOT STARTED"
+				},
+				"yourAppealSection": {
+					"appealStatement": "NOT STARTED",
+					"otherDocuments": "NOT STARTED",
+					"otherAppeals": "NOT STARTED"
+				},
+				"appealSiteSection": {
+					"siteAccess": "COMPLETED",
+					"siteOwnership": "COMPLETED",
+					"healthAndSafety": "COMPLETED",
+					"siteAddress": "COMPLETED"
+				}
+			},
+			"appealSiteSection": {
+				"healthAndSafety": {
+					"hasIssues": false,
+					"healthAndSafetyIssues": ""
+				},
+				"siteAccess": {
+					"howIsSiteAccessRestricted": "",
+					"canInspectorSeeWholeSiteFromPublicRoad": true
+				},
+				"siteOwnership": {
+					"ownsWholeSite": true,
+					"haveOtherOwnersBeenTold": null
+				},
+				"siteAddress": {
+					"addressLine1": "9 Test Avenue",
+					"addressLine2": "",
+					"town": "Sheffield",
+					"county": "South Yorkshire",
+					"postcode": "S9 1XY"
+				}
+			},
+			"yourAppealSection": {
+				"appealStatement": {
+					"uploadedFile": {
+						"id": "a783096f-e976-4299-b3eb-f1cb2a8ccec3",
+						"name": "Birthday-Quiz.pdf",
+						"location": "e8e8124217d256a7cb03a6410f9f3d10",
+						"size": "429927"
+					},
+					"hasSensitiveInformation": false
+				},
+				"otherDocuments": {
+					"uploadedFiles": []
+				},
+				"otherAppeals": {
+					"hasOtherAppeal": null,
+					"otherAppealRefNumber": ""
+				}
+			},
+			"requiredDocumentsSection": {
+				"applicationNumber": "ABC/123",
+				"originalApplication": {
+					"uploadedFile": {
+						"id": "d8290e68-bfbb-3bc8-b621-5a9590aa29fd",
+						"name": "attinghamparkbees.jpg",
+						"location": "0d6f62cf1fa8d0797060e5eb6b8dad8f",
+						"size": "189549"
+					}
+				},
+				"decisionLetter": {
+					"uploadedFile": {
+						"id": "13da68dd-6c0c-591f-a183-3fadbbb30c37",
+						"name": "attinghamparkbees.jpg",
+						"location": "36d62a0dcb32c3648c8b0f023383464f",
+						"size": "189549"
+					}
+				}
+			},
+			"aboutYouSection": {
+				"yourDetails": {
+					"appealingOnBehalfOf": "",
+					"email": "bob@smith.com",
+					"name": "Bob Smith",
+					"isOriginalApplicant": true
+				}
+			},
+			"state": "DRAFT",
+			"decisionDate": "2024-03-01T12:00:00Z",
+			"appealType": "1001",
+			"lpaCode": "E69999999",
+			"id": "ac3643e6-e680-4230-9c3c-66d90c3ecdfe"
+		}
+	},
+	{
 		"_id": "15549118-106f-4394-95c6-c63887b7d4c9",
 		"uuid": "15549118-106f-4394-95c6-c63887b7d4c9",
 		"appeal": {
