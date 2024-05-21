@@ -156,7 +156,6 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.SourcesDirectory)/packages/auth-server/Dockerfile
               repository: appeal-planning-decision/auth-server
-
       - name: Build Documents API
         condition: >-
           and(
@@ -215,7 +214,7 @@ extends:
               # ensure there is a @pins/common folder
               mkdir -p $(Build.Repository.LocalPath)/packages/integration-functions/node_modules/@pins/common
               # copy root node_modules to function (but don't overwrite)
-              mv -n $(Build.Repository.LocalPath)/node_modules/* $(Build.Repository.LocalPath)/packages/integration-functions/node_modules/
+              rsync -a -r --ignore-existing $(Build.Repository.LocalPath)/node_modules/ $(Build.Repository.LocalPath)/packages/integration-functions/node_modules/
               # copy common package to @pins/common folder
               cp -r $(Build.Repository.LocalPath)/packages/common/* $(Build.Repository.LocalPath)/packages/integration-functions/node_modules/@pins/common/
           - task: ArchiveFiles@2
