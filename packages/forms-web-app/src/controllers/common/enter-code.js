@@ -201,7 +201,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		}
 
 		if (!tokenValid.valid) {
-			return renderError('Enter a correct code');
+			return renderError('Enter the correct code');
 		}
 
 		if (sqlUsersFlag) {
