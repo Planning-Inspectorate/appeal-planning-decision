@@ -9,6 +9,12 @@ const Question = require('../../question');
  */
 
 /**
+ * @typedef {Object} InputField
+ * @property {string} fieldName
+ * @property {string} label
+ */
+
+/**
  * @class
  */
 class MultiFieldInputQuestion extends Question {
@@ -27,7 +33,8 @@ class MultiFieldInputQuestion extends Question {
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {Record<string, string>} [params.inputAttributes] html attributes to add to the input
-	 * @param {Object[]} params.inputFields input fields
+	 * @param {InputField[]} params.inputFields input fields
+	 * @param {'contactDetails' | 'standard' | null} [params.formatType] optional type field used for formatting for task list
 	 */
 	constructor({
 		title,
@@ -39,7 +46,8 @@ class MultiFieldInputQuestion extends Question {
 		html,
 		label,
 		inputAttributes = {},
-		inputFields
+		inputFields,
+		formatType
 	}) {
 		super({
 			title,
@@ -53,6 +61,7 @@ class MultiFieldInputQuestion extends Question {
 		});
 		this.label = label;
 		this.inputAttributes = inputAttributes;
+		this.formatType = formatType || 'standard';
 
 		if (inputFields) {
 			this.inputFields = inputFields;
@@ -101,13 +110,24 @@ class MultiFieldInputQuestion extends Question {
 	 * returns the formatted answers values to be used to build task list elements
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
-	 * @returns {Array.<Object>}
+	 * @returns {Array<{
+	 *   key: string;
+	 *   value: string | Object;
+	 *   action: {
+	 *     href: string;
+	 *     text: string;
+	 *     visuallyHiddenText: string;
+	 *   };
+	 * }>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey) {
-		const summaryDetails = this.inputFields.reduce((acc, field) => {
-			const answer = journey.response.answers[field.fieldName];
-			return answer ? acc + (acc ? ' ' : '') + answer : acc;
-		}, '');
+		const summaryDetails =
+			this.formatType === 'contactDetails'
+				? this.formatContactDetails(journey, this.inputFields)
+				: this.inputFields.reduce((acc, field) => {
+						const answer = journey.response.answers[field.fieldName];
+						return answer ? acc + (acc ? ' ' : '') + answer : acc;
+				  }, '');
 
 		return [
 			{
@@ -116,6 +136,27 @@ class MultiFieldInputQuestion extends Question {
 				action: this.getAction(sectionSegment, journey, summaryDetails)
 			}
 		];
+	}
+
+	/**
+	 * returns the formatted answers values to be used to build task list elements
+	 * @param {Journey} journey
+	 * @param {InputField[]} inputFields
+	 * @returns {String}
+	 */
+	formatContactDetails(journey, inputFields) {
+		const firstNameField =
+			inputFields.find((inputField) => inputField.fieldName.includes('FirstName'))?.fieldName || '';
+		const lastNameField =
+			inputFields.find((inputField) => inputField.fieldName.includes('LastName'))?.fieldName || '';
+		const companyNameField =
+			inputFields.find((inputField) => inputField.fieldName.includes('CompanyName'))?.fieldName ||
+			'';
+
+		const contactName = `${journey.response.answers[firstNameField]} ${journey.response.answers[lastNameField]}`;
+		const companyName = journey.response.answers[companyNameField];
+
+		return contactName + (companyName ? `\n${companyName}` : '');
 	}
 }
 

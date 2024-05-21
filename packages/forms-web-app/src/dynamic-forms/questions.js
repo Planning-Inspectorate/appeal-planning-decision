@@ -1602,6 +1602,7 @@ exports.questions = {
 		html: 'resources/your-details/applicant-name.html',
 		fieldName: 'applicantName',
 		url: 'applicant-name',
+		formatType: 'contactDetails',
 		inputFields: [
 			{
 				fieldName: 'appellantFirstName',
@@ -1645,6 +1646,7 @@ exports.questions = {
 		question: 'Contact details',
 		fieldName: 'contactDetails',
 		url: 'contact-details',
+		formatType: 'contactDetails',
 		inputFields: [
 			{
 				fieldName: 'contactFirstName',
