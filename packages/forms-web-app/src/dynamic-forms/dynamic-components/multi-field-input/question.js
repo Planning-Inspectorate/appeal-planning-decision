@@ -156,7 +156,7 @@ class MultiFieldInputQuestion extends Question {
 		const contactName = `${journey.response.answers[firstNameField]} ${journey.response.answers[lastNameField]}`;
 		const companyName = journey.response.answers[companyNameField];
 
-		return contactName + (companyName ? `\n${companyName}` : '');
+		return contactName + (companyName ? `<br>${companyName}` : '');
 	}
 }
 
