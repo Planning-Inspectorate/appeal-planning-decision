@@ -122,8 +122,11 @@ exports.list = async (req, res, pageCaption, viewData) => {
 		summaryListData.sections.push(sectionView);
 	}
 
+	const declarationUrl = `/appeals/householder/submit/declaration?id=${journey.response.referenceId}`;
+
 	return res.render(journey.listingPageViewPath, {
 		...viewData,
+		declarationUrl,
 		pageCaption,
 		summaryListData,
 		journeyComplete: journey.isComplete(),
@@ -307,5 +310,7 @@ exports.appellantSubmitted = async (req, res) => {
 		return res.status(400).render('./error/not-found.njk');
 	}
 
-	return res.render('./dynamic-components/submission-screen/appellant');
+	return res.render('./dynamic-components/submission-screen/appellant', {
+		caseReference: journey.response.answers.applicationReference
+	});
 };

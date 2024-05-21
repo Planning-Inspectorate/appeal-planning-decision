@@ -97,7 +97,26 @@ class MultiFieldInputQuestion extends Question {
 		return responseToSave;
 	}
 
-	// TODO - formatAnswerForSummary, getAction, consider Section isComplete...
+	/**
+	 * returns the formatted answers values to be used to build task list elements
+	 * @param {Journey} journey
+	 * @param {String} sectionSegment
+	 * @returns {Array.<Object>}
+	 */
+	formatAnswerForSummary(sectionSegment, journey) {
+		const summaryDetails = this.inputFields.reduce((acc, field) => {
+			const answer = journey.response.answers[field.fieldName];
+			return answer ? acc + (acc ? ' ' : '') + answer : acc;
+		}, '');
+
+		return [
+			{
+				key: `${this.title}`,
+				value: this.format(summaryDetails),
+				action: this.getAction(sectionSegment, journey, summaryDetails)
+			}
+		];
+	}
 }
 
 module.exports = MultiFieldInputQuestion;

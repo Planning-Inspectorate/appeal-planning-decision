@@ -1,0 +1,32 @@
+components:
+  schemas:
+    SubmissionLinkedCase:
+      type: object
+      description: A case linked to a submitted appeal or questionnaire
+      required:
+        - id
+        - caseReference
+        - fieldName
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier for the submission linked case
+        lpaQuestionnaireSubmissionId:
+          type: string
+          format: uuid
+          description: lpa questionnaire id this linked appeal is associated with, can be null
+        appellantSubmissionId:
+          type: string
+          format: uuid
+          description: appeal submission id this linked appeal is associated with, can be null
+        fieldName:
+          type: string
+          description: which question this linked case is associated with for the submission
+        caseReference:
+          type: string
+          description: case reference for linked appeal
+        appealCaseId:
+          type: string
+          format: uuid
+          description: the appeal case id that the linked appeal is associated with once submission or questionnaire accepted by back office

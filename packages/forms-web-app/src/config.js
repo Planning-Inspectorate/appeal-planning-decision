@@ -13,6 +13,7 @@ function numberWithDefault(value, fallback) {
 }
 
 const oneGigabyte = 1024 * 1024 * 1024;
+const ninetyMinsInMs = 90 * 60 * 1000;
 const httpPort = numberWithDefault(process.env.PORT, 3000);
 
 module.exports = {
@@ -85,6 +86,12 @@ module.exports = {
 		host: process.env.HOST_URL || `http://localhost:${httpPort}`, // This is used for the HTML generator
 		port: httpPort,
 		sessionSecret: process.env.SESSION_KEY,
+		sessionIdleTimeoutAppellant: numberWithDefault(
+			process.env.SESSION_IDLE_TIMEOUT_APPELLANT,
+			ninetyMinsInMs
+		),
+		sessionIdleTimeoutLPA: numberWithDefault(process.env.SESSION_IDLE_TIMEOUT_LPA, ninetyMinsInMs),
+		sessionIdleTimeoutDelay: numberWithDefault(process.env.SESSION_IDLE_TIMEOUT_DELAY, 300000),
 		// https://expressjs.com/en/5x/api.html#app.set - to account for .gov.uk
 		subdomainOffset: numberWithDefault(process.env.SUBDOMAIN_OFFSET, 3),
 		useSecureSessionCookie: process.env.USE_SECURE_SESSION_COOKIES === 'true',

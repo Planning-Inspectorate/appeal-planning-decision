@@ -353,16 +353,25 @@ model AppealCase {
   caseDecisionPublished Boolean? @default(false)
 
   // appeal details
-  yourFirstName   String?
-  yourLastName    String?
-  yourCompanyName String?
+  isAppellant          Boolean?
+  appellantCompanyName String?
+  contactFirstName     String?
+  contactLastName      String?
+  contactCompanyName   String?
 
-  ownsAllLand      Boolean?
-  ownsSomeLand     Boolean?
-  knowsOtherOwners Boolean?
-  identifiedOwners Boolean?
-  advertisedAppeal Boolean?
-  informedOwners   Boolean?
+  appellantPhoneNumber String?
+
+  onApplicationDate DateTime?
+
+  ownsAllLand        Boolean?
+  ownsSomeLand       Boolean?
+  knowsOtherOwners   Boolean?
+  identifiedOwners   Boolean?
+  advertisedAppeal   Boolean?
+  informedOwners     Boolean?
+  appellantGreenBelt Boolean?
+
+  siteAreaSquareMetres Decimal?
 
   agriculturalHolding                Boolean?
   tenantAgriculturalHolding          Boolean?
@@ -377,6 +386,8 @@ model AppealCase {
   appellantProcedurePreference  String?
   appellantPreferHearingDetails String?
   appellantPreferInquiryDetails String?
+
+  appellantLinkedCase Boolean?
 
   // questions relating to appeal documents (aapd-1126)
 
@@ -395,6 +406,9 @@ model AppealCase {
 
   // Neighbour address reference
   NeighbouringAddresses NeighbouringAddress[]
+
+  // Linked cases
+  SubmissionLinkedCase SubmissionLinkedCase[]
 
   // todo: indexes
 
@@ -687,7 +701,9 @@ model SubmissionLinkedCase {
   caseReference String
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
-  fieldName String
+  fieldName    String
+  AppealCase   AppealCase? @relation(fields: [appealCaseId], references: [id])
+  appealCaseId String?     @db.UniqueIdentifier
 }
 
 model SubmissionListedBuilding {

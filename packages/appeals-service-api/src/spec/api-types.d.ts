@@ -69,7 +69,7 @@ export interface AppealCase {
 	costsAppliedForIndicator: boolean;
 	/** the LPA's reference for the original planning application */
 	LPAApplicationReference: string;
-	apellantCasePublished?: string;
+	appellantCasePublished?: string;
 	appellantProofEvidenceSubmitted?: boolean;
 	appellantProofEvidencePublished?: boolean;
 	appellantFinalCommentsSubmitted?: boolean;
@@ -392,15 +392,22 @@ export interface AppealCase {
 	/** the Inspector's outcome/decision for this case */
 	caseDecisionOutcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
 	caseDecisionPublished?: boolean;
-	yourFirstName?: string;
-	yourLastName?: string;
-	yourCompanyName?: string;
+	isAppellant?: boolean;
+	appellantCompanyName?: string;
+	contactFirstName?: string;
+	contactLastName?: string;
+	contactCompanyName?: string;
+	appellantPhoneNumber?: string;
+	/** @format date-time */
+	onApplicationDate?: string;
 	ownsAllLand?: boolean;
 	ownsSomeLand?: boolean;
 	knowsOtherOwners?: boolean;
 	identifiedOwners?: boolean;
 	advertisedAppeal?: boolean;
 	informedOwners?: boolean;
+	appellantGreenBelt?: boolean;
+	siteAreaSquareMetres?: number;
 	agriculturalHolding?: boolean;
 	tenantAgriculturalHolding?: boolean;
 	otherTenantsAgriculturalHolding?: boolean;
@@ -412,11 +419,13 @@ export interface AppealCase {
 	appellantProcedurePreference?: string;
 	appellantPreferHearingDetails?: string;
 	appellantPreferInquiryDetails?: string;
+	appellantLinkedCase?: boolean;
 	updateDevelopmentDescription?: boolean;
 	developmentDescriptionDetails?: string;
 	statusPlanningObligation?: string;
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
+	SubmissionLinkedCase?: object[];
 }
 
 /** An appeal submission created in the Front Office */
@@ -830,4 +839,32 @@ export interface SubmissionAddress {
 	county?: string;
 	/** the postcode of the address */
 	postcode: string;
+}
+
+/** A case linked to a submitted appeal or questionnaire */
+export interface SubmissionLinkedCase {
+	/**
+	 * identifier for the submission linked case
+	 * @format uuid
+	 */
+	id: string;
+	/**
+	 * lpa questionnaire id this linked appeal is associated with, can be null
+	 * @format uuid
+	 */
+	lpaQuestionnaireSubmissionId?: string;
+	/**
+	 * appeal submission id this linked appeal is associated with, can be null
+	 * @format uuid
+	 */
+	appellantSubmissionId?: string;
+	/** which question this linked case is associated with for the submission */
+	fieldName: string;
+	/** case reference for linked appeal */
+	caseReference: string;
+	/**
+	 * the appeal case id that the linked appeal is associated with once submission or questionnaire accepted by back office
+	 * @format uuid
+	 */
+	appealCaseId?: string;
 }

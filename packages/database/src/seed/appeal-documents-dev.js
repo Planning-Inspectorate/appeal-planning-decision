@@ -578,6 +578,23 @@ const appealDocuments = [
 		origin: 'pins',
 		stage: 'decision',
 		AppealCase: {}
+	},
+	{
+		id: 'd4290e68-bfbb-3bc8-b621-5a9590aa29aa',
+		filename: 'test-costs-application.pdf',
+		originalFilename: 'test-costs-application.pdf',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(),
+		published: true,
+		redacted: false,
+		virusCheckStatus: 'checked',
+		documentType: 'costsApplication',
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
 	}
 ];
 

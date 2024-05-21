@@ -71,7 +71,7 @@ components:
         LPAApplicationReference:
           type: string
           description: the LPA's reference for the original planning application
-        apellantCasePublished:
+        appellantCasePublished:
           type: string
         appellantProofEvidenceSubmitted:
           type: boolean
@@ -413,7 +413,7 @@ components:
         caseValidDate:
           type: string
           format: date-time
-          
+
         # statement
         statementDueDate:
           type: string
@@ -495,12 +495,23 @@ components:
           type: boolean
 
         # appeal details
-        yourFirstName:
+        isAppellant:
+          type: boolean
+        appellantCompanyName:
           type: string
-        yourLastName:
+        contactFirstName:
           type: string
-        yourCompanyName:
+        contactLastName:
           type: string
+        contactCompanyName:
+          type: string
+
+        appellantPhoneNumber:
+          type: string
+
+        onApplicationDate:
+          type: string
+          format: date-time
 
         ownsAllLand:
           type: boolean
@@ -514,6 +525,11 @@ components:
           type: boolean
         informedOwners:
           type: boolean
+        appellantGreenBelt:
+          type: boolean
+
+        siteAreaSquareMetres:
+          type: integer
 
         agriculturalHolding:
           type: boolean
@@ -540,6 +556,9 @@ components:
         appellantPreferInquiryDetails:
           type: string
 
+        appellantLinkedCase:
+          type: boolean
+
         updateDevelopmentDescription:
           type: boolean
         developmentDescriptionDetails:
@@ -551,8 +570,13 @@ components:
           type: array
           items:
             type: object
-        
+
         NeighbouringAddresses:
+          type: array
+          items:
+            type: object
+
+        SubmissionLinkedCase:
           type: array
           items:
             type: object
