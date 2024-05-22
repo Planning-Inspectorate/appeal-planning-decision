@@ -126,7 +126,7 @@ class MultiFieldInputQuestion extends Question {
 	formatAnswerForSummary(sectionSegment, journey) {
 		const summaryDetails = this.inputFields.reduce((acc, field) => {
 			const answer = journey.response.answers[field.fieldName];
-			return answer ? acc + answer + field.formatJoinString : acc;
+			return answer ? acc + answer + (field.formatJoinString || '\n') : acc;
 		}, '');
 
 		const formattedAnswer = summaryDetails || this.NOT_STARTED;
@@ -138,22 +138,6 @@ class MultiFieldInputQuestion extends Question {
 				action: this.getAction(sectionSegment, journey, summaryDetails)
 			}
 		];
-	}
-
-	/**
-	 * Returns the action link for the question
-	 * @param {Object} answer
-	 * @param {Journey} journey
-	 * @param {String} sectionSegment
-	 * @returns {{ href: string; text: string; visuallyHiddenText: string; }}
-	 */
-	getAction(sectionSegment, journey, answer) {
-		const action = {
-			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
-			text: answer ? 'Change' : 'Answer',
-			visuallyHiddenText: this.question
-		};
-		return action;
 	}
 }
 
