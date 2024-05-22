@@ -751,7 +751,8 @@ const appellantSubmissions = [
 		appealTypeCode: 'HAS',
 		Appeal: {
 			connect: { id: appealIds.appealOne }
-		}
+		},
+		submitted: true
 	},
 	{
 		id: appellantSubmissionIds.appellantSubmissionTwo,

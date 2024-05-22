@@ -35,9 +35,7 @@ async function getAppealsForUser(userId) {
 
 	// find v2 draft submissions
 	const v2Drafts = user.Appeals.filter(
-		(appealToUser) =>
-			appealToUser.Appeal?.AppellantSubmission?.submitted === false &&
-			appealToUser.Appeal?.AppealCase === null
+		(appealToUser) => appealToUser.Appeal?.AppellantSubmission?.submitted === false
 	).map((appealToUser) => appealToUser.Appeal);
 
 	// find appeal cases
