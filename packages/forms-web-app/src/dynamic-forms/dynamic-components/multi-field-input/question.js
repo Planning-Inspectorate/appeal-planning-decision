@@ -1,4 +1,6 @@
 const Question = require('../../question');
+const escape = require('escape-html');
+const { nl2br } = require('@pins/common/src/utils');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -12,6 +14,7 @@ const Question = require('../../question');
  * @typedef {Object} InputField
  * @property {string} fieldName
  * @property {string} label
+ * @property {string} formatJoinString
  */
 
 /**
@@ -121,44 +124,20 @@ class MultiFieldInputQuestion extends Question {
 	 * }>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey) {
-		const summaryDetails =
-			this.formatType === 'contactDetails'
-				? this.formatContactDetails(journey, this.inputFields)
-				: this.inputFields.reduce((acc, field) => {
-						const answer = journey.response.answers[field.fieldName];
-						return answer ? acc + (acc ? ' ' : '') + answer : acc;
-				  }, '');
+		const summaryDetails = this.inputFields.reduce((acc, field) => {
+			const answer = journey.response.answers[field.fieldName];
+			return answer ? acc + answer + field.formatJoinString : acc;
+		}, '');
+
+		const formattedAnswer = summaryDetails || this.NOT_STARTED;
 
 		return [
 			{
 				key: `${this.title}`,
-				value: this.format(summaryDetails),
+				value: nl2br(escape(formattedAnswer)),
 				action: this.getAction(sectionSegment, journey, summaryDetails)
 			}
 		];
-	}
-
-	/**
-	 * returns the formatted answers values to be used to build task list elements
-	 * @param {Journey} journey
-	 * @param {InputField[]} inputFields
-	 * @returns {String}
-	 */
-	formatContactDetails(journey, inputFields) {
-		const firstNameField =
-			inputFields.find((inputField) => inputField.fieldName.includes('FirstName'))?.fieldName || '';
-		const lastNameField =
-			inputFields.find((inputField) => inputField.fieldName.includes('LastName'))?.fieldName || '';
-		const companyNameField =
-			inputFields.find((inputField) => inputField.fieldName.includes('CompanyName'))?.fieldName ||
-			'';
-
-		if (!journey.response.answers[firstNameField]) return this.NOT_STARTED;
-
-		const contactName = `${journey.response.answers[firstNameField]} ${journey.response.answers[lastNameField]}`;
-		const companyName = journey.response.answers[companyNameField];
-
-		return contactName + (companyName ? `<br>${companyName}` : '');
 	}
 
 	/**
@@ -171,7 +150,7 @@ class MultiFieldInputQuestion extends Question {
 	getAction(sectionSegment, journey, answer) {
 		const action = {
 			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
-			text: !answer || answer === this.NOT_STARTED ? 'Answer' : 'Change',
+			text: answer ? 'Change' : 'Answer',
 			visuallyHiddenText: this.question
 		};
 		return action;

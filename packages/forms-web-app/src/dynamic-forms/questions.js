@@ -1606,15 +1606,18 @@ exports.questions = {
 		inputFields: [
 			{
 				fieldName: 'appellantFirstName',
-				label: 'First name'
+				label: 'First name',
+				formatJoinString: ' '
 			},
 			{
 				fieldName: 'appellantLastName',
-				label: 'Last name'
+				label: 'Last name',
+				formatJoinString: '\n'
 			},
 			{
 				fieldName: 'appellantCompanyName',
-				label: 'Company name (optional)'
+				label: 'Company name (optional)',
+				formatJoinString: ''
 			}
 		],
 		validators: [
@@ -1650,15 +1653,18 @@ exports.questions = {
 		inputFields: [
 			{
 				fieldName: 'contactFirstName',
-				label: 'First name'
+				label: 'First name',
+				formatJoinString: ' '
 			},
 			{
 				fieldName: 'contactLastName',
-				label: 'Last name'
+				label: 'Last name',
+				formatJoinString: '\n'
 			},
 			{
 				fieldName: 'contactCompanyName',
-				label: 'Organisation name (optional)'
+				label: 'Organisation name (optional)',
+				formatJoinString: ''
 			}
 		],
 		validators: [
