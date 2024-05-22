@@ -51,7 +51,7 @@ class BackOfficeV2Service {
 			throw new Error(`Appeal submission ${appellantSubmissionId} has an invalid appealTypeCode`);
 
 		const result = await forwarders.appeal(
-			formatters.appeal[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]](
+			await formatters.appeal[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]](
 				appellantSubmission
 			)
 		);
