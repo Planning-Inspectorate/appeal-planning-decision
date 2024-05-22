@@ -153,10 +153,28 @@ class MultiFieldInputQuestion extends Question {
 			inputFields.find((inputField) => inputField.fieldName.includes('CompanyName'))?.fieldName ||
 			'';
 
+		if (!journey.response.answers[firstNameField]) return this.NOT_STARTED;
+
 		const contactName = `${journey.response.answers[firstNameField]} ${journey.response.answers[lastNameField]}`;
 		const companyName = journey.response.answers[companyNameField];
 
 		return contactName + (companyName ? `<br>${companyName}` : '');
+	}
+
+	/**
+	 * Returns the action link for the question
+	 * @param {Object} answer
+	 * @param {Journey} journey
+	 * @param {String} sectionSegment
+	 * @returns {{ href: string; text: string; visuallyHiddenText: string; }}
+	 */
+	getAction(sectionSegment, journey, answer) {
+		const action = {
+			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
+			text: !answer || answer === this.NOT_STARTED ? 'Answer' : 'Change',
+			visuallyHiddenText: this.question
+		};
+		return action;
 	}
 }
 
