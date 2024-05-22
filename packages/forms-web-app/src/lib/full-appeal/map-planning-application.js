@@ -1,4 +1,5 @@
-const { APPEAL_ID, TYPE_CODE } = require('@pins/business-rules/src/constants');
+const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 
 const mapPlanningApplication = (application) => {
 	switch (application) {
@@ -30,9 +31,9 @@ const getAppealTypeName = (appealId) => {
 
 const getAppealTypeNameByTypeCode = (typeCode) => {
 	switch (typeCode) {
-		case TYPE_CODE.PLANNING_SECTION_78:
+		case APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78:
 			return 'Full appeal';
-		case TYPE_CODE.HOUSEHOLDER:
+		case APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS:
 			return 'Householder appeal';
 		default:
 			return '';
@@ -41,8 +42,8 @@ const getAppealTypeNameByTypeCode = (typeCode) => {
 
 const mapTypeCodeToAppealId = (typeCode) => {
 	const typeCodeToAppealId = {
-		[TYPE_CODE.HOUSEHOLDER]: APPEAL_ID.HOUSEHOLDER,
-		[TYPE_CODE.PLANNING_SECTION_78]: APPEAL_ID.PLANNING_SECTION_78
+		[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: APPEAL_ID.HOUSEHOLDER,
+		[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: APPEAL_ID.PLANNING_SECTION_78
 	};
 	return typeCodeToAppealId[typeCode];
 };
