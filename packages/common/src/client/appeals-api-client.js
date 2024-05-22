@@ -127,6 +127,7 @@ class AppealsApiClient {
 	 * 'Public' API, only checks published cases.
 	 *
 	 * Check if a case reference exists.
+	 * todo, make this call more efficient
 	 *
 	 * @param {string} ref
 	 * @returns {Promise<boolean>}
@@ -181,6 +182,7 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * todo, use a call to appeals and use token rather than user/appeals
 	 * @param {string} id
 	 * @returns {Promise<(AppealCase|AppealSubmission)[]>}
 	 */
@@ -203,6 +205,7 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * todo, use a call to appeal-cases and use token rather than user/appeal-cases
 	 * @param {{ caseReference: string, userId: string, role: string }} params
 	 * @returns {Promise<AppealCaseWithRule6Parties>}
 	 */
@@ -241,6 +244,7 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * todo, use a call to appeal-submissions and use token rather than user/appeal-submissions
 	 * @param {{ userId: string, appealSubmissionId: string }} params
 	 * @returns {Promise<(AppealSubmission)>}
 	 */
