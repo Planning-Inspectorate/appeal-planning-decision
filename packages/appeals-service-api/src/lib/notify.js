@@ -64,15 +64,22 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 
 /**
  * @param { AppellantSubmission } appellantSubmission
+ * @param { string } email
  */
-const sendSubmissionConfirmationEmailToAppellantV2 = async (appellantSubmission) => {
+const sendSubmissionConfirmationEmailToAppellantV2 = async (appellantSubmission, email) => {
 	try {
-		const recipientEmail = appellantSubmission.appellantEmailAddress;
+		const recipientEmail = email;
 		const address = appellantSubmission.SubmissionAddress?.find(
 			(address) => address.fieldName === 'siteAddress'
 		);
 		const formattedAddress = formatSubmissionAddress(address);
-		const lpa = await lpaService.getLpaById(appellantSubmission.LPACode);
+
+		let lpa;
+		try {
+			lpa = await lpaService.getLpaByCode(appellantSubmission.LPACode);
+		} catch (err) {
+			lpa = await lpaService.getLpaById(appellantSubmission.LPACode);
+		}
 
 		let variables = {
 			appeal_reference_number: appellantSubmission.appealId,

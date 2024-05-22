@@ -12,6 +12,7 @@ const { get, markAppealAsSubmitted } = require('../../routes/v2/appellant-submis
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify');
+const { getUserById } = require('../../routes/v2/users/service');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -41,6 +42,8 @@ class BackOfficeV2Service {
 		if (!appellantSubmission)
 			throw new Error(`Appeal submission ${appellantSubmissionId} not found`);
 
+		const { email } = getUserById(userId);
+
 		const isBOIntegrationActive = await isFeatureActive(
 			FLAG.APPEALS_BO_SUBMISSION,
 			appellantSubmission.LPACode
@@ -58,7 +61,7 @@ class BackOfficeV2Service {
 
 		await markAppealAsSubmitted(appellantSubmission.id);
 
-		await sendSubmissionConfirmationEmailToAppellantV2(appellantSubmission);
+		await sendSubmissionConfirmationEmailToAppellantV2(appellantSubmission, email);
 
 		return result;
 	}
