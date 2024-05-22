@@ -1195,7 +1195,7 @@ exports.questions = {
 		title: 'Do you own all the land involved in the appeal?',
 		question: 'Do you own all the land involved in the appeal?',
 		fieldName: 'ownsAllLand',
-		url: 'owns-all-land',
+		url: 'own-all-land',
 		validators: [
 			new RequiredValidator('Select yes if you own all of the land involved in the appeal')
 		]
