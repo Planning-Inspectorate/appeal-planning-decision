@@ -1409,7 +1409,7 @@ exports.questions = {
 	uploadApplicationDecisionLetter: new MultiFileUploadQuestion({
 		title: 'Upload the decision letter from the local planning authority',
 		question: 'Upload the decision letter from the local planning authority',
-		description: `This letter tells you about the decision on your application. \n\nWe need the letter from the local planning authority that tells you their decision on your planning application (also called a ‘decision notice’).\n\nDo not upload the planning officer’s report.`,
+		description: `This letter tells you about the decision on your application. \n\nWe need the letter from the local planning authority that tells you their decision on your application (also called a ‘decision notice’).\n\nDo not upload the planning officer’s report.`,
 		fieldName: 'uploadApplicationDecisionLetter',
 		url: 'upload-decision-letter',
 		validators: [
