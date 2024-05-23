@@ -107,7 +107,9 @@ const appealIds = {
 	appealFive: '756d6bfb-dde8-4532-a041-86c226a23a05',
 	appealSix: '756d6bfb-dde8-4532-a041-86c226a23a06',
 	appealSeven: '756d6bfb-dde8-4532-a041-86c226a23a07',
-	appealEight: '756d6bfb-dde8-4532-a041-86c226a23a08'
+	appealEight: '756d6bfb-dde8-4532-a041-86c226a23a08',
+	appealNine: 'd8290e68-bfbb-3bc8-b621-5a9590aa29fd',
+	appealTen: 'f933b0e0-1694-11ef-ab42-cbf3edc5e3fd'
 };
 
 const caseReferences = {
@@ -121,9 +123,17 @@ const caseReferences = {
 	caseReferenceEight: '1010108'
 };
 
+const appellantSubmissionIds = {
+	// v2 draft submissions ids
+	appellantSubmissionOne: 'a99c8871-2a4a-4e9c-85b3-498e39d5fafb',
+	appellantSubmissionTwo: '13da68dd-6c0c-591f-a183-3fadbbb30c37',
+	appellantSubmissionThree: '99e2c1bc-5e45-479b-8c9c-c4b41f6bcdb5'
+};
+
 const appealSubmissionDraft = {
 	// ID in Cosmos, see dev/data
-	id: '89aa8504-773c-42be-bb68-029716ad9756'
+	id: '89aa8504-773c-42be-bb68-029716ad9756',
+	idTwo: 'ac3643e6-e680-4230-9c3c-66d90c3ecdfe'
 };
 
 const rule6Documents = {
@@ -231,9 +241,16 @@ const appeals = [
 	{ id: appealIds.appealSix },
 	{ id: appealIds.appealSeven },
 	{ id: appealIds.appealEight },
+	{ id: appealIds.appealNine },
+	{ id: appealIds.appealTen },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
+		legacyAppealSubmissionState: 'DRAFT'
+	},
+	{
+		id: appealSubmissionDraft.idTwo,
+		legacyAppealSubmissionId: appealSubmissionDraft.idTwo,
 		legacyAppealSubmissionState: 'DRAFT'
 	},
 	...lpaAppeals
@@ -539,6 +556,21 @@ const appealToUsers = [
 		userId: appellants.appellantOne.id,
 		role: APPEAL_USER_ROLES.APPELLANT
 	},
+	{
+		appealId: appealSubmissionDraft.idTwo,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealIds.appealNine,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealIds.appealTen,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
 	...linkedLpaAppeals,
 	// rule 6 party links
 	{
@@ -712,12 +744,48 @@ const neighbourAddresses = [
  * @type {import('@prisma/client').Prisma.AppellantSubmissionCreateInput[]}
  */
 const appellantSubmissions = [
+	// v2 appellant submissions
 	{
-		id: 'a99c8871-2a4a-4e9c-85b3-498e39d5fafb',
+		id: appellantSubmissionIds.appellantSubmissionOne,
 		LPACode: 'Q9999',
 		appealTypeCode: 'HAS',
 		Appeal: {
 			connect: { id: appealIds.appealOne }
+		},
+		submitted: true
+	},
+	{
+		id: appellantSubmissionIds.appellantSubmissionTwo,
+		LPACode: 'Q9999',
+		appealTypeCode: 'HAS',
+		applicationDecisionDate: new Date(),
+		Appeal: {
+			connect: { id: appealIds.appealNine }
+		}
+	},
+	{
+		id: appellantSubmissionIds.appellantSubmissionThree,
+		LPACode: 'Q9999',
+		appealTypeCode: 'HAS',
+		applicationDecisionDate: new Date('2024-03-01'),
+		Appeal: {
+			connect: { id: appealIds.appealTen }
+		}
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.SubmissionAddressCreateInput[]}
+ */
+const submissionAddresses = [
+	{
+		id: '461041d8-a816-4cf6-b1b8-6ad010917bcc',
+		addressLine1: '9 fake street',
+		townCity: 'Bristol',
+		postcode: 'BS1 6PN',
+		fieldName: 'siteAddress',
+		AppellantSubmission: {
+			connect: { id: appellantSubmissionIds.appellantSubmissionThree }
 		}
 	}
 ];
@@ -827,6 +895,14 @@ async function seedDev(dbClient) {
 			create: appellantSubmission,
 			update: appellantSubmission,
 			where: { appealId: appellantSubmission.Appeal.connect?.id }
+		});
+	}
+
+	for (const submissionAddress of submissionAddresses) {
+		await dbClient.submissionAddress.upsert({
+			create: submissionAddress,
+			update: submissionAddress,
+			where: { id: submissionAddress.id }
 		});
 	}
 

@@ -3,7 +3,11 @@ const {
 	mapDecisionLabel
 } = require('@pins/business-rules/src/utils/decision-outcome');
 
-const { formatAddress, isAppealSubmission } = require('@pins/common/src/lib/format-address');
+const {
+	formatAddress,
+	isAppealSubmission,
+	isV2Submission
+} = require('@pins/common/src/lib/format-address');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
@@ -37,7 +41,11 @@ const { formatAddress, isAppealSubmission } = require('@pins/common/src/lib/form
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
 
-const { getAppealTypeName } = require('./full-appeal/map-planning-application');
+const {
+	getAppealTypeName,
+	getAppealTypeNameByTypeCode,
+	mapTypeCodeToAppealId
+} = require('./full-appeal/map-planning-application');
 const { businessRulesDeadline } = require('./calculate-deadline');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
@@ -68,18 +76,23 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
  */
 const mapToAppellantDashboardDisplayData = (appealData) => ({
 	appealId: isAppealSubmission(appealData) ? appealData._id : appealData.id,
-	appealNumber: isAppealSubmission(appealData) ? '' : appealData.caseReference,
+	appealNumber:
+		isAppealSubmission(appealData) || isV2Submission(appealData) ? '' : appealData.caseReference,
 	address: formatAddress(appealData),
 	appealType: getAppealType(appealData),
 	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
-	isDraft: isAppealSubmission(appealData),
+	isDraft: isAppealSubmission(appealData) || isV2Submission(appealData),
 	appealDecision: isAppealSubmission(appealData)
 		? null
 		: mapDecisionLabel(appealData.caseDecisionOutcome),
-	appealDecisionColor: isAppealSubmission(appealData)
-		? null
-		: mapDecisionColour(appealData.caseDecisionOutcome),
-	caseDecisionDate: isAppealSubmission(appealData) ? null : appealData.caseDecisionDate
+	appealDecisionColor:
+		isAppealSubmission(appealData) || isV2Submission(appealData)
+			? null
+			: mapDecisionColour(appealData.caseDecisionOutcome),
+	caseDecisionDate:
+		isAppealSubmission(appealData) || isV2Submission(appealData)
+			? null
+			: appealData.caseDecisionDate
 });
 
 // LPADashboard - ToDo or WaitingToReview FUNCTIONS
@@ -123,12 +136,21 @@ const isToDoAppellantDashboard = (dashboardData) => {
  * @returns {Date | object} returns appeal deadline - note: should return Date as rawDate param set as true
  */
 const calculateAppealDueDeadline = (appealSubmission) => {
-	return businessRulesDeadline(
-		appealSubmission.appeal?.decisionDate,
-		appealSubmission.appeal?.appealType,
-		null,
-		true
-	);
+	if (isAppealSubmission(appealSubmission)) {
+		return businessRulesDeadline(
+			appealSubmission.appeal?.decisionDate,
+			appealSubmission.appeal?.appealType,
+			null,
+			true
+		);
+	} else if (isV2Submission(appealSubmission)) {
+		return businessRulesDeadline(
+			appealSubmission?.AppellantSubmission?.applicationDecisionDate,
+			mapTypeCodeToAppealId(appealSubmission.AppellantSubmission.appealTypeCode),
+			null,
+			true
+		);
+	}
 };
 
 /**
@@ -191,6 +213,13 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
  */
 const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
 	if (isAppealSubmission(caseOrSubmission)) {
+		const deadline = calculateAppealDueDeadline(caseOrSubmission);
+		return {
+			deadline,
+			dueInDays: calculateDueInDays(deadline),
+			documentDue: 'Continue'
+		};
+	} else if (isV2Submission(caseOrSubmission)) {
 		const deadline = calculateAppealDueDeadline(caseOrSubmission);
 		return {
 			deadline,
@@ -275,6 +304,9 @@ const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
 const getAppealType = (appealCaseData) => {
 	if (isAppealSubmission(appealCaseData)) {
 		return getAppealTypeName(appealCaseData.appeal?.appealType);
+	}
+	if (isV2Submission(appealCaseData)) {
+		return getAppealTypeNameByTypeCode(appealCaseData?.AppellantSubmission?.appealTypeCode);
 	}
 	return `${appealCaseData.appealTypeName} appeal`;
 };

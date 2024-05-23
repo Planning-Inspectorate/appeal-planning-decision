@@ -13,6 +13,11 @@ const APPEAL_ID = {
 	FAST_TRACK_TREES: '1011'
 };
 
+// const TYPE_CODE = {
+// 	HOUSEHOLDER: 'HAS',
+// 	PLANNING_SECTION_78: 'S78'
+// };
+
 const APPEAL_STATE = {
 	DRAFT: 'DRAFT',
 	SUBMITTED: 'SUBMITTED'
