@@ -225,7 +225,7 @@ class MultiFileUploadQuestion extends Question {
 	getAction(sectionSegment, journey, answer) {
 		const action = {
 			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
-			text: answer ? 'Upload' : 'Remove',
+			text: answer ? 'Remove' : 'Upload',
 			visuallyHiddenText: this.question
 		};
 		return action;
