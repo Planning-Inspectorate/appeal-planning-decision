@@ -14,7 +14,7 @@ const { nl2br } = require('@pins/common/src/utils');
  * @typedef {Object} InputField
  * @property {string} fieldName
  * @property {string} label
- * @property {string} formatJoinString
+ * @property {string} [formatJoinString] optional property, used by formatAnswerForSummary (eg task list display), effective default to line break
  */
 
 /**
@@ -49,8 +49,7 @@ class MultiFieldInputQuestion extends Question {
 		html,
 		label,
 		inputAttributes = {},
-		inputFields,
-		formatType
+		inputFields
 	}) {
 		super({
 			title,
@@ -64,7 +63,6 @@ class MultiFieldInputQuestion extends Question {
 		});
 		this.label = label;
 		this.inputAttributes = inputAttributes;
-		this.formatType = formatType || 'standard';
 
 		if (inputFields) {
 			this.inputFields = inputFields;
