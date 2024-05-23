@@ -347,7 +347,16 @@ const appealCases = [
 		lpaPreferInquiryDuration: '6',
 		nearbyAppeals: true,
 		newConditions: true,
-		newConditionDetails: 'Example new conditions'
+		newConditionDetails: 'Example new conditions',
+		Event: {
+			create: {
+				published: true,
+				type: 'siteVisit',
+				subtype: 'accompanied',
+				startDate: pickRandom(datesNMonthsAgo(1)),
+				endDate: pickRandom(datesNMonthsAhead(1))
+			}
+		}
 	},
 	{
 		Appeal: {
@@ -376,7 +385,16 @@ const appealCases = [
 		interestedPartyCommentsPublished: true,
 		appellantProofEvidencePublished: true,
 		lpaProofEvidencePublished: true,
-		rule6ProofsEvidencePublished: true
+		rule6ProofsEvidencePublished: true,
+		Event: {
+			create: {
+				published: true,
+				type: 'siteVisit',
+				subtype: 'unaccompanied',
+				startDate: pickRandom(datesNMonthsAgo(1)),
+				endDate: pickRandom(datesNMonthsAhead(1))
+			}
+		}
 	},
 	{
 		Appeal: {
@@ -407,7 +425,16 @@ const appealCases = [
 		lpaProofEvidencePublished: true,
 		rule6ProofsEvidencePublished: true,
 		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED
+		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED,
+		Event: {
+			create: {
+				published: true,
+				type: 'siteVisit',
+				subtype: 'access-required',
+				startDate: pickRandom(datesNMonthsAgo(2)),
+				endDate: pickRandom(datesNMonthsAgo(1))
+			}
+		}
 	},
 	{
 		Appeal: {
@@ -433,7 +460,16 @@ const appealCases = [
 		caseValidDate: new Date(),
 		interestedPartyCommentsPublished: true,
 		lpaFinalCommentsPublished: true,
-		appellantFinalCommentsSubmitted: true
+		appellantFinalCommentsSubmitted: true,
+		Event: {
+			create: {
+				published: true,
+				type: 'siteVisit',
+				subtype: 'access-required',
+				startDate: pickRandom(datesNMonthsAgo(1)),
+				endDate: pickRandom(datesNMonthsAhead(1))
+			}
+		}
 	},
 	{
 		Appeal: {

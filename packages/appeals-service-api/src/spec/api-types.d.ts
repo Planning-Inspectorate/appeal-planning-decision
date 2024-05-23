@@ -595,6 +595,24 @@ export interface ErrorBody {
 	errors?: string[];
 }
 
+/** An appeal case event */
+export interface Event {
+	/** type of event */
+	type: 'siteVisit' | 'hearing' | 'inquiry' | 'inHouse' | 'preInquiry';
+	/** additional event type detail */
+	subtype: 'accompanied' | 'unaccompanied' | 'accessRequired' | 'virtual';
+	/**
+	 * the date the event starts
+	 * @format date-time
+	 */
+	startDate: string;
+	/**
+	 * the date the event ends
+	 * @format date-time
+	 */
+	endDate: string;
+}
+
 /** A questionnaire submitted by an LPA */
 export interface LPAQuestionnaireSubmission {
 	/** @format uuid */

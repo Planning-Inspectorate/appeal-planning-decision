@@ -414,6 +414,29 @@ model AppealCase {
 
   // Questionnaires linked to this appeal case
   LPAQuestionnaireSubmission LPAQuestionnaireSubmission?
+
+  // linked events
+  Event Event[]
+}
+
+model Event {
+  /// this ID is for front office only and won't correlate to other systems
+  internalId String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  //id                      Int /// inter-system id, not unique?, id incremented per event for each case?
+  type                    String
+  subtype                 String?
+  name                    String?
+  status                  String? /// e.g. withdrawn
+  isUrgent                Boolean   @default(false) /// it's urgent?
+  published               Boolean   @default(false)
+  startDate               DateTime? /// date time the event starts
+  endDate                 DateTime? /// date time the event ends
+  notificationOfSiteVisit DateTime? /// Date notification of site visit provided to Appellant
+
+  // link the event to the appeal case
+  caseReference String
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 }
 
 model NeighbouringAddress {
