@@ -42,7 +42,7 @@ class BackOfficeV2Service {
 		if (!appellantSubmission)
 			throw new Error(`Appeal submission ${appellantSubmissionId} not found`);
 
-		const { email } = getUserById(userId);
+		const { email } = await getUserById(userId);
 
 		const isBOIntegrationActive = await isFeatureActive(
 			FLAG.APPEALS_BO_SUBMISSION,
