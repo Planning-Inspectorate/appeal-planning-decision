@@ -6,7 +6,8 @@ const {
 	formatLinkedAppeals,
 	formatYesOrNo,
 	formatContactDetails,
-	formatAccessDetails
+	formatAccessDetails,
+	formatDate
 } = require('@pins/common');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
@@ -134,7 +135,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'What date did you submit your planning application?',
-			valueText: caseData.onApplicationDate,
+			valueText: formatDate(caseData.onApplicationDate),
 			condition: (caseData) => caseData.onApplicationDate
 		},
 		{
