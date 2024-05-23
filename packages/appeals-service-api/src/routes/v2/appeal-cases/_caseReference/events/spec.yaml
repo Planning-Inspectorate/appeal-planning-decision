@@ -1,0 +1,36 @@
+paths:
+  /api/v2/appeal-cases/{caseReference}/events/:
+    get:
+      tags:
+        - events
+      description: Gets events associated with an appeal case
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          description: appeal case reference
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: type of event to retrieve, leave blank to get all events.
+        - in: query
+          name: includePast
+          schema:
+            type: boolean
+          description: set this to true to include past events, excluded by default
+      responses:
+        200:
+          description: Returns the events for a case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        404:
+          description: Unable to find case
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

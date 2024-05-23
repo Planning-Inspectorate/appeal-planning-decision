@@ -18,6 +18,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppealUser} AppealUser
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
+ * @typedef {import('appeals-service-api').Api.Event} Event
  */
 
 /**
@@ -155,6 +156,25 @@ class AppealsApiClient {
 	 */
 	async getAppealCaseByCaseRef(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * Gets events for a case.
+	 * @param {string} caseReference
+	 * @param {object} [options]
+	 * @param {boolean} [options.includePast]
+	 * @param {string} [options.type]
+	 * @returns {Promise<Event>}
+	 */
+	async getEventByCaseRef(caseReference, options) {
+		const urlParams = new URLSearchParams();
+
+		if (options?.includePast) urlParams.append('includePast', 'true');
+		if (options?.type) urlParams.append('type', options.type);
+
+		const endpoint = `${v2}/appeal-cases/${caseReference}/events?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}

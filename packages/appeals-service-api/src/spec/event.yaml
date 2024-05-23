@@ -1,0 +1,27 @@
+components:
+  schemas:
+    Event:
+      description: An appeal case event
+      type: object
+      required:
+        - type
+        - subtype
+        - startDate
+        - endDate
+      properties:
+        type:
+          type: string
+          enum: ['siteVisit', 'hearing', 'inquiry', 'inHouse', 'preInquiry']
+          description: type of event
+        subtype:
+          type: string
+          enum: ['accompanied', 'unaccompanied', 'accessRequired', 'virtual']
+          description: additional event type detail
+        startDate:
+          type: string
+          format: date-time
+          description: the date the event starts
+        endDate:
+          type: string
+          format: date-time
+          description: the date the event ends
