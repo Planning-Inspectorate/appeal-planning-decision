@@ -166,9 +166,9 @@ class AppealsApiClient {
 	 * @param {object} [options]
 	 * @param {boolean} [options.includePast]
 	 * @param {string} [options.type]
-	 * @returns {Promise<Event>}
+	 * @returns {Promise<Array<Event>>}
 	 */
-	async getEventByCaseRef(caseReference, options) {
+	async getEventsByCaseRef(caseReference, options) {
 		const urlParams = new URLSearchParams();
 
 		if (options?.includePast) urlParams.append('includePast', 'true');

@@ -10,6 +10,17 @@ const config = require('../configuration/config.js');
 // some data here so we can reference in multiple places
 // IDs have no specific meaning, just valid UUIDs and used for upsert/relations
 
+/**
+ * @param {number} daysToAdd
+ * @param {number} hour
+ * @returns {Date}
+ */
+const getFutureDate = (daysToAdd, hour = 12) => {
+	let today = new Date();
+	today.setDate(today.getDate() + daysToAdd);
+	return new Date(today.getFullYear(), today.getMonth(), today.getDay(), hour);
+};
+
 const appellants = {
 	appellantOne: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a11',
@@ -430,7 +441,7 @@ const appealCases = [
 			create: {
 				published: true,
 				type: 'siteVisit',
-				subtype: 'access-required',
+				subtype: 'accessRequired',
 				startDate: pickRandom(datesNMonthsAgo(2)),
 				endDate: pickRandom(datesNMonthsAgo(1))
 			}
@@ -465,9 +476,9 @@ const appealCases = [
 			create: {
 				published: true,
 				type: 'siteVisit',
-				subtype: 'access-required',
-				startDate: pickRandom(datesNMonthsAgo(1)),
-				endDate: pickRandom(datesNMonthsAhead(1))
+				subtype: 'accessRequired',
+				startDate: getFutureDate(40, 11),
+				endDate: getFutureDate(40, 15)
 			}
 		}
 	},

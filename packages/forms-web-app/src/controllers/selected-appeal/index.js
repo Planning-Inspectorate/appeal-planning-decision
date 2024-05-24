@@ -1,7 +1,11 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
-const { formatSections, isSection, displayHeadlinesByUser } = require('@pins/common');
+const {
+	formatSections,
+	formatSiteVisits,
+	isSection,
+	displayHeadlinesByUser
+} = require('@pins/common');
 const { VIEW } = require('../../lib/views');
-const { apiClient } = require('../../lib/appeals-api-client');
 const { determineUser } = require('../../lib/determine-user');
 const { sections: appellantSections } = require('./appellant-sections');
 const { sections: lpaUserSections } = require('./lpa-user-sections');
@@ -42,13 +46,18 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			throw new Error('no session email');
 		}
 
-		const user = await apiClient.getUserByEmailV2(userEmail);
+		const user = await req.appealsApiClient.getUserByEmailV2(userEmail);
 
-		const caseData = await apiClient.getUsersAppealCase({
-			caseReference: appealNumber,
-			role: userType,
-			userId: user.id
-		});
+		let [caseData, events] = await Promise.all([
+			req.appealsApiClient.getUsersAppealCase({
+				caseReference: appealNumber,
+				role: userType,
+				userId: user.id
+			}),
+			req.appealsApiClient.getEventsByCaseRef(appealNumber)
+		]);
+
+		events?.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
 
 		const headlineData = displayHeadlinesByUser(caseData, userType);
 
@@ -65,6 +74,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			appeal: {
 				appealNumber,
 				headlineData,
+				siteVisits: formatSiteVisits(events, userType),
 				sections: formatSections({ caseData, sections, userEmail }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),

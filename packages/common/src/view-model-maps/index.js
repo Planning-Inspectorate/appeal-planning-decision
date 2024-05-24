@@ -4,5 +4,6 @@ module.exports = {
 	...require('../lib/format-appeal-documents'),
 	...require('./sections'),
 	...require('./rows'),
-	...require('../lib/format-questionnaire-details')
+	...require('../lib/format-questionnaire-details'),
+	...require('./events')
 };
