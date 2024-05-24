@@ -1714,6 +1714,7 @@ exports.questions = {
 		title: 'What is the address of the appeal site?',
 		question: 'What is the address of the appeal site?',
 		fieldName: 'siteAddress',
+		html: 'resources/site-address/site-address.html',
 		url: 'appeal-site-address',
 		viewFolder: 'address-entry',
 		validators: [new AddressValidator()]
