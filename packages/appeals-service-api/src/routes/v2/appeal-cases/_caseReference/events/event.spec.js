@@ -119,28 +119,32 @@ const createAppeal = async (caseRef) => {
 	await sqlClient.event.createMany({
 		data: [
 			{
-				appealCaseReference: caseRef,
+				caseReference: caseRef,
+				published: true,
 				type: 'siteVisit',
 				subtype: 'accompanied',
 				startDate: today,
 				endDate: futureEndDate
 			},
 			{
-				appealCaseReference: caseRef,
+				caseReference: caseRef,
+				published: true,
 				type: 'siteVisit',
 				subtype: 'accompanied',
 				startDate: today,
 				endDate: pastEndDate
 			},
 			{
-				appealCaseReference: caseRef,
+				caseReference: caseRef,
+				published: true,
 				type: 'siteVisit',
 				subtype: 'unaccompanied',
 				startDate: today,
 				endDate: futureEndDate
 			},
 			{
-				appealCaseReference: caseRef,
+				caseReference: caseRef,
+				published: true,
 				type: 'hearing',
 				subtype: 'test',
 				startDate: today,
