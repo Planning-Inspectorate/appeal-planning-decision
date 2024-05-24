@@ -30,7 +30,6 @@ exports.get = async (req, res) => {
 	const appealSubmission = userAppeals.find(
 		(appeal) => appeal.id === appealId || appeal._id === appealId
 	);
-	console.log('INSIDE', appealSubmission);
 
 	if (!appealSubmission) throw new Error(`Appeal ${appealId} does not belong to user ${user.id}`);
 
