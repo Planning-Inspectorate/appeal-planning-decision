@@ -32,7 +32,7 @@
       {% if journeyComplete %}
           <h2 class="govuk-heading-s">Appeal complete</h2>
         {% else %}
-          <h2 class="govuk-heading-s">Appeal incomplete</h2>   
+          <h2 class="govuk-heading-s">Appeal incomplete</h2>
       {% endif %}
       <p class="govuk-!-margin-bottom-7">You have completed {{summaryListData.completedSectionCount}} of {{summaryListData.sections.length}} sections.</p>
     </div>
@@ -41,7 +41,7 @@
 
 {% block formButton %}
       {{ govukButton({
-        text: "Submit questionnaire",
+        text: "Continue",
         href: declarationUrl,
         type: "button",
         attributes: { "data-cy":"submit-questionnaire"}
