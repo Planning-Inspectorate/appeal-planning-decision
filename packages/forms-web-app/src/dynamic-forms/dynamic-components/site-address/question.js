@@ -20,16 +20,18 @@ class SiteAddressQuestion extends Question {
 	 * @param {string} params.viewFolder
 	 * @param {string} [params.url]
 	 * @param {string} [params.hint]
+	 * @param {string} [params.html]
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
 	 */
-	constructor({ title, question, fieldName, viewFolder, validators, url, hint }) {
+	constructor({ title, question, fieldName, viewFolder, validators, url, hint, html }) {
 		super({
 			title: title,
 			viewFolder: viewFolder,
 			fieldName: fieldName,
 			question: question,
 			validators: validators,
-			hint: hint
+			hint: hint,
+			html: html
 		});
 
 		this.url = url;
@@ -112,6 +114,17 @@ class SiteAddressQuestion extends Question {
 		// check for validation errors
 		const errorViewModel = this.checkForValidationErrors(req, section, journey);
 		if (errorViewModel) {
+			errorViewModel.question = {
+				...errorViewModel.question,
+				value: {
+					addressLine1: req.body[this.fieldName + '_addressLine1'],
+					addressLine2: req.body[this.fieldName + '_addressLine2'],
+					townCity: req.body[this.fieldName + '_townCity'],
+					county: req.body[this.fieldName + '_county'],
+					postcode: req.body[this.fieldName + '_postcode']
+				}
+			};
+
 			return this.renderAction(res, errorViewModel);
 		}
 
@@ -173,19 +186,17 @@ class SiteAddressQuestion extends Question {
 	 * @returns {Array.<Object>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey) {
-		let rowParams = [];
-
 		const address = this.#getExistingAddress(journey.response);
 
-		if (address) {
-			rowParams.push({
-				key: `${this.title}`,
-				value: this.format(address),
-				action: this.getAction(sectionSegment, journey, address)
-			});
-		}
+		const answer = address ? this.format(address) : '';
 
-		return rowParams;
+		return [
+			{
+				key: `${this.title}`,
+				value: answer || this.NOT_STARTED,
+				action: this.getAction(sectionSegment, journey, answer)
+			}
+		];
 	}
 }
 
