@@ -429,3 +429,12 @@ N.B a feature flag enum analog is available in `packages/common/src/feature-flag
 ### Document service API crashes on startup with error "Invalid connection string"
 
 The connection string for `document-service-api` can be configured in the root `docker-compose.yml`. Under `environment:`, there should be a variable named `PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING` (add this if it's not already present). This should be populated with the connection string found on the Azure Access Keys page. For local development, this will be pins-asc-appeals-dev-ukw-001 access keys > Read-Write keys > Primary key > Connection string.
+
+
+## Architecture
+
+The architecture of the Appeals Back Office service and it's relationships with other systems can be viewed through interactive [C4 Model diagrams](https://c4model.com) held as [Structizier](https://docs.structurizr.com) code in the `structurizr/workspace.dsl` file
+
+This can be viewed locally through an interactive web interface by running `make c4`
+
+Finally open your web browser to view [http://localhost:8082](http://localhost:8082)
