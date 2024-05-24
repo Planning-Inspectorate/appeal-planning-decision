@@ -28,6 +28,19 @@ module.exports = {
 		NOT_CHECKED: 'not_checked',
 		FAILED: 'failed_virus_check'
 	},
+	EVENT_TYPES: {
+		SITE_VISIT: 'siteVisit',
+		HEARING: 'hearing',
+		INQUIRY: 'inquiry',
+		IN_HOUSE: 'inHouse',
+		PRE_INQUIRY: 'preInquiry'
+	},
+	EVENT_SUB_TYPES: {
+		ACCOMPANIED: 'accompanied',
+		UNACCOMPANIED: 'unaccompanied',
+		ACCESS: 'accessRequired',
+		VIRTUAL: 'virtual'
+	},
 	/**
 	 * not strictly appeal-user role, there is no link between LPA user and an appeal, it's via the lpa-code on the user and appeal
 	 * @type {LpaUserRole}

@@ -15,11 +15,11 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-two-thirds">
-      {% if errorSummary %}
-        {{ govukErrorSummary({
-          titleText: "There is a problem",
-          errorList: errorSummary
-        }) }}
+			{% if errorSummary %}
+				{{ govukErrorSummary({
+				titleText: "There is a problem",
+				errorList: errorSummary
+				}) }}
 			{% endif %}
 
 			{% if shouldDisplayQuestionnaireDueNotification %}
@@ -31,32 +31,40 @@
 								<span class="govuk-visually-hidden"> for {{appeal.appealNumber}}</span>
 							</a>.
 					</p>
-				{% endset %}		
+				{% endset %}
 
-
-					{{ govukNotificationBanner({
-						html: html,
-						titleText: "Questionnaire due"
-					}) }}
+				{{ govukNotificationBanner({
+					html: html,
+					titleText: "Questionnaire due"
+				}) }}
 			{% endif %}
 
-      <h1 class="govuk-heading-l">Appeal {{appeal.appealNumber}}</h1>
+      		<h1 class="govuk-heading-l">Appeal {{appeal.appealNumber}}</h1>
 		</div>
 		
 		<div class="govuk-grid-column-full">
 			{% if appeal.decision %}
-					<h2 class="govuk-heading-2">Appeal decision</h2>
-					{{ govukTag({
-						text: appeal.decision.label,
-						classes: "govuk-tag--" + appeal.decision.color
-					}) }}
-					<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+				<h2 class="govuk-heading-2">Appeal decision</h2>
+				{{ govukTag({
+					text: appeal.decision.label,
+					classes: "govuk-tag--" + appeal.decision.color
+				}) }}
+				<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 			{% endif %}
 
 			{{ govukSummaryList({
 				classes: "appeal-headlines govuk-summary-list--no-border",
 				rows: appeal.headlineData
 			}) }}
+
+			{% for siteVisit in appeal.siteVisits %}
+				<div class="govuk-inset-text">
+					<p class="govuk-body">
+						{{siteVisit}}
+					</p>
+				</div>
+			{% endfor %}
+
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 		</div>
 
