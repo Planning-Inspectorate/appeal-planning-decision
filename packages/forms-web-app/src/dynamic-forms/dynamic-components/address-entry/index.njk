@@ -43,6 +43,10 @@
                 }
                 }) %}
 
+                {% if question.html %}
+                    {% include question.html ignore missing %}
+                {% endif %}
+
                 {{ govukInput({
                     label: {
                     text: "Address line 1"
