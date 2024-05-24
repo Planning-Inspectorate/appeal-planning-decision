@@ -82,7 +82,7 @@ class AddressValidator extends BaseValidator {
 		return body(fieldName + '_townCity')
 			.notEmpty()
 			.bail()
-			.withMessage('Enter a town or city')
+			.withMessage('Enter town or city')
 			.isLength({ min: townCityMinLength, max: townCityMaxLength })
 			.bail()
 			.withMessage(`Town or city must be ${townCityMaxLength} characters or fewer`);
@@ -107,7 +107,7 @@ class AddressValidator extends BaseValidator {
 		return body(fieldName + '_postcode')
 			.notEmpty()
 			.bail()
-			.withMessage('Enter a full UK postcode')
+			.withMessage('Enter postcode')
 			.isLength({ min: postcodeMinLength, max: postcodeMaxLength })
 			.bail()
 			.withMessage('Enter a full UK postcode')
