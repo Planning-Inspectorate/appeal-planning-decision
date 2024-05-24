@@ -355,3 +355,11 @@ services:
     volumes:
       - ./dev/mssql.conf:/var/opt/mssql/mssql.conf
       - ./tmp/mssql-data:/var/opt/mssql/data
+
+  c4:
+    profiles: ['c4']
+    image: structurizr/lite
+    ports:
+      - 8082:8080
+    volumes:
+      - ./structurizr:/usr/local/structurizr

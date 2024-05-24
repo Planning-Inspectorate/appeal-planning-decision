@@ -191,3 +191,7 @@ local-cert
 
 #eicar testing file
 eicar.com.txt
+
+# Structurizr
+structurizr/workspace.json
+structurizr/.structurizr/*
