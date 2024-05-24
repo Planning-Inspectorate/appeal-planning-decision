@@ -72,7 +72,7 @@ describe('AddressValidator', () => {
 
 		expect(Object.keys(errors).length).toBe(2);
 		expect(errors.testField_addressLine1.msg).toEqual('Enter address line 1');
-		expect(errors.testField_townCity.msg).toEqual('Enter a town or city');
+		expect(errors.testField_townCity.msg).toEqual('Enter town or city');
 	});
 
 	it('should reject invalid address with too long fields with errors', async () => {
