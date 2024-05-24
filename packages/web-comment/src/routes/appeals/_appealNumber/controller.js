@@ -17,11 +17,9 @@ const selectedAppeal = async (req, res) => {
 
 	const deadlineText = formatDeadlineText(appeal, status);
 
-	const submissionRows = appealSubmissionRows(appeal);
-	const appealSubmission = formatRows(submissionRows, appeal);
+	const appealSubmission = formatRows(appealSubmissionRows(appeal));
 
-	const originalApplicationRows = applicationRows(appeal);
-	const application = formatRows(originalApplicationRows, appeal);
+	const application = formatRows(applicationRows(appeal));
 
 	res.render(`appeals/_appealNumber/index`, {
 		appeal: {

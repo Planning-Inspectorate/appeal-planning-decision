@@ -5,37 +5,49 @@ const {
 const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
 const { apiClient } = require('../../lib/appeals-api-client');
+const { determineUser } = require('#lib/determine-user');
 
+/**
+ * @typedef {import('../../lib/dashboard-functions').DashboardDisplayData} DashboardDisplayData
+ */
+
+/** @type {import('express').Handler} */
 exports.get = async (req, res) => {
 	const { email } = req.session;
 	let viewContext = {};
 	try {
 		const user = await apiClient.getUserByEmailV2(email);
 		const appeals = await apiClient.getUserAppealsById(user.id);
+		const userType = determineUser(req.originalUrl);
 
 		if (appeals?.length === 0) {
 			res.redirect(`/${VIEW.APPEALS.NO_APPEALS}`);
 			return;
 		}
 
-		const undecidedAppeals = appeals
-			.map(mapToAppellantDashboardDisplayData)
-			.filter((appeal) => !appeal.appealDecision);
-
-		const { toDoAppeals, waitingForReviewAppeals } = undecidedAppeals.reduce(
-			(acc, appeal) => {
-				if (isToDoAppellantDashboard(appeal)) {
-					acc.toDoAppeals.push(appeal);
-				} else {
-					acc.waitingForReviewAppeals.push(appeal);
-				}
+		/** @type {{ toDoAppeals: DashboardDisplayData[], waitingForReviewAppeals: DashboardDisplayData[] }} */
+		const initialDisplayData = { toDoAppeals: [], waitingForReviewAppeals: [] };
+		const { toDoAppeals, waitingForReviewAppeals } = appeals.reduce((acc, appeal) => {
+			const dashboardData = mapToAppellantDashboardDisplayData(appeal, userType);
+			if (dashboardData.appealDecision) {
 				return acc;
-			},
-			{ toDoAppeals: [], waitingForReviewAppeals: [] }
+			}
+			if (isToDoAppellantDashboard(dashboardData)) {
+				acc.toDoAppeals.push(dashboardData);
+			} else {
+				acc.waitingForReviewAppeals.push(dashboardData);
+			}
+			return acc;
+		}, initialDisplayData);
+		console.log(
+			'🚀 ~ const{toDoAppeals,waitingForReviewAppeals}=appeals.reduce ~ dashboardData:',
+			waitingForReviewAppeals[0]
 		);
 
-		toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
-		waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
+		toDoAppeals.sort(
+			(a, b) => (a.nextDocumentDue.dueInDays ?? 0) - (b.nextDocumentDue.dueInDays ?? 0)
+		);
+		waitingForReviewAppeals.sort();
 		viewContext = { toDoAppeals, waitingForReviewAppeals };
 
 		res.render(VIEW.APPEALS.YOUR_APPEALS, viewContext);

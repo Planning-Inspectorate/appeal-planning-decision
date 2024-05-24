@@ -43,11 +43,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		const headlineData = formatHeadlineData(caseData, userType);
 
-		const appealDetailsRows = detailsRows(caseData, userType);
-		const appealDetails = formatRows(appealDetailsRows, caseData);
-
-		const appealDocumentsRows = documentsRows(caseData, userType);
-		const appealDocuments = formatRows(appealDocumentsRows, caseData);
+		const appealDetails = formatRows(detailsRows(caseData, userType));
+		const appealDocuments = formatRows(documentsRows(caseData, userType));
 
 		const viewContext = {
 			layoutTemplate,

@@ -30,137 +30,137 @@ exports.detailsRows = (caseData, userType) => {
 				? 'Was the application made in your name?'
 				: "Was the application made in the appellant's name",
 			valueText: formatYesOrNo(caseData, 'isAppellant'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: "Applicant's name",
 			valueText: formatApplicantDetails(caseData),
-			condition: (caseData) => !caseData.isAppellant
+			shouldDisplay: !caseData.isAppellant
 		},
 		{
 			keyText: 'Contact details',
 			valueText: formatContactDetails(caseData),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Phone number',
 			valueText: caseData.appellantPhoneNumber,
-			condition: (caseData) => caseData.appellantPhoneNumber
+			shouldDisplay: !!caseData.appellantPhoneNumber
 		},
 		{
 			keyText: 'Site address',
 			valueText: formatAddress(caseData, '\n'),
-			condition: (caseData) => caseData.siteAddressLine1
+			shouldDisplay: !!caseData.siteAddressLine1
 		},
 		{
 			keyText: 'What is the area of the appeal site?',
-			valueText: `${caseData.siteAreaSquareMeters}m<sup>2</sup>`,
-			condition: (caseData) => caseData.siteAreaSquareMetres
+			valueText: `${caseData.siteAreaSquareMetres}m<sup>2</sup>`,
+			shouldDisplay: !!caseData.siteAreaSquareMetres
 		},
 		{
 			keyText: 'Is the site in a green belt',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.appellantGreenBelt
+			shouldDisplay: !!caseData.appellantGreenBelt
 		},
 		{
 			keyText: 'Site fully owned',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.ownsAllLand
+			shouldDisplay: !!caseData.ownsAllLand
 		},
 		{
 			keyText: 'Site partly owned',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.ownsSomeLand
+			shouldDisplay: !!caseData.ownsSomeLand
 		},
 		{
 			keyText: 'Other owners known',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.knowsOtherOwners
+			shouldDisplay: !!caseData.knowsOtherOwners
 		},
 		{
 			keyText: 'Other owners identified',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.identifiedOwners
+			shouldDisplay: !!caseData.identifiedOwners
 		},
 		{
 			keyText: 'Advertised appeal',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.advertisedAppeal
+			shouldDisplay: !!caseData.advertisedAppeal
 		},
 		{
 			keyText: 'Other owners informed',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.informedOwners
+			shouldDisplay: !!caseData.informedOwners
 		},
 		{
 			keyText: 'Will an inspector need to access the land or property?',
 			valueText: formatAccessDetails(caseData),
-			condition: (caseData) => caseData.appellantSiteAccess
+			shouldDisplay: !!caseData.appellantSiteAccess
 		},
 		{
 			keyText: 'Agricultural holding',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.agriculturalHolding
+			shouldDisplay: !!caseData.agriculturalHolding
 		},
 		{
 			keyText: 'Agricultural holding',
 			valueText: 'No',
-			condition: (caseData) => !caseData.agriculturalHolding
+			shouldDisplay: !caseData.agriculturalHolding
 		},
 		{
 			keyText: 'Tenant on agricultural holding',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.tenantAgriculturalHolding
+			shouldDisplay: !!caseData.tenantAgriculturalHolding
 		},
 		{
 			keyText: 'Other agricultural holding tenants',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.otherTenantsAgriculturalHolding
+			shouldDisplay: !!caseData.otherTenantsAgriculturalHolding
 		},
 		{
 			keyText: 'Informed other agricultural holding tenants',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.informedTenantsAgriculturalHolding
+			shouldDisplay: !!caseData.informedTenantsAgriculturalHolding
 		},
 		{
 			keyText: 'Site health and safety issues',
 			valueText: formatHealthAndSafety(caseData),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Application reference',
 			valueText: caseData.LPAApplicationReference,
-			condition: (caseData) => caseData.LPAApplicationReference
+			shouldDisplay: !!caseData.LPAApplicationReference
 		},
 		{
 			keyText: 'What date did you submit your planning application?',
 			valueText: caseData.onApplicationDate,
-			condition: (caseData) => caseData.onApplicationDate
+			shouldDisplay: !!caseData.onApplicationDate
 		},
 		{
 			keyText: 'Enter the description of development',
 			valueText: caseData.developmentDescriptionDetails,
-			condition: (caseData) => caseData.developmentDescriptionDetails
+			shouldDisplay: !!caseData.developmentDescriptionDetails
 		},
 		{
 			keyText: 'Did the local planning authority change the description of development?',
-			valueText: caseData.updateDevelopmentDescription,
-			condition: (caseData) => caseData.updateDevelopmentDescription
+			valueText: 'Yes',
+			shouldDisplay: !!caseData.updateDevelopmentDescription
 		},
 		{
 			keyText: 'Preferred procedure',
 			valueText: formatProcedure(caseData),
-			condition: (caseData) => caseData.appellantProcedurePreference
+			shouldDisplay: !!caseData.appellantProcedurePreference
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
 			valueText: formatLinkedAppeals(caseData),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Award of costs',
 			valueText: 'Yes',
-			condition: (caseData) => isAppellantOrAgent && caseData.costsAppliedForIndicator
+			shouldDisplay: isAppellantOrAgent && caseData.costsAppliedForIndicator
 		}
 	];
 };

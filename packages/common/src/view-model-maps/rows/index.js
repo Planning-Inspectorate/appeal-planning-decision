@@ -1,37 +1,23 @@
 const escape = require('escape-html');
 const { nl2br } = require('../../utils');
 
-/**
- * @param {import('./def').Rows} rows
- * @param {import("appeals-service-api").Api.AppealCaseWithAppellant} caseData
- */
-exports.formatRows = (rows, caseData) => {
-	const displayRows = rows.filter(({ condition }) => condition(caseData));
-
-	return displayRows.map((row) => createRow(row.keyText, row.valueText));
-};
+/** @typedef {{ key: { text: string }, value: { html: string } }[]} FormattedRow */
 
 /**
  * @param {import('./def').Rows} rows
- * @param {import("appeals-service-api").Api.AppealCaseWithAppellant} questionnaireData
+ * @return {FormattedRow}
  */
-exports.formatQuestionnaireRows = (rows, questionnaireData) => {
-	const displayRows = rows.filter(
-		({ condition }) =>
-			condition(questionnaireData) !== undefined && condition(questionnaireData) !== null
-	);
-
-	return displayRows.map((row) => createRow(row.keyText, row.valueText));
-};
-
-/**
- * @param { string } keyText
- * @param { string } valueText
- */
-const createRow = (keyText, valueText) => {
-	valueText = valueText ?? '';
-	return {
-		key: { text: keyText },
-		value: { html: nl2br(escape(valueText)) }
-	};
+exports.formatRows = (rows) => {
+	/** @type {FormattedRow} */
+	const initialValue = [];
+	return rows.reduce((acc, row) => {
+		if (!row.shouldDisplay) return acc;
+		return [
+			...acc,
+			{
+				key: { text: row.keyText },
+				value: { html: nl2br(escape(row.valueText)) }
+			}
+		];
+	}, initialValue);
 };

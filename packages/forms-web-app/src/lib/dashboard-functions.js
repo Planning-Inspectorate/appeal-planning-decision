@@ -23,16 +23,20 @@ const { formatAddress, isAppealSubmission } = require('@pins/common/src/lib/form
  * @property {string | undefined | null} appealDecision the PINS decision in respect of the appeal
  * @property {string | null} [appealDecisionColor] tag color to use for the decision
  * @property {string | undefined | null} caseDecisionDate
+ * @property {boolean} isAppealNumberDisplayed
+ * @property {boolean} isAddressDisplayed
+ * @property {boolean} isAppealTypeDisplayed
+ * @property {boolean} isDeadlineDisplayed
  * @property {{ appealType: string | undefined, appealId: string | undefined }} [continueParams]
  */
 
 /**
  * @typedef DueDocumentType
  * @type {object}
- * @property {string} deadline the date by which the document is due
+ * @property {Date | string | null} [deadline] the date by which the document is due
  * @property {number} [dueInDays] the number of days remaining until the deadline expires
- * @property {string} documentDue the type of document which is due next
- * @property {string} [baseUrl] the base url for the document type
+ * @property {string | null} documentDue the type of document which is due next
+ * @property {string | null} [baseUrl] the base url for the document type
  */
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
@@ -59,7 +63,11 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	isNewAppeal: isNewAppeal(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
-	caseDecisionDate: appealCaseData.caseDecisionDate
+	caseDecisionDate: appealCaseData.caseDecisionDate,
+	isAppealNumberDisplayed: !!appealCaseData.startDate,
+	isAddressDisplayed: !!appealCaseData.startDate,
+	isAppealTypeDisplayed: !!appealCaseData.startDate,
+	isDeadlineDisplayed: true
 });
 
 /**
@@ -79,7 +87,11 @@ const mapToAppellantDashboardDisplayData = (appealData) => ({
 	appealDecisionColor: isAppealSubmission(appealData)
 		? null
 		: mapDecisionColour(appealData.caseDecisionOutcome),
-	caseDecisionDate: isAppealSubmission(appealData) ? null : appealData.caseDecisionDate
+	caseDecisionDate: isAppealSubmission(appealData) ? null : appealData.caseDecisionDate,
+	isAppealNumberDisplayed: !isAppealSubmission(appealData) && !!appealData.caseReceived,
+	isAddressDisplayed: !isAppealSubmission(appealData) && !!appealData.caseReceived,
+	isAppealTypeDisplayed: !isAppealSubmission(appealData) && !!appealData.caseReceived,
+	isDeadlineDisplayed: !isAppealSubmission(appealData) && !!appealData.lpaStatementPublished
 });
 
 // LPADashboard - ToDo or WaitingToReview FUNCTIONS
@@ -105,7 +117,7 @@ const displayDocumentOnToDo = (dueDocument) => {
  * @returns {boolean}
  */
 const overdueDocumentNotToBeDisplayed = (dueDocument) => {
-	return dueDocument.dueInDays < 0 && dueDocument.documentDue !== 'Questionnaire';
+	return (dueDocument.dueInDays ?? Infinity) < 0 && dueDocument.documentDue !== 'Questionnaire';
 };
 
 // Appellant Dashboard - ToDo or WaitingToReview FUNCTIONS
@@ -120,9 +132,10 @@ const isToDoAppellantDashboard = (dashboardData) => {
 
 /**
  * @param {AppealSubmission} appealSubmission return object from database call
- * @returns {Date | object} returns appeal deadline - note: should return Date as rawDate param set as true
+ * @returns {Date} returns appeal deadline - note: should return Date as rawDate param set as true
  */
 const calculateAppealDueDeadline = (appealSubmission) => {
+	// @ts-ignore
 	return businessRulesDeadline(
 		appealSubmission.appeal?.decisionDate,
 		appealSubmission.appeal?.appealType,
@@ -191,6 +204,7 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
  */
 const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
 	if (isAppealSubmission(caseOrSubmission)) {
+		/** @type {Date} */
 		const deadline = calculateAppealDueDeadline(caseOrSubmission);
 		return {
 			deadline,
@@ -256,9 +270,11 @@ const isProofsOfEvidenceDue = (appealCaseData) => {
  * @param {AppealCaseWithAppellant} appealCaseData return object from database call
  * @returns {boolean}
  */
-const isAppellantFinalCommentDue = (appealCaseData) => {
-	return !!appealCaseData.finalCommentsDueDate && !appealCaseData.appellantCommentsSubmitted;
-};
+const isAppellantFinalCommentDue = (appealCaseData) =>
+	!!appealCaseData.finalCommentsDueDate &&
+	!appealCaseData.appellantCommentsSubmitted &&
+	!!appealCaseData.lpaStatementPublished &&
+	!!appealCaseData.interestedPartyCommentsPublished;
 
 /**
  * @param {AppealCaseWithAppellant} appealCaseData return object from database call

@@ -4,6 +4,7 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  * @typedef {import("@pins/common/src/view-model-maps/rows/def").Rows} Rows
+ * @typedef {import('appeals-service-api').Api.Document[]} Documents
  */
 
 /**
@@ -12,6 +13,8 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
  * @returns {Rows}
  */
 exports.documentsRows = (caseData, userType) => {
+	/** @type {Documents} */
+	// @ts-ignore
 	const documents = caseData.Documents || [];
 	const isAppellantOrAgent = userType === (APPEAL_USER_ROLES.APPELLANT || APPEAL_USER_ROLES.AGENT);
 
@@ -19,72 +22,72 @@ exports.documentsRows = (caseData, userType) => {
 		{
 			keyText: 'Application form',
 			valueText: formatDocumentDetails(documents, 'originalApplicationForm'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'New description of development',
 			valueText: formatNewDescription(caseData),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Plans, drawings and supporting documents',
 			valueText: formatDocumentDetails(documents, 'plansDrawings'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Separate ownership certificate in application',
 			valueText: formatDocumentDetails(documents, 'ownershipCertificate'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Design and access statement in application',
 			valueText: formatDocumentDetails(documents, 'designAccessStatement'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Decision letter',
 			valueText: formatDocumentDetails(documents, 'lpaDecisionLetter'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Appeal statement',
 			valueText: formatDocumentDetails(documents, 'appellantStatement'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'New plans or drawings',
 			valueText: formatDocumentDetails(documents, 'newPlansDrawings'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Planning obligation status',
 			valueText: caseData.statusPlanningObligation,
-			condition: (caseData) => caseData.statusPlanningObligation
+			shouldDisplay: !!caseData.statusPlanningObligation
 		},
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, 'planningObligation'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'New supporting documents',
 			valueText: formatDocumentDetails(documents, 'otherNewDocuments'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Draft statement of common ground',
 			valueText: formatDocumentDetails(documents, 'statementCommonGround'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Evidence of agreement to change description of development',
 			valueText: formatDocumentDetails(documents, 'changedDescription'),
-			condition: () => true
+			shouldDisplay: true
 		},
 		{
 			keyText: 'Costs application',
 			valueText: formatDocumentDetails(documents, 'costsApplication'),
-			condition: (caseData) => isAppellantOrAgent && caseData.costsAppliedForIndicator
+			shouldDisplay: isAppellantOrAgent && caseData.costsAppliedForIndicator
 		}
 	];
 };
