@@ -4,6 +4,9 @@ const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
+const { businessRulesDeadline } = require('../lib/calculate-deadline');
+const { mapTypeCodeToAppealId } = require('../lib/full-appeal/map-planning-application');
+const { format } = require('date-fns');
 
 /**
  * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
@@ -124,9 +127,18 @@ exports.list = async (req, res, pageCaption, viewData) => {
 
 	const declarationUrl = `/appeals/householder/submit/declaration?id=${journey.response.referenceId}`;
 
+	const deadline = businessRulesDeadline(
+		journey.response.answers.applicationDecisionDate,
+		mapTypeCodeToAppealId(journey.response.answers.appealTypeCode),
+		null,
+		true
+	);
+	const formattedDeadline = format(deadline, 'dd MMM yyyy');
+
 	return res.render(journey.listingPageViewPath, {
 		...viewData,
 		declarationUrl,
+		formattedDeadline,
 		pageCaption,
 		summaryListData,
 		journeyComplete: journey.isComplete(),
