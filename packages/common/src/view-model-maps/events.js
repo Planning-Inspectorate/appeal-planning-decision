@@ -33,6 +33,9 @@ const formatSiteVisits = (events, role) => {
 								: `between ${formattedStartTime} on ${formattedStartDate} and ${formattedEndTime} on ${formattedEndDate}`;
 						return `Our inspector will visit the site ${when}. Someone must be at the site to give our inspector access.`;
 					}
+					case EVENT_SUB_TYPES.ACCOMPANIED: {
+						return `Our inspector will visit the site at ${formattedStartTime} on ${formattedStartDate}. You and the other main party must attend the site visit.`;
+					}
 					default: {
 						return null;
 					}
