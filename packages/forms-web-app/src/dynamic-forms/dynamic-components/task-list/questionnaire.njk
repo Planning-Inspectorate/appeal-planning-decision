@@ -21,7 +21,7 @@
     </div>
 
     <div class="govuk-grid-column-full">
-      {{ appealDetails(appeal) }}  
+      {{ appealDetails(appeal) }}
     </div>
 
   </div>
@@ -33,6 +33,25 @@
       <p class="govuk-!-margin-bottom-7">You have completed {{summaryListData.completedSectionCount}} of {{summaryListData.sections.length}} sections.</p>
     </div>
   </div>
+{% endblock %}
+
+{% block submitBlock %}
+	{% if journeyComplete %}
+    <strong class="govuk-tag govuk-tag--blue">
+      Ready to submit
+    </strong>
+    </h2>
+    <p>By submitting this {{ submissionType }} you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+    {% block formButton %}
+    {% endblock %}
+
+  {% else %}
+    <strong class="govuk-tag govuk-tag--grey">
+      Cannot start yet
+    </strong>
+    </h2>
+    <p>You cannot submit the {{ submissionType }} until all of the other sections are complete.</p>
+  {% endif %}
 {% endblock %}
 
 {% block formButton %}
