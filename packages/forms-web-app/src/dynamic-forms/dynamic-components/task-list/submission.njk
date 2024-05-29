@@ -39,6 +39,56 @@
   </div>
 {% endblock %}
 
+{% block submitBlock %}
+	{% if journeyComplete %}
+    <strong class="govuk-tag govuk-tag--blue">
+      Ready to submit
+    </strong>
+    </h2>
+
+		{{  govukSummaryList({
+			rows:[
+				{
+      		key: {
+        		text: "Accept declaration and submit"
+      		},
+      		value: {
+        		text: ""
+      		},
+      		actions: {
+        		items: [
+          		{
+            		href: declarationUrl,
+            		text: "Continue"
+          		}
+        		]
+      		}
+    		}
+			]
+		})  }}
+
+    {% block formButton %}
+    {% endblock %}
+
+  {% else %}
+    <strong class="govuk-tag govuk-tag--grey">
+      Cannot start yet
+    </strong>
+    </h2>
+		{{  govukSummaryList({
+			rows:[
+				{
+      		key: {
+        		text: "Accept declaration and submit"
+      		},
+      		value: {
+        		text: ""
+					}
+    		}
+			]
+		})  }}
+{% endblock %}
+
 {% block formButton %}
       {{ govukButton({
         text: "Continue",
