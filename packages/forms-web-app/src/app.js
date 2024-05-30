@@ -85,6 +85,11 @@ if (config.server.useSecureSessionCookie) {
 }
 
 app.disable('x-powered-by');
+app.use((req, res, next) => {
+	res.append('X-Content-Type-Options', 'nosniff');
+	next();
+});
+
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

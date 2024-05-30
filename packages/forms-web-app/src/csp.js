@@ -30,7 +30,8 @@ function configureCSP(app) {
 					'script-src': ["'self'", ...scriptSrc, addCSPNonce],
 					'style-src': ["'self'", addCSPNonce],
 					'img-src': ["'self'", ...imgSrc],
-					'connect-src': ["'self'", ...connectSrc]
+					'connect-src': ["'self'", ...connectSrc],
+					'frame-ancestors': "'none'"
 				}
 			}
 		})
