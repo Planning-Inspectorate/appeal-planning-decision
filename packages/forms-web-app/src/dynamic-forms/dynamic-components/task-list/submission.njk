@@ -67,9 +67,6 @@
 			]
 		})  }}
 
-    {% block formButton %}
-    {% endblock %}
-
   {% else %}
     <strong class="govuk-tag govuk-tag--grey">
       Cannot start yet
@@ -89,13 +86,3 @@
 		})  }}
 		{% endif %}
 {% endblock %}
-
-{# {% block formButton %}
-      {{ govukButton({
-        text: "Continue",
-        href: declarationUrl,
-        type: "button",
-        attributes: { "data-cy":"submit-questionnaire"}
-      }) }}
-
-{% endblock %} #}
