@@ -55,7 +55,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'What is the area of the appeal site?',
-			valueText: `${caseData.siteAreaSquareMeters}m<sup>2</sup>`,
+			valueText: `${caseData.siteAreaSquareMetres}m<sup>2</sup>`,
 			condition: (caseData) => caseData.siteAreaSquareMetres
 		},
 		{
