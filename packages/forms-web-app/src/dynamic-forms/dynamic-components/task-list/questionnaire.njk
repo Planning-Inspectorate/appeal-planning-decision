@@ -2,7 +2,6 @@
 {% from "../../../views/macros/appeal-details.njk" import appealDetails %}
 
 {% set title = "Appeal questionnaire - " + journeyTitle + " - GOV.UK" %}
-{% set submissionType = "questionnaire" %}
 
 {% block beforeTaskList %}
   <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
@@ -41,7 +40,7 @@
       Ready to submit
     </strong>
     </h2>
-    <p>By submitting this {{ submissionType }} you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
+    <p>By submitting this questionnaire you are confirming that, to the best of your knowledge, the details you are providing are correct.</p>
    <form action method="post">
     <input type="hidden" name="_csrf" value="{{_csrf}}">
       {{ govukButton({
@@ -56,7 +55,7 @@
       Cannot start yet
     </strong>
     </h2>
-    <p>You cannot submit the {{ submissionType }} until all of the other sections are complete.</p>
+    <p>You cannot submit the questionnaire until all of the other sections are complete.</p>
   {% endif %}
 {% endblock %}
 

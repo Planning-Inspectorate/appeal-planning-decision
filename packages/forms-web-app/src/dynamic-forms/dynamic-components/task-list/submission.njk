@@ -1,7 +1,7 @@
 {% extends "./index.njk" %}
+{% from "../macros/appeal-submit-block.njk" import appealSubmitBlock %}
 
 {% set title = "Your appeal - " + journeyTitle + " - GOV.UK" %}
-{% set submissionType = "appeal" %}
 
 {% block beforeTaskList %}
   <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
@@ -45,44 +45,12 @@
       Ready to submit
     </strong>
     </h2>
-
-		{{  govukSummaryList({
-			rows:[
-				{
-      		key: {
-        		text: "Accept declaration and submit"
-      		},
-      		value: {
-        		text: ""
-      		},
-      		actions: {
-        		items: [
-          		{
-            		href: declarationUrl,
-            		text: "Continue"
-          		}
-        		]
-      		}
-    		}
-			]
-		})  }}
-
   {% else %}
     <strong class="govuk-tag govuk-tag--grey">
       Cannot start yet
     </strong>
     </h2>
-		{{  govukSummaryList({
-			rows:[
-				{
-      		key: {
-        		text: "Accept declaration and submit"
-      		},
-      		value: {
-        		text: ""
-					}
-    		}
-			]
-		})  }}
-		{% endif %}
+	{% endif %}
+
+	{{  appealSubmitBlock(journeyComplete, declarationUrl)  }}
 {% endblock %}
