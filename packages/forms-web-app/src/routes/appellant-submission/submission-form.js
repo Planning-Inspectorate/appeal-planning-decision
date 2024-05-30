@@ -14,7 +14,11 @@ const {
 } = require('../../dynamic-forms/validator/validation-error-handler');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-appellant');
+const { getJourney } = require('../../dynamic-forms/journey-factory');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
+const { businessRulesDeadline } = require('../../lib/calculate-deadline');
+const { mapTypeCodeToAppealId } = require('../../lib/full-appeal/map-planning-application');
+const { format } = require('date-fns');
 
 const {
 	VIEW: {
@@ -29,7 +33,18 @@ const router = express.Router();
  * @type {import('express').Handler}
  */
 const householderTaskList = async (req, res) => {
-	return list(req, res, 'Householder Appeal', {});
+	const journey = getJourney(res.locals.journeyResponse);
+	const declarationUrl = `/appeals/householder/submit/declaration?id=${journey.response.referenceId}`;
+
+	const deadline = businessRulesDeadline(
+		journey.response.answers.applicationDecisionDate,
+		mapTypeCodeToAppealId(journey.response.answers.appealTypeCode),
+		null,
+		true
+	);
+	const formattedDeadline = format(deadline, 'dd MMM yyyy');
+
+	return list(req, res, 'Householder Appeal', { declarationUrl, formattedDeadline });
 };
 
 router.get(
