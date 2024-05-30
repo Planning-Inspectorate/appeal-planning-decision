@@ -3,8 +3,6 @@ const { getUserFromSession } = require('../services/user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
-const { format } = require('date-fns');
-const { businessRulesDeadline } = require('../lib/calculate-deadline');
 
 const { mockReq, mockRes } = require('../../__tests__/unit/mocks');
 
@@ -178,8 +176,7 @@ const mockResponse = {
 	answers: {
 		'title-1a': 'yes',
 		'title-2a': null,
-		'title-2b': undefined,
-		applicationDecisionDate: new Date().toISOString()
+		'title-2b': undefined
 	}
 };
 
@@ -230,18 +227,8 @@ describe('dynamic-form/controller', () => {
 			req.appealsApiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(appeal));
 			getJourney.mockReturnValue(mockJourney);
 
-			const appealType = '1001';
-			const deadline = businessRulesDeadline(
-				mockJourney.response.answers.applicationDecisionDate,
-				appealType,
-				null,
-				true
-			);
-
 			const pageCaption = `Appeal ${appeal.caseReference}`;
 			await list(req, res, pageCaption, { appeal });
-
-			const expectedUrl = `/appeals/householder/submit/declaration?id=${mockRef}`;
 
 			expect(res.render).toHaveBeenCalledWith(mockJourney.listingPageViewPath, {
 				appeal,
@@ -249,9 +236,7 @@ describe('dynamic-form/controller', () => {
 				layoutTemplate: mockTemplateUrl,
 				journeyComplete: false,
 				pageCaption: pageCaption,
-				journeyTitle: mockJourneyTitle,
-				declarationUrl: expectedUrl,
-				formattedDeadline: format(deadline, 'dd MMM yyyy')
+				journeyTitle: mockJourneyTitle
 			});
 		});
 
