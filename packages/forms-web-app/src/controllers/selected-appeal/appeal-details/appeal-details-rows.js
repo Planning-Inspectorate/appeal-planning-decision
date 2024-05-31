@@ -103,8 +103,8 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Agricultural holding',
-			valueText: caseData.agriculturalHolding ? 'Yes' : 'No',
-			condition: (caseData) => caseData.agriculturalHolding
+			valueText: formatYesOrNo(caseData, 'agriculturalHolding'),
+			condition: () => true
 		},
 		{
 			keyText: 'Tenant on agricultural holding',
@@ -157,9 +157,9 @@ exports.detailsRows = (caseData, userType) => {
 			condition: () => true
 		},
 		{
-			keyText: 'Award of costs',
-			valueText: 'Yes',
-			condition: (caseData) => isAppellantOrAgent && caseData.costsAppliedForIndicator
+			keyText: 'Do you need to apply for an award of appeal costs?',
+			valueText: formatYesOrNo(caseData, 'costsAppliedForIndicator'),
+			condition: () => isAppellantOrAgent
 		}
 	];
 };
