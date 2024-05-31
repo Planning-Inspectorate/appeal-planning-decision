@@ -1,5 +1,3 @@
-const escape = require('escape-html');
-
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
@@ -29,7 +27,7 @@ const formatAddress = (appealCaseData, joinString = ', ') => {
 		appealCaseData.siteAddressPostcode
 	];
 
-	return addressComponents.filter(Boolean).map(escape).join(joinString);
+	return addressComponents.filter(Boolean).join(joinString);
 };
 
 /**
@@ -48,7 +46,7 @@ const formatAddressWithBreaks = (appealCaseData) => {
 		appealCaseData.siteAddressPostcode
 	];
 
-	return addressComponents.filter(Boolean).map(escape).join('\n');
+	return addressComponents.filter(Boolean).join('\n');
 };
 
 /**
@@ -70,7 +68,7 @@ const formatAppealSubmissionAddress = (appealSubmission) => {
 			address.postcode
 		];
 
-		return addressComponents.filter(Boolean).map(escape).join(', ');
+		return addressComponents.filter(Boolean).join(', ');
 	} else if (isV2Submission(appealSubmission)) {
 		// appellant submission should only contain one address
 		const v2Address = appealSubmission?.AppellantSubmission?.SubmissionAddress[0];
@@ -85,7 +83,7 @@ const formatAppealSubmissionAddress = (appealSubmission) => {
 			v2Address.county,
 			v2Address.postcode
 		];
-		return addressComponents.filter(Boolean).map(escape).join(', ');
+		return addressComponents.filter(Boolean).join(', ');
 	} else {
 		return '';
 	}
@@ -103,7 +101,7 @@ const formatNeibouringAddressWithBreaks = (neighbourAddress) => {
 		neighbourAddress.postcode
 	];
 
-	return addressComponents.filter(Boolean).map(escape).join('\n');
+	return addressComponents.filter(Boolean).join('\n');
 };
 
 /**
@@ -119,7 +117,7 @@ const formatSubmissionAddress = (submissionAddress, joinString = ', ') => {
 		submissionAddress.postcode
 	];
 
-	return addressComponents.filter(Boolean).map(escape).join(joinString);
+	return addressComponents.filter(Boolean).join(joinString);
 };
 
 /**

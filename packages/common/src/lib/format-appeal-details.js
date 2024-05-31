@@ -6,25 +6,18 @@ const escape = require('escape-html');
  * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
  */
 exports.formatContactDetails = (caseData) => {
-	const contactName = `${escape(caseData.contactFirstName)} ${escape(caseData.contactLastName)}`;
+	const contactName = `${caseData.contactFirstName} ${caseData.contactLastName}`;
 
-	return (
-		contactName + (caseData.contactCompanyName ? `\n${escape(caseData.contactCompanyName)}` : '')
-	);
+	return contactName + (caseData.contactCompanyName ? `\n${caseData.contactCompanyName}` : '');
 };
 
 /**
  * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
  */
 exports.formatApplicantDetails = (caseData) => {
-	const contactName = `${escape(caseData.appellantFirstName)} ${escape(
-		caseData.appellantLastName
-	)}`;
+	const contactName = `${caseData.appellantFirstName} ${caseData.appellantLastName}`;
 
-	return (
-		contactName +
-		(caseData.appellantCompanyName ? `\n${escape(caseData.appellantCompanyName)}` : '')
-	);
+	return contactName + (caseData.appellantCompanyName ? `\n${caseData.appellantCompanyName}` : '');
 };
 
 /**
@@ -35,7 +28,7 @@ exports.formatAccessDetails = (caseData) => {
 
 	return (
 		visibility +
-		(caseData.appellantSiteAccessDetails ? `\n${escape(caseData.appellantSiteAccessDetails)}` : '')
+		(caseData.appellantSiteAccessDetails ? `\n${caseData.appellantSiteAccessDetails}` : '')
 	);
 };
 
@@ -47,7 +40,7 @@ exports.formatHealthAndSafety = (caseData) => {
 
 	return (
 		safetyIssues +
-		(caseData.appellantSiteSafetyDetails ? `\n${escape(caseData.appellantSiteSafetyDetails)}` : '')
+		(caseData.appellantSiteSafetyDetails ? `\n${caseData.appellantSiteSafetyDetails}` : '')
 	);
 };
 
@@ -61,7 +54,7 @@ exports.formatProcedure = (caseData) => {
 		caseData.appellantPreferInquiryDetails ?? ''
 	];
 
-	const valueText = possibleProcedures.filter(Boolean).map(escape).join('\n');
+	const valueText = possibleProcedures.filter(Boolean).join('\n');
 
 	return valueText;
 };
@@ -87,5 +80,5 @@ exports.formatLinkedAppeals = (caseData) => {
  * @param {import('appeals-service-api').Api.SubmissionLinkedCase} linkedAppeal
  */
 const formatLinkedAppealHyperlink = (linkedAppeal) => {
-	return `<a href=# class="govuk-link">${linkedAppeal.caseReference}</a>`;
+	return `<a href=# class="govuk-link">${escape(linkedAppeal.caseReference)}</a>`;
 };

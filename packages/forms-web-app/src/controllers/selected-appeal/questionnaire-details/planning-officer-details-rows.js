@@ -10,12 +10,14 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Uploaded planning officer’s report',
 			valueText: formatDocumentDetails(documents, 'planningOfficerReport'),
-			condition: () => caseData.uploadPlanningOfficerReport
+			condition: () => caseData.uploadPlanningOfficerReport,
+			isEscaped: true
 		},
 		{
 			keyText: 'Uploaded policies from statutory development plan',
 			valueText: formatDocumentDetails(documents, 'developmentPlanPolicies'),
-			condition: () => caseData.uploadDevelopmentPlanPolicies
+			condition: () => caseData.uploadDevelopmentPlanPolicies,
+			isEscaped: true
 		},
 		{
 			keyText: 'Emerging plan',
@@ -25,12 +27,14 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Uploaded emerging plan and supporting information',
 			valueText: formatDocumentDetails(documents, 'emergingPlan'),
-			condition: () => caseData.uploadEmergingPlan
+			condition: () => caseData.uploadEmergingPlan,
+			isEscaped: true
 		},
 		{
 			keyText: 'Uploaded other relevant policies',
 			valueText: formatDocumentDetails(documents, 'otherRelevantPolicies'),
-			condition: () => caseData.uploadOtherPolicies
+			condition: () => caseData.uploadOtherPolicies,
+			isEscaped: true
 		},
 		{
 			keyText: 'Supplementary planning documents',
@@ -40,7 +44,8 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Uploaded supplementary planning documents',
 			valueText: formatDocumentDetails(documents, 'supplementaryPlanningDocs'),
-			condition: () => caseData.uploadSupplementaryPlanningDocs
+			condition: () => caseData.uploadSupplementaryPlanningDocs,
+			isEscaped: true
 		},
 		{
 			keyText: 'Community infrastructure levy',
@@ -50,7 +55,8 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Uploaded community infrastructure levy',
 			valueText: formatDocumentDetails(documents, 'infrastructureLevy'),
-			condition: () => caseData.uploadInfrastructureLevy
+			condition: () => caseData.uploadInfrastructureLevy,
+			isEscaped: true
 		},
 		{
 			keyText: 'Community infrastructure levy formally adopted',

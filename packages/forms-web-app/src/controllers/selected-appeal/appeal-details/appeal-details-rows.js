@@ -1,4 +1,3 @@
-const escape = require('escape-html');
 const { formatAddress } = require('@pins/common/src/lib/format-address');
 const {
 	formatApplicantDetails,
@@ -23,8 +22,6 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
  * @returns {Rows}
  */
 
-// NOTE - if using an unformatted string from the caseData as the valueText, please 'escape' it
-
 exports.detailsRows = (caseData, userType) => {
 	const isAppellantOrAgent = userType === (APPEAL_USER_ROLES.APPELLANT || APPEAL_USER_ROLES.AGENT);
 
@@ -48,7 +45,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Phone number',
-			valueText: escape(caseData.appellantPhoneNumber),
+			valueText: caseData.appellantPhoneNumber,
 			condition: (caseData) => caseData.appellantPhoneNumber
 		},
 		{
@@ -128,7 +125,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Application reference',
-			valueText: escape(caseData.LPAApplicationReference),
+			valueText: caseData.LPAApplicationReference,
 			condition: (caseData) => caseData.LPAApplicationReference
 		},
 		{
@@ -138,7 +135,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Enter the description of development',
-			valueText: escape(caseData.developmentDescriptionDetails),
+			valueText: caseData.developmentDescriptionDetails,
 			condition: (caseData) => caseData.developmentDescriptionDetails
 		},
 		{
@@ -154,7 +151,8 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Are there other appeals linked to your development?',
 			valueText: formatLinkedAppeals(caseData),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Do you need to apply for an award of appeal costs?',

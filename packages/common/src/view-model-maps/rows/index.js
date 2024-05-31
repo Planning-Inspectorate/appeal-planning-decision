@@ -1,3 +1,4 @@
+const escape = require('escape-html');
 const { nl2br } = require('../../utils');
 
 /**
@@ -7,7 +8,7 @@ const { nl2br } = require('../../utils');
 exports.formatRows = (rows, caseData) => {
 	const displayRows = rows.filter(({ condition }) => condition(caseData));
 
-	return displayRows.map((row) => createRow(row.keyText, row.valueText));
+	return displayRows.map((row) => createRow(row.keyText, row.valueText, row.isEscaped));
 };
 
 /**
@@ -20,17 +21,18 @@ exports.formatQuestionnaireRows = (rows, questionnaireData) => {
 			condition(questionnaireData) !== undefined && condition(questionnaireData) !== null
 	);
 
-	return displayRows.map((row) => createRow(row.keyText, row.valueText));
+	return displayRows.map((row) => createRow(row.keyText, row.valueText, row.isEscaped));
 };
 
 /**
  * @param { string } keyText
  * @param { string } valueText
+ * @param { boolean | undefined } isEscaped
  */
-const createRow = (keyText, valueText) => {
+const createRow = (keyText, valueText, isEscaped) => {
 	valueText = valueText ?? '';
 	return {
 		key: { text: keyText },
-		value: { html: nl2br(valueText) }
+		value: { html: isEscaped ? nl2br(valueText) : nl2br(escape(valueText)) }
 	};
 };

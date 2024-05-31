@@ -48,7 +48,8 @@ exports.constraintsRows = (caseData, user) => {
 		{
 			keyText: 'Uploaded conservation area map and guidance',
 			valueText: formatDocumentDetails(documents, 'conservationMap'),
-			condition: () => caseData.uploadConservation
+			condition: () => caseData.uploadConservation,
+			isEscaped: true
 		},
 		{
 			keyText: 'Protected species',
@@ -78,7 +79,8 @@ exports.constraintsRows = (caseData, user) => {
 		{
 			keyText: 'Uploaded Tree Preservation Order extent',
 			valueText: formatDocumentDetails(documents, 'treePreservationPlan'),
-			condition: () => caseData.uploadTreePreservationOrder
+			condition: () => caseData.uploadTreePreservationOrder,
+			isEscaped: true
 		},
 		{
 			keyText: 'Gypsy or Traveller',
@@ -93,7 +95,8 @@ exports.constraintsRows = (caseData, user) => {
 		{
 			keyText: 'Uploaded definitive map and statement extract',
 			valueText: formatDocumentDetails(documents, 'definitiveMap'),
-			condition: () => caseData.uploadDefinitiveMapStatement
+			condition: () => caseData.uploadDefinitiveMapStatement,
+			isEscaped: true
 		}
 	];
 
