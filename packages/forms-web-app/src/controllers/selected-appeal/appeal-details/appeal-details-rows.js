@@ -55,7 +55,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'What is the area of the appeal site?',
-			valueText: `${caseData.siteAreaSquareMetres}m<sup>2</sup>`,
+			valueText: `${caseData.siteAreaSquareMetres} square metres`,
 			condition: (caseData) => caseData.siteAreaSquareMetres
 		},
 		{
@@ -96,7 +96,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Will an inspector need to access the land or property?',
 			valueText: formatAccessDetails(caseData),
-			condition: (caseData) => caseData.appellantSiteAccess
+			condition: () => true
 		},
 		{
 			keyText: 'Agricultural holding',
