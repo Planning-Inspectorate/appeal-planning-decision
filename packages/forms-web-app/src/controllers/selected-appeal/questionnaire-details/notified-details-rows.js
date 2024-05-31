@@ -1,4 +1,5 @@
 const { formatDocumentDetails } = require('@pins/common');
+const { toHaveFormValues } = require('@testing-library/jest-dom/matchers');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseWithAppellant } caseData
@@ -10,7 +11,8 @@ exports.notifiedRows = (caseData) => {
 		{
 			keyText: 'Who was notified',
 			valueText: formatDocumentDetails(documents, 'whoNotified'),
-			condition: () => caseData.uploadWhoNotified
+			condition: () => caseData.uploadWhoNotified,
+			isEscaped: toHaveFormValues
 		},
 		// TODO data model will need adjusting for possible multiple answers
 		// {
@@ -21,17 +23,20 @@ exports.notifiedRows = (caseData) => {
 		{
 			keyText: 'Site notice',
 			valueText: formatDocumentDetails(documents, 'siteNotice'),
-			condition: () => caseData.uploadSiteNotice
+			condition: () => caseData.uploadSiteNotice,
+			isEscaped: true
 		},
 		{
 			keyText: 'Letters sent to neighbours',
 			valueText: formatDocumentDetails(documents, 'lettersNeighbours'),
-			condition: () => caseData.uploadLettersEmails
+			condition: () => caseData.uploadLettersEmails,
+			isEscaped: true
 		},
 		{
 			keyText: 'Press advert',
 			valueText: formatDocumentDetails(documents, 'pressAdvert'),
-			condition: () => caseData.uploadPressAdvert
+			condition: () => caseData.uploadPressAdvert,
+			isEscaped: true
 		}
 	];
 };

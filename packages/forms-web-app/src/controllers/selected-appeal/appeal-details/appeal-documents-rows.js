@@ -19,7 +19,8 @@ exports.documentsRows = (caseData, userType) => {
 		{
 			keyText: 'Application form',
 			valueText: formatDocumentDetails(documents, 'originalApplicationForm'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'New description of development',
@@ -29,32 +30,38 @@ exports.documentsRows = (caseData, userType) => {
 		{
 			keyText: 'Plans, drawings and supporting documents',
 			valueText: formatDocumentDetails(documents, 'plansDrawings'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Separate ownership certificate in application',
 			valueText: formatDocumentDetails(documents, 'ownershipCertificate'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Design and access statement in application',
 			valueText: formatDocumentDetails(documents, 'designAccessStatement'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Decision letter',
 			valueText: formatDocumentDetails(documents, 'lpaDecisionLetter'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Appeal statement',
 			valueText: formatDocumentDetails(documents, 'appellantStatement'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'New plans or drawings',
 			valueText: formatDocumentDetails(documents, 'newPlansDrawings'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Planning obligation status',
@@ -64,27 +71,32 @@ exports.documentsRows = (caseData, userType) => {
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, 'planningObligation'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'New supporting documents',
 			valueText: formatDocumentDetails(documents, 'otherNewDocuments'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Draft statement of common ground',
 			valueText: formatDocumentDetails(documents, 'statementCommonGround'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Evidence of agreement to change description of development',
 			valueText: formatDocumentDetails(documents, 'changedDescription'),
-			condition: () => true
+			condition: () => true,
+			isEscaped: true
 		},
 		{
 			keyText: 'Costs application',
 			valueText: formatDocumentDetails(documents, 'costsApplication'),
-			condition: (caseData) => isAppellantOrAgent && caseData.costsAppliedForIndicator
+			condition: (caseData) => isAppellantOrAgent && caseData.costsAppliedForIndicator,
+			isEscaped: true
 		}
 	];
 };

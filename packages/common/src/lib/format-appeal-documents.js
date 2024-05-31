@@ -1,3 +1,4 @@
+const escape = require('escape-html');
 /**
  * @param {import('appeals-service-api').Api.Document[]} documents
  * @param {string} documentType
@@ -25,5 +26,5 @@ exports.formatNewDescription = (caseData) => {
  * @returns {string}
  */
 const formatDocumentLink = (document) => {
-	return `<a href=# class="govuk-link">${document.filename}</a>`;
+	return `<a href=# class="govuk-link">${escape(document.filename)}</a>`;
 };

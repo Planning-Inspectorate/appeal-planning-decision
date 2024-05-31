@@ -36,7 +36,8 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'Uploaded screening direction',
 			valueText: formatDocumentDetails(documents, 'screeningDirection'),
-			condition: () => caseData.uploadScreeningDirection
+			condition: () => caseData.uploadScreeningDirection,
+			isEscaped: true
 		},
 		{
 			keyText: 'Issued screening opinion',
@@ -46,7 +47,8 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'Uploaded screening opinion',
 			valueText: formatDocumentDetails(documents, 'screeningOpinion'),
-			condition: () => caseData.uploadScreeningOpinion
+			condition: () => caseData.uploadScreeningOpinion,
+			isEscaped: true
 		},
 		{
 			keyText: 'Screening opinion indicated environmental statement needed',
@@ -61,7 +63,8 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'Uploaded environmental statement',
 			valueText: formatDocumentDetails(documents, 'environmentalStatement'),
-			condition: () => caseData.uploadEnvironmentalStatement
+			condition: () => caseData.uploadEnvironmentalStatement,
+			isEscaped: true
 		}
 	];
 };

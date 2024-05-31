@@ -20,17 +20,20 @@ exports.consultationRows = (caseData) => {
 		{
 			keyText: 'Uploaded consultation responses and standing advice',
 			valueText: formatDocumentDetails(documents, 'consultationResponses'),
-			condition: () => caseData.uploadConsultationResponses
+			condition: () => caseData.uploadConsultationResponses,
+			isEscaped: true
 		},
 		{
 			keyText: 'Representations from other parties',
 			valueText: formatYesOrNo(caseData, 'otherPartyRepresentations'),
-			condition: () => caseData.otherPartyRepresentations
+			condition: () => caseData.otherPartyRepresentations,
+			isEscaped: true
 		},
 		{
 			keyText: 'Uploaded representations from other parties',
 			valueText: formatDocumentDetails(documents, 'otherPartyRepresentations'),
-			condition: () => caseData.uploadRepresentations
+			condition: () => caseData.uploadRepresentations,
+			isEscaped: true
 		}
 	];
 };
