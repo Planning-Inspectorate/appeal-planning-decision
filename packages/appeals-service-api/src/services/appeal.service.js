@@ -161,6 +161,17 @@ async function updateAppeal(id, appealUpdate) {
 }
 
 /**
+ * @param {string} id
+ */
+async function deleteAppeal(id) {
+	logger.info(`Attempting to delete appeal with ID ${id}`);
+
+	await appealsCosmosRepository.delete(id);
+
+	logger.info(`Appeal ${id} deleted`);
+}
+
+/**
  * @param {*} appeal - existing appeal
  * @param {*} appealUpdate - updated appeal
  * @returns {Promise<void>}
@@ -366,6 +377,7 @@ module.exports = {
 	createAppeal,
 	getAppeal,
 	updateAppeal,
+	deleteAppeal,
 	validateAppeal,
 	getAppealDocumentInBase64Encoding,
 	getAppealByLPACodeAndId,

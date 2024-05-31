@@ -1,6 +1,6 @@
 const logger = require('../../lib/logger');
 const { getDepartmentFromId } = require('../../services/department.service');
-const { getLPAById } = require('../../lib/appeals-api-wrapper');
+const { getLPAById, deleteAppeal } = require('../../lib/appeals-api-wrapper');
 const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
@@ -41,7 +41,10 @@ const postListOfDocuments = async (req, res) => {
 				applicationReference: appeal.planningApplicationNumber,
 				applicationDecision: appeal.eligibility.applicationDecision
 			});
+
+			await deleteAppeal(appeal.id);
 			req.session.appeal = null;
+
 			return res.redirect(`${baseHASSubmissionUrl}/${taskListUrl}?id=${appealSubmission.id}`);
 		}
 

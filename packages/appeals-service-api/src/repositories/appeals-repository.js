@@ -71,6 +71,14 @@ class AppealsRepository extends MongoRepository {
 				{ returnDocument: 'after' }
 			);
 	}
+
+	/**
+	 * @param {string} appealId
+	 * @return {Promise<any>}
+	 */
+	async delete(appealId) {
+		return await mongodb.get().collection(this.collectionName).deleteOne({ _id: appealId });
+	}
 }
 
 module.exports = { AppealsRepository };
