@@ -1,4 +1,3 @@
-const { apiClient } = require('../../../../../src/lib/appeals-api-client');
 const { get } = require('../../../../../src/controllers/appeals/your-appeals/decided-appeals');
 
 const { VIEW } = require('../../../../../src/lib/views');
@@ -36,8 +35,10 @@ describe('controllers/appeals/your-appeals/decided-appeals', () => {
 		jest.resetAllMocks();
 
 		appeal = [{ id: 'appeal123', decisionOutcome: 'allowed' }];
-		apiClient.getUserByEmailV2.mockImplementation(() => Promise.resolve({ id: '123' }));
-		apiClient.getUserAppealsById.mockImplementation(() => Promise.resolve(appeal));
+		req.appealsApiClient = {
+			getUserAppeals: jest.fn()
+		};
+		req.appealsApiClient.getUserAppeals.mockImplementation(() => Promise.resolve([appeal]));
 	});
 
 	it('Test get method calls the correct template and view context', async () => {
