@@ -82,6 +82,22 @@ exports.createOrUpdateAppeal = (appeal) => {
 	});
 };
 
+/**
+ * deletes an appeal v1
+ * @param {string} appealId
+ * @returns {Promise<void>}
+ */
+exports.deleteAppeal = (appealId) => {
+	if (!appealId) {
+		throw new Error('need an appeal id');
+	}
+
+	const appealsServiceApiUrl = `/api/v1/appeals/${appealId}`;
+	const method = 'DELETE';
+
+	return handler(appealsServiceApiUrl, method);
+};
+
 exports.submitAppealForBackOfficeProcessing = async (appeal) => {
 	const savedAppeal = await handler(`/api/v1/appeals/${appeal.id}`, 'PUT', {
 		body: JSON.stringify(appeal)
