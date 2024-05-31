@@ -1,4 +1,3 @@
-const { apiClient } = require('#lib/appeals-api-client');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { isAppealSubmission, isV2Submission } = require('@pins/common/src/lib/format-address');
 
@@ -16,22 +15,19 @@ const v2SubmissionDynamicContinueUrls = {
  */
 exports.get = async (req, res) => {
 	const {
-		params: { appealId },
-		session: { email }
+		params: { appealId }
 	} = req;
 
 	if (!appealId)
 		throw new Error(`Continue your appeal cannot be invoked without specifying an appeal id`);
 
-	const user = await apiClient.getUserByEmailV2(email);
-
-	const userAppeals = await apiClient.getUserAppealsById(user.id);
+	const userAppeals = await req.appealsApiClient.getUserAppeals();
 
 	const appealSubmission = userAppeals.find(
 		(appeal) => appeal.id === appealId || appeal._id === appealId
 	);
 
-	if (!appealSubmission) throw new Error(`Appeal ${appealId} does not belong to user ${user.id}`);
+	if (!appealSubmission) throw new Error(`Appeal ${appealId} does not belong to user`);
 
 	if (isAppealSubmission(appealSubmission)) {
 		// v1 submission
@@ -63,6 +59,6 @@ exports.get = async (req, res) => {
 
 		return res.redirect(redirectUrl);
 	} else {
-		throw new Error('Continue your appeal can only be invooked with appeal submissions');
+		throw new Error('Continue your appeal can only be invoked with appeal submissions');
 	}
 };

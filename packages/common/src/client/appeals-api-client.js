@@ -202,12 +202,10 @@ class AppealsApiClient {
 	}
 
 	/**
-	 * todo, use a call to appeals and use token rather than user/appeals
-	 * @param {string} id
 	 * @returns {Promise<(AppealCase|AppealSubmission)[]>}
 	 */
-	async getUserAppealsById(id) {
-		const endpoint = `${v2}/users/${id}/appeals`;
+	async getUserAppeals() {
+		const endpoint = `${v2}/appeals/`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}

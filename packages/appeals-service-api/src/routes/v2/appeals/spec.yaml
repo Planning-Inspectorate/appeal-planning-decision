@@ -1,16 +1,9 @@
 paths:
-  /api/v2/users/{id}/appeals:
+  /api/v2/appeals/:
     get:
       tags:
-        - users
+        - appeals
       description: Get appeals for a user
-      parameters:
-        - in: path
-          name: id
-          required: true
-          schema:
-            type: string
-          description: user ID
       responses:
         200:
           description: Appeals
@@ -27,4 +20,4 @@ paths:
           content:
             application/json:
               schema:
-                 $ref: '#/components/schemas/ErrorBody'
+                $ref: '#/components/schemas/ErrorBody'

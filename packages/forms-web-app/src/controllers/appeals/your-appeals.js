@@ -4,14 +4,11 @@ const {
 } = require('../../lib/dashboard-functions');
 const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
-const { apiClient } = require('../../lib/appeals-api-client');
 
 exports.get = async (req, res) => {
-	const { email } = req.session;
 	let viewContext = {};
 	try {
-		const user = await apiClient.getUserByEmailV2(email);
-		const appeals = await apiClient.getUserAppealsById(user.id);
+		const appeals = await req.appealsApiClient.getUserAppeals();
 
 		if (appeals?.length === 0) {
 			res.redirect(`/${VIEW.APPEALS.NO_APPEALS}`);
