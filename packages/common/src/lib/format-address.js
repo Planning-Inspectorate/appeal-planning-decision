@@ -1,3 +1,5 @@
+const escape = require('escape-html');
+
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
@@ -8,7 +10,7 @@
 
 /**
  * @param {AppealCaseWithAppellant | AppealSubmission} appealCaseData
- * @param { boolean } breaks
+ * @param {string } [joinString]
  * @returns {string}
  */
 const formatAddress = (appealCaseData, joinString = ', ') => {
@@ -27,7 +29,7 @@ const formatAddress = (appealCaseData, joinString = ', ') => {
 		appealCaseData.siteAddressPostcode
 	];
 
-	return addressComponents.filter(Boolean).join(joinString);
+	return addressComponents.filter(Boolean).map(escape).join(joinString);
 };
 
 /**
@@ -46,7 +48,7 @@ const formatAddressWithBreaks = (appealCaseData) => {
 		appealCaseData.siteAddressPostcode
 	];
 
-	return addressComponents.filter(Boolean).join('\n');
+	return addressComponents.filter(Boolean).map(escape).join('\n');
 };
 
 /**
@@ -68,7 +70,7 @@ const formatAppealSubmissionAddress = (appealSubmission) => {
 			address.postcode
 		];
 
-		return addressComponents.filter(Boolean).join(', ');
+		return addressComponents.filter(Boolean).map(escape).join(', ');
 	} else if (isV2Submission(appealSubmission)) {
 		// appellant submission should only contain one address
 		const v2Address = appealSubmission?.AppellantSubmission?.SubmissionAddress[0];
@@ -83,7 +85,7 @@ const formatAppealSubmissionAddress = (appealSubmission) => {
 			v2Address.county,
 			v2Address.postcode
 		];
-		return addressComponents.filter(Boolean).join(', ');
+		return addressComponents.filter(Boolean).map(escape).join(', ');
 	} else {
 		return '';
 	}
@@ -101,7 +103,7 @@ const formatNeibouringAddressWithBreaks = (neighbourAddress) => {
 		neighbourAddress.postcode
 	];
 
-	return addressComponents.filter(Boolean).join('\n');
+	return addressComponents.filter(Boolean).map(escape).join('\n');
 };
 
 /**
@@ -117,7 +119,7 @@ const formatSubmissionAddress = (submissionAddress, joinString = ', ') => {
 		submissionAddress.postcode
 	];
 
-	return addressComponents.filter(Boolean).join(joinString);
+	return addressComponents.filter(Boolean).map(escape).join(joinString);
 };
 
 /**
