@@ -1,3 +1,4 @@
+const escape = require('escape-html');
 const { formatAddress } = require('@pins/common/src/lib/format-address');
 const {
 	formatApplicantDetails,
@@ -22,6 +23,8 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
  * @returns {Rows}
  */
 
+// NOTE - if using an unformatted string from the caseData as the valueText, please 'escape' it
+
 exports.detailsRows = (caseData, userType) => {
 	const isAppellantOrAgent = userType === (APPEAL_USER_ROLES.APPELLANT || APPEAL_USER_ROLES.AGENT);
 
@@ -45,7 +48,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Phone number',
-			valueText: caseData.appellantPhoneNumber,
+			valueText: escape(caseData.appellantPhoneNumber),
 			condition: (caseData) => caseData.appellantPhoneNumber
 		},
 		{
@@ -55,7 +58,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'What is the area of the appeal site?',
-			valueText: `${caseData.siteAreaSquareMetres} square metres`,
+			valueText: `${caseData.siteAreaSquareMetres} m<sup>2</sup>`,
 			condition: (caseData) => caseData.siteAreaSquareMetres
 		},
 		{
@@ -100,13 +103,8 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Agricultural holding',
-			valueText: 'Yes',
+			valueText: caseData.agriculturalHolding ? 'Yes' : 'No',
 			condition: (caseData) => caseData.agriculturalHolding
-		},
-		{
-			keyText: 'Agricultural holding',
-			valueText: 'No',
-			condition: (caseData) => !caseData.agriculturalHolding
 		},
 		{
 			keyText: 'Tenant on agricultural holding',
@@ -130,7 +128,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Application reference',
-			valueText: caseData.LPAApplicationReference,
+			valueText: escape(caseData.LPAApplicationReference),
 			condition: (caseData) => caseData.LPAApplicationReference
 		},
 		{
@@ -140,12 +138,12 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Enter the description of development',
-			valueText: caseData.developmentDescriptionDetails,
+			valueText: escape(caseData.developmentDescriptionDetails),
 			condition: (caseData) => caseData.developmentDescriptionDetails
 		},
 		{
 			keyText: 'Did the local planning authority change the description of development?',
-			valueText: caseData.updateDevelopmentDescription,
+			valueText: formatYesOrNo(caseData, 'updateDevelopmentDescription'),
 			condition: (caseData) => caseData.updateDevelopmentDescription
 		},
 		{

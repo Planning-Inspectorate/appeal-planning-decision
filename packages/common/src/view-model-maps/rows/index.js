@@ -1,4 +1,3 @@
-const escape = require('escape-html');
 const { nl2br } = require('../../utils');
 
 /**
@@ -32,6 +31,6 @@ const createRow = (keyText, valueText) => {
 	valueText = valueText ?? '';
 	return {
 		key: { text: keyText },
-		value: { html: nl2br(escape(valueText)) }
+		value: { html: nl2br(valueText) }
 	};
 };

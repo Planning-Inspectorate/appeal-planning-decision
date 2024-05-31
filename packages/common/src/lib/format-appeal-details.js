@@ -1,19 +1,30 @@
+const escape = require('escape-html');
+
+// NOTE - consider requirement to escape string values from caseData
+
 /**
  * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
  */
 exports.formatContactDetails = (caseData) => {
-	const contactName = `${caseData.contactFirstName} ${caseData.contactLastName}`;
+	const contactName = `${escape(caseData.contactFirstName)} ${escape(caseData.contactLastName)}`;
 
-	return contactName + (caseData.contactCompanyName ? `\n${caseData.contactCompanyName}` : '');
+	return (
+		contactName + (caseData.contactCompanyName ? `\n${escape(caseData.contactCompanyName)}` : '')
+	);
 };
 
 /**
  * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
  */
 exports.formatApplicantDetails = (caseData) => {
-	const contactName = `${caseData.appellantFirstName} ${caseData.appellantLastName}`;
+	const contactName = `${escape(caseData.appellantFirstName)} ${escape(
+		caseData.appellantLastName
+	)}`;
 
-	return contactName + (caseData.appellantCompanyName ? `\n${caseData.appellantCompanyName}` : '');
+	return (
+		contactName +
+		(caseData.appellantCompanyName ? `\n${escape(caseData.appellantCompanyName)}` : '')
+	);
 };
 
 /**
@@ -24,7 +35,7 @@ exports.formatAccessDetails = (caseData) => {
 
 	return (
 		visibility +
-		(caseData.appellantSiteAccessDetails ? `\n${caseData.appellantSiteAccessDetails}` : '')
+		(caseData.appellantSiteAccessDetails ? `\n${escape(caseData.appellantSiteAccessDetails)}` : '')
 	);
 };
 
@@ -36,7 +47,7 @@ exports.formatHealthAndSafety = (caseData) => {
 
 	return (
 		safetyIssues +
-		(caseData.appellantSiteSafetyDetails ? `\n${caseData.appellantSiteSafetyDetails}` : '')
+		(caseData.appellantSiteSafetyDetails ? `\n${escape(caseData.appellantSiteSafetyDetails)}` : '')
 	);
 };
 
@@ -50,7 +61,7 @@ exports.formatProcedure = (caseData) => {
 		caseData.appellantPreferInquiryDetails ?? ''
 	];
 
-	const valueText = possibleProcedures.filter(Boolean).join('\n');
+	const valueText = possibleProcedures.filter(Boolean).map(escape).join('\n');
 
 	return valueText;
 };
