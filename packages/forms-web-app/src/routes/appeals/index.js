@@ -13,6 +13,9 @@ router.get('/no-appeals', noAppealsController.get);
 // householder appeals
 router.use('/householder', dynamicSubmission);
 
+// s78 appeals
+router.use('/full-planning', dynamicSubmission);
+
 // todo: leave at end or fix the urls defined in these routes, currently catches anything else as :appealNumber
 router.use('/', selectedAppealRouter);
 

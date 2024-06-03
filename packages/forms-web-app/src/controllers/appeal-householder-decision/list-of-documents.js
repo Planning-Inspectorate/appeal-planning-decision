@@ -25,7 +25,7 @@ const postListOfDocuments = async (req, res) => {
 			const lpa = await getDepartmentFromId(appeal.lpaCode);
 			const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
 
-			const usingV2Form = await isFeatureActive(FLAG.APPEAL_FORM_V2, lpaCode);
+			const usingV2Form = await isFeatureActive(FLAG.HAS_APPEAL_FORM_V2, lpaCode);
 
 			// v1
 			if (!usingV2Form) {
