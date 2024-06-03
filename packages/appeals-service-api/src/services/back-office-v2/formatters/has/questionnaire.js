@@ -5,7 +5,7 @@
  * @typedef {import('../documents').Documents} Documents
  */
 
-const { getDocuments, howYouNotifiedPeople, toBool, formatAddresses } = require('../utils');
+const { getDocuments, howYouNotifiedPeople } = require('../utils');
 
 /**
  * @param {string} caseReference
@@ -17,35 +17,43 @@ const { getDocuments, howYouNotifiedPeople, toBool, formatAddresses } = require(
  *   documents: Documents
  * }>}
  */
-exports.formatter = async (caseReference, { AppealCase: { LPACode }, ...answers }) => {
-	return {
-		LPACode: LPACode,
-		caseReference,
-		questionnaire: {
-			addAffectedListedBuilding: answers.addAffectedListedBuilding,
-			addNearbyAppeal: answers.nearbyAppeals,
-			addNeighbouringSiteAccess: answers.addNeighbourSiteAccess,
-			affectedListedBuildingNumber: Number(answers.changedListedBuildingNumber),
-			affectsListedBuilding: answers.affectsListedBuilding,
-			conservationArea: answers.conservationArea,
-			correctAppealType: answers.correctAppealType,
-			greenBelt: answers.greenBelt,
-			lpaSiteAccess: toBool(answers.lpaSiteAccess),
-			lpaSiteAccessDetails: answers.lpaSiteAccess_lpaSiteAccessDetails,
-			lpaSiteSafety: toBool(answers.lpaSiteSafetyRisks),
-			lpaSiteSafetyDetails: answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails,
-			lpaStatement: null, // are we collecting this?
-			lpaStatementDocuments: null, // are we collecting this?
-			nearbyAppeals: answers.nearbyAppeals,
-			nearbyAppealReference: answers.nearbyAppealReference,
-			'neighbouring-address': formatAddresses(answers.SubmissionAddress),
-			neighbouringSiteAccess: toBool(answers.neighbourSiteAccess),
-			neighbouringSiteAccessDetails: answers.neighbourSiteAccess_neighbourSiteAccessDetails,
-			newConditionDetails: answers.newConditions_newConditionDetails,
-			newConditions: toBool(answers.newConditions),
-			notificationMethod: howYouNotifiedPeople(answers),
-			otherPartyRepresentations: null
-		},
-		documents: await getDocuments(answers)
-	};
+exports.formatter = async (caseReference, { ...answers }) => {
+	return [
+		{
+			casedata: {
+				caseReference: caseReference,
+				lpaQuestionnaireSubmittedDate: new Date().toISOString(),
+				isCorrectAppealType: answers.correctAppealType,
+				affectedListedBuildingNumbers: answers.SubmissionListedBuilding?.map(
+					({ reference }) => reference
+				),
+				inConservationArea: answers.conservationArea,
+				isGreenBelt: answers.greenBelt,
+				notificationMethod: howYouNotifiedPeople(answers),
+				siteAccessDetails: answers.lpaSiteAccess_lpaSiteAccessDetails ?? null,
+				siteSafetyDetails: answers.lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails ?? null,
+				neighbouringSiteAddresses: answers.SubmissionAddress?.filter((address) => {
+					return address.fieldName === 'neighbourSiteAddress';
+				}).map((address) => {
+					return {
+						neighbouringSiteAddressLine1: address.addressLine1,
+						neighbouringSiteAddressLine2: address.addressLine2,
+						neighbouringSiteAddressTown: address.townCity,
+						neighbouringSiteAddressCounty: address.county,
+						neighbouringSiteAddressPostcode: address.postcode,
+						neighbouringSiteAccessDetails: null, // not asked
+						neighbouringSiteSafetyDetails: null // not asked
+					};
+				}),
+				nearbyCaseReferences: answers.SubmissionLinkedCase?.map(
+					({ caseReference }) => caseReference
+				),
+				newConditionDetails: answers.newConditions_newConditionDetails ?? null,
+
+				lpaStatement: '', // not asked
+				lpaCostsAppliedFor: null // not asked
+			},
+			documents: await getDocuments(answers)
+		}
+	];
 };
