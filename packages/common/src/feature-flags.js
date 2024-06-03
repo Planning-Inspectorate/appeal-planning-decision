@@ -1,5 +1,4 @@
 const FLAG = {
-	APPEAL_FORM_V2: 'appeal-form-v2',
 	APPEALS_BO_SUBMISSION: 'appeals-bo-submission',
 	ENROL_USERS: 'enrol-users',
 	FINAL_COMMENTS: 'final-comments',
