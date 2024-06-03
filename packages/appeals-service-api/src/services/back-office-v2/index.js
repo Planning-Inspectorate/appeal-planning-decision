@@ -16,11 +16,19 @@ const {
 	sendSubmissionReceivedEmailToLpaV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
+const { buildValidateFromSchema } = require('./validate');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {"HAS" | "S78"} AppealTypeCode
  */
+
+/**
+ * @template Payload
+ * @typedef {{(schema: string, payload: unknown): payload is Payload}} ValidateFromSchema
+ */
+
+/** @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand */
 
 /** @type {Record<AppealTypeCode, string>} */
 const appealTypeCodeToAppealId = {
@@ -56,11 +64,19 @@ class BackOfficeV2Service {
 		if (!isValidAppealTypeCode(appellantSubmission.appealTypeCode))
 			throw new Error(`Appeal submission ${appellantSubmissionId} has an invalid appealTypeCode`);
 
-		const result = await forwarders.appeal(
-			await formatters.appeal[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]](
-				appellantSubmission
-			)
-		);
+		const mappedData = await formatters.appeal[
+			appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]
+		](appellantSubmission);
+
+		/** @type {ValidateFromSchema<AppellantSubmissionCommand>} */
+		const validate = await buildValidateFromSchema();
+		if (!validate('appellant-submission', mappedData)) {
+			throw new Error(
+				`Payload was invalid wen checked against appellant submission command schema`
+			);
+		}
+
+		const result = await forwarders.appeal([mappedData]);
 
 		await markAppealAsSubmitted(appellantSubmission.id);
 
