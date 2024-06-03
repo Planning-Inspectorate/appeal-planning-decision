@@ -36,6 +36,9 @@ const formatSiteVisits = (events, role) => {
 					case EVENT_SUB_TYPES.ACCOMPANIED: {
 						return `Our inspector will visit the site at ${formattedStartTime} on ${formattedStartDate}. You and the other main party must attend the site visit.`;
 					}
+					case EVENT_SUB_TYPES.UNACCOMPANIED: {
+						return 'Our inspector will visit the site. You do not need to attend.';
+					}
 					default: {
 						return null;
 					}
