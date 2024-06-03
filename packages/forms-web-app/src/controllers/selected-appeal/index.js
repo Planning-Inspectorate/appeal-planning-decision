@@ -54,7 +54,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				role: userType,
 				userId: user.id
 			}),
-			req.appealsApiClient.getEventsByCaseRef(appealNumber)
+			req.appealsApiClient.getEventsByCaseRef(appealNumber, { includePast: true })
 		]);
 
 		events?.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));

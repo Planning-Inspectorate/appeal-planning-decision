@@ -358,16 +358,16 @@ const appealCases = [
 		lpaPreferInquiryDuration: '6',
 		nearbyAppeals: true,
 		newConditions: true,
-		newConditionDetails: 'Example new conditions',
-		Event: {
-			create: {
-				published: true,
-				type: 'siteVisit',
-				subtype: 'accompanied',
-				startDate: pickRandom(datesNMonthsAgo(1)),
-				endDate: pickRandom(datesNMonthsAhead(1))
-			}
-		}
+		newConditionDetails: 'Example new conditions'
+		// Event: {
+		// 	create: {
+		// 		published: true,
+		// 		type: 'siteVisit',
+		// 		subtype: 'accompanied',
+		// 		startDate: pickRandom(datesNMonthsAgo(1)),
+		// 		endDate: pickRandom(datesNMonthsAhead(1))
+		// 	}
+		// }
 	},
 	{
 		Appeal: {
@@ -396,16 +396,16 @@ const appealCases = [
 		interestedPartyCommentsPublished: true,
 		appellantProofEvidencePublished: true,
 		lpaProofEvidencePublished: true,
-		rule6ProofsEvidencePublished: true,
-		Event: {
-			create: {
-				published: true,
-				type: 'siteVisit',
-				subtype: 'unaccompanied',
-				startDate: pickRandom(datesNMonthsAgo(1)),
-				endDate: pickRandom(datesNMonthsAhead(1))
-			}
-		}
+		rule6ProofsEvidencePublished: true
+		// Event: {
+		// 	create: {
+		// 		published: true,
+		// 		type: 'siteVisit',
+		// 		subtype: 'unaccompanied',
+		// 		startDate: getFutureDate(30, 15),
+		// 		endDate: getFutureDate(30, 15)
+		// 	}
+		// }
 	},
 	{
 		Appeal: {
@@ -436,16 +436,16 @@ const appealCases = [
 		lpaProofEvidencePublished: true,
 		rule6ProofsEvidencePublished: true,
 		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED,
-		Event: {
-			create: {
-				published: true,
-				type: 'siteVisit',
-				subtype: 'accessRequired',
-				startDate: pickRandom(datesNMonthsAgo(2)),
-				endDate: pickRandom(datesNMonthsAgo(1))
-			}
-		}
+		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED
+		// Event: {
+		// 	create: {
+		// 		published: true,
+		// 		type: 'siteVisit',
+		// 		subtype: 'accessRequired',
+		// 		startDate: pickRandom(datesNMonthsAgo(2)),
+		// 		endDate: pickRandom(datesNMonthsAgo(1))
+		// 	}
+		// }
 	},
 	{
 		Appeal: {
@@ -471,16 +471,16 @@ const appealCases = [
 		caseValidDate: new Date(),
 		interestedPartyCommentsPublished: true,
 		lpaFinalCommentsPublished: true,
-		appellantFinalCommentsSubmitted: true,
-		Event: {
-			create: {
-				published: true,
-				type: 'siteVisit',
-				subtype: 'accessRequired',
-				startDate: getFutureDate(40, 11),
-				endDate: getFutureDate(40, 15)
-			}
-		}
+		appellantFinalCommentsSubmitted: true
+		// Event: {
+		// 	create: {
+		// 		published: true,
+		// 		type: 'siteVisit',
+		// 		subtype: 'accessRequired',
+		// 		startDate: getFutureDate(40, 11),
+		// 		endDate: getFutureDate(40, 15)
+		// 	}
+		// }
 	},
 	{
 		Appeal: {
@@ -788,6 +788,64 @@ const neighbourAddresses = [
 ];
 
 /**
+ * @type { import('@prisma/client').Prisma.EventCreateInput[] }
+ */
+const events = [
+	{
+		internalId: '1d3a7697-2dab-45be-bb36-45532e173ca0',
+		published: true,
+		type: 'siteVisit',
+		subtype: 'accompanied',
+		startDate: pickRandom(datesNMonthsAgo(1)),
+		endDate: pickRandom(datesNMonthsAhead(1)),
+		AppealCase: {
+			connect: {
+				caseReference: '1010101'
+			}
+		}
+	},
+	{
+		internalId: '6e37eecf-216f-42b2-95cc-7484f0db0bd5',
+		published: true,
+		type: 'siteVisit',
+		subtype: 'unaccompanied',
+		startDate: getFutureDate(30, 15),
+		endDate: getFutureDate(30, 15),
+		AppealCase: {
+			connect: {
+				caseReference: '1010102'
+			}
+		}
+	},
+	{
+		internalId: 'b400feaf-b7ea-493c-b8b5-7ca9311696b8',
+		published: true,
+		type: 'siteVisit',
+		subtype: 'accessRequired',
+		startDate: pickRandom(datesNMonthsAgo(2)),
+		endDate: pickRandom(datesNMonthsAgo(1)),
+		AppealCase: {
+			connect: {
+				caseReference: '1010103'
+			}
+		}
+	},
+	{
+		internalId: '6c4f6b1f-3206-4ba4-a7e1-c56ca1c83730',
+		published: true,
+		type: 'siteVisit',
+		subtype: 'accessRequired',
+		startDate: getFutureDate(40, 11),
+		endDate: getFutureDate(40, 15),
+		AppealCase: {
+			connect: {
+				caseReference: '1010104'
+			}
+		}
+	}
+];
+
+/**
  * @type {import('@prisma/client').Prisma.AppellantSubmissionCreateInput[]}
  */
 const appellantSubmissions = [
@@ -950,6 +1008,14 @@ async function seedDev(dbClient) {
 			create: submissionAddress,
 			update: submissionAddress,
 			where: { id: submissionAddress.id }
+		});
+	}
+
+	for (const event of events) {
+		await dbClient.event.upsert({
+			create: event,
+			update: event,
+			where: { internalId: event.internalId }
 		});
 	}
 
