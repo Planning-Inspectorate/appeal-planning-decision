@@ -2,10 +2,11 @@ const LpaService = require('../../../lpa.service');
 const lpaService = new LpaService();
 const ApiError = require('../../../../errors/apiError');
 
+/** @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand */
+
 /**
- *
  * @param {import('src/spec/api-types').AppellantSubmission} appellantSubmission
- * @returns
+ * @returns {Promise<[AppellantSubmissionCommand]>}
  */
 exports.formatter = async (appellantSubmission) => {
 	if (!appellantSubmission) throw new Error(`Appeal submission could not be formatted`);
@@ -22,57 +23,52 @@ exports.formatter = async (appellantSubmission) => {
 		throw ApiError.lpaNotFound();
 	}
 
-	// const address = appellantSubmission.SubmissionAddress?.find(
-	// 	(address) => address.fieldName === 'siteAddress'
-	// );
+	const address = appellantSubmission.SubmissionAddress?.find(
+		(address) => address.fieldName === 'siteAddress'
+	);
 
 	return [
 		{
-			appeal: {
-				LPACode: lpa.getLpaCode(), // use Q9999 format, appeal uses E69999999
-				LPAName: lpa.getName(),
-				appealType: 'Householder (HAS) Appeal',
-				isListedBuilding: false,
-				decision: appellantSubmission.applicationDecision,
-				// originalCaseDecisionDate: appellantSubmission.applicationDecisionDate.toISOString(),
-				costsAppliedForIndicator: appellantSubmission.costApplication,
-				LPAApplicationReference: appellantSubmission.applicationReference,
-				appellant: {
-					firstName: appellantSubmission.isAppellant
-						? appellantSubmission.contactFirstName
-						: appellantSubmission.appellantFirstName,
-					lastName: appellantSubmission.isAppellant
-						? appellantSubmission.contactLastName
-						: appellantSubmission.appellantLastName,
-					emailAddress: appellantSubmission.appellantEmailAddress
-				},
-				agent: !appellantSubmission.isAppellant
-					? {
-							firstName: appellantSubmission.contactFirstName,
-							lastName: appellantSubmission.contactLastName,
-							emailAddress: appellantSubmission.appellantEmailAddress
-					  }
-					: undefined,
-				// siteAddressLine1: address.addressLine1,
-				// siteAddressLine2: address.addressLine2,
-				// siteAddressTown: address.town,
-				// siteAddressCounty: address.county,
-				// siteAddressPostcode: address.postcode,
-				isSiteFullyOwned: appellantSubmission.ownsAllLand,
-				hasToldOwners: !appellantSubmission.ownsAllLand
-					? appellantSubmission.informedOwners
-					: undefined,
-				isSiteVisible: appellantSubmission.appellantSiteAccess,
-				inspectorAccessDetails: appellantSubmission.appellantSiteAccess
-					? appellantSubmission.appellantSiteAccess_appellantSiteAccessDetails
-					: undefined,
-				doesSiteHaveHealthAndSafetyIssues: appellantSubmission.appellantSiteSafety,
-				healthAndSafetyIssuesDetails: appellantSubmission.appellantSiteSafety
-					? appellantSubmission.appellantsiteSafety_appellantSiteAccessDetails
-					: undefined
+			casedata: {
+				caseType: 'D',
+				caseProcedure: 'written', // We keep this on Appeal cases, will one exist yet when this code is triggered?
+				lpaCode: lpa.getLpaCode(),
+				caseSubmittedDate: new Date().getTime().toString(),
+				enforcementNotice: null, // I can't find anywhere where we collect this
+				applicationReference: appellantSubmission.applicationReference ?? '',
+				applicationDate: new Date().getTime().toString(), // Now presumably?
+				applicationDecision: appellantSubmission.applicationDecision ?? 'not-received',
+				applicationDecisionDate: appellantSubmission.applicationDecisionDate ?? null,
+				caseSubmissionDueDate: new Date().getTime().toString(), // Now presumably?,
+				siteAddressLine1: address.addressLine1 ?? '',
+				siteAddressLine2: address.addressLine2 ?? '',
+				siteAddressTown: address.townCity ?? '',
+				siteAddressCounty: address.county ?? '',
+				siteAddressPostcode: address.postcode ?? '',
+				siteAccessDetails: [
+					appellantSubmission.appellantSiteAccess_appellantSiteAccessDetails
+				].filter(Boolean),
+				siteSafetyDetails: [
+					appellantSubmission.appellantSiteSafety_appellantSiteSafetyDetails
+				].filter(Boolean),
+				siteAreaSquareMetres: appellantSubmission.siteAreaSquareMetres ?? null,
+				floorSpaceSquareMetres: appellantSubmission.siteAreaSquareMetres ?? null,
+				ownsAllLand: appellantSubmission.ownsAllLand ?? null,
+				ownsSomeLand: appellantSubmission.ownsSomeLand ?? null,
+				knowsOtherOwners: appellantSubmission.knowsOtherOwners ?? null,
+				knowsAllOwners: appellantSubmission.knowsAllOwners ?? null,
+				advertisedAppeal: appellantSubmission.advertisedAppeal ?? null,
+				ownersInformed: appellantSubmission.informedOwners ?? null,
+				originalDevelopmentDescription: appellantSubmission.developmentDescriptionOriginal ?? null,
+				changedDevelopmentDescription: appellantSubmission.updateDevelopmentDescription ?? null,
+				nearbyCaseReferences: appellantSubmission.SubmissionLinkedCase?.map(
+					({ caseReference }) => caseReference
+				),
+				neighbouringSiteAddresses: null, // added by the LPA later I believe
+				appellantCostsAppliedFor: appellantSubmission.costApplication ?? null
 			},
-			// todo we need to fix the formatting on these and there is technical debt in order to collect the correct metadata, commenting out for now as BO are not yet ready for this
-			documents: []
+			documents: [],
+			users: []
 		}
 	];
 };
