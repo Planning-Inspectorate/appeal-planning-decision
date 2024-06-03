@@ -19,6 +19,7 @@ const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-subm
 const { businessRulesDeadline } = require('../../lib/calculate-deadline');
 const { mapTypeCodeToAppealId } = require('../../lib/full-appeal/map-planning-application');
 const { format } = require('date-fns');
+const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 
 const {
 	VIEW: {
@@ -27,32 +28,50 @@ const {
 } = require('#lib/views');
 const dashboardUrl = `/${YOUR_APPEALS}`;
 
+const typeCodeToTaskListDetails = {
+	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: {
+		stub: 'householder',
+		pageCaption: 'Householder Appeal'
+	},
+	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: {
+		stub: 'full-planning',
+		pageCaption: 'Full Planning Appeal'
+	}
+};
+
 const router = express.Router();
 
 /**
  * @type {import('express').Handler}
  */
-const householderTaskList = async (req, res) => {
+const appellantSubmissionTaskList = async (req, res) => {
 	const journey = getJourney(res.locals.journeyResponse);
-	const declarationUrl = `/appeals/householder/submit/declaration?id=${journey.response.referenceId}`;
+
+	const appealType = journey.response.answers.appealTypeCode;
 
 	const deadline = businessRulesDeadline(
 		journey.response.answers.applicationDecisionDate,
-		mapTypeCodeToAppealId(journey.response.answers.appealTypeCode),
+		mapTypeCodeToAppealId(appealType),
 		null,
 		true
 	);
 	const formattedDeadline = format(deadline, 'dd MMM yyyy');
 
-	return list(req, res, 'Householder Appeal', { declarationUrl, formattedDeadline });
+	const declarationUrl = `/appeals/${typeCodeToTaskListDetails[appealType].stub}/submit/declaration?id=${journey.response.referenceId}`;
+
+	return list(req, res, typeCodeToTaskListDetails[appealType].pageCaption, {
+		declarationUrl,
+		formattedDeadline
+	});
 };
 
 router.get(
 	'/appeal-form/your-appeal',
 	getJourneyResponse,
 	checkNotSubmitted(dashboardUrl),
-	householderTaskList
+	appellantSubmissionTaskList
 );
+
 router.get(
 	'/submit/declaration',
 	getJourneyResponse,

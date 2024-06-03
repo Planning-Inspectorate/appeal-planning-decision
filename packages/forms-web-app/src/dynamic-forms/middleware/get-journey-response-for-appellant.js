@@ -34,7 +34,7 @@ module.exports = async (request, response, next) => {
 		logger.error(error);
 	}
 
-	if (!submission || !(await isFeatureActive(FLAG.APPEAL_FORM_V2, submission.LPACode))) {
+	if (!submission || !(await appealTypeFlagActive(submission.appealTypeCode, submission.LPACode))) {
 		return response.status(404).render('error/not-found');
 	}
 
@@ -55,4 +55,20 @@ module.exports = async (request, response, next) => {
 	response.locals.journeyResponse = journeyResponse;
 
 	return next();
+};
+
+/**
+ * @param {'HAS' | 'S78' | undefined } appealTypeCode
+ * @param { string | undefined } LPACode
+ * @returns {Promise<boolean>}
+ */
+const appealTypeFlagActive = async (appealTypeCode, LPACode) => {
+	switch (appealTypeCode) {
+		case 'HAS':
+			return await isFeatureActive(FLAG.HAS_APPEAL_FORM_V2, LPACode);
+		case 'S78':
+			return await isFeatureActive(FLAG.S78_APPEAL_FORM_V2, LPACode);
+		default:
+			return false;
+	}
 };
