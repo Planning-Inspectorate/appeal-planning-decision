@@ -1,4 +1,9 @@
-const { APPEAL_USER_ROLES, EVENT_TYPES, EVENT_SUB_TYPES } = require('@pins/common/src/constants');
+const {
+	APPEAL_USER_ROLES,
+	EVENT_TYPES,
+	EVENT_SUB_TYPES,
+	LPA_USER_ROLE
+} = require('@pins/common/src/constants');
 const { format: formatDate } = require('date-fns');
 const { utcToZonedTime } = require('date-fns-tz');
 const targetTimezone = 'Europe/London';
@@ -24,7 +29,7 @@ const formatSiteVisits = (events, role) => {
 			const formattedEndTime = formatDate(ukEnd, 'h:mmaaa')?.replace(':00', '');
 			const formattedEndDate = formatDate(ukEnd, 'd LLLL yyyy');
 
-			if (role === APPEAL_USER_ROLES.APPELLANT) {
+			if (role === APPEAL_USER_ROLES.APPELLANT || role === LPA_USER_ROLE) {
 				switch (siteVisit.subtype) {
 					case EVENT_SUB_TYPES.ACCESS: {
 						const when =

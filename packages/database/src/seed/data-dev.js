@@ -359,15 +359,6 @@ const appealCases = [
 		nearbyAppeals: true,
 		newConditions: true,
 		newConditionDetails: 'Example new conditions'
-		// Event: {
-		// 	create: {
-		// 		published: true,
-		// 		type: 'siteVisit',
-		// 		subtype: 'accompanied',
-		// 		startDate: pickRandom(datesNMonthsAgo(1)),
-		// 		endDate: pickRandom(datesNMonthsAhead(1))
-		// 	}
-		// }
 	},
 	{
 		Appeal: {
@@ -397,15 +388,6 @@ const appealCases = [
 		appellantProofEvidencePublished: true,
 		lpaProofEvidencePublished: true,
 		rule6ProofsEvidencePublished: true
-		// Event: {
-		// 	create: {
-		// 		published: true,
-		// 		type: 'siteVisit',
-		// 		subtype: 'unaccompanied',
-		// 		startDate: getFutureDate(30, 15),
-		// 		endDate: getFutureDate(30, 15)
-		// 	}
-		// }
 	},
 	{
 		Appeal: {
@@ -437,15 +419,6 @@ const appealCases = [
 		rule6ProofsEvidencePublished: true,
 		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
 		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED
-		// Event: {
-		// 	create: {
-		// 		published: true,
-		// 		type: 'siteVisit',
-		// 		subtype: 'accessRequired',
-		// 		startDate: pickRandom(datesNMonthsAgo(2)),
-		// 		endDate: pickRandom(datesNMonthsAgo(1))
-		// 	}
-		// }
 	},
 	{
 		Appeal: {
@@ -462,6 +435,7 @@ const appealCases = [
 		appellantLastName: 'Appellant 4',
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
 		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnairePublishedDate: new Date(),
 		lpaQuestionnairePublished: true,
 		appealValidDate: new Date(),
 		lpaQuestionnaireSubmittedDate: new Date(),
@@ -472,15 +446,6 @@ const appealCases = [
 		interestedPartyCommentsPublished: true,
 		lpaFinalCommentsPublished: true,
 		appellantFinalCommentsSubmitted: true
-		// Event: {
-		// 	create: {
-		// 		published: true,
-		// 		type: 'siteVisit',
-		// 		subtype: 'accessRequired',
-		// 		startDate: getFutureDate(40, 11),
-		// 		endDate: getFutureDate(40, 15)
-		// 	}
-		// }
 	},
 	{
 		Appeal: {
