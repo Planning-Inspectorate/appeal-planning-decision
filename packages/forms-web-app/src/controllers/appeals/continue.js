@@ -1,4 +1,5 @@
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { isAppealSubmission, isV2Submission } = require('@pins/common/src/lib/format-address');
 
 const appealSubmissionContinueUrls = {
@@ -6,8 +7,9 @@ const appealSubmissionContinueUrls = {
 	[APPEAL_ID.PLANNING_SECTION_78]: '/full-appeal/submit-appeal/task-list'
 };
 
-const v2SubmissionDynamicContinueUrls = {
-	v2Has: (submissionId) => `/appeals/householder/appeal-form/your-appeal?id=${submissionId}`
+const typeCodeToAppealUrlStub = {
+	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: 'householder',
+	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: 'full-planning'
 };
 
 /**
@@ -50,7 +52,8 @@ exports.get = async (req, res) => {
 
 		if (!appealTypeCode) throw new Error(`Appeal ${appealId} does not have an appeal type code`);
 
-		const redirectUrl = v2SubmissionDynamicContinueUrls.v2Has(
+		const redirectUrl = v2SubmissionDynamicContinueUrls(
+			typeCodeToAppealUrlStub[appealTypeCode],
 			appealSubmission?.AppellantSubmission?.id
 		);
 
@@ -62,3 +65,12 @@ exports.get = async (req, res) => {
 		throw new Error('Continue your appeal can only be invoked with appeal submissions');
 	}
 };
+
+/**
+ *
+ * @param {string} appealUrlStub
+ * @param {string} submissionId
+ * @returns {string}
+ */
+const v2SubmissionDynamicContinueUrls = (appealUrlStub, submissionId) =>
+	`/appeals/${appealUrlStub}/appeal-form/your-appeal?id=${submissionId}`;
