@@ -1,6 +1,7 @@
 const { initContainerClient } = require('@pins/common');
 const { blobMetaGetter } = require('../../../services/object-store');
 const { conjoinedPromises } = require('@pins/common/src/utils');
+const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
 
 /**
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -8,6 +9,7 @@ const { conjoinedPromises } = require('@pins/common/src/utils');
  * @typedef {import('./has/has').Submission} HASBOSubmission
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents']} DataModelDocuments
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['users']} DataModelUsers
+ * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['casedata']['applicationDecision']} DataModelApplicationDecision
  */
 
 const getBlobMeta = blobMetaGetter(initContainerClient);
@@ -85,3 +87,16 @@ exports.formatUsers = (users) =>
 		emailAddress: email,
 		serviceUserType: isLpaUser ? 'Agent' : 'Appellant'
 	}));
+
+const dataModelApplicationDecisions = {
+	[APPLICATION_DECISION.GRANTED]: 'granted',
+	[APPLICATION_DECISION.REFUSED]: 'refused',
+	[APPLICATION_DECISION.NODECISIONRECEIVED]: 'not-received'
+};
+/**
+ * @param {string | null} applicationDecision
+ * @returns {DataModelApplicationDecision}
+ */
+exports.formatApplicationDecision = (applicationDecision) =>
+	dataModelApplicationDecisions[applicationDecision] ??
+	dataModelApplicationDecisions[APPLICATION_DECISION.NODECISIONRECEIVED];
