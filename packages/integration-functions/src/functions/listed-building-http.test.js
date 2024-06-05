@@ -1,24 +1,15 @@
 const stream = require('stream');
 
-const importListedBuildings = require('./index');
-const { downloadBlob } = require('../common/src/azure-storage/blobs');
-const { sendMessageBatch } = require('../common/src/azure-service-bus/service-bus');
-const config = require('../common/src/config');
+const { downloadBlob } = require('../common/azure-storage/blobs');
+const { sendMessageBatch } = require('../common/azure-service-bus/service-bus');
+const config = require('../common/config');
 
-jest.mock('../common/src/azure-storage/blobs');
-jest.mock('../common/src/azure-service-bus/service-bus');
-jest.mock('../common/src/config');
+const { InvocationContext } = require('@azure/functions');
+const handler = require('./listed-building-http');
 
-function getTestContext() {
-	const ctx = {
-		bindingData: {}
-	};
-	ctx.log = jest.fn();
-	ctx.log.info = jest.fn();
-	ctx.log.warn = jest.fn();
-	ctx.log.error = jest.fn();
-	return ctx;
-}
+jest.mock('../common/azure-storage/blobs');
+jest.mock('../common/azure-service-bus/service-bus');
+jest.mock('../common/config');
 
 function renameArrayProp(array, prop, propRename) {
 	return array.map((obj) => {
@@ -35,9 +26,17 @@ function renameArrayProp(array, prop, propRename) {
 }
 
 describe('listed-building-file-trigger', () => {
+	const ctx = new InvocationContext({ functionName: 'appeal-document' });
+	ctx.log = jest.fn();
+	ctx.error = jest.fn();
+	let request = {};
+
 	beforeEach(() => {
 		jest.clearAllMocks();
 		config.AZURE.BO_SERVICEBUS.LISTED_BUILDING.MAX_BATCH_SIZE = 2;
+		request.query = {
+			get: () => 0
+		};
 	});
 
 	it('should import listed buildings', async () => {
@@ -55,13 +54,12 @@ describe('listed-building-file-trigger', () => {
 		downloadBlob.mockResolvedValue(mockReadableStream);
 		sendMessageBatch.mockResolvedValue();
 
-		const ctx = getTestContext();
-		await importListedBuildings(ctx, {});
+		const result = await handler(request, ctx);
 
 		expect(downloadBlob).toHaveBeenCalledTimes(1);
 		expect(sendMessageBatch).toHaveBeenCalledTimes(1);
 		expect(sendMessageBatch).toHaveBeenCalledWith(undefined, expect.any(String), data.entities);
-		expect(ctx.res.body).toEqual('Skipped 0 batches | Processed 2 in 1 batches');
+		expect(result).toEqual({ body: 'Skipped 0 batches | Processed 2 in 1 batches' });
 	});
 
 	it('should rename listed-building-grade', async () => {
@@ -79,8 +77,7 @@ describe('listed-building-file-trigger', () => {
 		downloadBlob.mockResolvedValue(mockReadableStream);
 		sendMessageBatch.mockResolvedValue();
 
-		const ctx = getTestContext();
-		await importListedBuildings(ctx, {});
+		await handler(request, ctx);
 
 		const expectedMessageBatch = renameArrayProp(
 			data.entities,
@@ -106,8 +103,7 @@ describe('listed-building-file-trigger', () => {
 		downloadBlob.mockResolvedValue(mockReadableStream);
 		sendMessageBatch.mockResolvedValue();
 
-		const ctx = getTestContext();
-		await importListedBuildings(ctx, {});
+		await handler(request, ctx);
 
 		expect(sendMessageBatch).toHaveBeenCalledWith(undefined, expect.any(String), [
 			{ name: 'building1' }
@@ -126,8 +122,7 @@ describe('listed-building-file-trigger', () => {
 		downloadBlob.mockResolvedValue(mockReadableStream);
 		sendMessageBatch.mockResolvedValue();
 
-		const ctx = getTestContext();
-		await importListedBuildings(ctx, {});
+		await handler(request, ctx);
 
 		expect(sendMessageBatch).toHaveBeenCalledWith(undefined, expect.any(String), data.entities);
 	});
@@ -150,12 +145,11 @@ describe('listed-building-file-trigger', () => {
 		downloadBlob.mockResolvedValue(mockReadableStream);
 		sendMessageBatch.mockResolvedValue();
 
-		const ctx = getTestContext();
-		await importListedBuildings(ctx, {});
+		const result = await handler(request, ctx);
 
 		expect(downloadBlob).toHaveBeenCalledTimes(1);
 		expect(sendMessageBatch).toHaveBeenCalledTimes(3);
-		expect(ctx.res.body).toEqual('Skipped 0 batches | Processed 5 in 3 batches');
+		expect(result).toEqual({ body: 'Skipped 0 batches | Processed 5 in 3 batches' });
 	});
 
 	it('should skip batches', async () => {
@@ -176,9 +170,10 @@ describe('listed-building-file-trigger', () => {
 		downloadBlob.mockResolvedValue(mockReadableStream);
 		sendMessageBatch.mockResolvedValue();
 
-		const ctx = getTestContext();
-		ctx.bindingData.skip = 1;
-		await importListedBuildings(ctx, {});
+		request.query = {
+			get: () => 1
+		};
+		const result = await handler(request, ctx);
 
 		expect(downloadBlob).toHaveBeenCalledTimes(1);
 		expect(sendMessageBatch).toHaveBeenCalledTimes(2);
@@ -193,7 +188,7 @@ describe('listed-building-file-trigger', () => {
 			[data.entities[4]]
 		);
 
-		expect(ctx.res.body).toEqual('Skipped 1 batches | Processed 3 in 2 batches');
+		expect(result).toEqual({ body: 'Skipped 1 batches | Processed 3 in 2 batches' });
 	});
 
 	it('should log which batch failed', async () => {
@@ -216,8 +211,7 @@ describe('listed-building-file-trigger', () => {
 		sendMessageBatch.mockResolvedValueOnce();
 		sendMessageBatch.mockRejectedValueOnce(expectedError);
 
-		const ctx = getTestContext();
-		await expect(importListedBuildings(ctx, {})).rejects.toThrow(expectedError);
+		await expect(handler(request, ctx)).rejects.toThrow(expectedError);
 
 		expect(downloadBlob).toHaveBeenCalledTimes(1);
 		expect(sendMessageBatch).toHaveBeenCalledTimes(2);
@@ -232,8 +226,7 @@ describe('listed-building-file-trigger', () => {
 			[data.entities[2], data.entities[3]]
 		);
 
-		expect(ctx.log.error).toHaveBeenCalledWith(`errored on batch 2`);
-		expect(ctx.log.error).toHaveBeenCalledWith(`use --skip=1 to continue processing`);
-		expect(ctx?.res?.body).toEqual(undefined);
+		expect(ctx.error).toHaveBeenCalledWith(`errored on batch 2`);
+		expect(ctx.error).toHaveBeenCalledWith(`use --skip=1 to continue processing`);
 	});
 });
