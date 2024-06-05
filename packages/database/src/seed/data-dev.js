@@ -100,6 +100,14 @@ const lpaUsers = {
 		lpaCode: 'Q9999',
 		lpaStatus: 'added'
 	},
+	lpaUser2: {
+		id: '795ac593-4fe9-478c-8434-457db576a733',
+		email: 'user2@planninginspectorate.gov.uk',
+		isLpaUser: true,
+		isLpaAdmin: false,
+		lpaCode: 'Q1111',
+		lpaStatus: 'added'
+	},
 	lpaAdmin: {
 		id: '3e0b7bc5-c91a-456c-b36d-260b2a52aa70',
 		email: 'admin1@planninginspectorate.gov.uk',
@@ -221,6 +229,7 @@ const rule6PartyGroups = [
  */
 const users = [
 	lpaUsers.lpaUser,
+	lpaUsers.lpaUser2,
 	lpaUsers.lpaAdmin,
 	appellants.appellantOne,
 	appellants.appellantTwo,
