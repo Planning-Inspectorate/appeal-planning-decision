@@ -34,6 +34,10 @@
         {% set toDoHtml %}
           <div>
               <table class="govuk-table govuk-!-margin-top-3">
+                {% if noToDoAppeals %}
+                <h2 class="govuk-heading-l">Your appeals</h2>
+                <p class="govuk-body">There are currently no appeals in progress.</p>
+                {% else %}
                 <caption class="govuk-table__caption govuk-table__caption--l">To do</caption>
                 <thead class="govuk-table__head">
                   <tr class="govuk-table__row">
@@ -78,6 +82,7 @@
                     {% endfor %}
 
                 </tbody>
+                {% endif %}
               </table>
           </div>
         {% endset %}

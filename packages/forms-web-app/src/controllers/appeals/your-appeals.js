@@ -4,6 +4,7 @@ const {
 } = require('../../lib/dashboard-functions');
 const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
+const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 
 exports.get = async (req, res) => {
 	let viewContext = {};
@@ -33,7 +34,9 @@ exports.get = async (req, res) => {
 
 		toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
 		waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
-		viewContext = { toDoAppeals, waitingForReviewAppeals };
+		const noToDoAppeals = !arrayHasItems(toDoAppeals);
+
+		viewContext = { toDoAppeals, waitingForReviewAppeals, noToDoAppeals };
 
 		res.render(VIEW.APPEALS.YOUR_APPEALS, viewContext);
 	} catch (error) {
