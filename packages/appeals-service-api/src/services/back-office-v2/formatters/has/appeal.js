@@ -1,11 +1,31 @@
 const LpaService = require('../../../lpa.service');
 const lpaService = new LpaService();
 const ApiError = require('../../../../errors/apiError');
-
-/** @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand */
+const { getDocuments, formatUsers } = require('../utils');
 
 /**
- * @param {import('src/spec/api-types').AppellantSubmission} appellantSubmission
+ * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
+ * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ *   include: {
+ *     SubmissionDocumentUpload: true,
+ *     SubmissionAddress: true,
+ *     SubmissionLinkedCase: true,
+ * 		 SubmissionListedBuilding: true,
+ *		 Appeal: {
+ *       include: {
+ *			   Users: {
+ *           include: {
+ *             AppealUser: true
+ *           }
+ *         }
+ *		   }
+ *     }
+ *   }
+ * }>} AppellantSubmission
+ */
+
+/**
+ * @param {AppellantSubmission} appellantSubmission
  * @returns {Promise<[AppellantSubmissionCommand]>}
  */
 exports.formatter = async (appellantSubmission) => {
@@ -67,8 +87,8 @@ exports.formatter = async (appellantSubmission) => {
 				neighbouringSiteAddresses: null, // added by the LPA later I believe
 				appellantCostsAppliedFor: appellantSubmission.costApplication ?? null
 			},
-			documents: [],
-			users: []
+			documents: await getDocuments(appellantSubmission),
+			users: formatUsers(appellantSubmission.Appeal.Users)
 		}
 	];
 };
