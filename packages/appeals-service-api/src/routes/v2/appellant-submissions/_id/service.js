@@ -5,6 +5,19 @@ const repo = new Repo();
 /**
  * @typedef {import('@prisma/client').AppellantSubmission} AppellantSubmission
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
+ * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ *   include: {
+ *     SubmissionDocumentUpload: true,
+ *     SubmissionAddress: true,
+ *     SubmissionLinkedCase: true,
+ * 		 SubmissionListedBuilding: true,
+ *		 Appeal: {
+ *       include: {
+ *			   Users: true
+ *		   }
+ *     }
+ *   }
+ * }>} FullAppellantSubmission
  */
 
 /**
@@ -38,4 +51,16 @@ exports.patch = async ({ appellantSubmissionId, userId, data }) => {
  */
 exports.markAppealAsSubmitted = (appealId) => {
 	return repo.markAppealAsSubmitted(appealId);
+};
+
+/**
+ * @param {{ appellantSubmissionId: string, userId: string }} params
+ * @return {Promise<FullAppellantSubmission>}
+ */
+exports.getForBOSubmission = async ({ appellantSubmissionId, userId }) => {
+	const submission = await repo.getForBOSubmission({ appellantSubmissionId, userId });
+
+	if (!submission) throw ApiError.appellantSubmissionNotFound(appellantSubmissionId);
+
+	return submission;
 };

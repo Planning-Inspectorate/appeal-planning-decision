@@ -7,7 +7,10 @@ const {
 	markQuestionnaireAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service');
 
-const { get, markAppealAsSubmitted } = require('../../routes/v2/appellant-submissions/_id/service');
+const {
+	getForBOSubmission,
+	markAppealAsSubmitted
+} = require('../../routes/v2/appellant-submissions/_id/service');
 
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
@@ -16,7 +19,7 @@ const {
 	sendSubmissionReceivedEmailToLpaV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
-const { buildValidateFromSchema } = require('./validate');
+const { SchemaValidator } = require('./validate');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -25,10 +28,12 @@ const { buildValidateFromSchema } = require('./validate');
 
 /**
  * @template Payload
- * @typedef {{(schema: string, payload: unknown): payload is Payload}} ValidateFromSchema
+ * @typedef {import('./validate').Validate<Payload>} Validate
  */
 
 /** @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand */
+
+const { getValidator } = new SchemaValidator();
 
 /** @type {Record<AppealTypeCode, string>} */
 const appealTypeCodeToAppealId = {
@@ -48,7 +53,7 @@ class BackOfficeV2Service {
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitAppellantSubmission({ appellantSubmissionId, userId }) {
-		const appellantSubmission = await get({ appellantSubmissionId, userId });
+		const appellantSubmission = await getForBOSubmission({ appellantSubmissionId, userId });
 
 		if (!appellantSubmission)
 			throw new Error(`Appeal submission ${appellantSubmissionId} not found`);
@@ -68,9 +73,9 @@ class BackOfficeV2Service {
 			appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]
 		](appellantSubmission);
 
-		/** @type {ValidateFromSchema<AppellantSubmissionCommand>} */
-		const validate = await buildValidateFromSchema();
-		if (!validate('appellant-submission', mappedData)) {
+		/** @type {Validate<AppellantSubmissionCommand>} */
+		const validator = getValidator('appellant-submission');
+		if (!validator(mappedData)) {
 			throw new Error(
 				`Payload was invalid wen checked against appellant submission command schema`
 			);

@@ -6,7 +6,8 @@ const { conjoinedPromises } = require('@pins/common/src/utils');
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {Omit<LPAQuestionnaireSubmission, "AppealCase">} Answers
  * @typedef {import('./has/has').Submission} HASBOSubmission
- * @typedef {import('./documents').Documents} Documents
+ * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents']} DataModelDocuments
+ * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['users']} DataModelUsers
  */
 
 const getBlobMeta = blobMetaGetter(initContainerClient);
@@ -18,10 +19,9 @@ const getBlobMeta = blobMetaGetter(initContainerClient);
 exports.toBool = (str) => str === 'yes';
 
 /**
- * @param {Answers} answers
- * @returns {Promise<Documents>}
+ * @param {{ SubmissionDocumentUpload: import('@prisma/client').SubmissionDocumentUpload[] }} answers
+ * @returns {Promise<DataModelDocuments>}
  */
-
 exports.getDocuments = async ({ SubmissionDocumentUpload }) => {
 	const uploadedFilesAndBlobMeta = await conjoinedPromises(
 		SubmissionDocumentUpload,
@@ -29,18 +29,15 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }) => {
 	);
 
 	return Array.from(uploadedFilesAndBlobMeta).map(
-		([{ fileName, originalFileName }, { lastModified, createdOn, metadata, size, _response }]) => ({
+		([{ storageId, fileName, originalFileName }, { createdOn, metadata, size, _response }]) => ({
+			documentId: storageId,
 			filename: fileName,
 			originalFilename: originalFileName,
-			size: size,
+			size,
 			mime: metadata.mime_type,
 			documentURI: _response.request.url,
 			dateCreated: createdOn,
-			lastModified,
-			documentType: metadata.document_type,
-			sourceSystem: 'appeals',
-			origin: 'citizen',
-			stage: 'lpa_questionnaire'
+			documentType: metadata.document_type
 		})
 	);
 };
@@ -75,3 +72,16 @@ exports.howYouNotifiedPeople = (answers) => {
 	}
 	return notifiedPeople;
 };
+
+/**
+ * @param {{ AppealUser: import('@prisma/client').AppealUser }[]} users
+ * @returns {DataModelUsers}
+ */
+exports.formatUsers = (users) =>
+	users.map(({ AppealUser: { email, isLpaUser } }) => ({
+		salutation: null,
+		firstName: null,
+		lastName: null,
+		emailAddress: email,
+		serviceUserType: isLpaUser ? 'Agent' : 'Appellant'
+	}));

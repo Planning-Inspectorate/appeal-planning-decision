@@ -1,72 +1,79 @@
-import Ajv from 'ajv';
-import addFormats from 'ajv-formats';
-import { loadAllSchemas } from 'pins-data-model';
-import NodeCache from 'node-cache';
-
-const nodeCache = new NodeCache();
-
-const setCache = (/** @type {NodeCache.Key} */ key, /** @type {Record<string,any>[]} */ value) => {
-	nodeCache.set(key, value, 3600);
-};
-
-const getCache = (/** @type {NodeCache.Key} */ key) => {
-	return nodeCache.get(key);
-};
+const Ajv = require('ajv').default;
+const { loadAllSchemas } = require('pins-data-model');
 
 /**
- * @template Payload
- * @typedef {{(schema: string, payload: unknown): payload is Payload}} ValidateFromSchema
+ * @typedef {import('pins-data-model').LoadedSchemas} LoadedSchemas
  */
 
 /**
  * @template Payload
- * @type {(commandsAndEvents: import('pins-data-model').LoadedSchemas) => ValidateFromSchema<Payload>}
+ * @typedef {{(schema: string, payload: unknown): payload is Payload}} ValidateFromGivenSchema
  */
-const validateFromSchemaFactory = (commandsAndEvents) => {
-	/** @type {(schema: string, payload: unknown) => payload is Payload} */
-	return (schema, payload) => {
-		const cacheKey = 'integration-schemas';
-		let schemas = getCache(cacheKey);
-		if (!schemas) {
-			schemas = {
-				...commandsAndEvents.schemas,
-				...commandsAndEvents.commands
-			};
-
-			setCache(cacheKey, schemas);
-		}
-
-		const ajv = new Ajv({ schemas });
-		addFormats(ajv);
-
-		const validator = ajv.getSchema(`${schema}.schema.json`);
-		if (!validator) {
-			throw new Error(`'${schema}' schema could not be loaded`);
-		}
-		if (!validator(payload)) {
-			return false;
-		} else {
-			return true;
-		}
-	};
-};
 
 /**
  * @template Payload
- * @returns {Promise<ValidateFromSchema<Payload>>}
+ * @typedef {{(payload: unknown): payload is Payload}} Validate
  */
-export const buildValidateFromSchema = async () => {
-	const schemas = await loadAllSchemas();
-	// @ts-ignore
-	return validateFromSchemaFactory(schemas);
-};
 
-async () => {
-	const thing = {};
+/**
+ * @template Payload
+ * @type {(commandsAndEvents: LoadedSchemas) => ValidateFromGivenSchema<Payload>}
+ */
 
-	/** @type {ValidateFromSchema<{ thing: string }>} */
-	const validate = await buildValidateFromSchema();
-	if (validate('service-user', thing)) {
-		thing;
+// This class is used to obfuscate the async nature of loadAllSchemas
+// Clear it out once the schemas can be loaded synchronously
+export class SchemaValidator {
+	/** @type {Record<string, import('ajv').AnySchema> | null} */
+	schemas = null;
+
+	constructor() {
+		this.preloadSchemas();
 	}
-};
+
+	/**
+	 * plops the schemas into this.schemas
+	 * This just avoids async gunge
+	 * @returns {Promise<void>}
+	 */
+	preloadSchemas() {
+		return new Promise((resolve, reject) => {
+			loadAllSchemas().then(this.setSchemas, reject);
+			resolve();
+		});
+	}
+
+	/**
+	 * this just makes preloadSchemas look pretty
+	 * @param {LoadedSchemas} schemas
+	 * @returns {void}
+	 */
+	setSchemas(schemas) {
+		// _flattens_ the object
+		this.schemas = Object.values(schemas).reduce((a, c) => ({ ...a, ...c }), {});
+	}
+
+	/**
+	 * use this to validate a given payload matches a selected schema
+	 * @template Payload
+	 * @param {string} schemaName
+	 * @param {unknown} payload
+	 * @returns {payload is Payload}
+	 */
+	validate(schemaName, payload) {
+		const ajv = new Ajv();
+		// this'll throw if the promise in preloadSchemas hasn't resolved yet
+		if (!this.schemas) throw new Error('Validate called before schemas had finished initialising');
+		return !!ajv.validate(`${this.schemas[schemaName]}.schema.json`, payload);
+	}
+
+	/**
+	 * use this to get a validator, useful for passing in a generic
+	 * @template Payload
+	 * @param {string} schemaName
+	 * @returns {Validate<Payload>}
+	 */
+	getValidator(schemaName) {
+		/** @type {Validate<Payload>} */
+		return (payload) => this.validate(schemaName, payload);
+	}
+}

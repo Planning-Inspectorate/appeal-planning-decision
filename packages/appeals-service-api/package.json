@@ -35,6 +35,7 @@
 		"@pins/common": "file:../common",
 		"@pins/database": "file:../database",
 		"@prisma/client": "^5.11.0",
+		"ajv": "^8.14.0",
 		"applicationinsights": "^2.9.0",
 		"axios": "^1.6.5",
 		"body-parser": "^1.19.1",

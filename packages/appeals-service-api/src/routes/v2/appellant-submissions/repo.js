@@ -5,7 +5,31 @@ const ApiError = require('#errors/apiError');
 const logger = require('#lib/logger');
 
 /**
- * @typedef {import('@prisma/client').AppellantSubmission} AppellantSubmission
+ * @typedef {import('@prisma/client').AppellantSubmission} BareAppellantSubmission
+ * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ *   include: {
+ *     SubmissionDocumentUpload: true,
+ *     SubmissionAddress: true,
+ *     SubmissionLinkedCase: true,
+ *   }
+ * }>} AppellantSubmission
+ * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ *   include: {
+ *     SubmissionDocumentUpload: true,
+ *     SubmissionAddress: true,
+ *     SubmissionLinkedCase: true,
+ * 		 SubmissionListedBuilding: true,
+ *		 Appeal: {
+ *       include: {
+ *			   Users: {
+ *           include: {
+ *             AppealUser: true
+ *           }
+ *         }
+ *		   }
+ *     }
+ *   }
+ * }>} FullAppellantSubmission
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
  */
@@ -101,7 +125,7 @@ module.exports = class Repo {
 	 * Create an appellant submission
 	 *
 	 * @param {{ userId: string, data: AppellantSubmissionCreateInput }} params
-	 * @returns {Promise<AppellantSubmission>}
+	 * @returns {Promise<BareAppellantSubmission>}
 	 */
 	async put({ userId, data }) {
 		return await this.dbClient.$transaction(async (tx) => {
@@ -128,7 +152,7 @@ module.exports = class Repo {
 	 * Create an appellant submission
 	 *
 	 * @param {{ userId: string, data: AppellantSubmissionCreateInput }} params
-	 * @returns {Promise<AppellantSubmission>}
+	 * @returns {Promise<BareAppellantSubmission>}
 	 */
 	async post({ userId, data }) {
 		return await this.dbClient.$transaction(async (tx) => {
@@ -164,7 +188,7 @@ module.exports = class Repo {
 	 * Update an appellant submission
 	 *
 	 * @param {{ appellantSubmissionId: string, userId: string, data: AppellantSubmissionUpdateInput }} params
-	 * @returns {Promise<AppellantSubmission|null>}
+	 * @returns {Promise<BareAppellantSubmission|null>}
 	 */
 	async patch({ appellantSubmissionId, userId, data }) {
 		try {
@@ -223,5 +247,51 @@ module.exports = class Repo {
 				id: true
 			}
 		});
+	}
+
+	/**
+	 * Get an appellant submission
+	 *
+	 * @param {{ appellantSubmissionId: string, userId: string }} params
+	 * @returns {Promise<FullAppellantSubmission|null>}
+	 */
+	async getForBOSubmission({ appellantSubmissionId, userId }) {
+		try {
+			return await this.dbClient.appellantSubmission.findUnique({
+				where: {
+					id: appellantSubmissionId,
+					Appeal: {
+						Users: {
+							some: {
+								userId
+							}
+						}
+					}
+				},
+				include: {
+					SubmissionDocumentUpload: true,
+					SubmissionAddress: true,
+					SubmissionLinkedCase: true,
+					SubmissionListedBuilding: true,
+					Appeal: {
+						include: {
+							Users: {
+								include: {
+									AppealUser: true
+								}
+							}
+						}
+					}
+				}
+			});
+		} catch (e) {
+			if (e instanceof PrismaClientKnownRequestError) {
+				if (e.code === 'P2023') {
+					// probably an invalid ID/GUID
+					return null;
+				}
+			}
+			throw e;
+		}
 	}
 };
