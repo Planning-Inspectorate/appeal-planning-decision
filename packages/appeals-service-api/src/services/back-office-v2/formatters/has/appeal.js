@@ -1,7 +1,9 @@
 const LpaService = require('../../../lpa.service');
 const lpaService = new LpaService();
 const ApiError = require('../../../../errors/apiError');
-const { getDocuments, formatUsers } = require('../utils');
+const { getDocuments, formatUsers, formatApplicationDecision } = require('../utils');
+const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
+const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
 /**
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
@@ -54,12 +56,16 @@ exports.formatter = async (appellantSubmission) => {
 				caseProcedure: 'written', // We keep this on Appeal cases, will one exist yet when this code is triggered?
 				lpaCode: lpa.getLpaCode(),
 				caseSubmittedDate: new Date().getTime().toString(),
-				enforcementNotice: null, // I can't find anywhere where we collect this
+				enforcementNotice: false, // this will eventually come from before you start
 				applicationReference: appellantSubmission.applicationReference ?? '',
-				applicationDate: new Date().getTime().toString(), // Now presumably?
-				applicationDecision: appellantSubmission.applicationDecision ?? 'not-received',
+				applicationDate: appellantSubmission.onApplicationDate?.getTime().toString() ?? null,
+				applicationDecision: formatApplicationDecision(appellantSubmission.applicationDecision),
 				applicationDecisionDate: appellantSubmission.applicationDecisionDate ?? null,
-				caseSubmissionDueDate: new Date().getTime().toString(), // Now presumably?,
+				caseSubmissionDueDate: deadlineDate(
+					appellantSubmission.applicationDecisionDate,
+					APPEAL_ID.HOUSEHOLDER,
+					appellantSubmission.applicationDecision
+				),
 				siteAddressLine1: address.addressLine1 ?? '',
 				siteAddressLine2: address.addressLine2 ?? '',
 				siteAddressTown: address.townCity ?? '',
