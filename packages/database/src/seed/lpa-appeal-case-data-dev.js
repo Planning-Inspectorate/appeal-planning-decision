@@ -19,7 +19,8 @@ const lpaAppealIds = {
 	appealThirteen: '756d6bfb-dde8-4532-a041-86c226a23b13',
 	appealFourteen: '756d6bfb-dde8-4532-a041-86c226a23b14',
 	appealFifteen: '756d6bfb-dde8-4532-a041-86c226a23b15',
-	appeal16: '756d6bfb-dde8-4532-a041-86c226a23b16'
+	appeal16: '756d6bfb-dde8-4532-a041-86c226a23b16',
+	appeal17: '7c8322e0-c724-4969-b7d4-441c60c6847b'
 };
 
 /**
@@ -41,7 +42,8 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appealThirteen },
 	{ id: lpaAppealIds.appealFourteen },
 	{ id: lpaAppealIds.appealFifteen },
-	{ id: lpaAppealIds.appeal16 }
+	{ id: lpaAppealIds.appeal16 },
+	{ id: lpaAppealIds.appeal17 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -566,6 +568,58 @@ const lpaAppealCaseData = [
 		newConditions: true,
 		newConditionDetails: 'Example new conditions',
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appeal17 }
+		},
+		LPACode: 'Q1111',
+		LPAName: 'System Test 2 Borough Council',
+		decision: 'refused',
+		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		onApplicationDate: pickRandom(datesNMonthsAgo(2)),
+		costsAppliedForIndicator: false,
+		LPAApplicationReference: '12/2323232/PLA',
+		siteAreaSquareMetres: 22,
+		procedure: 'inquiry',
+		appellantFirstName: 'Test',
+		appellantLastName: 'Appellant',
+		appellantPhoneNumber: '07123456789',
+		rule6StatementPublished: true,
+		casePublished: true,
+		caseReference: '1000015',
+		appealTypeCode: 'HAS',
+		appealTypeName: 'Householder',
+		siteAddressLine1: 'Questionnaire submitted',
+		siteAddressLine2: null,
+		siteAddressTown: 'Statement due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		developmentDescription: 'test description',
+		isAppellant: true,
+		contactFirstName: 'Test',
+		contactLastName: 'Appellant',
+		appellantGreenBelt: true,
+		ownsSomeLand: true,
+		knowsOtherOwners: true,
+		identifiedOwners: true,
+		advertisedAppeal: true,
+		informedOwners: true,
+		agriculturalHolding: true,
+		tenantAgriculturalHolding: true,
+		otherTenantsAgriculturalHolding: true,
+		informedTenantsAgriculturalHolding: true,
+		appellantSiteAccess: false,
+		appellantSiteAccessDetails: 'Blocked access',
+		appellantSiteSafety: false,
+		appellantSiteSafetyDetails: 'No issues',
+		appellantProcedurePreference: 'Inquiry',
+		appellantPreferInquiryDetails: 'Would like longer consideration'
 	}
 ];
 

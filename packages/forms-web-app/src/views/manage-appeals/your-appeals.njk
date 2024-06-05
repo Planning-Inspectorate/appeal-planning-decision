@@ -8,57 +8,62 @@
 {% set toDoHtml %}
 <div>
       <table class="govuk-table govuk-!-margin-top-3">
-        <caption class="govuk-table__caption govuk-table__caption--l">To do</caption>
-        <thead class="govuk-table__head">
-          <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header">Appeal number</th>
-            <th scope="col" class="govuk-table__header">Address</th>
-						<th scope="col" class="govuk-table__header">Appeal type</th>
-            <th scope="col" class="govuk-table__header">Deadline</th>
-            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Due in</th>
-            <th scope="col" class="govuk-table__header govuk-table__header--numeric">To do</th>
-          </tr>
-        </thead>
-        <tbody class="govuk-table__body">
-            {% for item in toDoAppeals %}
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell">
-                  <a href="/manage-appeals/{{item.appealNumber}}" class="govuk-link">
-                   {{item.appealNumber}}
-                  </a>
-                </td>
-                <td class="govuk-table__cell">{{item.address}}</td>
-								<td class="govuk-table__cell">{{item.appealType}}</td>
-                <td class="govuk-table__cell">
-                  {% if item.isNewAppeal %}
-                  {% else %}
-										{{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
-									{% endif %}
-								</td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">
-									{% if item.isNewAppeal %}
-                    <strong class='govuk-tag govuk-tag--green'>NEW</strong>
-									{% elif item.nextDocumentDue.dueInDays < 0 %}
-                    <strong class='govuk-tag govuk-tag--red'>OVERDUE</strong>
-                  {% else %}
-                    {{item.nextDocumentDue.dueInDays}}
-										{% if item.nextDocumentDue.dueInDays == 1 %}
-                      day
+        {% if noToDoAppeals %}
+          <h2 class="govuk-heading-l">To do</h2>
+          <p class="govuk-body">There are currently no appeals in progress.</p>
+        {% else %}
+          <caption class="govuk-table__caption govuk-table__caption--l">To do</caption>
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Appeal number</th>
+              <th scope="col" class="govuk-table__header">Address</th>
+              <th scope="col" class="govuk-table__header">Appeal type</th>
+              <th scope="col" class="govuk-table__header">Deadline</th>
+              <th scope="col" class="govuk-table__header govuk-table__header--numeric">Due in</th>
+              <th scope="col" class="govuk-table__header govuk-table__header--numeric">To do</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+              {% for item in toDoAppeals %}
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    <a href="/manage-appeals/{{item.appealNumber}}" class="govuk-link">
+                    {{item.appealNumber}}
+                    </a>
+                  </td>
+                  <td class="govuk-table__cell">{{item.address}}</td>
+                  <td class="govuk-table__cell">{{item.appealType}}</td>
+                  <td class="govuk-table__cell">
+                    {% if item.isNewAppeal %}
                     {% else %}
-                      days
+                      {{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
                     {% endif %}
-                  {% endif %}
-                </td>
-                <td class="govuk-table__cell govuk-table__cell--numeric">
-                      <a href="{{item.nextDocumentDue.baseUrl}}/{{item.appealNumber}}" class="govuk-link">
-                        {{item.nextDocumentDue.documentDue}}
-                        <span class="govuk-visually-hidden"> for {{item.appealNumber}}</span>
-                      </a>
-                </td>
-              </tr>
-            {% endfor %}
+                  </td>
+                  <td class="govuk-table__cell govuk-table__cell--numeric">
+                    {% if item.isNewAppeal %}
+                      <strong class='govuk-tag govuk-tag--green'>NEW</strong>
+                    {% elif item.nextDocumentDue.dueInDays < 0 %}
+                      <strong class='govuk-tag govuk-tag--red'>OVERDUE</strong>
+                    {% else %}
+                      {{item.nextDocumentDue.dueInDays}}
+                      {% if item.nextDocumentDue.dueInDays == 1 %}
+                        day
+                      {% else %}
+                        days
+                      {% endif %}
+                    {% endif %}
+                  </td>
+                  <td class="govuk-table__cell govuk-table__cell--numeric">
+                        <a href="{{item.nextDocumentDue.baseUrl}}/{{item.appealNumber}}" class="govuk-link">
+                          {{item.nextDocumentDue.documentDue}}
+                          <span class="govuk-visually-hidden"> for {{item.appealNumber}}</span>
+                        </a>
+                  </td>
+                </tr>
+              {% endfor %}
 
-        </tbody>
+          </tbody>
+        {% endif %}
       </table>
    </div>
 {% endset %}

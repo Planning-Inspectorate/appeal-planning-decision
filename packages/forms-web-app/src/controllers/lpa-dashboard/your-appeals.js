@@ -5,6 +5,7 @@ const {
 	mapToLPADashboardDisplayData,
 	isToDoLPADashboard
 } = require('../../lib/dashboard-functions');
+const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 
 const {
 	VIEW: {
@@ -40,6 +41,8 @@ const getYourAppeals = async (req, res) => {
 
 	waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
 
+	const noToDoAppeals = !arrayHasItems(toDoAppeals);
+
 	return res.render(DASHBOARD, {
 		lpaName: user.lpaName,
 		addOrRemoveLink: `/${ADD_REMOVE_USERS}`,
@@ -49,7 +52,8 @@ const getYourAppeals = async (req, res) => {
 		appealQuestionnaireLink: baseHASUrl,
 		showQuestionnaire: await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, user.lpaCode),
 		decidedAppealsLink: `/${DECIDED_APPEALS}`,
-		decidedAppealsCount: decidedAppealsCount.count
+		decidedAppealsCount: decidedAppealsCount.count,
+		noToDoAppeals
 	});
 };
 

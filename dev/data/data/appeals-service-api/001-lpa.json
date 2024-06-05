@@ -7,5 +7,14 @@
 		"email": "appealplanningdecisiontest@planninginspectorate.gov.uk",
 		"domain": "planninginspectorate.gov.uk",
 		"inTrial": true
+	},
+	{
+		"objectId": "1",
+		"lpa19CD": "E69999991",
+		"lpaCode": "Q1111",
+		"name": "System Test 2 Borough Council",
+		"email": "appealplanningdecisiontest@planninginspectorate.gov.uk",
+		"domain": "planninginspectorate.gov.uk",
+		"inTrial": true
 	}
 ]
