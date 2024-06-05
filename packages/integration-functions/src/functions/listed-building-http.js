@@ -1,6 +1,18 @@
+/*
+ * listed-building-http-trigger
+ * function app that can be manually triggered via an http call
+ * temporary solution until ODW provides a listed building topic
+ * requires a function key in the request
+ * reads a file from the function app storage account and adds each listed building as a message to the listed building queue
+ * file can be downloaded manually and added to the storage account
+ * will overwhelm the DB as there will be 100,000s of messages, so collection will need scaling before running
+ * will take some time and may be safer to split file into a few smaller files or bump up max function run time
+ * file taken from: https://www.planning.data.gov.uk/dataset/listed-building
+ */
+
 const { Readable } = require('node:stream');
-const { downloadBlob } = require('../common/src/azure-storage/blobs');
-const { sendMessageBatch } = require('../common/src/azure-service-bus/service-bus');
+const { downloadBlob } = require('../common/azure-storage/blobs');
+const { sendMessageBatch } = require('../common/azure-service-bus/service-bus');
 
 // json streaming
 const { chain } = require('stream-chain');
@@ -10,7 +22,7 @@ const { ignore } = require('stream-json/filters/Ignore');
 const { streamArray } = require('stream-json/streamers/StreamArray');
 
 // configuration settings
-const config = require('../common/src/config');
+const config = require('../common/config');
 
 /**
  * @typedef {Object} ImportResult
@@ -18,16 +30,17 @@ const config = require('../common/src/config');
  * @property {Number} batchCount - number of batches processed
  */
 
+const { app } = require('@azure/functions');
+
 /**
  * Http trigger that will convert a json file of listed buildings into messages on the service bus topic
  * skip can be passed as a query string param to skip a previously successful batches
- * @param {import('@azure/functions').Context} context
- * @param {import('@azure/functions').HttpRequest} req
- */ //eslint-disable-next-line no-unused-vars
-module.exports = async function (context, req) {
+ * @type {import('@azure/functions').HttpHandler}
+ */
+const handler = async (request, context) => {
 	context.log('listed building file trigger function processed request');
 
-	const skip = context.bindingData.skip ?? 0;
+	const skip = Number(request.query.get('skip')) || 0;
 
 	// download the file
 	const blob = await downloadBlob(
@@ -50,13 +63,13 @@ module.exports = async function (context, req) {
 		result.batchCount - skip
 	} batches`;
 
-	context.res = {
+	return {
 		body: message
 	};
 };
 
 /**
- * @param {import('@azure/functions').Context} context
+ * @param {import('@azure/functions').InvocationContext} context
  * @param {Readable} fileStream
  * @param {Number} [skipBatches]
  * @returns {Promise.<ImportResult>}
@@ -116,8 +129,8 @@ async function importListedBuildingsFromFile(context, fileStream, skipBatches = 
 			batch = [];
 		}
 	} catch (err) {
-		context.log.error(`errored on batch ${batchCount + 1}`);
-		context.log.error(`use --skip=${batchCount} to continue processing`);
+		context.error(`errored on batch ${batchCount + 1}`);
+		context.error(`use --skip=${batchCount} to continue processing`);
 		throw err;
 	}
 
@@ -126,3 +139,11 @@ async function importListedBuildingsFromFile(context, fileStream, skipBatches = 
 		batchCount
 	};
 }
+
+app.http('listed-building', {
+	methods: ['GET', 'POST'],
+	authLevel: 'function',
+	handler: handler
+});
+
+module.exports = handler;

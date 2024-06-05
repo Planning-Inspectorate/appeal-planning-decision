@@ -1,0 +1,38 @@
+/**
+ * appeal-has
+ * service bus topic trigger
+ * consumes HAS appeal cases from BO
+ */
+
+const { app } = require('@azure/functions');
+const config = require('../common/config');
+const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
+
+/**
+ * @type {import('@azure/functions').ServiceBusTopicHandler}
+ */
+const handler = async (message, context) => {
+	context.log('processing appeal-case message', message);
+
+	if (!Object.hasOwn(message, 'caseReference')) {
+		throw new Error('invalid message, caseReference is required');
+	}
+
+	if (config.API.HOSTNAME === undefined) {
+		throw new Error('process.env.FO_APPEALS_API_HOSTNAME not set');
+	}
+
+	const client = new AppealsApiClient(config.API.HOSTNAME, undefined, config.API.TIMEOUT);
+	await client.putAppealCase(message); // API will validate the message and throw if there is an error
+
+	return {};
+};
+
+app.serviceBusTopic('appeals-has', {
+	topicName: 'appeal-has',
+	subscriptionName: 'appeal-has-fo-sub',
+	connection: 'ServiceBusConnection',
+	handler: handler
+});
+
+module.exports = handler;

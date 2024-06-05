@@ -1,3 +1,13 @@
+/**
+ * appeal-document
+ * service bus topic trigger
+ * consumes document metadata messages from BO
+ * document metadata represent files attached to appeal cases
+ * ignore messages if not published/scanned/redacted
+ * currently this is assuming that all docs meeting this criteria will be publicly available and so FO can just link users to the storage account uri directly
+ */
+
+const { app } = require('@azure/functions');
 const got = require('got');
 const VALID_SCAN_STATUSES = ['scanned'];
 const VALID_PUBLISHED_STATUSES = ['published', 'archived'];
@@ -8,21 +18,16 @@ const VALID_REDACTED_STATUSES = ['redacted'];
  */
 
 /**
- * @typedef {Object} ServiceBusMessage
- * @property {DocumentMetadata} body
+ * @type {import('@azure/functions').ServiceBusTopicHandler}
  */
-
-/**
- * @param {import('@azure/functions').Context} context
- * @param {ServiceBusMessage} msg
- */
-module.exports = async function (context, msg) {
-	context.log('Handle document metadata message', msg);
-	await processDocumentMetadata(context, msg.body);
+const handler = async (message, context) => {
+	context.log('Handle document metadata message', message);
+	await processDocumentMetadata(context, message.body);
+	return {};
 };
 
 /**
- * @param {import('@azure/functions').Context} context
+ * @param {import('@azure/functions').InvocationContext} context
  * @param {DocumentMetadata} documentMessage
  */
 async function processDocumentMetadata(context, documentMessage) {
@@ -31,6 +36,7 @@ async function processDocumentMetadata(context, documentMessage) {
 		return;
 	}
 
+	// todo: use api client
 	context.log('Sending document metadata message to API');
 	const documentMetadataUrl = `https://${process.env.FO_APPEALS_API}/document-meta-data/${documentMessage.documentId}`;
 	await got
@@ -70,3 +76,12 @@ function checkMessageIsValid(documentMessage) {
 
 	return isValid;
 }
+
+app.serviceBusTopic('appeal-document', {
+	topicName: 'appeal-document',
+	subscriptionName: 'appeal-document-fo-sub',
+	connection: 'ServiceBusConnection',
+	handler: handler
+});
+
+module.exports = handler;
