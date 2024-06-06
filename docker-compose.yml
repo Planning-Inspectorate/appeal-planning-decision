@@ -49,10 +49,6 @@ services:
       FUNCTIONS_CLIENT_ID: '2f20d0bb-2f07-4797-9a4d-34b11b8f9936'
       FUNCTIONS_CLIENT_SECRET: 'functions-local-secret'
 
-      WEB_COMMENT_CLIENT_ID: '64d173bc-c38e-45bc-b36b-3f85251e52a0'
-      WEB_COMMENT_CLIENT_SECRET: 'web-comment-local-secret'
-      WEB_COMMENT_REDIRECT_URI: 'http://localhost:9002/oidc'
-
     ports:
       - 3005:3000
       # node debugger
@@ -229,30 +225,6 @@ services:
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/forms-web-app:/opt/app
-    command: npm run start:dev
-    # if enabling debug, be sure to uncomment / expose the debug port above.
-    # command: npm run start:dev:debug
-
-  web-comment:
-    profiles: ['all', 'comment']
-    image: node:18-alpine
-    environment:
-      LOGGER_LEVEL: 'debug'
-      APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
-      AUTH_BASE_URL: http://auth-server:3000
-    ports:
-      - 9002:3000
-      # node debugger
-      # - 9229:9229
-    working_dir: /opt/app
-    depends_on:
-      - appeals-service-api
-    volumes:
-      # mount the root node_modules for shared packages
-      - ./node_modules:/opt/node_modules
-      - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
-      - ./packages/common:/opt/app/node_modules/@pins/common
-      - ./packages/web-comment:/opt/app
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug

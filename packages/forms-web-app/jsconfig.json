@@ -5,7 +5,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"#lib/*": ["./src/lib/*.js"],
-			"#middleware/*": ["./src/middleware/*.js"]
+			"#middleware/*": ["./src/middleware/*.js"],
+			"#utils/*": ["./src/utils/*.js"]
 		},
 		"typeRoots": ["./typings", "./node_modules/@types"]
 	}

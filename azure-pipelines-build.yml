@@ -34,10 +34,6 @@ parameters:
     displayName: Build Web Appeal
     type: boolean
     default: true
-  - name: buildWebComment
-    displayName: Build Web Comment
-    type: boolean
-    default: true
 
 resources:
   repositories:
@@ -96,8 +92,6 @@ extends:
                   path: packages/pdf-service-api
                 - name: web
                   path: packages/forms-web-app
-                - name: web-comment
-                  path: packages/web-comment
               stepName: check_files
       - name: Build Appeals API
         condition: >-
@@ -280,31 +274,3 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.Repository.LocalPath)/packages/forms-web-app/Dockerfile
               repository: appeal-planning-decision/forms-web-app
-      - name: Build Web Comment
-        condition: >-
-          and(
-            ne(variables['Agent.JobStatus'], 'Failed'),
-            or(
-              and(
-                eq(variables['Build.Reason'], 'Manual'),
-                eq(${{ parameters.buildWebComment }}, 'true')
-              ),
-              and(
-                ne(variables['Build.Reason'], 'Manual'),
-                or(
-                  eq(variables['Build.SourceBranchName'], 'main'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.business-rules'], 'true'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.common'], 'true'),
-                  eq(dependencies.run_linting_and_tests.outputs['check_files.web-comment'], 'true')
-                )
-              )
-            )
-          )
-        dependsOn:
-          - Run Linting & Tests
-        steps:
-          - template: ../steps/azure_web_app_docker_build_push.yml@templates
-            parameters:
-              azurecrName: $(azurecrName)
-              dockerfilePath: $(Build.Repository.LocalPath)/packages/web-comment/Dockerfile
-              repository: appeal-planning-decision/web-comment

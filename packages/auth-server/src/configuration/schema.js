@@ -33,11 +33,6 @@ export default joi
 					clientId: joi.string().uuid(),
 					clientSecret: joi.string(),
 					redirectUris: joi.array().items(joi.string())
-				}),
-				webComment: joi.object({
-					clientId: joi.string().uuid(),
-					clientSecret: joi.string(),
-					redirectUris: joi.array().items(joi.string())
 				})
 			}),
 			cookie_keys: joi.array().items(joi.string()),

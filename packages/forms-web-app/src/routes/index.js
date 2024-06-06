@@ -20,6 +20,7 @@ const lpaDashboard = require('./lpa-dashboard');
 const rule6Appeals = require('./rule-6-appeals');
 const debug = require('./debug');
 const { getDocument } = require('../controllers/document');
+const { routes: fileBasedRoutes } = require('./file-based-router');
 
 const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadline');
 const checkAppealExists = require('#middleware/check-appeal-exists');
@@ -74,6 +75,12 @@ router.use(
 	checkDecisionDateDeadline,
 	submission
 );
+
+// file-based-router
+for (const [url, handler] of Object.entries(fileBasedRoutes)) {
+	const suffix = url.startsWith('/') ? url : `/${url}`;
+	router.use(`${suffix}`, handler);
+}
 
 /// Local/Test only pages ///
 router.use('/debug', checkDebugAllowed, debug);
