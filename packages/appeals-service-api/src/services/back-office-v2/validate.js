@@ -22,7 +22,7 @@ const { loadAllSchemas } = require('pins-data-model');
 
 // This class is used to obfuscate the async nature of loadAllSchemas
 // Clear it out once the schemas can be loaded synchronously
-export class SchemaValidator {
+class SchemaValidator {
 	/** @type {Record<string, import('ajv').AnySchema> | null} */
 	schemas = null;
 
@@ -77,3 +77,5 @@ export class SchemaValidator {
 		return (payload) => this.validate(schemaName, payload);
 	}
 }
+
+exports.SchemaValidator = SchemaValidator;
