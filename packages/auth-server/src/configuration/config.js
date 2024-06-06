@@ -18,7 +18,7 @@ const { value, error } = schema.validate({
 		}
 	},
 	featureFlagging: {
-		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_ENDPOINT,
+		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING,
 		timeToLiveInMinutes: numberWithDefault(process.env.FEATURE_FLAG_CACHE_TIMER, 5)
 	},
 	logger: {

@@ -21,7 +21,7 @@ module.exports = {
 		}
 	},
 	featureFlagging: {
-		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_ENDPOINT,
+		endpoint: process.env.PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING,
 		timeToLiveInMinutes: process.env.FEATURE_FLAG_CACHE_TIMER || 5
 	},
 	fileUpload: {
