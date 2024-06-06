@@ -53,7 +53,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.6.0
+      ref: refs/tags/release/3.16.1
   pipelines:
     - pipeline: build
       source: Appeals Service Build
@@ -71,6 +71,17 @@ extends:
         - name: Test
           dependsOn:
             - Dev
+    environments:
+      - name: Dev
+      - name: Test
+        dependsOn:
+          - Dev
+      - name: Training
+        dependsOn:
+          - Test
+      - name: Prod
+        dependsOn:
+          - Test
     deploymentStages:
       - name: Deploy Applications
         deploymentJobs:
