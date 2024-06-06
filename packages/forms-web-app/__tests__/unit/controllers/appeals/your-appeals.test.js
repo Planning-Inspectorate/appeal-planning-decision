@@ -88,7 +88,8 @@ describe('controllers/appeals/your-appeals', () => {
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
 				toDoAppeals: [toDoData],
-				waitingForReviewAppeals: []
+				waitingForReviewAppeals: [],
+				noToDoAppeals: false
 			});
 		});
 
@@ -99,7 +100,8 @@ describe('controllers/appeals/your-appeals', () => {
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
 				toDoAppeals: [],
-				waitingForReviewAppeals: [completedData]
+				waitingForReviewAppeals: [completedData],
+				noToDoAppeals: true
 			});
 		});
 
@@ -109,7 +111,8 @@ describe('controllers/appeals/your-appeals', () => {
 			await get(req, res);
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
 				toDoAppeals: [],
-				waitingForReviewAppeals: []
+				waitingForReviewAppeals: [],
+				noToDoAppeals: true
 			});
 		});
 
@@ -119,7 +122,8 @@ describe('controllers/appeals/your-appeals', () => {
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.APPEALS.YOUR_APPEALS, {
 				toDoAppeals: [],
-				waitingForReviewAppeals: [waitingForReviewData]
+				waitingForReviewAppeals: [waitingForReviewData],
+				noToDoAppeals: true
 			});
 		});
 	});

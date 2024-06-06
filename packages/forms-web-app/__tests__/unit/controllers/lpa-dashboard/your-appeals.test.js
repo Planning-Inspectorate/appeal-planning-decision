@@ -70,7 +70,8 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appealQuestionnaireLink: baseHASUrl,
 				showQuestionnaire: false,
 				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
-				decidedAppealsCount: 1
+				decidedAppealsCount: 1,
+				noToDoAppeals: false
 			});
 		});
 
@@ -94,7 +95,8 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 				appealQuestionnaireLink: baseHASUrl,
 				showQuestionnaire: true,
 				decidedAppealsLink: `/${VIEW.LPA_DASHBOARD.DECIDED_APPEALS}`,
-				decidedAppealsCount: 1
+				decidedAppealsCount: 1,
+				noToDoAppeals: false
 			});
 		});
 
