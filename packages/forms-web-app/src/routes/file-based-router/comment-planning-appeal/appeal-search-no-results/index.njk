@@ -1,0 +1,17 @@
+{% extends "layouts/comment-planning-appeal/index.njk" %}
+{% set title = [pageTitle, searchQuery] | join %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% block content %}
+    <form method="post">
+<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--l" for="appeal-reference">{{pageHeading}} {{ searchQuery }}</label>
+            <p class="govuk-body govuk-label--m"><strong>0 results</strong></p>
+            <p class="govuk-body">{{paragraph}} {{searchQuery}}.</p>
+            <p class="govuk-body">
+                <a href="{{linkToRelatedSearchPage}}" class="govuk-link">Find a planning appeal</a>
+            </p>
+        </div>
+    </form>
+{% endblock content %}

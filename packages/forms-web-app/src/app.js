@@ -25,6 +25,7 @@ const {
 } = require('./middleware/set-locals-display-cookie-banner-value');
 const navigationHistoryMiddleware = require('./middleware/navigation-history');
 const navigationHistoryToNunjucksMiddleware = require('./middleware/navigation-history-to-nunjucks');
+const { mapToErrorSummary } = require('#utils/filters/map-to-error-summary');
 require('express-async-errors');
 
 const config = require('./config');
@@ -61,11 +62,13 @@ const viewPaths = [
 	path.join(require.resolve('@pins/common'), '..', 'frontend'),
 	path.join(__dirname, 'views'),
 	path.join(__dirname, 'dynamic-forms'),
+	path.join(__dirname, 'routes/file-based-router'),
 	path.join(__dirname, 'public')
 ];
 
 const env = nunjucks.configure(viewPaths, nunjucksConfig);
 env.addFilter('appealSiteAddressToArray', appealSiteAddressToArray);
+env.addFilter('mapToErrorSummary', mapToErrorSummary);
 
 dateFilter.setDefaultFormat(config.application.defaultDisplayDateFormat);
 env.addFilter('date', dateFilter);

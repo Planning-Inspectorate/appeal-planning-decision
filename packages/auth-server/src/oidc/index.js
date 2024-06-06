@@ -22,12 +22,6 @@ const oidc = {
 				id: config.oidc.clients.functions.clientId,
 				secret: config.oidc.clients.functions.clientSecret,
 				redirects: config.oidc.clients.functions.redirectUris
-			}),
-			buildClient({
-				name: 'WEB_COMMENT',
-				id: config.oidc.clients.webComment.clientId,
-				secret: config.oidc.clients.webComment.clientSecret,
-				redirects: config.oidc.clients.webComment.redirectUris
 			})
 		],
 		claims: { allowed: ['email'] }, // not currently used, for opaque token + userinfo endpoint

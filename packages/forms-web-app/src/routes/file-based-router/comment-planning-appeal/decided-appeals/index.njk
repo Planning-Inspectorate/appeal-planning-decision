@@ -1,0 +1,38 @@
+{% extends "layouts/comment-planning-appeal/index.njk" %}
+{% set title = "Decided Appeals" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+ {%- from "govuk/components/tag/macro.njk" import govukTag -%}
+
+{% block content %}
+  <div class="govuk-form-group">
+    <h1 class="govuk-label govuk-label--l">{{ decidedAppeals.length }} decided Appeals found {{ postcode }}</h1>
+    <table class="govuk-table govuk-!-margin-top-3">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Appeal number</th>
+          <th scope="col" class="govuk-table__header">Site address</th>
+          <th scope="col" class="govuk-table__header">Decision date</th>
+          <th scope="col" class="govuk-table__header">Appeal type</th>
+          <th scope="col" class="govuk-table__header">Decision</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        {% for appeal in decidedAppeals %}
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">{{ appeal.caseReference }}</td>
+            <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
+            <td class="govuk-table__cell">{{ appeal.formattedCaseDecisionDate }}</td>
+            <td class="govuk-table__cell">{{ appeal.appealTypeName }}</td>
+            <td class="govuk-table__cell">
+              {{ govukTag({
+                text: appeal.outcome,
+                classes: "govuk-tag--" + appeal.formattedDecisionColour
+              }) }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

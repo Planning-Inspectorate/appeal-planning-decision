@@ -28,7 +28,6 @@ const { value, error } = schema.validate({
 			'config.db',
 			'config.oidc.clients.formsWebApp.clientSecret',
 			'config.oidc.clients.functions.clientSecret',
-			'config.oidc.clients.webComment.clientSecret',
 			'config.oidc.cookie_keys',
 			'config.oidc.jwks',
 			'config.services.notify.apiKey'
@@ -46,11 +45,6 @@ const { value, error } = schema.validate({
 				clientId: process.env.FUNCTIONS_CLIENT_ID,
 				clientSecret: process.env.FUNCTIONS_CLIENT_SECRET,
 				redirectUris: [process.env.FORMS_WEB_APP_REDIRECT_URI] // unused, no user, but required by oidc provider
-			},
-			webComment: {
-				clientId: process.env.WEB_COMMENT_CLIENT_ID,
-				clientSecret: process.env.WEB_COMMENT_CLIENT_SECRET,
-				redirectUris: [process.env.WEB_COMMENT_REDIRECT_URI]
 			}
 		},
 		cookie_keys: getJsonArray('COOKIE_KEYS', 'string'),

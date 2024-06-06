@@ -1,0 +1,30 @@
+{% extends "layouts/comment-planning-appeal/index.njk" %}
+{% set title = "Enter a postcode" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% block content %}
+    <form method="post">
+<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--l" for="postcode">Enter a postcode</label>
+            {{ govukInput({
+                        "classes": "govuk-input--width-5",
+                        "hint": {
+                        "text": "For example, BS1 6PN"
+                        },
+                        "id": "postcode",
+                        "name": "postcode",
+                        "inputmode": "numeric",
+                        "spellcheck": false,
+                        "errorMessage": error,
+                        "value": value
+                        }) 
+            }}
+        </div>
+        {{ govukButton({"text": "Continue", "type": "submit"}) }}
+        <p class="govuk-body">
+            <a href="enter-appeal-reference">Search with the appeal reference</a>
+        </p>
+    </form>
+{% endblock content %}
