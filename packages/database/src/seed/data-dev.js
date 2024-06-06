@@ -787,8 +787,8 @@ const events = [
 		published: true,
 		type: 'siteVisit',
 		subtype: 'accessRequired',
-		startDate: pickRandom(datesNMonthsAgo(2)),
-		endDate: pickRandom(datesNMonthsAgo(1)),
+		startDate: getFutureDate(30, 9),
+		endDate: getFutureDate(30, 17),
 		AppealCase: {
 			connect: {
 				caseReference: '1010103'
