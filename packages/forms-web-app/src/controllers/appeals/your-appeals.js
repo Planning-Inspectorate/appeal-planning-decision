@@ -5,6 +5,7 @@ const {
 const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
+const { isNotWithdrawn } = require('@pins/common');
 
 exports.get = async (req, res) => {
 	let viewContext = {};
