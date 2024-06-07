@@ -7,7 +7,7 @@
  */
 
 const lpaOwner = 'lpa-user';
-const appeallantOwner = 'appellant';
+const appellantOwner = 'appellant';
 
 const documentTypes = {
 	originalApplication: {
@@ -15,7 +15,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Planning application form',
 		involvement: 'LPA',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Application Form',
 		horizonDocumentGroupType: 'Evidence'
 	},
@@ -24,7 +24,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Decision notice',
 		involvement: 'Appellant',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'LPA Decision Notice',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -33,7 +33,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Appeal Statement',
 		involvement: 'LPA',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Evidence'
 	},
@@ -42,7 +42,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Supporting Documents',
 		involvement: 'Appellant',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -51,7 +51,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Design and access statement',
 		involvement: 'Appellant',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -60,7 +60,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Draft statement of common ground',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Statement of Common Ground',
 		horizonDocumentGroupType: 'Important Information'
 	},
@@ -69,7 +69,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Plans, drawings and supporting documents',
 		involvement: 'Appellant',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Application Plans',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -78,7 +78,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: '',
 		involvement: 'Appellant',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -87,7 +87,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Plans used to reach decision',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Plans Post LPA Decision',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -96,7 +96,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Planning Officers report',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -105,7 +105,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Application publicity',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -114,7 +114,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Representations',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -123,7 +123,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Application notification',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -132,7 +132,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -141,7 +141,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -150,7 +150,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Details of planning history',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -159,7 +159,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Other relevant polices',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -168,7 +168,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Statutory development plan policy',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -177,7 +177,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Supplementary Planning Documents',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -186,7 +186,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: '',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -195,7 +195,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Original Decision Notice',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'LPA Decision Notice',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -204,7 +204,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Ownership certificate and agricultural land declaration',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Statement and Appendices',
 		horizonDocumentGroupType: 'Evidence'
 	},
@@ -213,7 +213,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Planning obligation',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Planning Obligation',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -222,7 +222,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'Letter Confirming Application',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -231,7 +231,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Draft planning obligation',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Planning Obligation',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
@@ -240,7 +240,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: 'Upload documents',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Final Comments',
 		horizonDocumentGroupType: 'Evidence'
 	},
@@ -249,7 +249,7 @@ const documentTypes = {
 		multiple: false,
 		displayName: 'final Comment',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: 'Appellant Final Comments',
 		horizonDocumentGroupType: 'Evidence'
 	},
@@ -429,7 +429,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -438,7 +438,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -447,7 +447,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -456,7 +456,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -465,7 +465,7 @@ const documentTypes = {
 		multiple: true,
 		displayName: '',
 		involvement: '',
-		owner: appeallantOwner,
+		owner: appellantOwner,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	}

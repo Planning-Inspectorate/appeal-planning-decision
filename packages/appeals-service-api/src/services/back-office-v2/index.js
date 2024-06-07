@@ -7,10 +7,7 @@ const {
 	markQuestionnaireAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/service');
 
-const {
-	getForBOSubmission,
-	markAppealAsSubmitted
-} = require('../../routes/v2/appellant-submissions/_id/service');
+const { get, markAppealAsSubmitted } = require('../../routes/v2/appellant-submissions/_id/service');
 
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
@@ -49,11 +46,11 @@ class BackOfficeV2Service {
 	constructor() {}
 
 	/**
-	 * @param { {appellantSubmissionId: string, userId: string} } params
+	 * @param {{ appellantSubmissionId: string, userId: string }} params
 	 * @returns {Promise<Array<*> | void>}
 	 */
 	async submitAppellantSubmission({ appellantSubmissionId, userId }) {
-		const appellantSubmission = await getForBOSubmission({ appellantSubmissionId, userId });
+		const appellantSubmission = await get({ appellantSubmissionId, userId });
 
 		if (!appellantSubmission)
 			throw new Error(`Appeal submission ${appellantSubmissionId} not found`);

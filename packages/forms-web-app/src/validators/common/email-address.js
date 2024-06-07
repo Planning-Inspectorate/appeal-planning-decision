@@ -11,7 +11,7 @@ const validateEmail = (email) => {
 	}
 
 	/* istanbul ignore next */
-	throw new Error('Enter an email address in the correct format, like name@example.com');
+	throw new Error('Enter an email address in the correct format, like name@example.com g');
 };
 
 const ruleYourEmail = (key) =>
@@ -20,10 +20,10 @@ const ruleYourEmail = (key) =>
 		.withMessage('Enter your email address')
 		.bail()
 		.isEmail()
-		.withMessage('Enter an email address in the correct format, like name@example.com')
+		.withMessage('Enter an email address in the correct format, like name@example.com a')
 		.bail()
 		.matches(/^(?=[\w\s])\s*[-+.'\w]*['\w]+@[-.\w]+\.[-.\w]+\s*$/)
-		.withMessage('Enter an email address in the correct format, like name@example.com')
+		.withMessage('Enter an email address in the correct format, like name@example.com b')
 		.bail()
 		.custom((email) => validateEmail(email));
 

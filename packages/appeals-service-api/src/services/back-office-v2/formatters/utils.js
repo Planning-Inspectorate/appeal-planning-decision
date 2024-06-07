@@ -1,4 +1,4 @@
-const { initContainerClient } = require('@pins/common');
+const { initContainerClient, documentTypes } = require('@pins/common');
 const { blobMetaGetter } = require('../../../services/object-store');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
@@ -8,9 +8,22 @@ const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
  * @typedef {Omit<LPAQuestionnaireSubmission, "AppealCase">} Answers
  * @typedef {import('./has/has').Submission} HASBOSubmission
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents']} DataModelDocuments
+ * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType']} DataModelDocumentTypes
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['users']} DataModelUsers
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['casedata']['applicationDecision']} DataModelApplicationDecision
  */
+
+/** @type {{ [key: string]: DataModelDocumentTypes }} */
+const documentTypeMap = {
+	[documentTypes.uploadCostApplication.name]: 'appellantCostsApplication',
+	[documentTypes.uploadAppellantStatement.name]: 'appellantStatement',
+	[documentTypes.uploadApplicationDecisionLetter.name]: 'applicationDecisionLetter',
+	[documentTypes.uploadChangeOfDescriptionEvidence.name]: 'changedDescription',
+	[documentTypes.uploadOriginalApplicationForm.name]: 'originalApplicationForm',
+	[documentTypes.whoWasNotified.name]: 'whoNotified',
+	[documentTypes.conservationAreaMap.name]: 'conservationMap',
+	[documentTypes.officersReport.name]: 'planningOfficerReport'
+};
 
 const getBlobMeta = blobMetaGetter(initContainerClient);
 
@@ -31,15 +44,22 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }) => {
 	);
 
 	return Array.from(uploadedFilesAndBlobMeta).map(
-		([{ storageId, fileName, originalFileName }, { createdOn, metadata, size, _response }]) => ({
+		([
+			{ storageId, fileName, originalFileName },
+			{
+				createdOn,
+				metadata: { document_type, size, mime_type },
+				_response
+			}
+		]) => ({
 			documentId: storageId,
 			filename: fileName,
 			originalFilename: originalFileName,
-			size,
-			mime: metadata.mime_type,
+			size: Number(size),
+			mime: mime_type,
 			documentURI: _response.request.url,
-			dateCreated: createdOn,
-			documentType: metadata.document_type
+			dateCreated: new Date(createdOn).toISOString(),
+			documentType: documentTypeMap[document_type]
 		})
 	);
 };
@@ -76,22 +96,44 @@ exports.howYouNotifiedPeople = (answers) => {
 };
 
 /**
- * @param {{ AppealUser: import('@prisma/client').AppealUser }[]} users
+ * @param {import('@prisma/client').AppellantSubmission} users
  * @returns {DataModelUsers}
  */
-exports.formatUsers = (users) =>
-	users.map(({ AppealUser: { email, isLpaUser } }) => ({
-		salutation: null,
-		firstName: null,
-		lastName: null,
-		emailAddress: email,
-		serviceUserType: isLpaUser ? 'Agent' : 'Appellant'
-	}));
+exports.formatApplicationSubmissionUsers = ({
+	isAppellant,
+	appellantFirstName,
+	appellantLastName,
+	// appellantCompanyName,
+	contactFirstName,
+	contactLastName
+	// contactCompanyName
+}) => {
+	/** @type {DataModelUsers} */
+	const users = [
+		{
+			salutation: null,
+			firstName: appellantFirstName,
+			lastName: appellantLastName,
+			emailAddress: null,
+			serviceUserType: 'Appellant'
+		}
+	];
+	if (isAppellant) {
+		users.push({
+			salutation: null,
+			firstName: contactFirstName,
+			lastName: contactLastName,
+			emailAddress: null,
+			serviceUserType: 'Agent'
+		});
+	}
+	return users;
+};
 
 const dataModelApplicationDecisions = {
 	[APPLICATION_DECISION.GRANTED]: 'granted',
 	[APPLICATION_DECISION.REFUSED]: 'refused',
-	[APPLICATION_DECISION.NODECISIONRECEIVED]: 'not-received'
+	[APPLICATION_DECISION.NODECISIONRECEIVED]: 'not_received'
 };
 /**
  * @param {string | null} applicationDecision
