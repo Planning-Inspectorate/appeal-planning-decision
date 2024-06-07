@@ -280,7 +280,8 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
-		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1))
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		appealStatus: 'withdrawn'
 	},
 	{
 		Appeal: {
@@ -355,7 +356,9 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
-		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1))
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		appealWithdrawnDate: pickRandom(datesNMonthsAgo(1)),
+		appealStatus: 'withdrawn'
 	},
 	{
 		Appeal: {
