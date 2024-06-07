@@ -1,5 +1,8 @@
 const Ajv = require('ajv').default;
-const { loadAllSchemas } = require('pins-data-model');
+const addFormats = require('ajv-formats').default;
+const loadAllSchemas = () =>
+	import('pins-data-model').then(({ loadAllSchemas }) => loadAllSchemas());
+const util = require('util');
 
 /**
  * @typedef {import('pins-data-model').LoadedSchemas} LoadedSchemas
@@ -23,10 +26,14 @@ const { loadAllSchemas } = require('pins-data-model');
 // This class is used to obfuscate the async nature of loadAllSchemas
 // Clear it out once the schemas can be loaded synchronously
 class SchemaValidator {
-	/** @type {Record<string, import('ajv').AnySchema> | null} */
-	schemas = null;
+	/** @type {Ajv | null} */
+	ajv = null;
 
 	constructor() {
+		this.setSchemas = this.setSchemas.bind(this);
+		this.getValidator = this.getValidator.bind(this);
+		this.validate = this.validate.bind(this);
+
 		this.preloadSchemas();
 	}
 
@@ -49,7 +56,9 @@ class SchemaValidator {
 	 */
 	setSchemas(schemas) {
 		// _flattens_ the object
-		this.schemas = Object.values(schemas).reduce((a, c) => ({ ...a, ...c }), {});
+		const flatSchemas = Object.values(schemas).reduce((a, c) => ({ ...a, ...c }), {});
+		this.ajv = new Ajv({ schemas: flatSchemas, allErrors: true });
+		addFormats(this.ajv);
 	}
 
 	/**
@@ -60,10 +69,20 @@ class SchemaValidator {
 	 * @returns {payload is Payload}
 	 */
 	validate(schemaName, payload) {
-		const ajv = new Ajv();
 		// this'll throw if the promise in preloadSchemas hasn't resolved yet
-		if (!this.schemas) throw new Error('Validate called before schemas had finished initialising');
-		return !!ajv.validate(`${this.schemas[schemaName]}.schema.json`, payload);
+		if (!this.ajv) throw new Error('Validate called before schemas had finished initialising');
+		const validationResult = this.ajv.validate(`${schemaName}.schema.json`, payload);
+		if (this.ajv.errors) {
+			console.error(
+				'Validation errors: ',
+				util.inspect(this.ajv.errors, { showHidden: true, depth: Infinity, colors: true })
+			);
+			console.log(
+				'Submitted payload: ',
+				util.inspect(payload, { showHidden: true, depth: Infinity, colors: true })
+			);
+		}
+		return validationResult;
 	}
 
 	/**

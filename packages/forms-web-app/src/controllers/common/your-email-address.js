@@ -15,11 +15,12 @@ const postYourEmailAddress = (views) => {
 		const { errors = {}, errorSummary = [], 'email-address': email } = body;
 		const emailErrorSummary = [
 			{
-				text: 'Enter an email address in the correct format, like name@example.com',
+				text: 'Enter an email address in the correct format, like name@example.com f',
 				href: '#your-email-address'
 			}
 		];
 		if (!email) {
+			console.log('🚀 ~ return ~ email:', email);
 			res.render(views.YOUR_EMAIL_ADDRESS, {
 				errors,
 				errorSummary: emailErrorSummary
@@ -46,13 +47,14 @@ const postYourEmailAddress = (views) => {
 
 			res.redirect(`/${views.ENTER_CODE}/${id}`);
 		} catch (e) {
+			console.log('🚀 ~ return ~ e:', e);
 			res.render(views.YOUR_EMAIL_ADDRESS, {
 				email,
 				errors: {
 					'email-address': {
 						// TODO concoct an error message that communicates that the
 						// email provided doesn't belong to an admin
-						msg: 'Enter an email address in the correct format, like name@example.com'
+						msg: 'Enter an email address in the correct format, like name@example.com e'
 					}
 				},
 				errorSummary: emailErrorSummary
