@@ -17,6 +17,7 @@ exports.get = async (req, res) => {
 		}
 
 		const undecidedAppeals = appeals
+			.filter(isNotWithdrawn)
 			.map(mapToAppellantDashboardDisplayData)
 			.filter((appeal) => !appeal.appealDecision);
 

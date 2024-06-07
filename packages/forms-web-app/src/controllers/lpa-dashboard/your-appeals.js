@@ -24,6 +24,7 @@ const getYourAppeals = async (req, res) => {
 	const decidedAppealsCount = await apiClient.getDecidedAppealsCountV2(user.lpaCode);
 
 	const { toDoAppeals, waitingForReviewAppeals } = appealsCaseData
+		.filter(isNotWithdrawn)
 		.map(mapToLPADashboardDisplayData)
 		.reduce(
 			(acc, cur) => {

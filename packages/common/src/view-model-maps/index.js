@@ -5,5 +5,6 @@ module.exports = {
 	...require('./sections'),
 	...require('./rows'),
 	...require('../lib/format-questionnaire-details'),
-	...require('./events')
+	...require('./events'),
+	...require('../lib/filter-withdrawn-appeal')
 };

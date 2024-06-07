@@ -413,6 +413,10 @@ components:
         caseValidDate:
           type: string
           format: date-time
+        appealWithdrawnDate:
+          type: string
+          format: date-time
+          description: the date the appeal was withdrawn
 
         # statement
         statementDueDate:
@@ -493,6 +497,10 @@ components:
           description: the Inspector's outcome/decision for this case
         caseDecisionPublished:
           type: boolean
+        appealStatus:
+          type: string
+          enum: ['assign_case_officer', 'validation', 'ready_to_start', 'lpa_questionnaire_due', 'statement_review', 'final_comment_review', 'issue_determination', 'complete', 'invalid', 'withdrawn', 'closed', 'awaiting_transfer', 'transferred']
+          description: the current status of the appeal
 
         # appeal details
         isAppellant:

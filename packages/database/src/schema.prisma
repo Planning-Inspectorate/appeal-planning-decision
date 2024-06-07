@@ -314,10 +314,11 @@ model AppealCase {
   // case dates
   //***************************************************************************
 
-  caseReceived      Boolean?
-  casePublished     Boolean   @default(false)
-  casePublishedDate DateTime?
-  caseValidDate     DateTime?
+  caseReceived        Boolean?
+  casePublished       Boolean   @default(false)
+  casePublishedDate   DateTime?
+  caseValidDate       DateTime?
+  appealWithdrawnDate DateTime?
 
   receiptDate                DateTime?
   startDate                  DateTime?
@@ -351,6 +352,7 @@ model AppealCase {
   outcome               String?
   caseDecisionOutcome   String?
   caseDecisionPublished Boolean? @default(false)
+  appealStatus          String?
 
   // appeal details
   isAppellant          Boolean?

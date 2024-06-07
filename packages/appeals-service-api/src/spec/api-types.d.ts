@@ -312,6 +312,11 @@ export interface AppealCase {
 	/** @format date-time */
 	caseValidDate?: string;
 	/**
+	 * the date the appeal was withdrawn
+	 * @format date-time
+	 */
+	appealWithdrawnDate?: string;
+	/**
 	 * the date statements are due
 	 * @format date-time
 	 */
@@ -392,6 +397,21 @@ export interface AppealCase {
 	/** the Inspector's outcome/decision for this case */
 	caseDecisionOutcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
 	caseDecisionPublished?: boolean;
+	/** the current status of the appeal */
+	appealStatus?:
+		| 'assign_case_officer'
+		| 'validation'
+		| 'ready_to_start'
+		| 'lpa_questionnaire_due'
+		| 'statement_review'
+		| 'final_comment_review'
+		| 'issue_determination'
+		| 'complete'
+		| 'invalid'
+		| 'withdrawn'
+		| 'closed'
+		| 'awaiting_transfer'
+		| 'transferred';
 	isAppellant?: boolean;
 	appellantCompanyName?: string;
 	contactFirstName?: string;
