@@ -11,6 +11,23 @@ const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType']} DataModelDocumentTypes
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['users']} DataModelUsers
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['casedata']['applicationDecision']} DataModelApplicationDecision
+ * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ *   include: {
+ *     SubmissionDocumentUpload: true,
+ *     SubmissionAddress: true,
+ *     SubmissionLinkedCase: true,
+ * 		 SubmissionListedBuilding: true,
+ *		 Appeal: {
+ *       include: {
+ *			   Users: {
+ *           include: {
+ *             AppealUser: true
+ *           }
+ *         }
+ *		   }
+ *     }
+ *   }
+ * }>} FullAppellantSubmission
  */
 
 /** @type {{ [key: string]: DataModelDocumentTypes }} */
@@ -96,17 +113,22 @@ exports.howYouNotifiedPeople = (answers) => {
 };
 
 /**
- * @param {import('@prisma/client').AppellantSubmission} users
+ * @param {FullAppellantSubmission} users
  * @returns {DataModelUsers}
  */
 exports.formatApplicationSubmissionUsers = ({
 	isAppellant,
 	appellantFirstName,
 	appellantLastName,
-	// appellantCompanyName,
 	contactFirstName,
-	contactLastName
-	// contactCompanyName
+	contactLastName,
+	Appeal: {
+		Users: [
+			{
+				AppealUser: { email }
+			}
+		]
+	}
 }) => {
 	/** @type {DataModelUsers} */
 	const users = [
@@ -118,7 +140,7 @@ exports.formatApplicationSubmissionUsers = ({
 			serviceUserType: 'Appellant'
 		}
 	];
-	if (isAppellant) {
+	if (!isAppellant) {
 		users.push({
 			salutation: null,
 			firstName: contactFirstName,
@@ -127,6 +149,9 @@ exports.formatApplicationSubmissionUsers = ({
 			serviceUserType: 'Agent'
 		});
 	}
+
+	users[Number(isAppellant)].emailAddress = email;
+
 	return users;
 };
 

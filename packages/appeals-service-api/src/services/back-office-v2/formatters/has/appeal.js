@@ -16,6 +16,16 @@ const { APPEAL_ID } = require('@pins/business-rules/src/constants');
  *     SubmissionDocumentUpload: true,
  *     SubmissionAddress: true,
  *     SubmissionLinkedCase: true,
+ * 		 SubmissionListedBuilding: true,
+ *		 Appeal: {
+ *       include: {
+ *			   Users: {
+ *           include: {
+ *             AppealUser: true
+ *           }
+ *         }
+ *		   }
+ *     }
  *   }
  * }>} AppellantSubmission
  */
