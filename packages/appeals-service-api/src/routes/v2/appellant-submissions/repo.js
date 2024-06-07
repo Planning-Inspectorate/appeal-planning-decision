@@ -13,6 +13,23 @@ const logger = require('#lib/logger');
  *     SubmissionLinkedCase: true,
  *   }
  * }>} AppellantSubmission
+ * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ *   include: {
+ *     SubmissionDocumentUpload: true,
+ *     SubmissionAddress: true,
+ *     SubmissionLinkedCase: true,
+ * 		 SubmissionListedBuilding: true,
+ *		 Appeal: {
+ *       include: {
+ *			   Users: {
+ *           include: {
+ *             AppealUser: true
+ *           }
+ *         }
+ *		   }
+ *     }
+ *   }
+ * }>} FullAppellantSubmission
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
  */
@@ -230,5 +247,51 @@ module.exports = class Repo {
 				id: true
 			}
 		});
+	}
+
+	/**
+	 * Get an appellant submission
+	 *
+	 * @param {{ appellantSubmissionId: string, userId: string }} params
+	 * @returns {Promise<FullAppellantSubmission|null>}
+	 */
+	async getForBOSubmission({ appellantSubmissionId, userId }) {
+		try {
+			return await this.dbClient.appellantSubmission.findUnique({
+				where: {
+					id: appellantSubmissionId,
+					Appeal: {
+						Users: {
+							some: {
+								userId
+							}
+						}
+					}
+				},
+				include: {
+					SubmissionDocumentUpload: true,
+					SubmissionAddress: true,
+					SubmissionLinkedCase: true,
+					SubmissionListedBuilding: true,
+					Appeal: {
+						include: {
+							Users: {
+								include: {
+									AppealUser: true
+								}
+							}
+						}
+					}
+				}
+			});
+		} catch (e) {
+			if (e instanceof PrismaClientKnownRequestError) {
+				if (e.code === 'P2023') {
+					// probably an invalid ID/GUID
+					return null;
+				}
+			}
+			throw e;
+		}
 	}
 };
