@@ -15,7 +15,7 @@ const postYourEmailAddress = (views) => {
 		const { errors = {}, errorSummary = [], 'email-address': email } = body;
 		const emailErrorSummary = [
 			{
-				text: 'Enter an email address in the correct format, like name@example.com f',
+				text: 'Enter an email address in the correct format, like name@example.com',
 				href: '#your-email-address'
 			}
 		];
@@ -54,7 +54,7 @@ const postYourEmailAddress = (views) => {
 					'email-address': {
 						// TODO concoct an error message that communicates that the
 						// email provided doesn't belong to an admin
-						msg: 'Enter an email address in the correct format, like name@example.com e'
+						msg: 'Enter an email address in the correct format, like name@example.com'
 					}
 				},
 				errorSummary: emailErrorSummary
