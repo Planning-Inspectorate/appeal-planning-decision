@@ -28,6 +28,8 @@ class Journey {
 	journeyTemplate = '';
 	/** @type {string} listingPageViewPath - nunjucks template file used for listing page */
 	listingPageViewPath = '';
+	/** @type {string} informationPageViewPath - nunjucks template file used for pdf summary information page */
+	informationPageViewPath = '';
 	/** @type {boolean} defines how the next/previous question handles end of sections */
 	returnToListing = false;
 	/**@type {string} used as part of the overall page title */
@@ -41,6 +43,7 @@ class Journey {
 	 * @param {JourneyResponse} options.response - user's response
 	 * @param {string} options.journeyTemplate - template used for all views
 	 * @param {string} options.listingPageViewPath - path to njk view for listing page
+	 * @param {string} [options.informationPageViewPath] - path to njk view for pdf summary page
 	 * @param {string} options.journeyTitle - part of the title in the njk view
 	 * @param {boolean} [options.returnToListing] - defines how the next/previous question handles end of sections
 	 */
@@ -50,6 +53,7 @@ class Journey {
 		response,
 		journeyTemplate,
 		listingPageViewPath,
+		informationPageViewPath,
 		journeyTitle,
 		returnToListing
 	}) {
@@ -76,6 +80,8 @@ class Journey {
 			throw new Error('listingPageViewPath should be a string.');
 		}
 		this.listingPageViewPath = listingPageViewPath;
+
+		this.informationPageViewPath = informationPageViewPath || '';
 
 		if (!journeyTitle || typeof journeyTitle !== 'string') {
 			throw new Error('journeyTitle should be a string.');

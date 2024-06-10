@@ -1,0 +1,70 @@
+{% extends layoutTemplate %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title = "Your appeal - " + journeyTitle + " - GOV.UK" %}
+
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+
+	<style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
+  .appeal-details .govuk-summary-list__key,
+  .appeal-details .govuk-summary-list__value,
+  .appeal-details .govuk-summary-list__actions {
+      padding-top: 0.2rem;
+      padding-bottom: 0;
+  }
+  </style>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
+        <h1 class="govuk-heading-l">
+            Your appeal
+        </h1>
+    </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
+        .app-task-list {
+          padding-left: 0;
+        }
+        .app-task-list>li {
+          position: relative;
+          list-style-type: none;
+
+        }
+        .app-task-list__section .govuk-tag {
+          position: absolute;
+          top: 3px;
+          right: 0;
+        }
+        .app-task-list .govuk-summary-list {
+          border-top: 1px solid #b1b4b6;
+        }
+      </style>
+
+      <ol class="app-task-list">
+      {% for section in summaryListData.sections %}
+        <li class ="govuk-!-margin-bottom-9">
+        <div class="app-task-list__section">
+            <h2 class="govuk-heading-m">
+              <span class="app-task-list__section-number">{{loop.index}}. </span> {{section.heading}}
+            </h2>
+        </div>
+
+        {% if section.list.rows.length %}
+          {{ govukSummaryList(section.list) }}
+        {% endif %}
+
+        </li>
+      {% endfor %}
+      </ol>
+    </div>
+  </div>
+	
+{% endblock %}

@@ -85,7 +85,7 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (appellantSubmission,
 			appeal_reference_number: appellantSubmission.applicationReference,
 			'appeal site address': formattedAddress,
 			'local planning department': lpa.getName(),
-			'link to pdf': 'a test link'
+			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appellantSubmission.applicationReference}/${appellantSubmission.submissionPdfId}`
 		};
 
 		const reference = appellantSubmission.id;

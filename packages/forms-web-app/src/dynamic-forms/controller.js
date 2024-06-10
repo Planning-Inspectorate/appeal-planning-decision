@@ -4,6 +4,8 @@ const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
+const { storePdfAppellantSubmission } = require('../../src/services/pdf.service');
+const { CONSTS } = require('../../src/consts');
 
 /**
  * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
@@ -24,7 +26,7 @@ const questionUtils = require('./dynamic-components/utils/question-utils');
  * @typedef {Object} RowView
  * @property {{ text: string }} key
  * @property {{ text: string } | { html: string }} value
- * @property {{ items: ActionView[] }} actions
+ * @property {{ items: ActionView[] }} [actions]
  */
 
 /**
@@ -67,6 +69,23 @@ function buildSectionRowViewModel(key, value, action) {
 		},
 		actions: {
 			items: [action]
+		}
+	};
+}
+
+/**
+ * build a view model for a row in the journey overview
+ * @param {string} key
+ * @param {string} value
+ * @returns {RowView} a representation of a row
+ */
+function buildInformationSectionRowViewModel(key, value) {
+	return {
+		key: {
+			text: key
+		},
+		value: {
+			html: value
 		}
 	};
 }
@@ -217,6 +236,7 @@ exports.remove = async (req, res) => {
 	}
 };
 
+// Submit LPA Questionnaire
 /**
  * @type {import('express').Handler}
  */
@@ -248,6 +268,7 @@ exports.submit = async (req, res) => {
 	);
 };
 
+// Submit an appeal
 /**
  * @type {import('express').Handler}
  */
@@ -260,6 +281,13 @@ exports.submitAppellantSubmission = async (req, res) => {
 		res.sendStatus(400).render('./error/not-found.njk');
 		return;
 	}
+
+	const storedPdf = await storePdfAppellantSubmission({
+		appellantSubmissionJourney: journey,
+		sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
+	});
+
+	await req.appealsApiClient.updateAppellantSubmission(id, { submissionPdfId: storedPdf.id });
 
 	await req.appealsApiClient.submitAppellantSubmission(id);
 
@@ -279,6 +307,58 @@ exports.appellantSubmissionDeclaration = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-declaration/index', {
 		layoutTemplate: journey.journeyTemplate
+	});
+};
+
+/**
+ * @param {import('express').Request} req
+ * @param {import('express').Response} res
+ */
+exports.appellantSubmissionInformation = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.status(400).render('./error/not-found.njk');
+	}
+
+	const summaryListData = {
+		sections: []
+	};
+
+	for (const section of journey.sections) {
+		const sectionView = buildSectionViewModel(section.name, 'information');
+
+		// add questions
+		for (const question of section.questions) {
+			// don't show question on tasklist if set to false
+			if (question.taskList === false) {
+				continue;
+			}
+
+			const answers = journey.response?.answers;
+			let answer = answers[question.fieldName];
+			const conditionalAnswer = questionUtils.getConditionalAnswer(answers, question, answer);
+			if (conditionalAnswer) {
+				answer = {
+					value: answer,
+					conditional: conditionalAnswer
+				};
+			}
+			const rows = question.formatAnswerForSummary(section.segment, journey, answer);
+			rows.forEach((row) => {
+				let viewModelRow = buildInformationSectionRowViewModel(row.key, row.value);
+				sectionView.list.rows.push(viewModelRow);
+			});
+		}
+
+		summaryListData.sections.push(sectionView);
+	}
+
+	return res.render(journey.informationPageViewPath, {
+		summaryListData,
+		layoutTemplate: journey.journeyTemplate,
+		journeyTitle: journey.journeyTitle
 	});
 };
 
