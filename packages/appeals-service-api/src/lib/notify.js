@@ -116,6 +116,50 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (appellantSubmission,
 	}
 };
 
+/**
+ * @param { AppellantSubmission } appellantSubmission
+ * @param { string } email
+ */
+const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission, email) => {
+	try {
+		let lpa;
+		try {
+			lpa = await lpaService.getLpaByCode(appellantSubmission.LPACode);
+		} catch (err) {
+			lpa = await lpaService.getLpaById(appellantSubmission.LPACode);
+		}
+		const lpaEmail = lpa.getEmail();
+
+		const reference = appellantSubmission.id;
+		// TODO: put inside an appeal model
+		let variables = {
+			lpa_reference: appellantSubmission.applicationReference,
+			appellant_email_address: email
+		};
+
+		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]]
+					.appealNotificationEmailToLpaV2
+			)
+			.setDestinationEmailAddress(lpaEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, lpaCode: appellantSubmission.LPACode },
+			'Unable to send submission received email to LPA'
+		);
+	}
+};
+
 const sendFinalCommentSubmissionConfirmationEmail = async (finalComment) => {
 	try {
 		const lpa = await lpaService.getLpaById(finalComment.lpaCode);
@@ -379,6 +423,7 @@ module.exports = {
 	sendSubmissionReceivedEmailToAppellant,
 	sendSubmissionConfirmationEmailToAppellant,
 	sendSubmissionConfirmationEmailToAppellantV2,
+	sendSubmissionReceivedEmailToLpaV2,
 	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendSecurityCodeEmail,
