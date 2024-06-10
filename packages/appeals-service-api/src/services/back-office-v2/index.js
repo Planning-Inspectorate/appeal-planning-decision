@@ -11,7 +11,10 @@ const { get, markAppealAsSubmitted } = require('../../routes/v2/appellant-submis
 
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
-const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify');
+const {
+	sendSubmissionConfirmationEmailToAppellantV2,
+	sendSubmissionReceivedEmailToLpaV2
+} = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 
 /**
@@ -62,6 +65,8 @@ class BackOfficeV2Service {
 		await markAppealAsSubmitted(appellantSubmission.id);
 
 		await sendSubmissionConfirmationEmailToAppellantV2(appellantSubmission, email);
+
+		await sendSubmissionReceivedEmailToLpaV2(appellantSubmission, email);
 
 		return result;
 	}
