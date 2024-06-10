@@ -29,6 +29,9 @@ components:
         submitted:
           type: boolean
           description: whether the appeal has been submitted to BO
+        submissionPdfId:
+          type: string
+          description: blob storage id of submission pdf used to generate download link
 
         onApplicationDate:
           type: string

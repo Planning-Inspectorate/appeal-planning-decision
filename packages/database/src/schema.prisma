@@ -524,6 +524,7 @@ model AppellantSubmission {
   // state
   caseTermsAccepted Boolean? /// set when user clicks submit
   submitted         Boolean  @default(false) /// whether the questionnaire has been submitted to BO
+  submissionPdfId   String?
 
   // dates
   onApplicationDate DateTime?

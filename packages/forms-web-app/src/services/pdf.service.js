@@ -14,8 +14,11 @@ const {
 const logger = require('../lib/logger');
 const { textToPdf } = require('../lib/textToPdf');
 const { CONSTS } = require('../consts');
+const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 
 const defaultFileName = 'appeal-form';
+
+const defaultSubmissionFileName = 'appellant-submission';
 
 const appealTypeUrlMapping = {
 	[APPEAL_ID.HOUSEHOLDER]: VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION,
@@ -141,8 +144,115 @@ const storeTextAsDocument = async (submission, plainText, docType) => {
 	}
 };
 
+// Functions relating to V2 appeal forms
+
+const typeCodeToAppealUrlStub = {
+	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: 'householder',
+	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: 'full-planning'
+};
+
+/**
+ * @param {Object} params
+ * @param {*} params.appellantSubmissionJourney - appellant Submission Journey
+ * @param {string} [params.fileName] - optional filename
+ * @param {string} params.sid - session cookie
+ */
+const storePdfAppellantSubmission = async ({ appellantSubmissionJourney, fileName, sid }) => {
+	const log = logger.child({
+		appellantSubmissionId: appellantSubmissionJourney.id,
+		uuid: uuid.v4()
+	});
+
+	log.info('Attempting to store PDF document');
+
+	try {
+		const htmlContent = await getHtmlAppellantSubmission(appellantSubmissionJourney, sid);
+
+		log.debug('Generating PDF of appeal');
+
+		const pdfBuffer = await generatePDF(htmlContent);
+
+		log.debug('Creating document from PDF buffer');
+
+		const document = await createDocument(
+			{
+				id: appellantSubmissionJourney.response.referenceId,
+				referenceNumber: appellantSubmissionJourney.response.referenceId
+			},
+			pdfBuffer,
+			`${fileName || defaultSubmissionFileName}.pdf`,
+			documentTypes.appealPdf.name
+		);
+
+		log.debug('PDF document successfully created');
+
+		return document;
+	} catch (err) {
+		const msg = 'Error during the appeal pdf generation';
+		log.error({ err }, msg);
+
+		throw new Error(msg);
+	}
+};
+
+const getHtmlAppellantSubmission = async (appellantSubmissionJourney, sid) => {
+	const log = logger.child({
+		appellantSubmissionId: appellantSubmissionJourney.id,
+		uuid: uuid.v4()
+	});
+
+	/* URL back to this service front-end */
+	const url = buildAppellantSubmissionUrl(appellantSubmissionJourney);
+
+	let response;
+
+	try {
+		log.info({ url }, 'Generating HTML appeal');
+
+		const opts = {
+			headers: {
+				cookie: `${CONSTS.SESSION_COOKIE_NAME}=${sid}`
+			}
+		};
+
+		response = await fetch(url, opts);
+
+		log.debug(
+			{
+				status: response.status,
+				statusText: response.statusText
+			},
+			'HTML generated'
+		);
+	} catch (err) {
+		log.error({ err }, 'Failed to generate HTML appeal');
+
+		throw err;
+	}
+
+	const ok = response.status === 200;
+
+	if (!ok) {
+		log.error({ status: response.status }, 'HTTP status code not 200');
+
+		throw new Error(response.statusText);
+	}
+
+	log.info('Successfully generated HTML appeal');
+
+	return response.text();
+};
+
+const buildAppellantSubmissionUrl = (appellantSubmissionJourney) => {
+	const urlPart =
+		typeCodeToAppealUrlStub[appellantSubmissionJourney.response.answers.appealTypeCode] ||
+		appealTypeUrlMapping[APPEAL_ID.HOUSEHOLDER];
+	return `${config.server.host}/appeals/${urlPart}/submit/information/${appellantSubmissionJourney.response.journeyId}`;
+};
+
 module.exports = {
 	storePdfAppeal,
+	storePdfAppellantSubmission,
 	getHtmlAppeal,
 	storeTextAsDocument
 };
