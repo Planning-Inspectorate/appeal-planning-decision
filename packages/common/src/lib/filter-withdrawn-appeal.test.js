@@ -23,7 +23,7 @@ describe('isNotWithdrawn', () => {
 		expect(result).toEqual([mismatchedData2]);
 	});
 
-	it('does not filter appeals that only have the ststus set to withdrawn', () => {
+	it('does not filter appeals that only have the status set to withdrawn', () => {
 		const appeals = [mismatchedData1];
 		const result = appeals.filter(isNotWithdrawn);
 		expect(result).toEqual([mismatchedData1]);
