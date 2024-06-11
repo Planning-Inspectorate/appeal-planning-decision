@@ -9,8 +9,5 @@
 module.exports = {
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info'
-	},
-	pdf: {
-		url: process.env.PDF_SERVICE_API_URL
 	}
 };
