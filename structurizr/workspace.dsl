@@ -142,7 +142,7 @@ workspace "Appeal service" {
 			systemGithub = softwareSystem "Github" {
 				tags = "ExternalSystem"
 			}
-		}		
+		}
 
 		# Relationships
 
@@ -175,7 +175,7 @@ workspace "Appeal service" {
 		containerFoWeb -> containerFoClamAV "Scans file uploads"
 		containerFoWeb -> containerFoAzureCosmos "stores user session data"
 		containerFoWeb -> containerKeyVault "retrieves secrets"
-		
+
 		// Appeals API
 		containerFoApi -> containerFoAzureSql "stores data"
 		containerFoApi -> containerFoAzureCosmos "stores data"
@@ -231,6 +231,86 @@ workspace "Appeal service" {
 	views {
 		properties {
 			"structurizr.sort" "created"
+		}
+
+		systemLandscape "SystemLandscape" {
+			include *
+			exclude "element.tag==LegacySystem"
+			title "System Landscape"
+		}
+
+		systemContext systemAppsFo "AppealsFOContext" {
+			include *
+			exclude "element.tag==LegacySystem"
+			autoLayout tb
+			title "Appeals Front-Office Context"
+		}
+
+		container systemAppsFo "AppealsFOContainer" {
+			include *
+			exclude "element.tag==LegacySystem"
+			autoLayout tb
+			title "Appeals Front-Office Container"
+		}
+
+		systemContext systemAppsBo "AppealsBOContext" {
+			include *
+			autoLayout tb
+			title "Appeals Back-Office Context"
+		}
+
+		container systemAppsBo "AppealsBOContainer" {
+			include *
+			autoLayout tb
+			title "Appeals Back-Office Container"
+		}
+
+		systemContext systemIntegration "IntegrationContext" {
+			include *
+			autoLayout tb
+			title "Integration Context"
+		}
+
+		component containerBoServiceBus "IntegrationComponents" {
+			include *
+			autoLayout tb
+			title "Integration Components"
+		}
+
+		systemContext systemLegacyIntegration "LegacyIntegrationContext" {
+			include *
+			autoLayout tb
+			title "Legacy Integration Context"
+		}
+
+		systemContext systemClamAv "ClamAVContext" {
+			include *
+			autoLayout tb
+			title "ClamAV Context"
+		}
+
+		systemContext systemGovUk "GovUKContext" {
+			include *
+			autoLayout tb
+			title "GovUK Context"
+		}
+
+		container systemGovUk "GovUKContainer" {
+			include *
+			autoLayout tb
+			title "GovUK Container"
+		}
+
+		systemContext systemDevops "DevopsContext" {
+			include *
+			autoLayout tb
+			title "Devops Context"
+		}
+
+		container systemDevops "DevopsContainer" {
+			include *
+			autoLayout tb
+			title "Devops Container"
 		}
 
 		# Azure icons only
