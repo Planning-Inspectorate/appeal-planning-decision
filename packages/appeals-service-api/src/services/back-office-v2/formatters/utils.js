@@ -150,7 +150,7 @@ exports.formatApplicationSubmissionUsers = ({
 		});
 	}
 
-	users[Number(isAppellant)].emailAddress = email;
+	users[Number(!isAppellant)].emailAddress = email;
 
 	return users;
 };

@@ -1,13 +1,14 @@
-// NOTE - Tests are skipped for time being as relies upon formatting for BO submission and
-// format not yet confirmed
-
 const supertest = require('supertest');
 const http = require('http');
 const app = require('../../../../../app');
 const { sendEvents } = require('../../../../../../src/infrastructure/event-client');
+const { createPrismaClient } = require('#db-client');
+const crypto = require('crypto');
 
 const server = http.createServer(app);
 const appealsApi = supertest(server);
+let validUser;
+const sqlClient = createPrismaClient();
 
 /**
  * @typedef {import('../appellant-submission').AppellantSubmission} AppellantSubmission
@@ -15,21 +16,21 @@ const appealsApi = supertest(server);
 
 jest.mock('../service', () => ({
 	/**
+	 * @param {{appellantSubmissionId: string}} args
 	 * @returns {Partial<AppellantSubmission> | null}
 	 */
-	get: (appellantSubmissionId) => {
+	getForBOSubmission: ({ appellantSubmissionId }) => {
 		switch (appellantSubmissionId) {
 			case '001':
 				return {
 					LPACode: 'LPA_001',
 					appealTypeCode: 'HAS',
-					applicationDecisionDate: '2024-01-01',
-					applicationDecision: 'denied',
-					onApplicationDate: '2024-01-01',
+					applicationDecisionDate: new Date('2024-01-01'),
+					applicationDecision: 'refused',
+					onApplicationDate: new Date('2024-01-01'),
 					isAppellant: true,
-					contactFirstName: 'Testy',
-					contactLastName: 'McTest',
-					appellantEmailAddress: 'test@test.com',
+					appellantFirstName: 'Testy',
+					appellantLastName: 'McTest',
 					ownsAllLand: true,
 					appellantGreenBelt: false,
 					updateDevelopmentDescription: false,
@@ -42,7 +43,8 @@ jest.mock('../service', () => ({
 					developmentDescriptionOriginal: 'A test description',
 					appellantLinkedCaseReference: 'no',
 					appellantPhoneNumber: '12345657',
-					siteAreaSquareMetres: 22.0,
+					// @ts-ignore
+					siteAreaSquareMetres: 22,
 					appellantLinkedCaseAdd: false,
 					appellantLinkedCase: false,
 					SubmissionLinkedCase: [],
@@ -60,7 +62,8 @@ jest.mock('../service', () => ({
 							name: 'img.jpg',
 							location: '/img.jpg',
 							type: 'jpg',
-							storageId: '001'
+							storageId: '001',
+							questionnaireId: '001'
 						}
 					],
 					siteAddress: true,
@@ -72,22 +75,32 @@ jest.mock('../service', () => ({
 							addressLine2: 'Somewhere St',
 							townCity: 'Somewhereville',
 							postcode: 'SOM3 W3R',
-							fieldName: 'siteAddress'
+							fieldName: 'siteAddress',
+							questionnaireId: '001',
+							county: 'Somewhere'
 						}
 					],
-					SubmissionListedBuilding: []
+					SubmissionListedBuilding: [],
+					Appeal: {
+						Users: [
+							{
+								AppealUser: {
+									email: 'test@test.com'
+								}
+							}
+						]
+					}
 				};
 			case '002':
 				return {
 					LPACode: 'LPA_002',
 					appealTypeCode: 'HAS',
-					applicationDecisionDate: '2024-01-01',
-					applicationDecision: 'denied',
-					onApplicationDate: '2024-01-01',
+					applicationDecisionDate: new Date('2024-01-01'),
+					applicationDecision: 'refused',
+					onApplicationDate: new Date('2024-01-01'),
 					isAppellant: false,
 					appellantFirstName: 'Test App',
 					appellantLastName: 'Testington',
-					appellantEmailAddress: 'test@test.com',
 					contactFirstName: 'Testy',
 					contactLastName: 'McTest',
 					contactCompanyName: 'Test Agents',
@@ -103,7 +116,8 @@ jest.mock('../service', () => ({
 					developmentDescriptionOriginal: 'A test description',
 					appellantLinkedCaseReference: 'no',
 					appellantPhoneNumber: '12345657',
-					siteAreaSquareMetres: 25.0,
+					// @ts-ignore
+					siteAreaSquareMetres: 25,
 					appellantLinkedCaseAdd: false,
 					appellantLinkedCase: false,
 					SubmissionLinkedCase: [],
@@ -121,7 +135,8 @@ jest.mock('../service', () => ({
 							name: 'img.jpg',
 							location: '/img.jpg',
 							type: 'jpg',
-							storageId: '001'
+							storageId: '001',
+							questionnaireId: '002'
 						}
 					],
 					siteAddress: true,
@@ -133,15 +148,27 @@ jest.mock('../service', () => ({
 							addressLine2: 'Somewhere St',
 							townCity: 'Somewhereville',
 							postcode: 'SOM3 W3R',
-							fieldName: 'siteAddress'
+							fieldName: 'siteAddress',
+							questionnaireId: '002',
+							county: 'Somewhere'
 						}
 					],
-					SubmissionListedBuilding: []
+					SubmissionListedBuilding: [],
+					Appeal: {
+						Users: [
+							{
+								AppealUser: {
+									email: 'test@test.com'
+								}
+							}
+						]
+					}
 				};
 			default:
 				return null;
 		}
-	}
+	},
+	markAppealAsSubmitted: jest.fn()
 }));
 
 jest.mock('../../../../../../src/configuration/featureFlag', () => ({
@@ -155,89 +182,187 @@ jest.mock('../../../../../../src/infrastructure/event-client', () => ({
 }));
 
 jest.mock('../../../../../../src/services/object-store');
+jest.mock('../../../../../../src/services/lpa.service', () => {
+	class LpaService {
+		getLpaByCode() {
+			return {
+				getLpaCode: () => 'LPA_001'
+			};
+		}
+	}
+	return LpaService;
+});
 
+jest.mock('#lib/notify');
+
+jest.mock('express-oauth2-jwt-bearer', () => {
+	let currentSub = '';
+
+	return {
+		auth: jest.fn(() => {
+			return (req, _res, next) => {
+				req.auth = {
+					payload: {
+						sub: currentSub
+					}
+				};
+				next();
+			};
+		}),
+		setCurrentSub: (newSub) => {
+			currentSub = newSub;
+		}
+	};
+});
+
+jest.mock('express-oauth2-jwt-bearer');
+
+/** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
 const formattedHAS1 = {
-	appeal: {
-		LPACode: 'LPA_001',
-		LPAName: 'testLPA',
-		appealType: 'Householder (HAS) Appeal',
-		decision: 'denied',
-		originalCaseDecisionDate: '2024-01-01',
-		costAppliedForIndicator: false,
-		LPAApplicationReference: '123',
-		appellant: {
-			firstName: 'Testy',
-			lastName: 'McTest',
-			emailAddress: 'test@test.com'
-		},
-		agent: undefined,
+	casedata: {
+		advertisedAppeal: null,
+		appellantCostsAppliedFor: false,
+		applicationDate: '2024-01-01T00:00:00.000Z',
+		applicationDecision: 'refused',
+		applicationDecisionDate: '2024-01-01T00:00:00.000Z',
+		applicationReference: '123',
+		caseProcedure: 'written',
+		caseSubmissionDueDate: '2024-03-25T23:59:59.999Z',
+		caseSubmittedDate: expect.any(String), // it's based on a new Date() so we can't get it exactly
+		caseType: 'D',
+		changedDevelopmentDescription: false,
+		enforcementNotice: false,
+		floorSpaceSquareMetres: 22,
+		knowsAllOwners: null,
+		knowsOtherOwners: null,
+		lpaCode: 'LPA_001',
+		nearbyCaseReferences: [],
+		neighbouringSiteAddresses: null,
+		originalDevelopmentDescription: 'A test description',
+		ownersInformed: null,
+		ownsAllLand: true,
+		ownsSomeLand: null,
+		siteAccessDetails: ['Come and see'],
+		siteAddressCounty: 'Somewhere',
 		siteAddressLine1: 'Somewhere',
 		siteAddressLine2: 'Somewhere St',
-		siteAddressTown: 'Somewhereville',
-		siteAddressCounty: undefined,
 		siteAddressPostcode: 'SOM3 W3R',
-		isSiteFullyOwned: true,
-		hasToldOwners: undefined,
-		isSiteVisible: 'yes',
-		inspectorAccessDetails: 'Come and see',
-		doesSiteHaveHealthAndSafetyIssues: 'yes',
-		healthAndSafetyIssuesDetails: "It's dangerous"
+		siteAddressTown: 'Somewhereville',
+		siteAreaSquareMetres: 22,
+		siteSafetyDetails: ["It's dangerous"]
 	},
-	documents: []
+	documents: [
+		{
+			dateCreated: '2024-03-01T13:48:35.847Z',
+			documentId: '001',
+			documentType: 'appellantCostsApplication',
+			documentURI: 'https://example.com',
+			filename: 'img.jpg',
+			mime: 'image/jpeg',
+			originalFilename: 'oimg.jpg',
+			size: 10293
+		}
+	],
+	users: [
+		{
+			emailAddress: 'test@test.com',
+			firstName: 'Testy',
+			lastName: 'McTest',
+			salutation: null,
+			serviceUserType: 'Appellant'
+		}
+	]
 };
 
+/** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
 const formattedHAS2 = {
-	appeal: {
-		LPACode: 'LPA_002',
-		LPAName: 'testLPA',
-		appealType: 'Householder (HAS) Appeal',
-		decision: 'denied',
-		originalCaseDecisionDate: '2024-01-01',
-		costAppliedForIndicator: false,
-		LPAApplicationReference: '234',
-		appellant: {
+	casedata: {
+		advertisedAppeal: null,
+		appellantCostsAppliedFor: false,
+		applicationDate: '2024-01-01T00:00:00.000Z',
+		applicationDecision: 'refused',
+		applicationDecisionDate: '2024-01-01T00:00:00.000Z',
+		applicationReference: '234',
+		caseProcedure: 'written',
+		caseSubmissionDueDate: '2024-03-25T23:59:59.999Z',
+		caseSubmittedDate: expect.any(String), // it's based on a new Date() so we can't get it exactly
+		caseType: 'D',
+		changedDevelopmentDescription: false,
+		enforcementNotice: false,
+		floorSpaceSquareMetres: 25,
+		knowsAllOwners: null,
+		knowsOtherOwners: null,
+		lpaCode: 'LPA_001',
+		nearbyCaseReferences: [],
+		neighbouringSiteAddresses: null,
+		originalDevelopmentDescription: 'A test description',
+		ownersInformed: null,
+		ownsAllLand: true,
+		ownsSomeLand: null,
+		siteAccessDetails: ['Come and see'],
+		siteAddressCounty: 'Somewhere',
+		siteAddressLine1: 'Somewhere',
+		siteAddressLine2: 'Somewhere St',
+		siteAddressPostcode: 'SOM3 W3R',
+		siteAddressTown: 'Somewhereville',
+		siteAreaSquareMetres: 25,
+		siteSafetyDetails: ["It's dangerous"]
+	},
+	documents: [
+		{
+			dateCreated: '2024-03-01T13:48:35.847Z',
+			documentId: '001',
+			documentType: 'appellantCostsApplication',
+			documentURI: 'https://example.com',
+			filename: 'img.jpg',
+			mime: 'image/jpeg',
+			originalFilename: 'oimg.jpg',
+			size: 10293
+		}
+	],
+	users: [
+		{
+			emailAddress: null,
 			firstName: 'Test App',
 			lastName: 'Testington',
-			emailAddress: 'test@test.com'
+			salutation: null,
+			serviceUserType: 'Appellant'
 		},
-		agent: {
+		{
+			emailAddress: 'test@test.com',
 			firstName: 'Testy',
 			lastName: 'McTest',
-			emailAddress: 'test@test.com'
-		},
-		siteAddressLine1: 'Somewhere',
-		siteAddressLine2: 'Somewhere St',
-		siteAddressTown: 'Somewhereville',
-		siteAddressCounty: undefined,
-		siteAddressPostcode: 'SOM3 W3R',
-		isSiteFullyOwned: true,
-		hasToldOwners: undefined,
-		isSiteVisible: 'yes',
-		inspectorAccessDetails: 'Come and see',
-		doesSiteHaveHealthAndSafetyIssues: 'yes',
-		healthAndSafetyIssuesDetails: "It's dangerous"
-	},
-	documents: []
+			salutation: null,
+			serviceUserType: 'Agent'
+		}
+	]
 };
 
+beforeAll(async () => {
+	const user = await sqlClient.appealUser.create({
+		data: { email: crypto.randomUUID() + '@example.com' }
+	});
+	validUser = user.id;
+});
+
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
-	it.skip.each([
+	it.each([
 		['HAS', '001', formattedHAS1],
 		['HAS', '002', formattedHAS2]
 	])('Formats %s appeal submission then sends it to back office', async (_, id, expectation) => {
-		await appealsApi
-			.post(`/api/v2/appellant-submissions/${id}/submit`)
-			.set('Authorization', 'test123')
-			.expect(200);
+		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+		setCurrentSub(validUser);
+
+		await appealsApi.post(`/api/v2/appellant-submissions/${id}/submit`).expect(200);
 
 		expect(sendEvents).toHaveBeenCalledWith(
-			'appeal-fo-lpa-response-submission',
-			expectation,
+			'appeal-fo-appellant-submission',
+			[expectation],
 			'Create'
 		);
 	});
 
-	it.skip('404s if the appeal submission can not be found', () => {
+	it('404s if the appeal submission can not be found', () => {
 		appealsApi
 			.post('/api/v2/appellant-submissions/003/submit')
 			.expect(404)

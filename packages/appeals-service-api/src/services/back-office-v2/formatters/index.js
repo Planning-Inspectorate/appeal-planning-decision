@@ -51,12 +51,12 @@ const reduceFormatters =
 		const fullFormatterPath = path.join(__dirname, requireableFormatterPath) + '.js';
 		const formatterFileExists = existsSync(fullFormatterPath);
 		if (!formatterFileExists) {
-			console.warn(`No formatter file found at ${fullFormatterPath}`);
+			// console.warn(`No formatter file found at ${fullFormatterPath}`);
 			return formatters;
 		}
 		const formatterModule = require(requireableFormatterPath);
 		if (!formatterModule.formatter) {
-			console.warn(`No formatter function found in  file found at ${fullFormatterPath}`);
+			// console.warn(`No formatter function found in  file found at ${fullFormatterPath}`);
 			return formatters;
 		}
 		return {
