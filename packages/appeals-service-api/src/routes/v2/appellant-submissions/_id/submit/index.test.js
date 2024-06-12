@@ -29,8 +29,8 @@ jest.mock('../service', () => ({
 					applicationDecision: 'refused',
 					onApplicationDate: new Date('2024-01-01'),
 					isAppellant: true,
-					appellantFirstName: 'Testy',
-					appellantLastName: 'McTest',
+					contactFirstName: 'Testy',
+					contactLastName: 'McTest',
 					ownsAllLand: true,
 					appellantGreenBelt: false,
 					updateDevelopmentDescription: false,
@@ -322,18 +322,18 @@ const formattedHAS2 = {
 	],
 	users: [
 		{
-			emailAddress: null,
-			firstName: 'Test App',
-			lastName: 'Testington',
-			salutation: null,
-			serviceUserType: 'Appellant'
-		},
-		{
 			emailAddress: 'test@test.com',
 			firstName: 'Testy',
 			lastName: 'McTest',
 			salutation: null,
 			serviceUserType: 'Agent'
+		},
+		{
+			emailAddress: null,
+			firstName: 'Test App',
+			lastName: 'Testington',
+			salutation: null,
+			serviceUserType: 'Appellant'
 		}
 	]
 };

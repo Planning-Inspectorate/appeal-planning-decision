@@ -146,7 +146,7 @@ exports.formatApplicationSubmissionUsers = ({
 			firstName: appellantFirstName,
 			lastName: appellantLastName,
 			emailAddress: null,
-			serviceUserType: 'Agent'
+			serviceUserType: 'Appellant'
 		});
 	}
 
