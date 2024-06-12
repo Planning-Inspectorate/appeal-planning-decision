@@ -41,7 +41,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Contact details',
 			valueText: formatContactDetails(caseData),
-			condition: () => true
+			condition: (caseData) => caseData.contactFirstName && caseData.contactLastName
 		},
 		{
 			keyText: 'Phone number',
