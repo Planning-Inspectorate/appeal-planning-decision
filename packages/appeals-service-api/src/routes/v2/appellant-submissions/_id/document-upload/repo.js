@@ -63,11 +63,6 @@ class SubmissionDocumentUploadRepository {
 	 * @returns {Promise<AppellantSubmission>}
 	 */
 	async deleteSubmissionDocument(id, documentId) {
-		console.log(
-			'🚀 ~ SubmissionDocumentUploadRepository ~ deleteSubmissionDocument ~ id, documentId:',
-			id,
-			documentId
-		);
 		return await this.dbClient.appellantSubmission.update({
 			where: {
 				id

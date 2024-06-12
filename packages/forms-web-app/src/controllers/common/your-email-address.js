@@ -20,7 +20,6 @@ const postYourEmailAddress = (views) => {
 			}
 		];
 		if (!email) {
-			console.log('🚀 ~ return ~ email:', email);
 			res.render(views.YOUR_EMAIL_ADDRESS, {
 				errors,
 				errorSummary: emailErrorSummary
@@ -47,7 +46,6 @@ const postYourEmailAddress = (views) => {
 
 			res.redirect(`/${views.ENTER_CODE}/${id}`);
 		} catch (e) {
-			console.log('🚀 ~ return ~ e:', e);
 			res.render(views.YOUR_EMAIL_ADDRESS, {
 				email,
 				errors: {
