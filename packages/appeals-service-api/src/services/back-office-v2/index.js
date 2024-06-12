@@ -31,7 +31,10 @@ const { SchemaValidator } = require('./validate');
  * @typedef {import('./validate').Validate<Payload>} Validate
  */
 
-/** @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand */
+/**
+ * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
+ * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
+ */
 
 const { getValidator } = new SchemaValidator();
 
@@ -111,12 +114,20 @@ class BackOfficeV2Service {
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error("Questionnaire's associated AppealCase has an invalid appealTypeCode");
 
-		const result = await forwarders.questionnaire(
-			await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
-				caseReference,
-				questionnaire
-			)
+		const mappedData = await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
+			caseReference,
+			questionnaire
 		);
+
+		/** @type {Validate<LPAQuestionnaireCommand>} */
+		const validator = getValidator('lpa-questionnaire');
+		if (!validator(mappedData)) {
+			throw new Error(
+				`Payload was invalid wen checked against appellant submission command schema`
+			);
+		}
+
+		const result = await forwarders.questionnaire([mappedData]);
 
 		await markQuestionnaireAsSubmitted(questionnaire.id);
 
