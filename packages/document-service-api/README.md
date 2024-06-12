@@ -98,4 +98,4 @@ See http://localhost:3001/api-docs/#/Document/migrateMetadata for more informati
 
 ### Document service API crashes on startup with error "Invalid connection string"
 
-The connection string for `document-service-api` can be configured in the root `docker-compose.yml`. In the `document-service-api` section, under `environment:`, there should be a variable named `PINS_FEATURE_FLAG_AZURE_ENDPOINT` (add this if it's not already present). This should be populated with the connection string found on the Azure Access Keys page. For local development, this will be pins-asc-appeals-dev-ukw-001 access keys > Read-Write keys > Primary key > Connection string.
+The connection string for `document-service-api` can be configured in the root `docker-compose.yml`. In the `document-service-api` section, under `environment:`, there should be a variable named `PINS_FEATURE_FLAG_AZURE_CONNECTION_STRING` (add this if it's not already present). This should be populated with the connection string found on the Azure Access Keys page. For local development, this will be pins-asc-appeals-dev-ukw-001 access keys > Read-Write keys > Primary key > Connection string.

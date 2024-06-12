@@ -32,7 +32,6 @@ jest.mock('../service', () => ({
 					neighbourSiteAccess: 'yes',
 					newConditions: 'yes',
 					newConditions_newConditionDetails: 'I have new conditions',
-					nearbyAppealReference: '002',
 					displaySiteNotice: true,
 					lettersToNeighbours: true,
 					pressAdvert: true,
@@ -44,21 +43,47 @@ jest.mock('../service', () => ({
 						{
 							id: 'add_001',
 							questionnaireId: '001',
+							appellantSubmissionId: null,
+							fieldName: 'neighbourSiteAddress',
 							addressLine1: 'Somewhere',
 							addressLine2: 'Somewhere St',
 							townCity: 'Somewhereville',
-							postcode: 'SOM3 W3R'
+							postcode: 'SOM3 W3R',
+							county: null
+						}
+					],
+					SubmissionListedBuilding: [
+						{
+							id: 'list_001',
+							lPAQuestionnaireSubmissionId: '001',
+							appellantSubmissionId: null,
+							fieldName: 'affectedListedBuildingNumber',
+							reference: '1010101',
+							listedBuildingGrade: 'I',
+							name: 'very special building'
 						}
 					],
 					SubmissionDocumentUpload: [
 						{
 							id: 'img_001',
+							questionnaireId: '001',
+							appellantSubmissionId: null,
 							fileName: 'img.jpg',
 							originalFileName: 'oimg.jpg',
-							questionnaireId: '001',
 							name: 'img.jpg',
 							location: '/img.jpg',
-							type: 'jpg'
+							type: 'jpg',
+							storageId: ''
+						}
+					],
+					SubmissionLinkedCase: [
+						{
+							id: 'link_001',
+							lPAQuestionnaireSubmissionId: '001',
+							appellantSubmissionId: null,
+							fieldName: 'nearbyAppealReference',
+							appealCaseId: null,
+							caseReference: 'abc1234'
 						}
 					]
 				};
@@ -106,7 +131,10 @@ jest.mock('../service', () => ({
 							addressLine1: 'Somewhere',
 							addressLine2: 'Somewhere St',
 							townCity: 'Somewhereville',
-							postcode: 'SOM3 W3R'
+							postcode: 'SOM3 W3R',
+							fieldName: 'neighbourSiteAddress',
+							county: null,
+							appellantSubmissionId: null
 						}
 					],
 					SubmissionDocumentUpload: [
@@ -140,62 +168,55 @@ jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 
 jest.mock('../../../../../../../src/services/object-store');
 
-const formattedHAS = {
-	LPACode: 'LPA_001',
-	caseReference: '001',
-	documents: [
-		{
-			dateCreated: '2024-03-01T13:48:35.847Z',
-			documentType: undefined,
-			documentURI: 'https://example.com',
-			filename: 'img.jpg',
-			lastModified: '2024-03-01T14:48:35.847Z',
-			mime: 'image/jpeg',
-			origin: 'citizen',
-			originalFilename: 'oimg.jpg',
-			size: 10293,
-			sourceSystem: 'appeals',
-			stage: 'lpa_questionnaire'
-		}
-	],
-	questionnaire: {
-		addAffectedListedBuilding: undefined,
-		addNearbyAppeal: undefined,
-		addNeighbouringSiteAccess: undefined,
-		affectedListedBuildingNumber: NaN,
-		affectsListedBuilding: true,
-		conservationArea: true,
-		correctAppealType: true,
-		greenBelt: true,
-		lpaSiteAccess: true,
-		lpaSiteAccessDetails: undefined,
-		lpaSiteSafety: true,
-		lpaSiteSafetyDetails: "oh it's bad",
-		lpaStatement: null,
-		lpaStatementDocuments: null,
-		nearbyAppealReference: '002',
-		nearbyAppeals: undefined,
-		'neighbouring-address': [
+const formattedHAS = [
+	expect.objectContaining({
+		casedata: {
+			caseReference: '001',
+			lpaQuestionnaireSubmittedDate: expect.any(String),
+			isCorrectAppealType: true,
+			affectedListedBuildingNumbers: ['1010101'],
+			inConservationArea: true,
+			isGreenBelt: true,
+			notificationMethod: [
+				'A public notice at the site',
+				'Letters to neighbours',
+				'Advert in the local press'
+			],
+			siteAccessDetails: null,
+			siteSafetyDetails: "oh it's bad",
+			neighbouringSiteAddresses: [
+				{
+					neighbouringSiteAddressLine1: 'Somewhere',
+					neighbouringSiteAddressLine2: 'Somewhere St',
+					neighbouringSiteAddressTown: 'Somewhereville',
+					neighbouringSiteAddressCounty: null,
+					neighbouringSiteAddressPostcode: 'SOM3 W3R',
+					neighbouringSiteAccessDetails: null,
+					neighbouringSiteSafetyDetails: null
+				}
+			],
+			nearbyCaseReferences: ['abc1234'],
+			newConditionDetails: 'I have new conditions',
+			lpaStatement: '',
+			lpaCostsAppliedFor: null
+		},
+		documents: [
 			{
-				county: null,
-				line1: 'Somewhere',
-				line2: 'Somewhere St',
-				postcode: 'SOM3 W3R',
-				town: 'Somewhereville'
+				dateCreated: '2024-03-01T13:48:35.847Z',
+				documentType: undefined,
+				documentURI: 'https://example.com',
+				filename: 'img.jpg',
+				lastModified: '2024-03-01T14:48:35.847Z',
+				mime: 'image/jpeg',
+				origin: 'citizen',
+				originalFilename: 'oimg.jpg',
+				size: 10293,
+				sourceSystem: 'appeals',
+				stage: 'lpa_questionnaire'
 			}
-		],
-		neighbouringSiteAccess: true,
-		neighbouringSiteAccessDetails: undefined,
-		newConditionDetails: 'I have new conditions',
-		newConditions: true,
-		notificationMethod: [
-			'A public notice at the site',
-			'Letters to neighbours',
-			'Advert in the local press'
-		],
-		otherPartyRepresentations: null
-	}
-};
+		]
+	})
+];
 
 const formattedS78 = {
 	LPACode: 'LPA_001',
