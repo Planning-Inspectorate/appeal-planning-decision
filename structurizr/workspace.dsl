@@ -47,6 +47,10 @@ workspace "Appeal service" {
 								tags "Microsoft Azure - SQL Database" "Database"
 							}
 
+							containerFoAzureSqlStorage = container "Azure SQL Database storage" "Log storage account for sql" "Azure Blob Storage" {
+								tags "Microsoft Azure - Storage Accounts"
+							}
+
 							containerFoAzureCosmos = container "Azure Cosmos Mongo Database" "Data store for appeals" "Azure Cosmos" {
 								tags "Microsoft Azure - Azure Cosmos DB" "Database"
 							}
@@ -74,10 +78,20 @@ workspace "Appeal service" {
 							tags "Microsoft Azure - App Services"
 						}
 
-						containerFunctionApp = container "integration-functions" "Consumes messages from Service Bus" "Function App, JavaScript" {
-							tags "Microsoft Azure - Function Apps", "FunctionApp"
+						containerFoAppInsights = container "App Insights" {
+							tags "Microsoft Azure - Application Insights"
 						}
-					}			
+
+						group "Appeal Front-Office Functions" {
+							containerFunctionApp = container "integration-functions" "Consumes messages from Service Bus" "Function App, JavaScript" {
+								tags "Microsoft Azure - Function Apps", "FunctionApp"
+							}
+
+							containerFunctionAppStorage = container "integration-functions storage" "function app storage account" "Azure Blob Storage" {
+								tags "Microsoft Azure - Storage Accounts"
+							}
+						}
+					}
 				}
 			}
 
@@ -144,88 +158,97 @@ workspace "Appeal service" {
 			}
 		}
 
-		# Relationships
+		# Relationships <identifier> -> <identifier> [description] [technology] [tags]
 
 		// Deployment
-		containerPipelines -> systemGithub "Retrieves code"
-		containerPipelines -> containerKeyVault "Retrieves secrets"
-		containerPipelines -> containerRegistry "Pushes new container versions to registry"
-		systemAppsFo -> containerRegistry "Apps pull latest container version"
-		containerInfraPipelines -> systemAppsFo "Terraform updates infra"
+		containerPipelines -> systemGithub "Retrieves code" "HTTPS"
+		containerPipelines -> containerKeyVault "Retrieves secrets" "HTTPS"
+		containerPipelines -> containerRegistry "Pushes new container versions to registry" "Docker"
+		systemAppsFo -> containerRegistry "Apps pull latest container version" "Docker"
+		containerInfraPipelines -> systemAppsFo "Terraform updates infra" "Terraform/AzureRM"
 
 		// users
-		userCaseOfficer -> containerBoWeb "Manages cases"
-		userInspector -> containerBoWeb "Decides cases"
+		userCaseOfficer -> containerBoWeb "Manages cases" "HTML/HTTPS"
+		userInspector -> containerBoWeb "Decides cases" "HTML/HTTPS"
 
-		userAppellant ->  containerFrontDoor "Registers appeals"
-		userLocalPlanningAuthority ->  containerFrontDoor "Responds to appeals"
-		userInterested -> containerFrontDoor "Comments on appeals"
-		userRule6 -> containerFrontDoor "Comments on appeals"
+		userAppellant ->  containerFrontDoor "Registers appeals" "HTML/HTTPS"
+		userLocalPlanningAuthority ->  containerFrontDoor "Responds to appeals" "HTML/HTTPS"
+		userInterested -> containerFrontDoor "Comments on appeals" "HTML/HTTPS"
+		userRule6 -> containerFrontDoor "Comments on appeals" "HTML/HTTPS"
 
-		// Networking
-		containerFrontDoor -> containerAppealsWAF "Check traffic with WAF"
-		containerFrontDoor -> containerFoWeb "Forward valid traffic to user facing website"
-		systemAppsFo -> systemAppsBo "Peered VNets"
+		// Networking (could we include more networking info by adding private-endpoints/dns-zones/vnets/nics as items?)
+		containerFrontDoor -> containerAppealsWAF "Checks traffic" "Azure WAF Policy"
+		containerFrontDoor -> containerFoWeb "Forwards traffic to domain onto App Service" "Azure Front Door, HTTPS"
+		systemAppsFo -> systemAppsBo "Peered VNets" "Azure Private endpoint, Azure Private DNS zones, Azure VNet"
 
 		// Forms Web App
-		containerFoWeb -> containerFoApi "gets/sets appeal data"
-		containerFoWeb -> containerFoDocsApi "gets/sets documents"
-		containerFoWeb -> containerFoAuthServer "gets auth tokens"
-		containerFoWeb -> containerFoPdfApi "creates pdfs"
-		containerFoWeb -> containerFoClamAV "Scans file uploads"
-		containerFoWeb -> containerFoAzureCosmos "stores user session data"
-		containerFoWeb -> containerKeyVault "retrieves secrets"
+		containerFoWeb -> containerFoApi "Gets/sets appeal data" "REST/HTTPS"
+		containerFoWeb -> containerFoDocsApi "Gets/sets documents" "REST/HTTPS"
+		containerFoWeb -> containerFoAuthServer "Gets auth tokens" "OAUTH2/HTTPS"
+		containerFoWeb -> containerFoPdfApi "Creates pdfs" "REST/HTTPS"
+		containerFoWeb -> containerFoClamAV "Scans file uploads" "CLAMAV"
+		containerFoWeb -> containerFoAzureCosmos "Stores user session data" "HTTPS"
+		containerFoWeb -> containerKeyVault "Retrieves secrets" "HTTPS"
 
 		// Appeals API
-		containerFoApi -> containerFoAzureSql "stores data"
-		containerFoApi -> containerFoAzureCosmos "stores data"
-		containerFoApi -> containerFoAuthServer "validates auth tokens"
-		containerFoApi -> componentCaseCmdTopic "informs back office of new appeals"
-		containerFoApi -> componentLpaqCmdTopic "informs back office of new lpaqs"
-		containerFoApi -> containerKeyVault "retrieves secrets"
+		containerFoApi -> containerFoAzureSql "Stores data" "SQL/HTTPS"
+		containerFoApi -> containerFoAzureCosmos "Stores data" "Azure Cosmos(Mongo API)/HTTPS"
+		containerFoApi -> containerFoAuthServer "Validates auth tokens" "OAUTH2/HTTPS"
+		containerFoApi -> componentCaseCmdTopic "Informs back office of new appeals" "Service Bus Topic" "ServiceBus"
+		containerFoApi -> componentLpaqCmdTopic "Informs back office of new lpaqs" "Service Bus Topic" "ServiceBus"
+		containerFoApi -> containerKeyVault "Retrieves secrets" "HTTPS"
 
 		// Docs API
-		containerFoDocsApi -> containerFoAzureSql "stores data"
-		containerFoDocsApi -> containerFoAzureCosmos "stores data"
-		containerFoDocsApi -> containerFoAuthServer "validates auth tokens"
-		containerFoDocsApi -> containerFoFileStorage "stores/retrieves documents"
-		containerFoDocsApi -> containerBoFileStorage "retrives BO docs"
-		containerFoDocsApi -> containerKeyVault "retrieves secrets"
-
+		containerFoDocsApi -> containerFoAzureSql "Stores data" "SQL/HTTPS"
+		containerFoDocsApi -> containerFoAzureCosmos "Stores data" "Mongo/HTTPS"
+		containerFoDocsApi -> containerFoAuthServer "Validates auth tokens" "OAUTH2/HTTPS"
+		containerFoDocsApi -> containerFoFileStorage "Stores/retrieves documents" "HTTPS"
+		containerFoDocsApi -> containerBoFileStorage "Retrives BO docs SAS URLs" "HTTPS"
+		containerFoDocsApi -> containerKeyVault "Retrieves secrets" "HTTPS"
 
 		// Notify
-		containerFoApi -> containerGovNotify "Sends emails"
-		containerFoAuthServer -> containerGovNotify "Sends emails"
-		containerBoWeb -> containerGovNotify "Sends emails"
-		containerGovNotify -> userLocalPlanningAuthority "Notifies the LPA"
-		containerGovNotify -> userAppellant "Notifies the appellant"
-		containerGovNotify -> userInterested "Notifies the interested party"
-		containerGovNotify -> userRule6 "Notifies the rule 6 interested party"
+		containerFoApi -> containerGovNotify "Requests emails to be sent" "REST/HTTPS"
+		containerFoAuthServer -> containerGovNotify "Requests emails to be sent" "REST/HTTPS"
+		containerBoWeb -> containerGovNotify "Requests emails to be sent" "REST/HTTPS"
+		containerGovNotify -> userLocalPlanningAuthority "Emails the LPA" "EMAIL/SMTP"
+		containerGovNotify -> userAppellant "Emails the appellant" "EMAIL/SMTP"
+		containerGovNotify -> userInterested "Emails the interested party" "EMAIL/SMTP"
+		containerGovNotify -> userRule6 "Emails the rule 6 interested party" "EMAIL/SMTP"
 
 		// clam av
-		containerFoClamAV -> systemClamAv "Gets latest definitions"
+		containerFoClamAV -> systemClamAv "Gets latest virus definitions"
 
 		// service bus
-		containerFoApi -> componentCaseCmdTopic "Records appellant submissions"
-		containerFoApi -> componentLpaqCmdTopic "Records LPA submissions"
+		containerFoApi -> componentCaseCmdTopic "Records appellant submissions" "Service Bus Topic" "ServiceBus"
+		containerFoApi -> componentLpaqCmdTopic "Records LPA submissions" "Service Bus Topic" "ServiceBus"
 
-		containerBoWeb -> componentCaseMessageTopic "Records changes to appeals"
-		containerBoWeb -> componentDocumentMessageTopic "Records changes to documents"
-		containerBoWeb -> componentServiceUserMessageTopic "Records changes to user information"
-		containerBoWeb -> componentEventMessageTopic "Records changes to site visits and other events"
+		containerBoWeb -> componentCaseMessageTopic "Records changes to appeals" "Service Bus Topic" "ServiceBus"
+		containerBoWeb -> componentDocumentMessageTopic "Records changes to documents" "Service Bus Topic" "ServiceBus"
+		containerBoWeb -> componentServiceUserMessageTopic "Records changes to user information" "Service Bus Topic" "ServiceBus"
+		containerBoWeb -> componentEventMessageTopic "Records changes to site visits and other events" "Service Bus Topic" "ServiceBus"
 
 		// Integration functions
-		containerFunctionApp -> componentCaseMessageTopic "Poll for new messages"
-		containerFunctionApp -> componentDocumentMessageTopic "Poll for new messages"
-		containerFunctionApp -> componentServiceUserMessageTopic "Poll for new messages"
-		containerFunctionApp -> componentEventMessageTopic "Poll for new messages"
-		containerFunctionApp -> containerFoApi "forward service bus messages to API"
+		containerFunctionApp -> componentCaseMessageTopic "Poll for new messages" "Service Bus Topic" "ServiceBus"
+		containerFunctionApp -> componentDocumentMessageTopic "Poll for new messages" "Service Bus Topic" "ServiceBus"
+		containerFunctionApp -> componentServiceUserMessageTopic "Poll for new messages" "Service Bus Topic" "ServiceBus"
+		containerFunctionApp -> componentEventMessageTopic "Poll for new messages" "Service Bus Topic" "ServiceBus"
+		containerFunctionApp -> containerFoApi "Forward service bus messages to API" "REST/HTTPS"
+		containerFunctionApp -> containerFunctionAppStorage "Stores files"
+		
+		// Logs
+		containerFoAzureSql -> containerFoAzureSqlStorage "Store sql audit logs/scans"
+		containerFunctionApp -> containerFoAppInsights "Store App Logs/Requests"
+		containerFoApi -> containerFoAppInsights "Store App Logs/Requests"
+		containerFoAuthServer -> containerFoAppInsights "Store App Logs/Requests"
+		containerFoDocsApi -> containerFoAppInsights "Store App Logs/Requests"
+		containerFoWeb -> containerFoAppInsights "Store App Logs/Requests"
+		containerFoPdfApi -> containerFoAppInsights "Store App Logs/Requests"
 
 		// legacy
-		userCaseOfficer -> systemLegacyBo "Manages cases"
-		userInspector -> systemLegacyBo "Decides cases"
-		containerFoApi -> systemLegacyIntegration "Scheduled job sends appeals to Horizon Wrapper"
-		systemLegacyIntegration -> systemLegacyBo "Forwards appeals to legacy back office"
+		userCaseOfficer -> systemLegacyBo "Manages cases" "HTML/HTTPS"
+		userInspector -> systemLegacyBo "Decides cases" "HTML/HTTPS"
+		containerFoApi -> systemLegacyIntegration "Scheduled job sends appeals to Horizon Wrapper" "JSON/HTTP"
+		systemLegacyIntegration -> systemLegacyBo "Forwards appeals to legacy back office" "SOAP/HTTP"
 	}
 
 	views {
@@ -248,7 +271,7 @@ workspace "Appeal service" {
 
 		container systemAppsFo "AppealsFOContainer" {
 			include *
-			exclude "element.tag==LegacySystem"
+			exclude "element.tag==LegacySystem" "element==systemSharedServices"
 			autoLayout tb
 			title "Appeals Front-Office Container"
 		}
@@ -336,6 +359,10 @@ workspace "Appeal service" {
 
 			element LegacySystem {
 				background #CCCCCC
+			}
+
+			relationship ServiceBus {
+				style dotted
 			}
 		}
 	}
