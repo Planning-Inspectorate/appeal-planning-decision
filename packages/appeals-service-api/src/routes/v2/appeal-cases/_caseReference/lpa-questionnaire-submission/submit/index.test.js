@@ -60,9 +60,7 @@ jest.mock('../service', () => ({
 							fieldName: 'affectedListedBuildingNumber',
 							reference: '1010101',
 							listedBuildingGrade: 'I',
-							name: 'very special building',
-							appellantSubmissionId: null,
-							fieldName: ''
+							name: 'very special building'
 						}
 					],
 					SubmissionDocumentUpload: [
