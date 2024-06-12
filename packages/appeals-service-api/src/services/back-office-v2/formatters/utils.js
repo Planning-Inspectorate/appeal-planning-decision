@@ -134,23 +134,21 @@ exports.formatApplicationSubmissionUsers = ({
 	const users = [
 		{
 			salutation: null,
-			firstName: appellantFirstName,
-			lastName: appellantLastName,
-			emailAddress: null,
-			serviceUserType: 'Appellant'
+			firstName: contactFirstName,
+			lastName: contactLastName,
+			emailAddress: email,
+			serviceUserType: isAppellant ? 'Appellant' : 'Agent'
 		}
 	];
 	if (!isAppellant) {
 		users.push({
 			salutation: null,
-			firstName: contactFirstName,
-			lastName: contactLastName,
+			firstName: appellantFirstName,
+			lastName: appellantLastName,
 			emailAddress: null,
 			serviceUserType: 'Agent'
 		});
 	}
-
-	users[Number(!isAppellant)].emailAddress = email;
 
 	return users;
 };
