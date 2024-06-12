@@ -112,14 +112,24 @@ workspace "Appeal service" {
 				}
 			}
 
-            systemGovUk = softwareSystem "GOV Notify" {
+			systemLegacyIntegration = softwareSystem "Legacy Horizon Wrapper" "Data exchange between FO and legacy back office" "Kong" {
+				tags "LegacySystem"
+			}
+
+			systemLegacyBo = softwareSystem "Horizon" "Legacy internal service to manage planning appeals in England" {
+				tags "LegacySystem"
+			}
+		}
+
+		group "External Systems" {
+			systemGovUk = softwareSystem "GOV Notify" {
 				tags = "ExternalSystem"
 
 				containerGovNotify = container "GOV Notify" "UK government messaging platform for sending emails, text and letters to users"
 			}
 
 			systemClamAv = softwareSystem "ClamAV" "External ClamAV defintions" {
-				tags = "ExternalSystem"				
+				tags = "ExternalSystem"
 			}
 
 			systemDevops = softwareSystem "Azure Devops" {
@@ -132,98 +142,90 @@ workspace "Appeal service" {
 			systemGithub = softwareSystem "Github" {
 				tags = "ExternalSystem"
 			}
+		}		
 
-            systemLegacyIntegration = softwareSystem "Legacy Horizon Wrapper" "Data exchange between FO and legacy back office" "Kong" {
-				tags "LegacySystem"
-			}
+		# Relationships
 
-            systemLegacyBo = softwareSystem "Horizon" "Legacy internal service to manage planning appeals in England" {
-				tags "LegacySystem"
-			}
+		// Deployment
+		containerPipelines -> systemGithub "Retrieves code"
+		containerPipelines -> containerKeyVault "Retrieves secrets"
+		containerPipelines -> containerRegistry "Pushes new container versions to registry"
+		systemAppsFo -> containerRegistry "Apps pull latest container version"
+		containerInfraPipelines -> systemAppsFo "Terraform updates infra"
 
-			# Relationships
+		// users
+		userCaseOfficer -> containerBoWeb "Manages cases"
+		userInspector -> containerBoWeb "Decides cases"
 
-			// Deployment
-			containerPipelines -> systemGithub "Retrieves code"
-			containerPipelines -> containerKeyVault "Retrieves secrets"
-			containerPipelines -> containerRegistry "Pushes new container versions to registry"
-			systemAppsFo -> containerRegistry "Apps pull latest container version"
-			containerInfraPipelines -> systemAppsFo "Terraform updates infra"
+		userAppellant ->  containerFrontDoor "Registers appeals"
+		userLocalPlanningAuthority ->  containerFrontDoor "Responds to appeals"
+		userInterested -> containerFrontDoor "Comments on appeals"
+		userRule6 -> containerFrontDoor "Comments on appeals"
 
-			// users
-			userCaseOfficer -> containerBoWeb "Manages cases"
-			userInspector -> containerBoWeb "Decides cases"
+		// Networking
+		containerFrontDoor -> containerAppealsWAF "Check traffic with WAF"
+		containerFrontDoor -> containerFoWeb "Forward valid traffic to user facing website"
+		systemAppsFo -> systemAppsBo "Peered VNets"
 
-			userAppellant ->  containerFrontDoor "Registers appeals"
-            userLocalPlanningAuthority ->  containerFrontDoor "Responds to appeals"
-            userInterested -> containerFrontDoor "Comments on appeals"
-            userRule6 -> containerFrontDoor "Comments on appeals"
+		// Forms Web App
+		containerFoWeb -> containerFoApi "gets/sets appeal data"
+		containerFoWeb -> containerFoDocsApi "gets/sets documents"
+		containerFoWeb -> containerFoAuthServer "gets auth tokens"
+		containerFoWeb -> containerFoPdfApi "creates pdfs"
+		containerFoWeb -> containerFoClamAV "Scans file uploads"
+		containerFoWeb -> containerFoAzureCosmos "stores user session data"
+		containerFoWeb -> containerKeyVault "retrieves secrets"
+		
+		// Appeals API
+		containerFoApi -> containerFoAzureSql "stores data"
+		containerFoApi -> containerFoAzureCosmos "stores data"
+		containerFoApi -> containerFoAuthServer "validates auth tokens"
+		containerFoApi -> componentCaseCmdTopic "informs back office of new appeals"
+		containerFoApi -> componentLpaqCmdTopic "informs back office of new lpaqs"
+		containerFoApi -> containerKeyVault "retrieves secrets"
 
-			// Networking
-			containerFrontDoor -> containerAppealsWAF "Check traffic with WAF"
-			containerFrontDoor -> containerFoWeb "Forward valid traffic to user facing website"
-			systemAppsFo -> systemAppsBo "Peered VNets"
-
-			// Forms Web App
-            containerFoWeb -> containerFoApi "gets/sets appeal data"
-            containerFoWeb -> containerFoDocsApi "gets/sets documents"
-            containerFoWeb -> containerFoAuthServer "gets auth tokens"
-            containerFoWeb -> containerFoPdfApi "creates pdfs"
-			containerFoWeb -> containerFoClamAV "Scans file uploads"
-            containerFoWeb -> containerFoAzureCosmos "stores user session data"
-			containerFoWeb -> containerKeyVault "retrieves secrets"
-            
-			// Appeals API
-            containerFoApi -> containerFoAzureSql "stores data"
-            containerFoApi -> containerFoAzureCosmos "stores data"
-            containerFoApi -> containerFoAuthServer "validates auth tokens"
-            containerFoApi -> componentCaseCmdTopic "informs back office of new appeals"
-            containerFoApi -> componentLpaqCmdTopic "informs back office of new lpaqs"
-			containerFoApi -> containerKeyVault "retrieves secrets"
-
-			// Docs API
-            containerFoDocsApi -> containerFoAzureSql "stores data"
-            containerFoDocsApi -> containerFoAzureCosmos "stores data"
-            containerFoDocsApi -> containerFoAuthServer "validates auth tokens"
-            containerFoDocsApi -> containerFoFileStorage "stores/retrieves documents"
-            containerFoDocsApi -> containerBoFileStorage "retrives BO docs"
-			containerFoDocsApi -> containerKeyVault "retrieves secrets"
+		// Docs API
+		containerFoDocsApi -> containerFoAzureSql "stores data"
+		containerFoDocsApi -> containerFoAzureCosmos "stores data"
+		containerFoDocsApi -> containerFoAuthServer "validates auth tokens"
+		containerFoDocsApi -> containerFoFileStorage "stores/retrieves documents"
+		containerFoDocsApi -> containerBoFileStorage "retrives BO docs"
+		containerFoDocsApi -> containerKeyVault "retrieves secrets"
 
 
-			// Notify
-            containerFoApi -> containerGovNotify "Sends emails"
-            containerFoAuthServer -> containerGovNotify "Sends emails"
-			containerBoWeb -> containerGovNotify "Sends emails"
-			containerGovNotify -> userLocalPlanningAuthority "Notifies the LPA"
-			containerGovNotify -> userAppellant "Notifies the appellant"
-			containerGovNotify -> userInterested "Notifies the interested party"
-			containerGovNotify -> userRule6 "Notifies the rule 6 interested party"
+		// Notify
+		containerFoApi -> containerGovNotify "Sends emails"
+		containerFoAuthServer -> containerGovNotify "Sends emails"
+		containerBoWeb -> containerGovNotify "Sends emails"
+		containerGovNotify -> userLocalPlanningAuthority "Notifies the LPA"
+		containerGovNotify -> userAppellant "Notifies the appellant"
+		containerGovNotify -> userInterested "Notifies the interested party"
+		containerGovNotify -> userRule6 "Notifies the rule 6 interested party"
 
-			// clam av
-			containerFoClamAV -> systemClamAv "Gets latest definitions"
+		// clam av
+		containerFoClamAV -> systemClamAv "Gets latest definitions"
 
-			// service bus
-            containerFoApi -> componentCaseCmdTopic "Records appellant submissions"
-			containerFoApi -> componentLpaqCmdTopic "Records LPA submissions"
+		// service bus
+		containerFoApi -> componentCaseCmdTopic "Records appellant submissions"
+		containerFoApi -> componentLpaqCmdTopic "Records LPA submissions"
 
-			containerBoWeb -> componentCaseMessageTopic "Records changes to appeals"
-			containerBoWeb -> componentDocumentMessageTopic "Records changes to documents"
-			containerBoWeb -> componentServiceUserMessageTopic "Records changes to user information"
-			containerBoWeb -> componentEventMessageTopic "Records changes to site visits and other events"
+		containerBoWeb -> componentCaseMessageTopic "Records changes to appeals"
+		containerBoWeb -> componentDocumentMessageTopic "Records changes to documents"
+		containerBoWeb -> componentServiceUserMessageTopic "Records changes to user information"
+		containerBoWeb -> componentEventMessageTopic "Records changes to site visits and other events"
 
-			// Integration functions
-			containerFunctionApp -> componentCaseMessageTopic "Poll for new messages"
-			containerFunctionApp -> componentDocumentMessageTopic "Poll for new messages"
-			containerFunctionApp -> componentServiceUserMessageTopic "Poll for new messages"
-			containerFunctionApp -> componentEventMessageTopic "Poll for new messages"
-			containerFunctionApp -> containerFoApi "forward service bus messages to API"
+		// Integration functions
+		containerFunctionApp -> componentCaseMessageTopic "Poll for new messages"
+		containerFunctionApp -> componentDocumentMessageTopic "Poll for new messages"
+		containerFunctionApp -> componentServiceUserMessageTopic "Poll for new messages"
+		containerFunctionApp -> componentEventMessageTopic "Poll for new messages"
+		containerFunctionApp -> containerFoApi "forward service bus messages to API"
 
-            // legacy
-            userCaseOfficer -> systemLegacyBo "Manages cases"
-			userInspector -> systemLegacyBo "Decides cases"
-            containerFoApi -> systemLegacyIntegration "Scheduled job sends appeals to Horizon Wrapper"
-            systemLegacyIntegration -> systemLegacyBo "Forwards appeals to legacy back office"
-		}
+		// legacy
+		userCaseOfficer -> systemLegacyBo "Manages cases"
+		userInspector -> systemLegacyBo "Decides cases"
+		containerFoApi -> systemLegacyIntegration "Scheduled job sends appeals to Horizon Wrapper"
+		systemLegacyIntegration -> systemLegacyBo "Forwards appeals to legacy back office"
 	}
 
 	views {
