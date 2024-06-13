@@ -247,7 +247,7 @@ const buildAppellantSubmissionUrl = (appellantSubmissionJourney) => {
 	const urlPart =
 		typeCodeToAppealUrlStub[appellantSubmissionJourney.response.answers.appealTypeCode] ||
 		appealTypeUrlMapping[APPEAL_ID.HOUSEHOLDER];
-	return `${config.server.host}/appeals/${urlPart}/submit/information/${appellantSubmissionJourney.response.journeyId}`;
+	return `${config.server.host}/appeals/${urlPart}/submit/information?id=${appellantSubmissionJourney.response.referenceId}`;
 };
 
 module.exports = {
