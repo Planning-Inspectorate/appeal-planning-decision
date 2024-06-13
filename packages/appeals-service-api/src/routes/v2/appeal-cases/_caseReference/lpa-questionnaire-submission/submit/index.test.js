@@ -185,7 +185,7 @@ const formattedHAS = [
 				'Advert in the local press'
 			],
 			siteAccessDetails: null,
-			siteSafetyDetails: "oh it's bad",
+			siteSafetyDetails: ["oh it's bad"],
 			neighbouringSiteAddresses: [
 				{
 					neighbouringSiteAddressLine1: 'Somewhere',
@@ -275,6 +275,12 @@ const formattedHAS = [
 // };
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
+	beforeAll(async () => {
+		// Give the schemas a moment to load from disk
+		await new Promise((res) => {
+			setTimeout(res, 50);
+		});
+	});
 	it.each([
 		['HAS', '001', formattedHAS]
 		// ['S78', '002', formattedS78]

@@ -39,7 +39,7 @@ const documentTypeMap = {
 	[documentTypes.uploadOriginalApplicationForm.name]: 'originalApplicationForm',
 	[documentTypes.whoWasNotified.name]: 'whoNotified',
 	[documentTypes.conservationAreaMap.name]: 'conservationMap',
-	[documentTypes.officersReport.name]: 'planningOfficerReport'
+	[documentTypes.planningOfficersReportUpload.name]: 'planningOfficerReport'
 };
 
 const getBlobMeta = blobMetaGetter(initContainerClient);
