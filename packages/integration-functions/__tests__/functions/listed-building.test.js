@@ -1,4 +1,4 @@
-const handler = require('./listed-building');
+const handler = require('../../src/functions/listed-building');
 const { InvocationContext } = require('@azure/functions');
 const got = require('got');
 

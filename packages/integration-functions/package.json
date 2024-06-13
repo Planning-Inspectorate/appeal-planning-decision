@@ -7,6 +7,7 @@
 		"npm": ">=9.0.0 <11.0.0"
 	},
 	"description": "Appeals front office integration functions",
+	"main": "src/functions/*.js",
 	"scripts": {
 		"lint": "eslint ./",
 		"start": "func start",
@@ -15,7 +16,6 @@
 		"test:watch": "jest --watchAll --runInBand"
 	},
 	"devDependencies": {
-		"@azure/functions": "^4.1.0",
 		"eslint": "^8.17.0",
 		"eslint-config-prettier": "^8.5.0",
 		"eslint-plugin-jest": "^24.4.0",
@@ -23,6 +23,7 @@
 		"jest-junit": "^13.2.0"
 	},
 	"dependencies": {
+		"@azure/functions": "^4.5.0",
 		"@azure/identity": "^4.0.1",
 		"@azure/service-bus": "^7.9.1",
 		"@azure/storage-blob": "^12.17.0",

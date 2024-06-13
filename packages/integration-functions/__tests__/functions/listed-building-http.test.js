@@ -1,15 +1,15 @@
 const stream = require('stream');
 
-const { downloadBlob } = require('../common/azure-storage/blobs');
-const { sendMessageBatch } = require('../common/azure-service-bus/service-bus');
-const config = require('../common/config');
+const { downloadBlob } = require('../../src/common/azure-storage/blobs');
+const { sendMessageBatch } = require('../../src/common/azure-service-bus/service-bus');
+const config = require('../../src/common/config');
 
 const { InvocationContext } = require('@azure/functions');
-const handler = require('./listed-building-http');
+const handler = require('../../src/functions/listed-building-http');
 
-jest.mock('../common/azure-storage/blobs');
-jest.mock('../common/azure-service-bus/service-bus');
-jest.mock('../common/config');
+jest.mock('../../src/common/azure-storage/blobs');
+jest.mock('../../src/common/azure-service-bus/service-bus');
+jest.mock('../../src/common/config');
 
 function renameArrayProp(array, prop, propRename) {
 	return array.map((obj) => {

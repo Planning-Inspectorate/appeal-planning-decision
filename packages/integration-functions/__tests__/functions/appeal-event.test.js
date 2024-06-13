@@ -1,5 +1,5 @@
 const { InvocationContext } = require('@azure/functions');
-const handler = require('./appeal-event');
+const handler = require('../../src/functions/appeal-event');
 
 describe('appeal-event', () => {
 	it('logs the message', async () => {
