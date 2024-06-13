@@ -18,6 +18,12 @@ const oidc = {
 				redirects: config.oidc.clients.formsWebApp.redirectUris
 			}),
 			buildClient({
+				name: 'INTEGRATION_FUNCTIONS',
+				id: config.oidc.clients.functions.clientId,
+				secret: config.oidc.clients.functions.clientSecret,
+				redirects: config.oidc.clients.functions.redirectUris
+			}),
+			buildClient({
 				name: 'WEB_COMMENT',
 				id: config.oidc.clients.webComment.clientId,
 				secret: config.oidc.clients.webComment.clientSecret,
