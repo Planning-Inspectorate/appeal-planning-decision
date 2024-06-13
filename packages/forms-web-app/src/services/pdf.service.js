@@ -1,7 +1,7 @@
 const {
 	constants: { APPEAL_ID }
 } = require('@pins/business-rules');
-const fetch = require('node-fetch');
+const { default: fetch } = require('node-fetch');
 const uuid = require('uuid');
 const { documentTypes } = require('@pins/common');
 const config = require('../config');
