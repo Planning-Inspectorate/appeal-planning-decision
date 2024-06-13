@@ -29,6 +29,11 @@ export default joi
 					clientSecret: joi.string(),
 					redirectUris: joi.array().items(joi.string())
 				}),
+				functions: joi.object({
+					clientId: joi.string().uuid(),
+					clientSecret: joi.string(),
+					redirectUris: joi.array().items(joi.string())
+				}),
 				webComment: joi.object({
 					clientId: joi.string().uuid(),
 					clientSecret: joi.string(),
