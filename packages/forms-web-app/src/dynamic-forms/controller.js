@@ -39,10 +39,10 @@ const { CONSTS } = require('../../src/consts');
 /**
  * build a view model for a section in the journey overview
  * @param {string} name
- * @param {string} status
+ * @param {string} [status]
  * @returns {SectionView} a representation of a section
  */
-function buildSectionViewModel(name, status) {
+function buildSectionViewModel(name, status = '') {
 	return {
 		heading: name,
 		status: status,
@@ -327,7 +327,7 @@ exports.appellantSubmissionInformation = async (req, res) => {
 	};
 
 	for (const section of journey.sections) {
-		const sectionView = buildSectionViewModel(section.name, 'information');
+		const sectionView = buildSectionViewModel(section.name);
 
 		// add questions
 		for (const question of section.questions) {
