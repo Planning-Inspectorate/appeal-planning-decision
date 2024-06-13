@@ -9,8 +9,6 @@ const {
 const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 
-/** @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand */
-
 /**
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
