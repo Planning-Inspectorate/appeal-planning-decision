@@ -1,7 +1,7 @@
 const { InvocationContext } = require('@azure/functions');
-const handler = require('./appeal-has');
+const handler = require('../../src/functions/appeal-has');
 const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
-const config = require('../common/config');
+const config = require('../../src/common/config');
 
 const mockPutAppealCase = jest.fn();
 

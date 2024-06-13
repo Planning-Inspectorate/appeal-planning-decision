@@ -1,5 +1,5 @@
 const { InvocationContext } = require('@azure/functions');
-const handler = require('./appeal-document');
+const handler = require('../../src/functions/appeal-document');
 const got = require('got');
 jest.mock('got');
 
