@@ -9,6 +9,7 @@ exports.post = async (req, res) => {
 	try {
 		await backOfficeV2Service.submitQuestionnaire(req.params.caseReference);
 	} catch (err) {
+		console.log('🚀 ~ exports.post= ~ err:', err);
 		logger.error(err);
 		throw ApiError.unableToSubmitResponse();
 	}
