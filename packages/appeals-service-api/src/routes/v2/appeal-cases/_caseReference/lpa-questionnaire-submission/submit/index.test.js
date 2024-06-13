@@ -278,7 +278,7 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	beforeAll(async () => {
 		// Give the schemas a moment to load from disk
 		await new Promise((res) => {
-			setTimeout(res, 50);
+			setTimeout(res, 1000);
 		});
 	});
 	it.each([
