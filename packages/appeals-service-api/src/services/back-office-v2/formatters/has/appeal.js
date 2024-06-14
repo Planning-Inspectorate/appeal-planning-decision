@@ -4,7 +4,8 @@ const ApiError = require('../../../../errors/apiError');
 const {
 	getDocuments,
 	formatApplicationSubmissionUsers,
-	formatApplicationDecision
+	formatApplicationDecision,
+	formatYesNoSomeAnswer
 } = require('../utils');
 const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
@@ -84,8 +85,8 @@ exports.formatter = async (appellantSubmission) => {
 			floorSpaceSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) ?? null,
 			ownsAllLand: appellantSubmission.ownsAllLand ?? null,
 			ownsSomeLand: appellantSubmission.ownsSomeLand ?? null,
-			knowsOtherOwners: appellantSubmission.knowsOtherOwners ?? null,
-			knowsAllOwners: appellantSubmission.knowsAllOwners ?? null,
+			knowsOtherOwners: formatYesNoSomeAnswer(appellantSubmission.knowsOtherOwners),
+			knowsAllOwners: formatYesNoSomeAnswer(appellantSubmission.knowsAllOwners),
 			advertisedAppeal: appellantSubmission.advertisedAppeal ?? null,
 			ownersInformed: appellantSubmission.informedOwners ?? null,
 			originalDevelopmentDescription: appellantSubmission.developmentDescriptionOriginal ?? null,

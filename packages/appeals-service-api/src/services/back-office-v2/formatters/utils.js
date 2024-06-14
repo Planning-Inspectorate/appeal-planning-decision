@@ -165,3 +165,15 @@ const dataModelApplicationDecisions = {
 exports.formatApplicationDecision = (applicationDecision) =>
 	dataModelApplicationDecisions[applicationDecision] ??
 	dataModelApplicationDecisions[APPLICATION_DECISION.NODECISIONRECEIVED];
+
+const yesNoSomeMap = {
+	yes: 'Yes',
+	no: 'No',
+	some: 'Some'
+};
+
+/**
+ * @param {string} answer
+ * @returns
+ */
+exports.formatYesNoSomeAnswer = (answer) => yesNoSomeMap[answer] ?? null;
