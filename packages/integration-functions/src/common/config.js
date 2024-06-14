@@ -18,5 +18,10 @@ module.exports = {
 	API: {
 		HOSTNAME: process.env.FO_APPEALS_API_HOSTNAME,
 		TIMEOUT: parseInt(process.env.FO_APPEALS_API || '10000')
+	},
+	oauth: {
+		baseUrl: process.env.AUTH_BASE_URL,
+		clientID: process.env.CLIENT_ID,
+		clientSecret: process.env.CLIENT_SECRET
 	}
 };

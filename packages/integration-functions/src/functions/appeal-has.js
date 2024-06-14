@@ -6,7 +6,7 @@
 
 const { app } = require('@azure/functions');
 const config = require('../common/config');
-const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
+const createApiClient = require('../common/api-client');
 
 /**
  * @type {import('@azure/functions').ServiceBusTopicHandler}
@@ -22,7 +22,7 @@ const handler = async (message, context) => {
 		throw new Error('process.env.FO_APPEALS_API_HOSTNAME not set');
 	}
 
-	const client = new AppealsApiClient(config.API.HOSTNAME, undefined, config.API.TIMEOUT);
+	const client = await createApiClient();
 	await client.putAppealCase(message); // API will validate the message and throw if there is an error
 
 	return {};
