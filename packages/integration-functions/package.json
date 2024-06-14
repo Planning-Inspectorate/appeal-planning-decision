@@ -24,7 +24,7 @@
 	},
 	"dependencies": {
 		"@azure/functions": "^4.5.0",
-		"@azure/identity": "^4.0.1",
+		"@azure/identity": "^4.2.1",
 		"@azure/service-bus": "^7.9.1",
 		"@azure/storage-blob": "^12.17.0",
 		"@pins/common": "file:../common",
