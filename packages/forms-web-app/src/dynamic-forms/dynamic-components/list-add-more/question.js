@@ -32,6 +32,7 @@ class ListAddMoreQuestion extends Question {
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {string} [params.subQuestionLabel]
+	 * @param {string} [params.subQuestionTitle] the text used as the key for display on task list
 	 * @param {string} [params.subQuestionFieldLabel]
 	 * @param {string} [params.subQuestionInputClasses]
 	 * @param {string} [params.width]
@@ -46,6 +47,7 @@ class ListAddMoreQuestion extends Question {
 		pageTitle,
 		description,
 		subQuestionLabel,
+		subQuestionTitle,
 		subQuestionFieldLabel,
 		subQuestionInputClasses,
 		validators,
@@ -68,6 +70,7 @@ class ListAddMoreQuestion extends Question {
 
 		this.subQuestion = subQuestion;
 		this.subQuestionLabel = subQuestionLabel ?? 'Answer';
+		this.subQuestionTitle = subQuestionTitle;
 		this.subQuestionFieldLabel = subQuestionFieldLabel;
 		this.subQuestionInputClasses = subQuestionInputClasses;
 		this.width = width ?? ListAddMoreQuestion.TWO_THIRDS_WIDTH;
@@ -142,8 +145,9 @@ class ListAddMoreQuestion extends Question {
 		for (let i = 0; i < answerArray?.length; i++) {
 			const answer = answerArray[i];
 			const action = this.getAction(sectionSegment, journey);
+			const key = this.subQuestionTitle ?? this.subQuestionLabel;
 			rowParams.push({
-				key: `${this.subQuestionLabel} ${i + 1}`,
+				key,
 				value: this.subQuestion.format(answer),
 				action: action
 			});

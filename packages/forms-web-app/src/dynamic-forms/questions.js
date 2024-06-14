@@ -655,7 +655,7 @@ exports.questions = {
 		documentType: documentTypes.emergingPlanUpload
 	}),
 	uploadDevelopmentPlanPolicies: new MultiFileUploadQuestion({
-		title: 'Upload policies from statutory development plan',
+		title: 'Policies from statutory development plan',
 		question: 'Upload relevant policies from your statutory development plan',
 		// fieldName: 'upload-development-plan-policies',
 		fieldName: 'uploadDevelopmentPlanPolicies',
@@ -1258,7 +1258,7 @@ exports.questions = {
 		]
 	}),
 	tellingLandowners: new BooleanQuestion({
-		title: 'Telling the landowners',
+		title: 'Have the landowners been told about the appeal?',
 		question: 'Telling the landowners',
 		type: 'checkbox',
 		html: 'resources/land-ownership/telling-landowners.html',
@@ -1278,7 +1278,7 @@ exports.questions = {
 		]
 	}),
 	identifyingLandowners: new BooleanQuestion({
-		title: 'Identifying the landowners?',
+		title: 'Have you attempted to identify the landowners?',
 		question: 'Identifying the landowners',
 		type: 'checkbox',
 		html: 'resources/land-ownership/identifying-landowners.html',
@@ -1297,7 +1297,7 @@ exports.questions = {
 		]
 	}),
 	advertisingAppeal: new BooleanQuestion({
-		title: 'Advertising your appeal',
+		title: 'Have you advertised the appeal?',
 		question: 'Advertising your appeal',
 		type: 'checkbox',
 		html: 'resources/land-ownership/advertised-appeal.html',
@@ -1356,7 +1356,7 @@ exports.questions = {
 		]
 	}),
 	healthAndSafety: new RadioQuestion({
-		title: 'Health and safety issues',
+		title: 'Are there any health and safety issues on the appeal site?',
 		question: 'Health and safety issues',
 		html: 'resources/health-and-safety/content.html',
 		fieldName: 'appellantSiteSafety',
@@ -1394,7 +1394,7 @@ exports.questions = {
 		]
 	}),
 	uploadOriginalApplicationForm: new MultiFileUploadQuestion({
-		title: 'Upload your application form',
+		title: 'Application form',
 		question: 'Upload your application form',
 		description:
 			'Upload the application form that you sent to the local planning authority, including the date. Do not upload a draft application.\nIf you do not have your application form, you can search for it on the local planning authority’s website.',
@@ -1407,7 +1407,7 @@ exports.questions = {
 		documentType: documentTypes.uploadOriginalApplicationForm
 	}),
 	uploadApplicationDecisionLetter: new MultiFileUploadQuestion({
-		title: 'Upload the decision letter from the local planning authority',
+		title: 'Decision letter',
 		question: 'Upload the decision letter from the local planning authority',
 		description: `This letter tells you about the decision on your application. \n\nWe need the letter from the local planning authority that tells you their decision on your application (also called a ‘decision notice’).\n\nDo not upload the planning officer’s report.`,
 		fieldName: 'uploadApplicationDecisionLetter',
@@ -1419,7 +1419,7 @@ exports.questions = {
 		documentType: documentTypes.uploadApplicationDecisionLetter
 	}),
 	uploadChangeOfDescriptionEvidence: new MultiFileUploadQuestion({
-		title: 'Upload evidence of your agreement to change the description of development',
+		title: 'Agreement to change the description of development',
 		question: 'Upload evidence of your agreement to change the description of development',
 		description:
 			'For example, an email or letter from the local planning authority that confirms they have changed the description of development.',
@@ -1503,7 +1503,7 @@ exports.questions = {
 		]
 	}),
 	uploadAppellantStatement: new MultiFileUploadQuestion({
-		title: 'Upload your appeal statement',
+		title: 'Appeal statement',
 		question: 'Upload your appeal statement',
 		html: 'resources/upload-appeal-statement/content.html',
 		fieldName: 'uploadAppellantStatement',
@@ -1534,7 +1534,7 @@ exports.questions = {
 		]
 	}),
 	uploadCostApplication: new MultiFileUploadQuestion({
-		title: 'Upload your application for an award of appeal costs',
+		title: 'Application for an award of appeal costs',
 		question: 'Upload your application for an award of appeal costs',
 		fieldName: 'uploadCostApplication',
 		url: 'upload-appeal-costs-application',
@@ -1561,6 +1561,7 @@ exports.questions = {
 		fieldName: 'appellantLinkedCaseAdd',
 		url: 'enter-appeal-reference',
 		subQuestionLabel: 'Other appeal',
+		subQuestionTitle: 'Enter the appeal reference number',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		validators: [new RequiredValidator('Select yes if you want to add another linked appeal')],
 		subQuestion: new CaseAddMoreQuestion({
