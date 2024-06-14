@@ -5,7 +5,7 @@
  * used throughout the application
  */
 
-const pino = require('pino');
+const { pino } = require('pino');
 const config = require('../configuration/config');
 
 module.exports = pino({

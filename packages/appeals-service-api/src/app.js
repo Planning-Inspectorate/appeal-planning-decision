@@ -1,5 +1,5 @@
 const express = require('express');
-const pinoExpress = require('express-pino-logger');
+const { pinoHttp } = require('pino-http');
 const compression = require('compression');
 const bodyParser = require('body-parser');
 const uuid = require('uuid');
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app
 	.use(
-		pinoExpress({
+		pinoHttp({
 			logger,
 			genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4()
 		})

@@ -29,10 +29,10 @@
 		"@prisma/client": "^5.6.0",
 		"applicationinsights": "^2.9.0",
 		"express": "^4.19.2",
-		"express-pino-logger": "^5.0.0",
 		"joi": "^17.10.2",
 		"oidc-provider": "^8.4.5",
-		"pino": "^6.14.0"
+		"pino": "^9.2.0",
+		"pino-http": "^10.1.0"
 	},
 	"devDependencies": {
 		"cross-env": "^7.0.3",
@@ -42,7 +42,7 @@
 		"jest": "^29.4.0",
 		"jest-junit": "^13.2.0",
 		"jose": "^5.2.2",
-		"pino-pretty": "^4.8.0",
+		"pino-pretty": "^11.2.1",
 		"supertest": "^6.2.2",
 		"testcontainers": "^9.8.0"
 	},
