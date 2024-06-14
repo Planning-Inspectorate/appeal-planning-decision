@@ -5,7 +5,7 @@ const containers = [];
 
 async function startSql() {
 	const container = await new GenericContainer('mcr.microsoft.com/azure-sql-edge:latest')
-		.withName('appeals-mssql-integration-tests')
+		.withName('appeals-mssql-integration-tests-auth')
 		.withExposedPorts(1433)
 		.withAddedCapabilities('SYS_PTRACE')
 		.withUser('root')
