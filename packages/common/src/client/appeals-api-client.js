@@ -22,7 +22,7 @@ const trailingSlashRegex = /\/$/;
  */
 
 /**
- * @typedef {{access_token: string|undefined, id_token: string|undefined, client_creds: string|undefined}} AuthTokens
+ * @typedef {{access_token: string|undefined|null, id_token: string|undefined|null, client_creds: string|undefined|null}} AuthTokens
  */
 
 /**

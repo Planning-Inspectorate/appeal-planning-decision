@@ -1,17 +1,21 @@
 const { InvocationContext } = require('@azure/functions');
 const handler = require('../../src/functions/appeal-has');
-const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
+const createApiClient = require('../../src/common/api-client');
 const config = require('../../src/common/config');
 
-const mockPutAppealCase = jest.fn();
+jest.mock('../../src/common/api-client');
 
 describe('appeal-has', () => {
 	const ctx = new InvocationContext({ functionName: 'appeal-has' });
 	ctx.log = jest.fn();
+	const mockClient = {
+		putAppealCase: jest.fn()
+	};
 
 	beforeEach(async () => {
 		jest.clearAllMocks();
-		jest.spyOn(AppealsApiClient.prototype, 'putAppealCase').mockImplementation(mockPutAppealCase);
+
+		createApiClient.mockResolvedValue(mockClient);
 		config.API = {
 			HOSTNAME: 'test'
 		};
@@ -24,7 +28,7 @@ describe('appeal-has', () => {
 
 		const result = await handler(testData, ctx);
 
-		expect(AppealsApiClient.prototype.putAppealCase).toHaveBeenCalledWith(testData);
+		expect(mockClient.putAppealCase).toHaveBeenCalledWith(testData);
 		expect(result).toEqual({});
 	});
 
@@ -32,6 +36,6 @@ describe('appeal-has', () => {
 		await expect(async () => handler({ body: {} }, ctx)).rejects.toThrowError(
 			'invalid message, caseReference is required'
 		);
-		expect(AppealsApiClient.prototype.putAppealCase).not.toHaveBeenCalled();
+		expect(mockClient.putAppealCase).not.toHaveBeenCalled();
 	});
 });

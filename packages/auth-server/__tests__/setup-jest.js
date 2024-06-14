@@ -26,6 +26,10 @@ process.env.FORMS_WEB_APP_CLIENT_ID = '4dbd45cb-f591-414f-a6d9-34f1103b63fd';
 process.env.FORMS_WEB_APP_CLIENT_SECRET = 'forms-web-app-local-secret';
 process.env.FORMS_WEB_APP_REDIRECT_URI = 'http://localhost:9003/oidc';
 
+process.env.FUNCTIONS_CLIENT_ID = '2f20d0bb-2f07-4797-9a4d-34b11b8f9936';
+process.env.FUNCTIONS_CLIENT_SECRET = 'functions-local-secret';
+process.env.FUNCTIONS_REDIRECT_URI = 'http://localhost:9999/oidc';
+
 process.env.WEB_COMMENT_CLIENT_ID = '64d173bc-c38e-45bc-b36b-3f85251e52a0';
 process.env.WEB_COMMENT_CLIENT_SECRET = 'web-comment-local-secret';
 process.env.WEB_COMMENT_REDIRECT_URI = 'http://localhost:9002/oidc';
