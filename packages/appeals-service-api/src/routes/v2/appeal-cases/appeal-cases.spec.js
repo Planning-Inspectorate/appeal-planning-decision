@@ -15,6 +15,25 @@ let appealsApi;
 
 jest.mock('../../../configuration/featureFlag');
 jest.mock('../../../../src/services/object-store');
+jest.mock('express-oauth2-jwt-bearer', () => {
+	let currentSub = 'abc';
+
+	return {
+		auth: jest.fn(() => {
+			return (req, _res, next) => {
+				req.auth = {
+					payload: {
+						sub: currentSub
+					}
+				};
+				next();
+			};
+		}),
+		setCurrentSub: (newSub) => {
+			currentSub = newSub;
+		}
+	};
+});
 
 blobMetaGetter;
 
