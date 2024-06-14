@@ -60,7 +60,7 @@ STDOut so they can be picked up when deployed by the Kubernetes pod(s). It
 is important to use the log levels (trace, debug, info, warn, error, fatal)
 appropriately so that filtering can be done during production.
 
-Also installed is `express-pino-logger` which add `req.log` to the incoming
+Also installed is `pino-http` which add `req.log` to the incoming
 HTTP request. This automatically logs incoming HTTP requests and apply a unique
 correlation ID to make tracing errors through easier. For the most part, this
 should be the instance used for logging.

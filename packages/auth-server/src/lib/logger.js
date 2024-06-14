@@ -12,5 +12,12 @@ import config from '../configuration/config.js';
 export default pino({
 	level: config.logger.level,
 	redact: config.logger.redact,
-	prettyPrint: config.logger.prettyPrint
+	transport: config.logger.prettyPrint
+		? {
+				target: 'pino-pretty',
+				options: {
+					colorize: true
+				}
+		  }
+		: undefined
 });

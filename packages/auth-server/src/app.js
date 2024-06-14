@@ -1,5 +1,5 @@
 import express from 'express';
-import pinoExpress from 'express-pino-logger';
+import pinoHttp from 'pino-http';
 import crypto from 'crypto';
 import OIDC from 'oidc-provider';
 
@@ -29,7 +29,7 @@ const noContentHandler = (req, res) => {
 
 app
 	.use(
-		pinoExpress({
+		pinoHttp({
 			logger,
 			genReqId: (req) => req.headers['x-correlation-id'] || crypto.randomUUID()
 		})

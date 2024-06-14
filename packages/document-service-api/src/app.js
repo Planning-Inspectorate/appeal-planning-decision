@@ -2,7 +2,7 @@ const config = require('./configuration/config');
 const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
-const pinoExpress = require('express-pino-logger');
+const { pinoHttp } = require('pino-http');
 const uuid = require('uuid');
 const logger = require('./lib/logger');
 const routes = require('./routes');
@@ -12,7 +12,7 @@ const app = express();
 app
 	.use(bodyParser.json())
 	.use(
-		pinoExpress({
+		pinoHttp({
 			logger,
 			genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4()
 		})

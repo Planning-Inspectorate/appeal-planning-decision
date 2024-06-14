@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const nunjucks = require('nunjucks');
 const dateFilter = require('nunjucks-date-filter');
 const session = require('express-session');
-const pinoExpress = require('express-pino-logger');
+const { pinoHttp } = require('pino-http');
 const uuid = require('uuid');
 const fileUpload = require('express-fileupload');
 const sessionConfig = require('./lib/session');
@@ -35,7 +35,7 @@ const routes = require('./routes');
 const app = express();
 
 app.use(
-	pinoExpress({
+	pinoHttp({
 		logger,
 		genReqId: () => uuid.v4()
 	})

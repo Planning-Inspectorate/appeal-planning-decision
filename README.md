@@ -332,7 +332,7 @@ A mock Notify service is available. The mock service requires the following envi
 > Please see [Confluence](https://pins-ds.atlassian.net/wiki/spaces/AAPDS/pages/edit-v2/554205478) for further information
 
 tl;dr If in controller/middleware, use `req.log`, otherwise `*/src/lib/logger.js`. We use the logger [Pino](http://getpino.io),
-and [express-pino-logger](https://github.com/pinojs/express-pino-logger).
+and [pino-http](https://github.com/pinojs/pino-http).
 
 ### Logging Levels
 

@@ -5,11 +5,18 @@
  * used throughout the application
  */
 
-const pino = require('pino');
+const { pino } = require('pino');
 const config = require('../configuration/config');
 
 module.exports = pino({
 	level: config.logger.level,
 	redact: config.logger.redact,
-	prettyPrint: config.logger.prettyPrint
+	transport: config.logger.prettyPrint
+		? {
+				target: 'pino-pretty',
+				options: {
+					colorize: true
+				}
+		  }
+		: undefined
 });
