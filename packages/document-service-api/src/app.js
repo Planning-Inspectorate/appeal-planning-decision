@@ -14,7 +14,26 @@ app
 	.use(
 		pinoHttp({
 			logger,
-			genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4()
+			genReqId: (req) => req.headers['x-correlation-id'] || uuid.v4(),
+			autoLogging: {
+				ignore: (req) => {
+					if (req.headers['user-agent'] === 'AlwaysOn') return true;
+
+					return false;
+				}
+			},
+			serializers: {
+				req: (req) => ({
+					id: req.id,
+					method: req.method,
+					url: req.url,
+					query: req.query,
+					params: req.params
+				}),
+				res: (res) => ({
+					statusCode: res.statusCode
+				})
+			}
 		})
 	)
 	.use('/', routes)
