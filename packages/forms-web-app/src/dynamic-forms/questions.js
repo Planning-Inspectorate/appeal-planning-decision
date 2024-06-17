@@ -1439,7 +1439,7 @@ exports.questions = {
 		url: 'reference-number',
 		hint: 'You can find this on any correspondence from the local planning authority. For example, the letter confirming your application.',
 		validators: [
-			new RequiredValidator('Enter the planning application reference number'),
+			new RequiredValidator('Enter the application reference number'),
 			new StringValidator({
 				maxLength: {
 					maxLength: 250,
