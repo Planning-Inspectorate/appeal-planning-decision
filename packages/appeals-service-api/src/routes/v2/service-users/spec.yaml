@@ -1,0 +1,21 @@
+paths:
+  /api/v2/service-users/:
+    put:
+      tags:
+        - service-users
+      description: Upsert a service user
+      requestBody:
+        description: user to create, `internalId` will be ignored
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ServiceUser'
+      responses:
+        200:
+          description: Created service user
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

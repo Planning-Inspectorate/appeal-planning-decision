@@ -499,11 +499,27 @@ model ServiceUser {
   /// this ID is for front office only and won't correlate to other systems
   internalId String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
-  id              String
-  salutation      String?
-  firstName       String?
-  lastName        String?
-  emailAddress    String?
+  id               String
+  salutation       String?
+  firstName        String?
+  lastName         String?
+  emailAddress     String?
+  addressLine1     String?
+  addressLine2     String?
+  addressTown      String?
+  addressCounty    String?
+  postcode         String?
+  addressCountry   String?
+  organisation     String?
+  organisationType String?
+  role             String?
+  telephoneNumber  String?
+  otherPhoneNumber String?
+  faxNumber        String?
+  webAddress       String?
+  sourceSystem     String?
+  sourceSuid       String?
+
   /// one of "Applicant", "Appellant", "Agent", "RepresentationContact", "Subscriber"
   serviceUserType String
   /// case reference this user + user-type relates to

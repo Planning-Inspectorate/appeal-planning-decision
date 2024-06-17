@@ -838,21 +838,50 @@ export interface Rule6Party {
 
 /** A Service User */
 export interface ServiceUser {
-	/**
-	 * front office appeal case ID
-	 * @format uuid
-	 */
+	/** A unique identifier for the entity. */
 	id: string;
-	/**
-	 * appeal case reference (aka appeal number)
-	 * @example "6123456"
-	 */
-	caseReference: string;
-	serviceUserType: 'Applicant' | 'Appellant' | 'Agent' | 'RepresentationContact' | 'Subscriber';
+	/** A formal greeting, e.g., Mr, Mrs, Ms. */
 	salutation?: string;
+	/** The first name of the individual. */
 	firstName?: string;
+	/** The last name of the individual. */
 	lastName?: string;
+	/** The first line of the address. */
+	addressLine1?: string;
+	/** The second line of the address, usually includes suite or apartment number. */
+	addressLine2?: string;
+	/** The town or city of the address. */
+	addressTown?: string;
+	/** The county in which the town or city is located. */
+	addressCounty?: string;
+	/** The postal code for the address. */
+	postcode?: string;
+	/** The country of the address. */
+	addressCountry?: string;
+	/** The name of the organisation associated with the individual. */
+	organisation?: string;
+	/** The type or nature of the organisation. */
+	organisationType?: string;
+	/** The individual's role or position within the organisation. */
+	role?: string;
+	/** The primary telephone contact number. */
+	telephoneNumber?: string;
+	/** An alternate or secondary phone number. */
+	otherPhoneNumber?: string;
+	/** A fax contact number. */
+	faxNumber?: string;
+	/** The primary email address for contact. */
 	emailAddress?: string;
+	/** Website address or URL. */
+	webAddress?: string;
+	/** Type or category of the service user.ationContact, Subscriber] */
+	serviceUserType: string;
+	/** Reference number for a particular case or incident. */
+	caseReference: string;
+	/** The originating system from where the data was sourced. */
+	sourceSystem?: string;
+	/** Unique identifier from the source system. */
+	sourceSuid?: string;
 }
 
 /** The address related to a submission */

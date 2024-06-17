@@ -26,6 +26,34 @@ class ServiceUserRepository {
 			}
 		});
 	}
+
+	/**
+	 * @param {Omit<ServiceUser, 'internalId'>} data
+	 * @returns
+	 */
+	async put(data) {
+		return this.dbClient.$transaction(async (tx) => {
+			const { internalId } =
+				(await tx.serviceUser.findFirst({
+					where: {
+						id: data.id
+					}
+				})) || {};
+
+			if (internalId) {
+				return await this.dbClient.serviceUser.update({
+					where: {
+						internalId
+					},
+					data
+				});
+			}
+
+			return await this.dbClient.serviceUser.create({
+				data
+			});
+		});
+	}
 }
 
 module.exports = {
