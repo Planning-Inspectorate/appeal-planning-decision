@@ -30,6 +30,11 @@ const {
 	}
 } = require('../../src/config');
 const StringValidator = require('./validator/string-validator');
+const {
+	validation: {
+		characterLimits: { appealFormV2 }
+	}
+} = require('../config');
 let {
 	validation: {
 		characterLimits: { finalComment: inputMaxCharacters }
@@ -1328,13 +1333,10 @@ exports.questions = {
 			),
 			new StringValidator({
 				maxLength: {
-					maxLength: inputMaxCharacters,
-					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Reason must be ${appealFormV2.textInputMaxLength} characters or less`
 				},
-				fieldName: getConditionalFieldName(
-					'appellantSiteAccess',
-					'appellantSiteAccess_appellantSiteAccessDetails'
-				)
+				fieldName: getConditionalFieldName('appellantSiteAccess', 'appellantSiteAccessDetails')
 			})
 		],
 		options: [
@@ -1368,13 +1370,10 @@ exports.questions = {
 			new ConditionalRequiredValidator('Enter the health and safety issues'),
 			new StringValidator({
 				maxLength: {
-					maxLength: inputMaxCharacters,
-					maxLengthMessage: `Reason must be ${inputMaxCharacters} characters or less`
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Reason must be ${appealFormV2.textInputMaxLength} characters or less`
 				},
-				fieldName: getConditionalFieldName(
-					'appellantSiteSafety',
-					'appellantSiteSafety_appellantSiteSafetyDetails'
-				)
+				fieldName: getConditionalFieldName('appellantSiteSafety', 'appellantSiteSafetyDetails')
 			})
 		],
 		options: [
@@ -1472,8 +1471,8 @@ exports.questions = {
 			new RequiredValidator('Enter a description'),
 			new StringValidator({
 				maxLength: {
-					maxLength: inputMaxCharacters,
-					maxLengthMessage: `Your description must be ${inputMaxCharacters} characters or less`
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your description must be ${appealFormV2.textInputMaxLength} characters or less`
 				}
 			})
 		]

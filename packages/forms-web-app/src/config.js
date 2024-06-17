@@ -117,6 +117,9 @@ module.exports = {
 				countyMinLength: process.env.COUNTY_MIN_LENGTH || 0,
 				postcodeMaxLength: process.env.POSTCODE_MAX_LENGTH || 16,
 				postcodeMinLength: process.env.POSTCODE_MIN_LENGTH || 0
+			},
+			appealFormV2: {
+				textInputMaxLength: 1000
 			}
 		},
 		stringValidation: {
