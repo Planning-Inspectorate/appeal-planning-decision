@@ -1751,7 +1751,7 @@ exports.questions = {
 				text: 'Inquiry',
 				value: 'inquiry',
 				hint: {
-					html: 'For appeals with very complex issues. Appeal evidence is tested by legal representatives, who question witnesses under oath.'
+					text: 'For appeals with very complex issues. Appeal evidence is tested by legal representatives, who question witnesses under oath.'
 				}
 			}
 		]
