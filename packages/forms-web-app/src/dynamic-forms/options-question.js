@@ -15,6 +15,7 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
  * @typedef {{
  *   text: string;
  *   value: string;
+ * 	 hint?: object;
  *   checked?: boolean | undefined;
  *   attributes?: Record<string, string>;
  *   behaviour?: 'exclusive';
@@ -101,7 +102,7 @@ class OptionsQuestion extends Question {
 		const viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
 
 		viewModel.question.options = [];
-
+		console.log('###', this.options);
 		for (const option of this.options) {
 			let optionData = { ...option };
 			if (optionData.value !== undefined) {
