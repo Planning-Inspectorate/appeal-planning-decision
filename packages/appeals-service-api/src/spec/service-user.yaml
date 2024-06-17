@@ -10,21 +10,67 @@ components:
       properties:
         id:
           type: string
-          format: uuid
-          description: front office appeal case ID
-        caseReference:
-          type: string
-          description: appeal case reference (aka appeal number)
-          example: '6123456'
-        serviceUserType:
-          type: string
-          enum: ['Applicant', 'Appellant', 'Agent', 'RepresentationContact', 'Subscriber']
+          description: A unique identifier for the entity.
         salutation:
           type: string
+          description: A formal greeting, e.g., Mr, Mrs, Ms.
         firstName:
           type: string
+          description: The first name of the individual.
         lastName:
           type: string
+          description: The last name of the individual.
+        addressLine1:
+          type: string
+          description: The first line of the address.
+        addressLine2:
+          type: string
+          description: The second line of the address, usually includes suite or apartment number.
+        addressTown:
+          type: string
+          description: The town or city of the address.
+        addressCounty:
+          type: string
+          description: The county in which the town or city is located.
+        postcode:
+          type: string
+          description: The postal code for the address.
+        addressCountry:
+          type: string
+          description: The country of the address.
+        organisation:
+          type: string
+          description: The name of the organisation associated with the individual.
+        organisationType:
+          type: string
+          description: The type or nature of the organisation.
+        role:
+          type: string
+          description: The individual's role or position within the organisation.
+        telephoneNumber:
+          type: string
+          description: The primary telephone contact number.
+        otherPhoneNumber:
+          type: string
+          description: An alternate or secondary phone number.
+        faxNumber:
+          type: string
+          description: A fax contact number.
         emailAddress:
           type: string
-
+          description: The primary email address for contact.
+        webAddress:
+          type: string
+          description: Website address or URL.
+        serviceUserType:
+          type: string
+          description: Type or category of the service user.ationContact, Subscriber]
+        caseReference:
+          type: string
+          description: Reference number for a particular case or incident.
+        sourceSystem:
+          type: string
+          description: The originating system from where the data was sourced.
+        sourceSuid:
+          type: string
+          description: Unique identifier from the source system.
