@@ -139,8 +139,8 @@ module.exports = {
 			},
 			appealReferenceNumber: {
 				regex: {
-					regex: '^\\d+$',
-					regexMessage: 'Enter an appeal reference number using numbers 0 to 9'
+					regex: '^[0-9a-zA-Z]+$',
+					regexMessage: 'Enter the appeal reference number using letters a to z and numbers 0 to 9'
 				},
 				maxLength: {
 					maxLength: 7,
