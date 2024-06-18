@@ -1735,7 +1735,7 @@ exports.questions = {
 		options: [
 			{
 				text: 'Written representations',
-				value: 'written-representations',
+				value: 'written representations',
 				hint: {
 					text: 'For appeals where the issues are clear from written statements and a site visit. This is the quickest and most common way to make an appeal.'
 				}

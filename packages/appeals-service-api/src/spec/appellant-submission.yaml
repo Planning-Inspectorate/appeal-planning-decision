@@ -92,6 +92,8 @@ components:
           type: string
         appellantPhoneNumber:
           type: string
+        appellantProcedurePreference:
+          type: string
 
         siteAreaSquareMetres:
           type: integer

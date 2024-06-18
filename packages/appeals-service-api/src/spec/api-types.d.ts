@@ -544,6 +544,8 @@ export interface AppellantSubmission {
 	caseTermsAccepted?: boolean;
 	/** whether the appeal has been submitted to BO */
 	submitted?: boolean;
+	/** blob storage id of submission pdf used to generate download link */
+	submissionPdfId?: string;
 	/** @format date-time */
 	onApplicationDate?: string;
 	isAppellant?: boolean;
@@ -571,6 +573,7 @@ export interface AppellantSubmission {
 	developmentDescriptionOriginal?: string;
 	appellantLinkedCaseReference?: string;
 	appellantPhoneNumber?: string;
+	appellantProcedurePreference?: string;
 	siteAreaSquareMetres?: number;
 	appellantLinkedCaseAdd?: boolean;
 	appellantLinkedCase?: boolean;
