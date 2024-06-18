@@ -52,6 +52,10 @@ storage:
 	docker compose --profile storage -f docker-compose.yml -f docker-compose.slim.yml up
 .PHONY: storage
 
+c4:
+	docker compose --profile c4 -f docker-compose.yml -f docker-compose.slim.yml up
+.PHONY: c4
+
 uninstall:
 	rm -Rf node_modules
 	rm -Rf .git/hooks
