@@ -55,6 +55,9 @@ describe('controllers/full-appeal/submit-appeal/list-of-documents', () => {
 
 	describe('getListOfDocuments', () => {
 		it('should call the correct template', () => {
+			getDepartmentFromId.mockResolvedValue({ lpaCode: 'testCode' });
+			isFeatureActive.mockResolvedValue(false);
+
 			getListOfDocuments(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS);
