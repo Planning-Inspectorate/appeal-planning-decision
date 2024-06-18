@@ -1,0 +1,22 @@
+@startuml
+set separator none
+title Legacy Integration Context
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+
+AddBoundaryTag("Planning Inspectorate: Appeals", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+Boundary(group_1, "Planning Inspectorate: Appeals", $tags="Planning Inspectorate: Appeals") {
+  System(AppealsFrontOffice, "Appeals Front-Office", $descr="Public dashboards for appellants and LPAs", $tags="", $link="")
+  System(LegacyHorizonWrapper, "Legacy Horizon Wrapper", $descr="Data exchange between FO and legacy back office", $tags="", $link="")
+  System(Horizon, "Horizon", $descr="Legacy internal service to manage planning appeals in England", $tags="", $link="")
+}
+
+
+Rel(AppealsFrontOffice, LegacyHorizonWrapper, "Scheduled job sends appeals to Horizon Wrapper", $techn="JSON/HTTP", $tags="", $link="")
+Rel(LegacyHorizonWrapper, Horizon, "Forwards appeals to legacy back office", $techn="SOAP/HTTP", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

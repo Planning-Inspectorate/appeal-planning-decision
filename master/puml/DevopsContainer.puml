@@ -1,0 +1,26 @@
+@startuml
+set separator none
+title Devops Container
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+System(SharedPINsServices, "Shared PINs Services", $descr="", $tags="", $link="")
+System(AppealsFrontOffice, "Appeals Front-Office", $descr="Public dashboards for appellants and LPAs", $tags="", $link="")
+System(Github, "Github", $descr="", $tags="", $link="")
+
+System_Boundary("AzureDevops_boundary", "Azure Devops", $tags="") {
+  Container(AzureDevops.Pipelines, "Pipelines", $techn="", $descr="", $tags="", $link="")
+  Container(AzureDevops.InfraPipelines, "Infra Pipelines", $techn="", $descr="", $tags="", $link="")
+}
+
+Rel(AzureDevops.Pipelines, Github, "Retrieves code", $techn="HTTPS", $tags="", $link="")
+Rel(AzureDevops.Pipelines, SharedPINsServices, "Retrieves secrets", $techn="HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice, SharedPINsServices, "Apps pull latest container version", $techn="Docker", $tags="", $link="")
+Rel(AzureDevops.InfraPipelines, AppealsFrontOffice, "Terraform updates infra", $techn="Terraform/AzureRM", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml

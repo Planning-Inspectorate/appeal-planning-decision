@@ -1,0 +1,35 @@
+@startuml
+set separator none
+title Appeals Back-Office Container
+
+top to bottom direction
+
+!include <C4/C4>
+!include <C4/C4_Context>
+!include <C4/C4_Container>
+
+Person(Caseofficer, "Case officer", $descr="Validates and manages case data, documents and general appeal processing", $tags="", $link="")
+Person(Inspector, "Inspector", $descr="Inspects the appeal site and issues appeal decisions", $tags="", $link="")
+System(AppealsFrontOffice, "Appeals Front-Office", $descr="Public dashboards for appellants and LPAs", $tags="", $link="")
+System(IntegrationLayer, "Integration Layer", $descr="Data exchange between FO and back office", $tags="", $link="")
+System(GOVNotify, "GOV Notify", $descr="", $tags="", $link="")
+
+System_Boundary("AppealsBackOffice_boundary", "Appeals Back-Office", $tags="") {
+  AddBoundaryTag("Appeal Back-Office VNET", $borderColor="#cccccc", $fontColor="#cccccc", $borderStyle="dashed")
+  Boundary(group_1, "Appeal Back-Office VNET", $tags="Appeal Back-Office VNET") {
+    Container(AppealsBackOffice.StorageAccount, "Storage Account", $techn="", $descr="Document storage", $tags="", $link="")
+    Container(AppealsBackOffice.AppealBackOfficeWeb, "Appeal Back-Office Web", $techn="Node.js, Azure Web App", $descr="Web UI", $tags="", $link="")
+  }
+
+}
+
+Rel(AppealsFrontOffice, AppealsBackOffice.StorageAccount, "Retrives BO docs SAS URLs", $techn="HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice, GOVNotify, "Requests emails to be sent", $techn="REST/HTTPS", $tags="", $link="")
+Rel(AppealsBackOffice.AppealBackOfficeWeb, GOVNotify, "Requests emails to be sent", $techn="REST/HTTPS", $tags="", $link="")
+Rel(AppealsBackOffice.AppealBackOfficeWeb, IntegrationLayer, "Records changes to appeals", $techn="Service Bus Topic", $tags="", $link="")
+Rel(Caseofficer, AppealsBackOffice.AppealBackOfficeWeb, "Manages cases", $techn="HTML/HTTPS", $tags="", $link="")
+Rel(Inspector, AppealsBackOffice.AppealBackOfficeWeb, "Decides cases", $techn="HTML/HTTPS", $tags="", $link="")
+Rel(AppealsFrontOffice, IntegrationLayer, "Informs back office of new appeals", $techn="Service Bus Topic", $tags="", $link="")
+
+SHOW_LEGEND(true)
+@enduml
