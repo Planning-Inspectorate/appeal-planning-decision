@@ -3,7 +3,7 @@ const { ServiceUserRepository } = require('#repositories/sql/service-user-reposi
 const serviceUserRepository = new ServiceUserRepository();
 
 /**
- * @param {Omit<import('@prisma/client').ServiceUser, 'internalId'>} data
+ * @param {import('pins-data-model/src/schemas').ServiceUser} data
  * @returns
  */
 exports.put = (data) => {
