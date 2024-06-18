@@ -15,8 +15,8 @@ const {
 	taskListUrl
 } = require('../../../dynamic-forms/s78-appeal-form/journey');
 
-const getListOfDocuments = async (_, res) => {
-	const appeal = _.session.appeal;
+const getListOfDocuments = async (req, res) => {
+	const appeal = req.session.appeal;
 
 	const lpa = await getDepartmentFromId(appeal.lpaCode);
 	const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
