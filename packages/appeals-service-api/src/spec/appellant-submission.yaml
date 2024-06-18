@@ -94,6 +94,8 @@ components:
           type: string
         appellantProcedurePreference:
           type: string
+        appellantPreferHearingDetails:
+          type: string
 
         siteAreaSquareMetres:
           type: integer

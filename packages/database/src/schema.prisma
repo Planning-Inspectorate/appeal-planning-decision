@@ -564,6 +564,7 @@ model AppellantSubmission {
   developmentDescriptionOriginal String?
   appellantLinkedCaseReference   String?
   appellantPhoneNumber           String?
+  appellantPreferHearingDetails  String?
 
   // number entries
   siteAreaSquareMetres Decimal?
