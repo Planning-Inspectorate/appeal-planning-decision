@@ -39,7 +39,9 @@
             type: "submit",
             attributes: { "data-cy":"button-save-and-continue"}
           }) }}
-          {{ saveAndReturnButton () }}
+					{% if usingV2Form == false %}
+          	{{ saveAndReturnButton () }}
+					{% endif %}
         </div>
       </form>
     </div>
