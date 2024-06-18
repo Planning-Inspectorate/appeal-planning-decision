@@ -54,7 +54,7 @@ const NumericValidator = require('./validator/numeric-validator');
 const SiteAddressQuestion = require('./dynamic-components/site-address/question');
 const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
 
-inputMaxCharacters = Math.min(Number(inputMaxCharacters), 32500);
+inputMaxCharacters = Math.min(Number(inputMaxCharacters), 1000);
 
 /**
  * @param {'past' | 'future'} tense
