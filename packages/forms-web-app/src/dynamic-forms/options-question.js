@@ -15,6 +15,7 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
  * @typedef {{
  *   text: string;
  *   value: string;
+ * 	 hint?: object;
  *   checked?: boolean | undefined;
  *   attributes?: Record<string, string>;
  *   behaviour?: 'exclusive';

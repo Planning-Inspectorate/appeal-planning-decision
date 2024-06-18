@@ -1725,5 +1725,35 @@ exports.questions = {
 		fieldName: 'appellantGreenBelt',
 		url: 'green-belt',
 		validators: [new RequiredValidator('Select yes if the appeal site is in a green belt')]
+	}),
+	appellantProcedurePreference: new RadioQuestion({
+		title: 'How would you prefer us to decide your appeal?',
+		question: 'How would you prefer us to decide your appeal?',
+		fieldName: 'appellantProcedurePreference',
+		url: 'decide-appeal',
+		validators: [new RequiredValidator('Select how you would prefer us to decide your appeal')],
+		options: [
+			{
+				text: 'Written representations',
+				value: 'written representations',
+				hint: {
+					text: 'For appeals where the issues are clear from written statements and a site visit. This is the quickest and most common way to make an appeal.'
+				}
+			},
+			{
+				text: 'Hearing',
+				value: 'hearing',
+				hint: {
+					text: 'For appeals with more complex issues. The Inspector leads a discussion to answer questions they have about the appeal.'
+				}
+			},
+			{
+				text: 'Inquiry',
+				value: 'inquiry',
+				hint: {
+					text: 'For appeals with very complex issues. Appeal evidence is tested by legal representatives, who question witnesses under oath.'
+				}
+			}
+		]
 	})
 };
