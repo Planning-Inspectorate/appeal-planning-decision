@@ -1453,7 +1453,7 @@ exports.questions = {
 			title: 'What date did you submit your application?',
 			question: 'What date did you submit your application?',
 			fieldName: 'onApplicationDate',
-			url: 'planning-application-date',
+			url: 'application-date',
 			hint: `For example, ${getDate('past')}`,
 			validators: [
 				new DateValidator('the date you submitted your application', {
