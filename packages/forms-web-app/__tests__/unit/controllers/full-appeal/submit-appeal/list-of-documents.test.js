@@ -54,13 +54,13 @@ describe('controllers/full-appeal/submit-appeal/list-of-documents', () => {
 	});
 
 	describe('getListOfDocuments', () => {
-		it('should call the correct template', () => {
+		it('should call the correct template', async () => {
 			getDepartmentFromId.mockResolvedValue({ lpaCode: 'testCode' });
 			isFeatureActive.mockResolvedValue(false);
 
-			getListOfDocuments(req, res);
+			await getListOfDocuments(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS);
+			expect(res.render).toHaveBeenCalledWith(LIST_OF_DOCUMENTS, { usingV2Form: false });
 		});
 	});
 
