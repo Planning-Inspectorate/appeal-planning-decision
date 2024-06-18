@@ -574,6 +574,7 @@ export interface AppellantSubmission {
 	appellantLinkedCaseReference?: string;
 	appellantPhoneNumber?: string;
 	appellantProcedurePreference?: string;
+	appellantPreferHearingDetails?: string;
 	siteAreaSquareMetres?: number;
 	appellantLinkedCaseAdd?: boolean;
 	appellantLinkedCase?: boolean;

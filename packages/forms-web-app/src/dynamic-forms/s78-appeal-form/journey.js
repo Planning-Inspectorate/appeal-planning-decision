@@ -130,6 +130,8 @@ class S78AppealFormJourney extends Journey {
 				.addQuestion(questions.enterDevelopmentDescription)
 				.addQuestion(questions.updateDevelopmentDescription)
 				.addQuestion(questions.appellantProcedurePreference)
+				.addQuestion(questions.appellantPreferHearing)
+				.withCondition(questionHasAnswer(questions.appellantProcedurePreference, 'hearing'))
 				.addQuestion(questions.anyOtherAppeals)
 				.addQuestion(questions.linkAppeals)
 				.withCondition(questionHasAnswer(questions.anyOtherAppeals, 'yes')),

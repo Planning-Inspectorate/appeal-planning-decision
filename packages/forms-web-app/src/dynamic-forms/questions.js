@@ -1755,5 +1755,20 @@ exports.questions = {
 				}
 			}
 		]
+	}),
+	appellantPreferHearing: new TextEntryQuestion({
+		title: 'Why would you prefer a hearing?',
+		question: 'Why would you prefer a hearing?',
+		url: 'why-prefer-hearing',
+		fieldName: 'appellantPreferHearingDetails',
+		validators: [
+			new RequiredValidator('Enter why you would prefer a hearing'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Why you would prefer a hearing must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
 	})
 };
