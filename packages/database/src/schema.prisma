@@ -551,6 +551,7 @@ model AppellantSubmission {
   updateDevelopmentDescription Boolean?
   identifiedOwners             Boolean?
   costApplication              Boolean?
+  appellantProcedurePreference String?
 
   // boolean text
   appellantSiteSafety                            String?
