@@ -102,7 +102,7 @@ class OptionsQuestion extends Question {
 		const viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
 
 		viewModel.question.options = [];
-		console.log('###', this.options);
+
 		for (const option of this.options) {
 			let optionData = { ...option };
 			if (optionData.value !== undefined) {
