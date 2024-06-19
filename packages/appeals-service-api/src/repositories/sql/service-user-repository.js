@@ -89,8 +89,19 @@ class ServiceUserRepository {
 				});
 
 				if (appealCase) {
-					await tx.appealToUser.create({
-						data: {
+					await tx.appealToUser.upsert({
+						where: {
+							appealId_userId: {
+								appealId: appealCase.Appeal.id,
+								userId: appealUser.id
+							}
+						},
+						create: {
+							appealId: appealCase.Appeal.id,
+							userId: appealUser.id,
+							role
+						},
+						update: {
 							appealId: appealCase.Appeal.id,
 							userId: appealUser.id,
 							role
