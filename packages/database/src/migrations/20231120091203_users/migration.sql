@@ -77,6 +77,11 @@ ALTER TABLE [dbo].[AppealToUser] ADD CONSTRAINT [AppealToUser_role_fkey] FOREIGN
 -- AddForeignKey
 ALTER TABLE [dbo].[AppealCase] ADD CONSTRAINT [AppealCase_appealId_fkey] FOREIGN KEY ([appealId]) REFERENCES [dbo].[Appeal]([id]) ON DELETE NO ACTION ON UPDATE CASCADE;
 
+-- unique AppealUser.serviceUserId
+CREATE UNIQUE NONCLUSTERED INDEX idx_AppealUser_serviceUserId_unique_notnull
+ON [dbo].[AppealUser](serviceUserId)
+WHERE serviceUserId IS NOT NULL;
+
 COMMIT TRAN;
 
 END TRY
