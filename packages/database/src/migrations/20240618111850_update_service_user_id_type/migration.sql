@@ -2,11 +2,11 @@ BEGIN TRY
 
 BEGIN TRAN;
 
--- AlterTable
-ALTER TABLE [dbo].[AppealUser] ALTER COLUMN [serviceUserId] NVARCHAR(1000) NULL;
-
 -- drop old index
 DROP INDEX [idx_AppealUser_serviceUserId_unique_notnull] ON [dbo].[AppealUser]
+
+-- AlterTable
+ALTER TABLE [dbo].[AppealUser] ALTER COLUMN [serviceUserId] NVARCHAR(1000) NULL;
 
 -- unique AppealUser.serviceUserId
 CREATE UNIQUE NONCLUSTERED INDEX idx_AppealUser_serviceUserId_unique_notnull
