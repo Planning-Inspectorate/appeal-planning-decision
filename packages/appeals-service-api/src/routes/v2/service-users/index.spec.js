@@ -203,5 +203,69 @@ describe('service users v2', () => {
 
 			expect(serviceUser?.postcode).toBe('POST CODE');
 		});
+
+		it('should update an existing appealToUser relation', async () => {
+			await sqlClient.serviceUser.create({
+				data: {
+					id: 'usr_006',
+					serviceUserType: 'Appellant',
+					caseReference: '000001',
+					emailAddress: 'usr_006@example.com'
+				}
+			});
+
+			const appealCase = await sqlClient.appealCase.create({
+				data: {
+					caseReference: 'ref_006',
+					LPACode: 'lpa_001',
+					LPAName: 'test',
+					appealTypeCode: '1001',
+					appealTypeName: 'HAS',
+					decision: 'refused',
+					originalCaseDecisionDate: new Date().toISOString(),
+					costsAppliedForIndicator: false,
+					LPAApplicationReference: '010101',
+					siteAddressLine1: 'address',
+					siteAddressPostcode: 'POST CODE',
+					Appeal: {
+						create: {}
+					}
+				}
+			});
+
+			const appealUser = await sqlClient.appealUser.create({
+				data: {
+					email: 'usr_006@example.com',
+					serviceUserId: 'usr_006'
+				}
+			});
+
+			await sqlClient.appealToUser.create({
+				data: {
+					appealId: appealCase.appealId,
+					userId: appealUser.id,
+					role: 'agent'
+				}
+			});
+
+			const response = await appealsApi.put('/api/v2/service-users').send({
+				id: 'usr_006',
+				serviceUserType: 'Appellant',
+				caseReference: 'ref_006',
+				emailAddress: 'usr_006@example.com'
+			});
+
+			expect(response.status).toEqual(200);
+
+			const relations = await sqlClient.appealToUser.findMany({
+				where: {
+					appealId: appealCase.appealId,
+					userId: appealUser.id
+				}
+			});
+
+			expect(relations.length).toBe(1);
+			expect(relations[0].role).toBe('appellant');
+		});
 	});
 });
