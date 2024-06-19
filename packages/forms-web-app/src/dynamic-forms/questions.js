@@ -1726,6 +1726,17 @@ exports.questions = {
 		url: 'green-belt',
 		validators: [new RequiredValidator('Select yes if the appeal site is in a green belt')]
 	}),
+	submitPlanningObligation: new BooleanQuestion({
+		title: 'Do you plan to submit a planning obligation to support your appeal?',
+		question: 'Do you plan to submit a planning obligation to support your appeal?',
+		fieldName: 'planningObligation',
+		url: 'submit-planning-obligation',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you plan to submit a planning obligation to support your appeal'
+			)
+		]
+	}),
 	appellantProcedurePreference: new RadioQuestion({
 		title: 'How would you prefer us to decide your appeal?',
 		question: 'How would you prefer us to decide your appeal?',
