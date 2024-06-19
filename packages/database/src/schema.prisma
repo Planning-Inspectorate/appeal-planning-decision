@@ -565,9 +565,12 @@ model AppellantSubmission {
   appellantLinkedCaseReference   String?
   appellantPhoneNumber           String?
   appellantPreferHearingDetails  String?
+  appellantPreferInquiryDetails  String?
 
   // number entries
-  siteAreaSquareMetres Decimal?
+  siteAreaSquareMetres            Decimal?
+  appellantPreferInquiryDuration  Int?
+  appellantPreferInquiryWitnesses Int?
 
   // Linked cases
   appellantLinkedCaseAdd Boolean?

@@ -575,7 +575,10 @@ export interface AppellantSubmission {
 	appellantPhoneNumber?: string;
 	appellantProcedurePreference?: string;
 	appellantPreferHearingDetails?: string;
+	appellantPreferInquiryDetails?: string;
 	siteAreaSquareMetres?: number;
+	appellantPreferInquiryDuration?: number;
+	appellantPreferInquiryWitnesses?: number;
 	appellantLinkedCaseAdd?: boolean;
 	appellantLinkedCase?: boolean;
 	SubmissionLinkedCase?: object[];

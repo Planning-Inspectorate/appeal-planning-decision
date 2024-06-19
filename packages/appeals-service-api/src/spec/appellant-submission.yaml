@@ -96,8 +96,14 @@ components:
           type: string
         appellantPreferHearingDetails:
           type: string
+        appellantPreferInquiryDetails:
+          type: string
 
         siteAreaSquareMetres:
+          type: integer
+        appellantPreferInquiryDuration:
+          type: integer
+        appellantPreferInquiryWitnesses:
           type: integer
 
         appellantLinkedCaseAdd:
