@@ -557,23 +557,32 @@ model AppellantSubmission {
   contactCompanyName   String?
 
   // boolean
-  ownsAllLand                  Boolean?
-  ownsSomeLand                 Boolean?
-  knowsAllOwners               String?
-  knowsOtherOwners             String?
-  informedOwners               Boolean?
-  advertisedAppeal             Boolean?
-  appellantGreenBelt           Boolean?
-  updateDevelopmentDescription Boolean?
-  identifiedOwners             Boolean?
-  costApplication              Boolean?
-  appellantProcedurePreference String?
+  ownsAllLand                        Boolean?
+  ownsSomeLand                       Boolean?
+  knowsAllOwners                     String?
+  knowsOtherOwners                   String?
+  informedOwners                     Boolean?
+  advertisedAppeal                   Boolean?
+  appellantGreenBelt                 Boolean?
+  updateDevelopmentDescription       Boolean?
+  identifiedOwners                   Boolean?
+  costApplication                    Boolean?
+  appellantProcedurePreference       String?
+  agriculturalHolding                Boolean?
+  informedTenantsAgriculturalHolding Boolean?
+  otherTenantsAgriculturalHolding    Boolean?
+  ownershipCertificate               Boolean?
+  newPlansDrawings                   Boolean?
+  otherNewDocuments                  Boolean?
+  designAccessStatement              Boolean?
+  planningObligation                 Boolean?
 
   // boolean text
   appellantSiteSafety                            String?
   appellantSiteSafety_appellantSiteSafetyDetails String?
   appellantSiteAccess                            String?
   appellantSiteAccess_appellantSiteAccessDetails String?
+  statusPlanningObligation                       String?
 
   // plain text
   applicationReference           String?
@@ -587,6 +596,7 @@ model AppellantSubmission {
   siteAreaSquareMetres            Decimal?
   appellantPreferInquiryDuration  Int?
   appellantPreferInquiryWitnesses Int?
+  siteArea                        Decimal?
 
   // Linked cases
   appellantLinkedCaseAdd Boolean?
@@ -599,6 +609,13 @@ model AppellantSubmission {
   uploadAppellantStatement          Boolean?
   uploadCostApplication             Boolean?
   uploadChangeOfDescriptionEvidence Boolean?
+  uploadOwnershipCertificate        Boolean?
+  uploadStatementCommonGround       Boolean?
+  uploadDesignAccessStatement       Boolean?
+  uploadPlansDrawings               Boolean?
+  uploadNewPlansDrawings            Boolean?
+  uploadOtherNewDocuments           Boolean?
+  uploadPlanningObligation          Boolean?
   SubmissionDocumentUpload          SubmissionDocumentUpload[]
 
   // addresses
