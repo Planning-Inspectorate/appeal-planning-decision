@@ -72,6 +72,24 @@ components:
           type: boolean
         costApplication:
           type: boolean
+        appellantProcedurePreference:
+          type: string
+        agriculturalHolding:
+          type: boolean
+        informedTenantsAgriculturalHolding:
+          type: boolean
+        otherTenantsAgriculturalHolding:
+          type: boolean
+        ownershipCertificate:
+          type: boolean
+        newPlansDrawings:
+          type: boolean
+        otherNewDocuments:
+          type: boolean
+        designAccessStatement:
+          type: boolean
+        planningObligation:
+          type: boolean
 
         appellantSiteSafety:
           type: string
@@ -83,6 +101,8 @@ components:
         appellantSiteAccess_appellantSiteAccessDetails:
           type: string
           nullable: true
+        statusPlanningObligation:
+          type: string
 
         applicationReference:
           type: string
@@ -91,8 +111,6 @@ components:
         appellantLinkedCaseReference:
           type: string
         appellantPhoneNumber:
-          type: string
-        appellantProcedurePreference:
           type: string
         appellantPreferHearingDetails:
           type: string
@@ -104,6 +122,8 @@ components:
         appellantPreferInquiryDuration:
           type: integer
         appellantPreferInquiryWitnesses:
+          type: integer
+        siteArea:
           type: integer
 
         appellantLinkedCaseAdd:
@@ -124,6 +144,20 @@ components:
         uploadCostApplication:
           type: boolean
         uploadChangeOfDescriptionEvidence:
+          type: boolean
+        uploadOwnershipCertificate:
+          type: boolean
+        uploadStatementCommonGround:
+          type: boolean
+        uploadDesignAccessStatement:
+          type: boolean
+        uploadPlansDrawings:
+          type: boolean
+        uploadNewPlansDrawings:
+          type: boolean
+        uploadOtherNewDocuments:
+          type: boolean
+        uploadPlanningObligation:
           type: boolean
         SubmissionDocumentUpload:
           type: array
