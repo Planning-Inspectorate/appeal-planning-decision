@@ -1737,6 +1737,26 @@ exports.questions = {
 			)
 		]
 	}),
+	planningObligationStatus: new RadioQuestion({
+		title: 'What is the status of your planning obligation?',
+		question: 'What is the status of your planning obligation?',
+		fieldName: 'statusPlanningObligation',
+		url: 'status-planning-obligation',
+		validators: [new RequiredValidator('Select the development schedule')],
+		options: [
+			{
+				text: 'Finalised and ready to submit',
+				value: 'finalised'
+			},
+			{
+				text: 'Not started yet',
+				value: 'not started',
+				conditional: {
+					html: 'The deadline to submit your finalised planning obligation is around 6 weeks after you submit your appeal. We’ll tell you the exact date when we confirm your appeal.'
+				}
+			}
+		]
+	}),
 	uploadPlanningObligation: new MultiFileUploadQuestion({
 		title: 'Planning obligation',
 		question: 'Upload your planning obligation',
