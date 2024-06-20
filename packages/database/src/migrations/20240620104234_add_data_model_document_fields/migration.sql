@@ -1,0 +1,30 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[Document] ALTER COLUMN [documentType] NVARCHAR(1000) NULL;
+ALTER TABLE [dbo].[Document] ALTER COLUMN [sourceSystem] NVARCHAR(1000) NULL;
+ALTER TABLE [dbo].[Document] ALTER COLUMN [origin] NVARCHAR(1000) NULL;
+ALTER TABLE [dbo].[Document] ALTER COLUMN [stage] NVARCHAR(1000) NULL;
+ALTER TABLE [dbo].[Document] ADD [author] NVARCHAR(1000),
+[datePublished] DATETIME2,
+[description] NVARCHAR(1000),
+[fileMD5] NVARCHAR(1000),
+[horizonFolderId] NVARCHAR(1000),
+[owner] NVARCHAR(1000),
+[publishedDocumentURI] NVARCHAR(1000),
+[version] INT;
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH
