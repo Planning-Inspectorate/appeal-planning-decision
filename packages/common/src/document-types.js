@@ -136,15 +136,6 @@ const documentTypes = {
 		horizonDocumentType: 'Appellant Initial Documents',
 		horizonDocumentGroupType: 'Initial Documents'
 	},
-	conservationAreaMap: {
-		name: 'conservationAreaMap',
-		multiple: true,
-		displayName: '',
-		involvement: '',
-		owner: appellantOwner,
-		horizonDocumentType: 'Appellant Initial Documents',
-		horizonDocumentGroupType: 'Initial Documents'
-	},
 	planningHistory: {
 		name: 'planningHistory',
 		multiple: true,
@@ -253,8 +244,8 @@ const documentTypes = {
 		horizonDocumentType: 'Appellant Final Comments',
 		horizonDocumentGroupType: 'Evidence'
 	},
-	conservationAreaUpload: {
-		name: 'conservationAreaUpload',
+	conservationMap: {
+		name: 'conservationMap',
 		multiple: true,
 		displayName: '',
 		involvement: '',

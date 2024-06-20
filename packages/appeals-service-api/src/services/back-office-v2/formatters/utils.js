@@ -38,7 +38,7 @@ const documentTypeMap = {
 	[documentTypes.uploadChangeOfDescriptionEvidence.name]: 'changedDescription',
 	[documentTypes.uploadOriginalApplicationForm.name]: 'originalApplicationForm',
 	[documentTypes.whoWasNotified.name]: 'whoNotified',
-	[documentTypes.conservationAreaMap.name]: 'conservationMap',
+	[documentTypes.conservationMap.name]: 'conservationMap',
 	[documentTypes.planningOfficersReportUpload.name]: 'planningOfficerReport'
 };
 
