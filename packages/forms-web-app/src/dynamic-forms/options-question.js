@@ -29,6 +29,9 @@ const { getConditionalFieldName } = require('./dynamic-components/utils/question
  * 		 label?: string;
  * 		 hint?: string
  *   };
+ * 	 conditionalText?: {
+ * 	   html: string;
+ *   }
  *}} Option
  */
 
@@ -131,6 +134,11 @@ class OptionsQuestion extends Question {
 						...customViewData
 					})
 				};
+			}
+
+			// handles conditional text only - if using conditional question the use conditional field
+			if (optionData.conditionalText !== undefined) {
+				optionData.conditional = optionData.conditionalText;
 			}
 
 			viewModel.question.options.push(optionData);
