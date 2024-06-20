@@ -2,7 +2,7 @@ const Ajv = require('ajv').default;
 const addFormats = require('ajv-formats').default;
 const loadAllSchemas = () =>
 	import('pins-data-model').then(({ loadAllSchemas }) => loadAllSchemas());
-const util = require('util');
+const logger = require('../../lib/logger');
 
 /**
  * @typedef {import('pins-data-model').LoadedSchemas} LoadedSchemas
@@ -73,14 +73,8 @@ class SchemaValidator {
 		if (!this.ajv) throw new Error('Validate called before schemas had finished initialising');
 		const validationResult = this.ajv.validate(`${schemaName}.schema.json`, payload);
 		if (this.ajv.errors) {
-			console.error(
-				'Validation errors: ',
-				util.inspect(this.ajv.errors, { showHidden: true, depth: Infinity, colors: true })
-			);
-			console.log(
-				'Submitted payload: ',
-				util.inspect(payload, { showHidden: true, depth: Infinity, colors: true })
-			);
+			logger.error({ errors: this.ajv.errors }, 'Validation errors: ');
+			logger.debug({ payload }, 'Submitted payload:');
 		}
 		return validationResult;
 	}
