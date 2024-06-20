@@ -1737,6 +1737,17 @@ exports.questions = {
 			)
 		]
 	}),
+	uploadPlanningObligation: new MultiFileUploadQuestion({
+		title: 'Planning obligation',
+		question: 'Upload your planning obligation',
+		fieldName: 'uploadPlanningObligation',
+		url: 'upload-planning-obligation',
+		validators: [
+			new RequiredFileUploadValidator('Select your planning obligation'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadPlanningObligation
+	}),
 	appellantProcedurePreference: new RadioQuestion({
 		title: 'How would you prefer us to decide your appeal?',
 		question: 'How would you prefer us to decide your appeal?',
