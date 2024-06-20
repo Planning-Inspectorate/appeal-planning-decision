@@ -1975,5 +1975,58 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('You must confirm that you’ve told the tenants about the appeal')
 		]
+	}),
+	appellantPreferInquiry: new TextEntryQuestion({
+		title: 'Why would you prefer an inquiry?',
+		question: 'Why would you prefer an inquiry?',
+		url: 'why-prefer-inquiry',
+		fieldName: 'appellantPreferInquiryDetails',
+		validators: [
+			new RequiredValidator('Enter why you would prefer an inquiry'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Why you would prefer an inquiry must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
+	}),
+	inquiryHowManyDays: new NumberEntryQuestion({
+		title: 'How many days would you expect the inquiry to last?',
+		question: 'How many days would you expect the inquiry to last?',
+		url: 'how-many-days-inquiry',
+		fieldName: 'appellantPreferInquiryDuration',
+		validators: [
+			new RequiredValidator('Enter the number of days you would expect the inquiry to last'),
+			new NumericValidator({
+				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
+				regexMessage: 'Enter the area of the site using numbers 0 to 9',
+				// min: minValue,
+				// minMessage: `Appeal site area must be at least ${minValue}`,
+				max: maxValue,
+				maxMessage: `Number of days must be ${maxValue} numbers or less`,
+				fieldName: 'appellantPreferInquiryDuration'
+			})
+		]
+	}),
+	inquiryHowManyWitnesses: new NumberEntryQuestion({
+		title: 'How many witnesses would you expect to give evidence at the inquiry?',
+		question: 'How many witnesses would you expect to give evidence at the inquiry?',
+		url: 'how-many-witnesses',
+		fieldName: 'appellantPreferInquiryWitnesses',
+		validators: [
+			new RequiredValidator(
+				'Enter the number of witnesses you would expect to give evidence at the inquiry'
+			),
+			new NumericValidator({
+				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
+				regexMessage: 'Enter the number of witnesses using numbers 0 to 9',
+				// min: minValue,
+				// minMessage: `Appeal site area must be at least ${minValue}`,
+				max: maxValue,
+				maxMessage: `Number of witnesses must be ${maxValue} numbers or less`,
+				fieldName: 'appellantPreferInquiryWitnesses'
+			})
+		]
 	})
 };

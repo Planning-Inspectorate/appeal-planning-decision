@@ -3,7 +3,9 @@ const { Journey } = require('../journey');
 const { Section } = require('../section');
 const {
 	questionHasAnswerBuilder,
-	questionsHaveAnswersBuilder
+	questionsHaveAnswersBuilder,
+	questionHasNonEmptyStringAnswer,
+	questionHasNonEmptyNumberAnswer
 } = require('../dynamic-components/utils/question-has-answer');
 
 const baseS78SubmissionUrl = '/appeals/full-planning';
@@ -40,6 +42,8 @@ class S78AppealFormJourney extends Journey {
 
 		const questionHasAnswer = questionHasAnswerBuilder(response);
 		const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
+		const questionHasNonEmptyString = questionHasNonEmptyStringAnswer(response);
+		const questionHasNonEmptyNumber = questionHasNonEmptyNumberAnswer(response);
 
 		const shouldDisplayIdentifyingLandowners = (() => {
 			if (questionHasAnswer(questions.ownsAllLand, 'yes')) return false;
@@ -164,6 +168,19 @@ class S78AppealFormJourney extends Journey {
 				.addQuestion(questions.appellantProcedurePreference)
 				.addQuestion(questions.appellantPreferHearing)
 				.withCondition(questionHasAnswer(questions.appellantProcedurePreference, 'hearing'))
+				.addQuestion(questions.appellantPreferInquiry)
+				.withCondition(questionHasAnswer(questions.appellantProcedurePreference, 'inquiry'))
+				.addQuestion(questions.inquiryHowManyDays)
+				.withCondition(
+					questionHasAnswer(questions.appellantProcedurePreference, 'inquiry') &&
+						questionHasNonEmptyString(questions.appellantPreferInquiry)
+				)
+				.addQuestion(questions.inquiryHowManyWitnesses)
+				.withCondition(
+					questionHasAnswer(questions.appellantProcedurePreference, 'inquiry') &&
+						questionHasNonEmptyString(questions.appellantPreferInquiry) &&
+						questionHasNonEmptyNumber(questions.inquiryHowManyDays)
+				)
 				.addQuestion(questions.anyOtherAppeals)
 				.addQuestion(questions.linkAppeals)
 				.withCondition(questionHasAnswer(questions.anyOtherAppeals, 'yes')),
