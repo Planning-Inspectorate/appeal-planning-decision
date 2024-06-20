@@ -125,6 +125,8 @@ components:
           type: integer
         siteArea:
           type: integer
+        tenantAgriculturalHolding:
+          type: boolean
 
         appellantLinkedCaseAdd:
           type: boolean

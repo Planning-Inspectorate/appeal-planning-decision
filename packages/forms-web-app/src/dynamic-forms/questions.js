@@ -1904,5 +1904,14 @@ exports.questions = {
 				}
 			})
 		]
+	}),
+	tenantAgriculturalHolding: new BooleanQuestion({
+		title: 'Are you a tenant of the agricultural holding?',
+		question: 'Are you a tenant of the agricultural holding?',
+		fieldName: 'tenantAgriculturalHolding',
+		url: 'tenant-agricultural-holding',
+		validators: [
+			new RequiredValidator('Select yes if you are a tenant of the agricultural holding')
+		]
 	})
 };
