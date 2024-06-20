@@ -123,6 +123,7 @@ class S78AppealFormJourney extends Journey {
 				)
 				.addQuestion(questions.tellingLandowners)
 				.withCondition(shouldDisplayTellingLandowners)
+				.addQuestion(questions.tenantAgriculturalHolding)
 				.addQuestion(questions.inspectorAccess)
 				.addQuestion(questions.healthAndSafety)
 				.addQuestion(questions.enterApplicationReference)
