@@ -1792,6 +1792,19 @@ exports.questions = {
 		],
 		documentType: documentTypes.uploadDesignAccessStatement
 	}),
+	uploadPlansDrawingsDocuments: new MultiFileUploadQuestion({
+		title: 'Plans, drawings and supporting documents',
+		question:
+			'Upload your plans, drawings and supporting documents you submitted with your application',
+		fieldName: 'uploadPlansDrawings',
+		url: 'upload-plans-drawings-documents',
+		html: 'resources/plans-drawings/upload-plans-drawings.html',
+		validators: [
+			new RequiredFileUploadValidator('Select your plans, drawings and supporting documents'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadPlansDrawings
+	}),
 	appellantProcedurePreference: new RadioQuestion({
 		title: 'How would you prefer us to decide your appeal?',
 		question: 'How would you prefer us to decide your appeal?',

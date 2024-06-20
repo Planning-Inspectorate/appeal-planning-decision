@@ -486,6 +486,15 @@ const documentTypes = {
 		owner: appellantOwner,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadPlansDrawings: {
+		name: 'uploadPlansDrawings',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: appellantOwner,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 
