@@ -461,27 +461,35 @@ model Document {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
   // file info
-  filename         String
-  originalFilename String
-  size             Int
-  mime             String
-  documentURI      String
+  filename             String
+  originalFilename     String
+  size                 Int
+  mime                 String
+  documentURI          String
+  publishedDocumentURI String?
 
   // dates
-  dateCreated  DateTime
-  dateReceived DateTime?
-  lastModified DateTime?
+  dateCreated   DateTime
+  dateReceived  DateTime?
+  lastModified  DateTime?
+  datePublished DateTime?
 
   // states
   virusCheckStatus String? // nullble?
   published        Boolean @default(false)
   redacted         Boolean @default(false)
+  version          Int?
+  fileMD5          String?
+  owner            String?
+  author           String?
+  description      String?
 
   // info
-  documentType String
-  sourceSystem String
-  origin       String
-  stage        String
+  documentType    String?
+  sourceSystem    String?
+  origin          String?
+  stage           String?
+  horizonFolderId String?
 
   // relations
   caseReference String

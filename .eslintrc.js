@@ -14,5 +14,17 @@ module.exports = {
 	// rules: {
 	// 	'enforce-catch-block-error-type-guards/enforce-catch-block-error-type-guards': 'error'
 	// },
-	root: true
+	root: true,
+	rules: {
+		'no-unused-vars': [
+			'error',
+			{
+				vars: 'all',
+				varsIgnorePattern: '^_',
+				args: 'all',
+				argsIgnorePattern: '^_',
+				ignoreRestSiblings: false
+			}
+		]
+	}
 };

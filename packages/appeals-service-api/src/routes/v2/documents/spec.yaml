@@ -1,0 +1,21 @@
+paths:
+  /api/v2/service-users/:
+    put:
+      tags:
+        - documents
+      description: Create a document
+      requestBody:
+        description: document to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Document'
+      responses:
+        200:
+          description: Created service user
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
