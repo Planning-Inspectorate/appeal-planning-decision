@@ -1805,6 +1805,50 @@ exports.questions = {
 		],
 		documentType: documentTypes.uploadPlansDrawings
 	}),
+	newPlansDrawings: new BooleanQuestion({
+		title: 'Do you have any new plans or drawings that support your appeal?',
+		question: 'Do you have any new plans or drawings that support your appeal?',
+		fieldName: 'newPlansDrawings',
+		url: 'new-plans-drawings',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have any new plans or drawings that support your appeal'
+			)
+		]
+	}),
+	uploadNewPlansDrawings: new MultiFileUploadQuestion({
+		title: 'New plans or drawings',
+		question: 'Upload your new plans or drawings',
+		fieldName: 'uploadNewPlansDrawings',
+		url: 'upload-new-plans-drawings',
+		validators: [
+			new RequiredFileUploadValidator('Select your new plans or drawings'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadNewPlansDrawings
+	}),
+	otherNewDocuments: new BooleanQuestion({
+		title: 'Do you have any other new documents that support your appeal?',
+		question: 'Do you have any other new documents that support your appeal?',
+		fieldName: 'otherNewDocuments',
+		url: 'other-new-documents',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have any other new documents that support your appeal'
+			)
+		]
+	}),
+	uploadOtherNewDocuments: new MultiFileUploadQuestion({
+		title: 'Other new supporting documents',
+		question: 'Upload your other new supporting documents',
+		fieldName: 'uploadOtherNewDocuments',
+		url: 'upload-other-new-supporting-documents',
+		validators: [
+			new RequiredFileUploadValidator('Select your other new supporting documents'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadOtherNewDocuments
+	}),
 	appellantProcedurePreference: new RadioQuestion({
 		title: 'How would you prefer us to decide your appeal?',
 		question: 'How would you prefer us to decide your appeal?',
