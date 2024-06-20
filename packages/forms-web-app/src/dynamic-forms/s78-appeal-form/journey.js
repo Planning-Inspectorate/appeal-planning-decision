@@ -156,6 +156,9 @@ class S78AppealFormJourney extends Journey {
 				.addQuestion(questions.costApplication)
 				.addQuestion(questions.uploadCostApplication)
 				.withCondition(questionHasAnswer(questions.costApplication, 'yes'))
+				.addQuestion(questions.designAccessStatement)
+				.addQuestion(questions.uploadDesignAccessStatement)
+				.withCondition(questionHasAnswer(questions.designAccessStatement, 'yes'))
 		);
 	}
 }

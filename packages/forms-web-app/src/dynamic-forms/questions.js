@@ -1768,6 +1768,30 @@ exports.questions = {
 		],
 		documentType: documentTypes.uploadPlanningObligation
 	}),
+	designAccessStatement: new BooleanQuestion({
+		title: 'Did you submit a design and access statement with your application?',
+		question: 'Did you submit a design and access statement with your application?',
+		fieldName: 'designAccessStatement',
+		url: 'design-access-check',
+		html: 'resources/plans-drawings/design-access.html',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you submitted a design and access statement with your application'
+			)
+		]
+	}),
+	uploadDesignAccessStatement: new MultiFileUploadQuestion({
+		title: 'Design and access statement',
+		question: 'Upload your design and access statement',
+		fieldName: 'uploadDesignAccessStatement',
+		url: 'upload-design-access-statement',
+		html: 'resources/plans-drawings/upload-design-access.html',
+		validators: [
+			new RequiredFileUploadValidator('Select your design and access statement'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadDesignAccessStatement
+	}),
 	appellantProcedurePreference: new RadioQuestion({
 		title: 'How would you prefer us to decide your appeal?',
 		question: 'How would you prefer us to decide your appeal?',
