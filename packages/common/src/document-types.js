@@ -468,6 +468,15 @@ const documentTypes = {
 		owner: appellantOwner,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadPlanningObligation: {
+		name: 'uploadPlanningObligation',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: appellantOwner,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 

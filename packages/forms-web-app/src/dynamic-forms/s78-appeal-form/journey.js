@@ -141,6 +141,8 @@ class S78AppealFormJourney extends Journey {
 				.withCondition(questionHasAnswer(questions.updateDevelopmentDescription, 'yes'))
 				.addQuestion(questions.uploadApplicationDecisionLetter)
 				.addQuestion(questions.submitPlanningObligation)
+				.addQuestion(questions.uploadPlanningObligation)
+				.withCondition(questionHasAnswer(questions.uploadPlanningObligation, 'yes'))
 				.addQuestion(questions.uploadAppellantStatement)
 				.addQuestion(questions.costApplication)
 				.addQuestion(questions.uploadCostApplication)
