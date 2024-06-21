@@ -1,13 +1,15 @@
 components:
   schemas:
-    AppealCaseWithAppellant:
+    AppealCaseWithAppellantAndAgent:
       description: An appeal case from the Back Office, with appellant service user
       allOf:
         - $ref: '#/components/schemas/AppealCase'
         - type: object
           properties:
-            appellant:
-              $ref: '#/components/schemas/ServiceUser'
+            users:
+              type: array
+              items:
+                $ref: '#/components/schemas/ServiceUser'
     AppealCaseWithRule6Parties:
       description: An appeal case with rule 6 parties
       allOf:
@@ -24,401 +26,283 @@ components:
       required:
         - caseReference
         - LPACode
-        - LPAName
         - appealTypeCode
-        - decision
-        - originalCaseDecisionDate
-        - costsAppliedForIndicator
-        - LPAApplicationReference
+        - applicationDecision
+        - applicationDecisionDate
+        - applicationReference
         - siteAddressLine1
         - siteAddressPostcode
       properties:
+        # ids/refs
         id:
           type: string
           format: uuid
           description: front office appeal case ID
+        appealId:
+          type: string
+          format: uuid
+          description: front office appeal ID (root linked to submission)
         caseReference:
           type: string
           description: appeal case reference (aka appeal number)
           example: '6123456'
+        caseId:
+          type: string
+          description: Internal case identifier
+          example: '1200'
+
+        # general case fields
         LPACode:
           type: string
           description: a code to identify the LPA this case relates to
           example: 'Q9999'
-
-        # appellant case
-        LPAName:
-          type: string
-          description: the name of the LPA this case relates to
-          example: 'System Test Borough Council'
         appealTypeCode:
           type: string
-          description: appeal type short-code such as HAS or S78
-          example: HAS
-        appealTypeName:
+          enum: ['HAS', 'S78']
+        caseStatus:
           type: string
-          example: Householder
-        decision:
+          enum:
+            [
+              'assign_case_officer',
+              'validation',
+              'ready_to_start',
+              'lpa_questionnaire',
+              'issue_determination',
+              'complete',
+              'invalid',
+              'closed',
+              'withdrawn',
+              'awaiting_transfer',
+              'transferred'
+            ]
+          description: The processing status for the appeal
+        caseProcedure:
+          type: string
+          enum: ['written', 'hearing', 'inquiry']
+          description: The type of procedure for the appeal
+
+        applicationReference:
+          type: string
+          description: The unique identifier of the LPA application
+        applicationDecision:
           type: string
           enum: ['granted', 'refused']
-          description: original planning application decision by the LPA
-        originalCaseDecisionDate:
+          description: The outcome of the original LPA decision
+        applicationDate:
           type: string
           format: date-time
-          description: the date the original planning application was decided by the LPA
-        costsAppliedForIndicator:
+          description: The date of the original LPA application
+        applicationDecisionDate:
+          type: string
+          format: date-time
+          description: The date of the original LPA decision
+        caseSubmissionDueDate:
+          type: string
+          format: date-time
+          description: The statutory deadline for submitting an appeal from the original LPA decision date, calculated from the applicationDecisionDate
+
+        isGreenBelt:
           type: boolean
-        LPAApplicationReference:
-          type: string
-          description: the LPA's reference for the original planning application
-        appellantCasePublished:
-          type: string
-        appellantProofEvidenceSubmitted:
+          description: Indicates if the site is in a green belt
+        inConservationArea:
           type: boolean
-        appellantProofEvidencePublished:
+          description: Indicates if the site is in a conservation area
+        enforcementNotice:
           type: boolean
-        appellantFinalCommentsSubmitted:
-          type: boolean
-        appellantFinalCommentDetails:
-          type: string
-        appellantFirstName:
-          type: string
-        appellantLastName:
-          type: string
+          description: Indicates if an enforcement notice is the reason for the appeal
+
+        # site details
         siteAddressLine1:
           type: string
+          description: First line of address for the appeal site
         siteAddressLine2:
           type: string
+          description: Second line of address for the appeal site
         siteAddressTown:
           type: string
+          description: Town / City of the site address
         siteAddressCounty:
           type: string
+          description: County of the site address
         siteAddressPostcode:
           type: string
-
-        # LPA Questionnaire
-        questionnaireDueDate:
-          type: string
-          format: date-time
-          description: the date LPA's questionnaire is due
-        questionnaireReceived:
-          type: string
-          format: date-time
-          description: the date LPA's questionnaire was received
-        lpaQuestionnaireSubmittedDate:
-          type: string
-          format: date-time
-          description: the date LPA's questionnaire was submitted
-        lpaQuestionnairePublishedDate:
-          type: string
-          format: date-time
-          description: the date LPA's questionnaire was published
-        lpaQuestionnairePublished:
-          type: boolean
-        lpaQuestionnaireSubmitted:
-          type: boolean
-        doesAffectAScheduledMonument:
-          type: boolean
-        lpaStatementPublished:
-          type: boolean
-        lpaProofEvidenceSubmitted:
-          type: boolean
-        lpaProofEvidencePublished:
-          type: boolean
-        lpaFinalCommentsPublished:
-          type: boolean
-
-        #Published questionnaire details
-        correctAppealType:
-          type: boolean
-          description: Is this the correct type of appeal
-        changesListedBuilding:
-          type: boolean
-          description: Does the development change a listed building
-        changedListedBuildingNumber:
+          description: Postal code of the site address
+        siteAccessDetails:
+          type: array
+          items:
+            type: string
+          description: A json array of information on site accessibility
+        siteSafetyDetails:
+          type: array
+          items:
+            type: string
+          description: A json array of information on site health and safety
+        siteAreaSquareMetres:
           type: number
-          description: the list entry number
-        addChangedListedBuilding:
-          type: boolean
-          description: Add another building or site
-        affectsListedBuilding:
-          type: boolean
-          description: Does the proposed development affect the setting of listed buildings
-        affectedListedBuildingNumber:
+          example: [45.7]
+          description: The site area, in square meters
+        floorSpaceSquareMetres:
           type: number
-          description: the list entry number
-        addAffectedListedBuilding:
+          example: [45.7]
+          description: The floor space, in square meters
+
+        # Appellant fields
+        appellantCostsAppliedFor:
           type: boolean
-          description: Add another building or site
-        scheduledMonument:
+          description: Indicates if the appellant has applied for costs
+        ownsAllLand:
           type: boolean
-          description: Would the development affect a scheduled monument
-        conservationArea:
+          description: Indicates if the appellant has complete ownership of the site
+        ownsSomeLand:
           type: boolean
-          description: Is the site in, or next to a conservation area
-        uploadConservation:
-          type: boolean
-          description: Upload conservation map and guidance
-        protectedSpecies:
-          type: boolean
-          description: Would the development affect a protected species
-        greenBelt:
-          type: boolean
-          description: Is the site in a green belt
-        areaOutstandingBeauty:
-          type: boolean
-          description: Is the appeal site in an area of outstanding natural beauty
-        designatedSites:
+          description: Indicates if the appellant has partial ownership of the site
+        knowsOtherOwners:
           type: string
-          description: Is the development in, near or likely to affect any designated sites
-        otherDesignationDetails:
+          enum: ['Yes', 'No', 'Some', null]
+          description: Indicates if the appellant knows other owners of the site
+        knowsAllOwners:
           type: string
-        treePreservationOrder:
+          enum: ['Yes', 'No', 'Some', null]
+          description: Indicates if the appellant knows all owners of the site
+        advertisedAppeal:
           type: boolean
-          description: Does a Tree Preservation Order (TPO) apply to any part of the appeal site
-        uploadTreePreservationOrder:
+          description: Indicates if the appellant has advertised the appeal to the LPA decision
+        ownersInformed:
           type: boolean
-          description: Upload a plan showing the extent of the order
-        gypsyTraveller:
-          type: boolean
-          description: Does the development relate to anyone claiming to be a Gypsy or Traveller
-        publicRightOfWay:
-          type: boolean
-          description: Would a public right of way need to be removed or diverted
-        uploadDefinitiveMapStatement:
-          type: boolean
-          description: Upload the definitive map and statement extract
-        environmentalImpactSchedule:
+          description: Indicates if the appellant has informed other owners of the site
+        originalDevelopmentDescription:
           type: string
-          description: Is the development a schedule 1 or schedule 2 development
-        developmentDescription:
-          type: string
-          description: Description of development
-        sensitiveArea:
+          description: The original description of the development, as provided by the appellant
+
+        # LPA fields
+        isCorrectAppealType:
           type: boolean
-          description: Is the development in, partly in, or likely to affect a sensitive area
-        sensitiveAreaDetails:
-          type: string
-          description: Tell us about the sensitive area
-        columnTwoThreshold:
+          description: Indicates if the LPA considers the appeal type appropriate
+        lpaCostsAppliedFor:
           type: boolean
-          description: Does the development meet or exceed the threshold or criteria in column 2
-        screeningOpinion:
+          description: Indicates if the appellant has applied for costs
+        changedDevelopmentDescription:
           type: boolean
-          description: Have you issued a screening opinion
-        uploadScreeningOpinion:
-          type: boolean
-          description: Upload your screening opinion and any correspondence
-        requiresEnvironmentalStatement:
-          type: boolean
-          description: Did your screening opinion say the development needed an environmental statement
-        uploadScreeningDirection:
-          type: boolean
-          description: Upload the screening direction
-        uploadEnvironmentalStatement:
-          type: boolean
-          description: Upload the environmental statement and supporting information
-        completedEnvironmentalStatement:
-          type: boolean
-          description: Did the applicant submit an environmental statement
-        uploadWhoNotified:
-          type: boolean
-          description: Who did you notify about this application
-        notificationMethod:
-          type: string
-          description: How did you notify relevant parties about the planning application
-        uploadSiteNotice:
-          type: boolean
-          description: Upload the site notice
-        uploadLettersEmails:
-          type: boolean
-          description: Upload the letters and emails
-        uploadPressAdvert:
-          type: boolean
-          description: Upload the press advertisement
-        statutoryConsultees:
-          type: boolean
-          description: Did you consult all the relevant statutory consultees about the development
-        consultedBodiesDetails:
-          type: string
-          description: Which bodies did you consult
-        consultationResponses:
-          type: boolean
-          description: Do you have any consultation responses or standing advice from statutory consultees to upload
-        uploadConsultationResponses:
-          type: boolean
-          description: Upload the consultation responses and standing advice
-        otherPartyRepresentations:
-          type: boolean
-          description: Did you receive representations from members of the public or other parties
-        uploadRepresentations:
-          type: boolean
-          description: Upload the representations
-        uploadPlanningOfficerReport:
-          type: boolean
-          description: Upload the planning officers report
-        uploadDevelopmentPlanPolicies:
-          type: boolean
-          description: Upload relevant policies from your statutory development plan
-        emergingPlan:
-          type: boolean
-          description: Do you have an emerging plan that is relevant to this appeal
-        uploadEmergingPlan:
-          type: boolean
-          description: Upload the emerging plan and supporting information
-        uploadOtherPolicies:
-          type: boolean
-          description: Upload any other relevant policies
-        supplementaryPlanningDocs:
-          type: boolean
-          description: Did any supplementary planning documents inform the outcome of the application
-        uploadSupplementaryPlanningDocs:
-          type: boolean
-          description: Upload the relevant supplementary planning documents
-        infrastructureLevy:
-          type: boolean
-          description: Do you have a community infrastructure levy
-        uploadInfrastructureLevy:
-          type: boolean
-          description: Upload your community infrastructure levy
-        infrastructureLevyAdopted:
-          type: boolean
-          description: Is the community infrastructure levy formally adopted
-        infrastructureLevyAdoptedDate:
-          type: string
-          format: date-time
-          description: When was the community infrastructure levy formally adopted
-        infrastructureLevyExpectedDate:
-          type: string
-          format: date-time
-          description: When do you expect to formally adopt the community infrastructure levy
-        lpaSiteAccess:
-          type: boolean
-          description: Might the inspector need access to the appellants land or property
-        lpaSiteAccessDetails:
-          type: string
-          description: the reason
-        neighbouringSiteAccess:
-          type: boolean
-          description: Might the inspector need to enter a neighbours land or property
-        neighbouringSiteAccessDetails:
-          type: string
-          description: the reason
-        addNeighbouringSiteAccess:
-          type: boolean
-          description: Do you want to add another neighbour to be visited
-        lpaSiteSafetyRisks:
-          type: boolean
-          description: Are there any potential safety risks
-        lpaSiteSafetyRiskDetails:
-          type: string
-          description: Add details of the potential risk and what the inspector might need
-        lpaProcedurePreference:
-          type: string
-          description: Which procedure do you think is most appropriate for this appeal
-        lpaPreferHearingDetails:
-          type: string
-          description: Why would you prefer a hearing
-        lpaPreferInquiryDuration:
-          type: string
-          description: How many days would you expect the inquiry to last
-        lpaPreferInquiryDetails:
-          type: string
-          description: Why would you prefer an inquiry
-        nearbyAppeals:
-          type: boolean
-          description: Are there any other ongoing appeals next to, or close to the site
-        nearbyAppealReference:
-          type: string
-          description: Enter an appeal reference number
-        addNearbyAppeal:
-          type: boolean
-          description: Add another appeal
-        newConditions:
-          type: boolean
-          description: Are there any new conditions
+          description: Indicates that the LPA has changed the development description
         newConditionDetails:
           type: string
-          description: Tell us about the new conditions
+          description: New conditions details provided by the LPA
         lpaStatement:
           type: string
-          description: Enter your statement
-        lpaStatementDocuments:
-          type: boolean
-          description: Do you have additional documents to support your appeal statement
-        uploadLpaStatementDocuments:
-          type: boolean
-          description: Upload your new supporting documents
-        lpaFinalComment:
-          type: boolean
-          description: Do you want to submit a final comment
-        lpaFinalCommentDetails:
+          description: A statement provided by the LPA
+
+        # PINS provided details
+        caseDecisionOutcome:
           type: string
-          description: What are your final comments
-        uploadLpaProofEvidence:
-          type: boolean
-          description: Upload your proof of evidence and summary
-        lpaWitnesses:
-          type: boolean
-          description: Do you need to add any witnesses
-        uploadLpaWitnessEvidence:
-          type: boolean
-          description: Upload your witnesses and their evidence
-        uploadLpaWitnessTimings:
-          type: boolean
-          description: Upload witness timings
-        uploadLpaRebuttal:
-          type: boolean
-          description: Upload rebuttals
+          enum: ['allowed', 'split_decision', 'dismissed', 'invalid', null]
+          description: The final outcome for the case
+        caseValidationOutcome:
+          type: string
+          enum: ['valid', 'invalid', 'incomplete', null]
+          description: The outcome of the validation action
+        lpaQuestionnaireValidationOutcome:
+          type: string
+          enum: ['complete', 'incomplete', null]
+          description: The outcome of the validation action
+        caseValidationInvalidDetails:
+          type: array
+          items:
+            type: string
+          description: A json array of reasons why the appeal is invalid, will contain items only if the caseValidationOutcome is invalid
+        caseValidationIncompleteDetails:
+          type: array
+          items:
+            type: string
+          description: A json array of reasons why the appeal is incomplete, will contain items only if the caseValidationOutcome is incomplete
+        lpaQuestionnaireValidationDetails:
+          type: array
+          items:
+            type: string
+          description: A json array of reasons why the questionnaire is incomplete, will contain items only if the lpaQuestionnaireValidationOutcome is incomplete
 
-        # rule 6
-        rule6StatementPublished:
-          type: boolean
-        rule6ProofsEvidencePublished:
-          type: boolean
-
-        # interested party
-        interestedPartyCommentsPublished:
-          type: boolean
-
-        # case dates
-        caseReceived:
-          type: boolean
-          description: whether the appeal was received
-        receiptDate:
+        # system dates
+        caseSubmittedDate:
           type: string
           format: date-time
-          description: the date the appeal was received
-        casePublished:
-          type: boolean
-          description: whether the appeal is published
+          description: The date the appeal was submitted by the appellant, i.e. submit on FO
+        caseCreatedDate:
+          type: string
+          format: date-time
+          description: The date the appeal was received, i.e. received from FO in BO
+        caseUpdatedDate:
+          type: string
+          format: date-time
+          description: The date the appeal was last updated in the back-office
+        caseValidDate:
+          type: string
+          format: date-time
+          description: The date since when the appeal was considered valid
+        caseValidationDate:
+          type: string
+          format: date-time
+          description: The date the appeal was validated in the back-office
+        caseExtensionDate:
+          type: string
+          format: date-time
+          description: When the validation outcome is incomplete, an extension may be granted to provide missing information
+        caseStartedDate:
+          type: string
+          format: date-time
+          description: A date indicating when the case was started, resulting in the creation of a timetable
         casePublishedDate:
           type: string
           format: date-time
-          description: the date the appeal was published
-        startDate:
+          description: A date indicating when the case was published
+        caseWithdrawnDate:
           type: string
           format: date-time
-          description: the date the appeal was started
-        appealValidDate:
+          description: The date the appeal was withdrawn by the appellant
+        caseTransferredDate:
           type: string
           format: date-time
-          description: the date the appeal was marked valid
-        caseDecisionDate:
+          description: The date the appeal was transferred to a new case of a different type
+        transferredCaseClosedDate:
           type: string
           format: date-time
-          description: the date the appeal was decided
+          description: The date the appeal was closed and the appellant requested to resubmit
+        caseDecisionOutcomeDate:
+          type: string
+          format: date-time
+          description: The date of the appeal decision
+        caseDecisionPublishedDate:
+          type: string
+          format: date-time
+          description: The date the appeal decision was published
+        caseCompletedDate:
+          type: string
+          format: date-time
+          description: The date the appeal decision letter
+        lpaQuestionnaireDueDate:
+          type: string
+          format: date-time
+          description: If the case is started and has a timetable, a deadline for the LPA to provide a response
+        lpaQuestionnaireSubmittedDate:
+          type: string
+          format: date-time
+          description: The date the LPA provided a response to the case
+        lpaQuestionnaireCreatedDate:
+          type: string
+          format: date-time
+          description: The date the LPA response was received
+        lpaQuestionnairePublishedDate:
+          type: string
+          format: date-time
+          description: The date indicating when the questionnaire review was completed and the questionnaire published
+        lpaQuestionnaireValidationOutcomeDate:
+          type: string
+          format: date-time
+          description: The date the LPA response was validated
+
+        # s78 fields - remove or rename to align with data model once created
         interestedPartyRepsDueDate:
           type: string
           format: date-time
           description: the date interested party comments are accepted until
-        caseValidDate:
-          type: string
-          format: date-time
-        appealWithdrawnDate:
-          type: string
-          format: date-time
-          description: the date the appeal was withdrawn
 
         # statement
         statementDueDate:
@@ -463,6 +347,8 @@ components:
           type: string
           format: date-time
           description: the date the LPA's comments were received
+        appellantFinalCommentDetails:
+          type: string
 
         # proofs of evidence
         proofsOfEvidenceDueDate:
@@ -486,61 +372,154 @@ components:
           format: date-time
           description: the date the LPA's proofs of evidence were received
 
-        # unconfirmed
-        procedure:
-          type: string
-        outcome:
-          type: string
-          enum: ['allowed', 'dismissed', 'split decision', 'invalid']
-          description: the Inspector's outcome/decision for this case
-        caseDecisionOutcome:
-          type: string
-          enum: ['allowed', 'dismissed', 'split decision', 'invalid']
-          description: the Inspector's outcome/decision for this case
-        caseDecisionPublished:
+        scheduledMonument:
           type: boolean
-        appealStatus:
-          type: string
-          enum: ['assign_case_officer', 'validation', 'ready_to_start', 'lpa_questionnaire_due', 'statement_review', 'final_comment_review', 'issue_determination', 'complete', 'invalid', 'withdrawn', 'closed', 'awaiting_transfer', 'transferred']
-          description: the current status of the appeal
-
-        # appeal details
-        isAppellant:
+        appellantProofEvidencePublished:
           type: boolean
-        appellantCompanyName:
-          type: string
-        contactFirstName:
-          type: string
-        contactLastName:
-          type: string
-        contactCompanyName:
-          type: string
+        appellantFinalCommentsSubmitted:
+          type: boolean
+        lpaStatementPublished:
+          type: boolean
+        lpaProofEvidenceSubmitted:
+          type: boolean
+        lpaProofEvidencePublished:
+          type: boolean
+        lpaFinalCommentsPublished:
+          type: boolean
 
-        appellantPhoneNumber:
+        conservationArea:
+          type: boolean
+          description: Is the site in, or next to a conservation area
+        protectedSpecies:
+          type: boolean
+          description: Would the development affect a protected species
+        areaOutstandingBeauty:
+          type: boolean
+          description: Is the appeal site in an area of outstanding natural beauty
+        designatedSites:
           type: string
-
-        onApplicationDate:
+          description: Is the development in, near or likely to affect any designated sites
+        otherDesignationDetails:
+          type: string
+        treePreservationOrder:
+          type: boolean
+          description: Does a Tree Preservation Order (TPO) apply to any part of the appeal site
+        gypsyTraveller:
+          type: boolean
+          description: Does the development relate to anyone claiming to be a Gypsy or Traveller
+        publicRightOfWay:
+          type: boolean
+          description: Would a public right of way need to be removed or diverted
+        environmentalImpactSchedule:
+          type: string
+          description: Is the development a schedule 1 or schedule 2 development
+        developmentDescription:
+          type: string
+          description: Description of development
+        sensitiveArea:
+          type: boolean
+          description: Is the development in, partly in, or likely to affect a sensitive area
+        sensitiveAreaDetails:
+          type: string
+          description: Tell us about the sensitive area
+        columnTwoThreshold:
+          type: boolean
+          description: Does the development meet or exceed the threshold or criteria in column 2
+        screeningOpinion:
+          type: boolean
+          description: Have you issued a screening opinion
+        requiresEnvironmentalStatement:
+          type: boolean
+          description: Did your screening opinion say the development needed an environmental statement
+        completedEnvironmentalStatement:
+          type: boolean
+          description: Did the applicant submit an environmental statement
+        statutoryConsultees:
+          type: boolean
+          description: Did you consult all the relevant statutory consultees about the development
+        consultedBodiesDetails:
+          type: string
+          description: Which bodies did you consult
+        consultationResponses:
+          type: boolean
+          description: Do you have any consultation responses or standing advice from statutory consultees to upload
+        otherPartyRepresentations:
+          type: boolean
+          description: Did you receive representations from members of the public or other parties
+        emergingPlan:
+          type: boolean
+          description: Do you have an emerging plan that is relevant to this appeal
+        supplementaryPlanningDocs:
+          type: boolean
+          description: Did any supplementary planning documents inform the outcome of the application
+        infrastructureLevy:
+          type: boolean
+          description: Do you have a community infrastructure levy
+        infrastructureLevyAdopted:
+          type: boolean
+          description: Is the community infrastructure levy formally adopted
+        infrastructureLevyAdoptedDate:
           type: string
           format: date-time
-
-        ownsAllLand:
+          description: When was the community infrastructure levy formally adopted
+        infrastructureLevyExpectedDate:
+          type: string
+          format: date-time
+          description: When do you expect to formally adopt the community infrastructure levy
+        lpaSiteAccess:
           type: boolean
-        ownsSomeLand:
+          description: Might the inspector need access to the appellants land or property
+        lpaSiteAccessDetails:
+          type: string
+          description: the reason
+        neighbouringSiteAccess:
           type: boolean
-        knowsOtherOwners:
+          description: Might the inspector need to enter a neighbours land or property
+        neighbouringSiteAccessDetails:
+          type: string
+          description: the reason
+        addNeighbouringSiteAccess:
           type: boolean
-        identifiedOwners:
+          description: Do you want to add another neighbour to be visited
+        lpaSiteSafetyRisks:
           type: boolean
-        advertisedAppeal:
+          description: Are there any potential safety risks
+        lpaSiteSafetyRiskDetails:
+          type: string
+          description: Add details of the potential risk and what the inspector might need
+        appellantProcedurePreference:
+          type: string
+          description: Which procedure does appellant think is most appropriate for this appeal
+        appellantProcedurePreferenceDetails:
+          type: string
+          description: Why preference chosen
+        appellantProcedurePreferenceDuration:
+          type: number
+          description: appellant procedure length preference
+        lpaProcedurePreference:
+          type: string
+          description: Which procedure does LPA think is most appropriate for this appeal
+        lpaProcedurePreferenceDetails:
+          type: string
+          description: Why preference chosen
+        lpaProcedurePreferenceDuration:
+          type: number
+          description: LPA procedure length preference
+        lpaStatementDocuments:
           type: boolean
-        informedOwners:
+          description: Do you have additional documents to support your appeal statement
+        uploadLpaStatementDocuments:
           type: boolean
-        appellantGreenBelt:
+          description: Upload your new supporting documents
+        lpaFinalComment:
           type: boolean
-
-        siteAreaSquareMetres:
-          type: integer
-
+          description: Do you want to submit a final comment
+        lpaFinalCommentDetails:
+          type: string
+          description: What are your final comments
+        lpaWitnesses:
+          type: boolean
+          description: Do you need to add any witnesses
         agriculturalHolding:
           type: boolean
         tenantAgriculturalHolding:
@@ -549,32 +528,29 @@ components:
           type: boolean
         informedTenantsAgriculturalHolding:
           type: boolean
-
-        appellantSiteAccess:
-          type: boolean
-        appellantSiteAccessDetails:
-          type: string
-        appellantSiteSafety:
-          type: boolean
-        appellantSiteSafetyDetails:
-          type: string
-
-        appellantProcedurePreference:
-          type: string
-        appellantPreferHearingDetails:
-          type: string
-        appellantPreferInquiryDetails:
-          type: string
-
-        appellantLinkedCase:
-          type: boolean
-
-        updateDevelopmentDescription:
-          type: boolean
-        developmentDescriptionDetails:
-          type: string
         statusPlanningObligation:
           type: string
+
+        # rule 6
+        rule6StatementPublished:
+          type: boolean
+        rule6ProofsEvidencePublished:
+          type: boolean
+
+        # interested party
+        interestedPartyCommentsPublished:
+          type: boolean
+
+        # relations
+        Rule6Parties:
+          type: array
+          items:
+            type: object
+
+        AffectedListedBuildings:
+          type: array
+          items:
+            type: object
 
         Documents:
           type: array
@@ -586,9 +562,12 @@ components:
           items:
             type: object
 
-        SubmissionLinkedCase:
+        Events:
           type: array
           items:
             type: object
 
-				# todo: add properties from data model
+        AppealCaseLpaNotificationMethod:
+          type: array
+          items:
+            type: string

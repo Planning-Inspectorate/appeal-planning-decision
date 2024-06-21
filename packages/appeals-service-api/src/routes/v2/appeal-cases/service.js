@@ -5,15 +5,25 @@ const {
 const { AppealCaseRepository } = require('./repo');
 const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
 const ApiError = require('#errors/apiError');
+const { CASE_TYPES } = require('@pins/database/src/seed/data-static');
 
 const repo = new AppealCaseRepository();
 const serviceUserRepo = new ServiceUserRepository();
+const { SchemaValidator } = require('../../../services/back-office-v2/validate');
+const { getValidator } = new SchemaValidator();
+
+/**
+ * @template Payload
+ * @typedef {import('../../../services/back-office-v2/validate').Validate<Payload>} Validate
+ */
 
 /**
  * @typedef {import("@prisma/client").AppealCase} AppealCase
  * @typedef {import('@prisma/client').Prisma.AppealCaseCreateInput} AppealCaseCreateInput
  * @typedef {import("@prisma/client").ServiceUser} ServiceUser
  * @typedef {AppealCase & {appellant?: ServiceUser}} AppealCaseWithAppellant
+ * @typedef {import ('pins-data-model').Schemas.AppealHASCase} AppealHASCase
+
  */
 
 /**
@@ -21,7 +31,6 @@ const serviceUserRepo = new ServiceUserRepository();
  *
  * @param {object} opts
  * @param {string} opts.caseReference
- * @param {boolean} opts.casePublished
  * @returns {Promise<AppealCaseWithAppellant|null>}
  */
 async function getCaseAndAppellant(opts) {
@@ -38,12 +47,25 @@ async function getCaseAndAppellant(opts) {
  * Get an appeal case and appellant by case reference
  *
  * @param {string} caseReference
- * @param {AppealCaseCreateInput} data
+ * @param {AppealHASCase} data
  * @returns {Promise<AppealCase>}
  */
 async function putCase(caseReference, data) {
 	try {
-		return await repo.putByCaseReference(caseReference, data);
+		/** @type {Validate<AppealHASCase>} */
+		const hasValidator = getValidator('appeal-has');
+
+		switch (data.caseType) {
+			case CASE_TYPES.HAS.key:
+				// todo: openApiValidatorMiddleware not working?
+				if (!hasValidator(data)) {
+					throw ApiError.badRequest('Payload was invalid');
+				}
+
+				return repo.putHASByCaseReference(caseReference, CASE_TYPES.HAS.processCode, { ...data });
+			default:
+				throw Error(`putCase: unhandled casetype: ${data.caseType}`);
+		}
 	} catch (err) {
 		if (err instanceof PrismaClientValidationError) {
 			throw ApiError.badRequest(err.message);

@@ -21,7 +21,7 @@ async function getByCaseReference(req, res) {
 	}
 	try {
 		// only check published cases
-		const appealCase = await getCaseAndAppellant({ caseReference, casePublished: true });
+		const appealCase = await getCaseAndAppellant({ caseReference });
 		if (!appealCase) {
 			throw ApiError.withMessage(404, 'not found');
 		}

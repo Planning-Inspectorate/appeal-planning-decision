@@ -84,7 +84,8 @@ const NEW_OR_SAVED_APPEAL_OPTION = {
 const DECISION_OUTCOME = {
 	ALLOWED: 'allowed',
 	DISMISSED: 'dismissed',
-	SPLIT_DECISION: 'split decision'
+	SPLIT_DECISION: 'split_decision',
+	INVALID: 'invalid'
 };
 
 module.exports = {

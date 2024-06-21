@@ -107,7 +107,7 @@ model Appeal {
   /// users linked to this appeal, such as the appellant or agent
   Users AppealToUser[]
 
-  /// reference to an appeal submission in the Cosmos DB `appeals` collection
+  /// reference to an appeal v1 submission in the Cosmos DB `appeals` collection
   /// we sync across two properties, as below
   /// this is so we can query for draft submissions where the deadline date has passed (to delete them)
   legacyAppealSubmissionId           String?
@@ -119,9 +119,8 @@ model Appeal {
   /// link to case (from Back Office)
   AppealCase AppealCase?
 
+  /// appellant v2 submission
   AppellantSubmission AppellantSubmission?
-
-  // todo: in the future link to appeal submission and other data
 }
 
 /// AppealToUser represents the relationships between AppealUser and Appeal
@@ -159,172 +158,130 @@ model AppealToUserRole {
 /// Cases aren't linked to users directly, but there's a 1:1 mapping to Appeal, which has a link to user
 // NOTE: field names match the model rather than the usual camelCase. This avoids extra mapping.
 model AppealCase {
-  /// this ID is for front office only and won't correlate to other systems
-  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-
   //***************************************************************************
-  // general fields
+  // ids/refs
   //***************************************************************************
 
-  /// unique case reference
-  caseReference String @unique
-  LPACode       String
+  id            String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier /// this ID is for front office only and won't correlate to other systems
+  appealId      String @unique @db.UniqueIdentifier
+  Appeal        Appeal @relation(fields: [appealId], references: [id])
+  caseReference String @unique /// External case identifier
+  caseId        Int? /// Internal case identifier
 
   //***************************************************************************
-  // appellant case fields
+  // general case fields
   //***************************************************************************
 
-  LPAName                         String
-  appealTypeCode                  String // type shortcode such as HAS or S78
-  appealTypeName                  String // type name such as Householder or Full Planning
-  decision                        String
-  originalCaseDecisionDate        DateTime
-  costsAppliedForIndicator        Boolean
-  LPAApplicationReference         String
-  appellantCasePublished          Boolean  @default(false)
-  appellantProofEvidenceSubmitted Boolean  @default(false)
-  appellantProofEvidencePublished Boolean  @default(false)
-  appellantFinalCommentsSubmitted Boolean  @default(false)
-  appellantFinalCommentDetails    String?
+  LPACode        String /// A unique identifier for the Local Planning Authority
+  appealTypeCode String? /// The type shortcode for an appeal type, e.g. HAS (Householder)
+  CaseType       CaseType?      @relation(fields: [appealTypeCode], references: [processCode])
+  caseStatus     String /// The processing status for the appeal
+  CaseStatus     CaseStatus     @relation(fields: [caseStatus], references: [key])
+  caseProcedure  String? /// The type of procedure for the appeal
+  ProcedureType  ProcedureType? @relation(fields: [caseProcedure], references: [key])
 
-  appellantFirstName String @default("")
-  appellantLastName  String @default("")
+  applicationReference    String? /// The unique identifier of the LPA application
+  applicationDecision     String? /// The outcome of the original LPA decision
+  applicationDate         DateTime? /// The date of the original LPA application
+  applicationDecisionDate DateTime? /// The date of the original LPA decision
+  caseSubmissionDueDate   DateTime? /// The statutory deadline for submitting an appeal from the original LPA decision date, calculated from the applicationDecisionDate
 
-  siteAddressLine1    String
-  siteAddressLine2    String?
-  siteAddressTown     String?
-  siteAddressCounty   String?
-  siteAddressPostcode String
+  isGreenBelt        Boolean? /// Indicates if the site is in a green belt
+  inConservationArea Boolean? /// Indicates if the site is in a conservation area
+  enforcementNotice  Boolean? /// Indicates if an enforcement notice is the reason for the appeal
 
   //***************************************************************************
-  // LPA questionnaire fields
+  // site details
   //***************************************************************************
 
-  questionnaireDueDate          DateTime?
-  questionnaireReceived         DateTime?
-  lpaQuestionnaireSubmittedDate DateTime?
-  lpaQuestionnairePublishedDate DateTime?
-
-  lpaQuestionnairePublished    Boolean  @default(false)
-  lpaQuestionnaireSubmitted    Boolean  @default(false)
-  doesAffectAScheduledMonument Boolean?
-  lpaStatementPublished        Boolean  @default(false)
-  lpaProofEvidenceSubmitted    Boolean  @default(false)
-  lpaProofEvidencePublished    Boolean  @default(false)
-  lpaFinalCommentsPublished    Boolean  @default(false)
-
-  // Published questionnaire details
-  correctAppealType               Boolean?
-  changesListedBuilding           Boolean?
-  changedListedBuildingNumber     Int?
-  addChangedListedBuilding        Boolean?
-  affectsListedBuilding           Boolean?
-  affectedListedBuildingNumber    Int?
-  addAffectedListedBuilding       Boolean?
-  scheduledMonument               Boolean?
-  conservationArea                Boolean?
-  uploadConservation              Boolean?
-  protectedSpecies                Boolean?
-  greenBelt                       Boolean?
-  areaOutstandingBeauty           Boolean?
-  designatedSites                 String?
-  otherDesignationDetails         String?
-  treePreservationOrder           Boolean?
-  uploadTreePreservationOrder     Boolean?
-  gypsyTraveller                  Boolean?
-  publicRightOfWay                Boolean?
-  uploadDefinitiveMapStatement    Boolean?
-  environmentalImpactSchedule     String?
-  developmentDescription          String?
-  sensitiveArea                   Boolean?
-  sensitiveAreaDetails            String?
-  columnTwoThreshold              Boolean?
-  screeningOpinion                Boolean?
-  uploadScreeningOpinion          Boolean?
-  requiresEnvironmentalStatement  Boolean?
-  uploadScreeningDirection        Boolean?
-  uploadEnvironmentalStatement    Boolean?
-  completedEnvironmentalStatement Boolean?
-  uploadWhoNotified               Boolean?
-  notificationMethod              String?
-  uploadSiteNotice                Boolean?
-  uploadLettersEmails             Boolean?
-  uploadPressAdvert               Boolean?
-  statutoryConsultees             Boolean?
-  consultedBodiesDetails          String?
-  consultationResponses           Boolean?
-  uploadConsultationResponses     Boolean?
-  otherPartyRepresentations       Boolean?
-  uploadRepresentations           Boolean?
-  uploadPlanningOfficerReport     Boolean?
-  uploadDevelopmentPlanPolicies   Boolean?
-  emergingPlan                    Boolean?
-  uploadEmergingPlan              Boolean?
-  uploadOtherPolicies             Boolean?
-  supplementaryPlanningDocs       Boolean?
-  uploadSupplementaryPlanningDocs Boolean?
-  infrastructureLevy              Boolean?
-  uploadInfrastructureLevy        Boolean?
-  infrastructureLevyAdopted       Boolean?
-  infrastructureLevyAdoptedDate   DateTime?
-  infrastructureLevyExpectedDate  DateTime?
-  lpaSiteAccess                   Boolean?
-  lpaSiteAccessDetails            String?
-  neighbouringSiteAccess          Boolean?
-  neighbouringSiteAccessDetails   String?
-  addNeighbouringSiteAccess       Boolean?
-  lpaSiteSafetyRisks              Boolean?
-  lpaSiteSafetyRiskDetails        String?
-  lpaProcedurePreference          String?
-  lpaPreferHearingDetails         String?
-  lpaPreferInquiryDuration        String?
-  lpaPreferInquiryDetails         String?
-  nearbyAppeals                   Boolean?
-  nearbyAppealReference           String?
-  addNearbyAppeal                 Boolean?
-  newConditions                   Boolean?
-  newConditionDetails             String?
-  lpaStatement                    String?
-  lpaStatementDocuments           Boolean?
-  uploadLpaStatementDocuments     Boolean?
-  lpaFinalComment                 Boolean?
-  lpaFinalCommentDetails          String?
-  uploadLpaProofEvidence          Boolean?
-  lpaWitnesses                    Boolean?
-  uploadLpaWitnessEvidence        Boolean?
-  uploadLpaWitnessTimings         Boolean?
-  uploadLpaRebuttal               Boolean?
+  siteAddressLine1       String /// First line of address for the appeal site
+  siteAddressLine2       String? /// Second line of address for the appeal site
+  siteAddressTown        String /// Town / City of the site address
+  siteAddressCounty      String? /// County of the site address
+  siteAddressPostcode    String /// Postal code of the site address
+  siteAccessDetails      String?  @db.NVarChar(MAX) /// A json array of information on site accessibility
+  siteSafetyDetails      String?  @db.NVarChar(MAX) /// A json array of information on site health and safety
+  siteAreaSquareMetres   Decimal? /// The site area, in square meters
+  floorSpaceSquareMetres Decimal? /// The floor space, in square meters
 
   //***************************************************************************
-  // rule 6 fields
+  // Appellant fields
   //***************************************************************************
 
-  rule6StatementPublished      Boolean @default(false)
-  rule6ProofsEvidencePublished Boolean @default(false)
-
-  // Rule 6 parties related to the appeal
-  Rule6Parties Rule6Party[]
-
-  //***************************************************************************
-  // interested party fields
-  //***************************************************************************
-
-  interestedPartyCommentsPublished Boolean @default(false)
+  appellantCostsAppliedFor       Boolean? /// Indicates if the appellant has applied for costs
+  ownsAllLand                    Boolean? /// Indicates if the appellant has complete ownership of the site
+  ownsSomeLand                   Boolean? /// Indicates if the appellant has partial ownership of the site
+  knowsOtherOwners               String? /// Indicates if the appellant knows other owners of the site
+  knowsAllOwners                 String? /// Indicates if the appellant knows all owners of the site
+  advertisedAppeal               Boolean? /// Indicates if the appellant has advertised the appeal to the LPA decision
+  ownersInformed                 Boolean? /// Indicates if the appellant has informed other owners of the site
+  originalDevelopmentDescription String? /// The original description of the development, as provided by the appellant
 
   //***************************************************************************
+  // LPA fields
+  //***************************************************************************
+
+  isCorrectAppealType           Boolean? /// Indicates if the LPA considers the appeal type appropriate
+  lpaCostsAppliedFor            Boolean? /// Indicates if the appellant has applied for costs
+  changedDevelopmentDescription Boolean? /// Indicates that the LPA has changed the development description
+  newConditionDetails           String? /// New conditions details provided by the LPA
+  lpaStatement                  String? /// A statement provided by the LPA
+
+  //***************************************************************************
+  // PINS provided details
+  //***************************************************************************
+
+  caseDecisionOutcome               String? /// The final outcome for the case
+  CaseDecisionOutcome               CaseDecisionOutcome?               @relation(fields: [caseDecisionOutcome], references: [key])
+  caseValidationOutcome             String? /// The outcome of the validation action
+  CaseValidationOutcome             CaseValidationOutcome?             @relation(fields: [caseValidationOutcome], references: [key])
+  lpaQuestionnaireValidationOutcome String? /// The outcome of the validation action
+  LPAQuestionnaireValidationOutcome LPAQuestionnaireValidationOutcome? @relation(fields: [lpaQuestionnaireValidationOutcome], references: [key])
+
+  // JSON arrays
+  caseValidationInvalidDetails      String? @db.NVarChar(MAX) /// A json array of reasons why the appeal is invalid, will contain items only if the caseValidationOutcome is invalid
+  caseValidationIncompleteDetails   String? @db.NVarChar(MAX) /// A json array of reasons why the appeal is incomplete, will contain items only if the caseValidationOutcome is incomplete
+  lpaQuestionnaireValidationDetails String? @db.NVarChar(MAX) /// A json array of reasons why the questionnaire is incomplete, will contain items only if the lpaQuestionnaireValidationOutcome is incomplete
+
+  // (unexpected FO will need to use the following PINs info)
+  caseSpecialisms String? @db.NVarChar(MAX) /// A json array of specialisms for allocation purposes
+  caseOfficerId   String? /// Unique identifier for the case officer assigned to the case
+  inspectorId     String? /// Unique identifier for the inspector assigned to the case
+  allocationLevel String? /// A level used for allocation purposes, combined with band
+  allocationBand  Int? /// A band used for allocation purposes, combined with level
+
+  //***************************************************************************
+  // system dates
+  //***************************************************************************
+
   // case dates
+  caseSubmittedDate         DateTime /// The date the appeal was submitted by the appellant, i.e. submit on FO
+  caseCreatedDate           DateTime /// The date the appeal was received, i.e. received from FO in BO
+  caseUpdatedDate           DateTime? /// The date the appeal was last updated in the back-office
+  caseValidDate             DateTime? /// The date since when the appeal was considered valid
+  caseValidationDate        DateTime? /// The date the appeal was validated in the back-office
+  caseExtensionDate         DateTime? /// When the validation outcome is incomplete, an extension may be granted to provide missing information
+  caseStartedDate           DateTime? /// A date indicating when the case was started, resulting in the creation of a timetable
+  casePublishedDate         DateTime? /// A date indicating when the case was published
+  caseWithdrawnDate         DateTime? /// The date the appeal was withdrawn by the appellant
+  caseTransferredDate       DateTime? /// The date the appeal was transferred to a new case of a different type
+  transferredCaseClosedDate DateTime? /// The date the appeal was closed and the appellant requested to resubmit
+  caseDecisionOutcomeDate   DateTime? /// The date of the appeal decision
+  caseDecisionPublishedDate DateTime? /// The date the appeal decision was published
+  caseCompletedDate         DateTime? /// The date the appeal decision letter
+
+  // lpaq dates
+  lpaQuestionnaireDueDate               DateTime? /// If the case is started and has a timetable, a deadline for the LPA to provide a response
+  lpaQuestionnaireSubmittedDate         DateTime? /// The date the LPA provided a response to the case
+  lpaQuestionnaireCreatedDate           DateTime? /// The date the LPA response was received
+  lpaQuestionnairePublishedDate         DateTime? /// The date indicating when the questionnaire review was completed and the questionnaire published
+  lpaQuestionnaireValidationOutcomeDate DateTime? /// The date the LPA response was validated
+
+  //***************************************************************************
+  // s78 fields - remove or rename to align with data model once created
   //***************************************************************************
 
-  caseReceived        Boolean?
-  casePublished       Boolean   @default(false)
-  casePublishedDate   DateTime?
-  caseValidDate       DateTime?
-  appealWithdrawnDate DateTime?
-
-  receiptDate                DateTime?
-  startDate                  DateTime?
-  appealValidDate            DateTime?
-  caseDecisionDate           DateTime?
+  // IP dates
   interestedPartyRepsDueDate DateTime?
 
   // statement
@@ -335,11 +292,12 @@ model AppealCase {
   LPAStatementSubmitted       DateTime?
 
   // comments
-  finalCommentsDueDate       DateTime?
-  appellantCommentsForwarded DateTime?
-  appellantCommentsSubmitted DateTime?
-  LPACommentsForwarded       DateTime?
-  LPACommentsSubmitted       DateTime?
+  finalCommentsDueDate         DateTime?
+  appellantCommentsForwarded   DateTime?
+  appellantCommentsSubmitted   DateTime?
+  LPACommentsForwarded         DateTime?
+  LPACommentsSubmitted         DateTime?
+  appellantFinalCommentDetails String?
 
   // proofs of evidence
   proofsOfEvidenceDueDate   DateTime?
@@ -348,78 +306,192 @@ model AppealCase {
   LPAProofsForwarded        DateTime?
   LPAProofsSubmitted        DateTime?
 
-  // viewAppeal epic aapd-1187
-  procedure             String?
-  outcome               String?
-  caseDecisionOutcome   String?
-  caseDecisionPublished Boolean? @default(false)
-  appealStatus          String?
+  scheduledMonument               Boolean @default(false)
+  appellantProofEvidencePublished Boolean @default(false)
+  appellantFinalCommentsSubmitted Boolean @default(false)
+  lpaStatementPublished           Boolean @default(false)
+  lpaProofEvidenceSubmitted       Boolean @default(false)
+  lpaProofEvidencePublished       Boolean @default(false)
+  lpaFinalCommentsPublished       Boolean @default(false)
 
-  // appeal details
-  isAppellant          Boolean?
-  appellantCompanyName String?
-  contactFirstName     String?
-  contactLastName      String?
-  contactCompanyName   String?
+  appellantProcedurePreference         String?
+  appellantProcedurePreferenceDetails  String?
+  appellantProcedurePreferenceDuration Int?
+  lpaProcedurePreference               String?
+  lpaProcedurePreferenceDetails        String?
+  lpaProcedurePreferenceDuration       Int?
 
-  appellantPhoneNumber String?
-
-  onApplicationDate DateTime?
-
-  ownsAllLand        Boolean?
-  ownsSomeLand       Boolean?
-  knowsOtherOwners   Boolean?
-  identifiedOwners   Boolean?
-  advertisedAppeal   Boolean?
-  informedOwners     Boolean?
-  appellantGreenBelt Boolean?
-
-  siteAreaSquareMetres Decimal?
-
+  conservationArea                   Boolean?
+  protectedSpecies                   Boolean?
+  areaOutstandingBeauty              Boolean?
+  designatedSites                    String?
+  otherDesignationDetails            String?
+  treePreservationOrder              Boolean?
+  gypsyTraveller                     Boolean?
+  publicRightOfWay                   Boolean?
+  environmentalImpactSchedule        String?
+  developmentDescription             String?
+  sensitiveArea                      Boolean?
+  sensitiveAreaDetails               String?
+  columnTwoThreshold                 Boolean?
+  screeningOpinion                   Boolean?
+  requiresEnvironmentalStatement     Boolean?
+  completedEnvironmentalStatement    Boolean?
+  statutoryConsultees                Boolean?
+  consultedBodiesDetails             String?
+  consultationResponses              Boolean?
+  otherPartyRepresentations          Boolean?
+  emergingPlan                       Boolean?
+  supplementaryPlanningDocs          Boolean?
+  infrastructureLevy                 Boolean?
+  infrastructureLevyAdopted          Boolean?
+  infrastructureLevyAdoptedDate      DateTime?
+  infrastructureLevyExpectedDate     DateTime?
+  lpaSiteAccess                      Boolean?
+  lpaSiteAccessDetails               String?
+  neighbouringSiteAccess             Boolean?
+  neighbouringSiteAccessDetails      String?
+  addNeighbouringSiteAccess          Boolean?
+  lpaSiteSafetyRisks                 Boolean?
+  lpaSiteSafetyRiskDetails           String?
+  lpaPreferHearingDetails            String?
+  lpaPreferInquiryDuration           String?
+  lpaPreferInquiryDetails            String?
+  lpaStatementDocuments              Boolean?
+  lpaFinalComment                    Boolean?
+  lpaFinalCommentDetails             String?
+  lpaWitnesses                       Boolean?
   agriculturalHolding                Boolean?
   tenantAgriculturalHolding          Boolean?
   otherTenantsAgriculturalHolding    Boolean?
   informedTenantsAgriculturalHolding Boolean?
+  statusPlanningObligation           String?
 
-  appellantSiteAccess        Boolean?
-  appellantSiteAccessDetails String?
-  appellantSiteSafety        Boolean?
-  appellantSiteSafetyDetails String?
+  //***************************************************************************
+  // rule 6 fields
+  //***************************************************************************
 
-  appellantProcedurePreference  String?
-  appellantPreferHearingDetails String?
-  appellantPreferInquiryDetails String?
+  rule6StatementPublished      Boolean @default(false) /// todo: use date instead
+  rule6ProofsEvidencePublished Boolean @default(false) /// todo: use date instead
 
-  appellantLinkedCase Boolean?
+  //***************************************************************************
+  // interested party fields
+  //***************************************************************************
 
-  // questions relating to appeal documents (aapd-1126)
+  interestedPartyCommentsPublished Boolean @default(false) /// todo: use date instead
 
-  updateDevelopmentDescription  String?
-  developmentDescriptionDetails String?
-  statusPlanningObligation      String?
-
-  // todo: there are many more fields! waiting on the model definition
-
-  /// link to root Appeal
-  appealId String @unique @db.UniqueIdentifier
-  Appeal   Appeal @relation(fields: [appealId], references: [id])
-
-  // Docs reference
-  Documents Document[]
-
-  // Neighbour address reference
-  NeighbouringAddresses NeighbouringAddress[]
-
-  // Linked cases
-  SubmissionLinkedCase SubmissionLinkedCase[]
-
-  // todo: indexes
-
-  // Questionnaires linked to this appeal case
+  //***************************************************************************
+  // Relations
+  //***************************************************************************
   LPAQuestionnaireSubmission LPAQuestionnaireSubmission?
 
-  // linked events
-  Event Event[]
+  Rule6Parties                    Rule6Party[]
+  AffectedListedBuildings         AppealCaseListedBuilding[]
+  Documents                       Document[]
+  NeighbouringAddresses           NeighbouringAddress[]
+  Events                          Event[]
+  AppealCaseLpaNotificationMethod AppealCaseLpaNotificationMethod[]
+}
+
+/// AppealCase relations
+/// maps all relations from a given caseReference to caseReference2
+/// linked|nearby
+/// linked: hierarchical + one directional, children (caseReference) will be linked to the lead (caseReference2)
+/// nearby: bi-directional, (A -> B) + (B -> A)
+/// No foreign keys as cases may not exist in FO yet
+model AppealCaseRelationship {
+  id   Int    @id @default(autoincrement())
+  type String @default("nearby") /// nearby|linked
+
+  caseReference  String
+  caseReference2 String
+}
+
+/// Lookup table for types of appeals processes, and appeal types such as D (Householder) and W (S78).
+/// { id: 1001, key: 'D', type: 'Householder', processCode: 'HAS' },
+model CaseType {
+  id          Int          @id /// used in v1 appeals see APPEAL_ID in /business-rules/src/constants.js
+  key         String       @unique /// horizon type letter, also used in BO + service bus messages
+  type        String       @unique /// a user friendly name for the case type
+  processCode String?      @unique /// use this as foreign key, v2 appeals
+  AppealCase  AppealCase[]
+}
+
+/// Lookup table for possible case procedure types.
+/// ["assign_case_officer","validation","ready_to_start","lpa_questionnaire","issue_determination","complete","invalid","closed","withdrawn","awaiting_transfer","transferred"]
+model CaseStatus {
+  key        String       @unique
+  name       String       @unique
+  AppealCase AppealCase[]
+}
+
+/// Lookup table for possible case decision outcomes
+/// ["allowed", "split_decision", "dismissed", "invalid"],
+model CaseDecisionOutcome {
+  key        String       @unique
+  name       String       @unique
+  AppealCase AppealCase[]
+}
+
+/// Lookup table for possible case validation outcomes.
+/// ["valid", "invalid", "incomplete"]
+model CaseValidationOutcome {
+  key        String       @unique
+  name       String       @unique
+  AppealCase AppealCase[]
+}
+
+/// Lookup table for possible LPAQ validation outcomes.
+///  ["complete", "incomplete"]
+model LPAQuestionnaireValidationOutcome {
+  key        String       @unique
+  name       String       @unique
+  AppealCase AppealCase[]
+}
+
+/// Lookup table for possible case procedure types.
+/// { key: 'written', name: 'Written' }
+model ProcedureType {
+  key         String       @id @unique
+  name        String       @unique
+  AppealCases AppealCase[]
+}
+
+/// Lookup table for listed buildings.
+/// { reference: '1010101', name: 'A name', listedBuildingGrade: 'II' }
+model ListedBuilding {
+  reference                String                     @id @unique
+  name                     String?
+  listedBuildingGrade      String?
+  AppealCaseListedBuilding AppealCaseListedBuilding[]
+}
+
+/// many to many link of appeal<->listedbuilding
+model AppealCaseListedBuilding {
+  id Int @id @default(autoincrement())
+
+  caseReference String
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  listedBuildingReference String
+  ListedBuilding          ListedBuilding @relation(fields: [listedBuildingReference], references: [reference])
+}
+
+/// possible notification methods.
+model LPANotificationMethods {
+  key                             String                            @id @unique
+  name                            String                            @unique
+  AppealCaseLpaNotificationMethod AppealCaseLpaNotificationMethod[]
+}
+
+model AppealCaseLpaNotificationMethod {
+  id Int @id @default(autoincrement())
+
+  caseReference String
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  lPANotificationMethodsKey String?
+  LPANotificationMethod     LPANotificationMethods? @relation(fields: [lPANotificationMethodsKey], references: [key])
 }
 
 model Event {
@@ -445,10 +517,13 @@ model Event {
 model NeighbouringAddress {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
-  addressLine1 String
-  addressLine2 String?
-  townCity     String
-  postcode     String
+  addressLine1      String
+  addressLine2      String?
+  townCity          String
+  county            String?
+  postcode          String
+  siteAccessDetails String? @db.NVarChar(MAX) /// json array of information on site accessibility
+  siteSafetyDetails String? @db.NVarChar(MAX) /// json array of information on site health and safety 
 
   // relations
   caseReference String
@@ -776,9 +851,7 @@ model SubmissionLinkedCase {
   caseReference String
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
-  fieldName    String
-  AppealCase   AppealCase? @relation(fields: [appealCaseId], references: [id])
-  appealCaseId String?     @db.UniqueIdentifier
+  fieldName String
 }
 
 model SubmissionListedBuilding {
