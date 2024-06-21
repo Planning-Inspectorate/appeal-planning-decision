@@ -586,6 +586,7 @@ export interface AppellantSubmission {
 	appellantPreferHearingDetails?: string;
 	appellantPreferInquiryDetails?: string;
 	siteAreaSquareMetres?: number;
+	tenantAgriculturalHolding?: boolean;
 	appellantPreferInquiryDuration?: number;
 	appellantPreferInquiryWitnesses?: number;
 	siteArea?: number;
