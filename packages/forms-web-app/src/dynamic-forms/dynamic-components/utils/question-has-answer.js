@@ -28,14 +28,12 @@ const questionsHaveAnswersBuilder = (response) => {
 const questionHasNonEmptyStringAnswer = (response) => (question) => {
 	if (!response.answers) return false;
 	const answerField = response.answers[question.fieldName];
-	console.log('### string', answerField);
 	return typeof answerField === 'string' && answerField.trim().length > 0;
 };
 
 const questionHasNonEmptyNumberAnswer = (response) => (question) => {
 	if (!response.answers) return false;
 	const answerField = response.answers[question.fieldName];
-	console.log('### num', answerField);
 	return typeof answerField === 'number' && !isNaN(answerField);
 };
 
