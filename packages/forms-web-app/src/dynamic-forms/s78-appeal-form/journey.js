@@ -154,6 +154,16 @@ class S78AppealFormJourney extends Journey {
 					)
 				)
 				.addQuestion(questions.uploadAppellantStatement)
+				.addQuestion(questions.uploadStatementCommonGround)
+				.withCondition(
+					questionsHaveAnswers(
+						[
+							[questions.appellantProcedurePreference, 'hearing'],
+							[questions.appellantProcedurePreference, 'inquiry']
+						],
+						{ logicalCombinator: 'or' }
+					)
+				)
 				.addQuestion(questions.costApplication)
 				.addQuestion(questions.uploadCostApplication)
 				.withCondition(questionHasAnswer(questions.costApplication, 'yes'))

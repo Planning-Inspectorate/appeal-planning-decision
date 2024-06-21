@@ -1512,6 +1512,18 @@ exports.questions = {
 		],
 		documentType: documentTypes.uploadAppellantStatement
 	}),
+	uploadStatementCommonGround: new MultiFileUploadQuestion({
+		title: 'Draft statement of common ground',
+		question: 'Upload your draft statement of common ground',
+		html: 'resources/upload-statement-common-ground/content.html',
+		fieldName: 'uploadStatementCommonGround',
+		url: 'upload-draft-statement-common-ground',
+		validators: [
+			new RequiredFileUploadValidator('Select the draft statement of common ground'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadStatementCommonGround
+	}),
 	costApplication: new BooleanQuestion({
 		title: 'Do you need to apply for an award of appeal costs?',
 		question: 'Do you need to apply for an award of appeal costs?',
@@ -1749,7 +1761,7 @@ exports.questions = {
 			},
 			{
 				text: 'Not started yet',
-				value: 'not started',
+				value: 'not-started',
 				conditionalText: {
 					html: 'The deadline to submit your finalised planning obligation is around 6 weeks after you submit your appeal. We’ll tell you the exact date when we confirm your appeal.'
 				}
