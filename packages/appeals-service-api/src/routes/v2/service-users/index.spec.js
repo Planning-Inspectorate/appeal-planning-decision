@@ -4,6 +4,9 @@ const supertest = require('supertest');
 const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
+const {
+	createTestAppealCase
+} = require('../../../../__tests__/developer/fixtures/appeals-case-data');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 
@@ -123,20 +126,8 @@ describe('service users v2', () => {
 		it('should add an appealToUser relation if a matching appeal exists', async () => {
 			await sqlClient.appealCase.create({
 				data: {
-					caseReference: 'ref_004',
-					LPACode: 'lpa_001',
-					LPAName: 'test',
-					appealTypeCode: '1001',
-					appealTypeName: 'HAS',
-					decision: 'refused',
-					originalCaseDecisionDate: new Date().toISOString(),
-					costsAppliedForIndicator: false,
-					LPAApplicationReference: '010101',
-					siteAddressLine1: 'address',
-					siteAddressPostcode: 'POST CODE',
-					Appeal: {
-						create: {}
-					}
+					Appeal: { create: {} },
+					...createTestAppealCase('ref_004', 'HAS', 'lpa_001')
 				}
 			});
 
@@ -216,20 +207,8 @@ describe('service users v2', () => {
 
 			const appealCase = await sqlClient.appealCase.create({
 				data: {
-					caseReference: 'ref_006',
-					LPACode: 'lpa_001',
-					LPAName: 'test',
-					appealTypeCode: '1001',
-					appealTypeName: 'HAS',
-					decision: 'refused',
-					originalCaseDecisionDate: new Date().toISOString(),
-					costsAppliedForIndicator: false,
-					LPAApplicationReference: '010101',
-					siteAddressLine1: 'address',
-					siteAddressPostcode: 'POST CODE',
-					Appeal: {
-						create: {}
-					}
+					Appeal: { create: {} },
+					...createTestAppealCase('ref_006', 'HAS', 'lpa_001')
 				}
 			});
 

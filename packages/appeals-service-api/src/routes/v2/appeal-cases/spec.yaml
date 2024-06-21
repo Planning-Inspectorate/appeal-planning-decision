@@ -24,7 +24,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
-  /api/v2/appeal-cases/{caseReference}:
+  /api/v2/appeal-cases/{caseReference}/:
     get:
       tags:
         - appeal-cases
@@ -54,7 +54,113 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/AppealCase'
+              type: object
+              required:
+                - caseReference
+                - caseStatus
+                - caseType
+                - caseProcedure
+                - lpaCode
+                - caseSubmittedDate
+                - caseCreatedDate
+                - caseUpdatedDate
+                - applicationReference
+                - applicationDate
+                - applicationDecision
+                - siteAddressLine1
+                - siteAddressTown
+                - siteAddressPostcode
+              properties:
+                caseReference:
+                  type: string
+                  example: '7002471'
+                  description: External case identifier
+                caseStatus:
+                  type: string
+                  enum:
+                    - assign_case_officer
+                    - validation
+                    - ready_to_start
+                    - lpa_questionnaire
+                    - issue_determination
+                    - complete
+                    - invalid
+                    - closed
+                    - withdrawn
+                    - awaiting_transfer
+                    - transferred
+                  description: The processing status for the appeal
+                caseType:
+                  type: string
+                  enum:
+                    - C
+                    - D
+                    - F
+                    - G
+                    - H
+                    - L
+                    - Q
+                    - S
+                    - V
+                    - W
+                    - X
+                    - Y
+                    - Z
+                  description: The internal code for an appeal type, e.g. D (Householder)
+                caseProcedure:
+                  type: string
+                  enum:
+                    - written
+                    - hearing
+                    - inquiry
+                  description: The type of procedure for the appeal
+                lpaCode:
+                  type: string
+                  example: Q9999
+                  description: A unique identifier for the Local Planning Authority
+                caseSubmittedDate:
+                  type: string
+                  format: date-time
+                  example: '2023-07-27T20:30:00.000Z'
+                  description: The date the appeal was submitted by the appellant
+                caseCreatedDate:
+                  type: string
+                  format: date-time
+                  example: '2023-07-27T20:30:00.000Z'
+                  description: The date the appeal was received
+                caseUpdatedDate:
+                  type: string
+                  format: date-time
+                  example: '2023-07-27T20:30:00.000Z'
+                  description: The date the appeal was last updated in the back-office
+                applicationReference:
+                  type: string
+                  example: 43010/APP/1/290572
+                  description: The unique identifier of the LPA application
+                applicationDate:
+                  type: string
+                  format: date-time
+                  example: '2023-07-27T20:30:00.000Z'
+                  description: The date of the original LPA application
+                applicationDecision:
+                  type: string
+                  enum:
+                    - granted
+                    - refused
+                    - not_received
+                  description: The outcome of the original LPA decision
+                siteAddressLine1:
+                  type: string
+                  example: 96 The Avenue
+                  description: First line of address for the appeal site
+                siteAddressTown:
+                  type: string
+                  example: Maidstone
+                  description: Town / City of the site address
+                siteAddressPostcode:
+                  type: string
+                  example: MD21 5XY
+                  description: Postal code of the site address
       responses:
         200:
           description: Returns the appeal case
