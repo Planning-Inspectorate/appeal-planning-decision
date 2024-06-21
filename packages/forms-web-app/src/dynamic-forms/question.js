@@ -318,9 +318,12 @@ class Question {
 	 * }>}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer, capitals = true) {
+		const isAnswerProvided = answer !== null && answer !== undefined && answer !== '';
 		const formattedAnswer = capitals
 			? capitalize(answer ?? this.NOT_STARTED)
-			: answer || this.NOT_STARTED;
+			: isAnswerProvided
+			? answer
+			: this.NOT_STARTED;
 		const action = this.getAction(sectionSegment, journey, answer);
 		const key = this.title ?? this.question;
 		let rowParams = [];
@@ -340,9 +343,10 @@ class Question {
 	 * @returns {{ href: string; text: string; visuallyHiddenText: string; }}
 	 */
 	getAction(sectionSegment, journey, answer) {
+		const isAnswerProvided = answer !== null && answer !== undefined && answer !== '';
 		const action = {
 			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
-			text: answer ? 'Change' : 'Answer',
+			text: isAnswerProvided ? 'Change' : 'Answer',
 			visuallyHiddenText: this.question
 		};
 		return action;

@@ -39,6 +39,17 @@ class NumberEntryQuestion extends Question {
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
 
+		const answer = journey.response.answers[this.fieldName];
+		const persistedAnswer =
+			answer !== undefined && answer !== null && answer === 0
+				? `${answer}`
+				: answer !== undefined && answer !== null
+				? answer
+				: '';
+
+		viewModel.question.value = persistedAnswer;
+		viewModel.answer = persistedAnswer;
+
 		viewModel.question.label = this.label;
 		viewModel.question.suffix = this.suffix;
 
