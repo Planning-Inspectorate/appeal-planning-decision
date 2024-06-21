@@ -1,5 +1,5 @@
 paths:
-  /api/v2/service-users/:
+  /api/v2/documents/:
     put:
       tags:
         - documents
@@ -12,7 +12,7 @@ paths:
               $ref: '#/components/schemas/Document'
       responses:
         200:
-          description: Created service user
+          description: Created document
         400:
           description: Bad request
           content:
