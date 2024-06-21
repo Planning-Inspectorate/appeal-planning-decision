@@ -25,7 +25,9 @@ const {
 		stringValidation: {
 			appealReferenceNumber: appealReferenceNumberValidation,
 			listedBuildingNumber: listedBuildingNumberValidation,
-			appealSiteArea: { minValue, maxValue }
+			appealSiteArea: { minValue, maxValue },
+			numberOfWitnesses: { maxWitnesses },
+			lengthOfInquiry: { minDays, maxDays }
 		}
 	}
 } = require('../../src/config');
@@ -2001,10 +2003,10 @@ exports.questions = {
 			new NumericValidator({
 				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
 				regexMessage: 'Enter the area of the site using numbers 0 to 9',
-				// min: minValue,
-				// minMessage: `Appeal site area must be at least ${minValue}`,
+				min: minValue,
+				minMessage: `Appeal site area must be at least ${minDays}`,
 				max: maxValue,
-				maxMessage: `Number of days must be ${maxValue} numbers or less`,
+				maxMessage: `Number of days must be ${maxDays} numbers or less`,
 				fieldName: 'appellantPreferInquiryDuration'
 			})
 		]
@@ -2021,10 +2023,8 @@ exports.questions = {
 			new NumericValidator({
 				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
 				regexMessage: 'Enter the number of witnesses using numbers 0 to 9',
-				// min: minValue,
-				// minMessage: `Appeal site area must be at least ${minValue}`,
-				max: maxValue,
-				maxMessage: `Number of witnesses must be ${maxValue} numbers or less`,
+				max: maxWitnesses,
+				maxMessage: `Number of witnesses must be ${maxWitnesses} or less`,
 				fieldName: 'appellantPreferInquiryWitnesses'
 			})
 		]

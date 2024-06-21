@@ -154,6 +154,13 @@ module.exports = {
 			appealSiteArea: {
 				minValue: 1,
 				maxValue: 1000000
+			},
+			numberOfWitnesses: {
+				maxWitnesses: 99
+			},
+			lengthOfInquiry: {
+				minDays: 1,
+				maxDays: 999
 			}
 		}
 	},
