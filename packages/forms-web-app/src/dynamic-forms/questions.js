@@ -1370,7 +1370,7 @@ exports.questions = {
 			new StringValidator({
 				maxLength: {
 					maxLength: appealFormV2.textInputMaxLength,
-					maxLengthMessage: `Reason must be ${appealFormV2.textInputMaxLength} characters or less`
+					maxLengthMessage: `Health and safety issues must be ${appealFormV2.textInputMaxLength} characters or less`
 				},
 				fieldName: getConditionalFieldName('appellantSiteSafety', 'appellantSiteSafetyDetails')
 			})

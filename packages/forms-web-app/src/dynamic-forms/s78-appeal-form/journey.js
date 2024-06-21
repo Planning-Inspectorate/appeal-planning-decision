@@ -142,11 +142,12 @@ class S78AppealFormJourney extends Journey {
 				.addQuestion(questions.uploadApplicationDecisionLetter)
 				.addQuestion(questions.submitPlanningObligation)
 				.addQuestion(questions.planningObligationStatus)
+				.withCondition(questionHasAnswer(questions.submitPlanningObligation, 'yes'))
 				.addQuestion(questions.uploadPlanningObligation)
 				.withCondition(
 					questionsHaveAnswers(
 						[
-							[questions.uploadPlanningObligation, 'yes'],
+							[questions.submitPlanningObligation, 'yes'],
 							[questions.planningObligationStatus, 'finalised']
 						],
 						{ logicalCombinator: 'and' }
