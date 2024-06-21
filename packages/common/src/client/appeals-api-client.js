@@ -9,6 +9,7 @@ const parentLogger = require('../lib/logger');
 const v2 = '/api/v2';
 const trailingSlashRegex = /\/$/;
 
+// Internal API types
 /**
  * @typedef {import('appeals-service-api').Api.AppealCase} AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
@@ -19,6 +20,11 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
  * @typedef {import('appeals-service-api').Api.Event} Event
+ */
+
+// Data model types
+/**
+ * @typedef {import('pins-data-model/src/schemas').ServiceUser} ServiceUser
  */
 
 /**
@@ -186,6 +192,16 @@ class AppealsApiClient {
 	async putAppealCase(data) {
 		const endpoint = `${v2}/appeal-cases/${data.caseReference}`;
 		const response = await this.#makePutRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {ServiceUser} data
+	 * @returns {Promise<ServiceUser>}
+	 */
+	async putServiceUser(data) {
+		const endpoint = `${v2}/service-users/`;
+		const response = await this.#makePutRequest(endpoint, data);
 		return response.json();
 	}
 
