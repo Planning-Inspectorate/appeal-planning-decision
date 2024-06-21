@@ -584,6 +584,7 @@ model AppellantSubmission {
   otherNewDocuments                  Boolean?
   designAccessStatement              Boolean?
   planningObligation                 Boolean?
+  tenantAgriculturalHolding          Boolean?
 
   // boolean text
   appellantSiteSafety                            String?
