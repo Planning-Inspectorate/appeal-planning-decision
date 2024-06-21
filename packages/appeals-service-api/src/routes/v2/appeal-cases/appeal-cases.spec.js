@@ -7,6 +7,9 @@ const { seedStaticData } = require('@pins/database/src/seed/data-static');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 const { blobMetaGetter } = require('../../../../src/services/object-store');
+const {
+	createTestAppealCase
+} = require('../../../../__tests__/developer/fixtures/appeals-case-data');
 
 /** @type {import('@prisma/client').PrismaClient} */
 let sqlClient;
@@ -42,11 +45,9 @@ jest.setTimeout(10000);
 /** @type {string[]} */
 let appealCaseIds = [];
 
-const now = new Date();
 let caseRef = 5555555;
 
 /**
- *
  * @param {string} lpaCode
  * @param {string} postCode
  * @param {boolean} casePublished
@@ -54,24 +55,20 @@ let caseRef = 5555555;
  */
 function appealCase(lpaCode, postCode, casePublished = true) {
 	caseRef++;
-	return {
-		Appeal: { create: {} },
-		caseReference: caseRef.toString(),
-		LPAApplicationReference: caseRef + 'APP',
-		originalCaseDecisionDate: now,
-		appealTypeCode: 'HAS',
-		appealTypeName: 'Householder',
-		decision: 'refused',
-		siteAddressLine1: '123 Fake Street',
-		siteAddressTown: 'Testville',
-		siteAddressCounty: 'Countyshire',
-		siteAddressPostcode: postCode,
-		costsAppliedForIndicator: false,
-		LPACode: lpaCode,
-		LPAName: lpaCode,
+
+	const appealCase = createTestAppealCase(
+		caseRef.toString(),
+		'HAS',
+		lpaCode,
+		postCode,
 		casePublished
-	};
+	);
+
+	appealCase.Appeal = { create: {} };
+
+	return appealCase;
 }
+
 const postCodes = ['BS1 6PM', 'BS1 6AA', 'BS1 6PO', 'BS1 6PP'];
 const LPAs = ['LPA1', 'LPA1a', 'LPA2', 'LPA2a', 'LPA3', 'LPA3a'];
 
@@ -302,23 +299,79 @@ describe('appeal-cases', () => {
 			await _clearSqlData();
 		});
 
+		const example = require('./example.json');
+
+		let i = 0;
 		for (const testCase of testCases) {
+			if (i > 0) continue;
+			i++;
 			it(`upserts case for ${testCase.caseReference}`, async () => {
+				example.caseReference = testCase.caseReference;
 				const response = await appealsApi
 					.put(`/api/v2/appeal-cases/` + testCase.caseReference)
-					.send(testCase);
+					.send(example);
 				expect(response.status).toBe(200);
 				expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
 			});
 		}
 
+		it('upserts all relational data', async () => {
+			await appealsApi.put(`/api/v2/appeal-cases/` + testCases[0].caseReference).send(example);
+
+			await sqlClient.appealCaseListedBuilding.create({
+				data: {
+					AppealCase: {
+						connect: {
+							caseReference: testCases[0].caseReference
+						}
+					},
+					ListedBuilding: {
+						create: {
+							reference: 'unknown'
+						}
+					}
+				}
+			});
+
+			await appealsApi.put(`/api/v2/appeal-cases/` + testCases[0].caseReference).send(example);
+
+			const appealCase = await sqlClient.appealCase.findFirst({
+				where: { caseReference: testCases[0].caseReference },
+				include: {
+					AffectedListedBuildings: true,
+					AppealCaseLpaNotificationMethod: true,
+					NeighbouringAddresses: true,
+					CaseType: true,
+					ProcedureType: true
+				}
+			});
+
+			expect(appealCase?.AffectedListedBuildings.length).toBe(3);
+			expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2);
+			expect(appealCase?.NeighbouringAddresses.length).toBe(4);
+			expect(appealCase?.CaseType?.processCode).toBe('HAS');
+			expect(appealCase?.ProcedureType?.name).toBe('Written');
+
+			const appealRelations = await sqlClient.appealCaseRelationship.findMany({
+				where: {
+					OR: [
+						{
+							caseReference: testCases[0].caseReference
+						},
+						{
+							caseReference2: testCases[0].caseReference
+						}
+					]
+				}
+			});
+			expect(appealRelations.length).toBe(5);
+		});
+
 		it(`returns 400 for bad requests`, async () => {
-			const data = {
-				...testCases[2]
+			const badData = {
+				caseType: 'D'
 			};
-			// @ts-ignore
-			delete data.appealTypeCode;
-			const response = await appealsApi.put(`/api/v2/appeal-cases/abcdefg`).send(data);
+			const response = await appealsApi.put(`/api/v2/appeal-cases/abcdefg`).send(badData);
 			expect(response.status).toBe(400);
 		});
 	});

@@ -38,285 +38,228 @@ export interface AppealCase {
 	 */
 	id?: string;
 	/**
+	 * front office appeal ID (root linked to submission)
+	 * @format uuid
+	 */
+	appealId?: string;
+	/**
 	 * appeal case reference (aka appeal number)
 	 * @example "6123456"
 	 */
 	caseReference: string;
 	/**
+	 * Internal case identifier
+	 * @example "1200"
+	 */
+	caseId?: string;
+	/**
 	 * a code to identify the LPA this case relates to
 	 * @example "Q9999"
 	 */
 	LPACode: string;
+	appealTypeCode: 'HAS' | 'S78';
+	/** The processing status for the appeal */
+	caseStatus?:
+		| 'assign_case_officer'
+		| 'validation'
+		| 'ready_to_start'
+		| 'lpa_questionnaire'
+		| 'issue_determination'
+		| 'complete'
+		| 'invalid'
+		| 'closed'
+		| 'withdrawn'
+		| 'awaiting_transfer'
+		| 'transferred';
+	/** The type of procedure for the appeal */
+	caseProcedure?: 'written' | 'hearing' | 'inquiry';
+	/** The unique identifier of the LPA application */
+	applicationReference: string;
+	/** The outcome of the original LPA decision */
+	applicationDecision: 'granted' | 'refused';
 	/**
-	 * the name of the LPA this case relates to
-	 * @example "System Test Borough Council"
-	 */
-	LPAName: string;
-	/**
-	 * appeal type short-code such as HAS or S78
-	 * @example "HAS"
-	 */
-	appealTypeCode: string;
-	/** @example "Householder" */
-	appealTypeName?: string;
-	/** original planning application decision by the LPA */
-	decision: 'granted' | 'refused';
-	/**
-	 * the date the original planning application was decided by the LPA
+	 * The date of the original LPA application
 	 * @format date-time
 	 */
-	originalCaseDecisionDate: string;
-	costsAppliedForIndicator: boolean;
-	/** the LPA's reference for the original planning application */
-	LPAApplicationReference: string;
-	appellantCasePublished?: string;
-	appellantProofEvidenceSubmitted?: boolean;
-	appellantProofEvidencePublished?: boolean;
-	appellantFinalCommentsSubmitted?: boolean;
-	appellantFinalCommentDetails?: string;
-	appellantFirstName?: string;
-	appellantLastName?: string;
+	applicationDate?: string;
+	/**
+	 * The date of the original LPA decision
+	 * @format date-time
+	 */
+	applicationDecisionDate: string;
+	/**
+	 * The statutory deadline for submitting an appeal from the original LPA decision date, calculated from the applicationDecisionDate
+	 * @format date-time
+	 */
+	caseSubmissionDueDate?: string;
+	/** Indicates if the site is in a green belt */
+	isGreenBelt?: boolean;
+	/** Indicates if the site is in a conservation area */
+	inConservationArea?: boolean;
+	/** Indicates if an enforcement notice is the reason for the appeal */
+	enforcementNotice?: boolean;
+	/** First line of address for the appeal site */
 	siteAddressLine1: string;
+	/** Second line of address for the appeal site */
 	siteAddressLine2?: string;
+	/** Town / City of the site address */
 	siteAddressTown?: string;
+	/** County of the site address */
 	siteAddressCounty?: string;
+	/** Postal code of the site address */
 	siteAddressPostcode: string;
+	/** A json array of information on site accessibility */
+	siteAccessDetails?: string[];
+	/** A json array of information on site health and safety */
+	siteSafetyDetails?: string[];
 	/**
-	 * the date LPA's questionnaire is due
-	 * @format date-time
+	 * The site area, in square meters
+	 * @example [45.7]
 	 */
-	questionnaireDueDate?: string;
+	siteAreaSquareMetres?: number;
 	/**
-	 * the date LPA's questionnaire was received
-	 * @format date-time
+	 * The floor space, in square meters
+	 * @example [45.7]
 	 */
-	questionnaireReceived?: string;
-	/**
-	 * the date LPA's questionnaire was submitted
-	 * @format date-time
-	 */
-	lpaQuestionnaireSubmittedDate?: string;
-	/**
-	 * the date LPA's questionnaire was published
-	 * @format date-time
-	 */
-	lpaQuestionnairePublishedDate?: string;
-	lpaQuestionnairePublished?: boolean;
-	lpaQuestionnaireSubmitted?: boolean;
-	doesAffectAScheduledMonument?: boolean;
-	lpaStatementPublished?: boolean;
-	lpaProofEvidenceSubmitted?: boolean;
-	lpaProofEvidencePublished?: boolean;
-	lpaFinalCommentsPublished?: boolean;
-	/** Is this the correct type of appeal */
-	correctAppealType?: boolean;
-	/** Does the development change a listed building */
-	changesListedBuilding?: boolean;
-	/** the list entry number */
-	changedListedBuildingNumber?: number;
-	/** Add another building or site */
-	addChangedListedBuilding?: boolean;
-	/** Does the proposed development affect the setting of listed buildings */
-	affectsListedBuilding?: boolean;
-	/** the list entry number */
-	affectedListedBuildingNumber?: number;
-	/** Add another building or site */
-	addAffectedListedBuilding?: boolean;
-	/** Would the development affect a scheduled monument */
-	scheduledMonument?: boolean;
-	/** Is the site in, or next to a conservation area */
-	conservationArea?: boolean;
-	/** Upload conservation map and guidance */
-	uploadConservation?: boolean;
-	/** Would the development affect a protected species */
-	protectedSpecies?: boolean;
-	/** Is the site in a green belt */
-	greenBelt?: boolean;
-	/** Is the appeal site in an area of outstanding natural beauty */
-	areaOutstandingBeauty?: boolean;
-	/** Is the development in, near or likely to affect any designated sites */
-	designatedSites?: string;
-	otherDesignationDetails?: string;
-	/** Does a Tree Preservation Order (TPO) apply to any part of the appeal site */
-	treePreservationOrder?: boolean;
-	/** Upload a plan showing the extent of the order */
-	uploadTreePreservationOrder?: boolean;
-	/** Does the development relate to anyone claiming to be a Gypsy or Traveller */
-	gypsyTraveller?: boolean;
-	/** Would a public right of way need to be removed or diverted */
-	publicRightOfWay?: boolean;
-	/** Upload the definitive map and statement extract */
-	uploadDefinitiveMapStatement?: boolean;
-	/** Is the development a schedule 1 or schedule 2 development */
-	environmentalImpactSchedule?: string;
-	/** Description of development */
-	developmentDescription?: string;
-	/** Is the development in, partly in, or likely to affect a sensitive area */
-	sensitiveArea?: boolean;
-	/** Tell us about the sensitive area */
-	sensitiveAreaDetails?: string;
-	/** Does the development meet or exceed the threshold or criteria in column 2 */
-	columnTwoThreshold?: boolean;
-	/** Have you issued a screening opinion */
-	screeningOpinion?: boolean;
-	/** Upload your screening opinion and any correspondence */
-	uploadScreeningOpinion?: boolean;
-	/** Did your screening opinion say the development needed an environmental statement */
-	requiresEnvironmentalStatement?: boolean;
-	/** Upload the screening direction */
-	uploadScreeningDirection?: boolean;
-	/** Upload the environmental statement and supporting information */
-	uploadEnvironmentalStatement?: boolean;
-	/** Did the applicant submit an environmental statement */
-	completedEnvironmentalStatement?: boolean;
-	/** Who did you notify about this application */
-	uploadWhoNotified?: boolean;
-	/** How did you notify relevant parties about the planning application */
-	notificationMethod?: string;
-	/** Upload the site notice */
-	uploadSiteNotice?: boolean;
-	/** Upload the letters and emails */
-	uploadLettersEmails?: boolean;
-	/** Upload the press advertisement */
-	uploadPressAdvert?: boolean;
-	/** Did you consult all the relevant statutory consultees about the development */
-	statutoryConsultees?: boolean;
-	/** Which bodies did you consult */
-	consultedBodiesDetails?: string;
-	/** Do you have any consultation responses or standing advice from statutory consultees to upload */
-	consultationResponses?: boolean;
-	/** Upload the consultation responses and standing advice */
-	uploadConsultationResponses?: boolean;
-	/** Did you receive representations from members of the public or other parties */
-	otherPartyRepresentations?: boolean;
-	/** Upload the representations */
-	uploadRepresentations?: boolean;
-	/** Upload the planning officers report */
-	uploadPlanningOfficerReport?: boolean;
-	/** Upload relevant policies from your statutory development plan */
-	uploadDevelopmentPlanPolicies?: boolean;
-	/** Do you have an emerging plan that is relevant to this appeal */
-	emergingPlan?: boolean;
-	/** Upload the emerging plan and supporting information */
-	uploadEmergingPlan?: boolean;
-	/** Upload any other relevant policies */
-	uploadOtherPolicies?: boolean;
-	/** Did any supplementary planning documents inform the outcome of the application */
-	supplementaryPlanningDocs?: boolean;
-	/** Upload the relevant supplementary planning documents */
-	uploadSupplementaryPlanningDocs?: boolean;
-	/** Do you have a community infrastructure levy */
-	infrastructureLevy?: boolean;
-	/** Upload your community infrastructure levy */
-	uploadInfrastructureLevy?: boolean;
-	/** Is the community infrastructure levy formally adopted */
-	infrastructureLevyAdopted?: boolean;
-	/**
-	 * When was the community infrastructure levy formally adopted
-	 * @format date-time
-	 */
-	infrastructureLevyAdoptedDate?: string;
-	/**
-	 * When do you expect to formally adopt the community infrastructure levy
-	 * @format date-time
-	 */
-	infrastructureLevyExpectedDate?: string;
-	/** Might the inspector need access to the appellants land or property */
-	lpaSiteAccess?: boolean;
-	/** the reason */
-	lpaSiteAccessDetails?: string;
-	/** Might the inspector need to enter a neighbours land or property */
-	neighbouringSiteAccess?: boolean;
-	/** the reason */
-	neighbouringSiteAccessDetails?: string;
-	/** Do you want to add another neighbour to be visited */
-	addNeighbouringSiteAccess?: boolean;
-	/** Are there any potential safety risks */
-	lpaSiteSafetyRisks?: boolean;
-	/** Add details of the potential risk and what the inspector might need */
-	lpaSiteSafetyRiskDetails?: string;
-	/** Which procedure do you think is most appropriate for this appeal */
-	lpaProcedurePreference?: string;
-	/** Why would you prefer a hearing */
-	lpaPreferHearingDetails?: string;
-	/** How many days would you expect the inquiry to last */
-	lpaPreferInquiryDuration?: string;
-	/** Why would you prefer an inquiry */
-	lpaPreferInquiryDetails?: string;
-	/** Are there any other ongoing appeals next to, or close to the site */
-	nearbyAppeals?: boolean;
-	/** Enter an appeal reference number */
-	nearbyAppealReference?: string;
-	/** Add another appeal */
-	addNearbyAppeal?: boolean;
-	/** Are there any new conditions */
-	newConditions?: boolean;
-	/** Tell us about the new conditions */
+	floorSpaceSquareMetres?: number;
+	/** Indicates if the appellant has applied for costs */
+	appellantCostsAppliedFor?: boolean;
+	/** Indicates if the appellant has complete ownership of the site */
+	ownsAllLand?: boolean;
+	/** Indicates if the appellant has partial ownership of the site */
+	ownsSomeLand?: boolean;
+	/** Indicates if the appellant knows other owners of the site */
+	knowsOtherOwners?: 'Yes' | 'No' | 'Some';
+	/** Indicates if the appellant knows all owners of the site */
+	knowsAllOwners?: 'Yes' | 'No' | 'Some';
+	/** Indicates if the appellant has advertised the appeal to the LPA decision */
+	advertisedAppeal?: boolean;
+	/** Indicates if the appellant has informed other owners of the site */
+	ownersInformed?: boolean;
+	/** The original description of the development, as provided by the appellant */
+	originalDevelopmentDescription?: string;
+	/** Indicates if the LPA considers the appeal type appropriate */
+	isCorrectAppealType?: boolean;
+	/** Indicates if the appellant has applied for costs */
+	lpaCostsAppliedFor?: boolean;
+	/** Indicates that the LPA has changed the development description */
+	changedDevelopmentDescription?: boolean;
+	/** New conditions details provided by the LPA */
 	newConditionDetails?: string;
-	/** Enter your statement */
+	/** A statement provided by the LPA */
 	lpaStatement?: string;
-	/** Do you have additional documents to support your appeal statement */
-	lpaStatementDocuments?: boolean;
-	/** Upload your new supporting documents */
-	uploadLpaStatementDocuments?: boolean;
-	/** Do you want to submit a final comment */
-	lpaFinalComment?: boolean;
-	/** What are your final comments */
-	lpaFinalCommentDetails?: string;
-	/** Upload your proof of evidence and summary */
-	uploadLpaProofEvidence?: boolean;
-	/** Do you need to add any witnesses */
-	lpaWitnesses?: boolean;
-	/** Upload your witnesses and their evidence */
-	uploadLpaWitnessEvidence?: boolean;
-	/** Upload witness timings */
-	uploadLpaWitnessTimings?: boolean;
-	/** Upload rebuttals */
-	uploadLpaRebuttal?: boolean;
-	rule6StatementPublished?: boolean;
-	rule6ProofsEvidencePublished?: boolean;
-	interestedPartyCommentsPublished?: boolean;
-	/** whether the appeal was received */
-	caseReceived?: boolean;
+	/** The final outcome for the case */
+	caseDecisionOutcome?: 'allowed' | 'split_decision' | 'dismissed' | 'invalid';
+	/** The outcome of the validation action */
+	caseValidationOutcome?: 'valid' | 'invalid' | 'incomplete';
+	/** The outcome of the validation action */
+	lpaQuestionnaireValidationOutcome?: 'complete' | 'incomplete';
+	/** A json array of reasons why the appeal is invalid, will contain items only if the caseValidationOutcome is invalid */
+	caseValidationInvalidDetails?: string[];
+	/** A json array of reasons why the appeal is incomplete, will contain items only if the caseValidationOutcome is incomplete */
+	caseValidationIncompleteDetails?: string[];
+	/** A json array of reasons why the questionnaire is incomplete, will contain items only if the lpaQuestionnaireValidationOutcome is incomplete */
+	lpaQuestionnaireValidationDetails?: string[];
 	/**
-	 * the date the appeal was received
+	 * The date the appeal was submitted by the appellant, i.e. submit on FO
 	 * @format date-time
 	 */
-	receiptDate?: string;
-	/** whether the appeal is published */
-	casePublished?: boolean;
+	caseSubmittedDate?: string;
 	/**
-	 * the date the appeal was published
+	 * The date the appeal was received, i.e. received from FO in BO
+	 * @format date-time
+	 */
+	caseCreatedDate?: string;
+	/**
+	 * The date the appeal was last updated in the back-office
+	 * @format date-time
+	 */
+	caseUpdatedDate?: string;
+	/**
+	 * The date since when the appeal was considered valid
+	 * @format date-time
+	 */
+	caseValidDate?: string;
+	/**
+	 * The date the appeal was validated in the back-office
+	 * @format date-time
+	 */
+	caseValidationDate?: string;
+	/**
+	 * When the validation outcome is incomplete, an extension may be granted to provide missing information
+	 * @format date-time
+	 */
+	caseExtensionDate?: string;
+	/**
+	 * A date indicating when the case was started, resulting in the creation of a timetable
+	 * @format date-time
+	 */
+	caseStartedDate?: string;
+	/**
+	 * A date indicating when the case was published
 	 * @format date-time
 	 */
 	casePublishedDate?: string;
 	/**
-	 * the date the appeal was started
+	 * The date the appeal was withdrawn by the appellant
 	 * @format date-time
 	 */
-	startDate?: string;
+	caseWithdrawnDate?: string;
 	/**
-	 * the date the appeal was marked valid
+	 * The date the appeal was transferred to a new case of a different type
 	 * @format date-time
 	 */
-	appealValidDate?: string;
+	caseTransferredDate?: string;
 	/**
-	 * the date the appeal was decided
+	 * The date the appeal was closed and the appellant requested to resubmit
 	 * @format date-time
 	 */
-	caseDecisionDate?: string;
+	transferredCaseClosedDate?: string;
+	/**
+	 * The date of the appeal decision
+	 * @format date-time
+	 */
+	caseDecisionOutcomeDate?: string;
+	/**
+	 * The date the appeal decision was published
+	 * @format date-time
+	 */
+	caseDecisionPublishedDate?: string;
+	/**
+	 * The date the appeal decision letter
+	 * @format date-time
+	 */
+	caseCompletedDate?: string;
+	/**
+	 * If the case is started and has a timetable, a deadline for the LPA to provide a response
+	 * @format date-time
+	 */
+	lpaQuestionnaireDueDate?: string;
+	/**
+	 * The date the LPA provided a response to the case
+	 * @format date-time
+	 */
+	lpaQuestionnaireSubmittedDate?: string;
+	/**
+	 * The date the LPA response was received
+	 * @format date-time
+	 */
+	lpaQuestionnaireCreatedDate?: string;
+	/**
+	 * The date indicating when the questionnaire review was completed and the questionnaire published
+	 * @format date-time
+	 */
+	lpaQuestionnairePublishedDate?: string;
+	/**
+	 * The date the LPA response was validated
+	 * @format date-time
+	 */
+	lpaQuestionnaireValidationOutcomeDate?: string;
 	/**
 	 * the date interested party comments are accepted until
 	 * @format date-time
 	 */
 	interestedPartyRepsDueDate?: string;
-	/** @format date-time */
-	caseValidDate?: string;
-	/**
-	 * the date the appeal was withdrawn
-	 * @format date-time
-	 */
-	appealWithdrawnDate?: string;
 	/**
 	 * the date statements are due
 	 * @format date-time
@@ -367,6 +310,7 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	LPACommentsSubmitted?: string;
+	appellantFinalCommentDetails?: string;
 	/**
 	 * the date proofs of evidence are due
 	 * @format date-time
@@ -392,61 +336,115 @@ export interface AppealCase {
 	 * @format date-time
 	 */
 	LPAProofsSubmitted?: string;
-	procedure?: string;
-	/** the Inspector's outcome/decision for this case */
-	outcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
-	/** the Inspector's outcome/decision for this case */
-	caseDecisionOutcome?: 'allowed' | 'dismissed' | 'split decision' | 'invalid';
-	caseDecisionPublished?: boolean;
-	/** the current status of the appeal */
-	appealStatus?:
-		| 'assign_case_officer'
-		| 'validation'
-		| 'ready_to_start'
-		| 'lpa_questionnaire_due'
-		| 'statement_review'
-		| 'final_comment_review'
-		| 'issue_determination'
-		| 'complete'
-		| 'invalid'
-		| 'withdrawn'
-		| 'closed'
-		| 'awaiting_transfer'
-		| 'transferred';
-	isAppellant?: boolean;
-	appellantCompanyName?: string;
-	contactFirstName?: string;
-	contactLastName?: string;
-	contactCompanyName?: string;
-	appellantPhoneNumber?: string;
-	/** @format date-time */
-	onApplicationDate?: string;
-	ownsAllLand?: boolean;
-	ownsSomeLand?: boolean;
-	knowsOtherOwners?: boolean;
-	identifiedOwners?: boolean;
-	advertisedAppeal?: boolean;
-	informedOwners?: boolean;
-	appellantGreenBelt?: boolean;
-	siteAreaSquareMetres?: number;
-	agriculturalHolding?: boolean;
-	tenantAgriculturalHolding?: boolean;
-	otherTenantsAgriculturalHolding?: boolean;
-	informedTenantsAgriculturalHolding?: boolean;
-	appellantSiteAccess?: boolean;
-	appellantSiteAccessDetails?: string;
-	appellantSiteSafety?: boolean;
-	appellantSiteSafetyDetails?: string;
+	scheduledMonument?: boolean;
+	appellantProofEvidencePublished?: boolean;
+	appellantFinalCommentsSubmitted?: boolean;
+	lpaStatementPublished?: boolean;
+	lpaProofEvidenceSubmitted?: boolean;
+	lpaProofEvidencePublished?: boolean;
+	lpaFinalCommentsPublished?: boolean;
+	/** Is the site in, or next to a conservation area */
+	conservationArea?: boolean;
+	/** Would the development affect a protected species */
+	protectedSpecies?: boolean;
+	/** Is the appeal site in an area of outstanding natural beauty */
+	areaOutstandingBeauty?: boolean;
+	/** Is the development in, near or likely to affect any designated sites */
+	designatedSites?: string;
+	otherDesignationDetails?: string;
+	/** Does a Tree Preservation Order (TPO) apply to any part of the appeal site */
+	treePreservationOrder?: boolean;
+	/** Does the development relate to anyone claiming to be a Gypsy or Traveller */
+	gypsyTraveller?: boolean;
+	/** Would a public right of way need to be removed or diverted */
+	publicRightOfWay?: boolean;
+	/** Is the development a schedule 1 or schedule 2 development */
+	environmentalImpactSchedule?: string;
+	/** Description of development */
+	developmentDescription?: string;
+	/** Is the development in, partly in, or likely to affect a sensitive area */
+	sensitiveArea?: boolean;
+	/** Tell us about the sensitive area */
+	sensitiveAreaDetails?: string;
+	/** Does the development meet or exceed the threshold or criteria in column 2 */
+	columnTwoThreshold?: boolean;
+	/** Have you issued a screening opinion */
+	screeningOpinion?: boolean;
+	/** Did your screening opinion say the development needed an environmental statement */
+	requiresEnvironmentalStatement?: boolean;
+	/** Did the applicant submit an environmental statement */
+	completedEnvironmentalStatement?: boolean;
+	/** Did you consult all the relevant statutory consultees about the development */
+	statutoryConsultees?: boolean;
+	/** Which bodies did you consult */
+	consultedBodiesDetails?: string;
+	/** Do you have any consultation responses or standing advice from statutory consultees to upload */
+	consultationResponses?: boolean;
+	/** Did you receive representations from members of the public or other parties */
+	otherPartyRepresentations?: boolean;
+	/** Do you have an emerging plan that is relevant to this appeal */
+	emergingPlan?: boolean;
+	/** Did any supplementary planning documents inform the outcome of the application */
+	supplementaryPlanningDocs?: boolean;
+	/** Do you have a community infrastructure levy */
+	infrastructureLevy?: boolean;
+	/** Is the community infrastructure levy formally adopted */
+	infrastructureLevyAdopted?: boolean;
+	/**
+	 * When was the community infrastructure levy formally adopted
+	 * @format date-time
+	 */
+	infrastructureLevyAdoptedDate?: string;
+	/**
+	 * When do you expect to formally adopt the community infrastructure levy
+	 * @format date-time
+	 */
+	infrastructureLevyExpectedDate?: string;
+	/** Might the inspector need access to the appellants land or property */
+	lpaSiteAccess?: boolean;
+	/** the reason */
+	lpaSiteAccessDetails?: string;
+	/** Might the inspector need to enter a neighbours land or property */
+	neighbouringSiteAccess?: boolean;
+	/** the reason */
+	neighbouringSiteAccessDetails?: string;
+	/** Do you want to add another neighbour to be visited */
+	addNeighbouringSiteAccess?: boolean;
+	/** Are there any potential safety risks */
+	lpaSiteSafetyRisks?: boolean;
+	/** Add details of the potential risk and what the inspector might need */
+	lpaSiteSafetyRiskDetails?: string;
+	/** Which procedure does appellant think is most appropriate for this appeal */
 	appellantProcedurePreference?: string;
-	appellantPreferHearingDetails?: string;
-	appellantPreferInquiryDetails?: string;
-	appellantLinkedCase?: boolean;
-	updateDevelopmentDescription?: boolean;
-	developmentDescriptionDetails?: string;
-	statusPlanningObligation?: string;
+	/** Why preference chosen */
+	appellantProcedurePreferenceDetails?: string;
+	/** appellant procedure length preference */
+	appellantProcedurePreferenceDuration?: number;
+	/** Which procedure does LPA think is most appropriate for this appeal */
+	lpaProcedurePreference?: string;
+	/** Why preference chosen */
+	lpaProcedurePreferenceDetails?: string;
+	/** LPA procedure length preference */
+	lpaProcedurePreferenceDuration?: number;
+	/** Do you have additional documents to support your appeal statement */
+	lpaStatementDocuments?: boolean;
+	/** Upload your new supporting documents */
+	uploadLpaStatementDocuments?: boolean;
+	/** Do you want to submit a final comment */
+	lpaFinalComment?: boolean;
+	/** What are your final comments */
+	lpaFinalCommentDetails?: string;
+	/** Do you need to add any witnesses */
+	lpaWitnesses?: boolean;
+	rule6StatementPublished?: boolean;
+	rule6ProofsEvidencePublished?: boolean;
+	interestedPartyCommentsPublished?: boolean;
+	Rule6Parties?: object[];
+	AffectedListedBuildings?: object[];
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
-	SubmissionLinkedCase?: object[];
+	Events?: object[];
+	AppealCaseLpaNotificationMethod?: string[];
 }
 
 /** An appeal submission created in the Front Office */
@@ -587,10 +585,10 @@ export interface AppellantSubmission {
 	appellantPreferHearingDetails?: string;
 	appellantPreferInquiryDetails?: string;
 	siteAreaSquareMetres?: number;
-	siteAreaUnits?: string;
 	appellantPreferInquiryDuration?: number;
 	appellantPreferInquiryWitnesses?: number;
 	siteArea?: number;
+	tenantAgriculturalHolding?: boolean;
 	tenantAgriculturalHolding?: boolean;
 	appellantLinkedCaseAdd?: boolean;
 	appellantLinkedCase?: boolean;
