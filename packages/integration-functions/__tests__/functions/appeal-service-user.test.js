@@ -1,16 +1,29 @@
-const { InvocationContext } = require('@azure/functions');
 const handler = require('../../src/functions/appeal-service-user');
+const config = require('../../src/common/config');
+const createApiClient = require('../../src/common/api-client');
+const { InvocationContext } = require('@azure/functions');
+
+jest.mock('../../src/common/api-client');
 
 describe('appeal-service-user', () => {
-	it('logs the message', async () => {
-		const context = new InvocationContext({ functionName: 'appeal-service-user' });
-		context.log = jest.fn();
+	const ctx = new InvocationContext({ functionName: 'service-user' });
+	ctx.log = jest.fn();
+	const mockClient = {
+		putServiceUser: jest.fn()
+	};
 
-		try {
-			await handler('hello', context);
-		} catch (err) {
-			expect(err.message).toEqual('not implemented');
-		}
-		expect(context.log).toHaveBeenCalledWith('Handle service user message', 'hello');
+	beforeEach(async () => {
+		jest.clearAllMocks();
+
+		createApiClient.mockResolvedValue(mockClient);
+		config.API = {
+			...config.API,
+			HOSTNAME: 'test'
+		};
+	});
+
+	it('forwards the message to the appeals api', async () => {
+		await handler({ service: 'user' }, ctx);
+		expect(mockClient.putServiceUser).toHaveBeenCalledWith({ service: 'user' });
 	});
 });
