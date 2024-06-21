@@ -504,6 +504,15 @@ const documentTypes = {
 		owner: appellantOwner,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadStatementCommonGround: {
+		name: 'uploadStatementCommonGround',
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: appellantOwner,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 
