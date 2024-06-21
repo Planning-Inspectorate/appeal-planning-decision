@@ -1761,7 +1761,7 @@ exports.questions = {
 			},
 			{
 				text: 'Not started yet',
-				value: 'not-started',
+				value: 'not started',
 				conditionalText: {
 					html: 'The deadline to submit your finalised planning obligation is around 6 weeks after you submit your appeal. We’ll tell you the exact date when we confirm your appeal.'
 				}
