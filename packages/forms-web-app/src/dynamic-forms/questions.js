@@ -1849,6 +1849,20 @@ exports.questions = {
 			)
 		]
 	}),
+	separateOwnershipCert: new BooleanQuestion({
+		title:
+			'Did you submit a separate ownership certificate and agricultural land declaration with your application?',
+		question:
+			'Did you submit a separate ownership certificate and agricultural land declaration with your application?',
+		fieldName: 'ownershipCertificate',
+		url: 'separate-ownership-certificate',
+		html: 'resources/ownership-certificate/content.html',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you submitted a separate ownership certificate and agricultural land declaration with your application'
+			)
+		]
+	}),
 	uploadOtherNewDocuments: new MultiFileUploadQuestion({
 		title: 'Other new supporting documents',
 		question: 'Upload your other new supporting documents',
