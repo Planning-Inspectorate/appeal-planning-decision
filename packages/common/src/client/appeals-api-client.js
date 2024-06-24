@@ -25,6 +25,7 @@ const trailingSlashRegex = /\/$/;
 // Data model types
 /**
  * @typedef {import('pins-data-model/src/schemas').ServiceUser} ServiceUser
+ * @typedef {import('pins-data-model/src/schemas').AppealDocument} AppealDocument
  */
 
 /**
@@ -201,6 +202,16 @@ class AppealsApiClient {
 	 */
 	async putServiceUser(data) {
 		const endpoint = `${v2}/service-users/`;
+		const response = await this.#makePutRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {AppealDocument} data
+	 * @returns {Promise<AppealDocument>}
+	 */
+	async putAppealDocument(data) {
+		const endpoint = `${v2}/documents/`;
 		const response = await this.#makePutRequest(endpoint, data);
 		return response.json();
 	}
