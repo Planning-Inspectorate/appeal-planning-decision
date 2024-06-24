@@ -186,6 +186,8 @@ class S78AppealFormJourney extends Journey {
 					)
 				)
 				.addQuestion(questions.separateOwnershipCert)
+				.addQuestion(questions.uploadSeparateOwnershipCert)
+				.withCondition(questionHasAnswer(questions.separateOwnershipCert, 'yes'))
 				.addQuestion(questions.uploadAppellantStatement)
 				.addQuestion(questions.uploadStatementCommonGround)
 				.withCondition(
