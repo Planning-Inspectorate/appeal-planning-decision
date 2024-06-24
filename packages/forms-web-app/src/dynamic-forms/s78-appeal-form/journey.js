@@ -126,6 +126,16 @@ class S78AppealFormJourney extends Journey {
 				.addQuestion(questions.agriculturalHolding)
 				.addQuestion(questions.tenantAgriculturalHolding)
 				.withCondition(questionHasAnswer(questions.agriculturalHolding, 'yes'))
+				.addQuestion(questions.otherTenantsAgriculturalHolding)
+				.withCondition(
+					questionsHaveAnswers(
+						[
+							[questions.agriculturalHolding, 'yes'],
+							[questions.tenantAgriculturalHolding, 'yes']
+						],
+						{ logicalCombinator: 'and' }
+					)
+				)
 				.addQuestion(questions.inspectorAccess)
 				.addQuestion(questions.healthAndSafety)
 				.addQuestion(questions.enterApplicationReference)
