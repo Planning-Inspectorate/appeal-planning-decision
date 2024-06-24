@@ -1930,5 +1930,23 @@ exports.questions = {
 		fieldName: 'otherTenantsAgriculturalHolding',
 		url: 'other-tenants',
 		validators: [new RequiredValidator('Select yes if there are any other tenants')]
+	}),
+	informedTenantsAgriculturalHolding: new BooleanQuestion({
+		title: 'Have the tenants been told about the appeal?',
+		question: 'Telling the tenants',
+		type: 'checkbox',
+		html: 'resources/agricultural-holding/telling-tenants.html',
+		description: 'Have the tenants been told about the appeal?',
+		fieldName: 'informedTenantsAgriculturalHolding',
+		url: 'telling-tenants',
+		options: [
+			{
+				text: 'I confirm that I’ve told all the tenants about my appeal within the last 21 days using a copy of the form in annexe 2A',
+				value: 'yes'
+			}
+		],
+		validators: [
+			new RequiredValidator('You must confirm that you’ve told the tenants about the appeal')
+		]
 	})
 };

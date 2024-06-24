@@ -81,6 +81,23 @@ class S78AppealFormJourney extends Journey {
 			return true;
 		})();
 
+		const shouldDisplayTellingTenants = (() => {
+			if (
+				questionHasAnswer(questions.agriculturalHolding, 'yes') &&
+				(questionHasAnswer(questions.tenantAgriculturalHolding, 'no') ||
+					questionsHaveAnswers(
+						[
+							[questions.tenantAgriculturalHolding, 'yes'],
+							[questions.otherTenantsAgriculturalHolding, 'yes']
+						],
+						{ logicalCombinator: 'and' }
+					))
+			)
+				return true;
+
+			return false;
+		})();
+
 		this.sections.push(
 			new Section('Prepare appeal', 'prepare-appeal')
 				.addQuestion(questions.applicationName)
@@ -136,6 +153,8 @@ class S78AppealFormJourney extends Journey {
 						{ logicalCombinator: 'and' }
 					)
 				)
+				.addQuestion(questions.informedTenantsAgriculturalHolding)
+				.withCondition(shouldDisplayTellingTenants)
 				.addQuestion(questions.inspectorAccess)
 				.addQuestion(questions.healthAndSafety)
 				.addQuestion(questions.enterApplicationReference)
