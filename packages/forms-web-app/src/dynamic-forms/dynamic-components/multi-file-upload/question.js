@@ -259,8 +259,12 @@ class MultiFileUploadQuestion extends Question {
 			const removedFiles = JSON.parse(body.removedFiles);
 			const currentUploadedFiles = journeyResponse.answers.SubmissionDocumentUpload || [];
 
+			const relevantUploadedFiles = currentUploadedFiles.filter(
+				(upload) => upload.type === this.documentType.name
+			);
+
 			const failedRemovedFiles = await removeFilesV2(
-				currentUploadedFiles,
+				relevantUploadedFiles,
 				removedFiles,
 				journeyResponse.referenceId,
 				`${journeyResponse.journeyId}:${encodedReferenceId}`,
