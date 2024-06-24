@@ -1923,5 +1923,12 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if you are a tenant of the agricultural holding')
 		]
+	}),
+	otherTenantsAgriculturalHolding: new BooleanQuestion({
+		title: 'Are there any other tenants?',
+		question: 'Are there any other tenants?',
+		fieldName: 'otherTenantsAgriculturalHolding',
+		url: 'other-tenants',
+		validators: [new RequiredValidator('Select yes if there are any other tenants')]
 	})
 };
