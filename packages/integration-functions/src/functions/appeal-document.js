@@ -51,9 +51,14 @@ async function processDocumentMetadata(context, documentMessage) {
 function checkMessageIsValid(documentMessage) {
 	let isValid = false;
 
+	console.log('documentMessage.virusCheckStatus ', documentMessage.virusCheckStatus);
+	console.log('documentMessage.datePublished ', documentMessage.datePublished);
+	console.log('documentMessage.redactedStatus ', documentMessage.redactedStatus);
+	console.log('documentMessage.documentId ', documentMessage.documentId);
+
 	if (
 		!documentMessage.virusCheckStatus ||
-		!documentMessage.publishedStatus ||
+		!documentMessage.datePublished ||
 		!documentMessage.redactedStatus ||
 		!documentMessage.documentId
 	) {
@@ -62,7 +67,6 @@ function checkMessageIsValid(documentMessage) {
 
 	if (
 		VALID_SCAN_STATUSES.includes(documentMessage.virusCheckStatus) &&
-		!!documentMessage.datePublished &&
 		VALID_REDACTED_STATUSES.includes(documentMessage.redactedStatus)
 	) {
 		isValid = true;
