@@ -8,13 +8,12 @@
  */
 
 const { app } = require('@azure/functions');
-const got = require('got');
 const VALID_SCAN_STATUSES = ['scanned'];
-const VALID_PUBLISHED_STATUSES = ['published', 'archived'];
 const VALID_REDACTED_STATUSES = ['redacted'];
+const createApiClient = require('../common/api-client');
 
 /**
- * @typedef {import('@pins/common/schema/documentMetadata.js').DocumentMetadata} DocumentMetadata
+ * @typedef {import('pins-data-model/src/schemas').AppealDocument} AppealDocument
  */
 
 /**
@@ -22,35 +21,30 @@ const VALID_REDACTED_STATUSES = ['redacted'];
  */
 const handler = async (message, context) => {
 	context.log('Handle document metadata message', message);
-	await processDocumentMetadata(context, message.body);
+	await processDocumentMetadata(context, message);
 	return {};
 };
 
 /**
  * @param {import('@azure/functions').InvocationContext} context
- * @param {DocumentMetadata} documentMessage
+ * @param {AppealDocument} documentMessage
  */
 async function processDocumentMetadata(context, documentMessage) {
 	if (!checkMessageIsValid(documentMessage)) {
 		context.log('Invalid message status, skipping');
 		return;
 	}
+	const client = await createApiClient();
 
 	// todo: use api client
 	context.log('Sending document metadata message to API');
-	const documentMetadataUrl = `https://${process.env.FO_APPEALS_API}/document-meta-data/${documentMessage.documentId}`;
-	await got
-		.put(documentMetadataUrl, {
-			json: documentMessage
-		})
-		.json();
-
+	await client.putAppealDocument(documentMessage);
 	context.log(`Finished handling: ${documentMessage.documentId}`);
 }
 
 /**
  * Checks message validity
- * @param {DocumentMetadata} documentMessage
+ * @param {AppealDocument} documentMessage
  * @returns {Boolean} false if this message can be ignored, true if status is valid
  * @throws {Error} message schema is invalid
  */
@@ -68,7 +62,7 @@ function checkMessageIsValid(documentMessage) {
 
 	if (
 		VALID_SCAN_STATUSES.includes(documentMessage.virusCheckStatus) &&
-		VALID_PUBLISHED_STATUSES.includes(documentMessage.publishedStatus) &&
+		!!documentMessage.datePublished &&
 		VALID_REDACTED_STATUSES.includes(documentMessage.redactedStatus)
 	) {
 		isValid = true;
