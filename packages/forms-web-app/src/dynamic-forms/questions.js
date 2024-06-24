@@ -1863,6 +1863,19 @@ exports.questions = {
 			)
 		]
 	}),
+	uploadSeparateOwnershipCert: new MultiFileUploadQuestion({
+		title: 'Upload your separate ownership certificate and agricultural land declaration',
+		question: 'Upload your separate ownership certificate and agricultural land declaration',
+		fieldName: 'uploadOwnershipCertificate',
+		url: 'upload-certificate-declaration',
+		validators: [
+			new RequiredFileUploadValidator(
+				'Select your separate ownership certificate and agricultural land declaration'
+			),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadOwnershipCertificate
+	}),
 	uploadOtherNewDocuments: new MultiFileUploadQuestion({
 		title: 'Other new supporting documents',
 		question: 'Upload your other new supporting documents',
