@@ -1905,6 +1905,16 @@ exports.questions = {
 			})
 		]
 	}),
+	agriculturalHolding: new BooleanQuestion({
+		title: 'Is the appeal site part of an agricultural holding?',
+		question: 'Is the appeal site part of an agricultural holding?',
+		fieldName: 'agriculturalHolding',
+		url: 'agricultural-holding',
+		html: 'resources/agricultural-holding/content.html',
+		validators: [
+			new RequiredValidator('Select yes if the appeal site is part of an agricultural holding')
+		]
+	}),
 	tenantAgriculturalHolding: new BooleanQuestion({
 		title: 'Are you a tenant of the agricultural holding?',
 		question: 'Are you a tenant of the agricultural holding?',
