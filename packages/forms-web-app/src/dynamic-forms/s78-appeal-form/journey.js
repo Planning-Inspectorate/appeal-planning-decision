@@ -185,6 +185,7 @@ class S78AppealFormJourney extends Journey {
 						{ logicalCombinator: 'and' }
 					)
 				)
+				.addQuestion(questions.separateOwnershipCert)
 				.addQuestion(questions.uploadAppellantStatement)
 				.addQuestion(questions.uploadStatementCommonGround)
 				.withCondition(
