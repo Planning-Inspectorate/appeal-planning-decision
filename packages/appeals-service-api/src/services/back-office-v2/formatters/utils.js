@@ -42,6 +42,7 @@ const documentTypeMap = {
 	[documentTypes.uploadLettersToNeighbours.name]: 'whoNotifiedLetterToNeighbours',
 	[documentTypes.pressAdvertUpload.name]: 'whoNotifiedPressAdvert',
 	[documentTypes.conservationMap.name]: 'conservationMap',
+	[documentTypes.representationUpload.name]: 'otherPartyRepresentations',
 	[documentTypes.planningOfficersReportUpload.name]: 'planningOfficerReport'
 };
 

@@ -108,7 +108,7 @@ class BackOfficeV2Service {
 		try {
 			await sendSubmissionReceivedEmailToLpaV2(appellantSubmission, email);
 		} catch (err) {
-			logger.error({ err }, 'failed to sendSubmissionConfirmationEmailToAppellantV2');
+			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToLpaV2');
 			emailFailed = true;
 		}
 
