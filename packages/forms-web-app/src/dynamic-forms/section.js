@@ -121,7 +121,7 @@ class Section {
 			}
 
 			// move to next question if answer not provided for this question or for file / address upload questions the length of uploaded files is less than 1
-			if (!answer || missingRequiredItems) {
+			if (answer === undefined || answer === null || missingRequiredItems) {
 				continue;
 			}
 
