@@ -138,26 +138,30 @@ class BackOfficeV2Service {
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error("Questionnaire's associated AppealCase has an invalid appealTypeCode");
 
-		logger.info(`mapping lpaq ${caseReference} to ${appealTypeCode} schema`);
-		const mappedData = await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
-			caseReference,
-			questionnaire
-		);
-		logger.debug({ mappedData }, 'mapped lpaq');
-
-		logger.info(`validating lpaq ${caseReference} schema`);
-
-		/** @type {Validate<LPAQuestionnaireCommand>} */
-		const validator = getValidator('lpa-questionnaire');
-		if (!validator(mappedData)) {
-			throw new Error(
-				`Payload was invalid when checked against appellant submission command schema`
+		let result;
+		// todo: temporary check until integration work for s78 is done
+		if (appealTypeCode === 'HAS') {
+			logger.info(`mapping lpaq ${caseReference} to ${appealTypeCode} schema`);
+			const mappedData = await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
+				caseReference,
+				questionnaire
 			);
+			logger.debug({ mappedData }, 'mapped lpaq');
+
+			logger.info(`validating lpaq ${caseReference} schema`);
+
+			/** @type {Validate<LPAQuestionnaireCommand>} */
+			const validator = getValidator('lpa-questionnaire');
+			if (!validator(mappedData)) {
+				throw new Error(
+					`Payload was invalid when checked against appellant submission command schema`
+				);
+			}
+
+			logger.info(`forwarding lpaq ${caseReference} to service bus`);
+
+			result = await forwarders.questionnaire([mappedData]);
 		}
-
-		logger.info(`forwarding lpaq ${caseReference} to service bus`);
-
-		const result = await forwarders.questionnaire([mappedData]);
 
 		await markQuestionnaireAsSubmitted(questionnaire.id);
 
