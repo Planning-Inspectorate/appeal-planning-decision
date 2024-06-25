@@ -1,4 +1,5 @@
 const Question = require('../../question');
+const { getPersistedNumberAnswer } = require('../utils/persisted-number-answer');
 
 /**
  * @typedef {import('../../journey').Journey} Journey
@@ -40,12 +41,7 @@ class NumberEntryQuestion extends Question {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
 
 		const answer = journey.response.answers[this.fieldName];
-		const persistedAnswer =
-			answer !== undefined && answer !== null && answer === 0
-				? `${answer}`
-				: answer !== undefined && answer !== null
-				? answer
-				: '';
+		const persistedAnswer = getPersistedNumberAnswer(answer);
 
 		viewModel.question.value = persistedAnswer;
 		viewModel.answer = persistedAnswer;
