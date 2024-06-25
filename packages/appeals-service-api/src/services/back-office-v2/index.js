@@ -80,7 +80,7 @@ class BackOfficeV2Service {
 		const validator = getValidator('appellant-submission');
 		if (!validator(mappedData)) {
 			throw new Error(
-				`Payload was invalid wen checked against appellant submission command schema`
+				`Payload was invalid when checked against appellant submission command schema`
 			);
 		}
 
