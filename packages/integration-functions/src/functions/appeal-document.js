@@ -30,13 +30,12 @@ const handler = async (message, context) => {
  * @param {AppealDocument} documentMessage
  */
 async function processDocumentMetadata(context, documentMessage) {
-	if (!checkMessageIsValid(documentMessage)) {
+	if (!checkMessageIsValid(documentMessage, context)) {
 		context.log('Invalid message status, skipping');
 		return;
 	}
 	const client = await createApiClient();
 
-	// todo: use api client
 	context.log('Sending document metadata message to API');
 	await client.putAppealDocument(documentMessage);
 	context.log(`Finished handling: ${documentMessage.documentId}`);
@@ -45,16 +44,17 @@ async function processDocumentMetadata(context, documentMessage) {
 /**
  * Checks message validity
  * @param {AppealDocument} documentMessage
+ * @param {import('@azure/functions').InvocationContext} context
  * @returns {Boolean} false if this message can be ignored, true if status is valid
  * @throws {Error} message schema is invalid
  */
-function checkMessageIsValid(documentMessage) {
+function checkMessageIsValid(documentMessage, context) {
 	let isValid = false;
 
-	console.log('documentMessage.virusCheckStatus ', documentMessage.virusCheckStatus);
-	console.log('documentMessage.datePublished ', documentMessage.datePublished);
-	console.log('documentMessage.redactedStatus ', documentMessage.redactedStatus);
-	console.log('documentMessage.documentId ', documentMessage.documentId);
+	context.log('documentMessage.virusCheckStatus ', documentMessage.virusCheckStatus);
+	context.log('documentMessage.datePublished ', documentMessage.datePublished);
+	context.log('documentMessage.redactedStatus ', documentMessage.redactedStatus);
+	context.log('documentMessage.documentId ', documentMessage.documentId);
 
 	if (
 		!documentMessage.virusCheckStatus ||
