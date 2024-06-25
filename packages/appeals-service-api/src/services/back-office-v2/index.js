@@ -20,6 +20,7 @@ const {
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
+const logger = require('#lib/logger');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -72,10 +73,15 @@ class BackOfficeV2Service {
 		if (!isValidAppealTypeCode(appellantSubmission.appealTypeCode))
 			throw new Error(`Appeal submission ${appellantSubmissionId} has an invalid appealTypeCode`);
 
+		logger.info(
+			`mapping appeal ${appellantSubmission.appealId} to ${appellantSubmission.appealTypeCode} schema`
+		);
 		const mappedData = await formatters.appeal[
 			appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]
 		](appellantSubmission);
+		logger.debug({ mappedData }, 'mapped appeal');
 
+		logger.info(`validating appeal ${appellantSubmission.appealId} schema`);
 		/** @type {Validate<AppellantSubmissionCommand>} */
 		const validator = getValidator('appellant-submission');
 		if (!validator(mappedData)) {
@@ -84,13 +90,31 @@ class BackOfficeV2Service {
 			);
 		}
 
+		logger.info(`forwarding appeal ${appellantSubmission.appealId} to service bus`);
 		const result = await forwarders.appeal([mappedData]);
 
 		await markAppealAsSubmitted(appellantSubmission.id);
 
-		await sendSubmissionConfirmationEmailToAppellantV2(appellantSubmission, email);
+		logger.info(`sending appeal submitted emails for ${appellantSubmission.appealId}`);
 
-		await sendSubmissionReceivedEmailToLpaV2(appellantSubmission, email);
+		let emailFailed = false;
+		try {
+			await sendSubmissionConfirmationEmailToAppellantV2(appellantSubmission, email);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendSubmissionConfirmationEmailToAppellantV2');
+			emailFailed = true;
+		}
+
+		try {
+			await sendSubmissionReceivedEmailToLpaV2(appellantSubmission, email);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendSubmissionConfirmationEmailToAppellantV2');
+			emailFailed = true;
+		}
+
+		if (emailFailed) {
+			throw new Error('failed to send submission email');
+		}
 
 		return result;
 	}
@@ -114,18 +138,24 @@ class BackOfficeV2Service {
 		if (!isValidAppealTypeCode(appealTypeCode))
 			throw new Error("Questionnaire's associated AppealCase has an invalid appealTypeCode");
 
+		logger.info(`mapping lpaq ${caseReference} to ${appealTypeCode} schema`);
 		const mappedData = await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
 			caseReference,
 			questionnaire
 		);
+		logger.debug({ mappedData }, 'mapped lpaq');
+
+		logger.info(`validating lpaq ${caseReference} schema`);
 
 		/** @type {Validate<LPAQuestionnaireCommand>} */
 		const validator = getValidator('lpa-questionnaire');
 		if (!validator(mappedData)) {
 			throw new Error(
-				`Payload was invalid wen checked against appellant submission command schema`
+				`Payload was invalid when checked against appellant submission command schema`
 			);
 		}
+
+		logger.info(`forwarding lpaq ${caseReference} to service bus`);
 
 		const result = await forwarders.questionnaire([mappedData]);
 
