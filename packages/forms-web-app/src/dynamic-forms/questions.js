@@ -2002,9 +2002,9 @@ exports.questions = {
 			new RequiredValidator('Enter the number of days you would expect the inquiry to last'),
 			new NumericValidator({
 				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
-				regexMessage: 'Enter the area of the site using numbers 0 to 9',
+				regexMessage: 'Enter the number of days using numbers 0 to 9',
 				min: minDays,
-				minMessage: `Appeal site area must be at least ${minDays}`,
+				minMessage: `Number of days must be at least ${minDays}`,
 				max: maxDays,
 				maxMessage: `Number of days must be ${maxDays} numbers or less`,
 				fieldName: 'appellantPreferInquiryDuration'
