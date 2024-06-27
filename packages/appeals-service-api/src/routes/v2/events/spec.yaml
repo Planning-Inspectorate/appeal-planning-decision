@@ -1,0 +1,21 @@
+paths:
+  /api/v2/events/:
+    put:
+      tags:
+        - events
+      description: Create a event
+      requestBody:
+        description: event to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        200:
+          description: Created event
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
