@@ -77,7 +77,7 @@ describe('events v2', () => {
 		it('should create an event', async () => {
 			await sqlClient.appealCase.create({
 				data: {
-					caseReference: 'ref_001',
+					caseReference: 'ref_e001',
 					LPACode: 'lpa_001',
 					LPAName: 'test',
 					appealTypeCode: '1001',
@@ -131,7 +131,7 @@ describe('events v2', () => {
 		it('should update an event', async () => {
 			await sqlClient.appealCase.create({
 				data: {
-					caseReference: 'ref_002',
+					caseReference: 'ref_e002',
 					LPACode: 'lpa_001',
 					LPAName: 'test',
 					appealTypeCode: '1001',
