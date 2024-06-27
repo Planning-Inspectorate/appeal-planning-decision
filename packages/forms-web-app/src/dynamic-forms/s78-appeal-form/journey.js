@@ -39,7 +39,7 @@ class S78AppealFormJourney extends Journey {
 			journeyTitle: journeyTitle,
 			returnToListing: true
 		});
-		console.log('###', response);
+
 		const questionHasAnswer = questionHasAnswerBuilder(response);
 		const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
 		const questionHasNonEmptyString = questionHasNonEmptyStringAnswer(response);
