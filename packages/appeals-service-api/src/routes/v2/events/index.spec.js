@@ -97,7 +97,7 @@ describe('events v2', () => {
 			/** @type {import('pins-data-model/src/schemas').AppealEvent} */
 			const event = {
 				eventId: 'eve_001',
-				caseReference: 'ref_001',
+				caseReference: 'ref_e001',
 				eventType: 'site_visit_access_required',
 				eventName: 'very cool event',
 				eventStatus: 'confirmed',
@@ -152,7 +152,7 @@ describe('events v2', () => {
 			await sqlClient.event.create({
 				data: {
 					id: 'eve_002',
-					caseReference: 'ref_002',
+					caseReference: 'ref_e002',
 					type: 'site_visit_access_required',
 					name: 'very cool event',
 					status: 'confirmed',
