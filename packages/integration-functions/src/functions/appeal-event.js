@@ -5,14 +5,14 @@
  */
 
 const { app } = require('@azure/functions');
+const createApiClient = require('../common/api-client');
 
 /**
  * @type {import('@azure/functions').ServiceBusTopicHandler}
  */
-const handler = async (message, context) => {
-	context.log('Handle event message', message);
-
-	throw new Error('not implemented');
+const handler = async (appealEvent, _context) => {
+	const client = await createApiClient();
+	return await client.putAppealEvent(appealEvent); // API will validate the message and throw if there is an error
 };
 
 app.serviceBusTopic('appeal-event', {

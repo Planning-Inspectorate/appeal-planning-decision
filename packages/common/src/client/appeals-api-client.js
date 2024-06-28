@@ -26,6 +26,7 @@ const trailingSlashRegex = /\/$/;
 /**
  * @typedef {import('pins-data-model/src/schemas').ServiceUser} ServiceUser
  * @typedef {import('pins-data-model/src/schemas').AppealDocument} AppealDocument
+ * @typedef {import('pins-data-model/src/schemas').AppealEvent} AppealEvent
  */
 
 /**
@@ -212,6 +213,16 @@ class AppealsApiClient {
 	 */
 	async putAppealDocument(data) {
 		const endpoint = `${v2}/documents/`;
+		const response = await this.#makePutRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {AppealEvent} data
+	 * @returns {Promise<AppealEvent>}
+	 */
+	async putAppealEvent(data) {
+		const endpoint = `${v2}/events/`;
 		const response = await this.#makePutRequest(endpoint, data);
 		return response.json();
 	}
