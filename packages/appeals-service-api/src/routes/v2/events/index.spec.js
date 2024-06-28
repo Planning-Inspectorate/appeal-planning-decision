@@ -178,7 +178,7 @@ describe('events v2', () => {
 
 			const event = {
 				eventId: 'eve_002',
-				caseReference: 'ref_001',
+				caseReference: 'ref_e002',
 				eventType: 'hearing_virtual', // updating this
 				eventName: 'very cool event',
 				eventStatus: 'confirmed',
