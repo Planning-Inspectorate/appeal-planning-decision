@@ -1828,7 +1828,7 @@ exports.questions = {
 		title: 'Did you submit a design and access statement with your application?',
 		question: 'Did you submit a design and access statement with your application?',
 		fieldName: 'designAccessStatement',
-		url: 'design-access-check',
+		url: 'submit-design-access-statement',
 		html: 'resources/plans-drawings/design-access.html',
 		validators: [
 			new RequiredValidator(
