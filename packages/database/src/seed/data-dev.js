@@ -454,6 +454,8 @@ const appealCases = [
 		caseValidDate: new Date(),
 		interestedPartyCommentsPublished: true,
 		lpaFinalCommentsPublished: true,
+		lpaFinalCommentDetails:
+			'gravida neque convallis a cras semper auctor neque vitae tempus quam pellentesque nec nam aliquam sem et tortor consequat id porta nibh venenatis cras sed',
 		appellantFinalCommentsSubmitted: true
 	},
 	{

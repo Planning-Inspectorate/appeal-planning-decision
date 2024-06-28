@@ -52,12 +52,12 @@ exports.sections = [
 		heading: 'Final comments',
 		links: [
 			{
-				url: '/lpa-final-comments',
+				url: '/final-comments',
 				text: 'View your final comments',
 				condition: (appealCase) => appealCase.lpaFinalCommentsPublished
 			},
 			{
-				url: '/final-comments',
+				url: '/appellant-final-comments',
 				text: 'View appellant final comments',
 				condition: (appealCase) => appealCase.appellantFinalCommentsSubmitted
 			}
