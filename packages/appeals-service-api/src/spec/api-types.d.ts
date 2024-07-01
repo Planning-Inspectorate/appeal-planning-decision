@@ -429,6 +429,7 @@ export interface AppealCase {
 	informedOwners?: boolean;
 	appellantGreenBelt?: boolean;
 	siteAreaSquareMetres?: number;
+	siteAreaUnits?: string;
 	agriculturalHolding?: boolean;
 	tenantAgriculturalHolding?: boolean;
 	otherTenantsAgriculturalHolding?: boolean;
@@ -587,6 +588,8 @@ export interface AppellantSubmission {
 	appellantPreferHearingDetails?: string;
 	appellantPreferInquiryDetails?: string;
 	siteAreaSquareMetres?: number;
+	tenantAgriculturalHolding?: boolean;
+	siteAreaUnits?: string;
 	appellantPreferInquiryDuration?: number;
 	appellantPreferInquiryWitnesses?: number;
 	siteArea?: number;

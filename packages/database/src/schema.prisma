@@ -375,6 +375,7 @@ model AppealCase {
   appellantGreenBelt Boolean?
 
   siteAreaSquareMetres Decimal?
+  siteAreaUnits        String?
 
   agriculturalHolding                Boolean?
   tenantAgriculturalHolding          Boolean?
@@ -604,6 +605,7 @@ model AppellantSubmission {
 
   // number entries
   siteAreaSquareMetres            Decimal?
+  siteAreaUnits                   String?
   appellantPreferInquiryDuration  Int?
   appellantPreferInquiryWitnesses Int?
   siteArea                        Decimal?
