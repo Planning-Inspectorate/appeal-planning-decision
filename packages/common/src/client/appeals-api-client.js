@@ -20,6 +20,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
  * @typedef {import('appeals-service-api').Api.Event} Event
+ * @typedef {import('pins-data-model/src/schemas').AppealHASCase} AppealHASCase
  */
 
 // Data model types
@@ -188,7 +189,7 @@ class AppealsApiClient {
 	}
 
 	/**
-	 * @param {AppealCase} data
+	 * @param {AppealHASCase} data
 	 * @returns {Promise<AppealCase>}
 	 */
 	async putAppealCase(data) {
