@@ -73,6 +73,7 @@ export interface AppealCase {
 	appellantProofEvidenceSubmitted?: boolean;
 	appellantProofEvidencePublished?: boolean;
 	appellantFinalCommentsSubmitted?: boolean;
+	appellantFinalCommentDetails?: string;
 	appellantFirstName?: string;
 	appellantLastName?: string;
 	siteAddressLine1: string;
@@ -586,10 +587,10 @@ export interface AppellantSubmission {
 	appellantPreferHearingDetails?: string;
 	appellantPreferInquiryDetails?: string;
 	siteAreaSquareMetres?: number;
-	tenantAgriculturalHolding?: boolean;
 	appellantPreferInquiryDuration?: number;
 	appellantPreferInquiryWitnesses?: number;
 	siteArea?: number;
+	tenantAgriculturalHolding?: boolean;
 	appellantLinkedCaseAdd?: boolean;
 	appellantLinkedCase?: boolean;
 	SubmissionLinkedCase?: object[];

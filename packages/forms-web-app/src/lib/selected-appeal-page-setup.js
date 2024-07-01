@@ -53,8 +53,9 @@ const isAppellantComments = (url, userType) => {
  * @param {boolean} isAppellantComments
  */
 const getFinalComments = (caseData, isAppellantComments) => {
-	//appellantFinalCommentDetails to be added to Prisma
-	return isAppellantComments ? '' : caseData.lpaFinalCommentDetails;
+	return isAppellantComments
+		? caseData.appellantFinalCommentDetails
+		: caseData.lpaFinalCommentDetails;
 };
 
 module.exports = {
