@@ -19,5 +19,9 @@ router.get(
 	'/:appealNumber/final-comments',
 	finalCommentsController.get('layouts/lpa-dashboard/main.njk')
 );
+router.get(
+	'/:appealNumber/appellant-final-comments',
+	finalCommentsController.get('layouts/lpa-dashboard/main.njk')
+);
 
 module.exports = router;

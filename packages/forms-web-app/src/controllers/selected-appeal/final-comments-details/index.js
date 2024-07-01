@@ -2,12 +2,17 @@ const { formatHeadlineData } = require('@pins/common');
 
 const { VIEW } = require('../../../lib/views');
 const { apiClient } = require('../../../lib/appeals-api-client');
-const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup');
+const {
+	formatTitleSuffix,
+	formatFinalCommentsHeadingPrefix,
+	isAppellantComments,
+	getFinalComments
+} = require('../../../lib/selected-appeal-page-setup');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
 
 /**
- * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
+ * Shared controller for /manage-appeals/:caseRef/appellant-final-comments, manage-appeals/:caseRef/final-comments
  * @param {string} layoutTemplate - njk template to extend
  * @returns {import('express').RequestHandler}
  */
@@ -40,11 +45,13 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		});
 
 		const headlineData = formatHeadlineData(caseData, userType);
-		const finalComments = caseData.lpaFinalCommentDetails ?? null;
+		const isAppellantCommentsResult = isAppellantComments(userRouteUrl, userType);
+		const finalComments = getFinalComments(caseData, isAppellantCommentsResult);
 
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
+			headingPrefix: formatFinalCommentsHeadingPrefix(userRouteUrl),
 
 			appeal: {
 				appealNumber,
