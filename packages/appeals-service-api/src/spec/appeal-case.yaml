@@ -79,6 +79,8 @@ components:
           type: boolean
         appellantFinalCommentsSubmitted:
           type: boolean
+        appellantFinalCommentDetails:
+          type: string
         appellantFirstName:
           type: string
         appellantLastName:

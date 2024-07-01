@@ -456,6 +456,8 @@ const appealCases = [
 		lpaFinalCommentsPublished: true,
 		lpaFinalCommentDetails:
 			'gravida neque convallis a cras semper auctor neque vitae tempus quam pellentesque nec nam aliquam sem et tortor consequat id porta nibh venenatis cras sed',
+		appellantFinalCommentDetails:
+			'I am the appellant and this is my final comment. felis eget velit aliquet sagittis id consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat ac tincidunt',
 		appellantFinalCommentsSubmitted: true
 	},
 	{

@@ -185,6 +185,7 @@ model AppealCase {
   appellantProofEvidenceSubmitted Boolean  @default(false)
   appellantProofEvidencePublished Boolean  @default(false)
   appellantFinalCommentsSubmitted Boolean  @default(false)
+  appellantFinalCommentDetails    String?
 
   appellantFirstName String @default("")
   appellantLastName  String @default("")
