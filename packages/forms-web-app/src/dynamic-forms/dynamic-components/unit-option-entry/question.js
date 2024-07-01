@@ -18,7 +18,7 @@ const Question = require('../../question');
  * @typedef {{
  *   text: string;
  *   value: string;
- * 	hint?: object;
+ * 	 hint?: object;
  *   checked?: boolean | undefined;
  *   attributes?: Record<string, string>;
  *   behaviour?: 'exclusive';
