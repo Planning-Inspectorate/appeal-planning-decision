@@ -23,7 +23,6 @@ const question = {
 		}
 	]
 };
-
 const errorMessage = 'There must be an input to test';
 const unit = 'Test unit';
 
