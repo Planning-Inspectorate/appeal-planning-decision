@@ -20,7 +20,47 @@ const formatQuestionnaireHeading = (userType) => {
 	return 'Local planning authority questionnaire';
 };
 
+//Final Comments
+/**
+ * @param {string} url
+ * @returns {string}
+ */
+const formatFinalCommentsHeadingPrefix = (url) => {
+	switch (true) {
+		case url.includes('/lpa-final-comments'):
+			return 'Local planning authority';
+		case url.includes('/appellant-final-comments'):
+			return `Appellant's`;
+		default:
+			return 'Your';
+	}
+};
+
+/**
+ * @param {string} url
+ * @param {string} userType
+ * @returns {boolean}
+ */
+const isAppellantComments = (url, userType) => {
+	return (
+		url.includes('/appellant-final-comments') ||
+		(url.includes('/final-comments') && userType !== LPA_USER_ROLE)
+	);
+};
+
+/**
+ * @param {import('appeals-service-api').Api.AppealCaseWithRule6Parties} caseData
+ * @param {boolean} isAppellantComments
+ */
+const getFinalComments = (caseData, isAppellantComments) => {
+	//appellantFinalCommentDetails to be added to Prisma
+	return isAppellantComments ? '' : caseData.lpaFinalCommentDetails;
+};
+
 module.exports = {
 	formatTitleSuffix,
-	formatQuestionnaireHeading
+	formatQuestionnaireHeading,
+	formatFinalCommentsHeadingPrefix,
+	isAppellantComments,
+	getFinalComments
 };
