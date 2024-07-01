@@ -44,6 +44,7 @@ let {
 } = require('../config');
 const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
 const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
+const UnitOptionEntryValidator = require('./validator/unit-option-entry-validator');
 const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
 const DateValidator = require('./validator/date-validator');
 const DateQuestion = require('./dynamic-components/date/question');
@@ -55,6 +56,7 @@ const NumberEntryQuestion = require('./dynamic-components/number-entry/question'
 const NumericValidator = require('./validator/numeric-validator');
 const SiteAddressQuestion = require('./dynamic-components/site-address/question');
 const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
+const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 1000);
 
@@ -1732,6 +1734,47 @@ exports.questions = {
 		viewFolder: 'address-entry',
 		validators: [new AddressValidator()]
 	}),
+	s78SiteArea: new UnitOptionEntryQuestion({
+		title: 'What is the area of the appeal site?',
+		question: 'What is the area of the appeal site?',
+		fieldName: 'siteAreaUnits',
+		conditionalFieldName: 'siteAreaSquareMetres',
+		url: 'site-area',
+		validators: [
+			new RequiredValidator(
+				'Select if the area of the appeal site is in square metres or hectares'
+			),
+			new UnitOptionEntryValidator({
+				errorMessage: 'Enter the area of the appeal site',
+				unit: 'Appeal site area',
+				regex: new RegExp(`^[0-9]{0,${inputMaxCharacters}}$`, 'gi'),
+				regexMessage: 'Enter the area of the site using numbers 0 to 9',
+				min: minValue,
+				max: maxValue
+			})
+		],
+		options: [
+			{
+				text: 'Square metres',
+				value: 'm\u00B2',
+				conditional: {
+					hint: 'Site area, in square metres',
+					fieldName: 'siteAreaSquareMetres_m\u00B2',
+					suffix: 'm\u00B2'
+				}
+			},
+			{
+				text: 'Hectares',
+				value: 'ha',
+				conditional: {
+					hint: 'Site area, in hectares',
+					fieldName: 'siteAreaSquareMetres_hectares',
+					suffix: 'ha',
+					conversionFactor: 10000
+				}
+			}
+		]
+	}),
 	appellantGreenBelt: new BooleanQuestion({
 		title: 'Is the appeal site in a green belt?',
 		question: 'Is the appeal site in a green belt?',
@@ -1763,7 +1806,7 @@ exports.questions = {
 			},
 			{
 				text: 'Not started yet',
-				value: 'not started',
+				value: 'not started yet',
 				conditionalText: {
 					html: 'The deadline to submit your finalised planning obligation is around 6 weeks after you submit your appeal. We’ll tell you the exact date when we confirm your appeal.'
 				}
