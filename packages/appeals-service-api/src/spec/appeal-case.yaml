@@ -540,8 +540,6 @@ components:
 
         siteAreaSquareMetres:
           type: integer
-        siteAreaUnits:
-          type: string
 
         agriculturalHolding:
           type: boolean

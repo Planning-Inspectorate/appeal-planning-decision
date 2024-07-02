@@ -3,9 +3,6 @@ BEGIN TRY
 BEGIN TRAN;
 
 -- AlterTable
-ALTER TABLE [dbo].[AppealCase] ADD [siteAreaUnits] NVARCHAR(1000);
-
--- AlterTable
 ALTER TABLE [dbo].[AppellantSubmission] ADD [siteAreaUnits] NVARCHAR(1000);
 
 COMMIT TRAN;
