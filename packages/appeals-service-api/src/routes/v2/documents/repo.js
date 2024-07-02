@@ -36,13 +36,13 @@ module.exports = class Repo {
 	}
 
 	/**
-	 * @param {import('pins-data-model/src/schemas').AppealDocument} data
-	 * @returns {Promise<void>}
+	 * @param {DataModelDocument} data
+	 * @returns {Promise<PrismaDocument>}
 	 */
 	async put(data) {
 		return this.dbClient.$transaction(async (tx) => {
 			const mappedData = mapDataModelToFODBDocument(data);
-			await tx.document.upsert({
+			return await tx.document.upsert({
 				where: {
 					id: mappedData.id
 				},

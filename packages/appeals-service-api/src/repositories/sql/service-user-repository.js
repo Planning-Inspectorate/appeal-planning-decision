@@ -41,7 +41,7 @@ class ServiceUserRepository {
 
 	/**
 	 * @param {Omit<ServiceUser, 'internalId'>} data
-	 * @returns
+	 * @returns {Promise<ServiceUser>}
 	 */
 	async put(data) {
 		return this.dbClient.$transaction(async (tx) => {
