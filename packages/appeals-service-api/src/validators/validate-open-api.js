@@ -9,10 +9,8 @@ const logger = require('#lib/logger');
  *
  * @returns {import('express-openapi-validator/dist/framework/types').OpenApiRequestHandler[]}
  */
-function openApiValidatorMiddleware(arg) {
+function openApiValidatorMiddleware() {
 	const spec = generateOpenApiSpec();
-
-	console.log(arg);
 
 	return OpenApiValidator.middleware({
 		apiSpec: spec,
@@ -29,10 +27,10 @@ function openApiValidatorMiddleware(arg) {
  */
 function openApiValidationErrorHandler(err, req, res, next) {
 	// handle validation errors
+	logger.error(err);
 	if (err instanceof BadRequest) {
 		throw ApiError.badRequest({ errors: err.errors.map((e) => e.message) });
 	}
-	logger.error(err);
 	next(err); // pass up the chain
 }
 
