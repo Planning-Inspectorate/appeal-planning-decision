@@ -176,7 +176,7 @@ class SiteAddressQuestion extends Question {
 			answer.postcode
 		];
 
-		return addressComponents.filter(Boolean).join(', ');
+		return addressComponents.filter(Boolean).join('<br>');
 	}
 
 	/**
