@@ -110,7 +110,7 @@ class S78AppealFormJourney extends Journey {
 				.addQuestion(questions.contactDetails)
 				.addQuestion(questions.contactPhoneNumber)
 				.addQuestion(questions.appealSiteAddress)
-				.addQuestion(questions.siteArea)
+				.addQuestion(questions.s78SiteArea)
 				.addQuestion(questions.appellantGreenBelt)
 				.addQuestion(questions.ownsAllLand)
 				.addQuestion(questions.ownsSomeLand)

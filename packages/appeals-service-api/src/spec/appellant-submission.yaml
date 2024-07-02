@@ -119,6 +119,8 @@ components:
 
         siteAreaSquareMetres:
           type: integer
+        siteAreaUnits:
+          type: string
         appellantPreferInquiryDuration:
           type: integer
         appellantPreferInquiryWitnesses:
