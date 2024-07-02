@@ -1,3 +1,5 @@
+const logger = require('../lib/logger');
+
 /**
  * Wrap route handlers in the following function to handle async errors
  * express doesn't natively handle async handlers, so next isn't called, and the request hangs
@@ -10,11 +12,15 @@ const asyncHandler = (requestHandler) => {
 		try {
 			const p = requestHandler(request, response, next);
 			if (p instanceof Promise) {
-				p.catch(next);
+				p.catch((error) => {
+					logger.error(error);
+					next(error);
+				});
 			}
-		} catch (e) {
+		} catch (error) {
 			// in case a sync function is passed in
-			next(e);
+			logger.error(error);
+			next(error);
 		}
 	};
 };
