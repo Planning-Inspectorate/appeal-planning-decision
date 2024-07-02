@@ -39,6 +39,7 @@ const documentTypeMap = {
 	[documentTypes.uploadOriginalApplicationForm.name]: 'originalApplicationForm',
 	[documentTypes.whoWasNotified.name]: 'whoNotified',
 	[documentTypes.conservationMap.name]: 'conservationMap',
+	[documentTypes.representationUpload.name]: 'otherPartyRepresentations',
 	[documentTypes.planningOfficersReportUpload.name]: 'planningOfficerReport'
 };
 
