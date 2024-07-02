@@ -17,7 +17,7 @@ module.exports = {
 	},
 	API: {
 		HOSTNAME: process.env.FO_APPEALS_API_HOSTNAME,
-		TIMEOUT: parseInt(process.env.FO_APPEALS_API || '10000')
+		TIMEOUT: parseInt(process.env.FO_APPEALS_API_TIMEOUT || '10000')
 	},
 	oauth: {
 		baseUrl: process.env.AUTH_BASE_URL,
