@@ -613,6 +613,102 @@ export interface AppellantSubmission {
 }
 
 /** A document associated with an appeal */
+export interface DataModelDocument {
+	/** The unique identifier for the document */
+	documentId: string;
+	/** Internal case identifier */
+	caseId: number;
+	/** External case identifier */
+	caseReference: string;
+	/** A document can have multiple versions and this indicates the latest version */
+	version: number;
+	/** Current stored name of the document */
+	filename: string;
+	/** Original name of document */
+	originalFilename: string;
+	/** The file size in bytes */
+	size: number;
+	/** The mime type for the current version of the file */
+	mime: string;
+	/** The internal location of the document */
+	documentURI: string;
+	/** The location of the published document will be null if the datePublished is not set */
+	publishedDocumentURI: string;
+	/** Indicates the virus check status for the current document */
+	virusCheckStatus: 'not_scanned' | 'scanned' | 'affected';
+	/** A MD5 hash to check the validity of the file */
+	fileMD5: string;
+	/**
+	 * The creation date for the document
+	 * @format date-time
+	 */
+	dateCreated: string;
+	/**
+	 * The date the document was received
+	 * @format date-time
+	 */
+	dateReceived: string;
+	/**
+	 * The date the document was published
+	 * @format date-time
+	 */
+	datePublished: string;
+	/**
+	 * The last update date for the document
+	 * @format date-time
+	 */
+	lastModified: string;
+	/** The internal code for an appeal type e.g. Householder (D) */
+	caseType: 'C' | 'D' | 'F' | 'G' | 'H' | 'L' | 'Q' | 'S' | 'V' | 'W' | 'X' | 'Y' | 'Z';
+	/** Indicates the redaction status for the document */
+	redactedStatus: 'not_redacted' | 'redacted' | 'no_redaction_required';
+	/** The type of document used for exchange migrations and consumption from the appeal back-office system */
+	documentType:
+		| 'appellantCaseCorrespondence'
+		| 'appellantCaseWithdrawalLetter'
+		| 'appellantCostsApplication'
+		| 'appellantCostsCorrespondence'
+		| 'appellantCostsWithdrawal'
+		| 'appellantStatement'
+		| 'applicationDecisionLetter'
+		| 'changedDescription'
+		| 'originalApplicationForm'
+		| 'whoNotified'
+		| 'conservationMap'
+		| 'lpaCaseCorrespondence'
+		| 'lpaCostsApplication'
+		| 'lpaCostsCorrespondence'
+		| 'lpaCostsWithdrawal'
+		| 'otherPartyRepresentations'
+		| 'planningOfficerReport'
+		| 'costsDecisionLetter'
+		| 'caseDecisionLetter'
+		| 'crossTeamCorrespondence'
+		| 'inspectorCorrespondence';
+	/** The system mastering the metadata for the current document */
+	sourceSystem: 'back-office-appeals' | 'horizon' | 'acp' | 'sharepoint';
+	/** Indicates where the documents originates from */
+	origin: 'pins' | 'citizen' | 'lpa' | 'ogd';
+	/** Owner of the current document */
+	owner: string;
+	/** Name of person who authored document */
+	author: string;
+	/** A custom description for the document */
+	description: string;
+	/** The stage in the appeal process that has created the document */
+	caseStage:
+		| 'appellant-case'
+		| 'lpa-questionnaire'
+		| 'statements'
+		| 'third-party-comments'
+		| 'final-comments'
+		| 'appeal-decision'
+		| 'costs';
+	/** The folder ID containing the document in Horizon */
+	horizonFolderId: string;
+}
+
+/** A document associated with an appeal */
 export interface Document {
 	/** document ID */
 	id: string;
