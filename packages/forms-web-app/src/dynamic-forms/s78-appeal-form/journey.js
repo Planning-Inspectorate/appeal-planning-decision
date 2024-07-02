@@ -102,6 +102,14 @@ class S78AppealFormJourney extends Journey {
 			return false;
 		})();
 
+		/**
+		 * @param {JourneyResponse} response
+		 * @returns {boolean}
+		 */
+		const shouldDisplayUploadDecisionLetter = (response) => {
+			return response.answers.applicationDecision !== 'nodecisionreceived';
+		};
+
 		this.sections.push(
 			new Section('Prepare appeal', 'prepare-appeal')
 				.addQuestion(questions.applicationName)
@@ -189,6 +197,7 @@ class S78AppealFormJourney extends Journey {
 				.addQuestion(questions.uploadChangeOfDescriptionEvidence)
 				.withCondition(questionHasAnswer(questions.updateDevelopmentDescription, 'yes'))
 				.addQuestion(questions.uploadApplicationDecisionLetter)
+				.withCondition(shouldDisplayUploadDecisionLetter(response))
 				.addQuestion(questions.submitPlanningObligation)
 				.addQuestion(questions.planningObligationStatus)
 				.withCondition(questionHasAnswer(questions.submitPlanningObligation, 'yes'))
