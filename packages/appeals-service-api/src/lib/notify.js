@@ -27,6 +27,12 @@ const appealTypeCodeToAppealId = {
 	S78: APPEAL_ID.PLANNING_SECTION_78
 };
 
+/** @type {Record<AppealTypeCode, string>} */
+const appealTypeCodeToAppealText = {
+	HAS: 'Householder planning',
+	S78: 'Full planning'
+};
+
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
 		const recipientEmail = appeal.email;
@@ -134,7 +140,8 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission, email) =>
 		// TODO: put inside an appeal model
 		let variables = {
 			lpa_reference: appellantSubmission.applicationReference,
-			appellant_email_address: email
+			appellant_email_address: email,
+			'appeal type': appealTypeCodeToAppealText[appellantSubmission.appealTypeCode]
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
