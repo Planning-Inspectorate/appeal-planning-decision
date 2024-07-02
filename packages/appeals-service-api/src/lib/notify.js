@@ -29,8 +29,8 @@ const appealTypeCodeToAppealId = {
 
 /** @type {Record<AppealTypeCode, string>} */
 const appealTypeCodeToAppealText = {
-	HAS: 'Householder planning',
-	S78: 'Full planning'
+	HAS: 'householder planning',
+	S78: 'full planning'
 };
 
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
