@@ -133,7 +133,9 @@ const lpaAppealCaseData = [
 		appellantPreferHearingDetails: 'Would like day in court',
 		updateDevelopmentDescription: 'yes',
 		developmentDescriptionDetails: 'a test development',
-		statusPlanningObligation: 'a test planning status obligation'
+		statusPlanningObligation: 'a test planning status obligation',
+		appealWithdrawnDate: pickRandom(datesNMonthsAgo(1)),
+		appealStatus: 'withdrawn'
 	},
 	{
 		Appeal: {
