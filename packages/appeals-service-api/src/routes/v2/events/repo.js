@@ -5,14 +5,56 @@ const { createPrismaClient } = require('#db-client');
  * @typedef {import('@prisma/client').Event} PrismaEvent
  */
 
+const eventTypeMap = {
+	site_visit_access_required: {
+		type: 'siteVisit',
+		subtype: 'accessRequired'
+	},
+	site_visit_accompanied: {
+		type: 'siteVisit',
+		subtype: 'accompanied'
+	},
+	site_visit_unaccompanied: {
+		type: 'siteVisit',
+		subtype: 'unaccompanied'
+	},
+	hearing: {
+		type: 'hearing',
+		subtype: null
+	},
+	hearing_virtual: {
+		type: 'hearing',
+		subtype: 'virtual'
+	},
+	inquiry: {
+		type: 'inquiry',
+		subtype: null
+	},
+	inquiry_virtual: {
+		type: 'inquiry',
+		subtype: 'virtual'
+	},
+	in_house: {
+		type: 'inHouse',
+		subtype: null
+	},
+	pre_inquiry: {
+		type: 'preInquiry',
+		subtype: null
+	},
+	pre_inquiry_virtual: {
+		type: 'preInquiry',
+		subtype: 'virtual'
+	}
+};
+
 /**
  * @param {DataModelEvent} dataModelEvent
  * @returns {Omit<PrismaEvent, 'internalId'>}
  */
 const mapDataModelToFODBEvent = (dataModelEvent) => ({
 	id: dataModelEvent.eventId,
-	type: dataModelEvent.eventType,
-	subtype: null,
+	...eventTypeMap[dataModelEvent.eventType],
 	name: dataModelEvent.eventName,
 	status: dataModelEvent.eventStatus,
 	published: !!dataModelEvent.eventPublished,
