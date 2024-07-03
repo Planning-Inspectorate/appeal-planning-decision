@@ -208,7 +208,8 @@ describe('events v2', () => {
 			});
 
 			expect(dbEventModified).not.toBe(null);
-			expect(dbEventModified?.type).toBe('hearing_virtual');
+			expect(dbEventModified?.type).toBe('hearing');
+			expect(dbEventModified?.subtype).toBe('virtual');
 		});
 	});
 });
