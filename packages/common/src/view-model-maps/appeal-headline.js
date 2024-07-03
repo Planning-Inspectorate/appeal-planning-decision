@@ -1,37 +1,50 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatAddress } = require('../lib/format-address');
+const { CASE_TYPES, PROCEDURE_TYPES } = require('@pins/database/src/seed/data-static');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
  * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
- * @typedef {import("../client/appeals-api-client").AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import("../client/appeals-api-client").AppealCaseDetailed} AppealCaseDetailed
+ * @typedef {import("../client/appeals-api-client").ServiceUserAPI} ServiceUser
  */
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {ServiceUser[]} [users]
+ * @returns {string}
+ */
+const formatApplicant = (users) => {
+	const appellant = users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.APPELLANT);
+
+	if (!appellant) return '';
+
+	return `${appellant.firstName} ${appellant.lastName}`;
+};
+
+/**
+ * @param {AppealCaseDetailed} caseData
+ * @param {string} lpaName
  * @param {AppealToUserRoles|LpaUserRole|null} userType
  */
-const formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_PARTY) => {
-	const {
-		caseReference,
-		LPAName,
-		appealTypeName,
-		procedure,
-		appellantFirstName,
-		appellantLastName,
-		LPAApplicationReference
-	} = caseData;
+const formatHeadlineData = (caseData, lpaName, userType = APPEAL_USER_ROLES.INTERESTED_PARTY) => {
+	const { caseReference, appealTypeCode, caseProcedure, users, applicationReference } = caseData;
 
 	const address = formatAddress(caseData);
+	const applicant = formatApplicant(users);
 
 	const headlines = [
 		{
 			key: { text: 'Appeal type' },
-			value: { text: appealTypeName }
+			value: { text: appealTypeCode in CASE_TYPES ? CASE_TYPES[appealTypeCode]?.type : '' }
 		},
 		{
 			key: { text: 'Appeal procedure' },
-			value: { text: procedure }
+			value: {
+				text:
+					caseProcedure && caseProcedure in PROCEDURE_TYPES
+						? PROCEDURE_TYPES[caseProcedure].name
+						: ''
+			}
 		},
 		{
 			key: { text: 'Appeal site' },
@@ -39,15 +52,15 @@ const formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_PA
 		},
 		{
 			key: { text: 'Applicant' },
-			value: { text: `${appellantFirstName} ${appellantLastName}` }
+			value: { text: applicant }
 		},
 		{
 			key: { text: 'Local planning authority' },
-			value: { text: LPAName }
+			value: { text: lpaName }
 		},
 		{
 			key: { text: 'Application number' },
-			value: { text: LPAApplicationReference }
+			value: { text: applicationReference }
 		}
 	];
 
@@ -62,28 +75,29 @@ const formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_PA
 };
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealCaseDetailed} caseData
  * @param {AppealToUserRoles|LpaUserRole|null} userType
  */
 const shouldFormatHeadlines = (
-	{ caseReceived, appealValidDate, lpaQuestionnaireSubmittedDate, lpaQuestionnairePublishedDate },
+	{ caseValidDate, lpaQuestionnaireSubmittedDate, lpaQuestionnairePublishedDate },
 	userType
 ) => {
 	if (userType === APPEAL_USER_ROLES.APPELLANT) {
-		return caseReceived && lpaQuestionnairePublishedDate;
+		return lpaQuestionnairePublishedDate;
 	} else if (userType === LPA_USER_ROLE) {
-		return appealValidDate && lpaQuestionnaireSubmittedDate;
+		return caseValidDate && lpaQuestionnaireSubmittedDate;
 	}
 	return false;
 };
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealCaseDetailed} caseData
+ * @param {string} lpaName
  * @param {AppealToUserRoles|LpaUserRole|null} userType
  */
-const displayHeadlinesByUser = (caseData, userType) => {
+const displayHeadlinesByUser = (caseData, lpaName, userType) => {
 	if (shouldFormatHeadlines(caseData, userType)) {
-		return formatHeadlineData(caseData, userType);
+		return formatHeadlineData(caseData, lpaName, userType);
 	}
 	return null;
 };

@@ -16,6 +16,9 @@ let sqlClient;
 /** @type {import('supertest').SuperTest<import('supertest').Test>} */
 let appealsApi;
 
+const validLpa = 'Q9999';
+const invalidLpa = 'nope';
+
 jest.mock('../../../configuration/featureFlag');
 jest.mock('../../../../src/services/object-store');
 jest.mock('express-oauth2-jwt-bearer', () => {
@@ -34,6 +37,23 @@ jest.mock('express-oauth2-jwt-bearer', () => {
 		}),
 		setCurrentSub: (newSub) => {
 			currentSub = newSub;
+		}
+	};
+});
+jest.mock('@pins/common/src/middleware/validate-token', () => {
+	let currentLpa = validLpa;
+
+	return {
+		validateToken: jest.fn(() => {
+			return (req, _res, next) => {
+				req.id_token = {
+					lpaCode: currentLpa
+				};
+				next();
+			};
+		}),
+		setCurrentLpa: (newLpa) => {
+			currentLpa = newLpa;
 		}
 	};
 });
@@ -195,6 +215,9 @@ describe('appeal-cases', () => {
 
 			for (const lpa of LPAs) {
 				it(`returns for ${lpa}`, async () => {
+					const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
+					setCurrentLpa(lpa);
+
 					const response = await appealsApi
 						.get(`/api/v2/appeal-cases` + buildQueryString({ 'lpa-code': lpa }))
 						.send();
@@ -202,6 +225,16 @@ describe('appeal-cases', () => {
 					expect(response.body.length).toEqual(testCases.filter((c) => c.LPACode === lpa).length);
 				});
 			}
+
+			it(`400 if lpa code in query doesn't match token`, async () => {
+				const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
+				setCurrentLpa(invalidLpa);
+
+				const response = await appealsApi
+					.get(`/api/v2/appeal-cases` + buildQueryString({ 'lpa-code': LPAs[0] }))
+					.send();
+				expect(response.status).toBe(400);
+			});
 		});
 
 		describe('by postcode', () => {

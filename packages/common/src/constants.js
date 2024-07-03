@@ -1,6 +1,6 @@
 /**
- * @typedef { 'appellant' | 'agent' | 'interestedParty' | 'rule-6-party' } AppealToUserRoles
- * @typedef { 'lpa-user' } LpaUserRole
+ * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
+ * @typedef { 'LPAUser' } LpaUserRole
  */
 
 module.exports = {
@@ -18,10 +18,10 @@ module.exports = {
 	 * @type {Record<string, AppealToUserRoles>}
 	 */
 	APPEAL_USER_ROLES: {
-		APPELLANT: 'appellant',
-		AGENT: 'agent',
-		INTERESTED_PARTY: 'interestedParty',
-		RULE_6_PARTY: 'rule-6-party'
+		APPELLANT: 'Appellant',
+		AGENT: 'Agent',
+		INTERESTED_PARTY: 'InterestedParty',
+		RULE_6_PARTY: 'Rule6Party'
 	},
 	VIRUS_CHECK_STATUSES: {
 		CHECKED: 'checked',
@@ -45,7 +45,7 @@ module.exports = {
 	 * not strictly appeal-user role, there is no link between LPA user and an appeal, it's via the lpa-code on the user and appeal
 	 * @type {LpaUserRole}
 	 */
-	LPA_USER_ROLE: 'lpa-user',
+	LPA_USER_ROLE: 'LPAUser',
 	AUTH: {
 		RESOURCE: 'http://appeals-front-office', // represents all appeals apis, single access token shared between all
 		OIDC_ENDPOINT: '/oidc',

@@ -1,9 +1,9 @@
 /**
- * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  */
 
 /**
- * @typedef {function(AppealCaseWithAppellant, AppealCaseWithAppellant): number} AppealSorter
+ * @typedef {function(AppealCaseDetailed, AppealCaseDetailed): number} AppealSorter
  */
 
 // /** @type {AppealSorter} */
@@ -15,7 +15,7 @@ const sortByCaseReference = (a, b) => {
 };
 
 /** @type {AppealSorter} */
-const sortByCaseDecisionDate = sortByDateFieldDesc('caseDecisionDate');
+const sortByCaseDecisionDate = sortByDateFieldDesc('caseDecisionOutcomeDate');
 
 /**
  * @param {string} field

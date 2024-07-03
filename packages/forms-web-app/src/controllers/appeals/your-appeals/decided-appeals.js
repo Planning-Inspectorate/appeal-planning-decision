@@ -11,7 +11,7 @@ exports.get = async (req, res) => {
 			const decidedAppeals = appeals
 				.map(mapToAppellantDashboardDisplayData)
 				.filter((appeal) => appeal.appealDecision);
-			decidedAppeals.sort(sortByDateFieldDesc('caseDecisionDate'));
+			decidedAppeals.sort(sortByDateFieldDesc('caseDecisionOutcomeDate'));
 			viewContext = { decidedAppeals };
 		}
 	} catch (error) {

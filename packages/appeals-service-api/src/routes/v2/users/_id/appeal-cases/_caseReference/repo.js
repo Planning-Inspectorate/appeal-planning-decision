@@ -47,9 +47,20 @@ module.exports = class Repo {
 					}
 				},
 				include: {
-					Rule6Parties: true,
+					Documents: {
+						where: {
+							publishedDocumentURI: { not: null }
+						},
+						select: {
+							publishedDocumentURI: true,
+							filename: true
+						}
+					},
+					AffectedListedBuildings: true,
+					AppealCaseLpaNotificationMethod: true,
 					NeighbouringAddresses: true,
-					Documents: true
+					ProcedureType: true,
+					Events: true
 				}
 			});
 		} catch (e) {
@@ -82,8 +93,20 @@ module.exports = class Repo {
 						LPACode: user.lpaCode
 					},
 					include: {
-						Documents: true,
-						NeighbouringAddresses: true
+						Documents: {
+							where: {
+								publishedDocumentURI: { not: null }
+							},
+							select: {
+								publishedDocumentURI: true,
+								filename: true
+							}
+						},
+						AffectedListedBuildings: true,
+						AppealCaseLpaNotificationMethod: true,
+						NeighbouringAddresses: true,
+						ProcedureType: true,
+						Events: true
 					}
 				});
 			});

@@ -2,6 +2,7 @@ const { createPrismaClient } = require('#db-client');
 
 /**
  * @typedef {import("@prisma/client").ServiceUser} ServiceUser
+ * @typedef {import("@prisma/client").AppealToUser} AppealToUser
  */
 
 /** @type {(modelRole: string) => 'appellant' | 'agent' | null} */
@@ -27,14 +28,24 @@ class ServiceUserRepository {
 	 * Get service user(s) by case reference and type
 	 *
 	 * @param {string} caseReference
-	 * @param {string} serviceUserType
+	 * @param {Array.<string>} serviceUserType
 	 * @returns {Promise<ServiceUser[]|null>}
 	 */
 	getForCaseAndType(caseReference, serviceUserType) {
 		return this.dbClient.serviceUser.findMany({
 			where: {
-				caseReference,
-				serviceUserType
+				OR: serviceUserType.map((type) => ({
+					caseReference,
+					serviceUserType: type
+				}))
+			},
+			select: {
+				firstName: true,
+				lastName: true,
+				emailAddress: true,
+				organisation: true,
+				telephoneNumber: true,
+				serviceUserType: true
 			}
 		});
 	}

@@ -19,7 +19,15 @@ const appeals = async (req, res) => {
 		return res.redirect(`appeal-search-no-results?search=${postcode}&type=postcode`);
 	}
 
-	postcodeSearchResults.forEach((appeal) => (appeal.formattedAddress = formatAddress(appeal)));
+	postcodeSearchResults.map((appeal) => {
+		const appellant = appeal.users.find((x) => x.serviceUserType === 'Appellant');
+		if (appellant) {
+			appeal.appellantFirstName = appellant.firstName;
+			appeal.appellantLastName = appellant.lastName;
+		}
+		appeal.formattedAddress = formatAddress(appeal);
+		return appeal;
+	});
 
 	const openAppeals = getOpenAppeals(postcodeSearchResults);
 	openAppeals.sort(sortByInterestedPartyRepsDueDate);

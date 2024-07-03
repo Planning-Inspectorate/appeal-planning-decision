@@ -3,6 +3,7 @@ const { createPrismaClient } = require('#db-client');
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
  * @typedef {import("@prisma/client").AppealCase} AppealCase
+ * @typedef {import("@prisma/client").AppealCaseRelationship} AppealCaseRelationship
  * @typedef {import("@prisma/client").Prisma.AppealCaseCreateInput} AppealCaseCreateInput
  * @typedef {import("@prisma/client").Prisma.AppealCaseCreateWithoutAppealInput} AppealCaseCreateWithoutAppealInput
  * @typedef {import('@prisma/client').Prisma.AppealCaseFindManyArgs} AppealCaseFindManyArgs
@@ -10,6 +11,55 @@ const { createPrismaClient } = require('#db-client');
  * @typedef {import('@prisma/client').Prisma.AppealCaseCountArgs} AppealCaseCountArgs
  * @typedef {import('pins-data-model/src/schemas').AppealHASCase} AppealHASCase
  */
+
+/**
+ * get generic appeal data for dashboards
+ */
+const dashboardSelect = {
+	id: true,
+	appealId: true,
+	caseReference: true,
+
+	LPACode: true,
+	appealTypeCode: true,
+	caseStatus: true,
+	caseProcedure: true,
+	applicationReference: true,
+	applicationDecision: true,
+	applicationDate: true,
+	applicationDecisionDate: true,
+	caseSubmissionDueDate: true,
+
+	siteAddressLine1: true,
+	siteAddressLine2: true,
+	siteAddressTown: true,
+	siteAddressCounty: true,
+	siteAddressPostcode: true,
+
+	caseDecisionOutcome: true,
+
+	caseSubmittedDate: true,
+	caseCreatedDate: true,
+	caseUpdatedDate: true,
+	caseValidDate: true,
+	caseValidationDate: true,
+	caseExtensionDate: true,
+	caseStartedDate: true,
+	casePublishedDate: true,
+	caseWithdrawnDate: true,
+	caseTransferredDate: true,
+	transferredCaseClosedDate: true,
+	caseDecisionOutcomeDate: true,
+	caseDecisionPublishedDate: true,
+	caseCompletedDate: true,
+	lpaQuestionnaireDueDate: true,
+	lpaQuestionnaireSubmittedDate: true,
+	lpaQuestionnaireCreatedDate: true,
+	lpaQuestionnairePublishedDate: true,
+	lpaQuestionnaireValidationOutcomeDate: true,
+
+	interestedPartyRepsDueDate: true
+};
 
 /**
  * @param {String} caseProcessCode
@@ -72,7 +122,7 @@ class AppealCaseRepository {
 
 	/**
 	 * Get an appeal by case reference (aka appeal number)
-	 *
+	 * todo: inefficient - cache this and refresh on put?
 	 * @param {object} opts
 	 * @param {string} opts.caseReference
 	 * @returns {Promise<AppealCase|null>}
@@ -84,7 +134,33 @@ class AppealCaseRepository {
 				casePublishedDate: { not: null }
 			},
 			include: {
-				Documents: true
+				Documents: {
+					where: {
+						publishedDocumentURI: { not: null }
+					},
+					select: {
+						publishedDocumentURI: true,
+						filename: true
+					}
+				},
+				AffectedListedBuildings: true,
+				AppealCaseLpaNotificationMethod: true,
+				NeighbouringAddresses: true,
+				Events: true
+			}
+		});
+	}
+
+	/**
+	 * Get all relations for an appeal
+	 * @param {object} opts
+	 * @param {string} opts.caseReference
+	 * @returns {Promise<Array.<AppealCaseRelationship>|null>}
+	 */
+	getRelatedCases({ caseReference }) {
+		return this.dbClient.appealCaseRelationship.findMany({
+			where: {
+				caseReference
 			}
 		});
 	}
@@ -240,7 +316,8 @@ class AppealCaseRepository {
 		const query = {
 			where: {
 				AND
-			}
+			},
+			select: dashboardSelect
 		};
 		// todo: probably pagination
 		return await this.dbClient.appealCase.findMany(query);
@@ -286,7 +363,8 @@ class AppealCaseRepository {
 		const query = {
 			where: {
 				AND
-			}
+			},
+			select: dashboardSelect
 		};
 		// todo: probably pagination
 		return await this.dbClient.appealCase.findMany(query);

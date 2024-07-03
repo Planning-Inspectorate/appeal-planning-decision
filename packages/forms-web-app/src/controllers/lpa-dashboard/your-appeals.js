@@ -15,14 +15,12 @@ const {
 } = require('../../lib/views');
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
 
-const { apiClient } = require('../../lib/appeals-api-client');
-
 const getYourAppeals = async (req, res) => {
 	const user = getUserFromSession(req);
 
-	const appealsCaseData = await apiClient.getAppealsCaseDataV2(user.lpaCode);
+	const appealsCaseData = await req.appealsApiClient.getAppealsCaseDataV2(user.lpaCode);
 
-	const decidedAppealsCount = await apiClient.getDecidedAppealsCountV2(user.lpaCode);
+	const decidedAppealsCount = await req.appealsApiClient.getDecidedAppealsCountV2(user.lpaCode);
 
 	const { toDoAppeals, waitingForReviewAppeals } = appealsCaseData
 		.filter(isNotWithdrawn)

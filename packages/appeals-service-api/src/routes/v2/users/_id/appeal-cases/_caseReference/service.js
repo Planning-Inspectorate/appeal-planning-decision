@@ -10,14 +10,22 @@ const repo = new Repo();
 exports.get = async ({ caseReference, userId, role }) => {
 	if (role === LPA_USER_ROLE) {
 		// handle LPA user, no explicit appeal <-> user link
-		const data = await repo.getForLpaUser({ caseReference, userId });
+		let data = await repo.getForLpaUser({ caseReference, userId });
 		if (data) {
-			return caseService.appendAppellant(data);
+			data = await caseService.appendAppellantAndAgent(data);
+			data = await caseService.appendAppealRelations(data);
+
+			return caseService.parseJSONFields(data);
 		}
 	} else {
 		// handle other users, with explicit appeal <-> user link
-		const data = await repo.get({ caseReference, userId, role });
-		if (data) return data;
+		let data = await repo.get({ caseReference, userId, role });
+		if (data) {
+			data = await caseService.appendAppellantAndAgent(data);
+			data = await caseService.appendAppealRelations(data);
+
+			return caseService.parseJSONFields(data);
+		}
 	}
 	throw ApiError.userNotFound();
 };

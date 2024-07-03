@@ -21,7 +21,7 @@ API response type
 
 ```
 /**
- * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import('appeals-service-api').Api.AppealCase} AppealCase
  */
 ```
 

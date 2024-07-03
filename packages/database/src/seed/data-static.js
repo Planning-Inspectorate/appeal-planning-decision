@@ -29,7 +29,7 @@ const APPEAL_USER_ROLES_ARRAY = Object.values(APPEAL_TO_USER_ROLES);
 
 const CASE_TYPES = {
 	HAS: { id: 1001, key: 'D', type: 'Householder', processCode: 'HAS' },
-	S78: { id: 1005, key: 'W', type: 'Planning appeal', processCode: 'S78' }
+	S78: { id: 1005, key: 'W', type: 'Full Planning', processCode: 'S78' }
 	// { id: 1000, key: 'C', type: 'Enforcement notice appeal' },
 	// { id: 1002, key: 'F', type: 'Enforcement listed building and conservation area appeal' },
 	// { key: 'G', type: 'Discontinuance notice appeal' },
@@ -44,17 +44,26 @@ const CASE_TYPES = {
 };
 const CASE_TYPES_ARRAY = Object.values(CASE_TYPES);
 
-const PROCEDURE_TYPES = [
-	{ key: 'hearing', name: 'Hearing' },
-	{ key: 'inquiry', name: 'Inquiry' },
-	{ key: 'written', name: 'Written' }
-];
+const PROCEDURE_TYPES = {
+	hearing: { key: 'hearing', name: 'Hearing' },
+	inquiry: { key: 'inquiry', name: 'Inquiry' },
+	written: { key: 'written', name: 'Written' }
+};
+
+const PROCEDURE_TYPES_ARRAY = Object.values(PROCEDURE_TYPES);
 
 const LPA_NOTIFICATION_METHODS = [
 	{ key: 'notice', name: 'A site notice' },
 	{ key: 'letter', name: 'Letter/email to interested parties' },
 	{ key: 'press-advert', name: 'A press advert' }
 ];
+
+const CASE_OUTCOMES = {
+	allowed: { key: 'allowed', name: 'Allowed' },
+	split_decision: { key: 'split_decision', name: 'Split decision' },
+	dismissed: { key: 'dismissed', name: 'Dismissed' },
+	invalid: { key: 'invalid', name: 'Invalid' }
+};
 
 /**
  * @param {import('@prisma/client').PrismaClient} dbClient
@@ -74,7 +83,7 @@ async function seedStaticData(dbClient) {
 			where: { key: caseType.key }
 		});
 	}
-	for (const procedure of PROCEDURE_TYPES) {
+	for (const procedure of PROCEDURE_TYPES_ARRAY) {
 		await dbClient.procedureType.upsert({
 			create: procedure,
 			update: procedure,
@@ -95,5 +104,7 @@ module.exports = {
 	seedStaticData,
 	APPEAL_TO_USER_ROLES,
 	APPEAL_USER_ROLES_ARRAY,
-	CASE_TYPES
+	CASE_TYPES,
+	PROCEDURE_TYPES,
+	CASE_OUTCOMES
 };

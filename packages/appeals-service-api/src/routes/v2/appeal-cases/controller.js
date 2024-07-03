@@ -60,7 +60,7 @@ async function putByCaseReference(req, res) {
  * @type {import('express').RequestHandler}
  */
 async function list(req, res, next) {
-	if ('lpa-code' in req.query) {
+	if ('lpa-code' in req.query && req.query['lpa-code'] === req?.id_token.lpaCode) {
 		await listByLpaCode(req, res, next);
 		return;
 	}

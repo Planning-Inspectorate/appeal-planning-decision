@@ -9,7 +9,7 @@ exports.sections = [
 				// tbc
 				url: '/appeal-details',
 				text: 'View your appeal details',
-				condition: (appealCase) => appealCase.caseReceived
+				condition: () => true
 			}
 		]
 	},
@@ -20,7 +20,7 @@ exports.sections = [
 				// tbc
 				url: '/questionnaire',
 				text: 'View questionnaire',
-				condition: (appealCase) => appealCase.lpaQuestionnairePublished
+				condition: (appealCase) => appealCase.lpaQuestionnairePublishedDate !== null
 			}
 		]
 	},

@@ -32,7 +32,7 @@ const getSavedAppealDocument = async (appealId) => {
 			saved = doc;
 		})
 		.catch((err) => {
-			console.log(err);
+			logger.error({ err }, 'getSavedAppealDocument');
 			throw new Error(err);
 		});
 	return saved;

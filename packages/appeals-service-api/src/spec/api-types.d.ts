@@ -19,10 +19,20 @@ export interface AppealUserUpdate {
 	lpaStatus?: 'added' | 'confirmed' | 'removed';
 }
 
+/** A relation between appeals */
+export interface AppealCaseRelationship {
+	/** How the cases are related */
+	type: 'nearby' | 'linked';
+	/** the case */
+	caseReference: string;
+	/** the case it's related to */
+	caseReference2: string;
+}
+
 /** An appeal case from the Back Office, with appellant service user */
-export type AppealCaseWithAppellant = AppealCase & {
-	/** A Service User */
-	appellant?: ServiceUser;
+export type AppealCaseDetailed = AppealCase & {
+	users?: ServiceUser[];
+	relations?: AppealCaseRelationship[];
 };
 
 /** An appeal case with rule 6 parties */
@@ -436,6 +446,11 @@ export interface AppealCase {
 	lpaFinalCommentDetails?: string;
 	/** Do you need to add any witnesses */
 	lpaWitnesses?: boolean;
+	agriculturalHolding?: boolean;
+	tenantAgriculturalHolding?: boolean;
+	otherTenantsAgriculturalHolding?: boolean;
+	informedTenantsAgriculturalHolding?: boolean;
+	statusPlanningObligation?: string;
 	rule6StatementPublished?: boolean;
 	rule6ProofsEvidencePublished?: boolean;
 	interestedPartyCommentsPublished?: boolean;

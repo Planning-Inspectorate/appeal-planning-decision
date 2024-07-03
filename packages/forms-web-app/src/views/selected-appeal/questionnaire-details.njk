@@ -42,13 +42,15 @@
             ] %}
 
             {% for section in sections %}
-                <div class="appeal-decision govuk-grid-column-two-thirds">
-                    <h2 class="govuk-heading-l">{{ section.title }}</h2>
-                    {{ govukSummaryList({
-                        classes: "questionnaire-details govuk-summary-list long-answers",
-                        rows: section.details
-                    }) }}
-                </div>
+                {% if section.details.length %}
+                    <div class="appeal-decision govuk-grid-column-two-thirds">
+                        <h2 class="govuk-heading-l">{{ section.title }}</h2>
+                        {{ govukSummaryList({
+                            classes: "questionnaire-details govuk-summary-list long-answers",
+                            rows: section.details
+                        }) }}
+                    </div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

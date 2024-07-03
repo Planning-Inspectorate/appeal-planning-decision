@@ -6,8 +6,8 @@
  * 'Other Evidence from Appellant/Agent' and 'Initial Documents' for the 'Horizon Document Type' and 'Horizon group type' respectively.
  */
 
-const lpaOwner = 'lpa-user';
-const appellantOwner = 'appellant';
+const lpaOwner = 'LPAUser';
+const appellantOwner = 'Appellant';
 
 const documentTypes = {
 	originalApplication: {

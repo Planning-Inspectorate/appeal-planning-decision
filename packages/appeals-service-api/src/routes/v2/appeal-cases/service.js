@@ -21,26 +21,50 @@ const { getValidator } = new SchemaValidator();
  * @typedef {import("@prisma/client").AppealCase} AppealCase
  * @typedef {import('@prisma/client').Prisma.AppealCaseCreateInput} AppealCaseCreateInput
  * @typedef {import("@prisma/client").ServiceUser} ServiceUser
- * @typedef {AppealCase & {appellant?: ServiceUser}} AppealCaseWithAppellant
+ * @typedef {import("@prisma/client").AppealCaseRelationship} AppealRelations
+ * @typedef {AppealCase & {users?: Array.<ServiceUser>} & {relations?: Array.<AppealRelations>}} AppealCaseDetailed
  * @typedef {import ('pins-data-model').Schemas.AppealHASCase} AppealHASCase
-
  */
+
+/**
+ * @param {AppealCaseDetailed} caseData
+ * @returns {AppealCaseDetailed}
+ */
+const parseJSONFields = (caseData) => {
+	return {
+		...caseData,
+		siteAccessDetails: caseData.siteAccessDetails ? JSON.parse(caseData.siteAccessDetails) : [],
+		siteSafetyDetails: caseData.siteSafetyDetails ? JSON.parse(caseData.siteSafetyDetails) : [],
+		caseValidationInvalidDetails: caseData.caseValidationInvalidDetails
+			? JSON.parse(caseData.caseValidationInvalidDetails)
+			: [],
+		caseValidationIncompleteDetails: caseData.caseValidationIncompleteDetails
+			? JSON.parse(caseData.caseValidationIncompleteDetails)
+			: [],
+		lpaQuestionnaireValidationDetails: caseData.lpaQuestionnaireValidationDetails
+			? JSON.parse(caseData.lpaQuestionnaireValidationDetails)
+			: []
+	};
+};
 
 /**
  * Get an appeal case and appellant by case reference
  *
  * @param {object} opts
  * @param {string} opts.caseReference
- * @returns {Promise<AppealCaseWithAppellant|null>}
+ * @returns {Promise<AppealCaseDetailed|null>}
  */
 async function getCaseAndAppellant(opts) {
-	const appeal = await repo.getByCaseReference(opts);
+	let appeal = await repo.getByCaseReference(opts);
 
 	if (!appeal) {
 		return null;
 	}
 
-	return await appendAppellant(appeal);
+	appeal = await appendAppellantAndAgent(appeal);
+	appeal = await appendAppealRelations(appeal);
+
+	return parseJSONFields(appeal);
 }
 
 /**
@@ -81,13 +105,13 @@ async function putCase(caseReference, data) {
  * @param {string} options.lpaCode
  * @param {boolean} options.decidedOnly - if true, only decided cases; else ONLY cases not decided
  * @param {boolean} options.withAppellant - if true, include the appellant if available
- * @returns {Promise<AppealCaseWithAppellant[]>}
+ * @returns {Promise<AppealCaseDetailed[]>}
  */
 async function listByLpaCodeWithAppellant(options) {
 	const appeals = await repo.listByLpaCode(options);
 
 	if (options.withAppellant) {
-		await Promise.all(appeals.map(appendAppellant));
+		await Promise.all(appeals.map(appendAppellantAndAgent));
 	}
 
 	return appeals;
@@ -100,34 +124,49 @@ async function listByLpaCodeWithAppellant(options) {
  * @param {string} options.postcode
  * @param {boolean} options.decidedOnly - if true, only decided cases; else ONLY cases not decided
  * @param {boolean} options.withAppellant - if true, include the appellant if available
- * @returns {Promise<AppealCaseWithAppellant[]>}
+ * @returns {Promise<AppealCaseDetailed[]>}
  */
 async function listByPostcodeWithAppellant(options) {
 	const appeals = await repo.listByPostCode(options);
 
 	if (options.withAppellant) {
-		await Promise.all(appeals.map(appendAppellant));
+		await Promise.all(appeals.map(appendAppellantAndAgent));
 	}
 
 	return appeals;
 }
 
 /**
- * Add the appellant field to an appeal if there is one.
+ * Add the service users to an appeal if there are any.
  *
- * @param {AppealCaseWithAppellant} appeal
- * @returns {Promise<AppealCaseWithAppellant>}
+ * @param {AppealCaseDetailed} appeal
+ * @returns {Promise<AppealCaseDetailed>}
  */
-async function appendAppellant(appeal) {
-	// find appellant
-	const serviceUsers = await serviceUserRepo.getForCaseAndType(
-		appeal.caseReference,
-		ServiceUserType.Appellant
-	);
-	if (!serviceUsers || serviceUsers.length !== 1) {
+async function appendAppellantAndAgent(appeal) {
+	// find appeal users by roles
+	const serviceUsers = await serviceUserRepo.getForCaseAndType(appeal.caseReference, [
+		ServiceUserType.Appellant,
+		ServiceUserType.Agent
+	]);
+	if (!serviceUsers) {
 		return appeal;
 	}
-	appeal.appellant = serviceUsers[0];
+	appeal.users = serviceUsers;
+	return appeal;
+}
+
+/**
+ * Add the relations to an appeal.
+ *
+ * @param {AppealCaseDetailed} appeal
+ * @returns {Promise<AppealCaseDetailed>}
+ */
+async function appendAppealRelations(appeal) {
+	const relations = await repo.getRelatedCases({ caseReference: appeal.caseReference });
+	if (!relations || !relations.length) {
+		return appeal;
+	}
+	appeal.relations = relations;
 	return appeal;
 }
 
@@ -136,5 +175,7 @@ module.exports = {
 	putCase,
 	listByLpaCodeWithAppellant,
 	listByPostcodeWithAppellant,
-	appendAppellant
+	appendAppellantAndAgent,
+	appendAppealRelations,
+	parseJSONFields
 };

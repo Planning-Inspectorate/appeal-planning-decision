@@ -1,0 +1,20 @@
+components:
+  schemas:
+    AppealCaseRelationship:
+      description: A relation between appeals
+      type: object
+      required:
+        - type
+        - caseReference
+        - caseReference2
+      properties:
+        type:
+          type: string
+          enum: ['nearby', 'linked']
+          description: How the cases are related
+        caseReference:
+          type: string
+          description: the case
+        caseReference2:
+          type: string
+          description: the case it's related to
