@@ -1,12 +1,12 @@
 const { formatDocumentDetails } = require('@pins/common');
 
 /**
- * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import("@pins/common/src/view-model-maps/rows/def").Rows} Rows
  */
 
 /**
- * @param {AppealCaseWithAppellant } caseData
+ * @param {AppealCaseDetailed } caseData
  * @returns {Rows}
  */
 

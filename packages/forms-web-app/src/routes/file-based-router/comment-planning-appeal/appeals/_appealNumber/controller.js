@@ -3,6 +3,7 @@ const { formatCommentDeadlineText } = require('#utils/format-deadline-text');
 const { formatHeadlineData, formatRows } = require('@pins/common');
 const { appealSubmissionRows } = require('./ip-appeal-submission-rows');
 const { applicationRows } = require('./ip-application-rows');
+const { getDepartmentFromCode } = require('../../../../../services/department.service');
 
 /** @type {import('express').Handler} */
 const selectedAppeal = async (req, res) => {
@@ -10,7 +11,8 @@ const selectedAppeal = async (req, res) => {
 
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(appealNumber);
 
-	const headlineData = formatHeadlineData(appeal);
+	const lpa = await getDepartmentFromCode(appeal.LPACode);
+	const headlineData = formatHeadlineData(appeal, lpa.name);
 
 	const status = getAppealStatus(appeal);
 

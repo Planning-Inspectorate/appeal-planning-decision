@@ -311,7 +311,7 @@ describe('users v2', () => {
 				.send();
 
 			expect(response.status).toEqual(200);
-			expect(response.body.role).toEqual('appellant');
+			expect(response.body.role).toEqual('Appellant');
 		});
 
 		it('should use role supplied if valid', async () => {
@@ -323,11 +323,11 @@ describe('users v2', () => {
 			const response = await appealsApi
 				.post(`/api/v2/users/${testEmail}/appeal/${appeal.id}`)
 				.send({
-					role: 'agent'
+					role: 'Agent'
 				});
 
 			expect(response.status).toEqual(200);
-			expect(response.body.role).toEqual('agent');
+			expect(response.body.role).toEqual('Agent');
 		});
 	});
 });

@@ -124,8 +124,8 @@ const lpaAppealCaseData = [
 		changedDevelopmentDescription: true,
 		newConditionDetails: 'a test development',
 		statusPlanningObligation: 'a test planning status obligation',
-		appealWithdrawnDate: pickRandom(datesNMonthsAgo(1)),
-		appealStatus: 'withdrawn'
+		caseWithdrawnDate: pickRandom(datesNMonthsAgo(1)),
+		caseStatus: 'withdrawn',
 		ProcedureType: { connect: { key: 'hearing' } },
 		CaseType: { connect: { processCode: 'S78' } },
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))

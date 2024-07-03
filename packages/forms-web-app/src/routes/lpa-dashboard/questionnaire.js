@@ -17,6 +17,7 @@ const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-subm
 
 const { getUserFromSession } = require('../../services/user.service');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { CASE_TYPES } = require('@pins/database/src/seed/data-static');
 
 const {
 	VIEW: {
@@ -39,6 +40,14 @@ const questionnaireTaskList = async (req, res) => {
 		userId: user.id,
 		role: LPA_USER_ROLE
 	});
+
+	appeal.appealTypeName =
+		appeal.appealTypeCode in CASE_TYPES ? CASE_TYPES[appeal.appealTypeCode].type : '';
+	const appellant = appeal.users.find((x) => x.serviceUserType === 'Appellant');
+	if (appellant) {
+		appeal.appellantFirstName = appellant.firstName;
+		appeal.appellantLastName = appellant.lastName;
+	}
 
 	const pageCaption = `Appeal ${appeal.caseReference}`;
 

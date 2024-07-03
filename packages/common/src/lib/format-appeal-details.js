@@ -3,55 +3,84 @@ const escape = require('escape-html');
 // NOTE - consider requirement to escape string values from caseData
 
 /**
- * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
+ * todo: consts for roles
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @returns {string}
  */
 exports.formatContactDetails = (caseData) => {
-	const contactName = `${caseData.contactFirstName} ${caseData.contactLastName}`;
+	let contact = caseData.users?.find((x) => {
+		x.role === 'Agent';
+	});
 
-	return contactName + (caseData.contactCompanyName ? `\n${caseData.contactCompanyName}` : '');
+	if (!contact) {
+		contact = caseData.users?.find((x) => {
+			x.role === 'Appellant';
+		});
+	}
+
+	if (!contact) return '';
+
+	return formatUserDetails(contact);
 };
 
 /**
- * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @returns {string}
  */
 exports.formatApplicantDetails = (caseData) => {
-	const contactName = `${caseData.appellantFirstName} ${caseData.appellantLastName}`;
+	const contact = caseData.users?.find((x) => {
+		x.role === 'Appellant';
+	});
 
-	return contactName + (caseData.appellantCompanyName ? `\n${caseData.appellantCompanyName}` : '');
+	if (!contact) return '';
+
+	return formatUserDetails(contact);
 };
 
 /**
- * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
+ * @param {import('appeals-service-api').Api.ServiceUser} [contact]
+ * @returns {string}
+ */
+function formatUserDetails(contact) {
+	if (!contact) return '';
+
+	const contactName = escape(`${contact.firstName} ${contact.lastName}`);
+
+	return contactName + (contact.organisation ? `\n${contact.organisation}` : '');
+}
+exports.formatUserDetails = formatUserDetails;
+
+/**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
  */
 exports.formatAccessDetails = (caseData) => {
-	const visibility = caseData.appellantSiteAccess ? 'Yes' : 'No';
+	if (!caseData.siteAccessDetails) {
+		return 'No';
+	}
 
-	return (
-		visibility +
-		(caseData.appellantSiteAccessDetails ? `\n${caseData.appellantSiteAccessDetails}` : '')
-	);
+	const details = caseData.siteAccessDetails.map((x) => x).join('\n');
+
+	return `Yes \n ${details}`;
 };
 
 /**
- * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
  */
 exports.formatHealthAndSafety = (caseData) => {
-	const safetyIssues = caseData.appellantSiteSafety ? 'Yes' : 'No';
+	if (!caseData.siteSafetyDetails) return 'No';
 
-	return (
-		safetyIssues +
-		(caseData.appellantSiteSafetyDetails ? `\n${caseData.appellantSiteSafetyDetails}` : '')
-	);
+	const details = caseData.siteSafetyDetails.map((x) => x).join('\n');
+
+	return `Yes \n ${details}`;
 };
 
 /**
- * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
  */
 exports.formatProcedure = (caseData) => {
 	const possibleProcedures = [
 		caseData.appellantProcedurePreference ?? '',
-		caseData.appellantPreferHearingDetails ?? '',
-		caseData.appellantPreferInquiryDetails ?? ''
+		caseData.appellantProcedurePreferenceDetails ?? ''
 	];
 
 	const valueText = possibleProcedures.filter(Boolean).join('\n');
@@ -60,25 +89,21 @@ exports.formatProcedure = (caseData) => {
 };
 
 /**
- * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @param {'linked'| 'nearby'} type
  */
-exports.formatLinkedAppeals = (caseData) => {
-	if (!caseData.appellantLinkedCase) return 'No';
+exports.formatRelatedAppeals = (caseData, type) => {
+	const appellantLinkedCases = caseData.relations?.filter((relation) => relation.type === type);
 
-	const appellantLinkedCases = caseData.SubmissionLinkedCase || [];
+	if (!appellantLinkedCases?.length) return '';
 
-	const linkedCasesDisplayDetails = appellantLinkedCases
-		.map(formatLinkedAppealHyperlink)
-		.join('\n');
-
-	const valueText = `Yes'\n'${linkedCasesDisplayDetails}`;
-
-	return valueText;
+	return appellantLinkedCases.map((linkedAppeal) => escape(linkedAppeal.caseReference2)).join('\n');
 };
 
 /**
- * @param {import('appeals-service-api').Api.SubmissionLinkedCase} linkedAppeal
+ * this can't be a hyperlink unless we check it exists in FO first
+ * @param {import('appeals-service-api').Api.AppealCaseRelationship} linkedAppeal
  */
-const formatLinkedAppealHyperlink = (linkedAppeal) => {
-	return `<a href=# class="govuk-link">${escape(linkedAppeal.caseReference)}</a>`;
-};
+// const formatRelatedAppealHyperlink = (linkedAppeal) => {
+// 	return `<a href=# class="govuk-link">${escape(linkedAppeal.caseReference2)}</a>`;
+// };

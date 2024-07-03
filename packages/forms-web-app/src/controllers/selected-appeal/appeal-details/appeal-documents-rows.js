@@ -2,12 +2,12 @@ const { formatDocumentDetails, formatNewDescription } = require('@pins/common');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
- * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import("@pins/common/src/view-model-maps/rows/def").Rows} Rows
  */
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealCaseDetailed} caseData
  * @param {string} userType
  * @returns {Rows}
  */
@@ -95,7 +95,7 @@ exports.documentsRows = (caseData, userType) => {
 		{
 			keyText: 'Costs application',
 			valueText: formatDocumentDetails(documents, 'costsApplication'),
-			condition: (caseData) => isAppellantOrAgent && caseData.costsAppliedForIndicator,
+			condition: (caseData) => isAppellantOrAgent && caseData.appellantCostsAppliedFor,
 			isEscaped: true
 		}
 	];

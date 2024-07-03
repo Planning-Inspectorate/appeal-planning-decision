@@ -1,6 +1,6 @@
 components:
   schemas:
-    AppealCaseWithAppellantAndAgent:
+    AppealCaseDetailed:
       description: An appeal case from the Back Office, with appellant service user
       allOf:
         - $ref: '#/components/schemas/AppealCase'
@@ -10,6 +10,11 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ServiceUser'
+            relations:
+              type: array
+              items:
+                $ref: '#/components/schemas/AppealCaseRelationship'
+
     AppealCaseWithRule6Parties:
       description: An appeal case with rule 6 parties
       allOf:

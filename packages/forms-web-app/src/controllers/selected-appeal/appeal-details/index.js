@@ -2,11 +2,12 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
 const { formatHeadlineData, formatRows } = require('@pins/common');
 
 const { VIEW } = require('../../../lib/views');
-const { apiClient } = require('../../../lib/appeals-api-client');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
 const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
+const { getDepartmentFromCode } = require('../../../services/department.service');
+const logger = require('#lib/logger');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -16,7 +17,8 @@ const { documentsRows } = require('./appeal-documents-rows');
 exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 	return async (req, res) => {
 		const appealNumber = req.params.appealNumber;
-		const userRouteUrl = req.originalUrl;
+		const trailingSlashRegex = /\/$/;
+		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '');
 
 		// determine user based on route to selected appeal
 		// i.e '/appeals/' = appellant | agent
@@ -33,15 +35,18 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			throw new Error('no session email');
 		}
 
-		const user = await apiClient.getUserByEmailV2(userEmail);
+		const user = await req.appealsApiClient.getUserByEmailV2(userEmail);
 
-		const caseData = await apiClient.getUsersAppealCase({
+		const caseData = await req.appealsApiClient.getUsersAppealCase({
 			caseReference: appealNumber,
 			role: userType,
 			userId: user.id
 		});
 
-		const headlineData = formatHeadlineData(caseData, userType);
+		logger.info({ caseData }, 'caseData');
+
+		const lpa = await getDepartmentFromCode(caseData.LPACode);
+		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 
 		const appealDetailsRows = detailsRows(caseData, userType);
 		const appealDetails = formatRows(appealDetailsRows, caseData);
@@ -60,6 +65,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				appealDocuments
 			}
 		};
+
+		// logger.info({ viewContext }, 'appeal');
 
 		res.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext);
 	};

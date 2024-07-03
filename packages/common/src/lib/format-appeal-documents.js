@@ -10,7 +10,7 @@ exports.formatDocumentDetails = (documents, documentType) => {
 };
 
 /**
- * @param {import("../client/appeals-api-client").AppealCaseWithAppellant} caseData
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
  */
 exports.formatNewDescription = (caseData) => {
 	if (caseData.updateDevelopmentDescription && caseData.developmentDescriptionDetails) {

@@ -7,7 +7,7 @@ const {
 } = require('@pins/common');
 
 /**
- * @param {import('appeals-service-api').Api.AppealCaseWithAppellant } caseData
+ * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
 exports.environmentalRows = (caseData) => {

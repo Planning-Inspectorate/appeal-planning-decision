@@ -224,6 +224,7 @@ services:
       - ./node_modules:/opt/node_modules
       - ./packages/business-rules:/opt/app/node_modules/@pins/business-rules
       - ./packages/common:/opt/app/node_modules/@pins/common
+      - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/forms-web-app:/opt/app
     command: npm run start:dev
     # if enabling debug, be sure to uncomment / expose the debug port above.

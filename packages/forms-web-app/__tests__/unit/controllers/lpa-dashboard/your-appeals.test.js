@@ -5,7 +5,6 @@ const { VIEW } = require('../../../../src/lib/views');
 const { baseHASUrl } = require('../../../../src/dynamic-forms/has-questionnaire/journey');
 
 const { mockReq, mockRes } = require('../../mocks');
-const { apiClient } = require('../../../../src/lib/appeals-api-client');
 const {
 	mapToLPADashboardDisplayData,
 	isToDoLPADashboard
@@ -46,14 +45,19 @@ const mockDecidedCount = {
 
 describe('controllers/lpa-dashboard/your-appeals', () => {
 	beforeEach(() => {
+		req.appealsApiClient = {
+			getAppealsCaseDataV2: jest.fn(),
+			getDecidedAppealsCountV2: jest.fn()
+		};
+
 		jest.resetAllMocks();
 	});
 
 	describe('getYourAppeals', () => {
 		it('should render the view with a link to add-remove', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
-			apiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
-			apiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
+			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
+			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
 			isToDoLPADashboard.mockReturnValue(true);
 			isFeatureActive.mockResolvedValueOnce(false);
@@ -77,8 +81,8 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 
 		it('should show questionnaire ', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
-			apiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
-			apiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
+			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
+			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
 			isToDoLPADashboard.mockReturnValue(true);
 			isFeatureActive.mockResolvedValueOnce(true);
@@ -102,14 +106,14 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 
 		it('should call API to fetch appeals case data', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
-			apiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
-			apiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
+			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
+			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
 			isToDoLPADashboard.mockReturnValue(true);
 
 			await getYourAppeals(req, res);
 
-			expect(apiClient.getAppealsCaseDataV2).toHaveBeenCalledWith(mockUser.lpaCode);
+			expect(req.appealsApiClient.getAppealsCaseDataV2).toHaveBeenCalledWith(mockUser.lpaCode);
 		});
 	});
 });

@@ -13,6 +13,7 @@ const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outc
 const { sections: rule6Sections } = require('./rule-6-sections');
 const { getUserFromSession } = require('../../services/user.service');
 const { format: formatDate } = require('date-fns');
+const { getDepartmentFromCode } = require('../../services/department.service');
 
 /** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
 const userSectionsDict = {
@@ -29,7 +30,8 @@ const userSectionsDict = {
 exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 	return async (req, res) => {
 		const appealNumber = req.params.appealNumber;
-		const userRouteUrl = req.originalUrl;
+		const trailingSlashRegex = /\/$/;
+		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '');
 
 		// determine user based on route to selected appeal
 		// i.e '/appeals/' = appellant | agent
@@ -59,7 +61,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		events?.sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
 
-		const headlineData = displayHeadlinesByUser(caseData, userType);
+		const lpa = await getDepartmentFromCode(caseData.LPACode);
+		const headlineData = displayHeadlinesByUser(caseData, lpa.name, userType);
 
 		const sections = userSectionsDict[userType];
 		if (!isSection(sections)) throw new Error(`No sections configured for user type ${userType}`);
@@ -78,7 +81,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				sections: formatSections({ caseData, sections, userEmail }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
-				questionnaireDueDate: formatDateForNotification(caseData.questionnaireDueDate)
+				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate)
 			}
 		};
 
@@ -87,7 +90,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 };
 
 /**
- * @param {import('@pins/common/src/constants').AppealToUserRoles | "lpa-user" | null} userType
+ * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
  * @returns {string}
  */
 const formatTitleSuffix = (userType) => {
@@ -97,11 +100,11 @@ const formatTitleSuffix = (userType) => {
 
 /**
  * @param {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} caseData
- * @param {import('@pins/common/src/constants').AppealToUserRoles | "lpa-user" | null} userType
+ * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
  * @returns {boolean}
  */
 const shouldDisplayQuestionnaireDueNotification = (caseData, userType) =>
-	userType === 'lpa-user' && !caseData.lpaQuestionnaireSubmitted;
+	userType === 'LPAUser' && !caseData.lpaQuestionnaireSubmitted;
 
 /**
  *

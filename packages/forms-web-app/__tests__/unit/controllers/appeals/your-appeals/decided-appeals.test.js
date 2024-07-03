@@ -25,7 +25,7 @@ describe('controllers/appeals/your-appeals/decided-appeals', () => {
 		},
 		isDraft: false,
 		appealDecision: 'allowed',
-		caseDecisionDate: 'a date'
+		caseDecisionOutcomeDate: 'a date'
 	};
 
 	beforeEach(() => {

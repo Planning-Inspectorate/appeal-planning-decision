@@ -12,7 +12,7 @@ const trailingSlashRegex = /\/$/;
 // Internal API types
 /**
  * @typedef {import('appeals-service-api').Api.AppealCase} AppealCase
- * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
  * @typedef {import('appeals-service-api').Api.LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {import('appeals-service-api').Api.AppealCaseWithRule6Parties} AppealCaseWithRule6Parties
@@ -20,6 +20,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
  * @typedef {import('appeals-service-api').Api.Event} Event
+ * @typedef {import('appeals-service-api').Api.ServiceUser} ServiceUserAPI
  * @typedef {import('pins-data-model/src/schemas').AppealHASCase} AppealHASCase
  */
 
@@ -62,7 +63,7 @@ class AppealsApiClient {
 	 * @param {string} email
 	 * @param {string} appealSqlId
 	 * @param {string} [role]
-	 * @returns {Promise<AppealCaseWithAppellant>}
+	 * @returns {Promise<AppealCase>}
 	 */
 	async linkUserToV2Appeal(email, appealSqlId, role) {
 		let roleBody = role ? { role: role } : undefined;
@@ -161,7 +162,7 @@ class AppealsApiClient {
 	 * 'Public' API, only returns published cases.
 	 *
 	 * @param {string} caseReference
-	 * @returns {Promise<AppealCaseWithAppellant>}
+	 * @returns {Promise<AppealCaseDetailed>}
 	 */
 	async getAppealCaseByCaseRef(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}`;
@@ -242,7 +243,7 @@ class AppealsApiClient {
 	 * 'Public' API, only checks published cases.
 	 *
 	 * @param {Object<string, any>} params
-	 * @returns {Promise<import('appeals-service-api').Api.AppealCaseWithAppellant[]>}
+	 * @returns {Promise<import('appeals-service-api').Api.AppealCase[]>}
 	 */
 	async getPostcodeSearchResults(params = {}) {
 		const endpoint = `${v2}/appeal-cases${buildQueryString(params)}`;
@@ -261,7 +262,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} lpaCode
-	 * @returns {Promise<AppealCaseWithAppellant[]>}
+	 * @returns {Promise<AppealCase[]>}
 	 */
 	async getAppealsCaseDataV2(lpaCode) {
 		const urlParams = new URLSearchParams();
@@ -299,7 +300,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} lpaCode
-	 * @returns {Promise<AppealCaseWithAppellant[]>}
+	 * @returns {Promise<AppealCaseDetailed[]>}
 	 */
 	async getDecidedAppealsCaseDataV2(lpaCode) {
 		const urlParams = new URLSearchParams();

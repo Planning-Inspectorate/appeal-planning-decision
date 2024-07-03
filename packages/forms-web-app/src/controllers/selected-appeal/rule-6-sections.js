@@ -2,15 +2,16 @@
  * @type {import("@pins/common/src/view-model-maps/sections/def").Sections}
  */
 
+// todo: update all selected appeal sections
+
 exports.sections = [
 	{
 		heading: 'Appeal details',
 		links: [
 			{
-				// tbc
 				url: '/appeal-details',
 				text: 'View appeal details',
-				condition: (appealCase) => appealCase.casePublished
+				condition: (appealCase) => !!appealCase.casePublishedDate
 			}
 		]
 	},
@@ -18,10 +19,9 @@ exports.sections = [
 		heading: 'Questionnaire',
 		links: [
 			{
-				// tbc
 				url: '/questionnaire',
 				text: 'View questionnaire',
-				condition: (appealCase) => appealCase.lpaQuestionnairePublished // schema matched ticket
+				condition: (appealCase) => !!appealCase.lpaQuestionnairePublishedDate
 			}
 		]
 	},

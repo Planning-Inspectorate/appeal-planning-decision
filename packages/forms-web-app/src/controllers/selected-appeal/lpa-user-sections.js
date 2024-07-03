@@ -19,7 +19,7 @@ exports.sections = [
 			{
 				url: '/questionnaire',
 				text: 'View questionnaire',
-				condition: (appealCase) => appealCase.lpaQuestionnaireSubmitted
+				condition: (appealCase) => !!appealCase.lpaQuestionnairePublishedDate
 			}
 		]
 	},

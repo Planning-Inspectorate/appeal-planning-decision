@@ -17,14 +17,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AppealCaseWithAppellant'
+                  $ref: '#/components/schemas/AppealCaseDetailed'
         400:
           description: Bad request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
-  /api/v2/appeal-cases/{caseReference}/:
+  /api/v2/appeal-cases/{caseReference}:
     get:
       tags:
         - appeal-cases
@@ -37,7 +37,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppealCaseWithAppellant'
+                $ref: '#/components/schemas/AppealCaseDetailed'
         404:
           description: Appeal not found
           content:

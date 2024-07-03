@@ -128,7 +128,8 @@ const appealIds = {
 	appealSeven: '756d6bfb-dde8-4532-a041-86c226a23a07',
 	appealEight: '756d6bfb-dde8-4532-a041-86c226a23a08',
 	appealNine: 'd8290e68-bfbb-3bc8-b621-5a9590aa29fd',
-	appealTen: 'f933b0e0-1694-11ef-ab42-cbf3edc5e3fd'
+	appealTen: 'f933b0e0-1694-11ef-ab42-cbf3edc5e3fd',
+	appeal11: 'ee283ae8-7a92-4afe-a93f-405689b1f35b'
 };
 
 const caseReferences = {
@@ -139,7 +140,8 @@ const caseReferences = {
 	caseReferenceFive: '1010105',
 	caseReferenceSix: '1010106',
 	caseReferenceSeven: '1010107',
-	caseReferenceEight: '1010108'
+	caseReferenceEight: '1010108',
+	caseReferenceNine: '1010109'
 };
 
 const appellantSubmissionIds = {
@@ -263,6 +265,7 @@ const appeals = [
 	{ id: appealIds.appealEight },
 	{ id: appealIds.appealNine },
 	{ id: appealIds.appealTen },
+	{ id: appealIds.appeal11 },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -296,6 +299,81 @@ const commonAppealProperties = {
  * @type {import('@prisma/client').Prisma.AppealCaseCreateInput[]}
  */
 const appealCases = [
+	{
+		Appeal: {
+			connect: { id: appealIds.appeal11 }
+		},
+		caseReference: caseReferences.caseReferenceNine,
+		caseId: 131313,
+		LPACode: 'Q9999',
+		CaseType: {
+			connect: { processCode: 'HAS' }
+		},
+		caseStatus: 'issue_determination',
+		ProcedureType: {
+			connect: { key: 'written' }
+		},
+		applicationReference: 'HAS/ONLY',
+		applicationDecision: 'Refused',
+		applicationDate: new Date(),
+		applicationDecisionDate: new Date(),
+		caseSubmissionDueDate: new Date(),
+
+		isGreenBelt: true,
+		inConservationArea: true,
+		enforcementNotice: false,
+
+		siteAddressLine1: 'HAS Example',
+		siteAddressLine2: 'Testing',
+		siteAddressTown: 'Testville',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		siteAccessDetails: '["Open the gate"]',
+		siteSafetyDetails: '["Watch out for nails", "And the goat"]',
+		siteAreaSquareMetres: 67,
+		appellantCostsAppliedFor: true,
+		ownsAllLand: false,
+		ownsSomeLand: true,
+		knowsOtherOwners: 'Yes',
+		knowsAllOwners: null,
+		advertisedAppeal: false,
+		ownersInformed: true,
+		originalDevelopmentDescription: 'A major change',
+
+		isCorrectAppealType: true,
+		lpaCostsAppliedFor: true,
+		changedDevelopmentDescription: true,
+		newConditionDetails: 'More details here',
+		lpaStatement: 'This is asked outside of journey for HAS',
+
+		caseDecisionOutcome: null,
+		caseValidationOutcome: 'valid',
+		lpaQuestionnaireValidationOutcome: null,
+		caseValidationInvalidDetails: null,
+		caseValidationIncompleteDetails: null,
+		lpaQuestionnaireValidationDetails: null,
+
+		caseSubmittedDate: new Date(),
+		caseCreatedDate: new Date(),
+		caseUpdatedDate: new Date(),
+		caseValidDate: new Date(),
+		caseValidationDate: new Date(),
+		caseExtensionDate: new Date(),
+		caseStartedDate: new Date(),
+		casePublishedDate: new Date(),
+		caseWithdrawnDate: null,
+		caseTransferredDate: null,
+		transferredCaseClosedDate: null,
+		caseDecisionOutcomeDate: null,
+		caseDecisionPublishedDate: null,
+		caseCompletedDate: null,
+
+		lpaQuestionnaireDueDate: new Date(),
+		lpaQuestionnaireSubmittedDate: new Date(),
+		lpaQuestionnaireCreatedDate: new Date(),
+		lpaQuestionnairePublishedDate: new Date(),
+		lpaQuestionnaireValidationOutcomeDate: new Date()
+	},
 	{
 		Appeal: {
 			connect: { id: appealIds.appealOne }
@@ -566,6 +644,11 @@ const appealToUsers = [
 		userId: appellants.appellantOne.id,
 		role: APPEAL_USER_ROLES.APPELLANT
 	},
+	{
+		appealId: appealIds.appeal11,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
 	...linkedLpaAppeals,
 	// rule 6 party links
 	{
@@ -691,6 +774,22 @@ const serviceUsers = [
 		caseReference: caseReferences.caseReferenceOne,
 		firstName: 'Agent',
 		lastName: 'One'
+	},
+	{
+		internalId: '1c543b78-0fd6-4e86-abc3-28bea670d3c9',
+		id: '123459',
+		serviceUserType: 'Appellant',
+		caseReference: caseReferences.caseReferenceNine,
+		firstName: 'Appellant',
+		lastName: 'Nine'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc48',
+		id: '123460',
+		serviceUserType: 'Agent',
+		caseReference: caseReferences.caseReferenceNine,
+		firstName: 'Agent',
+		lastName: 'Nine'
 	}
 ];
 
@@ -732,6 +831,127 @@ const neighbourAddresses = [
 				caseReference: '1010101'
 			}
 		}
+	},
+	{
+		id: 'b040b7f9-3626-4cff-92a5-bc4db45bcc66',
+		addressLine1: 'B&Q',
+		addressLine2: '17 York Road',
+		townCity: 'Bristol',
+		postcode: 'BS3 4AL',
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		}
+	},
+	{
+		id: 'b602201a-c57c-4b87-b229-8f4e17b7b4c8',
+		addressLine1: 'Screwfix',
+		addressLine2: '170 York Road',
+		townCity: 'Bristol',
+		postcode: 'BS3 4AL',
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		}
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.ListedBuildingCreateInput[]}
+ */
+const listedBuildings = [
+	{
+		name: '10 and 10A Special House',
+		reference: '1010101',
+		listedBuildingGrade: 'II'
+	},
+	{
+		name: 'AN IMPORTANT BUILDING',
+		reference: '1010102',
+		listedBuildingGrade: 'II*'
+	},
+	{
+		name: 'Exceptional Building',
+		reference: '1010103',
+		listedBuildingGrade: 'I'
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.AppealCaseListedBuildingCreateInput[]}
+ */
+const caseListedBuilding = [
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		},
+		ListedBuilding: {
+			connect: {
+				reference: listedBuildings[0].reference
+			}
+		}
+	},
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		},
+		ListedBuilding: {
+			connect: {
+				reference: listedBuildings[1].reference
+			}
+		}
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.AppealCaseLpaNotificationMethodCreateInput[]}
+ */
+const caseNotificationMethods = [
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		},
+		LPANotificationMethod: {
+			connect: {
+				key: 'notice'
+			}
+		}
+	},
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		},
+		LPANotificationMethod: {
+			connect: {
+				key: 'letter'
+			}
+		}
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.AppealCaseRelationshipCreateInput[]}
+ */
+const caseRelations = [
+	{
+		caseReference: caseReferences.caseReferenceOne,
+		caseReference2: caseReferences.caseReferenceNine,
+		type: 'nearby'
+	},
+	{
+		caseReference: caseReferences.caseReferenceNine,
+		caseReference2: caseReferences.caseReferenceOne,
+		type: 'nearby'
 	}
 ];
 
@@ -788,6 +1008,19 @@ const events = [
 		AppealCase: {
 			connect: {
 				caseReference: '1010104'
+			}
+		}
+	},
+	{
+		internalId: '6c4f6b1f-3206-4ba4-a7e1-c56ca1c83730',
+		published: true,
+		type: 'siteVisit',
+		subtype: 'accessRequired',
+		startDate: getFutureDate(40, 11),
+		endDate: getFutureDate(40, 15),
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
 			}
 		}
 	}
@@ -850,6 +1083,14 @@ async function seedDev(dbClient) {
 	// ordering here is important to ensure relations are built up
 	// e.g. appeals + users before appeal-to-users
 
+	for (const listed of listedBuildings) {
+		await dbClient.listedBuilding.upsert({
+			create: listed,
+			update: listed,
+			where: { reference: listed.reference }
+		});
+	}
+
 	// create some users
 	for (const user of users) {
 		await dbClient.appealUser.upsert({
@@ -882,6 +1123,7 @@ async function seedDev(dbClient) {
 	for (const caseId of caseIds) {
 		for (const document of appealDocuments) {
 			document.documentURI = `${config.storage.boEndpoint}/${document.filename}`;
+			document.publishedDocumentURI = `${config.storage.boEndpoint}/${document.filename}`;
 
 			document.AppealCase = {
 				connect: { id: caseId }
@@ -891,6 +1133,57 @@ async function seedDev(dbClient) {
 				create: document,
 				update: document,
 				where: { id: document.id }
+			});
+		}
+	}
+
+	for (const caseListed of caseListedBuilding) {
+		const existing = await dbClient.appealCaseListedBuilding.findFirst({
+			where: {
+				AND: [
+					{ caseReference: caseListed.AppealCase.connect.caseReference },
+					{ listedBuildingReference: caseListed.ListedBuilding.connect.reference }
+				]
+			}
+		});
+
+		if (!existing) {
+			await dbClient.appealCaseListedBuilding.create({
+				data: caseListed
+			});
+		}
+	}
+
+	for (const caseNotification of caseNotificationMethods) {
+		const existing = await dbClient.appealCaseLpaNotificationMethod.findFirst({
+			where: {
+				AND: [
+					{ caseReference: caseNotification.AppealCase?.connect?.caseReference },
+					{ lPANotificationMethodsKey: caseNotification.LPANotificationMethod?.connect?.key }
+				]
+			}
+		});
+
+		if (!existing) {
+			await dbClient.appealCaseLpaNotificationMethod.create({
+				data: caseNotification
+			});
+		}
+	}
+
+	for (const caseRelation of caseRelations) {
+		const existing = await dbClient.appealCaseRelationship.findFirst({
+			where: {
+				AND: [
+					{ caseReference: caseRelation.caseReference },
+					{ caseReference2: caseRelation.caseReference2 }
+				]
+			}
+		});
+
+		if (!existing) {
+			await dbClient.appealCaseRelationship.create({
+				data: caseRelation
 			});
 		}
 	}
@@ -919,6 +1212,7 @@ async function seedDev(dbClient) {
 			}
 		});
 	}
+
 	for (const serviceUser of serviceUsers) {
 		await dbClient.serviceUser.upsert({
 			create: serviceUser,
@@ -967,9 +1261,6 @@ async function seedDev(dbClient) {
 		});
 	}
 
-	// todo: link some appellant/agent users to some appeals
-
-	// todo: seed more data needed for local dev
 	console.log('dev seed complete');
 }
 

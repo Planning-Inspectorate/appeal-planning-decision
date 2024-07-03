@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const ApiError = require('../errors/apiError');
+const logger = require('../lib/logger');
 
 const BackOfficeService = require('../services/back-office.service');
 const backOfficeService = new BackOfficeService();
@@ -30,7 +31,7 @@ router.put('/appeals', async (req, res) => {
 router.get('/appeals/:id', async (req, res) => {
 	try {
 		let body = await backOfficeService.getAppealForSubmission(req.params.id);
-		console.log(body);
+		logger.info({ body }, '/appeals/:id, backOfficeService.getAppealForSubmission');
 		return res.status(202).send(body);
 	} catch (error) {
 		if (!(error instanceof ApiError)) {

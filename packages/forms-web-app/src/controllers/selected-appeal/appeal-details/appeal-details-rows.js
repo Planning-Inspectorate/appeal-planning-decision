@@ -1,23 +1,23 @@
 const { formatAddress } = require('@pins/common/src/lib/format-address');
 const {
-	formatApplicantDetails,
+	formatUserDetails,
 	formatHealthAndSafety,
 	formatProcedure,
-	formatLinkedAppeals,
+	formatRelatedAppeals,
 	formatYesOrNo,
-	formatContactDetails,
+	boolToYesNo,
 	formatAccessDetails,
 	formatDate
 } = require('@pins/common');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
- * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import("@pins/common/src/view-model-maps/rows/def").Rows} Rows
  */
 
 /**
- * @param {AppealCaseWithAppellant } caseData
+ * @param {AppealCaseDetailed } caseData
  * @param {string} userType
  * @returns {Rows}
  */
@@ -25,28 +25,35 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 exports.detailsRows = (caseData, userType) => {
 	const isAppellantOrAgent = userType === (APPEAL_USER_ROLES.APPELLANT || APPEAL_USER_ROLES.AGENT);
 
+	const agent = caseData.users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.AGENT);
+	const appellant = caseData.users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.APPELLANT);
+	const contact = agent ? agent : appellant;
+
+	const linkedAppeals = formatRelatedAppeals(caseData, 'linked');
+	const showLinked = !!linkedAppeals;
+
 	return [
 		{
 			keyText: isAppellantOrAgent
 				? 'Was the application made in your name?'
 				: "Was the application made in the appellant's name",
-			valueText: formatYesOrNo(caseData, 'isAppellant'),
+			valueText: boolToYesNo(isAppellantOrAgent),
 			condition: () => true
 		},
 		{
 			keyText: "Applicant's name",
-			valueText: formatApplicantDetails(caseData),
-			condition: (caseData) => !caseData.isAppellant
+			valueText: formatUserDetails(appellant),
+			condition: () => !!agent
 		},
 		{
 			keyText: 'Contact details',
-			valueText: formatContactDetails(caseData),
-			condition: (caseData) => caseData.contactFirstName && caseData.contactLastName
+			valueText: formatUserDetails(contact),
+			condition: () => true
 		},
 		{
 			keyText: 'Phone number',
-			valueText: caseData.appellantPhoneNumber,
-			condition: (caseData) => caseData.appellantPhoneNumber
+			valueText: contact?.telephoneNumber ? contact.telephoneNumber : '',
+			condition: () => contact?.telephoneNumber
 		},
 		{
 			keyText: 'Site address',
@@ -56,12 +63,12 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'What is the area of the appeal site?',
 			valueText: `${caseData.siteAreaSquareMetres} m\u00B2`,
-			condition: (caseData) => caseData.siteAreaSquareMetres
+			condition: (caseData) => !!caseData.siteAreaSquareMetres
 		},
 		{
 			keyText: 'Is the site in a green belt',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.appellantGreenBelt
+			condition: (caseData) => caseData.isGreenBelt
 		},
 		{
 			keyText: 'Site fully owned',
@@ -81,7 +88,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Other owners identified',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.identifiedOwners
+			condition: (caseData) => caseData.advertisedAppeal
 		},
 		{
 			keyText: 'Advertised appeal',
@@ -91,7 +98,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Other owners informed',
 			valueText: 'Yes',
-			condition: (caseData) => caseData.informedOwners
+			condition: (caseData) => caseData.ownersInformed
 		},
 		{
 			keyText: 'Will an inspector need to access the land or property?',
@@ -125,23 +132,23 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Application reference',
-			valueText: caseData.LPAApplicationReference,
-			condition: (caseData) => caseData.LPAApplicationReference
+			valueText: caseData.applicationReference,
+			condition: (caseData) => caseData.applicationReference
 		},
 		{
 			keyText: 'What date did you submit your planning application?',
-			valueText: formatDate(caseData.onApplicationDate),
-			condition: (caseData) => caseData.onApplicationDate
+			valueText: formatDate(caseData.applicationDate),
+			condition: (caseData) => caseData.applicationDate !== null
 		},
 		{
 			keyText: 'Enter the description of development',
-			valueText: caseData.developmentDescriptionDetails,
-			condition: (caseData) => caseData.developmentDescriptionDetails
+			valueText: caseData.developmentDescription ? caseData.developmentDescription : '',
+			condition: (caseData) => caseData.developmentDescription
 		},
 		{
 			keyText: 'Did the local planning authority change the description of development?',
-			valueText: formatYesOrNo(caseData, 'updateDevelopmentDescription'),
-			condition: (caseData) => caseData.updateDevelopmentDescription
+			valueText: formatYesOrNo(caseData, 'changedDevelopmentDescription'),
+			condition: (caseData) => caseData.changedDevelopmentDescription
 		},
 		{
 			keyText: 'Preferred procedure',
@@ -150,13 +157,13 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
-			valueText: formatLinkedAppeals(caseData),
-			condition: () => true,
+			valueText: showLinked ? `Yes \n ${formatRelatedAppeals(caseData, 'linked')}` : 'No',
+			condition: () => showLinked,
 			isEscaped: true
 		},
 		{
 			keyText: 'Do you need to apply for an award of appeal costs?',
-			valueText: formatYesOrNo(caseData, 'costsAppliedForIndicator'),
+			valueText: formatYesOrNo(caseData, 'appellantCostsAppliedFor'),
 			condition: () => isAppellantOrAgent
 		}
 	];

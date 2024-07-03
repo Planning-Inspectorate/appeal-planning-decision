@@ -145,27 +145,6 @@ exports.submitFinalComment = async (finalComment) => {
 };
 
 /**
- * @typedef documentMetaData The metadata associated with a document.
- * @property {string} documentMetaData.filename - The name of the document file.
- * @property {string} documentMetaData.documentURI - The URI (Uniform Resource Identifier) of the document.
- */
-
-/**
- * todo: move to v2
- * @async
- * @param {string} caseRef
- * @param {string} documentType
- * @param {string | boolean} returnMultipleDocuments
- * @returns { Promise<documentMetaData | Array<documentMetaData>> }
- */
-exports.getAppealDocumentMetaData = async (caseRef, documentType, returnMultipleDocuments = '') => {
-	return handler(
-		`/api/v1/document-meta-data/case/${caseRef}?documenttype=${documentType}&returnMultipleDocuments=${returnMultipleDocuments}`,
-		'GET'
-	);
-};
-
-/**
  * todo move to v2
  */
 exports.getListedBuilding = async (reference) => {
