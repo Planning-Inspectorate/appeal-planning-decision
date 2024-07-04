@@ -19,7 +19,7 @@ const submission = require('./appellant-submission');
 const lpaDashboard = require('./lpa-dashboard');
 const rule6Appeals = require('./rule-6-appeals');
 const debug = require('./debug');
-const { getDocument } = require('../controllers/document');
+const { getDocument, getDocumentV2 } = require('../controllers/document');
 const { routes: fileBasedRoutes } = require('./file-based-router');
 
 const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadline');
@@ -65,7 +65,12 @@ if (config.dashboardsEnabled) {
 	router.use('/appeals', checkLoggedIn, appeals);
 }
 
+// v1 appeals / questionnaires documents
 router.use('/document/:appealOrQuestionnaireId/:documentId', checkLoggedIn, getDocument);
+
+//v2 appeals/ questionnaires documents routes
+router.use('/appeal-document/:appealOrQuestionnaireId/:documentId', checkLoggedIn, getDocumentV2);
+
 router.use('/save-and-return', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, save);
 router.use('/submit-appeal', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, submit);
 router.use(
