@@ -20,7 +20,7 @@ module.exports = (statusOfOriginalApplication,planning) => {
 	cy.get(`[data-cy="${planning}"]`).click();
 	cy.advanceToNextPage();
 	if(planning === "answer-full-appeal"){
-		initialiseFullPlanning(statusOfOriginalApplication,planning,"#listed-building-householder-1");
+		initialiseFullPlanning(statusOfOriginalApplication,planning,"#site-selection-7");
 	}
 	else if(planning === "answer-householder-planning"){
 		initialiseHouseHolderPlanning(statusOfOriginalApplication,planning,"#listed-building-householder-2");

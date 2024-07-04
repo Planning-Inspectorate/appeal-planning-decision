@@ -9,7 +9,7 @@ const ownsLandInvolvedPage = require("../pages/ownsLandInvolvedPage");
 
 module.exports = (statusOfOriginalApplication,planning, siteSelectionId) => {
 	
-	cy.get('#site-selection-7').click();
+	cy.get(siteSelectionId).click();
 	cy.advanceToNextPage();
 
 	let grantedOrRefusedId = '';
