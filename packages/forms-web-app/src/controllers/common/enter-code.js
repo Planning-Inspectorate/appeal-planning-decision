@@ -179,6 +179,8 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		const isReturningFromEmail = action === enterCodeConfig.actions.saveAndReturn;
 		const isAppealConfirmation = !isGeneralLogin && !isReturningFromEmail;
 
+		const isV2DocRequest = req.session?.loginRedirect?.startsWith('/appeal-document/');
+
 		const sqlUsersFlag = await isFeatureActive(FLAG.SQL_USERS);
 
 		const sessionEmail = getSessionEmail(req.session, isAppealConfirmation);
@@ -213,6 +215,10 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 				tokenValid.access_token_expiry,
 				sessionEmail
 			);
+		}
+
+		if (isV2DocRequest) {
+			return handleCustomRedirect();
 		}
 
 		if (isGeneralLogin) {
