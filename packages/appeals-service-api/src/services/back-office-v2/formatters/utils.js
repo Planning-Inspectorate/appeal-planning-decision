@@ -125,6 +125,8 @@ exports.formatApplicationSubmissionUsers = ({
 	appellantLastName,
 	contactFirstName,
 	contactLastName,
+	contactCompanyName,
+	appellantPhoneNumber,
 	Appeal: {
 		Users: [
 			{
@@ -140,7 +142,9 @@ exports.formatApplicationSubmissionUsers = ({
 			firstName: contactFirstName,
 			lastName: contactLastName,
 			emailAddress: email,
-			serviceUserType: isAppellant ? 'Appellant' : 'Agent'
+			serviceUserType: isAppellant ? 'Appellant' : 'Agent',
+			telephoneNumber: isAppellant ? appellantPhoneNumber : null,
+			organisation: isAppellant ? contactCompanyName : null
 		}
 	];
 	if (!isAppellant) {
@@ -149,7 +153,9 @@ exports.formatApplicationSubmissionUsers = ({
 			firstName: appellantFirstName,
 			lastName: appellantLastName,
 			emailAddress: null,
-			serviceUserType: 'Appellant'
+			serviceUserType: 'Appellant',
+			telephoneNumber: appellantPhoneNumber,
+			organisation: null
 		});
 	}
 
