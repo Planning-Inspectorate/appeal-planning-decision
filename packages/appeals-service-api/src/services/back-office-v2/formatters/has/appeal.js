@@ -95,7 +95,8 @@ exports.formatter = async (appellantSubmission) => {
 				({ caseReference }) => caseReference
 			),
 			neighbouringSiteAddresses: null, // added by the LPA later I believe
-			appellantCostsAppliedFor: appellantSubmission.costApplication ?? null
+			appellantCostsAppliedFor: appellantSubmission.costApplication ?? null,
+			greenBelt: appellantSubmission.appellantGreenBelt
 		},
 		documents: await getDocuments(appellantSubmission),
 		users: formatApplicationSubmissionUsers(appellantSubmission)
