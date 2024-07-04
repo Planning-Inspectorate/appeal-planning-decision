@@ -9,3 +9,11 @@ const repo = new Repo();
 exports.put = (data) => {
 	return repo.put(data);
 };
+
+/**
+ * @param {string} id
+ * @returns {Promise<void>}
+ */
+exports.delete = (id) => {
+	return repo.delete(id);
+};

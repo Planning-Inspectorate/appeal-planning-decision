@@ -143,4 +143,41 @@ describe('documents v2', () => {
 			expect(document?.AppealCase.caseReference).toBe('ref_001');
 		});
 	});
+
+	describe('delete document', () => {
+		it('deletes documents', async () => {
+			await sqlClient.document.create({
+				data: {
+					id: 'd15138a2-9e02-4a16-a6ab-0568aaccab78',
+					dateCreated: new Date('2024').toISOString(),
+					dateReceived: new Date('2024').toISOString(),
+					lastModified: new Date('2024').toISOString(),
+					datePublished: new Date('2024').toISOString(),
+					stage: 'appeal-decision',
+					published: true,
+					redacted: true,
+					filename: 'goose.jpg',
+					originalFilename: 'large_goose.jpg',
+					size: 22,
+					mime: 'image/jpeg',
+					documentURI: 'https://example.com/images/goose.jpg',
+					caseReference: 'ref_001'
+				}
+			});
+
+			const response = await appealsApi.delete(
+				'/api/v2/documents/d15138a2-9e02-4a16-a6ab-0568aaccab78'
+			);
+
+			expect(response.status).toBe(200);
+
+			const notDoc = await sqlClient.document.findFirst({
+				where: {
+					id: 'd15138a2-9e02-4a16-a6ab-0568aaccab78'
+				}
+			});
+
+			expect(notDoc).toBe(null);
+		});
+	});
 });
