@@ -1,4 +1,14 @@
-module.exports = (statusOfOriginalApplication) => {
+const applicationFormPage = require("../pages/applicationFormPage");
+const contactDetailsPage = require("../pages/contactDetailsPage");
+const appealSiteAddressPage = require("../pages/appealSiteAddressPage");
+const siteAreaPage = require("../pages/siteAreaPage");
+const greenBeltPage = require("../pages/greenBeltPage");
+const ownAllLandPage = require("../pages/ownAllLandPage");
+const ownSomeLandPage = require("../pages/ownSomeLandPage");
+const ownsLandInvolvedPage = require("../pages/ownsLandInvolvedPage");
+const initialiseHouseHolderPlanning = require("../sections/initialiseHouseHolderPlanning");
+const initialiseFullPlanning = require("../sections/initialiseFullPlanning");
+module.exports = (statusOfOriginalApplication,planning) => {
 	cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 	cy.advanceToNextPage();
 	cy.get('#local-planning-department')
@@ -6,41 +16,13 @@ module.exports = (statusOfOriginalApplication) => {
 		.get('#local-planning-department__option--0')
 		.click();
 	cy.advanceToNextPage();
-	cy.get('#type-of-planning-application').click();
+	//cy.get('#type-of-planning-application').click();
+	cy.get(`[data-cy="${planning}"]`).click();
 	cy.advanceToNextPage();
-	cy.get('#site-selection-7').click();
-	cy.advanceToNextPage();
-
-	let grantedOrRefusedId = '';
-	if (statusOfOriginalApplication === 'refused') {
-		grantedOrRefusedId = '#granted-or-refused-2';
-	} else if (statusOfOriginalApplication === 'no decision') {
-		grantedOrRefusedId = '#granted-or-refused-4';
+	if(planning === "answer-full-appeal"){
+		initialiseFullPlanning(statusOfOriginalApplication,planning,"#listed-building-householder-1");
 	}
-	cy.get(grantedOrRefusedId).click();
-	cy.advanceToNextPage();
-
-	let currentDate = new Date();
-	cy.get('#decision-date-day').type(currentDate.getDate());
-	cy.get('#decision-date-month').type(currentDate.getMonth() + 1);
-	cy.get('#decision-date-year').type(currentDate.getFullYear());
-	cy.advanceToNextPage();
-
-	cy.get('#enforcement-notice-2').click();
-	cy.advanceToNextPage();
-
-	cy.advanceToNextPage('Continue to my appeal');
-
-	cy.get('#application-number').type(`TEST-${Date.now()}`);
-	cy.advanceToNextPage();
-
-	cy.get('#email-address').type('appealplanningdecisiontest@planninginspectorate.gov.uk');
-	cy.advanceToNextPage();
-
-	cy.visit(
-		`${Cypress.config('appeals_beta_base_url')}/full-appeal/submit-appeal/email-address-confirmed`
-	);
-	cy.advanceToNextPage();
-
-	cy.advanceToNextPage();
+	else if(planning === "answer-householder-planning"){
+		initialiseHouseHolderPlanning(statusOfOriginalApplication,planning,"#listed-building-householder-2");
+	}
 };
