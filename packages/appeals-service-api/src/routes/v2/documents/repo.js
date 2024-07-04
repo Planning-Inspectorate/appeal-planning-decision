@@ -51,4 +51,16 @@ module.exports = class Repo {
 			});
 		});
 	}
+
+	/**
+	 * @param {string} id
+	 * @returns {Promise<void>}
+	 */
+	async delete(id) {
+		await this.dbClient.document.delete({
+			where: {
+				id
+			}
+		});
+	}
 };

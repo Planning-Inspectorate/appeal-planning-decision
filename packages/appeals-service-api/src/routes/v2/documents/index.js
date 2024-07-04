@@ -3,7 +3,7 @@ const router = express.Router();
 const { auth } = require('express-oauth2-jwt-bearer');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const { AUTH } = require('@pins/common/src/constants');
-const { put } = require('./controller');
+const controller = require('./controller');
 const { openApiValidatorMiddleware } = require('../../../validators/validate-open-api');
 const config = require('../../../configuration/config');
 
@@ -14,6 +14,7 @@ router.use(
 	})
 );
 
-router.put('/', openApiValidatorMiddleware(), asyncHandler(put));
+router.put('/', openApiValidatorMiddleware(), asyncHandler(controller.put));
+router.delete('/:id', openApiValidatorMiddleware(), asyncHandler(controller.delete));
 
 module.exports = { router };

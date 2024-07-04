@@ -50,7 +50,8 @@ describe('appeal-document', () => {
 	const ctx = new InvocationContext({ functionName: 'appeal-document' });
 	ctx.log = jest.fn();
 	const mockClient = {
-		putAppealDocument: jest.fn()
+		putAppealDocument: jest.fn(),
+		deleteAppealDocument: jest.fn()
 	};
 
 	beforeEach(async () => {
@@ -134,4 +135,17 @@ describe('appeal-document', () => {
 			expect(mockClient.putAppealDocument).not.toHaveBeenCalled();
 		}
 	);
+
+	it('Should delete documents if the invocation context says so', async () => {
+		const result = await handler(testData, {
+			...ctx,
+			bindingData: { applicationProperties: { type: 'Delete' } }
+		});
+
+		expect(ctx.log).toHaveBeenCalledWith('Handle document metadata message', testData);
+		expect(ctx.log).not.toHaveBeenCalledWith('Sending document metadata message to API');
+		expect(mockClient.deleteAppealDocument).toHaveBeenCalledWith(testData.documentId);
+		expect(ctx.log).toHaveBeenCalledWith(`Finished handling: ${testData.documentId}`);
+		expect(result).toEqual({});
+	});
 });
