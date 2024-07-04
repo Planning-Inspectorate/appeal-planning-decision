@@ -1,4 +1,5 @@
 const initialiseFullAppeal = require('./sections/initialiseFullAppeal');
+const applicationNameSection = require('./sections/applicationNameSection'); 
 const completeContactDetailsSection = require('./sections/completeContactDetailsSection');
 const completeAppealSiteSection = require('./sections/completeAppealSiteSection');
 const completeAppealDecisionTypeSection = require('./sections/completeAppealDecisionTypeSection');
@@ -7,7 +8,7 @@ const completeUploadAppealDocumentsSection = require('./sections/completeUploadA
 const completeCheckAnswersAndSubmitSection = require('./sections/completeCheckAnswersAndSubmitSection');
 
 function submitAppealFlow(appealOptions) {
-	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation } =
+	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning } =
 		appealOptions;
 
 	if (['granted', 'refused', 'no decision'].includes(statusOfOriginalApplication) == false) {
@@ -28,13 +29,14 @@ function submitAppealFlow(appealOptions) {
 		);
 	}
 
-	initialiseFullAppeal(statusOfOriginalApplication);
-	completeContactDetailsSection();
-	completeAppealSiteSection();
-	completeAppealDecisionTypeSection(typeOfDecisionRequested);
-	completeUploadPlanningApplicationDocumentsSection(statusOfOriginalApplication);
-	completeUploadAppealDocumentsSection(statusOfPlanningObligation);
-	completeCheckAnswersAndSubmitSection();
+	initialiseFullAppeal(statusOfOriginalApplication,planning);
+	// applicationNameSection();
+	// completeContactDetailsSection();
+	// completeAppealSiteSection();
+	// completeAppealDecisionTypeSection(typeOfDecisionRequested);
+	// completeUploadPlanningApplicationDocumentsSection(statusOfOriginalApplication);
+	// completeUploadAppealDocumentsSection(statusOfPlanningObligation);
+	// completeCheckAnswersAndSubmitSection();
 }
 
 module.exports = {

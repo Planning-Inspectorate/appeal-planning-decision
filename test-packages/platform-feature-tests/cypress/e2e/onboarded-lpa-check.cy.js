@@ -1,9 +1,11 @@
 import { BasePage } from '../page-objects/base-page';
-import { BeforeYouStart } from '../page-objects/appeals-sections/before-you-start';
+import { BeforeYouStart } from '../page-objects/before-you-start';
+import { EnterLpa } from '../page-objects/before-you-start/select-lpa';
 import { localPlanningAuthorities } from '../fixtures/lpas.json';
 
 const basePage = new BasePage();
 const beforeYouStart = new BeforeYouStart();
+const enterLpa = new EnterLpa();
 
 describe('Check access to appeals service for granted LPAs', () => {
 	beforeEach(() => {
@@ -20,10 +22,10 @@ describe('Check access to appeals service for granted LPAs', () => {
 	localPlanningAuthorities.forEach((localPlanningAuthorities) => {
 		it('Enter "' + localPlanningAuthorities + '" planning authortiy', () => {
 			// Step 4: Enters Local planning authority
-			beforeYouStart.enterLPA(localPlanningAuthorities);
+			enterLpa.enterLPA(localPlanningAuthorities);
 
 			// Step 5: Selects Local planning authority from drop down list
-			beforeYouStart.selectLPA();
+			enterLpa.selectLPA();
 
 			// Step 6: Selects Contiune Button
 			basePage.clickSaveAndContiuneBtn();
