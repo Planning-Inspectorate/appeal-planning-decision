@@ -12,7 +12,8 @@ const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
 
 /**
- * Shared controller for /manage-appeals/:caseRef/appellant-final-comments, manage-appeals/:caseRef/final-comments
+ * Shared controller for LPA - /manage-appeals/:caseRef/appellant-final-comments and manage-appeals/:caseRef/final-comments
+ * Also shared for appellant - /appeals/:caseRef/lpa-final-comments and /appeals/:caseRef/final-comments
  * @param {string} layoutTemplate - njk template to extend
  * @returns {import('express').RequestHandler}
  */

@@ -140,14 +140,18 @@ class S78AppealFormJourney extends Journey {
 					)
 				)
 				.addQuestion(questions.identifyingLandowners)
-				.withCondition(shouldDisplayIdentifyingLandowners)
+				.withCondition(
+					shouldDisplayIdentifyingLandowners && questionHasAnswer(questions.ownsAllLand, 'no')
+				)
 				.addQuestion(questions.advertisingAppeal)
 				.withCondition(
 					shouldDisplayIdentifyingLandowners &&
 						questionHasAnswer(questions.identifyingLandowners, 'yes')
 				)
 				.addQuestion(questions.tellingLandowners)
-				.withCondition(shouldDisplayTellingLandowners)
+				.withCondition(
+					shouldDisplayTellingLandowners && questionHasAnswer(questions.ownsAllLand, 'no')
+				)
 				.addQuestion(questions.agriculturalHolding)
 				.addQuestion(questions.tenantAgriculturalHolding)
 				.withCondition(questionHasAnswer(questions.agriculturalHolding, 'yes'))
