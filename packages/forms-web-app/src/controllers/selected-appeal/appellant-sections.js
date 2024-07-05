@@ -46,7 +46,7 @@ exports.sections = [
 		links: [
 			{
 				// tbc
-				url: '/ip-comments',
+				url: '/interested-party-comments',
 				text: 'View interested party comments',
 				condition: (appealCase) => appealCase.interestedPartyCommentsPublished // schema matched ticket
 			}
