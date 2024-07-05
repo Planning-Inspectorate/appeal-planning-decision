@@ -8,7 +8,7 @@ const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
  * @typedef {Omit<LPAQuestionnaireSubmission, "AppealCase">} Answers
  * @typedef {import('./has/has').Submission} HASBOSubmission
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents']} DataModelDocuments
- * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType']} DataModelDocumentTypes
+ * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType'] | import('pins-data-model/src/schemas').LPAQuestionnaireCommand['documents'][0]['documentType']} DataModelDocumentTypes
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['users']} DataModelUsers
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['casedata']['applicationDecision']} DataModelApplicationDecision
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{

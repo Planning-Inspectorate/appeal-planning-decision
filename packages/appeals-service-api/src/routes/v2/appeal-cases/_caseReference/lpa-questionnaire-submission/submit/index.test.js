@@ -168,7 +168,20 @@ jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 	sendEvents: jest.fn()
 }));
 
-jest.mock('../../../../../../../src/services/object-store');
+jest.mock('../../../../../../../src/services/object-store', () => ({
+	blobMetaGetter() {
+		return async () => ({
+			lastModified: '2024-03-01T14:48:35.847Z',
+			createdOn: '2024-03-01T13:48:35.847Z',
+			metadata: {
+				mime_type: 'image/jpeg',
+				size: 10293,
+				document_type: 'planningOfficersReportUpload'
+			},
+			_response: { request: { url: 'https://example.com' } }
+		});
+	}
+}));
 
 const formattedHAS = [
 	expect.objectContaining({
@@ -206,7 +219,7 @@ const formattedHAS = [
 			{
 				documentId: 'img_001',
 				dateCreated: '2024-03-01T13:48:35.847Z',
-				documentType: 'appellantCostsApplication',
+				documentType: 'planningOfficerReport',
 				documentURI: 'https://example.com',
 				filename: 'img.jpg',
 				mime: 'image/jpeg',
