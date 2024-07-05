@@ -100,7 +100,7 @@ describe('SiteAddressQuestion', () => {
 	describe('format', () => {
 		it('should return formatted address from answer', () => {
 			const formattedAddress = question.format(testAddress);
-			expect(formattedAddress).toBe('123 Main St<br>Floor 2<br>Testville<br>Testshire<br>TE1 2ST');
+			expect(formattedAddress).toBe('123 Main St\nFloor 2\nTestville\nTestshire\nTE1 2ST');
 		});
 	});
 });

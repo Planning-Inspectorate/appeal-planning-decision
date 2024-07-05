@@ -1,6 +1,8 @@
 const Question = require('../../question');
 const Address = require('@pins/common/src/lib/address');
 const { getAddressesForQuestion } = require('../utils/question-utils');
+const escape = require('escape-html');
+const { nl2br } = require('@pins/common/src/utils');
 
 /**
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
@@ -176,7 +178,7 @@ class SiteAddressQuestion extends Question {
 			answer.postcode
 		];
 
-		return addressComponents.filter(Boolean).join('<br>');
+		return addressComponents.filter(Boolean).join('\n');
 	}
 
 	/**
@@ -193,7 +195,7 @@ class SiteAddressQuestion extends Question {
 		return [
 			{
 				key: `${this.title}`,
-				value: answer || this.NOT_STARTED,
+				value: nl2br(escape(answer)) || this.NOT_STARTED,
 				action: this.getAction(sectionSegment, journey, answer)
 			}
 		];
