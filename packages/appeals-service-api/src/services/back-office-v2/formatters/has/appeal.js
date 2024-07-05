@@ -96,7 +96,7 @@ exports.formatter = async (appellantSubmission) => {
 			),
 			neighbouringSiteAddresses: null, // added by the LPA later I believe
 			appellantCostsAppliedFor: appellantSubmission.costApplication ?? null,
-			greenBelt: appellantSubmission.appellantGreenBelt
+			isGreenBelt: appellantSubmission.appellantGreenBelt
 		},
 		documents: await getDocuments(appellantSubmission),
 		users: formatApplicationSubmissionUsers(appellantSubmission)

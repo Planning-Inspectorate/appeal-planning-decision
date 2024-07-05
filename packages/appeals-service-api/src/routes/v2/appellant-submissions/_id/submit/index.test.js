@@ -31,6 +31,7 @@ jest.mock('../service', () => ({
 					isAppellant: true,
 					contactFirstName: 'Testy',
 					contactLastName: 'McTest',
+					contactCompanyName: 'Test',
 					ownsAllLand: true,
 					appellantGreenBelt: false,
 					updateDevelopmentDescription: false,
@@ -250,7 +251,8 @@ const formattedHAS1 = {
 		siteAddressPostcode: 'SOM3 W3R',
 		siteAddressTown: 'Somewhereville',
 		siteAreaSquareMetres: 22,
-		siteSafetyDetails: ["It's dangerous"]
+		siteSafetyDetails: ["It's dangerous"],
+		isGreenBelt: false
 	},
 	documents: [
 		{
@@ -270,7 +272,9 @@ const formattedHAS1 = {
 			firstName: 'Testy',
 			lastName: 'McTest',
 			salutation: null,
-			serviceUserType: 'Appellant'
+			serviceUserType: 'Appellant',
+			telephoneNumber: '12345657',
+			organisation: 'Test'
 		}
 	]
 };
@@ -307,7 +311,8 @@ const formattedHAS2 = {
 		siteAddressPostcode: 'SOM3 W3R',
 		siteAddressTown: 'Somewhereville',
 		siteAreaSquareMetres: 25,
-		siteSafetyDetails: ["It's dangerous"]
+		siteSafetyDetails: ["It's dangerous"],
+		isGreenBelt: false
 	},
 	documents: [
 		{
@@ -327,14 +332,18 @@ const formattedHAS2 = {
 			firstName: 'Testy',
 			lastName: 'McTest',
 			salutation: null,
-			serviceUserType: 'Agent'
+			serviceUserType: 'Agent',
+			telephoneNumber: null,
+			organisation: null
 		},
 		{
 			emailAddress: null,
 			firstName: 'Test App',
 			lastName: 'Testington',
 			salutation: null,
-			serviceUserType: 'Appellant'
+			serviceUserType: 'Appellant',
+			telephoneNumber: '12345657',
+			organisation: null
 		}
 	]
 };
