@@ -73,7 +73,7 @@ describe('src/dynamic-forms/validator/numeric-validator.js', () => {
 		const req = {
 			body: {
 				test: 'testUnitTwo',
-				testConditional_two: 0
+				testConditional_two: 101
 			}
 		};
 

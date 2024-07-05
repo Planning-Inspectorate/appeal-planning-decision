@@ -64,12 +64,14 @@ class UnitOptionEntryValidator extends BaseValidator {
 			}
 
 			if (this.max !== undefined) {
-				const maxMessage = `${this.unit} must be ${this.max}${option.conditional.suffix} or less`;
+				const maxMessage = `${this.unit} must be ${this.max.toLocaleString()}${
+					option.conditional.suffix
+				} or less`;
 
 				schema.push(
 					body(option.conditional.fieldName)
 						.if(this.isValueIncluded(questionObj, option.value))
-						.isFloat({ min: this.min })
+						.isFloat({ max: this.max })
 						.withMessage(maxMessage)
 				);
 			}
