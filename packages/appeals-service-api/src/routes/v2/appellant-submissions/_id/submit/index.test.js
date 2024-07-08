@@ -44,7 +44,7 @@ jest.mock('../service', () => ({
 					applicationReference: '123',
 					developmentDescriptionOriginal: 'A test description',
 					appellantLinkedCaseReference: 'no',
-					appellantPhoneNumber: '12345657',
+					contactPhoneNumber: '12345657',
 					// @ts-ignore
 					siteAreaSquareMetres: 22,
 					appellantLinkedCaseAdd: false,
@@ -117,7 +117,7 @@ jest.mock('../service', () => ({
 					applicationReference: '234',
 					developmentDescriptionOriginal: 'A test description',
 					appellantLinkedCaseReference: 'no',
-					appellantPhoneNumber: '12345657',
+					contactPhoneNumber: '12345657',
 					// @ts-ignore
 					siteAreaSquareMetres: 25,
 					appellantLinkedCaseAdd: false,

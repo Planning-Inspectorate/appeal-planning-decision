@@ -123,7 +123,7 @@ exports.formatApplicationSubmissionUsers = ({
 	contactFirstName,
 	contactLastName,
 	contactCompanyName,
-	appellantPhoneNumber,
+	contactPhoneNumber,
 	Appeal: {
 		Users: [
 			{
@@ -140,7 +140,7 @@ exports.formatApplicationSubmissionUsers = ({
 			lastName: contactLastName,
 			emailAddress: email,
 			serviceUserType: isAppellant ? 'Appellant' : 'Agent',
-			telephoneNumber: isAppellant ? appellantPhoneNumber : null,
+			telephoneNumber: isAppellant ? contactPhoneNumber : null,
 			organisation: isAppellant ? contactCompanyName : null
 		}
 	];
@@ -151,7 +151,7 @@ exports.formatApplicationSubmissionUsers = ({
 			lastName: appellantLastName,
 			emailAddress: null,
 			serviceUserType: 'Appellant',
-			telephoneNumber: appellantPhoneNumber,
+			telephoneNumber: contactPhoneNumber,
 			organisation: null
 		});
 	}

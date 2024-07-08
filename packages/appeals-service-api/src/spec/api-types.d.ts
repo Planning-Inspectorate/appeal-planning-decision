@@ -583,7 +583,7 @@ export interface AppellantSubmission {
 	applicationReference?: string;
 	developmentDescriptionOriginal?: string;
 	appellantLinkedCaseReference?: string;
-	appellantPhoneNumber?: string;
+	contactPhoneNumber?: string;
 	appellantPreferHearingDetails?: string;
 	appellantPreferInquiryDetails?: string;
 	siteAreaSquareMetres?: number;
