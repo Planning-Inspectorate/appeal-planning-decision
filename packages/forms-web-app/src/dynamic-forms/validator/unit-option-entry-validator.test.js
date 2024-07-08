@@ -26,7 +26,7 @@ const question = {
 const errorMessage = 'There must be an input to test';
 const unit = 'Test unit';
 
-describe('src/dynamic-forms/validator/numeric-validator.js', () => {
+describe('src/dynamic-forms/validator/unit-option-entry-validator.js', () => {
 	it('should invalidate an empty value', async () => {
 		const options = {
 			errorMessage,
