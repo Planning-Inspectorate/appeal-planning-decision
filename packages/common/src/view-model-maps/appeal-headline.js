@@ -42,6 +42,10 @@ const formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_PA
 			value: { text: `${appellantFirstName} ${appellantLastName}` }
 		},
 		{
+			key: { text: 'Local planning authority' },
+			value: { text: LPAName }
+		},
+		{
 			key: { text: 'Application number' },
 			value: { text: LPAApplicationReference }
 		}
@@ -51,10 +55,6 @@ const formatHeadlineData = (caseData, userType = APPEAL_USER_ROLES.INTERESTED_PA
 		headlines.unshift({
 			key: { text: 'Appeal reference' },
 			value: { text: caseReference }
-		});
-		headlines.splice(5, 0, {
-			key: { text: 'Local planning authority' },
-			value: { text: LPAName }
 		});
 	}
 
