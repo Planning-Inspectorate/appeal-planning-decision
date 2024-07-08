@@ -1797,7 +1797,7 @@ exports.questions = {
 		question: 'What is the status of your planning obligation?',
 		fieldName: 'statusPlanningObligation',
 		url: 'status-planning-obligation',
-		validators: [new RequiredValidator('Select the development schedule')],
+		validators: [new RequiredValidator('Select the status of your planning obligation')],
 		options: [
 			{
 				text: 'Finalised and ready to submit',
