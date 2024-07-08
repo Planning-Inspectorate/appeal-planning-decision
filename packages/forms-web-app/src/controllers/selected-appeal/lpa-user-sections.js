@@ -42,7 +42,7 @@ exports.sections = [
 		heading: 'Interested party comments',
 		links: [
 			{
-				url: '/ip-comments',
+				url: '/interested-party-comments',
 				text: 'View interested party comments',
 				condition: (appealCase) => appealCase.interestedPartyCommentsPublished
 			}
