@@ -57,7 +57,7 @@ describe('src/dynamic-forms/validator/numeric-validator.js', () => {
 			}
 		};
 
-		const expectedMinMessage = 'Test unit must be at least 1testUnitOne';
+		const expectedMinMessage = 'Test unit must be at least 1';
 
 		const errors = await _validationMappedErrors(req, options);
 		expect(Object.keys(errors).length).toEqual(1);
@@ -77,7 +77,7 @@ describe('src/dynamic-forms/validator/numeric-validator.js', () => {
 			}
 		};
 
-		const expectedMaxMessage = 'Test unit must be 100testUnitTwo or less';
+		const expectedMaxMessage = 'Test unit must be 100 or less';
 
 		const errors = await _validationMappedErrors(req, options);
 		expect(Object.keys(errors).length).toEqual(1);
