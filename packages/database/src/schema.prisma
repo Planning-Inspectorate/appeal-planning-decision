@@ -598,7 +598,7 @@ model AppellantSubmission {
   applicationReference           String?
   developmentDescriptionOriginal String?
   appellantLinkedCaseReference   String?
-  appellantPhoneNumber           String?
+  contactPhoneNumber             String?
   appellantPreferHearingDetails  String?
   appellantPreferInquiryDetails  String?
 
