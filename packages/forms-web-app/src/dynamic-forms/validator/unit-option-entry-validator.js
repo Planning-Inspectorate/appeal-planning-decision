@@ -53,7 +53,7 @@ class UnitOptionEntryValidator extends BaseValidator {
 			}
 
 			if (this.min !== undefined) {
-				const minMessage = `${this.unit} must be at least ${this.min}${option.conditional.suffix}`;
+				const minMessage = `${this.unit} must be at least ${this.min.toLocaleString()}`;
 
 				schema.push(
 					body(option.conditional.fieldName)
@@ -64,9 +64,7 @@ class UnitOptionEntryValidator extends BaseValidator {
 			}
 
 			if (this.max !== undefined) {
-				const maxMessage = `${this.unit} must be ${this.max.toLocaleString()}${
-					option.conditional.suffix
-				} or less`;
+				const maxMessage = `${this.unit} must be ${this.max.toLocaleString()} or less`;
 
 				schema.push(
 					body(option.conditional.fieldName)
