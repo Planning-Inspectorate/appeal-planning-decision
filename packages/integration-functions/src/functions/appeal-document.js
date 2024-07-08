@@ -11,7 +11,6 @@ const { app } = require('@azure/functions');
 const VALID_SCAN_STATUSES = ['scanned'];
 const VALID_REDACTED_STATUSES = ['redacted'];
 const createApiClient = require('../common/api-client');
-const { inspect } = require('util');
 
 /**
  * @typedef {import('pins-data-model/src/schemas').AppealDocument} AppealDocument
@@ -87,10 +86,8 @@ function checkMessageIsValid(documentMessage, context) {
  * @param {import('@azure/functions').InvocationContext} context
  * @returns {boolean}
  */
-const documentShouldBeDeleted = (context) => {
-	context.log(inspect(context, { showHidden: true, depth: null, colors: true }));
-	return context?.triggerMetadata?.applicationProperties?.type === 'Delete';
-};
+const documentShouldBeDeleted = (context) =>
+	context?.triggerMetadata?.applicationProperties?.type === 'Delete';
 
 app.serviceBusTopic('appeal-document', {
 	topicName: 'appeal-document',
