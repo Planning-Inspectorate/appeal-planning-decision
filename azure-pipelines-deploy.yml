@@ -15,7 +15,7 @@ parameters:
   - name: deployIntegrationFunctions
     displayName: Deploy Integration Functions
     type: boolean
-    default: false
+    default: true
   - name: deployPdfApi
     displayName: Deploy PDF Service API
     type: boolean
