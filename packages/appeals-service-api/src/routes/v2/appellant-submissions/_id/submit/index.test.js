@@ -333,8 +333,8 @@ const formattedHAS2 = {
 			lastName: 'McTest',
 			salutation: null,
 			serviceUserType: 'Agent',
-			telephoneNumber: null,
-			organisation: null
+			telephoneNumber: '12345657',
+			organisation: 'Test Agents'
 		},
 		{
 			emailAddress: null,
@@ -342,7 +342,7 @@ const formattedHAS2 = {
 			lastName: 'Testington',
 			salutation: null,
 			serviceUserType: 'Appellant',
-			telephoneNumber: '12345657',
+			telephoneNumber: null,
 			organisation: null
 		}
 	]

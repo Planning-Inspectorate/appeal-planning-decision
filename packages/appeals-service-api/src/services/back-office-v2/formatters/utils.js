@@ -145,7 +145,7 @@ exports.formatApplicationSubmissionUsers = ({
 			emailAddress: email,
 			serviceUserType: isAppellant ? 'Appellant' : 'Agent',
 			telephoneNumber: contactPhoneNumber,
-			organisation: contactCompanyName
+			organisation: contactCompanyName ?? null
 		}
 	];
 	if (!isAppellant) {
@@ -156,7 +156,7 @@ exports.formatApplicationSubmissionUsers = ({
 			emailAddress: null,
 			serviceUserType: 'Appellant',
 			telephoneNumber: null,
-			organisation: appellantCompanyName
+			organisation: appellantCompanyName ?? null
 		});
 	}
 
