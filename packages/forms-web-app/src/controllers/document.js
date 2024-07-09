@@ -6,6 +6,7 @@ const {
 	}
 } = require('@pins/business-rules');
 const logger = require('../lib/logger');
+const { apiClient } = require('../lib/appeals-api-client');
 const { getUserFromSession } = require('../services/user.service');
 
 /**
@@ -82,7 +83,7 @@ const getDocumentV2 = async (req, res) => {
 	const { appealOrQuestionnaireId, documentId } = req.params;
 
 	try {
-		// const user = getUserFromSession(req);
+		// Following code is not used at present, as this function only used by appellant to download pdf
 
 		// const isLpaUser = user?.isLpaUser;
 
@@ -101,37 +102,15 @@ const getDocumentV2 = async (req, res) => {
 		// 	return await returnResult(headers, body, res);
 		// }
 
-		// const sessionAppealId = req?.session?.appeal?.id;
+		const userOwnsAppeal = await apiClient.confirmUserOwnsAppellantSubmission(
+			appealOrQuestionnaireId
+		);
 
-		// if (!sessionAppealId || sessionAppealId !== appealOrQuestionnaireId) {
-		// 	// create save/return entry
-		// 	const tempAppeal = {
-		// 		id: appealOrQuestionnaireId,
-		// 		skipReturnEmail: true
-		// 	};
-		// 	await saveAppeal(tempAppeal); //create save/return
-
-		// 	// remove existing appeal in session
-		// 	if (req?.session?.appeal) {
-		// 		delete req.session.appeal;
-		// 	}
-
-		// 	// lookup appeal to get type - don't trust this as user hasn't proven access to appeal via email yet
-		// 	const appeal = await getExistingAppeal(appealOrQuestionnaireId);
-
-		// 	if (!appeal || !appeal.appealType) {
-		// 		throw new Error('Access denied');
-		// 	}
-
-		// 	const saveAndContinueConfig = appealTypeConfig[
-		// 		appeal.appealType
-		// 	].email.saveAndReturnContinueAppeal(appeal, '', Date.now());
-
-		// 	req.session.loginRedirect = `${req.baseUrl}${req.url}`;
-
-		// 	res.redirect(`${saveAndContinueConfig.variables.link}`);
-		// 	return;
-		// }
+		if (!userOwnsAppeal) {
+			logger.error('User not linked to appeal');
+			res.sendStatus(403);
+			return;
+		}
 
 		const { headers, body } = await fetchDocument(appealOrQuestionnaireId, documentId);
 		return await returnResult(headers, body, res);
