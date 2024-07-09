@@ -139,7 +139,7 @@ describe('appeal-document', () => {
 	it('Should delete documents if the invocation context says so', async () => {
 		const result = await handler(testData, {
 			...ctx,
-			bindingData: { applicationProperties: { type: 'Delete' } }
+			triggerMetadata: { applicationProperties: { type: 'Delete' } }
 		});
 
 		expect(ctx.log).toHaveBeenCalledWith('Handle document metadata message', testData);
