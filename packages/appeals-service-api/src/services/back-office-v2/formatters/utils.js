@@ -38,6 +38,9 @@ const documentTypeMap = {
 	[documentTypes.uploadChangeOfDescriptionEvidence.name]: 'changedDescription',
 	[documentTypes.uploadOriginalApplicationForm.name]: 'originalApplicationForm',
 	[documentTypes.whoWasNotified.name]: 'whoNotified',
+	[documentTypes.uploadSiteNotice.name]: 'whoNotifiedSiteNotice',
+	[documentTypes.uploadLettersToNeighbours.name]: 'whoNotifiedLetterToNeighbours',
+	[documentTypes.pressAdvertUpload.name]: 'whoNotifiedPressAdvert',
 	[documentTypes.conservationMap.name]: 'conservationMap',
 	[documentTypes.planningOfficersReportUpload.name]: 'planningOfficerReport'
 };
