@@ -7,11 +7,17 @@ components:
         - eventId
         - caseReference
         - eventType
+        - eventName
         - eventStatus
         - isUrgent
+        - eventPublished
         - eventStartDateTime
+        - eventEndDateTime
+        - notificationOfSiteVisit
         - addressLine1
+        - addressLine2
         - addressTown
+        - addressCounty
         - addressPostcode
       properties:
         eventId:
@@ -36,6 +42,7 @@ components:
           description: The type of event
         eventName:
           type: string
+          nullable: true
           description: An optional description / name for the event
         eventStatus:
           type: string
@@ -54,6 +61,7 @@ components:
           description: Indicates if the event is urgent
         eventPublished:
           type: boolean
+          nullable: true
           description: Indicates if the event has been published
         eventStartDateTime:
           type: string
@@ -62,22 +70,26 @@ components:
         eventEndDateTime:
           type: string
           format: date-time
+          nullable: true
           description: Event end date and time
         notificationOfSiteVisit:
           type: string
           format: date-time
+          nullable: true
           description: The date third-parties were informed of the site visit event
         addressLine1:
           type: string
           description: First line of address for the event site
         addressLine2:
           type: string
+          nullable: true
           description: Second line of address for the event site
         addressTown:
           type: string
           description: Town / City of the event address
         addressCounty:
           type: string
+          nullable: true
           description: County of the event address
         addressPostcode:
           type: string
