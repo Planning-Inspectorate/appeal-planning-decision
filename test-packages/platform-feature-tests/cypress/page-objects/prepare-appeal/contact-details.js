@@ -8,7 +8,7 @@ export class ContactDetails {
     }
     
     clickAppellantType(appellant) {
-        this.applicationFormElements.clickRadioBtn(appellant).click();
+        this.contactDetailsElements.clickRadioBtn(appellant).click();
     }
 
 	

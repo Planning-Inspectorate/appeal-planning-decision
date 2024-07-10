@@ -8,7 +8,7 @@ const completeUploadAppealDocumentsSection = require('./sections/completeUploadA
 const completeCheckAnswersAndSubmitSection = require('./sections/completeCheckAnswersAndSubmitSection');
 
 function submitAppealFlow(appealOptions) {
-	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning } =
+	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning, context} =
 		appealOptions;
 
 	if (['granted', 'refused', 'no decision'].includes(statusOfOriginalApplication) == false) {
@@ -29,7 +29,7 @@ function submitAppealFlow(appealOptions) {
 		);
 	}
 
-	initialiseFullAppeal(statusOfOriginalApplication,planning);
+	initialiseFullAppeal(statusOfOriginalApplication,planning, context);
 	// applicationNameSection();
 	// completeContactDetailsSection();
 	// completeAppealSiteSection();

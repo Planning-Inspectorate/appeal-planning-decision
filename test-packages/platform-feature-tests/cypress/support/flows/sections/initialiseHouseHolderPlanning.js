@@ -1,25 +1,27 @@
-const applicationFormPage = require("../pages/applicationFormPage");
-const contactDetailsPage = require("../pages/contactDetailsPage");
-const appealSiteAddressPage = require("../pages/appealSiteAddressPage");
-const siteAreaPage = require("../pages/siteAreaPage");
-const greenBeltPage = require("../pages/greenBeltPage");
-const ownAllLandPage = require("../pages/ownAllLandPage");
-const ownSomeLandPage = require("../pages/ownSomeLandPage");
-const ownsLandInvolvedPage = require("../pages/ownsLandInvolvedPage");
+const applicationFormPage = require("../pages/prepare-appeal/applicationFormPage");
+const applicationNamePage = require("../pages/prepare-appeal/applicationNamePage");
+const contactDetailsPage = require("../pages/prepare-appeal/contactDetailsPage");
+const appealSiteAddressPage = require("../pages/prepare-appeal/appealSiteAddressPage");
+const phoneNumberPage = require("../pages/prepare-appeal/phoneNumberPage");
+const siteAreaPage = require("../pages/prepare-appeal/siteAreaPage");
+const greenBeltPage = require("../pages/prepare-appeal/greenBeltPage");
+const ownAllLandPage = require("../pages/prepare-appeal/ownAllLandPage");
+const ownSomeLandPage = require("../pages/prepare-appeal/ownSomeLandPage");
+const ownsLandInvolvedPage = require("../pages/prepare-appeal/ownsLandInvolvedPage");
 
-module.exports = (statusOfOriginalApplication,planning, siteSelectionId) => {
+module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,context) => {
 	
-	cy.get(siteSelectionId).click();
-	cy.advanceToNextPage();
+	// cy.get(siteSelectionId).click();
+	// cy.advanceToNextPage();
 
-	let grantedOrRefusedId = '';
-	if (statusOfOriginalApplication === 'refused') {
-		grantedOrRefusedId = '[data-cy="answer-refused"]';
-	} else if (statusOfOriginalApplication === 'no decision') {
-		grantedOrRefusedId = '#granted-or-refused-4';
-	} else {
-		grantedOrRefusedId = '[data-cy="answer-granted"]';
-	}
+	// let grantedOrRefusedId = '';
+	// if (statusOfOriginalApplication === 'refused') {
+	// 	grantedOrRefusedId = '[data-cy="answer-refused"]';
+	// } else if (statusOfOriginalApplication === 'no decision') {
+	// 	grantedOrRefusedId = '#granted-or-refused-4';
+	// } else {
+	// 	grantedOrRefusedId = '[data-cy="answer-granted"]';
+	// }
 
 	
 	cy.get(grantedOrRefusedId).click();
@@ -66,8 +68,11 @@ module.exports = (statusOfOriginalApplication,planning, siteSelectionId) => {
 		const dynamicId = params.get('id');
 		//cy.log('Test id in task page',dynamicId);
 		applicationFormPage('householder','other',dynamicId);
+		applicationNamePage('other');
 		//Contact details
 		contactDetailsPage();
+
+		phoneNumberPage();
 		//Site Details
 		appealSiteAddressPage();		
 		//What is the area of the appeal site?
@@ -213,31 +218,16 @@ module.exports = (statusOfOriginalApplication,planning, siteSelectionId) => {
 		cy.wait(2000);
 		//Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
 		cy.get('.govuk-button').contains('Accept and submit').click();
+
+		cy.get('.govuk-panel__title').invoke('text').should((text)=>{
+			expect(text.trim()).to.equal('Appeal submitted');
+		});
 		//});
 
 		//https://appeals-service-test.planninginspectorate.gov.uk/appeals/full-planning/submit/declaration?id=0781ab81-1682-48a7-8801-6c2ea7bfc737              
         //Declaration
 
-
-
-
-
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-				
+			
 	});
 
 	
