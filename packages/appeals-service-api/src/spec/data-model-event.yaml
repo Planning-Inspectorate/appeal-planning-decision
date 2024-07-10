@@ -7,17 +7,11 @@ components:
         - eventId
         - caseReference
         - eventType
-        - eventName
         - eventStatus
         - isUrgent
-        - eventPublished
         - eventStartDateTime
-        - eventEndDateTime
-        - notificationOfSiteVisit
         - addressLine1
-        - addressLine2
         - addressTown
-        - addressCounty
         - addressPostcode
       properties:
         eventId:
