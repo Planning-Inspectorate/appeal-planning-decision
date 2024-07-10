@@ -391,6 +391,7 @@ model AppealCase {
   NeighbouringAddresses           NeighbouringAddress[]
   Events                          Event[]
   AppealCaseLpaNotificationMethod AppealCaseLpaNotificationMethod[]
+  InterestedPartyComments         InterestedPartyComment[]
 }
 
 /// AppealCase relations
@@ -569,6 +570,15 @@ model Document {
 
   // relations
   caseReference String
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+}
+
+model InterestedPartyComment {
+  id            String     @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  caseReference String
+  serviceUserId String?
+  comment       String
+  createdAt     DateTime   @default(now())
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 }
 
