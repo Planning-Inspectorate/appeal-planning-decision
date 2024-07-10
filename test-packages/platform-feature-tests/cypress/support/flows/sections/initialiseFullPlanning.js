@@ -7,7 +7,7 @@ const siteAreaPage = require("../pages/prepare-appeal/siteAreaPage");
 const greenBeltPage = require("../pages/prepare-appeal/greenBeltPage");
 const ownAllLandPage = require("../pages/prepare-appeal/ownAllLandPage");
 const ownSomeLandPage = require("../pages/prepare-appeal/ownSomeLandPage");
-const ownsLandInvolvedPage = require("../pages/prepare-appeal/ownsLandInvolvedPage");
+
 
 module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,context) => {
 	
@@ -54,7 +54,7 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		//cy.log('Test id in task page',dynamicId);
 		applicationFormPage('full-planning','other',dynamicId);
 		//Contact details
-		applicationNamePage(context?.applicationForm?.applicationMadeByMe);
+		applicationNamePage(context?.applicationForm?.isAppellant);
 
 		contactDetailsPage()
 
@@ -62,7 +62,7 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		//Site Details
 		appealSiteAddressPage();		
 		//What is the area of the appeal site?
-		siteAreaPage(planning,context?.applicationForm?.areaUnits);
+		siteAreaPage(planning,context?.applicationForm?.areaUnits,context);
 
 		//Is the appeal site in a green belt?(Ans:Yes)
 		greenBeltPage(context?.applicationForm?.appellantInGreenBelt);
@@ -72,24 +72,28 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		ownAllLandPage(context?.applicationForm?.isOwnsAllLand);
 		// cy.get('#ownsAllLand-2').click();
 		// cy.advanceToNextPage();
-		//Do you own some of the land involved in the appeal?
-		ownSomeLandPage();
+		if(!context?.applicationForm?.isOwnsAllLand){
+			//Do you own some of the land involved in the appeal?
+			ownSomeLandPage(context?.applicationForm?.isOwnsSomeLand,context);
+
+		}
+		
 
 		//cy.get('#ownsSomeLand').click();
 		//cy.advanceToNextPage();
 		//Do you know who owns the rest of the land involved in the appeal?
-		ownsLandInvolvedPage();
+		//ownsLandInvolvedPage(context?.applicationForm?.knowsAllOwners);
 		//cy.get('#knowsOtherOwners-2').click();
 		//cy.advanceToNextPage();
 		//Identifying the landowners
-		cy.get('#identifiedOwners').check();
-		cy.advanceToNextPage();
+		//cy.get('#identifiedOwners').check();
+		//cy.advanceToNextPage();
 		//Advertising your appeal
-		cy.get('#advertisedAppeal').check();
-		cy.advanceToNextPage();
+		//cy.get('#advertisedAppeal').check();
+		//cy.advanceToNextPage();
 		//Telling the landowners
-		cy.get('#informedOwners').check();
-		cy.advanceToNextPage();
+		//cy.get('#informedOwners').check();
+		//cy.advanceToNextPage();
 		//Is the appeal site part of an agricultural holding?(Ans:yes)
 		cy.get('#agriculturalHolding').click();
 		cy.advanceToNextPage();

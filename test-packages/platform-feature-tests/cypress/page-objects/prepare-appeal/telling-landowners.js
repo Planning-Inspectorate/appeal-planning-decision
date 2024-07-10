@@ -3,6 +3,7 @@ export class TellingLandowners {
         checkBox: () => cy.get('[data-cy="answer-yes"]')};	
 
     checkTellingLandowners(informedOwners) {
-        this.tellingLandownersElements.checkBox().check(informedOwners);    
+        this.tellingLandownersElements.checkBox(informedOwners).check();    
     }
  };
+
