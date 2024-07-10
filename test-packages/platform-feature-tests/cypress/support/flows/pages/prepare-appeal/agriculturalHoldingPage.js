@@ -6,7 +6,7 @@ module.exports = (isagriculturalHolding) => {
     if(isagriculturalHolding) {
         agriculturalHolding.clickRadioBtn('[data-cy="answer-yes"]');
         cy.advanceToNextPage();
-    } elase {
+    } else {
         agriculturalHolding.clickRadioBtn('[data-cy="answer-no"]');
         cy.advanceToNextPage();
     }
