@@ -22,6 +22,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.Event} Event
  * @typedef {import('appeals-service-api').Api.ServiceUser} ServiceUserAPI
  * @typedef {import('pins-data-model/src/schemas').AppealHASCase} AppealHASCase
+ * @typedef {import('appeals-service-api').Api.InterestedPartyComment} InterestedPartyComment
  */
 
 // Data model types
@@ -534,6 +535,27 @@ class AppealsApiClient {
 	async submitLPAQuestionnaire(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/submit`;
 		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<InterestedPartyComment[]>}
+	 */
+	async getInterestedPartyComments(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/interested-party-comments`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} commentData
+	 * @returns {Promise<InterestedPartyComment>}
+	 */
+	async createInterestedPartyComment(caseReference, commentData) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/interested-party-comments`;
+		const response = await this.#makePostRequest(endpoint, commentData);
+		return response.json();
 	}
 
 	/**

@@ -1,0 +1,23 @@
+components:
+  schemas:
+    InterestedPartyComment:
+      description: A comment made by an interested party on an appeal case
+      type: object
+      required:
+        - id
+        - caseReference
+        - comment
+        - createdAt
+      properties:
+        id:
+          type: string
+          format: uuid
+        caseReference:
+          type: string
+        serviceUserId:
+          type: string
+        comment:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
