@@ -1908,7 +1908,7 @@ exports.questions = {
 		]
 	}),
 	uploadSeparateOwnershipCert: new MultiFileUploadQuestion({
-		title: 'Upload your separate ownership certificate and agricultural land declaration',
+		title: 'Separate ownership certificate and agricultural land declaration',
 		question: 'Upload your separate ownership certificate and agricultural land declaration',
 		fieldName: 'uploadOwnershipCertificate',
 		url: 'upload-certificate-declaration',
