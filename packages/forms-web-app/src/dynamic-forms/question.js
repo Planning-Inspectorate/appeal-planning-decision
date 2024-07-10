@@ -213,11 +213,6 @@ class Question {
 		const { body } = req;
 		const { errors = {}, errorSummary = [] } = body;
 
-		console.log('ohohohohoho');
-		console.log(errors);
-		console.log('popopo');
-		console.log(errorSummary);
-
 		if (Object.keys(errors).length > 0) {
 			return this.prepQuestionForRendering(
 				sectionObj,
