@@ -709,6 +709,67 @@ export interface DataModelDocument {
 	horizonFolderId: string;
 }
 
+/** An appeal case event */
+export interface DataModelEvent {
+	/** The unique identifier for the event */
+	eventId: string;
+	/** External case identifier */
+	caseReference: string;
+	/** The type of event */
+	eventType:
+		| 'site_visit_access_required'
+		| 'site_visit_accompanied'
+		| 'site_visit_unaccompanied'
+		| 'hearing'
+		| 'hearing_virtual'
+		| 'inquiry'
+		| 'inquiry_virtual'
+		| 'in_house'
+		| 'pre_inquiry'
+		| 'pre_inquiry_virtual';
+	/** An optional description / name for the event */
+	eventName: string;
+	/** Status of the event */
+	eventStatus:
+		| 'withdrawn'
+		| 'in_abeyance'
+		| 'change_of_procedure'
+		| 'new_rescheduled'
+		| 'confirmed'
+		| 'link_to_enforcement'
+		| 'offered'
+		| 'postponed';
+	/** Indicates if the event is urgent */
+	isUrgent: boolean;
+	/** Indicates if the event has been published */
+	eventPublished: boolean;
+	/**
+	 * Event start date and time
+	 * @format date-time
+	 */
+	eventStartDateTime: string;
+	/**
+	 * Event end date and time
+	 * @format date-time
+	 */
+	eventEndDateTime: string;
+	/**
+	 * The date third-parties were informed of the site visit event
+	 * @format date-time
+	 */
+	notificationOfSiteVisit: string;
+	/** First line of address for the event site */
+	addressLine1: string;
+	/** Second line of address for the event site */
+	addressLine2: string;
+	/** Town / City of the event address */
+	addressTown: string;
+	/** County of the event address */
+	addressCounty: string;
+	/** Postal code of the event address */
+	addressPostcode: string;
+}
+
 /** A document associated with an appeal */
 export interface Document {
 	/** document ID */

@@ -75,8 +75,8 @@ module.exports = class Repo {
 	}
 
 	/**
-	 * @param {import('pins-data-model/src/schemas').AppealEvent} data
-	 * @returns {Promise<void>}
+	 * @param {DataModelEvent} data
+	 * @returns {Promise<PrismaEvent>}
 	 */
 	async put(data) {
 		return this.dbClient.$transaction(async (tx) => {
@@ -87,14 +87,14 @@ module.exports = class Repo {
 				}
 			});
 			if (existingEvent) {
-				await tx.event.update({
+				return await tx.event.update({
 					where: {
 						internalId: existingEvent?.internalId
 					},
 					data: mappedData
 				});
 			} else {
-				await tx.event.create({
+				return await tx.event.create({
 					data: mappedData
 				});
 			}
