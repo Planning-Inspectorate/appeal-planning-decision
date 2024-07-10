@@ -5,6 +5,7 @@ const { apiClient } = require('../../../lib/appeals-api-client');
 const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
+const { formatComments } = require('../final-comments-details/sort-comment-details');
 
 /**
  * Shared controller for /manage-appeals/:caseRef/appellant-final-comments, manage-appeals/:caseRef/final-comments
@@ -39,6 +40,10 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			userId: user.id
 		});
 
+		const comments = await req.appealsApiClient.getInterestedPartyComments(appealNumber);
+		const formattedComments = formatComments(comments);
+		console.log('###', formattedComments);
+
 		const headlineData = formatHeadlineData(caseData, userType);
 
 		const viewContext = {
@@ -47,7 +52,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 			appeal: {
 				appealNumber,
-				headlineData
+				headlineData,
+				formattedComments
 			}
 		};
 
