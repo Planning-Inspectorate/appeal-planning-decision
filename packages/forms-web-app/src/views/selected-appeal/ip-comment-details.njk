@@ -31,7 +31,20 @@
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 
-			
+			{% for comment in appeal.formattedComments %}
+				<h2 class="govuk-heading-l">{{ comment.key.text }}</h2>
+					{{ govukSummaryList({
+						classes: "govuk-summary-list long-answers govuk-!-margin-bottom-9",
+						rows: [{
+							key: {
+								text: "Comments"
+							},
+							value: {
+								text: comment.value.text
+							}
+						}]
+					}) }}
+			{% endfor %}
 		</div>
 	</div>
 {% endblock %}
