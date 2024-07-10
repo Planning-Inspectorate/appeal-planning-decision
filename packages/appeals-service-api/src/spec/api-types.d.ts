@@ -756,6 +756,17 @@ export interface Event {
 	endDate: string;
 }
 
+/** A comment made by an interested party on an appeal case */
+export interface InterestedPartyComment {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	serviceUserId?: string;
+	comment: string;
+	/** @format date-time */
+	createdAt: string;
+}
+
 /** A questionnaire submitted by an LPA */
 export interface LPAQuestionnaireSubmission {
 	/** @format uuid */
