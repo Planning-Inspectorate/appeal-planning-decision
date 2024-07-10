@@ -2,6 +2,7 @@ const OpenApiValidator = require('express-openapi-validator');
 const ApiError = require('#errors/apiError');
 const { BadRequest } = require('express-openapi-validator/dist/openapi.validator');
 const { generateOpenApiSpec } = require('../spec/gen-api-spec');
+const logger = require('#lib/logger');
 
 /**
  * Create middleware to validate requests against the OpenApi spec
@@ -25,6 +26,7 @@ function openApiValidatorMiddleware() {
  * @type {import('express').ErrorRequestHandler}
  */
 function openApiValidationErrorHandler(err, req, res, next) {
+	logger.error(err);
 	// handle validation errors
 	if (err instanceof BadRequest) {
 		throw ApiError.badRequest({ errors: err.errors.map((e) => e.message) });
