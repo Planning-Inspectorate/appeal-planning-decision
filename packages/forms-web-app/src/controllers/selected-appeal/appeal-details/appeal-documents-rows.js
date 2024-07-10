@@ -13,7 +13,8 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
  */
 exports.documentsRows = (caseData, userType) => {
 	const documents = caseData.Documents || [];
-	const isAppellantOrAgent = userType === (APPEAL_USER_ROLES.APPELLANT || APPEAL_USER_ROLES.AGENT);
+	const isAppellantOrAgent =
+		userType === APPEAL_USER_ROLES.APPELLANT || userType === APPEAL_USER_ROLES.AGENT;
 
 	return [
 		{

@@ -2,9 +2,13 @@ const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
 const { appealDocuments } = require('./appeal-documents-dev');
 const {
-	constants: { DECISION_OUTCOME }
-} = require('@pins/business-rules');
+	APPEAL_CASE_DECISION_OUTCOME,
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_CASE_STATUS,
+	APPEAL_CASE_VALIDATION_OUTCOME
+} = require('pins-data-model');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const config = require('../configuration/config.js');
 
 // some data here so we can reference in multiple places
@@ -292,7 +296,9 @@ const commonAppealProperties = {
 	CaseType: {
 		connect: { processCode: 'HAS' }
 	},
-	caseStatus: 'lpa_questionnaire'
+	CaseStatus: {
+		connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+	}
 };
 
 /**
@@ -309,9 +315,11 @@ const appealCases = [
 		CaseType: {
 			connect: { processCode: 'HAS' }
 		},
-		caseStatus: 'issue_determination',
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.ISSUE_DETERMINATION }
+		},
 		ProcedureType: {
-			connect: { key: 'written' }
+			connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN }
 		},
 		applicationReference: 'HAS/ONLY',
 		applicationDecision: 'Refused',
@@ -345,10 +353,9 @@ const appealCases = [
 		changedDevelopmentDescription: true,
 		newConditionDetails: 'More details here',
 		lpaStatement: 'This is asked outside of journey for HAS',
-
-		caseDecisionOutcome: null,
-		caseValidationOutcome: 'valid',
-		lpaQuestionnaireValidationOutcome: null,
+		CaseValidationOutcome: {
+			connect: { key: APPEAL_CASE_VALIDATION_OUTCOME.VALID }
+		},
 		caseValidationInvalidDetails: null,
 		caseValidationIncompleteDetails: null,
 		lpaQuestionnaireValidationDetails: null,
@@ -428,12 +435,12 @@ const appealCases = [
 		addNeighbouringSiteAccess: true,
 		lpaSiteSafetyRisks: false,
 		// appeal process
-		lpaProcedurePreference: 'inquiry',
+		lpaProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
 		lpaPreferInquiryDetails: 'Example preference',
 		lpaPreferInquiryDuration: '6',
 		changedDevelopmentDescription: true,
 		newConditionDetails: 'Example new conditions',
-		ProcedureType: { connect: { key: 'inquiry' } }
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } }
 	},
 	{
 		Appeal: {
@@ -456,7 +463,7 @@ const appealCases = [
 		appellantProofEvidencePublished: true,
 		lpaProofEvidencePublished: true,
 		rule6ProofsEvidencePublished: true,
-		ProcedureType: { connect: { key: 'inquiry' } }
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } }
 	},
 	{
 		Appeal: {
@@ -480,8 +487,10 @@ const appealCases = [
 		lpaProofEvidencePublished: true,
 		rule6ProofsEvidencePublished: true,
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(1)),
-		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED,
-		ProcedureType: { connect: { key: 'inquiry' } }
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } }
 	},
 	{
 		Appeal: {
@@ -506,7 +515,7 @@ const appealCases = [
 		appellantFinalCommentDetails:
 			'I am the appellant and this is my final comment. felis eget velit aliquet sagittis id consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat ac tincidunt',
 		appellantFinalCommentsSubmitted: true,
-		ProcedureType: { connect: { key: 'written' } }
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN } }
 	},
 	{
 		Appeal: {
@@ -533,7 +542,9 @@ const appealCases = [
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionOutcome: DECISION_OUTCOME.DISMISSED
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.DISMISSED }
+		}
 	},
 	{
 		Appeal: {
@@ -547,7 +558,9 @@ const appealCases = [
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(3)),
-		caseDecisionOutcome: DECISION_OUTCOME.SPLIT_DECISION
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION }
+		}
 	},
 	{
 		Appeal: {
@@ -561,7 +574,9 @@ const appealCases = [
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(4)),
-		caseDecisionOutcome: 'other'
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.DISMISSED }
+		}
 	},
 	...lpaAppealCaseData
 ];
@@ -946,12 +961,12 @@ const caseRelations = [
 	{
 		caseReference: caseReferences.caseReferenceOne,
 		caseReference2: caseReferences.caseReferenceNine,
-		type: 'nearby'
+		type: CASE_RELATION_TYPES.nearby
 	},
 	{
 		caseReference: caseReferences.caseReferenceNine,
 		caseReference2: caseReferences.caseReferenceOne,
-		type: 'nearby'
+		type: CASE_RELATION_TYPES.nearby
 	}
 ];
 

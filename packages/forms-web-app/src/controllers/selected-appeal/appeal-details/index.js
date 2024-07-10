@@ -66,8 +66,6 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			}
 		};
 
-		// logger.info({ viewContext }, 'appeal');
-
 		res.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext);
 	};
 };

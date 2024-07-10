@@ -1,6 +1,7 @@
 const fetchMock = require('jest-fetch-mock');
 const { default: fetch } = require('node-fetch');
 const { AppealsApiClient, ApiClientError } = require('./appeals-api-client');
+const { APPEAL_USER_ROLES } = require('../constants');
 
 const mockLogger = jest.fn();
 
@@ -191,7 +192,7 @@ describe('appeals-api-client', () => {
 
 		it('should handle role', async () => {
 			const testId = 'abc';
-			const role = 'agent';
+			const role = APPEAL_USER_ROLES.AGENT;
 			fetch.mockResponseOnce(JSON.stringify({ a: 1 }));
 			const createResponse = await apiClient.linkUserToV2Appeal(TEST_EMAIL, testId, role);
 

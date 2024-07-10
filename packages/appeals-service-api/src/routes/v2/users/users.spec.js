@@ -5,6 +5,7 @@ const supertest = require('supertest');
 const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 
@@ -311,7 +312,7 @@ describe('users v2', () => {
 				.send();
 
 			expect(response.status).toEqual(200);
-			expect(response.body.role).toEqual('Appellant');
+			expect(response.body.role).toEqual(APPEAL_USER_ROLES.APPELLANT);
 		});
 
 		it('should use role supplied if valid', async () => {
@@ -323,11 +324,11 @@ describe('users v2', () => {
 			const response = await appealsApi
 				.post(`/api/v2/users/${testEmail}/appeal/${appeal.id}`)
 				.send({
-					role: 'Agent'
+					role: APPEAL_USER_ROLES.AGENT
 				});
 
 			expect(response.status).toEqual(200);
-			expect(response.body.role).toEqual('Agent');
+			expect(response.body.role).toEqual(APPEAL_USER_ROLES.AGENT);
 		});
 	});
 });

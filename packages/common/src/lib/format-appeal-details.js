@@ -1,20 +1,20 @@
 const escape = require('escape-html');
+const { APPEAL_USER_ROLES } = require('../constants');
 
 // NOTE - consider requirement to escape string values from caseData
 
 /**
- * todo: consts for roles
  * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
  * @returns {string}
  */
 exports.formatContactDetails = (caseData) => {
 	let contact = caseData.users?.find((x) => {
-		x.role === 'Agent';
+		x.role === APPEAL_USER_ROLES.AGENT;
 	});
 
 	if (!contact) {
 		contact = caseData.users?.find((x) => {
-			x.role === 'Appellant';
+			x.role === APPEAL_USER_ROLES.APPELLANT;
 		});
 	}
 
@@ -29,7 +29,7 @@ exports.formatContactDetails = (caseData) => {
  */
 exports.formatApplicantDetails = (caseData) => {
 	const contact = caseData.users?.find((x) => {
-		x.role === 'Appellant';
+		x.role === APPEAL_USER_ROLES.APPELLANT;
 	});
 
 	if (!contact) return '';
@@ -58,7 +58,7 @@ exports.formatAccessDetails = (caseData) => {
 		return 'No';
 	}
 
-	const details = caseData.siteAccessDetails.map((x) => x).join('\n');
+	const details = caseData.siteAccessDetails.join('\n');
 
 	return `Yes \n ${details}`;
 };
@@ -101,7 +101,7 @@ exports.formatRelatedAppeals = (caseData, type) => {
 };
 
 /**
- * this can't be a hyperlink unless we check it exists in FO first
+ * this can't be a hyperlink unless we check it exists in FO first, or as per back office we link to external site via ref
  * @param {import('appeals-service-api').Api.AppealCaseRelationship} linkedAppeal
  */
 // const formatRelatedAppealHyperlink = (linkedAppeal) => {

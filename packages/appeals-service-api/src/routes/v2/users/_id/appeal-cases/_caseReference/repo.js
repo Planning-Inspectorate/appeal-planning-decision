@@ -1,7 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
-
+const { DocumentsArgsPublishedOnly } = require('../../../../appeal-cases/repo');
 /**
  * @typedef {import('@prisma/client').AppealCase} AppealCase
  */
@@ -47,15 +47,7 @@ module.exports = class Repo {
 					}
 				},
 				include: {
-					Documents: {
-						where: {
-							publishedDocumentURI: { not: null }
-						},
-						select: {
-							publishedDocumentURI: true,
-							filename: true
-						}
-					},
+					Documents: DocumentsArgsPublishedOnly,
 					AffectedListedBuildings: true,
 					AppealCaseLpaNotificationMethod: true,
 					NeighbouringAddresses: true,
@@ -93,15 +85,7 @@ module.exports = class Repo {
 						LPACode: user.lpaCode
 					},
 					include: {
-						Documents: {
-							where: {
-								publishedDocumentURI: { not: null }
-							},
-							select: {
-								publishedDocumentURI: true,
-								filename: true
-							}
-						},
+						Documents: DocumentsArgsPublishedOnly,
 						AffectedListedBuildings: true,
 						AppealCaseLpaNotificationMethod: true,
 						NeighbouringAddresses: true,

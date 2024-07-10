@@ -11,6 +11,8 @@ const s78JourneyTemplate = 'questionnaire-template.njk';
 const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
 const journeyTitle = 'Manage your appeals';
 
+const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
  */
@@ -142,9 +144,9 @@ class S78Journey extends Journey {
 			new Section('Appeal process', 'appeal-process')
 				.addQuestion(questions.procedureType)
 				.addQuestion(questions.whyInquiry)
-				.withCondition(questionHasAnswer(questions.procedureType, 'inquiry'))
+				.withCondition(questionHasAnswer(questions.procedureType, APPEAL_CASE_PROCEDURE.INQUIRY))
 				.addQuestion(questions.whyHearing)
-				.withCondition(questionHasAnswer(questions.procedureType, 'hearing'))
+				.withCondition(questionHasAnswer(questions.procedureType, APPEAL_CASE_PROCEDURE.HEARING))
 				.addQuestion(questions.appealsNearSite)
 				.addQuestion(questions.nearbyAppeals)
 				.withCondition(questionHasAnswer(questions.appealsNearSite, 'yes'))

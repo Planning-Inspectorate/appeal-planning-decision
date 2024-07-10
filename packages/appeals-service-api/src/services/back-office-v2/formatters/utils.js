@@ -2,6 +2,7 @@ const { initContainerClient, documentTypes } = require('@pins/common');
 const { blobMetaGetter } = require('../../../services/object-store');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
+const { APPEAL_APPLICATION_DECISION, SERVICE_USER_TYPE } = require('pins-data-model');
 
 /**
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -144,7 +145,7 @@ exports.formatApplicationSubmissionUsers = ({
 			firstName: contactFirstName,
 			lastName: contactLastName,
 			emailAddress: email,
-			serviceUserType: isAppellant ? 'Appellant' : 'Agent',
+			serviceUserType: isAppellant ? SERVICE_USER_TYPE.APPELLANT : SERVICE_USER_TYPE.AGENT,
 			telephoneNumber: contactPhoneNumber,
 			organisation: contactCompanyName ?? null
 		}
@@ -155,7 +156,7 @@ exports.formatApplicationSubmissionUsers = ({
 			firstName: appellantFirstName,
 			lastName: appellantLastName,
 			emailAddress: null,
-			serviceUserType: 'Appellant',
+			serviceUserType: SERVICE_USER_TYPE.APPELLANT,
 			telephoneNumber: null,
 			organisation: appellantCompanyName ?? null
 		});
@@ -165,9 +166,9 @@ exports.formatApplicationSubmissionUsers = ({
 };
 
 const dataModelApplicationDecisions = {
-	[APPLICATION_DECISION.GRANTED]: 'granted',
-	[APPLICATION_DECISION.REFUSED]: 'refused',
-	[APPLICATION_DECISION.NODECISIONRECEIVED]: 'not_received'
+	[APPLICATION_DECISION.GRANTED]: APPEAL_APPLICATION_DECISION.GRANTED,
+	[APPLICATION_DECISION.REFUSED]: APPEAL_APPLICATION_DECISION.REFUSED,
+	[APPLICATION_DECISION.NODECISIONRECEIVED]: APPEAL_APPLICATION_DECISION.NOT_RECEIVED
 };
 /**
  * @param {string | null} applicationDecision

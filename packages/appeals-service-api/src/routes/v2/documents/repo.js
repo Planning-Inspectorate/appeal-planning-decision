@@ -1,4 +1,5 @@
 const { createPrismaClient } = require('#db-client');
+const { APPEAL_REDACTED_STATUS } = require('pins-data-model');
 
 /**
  * @typedef {import('pins-data-model/src/schemas').AppealDocument} DataModelDocument
@@ -25,7 +26,9 @@ const mapDataModelToFODBDocument = ({
 	datePublished: commonFields.datePublished ? new Date(commonFields.datePublished) : null,
 	stage: caseStage,
 	published: !!commonFields.datePublished,
-	redacted: redactedStatus === 'redacted'
+	redacted:
+		redactedStatus === APPEAL_REDACTED_STATUS.REDACTED ||
+		redactedStatus === APPEAL_REDACTED_STATUS.NO_REDACTION_REQUIRED
 });
 
 module.exports = class Repo {

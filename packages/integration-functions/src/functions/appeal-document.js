@@ -8,8 +8,13 @@
  */
 
 const { app } = require('@azure/functions');
-const VALID_SCAN_STATUSES = ['scanned'];
-const VALID_REDACTED_STATUSES = ['redacted'];
+const { APPEAL_VIRUS_CHECK_STATUS, APPEAL_REDACTED_STATUS } = require('pins-data-model');
+
+const VALID_SCAN_STATUSES = [APPEAL_VIRUS_CHECK_STATUS.SCANNED];
+const VALID_REDACTED_STATUSES = [
+	APPEAL_REDACTED_STATUS.REDACTED,
+	APPEAL_REDACTED_STATUS.NO_REDACTION_REQUIRED
+];
 const createApiClient = require('../common/api-client');
 
 /**

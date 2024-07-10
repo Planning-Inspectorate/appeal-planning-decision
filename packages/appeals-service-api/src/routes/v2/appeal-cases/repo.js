@@ -1,4 +1,5 @@
 const { createPrismaClient } = require('#db-client');
+const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
@@ -14,6 +15,7 @@ const { createPrismaClient } = require('#db-client');
 
 /**
  * get generic appeal data for dashboards
+ * @type {import('@prisma/client').Prisma.AppealCaseSelect}
  */
 const dashboardSelect = {
 	id: true,
@@ -61,6 +63,17 @@ const dashboardSelect = {
 	interestedPartyRepsDueDate: true
 };
 
+/** @type {import('@prisma/client').Prisma.AppealCase$DocumentsArgs} */
+const DocumentsArgsPublishedOnly = {
+	where: {
+		publishedDocumentURI: { not: null }
+	},
+	select: {
+		publishedDocumentURI: true,
+		filename: true
+	}
+};
+
 /**
  * @param {String} caseProcessCode
  * @param {AppealHASCase} dataModel
@@ -76,6 +89,10 @@ const mapHASDataModelToAppealCase = (
 		nearbyCaseReferences: _nearbyCaseReferences,
 		neighbouringSiteAddresses: _neighbouringSiteAddresses,
 		affectedListedBuildingNumbers: _affectedListedBuildingNumbers,
+		caseStatus,
+		caseDecisionOutcome,
+		caseValidationOutcome,
+		lpaQuestionnaireValidationOutcome,
 		caseProcedure,
 		lpaCode,
 		caseSpecialisms,
@@ -88,11 +105,15 @@ const mapHASDataModelToAppealCase = (
 	}
 ) => ({
 	...commonFields,
-	CaseType: {
-		connect: {
-			processCode: caseProcessCode
-		}
-	},
+	CaseStatus: { connect: { key: caseStatus } },
+	CaseDecisionOutcome: caseDecisionOutcome ? { connect: { key: caseDecisionOutcome } } : undefined,
+	CaseValidationOutcome: caseValidationOutcome
+		? { connect: { key: caseValidationOutcome } }
+		: undefined,
+	LPAQuestionnaireValidationOutcome: lpaQuestionnaireValidationOutcome
+		? { connect: { key: lpaQuestionnaireValidationOutcome } }
+		: undefined,
+	CaseType: { connect: { processCode: caseProcessCode } },
 	ProcedureType: {
 		connectOrCreate: {
 			where: {
@@ -134,15 +155,7 @@ class AppealCaseRepository {
 				casePublishedDate: { not: null }
 			},
 			include: {
-				Documents: {
-					where: {
-						publishedDocumentURI: { not: null }
-					},
-					select: {
-						publishedDocumentURI: true,
-						filename: true
-					}
-				},
+				Documents: DocumentsArgsPublishedOnly,
 				AffectedListedBuildings: true,
 				AppealCaseLpaNotificationMethod: true,
 				NeighbouringAddresses: true,
@@ -185,7 +198,10 @@ class AppealCaseRepository {
 		});
 
 		// case relations
+		// nearby cases are referenced both ways
+		// lead/child are only reference from child(1) to lead(2)
 		await this.dbClient.$transaction(async (tx) => {
+			// delete all relations that use this case
 			await tx.appealCaseRelationship.deleteMany({
 				where: {
 					OR: [
@@ -199,6 +215,7 @@ class AppealCaseRepository {
 				}
 			});
 
+			// add nearby references both ways
 			if (data.nearbyCaseReferences?.length) {
 				const direction1 = data.nearbyCaseReferences.map((nearby) => ({
 					caseReference: caseReference,
@@ -214,12 +231,13 @@ class AppealCaseRepository {
 				});
 			}
 
+			// add lead case (only referenced from child(1) -> lead(2))
 			if (data.leadCaseReference) {
 				await tx.appealCaseRelationship.create({
 					data: {
 						caseReference,
 						caseReference2: data.leadCaseReference,
-						type: 'linked' // todo: const this
+						type: CASE_RELATION_TYPES.linked
 					}
 				});
 			}
@@ -227,12 +245,14 @@ class AppealCaseRepository {
 
 		// neighbour addresses
 		await this.dbClient.$transaction(async (tx) => {
+			// delete all of the existing neighbouringAddresses
 			await tx.neighbouringAddress.deleteMany({
 				where: {
 					caseReference: caseReference
 				}
 			});
 
+			// add all
 			if (data.neighbouringSiteAddresses?.length) {
 				await tx.neighbouringAddress.createMany({
 					data: data.neighbouringSiteAddresses.map((address) => ({
@@ -251,6 +271,7 @@ class AppealCaseRepository {
 
 		// listed building
 		await this.dbClient.$transaction(async (tx) => {
+			// delete all of the existing listed buildings
 			await tx.appealCaseListedBuilding.deleteMany({
 				where: {
 					caseReference: caseReference
@@ -258,6 +279,7 @@ class AppealCaseRepository {
 			});
 
 			if (data.affectedListedBuildingNumbers?.length) {
+				// upsert any listed buildings in case they don't already exist
 				await Promise.all(
 					data.affectedListedBuildingNumbers.map((reference) => {
 						return tx.listedBuilding.upsert({
@@ -270,6 +292,14 @@ class AppealCaseRepository {
 					})
 				);
 
+				// delete existing listed buildings
+				await tx.appealCaseListedBuilding.deleteMany({
+					where: {
+						caseReference
+					}
+				});
+
+				// add the links to the listed buildings
 				await tx.appealCaseListedBuilding.createMany({
 					data: data.affectedListedBuildingNumbers.map((reference) => ({
 						caseReference: caseReference,
@@ -281,6 +311,7 @@ class AppealCaseRepository {
 
 		// notifications
 		await this.dbClient.$transaction(async (tx) => {
+			// delete all existing
 			await tx.appealCaseLpaNotificationMethod.deleteMany({
 				where: {
 					caseReference
@@ -288,6 +319,7 @@ class AppealCaseRepository {
 			});
 
 			if (data.notificationMethod?.length) {
+				// add all notification methods
 				await tx.appealCaseLpaNotificationMethod.createMany({
 					data: data.notificationMethod.map((notification) => ({
 						caseReference,
@@ -387,4 +419,4 @@ function addDecidedClauseToQuery(whereArray, decidedOnly) {
 	}
 }
 
-module.exports = { AppealCaseRepository };
+module.exports = { AppealCaseRepository, DocumentsArgsPublishedOnly };

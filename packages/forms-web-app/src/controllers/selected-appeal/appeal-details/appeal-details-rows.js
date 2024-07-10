@@ -9,6 +9,7 @@ const {
 	formatAccessDetails,
 	formatDate
 } = require('@pins/common');
+const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
@@ -23,21 +24,24 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
  */
 
 exports.detailsRows = (caseData, userType) => {
-	const isAppellantOrAgent = userType === (APPEAL_USER_ROLES.APPELLANT || APPEAL_USER_ROLES.AGENT);
+	const isAppellantOrAgent =
+		userType === APPEAL_USER_ROLES.APPELLANT || userType === APPEAL_USER_ROLES.AGENT;
 
 	const agent = caseData.users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.AGENT);
 	const appellant = caseData.users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.APPELLANT);
-	const contact = agent ? agent : appellant;
+	const contactIsAppellant = !!agent; // if no agent than appellant made their own appeal
+	const contact = contactIsAppellant ? appellant : agent;
 
-	const linkedAppeals = formatRelatedAppeals(caseData, 'linked');
+	const linkedAppeals = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked);
 	const showLinked = !!linkedAppeals;
 
 	return [
 		{
-			keyText: isAppellantOrAgent
-				? 'Was the application made in your name?'
-				: "Was the application made in the appellant's name",
-			valueText: boolToYesNo(isAppellantOrAgent),
+			keyText:
+				isAppellantOrAgent && contactIsAppellant // only show first option to appellant themselves
+					? 'Was the application made in your name?'
+					: "Was the application made in the appellant's name",
+			valueText: boolToYesNo(contactIsAppellant),
 			condition: () => true
 		},
 		{
@@ -157,7 +161,9 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
-			valueText: showLinked ? `Yes \n ${formatRelatedAppeals(caseData, 'linked')}` : 'No',
+			valueText: showLinked
+				? `Yes \n ${formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked)}`
+				: 'No',
 			condition: () => showLinked,
 			isEscaped: true
 		},

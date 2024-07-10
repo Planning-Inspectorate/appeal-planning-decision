@@ -1,4 +1,5 @@
 const { format } = require('date-fns');
+const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
 /**
  * @typedef {import("../client/appeals-api-client").AppealCaseDetailed} AppealCaseDetailed
@@ -11,10 +12,16 @@ const { format } = require('date-fns');
 exports.formatYesOrNo = (caseData, propertyName) => boolToYesNo(caseData[propertyName]);
 
 /**
+ * if boolean then will return Yes/No string, otherwise empty string
  * @param {any} check
  * @returns {String}
  */
-const boolToYesNo = (check) => (check ? 'Yes' : 'No');
+const boolToYesNo = (check) => {
+	if (check === false) return 'No';
+	if (check === true) return 'Yes';
+
+	return '';
+};
 
 exports.boolToYesNo = boolToYesNo;
 
@@ -180,11 +187,11 @@ exports.formatSiteSafetyRisks = (caseData) => {
  * @param {AppealCaseDetailed} caseData
  */
 exports.formatProcedurePreference = (caseData) => {
-	if (caseData.lpaProcedurePreference === 'written-representations') {
+	if (caseData.lpaProcedurePreference === APPEAL_CASE_PROCEDURE.WRITTEN) {
 		return `Written representations`;
-	} else if (caseData.lpaProcedurePreference === 'hearing') {
+	} else if (caseData.lpaProcedurePreference === APPEAL_CASE_PROCEDURE.HEARING) {
 		return `Hearing\n${caseData.lpaProcedurePreferenceDetails ?? ''}`;
-	} else if (caseData.lpaProcedurePreference === 'inquiry') {
+	} else if (caseData.lpaProcedurePreference === APPEAL_CASE_PROCEDURE.INQUIRY) {
 		return `Inquiry\n${caseData.lpaProcedurePreferenceDetails ?? ''}\nExpected duration: ${
 			caseData.lpaProcedurePreferenceDuration ?? ''
 		} days`;

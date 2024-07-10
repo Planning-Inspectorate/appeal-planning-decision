@@ -17,14 +17,14 @@ exports.get = async (req, res) => {
 			return;
 		}
 
-		logger.info({ appeals }, 'appeals');
+		logger.debug({ appeals }, 'appeals');
 
 		const undecidedAppeals = appeals
 			.filter(isNotWithdrawn)
 			.map(mapToAppellantDashboardDisplayData)
 			.filter((appeal) => !appeal.appealDecision);
 
-		logger.info({ undecidedAppeals }, 'undecided appeals');
+		logger.debug({ undecidedAppeals }, 'undecided appeals');
 
 		const { toDoAppeals, waitingForReviewAppeals } = undecidedAppeals.reduce(
 			(acc, appeal) => {
@@ -38,8 +38,8 @@ exports.get = async (req, res) => {
 			{ toDoAppeals: [], waitingForReviewAppeals: [] }
 		);
 
-		logger.info({ toDoAppeals }, 'toDoAppeals');
-		logger.info({ waitingForReviewAppeals }, 'waitingForReviewAppeals');
+		logger.debug({ toDoAppeals }, 'toDoAppeals');
+		logger.debug({ waitingForReviewAppeals }, 'waitingForReviewAppeals');
 
 		toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
 		waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);

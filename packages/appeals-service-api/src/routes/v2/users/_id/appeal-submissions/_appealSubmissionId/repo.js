@@ -1,5 +1,6 @@
 const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import("@prisma/client").Prisma.AppealGetPayload<{
@@ -40,7 +41,7 @@ class UserAppealSubmissionRepository {
 					Users: {
 						where: {
 							userId: userId,
-							role: 'appellant'
+							role: APPEAL_USER_ROLES.Appellant
 						}
 					}
 				}

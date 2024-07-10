@@ -10,6 +10,9 @@ const { blobMetaGetter } = require('../../../../src/services/object-store');
 const {
 	createTestAppealCase
 } = require('../../../../__tests__/developer/fixtures/appeals-case-data');
+const {
+	exampleHASDataModel
+} = require('../../../../__tests__/developer/fixtures/appeals-HAS-data-model');
 
 /** @type {import('@prisma/client').PrismaClient} */
 let sqlClient;
@@ -332,12 +335,9 @@ describe('appeal-cases', () => {
 			await _clearSqlData();
 		});
 
-		const example = require('./example.json');
+		const example = { ...exampleHASDataModel };
 
-		let i = 0;
 		for (const testCase of testCases) {
-			if (i > 0) continue;
-			i++;
 			it(`upserts case for ${testCase.caseReference}`, async () => {
 				example.caseReference = testCase.caseReference;
 				const response = await appealsApi
@@ -349,6 +349,7 @@ describe('appeal-cases', () => {
 		}
 
 		it('upserts all relational data', async () => {
+			example.caseReference = testCases[0].caseReference;
 			await appealsApi.put(`/api/v2/appeal-cases/` + testCases[0].caseReference).send(example);
 
 			await sqlClient.appealCaseListedBuilding.create({
@@ -379,9 +380,9 @@ describe('appeal-cases', () => {
 				}
 			});
 
-			expect(appealCase?.AffectedListedBuildings.length).toBe(3);
-			expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2);
-			expect(appealCase?.NeighbouringAddresses.length).toBe(4);
+			expect(appealCase?.AffectedListedBuildings.length).toBe(3); // the number of listed buildings in example json
+			expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
+			expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
 			expect(appealCase?.CaseType?.processCode).toBe('HAS');
 			expect(appealCase?.ProcedureType?.name).toBe('Written');
 
@@ -397,7 +398,7 @@ describe('appeal-cases', () => {
 					]
 				}
 			});
-			expect(appealRelations.length).toBe(5);
+			expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
 		});
 
 		it(`returns 400 for bad requests`, async () => {

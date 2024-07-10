@@ -1,4 +1,7 @@
 const { createPrismaClient } = require('#db-client');
+const { APPEAL_EVENT_TYPE } = require('pins-data-model');
+const { EVENT_TYPES, EVENT_SUB_TYPES } = require('@pins/common/src/constants');
+EVENT_TYPES.SITE_VISIT;
 
 /**
  * @typedef {import('pins-data-model/src/schemas').AppealEvent} DataModelEvent
@@ -6,45 +9,45 @@ const { createPrismaClient } = require('#db-client');
  */
 
 const eventTypeMap = {
-	site_visit_access_required: {
-		type: 'siteVisit',
-		subtype: 'accessRequired'
+	[APPEAL_EVENT_TYPE.SITE_VISIT_ACCESS_REQUIRED]: {
+		type: EVENT_TYPES.SITE_VISIT,
+		subtype: EVENT_SUB_TYPES.ACCESS
 	},
-	site_visit_accompanied: {
-		type: 'siteVisit',
-		subtype: 'accompanied'
+	[APPEAL_EVENT_TYPE.SITE_VISIT_ACCOMPANIED]: {
+		type: EVENT_TYPES.SITE_VISIT,
+		subtype: EVENT_SUB_TYPES.ACCOMPANIED
 	},
-	site_visit_unaccompanied: {
-		type: 'siteVisit',
-		subtype: 'unaccompanied'
+	[APPEAL_EVENT_TYPE.SITE_VISIT_UNACCOMPANIED]: {
+		type: EVENT_TYPES.SITE_VISIT,
+		subtype: EVENT_SUB_TYPES.UNACCOMPANIED
 	},
-	hearing: {
-		type: 'hearing',
+	[APPEAL_EVENT_TYPE.HEARING]: {
+		type: EVENT_TYPES.HEARING,
 		subtype: null
 	},
-	hearing_virtual: {
-		type: 'hearing',
-		subtype: 'virtual'
+	[APPEAL_EVENT_TYPE.HEARING_VIRTUAL]: {
+		type: EVENT_TYPES.HEARING,
+		subtype: EVENT_SUB_TYPES.VIRTUAL
 	},
-	inquiry: {
-		type: 'inquiry',
+	[APPEAL_EVENT_TYPE.INQUIRY]: {
+		type: EVENT_TYPES.INQUIRY,
 		subtype: null
 	},
-	inquiry_virtual: {
-		type: 'inquiry',
-		subtype: 'virtual'
+	[APPEAL_EVENT_TYPE.INQUIRY_VIRTUAL]: {
+		type: EVENT_TYPES.INQUIRY,
+		subtype: EVENT_SUB_TYPES.VIRTUAL
 	},
-	in_house: {
-		type: 'inHouse',
+	[APPEAL_EVENT_TYPE.IN_HOUSE]: {
+		type: EVENT_TYPES.IN_HOUSE,
 		subtype: null
 	},
-	pre_inquiry: {
-		type: 'preInquiry',
+	[APPEAL_EVENT_TYPE.PRE_INQUIRY]: {
+		type: EVENT_TYPES.PRE_INQUIRY,
 		subtype: null
 	},
-	pre_inquiry_virtual: {
-		type: 'preInquiry',
-		subtype: 'virtual'
+	[APPEAL_EVENT_TYPE.PRE_INQUIRY_VIRTUAL]: {
+		type: EVENT_TYPES.PRE_INQUIRY,
+		subtype: EVENT_SUB_TYPES.VIRTUAL
 	}
 };
 

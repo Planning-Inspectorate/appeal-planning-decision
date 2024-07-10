@@ -5,7 +5,7 @@ const {
 const { AppealCaseRepository } = require('./repo');
 const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
 const ApiError = require('#errors/apiError');
-const { CASE_TYPES } = require('@pins/database/src/seed/data-static');
+const { CASE_TYPES } = require('@pins/common/src/database/data-static');
 
 const repo = new AppealCaseRepository();
 const serviceUserRepo = new ServiceUserRepository();

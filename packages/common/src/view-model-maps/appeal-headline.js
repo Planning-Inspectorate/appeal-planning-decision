@@ -1,6 +1,7 @@
-const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('../constants');
 const { formatAddress } = require('../lib/format-address');
-const { CASE_TYPES, PROCEDURE_TYPES } = require('@pins/database/src/seed/data-static');
+const { PROCEDURE_TYPES } = require('../database/data-static');
+const { caseTypeNameWithDefault } = require('../lib/format-case-type');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
@@ -35,7 +36,7 @@ const formatHeadlineData = (caseData, lpaName, userType = APPEAL_USER_ROLES.INTE
 	const headlines = [
 		{
 			key: { text: 'Appeal type' },
-			value: { text: appealTypeCode in CASE_TYPES ? CASE_TYPES[appealTypeCode]?.type : '' }
+			value: { text: caseTypeNameWithDefault(appealTypeCode) }
 		},
 		{
 			key: { text: 'Appeal procedure' },

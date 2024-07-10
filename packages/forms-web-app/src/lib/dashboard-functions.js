@@ -9,8 +9,7 @@ const {
 	isV2Submission
 } = require('@pins/common/src/lib/format-address');
 const { formatDate } = require('#utils/format-date');
-const { CASE_TYPES } = require('@pins/database/src/seed/data-static');
-
+const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
@@ -311,10 +310,7 @@ const getAppealType = (appealCaseData) => {
 		return getAppealTypeNameByTypeCode(appealCaseData?.AppellantSubmission?.appealTypeCode);
 	}
 
-	const caseType =
-		appealCaseData.appealTypeCode in CASE_TYPES
-			? CASE_TYPES[appealCaseData.appealTypeCode].type
-			: '';
+	const caseType = caseTypeNameWithDefault(appealCaseData?.appealTypeCode);
 	return `${caseType} appeal`;
 };
 
