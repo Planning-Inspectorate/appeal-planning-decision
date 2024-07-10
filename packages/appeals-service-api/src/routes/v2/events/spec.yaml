@@ -9,10 +9,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Event'
+              $ref: '#/components/schemas/DataModelEvent'
       responses:
         200:
           description: Created event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
         400:
           description: Bad request
           content:

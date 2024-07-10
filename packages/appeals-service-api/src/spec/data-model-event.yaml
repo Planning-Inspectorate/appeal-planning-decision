@@ -1,0 +1,90 @@
+components:
+  schemas:
+    DataModelEvent:
+      description: An appeal case event
+      type: object
+      required:
+        - eventId
+        - caseReference
+        - eventType
+        - eventName
+        - eventStatus
+        - isUrgent
+        - eventPublished
+        - eventStartDateTime
+        - eventEndDateTime
+        - notificationOfSiteVisit
+        - addressLine1
+        - addressLine2
+        - addressTown
+        - addressCounty
+        - addressPostcode
+      properties:
+        eventId:
+          type: string
+          description: The unique identifier for the event
+        caseReference:
+          type: string
+          description: External case identifier
+        eventType:
+          type: string
+          enum:
+            - site_visit_access_required
+            - site_visit_accompanied
+            - site_visit_unaccompanied
+            - hearing
+            - hearing_virtual
+            - inquiry
+            - inquiry_virtual
+            - in_house
+            - pre_inquiry
+            - pre_inquiry_virtual
+          description: The type of event
+        eventName:
+          type: string
+          description: An optional description / name for the event
+        eventStatus:
+          type: string
+          enum:
+            - withdrawn
+            - in_abeyance
+            - change_of_procedure
+            - new_rescheduled
+            - confirmed
+            - link_to_enforcement
+            - offered
+            - postponed
+          description: Status of the event
+        isUrgent:
+          type: boolean
+          description: Indicates if the event is urgent
+        eventPublished:
+          type: boolean
+          description: Indicates if the event has been published
+        eventStartDateTime:
+          type: string
+          format: date-time
+          description: Event start date and time
+        eventEndDateTime:
+          type: string
+          format: date-time
+          description: Event end date and time
+        notificationOfSiteVisit:
+          type: string
+          format: date-time
+          description: The date third-parties were informed of the site visit event
+        addressLine1:
+          type: string
+          description: First line of address for the event site
+        addressLine2:
+          type: string
+          description: Second line of address for the event site
+        addressTown:
+          type: string
+          description: Town / City of the event address
+        addressCounty:
+          type: string
+          description: County of the event address
+        addressPostcode:
+          type: string
+          description: Postal code of the event address
