@@ -5,10 +5,170 @@ const { submitAppealFlow } = require('../support/flows/appeal');
 describe('Appeal uploads', () => {
 	[
 		{
+			statusOfOriginalApplication: 'granted',
+			typeOfDecisionRequested: 'hearing',
+			statusOfPlanningObligation: 'in draft',
+			typeOfPlanningApplication: 'answer-householder-planning',
+			applicationForm: {
+				applicationMadeByMe: true
+			},
+			finalComments: {
+				check: false, // TODO: set these to true after feature flag introduced
+				uploadAdditionalDocuments: false
+			},
+			expectedFilesAndFoldersInHorizon: [
+				{
+					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+					expectedFileName: 'planning-application-form.pdf'
+				},
+				{
+					expectedFolderHierarchy: [
+						'0 Inspector File',
+						"01 Appelant's Initial Documents",
+						'05 Plans',
+						'01 Application Plans'
+					],
+					expectedFileName: 'plans-drawings-and-supporting-documents.pdf'
+				},
+				{
+					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+					expectedFileName: 'design-and-access-statement.pdf'
+				},
+				{
+					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+					expectedFileName: 'draft-statement-of-common-ground.pdf'
+				},
+				{
+					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+					expectedFileName: 'letter-confirming-planning-application.pdf'
+				},
+				{
+					expectedFolderHierarchy: [
+						'0 Inspector File',
+						"01 Appelant's Initial Documents",
+						'02 Statement and appendicies'
+					],
+					expectedFileName: 'ownership-certificate-and-agricultural-land-declaration.pdf'
+				},
+				{
+					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+					expectedFileName: 'letter-confirming-planning-obligation.pdf'
+				},
+				{
+					expectedFolderHierarchy: [
+						'0 Inspector File',
+						"01 Appelant's Initial Documents",
+						'05 Plans',
+						'02 Plans submitted after LPA decision'
+					],
+					expectedFileName: 'plans-drawings.jpeg'
+				},
+				{
+					expectedFolderHierarchy: ['0 Inspector File', '07 Planning Obligation'],
+					expectedFileName: 'draft-planning-obligation.pdf'
+				},
+				{
+					expectedFolderHierarchy: ['1 Main Party', 'Appellant/Agent/Applicant'],
+					expectedFileName: 'other-supporting-documents.pdf'
+				},
+				{
+					expectedFolderHierarchy: [
+						'0 Inspector File',
+						'05 Final comments',
+						'Appellant final comments'
+					],
+					expectedFileName: 'final-comments.pdf'
+				}
+				
+			]
+		},
+
+		{
 			statusOfOriginalApplication: 'refused',
 			typeOfDecisionRequested: 'hearing',
 			statusOfPlanningObligation: 'in draft',
 			typeOfPlanningApplication: 'answer-householder-planning',
+			applicationForm: {
+				applicationMadeByMe: true
+			},
+			finalComments: {
+				check: false, // TODO: set these to true after feature flag introduced
+				uploadAdditionalDocuments: false
+			},
+			expectedFilesAndFoldersInHorizon: [
+				{
+					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+					expectedFileName: 'planning-application-form.pdf'
+				},
+				{
+					expectedFolderHierarchy: [
+						'0 Inspector File',
+						"01 Appelant's Initial Documents",
+						'05 Plans',
+						'01 Application Plans'
+					],
+					expectedFileName: 'plans-drawings-and-supporting-documents.pdf'
+				},
+				{
+					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+					expectedFileName: 'design-and-access-statement.pdf'
+				},
+				{
+					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+					expectedFileName: 'draft-statement-of-common-ground.pdf'
+				},
+				{
+					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+					expectedFileName: 'letter-confirming-planning-application.pdf'
+				},
+				{
+					expectedFolderHierarchy: [
+						'0 Inspector File',
+						"01 Appelant's Initial Documents",
+						'02 Statement and appendicies'
+					],
+					expectedFileName: 'ownership-certificate-and-agricultural-land-declaration.pdf'
+				},
+				{
+					expectedFolderHierarchy: ['0 Inspector File', "01 Appelant's Initial Documents"],
+					expectedFileName: 'letter-confirming-planning-obligation.pdf'
+				},
+				{
+					expectedFolderHierarchy: [
+						'0 Inspector File',
+						"01 Appelant's Initial Documents",
+						'05 Plans',
+						'02 Plans submitted after LPA decision'
+					],
+					expectedFileName: 'plans-drawings.jpeg'
+				},
+				{
+					expectedFolderHierarchy: ['0 Inspector File', '07 Planning Obligation'],
+					expectedFileName: 'draft-planning-obligation.pdf'
+				},
+				{
+					expectedFolderHierarchy: ['1 Main Party', 'Appellant/Agent/Applicant'],
+					expectedFileName: 'other-supporting-documents.pdf'
+				},
+				{
+					expectedFolderHierarchy: [
+						'0 Inspector File',
+						'05 Final comments',
+						'Appellant final comments'
+					],
+					expectedFileName: 'final-comments.pdf'
+				}
+				
+			]
+		},
+		{
+			statusOfOriginalApplication: 'no decision',
+			typeOfDecisionRequested: 'hearing',
+			statusOfPlanningObligation: 'in draft',
+			typeOfPlanningApplication: 'answer-householder-planning',
+			applicationForm: {
+				applicationMadeByMe: true
+			},
 			finalComments: {
 				check: false, // TODO: set these to true after feature flag introduced
 				uploadAdditionalDocuments: false
@@ -79,6 +239,7 @@ describe('Appeal uploads', () => {
 				
 			]
 		}
+
 
 		// {
 		// 	statusOfOriginalApplication: 'granted',
@@ -259,7 +420,8 @@ describe('Appeal uploads', () => {
 					statusOfOriginalApplication,
 					typeOfDecisionRequested,
 					statusOfPlanningObligation,
-					planning:typeOfPlanningApplication
+					planning:typeOfPlanningApplication,
+					context
 				});
 	
 				if (finalComments.check) {
@@ -426,7 +588,7 @@ describe('Appeal uploads', () => {
 					cy.get('[data-cy="continue"]').click();
 	
 					// Submit
-					cy.get('[data-cy="continue"]').click();
+					cy.get('[data-cy="continue"]').click();                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 				
 				}
 				

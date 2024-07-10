@@ -1,46 +1,41 @@
-const applicationFormPage = require("../pages/applicationFormPage");
-const contactDetailsPage = require("../pages/contactDetailsPage");
-const appealSiteAddressPage = require("../pages/appealSiteAddressPage");
-const siteAreaPage = require("../pages/siteAreaPage");
-const greenBeltPage = require("../pages/greenBeltPage");
-const ownAllLandPage = require("../pages/ownAllLandPage");
-const ownSomeLandPage = require("../pages/ownSomeLandPage");
-const ownsLandInvolvedPage = require("../pages/ownsLandInvolvedPage");
+const applicationFormPage = require("../pages/prepare-appeal/applicationFormPage");
+const applicationNamePage = require("../pages/prepare-appeal/applicationNamePage");
+const contactDetailsPage = require("../pages/prepare-appeal/contactDetailsPage");
+const phoneNumberPage = require("../pages/prepare-appeal/phoneNumberPage");
+const appealSiteAddressPage = require("../pages/prepare-appeal/appealSiteAddressPage");
+const siteAreaPage = require("../pages/prepare-appeal/siteAreaPage");
+const greenBeltPage = require("../pages/prepare-appeal/greenBeltPage");
+const ownAllLandPage = require("../pages/prepare-appeal/ownAllLandPage");
+const ownSomeLandPage = require("../pages/prepare-appeal/ownSomeLandPage");
+const ownsLandInvolvedPage = require("../pages/prepare-appeal/ownsLandInvolvedPage");
 
-module.exports = (statusOfOriginalApplication,planning, siteSelectionId) => {
+module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,context) => {
 	
-	cy.get(siteSelectionId).click();
-	cy.advanceToNextPage();
-
-	let grantedOrRefusedId = '';
-	if (statusOfOriginalApplication === 'refused') {
-		grantedOrRefusedId = '#granted-or-refused-2';
-	} else if (statusOfOriginalApplication === 'no decision') {
-		grantedOrRefusedId = '#granted-or-refused-4';
-	}
+	
 	cy.get(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
 	//cy.wait(2000);
 	let currentDate = new Date();
-	cy.get('#decision-date-day').type(currentDate.getDate() - 1);
+	cy.get('#decision-date-day').type(currentDate.getDate());
 	cy.get('#decision-date-month').type(currentDate.getMonth() + 1);
 	cy.get('#decision-date-year').type(currentDate.getFullYear());
 	cy.advanceToNextPage();
 	//cy.wait(2000);
-	cy.get('#enforcement-notice-2').click();
+	cy.get('[data-cy="answer-no"]').click();
 	cy.advanceToNextPage();
 	//cy.wait(2000);
 
 	cy.advanceToNextPage('Continue to my appeal');
 	//cy.wait(2000);
-	cy.get('#application-number').type(`TEST-${Date.now()}`);
+	cy.get('[data-cy="application-number"]').type(`TEST-${Date.now()}`);
 	cy.advanceToNextPage();
 
 	//cy.get('#email-address').type('appealplanningdecisiontest@planninginspectorate.gov.uk');
 	cy.intercept('POST','/full-appeal/submit-appeal/list-of-documents').as('postRequest');
-	cy.get('#email-address').type('appellant2@planninginspectorate.gov.uk');
+	cy.get('[data-cy="email-address"]').type('appellant2@planninginspectorate.gov.uk');
 	cy.advanceToNextPage();
 	//cy.wait(2000);
+	
 	
 	cy.get('#email-code').type('12345');
 	cy.advanceToNextPage();
@@ -59,18 +54,22 @@ module.exports = (statusOfOriginalApplication,planning, siteSelectionId) => {
 		//cy.log('Test id in task page',dynamicId);
 		applicationFormPage('full-planning','other',dynamicId);
 		//Contact details
-		contactDetailsPage();
+		applicationNamePage(context?.applicationForm?.applicationMadeByMe);
+
+		contactDetailsPage()
+
+		phoneNumberPage();
 		//Site Details
 		appealSiteAddressPage();		
 		//What is the area of the appeal site?
-		siteAreaPage();
+		siteAreaPage(planning,context?.applicationForm?.areaUnits);
 
 		//Is the appeal site in a green belt?(Ans:Yes)
-		greenBeltPage();
+		greenBeltPage(context?.applicationForm?.appellantInGreenBelt);
 		//cy.get('#appellantGreenBelt').click();
 		//cy.advanceToNextPage();
 		//Do you own all the land involved in the appeal?
-		ownAllLandPage();
+		ownAllLandPage(context?.applicationForm?.isOwnsAllLand);
 		// cy.get('#ownsAllLand-2').click();
 		// cy.advanceToNextPage();
 		//Do you own some of the land involved in the appeal?
@@ -83,7 +82,7 @@ module.exports = (statusOfOriginalApplication,planning, siteSelectionId) => {
 		//cy.get('#knowsOtherOwners-2').click();
 		//cy.advanceToNextPage();
 		//Identifying the landowners
-		cy.get('#identifiedOwners').click();
+		cy.get('#identifiedOwners').check();
 		cy.advanceToNextPage();
 		//Advertising your appeal
 		cy.get('#advertisedAppeal').check();
@@ -148,6 +147,11 @@ module.exports = (statusOfOriginalApplication,planning, siteSelectionId) => {
 		//Upload evidence of your agreement to change the description of development
 		cy.uploadFileFromFixtureDirectory('additional-final-comments-1.pdf');
 		cy.advanceToNextPage();
+		if(statusOfOriginalApplication !== 'no decision'){
+			cy.uploadFileFromFixtureDirectory('decision-letter.pdf');
+		cy.advanceToNextPage();
+		}
+
 		cy.get('[data-cy="answer-yes"]').click();
 		cy.advanceToNextPage();	
 		cy.get('[data-cy="answer-finalised"]').click();
@@ -209,6 +213,11 @@ module.exports = (statusOfOriginalApplication,planning, siteSelectionId) => {
 		cy.wait(2000);
 		//Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
 		cy.get('.govuk-button').contains('Accept and submit').click();
+
+		cy.get('.govuk-panel__title').invoke('text').should((text)=>{
+			expect(text.trim()).to.equal('Appeal submitted');
+		});
+
 		//});
 
 		//https://appeals-service-test.planninginspectorate.gov.uk/appeals/full-planning/submit/declaration?id=0781ab81-1682-48a7-8801-6c2ea7bfc737              
