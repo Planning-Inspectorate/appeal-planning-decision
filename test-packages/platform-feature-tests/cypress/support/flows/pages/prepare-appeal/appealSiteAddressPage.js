@@ -1,4 +1,4 @@
-import { AppealSiteAddress } from "../../../page-objects/prepare-appeal/appeal-site-address";
+import { AppealSiteAddress } from "../../../../page-objects/prepare-appeal/appeal-site-address";
 module.exports = () => {
     const appealSiteAddress = new AppealSiteAddress();
 
