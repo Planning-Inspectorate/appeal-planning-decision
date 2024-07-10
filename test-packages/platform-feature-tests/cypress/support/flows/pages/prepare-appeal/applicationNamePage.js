@@ -1,9 +1,10 @@
 import { ApplicationName } from "../../../../page-objects/prepare-appeal/application-name";
-module.exports = (appellant) => {
+module.exports = (isAppellant) => {
     const applicationName = new ApplicationName();
 	//cy.taskListComponent(applicationType,'application-name',dynamicId);
 		//Was the application made in your name?(Ans:No)
-    if(appellant) {
+ 
+    if(isAppellant) {
         applicationName.clickApplicationName('[data-cy="answer-yes"]');        
         cy.advanceToNextPage();
     }
@@ -12,7 +13,7 @@ module.exports = (appellant) => {
         cy.advanceToNextPage();
         applicationName.addApplicationNameField('#appellantFirstName','firstname');
         applicationName.addApplicationNameField('#appellantLastName','lastname');
-  
+        applicationName.addApplicationNameField('#appellantCompanyName','companyname')
         cy.advanceToNextPage();
 
     }
