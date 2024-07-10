@@ -824,6 +824,42 @@ const events = [
 ];
 
 /**
+ * @type {import('@prisma/client').Prisma.InterestedPartyCommentCreateInput[]}
+ */
+const interestedPartyComments = [
+	{
+		id: 'c75d6821-5850-45be-a069-2791fef3d973',
+		comment:
+			'I am IP 1. tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec',
+		AppealCase: {
+			connect: {
+				caseReference: '1010104'
+			}
+		}
+	},
+	{
+		id: 'a90340eb-31f2-45e3-9c55-73cf0eb1dfae',
+		comment:
+			'I am IP 2. senectus et netus et malesuada fames ac turpis egestas integer eget aliquet nibh praesent tristique magna sit amet purus gravida quis blandit',
+		AppealCase: {
+			connect: {
+				caseReference: '1010104'
+			}
+		}
+	},
+	{
+		id: '50271928-4e72-4901-a586-c44e949c8677',
+		comment:
+			'I am IP 3. orci nulla pellentesque dignissim enim sit amet venenatis urna cursus eget nunc scelerisque viverra mauris',
+		AppealCase: {
+			connect: {
+				caseReference: '1010104'
+			}
+		}
+	}
+];
+
+/**
  * @type {import('@prisma/client').Prisma.AppellantSubmissionCreateInput[]}
  */
 const appellantSubmissions = [
@@ -994,6 +1030,14 @@ async function seedDev(dbClient) {
 			create: event,
 			update: event,
 			where: { internalId: event.internalId }
+		});
+	}
+
+	for (const comment of interestedPartyComments) {
+		await dbClient.interestedPartyComment.upsert({
+			create: comment,
+			update: comment,
+			where: { id: comment.id }
 		});
 	}
 
