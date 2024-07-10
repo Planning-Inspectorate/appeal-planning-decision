@@ -10,7 +10,10 @@ const asyncHandler = (requestHandler) => {
 		try {
 			const p = requestHandler(request, response, next);
 			if (p instanceof Promise) {
-				p.catch(next);
+				p.catch((e) => {
+					console.error(e);
+					next(e);
+				});
 			}
 		} catch (e) {
 			// in case a sync function is passed in
