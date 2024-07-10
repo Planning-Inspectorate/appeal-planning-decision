@@ -1,7 +1,9 @@
 const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 const {
-	constants: { DECISION_OUTCOME }
-} = require('@pins/business-rules');
+	APPEAL_CASE_STATUS,
+	APPEAL_CASE_DECISION_OUTCOME,
+	APPEAL_CASE_PROCEDURE
+} = require('pins-data-model');
 
 const lpaAppealIds = {
 	appealOne: '756d6bfb-dde8-4532-a041-86c226a23b01',
@@ -56,7 +58,9 @@ const commonAppealCaseDataProperties = {
 	siteAreaSquareMetres: 22,
 	rule6StatementPublished: true,
 	casePublishedDate: new Date(),
-	caseStatus: 'lpa_questionnaire',
+	CaseStatus: {
+		connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+	},
 	caseSubmittedDate: pickRandom(datesNMonthsAgo(3)),
 	caseCreatedDate: pickRandom(datesNMonthsAgo(3))
 };
@@ -76,9 +80,8 @@ const lpaAppealCaseData = [
 		siteAddressTown: 'No due dates',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
-		ProcedureType: { connect: { key: 'hearing' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.HEARING } },
 		CaseType: { connect: { processCode: 'HAS' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -96,9 +99,8 @@ const lpaAppealCaseData = [
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
 		statementDueDate: pickRandom(datesNMonthsAhead(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
-		ProcedureType: { connect: { key: 'hearing' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.HEARING } },
 		CaseType: { connect: { processCode: 'HAS' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -125,8 +127,10 @@ const lpaAppealCaseData = [
 		newConditionDetails: 'a test development',
 		statusPlanningObligation: 'a test planning status obligation',
 		caseWithdrawnDate: pickRandom(datesNMonthsAgo(1)),
-		caseStatus: 'withdrawn',
-		ProcedureType: { connect: { key: 'hearing' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.WITHDRAWN }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.HEARING } },
 		CaseType: { connect: { processCode: 'S78' } },
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
@@ -151,11 +155,10 @@ const lpaAppealCaseData = [
 		agriculturalHolding: true,
 		siteAccessDetails: JSON.stringify(['Blocked access']),
 		siteSafetyDetails: JSON.stringify(['No issues']),
-		appellantProcedurePreference: 'inquiry',
+		appellantProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
 		appellantProcedurePreferenceDetails: 'Would like longer consideration',
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -185,11 +188,10 @@ const lpaAppealCaseData = [
 		informedTenantsAgriculturalHolding: true,
 		siteAccessDetails: JSON.stringify(['Blocked access']),
 		siteSafetyDetails: JSON.stringify(['No issues']),
-		appellantProcedurePreference: 'inquiry',
+		appellantProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
 		appellantProcedurePreferenceDetails: 'Would like longer consideration',
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -213,9 +215,8 @@ const lpaAppealCaseData = [
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -256,8 +257,10 @@ const lpaAppealCaseData = [
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
-		caseStatus: 'withdrawn',
-		ProcedureType: { connect: { key: 'inquiry' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.WITHDRAWN }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
@@ -279,9 +282,8 @@ const lpaAppealCaseData = [
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAgo(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -304,9 +306,8 @@ const lpaAppealCaseData = [
 		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantCommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -328,8 +329,10 @@ const lpaAppealCaseData = [
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
 		caseWithdrawnDate: pickRandom(datesNMonthsAgo(1)),
-		caseStatus: 'withdrawn',
-		ProcedureType: { connect: { key: 'inquiry' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.WITHDRAWN }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
@@ -351,9 +354,8 @@ const lpaAppealCaseData = [
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -376,9 +378,8 @@ const lpaAppealCaseData = [
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -400,13 +401,14 @@ const lpaAppealCaseData = [
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED,
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
+		},
 		caseDecisionPublishedDate: pickRandom(datesNMonthsAgo(1)),
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -428,13 +430,14 @@ const lpaAppealCaseData = [
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		caseDecisionOutcome: DECISION_OUTCOME.DISMISSED,
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.DISMISSED }
+		},
 		caseDecisionPublishedDate: pickRandom(datesNMonthsAgo(1)),
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseStatus: 'lpa_questionnaire',
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -465,7 +468,9 @@ const lpaAppealCaseData = [
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
-		caseDecisionOutcome: DECISION_OUTCOME.SPLIT_DECISION,
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION }
+		},
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(1)),
 		caseDecisionPublishedDate: pickRandom(datesNMonthsAgo(1)),
 		// questionnaire details
@@ -514,15 +519,17 @@ const lpaAppealCaseData = [
 		lpaSiteSafetyRisks: true,
 		lpaSiteSafetyRiskDetails: 'Example text',
 		// appeal process
-		lpaProcedurePreference: 'inquiry',
+		lpaProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
 		lpaPreferInquiryDetails: 'Example preference',
 		lpaPreferInquiryDuration: '6',
 		changedDevelopmentDescription: true,
 		newConditionDetails: 'Example new conditions',
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseStatus: 'lpa_questionnaire',
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -561,11 +568,13 @@ const lpaAppealCaseData = [
 		informedTenantsAgriculturalHolding: true,
 		siteAccessDetails: JSON.stringify(['Blocked access']),
 		siteSafetyDetails: null,
-		appellantProcedurePreference: 'Inquiry',
+		appellantProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
 		appellantProcedurePreferenceDetails: 'Would like longer consideration',
-		ProcedureType: { connect: { key: 'inquiry' } },
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'HAS' } },
-		caseStatus: 'lpa_questionnaire',
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3)),
 		caseCreatedDate: pickRandom(datesNMonthsAgo(3))
 	}

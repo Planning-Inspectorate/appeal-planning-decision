@@ -1,4 +1,4 @@
-const { DECISION_OUTCOME } = require('../constants');
+const { APPEAL_CASE_DECISION_OUTCOME } = require('pins-data-model');
 
 /**
  * Map an appeal decision outcome to it's corresponding tag colour
@@ -8,9 +8,9 @@ const { DECISION_OUTCOME } = require('../constants');
  */
 function mapDecisionColour(decision) {
 	const decisionColourMap = new Map([
-		[DECISION_OUTCOME.ALLOWED, 'green'],
-		[DECISION_OUTCOME.DISMISSED, 'yellow'],
-		[DECISION_OUTCOME.SPLIT_DECISION, 'orange']
+		[APPEAL_CASE_DECISION_OUTCOME.ALLOWED, 'green'],
+		[APPEAL_CASE_DECISION_OUTCOME.DISMISSED, 'yellow'],
+		[APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION, 'orange']
 	]);
 
 	return (decision && decisionColourMap.get(decision)) || 'grey';
@@ -23,12 +23,12 @@ function mapDecisionColour(decision) {
  * @returns {string | null}
  */
 const mapDecisionLabel = (decision) => {
-	if (!decision || decision === 'invalid') return null;
+	if (!decision || decision === APPEAL_CASE_DECISION_OUTCOME.INVALID) return null;
 
 	const labels = {
-		[DECISION_OUTCOME.ALLOWED]: 'Allowed',
-		[DECISION_OUTCOME.SPLIT_DECISION]: 'Allowed in part',
-		[DECISION_OUTCOME.DISMISSED]: 'Dismissed'
+		[APPEAL_CASE_DECISION_OUTCOME.ALLOWED]: 'Allowed',
+		[APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION]: 'Allowed in part',
+		[APPEAL_CASE_DECISION_OUTCOME.DISMISSED]: 'Dismissed'
 	};
 
 	return labels[decision];
@@ -41,7 +41,7 @@ const mapDecisionLabel = (decision) => {
  * @returns {{ color: string, label: string | null } | null}
  */
 const mapDecisionTag = (decision) => {
-	if (!decision || decision === 'invalid') return null;
+	if (!decision || decision === APPEAL_CASE_DECISION_OUTCOME.INVALID) return null;
 
 	return {
 		color: mapDecisionColour(decision),

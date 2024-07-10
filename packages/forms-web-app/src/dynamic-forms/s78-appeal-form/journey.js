@@ -8,6 +8,8 @@ const {
 	questionHasNonEmptyNumberAnswer
 } = require('../dynamic-components/utils/question-has-answer');
 
+const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+
 const baseS78SubmissionUrl = '/appeals/full-planning';
 const taskListUrl = 'appeal-form/your-appeal';
 const s78JourneyTemplate = 'submission-form-template.njk';
@@ -175,17 +177,26 @@ class S78AppealFormJourney extends Journey {
 				.addQuestion(questions.updateDevelopmentDescription)
 				.addQuestion(questions.appellantProcedurePreference)
 				.addQuestion(questions.appellantPreferHearing)
-				.withCondition(questionHasAnswer(questions.appellantProcedurePreference, 'hearing'))
+				.withCondition(
+					questionHasAnswer(questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.HEARING)
+				)
 				.addQuestion(questions.appellantPreferInquiry)
-				.withCondition(questionHasAnswer(questions.appellantProcedurePreference, 'inquiry'))
+				.withCondition(
+					questionHasAnswer(questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.INQUIRY)
+				)
 				.addQuestion(questions.inquiryHowManyDays)
 				.withCondition(
-					questionHasAnswer(questions.appellantProcedurePreference, 'inquiry') &&
-						questionHasNonEmptyString(questions.appellantPreferInquiry)
+					questionHasAnswer(
+						questions.appellantProcedurePreference,
+						APPEAL_CASE_PROCEDURE.INQUIRY
+					) && questionHasNonEmptyString(questions.appellantPreferInquiry)
 				)
 				.addQuestion(questions.inquiryHowManyWitnesses)
 				.withCondition(
-					questionHasAnswer(questions.appellantProcedurePreference, 'inquiry') &&
+					questionHasAnswer(
+						questions.appellantProcedurePreference,
+						APPEAL_CASE_PROCEDURE.INQUIRY
+					) &&
 						questionHasNonEmptyString(questions.appellantPreferInquiry) &&
 						questionHasNonEmptyNumber(questions.inquiryHowManyDays)
 				)
@@ -219,8 +230,8 @@ class S78AppealFormJourney extends Journey {
 				.withCondition(
 					questionsHaveAnswers(
 						[
-							[questions.appellantProcedurePreference, 'hearing'],
-							[questions.appellantProcedurePreference, 'inquiry']
+							[questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.HEARING],
+							[questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.INQUIRY]
 						],
 						{ logicalCombinator: 'or' }
 					)

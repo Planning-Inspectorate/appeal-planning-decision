@@ -139,7 +139,7 @@ paths:
               properties:
                 role:
                   type: string
-                  enum: ['appellant', 'agent', 'interestedParty']
+                  enum: ['Appellant', 'Agent', 'InterestedParty']
       responses:
         200:
           description: Created role

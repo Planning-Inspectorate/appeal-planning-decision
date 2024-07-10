@@ -1,3 +1,5 @@
+const { APPEAL_CASE_STATUS } = require('pins-data-model');
+
 /**
  * @param {string} caseRef
  * @param {string} caseType
@@ -32,7 +34,9 @@ function createTestAppealCase(
 		caseDecisionPublishedDate: null,
 		caseCreatedDate: now,
 		caseSubmittedDate: now,
-		caseStatus: 'lpa_questionnaire'
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+		}
 	};
 }
 

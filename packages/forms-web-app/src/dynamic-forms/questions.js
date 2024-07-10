@@ -6,6 +6,7 @@
  *************************************************************/
 
 const { add, sub, format: formatDate } = require('date-fns');
+const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
 const CheckboxQuestion = require('./dynamic-components/checkbox/question');
 const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
@@ -532,15 +533,15 @@ exports.questions = {
 		options: [
 			{
 				text: 'Written representations',
-				value: 'written-representations'
+				value: APPEAL_CASE_PROCEDURE.WRITTEN
 			},
 			{
 				text: 'Hearing',
-				value: 'hearing'
+				value: APPEAL_CASE_PROCEDURE.HEARING
 			},
 			{
 				text: 'Inquiry',
-				value: 'inquiry',
+				value: APPEAL_CASE_PROCEDURE.INQUIRY,
 				conditional: {
 					question: 'How many days would you expect the inquiry to last?',
 					// fieldName: 'inquiry-duration',
@@ -1940,21 +1941,21 @@ exports.questions = {
 		options: [
 			{
 				text: 'Written representations',
-				value: 'written representations',
+				value: APPEAL_CASE_PROCEDURE.WRITTEN,
 				hint: {
 					text: 'For appeals where the issues are clear from written statements and a site visit. This is the quickest and most common way to make an appeal.'
 				}
 			},
 			{
 				text: 'Hearing',
-				value: 'hearing',
+				value: APPEAL_CASE_PROCEDURE.HEARING,
 				hint: {
 					text: 'For appeals with more complex issues. The Inspector leads a discussion to answer questions they have about the appeal.'
 				}
 			},
 			{
 				text: 'Inquiry',
-				value: 'inquiry',
+				value: APPEAL_CASE_PROCEDURE.INQUIRY,
 				hint: {
 					text: 'For appeals with very complex issues. Appeal evidence is tested by legal representatives, who question witnesses under oath.'
 				}

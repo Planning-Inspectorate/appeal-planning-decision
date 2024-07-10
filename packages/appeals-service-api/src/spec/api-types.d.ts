@@ -516,7 +516,7 @@ export interface AppealToUser {
 	 */
 	appealId: string;
 	/** Role user has on the appeal */
-	role: 'appellant' | 'agent' | 'interestedParty';
+	role: 'Appellant' | 'Agent' | 'InterestedParty';
 }
 
 /** An appeal user */

@@ -4,13 +4,14 @@ const {
 	formatConditions,
 	formatRelatedAppeals
 } = require('@pins/common');
+const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
 exports.appealProcessRows = (caseData) => {
-	const formattedNearby = formatRelatedAppeals(caseData, 'nearby');
+	const formattedNearby = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.nearby);
 	const showNearby = !!formattedNearby;
 
 	return [

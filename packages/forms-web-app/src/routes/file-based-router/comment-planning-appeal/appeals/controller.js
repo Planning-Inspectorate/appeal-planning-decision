@@ -5,6 +5,7 @@ const {
 	sortByCaseReference
 } = require('#utils/appeal-sorting');
 const { formatAddress } = require('@pins/common/src/lib/format-address');
+const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 /** @type {import('express').RequestHandler} */
 const appeals = async (req, res) => {
@@ -19,8 +20,8 @@ const appeals = async (req, res) => {
 		return res.redirect(`appeal-search-no-results?search=${postcode}&type=postcode`);
 	}
 
-	postcodeSearchResults.map((appeal) => {
-		const appellant = appeal.users.find((x) => x.serviceUserType === 'Appellant');
+	postcodeSearchResults.forEach((appeal) => {
+		const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
 		if (appellant) {
 			appeal.appellantFirstName = appellant.firstName;
 			appeal.appellantLastName = appellant.lastName;
