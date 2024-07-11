@@ -46,6 +46,7 @@ describe('controllers/document', () => {
 		};
 
 		req.params.appealOrQuestionnaireId = req.session.appeal.id;
+		req.params.documentId = '12345';
 	});
 
 	describe('getDocument', () => {
