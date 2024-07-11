@@ -2,7 +2,11 @@ const { initContainerClient, documentTypes } = require('@pins/common');
 const { blobMetaGetter } = require('../../../services/object-store');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
-const { APPEAL_APPLICATION_DECISION, SERVICE_USER_TYPE } = require('pins-data-model');
+const {
+	APPEAL_APPLICATION_DECISION,
+	SERVICE_USER_TYPE,
+	APPEAL_DOCUMENT_TYPE
+} = require('pins-data-model');
 
 /**
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -33,18 +37,21 @@ const { APPEAL_APPLICATION_DECISION, SERVICE_USER_TYPE } = require('pins-data-mo
 
 /** @type {{ [key: string]: DataModelDocumentTypes }} */
 const documentTypeMap = {
-	[documentTypes.uploadCostApplication.name]: 'appellantCostsApplication',
-	[documentTypes.uploadAppellantStatement.name]: 'appellantStatement',
-	[documentTypes.uploadApplicationDecisionLetter.name]: 'applicationDecisionLetter',
-	[documentTypes.uploadChangeOfDescriptionEvidence.name]: 'changedDescription',
-	[documentTypes.uploadOriginalApplicationForm.name]: 'originalApplicationForm',
-	[documentTypes.whoWasNotified.name]: 'whoNotified',
-	[documentTypes.uploadSiteNotice.name]: 'whoNotifiedSiteNotice',
-	[documentTypes.uploadLettersToNeighbours.name]: 'whoNotifiedLetterToNeighbours',
-	[documentTypes.pressAdvertUpload.name]: 'whoNotifiedPressAdvert',
-	[documentTypes.conservationMap.name]: 'conservationMap',
-	[documentTypes.representationUpload.name]: 'otherPartyRepresentations',
-	[documentTypes.planningOfficersReportUpload.name]: 'planningOfficerReport'
+	[documentTypes.uploadCostApplication.name]: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION,
+	[documentTypes.uploadAppellantStatement.name]: APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT,
+	[documentTypes.uploadApplicationDecisionLetter.name]:
+		APPEAL_DOCUMENT_TYPE.APPLICATION_DECISION_LETTER,
+	[documentTypes.uploadChangeOfDescriptionEvidence.name]: APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION,
+	[documentTypes.uploadOriginalApplicationForm.name]:
+		APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM,
+	[documentTypes.whoWasNotified.name]: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED,
+	[documentTypes.uploadSiteNotice.name]: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_SITE_NOTICE,
+	[documentTypes.uploadLettersToNeighbours.name]:
+		APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_LETTER_TO_NEIGHBOURS,
+	[documentTypes.pressAdvertUpload.name]: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_PRESS_ADVERT,
+	[documentTypes.conservationMap.name]: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
+	[documentTypes.representationUpload.name]: APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS,
+	[documentTypes.planningOfficersReportUpload.name]: APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT
 };
 
 const getBlobMeta = blobMetaGetter(initContainerClient);
