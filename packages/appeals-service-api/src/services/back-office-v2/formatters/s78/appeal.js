@@ -81,6 +81,7 @@ exports.formatter = async (appellantSubmission) => {
 			siteSafetyDetails: [
 				appellantSubmission.appellantSiteSafety_appellantSiteSafetyDetails
 			].filter(Boolean),
+			isGreenBelt: appellantSubmission.appellantGreenBelt ?? null,
 			siteAreaSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) ?? null,
 			floorSpaceSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) ?? null,
 			ownsAllLand: appellantSubmission.ownsAllLand ?? null,

@@ -81,6 +81,7 @@ exports.formatter = async (appellantSubmission) => {
 			siteSafetyDetails: [
 				appellantSubmission.appellantSiteSafety_appellantSiteSafetyDetails
 			].filter(Boolean),
+			isGreenBelt: appellantSubmission.appellantGreenBelt ?? null,
 			siteAreaSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) ?? null,
 			floorSpaceSquareMetres: Number(appellantSubmission.siteAreaSquareMetres) ?? null,
 			ownsAllLand: appellantSubmission.ownsAllLand ?? null,
@@ -95,8 +96,7 @@ exports.formatter = async (appellantSubmission) => {
 				({ caseReference }) => caseReference
 			),
 			neighbouringSiteAddresses: null, // added by the LPA later I believe
-			appellantCostsAppliedFor: appellantSubmission.costApplication ?? null,
-			isGreenBelt: appellantSubmission.appellantGreenBelt
+			appellantCostsAppliedFor: appellantSubmission.costApplication ?? null
 		},
 		documents: await getDocuments(appellantSubmission),
 		users: formatApplicationSubmissionUsers(appellantSubmission)
