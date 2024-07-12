@@ -9,6 +9,8 @@ const { getDepartmentFromCode } = require('../../../../../services/department.se
 const selectedAppeal = async (req, res) => {
 	const appealNumber = req.params.appealNumber;
 
+	req.session.appealNumber = appealNumber;
+
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(appealNumber);
 
 	const lpa = await getDepartmentFromCode(appeal.LPACode);
