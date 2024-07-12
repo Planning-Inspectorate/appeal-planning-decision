@@ -138,6 +138,11 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
 };
 
 const removeDocument = async (appealOrQuestionnaireId, documentId) => {
+	if (!uuid.validate(appealOrQuestionnaireId) || !uuid.validate(documentId)) {
+		const msg = 'Invalid delete document parameters';
+		throw new Error(msg);
+	}
+
 	return await handler(
 		`${config.documents.url}/api/v1/${appealOrQuestionnaireId}/${documentId}`,
 		'DELETE',
