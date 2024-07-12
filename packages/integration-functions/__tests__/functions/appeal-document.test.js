@@ -49,6 +49,7 @@ const testData = {
 describe('appeal-document', () => {
 	const ctx = new InvocationContext({ functionName: 'appeal-document' });
 	ctx.log = jest.fn();
+	ctx.debug = jest.fn();
 	const mockClient = {
 		putAppealDocument: jest.fn(),
 		deleteAppealDocument: jest.fn()
@@ -66,7 +67,7 @@ describe('appeal-document', () => {
 	it('should send valid message to api', async () => {
 		const result = await handler(testData, ctx);
 
-		expect(ctx.log).toHaveBeenCalledWith('Handle document metadata message', testData);
+		expect(ctx.debug).toHaveBeenCalledWith('Handle document metadata message', testData);
 		expect(ctx.log).toHaveBeenCalledWith('Sending document metadata message to API');
 		expect(mockClient.putAppealDocument).toHaveBeenCalledWith(testData);
 		expect(ctx.log).toHaveBeenCalledWith(`Finished handling: ${testData.documentId}`);
@@ -142,7 +143,7 @@ describe('appeal-document', () => {
 			triggerMetadata: { applicationProperties: { type: 'Delete' } }
 		});
 
-		expect(ctx.log).toHaveBeenCalledWith('Handle document metadata message', testData);
+		expect(ctx.debug).toHaveBeenCalledWith('Handle document metadata message', testData);
 		expect(ctx.log).not.toHaveBeenCalledWith('Sending document metadata message to API');
 		expect(mockClient.deleteAppealDocument).toHaveBeenCalledWith(testData.documentId);
 		expect(ctx.log).toHaveBeenCalledWith(`Finished handling: ${testData.documentId}`);
