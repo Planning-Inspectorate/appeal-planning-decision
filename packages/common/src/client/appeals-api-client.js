@@ -551,7 +551,8 @@ class AppealsApiClient {
 	 */
 	async confirmUserOwnsAppellantSubmission(id) {
 		const endpoint = `${v2}/appellant-submissions/${id}/confirm-ownership`;
-		return (await this.#makeGetRequest(endpoint)).json();
+		const response = await this.#makeGetRequest(endpoint);
+		return response.status === 200;
 	}
 
 	/**
