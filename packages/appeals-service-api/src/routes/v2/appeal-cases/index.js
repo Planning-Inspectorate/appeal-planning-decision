@@ -9,7 +9,6 @@ const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const { openApiValidatorMiddleware } = require('../../../validators/validate-open-api');
 const router = express.Router();
 
-// todo, apply auth check to all endpoints, requires use of req.appealsApiClient throughout front end
 router.use(
 	auth({
 		issuerBaseURL: `${config.auth.authServerUrl}${AUTH.OIDC_ENDPOINT}`,
