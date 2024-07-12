@@ -1,6 +1,7 @@
 const { questions } = require('../questions');
 const { Journey } = require('../journey');
 const { Section } = require('../section');
+const { questionHasAnswerBuilder } = require('../dynamic-components/utils/question-has-answer');
 
 const baseHASUrl = '/manage-appeals/questionnaire';
 const hasJourneyTemplate = 'questionnaire-template.njk';
@@ -18,7 +19,7 @@ const journeyTitle = 'Manage your appeals';
 class HasJourney extends Journey {
 	/**
 	 * creates an instance of a HAS Journey
-	 * @param {JourneyResponse} response - an onject that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
+	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
 	 */
 	constructor(response) {
 		super({
@@ -28,6 +29,8 @@ class HasJourney extends Journey {
 			listingPageViewPath: listingPageViewPath,
 			journeyTitle: journeyTitle
 		});
+
+		const questionHasAnswer = questionHasAnswerBuilder(response);
 
 		this.sections.push(
 			new Section('Constraints, designations and other issues', 'constraints')
@@ -47,17 +50,11 @@ class HasJourney extends Journey {
 				.addQuestion(questions.whoWasNotified)
 				.addQuestion(questions.howYouNotifiedPeople)
 				.addQuestion(questions.uploadSiteNotice)
-				.withCondition(
-					response.answers && response.answers[questions.displaySiteNotice.fieldName] == 'yes'
-				)
-				.addQuestion(questions.uploadLettersToNeighbours)
-				.withCondition(
-					response.answers && response.answers[questions.lettersToNeighbours.fieldName] == 'yes'
-				)
+				.withCondition(questionHasAnswer(questions.howYouNotifiedPeople, 'site-notice'))
+				.addQuestion(questions.uploadNeighbourLetterAddresses)
+				.withCondition(questionHasAnswer(questions.howYouNotifiedPeople, 'letters-or-emails'))
 				.addQuestion(questions.pressAdvertUpload)
-				.withCondition(
-					response.answers && response.answers[questions.pressAdvert.fieldName] == 'yes'
-				),
+				.withCondition(questionHasAnswer(questions.howYouNotifiedPeople, 'advert')),
 			new Section('Consultation responses and representations', 'consultation')
 				.addQuestion(questions.representationsFromOthers)
 				.addQuestion(questions.representationUpload)
