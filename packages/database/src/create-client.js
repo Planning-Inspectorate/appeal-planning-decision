@@ -47,7 +47,7 @@ const createClient = (prismaConfig, logger) => {
 		const logError = (e) => logger.error({ e }, 'Prisma error');
 
 		/** @param {import('@prisma/client').Prisma.LogEvent} e */
-		const logInfo = (e) => logger.info({ e });
+		const logInfo = (e) => logger.debug({ e });
 
 		/** @param {import('@prisma/client').Prisma.LogEvent} e */
 		const logWarn = (e) => logger.warn({ e });

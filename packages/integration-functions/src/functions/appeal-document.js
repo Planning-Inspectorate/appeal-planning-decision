@@ -25,7 +25,7 @@ const createApiClient = require('../common/api-client');
  * @type {import('@azure/functions').ServiceBusTopicHandler}
  */
 const handler = async (message, context) => {
-	context.log('Handle document metadata message', message);
+	context.debug('Handle document metadata message', message);
 	await processDocumentMetadata(context, message);
 	return {};
 };
