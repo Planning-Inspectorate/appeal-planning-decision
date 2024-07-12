@@ -16,12 +16,6 @@ const { getUserFromSession } = require('../services/user.service');
 const getDocument = async (req, res) => {
 	const { appealOrQuestionnaireId, documentId } = req.params;
 
-	if (appealOrQuestionnaireId.includes('../') || documentId.includes('../')) {
-		logger.error('Invalid parameters');
-		res.sendStatus(400);
-		return;
-	}
-
 	try {
 		const lpaUser = getUserFromSession(req);
 		// lpa users
@@ -87,12 +81,6 @@ const getDocument = async (req, res) => {
  */
 const getDocumentV2 = async (req, res) => {
 	const { appealOrQuestionnaireId, documentId } = req.params;
-
-	if (appealOrQuestionnaireId.includes('../') || documentId.includes('../')) {
-		logger.error('Invalid parameters');
-		res.sendStatus(400);
-		return;
-	}
 
 	try {
 		// Following code is not used at present, as this function only used by appellant to download pdf

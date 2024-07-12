@@ -147,8 +147,16 @@ const removeDocument = async (appealOrQuestionnaireId, documentId) => {
 	);
 };
 
-const fetchDocument = (appealOrQuestionnaireId, documentId) =>
-	handler(`${config.documents.url}/api/v1/${appealOrQuestionnaireId}/${documentId}/file`);
+const fetchDocument = async (appealOrQuestionnaireId, documentId) => {
+	if (!uuid.validate(appealOrQuestionnaireId) || !uuid.validate(documentId)) {
+		const msg = 'Invalid fetch document parameters';
+		throw new Error(msg);
+	}
+
+	return await handler(
+		`${config.documents.url}/api/v1/${appealOrQuestionnaireId}/${documentId}/file`
+	);
+};
 
 module.exports = {
 	createDocument,
