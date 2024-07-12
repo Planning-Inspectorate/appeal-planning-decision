@@ -102,6 +102,8 @@ const getDocumentV2 = async (req, res) => {
 		// 	return await returnResult(headers, body, res);
 		// }
 
+		logger.info('Confirming user owns appellant submission');
+
 		const userOwnsAppeal = await apiClient.confirmUserOwnsAppellantSubmission(
 			appealOrQuestionnaireId
 		);
@@ -111,6 +113,8 @@ const getDocumentV2 = async (req, res) => {
 			res.sendStatus(403);
 			return;
 		}
+
+		logger.info('Attempting to fetch document');
 
 		const { headers, body } = await fetchDocument(appealOrQuestionnaireId, documentId);
 		return await returnResult(headers, body, res);
