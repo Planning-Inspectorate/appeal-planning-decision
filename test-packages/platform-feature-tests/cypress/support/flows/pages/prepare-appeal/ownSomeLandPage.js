@@ -18,9 +18,7 @@ module.exports = (isOwnsSomeLand,context) => {
         ownSomeLand.clickOwnSomeLand('[data-cy="answer-no"]');     
         cy.advanceToNextPage(); 
         ownsLandInvolved(context?.applicationForm?.knowsAllOwners)
-        //ownsLandInvolvedPage.clickOwnsLandInvolved('[data-cy="answer-yes"]');  
-       
-
+        //ownsLandInvolvedPage.clickOwnsLandInvolved('[data-cy="answer-yes"]');
     } 
     
 };

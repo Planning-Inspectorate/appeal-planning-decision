@@ -3,6 +3,6 @@ export class TellingTenants {
         checkBox: () => cy.get('[data-cy="answer-yes"]')};	
 
     checkTellingTenants(informedTenantsAgriculturalHolding) {       
-        this.tellingTenantsElements.checkBox().check(informedTenantsAgriculturalHolding);    
+        this.tellingTenantsElements.checkBox(informedTenantsAgriculturalHolding).check();    
     }
  };

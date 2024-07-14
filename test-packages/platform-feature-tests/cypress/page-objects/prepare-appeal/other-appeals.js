@@ -3,8 +3,7 @@ export class OtherAppeals {
         clickRadioBtn:(radioId) =>cy.get(radioId)	};	
 
     clickOtherAppeals(appellantLinkedCase) {
-        this.otherAppealsElements.clickRadioBtn(appellantLinkedCase).click();
-    
+        this.otherAppealsElements.clickRadioBtn(appellantLinkedCase).click();    
     }
  };
 

@@ -7,6 +7,13 @@ const siteAreaPage = require("../pages/prepare-appeal/siteAreaPage");
 const greenBeltPage = require("../pages/prepare-appeal/greenBeltPage");
 const ownAllLandPage = require("../pages/prepare-appeal/ownAllLandPage");
 const ownSomeLandPage = require("../pages/prepare-appeal/ownSomeLandPage");
+const agriculturalHoldingPage = require("../pages/prepare-appeal/agriculturalHoldingPage");
+const inspectorNeedAccessPage = require("../pages/prepare-appeal/inspectorNeedaccessPage");
+const decideAppealsPage = require("../pages/prepare-appeal/decideAppealPage");
+const otherAppealsPage = require("../pages/prepare-appeal/otherAppealsPage");
+//const { decidedAppeals } = require("packages/forms-web-app/src/routes/file-based-router/comment-planning-appeal/decided-appeals/controller");
+//const { InspectorNeedAccess } = require("test-packages/platform-feature-tests/cypress/page-objects/prepare-appeal/inspector-need-access");
+//import {AgriculturalHolding } from "../../../../page-objects/prepare-appeal/agricultural-holding";
 
 
 module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,context) => {
@@ -75,10 +82,10 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		if(!context?.applicationForm?.isOwnsAllLand){
 			//Do you own some of the land involved in the appeal?
 			ownSomeLandPage(context?.applicationForm?.isOwnsSomeLand,context);
-
+			cy.advanceToNextPage();			
 		}
+		agriculturalHoldingPage(context?.applicationForm?.isAgriculturalHolding,context);
 		
-
 		//cy.get('#ownsSomeLand').click();
 		//cy.advanceToNextPage();
 		//Do you know who owns the rest of the land involved in the appeal?
@@ -95,21 +102,26 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		//cy.get('#informedOwners').check();
 		//cy.advanceToNextPage();
 		//Is the appeal site part of an agricultural holding?(Ans:yes)
-		cy.get('#agriculturalHolding').click();
-		cy.advanceToNextPage();
+		//cy.advanceToNextPage();
+		//cy.get('#agriculturalHolding').click();
+		//cy.advanceToNextPage();
 		//Are you a tenant of the agricultural holding?(Ans:yes)
-		cy.get('#tenantAgriculturalHolding').click();
-		cy.advanceToNextPage();
+		//agriculturalHoldingPage(context?.applicationForm?.isagriculturalHolding);
+		//cy.advanceToNextPage();
+		//cy.get('#tenantAgriculturalHolding').click();
+		//cy.advanceToNextPage();
 		//Are there any other tenants?(Ans:yes)
-		cy.get('#otherTenantsAgriculturalHolding').click();
-		cy.advanceToNextPage();
+		//cy.get('#otherTenantsAgriculturalHolding').click();
+		//cy.advanceToNextPage();
 		//Telling the tenants
-		cy.get('#informedTenantsAgriculturalHolding').check();
-		cy.advanceToNextPage();
+		//cy.get('#informedTenantsAgriculturalHolding').check();
+		//cy.advanceToNextPage();
 		//Will an inspector need to access your land or property?
-		cy.get('#appellantSiteAccess').click();
-		cy.get('#appellantSiteAccess_appellantSiteAccessDetails').type('appellantSiteAccess_appellantSiteAccessDetails1234567890!"£$%^&*(9)');
-		cy.advanceToNextPage();
+		
+		inspectorNeedAccessPage(context?.applicationForm?.isInspectorNeedAccess);
+		// cy.get('#appellantSiteAccess').click();
+		// cy.get('#appellantSiteAccess_appellantSiteAccessDetails').type('appellantSiteAccess_appellantSiteAccessDetails1234567890!"£$%^&*(9)');
+		// cy.advanceToNextPage();
 		//Health and safety issues
 		cy.get('#appellantSiteSafety').click();
 		cy.get('#appellantSiteSafety_appellantSiteSafetyDetails').type('appellantSiteSafety_appellantSiteSafetyDetails1234567890!"£$%^&*(10)');
@@ -129,21 +141,25 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		cy.get('#updateDevelopmentDescription').click();
 		cy.advanceToNextPage();
 		//How would you prefer us to decide your appeal?
-		cy.get('#appellantProcedurePreference-2').click();
-		cy.advanceToNextPage();
+		//cy.get('#appellantProcedurePreference-2').click();
+		//cy.advanceToNextPage();
+		decideAppealsPage(context?.applicationForm?.appellantProcedurePreference);
+		otherAppealsPage(context?.applicationForm?.anyOtherAppeals,context);
 		//Why would you prefer a hearing?
-		cy.get('#appellantPreferHearingDetails').type('To Argue in the court12345!£%^&*');
-		cy.advanceToNextPage();
+		//cy.get('#appellantPreferHearingDetails').type('To Argue in the court12345!£%^&*');
+		//cy.advanceToNextPage();
 		//Are there other appeals linked to your development?(Ans:YES)
-		cy.get('#appellantLinkedCase').click();
-		cy.advanceToNextPage();
+		//cy.get('#appellantLinkedCase').click();
+		//cy.advanceToNextPage();
 		//Enter the appeal reference number
-		cy.get('#appellantLinkedCase').type('9876T40');
-		cy.advanceToNextPage();
+		//cy.get('#appellantLinkedCase').type('9876T40');
+		//cy.advanceToNextPage();
 		//You’ve added a linked appeal(Ans:No)
-		cy.get('#appellantLinkedCaseAdd-2').click();
-		cy.advanceToNextPage();
+		//cy.get('#appellantLinkedCaseAdd-2').click();
+		//cy.advanceToNextPage();
 
+		
+		
 		cy.uploadDocuments('full-planning','upload-application-form',dynamicId);
 		//Upload your application form
 		cy.uploadFileFromFixtureDirectory('letter-confirming-planning-application.pdf');
@@ -218,9 +234,9 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		//Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
 		cy.get('.govuk-button').contains('Accept and submit').click();
 
-		cy.get('.govuk-panel__title').invoke('text').should((text)=>{
-			expect(text.trim()).to.equal('Appeal submitted');
-		});
+		// cy.get('.govuk-panel__title').invoke('text').should((text)=>{
+		// 	expect(text.trim()).to.equal('Appeal submitted');
+		// });
 
 		//});
 

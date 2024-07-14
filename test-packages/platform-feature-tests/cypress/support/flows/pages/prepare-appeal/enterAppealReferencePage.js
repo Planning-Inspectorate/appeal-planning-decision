@@ -1,7 +1,11 @@
 import { EnterAppealReference } from "../../../../page-objects/prepare-appeal/enter-appeal-reference";
-module.exports = () => {
+module.exports = (isAppellantLinkedCaseAdd) => {
     const enterAppealReference = new EnterAppealReference();
-    enterAppealReference.clickEnterAppealReference('#appellantLinkedCaseAdd-2');        
-    cy.advanceToNextPage();     
-    
+    if(isAppellantLinkedCaseAdd){
+        enterAppealReference.clickEnterAppealReference('[data-cy="answer-yes"]');        
+        cy.advanceToNextPage();
+    } else {      
+        enterAppealReference.clickEnterAppealReference('[data-cy="answer-no"]');        
+        cy.advanceToNextPage(); 
+    }     
 };

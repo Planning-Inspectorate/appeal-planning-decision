@@ -2,7 +2,7 @@ import { TellingTenants } from "../../../../page-objects/prepare-appeal/telling-
 module.exports = () => {
     const tellingTenants = new TellingTenants();
 
-    tellingTenants.clickTellingTenants('#informedTenantsAgriculturalHolding');  
+    tellingTenants.checkTellingTenants('#informedTenantsAgriculturalHolding');  
           
     cy.advanceToNextPage();        
     
