@@ -1,7 +1,24 @@
+import { EnterAppealReference } from "../../../../page-objects/prepare-appeal/enter-appeal-reference";
 import { OtherAppeals } from "../../../../page-objects/prepare-appeal/other-appeals";
-module.exports = () => {
+const enterAppealReference = require('./enterAppealReferencePage');
+//const { enterAppealReference } from  ""
+module.exports = (anyOtherAppeals,context) => {
     const otherAppeals = new OtherAppeals();
-    otherAppeals.clickOtherAppeals('#appellantLinkedCase');        
-    cy.advanceToNextPage();        
-    
+    const enterAppealReference = new EnterAppealReference();
+    if(anyOtherAppeals){
+        cy.wait(5000);
+        for(let otherAppeal of context?.otherAppeals){
+            otherAppeals.clickOtherAppeals('[data-cy="answer-yes"]');        
+            cy.advanceToNextPage(); 
+            enterAppealReference.addEnterReferenceField('#appellantLinkedCase', otherAppeal?.appealReferenceNumber);
+            cy.advanceToNextPage();            
+        }   
+  //      enterAppealReference(context?.applicationForm?.isAppellantLinkedCaseAdd,context); 
+        otherAppeals.clickOtherAppeals('[data-cy="answer-no"]');        
+        cy.advanceToNextPage();  
+
+    } else {       
+        otherAppeals.clickOtherAppeals('[data-cy="answer-no"]');        
+        cy.advanceToNextPage();  
+    }    
 };

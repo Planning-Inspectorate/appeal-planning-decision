@@ -3,6 +3,6 @@ module.exports = () => {
     const phoneNumber = new PhoneNumber();
 	   
     //What is your phone number?
-    phoneNumber.addPhoneNumberField('#appellantPhoneNumber','07654321000');
+    phoneNumber.addPhoneNumberField('#contactPhoneNumber','07654321000');
     cy.advanceToNextPage();       
 };
