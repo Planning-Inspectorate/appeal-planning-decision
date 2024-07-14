@@ -17,7 +17,7 @@ function submitAppealFlow(appealOptions) {
 		);
 	}
 
-	if (['written', 'hearing', 'enquiry'].includes(typeOfDecisionRequested) == false) {
+	if (['written', 'hearing', 'inquiry'].includes(typeOfDecisionRequested) == false) {
 		throw new Error(
 			`The stype of decision requested "${typeOfDecisionRequested}" is not supported!`
 		);

@@ -11,8 +11,8 @@ module.exports = (isOwnsAllLand) => {
         //Do you own all the land involved in the appeal?Ans:yes
         ownAllLand.clickOwnAllLand('[data-cy="answer-yes"]');        
         cy.advanceToNextPage();
-        agriculturalHolding.clickAgriculturalHolding('[data-cy="answer-yes"]');
-        cy.advanceToNextPage();
+        //agriculturalHolding.clickAgriculturalHolding('[data-cy="answer-yes"]');
+       // cy.advanceToNextPage();
 
     } else {
         //Do you own all the land involved in the appeal?Ans:No
