@@ -74,7 +74,7 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		if(!context?.applicationForm?.isOwnsAllLand){
 			//Do you own some of the land involved in the appeal?
 			ownSomeLandPage(context?.applicationForm?.isOwnsSomeLand,context);
-			cy.advanceToNextPage();			
+			//cy.advanceToNextPage();			
 		}
 		agriculturalHoldingPage(context?.applicationForm?.isAgriculturalHolding,context);		
 		

@@ -5,15 +5,13 @@ const enterAppealReference = require('./enterAppealReferencePage');
 module.exports = (anyOtherAppeals,context) => {
     const otherAppeals = new OtherAppeals();
     const enterAppealReference = new EnterAppealReference();
-    if(anyOtherAppeals){
-        cy.wait(5000);
+    if(anyOtherAppeals){       
         for(let otherAppeal of context?.otherAppeals){
             otherAppeals.clickOtherAppeals('[data-cy="answer-yes"]');        
             cy.advanceToNextPage(); 
             enterAppealReference.addEnterReferenceField('#appellantLinkedCase', otherAppeal?.appealReferenceNumber);
             cy.advanceToNextPage();            
         }   
-  //      enterAppealReference(context?.applicationForm?.isAppellantLinkedCaseAdd,context); 
         otherAppeals.clickOtherAppeals('[data-cy="answer-no"]');        
         cy.advanceToNextPage();  
 
