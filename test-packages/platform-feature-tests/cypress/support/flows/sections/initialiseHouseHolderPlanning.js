@@ -2,7 +2,6 @@ const applicationFormPage = require("../pages/prepare-appeal/applicationFormPage
 const applicationNamePage = require("../pages/prepare-appeal/applicationNamePage");
 const contactDetailsPage = require("../pages/prepare-appeal/contactDetailsPage");
 const appealSiteAddressPage = require("../pages/prepare-appeal/appealSiteAddressPage");
-const phoneNumberPage = require("../pages/prepare-appeal/phoneNumberPage");
 const siteAreaPage = require("../pages/prepare-appeal/siteAreaPage");
 const greenBeltPage = require("../pages/prepare-appeal/greenBeltPage");
 const ownAllLandPage = require("../pages/prepare-appeal/ownAllLandPage");
@@ -71,11 +70,11 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		applicationNamePage(context?.applicationForm?.isAppellant);
 		//applicationNamePage('other');
 		//Contact details
-		contactDetailsPage();
+		contactDetailsPage(context);
 
-		phoneNumberPage();
+		//phoneNumberPage();
 		//Site Details
-		appealSiteAddressPage();		
+		appealSiteAddressPage(context);		
 		//What is the area of the appeal site?
 		//siteAreaPage('householder');
 		siteAreaPage(planning,context?.applicationForm?.areaUnits,context);
