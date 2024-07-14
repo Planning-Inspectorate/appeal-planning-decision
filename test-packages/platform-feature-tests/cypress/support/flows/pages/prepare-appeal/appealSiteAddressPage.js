@@ -1,5 +1,5 @@
 import { AppealSiteAddress } from "../../../../page-objects/prepare-appeal/appeal-site-address";
-module.exports = () => {
+module.exports = (context) => {
     const appealSiteAddress = new AppealSiteAddress();
 
     appealSiteAddress.addAppealSiteAddressField('#address-line-1','siteAddress_addressLine1');

@@ -1,7 +1,6 @@
 const applicationFormPage = require("../pages/prepare-appeal/applicationFormPage");
 const applicationNamePage = require("../pages/prepare-appeal/applicationNamePage");
 const contactDetailsPage = require("../pages/prepare-appeal/contactDetailsPage");
-const phoneNumberPage = require("../pages/prepare-appeal/phoneNumberPage");
 const appealSiteAddressPage = require("../pages/prepare-appeal/appealSiteAddressPage");
 const siteAreaPage = require("../pages/prepare-appeal/siteAreaPage");
 const greenBeltPage = require("../pages/prepare-appeal/greenBeltPage");
@@ -18,6 +17,7 @@ const applyAppealCostsPage = require("../pages/upload-documents/applyAppealCosts
 const submitDesignAccessStatementPage = require("../pages/upload-documents/submitDesignAccessStatementPage");
 const newPlansDrawingsPage = require("../pages/upload-documents/newPlansDrawingsPage");
 const otherNewDocumentsPage = require("../pages/upload-documents/otherNewDocumentsPage");
+const healthSafetyIssuesPage = require("../pages/prepare-appeal/healthSafetyIssuesPage");
 
 module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,context) => {
 	
@@ -33,10 +33,11 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 
 	cy.get('[data-cy="answer-no"]').click();
 	cy.advanceToNextPage();	
+	cy.get('[data-cy="application-type"]').should('have.text','Full Appeal');
 
 	cy.advanceToNextPage('Continue to my appeal');
-
-	cy.get('[data-cy="application-number"]').type(`TEST-${Date.now()}`);
+	const applicationNumber = `TEST-${Date.now()}`;
+	cy.get('[data-cy="application-number"]').type(applicationNumber);
 	cy.advanceToNextPage();
 	
 	cy.intercept('POST','/full-appeal/submit-appeal/list-of-documents').as('postRequest');
@@ -57,11 +58,10 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		//Contact details
 		applicationNamePage(context?.applicationForm?.isAppellant);
 
-		contactDetailsPage()
-
-		phoneNumberPage();
+		contactDetailsPage(context);
+		
 		//Site Details
-		appealSiteAddressPage();		
+		appealSiteAddressPage(context);		
 		//What is the area of the appeal site?
 		siteAreaPage(planning,context?.applicationForm?.areaUnits,context);
 
@@ -81,11 +81,11 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		
 		inspectorNeedAccessPage(context?.applicationForm?.isInspectorNeedAccess);		
 		//Health and safety issues
-		cy.get('#appellantSiteSafety').click();
-		cy.get('#appellantSiteSafety_appellantSiteSafetyDetails').type('appellantSiteSafety_appellantSiteSafetyDetails1234567890!"£$%^&*(10)');
-		cy.advanceToNextPage();
+		healthSafetyIssuesPage(context);
 		//What is the application reference number?
-		cy.get('#applicationReference').type('12345x6');
+		cy.get('#applicationReference').invoke('val').then((inputValue)=>{
+			expect(inputValue).to.equal(applicationNumber);
+		});
 		cy.advanceToNextPage();
 		//What date did you submit your application?
 		cy.get('#onApplicationDate_day').type(currentDate.getDate() - 1);
@@ -96,20 +96,24 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		cy.get('#developmentDescriptionOriginal').type ('developmentDescriptionOriginal-hint123456789!£$%&*j');
 		cy.advanceToNextPage();
 		//Did the local planning authority change the description of development?
-		cy.get('#updateDevelopmentDescription').click();
-		cy.advanceToNextPage();
+		//cy.get('#updateDevelopmentDescription').click();
+		if(context?.applicationForm?.iaUpdateDevelopmentDescription){
+			cy.get('[data-cy="answer-yes"]').click();
+			cy.advanceToNextPage();
+		} else{
+			cy.get('[data-cy="answer-no"]').click();
+			cy.advanceToNextPage();
+		}
+				
 		//How would you prefer us to decide your appeal?		
 		decideAppealsPage(context?.applicationForm?.appellantProcedurePreference);
 		otherAppealsPage(context?.applicationForm?.anyOtherAppeals,context);
-		
-
 		
 		uploadApplicationFormPage(context,dynamicId);
 
 		submitPlanningObligationPage(context);
 
 		separateOwnershipCertificatePage(context);
-
 		
 		if(context?.applicationForm?.appellantProcedurePreference !== 'written'){
 			//Upload your draft statement of common ground
@@ -120,9 +124,7 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		applyAppealCostsPage(context);
 		submitDesignAccessStatementPage(context);
 		newPlansDrawingsPage(context);
-		otherNewDocumentsPage(context);
-		
-		
+		otherNewDocumentsPage(context);		
 
 		//submit
 		cy.get(`a[href*="/appeals/full-planning/submit/declaration?id=${dynamicId}"]`).click();
@@ -130,37 +132,15 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		//Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
 		cy.get('.govuk-button').contains('Accept and submit').click();
 
-		// cy.get('.govuk-panel__title').invoke('text').should((text)=>{
-		// 	expect(text.trim()).to.equal('Appeal submitted');
-		// });
+		cy.get('.govuk-panel__title').invoke('text').should((text)=>{
+			expect(text.trim()).to.equal('Appeal submitted');
+		});
 
 		//});
 
 		//https://appeals-service-test.planninginspectorate.gov.uk/appeals/full-planning/submit/declaration?id=0781ab81-1682-48a7-8801-6c2ea7bfc737              
         //Declaration
-
-
-
-
-
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 				
 	});
-
-	
 
 };

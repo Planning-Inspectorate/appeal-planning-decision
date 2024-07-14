@@ -16,7 +16,9 @@ export const submitFullAppealData = 	[
             isAgriculturalHolding: true,
             isTenantAgricultureHolding : true,
             anyOtherTenants: true,
-            isInspectorNeedAccess : true,
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false            

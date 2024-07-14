@@ -1,6 +1,12 @@
-import { HealthSafetyIssues } from "../../../../page-objects/prepare-appeal/health-safety-issues";
-module.exports = () => {
-    const healthSafetyIssues = new HealthSafetyIssues();
-    healthSafetyIssues.clickhealthSafetyIssues('#appellantSiteSafety-2');        
-    cy.advanceToNextPage();           
+module.exports = (context) => {
+
+    if (context?.applicationForm?.isAppellantSiteSafety) {
+        cy.get('[data-cy="answer-yes"]').click();
+        cy.get('#appellantSiteSafety_appellantSiteSafetyDetails').type('appellantSiteSafety_appellantSiteSafetyDetails1234567890!"£$%^&*(10)');
+        cy.advanceToNextPage();
+    }
+    else {
+        cy.get('[data-cy="answer-no"]').click();
+        cy.advanceToNextPage();
+    }
 };
