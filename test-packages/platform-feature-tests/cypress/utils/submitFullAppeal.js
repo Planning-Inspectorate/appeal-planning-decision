@@ -15,11 +15,19 @@ export const submitFullAppealData = 	[
             knowsOtherOwners: 'yes',
             isAgriculturalHolding: true,
             isTenantAgricultureHolding : true,
-            anyOtherTenants : true,
+            anyOtherTenants: true,
             isInspectorNeedAccess : true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false            
+        },
+        uploadDocuments: {
+            submitPlanningObligation: true,
+            finalisedPlanningStatus: 'ready',
+            isApplyAwardCost: true,
+            isSubmitDesignAndAccessStmt: true,
+            isNewPlanOrDrawingAvailable: true,
+            isOtherNewDocumentAvailable: true
         },
         otherAppeals: [{
             appealReferenceNumber: '1234567'
