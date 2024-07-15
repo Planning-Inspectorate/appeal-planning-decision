@@ -6,7 +6,7 @@ describe('Appeal uploads', () => {
 	[
 		{
 			statusOfOriginalApplication: 'granted',
-			typeOfDecisionRequested: 'hearing',
+			typeOfDecisionRequested: 'written',
 			statusOfPlanningObligation: 'in draft',
 			typeOfPlanningApplication: 'answer-householder-planning',
 			applicationForm: {
@@ -17,8 +17,30 @@ describe('Appeal uploads', () => {
 				isOwnsSomeLand: true,
 				knowsAllOwners: 'no',
 				knowsOtherOwners:'yes',
-				isAgriculturalHolding: false				
+				isAgriculturalHolding: false,
+				isTenantAgricultureHolding : true,
+				anyOtherTenants: true,
+				isInspectorNeedAccess: true,
+				isAppellantSiteSafety: true,
+				iaUpdateDevelopmentDescription: true,
+				appellantProcedurePreference: 'written',
+				anyOtherAppeals: true,
+				isAppellantLinkedCaseAdd: false            
 			},
+			uploadDocuments: {
+				submitPlanningObligation: true,
+				finalisedPlanningStatus: 'ready',
+				haveSeparateOwnershipAndLandDecl: true,
+				isApplyAwardCost: true,
+				isSubmitDesignAndAccessStmt: true,
+				isNewPlanOrDrawingAvailable: true,
+				isOtherNewDocumentAvailable: true
+			},
+			otherAppeals: [{
+				appealReferenceNumber: '1234567'
+			}, {
+				appealReferenceNumber: '7654321'
+			}],
 			finalComments: {
 				check: false, // TODO: set these to true after feature flag introduced
 				uploadAdditionalDocuments: false
@@ -102,8 +124,29 @@ describe('Appeal uploads', () => {
 				isOwnsSomeLand: true,
 				knowsAllOwners: 'no',
 				knowsOtherOwners:'yes',
-				isAgriculturalHolding: false				
+				isAgriculturalHolding: false,
+				isTenantAgricultureHolding : true,
+				anyOtherTenants: true,
+				isInspectorNeedAccess: true,
+				isAppellantSiteSafety: true,
+				iaUpdateDevelopmentDescription: true,
+				appellantProcedurePreference: 'hearing',
+				anyOtherAppeals: true,
+				isAppellantLinkedCaseAdd: false            
 			},
+			uploadDocuments: {
+				submitPlanningObligation: true,
+				finalisedPlanningStatus: 'ready',
+				isApplyAwardCost: true,
+				isSubmitDesignAndAccessStmt: true,
+				isNewPlanOrDrawingAvailable: true,
+				isOtherNewDocumentAvailable: true
+			},
+			otherAppeals: [{
+				appealReferenceNumber: '1234567'
+			}, {
+				appealReferenceNumber: '7654321'
+			}],				
 			finalComments: {
 				check: false, // TODO: set these to true after feature flag introduced
 				uploadAdditionalDocuments: false
@@ -176,7 +219,7 @@ describe('Appeal uploads', () => {
 		},
 		{
 			statusOfOriginalApplication: 'no decision',
-			typeOfDecisionRequested: 'hearing',
+			typeOfDecisionRequested: 'inquiry',
 			statusOfPlanningObligation: 'in draft',
 			typeOfPlanningApplication: 'answer-householder-planning',
 			applicationForm: {
@@ -187,8 +230,29 @@ describe('Appeal uploads', () => {
 				isOwnsSomeLand: true,
 				knowsAllOwners: 'no',
 				knowsOtherOwners:'yes',
-				isAgriculturalHolding: false				
+				isAgriculturalHolding: false,
+				isTenantAgricultureHolding : true,
+				anyOtherTenants: true,
+				isInspectorNeedAccess: true,
+				isAppellantSiteSafety: true,
+				iaUpdateDevelopmentDescription: true,
+				appellantProcedurePreference: 'inquiry',
+				anyOtherAppeals: true,
+				isAppellantLinkedCaseAdd: false            
 			},
+			uploadDocuments: {
+				submitPlanningObligation: true,
+				finalisedPlanningStatus: 'ready',
+				isApplyAwardCost: true,
+				isSubmitDesignAndAccessStmt: true,
+				isNewPlanOrDrawingAvailable: true,
+				isOtherNewDocumentAvailable: true
+			},
+			otherAppeals: [{
+				appealReferenceNumber: '1234567'
+			}, {
+				appealReferenceNumber: '7654321'
+			}],	
 			finalComments: {
 				check: false, // TODO: set these to true after feature flag introduced
 				uploadAdditionalDocuments: false
