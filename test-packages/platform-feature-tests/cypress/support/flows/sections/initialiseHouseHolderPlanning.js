@@ -10,37 +10,25 @@ const ownsLandInvolvedPage = require("../pages/prepare-appeal/ownsLandInvolvedPa
 
 module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,context) => {
 	
-	// cy.get(siteSelectionId).click();
-	// cy.advanceToNextPage();
-
-	// let grantedOrRefusedId = '';
-	// if (statusOfOriginalApplication === 'refused') {
-	// 	grantedOrRefusedId = '[data-cy="answer-refused"]';
-	// } else if (statusOfOriginalApplication === 'no decision') {
-	// 	grantedOrRefusedId = '#granted-or-refused-4';
-	// } else {
-	// 	grantedOrRefusedId = '[data-cy="answer-granted"]';
-	// }
-
-	
 	cy.get(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
-	//cy.wait(2000);
+
 	let currentDate = new Date();
 	cy.get('#decision-date-householder-day').type(currentDate.getDate());
 	cy.get('#decision-date-householder-month').type(currentDate.getMonth() + 1);
 	cy.get('#decision-date-householder-year').type(currentDate.getFullYear());
 	cy.advanceToNextPage();
-	//cy.wait(2000);
-	cy.get('#enforcement-notice-2').click();
+
+	cy.get('[data-cy="answer-no"]').click();
 	cy.advanceToNextPage();
-	//cy.wait(2000);
+
     cy.get('[data-cy="application-type"]').should('have.text','Householder Planning');
-	cy.wait(2000);
 	cy.advanceToNextPage('Continue to my appeal');
-	cy.wait(2000);
+
     cy.url().should('include','/appeal-householder-decision/planning-application-number');
-	cy.get('#application-number').type(`TEST-${Date.now()}`);
+
+	const applicationNumber = `TEST-${Date.now()}`;
+	cy.get('#application-number').type(applicationNumber);
 	cy.advanceToNextPage();
 
     cy.url().should('include','/appeal-householder-decision/email-address');
@@ -49,17 +37,13 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 	//cy.intercept('POST','/full-appeal/submit-appeal/list-of-documents').as('postRequest');
 	cy.get('#email-address').type('appellant2@planninginspectorate.gov.uk');
 	cy.advanceToNextPage();
-	//cy.wait(2000);
+
 	
 	cy.get('#email-code').type('12345');
 	cy.advanceToNextPage();
 
-	// cy.visit(
-	// 	`${Cypress.config('appeals_beta_base_url')}/full-appeal/submit-appeal/email-address-confirmed`
-	// );
-	//cy.wait(2000);
 	cy.advanceToNextPage();
-	//cy.wait(2000);
+
 	cy.advanceToNextPage();
 	cy.wait(2000);
 	cy.location('search').then((search)=>{
@@ -67,61 +51,28 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		const dynamicId = params.get('id');
 		//cy.log('Test id in task page',dynamicId);
 		applicationFormPage('householder','other',dynamicId);
-		applicationNamePage(context?.applicationForm?.isAppellant);
-		//applicationNamePage('other');
 		//Contact details
+		applicationNamePage(context?.applicationForm?.isAppellant);
+				
 		contactDetailsPage(context);
 
-		//phoneNumberPage();
 		//Site Details
 		appealSiteAddressPage(context);		
 		//What is the area of the appeal site?
-		//siteAreaPage('householder');
 		siteAreaPage(planning,context?.applicationForm?.areaUnits,context);
 
 		//Is the appeal site in a green belt?(Ans:Yes)
 		greenBeltPage(context?.applicationForm?.appellantInGreenBelt);
-		//cy.get('#appellantGreenBelt').click();
-		//cy.advanceToNextPage();
+
 		//Do you own all the land involved in the appeal?
 		ownAllLandPage(context?.applicationForm?.isOwnsAllLand);
-		// cy.get('#ownsAllLand-2').click();
-		// cy.advanceToNextPage();
-		//Do you own some of the land involved in the appeal?
-		//ownSomeLandPage();
+		
 		if(!context?.applicationForm?.isOwnsAllLand){
 			//Do you own some of the land involved in the appeal?
 			ownSomeLandPage(context?.applicationForm?.isOwnsSomeLand,context);
 
 		}
 
-		//cy.get('#ownsSomeLand').click();
-		//cy.advanceToNextPage();
-		//Do you know who owns the rest of the land involved in the appeal?
-		//ownsLandInvolvedPage();
-		//cy.get('#knowsOtherOwners-2').click();
-		//cy.advanceToNextPage();
-		//Identifying the landowners
-		//cy.get('#identifiedOwners').click();
-		//cy.advanceToNextPage();
-		//Advertising your appeal
-		//cy.get('#advertisedAppeal').check();
-		//cy.advanceToNextPage();
-		//Telling the landowners
-		//cy.get('#informedOwners').check();
-		//cy.advanceToNextPage();
-		//Is the appeal site part of an agricultural holding?(Ans:yes)
-		//cy.get('#agriculturalHolding').click();
-		//cy.advanceToNextPage();
-		//Are you a tenant of the agricultural holding?(Ans:yes)
-		//cy.get('#tenantAgriculturalHolding').click();
-		//cy.advanceToNextPage();
-		//Are there any other tenants?(Ans:yes)
-		//cy.get('#otherTenantsAgriculturalHolding').click();
-		//cy.advanceToNextPage();
-		//Telling the tenants
-		//cy.get('#informedTenantsAgriculturalHolding').check();
-		//cy.advanceToNextPage();
 		//Will an inspector need to access your land or property?
 		cy.get('#appellantSiteAccess').click();
 		cy.get('#appellantSiteAccess_appellantSiteAccessDetails').type('appellantSiteAccess_appellantSiteAccessDetails1234567890!"£$%^&*(9)');
@@ -161,10 +112,11 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		cy.get('#appellantLinkedCase').type('9876T40');
 		cy.advanceToNextPage();
 		//You’ve added a linked appeal(Ans:No)
-		 cy.get('[data-cy="answer-no"]').click();
-		 cy.advanceToNextPage();
+		cy.get('[data-cy="answer-no"]').click();
+		cy.advanceToNextPage();
 
 		cy.uploadDocuments('householder','upload-application-form',dynamicId);
+		//uploadApplicationFormPage(context,dynamicId);
 		//Upload your application form
 		cy.uploadFileFromFixtureDirectory('letter-confirming-planning-application.pdf');
 		cy.advanceToNextPage();
@@ -227,15 +179,6 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 
 		cy.get('.govuk-panel__title').invoke('text').should((text)=>{
 			expect(text.trim()).to.equal('Appeal submitted');
-		});
-		//});
-
-		//https://appeals-service-test.planninginspectorate.gov.uk/appeals/full-planning/submit/declaration?id=0781ab81-1682-48a7-8801-6c2ea7bfc737              
-        //Declaration
-
-			
+		});			
 	});
-
-	
-
 };
