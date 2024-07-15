@@ -851,10 +851,7 @@ export interface LPAQuestionnaireSubmission {
 	uploadConservation?: boolean;
 	greenBelt?: boolean;
 	uploadWhoNotified?: boolean;
-	displaySiteNotice?: boolean;
-	lettersToNeighbours?: boolean;
 	uploadLettersEmails?: boolean;
-	pressAdvert?: boolean;
 	uploadPressAdvert?: boolean;
 	consultationResponses?: boolean;
 	uploadConsultationResponses?: boolean;

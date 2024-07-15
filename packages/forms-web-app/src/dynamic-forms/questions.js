@@ -156,32 +156,6 @@ exports.questions = {
 			viewFolder: 'identifier'
 		})
 	}),
-	// listedBuildingDetail: {
-	// 	title: 'Listed buildings',
-	// 	question: 'Add the listed entry number',
-	// 	type: 'custom',
-	// 	renderAction: listedBuildingController.enterNumber, //For scenarios where more complex rendering logic is required, pass a controller action
-	// 	saveAction: listedBuildingController.lookupCode, //For scenarios where more complex saving/POST handling logic is required, pass a controller action
-	// 	fieldName: 'listed-entry-number',
-	// 	required: false,
-	// 	taskList: false,
-	// 	show: (answers) => {
-	// 		return answers['listed-building-check'] === 'yes';
-	// 	}
-	// },
-	// listedBuildingDetailList: {
-	// 	title: 'Listed buildings list',
-	// 	question: 'Manage listed buildings',
-	// 	type: 'custom',
-	// 	renderAction: listedBuildingController.manageListedBuildings, //For scenarios where more complex rendering logic is required, pass a controller action
-	// 	saveAction: listedBuildingController.lookupCode, //For scenarios where more complex saving/POST handling logic is required, pass a controller action
-	// 	fieldName: 'listed-detail-list',
-	// 	required: false,
-	// 	altText: 'Started',
-	// 	show: (answers) => {
-	// 		return answers['listed-detail-list']?.length > 0;
-	// 	}
-	// },
 	conservationArea: new BooleanQuestion({
 		title: 'Conservation area',
 		question: 'Is the site in, or next to a conservation area?',
@@ -221,42 +195,6 @@ exports.questions = {
 		],
 		html: 'resources/notified-who/content.html',
 		documentType: documentTypes.whoWasNotified
-	}),
-	displaySiteNotice: new BooleanQuestion({
-		title: 'Site notice',
-		question: 'Did you display a notice at the site?',
-		description: 'Notifying relevant parties of the application',
-		// fieldName: 'display-site-notice',
-		fieldName: 'displaySiteNotice',
-		url: 'display-site-notice',
-		validators: [new RequiredValidator()]
-	}),
-	lettersToNeighbours: new BooleanQuestion({
-		title: 'Letters to neighbours',
-		question: 'Did you send letters and emails to neighbours?',
-		description: 'Did you send letters and emails to neighbours?',
-		// fieldName: 'letters-to-neighbours',
-		fieldName: 'lettersToNeighbours',
-		url: 'letters-to-neighbours',
-		validators: [new RequiredValidator()]
-	}),
-	uploadLettersToNeighbours: new MultiFileUploadQuestion({
-		title: 'Uploaded letters',
-		question: 'Upload the letters and emails',
-		// fieldName: 'upload-letters-emails',
-		fieldName: 'uploadLettersEmails',
-		url: 'upload-letters-emails',
-		html: 'resources/upload-letters-emails/content.html',
-		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
-		documentType: documentTypes.uploadLettersToNeighbours
-	}),
-	pressAdvert: new BooleanQuestion({
-		title: 'Press Advert',
-		question: 'Did you put an advert in the local press?',
-		// fieldName: 'press-advert',
-		fieldName: 'pressAdvert',
-		url: 'press-advert',
-		validators: [new RequiredValidator()]
 	}),
 	pressAdvertUpload: new MultiFileUploadQuestion({
 		title: 'Uploaded press advert',
@@ -330,16 +268,6 @@ exports.questions = {
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
 		documentType: documentTypes.uploadSiteNotice
 	}),
-	// lettersToNeighboursUpload: new MultiFileUploadQuestion({
-	// 	title: 'Letters to neighbours',
-	// 	question: 'Upload letters to neighbours',
-	// 	fieldName: 'letters-to-neighbours-upload'
-	// }),
-	// advertisementUpload: new MultiFileUploadQuestion({
-	// 	title: 'Advertisement',
-	// 	question: 'Upload advertisement',
-	// 	fieldName: 'advertisement-upload'
-	// }),
 	representationsFromOthers: new BooleanQuestion({
 		title: 'Representations from other parties',
 		question: 'Did you receive representations from members of the public or other parties?',

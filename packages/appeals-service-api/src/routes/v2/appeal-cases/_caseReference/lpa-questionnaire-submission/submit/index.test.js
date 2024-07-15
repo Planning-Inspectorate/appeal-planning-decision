@@ -3,6 +3,7 @@ const http = require('http');
 const app = require('../../../../../../app');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { markQuestionnaireAsSubmitted } = require('../service');
+const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 
 const server = http.createServer(app);
 const appealsApi = supertest(server);
@@ -32,9 +33,7 @@ jest.mock('../service', () => ({
 					neighbourSiteAccess: 'yes',
 					newConditions: 'yes',
 					newConditions_newConditionDetails: 'I have new conditions',
-					displaySiteNotice: true,
-					lettersToNeighbours: true,
-					pressAdvert: true,
+					notificationMethod: 'site-notice,letters-or-emails,advert',
 					AppealCase: {
 						LPACode: 'LPA_001',
 						appealTypeCode: 'HAS'
@@ -193,9 +192,9 @@ const formattedHAS = [
 			inConservationArea: true,
 			isGreenBelt: true,
 			notificationMethod: [
-				'A public notice at the site',
-				'Letters to neighbours',
-				'Advert in the local press'
+				LPA_NOTIFICATION_METHODS.notice.key,
+				LPA_NOTIFICATION_METHODS.letter.key,
+				LPA_NOTIFICATION_METHODS.pressAdvert.key
 			],
 			siteAccessDetails: null,
 			siteSafetyDetails: ["oh it's bad"],

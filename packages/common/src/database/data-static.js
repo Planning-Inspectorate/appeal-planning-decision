@@ -75,7 +75,7 @@ const PROCEDURE_TYPES = {
 const LPA_NOTIFICATION_METHODS = {
 	notice: { key: 'notice', name: 'A site notice' },
 	letter: { key: 'letter', name: 'Letter/email to interested parties' },
-	pressAdvert: { key: 'press-advert', name: 'A press advert' }
+	pressAdvert: { key: 'advert', name: 'A press advert' }
 };
 
 /**

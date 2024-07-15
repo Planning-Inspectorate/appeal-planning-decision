@@ -7,6 +7,7 @@ const {
 	SERVICE_USER_TYPE,
 	APPEAL_DOCUMENT_TYPE
 } = require('pins-data-model');
+const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 
 /**
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -46,7 +47,7 @@ const documentTypeMap = {
 		APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM,
 	[documentTypes.whoWasNotified.name]: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED,
 	[documentTypes.uploadSiteNotice.name]: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_SITE_NOTICE,
-	[documentTypes.uploadLettersToNeighbours.name]:
+	[documentTypes.uploadNeighbourLetterAddresses.name]:
 		APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_LETTER_TO_NEIGHBOURS,
 	[documentTypes.pressAdvertUpload.name]: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_PRESS_ADVERT,
 	[documentTypes.conservationMap.name]: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
@@ -108,20 +109,27 @@ exports.formatAddresses = (addresses) =>
 
 /**
  * @param {Answers} answers
- * @returns {string[]}
+ * @returns {string[]|null}
  */
 exports.howYouNotifiedPeople = (answers) => {
-	let notifiedPeople = [];
-	if (answers.displaySiteNotice) {
-		notifiedPeople.push('A public notice at the site');
-	}
-	if (answers.lettersToNeighbours) {
-		notifiedPeople.push('Letters to neighbours');
-	}
-	if (answers.pressAdvert) {
-		notifiedPeople.push('Advert in the local press');
-	}
-	return notifiedPeople;
+	if (!answers.notificationMethod) return null;
+
+	return answers.notificationMethod
+		.split(',') // get split char from dynamic form question
+		.map((x) => {
+			// cases from dynamic forms questions: howYouNotifiedPeople: notificationMethod
+			switch (x) {
+				case 'site-notice':
+					return LPA_NOTIFICATION_METHODS.notice.key;
+				case 'letters-or-emails':
+					return LPA_NOTIFICATION_METHODS.letter.key;
+				case 'advert':
+					return LPA_NOTIFICATION_METHODS.pressAdvert.key;
+				default:
+					return null;
+			}
+		})
+		.filter(Boolean);
 };
 
 /**
