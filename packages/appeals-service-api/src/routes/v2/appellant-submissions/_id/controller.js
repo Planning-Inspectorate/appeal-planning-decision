@@ -1,5 +1,5 @@
 const ApiError = require('#errors/apiError');
-const { get, patch } = require('./service');
+const { get, patch, confirmOwnership } = require('./service');
 
 /**
  * @type {import('express').Handler}
@@ -45,6 +45,7 @@ exports.patch = async (req, res) => {
 	res.send(submission);
 };
 
+// Endpoint which checks whether a user is linked with an appellant submission
 /**
  * @type {import('express').Handler}
  */
@@ -61,5 +62,7 @@ exports.confirm = async (req, res) => {
 		throw ApiError.invalidToken();
 	}
 
-	res.status(200).send(true);
+	const result = await confirmOwnership({ appellantSubmissionId, userId });
+
+	res.status(200).send(result);
 };

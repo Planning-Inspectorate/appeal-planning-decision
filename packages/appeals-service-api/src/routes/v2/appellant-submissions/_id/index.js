@@ -6,7 +6,6 @@ const config = require('../../../../configuration/config');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const { validateToken } = require('@pins/common/src/middleware/validate-token');
 const { openApiValidatorMiddleware } = require('../../../../validators/validate-open-api');
-const userOwnsSubmission = require('./user-owns-submission');
 
 const router = express.Router({ mergeParams: true });
 
@@ -27,12 +26,9 @@ router.use(
 );
 
 router.get('/', openApiValidatorMiddleware(), asyncHandler(get));
-router.get(
-	'/confirm-ownership',
-	openApiValidatorMiddleware(),
-	userOwnsSubmission,
-	asyncHandler(confirm)
-);
+
+// Used for direct check of whether user is linked to appellantSubmission
+router.get('/confirm-ownership', openApiValidatorMiddleware(), asyncHandler(confirm));
 
 router.patch('/', openApiValidatorMiddleware(), asyncHandler(patch));
 

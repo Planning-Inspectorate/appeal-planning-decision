@@ -104,6 +104,7 @@ const getDocumentV2 = async (req, res) => {
 
 		logger.info('Confirming user owns appellant submission');
 
+		// make api call to confirm that user matches appellant
 		const userOwnsAppeal = await apiClient.confirmUserOwnsAppellantSubmission(
 			appealOrQuestionnaireId
 		);
