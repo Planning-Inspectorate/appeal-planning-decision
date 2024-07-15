@@ -1,6 +1,8 @@
 const nunjucks = require('nunjucks');
 const Question = require('../../question');
 
+const defaultOptionJoinString = ',';
+
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
  * @typedef {import('../../journey').Journey} Journey
@@ -84,6 +86,7 @@ class UnitOptionEntryQuestion extends Question {
 		this.options = options;
 		this.html = html;
 		this.label = label;
+		this.optionJoinString = defaultOptionJoinString;
 	}
 
 	/**
@@ -166,7 +169,7 @@ class UnitOptionEntryQuestion extends Question {
 				`User submitted option(s) did not correlate with valid answers to ${this.fieldName} question`
 			);
 
-		responseToSave.answers[this.fieldName] = fieldValues.join(',');
+		responseToSave.answers[this.fieldName] = fieldValues.join(this.optionJoinString);
 		journeyResponse.answers[this.fieldName] = fieldValues;
 
 		this.options.forEach((option) => {
