@@ -732,10 +732,7 @@ model LPAQuestionnaireSubmission {
   uploadConservation                              Boolean?
   greenBelt                                       Boolean?
   uploadWhoNotified                               Boolean?
-  displaySiteNotice                               Boolean?
-  lettersToNeighbours                             Boolean?
   uploadLettersEmails                             Boolean?
-  pressAdvert                                     Boolean?
   uploadPressAdvert                               Boolean?
   consultationResponses                           Boolean?
   uploadConsultationResponses                     Boolean?

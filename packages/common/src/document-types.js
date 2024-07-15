@@ -262,15 +262,6 @@ const documentTypes = {
 		horizonDocumentType: "Local Authority's Questionnaire",
 		horizonDocumentGroupType: 'Evidence'
 	},
-	uploadLettersToNeighbours: {
-		name: 'uploadLettersToNeighbours',
-		multiple: true,
-		displayName: '',
-		involvement: '',
-		owner: lpaOwner,
-		horizonDocumentType: 'LPA Questionnaire Documents',
-		horizonDocumentGroupType: 'Evidence'
-	},
 	pressAdvertUpload: {
 		name: 'pressAdvertUpload',
 		multiple: true,
