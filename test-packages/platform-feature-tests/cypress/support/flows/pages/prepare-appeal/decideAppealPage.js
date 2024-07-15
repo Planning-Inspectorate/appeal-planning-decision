@@ -14,7 +14,7 @@ module.exports = (appellantProcedurePreference,context) => {
     const howManyWitnesses = new HowManyWitnesses();
   
     if(appellantProcedurePreference === 'written'){
-        decideAppeal.clickDecideAppeal('[data-cy="answer-written representations"]'); 
+        decideAppeal.clickDecideAppeal('[data-cy="answer-written"]'); 
         cy.advanceToNextPage();        
     }else {
         if(appellantProcedurePreference === 'hearing'){

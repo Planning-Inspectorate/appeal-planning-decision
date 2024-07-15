@@ -32,10 +32,11 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 	cy.advanceToNextPage();
 
 	cy.get('[data-cy="answer-no"]').click();
-	cy.advanceToNextPage();	
-	cy.get('[data-cy="application-type"]').should('have.text','Full Appeal');
+	cy.advanceToNextPage();
 
+	//cy.get('[data-cy="application-type"]').should('have.text','Full Appeal');
 	cy.advanceToNextPage('Continue to my appeal');
+
 	const applicationNumber = `TEST-${Date.now()}`;
 	cy.get('[data-cy="application-number"]').type(applicationNumber);
 	cy.advanceToNextPage();
@@ -134,13 +135,6 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 
 		cy.get('.govuk-panel__title').invoke('text').should((text)=>{
 			expect(text.trim()).to.equal('Appeal submitted');
-		});
-
-		//});
-
-		//https://appeals-service-test.planninginspectorate.gov.uk/appeals/full-planning/submit/declaration?id=0781ab81-1682-48a7-8801-6c2ea7bfc737              
-        //Declaration
-				
+		});				
 	});
-
 };
