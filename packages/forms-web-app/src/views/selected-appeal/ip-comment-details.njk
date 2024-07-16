@@ -32,19 +32,24 @@
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 
 			{% for comment in appeal.formattedComments %}
-				<h2 class="govuk-heading-l">{{ comment.key.text }}</h2>
-					{{ govukSummaryList({
-						classes: "govuk-summary-list long-answers govuk-!-margin-bottom-9",
-						rows: [{
-							key: {
-								text: "Comments"
-							},
-							value: {
-								text: comment.value.text
-							}
-						}]
-					}) }}
-			{% endfor %}
-		</div>
-	</div>
+                <h2 class="govuk-heading-l">{{ comment.key.text }}</h2>
+                    <dl class="govuk-summary-list">
+                        <div class="govuk-summary-list__row">
+                            <dt class="govuk-summary-list__key">Comments</dt>
+                            <dd class="govuk-summary-list__value">
+                                {% if comment.value.truncated === false %}
+                                    <span>{{ comment.value.text }}</span>
+                                {% endif %}
+                                {% if comment.value.truncated %}
+                                    <span id="comment-text-{{ loop.index }}" class="visible" data-truncated-text="{{ comment.value.truncatedText }}" data-full-text="{{ comment.value.text }}"> {{ comment.value.truncatedText }} </span>
+                                    <a id="read-more-button-{{ loop.index }}" class="read-more govuk-link visible expand-collapse-button" data-index="{{ loop.index }}">Read more</a>
+                                    <a id="close-button-{{ loop.index }}" class="close-button govuk-link hidden expand-collapse-button" data-index="{{ loop.index }}">Close</a>
+                                {% endif %}
+                            </dd>
+                        </div>
+                    </dl>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="/../../../public/javascripts/commentActions.bundle.js"></script>
 {% endblock %}
