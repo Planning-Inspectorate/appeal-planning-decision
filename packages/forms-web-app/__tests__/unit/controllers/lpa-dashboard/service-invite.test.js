@@ -1,14 +1,15 @@
 const { getServiceInvite } = require('../../../../src/controllers/lpa-dashboard/service-invite');
 const { VIEW } = require('#lib/views');
 const { mockReq, mockRes } = require('../../mocks');
-const { apiClient } = require('#lib/appeals-api-client');
 
 const { getLPA, errorMessages } = require('#lib/appeals-api-wrapper');
 jest.mock('#lib/appeals-api-wrapper');
-jest.mock('#lib/appeals-api-client');
 
 const req = {
-	...mockReq(null)
+	...mockReq(null),
+	appealsApiClient: {
+		createUser: jest.fn()
+	}
 };
 const res = mockRes();
 
@@ -23,7 +24,7 @@ describe('controllers/lpa-dashboard/service-invite', () => {
 			expect(res.render).toHaveBeenCalledWith(VIEW.ERROR_PAGES.UNAUTHORIZED);
 			expect(getLPA).not.toHaveBeenCalled();
 
-			expect(apiClient.createUser).not.toHaveBeenCalled();
+			expect(req.appealsApiClient.createUser).not.toHaveBeenCalled();
 		});
 
 		const getLpaBadReturnValues = [null, { test: true }, { inTrial: 1 }, { inTrial: false }];
@@ -36,7 +37,7 @@ describe('controllers/lpa-dashboard/service-invite', () => {
 
 				expect(res.render).toHaveBeenCalledWith(VIEW.ERROR_PAGES.UNAUTHORIZED);
 				expect(getLPA).toHaveBeenCalledWith(req.params.lpaCode);
-				expect(apiClient.createUser).not.toHaveBeenCalled();
+				expect(req.appealsApiClient.createUser).not.toHaveBeenCalled();
 			});
 		});
 
@@ -50,13 +51,13 @@ describe('controllers/lpa-dashboard/service-invite', () => {
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ERROR_PAGES.UNAUTHORIZED);
 			expect(getLPA).toHaveBeenCalledWith(req.params.lpaCode);
-			expect(apiClient.createUser).not.toHaveBeenCalled();
+			expect(req.appealsApiClient.createUser).not.toHaveBeenCalled();
 		});
 
-		it('should redirect to the enter email view if apiClient.createUser returns an only1Admin error', async () => {
+		it('should redirect to the enter email view if req.appealsApiClient.createUser returns an only1Admin error', async () => {
 			req.params.lpaCode = '123';
 			getLPA.mockReturnValue({ inTrial: true });
-			apiClient.createUser.mockImplementation(() => {
+			req.appealsApiClient.createUser.mockImplementation(() => {
 				throw new Error(errorMessages.user.only1Admin);
 			});
 
@@ -64,13 +65,13 @@ describe('controllers/lpa-dashboard/service-invite', () => {
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.YOUR_EMAIL_ADDRESS}`);
 			expect(getLPA).toHaveBeenCalledWith(req.params.lpaCode);
-			expect(apiClient.createUser).toHaveBeenCalled();
+			expect(req.appealsApiClient.createUser).toHaveBeenCalled();
 		});
 
-		it('should render the unauthorized view if apiClient.createUser throws error', async () => {
+		it('should render the unauthorized view if req.appealsApiClient.createUser throws error', async () => {
 			req.params.lpaCode = '123';
 			getLPA.mockReturnValue({ inTrial: true });
-			apiClient.createUser.mockImplementation(() => {
+			req.appealsApiClient.createUser.mockImplementation(() => {
 				throw new Error('Mocked error');
 			});
 
@@ -78,19 +79,19 @@ describe('controllers/lpa-dashboard/service-invite', () => {
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ERROR_PAGES.UNAUTHORIZED);
 			expect(getLPA).toHaveBeenCalledWith(req.params.lpaCode);
-			expect(apiClient.createUser).toHaveBeenCalled();
+			expect(req.appealsApiClient.createUser).toHaveBeenCalled();
 		});
 
 		it('should redirect to the enter email view if user created works', async () => {
 			req.params.lpaCode = '123';
 			getLPA.mockReturnValue({ inTrial: true, email: 'test' });
-			apiClient.createUser.mockImplementation(() => Promise.resolve({}));
+			req.appealsApiClient.createUser.mockImplementation(() => Promise.resolve({}));
 
 			await getServiceInvite(req, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.LPA_DASHBOARD.YOUR_EMAIL_ADDRESS}`);
 			expect(getLPA).toHaveBeenCalledWith(req.params.lpaCode);
-			expect(apiClient.createUser).toHaveBeenCalledWith({
+			expect(req.appealsApiClient.createUser).toHaveBeenCalledWith({
 				email: 'test',
 				isLpaAdmin: true,
 				isLpaUser: true,

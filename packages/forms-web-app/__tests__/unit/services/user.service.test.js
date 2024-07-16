@@ -4,7 +4,6 @@ const {
 	setLPAUserStatus
 } = require('../../../src/services/user.service');
 const { getLPA } = require('#lib/appeals-api-wrapper');
-const { apiClient } = require('#lib/appeals-api-client');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 jest.mock('#lib/appeals-api-wrapper', () => {
@@ -12,7 +11,6 @@ jest.mock('#lib/appeals-api-wrapper', () => {
 		getLPA: jest.fn()
 	};
 });
-jest.mock('#lib/appeals-api-client');
 
 describe('services/user.service', () => {
 	beforeEach(() => {
@@ -51,17 +49,25 @@ describe('services/user.service', () => {
 	});
 
 	describe('setLPAUserStatus', () => {
+		const req = {
+			appealsApiClient: {
+				setLPAUserStatus: jest.fn()
+			}
+		};
 		it('should set the user status to confirmed', async () => {
-			await setLPAUserStatus(1, STATUS_CONSTANTS.CONFIRMED);
-			expect(apiClient.setLPAUserStatus).toHaveBeenCalledWith(1, STATUS_CONSTANTS.CONFIRMED);
+			await setLPAUserStatus(req, 1, STATUS_CONSTANTS.CONFIRMED);
+			expect(req.appealsApiClient.setLPAUserStatus).toHaveBeenCalledWith(
+				1,
+				STATUS_CONSTANTS.CONFIRMED
+			);
 		});
 		it('should set the user status to added', async () => {
-			await setLPAUserStatus(1, STATUS_CONSTANTS.ADDED);
-			expect(apiClient.setLPAUserStatus).toHaveBeenCalledWith(1, STATUS_CONSTANTS.ADDED);
+			await setLPAUserStatus(req, 1, STATUS_CONSTANTS.ADDED);
+			expect(req.appealsApiClient.setLPAUserStatus).toHaveBeenCalledWith(1, STATUS_CONSTANTS.ADDED);
 		});
 		it('should not set the user status to unknownstatus', async () => {
-			await setLPAUserStatus(1, 'unknownstatus');
-			expect(apiClient.setLPAUserStatus).toHaveBeenCalledTimes(0);
+			await setLPAUserStatus(req, 1, 'unknownstatus');
+			expect(req.appealsApiClient.setLPAUserStatus).toHaveBeenCalledTimes(0);
 		});
 	});
 });

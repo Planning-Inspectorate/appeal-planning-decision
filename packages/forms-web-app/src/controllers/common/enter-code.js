@@ -13,7 +13,6 @@ const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
-const { apiClient } = require('#lib/appeals-api-client');
 const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
 const getAuthClient = require('@pins/common/src/client/auth-client');
 const config = require('../../config');
@@ -232,7 +231,10 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 
 		if (isAppealConfirmation) {
 			if (sqlUsersFlag) {
-				await apiClient.linkUserToV2Appeal(sessionEmail, getSessionAppealSqlId(req.session));
+				await req.appealsApiClient.linkUserToV2Appeal(
+					sessionEmail,
+					getSessionAppealSqlId(req.session)
+				);
 			}
 
 			deleteTempSessionValues();
@@ -357,7 +359,7 @@ const lpaTokenVerification = (res, token, views, id) => {
  * @returns {Promise<void>}
  */
 const sendTokenToLpaUser = async (req) => {
-	const user = await getLPAUser(req.params.id);
+	const user = await getLPAUser(req, req.params.id);
 
 	if (user?.email) {
 		await createOTPGrant(user.email, enterCodeConfig.actions.lpaDashboard);
@@ -429,7 +431,7 @@ const postEnterCodeLPA = (views) => {
 		let user;
 
 		try {
-			user = await getLPAUser(id);
+			user = await getLPAUser(req, id);
 		} catch (e) {
 			logger.error(`Failed to lookup user for id ${id}`);
 			logger.error(e);
@@ -454,9 +456,9 @@ const postEnterCodeLPA = (views) => {
 		if (!lpaTokenVerification(res, tokenResult, views, id)) return;
 
 		try {
-			const currentUserStatus = await getLPAUserStatus(id);
+			const currentUserStatus = await getLPAUserStatus(req, id);
 			if (currentUserStatus === STATUS_CONSTANTS.ADDED) {
-				await setLPAUserStatus(id, STATUS_CONSTANTS.CONFIRMED);
+				await setLPAUserStatus(req, id, STATUS_CONSTANTS.CONFIRMED);
 			}
 			await createLPAUserSession(
 				req,

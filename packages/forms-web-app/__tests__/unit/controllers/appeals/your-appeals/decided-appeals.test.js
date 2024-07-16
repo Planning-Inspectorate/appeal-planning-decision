@@ -6,7 +6,6 @@ const {
 	mapToAppellantDashboardDisplayData
 } = require('../../../../../src/lib/dashboard-functions');
 
-jest.mock('../../../../../src/lib/appeals-api-client');
 jest.mock('../../../../../src/lib/dashboard-functions');
 
 describe('controllers/appeals/your-appeals/decided-appeals', () => {
