@@ -6,7 +6,6 @@ const {
 	}
 } = require('@pins/business-rules');
 const logger = require('../lib/logger');
-const { apiClient } = require('../lib/appeals-api-client');
 const { getUserFromSession } = require('../services/user.service');
 
 /**
@@ -105,7 +104,7 @@ const getDocumentV2 = async (req, res) => {
 		logger.info('Confirming user owns appellant submission');
 
 		// make api call to confirm that user matches appellant
-		const userOwnsAppeal = await apiClient.confirmUserOwnsAppellantSubmission(
+		const userOwnsAppeal = await req.appealsApiClient.confirmUserOwnsAppellantSubmission(
 			appealOrQuestionnaireId
 		);
 
