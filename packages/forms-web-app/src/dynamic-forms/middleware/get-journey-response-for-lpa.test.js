@@ -6,7 +6,6 @@ const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
-jest.mock('#lib/appeals-api-client');
 jest.mock('../../services/user.service');
 jest.mock('./utils');
 

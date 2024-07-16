@@ -12,7 +12,6 @@ const {
 const { isFeatureActive } = require('../../../../src/featureFlag');
 
 jest.mock('../../../../src/services/user.service');
-jest.mock('../../../../src/lib/appeals-api-client');
 jest.mock('../../../../src/lib/dashboard-functions');
 jest.mock('../../../../src/featureFlag');
 

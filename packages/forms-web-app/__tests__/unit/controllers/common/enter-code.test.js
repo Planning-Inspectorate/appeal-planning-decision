@@ -11,7 +11,6 @@ const lpaViews = views.VIEW.LPA_DASHBOARD;
 const fullAppeal = require('@pins/business-rules/test/data/full-appeal');
 const { mockReq, mockRes } = require('../../mocks');
 const { getSavedAppeal, getExistingAppeal, sendToken } = require('#lib/appeals-api-wrapper');
-const { apiClient } = require('#lib/appeals-api-client');
 const { getSessionEmail, setSessionEmail } = require('#lib/session-helper');
 const {
 	getLPAUserStatus,
@@ -27,7 +26,6 @@ let getAuthClient = require('@pins/common/src/client/auth-client');
 const { AUTH } = require('@pins/common/src/constants');
 
 jest.mock('#lib/appeals-api-wrapper');
-jest.mock('@pins/common/src/client/appeals-api-client');
 jest.mock('#lib/is-token-valid');
 jest.mock('@pins/common/src/utils', () => {
 	return {
@@ -80,7 +78,10 @@ describe('controllers/common/enter-code', () => {
 		req = mockReq();
 		req = {
 			...req,
-			body: {}
+			body: {},
+			appealsApiClient: {
+				linkUserToV2Appeal: jest.fn()
+			}
 		};
 		delete req.session.appeal;
 		res = mockRes();
@@ -368,7 +369,7 @@ describe('controllers/common/enter-code', () => {
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith('/test');
-				expect(apiClient.linkUserToV2Appeal).not.toHaveBeenCalled();
+				expect(req.appealsApiClient.linkUserToV2Appeal).not.toHaveBeenCalled();
 			});
 
 			it(`should show user error if returning from email and can't find appeal`, async () => {
@@ -518,7 +519,7 @@ describe('controllers/common/enter-code', () => {
 				await returnedFunction(req, res);
 
 				expect(res.redirect).toHaveBeenCalledWith('/test');
-				expect(apiClient.linkUserToV2Appeal).toHaveBeenCalled();
+				expect(req.appealsApiClient.linkUserToV2Appeal).toHaveBeenCalled();
 			});
 
 			it(`should show user error if returning from email and can't find appeal`, async () => {
@@ -726,7 +727,7 @@ describe('controllers/common/enter-code', () => {
 			await returnedFunction(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
-			expect(getLPAUser).toHaveBeenCalledWith(userId);
+			expect(getLPAUser).toHaveBeenCalledWith(req, userId);
 			expect(sendToken).not.toBeCalled();
 		});
 	});
@@ -760,8 +761,8 @@ describe('controllers/common/enter-code', () => {
 			};
 			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
 			await returnedFunction(req, res);
-			expect(getLPAUserStatus).toHaveBeenCalledWith(userId);
-			expect(setLPAUserStatus).toHaveBeenCalledWith(userId, STATUS_CONSTANTS.CONFIRMED);
+			expect(getLPAUserStatus).toHaveBeenCalledWith(req, userId);
+			expect(setLPAUserStatus).toHaveBeenCalledWith(req, userId, STATUS_CONSTANTS.CONFIRMED);
 			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-appeals');
 		});
 		it('should redirect on too many attempts', async () => {

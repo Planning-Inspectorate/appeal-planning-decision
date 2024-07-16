@@ -2,17 +2,19 @@ const {
 	getConfirmRemoveUser,
 	postConfirmRemoveUser
 } = require('../../../../src/controllers/lpa-dashboard/confirm-remove-user');
-const { apiClient } = require('#lib/appeals-api-client');
 const { getUserFromSession } = require('../../../../src/services/user.service');
 const { VIEW } = require('#lib/views');
 const { mockReq, mockRes } = require('../../mocks');
 
 const req = {
-	...mockReq(null)
+	...mockReq(null),
+	appealsApiClient: {
+		getUserById: jest.fn(),
+		removeLPAUser: jest.fn()
+	}
 };
 const res = mockRes();
 
-jest.mock('#lib/appeals-api-client');
 jest.mock('../../../../src/services/user.service');
 
 const mockUser = {
@@ -41,7 +43,7 @@ describe('controllers/lpa-dashboard/get-confirm-remove-user', () => {
 	describe('getConfirmRemoveUserUser', () => {
 		it('should render the view correctly', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
-			apiClient.getUserById.mockImplementation(() => Promise.resolve(mockRemoveUser));
+			req.appealsApiClient.getUserById.mockImplementation(() => Promise.resolve(mockRemoveUser));
 
 			await getConfirmRemoveUser(req, res);
 
@@ -52,7 +54,7 @@ describe('controllers/lpa-dashboard/get-confirm-remove-user', () => {
 
 		it('should error if user is removing a user from another lpa', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
-			apiClient.getUserById.mockImplementation(() => Promise.resolve(mockOtherLpaUser));
+			req.appealsApiClient.getUserById.mockImplementation(() => Promise.resolve(mockOtherLpaUser));
 
 			await getConfirmRemoveUser(req, res);
 
@@ -67,17 +69,17 @@ describe('controllers/lpa-dashboard/get-confirm-remove-user', () => {
 	describe('postConfirmRemoveUserUser', () => {
 		it('should remove the user', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
-			apiClient.getUserById.mockImplementation(() => Promise.resolve(mockRemoveUser));
+			req.appealsApiClient.getUserById.mockImplementation(() => Promise.resolve(mockRemoveUser));
 
 			await postConfirmRemoveUser(req, res);
 
-			expect(apiClient.removeLPAUser).toHaveBeenCalledWith(mockRemoveUser.id);
+			expect(req.appealsApiClient.removeLPAUser).toHaveBeenCalledWith(mockRemoveUser.id);
 			expect(req.session.removeUserEmailAddress).toEqual(mockRemoveUser.email);
 		});
 
 		it('should error if user is removing a user from another lpa', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
-			apiClient.getUserById.mockImplementation(() => Promise.resolve(mockOtherLpaUser));
+			req.appealsApiClient.getUserById.mockImplementation(() => Promise.resolve(mockOtherLpaUser));
 
 			await postConfirmRemoveUser(req, res);
 

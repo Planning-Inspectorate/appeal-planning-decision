@@ -1,4 +1,3 @@
-const { apiClient } = require('../../lib/appeals-api-client');
 const { getUserFromSession } = require('../../services/user.service');
 const logger = require('../../lib/logger');
 
@@ -18,7 +17,7 @@ async function checkUserAllowedToRemove(req, userToRemove) {
 }
 
 const getConfirmRemoveUser = async (req, res) => {
-	const userToRemove = await apiClient.getUserById(req.params.id);
+	const userToRemove = await req.appealsApiClient.getUserById(req.params.id);
 
 	try {
 		await checkUserAllowedToRemove(req, userToRemove);
@@ -37,11 +36,11 @@ const getConfirmRemoveUser = async (req, res) => {
 };
 
 const postConfirmRemoveUser = async (req, res) => {
-	const userToRemove = await apiClient.getUserById(req.params.id);
+	const userToRemove = await req.appealsApiClient.getUserById(req.params.id);
 
 	try {
 		await checkUserAllowedToRemove(req, userToRemove);
-		await apiClient.removeLPAUser(userToRemove.id);
+		await req.appealsApiClient.removeLPAUser(userToRemove.id);
 		req.session.removeUserEmailAddress = userToRemove.email;
 	} catch (e) {
 		logger.error(e);

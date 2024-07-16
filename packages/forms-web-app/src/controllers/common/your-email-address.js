@@ -1,5 +1,3 @@
-const { apiClient } = require('../../lib/appeals-api-client');
-
 const getYourEmailAddress = (views) => {
 	return (req, res) => {
 		const { email } = req.session;
@@ -38,7 +36,7 @@ const postYourEmailAddress = (views) => {
 		}
 
 		try {
-			const user = await apiClient.getUserByEmailV2(email);
+			const user = await req.appealsApiClient.getUserByEmailV2(email);
 			if (!user) {
 				throw new Error('user not found');
 			}
