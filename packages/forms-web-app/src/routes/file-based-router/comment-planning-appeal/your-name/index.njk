@@ -1,0 +1,40 @@
+{% extends "layouts/comment-planning-appeal/index.njk" %}
+{% set title = "What is your name?" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% block content %}
+    <form method="post">
+<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--l" for="appeal-reference">What is your name?</label>
+            <p class="govuk-body">We need your name to link you to your comment, this is helpful if you need to contact us. We do not publish your name.</p>
+            {{ govukInput({
+							label: {
+                            text: 'First name',
+                            classes: 'govuk-label',
+                            for: 'first-name'
+                        },
+                        classes: "govuk-input--width-20",
+                        id : "first-name",
+                        name: "first-name",
+                        errorMessage: error,
+                        value: value
+                        })
+            }}
+						{{ govukInput({
+							label: {
+                            text: 'Last name',
+                            classes: 'govuk-label',
+                            for: 'last-name'
+                        },
+                        classes: "govuk-input--width-20",
+                        id : "last-name",
+                        name: "last-name",
+                        errorMessage: error,
+                        value: value
+                        })
+            }}
+        </div>
+        {{ govukButton({"text": "Continue", "type": "submit"}) }}
+    </form>
+{% endblock content %}
