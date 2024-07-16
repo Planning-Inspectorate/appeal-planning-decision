@@ -4,7 +4,9 @@ const { createPrismaClient } = require('../../../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const crypto = require('crypto');
-
+const {
+	createTestAppealCase
+} = require('../../../../../../__tests__/developer/fixtures/appeals-case-data');
 const { isFeatureActive } = require('../../../../../configuration/featureFlag');
 
 /** @type {import('@prisma/client').PrismaClient} */
@@ -91,19 +93,7 @@ const createAppeal = async (caseRef) => {
 				}
 			},
 			AppealCase: {
-				create: {
-					caseReference: caseRef,
-					LPACode: validLpa,
-					LPAName: 'Test',
-					appealTypeCode: 'HAS',
-					appealTypeName: 'HAS1',
-					decision: 'refused',
-					originalCaseDecisionDate: new Date(),
-					costsAppliedForIndicator: true,
-					LPAApplicationReference: 'abc',
-					siteAddressLine1: 'abcd',
-					siteAddressPostcode: 'abc123'
-				}
+				create: createTestAppealCase(caseRef, 'HAS', validLpa)
 			}
 		}
 	});
