@@ -37,7 +37,7 @@ module.exports = (statusOfOriginalApplication,planning,context) => {
 	}
 	else if(planning === "answer-householder-planning"){
 
-		cy.get("#listed-building-householder-2").click();
+		cy.get('[data-cy="answer-listed-building"]').click();
 	cy.advanceToNextPage();
 
 	statusOfOriginalApplication === 'refused'?initialiseHouseHolderPlanning(statusOfOriginalApplication,planning,grantedOrRefusedId,context):initialiseFullPlanning(statusOfOriginalApplication,planning,grantedOrRefusedId,context);
