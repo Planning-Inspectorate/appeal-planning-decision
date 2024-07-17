@@ -31,6 +31,7 @@ require('express-async-errors');
 const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
+const { spoolRoutes } = require('@pins/common');
 
 const app = express();
 
@@ -83,7 +84,7 @@ const viewPaths = [
 	path.join(require.resolve('@pins/common'), '..', 'frontend'),
 	path.join(__dirname, 'views'),
 	path.join(__dirname, 'dynamic-forms'),
-	path.join(__dirname, 'routes/file-based-router'),
+	path.join(__dirname, 'routes/v2'),
 	path.join(__dirname, 'public')
 ];
 
@@ -139,6 +140,7 @@ app.use(navigationHistoryToNunjucksMiddleware(env));
 
 // Routes
 app.use('/', routes);
+spoolRoutes(app, path.join(__dirname, './routes/v2'), { backwardsCompatibilityModeEnabled: true });
 
 // View Engine
 app.set('view engine', 'njk');
