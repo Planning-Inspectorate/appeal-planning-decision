@@ -10,6 +10,16 @@ exports.formatDocumentDetails = (documents, documentType) => {
 };
 
 /**
+ * @param {import('appeals-service-api').Api.Document[]} documents
+ * @param {string} documentType
+ */
+exports.documentExists = (documents, documentType) => {
+	const filteredDocuments = documents.filter((document) => document.documentType === documentType);
+
+	return filteredDocuments.length > 0;
+};
+
+/**
  * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
  */
 exports.formatNewDescription = (caseData) => {

@@ -43,7 +43,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			userId: user.id
 		});
 
-		logger.info({ caseData }, 'caseData');
+		logger.debug({ caseData }, 'caseData');
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);

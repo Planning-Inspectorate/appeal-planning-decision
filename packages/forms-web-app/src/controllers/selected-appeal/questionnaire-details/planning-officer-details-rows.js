@@ -1,4 +1,10 @@
-const { formatDocumentDetails, formatYesOrNo, formatDate } = require('@pins/common');
+const {
+	formatDocumentDetails,
+	documentExists,
+	formatYesOrNo,
+	formatDate
+} = require('@pins/common');
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
@@ -9,14 +15,14 @@ exports.planningOfficerReportRows = (caseData) => {
 	return [
 		{
 			keyText: 'Uploaded planning officer’s report',
-			valueText: formatDocumentDetails(documents, 'planningOfficerReport'),
-			condition: () => caseData.uploadPlanningOfficerReport,
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT),
 			isEscaped: true
 		},
 		{
 			keyText: 'Uploaded policies from statutory development plan',
 			valueText: formatDocumentDetails(documents, 'developmentPlanPolicies'),
-			condition: () => caseData.uploadDevelopmentPlanPolicies,
+			condition: () => documentExists(documents, 'developmentPlanPolicies'),
 			isEscaped: true
 		},
 		{
@@ -27,13 +33,13 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Uploaded emerging plan and supporting information',
 			valueText: formatDocumentDetails(documents, 'emergingPlan'),
-			condition: () => caseData.uploadEmergingPlan,
+			condition: () => documentExists(documents, 'emergingPlan'),
 			isEscaped: true
 		},
 		{
 			keyText: 'Uploaded other relevant policies',
 			valueText: formatDocumentDetails(documents, 'otherRelevantPolicies'),
-			condition: () => caseData.uploadOtherPolicies,
+			condition: () => documentExists(documents, 'otherRelevantPolicies'),
 			isEscaped: true
 		},
 		{
@@ -44,7 +50,7 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Uploaded supplementary planning documents',
 			valueText: formatDocumentDetails(documents, 'supplementaryPlanningDocs'),
-			condition: () => caseData.uploadSupplementaryPlanningDocs,
+			condition: () => documentExists(documents, 'supplementaryPlanningDocs'),
 			isEscaped: true
 		},
 		{
@@ -55,7 +61,7 @@ exports.planningOfficerReportRows = (caseData) => {
 		{
 			keyText: 'Uploaded community infrastructure levy',
 			valueText: formatDocumentDetails(documents, 'infrastructureLevy'),
-			condition: () => caseData.uploadInfrastructureLevy,
+			condition: () => documentExists(documents, 'infrastructureLevy'),
 			isEscaped: true
 		},
 		{

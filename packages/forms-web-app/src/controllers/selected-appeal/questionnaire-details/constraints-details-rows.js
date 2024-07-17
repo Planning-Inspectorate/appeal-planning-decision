@@ -1,5 +1,6 @@
 const { formatYesOrNo, formatDesignations, formatDocumentDetails } = require('@pins/common');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
@@ -53,7 +54,7 @@ exports.constraintsRows = (caseData, user) => {
 		},
 		{
 			keyText: 'Uploaded conservation area map and guidance',
-			valueText: formatDocumentDetails(documents, 'conservationMap'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP),
 			condition: () => caseData.uploadConservation,
 			isEscaped: true
 		},

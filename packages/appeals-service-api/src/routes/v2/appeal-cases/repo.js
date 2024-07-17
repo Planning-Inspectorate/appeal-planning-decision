@@ -70,7 +70,8 @@ const DocumentsArgsPublishedOnly = {
 	},
 	select: {
 		publishedDocumentURI: true,
-		filename: true
+		filename: true,
+		documentType: true
 	}
 };
 

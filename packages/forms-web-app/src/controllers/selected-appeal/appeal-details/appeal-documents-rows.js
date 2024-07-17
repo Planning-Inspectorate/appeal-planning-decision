@@ -1,5 +1,6 @@
 const { formatDocumentDetails, formatNewDescription } = require('@pins/common');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -19,7 +20,7 @@ exports.documentsRows = (caseData, userType) => {
 	return [
 		{
 			keyText: 'Application form',
-			valueText: formatDocumentDetails(documents, 'originalApplicationForm'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM),
 			condition: () => true,
 			isEscaped: true
 		},
@@ -54,7 +55,7 @@ exports.documentsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Appeal statement',
-			valueText: formatDocumentDetails(documents, 'appellantStatement'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT),
 			condition: () => true,
 			isEscaped: true
 		},
@@ -89,13 +90,13 @@ exports.documentsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Evidence of agreement to change description of development',
-			valueText: formatDocumentDetails(documents, 'changedDescription'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION),
 			condition: () => true,
 			isEscaped: true
 		},
 		{
 			keyText: 'Costs application',
-			valueText: formatDocumentDetails(documents, 'costsApplication'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION),
 			condition: (caseData) => isAppellantOrAgent && caseData.appellantCostsAppliedFor,
 			isEscaped: true
 		}

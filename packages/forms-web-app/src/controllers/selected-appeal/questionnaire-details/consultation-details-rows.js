@@ -1,4 +1,5 @@
-const { formatYesOrNo, formatDocumentDetails } = require('@pins/common');
+const { formatYesOrNo, formatDocumentDetails, documentExists } = require('@pins/common');
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
@@ -20,7 +21,7 @@ exports.consultationRows = (caseData) => {
 		{
 			keyText: 'Uploaded consultation responses and standing advice',
 			valueText: formatDocumentDetails(documents, 'consultationResponses'),
-			condition: () => caseData.uploadConsultationResponses,
+			condition: () => documentExists(documents, 'consultationResponses'),
 			isEscaped: true
 		},
 		{
@@ -31,8 +32,8 @@ exports.consultationRows = (caseData) => {
 		},
 		{
 			keyText: 'Uploaded representations from other parties',
-			valueText: formatDocumentDetails(documents, 'otherPartyRepresentations'),
-			condition: () => caseData.uploadRepresentations,
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS),
 			isEscaped: true
 		}
 	];
