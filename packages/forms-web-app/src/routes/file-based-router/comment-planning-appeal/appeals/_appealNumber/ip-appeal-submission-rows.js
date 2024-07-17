@@ -1,4 +1,5 @@
-const { formatDocumentDetails } = require('@pins/common');
+const { formatDocumentDetails, documentExists } = require('@pins/common');
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -17,27 +18,32 @@ const appealSubmissionRows = (caseData) => {
 		{
 			keyText: 'Draft statement of common ground',
 			valueText: formatDocumentDetails(documents, 'statementCommonGround'),
-			condition: () => caseData
+			condition: () => documentExists(documents, 'statementCommonGround'),
+			isEscaped: true
 		},
 		{
 			keyText: 'Appeal statement',
-			valueText: formatDocumentDetails(documents, 'appellantStatement'),
-			condition: () => caseData
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT),
+			isEscaped: true
 		},
 		{
 			keyText: 'Plans or drawings',
 			valueText: formatDocumentDetails(documents, 'plansDrawings'),
-			condition: () => caseData
+			condition: () => documentExists(documents, 'plansDrawings'),
+			isEscaped: true
 		},
 		{
 			keyText: 'Planning obligation',
 			valueText: formatDocumentDetails(documents, 'planningObligation'),
-			condition: () => caseData
+			condition: () => documentExists(documents, 'planningObligation'),
+			isEscaped: true
 		},
 		{
 			keyText: 'Supporting documents',
 			valueText: formatDocumentDetails(documents, 'otherNewDocuments'),
-			condition: () => caseData
+			condition: () => documentExists(documents, 'otherNewDocuments'),
+			isEscaped: true
 		}
 	];
 };

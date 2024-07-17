@@ -3,7 +3,8 @@ const {
 	formatDevelopmentDescription,
 	formatSensitiveArea,
 	formatYesOrNo,
-	formatDocumentDetails
+	formatDocumentDetails,
+	documentExists
 } = require('@pins/common');
 
 /**
@@ -36,7 +37,7 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'Uploaded screening direction',
 			valueText: formatDocumentDetails(documents, 'screeningDirection'),
-			condition: () => caseData.uploadScreeningDirection,
+			condition: () => documentExists(documents, 'screeningDirection'),
 			isEscaped: true
 		},
 		{
@@ -47,7 +48,7 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'Uploaded screening opinion',
 			valueText: formatDocumentDetails(documents, 'screeningOpinion'),
-			condition: () => caseData.uploadScreeningOpinion,
+			condition: () => documentExists(documents, 'screeningOpinion'),
 			isEscaped: true
 		},
 		{
@@ -63,7 +64,7 @@ exports.environmentalRows = (caseData) => {
 		{
 			keyText: 'Uploaded environmental statement',
 			valueText: formatDocumentDetails(documents, 'environmentalStatement'),
-			condition: () => caseData.uploadEnvironmentalStatement,
+			condition: () => documentExists(documents, 'environmentalStatement'),
 			isEscaped: true
 		}
 	];

@@ -1,4 +1,5 @@
-const { formatDocumentDetails } = require('@pins/common');
+const { formatDocumentDetails, documentExists } = require('@pins/common');
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
@@ -9,8 +10,8 @@ exports.notifiedRows = (caseData) => {
 	return [
 		{
 			keyText: 'Who was notified',
-			valueText: formatDocumentDetails(documents, 'whoNotified'),
-			condition: () => caseData.uploadWhoNotified,
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED),
 			isEscaped: true
 		},
 		// TODO data model will need adjusting for possible multiple answers
@@ -21,20 +22,24 @@ exports.notifiedRows = (caseData) => {
 		// },
 		{
 			keyText: 'Site notice',
-			valueText: formatDocumentDetails(documents, 'siteNotice'),
-			condition: () => caseData.uploadSiteNotice,
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_SITE_NOTICE),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_SITE_NOTICE),
 			isEscaped: true
 		},
 		{
 			keyText: 'Letters sent to neighbours',
-			valueText: formatDocumentDetails(documents, 'lettersNeighbours'),
-			condition: () => caseData.uploadLettersEmails,
+			valueText: formatDocumentDetails(
+				documents,
+				APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_LETTER_TO_NEIGHBOURS
+			),
+			condition: () =>
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_LETTER_TO_NEIGHBOURS),
 			isEscaped: true
 		},
 		{
 			keyText: 'Press advert',
-			valueText: formatDocumentDetails(documents, 'pressAdvert'),
-			condition: () => caseData.uploadPressAdvert,
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_PRESS_ADVERT),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_PRESS_ADVERT),
 			isEscaped: true
 		}
 	];
