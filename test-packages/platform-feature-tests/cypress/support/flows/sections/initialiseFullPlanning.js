@@ -110,6 +110,7 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		decideAppealsPage(context?.applicationForm?.appellantProcedurePreference);
 		otherAppealsPage(context?.applicationForm?.anyOtherAppeals,context);
 		
+		cy.uploadDocuments('full-planning','upload-application-form',dynamicId);
 		uploadApplicationFormPage(context,dynamicId);
 
 		submitPlanningObligationPage(context);
