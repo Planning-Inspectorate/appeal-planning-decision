@@ -40,21 +40,13 @@ class InterestedPartyCommentRepository {
 	/**
 	 * Create a new interested party comment
 	 *
-	 * @param {object} commentData
-	 * @param {string} commentData.caseReference
-	 * @param {string} commentData.serviceUserId
-	 * @param {string} commentData.comment
+	 * @param { import("@prisma/client").Prisma.InterestedPartyCommentCreateInput} commentData
 	 * @returns {Promise<InterestedPartyComment>}
 	 */
 	async postComment(commentData) {
 		try {
 			return await this.dbClient.interestedPartyComment.create({
-				data: {
-					caseReference: commentData.caseReference,
-					serviceUserId: commentData.serviceUserId,
-					comment: commentData.comment,
-					createdAt: new Date()
-				}
+				data: commentData
 			});
 		} catch (e) {
 			if (e instanceof PrismaClientValidationError) {

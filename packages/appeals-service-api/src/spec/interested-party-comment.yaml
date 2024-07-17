@@ -7,7 +7,6 @@ components:
         - id
         - caseReference
         - comment
-        - createdAt
       properties:
         id:
           type: string

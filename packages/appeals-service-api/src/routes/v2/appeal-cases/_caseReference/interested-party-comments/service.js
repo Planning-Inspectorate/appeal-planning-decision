@@ -3,10 +3,7 @@ const repo = new InterestedPartyCommentRepository();
 
 /**
  * @typedef {import('@prisma/client').InterestedPartyComment} InterestedPartyComment
- * @typedef {Object} CommentData
- * @property {string} caseReference
- * @property {string} serviceUserId
- * @property {string} comment
+ * @typedef {import("@prisma/client").Prisma.InterestedPartyCommentCreateInput} CommentData
  */
 
 /**

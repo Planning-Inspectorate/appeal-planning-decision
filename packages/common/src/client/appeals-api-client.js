@@ -549,7 +549,7 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {object} commentData
+	 * @param {import("@prisma/client").Prisma.InterestedPartyCommentCreateInput} commentData
 	 * @returns {Promise<InterestedPartyComment>}
 	 */
 	async createInterestedPartyComment(caseReference, commentData) {
