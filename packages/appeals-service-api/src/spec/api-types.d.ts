@@ -459,7 +459,7 @@ export interface AppealCase {
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
 	Events?: object[];
-	AppealCaseLpaNotificationMethod?: string[];
+	AppealCaseLpaNotificationMethod?: object[];
 }
 
 /** An appeal submission created in the Front Office */
@@ -600,10 +600,10 @@ export interface AppellantSubmission {
 	appellantPreferHearingDetails?: string;
 	appellantPreferInquiryDetails?: string;
 	siteAreaSquareMetres?: number;
+	siteAreaUnits?: string;
 	appellantPreferInquiryDuration?: number;
 	appellantPreferInquiryWitnesses?: number;
 	siteArea?: number;
-	tenantAgriculturalHolding?: boolean;
 	tenantAgriculturalHolding?: boolean;
 	appellantLinkedCaseAdd?: boolean;
 	appellantLinkedCase?: boolean;
@@ -741,7 +741,7 @@ export interface DataModelEvent {
 		| 'pre_inquiry'
 		| 'pre_inquiry_virtual';
 	/** An optional description / name for the event */
-	eventName: string;
+	eventName: string | null;
 	/** Status of the event */
 	eventStatus:
 		| 'withdrawn'
@@ -755,7 +755,7 @@ export interface DataModelEvent {
 	/** Indicates if the event is urgent */
 	isUrgent: boolean;
 	/** Indicates if the event has been published */
-	eventPublished: boolean;
+	eventPublished: boolean | null;
 	/**
 	 * Event start date and time
 	 * @format date-time
@@ -765,20 +765,20 @@ export interface DataModelEvent {
 	 * Event end date and time
 	 * @format date-time
 	 */
-	eventEndDateTime: string;
+	eventEndDateTime: string | null;
 	/**
 	 * The date third-parties were informed of the site visit event
 	 * @format date-time
 	 */
-	notificationOfSiteVisit: string;
+	notificationOfSiteVisit: string | null;
 	/** First line of address for the event site */
 	addressLine1: string;
 	/** Second line of address for the event site */
-	addressLine2: string;
+	addressLine2: string | null;
 	/** Town / City of the event address */
 	addressTown: string;
 	/** County of the event address */
-	addressCounty: string;
+	addressCounty: string | null;
 	/** Postal code of the event address */
 	addressPostcode: string;
 }

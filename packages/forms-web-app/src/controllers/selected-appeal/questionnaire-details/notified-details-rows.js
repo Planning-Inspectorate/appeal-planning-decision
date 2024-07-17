@@ -1,4 +1,9 @@
-const { formatDocumentDetails, documentExists } = require('@pins/common');
+const {
+	formatNotificationMethod,
+	hasNotificationMethods,
+	formatDocumentDetails,
+	documentExists
+} = require('@pins/common');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
@@ -14,12 +19,11 @@ exports.notifiedRows = (caseData) => {
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED),
 			isEscaped: true
 		},
-		// TODO data model will need adjusting for possible multiple answers
-		// {
-		// 	keyText: 'Type of Notification',
-		// 	valueText: formatNotificationMethod(caseData),
-		// 	condition: () => caseData.notificationMethod
-		// },
+		{
+			keyText: 'Type of Notification',
+			valueText: formatNotificationMethod(caseData),
+			condition: () => hasNotificationMethods(caseData)
+		},
 		{
 			keyText: 'Site notice',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_SITE_NOTICE),
