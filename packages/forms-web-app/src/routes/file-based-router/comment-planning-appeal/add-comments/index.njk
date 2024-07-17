@@ -1,0 +1,31 @@
+{% extends "layouts/comment-planning-appeal/index.njk" %}
+{% set title = "Enter you email address" %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% block content %}
+    <form method="post">
+<input type="hidden" name="_csrf" value="{{_csrf}}">
+        <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--l" for="appeal-reference">HOLD THAT PLACE</label>
+            <p class="govuk-body">We’ll only contact you if we need to discuss your comment and to let you know the appeal decision. You do not have to enter an email address.</p>
+            {{ govukInput({
+							label: {
+                            text: 'Email address',
+                            classes: 'govuk-label',
+                            for: 'email-address'
+                        },
+                        classes: "govuk-input--width-20",
+                        id : "email-address",
+                        name: "email-address",
+                        errorMessage: error,
+                        value: value
+                        })
+            }}
+        </div>
+				<div class="govuk-button-group">
+        {{ govukButton({text: "Continue", type: "submit"}) }}
+				{{ govukButton({text: "Skip", classes: "govuk-button--secondary"}) }}
+				</div>
+    </form>
+
+{% endblock content %}
