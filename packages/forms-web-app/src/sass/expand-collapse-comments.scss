@@ -1,8 +1,8 @@
-.hidden {
+.toggle-button {
     display: none;
 }
 
-.visible {
+.js-enabled .toggle-button {
     display: inline;
 }
 

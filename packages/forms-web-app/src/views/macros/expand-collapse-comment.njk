@@ -1,0 +1,15 @@
+{% macro renderComment(comment, index, key) %}
+    <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+            <dt class="govuk-summary-list__key">{{ key }}</dt>
+            <dd class="govuk-summary-list__value">
+                <span id="comment-text-{{ index }}" class="comment-text" data-truncated-text="{{ comment.truncatedText }}" data-full-text="{{ comment.text }}">
+                    {{ comment.text }}
+                </span>
+                {% if comment.truncated %}
+                    <a id="toggle-button-{{ index }}" class="toggle-button expand-collapse-button">Read more</a>
+                {% endif %}
+            </dd>
+        </div>
+    </dl>
+{% endmacro %}
