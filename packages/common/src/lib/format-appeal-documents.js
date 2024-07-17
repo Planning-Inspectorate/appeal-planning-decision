@@ -1,4 +1,7 @@
 const escape = require('escape-html');
+const { LPA_NOTIFICATION_METHODS } = require('../database/data-static');
+const LPA_NOTIFICATION_METHODS_ARRAY = Object.values(LPA_NOTIFICATION_METHODS);
+
 /**
  * @param {import('appeals-service-api').Api.Document[]} documents
  * @param {string} documentType
@@ -14,9 +17,9 @@ exports.formatDocumentDetails = (documents, documentType) => {
  * @param {string} documentType
  */
 exports.documentExists = (documents, documentType) => {
-	const filteredDocuments = documents.filter((document) => document.documentType === documentType);
+	const filteredDocuments = documents?.filter((document) => document.documentType === documentType);
 
-	return filteredDocuments.length > 0;
+	return !!filteredDocuments && filteredDocuments.length > 0;
 };
 
 /**
@@ -28,6 +31,34 @@ exports.formatNewDescription = (caseData) => {
 	}
 
 	return 'No';
+};
+
+/**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @returns {boolean}
+ */
+const hasNotificationMethods = (caseData) =>
+	!!caseData.AppealCaseLpaNotificationMethod && !!caseData.AppealCaseLpaNotificationMethod.length;
+exports.hasNotificationMethods = hasNotificationMethods;
+
+/**
+ * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @returns {string|undefined}
+ */
+exports.formatNotificationMethod = (caseData) => {
+	if (!hasNotificationMethods(caseData)) {
+		return '';
+	}
+
+	const methods = caseData.AppealCaseLpaNotificationMethod?.map((x) => {
+		const method = LPA_NOTIFICATION_METHODS_ARRAY.find((obj) => {
+			return obj.key === x.lPANotificationMethodsKey;
+		});
+
+		return method?.name;
+	}).filter(Boolean);
+
+	return methods?.join('\n');
 };
 
 /**

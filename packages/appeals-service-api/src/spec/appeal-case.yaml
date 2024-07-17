@@ -575,4 +575,4 @@ components:
         AppealCaseLpaNotificationMethod:
           type: array
           items:
-            type: string
+            type: object
