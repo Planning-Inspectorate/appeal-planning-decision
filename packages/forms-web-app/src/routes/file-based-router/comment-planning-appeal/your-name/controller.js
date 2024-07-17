@@ -1,5 +1,8 @@
 /** @type {import('express').RequestHandler} */
 const yourNameGet = (req, res) => {
+	// if (!req.session.interestedParty.appealNumber) {
+	// To be discussed with design / team
+	// }
 	res.render(`comment-planning-appeal/your-name/index`);
 };
 
@@ -28,15 +31,10 @@ const yourNamePost = async (req, res) => {
 	// 	});
 	// }
 
-	// if (await req.appealsApiClient.appealCaseRefExists(appealReference)) {
-	// 	res.redirect(`/comment-planning-appeal/appeals/${appealReference}`);
-	// 	return;
-	// }
-
 	req.session.interestedParty.firstName = firstName;
 	req.session.interestedParty.lastName = lastName;
 
-	return res.redirect(`comment-planning-appeal/your-email/index`);
+	return res.redirect(`email-address`);
 };
 
 module.exports = { yourNameGet, yourNamePost };
