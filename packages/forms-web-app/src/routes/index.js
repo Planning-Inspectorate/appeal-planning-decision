@@ -24,8 +24,6 @@ const {
 	getDocumentV2,
 	getPublishedDocumentV2Url
 } = require('../controllers/document');
-const { routes: fileBasedRoutes } = require('./file-based-router');
-
 const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadline');
 const checkAppealExists = require('#middleware/check-appeal-exists');
 const checkDebugAllowed = require('#middleware/check-debug-allowed');
@@ -86,12 +84,6 @@ router.use(
 	checkDecisionDateDeadline,
 	submission
 );
-
-// file-based-router
-for (const [url, handler] of Object.entries(fileBasedRoutes)) {
-	const suffix = url.startsWith('/') ? url : `/${url}`;
-	router.use(`${suffix}`, handler);
-}
 
 /// Local/Test only pages ///
 router.use('/debug', checkDebugAllowed, debug);
