@@ -11,6 +11,9 @@ export type HttpMethods =
 	| 'put'
 	| 'trace';
 
+export type Middleware = [Handler[], { [key: HttpMethods]: Handler[] }];
+
 export interface RouterModule {
 	[method: HttpMethods]: Handler;
+	middleware?: Middleware;
 }

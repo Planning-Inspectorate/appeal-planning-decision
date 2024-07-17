@@ -1,7 +1,14 @@
+const {
+	broadMiddlewareA,
+	broadMiddlewareB,
+	specificMiddlewareA,
+	specificMiddlewareB
+} = require('../../middleware');
 const { drinks } = require('../constants');
 
 /**
  * @typedef {import('express').Handler} Handler
+ * @typedef {import('../../../router-v2-types').Middleware} Middleware
  */
 
 /** @type Handler */
@@ -42,3 +49,9 @@ exports.put = (req, res) => {
 exports.trace = (req, res) => {
 	res.send(`trace at /drinks/${req.params.id}`);
 };
+
+/** @type Middleware */
+exports.middleware = [
+	[broadMiddlewareA, broadMiddlewareB],
+	{ put: [specificMiddlewareA], patch: [specificMiddlewareA], get: [specificMiddlewareB] }
+];
