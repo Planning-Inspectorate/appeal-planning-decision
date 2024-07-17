@@ -40,7 +40,6 @@ exports.getRouter = (
 	getRoutePaths(directory, options)
 		.sort((a, b) => b.split('/').length - a.split('/').length)
 		.reduce((router, dirName) => {
-			console.log('🚀 ~ .reduce ~ dirName:', dirName);
 			/** @type {RouterModule} */
 			const module = require(`${dirName}`);
 			Object.entries(module).forEach(([method, handler]) => {
