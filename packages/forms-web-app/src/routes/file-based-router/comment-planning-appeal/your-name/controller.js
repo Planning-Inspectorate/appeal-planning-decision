@@ -13,18 +13,21 @@ const yourNameGet = (req, res) => {
 const yourNamePost = async (req, res) => {
 	const { 'first-name': firstName, 'last-name': lastName } = req.body;
 
+	req.session.interestedParty.firstName = firstName;
+	req.session.interestedParty.lastName = lastName;
+
+	let errors = {};
+
 	if (!firstName) {
-		return res.render(`comment-planning-appeal/your-name/index`, {
-			error: { text: 'Enter your first name', href: '#first-name' },
-			value: firstName
-		});
+		errors.firstName = {
+			text: 'Enter your first name'
+		};
 	}
 
 	if (!lastName) {
-		return res.render(`comment-planning-appeal/your-name/index`, {
-			error: { text: 'Enter your last name', href: '#last-name' },
-			value: lastName
-		});
+		errors.lastName = {
+			text: 'Enter your last name'
+		};
 	}
 
 	// if (!/^[0-9]{7}$/.exec(appealReference)) {
@@ -34,8 +37,12 @@ const yourNamePost = async (req, res) => {
 	// 	});
 	// }
 
-	req.session.interestedParty.firstName = firstName;
-	req.session.interestedParty.lastName = lastName;
+	if (Object.keys(errors).length) {
+		return res.render(`comment-planning-appeal/your-name/index`, {
+			errors,
+			interestedParty: req.session.interestedParty
+		});
+	}
 
 	return res.redirect(`email-address`);
 };

@@ -4,9 +4,9 @@ const emailAddressGet = (req, res) => {
 	// To be discussed with design / team
 	// }
 
-	req.session.interestedParty.emailAddress = '';
+	const interestedParty = req.session.interestedParty || {};
 
-	res.render(`comment-planning-appeal/email-address/index`);
+	res.render(`comment-planning-appeal/email-address/index`, { interestedParty });
 };
 
 /** @type {import('express').RequestHandler} */
