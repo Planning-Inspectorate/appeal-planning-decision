@@ -5,6 +5,7 @@ const appealDetailsController = require('../../../controllers/selected-appeal/ap
 const questionnaireDetailsController = require('../../../controllers/selected-appeal/questionnaire-details');
 const finalCommentsController = require('../../../controllers/selected-appeal/final-comments-details');
 const interestedPartyDetailsController = require('../../../controllers/selected-appeal/ip-comment-details');
+const statementDetailsController = require('../../../controllers/selected-appeal/statements');
 
 const router = express.Router({ mergeParams: true });
 
@@ -14,5 +15,6 @@ router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get())
 router.get('/:appealNumber/final-comments', finalCommentsController.get());
 router.get('/:appealNumber/lpa-final-comments', finalCommentsController.get());
 router.get('/:appealNumber/interested-party-comments', interestedPartyDetailsController.get());
+router.get('/:appealNumber/lpa-statement', statementDetailsController.get());
 
 module.exports = router;
