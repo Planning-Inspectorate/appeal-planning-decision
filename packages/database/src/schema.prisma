@@ -626,6 +626,10 @@ model AppellantSubmission {
   LPACode        String
   appealTypeCode String // type shortcode such as HAS or S78
 
+  // dates
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   // application
   applicationDecisionDate DateTime?
   applicationDecision     String?
@@ -727,6 +731,10 @@ model LPAQuestionnaireSubmission {
   // link the submission to the appeal
   appealCaseReference String     @unique
   AppealCase          AppealCase @relation(fields: [appealCaseReference], references: [caseReference])
+
+  // dates
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   // state
   submitted Boolean @default(false) /// whether the appeal has been submitted to BO
