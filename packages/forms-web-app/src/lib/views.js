@@ -215,7 +215,8 @@ const VIEW = {
 		APPEAL_DETAILS: 'selected-appeal/appeal-details',
 		APPEAL_QUESTIONNAIRE: 'selected-appeal/questionnaire-details',
 		APPEAL_FINAL_COMMENTS: 'selected-appeal/final-comments-details',
-		APPEAL_IP_COMMENTS: 'selected-appeal/ip-comment-details'
+		APPEAL_IP_COMMENTS: 'selected-appeal/ip-comment-details',
+		APPEAL_STATEMENTS: 'selected-appeal/statements'
 	},
 
 	SUBMIT_APPEAL: {
