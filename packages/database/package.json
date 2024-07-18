@@ -23,8 +23,7 @@
 	"license": "ISC",
 	"dependencies": {
 		"@pins/business-rules": "file:../business-rules",
-		"@pins/common": "file:../common",
-		"pins-data-model": "github:Planning-Inspectorate/data-model#1.7.2"
+		"@pins/common": "file:../common"
 	},
 	"devDependencies": {
 		"@prisma/client": "^5.11.0",
