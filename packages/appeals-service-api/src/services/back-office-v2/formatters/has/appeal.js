@@ -56,6 +56,7 @@ exports.formatter = async (appellantSubmission) => {
 
 	return {
 		casedata: {
+			submissionId: appellantSubmission.appealId,
 			caseType: 'D',
 			caseProcedure: 'written',
 			lpaCode: lpa.getLpaCode(),

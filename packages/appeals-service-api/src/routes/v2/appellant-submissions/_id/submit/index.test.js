@@ -23,6 +23,7 @@ jest.mock('../service', () => ({
 		switch (appellantSubmissionId) {
 			case '001':
 				return {
+					appealId: 'f70dd26f-3776-4685-a79c-a81dbe8790b6',
 					LPACode: 'LPA_001',
 					appealTypeCode: 'HAS',
 					applicationDecisionDate: new Date('2024-01-01'),
@@ -95,6 +96,7 @@ jest.mock('../service', () => ({
 				};
 			case '002':
 				return {
+					appealId: '29eee0be-d395-4039-a277-7435e7ab0b66',
 					LPACode: 'LPA_002',
 					appealTypeCode: 'HAS',
 					applicationDecisionDate: new Date('2024-01-01'),
@@ -222,6 +224,7 @@ jest.mock('express-oauth2-jwt-bearer');
 /** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
 const formattedHAS1 = {
 	casedata: {
+		submissionId: 'f70dd26f-3776-4685-a79c-a81dbe8790b6',
 		advertisedAppeal: null,
 		appellantCostsAppliedFor: false,
 		applicationDate: '2024-01-01T00:00:00.000Z',
@@ -282,6 +285,7 @@ const formattedHAS1 = {
 /** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
 const formattedHAS2 = {
 	casedata: {
+		submissionId: '29eee0be-d395-4039-a277-7435e7ab0b66',
 		advertisedAppeal: null,
 		appellantCostsAppliedFor: false,
 		applicationDate: '2024-01-01T00:00:00.000Z',

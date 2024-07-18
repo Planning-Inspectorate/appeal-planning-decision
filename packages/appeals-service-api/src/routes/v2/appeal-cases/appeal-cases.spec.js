@@ -401,6 +401,24 @@ describe('appeal-cases', () => {
 			expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
 		});
 
+		it('links to initial submission', async () => {
+			const appeal = await sqlClient.appeal.create({});
+
+			example.caseReference = 'link-to-submission';
+			example.submissionId = appeal.id;
+
+			await appealsApi.put(`/api/v2/appeal-cases/` + example.caseReference).send(example);
+
+			const appealCase = await sqlClient.appealCase.findFirst({
+				where: { caseReference: example.caseReference },
+				select: {
+					appealId: true
+				}
+			});
+
+			expect(appealCase?.appealId).toBe(appeal.id);
+		});
+
 		it(`returns 400 for bad requests`, async () => {
 			const badData = {
 				caseType: 'D'
