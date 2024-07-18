@@ -77,7 +77,7 @@ const DocumentsArgsPublishedOnly = {
 /**
  * @param {String} caseProcessCode
  * @param {AppealHASCase} dataModel
- * @returns {AppealCaseCreateWithoutAppealInput}
+ * @returns {AppealCaseCreate}
  */
 const mapHASDataModelToAppealCase = (
 	caseProcessCode,
@@ -89,6 +89,7 @@ const mapHASDataModelToAppealCase = (
 		nearbyCaseReferences: _nearbyCaseReferences,
 		neighbouringSiteAddresses: _neighbouringSiteAddresses,
 		affectedListedBuildingNumbers: _affectedListedBuildingNumbers,
+		submissionId: _submissionId,
 		caseStatus,
 		caseDecisionOutcome,
 		caseValidationOutcome,
@@ -190,7 +191,10 @@ class AppealCaseRepository {
 		const mappedData = mapHASDataModelToAppealCase(caseProcessCode, data);
 
 		const appealCase = await this.dbClient.appealCase.upsert({
-			create: { ...mappedData, Appeal: { create: {} } },
+			create: {
+				...mappedData,
+				Appeal: data.submissionId ? { connect: { id: data.submissionId } } : { create: {} }
+			},
 			update: mappedData,
 			where: {
 				caseReference
