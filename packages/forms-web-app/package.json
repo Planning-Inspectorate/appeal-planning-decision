@@ -56,7 +56,6 @@
 		"nunjucks-date-filter": "^0.1.1",
 		"pino": "^9.2.0",
 		"pino-http": "^10.1.0",
-		"pins-data-model": "github:Planning-Inspectorate/data-model#1.7.2",
 		"sass": "^1.49.0",
 		"uuid": "^8.3.1"
 	},
