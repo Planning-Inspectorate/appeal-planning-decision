@@ -3,7 +3,10 @@ const yourNameGet = (req, res) => {
 	// if (!req.session.interestedParty.appealNumber) {
 	// To be discussed with design / team
 	// }
-	res.render(`comment-planning-appeal/your-name/index`);
+
+	const interestedParty = req.session.interestedParty || {};
+
+	res.render(`comment-planning-appeal/your-name/index`, { interestedParty });
 };
 
 /** @type {import('express').RequestHandler} */
