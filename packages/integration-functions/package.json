@@ -29,7 +29,6 @@
 		"@azure/storage-blob": "^12.17.0",
 		"@pins/common": "file:../common",
 		"got": "^11.8.5",
-		"pins-data-model": "github:Planning-Inspectorate/data-model#1.7.2",
 		"stream-json": "^1.8.0"
 	}
 }
