@@ -41,12 +41,27 @@ const yourNamePost = async (req, res) => {
 		});
 	}
 
-	// if (!/^[0-9]{7}$/.exec(appealReference)) {
-	// 	return res.render(`comment-planning-appeal/enter-appeal-reference/index`, {
-	// 		error: { text: 'Enter the appeal reference using numbers 0 to 9', href: '#appeal-reference' },
-	// 		value: appealReference
-	// 	});
-	// }
+	if (firstName.length > 250) {
+		errors['first-name'] = {
+			msg: 'First name must be 250 characters or less',
+			param: 'first-name'
+		};
+		errorSummary.push({
+			text: 'First name must be 250 characters or less',
+			href: '#first-name'
+		});
+	}
+
+	if (lastName.length > 250) {
+		errors['last-name'] = {
+			msg: 'Last name must be 250 characters or less',
+			param: 'last-name'
+		};
+		errorSummary.push({
+			text: 'Last name must be 250 characters or less',
+			href: '#last-name'
+		});
+	}
 
 	if (Object.keys(errors).length) {
 		return res.render(`comment-planning-appeal/your-name/index`, {
