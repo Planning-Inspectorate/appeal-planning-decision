@@ -1,4 +1,6 @@
 // common controllers for dynamic forms
+const fs = require('fs');
+const path = require('path');
 const { SECTION_STATUS } = require('./section');
 const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
@@ -368,10 +370,14 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		summaryListData.sections.push(sectionView);
 	}
 
+	const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
+
 	return res.render(journey.informationPageViewPath, {
 		summaryListData,
 		layoutTemplate: journey.journeyTemplate,
-		journeyTitle: journey.journeyTitle
+		journeyTitle: journey.journeyTitle,
+		css,
+		displayCookieBanner: false
 	});
 };
 
