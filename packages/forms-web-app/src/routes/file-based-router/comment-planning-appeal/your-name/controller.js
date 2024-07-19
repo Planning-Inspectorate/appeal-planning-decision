@@ -20,13 +20,15 @@ const yourNamePost = async (req, res) => {
 
 	if (!firstName) {
 		errors.firstName = {
-			text: 'Enter your first name'
+			text: 'Enter your first name',
+			href: '#first-name'
 		};
 	}
 
 	if (!lastName) {
 		errors.lastName = {
-			text: 'Enter your last name'
+			text: 'Enter your last name',
+			href: '#last-name'
 		};
 	}
 
