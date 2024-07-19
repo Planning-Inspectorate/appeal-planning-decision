@@ -1,8 +1,8 @@
 /** @type {import('express').RequestHandler} */
 const emailAddressGet = (req, res) => {
-	// if (!req.session.interestedParty.appealNumber) {
-	// To be discussed with design / team
-	// }
+	if (!req.session.interestedParty?.appealNumber) {
+		return res.redirect(`enter-appeal-reference`);
+	}
 
 	const interestedParty = req.session.interestedParty || {};
 
@@ -11,31 +11,17 @@ const emailAddressGet = (req, res) => {
 
 /** @type {import('express').RequestHandler} */
 const emailAddressPost = async (req, res) => {
-	const { 'email-address': emailAddress } = req.body;
+	const { body } = req;
+	const { errors = {}, errorSummary = [], 'email-address': emailAddress } = body;
+	const interestedParty = req.session.interestedParty || {};
 
-	if (emailAddress) {
+	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/email-address/index`, {
-			error: {
-				text: 'Enter an email address in the correct format, like name@example.com',
-				href: '#email-address'
-			},
-			value: emailAddress
+			interestedParty,
+			errors,
+			errorSummary
 		});
 	}
-
-	// if (!lastName) {
-	// 	return res.render(`comment-planning-appeal/your-name/index`, {
-	// 		error: { text: 'Enter your last name', href: '#last-name' },
-	// 		value: lastName
-	// 	});
-	// }
-
-	// if (!/^[0-9]{7}$/.exec(appealReference)) {
-	// 	return res.render(`comment-planning-appeal/enter-appeal-reference/index`, {
-	// 		error: { text: 'Enter the appeal reference using numbers 0 to 9', href: '#appeal-reference' },
-	// 		value: appealReference
-	// 	});
-	// }
 
 	req.session.interestedParty.emailAddress = emailAddress;
 
