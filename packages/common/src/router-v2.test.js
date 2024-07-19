@@ -30,7 +30,11 @@ const expectedRouteDictShape = [
 describe('getRoutesV2', () => {
 	const routeDirectory = path.join(__dirname, './router-v2-test-dir');
 	const app = express();
-	spoolRoutes(app, routeDirectory, { includeRoot: true });
+	spoolRoutes(app, routeDirectory, {
+		includeRoot: true,
+		// logger: { info: jest.fn(), warn: jest.fn() },
+		logger: { info: console.log, warn: console.warn }
+	});
 
 	beforeEach(() => {
 		jest.clearAllMocks();
@@ -55,7 +59,9 @@ describe('getRoutesV2', () => {
 		const backwardsCompatibleApp = express();
 		spoolRoutes(backwardsCompatibleApp, routeDirectory, {
 			includeRoot: true,
-			backwardsCompatibilityModeEnabled: true
+			backwardsCompatibilityModeEnabled: true,
+			// logger: { info: jest.fn(), warn: jest.fn() }
+			logger: { info: console.log, warn: console.warn }
 		});
 
 		const res = await request(backwardsCompatibleApp).get('/pencils');
