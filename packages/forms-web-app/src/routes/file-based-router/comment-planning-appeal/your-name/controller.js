@@ -1,8 +1,8 @@
 /** @type {import('express').RequestHandler} */
 const yourNameGet = (req, res) => {
-	// if (!req.session.interestedParty.appealNumber) {
-	// To be discussed with design / team
-	// }
+	if (!req.session.interestedParty?.appealNumber) {
+		return res.redirect(`enter-appeal-reference`);
+	}
 
 	const interestedParty = req.session.interestedParty || {};
 
@@ -17,19 +17,28 @@ const yourNamePost = async (req, res) => {
 	req.session.interestedParty.lastName = lastName;
 
 	let errors = {};
+	let errorSummary = [];
 
 	if (!firstName) {
-		errors.firstName = {
+		errors['first-name'] = {
+			msg: 'Enter your first name',
+			param: 'first-name'
+		};
+		errorSummary.push({
 			text: 'Enter your first name',
 			href: '#first-name'
-		};
+		});
 	}
 
 	if (!lastName) {
-		errors.lastName = {
+		errors['last-name'] = {
+			msg: 'Enter your last name',
+			param: 'last-name'
+		};
+		errorSummary.push({
 			text: 'Enter your last name',
 			href: '#last-name'
-		};
+		});
 	}
 
 	// if (!/^[0-9]{7}$/.exec(appealReference)) {
@@ -42,6 +51,7 @@ const yourNamePost = async (req, res) => {
 	if (Object.keys(errors).length) {
 		return res.render(`comment-planning-appeal/your-name/index`, {
 			errors,
+			errorSummary,
 			interestedParty: req.session.interestedParty
 		});
 	}

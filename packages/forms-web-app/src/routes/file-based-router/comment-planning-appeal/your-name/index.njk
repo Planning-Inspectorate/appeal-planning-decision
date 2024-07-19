@@ -17,7 +17,9 @@
                         classes: "govuk-input--width-20",
                         id : "first-name",
                         name: "first-name",
-                        errorMessage: errors.firstName,
+                        errorMessage: errors["first-name"] and {
+													text: errors["first-name"].msg
+												},
                         value: interestedParty.firstName
                         })
             }}
@@ -30,7 +32,9 @@
                         classes: "govuk-input--width-20",
                         id : "last-name",
                         name: "last-name",
-                        errorMessage: errors.lastName,
+                        errorMessage: errors["last-name"] and {
+													text: errors["last-name"].msg
+												},
                         value: interestedParty.lastName
                         })
             }}
