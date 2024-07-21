@@ -1,11 +1,11 @@
 import { typeOfPlanningApplication } from "../fixtures/lpas.json";
-import { submitFullAppealData } from "../utils/submitFullAppeal";
+import { submitFullAppealTestCases } from "../utils/fullAppeal/submitFullAppealUtil";
 const { submitAppealFlow } = require('../support/flows/appeal');
 //const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 
 describe('Appeal uploads', () => {
 
-	submitFullAppealData.forEach((context) => {
+	submitFullAppealTestCases.forEach((context) => {
 		const {
 			statusOfOriginalApplication,
 			typeOfDecisionRequested,

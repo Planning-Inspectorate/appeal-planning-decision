@@ -1,8 +1,8 @@
-import { HowManyDaysInquiry } from "../../../../page-objects/prepare-appeal/how-many-days-inquiry";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = () => {
-    const enterHowManyDaysInquiry = new HowManyDaysInquiry();
-	   
+    const basePage = new BasePage();
+    
     //How many days would you expect the inquiry to last?
-    enterHowManyDaysInquiry.addHowManyDaysInquiryField('#appellantPreferInquiryDuration','30');
+    basePage.addTextField('#appellantPreferInquiryDuration','30');
     cy.advanceToNextPage();       
 };

@@ -1,17 +1,18 @@
-import { ApplicationName } from "../../../../page-objects/prepare-appeal/application-name";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = (isAppellant) => {
-    const applicationName = new ApplicationName();
+    
+    const basePage = new BasePage();
 
     if (isAppellant) {
-        applicationName.clickApplicationName('[data-cy="answer-yes"]');
+        basePage.clickRadioBtn('[data-cy="answer-yes"]');
         cy.advanceToNextPage();
     }
     else {
-        applicationName.clickApplicationName('[data-cy="answer-no"]');
+        basePage.clickRadioBtn('[data-cy="answer-no"]');
         cy.advanceToNextPage();
-        applicationName.addApplicationNameField('#appellantFirstName', 'firstname');
-        applicationName.addApplicationNameField('#appellantLastName', 'lastname');
-        applicationName.addApplicationNameField('#appellantCompanyName', 'companyname')
+        basePage.addTextField('#appellantFirstName', 'firstname');
+        basePage.addTextField('#appellantLastName', 'lastname');
+        basePage.addTextField('#appellantCompanyName', 'companyname')
         cy.advanceToNextPage();
 
     }

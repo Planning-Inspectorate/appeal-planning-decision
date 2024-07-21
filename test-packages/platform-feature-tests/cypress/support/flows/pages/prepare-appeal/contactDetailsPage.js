@@ -1,16 +1,14 @@
-import { ContactDetails } from "../../../../page-objects/prepare-appeal/contact-details";
-import { PhoneNumber } from "../../../../page-objects/prepare-appeal/phone-number";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = (context) => {
-    const contactDetails = new ContactDetails();
-    const phoneNumber = new PhoneNumber();
+    const basePage = new BasePage();   
 
-    contactDetails.addContactDetailsField('#contactFirstName', 'Contact firstname');
-    contactDetails.addContactDetailsField('#contactLastName', 'Contact lastname');
-    contactDetails.addContactDetailsField('#contactCompanyName', 'Test Company');
+    basePage.addTextField('#contactFirstName', 'Contact firstname');
+    basePage.addTextField('#contactLastName', 'Contact lastname');
+    basePage.addTextField('#contactCompanyName', 'Test Company');
     cy.advanceToNextPage();  
 	   
     //What is your phone number?
-    phoneNumber.addPhoneNumberField('#contactPhoneNumber','07654321000');
+    basePage.addTextField('#contactPhoneNumber','07654321000');
     cy.advanceToNextPage();       
 
 };

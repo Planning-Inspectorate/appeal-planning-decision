@@ -1,24 +1,26 @@
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = (context) => {
+    const basePage = new BasePage();  
     if(context?.uploadDocuments?.submitPlanningObligation){
-        cy.get('[data-cy="answer-yes"]').click();
+        basePage.clickRadioBtn('[data-cy="answer-yes"]');
         cy.advanceToNextPage();	
         if(context?.uploadDocuments?.finalisedPlanningStatus === "ready"){
-            cy.get('[data-cy="answer-finalised"]').click();
+            basePage.clickRadioBtn('[data-cy="answer-finalised"]');
             cy.advanceToNextPage();	   
-            cy.uploadFileFromFixtureDirectory('additional-final-comments-2.pdf');
+            cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFinalisingDocReady);
             cy.advanceToNextPage();         
         } else if(context?.uploadDocuments?.finalisedPlanningStatus === "draft"){
-            cy.get('[data-cy="answer-draft"]').click();
+            basePage.clickRadioBtn('[data-cy="answer-draft');
             cy.advanceToNextPage();	   
-            cy.uploadFileFromFixtureDirectory('additional-final-comments-2.pdf');
+            cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFinalisingDocDraft);
             cy.advanceToNextPage();         
         } else {
-            cy.get('[data-cy="answer-not started yet"]').click();
+            basePage.clickRadioBtn('[data-cy="answer-not started yet"]');
             cy.advanceToNextPage();
         }     
       
     } else {
-        cy.get('[data-cy="answer-no"]').click();
+        basePage.clickRadioBtn('[data-cy="answer-no"]');
         cy.advanceToNextPage();	
     }
     

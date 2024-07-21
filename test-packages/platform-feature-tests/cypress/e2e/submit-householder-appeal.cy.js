@@ -1,4 +1,4 @@
-import { submitHouseHolderAppealTestCases } from "../utils/submitHouseHoldAppealUtil";
+import { submitHouseHolderAppealTestCases } from "../utils/houseHolderAppeal/submitHouseHolderAppealUtil";
 const { submitAppealFlow } = require('../support/flows/appeal');
 
 describe('Appeal uploads', () => {
@@ -14,7 +14,7 @@ submitHouseHolderAppealTestCases.forEach((context) => {
 
 			// , expectedFilesAndFoldersInHorizon // NOTE: commented out since this variable isn't used yet, so linting will be angry!
 		} = context;
-			// Full planning
+			// House Holding
 			//typeOfPlanningApplication?.forEach((planning) => {
 				it(`sends a House Hold planning application successfully to Horizon where the original application status is "${statusOfOriginalApplication}", 
 				the decision type requested is "${typeOfDecisionRequested}", the planning obligation status is "${statusOfPlanningObligation}", application type is 

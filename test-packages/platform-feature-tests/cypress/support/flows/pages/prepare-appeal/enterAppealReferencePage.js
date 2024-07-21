@@ -1,11 +1,12 @@
-import { EnterAppealReference } from "../../../../page-objects/prepare-appeal/enter-appeal-reference";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = (isAppellantLinkedCaseAdd) => {
-    const enterAppealReference = new EnterAppealReference();
+    const basePage = new BasePage();
+   
     if(isAppellantLinkedCaseAdd){
-        enterAppealReference.clickEnterAppealReference('[data-cy="answer-yes"]');        
+        basePage.clickRadioBtn('[data-cy="answer-yes"]');        
         cy.advanceToNextPage();
     } else {      
-        enterAppealReference.clickEnterAppealReference('[data-cy="answer-no"]');        
+        basePage.clickRadioBtn('[data-cy="answer-no"]');        
         cy.advanceToNextPage(); 
     }     
 };

@@ -1,5 +1,19 @@
 
-export const submitFullAppealData = 	[
+const documents = {
+    uploadAppealStmt:'appeal-statement-valid.pdf',
+    uploadApplicationForAppealCost:'other-supporting-docs.pdf',
+    uploadNewPlanOrDrawing:'plans-drawings.jpeg',
+    uploadOtherNewSupportDoc:'other-supporting-docs.pdf',
+    uploadSeparateOwnershipCertAndAgricultureDoc:'draft-planning-obligation.pdf',
+    uploadDesignAndAccessStmt:'design-and-access-statement.pdf',
+    uploadPlansDrawingAndSupportingDocs:'plans-drawings-and-supporting-documents.pdf',
+    uploadFinalisingDocReady:'additional-final-comments-2.pdf',
+    uploadFinalisingDocDraft:'additional-final-comments-2.pdf',
+    uploadDevelopmentDescription:'additional-final-comments-1.pdf',
+    uploadDecisionLetter:'decision-letter.pdf', 
+    uploadPlanningApplConfirmLetter:'letter-confirming-planning-application.pdf'          
+};
+export const fullAppealRefusedTestCases = 	[
     {
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'inquiry',
@@ -32,6 +46,7 @@ export const submitFullAppealData = 	[
             isNewPlanOrDrawingAvailable: true,
             isOtherNewDocumentAvailable: true
         },
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
@@ -74,6 +89,7 @@ export const submitFullAppealData = 	[
             isNewPlanOrDrawingAvailable: true,
             isOtherNewDocumentAvailable: true
         },
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
@@ -116,6 +132,7 @@ export const submitFullAppealData = 	[
             isNewPlanOrDrawingAvailable: true,
             isOtherNewDocumentAvailable: true
         },
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
@@ -158,6 +175,7 @@ export const submitFullAppealData = 	[
             isNewPlanOrDrawingAvailable: true,
             isOtherNewDocumentAvailable: true
         },
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
@@ -200,6 +218,7 @@ export const submitFullAppealData = 	[
             isNewPlanOrDrawingAvailable: true,
             isOtherNewDocumentAvailable: true
         },
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
@@ -242,6 +261,7 @@ export const submitFullAppealData = 	[
             isNewPlanOrDrawingAvailable: true,
             isOtherNewDocumentAvailable: true
         },
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
@@ -284,6 +304,7 @@ export const submitFullAppealData = 	[
             isNewPlanOrDrawingAvailable: true,
             isOtherNewDocumentAvailable: true
         },
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
@@ -326,6 +347,7 @@ export const submitFullAppealData = 	[
             isNewPlanOrDrawingAvailable: true,
             isOtherNewDocumentAvailable: true
         },
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
@@ -368,6 +390,7 @@ export const submitFullAppealData = 	[
             isNewPlanOrDrawingAvailable: true,
             isOtherNewDocumentAvailable: true
         },
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
@@ -410,6 +433,7 @@ export const submitFullAppealData = 	[
             isNewPlanOrDrawingAvailable: true,
             isOtherNewDocumentAvailable: true
         },
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
@@ -418,8 +442,10 @@ export const submitFullAppealData = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
+        }
+
      },
+     //  ===========================    old test cases   ================
     //  {
     //     statusOfOriginalApplication: 'refused',
     //     typeOfDecisionRequested: 'hearing',
