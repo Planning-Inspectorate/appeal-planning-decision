@@ -1,15 +1,14 @@
-import { GreenBelt } from "../../../../page-objects/prepare-appeal/green-belt";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = (appellantInGreenBelt) => {
-    const greenbelt = new GreenBelt();
+    const basePage = new BasePage();
+    
     if(appellantInGreenBelt){
-        greenbelt.clickAppellantGreenBelt('[data-cy="answer-yes"]');        
+        basePage.clickRadioBtn('[data-cy="answer-yes"]');        
         cy.advanceToNextPage(); 
     } else {
 //Is the appeal site in a green belt?Ans:No
-        greenbelt.clickAppellantGreenBelt('[data-cy="answer-no"]');        
+        basePage.clickRadioBtn('[data-cy="answer-no"]');        
         cy.advanceToNextPage(); 
-    }
-
-	       
+    }      
       
 };

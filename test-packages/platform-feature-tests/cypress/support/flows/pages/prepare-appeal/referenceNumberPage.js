@@ -1,8 +1,8 @@
-import { ReferenceNumber } from "../../../../page-objects/prepare-appeal/reference-number";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = () => {
-    const referenceNumber = new ReferenceNumber();
-	   
+    const basePage = new BasePage();
+    	   
     //What is application reference number?
-    referenceNumber.addReferenceNumberField('#applicationReference','TEST-171947077123712345x6');
+    basePage.addTextField('#applicationReference','TEST-171947077123712345x6');
     cy.advanceToNextPage();       
 };

@@ -1,8 +1,8 @@
-import { WhyPreferInquiry } from "../../../../page-objects/prepare-appeal/why-prefer-inquiry";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = () => {
-    const enterWhyPreferInquiry = new WhyPreferInquiry();
-	   
+    const basePage = new BasePage();
+    	   
     //Why would you prefer a inquiry?
-    enterWhyPreferInquiry.addWhyPreferInquiryField('#appellantPreferInquiryDetails','Previous decision is not correct 12345!£%^&*');
+    basePage.addTextField('#appellantPreferInquiryDetails','Previous decision is not correct 12345!£%^&*');
     cy.advanceToNextPage();       
 };

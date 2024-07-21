@@ -1,12 +1,14 @@
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = (context) => {
+    const basePage = new BasePage();
 
     if (context?.applicationForm?.isAppellantSiteSafety) {
-        cy.get('[data-cy="answer-yes"]').click();
-        cy.get('#appellantSiteSafety_appellantSiteSafetyDetails').type('appellantSiteSafety_appellantSiteSafetyDetails1234567890!"£$%^&*(10)');
+        basePage.clickRadioBtn('[data-cy="answer-yes"]');     
+        basePage.addTextField('#appellantSiteSafety_appellantSiteSafetyDetails','appellantSiteSafety_appellantSiteSafetyDetails1234567890!"£$%^&*(10)');       
         cy.advanceToNextPage();
     }
     else {
-        cy.get('[data-cy="answer-no"]').click();
+        basePage.clickRadioBtn('[data-cy="answer-no"]');
         cy.advanceToNextPage();
     }
 };

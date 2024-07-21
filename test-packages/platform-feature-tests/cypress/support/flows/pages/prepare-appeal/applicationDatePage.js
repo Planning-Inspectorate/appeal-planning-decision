@@ -1,9 +1,10 @@
-import { ApplicationDate } from "../../../../page-objects/prepare-appeal/application-date";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = () => {
-    const applicationDate = new ApplicationDate();
+    
+    const basePage = new BasePage();
     let currentDate = new Date();
-    applicationDate.addApplicationDateField('#onApplicationDate_day',currentDate.getDate());
-    applicationDate.addApplicationDateField('#onApplicationDate_month',currentDate.getMonth() - 1);
-    applicationDate.addApplicationDateField('#onApplicationDate_year',currentDate.getFullYear());     
+    basePage.addTextField('#onApplicationDate_day',currentDate.getDate());
+    basePage.addTextField('#onApplicationDate_month',currentDate.getMonth() - 1);
+    basePage.addTextField('#onApplicationDate_year',currentDate.getFullYear());     
     cy.advanceToNextPage();      
 };

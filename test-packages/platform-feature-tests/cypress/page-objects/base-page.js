@@ -11,8 +11,22 @@ export class BasePage {
 		saveAndComeBackLaterBtn: () => cy.get('[data-cy="button-save-and-return"]'),
 		textArea: () => cy.get('.govuk-textarea'),
 		uploadFile: () => cy.get('#file-upload'),
-		completedTask: () => cy.get('[data-cy="task-list-item-contactDetailsSection"]')
+		completedTask: () => cy.get('[data-cy="task-list-item-contactDetailsSection"]'),
+		clickRadioBtn:(radioId) =>cy.get(radioId),
+		clickCheckBox: (checkboxId) => cy.get(checkboxId),
+		addTextField:(fieldType)=> cy.get(fieldType),
 	};
+
+	clickRadioBtn(radioId) {
+		this.basePageElements.clickRadioBtn(radioId).click();
+	}
+
+	clickCheckBox(checkboxId) {
+		this.basePageElements.clickCheckBox(checkboxId).click();
+	}
+	addTextField(fieldType,fieldValue){
+        this.basePageElements.addTextField(fieldType).type(fieldValue);
+    }
 
 	clickContinueBtn() {
 		this.basePageElements.continueBtn().click();
