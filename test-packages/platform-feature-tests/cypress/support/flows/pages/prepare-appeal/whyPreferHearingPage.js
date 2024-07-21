@@ -1,8 +1,8 @@
-import { WhyPreferHearing } from "../../../../page-objects/prepare-appeal/why-prefer-hearing";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = () => {
-    const enterWhyPreferHearing = new WhyPreferHearing();
-	   
+    const basePage = new BasePage();
+   	   
     //Why would you prefer a hearing?
-    enterWhyPreferHearing.addWhyPreferHearingField('#appellantPreferHearingDetails','To Argue in the court12345!£%^&*');
+    basePage.addTextField('#appellantPreferHearingDetails','To Argue in the court12345!£%^&*');
     cy.advanceToNextPage();       
 };

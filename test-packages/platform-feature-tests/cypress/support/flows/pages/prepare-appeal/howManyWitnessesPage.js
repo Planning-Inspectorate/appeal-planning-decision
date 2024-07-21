@@ -1,8 +1,8 @@
-import { HowManyWitnesses } from "../../../../page-objects/prepare-appeal/how-many-witnesses";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = () => {
-    const enterHowManyWitnesses = new HowManyWitnesses();
-	   
+    const basePage = new BasePage();
+   	   
     //How many days would you expect the inquiry to last?
-    enterHowManyWitnesses.addHowManyWitnessesField('#appellantPreferInquiryWitnesses','30');
+    basePage.addTextField('#appellantPreferInquiryWitnesses','30');
     cy.advanceToNextPage();       
 };

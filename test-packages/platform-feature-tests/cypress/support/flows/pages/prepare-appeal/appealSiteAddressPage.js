@@ -1,12 +1,12 @@
-import { AppealSiteAddress } from "../../../../page-objects/prepare-appeal/appeal-site-address";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = (context) => {
-    const appealSiteAddress = new AppealSiteAddress();
+    const basePage = new BasePage();
 
-    appealSiteAddress.addAppealSiteAddressField('#address-line-1','siteAddress_addressLine1');
-    appealSiteAddress.addAppealSiteAddressField('#address-line-2','siteAddress_addressLine2');
-    appealSiteAddress.addAppealSiteAddressField('#address-town','Test Town');
-    appealSiteAddress.addAppealSiteAddressField('#address-county','Test County1');
-    appealSiteAddress.addAppealSiteAddressField('#address-postcode','SW7 9PB'); 
+    basePage.addTextField('#address-line-1','siteAddress_addressLine1');
+    basePage.addTextField('#address-line-2','siteAddress_addressLine2');
+    basePage.addTextField('#address-town','Test Town');
+    basePage.addTextField('#address-county','Test County1');
+    basePage.addTextField('#address-postcode','SW7 9PB'); 
     cy.advanceToNextPage();
     
 };

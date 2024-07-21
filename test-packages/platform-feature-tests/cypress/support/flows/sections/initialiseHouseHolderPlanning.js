@@ -108,7 +108,7 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		uploadApplicationFormPage(context,dynamicId);
 		
 		//Upload your appeal statement
-		cy.uploadFileFromFixtureDirectory('appeal-statement-valid.pdf');
+		cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
 		cy.advanceToNextPage();
 		//Do you need to apply for an award of appeal costs?
 		applyAppealCostsPage(context);

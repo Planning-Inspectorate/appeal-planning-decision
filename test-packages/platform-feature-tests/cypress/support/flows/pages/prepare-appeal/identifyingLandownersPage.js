@@ -1,7 +1,8 @@
-import { IdentifyingLandowners } from "../../../../page-objects/prepare-appeal/identifying-landowners";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = () => {
-    const identifyingLandowners = new IdentifyingLandowners();
-    identifyingLandowners.checkIdentifyingLandowners('[data-cy="answer-yes"]');        
+    const basePage = new BasePage();
+    
+    basePage.clickCheckBox('[data-cy="answer-yes"]');        
     cy.advanceToNextPage();        
     
 };

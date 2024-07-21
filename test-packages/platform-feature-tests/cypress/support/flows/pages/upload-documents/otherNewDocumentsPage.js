@@ -1,13 +1,15 @@
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = (context) => {
+    const basePage = new BasePage();
     if(context?.uploadDocuments?.isOtherNewDocumentAvailable){
         //Do you have any other new documents that support your appeal?#
-        cy.get('[data-cy="answer-yes"]').click();
+        basePage.clickRadioBtn('[data-cy="answer-yes"]');
         cy.advanceToNextPage();	
         //Upload your other new supporting documents
-        cy.uploadFileFromFixtureDirectory('other-supporting-docs.pdf');
+        cy.uploadFileFromFixtureDirectory(context?.documents?.uploadOtherNewSupportDoc);
         cy.advanceToNextPage();	
     } else{
-        cy.get('[data-cy="answer-no"]').click();
+        basePage.clickRadioBtn('[data-cy="answer-no"]');
         cy.advanceToNextPage();
     }	
 };

@@ -1,35 +1,27 @@
-import { DecideAppeal } from "../../../../page-objects/prepare-appeal/decide-appeal";
-import { WhyPreferHearing } from "../../../../page-objects/prepare-appeal/why-prefer-hearing";
-import { WhyPreferInquiry } from "../../../../page-objects/prepare-appeal/why-prefer-inquiry";
-import { HowManyDaysInquiry } from "../../../../page-objects/prepare-appeal/how-many-days-inquiry";
-import { HowManyWitnesses } from "../../../../page-objects/prepare-appeal/how-many-witnesses";
+import { BasePage } from "../../../../page-objects/base-page";
 const otherAppeals = require('./otherAppealsPage');
 
 module.exports = (appellantProcedurePreference,context) => {
 
-    const decideAppeal = new DecideAppeal();
-    const whyPreferHearing = new WhyPreferHearing();
-    const whyPreferInquiry = new WhyPreferInquiry();
-    const howManyDaysInquiry = new HowManyDaysInquiry();
-    const howManyWitnesses = new HowManyWitnesses();
-  
+    const basePage = new BasePage();
+      
     if(appellantProcedurePreference === 'written'){
-        decideAppeal.clickDecideAppeal('[data-cy="answer-written"]'); 
+        basePage.clickRadioBtn('[data-cy="answer-written"]'); 
         cy.advanceToNextPage();        
     }else {
         if(appellantProcedurePreference === 'hearing'){
-            decideAppeal.clickDecideAppeal('[data-cy="answer-hearing"]');  
+            basePage.clickRadioBtn('[data-cy="answer-hearing"]');  
             cy.advanceToNextPage();
-            whyPreferHearing.addWhyPreferHearingField('#appellantPreferHearingDetails','Test why prefer hearing testproperty123456789aAbcdEF!"£$%QA');                      
+            basePage.addTextField('#appellantPreferHearingDetails','Test why prefer hearing testproperty123456789aAbcdEF!"£$%QA');                      
             cy.advanceToNextPage();
         }else if(appellantProcedurePreference === 'inquiry') {
-            decideAppeal.clickDecideAppeal('[data-cy="answer-inquiry"]'); 
+            basePage.clickRadioBtn('[data-cy="answer-inquiry"]'); 
             cy.advanceToNextPage();
-            whyPreferInquiry.addWhyPreferInquiryField('#appellantPreferInquiryDetails','Test why prefer inquiry testproperewrwe5454354rty12345dfdfder6789aAbcdEF!"£$%QA'); 
+            basePage.addTextField('#appellantPreferInquiryDetails','Test why prefer inquiry testproperewrwe5454354rty12345dfdfder6789aAbcdEF!"£$%QA'); 
             cy.advanceToNextPage();
-            howManyDaysInquiry.addHowManyDaysInquiryField('#appellantPreferInquiryDuration','50');
+            basePage.addTextField('#appellantPreferInquiryDuration','50');
             cy.advanceToNextPage();
-            howManyWitnesses.addHowManyWitnessesField('#appellantPreferInquiryWitnesses','10');
+            basePage.addTextField('#appellantPreferInquiryWitnesses','10');
             cy.advanceToNextPage();       
            
         }

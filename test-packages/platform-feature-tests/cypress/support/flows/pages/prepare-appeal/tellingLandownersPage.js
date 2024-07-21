@@ -1,7 +1,8 @@
-import { TellingLandowners } from "../../../../page-objects/prepare-appeal/telling-landowners";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = () => {
-    const tellingLandowners = new TellingLandowners();
-    tellingLandowners.checkTellingLandowners('#informedOwners');        
+    const basePage = new BasePage();
+  
+    basePage.clickCheckBox('#informedOwners');        
     cy.advanceToNextPage();  
     
 };

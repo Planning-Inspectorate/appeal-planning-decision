@@ -1,22 +1,21 @@
-import { EnterAppealReference } from "../../../../page-objects/prepare-appeal/enter-appeal-reference";
-import { OtherAppeals } from "../../../../page-objects/prepare-appeal/other-appeals";
-const enterAppealReference = require('./enterAppealReferencePage');
-//const { enterAppealReference } from  ""
+import { BasePage } from "../../../../page-objects/base-page";
+
 module.exports = (anyOtherAppeals,context) => {
-    const otherAppeals = new OtherAppeals();
-    const enterAppealReference = new EnterAppealReference();
+    const basePage = new BasePage();
+    
     if(anyOtherAppeals){       
         for(let otherAppeal of context?.otherAppeals){
-            otherAppeals.clickOtherAppeals('[data-cy="answer-yes"]');        
-            cy.advanceToNextPage(); 
-            enterAppealReference.addEnterReferenceField('#appellantLinkedCase', otherAppeal?.appealReferenceNumber);
+            basePage.clickRadioBtn('[data-cy="answer-yes"]');        
+            cy.advanceToNextPage();
+
+            basePage.addTextField('#appellantLinkedCase', otherAppeal?.appealReferenceNumber);          
             cy.advanceToNextPage();            
         }   
-        otherAppeals.clickOtherAppeals('[data-cy="answer-no"]');        
+        basePage.clickRadioBtn('[data-cy="answer-no"]');        
         cy.advanceToNextPage();  
 
     } else {       
-        otherAppeals.clickOtherAppeals('[data-cy="answer-no"]');        
+        basePage.clickRadioBtn('[data-cy="answer-no"]');        
         cy.advanceToNextPage();  
     }    
 };

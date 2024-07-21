@@ -1,11 +1,10 @@
-import { ApplicantName } from "../../../../page-objects/prepare-appeal/applicant-name";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = () => {
-    const applicantName = new ApplicantName();
-	//cy.taskListComponent(applicationType,'application-name',dynamicId);
-   
-    applicantName.addApplicantNameField('#appellantFirstName','firstname');
-    applicantName.addApplicantNameField('#appellantLastName','lastname');
-    applicantName.addApplicantNameField('#appellantCompanyName','companyname')
+    const basePage = new BasePage();
+	   
+    basePage.addTextField('#appellantFirstName','firstname');
+    basePage.addTextField('#appellantLastName','lastname');
+    basePage.addTextField('#appellantCompanyName','companyname')
 
     cy.advanceToNextPage();
 

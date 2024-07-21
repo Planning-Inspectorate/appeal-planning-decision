@@ -1,7 +1,8 @@
-import { DescriptionDevelopmentCorrect } from "../../../../page-objects/prepare-appeal/description-development-correct";
+import { BasePage } from "../../../../page-objects/base-page";
 module.exports = () => {
-    const descriptionDevelopmentCorrect = new DescriptionDevelopmentCorrect();
-    descriptionDevelopmentCorrect.clickDescriptionDevelopmentCorrect('#updateDevelopmentDescription');        
+    const basePage = new BasePage();
+   
+    basePage.clickRadioBtn('#updateDevelopmentDescription');        
     cy.advanceToNextPage();        
     
 };
