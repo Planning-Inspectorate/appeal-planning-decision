@@ -1,12 +1,9 @@
-const { initContainerClient, documentTypes } = require('@pins/common');
+const { initContainerClient } = require('@pins/common');
+const { getDocType } = require('@pins/common/src/document-types');
 const { blobMetaGetter } = require('../../../services/object-store');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
-const {
-	APPEAL_APPLICATION_DECISION,
-	SERVICE_USER_TYPE,
-	APPEAL_DOCUMENT_TYPE
-} = require('pins-data-model');
+const { APPEAL_APPLICATION_DECISION, SERVICE_USER_TYPE } = require('pins-data-model');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 
 /**
@@ -35,25 +32,6 @@ const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-sta
  *   }
  * }>} FullAppellantSubmission
  */
-
-/** @type {{ [key: string]: DataModelDocumentTypes }} */
-const documentTypeMap = {
-	[documentTypes.uploadCostApplication.name]: APPEAL_DOCUMENT_TYPE.APPELLANT_COSTS_APPLICATION,
-	[documentTypes.uploadAppellantStatement.name]: APPEAL_DOCUMENT_TYPE.APPELLANT_STATEMENT,
-	[documentTypes.uploadApplicationDecisionLetter.name]:
-		APPEAL_DOCUMENT_TYPE.APPLICATION_DECISION_LETTER,
-	[documentTypes.uploadChangeOfDescriptionEvidence.name]: APPEAL_DOCUMENT_TYPE.CHANGED_DESCRIPTION,
-	[documentTypes.uploadOriginalApplicationForm.name]:
-		APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM,
-	[documentTypes.whoWasNotified.name]: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED,
-	[documentTypes.uploadSiteNotice.name]: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_SITE_NOTICE,
-	[documentTypes.uploadNeighbourLetterAddresses.name]:
-		APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_LETTER_TO_NEIGHBOURS,
-	[documentTypes.pressAdvertUpload.name]: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_PRESS_ADVERT,
-	[documentTypes.conservationMap.name]: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
-	[documentTypes.representationUpload.name]: APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS,
-	[documentTypes.planningOfficersReportUpload.name]: APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT
-};
 
 const getBlobMeta = blobMetaGetter(initContainerClient);
 
@@ -89,7 +67,7 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }) => {
 			mime: mime_type,
 			documentURI: _response.request.url,
 			dateCreated: new Date(createdOn).toISOString(),
-			documentType: documentTypeMap[document_type]
+			documentType: getDocType(document_type, 'name').dataModelName
 		})
 	);
 };

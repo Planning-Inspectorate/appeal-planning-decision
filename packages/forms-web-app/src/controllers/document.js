@@ -125,6 +125,24 @@ const getDocumentV2 = async (req, res) => {
 	}
 };
 
+/**
+ * links user to a published BO document, internally checks access
+ * @type {import('express').Handler}
+ */
+const getPublishedDocumentV2Url = async (req, res) => {
+	const { documentId } = req.params;
+
+	logger.debug({ documentId }, 'getPublishedDocumentV2Url');
+
+	const sasUrl = await req.docsApiClient.getBackOfficeDocumentSASUrl(documentId);
+
+	if (!sasUrl?.url) throw new Error('failed to getPublishedDocumentV2');
+
+	logger.debug({ sasUrl }, 'redirecting to published doc');
+
+	res.redirect(307, sasUrl.url);
+};
+
 const returnResult = async (headers, body, res) => {
 	res.set({
 		'content-length': headers.get('content-length'),
@@ -137,5 +155,6 @@ const returnResult = async (headers, body, res) => {
 
 module.exports = {
 	getDocument,
-	getDocumentV2
+	getDocumentV2,
+	getPublishedDocumentV2Url
 };
