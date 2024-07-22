@@ -3,7 +3,7 @@ const { emailAddressGet, emailAddressPost } = require('./controller');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const {
 	rules: emailAddressValidationRules
-} = require('../../../../validators/full-appeal/email-address');
+} = require('../../../../validators/interested-parties/email-address');
 const { validationErrorHandler } = require('../../../../validators/validation-error-handler');
 
 const router = express.Router();

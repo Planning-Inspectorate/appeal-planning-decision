@@ -1,41 +1,21 @@
 /** @type {import('express').RequestHandler} */
 const addCommentsGet = (req, res) => {
-	// if (!req.session.interestedParty.appealNumber) {
-	// To be discussed with design / team
-	// }
+	if (!req.session.interestedParty?.appealNumber) {
+		return res.redirect(`enter-appeal-reference`);
+	}
 
-	res.render(`comment-planning-appeal/add-comments/index`);
+	const interestedParty = req.session.interestedParty || {};
+
+	res.render(`comment-planning-appeal/add-comments/index`, { interestedParty });
 };
 
 /** @type {import('express').RequestHandler} */
 const addCommentsPost = async (req, res) => {
-	// const { 'first-name': firstName, 'last-name': lastName } = req.body;
+	const { comments } = req.body;
 
-	// if (!firstName) {
-	// 	return res.render(`comment-planning-appeal/your-name/index`, {
-	// 		error: { text: 'Enter your first name', href: '#first-name' },
-	// 		value: firstName
-	// 	});
-	// }
+	req.session.interestedParty.comments = comments;
 
-	// if (!lastName) {
-	// 	return res.render(`comment-planning-appeal/your-name/index`, {
-	// 		error: { text: 'Enter your last name', href: '#last-name' },
-	// 		value: lastName
-	// 	});
-	// }
-
-	// // if (!/^[0-9]{7}$/.exec(appealReference)) {
-	// // 	return res.render(`comment-planning-appeal/enter-appeal-reference/index`, {
-	// // 		error: { text: 'Enter the appeal reference using numbers 0 to 9', href: '#appeal-reference' },
-	// // 		value: appealReference
-	// // 	});
-	// // }
-
-	// req.session.interestedParty.firstName = firstName;
-	// req.session.interestedParty.lastName = lastName;
-
-	return res.redirect(`comment-planning-appeal/add-comments/index`);
+	return res.redirect(`comment-planning-appeal/check-answers/index`);
 };
 
 module.exports = { addCommentsGet, addCommentsPost };
