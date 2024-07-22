@@ -1,4 +1,4 @@
-const { getRoutePaths, getRoutesWithInjectableImporter } = require('./router');
+const { getRoutePaths, getRoutesWithInjectableImporter } = require('.');
 
 jest.mock('fs', () => {
 	const jsStub = "console.log('Hello World!');";

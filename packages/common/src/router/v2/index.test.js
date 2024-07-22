@@ -1,23 +1,23 @@
 const path = require('path');
 const request = require('supertest');
 const express = require('express');
-const { spoolRoutes } = require('./router-v2');
-const { pencils } = require('./router-v2-test-dir/pencils');
+const { spoolRoutes } = require('.');
+const { pencils } = require('./test-dir/pencils');
 const {
 	broadMiddlewareA,
 	broadMiddlewareB,
 	specificMiddlewareA,
 	specificMiddlewareB
-} = require('./router-v2-test-dir/middleware');
+} = require('./test-dir/middleware');
 
-jest.mock('./router-v2-test-dir/middleware', () => ({
+jest.mock('./test-dir/middleware', () => ({
 	broadMiddlewareA: jest.fn((_req, _res, next) => next()),
 	broadMiddlewareB: jest.fn((_req, _res, next) => next()),
 	specificMiddlewareA: jest.fn((_req, _res, next) => next()),
 	specificMiddlewareB: jest.fn((_req, _res, next) => next())
 }));
 
-/** @type {Array<[string, Array<import('./router-v2-types').HttpMethods>]>} */
+/** @type {Array<[string, Array<import('./types').HttpMethods>]>} */
 const expectedRouteDictShape = [
 	['/', ['get', 'post']],
 	['/drinks/2', ['get', 'delete', 'head', 'options', 'patch', 'post', 'put', 'trace']],
@@ -28,7 +28,7 @@ const expectedRouteDictShape = [
 ];
 
 describe('getRoutesV2', () => {
-	const routeDirectory = path.join(__dirname, './router-v2-test-dir');
+	const routeDirectory = path.join(__dirname, './test-dir');
 	const app = express();
 	spoolRoutes(app, routeDirectory, {
 		includeRoot: true,
