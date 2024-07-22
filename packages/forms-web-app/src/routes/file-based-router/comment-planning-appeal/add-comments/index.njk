@@ -1,22 +1,57 @@
 {% extends "layouts/comment-planning-appeal/index.njk" %}
-{% set title = "Enter you email address" %}
+{% set title = "Add your comments" %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% block content %}
     <form method="post">
 <input type="hidden" name="_csrf" value="{{_csrf}}">
         <div class="govuk-form-group">
-            <label class="govuk-label govuk-label--l" for="appeal-reference">HOLD THAT PLACE</label>
-            <p class="govuk-body">We’ll only contact you if we need to discuss your comment and to let you know the appeal decision. You do not have to enter an email address.</p>
+            <label class="govuk-label govuk-label--l" for="appeal-reference">Add your comments</label>
+            <p class="govuk-body">Let us know why you do, or do not, support this appeal against a local authority’s planning decision.</p>
+						<p class="govuk-body">You must be over 18 to comment on an appeal.</p>
+						<p class="govuk-body">Your comment should:</p>
+						<ul class="govuk-list govuk-list--bullet">
+							<li>be simple and concise</li>
+							<li>be based on facts related to the planning application</li>
+							<li>reference relevant planning policies, for example, your Neighbourhood Plan, local district plans, community plans, environmental policies – you will find these on your local authority’s website</li>
+						</ul>
+						<p class="govuk-body">Your comment should not:</p>
+						<ul class="govuk-list govuk-list--bullet">
+							<li>include personal opinion or rumour</li>
+							<li>use offensive language</li>
+							<li>include information that is not related to planning law, for example, criminal behaviour or someone’s personal characteristics</li>
+						</ul>
+						<details class="govuk-details">
+  						<summary class="govuk-details__summary">
+    						<span class="govuk-details__summary-text">
+      						Examples of personal characteristics
+    						</span>
+  						</summary>
+  						<div class="govuk-details__text">
+    						<ul class="govuk-list govuk-list--bullet">
+									<li>race</li>
+									<li>ethnic origin</li>
+									<li>politics</li>
+									<li>religion</li>
+									<li>trade union membership</li>
+									<li>genetics</li>
+									<li>physical characteristics</li>
+									<li>sex life</li>
+									<li>sexual orientation</li>
+								</ul>
+ 							</div>
+						</details>
+						<p class="govuk-body">Any comment submitted that does not meet our criteria will be returned to you and you will be asked to resubmit it. This delay may cause you to miss the deadline to comment.</p>
+
             {{ govukInput({
 							label: {
-                            text: 'Email address',
+                            text: 'Your comments',
                             classes: 'govuk-label',
-                            for: 'email-address'
+                            for: 'ip-comments'
                         },
                         classes: "govuk-input--width-20",
-                        id : "email-address",
-                        name: "email-address",
+                        id : "ip-comments",
+                        name: "ip-comments",
                         errorMessage: error,
                         value: value
                         })
@@ -24,7 +59,6 @@
         </div>
 				<div class="govuk-button-group">
         {{ govukButton({text: "Continue", type: "submit"}) }}
-				{{ govukButton({text: "Skip", classes: "govuk-button--secondary"}) }}
 				</div>
     </form>
 
