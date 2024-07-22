@@ -37,7 +37,7 @@ You can now visit http://localhost:3000 to see "Home page" and http://localhost:
 
 ## Methods
 
-The route builder identifies relevant exports from index files within your route directory's tree. Relevant exports are named after HTTP methods. The supported methods are `connect`, `delete`, `get`, `head`, `options`, `patch`, `post`, `put` and `trace`. A warning with be displayed at build-time for any function exported by your index whose name does not match that of a supported method. 
+The route builder identifies relevant exports from index files within your route directory's tree. Relevant exports are named after HTTP methods. The supported methods are `connect`, `delete`, `get`, `head`, `options`, `patch`, `post`, `put` and `trace`. A warning will be displayed at build-time for any function exported by your index whose name does not match that of a supported method. 
 
 For example
 
