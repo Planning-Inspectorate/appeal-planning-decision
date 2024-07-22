@@ -10,6 +10,7 @@ const {
 } = require('../../../lib/selected-appeal-page-setup');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
+const { getDepartmentFromCode } = require('../../../services/department.service');
 
 /**
  * Shared controller for LPA - /manage-appeals/:caseRef/appellant-final-comments and manage-appeals/:caseRef/final-comments
@@ -45,7 +46,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			userId: user.id
 		});
 
-		const headlineData = formatHeadlineData(caseData, userType);
+		const lpa = await getDepartmentFromCode(caseData.LPACode);
+		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 		const isAppellantCommentsResult = isAppellantComments(userRouteUrl, userType);
 		const finalComments = getFinalComments(caseData, isAppellantCommentsResult);
 

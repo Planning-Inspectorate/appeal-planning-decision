@@ -5,6 +5,7 @@ const { apiClient } = require('../../../lib/appeals-api-client');
 const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
+const { getDepartmentFromCode } = require('../../../services/department.service');
 
 /**
  * Shared controller for /appeals/:caseRef/lpa-statement, /manage-appeals/:caseRef/statement
@@ -38,8 +39,9 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			role: userType,
 			userId: user.id
 		});
-		console.log('###', caseData);
-		const headlineData = formatHeadlineData(caseData, userType);
+
+		const lpa = await getDepartmentFromCode(caseData.LPACode);
+		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 
 		const viewContext = {
 			layoutTemplate,
