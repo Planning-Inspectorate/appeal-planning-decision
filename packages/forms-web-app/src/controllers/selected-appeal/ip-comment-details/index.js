@@ -6,9 +6,10 @@ const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup')
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
 const { formatComments } = require('./sort-comment-details');
+const { getDepartmentFromCode } = require('../../../services/department.service');
 
 /**
- * Shared controller for /manage-appeals/:caseRef/appellant-final-comments, manage-appeals/:caseRef/final-comments
+ * Shared controller for /appeals/:caseRef/interested-party-comments, manage-appeals/:caseRef/interested-party-comments
  * @param {string} layoutTemplate - njk template to extend
  * @returns {import('express').RequestHandler}
  */
@@ -43,7 +44,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const comments = await req.appealsApiClient.getInterestedPartyComments(appealNumber);
 		const formattedComments = formatComments(comments);
 
-		const headlineData = formatHeadlineData(caseData, userType);
+		const lpa = await getDepartmentFromCode(caseData.LPACode);
+		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 
 		const viewContext = {
 			layoutTemplate,
