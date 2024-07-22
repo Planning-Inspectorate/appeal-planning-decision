@@ -8,7 +8,7 @@ const { drinks } = require('../constants');
 
 /**
  * @typedef {import('express').Handler} Handler
- * @typedef {import('../../../router-v2-types').Middleware} Middleware
+ * @typedef {import('../../../types').Middleware} Middleware
  */
 
 /** @type Handler */

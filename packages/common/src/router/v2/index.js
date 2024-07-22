@@ -1,13 +1,13 @@
-const libLogger = require('./lib/logger');
-const { getRoutePaths } = require('./router');
+const libLogger = require('../../lib/logger');
+const { getRoutePaths } = require('../v1');
 const { Router } = require('express');
 
 /**
  * @typedef {import('express').IRouter} IRouter
  * @typedef {import('express').Handler} Handler
  * @typedef {Object<string, IRouter>} RouteDict
- * @typedef {import('./router-v2-types').HttpMethods} HttpMethods
- * @typedef {import('./router-v2-types').RouterModule} RouterModule
+ * @typedef {import('./types').HttpMethods} HttpMethods
+ * @typedef {import('./types').RouterModule} RouterModule
  * @typedef {{ includeRoot?: boolean, backwardsCompatibilityModeEnabled?: boolean, logger?: import('pino').Logger }} Options
  */
 
@@ -27,7 +27,7 @@ const HttpMethods = [
 /** @type {(str: *) => str is HttpMethods} */
 const stringIsRecognisedExport = (str) => HttpMethods.includes(str);
 
-/** @typedef {{ method: string, dirName: string }[]} SkippedRoutes */
+/** @typedef {{ method: string, dirName: string }[]} UnrecognisedFunctions */
 /** @typedef {{ path: string }[]} MethodlessRoutes */
 /**
  * @typedef {{
@@ -38,11 +38,13 @@ const stringIsRecognisedExport = (str) => HttpMethods.includes(str);
  *   version: number
  * }[]} LoggableRoutes
  */
+/** @typedef {{ dirName: string }[]} IgnoredV1Routes */
 /**
  * @typedef {{
- *   skippedRoutes: SkippedRoutes,
+ *   unrecognisedFunctions: UnrecognisedFunctions,
  *   methodlessRoutes: MethodlessRoutes,
  *   loggableRoutes: LoggableRoutes,
+ *   ignoredV1Routes: IgnoredV1Routes
  * }} Loggables
  */
 
@@ -50,12 +52,15 @@ const stringIsRecognisedExport = (str) => HttpMethods.includes(str);
  * @param {Loggables} loggables
  * @param {import('pino').Logger} logger
  */
-const doLogging = ({ skippedRoutes, methodlessRoutes, loggableRoutes }, logger) => {
-	skippedRoutes.length &&
+const doLogging = (
+	{ unrecognisedFunctions, methodlessRoutes, loggableRoutes, ignoredV1Routes },
+	logger
+) => {
+	unrecognisedFunctions.length &&
 		logger.warn(
-			skippedRoutes.reduce((acc, { method, dirName }, ii) => {
+			unrecognisedFunctions.reduce((acc, { method, dirName }, ii) => {
 				acc += `Skipping ${method} function exported by ${dirName}/index.js as the function name is not a recognised HTTP method`;
-				ii < skippedRoutes.length - 1 && (acc += '\n');
+				ii < unrecognisedFunctions.length - 1 && (acc += '\n');
 				return acc;
 			}, '')
 		);
@@ -87,6 +92,15 @@ const doLogging = ({ skippedRoutes, methodlessRoutes, loggableRoutes }, logger) 
 				'Mounted route paths:\n'
 			)
 		);
+
+	ignoredV1Routes.length &&
+		logger.warn(
+			ignoredV1Routes.reduce((acc, { dirName }) => {
+				acc += `${dirName}\n`;
+				return acc;
+			}, 'The following files exported a router which has been ignored:\n') +
+				'Migrate the functionality of these routers to meet the V2 spec or add backwardsCompatibilityModeEnabled: true to your spoolRoutes options'
+		);
 };
 
 /**
@@ -110,9 +124,10 @@ exports.getRouter = (
 
 	/** @type {Loggables} */
 	const loggables = {
-		skippedRoutes: [],
+		unrecognisedFunctions: [],
 		methodlessRoutes: [],
-		loggableRoutes: []
+		loggableRoutes: [],
+		ignoredV1Routes: []
 	};
 
 	const routePaths = getRoutePaths(directory, getRoutePathsOptions)
@@ -121,17 +136,25 @@ exports.getRouter = (
 		.reduce((router, dirName) => {
 			/** @type {RouterModule} */
 			const { middleware, ...module } = require(`${dirName}`);
+			// Convert a full file path to the path used in the URL, eg C:/users/projects/my-project/routes/sandwiches/_id/index.js -> /sandwiches/:id
 			const relativePath = dirName
 				.replace(new RegExp(`^${directory}/?`), '/') // just need relative path
 				.replace(/_/g, ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
 				.replace('/index.js', '');
 
+			// apply top level middleware for all methods on the current path
 			if (middleware?.[0]) {
 				router.use(relativePath, ...middleware[0]);
 			}
 
+			// Loop through each item exported by a module
 			Object.entries(module).forEach(([method, handler]) => {
-				if (backwardsCompatibilityModeEnabled && method === 'router') {
+				// Support for V1 style routers
+				if (method === 'router') {
+					if (!backwardsCompatibilityModeEnabled) {
+						loggables.ignoredV1Routes.push({ dirName });
+						return;
+					}
 					router.use(relativePath, handler); // in this instance "handler" is actually a router
 					handler.stack.forEach((layer) => {
 						if (!layer?.route?.methods) {
@@ -150,15 +173,15 @@ exports.getRouter = (
 					return;
 				}
 
+				// Dismiss unexpected export names
 				if (!stringIsRecognisedExport(method)) {
-					// these all get logged after the loop
-					loggables.skippedRoutes.push({ method, dirName });
+					loggables.unrecognisedFunctions.push({ method, dirName });
 					return;
 				}
 
+				// Gather middleware specific to the current method
 				/** @type {Handler[]} */
 				let applicableMiddleware = [];
-
 				if (!!middleware?.[1] && middleware[1][method]) {
 					applicableMiddleware = middleware[1][method];
 				}
