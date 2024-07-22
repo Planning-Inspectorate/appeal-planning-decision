@@ -69,6 +69,7 @@ const DocumentsArgsPublishedOnly = {
 		publishedDocumentURI: { not: null }
 	},
 	select: {
+		id: true,
 		publishedDocumentURI: true,
 		filename: true,
 		documentType: true

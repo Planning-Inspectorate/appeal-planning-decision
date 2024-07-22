@@ -9,6 +9,7 @@ const trailingSlashRegex = /\/$/;
 
 /**
  * @typedef {{access_token: string, id_token: string, client_creds: string}} AuthTokens
+ * @typedef {{url: string}} SasUrl
  */
 
 /**
@@ -37,7 +38,7 @@ class DocumentsApiClient {
 
 	/**
 	 * @param {string} blobUrl url
-	 * @returns {Promise<any>}
+	 * @returns {Promise<SasUrl>}
 	 */
 	async getBackOfficeDocumentSASUrl(blobUrl) {
 		const endpoint = `${v2}/back-office/sas-url`;

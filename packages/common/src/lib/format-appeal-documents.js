@@ -62,10 +62,11 @@ exports.formatNotificationMethod = (caseData) => {
 };
 
 /**
- *
  * @param {import('appeals-service-api').Api.Document} document
  * @returns {string}
  */
 const formatDocumentLink = (document) => {
-	return `<a href=# class="govuk-link">${escape(document.filename)}</a>`;
+	return `<a href="/published-document/${document.id}" class="govuk-link">${escape(
+		document.filename
+	)}</a>`;
 };
