@@ -129,7 +129,7 @@ Whether or not to register an `index.js` in the directory provided by the second
 * `logger`
 default: `pino`
 A pre-configured logger instance
-* backwardsCompatibilityModeEnabled
+* `backwardsCompatibilityModeEnabled`
 default: `false`
 Whether or not to register V1 style routes, see [Migrating from V1](#migrating-from-v1)
 
