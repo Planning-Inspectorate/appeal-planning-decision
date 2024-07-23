@@ -15,6 +15,9 @@ const yourNamePost = async (req, res) => {
 	const { errors = {}, errorSummary = [], 'first-name': firstName, 'last-name': lastName } = body;
 	const interestedParty = req.session.interestedParty || {};
 
+	req.session.interestedParty.firstName = firstName;
+	req.session.interestedParty.lastName = lastName;
+
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/your-name/index`, {
 			interestedParty,
@@ -22,9 +25,6 @@ const yourNamePost = async (req, res) => {
 			errorSummary
 		});
 	}
-
-	req.session.interestedParty.firstName = firstName;
-	req.session.interestedParty.lastName = lastName;
 
 	return res.redirect(`email-address`);
 };
