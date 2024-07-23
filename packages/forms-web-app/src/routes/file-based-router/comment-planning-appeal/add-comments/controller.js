@@ -11,7 +11,17 @@ const addCommentsGet = (req, res) => {
 
 /** @type {import('express').RequestHandler} */
 const addCommentsPost = async (req, res) => {
-	const { comments } = req.body;
+	const { body } = req;
+	const { errors = {}, errorSummary = [], comments } = body;
+	const interestedParty = req.session.interestedParty || {};
+
+	if (Object.keys(errors).length > 0) {
+		return res.render(`comment-planning-appeal/add-comments/index`, {
+			interestedParty,
+			errors,
+			errorSummary
+		});
+	}
 
 	req.session.interestedParty.comments = comments;
 

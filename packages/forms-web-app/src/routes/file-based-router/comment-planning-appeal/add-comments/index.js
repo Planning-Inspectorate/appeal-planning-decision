@@ -1,14 +1,19 @@
 const express = require('express');
 const { addCommentsGet, addCommentsPost } = require('./controller');
 const {
-	rules: yourNameValidationRules
-} = require('../../../../validators/interested-parties/email-address');
+	rules: addCommentsValidationRules
+} = require('../../../../validators/interested-parties/add-comments');
 const { validationErrorHandler } = require('../../../../validators/validation-error-handler');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
 
 const router = express.Router();
 
 router.get('/', asyncHandler(addCommentsGet));
-router.post('/', yourNameValidationRules(), validationErrorHandler, asyncHandler(addCommentsPost));
+router.post(
+	'/',
+	addCommentsValidationRules(),
+	validationErrorHandler,
+	asyncHandler(addCommentsPost)
+);
 
 module.exports = { router };
