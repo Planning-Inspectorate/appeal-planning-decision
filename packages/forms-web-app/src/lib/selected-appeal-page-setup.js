@@ -58,10 +58,21 @@ const getFinalComments = (caseData, isAppellantComments) => {
 		: caseData.lpaFinalCommentDetails;
 };
 
+//Statements
+/**
+ * @param {string} userType
+ * @returns {string}
+ */
+const formatStatementHeading = (userType) => {
+	if (userType === LPA_USER_ROLE) return 'Your';
+	return 'Local planning authority';
+};
+
 module.exports = {
 	formatTitleSuffix,
 	formatQuestionnaireHeading,
 	formatFinalCommentsHeadingPrefix,
 	isAppellantComments,
-	getFinalComments
+	getFinalComments,
+	formatStatementHeading
 };
