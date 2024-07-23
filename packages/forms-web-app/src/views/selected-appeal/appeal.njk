@@ -39,6 +39,69 @@
 				}) }}
 			{% endif %}
 
+			{% if shouldDisplayStatementsDueBanner %}
+   				{% set html %}
+					<p class="govuk-notification-banner__heading">
+						You must submit this statement by {{appeal.statementsDueDate}}.&nbsp
+							<ul>
+								<li>
+									<a href="/manage-appeals/statement/{{appeal.appealNumber}}" class="govuk-link">
+										Submit statement
+										<span class="govuk-visually-hidden"> for {{appeal.appealNumber}}</span>
+									</a>.
+								</li>
+							</ul>
+					</p>
+				{% endset %}
+
+				{{ govukNotificationBanner({
+					html: html,
+					titleText: "Appeal statement due"
+				}) }}
+			{% endif %}
+
+			{% if shouldDisplayFinalCommentsDueBannerLPA %}
+				{% set html %}
+					<p class="govuk-notification-banner__heading">
+						You can submit final comments by {{appeal.finalCommentsDueDate }}
+							<ul>
+								<li>
+									<a href="/final-comments" class="govuk-link">
+										Submit final comments
+									</a>
+								</li>
+							</ul>
+					</p>
+				{% endset %}
+
+				{{ govukNotificationBanner({
+					html: html,
+					titleText: "Final comments due"
+				}) }}
+
+			{% endif %}
+
+			{% if shouldDisplayFinalCommentsDueBannerAppellant %}
+				{% set html %}
+					<p class="govuk-notification-banner__heading">
+						You can submit final comments by {{appeal.finalCommentsDueDate }}
+							<ul>
+								<li>
+									<a href="/final-comments" class="govuk-link">
+										Submit final comments
+									</a>
+								</li>
+							</ul>
+					</p>
+				{% endset %}
+
+				{{ govukNotificationBanner({
+					html: html,
+					titleText: "Final comments due"
+				}) }}
+
+			{% endif %}
+
       		<h1 class="govuk-heading-l">Appeal {{appeal.appealNumber}}</h1>
 		</div>
 		

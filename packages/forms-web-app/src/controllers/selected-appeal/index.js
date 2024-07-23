@@ -15,6 +15,7 @@ const { getUserFromSession } = require('../../services/user.service');
 const { format: formatDate } = require('date-fns');
 const { getDepartmentFromCode } = require('../../services/department.service');
 const logger = require('#lib/logger');
+const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
 
 /** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
 const userSectionsDict = {
@@ -75,6 +76,15 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				caseData,
 				userType
 			),
+			shouldDisplayStatementsDueBanner: shouldDisplayStatementsDueBanner(caseData, userType),
+			shouldDisplayFinalCommentsDueBannerLPA: shouldDisplayFinalCommentsDueBannerLPA(
+				caseData,
+				userType
+			),
+			shouldDisplayFinalCommentsDueBannerAppellant: shouldDisplayFinalCommentsDueBannerAppellant(
+				caseData,
+				userType
+			),
 			appeal: {
 				appealNumber,
 				headlineData,
@@ -120,4 +130,33 @@ const formatDateForNotification = (dateStr) => {
 	if (!dateStr) return;
 	const date = new Date(dateStr);
 	return `${formatDate(date, 'h:mmaaa')} on ${formatDate(date, 'd LLLL yyyy')}`; // eg 11:59pm on 21 March 2024
+};
+
+// for 11B ticket
+const shouldDisplayStatementsDueBanner = (caseData, userType) => {
+	userType === 'LPAUser' &&
+		!caseData.lpaStatementSubmitted &&
+		!deadlineHasPassed(caseData.statementDueDate);
+};
+
+// //  for 11E
+const shouldDisplayFinalCommentsDueBannerLPA = (caseData, userType) => {
+	userType === 'LPAUser' &&
+		deadlineHasPassed(caseData.statementDueDate) &&
+		deadlineHasPassed(caseData.interestedPartyCommentsDueDate) &&
+		!deadlineHasPassed(caseData.finalCommentsDueDate) &&
+		!caseData.lpaFinalCommentPublished;
+};
+
+// // for 11D
+const shouldDisplayFinalCommentsDueBannerAppellant = (caseData, userType) => {
+	userType === 'Appellant' &&
+		deadlineHasPassed(caseData.statementDueDate) &&
+		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
+		!deadlineHasPassed(caseData.finalCommentsDueDate) &&
+		!caseData.appellantFinalCommentsSubmitted;
+};
+
+const deadlineHasPassed = (dueDate) => {
+	return calculateDueInDays(dueDate) < 0;
 };
