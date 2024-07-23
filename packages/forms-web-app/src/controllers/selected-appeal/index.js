@@ -14,8 +14,8 @@ const { sections: rule6Sections } = require('./rule-6-sections');
 const { getUserFromSession } = require('../../services/user.service');
 const { format: formatDate } = require('date-fns');
 const { getDepartmentFromCode } = require('../../services/department.service');
-const logger = require('#lib/logger');
 const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
+const logger = require('#lib/logger');
 
 /** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
 const userSectionsDict = {
