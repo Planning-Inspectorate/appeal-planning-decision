@@ -29,7 +29,7 @@ exports.detailsRows = (caseData, userType) => {
 
 	const agent = caseData.users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.AGENT);
 	const appellant = caseData.users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.APPELLANT);
-	const contactIsAppellant = !!agent; // if no agent than appellant made their own appeal
+	const contactIsAppellant = !agent; // if no agent than appellant made their own appeal
 	const contact = contactIsAppellant ? appellant : agent;
 
 	const linkedAppeals = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked);
@@ -47,7 +47,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: "Applicant's name",
 			valueText: formatUserDetails(appellant),
-			condition: () => !!agent
+			condition: () => !contactIsAppellant
 		},
 		{
 			keyText: 'Contact details',
