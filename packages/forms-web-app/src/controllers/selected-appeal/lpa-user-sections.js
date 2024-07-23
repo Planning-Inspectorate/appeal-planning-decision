@@ -27,7 +27,7 @@ exports.sections = [
 		heading: 'Statements',
 		links: [
 			{
-				url: '/lpa-statement',
+				url: '/statement',
 				text: 'View your statement',
 				condition: (appealCase) => appealCase.lpaStatementPublished
 			},

@@ -1,7 +1,10 @@
 const { formatHeadlineData } = require('@pins/common');
 
 const { VIEW } = require('../../../lib/views');
-const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup');
+const {
+	formatTitleSuffix,
+	formatStatementHeading
+} = require('../../../lib/selected-appeal-page-setup');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
@@ -46,6 +49,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
+			statementHeading: formatStatementHeading(userType),
 
 			appeal: {
 				appealNumber,
