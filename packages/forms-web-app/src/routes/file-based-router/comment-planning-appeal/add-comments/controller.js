@@ -15,6 +15,8 @@ const addCommentsPost = async (req, res) => {
 	const { errors = {}, errorSummary = [], comments } = body;
 	const interestedParty = req.session.interestedParty || {};
 
+	req.session.interestedParty.comments = comments;
+
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/add-comments/index`, {
 			interestedParty,
@@ -22,8 +24,6 @@ const addCommentsPost = async (req, res) => {
 			errorSummary
 		});
 	}
-
-	req.session.interestedParty.comments = comments;
 
 	return res.redirect(`comment-planning-appeal/check-answers/index`);
 };

@@ -15,6 +15,8 @@ const emailAddressPost = async (req, res) => {
 	const { errors = {}, errorSummary = [], 'email-address': emailAddress } = body;
 	const interestedParty = req.session.interestedParty || {};
 
+	req.session.interestedParty.emailAddress = emailAddress;
+
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/email-address/index`, {
 			interestedParty,
@@ -22,8 +24,6 @@ const emailAddressPost = async (req, res) => {
 			errorSummary
 		});
 	}
-
-	req.session.interestedParty.emailAddress = emailAddress;
 
 	return res.redirect(`add-comments`);
 };
