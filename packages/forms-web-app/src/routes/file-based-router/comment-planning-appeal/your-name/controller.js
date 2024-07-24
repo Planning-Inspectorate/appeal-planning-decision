@@ -26,7 +26,7 @@ const yourNamePost = async (req, res) => {
 		});
 	}
 
-	return res.redirect(`email-address`);
+	return res.redirect(`enter-address`);
 };
 
 module.exports = { yourNameGet, yourNamePost };
