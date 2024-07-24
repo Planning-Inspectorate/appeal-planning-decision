@@ -1,8 +1,15 @@
 import { BasePage } from "../../../../page-objects/base-page";
-module.exports = () => {
-    const basePage = new BasePage();
-  
-    basePage.clickCheckBox('#informedOwners');        
-    cy.advanceToNextPage();  
+export class TellingLandownersPage{
     
-};
+    _selectors={
+        informedOwners:'#informedOwners'
+    }
+
+    addTellingLandownersData(){
+        const basePage = new BasePage();
+  
+        basePage.clickCheckBox(this._selectors?.informedOwners);        
+        cy.advanceToNextPage();  
+    };
+   
+}

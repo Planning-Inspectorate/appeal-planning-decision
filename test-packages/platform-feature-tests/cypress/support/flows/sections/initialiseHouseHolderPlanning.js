@@ -1,19 +1,33 @@
 const applicationFormPage = require("../pages/prepare-appeal/applicationFormPage");
-const applicationNamePage = require("../pages/prepare-appeal/applicationNamePage");
-const contactDetailsPage = require("../pages/prepare-appeal/contactDetailsPage");
-const appealSiteAddressPage = require("../pages/prepare-appeal/appealSiteAddressPage");
-const siteAreaPage = require("../pages/prepare-appeal/siteAreaPage");
-const greenBeltPage = require("../pages/prepare-appeal/greenBeltPage");
-const ownAllLandPage = require("../pages/prepare-appeal/ownAllLandPage");
-const ownSomeLandPage = require("../pages/prepare-appeal/ownSomeLandPage");
-const ownsLandInvolvedPage = require("../pages/prepare-appeal/ownsLandInvolvedPage");
-const inspectorNeedAccessPage = require("../pages/prepare-appeal/inspectorNeedaccessPage");
-const healthSafetyIssuesPage = require("../pages/prepare-appeal/healthSafetyIssuesPage");
-const otherAppealsPage = require("../pages/prepare-appeal/otherAppealsPage");
-const uploadApplicationFormPage = require("../pages/upload-documents/uploadApplicationFormPage");
-const applyAppealCostsPage = require("../pages/upload-documents/applyAppealCostsPage");
+const { ApplicationNamePage } =  require("../pages/prepare-appeal/applicationNamePage");
+const { ContactDetailsPage } = require("../pages/prepare-appeal/contactDetailsPage");
+const { AppealSiteAddressPage } = require("../pages/prepare-appeal/appealSiteAddressPage");
+const { SiteAreaPage } = require("../pages/prepare-appeal/siteAreaPage");
+const { GreenBeltPage } = require("../pages/prepare-appeal/greenBeltPage");
+const { OwnAllLandPage } = require("../pages/prepare-appeal/ownAllLandPage");
+const { OwnSomeLandPage } = require("../pages/prepare-appeal/ownSomeLandPage");
+const { InspectorNeedAccessPage } = require("../pages/prepare-appeal/inspectorNeedaccessPage");
+const { OtherAppealsPage } = require("../pages/prepare-appeal/otherAppealsPage");
+const { UploadApplicationFormPage } = require("../pages/upload-documents/uploadApplicationFormPage");
+const { ApplyAppealCostsPage } = require("../pages/upload-documents/applyAppealCostsPage");
+const { HealthSafetyIssuesPage } = require("../pages/prepare-appeal/healthSafetyIssuesPage");
+const { PrepareAppealSelector } = require("../../../page-objects/prepare-appeal/prepare-appeal-selector");
+
 module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,context) => {
-	
+	const prepareAppealSelector = new PrepareAppealSelector();
+	const applicationNamePage = new ApplicationNamePage();
+	const contactDetailsPage = new ContactDetailsPage();
+	const appealSiteAddressPage = new AppealSiteAddressPage();
+	const siteAreaPage = new SiteAreaPage();		
+	const greenBeltPage = new GreenBeltPage();
+	const ownAllLandPage = new OwnAllLandPage();
+	const ownSomeLandPage = new OwnSomeLandPage();
+	const inspectorNeedAccessPage = new InspectorNeedAccessPage();
+	const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+	const otherAppealsPage = new OtherAppealsPage();
+	const uploadApplicationFormPage = new UploadApplicationFormPage();
+	const applyAppealCostsPage = new ApplyAppealCostsPage();
+
 	cy.get(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
 
@@ -53,31 +67,31 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		const dynamicId = params.get('id');		
 		applicationFormPage('householder','other',dynamicId);
 		//Contact details
-		applicationNamePage(context?.applicationForm?.isAppellant);
+		applicationNamePage.addApplicationNameData(context?.applicationForm?.isAppellant);
 				
-		contactDetailsPage(context);
+		contactDetailsPage.addContactDetailsData(context);
 
 		//Site Details
-		appealSiteAddressPage(context);		
+		appealSiteAddressPage.addAppealSiteAddressData(context);		
 		//What is the area of the appeal site?
-		siteAreaPage(planning,context?.applicationForm?.areaUnits,context);
+		siteAreaPage.addSiteAreaData(planning,context?.applicationForm?.areaUnits,context);
 
 		//Is the appeal site in a green belt?(Ans:Yes)
-		greenBeltPage(context?.applicationForm?.appellantInGreenBelt);
+		greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
 
 		//Do you own all the land involved in the appeal?
-		ownAllLandPage(context?.applicationForm?.isOwnsAllLand);
+		ownAllLandPage.addOwnAllLandData(context?.applicationForm?.isOwnsAllLand);
 		
 		if(!context?.applicationForm?.isOwnsAllLand){
 			//Do you own some of the land involved in the appeal?
-			ownSomeLandPage(context?.applicationForm?.isOwnsSomeLand,context);
+			ownSomeLandPage.addOwnSomeLandData(context?.applicationForm?.isOwnsSomeLand,context);
 
 		}
 		//Will an inspector need to access your land or property?
-		inspectorNeedAccessPage(context?.applicationForm?.isInspectorNeedAccess);			
+		inspectorNeedAccessPage.addInspectorNeedaccessData(context?.applicationForm?.isInspectorNeedAccess);			
 	
 		//Health and safety issues
-		healthSafetyIssuesPage(context);
+		healthSafetyIssuesPage.addHealthSafetyIssuesData(context);
 		
 		//What is the application reference number?
 		cy.get('#applicationReference').invoke('val').then((inputValue)=>{
@@ -102,16 +116,16 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 			cy.advanceToNextPage();
 		}
 		
-		otherAppealsPage(context?.applicationForm?.anyOtherAppeals,context);
+		otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals,context);
 		
 		cy.uploadDocuments('householder','upload-application-form',dynamicId);
-		uploadApplicationFormPage(context,dynamicId);
+		uploadApplicationFormPage.addUploadApplicationFormData(context,dynamicId);
 		
 		//Upload your appeal statement
 		cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
 		cy.advanceToNextPage();
 		//Do you need to apply for an award of appeal costs?
-		applyAppealCostsPage(context);
+		applyAppealCostsPage.addApplyAppealCostsData(context);
 				
 		//submit
 		cy.get(`a[href*="/appeals/householder/submit/declaration?id=${dynamicId}"]`).click();

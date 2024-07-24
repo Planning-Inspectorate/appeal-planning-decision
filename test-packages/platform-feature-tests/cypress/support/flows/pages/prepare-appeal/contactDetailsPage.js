@@ -1,14 +1,24 @@
 import { BasePage } from "../../../../page-objects/base-page";
-module.exports = (context) => {
-    const basePage = new BasePage();   
+export class ContactDetailsPage{
+    
+    _selectors={
+        contactFirstName: '#contactFirstName',
+        contactLastName:'#contactLastName',
+        contactCompanyName: '#contactCompanyName',
+        contactPhoneNumber: '#contactPhoneNumber'
+    }
 
-    basePage.addTextField('#contactFirstName', 'Contact firstname');
-    basePage.addTextField('#contactLastName', 'Contact lastname');
-    basePage.addTextField('#contactCompanyName', 'Test Company');
-    cy.advanceToNextPage();  
-	   
-    //What is your phone number?
-    basePage.addTextField('#contactPhoneNumber','07654321000');
-    cy.advanceToNextPage();       
+    addContactDetailsData(context){
+        const basePage = new BasePage();   
 
-};
+        basePage.addTextField(this._selectors.contactFirstName, 'Contact firstname');
+        basePage.addTextField(this._selectors.contactLastName, 'Contact lastname');
+        basePage.addTextField(this._selectors.contactCompanyName, 'Test Company');
+        cy.advanceToNextPage();  
+           
+        //What is your phone number?
+        basePage.addTextField(this._selectors.contactPhoneNumber,'07654321000');
+        cy.advanceToNextPage();   
+    };
+   
+}

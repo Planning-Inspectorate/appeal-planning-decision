@@ -1,14 +1,23 @@
 import { BasePage } from "../../../../page-objects/base-page";
-module.exports = (context) => {
-    const basePage = new BasePage();
 
-    if (context?.applicationForm?.isAppellantSiteSafety) {
-        basePage.clickRadioBtn('[data-cy="answer-yes"]');     
-        basePage.addTextField('#appellantSiteSafety_appellantSiteSafetyDetails','appellantSiteSafety_appellantSiteSafetyDetails1234567890!"£$%^&*(10)');       
-        cy.advanceToNextPage();
+export class HealthSafetyIssuesPage{
+    
+    _selectors={
+        appellantSiteSafetyAppellantSiteSafetyDetails:'#appellantSiteSafety_appellantSiteSafetyDetails'
     }
-    else {
-        basePage.clickRadioBtn('[data-cy="answer-no"]');
-        cy.advanceToNextPage();
-    }
-};
+
+    addHealthSafetyIssuesData(context){
+        const basePage = new BasePage();
+
+        if (context?.applicationForm?.isAppellantSiteSafety) {
+            basePage.clickRadioBtn('[data-cy="answer-yes"]');     
+            basePage.addTextField(this._selectors?.appellantSiteSafetyAppellantSiteSafetyDetails,'appellantSiteSafety_appellantSiteSafetyDetails1234567890!"£$%^&*(10)');       
+            cy.advanceToNextPage();
+        }
+        else {
+            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.advanceToNextPage();
+        } 
+    };
+   
+}

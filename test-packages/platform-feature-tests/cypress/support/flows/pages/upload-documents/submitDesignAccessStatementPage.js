@@ -1,6 +1,11 @@
 import { BasePage } from "../../../../page-objects/base-page";
-module.exports = (context) => {
-    const basePage = new BasePage();  
+export class SubmitDesignAccessStatementPage{
+
+    _selectors={
+    }
+
+    addSubmitDesignAccessStatementData(context){
+        const basePage = new BasePage();  
 		if(context?.uploadDocuments?.isSubmitDesignAndAccessStmt){
 			//Did you submit a design and access statement with your application?
 			basePage.clickRadioBtn('[data-cy="answer-yes"]');
@@ -14,5 +19,7 @@ module.exports = (context) => {
 		}	
 		//Upload your plans, drawings and supporting documents you submitted with your application
 		cy.uploadFileFromFixtureDirectory(context?.documents?.uploadPlansDrawingAndSupportingDocs);
-		cy.advanceToNextPage();
-};
+		cy.advanceToNextPage();   
+    };
+   
+}
