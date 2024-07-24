@@ -3,23 +3,18 @@
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set title = "Your appeal - " + journeyTitle + " - GOV.UK" %}
+
 
 {% block pageTitle %}
-  {{ title }}
+  Appeal Submitted - Appeal a planning decision - GOV.UK
 {% endblock %}
 
 {% block content %}
 
-	<style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
-  .appeal-details .govuk-summary-list__key,
-  .appeal-details .govuk-summary-list__value,
-  .appeal-details .govuk-summary-list__actions {
-      padding-top: 0.2rem;
-      padding-bottom: 0;
-  }
-  </style>
-  <div class="govuk-grid-row">
+  <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>{{ css | safe }}</style>
+  <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>.govuk-template { background-color: #FFFFFF; }</style>
+
+	<div class="govuk-grid-row">
     <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
         <h1 class="govuk-heading-l">
             Your appeal
@@ -66,5 +61,5 @@
       </ol>
     </div>
   </div>
-	
+
 {% endblock %}
