@@ -1,8 +1,16 @@
 import { BasePage } from "../../../../page-objects/base-page";
-module.exports = () => {
-    const basePage = new BasePage();
-   
-    basePage.clickRadioBtn('#updateDevelopmentDescription');        
-    cy.advanceToNextPage();        
+export class DescriptionDevelopmentCorrectPage{
     
-};
+    _selectors={
+        updateDevelopmentDescription:'#updateDevelopmentDescription',
+
+    }
+
+    addDescriptionDevelopmentCorrectData(){
+        const basePage = new BasePage();
+   
+        basePage.clickRadioBtn(this._selectors.updateDevelopmentDescription);        
+        cy.advanceToNextPage();   
+    };
+   
+}

@@ -1,9 +1,16 @@
 import { BasePage } from "../../../../page-objects/base-page";
-module.exports = () => {
-    const basePage = new BasePage();
-   
-    basePage.clickCheckBox('#informedTenantsAgriculturalHolding');  
-          
-    cy.advanceToNextPage();        
+export class TellingTenantsPage{
     
-};
+    _selectors={
+        informedTenantsAgriculturalHolding:'#informedTenantsAgriculturalHolding'
+    }
+
+    addTellingTenantsData(){
+        const basePage = new BasePage();
+   
+        basePage.clickCheckBox(this._selectors?.informedTenantsAgriculturalHolding);  
+            
+        cy.advanceToNextPage();    
+    };
+   
+}
