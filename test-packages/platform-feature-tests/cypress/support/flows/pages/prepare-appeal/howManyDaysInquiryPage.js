@@ -1,8 +1,17 @@
 import { BasePage } from "../../../../page-objects/base-page";
-module.exports = () => {
-    const basePage = new BasePage();
+
+export class HowManyDaysInquiryPage{
     
-    //How many days would you expect the inquiry to last?
-    basePage.addTextField('#appellantPreferInquiryDuration','30');
-    cy.advanceToNextPage();       
-};
+    _selectors={
+        appellantPreferInquiryDuration:'#appellantPreferInquiryDuration'
+    }
+
+    addHowManyDaysInquirygData(){
+        const basePage = new BasePage();
+    
+        //How many days would you expect the inquiry to last?
+        basePage.addTextField(this._selectors?.appellantPreferInquiryDuration,'30');
+        cy.advanceToNextPage();   
+    };
+   
+}

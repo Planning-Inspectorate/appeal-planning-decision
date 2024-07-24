@@ -1,21 +1,28 @@
 import { BasePage } from "../../../../page-objects/base-page";
-
-module.exports = (anyOtherAppeals,context) => {
-    const basePage = new BasePage();
+export class OtherAppealsPage{
     
-    if(anyOtherAppeals){       
-        for(let otherAppeal of context?.otherAppeals){
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');        
-            cy.advanceToNextPage();
+    _selectors={
+        appellantLinkedCase:'#appellantLinkedCase'
+    }
 
-            basePage.addTextField('#appellantLinkedCase', otherAppeal?.appealReferenceNumber);          
-            cy.advanceToNextPage();            
-        }   
-        basePage.clickRadioBtn('[data-cy="answer-no"]');        
-        cy.advanceToNextPage();  
-
-    } else {       
-        basePage.clickRadioBtn('[data-cy="answer-no"]');        
-        cy.advanceToNextPage();  
-    }    
-};
+    addOtherAppealsData(anyOtherAppeals,context){
+        const basePage = new BasePage();
+    
+        if(anyOtherAppeals){       
+            for(let otherAppeal of context?.otherAppeals){
+                basePage.clickRadioBtn('[data-cy="answer-yes"]');        
+                cy.advanceToNextPage();
+    
+                basePage.addTextField(this._selectors?.appellantLinkedCase, otherAppeal?.appealReferenceNumber);          
+                cy.advanceToNextPage();            
+            }   
+            basePage.clickRadioBtn('[data-cy="answer-no"]');        
+            cy.advanceToNextPage();  
+    
+        } else {       
+            basePage.clickRadioBtn('[data-cy="answer-no"]');        
+            cy.advanceToNextPage();  
+        }    
+    };
+   
+}

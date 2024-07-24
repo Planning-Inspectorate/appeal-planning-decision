@@ -1,8 +1,16 @@
 import { BasePage } from "../../../../page-objects/base-page";
-module.exports = () => {
-    const basePage = new BasePage();
+export class WhyPreferInquiryPage{
+    
+    _selectors={
+        appellantPreferInquiryDetails:'#appellantPreferInquiryDetails'
+    }
+
+    addWhyPreferInquiryData(){
+        const basePage = new BasePage();
     	   
-    //Why would you prefer a inquiry?
-    basePage.addTextField('#appellantPreferInquiryDetails','Previous decision is not correct 12345!£%^&*');
-    cy.advanceToNextPage();       
-};
+        //Why would you prefer a inquiry?
+        basePage.addTextField(this._selectors?.appellantPreferInquiryDetails,'Previous decision is not correct 12345!£%^&*');
+        cy.advanceToNextPage();   
+    };
+   
+}

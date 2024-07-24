@@ -1,18 +1,23 @@
 import { BasePage } from "../../../../page-objects/base-page";
+export class OwnAllLandPage{
 
-module.exports = (isOwnsAllLand) => {
-    const basePage = new BasePage();   
+    _selectors={
+    }
 
-    if(isOwnsAllLand){
-        //Do you own all the land involved in the appeal?Ans:yes
-        basePage.clickRadioBtn('[data-cy="answer-yes"]');       
-        cy.advanceToNextPage();       
+    addOwnAllLandData(isOwnsAllLand){
+        const basePage = new BasePage();   
 
-    } else {
-        //Do you own all the land involved in the appeal?Ans:No
-        basePage.clickRadioBtn('[data-cy="answer-no"]');        
-        cy.advanceToNextPage();
-       
-    }           
+        if(isOwnsAllLand){
+            //Do you own all the land involved in the appeal?Ans:yes
+            basePage.clickRadioBtn('[data-cy="answer-yes"]');       
+            cy.advanceToNextPage();       
     
-};
+        } else {
+            //Do you own all the land involved in the appeal?Ans:No
+            basePage.clickRadioBtn('[data-cy="answer-no"]');        
+            cy.advanceToNextPage();
+           
+        }     
+    };
+   
+}
