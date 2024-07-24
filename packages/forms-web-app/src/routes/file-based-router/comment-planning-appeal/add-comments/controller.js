@@ -25,7 +25,7 @@ const addCommentsPost = async (req, res) => {
 		});
 	}
 
-	return res.redirect(`comment-planning-appeal/check-answers/index`);
+	return res.redirect(`check-answers`);
 };
 
 module.exports = { addCommentsGet, addCommentsPost };
