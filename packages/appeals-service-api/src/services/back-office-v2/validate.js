@@ -1,7 +1,6 @@
 const Ajv = require('ajv').default;
 const addFormats = require('ajv-formats').default;
-const loadAllSchemas = () =>
-	import('pins-data-model').then(({ loadAllSchemas }) => loadAllSchemas());
+const { loadAllSchemasSync } = require('pins-data-model');
 const logger = require('../../lib/logger');
 
 /**
@@ -40,13 +39,11 @@ class SchemaValidator {
 	/**
 	 * plops the schemas into this.schemas
 	 * This just avoids async gunge
-	 * @returns {Promise<void>}
+	 * @returns {void}
 	 */
 	preloadSchemas() {
-		return new Promise((resolve, reject) => {
-			loadAllSchemas().then(this.setSchemas, reject);
-			resolve();
-		});
+		const schemas = loadAllSchemasSync();
+		this.setSchemas(schemas);
 	}
 
 	/**
