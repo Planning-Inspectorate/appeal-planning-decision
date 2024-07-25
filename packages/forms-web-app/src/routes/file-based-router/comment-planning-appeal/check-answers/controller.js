@@ -50,6 +50,22 @@ const formatIpSummaryList = (interestedParty) => {
 		},
 		{
 			key: {
+				text: 'Your address'
+			},
+			value: {
+				text: formatIpAddress(interestedParty)
+			},
+			actions: {
+				items: [
+					{
+						href: 'enter-address',
+						text: 'Change'
+					}
+				]
+			}
+		},
+		{
+			key: {
 				text: 'Your email'
 			},
 			value: {
@@ -81,6 +97,22 @@ const formatIpSummaryList = (interestedParty) => {
 			}
 		}
 	];
+};
+
+const formatIpAddress = (interestedParty) => {
+	if (!interestedParty.address) {
+		return 'No address supplied';
+	}
+
+	const addressComponents = [
+		interestedParty.address.addressLine1,
+		interestedParty.address.addressLine2,
+		interestedParty.address.townCity,
+		interestedParty.address.county,
+		interestedParty.address.postcode
+	];
+
+	return addressComponents.filter(Boolean).join(', ');
 };
 
 module.exports = { checkAnswersGet, checkAnswersPost };
