@@ -23,10 +23,6 @@ const enterAddressPost = async (req, res) => {
 	} = body;
 	const interestedParty = req.session.interestedParty || {};
 
-	console.log('oiop');
-	console.log(body);
-	console.log(errors);
-
 	req.session.interestedParty.address = {
 		addressLine1,
 		addressLine2,
