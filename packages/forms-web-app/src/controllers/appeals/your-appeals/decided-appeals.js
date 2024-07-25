@@ -10,6 +10,7 @@ exports.get = async (req, res) => {
 		if (appeals?.length > 0) {
 			const decidedAppeals = appeals
 				.map(mapToAppellantDashboardDisplayData)
+				.filter(Boolean)
 				.filter((appeal) => appeal.appealDecision);
 			decidedAppeals.sort(sortByDateFieldDesc('caseDecisionOutcomeDate'));
 			viewContext = { decidedAppeals };

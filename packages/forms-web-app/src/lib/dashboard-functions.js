@@ -10,6 +10,8 @@ const {
 } = require('@pins/common/src/lib/format-address');
 const { formatDate } = require('#utils/format-date');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
+const logger = require('#lib/logger');
+
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
@@ -73,28 +75,39 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 
 /**
  * @param {AppealSubmission | AppealCaseDetailed} appealData
- * @returns {DashboardDisplayData}
+ * @returns {DashboardDisplayData|null}
  */
-const mapToAppellantDashboardDisplayData = (appealData) => ({
-	appealId: isAppealSubmission(appealData) ? appealData._id : appealData.id,
-	appealNumber:
-		isAppealSubmission(appealData) || isV2Submission(appealData) ? '' : appealData.caseReference,
-	address: formatAddress(appealData),
-	appealType: getAppealType(appealData),
-	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
-	isDraft: isAppealSubmission(appealData) || isV2Submission(appealData),
-	appealDecision: isAppealSubmission(appealData)
-		? null
-		: mapDecisionLabel(appealData.caseDecisionOutcome),
-	appealDecisionColor:
-		isAppealSubmission(appealData) || isV2Submission(appealData)
-			? null
-			: mapDecisionColour(appealData.caseDecisionOutcome),
-	caseDecisionOutcomeDate:
-		isAppealSubmission(appealData) || isV2Submission(appealData)
-			? null
-			: appealData.caseDecisionOutcomeDate
-});
+const mapToAppellantDashboardDisplayData = (appealData) => {
+	const id = isAppealSubmission(appealData) ? appealData._id : appealData.id;
+	try {
+		return {
+			appealId: id,
+			appealNumber:
+				isAppealSubmission(appealData) || isV2Submission(appealData)
+					? ''
+					: appealData.caseReference,
+			address: formatAddress(appealData),
+			appealType: getAppealType(appealData),
+			nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
+			isDraft: isAppealSubmission(appealData) || isV2Submission(appealData),
+			appealDecision: isAppealSubmission(appealData)
+				? null
+				: mapDecisionLabel(appealData.caseDecisionOutcome),
+			appealDecisionColor:
+				isAppealSubmission(appealData) || isV2Submission(appealData)
+					? null
+					: mapDecisionColour(appealData.caseDecisionOutcome),
+			caseDecisionOutcomeDate:
+				isAppealSubmission(appealData) || isV2Submission(appealData)
+					? null
+					: appealData.caseDecisionOutcomeDate
+		};
+	} catch (err) {
+		logger.error({ err }, `failed to mapToAppellantDashboardDisplayData ${id}`);
+	}
+
+	return null;
+};
 
 // LPADashboard - ToDo or WaitingToReview FUNCTIONS
 
