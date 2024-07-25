@@ -12,10 +12,28 @@ const enterAddressGet = (req, res) => {
 /** @type {import('express').RequestHandler} */
 const enterAddressPost = async (req, res) => {
 	const { body } = req;
-	const { errors = {}, errorSummary = [], address: address } = body;
+	const {
+		errors = {},
+		errorSummary = [],
+		addressLine1,
+		addressLine2,
+		townCity,
+		county,
+		postcode
+	} = body;
 	const interestedParty = req.session.interestedParty || {};
 
-	req.session.interestedParty.address = address;
+	console.log('oiop');
+	console.log(body);
+	console.log(errors);
+
+	req.session.interestedParty.address = {
+		addressLine1,
+		addressLine2,
+		townCity,
+		county,
+		postcode
+	};
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/enter-address/index`, {
