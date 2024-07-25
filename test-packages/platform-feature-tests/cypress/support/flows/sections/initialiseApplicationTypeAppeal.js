@@ -6,8 +6,8 @@ const greenBeltPage = require("../pages/prepare-appeal/greenBeltPage");
 const ownAllLandPage = require("../pages/prepare-appeal/ownAllLandPage");
 const ownSomeLandPage = require("../pages/prepare-appeal/ownSomeLandPage");
 const ownsLandInvolvedPage = require("../pages/prepare-appeal/ownsLandInvolvedPage");
-const initialiseHouseHolderPlanning = require("../sections/initialiseHouseHolderPlanning");
-const initialiseFullPlanning = require("../sections/initialiseFullPlanning");
+const initialiseHouseHolderPlanning = require("./initialiseHouseHolderPlanning");
+const initialiseFullPlanning = require("./initialiseFullPlanning");
 module.exports = (statusOfOriginalApplication,planning,context) => {
 	cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 	cy.advanceToNextPage(); 

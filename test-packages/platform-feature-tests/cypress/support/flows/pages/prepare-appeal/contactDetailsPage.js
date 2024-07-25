@@ -8,14 +8,18 @@ export class ContactDetailsPage{
         contactPhoneNumber: '#contactPhoneNumber'
     }
 
-    addContactDetailsData(context){
+    addContactDetailsData(context,applicationType){
         const basePage = new BasePage();   
 
         basePage.addTextField(this._selectors.contactFirstName, 'Contact firstname');
         basePage.addTextField(this._selectors.contactLastName, 'Contact lastname');
         basePage.addTextField(this._selectors.contactCompanyName, 'Test Company');
         cy.advanceToNextPage();  
-           
+        
+        //cy.get(`a[href*="/appeals/${applicationType}/prepare-appeal/${answerType}?id=${dynamicId}"]`)
+        
+        //cy.url().should('include','/appeals/householder/prepare-appeal/phone-number');
+        cy.url().should('include',`/appeals/${applicationType}/prepare-appeal/phone-number`);
         //What is your phone number?
         basePage.addTextField(this._selectors.contactPhoneNumber,'07654321000');
         cy.advanceToNextPage();   

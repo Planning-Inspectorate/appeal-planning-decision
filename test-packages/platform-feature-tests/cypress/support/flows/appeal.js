@@ -1,11 +1,4 @@
-const initialiseFullAppeal = require('./sections/initialiseFullAppeal');
-const applicationNameSection = require('./sections/applicationNameSection'); 
-const completeContactDetailsSection = require('./sections/completeContactDetailsSection');
-const completeAppealSiteSection = require('./sections/completeAppealSiteSection');
-const completeAppealDecisionTypeSection = require('./sections/completeAppealDecisionTypeSection');
-const completeUploadPlanningApplicationDocumentsSection = require('./sections/completeUploadPlanningApplicationDocumentsSection');
-const completeUploadAppealDocumentsSection = require('./sections/completeUploadAppealDocumentsSection');
-const completeCheckAnswersAndSubmitSection = require('./sections/completeCheckAnswersAndSubmitSection');
+const initialiseApplicationTypeAppeal = require('./sections/initialiseApplicationTypeAppeal');
 
 function submitAppealFlow(appealOptions) {
 	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning, context} =
@@ -29,14 +22,7 @@ function submitAppealFlow(appealOptions) {
 		);
 	}
 
-	initialiseFullAppeal(statusOfOriginalApplication,planning, context);
-	// applicationNameSection();
-	// completeContactDetailsSection();
-	// completeAppealSiteSection();
-	// completeAppealDecisionTypeSection(typeOfDecisionRequested);
-	// completeUploadPlanningApplicationDocumentsSection(statusOfOriginalApplication);
-	// completeUploadAppealDocumentsSection(statusOfPlanningObligation);
-	// completeCheckAnswersAndSubmitSection();
+	initialiseApplicationTypeAppeal(statusOfOriginalApplication,planning, context);
 }
 
 module.exports = {

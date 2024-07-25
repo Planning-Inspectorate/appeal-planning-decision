@@ -1,7 +1,7 @@
 import { submitHouseHolderAppealTestCases } from "../utils/houseHolderAppeal/submitHouseHolderAppealUtil";
 const { submitAppealFlow } = require('../support/flows/appeal');
 
-describe('Appeal uploads', () => {
+describe('House Holder Appeal Submit', () => {
 submitHouseHolderAppealTestCases.forEach((context) => {
 		const {
 			statusOfOriginalApplication,
@@ -16,7 +16,7 @@ submitHouseHolderAppealTestCases.forEach((context) => {
 		} = context;
 			// House Holding
 			//typeOfPlanningApplication?.forEach((planning) => {
-				it(`sends a House Hold planning application successfully to Horizon where the original application status is "${statusOfOriginalApplication}", 
+				it(`sends a House Holder planning application successfully to Horizon where the original application status is "${statusOfOriginalApplication}", 
 				the decision type requested is "${typeOfDecisionRequested}", the planning obligation status is "${statusOfPlanningObligation}", application type is 
 				${typeOfPlanningApplication} and appellant is ${applicationForm?.isAppellant} application form has area unit ${applicationForm?.areaUnits}  
 				and know other land owners ${applicationForm?.knowsOtherOwners ?? applicationForm?.knowsAllOwners} appellant in green belt is ${applicationForm?.appellantInGreenBelt}

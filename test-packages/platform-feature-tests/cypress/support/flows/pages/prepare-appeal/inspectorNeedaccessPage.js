@@ -6,7 +6,7 @@ export class InspectorNeedAccessPage{
         appellantSiteAccessAppellantSiteAccessDetails:'#appellantSiteAccess_appellantSiteAccessDetails'
     }
 
-    addInspectorNeedaccessData(isInspectorNeedAccess){
+    addInspectorNeedAccessData(isInspectorNeedAccess){
         const basePage = new BasePage();
     
         //Will an inspector need to access your land or property?  Ans:Yes
