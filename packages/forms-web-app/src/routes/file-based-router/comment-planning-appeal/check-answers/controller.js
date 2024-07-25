@@ -1,3 +1,22 @@
+/**
+ * @typedef {Object} InterestedParty
+ * @property {string} appealNumber
+ * @property {string} [firstName]
+ * @property {string} [lastName]
+ * @property {string} [emailAddress]
+ * @property {IPAddress} [address]
+ * @property {string} [comments]
+ */
+
+/**
+ * @typedef {Object} IPAddress
+ * @property {string} addressLine1
+ * @property {string} addressLine2
+ * @property {string} townCity
+ * @property {string} county
+ * @property {string} postcode
+ */
+
 /** @type {import('express').RequestHandler} */
 const checkAnswersGet = (req, res) => {
 	if (!req.session.interestedParty?.appealNumber) {
@@ -12,6 +31,7 @@ const checkAnswersGet = (req, res) => {
 		return res.redirect(`add-comments`);
 	}
 
+	/** @type {InterestedParty} */
 	const interestedParty = req.session.interestedParty;
 
 	const ipSummaryList = formatIpSummaryList(interestedParty);
@@ -30,6 +50,9 @@ const checkAnswersPost = async (req, res) => {
 	return res.redirect(`add-comments`);
 };
 
+/**
+ * @param {InterestedParty} interestedParty
+ */
 const formatIpSummaryList = (interestedParty) => {
 	return [
 		{
@@ -99,6 +122,9 @@ const formatIpSummaryList = (interestedParty) => {
 	];
 };
 
+/**
+ * @param {InterestedParty} interestedParty
+ */
 const formatIpAddress = (interestedParty) => {
 	if (!interestedParty.address) {
 		return 'No address supplied';

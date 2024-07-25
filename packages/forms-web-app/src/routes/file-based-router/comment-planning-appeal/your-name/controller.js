@@ -1,10 +1,14 @@
+/**
+ * @typedef {import('../check-answers/controller')} InterestedParty
+ */
+
 /** @type {import('express').RequestHandler} */
 const yourNameGet = (req, res) => {
 	if (!req.session.interestedParty?.appealNumber) {
 		return res.redirect(`enter-appeal-reference`);
 	}
-
-	const interestedParty = req.session.interestedParty || {};
+	/** @type {InterestedParty} */
+	const interestedParty = req.session.interestedParty;
 
 	res.render(`comment-planning-appeal/your-name/index`, { interestedParty });
 };
@@ -13,14 +17,13 @@ const yourNameGet = (req, res) => {
 const yourNamePost = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [], 'first-name': firstName, 'last-name': lastName } = body;
-	const interestedParty = req.session.interestedParty || {};
 
 	req.session.interestedParty.firstName = firstName;
 	req.session.interestedParty.lastName = lastName;
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/your-name/index`, {
-			interestedParty,
+			interestedParty: req.session.interestedParty,
 			errors,
 			errorSummary
 		});

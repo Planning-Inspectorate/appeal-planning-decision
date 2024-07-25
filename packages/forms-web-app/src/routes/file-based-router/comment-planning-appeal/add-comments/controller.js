@@ -1,10 +1,15 @@
+/**
+ * @typedef {import('../check-answers/controller')} InterestedParty
+ */
+
 /** @type {import('express').RequestHandler} */
 const addCommentsGet = (req, res) => {
 	if (!req.session.interestedParty?.appealNumber) {
 		return res.redirect(`enter-appeal-reference`);
 	}
 
-	const interestedParty = req.session.interestedParty || {};
+	/** @type {InterestedParty} */
+	const interestedParty = req.session.interestedParty;
 
 	res.render(`comment-planning-appeal/add-comments/index`, { interestedParty });
 };
@@ -13,13 +18,12 @@ const addCommentsGet = (req, res) => {
 const addCommentsPost = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [], comments } = body;
-	const interestedParty = req.session.interestedParty || {};
 
 	req.session.interestedParty.comments = comments;
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/add-comments/index`, {
-			interestedParty,
+			interestedParty: req.session.interestedParty,
 			errors,
 			errorSummary
 		});
