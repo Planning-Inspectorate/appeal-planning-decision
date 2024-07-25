@@ -1,58 +1,62 @@
 {% extends "layouts/comment-planning-appeal/index.njk" %}
-{% set title = "What is your name?" %}
+
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title = "What is your name?" %}
+
 {% block content %}
-		<div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
+	<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+			<form method="post">
+			<input type="hidden" name="_csrf" value="{{_csrf}}">
 
-		<form method="post">
-<input type="hidden" name="_csrf" value="{{_csrf}}">
-                        {% call govukFieldset({
-                legend: {
-                    text: "What is your name?",
-                    classes: "govuk-fieldset__legend--l",
-                    isPageHeading: true
-                }
-                }) %}
+			{% call govukFieldset({
+        legend: {
+            text: "What is your name?",
+            classes: "govuk-fieldset__legend--l",
+            isPageHeading: true
+        }
+        }) %}
 
-						<p class="govuk-body">We need your name to link you to your comment, this is helpful if you need to contact us. We do not publish your name.</p>
-            {{ govukInput({
-							label: {
-                            text: 'First name',
-                            classes: 'govuk-label',
-                            for: 'first-name'
-                        },
-                        classes: "govuk-input--width-20",
-                        id : "first-name",
-                        name: "first-name",
-                        errorMessage: errors["first-name"] and {
-													text: errors["first-name"].msg
-												},
-                        value: interestedParty.firstName
-                        })
-            }}
-						{{ govukInput({
-							label: {
-                            text: 'Last name',
-                            classes: 'govuk-label',
-                            for: 'last-name'
-                        },
-                        classes: "govuk-input--width-20",
-                        id : "last-name",
-                        name: "last-name",
-                        errorMessage: errors["last-name"] and {
-													text: errors["last-name"].msg
-												},
-                        value: interestedParty.lastName
-                        })
-            }}
+				<p class="govuk-body">We need your name to link you to your comment, this is helpful if you need to contact us. We do not publish your name.</p>
 
-						{% endcall %}
+				{{ govukInput({
+					label: {
+      	    text: 'First name',
+      	    classes: 'govuk-label',
+      	    for: 'first-name'
+      	  },
+      	  classes: "govuk-input--width-20",
+      	  id : "first-name",
+      	  name: "first-name",
+      	  errorMessage: errors["first-name"] and {
+						text: errors["first-name"].msg
+					},
+      	  value: interestedParty.firstName
+      	  }) }}
 
-        {{ govukButton({"text": "Continue", "type": "submit"}) }}
-    </form>
+				{{ govukInput({
+					label: {
+      	    text: 'Last name',
+      	    classes: 'govuk-label',
+      	    for: 'last-name'
+      	  },
+      	  classes: "govuk-input--width-20",
+      	  id : "last-name",
+      	  name: "last-name",
+      	  errorMessage: errors["last-name"] and {
+						text: errors["last-name"].msg
+					},
+      	  value: interestedParty.lastName
+      	  }) }}
+
+			{% endcall %}
+
+      {{ govukButton({"text": "Continue", "type": "submit"}) }}
+
+			</form>
 		</div>
-		</div>
+	</div>
 {% endblock content %}

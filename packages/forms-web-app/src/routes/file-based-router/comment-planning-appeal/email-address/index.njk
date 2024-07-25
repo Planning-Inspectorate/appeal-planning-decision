@@ -1,33 +1,39 @@
 {% extends "layouts/comment-planning-appeal/index.njk" %}
-{% set title = "Enter your email address" %}
+
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title = "Enter your email address" %}
+
 {% block content %}
-    <form method="post">
-<input type="hidden" name="_csrf" value="{{_csrf}}">
-        <div class="govuk-form-group">
-            <h1 class="govuk-heading-l">Enter your email address</h1>
-            <p class="govuk-body">We’ll only contact you if we need to discuss your comment and to let you know the appeal decision. You do not have to enter an email address.</p>
-            {{ govukInput({
-							label: {
-                            text: 'Email address',
-                            classes: 'govuk-label',
-                            for: 'email-address'
-                        },
-                        classes: "govuk-input--width-20",
-                        id : "email-address",
-                        name: "email-address",
-                        errorMessage: errors['email-address'] and {
-                            text: errors['email-address'].msg
-                        },
-                        value: interestedParty.emailAddress
-                        })
-            }}
-        </div>
-				<div class="govuk-button-group">
-        {{ govukButton({text: "Continue", type: "submit"}) }}
-				{{ govukButton({text: "Skip", classes: "govuk-button--secondary", href:"add-comments"}) }}
-				</div>
-    </form>
+  <form method="post">
+	<input type="hidden" name="_csrf" value="{{_csrf}}">
+  <div class="govuk-form-group">
+    <h1 class="govuk-heading-l">Enter your email address</h1>
+
+    <p class="govuk-body">We’ll only contact you if we need to discuss your comment and to let you know the appeal decision. You do not have to enter an email address.</p>
+
+    {{ govukInput({
+			label: {
+        text: 'Email address',
+        classes: 'govuk-label',
+        for: 'email-address'
+      },
+      classes: "govuk-input--width-20",
+      id : "email-address",
+      name: "email-address",
+      errorMessage: errors['email-address'] and {
+          text: errors['email-address'].msg
+      },
+      value: interestedParty.emailAddress
+      }) }}
+
+	</div>
+
+	<div class="govuk-button-group">
+    {{ govukButton({text: "Continue", type: "submit"}) }}
+		{{ govukButton({text: "Skip", classes: "govuk-button--secondary", href:"add-comments"}) }}
+	</div>
+  </form>
 
 {% endblock content %}
