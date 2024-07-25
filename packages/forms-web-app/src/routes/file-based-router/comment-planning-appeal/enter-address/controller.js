@@ -1,9 +1,14 @@
+/**
+ * @typedef {import('../check-answers/controller')} InterestedParty
+ */
+
 /** @type {import('express').RequestHandler} */
 const enterAddressGet = (req, res) => {
 	if (!req.session.interestedParty?.appealNumber) {
 		return res.redirect(`enter-appeal-reference`);
 	}
 
+	/** @type {InterestedParty} */
 	const interestedParty = req.session.interestedParty;
 
 	res.render(`comment-planning-appeal/enter-address/index`, { interestedParty });
@@ -21,7 +26,6 @@ const enterAddressPost = async (req, res) => {
 		county,
 		postcode
 	} = body;
-	const interestedParty = req.session.interestedParty || {};
 
 	req.session.interestedParty.address = {
 		addressLine1,
@@ -33,7 +37,7 @@ const enterAddressPost = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/enter-address/index`, {
-			interestedParty,
+			interestedParty: req.session.interestedParty,
 			errors,
 			errorSummary
 		});
