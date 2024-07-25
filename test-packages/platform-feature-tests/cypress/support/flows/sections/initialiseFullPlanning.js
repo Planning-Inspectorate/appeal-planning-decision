@@ -7,7 +7,7 @@ const { GreenBeltPage } = require("../pages/prepare-appeal/greenBeltPage");
 const { OwnAllLandPage } = require("../pages/prepare-appeal/ownAllLandPage");
 const { OwnSomeLandPage } = require("../pages/prepare-appeal/ownSomeLandPage");
 const { AgriculturalHoldingPage } = require("../pages/prepare-appeal/agriculturalHoldingPage");
-const { InspectorNeedAccessPage } = require("../pages/prepare-appeal/inspectorNeedAccessPage");
+const { InspectorNeedAccessPage } = require("../pages/prepare-appeal/inspectorNeedaccessPage");
 const { DecideAppealsPage } = require("../pages/prepare-appeal/decideAppealsPage");
 const { OtherAppealsPage } = require("../pages/prepare-appeal/otherAppealsPage");
 const { UploadApplicationFormPage } = require("../pages/upload-documents/uploadApplicationFormPage");
@@ -47,15 +47,15 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 	cy.advanceToNextPage();
 	
 	let currentDate = new Date();
-	cy.get(prepareAppealSelector?._selectors?.decisionDateDay).type(currentDate.getDate());
-	cy.get(prepareAppealSelector?._selectors?.decisionDateMonth).type(currentDate.getMonth() + 1);
-	cy.get(prepareAppealSelector?._selectors?.decisionDateYear).type(currentDate.getFullYear());
+	cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateDay).type(currentDate.getDate());
+	cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateMonth).type(currentDate.getMonth() + 1);
+	cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateYear).type(currentDate.getFullYear());
 	cy.advanceToNextPage();
 
 	cy.get('[data-cy="answer-no"]').click();
 	cy.advanceToNextPage();
 
-	//cy.get('[data-cy="application-type"]').should('have.text','Full Appeal');
+	cy.get('[data-cy="application-type"]').should('have.text','Full Appeal');
 	cy.advanceToNextPage('Continue to my appeal');
 
 	const applicationNumber = `TEST-${Date.now()}`;
@@ -80,7 +80,7 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		//Contact details
 		applicationNamePage.addApplicationNameData(context?.applicationForm?.isAppellant);
 		
-		contactDetailsPage.addContactDetailsData(context);
+		contactDetailsPage.addContactDetailsData(context,'full-planning');
 		
 		//Site Details
 		appealSiteAddressPage.addAppealSiteAddressData();		
@@ -100,7 +100,7 @@ module.exports = (statusOfOriginalApplication,planning, grantedOrRefusedId,conte
 		}
 		agriculturalHoldingPage.addAgriculturalHoldingData(context?.applicationForm?.isAgriculturalHolding,context);		
 				
-		inspectorNeedAccessPage.addInspectorNeedaccessData(context?.applicationForm?.isInspectorNeedAccess);		
+		inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess);		
 		//Health and safety issues
 		healthSafetyIssuesPage.addHealthSafetyIssuesData(context);
 		//What is the application reference number?

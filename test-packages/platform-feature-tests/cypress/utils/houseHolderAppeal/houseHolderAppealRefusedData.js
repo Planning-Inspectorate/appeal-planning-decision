@@ -56,39 +56,39 @@ export const houseHolderAppealRefusedTestCases=	[
         }
     },
     // refused scenarios 
-    // {
-    //     statusOfOriginalApplication: 'refused',
-    //     typeOfDecisionRequested: 'hearing',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-householder-planning',
-    //     applicationForm: {
-    //         isAppellant: true,
-    //         areaUnits:'squaremeter',
-    //         appellantInGreenBelt: true,
-    //         isOwnsAllLand: false,
-    //         isOwnsSomeLand: true,
-    //         knowsAllOwners: 'no',
-    //         knowsOtherOwners:'yes',				
-    //         isInspectorNeedAccess: true,
-    //         isAppellantSiteSafety: true,
-    //         iaUpdateDevelopmentDescription: true,				
-    //         anyOtherAppeals: true,
-    //         isAppellantLinkedCaseAdd: false            
-    //     },
-    //     uploadDocuments: {			
-    //         isApplyAwardCost: true			
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],				
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }
-    // },
+    {
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        applicationForm: {
+            isAppellant: true,
+            areaUnits:'squaremeter',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            knowsAllOwners: 'no',
+            knowsOtherOwners:'yes',				
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,				
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: false            
+        },
+        uploadDocuments: {			
+            isApplyAwardCost: true			
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],				
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }
+    },
     // {
     //     statusOfOriginalApplication: 'refused',
     //     typeOfDecisionRequested: 'hearing',

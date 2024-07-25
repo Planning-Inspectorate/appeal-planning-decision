@@ -3,7 +3,7 @@ import { submitFullAppealTestCases } from "../utils/fullAppeal/submitFullAppealU
 const { submitAppealFlow } = require('../support/flows/appeal');
 //const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 
-describe('Appeal uploads', () => {
+describe('Full Appeal Submit', () => {
 
 	submitFullAppealTestCases.forEach((context) => {
 		const {
