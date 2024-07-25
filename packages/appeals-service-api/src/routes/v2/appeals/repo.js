@@ -17,21 +17,49 @@ class UserAppealsRepository {
 	 *
 	 * @param {string} userId
 	 * @returns {Promise<UserWithAppeals|null>}
-	 */ // todo: select only needed fields
+	 */
 	async listAppealsForUser(userId) {
 		try {
 			return await this.dbClient.appealUser.findUnique({
 				where: {
 					id: userId
 				},
-				include: {
+				select: {
+					id: true,
 					Appeals: {
-						include: {
+						select: {
+							appealId: true,
 							Appeal: {
-								include: {
-									AppealCase: true,
+								select: {
+									id: true,
+									legacyAppealSubmissionId: true,
+									legacyAppealSubmissionDecisionDate: true,
+									legacyAppealSubmissionState: true,
+									AppealCase: {
+										select: {
+											id: true,
+											appealTypeCode: true,
+											caseDecisionOutcomeDate: true,
+											caseDecisionOutcome: true,
+											caseReference: true,
+											appellantCommentsSubmitted: true,
+											appellantsProofsSubmitted: true,
+											finalCommentsDueDate: true,
+											proofsOfEvidenceDueDate: true,
+											caseWithdrawnDate: true,
+											caseStatus: true,
+											siteAddressLine1: true,
+											siteAddressLine2: true,
+											siteAddressTown: true,
+											siteAddressPostcode: true
+										}
+									},
 									AppellantSubmission: {
-										include: {
+										select: {
+											id: true,
+											submitted: true,
+											appealTypeCode: true,
+											applicationDecisionDate: true,
 											SubmissionAddress: true
 										}
 									}
