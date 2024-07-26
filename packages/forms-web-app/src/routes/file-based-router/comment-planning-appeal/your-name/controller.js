@@ -1,14 +1,21 @@
+const {
+	confirmInterestedPartySessionAppealReference,
+	getInterestedPartyFromSession,
+	updateInterestedPartySession
+} = require('../../../../services/interested-party.service');
+
 /**
- * @typedef {import('../check-answers/controller')} InterestedParty
+ * @typedef {import('../../../../services/interested-party.service').InterestedParty} InterestedParty
  */
 
 /** @type {import('express').RequestHandler} */
 const yourNameGet = (req, res) => {
-	if (!req.session.interestedParty?.appealNumber) {
+	if (!confirmInterestedPartySessionAppealReference(req)) {
 		return res.redirect(`enter-appeal-reference`);
 	}
+
 	/** @type {InterestedParty} */
-	const interestedParty = req.session.interestedParty;
+	const interestedParty = getInterestedPartyFromSession(req);
 
 	res.render(`comment-planning-appeal/your-name/index`, { interestedParty });
 };
@@ -18,12 +25,15 @@ const yourNamePost = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [], 'first-name': firstName, 'last-name': lastName } = body;
 
-	req.session.interestedParty.firstName = firstName;
-	req.session.interestedParty.lastName = lastName;
+	/** @type {InterestedParty} */
+	const interestedParty = updateInterestedPartySession(req, {
+		firstName,
+		lastName
+	});
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/your-name/index`, {
-			interestedParty: req.session.interestedParty,
+			interestedParty,
 			errors,
 			errorSummary
 		});

@@ -1,15 +1,24 @@
+const {
+	confirmInterestedPartySessionAppealReference,
+	getInterestedPartyFromSession
+} = require('../../../../services/interested-party.service');
+
+/**
+ * @typedef {import('../../../../services/interested-party.service').InterestedParty} InterestedParty
+ */
+
 /** @type {import('express').RequestHandler} */
 const commentSubmittedGet = (req, res) => {
-	if (!req.session.interestedParty?.appealNumber) {
+	if (!confirmInterestedPartySessionAppealReference(req)) {
 		return res.redirect(`enter-appeal-reference`);
 	}
 
-	// if (!req.session.interestedParty?.submitted) {
-	// 	return res.redirect(`check-answers`);
-	// }
-
 	/** @type {InterestedParty} */
-	const interestedParty = req.session.interestedParty;
+	const interestedParty = getInterestedPartyFromSession(req);
+
+	if (!interestedParty.submitted) {
+		return res.redirect(`check-answers`);
+	}
 
 	res.render(`comment-planning-appeal/comment-submitted/index`, { interestedParty });
 };

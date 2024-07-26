@@ -1,38 +1,29 @@
-/**
- * @typedef {Object} InterestedParty
- * @property {string} appealNumber
- * @property {string} [firstName]
- * @property {string} [lastName]
- * @property {string} [emailAddress]
- * @property {IPAddress} [address]
- * @property {string} [comments]
- */
+const {
+	confirmInterestedPartySessionAppealReference,
+	getInterestedPartyFromSession,
+	markInterestedPartySessionAsSubmitted
+} = require('../../../../services/interested-party.service');
 
 /**
- * @typedef {Object} IPAddress
- * @property {string} addressLine1
- * @property {string} addressLine2
- * @property {string} townCity
- * @property {string} county
- * @property {string} postcode
+ * @typedef {import('../../../../services/interested-party.service').InterestedParty} InterestedParty
  */
 
 /** @type {import('express').RequestHandler} */
 const checkAnswersGet = (req, res) => {
-	if (!req.session.interestedParty?.appealNumber) {
+	if (!confirmInterestedPartySessionAppealReference(req)) {
 		return res.redirect(`enter-appeal-reference`);
 	}
 
-	if (!req.session.interestedParty?.firstName || !req.session.interestedParty?.lastName) {
+	/** @type {InterestedParty} */
+	const interestedParty = getInterestedPartyFromSession(req);
+
+	if (!interestedParty.firstName || !interestedParty.lastName) {
 		return res.redirect(`your-name`);
 	}
 
-	if (!req.session.interestedParty?.comments) {
+	if (!interestedParty.comments) {
 		return res.redirect(`add-comments`);
 	}
-
-	/** @type {InterestedParty} */
-	const interestedParty = req.session.interestedParty;
 
 	const ipSummaryList = formatIpSummaryList(interestedParty);
 
@@ -41,11 +32,11 @@ const checkAnswersGet = (req, res) => {
 
 /** @type {import('express').RequestHandler} */
 const checkAnswersPost = async (req, res) => {
-	// const interestedParty = req.session.interestedParty;
+	// const interestedParty = getInterestedPartyFromSession(req);
+
+	markInterestedPartySessionAsSubmitted(req);
 
 	// const result = await req.appealsApiClient.submitInterestedPartyComment(interestedParty);
-
-	// console.log(result)
 
 	return res.redirect(`comment-submitted`);
 };
