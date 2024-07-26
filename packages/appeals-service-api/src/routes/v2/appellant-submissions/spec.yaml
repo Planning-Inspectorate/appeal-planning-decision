@@ -103,3 +103,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appellant-submissions/cleanup-old-submissions:
+    delete:
+      tags:
+        - appellant submissions
+      description: Delete submissions that have not been submitted and are 3 months past the deadline date
+      responses:
+        200:
+          description: Old non-submitted submissions are deleted
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AppellantSubmissions'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

@@ -77,6 +77,59 @@ const createAppeal = async () => {
 	return appeal.id;
 };
 
+/**
+ * @param {string} lpaCode
+ * @param {string} appealTypeCode
+ * @param {string} appealId
+ * @param {Date} decisionDate
+ * @returns {Promise<Response>}
+ */
+const appellantSubmissionPutResponse = async (lpaCode, appealTypeCode, appealId, decisionDate) => {
+	return await appealsApi.put('/api/v2/appellant-submissions').send({
+		LPACode: lpaCode,
+		appealTypeCode: appealTypeCode,
+		appealId: appealId,
+		applicationDecisionDate: decisionDate
+	});
+};
+
+/**
+ * @param {string} submissionId
+ * @param {string} linkedRecordType
+ * @returns {Promise<void>}
+ */
+const createLinkedRecords = async (submissionId, linkedRecordType) => {
+	if (linkedRecordType === 'address') {
+		await sqlClient.submissionAddress.create({
+			data: {
+				appellantSubmissionId: submissionId,
+				addressLine1: 'Address Line 1',
+				townCity: 'Test town',
+				postcode: 'BS1 6PN',
+				fieldName: 'question1'
+			}
+		});
+	} else if (linkedRecordType === 'listedBuilding') {
+		await sqlClient.submissionListedBuilding.create({
+			data: {
+				appellantSubmissionId: submissionId,
+				reference: 'ABC123',
+				name: 'Test Listed building',
+				listedBuildingGrade: 'II',
+				fieldName: 'question2'
+			}
+		});
+	} else if (linkedRecordType === 'linkedCase') {
+		await sqlClient.submissionLinkedCase.create({
+			data: {
+				appellantSubmissionId: submissionId,
+				caseReference: '1234567',
+				fieldName: 'question3'
+			}
+		});
+	}
+};
+
 beforeEach(async () => {
 	// turn all feature flags on
 	isFeatureActive.mockImplementation(() => {
@@ -180,6 +233,213 @@ describe('/appellant-submissions', () => {
 				appealTypeCode: 'S78',
 				appealId: appealId
 			});
+		});
+	});
+	describe('/appellant-submissions/cleanup-old-submissions', () => {
+		it('should delete old non-submitted submissions past the deadline', async () => {
+			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+			setCurrentSub(validUser);
+			// Create a non-submitted submission past the deadline
+			const oldApplicationDate = new Date();
+			oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7); // 7 months ago
+			const appealId = await createAppeal();
+			const oldSubmission = await appellantSubmissionPutResponse(
+				'Q9999',
+				'HAS',
+				appealId,
+				oldApplicationDate
+			);
+
+			// Create a non-submitted submission within the deadline
+			const recentApplicationDate = new Date();
+			recentApplicationDate.setMonth(recentApplicationDate.getMonth() - 1); // 1 month ago
+			const recentAppealId = await createAppeal();
+			const recentSubmission = await appellantSubmissionPutResponse(
+				'Q9999',
+				'HAS',
+				recentAppealId,
+				recentApplicationDate
+			);
+
+			const response = await appealsApi.delete(
+				'/api/v2/appellant-submissions/cleanup-old-submissions'
+			);
+			expect(response.status).toBe(200);
+
+			// Check that the old submission was deleted
+			const deletedSubmission = await sqlClient.appellantSubmission.findUnique({
+				where: { id: oldSubmission.body?.id }
+			});
+			expect(deletedSubmission).toBeNull();
+
+			// Check that the recent submission still exists
+			const existingSubmission = await sqlClient.appellantSubmission.findUnique({
+				where: { id: recentSubmission.body?.id }
+			});
+			expect(existingSubmission).not.toBeNull();
+		});
+		it('should delete S78/ HAS submissions appropriately according to differing deadlines', async () => {
+			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+			setCurrentSub(validUser);
+			// Create non-submitted HAS submissions
+			const oldHasApplicationDate = new Date();
+			oldHasApplicationDate.setMonth(oldHasApplicationDate.getMonth() - 7);
+			const oldHasAppealId = await createAppeal();
+			const oldHasSubmission = await appellantSubmissionPutResponse(
+				'Q9999',
+				'HAS',
+				oldHasAppealId,
+				oldHasApplicationDate
+			);
+
+			const recentHasApplicationDate = new Date();
+			recentHasApplicationDate.setMonth(recentHasApplicationDate.getMonth() - 1);
+			const newHasAppealId = await createAppeal();
+			const newHasSubmission = await appellantSubmissionPutResponse(
+				'Q9999',
+				'HAS',
+				newHasAppealId,
+				recentHasApplicationDate
+			);
+
+			// Create non-submitted S78 submissions
+			const oldS78ApplicationDate = new Date();
+			oldS78ApplicationDate.setMonth(oldS78ApplicationDate.getMonth() - 10);
+			const oldS78AppealId = await createAppeal();
+			const oldS78Submission = await appellantSubmissionPutResponse(
+				'Q9999',
+				'S78',
+				oldS78AppealId,
+				oldS78ApplicationDate
+			);
+
+			const recentS78ApplicationDate = new Date();
+			recentS78ApplicationDate.setMonth(recentS78ApplicationDate.getMonth() - 1);
+			const newS78AppealId = await createAppeal();
+			const newS78Submission = await appellantSubmissionPutResponse(
+				'Q9999',
+				'S78',
+				newS78AppealId,
+				recentS78ApplicationDate
+			);
+
+			const response = await appealsApi.delete(
+				'/api/v2/appellant-submissions/cleanup-old-submissions'
+			);
+			expect(response.status).toBe(200);
+
+			// Check the old submissions were deleted
+			const deletedHasSubmission = await sqlClient.appellantSubmission.findUnique({
+				where: { id: oldHasSubmission.body?.id }
+			});
+			expect(deletedHasSubmission).toBeNull();
+
+			const deletedS78Submission = await sqlClient.appellantSubmission.findUnique({
+				where: { id: oldS78Submission.body?.id }
+			});
+			expect(deletedS78Submission).toBeNull();
+
+			// Check the recent submissions still exist
+			const existingHasSubmission = await sqlClient.appellantSubmission.findUnique({
+				where: { id: newHasSubmission.body?.id }
+			});
+			expect(existingHasSubmission).not.toBeNull();
+
+			const existingS78Submission = await sqlClient.appellantSubmission.findUnique({
+				where: { id: newS78Submission.body?.id }
+			});
+			expect(existingS78Submission).not.toBeNull();
+		});
+		it('should delete associated records/ data with deleted submissions', async () => {
+			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+			setCurrentSub(validUser);
+			// Create an old submission past the deadline with linked records
+			const oldApplicationDate = new Date();
+			oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7); // 7 months ago
+			const oldAppealId = await createAppeal();
+			const oldSubmission = await appellantSubmissionPutResponse(
+				'Q9999',
+				'HAS',
+				oldAppealId,
+				oldApplicationDate
+			);
+			await createLinkedRecords(oldSubmission.body?.id, 'address');
+			await createLinkedRecords(oldSubmission.body?.id, 'listedBuilding');
+			await createLinkedRecords(oldSubmission.body?.id, 'linkedCase');
+
+			const oldAppealBeforeDeletion = await sqlClient.appeal.findFirst({
+				where: { id: oldAppealId }
+			});
+
+			// Create a recent submission within the deadline with records
+			const recentApplicationDate = new Date();
+			recentApplicationDate.setMonth(recentApplicationDate.getMonth() - 1); // 1 month ago
+			const recentAppealId = await createAppeal();
+			const recentSubmission = await appellantSubmissionPutResponse(
+				'Q9999',
+				'HAS',
+				recentAppealId,
+				recentApplicationDate
+			);
+			await createLinkedRecords(recentSubmission.body?.id, 'address');
+			await createLinkedRecords(recentSubmission.body?.id, 'listedBuilding');
+
+			const recentAppealBeforeDeletion = await sqlClient.appeal.findFirst({
+				where: { id: recentAppealId }
+			});
+
+			const response = await appealsApi.delete(
+				'/api/v2/appellant-submissions/cleanup-old-submissions'
+			);
+			expect(response.status).toBe(200);
+
+			expect(oldAppealBeforeDeletion).not.toBeNull();
+			expect(recentAppealBeforeDeletion).not.toBeNull();
+			const oldAppealAfterDeletion = await sqlClient.appeal.findFirst({
+				where: { id: oldAppealId }
+			});
+			const recentAppealAfterDeletion = await sqlClient.appeal.findFirst({
+				where: { id: recentAppealId }
+			});
+			expect(oldAppealAfterDeletion).toBeNull();
+			expect(recentAppealAfterDeletion).not.toBeNull();
+
+			// Check the old submission and the linked records were was deleted
+			const deletedSubmission = await sqlClient.appellantSubmission.findUnique({
+				where: { id: oldSubmission.body?.id }
+			});
+			expect(deletedSubmission).toBeNull();
+
+			const deletedAddress = await sqlClient.submissionAddress.findFirst({
+				where: { appellantSubmissionId: oldSubmission.body?.id }
+			});
+			expect(deletedAddress).toBeNull();
+
+			const deletedListedBuilding = await sqlClient.submissionListedBuilding.findFirst({
+				where: { appellantSubmissionId: oldSubmission.body?.id }
+			});
+			expect(deletedListedBuilding).toBeNull();
+
+			const deletedLinkedCase = await sqlClient.submissionLinkedCase.findFirst({
+				where: { appellantSubmissionId: oldSubmission.body?.id }
+			});
+			expect(deletedLinkedCase).toBeNull();
+
+			// Checkthe recent submission still exists
+			const existingSubmission = await sqlClient.appellantSubmission.findUnique({
+				where: { id: recentSubmission.body?.id }
+			});
+			expect(existingSubmission).not.toBeNull();
+
+			const existingAddress = await sqlClient.submissionAddress.findFirst({
+				where: { appellantSubmissionId: recentSubmission.body?.id }
+			});
+			expect(existingAddress).not.toBeNull();
+
+			const existingListedBuilding = await sqlClient.submissionListedBuilding.findFirst({
+				where: { appellantSubmissionId: recentSubmission.body?.id }
+			});
+			expect(existingListedBuilding).not.toBeNull();
 		});
 	});
 });

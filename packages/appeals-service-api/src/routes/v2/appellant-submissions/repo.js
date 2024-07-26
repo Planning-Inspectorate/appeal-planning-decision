@@ -294,4 +294,66 @@ module.exports = class Repo {
 			throw e;
 		}
 	}
+
+	/**
+	 * Get all non submitted submissions
+	 * @returns {Promise<BareAppellantSubmission[]>}
+	 */
+	async getNonSubmittedSubmissions() {
+		return this.dbClient.appellantSubmission.findMany({
+			where: {
+				submitted: false
+			},
+			include: {
+				Appeal: true
+			}
+		});
+	}
+
+	/**
+	 * Delete associated relations
+	 * @param {string} submissionId
+	 * @returns {Promise<void>}
+	 */
+	async deleteLinkedRecords(submissionId) {
+		//todo: add delete submissionDocumentUpload
+
+		await this.dbClient.submissionAddress.deleteMany({
+			where: { appellantSubmissionId: submissionId }
+		});
+
+		await this.dbClient.submissionLinkedCase.deleteMany({
+			where: { appellantSubmissionId: submissionId }
+		});
+
+		await this.dbClient.submissionListedBuilding.deleteMany({
+			where: { appellantSubmissionId: submissionId }
+		});
+	}
+
+	/**
+	 * Delete the submission
+	 * @param {string} submissionId
+	 * @returns {Promise<void>}
+	 */
+	async deleteSubmission(submissionId) {
+		const submission = await this.dbClient.appellantSubmission.findUnique({
+			where: { id: submissionId },
+			select: { appealId: true }
+		});
+
+		const appealId = submission?.appealId;
+
+		await this.dbClient.appealToUser.deleteMany({
+			where: { appealId: appealId }
+		});
+
+		await this.dbClient.appellantSubmission.delete({
+			where: { id: submissionId }
+		});
+
+		await this.dbClient.appeal.delete({
+			where: { id: appealId }
+		});
+	}
 };
