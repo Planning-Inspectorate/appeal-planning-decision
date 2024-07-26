@@ -6,5 +6,6 @@ module.exports = {
 	...require('./rows'),
 	...require('../lib/format-questionnaire-details'),
 	...require('./events'),
-	...require('@pins/business-rules/src/lib/filter-withdrawn-appeal')
+	...require('@pins/business-rules/src/lib/filter-withdrawn-appeal'),
+	...require('./appeal-type-to-id')
 };

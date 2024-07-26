@@ -1,5 +1,5 @@
 const ApiError = require('#errors/apiError');
-const { put, post } = require('./service');
+const { put, post, deleteOldSubmissions } = require('./service');
 
 /**
  * @type {import('express').Handler}
@@ -33,4 +33,13 @@ exports.post = async (req, res) => {
 	const submission = await post({ userId, data });
 
 	res.send(submission);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.deleteOldSubmissions = async (req, res) => {
+	const message = await deleteOldSubmissions();
+
+	res.send(message);
 };
