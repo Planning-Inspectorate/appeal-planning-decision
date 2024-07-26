@@ -5,8 +5,7 @@ const {
 } = require('@pins/common/src/constants');
 const { getDocType } = require('@pins/common/src/document-types');
 
-const CLIENT_CREDS_ROLE = 'client-credentials';
-module.exports.CLIENT_CREDS_ROLE = CLIENT_CREDS_ROLE;
+exports.CLIENT_CREDS_ROLE = 'client-credentials';
 
 /**
  * @typedef {import('@pins/common/src/document-types').DocType} DocType
@@ -16,12 +15,9 @@ module.exports.CLIENT_CREDS_ROLE = CLIENT_CREDS_ROLE;
 
 /**
  * @type {PermissionsCheck}
- */
-const publicDocAccess = (docMetaData, docType) => {
-	if (!docMetaData.published || !docMetaData.redacted) return false;
-	if (docType.publiclyAccessible) return true; // todo: set these to true when we know which data model docs appear on public urls
-	return false;
-};
+ */ // todo: set publiclyAccessible on doc types when we know which data model docs appear on public urls
+const publicDocAccess = (docMetaData, docType) =>
+	docMetaData.published && docMetaData.redacted && docType.publiclyAccessible;
 
 /**
  * @type {Object<string, PermissionsCheck>}
@@ -35,7 +31,7 @@ const docTypeUserMapping = {
 	[APPEAL_USER_ROLES.AGENT]: (docMetaData, docType) =>
 		docTypeUserMapping[APPEAL_USER_ROLES.APPELLANT](docMetaData, docType), // same as appellant
 	[APPEAL_USER_ROLES.RULE_6_PARTY]: publicDocAccess, // will this be different from interested party?
-	[CLIENT_CREDS_ROLE]: publicDocAccess // e.g. interested party
+	[exports.CLIENT_CREDS_ROLE]: publicDocAccess // e.g. interested party
 };
 
 /**

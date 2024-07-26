@@ -37,16 +37,15 @@ exports.formatNewDescription = (caseData) => {
  * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
  * @returns {boolean}
  */
-const hasNotificationMethods = (caseData) =>
+exports.hasNotificationMethods = (caseData) =>
 	!!caseData.AppealCaseLpaNotificationMethod && !!caseData.AppealCaseLpaNotificationMethod.length;
-exports.hasNotificationMethods = hasNotificationMethods;
 
 /**
  * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
  * @returns {string|undefined}
  */
 exports.formatNotificationMethod = (caseData) => {
-	if (!hasNotificationMethods(caseData)) {
+	if (!exports.hasNotificationMethods(caseData)) {
 		return '';
 	}
 
