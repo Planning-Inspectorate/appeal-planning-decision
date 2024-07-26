@@ -1,0 +1,32 @@
+{% extends "layouts/comment-planning-appeal/index.njk" %}
+
+{% from "govuk/components/panel/macro.njk" import govukPanel %}
+
+{% set title = "Comment submitted" %}
+
+{% block content %}
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    {{ govukPanel({
+			titleText: "Comment submitted",
+			html: "Appeal reference<br /><strong>" + interestedParty.appealNumber + "</strong>"
+		}) }}
+
+    <p class="govuk-body">
+      If you entered your email address, we’ve sent you a confirmation email.
+    </p>
+
+    <h2 class="govuk-heading-m">What happens next?</h2>
+
+    <p class="govuk-body">
+			The inspector will review all the evidence. We will contact you by email when we make a decision.
+    </p>
+
+    <p class="govuk-body">
+      <a data-cy="Feedback-Page-Body" href="https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjVqzqAxXAi1LghAWTH6Y3OJUOFg4UFdEUThGTlU3S0hFUTlERVYwMVRLTy4u" class="govuk-link">What did you think of this service?</a> (takes 30
+      seconds)
+    </p>
+  </div>
+</div>
+
+{% endblock content %}
