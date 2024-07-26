@@ -4,14 +4,15 @@ const { formatHeadlineData, formatRows } = require('@pins/common');
 const { appealSubmissionRows } = require('./ip-appeal-submission-rows');
 const { applicationRows } = require('./ip-application-rows');
 const { getDepartmentFromCode } = require('../../../../../services/department.service');
+const {
+	createInterestedPartySession
+} = require('../../../../../services/interested-party.service');
 
 /** @type {import('express').Handler} */
 const selectedAppeal = async (req, res) => {
 	const appealNumber = req.params.appealNumber;
 
-	req.session.interestedParty = {
-		appealNumber
-	};
+	createInterestedPartySession(req, appealNumber);
 
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(appealNumber);
 

@@ -1,15 +1,20 @@
-/**
- * @typedef {import('../check-answers/controller')} InterestedParty
- */
+const {
+	confirmInterestedPartySessionAppealReference,
+	getInterestedPartyFromSession,
+	updateInterestedPartySession
+} = require('../../../../services/interested-party.service');
 
+/**
+ * @typedef {import('../../../../services/interested-party.service').InterestedParty} InterestedParty
+ */
 /** @type {import('express').RequestHandler} */
 const enterAddressGet = (req, res) => {
-	if (!req.session.interestedParty?.appealNumber) {
+	if (!confirmInterestedPartySessionAppealReference(req)) {
 		return res.redirect(`enter-appeal-reference`);
 	}
 
 	/** @type {InterestedParty} */
-	const interestedParty = req.session.interestedParty;
+	const interestedParty = getInterestedPartyFromSession(req);
 
 	res.render(`comment-planning-appeal/enter-address/index`, { interestedParty });
 };
@@ -27,7 +32,7 @@ const enterAddressPost = async (req, res) => {
 		postcode
 	} = body;
 
-	req.session.interestedParty.address = {
+	const address = {
 		addressLine1,
 		addressLine2,
 		townCity,
@@ -35,9 +40,12 @@ const enterAddressPost = async (req, res) => {
 		postcode
 	};
 
+	/** @type {InterestedParty} */
+	const interestedParty = updateInterestedPartySession(req, { address });
+
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/enter-address/index`, {
-			interestedParty: req.session.interestedParty,
+			interestedParty,
 			errors,
 			errorSummary
 		});
