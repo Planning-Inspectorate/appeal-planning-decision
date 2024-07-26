@@ -5,11 +5,6 @@ const ruleComments = () =>
 		.notEmpty()
 		.withMessage('Enter your comments')
 		.bail()
-		.matches(/^[a-z0-9\-' ]+$/i)
-		.withMessage(
-			'Comments must only include letters a to z, numbers 0 to 9, hyphens, spaces and apostrophes'
-		)
-		.bail()
 		.isLength({ min: 1, max: 1000 })
 		.withMessage('Comments must be 1000 characters or less');
 
