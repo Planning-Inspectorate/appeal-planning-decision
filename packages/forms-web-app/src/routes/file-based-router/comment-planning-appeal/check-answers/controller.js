@@ -47,7 +47,7 @@ const checkAnswersPost = async (req, res) => {
 
 	// console.log(result)
 
-	return res.redirect(`add-comments`);
+	return res.redirect(`comment-submitted`);
 };
 
 /**
