@@ -353,6 +353,10 @@ beforeAll(async () => {
 		data: { email: crypto.randomUUID() + '@example.com' }
 	});
 	validUser = user.id;
+	// Give the schemas a moment to load from disk
+	await new Promise((res) => {
+		setTimeout(res, 2000);
+	});
 });
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
