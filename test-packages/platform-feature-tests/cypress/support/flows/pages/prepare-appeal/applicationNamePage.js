@@ -1,15 +1,15 @@
 import { BasePage } from "../../../../page-objects/base-page";
-export class ApplicationNamePage{
-    
-    _selectors={
-        appellantFirstName:'#appellantFirstName',
-        appellantLastName:'#appellantLastName',
-        appellantCompanyName:'#appellantCompanyName'
+export class ApplicationNamePage {
+
+    _selectors = {
+        appellantFirstName: '#appellantFirstName',
+        appellantLastName: '#appellantLastName',
+        appellantCompanyName: '#appellantCompanyName'
     }
 
-    addApplicationNameData(isAppellant){
+    addApplicationNameData(isAppellant) {
         const basePage = new BasePage();
-        
+
         if (isAppellant) {
             basePage.clickRadioBtn('[data-cy="answer-yes"]');
             cy.advanceToNextPage();
@@ -20,8 +20,8 @@ export class ApplicationNamePage{
             basePage.addTextField(this._selectors.appellantFirstName, 'firstname');
             basePage.addTextField(this._selectors.appellantLastName, 'lastname');
             basePage.addTextField(this._selectors.appellantCompanyName, 'companyname')
-            cy.advanceToNextPage();    
+            cy.advanceToNextPage();
         }
     };
-   
+
 }

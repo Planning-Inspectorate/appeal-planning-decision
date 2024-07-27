@@ -1,6 +1,4 @@
 import { BasePage } from "../page-objects/base-page";
-import { submitHouseHolderAppealTestCases } from "../utils/houseHolderAppeal/submitHouseHolderAppealUtil";
-const { submitAppealFlow } = require('../support/flows/appeal');
 const { PrepareAppealSelector } = require("../page-objects/prepare-appeal/prepare-appeal-selector");
 
 describe('House Holder Validations', () => {

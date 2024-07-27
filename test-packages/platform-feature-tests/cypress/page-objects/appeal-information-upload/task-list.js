@@ -1,6 +1,5 @@
 export class TaskList {
-	elements = {
-		//applicationNameSection: () => cy.get(),
+	elements = {		
 		contactDetailsLink: () => cy.get('[data-cy="contactDetailsSection"]'), // Provide your contact details
 		appealSiteSectionLink: () => cy.get('[data-cy="appealSiteSection"]'), // Tell us about the appeal site
 		appealDecisionSectionLink: () => cy.get('[data-cy="appealDecisionSection"]'), // Tell us how you would prefer us to decide your appeal
