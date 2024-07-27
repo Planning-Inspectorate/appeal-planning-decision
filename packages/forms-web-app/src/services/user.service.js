@@ -1,5 +1,4 @@
 const { getLPA } = require('../lib/appeals-api-wrapper');
-const { apiClient } = require('../lib/appeals-api-client');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 /**
@@ -70,11 +69,12 @@ const getUserFromSession = (req) => {
 /**
  * Gets lpaUser by their id
  * @async
+ * @param {import('express').Request} req
  * @param {string} userId
  * @returns {Promise<import('appeals-service-api').Api.AppealUser>}
  */
-const getLPAUser = async (userId) => {
-	const user = await apiClient.getUserById(userId);
+const getLPAUser = async (req, userId) => {
+	const user = await req.appealsApiClient.getUserById(userId);
 	if (!user.isLpaUser) throw new Error('not an lpa user');
 	return user;
 };
@@ -82,23 +82,24 @@ const getLPAUser = async (userId) => {
 /**
  * Returns the status of the LPA User. Status is either 'added' or 'confirmed'
  * @async
+ * @param {import('express').Request} req
  * @param {string} userId
  * @returns {Promise<string|undefined>}
  */
-const getLPAUserStatus = async (userId) => {
-	const user = await getLPAUser(userId);
+const getLPAUserStatus = async (req, userId) => {
+	const user = await getLPAUser(req, userId);
 	return user.lpaStatus;
 };
 
 /**
- *
+ * @param {import('express').Request} req
  * @param {string} userId
  * @param {"added" | "confirmed" | "removed"} status
  * @returns {Promise<void>}
  */
-const setLPAUserStatus = async (userId, status) => {
+const setLPAUserStatus = async (req, userId, status) => {
 	if (!Object.values(STATUS_CONSTANTS).includes(status)) return;
-	await apiClient.setLPAUserStatus(userId, status);
+	await req.appealsApiClient.setLPAUserStatus(userId, status);
 };
 
 module.exports = {

@@ -1,0 +1,7 @@
+.toggle-button {
+    display: none;
+}
+
+.js-enabled .toggle-button {
+    display: inline;
+}

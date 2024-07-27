@@ -9,6 +9,7 @@ const appDbConnection = require('../../src/db/db');
 const appConfiguration = require('../../src/configuration/config');
 const { createPrismaClient } = require('../../src/db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const MockedExternalApis = require('./external-dependencies/rest-apis/mocked-external-apis');
 const AppealFixtures = require('./fixtures/appeals');
@@ -209,7 +210,7 @@ describe('Appeals', () => {
 				userId: user.id
 			}
 		});
-		expect(userLink?.role).toBe('agent');
+		expect(userLink?.role).toBe(APPEAL_USER_ROLES.AGENT);
 
 		// And: no external systems should be interacted with
 		expectedNotifyInteractions = [];
@@ -250,7 +251,7 @@ describe('Appeals', () => {
 				userId: user.id
 			}
 		});
-		expect(userLink?.role).toBe('agent');
+		expect(userLink?.role).toBe(APPEAL_USER_ROLES.AGENT);
 
 		// And: no external systems should be interacted with
 		expectedNotifyInteractions = [];

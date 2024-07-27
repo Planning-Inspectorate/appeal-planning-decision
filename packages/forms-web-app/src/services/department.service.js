@@ -1,6 +1,7 @@
 const { getLPAList } = require('../lib/appeals-api-wrapper');
 
 let departmentsById = {};
+let departmentsByCode = {};
 let departmentsByName = {};
 let departments = [];
 let eligibleDepartments = [];
@@ -13,6 +14,7 @@ async function initLPALists() {
 	ineligibleDepartments = [];
 	departments = data.map((department) => {
 		departmentsById[department.id] = department;
+		departmentsByCode[department.lpaCode] = department;
 		departmentsByName[department.name] = department;
 		if (department.inTrial) {
 			eligibleDepartments.push(department.name);
@@ -42,6 +44,13 @@ const getDepartmentFromId = async (id) => {
 	return departmentsById[id];
 };
 
+const getDepartmentFromCode = async (lpaCode) => {
+	if (!departments.length) {
+		await initLPALists();
+	}
+	return departmentsByCode[lpaCode];
+};
+
 const getDepartmentFromName = async (name) => {
 	if (!departments.length) {
 		await initLPALists();
@@ -61,6 +70,7 @@ module.exports = {
 	getRefreshedDepartmentData,
 	getDepartmentData,
 	getDepartmentFromId,
+	getDepartmentFromCode,
 	getDepartmentFromName,
 	resetDepartments
 };

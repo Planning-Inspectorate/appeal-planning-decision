@@ -1,5 +1,5 @@
 /**
- * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('appeals-service-api').Api.NeighbouringAddress} NeighbouringAddress
@@ -7,7 +7,7 @@
  */
 
 /**
- * @param {AppealCaseWithAppellant | AppealSubmission} appealCaseData
+ * @param {AppealCaseDetailed | AppealSubmission} appealCaseData
  * @param {string } [joinString]
  * @returns {string}
  */
@@ -31,7 +31,7 @@ const formatAddress = (appealCaseData, joinString = ', ') => {
 };
 
 /**
- * @param {AppealCaseWithAppellant | AppealSubmission} appealCaseData
+ * @param {AppealCaseDetailed | AppealSubmission} appealCaseData
  * @returns {string}
  */
 const formatAddressWithBreaks = (appealCaseData) => {
@@ -121,7 +121,7 @@ const formatSubmissionAddress = (submissionAddress, joinString = ', ') => {
 };
 
 /**
- * @param {AppealSubmission | AppealCaseWithAppellant} caseOrSubmission
+ * @param {AppealSubmission | AppealCaseDetailed} caseOrSubmission
  * @returns {caseOrSubmission is AppealSubmission}
  */
 function isAppealSubmission(caseOrSubmission) {
@@ -129,7 +129,7 @@ function isAppealSubmission(caseOrSubmission) {
 }
 
 /**
- * @param {AppealSubmission | AppealCaseWithAppellant} caseOrSubmission
+ * @param {AppealSubmission | AppealCaseDetailed} caseOrSubmission
  * @returns {boolean}
  */
 function isV2Submission(caseOrSubmission) {

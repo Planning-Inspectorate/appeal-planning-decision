@@ -1,9 +1,21 @@
-const { put } = require('./service');
+const ApiError = require('#errors/apiError');
+const service = require('./service');
 
 /**
  * @type {import('express').RequestHandler}
  */
 exports.put = async (req, res) => {
-	const doc = await put(req.body);
+	const doc = await service.put(req.body);
 	res.send(doc);
+};
+
+/**
+ * @type {import('express').RequestHandler}
+ */
+exports.delete = async (req, res) => {
+	if (!req.params.id) {
+		throw ApiError.badRequest('No document id provided');
+	}
+	await service.delete(req.params.id);
+	res.sendStatus(200);
 };

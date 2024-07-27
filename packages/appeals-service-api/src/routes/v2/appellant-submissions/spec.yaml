@@ -83,3 +83,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appellant-submissions/{id}/confirm-ownership:
+    get:
+      tags:
+        - appellant submissions
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: appellant submission guid
+      responses:
+        200:
+          description: Confirmation that user owns appellant submission
+        403:
+          description: User does not own appellant submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'

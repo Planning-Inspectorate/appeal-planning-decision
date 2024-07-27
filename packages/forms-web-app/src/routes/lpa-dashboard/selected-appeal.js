@@ -5,6 +5,8 @@ const selectedAppealController = require('../../controllers/selected-appeal');
 const appealDetailsController = require('../../controllers/selected-appeal/appeal-details');
 const questionnaireDetailsController = require('../../controllers/selected-appeal/questionnaire-details');
 const finalCommentsController = require('../../controllers/selected-appeal/final-comments-details');
+const interestedPartyCommentsController = require('../../controllers/selected-appeal/ip-comment-details');
+const statementDetailsController = require('../../controllers/selected-appeal/statements');
 
 router.get('/:appealNumber', selectedAppealController.get('layouts/lpa-dashboard/main.njk'));
 router.get(
@@ -22,6 +24,14 @@ router.get(
 router.get(
 	'/:appealNumber/appellant-final-comments',
 	finalCommentsController.get('layouts/lpa-dashboard/main.njk')
+);
+router.get(
+	'/:appealNumber/interested-party-comments',
+	interestedPartyCommentsController.get('layouts/lpa-dashboard/main.njk')
+);
+router.get(
+	'/:appealNumber/statement',
+	statementDetailsController.get('layouts/lpa-dashboard/main.njk')
 );
 
 module.exports = router;

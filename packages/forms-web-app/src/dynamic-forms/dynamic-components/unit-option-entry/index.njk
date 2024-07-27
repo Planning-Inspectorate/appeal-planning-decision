@@ -37,8 +37,8 @@
           classes: "govuk-radios",
           idPrefix: question.fieldName,
           name: question.fieldName,
-          errorMessage: errors[question.fieldName] and {
-            text: errors[question.fieldName].msg
+          errorMessage: errorSummary and {
+            text: errorSummary[0].text
           },
           fieldset: {
             legend: {

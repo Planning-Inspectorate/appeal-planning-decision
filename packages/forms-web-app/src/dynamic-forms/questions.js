@@ -6,6 +6,7 @@
  *************************************************************/
 
 const { add, sub, format: formatDate } = require('date-fns');
+const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
 const CheckboxQuestion = require('./dynamic-components/checkbox/question');
 const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
@@ -155,32 +156,6 @@ exports.questions = {
 			viewFolder: 'identifier'
 		})
 	}),
-	// listedBuildingDetail: {
-	// 	title: 'Listed buildings',
-	// 	question: 'Add the listed entry number',
-	// 	type: 'custom',
-	// 	renderAction: listedBuildingController.enterNumber, //For scenarios where more complex rendering logic is required, pass a controller action
-	// 	saveAction: listedBuildingController.lookupCode, //For scenarios where more complex saving/POST handling logic is required, pass a controller action
-	// 	fieldName: 'listed-entry-number',
-	// 	required: false,
-	// 	taskList: false,
-	// 	show: (answers) => {
-	// 		return answers['listed-building-check'] === 'yes';
-	// 	}
-	// },
-	// listedBuildingDetailList: {
-	// 	title: 'Listed buildings list',
-	// 	question: 'Manage listed buildings',
-	// 	type: 'custom',
-	// 	renderAction: listedBuildingController.manageListedBuildings, //For scenarios where more complex rendering logic is required, pass a controller action
-	// 	saveAction: listedBuildingController.lookupCode, //For scenarios where more complex saving/POST handling logic is required, pass a controller action
-	// 	fieldName: 'listed-detail-list',
-	// 	required: false,
-	// 	altText: 'Started',
-	// 	show: (answers) => {
-	// 		return answers['listed-detail-list']?.length > 0;
-	// 	}
-	// },
 	conservationArea: new BooleanQuestion({
 		title: 'Conservation area',
 		question: 'Is the site in, or next to a conservation area?',
@@ -220,42 +195,6 @@ exports.questions = {
 		],
 		html: 'resources/notified-who/content.html',
 		documentType: documentTypes.whoWasNotified
-	}),
-	displaySiteNotice: new BooleanQuestion({
-		title: 'Site notice',
-		question: 'Did you display a notice at the site?',
-		description: 'Notifying relevant parties of the application',
-		// fieldName: 'display-site-notice',
-		fieldName: 'displaySiteNotice',
-		url: 'display-site-notice',
-		validators: [new RequiredValidator()]
-	}),
-	lettersToNeighbours: new BooleanQuestion({
-		title: 'Letters to neighbours',
-		question: 'Did you send letters and emails to neighbours?',
-		description: 'Did you send letters and emails to neighbours?',
-		// fieldName: 'letters-to-neighbours',
-		fieldName: 'lettersToNeighbours',
-		url: 'letters-to-neighbours',
-		validators: [new RequiredValidator()]
-	}),
-	uploadLettersToNeighbours: new MultiFileUploadQuestion({
-		title: 'Uploaded letters',
-		question: 'Upload the letters and emails',
-		// fieldName: 'upload-letters-emails',
-		fieldName: 'uploadLettersEmails',
-		url: 'upload-letters-emails',
-		html: 'resources/upload-letters-emails/content.html',
-		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
-		documentType: documentTypes.uploadLettersToNeighbours
-	}),
-	pressAdvert: new BooleanQuestion({
-		title: 'Press Advert',
-		question: 'Did you put an advert in the local press?',
-		// fieldName: 'press-advert',
-		fieldName: 'pressAdvert',
-		url: 'press-advert',
-		validators: [new RequiredValidator()]
 	}),
 	pressAdvertUpload: new MultiFileUploadQuestion({
 		title: 'Uploaded press advert',
@@ -329,16 +268,6 @@ exports.questions = {
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
 		documentType: documentTypes.uploadSiteNotice
 	}),
-	// lettersToNeighboursUpload: new MultiFileUploadQuestion({
-	// 	title: 'Letters to neighbours',
-	// 	question: 'Upload letters to neighbours',
-	// 	fieldName: 'letters-to-neighbours-upload'
-	// }),
-	// advertisementUpload: new MultiFileUploadQuestion({
-	// 	title: 'Advertisement',
-	// 	question: 'Upload advertisement',
-	// 	fieldName: 'advertisement-upload'
-	// }),
 	representationsFromOthers: new BooleanQuestion({
 		title: 'Representations from other parties',
 		question: 'Did you receive representations from members of the public or other parties?',
@@ -532,15 +461,15 @@ exports.questions = {
 		options: [
 			{
 				text: 'Written representations',
-				value: 'written-representations'
+				value: APPEAL_CASE_PROCEDURE.WRITTEN
 			},
 			{
 				text: 'Hearing',
-				value: 'hearing'
+				value: APPEAL_CASE_PROCEDURE.HEARING
 			},
 			{
 				text: 'Inquiry',
-				value: 'inquiry',
+				value: APPEAL_CASE_PROCEDURE.INQUIRY,
 				conditional: {
 					question: 'How many days would you expect the inquiry to last?',
 					// fieldName: 'inquiry-duration',
@@ -1519,7 +1448,6 @@ exports.questions = {
 	uploadStatementCommonGround: new MultiFileUploadQuestion({
 		title: 'Draft statement of common ground',
 		question: 'Upload your draft statement of common ground',
-		html: 'resources/upload-statement-common-ground/content.html',
 		fieldName: 'uploadStatementCommonGround',
 		url: 'upload-draft-statement-common-ground',
 		validators: [
@@ -1711,7 +1639,7 @@ exports.questions = {
 		question: 'What is your phone number?',
 		description: 'We may use your phone number to contact you about the appeal.',
 		label: 'UK telephone number',
-		fieldName: 'appellantPhoneNumber',
+		fieldName: 'contactPhoneNumber',
 		url: 'phone-number',
 		inputAttributes: { type: 'tel', autocomplete: 'tel' },
 		validators: [
@@ -1798,7 +1726,7 @@ exports.questions = {
 		question: 'What is the status of your planning obligation?',
 		fieldName: 'statusPlanningObligation',
 		url: 'status-planning-obligation',
-		validators: [new RequiredValidator('Select the development schedule')],
+		validators: [new RequiredValidator('Select the status of your planning obligation')],
 		options: [
 			{
 				text: 'Finalised and ready to submit',
@@ -1909,7 +1837,7 @@ exports.questions = {
 		]
 	}),
 	uploadSeparateOwnershipCert: new MultiFileUploadQuestion({
-		title: 'Upload your separate ownership certificate and agricultural land declaration',
+		title: 'Separate ownership certificate and agricultural land declaration',
 		question: 'Upload your separate ownership certificate and agricultural land declaration',
 		fieldName: 'uploadOwnershipCertificate',
 		url: 'upload-certificate-declaration',
@@ -1941,21 +1869,21 @@ exports.questions = {
 		options: [
 			{
 				text: 'Written representations',
-				value: 'written representations',
+				value: APPEAL_CASE_PROCEDURE.WRITTEN,
 				hint: {
 					text: 'For appeals where the issues are clear from written statements and a site visit. This is the quickest and most common way to make an appeal.'
 				}
 			},
 			{
 				text: 'Hearing',
-				value: 'hearing',
+				value: APPEAL_CASE_PROCEDURE.HEARING,
 				hint: {
 					text: 'For appeals with more complex issues. The Inspector leads a discussion to answer questions they have about the appeal.'
 				}
 			},
 			{
 				text: 'Inquiry',
-				value: 'inquiry',
+				value: APPEAL_CASE_PROCEDURE.INQUIRY,
 				hint: {
 					text: 'For appeals with very complex issues. Appeal evidence is tested by legal representatives, who question witnesses under oath.'
 				}

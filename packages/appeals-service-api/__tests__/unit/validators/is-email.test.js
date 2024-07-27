@@ -23,7 +23,6 @@ describe('validators/is-email.js', () => {
 		req.params.email = 'test';
 		await testMiddleware(req, res, isEmail());
 		const result = validationResult(req);
-		console.log(result.errors);
 		expect(result.errors.length).toEqual(1);
 	});
 });

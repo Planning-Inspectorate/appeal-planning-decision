@@ -4,6 +4,9 @@ const supertest = require('supertest');
 const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
+const {
+	createTestAppealCase
+} = require('../../../../__tests__/developer/fixtures/appeals-case-data');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 
@@ -76,22 +79,7 @@ describe('documents v2', () => {
 
 		it('should create a document', async () => {
 			await sqlClient.appealCase.create({
-				data: {
-					caseReference: 'ref_001',
-					LPACode: 'lpa_001',
-					LPAName: 'test',
-					appealTypeCode: '1001',
-					appealTypeName: 'HAS',
-					decision: 'refused',
-					originalCaseDecisionDate: new Date().toISOString(),
-					costsAppliedForIndicator: false,
-					LPAApplicationReference: '010101',
-					siteAddressLine1: 'address',
-					siteAddressPostcode: 'POST CODE',
-					Appeal: {
-						create: {}
-					}
-				}
+				data: { Appeal: { create: {} }, ...createTestAppealCase('ref_001', 'HAS', 'lpa_001') }
 			});
 
 			/** @type {import('pins-data-model/src/schemas').AppealDocument} */
@@ -141,6 +129,43 @@ describe('documents v2', () => {
 			expect(document?.published).toBe(true);
 			expect(document?.redacted).toBe(true);
 			expect(document?.AppealCase.caseReference).toBe('ref_001');
+		});
+	});
+
+	describe('delete document', () => {
+		it('deletes documents', async () => {
+			await sqlClient.document.create({
+				data: {
+					id: 'd15138a2-9e02-4a16-a6ab-0568aaccab78',
+					dateCreated: new Date('2024').toISOString(),
+					dateReceived: new Date('2024').toISOString(),
+					lastModified: new Date('2024').toISOString(),
+					datePublished: new Date('2024').toISOString(),
+					stage: 'appeal-decision',
+					published: true,
+					redacted: true,
+					filename: 'goose.jpg',
+					originalFilename: 'large_goose.jpg',
+					size: 22,
+					mime: 'image/jpeg',
+					documentURI: 'https://example.com/images/goose.jpg',
+					caseReference: 'ref_001'
+				}
+			});
+
+			const response = await appealsApi.delete(
+				'/api/v2/documents/d15138a2-9e02-4a16-a6ab-0568aaccab78'
+			);
+
+			expect(response.status).toBe(200);
+
+			const notDoc = await sqlClient.document.findFirst({
+				where: {
+					id: 'd15138a2-9e02-4a16-a6ab-0568aaccab78'
+				}
+			});
+
+			expect(notDoc).toBe(null);
 		});
 	});
 });

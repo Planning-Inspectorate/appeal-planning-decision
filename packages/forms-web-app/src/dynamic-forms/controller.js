@@ -277,6 +277,14 @@ exports.submitAppellantSubmission = async (req, res) => {
 	const journey = getJourney(journeyResponse);
 	const id = res.locals.journeyResponse.referenceId;
 
+	const journeyUrl = (journeyId) => {
+		if (journeyId === 'has-appeal-form') {
+			return 'householder';
+		} else if (journeyId === 's78-appeal-form') {
+			return 'full-planning';
+		} else return '';
+	};
+
 	if (!journey.isComplete()) {
 		res.sendStatus(400).render('./error/not-found.njk');
 		return;
@@ -291,7 +299,12 @@ exports.submitAppellantSubmission = async (req, res) => {
 
 	await req.appealsApiClient.submitAppellantSubmission(id);
 
-	return res.redirect('/appeals/householder/submit/submitted?id=' + encodeURIComponent(id));
+	return res.redirect(
+		'/appeals/' +
+			journeyUrl(journeyResponse.journeyId) +
+			'/submit/submitted?id=' +
+			encodeURIComponent(id)
+	);
 };
 
 /**

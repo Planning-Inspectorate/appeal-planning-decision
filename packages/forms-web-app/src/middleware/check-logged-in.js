@@ -36,8 +36,14 @@ const checkLoggedIn = async (req, res, next) => {
 	}
 
 	let docRedirectUrl;
+	let v2docRedirect;
+
 	if (req.originalUrl.startsWith('/document/') && req.params?.appealOrQuestionnaireId) {
 		docRedirectUrl = await createSaveAndReturnUrl(req.params?.appealOrQuestionnaireId);
+	}
+
+	if (req.originalUrl.startsWith('/appeal-document/') && req.params?.appealOrQuestionnaireId) {
+		v2docRedirect = req.originalUrl;
 	}
 
 	// reset session
@@ -49,6 +55,10 @@ const checkLoggedIn = async (req, res, next) => {
 		if (docRedirectUrl) {
 			req.session.loginRedirect = req.originalUrl;
 			return res.redirect(docRedirectUrl);
+		}
+
+		if (v2docRedirect) {
+			req.session.loginRedirect = req.originalUrl;
 		}
 
 		req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;

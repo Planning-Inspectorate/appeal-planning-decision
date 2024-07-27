@@ -3,12 +3,9 @@ const {
 	postYourEmailAddress
 } = require('../../../../src/controllers/common/your-email-address');
 
-const { apiClient } = require('#lib/appeals-api-client');
 const { mockReq, mockRes } = require('../../mocks');
 const views = require('#lib/views');
 const lpaViews = views.VIEW.LPA_DASHBOARD;
-
-jest.mock('#lib/appeals-api-client');
 
 describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 	let req;
@@ -17,7 +14,10 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 		req = mockReq();
 		req = {
 			...req,
-			body: {}
+			body: {},
+			appealsApiClient: {
+				getUserByEmailV2: jest.fn()
+			}
 		};
 		delete req.session.appeal;
 		res = mockRes();
@@ -40,7 +40,7 @@ describe('controllers/full-appeal/submit-appeal/enter-code', () => {
 		it('redirect to enter code', async () => {
 			const testId = '64c789bf8672ef00122fe30c';
 			const testEmail = 'iamnoone@@planninginspectorate.gov.uk';
-			apiClient.getUserByEmailV2.mockImplementation(() =>
+			req.appealsApiClient.getUserByEmailV2.mockImplementation(() =>
 				Promise.resolve({
 					id: '64c789bf8672ef00122fe30c',
 					email: 'admin1@planninginspectorate.gov.uk',

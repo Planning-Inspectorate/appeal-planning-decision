@@ -5,12 +5,12 @@ const {
 } = require('@pins/common/src/lib/appeal-sorting');
 
 /**
- * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  */
 
 /**
- * @param {AppealCaseWithAppellant[]} appeals
- * @returns {AppealCaseWithAppellant[]}
+ * @param {AppealCaseDetailed[]} appeals
+ * @returns {AppealCaseDetailed[]}
  */
 const getOpenAppeals = (appeals) => {
 	const currentDate = new Date();
@@ -22,8 +22,8 @@ const getOpenAppeals = (appeals) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant[]} appeals
- * @returns {AppealCaseWithAppellant[]}
+ * @param {AppealCaseDetailed[]} appeals
+ * @returns {AppealCaseDetailed[]}
  */
 const getClosedAppeals = (appeals) => {
 	const currentDate = new Date();
@@ -36,7 +36,7 @@ const getClosedAppeals = (appeals) => {
 };
 
 /**
- * @typedef {function(AppealCaseWithAppellant, AppealCaseWithAppellant): number} AppealSorter
+ * @typedef {function(AppealCaseDetailed, AppealCaseDetailed): number} AppealSorter
  */
 
 /** @type {AppealSorter} */

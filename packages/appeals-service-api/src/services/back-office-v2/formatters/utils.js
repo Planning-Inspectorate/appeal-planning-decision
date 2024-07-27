@@ -1,14 +1,17 @@
-const { initContainerClient, documentTypes } = require('@pins/common');
+const { initContainerClient } = require('@pins/common');
+const { getDocType } = require('@pins/common/src/document-types');
 const { blobMetaGetter } = require('../../../services/object-store');
 const { conjoinedPromises } = require('@pins/common/src/utils');
 const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
+const { APPEAL_APPLICATION_DECISION, SERVICE_USER_TYPE } = require('pins-data-model');
+const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 
 /**
  * @typedef {import('../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  * @typedef {Omit<LPAQuestionnaireSubmission, "AppealCase">} Answers
  * @typedef {import('./has/has').Submission} HASBOSubmission
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents']} DataModelDocuments
- * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType']} DataModelDocumentTypes
+ * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['documents'][0]['documentType'] | import('pins-data-model/src/schemas').LPAQuestionnaireCommand['documents'][0]['documentType']} DataModelDocumentTypes
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['users']} DataModelUsers
  * @typedef {import('pins-data-model/src/schemas').AppellantSubmissionCommand['casedata']['applicationDecision']} DataModelApplicationDecision
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
@@ -29,18 +32,6 @@ const { APPLICATION_DECISION } = require('@pins/business-rules/src/constants');
  *   }
  * }>} FullAppellantSubmission
  */
-
-/** @type {{ [key: string]: DataModelDocumentTypes }} */
-const documentTypeMap = {
-	[documentTypes.uploadCostApplication.name]: 'appellantCostsApplication',
-	[documentTypes.uploadAppellantStatement.name]: 'appellantStatement',
-	[documentTypes.uploadApplicationDecisionLetter.name]: 'applicationDecisionLetter',
-	[documentTypes.uploadChangeOfDescriptionEvidence.name]: 'changedDescription',
-	[documentTypes.uploadOriginalApplicationForm.name]: 'originalApplicationForm',
-	[documentTypes.whoWasNotified.name]: 'whoNotified',
-	[documentTypes.conservationMap.name]: 'conservationMap',
-	[documentTypes.planningOfficersReportUpload.name]: 'planningOfficerReport'
-};
 
 const getBlobMeta = blobMetaGetter(initContainerClient);
 
@@ -76,7 +67,7 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }) => {
 			mime: mime_type,
 			documentURI: _response.request.url,
 			dateCreated: new Date(createdOn).toISOString(),
-			documentType: documentTypeMap[document_type]
+			documentType: getDocType(document_type, 'name').dataModelName
 		})
 	);
 };
@@ -96,20 +87,27 @@ exports.formatAddresses = (addresses) =>
 
 /**
  * @param {Answers} answers
- * @returns {string[]}
+ * @returns {string[]|null}
  */
 exports.howYouNotifiedPeople = (answers) => {
-	let notifiedPeople = [];
-	if (answers.displaySiteNotice) {
-		notifiedPeople.push('A public notice at the site');
-	}
-	if (answers.lettersToNeighbours) {
-		notifiedPeople.push('Letters to neighbours');
-	}
-	if (answers.pressAdvert) {
-		notifiedPeople.push('Advert in the local press');
-	}
-	return notifiedPeople;
+	if (!answers.notificationMethod) return null;
+
+	return answers.notificationMethod
+		.split(',') // get split char from dynamic form question
+		.map((x) => {
+			// cases from dynamic forms questions: howYouNotifiedPeople: notificationMethod
+			switch (x) {
+				case 'site-notice':
+					return LPA_NOTIFICATION_METHODS.notice.key;
+				case 'letters-or-emails':
+					return LPA_NOTIFICATION_METHODS.letter.key;
+				case 'advert':
+					return LPA_NOTIFICATION_METHODS.pressAdvert.key;
+				default:
+					return null;
+			}
+		})
+		.filter(Boolean);
 };
 
 /**
@@ -120,8 +118,11 @@ exports.formatApplicationSubmissionUsers = ({
 	isAppellant,
 	appellantFirstName,
 	appellantLastName,
+	appellantCompanyName,
 	contactFirstName,
 	contactLastName,
+	contactCompanyName,
+	contactPhoneNumber,
 	Appeal: {
 		Users: [
 			{
@@ -137,7 +138,9 @@ exports.formatApplicationSubmissionUsers = ({
 			firstName: contactFirstName,
 			lastName: contactLastName,
 			emailAddress: email,
-			serviceUserType: isAppellant ? 'Appellant' : 'Agent'
+			serviceUserType: isAppellant ? SERVICE_USER_TYPE.APPELLANT : SERVICE_USER_TYPE.AGENT,
+			telephoneNumber: contactPhoneNumber,
+			organisation: contactCompanyName ?? null
 		}
 	];
 	if (!isAppellant) {
@@ -146,7 +149,9 @@ exports.formatApplicationSubmissionUsers = ({
 			firstName: appellantFirstName,
 			lastName: appellantLastName,
 			emailAddress: null,
-			serviceUserType: 'Appellant'
+			serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+			telephoneNumber: null,
+			organisation: appellantCompanyName ?? null
 		});
 	}
 
@@ -154,9 +159,9 @@ exports.formatApplicationSubmissionUsers = ({
 };
 
 const dataModelApplicationDecisions = {
-	[APPLICATION_DECISION.GRANTED]: 'granted',
-	[APPLICATION_DECISION.REFUSED]: 'refused',
-	[APPLICATION_DECISION.NODECISIONRECEIVED]: 'not_received'
+	[APPLICATION_DECISION.GRANTED]: APPEAL_APPLICATION_DECISION.GRANTED,
+	[APPLICATION_DECISION.REFUSED]: APPEAL_APPLICATION_DECISION.REFUSED,
+	[APPLICATION_DECISION.NODECISIONRECEIVED]: APPEAL_APPLICATION_DECISION.NOT_RECEIVED
 };
 /**
  * @param {string | null} applicationDecision

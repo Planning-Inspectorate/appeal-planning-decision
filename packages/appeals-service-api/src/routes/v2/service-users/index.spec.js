@@ -4,8 +4,13 @@ const supertest = require('supertest');
 const app = require('../../../app');
 const { createPrismaClient } = require('../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
+const {
+	createTestAppealCase
+} = require('../../../../__tests__/developer/fixtures/appeals-case-data');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 /** @type {import('@prisma/client').PrismaClient} */
 let sqlClient;
@@ -61,7 +66,7 @@ describe('service users v2', () => {
 		it('should create a service user', async () => {
 			const response = await appealsApi.put('/api/v2/service-users').send({
 				id: 'usr_001',
-				serviceUserType: 'Appellant',
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
 				caseReference: 'ref_001'
 			});
 
@@ -73,13 +78,13 @@ describe('service users v2', () => {
 				}
 			});
 
-			expect(serviceUser.serviceUserType).toBe('Appellant');
+			expect(serviceUser.serviceUserType).toBe(SERVICE_USER_TYPE.APPELLANT);
 		});
 
 		it('should create an appeal user if non exist with a matching email address', async () => {
 			const response = await appealsApi.put('/api/v2/service-users').send({
 				id: 'usr_002',
-				serviceUserType: 'Appellant',
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
 				caseReference: 'ref_002',
 				emailAddress: 'newhuman@example.com'
 			});
@@ -104,7 +109,7 @@ describe('service users v2', () => {
 
 			const response = await appealsApi.put('/api/v2/service-users').send({
 				id: 'usr_003',
-				serviceUserType: 'Appellant',
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
 				caseReference: 'ref_003',
 				emailAddress: 'existinghuman@example.com'
 			});
@@ -123,20 +128,8 @@ describe('service users v2', () => {
 		it('should add an appealToUser relation if a matching appeal exists', async () => {
 			await sqlClient.appealCase.create({
 				data: {
-					caseReference: 'ref_004',
-					LPACode: 'lpa_001',
-					LPAName: 'test',
-					appealTypeCode: '1001',
-					appealTypeName: 'HAS',
-					decision: 'refused',
-					originalCaseDecisionDate: new Date().toISOString(),
-					costsAppliedForIndicator: false,
-					LPAApplicationReference: '010101',
-					siteAddressLine1: 'address',
-					siteAddressPostcode: 'POST CODE',
-					Appeal: {
-						create: {}
-					}
+					Appeal: { create: {} },
+					...createTestAppealCase('ref_004', 'HAS', 'lpa_001')
 				}
 			});
 
@@ -158,7 +151,7 @@ describe('service users v2', () => {
 
 			const response = await appealsApi.put('/api/v2/service-users').send({
 				id: 'usr_004',
-				serviceUserType: 'Appellant',
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
 				emailAddress: 'newnewhuman@example.com',
 				caseReference: 'ref_004'
 			});
@@ -170,7 +163,7 @@ describe('service users v2', () => {
 			});
 
 			expect(appealToUser).not.toBe(null);
-			expect(appealToUser.role).toBe('appellant');
+			expect(appealToUser.role).toBe(APPEAL_USER_ROLES.APPELLANT);
 		});
 	});
 
@@ -179,7 +172,7 @@ describe('service users v2', () => {
 			await sqlClient.serviceUser.create({
 				data: {
 					id: 'usr_005',
-					serviceUserType: 'Appellant',
+					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
 					caseReference: '000001',
 					emailAddress: 'name@example.com'
 				}
@@ -187,7 +180,7 @@ describe('service users v2', () => {
 
 			const response = await appealsApi.put('/api/v2/service-users').send({
 				id: 'usr_005',
-				serviceUserType: 'Appellant',
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
 				caseReference: '000001',
 				emailAddress: 'name@example.com',
 				postcode: 'POST CODE'
@@ -208,7 +201,7 @@ describe('service users v2', () => {
 			await sqlClient.serviceUser.create({
 				data: {
 					id: 'usr_006',
-					serviceUserType: 'Appellant',
+					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
 					caseReference: '000001',
 					emailAddress: 'usr_006@example.com'
 				}
@@ -216,20 +209,8 @@ describe('service users v2', () => {
 
 			const appealCase = await sqlClient.appealCase.create({
 				data: {
-					caseReference: 'ref_006',
-					LPACode: 'lpa_001',
-					LPAName: 'test',
-					appealTypeCode: '1001',
-					appealTypeName: 'HAS',
-					decision: 'refused',
-					originalCaseDecisionDate: new Date().toISOString(),
-					costsAppliedForIndicator: false,
-					LPAApplicationReference: '010101',
-					siteAddressLine1: 'address',
-					siteAddressPostcode: 'POST CODE',
-					Appeal: {
-						create: {}
-					}
+					Appeal: { create: {} },
+					...createTestAppealCase('ref_006', 'HAS', 'lpa_001')
 				}
 			});
 
@@ -244,13 +225,13 @@ describe('service users v2', () => {
 				data: {
 					appealId: appealCase.appealId,
 					userId: appealUser.id,
-					role: 'agent'
+					role: APPEAL_USER_ROLES.AGENT
 				}
 			});
 
 			const response = await appealsApi.put('/api/v2/service-users').send({
 				id: 'usr_006',
-				serviceUserType: 'Appellant',
+				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
 				caseReference: 'ref_006',
 				emailAddress: 'usr_006@example.com'
 			});
@@ -265,7 +246,7 @@ describe('service users v2', () => {
 			});
 
 			expect(relations.length).toBe(1);
-			expect(relations[0].role).toBe('appellant');
+			expect(relations[0].role).toBe(APPEAL_USER_ROLES.APPELLANT);
 		});
 	});
 });

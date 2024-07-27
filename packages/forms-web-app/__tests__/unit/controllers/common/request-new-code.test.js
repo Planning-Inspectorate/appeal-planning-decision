@@ -4,9 +4,6 @@ const {
 	postRequestNewCodeLPA
 } = require('../../../../src/controllers/common/request-new-code');
 const { mockRes, mockReq } = require('../../mocks');
-const { apiClient } = require('#lib/appeals-api-client');
-
-jest.mock('#lib/appeals-api-client');
 
 describe('controllers/common/enter-code', () => {
 	let req;
@@ -16,6 +13,9 @@ describe('controllers/common/enter-code', () => {
 		res = mockRes();
 		req = mockReq();
 		req.session = {};
+		req.appealsApiClient = {
+			getUserByEmailV2: jest.fn()
+		};
 		jest.resetAllMocks();
 	});
 
@@ -89,14 +89,14 @@ describe('controllers/common/enter-code', () => {
 				enabled: true,
 				lpaCode: 'Q9999'
 			};
-			apiClient.getUserByEmailV2.mockImplementation(() => Promise.resolve(user));
+			req.appealsApiClient.getUserByEmailV2.mockImplementation(() => Promise.resolve(user));
 
 			req.body = {
 				emailAddress: email_address
 			};
 			const returnedFunction = postRequestNewCodeLPA(views);
 			await returnedFunction(req, res);
-			expect(apiClient.getUserByEmailV2).toBeCalledWith(email_address);
+			expect(req.appealsApiClient.getUserByEmailV2).toBeCalledWith(email_address);
 			expect(res.render).not.toHaveBeenCalled();
 			expect(res.redirect).toBeCalledWith(`/${ENTER_CODE}/${user.id}`);
 		});
@@ -118,11 +118,11 @@ describe('controllers/common/enter-code', () => {
 				emailAddress: email_address
 			};
 
-			apiClient.getUserByEmailV2.mockImplementation(() => Promise.reject(new Error()));
+			req.appealsApiClient.getUserByEmailV2.mockImplementation(() => Promise.reject(new Error()));
 
 			const returnedFunction = postRequestNewCodeLPA(views);
 			await returnedFunction(req, res);
-			expect(apiClient.getUserByEmailV2).toBeCalledWith(email_address);
+			expect(req.appealsApiClient.getUserByEmailV2).toBeCalledWith(email_address);
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(`${REQUEST_NEW_CODE}`, {
 				errorSummary: customErrorSummary,

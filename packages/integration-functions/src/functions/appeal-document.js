@@ -8,8 +8,13 @@
  */
 
 const { app } = require('@azure/functions');
-const VALID_SCAN_STATUSES = ['scanned'];
-const VALID_REDACTED_STATUSES = ['redacted'];
+const { APPEAL_VIRUS_CHECK_STATUS, APPEAL_REDACTED_STATUS } = require('pins-data-model');
+
+const VALID_SCAN_STATUSES = [APPEAL_VIRUS_CHECK_STATUS.SCANNED];
+const VALID_REDACTED_STATUSES = [
+	APPEAL_REDACTED_STATUS.REDACTED,
+	APPEAL_REDACTED_STATUS.NO_REDACTION_REQUIRED
+];
 const createApiClient = require('../common/api-client');
 
 /**
@@ -20,7 +25,7 @@ const createApiClient = require('../common/api-client');
  * @type {import('@azure/functions').ServiceBusTopicHandler}
  */
 const handler = async (message, context) => {
-	context.log('Handle document metadata message', message);
+	context.debug('Handle document metadata message', message);
 	await processDocumentMetadata(context, message);
 	return {};
 };
@@ -30,11 +35,18 @@ const handler = async (message, context) => {
  * @param {AppealDocument} documentMessage
  */
 async function processDocumentMetadata(context, documentMessage) {
+	const client = await createApiClient();
+	if (documentShouldBeDeleted(context)) {
+		context.log('Sending delete request to API');
+		await client.deleteAppealDocument(documentMessage.documentId);
+		context.log(`Finished handling: ${documentMessage.documentId}`);
+		return;
+	}
+
 	if (!checkMessageIsValid(documentMessage, context)) {
 		context.log('Invalid message status, skipping');
 		return;
 	}
-	const client = await createApiClient();
 
 	context.log('Sending document metadata message to API');
 	await client.putAppealDocument(documentMessage);
@@ -74,6 +86,13 @@ function checkMessageIsValid(documentMessage, context) {
 
 	return isValid;
 }
+
+/**
+ * @param {import('@azure/functions').InvocationContext} context
+ * @returns {boolean}
+ */
+const documentShouldBeDeleted = (context) =>
+	context?.triggerMetadata?.applicationProperties?.type === 'Delete';
 
 app.serviceBusTopic('appeal-document', {
 	topicName: 'appeal-document',

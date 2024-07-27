@@ -5,11 +5,11 @@
 {% macro appealDetails(appeal) %}
     {% set siteAddress = 
         { 
-        addressLine1: appeal.siteAddressLine1,
-        addressLine2: appeal.siteAddressLine2,
-        town: appeal.siteAddressTown,
-        county: appeal.siteAddressCounty, 
-        postcode: appeal.siteAddressPostcode
+            addressLine1: appeal.siteAddressLine1,
+            addressLine2: appeal.siteAddressLine2,
+            town: appeal.siteAddressTown,
+            county: appeal.siteAddressCounty, 
+            postcode: appeal.siteAddressPostcode
         }
     %}
 
@@ -27,31 +27,31 @@
     {{ govukSummaryList({
         classes: 'appeal-details govuk-summary-list--no-border',
         rows: [
-        {
-            key: {
-            text: "Appeal type"
+            {
+                key: {
+                    text: "Appeal type"
+                },
+                value: {
+                    text: appeal.appealTypeName
+                }
             },
-            value: {
-            text: appeal.appealTypeName
-            }
-        },
-        siteAddressRow,
-        {
-            key: {
-            text: "Applicant"
+            siteAddressRow,
+            {
+                key: {
+                    text: "Applicant"
+                },
+                value: {
+                    text: appeal.appellantFirstName + " " + appeal.appellantLastName
+                }
             },
-            value: {
-            text: appeal.appellant.firstName + " " + appeal.appellant.lastName
+            {
+                key: {
+                    text: "Application number"
+                },
+                value: {
+                    text: appeal.applicationReference
+                }
             }
-        },
-        {
-            key: {
-            text: "Application number"
-            },
-            value: {
-            text: appeal.LPAApplicationReference
-            }
-        }
         ]
     }) }}
 {% endmacro %}

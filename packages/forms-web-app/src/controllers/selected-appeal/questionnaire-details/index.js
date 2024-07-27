@@ -2,7 +2,6 @@ const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatHeadlineData, formatQuestionnaireRows } = require('@pins/common');
 
 const { VIEW } = require('../../../lib/views');
-const { apiClient } = require('../../../lib/appeals-api-client');
 const { determineUser } = require('../../../lib/determine-user');
 const {
 	formatQuestionnaireHeading,
@@ -16,6 +15,7 @@ const { notifiedRows } = require('./notified-details-rows');
 const { planningOfficerReportRows } = require('./planning-officer-details-rows');
 const { siteAccessRows } = require('./site-access-details-rows');
 const { getUserFromSession } = require('../../../services/user.service');
+const { getDepartmentFromCode } = require('../../../services/department.service');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -25,7 +25,8 @@ const { getUserFromSession } = require('../../../services/user.service');
 exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 	return async (req, res) => {
 		const appealNumber = req.params.appealNumber;
-		const userRouteUrl = req.originalUrl;
+		const trailingSlashRegex = /\/$/;
+		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '');
 
 		// determine user based on route to selected appeal
 		//i.e '/appeals/' = appellant | agent
@@ -42,15 +43,17 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			throw new Error('no session email');
 		}
 
-		const user = await apiClient.getUserByEmailV2(userEmail);
+		const user = await req.appealsApiClient.getUserByEmailV2(userEmail);
 
-		const caseData = await apiClient.getUsersAppealCase({
+		const caseData = await req.appealsApiClient.getUsersAppealCase({
 			caseReference: appealNumber,
 			role: userType,
 			userId: user.id
 		});
+		const lpa = await getDepartmentFromCode(caseData.LPACode);
+
 		// headline data
-		const headlineData = formatHeadlineData(caseData, userType);
+		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 		// constraints details
 		const constraintsDetailsRows = constraintsRows(caseData, userType);
 		const constraintsDetails = formatQuestionnaireRows(constraintsDetailsRows, caseData);

@@ -1,4 +1,3 @@
-const { apiClient } = require('../../lib/appeals-api-client');
 const logger = require('../../lib/logger');
 
 const getRequestNewCode = (requestNewCodeView) => {
@@ -43,7 +42,7 @@ const postRequestNewCodeLPA = (enterCodeView) => {
 		let user;
 
 		try {
-			user = await apiClient.getUserByEmailV2(emailAddress);
+			user = await req.appealsApiClient.getUserByEmailV2(emailAddress);
 		} catch (e) {
 			logger.info(e.message);
 		}

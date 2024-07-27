@@ -18,7 +18,8 @@ jest.mock('../../../src/lib/logger', () => ({
 	})
 }));
 jest.mock('uuid', () => ({
-	v4: jest.fn(() => '123-abc-456-xyz')
+	v4: jest.fn(() => '123-abc-456-xyz'),
+	validate: jest.fn(() => true)
 }));
 jest.mock('../../../src/config', () => ({
 	documents: {

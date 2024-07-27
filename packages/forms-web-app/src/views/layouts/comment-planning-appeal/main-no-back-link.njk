@@ -1,0 +1,67 @@
+{% extends "govuk/template.njk" %}
+{% from "govuk/components/header/macro.njk" import govukHeader %}
+{% from "govuk/components/phase-banner/macro.njk" import govukPhaseBanner %}
+
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% block pageTitle %}
+  {{ title }}  - Comment on a planning appeal - GOV.UK
+{% endblock pageTitle %}
+{% block head %}
+  {% include "includes/head.njk" %}
+{% endblock head %}
+{% block header %}
+  {% include "includes/cookie-banner.njk" %}
+  {{ govukHeader({
+    homepageUrl: "https://www.gov.uk/",
+    serviceName: "Comment on a planning appeal",
+    serviceUrl: "/",
+    containerClasses: "govuk-width-container",
+    useTudorCrown: true
+  }) }}
+{% endblock header %}
+{% block bodyStart %}
+  {% include "includes/body-start.njk" %}
+{% endblock bodyStart %}
+{% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
+{% block main %}
+  <div class="govuk-width-container govuk-body {{ containerClasses }}">
+    <main id="main-content"
+          role="main"
+          {% if mainLang %}lang="{{ mainLang }}"{% endif %}>
+      {% block phaseBanner %}
+        {{ govukPhaseBanner({
+                tag: {
+                text: "beta"
+                },
+                html: 'This is a beta service – your <a class="govuk-link"
+            data-cy="Feedback"
+            href="https://forms.office.com/Pages/ResponsePage.aspx?id=mN94WIhvq0iTIpmM5VcIjVqzqAxXAi1LghAWTH6Y3OJUOFg4UFdEUThGTlU3S0hFUTlERVYwMVRLTy4u">feedback</a> will help us to improve it.'
+                }) }}
+      {% endblock phaseBanner %}
+
+      <div class="govuk-main-wrapper {{ mainClasses }}">
+        {% block errorSummary %}
+          {% if errors or error %}
+            {{ govukErrorSummary({
+                        titleText: "There is a problem",
+                        errorList: errors | default(error) | mapToErrorSummary
+            })
+            }}
+          {% endif %}
+        {% endblock errorSummary %}
+        {% block content %}
+        {% endblock content %}
+      </div>
+    </main>
+  </div>
+{% endblock main %}
+{% block footer %}
+  {% include "components/footer/footer.njk" %}
+{% endblock footer %}
+{% block bodyEnd %}
+  {% block scripts %}
+    {% include "includes/scripts.njk" %}
+    {% block pageScripts %}
+    {% endblock pageScripts %}
+  {% endblock scripts %}
+{% endblock bodyEnd %}

@@ -12,7 +12,7 @@ const createApiClient = require('../common/api-client');
  * @type {import('@azure/functions').ServiceBusTopicHandler}
  */
 const handler = async (message, context) => {
-	context.log('processing appeal-case message', message);
+	context.debug('processing appeal-case message', message);
 
 	if (!Object.hasOwn(message, 'caseReference')) {
 		throw new Error('invalid message, caseReference is required');

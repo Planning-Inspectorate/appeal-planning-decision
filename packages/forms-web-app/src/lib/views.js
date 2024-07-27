@@ -214,7 +214,9 @@ const VIEW = {
 		APPEAL: 'selected-appeal/appeal',
 		APPEAL_DETAILS: 'selected-appeal/appeal-details',
 		APPEAL_QUESTIONNAIRE: 'selected-appeal/questionnaire-details',
-		APPEAL_FINAL_COMMENTS: 'selected-appeal/final-comments-details'
+		APPEAL_FINAL_COMMENTS: 'selected-appeal/final-comments-details',
+		APPEAL_IP_COMMENTS: 'selected-appeal/ip-comment-details',
+		APPEAL_STATEMENTS: 'selected-appeal/statements'
 	},
 
 	SUBMIT_APPEAL: {
@@ -238,7 +240,6 @@ const VIEW = {
 		CONFIRM_ADD_USER: 'manage-appeals/confirm-add-user',
 		CONFIRM_REMOVE_USER: 'manage-appeals/confirm-remove-user',
 		YOUR_EMAIL_ADDRESS: 'manage-appeals/your-email-address',
-		APPEAL_DETAILS: 'manage-appeals/appeal-',
 		DECIDED_APPEALS: 'manage-appeals/decided-appeals'
 	},
 
@@ -251,7 +252,7 @@ const VIEW = {
 	ERROR_PAGES: {
 		SERVICE_UNAVAILABLE: 'error/service-unavailable',
 		UNAUTHORIZED: 'error/401',
-		FIREWALL_ERROR: 'error/unhandled-exception'
+		FIREWALL_ERROR: 'error/firewall-error'
 	}
 };
 

@@ -1,10 +1,19 @@
-const { formatProcedurePreference, formatYesOrNo, formatConditions } = require('@pins/common');
+const {
+	formatProcedurePreference,
+	boolToYesNo,
+	formatConditions,
+	formatRelatedAppeals
+} = require('@pins/common');
+const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 
 /**
- * @param {import('appeals-service-api').Api.AppealCaseWithAppellant } caseData
+ * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
 exports.appealProcessRows = (caseData) => {
+	const formattedNearby = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.nearby);
+	const showNearby = !!formattedNearby;
+
 	return [
 		{
 			keyText: 'Appeal procedure',
@@ -13,18 +22,18 @@ exports.appealProcessRows = (caseData) => {
 		},
 		{
 			keyText: 'Appeals near the site',
-			valueText: formatYesOrNo(caseData, 'nearbyAppeals'),
-			condition: () => caseData.nearbyAppeals
+			valueText: boolToYesNo(showNearby),
+			condition: () => true
 		},
 		{
 			keyText: 'Appeal references',
-			valueText: '', // TODO data model will need adjusting for possible multiple appeals
-			condition: () => caseData.nearbyAppealReference
+			valueText: showNearby ? formattedNearby : '',
+			condition: () => showNearby
 		},
 		{
 			keyText: 'Extra conditions',
 			valueText: formatConditions(caseData),
-			condition: () => caseData.newConditions
+			condition: () => caseData.changedDevelopmentDescription
 		}
 	];
 };

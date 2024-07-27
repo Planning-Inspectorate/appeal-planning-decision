@@ -20,6 +20,7 @@ const uuid = require('uuid');
 const DocumentService = require('./document.service');
 const AppealContactValueObject = require('../value-objects/appeal/contact.value');
 const AppealContactsValueObject = require('../value-objects/appeal/contacts.value');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const { isFeatureActive } = require('../../src/configuration/featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
@@ -193,13 +194,13 @@ async function linkToUser(appeal, appealUpdate) {
 	const currentIsOrigApplicantS78 = appeal?.contactDetailsSection?.isOriginalApplicant;
 	const updateIsOrigApplicantS78 = appealUpdate?.contactDetailsSection?.isOriginalApplicant;
 	if (isBoolChanged(currentIsOrigApplicantS78, updateIsOrigApplicantS78)) {
-		role = updateIsOrigApplicantS78 ? 'appellant' : 'agent';
+		role = updateIsOrigApplicantS78 ? APPEAL_USER_ROLES.APPELLANT : APPEAL_USER_ROLES.AGENT;
 	}
 
 	const currentIsOrigApplicantHAS = appeal?.aboutYouSection?.yourDetails?.isOriginalApplicant;
 	const updateIsOrigApplicantHAS = appealUpdate?.aboutYouSection?.yourDetails?.isOriginalApplicant;
 	if (isBoolChanged(currentIsOrigApplicantHAS, updateIsOrigApplicantHAS)) {
-		role = updateIsOrigApplicantHAS ? 'appellant' : 'agent';
+		role = updateIsOrigApplicantHAS ? APPEAL_USER_ROLES.APPELLANT : APPEAL_USER_ROLES.AGENT;
 	}
 
 	if (!role) {

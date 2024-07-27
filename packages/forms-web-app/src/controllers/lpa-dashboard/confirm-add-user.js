@@ -1,4 +1,3 @@
-const { apiClient } = require('../../lib/appeals-api-client');
 const { getUserFromSession } = require('../../services/user.service');
 const {
 	VIEW: {
@@ -17,7 +16,7 @@ const postConfirmAddUser = async (req, res) => {
 	const user = getUserFromSession(req);
 
 	try {
-		await apiClient.createUser({
+		await req.appealsApiClient.createUser({
 			email: req.session.addUserEmailAddress,
 			isLpaUser: true,
 			lpaCode: user.lpaCode

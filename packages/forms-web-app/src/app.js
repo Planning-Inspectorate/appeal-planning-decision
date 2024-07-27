@@ -31,6 +31,7 @@ require('express-async-errors');
 const config = require('./config');
 const logger = require('./lib/logger');
 const routes = require('./routes');
+const { spoolRoutes } = require('@pins/common');
 
 const app = express();
 
@@ -139,6 +140,10 @@ app.use(navigationHistoryToNunjucksMiddleware(env));
 
 // Routes
 app.use('/', routes);
+spoolRoutes(app, path.join(__dirname, './routes/file-based-router'), {
+	backwardsCompatibilityModeEnabled: true,
+	logger
+});
 
 // View Engine
 app.set('view engine', 'njk');

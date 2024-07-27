@@ -7,11 +7,20 @@ const { seedStaticData } = require('@pins/database/src/seed/data-static');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 const { blobMetaGetter } = require('../../../../src/services/object-store');
+const {
+	createTestAppealCase
+} = require('../../../../__tests__/developer/fixtures/appeals-case-data');
+const {
+	exampleHASDataModel
+} = require('../../../../__tests__/developer/fixtures/appeals-HAS-data-model');
 
 /** @type {import('@prisma/client').PrismaClient} */
 let sqlClient;
 /** @type {import('supertest').SuperTest<import('supertest').Test>} */
 let appealsApi;
+
+const validLpa = 'Q9999';
+const invalidLpa = 'nope';
 
 jest.mock('../../../configuration/featureFlag');
 jest.mock('../../../../src/services/object-store');
@@ -34,6 +43,23 @@ jest.mock('express-oauth2-jwt-bearer', () => {
 		}
 	};
 });
+jest.mock('@pins/common/src/middleware/validate-token', () => {
+	let currentLpa = validLpa;
+
+	return {
+		validateToken: jest.fn(() => {
+			return (req, _res, next) => {
+				req.id_token = {
+					lpaCode: currentLpa
+				};
+				next();
+			};
+		}),
+		setCurrentLpa: (newLpa) => {
+			currentLpa = newLpa;
+		}
+	};
+});
 
 blobMetaGetter;
 
@@ -42,11 +68,9 @@ jest.setTimeout(10000);
 /** @type {string[]} */
 let appealCaseIds = [];
 
-const now = new Date();
 let caseRef = 5555555;
 
 /**
- *
  * @param {string} lpaCode
  * @param {string} postCode
  * @param {boolean} casePublished
@@ -54,24 +78,20 @@ let caseRef = 5555555;
  */
 function appealCase(lpaCode, postCode, casePublished = true) {
 	caseRef++;
-	return {
-		Appeal: { create: {} },
-		caseReference: caseRef.toString(),
-		LPAApplicationReference: caseRef + 'APP',
-		originalCaseDecisionDate: now,
-		appealTypeCode: 'HAS',
-		appealTypeName: 'Householder',
-		decision: 'refused',
-		siteAddressLine1: '123 Fake Street',
-		siteAddressTown: 'Testville',
-		siteAddressCounty: 'Countyshire',
-		siteAddressPostcode: postCode,
-		costsAppliedForIndicator: false,
-		LPACode: lpaCode,
-		LPAName: lpaCode,
+
+	const appealCase = createTestAppealCase(
+		caseRef.toString(),
+		'HAS',
+		lpaCode,
+		postCode,
 		casePublished
-	};
+	);
+
+	appealCase.Appeal = { create: {} };
+
+	return appealCase;
 }
+
 const postCodes = ['BS1 6PM', 'BS1 6AA', 'BS1 6PO', 'BS1 6PP'];
 const LPAs = ['LPA1', 'LPA1a', 'LPA2', 'LPA2a', 'LPA3', 'LPA3a'];
 
@@ -198,6 +218,9 @@ describe('appeal-cases', () => {
 
 			for (const lpa of LPAs) {
 				it(`returns for ${lpa}`, async () => {
+					const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
+					setCurrentLpa(lpa);
+
 					const response = await appealsApi
 						.get(`/api/v2/appeal-cases` + buildQueryString({ 'lpa-code': lpa }))
 						.send();
@@ -205,6 +228,16 @@ describe('appeal-cases', () => {
 					expect(response.body.length).toEqual(testCases.filter((c) => c.LPACode === lpa).length);
 				});
 			}
+
+			it(`400 if lpa code in query doesn't match token`, async () => {
+				const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
+				setCurrentLpa(invalidLpa);
+
+				const response = await appealsApi
+					.get(`/api/v2/appeal-cases` + buildQueryString({ 'lpa-code': LPAs[0] }))
+					.send();
+				expect(response.status).toBe(400);
+			});
 		});
 
 		describe('by postcode', () => {
@@ -302,23 +335,95 @@ describe('appeal-cases', () => {
 			await _clearSqlData();
 		});
 
+		const example = { ...exampleHASDataModel };
+
 		for (const testCase of testCases) {
 			it(`upserts case for ${testCase.caseReference}`, async () => {
+				example.caseReference = testCase.caseReference;
 				const response = await appealsApi
 					.put(`/api/v2/appeal-cases/` + testCase.caseReference)
-					.send(testCase);
+					.send(example);
 				expect(response.status).toBe(200);
 				expect(response.body).toHaveProperty('caseReference', testCase.caseReference);
 			});
 		}
 
+		it('upserts all relational data', async () => {
+			example.caseReference = testCases[0].caseReference;
+			await appealsApi.put(`/api/v2/appeal-cases/` + testCases[0].caseReference).send(example);
+
+			await sqlClient.appealCaseListedBuilding.create({
+				data: {
+					AppealCase: {
+						connect: {
+							caseReference: testCases[0].caseReference
+						}
+					},
+					ListedBuilding: {
+						create: {
+							reference: 'unknown'
+						}
+					}
+				}
+			});
+
+			await appealsApi.put(`/api/v2/appeal-cases/` + testCases[0].caseReference).send(example);
+
+			const appealCase = await sqlClient.appealCase.findFirst({
+				where: { caseReference: testCases[0].caseReference },
+				include: {
+					AffectedListedBuildings: true,
+					AppealCaseLpaNotificationMethod: true,
+					NeighbouringAddresses: true,
+					CaseType: true,
+					ProcedureType: true
+				}
+			});
+
+			expect(appealCase?.AffectedListedBuildings.length).toBe(3); // the number of listed buildings in example json
+			expect(appealCase?.AppealCaseLpaNotificationMethod.length).toBe(2); // the number of notification methods in example json
+			expect(appealCase?.NeighbouringAddresses.length).toBe(4); // the number of neighbouring addresses in example json
+			expect(appealCase?.CaseType?.processCode).toBe('HAS');
+			expect(appealCase?.ProcedureType?.name).toBe('Written');
+
+			const appealRelations = await sqlClient.appealCaseRelationship.findMany({
+				where: {
+					OR: [
+						{
+							caseReference: testCases[0].caseReference
+						},
+						{
+							caseReference2: testCases[0].caseReference
+						}
+					]
+				}
+			});
+			expect(appealRelations.length).toBe(5); // nearbyCaseReferences (linked bi-directional) + leadCaseReference (one-directional)
+		});
+
+		it('links to initial submission', async () => {
+			const appeal = await sqlClient.appeal.create({});
+
+			example.caseReference = 'link-to-submission';
+			example.submissionId = appeal.id;
+
+			await appealsApi.put(`/api/v2/appeal-cases/` + example.caseReference).send(example);
+
+			const appealCase = await sqlClient.appealCase.findFirst({
+				where: { caseReference: example.caseReference },
+				select: {
+					appealId: true
+				}
+			});
+
+			expect(appealCase?.appealId).toBe(appeal.id);
+		});
+
 		it(`returns 400 for bad requests`, async () => {
-			const data = {
-				...testCases[2]
+			const badData = {
+				caseType: 'D'
 			};
-			// @ts-ignore
-			delete data.appealTypeCode;
-			const response = await appealsApi.put(`/api/v2/appeal-cases/abcdefg`).send(data);
+			const response = await appealsApi.put(`/api/v2/appeal-cases/abcdefg`).send(badData);
 			expect(response.status).toBe(400);
 		});
 	});

@@ -1,9 +1,11 @@
+const { APPEAL_CASE_STATUS } = require('pins-data-model');
+
 /**
- * @param {import('appeals-service-api').Api.AppealCaseWithAppellant} appeal
+ * @param {import('appeals-service-api').Api.AppealCaseDetailed} appeal
  * @returns {boolean}
  */
 const isNotWithdrawn = (appeal) => {
-	return !(appeal.appealWithdrawnDate && appeal.appealStatus === 'withdrawn');
+	return !(appeal.caseWithdrawnDate && appeal.caseStatus === APPEAL_CASE_STATUS.WITHDRAWN);
 };
 
 module.exports = { isNotWithdrawn };

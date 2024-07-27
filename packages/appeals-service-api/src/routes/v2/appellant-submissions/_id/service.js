@@ -64,3 +64,15 @@ exports.getForBOSubmission = async ({ appellantSubmissionId, userId }) => {
 
 	return submission;
 };
+
+/**
+ * @param {{ appellantSubmissionId: string, userId: string }} params
+ * @return {Promise<boolean>}
+ */
+exports.confirmOwnership = async ({ appellantSubmissionId, userId }) => {
+	try {
+		return await repo.userOwnsAppealSubmission({ appellantSubmissionId, userId });
+	} catch (err) {
+		throw ApiError.forbidden();
+	}
+};

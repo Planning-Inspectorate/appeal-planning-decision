@@ -14,9 +14,11 @@ const {
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-lpa');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
+const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 
 const { getUserFromSession } = require('../../services/user.service');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 const {
 	VIEW: {
@@ -39,6 +41,13 @@ const questionnaireTaskList = async (req, res) => {
 		userId: user.id,
 		role: LPA_USER_ROLE
 	});
+
+	appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
+	const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
+	if (appellant) {
+		appeal.appellantFirstName = appellant.firstName;
+		appeal.appellantLastName = appellant.lastName;
+	}
 
 	const pageCaption = `Appeal ${appeal.caseReference}`;
 

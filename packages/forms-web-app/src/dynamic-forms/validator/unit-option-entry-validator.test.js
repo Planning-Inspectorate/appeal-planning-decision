@@ -26,7 +26,7 @@ const question = {
 const errorMessage = 'There must be an input to test';
 const unit = 'Test unit';
 
-describe('src/dynamic-forms/validator/numeric-validator.js', () => {
+describe('src/dynamic-forms/validator/unit-option-entry-validator.js', () => {
 	it('should invalidate an empty value', async () => {
 		const options = {
 			errorMessage,
@@ -57,7 +57,7 @@ describe('src/dynamic-forms/validator/numeric-validator.js', () => {
 			}
 		};
 
-		const expectedMinMessage = 'Test unit must be at least 1testUnitOne';
+		const expectedMinMessage = 'Test unit must be at least 1';
 
 		const errors = await _validationMappedErrors(req, options);
 		expect(Object.keys(errors).length).toEqual(1);
@@ -73,11 +73,11 @@ describe('src/dynamic-forms/validator/numeric-validator.js', () => {
 		const req = {
 			body: {
 				test: 'testUnitTwo',
-				testConditional_two: 0
+				testConditional_two: 101
 			}
 		};
 
-		const expectedMaxMessage = 'Test unit must be 100testUnitTwo or less';
+		const expectedMaxMessage = 'Test unit must be 100 or less';
 
 		const errors = await _validationMappedErrors(req, options);
 		expect(Object.keys(errors).length).toEqual(1);

@@ -1,20 +1,35 @@
 const { format } = require('date-fns');
+const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
 /**
- * @typedef {import("../client/appeals-api-client").AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import("../client/appeals-api-client").AppealCaseDetailed} AppealCaseDetailed
  */
 
 /**
- * @param {AppealCaseWithAppellant} caseData
- * @param {keyof AppealCaseWithAppellant} propertyName
+ * @param {AppealCaseDetailed} caseData
+ * @param {keyof AppealCaseDetailed} propertyName
  */
-exports.formatYesOrNo = (caseData, propertyName) => (caseData[propertyName] ? 'Yes' : 'No');
+exports.formatYesOrNo = (caseData, propertyName) => boolToYesNo(caseData[propertyName]);
+
+/**
+ * if boolean then will return Yes/No string, otherwise empty string
+ * @param {any} check
+ * @returns {String}
+ */
+const boolToYesNo = (check) => {
+	if (check === false) return 'No';
+	if (check === true) return 'Yes';
+
+	return '';
+};
+
+exports.boolToYesNo = boolToYesNo;
 
 // TODO the associated changed and affected listed building numbers may be more than 1
 // the current data model does not support multiple entries.
 // function will need refactoring once data model updated
 // /**
-//  * @param {AppealCaseWithAppellant} caseData
+//  * @param {AppealCaseDetailed} caseData
 //  */
 // exports.formatListedBuildings = (caseData) => {
 // 	const allListedBuildings = [];
@@ -44,7 +59,7 @@ exports.formatYesOrNo = (caseData, propertyName) => (caseData[propertyName] ? 'Y
 // };
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealCaseDetailed} caseData
  */
 exports.formatDesignations = (caseData) => {
 	if (caseData.designatedSites === 'None') {
@@ -63,13 +78,13 @@ exports.formatDesignations = (caseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealCaseDetailed} caseData
  */
 exports.formatSensitiveArea = (caseData) =>
 	caseData.sensitiveArea ? `Yes\n${caseData.sensitiveAreaDetails ?? ''}` : 'No';
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealCaseDetailed} caseData
  */
 exports.formatEnvironmentalImpactSchedule = (caseData) => {
 	if (caseData.environmentalImpactSchedule === 'schedule-1') {
@@ -103,7 +118,7 @@ const developmentDescriptions = {
 };
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealCaseDetailed} caseData
  */
 exports.formatDevelopmentDescription = (caseData) => {
 	const key = caseData.developmentDescription;
@@ -117,7 +132,7 @@ exports.formatDevelopmentDescription = (caseData) => {
 // ? should this be an array of strings in schema or need a relation table
 // function will need refactoring when data model corrected
 // /**
-//  * @param {AppealCaseWithAppellant} caseData
+//  * @param {AppealCaseDetailed} caseData
 //  */
 // exports.formatNotificationMethod = (caseData) => {
 // 	/**
@@ -158,7 +173,7 @@ exports.formatDate = (dateStr) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealCaseDetailed} caseData
  */
 exports.formatSiteSafetyRisks = (caseData) => {
 	if (caseData.lpaSiteSafetyRisks) {
@@ -169,16 +184,16 @@ exports.formatSiteSafetyRisks = (caseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealCaseDetailed} caseData
  */
 exports.formatProcedurePreference = (caseData) => {
-	if (caseData.lpaProcedurePreference === 'written-representations') {
+	if (caseData.lpaProcedurePreference === APPEAL_CASE_PROCEDURE.WRITTEN) {
 		return `Written representations`;
-	} else if (caseData.lpaProcedurePreference === 'hearing') {
-		return `Hearing\n${caseData.lpaPreferHearingDetails ?? ''}`;
-	} else if (caseData.lpaProcedurePreference === 'inquiry') {
-		return `Inquiry\n${caseData.lpaPreferInquiryDetails ?? ''}\nExpected duration: ${
-			caseData.lpaPreferInquiryDuration ?? ''
+	} else if (caseData.lpaProcedurePreference === APPEAL_CASE_PROCEDURE.HEARING) {
+		return `Hearing\n${caseData.lpaProcedurePreferenceDetails ?? ''}`;
+	} else if (caseData.lpaProcedurePreference === APPEAL_CASE_PROCEDURE.INQUIRY) {
+		return `Inquiry\n${caseData.lpaProcedurePreferenceDetails ?? ''}\nExpected duration: ${
+			caseData.lpaProcedurePreferenceDuration ?? ''
 		} days`;
 	} else {
 		return '';
@@ -186,7 +201,7 @@ exports.formatProcedurePreference = (caseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} caseData
+ * @param {AppealCaseDetailed} caseData
  */
 exports.formatConditions = (caseData) =>
-	(caseData.newConditions && `Yes\n${caseData.newConditionDetails ?? ''}`) || 'No';
+	(caseData.changedDevelopmentDescription && `Yes\n${caseData.newConditionDetails ?? ''}`) || 'No';

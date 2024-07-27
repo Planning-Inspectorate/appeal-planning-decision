@@ -19,5 +19,5 @@ components:
           description: Unique identifier of appeal (SQL)
         role:
           type: string
-          enum: ['appellant', 'agent', 'interestedParty']
+          enum: ['Appellant', 'Agent', 'InterestedParty']
           description: Role user has on the appeal

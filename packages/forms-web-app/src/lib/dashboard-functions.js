@@ -8,9 +8,12 @@ const {
 	isAppealSubmission,
 	isV2Submission
 } = require('@pins/common/src/lib/format-address');
+const { formatDate } = require('#utils/format-date');
+const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
+const logger = require('#lib/logger');
 
 /**
- * @typedef {import('appeals-service-api').Api.AppealCaseWithAppellant} AppealCaseWithAppellant
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
  */
 
@@ -26,14 +29,14 @@ const {
  * @property {boolean} [isDraft] whether the appeal submission is in draft state
  * @property {string | undefined | null} appealDecision the PINS decision in respect of the appeal
  * @property {string | null} [appealDecisionColor] tag color to use for the decision
- * @property {string | undefined | null} caseDecisionDate
+ * @property {string | undefined | null} caseDecisionOutcomeDate
  * @property {{ appealType: string | undefined, appealId: string | undefined }} [continueParams]
  */
 
 /**
  * @typedef DueDocumentType
  * @type {object}
- * @property {string} deadline the date by which the document is due
+ * @property {string} [deadline] the date by which the document is due
  * @property {number} [dueInDays] the number of days remaining until the deadline expires
  * @property {string} documentDue the type of document which is due next
  * @property {string} [baseUrl] the base url for the document type
@@ -56,7 +59,7 @@ const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
 // MAP DATABASE RETURN OBJECTS TO DASHBOARD DISPLAY DATA
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData
+ * @param {AppealCaseDetailed} appealCaseData
  * @returns {DashboardDisplayData}
  */
 const mapToLPADashboardDisplayData = (appealCaseData) => ({
@@ -67,33 +70,44 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	isNewAppeal: isNewAppeal(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
-	caseDecisionDate: appealCaseData.caseDecisionDate
+	caseDecisionOutcomeDate: formatDate(appealCaseData.caseDecisionOutcomeDate)
 });
 
 /**
- * @param {AppealSubmission | AppealCaseWithAppellant} appealData
- * @returns {DashboardDisplayData}
+ * @param {AppealSubmission | AppealCaseDetailed} appealData
+ * @returns {DashboardDisplayData|null}
  */
-const mapToAppellantDashboardDisplayData = (appealData) => ({
-	appealId: isAppealSubmission(appealData) ? appealData._id : appealData.id,
-	appealNumber:
-		isAppealSubmission(appealData) || isV2Submission(appealData) ? '' : appealData.caseReference,
-	address: formatAddress(appealData),
-	appealType: getAppealType(appealData),
-	nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
-	isDraft: isAppealSubmission(appealData) || isV2Submission(appealData),
-	appealDecision: isAppealSubmission(appealData)
-		? null
-		: mapDecisionLabel(appealData.caseDecisionOutcome),
-	appealDecisionColor:
-		isAppealSubmission(appealData) || isV2Submission(appealData)
-			? null
-			: mapDecisionColour(appealData.caseDecisionOutcome),
-	caseDecisionDate:
-		isAppealSubmission(appealData) || isV2Submission(appealData)
-			? null
-			: appealData.caseDecisionDate
-});
+const mapToAppellantDashboardDisplayData = (appealData) => {
+	const id = isAppealSubmission(appealData) ? appealData._id : appealData.id;
+	try {
+		return {
+			appealId: id,
+			appealNumber:
+				isAppealSubmission(appealData) || isV2Submission(appealData)
+					? ''
+					: appealData.caseReference,
+			address: formatAddress(appealData),
+			appealType: getAppealType(appealData),
+			nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
+			isDraft: isAppealSubmission(appealData) || isV2Submission(appealData),
+			appealDecision: isAppealSubmission(appealData)
+				? null
+				: mapDecisionLabel(appealData.caseDecisionOutcome),
+			appealDecisionColor:
+				isAppealSubmission(appealData) || isV2Submission(appealData)
+					? null
+					: mapDecisionColour(appealData.caseDecisionOutcome),
+			caseDecisionOutcomeDate:
+				isAppealSubmission(appealData) || isV2Submission(appealData)
+					? null
+					: appealData.caseDecisionOutcomeDate
+		};
+	} catch (err) {
+		logger.error({ err }, `failed to mapToAppellantDashboardDisplayData ${id}`);
+	}
+
+	return null;
+};
 
 // LPADashboard - ToDo or WaitingToReview FUNCTIONS
 
@@ -154,22 +168,22 @@ const calculateAppealDueDeadline = (appealSubmission) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData return object from database call
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean} returns depending on whether a Questionnaire due date has been set
  */
 const isNewAppeal = (appealCaseData) => {
-	return !appealCaseData.questionnaireDueDate;
+	return !appealCaseData.lpaQuestionnaireDueDate;
 };
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData return object from database call
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {DueDocumentType} object containing details of next due document
  */
 const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 	if (isQuestionnaireDue(appealCaseData)) {
 		return {
-			deadline: appealCaseData.questionnaireDueDate,
-			dueInDays: calculateDueInDays(appealCaseData.questionnaireDueDate),
+			deadline: appealCaseData.lpaQuestionnaireDueDate,
+			dueInDays: calculateDueInDays(appealCaseData.lpaQuestionnaireDueDate),
 			documentDue: 'Questionnaire',
 			baseUrl: questionnaireBaseUrl
 		};
@@ -208,7 +222,7 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant | AppealSubmission} caseOrSubmission return object from database call
+ * @param {AppealCaseDetailed | AppealSubmission} caseOrSubmission return object from database call
  * @returns {DueDocumentType} object containing details of next due document
  */
 const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
@@ -250,15 +264,15 @@ const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
 // Helper functions, not exported, potential for refactoring as repetitive
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData return object from database call
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isQuestionnaireDue = (appealCaseData) => {
-	return !!appealCaseData.questionnaireDueDate && !appealCaseData.questionnaireReceived;
+	return !!appealCaseData.lpaQuestionnaireDueDate && !appealCaseData.lpaQuestionnaireSubmittedDate;
 };
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData return object from database call
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isStatementDue = (appealCaseData) => {
@@ -266,7 +280,7 @@ const isStatementDue = (appealCaseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData return object from database call
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isFinalCommentDue = (appealCaseData) => {
@@ -274,7 +288,7 @@ const isFinalCommentDue = (appealCaseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData return object from database call
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isProofsOfEvidenceDue = (appealCaseData) => {
@@ -282,7 +296,7 @@ const isProofsOfEvidenceDue = (appealCaseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData return object from database call
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isAppellantFinalCommentDue = (appealCaseData) => {
@@ -290,7 +304,7 @@ const isAppellantFinalCommentDue = (appealCaseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant} appealCaseData return object from database call
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean}
  */
 const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
@@ -298,7 +312,7 @@ const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
 };
 
 /**
- * @param {AppealCaseWithAppellant | AppealSubmission} appealCaseData return object from database call
+ * @param {AppealCaseDetailed | AppealSubmission} appealCaseData return object from database call
  * @returns {string}
  */
 const getAppealType = (appealCaseData) => {
@@ -308,7 +322,9 @@ const getAppealType = (appealCaseData) => {
 	if (isV2Submission(appealCaseData)) {
 		return getAppealTypeNameByTypeCode(appealCaseData?.AppellantSubmission?.appealTypeCode);
 	}
-	return `${appealCaseData.appealTypeName} appeal`;
+
+	const caseType = caseTypeNameWithDefault(appealCaseData?.appealTypeCode);
+	return `${caseType} appeal`;
 };
 
 module.exports = {

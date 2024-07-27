@@ -1,6 +1,8 @@
 const OptionsQuestion = require('../../options-question');
 const questionUtils = require('../utils/question-utils');
 
+const defaultOptionJoinString = ',';
+
 /**
  * @typedef {import('../../journey').Journey} Journey
  */
@@ -36,6 +38,8 @@ class CheckboxQuestion extends OptionsQuestion {
 			options,
 			validators
 		});
+
+		this.optionJoinString = defaultOptionJoinString;
 	}
 
 	/**
@@ -64,7 +68,7 @@ class CheckboxQuestion extends OptionsQuestion {
 		}
 
 		// answer is a string
-		const answerArray = answer.split(',');
+		const answerArray = answer.split(this.optionJoinString);
 
 		const formattedAnswer = this.options
 			.filter((option) => answerArray.includes(option.value))

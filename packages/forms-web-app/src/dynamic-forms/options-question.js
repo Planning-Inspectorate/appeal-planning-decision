@@ -4,6 +4,8 @@ const Question = require('./question');
 const ValidOptionValidator = require('./validator/valid-option-validator');
 const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
 
+const defaultOptionJoinString = ',';
+
 /**
  * @typedef {import('./question').QuestionViewModel} QuestionViewModel
  * @typedef {import('./journey').Journey} Journey
@@ -87,6 +89,7 @@ class OptionsQuestion extends Question {
 		});
 		this.hint = hint;
 		this.options = options;
+		this.optionJoinString = defaultOptionJoinString;
 	}
 
 	/**
@@ -173,7 +176,7 @@ class OptionsQuestion extends Question {
 				`User submitted option(s) did not correlate with valid answers to ${this.fieldName} question`
 			);
 
-		responseToSave.answers[this.fieldName] = fieldValues.join(',');
+		responseToSave.answers[this.fieldName] = fieldValues.join(this.optionJoinString);
 		journeyResponse.answers[this.fieldName] = fieldValues;
 
 		this.options.forEach((option) => {

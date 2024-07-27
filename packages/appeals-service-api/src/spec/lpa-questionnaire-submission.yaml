@@ -45,13 +45,7 @@ components:
           type: boolean
         uploadWhoNotified:
           type: boolean
-        displaySiteNotice:
-          type: boolean
-        lettersToNeighbours:
-          type: boolean
         uploadLettersEmails:
-          type: boolean
-        pressAdvert:
           type: boolean
         uploadPressAdvert:
           type: boolean

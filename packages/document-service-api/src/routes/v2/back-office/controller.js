@@ -5,7 +5,7 @@ const { isFeatureActive } = require('#config/featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const BlobStorageError = require('@pins/common/src/client/blob-storage-error');
-const { canAccessBODocument } = require('./access-rules');
+const { canAccessBODocument, CLIENT_CREDS_ROLE } = require('./access-rules');
 const { AppealUserRepository } = require('../../../db/repos/repository');
 const repo = new AppealUserRepository();
 
@@ -19,7 +19,7 @@ async function checkDocAccess(documentWithAppeal, access_token, id_token) {
 	let role = null;
 
 	if (access_token.sub === access_token.aud) {
-		role = 'client-credentials';
+		role = CLIENT_CREDS_ROLE;
 	} else if (id_token?.lpaCode === documentWithAppeal.AppealCase.LPACode) {
 		role = LPA_USER_ROLE;
 	} else {

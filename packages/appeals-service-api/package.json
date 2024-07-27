@@ -21,7 +21,7 @@
 		"test": "jest",
 		"test:cov": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand",
-		"integration-test": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --config ./jest.developer-test.config.js",
+		"integration-test": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --silent --config ./jest.developer-test.config.js",
 		"prevalidate-spec": "node src/spec/write-api-spec.js",
 		"validate-spec": "npx swagger-cli validate src/spec/spec.json",
 		"postvalidate-spec": "rm -rf ./src/spec/spec.json"
@@ -55,7 +55,6 @@
 		"node-cron": "^3.0.2",
 		"pino": "^9.2.0",
 		"pino-http": "^10.1.0",
-		"pins-data-model": "github:Planning-Inspectorate/data-model#1.5.1",
 		"prettier": "^2.8.8",
 		"rhea": "^1.0.24",
 		"secure-pin": "^1.0.14",

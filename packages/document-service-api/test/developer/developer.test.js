@@ -19,29 +19,44 @@ jest.mock('../../src/configuration/featureFlag', () => ({
 	isFeatureActive: () => true
 }));
 
+const validUser = '29670d0f-c4b4-4047-8ee0-d62b93e91a11';
+const invalidUser = '3ccd3b97-f434-40de-a76e-999412a5fa8e';
 jest.mock('express-oauth2-jwt-bearer', () => {
+	let currentSub = validUser;
+
 	return {
 		auth: jest.fn(() => {
-			return (req, res, next) => {
+			return (req, _res, next) => {
 				req.auth = {
 					payload: {
-						sub: '29670d0f-c4b4-4047-8ee0-d62b93e91a11'
+						sub: currentSub
 					}
 				};
 				next();
 			};
-		})
+		}),
+		setCurrentSub: (newSub) => {
+			currentSub = newSub;
+		}
 	};
 });
 
+const validLpa = 'Q9999';
 jest.mock('@pins/common/src/middleware/validate-token', () => {
+	let currentLpa = validLpa;
+
 	return {
 		validateToken: jest.fn(() => {
-			return (req, res, next) => {
-				req.id_token = {};
+			return (req, _res, next) => {
+				req.id_token = {
+					lpaCode: currentLpa
+				};
 				next();
 			};
-		})
+		}),
+		setCurrentLpa: (newLpa) => {
+			currentLpa = newLpa;
+		}
 	};
 });
 
@@ -177,13 +192,59 @@ describe('document-service-api', () => {
 					expect(response.statusCode).toBe(404);
 				});
 
-				it('should 401 for unredacted', async () => {
+				it('should 401 for unredacted and not owned', async () => {
 					// Given
 					const appealDoc = getDoc({
 						published: true,
 						redacted: false,
 						virusCheckStatus: 'checked'
 					});
+
+					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+					setCurrentSub(invalidUser);
+
+					// When
+					const response = await api.post(`/api/v2/back-office/sas-url`).send({
+						document: appealDoc.id
+					});
+					// Then
+					expect(response.statusCode).toBe(401);
+				});
+
+				it('should 200 for unredacted but owned', async () => {
+					// Given
+					const appealDoc = getDoc({
+						published: true,
+						redacted: false,
+						virusCheckStatus: 'checked'
+					});
+
+					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+					setCurrentSub(validUser);
+
+					const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
+					setCurrentLpa(undefined);
+
+					// When
+					const response = await api.post(`/api/v2/back-office/sas-url`).send({
+						document: appealDoc.id
+					});
+					// Then
+					expect(response.statusCode).toBe(200);
+				});
+
+				it('should 401 for different lpa', async () => {
+					// Given
+					const appealDoc = getDoc({
+						published: true,
+						redacted: false,
+						virusCheckStatus: 'checked'
+					});
+
+					const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
+					setCurrentLpa('nope');
+					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+					setCurrentSub(invalidUser);
 
 					// When
 					const response = await api.post(`/api/v2/back-office/sas-url`).send({
@@ -201,6 +262,12 @@ describe('document-service-api', () => {
 						virusCheckStatus: 'not_checked'
 					});
 
+					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+					setCurrentSub(validUser);
+
+					const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
+					setCurrentLpa(undefined);
+
 					// When
 					const response = await api.post(`/api/v2/back-office/sas-url`).send({
 						document: appealDoc.id
@@ -217,6 +284,12 @@ describe('document-service-api', () => {
 						virusCheckStatus: 'failed_virus_check'
 					});
 
+					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+					setCurrentSub(validUser);
+
+					const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
+					setCurrentLpa(undefined);
+
 					// When
 					const response = await api.post(`/api/v2/back-office/sas-url`).send({
 						document: appealDoc.id
@@ -228,6 +301,12 @@ describe('document-service-api', () => {
 				it('should return sas url for published doc', async () => {
 					// Given
 					const appealDoc = getDoc();
+
+					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+					setCurrentSub(validUser);
+
+					const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
+					setCurrentLpa(undefined);
 
 					// When
 					const response = await api.post(`/api/v2/back-office/sas-url`).send({

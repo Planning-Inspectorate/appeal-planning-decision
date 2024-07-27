@@ -1,6 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 const mongodb = require('../../../db/db');
 const config = require('../../../configuration/config');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const MAX_IDS_TO_LOG = 10_000;
 
@@ -210,13 +211,13 @@ async function migrateAppeals(req, res) {
 				}
 			});
 
-			let role = 'appellant';
+			let role = APPEAL_USER_ROLES.APPELLANT;
 
 			if (
 				doc.appeal?.contactDetailsSection?.isOriginalApplicant === false ||
 				doc.appeal?.aboutYouSection?.yourDetails?.isOriginalApplicant === false
 			) {
-				role = 'agent';
+				role = APPEAL_USER_ROLES.AGENT;
 			}
 
 			await transaction.appealToUser.create({

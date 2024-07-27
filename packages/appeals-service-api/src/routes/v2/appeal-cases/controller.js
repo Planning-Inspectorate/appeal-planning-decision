@@ -21,7 +21,7 @@ async function getByCaseReference(req, res) {
 	}
 	try {
 		// only check published cases
-		const appealCase = await getCaseAndAppellant({ caseReference, casePublished: true });
+		const appealCase = await getCaseAndAppellant({ caseReference });
 		if (!appealCase) {
 			throw ApiError.withMessage(404, 'not found');
 		}
@@ -60,7 +60,7 @@ async function putByCaseReference(req, res) {
  * @type {import('express').RequestHandler}
  */
 async function list(req, res, next) {
-	if ('lpa-code' in req.query) {
+	if ('lpa-code' in req.query && req.query['lpa-code'] === req?.id_token.lpaCode) {
 		await listByLpaCode(req, res, next);
 		return;
 	}

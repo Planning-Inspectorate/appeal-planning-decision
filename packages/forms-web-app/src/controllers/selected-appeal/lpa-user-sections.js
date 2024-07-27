@@ -19,7 +19,7 @@ exports.sections = [
 			{
 				url: '/questionnaire',
 				text: 'View questionnaire',
-				condition: (appealCase) => appealCase.lpaQuestionnaireSubmitted
+				condition: (appealCase) => !!appealCase.lpaQuestionnairePublishedDate
 			}
 		]
 	},
@@ -27,7 +27,7 @@ exports.sections = [
 		heading: 'Statements',
 		links: [
 			{
-				url: '/lpa-statement',
+				url: '/statement',
 				text: 'View your statement',
 				condition: (appealCase) => appealCase.lpaStatementPublished
 			},
@@ -42,7 +42,7 @@ exports.sections = [
 		heading: 'Interested party comments',
 		links: [
 			{
-				url: '/ip-comments',
+				url: '/interested-party-comments',
 				text: 'View interested party comments',
 				condition: (appealCase) => appealCase.interestedPartyCommentsPublished
 			}

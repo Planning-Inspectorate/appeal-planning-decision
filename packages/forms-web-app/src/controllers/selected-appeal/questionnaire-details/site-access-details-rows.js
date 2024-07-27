@@ -2,11 +2,13 @@ const { formatYesOrNo, formatSiteSafetyRisks } = require('@pins/common');
 const { formatNeibouringAddressWithBreaks } = require('@pins/common/src/lib/format-address');
 
 /**
- * @param {import('appeals-service-api').Api.AppealCaseWithAppellant } caseData
+ * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
 exports.siteAccessRows = (caseData) => {
 	const neighbourAdresses = caseData.NeighbouringAddresses || [];
+	const hasNeighbours = !!neighbourAdresses;
+
 	/**
 	 * @type {import("@pins/common/src/view-model-maps/rows/def").Rows}
 	 */
@@ -14,26 +16,26 @@ exports.siteAccessRows = (caseData) => {
 		{
 			keyText: 'Access for inspection',
 			valueText: formatYesOrNo(caseData, 'lpaSiteAccess'),
-			condition: () => caseData.uploadPlanningOfficerReport
+			condition: () => !!caseData.lpaSiteAccess
 		},
 		{
 			keyText: 'Reason for Inspector access',
 			valueText: `${caseData.lpaSiteAccessDetails}`,
-			condition: () => caseData.lpaSiteAccessDetails
+			condition: () => !!caseData.lpaSiteAccessDetails
 		},
 		{
 			keyText: 'Inspector visit to neighbour',
-			valueText: formatYesOrNo(caseData, 'neighbouringSiteAccess'),
-			condition: () => caseData.neighbouringSiteAccess
+			valueText: 'Yes',
+			condition: () => hasNeighbours
 		},
 		{
 			keyText: 'Reason for Inspector visit',
-			valueText: `${caseData.neighbouringSiteAccessDetails}`,
-			condition: () => caseData.neighbouringSiteAccessDetails
+			valueText: caseData.neighbouringSiteAccessDetails,
+			condition: () => !!caseData.neighbouringSiteAccessDetails
 		}
 	];
 
-	if (caseData.addNeighbouringSiteAccess) {
+	if (hasNeighbours) {
 		neighbourAdresses.forEach((address, index) => {
 			const formattedAddress = formatNeibouringAddressWithBreaks(address);
 			rows.push({
@@ -48,7 +50,7 @@ exports.siteAccessRows = (caseData) => {
 		rows.push({
 			keyText: 'Potential safety risks',
 			valueText: formatSiteSafetyRisks(caseData),
-			condition: () => true
+			condition: () => !!caseData.lpaSiteSafetyRiskDetails
 		});
 	}
 	return rows;

@@ -23,6 +23,7 @@ jest.mock('../service', () => ({
 		switch (appellantSubmissionId) {
 			case '001':
 				return {
+					appealId: 'f70dd26f-3776-4685-a79c-a81dbe8790b6',
 					LPACode: 'LPA_001',
 					appealTypeCode: 'HAS',
 					applicationDecisionDate: new Date('2024-01-01'),
@@ -31,6 +32,7 @@ jest.mock('../service', () => ({
 					isAppellant: true,
 					contactFirstName: 'Testy',
 					contactLastName: 'McTest',
+					contactCompanyName: 'Test',
 					ownsAllLand: true,
 					appellantGreenBelt: false,
 					updateDevelopmentDescription: false,
@@ -43,7 +45,7 @@ jest.mock('../service', () => ({
 					applicationReference: '123',
 					developmentDescriptionOriginal: 'A test description',
 					appellantLinkedCaseReference: 'no',
-					appellantPhoneNumber: '12345657',
+					contactPhoneNumber: '12345657',
 					// @ts-ignore
 					siteAreaSquareMetres: 22,
 					appellantLinkedCaseAdd: false,
@@ -94,6 +96,7 @@ jest.mock('../service', () => ({
 				};
 			case '002':
 				return {
+					appealId: '29eee0be-d395-4039-a277-7435e7ab0b66',
 					LPACode: 'LPA_002',
 					appealTypeCode: 'HAS',
 					applicationDecisionDate: new Date('2024-01-01'),
@@ -116,7 +119,7 @@ jest.mock('../service', () => ({
 					applicationReference: '234',
 					developmentDescriptionOriginal: 'A test description',
 					appellantLinkedCaseReference: 'no',
-					appellantPhoneNumber: '12345657',
+					contactPhoneNumber: '12345657',
 					// @ts-ignore
 					siteAreaSquareMetres: 25,
 					appellantLinkedCaseAdd: false,
@@ -221,6 +224,7 @@ jest.mock('express-oauth2-jwt-bearer');
 /** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
 const formattedHAS1 = {
 	casedata: {
+		submissionId: 'f70dd26f-3776-4685-a79c-a81dbe8790b6',
 		advertisedAppeal: null,
 		appellantCostsAppliedFor: false,
 		applicationDate: '2024-01-01T00:00:00.000Z',
@@ -250,7 +254,8 @@ const formattedHAS1 = {
 		siteAddressPostcode: 'SOM3 W3R',
 		siteAddressTown: 'Somewhereville',
 		siteAreaSquareMetres: 22,
-		siteSafetyDetails: ["It's dangerous"]
+		siteSafetyDetails: ["It's dangerous"],
+		isGreenBelt: false
 	},
 	documents: [
 		{
@@ -270,7 +275,9 @@ const formattedHAS1 = {
 			firstName: 'Testy',
 			lastName: 'McTest',
 			salutation: null,
-			serviceUserType: 'Appellant'
+			serviceUserType: 'Appellant',
+			telephoneNumber: '12345657',
+			organisation: 'Test'
 		}
 	]
 };
@@ -278,6 +285,7 @@ const formattedHAS1 = {
 /** @type {import('pins-data-model/src/schemas').AppellantSubmissionCommand} */
 const formattedHAS2 = {
 	casedata: {
+		submissionId: '29eee0be-d395-4039-a277-7435e7ab0b66',
 		advertisedAppeal: null,
 		appellantCostsAppliedFor: false,
 		applicationDate: '2024-01-01T00:00:00.000Z',
@@ -307,7 +315,8 @@ const formattedHAS2 = {
 		siteAddressPostcode: 'SOM3 W3R',
 		siteAddressTown: 'Somewhereville',
 		siteAreaSquareMetres: 25,
-		siteSafetyDetails: ["It's dangerous"]
+		siteSafetyDetails: ["It's dangerous"],
+		isGreenBelt: false
 	},
 	documents: [
 		{
@@ -327,14 +336,18 @@ const formattedHAS2 = {
 			firstName: 'Testy',
 			lastName: 'McTest',
 			salutation: null,
-			serviceUserType: 'Agent'
+			serviceUserType: 'Agent',
+			telephoneNumber: '12345657',
+			organisation: 'Test Agents'
 		},
 		{
 			emailAddress: null,
 			firstName: 'Test App',
 			lastName: 'Testington',
 			salutation: null,
-			serviceUserType: 'Appellant'
+			serviceUserType: 'Appellant',
+			telephoneNumber: null,
+			organisation: null
 		}
 	]
 };
@@ -344,6 +357,10 @@ beforeAll(async () => {
 		data: { email: crypto.randomUUID() + '@example.com' }
 	});
 	validUser = user.id;
+	// Give the schemas a moment to load from disk
+	await new Promise((res) => {
+		setTimeout(res, 2000);
+	});
 });
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {

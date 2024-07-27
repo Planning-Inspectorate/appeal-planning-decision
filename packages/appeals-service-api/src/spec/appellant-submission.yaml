@@ -110,7 +110,7 @@ components:
           type: string
         appellantLinkedCaseReference:
           type: string
-        appellantPhoneNumber:
+        contactPhoneNumber:
           type: string
         appellantPreferHearingDetails:
           type: string

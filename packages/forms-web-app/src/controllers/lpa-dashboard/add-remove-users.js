@@ -1,4 +1,3 @@
-const { apiClient } = require('../../lib/appeals-api-client');
 const { getUserFromSession } = require('../../services/user.service');
 
 const {
@@ -22,7 +21,7 @@ const getAddRemoveUsers = async (req, res) => {
 	}
 
 	const user = getUserFromSession(req);
-	const usersList = await apiClient.getUsers(user.lpaCode);
+	const usersList = await req.appealsApiClient.getUsers(user.lpaCode);
 
 	return res.render(ADD_REMOVE_USERS, {
 		dashboardUrl: `/${DASHBOARD}`,

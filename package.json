@@ -128,6 +128,7 @@
 	},
 	"dependencies": {
 		"applicationinsights": "^2.9.0",
-		"patch-package": "^6.5.1"
+		"patch-package": "^6.5.1",
+		"pins-data-model": "github:Planning-Inspectorate/data-model#1.7.3"
 	}
 }

@@ -2,9 +2,13 @@ const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
 const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
 const { appealDocuments } = require('./appeal-documents-dev');
 const {
-	constants: { DECISION_OUTCOME }
-} = require('@pins/business-rules');
+	APPEAL_CASE_DECISION_OUTCOME,
+	APPEAL_CASE_PROCEDURE,
+	APPEAL_CASE_STATUS,
+	APPEAL_CASE_VALIDATION_OUTCOME
+} = require('pins-data-model');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const config = require('../configuration/config.js');
 
 // some data here so we can reference in multiple places
@@ -128,7 +132,8 @@ const appealIds = {
 	appealSeven: '756d6bfb-dde8-4532-a041-86c226a23a07',
 	appealEight: '756d6bfb-dde8-4532-a041-86c226a23a08',
 	appealNine: 'd8290e68-bfbb-3bc8-b621-5a9590aa29fd',
-	appealTen: 'f933b0e0-1694-11ef-ab42-cbf3edc5e3fd'
+	appealTen: 'f933b0e0-1694-11ef-ab42-cbf3edc5e3fd',
+	appeal11: 'ee283ae8-7a92-4afe-a93f-405689b1f35b'
 };
 
 const caseReferences = {
@@ -139,7 +144,8 @@ const caseReferences = {
 	caseReferenceFive: '1010105',
 	caseReferenceSix: '1010106',
 	caseReferenceSeven: '1010107',
-	caseReferenceEight: '1010108'
+	caseReferenceEight: '1010108',
+	caseReferenceNine: '1010109'
 };
 
 const appellantSubmissionIds = {
@@ -263,6 +269,7 @@ const appeals = [
 	{ id: appealIds.appealEight },
 	{ id: appealIds.appealNine },
 	{ id: appealIds.appealTen },
+	{ id: appealIds.appeal11 },
 	{
 		id: appealSubmissionDraft.id,
 		legacyAppealSubmissionId: appealSubmissionDraft.id,
@@ -278,15 +285,20 @@ const appeals = [
 
 const commonAppealProperties = {
 	LPACode: 'Q9999',
-	LPAName: 'System Test Borough Council',
-	appealTypeCode: 'HAS',
-	appealTypeName: 'Householder',
 	siteAddressLine1: '123 Fake Street',
 	siteAddressTown: 'Testville',
 	siteAddressCounty: 'Countyshire',
 	siteAddressPostcode: 'BS1 6PN',
-	costsAppliedForIndicator: false,
-	casePublished: true
+	appellantCostsAppliedFor: false,
+	casePublishedDate: new Date(),
+	caseCreatedDate: new Date(),
+	caseSubmittedDate: new Date(),
+	CaseType: {
+		connect: { processCode: 'HAS' }
+	},
+	CaseStatus: {
+		connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+	}
 };
 
 /**
@@ -295,44 +307,109 @@ const commonAppealProperties = {
 const appealCases = [
 	{
 		Appeal: {
+			connect: { id: appealIds.appeal11 }
+		},
+		caseReference: caseReferences.caseReferenceNine,
+		caseId: 131313,
+		LPACode: 'Q9999',
+		CaseType: {
+			connect: { processCode: 'HAS' }
+		},
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.ISSUE_DETERMINATION }
+		},
+		ProcedureType: {
+			connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN }
+		},
+		applicationReference: 'HAS/ONLY',
+		applicationDecision: 'Refused',
+		applicationDate: new Date(),
+		applicationDecisionDate: new Date(),
+		caseSubmissionDueDate: new Date(),
+
+		isGreenBelt: true,
+		inConservationArea: true,
+		enforcementNotice: false,
+
+		siteAddressLine1: 'HAS Example',
+		siteAddressLine2: 'Testing',
+		siteAddressTown: 'Testville',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		siteAccessDetails: '["Open the gate"]',
+		siteSafetyDetails: '["Watch out for nails", "And the goat"]',
+		siteAreaSquareMetres: 67,
+		appellantCostsAppliedFor: true,
+		ownsAllLand: false,
+		ownsSomeLand: true,
+		knowsOtherOwners: 'Yes',
+		knowsAllOwners: null,
+		advertisedAppeal: false,
+		ownersInformed: true,
+		originalDevelopmentDescription: 'A major change',
+
+		isCorrectAppealType: true,
+		lpaCostsAppliedFor: true,
+		changedDevelopmentDescription: true,
+		newConditionDetails: 'More details here',
+		lpaStatement: 'This is asked outside of journey for HAS',
+		CaseValidationOutcome: {
+			connect: { key: APPEAL_CASE_VALIDATION_OUTCOME.VALID }
+		},
+		caseValidationInvalidDetails: null,
+		caseValidationIncompleteDetails: null,
+		lpaQuestionnaireValidationDetails: null,
+
+		caseSubmittedDate: new Date(),
+		caseCreatedDate: new Date(),
+		caseUpdatedDate: new Date(),
+		caseValidDate: new Date(),
+		caseValidationDate: new Date(),
+		caseExtensionDate: new Date(),
+		caseStartedDate: new Date(),
+		casePublishedDate: new Date(),
+		caseWithdrawnDate: null,
+		caseTransferredDate: null,
+		transferredCaseClosedDate: null,
+		caseDecisionOutcomeDate: null,
+		caseDecisionPublishedDate: null,
+		caseCompletedDate: null,
+
+		lpaQuestionnaireDueDate: new Date(),
+		lpaQuestionnaireSubmittedDate: new Date(),
+		lpaQuestionnaireCreatedDate: new Date(),
+		lpaQuestionnairePublishedDate: new Date(),
+		lpaQuestionnaireValidationOutcomeDate: new Date()
+	},
+	{
+		Appeal: {
 			connect: { id: appealIds.appealOne }
 		},
 		...commonAppealProperties,
 		caseReference: caseReferences.caseReferenceOne,
-		decision: '',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		LPAApplicationReference: '12/2323231/PLA',
-		questionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
-		procedure: 'Inquiry',
-		appellantFirstName: 'Test',
-		appellantLastName: 'Appellant 1',
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323231/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
-		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
-		lpaQuestionnairePublished: true,
-		appealValidDate: new Date(),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnairePublishedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaQuestionnaireSubmitted: true,
-		caseReceived: true,
 		caseValidDate: new Date(),
-		lpaQuestionnairePublishedDate: new Date(),
 		lpaStatementPublished: true,
 		rule6StatementPublished: true,
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(2)),
 		interestedPartyCommentsPublished: true,
 		// questionnaire details
 		// constraints
-		correctAppealType: true,
-		changesListedBuilding: false,
-		affectsListedBuilding: false,
+		isCorrectAppealType: true,
 		scheduledMonument: false,
 		conservationArea: false,
-		uploadConservation: null,
 		protectedSpecies: false,
-		greenBelt: false,
+		isGreenBelt: false,
 		areaOutstandingBeauty: false,
 		designatedSites: 'None',
 		treePreservationOrder: false,
-		uploadTreePreservationOrder: null,
 		gypsyTraveller: true,
 		publicRightOfWay: false,
 		// environmental
@@ -342,18 +419,14 @@ const appealCases = [
 		screeningOpinion: false,
 		requiresEnvironmentalStatement: false,
 		// notified
-		uploadWhoNotified: true,
-		uploadPressAdvert: true,
 		// consultations
 		statutoryConsultees: false,
 		consultationResponses: false,
 		otherPartyRepresentations: false,
 		// planning officer reports
-		uploadPlanningOfficerReport: null,
 		emergingPlan: false,
 		supplementaryPlanningDocs: false,
 		infrastructureLevy: true,
-		uploadInfrastructureLevy: null,
 		infrastructureLevyAdopted: false,
 		infrastructureLevyExpectedDate: new Date(Date.now()),
 		// site access
@@ -362,12 +435,12 @@ const appealCases = [
 		addNeighbouringSiteAccess: true,
 		lpaSiteSafetyRisks: false,
 		// appeal process
-		lpaProcedurePreference: 'inquiry',
+		lpaProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
 		lpaPreferInquiryDetails: 'Example preference',
 		lpaPreferInquiryDuration: '6',
-		nearbyAppeals: true,
-		newConditions: true,
-		newConditionDetails: 'Example new conditions'
+		changedDevelopmentDescription: true,
+		newConditionDetails: 'Example new conditions',
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } }
 	},
 	{
 		Appeal: {
@@ -375,28 +448,22 @@ const appealCases = [
 		},
 		...commonAppealProperties,
 		caseReference: caseReferences.caseReferenceTwo,
-		decision: '',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(2)),
-		LPAApplicationReference: '12/2323232/PLA',
-		questionnaireDueDate: pickRandom(datesNMonthsAhead(2)),
-		procedure: 'Inquiry',
-		appellantFirstName: 'Test',
-		appellantLastName: 'Appellant 2',
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(2)),
+		applicationReference: '12/2323232/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAhead(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
-		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
-		lpaQuestionnairePublished: true,
-		appealValidDate: new Date(),
-		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaQuestionnaireSubmitted: true,
-		caseReceived: true,
-		lpaQuestionnairePublishedDate: new Date(),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnairePublishedDate: pickRandom(datesNMonthsAgo(1)),
 		caseValidDate: new Date(),
+		lpaQuestionnaireSubmittedDate: new Date(),
 		lpaStatementPublished: true,
 		rule6StatementPublished: true,
 		interestedPartyCommentsPublished: true,
 		appellantProofEvidencePublished: true,
 		lpaProofEvidencePublished: true,
-		rule6ProofsEvidencePublished: true
+		rule6ProofsEvidencePublished: true,
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } }
 	},
 	{
 		Appeal: {
@@ -404,30 +471,26 @@ const appealCases = [
 		},
 		...commonAppealProperties,
 		caseReference: caseReferences.caseReferenceThree,
-		decision: '',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		LPAApplicationReference: '12/2323233/PLA',
-		questionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
-		procedure: 'Inquiry',
-		appellantFirstName: 'Test',
-		appellantLastName: 'Appellant 3',
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323233/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
-		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
-		lpaQuestionnairePublished: true,
-		appealValidDate: new Date(),
-		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaQuestionnaireSubmitted: true,
-		caseReceived: true,
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnairePublishedDate: new Date(),
-		lpaStatementPublished: true,
 		caseValidDate: new Date(),
+		lpaQuestionnaireSubmittedDate: new Date(),
+		lpaStatementPublished: true,
 		rule6StatementPublished: true,
 		interestedPartyCommentsPublished: true,
 		appellantProofEvidencePublished: true,
 		lpaProofEvidencePublished: true,
 		rule6ProofsEvidencePublished: true,
-		caseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		caseDecisionOutcome: DECISION_OUTCOME.ALLOWED
+		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(1)),
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
+		},
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } }
 	},
 	{
 		Appeal: {
@@ -435,21 +498,14 @@ const appealCases = [
 		},
 		...commonAppealProperties,
 		caseReference: caseReferences.caseReferenceFour,
-		decision: '',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		LPAApplicationReference: '12/2323234/PLA',
-		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
-		procedure: 'Written representation',
-		appellantFirstName: 'Test',
-		appellantLastName: 'Appellant 4',
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323234/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
-		questionnaireReceived: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnairePublishedDate: new Date(),
-		lpaQuestionnairePublished: true,
-		appealValidDate: new Date(),
 		lpaQuestionnaireSubmittedDate: new Date(),
-		lpaQuestionnaireSubmitted: true,
-		caseReceived: true,
 		lpaStatementPublished: true,
 		caseValidDate: new Date(),
 		interestedPartyCommentsPublished: true,
@@ -458,7 +514,8 @@ const appealCases = [
 			'gravida neque convallis a cras semper auctor neque vitae tempus quam pellentesque nec nam aliquam sem et tortor consequat id porta nibh venenatis cras sed',
 		appellantFinalCommentDetails:
 			'I am the appellant and this is my final comment. felis eget velit aliquet sagittis id consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat ac tincidunt',
-		appellantFinalCommentsSubmitted: true
+		appellantFinalCommentsSubmitted: true,
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.WRITTEN } }
 	},
 	{
 		Appeal: {
@@ -466,12 +523,12 @@ const appealCases = [
 		},
 		...commonAppealProperties,
 		caseReference: caseReferences.caseReferenceFive,
-		decision: 'allowed',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		LPAApplicationReference: '12/2323235/PLA',
-		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		applicationDecision: 'allowed',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323235/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		casePublished: false
+		casePublishedDate: new Date()
 	},
 	{
 		Appeal: {
@@ -479,13 +536,15 @@ const appealCases = [
 		},
 		...commonAppealProperties,
 		caseReference: caseReferences.caseReferenceSix,
-		decision: 'dismissed',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		LPAApplicationReference: '12/2323236/PLA',
-		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		applicationDecision: 'dismissed',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323236/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionOutcome: DECISION_OUTCOME.DISMISSED
+		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(2)),
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.DISMISSED }
+		}
 	},
 	{
 		Appeal: {
@@ -493,13 +552,15 @@ const appealCases = [
 		},
 		...commonAppealProperties,
 		caseReference: caseReferences.caseReferenceSeven,
-		decision: 'allowed in part',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		LPAApplicationReference: '12/2323237/PLA',
-		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		applicationDecision: 'allowed in part',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323237/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(3)),
-		caseDecisionOutcome: DECISION_OUTCOME.SPLIT_DECISION
+		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(3)),
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION }
+		}
 	},
 	{
 		Appeal: {
@@ -507,13 +568,15 @@ const appealCases = [
 		},
 		...commonAppealProperties,
 		caseReference: caseReferences.caseReferenceEight,
-		decision: '',
-		originalCaseDecisionDate: pickRandom(datesNMonthsAgo(1)),
-		LPAApplicationReference: '12/2323238/PLA',
-		questionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
+		applicationDecision: '',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		applicationReference: '12/2323238/PLA',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(2)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(2)),
-		caseDecisionDate: pickRandom(datesNMonthsAgo(4)),
-		caseDecisionOutcome: 'other'
+		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(4)),
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.DISMISSED }
+		}
 	},
 	...lpaAppealCaseData
 ];
@@ -593,6 +656,11 @@ const appealToUsers = [
 	},
 	{
 		appealId: appealIds.appealTen,
+		userId: appellants.appellantOne.id,
+		role: APPEAL_USER_ROLES.APPELLANT
+	},
+	{
+		appealId: appealIds.appeal11,
 		userId: appellants.appellantOne.id,
 		role: APPEAL_USER_ROLES.APPELLANT
 	},
@@ -721,6 +789,22 @@ const serviceUsers = [
 		caseReference: caseReferences.caseReferenceOne,
 		firstName: 'Agent',
 		lastName: 'One'
+	},
+	{
+		internalId: '1c543b78-0fd6-4e86-abc3-28bea670d3c9',
+		id: '123459',
+		serviceUserType: 'Appellant',
+		caseReference: caseReferences.caseReferenceNine,
+		firstName: 'Appellant',
+		lastName: 'Nine'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc48',
+		id: '123460',
+		serviceUserType: 'Agent',
+		caseReference: caseReferences.caseReferenceNine,
+		firstName: 'Agent',
+		lastName: 'Nine'
 	}
 ];
 
@@ -762,6 +846,127 @@ const neighbourAddresses = [
 				caseReference: '1010101'
 			}
 		}
+	},
+	{
+		id: 'b040b7f9-3626-4cff-92a5-bc4db45bcc66',
+		addressLine1: 'B&Q',
+		addressLine2: '17 York Road',
+		townCity: 'Bristol',
+		postcode: 'BS3 4AL',
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		}
+	},
+	{
+		id: 'b602201a-c57c-4b87-b229-8f4e17b7b4c8',
+		addressLine1: 'Screwfix',
+		addressLine2: '170 York Road',
+		townCity: 'Bristol',
+		postcode: 'BS3 4AL',
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		}
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.ListedBuildingCreateInput[]}
+ */
+const listedBuildings = [
+	{
+		name: '10 and 10A Special House',
+		reference: '1010101',
+		listedBuildingGrade: 'II'
+	},
+	{
+		name: 'AN IMPORTANT BUILDING',
+		reference: '1010102',
+		listedBuildingGrade: 'II*'
+	},
+	{
+		name: 'Exceptional Building',
+		reference: '1010103',
+		listedBuildingGrade: 'I'
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.AppealCaseListedBuildingCreateInput[]}
+ */
+const caseListedBuilding = [
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		},
+		ListedBuilding: {
+			connect: {
+				reference: listedBuildings[0].reference
+			}
+		}
+	},
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		},
+		ListedBuilding: {
+			connect: {
+				reference: listedBuildings[1].reference
+			}
+		}
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.AppealCaseLpaNotificationMethodCreateInput[]}
+ */
+const caseNotificationMethods = [
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		},
+		LPANotificationMethod: {
+			connect: {
+				key: 'notice'
+			}
+		}
+	},
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		},
+		LPANotificationMethod: {
+			connect: {
+				key: 'letter'
+			}
+		}
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.AppealCaseRelationshipCreateInput[]}
+ */
+const caseRelations = [
+	{
+		caseReference: caseReferences.caseReferenceOne,
+		caseReference2: caseReferences.caseReferenceNine,
+		type: CASE_RELATION_TYPES.nearby
+	},
+	{
+		caseReference: caseReferences.caseReferenceNine,
+		caseReference2: caseReferences.caseReferenceOne,
+		type: CASE_RELATION_TYPES.nearby
 	}
 ];
 
@@ -818,6 +1023,64 @@ const events = [
 		AppealCase: {
 			connect: {
 				caseReference: '1010104'
+			}
+		}
+	},
+	{
+		internalId: '6c4f6b1f-3206-4ba4-a7e1-c56ca1c83730',
+		published: true,
+		type: 'siteVisit',
+		subtype: 'accessRequired',
+		startDate: getFutureDate(40, 11),
+		endDate: getFutureDate(40, 15),
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceNine
+			}
+		}
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.InterestedPartyCommentCreateInput[]}
+ */
+const interestedPartyComments = [
+	{
+		id: 'c75d6821-5850-45be-a069-2791fef3d973',
+		comment:
+			'I am IP 1. tempor orci dapibus ultrices in iaculis nunc sed augue lacus viverra vitae congue eu consequat ac felis donec',
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceFour
+			}
+		}
+	},
+	{
+		id: 'a90340eb-31f2-45e3-9c55-73cf0eb1dfae',
+		comment:
+			'I am IP 2. senectus et netus et malesuada fames ac turpis egestas integer eget aliquet nibh praesent tristique magna sit amet purus gravida quis blandit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.',
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceFour
+			}
+		}
+	},
+	{
+		id: '50271928-4e72-4901-a586-c44e949c8677',
+		comment:
+			'I am IP 3. orci nulla pellentesque dignissim enim sit amet venenatis urna cursus eget nunc scelerisque viverra mauris',
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceFour
+			}
+		}
+	},
+	{
+		id: '122d9082-ffef-4c8a-ad7f-6425f7bfc873',
+		comment: `I am IP 4. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.`,
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceFour
 			}
 		}
 	}
@@ -880,6 +1143,14 @@ async function seedDev(dbClient) {
 	// ordering here is important to ensure relations are built up
 	// e.g. appeals + users before appeal-to-users
 
+	for (const listed of listedBuildings) {
+		await dbClient.listedBuilding.upsert({
+			create: listed,
+			update: listed,
+			where: { reference: listed.reference }
+		});
+	}
+
 	// create some users
 	for (const user of users) {
 		await dbClient.appealUser.upsert({
@@ -912,6 +1183,7 @@ async function seedDev(dbClient) {
 	for (const caseId of caseIds) {
 		for (const document of appealDocuments) {
 			document.documentURI = `${config.storage.boEndpoint}/${document.filename}`;
+			document.publishedDocumentURI = `${config.storage.boEndpoint}/${document.filename}`;
 
 			document.AppealCase = {
 				connect: { id: caseId }
@@ -921,6 +1193,57 @@ async function seedDev(dbClient) {
 				create: document,
 				update: document,
 				where: { id: document.id }
+			});
+		}
+	}
+
+	for (const caseListed of caseListedBuilding) {
+		const existing = await dbClient.appealCaseListedBuilding.findFirst({
+			where: {
+				AND: [
+					{ caseReference: caseListed.AppealCase.connect.caseReference },
+					{ listedBuildingReference: caseListed.ListedBuilding.connect.reference }
+				]
+			}
+		});
+
+		if (!existing) {
+			await dbClient.appealCaseListedBuilding.create({
+				data: caseListed
+			});
+		}
+	}
+
+	for (const caseNotification of caseNotificationMethods) {
+		const existing = await dbClient.appealCaseLpaNotificationMethod.findFirst({
+			where: {
+				AND: [
+					{ caseReference: caseNotification.AppealCase?.connect?.caseReference },
+					{ lPANotificationMethodsKey: caseNotification.LPANotificationMethod?.connect?.key }
+				]
+			}
+		});
+
+		if (!existing) {
+			await dbClient.appealCaseLpaNotificationMethod.create({
+				data: caseNotification
+			});
+		}
+	}
+
+	for (const caseRelation of caseRelations) {
+		const existing = await dbClient.appealCaseRelationship.findFirst({
+			where: {
+				AND: [
+					{ caseReference: caseRelation.caseReference },
+					{ caseReference2: caseRelation.caseReference2 }
+				]
+			}
+		});
+
+		if (!existing) {
+			await dbClient.appealCaseRelationship.create({
+				data: caseRelation
 			});
 		}
 	}
@@ -949,6 +1272,7 @@ async function seedDev(dbClient) {
 			}
 		});
 	}
+
 	for (const serviceUser of serviceUsers) {
 		await dbClient.serviceUser.upsert({
 			create: serviceUser,
@@ -994,6 +1318,14 @@ async function seedDev(dbClient) {
 			create: event,
 			update: event,
 			where: { internalId: event.internalId }
+		});
+	}
+
+	for (const comment of interestedPartyComments) {
+		await dbClient.interestedPartyComment.upsert({
+			create: comment,
+			update: comment,
+			where: { id: comment.id }
 		});
 	}
 

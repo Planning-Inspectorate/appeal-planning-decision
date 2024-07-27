@@ -55,8 +55,8 @@ describe('lib/dashboard-functions', () => {
 
 		it('returns the questionnaire details if the questionnaire has not been submitted', () => {
 			const appealDetails = {
-				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
-				questionnaireReceived: null,
+				lpaQuestionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
+				lpaQuestionnaireSubmittedDate: null,
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
 				LPAStatementSubmitted: null
 			};
@@ -153,7 +153,7 @@ describe('lib/dashboard-functions', () => {
 		it('is false if an appeal has a questionnaire due set', () => {
 			expect(
 				isNewAppeal({
-					questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00'
+					lpaQuestionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00'
 				})
 			).toBe(false);
 		});

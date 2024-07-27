@@ -2,7 +2,6 @@ const { JourneyResponse } = require('../journey-response');
 const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
 const { getUserFromSession } = require('../../services/user.service');
-const { apiClient } = require('#lib/appeals-api-client');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
@@ -14,7 +13,7 @@ module.exports = () => async (req, res, next) => {
 
 	const user = getUserFromSession(req);
 
-	const appeal = await apiClient.getUsersAppealCase({
+	const appeal = await req.appealsApiClient.getUsersAppealCase({
 		caseReference: encodedReferenceId,
 		userId: user.id,
 		role: LPA_USER_ROLE
@@ -27,7 +26,7 @@ module.exports = () => async (req, res, next) => {
 	}
 
 	try {
-		const dbResponse = await apiClient.getLPAQuestionnaire(referenceId);
+		const dbResponse = await req.appealsApiClient.getLPAQuestionnaire(referenceId);
 		const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
 		result = new JourneyResponse(
 			appealType,
@@ -38,7 +37,7 @@ module.exports = () => async (req, res, next) => {
 	} catch (err) {
 		if (err instanceof ApiClientError && err.code === 404) {
 			logger.debug('questionnaire not found, creating and returning default response');
-			await apiClient.postLPAQuestionnaire(referenceId);
+			await req.appealsApiClient.postLPAQuestionnaire(referenceId);
 		} else {
 			logger.error(err);
 		}

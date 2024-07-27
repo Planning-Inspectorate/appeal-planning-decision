@@ -1,16 +1,19 @@
 const { createPrismaClient } = require('#db-client');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 /**
  * @typedef {import("@prisma/client").ServiceUser} ServiceUser
+ * @typedef {import("@prisma/client").AppealToUser} AppealToUser
  */
 
-/** @type {(modelRole: string) => 'appellant' | 'agent' | null} */
+/** @type {(modelRole: string) => 'Appellant' | 'Agent' | null} */
 const mapDataModelRoleToInternalRole = (modelRole) => {
 	switch (modelRole) {
-		case 'Appellant':
-			return 'appellant';
-		case 'Agent':
-			return 'agent';
+		case SERVICE_USER_TYPE.APPELLANT:
+			return APPEAL_USER_ROLES.APPELLANT;
+		case SERVICE_USER_TYPE.AGENT:
+			return APPEAL_USER_ROLES.AGENT;
 		default:
 			return null;
 	}
@@ -27,14 +30,24 @@ class ServiceUserRepository {
 	 * Get service user(s) by case reference and type
 	 *
 	 * @param {string} caseReference
-	 * @param {string} serviceUserType
+	 * @param {Array.<string>} serviceUserType
 	 * @returns {Promise<ServiceUser[]|null>}
 	 */
 	getForCaseAndType(caseReference, serviceUserType) {
 		return this.dbClient.serviceUser.findMany({
 			where: {
-				caseReference,
-				serviceUserType
+				OR: serviceUserType.map((type) => ({
+					caseReference,
+					serviceUserType: type
+				}))
+			},
+			select: {
+				firstName: true,
+				lastName: true,
+				emailAddress: true,
+				organisation: true,
+				telephoneNumber: true,
+				serviceUserType: true
 			}
 		});
 	}

@@ -21,33 +21,33 @@ describe('appealSorting', () => {
 			},
 			{
 				name: 'all present',
-				field: 'caseDecisionDate',
+				field: 'caseDecisionOutcomeDate',
 				list: [
-					objWithDateField('caseDecisionDate', 15),
-					objWithDateField('caseDecisionDate', 20),
-					objWithDateField('caseDecisionDate', 18),
-					objWithDateField('caseDecisionDate', 12)
+					objWithDateField('caseDecisionOutcomeDate', 15),
+					objWithDateField('caseDecisionOutcomeDate', 20),
+					objWithDateField('caseDecisionOutcomeDate', 18),
+					objWithDateField('caseDecisionOutcomeDate', 12)
 				],
 				want: [
-					objWithDateField('caseDecisionDate', 20),
-					objWithDateField('caseDecisionDate', 18),
-					objWithDateField('caseDecisionDate', 15),
-					objWithDateField('caseDecisionDate', 12)
+					objWithDateField('caseDecisionOutcomeDate', 20),
+					objWithDateField('caseDecisionOutcomeDate', 18),
+					objWithDateField('caseDecisionOutcomeDate', 15),
+					objWithDateField('caseDecisionOutcomeDate', 12)
 				]
 			},
 			{
 				name: 'some missing',
-				field: 'caseDecisionDate',
+				field: 'caseDecisionOutcomeDate',
 				list: [
-					objWithDateField('caseDecisionDate', 15),
+					objWithDateField('caseDecisionOutcomeDate', 15),
 					{ case: 1 },
-					objWithDateField('caseDecisionDate', 18),
-					objWithDateField('caseDecisionDate', 12)
+					objWithDateField('caseDecisionOutcomeDate', 18),
+					objWithDateField('caseDecisionOutcomeDate', 12)
 				],
 				want: [
-					objWithDateField('caseDecisionDate', 18),
-					objWithDateField('caseDecisionDate', 15),
-					objWithDateField('caseDecisionDate', 12),
+					objWithDateField('caseDecisionOutcomeDate', 18),
+					objWithDateField('caseDecisionOutcomeDate', 15),
+					objWithDateField('caseDecisionOutcomeDate', 12),
 					{ case: 1 }
 				]
 			}

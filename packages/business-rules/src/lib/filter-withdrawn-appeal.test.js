@@ -3,12 +3,12 @@ const { isNotWithdrawn } = require('@pins/business-rules/src/lib/filter-withdraw
 const date1 = new Date('2024-05-06T00:00:00.000Z');
 const date2 = new Date('2024-05-04T00:00:00.000Z');
 
-const withdrawnAppeal = { appealWithdrawnDate: date1, appealStatus: 'withdrawn' };
-const withdrawnAppeal2 = { appealWithdrawnDate: date2, appealStatus: 'withdrawn' };
-const notWithdrawn = { appealWithdrawnDate: null, appealStatus: 'ready_to_start' };
-const notWithdrawn2 = { appealWithdrawnDate: null, appealStatus: null };
-const mismatchedData1 = { appealWithdrawnDate: null, appealStatus: 'withdrawn' };
-const mismatchedData2 = { appealWithdrawnDate: date2, appealStatus: 'ready_to_start' };
+const withdrawnAppeal = { caseWithdrawnDate: date1, caseStatus: 'withdrawn' };
+const withdrawnAppeal2 = { caseWithdrawnDate: date2, caseStatus: 'withdrawn' };
+const notWithdrawn = { caseWithdrawnDate: null, caseStatus: 'ready_to_start' };
+const notWithdrawn2 = { caseWithdrawnDate: null, caseStatus: null };
+const mismatchedData1 = { caseWithdrawnDate: null, caseStatus: 'withdrawn' };
+const mismatchedData2 = { caseWithdrawnDate: date2, caseStatus: 'ready_to_start' };
 
 describe('isNotWithdrawn', () => {
 	it('filters appeals that have both the date set and status set to withdrawn', () => {

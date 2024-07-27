@@ -1,5 +1,4 @@
 const { getLPA, errorMessages } = require('../../lib/appeals-api-wrapper');
-const { apiClient } = require('../../lib/appeals-api-client');
 const logger = require('../../lib/logger');
 
 const {
@@ -23,7 +22,7 @@ const getServiceInvite = async (req, res) => {
 			return genericAuthError(res);
 		}
 
-		await apiClient.createUser({
+		await req.appealsApiClient.createUser({
 			email: lpa.email,
 			isLpaUser: true,
 			isLpaAdmin: true,

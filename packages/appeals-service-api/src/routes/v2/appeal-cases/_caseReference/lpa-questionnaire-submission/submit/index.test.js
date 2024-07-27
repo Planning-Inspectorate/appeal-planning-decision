@@ -3,6 +3,7 @@ const http = require('http');
 const app = require('../../../../../../app');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { markQuestionnaireAsSubmitted } = require('../service');
+const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
 
 const server = http.createServer(app);
 const appealsApi = supertest(server);
@@ -32,9 +33,7 @@ jest.mock('../service', () => ({
 					neighbourSiteAccess: 'yes',
 					newConditions: 'yes',
 					newConditions_newConditionDetails: 'I have new conditions',
-					displaySiteNotice: true,
-					lettersToNeighbours: true,
-					pressAdvert: true,
+					notificationMethod: 'site-notice,letters-or-emails,advert',
 					AppealCase: {
 						LPACode: 'LPA_001',
 						appealTypeCode: 'HAS'
@@ -168,7 +167,20 @@ jest.mock('../../../../../../../src/infrastructure/event-client', () => ({
 	sendEvents: jest.fn()
 }));
 
-jest.mock('../../../../../../../src/services/object-store');
+jest.mock('../../../../../../../src/services/object-store', () => ({
+	blobMetaGetter() {
+		return async () => ({
+			lastModified: '2024-03-01T14:48:35.847Z',
+			createdOn: '2024-03-01T13:48:35.847Z',
+			metadata: {
+				mime_type: 'image/jpeg',
+				size: 10293,
+				document_type: 'planningOfficersReportUpload'
+			},
+			_response: { request: { url: 'https://example.com' } }
+		});
+	}
+}));
 
 const formattedHAS = [
 	expect.objectContaining({
@@ -180,9 +192,9 @@ const formattedHAS = [
 			inConservationArea: true,
 			isGreenBelt: true,
 			notificationMethod: [
-				'A public notice at the site',
-				'Letters to neighbours',
-				'Advert in the local press'
+				LPA_NOTIFICATION_METHODS.notice.key,
+				LPA_NOTIFICATION_METHODS.letter.key,
+				LPA_NOTIFICATION_METHODS.pressAdvert.key
 			],
 			siteAccessDetails: null,
 			siteSafetyDetails: ["oh it's bad"],
@@ -206,7 +218,7 @@ const formattedHAS = [
 			{
 				documentId: 'img_001',
 				dateCreated: '2024-03-01T13:48:35.847Z',
-				documentType: 'appellantCostsApplication',
+				documentType: 'planningOfficerReport',
 				documentURI: 'https://example.com',
 				filename: 'img.jpg',
 				mime: 'image/jpeg',
@@ -278,7 +290,7 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 	beforeAll(async () => {
 		// Give the schemas a moment to load from disk
 		await new Promise((res) => {
-			setTimeout(res, 1000);
+			setTimeout(res, 2000);
 		});
 	});
 	it.each([
