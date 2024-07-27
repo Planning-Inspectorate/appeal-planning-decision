@@ -1,22 +1,17 @@
 import { BasePage } from "../../../../page-objects/base-page";
-export class NewPlansDrawingsPage{
-
-    _selectors={
-    }
-
-    addNewPlansDrawingsData(context){
+export class NewPlansDrawingsPage {
+    addNewPlansDrawingsData(context) {
         const basePage = new BasePage();
-        if(context?.uploadDocuments?.isNewPlanOrDrawingAvailable){
+        if (context?.uploadDocuments?.isNewPlanOrDrawingAvailable) {
             //Do you have any new plans or drawings that support your appeal?
             basePage.clickRadioBtn('[data-cy="answer-yes"]');
-            cy.advanceToNextPage();	
-                //Upload your new plans or drawings
+            cy.advanceToNextPage();
+            //Upload your new plans or drawings
             cy.uploadFileFromFixtureDirectory(context?.documents?.uploadNewPlanOrDrawing);
-            cy.advanceToNextPage();		
-        } else{
+            cy.advanceToNextPage();
+        } else {
             basePage.clickRadioBtn('[data-cy="answer-no"]');
             cy.advanceToNextPage();
-        }    
+        }
     };
-   
 }

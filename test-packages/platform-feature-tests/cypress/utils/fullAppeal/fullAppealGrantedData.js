@@ -1,19 +1,19 @@
 
 const documents = {
-    uploadAppealStmt:'appeal-statement-valid.pdf',
-    uploadApplicationForAppealCost:'other-supporting-docs.pdf',
-    uploadNewPlanOrDrawing:'plans-drawings.jpeg',
-    uploadOtherNewSupportDoc:'other-supporting-docs.pdf',
-    uploadSeparateOwnershipCertAndAgricultureDoc:'draft-planning-obligation.pdf',
-    uploadDesignAndAccessStmt:'design-and-access-statement.pdf',
-    uploadPlansDrawingAndSupportingDocs:'plans-drawings-and-supporting-documents.pdf',
-    uploadFinalisingDocReady:'additional-final-comments-2.pdf',
-    uploadFinalisingDocDraft:'additional-final-comments-2.pdf',
-    uploadDevelopmentDescription:'additional-final-comments-1.pdf',
-    uploadDecisionLetter:'decision-letter.pdf', 
-    uploadPlanningApplConfirmLetter:'letter-confirming-planning-application.pdf'          
+    uploadAppealStmt: 'appeal-statement-valid.pdf',
+    uploadApplicationForAppealCost: 'other-supporting-docs.pdf',
+    uploadNewPlanOrDrawing: 'plans-drawings.jpeg',
+    uploadOtherNewSupportDoc: 'other-supporting-docs.pdf',
+    uploadSeparateOwnershipCertAndAgricultureDoc: 'draft-planning-obligation.pdf',
+    uploadDesignAndAccessStmt: 'design-and-access-statement.pdf',
+    uploadPlansDrawingAndSupportingDocs: 'plans-drawings-and-supporting-documents.pdf',
+    uploadFinalisingDocReady: 'additional-final-comments-2.pdf',
+    uploadFinalisingDocDraft: 'additional-final-comments-2.pdf',
+    uploadDevelopmentDescription: 'additional-final-comments-1.pdf',
+    uploadDecisionLetter: 'decision-letter.pdf',
+    uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf'
 };
-export const fullAppealGrantedTestCases = 	[
+export const fullAppealGrantedTestCases = [
     {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
@@ -21,21 +21,21 @@ export const fullAppealGrantedTestCases = 	[
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'hectare',
+            areaUnits: 'hectare',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
-           // knowsAllOwners: 'yes',
+            // knowsAllOwners: 'yes',
             knowsOtherOwners: 'yes',
             isAgriculturalHolding: false,
-           // isTenantAgricultureHolding : true,
-           // anyOtherTenants: true,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -55,30 +55,30 @@ export const fullAppealGrantedTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
-           // knowsAllOwners: 'yes',
+            // knowsAllOwners: 'yes',
             knowsOtherOwners: 'some',
             isAgriculturalHolding: false,
-           // isTenantAgricultureHolding : true,
-           // anyOtherTenants: true,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -98,30 +98,30 @@ export const fullAppealGrantedTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
-           // knowsAllOwners: 'yes',
+            // knowsAllOwners: 'yes',
             knowsOtherOwners: 'no',
             isAgriculturalHolding: false,
-           // isTenantAgricultureHolding : true,
-           // anyOtherTenants: true,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -141,30 +141,30 @@ export const fullAppealGrantedTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },    
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: false,
             knowsAllOwners: 'some',
-           // knowsOtherOwners: 'no',
+            // knowsOtherOwners: 'no',
             isAgriculturalHolding: false,
-           // isTenantAgricultureHolding : true,
-           // anyOtherTenants: true,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -184,30 +184,30 @@ export const fullAppealGrantedTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: false,
             knowsAllOwners: 'no',
-           // knowsOtherOwners: 'no',
+            // knowsOtherOwners: 'no',
             isAgriculturalHolding: false,
-           // isTenantAgricultureHolding : true,
-           // anyOtherTenants: true,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -227,30 +227,30 @@ export const fullAppealGrantedTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: true,
             //isOwnsSomeLand: false,
             //knowsAllOwners: 'no',
-           // knowsOtherOwners: 'no',
+            // knowsOtherOwners: 'no',
             isAgriculturalHolding: false,
-           // isTenantAgricultureHolding : true,
-           // anyOtherTenants: true,
+            // isTenantAgricultureHolding : true,
+            // anyOtherTenants: true,
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -270,30 +270,30 @@ export const fullAppealGrantedTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: true,
             //isOwnsSomeLand: false,
             //knowsAllOwners: 'no',
-           // knowsOtherOwners: 'no',
+            // knowsOtherOwners: 'no',
             isAgriculturalHolding: true,
-            isTenantAgricultureHolding : false,
-           // anyOtherTenants: true,
+            isTenantAgricultureHolding: false,
+            // anyOtherTenants: true,
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -313,30 +313,30 @@ export const fullAppealGrantedTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: true,
             //isOwnsSomeLand: false,
             //knowsAllOwners: 'no',
-           // knowsOtherOwners: 'no',
+            // knowsOtherOwners: 'no',
             isAgriculturalHolding: true,
-            isTenantAgricultureHolding : true,
+            isTenantAgricultureHolding: true,
             anyOtherTenants: false,
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -356,30 +356,30 @@ export const fullAppealGrantedTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: true,
             //isOwnsSomeLand: false,
             //knowsAllOwners: 'no',
-           // knowsOtherOwners: 'no',
+            // knowsOtherOwners: 'no',
             isAgriculturalHolding: true,
-            isTenantAgricultureHolding : true,
+            isTenantAgricultureHolding: true,
             anyOtherTenants: true,
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -399,30 +399,30 @@ export const fullAppealGrantedTestCases = 	[
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }       
-     },
-     {
+        }
+    },
+    {
         statusOfOriginalApplication: 'granted',
         typeOfDecisionRequested: 'inquiry',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
             //knowsAllOwners: 'no',
             knowsOtherOwners: 'no',
             isAgriculturalHolding: true,
-            isTenantAgricultureHolding : false,
+            isTenantAgricultureHolding: false,
             //anyOtherTenants: true,
             isInspectorNeedAccess: false,
             isAppellantSiteSafety: false,
             iaUpdateDevelopmentDescription: false,
             appellantProcedurePreference: 'inquiry',
             anyOtherAppeals: false,
-          //  isAppellantLinkedCaseAdd: true            
+            //  isAppellantLinkedCaseAdd: true            
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -444,6 +444,6 @@ export const fullAppealGrantedTestCases = 	[
             uploadAdditionalDocuments: false
         }
 
-     }   
-    
+    }
+
 ]

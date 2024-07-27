@@ -1,18 +1,18 @@
 const documents = {
-    uploadAppealStmt:'appeal-statement-valid.pdf',
-    uploadApplicationForAppealCost:'other-supporting-docs.pdf',
-    uploadNewPlanOrDrawing:'plans-drawings.jpeg',
-    uploadOtherNewSupportDoc:'other-supporting-docs.pdf',
-    uploadSeparateOwnershipCertAndAgricultureDoc:'draft-planning-obligation.pdf',
-    uploadDesignAndAccessStmt:'design-and-access-statement.pdf',
-    uploadPlansDrawingAndSupportingDocs:'plans-drawings-and-supporting-documents.pdf',
-    uploadFinalisingDocReady:'additional-final-comments-2.pdf',
-    uploadFinalisingDocDraft:'additional-final-comments-2.pdf',
-    uploadDevelopmentDescription:'additional-final-comments-1.pdf',
-    uploadDecisionLetter:'decision-letter.pdf', 
-    uploadPlanningApplConfirmLetter:'letter-confirming-planning-application.pdf'          
+    uploadAppealStmt: 'appeal-statement-valid.pdf',
+    uploadApplicationForAppealCost: 'other-supporting-docs.pdf',
+    uploadNewPlanOrDrawing: 'plans-drawings.jpeg',
+    uploadOtherNewSupportDoc: 'other-supporting-docs.pdf',
+    uploadSeparateOwnershipCertAndAgricultureDoc: 'draft-planning-obligation.pdf',
+    uploadDesignAndAccessStmt: 'design-and-access-statement.pdf',
+    uploadPlansDrawingAndSupportingDocs: 'plans-drawings-and-supporting-documents.pdf',
+    uploadFinalisingDocReady: 'additional-final-comments-2.pdf',
+    uploadFinalisingDocDraft: 'additional-final-comments-2.pdf',
+    uploadDevelopmentDescription: 'additional-final-comments-1.pdf',
+    uploadDecisionLetter: 'decision-letter.pdf',
+    uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf'
 };
-export const houseHolderAppealRefusedTestCases=	[
+export const houseHolderAppealRefusedTestCases = [
     {
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'hearing',
@@ -25,16 +25,16 @@ export const houseHolderAppealRefusedTestCases=	[
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
             knowsAllOwners: 'no',
-            knowsOtherOwners:'yes',
+            knowsOtherOwners: 'yes',
             //isAgriculturalHolding: false,
-            isTenantAgricultureHolding : true,
+            isTenantAgricultureHolding: true,
             anyOtherTenants: true,
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
             appellantProcedurePreference: 'hearing',
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
         uploadDocuments: {
             submitPlanningObligation: true,
@@ -49,7 +49,7 @@ export const houseHolderAppealRefusedTestCases=	[
             appealReferenceNumber: '1234567'
         }, {
             appealReferenceNumber: '7654321'
-        }],				
+        }],
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
@@ -63,27 +63,27 @@ export const houseHolderAppealRefusedTestCases=	[
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
             knowsAllOwners: 'no',
-            knowsOtherOwners:'yes',				
+            knowsOtherOwners: 'yes',
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
-            iaUpdateDevelopmentDescription: true,				
+            iaUpdateDevelopmentDescription: true,
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: false            
+            isAppellantLinkedCaseAdd: false
         },
-        uploadDocuments: {			
-            isApplyAwardCost: true			
+        uploadDocuments: {
+            isApplyAwardCost: true
         },
         documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
             appealReferenceNumber: '7654321'
-        }],				
+        }],
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
@@ -96,31 +96,31 @@ export const houseHolderAppealRefusedTestCases=	[
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
             knowsAllOwners: 'no',
-            knowsOtherOwners:'yes',				
+            knowsOtherOwners: 'yes',
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
-            iaUpdateDevelopmentDescription: true,				
+            iaUpdateDevelopmentDescription: true,
             anyOtherAppeals: true,
-            isAppellantLinkedCaseAdd: true            
+            isAppellantLinkedCaseAdd: true
         },
-        uploadDocuments: {			
-            isApplyAwardCost: true			
+        uploadDocuments: {
+            isApplyAwardCost: true
         },
         documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
             appealReferenceNumber: '7654321'
-        }],				
+        }],
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }			
+        }
     },
     {
         statusOfOriginalApplication: 'refused',
@@ -129,33 +129,33 @@ export const houseHolderAppealRefusedTestCases=	[
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
             knowsAllOwners: 'no',
-            knowsOtherOwners:'yes',				
+            knowsOtherOwners: 'yes',
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
-            iaUpdateDevelopmentDescription: true,				
+            iaUpdateDevelopmentDescription: true,
             anyOtherAppeals: false,
-            isAppellantLinkedCaseAdd: true            
+            isAppellantLinkedCaseAdd: true
         },
-        uploadDocuments: {			
-            isApplyAwardCost: true			
+        uploadDocuments: {
+            isApplyAwardCost: true
         },
         documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
             appealReferenceNumber: '7654321'
-        }],				
+        }],
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }			
+        }
     },
-    
+
     {
         statusOfOriginalApplication: 'refused',
         typeOfDecisionRequested: 'hearing',
@@ -163,31 +163,31 @@ export const houseHolderAppealRefusedTestCases=	[
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
             knowsAllOwners: 'no',
-            knowsOtherOwners:'yes',				
+            knowsOtherOwners: 'yes',
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
-            iaUpdateDevelopmentDescription: false,				
+            iaUpdateDevelopmentDescription: false,
             anyOtherAppeals: false,
-            isAppellantLinkedCaseAdd: true            
+            isAppellantLinkedCaseAdd: true
         },
-        uploadDocuments: {			
-            isApplyAwardCost: true			
+        uploadDocuments: {
+            isApplyAwardCost: true
         },
         documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
             appealReferenceNumber: '7654321'
-        }],				
+        }],
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }			
+        }
     },
     {
         statusOfOriginalApplication: 'refused',
@@ -196,31 +196,31 @@ export const houseHolderAppealRefusedTestCases=	[
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: false,
             isOwnsSomeLand: true,
             knowsAllOwners: 'no',
-            knowsOtherOwners:'yes',				
+            knowsOtherOwners: 'yes',
             isInspectorNeedAccess: false,
             isAppellantSiteSafety: false,
-            iaUpdateDevelopmentDescription: false,				
+            iaUpdateDevelopmentDescription: false,
             anyOtherAppeals: false,
-            isAppellantLinkedCaseAdd: true            
+            isAppellantLinkedCaseAdd: true
         },
-        uploadDocuments: {			
-            isApplyAwardCost: true			
+        uploadDocuments: {
+            isApplyAwardCost: true
         },
-        documents,        
+        documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
             appealReferenceNumber: '7654321'
-        }],				
+        }],
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }			
+        }
     },
     {
         statusOfOriginalApplication: 'refused',
@@ -229,7 +229,7 @@ export const houseHolderAppealRefusedTestCases=	[
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: true,
             isOwnsAllLand: true,
             //isOwnsSomeLand: true,
@@ -237,23 +237,23 @@ export const houseHolderAppealRefusedTestCases=	[
             //knowsOtherOwners:'yes',				
             isInspectorNeedAccess: false,
             isAppellantSiteSafety: false,
-            iaUpdateDevelopmentDescription: false,				
+            iaUpdateDevelopmentDescription: false,
             anyOtherAppeals: false,
-            isAppellantLinkedCaseAdd: true            
+            isAppellantLinkedCaseAdd: true
         },
-        uploadDocuments: {			
-            isApplyAwardCost: true			
+        uploadDocuments: {
+            isApplyAwardCost: true
         },
         documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
             appealReferenceNumber: '7654321'
-        }],				
+        }],
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }			
+        }
     },
     {
         statusOfOriginalApplication: 'refused',
@@ -262,7 +262,7 @@ export const houseHolderAppealRefusedTestCases=	[
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
             isAppellant: true,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: false,
             isOwnsAllLand: true,
             //isOwnsSomeLand: true,
@@ -270,23 +270,23 @@ export const houseHolderAppealRefusedTestCases=	[
             //knowsOtherOwners:'yes',				
             isInspectorNeedAccess: false,
             isAppellantSiteSafety: false,
-            iaUpdateDevelopmentDescription: false,				
+            iaUpdateDevelopmentDescription: false,
             anyOtherAppeals: false,
-            isAppellantLinkedCaseAdd: true            
+            isAppellantLinkedCaseAdd: true
         },
-        uploadDocuments: {			
-            isApplyAwardCost: true			
+        uploadDocuments: {
+            isApplyAwardCost: true
         },
         documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
             appealReferenceNumber: '7654321'
-        }],				
+        }],
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }			
+        }
     },
     {
         statusOfOriginalApplication: 'refused',
@@ -295,7 +295,7 @@ export const houseHolderAppealRefusedTestCases=	[
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
             isAppellant: false,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: false,
             isOwnsAllLand: true,
             //isOwnsSomeLand: true,
@@ -303,23 +303,23 @@ export const houseHolderAppealRefusedTestCases=	[
             //knowsOtherOwners:'yes',				
             isInspectorNeedAccess: false,
             isAppellantSiteSafety: false,
-            iaUpdateDevelopmentDescription: false,				
+            iaUpdateDevelopmentDescription: false,
             anyOtherAppeals: false,
-            isAppellantLinkedCaseAdd: true            
+            isAppellantLinkedCaseAdd: true
         },
-        uploadDocuments: {			
-            isApplyAwardCost: true			
+        uploadDocuments: {
+            isApplyAwardCost: true
         },
         documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
             appealReferenceNumber: '7654321'
-        }],				
+        }],
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }			
+        }
     },
     {
         statusOfOriginalApplication: 'refused',
@@ -328,7 +328,7 @@ export const houseHolderAppealRefusedTestCases=	[
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
             isAppellant: false,
-            areaUnits:'squaremeter',
+            areaUnits: 'squaremeter',
             appellantInGreenBelt: false,
             isOwnsAllLand: true,
             //isOwnsSomeLand: true,
@@ -336,22 +336,22 @@ export const houseHolderAppealRefusedTestCases=	[
             //knowsOtherOwners:'yes',				
             isInspectorNeedAccess: false,
             isAppellantSiteSafety: false,
-            iaUpdateDevelopmentDescription: false,				
+            iaUpdateDevelopmentDescription: false,
             anyOtherAppeals: false,
-            isAppellantLinkedCaseAdd: true            
+            isAppellantLinkedCaseAdd: true
         },
-        uploadDocuments: {			
-            isApplyAwardCost: true			
+        uploadDocuments: {
+            isApplyAwardCost: true
         },
         documents,
         otherAppeals: [{
             appealReferenceNumber: '1234567'
         }, {
             appealReferenceNumber: '7654321'
-        }],				
+        }],
         finalComments: {
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
-        }			
+        }
     }
 ];

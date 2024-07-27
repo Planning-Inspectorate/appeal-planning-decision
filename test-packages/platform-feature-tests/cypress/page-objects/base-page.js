@@ -12,9 +12,9 @@ export class BasePage {
 		textArea: () => cy.get('.govuk-textarea'),
 		uploadFile: () => cy.get('#file-upload'),
 		completedTask: () => cy.get('[data-cy="task-list-item-contactDetailsSection"]'),
-		clickRadioBtn:(radioId) =>cy.get(radioId),
+		clickRadioBtn: (radioId) => cy.get(radioId),
 		clickCheckBox: (checkboxId) => cy.get(checkboxId),
-		addTextField:(fieldType)=> cy.get(fieldType),
+		addTextField: (fieldType) => cy.get(fieldType),
 	};
 
 	backBtn() {
@@ -28,9 +28,9 @@ export class BasePage {
 	clickCheckBox(checkboxId) {
 		this.basePageElements.clickCheckBox(checkboxId).click();
 	}
-	addTextField(fieldType,fieldValue){
-        this.basePageElements.addTextField(fieldType).type(fieldValue);
-    }
+	addTextField(fieldType, fieldValue) {
+		this.basePageElements.addTextField(fieldType).type(fieldValue);
+	}
 
 	clickContinueBtn() {
 		this.basePageElements.continueBtn().click();
@@ -68,11 +68,11 @@ export class BasePage {
 		this.basePageElements.textArea().clear().type(text);
 	}
 
-	fileUpload(file){
-		this.basePageElements.uploadFile().selectFile(file, {force: true} );
+	fileUpload(file) {
+		this.basePageElements.uploadFile().selectFile(file, { force: true });
 	}
 
-	completedTaskBtn(string){
+	completedTaskBtn(string) {
 		this.basePageElements.completedTask().contains(string)
 	}
 }

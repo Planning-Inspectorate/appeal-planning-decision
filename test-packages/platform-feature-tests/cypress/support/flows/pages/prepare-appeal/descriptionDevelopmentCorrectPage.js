@@ -1,16 +1,14 @@
 import { BasePage } from "../../../../page-objects/base-page";
-export class DescriptionDevelopmentCorrectPage{
-    
-    _selectors={
-        updateDevelopmentDescription:'#updateDevelopmentDescription',
+export class DescriptionDevelopmentCorrectPage {
 
+    _selectors = {
+        updateDevelopmentDescription: '#updateDevelopmentDescription',
     }
 
-    addDescriptionDevelopmentCorrectData(){
+    addDescriptionDevelopmentCorrectData() {
         const basePage = new BasePage();
-   
-        basePage.clickRadioBtn(this._selectors.updateDevelopmentDescription);        
-        cy.advanceToNextPage();   
+
+        basePage.clickRadioBtn(this._selectors.updateDevelopmentDescription);
+        cy.advanceToNextPage();
     };
-   
 }

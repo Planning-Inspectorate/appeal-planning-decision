@@ -1,16 +1,15 @@
 import { BasePage } from "../../../../page-objects/base-page";
-export class EnterDescriptionOfDevelopmentPage{
-    
-    _selectors={
-        developmentDescriptionOriginal:'#developmentDescriptionOriginal'
+export class EnterDescriptionOfDevelopmentPage {
+
+    _selectors = {
+        developmentDescriptionOriginal: '#developmentDescriptionOriginal'
     }
 
-    addEnterDescriptionOfDevelopmentData(){
-        const basePage = new BasePage();   
-	   
+    addEnterDescriptionOfDevelopmentData() {
+        const basePage = new BasePage();
+
         //Enter the description of development that you submitted in your application
-        basePage.addTextField(this._selectors?.developmentDescriptionOriginal,'developmentDescriptionOriginal-hint123456789!£$%&*j');
+        basePage.addTextField(this._selectors?.developmentDescriptionOriginal, 'developmentDescriptionOriginal-hint123456789!£$%&*j');
         cy.advanceToNextPage();
     };
-   
 }

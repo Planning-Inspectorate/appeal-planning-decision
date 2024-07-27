@@ -2,19 +2,17 @@ const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
   reporter: 'cypress-mochawesome-reporter',
-
   video: false,
-
   reporterOptions: {
     reportDir:'cypress/reports',
     charts: true,
-
+    overwrite: false,
+    html: true,
+    json: false,
+    timestamp: "mmddyyyy_HHMMss",
     reportPageTitle: 'Cypress Inline Reporter',
-
     embeddedScreenshots: true, 
-
     inlineAssets: true, //Adds the asserts inline
-
   },
 
 	e2e: {

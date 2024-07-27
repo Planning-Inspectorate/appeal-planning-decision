@@ -1,21 +1,19 @@
 
 import { BasePage } from "../../../../page-objects/base-page";
-const tenantAgriculturalHolding = require('./tenanatAgriculturalHoldingPage');
-export class AgriculturalHoldingPage{
+import { TenanatAgriculturalHoldingPage } from "./tenanatAgriculturalHoldingPage";
+//const tenantAgriculturalHolding = require('./tenanatAgriculturalHoldingPage');
 
-    _selectors={
-    }
-
-    addAgriculturalHoldingData(isAgriculturalHolding,context){
+export class AgriculturalHoldingPage {
+    addAgriculturalHoldingData(isAgriculturalHolding, context) {
         const basePage = new BasePage();
-        if(isAgriculturalHolding) {
+        const tenanatAgriculturalHoldingPage = new TenanatAgriculturalHoldingPage();
+        if (isAgriculturalHolding) {
             basePage.clickRadioBtn('[data-cy="answer-yes"]');
             cy.advanceToNextPage();
-            tenantAgriculturalHolding(context?.applicationForm?.isTenantAgricultureHolding,context);
+            tenanatAgriculturalHoldingPage.addTenanatAgriculturalHoldingData(context?.applicationForm?.isTenantAgricultureHolding, context);
         } else {
             basePage.clickRadioBtn('[data-cy="answer-no"]');
             cy.advanceToNextPage();
-        }    
+        }
     };
-   
 };
