@@ -1,21 +1,17 @@
 import { BasePage } from "../../../../page-objects/base-page";
-export class OtherTenantsPage{
-    
-    _selectors={
-    }
+export class OtherTenantsPage {
 
-    addOtherTenantsData(anyOtherTenants,context){
+    addOtherTenantsData(anyOtherTenants, context) {
         const basePage = new BasePage();
-    
-        if(anyOtherTenants){
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');        
+
+        if (anyOtherTenants) {
+            basePage.clickRadioBtn('[data-cy="answer-yes"]');
             cy.advanceToNextPage();
             basePage.clickRadioBtn('[data-cy="answer-yes"]');
-            cy.advanceToNextPage();  
+            cy.advanceToNextPage();
         } else {
-            basePage.clickRadioBtn('[data-cy="answer-no"]');        
-            cy.advanceToNextPage();  
-        }  
+            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.advanceToNextPage();
+        }
     };
-   
 }

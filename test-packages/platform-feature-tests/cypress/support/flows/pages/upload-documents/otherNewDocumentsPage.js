@@ -1,22 +1,18 @@
 import { BasePage } from "../../../../page-objects/base-page";
-export class OtherNewDocumentsPage{
-    
-    _selectors={
-    }
+export class OtherNewDocumentsPage {
 
-    addOtherNewDocumentsData(context){
+    addOtherNewDocumentsData(context) {
         const basePage = new BasePage();
-        if(context?.uploadDocuments?.isOtherNewDocumentAvailable){
+        if (context?.uploadDocuments?.isOtherNewDocumentAvailable) {
             //Do you have any other new documents that support your appeal?#
             basePage.clickRadioBtn('[data-cy="answer-yes"]');
-            cy.advanceToNextPage();	
+            cy.advanceToNextPage();
             //Upload your other new supporting documents
             cy.uploadFileFromFixtureDirectory(context?.documents?.uploadOtherNewSupportDoc);
-            cy.advanceToNextPage();	
-        } else{
+            cy.advanceToNextPage();
+        } else {
             basePage.clickRadioBtn('[data-cy="answer-no"]');
             cy.advanceToNextPage();
-        }    
+        }
     };
-   
 }
