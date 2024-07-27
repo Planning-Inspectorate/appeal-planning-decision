@@ -16,10 +16,10 @@ const documents = {
     uploadDecisionLetter:'decision-letter.pdf', 
     uploadPlanningApplConfirmLetter:'letter-confirming-planning-application.pdf'          
 };
-//export const submitFullAppealTestCases =	[...fullAppealGrantedTestCases,...fullAppealRefusedTestCases,...fullAppealNoDecisionTestCases];
+export const submitFullAppealTestCases =	[...fullAppealGrantedTestCases,...fullAppealRefusedTestCases,...fullAppealNoDecisionTestCases];
 
 // To run only Refused test scenarios 
-export const submitFullAppealTestCases =	[...fullAppealRefusedTestCases];
+//export const submitFullAppealTestCases =	[...fullAppealRefusedTestCases];
 
 // // To run only Granted test scenarios 
 // export const submitFullAppealData =	[...fullAppealGrantedTestCases];

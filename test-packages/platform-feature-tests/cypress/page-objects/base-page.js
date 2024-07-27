@@ -17,6 +17,10 @@ export class BasePage {
 		addTextField:(fieldType)=> cy.get(fieldType),
 	};
 
+	backBtn() {
+		this.basePageElements.backBtn().click();
+	}
+
 	clickRadioBtn(radioId) {
 		this.basePageElements.clickRadioBtn(radioId).click();
 	}

@@ -89,269 +89,269 @@ export const houseHolderAppealRefusedTestCases=	[
             uploadAdditionalDocuments: false
         }
     },
-    // {
-    //     statusOfOriginalApplication: 'refused',
-    //     typeOfDecisionRequested: 'hearing',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-householder-planning',
-    //     applicationForm: {
-    //         isAppellant: true,
-    //         areaUnits:'squaremeter',
-    //         appellantInGreenBelt: true,
-    //         isOwnsAllLand: false,
-    //         isOwnsSomeLand: true,
-    //         knowsAllOwners: 'no',
-    //         knowsOtherOwners:'yes',				
-    //         isInspectorNeedAccess: true,
-    //         isAppellantSiteSafety: true,
-    //         iaUpdateDevelopmentDescription: true,				
-    //         anyOtherAppeals: true,
-    //         isAppellantLinkedCaseAdd: true            
-    //     },
-    //     uploadDocuments: {			
-    //         isApplyAwardCost: true			
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],				
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }			
-    // },
-    // {
-    //     statusOfOriginalApplication: 'refused',
-    //     typeOfDecisionRequested: 'hearing',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-householder-planning',
-    //     applicationForm: {
-    //         isAppellant: true,
-    //         areaUnits:'squaremeter',
-    //         appellantInGreenBelt: true,
-    //         isOwnsAllLand: false,
-    //         isOwnsSomeLand: true,
-    //         knowsAllOwners: 'no',
-    //         knowsOtherOwners:'yes',				
-    //         isInspectorNeedAccess: true,
-    //         isAppellantSiteSafety: true,
-    //         iaUpdateDevelopmentDescription: true,				
-    //         anyOtherAppeals: false,
-    //         isAppellantLinkedCaseAdd: true            
-    //     },
-    //     uploadDocuments: {			
-    //         isApplyAwardCost: true			
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],				
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }			
-    // },
+    {
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        applicationForm: {
+            isAppellant: true,
+            areaUnits:'squaremeter',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            knowsAllOwners: 'no',
+            knowsOtherOwners:'yes',				
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,				
+            anyOtherAppeals: true,
+            isAppellantLinkedCaseAdd: true            
+        },
+        uploadDocuments: {			
+            isApplyAwardCost: true			
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],				
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }			
+    },
+    {
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        applicationForm: {
+            isAppellant: true,
+            areaUnits:'squaremeter',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            knowsAllOwners: 'no',
+            knowsOtherOwners:'yes',				
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: true,				
+            anyOtherAppeals: false,
+            isAppellantLinkedCaseAdd: true            
+        },
+        uploadDocuments: {			
+            isApplyAwardCost: true			
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],				
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }			
+    },
     
-    // {
-    //     statusOfOriginalApplication: 'refused',
-    //     typeOfDecisionRequested: 'hearing',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-householder-planning',
-    //     applicationForm: {
-    //         isAppellant: true,
-    //         areaUnits:'squaremeter',
-    //         appellantInGreenBelt: true,
-    //         isOwnsAllLand: false,
-    //         isOwnsSomeLand: true,
-    //         knowsAllOwners: 'no',
-    //         knowsOtherOwners:'yes',				
-    //         isInspectorNeedAccess: true,
-    //         isAppellantSiteSafety: true,
-    //         iaUpdateDevelopmentDescription: false,				
-    //         anyOtherAppeals: false,
-    //         isAppellantLinkedCaseAdd: true            
-    //     },
-    //     uploadDocuments: {			
-    //         isApplyAwardCost: true			
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],				
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }			
-    // },
-    // {
-    //     statusOfOriginalApplication: 'refused',
-    //     typeOfDecisionRequested: 'hearing',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-householder-planning',
-    //     applicationForm: {
-    //         isAppellant: true,
-    //         areaUnits:'squaremeter',
-    //         appellantInGreenBelt: true,
-    //         isOwnsAllLand: false,
-    //         isOwnsSomeLand: true,
-    //         knowsAllOwners: 'no',
-    //         knowsOtherOwners:'yes',				
-    //         isInspectorNeedAccess: false,
-    //         isAppellantSiteSafety: false,
-    //         iaUpdateDevelopmentDescription: false,				
-    //         anyOtherAppeals: false,
-    //         isAppellantLinkedCaseAdd: true            
-    //     },
-    //     uploadDocuments: {			
-    //         isApplyAwardCost: true			
-    //     },
-    //     documents,        
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],				
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }			
-    // },
-    // {
-    //     statusOfOriginalApplication: 'refused',
-    //     typeOfDecisionRequested: 'hearing',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-householder-planning',
-    //     applicationForm: {
-    //         isAppellant: true,
-    //         areaUnits:'squaremeter',
-    //         appellantInGreenBelt: true,
-    //         isOwnsAllLand: true,
-    //         //isOwnsSomeLand: true,
-    //         //knowsAllOwners: 'no',
-    //         //knowsOtherOwners:'yes',				
-    //         isInspectorNeedAccess: false,
-    //         isAppellantSiteSafety: false,
-    //         iaUpdateDevelopmentDescription: false,				
-    //         anyOtherAppeals: false,
-    //         isAppellantLinkedCaseAdd: true            
-    //     },
-    //     uploadDocuments: {			
-    //         isApplyAwardCost: true			
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],				
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }			
-    // },
-    // {
-    //     statusOfOriginalApplication: 'refused',
-    //     typeOfDecisionRequested: 'hearing',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-householder-planning',
-    //     applicationForm: {
-    //         isAppellant: true,
-    //         areaUnits:'squaremeter',
-    //         appellantInGreenBelt: false,
-    //         isOwnsAllLand: true,
-    //         //isOwnsSomeLand: true,
-    //         //knowsAllOwners: 'no',
-    //         //knowsOtherOwners:'yes',				
-    //         isInspectorNeedAccess: false,
-    //         isAppellantSiteSafety: false,
-    //         iaUpdateDevelopmentDescription: false,				
-    //         anyOtherAppeals: false,
-    //         isAppellantLinkedCaseAdd: true            
-    //     },
-    //     uploadDocuments: {			
-    //         isApplyAwardCost: true			
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],				
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }			
-    // },
-    // {
-    //     statusOfOriginalApplication: 'refused',
-    //     typeOfDecisionRequested: 'hearing',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-householder-planning',
-    //     applicationForm: {
-    //         isAppellant: false,
-    //         areaUnits:'squaremeter',
-    //         appellantInGreenBelt: false,
-    //         isOwnsAllLand: true,
-    //         //isOwnsSomeLand: true,
-    //         //knowsAllOwners: 'no',
-    //         //knowsOtherOwners:'yes',				
-    //         isInspectorNeedAccess: false,
-    //         isAppellantSiteSafety: false,
-    //         iaUpdateDevelopmentDescription: false,				
-    //         anyOtherAppeals: false,
-    //         isAppellantLinkedCaseAdd: true            
-    //     },
-    //     uploadDocuments: {			
-    //         isApplyAwardCost: true			
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],				
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }			
-    // },
-    // {
-    //     statusOfOriginalApplication: 'refused',
-    //     typeOfDecisionRequested: 'hearing',
-    //     statusOfPlanningObligation: 'in draft',
-    //     typeOfPlanningApplication: 'answer-householder-planning',
-    //     applicationForm: {
-    //         isAppellant: false,
-    //         areaUnits:'squaremeter',
-    //         appellantInGreenBelt: false,
-    //         isOwnsAllLand: true,
-    //         //isOwnsSomeLand: true,
-    //         //knowsAllOwners: 'no',
-    //         //knowsOtherOwners:'yes',				
-    //         isInspectorNeedAccess: false,
-    //         isAppellantSiteSafety: false,
-    //         iaUpdateDevelopmentDescription: false,				
-    //         anyOtherAppeals: false,
-    //         isAppellantLinkedCaseAdd: true            
-    //     },
-    //     uploadDocuments: {			
-    //         isApplyAwardCost: true			
-    //     },
-    //     documents,
-    //     otherAppeals: [{
-    //         appealReferenceNumber: '1234567'
-    //     }, {
-    //         appealReferenceNumber: '7654321'
-    //     }],				
-    //     finalComments: {
-    //         check: false, // TODO: set these to true after feature flag introduced
-    //         uploadAdditionalDocuments: false
-    //     }			
-    // }
+    {
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        applicationForm: {
+            isAppellant: true,
+            areaUnits:'squaremeter',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            knowsAllOwners: 'no',
+            knowsOtherOwners:'yes',				
+            isInspectorNeedAccess: true,
+            isAppellantSiteSafety: true,
+            iaUpdateDevelopmentDescription: false,				
+            anyOtherAppeals: false,
+            isAppellantLinkedCaseAdd: true            
+        },
+        uploadDocuments: {			
+            isApplyAwardCost: true			
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],				
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }			
+    },
+    {
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        applicationForm: {
+            isAppellant: true,
+            areaUnits:'squaremeter',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: false,
+            isOwnsSomeLand: true,
+            knowsAllOwners: 'no',
+            knowsOtherOwners:'yes',				
+            isInspectorNeedAccess: false,
+            isAppellantSiteSafety: false,
+            iaUpdateDevelopmentDescription: false,				
+            anyOtherAppeals: false,
+            isAppellantLinkedCaseAdd: true            
+        },
+        uploadDocuments: {			
+            isApplyAwardCost: true			
+        },
+        documents,        
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],				
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }			
+    },
+    {
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        applicationForm: {
+            isAppellant: true,
+            areaUnits:'squaremeter',
+            appellantInGreenBelt: true,
+            isOwnsAllLand: true,
+            //isOwnsSomeLand: true,
+            //knowsAllOwners: 'no',
+            //knowsOtherOwners:'yes',				
+            isInspectorNeedAccess: false,
+            isAppellantSiteSafety: false,
+            iaUpdateDevelopmentDescription: false,				
+            anyOtherAppeals: false,
+            isAppellantLinkedCaseAdd: true            
+        },
+        uploadDocuments: {			
+            isApplyAwardCost: true			
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],				
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }			
+    },
+    {
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        applicationForm: {
+            isAppellant: true,
+            areaUnits:'squaremeter',
+            appellantInGreenBelt: false,
+            isOwnsAllLand: true,
+            //isOwnsSomeLand: true,
+            //knowsAllOwners: 'no',
+            //knowsOtherOwners:'yes',				
+            isInspectorNeedAccess: false,
+            isAppellantSiteSafety: false,
+            iaUpdateDevelopmentDescription: false,				
+            anyOtherAppeals: false,
+            isAppellantLinkedCaseAdd: true            
+        },
+        uploadDocuments: {			
+            isApplyAwardCost: true			
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],				
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }			
+    },
+    {
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        applicationForm: {
+            isAppellant: false,
+            areaUnits:'squaremeter',
+            appellantInGreenBelt: false,
+            isOwnsAllLand: true,
+            //isOwnsSomeLand: true,
+            //knowsAllOwners: 'no',
+            //knowsOtherOwners:'yes',				
+            isInspectorNeedAccess: false,
+            isAppellantSiteSafety: false,
+            iaUpdateDevelopmentDescription: false,				
+            anyOtherAppeals: false,
+            isAppellantLinkedCaseAdd: true            
+        },
+        uploadDocuments: {			
+            isApplyAwardCost: true			
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],				
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }			
+    },
+    {
+        statusOfOriginalApplication: 'refused',
+        typeOfDecisionRequested: 'hearing',
+        statusOfPlanningObligation: 'in draft',
+        typeOfPlanningApplication: 'answer-householder-planning',
+        applicationForm: {
+            isAppellant: false,
+            areaUnits:'squaremeter',
+            appellantInGreenBelt: false,
+            isOwnsAllLand: true,
+            //isOwnsSomeLand: true,
+            //knowsAllOwners: 'no',
+            //knowsOtherOwners:'yes',				
+            isInspectorNeedAccess: false,
+            isAppellantSiteSafety: false,
+            iaUpdateDevelopmentDescription: false,				
+            anyOtherAppeals: false,
+            isAppellantLinkedCaseAdd: true            
+        },
+        uploadDocuments: {			
+            isApplyAwardCost: true			
+        },
+        documents,
+        otherAppeals: [{
+            appealReferenceNumber: '1234567'
+        }, {
+            appealReferenceNumber: '7654321'
+        }],				
+        finalComments: {
+            check: false, // TODO: set these to true after feature flag introduced
+            uploadAdditionalDocuments: false
+        }			
+    }
 ];
