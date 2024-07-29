@@ -6,6 +6,7 @@ parameters:
     values:
       - Dev
       - Test
+      - Training
       - Prod
 
 pool: pins-odt-agent-pool
@@ -19,7 +20,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.4.0
+      ref: refs/tags/release/3.5.0
 
 variables:
   - template: variables/environments/${{ lower(parameters.environment )}}.yml@templates
@@ -47,7 +48,7 @@ jobs:
                     variable: SQL_CONNECTION_STRING
             - template: steps/node_script.yml@templates
               parameters:
-                condition: ne('${{ parameters.environment }}', 'Prod')
+                condition: in('${{ parameters.environment }}', 'Dev', 'Test')
                 environmentVariables:
                   SQL_CONNECTION_STRING: $(SQL_CONNECTION_STRING)
                   BO_DOCUMENTS_ENDPOINT: $(BO_DOCUMENTS_ENDPOINT)
@@ -55,7 +56,7 @@ jobs:
                 workingDirectory: $(Build.Repository.LocalPath)/packages/database
             - template: steps/node_script.yml@templates
               parameters:
-                condition: eq('${{ parameters.environment }}', 'Prod')
+                condition: in('${{ parameters.environment }}', 'Prod', 'Training')
                 environmentVariables:
                   SQL_CONNECTION_STRING: $(SQL_CONNECTION_STRING)
                 script: npm run seed:prod
