@@ -31,7 +31,8 @@ exports.get = async (req, res) => {
 			(acc, appeal) => {
 				if (isToDoAppellantDashboard(appeal)) {
 					acc.toDoAppeals.push(appeal);
-				} else {
+				} else if (appeal.appealNumber) {
+					// don't add draft appeals to waiting for review
 					acc.waitingForReviewAppeals.push(appeal);
 				}
 				return acc;

@@ -77,6 +77,11 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 		const isSqlUsersActive = await isFeatureActive(FLAG.SQL_USERS);
 
+		logger.info(
+			{ isGeneralLogin, isAppealConfirmation, isReturningFromEmail, isSqlUsersActive, action },
+			`getEnterCode`
+		);
+
 		if (isGeneralLogin) {
 			const email = getSessionEmail(req.session, false);
 
@@ -215,6 +220,18 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 				sessionEmail
 			);
 		}
+
+		logger.info(
+			{
+				isV2DocRequest,
+				isGeneralLogin,
+				isAppealConfirmation,
+				isReturningFromEmail,
+				sqlUsersFlag,
+				action
+			},
+			`postEnterCode`
+		);
 
 		if (isV2DocRequest) {
 			return handleCustomRedirect();
