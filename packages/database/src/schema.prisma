@@ -574,6 +574,7 @@ model Document {
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 }
 
+// This table stores IP comments once they have been validated / processed by back office
 model InterestedPartyComment {
   id            String     @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
   caseReference String
@@ -583,6 +584,7 @@ model InterestedPartyComment {
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 }
 
+// This table stores unedited IP submissions at the point of submission to BO
 model InterestedPartySubmission {
   id            String     @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
   caseReference String
