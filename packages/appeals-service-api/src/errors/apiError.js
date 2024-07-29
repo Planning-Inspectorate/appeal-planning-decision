@@ -263,6 +263,10 @@ class ApiError {
 	static unableToSubmitAppellantSubmission() {
 		return new ApiError(400, { errors: ['Unable to submit appellant submission'] });
 	}
+
+	static unableToSubmitIpComment() {
+		return new ApiError(400, { errors: ['Unable to submit Interested Party Comment'] });
+	}
 }
 
 module.exports = ApiError;
