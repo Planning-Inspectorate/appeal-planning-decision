@@ -559,6 +559,17 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} caseReference
+	 * @param {import("@prisma/client").Prisma.InterestedPartyCommentCreateInput} commentData
+	 * @returns {Promise<InterestedPartyComment>}
+	 */
+	async submitInterestedPartyComment(caseReference, commentData) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/interested-party-comments`;
+		const response = await this.#makePostRequest(endpoint, commentData);
+		return response.json();
+	}
+
+	/**
 	 * @param {string} id
 	 * @returns {Promise<void>}
 	 */
