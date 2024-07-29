@@ -59,6 +59,15 @@ const dashboardSelect = {
 	lpaQuestionnaireCreatedDate: true,
 	lpaQuestionnairePublishedDate: true,
 	lpaQuestionnaireValidationOutcomeDate: true,
+	statementDueDate: true,
+	LPAStatementSubmitted: true,
+	appellantStatementSubmitted: true,
+	finalCommentsDueDate: true,
+	appellantCommentsSubmitted: true,
+	LPACommentsSubmitted: true,
+	proofsOfEvidenceDueDate: true,
+	appellantsProofsSubmitted: true,
+	LPAProofsSubmitted: true,
 
 	interestedPartyRepsDueDate: true
 };
