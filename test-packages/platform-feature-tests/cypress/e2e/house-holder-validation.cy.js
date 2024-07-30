@@ -35,14 +35,12 @@ describe('House Holder Validations', () => {
     it(`Validate error message when user tries to navigate next page without selecting mandatory fields for enforecement`, () => {
         cy.advanceToNextPage();
         cy.get(".govuk-error-summary__body > ul > li > a ").should('have.text', 'Select yes if you have received an enforcement notice');
-
     });
     it(`Validate Back button when user tries to navigate previous page from enforcement page`, () => {
         cy.advanceToNextPage();
         cy.get(".govuk-error-summary__body > ul > li > a ").should('have.text', 'Select yes if you have received an enforcement notice');
         basePage.backBtn();
         cy.get(".govuk-fieldset__heading").contains("What’s the date on the decision letter from the local planning authority?");
-
     });
     it(`Validate exiting service page and button when user tries to use exiting appeals case work portal`, () => {
         cy.get('[data-cy="answer-yes"]').click();
@@ -61,7 +59,6 @@ describe('House Holder Validations', () => {
         cy.get('[data-cy="email-address"]').type('abcdtestemail');
 	    cy.advanceToNextPage();
         cy.get(".govuk-error-summary__body > ul > li > a ").should('have.text', 'Enter an email address in the correct format, like name@example.com');
-
     });
 
     it(`Validate correct email code received `, () => {
@@ -75,7 +72,5 @@ describe('House Holder Validations', () => {
 	    cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');	
 	    cy.advanceToNextPage();    
-    });
-
-    
+    });    
 });
