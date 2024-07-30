@@ -524,7 +524,7 @@ model NeighbouringAddress {
   county            String?
   postcode          String
   siteAccessDetails String? @db.NVarChar(MAX) /// json array of information on site accessibility
-  siteSafetyDetails String? @db.NVarChar(MAX) /// json array of information on site health and safety 
+  siteSafetyDetails String? @db.NVarChar(MAX) /// json array of information on site health and safety
 
   // relations
   caseReference String
