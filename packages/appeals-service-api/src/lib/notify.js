@@ -19,6 +19,7 @@ const { templates } = config.services.notify;
 /**
  * @typedef {"HAS" | "S78"} AppealTypeCode
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
+ * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  */
 
 /** @type {Record<AppealTypeCode, string>} */
@@ -412,6 +413,35 @@ const sendLPADashboardInviteEmail = async (user) => {
 	}
 };
 
+/**
+ * @param { InterestedPartySubmission } interestedPartySubmission
+ */
+const sendCommentSubmissionConfirmationEmailToIp = async (interestedPartySubmission) => {
+	try {
+		const { emailAddress, caseReference, firstName, lastName } = interestedPartySubmission;
+
+		let variables = {
+			name: `${firstName} ${lastName}`,
+			'appeal reference': caseReference
+		};
+
+		logger.debug({ variables }, 'Sending email to Interested Party');
+
+		await NotifyBuilder.reset()
+			.setTemplateId(templates.INTERESTED_PARTIES.ipCommentSubmissionConfirmationEmail)
+			.setDestinationEmailAddress(emailAddress)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(caseReference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err }, 'Unable to send comment submission received email to IP');
+	}
+};
+
 const _formatAddress = (addressJson) => {
 	let address = addressJson.addressLine1;
 	address += addressJson.addressLine2 && `\n${addressJson.addressLine2}`;
@@ -435,5 +465,6 @@ module.exports = {
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendSecurityCodeEmail,
 	sendFailureToUploadToHorizonEmail,
-	sendLPADashboardInviteEmail
+	sendLPADashboardInviteEmail,
+	sendCommentSubmissionConfirmationEmailToIp
 };

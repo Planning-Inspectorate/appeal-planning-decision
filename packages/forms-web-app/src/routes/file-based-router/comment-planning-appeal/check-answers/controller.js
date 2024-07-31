@@ -1,8 +1,9 @@
 const {
-	confirmInterestedPartySessionAppealReference,
+	confirmInterestedPartySessionCaseReference,
 	getInterestedPartyFromSession,
 	markInterestedPartySessionAsSubmitted
 } = require('../../../../services/interested-party.service');
+const logger = require('../../../../lib/logger');
 
 /**
  * @typedef {import('../../../../services/interested-party.service').InterestedParty} InterestedParty
@@ -10,7 +11,7 @@ const {
 
 /** @type {import('express').RequestHandler} */
 const checkAnswersGet = (req, res) => {
-	if (!confirmInterestedPartySessionAppealReference(req)) {
+	if (!confirmInterestedPartySessionCaseReference(req)) {
 		return res.redirect(`enter-appeal-reference`);
 	}
 
@@ -32,11 +33,16 @@ const checkAnswersGet = (req, res) => {
 
 /** @type {import('express').RequestHandler} */
 const checkAnswersPost = async (req, res) => {
-	// const interestedParty = getInterestedPartyFromSession(req);
+	/** @type {InterestedParty} */
+	const interestedParty = getInterestedPartyFromSession(req);
 
 	markInterestedPartySessionAsSubmitted(req);
 
-	// const result = await req.appealsApiClient.submitInterestedPartyComment(interestedParty);
+	try {
+		await req.appealsApiClient.submitInterestedPartySubmission(interestedParty);
+	} catch (error) {
+		logger.error(error);
+	}
 
 	return res.redirect(`comment-submitted`);
 };
@@ -117,19 +123,15 @@ const formatIpSummaryList = (interestedParty) => {
  * @param {InterestedParty} interestedParty
  */
 const formatIpAddress = (interestedParty) => {
-	if (!interestedParty.address) {
-		return 'No address supplied';
-	}
-
 	const addressComponents = [
-		interestedParty.address.addressLine1,
-		interestedParty.address.addressLine2,
-		interestedParty.address.townCity,
-		interestedParty.address.county,
-		interestedParty.address.postcode
-	];
+		interestedParty.addressLine1,
+		interestedParty.addressLine2,
+		interestedParty.townCity,
+		interestedParty.county,
+		interestedParty.postcode
+	].filter(Boolean);
 
-	return addressComponents.filter(Boolean).join(', ');
+	return addressComponents.length > 0 ? addressComponents.join(', ') : 'No address supplied';
 };
 
 module.exports = { checkAnswersGet, checkAnswersPost };

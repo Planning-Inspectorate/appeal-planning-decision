@@ -23,6 +23,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.ServiceUser} ServiceUserAPI
  * @typedef {import('pins-data-model/src/schemas').AppealHASCase} AppealHASCase
  * @typedef {import('appeals-service-api').Api.InterestedPartyComment} InterestedPartyComment
+ * @typedef {import('appeals-service-api').Api.InterestedPartySubmission} InterestedPartySubmission
  */
 
 // Data model types
@@ -559,14 +560,12 @@ class AppealsApiClient {
 	}
 
 	/**
-	 * @param {string} caseReference
-	 * @param {import("@prisma/client").Prisma.InterestedPartyCommentCreateInput} commentData
-	 * @returns {Promise<InterestedPartyComment>}
+	 * @param {InterestedPartySubmission} ipSubmissionData
+	 * @returns {Promise<InterestedPartySubmission>}
 	 */
-	async submitInterestedPartyComment(caseReference, commentData) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/interested-party-comments`;
-		const response = await this.#makePostRequest(endpoint, commentData);
-		return response.json();
+	async submitInterestedPartySubmission(ipSubmissionData) {
+		const endpoint = `${v2}/interested-party-submissions`;
+		return (await this.#makePostRequest(endpoint, ipSubmissionData)).json();
 	}
 
 	/**

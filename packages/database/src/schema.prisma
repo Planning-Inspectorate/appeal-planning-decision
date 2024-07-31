@@ -594,7 +594,7 @@ model InterestedPartySubmission {
   addressLine2  String?
   townCity      String?
   county        String?
-  postCode      String?
+  postcode      String?
   emailAddress  String?
   comments      String
   createdAt     DateTime   @default(now())

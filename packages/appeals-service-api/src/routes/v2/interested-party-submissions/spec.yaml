@@ -1,0 +1,15 @@
+paths:
+  /api/v2/interested-party-submissions:
+    post:
+      tags:
+        - interested-party-submissions
+      description: Create a new interested party submission for an appeal case
+      responses:
+        200:
+          description: Created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InterestedPartySubmission'
+        400:
+          description: Bad request

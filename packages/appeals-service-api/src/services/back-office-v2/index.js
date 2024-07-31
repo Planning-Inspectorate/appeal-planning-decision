@@ -16,7 +16,8 @@ const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
 	sendSubmissionConfirmationEmailToAppellantV2,
-	sendSubmissionReceivedEmailToLpaV2
+	sendSubmissionReceivedEmailToLpaV2,
+	sendCommentSubmissionConfirmationEmailToIp
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
@@ -35,6 +36,10 @@ const logger = require('#lib/logger');
 /**
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  * @typedef {import ('pins-data-model').Schemas.LPAQuestionnaireCommand} LPAQuestionnaireCommand
+ */
+
+/**
+ * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  */
 
 const { getValidator } = new SchemaValidator();
@@ -166,6 +171,46 @@ class BackOfficeV2Service {
 		await markQuestionnaireAsSubmitted(questionnaire.id);
 
 		return result;
+	}
+
+	/**
+	 * @param {InterestedPartySubmission} interestedPartySubmission
+	 * @returns {Promise<void>}
+	 */
+	async submitInterestedPartySubmission(interestedPartySubmission) {
+		// const isBOIntegrationActive = await isFeatureActive(
+		// 	FLAG.APPEALS_BO_SUBMISSION,
+		// 	lpaCode
+		// );
+		// if (!isBOIntegrationActive) return;
+
+		// Note - mapping to be implemented in future
+
+		// logger.info(
+		// 	`mapping interested party submission ${interestedPartySubmission.id} to schema`
+		// );
+		// const mappedData = await formatters.interestedPartyComment(interestedPartySubmission);
+		// logger.debug({ mappedData }, 'mapped appeal');
+
+		// NOTE - consider whether validation required
+
+		logger.info(
+			`forwarding interested party submission ${interestedPartySubmission.id} to service bus`
+		);
+		// const result = await forwarders.interestedPartyComment([mappedData]);
+
+		if (interestedPartySubmission.emailAddress) {
+			logger.info(
+				`sending interested party comment submitted emails for ${interestedPartySubmission.id}`
+			);
+
+			try {
+				await sendCommentSubmissionConfirmationEmailToIp(interestedPartySubmission);
+			} catch (err) {
+				logger.error({ err }, 'failed to sendCommentSubmissionConfirmationEmailToIp');
+				throw new Error('failed to send interested party comment submission email');
+			}
+		}
 	}
 }
 

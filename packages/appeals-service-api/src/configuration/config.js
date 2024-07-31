@@ -133,6 +133,10 @@ let config = {
 					enterCodeIntoServiceEmailToLPA:
 						process.env.SRV_NOTIFY_LPA_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID,
 					lpaDashboardInviteEmail: process.env.SRV_NOTIFY_LPA_DASHBOARD_INVITE_TEMPLATE_ID
+				},
+				INTERESTED_PARTIES: {
+					ipCommentSubmissionConfirmationEmail:
+						process.env.SRV_NOTIFY_IP_COMMENT_SUBMISSION_CONFIRMATION_EMAIL_TO_IP_TEMPLATE_ID
 				}
 			},
 			emailReplyToId: {

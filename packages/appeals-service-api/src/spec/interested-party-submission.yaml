@@ -1,0 +1,38 @@
+components:
+  schemas:
+    InterestedPartySubmission:
+      description: A comment submitted by an interested party on an appeal case but not yet validated by BO
+      type: object
+      required:
+        - id
+        - caseReference
+        - firstName
+        - lastName
+        - comments
+      properties:
+        id:
+          type: string
+          format: uuid
+        caseReference:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        addressLine1:
+          type: string
+        addressLine2:
+          type: string
+        townCity:
+          type: string
+        county:
+          type: string
+        postcode:
+          type: string
+        emailAddress:
+          type: string
+        comments:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
