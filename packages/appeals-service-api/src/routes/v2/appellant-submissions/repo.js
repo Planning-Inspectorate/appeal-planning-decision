@@ -300,13 +300,34 @@ module.exports = class Repo {
 	 * @returns {Promise<BareAppellantSubmission[]>}
 	 */
 	async getNonSubmittedSubmissions() {
-		return this.dbClient.appellantSubmission.findMany({
-			where: {
-				submitted: false
-			},
-			include: {
-				Appeal: true
+		try {
+			return this.dbClient.appellantSubmission.findMany({
+				where: {
+					submitted: false
+				},
+				include: {
+					Appeal: true
+				}
+			});
+		} catch (e) {
+			if (e instanceof PrismaClientKnownRequestError) {
+				if (e.code === 'P2023') {
+					// probably an invalid ID/GUID
+					return null;
+				}
 			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Get all document uploads for a submission
+	 * @param {string} submissionId
+	 * @returns {Promise<import('@prisma/client').SubmissionDocumentUpload[]>}
+	 */
+	async getSubmissionDocumentUploads(submissionId) {
+		return this.dbClient.submissionDocumentUpload.findMany({
+			where: { appellantSubmissionId: submissionId }
 		});
 	}
 
@@ -316,7 +337,9 @@ module.exports = class Repo {
 	 * @returns {Promise<void>}
 	 */
 	async deleteLinkedRecords(submissionId) {
-		//todo: add delete submissionDocumentUpload
+		await this.dbClient.submissionDocumentUpload.deleteMany({
+			where: { appellantSubmissionId: submissionId }
+		});
 
 		await this.dbClient.submissionAddress.deleteMany({
 			where: { appellantSubmissionId: submissionId }
