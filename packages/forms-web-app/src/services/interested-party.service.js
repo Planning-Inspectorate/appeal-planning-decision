@@ -76,11 +76,21 @@ const markInterestedPartySessionAsSubmitted = (req) => {
 	req.session.interestedParty.submitted = true;
 };
 
+/**
+ * confirms if the interested party from session has been submitted
+ * @param {import('express').Request} req
+ * @returns {boolean}
+ */
+const confirmInterestedPartySessionSubmitted = (req) => {
+	return !!req.session.interestedParty?.submitted;
+};
+
 module.exports = {
 	createInterestedPartySession,
 	getInterestedPartyFromSession,
 	updateInterestedPartySession,
 	resetInterestedPartySession,
 	confirmInterestedPartySessionCaseReference,
-	markInterestedPartySessionAsSubmitted
+	markInterestedPartySessionAsSubmitted,
+	confirmInterestedPartySessionSubmitted
 };
