@@ -15,6 +15,12 @@ function isTheFormDataBuffer(data) {
 	return isDataBuffer(data) && data.tempFilePath;
 }
 
+/**
+ * @param {string} value
+ * @returns {boolean}
+ */
+const hasPathTraversal = (value) => value.includes('../');
+
 const handler = async (
 	url,
 	method = 'GET',
@@ -29,6 +35,8 @@ const handler = async (
 	});
 
 	let apiResponse;
+
+	if (hasPathTraversal(url)) throw new Error('invalid url');
 
 	try {
 		apiResponse = await fetch(url, {
@@ -137,8 +145,12 @@ const createDocument = async (submission, data, fileName, documentType, sectionT
 	return response;
 };
 
+/**
+ * @param {string} appealOrQuestionnaireId
+ * @param {string} documentId
+ */
 const removeDocument = async (appealOrQuestionnaireId, documentId) => {
-	if (!uuid.validate(appealOrQuestionnaireId) || !uuid.validate(documentId)) {
+	if (!uuid.validate(documentId)) {
 		const msg = 'Invalid delete document parameters';
 		throw new Error(msg);
 	}
@@ -152,8 +164,12 @@ const removeDocument = async (appealOrQuestionnaireId, documentId) => {
 	);
 };
 
+/**
+ * @param {string} appealOrQuestionnaireId
+ * @param {string} documentId
+ */
 const fetchDocument = async (appealOrQuestionnaireId, documentId) => {
-	if (!uuid.validate(appealOrQuestionnaireId) || !uuid.validate(documentId)) {
+	if (!uuid.validate(documentId)) {
 		const msg = 'Invalid fetch document parameters';
 		throw new Error(msg);
 	}
