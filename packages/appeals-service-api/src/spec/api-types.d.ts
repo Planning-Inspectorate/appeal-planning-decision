@@ -838,7 +838,25 @@ export interface InterestedPartyComment {
 	serviceUserId?: string;
 	comment: string;
 	/** @format date-time */
-	createdAt: string;
+	createdAt?: string;
+}
+
+/** A comment submitted by an interested party on an appeal case but not yet validated by BO */
+export interface InterestedPartySubmission {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	firstName: string;
+	lastName: string;
+	addressLine1?: string;
+	addressLine2?: string;
+	townCity?: string;
+	county?: string;
+	postcode?: string;
+	emailAddress?: string;
+	comments: string;
+	/** @format date-time */
+	createdAt?: string;
 }
 
 /** A questionnaire submitted by an LPA */

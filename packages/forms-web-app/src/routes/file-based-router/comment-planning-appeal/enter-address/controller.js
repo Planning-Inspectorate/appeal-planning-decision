@@ -1,5 +1,5 @@
 const {
-	confirmInterestedPartySessionAppealReference,
+	confirmInterestedPartySessionCaseReference,
 	getInterestedPartyFromSession,
 	updateInterestedPartySession
 } = require('../../../../services/interested-party.service');
@@ -9,7 +9,7 @@ const {
  */
 /** @type {import('express').RequestHandler} */
 const enterAddressGet = (req, res) => {
-	if (!confirmInterestedPartySessionAppealReference(req)) {
+	if (!confirmInterestedPartySessionCaseReference(req)) {
 		return res.redirect(`enter-appeal-reference`);
 	}
 
@@ -41,7 +41,7 @@ const enterAddressPost = async (req, res) => {
 	};
 
 	/** @type {InterestedParty} */
-	const interestedParty = updateInterestedPartySession(req, { address });
+	const interestedParty = updateInterestedPartySession(req, { ...address });
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(`comment-planning-appeal/enter-address/index`, {

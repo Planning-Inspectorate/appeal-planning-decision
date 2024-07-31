@@ -1,32 +1,27 @@
 /**
  * @typedef {Object} InterestedParty
- * @property {string} appealNumber
+ * @property {string} caseReference
  * @property {string} [firstName]
  * @property {string} [lastName]
  * @property {string} [emailAddress]
- * @property {IPAddress} [address]
+ * @property {string} [addressLine1]
+ * @property {string} [addressLine2]
+ * @property {string} [townCity]
+ * @property {string} [county]
+ * @property {string} [postcode]
  * @property {string} [comments]
  * @property {boolean} submitted
  */
 
 /**
- * @typedef {Object} IPAddress
- * @property {string} addressLine1
- * @property {string} addressLine2
- * @property {string} townCity
- * @property {string} county
- * @property {string} postcode
- */
-
-/**
  * Adds InterestedParty to req.session
  * @param {import('express').Request} req
- * @param {string} appealNumber
+ * @param {string} caseReference
  */
-const createInterestedPartySession = (req, appealNumber) => {
+const createInterestedPartySession = (req, caseReference) => {
 	/** @type {InterestedParty} */
 	req.session.interestedParty = {
-		appealNumber,
+		caseReference,
 		submitted: false
 	};
 };
@@ -57,12 +52,20 @@ const getInterestedPartyFromSession = (req) => {
 };
 
 /**
- * confirms the interested party from session has appealReference set
+ * resets interested party in req.session
+ * @param {import('express').Request} req
+ */
+const resetInterestedPartySession = (req) => {
+	req.session.interestedParty = {};
+};
+
+/**
+ * confirms the interested party from session has caseReference set
  * @param {import('express').Request} req
  * @returns {boolean}
  */
-const confirmInterestedPartySessionAppealReference = (req) => {
-	return !!req.session.interestedParty?.appealNumber;
+const confirmInterestedPartySessionCaseReference = (req) => {
+	return !!req.session.interestedParty?.caseReference;
 };
 
 /**
@@ -77,6 +80,7 @@ module.exports = {
 	createInterestedPartySession,
 	getInterestedPartyFromSession,
 	updateInterestedPartySession,
-	confirmInterestedPartySessionAppealReference,
+	resetInterestedPartySession,
+	confirmInterestedPartySessionCaseReference,
 	markInterestedPartySessionAsSubmitted
 };
