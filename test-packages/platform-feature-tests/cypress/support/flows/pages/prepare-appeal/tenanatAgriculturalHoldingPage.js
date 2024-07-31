@@ -1,15 +1,16 @@
 
 import { BasePage } from "../../../../page-objects/base-page";
-const otherTenants = require('./otherTenantsPage');
+import { OtherTenantsPage } from "./otherTenantsPage";
 export class TenanatAgriculturalHoldingPage {
 
     addTenanatAgriculturalHoldingData(isTenantAgricultureHolding, context) {
         const basePage = new BasePage();
+        const otherTenantsPage = new OtherTenantsPage();
 
         if (isTenantAgricultureHolding) {
             basePage.clickRadioBtn('[data-cy="answer-yes"]');
             cy.advanceToNextPage();
-            otherTenants(context?.applicationForm?.anyOtherTenants, context);
+            otherTenantsPage.addOtherTenantsData(context?.applicationForm?.anyOtherTenants, context);
         } else {
             basePage.clickRadioBtn('[data-cy="answer-no"]');
             cy.advanceToNextPage();
