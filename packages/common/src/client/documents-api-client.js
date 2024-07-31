@@ -1,6 +1,7 @@
 const { default: fetch } = require('node-fetch');
 const crypto = require('crypto');
 const { handleApiErrors } = require('./api-client-error');
+const uuid = require('uuid');
 
 const parentLogger = require('../lib/logger');
 
@@ -13,7 +14,7 @@ const trailingSlashRegex = /\/$/;
  */
 
 /**
- * @class Api Client for v2 urls in documents-api
+ * @class Api Client for urls in documents-api
  * todo: get appeal pdf copy, upload submissions
  */
 class DocumentsApiClient {

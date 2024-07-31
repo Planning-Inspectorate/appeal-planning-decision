@@ -4,6 +4,10 @@ const { createPrismaClient } = require('../../../db/db-client');
 const { seedStaticData } = require('@pins/database/src/seed/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const crypto = require('crypto');
+const { deleteOldSubmissions } = require('./service');
+const Repo = require('./repo');
+const { docsApiClient } = require('../../../doc-client/docs-api-client');
+const { v4: uuidv4 } = require('uuid');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 
@@ -425,7 +429,7 @@ describe('/appellant-submissions', () => {
 			});
 			expect(deletedLinkedCase).toBeNull();
 
-			// Checkthe recent submission still exists
+			// Check the recent submission still exists
 			const existingSubmission = await sqlClient.appellantSubmission.findUnique({
 				where: { id: recentSubmission.body?.id }
 			});
@@ -440,6 +444,63 @@ describe('/appellant-submissions', () => {
 				where: { appellantSubmissionId: recentSubmission.body?.id }
 			});
 			expect(existingListedBuilding).not.toBeNull();
+		});
+		it('should call docsApiClient.deleteDocument for each document', async () => {
+			const mockGetNonSubmittedSubmissions = jest.fn();
+			const mockGetSubmissionDocumentUploads = jest.fn();
+			const mockDeleteDocument = jest.fn();
+			const mockDeleteSubmission = jest.fn();
+			Repo.prototype.getNonSubmittedSubmissions = mockGetNonSubmittedSubmissions;
+			Repo.prototype.getSubmissionDocumentUploads = mockGetSubmissionDocumentUploads;
+			Repo.prototype.deleteSubmission = mockDeleteSubmission;
+			docsApiClient.deleteDocument = mockDeleteDocument;
+			const oldApplicationDate = new Date();
+			oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7);
+			const mockSubmission = {
+				id: uuidv4(),
+				applicationDecisionDate: oldApplicationDate,
+				appealTypeCode: 'HAS',
+				LPACode: 'Q9999'
+			};
+			const mockDocuments = [{ id: uuidv4() }, { id: uuidv4() }];
+			mockGetNonSubmittedSubmissions.mockResolvedValue([mockSubmission]);
+			mockGetSubmissionDocumentUploads.mockResolvedValue(mockDocuments);
+			mockDeleteDocument.mockResolvedValue();
+			mockDeleteSubmission.mockResolvedValue();
+
+			await deleteOldSubmissions();
+
+			expect(mockDeleteDocument).toHaveBeenCalledTimes(mockDocuments.length);
+			mockDocuments.forEach((doc) => {
+				expect(mockDeleteDocument).toHaveBeenCalledWith(mockSubmission.id, doc.id);
+			});
+		});
+		it('should handle errors when deleting old submissions', async () => {
+			const mockGetNonSubmittedSubmissions = jest.fn();
+			const mockGetSubmissionDocumentUploads = jest.fn();
+			const mockDeleteDocument = jest.fn();
+			docsApiClient.deleteDocument = mockDeleteDocument;
+			Repo.prototype.getNonSubmittedSubmissions = mockGetNonSubmittedSubmissions;
+			Repo.prototype.getSubmissionDocumentUploads = mockGetSubmissionDocumentUploads;
+
+			const oldApplicationDate = new Date();
+			oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7);
+			const mockSubmissionId = uuidv4();
+			const mockSubmission = {
+				id: mockSubmissionId,
+				applicationDecisionDate: oldApplicationDate,
+				appealTypeCode: 'HAS',
+				LPACode: 'Q9999'
+			};
+			const mockDocuments = [{ id: uuidv4() }, { id: uuidv4() }];
+			mockGetNonSubmittedSubmissions.mockResolvedValue([mockSubmission]);
+			mockGetSubmissionDocumentUploads.mockResolvedValue(mockDocuments);
+			mockDeleteDocument.mockRejectedValue(new Error('Test error'));
+
+			const response = await appealsApi.delete(
+				'/api/v2/appellant-submissions/cleanup-old-submissions'
+			);
+			expect(response.body.errors[0]).toEqual('Error deleting old submissions');
 		});
 	});
 });
