@@ -43,6 +43,10 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			userId: user.id
 		});
 
+		if (!caseData.caseValidDate && userType !== APPEAL_USER_ROLES.APPELLANT) {
+			throw new Error("can't show an unvalidated appeal");
+		}
+
 		logger.debug({ caseData }, 'caseData');
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);

@@ -76,20 +76,12 @@ const formatHeadlineData = (caseData, lpaName, userType = APPEAL_USER_ROLES.INTE
 };
 
 /**
- * @param {AppealCaseDetailed} caseData
+ * should this ever be false?
+ * @param {AppealCaseDetailed} _caseData
  * @param {AppealToUserRoles|LpaUserRole|null} userType
  */
-const shouldFormatHeadlines = (
-	{ caseValidDate, lpaQuestionnaireSubmittedDate, lpaQuestionnairePublishedDate },
-	userType
-) => {
-	if (userType === APPEAL_USER_ROLES.APPELLANT) {
-		return lpaQuestionnairePublishedDate;
-	} else if (userType === LPA_USER_ROLE) {
-		return caseValidDate && lpaQuestionnaireSubmittedDate;
-	}
-	return false;
-};
+const shouldFormatHeadlines = (_caseData, userType) =>
+	userType === APPEAL_USER_ROLES.APPELLANT || userType === LPA_USER_ROLE;
 
 /**
  * @param {AppealCaseDetailed} caseData
