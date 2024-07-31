@@ -14,6 +14,7 @@ const { sections: rule6Sections } = require('./rule-6-sections');
 const { getUserFromSession } = require('../../services/user.service');
 const { format: formatDate } = require('date-fns');
 const { getDepartmentFromCode } = require('../../services/department.service');
+const logger = require('#lib/logger');
 
 /** @type {import('@pins/common/src/view-model-maps/sections/def').UserSectionsDict} */
 const userSectionsDict = {
@@ -85,6 +86,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			}
 		};
 
+		logger.debug({ viewContext }, 'viewContext');
+
 		res.render(VIEW.SELECTED_APPEAL.APPEAL, viewContext);
 	};
 };
@@ -104,7 +107,9 @@ const formatTitleSuffix = (userType) => {
  * @returns {boolean}
  */
 const shouldDisplayQuestionnaireDueNotification = (caseData, userType) =>
-	userType === 'LPAUser' && !caseData.lpaQuestionnaireSubmitted;
+	userType === 'LPAUser' &&
+	!caseData.lpaQuestionnaireSubmitted &&
+	!!caseData.lpaQuestionnaireDueDate;
 
 /**
  *
