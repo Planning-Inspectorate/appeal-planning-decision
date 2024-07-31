@@ -560,7 +560,7 @@ class AppealsApiClient {
 	}
 
 	/**
-	 * @param {InterestedPartySubmission} ipSubmissionData
+	 * @param {object} ipSubmissionData
 	 * @returns {Promise<InterestedPartySubmission>}
 	 */
 	async submitInterestedPartySubmission(ipSubmissionData) {

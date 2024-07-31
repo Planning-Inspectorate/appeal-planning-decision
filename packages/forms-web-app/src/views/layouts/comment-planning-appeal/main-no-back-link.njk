@@ -4,7 +4,7 @@
 
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% block pageTitle %}
-  {{ title }}  - Comment on a planning appeal - GOV.UK
+  {{ "Error: " + title if errors else title }}  - Comment on a planning appeal - GOV.UK
 {% endblock pageTitle %}
 {% block head %}
   {% include "includes/head.njk" %}

@@ -1,7 +1,8 @@
 const {
 	confirmInterestedPartySessionCaseReference,
 	getInterestedPartyFromSession,
-	updateInterestedPartySession
+	updateInterestedPartySession,
+	confirmInterestedPartySessionSubmitted
 } = require('../../../../services/interested-party.service');
 
 /**
@@ -9,7 +10,10 @@ const {
  */
 /** @type {import('express').RequestHandler} */
 const enterAddressGet = (req, res) => {
-	if (!confirmInterestedPartySessionCaseReference(req)) {
+	if (
+		!confirmInterestedPartySessionCaseReference(req) ||
+		confirmInterestedPartySessionSubmitted(req)
+	) {
 		return res.redirect(`enter-appeal-reference`);
 	}
 

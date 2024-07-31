@@ -54,7 +54,7 @@ const formatIpSummaryList = (interestedParty) => {
 	return [
 		{
 			key: {
-				text: 'Your name'
+				text: 'What is your name?'
 			},
 			value: {
 				text: `${interestedParty.firstName} ${interestedParty.lastName}`
@@ -70,7 +70,7 @@ const formatIpSummaryList = (interestedParty) => {
 		},
 		{
 			key: {
-				text: 'Your address'
+				text: 'Address'
 			},
 			value: {
 				text: formatIpAddress(interestedParty)
@@ -86,7 +86,7 @@ const formatIpSummaryList = (interestedParty) => {
 		},
 		{
 			key: {
-				text: 'Your email'
+				text: 'Email'
 			},
 			value: {
 				text: interestedParty.emailAddress || 'No email address supplied'
