@@ -17,7 +17,7 @@ describe('interested party session check middleware ', () => {
 	});
 
 	it('should call next if a case reference has been set and the comment has not been submitted', () => {
-		const testReq = {
+		const goodReq = {
 			session: {
 				interestedParty: {
 					caseReference: '1234567',
@@ -26,13 +26,13 @@ describe('interested party session check middleware ', () => {
 			}
 		};
 
-		checkInterestedPartySessionActive(testReq, res, next);
+		checkInterestedPartySessionActive(goodReq, res, next);
 
 		expect(next).toHaveBeenCalled();
 	});
 
 	it('should redirect if a case reference has been not been set', () => {
-		const testReq = {
+		const noCaseRefReq = {
 			session: {
 				interestedParty: {
 					submitted: false
@@ -40,13 +40,13 @@ describe('interested party session check middleware ', () => {
 			}
 		};
 
-		checkInterestedPartySessionActive(testReq, res, next);
+		checkInterestedPartySessionActive(noCaseRefReq, res, next);
 
 		expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_APPEAL_REFERENCE}`);
 	});
 
-	it('should redirect if the comment has alreadt been submitted', () => {
-		const testReq = {
+	it('should redirect if the comment has already been submitted', () => {
+		const submittedReq = {
 			session: {
 				interestedParty: {
 					caseReference: '1234567',
@@ -55,7 +55,7 @@ describe('interested party session check middleware ', () => {
 			}
 		};
 
-		checkInterestedPartySessionActive(testReq, res, next);
+		checkInterestedPartySessionActive(submittedReq, res, next);
 
 		expect(res.redirect).toHaveBeenCalledWith(`/${ENTER_APPEAL_REFERENCE}`);
 	});
