@@ -86,13 +86,17 @@ const CASE_STATUSES = {
 	AWAITING_TRANSFER: { key: APPEAL_CASE_STATUS.AWAITING_TRANSFER, name: 'Awaiting transfer' },
 	CLOSED: { key: APPEAL_CASE_STATUS.CLOSED, name: 'Closed' },
 	COMPLETE: { key: APPEAL_CASE_STATUS.COMPLETE, name: 'Complete' },
+	EVIDENCE: { key: APPEAL_CASE_STATUS.EVIDENCE, name: 'Evidence' },
+	FINAL_COMMENTS: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS, name: 'Final Comments' },
 	INVALID: { key: APPEAL_CASE_STATUS.INVALID, name: 'Invalid' },
 	ISSUE_DETERMINATION: { key: APPEAL_CASE_STATUS.ISSUE_DETERMINATION, name: 'Issue Determination' },
 	LPA_QUESTIONNAIRE: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE, name: 'LPA Questionnaire' },
 	READY_TO_START: { key: APPEAL_CASE_STATUS.READY_TO_START, name: 'Ready to start' },
+	STATEMENTS: { key: APPEAL_CASE_STATUS.STATEMENTS, name: 'Statements' },
 	TRANSFERRED: { key: APPEAL_CASE_STATUS.TRANSFERRED, name: 'Transferred' },
 	VALIDATION: { key: APPEAL_CASE_STATUS.VALIDATION, name: 'Validation' },
-	WITHDRAWN: { key: APPEAL_CASE_STATUS.WITHDRAWN, name: 'Withdrawn' }
+	WITHDRAWN: { key: APPEAL_CASE_STATUS.WITHDRAWN, name: 'Withdrawn' },
+	WITNESSES: { key: APPEAL_CASE_STATUS.WITNESSES, name: 'Witnesses' }
 };
 
 /**
