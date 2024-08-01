@@ -231,7 +231,7 @@ export interface AppealCase {
 	 */
 	caseDecisionOutcomeDate?: string;
 	/**
-	 * The date the appeal decision was published
+	 * The date the appeal decision was published (this is always null currently for HAS)
 	 * @format date-time
 	 */
 	caseDecisionPublishedDate?: string;

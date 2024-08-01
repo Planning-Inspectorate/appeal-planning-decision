@@ -277,7 +277,7 @@ components:
         caseDecisionPublishedDate:
           type: string
           format: date-time
-          description: The date the appeal decision was published
+          description: The date the appeal decision was published (this is always null currently for HAS)
         caseCompletedDate:
           type: string
           format: date-time

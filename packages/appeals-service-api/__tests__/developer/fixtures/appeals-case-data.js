@@ -31,7 +31,7 @@ function createTestAppealCase(
 		appellantCostsAppliedFor: false,
 		LPACode: lpaCode,
 		casePublishedDate: publishedDate,
-		caseDecisionPublishedDate: null,
+		caseDecisionOutcomeDate: null,
 		caseCreatedDate: now,
 		caseSubmittedDate: now,
 		CaseStatus: {

@@ -52,7 +52,7 @@ const dashboardSelect = {
 	caseTransferredDate: true,
 	transferredCaseClosedDate: true,
 	caseDecisionOutcomeDate: true,
-	caseDecisionPublishedDate: true,
+	// caseDecisionPublishedDate: true, null for HAS
 	caseCompletedDate: true,
 	lpaQuestionnaireDueDate: true,
 	lpaQuestionnaireSubmittedDate: true,
@@ -433,10 +433,10 @@ class AppealCaseRepository {
 function addDecidedClauseToQuery(whereArray, decidedOnly) {
 	if (decidedOnly) {
 		// either has decision date == decided
-		whereArray.push({ caseDecisionPublishedDate: { not: null } });
+		whereArray.push({ caseDecisionOutcomeDate: { not: null } });
 	} else {
 		// or no decision date == not decided
-		whereArray.push({ caseDecisionPublishedDate: null });
+		whereArray.push({ caseDecisionOutcomeDate: null });
 	}
 }
 
