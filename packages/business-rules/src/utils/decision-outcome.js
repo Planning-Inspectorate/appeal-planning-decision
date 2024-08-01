@@ -23,12 +23,13 @@ function mapDecisionColour(decision) {
  * @returns {string | null}
  */
 const mapDecisionLabel = (decision) => {
-	if (!decision || decision === APPEAL_CASE_DECISION_OUTCOME.INVALID) return null;
+	if (!decision) return null;
 
 	const labels = {
 		[APPEAL_CASE_DECISION_OUTCOME.ALLOWED]: 'Allowed',
 		[APPEAL_CASE_DECISION_OUTCOME.SPLIT_DECISION]: 'Allowed in part',
-		[APPEAL_CASE_DECISION_OUTCOME.DISMISSED]: 'Dismissed'
+		[APPEAL_CASE_DECISION_OUTCOME.DISMISSED]: 'Dismissed',
+		[APPEAL_CASE_DECISION_OUTCOME.INVALID]: 'Invalid'
 	};
 
 	return labels[decision];
@@ -41,7 +42,7 @@ const mapDecisionLabel = (decision) => {
  * @returns {{ color: string, label: string | null } | null}
  */
 const mapDecisionTag = (decision) => {
-	if (!decision || decision === APPEAL_CASE_DECISION_OUTCOME.INVALID) return null;
+	if (!decision) return null;
 
 	return {
 		color: mapDecisionColour(decision),
