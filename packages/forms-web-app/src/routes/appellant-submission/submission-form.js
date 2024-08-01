@@ -87,7 +87,7 @@ router.post(
 	submitAppellantSubmission
 );
 
-router.get('submit/information', getJourneyResponse, appellantSubmissionInformation);
+router.get('/submit/information', getJourneyResponse, appellantSubmissionInformation);
 
 router.get('/submit/submitted', getJourneyResponse, validationErrorHandler, appellantSubmitted);
 
