@@ -23,5 +23,8 @@ module.exports = {
 		baseUrl: process.env.AUTH_BASE_URL,
 		clientID: process.env.CLIENT_ID,
 		clientSecret: process.env.CLIENT_SECRET
+	},
+	timer: {
+		schedule: process.env.CLEANUP_SCHEDULE || '0 0 3 * * MON'
 	}
 };
