@@ -5,10 +5,11 @@ const {
 } = require('../../../../validators/interested-parties/enter-address');
 const { validationErrorHandler } = require('../../../../validators/validation-error-handler');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
+const checkInterestedPartySessionActive = require('../../../../middleware/interested-parties/check-ip-session-set');
 
 const router = express.Router();
 
-router.get('/', asyncHandler(enterAddressGet));
+router.get('/', checkInterestedPartySessionActive, asyncHandler(enterAddressGet));
 router.post(
 	'/',
 	enterAddressValidationRules(),

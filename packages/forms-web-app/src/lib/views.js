@@ -243,6 +243,10 @@ const VIEW = {
 		DECIDED_APPEALS: 'manage-appeals/decided-appeals'
 	},
 
+	INTERESTED_PARTY_COMMENTS: {
+		ENTER_APPEAL_REFERENCE: 'comment-planning-appeal/enter-appeal-reference'
+	},
+
 	MESSAGES: {
 		COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully'
 	},

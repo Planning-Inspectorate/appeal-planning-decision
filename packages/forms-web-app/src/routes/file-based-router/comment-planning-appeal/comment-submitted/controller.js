@@ -1,8 +1,8 @@
 const {
-	confirmInterestedPartySessionCaseReference,
+	checkInterestedPartySessionCaseReferenceSet,
 	getInterestedPartyFromSession,
 	resetInterestedPartySession,
-	confirmInterestedPartySessionSubmitted
+	checkIfInterestedPartySessionSubmitted
 } = require('../../../../services/interested-party.service');
 
 /**
@@ -11,11 +11,11 @@ const {
 
 /** @type {import('express').RequestHandler} */
 const commentSubmittedGet = (req, res) => {
-	if (!confirmInterestedPartySessionCaseReference(req)) {
+	if (!checkInterestedPartySessionCaseReferenceSet(req)) {
 		return res.redirect(`enter-appeal-reference`);
 	}
 
-	if (!confirmInterestedPartySessionSubmitted(req)) {
+	if (!checkIfInterestedPartySessionSubmitted(req)) {
 		return res.redirect(`check-answers`);
 	}
 

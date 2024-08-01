@@ -17,7 +17,7 @@ async function createInterestedPartySubmission(ipSubmissionData) {
 	try {
 		return await repo.createInterestedPartySubmission(ipSubmissionData);
 	} catch (error) {
-		logger.error('Error creating Interested Party Submission', { error });
+		logger.error({ error }, 'Error creating Interested Party Submission');
 		throw error;
 	}
 }
