@@ -419,7 +419,7 @@ model CaseType {
 }
 
 /// Lookup table for possible case procedure types.
-/// ["assign_case_officer","validation","ready_to_start","lpa_questionnaire","issue_determination","complete","invalid","closed","withdrawn","awaiting_transfer","transferred"]
+/// ["assign_case_officer","validation","ready_to_start","lpa_questionnaire","statements","evidence","witnesses","final_comments","issue_determination","complete","invalid","closed","withdrawn","awaiting_transfer","transferred"]
 model CaseStatus {
   key        String       @unique
   name       String       @unique

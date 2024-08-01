@@ -85,6 +85,9 @@ const lpaAppealCaseData = [
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.HEARING } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.VALIDATION }
+		},
 		CaseType: { connect: { processCode: 'HAS' } },
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
@@ -196,6 +199,9 @@ const lpaAppealCaseData = [
 		appellantProcedurePreferenceDetails: 'Would like longer consideration',
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.STATEMENTS }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -222,6 +228,9 @@ const lpaAppealCaseData = [
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.STATEMENTS }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -243,6 +252,9 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.ISSUE_DETERMINATION }
+		},
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1))
 	},
 	{
@@ -292,6 +304,9 @@ const lpaAppealCaseData = [
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -317,6 +332,9 @@ const lpaAppealCaseData = [
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.ISSUE_DETERMINATION }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -367,6 +385,9 @@ const lpaAppealCaseData = [
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -392,6 +413,9 @@ const lpaAppealCaseData = [
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.ISSUE_DETERMINATION }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -452,6 +476,9 @@ const lpaAppealCaseData = [
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -542,7 +569,7 @@ const lpaAppealCaseData = [
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
 		CaseStatus: {
-			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
 		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
@@ -588,7 +615,7 @@ const lpaAppealCaseData = [
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'HAS' } },
 		CaseStatus: {
-			connect: { key: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE }
+			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
 		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3)),
 		caseCreatedDate: pickRandom(datesNMonthsAgo(3))
@@ -614,6 +641,9 @@ const lpaAppealCaseData = [
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
@@ -637,6 +667,9 @@ const lpaAppealCaseData = [
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS }
+		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	}
 ];

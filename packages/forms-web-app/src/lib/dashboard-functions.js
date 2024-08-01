@@ -50,6 +50,7 @@ const {
 	mapTypeCodeToAppealId
 } = require('./full-appeal/map-planning-application');
 const { businessRulesDeadline } = require('./calculate-deadline');
+const { APPEAL_CASE_STATUS } = require('pins-data-model');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
@@ -197,14 +198,20 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 			documentDue: 'Statement',
 			baseUrl: statementBaseUrl
 		};
-	} else if (isFinalCommentDue(appealCaseData)) {
+	} else if (
+		isFinalCommentDue(appealCaseData) &&
+		appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS
+	) {
 		return {
 			deadline: appealCaseData.finalCommentsDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.finalCommentsDueDate),
 			documentDue: 'Final comment',
 			baseUrl: finalCommentBaseUrl
 		};
-	} else if (isProofsOfEvidenceDue(appealCaseData)) {
+	} else if (
+		isProofsOfEvidenceDue(appealCaseData) &&
+		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
+	) {
 		return {
 			deadline: appealCaseData.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
