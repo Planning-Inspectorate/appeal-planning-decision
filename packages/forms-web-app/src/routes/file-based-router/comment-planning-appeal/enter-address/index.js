@@ -12,6 +12,7 @@ const router = express.Router();
 router.get('/', checkInterestedPartySessionActive, asyncHandler(enterAddressGet));
 router.post(
 	'/',
+	checkInterestedPartySessionActive,
 	enterAddressValidationRules(),
 	validationErrorHandler,
 	asyncHandler(enterAddressPost)

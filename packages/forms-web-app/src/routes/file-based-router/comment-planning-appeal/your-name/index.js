@@ -10,6 +10,12 @@ const checkInterestedPartySessionActive = require('../../../../middleware/intere
 const router = express.Router();
 
 router.get('/', checkInterestedPartySessionActive, asyncHandler(yourNameGet));
-router.post('/', yourNameValidationRules(), validationErrorHandler, asyncHandler(yourNamePost));
+router.post(
+	'/',
+	checkInterestedPartySessionActive,
+	yourNameValidationRules(),
+	validationErrorHandler,
+	asyncHandler(yourNamePost)
+);
 
 module.exports = { router };
