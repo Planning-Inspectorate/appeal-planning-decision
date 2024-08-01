@@ -138,12 +138,18 @@ const mapHASDataModelToAppealCase = (
 		}
 	},
 	LPACode: lpaCode,
-	caseSpecialisms: JSON.stringify(caseSpecialisms),
-	caseValidationInvalidDetails: JSON.stringify(caseValidationInvalidDetails),
-	caseValidationIncompleteDetails: JSON.stringify(caseValidationIncompleteDetails),
-	lpaQuestionnaireValidationDetails: JSON.stringify(lpaQuestionnaireValidationDetails),
-	siteAccessDetails: JSON.stringify(siteAccessDetails),
-	siteSafetyDetails: JSON.stringify(siteSafetyDetails)
+	caseSpecialisms: caseSpecialisms ? JSON.stringify(caseSpecialisms) : null,
+	caseValidationInvalidDetails: caseValidationInvalidDetails
+		? JSON.stringify(caseValidationInvalidDetails)
+		: null,
+	caseValidationIncompleteDetails: caseValidationIncompleteDetails
+		? JSON.stringify(caseValidationIncompleteDetails)
+		: null,
+	lpaQuestionnaireValidationDetails: lpaQuestionnaireValidationDetails
+		? JSON.stringify(lpaQuestionnaireValidationDetails)
+		: null,
+	siteAccessDetails: siteAccessDetails ? JSON.stringify(siteAccessDetails) : null,
+	siteSafetyDetails: siteSafetyDetails ? JSON.stringify(siteSafetyDetails) : null
 });
 
 class AppealCaseRepository {
