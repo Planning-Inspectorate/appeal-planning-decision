@@ -5,10 +5,11 @@ const {
 	rules: emailAddressValidationRules
 } = require('../../../../validators/interested-parties/email-address');
 const { validationErrorHandler } = require('../../../../validators/validation-error-handler');
+const checkInterestedPartySessionActive = require('../../../../middleware/interested-parties/check-ip-session-set');
 
 const router = express.Router();
 
-router.get('/', asyncHandler(emailAddressGet));
+router.get('/', checkInterestedPartySessionActive, asyncHandler(emailAddressGet));
 router.post(
 	'/',
 	emailAddressValidationRules(),

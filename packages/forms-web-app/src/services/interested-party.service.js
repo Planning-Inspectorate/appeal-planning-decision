@@ -64,8 +64,8 @@ const resetInterestedPartySession = (req) => {
  * @param {import('express').Request} req
  * @returns {boolean}
  */
-const confirmInterestedPartySessionCaseReference = (req) => {
-	return !!req.session.interestedParty?.caseReference;
+const checkInterestedPartySessionCaseReferenceSet = (req) => {
+	return !!req.session?.interestedParty?.caseReference;
 };
 
 /**
@@ -81,8 +81,8 @@ const markInterestedPartySessionAsSubmitted = (req) => {
  * @param {import('express').Request} req
  * @returns {boolean}
  */
-const confirmInterestedPartySessionSubmitted = (req) => {
-	return !!req.session.interestedParty?.submitted;
+const checkIfInterestedPartySessionSubmitted = (req) => {
+	return !!req.session?.interestedParty?.submitted;
 };
 
 module.exports = {
@@ -90,7 +90,7 @@ module.exports = {
 	getInterestedPartyFromSession,
 	updateInterestedPartySession,
 	resetInterestedPartySession,
-	confirmInterestedPartySessionCaseReference,
+	checkInterestedPartySessionCaseReferenceSet,
 	markInterestedPartySessionAsSubmitted,
-	confirmInterestedPartySessionSubmitted
+	checkIfInterestedPartySessionSubmitted
 };

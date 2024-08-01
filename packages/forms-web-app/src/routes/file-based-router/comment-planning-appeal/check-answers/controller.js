@@ -1,8 +1,6 @@
 const {
-	confirmInterestedPartySessionCaseReference,
 	getInterestedPartyFromSession,
-	markInterestedPartySessionAsSubmitted,
-	confirmInterestedPartySessionSubmitted
+	markInterestedPartySessionAsSubmitted
 } = require('../../../../services/interested-party.service');
 const logger = require('../../../../lib/logger');
 
@@ -12,13 +10,6 @@ const logger = require('../../../../lib/logger');
 
 /** @type {import('express').RequestHandler} */
 const checkAnswersGet = (req, res) => {
-	if (
-		!confirmInterestedPartySessionCaseReference(req) ||
-		confirmInterestedPartySessionSubmitted(req)
-	) {
-		return res.redirect(`enter-appeal-reference`);
-	}
-
 	/** @type {InterestedParty} */
 	const interestedParty = getInterestedPartyFromSession(req);
 
