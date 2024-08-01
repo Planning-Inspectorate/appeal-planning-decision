@@ -8,6 +8,10 @@ const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question
 const questionUtils = require('./dynamic-components/utils/question-utils');
 const { storePdfAppellantSubmission } = require('../../src/services/pdf.service');
 const { CONSTS } = require('../../src/consts');
+const {
+	formatBeforeYouStartSection,
+	formatSubmissionDate
+} = require('./dynamic-components/utils/submission-information-utils');
 
 /**
  * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
@@ -346,40 +350,7 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		sections: []
 	};
 
-	const beforeYouStartSection = {
-		heading: 'Before you start',
-		list: {
-			rows: [
-				{
-					key: {
-						text: 'Local planning authority',
-						classes: 'govuk-!-width-one-half'
-					},
-					value: {
-						html: 'placeholder'
-					}
-				},
-				{
-					key: {
-						text: 'Appeal type',
-						classes: 'govuk-!-width-one-half'
-					},
-					value: {
-						html: 'placey'
-					}
-				},
-				{
-					key: {
-						text: 'Decision date',
-						classes: 'govuk-!-width-one-half'
-					},
-					value: {
-						html: 'placido'
-					}
-				}
-			]
-		}
-	};
+	const beforeYouStartSection = formatBeforeYouStartSection(journeyResponse);
 
 	summaryListData.sections.push(beforeYouStartSection);
 
@@ -414,8 +385,11 @@ exports.appellantSubmissionInformation = async (req, res) => {
 
 	const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
 
+	const submissionDate = formatSubmissionDate();
+
 	return res.render(journey.informationPageViewPath, {
 		summaryListData,
+		submissionDate,
 		layoutTemplate: journey.journeyTemplate,
 		journeyTitle: journey.journeyTitle,
 		css,

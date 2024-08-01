@@ -19,34 +19,12 @@
         <h1 class="govuk-heading-l">
             Appeal number TO BE ADDED
 				</h1>
-				<p class="govuk-body">Submitted on ADD DATE HERE.</p>
-
-
-      <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
-        .app-task-list {
-          padding-left: 0;
-        }
-        .app-task-list>li {
-          position: relative;
-          list-style-type: none;
-
-        }
-        .app-task-list__section .govuk-tag {
-          position: absolute;
-          top: 3px;
-          right: 0;
-        }
-        .app-task-list .govuk-summary-list {
-          border-top: 1px solid #b1b4b6;
-        }
-      </style>
+				<p class="govuk-body">Submitted on {{submissionDate}}.</p>
 
       {% for section in summaryListData.sections %}
-        <div class="app-task-list__section">
             <h2 class="govuk-heading-m">
               {{section.heading}}
             </h2>
-        </div>
 
         {% if section.list.rows.length %}
           {{ govukSummaryList(section.list) }}
