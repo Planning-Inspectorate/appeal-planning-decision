@@ -267,7 +267,7 @@ model AppealCase {
   caseTransferredDate       DateTime? /// The date the appeal was transferred to a new case of a different type
   transferredCaseClosedDate DateTime? /// The date the appeal was closed and the appellant requested to resubmit
   caseDecisionOutcomeDate   DateTime? /// The date of the appeal decision
-  caseDecisionPublishedDate DateTime? /// The date the appeal decision was published
+  caseDecisionPublishedDate DateTime? /// The date the appeal decision was published (this is always null currently for HAS)
   caseCompletedDate         DateTime? /// The date the appeal decision letter
 
   // lpaq dates
