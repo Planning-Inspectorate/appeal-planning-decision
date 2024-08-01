@@ -12,6 +12,7 @@ const router = express.Router();
 router.get('/', checkInterestedPartySessionActive, asyncHandler(addCommentsGet));
 router.post(
 	'/',
+	checkInterestedPartySessionActive,
 	addCommentsValidationRules(),
 	validationErrorHandler,
 	asyncHandler(addCommentsPost)

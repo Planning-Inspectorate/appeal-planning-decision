@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get('/', checkInterestedPartySessionActive, asyncHandler(checkAnswersGet));
 
-router.post('/', asyncHandler(checkAnswersPost));
+router.post('/', checkInterestedPartySessionActive, asyncHandler(checkAnswersPost));
 
 module.exports = { router };
