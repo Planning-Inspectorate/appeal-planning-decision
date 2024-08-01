@@ -10,7 +10,7 @@ const baseHASSubmissionUrl = '/appeals/householder';
 const taskListUrl = 'appeal-form/your-appeal';
 const hasJourneyTemplate = 'submission-form-template.njk';
 const listingPageViewPath = 'dynamic-components/task-list/submission';
-const informationPageViewPath = 'dynamic-components/submission-information';
+const informationPageViewPath = 'dynamic-components/submission-information/index';
 const journeyTitle = 'Appeal a planning decision';
 
 /**

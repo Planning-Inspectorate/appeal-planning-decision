@@ -15,14 +15,12 @@
   <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>.govuk-template { background-color: #FFFFFF; }</style>
 
 	<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full govuk-!-margin-bottom-3">
-        <h1 class="govuk-heading-l">
-            Your appeal
-        </h1>
-    </div>
-
-  <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
+        <h1 class="govuk-heading-l">
+            Appeal number TO BE ADDED
+				</h1>
+				<p class="govuk-body">Submitted on ADD DATE HERE.</p>
+
 
       <style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>
         .app-task-list {
@@ -43,22 +41,18 @@
         }
       </style>
 
-      <ol class="app-task-list">
       {% for section in summaryListData.sections %}
-        <li class ="govuk-!-margin-bottom-9">
         <div class="app-task-list__section">
             <h2 class="govuk-heading-m">
-              <span class="app-task-list__section-number">{{loop.index}}. </span> {{section.heading}}
+              {{section.heading}}
             </h2>
         </div>
 
         {% if section.list.rows.length %}
           {{ govukSummaryList(section.list) }}
         {% endif %}
-
-        </li>
       {% endfor %}
-      </ol>
+
     </div>
   </div>
 

@@ -84,7 +84,8 @@ function buildSectionRowViewModel(key, value, action) {
 function buildInformationSectionRowViewModel(key, value) {
 	return {
 		key: {
-			text: key
+			text: key,
+			classes: 'govuk-!-width-one-half'
 		},
 		value: {
 			html: value
@@ -315,10 +316,10 @@ exports.submitAppellantSubmission = async (req, res) => {
 exports.appellantSubmissionDeclaration = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
-	if (!journey.isComplete()) {
-		// return error message and redirect
-		return res.status(400).render('./error/not-found.njk');
-	}
+	// if (!journey.isComplete()) {
+	// 	// return error message and redirect
+	// 	return res.status(400).render('./error/not-found.njk');
+	// }
 
 	return res.render('./dynamic-components/submission-declaration/index', {
 		layoutTemplate: journey.journeyTemplate
@@ -332,14 +333,55 @@ exports.appellantSubmissionDeclaration = async (req, res) => {
 exports.appellantSubmissionInformation = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
-	if (!journey.isComplete()) {
-		// return error message and redirect
-		return res.status(400).render('./error/not-found.njk');
-	}
+	// if (!journey.isComplete()) {
+	// 	// return error message and redirect
+	// 	return res.status(400).render('./error/not-found.njk');
+	// }
+
+	// need journey.response.answers.LPACode
+	// need appealTypeCode
+	// need applicationDecisionDate
 
 	const summaryListData = {
 		sections: []
 	};
+
+	const beforeYouStartSection = {
+		heading: 'Before you start',
+		list: {
+			rows: [
+				{
+					key: {
+						text: 'Local planning authority',
+						classes: 'govuk-!-width-one-half'
+					},
+					value: {
+						html: 'placeholder'
+					}
+				},
+				{
+					key: {
+						text: 'Appeal type',
+						classes: 'govuk-!-width-one-half'
+					},
+					value: {
+						html: 'placey'
+					}
+				},
+				{
+					key: {
+						text: 'Decision date',
+						classes: 'govuk-!-width-one-half'
+					},
+					value: {
+						html: 'placido'
+					}
+				}
+			]
+		}
+	};
+
+	summaryListData.sections.push(beforeYouStartSection);
 
 	for (const section of journey.sections) {
 		const sectionView = buildSectionViewModel(section.name);
