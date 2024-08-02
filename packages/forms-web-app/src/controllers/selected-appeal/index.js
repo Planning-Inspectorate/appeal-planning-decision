@@ -118,7 +118,7 @@ const formatTitleSuffix = (userType) => {
  */
 const shouldDisplayQuestionnaireDueNotification = (caseData, userType) =>
 	userType === 'LPAUser' &&
-	!caseData.lpaQuestionnaireSubmitted &&
+	!caseData.lpaQuestionnaireSubmittedDate &&
 	!!caseData.lpaQuestionnaireDueDate;
 
 /**
