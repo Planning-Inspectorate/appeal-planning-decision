@@ -109,8 +109,8 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 		});
 		cy.advanceToNextPage();
 		//What date did you submit your application?
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(currentDate.getDate() - 1);
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(currentDate.getMonth() - 1);
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(currentDate.getDate());
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(currentDate.getMonth() + 1);
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(currentDate.getFullYear());
 		cy.advanceToNextPage();
 		//Enter the description of development that you submitted in your application

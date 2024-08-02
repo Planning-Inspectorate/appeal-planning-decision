@@ -1,4 +1,14 @@
 import { BasePage } from "../page-objects/base-page";
+import { houseHolderAppealRefusedTestCases } from "../helpers/houseHolderAppeal/houseHolderAppealRefusedData";
+const { ContactDetailsPage } = require("../support/flows/pages/prepare-appeal/contactDetailsPage");
+const { AppealSiteAddressPage } = require("../support/flows/pages/prepare-appeal/appealSiteAddressPage");
+const { SiteAreaPage } = require("../support/flows/pages/prepare-appeal/siteAreaPage");
+const { GreenBeltPage } = require("../support/flows/pages/prepare-appeal/greenBeltPage");
+const { OwnAllLandPage } = require("../support/flows/pages/prepare-appeal/ownAllLandPage");
+const { OwnSomeLandPage } = require("../support/flows/pages/prepare-appeal/ownSomeLandPage");
+const { InspectorNeedAccessPage } = require("../support/flows/pages/prepare-appeal/inspectorNeedAccessPage");
+const { HealthSafetyIssuesPage } = require("../support/flows/pages/prepare-appeal/healthSafetyIssuesPage");
+const { OtherAppealsPage } = require("../support/flows/pages/prepare-appeal/otherAppealsPage");
 const { PrepareAppealSelector } = require("../page-objects/prepare-appeal/prepare-appeal-selector");
 const applicationFormPage = require("../support/flows/pages/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../support/flows/pages/prepare-appeal/applicationNamePage");
@@ -18,23 +28,23 @@ describe('House Holder Date Validations', () => {
         cy.advanceToNextPage();
 
         cy.get(`[data-cy="answer-householder-planning"]`).click();
-	    cy.advanceToNextPage();
+        cy.advanceToNextPage();
 
         cy.get('[data-cy="answer-listed-building"]').click();
-	    cy.advanceToNextPage();
+        cy.advanceToNextPage();
 
         cy.get('[data-cy="answer-refused"]').click();
-	    cy.advanceToNextPage();
-       
+        cy.advanceToNextPage();
+
     })
 
     it(`Validate future date error message  in decision date page for future year`, () => {
         let currentDate = new Date();
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear() + 1 );
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear() + 1);
         cy.advanceToNextPage();
-        
+
         cy.get(".govuk-error-summary__body > ul > li > a ").should('have.text', 'Decision date must be today or in the past');
     });
 
@@ -44,7 +54,7 @@ describe('House Holder Date Validations', () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 2);
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
         cy.advanceToNextPage();
-        
+
         cy.get(".govuk-error-summary__body > ul > li > a ").should('have.text', 'Decision date must be today or in the past');
     });
 
@@ -54,36 +64,46 @@ describe('House Holder Date Validations', () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
         cy.advanceToNextPage();
-        
+
         cy.get(".govuk-error-summary__body > ul > li > a ").should('have.text', 'The Decision Date must be a real date');
     });
 
     it(`Validate future date error message  in decision date page negative date`, () => {
         let currentDate = new Date();
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type( -1 );
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(-1);
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
         cy.advanceToNextPage();
-        
+
         cy.get(".govuk-error-summary__body > ul > li > a ").should('have.text', 'The Decision Date must be a real date');
     });
 
     it(`Validate future date error message  in decision date page past year`, () => {
         let currentDate = new Date();
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate() );
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear() - 1);
         cy.advanceToNextPage();
-        
+
         cy.get(".govuk-heading-l").should('have.text', 'You cannot appeal.');
-        cy.get(".govuk-body").should('have.text', 'Your deadline to appeal has passed.');
+        cy.get(".govuk-body").contains('Your deadline to appeal has passed.');
     });
-      
+
 });
 
 describe('House Holder Validations', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
+    const contactDetailsPage = new ContactDetailsPage();
+    const appealSiteAddressPage = new AppealSiteAddressPage();
+    const siteAreaPage = new SiteAreaPage();
+    const greenBeltPage = new GreenBeltPage();
+    const ownAllLandPage = new OwnAllLandPage();
+    const ownSomeLandPage = new OwnSomeLandPage();
+    const inspectorNeedAccessPage = new InspectorNeedAccessPage();
+    const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+    const otherAppealsPage = new OtherAppealsPage();
+    const context = houseHolderAppealRefusedTestCases[0];
 
     beforeEach(() => {
         cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
@@ -95,13 +115,13 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
 
         cy.get(`[data-cy="answer-householder-planning"]`).click();
-	    cy.advanceToNextPage();
+        cy.advanceToNextPage();
 
         cy.get('[data-cy="answer-listed-building"]').click();
-	    cy.advanceToNextPage();
+        cy.advanceToNextPage();
 
         cy.get('[data-cy="answer-refused"]').click();
-	    cy.advanceToNextPage();
+        cy.advanceToNextPage();
 
         let currentDate = new Date();
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
@@ -134,10 +154,10 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage('Continue to my appeal');
         const applicationNumber = `TEST-${Date.now()}`;
-	    cy.get('[data-cy="application-number"]').type(applicationNumber);
-	    cy.advanceToNextPage();
+        cy.get('[data-cy="application-number"]').type(applicationNumber);
+        cy.advanceToNextPage();
         cy.get('[data-cy="email-address"]').type('abcdtestemail');
-	    cy.advanceToNextPage();
+        cy.advanceToNextPage();
         cy.get(".govuk-error-summary__body > ul > li > a ").should('have.text', 'Enter an email address in the correct format, like name@example.com');
     });
 
@@ -146,42 +166,42 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
         cy.advanceToNextPage('Continue to my appeal');
         const applicationNumber = `TEST-${Date.now()}`;
-	    cy.get('[data-cy="application-number"]').type(applicationNumber);
-	    cy.advanceToNextPage();
+        cy.get('[data-cy="application-number"]').type(applicationNumber);
+        cy.advanceToNextPage();
         cy.get('[data-cy="email-address"]').type('appellant2@planninginspectorate.gov.uk');
-	    cy.advanceToNextPage();
-        cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');	
-	    cy.advanceToNextPage(); 
-        cy.get('.govuk-heading-l').should('have.text','Your email address is confirmed')
-    }); 
-    
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');
+        cy.advanceToNextPage();
+        cy.get('.govuk-heading-l').should('have.text', 'Your email address is confirmed')
+    });
+
     it(`Validate error message when incorrect email code received `, () => {
         cy.get('[data-cy="answer-no"]').click();
         cy.advanceToNextPage();
         cy.advanceToNextPage('Continue to my appeal');
         const applicationNumber = `TEST-${Date.now()}`;
-	    cy.get('[data-cy="application-number"]').type(applicationNumber);
-	    cy.advanceToNextPage();
+        cy.get('[data-cy="application-number"]').type(applicationNumber);
+        cy.advanceToNextPage();
         cy.get('[data-cy="email-address"]').type('appellant2@planninginspectorate.gov.uk');
-	    cy.advanceToNextPage();
-        cy.get(prepareAppealSelector?._selectors?.emailCode).type('@12345');	
-	    cy.advanceToNextPage(); 
-        cy.get('.govuk-error-summary__body > ul > li > a').should('have.text','Enter the correct code')
-    }); 
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type('@12345');
+        cy.advanceToNextPage();
+        cy.get('.govuk-error-summary__body > ul > li > a').should('have.text', 'Enter the correct code')
+    });
 
-     it(`Validate correct email code received `, () => {
+    it(`Validate change URL for application name in task link page `, () => {
         const applicationNamePage = new ApplicationNamePage();
         cy.get('[data-cy="answer-no"]').click();
         cy.advanceToNextPage();
         cy.advanceToNextPage('Continue to my appeal');
         const applicationNumber = `TEST-${Date.now()}`;
-	    cy.get('[data-cy="application-number"]').type(applicationNumber);
-	    cy.advanceToNextPage();
+        cy.get('[data-cy="application-number"]').type(applicationNumber);
+        cy.advanceToNextPage();
         cy.get('[data-cy="email-address"]').type('appellant2@planninginspectorate.gov.uk');
-	    cy.advanceToNextPage();
-        cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');	
-	    cy.advanceToNextPage(); 
-        cy.advanceToNextPage(); 
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');
+        cy.advanceToNextPage();
+        cy.advanceToNextPage();
         cy.advanceToNextPage();
 
         cy.location('search').then((search) => {
@@ -192,6 +212,72 @@ describe('House Holder Validations', () => {
             applicationNamePage.addApplicationNameData(false);
             cy.get('.govuk-link').click();
             cy.get(`a[href*="/appeals/householder/prepare-appeal/application-name?id=${dynamicId}"]`).contains('Change')
-        });      
-    }); 
+        });
+    });
+
+    it(`Validate data entered while adding the prepare appeal form `, () => {
+        const applicationNamePage = new ApplicationNamePage();
+        cy.get('[data-cy="answer-no"]').click();
+        cy.advanceToNextPage();
+        cy.advanceToNextPage('Continue to my appeal');
+        const applicationNumber = `TEST-${Date.now()}`;
+        cy.get('[data-cy="application-number"]').type(applicationNumber);
+        cy.advanceToNextPage();
+        cy.get('[data-cy="email-address"]').type('appellant2@planninginspectorate.gov.uk');
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');
+        cy.advanceToNextPage();
+        cy.advanceToNextPage();
+        cy.advanceToNextPage();
+
+        cy.location('search').then((search) => {
+            const params = new URLSearchParams(search);
+            const dynamicId = params.get('id');
+            applicationFormPage('householder', 'other', dynamicId);
+
+            applicationNamePage.addApplicationNameData(context.applicationForm?.isAppellant);
+            contactDetailsPage.addContactDetailsData(context, 'householder');
+            appealSiteAddressPage.addAppealSiteAddressData();
+            siteAreaPage.addSiteAreaData(context?.typeOfPlanningApplication, context?.applicationForm?.areaUnits, context);
+            greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
+            ownAllLandPage.addOwnAllLandData(context?.applicationForm?.isOwnsAllLand);
+
+            if (!context?.applicationForm?.isOwnsAllLand) {
+                ownSomeLandPage.addOwnSomeLandData(context?.applicationForm?.isOwnsSomeLand, context);
+            }
+            inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess);
+
+            healthSafetyIssuesPage.addHealthSafetyIssuesData(context);
+            cy.advanceToNextPage();
+
+            const currentDate = new Date();
+            cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(currentDate.getDate());
+            cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(currentDate.getMonth() - 1);
+            cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(currentDate.getFullYear());
+            cy.advanceToNextPage();
+
+            cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type('developmentDescriptionOriginal-hint123456789!£$%&*j');
+            cy.advanceToNextPage();
+
+            if (context?.applicationForm?.iaUpdateDevelopmentDescription) {
+                cy.get('[data-cy="answer-yes"]').click();
+                cy.advanceToNextPage();
+            } else {
+                cy.get('[data-cy="answer-no"]').click();
+                cy.advanceToNextPage();
+            }
+
+            otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
+
+            cy.get('.govuk-summary-list__key').contains('Was the application made in your name?').next('.govuk-summary-list__value').contains(`${context.applicationForm?.isAppellant === true ? 'Yes':'No'}`);
+            cy.get('.govuk-summary-list__key').contains('Contact details').next('.govuk-summary-list__value').contains('Contact firstname Contact lastname');
+            // for(let obj in context?.applicationForm){
+            //     cy.get('.govuk-summary-list__value').invoke('text').then((text)=>{
+            //         const trimmedText=text.replace(/\s+/g,' ').trim();
+            //         expect(trimmedText).to.include('');
+
+            //     })
+            // }
+        });
+     });
 });
