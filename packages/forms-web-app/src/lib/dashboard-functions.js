@@ -198,20 +198,14 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 			documentDue: 'Statement',
 			baseUrl: statementBaseUrl
 		};
-	} else if (
-		isFinalCommentDue(appealCaseData) &&
-		appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS
-	) {
+	} else if (isFinalCommentDue(appealCaseData)) {
 		return {
 			deadline: appealCaseData.finalCommentsDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.finalCommentsDueDate),
 			documentDue: 'Final comment',
 			baseUrl: finalCommentBaseUrl
 		};
-	} else if (
-		isProofsOfEvidenceDue(appealCaseData) &&
-		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
-	) {
+	} else if (isProofsOfEvidenceDue(appealCaseData)) {
 		return {
 			deadline: appealCaseData.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
@@ -291,7 +285,11 @@ const isStatementDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const isFinalCommentDue = (appealCaseData) => {
-	return !!appealCaseData.finalCommentsDueDate && !appealCaseData.LPACommentsSubmitted;
+	return (
+		!!appealCaseData.finalCommentsDueDate &&
+		!appealCaseData.LPACommentsSubmitted &&
+		appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS
+	);
 };
 
 /**
@@ -299,7 +297,11 @@ const isFinalCommentDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const isProofsOfEvidenceDue = (appealCaseData) => {
-	return !!appealCaseData.proofsOfEvidenceDueDate && !appealCaseData.LPAProofsSubmitted;
+	return (
+		!!appealCaseData.proofsOfEvidenceDueDate &&
+		!appealCaseData.LPAProofsSubmitted &&
+		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
+	);
 };
 
 /**
