@@ -31,13 +31,13 @@ const checkAnswersPost = async (req, res) => {
 	/** @type {InterestedParty} */
 	const interestedParty = getInterestedPartyFromSession(req);
 
-	markInterestedPartySessionAsSubmitted(req);
-
 	try {
 		await req.appealsApiClient.submitInterestedPartySubmission(interestedParty);
 	} catch (error) {
 		logger.error(error);
 	}
+
+	markInterestedPartySessionAsSubmitted(req);
 
 	return res.redirect(`comment-submitted`);
 };
