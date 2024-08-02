@@ -81,7 +81,7 @@ const formatIpSummaryList = (interestedParty) => {
 		},
 		{
 			key: {
-				text: 'Email'
+				text: 'Email address'
 			},
 			value: {
 				text: interestedParty.emailAddress || 'No email address supplied'
