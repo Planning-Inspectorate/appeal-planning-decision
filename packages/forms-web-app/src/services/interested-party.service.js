@@ -10,7 +10,7 @@
  * @property {string} [county]
  * @property {string} [postcode]
  * @property {string} [comments]
- * @property {boolean} submitted
+ * @property {boolean} [submitted]
  */
 
 /**
@@ -21,8 +21,7 @@
 const createInterestedPartySession = (req, caseReference) => {
 	/** @type {InterestedParty} */
 	req.session.interestedParty = {
-		caseReference,
-		submitted: false
+		caseReference
 	};
 };
 
