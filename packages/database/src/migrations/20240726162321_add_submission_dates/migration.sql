@@ -1,21 +1,14 @@
-/*
-  Warnings:
-
-  - Added the required column `updatedAt` to the `AppellantSubmission` table without a default value. This is not possible if the table is not empty.
-  - Added the required column `updatedAt` to the `LPAQuestionnaireSubmission` table without a default value. This is not possible if the table is not empty.
-
-*/
 BEGIN TRY
 
 BEGIN TRAN;
 
 -- AlterTable
 ALTER TABLE [dbo].[AppellantSubmission] ADD [createdAt] DATETIME2 NOT NULL CONSTRAINT [AppellantSubmission_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
-[updatedAt] DATETIME2 NOT NULL;
+[updatedAt] DATETIME2;
 
 -- AlterTable
 ALTER TABLE [dbo].[LPAQuestionnaireSubmission] ADD [createdAt] DATETIME2 NOT NULL CONSTRAINT [LPAQuestionnaireSubmission_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
-[updatedAt] DATETIME2 NOT NULL;
+[updatedAt] DATETIME2;
 
 COMMIT TRAN;
 

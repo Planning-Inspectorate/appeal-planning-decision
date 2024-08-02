@@ -52,6 +52,10 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		});
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 
+		if (!caseData.lpaQuestionnairePublishedDate && userType !== LPA_USER_ROLE) {
+			throw new Error("can't show an unpublished lpaq");
+		}
+
 		// headline data
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 		// constraints details

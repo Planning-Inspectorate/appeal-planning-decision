@@ -524,7 +524,7 @@ model NeighbouringAddress {
   county            String?
   postcode          String
   siteAccessDetails String? @db.NVarChar(MAX) /// json array of information on site accessibility
-  siteSafetyDetails String? @db.NVarChar(MAX) /// json array of information on site health and safety 
+  siteSafetyDetails String? @db.NVarChar(MAX) /// json array of information on site health and safety
 
   // relations
   caseReference String
@@ -627,8 +627,8 @@ model AppellantSubmission {
   appealTypeCode String // type shortcode such as HAS or S78
 
   // dates
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   // application
   applicationDecisionDate DateTime?
@@ -733,8 +733,8 @@ model LPAQuestionnaireSubmission {
   AppealCase          AppealCase @relation(fields: [appealCaseReference], references: [caseReference])
 
   // dates
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   // state
   submitted Boolean @default(false) /// whether the appeal has been submitted to BO

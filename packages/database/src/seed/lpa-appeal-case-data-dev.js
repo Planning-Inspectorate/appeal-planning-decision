@@ -22,7 +22,9 @@ const lpaAppealIds = {
 	appealFourteen: '756d6bfb-dde8-4532-a041-86c226a23b14',
 	appealFifteen: '756d6bfb-dde8-4532-a041-86c226a23b15',
 	appeal16: '756d6bfb-dde8-4532-a041-86c226a23b16',
-	appeal17: '7c8322e0-c724-4969-b7d4-441c60c6847b'
+	appeal17: '7c8322e0-c724-4969-b7d4-441c60c6847b',
+	appeal18: '7c8322e0-c724-4969-b7d4-441c60c6848b',
+	appeal19: '7c8322e0-c724-4969-b7d4-441c60c6849b'
 };
 
 /**
@@ -45,7 +47,9 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appealFourteen },
 	{ id: lpaAppealIds.appealFifteen },
 	{ id: lpaAppealIds.appeal16 },
-	{ id: lpaAppealIds.appeal17 }
+	{ id: lpaAppealIds.appeal17 },
+	{ id: lpaAppealIds.appeal18 },
+	{ id: lpaAppealIds.appeal19 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -149,7 +153,6 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAhead(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
 		developmentDescription: 'test description',
-
 		isGreenBelt: false,
 		ownsSomeLand: true,
 		agriculturalHolding: true,
@@ -173,6 +176,7 @@ const lpaAppealCaseData = [
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAhead(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
@@ -212,6 +216,7 @@ const lpaAppealCaseData = [
 		developmentDescription: 'test description',
 		isGreenBelt: true,
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
@@ -233,6 +238,7 @@ const lpaAppealCaseData = [
 		developmentDescription: 'test description',
 		isGreenBelt: true,
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
@@ -252,6 +258,7 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
@@ -277,6 +284,7 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
@@ -299,6 +307,7 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
@@ -323,6 +332,7 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
@@ -349,6 +359,7 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
@@ -371,6 +382,7 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
@@ -395,6 +407,7 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
@@ -424,6 +437,7 @@ const lpaAppealCaseData = [
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
@@ -458,9 +472,9 @@ const lpaAppealCaseData = [
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		caseValidDate: new Date(),
-		lpaQuestionnaireSubmittedDate: new Date(),
 		caseCreatedDate: new Date(),
 		lpaQuestionnairePublishedDate: new Date(),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
@@ -552,6 +566,7 @@ const lpaAppealCaseData = [
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAhead(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
@@ -577,6 +592,52 @@ const lpaAppealCaseData = [
 		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3)),
 		caseCreatedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appeal18 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000099',
+		siteAddressLine1: 'Questionnaire and statement submitted',
+		siteAddressLine2: null,
+		siteAddressTown: 'proofs due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appeal19 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000066',
+		siteAddressLine1: 'Questionnaire and statement submitted',
+		siteAddressLine2: null,
+		siteAddressTown: 'Comments due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	}
 ];
 
