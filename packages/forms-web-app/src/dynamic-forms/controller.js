@@ -10,7 +10,7 @@ const { storePdfAppellantSubmission } = require('../../src/services/pdf.service'
 const { CONSTS } = require('../../src/consts');
 const {
 	formatBeforeYouStartSection,
-	formatSubmissionDate
+	formattedSubmissionDate
 } = require('./dynamic-components/utils/submission-information-utils');
 
 /**
@@ -350,7 +350,7 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		sections: []
 	};
 
-	const beforeYouStartSection = formatBeforeYouStartSection(journeyResponse);
+	const beforeYouStartSection = await formatBeforeYouStartSection(journey.response.answers);
 
 	summaryListData.sections.push(beforeYouStartSection);
 
@@ -385,10 +385,12 @@ exports.appellantSubmissionInformation = async (req, res) => {
 
 	const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
 
-	const submissionDate = formatSubmissionDate();
+	const submissionDate = formattedSubmissionDate();
+	const caseReference = journey.response.answers.applicationReference;
 
 	return res.render(journey.informationPageViewPath, {
 		summaryListData,
+		caseReference,
 		submissionDate,
 		layoutTemplate: journey.journeyTemplate,
 		journeyTitle: journey.journeyTitle,

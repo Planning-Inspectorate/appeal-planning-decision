@@ -4,7 +4,6 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
 
-
 {% block pageTitle %}
   Appeal Submitted - Appeal a planning decision - GOV.UK
 {% endblock %}
@@ -17,7 +16,7 @@
 	<div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-l">
-            Appeal number TO BE ADDED
+            Appeal {{caseReference}}
 				</h1>
 				<p class="govuk-body">Submitted on {{submissionDate}}.</p>
 

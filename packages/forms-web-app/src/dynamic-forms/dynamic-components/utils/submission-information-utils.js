@@ -1,19 +1,30 @@
 const { format: formatDate } = require('date-fns');
+const { getLPA, getLPAById } = require('../../../lib/appeals-api-wrapper');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const typeCodeToSubmissionInformationString = {
 	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: 'Householder',
 	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: 'Full planning'
 };
 
-exports.formatBeforeYouStartSection = (journeyResponse) => {
-	const lpa = journeyResponse.LPACode;
+/**
+ *
+ * @param {import('appeals-service-api').Api.AppellantSubmission} appellantSubmission
+ * @returns
+ */
 
-	const appealType = typeCodeToSubmissionInformationString[journeyResponse.answers.appealTypeCode];
+exports.formatBeforeYouStartSection = async (appellantSubmission) => {
+	const { LPACode, appealTypeCode, applicationDecisionDate } = appellantSubmission;
 
-	const decisionDate = formatDate(
-		new Date(journeyResponse.answers.applicationDecisionDate),
-		'd MMMM yyyy'
-	);
+	let lpa;
+	try {
+		lpa = await getLPA(LPACode);
+	} catch (err) {
+		lpa = await getLPAById(LPACode);
+	}
+
+	const appealType = typeCodeToSubmissionInformationString[appealTypeCode];
+
+	const decisionDate = formatDate(new Date(applicationDecisionDate), 'd MMMM yyyy');
 
 	return {
 		heading: 'Before you start',
@@ -25,7 +36,7 @@ exports.formatBeforeYouStartSection = (journeyResponse) => {
 						classes: 'govuk-!-width-one-half'
 					},
 					value: {
-						html: lpa
+						html: lpa.name
 					}
 				},
 				{
@@ -51,6 +62,6 @@ exports.formatBeforeYouStartSection = (journeyResponse) => {
 	};
 };
 
-exports.formatSubmissionDate = () => {
+exports.formattedSubmissionDate = () => {
 	return formatDate(new Date(), 'd MMMM yyyy');
 };
