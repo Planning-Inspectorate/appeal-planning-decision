@@ -142,6 +142,12 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
+	await sqlClient.submissionAddress.deleteMany({});
+	await sqlClient.submissionListedBuilding.deleteMany({});
+	await sqlClient.submissionLinkedCase.deleteMany({});
+	await sqlClient.appellantSubmission.deleteMany({});
+	await sqlClient.appealToUser.deleteMany({});
+	await sqlClient.appeal.deleteMany({});
 	jest.clearAllMocks();
 });
 
