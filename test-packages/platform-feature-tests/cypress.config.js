@@ -1,6 +1,7 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
+  pageLoadTimeout: 300000,
   reporter: 'cypress-mochawesome-reporter',
   video: false,
   reporterOptions: {
