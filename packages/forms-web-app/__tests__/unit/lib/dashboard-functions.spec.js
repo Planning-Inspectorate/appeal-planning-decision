@@ -104,7 +104,8 @@ describe('lib/dashboard-functions', () => {
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
 				LPAStatementSubmitted: '2023-07-17T13:53:31.6003126+00:00',
 				finalCommentsDueDate: '2023-07-27T13:53:31.6003126+00:00',
-				LPACommentsSubmitted: null
+				LPACommentsSubmitted: null,
+				caseStatus: 'final_comments'
 			};
 
 			const expectedFinalCommentDetails = {
@@ -128,7 +129,8 @@ describe('lib/dashboard-functions', () => {
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
 				LPAStatementSubmitted: '2023-07-17T13:53:31.6003126+00:00',
 				proofsOfEvidenceDueDate: '2023-07-27T13:53:31.6003126+00:00',
-				LPAProofsSubmitted: null
+				LPAProofsSubmitted: null,
+				caseStatus: 'evidence'
 			};
 
 			const expectedProofsDetails = {
