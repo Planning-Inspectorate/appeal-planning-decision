@@ -337,14 +337,10 @@ exports.appellantSubmissionDeclaration = async (req, res) => {
 exports.appellantSubmissionInformation = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
-	// if (!journey.isComplete()) {
-	// 	// return error message and redirect
-	// 	return res.status(400).render('./error/not-found.njk');
-	// }
-
-	// need journey.response.answers.LPACode
-	// need appealTypeCode
-	// need applicationDecisionDate
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.status(400).render('./error/not-found.njk');
+	}
 
 	const summaryListData = {
 		sections: []
