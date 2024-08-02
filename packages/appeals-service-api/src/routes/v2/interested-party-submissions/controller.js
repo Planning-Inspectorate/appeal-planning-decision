@@ -14,11 +14,9 @@ exports.post = async (req, res) => {
 
 		await backOfficeV2Service.submitInterestedPartySubmission(submission);
 
-		res.sendStatus(200).send(submission);
+		res.status(200).send(submission);
 	} catch (err) {
 		logger.error(err);
 		throw ApiError.unableToSubmitIpComment();
 	}
-
-	res.sendStatus(200);
 };
