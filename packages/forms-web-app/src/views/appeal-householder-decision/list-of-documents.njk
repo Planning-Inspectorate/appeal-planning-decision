@@ -11,7 +11,9 @@
     <div class="govuk-grid-column-two-thirds">
       <form action="" method="post" novalidate>
 <input type="hidden" name="_csrf" value="{{_csrf}}">
-        <h1 class="govuk-heading-l">You'll need to submit some documents with your appeal</h1>
+
+			{% if usingV2Form == false %}
+          	<h1 class="govuk-heading-l">You'll need to submit some documents with your appeal</h1>
 
         <p>You will need to submit the following:</p>
 
@@ -32,6 +34,21 @@
         </ul>
 
         <p>From now, you're able to save and continue with your appeal later</p>
+					{% else %}
+        <h1 class="govuk-heading-l">Before you start</h1>
+
+        <p>You must submit your documents before the deadline or we cannot review them with the appeal.</p>
+
+				<p>You’ll need your planning application form.</p>
+
+        <p>If you have any of the following documents, you’ll also need to upload your:​</p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>decision letter from the local authority</li>
+          <li>appeal statement</li>
+        </ul>
+
+				{% endif %}
 
         <div class="govuk-button-group">
           {{ govukButton({
