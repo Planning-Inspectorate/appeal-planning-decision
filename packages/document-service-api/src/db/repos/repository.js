@@ -1,10 +1,38 @@
 const { createPrismaClient } = require('../db-client');
 
-class AppealUserRepository {
+class DocumentsRepository {
 	dbClient;
 
 	constructor() {
 		this.dbClient = createPrismaClient();
+	}
+
+	/**
+	 * @param {string} id SubmissionDocumentUpload id
+	 * @return {Promise<{id: string, location: string}|null>}
+	 */
+	async getSubmissionDocument(id) {
+		return this.dbClient.submissionDocumentUpload.findUnique({
+			where: {
+				id
+			},
+			select: {
+				id: true,
+				location: true
+			}
+		});
+	}
+
+	/**
+	 * @param {string} id SubmissionDocumentUpload id
+	 * @return {Promise<import("@prisma/client").SubmissionDocumentUpload>}
+	 */
+	async deleteSubmissionDocument(id) {
+		return this.dbClient.submissionDocumentUpload.delete({
+			where: {
+				id
+			}
+		});
 	}
 
 	/**
@@ -62,4 +90,4 @@ class AppealUserRepository {
 	}
 }
 
-module.exports = { AppealUserRepository };
+module.exports = { DocumentsRepository };

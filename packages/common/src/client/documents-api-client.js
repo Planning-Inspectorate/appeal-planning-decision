@@ -49,6 +49,15 @@ class DocumentsApiClient {
 	}
 
 	/**
+	 * @param {string} submissionDocumentId id
+	 * @returns {Promise<void>}
+	 */
+	async deleteSubmissionDocument(submissionDocumentId) {
+		const endpoint = `${v2}/submission-document/${submissionDocumentId}`;
+		await this.#makeDeleteRequest(endpoint);
+	}
+
+	/**
 	 * Handles error responses and timeouts from calls to documents api
 	 * @param {string} path endpoint to call e.g. /api/v2/users
 	 * @param {'GET'|'POST'|'PUT'|'DELETE'} [method] - request method, defaults to 'GET'
@@ -134,6 +143,15 @@ class DocumentsApiClient {
 		return this.handler(endpoint, 'POST', {
 			body: JSON.stringify(data)
 		});
+	}
+
+	/**
+	 * @param {string} endpoint
+	 * @returns {Promise<import('node-fetch').Response>}
+	 * @throws {ApiClientError|Error}
+	 */
+	#makeDeleteRequest(endpoint) {
+		return this.handler(endpoint, 'DELETE');
 	}
 }
 

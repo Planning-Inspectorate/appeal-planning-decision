@@ -6,8 +6,8 @@ const { FLAG } = require('@pins/common/src/feature-flags');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const BlobStorageError = require('@pins/common/src/client/blob-storage-error');
 const { canAccessBODocument, CLIENT_CREDS_ROLE } = require('./access-rules');
-const { AppealUserRepository } = require('../../../db/repos/repository');
-const repo = new AppealUserRepository();
+const { DocumentsRepository } = require('../../../db/repos/repository');
+const repo = new DocumentsRepository();
 
 /**
  * @param {import("@prisma/client").Document & { AppealCase: { LPACode:string, appealId: string} }} documentWithAppeal
