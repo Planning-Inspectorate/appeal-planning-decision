@@ -1,0 +1,15 @@
+paths:
+  /api/v2/submission-document/{id}:
+    delete:
+      tags:
+        - submission
+      description: deletes a submission document
+      responses:
+        200:
+          description: Success if document is deleted
+        404:
+          description: Document could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

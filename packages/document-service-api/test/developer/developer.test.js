@@ -320,5 +320,38 @@ describe('document-service-api', () => {
 				});
 			});
 		});
+
+		describe('/submission-document', () => {
+			describe('/{id} DELETE', () => {
+				it('should 404 with invalid doc', async () => {
+					// When
+					const response = await api.delete(`/api/v2/submission-document/nope`);
+					// Then
+					expect(response.statusCode).toBe(404);
+				});
+
+				it('should 200 for valid doc', async () => {
+					const docType = documentTypes.originalApplication;
+					const testDocResponse = await _createDocument(docType.name);
+					const returnedId = testDocResponse.body.id; // We can't infer this prior to the upload
+					const location = `12345/${returnedId}/sample.pdf`;
+
+					const submission = await sqlClient.submissionDocumentUpload.create({
+						data: {
+							location,
+							fileName: 'sample.pdf',
+							name: 'sample.pdf',
+							originalFileName: 'sample.pdf',
+							type: documentTypes.originalApplication.name
+						}
+					});
+
+					// When
+					const response = await api.delete(`/api/v2/submission-document/${submission.id}`).send();
+					// Then
+					expect(response.statusCode).toBe(200);
+				});
+			});
+		});
 	});
 });
