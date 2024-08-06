@@ -5,6 +5,7 @@ const blobStorage = require('./blobStorage');
 const viewModelMaps = require('./view-model-maps');
 const { isFeatureActive } = require('./is-feature-active');
 const { getRoutes, spoolRoutes } = require('./router');
+const { mapTypeCodeToAppealId } = require('./appeal-type-to-id');
 
 module.exports = {
 	utils,
@@ -14,5 +15,6 @@ module.exports = {
 	getRoutes,
 	...viewModelMaps,
 	isFeatureActive,
-	spoolRoutes
+	spoolRoutes,
+	mapTypeCodeToAppealId
 };

@@ -3,6 +3,7 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 const ApiError = require('#errors/apiError');
 const logger = require('#lib/logger');
+const { subMonths } = require('date-fns');
 
 /**
  * @typedef {import('@prisma/client').AppellantSubmission} BareAppellantSubmission
@@ -32,6 +33,14 @@ const logger = require('#lib/logger');
  * }>} FullAppellantSubmission
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
+ * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ *   select: {
+ *    	id: true,
+ *		applicationDecisionDate: true,
+ *		appealTypeCode: true,
+ *		applicationDecision: true
+ *   }
+ * }>} AppellantSubmissionCleanupData
  */
 
 module.exports = class Repo {
@@ -297,16 +306,24 @@ module.exports = class Repo {
 
 	/**
 	 * Get all non submitted submissions
-	 * @returns {Promise<BareAppellantSubmission[]>}
+	 * @returns {Promise<AppellantSubmissionCleanupData[]>}
 	 */
 	async getNonSubmittedSubmissions() {
 		try {
+			const threeMonthsAgo = subMonths(new Date(), 3);
+
 			return this.dbClient.appellantSubmission.findMany({
 				where: {
-					submitted: false
+					submitted: false,
+					updatedAt: {
+						gte: threeMonthsAgo
+					}
 				},
-				include: {
-					Appeal: true
+				select: {
+					id: true,
+					applicationDecisionDate: true,
+					appealTypeCode: true,
+					applicationDecision: true
 				}
 			});
 		} catch (e) {
@@ -337,21 +354,20 @@ module.exports = class Repo {
 	 * @returns {Promise<void>}
 	 */
 	async deleteLinkedRecords(submissionId) {
-		await this.dbClient.submissionDocumentUpload.deleteMany({
-			where: { appellantSubmissionId: submissionId }
-		});
-
-		await this.dbClient.submissionAddress.deleteMany({
-			where: { appellantSubmissionId: submissionId }
-		});
-
-		await this.dbClient.submissionLinkedCase.deleteMany({
-			where: { appellantSubmissionId: submissionId }
-		});
-
-		await this.dbClient.submissionListedBuilding.deleteMany({
-			where: { appellantSubmissionId: submissionId }
-		});
+		await Promise.all([
+			this.dbClient.submissionDocumentUpload.deleteMany({
+				where: { appellantSubmissionId: submissionId }
+			}),
+			this.dbClient.submissionAddress.deleteMany({
+				where: { appellantSubmissionId: submissionId }
+			}),
+			this.dbClient.submissionLinkedCase.deleteMany({
+				where: { appellantSubmissionId: submissionId }
+			}),
+			this.dbClient.submissionListedBuilding.deleteMany({
+				where: { appellantSubmissionId: submissionId }
+			})
+		]);
 	}
 
 	/**
@@ -367,13 +383,14 @@ module.exports = class Repo {
 
 		const appealId = submission?.appealId;
 
-		await this.dbClient.appealToUser.deleteMany({
-			where: { appealId: appealId }
-		});
-
-		await this.dbClient.appellantSubmission.delete({
-			where: { id: submissionId }
-		});
+		await Promise.all([
+			this.dbClient.appealToUser.deleteMany({
+				where: { appealId: appealId }
+			}),
+			this.dbClient.appellantSubmission.delete({
+				where: { id: submissionId }
+			})
+		]);
 
 		await this.dbClient.appeal.delete({
 			where: { id: appealId }
