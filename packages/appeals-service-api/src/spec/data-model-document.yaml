@@ -5,7 +5,6 @@ components:
       type: object
       required:
         - documentId
-        - caseId
         - caseReference
         - version
         - filename
@@ -13,23 +12,7 @@ components:
         - size
         - mime
         - documentURI
-        - publishedDocumentURI
-        - virusCheckStatus
-        - fileMD5
         - dateCreated
-        - dateReceived
-        - datePublished
-        - lastModified
-        - caseType
-        - redactedStatus
-        - documentType
-        - sourceSystem
-        - origin
-        - owner
-        - author
-        - description
-        - caseStage
-        - horizonFolderId
       properties:
         documentId: 
           type: string
