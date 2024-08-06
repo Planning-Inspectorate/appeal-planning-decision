@@ -4,13 +4,13 @@ export class SubmitDesignAccessStatementPage {
 		const basePage = new BasePage();
 		if (context?.uploadDocuments?.isSubmitDesignAndAccessStmt) {
 			//Did you submit a design and access statement with your application?
-			basePage.clickRadioBtn('[data-cy="answer-yes"]');
+			cy.getByData(basePage?._selectors.answerYes).click();
 			cy.advanceToNextPage();
 			//Upload your design and access statement
 			cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDesignAndAccessStmt);
 			cy.advanceToNextPage();
 		} else {
-			basePage.clickRadioBtn('[data-cy="answer-no"]');
+			cy.getByData(basePage?._selectors.answerNo).click();
 			cy.advanceToNextPage();
 		}
 		//Upload your plans, drawings and supporting documents you submitted with your application

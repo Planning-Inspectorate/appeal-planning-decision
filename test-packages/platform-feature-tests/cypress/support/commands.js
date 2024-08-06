@@ -28,6 +28,10 @@ Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
 	cy.get('.govuk-button').contains(text).click();
 });
 
+Cypress.Commands.add('getByData', (value) => {
+	return cy.get(`[data-cy="${value}"]`);
+});
+
 
 // Cypress.Commands.add('goToAppealSection', (sectionName) => {
 // 	//cy.get('.moj-task-list__task-name').contains(sectionName).click();

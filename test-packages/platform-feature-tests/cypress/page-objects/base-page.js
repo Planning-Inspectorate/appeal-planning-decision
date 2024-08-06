@@ -1,4 +1,25 @@
 export class BasePage {
+	_selectors={
+		answerYes: "answer-yes",
+		answerNo:  "answer-no",
+		applicationType: "application-type",
+		govukButton: ".govuk-button",
+		govukPanelTitle: ".govuk-panel__title",
+		localPlanningDepartment: "#local-planning-department",
+		localPlanningDepartmentOptionZero: "#local-planning-department__option--0",
+		answerHouseholderPlanning: "answer-householder-planning",
+		answerListedBuilding: "answer-listed-building",
+		answerRefused: "answer-refused",
+		answerNodecisionreceived: "answer-nodecisionreceived",
+		answerGranted: "answer-granted",
+		siteSelectionSeven: "#site-selection-7",		
+		govukErrorSummaryBody: ".govuk-error-summary__body  > ul > li > a",
+		govukHeadingOne: ".govuk-heading-l",
+		govukBody: ".govuk-body",
+		govukLink: ".govuk-link",
+		govukSummaryListKey: ".govuk-summary-list__key"
+	}
+
 	basePageElements = {
 		acceptCookiesBtn: () => cy.get('[data-cy="cookie-banner-accept-analytics-cookies"]'),
 		declineCookiesBtn: () => cy.get('[data-cy="cookie-banner-reject-analytics-cookies"]'),

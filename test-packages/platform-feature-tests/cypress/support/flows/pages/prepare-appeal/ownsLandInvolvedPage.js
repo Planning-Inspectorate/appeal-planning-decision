@@ -14,7 +14,7 @@ export class OwnsLandInvolvedPage {
             basePage.clickRadioBtn(this._selectors?.ownsLandInvolvedYes);
             cy.advanceToNextPage();
 
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');
+            cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
         } else {
             if (knowsAllOwners === 'some') {
@@ -22,13 +22,13 @@ export class OwnsLandInvolvedPage {
                 basePage.clickRadioBtn(this._selectors?.ownsLandInvolvedSome);
                 cy.advanceToNextPage();
 
-                basePage.clickCheckBox('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
 
-                basePage.clickCheckBox('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
 
-                basePage.clickCheckBox('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
 
             } else if (knowsAllOwners === 'no') {
@@ -36,10 +36,10 @@ export class OwnsLandInvolvedPage {
                 basePage.clickRadioBtn(this._selectors?.ownsLandInvolvedNo);
                 cy.advanceToNextPage();
 
-                basePage.clickCheckBox('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
 
-                basePage.clickCheckBox('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
             }
         }

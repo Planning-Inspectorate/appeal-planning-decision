@@ -1,27 +1,32 @@
 import { BasePage } from "../../../../page-objects/base-page";
 export class SubmitPlanningObligationPage {
+    _selectors = {
+        answerFinalised: '[data-cy="answer-finalised"]',
+        answerDraft: '[data-cy="answer-draft]',
+        answerNotStartedYet: '[data-cy="answer-not started yet"]'
+    }
     addSubmitPlanningObligationData(context) {
         const basePage = new BasePage();
         if (context?.uploadDocuments?.submitPlanningObligation) {
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');
+            cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
             if (context?.uploadDocuments?.finalisedPlanningStatus === "ready") {
-                basePage.clickRadioBtn('[data-cy="answer-finalised"]');
+                basePage.clickRadioBtn(this._selectors?.answerFinalised);
                 cy.advanceToNextPage();
                 cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFinalisingDocReady);
                 cy.advanceToNextPage();
             } else if (context?.uploadDocuments?.finalisedPlanningStatus === "draft") {
-                basePage.clickRadioBtn('[data-cy="answer-draft');
+                basePage.clickRadioBtn(this._selectors?.answerDraft);
                 cy.advanceToNextPage();
                 cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFinalisingDocDraft);
                 cy.advanceToNextPage();
             } else {
-                basePage.clickRadioBtn('[data-cy="answer-not started yet"]');
+                basePage.clickRadioBtn(this._selectors?.answerNotStartedYet);
                 cy.advanceToNextPage();
             }
 
         } else {
-            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
     };

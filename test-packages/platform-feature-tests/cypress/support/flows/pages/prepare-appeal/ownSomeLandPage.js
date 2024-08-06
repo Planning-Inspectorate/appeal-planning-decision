@@ -8,12 +8,12 @@ export class OwnSomeLandPage {
         const basePage = new BasePage();
 
         if (isOwnsSomeLand) {
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');
+            cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
 
             ownsRestOfLandPage.addOwnsRestOfLandgData(context?.applicationForm?.knowsOtherOwners);
         } else {
-            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
 
             ownsLandInvolvedPage.addOwnsLandInvolvedData(context?.applicationForm?.knowsAllOwners);

@@ -1,11 +1,13 @@
+import { BasePage } from "../../../page-objects/base-page";
 const initialiseHouseHolderPlanning = require("./initialiseHouseHolderPlanning");
 const initialiseFullPlanning = require("./initialiseFullPlanning");
 module.exports = (statusOfOriginalApplication, planning, context) => {
+	const basePage = new BasePage();
 	cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 	cy.advanceToNextPage();
-	cy.get('#local-planning-department')
+	cy.get(basePage?._selectors?.localPlanningDepartment)
 		.type('System Test Borough Council')
-		.get('#local-planning-department__option--0')
+		.get(basePage?._selectors?.localPlanningDepartmentOptionZero)
 		.click();
 	cy.advanceToNextPage();
 
@@ -14,22 +16,22 @@ module.exports = (statusOfOriginalApplication, planning, context) => {
 
 	let grantedOrRefusedId = '';
 	if (statusOfOriginalApplication === 'refused') {
-		grantedOrRefusedId = '[data-cy="answer-refused"]';
+		grantedOrRefusedId = basePage._selectors?.answerRefused;
 	} else if (statusOfOriginalApplication === 'no decision') {
-		grantedOrRefusedId = '[data-cy="answer-nodecisionreceived"]';
+		grantedOrRefusedId =  basePage._selectors?.answerNodecisionreceived;
 	} else {
-		grantedOrRefusedId = '[data-cy="answer-granted"]';
+		grantedOrRefusedId =  basePage._selectors?.answerGranted;
 	}
 
 	if (planning === "answer-full-appeal") {
 
-		cy.get("#site-selection-7").click();
+		cy.get(basePage._selectors?.siteSelectionSeven).click();
 		cy.advanceToNextPage();
 		initialiseFullPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, 'Full Appeal', context);
 	}
 	else if (planning === "answer-householder-planning") {
 
-		cy.get('[data-cy="answer-listed-building"]').click();
+		cy.getByData(basePage._selectors?.answerListedBuilding).click();
 		cy.advanceToNextPage();
 
 		statusOfOriginalApplication === 'refused' ? initialiseHouseHolderPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, context) : initialiseFullPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, 'Householder Planning', context);

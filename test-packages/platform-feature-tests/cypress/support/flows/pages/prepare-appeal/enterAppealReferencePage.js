@@ -4,10 +4,10 @@ export class EnterAppealReferencePage {
         const basePage = new BasePage();
 
         if (isAppellantLinkedCaseAdd) {
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');
+            cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
         } else {
-            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
     };
