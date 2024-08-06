@@ -25,6 +25,7 @@ module.exports = {
 		clientSecret: process.env.CLIENT_SECRET
 	},
 	timer: {
+		// default to every monday at 03:00:00 server time
 		schedule: process.env.CLEANUP_SCHEDULE || '0 0 3 * * MON'
 	}
 };

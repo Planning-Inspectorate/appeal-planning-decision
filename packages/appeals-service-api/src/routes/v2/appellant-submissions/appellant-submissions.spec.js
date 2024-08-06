@@ -7,7 +7,6 @@ const crypto = require('crypto');
 const { deleteOldSubmissions } = require('./service');
 const Repo = require('./repo');
 const { docsApiClient } = require('../../../doc-client/docs-api-client');
-const { v4: uuidv4 } = require('uuid');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 
@@ -463,12 +462,12 @@ describe('/appellant-submissions', () => {
 			const oldApplicationDate = new Date();
 			oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7);
 			const mockSubmission = {
-				id: uuidv4(),
+				id: crypto.randomUUID(),
 				applicationDecisionDate: oldApplicationDate,
 				appealTypeCode: 'HAS',
 				LPACode: 'Q9999'
 			};
-			const mockDocuments = [{ id: uuidv4() }, { id: uuidv4() }];
+			const mockDocuments = [{ id: crypto.randomUUID() }, { id: crypto.randomUUID() }];
 			mockGetNonSubmittedSubmissions.mockResolvedValue([mockSubmission]);
 			mockGetSubmissionDocumentUploads.mockResolvedValue(mockDocuments);
 			mockDeleteDocument.mockResolvedValue();
@@ -485,27 +484,31 @@ describe('/appellant-submissions', () => {
 			const mockGetNonSubmittedSubmissions = jest.fn();
 			const mockGetSubmissionDocumentUploads = jest.fn();
 			const mockDeleteDocument = jest.fn();
+			const mockDeleteSubmission = jest.fn();
 			docsApiClient.deleteDocument = mockDeleteDocument;
 			Repo.prototype.getNonSubmittedSubmissions = mockGetNonSubmittedSubmissions;
 			Repo.prototype.getSubmissionDocumentUploads = mockGetSubmissionDocumentUploads;
+			Repo.prototype.deleteSubmission = mockDeleteSubmission;
 
 			const oldApplicationDate = new Date();
 			oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7);
-			const mockSubmissionId = uuidv4();
+			const mockSubmissionId = crypto.randomUUID();
 			const mockSubmission = {
 				id: mockSubmissionId,
 				applicationDecisionDate: oldApplicationDate,
 				appealTypeCode: 'HAS',
 				LPACode: 'Q9999'
 			};
-			const mockDocuments = [{ id: uuidv4() }, { id: uuidv4() }];
+			const mockDocuments = [{ id: crypto.randomUUID() }, { id: crypto.randomUUID() }];
 			mockGetNonSubmittedSubmissions.mockResolvedValue([mockSubmission]);
 			mockGetSubmissionDocumentUploads.mockResolvedValue(mockDocuments);
 			mockDeleteDocument.mockRejectedValue(new Error('Test error'));
-
+			mockDeleteSubmission.mockResolvedValue();
+			// const response = await deleteOldSubmissions();
 			const response = await appealsApi.delete(
 				'/api/v2/appellant-submissions/cleanup-old-submissions'
 			);
+			// console.log(response)
 			expect(response.body.errors[0]).toEqual('Error deleting old submissions');
 		});
 	});
