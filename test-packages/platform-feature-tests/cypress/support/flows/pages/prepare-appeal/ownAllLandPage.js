@@ -5,12 +5,12 @@ export class OwnAllLandPage {
 
         if (isOwnsAllLand) {
             //Do you own all the land involved in the appeal?Ans:yes
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');
+            cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
 
         } else {
             //Do you own all the land involved in the appeal?Ans:No
-            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
     };

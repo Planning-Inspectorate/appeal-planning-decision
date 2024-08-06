@@ -8,14 +8,14 @@ export class TenanatAgriculturalHoldingPage {
         const otherTenantsPage = new OtherTenantsPage();
 
         if (isTenantAgricultureHolding) {
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');
+            cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
             otherTenantsPage.addOtherTenantsData(context?.applicationForm?.anyOtherTenants, context);
         } else {
-            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
 
-            basePage.clickCheckBox('[data-cy="answer-yes"]');
+            cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
         }
     };

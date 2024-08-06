@@ -15,7 +15,7 @@ export class OwnsRestOfLandPage {
             basePage.clickRadioBtn(this._selectors?.ownsRestOfLandYes);
             cy.advanceToNextPage();
 
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');
+            cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
         } else {
             if (knowsOtherOwners === 'some') {
@@ -23,13 +23,13 @@ export class OwnsRestOfLandPage {
                 basePage.clickRadioBtn(this._selectors?.ownsRestOfLandSome);
                 cy.advanceToNextPage();
 
-                basePage.clickCheckBox('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
 
-                basePage.clickCheckBox('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
 
-                basePage.clickCheckBox('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
 
             } else if (knowsOtherOwners === 'no') {
@@ -37,10 +37,10 @@ export class OwnsRestOfLandPage {
                 basePage.clickRadioBtn(this._selectors?.ownsRestOfLandNo);
                 cy.advanceToNextPage();
 
-                basePage.clickCheckBox('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
 
-                basePage.clickCheckBox('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
             }
         }

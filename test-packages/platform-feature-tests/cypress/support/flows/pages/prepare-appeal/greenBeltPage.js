@@ -5,11 +5,11 @@ export class GreenBeltPage {
         const basePage = new BasePage();
 
         if (appellantInGreenBelt) {
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');
+            cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
         } else {
             //Is the appeal site in a green belt?Ans:No
-            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
     };

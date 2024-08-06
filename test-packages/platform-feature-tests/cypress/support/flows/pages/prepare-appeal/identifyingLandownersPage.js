@@ -4,7 +4,7 @@ export class IdentifyingLandownersPage {
     addIdentifyingLandownersData() {
         const basePage = new BasePage();
 
-        basePage.clickCheckBox('[data-cy="answer-yes"]');
+        cy.getByData(basePage?._selectors.answerYes).click();
         cy.advanceToNextPage();
     };
 }
