@@ -1,6 +1,7 @@
 export class PrepareAppealSelector {
 
     _selectors = {
+        
         emailCode: '#email-code',
         applicationReference: '#applicationReference',
         appliationNumber: '[data-cy="application-number"]',
@@ -9,6 +10,7 @@ export class PrepareAppealSelector {
         onApplicationDateMonth: '#onApplicationDate_month',
         onApplicationDateYear: '#onApplicationDate_year',
         developmentDescriptionOriginal: '#developmentDescriptionOriginal',
+        govukFieldsetHeading: ".govuk-fieldset__heading",
     }
     _fullAppealselectors = {
         decisionDateDay: '#decision-date-day',

@@ -10,17 +10,17 @@ export class OtherAppealsPage {
 
         if (anyOtherAppeals) {
             for (let otherAppeal of context?.otherAppeals) {
-                basePage.clickRadioBtn('[data-cy="answer-yes"]');
+                cy.getByData(basePage?._selectors.answerYes).click();
                 cy.advanceToNextPage();
 
                 basePage.addTextField(this._selectors?.appellantLinkedCase, otherAppeal?.appealReferenceNumber);
                 cy.advanceToNextPage();
             }
-            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
 
         } else {
-            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
     };

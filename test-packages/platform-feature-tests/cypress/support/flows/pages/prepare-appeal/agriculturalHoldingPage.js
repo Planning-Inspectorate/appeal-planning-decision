@@ -8,11 +8,11 @@ export class AgriculturalHoldingPage {
         const basePage = new BasePage();
         const tenanatAgriculturalHoldingPage = new TenanatAgriculturalHoldingPage();
         if (isAgriculturalHolding) {
-            basePage.clickRadioBtn('[data-cy="answer-yes"]');
+            cy.getByData(basePage?._selectors.answerYes).click();        
             cy.advanceToNextPage();
             tenanatAgriculturalHoldingPage.addTenanatAgriculturalHoldingData(context?.applicationForm?.isTenantAgricultureHolding, context);
         } else {
-            basePage.clickRadioBtn('[data-cy="answer-no"]');
+            cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
     };
