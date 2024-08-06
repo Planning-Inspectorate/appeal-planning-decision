@@ -32,6 +32,9 @@ exports.post = async ({ userId, data }) => {
  * @returns {Promise<string>}
  */
 exports.deleteOldSubmissions = async () => {
+	/**
+	 * @type {string[]}
+	 */
 	const deletedSubmissions = [];
 	try {
 		const nonSubmittedSubmissions = await repo.getNonSubmittedSubmissions();
@@ -39,30 +42,33 @@ exports.deleteOldSubmissions = async () => {
 			return 'No non-submitted submissions to delete';
 		}
 
-		for (const submission of nonSubmittedSubmissions) {
-			const deadlineDate = rules.appeal.deadlineDate(
-				submission.applicationDecisionDate,
-				mapTypeCodeToAppealId(submission.appealTypeCode),
-				submission.applicationDecision
-			);
+		await Promise.all(
+			nonSubmittedSubmissions.map(async (submission) => {
+				const deadlineDate = rules.appeal.deadlineDate(
+					submission.applicationDecisionDate,
+					mapTypeCodeToAppealId(submission.appealTypeCode),
+					submission.applicationDecision
+				);
 
-			const currentDate = new Date();
-			const threeMonthsPastDeadline = new Date(deadlineDate);
-			threeMonthsPastDeadline.setMonth(threeMonthsPastDeadline.getMonth() + 3);
+				const currentDate = new Date();
+				const threeMonthsPastDeadline = new Date(deadlineDate);
+				threeMonthsPastDeadline.setMonth(threeMonthsPastDeadline.getMonth() + 3);
 
-			if (currentDate > threeMonthsPastDeadline) {
-				const documents = await repo.getSubmissionDocumentUploads(submission.id);
-				for (const document of documents) {
-					await docsApiClient.deleteDocument(submission.id, document.id);
+				if (currentDate > threeMonthsPastDeadline) {
+					const documents = await repo.getSubmissionDocumentUploads(submission.id);
+					await Promise.all(
+						documents.map((document) => docsApiClient.deleteDocument(submission.id, document.id))
+					);
+
+					await Promise.all([
+						repo.deleteLinkedRecords(submission.id),
+						repo.deleteSubmission(submission.id)
+					]);
+
+					deletedSubmissions.push(submission.id);
 				}
-
-				await repo.deleteLinkedRecords(submission.id);
-
-				await repo.deleteSubmission(submission.id);
-
-				deletedSubmissions.push(submission.id);
-			}
-		}
+			})
+		);
 
 		if (deletedSubmissions.length >= 1) {
 			return `Deleted submissions: ${deletedSubmissions.join(', ')}`;
