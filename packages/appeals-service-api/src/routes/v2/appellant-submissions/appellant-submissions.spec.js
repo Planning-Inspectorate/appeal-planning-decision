@@ -458,7 +458,7 @@ describe('/appellant-submissions', () => {
 			Repo.prototype.getNonSubmittedSubmissions = mockGetNonSubmittedSubmissions;
 			Repo.prototype.getSubmissionDocumentUploads = mockGetSubmissionDocumentUploads;
 			Repo.prototype.deleteSubmission = mockDeleteSubmission;
-			docsApiClient.deleteDocument = mockDeleteDocument;
+			docsApiClient.deleteSubmissionDocument = mockDeleteDocument;
 			const oldApplicationDate = new Date();
 			oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7);
 			const mockSubmission = {
@@ -477,7 +477,7 @@ describe('/appellant-submissions', () => {
 
 			expect(mockDeleteDocument).toHaveBeenCalledTimes(mockDocuments.length);
 			mockDocuments.forEach((doc) => {
-				expect(mockDeleteDocument).toHaveBeenCalledWith(mockSubmission.id, doc.id);
+				expect(mockDeleteDocument).toHaveBeenCalledWith(doc.id);
 			});
 		});
 		it('should handle errors when deleting old submissions', async () => {
@@ -485,7 +485,7 @@ describe('/appellant-submissions', () => {
 			const mockGetSubmissionDocumentUploads = jest.fn();
 			const mockDeleteDocument = jest.fn();
 			const mockDeleteSubmission = jest.fn();
-			docsApiClient.deleteDocument = mockDeleteDocument;
+			docsApiClient.deleteSubmissionDocument = mockDeleteDocument;
 			Repo.prototype.getNonSubmittedSubmissions = mockGetNonSubmittedSubmissions;
 			Repo.prototype.getSubmissionDocumentUploads = mockGetSubmissionDocumentUploads;
 			Repo.prototype.deleteSubmission = mockDeleteSubmission;
@@ -508,7 +508,7 @@ describe('/appellant-submissions', () => {
 			const response = await appealsApi.delete(
 				'/api/v2/appellant-submissions/cleanup-old-submissions'
 			);
-			// console.log(response)
+
 			expect(response.body.errors[0]).toEqual('Error deleting old submissions');
 		});
 	});
