@@ -81,7 +81,6 @@ async function putCase(caseReference, data) {
 
 		switch (data.caseType) {
 			case CASE_TYPES.HAS.key:
-				// todo: openApiValidatorMiddleware not working?
 				if (!hasValidator(data)) {
 					throw ApiError.badRequest('Payload was invalid');
 				}
