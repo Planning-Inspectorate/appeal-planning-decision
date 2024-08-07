@@ -7,7 +7,7 @@ const { formatNeibouringAddressWithBreaks } = require('@pins/common/src/lib/form
  */
 exports.siteAccessRows = (caseData) => {
 	const neighbourAdresses = caseData.NeighbouringAddresses || [];
-	const hasNeighbours = !!neighbourAdresses;
+	const hasNeighbours = neighbourAdresses.length;
 
 	/**
 	 * @type {import("@pins/common/src/view-model-maps/rows/def").Rows}
