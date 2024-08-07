@@ -14,7 +14,7 @@ const { ApplyAppealCostsPage } = require("../pages/upload-documents/applyAppealC
 const { HealthSafetyIssuesPage } = require("../pages/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, context) => {
+module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, context, prepareAppealData) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -51,12 +51,12 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 	cy.url().should('include', '/appeal-householder-decision/planning-application-number');
 
 	const applicationNumber = `TEST-${Date.now()}`;
-	cy.get(prepareAppealSelector?._selectors?.appliationNumber).type(applicationNumber);
+	cy.getByData(prepareAppealSelector?._selectors?.applicationNumber).type(applicationNumber);
 	cy.advanceToNextPage();
 
 	cy.url().should('include', '/appeal-householder-decision/email-address');
 
-	cy.get(prepareAppealSelector?._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
+	cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
 	cy.advanceToNextPage();
 
 	cy.url().should('include', '/appeal-householder-decision/enter-code');

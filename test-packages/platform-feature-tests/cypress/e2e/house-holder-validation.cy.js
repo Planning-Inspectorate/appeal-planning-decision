@@ -13,12 +13,16 @@ const { PrepareAppealSelector } = require("../page-objects/prepare-appeal/prepar
 const applicationFormPage = require("../support/flows/pages/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../support/flows/pages/prepare-appeal/applicationNamePage");
 
-
 describe('House Holder Date Validations', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
+    let prepareAppealData;
+
 
     beforeEach(() => {
+        cy.fixture('prepareAppealData').then(data => {
+            prepareAppealData = data;
+        })
         cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
         cy.advanceToNextPage();
         cy.get(basePage?._selectors?.localPlanningDepartment)
@@ -105,7 +109,12 @@ describe('House Holder Validations', () => {
     const otherAppealsPage = new OtherAppealsPage();
     const context = houseHolderAppealRefusedTestCases[0];
 
+    let prepareAppealData;
+
     beforeEach(() => {
+        cy.fixture('prepareAppealData').then(data => {
+            prepareAppealData = data;
+        })
         cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
         cy.advanceToNextPage();
         cy.get(basePage?._selectors?.localPlanningDepartment)
@@ -143,18 +152,18 @@ describe('House Holder Validations', () => {
         cy.get(prepareAppealSelector?._selectors?.govukFieldsetHeading).contains("What’s the date on the decision letter from the local planning authority?");
     });
     it(`Validate exiting service page and button when user tries to use exiting appeals case work portal`, () => {
-        cy.get(basePage._selectors?.answerYes).click();
+        cy.getByData(basePage._selectors?.answerYes).click();
         cy.advanceToNextPage();
         cy.get(basePage._selectors?.govukHeadingOne).should('have.text', 'You need to use the existing service');
         cy.get(basePage._selectors?.govukButton).contains('Continue to the Appeals Casework Portal');
     });
 
     it(`Validate emails address with correct email format`, () => {
-        cy.get(basePage._selectors?.answerNo).click();
+        cy.getByData(basePage._selectors?.answerNo).click();
         cy.advanceToNextPage();
         cy.advanceToNextPage('Continue to my appeal');
         const applicationNumber = `TEST-${Date.now()}`;
-        cy.getByData(prepareAppealSelector._selectors?.appliationNumber).type(applicationNumber);
+        cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('abcdtestemail');
         cy.advanceToNextPage();
@@ -162,13 +171,13 @@ describe('House Holder Validations', () => {
     });
 
     it(`Validate correct email code received `, () => {
-        cy.get(basePage._selectors?.answerNo).click();
+        cy.getByData(basePage._selectors?.answerNo).click();
         cy.advanceToNextPage();
         cy.advanceToNextPage('Continue to my appeal');
         const applicationNumber = `TEST-${Date.now()}`;
-        cy.getByData(prepareAppealSelector._selectors?.appliationNumber).type(applicationNumber);
+        cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
-        cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
+        cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');
         cy.advanceToNextPage();
@@ -176,11 +185,11 @@ describe('House Holder Validations', () => {
     });
 
     it(`Validate error message when incorrect email code received `, () => {
-        cy.get(basePage._selectors?.answerNo).click();
+        cy.getByData(basePage._selectors?.answerNo).click();
         cy.advanceToNextPage();
         cy.advanceToNextPage('Continue to my appeal');
         const applicationNumber = `TEST-${Date.now()}`;
-        cy.getByData(prepareAppealSelector._selectors?.appliationNumber).type(applicationNumber);
+        cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
         cy.advanceToNextPage();
@@ -191,11 +200,11 @@ describe('House Holder Validations', () => {
 
     it(`Validate change URL for application name in task link page `, () => {
         const applicationNamePage = new ApplicationNamePage();
-        cy.get(basePage._selectors?.answerNo).click();
+        cy.getByData(basePage._selectors?.answerNo).click();
         cy.advanceToNextPage();
         cy.advanceToNextPage('Continue to my appeal');
         const applicationNumber = `TEST-${Date.now()}`;
-        cy.getByData(prepareAppealSelector._selectors?.appliationNumber).type(applicationNumber);
+        cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
         cy.advanceToNextPage();
@@ -217,11 +226,11 @@ describe('House Holder Validations', () => {
 
     it(`Validate data entered while adding the prepare appeal form `, () => {
         const applicationNamePage = new ApplicationNamePage();
-        cy.get(basePage._selectors?.answerNo).click();
+        cy.getByData(basePage._selectors?.answerNo).click();
         cy.advanceToNextPage();
         cy.advanceToNextPage('Continue to my appeal');
         const applicationNumber = `TEST-${Date.now()}`;
-        cy.getByData(prepareAppealSelector._selectors?.appliationNumber).type(applicationNumber);
+        cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
         cy.advanceToNextPage();
@@ -260,10 +269,10 @@ describe('House Holder Validations', () => {
             cy.advanceToNextPage();
 
             if (context?.applicationForm?.iaUpdateDevelopmentDescription) {
-                cy.get(basePage._selectors?.answerYes).click();
+                cy.getByData(basePage._selectors?.answerYes).click();
                 cy.advanceToNextPage();
             } else {
-                cy.get(basePage._selectors?.answerNo).click();
+                cy.getByData(basePage._selectors?.answerNo).click();
                 cy.advanceToNextPage();
             }
 

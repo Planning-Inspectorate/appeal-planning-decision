@@ -1,0 +1,36 @@
+{
+    "button":"Continue to my appeal",
+    "email":{
+        "emailAddress":"appellant2@planninginspectorate.gov.uk",
+        "emailCode":"12345"
+    },
+    "applicationName":{
+        "firstName": "Test FirstName",
+        "lastName": "Test LastName",
+        "companyName": "Test CompanyName"
+    },
+    "contactDetails":{
+        "firstName": "Test FirstName",
+        "lastName": "Test LastName",
+        "companyName": "Test CompanyName",
+        "contactPhoneNumber": "07654321000"
+    },
+    "appealSiteAddress":{
+        "addressLine1":"Site Address Lane1",
+        "addressLine2":"Site Address Lane2",
+        "testTown":"Site Town",
+        "TestCounty":"Site County",
+        "AddressPostcode":"SW7 9PB"
+    },
+    "siteArea":{
+        "squareMetres":"10001",
+        "SquareHectares":"10001"
+    },
+    "accessAppellantSiteAccessDetails":"the appeal site is at the rear of a terraced property123456789aAbcdEF!\"£$%QA",
+    "appellantSiteSafetyDetails": "appellantSiteSafety_appellantSiteSafetyDetails1234567890!\"£$%^&*(10)",
+    
+    "develpmentDescriptionOriginal":"developmentDescriptionOriginal-hint123456789!£$%&*j",
+    "acceptAndSubmitButton":"Accept and submit",
+    "appealSubmitted": "Appeal submitted"   
+
+}
