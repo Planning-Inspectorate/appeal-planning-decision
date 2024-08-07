@@ -57,7 +57,7 @@ exports.deleteOldSubmissions = async () => {
 				if (currentDate > threeMonthsPastDeadline) {
 					const documents = await repo.getSubmissionDocumentUploads(submission.id);
 					await Promise.all(
-						documents.map((document) => docsApiClient.deleteDocument(submission.id, document.id))
+						documents.map((document) => docsApiClient.deleteSubmissionDocument(document.id))
 					);
 
 					await Promise.all([
