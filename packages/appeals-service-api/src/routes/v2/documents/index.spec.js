@@ -68,13 +68,13 @@ afterAll(async () => {
 
 describe('documents v2', () => {
 	describe('create document', () => {
-		it('should return 500 if unknown field supplied', async () => {
+		it('should return 400 if unknown field supplied', async () => {
 			const response = await appealsApi.put('/api/v2/documents').send({
 				id: 'doc_001',
 				unknownField: '123'
 			});
 
-			expect(response.status).toBe(500);
+			expect(response.status).toBe(400);
 		});
 
 		it('should create a document', async () => {

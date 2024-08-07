@@ -287,12 +287,7 @@ const formattedHAS = [
 // };
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {
-	beforeAll(async () => {
-		// Give the schemas a moment to load from disk
-		await new Promise((res) => {
-			setTimeout(res, 2000);
-		});
-	});
+	beforeAll(async () => {});
 	it.each([
 		['HAS', '001', formattedHAS]
 		// ['S78', '002', formattedS78]

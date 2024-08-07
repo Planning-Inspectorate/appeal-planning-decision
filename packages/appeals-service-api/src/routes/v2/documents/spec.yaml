@@ -23,3 +23,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/documents/{id}:
+    delete:
+      tags:
+        - documents
+      description: delete a document
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: document id
+      responses:
+        200:
+          description: deleted document
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
