@@ -11,7 +11,8 @@ const documents = {
     uploadFinalisingDocDraft: 'additional-final-comments-2.pdf',
     uploadDevelopmentDescription: 'additional-final-comments-1.pdf',
     uploadDecisionLetter: 'decision-letter.pdf',
-    uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf'
+    uploadPlanningApplConfirmLetter: 'letter-confirming-planning-application.pdf',
+    uploadDraftStatementOfCommonGround: 'draft-statement-of-common-ground.pdf'
 };
 export const fullAppealGrantedTestCases = [
     {

@@ -21,7 +21,7 @@ const { OtherNewDocumentsPage } = require("../pages/upload-documents/otherNewDoc
 const { HealthSafetyIssuesPage } = require("../pages/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, applicationType, context) => {
+module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, applicationType, context, prepareAppealData) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -62,11 +62,11 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 	cy.advanceToNextPage('Continue to my appeal');
 
 	const applicationNumber = `TEST-${Date.now()}`;
-	cy.get(prepareAppealSelector?._selectors?.appliationNumber).type(applicationNumber);
+	cy.getByData(prepareAppealSelector?._selectors?.applicationNumber).type(applicationNumber);
 	cy.advanceToNextPage();
 
 	cy.intercept('POST', '/full-appeal/submit-appeal/list-of-documents').as('postRequest');
-	cy.get(prepareAppealSelector?._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
+	cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
 	cy.advanceToNextPage();
 
 	cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');
@@ -142,7 +142,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 
 		if (context?.applicationForm?.appellantProcedurePreference !== 'written') {
 			//Upload your draft statement of common ground
-			cy.uploadFileFromFixtureDirectory('draft-statement-of-common-ground.pdf');
+			cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDraftStatementOfCommonGround);
 			cy.advanceToNextPage();
 		}
 

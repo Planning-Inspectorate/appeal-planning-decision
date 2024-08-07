@@ -1,11 +1,11 @@
 export class PrepareAppealSelector {
 
     _selectors = {
-        
+
         emailCode: '#email-code',
         applicationReference: '#applicationReference',
-        appliationNumber: '[data-cy="application-number"]',
-        emailAddress: '[data-cy="email-address"]',
+        applicationNumber: 'application-number',
+        emailAddress: 'email-address',
         onApplicationDateDay: '#onApplicationDate_day',
         onApplicationDateMonth: '#onApplicationDate_month',
         onApplicationDateYear: '#onApplicationDate_year',

@@ -2,7 +2,12 @@ import { fullAppealGrantedTestCases } from "../../helpers/fullAppeal/fullAppealG
 const { submitAppealFlow } = require('../../support/flows/appeal');
 
 describe('Submit Full Appeal Granted Test cases', () => {
-
+	let prepareAppealData;
+	beforeEach(() => {
+        cy.fixture('prepareAppealData').then(data => {
+            prepareAppealData = data;
+        })
+	});
     fullAppealGrantedTestCases.forEach((context) => {
         const {
             statusOfOriginalApplication,
@@ -37,7 +42,8 @@ describe('Submit Full Appeal Granted Test cases', () => {
                 typeOfDecisionRequested,
                 statusOfPlanningObligation,
                 planning: typeOfPlanningApplication,
-                context
+                context,
+				prepareAppealData
             });
         });
     });

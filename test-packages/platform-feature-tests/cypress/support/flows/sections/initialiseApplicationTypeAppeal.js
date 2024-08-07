@@ -1,7 +1,7 @@
 import { BasePage } from "../../../page-objects/base-page";
 const initialiseHouseHolderPlanning = require("./initialiseHouseHolderPlanning");
 const initialiseFullPlanning = require("./initialiseFullPlanning");
-module.exports = (statusOfOriginalApplication, planning, context) => {
+module.exports = (statusOfOriginalApplication, planning, context, prepareAppealData) => {
 	const basePage = new BasePage();
 	cy.visit(`${Cypress.config('appeals_beta_base_url')}/before-you-start`);
 	cy.advanceToNextPage();
@@ -27,13 +27,13 @@ module.exports = (statusOfOriginalApplication, planning, context) => {
 
 		cy.get(basePage._selectors?.siteSelectionSeven).click();
 		cy.advanceToNextPage();
-		initialiseFullPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, 'Full Appeal', context);
+		initialiseFullPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, 'Full Appeal', context, prepareAppealData);
 	}
 	else if (planning === "answer-householder-planning") {
 
 		cy.getByData(basePage._selectors?.answerListedBuilding).click();
 		cy.advanceToNextPage();
 
-		statusOfOriginalApplication === 'refused' ? initialiseHouseHolderPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, context) : initialiseFullPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, 'Householder Planning', context);
+		statusOfOriginalApplication === 'refused' ? initialiseHouseHolderPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, context, prepareAppealData) : initialiseFullPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, 'Householder Planning', context, prepareAppealData);
 	}
 };
