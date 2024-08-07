@@ -1,7 +1,6 @@
 const { default: fetch } = require('node-fetch');
 const crypto = require('crypto');
 const { handleApiErrors } = require('./api-client-error');
-const uuid = require('uuid');
 
 const parentLogger = require('../lib/logger');
 
