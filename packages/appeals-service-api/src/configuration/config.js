@@ -116,6 +116,11 @@ let config = {
 					appealNotificationEmailToLpa:
 						process.env.SRV_NOTIFY_FULL_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID
 				},
+				V2_COMMON: {
+					appealSubmissionReceivedEmailToAppellant:
+						process.env
+							.SRV_NOTIFY_APPEAL_SUBMISSION_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID_V1_1
+				},
 				SAVE_AND_RETURN: {
 					continueWithAppealEmailToAppellant:
 						process.env.SRV_NOTIFY_SAVE_AND_RETURN_CONTINUE_WITH_APPEAL_TEMPLATE_ID,

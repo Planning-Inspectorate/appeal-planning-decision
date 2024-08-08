@@ -3,6 +3,7 @@ const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static')
 
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
+ * @typedef {import("@prisma/client").AppellantSubmission} AppellantSubmission
  * @typedef {import("@prisma/client").AppealCase} AppealCase
  * @typedef {import("@prisma/client").AppealCaseRelationship} AppealCaseRelationship
  * @typedef {import("@prisma/client").Prisma.AppealCaseCreateInput} AppealCaseCreateInput
@@ -197,17 +198,44 @@ class AppealCaseRepository {
 	}
 
 	/**
+	 * @typedef {object} putAppealResult
+	 * @property {AppealCase} appealCase
+	 * @property {AppellantSubmission|null} appellantSubmission
+	 * @property {boolean} exists
+	 */
+
+	/**
 	 * Get an appeal by case reference (aka appeal number)
-	 *
 	 * @param {string} caseReference
 	 * @param {string} caseProcessCode
 	 * @param {AppealHASCase} data
-	 * @returns {Promise<AppealCase>}
+	 * @returns {Promise<putAppealResult>}
 	 */
 	async putHASByCaseReference(caseReference, caseProcessCode, data) {
 		const mappedData = mapHASDataModelToAppealCase(caseProcessCode, data);
 
-		const appealCase = await this.dbClient.appealCase.upsert({
+		/** @type {putAppealResult} */
+		let result = {
+			appealCase: null,
+			appellantSubmission: null,
+			exists: true
+		};
+
+		result.exists = !!(await this.dbClient.appealCase.count({
+			where: {
+				caseReference
+			}
+		}));
+
+		if (!result.exists && data.submissionId) {
+			result.appellantSubmission = await this.dbClient.appellantSubmission.findFirst({
+				where: {
+					appealId: data.submissionId
+				}
+			});
+		}
+
+		result.appealCase = await this.dbClient.appealCase.upsert({
 			create: {
 				...mappedData,
 				Appeal: data.submissionId ? { connect: { id: data.submissionId } } : { create: {} }
@@ -350,7 +378,7 @@ class AppealCaseRepository {
 			}
 		});
 
-		return appealCase;
+		return result;
 	}
 
 	/**
