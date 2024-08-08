@@ -42,10 +42,6 @@ jest.mock('express-oauth2-jwt-bearer');
 jest.setTimeout(30000);
 
 const submissionIds = [];
-const appealIds = [];
-const addressIds = [];
-const listedBuildingIds = [];
-const linkedCaseIds = [];
 
 let validUser;
 
@@ -81,7 +77,6 @@ const createAppeal = async () => {
 			}
 		}
 	});
-	appealIds.push(appeal.id);
 	return appeal.id;
 };
 
@@ -93,14 +88,12 @@ const createAppeal = async () => {
  * @returns {Promise<Response>}
  */
 const appellantSubmissionPutResponse = async (lpaCode, appealTypeCode, appealId, decisionDate) => {
-	const response = await appealsApi.put('/api/v2/appellant-submissions').send({
+	return await appealsApi.put('/api/v2/appellant-submissions').send({
 		LPACode: lpaCode,
 		appealTypeCode: appealTypeCode,
 		appealId: appealId,
 		applicationDecisionDate: decisionDate
 	});
-	submissionIds.push(response.body.id);
-	return response;
 };
 
 /**
@@ -110,7 +103,7 @@ const appellantSubmissionPutResponse = async (lpaCode, appealTypeCode, appealId,
  */
 const createLinkedRecords = async (submissionId, linkedRecordType) => {
 	if (linkedRecordType === 'address') {
-		const address = await sqlClient.submissionAddress.create({
+		return await sqlClient.submissionAddress.create({
 			data: {
 				appellantSubmissionId: submissionId,
 				addressLine1: 'Address Line 1',
@@ -119,9 +112,8 @@ const createLinkedRecords = async (submissionId, linkedRecordType) => {
 				fieldName: 'question1'
 			}
 		});
-		addressIds.push(address.id);
 	} else if (linkedRecordType === 'listedBuilding') {
-		const listedBuilding = await sqlClient.submissionListedBuilding.create({
+		return await sqlClient.submissionListedBuilding.create({
 			data: {
 				appellantSubmissionId: submissionId,
 				reference: 'ABC123',
@@ -130,16 +122,14 @@ const createLinkedRecords = async (submissionId, linkedRecordType) => {
 				fieldName: 'question2'
 			}
 		});
-		listedBuildingIds.push(listedBuilding.id);
 	} else if (linkedRecordType === 'linkedCase') {
-		const linkedCase = await sqlClient.submissionLinkedCase.create({
+		return await sqlClient.submissionLinkedCase.create({
 			data: {
 				appellantSubmissionId: submissionId,
 				caseReference: '1234567',
 				fieldName: 'question3'
 			}
 		});
-		linkedCaseIds.push(linkedCase.id);
 	}
 };
 
@@ -151,24 +141,6 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-	await sqlClient.submissionAddress.deleteMany({
-		where: { id: { in: addressIds } }
-	});
-	await sqlClient.submissionListedBuilding.deleteMany({
-		where: { id: { in: listedBuildingIds } }
-	});
-	await sqlClient.submissionLinkedCase.deleteMany({
-		where: { id: { in: linkedCaseIds } }
-	});
-	await sqlClient.appellantSubmission.deleteMany({
-		where: { id: { in: submissionIds } }
-	});
-	await sqlClient.appealToUser.deleteMany({
-		where: { appealId: { in: appealIds } }
-	});
-	await sqlClient.appeal.deleteMany({
-		where: { id: { in: appealIds } }
-	});
 	jest.clearAllMocks();
 });
 
@@ -180,12 +152,13 @@ describe('/appellant-submissions', () => {
 	it('put', async () => {
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 		setCurrentSub(validUser);
-
+		const decisionDate = new Date();
 		const appealId = await createAppeal();
 		const response = await appealsApi.put('/api/v2/appellant-submissions').send({
 			LPACode: 'Q9999',
 			appealTypeCode: 'HAS',
-			appealId: appealId
+			appealId: appealId,
+			applicationDecisionDate: decisionDate
 		});
 
 		submissionIds.push(response.body.id);
@@ -208,7 +181,8 @@ describe('/appellant-submissions', () => {
 			const putResponse = await appealsApi.put('/api/v2/appellant-submissions').send({
 				LPACode: 'Q9999',
 				appealTypeCode: 'HAS',
-				appealId: appealId
+				appealId: appealId,
+				applicationDecisionDate: new Date()
 			});
 
 			const createdAppellantSubmissionId = putResponse.body.id;
@@ -234,7 +208,7 @@ describe('/appellant-submissions', () => {
 		it('patch', async () => {
 			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 			setCurrentSub(validUser);
-
+			const decisionDate = new Date();
 			const appealId = await createAppeal();
 
 			const putResponse = await appealsApi.put('/api/v2/appellant-submissions').send({
@@ -255,7 +229,8 @@ describe('/appellant-submissions', () => {
 					id: createdAppellantSubmissionId,
 					LPACode: 'Q9999',
 					appealTypeCode: 'S78',
-					appealId: appealId
+					appealId: appealId,
+					applicationDecisionDate: decisionDate
 				});
 
 			expect(response.body).toEqual({
@@ -335,7 +310,7 @@ describe('/appellant-submissions', () => {
 
 			// Create non-submitted S78 submissions
 			const oldS78ApplicationDate = new Date();
-			oldS78ApplicationDate.setMonth(oldS78ApplicationDate.getMonth() - 10);
+			oldS78ApplicationDate.setMonth(oldS78ApplicationDate.getMonth() - 11);
 			const oldS78AppealId = await createAppeal();
 			const oldS78Submission = await appellantSubmissionPutResponse(
 				'Q9999',
