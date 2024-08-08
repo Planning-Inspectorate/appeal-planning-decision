@@ -9,11 +9,11 @@ const options = {
 		info: {
 			title: 'Appeals Document Service API',
 			description: 'An API to proxy documents and control access',
-			version: '1.0.0'
-		},
-		license: {
-			name: 'MIT',
-			url: 'https://opensource.org/licenses/MIT'
+			version: '1.0.0',
+			license: {
+				name: 'MIT',
+				url: 'https://opensource.org/licenses/MIT'
+			}
 		},
 		servers: [{ url: 'http://localhost:3001/', description: 'local dev' }]
 	},
