@@ -3,6 +3,7 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 const ApiError = require('#errors/apiError');
 const logger = require('#lib/logger');
+const { subMonths } = require('date-fns');
 
 /**
  * @typedef {import('@prisma/client').AppellantSubmission} BareAppellantSubmission
@@ -32,6 +33,14 @@ const logger = require('#lib/logger');
  * }>} FullAppellantSubmission
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionCreateInput} AppellantSubmissionCreateInput
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionUpdateInput} AppellantSubmissionUpdateInput
+ * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
+ *   select: {
+ *    	id: true,
+ *		applicationDecisionDate: true,
+ *		appealTypeCode: true,
+ *		applicationDecision: true
+ *   }
+ * }>} AppellantSubmissionCleanupData
  */
 
 module.exports = class Repo {
@@ -293,5 +302,98 @@ module.exports = class Repo {
 			}
 			throw e;
 		}
+	}
+
+	/**
+	 * Get all non submitted submissions
+	 * @returns {Promise<AppellantSubmissionCleanupData[]>}
+	 */
+	async getNonSubmittedSubmissions() {
+		try {
+			const threeMonthsAgo = subMonths(new Date(), 3);
+
+			return this.dbClient.appellantSubmission.findMany({
+				where: {
+					submitted: false,
+					updatedAt: {
+						lte: threeMonthsAgo
+					}
+				},
+				select: {
+					id: true,
+					applicationDecisionDate: true,
+					appealTypeCode: true,
+					applicationDecision: true
+				}
+			});
+		} catch (e) {
+			if (e instanceof PrismaClientKnownRequestError) {
+				if (e.code === 'P2023') {
+					// probably an invalid ID/GUID
+					return null;
+				}
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Get all document uploads for a submission
+	 * @param {string} submissionId
+	 * @returns {Promise<import('@prisma/client').SubmissionDocumentUpload[]>}
+	 */
+	async getSubmissionDocumentUploads(submissionId) {
+		return this.dbClient.submissionDocumentUpload.findMany({
+			where: { appellantSubmissionId: submissionId }
+		});
+	}
+
+	/**
+	 * Delete associated relations
+	 * @param {string} submissionId
+	 * @returns {Promise<void>}
+	 */
+	async deleteLinkedRecords(submissionId) {
+		await Promise.all([
+			this.dbClient.submissionDocumentUpload.deleteMany({
+				where: { appellantSubmissionId: submissionId }
+			}),
+			this.dbClient.submissionAddress.deleteMany({
+				where: { appellantSubmissionId: submissionId }
+			}),
+			this.dbClient.submissionLinkedCase.deleteMany({
+				where: { appellantSubmissionId: submissionId }
+			}),
+			this.dbClient.submissionListedBuilding.deleteMany({
+				where: { appellantSubmissionId: submissionId }
+			})
+		]);
+	}
+
+	/**
+	 * Delete the submission
+	 * @param {string} submissionId
+	 * @returns {Promise<void>}
+	 */
+	async deleteSubmission(submissionId) {
+		const submission = await this.dbClient.appellantSubmission.findUnique({
+			where: { id: submissionId },
+			select: { appealId: true }
+		});
+
+		const appealId = submission?.appealId;
+
+		await Promise.all([
+			this.dbClient.appealToUser.deleteMany({
+				where: { appealId: appealId }
+			}),
+			this.dbClient.appellantSubmission.delete({
+				where: { id: submissionId }
+			})
+		]);
+
+		await this.dbClient.appeal.delete({
+			where: { id: appealId }
+		});
 	}
 };

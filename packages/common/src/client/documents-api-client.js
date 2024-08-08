@@ -13,7 +13,7 @@ const trailingSlashRegex = /\/$/;
  */
 
 /**
- * @class Api Client for v2 urls in documents-api
+ * @class Api Client for urls in documents-api
  */
 class DocumentsApiClient {
 	/**
