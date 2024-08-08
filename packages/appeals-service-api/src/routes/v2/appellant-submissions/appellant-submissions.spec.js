@@ -42,6 +42,10 @@ jest.mock('express-oauth2-jwt-bearer');
 jest.setTimeout(30000);
 
 const submissionIds = [];
+const appealIds = [];
+const addressIds = [];
+const listedBuildingIds = [];
+const linkedCaseIds = [];
 
 let validUser;
 
@@ -77,6 +81,7 @@ const createAppeal = async () => {
 			}
 		}
 	});
+	appealIds.push(appeal.id);
 	return appeal.id;
 };
 
@@ -88,12 +93,14 @@ const createAppeal = async () => {
  * @returns {Promise<Response>}
  */
 const appellantSubmissionPutResponse = async (lpaCode, appealTypeCode, appealId, decisionDate) => {
-	return await appealsApi.put('/api/v2/appellant-submissions').send({
+	const response = await appealsApi.put('/api/v2/appellant-submissions').send({
 		LPACode: lpaCode,
 		appealTypeCode: appealTypeCode,
 		appealId: appealId,
 		applicationDecisionDate: decisionDate
 	});
+	submissionIds.push(response.body.id);
+	return response;
 };
 
 /**
@@ -103,7 +110,7 @@ const appellantSubmissionPutResponse = async (lpaCode, appealTypeCode, appealId,
  */
 const createLinkedRecords = async (submissionId, linkedRecordType) => {
 	if (linkedRecordType === 'address') {
-		await sqlClient.submissionAddress.create({
+		const address = await sqlClient.submissionAddress.create({
 			data: {
 				appellantSubmissionId: submissionId,
 				addressLine1: 'Address Line 1',
@@ -112,8 +119,9 @@ const createLinkedRecords = async (submissionId, linkedRecordType) => {
 				fieldName: 'question1'
 			}
 		});
+		addressIds.push(address.id);
 	} else if (linkedRecordType === 'listedBuilding') {
-		await sqlClient.submissionListedBuilding.create({
+		const listedBuilding = await sqlClient.submissionListedBuilding.create({
 			data: {
 				appellantSubmissionId: submissionId,
 				reference: 'ABC123',
@@ -122,14 +130,16 @@ const createLinkedRecords = async (submissionId, linkedRecordType) => {
 				fieldName: 'question2'
 			}
 		});
+		listedBuildingIds.push(listedBuilding.id);
 	} else if (linkedRecordType === 'linkedCase') {
-		await sqlClient.submissionLinkedCase.create({
+		const linkedCase = await sqlClient.submissionLinkedCase.create({
 			data: {
 				appellantSubmissionId: submissionId,
 				caseReference: '1234567',
 				fieldName: 'question3'
 			}
 		});
+		linkedCaseIds.push(linkedCase.id);
 	}
 };
 
@@ -141,12 +151,24 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-	await sqlClient.submissionAddress.deleteMany({});
-	await sqlClient.submissionListedBuilding.deleteMany({});
-	await sqlClient.submissionLinkedCase.deleteMany({});
-	await sqlClient.appellantSubmission.deleteMany({});
-	await sqlClient.appealToUser.deleteMany({});
-	await sqlClient.appeal.deleteMany({});
+	await sqlClient.submissionAddress.deleteMany({
+		where: { id: { in: addressIds } }
+	});
+	await sqlClient.submissionListedBuilding.deleteMany({
+		where: { id: { in: listedBuildingIds } }
+	});
+	await sqlClient.submissionLinkedCase.deleteMany({
+		where: { id: { in: linkedCaseIds } }
+	});
+	await sqlClient.appellantSubmission.deleteMany({
+		where: { id: { in: submissionIds } }
+	});
+	await sqlClient.appealToUser.deleteMany({
+		where: { appealId: { in: appealIds } }
+	});
+	await sqlClient.appeal.deleteMany({
+		where: { id: { in: appealIds } }
+	});
 	jest.clearAllMocks();
 });
 
