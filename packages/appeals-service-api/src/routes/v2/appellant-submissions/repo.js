@@ -316,7 +316,7 @@ module.exports = class Repo {
 				where: {
 					submitted: false,
 					updatedAt: {
-						gte: threeMonthsAgo
+						lte: threeMonthsAgo
 					}
 				},
 				select: {
