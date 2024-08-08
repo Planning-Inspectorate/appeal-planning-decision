@@ -92,7 +92,9 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				sections: formatSections({ caseData, sections, userEmail }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
-				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate)
+				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
+				lpaStatementDueDate: formatDateForNotification(caseData.statementDueDate),
+				finalCommentDueDate: formatDateForNotification(caseData.finalCommentsDueDate)
 			}
 		};
 
@@ -132,29 +134,47 @@ const formatDateForNotification = (dateStr) => {
 	return `${formatDate(date, 'h:mmaaa')} on ${formatDate(date, 'd LLLL yyyy')}`; // eg 11:59pm on 21 March 2024
 };
 
-// for 11B ticket
+/**
+ * @param {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} caseData
+ * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
+ * @returns {boolean}
+ */
 const shouldDisplayStatementsDueBanner = (caseData, userType) => {
-	userType === 'LPAUser' &&
-		!caseData.lpaStatementSubmitted &&
-		!deadlineHasPassed(caseData.statementDueDate);
+	return (
+		userType === LPA_USER_ROLE &&
+		!caseData.LPAStatementSubmitted &&
+		!deadlineHasPassed(caseData.statementDueDate)
+	);
 };
 
-// //  for 11E
+/**
+ * @param {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} caseData
+ * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
+ * @returns {boolean}
+ */
 const shouldDisplayFinalCommentsDueBannerLPA = (caseData, userType) => {
-	userType === 'LPAUser' &&
-		deadlineHasPassed(caseData.statementDueDate) &&
-		deadlineHasPassed(caseData.interestedPartyCommentsDueDate) &&
-		!deadlineHasPassed(caseData.finalCommentsDueDate) &&
-		!caseData.lpaFinalCommentPublished;
-};
-
-// // for 11D
-const shouldDisplayFinalCommentsDueBannerAppellant = (caseData, userType) => {
-	userType === 'Appellant' &&
+	return (
+		userType === LPA_USER_ROLE &&
 		deadlineHasPassed(caseData.statementDueDate) &&
 		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
 		!deadlineHasPassed(caseData.finalCommentsDueDate) &&
-		!caseData.appellantFinalCommentsSubmitted;
+		!caseData.lpaFinalCommentsPublished
+	);
+};
+
+/**
+ * @param {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} caseData
+ * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
+ * @returns {boolean}
+ */
+const shouldDisplayFinalCommentsDueBannerAppellant = (caseData, userType) => {
+	return (
+		userType === APPEAL_USER_ROLES.APPELLANT &&
+		deadlineHasPassed(caseData.statementDueDate) &&
+		deadlineHasPassed(caseData.interestedPartyRepsDueDate) &&
+		!deadlineHasPassed(caseData.finalCommentsDueDate) &&
+		!caseData.appellantFinalCommentsSubmitted
+	);
 };
 
 const deadlineHasPassed = (dueDate) => {

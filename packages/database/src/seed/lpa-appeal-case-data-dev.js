@@ -275,7 +275,8 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
-		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		appellantFinalCommentsSubmitted: false,
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.WITHDRAWN }
 		},
@@ -664,7 +665,7 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
-		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
 		CaseStatus: {
