@@ -7,6 +7,7 @@ const crypto = require('crypto');
 const { deleteOldSubmissions } = require('./service');
 const Repo = require('./repo');
 const { docsApiClient } = require('../../../doc-client/docs-api-client');
+const { subMonths } = require('date-fns');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
 
@@ -85,14 +86,22 @@ const createAppeal = async () => {
  * @param {string} appealTypeCode
  * @param {string} appealId
  * @param {Date} decisionDate
+ * @param {Date} updatedAt
  * @returns {Promise<Response>}
  */
-const appellantSubmissionPutResponse = async (lpaCode, appealTypeCode, appealId, decisionDate) => {
+const appellantSubmissionPutResponse = async (
+	lpaCode,
+	appealTypeCode,
+	appealId,
+	decisionDate,
+	updatedAt = new Date()
+) => {
 	return await appealsApi.put('/api/v2/appellant-submissions').send({
 		LPACode: lpaCode,
 		appealTypeCode: appealTypeCode,
 		appealId: appealId,
-		applicationDecisionDate: decisionDate
+		applicationDecisionDate: decisionDate,
+		updatedAt: updatedAt
 	});
 };
 
@@ -214,7 +223,8 @@ describe('/appellant-submissions', () => {
 			const putResponse = await appealsApi.put('/api/v2/appellant-submissions').send({
 				LPACode: 'Q9999',
 				appealTypeCode: 'HAS',
-				appealId: appealId
+				appealId: appealId,
+				applicationDecisionDate: decisionDate
 			});
 
 			const createdAppellantSubmissionId = putResponse.body.id;
@@ -229,8 +239,7 @@ describe('/appellant-submissions', () => {
 					id: createdAppellantSubmissionId,
 					LPACode: 'Q9999',
 					appealTypeCode: 'S78',
-					appealId: appealId,
-					applicationDecisionDate: decisionDate
+					appealId: appealId
 				});
 
 			expect(response.body).toEqual({
@@ -246,19 +255,19 @@ describe('/appellant-submissions', () => {
 			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 			setCurrentSub(validUser);
 			// Create a non-submitted submission past the deadline
-			const oldApplicationDate = new Date();
-			oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7); // 7 months ago
+			const oldApplicationDate = subMonths(new Date(), 7); // 7 months ago
+			const lastUpdatedAt = subMonths(new Date(), 4);
 			const appealId = await createAppeal();
 			const oldSubmission = await appellantSubmissionPutResponse(
 				'Q9999',
 				'HAS',
 				appealId,
-				oldApplicationDate
+				oldApplicationDate,
+				lastUpdatedAt
 			);
 
 			// Create a non-submitted submission within the deadline
-			const recentApplicationDate = new Date();
-			recentApplicationDate.setMonth(recentApplicationDate.getMonth() - 1); // 1 month ago
+			const recentApplicationDate = subMonths(new Date(), 1); // 1 month ago
 			const recentAppealId = await createAppeal();
 			const recentSubmission = await appellantSubmissionPutResponse(
 				'Q9999',
@@ -288,18 +297,18 @@ describe('/appellant-submissions', () => {
 			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 			setCurrentSub(validUser);
 			// Create non-submitted HAS submissions
-			const oldHasApplicationDate = new Date();
-			oldHasApplicationDate.setMonth(oldHasApplicationDate.getMonth() - 7);
+			const oldHasApplicationDate = subMonths(new Date(), 7);
+			const lastHasUpdatedAt = subMonths(new Date(), 6);
 			const oldHasAppealId = await createAppeal();
 			const oldHasSubmission = await appellantSubmissionPutResponse(
 				'Q9999',
 				'HAS',
 				oldHasAppealId,
-				oldHasApplicationDate
+				oldHasApplicationDate,
+				lastHasUpdatedAt
 			);
 
-			const recentHasApplicationDate = new Date();
-			recentHasApplicationDate.setMonth(recentHasApplicationDate.getMonth() - 1);
+			const recentHasApplicationDate = subMonths(new Date(), 1);
 			const newHasAppealId = await createAppeal();
 			const newHasSubmission = await appellantSubmissionPutResponse(
 				'Q9999',
@@ -309,18 +318,18 @@ describe('/appellant-submissions', () => {
 			);
 
 			// Create non-submitted S78 submissions
-			const oldS78ApplicationDate = new Date();
-			oldS78ApplicationDate.setMonth(oldS78ApplicationDate.getMonth() - 11);
+			const oldS78ApplicationDate = subMonths(new Date(), 10);
+			const lastS78UpdatedAt = subMonths(new Date(), 4);
 			const oldS78AppealId = await createAppeal();
 			const oldS78Submission = await appellantSubmissionPutResponse(
 				'Q9999',
 				'S78',
 				oldS78AppealId,
-				oldS78ApplicationDate
+				oldS78ApplicationDate,
+				lastS78UpdatedAt
 			);
 
-			const recentS78ApplicationDate = new Date();
-			recentS78ApplicationDate.setMonth(recentS78ApplicationDate.getMonth() - 1);
+			const recentS78ApplicationDate = subMonths(new Date(), 1);
 			const newS78AppealId = await createAppeal();
 			const newS78Submission = await appellantSubmissionPutResponse(
 				'Q9999',
@@ -360,14 +369,15 @@ describe('/appellant-submissions', () => {
 			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 			setCurrentSub(validUser);
 			// Create an old submission past the deadline with linked records
-			const oldApplicationDate = new Date();
-			oldApplicationDate.setMonth(oldApplicationDate.getMonth() - 7); // 7 months ago
+			const oldApplicationDate = subMonths(new Date(), 7);
+			const lastUpdatedAt = subMonths(new Date(), 3);
 			const oldAppealId = await createAppeal();
 			const oldSubmission = await appellantSubmissionPutResponse(
 				'Q9999',
 				'HAS',
 				oldAppealId,
-				oldApplicationDate
+				oldApplicationDate,
+				lastUpdatedAt
 			);
 			await createLinkedRecords(oldSubmission.body?.id, 'address');
 			await createLinkedRecords(oldSubmission.body?.id, 'listedBuilding');
@@ -378,8 +388,7 @@ describe('/appellant-submissions', () => {
 			});
 
 			// Create a recent submission within the deadline with records
-			const recentApplicationDate = new Date();
-			recentApplicationDate.setMonth(recentApplicationDate.getMonth() - 1); // 1 month ago
+			const recentApplicationDate = subMonths(new Date(), 1);
 			const recentAppealId = await createAppeal();
 			const recentSubmission = await appellantSubmissionPutResponse(
 				'Q9999',
