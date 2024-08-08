@@ -42,7 +42,7 @@
 			{% if shouldDisplayStatementsDueBanner %}
    				{% set html %}
 					<p class="govuk-notification-banner__heading">
-						You must submit this statement by {{appeal.statementsDueDate}}.&nbsp
+						You must submit this statement by {{appeal.lpaStatementDueDate}}.&nbsp
 							<ul>
 								<li>
 									<a href="/manage-appeals/statement/{{appeal.appealNumber}}" class="govuk-link">
@@ -63,7 +63,7 @@
 			{% if shouldDisplayFinalCommentsDueBannerLPA %}
 				{% set html %}
 					<p class="govuk-notification-banner__heading">
-						You can submit final comments by {{appeal.finalCommentsDueDate }}
+						You can submit final comments by {{appeal.finalCommentDueDate }}
 							<ul>
 								<li>
 									<a href="/final-comments" class="govuk-link">
@@ -84,7 +84,7 @@
 			{% if shouldDisplayFinalCommentsDueBannerAppellant %}
 				{% set html %}
 					<p class="govuk-notification-banner__heading">
-						You can submit final comments by {{appeal.finalCommentsDueDate }}
+						You can submit final comments by {{appeal.finalCommentDueDate }}
 							<ul>
 								<li>
 									<a href="/final-comments" class="govuk-link">
