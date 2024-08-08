@@ -18,6 +18,7 @@ const { templates } = config.services.notify;
 
 /**
  * @typedef {"HAS" | "S78"} AppealTypeCode
+ * @typedef {import('@prisma/client').AppealCase } AppealCase
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  */
@@ -73,33 +74,78 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
  * @param { AppellantSubmission } appellantSubmission
  * @param { string } email
  */
-const sendSubmissionConfirmationEmailToAppellantV2 = async (appellantSubmission, email) => {
+const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, email) => {
 	try {
 		const recipientEmail = email;
-		const address = appellantSubmission.SubmissionAddress?.find(
-			(address) => address.fieldName === 'siteAddress'
-		);
-		const formattedAddress = formatSubmissionAddress(address);
 
-		let lpa;
-		try {
-			lpa = await lpaService.getLpaByCode(appellantSubmission.LPACode);
-		} catch (err) {
-			lpa = await lpaService.getLpaById(appellantSubmission.LPACode);
-		}
-
-		let variables = {
-			appeal_reference_number: appellantSubmission.applicationReference,
-			'appeal site address': formattedAddress,
-			'local planning department': lpa.getName(),
-			'link to pdf': `${config.apps.appeals.baseUrl}/appeal-document/${appellantSubmission.id}/${appellantSubmission.submissionPdfId}`
+		const variables = {
+			name: `${appellantSubmission.contactFirstName} + ${appellantSubmission.contactLastName}`
 		};
 
 		const reference = appellantSubmission.id;
 
 		logger.debug(
 			{ recipientEmail, variables, reference },
-			'Sending submission confirmation email to appellant'
+			'Sending submission received email to appellant'
+		);
+
+		await NotifyBuilder.reset()
+			.setTemplateId(templates.V2_COMMON.appealSubmissionReceivedEmailToAppellant)
+			.setDestinationEmailAddress(recipientEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, appealId: appellantSubmission.id },
+			'Unable to send submission received email v2 to appellant'
+		);
+	}
+};
+
+/**
+ * @param { AppealCase } appealCase
+ * @param { AppellantSubmission } appellantSubmission
+ * @param { string } email
+ */
+const sendSubmissionConfirmationEmailToAppellantV2 = async (
+	appealCase,
+	appellantSubmission,
+	email
+) => {
+	try {
+		const recipientEmail = email;
+		const formattedAddress = formatSubmissionAddress({
+			addressLine1: appealCase.siteAddressLine1,
+			addressLine2: appealCase.siteAddressLine2,
+			townCity: appealCase.siteAddressTown,
+			county: appealCase.siteAddressCounty,
+			postcode: appealCase.siteAddressPostcode
+		});
+
+		let lpa;
+		try {
+			lpa = await lpaService.getLpaByCode(appealCase.LPACode);
+		} catch (err) {
+			lpa = await lpaService.getLpaById(appealCase.LPACode);
+		}
+
+		const variables = {
+			appeal_reference_number: appealCase.caseReference,
+			'appeal site address': formattedAddress,
+			'local planning department': lpa.getName(),
+			'link to pdf': `${config.apps.appeals.baseUrl}/appeal-document/${appellantSubmission.id}/${appellantSubmission.submissionPdfId}`
+		};
+
+		const reference = appealCase.id;
+
+		logger.debug(
+			{ recipientEmail, variables, reference },
+			'Sending submission confirmation email to appellant v2'
 		);
 
 		await NotifyBuilder.reset()
@@ -117,8 +163,8 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (appellantSubmission,
 			);
 	} catch (err) {
 		logger.error(
-			{ err, appealId: appellantSubmission.id },
-			'Unable to send submission confirmation email to appellant'
+			{ err, appealId: appealCase.id },
+			'Unable to send submission confirmation email to appellant v2'
 		);
 	}
 };
@@ -459,8 +505,11 @@ module.exports = {
 	sendSubmissionReceivedEmailToLpa,
 	sendSubmissionReceivedEmailToAppellant,
 	sendSubmissionConfirmationEmailToAppellant,
-	sendSubmissionConfirmationEmailToAppellantV2,
+
 	sendSubmissionReceivedEmailToLpaV2,
+	sendSubmissionReceivedEmailToAppellantV2,
+	sendSubmissionConfirmationEmailToAppellantV2,
+
 	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
 	sendSecurityCodeEmail,
