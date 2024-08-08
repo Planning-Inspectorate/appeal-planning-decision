@@ -15,7 +15,7 @@ const {
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
-	sendSubmissionConfirmationEmailToAppellantV2,
+	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionReceivedEmailToLpaV2,
 	sendCommentSubmissionConfirmationEmailToIp
 } = require('#lib/notify');
@@ -104,9 +104,9 @@ class BackOfficeV2Service {
 
 		let emailFailed = false;
 		try {
-			await sendSubmissionConfirmationEmailToAppellantV2(appellantSubmission, email);
+			await sendSubmissionReceivedEmailToAppellantV2(appellantSubmission, email);
 		} catch (err) {
-			logger.error({ err }, 'failed to sendSubmissionConfirmationEmailToAppellantV2');
+			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToAppellantV2');
 			emailFailed = true;
 		}
 

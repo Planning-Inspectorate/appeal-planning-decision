@@ -6,6 +6,7 @@ const { AppealCaseRepository } = require('./repo');
 const { PrismaClientValidationError } = require('@prisma/client/runtime/library');
 const ApiError = require('#errors/apiError');
 const { CASE_TYPES } = require('@pins/common/src/database/data-static');
+const { sendSubmissionConfirmationEmailToAppellantV2 } = require('#lib/notify');
 
 const repo = new AppealCaseRepository();
 const serviceUserRepo = new ServiceUserRepository();
@@ -79,16 +80,31 @@ async function putCase(caseReference, data) {
 		/** @type {Validate<AppealHASCase>} */
 		const hasValidator = getValidator('appeal-has');
 
+		let result;
 		switch (data.caseType) {
 			case CASE_TYPES.HAS.key:
 				if (!hasValidator(data)) {
 					throw ApiError.badRequest('Payload was invalid');
 				}
-
-				return repo.putHASByCaseReference(caseReference, CASE_TYPES.HAS.processCode, { ...data });
+				result = await repo.putHASByCaseReference(caseReference, CASE_TYPES.HAS.processCode, {
+					...data
+				});
+				break;
 			default:
 				throw Error(`putCase: unhandled casetype: ${data.caseType}`);
 		}
+
+		// send email confirming appeal to user if this creates a new appeal
+		if (!result.exists && result.appellantSubmission) {
+			// todo: get email address
+			await sendSubmissionConfirmationEmailToAppellantV2(
+				result.appealCase,
+				result.appellantSubmission,
+				'email'
+			);
+		}
+
+		return result.appealCase;
 	} catch (err) {
 		if (err instanceof PrismaClientValidationError) {
 			throw ApiError.badRequest(err.message);
