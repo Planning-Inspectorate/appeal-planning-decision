@@ -1,9 +1,7 @@
 const { canAccessBODocument, CLIENT_CREDS_ROLE } = require('./access-rules');
-const {
-	APPEAL_USER_ROLES,
-	LPA_USER_ROLE,
-	VIRUS_CHECK_STATUSES
-} = require('@pins/common/src/constants');
+const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
+
 const { getDocType, documentTypes } = require('@pins/common/src/document-types');
 const lpaOwnedDoc = getDocType(LPA_USER_ROLE, 'owner');
 const appellantOwnedDoc = getDocType(APPEAL_USER_ROLES.APPELLANT, 'owner');
@@ -12,7 +10,7 @@ const validDoc = {
 	published: true,
 	redacted: true,
 	publiclyAccessible: true,
-	virusCheckStatus: VIRUS_CHECK_STATUSES.CHECKED,
+	virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
 	documentType: appellantOwnedDoc.dataModelName
 };
 
@@ -21,14 +19,14 @@ describe('v2/back-office/access-rules', () => {
 		const options = {
 			docMetaData: {
 				...validDoc,
-				virusCheckStatus: VIRUS_CHECK_STATUSES.NOT_CHECKED
+				virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.NOT_SCANNED
 			},
 			role: LPA_USER_ROLE
 		};
 		const options2 = {
 			docMetaData: {
 				...validDoc,
-				virusCheckStatus: VIRUS_CHECK_STATUSES.FAILED
+				virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.AFFECTED
 			},
 			role: APPEAL_USER_ROLES.APPELLANT
 		};
