@@ -6,7 +6,6 @@ const {
 	}
 } = require('@pins/business-rules');
 const logger = require('../lib/logger');
-const { getUserFromSession } = require('../services/user.service');
 
 /**
  * links user to a document, requires an active session
@@ -16,22 +15,6 @@ const getDocument = async (req, res) => {
 	const { appealOrQuestionnaireId, documentId } = req.params;
 
 	try {
-		const lpaUser = getUserFromSession(req);
-		// lpa users
-		if (lpaUser) {
-			const { headers, body } = await fetchDocument(appealOrQuestionnaireId, documentId);
-			const sessionLpaCode = lpaUser.lpaCode;
-			const associatedLpaCode = headers.get('x-original-file-name').match(/[A-z][0-9]{4}/gm)[0];
-
-			if (sessionLpaCode != associatedLpaCode) {
-				logger.error('Failed to get document');
-				res.sendStatus(401);
-				return;
-			}
-
-			return await returnResult(headers, body, res);
-		}
-
 		const sessionAppealId = req?.session?.appeal?.id;
 
 		if (!sessionAppealId || sessionAppealId !== appealOrQuestionnaireId) {
@@ -74,33 +57,14 @@ const getDocument = async (req, res) => {
 };
 
 /**
- * links user to a document, requires an active session
- * currently only used in links to pdf for has and s78 submission
+ * links user to pdf for has and s78 submission
+ * custom redirect if not logged in
  * @type {import('express').Handler}
  */
-const getDocumentV2 = async (req, res) => {
+const getAppealPDFDocumentV2 = async (req, res) => {
 	const { appealOrQuestionnaireId, documentId } = req.params;
 
 	try {
-		// Following code is not used at present, as this function only used by appellant to download pdf
-
-		// const isLpaUser = user?.isLpaUser;
-
-		// // lpa users
-		// if (isLpaUser) {
-		// 	const { headers, body } = await fetchDocument(appealOrQuestionnaireId, documentId);
-		// 	const sessionLpaCode = user.lpaCode;
-		// 	const associatedLpaCode = headers.get('x-original-file-name').match(/[A-z][0-9]{4}/gm)[0];
-
-		// 	if (sessionLpaCode != associatedLpaCode) {
-		// 		logger.error('Failed to get document');
-		// 		res.sendStatus(401);
-		// 		return;
-		// 	}
-
-		// 	return await returnResult(headers, body, res);
-		// }
-
 		logger.info('Confirming user owns appellant submission');
 
 		// make api call to confirm that user matches appellant
@@ -123,6 +87,24 @@ const getDocumentV2 = async (req, res) => {
 		res.sendStatus(500);
 		return;
 	}
+};
+
+/**
+ * links user to a submission document, internally checks access
+ * @type {import('express').Handler}
+ */
+const getSubmissionDocumentV2Url = async (req, res) => {
+	const { documentId } = req.params;
+
+	logger.debug({ documentId }, 'getSubmissionDocumentV2');
+
+	const sasUrl = await req.docsApiClient.getSubmissionDocumentSASUrl(documentId);
+
+	if (!sasUrl?.url) throw new Error('failed to getSubmissionDocumentV2');
+
+	logger.debug({ sasUrl }, 'redirecting to submission doc');
+
+	res.redirect(307, sasUrl.url);
 };
 
 /**
@@ -155,6 +137,7 @@ const returnResult = async (headers, body, res) => {
 
 module.exports = {
 	getDocument,
-	getDocumentV2,
+	getAppealPDFDocumentV2,
+	getSubmissionDocumentV2Url,
 	getPublishedDocumentV2Url
 };

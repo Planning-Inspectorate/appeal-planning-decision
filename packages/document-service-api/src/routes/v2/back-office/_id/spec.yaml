@@ -1,0 +1,27 @@
+paths:
+  /api/v2/back-office/{id}:
+    get:
+      tags:
+        - back-office
+      description: Gets a temporary SAS url to the document specified
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Document Unique identifier
+      responses:
+        200:
+          description: The SAS url for the document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SAS-URL'
+        404:
+          description: Document could not be found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'

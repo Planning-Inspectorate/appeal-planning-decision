@@ -6,7 +6,7 @@ const { FLAG } = require('@pins/common/src/feature-flags');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const BlobStorageError = require('@pins/common/src/client/blob-storage-error');
 const { canAccessBODocument, CLIENT_CREDS_ROLE } = require('./access-rules');
-const { DocumentsRepository } = require('../../../db/repos/repository');
+const { DocumentsRepository } = require('../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 
 /**
@@ -51,7 +51,7 @@ async function getDocumentUrl(req, res) {
 		return;
 	}
 
-	const docRef = req.body?.document;
+	const docRef = req.params?.id;
 
 	if (!docRef) {
 		res.sendStatus(400);

@@ -22,8 +22,9 @@ const createAzuriteContainer = async () => {
 	const connectionString = `DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=${azuriteHost};`;
 
 	// FO container settings
-	process.env.BLOB_STORAGE_CONNECTION_STRING = connectionString;
+	process.env.BLOB_STORAGE_HOST = azuriteHost;
 	process.env.STORAGE_CONTAINER_NAME = 'documents-api-it-azurite';
+	process.env.BLOB_STORAGE_CONNECTION_STRING = connectionString;
 
 	// BO container settings reused
 	process.env.BO_STORAGE_CONTAINER_HOST = azuriteHost;

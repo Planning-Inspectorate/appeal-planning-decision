@@ -71,3 +71,9 @@ components:
             data:
               type: string
               format: byte
+    SAS-URL:
+      type: object
+      properties:
+        url:
+          type: string
+          description: sas url for the given document - will be time limited so don't display on webpage, redirect instead
