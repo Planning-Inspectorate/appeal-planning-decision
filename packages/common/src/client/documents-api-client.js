@@ -14,6 +14,7 @@ const trailingSlashRegex = /\/$/;
 
 /**
  * @class Api Client for v2 urls in documents-api
+ * todo: get appeal pdf copy, upload submissions
  */
 class DocumentsApiClient {
 	/**
@@ -37,14 +38,22 @@ class DocumentsApiClient {
 	}
 
 	/**
-	 * @param {string} blobUrl url
+	 * @param {string} publishedDocumentId
 	 * @returns {Promise<SasUrl>}
 	 */
-	async getBackOfficeDocumentSASUrl(blobUrl) {
-		const endpoint = `${v2}/back-office/sas-url`;
-		const response = await this.#makePostRequest(endpoint, {
-			document: blobUrl
-		});
+	async getBackOfficeDocumentSASUrl(publishedDocumentId) {
+		const endpoint = `${v2}/back-office/${publishedDocumentId}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} submissionDocumentId id
+	 * @returns {Promise<SasUrl>}
+	 */
+	async getSubmissionDocumentSASUrl(submissionDocumentId) {
+		const endpoint = `${v2}/submission-document/${submissionDocumentId}`;
+		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
 
@@ -135,14 +144,11 @@ class DocumentsApiClient {
 
 	/**
 	 * @param {string} endpoint
-	 * @param {any} data
 	 * @returns {Promise<import('node-fetch').Response>}
 	 * @throws {ApiClientError|Error}
 	 */
-	#makePostRequest(endpoint, data = {}) {
-		return this.handler(endpoint, 'POST', {
-			body: JSON.stringify(data)
-		});
+	#makeGetRequest(endpoint) {
+		return this.handler(endpoint, 'GET');
 	}
 
 	/**

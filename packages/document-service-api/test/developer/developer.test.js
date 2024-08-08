@@ -1,5 +1,6 @@
 const config = require('../../src/configuration/config');
 const { documentTypes } = require('@pins/common'); // TODO: remove this when the document types from @pins/common are brought into this API.
+const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
 const supertest = require('supertest');
 const app = require('../../src/app');
 const api = supertest(app);
@@ -60,7 +61,11 @@ jest.mock('@pins/common/src/middleware/validate-token', () => {
 	};
 });
 
-const getDoc = ({ published = true, redacted = true, virusCheckStatus = 'checked' } = {}) => {
+const getDoc = ({
+	published = true,
+	redacted = true,
+	virusCheckStatus = APPEAL_VIRUS_CHECK_STATUS.SCANNED
+} = {}) => {
 	const doc = appealDocuments.find(
 		(item) =>
 			item.published === published &&
@@ -175,19 +180,10 @@ describe('document-service-api', () => {
 
 	describe('api/v2', () => {
 		describe('/back-office', () => {
-			describe('/sas-url POST', () => {
-				it('should 400 with no doc', async () => {
-					// When
-					const response = await api.post(`/api/v2/back-office/sas-url`);
-					// Then
-					expect(response.statusCode).toBe(400);
-				});
-
+			describe('/{id} Get', () => {
 				it('should 404 with invalid doc', async () => {
 					// When
-					const response = await api.post(`/api/v2/back-office/sas-url`).send({
-						document: 'unknown/file.txt'
-					});
+					const response = await api.get(`/api/v2/back-office/nope`);
 					// Then
 					expect(response.statusCode).toBe(404);
 				});
@@ -197,16 +193,14 @@ describe('document-service-api', () => {
 					const appealDoc = getDoc({
 						published: true,
 						redacted: false,
-						virusCheckStatus: 'checked'
+						virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED
 					});
 
 					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 					setCurrentSub(invalidUser);
 
 					// When
-					const response = await api.post(`/api/v2/back-office/sas-url`).send({
-						document: appealDoc.id
-					});
+					const response = await api.get(`/api/v2/back-office/${appealDoc.id}`);
 					// Then
 					expect(response.statusCode).toBe(401);
 				});
@@ -216,7 +210,7 @@ describe('document-service-api', () => {
 					const appealDoc = getDoc({
 						published: true,
 						redacted: false,
-						virusCheckStatus: 'checked'
+						virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED
 					});
 
 					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
@@ -226,9 +220,7 @@ describe('document-service-api', () => {
 					setCurrentLpa(undefined);
 
 					// When
-					const response = await api.post(`/api/v2/back-office/sas-url`).send({
-						document: appealDoc.id
-					});
+					const response = await api.get(`/api/v2/back-office/${appealDoc.id}`);
 					// Then
 					expect(response.statusCode).toBe(200);
 				});
@@ -238,7 +230,7 @@ describe('document-service-api', () => {
 					const appealDoc = getDoc({
 						published: true,
 						redacted: false,
-						virusCheckStatus: 'checked'
+						virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED
 					});
 
 					const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
@@ -247,9 +239,7 @@ describe('document-service-api', () => {
 					setCurrentSub(invalidUser);
 
 					// When
-					const response = await api.post(`/api/v2/back-office/sas-url`).send({
-						document: appealDoc.id
-					});
+					const response = await api.get(`/api/v2/back-office/${appealDoc.id}`);
 					// Then
 					expect(response.statusCode).toBe(401);
 				});
@@ -259,7 +249,7 @@ describe('document-service-api', () => {
 					const appealDoc = getDoc({
 						published: true,
 						redacted: true,
-						virusCheckStatus: 'not_checked'
+						virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.NOT_SCANNED
 					});
 
 					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
@@ -269,9 +259,7 @@ describe('document-service-api', () => {
 					setCurrentLpa(undefined);
 
 					// When
-					const response = await api.post(`/api/v2/back-office/sas-url`).send({
-						document: appealDoc.id
-					});
+					const response = await api.get(`/api/v2/back-office/${appealDoc.id}`);
 					// Then
 					expect(response.statusCode).toBe(401);
 				});
@@ -281,7 +269,7 @@ describe('document-service-api', () => {
 					const appealDoc = getDoc({
 						published: true,
 						redacted: true,
-						virusCheckStatus: 'failed_virus_check'
+						virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.AFFECTED
 					});
 
 					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
@@ -291,9 +279,7 @@ describe('document-service-api', () => {
 					setCurrentLpa(undefined);
 
 					// When
-					const response = await api.post(`/api/v2/back-office/sas-url`).send({
-						document: appealDoc.id
-					});
+					const response = await api.get(`/api/v2/back-office/${appealDoc.id}`);
 					// Then
 					expect(response.statusCode).toBe(401);
 				});
@@ -309,9 +295,7 @@ describe('document-service-api', () => {
 					setCurrentLpa(undefined);
 
 					// When
-					const response = await api.post(`/api/v2/back-office/sas-url`).send({
-						document: appealDoc.id
-					});
+					const response = await api.get(`/api/v2/back-office/${appealDoc.id}`);
 					// Then
 					expect(response.statusCode).toBe(200);
 					const sasUrl = response.body.url;
@@ -347,7 +331,7 @@ describe('document-service-api', () => {
 					});
 
 					// When
-					const response = await api.delete(`/api/v2/submission-document/${submission.id}`).send();
+					const response = await api.delete(`/api/v2/submission-document/${submission.id}`);
 					// Then
 					expect(response.statusCode).toBe(200);
 				});

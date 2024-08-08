@@ -3,6 +3,8 @@ paths:
     delete:
       tags:
         - submission
+      parameters:
+        - "$ref": "#/components/parameters/submissionDocumentId"
       description: deletes a submission document
       responses:
         200:
@@ -13,3 +15,28 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    get:
+      tags:
+        - submission
+      parameters:
+        - "$ref": "#/components/parameters/submissionDocumentId"
+      description: Gets a temporary SAS url to the document specified
+      responses:
+        200:
+          description: The SAS url for the document
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SAS-URL'
+        404:
+          description: Document could not be found
+
+components:
+  parameters:
+    submissionDocumentId:
+      in: path
+      name: id
+      required: true
+      schema:
+        type: string
+      description: submission document id

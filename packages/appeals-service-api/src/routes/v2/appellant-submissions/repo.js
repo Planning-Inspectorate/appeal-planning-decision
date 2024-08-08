@@ -57,7 +57,7 @@ module.exports = class Repo {
 							Users: {
 								where: {
 									userId,
-									role: APPEAL_USER_ROLES.APPELLANT
+									role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
 								}
 							}
 						}

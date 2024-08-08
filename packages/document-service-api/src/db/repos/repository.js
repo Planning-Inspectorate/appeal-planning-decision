@@ -1,4 +1,7 @@
 const { createPrismaClient } = require('../db-client');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+
+const logger = require('#lib/logger');
 
 class DocumentsRepository {
 	dbClient;
@@ -9,7 +12,7 @@ class DocumentsRepository {
 
 	/**
 	 * @param {string} id SubmissionDocumentUpload id
-	 * @return {Promise<{id: string, location: string}|null>}
+	 * @returns {Promise<import("@prisma/client").SubmissionDocumentUpload & { LPAQuestionnaireSubmission: { appealCaseReference: string} }>} documentWithAppeal
 	 */
 	async getSubmissionDocument(id) {
 		return this.dbClient.submissionDocumentUpload.findUnique({
@@ -18,7 +21,14 @@ class DocumentsRepository {
 			},
 			select: {
 				id: true,
-				location: true
+				location: true,
+				originalFileName: true,
+				appellantSubmissionId: true,
+				LPAQuestionnaireSubmission: {
+					select: {
+						appealCaseReference: true
+					}
+				}
 			}
 		});
 	}
@@ -71,6 +81,65 @@ class DocumentsRepository {
 				role: true
 			}
 		});
+	}
+
+	/**
+	 * @param {{ caseReference: string, userLpa: string }} params
+	 * @returns {Promise<boolean>}
+	 */
+	async lpaCanModifyCase({ caseReference, userLpa }) {
+		try {
+			await this.dbClient.appealCase.findUniqueOrThrow({
+				where: {
+					caseReference,
+					LPACode: userLpa
+				},
+				select: {
+					id: true
+				}
+			});
+
+			return true;
+		} catch (err) {
+			logger.error({ err }, 'invalid user access');
+			throw new Error(`${userLpa} does not have access to case: ${caseReference}`);
+		}
+	}
+
+	/**
+	 * @param {{ appellantSubmissionId: string, userId: string }} params
+	 * @returns {Promise<boolean>}
+	 */
+	async userOwnsAppealSubmission({ appellantSubmissionId, userId }) {
+		try {
+			const result = await this.dbClient.appellantSubmission.findUniqueOrThrow({
+				where: {
+					id: appellantSubmissionId
+				},
+				select: {
+					Appeal: {
+						select: {
+							id: true,
+							Users: {
+								where: {
+									userId,
+									role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
+								}
+							}
+						}
+					}
+				}
+			});
+
+			if (!result.Appeal.Users.some((x) => x.userId.toLowerCase() === userId.toLowerCase())) {
+				throw new Error('Forbidden');
+			}
+
+			return true;
+		} catch (err) {
+			logger.error({ err }, 'invalid user access');
+			throw new Error('Forbidden');
+		}
 	}
 
 	/**

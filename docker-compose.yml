@@ -145,6 +145,7 @@ services:
       BO_STORAGE_CONTAINER_NAME: bo-appeals-documents
       BO_BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://bo-blob-storage:10000/devstoreaccount1;
       BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;
+      BLOB_STORAGE_HOST: http://localhost:4002/devstoreaccount1
       FEATURE_FLAGS_SETTING: 'ALL_ON'
       FILE_MAX_SIZE_IN_BYTES: 26214400
       FILE_UPLOAD_PATH: /tmp/upload
@@ -212,7 +213,7 @@ services:
     ports:
       - 9003:3000
       # node debugger
-      # - 9229:9229
+      - 9229:9229
     working_dir: /opt/app
     depends_on:
       - appeals-service-api
@@ -226,7 +227,7 @@ services:
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/forms-web-app:/opt/app
-    command: npm run start:dev
+    command: npm run start:dev:debug
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
 

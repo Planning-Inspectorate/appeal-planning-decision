@@ -254,7 +254,7 @@ describe('MultiFileUploadQuestion', () => {
 				}
 			};
 
-			const expectedResult = `<a href="/manage-appeals/document/${journey.response.journeyId}:${journey.response.referenceId}/${upload.storageId}" class="govuk-link">${upload.originalFileName}</a> </br>`;
+			const expectedResult = `<a href="/document/${upload.storageId}" class="govuk-link">${upload.originalFileName}</a> </br>`;
 
 			const result = question.formatAnswerForSummary('segment', journey, answer);
 			expect(result[0].value).toEqual(expectedResult);
@@ -285,7 +285,7 @@ describe('MultiFileUploadQuestion', () => {
 				}
 			};
 
-			const url = `<a href="/manage-appeals/document/${journey.response.journeyId}:${journey.response.referenceId}/${upload.storageId}" class="govuk-link">${upload.originalFileName}</a> </br>`;
+			const url = `<a href="/document/${upload.id}" class="govuk-link">${upload.originalFileName}</a> </br>`;
 			const expectedResult = url + url;
 
 			const href = 'http://example.com';
