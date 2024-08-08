@@ -23,11 +23,6 @@ module.exports = {
 		INTERESTED_PARTY: 'InterestedParty',
 		RULE_6_PARTY: 'Rule6Party'
 	},
-	VIRUS_CHECK_STATUSES: {
-		CHECKED: 'checked',
-		NOT_CHECKED: 'not_checked',
-		FAILED: 'failed_virus_check'
-	},
 	EVENT_TYPES: {
 		SITE_VISIT: 'siteVisit',
 		HEARING: 'hearing',

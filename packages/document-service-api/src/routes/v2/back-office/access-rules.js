@@ -1,8 +1,6 @@
-const {
-	APPEAL_USER_ROLES,
-	LPA_USER_ROLE,
-	VIRUS_CHECK_STATUSES
-} = require('@pins/common/src/constants');
+const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
+
 const { getDocType } = require('@pins/common/src/document-types');
 
 exports.CLIENT_CREDS_ROLE = 'client-credentials';
@@ -42,7 +40,7 @@ const docTypeUserMapping = {
  */
 module.exports.canAccessBODocument = ({ docMetaData, role }) => {
 	// always required to show a back office doc
-	if (docMetaData.virusCheckStatus !== VIRUS_CHECK_STATUSES.CHECKED) {
+	if (docMetaData.virusCheckStatus !== APPEAL_VIRUS_CHECK_STATUS.SCANNED) {
 		return false;
 	}
 

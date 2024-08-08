@@ -30,10 +30,16 @@ async function checkDocAccess(documentWithAppeal, access_token, id_token) {
 		role = appealUser?.role;
 	}
 
-	return canAccessBODocument({
+	const canAccess = canAccessBODocument({
 		docMetaData: documentWithAppeal,
 		role
 	});
+
+	if (!canAccess) {
+		logger.error({ role, documentWithAppeal }, 'failed BO doc auth check');
+	}
+
+	return canAccess;
 }
 
 /**
