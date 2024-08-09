@@ -1,13 +1,28 @@
 const { defineConfig } = require('cypress');
 
 module.exports = defineConfig({
+  pageLoadTimeout: 300000,
+  reporter: 'cypress-mochawesome-reporter',
+  video: false,
+  reporterOptions: {
+    reportDir:'cypress/reports',
+    charts: true,
+    overwrite: false,
+    html: true,
+    json: false,
+    timestamp: "mmddyyyy_HHMMss",
+    reportPageTitle: 'Cypress Inline Reporter',
+    embeddedScreenshots: true, 
+    inlineAssets: true, //Adds the asserts inline
+  },
+
 	e2e: {
 		async setupNodeEvents(on, config) {
-
+      require('cypress-mochawesome-reporter/plugin')(on);
 		},
 		appeals_beta_base_url: 'https://appeals-service-test.planninginspectorate.gov.uk', //TODO: make this an env var?
 		horizon_base_url: 'http://10.0.7.4:8000/horizon',
-		supportFile: false,
+		supportFile: 'cypress/support/e2e.js',
 		testIsolation: false
 	}
 });

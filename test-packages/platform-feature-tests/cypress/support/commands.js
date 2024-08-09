@@ -28,12 +28,59 @@ Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
 	cy.get('.govuk-button').contains(text).click();
 });
 
+Cypress.Commands.add('getByData', (value) => {
+	return cy.get(`[data-cy="${value}"]`);
+});
+
+
+// Cypress.Commands.add('goToAppealSection', (sectionName) => {
+// 	//cy.get('.moj-task-list__task-name').contains(sectionName).click();
+// 	//cy.get('.govuk-visually-hidden').contains(sectionName).click();
+// 	cy.get('govuk-visually-hidden').contains(sectionName).click();
+// });
+
+// Cypress.Commands.add('goToAppealSection', (sectionName) => {
+// 	cy.get('.govuk-visually-hidden').each(($el)=>{
+// 		if($el.text().trim === sectionName){
+// 			cy.wrap($el).click()
+// 			return false
+// 		}
+// });
+// });
+
+Cypress.Commands.add('taskListComponent', (applicationType, answerType, dynamicId) => {
+	cy.get(`a[href*="/appeals/${applicationType}/prepare-appeal/${answerType}?id=${dynamicId}"]`).click();
+});
+
 Cypress.Commands.add('goToAppealSection', (sectionName) => {
-	cy.get('.moj-task-list__task-name').contains(sectionName).click();
+	cy.get('.govuk-visually-hidden').each(($el) => {
+		if ($el.text().trim === sectionName) {
+			cy.wrap($el).click()
+			return false
+		}
+	});
+});
+
+Cypress.Commands.add('uploadDocuments', (applicationType, uploadType, dynamicId) => {
+	// BEWARE! If you use `cy.fixtures()` instead, its caching will cause
+	// issues on tests that use the same fixtures as ones run before!!
+	//href="/appeals/householder/upload-documents/upload-application-form?
+	cy.get(`a[href*="/appeals/${applicationType}/upload-documents/${uploadType}?id=${dynamicId}"]`
+	).click();
 });
 
 Cypress.Commands.add('uploadFileFromFixturesDirectory', (filename) => {
 	// BEWARE! If you use `cy.fixtures()` instead, its caching will cause
 	// issues on tests that use the same fixtures as ones run before!!
+
 	cy.get('#file-upload').selectFile(`cypress/fixtures/${filename}`);
+});
+
+Cypress.Commands.add('uploadFileFromFixtureDirectory', (filename) => {
+	// BEWARE! If you use `cy.fixtures()` instead, its caching will cause
+	// issues on tests that use the same fixtures as ones run before!!
+	cy.get('input[type="file"]').then($input => {
+		$input.removeAttr('hidden');
+	})
+	cy.get('input[type="file"]').selectFile(`cypress/fixtures/${filename}`, { force: true });
 });

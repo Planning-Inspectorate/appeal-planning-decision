@@ -1,4 +1,25 @@
 export class BasePage {
+	_selectors={
+		answerYes: "answer-yes",
+		answerNo:  "answer-no",
+		applicationType: "application-type",
+		govukButton: ".govuk-button",
+		govukPanelTitle: ".govuk-panel__title",
+		localPlanningDepartment: "#local-planning-department",
+		localPlanningDepartmentOptionZero: "#local-planning-department__option--0",
+		answerHouseholderPlanning: "answer-householder-planning",
+		answerListedBuilding: "answer-listed-building",
+		answerRefused: "answer-refused",
+		answerNodecisionreceived: "answer-nodecisionreceived",
+		answerGranted: "answer-granted",
+		siteSelectionSeven: "#site-selection-7",		
+		govukErrorSummaryBody: ".govuk-error-summary__body  > ul > li > a",
+		govukHeadingOne: ".govuk-heading-l",
+		govukBody: ".govuk-body",
+		govukLink: ".govuk-link",
+		govukSummaryListKey: ".govuk-summary-list__key"
+	}
+
 	basePageElements = {
 		acceptCookiesBtn: () => cy.get('[data-cy="cookie-banner-accept-analytics-cookies"]'),
 		declineCookiesBtn: () => cy.get('[data-cy="cookie-banner-reject-analytics-cookies"]'),
@@ -11,8 +32,26 @@ export class BasePage {
 		saveAndComeBackLaterBtn: () => cy.get('[data-cy="button-save-and-return"]'),
 		textArea: () => cy.get('.govuk-textarea'),
 		uploadFile: () => cy.get('#file-upload'),
-		completedTask: () => cy.get('[data-cy="task-list-item-contactDetailsSection"]')
+		completedTask: () => cy.get('[data-cy="task-list-item-contactDetailsSection"]'),
+		clickRadioBtn: (radioId) => cy.get(radioId),
+		clickCheckBox: (checkboxId) => cy.get(checkboxId),
+		addTextField: (fieldType) => cy.get(fieldType),
 	};
+
+	backBtn() {
+		this.basePageElements.backBtn().click();
+	}
+
+	clickRadioBtn(radioId) {
+		this.basePageElements.clickRadioBtn(radioId).click();
+	}
+
+	clickCheckBox(checkboxId) {
+		this.basePageElements.clickCheckBox(checkboxId).click();
+	}
+	addTextField(fieldType, fieldValue) {
+		this.basePageElements.addTextField(fieldType).type(fieldValue);
+	}
 
 	clickContinueBtn() {
 		this.basePageElements.continueBtn().click();
@@ -50,11 +89,11 @@ export class BasePage {
 		this.basePageElements.textArea().clear().type(text);
 	}
 
-	fileUpload(file){
-		this.basePageElements.uploadFile().selectFile(file, {force: true} );
+	fileUpload(file) {
+		this.basePageElements.uploadFile().selectFile(file, { force: true });
 	}
 
-	completedTaskBtn(string){
+	completedTaskBtn(string) {
 		this.basePageElements.completedTask().contains(string)
 	}
 }

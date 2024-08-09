@@ -1,13 +1,7 @@
-const initialiseFullAppeal = require('./sections/initialiseFullAppeal');
-const completeContactDetailsSection = require('./sections/completeContactDetailsSection');
-const completeAppealSiteSection = require('./sections/completeAppealSiteSection');
-const completeAppealDecisionTypeSection = require('./sections/completeAppealDecisionTypeSection');
-const completeUploadPlanningApplicationDocumentsSection = require('./sections/completeUploadPlanningApplicationDocumentsSection');
-const completeUploadAppealDocumentsSection = require('./sections/completeUploadAppealDocumentsSection');
-const completeCheckAnswersAndSubmitSection = require('./sections/completeCheckAnswersAndSubmitSection');
+const initialiseApplicationTypeAppeal = require('./sections/initialiseApplicationTypeAppeal');
 
 function submitAppealFlow(appealOptions) {
-	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation } =
+	const { statusOfOriginalApplication, typeOfDecisionRequested, statusOfPlanningObligation, planning, context, prepareAppealData } =
 		appealOptions;
 
 	if (['granted', 'refused', 'no decision'].includes(statusOfOriginalApplication) == false) {
@@ -16,7 +10,7 @@ function submitAppealFlow(appealOptions) {
 		);
 	}
 
-	if (['written', 'hearing', 'enquiry'].includes(typeOfDecisionRequested) == false) {
+	if (['written', 'hearing', 'inquiry'].includes(typeOfDecisionRequested) == false) {
 		throw new Error(
 			`The stype of decision requested "${typeOfDecisionRequested}" is not supported!`
 		);
@@ -28,13 +22,7 @@ function submitAppealFlow(appealOptions) {
 		);
 	}
 
-	initialiseFullAppeal(statusOfOriginalApplication);
-	completeContactDetailsSection();
-	completeAppealSiteSection();
-	completeAppealDecisionTypeSection(typeOfDecisionRequested);
-	completeUploadPlanningApplicationDocumentsSection(statusOfOriginalApplication);
-	completeUploadAppealDocumentsSection(statusOfPlanningObligation);
-	completeCheckAnswersAndSubmitSection();
+	initialiseApplicationTypeAppeal(statusOfOriginalApplication, planning, context, prepareAppealData);
 }
 
 module.exports = {

@@ -5,5 +5,9 @@
 		"Exeter",
 		"Enfield",
 		"Castle Point"
+	],
+	"typeOfPlanningApplication": [
+		
+		"#type-of-planning-application-2"		
 	]
 }
