@@ -15,7 +15,7 @@ const { ApplyAppealCostsPage } = require("../pages/upload-documents/applyAppealC
 const { HealthSafetyIssuesPage } = require("../pages/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, context, prepareAppealDataabcd) => {
+module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, context, prepareAppealData) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -30,13 +30,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 	const otherAppealsPage = new OtherAppealsPage();
 	const uploadApplicationFormPage = new UploadApplicationFormPage();
 	const applyAppealCostsPage = new ApplyAppealCostsPage();
-
-	let prepareAppealData;
-
-	        cy.fixture('prepareAppealData').then(data => {
-            prepareAppealData = data;
-        });
-
+	
 	cy.getByData(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
 	

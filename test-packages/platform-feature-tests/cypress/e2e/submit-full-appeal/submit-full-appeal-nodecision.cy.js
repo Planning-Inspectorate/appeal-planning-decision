@@ -2,6 +2,12 @@ import { fullAppealNoDecisionTestCases } from "../../helpers/fullAppeal/fullAppe
 const { submitAppealFlow } = require('../../support/flows/appeal');
 
 describe('Submit Full Appeal No Decison Test cases', () => {
+	let prepareAppealData;
+	beforeEach(() => {
+        cy.fixture('prepareAppealData').then(data => {
+            prepareAppealData = data;
+        })
+	});
 
 	fullAppealNoDecisionTestCases.forEach((context) => {
 		const {
@@ -37,7 +43,8 @@ describe('Submit Full Appeal No Decison Test cases', () => {
 				typeOfDecisionRequested,
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
-				context
+				context,
+				prepareAppealData
 			});
 		});
 	});
