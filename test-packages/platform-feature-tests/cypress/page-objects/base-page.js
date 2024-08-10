@@ -8,6 +8,7 @@ export class BasePage {
 		localPlanningDepartment: "#local-planning-department",
 		localPlanningDepartmentOptionZero: "#local-planning-department__option--0",
 		answerHouseholderPlanning: "answer-householder-planning",
+		answerFullAppeal: "answer-full-appeal",
 		answerListedBuilding: "answer-listed-building",
 		answerRefused: "answer-refused",
 		answerNodecisionreceived: "answer-nodecisionreceived",

@@ -2,6 +2,12 @@ import { houseHolderAppealNoDecisionTestCases } from "../../helpers/houseHolderA
 const { submitAppealFlow } = require('../../support/flows/appeal');
 
 describe('Submit House Holder Appeal No Decision Test Cases', () => {
+	let prepareAppealData;
+	beforeEach(() => {
+        cy.fixture('prepareAppealData').then(data => {
+            prepareAppealData = data;
+        })
+	});
 	houseHolderAppealNoDecisionTestCases.forEach((context) => {
 		const {
 			statusOfOriginalApplication,
@@ -38,7 +44,8 @@ describe('Submit House Holder Appeal No Decision Test Cases', () => {
 				typeOfDecisionRequested,
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
-				context
+				context,
+				prepareAppealData
 			});
 		});
 	});

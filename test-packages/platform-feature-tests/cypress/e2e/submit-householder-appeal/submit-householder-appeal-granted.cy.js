@@ -2,6 +2,12 @@ import { houseHolderAppealGrantedTestCases } from "../../helpers/houseHolderAppe
 const { submitAppealFlow } = require('../../support/flows/appeal');
 
 describe('Submit House Holder Appeal Granted Test Cases', () => {
+	let prepareAppealData;
+	beforeEach(() => {
+        cy.fixture('prepareAppealData').then(data => {
+            prepareAppealData = data;
+        })
+	});
 	houseHolderAppealGrantedTestCases.forEach((context) => {
 		const {
 			statusOfOriginalApplication,
@@ -38,7 +44,8 @@ describe('Submit House Holder Appeal Granted Test Cases', () => {
 				typeOfDecisionRequested,
 				statusOfPlanningObligation,
 				planning: typeOfPlanningApplication,
-				context
+				context,
+				prepareAppealData
 			});
 		});
 	});
