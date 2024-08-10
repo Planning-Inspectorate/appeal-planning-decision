@@ -1,4 +1,5 @@
 import { BasePage } from "../../../page-objects/base-page";
+import { prepareAppealData } from '../../../fixtures/prepareAppealData.json';
 const applicationFormPage = require("../pages/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../pages/prepare-appeal/applicationNamePage");
 const { ContactDetailsPage } = require("../pages/prepare-appeal/contactDetailsPage");
@@ -14,7 +15,7 @@ const { ApplyAppealCostsPage } = require("../pages/upload-documents/applyAppealC
 const { HealthSafetyIssuesPage } = require("../pages/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, context, prepareAppealData) => {
+module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, context, prepareAppealDataabcd) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -30,10 +31,16 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 	const uploadApplicationFormPage = new UploadApplicationFormPage();
 	const applyAppealCostsPage = new ApplyAppealCostsPage();
 
+	let prepareAppealData;
+
+	        cy.fixture('prepareAppealData').then(data => {
+            prepareAppealData = data;
+        });
+
 	cy.getByData(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
-
-	cy.url().should('include', '/before-you-start/decision-date-householder');
+	
+	cy.validateURL('/before-you-start/decision-date-householder');
 
 	let currentDate = new Date();
 	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
@@ -48,80 +55,80 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 	
 	cy.advanceToNextPage('Continue to my appeal');
 
-	cy.url().should('include', '/appeal-householder-decision/planning-application-number');
+	cy.validateURL('/appeal-householder-decision/planning-application-number');
 
 	const applicationNumber = `TEST-${Date.now()}`;
 	cy.getByData(prepareAppealSelector?._selectors?.applicationNumber).type(applicationNumber);
 	cy.advanceToNextPage();
 
-	cy.url().should('include', '/appeal-householder-decision/email-address');
-
-	cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
+	cy.validateURL('/appeal-householder-decision/email-address');
+	console.log('Prepare Appeal Data', prepareAppealData);
+	cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
 	cy.advanceToNextPage();
 
-	cy.url().should('include', '/appeal-householder-decision/enter-code');
-	cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');
+	cy.validateURL('/appeal-householder-decision/enter-code');
+	cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
 	cy.advanceToNextPage();
 
-	cy.url().should('include', '/appeal-householder-decision/email-address-confirmed');
+	cy.validateURL('/appeal-householder-decision/email-address-confirmed');
 	cy.advanceToNextPage();
 
-	cy.url().should('include', '/appeal-householder-decision/list-of-documents');
+	cy.validateURL('/appeal-householder-decision/list-of-documents');
 	cy.advanceToNextPage();
 	cy.wait(2000);
 	cy.location('search').then((search) => {
 		const params = new URLSearchParams(search);
 		const dynamicId = params.get('id');
 
-		cy.url().should('include', '/appeals/householder/appeal-form/your-appeal');
+		cy.validateURL('/appeals/householder/appeal-form/your-appeal');
 		applicationFormPage('householder', 'other', dynamicId);
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/application-name');
+		cy.validateURL('/appeals/householder/prepare-appeal/application-name');
 		//Contact details
-		applicationNamePage.addApplicationNameData(context?.applicationForm?.isAppellant);
+		applicationNamePage.addApplicationNameData(context?.applicationForm?.isAppellant,prepareAppealData);
 
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/contact-details');
-		contactDetailsPage.addContactDetailsData(context, 'householder');
+		cy.validateURL('/appeals/householder/prepare-appeal/contact-details');
+		contactDetailsPage.addContactDetailsData(context, 'householder',prepareAppealData);
 
 		//Site Details		
-		cy.url().should('include', '/appeals/householder/prepare-appeal/appeal-site-address');
-		appealSiteAddressPage.addAppealSiteAddressData(context);
+		cy.validateURL('/appeals/householder/prepare-appeal/appeal-site-address');
+		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
 
 		//What is the area of the appeal site?
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/site-area');
-		siteAreaPage.addSiteAreaData(planning, context?.applicationForm?.areaUnits, context);
+		cy.validateURL('/appeals/householder/prepare-appeal/site-area');
+		siteAreaPage.addSiteAreaData(planning, context?.applicationForm?.areaUnits, context, prepareAppealData);
 
 		//Is the appeal site in a green belt?(Ans:Yes)
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/green-belt');
+		cy.validateURL('/appeals/householder/prepare-appeal/green-belt');
 		greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
 
 		//Do you own all the land involved in the appeal?
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/own-all-land');
+		cy.validateURL('/appeals/householder/prepare-appeal/own-all-land');
 		ownAllLandPage.addOwnAllLandData(context?.applicationForm?.isOwnsAllLand);
 
 		if (!context?.applicationForm?.isOwnsAllLand) {
 			//Do you own some of the land involved in the appeal?
 
-			cy.url().should('include', '/appeals/householder/prepare-appeal/own-some-land');
+			cy.validateURL('/appeals/householder/prepare-appeal/own-some-land');
 			ownSomeLandPage.addOwnSomeLandData(context?.applicationForm?.isOwnsSomeLand, context);
 		}
 		//Will an inspector need to access your land or property?		
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/inspector-need-access');
-		inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess);
+		cy.validateURL('/appeals/householder/prepare-appeal/inspector-need-access');
+		inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess, prepareAppealData);
 
 		//Health and safety issues
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/health-safety-issues');
-		healthSafetyIssuesPage.addHealthSafetyIssuesData(context);
+		cy.validateURL('/appeals/householder/prepare-appeal/health-safety-issues');
+		healthSafetyIssuesPage.addHealthSafetyIssuesData(context, prepareAppealData);
 
 		//What is the application reference number?
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/reference-number');
+		cy.validateURL('/appeals/householder/prepare-appeal/reference-number');
 		cy.get(prepareAppealSelector?._selectors?.applicationReference).invoke('val').then((inputValue) => {
 			expect(inputValue).to.equal(applicationNumber);
 		});
@@ -129,19 +136,19 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 		cy.advanceToNextPage();
 		//What date did you submit your application?
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/application-date');
+		cy.validateURL('/appeals/householder/prepare-appeal/application-date');
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(currentDate.getDate() - 1);
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(currentDate.getMonth() - 1);
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(currentDate.getFullYear());
 		cy.advanceToNextPage();
 		//Enter the description of development that you submitted in your application
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/enter-description-of-development');
-		cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type('developmentDescriptionOriginal-hint123456789!£$%&*j');
+		cy.validateURL('/appeals/householder/prepare-appeal/enter-description-of-development');
+		cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type(prepareAppealData?.develpmentDescriptionOriginal);
 		cy.advanceToNextPage();
 		//Did the local planning authority change the description of development?
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/description-development-correct');
+		cy.validateURL('/appeals/householder/prepare-appeal/description-development-correct');
 		if (context?.applicationForm?.iaUpdateDevelopmentDescription) {
 			cy.getByData(basePage?._selectors.answerYes).click();
 			cy.advanceToNextPage();
@@ -150,14 +157,14 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 			cy.advanceToNextPage();
 		}
 
-		cy.url().should('include', '/appeals/householder/prepare-appeal/other-appeals');
+		cy.validateURL('/appeals/householder/prepare-appeal/other-appeals');
 		otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
 
 		cy.uploadDocuments('householder', 'upload-application-form', dynamicId);
 		uploadApplicationFormPage.addUploadApplicationFormData(context, dynamicId);
 
 		//Upload your appeal statement		
-		cy.url().should('include', '/appeals/householder/upload-documents/upload-appeal-statement');
+		cy.validateURL('/appeals/householder/upload-documents/upload-appeal-statement');
 
 		cy.uploadFileFromFixtureDirectory(context?.documents?.uploadAppealStmt);
 		cy.advanceToNextPage();
@@ -168,10 +175,10 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 		cy.get(`a[href*="/appeals/householder/submit/declaration?id=${dynamicId}"]`).click();
 		cy.wait(2000);
 		//Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
-		cy.get(basePage?._selectors.govukButton).contains('Accept and submit').click();
+		cy.get(basePage?._selectors.govukButton).contains(prepareAppealData?.acceptAndSubmitButton).click();
 
 		cy.get(basePage?._selectors.govukPanelTitle).invoke('text').should((text) => {		
-			expect(text.trim()).to.equal('Appeal submitted');
+			expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
 		});
 	});
 };

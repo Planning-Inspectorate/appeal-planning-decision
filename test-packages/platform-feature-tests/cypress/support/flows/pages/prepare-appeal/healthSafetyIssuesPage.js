@@ -5,12 +5,12 @@ export class HealthSafetyIssuesPage {
         appellantSiteSafetyAppellantSiteSafetyDetails: '#appellantSiteSafety_appellantSiteSafetyDetails'
     }
 
-    addHealthSafetyIssuesData(context) {
+    addHealthSafetyIssuesData(context, prepareAppealData) {
         const basePage = new BasePage();
 
         if (context?.applicationForm?.isAppellantSiteSafety) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            basePage.addTextField(this._selectors?.appellantSiteSafetyAppellantSiteSafetyDetails, 'appellantSiteSafety_appellantSiteSafetyDetails1234567890!"£$%^&*(10)');
+            basePage.addTextField(this._selectors?.appellantSiteSafetyAppellantSiteSafetyDetails, prepareAppealData?.appellantSiteSafetyDetails);
             cy.advanceToNextPage();
         }
         else {

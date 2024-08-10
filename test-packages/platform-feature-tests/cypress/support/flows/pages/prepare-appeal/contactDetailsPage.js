@@ -8,17 +8,17 @@ export class ContactDetailsPage {
         contactPhoneNumber: '#contactPhoneNumber'
     }
 
-    addContactDetailsData(context, applicationType) {
+    addContactDetailsData(context, applicationType,prepareAppealData) {
         const basePage = new BasePage();
 
-        basePage.addTextField(this._selectors.contactFirstName, 'Contact firstname');
-        basePage.addTextField(this._selectors.contactLastName, 'Contact lastname');
-        basePage.addTextField(this._selectors.contactCompanyName, 'Test Company');
+        basePage.addTextField(this._selectors.contactFirstName,  prepareAppealData?.contactDetails?.firstName);
+        basePage.addTextField(this._selectors.contactLastName, prepareAppealData?.contactDetails?.lastName);
+        basePage.addTextField(this._selectors.contactCompanyName, prepareAppealData?.contactDetails?.companyName);
         cy.advanceToNextPage();
 
-        cy.url().should('include', `/appeals/${applicationType}/prepare-appeal/phone-number`);
+        cy.validateURL(`/appeals/${applicationType}/prepare-appeal/phone-number`);
         //What is your phone number?
-        basePage.addTextField(this._selectors.contactPhoneNumber, '07654321000');
+        basePage.addTextField(this._selectors.contactPhoneNumber, prepareAppealData?.contactDetails?.contactPhoneNumber);
         cy.advanceToNextPage();
     };
 
