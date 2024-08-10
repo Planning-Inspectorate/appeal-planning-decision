@@ -179,7 +179,7 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
-        cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
         cy.advanceToNextPage();
         cy.get(basePage._selectors?.govukHeadingOne).should('have.text', 'Your email address is confirmed')
     });
@@ -191,7 +191,7 @@ describe('House Holder Validations', () => {
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
-        cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
+        cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type('@12345');
         cy.advanceToNextPage();
@@ -206,9 +206,9 @@ describe('House Holder Validations', () => {
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
-        cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
+        cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
-        cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
         cy.advanceToNextPage();
         cy.advanceToNextPage();
         cy.advanceToNextPage();
@@ -218,7 +218,7 @@ describe('House Holder Validations', () => {
             const dynamicId = params.get('id');
             applicationFormPage('householder', 'other', dynamicId);
 
-            applicationNamePage.addApplicationNameData(false);
+            applicationNamePage.addApplicationNameData(false,prepareAppealData);
             cy.get(basePage._selectors?.govukLink).click();
             cy.get(`a[href*="/appeals/householder/prepare-appeal/application-name?id=${dynamicId}"]`).contains('Change')
         });
@@ -232,9 +232,9 @@ describe('House Holder Validations', () => {
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
-        cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
+        cy.getByData(prepareAppealSelector._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
         cy.advanceToNextPage();
-        cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
         cy.advanceToNextPage();
         cy.advanceToNextPage();
         cy.advanceToNextPage();
@@ -244,19 +244,19 @@ describe('House Holder Validations', () => {
             const dynamicId = params.get('id');
             applicationFormPage('householder', 'other', dynamicId);
 
-            applicationNamePage.addApplicationNameData(context.applicationForm?.isAppellant);
-            contactDetailsPage.addContactDetailsData(context, 'householder');
-            appealSiteAddressPage.addAppealSiteAddressData();
-            siteAreaPage.addSiteAreaData(context?.typeOfPlanningApplication, context?.applicationForm?.areaUnits, context);
+            applicationNamePage.addApplicationNameData(context.applicationForm?.isAppellant, prepareAppealData);
+            contactDetailsPage.addContactDetailsData(context, 'householder',prepareAppealData);
+            appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
+            siteAreaPage.addSiteAreaData(context?.typeOfPlanningApplication, context?.applicationForm?.areaUnits, context, prepareAppealData);
             greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
             ownAllLandPage.addOwnAllLandData(context?.applicationForm?.isOwnsAllLand);
 
             if (!context?.applicationForm?.isOwnsAllLand) {
                 ownSomeLandPage.addOwnSomeLandData(context?.applicationForm?.isOwnsSomeLand, context);
             }
-            inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess);
+            inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess,prepareAppealData);
 
-            healthSafetyIssuesPage.addHealthSafetyIssuesData(context);
+            healthSafetyIssuesPage.addHealthSafetyIssuesData(context,prepareAppealData);
             cy.advanceToNextPage();
 
             const currentDate = new Date();
@@ -279,7 +279,7 @@ describe('House Holder Validations', () => {
             otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
 
             cy.get(basePage._selectors?.govukSummaryListKey).contains('Was the application made in your name?').next('.govuk-summary-list__value').contains(`${context.applicationForm?.isAppellant === true ? 'Yes':'No'}`);
-            cy.get(basePage._selectors?.govukSummaryListKey).contains('Contact details').next('.govuk-summary-list__value').contains('Contact firstname Contact lastname');
+            cy.get(basePage._selectors?.govukSummaryListKey).contains('Contact details').next('.govuk-summary-list__value').contains(`${prepareAppealData?.contactDetails?.firstName} ${prepareAppealData?.contactDetails?.lastName}`);
             // for(let obj in context?.applicationForm){
             //     cy.get('.govuk-summary-list__value').invoke('text').then((text)=>{
             //         const trimmedText=text.replace(/\s+/g,' ').trim();

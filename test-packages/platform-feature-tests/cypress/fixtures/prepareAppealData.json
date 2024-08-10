@@ -19,12 +19,12 @@
         "addressLine1":"Site Address Lane1",
         "addressLine2":"Site Address Lane2",
         "testTown":"Site Town",
-        "TestCounty":"Site County",
-        "AddressPostcode":"SW7 9PB"
+        "testCounty":"Site County",
+        "addressPostcode":"SW7 9PB"
     },
     "siteArea":{
         "squareMetres":"10001",
-        "SquareHectares":"10001"
+        "squareHectares":"10001"
     },
     "accessAppellantSiteAccessDetails":"the appeal site is at the rear of a terraced property123456789aAbcdEF!\"£$%QA",
     "appellantSiteSafetyDetails": "appellantSiteSafety_appellantSiteSafetyDetails1234567890!\"£$%^&*(10)",

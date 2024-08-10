@@ -66,10 +66,10 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 	cy.advanceToNextPage();
 
 	cy.intercept('POST', '/full-appeal/submit-appeal/list-of-documents').as('postRequest');
-	cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type('appellant2@planninginspectorate.gov.uk');
+	cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
 	cy.advanceToNextPage();
 
-	cy.get(prepareAppealSelector?._selectors?.emailCode).type('12345');
+	cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
 	cy.advanceToNextPage();
 
 	cy.advanceToNextPage();
@@ -81,14 +81,14 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 		const dynamicId = params.get('id');
 		applicationFormPage('full-planning', 'other', dynamicId);
 		//Contact details
-		applicationNamePage.addApplicationNameData(context?.applicationForm?.isAppellant);
+		applicationNamePage.addApplicationNameData(context?.applicationForm?.isAppellant,prepareAppealData);
 
-		contactDetailsPage.addContactDetailsData(context, 'full-planning');
+		contactDetailsPage.addContactDetailsData(context, 'full-planning',prepareAppealData);
 
 		//Site Details
-		appealSiteAddressPage.addAppealSiteAddressData();
+		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
 		//What is the area of the appeal site?
-		siteAreaPage.addSiteAreaData(planning, context?.applicationForm?.areaUnits, context);
+		siteAreaPage.addSiteAreaData(planning, context?.applicationForm?.areaUnits, context, prepareAppealData);
 
 		//Is the appeal site in a green belt?(Ans:Yes)
 		greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
@@ -103,9 +103,9 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 		}
 		agriculturalHoldingPage.addAgriculturalHoldingData(context?.applicationForm?.isAgriculturalHolding, context);
 
-		inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess);
+		inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess, prepareAppealData);
 		//Health and safety issues
-		healthSafetyIssuesPage.addHealthSafetyIssuesData(context);
+		healthSafetyIssuesPage.addHealthSafetyIssuesData(context, prepareAppealData);
 		//What is the application reference number?
 		cy.get(prepareAppealSelector?._selectors?.applicationReference).invoke('val').then((inputValue) => {
 			expect(inputValue).to.equal(applicationNumber);
@@ -117,7 +117,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(currentDate.getFullYear());
 		cy.advanceToNextPage();
 		//Enter the description of development that you submitted in your application
-		cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type('developmentDescriptionOriginal-hint123456789!£$%&*j');
+		cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type(prepareAppealData?.develpmentDescriptionOriginal);
 		cy.advanceToNextPage();
 		//Did the local planning authority change the description of development?
 		//cy.get('#updateDevelopmentDescription').click();
@@ -155,10 +155,10 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 		cy.get(`a[href*="/appeals/full-planning/submit/declaration?id=${dynamicId}"]`).click();
 		cy.wait(2000);
 
-		cy.get(basePage?._selectors.govukButton).contains('Accept and submit').click();
+		cy.get(basePage?._selectors.govukButton).contains(prepareAppealData?.acceptAndSubmitButton).click();
 
 		cy.get(basePage?._selectors.govukPanelTitle).invoke('text').should((text) => {
-			expect(text.trim()).to.equal('Appeal submitted');
+			expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
 		});
 	});
 };

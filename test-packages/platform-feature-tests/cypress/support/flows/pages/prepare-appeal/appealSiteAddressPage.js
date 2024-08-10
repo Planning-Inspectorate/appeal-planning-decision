@@ -10,14 +10,14 @@ export class AppealSiteAddressPage {
         addressPostcode: '#address-postcode'
     }
 
-    addAppealSiteAddressData() {
+    addAppealSiteAddressData(prepareAppealData) {
         const basePage = new BasePage();
 
-        basePage.addTextField(this._selectors?.addressLineOne, 'siteAddress_addressLine1');
-        basePage.addTextField(this._selectors?.addressLineTwo, 'siteAddress_addressLine2');
-        basePage.addTextField(this._selectors?.addressTown, 'Test Town');
-        basePage.addTextField(this._selectors?.addressCounty, 'Test County1');
-        basePage.addTextField(this._selectors?.addressPostcode, 'SW7 9PB');
+        basePage.addTextField(this._selectors?.addressLineOne, prepareAppealData?.appealSiteAddress?.addressLine1);
+        basePage.addTextField(this._selectors?.addressLineTwo, prepareAppealData?.appealSiteAddress?.addressLine2);
+        basePage.addTextField(this._selectors?.addressTown, prepareAppealData?.appealSiteAddress?.testTown);
+        basePage.addTextField(this._selectors?.addressCounty, prepareAppealData?.appealSiteAddress?.testCounty);
+        basePage.addTextField(this._selectors?.addressPostcode, prepareAppealData?.appealSiteAddress?.addressPostcode);
         cy.advanceToNextPage();
     };
 }

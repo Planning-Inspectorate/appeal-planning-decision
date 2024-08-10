@@ -7,7 +7,7 @@ export class ApplicationNamePage {
         appellantCompanyName: '#appellantCompanyName'
     }
 
-    addApplicationNameData(isAppellant) {
+    addApplicationNameData(isAppellant,prepareAppealData) {
         const basePage = new BasePage();
 
         if (isAppellant) {
@@ -17,9 +17,9 @@ export class ApplicationNamePage {
         else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
-            basePage.addTextField(this._selectors.appellantFirstName, 'firstname');
-            basePage.addTextField(this._selectors.appellantLastName, 'lastname');
-            basePage.addTextField(this._selectors.appellantCompanyName, 'companyname')
+            basePage.addTextField(this._selectors.appellantFirstName, prepareAppealData?.applicationName?.firstName);
+            basePage.addTextField(this._selectors.appellantLastName, prepareAppealData?.applicationName?.lastName);
+            basePage.addTextField(this._selectors.appellantCompanyName, prepareAppealData?.applicationName?.companyName)
             cy.advanceToNextPage();
         }
     };

@@ -52,6 +52,12 @@ Cypress.Commands.add('taskListComponent', (applicationType, answerType, dynamicI
 	cy.get(`a[href*="/appeals/${applicationType}/prepare-appeal/${answerType}?id=${dynamicId}"]`).click();
 });
 
+
+
+Cypress.Commands.add('validateURL', (url) => {
+	cy.url().should('include', url);
+});
+
 Cypress.Commands.add('goToAppealSection', (sectionName) => {
 	cy.get('.govuk-visually-hidden').each(($el) => {
 		if ($el.text().trim === sectionName) {
