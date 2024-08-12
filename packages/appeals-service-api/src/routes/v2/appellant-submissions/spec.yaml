@@ -116,7 +116,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/AppellantSubmissions'
+                  $ref: '#/components/schemas/AppellantSubmission'
         400:
           description: Bad request
           content:
