@@ -63,6 +63,7 @@ class BlobStorageClient {
 		const startsOn = new Date(NOW.valueOf() - TEN_MINUTES);
 
 		blobName = blobName.replace(`${this.host}/${containerName}/`, ''); // remove host + container if provided
+		blobName = blobName.replace(`${this.host}/`, ''); // remove host if no container on url
 
 		if (!expiresOn) {
 			expiresOn = new Date(NOW.valueOf() + TEN_MINUTES);
