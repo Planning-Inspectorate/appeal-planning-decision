@@ -22,13 +22,13 @@ const applicationRows = (caseData) => {
 		},
 		{
 			keyText: 'Application decision notice',
-			valueText: formatDocumentDetails(documents, 'applicationDecision'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPLICATION_DECISION_LETTER),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.APPLICATION_DECISION_LETTER),
 			isEscaped: true
 		},
 		{
 			keyText: 'Application',
-			valueText: formatDocumentDetails(documents, 'originalApplicationForm'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM),
 			isEscaped: true
 		},
