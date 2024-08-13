@@ -22,6 +22,7 @@ router.use(requireLpaUser);
 router.use(require('./your-appeals'));
 router.use(require('./questionnaire'));
 router.use(require('./decided-appeals'));
+router.use(require('./statement'));
 
 // manage users
 router.use(require('./add-remove-users'));

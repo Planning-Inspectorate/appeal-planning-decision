@@ -956,6 +956,19 @@ export interface LPAQuestionnaireSubmission {
 	requiresEnvironmentalStatement?: boolean;
 }
 
+/** A statement submitted by an LPA */
+export interface LPAStatementSubmission {
+	/** @format uuid */
+	id: string;
+	AppealCase: {
+		LPACode: string;
+	};
+	/** whether the statement has been submitted to BO */
+	submitted?: boolean;
+	lpaStatement?: string;
+	addtionalDocuments?: boolean;
+}
+
 /** The neighbouring address related to an appeal */
 export interface NeighbouringAddress {
 	/**
