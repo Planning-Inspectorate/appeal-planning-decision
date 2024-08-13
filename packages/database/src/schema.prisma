@@ -194,15 +194,16 @@ model AppealCase {
   // site details
   //***************************************************************************
 
-  siteAddressLine1       String /// First line of address for the appeal site
-  siteAddressLine2       String? /// Second line of address for the appeal site
-  siteAddressTown        String /// Town / City of the site address
-  siteAddressCounty      String? /// County of the site address
-  siteAddressPostcode    String /// Postal code of the site address
-  siteAccessDetails      String?  @db.NVarChar(MAX) /// A json array of information on site accessibility
-  siteSafetyDetails      String?  @db.NVarChar(MAX) /// A json array of information on site health and safety
-  siteAreaSquareMetres   Decimal? /// The site area, in square meters
-  floorSpaceSquareMetres Decimal? /// The floor space, in square meters
+  siteAddressLine1             String /// First line of address for the appeal site
+  siteAddressLine2             String? /// Second line of address for the appeal site
+  siteAddressTown              String /// Town / City of the site address
+  siteAddressCounty            String? /// County of the site address
+  siteAddressPostcode          String /// Postal code of the site address
+  siteAddressPostcodeSanitized String? /// Postal code of the site address
+  siteAccessDetails            String?  @db.NVarChar(MAX) /// A json array of information on site accessibility
+  siteSafetyDetails            String?  @db.NVarChar(MAX) /// A json array of information on site health and safety
+  siteAreaSquareMetres         Decimal? /// The site area, in square meters
+  floorSpaceSquareMetres       Decimal? /// The floor space, in square meters
 
   //***************************************************************************
   // Appellant fields
@@ -524,6 +525,7 @@ model NeighbouringAddress {
   townCity          String
   county            String?
   postcode          String
+  postcodeSanitized String?
   siteAccessDetails String? @db.NVarChar(MAX) /// json array of information on site accessibility
   siteSafetyDetails String? @db.NVarChar(MAX) /// json array of information on site health and safety
 

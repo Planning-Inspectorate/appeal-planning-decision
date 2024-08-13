@@ -113,6 +113,7 @@ const mapHASDataModelToAppealCase = (
 		lpaQuestionnaireValidationDetails,
 		siteAccessDetails,
 		siteSafetyDetails,
+		siteAddressPostcode,
 		...commonFields
 	}
 ) => ({
@@ -137,6 +138,8 @@ const mapHASDataModelToAppealCase = (
 			}
 		}
 	},
+	siteAddressPostcode: siteAddressPostcode,
+	siteAddressPostcodeSanitized: siteAddressPostcode.replace(' ', '').toUpperCase(),
 	LPACode: lpaCode,
 	caseSpecialisms: caseSpecialisms ? JSON.stringify(caseSpecialisms) : null,
 	caseValidationInvalidDetails: caseValidationInvalidDetails
@@ -283,6 +286,9 @@ class AppealCaseRepository {
 						townCity: address.neighbouringSiteAddressTown,
 						county: address.neighbouringSiteAddressCounty,
 						postcode: address.neighbouringSiteAddressPostcode,
+						postcodeSanitized: address.neighbouringSiteAddressPostcode
+							.replace(' ', '')
+							.toUpperCase(),
 						siteAccessDetails: address.neighbouringSiteAccessDetails,
 						siteSafetyDetails: address.neighbouringSiteSafetyDetails
 					}))
