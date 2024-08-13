@@ -49,7 +49,7 @@ exports.documentsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Decision letter',
-			valueText: formatDocumentDetails(documents, 'lpaDecisionLetter'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.APPLICATION_DECISION_LETTER),
 			condition: () => true,
 			isEscaped: true
 		},
