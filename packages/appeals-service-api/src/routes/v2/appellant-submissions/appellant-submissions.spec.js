@@ -46,24 +46,6 @@ const submissionIds = [];
 
 let validUser;
 
-beforeAll(async () => {
-	///////////////////////////////
-	///// SETUP TEST DATABASE ////
-	/////////////////////////////
-	sqlClient = createPrismaClient();
-
-	/////////////////////
-	///// SETUP APP ////
-	///////////////////
-	appealsApi = supertest(app);
-
-	await seedStaticData(sqlClient);
-	const user = await sqlClient.appealUser.create({
-		data: { email: crypto.randomUUID() + '@example.com' }
-	});
-	validUser = user.id;
-});
-
 /**
  * @returns {Promise<string>}
  */
@@ -142,6 +124,32 @@ const createLinkedRecords = async (submissionId, linkedRecordType) => {
 	}
 };
 
+/**
+ * @returns {Promise<import('@prisma/client').AppealUser>}
+ */
+async function createNewUser() {
+	const user = await sqlClient.appealUser.create({
+		data: { email: crypto.randomUUID() + '@example.com' }
+	});
+	validUser = user.id;
+	return user;
+}
+
+beforeAll(async () => {
+	///////////////////////////////
+	///// SETUP TEST DATABASE ////
+	/////////////////////////////
+	sqlClient = createPrismaClient();
+
+	/////////////////////
+	///// SETUP APP ////
+	///////////////////
+	appealsApi = supertest(app);
+
+	await seedStaticData(sqlClient);
+	await createNewUser();
+});
+
 beforeEach(async () => {
 	// turn all feature flags on
 	isFeatureActive.mockImplementation(() => {
@@ -160,6 +168,7 @@ afterAll(async () => {
 describe('/appellant-submissions', () => {
 	it('put', async () => {
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+		await createNewUser();
 		setCurrentSub(validUser);
 		const decisionDate = new Date();
 		const appealId = await createAppeal();
@@ -183,6 +192,7 @@ describe('/appellant-submissions', () => {
 	describe('/appellant-submissions/:id', () => {
 		it('get', async () => {
 			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+			await createNewUser();
 			setCurrentSub(validUser);
 
 			const appealId = await createAppeal();
@@ -216,6 +226,7 @@ describe('/appellant-submissions', () => {
 
 		it('patch', async () => {
 			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+			await createNewUser();
 			setCurrentSub(validUser);
 			const decisionDate = new Date();
 			const appealId = await createAppeal();
@@ -250,9 +261,11 @@ describe('/appellant-submissions', () => {
 			});
 		});
 	});
+
 	describe('/appellant-submissions/cleanup-old-submissions', () => {
 		it('should delete old non-submitted submissions past the deadline', async () => {
 			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+			await createNewUser();
 			setCurrentSub(validUser);
 			// Create a non-submitted submission past the deadline
 			const oldApplicationDate = subMonths(new Date(), 7); // 7 months ago
@@ -295,6 +308,7 @@ describe('/appellant-submissions', () => {
 		});
 		it('should delete S78/ HAS submissions appropriately according to differing deadlines', async () => {
 			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+			await createNewUser();
 			setCurrentSub(validUser);
 			// Create non-submitted HAS submissions
 			const oldHasApplicationDate = subMonths(new Date(), 7);
@@ -367,6 +381,7 @@ describe('/appellant-submissions', () => {
 		});
 		it('should delete associated records/ data with deleted submissions', async () => {
 			const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+			await createNewUser();
 			setCurrentSub(validUser);
 			// Create an old submission past the deadline with linked records
 			const oldApplicationDate = subMonths(new Date(), 7);
