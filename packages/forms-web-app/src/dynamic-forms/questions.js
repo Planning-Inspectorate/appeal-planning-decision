@@ -1999,5 +1999,21 @@ exports.questions = {
 				fieldName: 'appellantPreferInquiryWitnesses'
 			})
 		]
+	}),
+	lpaStatement: new TextEntryQuestion({
+		title: 'Appeal statement',
+		question: 'Enter your statement',
+		url: 'appeal-statement',
+		html: 'resources/lpa-statement/content.html',
+		fieldName: 'lpaStatement',
+		validators: [
+			new RequiredValidator('Enter your statement'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your statement must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
 	})
 };

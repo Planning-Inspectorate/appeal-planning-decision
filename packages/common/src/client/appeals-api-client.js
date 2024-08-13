@@ -25,6 +25,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.InterestedPartyComment} InterestedPartyComment
  * @typedef {import('appeals-service-api').Api.InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.ListedBuilding} ListedBuilding
+ * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
  */
 
 // Data model types
@@ -364,6 +365,26 @@ class AppealsApiClient {
 	async postLPASubmissionDocumentUpload(caseReference, data) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/document-upload`;
 		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(LPAStatementSubmission)>}
+	 */
+	async getLPAStatement(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(LPAStatementSubmission)>}
+	 */
+	async postLPAStatement(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission`;
+		const response = await this.#makePostRequest(endpoint);
 		return response.json();
 	}
 

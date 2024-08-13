@@ -3,6 +3,7 @@ const { HasJourney } = require('./has-questionnaire/journey');
 const { S78Journey } = require('./s78-questionnaire/journey');
 const { HasAppealFormJourney } = require('./has-appeal-form/journey');
 const { S78AppealFormJourney } = require('./s78-appeal-form/journey');
+const { S78LpaStatementJourney } = require('./s78-lpa-statement/journey');
 
 /**
  * @typedef {import('./journey').Journey} Journey
@@ -11,7 +12,8 @@ const { S78AppealFormJourney } = require('./s78-appeal-form/journey');
 
 const LPA_JOURNEY_TYPES_FORMATTED = {
 	HAS: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
-	S78: JOURNEY_TYPES.S78_QUESTIONNAIRE
+	S78: JOURNEY_TYPES.S78_QUESTIONNAIRE,
+	STATEMENT: JOURNEY_TYPES.S78_LPA_STATEMENT
 };
 
 const APPELLANT_JOURNEY_TYPES_FORMATTED = {
@@ -26,7 +28,8 @@ const JOURNEY_CLASSES = {
 	[JOURNEY_TYPES.HAS_QUESTIONNAIRE]: HasJourney,
 	[JOURNEY_TYPES.S78_QUESTIONNAIRE]: S78Journey,
 	[JOURNEY_TYPES.HAS_APPEAL_FORM]: HasAppealFormJourney,
-	[JOURNEY_TYPES.S78_APPEAL_FORM]: S78AppealFormJourney
+	[JOURNEY_TYPES.S78_APPEAL_FORM]: S78AppealFormJourney,
+	[JOURNEY_TYPES.S78_LPA_STATEMENT]: S78LpaStatementJourney
 };
 
 /**
