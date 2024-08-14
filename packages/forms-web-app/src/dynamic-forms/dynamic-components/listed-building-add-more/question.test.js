@@ -1,9 +1,6 @@
-const { getListedBuilding } = require('../../../lib/appeals-api-wrapper');
 const AddMoreQuestion = require('../add-more/question');
 const ListedBuildingAddMoreQuestion = require('./question');
 const uuid = require('uuid');
-
-jest.mock('../../../lib/appeals-api-wrapper');
 
 const mockListedBuilding = {
 	reference: '1234567',
@@ -45,8 +42,6 @@ describe('ListedBuildingAddMoreQuestion', () => {
 
 	describe('getDataToSave', () => {
 		it('should return data correctly', async () => {
-			getListedBuilding.mockResolvedValue(mockListedBuilding);
-
 			const listedBuildingAddMoreQuestion = new ListedBuildingAddMoreQuestion({
 				title: TITLE,
 				question: QUESTION,
@@ -58,8 +53,12 @@ describe('ListedBuildingAddMoreQuestion', () => {
 			const req = {
 				body: {
 					[FIELDNAME]: '1234567'
+				},
+				appealsApiClient: {
+					getListedBuilding: jest.fn()
 				}
 			};
+			req.appealsApiClient.getListedBuilding.mockResolvedValue(mockListedBuilding);
 
 			const result = await listedBuildingAddMoreQuestion.getDataToSave(req);
 
@@ -183,10 +182,8 @@ describe('ListedBuildingAddMoreQuestion', () => {
 	});
 
 	it('should not return data if API call errors', async () => {
-		const error = new Error('api error');
-		getListedBuilding.mockImplementation(() => {
-			throw error;
-		});
+		const ref = '1234567';
+		const error = new Error(`Could not find listed building: ${ref}`);
 		const listedBuildingAddMoreQuestion = new ListedBuildingAddMoreQuestion({
 			title: TITLE,
 			question: QUESTION,
@@ -197,9 +194,15 @@ describe('ListedBuildingAddMoreQuestion', () => {
 
 		const req = {
 			body: {
-				[FIELDNAME]: '1234567'
+				[FIELDNAME]: ref
+			},
+			appealsApiClient: {
+				getListedBuilding: jest.fn()
 			}
 		};
+		req.appealsApiClient.getListedBuilding.mockImplementation(() => {
+			throw error;
+		});
 
 		let result;
 		try {

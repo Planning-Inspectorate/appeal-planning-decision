@@ -1,37 +1,30 @@
 const handler = require('../../src/functions/listed-building');
+const config = require('../../src/common/config');
+const createApiClient = require('../../src/common/api-client');
 const { InvocationContext } = require('@azure/functions');
-const got = require('got');
 
-jest.mock('got');
+jest.mock('../../src/common/api-client');
 
 describe('listed-building', () => {
-	const context = new InvocationContext({ functionName: 'appeal-service-user' });
-	context.log = jest.fn();
+	const ctx = new InvocationContext({ functionName: 'listed-building' });
+	ctx.log = jest.fn();
+	const mockClient = {
+		putListedBuildings: jest.fn()
+	};
 
 	beforeEach(async () => {
 		jest.clearAllMocks();
-		got.put.mockImplementation(() => {
-			return {
-				json: jest.fn()
-			};
-		});
+
+		createApiClient.mockResolvedValue(mockClient);
+		config.API = {
+			...config.API,
+			HOSTNAME: 'test'
+		};
 	});
 
-	it('should send array to api', async () => {
-		const msg = [1, 2];
-		await handler(msg, context);
-
-		expect(context.log).toHaveBeenCalledWith('Handle listed building message', msg);
-		expect(got.put).toHaveBeenCalledWith(`https://undefined/listed-buildings`, { json: msg });
-	});
-
-	it('should send single message to api as an array', async () => {
-		const msg = { test: 1 };
-		await handler(msg, context);
-
-		expect(context.log).toHaveBeenCalledWith('Handle listed building message', msg);
-		expect(got.put).toHaveBeenCalledWith(`https://undefined/listed-buildings`, { json: [msg] });
+	it('forwards the message to the appeals api', async () => {
+		const testData = [{ reference: '123', name: 'test building' }];
+		await handler(testData, ctx);
+		expect(mockClient.putListedBuildings).toHaveBeenCalledWith(testData);
 	});
 });
-
-describe('', () => {});

@@ -5,38 +5,16 @@
  * sends onto api which will in turn add to DB
  */
 
-const got = require('got');
-
 const { app } = require('@azure/functions');
+const createApiClient = require('../common/api-client');
 
 /**
  * @type {import('@azure/functions').ServiceBusTopicHandler}
  */
-const handler = async (message, context) => {
-	context.log('Handle listed building message', message);
-
-	if (Array.isArray(message)) {
-		await processListedBuilding(message);
-		return;
-	}
-
-	await processListedBuilding([message]);
-
-	return {};
+const handler = async (message) => {
+	const client = await createApiClient();
+	return await client.putListedBuildings(message);
 };
-
-/**
- * @param {Array<Object>} listedBuildingMessages
- */
-async function processListedBuilding(listedBuildingMessages) {
-	// todo: use api client
-	const APPEALS_CASE_DATA_URL = `https://${process.env.FO_APPEALS_API}/listed-buildings`;
-	await got
-		.put(APPEALS_CASE_DATA_URL, {
-			json: listedBuildingMessages
-		})
-		.json();
-}
 
 app.serviceBusTopic('listedBuilding', {
 	topicName: 'listed-building',

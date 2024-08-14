@@ -1,0 +1,47 @@
+paths:
+  /api/v2/listed-buildings/:
+    put:
+      tags:
+        - listed-buildings
+      description: Upsert an array listed building
+      requestBody:
+        description: listed buildings to create
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/ListedBuilding'
+      responses:
+        200:
+          description: Array of created/updated listed building references
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/listed-buildings/{reference}:
+    get:
+      tags:
+        - listed-buildings
+      parameters:
+        - in: path
+          name: reference
+          schema:
+            type: string
+          required: true
+          description: listed building reference number
+      responses:
+        200:
+          description: The listed building
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListedBuilding'
+        404:
+          description: listed building not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
