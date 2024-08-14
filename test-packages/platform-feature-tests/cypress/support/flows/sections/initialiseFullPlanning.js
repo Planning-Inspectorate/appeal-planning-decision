@@ -59,7 +59,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 
 	cy.getByData(basePage?._selectors.applicationType).should('have.text', applicationType);
 
-	cy.advanceToNextPage('Continue to my appeal');
+	cy.advanceToNextPage(prepareAppealData?.button);
 
 	const applicationNumber = `TEST-${Date.now()}`;
 	cy.getByData(prepareAppealSelector?._selectors?.applicationNumber).type(applicationNumber);
