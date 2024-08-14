@@ -16,10 +16,17 @@ export class PrepareAppealSelector {
         decisionDateDay: '#decision-date-day',
         decisionDateMonth: '#decision-date-month',
         decisionDateYear: '#decision-date-year',
-    };
+    }
     _houseHolderSelectors = {
         decisionDateHouseholderDay: '#decision-date-householder-day',
         decisionDateHouseholderMonth: '#decision-date-householder-month',
         decisionDateHouseholderYear: '#decision-date-householder-year',
+    }
+    _houseHolderURLs = {
+        beforeYouStart: '/before-you-start',
+        appealHouseholderDecison: '/appeal-householder-decision',
+        appealsHouseholderAppealForm: '/appeals/householder/appeal-form',
+        appealsHouseholderPrepareAppeal: '/appeals/householder/prepare-appeal',
+        appealsHouseholderUploadDocuments: '/appeals/householder/upload-documents'
     }
 }
