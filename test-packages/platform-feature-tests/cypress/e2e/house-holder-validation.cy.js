@@ -49,7 +49,7 @@ describe('House Holder Date Validations', () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear() + 1);
         cy.advanceToNextPage();
 
-        cy.get(basePage?._selectors?.govukErrorSummaryBody).should('have.text', 'Decision date must be today or in the past');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Decision date must be today or in the past');        
     });
 
     it(`Validate future date error message  in decision date page future month`, () => {
@@ -59,7 +59,7 @@ describe('House Holder Date Validations', () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
         cy.advanceToNextPage();
 
-        cy.get(basePage?._selectors?.govukErrorSummaryBody).should('have.text', 'Decision date must be today or in the past');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Decision date must be today or in the past');
     });
 
     it(`Validate future date error message  in decision date page future day`, () => {
@@ -69,7 +69,7 @@ describe('House Holder Date Validations', () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
         cy.advanceToNextPage();
 
-        cy.get(basePage?._selectors?.govukErrorSummaryBody).should('have.text', 'Decision date must be today or in the past');
+         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Decision date must be today or in the past');
     });
 
     it(`Validate future date error message  in decision date page negative date`, () => {
@@ -79,7 +79,7 @@ describe('House Holder Date Validations', () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
         cy.advanceToNextPage();
 
-        cy.get(basePage?._selectors?.govukErrorSummaryBody).should('have.text', 'The Decision Date must be a real date');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'The Decision Date must be a real date');
     });
 
     it(`Validate future date error message  in decision date page past year`, () => {
@@ -88,9 +88,8 @@ describe('House Holder Date Validations', () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear() - 1);
         cy.advanceToNextPage();
-
-        cy.get(basePage?._selectors?.govukHeadingOne).should('have.text', 'You cannot appeal.');
-        cy.get(basePage?._selectors?.govukBody).contains('Your deadline to appeal has passed.');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukHeadingOne, 'You cannot appeal.');
+        cy.containsMessage(basePage?._selectors?.govukBody,'Your deadline to appeal has passed.');
     });
 
 });
@@ -143,19 +142,21 @@ describe('House Holder Validations', () => {
     //typeOfPlanningApplication?.forEach((planning) => {
     it(`Validate error message when user tries to navigate next page without selecting mandatory fields for enforecement`, () => {
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors?.govukErrorSummaryBody).should('have.text', 'Select yes if you have received an enforcement notice');
+        
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you have received an enforcement notice');       
     });
     it(`Validate Back button when user tries to navigate previous page from enforcement page`, () => {
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors?.govukErrorSummaryBody).should('have.text', 'Select yes if you have received an enforcement notice');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you have received an enforcement notice');        
         basePage.backBtn();
-        cy.get(prepareAppealSelector?._selectors?.govukFieldsetHeading).contains("What’s the date on the decision letter from the local planning authority?");
+        cy.containsMessage(prepareAppealSelector?._selectors?.govukFieldsetHeading, "What’s the date on the decision letter from the local planning authority?");
     });
     it(`Validate exiting service page and button when user tries to use exiting appeals case work portal`, () => {
         cy.getByData(basePage._selectors?.answerYes).click();
         cy.advanceToNextPage();
-        cy.get(basePage._selectors?.govukHeadingOne).should('have.text', 'You need to use the existing service');
-        cy.get(basePage._selectors?.govukButton).contains('Continue to the Appeals Casework Portal');
+
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukHeadingOne, 'You need to use the existing service');      
+        cy.containsMessage(basePage._selectors?.govukButton,'Continue to the Appeals Casework Portal');
     });
 
     it(`Validate emails address with correct email format`, () => {
@@ -167,7 +168,7 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
         cy.getByData(prepareAppealSelector._selectors?.emailAddress).type('abcdtestemail');
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors?.govukErrorSummaryBody).should('have.text', 'Enter an email address in the correct format, like name@example.com');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter an email address in the correct format, like name@example.com');       
     });
 
     it(`Validate correct email code received `, () => {
@@ -181,7 +182,7 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
         cy.advanceToNextPage();
-        cy.get(basePage._selectors?.govukHeadingOne).should('have.text', 'Your email address is confirmed')
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukHeadingOne, 'Your email address is confirmed');      
     });
 
     it(`Validate error message when incorrect email code received `, () => {
@@ -195,7 +196,7 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type('@12345');
         cy.advanceToNextPage();
-        cy.get(basePage?._selectors?.govukErrorSummaryBody).should('have.text', 'Enter the correct code')
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter the correct code');
     });
 
     it(`Validate change URL for application name in task link page `, () => {
@@ -278,15 +279,7 @@ describe('House Holder Validations', () => {
 
             otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
 
-            cy.get(basePage._selectors?.govukSummaryListKey).contains('Was the application made in your name?').next('.govuk-summary-list__value').contains(`${context.applicationForm?.isAppellant === true ? 'Yes':'No'}`);
-            cy.get(basePage._selectors?.govukSummaryListKey).contains('Contact details').next('.govuk-summary-list__value').contains(`${prepareAppealData?.contactDetails?.firstName} ${prepareAppealData?.contactDetails?.lastName}`);
-            // for(let obj in context?.applicationForm){
-            //     cy.get('.govuk-summary-list__value').invoke('text').then((text)=>{
-            //         const trimmedText=text.replace(/\s+/g,' ').trim();
-            //         expect(trimmedText).to.include('');
-
-            //     })
-            // }
-        });
+            cy.containsMessage(basePage._selectors?.govukSummaryListKey,'Was the application made in your name?').next('.govuk-summary-list__value').contains(`${context.applicationForm?.isAppellant === true ? 'Yes':'No'}`);
+            cy.containsMessage(basePage._selectors?.govukSummaryListKey,'Contact details').next('.govuk-summary-list__value').contains(`${prepareAppealData?.contactDetails?.firstName} ${prepareAppealData?.contactDetails?.lastName}`);        });
      });
 });

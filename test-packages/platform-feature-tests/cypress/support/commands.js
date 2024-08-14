@@ -32,6 +32,15 @@ Cypress.Commands.add('getByData', (value) => {
 	return cy.get(`[data-cy="${value}"]`);
 });
 
+Cypress.Commands.add('shouldHaveErrorMessage', (selector, message) => {
+	return cy.get(selector).should('have.text', message);
+});
+
+Cypress.Commands.add('containsMessage', (selector, message) => {
+	cy.get(selector).contains(message);
+});
+
+
 
 // Cypress.Commands.add('goToAppealSection', (sectionName) => {
 // 	//cy.get('.moj-task-list__task-name').contains(sectionName).click();

@@ -155,7 +155,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 		cy.get(`a[href*="/appeals/full-planning/submit/declaration?id=${dynamicId}"]`).click();
 		cy.wait(2000);
 
-		cy.get(basePage?._selectors.govukButton).contains(prepareAppealData?.acceptAndSubmitButton).click();
+		cy.containsMessage(basePage?._selectors.govukButton,prepareAppealData?.acceptAndSubmitButton).click();
 
 		cy.get(basePage?._selectors.govukPanelTitle).invoke('text').should((text) => {
 			expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
