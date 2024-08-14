@@ -1,4 +1,3 @@
-const { getListedBuilding } = require('../../../lib/appeals-api-wrapper');
 const AddMoreQuestion = require('../add-more/question');
 const ListedBuilding = require('@pins/common/src/lib/listed-building');
 const { getListedBuildingForQuestion } = require('../utils/question-utils');
@@ -27,17 +26,24 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	 * @returns
 	 */
 	async getDataToSave(req) {
+		// todo: improve this error message
 		const listedBuildingReference = req.body[this.fieldName];
 
-		const listedBuildingData = await getListedBuilding(listedBuildingReference);
+		try {
+			const listedBuildingData = await req.appealsApiClient.getListedBuilding(
+				listedBuildingReference
+			);
 
-		const listedBuilding = new ListedBuilding(
-			listedBuildingReference,
-			listedBuildingData.name,
-			listedBuildingData.listedBuildingGrade
-		);
+			const listedBuilding = new ListedBuilding(
+				listedBuildingReference,
+				listedBuildingData.name,
+				listedBuildingData.listedBuildingGrade
+			);
 
-		return { addMoreId: randomUUID(), value: listedBuilding };
+			return { addMoreId: randomUUID(), value: listedBuilding };
+		} catch (err) {
+			throw new Error(`Could not find listed building: ${listedBuildingReference}`);
+		}
 	}
 
 	/**

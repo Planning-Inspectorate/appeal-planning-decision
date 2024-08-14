@@ -24,6 +24,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('pins-data-model/src/schemas').AppealHASCase} AppealHASCase
  * @typedef {import('appeals-service-api').Api.InterestedPartyComment} InterestedPartyComment
  * @typedef {import('appeals-service-api').Api.InterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import('appeals-service-api').Api.ListedBuilding} ListedBuilding
  */
 
 // Data model types
@@ -613,6 +614,26 @@ class AppealsApiClient {
 	async createAppellantSubmission(data) {
 		const endpoint = `${v2}/appellant-submissions`;
 		return (await this.#makePutRequest(endpoint, data)).json();
+	}
+
+	/**
+	 * @param {string} reference
+	 * @returns {Promise<ListedBuilding>}
+	 */
+	async getListedBuilding(reference) {
+		const endpoint = `${v2}/listed-buildings/${reference}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {ListedBuilding|Array<ListedBuilding>} data
+	 * @returns {Promise<object>}
+	 */
+	async putListedBuildings(data) {
+		const endpoint = `${v2}/listed-buildings/`;
+		const response = await this.#makePutRequest(endpoint, data);
+		return response.json();
 	}
 
 	/**

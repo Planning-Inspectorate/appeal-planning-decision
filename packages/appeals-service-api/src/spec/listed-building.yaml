@@ -1,0 +1,16 @@
+components:
+  schemas:
+    ListedBuilding:
+      description: A listed building
+      type: object
+      required:
+        - reference
+      properties:
+        reference:
+          type: string
+        name:
+          type: string
+          nullable: true
+        listedBuildingGrade:
+          type: string
+          nullable: true

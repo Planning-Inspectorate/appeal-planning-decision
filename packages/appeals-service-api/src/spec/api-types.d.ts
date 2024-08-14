@@ -74,6 +74,10 @@ export interface AppealCase {
 		| 'validation'
 		| 'ready_to_start'
 		| 'lpa_questionnaire'
+		| 'statements'
+		| 'evidence'
+		| 'witnesses'
+		| 'final_comments'
 		| 'issue_determination'
 		| 'complete'
 		| 'invalid'
@@ -631,7 +635,7 @@ export interface DataModelDocument {
 	/** The unique identifier for the document */
 	documentId: string;
 	/** Internal case identifier */
-	caseId: number;
+	caseId?: number;
 	/** External case identifier */
 	caseReference: string;
 	/** A document can have multiple versions and this indicates the latest version */
@@ -647,11 +651,11 @@ export interface DataModelDocument {
 	/** The internal location of the document */
 	documentURI: string;
 	/** The location of the published document will be null if the datePublished is not set */
-	publishedDocumentURI: string;
+	publishedDocumentURI?: string;
 	/** Indicates the virus check status for the current document */
-	virusCheckStatus: 'not_scanned' | 'scanned' | 'affected';
+	virusCheckStatus?: 'not_scanned' | 'scanned' | 'affected';
 	/** A MD5 hash to check the validity of the file */
-	fileMD5: string;
+	fileMD5?: string;
 	/**
 	 * The creation date for the document
 	 * @format date-time
@@ -661,23 +665,23 @@ export interface DataModelDocument {
 	 * The date the document was received
 	 * @format date-time
 	 */
-	dateReceived: string;
+	dateReceived?: string;
 	/**
 	 * The date the document was published
 	 * @format date-time
 	 */
-	datePublished: string;
+	datePublished?: string;
 	/**
 	 * The last update date for the document
 	 * @format date-time
 	 */
-	lastModified: string;
+	lastModified?: string;
 	/** The internal code for an appeal type e.g. Householder (D) */
-	caseType: 'C' | 'D' | 'F' | 'G' | 'H' | 'L' | 'Q' | 'S' | 'V' | 'W' | 'X' | 'Y' | 'Z';
+	caseType?: 'C' | 'D' | 'F' | 'G' | 'H' | 'L' | 'Q' | 'S' | 'V' | 'W' | 'X' | 'Y' | 'Z';
 	/** Indicates the redaction status for the document */
-	redactedStatus: 'not_redacted' | 'redacted' | 'no_redaction_required';
+	redactedStatus?: 'not_redacted' | 'redacted' | 'no_redaction_required';
 	/** The type of document used for exchange migrations and consumption from the appeal back-office system */
-	documentType:
+	documentType?:
 		| 'appellantCaseCorrespondence'
 		| 'appellantCaseWithdrawalLetter'
 		| 'appellantCostsApplication'
@@ -700,17 +704,17 @@ export interface DataModelDocument {
 		| 'crossTeamCorrespondence'
 		| 'inspectorCorrespondence';
 	/** The system mastering the metadata for the current document */
-	sourceSystem: 'back-office-appeals' | 'horizon' | 'acp' | 'sharepoint';
+	sourceSystem?: 'back-office-appeals' | 'horizon' | 'acp' | 'sharepoint';
 	/** Indicates where the documents originates from */
-	origin: 'pins' | 'citizen' | 'lpa' | 'ogd';
+	origin?: 'pins' | 'citizen' | 'lpa' | 'ogd';
 	/** Owner of the current document */
-	owner: string;
+	owner?: string;
 	/** Name of person who authored document */
-	author: string;
+	author?: string;
 	/** A custom description for the document */
-	description: string;
+	description?: string;
 	/** The stage in the appeal process that has created the document */
-	caseStage:
+	caseStage?:
 		| 'appellant-case'
 		| 'lpa-questionnaire'
 		| 'statements'
@@ -719,7 +723,7 @@ export interface DataModelDocument {
 		| 'appeal-decision'
 		| 'costs';
 	/** The folder ID containing the document in Horizon */
-	horizonFolderId: string;
+	horizonFolderId?: string;
 }
 
 /** An appeal case event */
@@ -857,6 +861,13 @@ export interface InterestedPartySubmission {
 	comments: string;
 	/** @format date-time */
 	createdAt?: string;
+}
+
+/** A listed building */
+export interface ListedBuilding {
+	reference: string;
+	name?: string | null;
+	listedBuildingGrade?: string | null;
 }
 
 /** A questionnaire submitted by an LPA */
