@@ -162,7 +162,7 @@ describe('House Holder Validations', () => {
     it(`Validate emails address with correct email format`, () => {
         cy.getByData(basePage._selectors?.answerNo).click();
         cy.advanceToNextPage();
-        cy.advanceToNextPage('Continue to my appeal');
+        cy.advanceToNextPage(prepareAppealData?.button);
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
@@ -174,7 +174,7 @@ describe('House Holder Validations', () => {
     it(`Validate correct email code received `, () => {
         cy.getByData(basePage._selectors?.answerNo).click();
         cy.advanceToNextPage();
-        cy.advanceToNextPage('Continue to my appeal');
+        cy.advanceToNextPage(prepareAppealData?.button);
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
@@ -188,7 +188,7 @@ describe('House Holder Validations', () => {
     it(`Validate error message when incorrect email code received `, () => {
         cy.getByData(basePage._selectors?.answerNo).click();
         cy.advanceToNextPage();
-        cy.advanceToNextPage('Continue to my appeal');
+        cy.advanceToNextPage(prepareAppealData?.button);
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
@@ -203,7 +203,7 @@ describe('House Holder Validations', () => {
         const applicationNamePage = new ApplicationNamePage();
         cy.getByData(basePage._selectors?.answerNo).click();
         cy.advanceToNextPage();
-        cy.advanceToNextPage('Continue to my appeal');
+        cy.advanceToNextPage(prepareAppealData?.button);
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
@@ -229,7 +229,7 @@ describe('House Holder Validations', () => {
         const applicationNamePage = new ApplicationNamePage();
         cy.getByData(basePage._selectors?.answerNo).click();
         cy.advanceToNextPage();
-        cy.advanceToNextPage('Continue to my appeal');
+        cy.advanceToNextPage(prepareAppealData?.button);
         const applicationNumber = `TEST-${Date.now()}`;
         cy.getByData(prepareAppealSelector._selectors?.applicationNumber).type(applicationNumber);
         cy.advanceToNextPage();
