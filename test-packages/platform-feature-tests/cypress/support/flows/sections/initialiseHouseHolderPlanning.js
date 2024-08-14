@@ -169,7 +169,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 		cy.get(`a[href*="/appeals/householder/submit/declaration?id=${dynamicId}"]`).click();
 		cy.wait(2000);
 		//Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
-		cy.get(basePage?._selectors.govukButton).contains(prepareAppealData?.acceptAndSubmitButton).click();
+		cy.containsMessage(basePage?._selectors.govukButton,prepareAppealData?.acceptAndSubmitButton).click();
 
 		cy.get(basePage?._selectors.govukPanelTitle).invoke('text').should((text) => {		
 			expect(text.trim()).to.equal(prepareAppealData?.appealSubmitted);
