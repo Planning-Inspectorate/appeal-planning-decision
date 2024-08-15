@@ -138,7 +138,7 @@ describe('Full Appeal Validations', () => {
         cy.location('search').then((search) => {
             const params = new URLSearchParams(search);
             const dynamicId = params.get('id');
-            applicationFormPage('full-planning', 'other', dynamicId);
+            applicationFormPage('full-planning', prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 
             applicationNamePage.addApplicationNameData(false, prepareAppealData);
             cy.get(basePage._selectors?.govukLink).click();
@@ -164,7 +164,7 @@ describe('Full Appeal Validations', () => {
         cy.location('search').then((search) => {
             const params = new URLSearchParams(search);
             const dynamicId = params.get('id');
-            applicationFormPage('full-planning', 'other', dynamicId);
+            applicationFormPage('full-planning', prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 
             applicationNamePage.addApplicationNameData(context.applicationForm?.isAppellant, prepareAppealData);
             contactDetailsPage.addContactDetailsData(context, 'full-planning', prepareAppealData);
