@@ -26,10 +26,11 @@ async function getLPAStatementByAppealId(appealCaseId) {
  * Create Statement for an appealCase
  *
  * @param {string} appealCaseId
+ * @param {import('./repo').StatementData} statementData
  * @returns {Promise<Omit<LPAStatementSubmission, 'SubmissionDocumentUpload'> | null>}
  */
-async function createLPAStatement(appealCaseId) {
-	const statement = await repo.createStatement(appealCaseId);
+async function createLPAStatement(appealCaseId, statementData) {
+	const statement = await repo.createStatement(appealCaseId, statementData);
 
 	if (!statement) {
 		return null;
@@ -42,7 +43,7 @@ async function createLPAStatement(appealCaseId) {
  * Put Statement for an appealCase
  *
  * @param {string} appealCaseId
- * @param {LPAStatementSubmission} data
+ * @param {import('./repo').StatementData} data
  * @returns {Promise<Omit<LPAStatementSubmission, 'SubmissionDocumentUpload'> | null>}
  */
 async function patchLPAStatementByAppealId(appealCaseId, data) {

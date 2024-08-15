@@ -33,7 +33,7 @@ async function getLPAStatementSubmission(req, res) {
  */
 async function createLPAStatementSubmission(req, res) {
 	try {
-		const content = await createLPAStatement(req.params.caseReference);
+		const content = await createLPAStatement(req.params.caseReference, req.body);
 		if (!content) {
 			throw ApiError.withMessage(400, 'Unable to create statement');
 		}
