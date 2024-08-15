@@ -31,7 +31,11 @@ general process flow).
 
 Sure! Start off looking in the `e2e` directory, this directory contains the main test driver functions.
 Then, if you want to dig into details, check out `support/flows`, the files in here are flows through the
-platform. These flows are composed of sections, which can be found in `support/flows/sections`. Finally,
+platform. These flows are composed of sections, which can be found in `support/flows/sections`.
+The helper functions can be found in `support/flows/pages`.
+The dummy json data can be found in `fixtures` folder, and 
+The testcase flows can be found in `helpers`.
+Finally,
 sections can contain somewhat repetitive actions, which are defined in `support/commands.js`.
 
 ## What conventions are used here?
@@ -47,8 +51,18 @@ TL;DR
 - `npx cypress open`
 - `select browser` 
 
+## How to generate HTML reports?
+
+- `npx cypress --e2e`
+- `npx cypress run --spec "cypress/e2e/*.cy.js"`
+
 ## Known issues and work-arounds
 
 - If you find yourself hitting a `ECONRESET` error this is often caused by clashes with your 
 system's AV. A easy work around is to use Electron as your test browser in the Cypress set-up 
 screen :smile:
+
+
+- If encounter below error while running command `npx cypress open`,
+  `npx : File C:\Program Files\nodejs\npx.ps1 cannot be loaded because running scripts is disabled on this system.`
+  execute `Set-ExecutionPolicy Bypass -Scope Process -Force` in command before execute `npx cypress open`

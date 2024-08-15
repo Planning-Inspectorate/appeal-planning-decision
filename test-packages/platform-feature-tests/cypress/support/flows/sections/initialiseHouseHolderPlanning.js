@@ -45,7 +45,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 	cy.getByData(basePage?._selectors.answerNo).click();
 	cy.advanceToNextPage();
 
-	cy.getByData(basePage?._selectors.applicationType).should('have.text', 'Householder Planning');
+	cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
 	
 	cy.advanceToNextPage(prepareAppealData?.button);
 
@@ -75,7 +75,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 		const dynamicId = params.get('id');
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderAppealForm}/your-appeal`);
-		applicationFormPage('householder', 'other', dynamicId);
+		applicationFormPage(prepareAppealSelector?._selectors?.houseHolderApplicaitonType,prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/application-name`);
 		//Contact details
@@ -83,7 +83,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/contact-details`);
-		contactDetailsPage.addContactDetailsData(context, 'householder',prepareAppealData);
+		contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.houseHolderApplicaitonType,prepareAppealData);
 
 		//Site Details		
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/appeal-site-address`);
@@ -154,7 +154,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/other-appeals`);
 		otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
 
-		cy.uploadDocuments('householder', 'upload-application-form', dynamicId);
+		cy.uploadDocuments(prepareAppealSelector?._selectors?.houseHolderApplicaitonType, prepareAppealSelector?._selectors?.uploadApplicationForm, dynamicId);
 		uploadApplicationFormPage.addUploadApplicationFormData(context, dynamicId);
 
 		//Upload your appeal statement		

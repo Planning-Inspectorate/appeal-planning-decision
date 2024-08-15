@@ -217,7 +217,7 @@ describe('House Holder Validations', () => {
         cy.location('search').then((search) => {
             const params = new URLSearchParams(search);
             const dynamicId = params.get('id');
-            applicationFormPage('householder', 'other', dynamicId);
+            applicationFormPage(prepareAppealSelector?._selectors?.houseHolderApplicaitonType, prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 
             applicationNamePage.addApplicationNameData(false,prepareAppealData);
             cy.get(basePage._selectors?.govukLink).click();
@@ -243,10 +243,10 @@ describe('House Holder Validations', () => {
         cy.location('search').then((search) => {
             const params = new URLSearchParams(search);
             const dynamicId = params.get('id');
-            applicationFormPage('householder', 'other', dynamicId);
+            applicationFormPage(prepareAppealSelector?._selectors?.houseHolderApplicaitonType,prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 
             applicationNamePage.addApplicationNameData(context.applicationForm?.isAppellant, prepareAppealData);
-            contactDetailsPage.addContactDetailsData(context, 'householder',prepareAppealData);
+            contactDetailsPage.addContactDetailsData(context,prepareAppealSelector?._selectors?.houseHolderApplicaitonType,prepareAppealData);
             appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
             siteAreaPage.addSiteAreaData(context?.typeOfPlanningApplication, context?.applicationForm?.areaUnits, context, prepareAppealData);
             greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
