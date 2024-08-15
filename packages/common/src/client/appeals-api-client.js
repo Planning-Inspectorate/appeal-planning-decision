@@ -617,6 +617,15 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @returns {Promise<string>}
+	 */
+	async cleanupOldSubmissions() {
+		const endpoint = `${v2}/appellant-submissions/cleanup-old-submissions`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return await response.text();
+	}
+
+	/**
 	 * @param {string} reference
 	 * @returns {Promise<ListedBuilding>}
 	 */
