@@ -4,9 +4,7 @@
  */
 
 const { app } = require('@azure/functions');
-const {
-	deleteOldSubmissions
-} = require('../../../appeals-service-api/src/routes/v2/appellant-submissions/service');
+const createApiClient = require('../common/api-client');
 const config = require('../common/config');
 
 /**
@@ -17,7 +15,8 @@ const config = require('../common/config');
 const handler = async (timer, context) => {
 	try {
 		context.log('Starting data cleanup process');
-		const result = await deleteOldSubmissions();
+		const client = await createApiClient();
+		const result = await client.cleanupOldSubmissions();
 		context.log('Data cleanup completed successfully:', result);
 	} catch (error) {
 		context.log('Error during data cleanup:', error.message);

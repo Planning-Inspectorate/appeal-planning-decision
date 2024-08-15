@@ -112,11 +112,10 @@ paths:
         200:
           description: Old non-submitted submissions are deleted
           content:
-            application/json:
+            text/plain:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/AppellantSubmission'
+                type: string
+                example: Deleted submissions 1,2
         400:
           description: Bad request
           content:
