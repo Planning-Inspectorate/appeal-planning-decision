@@ -5,6 +5,12 @@ const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/librar
  * @typedef {import('@prisma/client').LPAStatementSubmission} LPAStatementSubmission
  */
 
+/**
+ * @typedef {Object} StatementData
+ * @property {string} lpaStatement
+ * @property {boolean} additionalDocuments
+ */
+
 class LPAStatementSubmissionRepository {
 	dbClient;
 
@@ -49,12 +55,14 @@ class LPAStatementSubmissionRepository {
 	 * Create statement for given appeal
 	 *
 	 * @param {string} caseReference
+	 * @param {StatementData} data
 	 * @returns {Promise<Omit<LPAStatementSubmission, 'SubmissionDocumentUpload'>>}
 	 */
-	async createStatement(caseReference) {
+	async createStatement(caseReference, data) {
 		return await this.dbClient.lPAStatementSubmission.create({
 			data: {
-				appealCaseReference: caseReference
+				appealCaseReference: caseReference,
+				...data
 			},
 			include: {
 				AppealCase: {
@@ -69,8 +77,8 @@ class LPAStatementSubmissionRepository {
 
 	/**
 	 *
-	 * @param {*} caseReference
-	 * @param {*} data
+	 * @param {string} caseReference
+	 * @param {StatementData} data
 	 * @returns {Promise<Omit<LPAStatementSubmission, 'SubmissionDocumentUpload'>>}
 	 */
 	async patchLPAStatementByAppealId(caseReference, data) {
