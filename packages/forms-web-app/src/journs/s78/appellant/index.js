@@ -1,12 +1,12 @@
-const { questions } = require('../questions');
-const { Journey } = require('../journey');
-const { Section } = require('../section');
+const { questions } = require('../../../dynamic-forms/questions');
+const { Journey } = require('../../../dynamic-forms/journey');
+const { Section } = require('../../../dynamic-forms/section');
 const {
 	questionHasAnswerBuilder,
 	questionsHaveAnswersBuilder,
 	questionHasNonEmptyStringAnswer,
 	questionHasNonEmptyNumberAnswer
-} = require('../dynamic-components/utils/question-has-answer');
+} = require('../../../dynamic-forms/dynamic-components/utils/question-has-answer');
 
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
@@ -18,7 +18,7 @@ const informationPageViewPath = 'dynamic-components/submission-information/index
 const journeyTitle = 'Appeal a planning decision';
 
 /**
- * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('../../../dynamic-forms/journey-response').JourneyResponse} JourneyResponse
  */
 
 /**

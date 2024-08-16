@@ -1,4 +1,4 @@
-const { HasAppealFormJourney, baseHASSubmissionUrl } = require('./journey');
+const { HasAppealFormJourney, baseHASSubmissionUrl } = require('.');
 
 const mockResponse = {
 	referenceId: '123',

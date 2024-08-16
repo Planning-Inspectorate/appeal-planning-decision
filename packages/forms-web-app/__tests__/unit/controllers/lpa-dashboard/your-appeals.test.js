@@ -2,7 +2,7 @@ const { getYourAppeals } = require('../../../../src/controllers/lpa-dashboard/yo
 const { getUserFromSession } = require('../../../../src/services/user.service');
 
 const { VIEW } = require('../../../../src/lib/views');
-const { baseHASUrl } = require('../../../../src/dynamic-forms/has-questionnaire/journey');
+const { baseHASUrl } = require('../../../../src/journs/lpa/has');
 
 const { mockReq, mockRes } = require('../../mocks');
 const {

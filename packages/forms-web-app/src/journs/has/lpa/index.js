@@ -1,7 +1,9 @@
-const { questions } = require('../questions');
-const { Journey } = require('../journey');
-const { Section } = require('../section');
-const { questionHasAnswerBuilder } = require('../dynamic-components/utils/question-has-answer');
+const { questions } = require('../../../dynamic-forms/questions');
+const { Journey } = require('../../../dynamic-forms/journey');
+const { Section } = require('../../../dynamic-forms/section');
+const {
+	questionHasAnswerBuilder
+} = require('../../../dynamic-forms/dynamic-components/utils/question-has-answer');
 
 const baseHASUrl = '/manage-appeals/questionnaire';
 const hasJourneyTemplate = 'questionnaire-template.njk';
@@ -9,7 +11,7 @@ const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
 const journeyTitle = 'Manage your appeals';
 
 /**
- * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {import('../../../dynamic-forms/journey-response').JourneyResponse} JourneyResponse
  */
 
 /**

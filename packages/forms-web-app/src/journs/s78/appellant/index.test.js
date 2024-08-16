@@ -1,4 +1,4 @@
-const { S78AppealFormJourney, baseS78SubmissionUrl } = require('./journey');
+const { S78AppealFormJourney, baseS78SubmissionUrl } = require('.');
 
 const mockResponse = {
 	referenceId: '123',
