@@ -1,3 +1,5 @@
+// factor out LPAs and combine this with get-journey-response-for-appellant
+
 const { JourneyResponse } = require('../journey-response');
 const { LPA_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
