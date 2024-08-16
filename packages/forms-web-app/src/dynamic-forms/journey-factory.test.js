@@ -1,9 +1,9 @@
 const { getJourney } = require('./journey-factory');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
-const { HasJourney } = require('../journs/lpa/has');
-const { S78Journey } = require('../journs/s78-questionnaire');
-const { HasAppealFormJourney } = require('../journs/has/appellant/journey');
+const { HasJourney } = require('../journeys/lpa/has');
+const { S78Journey } = require('../journeys/s78-questionnaire');
+const { HasAppealFormJourney } = require('../journeys/has/appellant/journey');
 
 describe('journey-factory', () => {
 	describe('getJourney', () => {

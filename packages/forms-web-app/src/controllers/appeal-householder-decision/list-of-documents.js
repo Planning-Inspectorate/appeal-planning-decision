@@ -5,7 +5,7 @@ const { postSaveAndReturn } = require('../appeal-householder-decision/save');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../featureFlag');
-const { baseHASSubmissionUrl, taskListUrl } = require('../../journs/has/appellant');
+const { baseHASSubmissionUrl, taskListUrl } = require('../../journeys/has/appellant');
 
 const getListOfDocuments = async (req, res) => {
 	const appeal = req.session.appeal;

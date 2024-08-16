@@ -13,7 +13,7 @@ const {
 		LPA_DASHBOARD: { DASHBOARD, ADD_REMOVE_USERS, APPEAL_DETAILS, DECIDED_APPEALS }
 	}
 } = require('../../lib/views');
-const { baseHASUrl } = require('../../journs/has/lpa');
+const { baseHASUrl } = require('../../journeys/has/lpa');
 
 const getYourAppeals = async (req, res) => {
 	const user = getUserFromSession(req);

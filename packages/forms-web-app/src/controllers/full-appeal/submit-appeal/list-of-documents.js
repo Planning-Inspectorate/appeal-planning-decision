@@ -10,7 +10,7 @@ const { postSaveAndReturn } = require('../../save');
 const { FLAG } = require('@pins/common/src/feature-flags');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../../featureFlag');
-const { baseS78SubmissionUrl, taskListUrl } = require('../../../journs/s78/appellant');
+const { baseS78SubmissionUrl, taskListUrl } = require('../../../journeys/s78/appellant');
 
 const getListOfDocuments = async (req, res) => {
 	const appeal = req.session.appeal;

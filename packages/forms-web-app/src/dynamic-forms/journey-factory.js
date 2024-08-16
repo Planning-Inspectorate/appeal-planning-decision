@@ -1,8 +1,8 @@
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
-const { HasJourney } = require('../journs/has/lpa');
-const { S78Journey } = require('../journs/s78/lpa');
-const { HasAppealFormJourney } = require('../journs/has/appellant');
-const { S78AppealFormJourney } = require('../journs/s78/appellant');
+const { HasJourney } = require('../journeys/has/lpa');
+const { S78Journey } = require('../journeys/s78/lpa');
+const { HasAppealFormJourney } = require('../journeys/has/appellant');
+const { S78AppealFormJourney } = require('../journeys/s78/appellant');
 
 /**
  * @typedef {import('./journey').Journey} Journey

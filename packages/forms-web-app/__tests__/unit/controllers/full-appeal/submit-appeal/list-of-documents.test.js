@@ -12,7 +12,10 @@ const {
 const { isFeatureActive } = require('../../../../../src/featureFlag');
 const { getDepartmentFromId } = require('../../../../../src/services/department.service');
 const { deleteAppeal } = require('../../../../../src/lib/appeals-api-wrapper');
-const { baseS78SubmissionUrl, taskListUrl } = require('../../../../../src/journs/s78-appeal-form');
+const {
+	baseS78SubmissionUrl,
+	taskListUrl
+} = require('../../../../../src/journeys/s78-appeal-form');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 
 const apiClient = {
