@@ -138,8 +138,6 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
     })
 
-    // House Holding
-    //typeOfPlanningApplication?.forEach((planning) => {
     it(`Validate error message when user tries to navigate next page without selecting mandatory fields for enforecement`, () => {
         cy.advanceToNextPage();
         
@@ -220,7 +218,7 @@ describe('House Holder Validations', () => {
             applicationFormPage(prepareAppealSelector?._selectors?.houseHolderApplicaitonType, prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 
             applicationNamePage.addApplicationNameData(false,prepareAppealData);
-            cy.get(basePage._selectors?.govukLink).click();
+            cy.get(basePage._selectors?.govukLink).click( {multiple: true, force: true} );
             cy.get(`a[href*="/appeals/householder/prepare-appeal/application-name?id=${dynamicId}"]`).contains('Change')
         });
     });
@@ -282,4 +280,95 @@ describe('House Holder Validations', () => {
             cy.containsMessage(basePage._selectors?.govukSummaryListKey,'Was the application made in your name?').next('.govuk-summary-list__value').contains(`${context.applicationForm?.isAppellant === true ? 'Yes':'No'}`);
             cy.containsMessage(basePage._selectors?.govukSummaryListKey,'Contact details').next('.govuk-summary-list__value').contains(`${prepareAppealData?.contactDetails?.firstName} ${prepareAppealData?.contactDetails?.lastName}`);        });
      });
+});
+
+describe('Returns to pre appels validations', () => {
+    const prepareAppealSelector = new PrepareAppealSelector();
+    const basePage = new BasePage();
+    const contactDetailsPage = new ContactDetailsPage();
+    const appealSiteAddressPage = new AppealSiteAddressPage();
+    const siteAreaPage = new SiteAreaPage();
+    const greenBeltPage = new GreenBeltPage();
+    const ownAllLandPage = new OwnAllLandPage();
+    const ownSomeLandPage = new OwnSomeLandPage();
+    const inspectorNeedAccessPage = new InspectorNeedAccessPage();
+    const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+    const otherAppealsPage = new OtherAppealsPage();
+    const context = houseHolderAppealRefusedTestCases[0];
+
+    let prepareAppealData;
+
+
+    beforeEach(() => {
+        cy.fixture('prepareAppealData').then(data => {
+            prepareAppealData = data;
+        })
+        cy.visit(`${Cypress.config('appeals_beta_base_url')}/appeal/new-saved-appeal`);
+        cy.get('#new-or-saved-appeal-2').click();
+        cy.advanceToNextPage();       
+    })   
+
+    it(`Validate Save and come back later for return to appeal `, () => {
+        cy.get(`#${prepareAppealSelector._selectors?.emailAddress}`).clear().type(prepareAppealData?.email?.emailAddress);
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
+        cy.advanceToNextPage();
+        cy.get('a[href*="continue"]').first().click();       
+        cy.containsMessage('.govuk-link--no-visited-state','Save and come back later');  
+        cy.get('.govuk-link--no-visited-state').click();
+        cy.containsMessage('.govuk-heading-l','Your appeals');
+    });
+
+    it(`Validate Continue without uploading documents`, () => {
+        cy.get(`#${prepareAppealSelector._selectors?.emailAddress}`).clear().type(prepareAppealData?.email?.emailAddress);
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
+        cy.advanceToNextPage();
+        cy.get('a[href*="continue"]').first().click();
+        cy.get('a[href*="upload-documents"]').first().click();
+        cy.advanceToNextPage();
+        cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]','Select your application form');        
+    });
+
+    it(`Validate user should not be able to uploading document(s) greater than 25 MB`, () => {
+        cy.get(`#${prepareAppealSelector._selectors?.emailAddress}`).clear().type(prepareAppealData?.email?.emailAddress);
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
+        cy.advanceToNextPage();
+        cy.get('a[href*="continue"]').first().click();
+        cy.get('a[href*="upload-documents"]').first().click();
+        cy.uploadFileFromFixtureDirectory(context?.documents?.uploadFileGreaterThan25mb);
+        cy.advanceToNextPage();       
+        cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]',`${context?.documents?.uploadFileGreaterThan25mb} must be smaller than 25MB`);        
+    });
+
+    it(`Validate multiple uploading documents`, () => {
+        cy.get(`#${prepareAppealSelector._selectors?.emailAddress}`).clear().type(prepareAppealData?.email?.emailAddress);
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
+        cy.advanceToNextPage();
+        cy.get('a[href*="continue"]').first().click();
+        cy.get('a[href*="upload-documents"]').first().click();
+        const expectedFileNames = [context?.documents?.uploadDevelopmentDescription, context?.documents?.uploadFinalisingDocDraft];
+        expectedFileNames.forEach((fileName,index)=>{
+            cy.uploadFileFromFixtureDirectory(fileName);
+        })
+        expectedFileNames.forEach((fileName,index)=>{
+          cy.get('.moj-multi-file-upload__filename')         
+            .eq(index)
+            .should('contain.text',fileName);
+        });              
+    });
+    
+    it(`Validate user should not be allowed to upload wrong format file`, () => {
+        cy.get(`#${prepareAppealSelector._selectors?.emailAddress}`).clear().type(prepareAppealData?.email?.emailAddress);
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
+        cy.advanceToNextPage();
+        cy.get('a[href*="continue"]').first().click();
+        cy.get('a[href*="upload-documents"]').first().click();
+        cy.uploadFileFromFixtureDirectory(context?.documents?.uploadWrongFormatFile);
+        cy.advanceToNextPage();       
+        cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]',`${context?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);        
+    });    
 });

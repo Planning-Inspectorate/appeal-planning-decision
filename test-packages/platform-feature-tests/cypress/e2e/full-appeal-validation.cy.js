@@ -141,7 +141,7 @@ describe('Full Appeal Validations', () => {
             applicationFormPage('full-planning', prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 
             applicationNamePage.addApplicationNameData(false, prepareAppealData);
-            cy.get(basePage._selectors?.govukLink).click();
+            cy.get(basePage._selectors?.govukLink).click( {multiple: true, force: true} );
             cy.get(`a[href*="/appeals/full-planning/prepare-appeal/application-name?id=${dynamicId}"]`).contains('Change')
         });
     });
