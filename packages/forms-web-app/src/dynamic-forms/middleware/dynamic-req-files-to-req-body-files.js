@@ -1,3 +1,5 @@
+// good to go, could use type improvements
+
 const { getJourney } = require('../journey-factory');
 
 /**
