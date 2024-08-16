@@ -1,3 +1,5 @@
+// These should definitely move out of here as they're specific to our use of this technology
+
 /*************************************************************
  * This file holds the definitions for all questions         *
  * regardless of which questionnaire they get used on.       *

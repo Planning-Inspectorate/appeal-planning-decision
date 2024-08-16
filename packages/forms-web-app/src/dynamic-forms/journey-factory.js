@@ -1,3 +1,16 @@
+// This is one of the major moments where each journey being
+// a class rather than an instance of a class really jumps out.
+
+// This should not exist.
+
+// Make Journey isomorphic then you can just construct one where
+// they're needed.
+
+// A good first step would be moving the use of getJourney into
+// a single piece of middleware since it's only used in handlers.
+// That way it'll be easier to clean up the use of getJourney
+// once Journey itself has been refactored.
+
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { HasJourney } = require('./has-questionnaire/journey');
 const { S78Journey } = require('./s78-questionnaire/journey');
@@ -42,7 +55,6 @@ function getJourney(journeyResponse) {
 		throw new Error('invalid journey type');
 	}
 
-	// @ts-ignore remove ignore once HAS_APPEAL_FORM and S78_APPEAL_FORM journeys are added
 	return new JOURNEY_CLASSES[journeyResponse.journeyId](journeyResponse);
 }
 
