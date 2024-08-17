@@ -48,6 +48,7 @@ class Journey {
 	 * @param {string} [options.informationPageViewPath] - path to njk view for pdf summary page
 	 * @param {string} options.journeyTitle - part of the title in the njk view
 	 * @param {boolean} [options.returnToListing] - defines how the next/previous question handles end of sections
+	 * @param {Section[]} options.sections
 	 */
 	constructor({
 		baseUrl,
@@ -57,7 +58,8 @@ class Journey {
 		listingPageViewPath,
 		informationPageViewPath,
 		journeyTitle,
-		returnToListing
+		returnToListing,
+		sections
 	}) {
 		if (this.constructor == Journey) {
 			throw new Error("Abstract classes can't be instantiated.");
@@ -93,6 +95,8 @@ class Journey {
 		this.returnToListing = returnToListing ?? false;
 
 		this.response = response;
+
+		this.sections = sections;
 	}
 
 	/**
