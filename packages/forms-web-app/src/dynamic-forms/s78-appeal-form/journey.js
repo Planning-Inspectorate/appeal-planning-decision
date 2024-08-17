@@ -11,7 +11,18 @@ const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {ConstructorParameters<typeof Journey>} JourneyParameters
  */
+
+const fixedParams = {
+	baseS78SubmissionUrl: '/appeals/full-planning',
+	taskListUrl: 'appeal-form/your-appeal',
+	journeyTemplate: 'submission-form-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/submission',
+	informationPageViewPath: 'dynamic-components/submission-information/index',
+	journeyTitle: 'Appeal a planning decision',
+	returnToListing: true
+};
 
 /**
  * @param {JourneyResponse} response
@@ -223,12 +234,18 @@ const buildSections = (response) => {
 	];
 };
 
-const baseS78SubmissionUrl = '/appeals/full-planning';
-const taskListUrl = 'appeal-form/your-appeal';
-const s78JourneyTemplate = 'submission-form-template.njk';
-const listingPageViewPath = 'dynamic-components/task-list/submission';
-const informationPageViewPath = 'dynamic-components/submission-information/index';
-const journeyTitle = 'Appeal a planning decision';
+/**
+ * @param {JourneyResponse} response
+ * @returns {JourneyParameters}
+ */
+const buildJourneyParams = (response) => [
+	{
+		...fixedParams,
+		response,
+		baseUrl: `${fixedParams.baseS78SubmissionUrl}?id=${response.referenceId}`,
+		sections: buildSections(response)
+	}
+];
 
 class S78AppealFormJourney extends Journey {
 	/**
@@ -236,18 +253,8 @@ class S78AppealFormJourney extends Journey {
 	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
 	 */
 	constructor(response) {
-		super({
-			baseUrl: `${baseS78SubmissionUrl}?id=${response.referenceId}`,
-			taskListUrl: taskListUrl,
-			response: response,
-			journeyTemplate: s78JourneyTemplate,
-			listingPageViewPath: listingPageViewPath,
-			informationPageViewPath: informationPageViewPath,
-			journeyTitle: journeyTitle,
-			returnToListing: true,
-			sections: buildSections(response)
-		});
+		super(...buildJourneyParams(response));
 	}
 }
 
-module.exports = { S78AppealFormJourney, baseS78SubmissionUrl, taskListUrl };
+module.exports = { S78AppealFormJourney, ...fixedParams };

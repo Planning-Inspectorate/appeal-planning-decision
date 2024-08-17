@@ -5,12 +5,15 @@ const { questionHasAnswerBuilder } = require('../dynamic-components/utils/questi
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {ConstructorParameters<typeof Journey>} JourneyParameters
  */
 
-const baseHASUrl = '/manage-appeals/questionnaire';
-const hasJourneyTemplate = 'questionnaire-template.njk';
-const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
-const journeyTitle = 'Manage your appeals';
+const fixedParams = {
+	baseHASUrl: '/manage-appeals/questionnaire',
+	journeyTemplate: 'questionnaire-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
+	journeyTitle: 'Manage your appeals'
+};
 
 /**
  * @param {JourneyResponse} response
@@ -70,21 +73,27 @@ const buildSections = (response) => {
 	];
 };
 
+/**
+ * @param {JourneyResponse} response
+ * @returns {JourneyParameters}
+ */
+const buildJourneyParams = (response) => [
+	{
+		...fixedParams,
+		response,
+		baseUrl: `${fixedParams.baseHASUrl}/${encodeURIComponent(response.referenceId)}`,
+		sections: buildSections(response)
+	}
+];
+
 class HasJourney extends Journey {
 	/**
 	 * creates an instance of a HAS Journey
 	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
 	 */
 	constructor(response) {
-		super({
-			baseUrl: `${baseHASUrl}/${encodeURIComponent(response.referenceId)}`,
-			response: response,
-			journeyTemplate: hasJourneyTemplate,
-			listingPageViewPath: listingPageViewPath,
-			journeyTitle: journeyTitle,
-			sections: buildSections(response)
-		});
+		super(...buildJourneyParams(response));
 	}
 }
 
-module.exports = { HasJourney, baseHASUrl };
+module.exports = { HasJourney, ...fixedParams };
