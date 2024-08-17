@@ -9,12 +9,15 @@ const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {ConstructorParameters<typeof Journey>} JourneyParameters
  */
 
-const baseS78Url = '/manage-appeals/questionnaire';
-const s78JourneyTemplate = 'questionnaire-template.njk';
-const listingPageViewPath = 'dynamic-components/task-list/questionnaire';
-const journeyTitle = 'Manage your appeals';
+const fixedParams = {
+	baseS78Url: '/manage-appeals/questionnaire',
+	journeyTemplate: 'questionnaire-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
+	journeyTitle: 'Manage your appeals'
+};
 
 /**
  * @param {JourneyResponse} response
@@ -140,21 +143,27 @@ const buildSections = (response) => {
 	];
 };
 
+/**
+ * @param {JourneyResponse} response
+ * @returns {JourneyParameters}
+ */
+const buildJourneyParams = (response) => [
+	{
+		...fixedParams,
+		baseUrl: `${fixedParams.baseS78Url}/${encodeURIComponent(response.referenceId)}`,
+		response: response,
+		sections: buildSections(response)
+	}
+];
+
 class S78Journey extends Journey {
 	/**
 	 * creates an instance of a S78 Journey
 	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
 	 */
 	constructor(response) {
-		super({
-			baseUrl: `${baseS78Url}/${encodeURIComponent(response.referenceId)}`,
-			response: response,
-			journeyTemplate: s78JourneyTemplate,
-			listingPageViewPath: listingPageViewPath,
-			journeyTitle: journeyTitle,
-			sections: buildSections(response)
-		});
+		super(...buildJourneyParams(response));
 	}
 }
 
-module.exports = { S78Journey, baseS78Url };
+module.exports = { S78Journey, ...fixedParams };

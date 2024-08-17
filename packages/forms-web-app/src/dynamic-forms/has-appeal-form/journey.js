@@ -8,14 +8,8 @@ const {
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {ConstructorParameters<typeof Journey>} JourneyParameters
  */
-
-const baseHASSubmissionUrl = '/appeals/householder';
-const taskListUrl = 'appeal-form/your-appeal';
-const hasJourneyTemplate = 'submission-form-template.njk';
-const listingPageViewPath = 'dynamic-components/task-list/submission';
-const informationPageViewPath = 'dynamic-components/submission-information/index';
-const journeyTitle = 'Appeal a planning decision';
 
 /**
  * @param {JourneyResponse} response
@@ -128,24 +122,40 @@ const buildSections = (response) => {
 	];
 };
 
+const fixedParams = {
+	baseHASSubmissionUrl: '/appeals/householder', // this is a non standard naming and I'd like to remove it
+	taskListUrl: 'appeal-form/your-appeal',
+	journeyTemplate: 'submission-form-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/submission',
+	informationPageViewPath: 'dynamic-components/submission-information/index',
+	journeyTitle: 'Appeal a planning decision',
+	returnToListing: true
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {JourneyParameters}
+ */
+const buildJourneyParams = (response) => [
+	{
+		...fixedParams,
+		response,
+		baseUrl: `${fixedParams.baseHASSubmissionUrl}?id=${response.referenceId}`,
+		sections: buildSections(response)
+	}
+];
+
 class HasAppealFormJourney extends Journey {
 	/**
 	 * creates an instance of a HAS Journey
 	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
 	 */
 	constructor(response) {
-		super({
-			baseUrl: `${baseHASSubmissionUrl}?id=${response.referenceId}`,
-			taskListUrl: taskListUrl,
-			response: response,
-			journeyTemplate: hasJourneyTemplate,
-			listingPageViewPath: listingPageViewPath,
-			informationPageViewPath: informationPageViewPath,
-			journeyTitle: journeyTitle,
-			returnToListing: true,
-			sections: buildSections(response)
-		});
+		super(...buildJourneyParams(response));
 	}
 }
 
-module.exports = { HasAppealFormJourney, baseHASSubmissionUrl, taskListUrl };
+module.exports = {
+	HasAppealFormJourney,
+	...fixedParams
+};
