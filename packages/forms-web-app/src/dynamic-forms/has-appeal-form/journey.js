@@ -1,5 +1,4 @@
 const { questions } = require('../questions');
-const { Journey } = require('../journey');
 const { Section } = require('../section');
 const {
 	questionHasAnswerBuilder,
@@ -8,7 +7,7 @@ const {
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
- * @typedef {ConstructorParameters<typeof Journey>} JourneyParameters
+ * @typedef {ConstructorParameters<typeof import('../journey').Journey>} JourneyParameters
  */
 
 /**
@@ -145,17 +144,7 @@ const buildJourneyParams = (response) => [
 	}
 ];
 
-class HasAppealFormJourney extends Journey {
-	/**
-	 * creates an instance of a HAS Journey
-	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
-	 */
-	constructor(response) {
-		super(...buildJourneyParams(response));
-	}
-}
-
 module.exports = {
-	HasAppealFormJourney,
+	buildJourneyParams,
 	...fixedParams
 };

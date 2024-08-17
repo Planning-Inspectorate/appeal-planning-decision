@@ -1,11 +1,10 @@
 const { questions } = require('../questions');
-const { Journey } = require('../journey');
 const { Section } = require('../section');
 const { questionHasAnswerBuilder } = require('../dynamic-components/utils/question-has-answer');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
- * @typedef {ConstructorParameters<typeof Journey>} JourneyParameters
+ * @typedef {ConstructorParameters<typeof import('../journey').Journey>} JourneyParameters
  */
 
 const fixedParams = {
@@ -86,14 +85,4 @@ const buildJourneyParams = (response) => [
 	}
 ];
 
-class HasJourney extends Journey {
-	/**
-	 * creates an instance of a HAS Journey
-	 * @param {JourneyResponse} response - an object that handles the response for this journey (needs to always be passed in as it contains the journey url segment)
-	 */
-	constructor(response) {
-		super(...buildJourneyParams(response));
-	}
-}
-
-module.exports = { HasJourney, ...fixedParams };
+module.exports = { buildJourneyParams, ...fixedParams };

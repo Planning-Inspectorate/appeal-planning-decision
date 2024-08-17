@@ -12,14 +12,14 @@
 // once Journey itself has been refactored.
 
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
-const { HasJourney } = require('./has-questionnaire/journey');
-const { S78Journey } = require('./s78-questionnaire/journey');
-const { HasAppealFormJourney } = require('./has-appeal-form/journey');
-const { S78AppealFormJourney } = require('./s78-appeal-form/journey');
 const { S78LpaStatementJourney } = require('./s78-lpa-statement/journey');
+const { buildJourneyParams: buildHASLPAJourneyParams } = require('./has-questionnaire/journey');
+const { buildJourneyParams: buildS78LPAJourneyParams } = require('./s78-questionnaire/journey');
+const { buildJourneyParams: buildHASAppellantJourneyParams } = require('./has-appeal-form/journey');
+const { buildJourneyParams: buildS78AppellantJourneyParams } = require('./s78-appeal-form/journey');
+const { Journey } = require('./journey');
 
 /**
- * @typedef {import('./journey').Journey} Journey
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  */
 
@@ -35,13 +35,13 @@ const APPELLANT_JOURNEY_TYPES_FORMATTED = {
 };
 
 /**
- * Returns a journey class based on a type string from JOURNEY_TYPES
+ * Returns journey constructor args based on a type string from JOURNEY_TYPES
  */
-const JOURNEY_CLASSES = {
-	[JOURNEY_TYPES.HAS_QUESTIONNAIRE]: HasJourney,
-	[JOURNEY_TYPES.S78_QUESTIONNAIRE]: S78Journey,
-	[JOURNEY_TYPES.HAS_APPEAL_FORM]: HasAppealFormJourney,
-	[JOURNEY_TYPES.S78_APPEAL_FORM]: S78AppealFormJourney,
+const JOURNEY_PARAMS = {
+	[JOURNEY_TYPES.HAS_QUESTIONNAIRE]: buildHASLPAJourneyParams,
+	[JOURNEY_TYPES.S78_QUESTIONNAIRE]: buildS78LPAJourneyParams,
+	[JOURNEY_TYPES.HAS_APPEAL_FORM]: buildHASAppellantJourneyParams,
+	[JOURNEY_TYPES.S78_APPEAL_FORM]: buildS78AppellantJourneyParams,
 	[JOURNEY_TYPES.S78_LPA_STATEMENT]: S78LpaStatementJourney
 };
 
@@ -51,11 +51,11 @@ const JOURNEY_CLASSES = {
  * @returns {Journey}
  */
 function getJourney(journeyResponse) {
-	if (JOURNEY_CLASSES[journeyResponse.journeyId] === undefined) {
+	if (JOURNEY_PARAMS[journeyResponse.journeyId] === undefined) {
 		throw new Error('invalid journey type');
 	}
 
-	return new JOURNEY_CLASSES[journeyResponse.journeyId](journeyResponse);
+	return new Journey(...JOURNEY_PARAMS[journeyResponse.journeyId](journeyResponse));
 }
 
 module.exports = {
