@@ -1,35 +1,36 @@
-const { S78AppealFormJourney, baseS78SubmissionUrl } = require('./journey');
+const { Journey } = require('../journey');
+const { buildJourneyParams, baseS78SubmissionUrl } = require('./journey');
 
 const mockResponse = {
+	journeyId: 'S78',
+	LPACode: 'Q9999',
 	referenceId: '123',
-	answers: []
+	answers: {}
 };
 
-describe('HAS Appeal Form Journey class', () => {
-	describe('constructor', () => {
-		it('should error if no response', () => {
-			expect(() => {
-				new S78AppealFormJourney();
-			}).toThrow("Cannot read properties of undefined (reading 'referenceId')");
-		});
-		it('should set baseUrl', () => {
-			const journey = new S78AppealFormJourney(mockResponse);
-			expect(journey.baseUrl).toEqual(expect.stringContaining(baseS78SubmissionUrl));
-			expect(journey.baseUrl).toEqual(expect.stringContaining(mockResponse.referenceId));
-		});
+describe('S78 Appeal Form Journey', () => {
+	it('should error if no response', () => {
+		expect(() => {
+			new Journey(...buildJourneyParams());
+		}).toThrow("Cannot read properties of undefined (reading 'referenceId')");
+	});
+	it('should set baseUrl', () => {
+		const journey = new Journey(...buildJourneyParams(mockResponse));
+		expect(journey.baseUrl).toEqual(expect.stringContaining(baseS78SubmissionUrl));
+		expect(journey.baseUrl).toEqual(expect.stringContaining(mockResponse.referenceId));
+	});
 
-		it('should set taskListUrl', () => {
-			const journey = new S78AppealFormJourney(mockResponse);
-			expect(journey.taskListUrl).toEqual('/appeals/full-planning/appeal-form/your-appeal?id=123');
-		});
+	it('should set taskListUrl', () => {
+		const journey = new Journey(...buildJourneyParams(mockResponse));
+		expect(journey.taskListUrl).toEqual('/appeals/full-planning/appeal-form/your-appeal?id=123');
+	});
 
-		it('should set template', () => {
-			const journey = new S78AppealFormJourney(mockResponse);
-			expect(journey.journeyTemplate).toBe('submission-form-template.njk');
-		});
-		it('should set journeyTitle', () => {
-			const journey = new S78AppealFormJourney(mockResponse);
-			expect(journey.journeyTitle).toBe('Appeal a planning decision');
-		});
+	it('should set template', () => {
+		const journey = new Journey(...buildJourneyParams(mockResponse));
+		expect(journey.journeyTemplate).toBe('submission-form-template.njk');
+	});
+	it('should set journeyTitle', () => {
+		const journey = new Journey(...buildJourneyParams(mockResponse));
+		expect(journey.journeyTitle).toBe('Appeal a planning decision');
 	});
 });
