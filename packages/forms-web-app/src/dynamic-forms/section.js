@@ -44,9 +44,10 @@ class Section {
 		this.segment = segment;
 	}
 
+	// TODO Make a type for all the question classes and use it here
 	/**
 	 * Fluent API method for adding questions
-	 * @param {Question} question
+	 * @param {any} question
 	 * @returns {Section}
 	 */
 	addQuestion(question) {
@@ -57,7 +58,7 @@ class Section {
 
 	/**
 	 * Fluent API method for attaching conditions to the previously added question
-	 * @param {boolean} shouldIncludeQuestion
+	 * @param {((response: JourneyResponse) => boolean)} shouldIncludeQuestion
 	 * @returns {Section}
 	 */
 	withCondition(shouldIncludeQuestion) {
@@ -66,9 +67,7 @@ class Section {
 			throw new Error('conditions must follow a question');
 		}
 		this.#conditionAdded = true; // set condition flag
-		if (!shouldIncludeQuestion) {
-			this.questions.pop();
-		}
+		this.questions[this.questions.length - 1].shouldDisplay = shouldIncludeQuestion;
 		return this;
 	}
 

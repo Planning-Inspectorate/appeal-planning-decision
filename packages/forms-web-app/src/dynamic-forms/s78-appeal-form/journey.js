@@ -13,7 +13,265 @@ const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
  * @typedef {ConstructorParameters<typeof import('../journey').Journey>} JourneyParameters
  */
 
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+const shouldDisplayIdentifyingLandowners = (response) => {
+	if (questionHasAnswerBuilder(response)(questions.ownsAllLand, 'yes')) return false;
+	if (
+		questionHasAnswerBuilder(response)(questions.ownsSomeLand, 'yes') &&
+		questionHasAnswerBuilder(response)(questions.knowsWhoOwnsRestOfLand, 'yes')
+	)
+		return false;
+	if (
+		questionHasAnswerBuilder(response)(questions.ownsSomeLand, 'no') &&
+		questionHasAnswerBuilder(response)(questions.knowsWhoOwnsLandInvolved, 'yes')
+	)
+		return false;
+
+	return true;
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+const shouldDisplayTellingLandowners = (response) => {
+	if (questionHasAnswerBuilder(response)(questions.ownsAllLand, 'yes')) return false;
+
+	if (
+		questionsHaveAnswersBuilder(response)(
+			[
+				[questions.ownsSomeLand, 'yes'],
+				[questions.knowsWhoOwnsRestOfLand, 'no']
+			],
+			{ logicalCombinator: 'and' }
+		) ||
+		questionsHaveAnswersBuilder(response)(
+			[
+				[questions.ownsSomeLand, 'no'],
+				[questions.knowsWhoOwnsLandInvolved, 'no']
+			],
+			{ logicalCombinator: 'and' }
+		)
+	)
+		return false;
+
+	return true;
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+const shouldDisplayTellingTenants = (response) => {
+	if (
+		questionHasAnswerBuilder(response)(questions.agriculturalHolding, 'yes') &&
+		(questionHasAnswerBuilder(response)(questions.tenantAgriculturalHolding, 'no') ||
+			questionsHaveAnswersBuilder(response)(
+				[
+					[questions.tenantAgriculturalHolding, 'yes'],
+					[questions.otherTenantsAgriculturalHolding, 'yes']
+				],
+				{ logicalCombinator: 'and' }
+			))
+	)
+		return true;
+
+	return false;
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {boolean}
+ */
+const shouldDisplayUploadDecisionLetter = (response) => {
+	return response.answers.applicationDecision !== 'nodecisionreceived';
+};
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {Section[]}
+ */
+const sections = [
+	new Section('Prepare appeal', 'prepare-appeal')
+		.addQuestion(questions.applicationName)
+		.addQuestion(questions.applicantName)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.applicationName, 'no')
+		)
+		.addQuestion(questions.contactDetails)
+		.addQuestion(questions.contactPhoneNumber)
+		.addQuestion(questions.appealSiteAddress)
+		.addQuestion(questions.s78SiteArea)
+		.addQuestion(questions.appellantGreenBelt)
+		.addQuestion(questions.ownsAllLand)
+		.addQuestion(questions.ownsSomeLand)
+		.withCondition((response) => questionHasAnswerBuilder(response)(questions.ownsAllLand, 'no'))
+		.addQuestion(questions.knowsWhoOwnsRestOfLand)
+		.withCondition((response) =>
+			questionsHaveAnswersBuilder(response)(
+				[
+					[questions.ownsSomeLand, 'yes'],
+					[questions.ownsAllLand, 'no']
+				],
+				{ logicalCombinator: 'and' }
+			)
+		)
+		.addQuestion(questions.knowsWhoOwnsLandInvolved)
+		.withCondition((response) =>
+			questionsHaveAnswersBuilder(response)(
+				[
+					[questions.ownsSomeLand, 'no'],
+					[questions.ownsAllLand, 'no']
+				],
+				{ logicalCombinator: 'and' }
+			)
+		)
+		.addQuestion(questions.identifyingLandowners)
+		.withCondition(
+			(response) =>
+				shouldDisplayIdentifyingLandowners(response) &&
+				questionHasAnswerBuilder(response)(questions.ownsAllLand, 'no')
+		)
+		.addQuestion(questions.advertisingAppeal)
+		.withCondition(
+			(response) =>
+				shouldDisplayIdentifyingLandowners(response) &&
+				questionHasAnswerBuilder(response)(questions.identifyingLandowners, 'yes')
+		)
+		.addQuestion(questions.tellingLandowners)
+		.withCondition(
+			(response) =>
+				shouldDisplayTellingLandowners(response) &&
+				questionHasAnswerBuilder(response)(questions.ownsAllLand, 'no')
+		)
+		.addQuestion(questions.agriculturalHolding)
+		.addQuestion(questions.tenantAgriculturalHolding)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.agriculturalHolding, 'yes')
+		)
+		.addQuestion(questions.otherTenantsAgriculturalHolding)
+		.withCondition((response) =>
+			questionsHaveAnswersBuilder(response)(
+				[
+					[questions.agriculturalHolding, 'yes'],
+					[questions.tenantAgriculturalHolding, 'yes']
+				],
+				{ logicalCombinator: 'and' }
+			)
+		)
+		.addQuestion(questions.informedTenantsAgriculturalHolding)
+		.withCondition(shouldDisplayTellingTenants)
+		.addQuestion(questions.inspectorAccess)
+		.addQuestion(questions.healthAndSafety)
+		.addQuestion(questions.enterApplicationReference)
+		.addQuestion(questions.planningApplicationDate())
+		.addQuestion(questions.enterDevelopmentDescription)
+		.addQuestion(questions.updateDevelopmentDescription)
+		.addQuestion(questions.appellantProcedurePreference)
+		.addQuestion(questions.appellantPreferHearing)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(
+				questions.appellantProcedurePreference,
+				APPEAL_CASE_PROCEDURE.HEARING
+			)
+		)
+		.addQuestion(questions.appellantPreferInquiry)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(
+				questions.appellantProcedurePreference,
+				APPEAL_CASE_PROCEDURE.INQUIRY
+			)
+		)
+		.addQuestion(questions.inquiryHowManyDays)
+		.withCondition(
+			(response) =>
+				questionHasAnswerBuilder(response)(
+					questions.appellantProcedurePreference,
+					APPEAL_CASE_PROCEDURE.INQUIRY
+				) && questionHasNonEmptyStringAnswer(response)(questions.appellantPreferInquiry)
+		)
+		.addQuestion(questions.inquiryHowManyWitnesses)
+		.withCondition(
+			(response) =>
+				questionHasAnswerBuilder(response)(
+					questions.appellantProcedurePreference,
+					APPEAL_CASE_PROCEDURE.INQUIRY
+				) &&
+				questionHasNonEmptyStringAnswer(response)(questions.appellantPreferInquiry) &&
+				questionHasNonEmptyNumberAnswer(response)(questions.inquiryHowManyDays)
+		)
+		.addQuestion(questions.anyOtherAppeals)
+		.addQuestion(questions.linkAppeals)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.anyOtherAppeals, 'yes')
+		),
+	new Section('Upload documents', 'upload-documents')
+		.addQuestion(questions.uploadOriginalApplicationForm)
+		.addQuestion(questions.uploadChangeOfDescriptionEvidence)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.updateDevelopmentDescription, 'yes')
+		)
+		.addQuestion(questions.uploadApplicationDecisionLetter)
+		.withCondition(shouldDisplayUploadDecisionLetter)
+		.addQuestion(questions.submitPlanningObligation)
+		.addQuestion(questions.planningObligationStatus)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.submitPlanningObligation, 'yes')
+		)
+		.addQuestion(questions.uploadPlanningObligation)
+		.withCondition((response) =>
+			questionsHaveAnswersBuilder(response)(
+				[
+					[questions.submitPlanningObligation, 'yes'],
+					[questions.planningObligationStatus, 'finalised']
+				],
+				{ logicalCombinator: 'and' }
+			)
+		)
+		.addQuestion(questions.separateOwnershipCert)
+		.addQuestion(questions.uploadSeparateOwnershipCert)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.separateOwnershipCert, 'yes')
+		)
+		.addQuestion(questions.uploadAppellantStatement)
+		.addQuestion(questions.uploadStatementCommonGround)
+		.withCondition((response) =>
+			questionsHaveAnswersBuilder(response)(
+				[
+					[questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.HEARING],
+					[questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.INQUIRY]
+				],
+				{ logicalCombinator: 'or' }
+			)
+		)
+		.addQuestion(questions.costApplication)
+		.addQuestion(questions.uploadCostApplication)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.costApplication, 'yes')
+		)
+		.addQuestion(questions.designAccessStatement)
+		.addQuestion(questions.uploadDesignAccessStatement)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.designAccessStatement, 'yes')
+		)
+		.addQuestion(questions.uploadPlansDrawingsDocuments)
+		.addQuestion(questions.newPlansDrawings)
+		.addQuestion(questions.uploadNewPlansDrawings)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.newPlansDrawings, 'yes')
+		)
+		.addQuestion(questions.otherNewDocuments)
+		.addQuestion(questions.uploadOtherNewDocuments)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.otherNewDocuments, 'yes')
+		)
+];
+
 const fixedParams = {
+	sections,
 	baseS78SubmissionUrl: '/appeals/full-planning',
 	taskListUrl: 'appeal-form/your-appeal',
 	journeyTemplate: 'submission-form-template.njk',
@@ -25,224 +283,13 @@ const fixedParams = {
 
 /**
  * @param {JourneyResponse} response
- * @returns {Section[]}
- */
-const buildSections = (response) => {
-	const questionHasAnswer = questionHasAnswerBuilder(response);
-	const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
-	const questionHasNonEmptyString = questionHasNonEmptyStringAnswer(response);
-	const questionHasNonEmptyNumber = questionHasNonEmptyNumberAnswer(response);
-
-	const shouldDisplayIdentifyingLandowners = (() => {
-		if (questionHasAnswer(questions.ownsAllLand, 'yes')) return false;
-		if (
-			questionHasAnswer(questions.ownsSomeLand, 'yes') &&
-			questionHasAnswer(questions.knowsWhoOwnsRestOfLand, 'yes')
-		)
-			return false;
-		if (
-			questionHasAnswer(questions.ownsSomeLand, 'no') &&
-			questionHasAnswer(questions.knowsWhoOwnsLandInvolved, 'yes')
-		)
-			return false;
-
-		return true;
-	})();
-
-	const shouldDisplayTellingLandowners = (() => {
-		if (questionHasAnswer(questions.ownsAllLand, 'yes')) return false;
-
-		if (
-			questionsHaveAnswers(
-				[
-					[questions.ownsSomeLand, 'yes'],
-					[questions.knowsWhoOwnsRestOfLand, 'no']
-				],
-				{ logicalCombinator: 'and' }
-			) ||
-			questionsHaveAnswers(
-				[
-					[questions.ownsSomeLand, 'no'],
-					[questions.knowsWhoOwnsLandInvolved, 'no']
-				],
-				{ logicalCombinator: 'and' }
-			)
-		)
-			return false;
-
-		return true;
-	})();
-
-	const shouldDisplayTellingTenants = (() => {
-		if (
-			questionHasAnswer(questions.agriculturalHolding, 'yes') &&
-			(questionHasAnswer(questions.tenantAgriculturalHolding, 'no') ||
-				questionsHaveAnswers(
-					[
-						[questions.tenantAgriculturalHolding, 'yes'],
-						[questions.otherTenantsAgriculturalHolding, 'yes']
-					],
-					{ logicalCombinator: 'and' }
-				))
-		)
-			return true;
-
-		return false;
-	})();
-
-	const shouldDisplayUploadDecisionLetter = (() => {
-		return response.answers.applicationDecision !== 'nodecisionreceived';
-	})();
-
-	return [
-		new Section('Prepare appeal', 'prepare-appeal')
-			.addQuestion(questions.applicationName)
-			.addQuestion(questions.applicantName)
-			.withCondition(questionHasAnswer(questions.applicationName, 'no'))
-			.addQuestion(questions.contactDetails)
-			.addQuestion(questions.contactPhoneNumber)
-			.addQuestion(questions.appealSiteAddress)
-			.addQuestion(questions.s78SiteArea)
-			.addQuestion(questions.appellantGreenBelt)
-			.addQuestion(questions.ownsAllLand)
-			.addQuestion(questions.ownsSomeLand)
-			.withCondition(questionHasAnswer(questions.ownsAllLand, 'no'))
-			.addQuestion(questions.knowsWhoOwnsRestOfLand)
-			.withCondition(
-				questionsHaveAnswers(
-					[
-						[questions.ownsSomeLand, 'yes'],
-						[questions.ownsAllLand, 'no']
-					],
-					{ logicalCombinator: 'and' }
-				)
-			)
-			.addQuestion(questions.knowsWhoOwnsLandInvolved)
-			.withCondition(
-				questionsHaveAnswers(
-					[
-						[questions.ownsSomeLand, 'no'],
-						[questions.ownsAllLand, 'no']
-					],
-					{ logicalCombinator: 'and' }
-				)
-			)
-			.addQuestion(questions.identifyingLandowners)
-			.withCondition(
-				shouldDisplayIdentifyingLandowners && questionHasAnswer(questions.ownsAllLand, 'no')
-			)
-			.addQuestion(questions.advertisingAppeal)
-			.withCondition(
-				shouldDisplayIdentifyingLandowners &&
-					questionHasAnswer(questions.identifyingLandowners, 'yes')
-			)
-			.addQuestion(questions.tellingLandowners)
-			.withCondition(
-				shouldDisplayTellingLandowners && questionHasAnswer(questions.ownsAllLand, 'no')
-			)
-			.addQuestion(questions.agriculturalHolding)
-			.addQuestion(questions.tenantAgriculturalHolding)
-			.withCondition(questionHasAnswer(questions.agriculturalHolding, 'yes'))
-			.addQuestion(questions.otherTenantsAgriculturalHolding)
-			.withCondition(
-				questionsHaveAnswers(
-					[
-						[questions.agriculturalHolding, 'yes'],
-						[questions.tenantAgriculturalHolding, 'yes']
-					],
-					{ logicalCombinator: 'and' }
-				)
-			)
-			.addQuestion(questions.informedTenantsAgriculturalHolding)
-			.withCondition(shouldDisplayTellingTenants)
-			.addQuestion(questions.inspectorAccess)
-			.addQuestion(questions.healthAndSafety)
-			.addQuestion(questions.enterApplicationReference)
-			.addQuestion(questions.planningApplicationDate())
-			.addQuestion(questions.enterDevelopmentDescription)
-			.addQuestion(questions.updateDevelopmentDescription)
-			.addQuestion(questions.appellantProcedurePreference)
-			.addQuestion(questions.appellantPreferHearing)
-			.withCondition(
-				questionHasAnswer(questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.HEARING)
-			)
-			.addQuestion(questions.appellantPreferInquiry)
-			.withCondition(
-				questionHasAnswer(questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.INQUIRY)
-			)
-			.addQuestion(questions.inquiryHowManyDays)
-			.withCondition(
-				questionHasAnswer(questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.INQUIRY) &&
-					questionHasNonEmptyString(questions.appellantPreferInquiry)
-			)
-			.addQuestion(questions.inquiryHowManyWitnesses)
-			.withCondition(
-				questionHasAnswer(questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.INQUIRY) &&
-					questionHasNonEmptyString(questions.appellantPreferInquiry) &&
-					questionHasNonEmptyNumber(questions.inquiryHowManyDays)
-			)
-			.addQuestion(questions.anyOtherAppeals)
-			.addQuestion(questions.linkAppeals)
-			.withCondition(questionHasAnswer(questions.anyOtherAppeals, 'yes')),
-		new Section('Upload documents', 'upload-documents')
-			.addQuestion(questions.uploadOriginalApplicationForm)
-			.addQuestion(questions.uploadChangeOfDescriptionEvidence)
-			.withCondition(questionHasAnswer(questions.updateDevelopmentDescription, 'yes'))
-			.addQuestion(questions.uploadApplicationDecisionLetter)
-			.withCondition(shouldDisplayUploadDecisionLetter)
-			.addQuestion(questions.submitPlanningObligation)
-			.addQuestion(questions.planningObligationStatus)
-			.withCondition(questionHasAnswer(questions.submitPlanningObligation, 'yes'))
-			.addQuestion(questions.uploadPlanningObligation)
-			.withCondition(
-				questionsHaveAnswers(
-					[
-						[questions.submitPlanningObligation, 'yes'],
-						[questions.planningObligationStatus, 'finalised']
-					],
-					{ logicalCombinator: 'and' }
-				)
-			)
-			.addQuestion(questions.separateOwnershipCert)
-			.addQuestion(questions.uploadSeparateOwnershipCert)
-			.withCondition(questionHasAnswer(questions.separateOwnershipCert, 'yes'))
-			.addQuestion(questions.uploadAppellantStatement)
-			.addQuestion(questions.uploadStatementCommonGround)
-			.withCondition(
-				questionsHaveAnswers(
-					[
-						[questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.HEARING],
-						[questions.appellantProcedurePreference, APPEAL_CASE_PROCEDURE.INQUIRY]
-					],
-					{ logicalCombinator: 'or' }
-				)
-			)
-			.addQuestion(questions.costApplication)
-			.addQuestion(questions.uploadCostApplication)
-			.withCondition(questionHasAnswer(questions.costApplication, 'yes'))
-			.addQuestion(questions.designAccessStatement)
-			.addQuestion(questions.uploadDesignAccessStatement)
-			.withCondition(questionHasAnswer(questions.designAccessStatement, 'yes'))
-			.addQuestion(questions.uploadPlansDrawingsDocuments)
-			.addQuestion(questions.newPlansDrawings)
-			.addQuestion(questions.uploadNewPlansDrawings)
-			.withCondition(questionHasAnswer(questions.newPlansDrawings, 'yes'))
-			.addQuestion(questions.otherNewDocuments)
-			.addQuestion(questions.uploadOtherNewDocuments)
-			.withCondition(questionHasAnswer(questions.otherNewDocuments, 'yes'))
-	];
-};
-
-/**
- * @param {JourneyResponse} response
  * @returns {JourneyParameters}
  */
 const buildJourneyParams = (response) => [
 	{
 		...fixedParams,
 		response,
-		baseUrl: `${fixedParams.baseS78SubmissionUrl}?id=${response.referenceId}`,
-		sections: buildSections(response)
+		baseUrl: `${fixedParams.baseS78SubmissionUrl}?id=${response.referenceId}`
 	}
 ];
 

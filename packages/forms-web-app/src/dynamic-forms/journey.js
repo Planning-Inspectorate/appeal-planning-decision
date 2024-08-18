@@ -211,14 +211,14 @@ class Journey {
 					reverse ? j-- : j++
 				) {
 					const question = currentSection.questions[j];
-					if (takeNextQuestion) {
+					if (takeNextQuestion && question.shouldDisplay(this.response)) {
 						return this.#buildQuestionUrl(
 							currentSection.segment,
 							question.url ? question.url : question.fieldName
 						);
 					}
 
-					if (question.fieldName === questionSegment) {
+					if (!takeNextQuestion && question.fieldName === questionSegment) {
 						takeNextQuestion = true;
 					}
 				}
