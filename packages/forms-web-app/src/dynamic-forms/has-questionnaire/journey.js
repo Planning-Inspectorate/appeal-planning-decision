@@ -7,69 +7,77 @@ const { questionHasAnswerBuilder } = require('../dynamic-components/utils/questi
  * @typedef {ConstructorParameters<typeof import('../journey').Journey>} JourneyParameters
  */
 
-const fixedParams = {
-	baseHASUrl: '/manage-appeals/questionnaire',
-	journeyTemplate: 'questionnaire-template.njk',
-	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
-	journeyTitle: 'Manage your appeals'
-};
-
 /**
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const buildSections = (response) => {
-	const questionHasAnswer = questionHasAnswerBuilder(response);
-
-	return [
-		new Section('Constraints, designations and other issues', 'constraints')
-			.addQuestion(questions.appealTypeAppropriate)
-			.addQuestion(questions.listedBuildingCheck)
-			.addQuestion(questions.affectedListedBuildings)
-			.withCondition(
+const sections = [
+	new Section('Constraints, designations and other issues', 'constraints')
+		.addQuestion(questions.appealTypeAppropriate)
+		.addQuestion(questions.listedBuildingCheck)
+		.addQuestion(questions.affectedListedBuildings)
+		.withCondition(
+			(response) =>
 				response.answers && response.answers[questions.listedBuildingCheck.fieldName] == 'yes'
-			)
-			.addQuestion(questions.conservationArea)
-			.addQuestion(questions.conservationAreaUpload)
-			.withCondition(
+		)
+		.addQuestion(questions.conservationArea)
+		.addQuestion(questions.conservationAreaUpload)
+		.withCondition(
+			(response) =>
 				response.answers && response.answers[questions.conservationArea.fieldName] == 'yes'
-			)
-			.addQuestion(questions.greenBelt),
-		new Section('Notifying relevant parties of the application', 'notified')
-			.addQuestion(questions.whoWasNotified)
-			.addQuestion(questions.howYouNotifiedPeople)
-			.addQuestion(questions.uploadSiteNotice)
-			.withCondition(questionHasAnswer(questions.howYouNotifiedPeople, 'site-notice'))
-			.addQuestion(questions.uploadNeighbourLetterAddresses)
-			.withCondition(questionHasAnswer(questions.howYouNotifiedPeople, 'letters-or-emails'))
-			.addQuestion(questions.pressAdvertUpload)
-			.withCondition(questionHasAnswer(questions.howYouNotifiedPeople, 'advert')),
-		new Section('Consultation responses and representations', 'consultation')
-			.addQuestion(questions.representationsFromOthers)
-			.addQuestion(questions.representationUpload)
-			.withCondition(
+		)
+		.addQuestion(questions.greenBelt),
+	new Section('Notifying relevant parties of the application', 'notified')
+		.addQuestion(questions.whoWasNotified)
+		.addQuestion(questions.howYouNotifiedPeople)
+		.addQuestion(questions.uploadSiteNotice)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.howYouNotifiedPeople, 'site-notice')
+		)
+		.addQuestion(questions.uploadNeighbourLetterAddresses)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.howYouNotifiedPeople, 'letters-or-emails')
+		)
+		.addQuestion(questions.pressAdvertUpload)
+		.withCondition((response) =>
+			questionHasAnswerBuilder(response)(questions.howYouNotifiedPeople, 'advert')
+		),
+	new Section('Consultation responses and representations', 'consultation')
+		.addQuestion(questions.representationsFromOthers)
+		.addQuestion(questions.representationUpload)
+		.withCondition(
+			(response) =>
 				response.answers && response.answers[questions.representationsFromOthers.fieldName] == 'yes'
-			),
-		new Section(
-			"Planning officer's report and supplementary documents",
-			'planning-officer-report'
-		).addQuestion(questions.planningOfficersReportUpload),
-		new Section('Site access', 'site-access')
-			.addQuestion(questions.accessForInspection)
-			.addQuestion(questions.neighbouringSite)
-			.addQuestion(questions.neighbouringSitesToBeVisited)
-			.withCondition(
+		),
+	new Section(
+		"Planning officer's report and supplementary documents",
+		'planning-officer-report'
+	).addQuestion(questions.planningOfficersReportUpload),
+	new Section('Site access', 'site-access')
+		.addQuestion(questions.accessForInspection)
+		.addQuestion(questions.neighbouringSite)
+		.addQuestion(questions.neighbouringSitesToBeVisited)
+		.withCondition(
+			(response) =>
 				response.answers && response.answers[questions.neighbouringSite.fieldName] == 'yes'
-			)
-			.addQuestion(questions.potentialSafetyRisks),
-		new Section('Appeal process', 'appeal-process')
-			.addQuestion(questions.appealsNearSite)
-			.addQuestion(questions.nearbyAppeals)
-			.withCondition(
+		)
+		.addQuestion(questions.potentialSafetyRisks),
+	new Section('Appeal process', 'appeal-process')
+		.addQuestion(questions.appealsNearSite)
+		.addQuestion(questions.nearbyAppeals)
+		.withCondition(
+			(response) =>
 				response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
-			)
-			.addQuestion(questions.addNewConditions)
-	];
+		)
+		.addQuestion(questions.addNewConditions)
+];
+
+const fixedParams = {
+	sections,
+	baseHASUrl: '/manage-appeals/questionnaire',
+	journeyTemplate: 'questionnaire-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
+	journeyTitle: 'Manage your appeals'
 };
 
 /**
@@ -80,8 +88,7 @@ const buildJourneyParams = (response) => [
 	{
 		...fixedParams,
 		response,
-		baseUrl: `${fixedParams.baseHASUrl}/${encodeURIComponent(response.referenceId)}`,
-		sections: buildSections(response)
+		baseUrl: `${fixedParams.baseHASUrl}/${encodeURIComponent(response.referenceId)}`
 	}
 ];
 

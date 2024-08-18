@@ -63,6 +63,8 @@ class Question {
 	html;
 	/** @type {string|undefined} optional question type */
 	type;
+	/** @type {(response: JourneyResponse) => boolean} */
+	shouldDisplay = () => true;
 
 	details = {
 		title: '',
@@ -82,6 +84,7 @@ class Question {
 	 * @param {string} [params.html]
 	 * @param {string} [params.hint]
 	 * @param {string} [params.type]
+	 * @param {(response: JourneyResponse) => boolean} [params.shouldDisplay]
 	 */
 	constructor({
 		title,
@@ -94,7 +97,8 @@ class Question {
 		validators,
 		html,
 		hint,
-		type
+		type,
+		shouldDisplay
 	}) {
 		if (!title || title === '') throw new Error('title parameter is mandatory');
 		if (!question || question === '') throw new Error('question parameter is mandatory');
@@ -110,6 +114,10 @@ class Question {
 		this.description = description;
 		this.hint = hint;
 		this.type = type;
+
+		if (shouldDisplay) {
+			this.shouldDisplay = shouldDisplay;
+		}
 
 		if (Array.isArray(validators)) {
 			this.validators = validators;

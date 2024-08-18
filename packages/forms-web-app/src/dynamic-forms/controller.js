@@ -129,6 +129,10 @@ exports.list = async (req, res, pageCaption, viewData) => {
 				continue;
 			}
 
+			if (!question.shouldDisplay(journeyResponse)) {
+				continue;
+			}
+
 			const answers = journey.response?.answers;
 			let answer = answers[question.fieldName];
 			const conditionalAnswer = questionUtils.getConditionalAnswer(answers, question, answer);
