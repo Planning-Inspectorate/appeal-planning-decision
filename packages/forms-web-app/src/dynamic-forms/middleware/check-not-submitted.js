@@ -1,5 +1,3 @@
-// good to go
-
 /**
  * @param {string} alreadySubmittedUrl
  * @returns {import('express').Handler}

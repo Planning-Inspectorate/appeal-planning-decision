@@ -1,5 +1,3 @@
-// Move this into dynamic components probably
-
 const nunjucks = require('nunjucks');
 const Question = require('./question');
 
