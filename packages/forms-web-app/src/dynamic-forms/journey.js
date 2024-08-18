@@ -1,7 +1,7 @@
 /***********************************************************
  * This file holds the base class definition for a journey *
  * (e.g. questionnaire). Specific journeys should be       *
- * defined in a class which extends this one               *
+ * instances of this class                                 *
  ***********************************************************/
 
 const config = require('../config');
@@ -61,10 +61,6 @@ class Journey {
 		returnToListing,
 		sections
 	}) {
-		if (this.constructor == Journey) {
-			throw new Error("Abstract classes can't be instantiated.");
-		}
-
 		if (baseUrl !== undefined && typeof baseUrl !== 'string') {
 			throw new Error('baseUrl should be a string.');
 		}

@@ -29,28 +29,6 @@ const mockSections = [
 	}
 ];
 
-class TestJourney extends Journey {
-	constructor(
-		baseUrl,
-		taskListUrl,
-		response,
-		journeyTemplate,
-		listingPageViewPath,
-		journeyTitle,
-		returnToListing
-	) {
-		super({
-			baseUrl,
-			taskListUrl,
-			response,
-			journeyTemplate,
-			listingPageViewPath,
-			journeyTitle,
-			returnToListing
-		});
-	}
-}
-
 describe('Journey class', () => {
 	let constructorArgs;
 
@@ -69,49 +47,43 @@ describe('Journey class', () => {
 	});
 
 	describe('constructor', () => {
-		it('should not be possible to instantiate the base class', () => {
-			expect(() => new Journey({})).toThrow("Abstract classes can't be instantiated.");
-		});
-
 		it('should throw if no arguments passed into constructor', () => {
-			expect(() => new TestJourney()).toThrow();
+			expect(() => new Journey()).toThrow();
 		});
 
 		it('should set response when passed into constructor', () => {
 			constructorArgs.response = { a: 1 };
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			expect(journey.response).toBe(constructorArgs.response);
 		});
 
 		it('should error if baseUrl is not a string', () => {
 			constructorArgs.baseUrl = { a: 1 };
-			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
-				'baseUrl should be a string.'
-			);
+			expect(() => new Journey(constructorArgs)).toThrow('baseUrl should be a string.');
 		});
 
 		it('should set baseUrl', () => {
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 
 			expect(journey.baseUrl).toBe(constructorArgs.baseUrl);
 		});
 
 		it('should remove trailing / to baseUrl', () => {
 			constructorArgs.baseUrl = '/abc/';
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 
 			expect(journey.baseUrl).toBe('/abc');
 		});
 
 		it('should set taskListUrl', () => {
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 
 			expect(journey.taskListUrl).toBe(constructorArgs.baseUrl + '/' + constructorArgs.taskListUrl);
 		});
 
 		it('should set journeyTemplate', () => {
 			constructorArgs.journeyTemplate = 'test';
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 
 			expect(journey.journeyTemplate).toBe(constructorArgs.journeyTemplate);
 		});
@@ -119,22 +91,18 @@ describe('Journey class', () => {
 		it('should error if journeyTemplate not provided', () => {
 			constructorArgs.journeyTemplate = '';
 
-			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
-				'journeyTemplate should be a string.'
-			);
+			expect(() => new Journey(constructorArgs)).toThrow('journeyTemplate should be a string.');
 		});
 
 		it('should error if journeyTemplate not a string', () => {
 			constructorArgs.journeyTemplate = [true, 123, 'test'];
 
-			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
-				'journeyTemplate should be a string.'
-			);
+			expect(() => new Journey(constructorArgs)).toThrow('journeyTemplate should be a string.');
 		});
 
 		it('should set listingPageViewPath', () => {
 			constructorArgs.listingPageViewPath = 'test';
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 
 			expect(journey.listingPageViewPath).toBe(constructorArgs.listingPageViewPath);
 		});
@@ -142,22 +110,18 @@ describe('Journey class', () => {
 		it('should error if listingPageViewPath not provided', () => {
 			constructorArgs.listingPageViewPath = '';
 
-			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
-				'listingPageViewPath should be a string.'
-			);
+			expect(() => new Journey(constructorArgs)).toThrow('listingPageViewPath should be a string.');
 		});
 
 		it('should error if listingPageViewPath not a string', () => {
 			constructorArgs.listingPageViewPath = 123;
 
-			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
-				'listingPageViewPath should be a string.'
-			);
+			expect(() => new Journey(constructorArgs)).toThrow('listingPageViewPath should be a string.');
 		});
 
 		it('should set journeyTitle', () => {
 			constructorArgs.journeyTitle = 'test';
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 
 			expect(journey.journeyTitle).toBe(constructorArgs.journeyTitle);
 		});
@@ -165,35 +129,31 @@ describe('Journey class', () => {
 		it('should error if journeyTitle not provided', () => {
 			constructorArgs.journeyTitle = '';
 
-			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
-				'journeyTitle should be a string.'
-			);
+			expect(() => new Journey(constructorArgs)).toThrow('journeyTitle should be a string.');
 		});
 
 		it('should error if journeyTitle not a string', () => {
 			constructorArgs.journeyTitle = true;
 
-			expect(() => new TestJourney(...Object.values(constructorArgs))).toThrow(
-				'journeyTitle should be a string.'
-			);
+			expect(() => new Journey(constructorArgs)).toThrow('journeyTitle should be a string.');
 		});
 
 		it('should set returnToListing - true', () => {
 			constructorArgs.returnToListing = true;
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 
 			expect(journey.returnToListing).toBe(true);
 		});
 
 		it('should set returnToListing - false', () => {
 			constructorArgs.returnToListing = false;
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 
 			expect(journey.returnToListing).toBe(false);
 		});
 
 		it('should handle returnToListing not defined', () => {
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 
 			expect(journey.returnToListing).toBe(false);
 		});
@@ -201,7 +161,7 @@ describe('Journey class', () => {
 
 	describe('getSection', () => {
 		it('should return the correct section by section segment', () => {
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const question = journey.getSection(mockSections[0].segment);
@@ -210,7 +170,7 @@ describe('Journey class', () => {
 		});
 
 		it('should return undefined if section is not found', () => {
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const section = journey.getSection('a', 'b');
@@ -221,7 +181,7 @@ describe('Journey class', () => {
 
 	describe('getQuestionBySectionAndName', () => {
 		it('should return the correct question by section and name', () => {
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const question = journey.getQuestionBySectionAndName(
@@ -233,7 +193,7 @@ describe('Journey class', () => {
 		});
 
 		it('should return undefined if section is not found', () => {
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const question = journey.getQuestionBySectionAndName('a', 'b');
@@ -242,7 +202,7 @@ describe('Journey class', () => {
 		});
 
 		it('should return undefined if question is not found', () => {
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const question = journey.getQuestionBySectionAndName(mockSections[0].segment, 'nope');
@@ -258,7 +218,7 @@ describe('Journey class', () => {
 				const section = 'section3'; // Non-existent section
 				const name = mockSections[0].questions[0].fieldName;
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
@@ -274,7 +234,7 @@ describe('Journey class', () => {
 				const section = mockSections[0].segment;
 				const name = 'nope'; // Non-existent question
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
@@ -291,7 +251,7 @@ describe('Journey class', () => {
 				const name = section.questions[1].fieldName;
 				const nextQuestionName = section.questions[2].url;
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
@@ -317,7 +277,7 @@ describe('Journey class', () => {
 				const name = section.questions[0].fieldName;
 				const nextQuestionName = section.questions[1].fieldName;
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
@@ -343,7 +303,7 @@ describe('Journey class', () => {
 				const name = section.questions[1].fieldName;
 				const prevQuestionName = section.questions[0].fieldName;
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
@@ -363,7 +323,7 @@ describe('Journey class', () => {
 				const nextSection = mockSections[currentSectionIndex + 1];
 				const nextQuestionName = nextSection.questions[0].fieldName;
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = false;
 
@@ -381,7 +341,7 @@ describe('Journey class', () => {
 				const section = mockSections[mockSections.length - 1];
 				const name = section.questions[section.questions.length - 1].fieldName;
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
@@ -399,7 +359,7 @@ describe('Journey class', () => {
 				const prevSection = mockSections[currentSectionIndex - 1];
 				const prevQuestionName = prevSection.questions[prevSection.questions.length - 1].fieldName;
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = false;
 
@@ -417,7 +377,7 @@ describe('Journey class', () => {
 				const section = mockSections[0];
 				const name = section.questions[0].fieldName;
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
@@ -433,7 +393,7 @@ describe('Journey class', () => {
 				const section = mockSections[currentSectionIndex];
 				const name = section.questions[section.questions.length - 1].fieldName;
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = true;
 
@@ -448,7 +408,7 @@ describe('Journey class', () => {
 				const section = mockSections[currentSectionIndex];
 				const name = section.questions[0].fieldName;
 
-				const journey = new TestJourney(...Object.values(constructorArgs));
+				const journey = new Journey(constructorArgs);
 				journey.sections = mockSections;
 				journey.returnToListing = true;
 
@@ -464,7 +424,7 @@ describe('Journey class', () => {
 			const name = section.questions[1].fieldName;
 			const nextQuestionName = section.questions[2].url;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
@@ -478,7 +438,7 @@ describe('Journey class', () => {
 			const section = mockSections[0].segment;
 			const name = mockSections[0].questions[1].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
@@ -490,7 +450,7 @@ describe('Journey class', () => {
 			const section = 'nope';
 			const name = mockSections[0].questions[1].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
@@ -502,7 +462,7 @@ describe('Journey class', () => {
 			const section = mockSections[2].segment;
 			const name = mockSections[2].questions[2].url;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
@@ -515,7 +475,7 @@ describe('Journey class', () => {
 			const section = mockSections[0].segment;
 			const name = mockSections[0].questions[1].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
@@ -543,7 +503,7 @@ describe('Journey class', () => {
 					}
 				}
 			];
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = completeSectionStubs;
 			expect(journey.isComplete()).toBe(true);
 		});
@@ -566,7 +526,7 @@ describe('Journey class', () => {
 					}
 				}
 			];
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = oneIncompleteSectionStubs;
 			expect(journey.isComplete()).toBe(false);
 		});
@@ -589,7 +549,7 @@ describe('Journey class', () => {
 					}
 				}
 			];
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = oneIncompleteSectionStubs;
 			expect(journey.isComplete()).toBe(false);
 		});
@@ -600,7 +560,7 @@ describe('Journey class', () => {
 			const section = mockSections[0].segment;
 			const name = mockSections[0].questions[1].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
@@ -612,7 +572,7 @@ describe('Journey class', () => {
 			const section = 'nope';
 			const name = mockSections[0].questions[1].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
@@ -624,7 +584,7 @@ describe('Journey class', () => {
 			const section = mockSections[2].segment;
 			const name = mockSections[2].questions[2].url;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
@@ -637,7 +597,7 @@ describe('Journey class', () => {
 			const section = mockSections[0].segment;
 			const name = mockSections[0].questions[1].fieldName;
 
-			const journey = new TestJourney(...Object.values(constructorArgs));
+			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
