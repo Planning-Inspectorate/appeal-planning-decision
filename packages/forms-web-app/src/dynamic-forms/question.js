@@ -1,14 +1,3 @@
-// saveResponseToDB seems to be the only thing needing factorisation here.
-// I haven't found the code that instantiates this class yet but potentially
-// the api patch function to called could be passed into this?
-
-// Having searched the codebase from "new Question" to no avail, I seem to
-// recall there's some bizarre programmatic instantiation going on somewhere.
-
-// packages/forms-web-app/src/dynamic-forms/dynamic-components/multi-file-upload/question.js
-// packages/forms-web-app/src/dynamic-forms/dynamic-components/list-add-more/question.js
-// ^ these ones implement their own saveResponseToDBs
-
 const { capitalize } = require('../lib/string-functions');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { numericFields } = require('./dynamic-components/utils/numeric-fields');
@@ -128,9 +117,6 @@ class Question {
 
 		//todo: taskList default to true, or pass in as param if question shouldn't be displayed in task (summary) list
 		//or possibly add taskList condition to the Section class as part of withCondition method(or similar) if possible?
-
-		// N.B. The above todo is linked to a related one in packages/forms-web-app/src/dynamic-forms/section.js. I don't
-		// think either side of the functionality is implemented. Will we ever need this or can we scrap it?
 	}
 
 	/**

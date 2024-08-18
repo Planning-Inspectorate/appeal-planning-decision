@@ -1,7 +1,3 @@
-// The getStatus method here is responsible for all of these dependencies
-// if questions could be made responsible for reporting their status
-// we could probably clean that right up.
-
 const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
 const CaseAddMoreQuestion = require('./dynamic-components/case-add-more/question');
 const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');

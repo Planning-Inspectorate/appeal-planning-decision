@@ -1,5 +1,3 @@
-// good to go
-
 const ListAddMoreQuestion = require('../dynamic-components/list-add-more/question');
 
 /**

@@ -1,10 +1,3 @@
-// It looks like this is referenced all over the place but it's actually
-// used as a type everywhere but two pieces of middleware where it sets
-// response.locals.journeyResponse.
-
-// It's actually my fault there's two pieces of middleware
-// rather that one that factors out user type.
-
 /**
  * @typedef {import('./journey-factory').JourneyType} JourneyType
  */
