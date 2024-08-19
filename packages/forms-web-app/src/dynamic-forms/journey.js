@@ -252,6 +252,15 @@ class Journey {
 
 	/**
 	 * Gets the url for the current question
+	 * @param {string} questionSegment - question segment name
+	 * @returns {string} url for the current question
+	 */
+	getCurrentQuestionUrlWithoutSection = (questionSegment) => {
+		return `${this.baseUrl}/${encodeURIComponent(questionSegment)}`;
+	};
+
+	/**
+	 * Gets the url for the current question
 	 * @param {string} sectionSegment - section segment name
 	 * @param {string} questionSegment - question segment name
 	 * @param {string} addition - question segment name
