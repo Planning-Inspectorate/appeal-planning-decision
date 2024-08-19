@@ -1,6 +1,7 @@
 const { questions } = require('../questions');
 const { Journey } = require('../journey');
 const { Section } = require('../section');
+const config = require('../../config');
 // const {
 // 	questionHasAnswerBuilder,
 // 	questionsHaveAnswersBuilder
@@ -37,7 +38,9 @@ class S78LpaStatementJourney extends Journey {
 		// const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
 
 		this.sections.push(
-			new Section('Appeal statement', 'statement').addQuestion(questions.lpaStatement)
+			new Section('Appeal statement', config.dynamicForms.DEFAULT_SECTION).addQuestion(
+				questions.lpaStatement
+			)
 		);
 	}
 }

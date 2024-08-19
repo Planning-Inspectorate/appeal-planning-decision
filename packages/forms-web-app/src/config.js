@@ -45,6 +45,9 @@ module.exports = {
 		timeout: numberWithDefault(process.env.DOCUMENTS_SERVICE_API_TIMEOUT, 10000),
 		url: process.env.DOCUMENTS_SERVICE_API_URL
 	},
+	dynamicForms: {
+		DEFAULT_SECTION: 'appeal'
+	},
 	pdf: {
 		url: process.env.PDF_SERVICE_API_URL
 	},

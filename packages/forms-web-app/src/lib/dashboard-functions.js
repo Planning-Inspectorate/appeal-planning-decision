@@ -197,7 +197,7 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 			dueInDays: calculateDueInDays(appealCaseData.statementDueDate),
 			documentDue: 'Statement',
 			// direct straight to first question of statement journey
-			baseUrl: `${statementBaseUrl}/${appealCaseData.caseReference}/statement/appeal-statement`
+			baseUrl: `${statementBaseUrl}/${appealCaseData.caseReference}/appeal-statement`
 		};
 	} else if (isFinalCommentDue(appealCaseData)) {
 		return {

@@ -11,6 +11,8 @@ const {
 	validationErrorHandler
 } = require('../../dynamic-forms/validator/validation-error-handler');
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-lpa-statement');
+const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
+const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
@@ -58,13 +60,15 @@ const statementTaskList = async (req, res) => {
 router.get(
 	'/appeal-statement/:referenceId',
 	getJourneyResponse(),
+	redirectToUnansweredQuestion(),
 	checkNotSubmitted(dashboardUrl),
 	statementTaskList
 );
 
 // question
 router.get(
-	'/appeal-statement/:referenceId/:section/:question',
+	'/appeal-statement/:referenceId/:question',
+	setDefaultSection(),
 	getJourneyResponse(),
 	checkNotSubmitted(dashboardUrl),
 	question
@@ -72,7 +76,8 @@ router.get(
 
 // save
 router.post(
-	'/appeal-statement/:referenceId/:section/:question',
+	'/appeal-statement/:referenceId/:question',
+	setDefaultSection(),
 	getJourneyResponse(),
 	checkNotSubmitted(dashboardUrl),
 	dynamicReqFilesToReqBodyFiles(),
