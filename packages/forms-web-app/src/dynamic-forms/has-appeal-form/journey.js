@@ -1,8 +1,8 @@
 const { questions } = require('../questions');
 const { Section } = require('../section');
 const {
-	questionHasAnswerBuilder,
-	questionsHaveAnswersBuilder
+	questionHasAnswer,
+	questionsHaveAnswers
 } = require('../dynamic-components/utils/question-has-answer');
 
 /**
@@ -15,15 +15,15 @@ const {
  * @returns {boolean}
  */
 const shouldDisplayIdentifyingLandowners = (response) => {
-	if (questionHasAnswerBuilder(response)(questions.ownsAllLand, 'yes')) return false;
+	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
 	if (
-		questionHasAnswerBuilder(response)(questions.ownsSomeLand, 'yes') &&
-		questionHasAnswerBuilder(response)(questions.knowsWhoOwnsRestOfLand, 'yes')
+		questionHasAnswer(response, questions.ownsSomeLand, 'yes') &&
+		questionHasAnswer(response, questions.knowsWhoOwnsRestOfLand, 'yes')
 	)
 		return false;
 	if (
-		questionHasAnswerBuilder(response)(questions.ownsSomeLand, 'no') &&
-		questionHasAnswerBuilder(response)(questions.knowsWhoOwnsLandInvolved, 'yes')
+		questionHasAnswer(response, questions.ownsSomeLand, 'no') &&
+		questionHasAnswer(response, questions.knowsWhoOwnsLandInvolved, 'yes')
 	)
 		return false;
 
@@ -35,17 +35,19 @@ const shouldDisplayIdentifyingLandowners = (response) => {
  * @returns {boolean}
  */
 const shouldDisplayTellingLandowners = (response) => {
-	if (questionHasAnswerBuilder(response)(questions.ownsAllLand, 'yes')) return false;
+	if (questionHasAnswer(response, questions.ownsAllLand, 'yes')) return false;
 
 	if (
-		questionsHaveAnswersBuilder(response)(
+		questionsHaveAnswers(
+			response,
 			[
 				[questions.ownsSomeLand, 'yes'],
 				[questions.knowsWhoOwnsRestOfLand, 'no']
 			],
 			{ logicalCombinator: 'and' }
 		) ||
-		questionsHaveAnswersBuilder(response)(
+		questionsHaveAnswers(
+			response,
 			[
 				[questions.ownsSomeLand, 'no'],
 				[questions.knowsWhoOwnsLandInvolved, 'no']
@@ -66,9 +68,7 @@ const sections = [
 	new Section('Prepare appeal', 'prepare-appeal')
 		.addQuestion(questions.applicationName)
 		.addQuestion(questions.applicantName)
-		.withCondition((response) =>
-			questionHasAnswerBuilder(response)(questions.applicationName, 'no')
-		)
+		.withCondition((response) => questionHasAnswer(response, questions.applicationName, 'no'))
 		.addQuestion(questions.contactDetails)
 		.addQuestion(questions.contactPhoneNumber)
 		.addQuestion(questions.appealSiteAddress)
@@ -76,10 +76,11 @@ const sections = [
 		.addQuestion(questions.appellantGreenBelt)
 		.addQuestion(questions.ownsAllLand)
 		.addQuestion(questions.ownsSomeLand)
-		.withCondition((response) => questionHasAnswerBuilder(response)(questions.ownsAllLand, 'no'))
+		.withCondition((response) => questionHasAnswer(response, questions.ownsAllLand, 'no'))
 		.addQuestion(questions.knowsWhoOwnsRestOfLand)
 		.withCondition((response) =>
-			questionsHaveAnswersBuilder(response)(
+			questionsHaveAnswers(
+				response,
 				[
 					[questions.ownsSomeLand, 'yes'],
 					[questions.ownsAllLand, 'no']
@@ -89,7 +90,8 @@ const sections = [
 		)
 		.addQuestion(questions.knowsWhoOwnsLandInvolved)
 		.withCondition((response) =>
-			questionsHaveAnswersBuilder(response)(
+			questionsHaveAnswers(
+				response,
 				[
 					[questions.ownsSomeLand, 'no'],
 					[questions.ownsAllLand, 'no']
@@ -103,7 +105,7 @@ const sections = [
 		.withCondition(
 			(response) =>
 				shouldDisplayIdentifyingLandowners(response) &&
-				questionHasAnswerBuilder(response)(questions.identifyingLandowners, 'yes')
+				questionHasAnswer(response, questions.identifyingLandowners, 'yes')
 		)
 		.addQuestion(questions.tellingLandowners)
 		.withCondition(shouldDisplayTellingLandowners)
@@ -115,22 +117,18 @@ const sections = [
 		.addQuestion(questions.updateDevelopmentDescription)
 		.addQuestion(questions.anyOtherAppeals)
 		.addQuestion(questions.linkAppeals)
-		.withCondition((response) =>
-			questionHasAnswerBuilder(response)(questions.anyOtherAppeals, 'yes')
-		),
+		.withCondition((response) => questionHasAnswer(response, questions.anyOtherAppeals, 'yes')),
 	new Section('Upload documents', 'upload-documents')
 		.addQuestion(questions.uploadOriginalApplicationForm)
 		.addQuestion(questions.uploadChangeOfDescriptionEvidence)
 		.withCondition((response) =>
-			questionHasAnswerBuilder(response)(questions.updateDevelopmentDescription, 'yes')
+			questionHasAnswer(response, questions.updateDevelopmentDescription, 'yes')
 		)
 		.addQuestion(questions.uploadApplicationDecisionLetter)
 		.addQuestion(questions.uploadAppellantStatement)
 		.addQuestion(questions.costApplication)
 		.addQuestion(questions.uploadCostApplication)
-		.withCondition((response) =>
-			questionHasAnswerBuilder(response)(questions.costApplication, 'yes')
-		)
+		.withCondition((response) => questionHasAnswer(response, questions.costApplication, 'yes'))
 ];
 
 const fixedParams = {

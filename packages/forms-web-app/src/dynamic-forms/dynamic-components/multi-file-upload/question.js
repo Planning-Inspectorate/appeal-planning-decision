@@ -4,7 +4,6 @@ const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/docume
 const {
 	utils: { conjoinedPromises }
 } = require('@pins/common');
-
 const Question = require('../../question');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
@@ -145,8 +144,7 @@ class MultiFileUploadQuestion extends Question {
 		}
 
 		// move to the next question
-		const updatedJourney = new journey.constructor(journeyResponse);
-		return this.handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
+		return this.handleNextQuestion(res, journey, section.segment, this.fieldName);
 	}
 
 	uploadDocuments(apiClient, referenceId, journeyId, data) {

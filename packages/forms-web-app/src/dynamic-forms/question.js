@@ -205,9 +205,7 @@ class Question {
 		}
 
 		// move to the next question
-		// @ts-ignore this feels grim
-		const updatedJourney = new journey.constructor(journeyResponse);
-		return this.handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
+		return this.handleNextQuestion(res, journey, section.segment, this.fieldName);
 	}
 
 	/**
