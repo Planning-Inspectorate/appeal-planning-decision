@@ -14,6 +14,7 @@ const {
 
 const nextPage = `/before-you-start/can-use-service`;
 
+// NOTE - this questions is skipped if using v2
 exports.getClaimingCostsHouseholder = async (req, res) => {
 	const { appeal } = req.session;
 
