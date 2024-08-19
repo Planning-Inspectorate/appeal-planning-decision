@@ -97,6 +97,15 @@ async function putCase(caseReference, data) {
 		// send email confirming appeal to user if this creates a new appeal
 		if (!result.exists && result.appellantSubmission) {
 			// todo: get email address
+
+			// const serviceUsers = await serviceUserRepo.getForCaseAndType(caseReference, [
+			// 	ServiceUserType.Appellant,
+			// 	ServiceUserType.Agent
+			// ]);
+
+			//get Appeal.Users - array of AppealToUsers.
+			// filter this based on role.  Then get the linked AppealUser, and then the email....
+
 			await sendSubmissionConfirmationEmailToAppellantV2(
 				result.appealCase,
 				result.appellantSubmission,
