@@ -580,6 +580,15 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} id
+	 * @returns {Promise<AppellantSubmission>}
+	 */
+	async getAppellantSubmission(id) {
+		const endpoint = `${v2}/appellant-submissions/${id}`;
+		return (await this.#makeGetRequest(endpoint)).json();
+	}
+
+	/**
+	 * @param {string} id
 	 * @returns {Promise<boolean>}
 	 */
 	async confirmUserOwnsAppellantSubmission(id) {
@@ -590,10 +599,10 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} id
-	 * @returns {Promise<AppellantSubmission>}
+	 * @returns {Promise<{caseReference: string}>}
 	 */
-	async getAppellantSubmission(id) {
-		const endpoint = `${v2}/appellant-submissions/${id}`;
+	async getAppellantSubmissionCaseReference(id) {
+		const endpoint = `${v2}/appellant-submissions/${id}/case-reference`;
 		return (await this.#makeGetRequest(endpoint)).json();
 	}
 
@@ -601,7 +610,7 @@ class AppealsApiClient {
 	 * @param {string} id
 	 * @returns {Promise<AppellantSubmission>}
 	 */
-	async getAppellantSubmissionDownloadDetails(id) {
+	async checkOwnershipAndPdfDownloadDetails(id) {
 		const endpoint = `${v2}/appellant-submissions/${id}/download-details`;
 		return (await this.#makeGetRequest(endpoint)).json();
 	}

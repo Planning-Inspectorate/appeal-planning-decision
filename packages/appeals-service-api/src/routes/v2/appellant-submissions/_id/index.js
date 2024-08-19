@@ -1,6 +1,6 @@
 const express = require('express');
 const { auth } = require('express-oauth2-jwt-bearer');
-const { get, patch, confirm, getDownloadDetails } = require('./controller');
+const { get, patch, confirm, getDownloadDetails, getCaseReference } = require('./controller');
 const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../../configuration/config');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
@@ -26,6 +26,8 @@ router.use(
 );
 
 router.get('/', openApiValidatorMiddleware(), asyncHandler(get));
+
+router.get('/case-reference', openApiValidatorMiddleware(), asyncHandler(getCaseReference));
 
 // Used for direct check of whether user is linked to appellantSubmission
 router.get('/confirm-ownership', openApiValidatorMiddleware(), asyncHandler(confirm));

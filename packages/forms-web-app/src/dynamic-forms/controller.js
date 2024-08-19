@@ -320,10 +320,10 @@ exports.submitAppellantSubmission = async (req, res) => {
 exports.appellantSubmissionDeclaration = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
-	// if (!journey.isComplete()) {
-	// 	// return error message and redirect
-	// 	return res.status(400).render('./error/not-found.njk');
-	// }
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.status(400).render('./error/not-found.njk');
+	}
 
 	return res.render('./dynamic-components/submission-declaration/index', {
 		layoutTemplate: journey.journeyTemplate
@@ -337,7 +337,7 @@ exports.appellantSubmissionDeclaration = async (req, res) => {
 exports.appellantSubmissionInformation = async (req, res) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
-	if (!journey.isComplete()) {
+	if (!journey.isComplete() || !journey.response.answers.submitted) {
 		// return error message and redirect
 		return res.status(400).render('./error/not-found.njk');
 	}
@@ -382,7 +382,10 @@ exports.appellantSubmissionInformation = async (req, res) => {
 	const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
 
 	const submissionDate = formattedSubmissionDate();
-	const caseReference = journey.response.answers.applicationReference;
+
+	const { caseReference } = await req.appealsApiClient.getAppellantSubmissionCaseReference(
+		journey.response.answers.id
+	);
 
 	return res.render(journey.informationPageViewPath, {
 		summaryListData,

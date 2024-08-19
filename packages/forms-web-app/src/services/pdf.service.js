@@ -153,20 +153,30 @@ const typeCodeToAppealUrlStub = {
 
 /**
  * @param {Object} params
- * @param {*} params.appellantSubmission - appellant Submission
+ * @param {string} params.appellantSubmissionId - appellant Submission Id
+ * @param {string} params.appealTypeCode - appeal type code
  * @param {string} [params.fileName] - optional filename
  * @param {string} params.sid - session cookie
  */
-const storePdfAppellantSubmission = async ({ appellantSubmission, fileName, sid }) => {
+const storePdfAppellantSubmission = async ({
+	appellantSubmissionId,
+	appealTypeCode,
+	fileName,
+	sid
+}) => {
 	const log = logger.child({
-		appellantSubmissionId: appellantSubmission.id,
+		appellantSubmissionId,
 		uuid: uuid.v4()
 	});
 
 	log.info('Attempting to store PDF document');
 
 	try {
-		const htmlContent = await getHtmlAppellantSubmission(appellantSubmission, sid);
+		const htmlContent = await getHtmlAppellantSubmission(
+			appellantSubmissionId,
+			appealTypeCode,
+			sid
+		);
 
 		log.debug('Generating PDF of appeal');
 
@@ -176,8 +186,8 @@ const storePdfAppellantSubmission = async ({ appellantSubmission, fileName, sid 
 
 		const document = await createDocument(
 			{
-				id: appellantSubmission.id,
-				referenceNumber: appellantSubmission.id
+				id: appellantSubmissionId,
+				referenceNumber: appellantSubmissionId
 			},
 			pdfBuffer,
 			`${fileName || defaultSubmissionFileName}.pdf`,
@@ -195,14 +205,20 @@ const storePdfAppellantSubmission = async ({ appellantSubmission, fileName, sid 
 	}
 };
 
-const getHtmlAppellantSubmission = async (appellantSubmission, sid) => {
+/**
+ * @param {string} appellantSubmissionId - appellant Submission Id
+ * @param {string} appealTypeCode - appeal type code
+ * @param {string} sid - session cookie
+ */
+
+const getHtmlAppellantSubmission = async (appellantSubmissionId, appealTypeCode, sid) => {
 	const log = logger.child({
-		appellantSubmissionId: appellantSubmission.id,
+		appellantSubmissionId,
 		uuid: uuid.v4()
 	});
 
 	/* URL back to this service front-end */
-	const url = buildAppellantSubmissionUrl(appellantSubmission);
+	const url = buildAppellantSubmissionUrl(appellantSubmissionId, appealTypeCode);
 
 	let response;
 
@@ -243,11 +259,15 @@ const getHtmlAppellantSubmission = async (appellantSubmission, sid) => {
 	return response.text();
 };
 
-const buildAppellantSubmissionUrl = (appellantSubmission) => {
+/**
+ * @param {string} appellantSubmissionId - appellant Submission Id
+ * @param {string} appealTypeCode - appeal type code
+ * @returns {string} url
+ */
+const buildAppellantSubmissionUrl = (appellantSubmissionId, appealTypeCode) => {
 	const urlPart =
-		typeCodeToAppealUrlStub[appellantSubmission.appealTypeCode] ||
-		appealTypeUrlMapping[APPEAL_ID.HOUSEHOLDER];
-	return `${config.server.host}/appeals/${urlPart}/submit/information?id=${appellantSubmission.id}`;
+		typeCodeToAppealUrlStub[appealTypeCode] || appealTypeUrlMapping[APPEAL_ID.HOUSEHOLDER];
+	return `${config.server.host}/appeals/${urlPart}/submit/information?id=${appellantSubmissionId}`;
 };
 
 module.exports = {
