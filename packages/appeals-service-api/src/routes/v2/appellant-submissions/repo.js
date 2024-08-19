@@ -94,27 +94,6 @@ module.exports = class Repo {
 				where: {
 					id: appellantSubmissionId
 				},
-				// select: {
-				// 	id: true,
-				// 	submissionPdfId: true,
-				// 	appealTypeCode: true,
-				// 	Appeal: {
-				// 		select: {
-				// 			id: true,
-				// 			Users: {
-				// 				where: {
-				// 					userId,
-				// 					role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
-				// 				}
-				// 			},
-				// 			AppealCase: {
-				// 				select: {
-				// 					caseReference: true
-				// 				}
-				// 			}
-				// 		}
-				// 	}
-				// }
 				select: {
 					id: true,
 					submissionPdfId: true,
