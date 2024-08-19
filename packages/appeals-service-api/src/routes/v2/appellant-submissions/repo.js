@@ -86,6 +86,49 @@ module.exports = class Repo {
 	}
 
 	/**
+	 * @param {{ appellantSubmissionId: string, userId: string }} params
+	 */
+	async getDownloadDetails({ appellantSubmissionId, userId }) {
+		try {
+			const result = await this.dbClient.appellantSubmission.findUniqueOrThrow({
+				where: {
+					id: appellantSubmissionId
+				},
+				select: {
+					id: true,
+					submissionPdfId: true,
+					appealTypeCode: true,
+					Appeal: {
+						select: {
+							id: true,
+							Users: {
+								where: {
+									userId,
+									role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
+								}
+							},
+							AppealCase: {
+								select: {
+									caseReference: true
+								}
+							}
+						}
+					}
+				}
+			});
+
+			if (!result.Appeal.Users.some((x) => x.userId.toLowerCase() === userId.toLowerCase())) {
+				throw ApiError.forbidden();
+			}
+
+			return result;
+		} catch (err) {
+			logger.error({ err }, 'invalid user access');
+			throw ApiError.forbidden();
+		}
+	}
+
+	/**
 	 * Get an appellant submission
 	 *
 	 * @param {{ appellantSubmissionId: string, userId: string }} params

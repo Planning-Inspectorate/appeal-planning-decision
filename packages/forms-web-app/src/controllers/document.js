@@ -6,6 +6,8 @@ const {
 	}
 } = require('@pins/business-rules');
 const logger = require('../lib/logger');
+const { CONSTS } = require('../../src/consts');
+const { storePdfAppellantSubmission } = require('../../src/services/pdf.service');
 
 /**
  * links user to a document, requires an active session
@@ -90,6 +92,49 @@ const getAppealPDFDocumentV2 = async (req, res) => {
 };
 
 /**
+ * generates and/or retrieves pdf of appeal submission
+ * custom redirect if not logged in
+ * @type {import('express').Handler}
+ */
+const getAppellantSubmissionPDFV2 = async (req, res) => {
+	const { appellantSubmissionId } = req.params;
+
+	try {
+		logger.info('Confirming user owns appellant submission');
+
+		// make api call to retrieve download data
+		// will error if user does not own appellant submission
+		const appellantSubmissionDetails =
+			await req.appealsApiClient.getAppellantSubmissionDownloadDetails(appellantSubmissionId);
+
+		logger.info('Attempting to fetch document');
+
+		let documentId;
+
+		if (appellantSubmissionDetails.submissionPdfId) {
+			documentId = appellantSubmissionDetails.submissionPdfId;
+		} else {
+			const storedPdf = await storePdfAppellantSubmission({
+				appellantSubmission: appellantSubmissionDetails,
+				sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
+			});
+			await req.appealsApiClient.updateAppellantSubmission(appellantSubmissionId, {
+				submissionPdfId: storedPdf.id
+			});
+
+			documentId = storedPdf.id;
+		}
+
+		const { headers, body } = await fetchDocument(appellantSubmissionId, documentId);
+		return await returnResult(headers, body, res);
+	} catch (err) {
+		logger.error({ err }, 'Failed to get document');
+		res.sendStatus(500);
+		return;
+	}
+};
+
+/**
  * links user to a submission document, internally checks access
  * @type {import('express').Handler}
  */
@@ -138,6 +183,7 @@ const returnResult = async (headers, body, res) => {
 module.exports = {
 	getDocument,
 	getAppealPDFDocumentV2,
+	getAppellantSubmissionPDFV2,
 	getSubmissionDocumentV2Url,
 	getPublishedDocumentV2Url
 };

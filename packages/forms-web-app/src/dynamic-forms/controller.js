@@ -6,8 +6,8 @@ const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
-const { storePdfAppellantSubmission } = require('../../src/services/pdf.service');
-const { CONSTS } = require('../../src/consts');
+// const { storePdfAppellantSubmission } = require('../../src/services/pdf.service');
+// const { CONSTS } = require('../../src/consts');
 const {
 	formatBeforeYouStartSection,
 	formattedSubmissionDate
@@ -297,12 +297,12 @@ exports.submitAppellantSubmission = async (req, res) => {
 		return;
 	}
 
-	const storedPdf = await storePdfAppellantSubmission({
-		appellantSubmissionJourney: journey,
-		sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
-	});
+	// const storedPdf = await storePdfAppellantSubmission({
+	// 	appellantSubmissionJourney: journey,
+	// 	sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
+	// });
 
-	await req.appealsApiClient.updateAppellantSubmission(id, { submissionPdfId: storedPdf.id });
+	// await req.appealsApiClient.updateAppellantSubmission(id, { submissionPdfId: storedPdf.id });
 
 	await req.appealsApiClient.submitAppellantSubmission(id);
 

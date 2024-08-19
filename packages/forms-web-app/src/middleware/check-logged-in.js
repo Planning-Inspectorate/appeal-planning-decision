@@ -42,7 +42,10 @@ const checkLoggedIn = async (req, res, next) => {
 		docRedirectUrl = await createSaveAndReturnUrl(req.params?.appealOrQuestionnaireId);
 	}
 
-	if (req.originalUrl.startsWith('/appeal-document/') && req.params?.appealOrQuestionnaireId) {
+	if (
+		req.originalUrl.startsWith('/appeal-document/') &&
+		(req.params?.appealOrQuestionnaireId || req.params?.appellantSubmissionId)
+	) {
 		v2docRedirect = req.originalUrl;
 	}
 
