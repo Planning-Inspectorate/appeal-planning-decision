@@ -1,6 +1,6 @@
 const { questions } = require('../questions');
 const { Section } = require('../section');
-const { questionHasAnswerBuilder } = require('../dynamic-components/utils/question-has-answer');
+const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -32,15 +32,15 @@ const sections = [
 		.addQuestion(questions.howYouNotifiedPeople)
 		.addQuestion(questions.uploadSiteNotice)
 		.withCondition((response) =>
-			questionHasAnswerBuilder(response)(questions.howYouNotifiedPeople, 'site-notice')
+			questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice')
 		)
 		.addQuestion(questions.uploadNeighbourLetterAddresses)
 		.withCondition((response) =>
-			questionHasAnswerBuilder(response)(questions.howYouNotifiedPeople, 'letters-or-emails')
+			questionHasAnswer(response, questions.howYouNotifiedPeople, 'letters-or-emails')
 		)
 		.addQuestion(questions.pressAdvertUpload)
 		.withCondition((response) =>
-			questionHasAnswerBuilder(response)(questions.howYouNotifiedPeople, 'advert')
+			questionHasAnswer(response, questions.howYouNotifiedPeople, 'advert')
 		),
 	new Section('Consultation responses and representations', 'consultation')
 		.addQuestion(questions.representationsFromOthers)

@@ -1,18 +1,17 @@
 /** @typedef {import('../../journey-response').JourneyResponse} JourneyResponse */
 /** @typedef {import('../../question')} Question */
 
-const logicalCombinations = (questionHasAnswer) => ({
+/** @type {(response: JourneyResponse) => {and: (questionKeyTuples: [any, unknown][]) => boolean, or: (questionKeyTuples: [any, unknown][]) => boolean}} */
+const logicalCombinations = (response) => ({
 	and: (questionKeyTuples) =>
-		questionKeyTuples.every((questionKeyTuple) => questionHasAnswer(...questionKeyTuple)),
+		questionKeyTuples.every((questionKeyTuple) => questionHasAnswer(response, ...questionKeyTuple)),
 	or: (questionKeyTuples) =>
-		questionKeyTuples.some((questionKeyTuple) => questionHasAnswer(...questionKeyTuple))
+		questionKeyTuples.some((questionKeyTuple) => questionHasAnswer(response, ...questionKeyTuple))
 });
 
-// TODO make these not higher order once you've made all the section builders use the new withCondition format
-
 // TODO Make a type for all the question classes and use it here
-/** @type {(response: JourneyResponse) => (question: any, expectedValue: unknown) => boolean} */
-const questionHasAnswerBuilder = (response) => (question, expectedValue) => {
+/** @type {(response: JourneyResponse, question: any, expectedValue: unknown) => boolean} */
+const questionHasAnswer = (response, question, expectedValue) => {
 	if (!response.answers) return false;
 	const answerField = response.answers[question.fieldName];
 
@@ -29,31 +28,36 @@ const questionHasAnswerBuilder = (response) => (question, expectedValue) => {
 };
 
 // TODO Make a type for all the question classes and use it here
-/** @type {(response: JourneyResponse) => (questionKeyTuples: [any, unknown][], options?: {logicalCombinator: 'and' | 'or'}) => boolean} */
-const questionsHaveAnswersBuilder = (response) => {
-	const questionHasAnswer = questionHasAnswerBuilder(response);
-	const combinators = logicalCombinations(questionHasAnswer);
+/** @type {(response: JourneyResponse, questionKeyTuples: [any, unknown][], options?: {logicalCombinator: 'and' | 'or'}) => boolean} */
+const questionsHaveAnswers = (
+	response,
+	questionKeyTuples,
+	{ logicalCombinator } = { logicalCombinator: 'and' }
+) => {
+	const combinators = logicalCombinations(response);
 
-	return (questionKeyTuples, { logicalCombinator } = { logicalCombinator: 'and' }) => {
-		return combinators[logicalCombinator](questionKeyTuples);
-	};
+	return combinators[logicalCombinator](questionKeyTuples);
 };
 
-const questionHasNonEmptyStringAnswer = (response) => (question) => {
+// TODO Make a type for all the question classes and use it here
+/** @type {(response: JourneyResponse, question: any) => boolean} */
+const questionHasNonEmptyStringAnswer = (response, question) => {
 	if (!response.answers) return false;
 	const answerField = response.answers[question.fieldName];
 	return typeof answerField === 'string' && answerField.trim().length > 0;
 };
 
-const questionHasNonEmptyNumberAnswer = (response) => (question) => {
+// TODO Make a type for all the question classes and use it here
+/** @type {(response: JourneyResponse, question: any) => boolean} */
+const questionHasNonEmptyNumberAnswer = (response, question) => {
 	if (!response.answers) return false;
 	const answerField = response.answers[question.fieldName];
 	return typeof answerField === 'number' && !isNaN(answerField);
 };
 
 module.exports = {
-	questionHasAnswerBuilder,
-	questionsHaveAnswersBuilder,
+	questionHasAnswer,
+	questionsHaveAnswers,
 	questionHasNonEmptyStringAnswer,
 	questionHasNonEmptyNumberAnswer
 };

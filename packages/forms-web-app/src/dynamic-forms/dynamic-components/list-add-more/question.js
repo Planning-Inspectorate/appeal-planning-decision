@@ -1,3 +1,4 @@
+// const { getJourney } = require('../../journey-factory');
 const Question = require('../../question');
 const AddMoreQuestion = require('../add-more/question');
 
@@ -303,8 +304,7 @@ class ListAddMoreQuestion extends Question {
 		}
 
 		// move to the next question
-		const updatedJourney = new journey.constructor(journeyResponse);
-		return this.#handleNextQuestion(res, updatedJourney, section.segment, this.fieldName);
+		return this.#handleNextQuestion(res, journey, section.segment, this.fieldName);
 	};
 
 	/**
