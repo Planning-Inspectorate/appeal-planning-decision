@@ -15,7 +15,7 @@ const {
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
-	sendSubmissionReceivedEmailToAppellantV2,
+	// sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionReceivedEmailToLpaV2,
 	sendCommentSubmissionConfirmationEmailToIp
 } = require('#lib/notify');
@@ -100,26 +100,26 @@ class BackOfficeV2Service {
 
 		await markAppealAsSubmitted(appellantSubmission.id);
 
-		logger.info(`sending appeal submitted emails for ${appellantSubmission.appealId}`);
+		logger.info(`sending appeal submitted email for ${appellantSubmission.appealId}`);
 
-		let emailFailed = false;
-		try {
-			await sendSubmissionReceivedEmailToAppellantV2(appellantSubmission, email);
-		} catch (err) {
-			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToAppellantV2');
-			emailFailed = true;
-		}
+		// let emailFailed = false;
+		// try {
+		// 	await sendSubmissionReceivedEmailToAppellantV2(appellantSubmission, email);
+		// } catch (err) {
+		// 	logger.error({ err }, 'failed to sendSubmissionReceivedEmailToAppellantV2');
+		// 	emailFailed = true;
+		// }
 
 		try {
 			await sendSubmissionReceivedEmailToLpaV2(appellantSubmission, email);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToLpaV2');
-			emailFailed = true;
-		}
-
-		if (emailFailed) {
 			throw new Error('failed to send submission email');
 		}
+
+		// if (emailFailed) {
+		// 	throw new Error('failed to send submission email');
+		// }
 
 		return result;
 	}

@@ -599,6 +599,15 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} id
+	 * @returns {Promise<AppellantSubmission>}
+	 */
+	async getAppellantSubmissionDownloadDetails(id) {
+		const endpoint = `${v2}/appellant-submissions/${id}/download-details`;
+		return (await this.#makeGetRequest(endpoint)).json();
+	}
+
+	/**
+	 * @param {string} id
 	 * @param {Object} data
 	 * @returns {Promise<AppellantSubmission>}
 	 */

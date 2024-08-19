@@ -22,6 +22,7 @@ const debug = require('./debug');
 const {
 	getDocument,
 	getAppealPDFDocumentV2,
+	getAppellantSubmissionPDFV2,
 	getSubmissionDocumentV2Url,
 	getPublishedDocumentV2Url
 } = require('../controllers/document');
@@ -69,6 +70,7 @@ if (config.dashboardsEnabled) {
 }
 
 //v2 submission pdf
+router.use('/appeal-document/:appellantSubmissionId', checkLoggedIn, getAppellantSubmissionPDFV2);
 router.use(
 	'/appeal-document/:appealOrQuestionnaireId/:documentId',
 	checkLoggedIn,
