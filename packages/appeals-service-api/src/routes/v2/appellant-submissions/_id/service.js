@@ -87,3 +87,14 @@ exports.getDownloadDetails = async ({ appellantSubmissionId, userId }) => {
 		throw ApiError.forbidden();
 	}
 };
+
+/**
+ * @param {{ appellantSubmissionId: string, userId: string }} params
+ */
+exports.getCaseReference = async ({ appellantSubmissionId, userId }) => {
+	try {
+		return await repo.getCaseReference({ appellantSubmissionId, userId });
+	} catch (err) {
+		throw ApiError.forbidden();
+	}
+};

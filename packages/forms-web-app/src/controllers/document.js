@@ -105,7 +105,7 @@ const getAppellantSubmissionPDFV2 = async (req, res) => {
 		// make api call to retrieve download data
 		// will error if user does not own appellant submission
 		const appellantSubmissionDetails =
-			await req.appealsApiClient.getAppellantSubmissionDownloadDetails(appellantSubmissionId);
+			await req.appealsApiClient.checkOwnershipAndPdfDownloadDetails(appellantSubmissionId);
 
 		logger.info('Attempting to fetch document');
 
@@ -115,7 +115,8 @@ const getAppellantSubmissionPDFV2 = async (req, res) => {
 			documentId = appellantSubmissionDetails.submissionPdfId;
 		} else {
 			const storedPdf = await storePdfAppellantSubmission({
-				appellantSubmission: appellantSubmissionDetails,
+				appellantSubmissionId: appellantSubmissionDetails.id,
+				appealTypeCode: appellantSubmissionDetails.appealTypeCode,
 				sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
 			});
 			await req.appealsApiClient.updateAppellantSubmission(appellantSubmissionId, {
