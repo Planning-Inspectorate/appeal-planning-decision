@@ -7,7 +7,7 @@ const getYouCannotAppeal = async (req, res) => {
 	const { appealDeadline, appealPeriod } = appeal.eligibility;
 
 	// Clear appeal object
-	req.session.appeal = null;
+	// req.session.appeal = null;
 
 	return res.render(VIEW.YOU_CANNOT_APPEAL, {
 		appealDeadline,
