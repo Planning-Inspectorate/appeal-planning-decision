@@ -1,5 +1,6 @@
 const { createPrismaClient } = require('#db-client');
 const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
@@ -449,6 +450,39 @@ class AppealCaseRepository {
 		};
 		// todo: probably pagination
 		return await this.dbClient.appealCase.findMany(query);
+	}
+
+	/**
+	 * Retrieve email address of appellant or agent linked to appeal
+	 * @param {string} caseReference
+	 * @returns
+	 */
+	async getAppealUserEmailAddress(caseReference) {
+		const result = await this.dbClient.appealCase.findFirst({
+			where: {
+				caseReference
+			},
+			select: {
+				Appeal: {
+					select: {
+						Users: {
+							where: {
+								role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
+							},
+							select: {
+								AppealUser: {
+									select: {
+										email: true
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		});
+
+		return result?.Appeal?.Users[0]?.AppealUser?.email;
 	}
 }
 

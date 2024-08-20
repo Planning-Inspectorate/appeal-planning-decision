@@ -98,18 +98,15 @@ async function putCase(caseReference, data) {
 		if (!result.exists && result.appellantSubmission) {
 			// todo: get email address
 
-			// const serviceUsers = await serviceUserRepo.getForCaseAndType(caseReference, [
-			// 	ServiceUserType.Appellant,
-			// 	ServiceUserType.Agent
-			// ]);
+			const email = await repo.getAppealUserEmailAddress(caseReference);
 
-			//get Appeal.Users - array of AppealToUsers.
-			// filter this based on role.  Then get the linked AppealUser, and then the email....
-
+			if (!email) {
+				throw Error(`no user email associated with: ${caseReference}`);
+			}
 			await sendSubmissionConfirmationEmailToAppellantV2(
 				result.appealCase,
 				result.appellantSubmission,
-				'email'
+				email
 			);
 		}
 
