@@ -103,6 +103,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appellant-submissions/{id}/case-reference:
+    get:
+      tags:
+        - appellant submissions
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: appellant submission guid
+      responses:
+        200:
+          description: the case reference number of an associated appeal case
+        403:
+          description: User does not own appellant submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appellant-submissions/{id}/download-details:
+    get:
+      tags:
+        - appellant submissions
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: appellant submission guid
+      responses:
+        200:
+          description: Details required for submission pdf download, including submissionPDF id and appeal type
+        403:
+          description: User does not own appellant submission
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
   /api/v2/appellant-submissions/cleanup-old-submissions:
     delete:
       tags:
