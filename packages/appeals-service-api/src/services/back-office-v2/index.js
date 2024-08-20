@@ -102,24 +102,12 @@ class BackOfficeV2Service {
 
 		logger.info(`sending appeal submitted email for ${appellantSubmission.appealId}`);
 
-		// let emailFailed = false;
-		// try {
-		// 	await sendSubmissionReceivedEmailToAppellantV2(appellantSubmission, email);
-		// } catch (err) {
-		// 	logger.error({ err }, 'failed to sendSubmissionReceivedEmailToAppellantV2');
-		// 	emailFailed = true;
-		// }
-
 		try {
 			await sendSubmissionReceivedEmailToLpaV2(appellantSubmission, email);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToLpaV2');
 			throw new Error('failed to send submission email');
 		}
-
-		// if (emailFailed) {
-		// 	throw new Error('failed to send submission email');
-		// }
 
 		return result;
 	}
