@@ -96,8 +96,6 @@ async function putCase(caseReference, data) {
 
 		// send email confirming appeal to user if this creates a new appeal
 		if (!result.exists && result.appellantSubmission) {
-			// todo: get email address
-
 			const email = await repo.getAppealUserEmailAddress(caseReference);
 
 			if (!email) {
