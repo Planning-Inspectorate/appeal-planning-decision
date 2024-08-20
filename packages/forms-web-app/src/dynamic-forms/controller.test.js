@@ -44,6 +44,7 @@ class TestJourney extends Journey {
 						question: 'Why?',
 						taskList: true,
 						fieldName: 'title-1a',
+						shouldDisplay: () => true,
 						formatAnswerForSummary: jest.fn(() => [
 							{
 								key: 'Title 1a',
@@ -61,6 +62,7 @@ class TestJourney extends Journey {
 						question: 'Who?',
 						taskList: false,
 						fieldName: 'title-1b',
+						shouldDisplay: () => true,
 						formatAnswerForSummary: jest.fn(() => [
 							{
 								key: 'Title 1b',
@@ -90,6 +92,7 @@ class TestJourney extends Journey {
 						question: 'How?',
 						taskList: true,
 						fieldName: 'title-2a',
+						shouldDisplay: () => true,
 						formatAnswerForSummary: jest.fn(() => [
 							{
 								key: 'Title 2a',
@@ -107,6 +110,7 @@ class TestJourney extends Journey {
 						question: 'What?',
 						taskList: true,
 						fieldName: 'title-2b',
+						shouldDisplay: () => true,
 						formatAnswerForSummary: jest.fn(() => [
 							{
 								key: 'Title 2b',
@@ -136,6 +140,7 @@ class TestJourney extends Journey {
 						question: 'When?',
 						taskList: false,
 						fieldName: 'title-3a',
+						shouldDisplay: () => true,
 						formatAnswerForSummary: jest.fn(() => [
 							{
 								key: 'Title 3a',
@@ -153,6 +158,7 @@ class TestJourney extends Journey {
 						question: 'Really?',
 						taskList: true,
 						fieldName: 'title-3b',
+						shouldDisplay: () => true,
 						formatAnswerForSummary: jest.fn(() => [
 							{
 								key: 'Title 3b',

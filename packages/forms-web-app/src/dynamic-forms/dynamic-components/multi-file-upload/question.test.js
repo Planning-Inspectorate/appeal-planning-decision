@@ -63,13 +63,15 @@ class TestJourney extends Journey {
 						title: FIELDNAME,
 						question: QUESTION,
 						taskList: true,
-						fieldName: FIELDNAME
+						fieldName: FIELDNAME,
+						shouldDisplay: () => true
 					},
 					{
 						title: 'Title 1b',
 						question: 'Who?',
 						taskList: false,
-						fieldName: 'title-1b'
+						fieldName: 'title-1b',
+						shouldDisplay: () => true
 					}
 				]
 			}

@@ -37,7 +37,7 @@ describe('./src/dynamic-forms/section.js', () => {
 		it('should return self from withCondition method as a fluent api', () => {
 			const section = new Section('s1', 'S');
 			section.addQuestion(mockQuestion);
-			const result = section.withCondition(false);
+			const result = section.withCondition(() => false);
 			expect(result instanceof Section).toEqual(true);
 			expect(result).toEqual(section);
 		});
@@ -45,33 +45,38 @@ describe('./src/dynamic-forms/section.js', () => {
 		it('should remove a question', () => {
 			const section = new Section('s1', 'S');
 			section.addQuestion(mockQuestion);
-			section.withCondition(false);
-			expect(section.questions.length).toEqual(0);
+			section.withCondition(() => false);
+			expect(section.questions[0].shouldDisplay()).toEqual(false);
 		});
 
 		it('should not allow two conditions in a row', () => {
 			const section = new Section('s1', 'S');
 			section.addQuestion(mockQuestion);
-			section.withCondition(false);
-			expect(() => section.withCondition(false)).toThrow();
+			section.withCondition(() => false);
+			expect(() => section.withCondition(() => false)).toThrow();
 		});
 
 		it('should allow alternating questions & conditions', () => {
 			const section = new Section('s1', 'S');
 			section
-				.addQuestion(mockQuestion)
-				.withCondition(false)
-				.addQuestion(mockQuestion)
-				.withCondition(true)
-				.addQuestion(mockQuestion)
-				.withCondition(true)
-				.addQuestion(mockQuestion)
-				.withCondition(true)
-				.addQuestion(mockQuestion)
-				.withCondition(true)
-				.addQuestion(mockQuestion)
-				.withCondition(false);
-			expect(section.questions.length).toEqual(4);
+				.addQuestion({ ...mockQuestion })
+				.withCondition(() => false)
+				.addQuestion({ ...mockQuestion })
+				.withCondition(() => true)
+				.addQuestion({ ...mockQuestion })
+				.withCondition(() => true)
+				.addQuestion({ ...mockQuestion })
+				.withCondition(() => true)
+				.addQuestion({ ...mockQuestion })
+				.withCondition(() => true)
+				.addQuestion({ ...mockQuestion })
+				.withCondition(() => false);
+			expect(section.questions[0].shouldDisplay()).toEqual(false);
+			expect(section.questions[1].shouldDisplay()).toEqual(true);
+			expect(section.questions[2].shouldDisplay()).toEqual(true);
+			expect(section.questions[3].shouldDisplay()).toEqual(true);
+			expect(section.questions[4].shouldDisplay()).toEqual(true);
+			expect(section.questions[5].shouldDisplay()).toEqual(false);
 		});
 	});
 
@@ -229,7 +234,7 @@ describe('./src/dynamic-forms/section.js', () => {
 			fieldName: 'visitFrequently'
 		};
 		section.addQuestion(question);
-		section.withCondition(true);
+		section.withCondition(() => true);
 		expect(section.questions.length).toEqual(1);
 		expect(section.questions[0]).toEqual(question);
 	});

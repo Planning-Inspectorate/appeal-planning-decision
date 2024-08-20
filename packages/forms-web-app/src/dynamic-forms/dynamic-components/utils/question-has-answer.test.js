@@ -1,4 +1,4 @@
-const { questionHasAnswerBuilder, questionsHaveAnswersBuilder } = require('./question-has-answer');
+const { questionHasAnswer, questionsHaveAnswers } = require('./question-has-answer');
 
 const aTestQuestionExpectedResult = 'yes';
 const aTestQuestionUnexpectedResult = 'no';
@@ -19,9 +19,8 @@ const testQuestions = {
 describe('question-has-answer', () => {
 	describe('questionHasAnswer', () => {
 		it('should return true when parameters do match', () => {
-			const questionHasAnswerFunction = questionHasAnswerBuilder(testResponse);
-
-			const result = questionHasAnswerFunction(
+			const result = questionHasAnswer(
+				testResponse,
 				testQuestions.aTestQuestion,
 				aTestQuestionExpectedResult
 			);
@@ -30,76 +29,95 @@ describe('question-has-answer', () => {
 		});
 
 		it('should return false when parameters do not match', () => {
-			const questionHasAnswerFunction = questionHasAnswerBuilder(testResponse);
-
-			const result = questionHasAnswerFunction(testQuestions.aTestQuestion);
+			const result = questionHasAnswer(
+				testResponse,
+				testQuestions.aTestQuestion,
+				aTestQuestionUnexpectedResult
+			);
 
 			expect(result).toBe(false);
 		});
 
 		it('should return false for options question without answer', () => {
-			const questionHasAnswerFunction = questionHasAnswerBuilder(testResponse);
-			const result = questionHasAnswerFunction(testQuestions.optionQuestion, 'option-a');
+			const result = questionHasAnswer(testResponse, testQuestions.optionQuestion, 'option-a');
 			expect(result).toBe(false);
 		});
 
 		it('should return false for options question with null answer', () => {
-			const questionHasAnswerFunction = questionHasAnswerBuilder({
-				answers: {
-					optionQuestion: null
-				}
-			});
-			const result = questionHasAnswerFunction(testQuestions.optionQuestion, 'option-a');
+			const result = questionHasAnswer(
+				{
+					answers: {
+						optionQuestion: null
+					}
+				},
+				testQuestions.optionQuestion,
+				'option-a'
+			);
 			expect(result).toBe(false);
 		});
 
 		it('should return true for options question with string', () => {
-			const questionHasAnswerFunction = questionHasAnswerBuilder({
-				answers: {
-					optionQuestion: 'option-a'
-				}
-			});
-			const result = questionHasAnswerFunction(testQuestions.optionQuestion, 'option-a');
+			const result = questionHasAnswer(
+				{
+					answers: {
+						optionQuestion: 'option-a'
+					}
+				},
+				testQuestions.optionQuestion,
+				'option-a'
+			);
 			expect(result).toBe(true);
 		});
 
 		it('should return true for options question with joined string', () => {
-			const questionHasAnswerFunction = questionHasAnswerBuilder({
-				answers: {
-					optionQuestion: `option-a${testQuestions.optionQuestion.optionJoinString}option-b`
-				}
-			});
-			const result = questionHasAnswerFunction(testQuestions.optionQuestion, 'option-a');
+			const result = questionHasAnswer(
+				{
+					answers: {
+						optionQuestion: `option-a${testQuestions.optionQuestion.optionJoinString}option-b`
+					}
+				},
+				testQuestions.optionQuestion,
+				'option-a'
+			);
 			expect(result).toBe(true);
 		});
 
 		it('should return false for options missing from string', () => {
-			const questionHasAnswerFunction = questionHasAnswerBuilder({
-				answers: {
-					optionQuestion: `option-a${testQuestions.optionQuestion.optionJoinString}option-b`
-				}
-			});
-			const result = questionHasAnswerFunction(testQuestions.optionQuestion, 'option-c');
+			const result = questionHasAnswer(
+				{
+					answers: {
+						optionQuestion: `option-a${testQuestions.optionQuestion.optionJoinString}option-b`
+					}
+				},
+				testQuestions.optionQuestion,
+				'option-c'
+			);
 			expect(result).toBe(false);
 		});
 
 		it('should return true for options question with array', () => {
-			const questionHasAnswerFunction = questionHasAnswerBuilder({
-				answers: {
-					optionQuestion: ['option-a', 'option-b']
-				}
-			});
-			const result = questionHasAnswerFunction(testQuestions.optionQuestion, 'option-a');
+			const result = questionHasAnswer(
+				{
+					answers: {
+						optionQuestion: ['option-a', 'option-b']
+					}
+				},
+				testQuestions.optionQuestion,
+				'option-a'
+			);
 			expect(result).toBe(true);
 		});
 
 		it('should return false for options missing from array', () => {
-			const questionHasAnswerFunction = questionHasAnswerBuilder({
-				answers: {
-					optionQuestion: ['option-a', 'option-b']
-				}
-			});
-			const result = questionHasAnswerFunction(testQuestions.optionQuestion, 'option-c');
+			const result = questionHasAnswer(
+				{
+					answers: {
+						optionQuestion: ['option-a', 'option-b']
+					}
+				},
+				testQuestions.optionQuestion,
+				'option-c'
+			);
 			expect(result).toBe(false);
 		});
 	});
@@ -119,10 +137,7 @@ describe('question-has-answer', () => {
 	])(
 		'should return expectedResult given parameter set and logical combinator',
 		(questionKeyTuples, logicalCombinator, expectedResult) => {
-			const questionsHaveAnswersFunction = questionsHaveAnswersBuilder(testResponse);
-
-			const result = questionsHaveAnswersFunction(questionKeyTuples, { logicalCombinator });
-
+			const result = questionsHaveAnswers(testResponse, questionKeyTuples, { logicalCombinator });
 			expect(result).toBe(expectedResult);
 		}
 	);
