@@ -4,6 +4,7 @@ const app = require('../../../../../app');
 const { sendEvents } = require('../../../../../../src/infrastructure/event-client');
 const { createPrismaClient } = require('#db-client');
 const crypto = require('crypto');
+const { getUserById, linkUserToAppeal } = require('../../../../../routes/v2/users/service');
 
 const server = http.createServer(app);
 const appealsApi = supertest(server);
@@ -196,6 +197,7 @@ jest.mock('../../../../../../src/services/lpa.service', () => {
 	}
 	return LpaService;
 });
+jest.mock('../../../../../routes/v2/users/service');
 
 jest.mock('#lib/notify');
 
@@ -357,6 +359,9 @@ beforeAll(async () => {
 		data: { email: crypto.randomUUID() + '@example.com' }
 	});
 	validUser = user.id;
+
+	getUserById.mockResolvedValue(user);
+	linkUserToAppeal.mockResolvedValue(true);
 });
 
 describe('/api/v2/appeal-cases/:caseReference/submit', () => {

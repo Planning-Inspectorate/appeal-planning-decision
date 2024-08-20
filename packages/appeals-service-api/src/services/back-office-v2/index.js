@@ -19,6 +19,7 @@ const {
 
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const {
 	// sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionReceivedEmailToLpaV2,
@@ -27,7 +28,7 @@ const {
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2
 } = require('#lib/notify');
-const { getUserById } = require('../../routes/v2/users/service');
+const { getUserById, linkUserToAppeal } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
 const logger = require('#lib/logger');
 const {
@@ -93,6 +94,11 @@ class BackOfficeV2Service {
 
 		if (!isValidAppealTypeCode(appellantSubmission.appealTypeCode))
 			throw new Error(`Appeal submission ${appellantSubmissionId} has an invalid appealTypeCode`);
+
+		// set user's final role on appeal
+		if (!appellantSubmission.isAppellant) {
+			await linkUserToAppeal(userId, appellantSubmission.appealId, APPEAL_USER_ROLES.AGENT);
+		}
 
 		logger.info(
 			`mapping appeal ${appellantSubmission.appealId} to ${appellantSubmission.appealTypeCode} schema`
