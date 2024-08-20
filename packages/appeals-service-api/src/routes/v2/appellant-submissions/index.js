@@ -2,7 +2,7 @@ const express = require('express');
 const { auth } = require('express-oauth2-jwt-bearer');
 const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../configuration/config');
-const { put, post, deleteOldSubmissions } = require('./controller');
+const { put, deleteOldSubmissions } = require('./controller');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const { validateToken } = require('@pins/common/src/middleware/validate-token');
 const { openApiValidatorMiddleware } = require('../../../validators/validate-open-api');
@@ -27,8 +27,5 @@ router.use(
 
 router.put('/', openApiValidatorMiddleware(), asyncHandler(put));
 router.delete('/cleanup-old-submissions', asyncHandler(deleteOldSubmissions));
-
-// debug route, delete once no longer required
-router.post('/', asyncHandler(post));
 
 module.exports = { router };
