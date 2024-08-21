@@ -104,7 +104,7 @@ describe('House Holder Date Validations', () => {
 
         let monthNames = ["January", "February", "March","April","May", "June", "July","August","September", "October", "November", "December"];        
         
-        cy.getByData(basePage?._selectors.localPlanningDepartment).should('have.text', 'System Test Borough Council');
+        cy.getByData(basePage?._selectors.localPlanningDpmt).should('have.text', 'System Test Borough Council');
         cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
         cy.getByData(basePage?._selectors.listedBuilding).should('have.text', 'No');
         cy.getByData(basePage?._selectors.applicaitonDecision).should('have.text', 'Refused');
