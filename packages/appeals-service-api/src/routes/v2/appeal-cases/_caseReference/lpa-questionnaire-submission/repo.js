@@ -118,16 +118,27 @@ class LPAQuestionnaireSubmissionRepository {
 	}
 
 	/**
-	 * @param {string} id
+	 * @param {string} caseReference
+	 * @param {string} lpaQuestionnaireSubmittedDate
 	 * @returns {Promise<{id: string}>}
 	 */
-	markLPAQuestionnaireAsSubmitted(id) {
-		return this.dbClient.lPAQuestionnaireSubmission.update({
+	async markLPAQuestionnaireAsSubmitted(caseReference, lpaQuestionnaireSubmittedDate) {
+		return await this.dbClient.lPAQuestionnaireSubmission.update({
 			where: {
-				id: id
+				appealCaseReference: caseReference
 			},
 			data: {
-				submitted: true
+				submitted: true,
+				AppealCase: {
+					update: {
+						where: {
+							caseReference
+						},
+						data: {
+							lpaQuestionnaireSubmittedDate
+						}
+					}
+				}
 			},
 			select: {
 				id: true
