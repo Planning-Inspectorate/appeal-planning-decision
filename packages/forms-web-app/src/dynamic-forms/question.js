@@ -3,7 +3,6 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
 const { numericFields } = require('./dynamic-components/utils/numeric-fields');
 const escape = require('escape-html');
 const { nl2br } = require('@pins/common/src/utils');
-const config = require('../config');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -343,15 +342,8 @@ class Question {
 	getAction(sectionSegment, journey, answer) {
 		const isAnswerProvided = answer !== null && answer !== undefined && answer !== '';
 
-		let url;
-		if (sectionSegment === config.dynamicForms.DEFAULT_SECTION) {
-			url = journey.getCurrentQuestionUrlWithoutSection(this.url);
-		} else {
-			url = journey.getCurrentQuestionUrl(sectionSegment, this.fieldName);
-		}
-
 		const action = {
-			href: url,
+			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
 			text: isAnswerProvided ? 'Change' : 'Answer',
 			visuallyHiddenText: this.question
 		};
