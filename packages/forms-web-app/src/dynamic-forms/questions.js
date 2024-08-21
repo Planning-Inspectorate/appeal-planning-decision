@@ -2037,5 +2037,16 @@ exports.questions = {
 				'Select yes if you have additional documents to support your appeal statement'
 			)
 		]
+	}),
+	uploadLpaStatementDocuments: new MultiFileUploadQuestion({
+		title: 'Upload your new supporting documents',
+		question: 'Upload your new supporting documents',
+		fieldName: 'uploadLpaStatementDocuments',
+		url: 'upload-supporting-documents',
+		validators: [
+			new RequiredFileUploadValidator('Select your new supporting documents'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadLpaStatementDocuments
 	})
 };
