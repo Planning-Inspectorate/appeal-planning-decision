@@ -19,9 +19,8 @@ module.exports = defineConfig({
 	e2e: {
 		async setupNodeEvents(on, config) {
       require('cypress-mochawesome-reporter/plugin')(on);
-		},
-		appeals_beta_base_url: 'https://appeals-service-test.planninginspectorate.gov.uk', //TODO: make this an env var?
-		horizon_base_url: 'http://10.0.7.4:8000/horizon',
+		},  
+		appeals_beta_base_url: process.env.CYPRESS_APPEALS_BETA_BASE_URL || 'https://appeals-service-test.planninginspectorate.gov.uk',
 		supportFile: 'cypress/support/e2e.js',
 		testIsolation: false
 	}

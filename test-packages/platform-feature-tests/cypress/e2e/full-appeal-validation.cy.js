@@ -138,7 +138,7 @@ describe('Full Appeal Validations', () => {
         cy.location('search').then((search) => {
             const params = new URLSearchParams(search);
             const dynamicId = params.get('id');
-            applicationFormPage('full-planning', prepareAppealSelector?._selectors?.appellantOther, dynamicId);
+            applicationFormPage(prepareAppealSelector?._selectors?.fullPlanningApplicaitonType, prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 
             applicationNamePage.addApplicationNameData(false, prepareAppealData);
             cy.get(basePage._selectors?.govukLink).click( {multiple: true, force: true} );
@@ -164,10 +164,10 @@ describe('Full Appeal Validations', () => {
         cy.location('search').then((search) => {
             const params = new URLSearchParams(search);
             const dynamicId = params.get('id');
-            applicationFormPage('full-planning', prepareAppealSelector?._selectors?.appellantOther, dynamicId);
+            applicationFormPage(prepareAppealSelector?._selectors?.fullPlanningApplicaitonType, prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 
             applicationNamePage.addApplicationNameData(context.applicationForm?.isAppellant, prepareAppealData);
-            contactDetailsPage.addContactDetailsData(context, 'full-planning', prepareAppealData);
+            contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.fullPlanningApplicaitonType, prepareAppealData);
            //Site Details
 		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
 		//What is the area of the appeal site?

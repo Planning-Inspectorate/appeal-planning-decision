@@ -92,6 +92,25 @@ describe('House Holder Date Validations', () => {
         cy.containsMessage(basePage?._selectors?.govukBody,'Your deadline to appeal has passed.');
     });
 
+    it(`Validate can use service page data `, () => {
+        let currentDate = new Date();
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
+        cy.advanceToNextPage();
+
+        cy.getByData(basePage?._selectors.answerNo).click();
+        cy.advanceToNextPage();
+
+        let monthNames = ["January", "February", "March","April","May", "June", "July","August","September", "October", "November", "December"];        
+        
+        cy.getByData(basePage?._selectors.localPlanningDepartment).should('have.text', 'System Test Borough Council');
+        cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
+        cy.getByData(basePage?._selectors.listedBuilding).should('have.text', 'No');
+        cy.getByData(basePage?._selectors.applicaitonDecision).should('have.text', 'Refused');
+        cy.getByData(basePage?._selectors.decisionDate).should('have.text', `${currentDate.getDate()} ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`);
+        cy.getByData(basePage?._selectors.enforcementNotice).should('have.text', 'No');
+    });
 });
 
 describe('House Holder Validations', () => {
@@ -370,5 +389,29 @@ describe('Returns to pre appels validations', () => {
         cy.uploadFileFromFixtureDirectory(context?.documents?.uploadWrongFormatFile);
         cy.advanceToNextPage();       
         cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]',`${context?.documents?.uploadWrongFormatFile} must be a DOC, DOCX, PDF, TIF, JPG or PNG`);        
-    });    
+    });   
+    it(`Validate user should be allowed to remove uploaded files`, () => {
+        cy.get(`#${prepareAppealSelector._selectors?.emailAddress}`).clear().type(prepareAppealData?.email?.emailAddress);
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
+        cy.advanceToNextPage();
+        cy.get('a[href*="continue"]').first().click();
+        cy.get('a[href*="upload-documents"]').first().click();
+        const expectedFileNames = [context?.documents?.uploadDevelopmentDescription, context?.documents?.uploadFinalisingDocDraft];
+        expectedFileNames.forEach((fileName,index)=>{
+            cy.uploadFileFromFixtureDirectory(fileName);
+        })
+        expectedFileNames.forEach((fileName,index)=>{
+          cy.get('.moj-multi-file-upload__filename')         
+            .eq(index)
+            .should('contain.text',fileName);
+        });   
+        expectedFileNames.forEach((fileName,index)=>{
+            cy.get('.moj-multi-file-upload__delete')         
+              .eq(0)
+              .click()
+          });
+        cy.advanceToNextPage();
+        cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]','Select your application form'); 
+    });  
 });
