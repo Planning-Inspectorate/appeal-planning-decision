@@ -4,6 +4,8 @@
  * defined in a class which extends this one               *
  ***********************************************************/
 
+const config = require('../config');
+
 /**
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./section').Section} Section
@@ -127,6 +129,9 @@ class Journey {
 	 * @returns {string} url for a question
 	 */
 	#buildQuestionUrl(sectionSegment, questionSegment) {
+		if (sectionSegment === config.dynamicForms.DEFAULT_SECTION) {
+			return this.#prependPathToUrl(this.baseUrl, `${questionSegment}`);
+		}
 		return this.#prependPathToUrl(this.baseUrl, `${sectionSegment}/${questionSegment}`);
 	}
 
