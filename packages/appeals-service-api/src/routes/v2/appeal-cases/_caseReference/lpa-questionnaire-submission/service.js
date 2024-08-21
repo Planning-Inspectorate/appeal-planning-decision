@@ -58,11 +58,12 @@ async function patchLPAQuestionnaireByAppealId(appealCaseId, data) {
 /**
  * mark questionnaire as submitted to back office
  *
- * @param {string} questionnaireId
+ * @param {string} caseReference
+ * @param {string} lpaQuestionnaireSubmittedDate
  * @return {Promise<{id: string}>}
  */
-function markQuestionnaireAsSubmitted(questionnaireId) {
-	return repo.markLPAQuestionnaireAsSubmitted(questionnaireId);
+function markQuestionnaireAsSubmitted(caseReference, lpaQuestionnaireSubmittedDate) {
+	return repo.markLPAQuestionnaireAsSubmitted(caseReference, lpaQuestionnaireSubmittedDate);
 }
 
 module.exports = {

@@ -132,10 +132,11 @@ class BackOfficeV2Service {
 			throw new Error("Questionnaire's associated AppealCase has an invalid appealTypeCode");
 
 		let result;
+		let mappedData;
 		// todo: temporary check until integration work for s78 is done
 		if (appealTypeCode === 'HAS') {
 			logger.info(`mapping lpaq ${caseReference} to ${appealTypeCode} schema`);
-			const mappedData = await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
+			mappedData = await formatters.questionnaire[appealTypeCodeToAppealId[appealTypeCode]](
 				caseReference,
 				questionnaire
 			);
@@ -156,7 +157,10 @@ class BackOfficeV2Service {
 			result = await forwarders.questionnaire([mappedData]);
 		}
 
-		await markQuestionnaireAsSubmitted(questionnaire.id);
+		await markQuestionnaireAsSubmitted(
+			caseReference,
+			mappedData?.casedata?.lpaQuestionnaireSubmittedDate
+		);
 
 		return result;
 	}
