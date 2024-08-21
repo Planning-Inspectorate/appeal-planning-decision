@@ -19,10 +19,13 @@ const NO_LINE_2_ADDRESS = {
 	siteAddressTown: 'Test Town',
 	siteAddressPostcode: 'TS1 1TT'
 };
-const questionnaireBaseUrl = '/manage-appeals/questionnaire';
-const statementBaseUrl = '/manage-appeals/appeal-statement';
-const finalCommentBaseUrl = '/manage-appeals/appeal-comment';
-const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
+
+const testCaseRef = '1010101';
+
+const questionnaireBaseUrl = `/manage-appeals/questionnaire/${testCaseRef}`;
+const statementBaseUrl = `/manage-appeals/appeal-statement/${testCaseRef}/appeal-statement`;
+const finalCommentBaseUrl = `/manage-appeals/appeal-comment/${testCaseRef}`;
+const proofsBaseUrl = `/manage-appeals/proofs-of-evidence/${testCaseRef}`;
 
 describe('lib/dashboard-functions', () => {
 	beforeEach(() => {
@@ -58,7 +61,8 @@ describe('lib/dashboard-functions', () => {
 				lpaQuestionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
 				lpaQuestionnaireSubmittedDate: null,
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
-				LPAStatementSubmitted: null
+				LPAStatementSubmitted: null,
+				caseReference: testCaseRef
 			};
 
 			const expectedQuestionnaireDetails = {
@@ -80,7 +84,8 @@ describe('lib/dashboard-functions', () => {
 				questionnaireDueDate: '2023-07-07T13:53:31.6003126+00:00',
 				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
-				LPAStatementSubmitted: null
+				LPAStatementSubmitted: null,
+				caseReference: testCaseRef
 			};
 
 			const expectedStatementDetails = {
@@ -105,7 +110,8 @@ describe('lib/dashboard-functions', () => {
 				LPAStatementSubmitted: '2023-07-17T13:53:31.6003126+00:00',
 				finalCommentsDueDate: '2023-07-27T13:53:31.6003126+00:00',
 				LPACommentsSubmitted: null,
-				caseStatus: 'final_comments'
+				caseStatus: 'final_comments',
+				caseReference: testCaseRef
 			};
 
 			const expectedFinalCommentDetails = {
@@ -130,7 +136,8 @@ describe('lib/dashboard-functions', () => {
 				LPAStatementSubmitted: '2023-07-17T13:53:31.6003126+00:00',
 				proofsOfEvidenceDueDate: '2023-07-27T13:53:31.6003126+00:00',
 				LPAProofsSubmitted: null,
-				caseStatus: 'evidence'
+				caseStatus: 'evidence',
+				caseReference: testCaseRef
 			};
 
 			const expectedProofsDetails = {

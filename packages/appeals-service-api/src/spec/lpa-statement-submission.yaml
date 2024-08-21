@@ -1,0 +1,27 @@
+components:
+  schemas:
+    LPAStatementSubmission:
+      description: A statement submitted by an LPA
+      type: object
+      required:
+        - id
+        - AppealCase
+        - appealCaseReference
+      properties:
+        id:
+          type: string
+          format: uuid
+        AppealCase: # partial AppealCase data
+          type: object
+          required:
+            - LPACode
+          properties:
+            LPACode:
+              type: string
+        submitted:
+          type: boolean
+          description: whether the statement has been submitted to BO
+        lpaStatement:
+          type: string
+        addtionalDocuments:
+          type: boolean

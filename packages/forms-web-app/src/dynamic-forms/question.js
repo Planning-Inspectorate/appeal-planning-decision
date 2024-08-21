@@ -341,6 +341,7 @@ class Question {
 	 */
 	getAction(sectionSegment, journey, answer) {
 		const isAnswerProvided = answer !== null && answer !== undefined && answer !== '';
+
 		const action = {
 			href: journey.getCurrentQuestionUrl(sectionSegment, this.fieldName),
 			text: isAnswerProvided ? 'Change' : 'Answer',

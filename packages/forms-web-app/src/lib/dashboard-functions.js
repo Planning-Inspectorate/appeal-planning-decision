@@ -186,7 +186,7 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 			deadline: appealCaseData.lpaQuestionnaireDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.lpaQuestionnaireDueDate),
 			documentDue: 'Questionnaire',
-			baseUrl: questionnaireBaseUrl
+			baseUrl: `${questionnaireBaseUrl}/${appealCaseData.caseReference}`
 		};
 	} else if (
 		isStatementDue(appealCaseData) &&
@@ -196,21 +196,22 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 			deadline: appealCaseData.statementDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.statementDueDate),
 			documentDue: 'Statement',
-			baseUrl: statementBaseUrl
+			// direct straight to first question of statement journey
+			baseUrl: `${statementBaseUrl}/${appealCaseData.caseReference}/appeal-statement`
 		};
 	} else if (isFinalCommentDue(appealCaseData)) {
 		return {
 			deadline: appealCaseData.finalCommentsDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.finalCommentsDueDate),
 			documentDue: 'Final comment',
-			baseUrl: finalCommentBaseUrl
+			baseUrl: `${finalCommentBaseUrl}/${appealCaseData.caseReference}`
 		};
 	} else if (isProofsOfEvidenceDue(appealCaseData)) {
 		return {
 			deadline: appealCaseData.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.proofsOfEvidenceDueDate),
 			documentDue: 'Proofs of Evidence',
-			baseUrl: proofsBaseUrl
+			baseUrl: `${proofsBaseUrl}/${appealCaseData.caseReference}`
 		};
 	}
 

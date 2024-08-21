@@ -384,6 +384,7 @@ model AppealCase {
   // Relations
   //***************************************************************************
   LPAQuestionnaireSubmission LPAQuestionnaireSubmission?
+  LPAStatementSubmission     LPAStatementSubmission?
 
   Rule6Parties                    Rule6Party[]
   AffectedListedBuildings         AppealCaseListedBuilding[]
@@ -837,6 +838,27 @@ model LPAQuestionnaireSubmission {
   SubmissionListedBuilding SubmissionListedBuilding[]
 }
 
+model LPAStatementSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  appealCaseReference String     @unique
+  AppealCase          AppealCase @relation(fields: [appealCaseReference], references: [caseReference])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+
+  lpaStatement        String?
+  additionalDocuments Boolean @default(false)
+
+  // Uploaded documents and details linked to this appeal
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
 model SubmissionDocumentUpload {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
@@ -845,6 +867,9 @@ model SubmissionDocumentUpload {
 
   appellantSubmissionId String?              @db.UniqueIdentifier
   AppellantSubmission   AppellantSubmission? @relation(fields: [appellantSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  lpaStatementId         String?                 @db.UniqueIdentifier
+  LPAStatementSubmission LPAStatementSubmission? @relation(fields: [lpaStatementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   name             String
   fileName         String
