@@ -48,7 +48,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 	cy.getByData(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
 
-	//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.beforeYouStart}/decision-date-householder`);
+	cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.beforeYouStart}/decision-date`);
 
 	let currentDate = new Date();
 	cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateDay).type(currentDate.getDate());
@@ -63,86 +63,86 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 
 	cy.advanceToNextPage(prepareAppealData?.button);
 
-	//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/planning-application-number`);
+	cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.fullAppealSubmit}/planning-application-number`);
 	const applicationNumber = `TEST-${Date.now()}`;
 	cy.getByData(prepareAppealSelector?._selectors?.applicationNumber).type(applicationNumber);
 	cy.advanceToNextPage();
 
 	cy.intercept('POST', '/full-appeal/submit-appeal/list-of-documents').as('postRequest');
-	//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/email-address`);
+	cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.fullAppealSubmit}/email-address`);
 	cy.getByData(prepareAppealSelector?._selectors?.emailAddress).type(prepareAppealData?.email?.emailAddress);
 	cy.advanceToNextPage();
 
-	//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/enter-code`);
+	cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.fullAppealSubmit}/enter-code`);
 	cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
 	cy.advanceToNextPage();
 
-	//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/email-address-confirmed`);
+	cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.fullAppealSubmit}/email-address-confirmed`);
 	cy.advanceToNextPage();
 
-	//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/list-of-documents`);
+	cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.fullAppealSubmit}/list-of-documents`);
 	cy.advanceToNextPage();
 	cy.wait(2000);
 	cy.location('search').then((search) => {
 		const params = new URLSearchParams(search);
 		const dynamicId = params.get('id');
 
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderAppealForm}/your-appeal`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningAppealForm}/your-appeal`);
 		applicationFormPage(prepareAppealSelector?._selectors?.fullPlanningApplicaitonType,prepareAppealSelector?._selectors?.appellantOther, dynamicId);
 		//Contact details
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/application-name`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/application-name`);
 		applicationNamePage.addApplicationNameData(context?.applicationForm?.isAppellant,prepareAppealData);
 
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/contact-details`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/contact-details`);
 		contactDetailsPage.addContactDetailsData(context, prepareAppealSelector?._selectors?.fullPlanningApplicaitonType,prepareAppealData);
 
 		//Site Details
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/appeal-site-address`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/appeal-site-address`);
 		appealSiteAddressPage.addAppealSiteAddressData(prepareAppealData);
 		//What is the area of the appeal site?
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/site-area`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/site-area`);
 		siteAreaPage.addSiteAreaData(planning, context?.applicationForm?.areaUnits, context, prepareAppealData);
 
 		//Is the appeal site in a green belt?(Ans:Yes)
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/green-belt`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/green-belt`);
 		greenBeltPage.addGreenBeltData(context?.applicationForm?.appellantInGreenBelt);
 
 		//Do you own all the land involved in the appeal?
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/own-all-land`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/own-all-land`);
 		ownAllLandPage.addOwnAllLandData(context?.applicationForm?.isOwnsAllLand);
 
 		if (!context?.applicationForm?.isOwnsAllLand) {
 			//Do you own some of the land involved in the appeal?
-			//	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/own-some-land`);
+			cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/own-some-land`);
 			ownSomeLandPage.addOwnSomeLandData(context?.applicationForm?.isOwnsSomeLand, context);
 			//cy.advanceToNextPage();			
 		}
 		agriculturalHoldingPage.addAgriculturalHoldingData(context?.applicationForm?.isAgriculturalHolding, context);
 
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/inspector-need-access`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/inspector-need-access`);
 		inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess, prepareAppealData);
 		//Health and safety issues
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/health-safety-issues`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/health-safety-issues`);
 		healthSafetyIssuesPage.addHealthSafetyIssuesData(context, prepareAppealData);
 		//What is the application reference number?
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/reference-number`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/reference-number`);
 		cy.get(prepareAppealSelector?._selectors?.applicationReference).invoke('val').then((inputValue) => {
 			expect(inputValue).to.equal(applicationNumber);
 		});
 		cy.advanceToNextPage();
 		//What date did you submit your application?
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/application-date`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/application-date`);
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(currentDate.getDate());
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(currentDate.getMonth() + 1);
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(currentDate.getFullYear());
 		cy.advanceToNextPage();
 		//Enter the description of development that you submitted in your application
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/enter-description-of-development`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/enter-description-of-development`);
 		cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type(prepareAppealData?.develpmentDescriptionOriginal);
 		cy.advanceToNextPage();
 		//Did the local planning authority change the description of development?
 		//cy.get('#updateDevelopmentDescription').click();
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/description-development-correct`)
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/description-development-correct`)
 		if (context?.applicationForm?.iaUpdateDevelopmentDescription) {			
 			cy.getByData(basePage?._selectors.answerYes).click();
 			cy.advanceToNextPage();
@@ -153,7 +153,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 
 		//How would you prefer us to decide your appeal?		
 		decideAppealsPage.addDecideAppealsData(context?.applicationForm?.appellantProcedurePreference);
-		//cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/other-appeals`);
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningPrepareAppeal}/other-appeals`);
 		otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
 		
 		cy.uploadDocuments(prepareAppealSelector?._selectors?.fullPlanningApplicaitonType, prepareAppealSelector?._selectors?.uploadApplicationForm, dynamicId);
@@ -165,6 +165,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 
 		if (context?.applicationForm?.appellantProcedurePreference !== prepareAppealSelector?._selectors?.statusOfOriginalApplicationWritten) {
 			//Upload your draft statement of common ground
+			//cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningUploadDocuments}/upload-appeal-statement`);
 			cy.uploadFileFromFixtureDirectory(context?.documents?.uploadDraftStatementOfCommonGround);
 			cy.advanceToNextPage();
 		}

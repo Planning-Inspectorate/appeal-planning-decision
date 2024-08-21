@@ -40,4 +40,11 @@ export class PrepareAppealSelector {
         appealsHouseholderPrepareAppeal: '/appeals/householder/prepare-appeal',
         appealsHouseholderUploadDocuments: '/appeals/householder/upload-documents'
     }
+    _fullAppealURLs ={
+        beforeYouStart: '/before-you-start',
+        fullAppealSubmit: '/full-appeal/submit-appeal',
+        appealsFullPlanningAppealForm: '/appeals/full-planning/appeal-form',
+        appealsFullPlanningPrepareAppeal: '/appeals/full-planning/prepare-appeal',
+        appealsFullPlanningUploadDocuments: '/appeals/full-planning/upload-documents'
+    }
 }
