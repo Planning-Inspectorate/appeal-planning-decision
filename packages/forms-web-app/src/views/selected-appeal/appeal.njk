@@ -110,12 +110,11 @@
 				<h2 class="govuk-heading-2">Appeal decision</h2>
 				{{ govukTag({
 					text: appeal.decision.label,
-					classes: "govuk-tag--" + appeal.decision.color
+					classes: "govuk-tag--" + appeal.decision.color + " govuk-!-margin-bottom-3"
 				}) }}
-				{% if appeal.decisionDocument %}
-				  <p class="govuk-body">{{ appeal.decisionDocument }}</p>
-			  {% endif %}
-				<p class="govuk-body">{{ appeal.decisionDocument }}</p>
+				{% for document in appeal.decisionDocuments %}
+				  <p class="govuk-body"><a href="/published-document/{{document.id}}" class="govuk-link">{{document.filename}}</a></p>
+				{% endfor %}
 				<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 			{% endif %}
 
