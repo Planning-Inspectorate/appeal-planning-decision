@@ -3,8 +3,7 @@ const {
 	formatSections,
 	formatSiteVisits,
 	isSection,
-	displayHeadlinesByUser,
-	formatDocumentDetails
+	displayHeadlinesByUser
 } = require('@pins/common');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { VIEW } = require('../../lib/views');
@@ -94,7 +93,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				sections: formatSections({ caseData, sections, userEmail }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
-				decisionDocument: formatDecisionDocument(caseData.Documents),
+				decisionDocuments: filterDecisionDocuments(caseData.Documents),
 				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
 				lpaStatementDueDate: formatDateForNotification(caseData.statementDueDate),
 				finalCommentDueDate: formatDateForNotification(caseData.finalCommentsDueDate)
@@ -128,13 +127,12 @@ const shouldDisplayQuestionnaireDueNotification = (caseData, userType) =>
 
 /**
  * @param {import('appeals-service-api').Api.Document[]} documents
- * @return {string | null}
+ * @return {import('appeals-service-api').Api.Document[]}
  */
-const formatDecisionDocument = (documents) => {
-	const downloadLink = formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER);
-	return downloadLink === 'No' ? null : downloadLink;
-};
-
+const filterDecisionDocuments = (documents) =>
+	documents.filter(
+		(document) => document.documentType === APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER
+	);
 /**
  *
  * @param {string | undefined} dateStr

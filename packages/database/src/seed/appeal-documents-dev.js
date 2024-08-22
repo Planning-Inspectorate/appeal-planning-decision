@@ -22,23 +22,6 @@ const appealDocuments = [
 		AppealCase: {}
 	},
 	{
-		id: '18d3ced6-c913-4662-ac62-e60ad0e06461',
-		filename: 'example.txt',
-		originalFilename: 'example.txt',
-		size: 16,
-		mime: 'text/plain',
-		documentURI: '',
-		dateCreated: new Date(),
-		published: false,
-		redacted: true,
-		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
-		documentType: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER,
-		sourceSystem: 'appeals',
-		origin: 'pins',
-		stage: 'decision',
-		AppealCase: {}
-	},
-	{
 		id: 'eda2618c-1c29-46e2-a009-fe78eaefe2fc',
 		filename: 'example.txt',
 		originalFilename: 'example.txt',
@@ -158,7 +141,7 @@ const appealDocuments = [
 		AppealCase: {}
 	},
 	{
-		id: 'eda2618c-1c29-46e2-a009-fe78eaefe2af',
+		id: '82e28258-0748-4189-96cb-2cf8772ac36a',
 		filename: 'test-lpa-decision.txt',
 		originalFilename: 'test-lpa-decision.txt',
 		size: 16,
