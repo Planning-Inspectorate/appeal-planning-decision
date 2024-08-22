@@ -38,9 +38,7 @@ class S78LpaStatementJourney extends Journey {
 		// const questionsHaveAnswers = questionsHaveAnswersBuilder(response);
 
 		this.sections.push(
-			new Section('Appeal statement', config.dynamicForms.DEFAULT_SECTION).addQuestion(
-				questions.lpaStatement
-			)
+			new Section('', config.dynamicForms.DEFAULT_SECTION).addQuestion(questions.lpaStatement)
 		);
 	}
 }

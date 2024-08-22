@@ -276,6 +276,8 @@ class Question {
 				journeyResponse.referenceId,
 				responseToSave.answers
 			);
+		} else if ([JOURNEY_TYPES.S78_LPA_STATEMENT].includes(journeyType)) {
+			await apiClient.patchLPAStatement(journeyResponse.referenceId, responseToSave.answers);
 		}
 	}
 
