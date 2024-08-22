@@ -104,7 +104,7 @@
 
       		<h1 class="govuk-heading-l">Appeal {{appeal.appealNumber}}</h1>
 		</div>
-		
+
 		<div class="govuk-grid-column-full">
 			{% if appeal.decision %}
 				<h2 class="govuk-heading-2">Appeal decision</h2>
@@ -112,6 +112,10 @@
 					text: appeal.decision.label,
 					classes: "govuk-tag--" + appeal.decision.color
 				}) }}
+				{% if appeal.decisionDocument %}
+				  <p class="govuk-body">{{ appeal.decisionDocument }}</p>
+			  {% endif %}
+				<p class="govuk-body">{{ appeal.decisionDocument }}</p>
 				<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 			{% endif %}
 
