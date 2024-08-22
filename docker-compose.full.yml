@@ -16,13 +16,25 @@ services:
       - 3310:3310
     restart: unless-stopped
 
+  # pdf-service-api:
+  #   profiles: ['all', 'appeals']
+  #   build:
+  #     context: .
+  #     dockerfile: ./packages/pdf-service-api/Dockerfile
+  #   environment:
+  #     SERVER_SHOW_ERRORS: 'true'
+  #     LOGGER_LEVEL: 'debug'
+  #   ports:
+  #     - 3004:3000
+
   pdf-service-api:
     profiles: ['all', 'appeals']
-    build:
-      context: .
-      dockerfile: ./packages/pdf-service-api/Dockerfile
-    environment:
-      SERVER_SHOW_ERRORS: 'true'
-      LOGGER_LEVEL: 'debug'
+    image: node:18-alpine
     ports:
       - 3004:3000
+    working_dir: /opt/mock-pdf
+    volumes:
+      # mount the root node_modules for shared packages
+      - ./node_modules:/opt/node_modules
+      - ./dev/mock-pdf:/opt/mock-pdf
+    command: npm run start
