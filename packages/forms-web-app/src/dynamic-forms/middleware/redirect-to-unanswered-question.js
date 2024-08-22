@@ -1,25 +1,25 @@
 const { getJourney } = require('../journey-factory');
-const config = require('../../config');
 
-module.exports = () => (req, res) => {
+module.exports = () => (req, res, next) => {
 	const journeyResponse = res.locals.journeyResponse;
 	const journey = getJourney(journeyResponse);
 
-	for (const section of journey.sections) {
-		for (const question of section.questions) {
-			const answer = journey.response?.answers[question.fieldName];
-			if (!answer || answer === '' || answer === undefined) {
-				let redirectUrl;
+	const questionFieldNames = new Set(
+		journey.sections.flatMap((section) => section.questions.map((question) => question.fieldName))
+	);
 
-				if (section.segment === config.dynamicForms.DEFAULT_SECTION) {
-					redirectUrl = `${journey.baseUrl}/${encodeURIComponent(question.url)}`;
-				} else {
-					redirectUrl = `${journey.baseUrl}/${encodeURIComponent(
-						section.segment
-					)}/${encodeURIComponent(question.fieldName)}`;
-				}
-				return res.redirect(redirectUrl);
-			}
+	for (const fieldName of questionFieldNames) {
+		const answer = journey.response.answers[fieldName];
+
+		if (answer === undefined || answer === null || answer === '') {
+			const section = journey.sections.find((s) =>
+				s.questions.some((q) => q.fieldName === fieldName)
+			);
+			const question = section?.questions.find((q) => q.fieldName === fieldName);
+
+			const questionUrl = journey.getCurrentQuestionUrl(section?.segment, question?.fieldName);
+			return res.redirect(questionUrl);
 		}
 	}
+	next();
 };

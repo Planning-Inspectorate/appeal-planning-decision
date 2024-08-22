@@ -389,6 +389,17 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(LPAStatementSubmission)>}
+	 */
+	async patchLPAStatement(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
 	 * @param {string} id
 	 * @param {object} data
 	 * @returns {Promise<(AppellantSubmission)>}
