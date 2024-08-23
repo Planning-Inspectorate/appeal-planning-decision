@@ -400,6 +400,28 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(LPAStatementSubmission)>}
+	 */
+	async postLPAStatementDocumentUpload(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission/document-upload`;
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} documentId
+	 * @returns {Promise<(LPAStatementSubmission)>}
+	 */
+	async deleteLPAStatementDocumentUpload(caseReference, documentId) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission/document-upload/${documentId}`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {string} id
 	 * @param {object} data
 	 * @returns {Promise<(AppellantSubmission)>}
