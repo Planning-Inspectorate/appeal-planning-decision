@@ -24,16 +24,16 @@ class SubmissionDocumentUploadRepository {
 	/**
 	 * Create submission document for given LPA statement
 	 *
-	 * @param {string} id
+	 * @param {string} caseReference
 	 * @param {DocumentUploadData} uploadData
 	 * @returns {Promise<LPAStatementSubmission>}
 	 */
-	async createSubmissionDocument(id, uploadData) {
+	async createSubmissionDocument(caseReference, uploadData) {
 		const { name, fileName, originalFileName, location, type, id: storageId } = uploadData;
 
 		return await this.dbClient.lPAStatementSubmission.update({
 			where: {
-				id
+				appealCaseReference: caseReference
 			},
 			data: {
 				SubmissionDocumentUpload: {
@@ -56,14 +56,14 @@ class SubmissionDocumentUploadRepository {
 	/**
 	 * Delete submission document
 	 *
-	 * @param {string} id
+	 * @param {string} caseReference
 	 * @param {string} documentId
 	 * @returns {Promise<LPAStatementSubmission>}
 	 */
-	async deleteSubmissionDocument(id, documentId) {
+	async deleteSubmissionDocument(caseReference, documentId) {
 		return await this.dbClient.lPAStatementSubmission.update({
 			where: {
-				id
+				appealCaseReference: caseReference
 			},
 			data: {
 				SubmissionDocumentUpload: {

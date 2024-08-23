@@ -10,12 +10,12 @@ const repo = new SubmissionDocumentUploadRepository();
 /**
  * Create a SubmissionDocumentUpload entry
  *
- * @param {string} id
+ * @param {string} caseReference
  * @param {DocumentUploadData} uploadData
  * @return {Promise<LPAStatementSubmission|null>}
  */
-async function createSubmissionDocument(id, uploadData) {
-	const updatedStatement = repo.createSubmissionDocument(id, uploadData);
+async function createSubmissionDocument(caseReference, uploadData) {
+	const updatedStatement = repo.createSubmissionDocument(caseReference, uploadData);
 
 	if (!updatedStatement) {
 		return null;
@@ -27,12 +27,12 @@ async function createSubmissionDocument(id, uploadData) {
 /**
  * Delete a SubmissionDocumentUpload entry
  *
- * @param {string} id
+ * @param {string} caseReference
  * @param {string} documentId
  * @return {Promise<LPAStatementSubmission|null>}
  */
-async function deleteSubmissionDocument(id, documentId) {
-	const updatedStatement = repo.deleteSubmissionDocument(id, documentId);
+async function deleteSubmissionDocument(caseReference, documentId) {
+	const updatedStatement = repo.deleteSubmissionDocument(caseReference, documentId);
 
 	if (!updatedStatement) {
 		return null;
