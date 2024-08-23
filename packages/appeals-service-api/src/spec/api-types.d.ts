@@ -968,6 +968,7 @@ export interface LPAStatementSubmission {
 	submitted?: boolean;
 	lpaStatement?: string;
 	addtionalDocuments?: boolean;
+	uploadLpaStatementDocuments?: boolean;
 }
 
 /** The neighbouring address related to an appeal */

@@ -25,3 +25,5 @@ components:
           type: string
         addtionalDocuments:
           type: boolean
+        uploadLpaStatementDocuments:
+          type: boolean

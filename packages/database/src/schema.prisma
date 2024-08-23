@@ -856,10 +856,11 @@ model LPAStatementSubmission {
   submitted Boolean @default(false) /// whether the appeal has been submitted to BO
 
   lpaStatement        String?
-  additionalDocuments Boolean @default(false)
+  additionalDocuments Boolean?
 
   // Uploaded documents and details linked to this appeal
-  SubmissionDocumentUpload SubmissionDocumentUpload[]
+  uploadLpaStatementDocuments Boolean?
+  SubmissionDocumentUpload    SubmissionDocumentUpload[]
 }
 
 model SubmissionDocumentUpload {
