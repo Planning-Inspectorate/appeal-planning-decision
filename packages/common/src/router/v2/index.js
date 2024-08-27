@@ -3,12 +3,22 @@ const { getRoutePaths } = require('../v1');
 const { Router } = require('express');
 
 /**
+ * @typedef {Function} isPathEnabled
+ * @param {string} directory
+ * @returns {boolean}
+ */
+
+/**
  * @typedef {import('express').IRouter} IRouter
  * @typedef {import('express').Handler} Handler
  * @typedef {Object<string, IRouter>} RouteDict
  * @typedef {import('./types').HttpMethods} HttpMethods
  * @typedef {import('./types').RouterModule} RouterModule
- * @typedef {{ includeRoot?: boolean, backwardsCompatibilityModeEnabled?: boolean, logger?: import('pino').Logger }} Options
+ * @typedef {Object} Options
+ * @property {boolean} Options2.includeRoot default: `false`, Whether or not to register an `index.js` in the directory provided by the second argument.
+ * @property {boolean} Options2.backwardsCompatibilityModeEnabled default: `false`, Whether or not to register V1 style routes, see migrating from V1 in readme
+ * @property {import('pino').Logger} Options2.logger default: `pino`, a pre-configured logger instance
+ * @property {isPathEnabled} Options2.isPathEnabled default: `()=>true`, a function that checks if the current directory should be enabled or not, won't add the router if it returns false for that directory
  */
 
 /** @type {Array<HttpMethods>} */
@@ -29,6 +39,7 @@ const stringIsRecognisedExport = (str) => HttpMethods.includes(str);
 
 /** @typedef {{ method: string, dirName: string }[]} UnrecognisedFunctions */
 /** @typedef {{ path: string }[]} MethodlessRoutes */
+/** @typedef {{ path: string }[]} DisabledRoutes */
 /**
  * @typedef {{
  *   path: string,
@@ -44,7 +55,8 @@ const stringIsRecognisedExport = (str) => HttpMethods.includes(str);
  *   unrecognisedFunctions: UnrecognisedFunctions,
  *   methodlessRoutes: MethodlessRoutes,
  *   loggableRoutes: LoggableRoutes,
- *   ignoredV1Routes: IgnoredV1Routes
+ *   ignoredV1Routes: IgnoredV1Routes,
+ * 	 disabledRoutes: DisabledRoutes
  * }} Loggables
  */
 
@@ -53,7 +65,7 @@ const stringIsRecognisedExport = (str) => HttpMethods.includes(str);
  * @param {import('pino').Logger} logger
  */
 const doLogging = (
-	{ unrecognisedFunctions, methodlessRoutes, loggableRoutes, ignoredV1Routes },
+	{ unrecognisedFunctions, methodlessRoutes, disabledRoutes, loggableRoutes, ignoredV1Routes },
 	logger
 ) => {
 	unrecognisedFunctions.length &&
@@ -70,6 +82,15 @@ const doLogging = (
 			methodlessRoutes.reduce((acc, { path }, ii) => {
 				acc += `No methods mounted on v1 route at ${path}`;
 				ii < methodlessRoutes.length - 1 && (acc += '\n');
+				return acc;
+			}, '')
+		);
+
+	disabledRoutes.length &&
+		logger.warn(
+			disabledRoutes.reduce((acc, { path }, ii) => {
+				acc += `Route disabled at ${path}`;
+				ii < disabledRoutes.length - 1 && (acc += '\n');
 				return acc;
 			}, '')
 		);
@@ -113,12 +134,14 @@ exports.getRouter = (
 	options = {
 		includeRoot: false,
 		backwardsCompatibilityModeEnabled: false,
-		logger: libLogger
+		logger: libLogger,
+		isPathEnabled: () => true
 	}
 ) => {
 	const {
 		backwardsCompatibilityModeEnabled = false,
 		logger = libLogger,
+		isPathEnabled = () => true,
 		...getRoutePathsOptions
 	} = options;
 
@@ -126,6 +149,7 @@ exports.getRouter = (
 	const loggables = {
 		unrecognisedFunctions: [],
 		methodlessRoutes: [],
+		disabledRoutes: [],
 		loggableRoutes: [],
 		ignoredV1Routes: []
 	};
@@ -141,6 +165,11 @@ exports.getRouter = (
 				.replace(new RegExp(`^${directory}/?`), '/') // just need relative path
 				.replace(/_/g, ':') // need ':param' but Windows doesn't like ':' in folder names so we use '_param'
 				.replace('/index.js', '');
+
+			if (!isPathEnabled(relativePath)) {
+				loggables.disabledRoutes.push({ path: relativePath });
+				return router;
+			}
 
 			// apply top level middleware for all methods on the current path
 			if (middleware?.[0]) {

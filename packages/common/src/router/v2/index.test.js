@@ -32,8 +32,8 @@ describe('getRoutesV2', () => {
 	const app = express();
 	spoolRoutes(app, routeDirectory, {
 		includeRoot: true,
-		// logger: { info: jest.fn(), warn: jest.fn() },
-		logger: { info: console.log, warn: console.warn }
+		logger: { info: console.log, warn: console.warn },
+		isPathEnabled: (dir) => !dir.startsWith('/not-live')
 	});
 
 	beforeEach(() => {
@@ -48,11 +48,12 @@ describe('getRoutesV2', () => {
 		}
 	});
 
-	it("Doesn't create methods where none is specified", () => {
-		request(app)
-			.put('/')
-			.expect(404)
-			.end(() => {});
+	it("Doesn't create methods where none is specified", async () => {
+		await request(app).put('/').expect(404);
+	});
+
+	it("Doesn't create when path is disabled", async () => {
+		await request(app).get('/not-live').expect(404);
 	});
 
 	it('Has a backwards compatibility mode to interop with router v1 modules', async () => {
@@ -60,7 +61,6 @@ describe('getRoutesV2', () => {
 		spoolRoutes(backwardsCompatibleApp, routeDirectory, {
 			includeRoot: true,
 			backwardsCompatibilityModeEnabled: true,
-			// logger: { info: jest.fn(), warn: jest.fn() }
 			logger: { info: console.log, warn: console.warn }
 		});
 

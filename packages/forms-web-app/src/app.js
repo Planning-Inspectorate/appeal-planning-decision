@@ -139,10 +139,16 @@ app.use(flashMessageToNunjucks(env));
 app.use(navigationHistoryToNunjucksMiddleware(env));
 
 // Routes
+const fileBasedRouterPaths = [
+	{ path: '/comment-planning-appeal', isEnabled: config.featureFlag.commentsEnabled }
+];
+
 app.use('/', routes);
 spoolRoutes(app, path.join(__dirname, './routes/file-based-router'), {
 	backwardsCompatibilityModeEnabled: true,
-	logger
+	logger,
+	isPathEnabled: (directory) =>
+		!fileBasedRouterPaths.some(({ path, isEnabled }) => directory.startsWith(path) && !isEnabled)
 });
 
 // View Engine
