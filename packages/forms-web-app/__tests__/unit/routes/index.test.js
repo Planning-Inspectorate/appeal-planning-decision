@@ -65,7 +65,7 @@ describe('routes/index', () => {
 
 		expect(use).toHaveBeenCalledWith('/appeal', appealRouter);
 
-		if (config.dashboardsEnabled) {
+		if (config.featureFlag.dashboardsEnabled) {
 			expect(use).toHaveBeenCalledWith('/appeals', checkLoggedIn, appealsRouter);
 		}
 
@@ -93,7 +93,7 @@ describe('routes/index', () => {
 			appellantSubmissionRouter
 		);
 
-		if (config.dashboardsEnabled) {
+		if (config.featureFlag.dashboardsEnabled) {
 			expect(use).toHaveBeenCalledWith('/manage-appeals', lpaRouter);
 		}
 

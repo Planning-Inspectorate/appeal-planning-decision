@@ -26,7 +26,6 @@ module.exports = {
 		timeout: numberWithDefault(process.env.APPEALS_SERVICE_API_TIMEOUT, 10000),
 		url: process.env.APPEALS_SERVICE_API_URL
 	},
-	dashboardsEnabled: process.env.DASHBOARDS_ENABLED === 'true',
 	db: {
 		session: {
 			uri: process.env.SESSION_MONGODB_URL,
@@ -103,7 +102,10 @@ module.exports = {
 		allowTestingOverrides: process.env.ALLOW_TESTING_OVERRIDES === 'true'
 	},
 	featureFlag: {
-		googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true'
+		commentsEnabled: process.env.COMMENTS_ENABLED === 'true',
+		dashboardsEnabled: process.env.DASHBOARDS_ENABLED === 'true',
+		googleTagManager: process.env.FEATURE_FLAG_GOOGLE_TAG_MANAGER === 'true',
+		rule6Enabled: process.env.RULE_6_ENABLED === 'true'
 	},
 	validation: {
 		characterLimits: {

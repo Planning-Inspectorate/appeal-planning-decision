@@ -193,7 +193,9 @@ services:
       CLAMAV_PORT: 3310
       CLIENT_ID: '4dbd45cb-f591-414f-a6d9-34f1103b63fd'
       CLIENT_SECRET: 'forms-web-app-local-secret'
+      COMMENTS_ENABLED: 'true'
       DASHBOARDS_ENABLED: 'true'
+      RULE_6_ENABLED: 'true'      
       DOCUMENTS_SERVICE_API_URL: http://document-service-api:3000
       FEATURE_FLAGS_SETTING: 'ALL_ON'
       FILE_UPLOAD_DEBUG: 'false'

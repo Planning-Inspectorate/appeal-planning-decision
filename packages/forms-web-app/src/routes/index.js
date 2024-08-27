@@ -35,12 +35,12 @@ const createApiClients = require('#middleware/create-api-clients');
 router.use(createApiClients);
 
 /// LPA ///
-if (config.dashboardsEnabled) {
+if (config.featureFlag.dashboardsEnabled) {
 	router.use('/manage-appeals', lpaDashboard);
 }
 
 /// Rule 6 ///
-if (config.dashboardsEnabled) {
+if (config.featureFlag.rule6Enabled) {
 	router.use('/rule-6-appeals', rule6Appeals);
 }
 
@@ -65,7 +65,7 @@ router.use('/full-appeal', fullAppeal);
 router.use('/appeal', appeal);
 
 /// post login shared appeals pages ///
-if (config.dashboardsEnabled) {
+if (config.featureFlag.dashboardsEnabled) {
 	router.use('/appeals', checkLoggedIn, appeals);
 }
 

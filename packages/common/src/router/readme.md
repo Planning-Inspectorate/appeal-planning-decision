@@ -132,6 +132,9 @@ A pre-configured logger instance
 * `backwardsCompatibilityModeEnabled`
 default: `false`
 Whether or not to register V1 style routes, see [Migrating from V1](#migrating-from-v1)
+* `isPathEnabled`
+default: `() => true`
+A function that checks if the current directory should be enabled or not, won't add the router if it returns false for that directory
 
 ## Migrating from V1
 
