@@ -1,9 +1,9 @@
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
-const { S78LpaStatementJourney } = require('./s78-lpa-statement/journey');
 const { buildJourneyParams: buildHASLPAJourneyParams } = require('./has-questionnaire/journey');
 const { buildJourneyParams: buildS78LPAJourneyParams } = require('./s78-questionnaire/journey');
 const { buildJourneyParams: buildHASAppellantJourneyParams } = require('./has-appeal-form/journey');
 const { buildJourneyParams: buildS78AppellantJourneyParams } = require('./s78-appeal-form/journey');
+const { buildJourneyParams: S78LpaStatementJourneyParams } = require('./s78-lpa-statement/journey');
 const { Journey } = require('./journey');
 
 /**
@@ -29,7 +29,7 @@ const JOURNEY_PARAMS = {
 	[JOURNEY_TYPES.S78_QUESTIONNAIRE]: buildS78LPAJourneyParams,
 	[JOURNEY_TYPES.HAS_APPEAL_FORM]: buildHASAppellantJourneyParams,
 	[JOURNEY_TYPES.S78_APPEAL_FORM]: buildS78AppellantJourneyParams,
-	[JOURNEY_TYPES.S78_LPA_STATEMENT]: S78LpaStatementJourney
+	[JOURNEY_TYPES.S78_LPA_STATEMENT]: S78LpaStatementJourneyParams
 };
 
 /**
