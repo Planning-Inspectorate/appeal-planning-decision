@@ -88,7 +88,7 @@ describe('House Holder Date Validations', () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear() - 1);
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage(basePage?._selectors?.govukHeadingOne, 'You cannot appeal.');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukHeadingOne, 'You cannot appeal');
         cy.containsMessage(basePage?._selectors?.govukBody,'Your deadline to appeal has passed.');
     });
 
@@ -415,3 +415,62 @@ describe('Returns to pre appels validations', () => {
         cy.shouldHaveErrorMessage('a[href*="uploadOriginal"]','Select your application form'); 
     });  
 });
+
+describe('House Holder Task Page Validations', () => {
+    const prepareAppealSelector = new PrepareAppealSelector();
+    const basePage = new BasePage();
+    const contactDetailsPage = new ContactDetailsPage();
+    const appealSiteAddressPage = new AppealSiteAddressPage();
+    const siteAreaPage = new SiteAreaPage();
+    const greenBeltPage = new GreenBeltPage();
+    const ownAllLandPage = new OwnAllLandPage();
+    const ownSomeLandPage = new OwnSomeLandPage();
+    const inspectorNeedAccessPage = new InspectorNeedAccessPage();
+    const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+    const otherAppealsPage = new OtherAppealsPage();
+    const context = houseHolderAppealRefusedTestCases[0];
+
+    let prepareAppealData;
+
+    beforeEach(() => {
+        cy.fixture('prepareAppealData').then(data => {
+            prepareAppealData = data;
+        })
+        cy.visit(`${Cypress.config('appeals_beta_base_url')}/appeal/new-saved-appeal`);
+        cy.get('#new-or-saved-appeal-2').click();
+        cy.advanceToNextPage();       
+    })   
+
+    it(`Validate task list status badges `, () => {
+        cy.get(`#${prepareAppealSelector._selectors?.emailAddress}`).clear().type(prepareAppealData?.email?.emailAddress);
+        cy.advanceToNextPage();
+        cy.get(prepareAppealSelector?._selectors?.emailCode).type(prepareAppealData?.email?.emailCode);
+        cy.advanceToNextPage();
+        cy.get('a[href*="continue"]').first().click();
+        
+        let statusArray = [];
+        cy.get('.moj-task-list__task-completed').each((element, index)=>{
+            console.log('element check',element)
+            cy.wrap(element).invoke('text').then(text=>{                
+                if(text.includes('In progress')){
+                    statusArray.push('In progress');
+                }
+                else if(text.includes('Not started')){
+                    statusArray.push('Not started');                
+                }
+                else {
+                    statusArray.push('Completed'); 
+                }
+            });
+        });
+        cy.get('span.app-task-list__section-number').last().next('strong').invoke('text').then(submitStatus=>{
+            if(statusArray.includes('In progress') || statusArray.includes('Not started')){
+                expect(submitStatus.replace(/\n/g,'').trim()).to.include('Cannot start yet');
+            }
+            else{
+                expect(submitStatus.replace(/\n/g,'').trim()).to.include('Completed');
+            }           
+        })
+    });   
+});
+
