@@ -47,8 +47,13 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, app
 
 	cy.getByData(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
-
-	cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.beforeYouStart}/decision-date`);
+	if(grantedOrRefusedId ===  basePage._selectors?.answerNodecisionreceived){
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.beforeYouStart}/date-decision-due`);
+	} 
+	else {
+		cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.beforeYouStart}/decision-date`);
+	}
+		
 
 	let currentDate = new Date();
 	cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateDay).type(currentDate.getDate());
