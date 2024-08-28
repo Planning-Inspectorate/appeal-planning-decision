@@ -15,10 +15,10 @@ const { Router } = require('express');
  * @typedef {import('./types').HttpMethods} HttpMethods
  * @typedef {import('./types').RouterModule} RouterModule
  * @typedef {Object} Options
- * @property {boolean} Options2.includeRoot default: `false`, Whether or not to register an `index.js` in the directory provided by the second argument.
- * @property {boolean} Options2.backwardsCompatibilityModeEnabled default: `false`, Whether or not to register V1 style routes, see migrating from V1 in readme
- * @property {import('pino').Logger} Options2.logger default: `pino`, a pre-configured logger instance
- * @property {isPathEnabled} Options2.isPathEnabled default: `()=>true`, a function that checks if the current directory should be enabled or not, won't add the router if it returns false for that directory
+ * @property {boolean} Options.includeRoot default: `false`, Whether or not to register an `index.js` in the directory provided by the second argument.
+ * @property {boolean} Options.backwardsCompatibilityModeEnabled default: `false`, Whether or not to register V1 style routes, see migrating from V1 in readme
+ * @property {import('pino').Logger} Options.logger default: `pino`, a pre-configured logger instance
+ * @property {isPathEnabled} Options.isPathEnabled default: `()=>true`, a function that checks if the current directory should be enabled or not, won't add the router if it returns false for that directory
  */
 
 /** @type {Array<HttpMethods>} */
