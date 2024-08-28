@@ -363,6 +363,10 @@ exports.appellantSubmissionInformation = async (req, res) => {
 			if (question.taskList === false) {
 				continue;
 			}
+			// don't show question on tasklist if it's hidden from journey
+			if (!question.shouldDisplay(journeyResponse)) {
+				continue;
+			}
 
 			const answers = journey.response?.answers;
 			let answer = answers[question.fieldName];
