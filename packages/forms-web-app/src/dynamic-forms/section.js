@@ -67,7 +67,8 @@ class Section {
 			throw new Error('conditions must follow a question');
 		}
 		this.#conditionAdded = true; // set condition flag
-		this.questions[this.questions.length - 1].shouldDisplay = shouldIncludeQuestion;
+		const lastQuestionAdded = this.questions.length - 1;
+		this.questions[lastQuestionAdded].shouldDisplay = shouldIncludeQuestion;
 		return this;
 	}
 
@@ -89,6 +90,11 @@ class Section {
 				(item) => item instanceof RequiredValidator || item instanceof RequiredFileUploadValidator
 			);
 			const answer = journeyResponse?.answers[question.fieldName];
+
+			// skip if question is hidden from journey
+			if (!question.shouldDisplay(journeyResponse)) {
+				continue;
+			}
 
 			// increment count of required questions
 			if (isRequired) {

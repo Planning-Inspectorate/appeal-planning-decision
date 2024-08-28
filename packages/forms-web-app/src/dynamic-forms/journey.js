@@ -218,7 +218,7 @@ class Journey {
 						);
 					}
 
-					if (!takeNextQuestion && question.fieldName === questionSegment) {
+					if (question.fieldName === questionSegment) {
 						takeNextQuestion = true;
 					}
 				}
