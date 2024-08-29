@@ -4,11 +4,12 @@ const {
 	questionHasAnswer,
 	questionsHaveAnswers
 } = require('../dynamic-components/utils/question-has-answer');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
- * @typedef {ConstructorParameters<typeof import('../journey').Journey>} JourneyParameters
- */
+ * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
+` */
 
 /**
  * @param {JourneyResponse} response
@@ -131,30 +132,27 @@ const sections = [
 		.withCondition((response) => questionHasAnswer(response, questions.costApplication, 'yes'))
 ];
 
-const fixedParams = {
+const baseHASSubmissionUrl = '/appeals/householder'; // this is a non standard naming and I'd like to remove it
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {string}
+ */
+const makeBaseUrl = (response) => `${baseHASSubmissionUrl}?id=${response.referenceId}`;
+
+const params = {
+	journeyId: JOURNEY_TYPES.HAS_APPEAL_FORM,
 	sections,
-	baseHASSubmissionUrl: '/appeals/householder', // this is a non standard naming and I'd like to remove it
 	taskListUrl: 'appeal-form/your-appeal',
 	journeyTemplate: 'submission-form-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/submission',
 	informationPageViewPath: 'dynamic-components/submission-information/index',
 	journeyTitle: 'Appeal a planning decision',
-	returnToListing: true
+	returnToListing: true,
+	makeBaseUrl
 };
 
-/**
- * @param {JourneyResponse} response
- * @returns {JourneyParameters}
- */
-const buildJourneyParams = (response) => [
-	{
-		...fixedParams,
-		response,
-		baseUrl: `${fixedParams.baseHASSubmissionUrl}?id=${response.referenceId}`
-	}
-];
-
 module.exports = {
-	buildJourneyParams,
-	...fixedParams
+	...params,
+	baseHASSubmissionUrl
 };

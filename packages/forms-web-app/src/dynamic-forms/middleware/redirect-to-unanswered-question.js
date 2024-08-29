@@ -1,12 +1,9 @@
-const { getJourney } = require('../journey-factory');
-
 /**
  * @param {[((question: import('../section').Question, answer: unknown) => boolean)]} conditions
  * @returns {import('express').Handler}
  */
 module.exports = (conditions) => (req, res, next) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journeyResponse, journey } = res.locals;
 
 	for (const section of journey.sections) {
 		for (const question of section.questions) {

@@ -1,5 +1,3 @@
-const { getJourney } = require('../journey-factory');
-
 /**
  * Middleware for converting `req.files` to `req.body.files`.
  *
@@ -19,9 +17,8 @@ module.exports = () => (req, res, next) => {
 	}
 
 	const { section, question } = req.params;
-	const journeyResponse = res.locals.journeyResponse;
+	const { journey } = res.locals;
 
-	const journey = getJourney(journeyResponse);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 	const filesPropertyPath = questionObj.fieldName;
 

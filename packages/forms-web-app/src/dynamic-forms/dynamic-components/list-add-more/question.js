@@ -1,4 +1,3 @@
-// const { getJourney } = require('../../journey-factory');
 const Question = require('../../question');
 const AddMoreQuestion = require('../add-more/question');
 

@@ -18,12 +18,16 @@ const config = require('../config');
  * @abstract
  */
 class Journey {
+	/** @type {string} journeyId - a unique, human-readable id for this journey */
+	journeyId;
 	/** @type {Array.<Section>} sections - sections within the journey */
 	sections = [];
 	/** @type {JourneyResponse} response - the user's response to the journey so far */
 	response;
 	/** @type {string} baseUrl - base url of the journey, gets prepended to question urls */
 	baseUrl = '';
+	/** @type {(journeyResponse: JourneyResponse) => string} baseUrl - base url of the journey, gets prepended to question urls */
+	makeBaseUrl = () => '';
 	/** @type {string} taskListUrl - url that renders the task list */
 	taskListUrl = '';
 	/** @type {string} journeyTemplate - nunjucks template file used for */
@@ -40,7 +44,8 @@ class Journey {
 	/**
 	 * creates an instance of a journey
 	 * @param {object} options - base url of journey
-	 * @param {string} options.baseUrl - base url of journey
+	 * @param {string} options.journeyId - a unique, human-readable id for this journey
+	 * @param {(response: JourneyResponse) => string} options.makeBaseUrl - base url of journey
 	 * @param {string} [options.taskListUrl] - task list url - added to base url, can be left undefined
 	 * @param {JourneyResponse} options.response - user's response
 	 * @param {string} options.journeyTemplate - template used for all views
@@ -51,7 +56,8 @@ class Journey {
 	 * @param {Section[]} options.sections
 	 */
 	constructor({
-		baseUrl,
+		journeyId,
+		makeBaseUrl,
 		taskListUrl,
 		response,
 		journeyTemplate,
@@ -61,13 +67,18 @@ class Journey {
 		returnToListing,
 		sections
 	}) {
-		if (baseUrl !== undefined && typeof baseUrl !== 'string') {
-			throw new Error('baseUrl should be a string.');
+		if (!journeyId || typeof journeyId !== 'string') {
+			throw new Error('journeyId should be a string.');
 		}
 
-		if (baseUrl) {
-			this.baseUrl = this.#trimTrailingSlash(baseUrl);
+		this.journeyId = journeyId;
+
+		this.makeBaseUrl = makeBaseUrl;
+		const baseUrlStr = makeBaseUrl(response);
+		if (!baseUrlStr || typeof baseUrlStr !== 'string') {
+			throw new Error('baseUrl should be a string.');
 		}
+		this.baseUrl = this.#trimTrailingSlash(baseUrlStr);
 
 		this.taskListUrl = this.#prependPathToUrl(this.baseUrl, taskListUrl);
 
@@ -297,6 +308,14 @@ class Journey {
 	 */
 	isComplete() {
 		return this.sections.every((section) => section.isComplete(this.response));
+	}
+
+	/**
+	 * @param {JourneyResponse} journeyResponse
+	 */
+	setResponse(journeyResponse) {
+		this.response = journeyResponse;
+		this.baseUrl = this.#trimTrailingSlash(this.makeBaseUrl(journeyResponse));
 	}
 }
 
