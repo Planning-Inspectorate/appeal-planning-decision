@@ -10,8 +10,9 @@ const generateToken = () => {
 		.randomBytes(BUFFER_LENGTH)
 		.toString('base64')
 		.replace(/[^\w_]/g, '')
-		.replace(/[AEIOUaeiou0]/g, '')
-		.slice(0, TOKEN_LENGTH);
+		.replace(/[AEIOUaeiou0-9]/g, '')
+		.slice(0, TOKEN_LENGTH)
+		.toUpperCase();
 };
 
 /**
