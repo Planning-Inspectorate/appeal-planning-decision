@@ -8,7 +8,6 @@ describe('lib/token', () => {
 
 			for (let i = 0; i < 1000; i++) {
 				const token = createToken();
-				console.log(token);
 
 				expect(typeof token).toBe('string');
 				expect(token.length).toBe(5);
