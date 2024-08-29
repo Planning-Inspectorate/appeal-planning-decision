@@ -1,10 +1,11 @@
 const { questions } = require('../questions');
 const { Section } = require('../section');
 const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
- * @typedef {ConstructorParameters<typeof import('../journey').Journey>} JourneyParameters
+ * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
  */
 
 /**
@@ -71,24 +72,22 @@ const sections = [
 		.addQuestion(questions.addNewConditions)
 ];
 
-const fixedParams = {
-	sections,
-	baseHASUrl: '/manage-appeals/questionnaire',
-	journeyTemplate: 'questionnaire-template.njk',
-	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
-	journeyTitle: 'Manage your appeals'
-};
+const baseHASUrl = '/manage-appeals/questionnaire';
 
 /**
  * @param {JourneyResponse} response
- * @returns {JourneyParameters}
+ * @returns {string}
  */
-const buildJourneyParams = (response) => [
-	{
-		...fixedParams,
-		response,
-		baseUrl: `${fixedParams.baseHASUrl}/${encodeURIComponent(response.referenceId)}`
-	}
-];
+const makeBaseUrl = (response) => `${baseHASUrl}/${encodeURIComponent(response.referenceId)}`;
 
-module.exports = { buildJourneyParams, ...fixedParams };
+/** @type {JourneyParameters} */
+const params = {
+	journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+	sections,
+	journeyTemplate: 'questionnaire-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
+	journeyTitle: 'Manage your appeals',
+	makeBaseUrl
+};
+
+module.exports = { ...params, baseHASUrl };

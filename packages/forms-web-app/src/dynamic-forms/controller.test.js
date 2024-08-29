@@ -2,7 +2,6 @@ const { list, question, save, remove, submit } = require('./controller');
 const { getUserFromSession } = require('../services/user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
-const { getJourney } = require('./journey-factory');
 
 const { mockReq, mockRes } = require('../../__tests__/unit/mocks');
 
@@ -18,164 +17,149 @@ const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question
 const AddMoreQuestion = require('./dynamic-components/add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
 
-class TestJourney extends Journey {
-	constructor(response, isComplete) {
-		super({
-			baseUrl: `${mockBaseUrl}/${mockRef}`,
-			response: response,
-			journeyTemplate: mockTemplateUrl,
-			listingPageViewPath: mockListingPath,
-			journeyTitle: mockJourneyTitle
-		});
-
-		this.sections = [
+const sections = [
+	{
+		name: 'Section 1',
+		segment: 'segment-1',
+		getStatus: () => {
+			return SECTION_STATUS.COMPLETE;
+		},
+		isComplete: () => {
+			return true;
+		},
+		questions: [
 			{
-				name: 'Section 1',
-				segment: 'segment-1',
-				getStatus: () => {
-					return SECTION_STATUS.COMPLETE;
-				},
-				isComplete: () => {
-					return isComplete;
-				},
-				questions: [
-					{
-						title: 'Title 1a',
-						question: 'Why?',
-						taskList: true,
-						fieldName: 'title-1a',
-						shouldDisplay: () => true,
-						formatAnswerForSummary: jest.fn(() => [
-							{
-								key: 'Title 1a',
-								value: mockAnswer,
-								action: {
-									href: '/manage-appeals/questionnaire/123456/segment-1/title-1a',
-									text: 'Answer',
-									visuallyHiddenText: 'Answer'
-								}
-							}
-						])
-					},
-					{
-						title: 'Title 1b',
-						question: 'Who?',
-						taskList: false,
-						fieldName: 'title-1b',
-						shouldDisplay: () => true,
-						formatAnswerForSummary: jest.fn(() => [
-							{
-								key: 'Title 1b',
-								value: mockAnswer,
-								action: {
-									href: '/manage-appeals/questionnaire/123456/segment-1/title-1b',
-									text: 'Answer',
-									visuallyHiddenText: 'Answer'
-								}
-							}
-						])
-					}
-				]
+				title: 'Title 1a',
+				question: 'Why?',
+				taskList: true,
+				fieldName: 'title-1a',
+				shouldDisplay: () => true,
+				formatAnswerForSummary: jest.fn()
 			},
 			{
-				name: 'Section 2',
-				segment: 'segment-2',
-				getStatus: () => {
-					return SECTION_STATUS.IN_PROGRESS;
-				},
-				isComplete: () => {
-					return isComplete;
-				},
-				questions: [
+				title: 'Title 1b',
+				question: 'Who?',
+				taskList: false,
+				fieldName: 'title-1b',
+				shouldDisplay: () => true,
+				formatAnswerForSummary: () => [
 					{
-						title: 'Title 2a',
-						question: 'How?',
-						taskList: true,
-						fieldName: 'title-2a',
-						shouldDisplay: () => true,
-						formatAnswerForSummary: jest.fn(() => [
-							{
-								key: 'Title 2a',
-								value: mockAnswer,
-								action: {
-									href: '/manage-appeals/questionnaire/123456/segment-2/title-2a',
-									text: 'Answer',
-									visuallyHiddenText: 'Answer'
-								}
-							}
-						])
-					},
-					{
-						title: 'Title 2b',
-						question: 'What?',
-						taskList: true,
-						fieldName: 'title-2b',
-						shouldDisplay: () => true,
-						formatAnswerForSummary: jest.fn(() => [
-							{
-								key: 'Title 2b',
-								value: mockAnswer,
-								action: {
-									href: '/manage-appeals/questionnaire/123456/segment-2/title-2b',
-									text: 'Answer',
-									visuallyHiddenText: 'Answer'
-								}
-							}
-						])
-					}
-				]
-			},
-			{
-				name: 'Section 3',
-				segment: 'segment-3',
-				getStatus: () => {
-					return SECTION_STATUS.NOT_STARTED;
-				},
-				isComplete: () => {
-					return isComplete;
-				},
-				questions: [
-					{
-						title: 'Title 3a',
-						question: 'When?',
-						taskList: false,
-						fieldName: 'title-3a',
-						shouldDisplay: () => true,
-						formatAnswerForSummary: jest.fn(() => [
-							{
-								key: 'Title 3a',
-								value: mockAnswer,
-								action: {
-									href: '/manage-appeals/questionnaire/123456/segment-3/title-3a',
-									text: 'Answer',
-									visuallyHiddenText: 'Answer'
-								}
-							}
-						])
-					},
-					{
-						title: 'Title 3b',
-						question: 'Really?',
-						taskList: true,
-						fieldName: 'title-3b',
-						shouldDisplay: () => true,
-						formatAnswerForSummary: jest.fn(() => [
-							{
-								key: 'Title 3b',
-								value: mockAnswer,
-								action: {
-									href: '/manage-appeals/questionnaire/123456/segment-3/title-3b',
-									text: 'Answer',
-									visuallyHiddenText: 'Answer'
-								}
-							}
-						])
+						key: 'Title 1b',
+						value: mockAnswer,
+						action: {
+							href: '/manage-appeals/questionnaire/123456/segment-1/title-1b',
+							text: 'Answer',
+							visuallyHiddenText: 'Answer'
+						}
 					}
 				]
 			}
-		];
+		]
+	},
+	{
+		name: 'Section 2',
+		segment: 'segment-2',
+		getStatus: () => {
+			return SECTION_STATUS.IN_PROGRESS;
+		},
+		isComplete: () => {
+			return true;
+		},
+		questions: [
+			{
+				title: 'Title 2a',
+				question: 'How?',
+				taskList: true,
+				fieldName: 'title-2a',
+				shouldDisplay: () => true,
+				formatAnswerForSummary: () => [
+					{
+						key: 'Title 2a',
+						value: mockAnswer,
+						action: {
+							href: '/manage-appeals/questionnaire/123456/segment-2/title-2a',
+							text: 'Answer',
+							visuallyHiddenText: 'Answer'
+						}
+					}
+				]
+			},
+			{
+				title: 'Title 2b',
+				question: 'What?',
+				taskList: true,
+				fieldName: 'title-2b',
+				shouldDisplay: () => true,
+				formatAnswerForSummary: () => [
+					{
+						key: 'Title 2b',
+						value: mockAnswer,
+						action: {
+							href: '/manage-appeals/questionnaire/123456/segment-2/title-2b',
+							text: 'Answer',
+							visuallyHiddenText: 'Answer'
+						}
+					}
+				]
+			}
+		]
+	},
+	{
+		name: 'Section 3',
+		segment: 'segment-3',
+		getStatus: () => {
+			return SECTION_STATUS.NOT_STARTED;
+		},
+		isComplete: jest.fn(),
+		questions: [
+			{
+				title: 'Title 3a',
+				question: 'When?',
+				taskList: false,
+				fieldName: 'title-3a',
+				shouldDisplay: () => true,
+				formatAnswerForSummary: () => [
+					{
+						key: 'Title 3a',
+						value: mockAnswer,
+						action: {
+							href: '/manage-appeals/questionnaire/123456/segment-3/title-3a',
+							text: 'Answer',
+							visuallyHiddenText: 'Answer'
+						}
+					}
+				]
+			},
+			{
+				title: 'Title 3b',
+				question: 'Really?',
+				taskList: true,
+				fieldName: 'title-3b',
+				shouldDisplay: () => true,
+				formatAnswerForSummary: () => [
+					{
+						key: 'Title 3b',
+						value: mockAnswer,
+						action: {
+							href: '/manage-appeals/questionnaire/123456/segment-3/title-3b',
+							text: 'Answer',
+							visuallyHiddenText: 'Answer'
+						}
+					}
+				]
+			}
+		]
 	}
-}
+];
+
+const journeyParams = {
+	sections,
+	journeyId: 'TEST',
+	makeBaseUrl: () => `${mockBaseUrl}/${mockRef}`,
+	journeyTemplate: mockTemplateUrl,
+	listingPageViewPath: mockListingPath,
+	journeyTitle: mockJourneyTitle
+};
 
 const mockResponse = {
 	referenceId: mockRef,
@@ -210,10 +194,24 @@ describe('dynamic-form/controller', () => {
 	beforeEach(() => {
 		jest.resetAllMocks();
 		res.locals.journeyResponse = {};
-		mockJourney = new TestJourney(mockResponse);
+		mockJourney = new Journey({ response: mockResponse, ...journeyParams });
 		const lpaUser = {
 			lpaCode: 'E9999'
 		};
+		res.locals.journey = mockJourney;
+		mockJourney.sections[0].questions[0].formatAnswerForSummary.mockReturnValue([
+			{
+				key: 'Title 1a',
+				value: mockAnswer,
+				action: {
+					href: '/manage-appeals/questionnaire/123456/segment-1/title-1a',
+					text: 'Answer',
+					visuallyHiddenText: 'Answer'
+				}
+			}
+		]);
+		mockJourney.sections[2].isComplete.mockReturnValue(false);
+
 		getUserFromSession.mockReturnValue(lpaUser);
 		mockSummaryListData = _getmockSummaryListData(mockJourney);
 		req = {
@@ -231,7 +229,6 @@ describe('dynamic-form/controller', () => {
 			const appeal = { a: 1, caseReference: 2 };
 
 			req.appealsApiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(appeal));
-			getJourney.mockReturnValue(mockJourney);
 
 			const pageCaption = `Appeal ${appeal.caseReference}`;
 			await list(req, res, pageCaption, { appeal });
@@ -251,7 +248,6 @@ describe('dynamic-form/controller', () => {
 			const appeal = { a: 1, caseReference: 2 };
 
 			req.appealsApiClient.getUsersAppealCase.mockImplementation(() => Promise.resolve(appeal));
-			getJourney.mockReturnValue(mockJourney);
 			jest.spyOn(questionUtils, 'getConditionalAnswer').mockReturnValueOnce('test');
 
 			await list(req, res);
@@ -270,7 +266,6 @@ describe('dynamic-form/controller', () => {
 
 	describe('question', () => {
 		it('should redirect if question is not found', async () => {
-			getJourney.mockReturnValue(mockJourney);
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(null);
 
@@ -280,7 +275,6 @@ describe('dynamic-form/controller', () => {
 		});
 
 		it('should use custom action if renderAction is defined', async () => {
-			getJourney.mockReturnValue(mockJourney);
 			mockJourney.getSection = jest.fn();
 			mockJourney.getSection.mockReturnValueOnce({});
 			mockJourney.getQuestionBySectionAndName = jest.fn();
@@ -297,8 +291,6 @@ describe('dynamic-form/controller', () => {
 			const mockAnswer = 'sampleAnswer';
 			const mockBackLink = 'back';
 			const mockQuestionRendering = 'test';
-
-			getJourney.mockReturnValue(mockJourney);
 
 			sampleQuestionObj.prepQuestionForRendering.mockReturnValueOnce(mockQuestionRendering);
 
@@ -336,8 +328,6 @@ describe('dynamic-form/controller', () => {
 				sampleFieldName_sub: 'send this',
 				notSampleFieldName: 'do not send this'
 			};
-
-			getJourney.mockReturnValue(mockJourney);
 
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObjWithSaveAction);
@@ -383,8 +373,6 @@ describe('dynamic-form/controller', () => {
 				sampleFieldName_sub: 'send this',
 				notSampleFieldName: 'do not send this'
 			};
-
-			getJourney.mockReturnValue(mockJourney);
 
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObjWithActions);
@@ -448,8 +436,6 @@ describe('dynamic-form/controller', () => {
 				renderAction: jest.fn()
 			};
 
-			getJourney.mockReturnValue(mockJourney);
-
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleQuestionObjWithActions);
 
@@ -473,8 +459,6 @@ describe('dynamic-form/controller', () => {
 			res.locals.journeyResponse = {
 				answers: {}
 			};
-
-			getJourney.mockReturnValue(mockJourney);
 
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleListAddMoreObj);
@@ -508,8 +492,6 @@ describe('dynamic-form/controller', () => {
 				.fn()
 				.mockImplementation(() => Promise.reject(new Error('Network error')));
 
-			getJourney.mockReturnValue(mockJourney);
-
 			mockJourney.getQuestionBySectionAndName = jest.fn();
 			mockJourney.getQuestionBySectionAndName.mockReturnValueOnce(sampleListAddMoreObj);
 
@@ -521,6 +503,8 @@ describe('dynamic-form/controller', () => {
 	});
 	describe('submit', () => {
 		it('should submit if all sections are complete', async () => {
+			mockJourney.sections[2].isComplete.mockReturnValue(true);
+
 			req.params = {
 				referenceId: mockRef
 			};
@@ -528,9 +512,6 @@ describe('dynamic-form/controller', () => {
 			res.locals.journeyResponse = {
 				answers: {}
 			};
-			const mockCompletedJourney = new TestJourney(mockResponse, true);
-
-			getJourney.mockReturnValue(mockCompletedJourney);
 
 			await submit(req, res);
 			expect(res.redirect).toHaveBeenCalledWith(

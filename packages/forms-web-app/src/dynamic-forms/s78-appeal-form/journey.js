@@ -7,10 +7,11 @@ const {
 	questionHasNonEmptyNumberAnswer
 } = require('../dynamic-components/utils/question-has-answer');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
- * @typedef {ConstructorParameters<typeof import('../journey').Journey>} JourneyParameters
+ * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
  */
 
 /**
@@ -270,27 +271,25 @@ const sections = [
 		.withCondition((response) => questionHasAnswer(response, questions.otherNewDocuments, 'yes'))
 ];
 
-const fixedParams = {
+const baseS78SubmissionUrl = '/appeals/full-planning';
+
+/**
+ * @param {JourneyResponse} response
+ * @returns {string}
+ */
+const makeBaseUrl = (response) => `${baseS78SubmissionUrl}?id=${response.referenceId}`;
+
+/** @type {JourneyParameters} */
+const params = {
+	journeyId: JOURNEY_TYPES.S78_APPEAL_FORM,
 	sections,
-	baseS78SubmissionUrl: '/appeals/full-planning',
 	taskListUrl: 'appeal-form/your-appeal',
 	journeyTemplate: 'submission-form-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/submission',
 	informationPageViewPath: 'dynamic-components/submission-information/index',
 	journeyTitle: 'Appeal a planning decision',
-	returnToListing: true
+	returnToListing: true,
+	makeBaseUrl
 };
 
-/**
- * @param {JourneyResponse} response
- * @returns {JourneyParameters}
- */
-const buildJourneyParams = (response) => [
-	{
-		...fixedParams,
-		response,
-		baseUrl: `${fixedParams.baseS78SubmissionUrl}?id=${response.referenceId}`
-	}
-];
-
-module.exports = { buildJourneyParams, ...fixedParams };
+module.exports = { ...params, baseS78SubmissionUrl };

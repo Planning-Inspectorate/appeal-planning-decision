@@ -2,7 +2,6 @@
 const fs = require('fs');
 const path = require('path');
 const { SECTION_STATUS } = require('./section');
-const { getJourney } = require('./journey-factory');
 const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
@@ -105,8 +104,7 @@ function buildInformationSectionRowViewModel(key, value) {
  */
 exports.list = async (req, res, pageCaption, viewData) => {
 	//render check your answers view
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey, journeyResponse } = res.locals;
 
 	const summaryListData = {
 		sections: [],
@@ -168,8 +166,7 @@ exports.list = async (req, res, pageCaption, viewData) => {
 exports.question = async (req, res) => {
 	//render an individual question
 	const { section, question } = req.params;
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey } = res.locals;
 
 	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
@@ -188,8 +185,7 @@ exports.question = async (req, res) => {
 exports.save = async (req, res) => {
 	//save the response
 	const { section, question } = req.params;
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey, journeyResponse } = res.locals;
 
 	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
@@ -216,8 +212,7 @@ exports.save = async (req, res) => {
 exports.remove = async (req, res) => {
 	//save the response
 	const { section, question, answerId } = req.params;
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey, journeyResponse } = res.locals;
 
 	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
@@ -252,8 +247,7 @@ exports.remove = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.submit = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey, journeyResponse } = res.locals;
 	const referenceId = res.locals.journeyResponse.referenceId;
 
 	const journeyUrl = (journeyId) => {
@@ -284,8 +278,7 @@ exports.submit = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.submitLpaStatement = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey } = res.locals;
 	const referenceId = res.locals.journeyResponse.referenceId;
 
 	if (!journey.isComplete()) {
@@ -305,8 +298,7 @@ exports.submitLpaStatement = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.submitAppellantSubmission = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey, journeyResponse } = res.locals;
 	const id = res.locals.journeyResponse.referenceId;
 
 	const journeyUrl = (journeyId) => {
@@ -336,8 +328,8 @@ exports.submitAppellantSubmission = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.appellantSubmissionDeclaration = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey } = res.locals;
+
 	if (!journey.isComplete()) {
 		// return error message and redirect
 		return res.status(400).render('./error/not-found.njk');
@@ -353,8 +345,7 @@ exports.appellantSubmissionDeclaration = async (req, res) => {
  * @param {import('express').Response} res
  */
 exports.appellantSubmissionInformation = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey, journeyResponse } = res.locals;
 	if (!journey.isComplete() || !journey.response.answers.submitted) {
 		// return error message and redirect
 		return res.status(400).render('./error/not-found.njk');
@@ -424,8 +415,7 @@ exports.appellantSubmissionInformation = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.lpaSubmitted = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey } = res.locals;
 	if (!journey.isComplete()) {
 		// return error message and redirect
 		return res.status(400).render('./error/not-found.njk');
@@ -438,8 +428,7 @@ exports.lpaSubmitted = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.appellantSubmitted = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey } = res.locals;
 	if (!journey.isComplete()) {
 		// return error message and redirect
 		return res.status(400).render('./error/not-found.njk');
@@ -454,8 +443,7 @@ exports.appellantSubmitted = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.appealStatementSubmitted = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey } = res.locals;
 	if (!journey.isComplete()) {
 		// return error message and redirect
 		return res.render('./error/not-found.njk');
@@ -468,8 +456,7 @@ exports.appealStatementSubmitted = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.submitAppellantFinalComment = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey } = res.locals;
 	const caseReference = journey.response.answers.caseReference;
 
 	if (!journey.isComplete()) {
@@ -486,8 +473,7 @@ exports.submitAppellantFinalComment = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.appellantFinalCommentSubmitted = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey } = res.locals;
 	const caseReference = journey.response.answers.caseReference;
 
 	if (!journey.isComplete()) {

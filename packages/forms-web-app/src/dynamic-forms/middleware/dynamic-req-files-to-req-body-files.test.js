@@ -1,13 +1,14 @@
 const dynamicReqFilesToReqBodyFilesMiddleware = require('../../../src/dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
-const { getJourney } = require('../journey-factory');
-
-jest.mock('../journey-factory');
 
 describe('dynamic-forms/middleware/dynamic-req-files-to-req-body-files', () => {
 	let counter = 0;
 	let mockReq;
 	let mockRes;
-	let filesPropertyPath;
+	let filesPropertyPath = `example-files-property-path-${counter}`;
+
+	const mockGetQuestionBySectionAndName = jest.fn(() => {
+		return { fieldName: filesPropertyPath };
+	});
 
 	beforeEach(() => {
 		mockReq = () => ({
@@ -20,7 +21,8 @@ describe('dynamic-forms/middleware/dynamic-req-files-to-req-body-files', () => {
 			clearCookie: jest.fn(),
 			cookie: jest.fn(),
 			locals: {
-				journeyResponse: jest.fn()
+				journeyResponse: jest.fn(),
+				journey: { getQuestionBySectionAndName: mockGetQuestionBySectionAndName }
 			},
 			redirect: jest.fn(),
 			render: jest.fn(),
@@ -206,12 +208,6 @@ describe('dynamic-forms/middleware/dynamic-req-files-to-req-body-files', () => {
 		}
 	].forEach(({ description, given, expected }) => {
 		it(description, () => {
-			const mockGetQuestionBySectionAndName = jest.fn(() => {
-				return { fieldName: filesPropertyPath };
-			});
-
-			getJourney.mockReturnValue({ getQuestionBySectionAndName: mockGetQuestionBySectionAndName });
-
 			const next = jest.fn();
 			const req = given();
 

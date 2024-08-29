@@ -1,18 +1,4 @@
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
-const { buildJourneyParams: buildHASLPAJourneyParams } = require('./has-questionnaire/journey');
-const { buildJourneyParams: buildS78LPAJourneyParams } = require('./s78-questionnaire/journey');
-const { buildJourneyParams: buildHASAppellantJourneyParams } = require('./has-appeal-form/journey');
-const { buildJourneyParams: buildS78AppellantJourneyParams } = require('./s78-appeal-form/journey');
-const {
-	buildJourneyParams: buildS78LpaStatementJourneyParams
-} = require('./s78-lpa-statement/journey');
-const {
-	buildJourneyParams: buildS78LpaFinalCommentsParams
-} = require('./s78-lpa-final-comments/journey');
-const {
-	buildJourneyParams: buildS78AppellantFinalCommentsJourneyParams
-} = require('./s78-appellant-final-comments/journey');
-const { Journey } = require('./journey');
 
 /**
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
@@ -31,34 +17,8 @@ const APPELLANT_JOURNEY_TYPES_FORMATTED = {
 	FINAL_COMMENTS: JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS
 };
 
-/**
- * Returns journey constructor args based on a type string from JOURNEY_TYPES
- */
-const JOURNEY_PARAMS = {
-	[JOURNEY_TYPES.HAS_QUESTIONNAIRE]: buildHASLPAJourneyParams,
-	[JOURNEY_TYPES.S78_QUESTIONNAIRE]: buildS78LPAJourneyParams,
-	[JOURNEY_TYPES.HAS_APPEAL_FORM]: buildHASAppellantJourneyParams,
-	[JOURNEY_TYPES.S78_APPEAL_FORM]: buildS78AppellantJourneyParams,
-	[JOURNEY_TYPES.S78_LPA_STATEMENT]: buildS78LpaStatementJourneyParams,
-	[JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS]: buildS78LpaFinalCommentsParams,
-	[JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS]: buildS78AppellantFinalCommentsJourneyParams
-};
-
-/**
- * creates an instance of a journey based on the journeyId passed in
- * @param {JourneyResponse} journeyResponse
- * @returns {Journey}
- */
-function getJourney(journeyResponse) {
-	if (JOURNEY_PARAMS[journeyResponse.journeyId] === undefined) {
-		throw new Error('invalid journey type');
-	}
-
-	return new Journey(...JOURNEY_PARAMS[journeyResponse.journeyId](journeyResponse));
-}
-
+// TODO: move these out to common
 module.exports = {
 	LPA_JOURNEY_TYPES_FORMATTED,
-	APPELLANT_JOURNEY_TYPES_FORMATTED,
-	getJourney
+	APPELLANT_JOURNEY_TYPES_FORMATTED
 };

@@ -15,12 +15,13 @@ const {
 } = require('../../dynamic-forms/validator/validation-error-handler');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-appellant');
-const { getJourney } = require('../../dynamic-forms/journey-factory');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
 const { businessRulesDeadline } = require('../../lib/calculate-deadline');
 const { mapTypeCodeToAppealId } = require('../../lib/full-appeal/map-planning-application');
 const { format } = require('date-fns');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { getJourney } = require('../../dynamic-forms/middleware/get-journey');
+const { journeys } = require('../../journeys');
 
 const {
 	VIEW: {
@@ -46,7 +47,8 @@ const router = express.Router();
  * @type {import('express').Handler}
  */
 const appellantSubmissionTaskList = async (req, res) => {
-	const journey = getJourney(res.locals.journeyResponse);
+	req.appealsApiClient;
+	const journey = res.locals.journey;
 
 	const appealType = journey.response.answers.appealTypeCode;
 
@@ -69,6 +71,7 @@ const appellantSubmissionTaskList = async (req, res) => {
 router.get(
 	'/appeal-form/your-appeal',
 	getJourneyResponse,
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	appellantSubmissionTaskList
 );
@@ -76,6 +79,7 @@ router.get(
 router.get(
 	'/submit/declaration',
 	getJourneyResponse,
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	appellantSubmissionDeclaration
 );
@@ -83,21 +87,40 @@ router.get(
 router.post(
 	'/submit/declaration',
 	getJourneyResponse,
+	getJourney(journeys),
 	validationErrorHandler,
 	submitAppellantSubmission
 );
 
-router.get('/submit/information', getJourneyResponse, appellantSubmissionInformation);
+router.get(
+	'/submit/information',
+	getJourneyResponse,
+	getJourney(journeys),
+	appellantSubmissionInformation
+);
 
-router.get('/submit/submitted', getJourneyResponse, validationErrorHandler, appellantSubmitted);
+router.get(
+	'/submit/submitted',
+	getJourneyResponse,
+	getJourney(journeys),
+	validationErrorHandler,
+	appellantSubmitted
+);
 
 // question
-router.get('/:section/:question', getJourneyResponse, checkNotSubmitted(dashboardUrl), question);
+router.get(
+	'/:section/:question',
+	getJourneyResponse,
+	getJourney(journeys),
+	checkNotSubmitted(dashboardUrl),
+	question
+);
 
 // save
 router.post(
 	'/:section/:question',
 	getJourneyResponse,
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
@@ -109,6 +132,7 @@ router.post(
 router.get(
 	'/:section/:question/:answerId',
 	getJourneyResponse,
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	remove
 );

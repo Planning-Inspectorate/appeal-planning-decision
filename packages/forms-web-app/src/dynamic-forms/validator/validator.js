@@ -1,5 +1,4 @@
 const { validationResult } = require('express-validator');
-const { getJourney } = require('../journey-factory');
 const { getAddMoreIfPresent } = require('../middleware/utils');
 
 /** @type {() => import('express').Handler} */
@@ -7,8 +6,7 @@ const validate = () => {
 	return async (req, res, next) => {
 		const { section, question } = req.params;
 
-		const journeyResponse = res.locals.journeyResponse;
-		const journey = getJourney(journeyResponse);
+		const { journey, journeyResponse } = res.locals;
 
 		let questionObj = journey.getQuestionBySectionAndName(section, question);
 

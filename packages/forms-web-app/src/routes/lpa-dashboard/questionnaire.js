@@ -15,6 +15,8 @@ const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-r
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
+const { getJourney } = require('../../dynamic-forms/middleware/get-journey');
+const { journeys } = require('../../journeys');
 
 const { getUserFromSession } = require('../../services/user.service');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
@@ -63,6 +65,7 @@ const questionnaireTaskList = async (req, res) => {
 router.get(
 	'/questionnaire/:referenceId',
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	questionnaireTaskList
 );
@@ -71,6 +74,7 @@ router.get(
 router.get(
 	'/questionnaire/:referenceId/:section/:question',
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	question
 );
@@ -79,6 +83,7 @@ router.get(
 router.post(
 	'/questionnaire/:referenceId/:section/:question',
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
@@ -90,6 +95,7 @@ router.post(
 router.post(
 	'/questionnaire/:referenceId/',
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	validationErrorHandler,
 	submit
@@ -98,6 +104,7 @@ router.post(
 router.get(
 	'/full-planning/:referenceId/questionnaire-submitted',
 	getJourneyResponse(),
+	getJourney(journeys),
 	validationErrorHandler,
 	lpaSubmitted
 );
@@ -105,6 +112,7 @@ router.get(
 router.get(
 	'/householder/:referenceId/questionnaire-submitted',
 	getJourneyResponse(),
+	getJourney(journeys),
 	validationErrorHandler,
 	lpaSubmitted
 );
@@ -113,6 +121,7 @@ router.get(
 router.get(
 	'/questionnaire/:referenceId/:section/:question/:answerId',
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	remove
 );

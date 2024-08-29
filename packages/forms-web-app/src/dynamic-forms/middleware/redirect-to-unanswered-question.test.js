@@ -1,12 +1,9 @@
 const redirectToUnansweredQuestion = require('./redirect-to-unanswered-question');
-const { getJourney } = require('../journey-factory');
-const { buildJourneyParams } = require('../s78-lpa-statement/journey');
+const { ...params } = require('../s78-lpa-statement/journey');
 const { skipIfNoAdditionalDocuments } = require('./redirect-middleware-conditions');
 const { JourneyResponse } = require('../journey-response');
 const { Journey } = require('../journey');
-jest.mock('../journey-factory', () => ({
-	getJourney: jest.fn()
-}));
+
 describe('redirectToUnansweredQuestion Middleware', () => {
 	let req, res, next;
 	beforeEach(() => {
@@ -31,9 +28,8 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 			'Q9999'
 		);
 		res.locals.journeyResponse = journeyResponse;
-
-		const journey = new Journey(...buildJourneyParams(journeyResponse));
-		getJourney.mockReturnValue(journey);
+		const journey = new Journey({ response: journeyResponse, ...params });
+		res.locals.journey = journey;
 
 		// Passing in array of no conditions, redirects to first unanswered question
 		redirectToUnansweredQuestion([])(req, res, next);
@@ -72,9 +68,8 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 			'Q9999'
 		);
 		res.locals.journeyResponse = journeyResponse;
-
-		const journey = new Journey(...buildJourneyParams(journeyResponse));
-		getJourney.mockReturnValue(journey);
+		const journey = new Journey({ response: journeyResponse, ...params });
+		res.locals.journey = journey;
 
 		redirectToUnansweredQuestion([skipIfNoAdditionalDocuments])(req, res, next);
 
@@ -95,9 +90,8 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 			'Q9999'
 		);
 		res.locals.journeyResponse = journeyResponse;
-
-		const journey = new Journey(...buildJourneyParams(journeyResponse));
-		getJourney.mockReturnValue(journey);
+		const journey = new Journey({ response: journeyResponse, ...params });
+		res.locals.journey = journey;
 
 		redirectToUnansweredQuestion([skipIfNoAdditionalDocuments])(req, res, next);
 
@@ -117,9 +111,8 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 			'Q9999'
 		);
 		res.locals.journeyResponse = journeyResponse;
-
-		const journey = new Journey(...buildJourneyParams(journeyResponse));
-		getJourney.mockReturnValue(journey);
+		const journey = new Journey({ response: journeyResponse, ...params });
+		res.locals.journey = journey;
 
 		redirectToUnansweredQuestion([skipIfNoAdditionalDocuments])(req, res, next);
 

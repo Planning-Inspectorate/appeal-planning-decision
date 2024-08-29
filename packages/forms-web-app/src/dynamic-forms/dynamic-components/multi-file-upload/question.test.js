@@ -36,51 +36,7 @@ const HTML = 'resources/question12/content.html';
 const DOCUMENT_TYPE = {
 	name: '1'
 };
-// @ts-ignore
-class TestJourney extends Journey {
-	/**
-	 * @param {import("../../journey-response").JourneyResponse} response
-	 */
-	constructor(response) {
-		super({
-			baseUrl: `${mockBaseUrl}/${encodeURIComponent(mockRef)}`,
-			taskListUrl: 'list',
-			response: response,
-			journeyTemplate: mockTemplateUrl,
-			listingPageViewPath: 'mock path',
-			journeyTitle: 'mock title'
-		});
 
-		this.sections = [
-			{
-				name: mockSection.name,
-				segment: mockSection.segment,
-				getStatus: () => {
-					return SECTION_STATUS.COMPLETE;
-				},
-				questions: [
-					{
-						title: FIELDNAME,
-						question: QUESTION,
-						taskList: true,
-						fieldName: FIELDNAME,
-						shouldDisplay: () => true
-					},
-					{
-						title: 'Title 1b',
-						question: 'Who?',
-						taskList: false,
-						fieldName: 'title-1b',
-						shouldDisplay: () => true
-					}
-				]
-			}
-		];
-	}
-}
-const res = mockRes();
-const mockBaseUrl = '/manage-appeals/questionnaire';
-const mockTemplateUrl = 'template.njk';
 /**
  * @type {string | number | boolean}
  */
@@ -90,6 +46,46 @@ const mockSection = {
 	name: '123',
 	segment: 'segment-1'
 };
+const res = mockRes();
+const mockBaseUrl = '/manage-appeals/questionnaire';
+const mockTemplateUrl = 'template.njk';
+
+const sections = [
+	{
+		name: mockSection.name,
+		segment: mockSection.segment,
+		getStatus: () => {
+			return SECTION_STATUS.COMPLETE;
+		},
+		questions: [
+			{
+				title: FIELDNAME,
+				question: QUESTION,
+				taskList: true,
+				fieldName: FIELDNAME,
+				shouldDisplay: () => true
+			},
+			{
+				title: 'Title 1b',
+				question: 'Who?',
+				taskList: false,
+				fieldName: 'title-1b',
+				shouldDisplay: () => true
+			}
+		]
+	}
+];
+
+const journeyParams = {
+	journeyId: mockJourneyId,
+	sections,
+	makeBaseUrl: () => `${mockBaseUrl}/${encodeURIComponent(mockRef)}`,
+	taskListUrl: 'list',
+	journeyTemplate: mockTemplateUrl,
+	listingPageViewPath: 'mock path',
+	journeyTitle: 'mock title'
+};
+
 const mockUploadedFile = (
 	{
 		id = 'id-1',
@@ -167,7 +163,7 @@ describe('MultiFileUploadQuestion', () => {
 			answers: {},
 			LPACode: 'Q9999'
 		};
-		mockJourney = new TestJourney(mockResponse);
+		mockJourney = new Journey({ ...journeyParams, response: mockResponse });
 		req = {
 			appealsApiClient: {
 				postLPASubmissionDocumentUpload: jest.fn(),
@@ -332,7 +328,7 @@ describe('MultiFileUploadQuestion', () => {
 				journeyId: mockJourneyId,
 				answers: {}
 			};
-			mockJourney = new TestJourney(mockResponse);
+			mockJourney = new Journey({ ...journeyParams, response: mockResponse });
 
 			const fileUploaded = {
 				name: 'test.png'

@@ -5,10 +5,11 @@ const {
 	questionsHaveAnswers
 } = require('../dynamic-components/utils/question-has-answer');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
- * @typedef {ConstructorParameters<typeof import('../journey').Journey>} JourneyParameters
+ * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
  */
 
 /**
@@ -165,24 +166,22 @@ const sections = [
 		.addQuestion(questions.addNewConditions)
 ];
 
-const fixedParams = {
-	sections,
-	baseS78Url: '/manage-appeals/questionnaire',
-	journeyTemplate: 'questionnaire-template.njk',
-	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
-	journeyTitle: 'Manage your appeals'
-};
+const baseS78Url = '/manage-appeals/questionnaire';
 
 /**
  * @param {JourneyResponse} response
- * @returns {JourneyParameters}
+ * @returns {string}
  */
-const buildJourneyParams = (response) => [
-	{
-		...fixedParams,
-		baseUrl: `${fixedParams.baseS78Url}/${encodeURIComponent(response.referenceId)}`,
-		response: response
-	}
-];
+const makeBaseUrl = (response) => `${baseS78Url}/${encodeURIComponent(response.referenceId)}`;
 
-module.exports = { buildJourneyParams, ...fixedParams };
+/** @type {JourneyParameters} */
+const params = {
+	journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE,
+	sections,
+	journeyTemplate: 'questionnaire-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/questionnaire',
+	journeyTitle: 'Manage your appeals',
+	makeBaseUrl
+};
+
+module.exports = { ...params, baseS78Url };

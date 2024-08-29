@@ -1,5 +1,4 @@
 const validate = require('./validator');
-const { getJourney } = require('../journey-factory');
 
 const RequiredValidator = require('./required-validator');
 const ValidOptionValidator = require('./valid-option-validator');
@@ -15,7 +14,12 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 		jest.resetAllMocks();
 		mockRes = {
 			locals: {
-				journeyResponse: {}
+				journeyResponse: {},
+				journey: {
+					getQuestionBySectionAndName: function () {
+						return null;
+					}
+				}
 			}
 		};
 	});
@@ -25,12 +29,6 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			params: {},
 			body: {}
 		};
-
-		getJourney.mockReturnValue({
-			getQuestionBySectionAndName: function () {
-				return null;
-			}
-		});
 
 		const next = jest.fn();
 		let error = null;
@@ -55,14 +53,14 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourney.mockReturnValue({
+		mockRes.locals.journey = {
 			getQuestionBySectionAndName: function () {
 				return {
 					validators: [new RequiredValidator()],
 					fieldName: 'field1'
 				};
 			}
-		});
+		};
 
 		const next = jest.fn();
 		await validate()(req, mockRes, next);
@@ -83,14 +81,14 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourney.mockReturnValue({
+		mockRes.locals.journey = {
 			getQuestionBySectionAndName: function () {
 				return {
 					validators: [new RequiredValidator()],
 					fieldName: 'field1'
 				};
 			}
-		});
+		};
 
 		const next = jest.fn();
 		await validate()(req, mockRes, next);
@@ -110,7 +108,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourney.mockReturnValue({
+		mockRes.locals.journey = {
 			getQuestionBySectionAndName: function () {
 				return {
 					validators: [new RequiredValidator(), new ValidOptionValidator()],
@@ -131,7 +129,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 					]
 				};
 			}
-		});
+		};
 
 		const next = jest.fn();
 		await validate()(req, mockRes, next);
@@ -151,7 +149,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourney.mockReturnValue({
+		mockRes.locals.journey = {
 			getQuestionBySectionAndName: function () {
 				return {
 					validators: [new RequiredValidator(), new ValidOptionValidator()],
@@ -172,7 +170,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 					]
 				};
 			}
-		});
+		};
 
 		const next = jest.fn();
 		await validate()(req, mockRes, next);
@@ -193,7 +191,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourney.mockReturnValue({
+		mockRes.locals.journey = {
 			getQuestionBySectionAndName: function () {
 				return new ListAddMoreQuestion({
 					title: 'title',
@@ -210,7 +208,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 					})
 				});
 			}
-		});
+		};
 
 		const next = jest.fn();
 		await validate()(req, mockRes, next);
@@ -231,7 +229,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourney.mockReturnValue({
+		mockRes.locals.journey = {
 			getQuestionBySectionAndName: function () {
 				return {
 					validators: [],
@@ -242,7 +240,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 					}
 				};
 			}
-		});
+		};
 
 		const next = jest.fn();
 		await validate()(req, mockRes, next);
@@ -264,7 +262,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourney.mockReturnValue({
+		mockRes.locals.journey = {
 			getQuestionBySectionAndName: function () {
 				return {
 					validators: [new RequiredValidator()],
@@ -275,7 +273,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 					}
 				};
 			}
-		});
+		};
 
 		const next = jest.fn();
 		await validate()(req, mockRes, next);
@@ -297,14 +295,14 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			}
 		};
 
-		getJourney.mockReturnValue({
+		mockRes.locals.journey = {
 			getQuestionBySectionAndName: function () {
 				return {
 					validators: [new AddressValidator()],
 					fieldName: 'field1'
 				};
 			}
-		});
+		};
 
 		const next = jest.fn();
 		await validate()(req, mockRes, next);

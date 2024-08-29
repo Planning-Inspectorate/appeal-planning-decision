@@ -2,10 +2,11 @@ const { questions } = require('../questions');
 const { Section } = require('../section');
 const config = require('../../config');
 const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
- * @typedef {ConstructorParameters<typeof import('../journey').Journey>} JourneyParameters
+ * @typedef {Omit<ConstructorParameters<typeof import('../journey').Journey>[0], 'response'>} JourneyParameters
  */
 
 /**
@@ -26,26 +27,23 @@ const sections = [
 		)
 ];
 
-const fixedParams = {
-	baseAppellantFinalCommentUrl: '/appeals/final-comments',
-	journeyTemplate: 'final-comments-template.njk',
-	listingPageViewPath: 'dynamic-components/task-list/final-comments',
-	journeyTitle: 'Appeal a planning decision',
-	sections
-};
+const baseAppellantFinalCommentUrl = '/appeals/final-comments';
 
 /**
  * @param {JourneyResponse} response
- * @returns {JourneyParameters}
+ * @returns {string}
  */
-const buildJourneyParams = (response) => [
-	{
-		...fixedParams,
-		response,
-		baseUrl: `${fixedParams.baseAppellantFinalCommentUrl}/${encodeURIComponent(
-			response.referenceId
-		)}`
-	}
-];
+const makeBaseUrl = (response) =>
+	`${baseAppellantFinalCommentUrl}/${encodeURIComponent(response.referenceId)}`;
 
-module.exports = { buildJourneyParams, ...fixedParams };
+/** @type {JourneyParameters} */
+const params = {
+	journeyId: JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS,
+	journeyTemplate: 'final-comments-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/final-comments',
+	journeyTitle: 'Appeal a planning decision',
+	sections,
+	makeBaseUrl
+};
+
+module.exports = { baseAppellantFinalCommentUrl, ...params };

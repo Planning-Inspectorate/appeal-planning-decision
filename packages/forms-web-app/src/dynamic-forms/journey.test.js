@@ -45,7 +45,8 @@ describe('Journey class', () => {
 	beforeEach(() => {
 		jest.resetAllMocks();
 		constructorArgs = {
-			baseUrl: 'base',
+			journeyId: 'TEST',
+			makeBaseUrl: () => 'base',
 			taskListUrl: 'task-list',
 			response: {
 				answers: {}
@@ -68,18 +69,20 @@ describe('Journey class', () => {
 		});
 
 		it('should error if baseUrl is not a string', () => {
-			constructorArgs.baseUrl = { a: 1 };
+			constructorArgs.makeBaseUrl = () => ({
+				a: 1
+			});
 			expect(() => new Journey(constructorArgs)).toThrow('baseUrl should be a string.');
 		});
 
 		it('should set baseUrl', () => {
 			const journey = new Journey(constructorArgs);
 
-			expect(journey.baseUrl).toBe(constructorArgs.baseUrl);
+			expect(journey.baseUrl).toBe(constructorArgs.makeBaseUrl());
 		});
 
 		it('should remove trailing / to baseUrl', () => {
-			constructorArgs.baseUrl = '/abc/';
+			constructorArgs.makeBaseUrl = () => '/abc/';
 			const journey = new Journey(constructorArgs);
 
 			expect(journey.baseUrl).toBe('/abc');
@@ -88,7 +91,9 @@ describe('Journey class', () => {
 		it('should set taskListUrl', () => {
 			const journey = new Journey(constructorArgs);
 
-			expect(journey.taskListUrl).toBe(constructorArgs.baseUrl + '/' + constructorArgs.taskListUrl);
+			expect(journey.taskListUrl).toBe(
+				constructorArgs.makeBaseUrl() + '/' + constructorArgs.taskListUrl
+			);
 		});
 
 		it('should set journeyTemplate', () => {
@@ -268,7 +273,7 @@ describe('Journey class', () => {
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
 				expect(nextQuestionUrl).toBe(
-					`${constructorArgs.baseUrl}/${section.segment}/${nextQuestionName}`
+					`${constructorArgs.makeBaseUrl()}/${section.segment}/${nextQuestionName}`
 				);
 			}
 		);
@@ -294,7 +299,7 @@ describe('Journey class', () => {
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
 				expect(nextQuestionUrl).toBe(
-					`${constructorArgs.baseUrl}/${section.segment}/${nextQuestionName}`
+					`${constructorArgs.makeBaseUrl()}/${section.segment}/${nextQuestionName}`
 				);
 			}
 		);
@@ -320,7 +325,7 @@ describe('Journey class', () => {
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
 
 				expect(nextQuestionUrl).toBe(
-					`${constructorArgs.baseUrl}/${section.segment}/${prevQuestionName}`
+					`${constructorArgs.makeBaseUrl()}/${section.segment}/${prevQuestionName}`
 				);
 			}
 		);
@@ -340,7 +345,7 @@ describe('Journey class', () => {
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
 
 				expect(nextQuestionUrl).toBe(
-					`${constructorArgs.baseUrl}/${nextSection.segment}/${nextQuestionName}`
+					`${constructorArgs.makeBaseUrl()}/${nextSection.segment}/${nextQuestionName}`
 				);
 			}
 		);
@@ -376,7 +381,7 @@ describe('Journey class', () => {
 				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
 
 				expect(nextQuestionUrl).toBe(
-					`${constructorArgs.baseUrl}/${prevSection.segment}/${prevQuestionName}`
+					`${constructorArgs.makeBaseUrl()}/${prevSection.segment}/${prevQuestionName}`
 				);
 			}
 		);
@@ -429,7 +434,7 @@ describe('Journey class', () => {
 		);
 
 		it('should handle querystring in baseUrl', () => {
-			constructorArgs.baseUrl = 'base?id=1';
+			constructorArgs.makeBaseUrl = () => 'base?id=1';
 			const section = mockSections[2];
 			const name = section.questions[1].fieldName;
 			const nextQuestionName = section.questions[2].url;
@@ -453,7 +458,7 @@ describe('Journey class', () => {
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
-			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}`);
+			expect(currentQuestionUrl).toBe(`${constructorArgs.makeBaseUrl()}/${section}/${name}`);
 		});
 
 		it('should return the questionnaire URL if section or question is not found', () => {
@@ -477,11 +482,11 @@ describe('Journey class', () => {
 
 			const currentQuestionUrl = journey.getCurrentQuestionUrl(section, name);
 
-			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}`);
+			expect(currentQuestionUrl).toBe(`${constructorArgs.makeBaseUrl()}/${section}/${name}`);
 		});
 
 		it('should handle querystring in baseUrl', () => {
-			constructorArgs.baseUrl = 'base?id=1';
+			constructorArgs.makeBaseUrl = () => 'base?id=1';
 			const section = mockSections[0].segment;
 			const name = mockSections[0].questions[1].fieldName;
 
@@ -575,7 +580,7 @@ describe('Journey class', () => {
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
 
-			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}/add`);
+			expect(currentQuestionUrl).toBe(`${constructorArgs.makeBaseUrl()}/${section}/${name}/add`);
 		});
 
 		it('should return the questionnaire URL if section or question is not found', () => {
@@ -599,11 +604,11 @@ describe('Journey class', () => {
 
 			const currentQuestionUrl = journey.addToCurrentQuestionUrl(section, name, '/add');
 
-			expect(currentQuestionUrl).toBe(`${constructorArgs.baseUrl}/${section}/${name}/add`);
+			expect(currentQuestionUrl).toBe(`${constructorArgs.makeBaseUrl()}/${section}/${name}/add`);
 		});
 
 		it('should handle querystring in baseUrl', () => {
-			constructorArgs.baseUrl = 'base?id=1';
+			constructorArgs.makeBaseUrl = () => 'base?id=1';
 			const section = mockSections[0].segment;
 			const name = mockSections[0].questions[1].fieldName;
 
