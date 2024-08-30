@@ -2,10 +2,11 @@
 
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "pins/components/appeal-sections-block.njk" import appealSectionsBlock %}
 
-{% set title="Appeal " + appeal.status + " for comment - Comment on a planning appeal - GOV.UK" %}
+{% set title=appeal.headlineText + " for comment - Comment on a planning appeal - GOV.UK" %}
 
 {% block pageTitle %}
   {{ title }}
@@ -21,12 +22,28 @@
         }) }}
       {% endif %}
 
-      <h1 class="govuk-heading-l">Appeal {{appeal.status}} for comment</h1>
+      <h1 class="govuk-heading-l">{{appeal.headlineText}}</h1>
+
+			{% if appeal.status === 'decided' %}
+				<h2 class="govuk-heading-2">Appeal decision</h2>
+				{{ govukTag({
+					text: appeal.decidedData.caseDecisionOutcome,
+					classes: "govuk-tag--" + appeal.decidedData.formattedDecisionColour + " govuk-!-margin-bottom-3"
+				}) }}
+				<p class="govuk-body">Decision date: {{appeal.decidedData.formattedCaseDecisionDate}}</p>
+				{% for document in appeal.decidedData.decisionDocuments %}
+				  <p class="govuk-body"><a href="/published-document/{{document.id}}" class="govuk-link">{{document.filename}}</a></p>
+				{% endfor %}
+				<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+			{% endif %}
 
       {{ govukSummaryList({
         classes: "appeal-headlines govuk-summary-list--no-border",
         rows: headlineData
       }) }}
+
+				{# NOTE - FOR MVP DECIDED APPEALS ONLY SHOW HEADLINES #}
+			{% if appeal.status != 'decided' %}
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
 		</div>
@@ -64,6 +81,9 @@
 				classes: "govuk-summary-list long-answers",
 				rows: appeal.application
 			}) }}
+
+	{% endif %}
 		</div>
   </div>
+
 {% endblock %}

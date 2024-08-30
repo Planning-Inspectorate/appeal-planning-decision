@@ -3,7 +3,14 @@
  * @param {AppealViewModel} appeal
  * @returns {AppealViewModel["status"]}
  */
-exports.getAppealStatus = (appeal) =>
-	appeal.interestedPartyRepsDueDate && new Date(appeal.interestedPartyRepsDueDate) > new Date()
-		? 'open'
-		: 'closed';
+exports.getAppealStatus = (appeal) => {
+	if (appeal.caseDecisionOutcomeDate) {
+		return 'decided';
+	} else if (
+		appeal.interestedPartyRepsDueDate &&
+		new Date(appeal.interestedPartyRepsDueDate) > new Date()
+	) {
+		return 'open';
+	}
+	return 'closed';
+};

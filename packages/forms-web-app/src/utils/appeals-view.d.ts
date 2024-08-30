@@ -4,5 +4,5 @@ export interface AppealViewModel extends Api.AppealCaseDetailed {
 	formattedAddress?: string;
 	formattedCaseDecisionDate?: string;
 	formattedDecisionColour?: string;
-	status?: 'open' | 'closed';
+	status?: 'open' | 'closed' | 'decided';
 }
