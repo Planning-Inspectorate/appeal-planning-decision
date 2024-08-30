@@ -20,7 +20,11 @@
       <tbody class="govuk-table__body">
         {% for appeal in decidedAppeals %}
           <tr class="govuk-table__row">
-            <td class="govuk-table__cell">{{ appeal.caseReference }}</td>
+            <td class="govuk-table__cell">
+							<a href="/comment-planning-appeal/appeals/{{appeal.caseReference}}" class="govuk-link">
+                {{ appeal.caseReference }}
+              </a>
+						</td>
             <td class="govuk-table__cell">{{ appeal.formattedAddress }}</td>
             <td class="govuk-table__cell">{{ appeal.formattedCaseDecisionDate }}</td>
             <td class="govuk-table__cell">{{ appeal.appealTypeName }}</td>
