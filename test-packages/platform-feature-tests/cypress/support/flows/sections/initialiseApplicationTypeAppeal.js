@@ -29,13 +29,13 @@ module.exports = (statusOfOriginalApplication, planning, context, prepareAppealD
 
 		cy.get(basePage._selectors?.siteSelectionSeven).click();
 		cy.advanceToNextPage();
-		initialiseFullPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, context, prepareAppealData);
+		initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.fullAppealText, context, prepareAppealData);
 	}
 	else if (planning === prepareAppealSelector?._selectors?.answerHouseholderPlanning) {
 
 		cy.getByData(basePage._selectors?.answerListedBuilding).click();
 		cy.advanceToNextPage();
 
-		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? initialiseHouseHolderPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, context, prepareAppealData) : initialiseFullPlanning(statusOfOriginalApplication, planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData);
+		statusOfOriginalApplication === prepareAppealSelector?._selectors?.statusOfOriginalApplicationRefused ? initialiseHouseHolderPlanning(planning, grantedOrRefusedId, context, prepareAppealData) : initialiseFullPlanning(planning, grantedOrRefusedId, prepareAppealSelector?._selectors?.householderPlanningText, context, prepareAppealData);
 	}
 };

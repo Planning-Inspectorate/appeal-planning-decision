@@ -1,5 +1,8 @@
 import { BasePage } from "../../../../page-objects/base-page";
+import { DateService } from "../../../../support/flows/sections/dateService";
 export class ApplicationDatePage {
+
+    
 
     _selectors = {
         onApplicationDateDay: '#onApplicationDate_day',
@@ -9,10 +12,10 @@ export class ApplicationDatePage {
 
     addApplicationDateData() {
         const basePage = new BasePage();
-        let currentDate = new Date();
-        basePage.addTextField(this._selectors.onApplicationDateDay, currentDate.getDate());
-        basePage.addTextField(this._selectors.onApplicationDateMonth, currentDate.getMonth() - 1);
-        basePage.addTextField(this._selectors.onApplicationDateYear, currentDate.getFullYear());
+        const date = new DateService();
+        basePage.addTextField(this._selectors.onApplicationDateDay, date.today());
+        basePage.addTextField(this._selectors.onApplicationDateMonth, date.currentMonth());
+        basePage.addTextField(this._selectors.onApplicationDateYear, date.currentYear());
         cy.advanceToNextPage();
     };
 

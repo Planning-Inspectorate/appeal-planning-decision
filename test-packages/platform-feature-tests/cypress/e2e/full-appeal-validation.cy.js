@@ -1,5 +1,6 @@
 import { BasePage } from "../page-objects/base-page";
 import { fullAppealRefusedTestCases } from "../helpers/fullAppeal/fullAppealRefusedData";
+import { DateService } from "../support/flows/sections/dateService";
 const { ContactDetailsPage } = require("../support/flows/pages/prepare-appeal/contactDetailsPage");
 const { AppealSiteAddressPage } = require("../support/flows/pages/prepare-appeal/appealSiteAddressPage");
 const { SiteAreaPage } = require("../support/flows/pages/prepare-appeal/siteAreaPage");
@@ -32,6 +33,7 @@ describe('Full Appeal Validations', () => {
     const agriculturalHoldingPage = new AgriculturalHoldingPage();
 
     let prepareAppealData;
+    const date = new DateService();
 
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
@@ -53,11 +55,10 @@ describe('Full Appeal Validations', () => {
 
         cy.getByData(basePage?._selectors?.answerRefused).click();
         cy.advanceToNextPage();
-
-        let currentDate = new Date();
-        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateDay).type(currentDate.getDate());
-        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateMonth).type(currentDate.getMonth() + 1);
-        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateYear).type(currentDate.getFullYear());
+        
+        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateDay).type(date.today());
+        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateMonth).type(date.currentMonth());
+        cy.get(prepareAppealSelector?._fullAppealselectors?.decisionDateYear).type(date.currentYear());
         cy.advanceToNextPage();
     })
    
@@ -195,10 +196,10 @@ describe('Full Appeal Validations', () => {
 		});
 		cy.advanceToNextPage();
 		//What date did you submit your application?
-        let currentDate = new Date();
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(currentDate.getDate());
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(currentDate.getMonth() + 1);
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(currentDate.getFullYear());
+        
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth);
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
 		cy.advanceToNextPage();
 		//Enter the description of development that you submitted in your application
 		cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type(prepareAppealData?.develpmentDescriptionOriginal);
