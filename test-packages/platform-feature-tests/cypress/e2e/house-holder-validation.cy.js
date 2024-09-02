@@ -1,5 +1,6 @@
 import { BasePage } from "../page-objects/base-page";
 import { houseHolderAppealRefusedTestCases } from "../helpers/houseHolderAppeal/houseHolderAppealRefusedData";
+import { DateService } from "../support/flows/sections/dateService";
 const { ContactDetailsPage } = require("../support/flows/pages/prepare-appeal/contactDetailsPage");
 const { AppealSiteAddressPage } = require("../support/flows/pages/prepare-appeal/appealSiteAddressPage");
 const { SiteAreaPage } = require("../support/flows/pages/prepare-appeal/siteAreaPage");
@@ -16,6 +17,7 @@ const { ApplicationNamePage } = require("../support/flows/pages/prepare-appeal/a
 describe('House Holder Date Validations', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
     const basePage = new BasePage();
+    const date = new DateService();
     let prepareAppealData;
 
 
@@ -39,64 +41,57 @@ describe('House Holder Date Validations', () => {
 
         cy.getByData(basePage?._selectors?.answerRefused).click();
         cy.advanceToNextPage();
-
     })
 
     it(`Validate future date error message  in decision date page for future year`, () => {
-        let currentDate = new Date();
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear() + 1);
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.nextYear());
         cy.advanceToNextPage();
 
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Decision date must be today or in the past');        
     });
 
     it(`Validate future date error message  in decision date page future month`, () => {
-        let currentDate = new Date();
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 2);
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.nextMonth());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
         cy.advanceToNextPage();
 
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Decision date must be today or in the past');
     });
 
     it(`Validate future date error message  in decision date page future day`, () => {
-        let currentDate = new Date();
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate() + 1);
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.nextDay());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
         cy.advanceToNextPage();
 
          cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Decision date must be today or in the past');
     });
 
     it(`Validate future date error message  in decision date page negative date`, () => {
-        let currentDate = new Date();
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(-1);
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
         cy.advanceToNextPage();
 
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'The Decision Date must be a real date');
     });
 
     it(`Validate future date error message  in decision date page past year`, () => {
-        let currentDate = new Date();
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear() - 1);
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.previousYear());
         cy.advanceToNextPage();
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukHeadingOne, 'You cannot appeal');
         cy.containsMessage(basePage?._selectors?.govukBody,'Your deadline to appeal has passed.');
     });
 
     it(`Validate can use service page data `, () => {
-        let currentDate = new Date();
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
         cy.advanceToNextPage();
 
         cy.getByData(basePage?._selectors.answerNo).click();
@@ -108,7 +103,7 @@ describe('House Holder Date Validations', () => {
         cy.getByData(basePage?._selectors.applicationType).should('have.text', prepareAppealSelector?._selectors?.householderPlanningText);
         cy.getByData(basePage?._selectors.listedBuilding).should('have.text', 'No');
         cy.getByData(basePage?._selectors.applicaitonDecision).should('have.text', 'Refused');
-        cy.getByData(basePage?._selectors.decisionDate).should('have.text', `${currentDate.getDate()} ${monthNames[currentDate.getMonth()]} ${currentDate.getFullYear()}`);
+        cy.getByData(basePage?._selectors.decisionDate).should('have.text', `${date.today()>9?date.today():`0${date.today()}`} ${monthNames[date.currentMonth()-1]} ${date.currentYear()}`);
         cy.getByData(basePage?._selectors.enforcementNotice).should('have.text', 'No');
     });
 });
@@ -128,6 +123,7 @@ describe('House Holder Validations', () => {
     const context = houseHolderAppealRefusedTestCases[0];
 
     let prepareAppealData;
+    const date = new DateService();
 
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
@@ -149,15 +145,14 @@ describe('House Holder Validations', () => {
 
         cy.getByData(basePage?._selectors?.answerRefused).click();
         cy.advanceToNextPage();
-
-        let currentDate = new Date();
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
+        
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
         cy.advanceToNextPage();
     })
 
-    it(`Validate error message when user tries to navigate next page without selecting mandatory fields for enforecement`, () => {
+    it(`Validate error message when user tries to navigate next page without selecting mandatory fields for enforcement`, () => {
         cy.advanceToNextPage();
         
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Select yes if you have received an enforcement notice');       
@@ -277,10 +272,9 @@ describe('House Holder Validations', () => {
             healthSafetyIssuesPage.addHealthSafetyIssuesData(context,prepareAppealData);
             cy.advanceToNextPage();
 
-            const currentDate = new Date();
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(currentDate.getDate());
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(currentDate.getMonth() - 1);
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(currentDate.getFullYear());
+            cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
+            cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth());
+            cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
             cy.advanceToNextPage();
 
             cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type('developmentDescriptionOriginal-hint123456789!£$%&*j');

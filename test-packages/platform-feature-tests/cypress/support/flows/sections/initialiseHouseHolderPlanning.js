@@ -1,5 +1,5 @@
 import { BasePage } from "../../../page-objects/base-page";
-import { prepareAppealData } from '../../../fixtures/prepareAppealData.json';
+import { DateService } from "../../../support/flows/sections/dateService";
 const applicationFormPage = require("../pages/prepare-appeal/applicationFormPage");
 const { ApplicationNamePage } = require("../pages/prepare-appeal/applicationNamePage");
 const { ContactDetailsPage } = require("../pages/prepare-appeal/contactDetailsPage");
@@ -15,7 +15,7 @@ const { ApplyAppealCostsPage } = require("../pages/upload-documents/applyAppealC
 const { HealthSafetyIssuesPage } = require("../pages/prepare-appeal/healthSafetyIssuesPage");
 const { PrepareAppealSelector } = require("../../../page-objects/prepare-appeal/prepare-appeal-selector");
 
-module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, context, prepareAppealData) => {
+module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 	const basePage = new BasePage();
 	const prepareAppealSelector = new PrepareAppealSelector();
 	const applicationNamePage = new ApplicationNamePage();
@@ -30,16 +30,16 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 	const otherAppealsPage = new OtherAppealsPage();
 	const uploadApplicationFormPage = new UploadApplicationFormPage();
 	const applyAppealCostsPage = new ApplyAppealCostsPage();
+	const date = new DateService();
 	
 	cy.getByData(grantedOrRefusedId).click();
 	cy.advanceToNextPage();
 	
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.beforeYouStart}/decision-date-householder`);
 
-	let currentDate = new Date();
-	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(currentDate.getDate());
-	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(currentDate.getMonth() + 1);
-	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentDate.getFullYear());
+	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
+	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.currentMonth());
+	cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
 	cy.advanceToNextPage();
 
 	cy.getByData(basePage?._selectors.answerNo).click();
@@ -68,8 +68,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 	cy.advanceToNextPage();
 
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/list-of-documents`);
-	cy.advanceToNextPage();
-	cy.wait(2000);
+	cy.advanceToNextPage();	
 	cy.location('search').then((search) => {
 		const params = new URLSearchParams(search);
 		const dynamicId = params.get('id');
@@ -131,9 +130,9 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 		//What date did you submit your application?
 
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderPrepareAppeal}/application-date`);
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(currentDate.getDate() - 1);
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(currentDate.getMonth() - 1);
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(currentDate.getFullYear());
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth());
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
 		cy.advanceToNextPage();
 		//Enter the description of development that you submitted in your application
 
@@ -167,8 +166,7 @@ module.exports = (statusOfOriginalApplication, planning, grantedOrRefusedId, con
 
 		//submit
 		cy.get(`a[href*="/appeals/householder/submit/declaration?id=${dynamicId}"]`).click();
-		cy.wait(2000);
-		//Cypress.Commands.add('advanceToNextPage', (text = 'Continue') => {
+
 		cy.containsMessage(basePage?._selectors.govukButton,prepareAppealData?.acceptAndSubmitButton).click();
 
 		cy.get(basePage?._selectors.govukPanelTitle).invoke('text').should((text) => {		

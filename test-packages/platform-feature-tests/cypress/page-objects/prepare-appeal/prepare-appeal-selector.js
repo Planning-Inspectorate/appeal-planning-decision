@@ -35,6 +35,7 @@ export class PrepareAppealSelector {
     }
     _houseHolderURLs = {
         beforeYouStart: '/before-you-start',
+       // beforeYouStartDecisionDateHouseholder: '/before-you-start/decision-date-householder',
         appealHouseholderDecison: '/appeal-householder-decision',
         appealsHouseholderAppealForm: '/appeals/householder/appeal-form',
         appealsHouseholderPrepareAppeal: '/appeals/householder/prepare-appeal',
