@@ -19,7 +19,7 @@
 		"@azure/identity": "^4.2.1",
 		"@azure/storage-blob": "^12.17.0",
 		"@prisma/client": "^5.11.0",
-		"axios": "^1.6.5",
+		"axios": "^1.7.4",
 		"date-fns": "^3.6.0",
 		"escape-html": "^1.0.3",
 		"form-data": "^4.0.0",
