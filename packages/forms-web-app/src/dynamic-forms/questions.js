@@ -2002,9 +2002,9 @@ exports.questions = {
 	}),
 	lpaStatement: new TextEntryQuestion({
 		title: 'Appeal statement',
-		question: 'Enter your statement',
+		question: 'Appeal statement',
+		label: 'Enter your statement',
 		url: 'appeal-statement',
-		html: 'resources/lpa-statement/content.html',
 		fieldName: 'lpaStatement',
 		validators: [
 			new RequiredValidator('Enter your statement'),
