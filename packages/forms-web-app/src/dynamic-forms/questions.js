@@ -2048,5 +2048,28 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadLpaStatementDocuments
+	}),
+	appellantFinalComment: new BooleanQuestion({
+		title: 'Do you want to submit any final comments?',
+		question: 'Do you want to submit any final comments?',
+		fieldName: 'appellantFinalComment',
+		url: 'submit-final-comment',
+		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
+	}),
+	appellantFinalCommentDetails: new TextEntryQuestion({
+		title: 'Add your final comments',
+		question: 'Add your final comments',
+		url: 'final-comments',
+		html: 'resources/appellant-final-comments/content.html',
+		fieldName: 'appellantFinalCommentDetails',
+		validators: [
+			new RequiredValidator('Enter your final comments'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your final comments must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
 	})
 };
