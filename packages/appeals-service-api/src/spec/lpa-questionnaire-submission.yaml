@@ -63,6 +63,8 @@ components:
           type: boolean
         uploadPlanningOfficerReport:
           type: boolean
+        uploadPlansDrawings:
+          type: boolean
         lpaSiteAccess:
           type: boolean
         lpaSiteAccessDetails:

@@ -781,6 +781,7 @@ model LPAQuestionnaireSubmission {
   otherPartyRepresentations                       Boolean?
   uploadRepresentations                           Boolean?
   uploadPlanningOfficerReport                     Boolean?
+  uploadPlansDrawings                             Boolean?
   lpaSiteAccess                                   String?
   lpaSiteAccess_lpaSiteAccessDetails              String?
   neighbourSiteAccess                             String?

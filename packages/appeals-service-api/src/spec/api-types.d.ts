@@ -900,6 +900,7 @@ export interface LPAQuestionnaireSubmission {
 	otherPartyRepresentations?: boolean;
 	uploadRepresentations?: boolean;
 	uploadPlanningOfficerReport?: boolean;
+	uploadPlansDrawings?: boolean;
 	lpaSiteAccess?: boolean;
 	lpaSiteAccessDetails?: string;
 	neighbourSiteAccess?: boolean;
