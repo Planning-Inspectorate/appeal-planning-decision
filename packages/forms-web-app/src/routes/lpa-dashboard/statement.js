@@ -15,7 +15,7 @@ const setDefaultSection = require('../../dynamic-forms/middleware/set-default-se
 const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
 const {
 	skipIfNoAdditionalDocuments
-} = require('..//../dynamic-forms/middleware/redirect-middleware-conditions');
+} = require('../../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
