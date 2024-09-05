@@ -1,0 +1,44 @@
+components:
+  schemas:
+    SubmissionDocumentUpload:
+      description: A document uploaded to the FO
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier for the uploaded document
+        questionnaireId:
+          type: string
+          format: uuid
+          description: lpa questionnaire id this document is associated with, can be null
+        appellantSubmissionId:
+          type: string
+          format: uuid
+          description: appeal submission id this document is associated with, can be null
+        lpaStatementId:
+          type: string
+          format: uuid
+          description: lpa statement id this document is associated with, can be null
+        appellantFinalCommentId:
+          type: string
+          format: uuid
+          description: appellant final comment id this document is associated with, can be null
+        lpaFinalCommentId:
+          type: string
+          format: uuid
+          description: lpa final comment id this document is associated with, can be null
+        name:
+          type: string
+        fileName:
+          type: string
+        originalFileName:
+          type: string
+        location:
+          type: string
+        type:
+          type: string
+        storageId:
+          type: string

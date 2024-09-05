@@ -464,6 +464,10 @@ export interface AppealCase {
 	NeighbouringAddresses?: object[];
 	Events?: object[];
 	AppealCaseLpaNotificationMethod?: object[];
+	/** A final comment submitted by an LPA */
+	LPAFinalCommentSubmission?: LPAFinalCommentSubmission;
+	/** A final comment submitted by an appellant */
+	AppellantFinalCommentSubmission?: AppellantFinalCommentSubmission;
 }
 
 /** An appeal submission created in the Front Office */
@@ -547,6 +551,26 @@ export interface AppealUser {
 	isLpaAdmin?: boolean;
 	/** if an LPA user, the status of this user, e.g. have they logged in and confirmed their email? */
 	lpaStatus?: 'added' | 'confirmed' | 'removed';
+}
+
+/** A final comment submitted by an appellant */
+export interface AppellantFinalCommentSubmission {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	AppealCase: {
+		LPACode: string;
+	};
+	/** @format date-time */
+	createdAt?: string;
+	/** @format date-time */
+	updatedAt?: string;
+	/** whether the statement has been submitted to BO */
+	submitted?: boolean;
+	appellantFinalComment?: boolean;
+	appellantFinalCommentDetails?: string;
+	appellantFinalCommentDocuments?: boolean;
+	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
 /** An appellant submission */
@@ -870,6 +894,26 @@ export interface ListedBuilding {
 	listedBuildingGrade?: string | null;
 }
 
+/** A final comment submitted by an LPA */
+export interface LPAFinalCommentSubmission {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	AppealCase: {
+		LPACode: string;
+	};
+	/** @format date-time */
+	createdAt?: string;
+	/** @format date-time */
+	updatedAt?: string;
+	/** whether the statement has been submitted to BO */
+	submitted?: boolean;
+	lpaFinalComment?: boolean;
+	lpaFinalCommentDetails?: string;
+	lpaFinalCommentDocuments?: boolean;
+	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
+}
+
 /** A questionnaire submitted by an LPA */
 export interface LPAQuestionnaireSubmission {
 	/** @format uuid */
@@ -1155,6 +1199,46 @@ export interface SubmissionAddress {
 	county?: string;
 	/** the postcode of the address */
 	postcode: string;
+}
+
+/** A document uploaded to the FO */
+export interface SubmissionDocumentUpload {
+	/**
+	 * identifier for the uploaded document
+	 * @format uuid
+	 */
+	id: string;
+	/**
+	 * lpa questionnaire id this document is associated with, can be null
+	 * @format uuid
+	 */
+	questionnaireId?: string;
+	/**
+	 * appeal submission id this document is associated with, can be null
+	 * @format uuid
+	 */
+	appellantSubmissionId?: string;
+	/**
+	 * lpa statement id this document is associated with, can be null
+	 * @format uuid
+	 */
+	lpaStatementId?: string;
+	/**
+	 * appellant final comment id this document is associated with, can be null
+	 * @format uuid
+	 */
+	appellantFinalCommentId?: string;
+	/**
+	 * lpa final comment id this document is associated with, can be null
+	 * @format uuid
+	 */
+	lpaFinalCommentId?: string;
+	name?: string;
+	fileName?: string;
+	originalFileName?: string;
+	location?: string;
+	type?: string;
+	storageId?: string;
 }
 
 /** A case linked to a submitted appeal or questionnaire */
