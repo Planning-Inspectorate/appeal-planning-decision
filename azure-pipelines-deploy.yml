@@ -142,17 +142,18 @@ extends:
                   azurecrName: $(azurecrName)
                   repository: appeal-planning-decision/documents-api
           - name: Deploy Integration Functions
-            artifact:
-              name: integration-functions
-              sourcePipeline: Appeals Service Build
             dependsOn:
               - Migrate
             condition: eq(${{ parameters.deployIntegrationFunctions }}, 'true')
             steps:
+              - download: build
+                artifact: integration-functions
+                displayName: Download integration-functions
               - template: ../steps/function_app_deploy.yml
                 parameters:
                   appName: pins-func-appeals-fo-integration-$(ENVIRONMENT)-$(REGION_SHORT)-001
                   resourceGroup: $(resourceGroup)
+                  workingDirectory: $(Pipeline.Workspace)/build/integration-functions
           - name: Deploy PDF API
             dependsOn:
               - Migrate
