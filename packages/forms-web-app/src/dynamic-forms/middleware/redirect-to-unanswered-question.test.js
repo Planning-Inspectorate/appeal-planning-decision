@@ -1,7 +1,9 @@
 const redirectToUnansweredQuestion = require('./redirect-to-unanswered-question');
 const { getJourney } = require('../journey-factory');
-const { S78LpaStatementJourney } = require('../s78-lpa-statement/journey');
+const { buildJourneyParams } = require('../s78-lpa-statement/journey');
+const { skipIfNoAdditionalDocuments } = require('./redirect-middleware-conditions');
 const { JourneyResponse } = require('../journey-response');
+const { Journey } = require('../journey');
 jest.mock('../journey-factory', () => ({
 	getJourney: jest.fn()
 }));
@@ -30,10 +32,11 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 		);
 		res.locals.journeyResponse = journeyResponse;
 
-		const journey = new S78LpaStatementJourney(journeyResponse);
+		const journey = new Journey(...buildJourneyParams(journeyResponse));
 		getJourney.mockReturnValue(journey);
 
-		redirectToUnansweredQuestion()(req, res, next);
+		// Passing in array of no conditions, redirects to first unanswered question
+		redirectToUnansweredQuestion([])(req, res, next);
 
 		expect(res.redirect).toHaveBeenCalledWith(
 			'/manage-appeals/appeal-statement/0000003/appeal-statement'
@@ -49,10 +52,10 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 	//     }, 'Q9999');
 	//     res.locals.journeyResponse = journeyResponse;
 
-	//     const journey = new S78LpaStatementJourney(journeyResponse);
+	//     const journey = new Journey(...buildJourneyParams(journeyResponse));
 	//     getJourney.mockReturnValue(journey);
 
-	//     redirectToUnansweredQuestion()(req, res, next);
+	//     redirectToUnansweredQuestion([])(req, res, next);
 	//     console.log(res.redirect.mock.calls)
 	//     expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/appeal-statement/0000003/additional-documents');
 	//     expect(next).not.toHaveBeenCalled();
@@ -70,10 +73,10 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 		);
 		res.locals.journeyResponse = journeyResponse;
 
-		const journey = new S78LpaStatementJourney(journeyResponse);
+		const journey = new Journey(...buildJourneyParams(journeyResponse));
 		getJourney.mockReturnValue(journey);
 
-		redirectToUnansweredQuestion()(req, res, next);
+		redirectToUnansweredQuestion([skipIfNoAdditionalDocuments])(req, res, next);
 
 		expect(res.redirect).toHaveBeenCalledWith(
 			'/manage-appeals/appeal-statement/0000003/upload-supporting-documents'
@@ -93,10 +96,10 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 		);
 		res.locals.journeyResponse = journeyResponse;
 
-		const journey = new S78LpaStatementJourney(journeyResponse);
+		const journey = new Journey(...buildJourneyParams(journeyResponse));
 		getJourney.mockReturnValue(journey);
 
-		redirectToUnansweredQuestion()(req, res, next);
+		redirectToUnansweredQuestion([skipIfNoAdditionalDocuments])(req, res, next);
 
 		expect(next).toHaveBeenCalled();
 		expect(res.redirect).not.toHaveBeenCalled();
@@ -115,10 +118,10 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 		);
 		res.locals.journeyResponse = journeyResponse;
 
-		const journey = new S78LpaStatementJourney(journeyResponse);
+		const journey = new Journey(...buildJourneyParams(journeyResponse));
 		getJourney.mockReturnValue(journey);
 
-		redirectToUnansweredQuestion()(req, res, next);
+		redirectToUnansweredQuestion([skipIfNoAdditionalDocuments])(req, res, next);
 
 		expect(next).toHaveBeenCalled();
 		expect(res.redirect).not.toHaveBeenCalled();

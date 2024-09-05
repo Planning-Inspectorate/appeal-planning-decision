@@ -2,8 +2,8 @@ const express = require('express');
 const {
 	list,
 	question,
-	save
-	// remove,
+	save,
+	remove
 	// submit,
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
@@ -13,6 +13,9 @@ const {
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-lpa-statement');
 const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
 const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
+const {
+	skipIfNoAdditionalDocuments
+} = require('..//../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
@@ -60,7 +63,7 @@ const statementTaskList = async (req, res) => {
 router.get(
 	'/appeal-statement/:referenceId',
 	getJourneyResponse(),
-	redirectToUnansweredQuestion(),
+	redirectToUnansweredQuestion([skipIfNoAdditionalDocuments]),
 	checkNotSubmitted(dashboardUrl),
 	statementTaskList
 );
@@ -95,12 +98,13 @@ router.post(
 // 	submit
 // );
 
-// // remove answer - only available for some question types
-// router.get(
-// 	'/appeal-statement/:referenceId/:section/:question/:answerId',
-// 	getJourneyResponse(),
-// 	checkNotSubmitted(dashboardUrl),
-// 	remove
-// );
+// remove answer - only available for some question types
+router.get(
+	'/appeal-statement/:referenceId/:question/:answerId',
+	setDefaultSection(),
+	getJourneyResponse(),
+	checkNotSubmitted(dashboardUrl),
+	remove
+);
 
 module.exports = router;
