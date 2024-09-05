@@ -78,10 +78,10 @@ router.use(
 );
 // v2 published BO documents, doesn't check logged in as some docs are public, checked in docs api
 router.use('/published-document/:documentId', getPublishedDocumentV2Url);
-//v2 submission (appeals/questionnaires) documents routes
-router.use('/document/:documentId', checkLoggedIn, getSubmissionDocumentV2Url);
 // v1 appeals / questionnaires documents
 router.use('/document/:appealOrQuestionnaireId/:documentId', checkLoggedIn, getDocument);
+//v2 submission (appeals/questionnaires) documents routes
+router.use('/document/:documentId', checkLoggedIn, getSubmissionDocumentV2Url);
 
 router.use('/save-and-return', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, save);
 router.use('/submit-appeal', checkLoggedIn, checkAppealExists, checkDecisionDateDeadline, submit);
