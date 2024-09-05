@@ -386,6 +386,9 @@ model AppealCase {
   //***************************************************************************
   LPAQuestionnaireSubmission LPAQuestionnaireSubmission?
   LPAStatementSubmission     LPAStatementSubmission?
+  LPAFinalCommentSubmission  LPAFinalCommentSubmission?
+
+  AppellantFinalCommentSubmission AppellantFinalCommentSubmission?
 
   Rule6Parties                    Rule6Party[]
   AffectedListedBuildings         AppealCaseListedBuilding[]
@@ -863,6 +866,50 @@ model LPAStatementSubmission {
   SubmissionDocumentUpload    SubmissionDocumentUpload[]
 }
 
+model LPAFinalCommentSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  caseReference String     @unique
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+
+  lpaFinalComment          Boolean @default(false)
+  lpaFinalCommentDetails   String?
+  lpaFinalCommentDocuments Boolean @default(false)
+
+  // Uploaded documents and details linked to this appeal
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
+model AppellantFinalCommentSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  caseReference String     @unique
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+
+  appellantFinalComment          Boolean @default(false)
+  appellantFinalCommentDetails   String?
+  appellantFinalCommentDocuments Boolean @default(false)
+
+  // Uploaded documents and details linked to this appeal
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
 model SubmissionDocumentUpload {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
@@ -874,6 +921,12 @@ model SubmissionDocumentUpload {
 
   lpaStatementId         String?                 @db.UniqueIdentifier
   LPAStatementSubmission LPAStatementSubmission? @relation(fields: [lpaStatementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  appellantFinalCommentId         String?                          @db.UniqueIdentifier
+  AppellantFinalCommentSubmission AppellantFinalCommentSubmission? @relation(fields: [appellantFinalCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  lpaFinalCommentId         String?                    @db.UniqueIdentifier
+  LPAFinalCommentSubmission LPAFinalCommentSubmission? @relation(fields: [lpaFinalCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   name             String
   fileName         String

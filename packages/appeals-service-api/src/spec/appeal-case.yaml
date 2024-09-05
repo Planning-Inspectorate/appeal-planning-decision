@@ -580,3 +580,9 @@ components:
           type: array
           items:
             type: object
+
+        LPAFinalCommentSubmission:
+          $ref: '#/components/schemas/LPAFinalCommentSubmission'
+
+        AppellantFinalCommentSubmission:
+          $ref: '#/components/schemas/AppellantFinalCommentSubmission'

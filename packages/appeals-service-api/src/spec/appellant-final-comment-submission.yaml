@@ -1,0 +1,41 @@
+components:
+  schemas:
+    AppellantFinalCommentSubmission:
+      description: A final comment submitted by an appellant
+      type: object
+      required:
+        - id
+        - AppealCase
+        - caseReference
+      properties:
+        id:
+          type: string
+          format: uuid
+        caseReference:
+          type: string
+        AppealCase: # partial AppealCase data
+          type: object
+          required:
+            - LPACode
+          properties:
+            LPACode:
+              type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        submitted:
+          type: boolean
+          description: whether the statement has been submitted to BO
+        appellantFinalComment:
+          type: boolean
+        appellantFinalCommentDetails:
+          type: string
+        appellantFinalCommentDocuments:
+          type: boolean
+        SubmissionDocumentUpload:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionDocumentUpload'
