@@ -48,6 +48,11 @@ class SubmissionDocumentUploadRepository {
 				}
 			},
 			include: {
+				AppealCase: {
+					select: {
+						LPACode: true
+					}
+				},
 				SubmissionDocumentUpload: true
 			}
 		});
@@ -73,6 +78,11 @@ class SubmissionDocumentUploadRepository {
 				}
 			},
 			include: {
+				AppealCase: {
+					select: {
+						LPACode: true
+					}
+				},
 				SubmissionDocumentUpload: true
 			}
 		});
