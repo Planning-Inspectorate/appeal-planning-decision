@@ -26,6 +26,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.ListedBuilding} ListedBuilding
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
+ * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  */
 
 // Data model types
@@ -418,6 +419,37 @@ class AppealsApiClient {
 	async deleteLPAStatementDocumentUpload(caseReference, documentId) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission/document-upload/${documentId}`;
 		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(AppellantFinalCommentSubmission)>}
+	 */
+	async getAppellantFinalCommentSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-final-comment-submission`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(AppellantFinalCommentSubmission)>}
+	 */
+	async postAppellantFinalCommentSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-final-comment-submission`;
+		const response = await this.#makePostRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(AppellantFinalCommentSubmission)>}
+	 */
+	async patchAppellantFinalCommentSubmission(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-final-comment-submission`;
+		const response = await this.#makePatchRequest(endpoint, data);
 		return response.json();
 	}
 
