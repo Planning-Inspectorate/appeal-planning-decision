@@ -51,7 +51,12 @@ const questionnaireTaskList = async (req, res) => {
 
 	const pageCaption = `Appeal ${appeal.caseReference}`;
 
-	return list(req, res, pageCaption, { appeal });
+	const backOverride = {
+		text: 'Return to your appeals',
+		href: '/manage-appeals/your-appeals'
+	};
+
+	return list(req, res, pageCaption, { appeal, backOverride });
 };
 
 // list
