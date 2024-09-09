@@ -13,9 +13,9 @@ CREATE TABLE [dbo].[LPAFinalCommentSubmission] (
     [createdAt] DATETIME2 NOT NULL CONSTRAINT [LPAFinalCommentSubmission_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
     [updatedAt] DATETIME2,
     [submitted] BIT NOT NULL CONSTRAINT [LPAFinalCommentSubmission_submitted_df] DEFAULT 0,
-    [lpaFinalComment] BIT NOT NULL CONSTRAINT [LPAFinalCommentSubmission_lpaFinalComment_df] DEFAULT 0,
+    [lpaFinalComment] BIT,
     [lpaFinalCommentDetails] NVARCHAR(1000),
-    [lpaFinalCommentDocuments] BIT NOT NULL CONSTRAINT [LPAFinalCommentSubmission_lpaFinalCommentDocuments_df] DEFAULT 0,
+    [lpaFinalCommentDocuments] BIT,
     CONSTRAINT [LPAFinalCommentSubmission_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [LPAFinalCommentSubmission_caseReference_key] UNIQUE NONCLUSTERED ([caseReference])
 );
@@ -27,9 +27,9 @@ CREATE TABLE [dbo].[AppellantFinalCommentSubmission] (
     [createdAt] DATETIME2 NOT NULL CONSTRAINT [AppellantFinalCommentSubmission_createdAt_df] DEFAULT CURRENT_TIMESTAMP,
     [updatedAt] DATETIME2,
     [submitted] BIT NOT NULL CONSTRAINT [AppellantFinalCommentSubmission_submitted_df] DEFAULT 0,
-    [appellantFinalComment] BIT NOT NULL CONSTRAINT [AppellantFinalCommentSubmission_appellantFinalComment_df] DEFAULT 0,
+    [appellantFinalComment] BIT,
     [appellantFinalCommentDetails] NVARCHAR(1000),
-    [appellantFinalCommentDocuments] BIT NOT NULL CONSTRAINT [AppellantFinalCommentSubmission_appellantFinalCommentDocuments_df] DEFAULT 0,
+    [appellantFinalCommentDocuments] BIT,
     CONSTRAINT [AppellantFinalCommentSubmission_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [AppellantFinalCommentSubmission_caseReference_key] UNIQUE NONCLUSTERED ([caseReference])
 );

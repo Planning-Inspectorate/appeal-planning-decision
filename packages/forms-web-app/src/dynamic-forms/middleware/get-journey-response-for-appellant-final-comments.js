@@ -4,39 +4,46 @@ const logger = require('#lib/logger');
 // const { getUserFromSession } = require('../../services/user.service');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
-// const { appeal } = require('@pins/business-rules/src/config');
 // const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 module.exports = () => async (req, res, next) => {
-	const appealNumber = req.params.appealNumber;
-	// const encodedReferenceId = encodeURIComponent(appealNumber);
+	const referenceId = req.params.referenceId;
+	const encodedReferenceId = encodeURIComponent(referenceId);
 	let result;
 
-	// const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(encodedReferenceId);
+	console.log(req.params);
+
+	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(encodedReferenceId);
+
+	console.log('aiaiai');
+	console.log(appeal);
 
 	const journeyType = APPELLANT_JOURNEY_TYPES_FORMATTED.FINAL_COMMENTS;
 
 	try {
-		const dbResponse = await req.appealsApiClient.getAppellantFinalCommentSubmission(appealNumber);
+		const dbResponse = await req.appealsApiClient.getAppellantFinalCommentSubmission(referenceId);
 		const convertedResponse = mapDBResponseToJourneyResponseFormat(dbResponse);
 		result = new JourneyResponse(
 			journeyType,
-			appealNumber,
+			referenceId,
 			convertedResponse,
 			dbResponse.AppealCase?.LPACode
 		);
 	} catch (err) {
 		if (err instanceof ApiClientError && err.code === 404) {
 			logger.debug('final comment not found, creating and returning default response');
-			await req.appealsApiClient.postAppellantFinalCommentSubmission(appealNumber);
+			await req.appealsApiClient.postAppellantFinalCommentSubmission(referenceId);
 		} else {
 			logger.error(err);
 		}
 		// return default response
-		result = getDefaultResponse(journeyType, appealNumber, 'user.lpaCode');
+		result = getDefaultResponse(journeyType, referenceId, 'user.lpaCode');
 	}
 
 	res.locals.journeyResponse = result;
+
+	console.log('eeeek');
+	console.log(result);
 
 	return next();
 };
