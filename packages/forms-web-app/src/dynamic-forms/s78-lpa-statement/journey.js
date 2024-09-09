@@ -8,7 +8,9 @@ const config = require('../../config');
  */
 
 const sections = [
-	new Section('', config.dynamicForms.DEFAULT_SECTION).addQuestion(questions.lpaStatement)
+	new Section('', config.dynamicForms.DEFAULT_SECTION)
+		.addQuestion(questions.lpaStatement)
+		.addQuestion(questions.additionalDocuments)
 ];
 
 const fixedParams = {
