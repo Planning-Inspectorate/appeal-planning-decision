@@ -22,10 +22,10 @@ const sections = [
 ];
 
 const fixedParams = {
-	baseS78StatementUrl: '/appeals/final-comments',
+	baseAppellantFinalCommentUrl: '/appeals/final-comments',
 	journeyTemplate: 'final-comments-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/final-comments',
-	journeyTitle: 'Manage your appeals',
+	journeyTitle: 'Appeal a planning decision',
 	sections
 };
 
@@ -37,7 +37,9 @@ const buildJourneyParams = (response) => [
 	{
 		...fixedParams,
 		response,
-		baseUrl: `${fixedParams.baseS78StatementUrl}/${encodeURIComponent(response.referenceId)}`
+		baseUrl: `${fixedParams.baseAppellantFinalCommentUrl}/${encodeURIComponent(
+			response.referenceId
+		)}`
 	}
 ];
 
