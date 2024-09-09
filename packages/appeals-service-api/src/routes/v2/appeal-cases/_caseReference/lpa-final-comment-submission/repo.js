@@ -2,17 +2,17 @@ const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
 /**
- * @typedef {import('@prisma/client').AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
+ * @typedef {import('@prisma/client').LPAFinalCommentSubmission} LPAFinalCommentSubmission
  */
 
 /**
  * @typedef {Object} FinalCommentData
- * @property {boolean} [appellantFinalComment]
- * @property {string} [appellantFinalCommentDetails]
+ * @property {boolean} [lpaFinalComment]
+ * @property {string} [lpaFinalCommentDetails]
  * @property {boolean} [appellantFinalCommentDocuments]
  */
 
-class AppellantFinalCommentSubmissionRepository {
+class LPAFinalCommentSubmissionRepository {
 	dbClient;
 
 	constructor() {
@@ -20,14 +20,14 @@ class AppellantFinalCommentSubmissionRepository {
 	}
 
 	/**
-	 * Get appellant final comment for given appeal
+	 * Get lpa final comment for given appeal
 	 *
 	 * @param {string} caseReference
-	 * @returns {Promise<AppellantFinalCommentSubmission|null>}
+	 * @returns {Promise<LPAFinalCommentSubmission|null>}
 	 */
-	async getAppellantFinalCommentByAppealRef(caseReference) {
+	async getLPAFinalCommentByAppealRef(caseReference) {
 		try {
-			return await this.dbClient.appellantFinalCommentSubmission.findUnique({
+			return await this.dbClient.lPAFinalCommentSubmission.findUnique({
 				where: {
 					caseReference
 				},
@@ -53,14 +53,14 @@ class AppellantFinalCommentSubmissionRepository {
 	}
 
 	/**
-	 * Create appellant final comment for given appeal
+	 * Create lpa final comment for given appeal
 	 *
 	 * @param {string} caseReference
 	 * @param {FinalCommentData} data
-	 * @returns {Promise<Omit<AppellantFinalCommentSubmission, 'SubmissionDocumentUpload'>>}
+	 * @returns {Promise<Omit<LPAFinalCommentSubmission, 'SubmissionDocumentUpload'>>}
 	 */
-	async createAppellantFinalComment(caseReference, data) {
-		return await this.dbClient.appellantFinalCommentSubmission.create({
+	async createLPAFinalComment(caseReference, data) {
+		return await this.dbClient.lPAFinalCommentSubmission.create({
 			data: {
 				caseReference,
 				...data
@@ -80,10 +80,10 @@ class AppellantFinalCommentSubmissionRepository {
 	 *
 	 * @param {string} caseReference
 	 * @param {FinalCommentData} data
-	 * @returns {Promise<Omit<AppellantFinalCommentSubmission, 'SubmissionDocumentUpload'>>}
+	 * @returns {Promise<Omit<LPAFinalCommentSubmission, 'SubmissionDocumentUpload'>>}
 	 */
-	async patchAppellantFinalCommentByAppealId(caseReference, data) {
-		return await this.dbClient.appellantFinalCommentSubmission.update({
+	async patchLPAFinalCommentByAppealId(caseReference, data) {
+		return await this.dbClient.lPAFinalCommentSubmission.update({
 			where: {
 				caseReference
 			},
@@ -103,8 +103,8 @@ class AppellantFinalCommentSubmissionRepository {
 	 * @param {string} id
 	 * @returns {Promise<{id: string}>}
 	 */
-	markAppellantFinalCommentAsSubmitted(id) {
-		return this.dbClient.appellantFinalCommentSubmission.update({
+	markLPAFinalCommentAsSubmitted(id) {
+		return this.dbClient.lPAFinalCommentSubmission.update({
 			where: {
 				id: id
 			},
@@ -118,4 +118,4 @@ class AppellantFinalCommentSubmissionRepository {
 	}
 }
 
-module.exports = { AppellantFinalCommentSubmissionRepository };
+module.exports = { LPAFinalCommentSubmissionRepository };

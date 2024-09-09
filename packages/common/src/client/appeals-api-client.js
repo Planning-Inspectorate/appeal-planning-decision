@@ -27,6 +27,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.ListedBuilding} ListedBuilding
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
+ * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  */
 
 // Data model types
@@ -449,6 +450,37 @@ class AppealsApiClient {
 	 */
 	async patchAppellantFinalCommentSubmission(caseReference, data) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-final-comment-submission`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(LPAFinalCommentSubmission)>}
+	 */
+	async getLPAFinalCommentSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-final-comment-submission`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(LPAFinalCommentSubmission)>}
+	 */
+	async postLPAFinalCommentSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-final-comment-submission`;
+		const response = await this.#makePostRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(LPAFinalCommentSubmission)>}
+	 */
+	async patchLPAFinalCommentSubmission(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-final-comment-submission`;
 		const response = await this.#makePatchRequest(endpoint, data);
 		return response.json();
 	}
