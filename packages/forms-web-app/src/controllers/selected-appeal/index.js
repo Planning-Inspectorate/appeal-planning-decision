@@ -13,7 +13,8 @@ const { sections: lpaUserSections } = require('./lpa-user-sections');
 const { mapDecisionTag } = require('@pins/business-rules/src/utils/decision-outcome');
 const { sections: rule6Sections } = require('./rule-6-sections');
 const { getUserFromSession } = require('../../services/user.service');
-const { format: formatDate } = require('date-fns');
+const { formatInTimeZone } = require('date-fns-tz');
+const targetTimezone = 'Europe/London';
 const { getDepartmentFromCode } = require('../../services/department.service');
 const { calculateDueInDays } = require('../../lib/calculate-due-in-days');
 const logger = require('#lib/logger');
@@ -133,6 +134,7 @@ const filterDecisionDocuments = (documents) =>
 	documents.filter(
 		(document) => document.documentType === APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER
 	);
+
 /**
  *
  * @param {string | undefined} dateStr
@@ -141,7 +143,11 @@ const filterDecisionDocuments = (documents) =>
 const formatDateForNotification = (dateStr) => {
 	if (!dateStr) return;
 	const date = new Date(dateStr);
-	return `${formatDate(date, 'h:mmaaa')} on ${formatDate(date, 'd LLLL yyyy')}`; // eg 11:59pm on 21 March 2024
+	return `${formatInTimeZone(date, targetTimezone, 'h:mmaaa')} on ${formatInTimeZone(
+		date,
+		targetTimezone,
+		'd LLLL yyyy'
+	)}`; // eg 11:59pm on 21 March 2024
 };
 
 /**
