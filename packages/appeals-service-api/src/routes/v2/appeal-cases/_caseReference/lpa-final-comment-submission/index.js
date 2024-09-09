@@ -1,13 +1,14 @@
 const express = require('express');
 const {
-	getAppellantFinalCommentSubmission,
-	patchAppellantFinalCommentSubmission,
-	createAppellantFinalCommentSubmission
+	getLPAFinalCommentSubmission,
+	patchLPAFinalCommentSubmission,
+	createLPAFinalCommentSubmission
 } = require('./controller');
 const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../../../configuration/config');
 const { auth } = require('express-oauth2-jwt-bearer');
 const { validateToken } = require('@pins/common/src/middleware/validate-token');
+const lpaCanModifyCase = require('../lpa-questionnaire-submission/lpa-can-modify-case');
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const router = express.Router({ mergeParams: true });
 
@@ -27,9 +28,9 @@ router.use(
 	})
 );
 
-// SAppellant Final Comment routes
-router.get('/', asyncHandler(getAppellantFinalCommentSubmission));
-router.post('/', asyncHandler(createAppellantFinalCommentSubmission));
-router.patch('/', asyncHandler(patchAppellantFinalCommentSubmission));
+// LPA Final Comment routes
+router.get('/', asyncHandler(getLPAFinalCommentSubmission));
+router.post('/', lpaCanModifyCase, asyncHandler(createLPAFinalCommentSubmission));
+router.patch('/', lpaCanModifyCase, asyncHandler(patchLPAFinalCommentSubmission));
 
 module.exports = { router };

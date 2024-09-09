@@ -56,6 +56,15 @@ const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
 const finalCommentBaseUrl = '/manage-appeals/appeal-comment';
 const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
+/**
+ * @param {string} caseReference
+ */
+const appellantFinalCommentBaseUrl = (caseReference) =>
+	`${caseReference}/final-comments-submission`;
+/**
+ * @param {string} caseReference
+ */
+const appellantProofsBaseUrl = (caseReference) => `${caseReference}/proofs-of-evidence-submission`;
 
 // MAP DATABASE RETURN OBJECTS TO DASHBOARD DISPLAY DATA
 
@@ -246,20 +255,23 @@ const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
 		return {
 			deadline: caseOrSubmission.finalCommentsDueDate,
 			dueInDays: calculateDueInDays(caseOrSubmission.finalCommentsDueDate),
-			documentDue: 'Final comments'
+			documentDue: 'Final comments',
+			baseUrl: appellantFinalCommentBaseUrl(caseOrSubmission.caseReference)
 		};
 	} else if (isAppellantProofsOfEvidenceDue(caseOrSubmission)) {
 		return {
 			deadline: caseOrSubmission.proofsOfEvidenceDueDate,
 			dueInDays: calculateDueInDays(caseOrSubmission.proofsOfEvidenceDueDate),
-			documentDue: 'Proofs of evidence'
+			documentDue: 'Proofs of evidence',
+			baseUrl: appellantProofsBaseUrl(caseOrSubmission.caseReference)
 		};
 	}
 
 	return {
 		deadline: null,
 		dueInDays: 100000,
-		documentDue: null
+		documentDue: null,
+		baseUrl: null
 	};
 };
 

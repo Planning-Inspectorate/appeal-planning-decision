@@ -5,19 +5,19 @@ const {
 	save
 	// remove,
 	// submit,
-} = require('../../dynamic-forms/controller');
-const validate = require('../../dynamic-forms/validator/validator');
+} = require('../../../dynamic-forms/controller');
+const validate = require('../../../dynamic-forms/validator/validator');
 const {
 	validationErrorHandler
-} = require('../../dynamic-forms/validator/validation-error-handler');
-const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-lpa-statement');
-const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
-const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
-const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
-const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
+} = require('../../../dynamic-forms/validator/validation-error-handler');
+const getJourneyResponse = require('../../../dynamic-forms/middleware/get-journey-response-for-appellant-final-comments');
+const setDefaultSection = require('../../../dynamic-forms/middleware/set-default-section');
+const redirectToUnansweredQuestion = require('../../../dynamic-forms/middleware/redirect-to-unanswered-question');
+const dynamicReqFilesToReqBodyFiles = require('../../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
+const checkNotSubmitted = require('../../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 
-const { getUserFromSession } = require('../../services/user.service');
+const { getUserFromSession } = require('../../../services/user.service');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { SERVICE_USER_TYPE } = require('pins-data-model');
 
