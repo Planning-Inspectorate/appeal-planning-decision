@@ -58,7 +58,7 @@ const finalCommentsTaskList = async (req, res) => {
 
 // list
 router.get(
-	'/final-comments/:referenceId',
+	'/:referenceId',
 	getJourneyResponse(),
 	redirectToUnansweredQuestion(),
 	checkNotSubmitted(dashboardUrl),
@@ -67,7 +67,7 @@ router.get(
 
 // question
 router.get(
-	'/final-comments/:referenceId/:question',
+	'/:referenceId/:question',
 	setDefaultSection(),
 	getJourneyResponse(),
 	checkNotSubmitted(dashboardUrl),
@@ -76,7 +76,7 @@ router.get(
 
 // save
 router.post(
-	'/final-comments/:referenceId/:question',
+	'/:referenceId/:question',
 	setDefaultSection(),
 	getJourneyResponse(),
 	checkNotSubmitted(dashboardUrl),
