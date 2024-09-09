@@ -2026,5 +2026,16 @@ exports.questions = {
 				}
 			})
 		]
+	}),
+	additionalDocuments: new BooleanQuestion({
+		title: 'Do you have additional documents to support your appeal statement?',
+		question: 'Do you have additional documents to support your appeal statement?',
+		fieldName: 'additionalDocuments',
+		url: 'additional-documents',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have additional documents to support your appeal statement'
+			)
+		]
 	})
 };
