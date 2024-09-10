@@ -570,6 +570,7 @@ export interface AppellantFinalCommentSubmission {
 	appellantFinalComment?: boolean;
 	appellantFinalCommentDetails?: string;
 	appellantFinalCommentDocuments?: boolean;
+	uploadAppellantFinalCommentDocuments?: boolean;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
@@ -911,6 +912,7 @@ export interface LPAFinalCommentSubmission {
 	lpaFinalComment?: boolean;
 	lpaFinalCommentDetails?: string;
 	lpaFinalCommentDocuments?: boolean;
+	uploadLPAFinalCommentDocuments?: boolean;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 

@@ -16,6 +16,7 @@ CREATE TABLE [dbo].[LPAFinalCommentSubmission] (
     [lpaFinalComment] BIT,
     [lpaFinalCommentDetails] NVARCHAR(1000),
     [lpaFinalCommentDocuments] BIT,
+    [uploadLPAFinalCommentDocuments] BIT,
     CONSTRAINT [LPAFinalCommentSubmission_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [LPAFinalCommentSubmission_caseReference_key] UNIQUE NONCLUSTERED ([caseReference])
 );
@@ -30,6 +31,7 @@ CREATE TABLE [dbo].[AppellantFinalCommentSubmission] (
     [appellantFinalComment] BIT,
     [appellantFinalCommentDetails] NVARCHAR(1000),
     [appellantFinalCommentDocuments] BIT,
+    [uploadAppellantFinalCommentDocuments] BIT,
     CONSTRAINT [AppellantFinalCommentSubmission_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [AppellantFinalCommentSubmission_caseReference_key] UNIQUE NONCLUSTERED ([caseReference])
 );
