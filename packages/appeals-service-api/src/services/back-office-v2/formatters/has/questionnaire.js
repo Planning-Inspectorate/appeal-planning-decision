@@ -7,6 +7,7 @@
  */
 
 const { getDocuments, howYouNotifiedPeople } = require('../utils');
+const { documentTypes } = require('@pins/common/src/document-types');
 
 /**
  * @param {string} caseReference
@@ -50,6 +51,6 @@ exports.formatter = async (caseReference, { ...answers }) => {
 			lpaStatement: '', // not asked
 			lpaCostsAppliedFor: null // not asked
 		},
-		documents: await getDocuments(answers)
+		documents: await getDocuments(answers, documentTypes.planningOfficersReportUpload.dataModelName)
 	};
 };

@@ -5,6 +5,7 @@
  */
 
 const { toBool, getDocuments } = require('../utils');
+const { documentTypes } = require('@pins/common/src/document-types');
 
 /**
  * @param {string} caseReference
@@ -57,6 +58,6 @@ exports.formatter = async (caseReference, { AppealCase: { LPACode }, ...answers 
 			supplementaryPlanningDocs: answers.supplementaryPlanningDocs,
 			treePreservationOrder: answers.treePreservationOrder
 		},
-		documents: await getDocuments(answers)
+		documents: await getDocuments(answers, documentTypes.planningOfficersReportUpload.dataModelName)
 	};
 };
