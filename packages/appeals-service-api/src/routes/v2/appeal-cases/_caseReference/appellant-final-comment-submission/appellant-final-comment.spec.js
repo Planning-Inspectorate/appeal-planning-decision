@@ -204,7 +204,7 @@ describe('/appeal-cases/_caseReference/appellant-final-comment-submission', () =
 		expect(updatedResponse.status).toEqual(200);
 		expect(updatedResponse.body).toMatchObject({
 			...updatedComment,
-			appealCaseReference: testCaseRef
+			caseReference: testCaseRef
 		});
 	});
 });
