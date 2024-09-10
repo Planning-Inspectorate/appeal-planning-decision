@@ -43,9 +43,10 @@ exports.toBool = (str) => str === 'yes';
 
 /**
  * @param {{ SubmissionDocumentUpload: import('@prisma/client').SubmissionDocumentUpload[] }} answers
+ * @param {string} [defaultDocType]
  * @returns {Promise<DataModelDocuments>}
  */
-exports.getDocuments = async ({ SubmissionDocumentUpload }) => {
+exports.getDocuments = async ({ SubmissionDocumentUpload }, defaultDocType) => {
 	const uploadedFilesAndBlobMeta = await conjoinedPromises(
 		SubmissionDocumentUpload,
 		(uploadedFile) => getBlobMeta(uploadedFile.location)
@@ -67,7 +68,7 @@ exports.getDocuments = async ({ SubmissionDocumentUpload }) => {
 			mime: mime_type,
 			documentURI: _response.request.url,
 			dateCreated: new Date(createdOn).toISOString(),
-			documentType: getDocType(document_type, 'name').dataModelName
+			documentType: getDocType(document_type, 'name').dataModelName ?? defaultDocType
 		})
 	);
 };
