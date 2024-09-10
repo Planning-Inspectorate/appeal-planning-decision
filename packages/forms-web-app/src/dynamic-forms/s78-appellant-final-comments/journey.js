@@ -19,6 +19,7 @@ const sections = [
 		.withCondition((response) =>
 			questionHasAnswer(response, questions.appellantFinalComment, 'yes')
 		)
+		.addQuestion(questions.appellantFinalCommentDocuments)
 ];
 
 const fixedParams = {
