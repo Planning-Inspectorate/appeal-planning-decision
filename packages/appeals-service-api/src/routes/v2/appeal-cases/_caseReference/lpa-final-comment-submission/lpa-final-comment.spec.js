@@ -170,7 +170,7 @@ describe('/appeal-cases/_caseReference/lpa-final-comment-submission', () => {
 		expect(response.status).toEqual(200);
 		expect(response.body).toMatchObject({
 			...lpaFinalCommentData,
-			appealCaseReference: testCaseRef
+			caseReference: testCaseRef
 		});
 	});
 
@@ -205,7 +205,7 @@ describe('/appeal-cases/_caseReference/lpa-final-comment-submission', () => {
 		expect(updatedResponse.status).toEqual(200);
 		expect(updatedResponse.body).toMatchObject({
 			...updatedLpaFinalCommentData,
-			appealCaseReference: testCaseRef
+			caseReference: testCaseRef
 		});
 	});
 
