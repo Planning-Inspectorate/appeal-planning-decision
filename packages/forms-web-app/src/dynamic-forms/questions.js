@@ -2071,5 +2071,17 @@ exports.questions = {
 				}
 			})
 		]
+	}),
+	appellantFinalCommentDocuments: new BooleanQuestion({
+		title: 'Do you have additional documents to support your final comments?',
+		question: 'Do you have additional documents to support your final comments?',
+		hint: 'You must not add new evidence to your appeal',
+		fieldName: 'appellantFinalCommentDocuments',
+		url: 'additional-documents',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have additional documents to support your final comments'
+			)
+		]
 	})
 };
