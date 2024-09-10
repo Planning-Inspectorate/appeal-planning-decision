@@ -880,9 +880,10 @@ model LPAFinalCommentSubmission {
   // state
   submitted Boolean @default(false) /// whether the appeal has been submitted to BO
 
-  lpaFinalComment          Boolean?
-  lpaFinalCommentDetails   String?
-  lpaFinalCommentDocuments Boolean?
+  lpaFinalComment                Boolean?
+  lpaFinalCommentDetails         String?
+  lpaFinalCommentDocuments       Boolean?
+  uploadLPAFinalCommentDocuments Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
@@ -902,9 +903,10 @@ model AppellantFinalCommentSubmission {
   // state
   submitted Boolean @default(false) /// whether the appeal has been submitted to BO
 
-  appellantFinalComment          Boolean?
-  appellantFinalCommentDetails   String?
-  appellantFinalCommentDocuments Boolean?
+  appellantFinalComment                Boolean?
+  appellantFinalCommentDetails         String?
+  appellantFinalCommentDocuments       Boolean?
+  uploadAppellantFinalCommentDocuments Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]

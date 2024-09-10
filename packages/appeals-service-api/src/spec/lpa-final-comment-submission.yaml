@@ -35,6 +35,8 @@ components:
           type: string
         lpaFinalCommentDocuments:
           type: boolean
+        uploadLPAFinalCommentDocuments:
+          type: boolean
         SubmissionDocumentUpload:
           type: array
           items:

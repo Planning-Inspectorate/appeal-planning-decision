@@ -35,6 +35,8 @@ components:
           type: string
         appellantFinalCommentDocuments:
           type: boolean
+        uploadAppellantFinalCommentDocuments:
+          type: boolean
         SubmissionDocumentUpload:
           type: array
           items:
