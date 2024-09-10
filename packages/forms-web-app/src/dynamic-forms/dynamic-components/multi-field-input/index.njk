@@ -30,28 +30,27 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate>
-<input type="hidden" name="_csrf" value="{{_csrf}}">
+                <input type="hidden" name="_csrf" value="{{_csrf}}">
 
-                    {% call govukFieldset({
-                legend: {
-                    text: question.question,
-                    classes: "govuk-fieldset__legend--l",
-                    isPageHeading: true
-                }
+                {% call govukFieldset({
+                    legend: {
+                        text: question.question,
+                        classes: "govuk-fieldset__legend--l",
+                        isPageHeading: true
+                    }
                 }) %}
 
-                    {% if question.description %}
-                        <p class="govuk-body">
-                            {{question.description}}
-                        </p>
-                    {% endif %}
+                {% if question.description %}
+                    <p class="govuk-body">
+                        {{question.description}}
+                    </p>
+                {% endif %}
 
-                    {% if question.html %}
-                        {% include question.html ignore missing %}
-                    {% endif %}
+                {% if question.html %}
+                    {% include question.html ignore missing %}
+                {% endif %}
 
-										{% for inputField in inputFields %}
-
+                {% for inputField in inputFields %}
                     {{ govukInput({
                         label: {
                             text: inputField.label,
@@ -63,20 +62,18 @@
                         errorMessage: errors[inputField.fieldName] and {
                             text: errors[inputField.fieldName].msg
                         },
-												value: inputField.value,
+                        value: inputField.value,
                         classes: "govuk-input-!-width-three-quarters"
-                			}) }}
-
-										{% endfor %}
-
+                    }) }}
+                {% endfor %}
+                
+                {% endcall %}
 
                 {{ govukButton({
                     text: "Continue",
                     type: "submit",
                     attributes: { "data-cy":"button-save-and-continue"}
                 }) }}
-
-								{% endcall %}
 
             </form>
         </div>

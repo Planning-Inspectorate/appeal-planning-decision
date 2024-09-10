@@ -1686,7 +1686,7 @@ exports.questions = {
 				text: 'Square metres',
 				value: 'm\u00B2',
 				conditional: {
-					hint: 'Site area, in square metres',
+					label: 'Site area, in square metres',
 					fieldName: 'siteAreaSquareMetres_m\u00B2',
 					suffix: 'm\u00B2'
 				}
@@ -1695,7 +1695,7 @@ exports.questions = {
 				text: 'Hectares',
 				value: 'ha',
 				conditional: {
-					hint: 'Site area, in hectares',
+					label: 'Site area, in hectares',
 					fieldName: 'siteAreaSquareMetres_hectares',
 					suffix: 'ha',
 					conversionFactor: 10000
