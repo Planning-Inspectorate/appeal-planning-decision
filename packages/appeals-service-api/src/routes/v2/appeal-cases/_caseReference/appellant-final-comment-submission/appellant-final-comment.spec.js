@@ -121,7 +121,7 @@ const createAppeal = async (caseRef) => {
 
 describe('/appeal-cases/_caseReference/appellant-final-comment-submission', () => {
 	it('should create a new appellant final comment', async () => {
-		const testCaseRef = '4636366';
+		const testCaseRef = '4639966';
 		await createAppeal(testCaseRef);
 
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
@@ -144,7 +144,7 @@ describe('/appeal-cases/_caseReference/appellant-final-comment-submission', () =
 	});
 
 	it('should retrieve an existing appellant final comment', async () => {
-		const testCaseRef = '4636367';
+		const testCaseRef = '4639967';
 		await createAppeal(testCaseRef);
 
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
@@ -174,7 +174,7 @@ describe('/appeal-cases/_caseReference/appellant-final-comment-submission', () =
 	});
 
 	it('should patch/ update an existing appellant final comment', async () => {
-		const testCaseRef = '4636368';
+		const testCaseRef = '4639968';
 		await createAppeal(testCaseRef);
 
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');

@@ -122,7 +122,7 @@ const createAppeal = async (caseRef) => {
 
 describe('/appeal-cases/_caseReference/lpa-final-comment-submission', () => {
 	it('should create a new lpa final comment', async () => {
-		const testCaseRef = '4636366';
+		const testCaseRef = '4639866';
 		await createAppeal(testCaseRef);
 
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
@@ -145,7 +145,7 @@ describe('/appeal-cases/_caseReference/lpa-final-comment-submission', () => {
 	});
 
 	it('should retrieve an existing lpa final comment', async () => {
-		const testCaseRef = '4636367';
+		const testCaseRef = '4639867';
 		await createAppeal(testCaseRef);
 
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
@@ -175,7 +175,7 @@ describe('/appeal-cases/_caseReference/lpa-final-comment-submission', () => {
 	});
 
 	it('should patch/ update an existing lpa final comment', async () => {
-		const testCaseRef = '4636368';
+		const testCaseRef = '4639868';
 		await createAppeal(testCaseRef);
 
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
@@ -210,7 +210,7 @@ describe('/appeal-cases/_caseReference/lpa-final-comment-submission', () => {
 	});
 
 	it('should return 403 if invalid lpa user', async () => {
-		const testCaseRef = '4636369';
+		const testCaseRef = '4639869';
 		await createAppeal(testCaseRef);
 
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
