@@ -11,12 +11,7 @@ module.exports = () => async (req, res, next) => {
 	const encodedReferenceId = encodeURIComponent(referenceId);
 	let result;
 
-	console.log(req.params);
-
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(encodedReferenceId);
-
-	console.log('aiaiai');
-	console.log(appeal);
 
 	const journeyType = APPELLANT_JOURNEY_TYPES_FORMATTED.FINAL_COMMENTS;
 
@@ -37,13 +32,10 @@ module.exports = () => async (req, res, next) => {
 			logger.error(err);
 		}
 		// return default response
-		result = getDefaultResponse(journeyType, referenceId, 'user.lpaCode');
+		result = getDefaultResponse(journeyType, referenceId, appeal.LPACode);
 	}
 
 	res.locals.journeyResponse = result;
-
-	console.log('eeeek');
-	console.log(result);
 
 	return next();
 };
