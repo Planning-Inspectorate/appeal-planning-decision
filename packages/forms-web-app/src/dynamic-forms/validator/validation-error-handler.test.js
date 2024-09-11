@@ -14,10 +14,6 @@ describe('./src/dynamic-forms/validator/validation-error-handler.js', () => {
 
 	it('should call next if no errors', async () => {
 		const req = {
-			params: {
-				section: 1,
-				question: 1
-			},
 			body: {
 				field1: 'bananas'
 			}
@@ -34,12 +30,8 @@ describe('./src/dynamic-forms/validator/validation-error-handler.js', () => {
 		expect(expressValidationErrorsToGovUkErrorList).not.toHaveBeenCalled();
 	});
 
-	it('should map errors if some are returned', async () => {
+	it('should call next if only empty error messages', async () => {
 		const req = {
-			params: {
-				section: 1,
-				question: 1
-			},
 			body: {
 				field1: 'bananas'
 			}
@@ -49,7 +41,28 @@ describe('./src/dynamic-forms/validator/validation-error-handler.js', () => {
 				return false;
 			},
 			mapped: () => {
-				return { test: 'hello' };
+				return { test: { msg: undefined } };
+			}
+		});
+
+		const next = jest.fn();
+		validationErrorHandler(req, {}, next);
+		expect(next).toHaveBeenCalledTimes(1);
+		expect(expressValidationErrorsToGovUkErrorList).not.toHaveBeenCalled();
+	});
+
+	it('should map errors if some are returned', async () => {
+		const req = {
+			body: {
+				field1: 'bananas'
+			}
+		};
+		validationResult.mockReturnValue({
+			isEmpty: () => {
+				return false;
+			},
+			mapped: () => {
+				return { test: { msg: 'hello' } };
 			}
 		});
 
