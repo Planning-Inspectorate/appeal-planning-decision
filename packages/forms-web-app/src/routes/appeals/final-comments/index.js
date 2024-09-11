@@ -13,6 +13,9 @@ const {
 const getJourneyResponse = require('../../../dynamic-forms/middleware/get-journey-response-for-appellant-final-comments');
 const setDefaultSection = require('../../../dynamic-forms/middleware/set-default-section');
 const redirectToUnansweredQuestion = require('../../../dynamic-forms/middleware/redirect-to-unanswered-question');
+const {
+	skipIfNoAdditionalDocuments
+} = require('../../../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
@@ -60,7 +63,7 @@ const finalCommentsTaskList = async (req, res) => {
 router.get(
 	'/:referenceId',
 	getJourneyResponse(),
-	redirectToUnansweredQuestion(),
+	redirectToUnansweredQuestion([skipIfNoAdditionalDocuments]),
 	checkNotSubmitted(dashboardUrl),
 	finalCommentsTaskList
 );

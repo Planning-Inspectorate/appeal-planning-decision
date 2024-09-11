@@ -1,10 +1,8 @@
 const { JourneyResponse } = require('../journey-response');
 const { APPELLANT_JOURNEY_TYPES_FORMATTED } = require('../journey-factory');
 const logger = require('#lib/logger');
-// const { getUserFromSession } = require('../../services/user.service');
 const { mapDBResponseToJourneyResponseFormat } = require('./utils');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error.js');
-// const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 module.exports = () => async (req, res, next) => {
 	const referenceId = req.params.referenceId;
