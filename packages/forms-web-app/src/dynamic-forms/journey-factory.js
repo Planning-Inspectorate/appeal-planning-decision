@@ -3,13 +3,9 @@ const { buildJourneyParams: buildHASLPAJourneyParams } = require('./has-question
 const { buildJourneyParams: buildS78LPAJourneyParams } = require('./s78-questionnaire/journey');
 const { buildJourneyParams: buildHASAppellantJourneyParams } = require('./has-appeal-form/journey');
 const { buildJourneyParams: buildS78AppellantJourneyParams } = require('./s78-appeal-form/journey');
-<<<<<<< HEAD
 const {
 	buildJourneyParams: buildS78LpaStatementJourneyParams
 } = require('./s78-lpa-statement/journey');
-=======
-const { buildJourneyParams: S78LpaStatementJourneyParams } = require('./s78-lpa-statement/journey');
->>>>>>> a4c0ad8edc (feat(a2-246): appellant final comments)
 const {
 	buildJourneyParams: buildS78AppellantFinalCommentsJourneyParams
 } = require('./s78-appellant-final-comments/journey');
