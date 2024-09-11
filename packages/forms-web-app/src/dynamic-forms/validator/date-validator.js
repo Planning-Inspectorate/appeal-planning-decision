@@ -107,11 +107,15 @@ class DateValidator extends BaseValidator {
 					if (req.body[dayInput]) {
 						return this.noMonthErrorMessage;
 					}
+
+					// empty error message returned
 				}),
 			body(yearInput)
 				.notEmpty()
 				.withMessage((_, { req }) => {
 					if (req.body[dayInput] && req.body[monthInput]) return this.noYearErrorMessage;
+
+					// empty error message returned
 				}),
 
 			// check date values entered are within valid ranges
