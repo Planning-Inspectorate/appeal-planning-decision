@@ -8,10 +8,9 @@ const { ApiClientError } = require('@pins/common/src/client/api-client-error.js'
 
 module.exports = () => async (req, res, next) => {
 	const referenceId = req.params.referenceId;
-	const encodedReferenceId = encodeURIComponent(referenceId);
 	let result;
 
-	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(encodedReferenceId);
+	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
 	const journeyType = APPELLANT_JOURNEY_TYPES_FORMATTED.FINAL_COMMENTS;
 
