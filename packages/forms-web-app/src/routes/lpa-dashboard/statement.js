@@ -3,8 +3,9 @@ const {
 	list,
 	question,
 	save,
-	remove
-	// submit,
+	remove,
+	submitLpaStatement
+	// appealStatementSubmitted
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -68,6 +69,13 @@ router.get(
 	statementTaskList
 );
 
+router.get(
+	'/appeal-statement/:referenceId/submitted-appeal-statement',
+	getJourneyResponse(),
+	validationErrorHandler
+	// appealStatementSubmitted
+);
+
 // question
 router.get(
 	'/appeal-statement/:referenceId/:question',
@@ -90,13 +98,14 @@ router.post(
 );
 
 // submit
-// router.post(
-// 	'/appeal-statement/:referenceId/',
-// 	getJourneyResponse(),
-// 	checkNotSubmitted(dashboardUrl),
-// 	validationErrorHandler,
-// 	submit
-// );
+router.post(
+	'/appeal-statement/:referenceId/',
+	setDefaultSection(),
+	getJourneyResponse(),
+	checkNotSubmitted(dashboardUrl),
+	validationErrorHandler,
+	submitLpaStatement
+);
 
 // remove answer - only available for some question types
 router.get(

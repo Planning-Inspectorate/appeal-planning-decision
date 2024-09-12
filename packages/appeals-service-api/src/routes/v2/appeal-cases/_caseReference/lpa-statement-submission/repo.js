@@ -99,16 +99,27 @@ class LPAStatementSubmissionRepository {
 	}
 
 	/**
-	 * @param {string} id
+	 * @param {string} caseReference
+	 * @param {string} lpaStatementSubmittedDate
 	 * @returns {Promise<{id: string}>}
 	 */
-	markLPAStatementAsSubmitted(id) {
+	markLPAStatementAsSubmitted(caseReference, lpaStatementSubmittedDate) {
 		return this.dbClient.lPAStatementSubmission.update({
 			where: {
-				id: id
+				appealCaseReference: caseReference
 			},
 			data: {
-				submitted: true
+				submitted: true,
+				AppealCase: {
+					update: {
+						where: {
+							caseReference
+						},
+						data: {
+							LPAStatementSubmitted: lpaStatementSubmittedDate
+						}
+					}
+				}
 			},
 			select: {
 				id: true

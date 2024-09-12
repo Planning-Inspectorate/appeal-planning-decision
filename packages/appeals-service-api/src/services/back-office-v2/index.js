@@ -12,6 +12,11 @@ const {
 	getForBOSubmission
 } = require('../../routes/v2/appellant-submissions/_id/service');
 
+const {
+	// getLPAStatementByAppealId,
+	markStatementAsSubmitted
+} = require('../../routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
+
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
@@ -203,6 +208,15 @@ class BackOfficeV2Service {
 				throw new Error('failed to send interested party comment submission email');
 			}
 		}
+	}
+
+	/**
+	 * @param {string} appealCaseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitLPAStatementSubmission(appealCaseReference) {
+		// Date to be set in back office mapper once data model confirmed
+		await markStatementAsSubmitted(appealCaseReference, new Date().toISOString());
 	}
 }
 

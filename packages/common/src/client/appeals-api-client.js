@@ -389,6 +389,14 @@ class AppealsApiClient {
 		const response = await this.#makePostRequest(endpoint);
 		return response.json();
 	}
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitLPAStatement(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission/submit`;
+		await this.#makePostRequest(endpoint);
+	}
 
 	/**
 	 * @param {string} caseReference
