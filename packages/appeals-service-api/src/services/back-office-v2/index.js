@@ -28,6 +28,9 @@ const {
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
 const logger = require('#lib/logger');
+const {
+	getAppellantFinalCommentByAppealId
+} = require('../../routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/service');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
