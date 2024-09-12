@@ -114,7 +114,13 @@ let config = {
 					appealNotificationEmailToLpaV2:
 						process.env.SRV_NOTIFY_APPEAL_SUBMISSION_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
 					appealNotificationEmailToLpa:
-						process.env.SRV_NOTIFY_FULL_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID
+						process.env.SRV_NOTIFY_FULL_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID,
+					lpaStatementSubmissionConfirmationEmailToLpaV2:
+						process.env.SRV_NOTIFY_LPA_STATEMENT_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
+					lpaFinalCommentsSubmissionConfirmationEmailToLpaV2:
+						process.env.SRV_NOTIFY_LPA_FINAL_COMMENT_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
+					appellantFinalCommentsSubmissionConfirmationEmailToAppellantV2:
+						process.env.SRV_NOTIFY_APPELLANT_FINAL_COMMENT_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID
 				},
 				V2_COMMON: {
 					appealSubmissionReceivedEmailToAppellant:
