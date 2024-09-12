@@ -279,6 +279,27 @@ exports.submit = async (req, res) => {
 	);
 };
 
+// Submit LPA Statement
+/**
+ * @type {import('express').Handler}
+ */
+exports.submitLpaStatement = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	const referenceId = res.locals.journeyResponse.referenceId;
+
+	if (!journey.isComplete()) {
+		res.sendStatus(400);
+		return;
+	}
+
+	await req.appealsApiClient.submitLPAStatement(referenceId);
+
+	return res.redirect(
+		`/manage-appeals/appeal-statement/${referenceId}/submitted-appeal-statement/`
+	);
+};
+
 // Submit an appeal
 /**
  * @type {import('express').Handler}

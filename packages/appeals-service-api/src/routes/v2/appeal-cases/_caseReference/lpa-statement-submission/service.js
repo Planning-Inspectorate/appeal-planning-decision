@@ -60,10 +60,11 @@ async function patchLPAStatementByAppealId(appealCaseId, data) {
  * mark statement as submitted to back office
  *
  * @param {string} statementId
+ * @param {string} lpaStatementSubmittedDate
  * @return {Promise<{id: string}>}
  */
-function markStatementAsSubmitted(statementId) {
-	return repo.markLPAStatementAsSubmitted(statementId);
+function markStatementAsSubmitted(statementId, lpaStatementSubmittedDate) {
+	return repo.markLPAStatementAsSubmitted(statementId, lpaStatementSubmittedDate);
 }
 
 module.exports = {
