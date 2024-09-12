@@ -484,6 +484,15 @@ class AppealsApiClient {
 		return response.json();
 	}
 
+  /**
+	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitAppellantFinalCommentSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-final-comment-submission/submit`;
+		await this.#makePostRequest(endpoint);
+	}
+
 	/**
 	 * @param {string} caseReference
 	 * @returns {Promise<(LPAFinalCommentSubmission)>}

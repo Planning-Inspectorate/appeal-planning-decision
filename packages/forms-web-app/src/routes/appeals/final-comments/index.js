@@ -2,9 +2,10 @@ const express = require('express');
 const {
 	list,
 	question,
-	save
+	save,
 	// remove,
-	// submit,
+	submitAppellantFinalComment,
+	appellantFinalCommentSubmitted
 } = require('../../../dynamic-forms/controller');
 const validate = require('../../../dynamic-forms/validator/validator');
 const {
@@ -20,17 +21,14 @@ const dynamicReqFilesToReqBodyFiles = require('../../../dynamic-forms/middleware
 const checkNotSubmitted = require('../../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 
-const { getUserFromSession } = require('../../../services/user.service');
-const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 const {
 	VIEW: {
-		LPA_DASHBOARD: { DASHBOARD }
+		APPEALS: { YOUR_APPEALS }
 	}
-} = require('#lib/views');
-
-const dashboardUrl = `/${DASHBOARD}`;
+} = require('../../../lib/views');
+const dashboardUrl = `/${YOUR_APPEALS}`;
 
 const router = express.Router();
 
@@ -39,13 +37,7 @@ const router = express.Router();
  */
 const finalCommentsTaskList = async (req, res) => {
 	const referenceId = res.locals.journeyResponse.referenceId;
-	const user = getUserFromSession(req);
-	const encodedReferenceId = encodeURIComponent(referenceId);
-	const appeal = await req.appealsApiClient.getUsersAppealCase({
-		caseReference: encodedReferenceId,
-		userId: user.id,
-		role: LPA_USER_ROLE
-	});
+	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
 	appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
 	const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
@@ -68,6 +60,23 @@ router.get(
 	finalCommentsTaskList
 );
 
+// submit
+router.post(
+	'/:referenceId',
+	getJourneyResponse(),
+	checkNotSubmitted(dashboardUrl),
+	validationErrorHandler,
+	submitAppellantFinalComment
+);
+
+// question
+router.get(
+	'/:referenceId/submitted',
+	setDefaultSection(),
+	getJourneyResponse(),
+	appellantFinalCommentSubmitted
+);
+
 // question
 router.get(
 	'/:referenceId/:question',
@@ -88,15 +97,6 @@ router.post(
 	validationErrorHandler,
 	save
 );
-
-// submit
-// router.post(
-// 	'/appeal-statement/:referenceId/',
-// 	getJourneyResponse(),
-// 	checkNotSubmitted(dashboardUrl),
-// 	validationErrorHandler,
-// 	submit
-// );
 
 // // remove answer - only available for some question types
 // router.get(

@@ -322,13 +322,6 @@ exports.submitAppellantSubmission = async (req, res) => {
 		return;
 	}
 
-	// const storedPdf = await storePdfAppellantSubmission({
-	// 	appellantSubmissionJourney: journey,
-	// 	sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
-	// });
-
-	// await req.appealsApiClient.updateAppellantSubmission(id, { submissionPdfId: storedPdf.id });
-
 	await req.appealsApiClient.submitAppellantSubmission(id);
 
 	return res.redirect(
