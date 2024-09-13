@@ -18,6 +18,23 @@ components:
           properties:
             LPACode:
               type: string
+            appealTypeCode:
+              type: string
+            caseReference:
+              type: string
+            finalCommentsDueDate:
+              type: string
+              format: date-time
+            siteAddressLine1:
+              type: string
+            siteAddressLine2:
+              type: string
+            siteAddressTown:
+              type: string
+            siteAddressCounty:
+              type: string
+            siteAddressPostcode:
+              type: string
         submitted:
           type: boolean
           description: whether the statement has been submitted to BO

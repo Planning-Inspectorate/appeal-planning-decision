@@ -13,7 +13,7 @@ const {
 } = require('../../routes/v2/appellant-submissions/_id/service');
 
 const {
-	// getLPAStatementByAppealId,
+	getLPAStatementByAppealId,
 	markStatementAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-statement-submission/service');
 
@@ -22,7 +22,8 @@ const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
 	// sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionReceivedEmailToLpaV2,
-	sendCommentSubmissionConfirmationEmailToIp
+	sendCommentSubmissionConfirmationEmailToIp,
+	sendLpaStatementSubmissionReceivedEmailToLpaV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
@@ -215,8 +216,14 @@ class BackOfficeV2Service {
 	 * @returns {Promise<void>}
 	 */
 	async submitLPAStatementSubmission(appealCaseReference) {
+		const lpaStatement = await getLPAStatementByAppealId(appealCaseReference);
+
+		logger.info(`forwarding lpa statement submission for ${appealCaseReference} to service bus`);
+
 		// Date to be set in back office mapper once data model confirmed
 		await markStatementAsSubmitted(appealCaseReference, new Date().toISOString());
+
+		await sendLpaStatementSubmissionReceivedEmailToLpaV2(lpaStatement);
 	}
 }
 

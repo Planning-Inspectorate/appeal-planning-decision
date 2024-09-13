@@ -1009,6 +1009,15 @@ export interface LPAStatementSubmission {
 	id: string;
 	AppealCase: {
 		LPACode: string;
+		appealTypeCode?: string;
+		caseReference?: string;
+		/** @format date-time */
+		finalCommentsDueDate?: string;
+		siteAddressLine1?: string;
+		siteAddressLine2?: string;
+		siteAddressTown?: string;
+		siteAddressCounty?: string;
+		siteAddressPostcode?: string;
 	};
 	/** whether the statement has been submitted to BO */
 	submitted?: boolean;
