@@ -5,6 +5,7 @@
  ***********************************************************/
 
 const config = require('../config');
+// todo(journey-refactor): config
 
 /**
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse

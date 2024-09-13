@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const {
 	expressValidationErrorsToGovUkErrorList
 } = require('../../lib/express-validation-errors-to-govuk-error-list');
+// todo(journey-refactor): move to middleware
 
 const validationErrorHandler = (req, res, next) => {
 	const errors = validationResult(req);

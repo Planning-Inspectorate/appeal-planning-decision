@@ -1,3 +1,5 @@
+// todo(journey-refactor): move to middleware
+
 const { validationResult } = require('express-validator');
 const { getJourney } = require('../journey-factory');
 const { getAddMoreIfPresent } = require('../middleware/utils');

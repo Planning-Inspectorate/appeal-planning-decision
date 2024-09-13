@@ -8,19 +8,10 @@
 const { add, sub, format: formatDate } = require('date-fns');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
-const CheckboxQuestion = require('./dynamic-components/checkbox/question');
-const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
-const BooleanQuestion = require('./dynamic-components/boolean/question');
-const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
-const CaseAddMoreQuestion = require('./dynamic-components/case-add-more/question');
-const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
-const RadioQuestion = require('./dynamic-components/radio/question');
-const RequiredValidator = require('./validator/required-validator');
-const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
-const MultifileUploadValidator = require('./validator/multifile-upload-validator');
-const AddressValidator = require('./validator/address-validator');
-const StringEntryValidator = require('./validator/string-validator');
+// todo(journey-refactor): FO doc types, BO won't want this, just data model
+const { documentTypes } = require('@pins/common');
 
+// todo(journey-refactor): config
 const {
 	validation: {
 		stringValidation: {
@@ -29,44 +20,55 @@ const {
 			appealSiteArea: { minValue, maxValue },
 			numberOfWitnesses: { maxWitnesses },
 			lengthOfInquiry: { minDays, maxDays }
-		}
-	}
-} = require('../../src/config');
-const StringValidator = require('./validator/string-validator');
-const {
-	validation: {
+		},
 		characterLimits: { appealFormV2 }
 	}
-} = require('../config');
+} = require('../../src/config');
 let {
 	validation: {
 		characterLimits: { finalComment: inputMaxCharacters }
 	}
 } = require('../config');
+inputMaxCharacters = Math.min(Number(inputMaxCharacters), 1000);
+
+// utils
 const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
-const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
-const UnitOptionEntryValidator = require('./validator/unit-option-entry-validator');
+
+// questions
+const CheckboxQuestion = require('./dynamic-components/checkbox/question');
+const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
+const BooleanQuestion = require('./dynamic-components/boolean/question');
+const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+const CaseAddMoreQuestion = require('./dynamic-components/case-add-more/question');
+const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
+const RadioQuestion = require('./dynamic-components/radio/question');
 const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
-const DateValidator = require('./validator/date-validator');
 const DateQuestion = require('./dynamic-components/date/question');
 const TextEntryQuestion = require('./dynamic-components/text-entry/question');
 const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
 const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
-const { documentTypes } = require('@pins/common');
 const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
-const NumericValidator = require('./validator/numeric-validator');
 const SiteAddressQuestion = require('./dynamic-components/site-address/question');
-const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
 const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
 
-inputMaxCharacters = Math.min(Number(inputMaxCharacters), 1000);
+// validators
+const RequiredValidator = require('./validator/required-validator');
+const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
+const MultifileUploadValidator = require('./validator/multifile-upload-validator');
+const AddressValidator = require('./validator/address-validator');
+const StringEntryValidator = require('./validator/string-validator');
+const StringValidator = require('./validator/string-validator');
+const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
+const UnitOptionEntryValidator = require('./validator/unit-option-entry-validator');
+const DateValidator = require('./validator/date-validator');
+const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
+const NumericValidator = require('./validator/numeric-validator');
 
 /**
  * @param {'past' | 'future'} tense
  * @param {number} days
  * @return {string} returns date string in d M yyyy format
  */
-
 const getDate = (tense, days = 60) =>
 	formatDate(
 		{
@@ -75,6 +77,9 @@ const getDate = (tense, days = 60) =>
 		}[tense](new Date(), { days }),
 		'd M yyyy'
 	);
+// todo(journey-refactor): there's a lot of things in here that forces the consumer down a path, content, urls etc
+// but they can they be modified by the consumer if needed
+// i.e. question.url = 'a-different-url'
 
 // Define all questions
 exports.questions = {

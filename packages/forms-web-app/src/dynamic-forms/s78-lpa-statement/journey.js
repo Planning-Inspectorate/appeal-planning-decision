@@ -1,6 +1,7 @@
 const { questions } = require('../questions');
 const { Section } = require('../section');
 const config = require('../../config');
+// todo(journey-refactor): config
 const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
 
 /**

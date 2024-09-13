@@ -1,6 +1,8 @@
 const BaseValidator = require('./base-validator.js');
 
 const multifileUploadSchema = require('../../validators/common/schemas/multifile-upload-schema.js');
+// todo(journey-refactor): uses clamav, config etc, inject this?
+
 const { checkSchema } = require('express-validator');
 
 /**

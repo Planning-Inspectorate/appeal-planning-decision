@@ -17,6 +17,7 @@ const {
 		}
 	}
 } = require('../../config');
+// todo(journey-refactor): config
 const validatePostcode = require('../../lib/valid-postcode');
 
 const BaseValidator = require('./base-validator.js');

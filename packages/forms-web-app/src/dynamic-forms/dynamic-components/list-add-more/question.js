@@ -1,4 +1,3 @@
-// const { getJourney } = require('../../journey-factory');
 const Question = require('../../question');
 const AddMoreQuestion = require('../add-more/question');
 
@@ -295,6 +294,7 @@ class ListAddMoreQuestion extends Question {
 			}
 		};
 
+		// todo(journey-refactor): api call
 		await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
 
 		// check for saving errors

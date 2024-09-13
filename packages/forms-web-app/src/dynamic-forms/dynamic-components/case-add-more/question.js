@@ -2,6 +2,7 @@ const AddMoreQuestion = require('../add-more/question');
 const { getLinkedCasesForQuestion } = require('../utils/question-utils');
 const { randomUUID } = require('crypto');
 const logger = require('../../../lib/logger');
+// todo(journey-refactor): inject logger
 
 /**
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
@@ -63,6 +64,7 @@ class CaseAddMoreQuestion extends AddMoreQuestion {
 	 */
 	async saveList(req, parentFieldName, journeyResponse, responseToSave) {
 		const linkedCases = responseToSave.answers[parentFieldName];
+		// todo(journey-refactor): api call
 		try {
 			await Promise.all(
 				linkedCases.map((linkedCase) => {
@@ -90,6 +92,7 @@ class CaseAddMoreQuestion extends AddMoreQuestion {
 	 * @returns {Promise<JourneyResponse | boolean> } updated JourneyResponse
 	 */
 	async removeList(req, journeyResponse, answerId) {
+		// todo(journey-refactor): api call
 		const updated = await req.appealsApiClient.deleteSubmissionLinkedCase(
 			journeyResponse.journeyId,
 			journeyResponse.referenceId,

@@ -1,6 +1,6 @@
+// todo(journey-refactor): nunjucks as a dependency is probably fine?
 const nunjucks = require('nunjucks');
 const Question = require('../../question');
-
 const defaultOptionJoinString = ',';
 
 /**

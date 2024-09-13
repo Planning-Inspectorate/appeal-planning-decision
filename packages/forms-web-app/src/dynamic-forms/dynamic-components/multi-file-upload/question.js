@@ -6,6 +6,10 @@ const {
 } = require('@pins/common');
 const Question = require('../../question');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+// todo(journey-refactor): needs a lot of work
+// uses JOURNEY_TYPES
+// uses docs api
+// lot of this logic should be on controller if possible
 
 /**
  * @typedef {import('../../journey').Journey} Journey
@@ -113,6 +117,8 @@ class MultiFileUploadQuestion extends Question {
 			return this.renderAction(res, errorViewModel);
 		}
 
+		// todo(journey-refactor): api call
+
 		// save
 		const { uploadedFiles } = await this.getDataToSave(req, journeyResponse);
 		await Promise.all(
@@ -135,6 +141,7 @@ class MultiFileUploadQuestion extends Question {
 				[this.fieldName]: true
 			}
 		};
+		// todo(journey-refactor): api call
 		await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
 
 		// check for saving errors
@@ -148,6 +155,8 @@ class MultiFileUploadQuestion extends Question {
 	}
 
 	uploadDocuments(apiClient, referenceId, journeyId, data) {
+		// todo(journey-refactor): api call
+
 		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
 			return apiClient.postLPASubmissionDocumentUpload(referenceId, data);
 		} else if ([JOURNEY_TYPES.HAS_APPEAL_FORM, JOURNEY_TYPES.S78_APPEAL_FORM].includes(journeyId)) {
@@ -160,6 +169,7 @@ class MultiFileUploadQuestion extends Question {
 	}
 
 	removeDocuments(apiClient, journeyId) {
+		// todo(journey-refactor): api call
 		return (submissionId, documentId) => {
 			if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
 				return apiClient.deleteLPASubmissionDocumentUpload(submissionId, documentId);
@@ -268,6 +278,7 @@ class MultiFileUploadQuestion extends Question {
 				(upload) => upload.type === this.documentType.name
 			);
 
+			// todo(journey-refactor): api call
 			const failedRemovedFiles = await removeFilesV2(
 				relevantUploadedFiles,
 				removedFiles,
@@ -332,6 +343,7 @@ class MultiFileUploadQuestion extends Question {
 	}
 
 	async #saveFilesToBlobStorage(files, journeyResponse) {
+		// todo(journey-refactor): api call
 		const resolutions = await conjoinedPromises(files, (file) =>
 			createDocument(
 				{

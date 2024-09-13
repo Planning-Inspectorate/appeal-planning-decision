@@ -30,6 +30,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 		const listedBuildingReference = req.body[this.fieldName];
 
 		try {
+			// todo(journey-refactor): api call
 			const listedBuildingData = await req.appealsApiClient.getListedBuilding(
 				listedBuildingReference
 			);
@@ -73,6 +74,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	 * @param {Object} responseToSave
 	 */
 	async saveList(req, parentFieldName, journeyResponse, responseToSave) {
+		// todo(journey-refactor): api call
 		const listedBuildings = responseToSave.answers[parentFieldName];
 		await Promise.all(
 			listedBuildings.map((listedBuilding) => {
@@ -95,6 +97,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	 * @returns {Promise<JourneyResponse | boolean> } updated JourneyResponse
 	 */
 	async removeList(req, journeyResponse, answerId) {
+		// todo: api call
 		const updated = await req.appealsApiClient.deleteSubmissionListedBuilding(
 			journeyResponse.journeyId,
 			journeyResponse.referenceId,
