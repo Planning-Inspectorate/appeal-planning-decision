@@ -4,8 +4,8 @@ const {
 	question,
 	save,
 	remove,
-	submitLpaStatement
-	// appealStatementSubmitted
+	submitLpaStatement,
+	appealStatementSubmitted
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -72,8 +72,8 @@ router.get(
 router.get(
 	'/appeal-statement/:referenceId/submitted-appeal-statement',
 	getJourneyResponse(),
-	validationErrorHandler
-	// appealStatementSubmitted
+	validationErrorHandler,
+	appealStatementSubmitted
 );
 
 // question
