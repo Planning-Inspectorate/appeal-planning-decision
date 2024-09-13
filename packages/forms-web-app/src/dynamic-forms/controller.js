@@ -458,7 +458,7 @@ exports.appealStatementSubmitted = async (req, res) => {
 	const journey = getJourney(journeyResponse);
 	if (!journey.isComplete()) {
 		// return error message and redirect
-		return res.status(400).render('./error/not-found.njk');
+		return res.render('./error/not-found.njk');
 	}
 
 	return res.render('./dynamic-components/submission-screen/appeal-statement', {});
