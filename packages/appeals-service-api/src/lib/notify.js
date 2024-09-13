@@ -21,6 +21,7 @@ const { templates } = config.services.notify;
  * @typedef {import('@prisma/client').AppealCase } AppealCase
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
+ * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
  */
 
 /** @type {Record<AppealTypeCode, string>} */
@@ -211,6 +212,70 @@ const sendSubmissionReceivedEmailToLpaV2 = async (appellantSubmission, email) =>
 			{ err, lpaCode: appellantSubmission.LPACode },
 			'Unable to send submission received email to LPA'
 		);
+	}
+};
+
+/**
+ * @param { LPAStatementSubmission } lpaStatementSubmission
+ */
+const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmission) => {
+	const {
+		LPACode: lpaCode,
+		caseReference,
+		finalCommentsDueDate,
+		appealTypeCode,
+		siteAddressLine1,
+		siteAddressLine2,
+		siteAddressTown,
+		siteAddressCounty,
+		siteAddressPostcode
+	} = lpaStatementSubmission.AppealCase;
+
+	const formattedAddress = formatSubmissionAddress({
+		addressLine1: siteAddressLine1,
+		addressLine2: siteAddressLine2,
+		townCity: siteAddressTown,
+		county: siteAddressCounty,
+		postcode: siteAddressPostcode
+	});
+
+	try {
+		let lpa;
+		try {
+			lpa = await lpaService.getLpaByCode(lpaCode);
+		} catch (err) {
+			lpa = await lpaService.getLpaById(lpaCode);
+		}
+		const lpaEmail = lpa.getEmail();
+
+		const lpaName = lpa.getName();
+
+		const reference = lpaStatementSubmission.id;
+		// TODO: put inside an appeal model
+		let variables = {
+			LPA: lpaName,
+			appeal_reference_number: caseReference,
+			'appeal site address': formattedAddress,
+			'deadline date': finalCommentsDueDate
+		};
+
+		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates[appealTypeCodeToAppealId[appealTypeCode]]
+					.lpaStatementSubmissionConfirmationEmailToLpaV2
+			)
+			.setDestinationEmailAddress(lpaEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err, lpaCode: lpaCode }, 'Unable to send submission received email to LPA');
 	}
 };
 
@@ -507,6 +572,8 @@ module.exports = {
 	sendSubmissionConfirmationEmailToAppellant,
 
 	sendSubmissionReceivedEmailToLpaV2,
+	sendLpaStatementSubmissionReceivedEmailToLpaV2,
+
 	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionConfirmationEmailToAppellantV2,
 

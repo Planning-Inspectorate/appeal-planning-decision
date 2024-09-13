@@ -2,7 +2,7 @@ const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
 /**
- * @typedef {import('@prisma/client').LPAStatementSubmission} LPAStatementSubmission
+ * @typedef {import('./lpa-statement-submission').LPAStatementSubmission} LPAStatementSubmission
  */
 
 /**
@@ -34,7 +34,14 @@ class LPAStatementSubmissionRepository {
 					AppealCase: {
 						select: {
 							LPACode: true,
-							appealTypeCode: true
+							appealTypeCode: true,
+							caseReference: true,
+							finalCommentsDueDate: true,
+							siteAddressLine1: true,
+							siteAddressLine2: true,
+							siteAddressTown: true,
+							siteAddressCounty: true,
+							siteAddressPostcode: true
 						}
 					},
 					SubmissionDocumentUpload: true
