@@ -256,7 +256,7 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 			LPA: lpaName,
 			appeal_reference_number: caseReference,
 			'appeal site address': formattedAddress,
-			'deadline date': finalCommentsDueDate
+			'deadline date': format(finalCommentsDueDate, 'dd MMMM yyyy')
 		};
 
 		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');

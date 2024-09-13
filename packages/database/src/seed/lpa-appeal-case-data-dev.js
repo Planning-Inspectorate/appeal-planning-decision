@@ -182,6 +182,7 @@ const lpaAppealCaseData = [
 		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
 		developmentDescription: 'test description',
 		isGreenBelt: true,
