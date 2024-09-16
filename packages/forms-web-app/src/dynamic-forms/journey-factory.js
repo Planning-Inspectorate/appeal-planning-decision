@@ -7,6 +7,9 @@ const {
 	buildJourneyParams: buildS78LpaStatementJourneyParams
 } = require('./s78-lpa-statement/journey');
 const {
+	buildJourneyParams: buildS78LpaFinalCommentsParams
+} = require('./s78-lpa-final-comments/journey');
+const {
 	buildJourneyParams: buildS78AppellantFinalCommentsJourneyParams
 } = require('./s78-appellant-final-comments/journey');
 const { Journey } = require('./journey');
@@ -18,7 +21,8 @@ const { Journey } = require('./journey');
 const LPA_JOURNEY_TYPES_FORMATTED = {
 	HAS: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 	S78: JOURNEY_TYPES.S78_QUESTIONNAIRE,
-	STATEMENT: JOURNEY_TYPES.S78_LPA_STATEMENT
+	STATEMENT: JOURNEY_TYPES.S78_LPA_STATEMENT,
+	FINAL_COMMENTS: JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS
 };
 
 const APPELLANT_JOURNEY_TYPES_FORMATTED = {
@@ -36,6 +40,7 @@ const JOURNEY_PARAMS = {
 	[JOURNEY_TYPES.HAS_APPEAL_FORM]: buildHASAppellantJourneyParams,
 	[JOURNEY_TYPES.S78_APPEAL_FORM]: buildS78AppellantJourneyParams,
 	[JOURNEY_TYPES.S78_LPA_STATEMENT]: buildS78LpaStatementJourneyParams,
+	[JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS]: buildS78LpaFinalCommentsParams,
 	[JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS]: buildS78AppellantFinalCommentsJourneyParams
 };
 
