@@ -484,7 +484,7 @@ class AppealsApiClient {
 		return response.json();
 	}
 
-  /**
+	/**
 	 * @param {string} caseReference
 	 * @returns {Promise<void>}
 	 */
@@ -523,6 +523,37 @@ class AppealsApiClient {
 		const response = await this.#makePatchRequest(endpoint, data);
 		return response.json();
 	}
+
+	// /**
+	//  * @param {string} caseReference
+	//  * @param {object} data
+	//  * @returns {Promise<(LPAFinalCommentSubmission)>}
+	//  */
+	// async postLPAFinalCommentDocumentUpload(caseReference, data) {
+	// 	const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-final-comment-submission/document-upload`;
+	// 	const response = await this.#makePostRequest(endpoint, data);
+	// 	return response.json();
+	// }
+
+	// /**
+	//  * @param {string} caseReference
+	//  * @param {string} documentId
+	//  * @returns {Promise<(LPAFinalCommentSubmission)>}
+	//  */
+	// async deleteLPAFinalCommentDocumentUpload(caseReference, documentId) {
+	// 	const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-final-comment-submission/document-upload/${documentId}`;
+	// 	const response = await this.#makeDeleteRequest(endpoint);
+	// 	return response.json();
+	// }
+
+	// /**
+	//  * @param {string} caseReference
+	//  * @returns {Promise<void>}
+	//  */
+	// async submitLPAFinalCommentSubmission(caseReference) {
+	// 	const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-final-comment-submission/submit`;
+	// 	await this.#makePostRequest(endpoint);
+	// }
 
 	/**
 	 * @param {string} id

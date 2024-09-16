@@ -54,7 +54,7 @@ const { APPEAL_CASE_STATUS } = require('pins-data-model');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
-const finalCommentBaseUrl = '/manage-appeals/appeal-comment';
+const finalCommentBaseUrl = '/manage-appeals/final-comments';
 const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
 
 const appellantFinalCommentBaseUrl = '/appeals/final-comments';
