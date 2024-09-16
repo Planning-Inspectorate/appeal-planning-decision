@@ -463,3 +463,39 @@ exports.appealStatementSubmitted = async (req, res) => {
 
 	return res.render('./dynamic-components/submission-screen/appeal-statement', {});
 };
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.submitAppellantFinalComment = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		res.render('./error/not-found.njk');
+		return;
+	}
+
+	await req.appealsApiClient.submitAppellantFinalCommentSubmission(caseReference);
+
+	return res.redirect(`/appeals/final-comments/${caseReference}/submitted`);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.appellantFinalCommentSubmitted = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.render('./error/not-found.njk');
+	}
+
+	return res.render('./dynamic-components/submission-screen/appellant-final-comment', {
+		caseReference
+	});
+};
