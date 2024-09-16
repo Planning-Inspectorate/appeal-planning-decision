@@ -18,7 +18,7 @@
 		"start": "node ./",
 		"start:dev": "npm run db:generate && nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
 		"start:dev:debug": "npm run db:generate && nodemon --inspect=0.0.0.0 ./",
-		"test": "jest",
+		"test": "jest --coverage",
 		"test:cov": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand",
 		"integration-test": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --silent --config ./jest.developer-test.config.js",
