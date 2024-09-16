@@ -30,6 +30,7 @@ const { SchemaValidator } = require('./validate');
 const logger = require('#lib/logger');
 const {
 	getAppellantFinalCommentByAppealId
+	// markAppellantFinalCommentAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/service');
 
 /**
@@ -227,6 +228,29 @@ class BackOfficeV2Service {
 		await markStatementAsSubmitted(appealCaseReference, new Date().toISOString());
 
 		await sendLpaStatementSubmissionReceivedEmailToLpaV2(lpaStatement);
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitAppellantFinalCommentSubmission(caseReference) {
+		const appellantFinalCommentSubmission = await getAppellantFinalCommentByAppealId(caseReference);
+		console.log(appellantFinalCommentSubmission);
+
+		logger.info(
+			`forwarding appellant final comment submission for ${caseReference} to service bus`
+		);
+
+		// Date to be set in back office mapper once data model confirmed
+		// await markAppellantFinalCommentAsSubmitted(caseReference, new Date().toISOString());
+
+		// try {
+		// 	await sendAppellantFinalCommentSubmissionEmailToAppellant(appellantFinalCommentSubmission);
+		// } catch (err) {
+		// 	logger.error({ err }, 'failed to sendAppellantFinalCommentSubmissionEmailToAppellant');
+		// 	throw new Error('failed to send appellant final comment submission email');
+		// }
 	}
 }
 

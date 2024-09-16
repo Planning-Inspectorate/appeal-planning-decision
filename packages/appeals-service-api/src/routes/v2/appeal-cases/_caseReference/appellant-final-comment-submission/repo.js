@@ -100,16 +100,28 @@ class AppellantFinalCommentSubmissionRepository {
 	}
 
 	/**
-	 * @param {string} id
+	 * @param {string} caseReference
+	 * @param {string} appellantCommentsSubmitted
 	 * @returns {Promise<{id: string}>}
 	 */
-	markAppellantFinalCommentAsSubmitted(id) {
+	markAppellantFinalCommentAsSubmitted(caseReference, appellantCommentsSubmitted) {
 		return this.dbClient.appellantFinalCommentSubmission.update({
 			where: {
-				id: id
+				caseReference
 			},
 			data: {
-				submitted: true
+				submitted: true,
+				AppealCase: {
+					update: {
+						where: {
+							caseReference
+						},
+						data: {
+							appellantCommentsSubmitted,
+							appellantFinalCommentsSubmitted: true
+						}
+					}
+				}
 			},
 			select: {
 				id: true
