@@ -35,7 +35,13 @@ class AppellantFinalCommentSubmissionRepository {
 					AppealCase: {
 						select: {
 							LPACode: true,
-							appealTypeCode: true
+							appealTypeCode: true,
+							finalCommentsDueDate: true,
+							siteAddressLine1: true,
+							siteAddressLine2: true,
+							siteAddressTown: true,
+							siteAddressCounty: true,
+							siteAddressPostcode: true
 						}
 					},
 					SubmissionDocumentUpload: true

@@ -6,8 +6,17 @@ const backOfficeV2Service = new BackOfficeV2Service();
 
 /** @type {import('express').Handler} */
 exports.post = async (req, res) => {
+	const userId = req.auth.payload.sub;
+
+	if (!userId) {
+		throw ApiError.invalidToken();
+	}
+
 	try {
-		await backOfficeV2Service.submitAppellantFinalCommentSubmission(req.params.caseReference);
+		await backOfficeV2Service.submitAppellantFinalCommentSubmission(
+			req.params.caseReference,
+			userId
+		);
 	} catch (err) {
 		logger.error(err);
 		throw ApiError.unableToSubmitResponse();

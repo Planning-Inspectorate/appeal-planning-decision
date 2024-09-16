@@ -22,6 +22,7 @@ const { templates } = config.services.notify;
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
+ * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  */
 
 /** @type {Record<AppealTypeCode, string>} */
@@ -276,6 +277,62 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 			);
 	} catch (err) {
 		logger.error({ err, lpaCode: lpaCode }, 'Unable to send submission received email to LPA');
+	}
+};
+
+/**
+ * @param { AppellantFinalCommentSubmission } appellantFinalCommentSubmission
+ * @param {string} emailAddress
+ */
+const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
+	appellantFinalCommentSubmission,
+	emailAddress
+) => {
+	try {
+		const {
+			appealTypeCode,
+			siteAddressLine1,
+			siteAddressLine2,
+			siteAddressTown,
+			siteAddressCounty,
+			siteAddressPostcode,
+			finalCommentsDueDate
+		} = appellantFinalCommentSubmission.AppealCase;
+
+		const caseReference = appellantFinalCommentSubmission.caseReference;
+
+		const formattedAddress = formatSubmissionAddress({
+			addressLine1: siteAddressLine1,
+			addressLine2: siteAddressLine2,
+			townCity: siteAddressTown,
+			county: siteAddressCounty,
+			postcode: siteAddressPostcode
+		});
+
+		let variables = {
+			appeal_reference_number: caseReference,
+			// 'appellant name'
+			'appeal site address': formattedAddress,
+			'deadline date': format(finalCommentsDueDate, 'dd MMMM yyyy')
+		};
+
+		logger.debug({ variables }, 'Sending email to Interested Party');
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates[appealTypeCodeToAppealId[appealTypeCode]]
+					.appellantFinalCommentsSubmissionConfirmationEmailToAppellantV2
+			)
+			.setDestinationEmailAddress(emailAddress)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(caseReference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err }, 'Unable to send final comment submission email to appellant');
 	}
 };
 
@@ -573,6 +630,7 @@ module.exports = {
 
 	sendSubmissionReceivedEmailToLpaV2,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
+	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
 
 	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionConfirmationEmailToAppellantV2,
