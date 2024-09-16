@@ -560,6 +560,14 @@ export interface AppellantFinalCommentSubmission {
 	caseReference: string;
 	AppealCase: {
 		LPACode: string;
+		appealTypeCode?: string;
+		/** @format date-time */
+		finalCommentsDueDate?: string;
+		siteAddressLine1?: string;
+		siteAddressLine2?: string;
+		siteAddressTown?: string;
+		siteAddressCounty?: string;
+		siteAddressPostcode?: string;
 	};
 	/** @format date-time */
 	createdAt?: string;
