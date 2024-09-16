@@ -24,7 +24,7 @@ const testCaseRef = '1010101';
 
 const questionnaireBaseUrl = `/manage-appeals/questionnaire/${testCaseRef}`;
 const statementBaseUrl = `/manage-appeals/appeal-statement/${testCaseRef}/appeal-statement`;
-const finalCommentBaseUrl = `/manage-appeals/appeal-comment/${testCaseRef}`;
+const finalCommentBaseUrl = `/manage-appeals/final-comments/${testCaseRef}`;
 const proofsBaseUrl = `/manage-appeals/proofs-of-evidence/${testCaseRef}`;
 
 describe('lib/dashboard-functions', () => {
