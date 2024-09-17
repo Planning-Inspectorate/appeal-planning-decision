@@ -2,10 +2,10 @@ const express = require('express');
 const {
 	list,
 	question,
-	save
+	save,
 	// remove,
-	// submitLpaStatement,
-	// appealStatementSubmitted
+	submitLpaFinalComment,
+	lpaFinalCommentSubmitted
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -69,12 +69,22 @@ router.get(
 	lpaFinalCommentTaskList
 );
 
-// router.get(
-// 	'/final-comments/:referenceId/submitted-appeal-statement',
-// 	getJourneyResponse(),
-// 	validationErrorHandler,
-// 	appealStatementSubmitted
-// );
+// submit
+router.post(
+	'/final-comments/:referenceId/',
+	setDefaultSection(),
+	getJourneyResponse(),
+	checkNotSubmitted(dashboardUrl),
+	validationErrorHandler,
+	submitLpaFinalComment
+);
+
+router.get(
+	'/final-comments/:referenceId/submitted',
+	getJourneyResponse(),
+	validationErrorHandler,
+	lpaFinalCommentSubmitted
+);
 
 // question
 router.get(
@@ -96,16 +106,6 @@ router.post(
 	validationErrorHandler,
 	save
 );
-
-// // submit
-// router.post(
-// 	'/final-comments/:referenceId/',
-// 	setDefaultSection(),
-// 	getJourneyResponse(),
-// 	checkNotSubmitted(dashboardUrl),
-// 	validationErrorHandler,
-// 	submitLpaStatement
-// );
 
 // // remove answer - only available for some question types
 // router.get(

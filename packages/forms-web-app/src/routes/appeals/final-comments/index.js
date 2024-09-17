@@ -69,7 +69,6 @@ router.post(
 	submitAppellantFinalComment
 );
 
-// question
 router.get(
 	'/:referenceId/submitted',
 	setDefaultSection(),

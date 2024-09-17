@@ -22,6 +22,7 @@ const { templates } = config.services.notify;
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
+ * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  */
 
@@ -278,6 +279,13 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
 	} catch (err) {
 		logger.error({ err, lpaCode: lpaCode }, 'Unable to send submission received email to LPA');
 	}
+};
+
+/**
+ * @param { LPAFinalCommentSubmission } lpaFinalCommentSubmission
+ */
+const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmission) => {
+	return lpaFinalCommentSubmission;
 };
 
 /**
@@ -630,6 +638,7 @@ module.exports = {
 
 	sendSubmissionReceivedEmailToLpaV2,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
+	sendLPAFinalCommentSubmissionEmailToLPAV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
 
 	sendSubmissionReceivedEmailToAppellantV2,

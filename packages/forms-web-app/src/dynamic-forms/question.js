@@ -289,6 +289,11 @@ class Question {
 				journeyResponse.referenceId,
 				responseToSave.answers
 			);
+		} else if ([JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS].includes(journeyType)) {
+			await apiClient.patchLPAFinalCommentSubmission(
+				journeyResponse.referenceId,
+				responseToSave.answers
+			);
 		}
 	}
 

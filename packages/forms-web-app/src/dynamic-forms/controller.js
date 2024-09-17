@@ -5,8 +5,6 @@ const { SECTION_STATUS } = require('./section');
 const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
-// const { storePdfAppellantSubmission } = require('../../src/services/pdf.service');
-// const { CONSTS } = require('../../src/consts');
 const {
 	formatBeforeYouStartSection,
 	formattedSubmissionDate
@@ -482,6 +480,42 @@ exports.appellantFinalCommentSubmitted = async (req, res) => {
 	}
 
 	return res.render('./dynamic-components/submission-screen/appellant-final-comment', {
+		caseReference
+	});
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.submitLpaFinalComment = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		res.render('./error/not-found.njk');
+		return;
+	}
+
+	await req.appealsApiClient.submitLPAFinalCommentSubmission(caseReference);
+
+	return res.redirect(`/manage-appeals/final-comments/${caseReference}/submitted`);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.lpaFinalCommentSubmitted = async (req, res) => {
+	const journeyResponse = res.locals.journeyResponse;
+	const journey = getJourney(journeyResponse);
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.render('./error/not-found.njk');
+	}
+
+	return res.render('./dynamic-components/submission-screen/lpa-final-comment', {
 		caseReference
 	});
 };
