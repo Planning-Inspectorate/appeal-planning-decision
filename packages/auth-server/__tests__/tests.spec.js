@@ -286,6 +286,34 @@ describe('auth server', () => {
 			expect(response.body.token_type).toBe('Bearer');
 		});
 
+		it('should ignore case', async () => {
+			const user = await _createSqlUser('access-token2@example.com');
+			await performOTP({ email: user.email });
+
+			const securityToken = await sqlClient.securityToken.findFirstOrThrow({
+				where: {
+					appealUserId: user.id
+				}
+			});
+
+			const response = await performROPC({
+				email: user.email,
+				otp: securityToken.token.toLowerCase()
+			});
+
+			const recheckUser = await sqlClient.appealUser.findFirstOrThrow({
+				where: {
+					id: user.id
+				}
+			});
+
+			expect(response.status).toEqual(200);
+			expect(recheckUser.isEnrolled).toEqual(true);
+			expect(response.body.access_token).toEqual(expect.any(String));
+			expect(response.body.expires_in).toEqual(dayInSeconds);
+			expect(response.body.token_type).toBe('Bearer');
+		});
+
 		it('should return id token with openid scope', async () => {
 			const user = await _createSqlUser('id-token@example.com');
 			await performOTP({ email: user.email });
