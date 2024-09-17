@@ -7,8 +7,7 @@ module.exports = {
 		'node_modules',
 		'<rootDir>/src/app.js',
 		'<rootDir>/src/main.js',
-		'<rootDir>/src/server.js',
-		''
+		'<rootDir>/src/server.js'
 	],
 	coverageThreshold: {
 		global: {
