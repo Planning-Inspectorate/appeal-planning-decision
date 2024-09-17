@@ -41,7 +41,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.5.0
+      ref: refs/tags/release/3.18.0
 
 extends:
   template: stages/wrapper_ci.yml@templates
@@ -54,23 +54,23 @@ extends:
         steps:
           - template: ../steps/node_script.yml
             parameters:
-              nodeVersion: 18
+              nodeVersion: 20
               script: npm ci
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run lint
-              nodeVersion: 18
+              nodeVersion: 20
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run test
-              nodeVersion: 18
+              nodeVersion: 20
           - template: ../steps/node_script.yml
             parameters:
               condition: and(succeededOrFailed(),eq(variables['Build.SourceBranchName'], 'main'))
               script: npm run integration-test
-              nodeVersion: 18
+              nodeVersion: 20
           - template: ../steps/check_changed_files.yml
             parameters:
               pathFilters:
@@ -200,7 +200,7 @@ extends:
         steps:
           - template: ../steps/node_script.yml
             parameters:
-              nodeVersion: 18
+              nodeVersion: 20
               script: npm ci --omit=dev
               workingDirectory: $(Build.Repository.LocalPath)
           - script: |

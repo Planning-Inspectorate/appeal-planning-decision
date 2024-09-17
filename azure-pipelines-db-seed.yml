@@ -19,7 +19,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.4.0
+      ref: refs/tags/release/3.18.0
 
 variables:
   - template: variables/environments/${{ lower(parameters.environment )}}.yml@templates
@@ -37,7 +37,7 @@ jobs:
             - checkout: self
             - template: steps/node_script.yml@templates
               parameters:
-                nodeVersion: 18
+                nodeVersion: 20
                 script: npm ci
             - template: steps/azure_auth.yml@templates
             - template: steps/azure_get_secrets.yml@templates
