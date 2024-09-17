@@ -285,7 +285,65 @@ const sendLpaStatementSubmissionReceivedEmailToLpaV2 = async (lpaStatementSubmis
  * @param { LPAFinalCommentSubmission } lpaFinalCommentSubmission
  */
 const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmission) => {
-	return lpaFinalCommentSubmission;
+	const {
+		LPACode: lpaCode,
+		finalCommentsDueDate,
+		appealTypeCode,
+		siteAddressLine1,
+		siteAddressLine2,
+		siteAddressTown,
+		siteAddressCounty,
+		siteAddressPostcode
+	} = lpaFinalCommentSubmission.AppealCase;
+
+	const caseReference = lpaFinalCommentSubmission.caseReference;
+
+	const formattedAddress = formatSubmissionAddress({
+		addressLine1: siteAddressLine1,
+		addressLine2: siteAddressLine2,
+		townCity: siteAddressTown,
+		county: siteAddressCounty,
+		postcode: siteAddressPostcode
+	});
+
+	try {
+		let lpa;
+		try {
+			lpa = await lpaService.getLpaByCode(lpaCode);
+		} catch (err) {
+			lpa = await lpaService.getLpaById(lpaCode);
+		}
+		const lpaEmail = lpa.getEmail();
+
+		const lpaName = lpa.getName();
+
+		const reference = lpaFinalCommentSubmission.id;
+
+		let variables = {
+			LPA: lpaName,
+			appeal_reference_number: caseReference,
+			'appeal site address': formattedAddress,
+			'deadline date': format(finalCommentsDueDate, 'dd MMMM yyyy')
+		};
+
+		logger.debug({ lpaEmail, variables, reference }, 'Sending email to LPA');
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates[appealTypeCodeToAppealId[appealTypeCode]]
+					.lpaFinalCommentsSubmissionConfirmationEmailToLpaV2
+			)
+			.setDestinationEmailAddress(lpaEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err, lpaCode: lpaCode }, 'Unable to send final comment submission email to LPA');
+	}
 };
 
 /**
@@ -317,6 +375,8 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 			postcode: siteAddressPostcode
 		});
 
+		const reference = appellantFinalCommentSubmission.id;
+
 		let variables = {
 			appeal_reference_number: caseReference,
 			// 'appellant name'
@@ -333,7 +393,7 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 			)
 			.setDestinationEmailAddress(emailAddress)
 			.setTemplateVariablesFromObject(variables)
-			.setReference(caseReference)
+			.setReference(reference)
 			.sendEmail(
 				config.services.notify.baseUrl,
 				config.services.notify.serviceId,
