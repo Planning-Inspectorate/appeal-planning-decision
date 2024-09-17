@@ -156,6 +156,8 @@ class MultiFileUploadQuestion extends Question {
 			return apiClient.postLPAStatementDocumentUpload(referenceId, data);
 		} else if ([JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS].includes(journeyId)) {
 			return apiClient.postAppellantFinalCommentDocumentUpload(referenceId, data);
+		} else if ([JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS].includes(journeyId)) {
+			return apiClient.postLPAFinalCommentDocumentUpload(referenceId, data);
 		}
 	}
 
@@ -171,6 +173,8 @@ class MultiFileUploadQuestion extends Question {
 				return apiClient.deleteLPAStatementDocumentUpload(submissionId, documentId);
 			} else if ([JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS].includes(journeyId)) {
 				return apiClient.deleteAppellantFinalCommentDocumentUpload(submissionId, documentId);
+			} else if ([JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS].includes(journeyId)) {
+				return apiClient.deleteLPAFinalCommentDocumentUpload(submissionId, documentId);
 			}
 		};
 	}

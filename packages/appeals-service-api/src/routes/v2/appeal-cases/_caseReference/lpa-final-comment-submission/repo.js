@@ -35,7 +35,13 @@ class LPAFinalCommentSubmissionRepository {
 					AppealCase: {
 						select: {
 							LPACode: true,
-							appealTypeCode: true
+							appealTypeCode: true,
+							finalCommentsDueDate: true,
+							siteAddressLine1: true,
+							siteAddressLine2: true,
+							siteAddressTown: true,
+							siteAddressCounty: true,
+							siteAddressPostcode: true
 						}
 					},
 					SubmissionDocumentUpload: true
@@ -100,16 +106,27 @@ class LPAFinalCommentSubmissionRepository {
 	}
 
 	/**
-	 * @param {string} id
+	 * @param {string} caseReference
+	 * @param {string} LPACommentsSubmitted date time string of date submitted to FO
 	 * @returns {Promise<{id: string}>}
 	 */
-	markLPAFinalCommentAsSubmitted(id) {
+	markLPAFinalCommentAsSubmitted(caseReference, LPACommentsSubmitted) {
 		return this.dbClient.lPAFinalCommentSubmission.update({
 			where: {
-				id: id
+				caseReference
 			},
 			data: {
-				submitted: true
+				submitted: true,
+				AppealCase: {
+					update: {
+						where: {
+							caseReference
+						},
+						data: {
+							LPACommentsSubmitted
+						}
+					}
+				}
 			},
 			select: {
 				id: true

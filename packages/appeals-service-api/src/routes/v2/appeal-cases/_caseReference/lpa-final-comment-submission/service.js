@@ -59,11 +59,12 @@ async function patchLPAFinalCommentByAppealId(appealCaseId, finalCommentData) {
 /**
  * mark comment as submitted to back office
  *
- * @param {string} commentId
+ * @param {string} caseReference
+ * @param {string} LPACommentsSubmitted
  * @return {Promise<{id: string}>}
  */
-function markLPAFinalCommentAsSubmitted(commentId) {
-	return repo.markLPAFinalCommentAsSubmitted(commentId);
+function markLPAFinalCommentAsSubmitted(caseReference, LPACommentsSubmitted) {
+	return repo.markLPAFinalCommentAsSubmitted(caseReference, LPACommentsSubmitted);
 }
 
 module.exports = {

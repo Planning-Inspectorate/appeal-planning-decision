@@ -107,7 +107,7 @@ class AppellantFinalCommentSubmissionRepository {
 
 	/**
 	 * @param {string} caseReference
-	 * @param {string} appellantCommentsSubmitted
+	 * @param {string} appellantCommentsSubmitted date time string of date submitted to FO
 	 * @returns {Promise<{id: string}>}
 	 */
 	markAppellantFinalCommentAsSubmitted(caseReference, appellantCommentsSubmitted) {

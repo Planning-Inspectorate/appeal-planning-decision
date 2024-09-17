@@ -24,7 +24,8 @@ const {
 	sendSubmissionReceivedEmailToLpaV2,
 	sendCommentSubmissionConfirmationEmailToIp,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
-	sendAppellantFinalCommentSubmissionEmailToAppellantV2
+	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
+	sendLPAFinalCommentSubmissionEmailToLPAV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
@@ -33,6 +34,10 @@ const {
 	getAppellantFinalCommentByAppealId,
 	markAppellantFinalCommentAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/service');
+const {
+	getLPAFinalCommentByAppealId,
+	markLPAFinalCommentAsSubmitted
+} = require('../../routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/service');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -233,6 +238,26 @@ class BackOfficeV2Service {
 		} catch (err) {
 			logger.error({ err }, 'failed to sendLpaStatementSubmissionReceivedEmailToLpaV2');
 			throw new Error('failed to send lpa statement submission email');
+		}
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitLPAFinalCommentSubmission(caseReference) {
+		const lpaFinalCommentSubmission = await getLPAFinalCommentByAppealId(caseReference);
+
+		logger.info(`forwarding lpa final comment submission for ${caseReference} to service bus`);
+
+		// Date to be set in back office mapper once data model confirmed
+		await markLPAFinalCommentAsSubmitted(caseReference, new Date().toISOString());
+
+		try {
+			await sendLPAFinalCommentSubmissionEmailToLPAV2(lpaFinalCommentSubmission);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendLPAFinalCommentSubmissionEmailToLPAV2');
+			throw new Error('failed to send lpa final comment submission email');
 		}
 	}
 
