@@ -52,7 +52,7 @@ describe('controllers/cookies', () => {
 			getCookies(req, res);
 
 			expect(req.log.warn).toHaveBeenCalledWith(
-				new SyntaxError('Unexpected token b in JSON at position 0'),
+				new SyntaxError(`Unexpected token 'b', "blurgh" is not valid JSON`),
 				'Get cookies.'
 			);
 
