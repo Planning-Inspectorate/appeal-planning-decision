@@ -2,6 +2,9 @@ const hasAppealParams = require('../dynamic-forms/has-appeal-form/journey');
 const hasQuestionnaireParams = require('../dynamic-forms/has-questionnaire/journey');
 const s78AppealParams = require('../dynamic-forms/s78-appeal-form/journey');
 const s78QuestionnaireParams = require('../dynamic-forms/s78-questionnaire/journey');
+const s78AppellantFinalCommentsParams = require('../dynamic-forms/s78-appellant-final-comments/journey');
+const s78LpaFinalCommentsParams = require('../dynamic-forms/s78-lpa-final-comments/journey');
+const s78LpaStatementParams = require('../dynamic-forms/s78-lpa-statement/journey');
 
 const { Journeys } = require('../dynamic-forms/journeys');
 
@@ -11,5 +14,8 @@ journeys.registerJourney(hasAppealParams);
 journeys.registerJourney(hasQuestionnaireParams);
 journeys.registerJourney(s78AppealParams);
 journeys.registerJourney(s78QuestionnaireParams);
+journeys.registerJourney(s78AppellantFinalCommentsParams);
+journeys.registerJourney(s78LpaFinalCommentsParams);
+journeys.registerJourney(s78LpaStatementParams);
 
 module.exports = { journeys };
