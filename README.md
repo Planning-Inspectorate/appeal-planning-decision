@@ -22,9 +22,9 @@ Monorepo for all PINS Appeal planning decision services.
 Install NodeJS using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
 ```
-nvm install 18
-nvm use 18
-nvm alias default 18
+nvm install 20.17.0
+nvm use 20.17.0
+nvm alias default 20
 ```
 
 ### Dependencies

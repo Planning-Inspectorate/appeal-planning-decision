@@ -49,7 +49,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.16.1
+      ref: refs/tags/release/3.18.0
   pipelines:
     - pipeline: build
       source: Appeals Service Build
@@ -95,7 +95,7 @@ extends:
               - ${{ if eq(parameters.schemaMigration, true) }}:
                   - template: ../steps/node_script.yml
                     parameters:
-                      nodeVersion: 18
+                      nodeVersion: 20
                       environmentVariables:
                         SQL_CONNECTION_STRING_ADMIN: $(SQL_CONNECTION_STRING_ADMIN)
                       script: npm run migrate:prod
@@ -103,7 +103,7 @@ extends:
               - ${{ if eq(parameters.seedData, true) }}:
                   - template: ../steps/node_script.yml
                     parameters:
-                      nodeVersion: 18
+                      nodeVersion: 20
                       environmentVariables:
                         SQL_CONNECTION_STRING: $(SQL_CONNECTION_STRING)
                       script: npm run seed:prod
