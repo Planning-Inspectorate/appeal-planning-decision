@@ -27,20 +27,17 @@
 
 {% block main %}
   <div class="govuk-width-container govuk-body {{ containerClasses }}">
+    {% block phaseBanner %}
+      {{ govukPhaseBanner({
+        tag: {
+          text: "beta"
+        },
+        html: 'This is a beta service'
+      }) }}
+    {% endblock %}
 
-    <main id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %}>
-      {% block phaseBanner %}
-        {{ govukPhaseBanner({
-          tag: {
-            text: "beta"
-          },
-          html: 'This is a beta service'
-        }) }}
-      {% endblock %}
-
-      <div class="govuk-main-wrapper {{ mainClasses }}">
-        {% block content %}{% endblock %}
-      </div>
+    <main id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %} class="govuk-main-wrapper {{ mainClasses }}>
+      {% block content %}{% endblock %}
     </main>
   </div>
 {% endblock %}
