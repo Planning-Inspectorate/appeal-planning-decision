@@ -121,6 +121,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(removeUnwantedCookiesMiddelware);
 app.use(setLocalslDisplayCookieBannerValue);
+
+app.use('/robots.txt', express.static(path.join(__dirname, 'robots.txt')));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 app.use(
 	'/assets',
@@ -129,6 +131,7 @@ app.use(
 	express.static(path.join(govukFrontEndRoot, 'govuk', 'assets'))
 );
 app.use('/assets/govuk/all.js', express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js')));
+
 app.use(fileUpload({ ...config.fileUpload /*useTempFiles: true*/ }));
 app.use(session(sessionConfig()));
 app.use(navigationHistoryMiddleware()); // Above lusca so csrf token isn't in session yet
