@@ -28,30 +28,27 @@
 
 {% block main %}
   <div class="govuk-width-container govuk-body {{ containerClasses }}">
+    {% block phaseBanner %}
+      {{ govukPhaseBanner({
+        tag: {
+          text: "beta"
+        },
+        html: 'This is a beta service – your <a class="govuk-link" data-cy="Feedback" href="https://forms.office.com.mcas.ms/Pages/ResponsePage.aspx?id=mN94WIhvq0iTIpmM5VcIjVqzqAxXAi1LghAWTH6Y3OJUOFg4UFdEUThGTlU3S0hFUTlERVYwMVRLTy4u">feedback</a> will help us to improve it.'
+      }) }}
+    {% endblock %}
 
-    <main id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %}>
-      {% block phaseBanner %}
-        {{ govukPhaseBanner({
-          tag: {
-            text: "beta"
-          },
-          html: 'This is a beta service – your <a class="govuk-link" data-cy="Feedback" href="https://forms.office.com.mcas.ms/Pages/ResponsePage.aspx?id=mN94WIhvq0iTIpmM5VcIjVqzqAxXAi1LghAWTH6Y3OJUOFg4UFdEUThGTlU3S0hFUTlERVYwMVRLTy4u">feedback</a> will help us to improve it.'
-        }) }}
-      {% endblock %}
+    {% block backButton %}
+      {{ govukBackLink({
+        text: "Back",
+        href: navigation[1],
+        attributes: {
+          'data-cy': 'back'
+        }
+      }) }}
+    {% endblock %}
 
-      {% block backButton %}
-        {{ govukBackLink({
-          text: "Back",
-          href: navigation[1],
-          attributes: {
-            'data-cy': 'back'
-          }
-        }) }}
-      {% endblock %}
-
-      <div class="govuk-main-wrapper {{ mainClasses }}">
-        {% block content %}{% endblock %}
-      </div>
+    <main id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %} class="govuk-main-wrapper {{ mainClasses }}">
+      {% block content %}{% endblock %}
     </main>
   </div>
 {% endblock %}

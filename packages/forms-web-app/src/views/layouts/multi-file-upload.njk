@@ -24,10 +24,10 @@
     id: fieldName,
     name: fieldName,
     classes: 'moj-multi-file-upload__input',
-     label: {
-            text: "Upload files",
-            classes: 'govuk-label--m'
-          },
+    label: {
+      text: "Upload files",
+      classes: 'govuk-label--m'
+    },
     hint: {
       text: 'The files must be a DOC, DOCX, PDF, TIF, JPG or PNG and be smaller than ' + fileSizeLimits.maxFileUploadSize | formatBytes
     },
@@ -43,7 +43,7 @@
     name: 'upload-and-remain-on-page',
     value: 'upload-and-remain-on-page',
     attributes: { "data-cy":"button-upload-file"}
-  })}}
+  }) }}
 {% endset %}
 
 {% block pageTitle %}{{ "Error: " + title if errors else title }}{% endblock %}
