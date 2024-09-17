@@ -1,4 +1,4 @@
-// const { questions } = require('../questions');
+const { questions } = require('../questions');
 const { Section } = require('../section');
 const config = require('../../config');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
@@ -13,7 +13,9 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
  * @param {JourneyResponse} response
  * @returns {Section[]}
  */
-const sections = [new Section('', config.dynamicForms.DEFAULT_SECTION)];
+const sections = [
+	new Section('', config.dynamicForms.DEFAULT_SECTION).addQuestion(questions.lpaFinalComment)
+];
 
 const baseS78LPAFinalCommentsUrl = '/manage-appeals/final-comments';
 

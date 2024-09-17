@@ -2094,5 +2094,12 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadAppellantFinalCommentDocuments
+	}),
+	lpaFinalComment: new BooleanQuestion({
+		title: 'Do you want to submit any final comments?',
+		question: 'Do you want to submit any final comments?',
+		fieldName: 'lpaFinalComment',
+		url: 'submit-final-comments',
+		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
 	})
 };
