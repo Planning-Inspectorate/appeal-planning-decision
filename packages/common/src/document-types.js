@@ -8,6 +8,7 @@
 
 const lpaOwner = 'LPAUser';
 const appellantOwner = 'Appellant';
+const pinsOwner = 'PINs';
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
@@ -17,7 +18,7 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
  * @property {boolean} multiple if this is a multi-file or single-file upload
  * @property {string} [displayName] a user friendly name for the doc type, has been defined on all docs
  * @property {'LPA'|'Appellant'|''} involvement currently unsure what this is used for?
- * @property {'LPAUser'|'Appellant'} owner who owns/uploads this document type
+ * @property {'LPAUser'|'Appellant'|'PINs'} owner who owns/uploads this document type
  * @property {boolean} publiclyAccessible if, when published, this document can be accessed without a user needing to log in
  * @property {string} horizonDocumentType name used in horizon
  * @property {string} horizonDocumentGroupType group type used in horizon
@@ -481,7 +482,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: false,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -492,7 +493,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: false,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -514,7 +515,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: false,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -535,7 +536,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: false,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -545,7 +546,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: false,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -555,7 +556,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: false,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -575,7 +576,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: false,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -585,7 +586,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: false,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -618,6 +619,17 @@ const documentTypes = {
 		involvement: '',
 		owner: appellantOwner,
 		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	caseDecisionLetter: {
+		name: 'caseDecisionLetter',
+		dataModelName: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER,
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: pinsOwner,
+		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
