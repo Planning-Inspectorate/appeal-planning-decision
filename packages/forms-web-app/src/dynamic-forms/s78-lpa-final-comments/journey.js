@@ -1,6 +1,7 @@
 // const { questions } = require('../questions');
 const { Section } = require('../section');
 const config = require('../../config');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 // const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
 
 /**
@@ -14,24 +15,22 @@ const config = require('../../config');
  */
 const sections = [new Section('', config.dynamicForms.DEFAULT_SECTION)];
 
-const fixedParams = {
-	baseS78LPAFinalCommentsUrl: '/manage-appeals/final-comments',
-	journeyTemplate: 'final-comments-template.njk',
-	listingPageViewPath: 'dynamic-components/task-list/final-comments',
-	journeyTitle: 'Manage your appeals',
-	sections
-};
+const baseS78LPAFinalCommentsUrl = '/manage-appeals/final-comments';
 
 /**
  * @param {JourneyResponse} response
- * @returns {JourneyParameters}
+ * @returns {string}
  */
-const buildJourneyParams = (response) => [
-	{
-		...fixedParams,
-		response,
-		baseUrl: `${fixedParams.baseS78LPAFinalCommentsUrl}/${encodeURIComponent(response.referenceId)}`
-	}
-];
+const makeBaseUrl = (response) =>
+	`${baseS78LPAFinalCommentsUrl}/${encodeURIComponent(response.referenceId)}`;
 
-module.exports = { buildJourneyParams, ...fixedParams };
+const params = {
+	journeyId: JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS,
+	journeyTemplate: 'final-comments-template.njk',
+	listingPageViewPath: 'dynamic-components/task-list/final-comments',
+	journeyTitle: 'Manage your appeals',
+	sections,
+	makeBaseUrl
+};
+
+module.exports = { baseS78LPAFinalCommentsUrl, ...params };
