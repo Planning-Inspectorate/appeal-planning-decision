@@ -176,7 +176,7 @@ module.exports = class Repo {
 				await tx.appealToUser.findFirstOrThrow({
 					where: {
 						userId,
-						role: APPEAL_USER_ROLES.APPELLANT
+						role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
 					}
 				});
 
@@ -220,7 +220,7 @@ module.exports = class Repo {
 			await tx.appealToUser.findFirstOrThrow({
 				where: {
 					userId,
-					role: APPEAL_USER_ROLES.APPELLANT
+					role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
 				}
 			});
 
@@ -259,7 +259,7 @@ module.exports = class Repo {
 					Users: {
 						create: {
 							userId,
-							role: APPEAL_USER_ROLES.APPELLANT
+							role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
 						}
 					},
 					AppellantSubmission: {
@@ -284,7 +284,7 @@ module.exports = class Repo {
 				await tx.appealToUser.findFirstOrThrow({
 					where: {
 						userId,
-						role: APPEAL_USER_ROLES.APPELLANT
+						role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
 					}
 				});
 
