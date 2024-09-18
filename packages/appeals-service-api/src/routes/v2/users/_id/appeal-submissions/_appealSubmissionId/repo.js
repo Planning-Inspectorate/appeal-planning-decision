@@ -41,7 +41,7 @@ class UserAppealSubmissionRepository {
 					Users: {
 						where: {
 							userId: userId,
-							role: APPEAL_USER_ROLES.Appellant
+							role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
 						}
 					}
 				}
