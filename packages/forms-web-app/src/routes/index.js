@@ -21,7 +21,6 @@ const rule6Appeals = require('./rule-6-appeals');
 const debug = require('./debug');
 const {
 	getDocument,
-	getAppealPDFDocumentV2,
 	getAppellantSubmissionPDFV2,
 	getSubmissionDocumentV2Url,
 	getPublishedDocumentV2Url
@@ -71,11 +70,6 @@ if (config.featureFlag.dashboardsEnabled) {
 
 //v2 submission pdf
 router.use('/appeal-document/:appellantSubmissionId', checkLoggedIn, getAppellantSubmissionPDFV2);
-router.use(
-	'/appeal-document/:appealOrQuestionnaireId/:documentId',
-	checkLoggedIn,
-	getAppealPDFDocumentV2
-);
 // v2 published BO documents, doesn't check logged in as some docs are public, checked in docs api
 router.use('/published-document/:documentId', getPublishedDocumentV2Url);
 // v1 appeals / questionnaires documents
