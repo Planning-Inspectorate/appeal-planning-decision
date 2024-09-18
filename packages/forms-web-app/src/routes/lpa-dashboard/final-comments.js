@@ -12,6 +12,8 @@ const {
 	validationErrorHandler
 } = require('../../dynamic-forms/validator/validation-error-handler');
 const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-response-for-lpa-final-comments');
+const { getJourney } = require('../../dynamic-forms/middleware/get-journey');
+const { journeys } = require('../../journeys');
 const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
 const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
 const {
@@ -64,6 +66,7 @@ const lpaFinalCommentTaskList = async (req, res) => {
 router.get(
 	'/final-comments/:referenceId',
 	getJourneyResponse(),
+	getJourney(journeys),
 	redirectToUnansweredQuestion([skipIfNoAdditionalDocuments]),
 	checkNotSubmitted(dashboardUrl),
 	lpaFinalCommentTaskList
@@ -74,6 +77,7 @@ router.post(
 	'/final-comments/:referenceId/',
 	setDefaultSection(),
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	validationErrorHandler,
 	submitLpaFinalComment
@@ -82,6 +86,7 @@ router.post(
 router.get(
 	'/final-comments/:referenceId/submitted',
 	getJourneyResponse(),
+	getJourney(journeys),
 	validationErrorHandler,
 	lpaFinalCommentSubmitted
 );
@@ -91,6 +96,7 @@ router.get(
 	'/final-comments:referenceId/:question',
 	setDefaultSection(),
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	question
 );
@@ -100,6 +106,7 @@ router.post(
 	'/final-comments/:referenceId/:question',
 	setDefaultSection(),
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
@@ -112,6 +119,7 @@ router.post(
 // 	'/appeal-statement/:referenceId/:question/:answerId',
 // 	setDefaultSection(),
 // 	getJourneyResponse(),
+//  getJourney(journeys),
 // 	checkNotSubmitted(dashboardUrl),
 // 	remove
 // );
