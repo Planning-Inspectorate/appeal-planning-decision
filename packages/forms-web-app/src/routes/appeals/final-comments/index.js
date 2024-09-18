@@ -12,6 +12,8 @@ const {
 	validationErrorHandler
 } = require('../../../dynamic-forms/validator/validation-error-handler');
 const getJourneyResponse = require('../../../dynamic-forms/middleware/get-journey-response-for-appellant-final-comments');
+const { getJourney } = require('../../../dynamic-forms/middleware/get-journey');
+const { journeys } = require('../../../journeys');
 const setDefaultSection = require('../../../dynamic-forms/middleware/set-default-section');
 const redirectToUnansweredQuestion = require('../../../dynamic-forms/middleware/redirect-to-unanswered-question');
 const {
@@ -55,6 +57,7 @@ const finalCommentsTaskList = async (req, res) => {
 router.get(
 	'/:referenceId',
 	getJourneyResponse(),
+	getJourney(journeys),
 	redirectToUnansweredQuestion([skipIfNoAdditionalDocuments]),
 	checkNotSubmitted(dashboardUrl),
 	finalCommentsTaskList
@@ -64,6 +67,7 @@ router.get(
 router.post(
 	'/:referenceId',
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	validationErrorHandler,
 	submitAppellantFinalComment
@@ -73,6 +77,7 @@ router.get(
 	'/:referenceId/submitted',
 	setDefaultSection(),
 	getJourneyResponse(),
+	getJourney(journeys),
 	appellantFinalCommentSubmitted
 );
 
@@ -81,6 +86,7 @@ router.get(
 	'/:referenceId/:question',
 	setDefaultSection(),
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	question
 );
@@ -90,6 +96,7 @@ router.post(
 	'/:referenceId/:question',
 	setDefaultSection(),
 	getJourneyResponse(),
+	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	dynamicReqFilesToReqBodyFiles(),
 	validate(),
