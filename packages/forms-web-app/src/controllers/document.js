@@ -59,39 +59,6 @@ const getDocument = async (req, res) => {
 };
 
 /**
- * links user to pdf for has and s78 submission
- * custom redirect if not logged in
- * @type {import('express').Handler}
- */
-const getAppealPDFDocumentV2 = async (req, res) => {
-	const { appealOrQuestionnaireId, documentId } = req.params;
-
-	try {
-		logger.info('Confirming user owns appellant submission');
-
-		// make api call to confirm that user matches appellant
-		const userOwnsAppeal = await req.appealsApiClient.confirmUserOwnsAppellantSubmission(
-			appealOrQuestionnaireId
-		);
-
-		if (!userOwnsAppeal) {
-			logger.error('User not linked to appeal');
-			res.sendStatus(403);
-			return;
-		}
-
-		logger.info('Attempting to fetch document');
-
-		const { headers, body } = await fetchDocument(appealOrQuestionnaireId, documentId);
-		return await returnResult(headers, body, res);
-	} catch (err) {
-		logger.error({ err }, 'Failed to get document');
-		res.sendStatus(500);
-		return;
-	}
-};
-
-/**
  * generates and/or retrieves pdf of appeal submission
  * custom redirect if not logged in
  * @type {import('express').Handler}
@@ -183,7 +150,6 @@ const returnResult = async (headers, body, res) => {
 
 module.exports = {
 	getDocument,
-	getAppealPDFDocumentV2,
 	getAppellantSubmissionPDFV2,
 	getSubmissionDocumentV2Url,
 	getPublishedDocumentV2Url
