@@ -488,8 +488,7 @@ exports.appellantFinalCommentSubmitted = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.submitLpaFinalComment = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey } = res.locals;
 	const caseReference = journey.response.answers.caseReference;
 
 	if (!journey.isComplete()) {
@@ -506,8 +505,7 @@ exports.submitLpaFinalComment = async (req, res) => {
  * @type {import('express').Handler}
  */
 exports.lpaFinalCommentSubmitted = async (req, res) => {
-	const journeyResponse = res.locals.journeyResponse;
-	const journey = getJourney(journeyResponse);
+	const { journey } = res.locals;
 	const caseReference = journey.response.answers.caseReference;
 
 	if (!journey.isComplete()) {
