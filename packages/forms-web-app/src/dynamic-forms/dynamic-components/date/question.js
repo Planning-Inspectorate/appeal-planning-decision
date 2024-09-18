@@ -45,9 +45,9 @@ class DateQuestion extends Question {
 		// set answer on response
 		let responseToSave = { answers: {} };
 
-		const dayInput = req.body[`${this.fieldName}_day`];
-		const monthInput = req.body[`${this.fieldName}_month`];
-		const yearInput = req.body[`${this.fieldName}_year`];
+		const dayInput = req.body[`${this.fieldName}_day`]?.trim();
+		const monthInput = req.body[`${this.fieldName}_month`]?.trim();
+		const yearInput = req.body[`${this.fieldName}_year`]?.trim();
 
 		const dateToSave = dateInputsToDate(dayInput, monthInput, yearInput);
 

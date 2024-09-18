@@ -182,7 +182,7 @@ describe('appeals-api-client', () => {
 			const createResponse = await apiClient.linkUserToV2Appeal(TEST_EMAIL, testId);
 
 			expect(fetch).toHaveBeenCalledWith(
-				`${TEST_BASEURL}${v2}/users/${TEST_EMAIL}/appeal/${testId}`,
+				`${TEST_BASEURL}${v2}/users/${encodeURIComponent(TEST_EMAIL)}/appeal/${testId}`,
 				expect.objectContaining({
 					method: 'POST'
 				})
@@ -197,7 +197,7 @@ describe('appeals-api-client', () => {
 			const createResponse = await apiClient.linkUserToV2Appeal(TEST_EMAIL, testId, role);
 
 			expect(fetch).toHaveBeenCalledWith(
-				`${TEST_BASEURL}${v2}/users/${TEST_EMAIL}/appeal/${testId}`,
+				`${TEST_BASEURL}${v2}/users/${encodeURIComponent(TEST_EMAIL)}/appeal/${testId}`,
 				expect.objectContaining({
 					method: 'POST',
 					body: JSON.stringify({ role: role })

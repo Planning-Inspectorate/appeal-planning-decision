@@ -27,7 +27,10 @@ export default class AppealUserRepository {
 	async createUser(user) {
 		try {
 			return await this.dbClient.appealUser.create({
-				data: user
+				data: {
+					...user,
+					email: user.email?.trim()
+				}
 			});
 		} catch (err) {
 			logger.error(err);
@@ -47,9 +50,12 @@ export default class AppealUserRepository {
 	async updateUser(user) {
 		try {
 			return await this.dbClient.appealUser.update({
-				data: user,
+				data: {
+					...user,
+					email: user.email?.trim()
+				},
 				where: {
-					id: user.id
+					id: user.id?.trim()
 				}
 			});
 		} catch (err) {
@@ -70,7 +76,7 @@ export default class AppealUserRepository {
 	async getByEmail(email) {
 		return await this.dbClient.appealUser.findUnique({
 			where: {
-				email
+				email: email.trim()
 			}
 		});
 	}

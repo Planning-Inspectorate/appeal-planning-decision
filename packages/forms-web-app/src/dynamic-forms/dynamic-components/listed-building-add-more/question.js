@@ -27,7 +27,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	 */
 	async getDataToSave(req) {
 		// todo: improve this error message
-		const listedBuildingReference = req.body[this.fieldName];
+		const listedBuildingReference = req.body[this.fieldName]?.trim();
 
 		try {
 			const listedBuildingData = await req.appealsApiClient.getListedBuilding(

@@ -172,7 +172,7 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			body: { errors = {}, errorSummary = [] },
 			params: { enterCodeId }
 		} = req;
-		const token = req.body['email-code'];
+		const token = req.body['email-code']?.trim();
 
 		// show error page
 		if (Object.keys(errors).length > 0) {
@@ -433,7 +433,7 @@ const postEnterCodeLPA = (views) => {
 			params: { id }
 		} = req;
 
-		const emailCode = req.body['email-code'];
+		const emailCode = req.body['email-code']?.trim();
 
 		// if there are errors show error page
 		if (Object.keys(errors).length > 0) {

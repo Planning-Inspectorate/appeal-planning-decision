@@ -156,9 +156,10 @@ class UnitOptionEntryQuestion extends Question {
 		 */
 		let responseToSave = { answers: {} };
 
-		const fieldValues = Array.isArray(req.body[this.fieldName])
+		const fields = Array.isArray(req.body[this.fieldName])
 			? req.body[this.fieldName]
 			: [req.body[this.fieldName]];
+		const fieldValues = fields.map((x) => x.trim());
 
 		const selectedOptions = this.options.filter(({ value }) => {
 			return fieldValues.includes(value);

@@ -64,7 +64,7 @@ async function tokenPost(req, res) {
 		return;
 	}
 
-	if (document.token.toUpperCase() !== token.toUpperCase()) {
+	if (document.token.toUpperCase() !== token?.trim().toUpperCase()) {
 		res.status(200).send({});
 		return;
 	}

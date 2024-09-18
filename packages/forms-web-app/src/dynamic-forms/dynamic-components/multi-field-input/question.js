@@ -101,7 +101,7 @@ class MultiFieldInputQuestion extends Question {
 		let responseToSave = { answers: {} };
 
 		for (const inputField of this.inputFields) {
-			responseToSave.answers[inputField.fieldName] = req.body[inputField.fieldName];
+			responseToSave.answers[inputField.fieldName] = req.body[inputField.fieldName]?.trim();
 			journeyResponse.answers[inputField.fieldName] = responseToSave.answers[inputField.fieldName];
 		}
 

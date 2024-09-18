@@ -25,7 +25,7 @@ const postEmailAddress = (views, appealInSession) => {
 		const { body } = req;
 		const { errors = {}, errorSummary = [] } = body;
 
-		const email = body['email-address'];
+		const email = body['email-address']?.trim();
 		setSessionEmail(req.session, email, appealInSession);
 		let appeal;
 		if (appealInSession) {

@@ -72,7 +72,7 @@ class BooleanQuestion extends RadioQuestion {
 	async getDataToSave(req, journeyResponse) {
 		// set answer on response
 		let responseToSave = { answers: {} };
-		const fieldValue = req.body[this.fieldName];
+		const fieldValue = req.body[this.fieldName]?.trim();
 
 		if (fieldValue === 'yes') {
 			responseToSave.answers[this.fieldName] = true;
@@ -82,8 +82,8 @@ class BooleanQuestion extends RadioQuestion {
 
 		for (const propName in req.body) {
 			if (propName.startsWith(this.fieldName + '_')) {
-				responseToSave.answers[propName] = req.body[propName];
-				journeyResponse.answers[propName] = req.body[propName];
+				responseToSave.answers[propName] = req.body[propName]?.trim();
+				journeyResponse.answers[propName] = req.body[propName]?.trim();
 			}
 		}
 

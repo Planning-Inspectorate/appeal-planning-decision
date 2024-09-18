@@ -16,6 +16,7 @@ class Account {
 	 * @param {import("@prisma/client").AppealUser} user
 	 */
 	constructor(id, user) {
+		user.email = user.email?.trim();
 		this.accountId = id;
 		this.user = user;
 		store.set(this.user.email, this);
