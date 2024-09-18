@@ -2075,7 +2075,7 @@ exports.questions = {
 	appellantFinalCommentDocuments: new BooleanQuestion({
 		title: 'Do you have additional documents to support your final comments?',
 		question: 'Do you have additional documents to support your final comments?',
-		hint: 'You must not add new evidence to your appeal',
+		html: 'resources/appellant-final-comments/additional-documents.html',
 		fieldName: 'appellantFinalCommentDocuments',
 		url: 'additional-documents',
 		validators: [
