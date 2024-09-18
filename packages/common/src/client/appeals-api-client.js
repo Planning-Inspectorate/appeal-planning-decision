@@ -316,17 +316,6 @@ class AppealsApiClient {
 	}
 
 	/**
-	 * todo, use a call to appeal-submissions and use token rather than user/appeal-submissions
-	 * @param {{ userId: string, appealSubmissionId: string }} params
-	 * @returns {Promise<(AppealSubmission)>}
-	 */
-	async getUserAppealById({ userId, appealSubmissionId }) {
-		const endpoint = `${v2}/users/${userId}/appeal-submissions/${appealSubmissionId}`;
-		const response = await this.#makeGetRequest(endpoint);
-		return response.json();
-	}
-
-	/**
 	 * @param {string} caseReference
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
