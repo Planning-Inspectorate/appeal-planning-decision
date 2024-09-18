@@ -36,7 +36,7 @@ class CaseAddMoreQuestion extends AddMoreQuestion {
 	 * @returns
 	 */
 	async getDataToSave(req) {
-		return { addMoreId: randomUUID(), value: req.body[this.fieldName] };
+		return { addMoreId: randomUUID(), value: req.body[this.fieldName]?.trim() };
 	}
 
 	/**

@@ -135,7 +135,7 @@ async function validateToken(account, otp) {
 	const securityToken = await tokenRepo.getByUserId(account.accountId);
 	if (!securityToken) throw new InvalidRopcGrant(`no token for account: ${account.accountId}`);
 	if (securityToken?.attempts > 3) throw new TooManyAttempts();
-	if (securityToken.token.toUpperCase() !== otp.toUpperCase()) throw new IncorrectCode();
+	if (securityToken.token.toUpperCase() !== otp?.trim().toUpperCase()) throw new IncorrectCode();
 	if (isTokenExpired(ttl, securityToken.tokenGeneratedAt)) throw new CodeExpired();
 }
 

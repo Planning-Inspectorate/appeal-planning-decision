@@ -73,7 +73,7 @@ class AppealsApiClient {
 	 */
 	async linkUserToV2Appeal(email, appealSqlId, role) {
 		let roleBody = role ? { role: role } : undefined;
-		const endpoint = `${v2}/users/${email}/appeal/${appealSqlId}`;
+		const endpoint = `${v2}/users/${encodeURIComponent(email?.trim())}/appeal/${appealSqlId}`;
 		const response = await this.#makePostRequest(endpoint, roleBody);
 		return response.json();
 	}
@@ -83,7 +83,7 @@ class AppealsApiClient {
 	 * @returns {Promise<AppealUser>}
 	 */
 	async getUserByEmailV2(email) {
-		const endpoint = `${v2}/users/${encodeURIComponent(email)}`;
+		const endpoint = `${v2}/users/${encodeURIComponent(email?.trim())}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
