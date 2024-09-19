@@ -2101,5 +2101,17 @@ exports.questions = {
 		fieldName: 'lpaFinalComment',
 		url: 'submit-final-comments',
 		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
+	}),
+	lpaFinalCommentDocuments: new BooleanQuestion({
+		title: 'Do you have additional documents to support your final comments?',
+		question: 'Do you have additional documents to support your final comments?',
+		hint: 'You must not add new evidence to your appeal',
+		fieldName: 'lpaFinalCommentDocuments',
+		url: 'additional-documents',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have additional documents to support your final comments'
+			)
+		]
 	})
 };
