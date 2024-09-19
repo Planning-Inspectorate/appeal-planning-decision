@@ -5,24 +5,40 @@
  * types without having the overhead of managing duplicates. *
  *************************************************************/
 
-const { add, sub, format: formatDate } = require('date-fns');
-const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
-
+// questions
 const CheckboxQuestion = require('./dynamic-components/checkbox/question');
 const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
 const BooleanQuestion = require('./dynamic-components/boolean/question');
-const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
-const CaseAddMoreQuestion = require('./dynamic-components/case-add-more/question');
-const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
 const RadioQuestion = require('./dynamic-components/radio/question');
+const DateQuestion = require('./dynamic-components/date/question');
+const TextEntryQuestion = require('./dynamic-components/text-entry/question');
+const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
+const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
+const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
+const SiteAddressQuestion = require('./dynamic-components/site-address/question');
+const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
+const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
+
+// validators
 const RequiredValidator = require('./validator/required-validator');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
 const MultifileUploadValidator = require('./validator/multifile-upload-validator');
 const AddressValidator = require('./validator/address-validator');
 const StringEntryValidator = require('./validator/string-validator');
+const StringValidator = require('./validator/string-validator');
+const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
+const UnitOptionEntryValidator = require('./validator/unit-option-entry-validator');
+const DateValidator = require('./validator/date-validator');
+const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
+const NumericValidator = require('./validator/numeric-validator');
 
+const { add, sub, format: formatDate } = require('date-fns');
+const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
+const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
+const { documentTypes } = require('@pins/common');
 const {
 	validation: {
+		characterLimits: { appealFormV2, finalComment: configInputMaxCharacters },
 		stringValidation: {
 			appealReferenceNumber: appealReferenceNumberValidation,
 			listedBuildingNumber: listedBuildingNumberValidation,
@@ -31,36 +47,11 @@ const {
 			lengthOfInquiry: { minDays, maxDays }
 		}
 	}
-} = require('../../src/config');
-const StringValidator = require('./validator/string-validator');
-const {
-	validation: {
-		characterLimits: { appealFormV2 }
-	}
 } = require('../config');
-let {
-	validation: {
-		characterLimits: { finalComment: inputMaxCharacters }
-	}
-} = require('../config');
-const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
-const ConditionalRequiredValidator = require('./validator/conditional-required-validator');
-const UnitOptionEntryValidator = require('./validator/unit-option-entry-validator');
-const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
-const DateValidator = require('./validator/date-validator');
-const DateQuestion = require('./dynamic-components/date/question');
-const TextEntryQuestion = require('./dynamic-components/text-entry/question');
-const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
-const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
-const { documentTypes } = require('@pins/common');
-const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
-const NumericValidator = require('./validator/numeric-validator');
-const SiteAddressQuestion = require('./dynamic-components/site-address/question');
-const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
-const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
+
 const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
 
-inputMaxCharacters = Math.min(Number(inputMaxCharacters), 1000);
+const inputMaxCharacters = Math.min(Number(configInputMaxCharacters), 1000);
 
 /**
  * @param {'past' | 'future'} tense
@@ -119,10 +110,10 @@ exports.questions = {
 		subQuestionInputClasses: 'govuk-input--width-10',
 		width: ListAddMoreQuestion.FULL_WIDTH,
 		validators: [new RequiredValidator('Select yes to add another building or site')],
-		subQuestion: new ListedBuildingAddMoreQuestion({
+		subQuestionType: 'listed-building',
+		subQuestionProps: {
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
-			// fieldName: 'listed-building-number',
 			fieldName: 'changedListedBuildingNumber',
 			html: 'resources/listed-building-number/content.html',
 			validators: [
@@ -130,7 +121,7 @@ exports.questions = {
 				new StringEntryValidator(listedBuildingNumberValidation)
 			],
 			viewFolder: 'identifier'
-		})
+		}
 	}),
 	affectedListedBuildings: new ListAddMoreQuestion({
 		title: 'Listed building or site added',
@@ -144,7 +135,8 @@ exports.questions = {
 		subQuestionInputClasses: 'govuk-input--width-10',
 		width: ListAddMoreQuestion.FULL_WIDTH,
 		validators: [new RequiredValidator('Select yes to add another building or site')],
-		subQuestion: new ListedBuildingAddMoreQuestion({
+		subQuestionType: 'listed-building',
+		subQuestionProps: {
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
 			// fieldName: 'listed-building-number',
@@ -155,7 +147,7 @@ exports.questions = {
 				new StringEntryValidator(listedBuildingNumberValidation)
 			],
 			viewFolder: 'identifier'
-		})
+		}
 	}),
 	conservationArea: new BooleanQuestion({
 		title: 'Conservation area',
@@ -391,14 +383,15 @@ exports.questions = {
 		subQuestionLabel: 'Neighbour',
 		width: ListAddMoreQuestion.FULL_WIDTH,
 		validators: [new RequiredValidator()],
-		subQuestion: new AddressAddMoreQuestion({
+		subQuestionType: 'address',
+		subQuestionProps: {
 			title: 'Tell us the address of the neighbour’s land or property',
 			question: 'Tell us the address of the neighbour’s land or property',
 			// fieldName: 'neighbour-site-address',
 			fieldName: 'neighbourSiteAddress',
 			validators: [new AddressValidator()],
 			viewFolder: 'address-entry'
-		})
+		}
 	}),
 	potentialSafetyRisks: new RadioQuestion({
 		title: 'Potential safety risks',
@@ -519,7 +512,8 @@ exports.questions = {
 		subQuestionLabel: 'Other appeal',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		validators: [new RequiredValidator('Select yes if you want to add another appeal')],
-		subQuestion: new CaseAddMoreQuestion({
+		subQuestionType: 'case',
+		subQuestionProps: {
 			title: 'Enter an appeal reference number',
 			question: 'Enter an appeal reference number',
 			// fieldName: 'other-appeal-reference',
@@ -530,7 +524,7 @@ exports.questions = {
 				new StringEntryValidator(appealReferenceNumberValidation)
 			],
 			viewFolder: 'identifier'
-		})
+		}
 	}),
 	addNewConditions: new RadioQuestion({
 		title: 'Extra conditions', // this is summary list title
@@ -1198,7 +1192,7 @@ exports.questions = {
 	tellingLandowners: new BooleanQuestion({
 		title: 'Have the landowners been told about the appeal?',
 		question: 'Telling the landowners',
-		type: 'checkbox',
+		interfaceType: 'checkbox',
 		html: 'resources/land-ownership/telling-landowners.html',
 		description: 'Have the landowners been told about the appeal?',
 		fieldName: 'informedOwners',
@@ -1218,7 +1212,7 @@ exports.questions = {
 	identifyingLandowners: new BooleanQuestion({
 		title: 'Have you attempted to identify the landowners?',
 		question: 'Identifying the landowners',
-		type: 'checkbox',
+		interfaceType: 'checkbox',
 		html: 'resources/land-ownership/identifying-landowners.html',
 		fieldName: 'identifiedOwners',
 		url: 'identifying-landowners',
@@ -1237,7 +1231,7 @@ exports.questions = {
 	advertisingAppeal: new BooleanQuestion({
 		title: 'Have you advertised the appeal?',
 		question: 'Advertising your appeal',
-		type: 'checkbox',
+		interfaceType: 'checkbox',
 		html: 'resources/land-ownership/advertised-appeal.html',
 		fieldName: 'advertisedAppeal',
 		url: 'advertising-appeal',
@@ -1508,7 +1502,8 @@ exports.questions = {
 		subQuestionTitle: 'Enter the appeal reference number',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		validators: [new RequiredValidator('Select yes if you want to add another linked appeal')],
-		subQuestion: new CaseAddMoreQuestion({
+		subQuestionType: 'case',
+		subQuestionProps: {
 			title: 'Enter the appeal reference number',
 			question: 'Enter the appeal reference number',
 			fieldName: 'appellantLinkedCase',
@@ -1519,7 +1514,7 @@ exports.questions = {
 				new StringEntryValidator(appealReferenceNumberValidation)
 			],
 			viewFolder: 'identifier'
-		})
+		}
 	}),
 	applicationName: new BooleanQuestion({
 		title: 'Was the application made in your name? ',
@@ -1953,7 +1948,7 @@ exports.questions = {
 	informedTenantsAgriculturalHolding: new BooleanQuestion({
 		title: 'Have the tenants been told about the appeal?',
 		question: 'Telling the tenants',
-		type: 'checkbox',
+		interfaceType: 'checkbox',
 		html: 'resources/agricultural-holding/telling-tenants.html',
 		description: 'Have the tenants been told about the appeal?',
 		fieldName: 'informedTenantsAgriculturalHolding',
