@@ -1,5 +1,5 @@
 /**
- * @param {[((question: import('../section').Question, answer: unknown) => boolean)]} conditions
+ * @param {[((question: import('../section').Question, journeyResponse: import('../journey-response').JourneyResponse) => boolean)]} conditions
  * @returns {import('express').Handler}
  */
 module.exports = (conditions) => (req, res, next) => {

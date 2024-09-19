@@ -11,7 +11,7 @@ class BooleanQuestion extends RadioQuestion {
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
 	 * @param {string} [params.html]
-	 * @param {string} [params.type]
+	 * @param {string} [params.interfaceType]
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 */
@@ -25,7 +25,7 @@ class BooleanQuestion extends RadioQuestion {
 		description,
 		html,
 		validators,
-		type = 'radio',
+		interfaceType = 'radio',
 		options
 	}) {
 		let defaultOptions = options || [
@@ -41,7 +41,7 @@ class BooleanQuestion extends RadioQuestion {
 			}
 		];
 
-		if (type === 'checkbox') {
+		if (interfaceType === 'checkbox') {
 			defaultOptions = options || [{ text: 'Confirm', value: 'yes' }];
 		}
 
@@ -59,7 +59,7 @@ class BooleanQuestion extends RadioQuestion {
 			html
 		});
 
-		this.type = type;
+		this.interfaceType = interfaceType;
 	}
 
 	/**

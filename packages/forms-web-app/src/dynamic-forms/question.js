@@ -62,7 +62,7 @@ class Question {
 	/** @type {string|undefined} optional html content */
 	html;
 	/** @type {string|undefined} optional question type */
-	type;
+	interfaceType;
 	/** @type {(response: JourneyResponse) => boolean} */
 	shouldDisplay = () => true;
 
@@ -83,7 +83,7 @@ class Question {
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {string} [params.html]
 	 * @param {string} [params.hint]
-	 * @param {string} [params.type]
+	 * @param {string} [params.interfaceType]
 	 * @param {(response: JourneyResponse) => boolean} [params.shouldDisplay]
 	 */
 	constructor({
@@ -97,7 +97,7 @@ class Question {
 		validators,
 		html,
 		hint,
-		type,
+		interfaceType,
 		shouldDisplay
 	}) {
 		if (!title || title === '') throw new Error('title parameter is mandatory');
@@ -113,7 +113,7 @@ class Question {
 		this.pageTitle = pageTitle ?? question;
 		this.description = description;
 		this.hint = hint;
-		this.type = type;
+		this.interfaceType = interfaceType;
 
 		if (shouldDisplay) {
 			this.shouldDisplay = shouldDisplay;
@@ -148,7 +148,7 @@ class Question {
 				description: this.description,
 				html: this.html,
 				hint: this.hint,
-				type: this.type
+				interfaceType: this.interfaceType
 			},
 			answer,
 

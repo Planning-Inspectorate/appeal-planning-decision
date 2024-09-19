@@ -35,52 +35,52 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <form action="" method="post" novalidate>
-<input type="hidden" name="_csrf" value="{{_csrf}}">
-      {% if question.type === 'radio' %}
-        {{ govukRadios({
-          classes: "govuk-radios",
-          idPrefix: question.fieldName,
-          name: question.fieldName,
-          errorMessage: errors[question.fieldName] and {
-            text: errors[question.fieldName].msg
-          },
-          fieldset: {
-            legend: {
-              text: question.question,
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
-            }
-          },
-          hint: { html: htmlHint },
-          items: question.options
-        }) }}
+        <input type="hidden" name="_csrf" value="{{_csrf}}">
+        {% if question.interfaceType === 'radio' %}
+          {{ govukRadios({
+            classes: "govuk-radios",
+            idPrefix: question.fieldName,
+            name: question.fieldName,
+            errorMessage: errors[question.fieldName] and {
+              text: errors[question.fieldName].msg
+            },
+            fieldset: {
+              legend: {
+                text: question.question,
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            hint: { html: htmlHint },
+            items: question.options
+          }) }}
 
-        {% elif question.type === 'checkbox' %}
-          {{ govukCheckboxes({
-          classes: "govuk-checkboxes",
-          idPrefix: question.fieldName,
-          name: question.fieldName,
-          errorMessage: errors[question.fieldName] and {
-            text: errors[question.fieldName].msg
-          },
-          hint: {
-            html: htmlHint
-          },
-          fieldset: {
-            legend: {
-              text: question.question,
-              isPageHeading: true,
-              classes: "govuk-fieldset__legend--l"
-            }
-          },
-          items: question.options
-        }) }}
-        {% endif %}
-        {{ govukButton({
-          text: "Continue",
-          type: "submit",
-          attributes: { "data-cy":"button-save-and-continue"}
-        }) }}
+          {% elif question.interfaceType === 'checkbox' %}
+            {{ govukCheckboxes({
+            classes: "govuk-checkboxes",
+            idPrefix: question.fieldName,
+            name: question.fieldName,
+            errorMessage: errors[question.fieldName] and {
+              text: errors[question.fieldName].msg
+            },
+            hint: {
+              html: htmlHint
+            },
+            fieldset: {
+              legend: {
+                text: question.question,
+                isPageHeading: true,
+                classes: "govuk-fieldset__legend--l"
+              }
+            },
+            items: question.options
+          }) }}
+          {% endif %}
+          {{ govukButton({
+            text: "Continue",
+            type: "submit",
+            attributes: { "data-cy":"button-save-and-continue"}
+          }) }}
       </form>
     </div>
   </div>
