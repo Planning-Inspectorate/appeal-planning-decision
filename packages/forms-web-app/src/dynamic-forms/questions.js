@@ -1550,17 +1550,20 @@ exports.questions = {
 			{
 				fieldName: 'appellantFirstName',
 				label: 'First name',
-				formatJoinString: ' '
+				formatJoinString: ' ',
+				attributes: { spellcheck: 'false', autocomplete: 'given-name' }
 			},
 			{
 				fieldName: 'appellantLastName',
 				label: 'Last name',
-				formatJoinString: '\n'
+				formatJoinString: '\n',
+				attributes: { spellcheck: 'false', autocomplete: 'family-name' }
 			},
 			{
 				fieldName: 'appellantCompanyName',
 				label: 'Company name (optional)',
-				formatJoinString: ''
+				formatJoinString: '',
+				attributes: { spellcheck: 'false' }
 			}
 		],
 		validators: [
@@ -1597,17 +1600,20 @@ exports.questions = {
 			{
 				fieldName: 'contactFirstName',
 				label: 'First name',
-				formatJoinString: ' '
+				formatJoinString: ' ',
+				attributes: { spellcheck: 'false', autocomplete: 'given-name' }
 			},
 			{
 				fieldName: 'contactLastName',
 				label: 'Last name',
-				formatJoinString: '\n'
+				formatJoinString: '\n',
+				attributes: { spellcheck: 'false', autocomplete: 'family-name' }
 			},
 			{
 				fieldName: 'contactCompanyName',
 				label: 'Organisation name (optional)',
-				formatJoinString: ''
+				formatJoinString: '',
+				attributes: { spellcheck: 'false' }
 			}
 		],
 		validators: [
