@@ -1,5 +1,8 @@
 const Question = require('../../question');
-const AddMoreQuestion = require('../add-more/question');
+
+const CaseAddMoreQuestion = require('../case-add-more/question');
+const AddressAddMoreQuestion = require('../address-add-more/question');
+const ListedBuildingAddMoreQuestion = require('../listed-building-add-more/question');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -15,6 +18,12 @@ const AddMoreQuestion = require('../add-more/question');
  * @property {string} removeLink
  */
 
+const subQuestions = {
+	case: CaseAddMoreQuestion,
+	address: AddressAddMoreQuestion,
+	'listed-building': ListedBuildingAddMoreQuestion
+};
+
 /**
  * @class
  */
@@ -27,10 +36,11 @@ class ListAddMoreQuestion extends Question {
 	 * @param {string} params.title
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
-	 * @param {AddMoreQuestion} params.subQuestion
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
+	 * @param {ConstructorParameters<typeof import('../add-more/question')>[0]} params.subQuestionProps
+	 * @param {'case' | 'address' | 'listed-building'} params.subQuestionType
 	 * @param {string} [params.subQuestionLabel]
 	 * @param {string} [params.subQuestionTitle] the text used as the key for display on task list
 	 * @param {string} [params.subQuestionFieldLabel]
@@ -42,10 +52,11 @@ class ListAddMoreQuestion extends Question {
 		title,
 		question,
 		fieldName,
-		subQuestion,
 		url,
 		pageTitle,
 		description,
+		subQuestionType,
+		subQuestionProps,
 		subQuestionLabel,
 		subQuestionTitle,
 		subQuestionFieldLabel,
@@ -64,11 +75,7 @@ class ListAddMoreQuestion extends Question {
 			validators
 		});
 
-		if (!subQuestion || !(subQuestion instanceof AddMoreQuestion)) {
-			throw new Error('addMore is mandatory');
-		}
-
-		this.subQuestion = subQuestion;
+		this.subQuestion = new subQuestions[subQuestionType](subQuestionProps);
 		this.subQuestionLabel = subQuestionLabel ?? 'Answer';
 		this.subQuestionTitle = subQuestionTitle;
 		this.subQuestionFieldLabel = subQuestionFieldLabel;
