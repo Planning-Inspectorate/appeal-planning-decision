@@ -28,7 +28,7 @@
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <form action="" method="post" novalidate>
-<input type="hidden" name="_csrf" value="{{_csrf}}">
+                <input type="hidden" name="_csrf" value="{{_csrf}}">
                 {% if question.label %}
                     <h1 class="govuk-heading-l">
                         {{question.question}}
@@ -59,7 +59,8 @@
                             text: errors[question.fieldName].msg
                         },
                         classes: "govuk-input--width-10",
-                        attributes: input.attributes
+                        attributes: question.attributes,
+                        type: question.attributes.type
                         
                 }) }}
                 {% else %}
@@ -82,7 +83,8 @@
                             text: errors[question.fieldName].msg
                         },
                         classes: "govuk-input--width-10",
-                        attributes: input.attributes
+                        attributes: question.attributes,
+                        type: question.attributes.type
                 }) }}
 
                 {% endif %}

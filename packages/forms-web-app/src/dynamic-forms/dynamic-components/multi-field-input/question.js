@@ -15,6 +15,7 @@ const { nl2br } = require('@pins/common/src/utils');
  * @property {string} fieldName
  * @property {string} label
  * @property {string} [formatJoinString] optional property, used by formatAnswerForSummary (eg task list display), effective default to line break
+ * @property {Record<string, string>} [attributes] optional property, used to add html attributes to the field
  */
 
 /**
