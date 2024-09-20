@@ -76,6 +76,24 @@
 
                 {% endif %}
 
+								{% if question.textEntryCheckbox %}
+										<div class="govuk-form-group">
+											{{ govukCheckboxes({
+    										name: "text-entry-checkbox",
+												classes: "govuk-checkboxes checkboxes-long-text",
+    										items: [
+    	  									{
+    	    									value: "yes",
+    	    									text: question.textEntryCheckbox.text
+    	  									}
+    										],
+    										errorMessage: errors['text-entry-checkbox'] and {
+    	  									text: errors['text-entry-checkbox'].msg
+    										}
+      								}) }}
+										</div>
+								{% endif %}
+
                 {{ govukButton({
                     text: "Continue",
                     type: "submit",
