@@ -9,7 +9,9 @@ const Question = require('../../question');
 
 /**
  * @typedef {Object} TextEntryCheckbox
+ * @property {string} header
  * @property {string} text
+ * @property {string} name
  * @property {string} [errorMessage]
  */
 
