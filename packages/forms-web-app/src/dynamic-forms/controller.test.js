@@ -14,7 +14,6 @@ const mockJourneyTitle = 'Mock Manage Appeals';
 const mockAnswer = 'Not started';
 
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
-const AddMoreQuestion = require('./dynamic-components/add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
 
 const sections = [
@@ -403,12 +402,13 @@ describe('dynamic-form/controller', () => {
 			title: TITLE,
 			fieldName: FIELDNAME,
 			question: QUESTION_STRING,
-			subQuestion: new AddMoreQuestion({
+			subQuestionType: 'case',
+			subQuestionProps: {
 				title: TITLE,
 				fieldName: FIELDNAME,
 				question: QUESTION_STRING,
 				viewFolder: 'view'
-			})
+			}
 		});
 
 		sampleListAddMoreObj.removeAction = jest.fn();

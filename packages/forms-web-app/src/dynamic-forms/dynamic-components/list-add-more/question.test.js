@@ -1,35 +1,19 @@
 const ListAddMoreQuestion = require('./question');
-const AddMoreQuestion = require('../add-more/question');
-
+const CaseAddMoreQuestion = require('../case-add-more/question');
 const { mockRes } = require('../../../../__tests__/unit/mocks');
+
 const res = mockRes();
 
 const TITLE = 'Question1';
 const QUESTION_STRING = 'What is your favourite colour?';
 const DESCRIPTION = 'A question about your favourite colour';
-const FIELDNAME = 'favouriteColour';
+const FIELDNAME = 'SubmissionLinkedCase';
 const URL = '/test';
 const VALIDATORS = [1];
 
 describe('./src/dynamic-forms/dynamic-components/question.js', () => {
-	const testAddMore = new AddMoreQuestion({
-		title: TITLE,
-		question: QUESTION_STRING,
-		fieldName: 'sub' + FIELDNAME,
-		validators: VALIDATORS,
-		viewFolder: 'view'
-	});
-	testAddMore.removeList = jest.fn();
-	testAddMore.getAddMoreAnswers = jest.fn();
-	testAddMore.saveList = jest.fn();
-
 	const testSubQuestionLabel = 'subQuestion';
-	const getTestQuestion = (
-		{ subQuestion, subQuestionLabel } = {
-			subQuestion: testAddMore,
-			subQuestionLabel: testSubQuestionLabel
-		}
-	) => {
+	const getTestQuestion = () => {
 		return new ListAddMoreQuestion({
 			title: TITLE,
 			question: QUESTION_STRING,
@@ -37,8 +21,15 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			fieldName: FIELDNAME,
 			url: URL,
 			validators: VALIDATORS,
-			subQuestion,
-			subQuestionLabel
+			subQuestionType: 'case',
+			subQuestionProps: {
+				title: TITLE,
+				question: QUESTION_STRING,
+				fieldName: 'sub' + FIELDNAME,
+				validators: VALIDATORS,
+				viewFolder: 'view'
+			},
+			subQuestionLabel: testSubQuestionLabel
 		});
 	};
 
@@ -47,7 +38,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const question = getTestQuestion();
 
 			expect(question).toBeTruthy();
-			expect(question.subQuestion).toEqual(testAddMore);
+			expect(question.subQuestion).toBeInstanceOf(CaseAddMoreQuestion);
 			expect(question.subQuestionLabel).toEqual(testSubQuestionLabel);
 			expect(question.viewFolder).toEqual('list-add-more');
 		});
@@ -61,7 +52,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 						description: DESCRIPTION,
 						fieldName: FIELDNAME
 					})
-			).toThrow('addMore is mandatory');
+			).toThrow('subQuestions[subQuestionType] is not a constructor');
 
 			expect(
 				() =>
@@ -70,9 +61,9 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 						question: QUESTION_STRING,
 						description: DESCRIPTION,
 						fieldName: FIELDNAME,
-						subQuestion: {}
+						subQuestionProps: {}
 					})
-			).toThrow('addMore is mandatory');
+			).toThrow('subQuestions[subQuestionType] is not a constructor');
 		});
 	});
 
@@ -110,7 +101,9 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const journey = {
 				response: {
 					answers: {
-						[question.fieldName]: [{ addMoreId: 123, value: 'yes' }]
+						[question.fieldName]: [
+							{ fieldName: 'subSubmissionLinkedCase', addMoreId: 123, caseReference: '1010101' }
+						]
 					}
 				},
 				getNextQuestionUrl: () => {
@@ -121,15 +114,13 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 				}
 			};
 
-			testAddMore.getAddMoreAnswers.mockReturnValue(['yes']);
-
 			const result = question.prepQuestionForRendering({}, journey);
 
 			expect(result).toEqual(
 				expect.objectContaining({
 					addMoreAnswers: [
 						{
-							answer: 'yes',
+							answer: '1010101',
 							label: 'subQuestion 1',
 							removeLink: 'current/123'
 						}
@@ -332,7 +323,11 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 	});
 
 	describe('removeAction', () => {
-		const req = {};
+		const req = {
+			appealsApiClient: {
+				deleteSubmissionLinkedCase: jest.fn(() => ({ SubmissionLinkedCase: [] }))
+			}
+		};
 		it("should call sub-question's remove function", async () => {
 			const question = getTestQuestion();
 			question.saveResponseToDB = jest.fn();
@@ -341,13 +336,19 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const answer0 = { addMoreId: addMoreId, data: { a: 1 } };
 			const answer1 = { addMoreId: 'other', data: { b: 2 } };
 			const journeyResponse = {
+				journeyId: 'journey_123',
+				referenceId: 'ref_123',
 				answers: {
 					[question.fieldName]: [answer0, answer1]
 				}
 			};
 
 			await question.removeAction(req, journeyResponse, addMoreId);
-			expect(question.subQuestion.removeList).toHaveBeenCalledWith(req, journeyResponse, addMoreId);
+			expect(req.appealsApiClient.deleteSubmissionLinkedCase).toHaveBeenCalledWith(
+				'journey_123',
+				'ref_123',
+				'123'
+			);
 		});
 	});
 });
