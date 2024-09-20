@@ -130,14 +130,14 @@ const sections = [
 		.withCondition((response) =>
 			questionHasAnswer(response, questions.communityInfrastructureLevy, 'yes')
 		)
-		.addQuestion(questions.communityInfrastructureLevyAdoptedDate())
+		.addQuestion(questions.communityInfrastructureLevyAdoptedDate)
 		.withCondition((response) =>
 			questionsHaveAnswers(response, [
 				[questions.communityInfrastructureLevy, 'yes'],
 				[questions.communityInfrastructureLevyAdopted, 'yes']
 			])
 		)
-		.addQuestion(questions.communityInfrastructureLevyAdoptDate())
+		.addQuestion(questions.communityInfrastructureLevyAdoptDate)
 		.withCondition((response) =>
 			questionsHaveAnswers(response, [
 				[questions.communityInfrastructureLevy, 'yes'],

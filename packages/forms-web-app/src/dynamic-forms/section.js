@@ -44,7 +44,6 @@ class Section {
 		this.segment = segment;
 	}
 
-	// TODO Make a type for all the question classes and use it here
 	/**
 	 * Fluent API method for adding questions
 	 * @param {any} question

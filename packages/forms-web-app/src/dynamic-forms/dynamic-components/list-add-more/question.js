@@ -39,8 +39,7 @@ class ListAddMoreQuestion extends Question {
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
-	 * @param {ConstructorParameters<typeof import('../add-more/question')>[0]} params.subQuestionProps
-	 * @param {'case' | 'address' | 'listed-building'} params.subQuestionType
+	 * @param {import('src/dynamic-forms/question-props').SubQuestionProps} params.subQuestionProps
 	 * @param {string} [params.subQuestionLabel]
 	 * @param {string} [params.subQuestionTitle] the text used as the key for display on task list
 	 * @param {string} [params.subQuestionFieldLabel]
@@ -55,7 +54,6 @@ class ListAddMoreQuestion extends Question {
 		url,
 		pageTitle,
 		description,
-		subQuestionType,
 		subQuestionProps,
 		subQuestionLabel,
 		subQuestionTitle,
@@ -75,7 +73,7 @@ class ListAddMoreQuestion extends Question {
 			validators
 		});
 
-		this.subQuestion = new subQuestions[subQuestionType](subQuestionProps);
+		this.subQuestion = new subQuestions[subQuestionProps.type](subQuestionProps);
 		this.subQuestionLabel = subQuestionLabel ?? 'Answer';
 		this.subQuestionTitle = subQuestionTitle;
 		this.subQuestionFieldLabel = subQuestionFieldLabel;
