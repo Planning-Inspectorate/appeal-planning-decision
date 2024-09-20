@@ -1783,12 +1783,12 @@ exports.questions = {
 		documentType: documentTypes.uploadDesignAccessStatement
 	}),
 	uploadPlansDrawingsHAS: new MultiFileUploadQuestion({
-		title: 'Upload the plans, drawings and supporting documents',
-		question: 'Upload the plans, drawings and supporting documents',
+		title: 'Upload the plans, drawings and list of plans',
+		question: 'Upload the plans, drawings and list of plans',
 		fieldName: 'uploadPlansDrawings',
 		url: 'upload-plans-drawings',
 		validators: [
-			new RequiredFileUploadValidator('Select the plans, drawings and supporting documents'),
+			new RequiredFileUploadValidator('Select the plans, drawings and list of plans'),
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadPlansDrawings
