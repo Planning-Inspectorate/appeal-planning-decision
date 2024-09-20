@@ -1,5 +1,4 @@
 const ListAddMoreQuestion = require('../dynamic-components/list-add-more/question');
-const AddMoreQuestion = require('../dynamic-components/add-more/question');
 const { getAddMoreIfPresent } = require('./utils');
 
 describe('getSubquestionIfPresent', () => {
@@ -11,14 +10,14 @@ describe('getSubquestionIfPresent', () => {
 			question: 'question',
 			validators: [],
 			fieldName: 'field1',
-			subQuestion: new AddMoreQuestion({
-				pageTitle: 'test',
+			subQuestionType: 'case',
+			subQuestionProps: {
 				title: 'sub-title',
 				question: 'sub-question',
 				viewFolder: 'sub-view',
 				fieldName: 'field2',
 				validators: []
-			})
+			}
 		});
 
 		const result = getAddMoreIfPresent(req, question);

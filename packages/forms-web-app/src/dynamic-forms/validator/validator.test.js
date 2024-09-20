@@ -3,7 +3,6 @@ const validate = require('./validator');
 const RequiredValidator = require('./required-validator');
 const ValidOptionValidator = require('./valid-option-validator');
 const ListAddMoreQuestion = require('../dynamic-components/list-add-more/question');
-const AddMoreQuestion = require('../dynamic-components/add-more/question');
 const AddressValidator = require('./address-validator');
 
 jest.mock('../journey-factory');
@@ -198,14 +197,14 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 					question: 'question',
 					validators: [],
 					fieldName: 'field1',
-					subQuestion: new AddMoreQuestion({
-						pageTitle: 'test',
+					subQuestionType: 'case',
+					subQuestionProps: {
 						title: 'sub-title',
 						question: 'sub-question',
 						viewFolder: 'sub-view',
 						fieldName: 'field2',
 						validators: [new RequiredValidator()]
-					})
+					}
 				});
 			}
 		};
