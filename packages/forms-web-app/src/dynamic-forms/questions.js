@@ -2068,6 +2068,9 @@ exports.questions = {
 		url: 'final-comments',
 		html: 'resources/appellant-final-comments/content.html',
 		fieldName: 'appellantFinalCommentDetails',
+		textEntryCheckbox: {
+			text: 'I confirm that I have not included any sensitive information in my final comments'
+		},
 		validators: [
 			new RequiredValidator('Enter your final comments'),
 			new StringValidator({
@@ -2107,6 +2110,25 @@ exports.questions = {
 		fieldName: 'lpaFinalComment',
 		url: 'submit-final-comments',
 		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
+	}),
+	lpaFinalCommentDetails: new TextEntryQuestion({
+		title: 'Add your final comments',
+		question: 'Add your final comments',
+		url: 'final-comments',
+		html: 'resources/lpa-final-comments/content.html',
+		fieldName: 'lpaFinalCommentDetails',
+		textEntryCheckbox: {
+			text: 'I confirm that I have not included any sensitive information in my final comments'
+		},
+		validators: [
+			new RequiredValidator('Enter your final comments'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your final comments must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
 	}),
 	lpaFinalCommentDocuments: new BooleanQuestion({
 		title: 'Do you have additional documents to support your final comments?',
