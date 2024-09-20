@@ -170,7 +170,7 @@ const sections = [
 		.addQuestion(questions.inspectorAccess)
 		.addQuestion(questions.healthAndSafety)
 		.addQuestion(questions.enterApplicationReference)
-		.addQuestion(questions.planningApplicationDate())
+		.addQuestion(questions.planningApplicationDate)
 		.addQuestion(questions.enterDevelopmentDescription)
 		.addQuestion(questions.updateDevelopmentDescription)
 		.addQuestion(questions.appellantProcedurePreference)
