@@ -21,7 +21,7 @@ const sections = [
 		.addQuestion(questions.lpaFinalCommentDocuments)
 		.addQuestion(questions.uploadLPAFinalCommentDocuments)
 		.withCondition((response) =>
-			questionHasAnswer(response, questions.uploadLPAFinalCommentDocuments, 'yes')
+			questionHasAnswer(response, questions.lpaFinalCommentDocuments, 'yes')
 		)
 ];
 
