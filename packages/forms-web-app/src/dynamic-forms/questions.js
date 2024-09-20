@@ -6,17 +6,17 @@
  *************************************************************/
 
 // questions
-const CheckboxQuestion = require('./dynamic-components/checkbox/question');
-const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
-const BooleanQuestion = require('./dynamic-components/boolean/question');
-const RadioQuestion = require('./dynamic-components/radio/question');
-const DateQuestion = require('./dynamic-components/date/question');
-const TextEntryQuestion = require('./dynamic-components/text-entry/question');
-const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
-const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
-const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
-const SiteAddressQuestion = require('./dynamic-components/site-address/question');
-const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
+// const CheckboxQuestion = require('./dynamic-components/checkbox/question');
+// const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
+// const BooleanQuestion = require('./dynamic-components/boolean/question');
+// const RadioQuestion = require('./dynamic-components/radio/question');
+// const DateQuestion = require('./dynamic-components/date/question');
+// const TextEntryQuestion = require('./dynamic-components/text-entry/question');
+// const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
+// const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
+// const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
+// const SiteAddressQuestion = require('./dynamic-components/site-address/question');
+// const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 
 // validators
@@ -66,17 +66,22 @@ const getDate = (tense, days = 60) =>
 		'd M yyyy'
 	);
 
+/** @typedef {import('./question-props').QuestionProps} QuestionProps */
+
 // Define all questions
+/** @type {Record<string,QuestionProps | (() => QuestionProps)>} */
 exports.questions = {
-	appealTypeAppropriate: new BooleanQuestion({
+	appealTypeAppropriate: {
+		type: 'boolean',
 		title: 'Is this the correct type of appeal?',
 		question: 'Is this the correct type of appeal?',
 		// fieldName: 'correct-appeal-type',
 		fieldName: 'correctAppealType',
 		url: 'correct-appeal-type',
 		validators: [new RequiredValidator('Select yes if this is the correct type of appeal')]
-	}),
-	listedBuildingCheck: new BooleanQuestion({
+	},
+	listedBuildingCheck: {
+		type: 'boolean',
 		title: 'Affects a listed building',
 		question: 'Does the proposed development affect the setting of listed buildings?',
 		// fieldName: 'affects-listed-building',
@@ -87,16 +92,18 @@ exports.questions = {
 				'Select yes if the proposed development affects the setting of listed buildings'
 			)
 		]
-	}),
-	changesListedBuilding: new BooleanQuestion({
+	},
+	changesListedBuilding: {
+		type: 'boolean',
 		title: 'Changes a listed building',
 		question: 'Does the proposed development change a listed building?',
 		// fieldName: 'changes-listed-building',
 		fieldName: 'changesListedBuilding',
 		url: 'changes-listed-building',
 		validators: [new RequiredValidator()]
-	}),
-	changedListedBuildings: new ListAddMoreQuestion({
+	},
+	changedListedBuildings: {
+		type: 'list-add-more',
 		title: 'Listed building or site added',
 		pageTitle: 'Listed building or site has been added to the case',
 		question: 'Add another building or site?',
@@ -108,8 +115,8 @@ exports.questions = {
 		subQuestionInputClasses: 'govuk-input--width-10',
 		width: ListAddMoreQuestion.FULL_WIDTH,
 		validators: [new RequiredValidator('Select yes to add another building or site')],
-		subQuestionType: 'listed-building',
 		subQuestionProps: {
+			type: 'listed-building',
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
 			fieldName: 'changedListedBuildingNumber',
@@ -120,8 +127,9 @@ exports.questions = {
 			],
 			viewFolder: 'identifier'
 		}
-	}),
-	affectedListedBuildings: new ListAddMoreQuestion({
+	},
+	affectedListedBuildings: {
+		type: 'list-add-more',
 		title: 'Listed building or site added',
 		pageTitle: 'Listed building or site has been added to the case',
 		question: 'Add another building or site?',
@@ -133,8 +141,8 @@ exports.questions = {
 		subQuestionInputClasses: 'govuk-input--width-10',
 		width: ListAddMoreQuestion.FULL_WIDTH,
 		validators: [new RequiredValidator('Select yes to add another building or site')],
-		subQuestionType: 'listed-building',
 		subQuestionProps: {
+			type: 'listed-building',
 			title: 'Tell us the list entry number',
 			question: 'Tell us the list entry number',
 			// fieldName: 'listed-building-number',
@@ -146,16 +154,18 @@ exports.questions = {
 			],
 			viewFolder: 'identifier'
 		}
-	}),
-	conservationArea: new BooleanQuestion({
+	},
+	conservationArea: {
+		type: 'boolean',
 		title: 'Conservation area',
 		question: 'Is the site in, or next to a conservation area?',
 		// fieldName: 'conservation-area',
 		fieldName: 'conservationArea',
 		url: 'conservation-area',
 		validators: [new RequiredValidator()]
-	}),
-	conservationAreaUpload: new MultiFileUploadQuestion({
+	},
+	conservationAreaUpload: {
+		type: 'multi-file-upload',
 		title: 'Conservation area map and guidance',
 		question: 'Upload conservation map and guidance',
 		fieldName: 'uploadConservation',
@@ -165,16 +175,18 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.conservationMap
-	}),
-	greenBelt: new BooleanQuestion({
+	},
+	greenBelt: {
+		type: 'boolean',
 		title: 'Green belt',
 		question: 'Is the site in a green belt?',
 		// fieldName: 'green-belt',
 		fieldName: 'greenBelt',
 		url: 'green-belt',
 		validators: [new RequiredValidator()]
-	}),
-	whoWasNotified: new MultiFileUploadQuestion({
+	},
+	whoWasNotified: {
+		type: 'multi-file-upload',
 		title: 'Who was notified',
 		url: 'upload-who-you-notified',
 		question: 'Who did you notify about this application?',
@@ -186,8 +198,9 @@ exports.questions = {
 		],
 		html: 'resources/notified-who/content.html',
 		documentType: documentTypes.whoWasNotified
-	}),
-	pressAdvertUpload: new MultiFileUploadQuestion({
+	},
+	pressAdvertUpload: {
+		type: 'multi-file-upload',
 		title: 'Uploaded press advert',
 		question: 'Upload the press advertisement',
 		// fieldName: 'upload-press-advert',
@@ -198,8 +211,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.pressAdvertUpload
-	}),
-	consultationResponses: new BooleanQuestion({
+	},
+	consultationResponses: {
+		type: 'boolean',
 		title: 'Responses or standing advice to upload',
 		question:
 			'Do you have any consultation responses or standing advice from statutory consultees to upload?',
@@ -211,8 +225,9 @@ exports.questions = {
 				'Select yes if you have any consultation responses or standing advice from statutory consultees to upload'
 			)
 		]
-	}),
-	consultationResponsesUpload: new MultiFileUploadQuestion({
+	},
+	consultationResponsesUpload: {
+		type: 'multi-file-upload',
 		title: 'Upload the consultation responses and standing advice',
 		question: 'Upload the consultation responses and standing advice',
 		// fieldName: 'upload-consultation-responses',
@@ -223,8 +238,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.consultationResponsesUpload
-	}),
-	howYouNotifiedPeople: new CheckboxQuestion({
+	},
+	howYouNotifiedPeople: {
+		type: 'checkbox',
 		title: 'Type of notification',
 		question: 'How did you notify relevant parties about the planning application?',
 		description: 'Select all that apply',
@@ -249,8 +265,9 @@ exports.questions = {
 				value: 'advert'
 			}
 		]
-	}),
-	uploadSiteNotice: new MultiFileUploadQuestion({
+	},
+	uploadSiteNotice: {
+		type: 'multi-file-upload',
 		title: 'Uploaded site notice',
 		question: 'Upload the site notice',
 		// fieldName: 'upload-site-notice',
@@ -258,8 +275,9 @@ exports.questions = {
 		url: 'upload-site-notice',
 		validators: [new RequiredFileUploadValidator(), new MultifileUploadValidator()],
 		documentType: documentTypes.uploadSiteNotice
-	}),
-	representationsFromOthers: new BooleanQuestion({
+	},
+	representationsFromOthers: {
+		type: 'boolean',
 		title: 'Representations from other parties',
 		question: 'Did you receive representations from members of the public or other parties?',
 		url: 'representations',
@@ -270,8 +288,9 @@ exports.questions = {
 				'Select yes if you received representations from members of the public or other parties'
 			)
 		]
-	}),
-	representationUpload: new MultiFileUploadQuestion({
+	},
+	representationUpload: {
+		type: 'multi-file-upload',
 		title: 'Upload representations from other parties',
 		question: 'Upload the representations',
 		// fieldName: 'upload-representations',
@@ -282,8 +301,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.representationUpload
-	}),
-	planningOfficersReportUpload: new MultiFileUploadQuestion({
+	},
+	planningOfficersReportUpload: {
+		type: 'multi-file-upload',
 		title: 'Upload planning officer’s report',
 		question: 'Upload the planning officer’s report or what your decision notice would have said',
 		// fieldName: 'upload-report',
@@ -297,8 +317,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.planningOfficersReportUpload
-	}),
-	accessForInspection: new RadioQuestion({
+	},
+	accessForInspection: {
+		type: 'radio',
 		title: 'Access for inspection',
 		question: 'Might the inspector need access to the appellant’s land or property?',
 		pageTitle: 'Might the inspector need access to the appellant’s land or property?',
@@ -334,8 +355,9 @@ exports.questions = {
 				value: 'no'
 			}
 		]
-	}),
-	neighbouringSite: new RadioQuestion({
+	},
+	neighbouringSite: {
+		type: 'radio',
 		title: 'Might the inspector need to enter a neighbour’s land or property?',
 		question: 'Might the inspector need to enter a neighbour’s land or property?',
 		// fieldName: 'inspector-enter-neighbour-site',
@@ -370,8 +392,9 @@ exports.questions = {
 				value: 'no'
 			}
 		]
-	}),
-	neighbouringSitesToBeVisited: new ListAddMoreQuestion({
+	},
+	neighbouringSitesToBeVisited: {
+		type: 'list-add-more',
 		title: 'Inspector visit to neighbour',
 		pageTitle: 'Neighbour added',
 		question: 'Do you want to add another neighbour to be visited?',
@@ -381,8 +404,8 @@ exports.questions = {
 		subQuestionLabel: 'Neighbour',
 		width: ListAddMoreQuestion.FULL_WIDTH,
 		validators: [new RequiredValidator()],
-		subQuestionType: 'address',
 		subQuestionProps: {
+			type: 'address',
 			title: 'Tell us the address of the neighbour’s land or property',
 			question: 'Tell us the address of the neighbour’s land or property',
 			// fieldName: 'neighbour-site-address',
@@ -390,8 +413,9 @@ exports.questions = {
 			validators: [new AddressValidator()],
 			viewFolder: 'address-entry'
 		}
-	}),
-	potentialSafetyRisks: new RadioQuestion({
+	},
+	potentialSafetyRisks: {
+		type: 'radio',
 		title: 'Potential safety risks',
 		question: 'Add potential safety risks',
 		description: 'You need to tell inspectors how to prepare for a site visit and what to bring.',
@@ -430,8 +454,9 @@ exports.questions = {
 				value: 'no'
 			}
 		]
-	}),
-	procedureType: new RadioQuestion({
+	},
+	procedureType: {
+		type: 'radio',
 		title: 'Procedure type',
 		question: 'Which procedure do you think is most appropriate for this appeal?',
 		// fieldName: 'procedure-type',
@@ -472,22 +497,25 @@ exports.questions = {
 				}
 			}
 		]
-	}),
-	whyInquiry: new TextEntryQuestion({
+	},
+	whyInquiry: {
+		type: 'text-entry',
 		title: 'Why would you prefer an inquiry?',
 		question: 'Why would you prefer an inquiry?',
 		// fieldName: 'prefer-inquiry',
 		fieldName: 'lpaPreferInquiryDetails',
 		validators: [new RequiredValidator('Enter why you would prefer an inquiry')]
-	}),
-	whyHearing: new TextEntryQuestion({
+	},
+	whyHearing: {
+		type: 'text-entry',
 		title: 'Why would you prefer a hearing?',
 		question: 'Why would you prefer a hearing?',
 		// fieldName: 'prefer-hearing',
 		fieldName: 'lpaPreferHearingDetails',
 		validators: [new RequiredValidator('Enter why you would prefer a hearing')]
-	}),
-	appealsNearSite: new BooleanQuestion({
+	},
+	appealsNearSite: {
+		type: 'boolean',
 		title: 'Appeals near the site',
 		question: 'Are there any other ongoing appeals next to, or close to the site?',
 		pageTitle: 'Are there any other ongoing appeals near the site?',
@@ -499,8 +527,9 @@ exports.questions = {
 				'Select yes if there are any other ongoing appeals next to, or close to the site'
 			)
 		]
-	}),
-	nearbyAppeals: new ListAddMoreQuestion({
+	},
+	nearbyAppeals: {
+		type: 'list-add-more',
 		pageTitle: 'Nearby appeal added to the case',
 		title: 'n/a',
 		question: 'Add another appeal?',
@@ -510,8 +539,8 @@ exports.questions = {
 		subQuestionLabel: 'Other appeal',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		validators: [new RequiredValidator('Select yes if you want to add another appeal')],
-		subQuestionType: 'case',
 		subQuestionProps: {
+			type: 'case',
 			title: 'Enter an appeal reference number',
 			question: 'Enter an appeal reference number',
 			// fieldName: 'other-appeal-reference',
@@ -523,8 +552,9 @@ exports.questions = {
 			],
 			viewFolder: 'identifier'
 		}
-	}),
-	addNewConditions: new RadioQuestion({
+	},
+	addNewConditions: {
+		type: 'radio',
 		title: 'Extra conditions', // this is summary list title
 		question: 'Add new planning conditions to this appeal',
 		description: 'These are additional to the standard planning conditions we would expect to see.',
@@ -560,9 +590,10 @@ exports.questions = {
 				value: 'no'
 			}
 		]
-	}),
+	},
 	// /*S78 questions */
-	emergingPlan: new BooleanQuestion({
+	emergingPlan: {
+		type: 'boolean',
 		title: 'Emerging plans',
 		question: "Do you have an emerging plan that's relevant to this appeal?",
 		// fieldName: 'emerging-plan',
@@ -570,8 +601,9 @@ exports.questions = {
 		url: 'emerging-plan',
 		validators: [new RequiredValidator()],
 		html: 'resources/emerging-plan/content.html'
-	}),
-	emergingPlanUpload: new MultiFileUploadQuestion({
+	},
+	emergingPlanUpload: {
+		type: 'multi-file-upload',
 		title: 'Upload emerging plan and supporting information	',
 		question: 'Upload the emerging plan and supporting information',
 		// fieldName: 'upload-emerging-plan',
@@ -583,8 +615,9 @@ exports.questions = {
 		],
 		html: 'resources/emerging-plan-upload/content.html',
 		documentType: documentTypes.emergingPlanUpload
-	}),
-	uploadDevelopmentPlanPolicies: new MultiFileUploadQuestion({
+	},
+	uploadDevelopmentPlanPolicies: {
+		type: 'multi-file-upload',
 		title: 'Policies from statutory development plan',
 		question: 'Upload relevant policies from your statutory development plan',
 		// fieldName: 'upload-development-plan-policies',
@@ -597,8 +630,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadDevelopmentPlanPolicies
-	}),
-	uploadOtherRelevantPolicies: new MultiFileUploadQuestion({
+	},
+	uploadOtherRelevantPolicies: {
+		type: 'multi-file-upload',
 		title: 'Upload any other relevant policies',
 		question: 'Upload any other relevant policies',
 		// fieldName: 'upload-other-policies',
@@ -609,8 +643,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadOtherRelevantPolicies
-	}),
-	communityInfrastructureLevy: new BooleanQuestion({
+	},
+	communityInfrastructureLevy: {
+		type: 'boolean',
 		title: 'Community infrastructure levy',
 		question: 'Do you have a community infrastructure levy?',
 		// fieldName: 'community-infrastructure-levy',
@@ -618,8 +653,9 @@ exports.questions = {
 		url: 'community-infrastructure-levy',
 		validators: [new RequiredValidator('Select yes if you have a community infrastructure levy')],
 		html: 'resources/community-infrastructure-levy/content.html'
-	}),
-	communityInfrastructureLevyUpload: new MultiFileUploadQuestion({
+	},
+	communityInfrastructureLevyUpload: {
+		type: 'multi-file-upload',
 		title: 'Upload your community infrastructure levy',
 		question: 'Upload your community infrastructure levy',
 		// fieldName: 'upload-community-infrastructure-levy',
@@ -630,45 +666,44 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.communityInfrastructureLevyUpload
-	}),
-	communityInfrastructureLevyAdopted: new BooleanQuestion({
+	},
+	communityInfrastructureLevyAdopted: {
+		type: 'boolean',
 		title: 'Community infrastructure levy formally adopted',
 		question: 'Is the community infrastructure levy formally adopted?',
 		// fieldName: 'community-infrastructure-levy-adopted',
 		fieldName: 'infrastructureLevyAdopted',
 		url: 'community-infrastructure-levy-adopted',
 		validators: [new RequiredValidator()]
+	},
+	communityInfrastructureLevyAdoptedDate: () => ({
+		type: 'date',
+		title: 'Date community infrastructure levy adopted',
+		question: 'When was the community infrastructure levy formally adopted?',
+		// fieldName: 'community-infrastructure-levy-adopted-date',
+		fieldName: 'infrastructureLevyAdoptedDate',
+		hint: `For example, ${getDate('past')}`,
+		validators: [
+			new DateValidator('the date the infrastructure levy was formally adopted', {
+				ensurePast: true
+			})
+		]
 	}),
-	communityInfrastructureLevyAdoptedDate: () =>
-		new DateQuestion({
-			title: 'Date community infrastructure levy adopted',
-			question: 'When was the community infrastructure levy formally adopted?',
-			// fieldName: 'community-infrastructure-levy-adopted-date',
-			fieldName: 'infrastructureLevyAdoptedDate',
-			hint: `For example, ${getDate('past')}`,
-			validators: [
-				new DateValidator('the date the infrastructure levy was formally adopted', {
-					ensurePast: true
-				})
-			]
-		}),
-	communityInfrastructureLevyAdoptDate: () =>
-		new DateQuestion({
-			title: 'Date community infrastructure levy expected to be adopted',
-			question: 'When do you expect to formally adopt the community infrastructure levy?',
-			// fieldName: 'community-infrastructure-levy-adopt-date',
-			fieldName: 'infrastructureLevyExpectedDate',
-			hint: `For example, ${getDate('future')}`,
-			validators: [
-				new DateValidator(
-					'the date you expect to formally adopt the community infrastructure levy',
-					{
-						ensureFuture: true
-					}
-				)
-			]
-		}),
-	uploadNeighbourLetterAddresses: new MultiFileUploadQuestion({
+	communityInfrastructureLevyAdoptDate: () => ({
+		type: 'date',
+		title: 'Date community infrastructure levy expected to be adopted',
+		question: 'When do you expect to formally adopt the community infrastructure levy?',
+		// fieldName: 'community-infrastructure-levy-adopt-date',
+		fieldName: 'infrastructureLevyExpectedDate',
+		hint: `For example, ${getDate('future')}`,
+		validators: [
+			new DateValidator('the date you expect to formally adopt the community infrastructure levy', {
+				ensureFuture: true
+			})
+		]
+	}),
+	uploadNeighbourLetterAddresses: {
+		type: 'multi-file-upload',
 		title: 'Letter sent to neighbours',
 		question: 'Upload letters or emails sent to interested parties with their addresses',
 		// fieldName: 'letters-interested-parties',
@@ -681,16 +716,18 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadNeighbourLetterAddresses
-	}),
-	treePreservationOrder: new BooleanQuestion({
+	},
+	treePreservationOrder: {
+		type: 'boolean',
 		title: 'Tree Preservation Order',
 		question: 'Does a Tree Preservation Order (TPO) apply to any part of the appeal site?',
 		// fieldName: 'tree-preservation-order',
 		fieldName: 'treePreservationOrder',
 		url: 'tree-preservation-order',
 		validators: [new RequiredValidator()]
-	}),
-	treePreservationPlanUpload: new MultiFileUploadQuestion({
+	},
+	treePreservationPlanUpload: {
+		type: 'multi-file-upload',
 		title: 'Tree Preservation Order extent',
 		question: 'Upload a plan showing the extent of the order',
 		// fieldName: 'upload-plan-showing-order',
@@ -701,8 +738,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.treePreservationPlanUpload
-	}),
-	uploadDefinitiveMap: new MultiFileUploadQuestion({
+	},
+	uploadDefinitiveMap: {
+		type: 'multi-file-upload',
 		title: 'Definitive map and statement extract',
 		question: 'Upload the definitive map and statement extract',
 		// fieldName: 'upload-definitive-map-statement',
@@ -713,8 +751,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadDefinitiveMap
-	}),
-	supplementaryPlanning: new BooleanQuestion({
+	},
+	supplementaryPlanning: {
+		type: 'boolean',
 		title: 'Supplementary planning documents',
 		question: 'Did any supplementary planning documents inform the outcome of the application?',
 		// fieldName: 'supplementary-planning-documents',
@@ -725,8 +764,9 @@ exports.questions = {
 				'Select yes if any supplementary planning documents informed the outcome of the application'
 			)
 		]
-	}),
-	supplementaryPlanningUpload: new MultiFileUploadQuestion({
+	},
+	supplementaryPlanningUpload: {
+		type: 'multi-file-upload',
 		title: 'Upload supplementary planning documents',
 		question: 'Upload relevant policy extracts and supplementary planning documents',
 		// fieldName: 'upload-policies-supplementary-planning-documents',
@@ -740,8 +780,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.supplementaryPlanningUpload
-	}),
-	scheduledMonument: new BooleanQuestion({
+	},
+	scheduledMonument: {
+		type: 'boolean',
 		title: 'Affects a scheduled monument',
 		question: 'Would the development affect a scheduled monument?',
 		// fieldName: 'scheduled-monument',
@@ -750,16 +791,18 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if the development would affect a scheduled monument')
 		]
-	}),
-	gypsyOrTraveller: new BooleanQuestion({
+	},
+	gypsyOrTraveller: {
+		type: 'boolean',
 		title: 'Gypsy or Traveller',
 		question: 'Does the development relate to anyone claiming to be a Gypsy or Traveller?',
 		// fieldName: 'gypsy-traveller',
 		fieldName: 'gypsyTraveller',
 		url: 'gypsy-traveller',
 		validators: [new RequiredValidator()]
-	}),
-	statutoryConsultees: new RadioQuestion({
+	},
+	statutoryConsultees: {
+		type: 'radio',
 		title: 'Statutory consultees',
 		question: 'Did you consult all the relevant statutory consultees about the development?',
 		// fieldName: 'statutory-consultees',
@@ -794,8 +837,9 @@ exports.questions = {
 				value: 'no'
 			}
 		]
-	}),
-	protectedSpecies: new BooleanQuestion({
+	},
+	protectedSpecies: {
+		type: 'boolean',
 		title: 'Protected species',
 		question: 'Would the development affect a protected species?',
 		// fieldName: 'protected-species',
@@ -804,8 +848,9 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if the development would affect a protected species')
 		]
-	}),
-	rightOfWayCheck: new BooleanQuestion({
+	},
+	rightOfWayCheck: {
+		type: 'boolean',
 		title: 'Public right of way',
 		question: 'Would a public right of way need to be removed or diverted?',
 		// fieldName: 'public-right-of-way',
@@ -816,8 +861,9 @@ exports.questions = {
 				'Select yes if a public right of way would need to be removed or diverted'
 			)
 		]
-	}),
-	areaOfOutstandingNaturalBeauty: new BooleanQuestion({
+	},
+	areaOfOutstandingNaturalBeauty: {
+		type: 'boolean',
 		title: 'Area of outstanding natural beauty',
 		question: 'Is the appeal site in an area of outstanding natural beauty?',
 		// fieldName: 'area-of-outstanding-natural-beauty',
@@ -828,8 +874,9 @@ exports.questions = {
 				'Select yes if the appeal site is in an area of outstanding natural beauty'
 			)
 		]
-	}),
-	designatedSitesCheck: new CheckboxQuestion({
+	},
+	designatedSitesCheck: {
+		type: 'checkbox',
 		title: 'Designated sites',
 		question: 'Is the development in, near or likely to affect any designated sites?',
 		// fieldName: 'designated-sites-check',
@@ -881,16 +928,18 @@ exports.questions = {
 				behaviour: 'exclusive'
 			}
 		]
-	}),
-	screeningOpinion: new BooleanQuestion({
+	},
+	screeningOpinion: {
+		type: 'boolean',
 		title: 'Issued screening opinion',
 		question: 'Have you issued a screening opinion?',
 		// fieldName: 'screening-opinion',
 		fieldName: 'screeningOpinion',
 		url: 'screening-opinion',
 		validators: [new RequiredValidator('Select yes if you have issued a screening opinion')]
-	}),
-	screeningOpinionEnvironmentalStatement: new BooleanQuestion({
+	},
+	screeningOpinionEnvironmentalStatement: {
+		type: 'boolean',
 		title: 'Screening opinion environmental statement',
 		question: 'Did your screening opinion say the development needed an environmental statement?',
 		// fieldName: 'screening-opinion-environmental-statement',
@@ -901,8 +950,9 @@ exports.questions = {
 				'Select yes if your screening opinion says the development needs an environmental statement'
 			)
 		]
-	}),
-	environmentalImpactSchedule: new RadioQuestion({
+	},
+	environmentalImpactSchedule: {
+		type: 'radio',
 		title: 'Schedule type',
 		question: 'Is the development a schedule 1 or schedule 2 development?',
 		// fieldName: 'environmental-impact-schedule',
@@ -926,8 +976,9 @@ exports.questions = {
 				value: 'no'
 			}
 		]
-	}),
-	uploadEnvironmentalStatement: new MultiFileUploadQuestion({
+	},
+	uploadEnvironmentalStatement: {
+		type: 'multi-file-upload',
 		title: 'Upload the environmental statement and supporting information',
 		question: 'Upload the environmental statement and supporting information',
 		// fieldName: 'upload-environmental-statement',
@@ -940,8 +991,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadEnvironmentalStatement
-	}),
-	meetsColumnTwoThreshold: new BooleanQuestion({
+	},
+	meetsColumnTwoThreshold: {
+		type: 'boolean',
 		title: 'Meets or exceeds the threshold or criteria in column 2	',
 		question: 'Does the development meet or exceed the threshold or criteria in column 2?',
 		// fieldName: 'column-2-threshold',
@@ -952,8 +1004,9 @@ exports.questions = {
 				'Select yes if the development meets or exceeds the threshold or criteria in column 2'
 			)
 		]
-	}),
-	sensitiveArea: new RadioQuestion({
+	},
+	sensitiveArea: {
+		type: 'radio',
 		title: 'In, partly in, or likely to affect a sensitive area',
 		question: 'Is the development in, partly in, or likely to affect a sensitive area?',
 		// fieldName: 'sensitive-area',
@@ -988,8 +1041,9 @@ exports.questions = {
 				fieldName: getConditionalFieldName('sensitiveArea', 'sensitiveAreaDetails')
 			})
 		]
-	}),
-	screeningOpinionUpload: new MultiFileUploadQuestion({
+	},
+	screeningOpinionUpload: {
+		type: 'multi-file-upload',
 		title: 'Screening opinion',
 		question: 'Upload your screening opinion and any correspondence',
 		// fieldName: 'screening-opinion-upload',
@@ -1000,8 +1054,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.screeningOpinionUpload
-	}),
-	uploadScreeningDirection: new MultiFileUploadQuestion({
+	},
+	uploadScreeningDirection: {
+		type: 'multi-file-upload',
 		title: 'Upload the screening direction',
 		question: 'Upload the screening direction',
 		// fieldName: 'upload-screening-direction',
@@ -1012,8 +1067,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadScreeningDirection
-	}),
-	developmentDescription: new RadioQuestion({
+	},
+	developmentDescription: {
+		type: 'radio',
 		title: 'Development description',
 		question: 'Description of development',
 		// fieldName: 'development-description',
@@ -1074,8 +1130,9 @@ exports.questions = {
 				value: 'tourism-leisure'
 			}
 		]
-	}),
-	submitEnvironmentalStatement: new RadioQuestion({
+	},
+	submitEnvironmentalStatement: {
+		type: 'radio',
 		title: 'Environmental impact assessment',
 		question: 'Did the applicant submit an environmental statement?',
 		// fieldName: 'environmental-statement',
@@ -1094,14 +1151,9 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if the applicant submitted an environmental statement')
 		]
-	}),
-	// rightOfWayUpload: new MultiFileUploadQuestion({
-	// 	title: 'Definitive map and statement extract',
-	// 	question: 'Upload the definitive map and statement extract',
-	// 	fieldName: 'right-of-way-upload'
-	// }),
-	// HAS APPEAL FORM QUESTIONS
-	siteArea: new NumberEntryQuestion({
+	},
+	siteArea: {
+		type: 'number',
 		title: 'What is the area of the appeal site?',
 		question: 'What is the area of the appeal site?',
 		suffix: 'm\u00B2',
@@ -1120,8 +1172,9 @@ exports.questions = {
 				fieldName: 'siteAreaSquareMetres'
 			})
 		]
-	}),
-	ownsAllLand: new BooleanQuestion({
+	},
+	ownsAllLand: {
+		type: 'boolean',
 		title: 'Do you own all the land involved in the appeal?',
 		question: 'Do you own all the land involved in the appeal?',
 		fieldName: 'ownsAllLand',
@@ -1129,8 +1182,9 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if you own all of the land involved in the appeal')
 		]
-	}),
-	ownsSomeLand: new BooleanQuestion({
+	},
+	ownsSomeLand: {
+		type: 'boolean',
 		title: 'Do you own some of the land involved in the appeal?',
 		question: 'Do you own some of the land involved in the appeal?',
 		fieldName: 'ownsSomeLand',
@@ -1138,8 +1192,9 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if you own some of the land involved in the appeal')
 		]
-	}),
-	knowsWhoOwnsRestOfLand: new RadioQuestion({
+	},
+	knowsWhoOwnsRestOfLand: {
+		type: 'radio',
 		title: 'Do you know who owns the rest of the land involved in the appeal?',
 		question: 'Do you know who owns the rest of the land involved in the appeal?',
 		fieldName: 'knowsOtherOwners',
@@ -1163,8 +1218,9 @@ exports.questions = {
 				'Select if you know who owns the rest of the land involved in the appeal'
 			)
 		]
-	}),
-	knowsWhoOwnsLandInvolved: new RadioQuestion({
+	},
+	knowsWhoOwnsLandInvolved: {
+		type: 'radio',
 		title: 'Do you know who owns the land involved in the appeal?',
 		question: 'Do you know who owns the land involved in the appeal?',
 		fieldName: 'knowsAllOwners',
@@ -1186,8 +1242,9 @@ exports.questions = {
 		validators: [
 			new RequiredValidator(' Select if you know who owns the land involved in the appeal')
 		]
-	}),
-	tellingLandowners: new BooleanQuestion({
+	},
+	tellingLandowners: {
+		type: 'boolean',
 		title: 'Have the landowners been told about the appeal?',
 		question: 'Telling the landowners',
 		interfaceType: 'checkbox',
@@ -1206,8 +1263,9 @@ exports.questions = {
 				'You must confirm that you’ve told all the landowners about your appeal within the last 21 days using a copy of the form in annexe 2A or 2B'
 			)
 		]
-	}),
-	identifyingLandowners: new BooleanQuestion({
+	},
+	identifyingLandowners: {
+		type: 'boolean',
 		title: 'Have you attempted to identify the landowners?',
 		question: 'Identifying the landowners',
 		interfaceType: 'checkbox',
@@ -1225,8 +1283,9 @@ exports.questions = {
 				'You must confirm that you’ve attempted to identify all the landowners, but have not been successful'
 			)
 		]
-	}),
-	advertisingAppeal: new BooleanQuestion({
+	},
+	advertisingAppeal: {
+		type: 'boolean',
 		title: 'Have you advertised the appeal?',
 		question: 'Advertising your appeal',
 		interfaceType: 'checkbox',
@@ -1244,8 +1303,9 @@ exports.questions = {
 				'You must confirm that you’ve advertised your appeal in the press within the last 21 days using a copy of the form in annexe 2A or 2B'
 			)
 		]
-	}),
-	inspectorAccess: new RadioQuestion({
+	},
+	inspectorAccess: {
+		type: 'radio',
 		title: 'Will an inspector need to access your land or property?',
 		question: 'Will an inspector need to access your land or property?',
 		html: 'resources/inspector-access/content.html',
@@ -1281,8 +1341,9 @@ exports.questions = {
 				value: 'no'
 			}
 		]
-	}),
-	healthAndSafety: new RadioQuestion({
+	},
+	healthAndSafety: {
+		type: 'radio',
 		title: 'Are there any health and safety issues on the appeal site?',
 		question: 'Health and safety issues',
 		html: 'resources/health-and-safety/content.html',
@@ -1316,8 +1377,9 @@ exports.questions = {
 				value: 'no'
 			}
 		]
-	}),
-	uploadOriginalApplicationForm: new MultiFileUploadQuestion({
+	},
+	uploadOriginalApplicationForm: {
+		type: 'multi-file-upload',
 		title: 'Application form',
 		question: 'Upload your application form',
 		description:
@@ -1329,8 +1391,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadOriginalApplicationForm
-	}),
-	uploadApplicationDecisionLetter: new MultiFileUploadQuestion({
+	},
+	uploadApplicationDecisionLetter: {
+		type: 'multi-file-upload',
 		title: 'Decision letter',
 		question: 'Upload the decision letter from the local planning authority',
 		description: `This letter tells you about the decision on your application. \n\nWe need the letter from the local planning authority that tells you their decision on your application (also called a ‘decision notice’).\n\nDo not upload the planning officer’s report.`,
@@ -1341,8 +1404,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadApplicationDecisionLetter
-	}),
-	uploadChangeOfDescriptionEvidence: new MultiFileUploadQuestion({
+	},
+	uploadChangeOfDescriptionEvidence: {
+		type: 'multi-file-upload',
 		title: 'Agreement to change the description of development',
 		question: 'Upload evidence of your agreement to change the description of development',
 		description:
@@ -1356,8 +1420,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadChangeOfDescriptionEvidence
-	}),
-	enterApplicationReference: new SingleLineInputQuestion({
+	},
+	enterApplicationReference: {
+		type: 'single-line-input',
 		title: 'What is the application reference number?',
 		question: 'What is the application reference number?',
 		fieldName: 'applicationReference',
@@ -1372,21 +1437,22 @@ exports.questions = {
 				}
 			})
 		]
+	},
+	planningApplicationDate: () => ({
+		type: 'date',
+		title: 'What date did you submit your application?',
+		question: 'What date did you submit your application?',
+		fieldName: 'onApplicationDate',
+		url: 'application-date',
+		hint: `For example, ${getDate('past')}`,
+		validators: [
+			new DateValidator('the date you submitted your application', {
+				ensurePast: true
+			})
+		]
 	}),
-	planningApplicationDate: () =>
-		new DateQuestion({
-			title: 'What date did you submit your application?',
-			question: 'What date did you submit your application?',
-			fieldName: 'onApplicationDate',
-			url: 'application-date',
-			hint: `For example, ${getDate('past')}`,
-			validators: [
-				new DateValidator('the date you submitted your application', {
-					ensurePast: true
-				})
-			]
-		}),
-	enterDevelopmentDescription: new TextEntryQuestion({
+	enterDevelopmentDescription: {
+		type: 'text-entry',
 		title: 'Enter the description of development that you submitted in your application',
 		question: 'Enter the description of development that you submitted in your application',
 		fieldName: 'developmentDescriptionOriginal',
@@ -1401,8 +1467,9 @@ exports.questions = {
 				}
 			})
 		]
-	}),
-	updateDevelopmentDescription: new BooleanQuestion({
+	},
+	updateDevelopmentDescription: {
+		type: 'boolean',
 		title: 'Did the local planning authority change the description of development?',
 		question: 'Did the local planning authority change the description of development?',
 		fieldName: 'updateDevelopmentDescription',
@@ -1425,8 +1492,9 @@ exports.questions = {
 				attributes: { 'data-cy': 'answer-no' }
 			}
 		]
-	}),
-	uploadAppellantStatement: new MultiFileUploadQuestion({
+	},
+	uploadAppellantStatement: {
+		type: 'multi-file-upload',
 		title: 'Appeal statement',
 		question: 'Upload your appeal statement',
 		html: 'resources/upload-appeal-statement/content.html',
@@ -1437,8 +1505,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadAppellantStatement
-	}),
-	uploadStatementCommonGround: new MultiFileUploadQuestion({
+	},
+	uploadStatementCommonGround: {
+		type: 'multi-file-upload',
 		title: 'Draft statement of common ground',
 		question: 'Upload your draft statement of common ground',
 		fieldName: 'uploadStatementCommonGround',
@@ -1448,8 +1517,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadStatementCommonGround
-	}),
-	costApplication: new BooleanQuestion({
+	},
+	costApplication: {
+		type: 'boolean',
 		title: 'Do you need to apply for an award of appeal costs?',
 		question: 'Do you need to apply for an award of appeal costs?',
 		fieldName: 'costApplication',
@@ -1467,8 +1537,9 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if you need to apply for an award of appeal costs')
 		]
-	}),
-	uploadCostApplication: new MultiFileUploadQuestion({
+	},
+	uploadCostApplication: {
+		type: 'multi-file-upload',
 		title: 'Application for an award of appeal costs',
 		question: 'Upload your application for an award of appeal costs',
 		fieldName: 'uploadCostApplication',
@@ -1478,8 +1549,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadCostApplication
-	}),
-	anyOtherAppeals: new BooleanQuestion({
+	},
+	anyOtherAppeals: {
+		type: 'boolean',
 		title: 'Are there other appeals linked to your development?',
 		question: 'Are there other appeals linked to your development?',
 		fieldName: 'appellantLinkedCase',
@@ -1488,8 +1560,9 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if there are other appeals linked to your development')
 		]
-	}),
-	linkAppeals: new ListAddMoreQuestion({
+	},
+	linkAppeals: {
+		type: 'list-add-more',
 		pageTitle: 'You’ve added a linked appeal',
 		title: 'n/a',
 		question: 'Add another appeal?',
@@ -1499,8 +1572,8 @@ exports.questions = {
 		subQuestionTitle: 'Enter the appeal reference number',
 		subQuestionInputClasses: 'govuk-input--width-10',
 		validators: [new RequiredValidator('Select yes if you want to add another linked appeal')],
-		subQuestionType: 'case',
 		subQuestionProps: {
+			type: 'case',
 			title: 'Enter the appeal reference number',
 			question: 'Enter the appeal reference number',
 			fieldName: 'appellantLinkedCase',
@@ -1512,8 +1585,9 @@ exports.questions = {
 			],
 			viewFolder: 'identifier'
 		}
-	}),
-	applicationName: new BooleanQuestion({
+	},
+	applicationName: {
+		type: 'boolean',
 		title: 'Was the application made in your name? ',
 		question: 'Was the application made in your name?',
 		fieldName: 'isAppellant',
@@ -1532,8 +1606,9 @@ exports.questions = {
 				attributes: { 'data-cy': 'answer-no' }
 			}
 		]
-	}),
-	applicantName: new MultiFieldInputQuestion({
+	},
+	applicantName: {
+		type: 'multi-field-input',
 		title: "What is the applicant's name?",
 		question: "What is the applicant's name?",
 		html: 'resources/your-details/applicant-name.html',
@@ -1580,8 +1655,9 @@ exports.questions = {
 				noInputsMessage: "Enter the applicant's name"
 			})
 		]
-	}),
-	contactDetails: new MultiFieldInputQuestion({
+	},
+	contactDetails: {
+		type: 'multi-field-input',
 		title: 'Contact details',
 		question: 'Contact details',
 		fieldName: 'contactDetails',
@@ -1627,8 +1703,9 @@ exports.questions = {
 				noInputsMessage: "Enter the applicant's name"
 			})
 		]
-	}),
-	contactPhoneNumber: new SingleLineInputQuestion({
+	},
+	contactPhoneNumber: {
+		type: 'single-line-input',
 		title: 'What is your phone number?',
 		question: 'What is your phone number?',
 		description: 'We may use your phone number to contact you about the appeal.',
@@ -1646,8 +1723,9 @@ exports.questions = {
 				}
 			})
 		]
-	}),
-	appealSiteAddress: new SiteAddressQuestion({
+	},
+	appealSiteAddress: {
+		type: 'site-address',
 		title: 'What is the address of the appeal site?',
 		question: 'What is the address of the appeal site?',
 		fieldName: 'siteAddress',
@@ -1655,8 +1733,9 @@ exports.questions = {
 		url: 'appeal-site-address',
 		viewFolder: 'address-entry',
 		validators: [new AddressValidator()]
-	}),
-	s78SiteArea: new UnitOptionEntryQuestion({
+	},
+	s78SiteArea: {
+		type: 'unit-option',
 		title: 'What is the area of the appeal site?',
 		question: 'What is the area of the appeal site?',
 		fieldName: 'siteAreaUnits',
@@ -1696,15 +1775,17 @@ exports.questions = {
 				}
 			}
 		]
-	}),
-	appellantGreenBelt: new BooleanQuestion({
+	},
+	appellantGreenBelt: {
+		type: 'boolean',
 		title: 'Is the appeal site in a green belt?',
 		question: 'Is the appeal site in a green belt?',
 		fieldName: 'appellantGreenBelt',
 		url: 'green-belt',
 		validators: [new RequiredValidator('Select yes if the appeal site is in a green belt')]
-	}),
-	submitPlanningObligation: new BooleanQuestion({
+	},
+	submitPlanningObligation: {
+		type: 'boolean',
 		title: 'Do you plan to submit a planning obligation to support your appeal?',
 		question: 'Do you plan to submit a planning obligation to support your appeal?',
 		fieldName: 'planningObligation',
@@ -1714,8 +1795,9 @@ exports.questions = {
 				'Select yes if you plan to submit a planning obligation to support your appeal'
 			)
 		]
-	}),
-	planningObligationStatus: new RadioQuestion({
+	},
+	planningObligationStatus: {
+		type: 'radio',
 		title: 'What is the status of your planning obligation?',
 		question: 'What is the status of your planning obligation?',
 		fieldName: 'statusPlanningObligation',
@@ -1734,8 +1816,9 @@ exports.questions = {
 				}
 			}
 		]
-	}),
-	uploadPlanningObligation: new MultiFileUploadQuestion({
+	},
+	uploadPlanningObligation: {
+		type: 'multi-file-upload',
 		title: 'Planning obligation',
 		question: 'Upload your planning obligation',
 		fieldName: 'uploadPlanningObligation',
@@ -1745,8 +1828,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadPlanningObligation
-	}),
-	designAccessStatement: new BooleanQuestion({
+	},
+	designAccessStatement: {
+		type: 'boolean',
 		title: 'Did you submit a design and access statement with your application?',
 		question: 'Did you submit a design and access statement with your application?',
 		fieldName: 'designAccessStatement',
@@ -1757,8 +1841,9 @@ exports.questions = {
 				'Select yes if you submitted a design and access statement with your application'
 			)
 		]
-	}),
-	uploadDesignAccessStatement: new MultiFileUploadQuestion({
+	},
+	uploadDesignAccessStatement: {
+		type: 'multi-file-upload',
 		title: 'Design and access statement',
 		question: 'Upload your design and access statement',
 		fieldName: 'uploadDesignAccessStatement',
@@ -1769,8 +1854,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadDesignAccessStatement
-	}),
-	uploadPlansDrawingsHAS: new MultiFileUploadQuestion({
+	},
+	uploadPlansDrawingsHAS: {
+		type: 'multi-file-upload',
 		title: 'Upload the plans, drawings and supporting documents',
 		question: 'Upload the plans, drawings and supporting documents',
 		fieldName: 'uploadPlansDrawings',
@@ -1780,8 +1866,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadPlansDrawings
-	}),
-	uploadPlansDrawingsDocuments: new MultiFileUploadQuestion({
+	},
+	uploadPlansDrawingsDocuments: {
+		type: 'multi-file-upload',
 		title: 'Plans, drawings and supporting documents',
 		question:
 			'Upload your plans, drawings and supporting documents you submitted with your application',
@@ -1793,8 +1880,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadPlansDrawings
-	}),
-	newPlansDrawings: new BooleanQuestion({
+	},
+	newPlansDrawings: {
+		type: 'boolean',
 		title: 'Do you have any new plans or drawings that support your appeal?',
 		question: 'Do you have any new plans or drawings that support your appeal?',
 		fieldName: 'newPlansDrawings',
@@ -1804,8 +1892,9 @@ exports.questions = {
 				'Select yes if you have any new plans or drawings that support your appeal'
 			)
 		]
-	}),
-	uploadNewPlansDrawings: new MultiFileUploadQuestion({
+	},
+	uploadNewPlansDrawings: {
+		type: 'multi-file-upload',
 		title: 'New plans or drawings',
 		question: 'Upload your new plans or drawings',
 		fieldName: 'uploadNewPlansDrawings',
@@ -1815,8 +1904,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadNewPlansDrawings
-	}),
-	otherNewDocuments: new BooleanQuestion({
+	},
+	otherNewDocuments: {
+		type: 'boolean',
 		title: 'Do you have any other new documents that support your appeal?',
 		question: 'Do you have any other new documents that support your appeal?',
 		fieldName: 'otherNewDocuments',
@@ -1826,8 +1916,9 @@ exports.questions = {
 				'Select yes if you have any other new documents that support your appeal'
 			)
 		]
-	}),
-	separateOwnershipCert: new BooleanQuestion({
+	},
+	separateOwnershipCert: {
+		type: 'boolean',
 		title:
 			'Did you submit a separate ownership certificate and agricultural land declaration with your application?',
 		question:
@@ -1840,8 +1931,9 @@ exports.questions = {
 				'Select yes if you submitted a separate ownership certificate and agricultural land declaration with your application'
 			)
 		]
-	}),
-	uploadSeparateOwnershipCert: new MultiFileUploadQuestion({
+	},
+	uploadSeparateOwnershipCert: {
+		type: 'multi-file-upload',
 		title: 'Separate ownership certificate and agricultural land declaration',
 		question: 'Upload your separate ownership certificate and agricultural land declaration',
 		fieldName: 'uploadOwnershipCertificate',
@@ -1853,8 +1945,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadOwnershipCertificate
-	}),
-	uploadOtherNewDocuments: new MultiFileUploadQuestion({
+	},
+	uploadOtherNewDocuments: {
+		type: 'multi-file-upload',
 		title: 'Other new supporting documents',
 		question: 'Upload your other new supporting documents',
 		fieldName: 'uploadOtherNewDocuments',
@@ -1864,8 +1957,9 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadOtherNewDocuments
-	}),
-	appellantProcedurePreference: new RadioQuestion({
+	},
+	appellantProcedurePreference: {
+		type: 'radio',
 		title: 'How would you prefer us to decide your appeal?',
 		question: 'How would you prefer us to decide your appeal?',
 		fieldName: 'appellantProcedurePreference',
@@ -1894,8 +1988,9 @@ exports.questions = {
 				}
 			}
 		]
-	}),
-	appellantPreferHearing: new TextEntryQuestion({
+	},
+	appellantPreferHearing: {
+		type: 'text-entry',
 		title: 'Why would you prefer a hearing?',
 		question: 'Why would you prefer a hearing?',
 		url: 'why-prefer-hearing',
@@ -1909,8 +2004,9 @@ exports.questions = {
 				}
 			})
 		]
-	}),
-	agriculturalHolding: new BooleanQuestion({
+	},
+	agriculturalHolding: {
+		type: 'boolean',
 		title: 'Is the appeal site part of an agricultural holding?',
 		question: 'Is the appeal site part of an agricultural holding?',
 		fieldName: 'agriculturalHolding',
@@ -1919,8 +2015,9 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if the appeal site is part of an agricultural holding')
 		]
-	}),
-	tenantAgriculturalHolding: new BooleanQuestion({
+	},
+	tenantAgriculturalHolding: {
+		type: 'boolean',
 		title: 'Are you a tenant of the agricultural holding?',
 		question: 'Are you a tenant of the agricultural holding?',
 		fieldName: 'tenantAgriculturalHolding',
@@ -1928,15 +2025,17 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('Select yes if you are a tenant of the agricultural holding')
 		]
-	}),
-	otherTenantsAgriculturalHolding: new BooleanQuestion({
+	},
+	otherTenantsAgriculturalHolding: {
+		type: 'boolean',
 		title: 'Are there any other tenants?',
 		question: 'Are there any other tenants?',
 		fieldName: 'otherTenantsAgriculturalHolding',
 		url: 'other-tenants',
 		validators: [new RequiredValidator('Select yes if there are any other tenants')]
-	}),
-	informedTenantsAgriculturalHolding: new BooleanQuestion({
+	},
+	informedTenantsAgriculturalHolding: {
+		type: 'boolean',
 		title: 'Have the tenants been told about the appeal?',
 		question: 'Telling the tenants',
 		interfaceType: 'checkbox',
@@ -1953,8 +2052,9 @@ exports.questions = {
 		validators: [
 			new RequiredValidator('You must confirm that you’ve told the tenants about the appeal')
 		]
-	}),
-	appellantPreferInquiry: new TextEntryQuestion({
+	},
+	appellantPreferInquiry: {
+		type: 'text-entry',
 		title: 'Why would you prefer an inquiry?',
 		question: 'Why would you prefer an inquiry?',
 		url: 'why-prefer-inquiry',
@@ -1968,8 +2068,9 @@ exports.questions = {
 				}
 			})
 		]
-	}),
-	inquiryHowManyDays: new NumberEntryQuestion({
+	},
+	inquiryHowManyDays: {
+		type: 'number',
 		title: 'How many days would you expect the inquiry to last?',
 		question: 'How many days would you expect the inquiry to last?',
 		url: 'how-many-days-inquiry',
@@ -1986,8 +2087,9 @@ exports.questions = {
 				fieldName: 'appellantPreferInquiryDuration'
 			})
 		]
-	}),
-	inquiryHowManyWitnesses: new NumberEntryQuestion({
+	},
+	inquiryHowManyWitnesses: {
+		type: 'number',
 		title: 'How many witnesses would you expect to give evidence at the inquiry?',
 		question: 'How many witnesses would you expect to give evidence at the inquiry?',
 		url: 'how-many-witnesses',
@@ -2004,8 +2106,9 @@ exports.questions = {
 				fieldName: 'appellantPreferInquiryWitnesses'
 			})
 		]
-	}),
-	lpaStatement: new TextEntryQuestion({
+	},
+	lpaStatement: {
+		type: 'text-entry',
 		title: 'Appeal statement',
 		question: 'Appeal statement',
 		label: 'Enter your statement',
@@ -2020,8 +2123,9 @@ exports.questions = {
 				}
 			})
 		]
-	}),
-	additionalDocuments: new BooleanQuestion({
+	},
+	additionalDocuments: {
+		type: 'boolean',
 		title: 'Do you have additional documents to support your appeal statement?',
 		question: 'Do you have additional documents to support your appeal statement?',
 		fieldName: 'additionalDocuments',
@@ -2031,8 +2135,9 @@ exports.questions = {
 				'Select yes if you have additional documents to support your appeal statement'
 			)
 		]
-	}),
-	uploadLpaStatementDocuments: new MultiFileUploadQuestion({
+	},
+	uploadLpaStatementDocuments: {
+		type: 'multi-file-upload',
 		title: 'Upload your new supporting documents',
 		question: 'Upload your new supporting documents',
 		fieldName: 'uploadLpaStatementDocuments',
@@ -2042,15 +2147,17 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadLpaStatementDocuments
-	}),
-	appellantFinalComment: new BooleanQuestion({
+	},
+	appellantFinalComment: {
+		type: 'boolean',
 		title: 'Do you want to submit any final comments?',
 		question: 'Do you want to submit any final comments?',
 		fieldName: 'appellantFinalComment',
 		url: 'submit-final-comment',
 		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
-	}),
-	appellantFinalCommentDetails: new TextEntryQuestion({
+	},
+	appellantFinalCommentDetails: {
+		type: 'text-entry',
 		title: 'Add your final comments',
 		question: 'Add your final comments',
 		url: 'final-comments',
@@ -2065,8 +2172,9 @@ exports.questions = {
 				}
 			})
 		]
-	}),
-	appellantFinalCommentDocuments: new BooleanQuestion({
+	},
+	appellantFinalCommentDocuments: {
+		type: 'boolean',
 		title: 'Do you have additional documents to support your final comments?',
 		question: 'Do you have additional documents to support your final comments?',
 		hint: 'You must not add new evidence to your appeal',
@@ -2077,8 +2185,9 @@ exports.questions = {
 				'Select yes if you have additional documents to support your final comments'
 			)
 		]
-	}),
-	uploadAppellantFinalCommentDocuments: new MultiFileUploadQuestion({
+	},
+	uploadAppellantFinalCommentDocuments: {
+		type: 'multi-file-upload',
 		title: 'Upload your new supporting documents',
 		question: 'Upload your new supporting documents',
 		fieldName: 'uploadAppellantFinalCommentDocuments',
@@ -2088,12 +2197,13 @@ exports.questions = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadAppellantFinalCommentDocuments
-	}),
-	lpaFinalComment: new BooleanQuestion({
+	},
+	lpaFinalComment: {
+		type: 'boolean',
 		title: 'Do you want to submit any final comments?',
 		question: 'Do you want to submit any final comments?',
 		fieldName: 'lpaFinalComment',
 		url: 'submit-final-comments',
 		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
-	})
+	}
 };
