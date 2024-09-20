@@ -63,7 +63,7 @@ const getDate = (tense, days = 60) =>
 			past: sub,
 			future: add
 		}[tense](new Date(), { days }),
-		'd M yyyy mm ss'
+		'd M yyyy'
 	);
 
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
