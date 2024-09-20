@@ -648,7 +648,6 @@ describe('Back Office', () => {
 				createdAppeal.horizonId = '3218465';
 				createdAppeal.horizonIdFull = mockedCaseReference;
 				expect(retrievedAppealResponse.body).toMatchObject(createdAppeal);
-
 				// And: Horizon has been interacted with as expected
 				const createOrganisationInteractions =
 					condition.expectations.createOrganisationInHorizonRequests.map((expectation) =>

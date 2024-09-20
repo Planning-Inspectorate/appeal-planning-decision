@@ -14,7 +14,7 @@ function run(cmd) {
 
 module.exports = async () => {
 	const { create } = require('./external-dependencies/database/test-database');
-	process.env.LOGGER_LEVEL = 'info';
+	process.env.LOGGER_LEVEL = 'debug';
 	await create();
 
 	await run(`npx prisma migrate deploy`);
