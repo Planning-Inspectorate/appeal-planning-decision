@@ -58,6 +58,7 @@ const NumericValidator = require('./validator/numeric-validator');
 const SiteAddressQuestion = require('./dynamic-components/site-address/question');
 const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
 const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
+const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 1000);
 
@@ -2069,6 +2070,8 @@ exports.questions = {
 		html: 'resources/appellant-final-comments/content.html',
 		fieldName: 'appellantFinalCommentDetails',
 		textEntryCheckbox: {
+			header: 'Your comments',
+			name: 'sensitiveInformationCheckbox',
 			text: 'I confirm that I have not included any sensitive information in my final comments'
 		},
 		validators: [
@@ -2078,6 +2081,11 @@ exports.questions = {
 					maxLength: appealFormV2.textInputMaxLength,
 					maxLengthMessage: `Your final comments must be ${appealFormV2.textInputMaxLength} characters or less`
 				}
+			}),
+			new ConfirmationCheckboxValidator({
+				checkboxName: 'sensitiveInformationCheckbox',
+				errorMessage:
+					'You must confirm that you have not included any sensitive information in your final comments'
 			})
 		]
 	}),
@@ -2118,6 +2126,8 @@ exports.questions = {
 		html: 'resources/lpa-final-comments/content.html',
 		fieldName: 'lpaFinalCommentDetails',
 		textEntryCheckbox: {
+			header: 'Your comments',
+			name: 'sensitiveInformationCheckbox',
 			text: 'I confirm that I have not included any sensitive information in my final comments'
 		},
 		validators: [
@@ -2127,6 +2137,11 @@ exports.questions = {
 					maxLength: appealFormV2.textInputMaxLength,
 					maxLengthMessage: `Your final comments must be ${appealFormV2.textInputMaxLength} characters or less`
 				}
+			}),
+			new ConfirmationCheckboxValidator({
+				checkboxName: 'sensitiveInformationCheckbox',
+				errorMessage:
+					'You must confirm that you have not included any sensitive information in your final comments'
 			})
 		]
 	}),
@@ -2141,5 +2156,16 @@ exports.questions = {
 				'Select yes if you have additional documents to support your final comments'
 			)
 		]
+	}),
+	uploadLPAFinalCommentDocuments: new MultiFileUploadQuestion({
+		title: 'Upload your new supporting documents',
+		question: 'Upload your new supporting documents',
+		fieldName: 'uploadLPAFinalCommentDocuments',
+		url: 'upload-supporting-documents',
+		validators: [
+			new RequiredFileUploadValidator('Select your new supporting documents'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadLPAFinalCommentDocuments
 	})
 };
