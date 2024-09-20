@@ -2060,7 +2060,7 @@ exports.questions = {
 		title: 'Do you want to submit any final comments?',
 		question: 'Do you want to submit any final comments?',
 		fieldName: 'appellantFinalComment',
-		url: 'submit-final-comment',
+		url: 'submit-final-comments',
 		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
 	}),
 	appellantFinalCommentDetails: new TextEntryQuestion({
