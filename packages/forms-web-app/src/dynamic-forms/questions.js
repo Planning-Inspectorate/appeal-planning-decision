@@ -5,6 +5,18 @@
  * types without having the overhead of managing duplicates. *
  *************************************************************/
 
+// question classes
+const CheckboxQuestion = require('./dynamic-components/checkbox/question');
+const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
+const BooleanQuestion = require('./dynamic-components/boolean/question');
+const RadioQuestion = require('./dynamic-components/radio/question');
+const DateQuestion = require('./dynamic-components/date/question');
+const TextEntryQuestion = require('./dynamic-components/text-entry/question');
+const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
+const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
+const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
+const SiteAddressQuestion = require('./dynamic-components/site-address/question');
+const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 
 // validators
@@ -51,14 +63,14 @@ const getDate = (tense, days = 60) =>
 			past: sub,
 			future: add
 		}[tense](new Date(), { days }),
-		'd M yyyy'
+		'd M yyyy mm ss'
 	);
 
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
 
 // Define all questions
-/** @type {Record<string,QuestionProps | (() => QuestionProps)>} */
-exports.questions = {
+/** @type {Record<string, QuestionProps>} */
+exports.questionProps = {
 	appealTypeAppropriate: {
 		type: 'boolean',
 		title: 'Is this the correct type of appeal?',
@@ -664,7 +676,7 @@ exports.questions = {
 		url: 'community-infrastructure-levy-adopted',
 		validators: [new RequiredValidator()]
 	},
-	communityInfrastructureLevyAdoptedDate: () => ({
+	communityInfrastructureLevyAdoptedDate: {
 		type: 'date',
 		title: 'Date community infrastructure levy adopted',
 		question: 'When was the community infrastructure levy formally adopted?',
@@ -676,8 +688,8 @@ exports.questions = {
 				ensurePast: true
 			})
 		]
-	}),
-	communityInfrastructureLevyAdoptDate: () => ({
+	},
+	communityInfrastructureLevyAdoptDate: {
 		type: 'date',
 		title: 'Date community infrastructure levy expected to be adopted',
 		question: 'When do you expect to formally adopt the community infrastructure levy?',
@@ -689,7 +701,7 @@ exports.questions = {
 				ensureFuture: true
 			})
 		]
-	}),
+	},
 	uploadNeighbourLetterAddresses: {
 		type: 'multi-file-upload',
 		title: 'Letter sent to neighbours',
@@ -1426,7 +1438,7 @@ exports.questions = {
 			})
 		]
 	},
-	planningApplicationDate: () => ({
+	planningApplicationDate: {
 		type: 'date',
 		title: 'What date did you submit your application?',
 		question: 'What date did you submit your application?',
@@ -1438,7 +1450,7 @@ exports.questions = {
 				ensurePast: true
 			})
 		]
-	}),
+	},
 	enterDevelopmentDescription: {
 		type: 'text-entry',
 		title: 'Enter the description of development that you submitted in your application',
@@ -2195,3 +2207,26 @@ exports.questions = {
 		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
 	}
 };
+
+const questionClasses = {
+	checkbox: CheckboxQuestion,
+	'multi-file-upload': MultiFileUploadQuestion,
+	boolean: BooleanQuestion,
+	radio: RadioQuestion,
+	date: DateQuestion,
+	'text-entry': TextEntryQuestion,
+	'single-line-input': SingleLineInputQuestion,
+	'multi-field-input': MultiFieldInputQuestion,
+	number: NumberEntryQuestion,
+	'site-address': SiteAddressQuestion,
+	'unit-option': UnitOptionEntryQuestion,
+	'list-add-more': ListAddMoreQuestion
+};
+
+exports.questions = Object.fromEntries(
+	Object.entries(exports.questionProps).map(([key, props]) => [
+		key,
+		// @ts-ignore
+		new questionClasses[props.type](props)
+	])
+);

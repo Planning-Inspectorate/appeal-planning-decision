@@ -153,9 +153,14 @@ type UnitOptionEntryQuestionProps = CommonQuestionProps & {
 	label?: string;
 };
 
+export type SubQuestionProps = CommonQuestionProps & {
+	type: 'case' | 'address' | 'listed-building';
+	viewFolder: string;
+};
+
 type ListAddMoreQuestionProps = CommonQuestionProps & {
 	type: 'list-add-more';
-	subQuestionProps: CommonQuestionProps & { type: 'case' | 'address' | 'listed-building' };
+	subQuestionProps: SubQuestionProps;
 	subQuestionLabel?: string;
 	subQuestionTitle?: string;
 	subQuestionFieldLabel?: string;
