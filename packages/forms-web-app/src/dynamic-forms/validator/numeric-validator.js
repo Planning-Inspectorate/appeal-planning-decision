@@ -13,12 +13,6 @@ const BaseValidator = require('./base-validator.js');
  * @property {String} maxMessage
  */
 
-/**
- * @typedef {Object} Regex
- * @property {String | RegExp} regex
- * @property {String} regexMessage
- */
-
 class NumericValidator extends BaseValidator {
 	/**
 	 * @param {Object} params
@@ -26,7 +20,7 @@ class NumericValidator extends BaseValidator {
 	 * @param {string} [params.minMessage]
 	 * @param {number} [params.max]
 	 * @param {string} [params.maxMessage]
-	 * @param {Regex} [params.regex]
+	 * @param {RegExp} [params.regex]
 	 * @param {string} [params.regexMessage]
 	 * @param {string} [params.fieldName]
 	 */

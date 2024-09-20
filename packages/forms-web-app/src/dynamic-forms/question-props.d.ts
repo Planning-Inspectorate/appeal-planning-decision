@@ -14,44 +14,52 @@ type QuestionTypes =
 	| 'number'
 	| 'site-address'
 	| 'unit-option'
-	| 'list-add-more';
+	| 'list-add-more'
+	// strictly for add more sub question type
+	// todo refactor list add mores so there's no sub question
+	| 'case'
+	| 'address'
+	| 'listed-building';
 
 interface CommonQuestionProps {
 	type: QuestionTypes;
 	title: string;
 	question: string;
-	viewFolder: string;
+	viewFolder?: string;
 	fieldName: string;
 	url?: string;
 	pageTitle?: string;
 	description?: string;
+	label?: string;
 	validators?: BaseValidator[];
 	html?: string;
 	hint?: string;
 	shouldDisplay?: (response: JourneyResponse) => boolean;
 }
 
-interface Option {
-	text: string;
-	value: string;
-	hint?: object;
-	checked?: boolean | undefined;
-	attributes?: Record<string, string>;
-	behaviour?: 'exclusive';
-	conditional?: {
-		question: string;
-		type: string;
-		fieldName: string;
-		inputClasses?: string;
-		html?: string;
-		value?: unknown;
-		label?: string;
-		hint?: string;
-	};
-	conditionalText?: {
-		html: string;
-	};
-}
+type Option =
+	| {
+			text: string;
+			value: string;
+			hint?: object;
+			checked?: boolean | undefined;
+			attributes?: Record<string, string>;
+			behaviour?: 'exclusive';
+			conditional?: {
+				question: string;
+				type: string;
+				fieldName: string;
+				inputClasses?: string;
+				html?: string;
+				value?: unknown;
+				label?: string;
+				hint?: string;
+			};
+			conditionalText?: {
+				html: string;
+			};
+	  }
+	| { divider?: string };
 
 interface InputField {
 	fieldName: string;
@@ -96,7 +104,7 @@ type MultiFileUploadQuestionProps = CommonQuestionProps & {
 
 type BooleanQuestionProps = CommonQuestionProps & {
 	type: 'boolean';
-	options: Option[];
+	options?: Option[];
 	interfaceType?: 'checkbox' | 'radio';
 };
 
@@ -124,8 +132,8 @@ type MultiFieldInputQuestionProps = CommonQuestionProps & {
 	type: 'multi-field-input';
 	label?: string;
 	inputAttributes?: Record<string, string>;
-	inputFields: InputField;
-	formatDetails?: 'contactDetails' | 'standard';
+	inputFields: InputField[];
+	formatType?: 'contactDetails' | 'standard';
 };
 
 type NumberEntryQuestionProps = CommonQuestionProps & {
@@ -141,14 +149,13 @@ type SiteAddressQuestionProps = CommonQuestionProps & {
 type UnitOptionEntryQuestionProps = CommonQuestionProps & {
 	type: 'unit-option';
 	conditionalFieldName: string;
-	options: UnitOption;
+	options: UnitOption[];
 	label?: string;
 };
 
 type ListAddMoreQuestionProps = CommonQuestionProps & {
 	type: 'list-add-more';
-	subQuestionProps: CommonQuestionProps;
-	subQuestionType: 'case' | 'address' | 'listed-building';
+	subQuestionProps: CommonQuestionProps & { type: 'case' | 'address' | 'listed-building' };
 	subQuestionLabel?: string;
 	subQuestionTitle?: string;
 	subQuestionFieldLabel?: string;
@@ -156,7 +163,7 @@ type ListAddMoreQuestionProps = CommonQuestionProps & {
 	width?: string;
 };
 
-export type Question =
+export type QuestionProps =
 	| CheckboxQuestionProps
 	| MultiFileUploadQuestionProps
 	| BooleanQuestionProps
