@@ -294,6 +294,7 @@ class ListAddMoreQuestion extends Question {
 			}
 		};
 
+		// todo(journey-refactor): api call
 		await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
 
 		// check for saving errors

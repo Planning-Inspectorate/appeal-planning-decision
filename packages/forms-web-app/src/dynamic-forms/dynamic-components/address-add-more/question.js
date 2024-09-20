@@ -74,6 +74,7 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 	 * @param {Object} responseToSave
 	 */
 	async saveList(req, parentFieldName, journeyResponse, responseToSave) {
+		// todo(journey-refactor): api call
 		const addresses = responseToSave.answers[parentFieldName];
 		await Promise.all(
 			addresses.map((address) => {
@@ -96,6 +97,7 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 	 * @returns {Promise<JourneyResponse | boolean> } updated JourneyResponse
 	 */
 	async removeList(req, journeyResponse, answerId) {
+		// todo(journey-refactor): api call
 		const updatedLPA = await req.appealsApiClient.deleteSubmissionAddress(
 			journeyResponse.journeyId,
 			journeyResponse.referenceId,

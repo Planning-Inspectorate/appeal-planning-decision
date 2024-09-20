@@ -1,6 +1,7 @@
-const { capitalize } = require('../lib/string-functions');
+const { capitalize } = require('../lib/string-functions'); // todo(journey-refactor): move to common
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { numericFields } = require('./dynamic-components/utils/numeric-fields');
+// todo(journey-refactor): potentially some assumptions being made about display logic with escaping/newlines etc
 const escape = require('escape-html');
 const { nl2br } = require('@pins/common/src/utils');
 
@@ -195,6 +196,7 @@ class Question {
 		}
 
 		// save
+		// todo(journey-refactor): api call
 		const responseToSave = await this.getDataToSave(req, journeyResponse);
 		await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
 
@@ -218,7 +220,7 @@ class Question {
 	checkForValidationErrors(req, sectionObj, journey) {
 		const { body } = req;
 		const { errors = {}, errorSummary = [] } = body;
-
+		// todo(journey-refactor): is this presuming how errors are handled
 		if (Object.keys(errors).length > 0) {
 			return this.prepQuestionForRendering(
 				sectionObj,
@@ -272,6 +274,8 @@ class Question {
 	 */
 	async saveResponseToDB(apiClient, journeyResponse, responseToSave) {
 		const journeyType = journeyResponse.journeyId;
+
+		// todo(journey-refactor): api calls, injected but presumes apiClient
 
 		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyType)) {
 			await apiClient.patchLPAQuestionnaire(journeyResponse.referenceId, responseToSave.answers);

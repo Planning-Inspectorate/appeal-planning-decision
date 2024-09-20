@@ -136,6 +136,7 @@ class SiteAddressQuestion extends Question {
 			journeyResponse
 		);
 
+		// todo(journey-refactor): api call
 		await req.appealsApiClient.postSubmissionAddress(
 			journeyResponse.journeyId,
 			journeyResponse.referenceId,
@@ -147,6 +148,7 @@ class SiteAddressQuestion extends Question {
 		);
 
 		if (siteAddressSet) {
+			// todo(journey-refactor): api call
 			await req.appealsApiClient.updateAppellantSubmission(journeyResponse.referenceId, {
 				siteAddress: siteAddressSet
 			});

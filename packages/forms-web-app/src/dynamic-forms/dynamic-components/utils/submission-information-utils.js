@@ -15,6 +15,7 @@ const typeCodeToSubmissionInformationString = {
 exports.formatBeforeYouStartSection = async (appellantSubmission) => {
 	const { LPACode, appealTypeCode, applicationDecisionDate } = appellantSubmission;
 
+	// todo(journey-refactor): api call
 	let lpa;
 	try {
 		lpa = await getLPA(LPACode);
