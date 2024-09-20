@@ -5,18 +5,6 @@
  * types without having the overhead of managing duplicates. *
  *************************************************************/
 
-// questions
-// const CheckboxQuestion = require('./dynamic-components/checkbox/question');
-// const MultiFileUploadQuestion = require('./dynamic-components/multi-file-upload/question');
-// const BooleanQuestion = require('./dynamic-components/boolean/question');
-// const RadioQuestion = require('./dynamic-components/radio/question');
-// const DateQuestion = require('./dynamic-components/date/question');
-// const TextEntryQuestion = require('./dynamic-components/text-entry/question');
-// const SingleLineInputQuestion = require('./dynamic-components/single-line-input/question');
-// const MultiFieldInputQuestion = require('./dynamic-components/multi-field-input/question');
-// const NumberEntryQuestion = require('./dynamic-components/number-entry/question');
-// const SiteAddressQuestion = require('./dynamic-components/site-address/question');
-// const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 
 // validators
