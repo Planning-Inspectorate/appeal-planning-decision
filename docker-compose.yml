@@ -10,7 +10,7 @@ version: '3.7'
 services:
   auth-server:
     profiles: ['all', 'api', 'appeals', 'comment', 'documents']
-    image: node:20-alpine
+    image: node:18-alpine
     environment:
       # Logging
       LOGGER_LEVEL: 'debug'
@@ -70,7 +70,7 @@ services:
 
   appeals-service-api:
     profiles: ['all', 'api', 'appeals', 'comment']
-    image: node:20-alpine
+    image: node:18-alpine
     environment:
       APP_APPEALS_BASE_URL: http://forms-web-app:9003
       APP_LPA_QUESTIONNAIRE_BASE_URL: http://lpa-questionnaire-web-app:9001
@@ -138,7 +138,7 @@ services:
 
   document-service-api: &document-service
     profiles: ['all', 'api', 'appeals', 'documents']
-    image: node:20-alpine
+    image: node:18-alpine
     environment:
       AUTH_BASE_URL: http://auth-server:3000
       BO_STORAGE_CONTAINER_HOST: http://localhost:4004/devstoreaccount1
@@ -184,7 +184,7 @@ services:
 
   forms-web-app:
     profiles: ['all', 'appeals']
-    image: node:20-alpine
+    image: node:18-alpine
     environment:
       ALLOW_TESTING_OVERRIDES: 'true'
       APPEALS_SERVICE_API_URL: http://appeals-service-api:3000
@@ -229,7 +229,7 @@ services:
       - ./packages/common:/opt/app/node_modules/@pins/common
       - ./packages/database:/opt/app/node_modules/@pins/database
       - ./packages/forms-web-app:/opt/app
-    command: npm run start:dev
+    command: npm run start:dev:debug
     # if enabling debug, be sure to uncomment / expose the debug port above.
     # command: npm run start:dev:debug
 

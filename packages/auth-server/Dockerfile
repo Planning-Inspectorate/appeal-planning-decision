@@ -1,5 +1,5 @@
 # Stage 1/2: Build
-FROM node:20-alpine AS build
+FROM node:18-alpine AS build
 
 WORKDIR /opt/packages/auth-server
 
