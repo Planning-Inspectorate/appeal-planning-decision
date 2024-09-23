@@ -24,7 +24,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.18.0
+      ref: refs/tags/release/3.5.0
 
 extends:
   template: stages/wrapper_cd.yml@templates
@@ -47,7 +47,7 @@ extends:
               - ${{ if eq(parameters.schemaMigration, true) }}:
                   - template: ../steps/node_script.yml
                     parameters:
-                      nodeVersion: 20
+                      nodeVersion: 18
                       environmentVariables:
                         SQL_CONNECTION_STRING_ADMIN: $(SQL_CONNECTION_STRING_ADMIN)
                       script: npm run migrate:prod
@@ -55,7 +55,7 @@ extends:
               - ${{ if eq(parameters.seedData, true) }}:
                   - template: ../steps/node_script.yml
                     parameters:
-                      nodeVersion: 20
+                      nodeVersion: 18
                       environmentVariables:
                         SQL_CONNECTION_STRING: $(SQL_CONNECTION_STRING)
                       script: npm run seed:prod
@@ -190,11 +190,11 @@ extends:
                 persistCredentials: true
               - template: ../steps/node_script.yml
                 parameters:
-                  nodeVersion: 20
+                  nodeVersion: 18
                   script: npm ci
               - template: ../steps/node_script.yml
                 parameters:
-                  nodeVersion: 20
+                  nodeVersion: 18
                   script: npm run release
                   environmentVariables:
                     GH_TOKEN: $(GH_TOKEN)

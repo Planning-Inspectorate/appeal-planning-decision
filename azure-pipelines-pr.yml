@@ -15,7 +15,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.18.0
+      ref: refs/tags/release/3.17.0
 
 extends:
   template: stages/wrapper_ci.yml@templates
@@ -27,20 +27,20 @@ extends:
         steps:
           - template: ../steps/node_script.yml
             parameters:
-              nodeVersion: 20
+              nodeVersion: 18
               script: npm ci
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run lint
-              nodeVersion: 20
+              nodeVersion: 18
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run test
-              nodeVersion: 20
+              nodeVersion: 18
           - template: ../steps/node_script.yml
             parameters:
               condition: succeededOrFailed()
               script: npm run integration-test
-              nodeVersion: 20
+              nodeVersion: 18
