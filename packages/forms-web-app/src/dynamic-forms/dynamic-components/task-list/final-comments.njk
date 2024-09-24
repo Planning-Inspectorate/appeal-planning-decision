@@ -1,9 +1,13 @@
-{% extends 'layouts/lpa-dashboard/main.njk' %}
+{% extends layoutTemplate %}
 
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-{% set title = "Check your answers and submit your final comments" %}
+{% set title = "Check your answers and submit your final comments - " + journeyTitle + " - GOV.UK" %}
+
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
 
 {% block content %}
 	<div class="govuk-grid-row">

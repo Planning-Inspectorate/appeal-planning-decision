@@ -2102,7 +2102,7 @@ exports.questions = {
 		]
 	}),
 	uploadAppellantFinalCommentDocuments: new MultiFileUploadQuestion({
-		title: 'Upload your new supporting documents',
+		title: 'New supporting documents',
 		question: 'Upload your new supporting documents',
 		fieldName: 'uploadAppellantFinalCommentDocuments',
 		url: 'upload-supporting-documents',
@@ -2123,7 +2123,7 @@ exports.questions = {
 		title: 'Add your final comments',
 		question: 'Add your final comments',
 		url: 'final-comments',
-		html: 'resources/lpa-final-comments/content.html',
+		html: 'resources/lpa-final-comments/comment-details.html',
 		fieldName: 'lpaFinalCommentDetails',
 		textEntryCheckbox: {
 			header: 'Your comments',
@@ -2158,7 +2158,7 @@ exports.questions = {
 		]
 	}),
 	uploadLPAFinalCommentDocuments: new MultiFileUploadQuestion({
-		title: 'Upload your new supporting documents',
+		title: 'New supporting documents',
 		question: 'Upload your new supporting documents',
 		fieldName: 'uploadLPAFinalCommentDocuments',
 		url: 'upload-supporting-documents',
