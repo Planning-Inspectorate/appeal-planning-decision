@@ -400,6 +400,7 @@ const appealCases = [
 		rule6StatementPublished: true,
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(2)),
 		interestedPartyCommentsPublished: true,
+		planningObligation: true,
 		// questionnaire details
 		// constraints
 		isCorrectAppealType: true,

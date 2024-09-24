@@ -367,6 +367,7 @@ model AppealCase {
   otherTenantsAgriculturalHolding    Boolean?
   informedTenantsAgriculturalHolding Boolean?
   statusPlanningObligation           String?
+  planningObligation                 Boolean?
 
   //***************************************************************************
   // rule 6 fields
