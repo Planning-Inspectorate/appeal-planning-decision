@@ -37,7 +37,7 @@ const makeBaseUrl = (response) =>
 
 const params = {
 	journeyId: JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS,
-	journeyTemplate: 'final-comments-template.njk',
+	journeyTemplate: 'statement-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/final-comments',
 	journeyTitle: 'Manage your appeals',
 	sections,
