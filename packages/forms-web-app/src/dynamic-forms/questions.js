@@ -2035,7 +2035,7 @@ exports.questions = {
 		]
 	}),
 	additionalDocuments: new BooleanQuestion({
-		title: 'Do you have additional documents to support your appeal statement?',
+		title: 'Add supporting documents',
 		question: 'Do you have additional documents to support your appeal statement?',
 		fieldName: 'additionalDocuments',
 		url: 'additional-documents',
@@ -2046,7 +2046,7 @@ exports.questions = {
 		]
 	}),
 	uploadLpaStatementDocuments: new MultiFileUploadQuestion({
-		title: 'Upload your new supporting documents',
+		title: 'Supporting documents',
 		question: 'Upload your new supporting documents',
 		fieldName: 'uploadLpaStatementDocuments',
 		url: 'upload-supporting-documents',
