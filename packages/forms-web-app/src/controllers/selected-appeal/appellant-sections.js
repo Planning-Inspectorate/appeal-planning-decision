@@ -53,6 +53,17 @@ exports.sections = [
 		]
 	},
 	{
+		heading: 'Planning obligation',
+		links: [
+			{
+				// tbc
+				url: '/planning-obligation',
+				text: 'View planning obligation',
+				condition: (appealCase) => appealCase.planningObligation
+			}
+		]
+	},
+	{
 		heading: 'Final comments',
 		links: [
 			{

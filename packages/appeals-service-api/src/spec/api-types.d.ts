@@ -455,6 +455,7 @@ export interface AppealCase {
 	otherTenantsAgriculturalHolding?: boolean;
 	informedTenantsAgriculturalHolding?: boolean;
 	statusPlanningObligation?: string;
+	planningObligation?: boolean;
 	rule6StatementPublished?: boolean;
 	rule6ProofsEvidencePublished?: boolean;
 	interestedPartyCommentsPublished?: boolean;

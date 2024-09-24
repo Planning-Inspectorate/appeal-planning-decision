@@ -539,6 +539,8 @@ components:
           type: boolean
         statusPlanningObligation:
           type: string
+        planningObligation:
+          type: boolean
 
         # rule 6
         rule6StatementPublished:
