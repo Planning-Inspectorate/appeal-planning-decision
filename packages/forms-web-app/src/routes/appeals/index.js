@@ -7,11 +7,13 @@ const noAppealsController = require('../../controllers/appeals/no-appeals');
 const selectedAppealRouter = require('./selected-appeal/selected-appeal');
 const finalCommentsRouter = require('./final-comments/index');
 const dynamicSubmission = require('../appellant-submission/submission-form');
+const hasListOfDocuments = require('../appeal-householder-decision/list-of-documents');
 
 router.use('/your-appeals', yourAppealsRouter);
 router.get('/no-appeals', noAppealsController.get);
 
 // householder appeals
+router.use('/householder/appeal-form/before-you-start', hasListOfDocuments);
 router.use('/householder', dynamicSubmission);
 
 // s78 appeals
