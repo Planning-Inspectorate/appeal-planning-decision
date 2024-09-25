@@ -80,6 +80,14 @@ const getLPAUser = async (req, userId) => {
 };
 
 /**
+ * removes user from session
+ * @param {import('express').Request} req
+ */
+const logoutUser = (req) => {
+	req.session.user = null;
+};
+
+/**
  * Returns the status of the LPA User. Status is either 'added' or 'confirmed'
  * @async
  * @param {import('express').Request} req
@@ -108,5 +116,6 @@ module.exports = {
 	createLPAUserSession,
 	getLPAUserStatus,
 	setLPAUserStatus,
-	getLPAUser
+	getLPAUser,
+	logoutUser
 };

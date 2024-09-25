@@ -46,7 +46,8 @@ jest.mock('../../../../src/services/user.service', () => {
 			};
 		},
 		setLPAUserStatus: jest.fn(),
-		getLPAUser: jest.fn()
+		getLPAUser: jest.fn(),
+		logoutUser: jest.fn()
 	};
 });
 jest.mock('../../../../src/featureFlag');

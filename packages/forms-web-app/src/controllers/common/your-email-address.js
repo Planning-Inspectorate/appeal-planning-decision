@@ -1,3 +1,5 @@
+const { logoutUser } = require('../../services/user.service');
+
 const getYourEmailAddress = (views) => {
 	return (req, res) => {
 		const { email } = req.session;
@@ -34,6 +36,8 @@ const postYourEmailAddress = (views) => {
 			});
 			return;
 		}
+
+		logoutUser(req);
 
 		try {
 			const user = await req.appealsApiClient.getUserByEmailV2(email);

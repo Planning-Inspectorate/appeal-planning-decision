@@ -3,7 +3,8 @@ const {
 	getLPAUser,
 	createLPAUserSession,
 	getLPAUserStatus,
-	setLPAUserStatus
+	setLPAUserStatus,
+	logoutUser
 } = require('../../services/user.service');
 const { createAppealUserSession } = require('../../services/user.service');
 const { isTokenValid } = require('#lib/is-token-valid');
@@ -110,6 +111,7 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 		}
 
 		if (isReturningFromEmail) {
+			logoutUser(req);
 			req.session.enterCode = req.session.enterCode || {};
 			req.session.enterCode.action = enterCodeConfig.actions.saveAndReturn;
 
