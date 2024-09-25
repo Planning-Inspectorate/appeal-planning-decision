@@ -819,6 +819,7 @@ const lpaAppealCaseData = [
 		},
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(1)),
 		caseDecisionPublishedDate: pickRandom(datesNMonthsAgo(1)),
+		planningObligation: true,
 		// questionnaire details
 		// constraints
 		isCorrectAppealType: true,
