@@ -1,7 +1,8 @@
 const {
 	documentExists,
 	hasNotificationMethods,
-	formatNotificationMethod
+	formatNotificationMethod,
+	sortDocumentsByDate
 } = require('./format-appeal-documents');
 const { LPA_NOTIFICATION_METHODS } = require('../database/data-static');
 
@@ -63,6 +64,32 @@ describe('format-case-type:', () => {
 					]
 				})
 			).toEqual('A site notice\nLetter/email to interested parties');
+		});
+	});
+	describe('sortDocumentsByDate', () => {
+		it('should sort documents by datePublished in ascending order', () => {
+			const documents = [
+				{ title: 'Doc 1', datePublished: '2023-09-11' },
+				{ title: 'Doc 2', datePublished: '2023-09-13' },
+				{ title: 'Doc 3', datePublished: '2023-09-10' }
+			];
+			const sortedDocs = sortDocumentsByDate(documents);
+
+			expect(sortedDocs).toEqual([
+				{ title: 'Doc 3', datePublished: '2023-09-10' },
+				{ title: 'Doc 1', datePublished: '2023-09-11' },
+				{ title: 'Doc 2', datePublished: '2023-09-13' }
+			]);
+		});
+		it('should return an empty array when no documents are provided', () => {
+			const documents = [];
+			const sortedDocs = sortDocumentsByDate(documents);
+			expect(sortedDocs).toEqual([]);
+		});
+		it('should return the same document if only one document is provided', () => {
+			const documents = [{ title: 'Doc 1', datePublished: '2023-09-11' }];
+			const sortedDocs = sortDocumentsByDate(documents);
+			expect(sortedDocs).toEqual([{ title: 'Doc 1', datePublished: '2023-09-11' }]);
 		});
 	});
 });
