@@ -58,6 +58,7 @@ const NumericValidator = require('./validator/numeric-validator');
 const SiteAddressQuestion = require('./dynamic-components/site-address/question');
 const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
 const UnitOptionEntryQuestion = require('./dynamic-components/unit-option-entry/question');
+const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
 
 inputMaxCharacters = Math.min(Number(inputMaxCharacters), 1000);
 
@@ -2034,7 +2035,7 @@ exports.questions = {
 		]
 	}),
 	additionalDocuments: new BooleanQuestion({
-		title: 'Do you have additional documents to support your appeal statement?',
+		title: 'Add supporting documents',
 		question: 'Do you have additional documents to support your appeal statement?',
 		fieldName: 'additionalDocuments',
 		url: 'additional-documents',
@@ -2045,7 +2046,7 @@ exports.questions = {
 		]
 	}),
 	uploadLpaStatementDocuments: new MultiFileUploadQuestion({
-		title: 'Upload your new supporting documents',
+		title: 'Supporting documents',
 		question: 'Upload your new supporting documents',
 		fieldName: 'uploadLpaStatementDocuments',
 		url: 'upload-supporting-documents',
@@ -2059,7 +2060,7 @@ exports.questions = {
 		title: 'Do you want to submit any final comments?',
 		question: 'Do you want to submit any final comments?',
 		fieldName: 'appellantFinalComment',
-		url: 'submit-final-comment',
+		url: 'submit-final-comments',
 		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
 	}),
 	appellantFinalCommentDetails: new TextEntryQuestion({
@@ -2068,6 +2069,11 @@ exports.questions = {
 		url: 'final-comments',
 		html: 'resources/appellant-final-comments/content.html',
 		fieldName: 'appellantFinalCommentDetails',
+		textEntryCheckbox: {
+			header: 'Your comments',
+			name: 'sensitiveInformationCheckbox',
+			text: 'I confirm that I have not included any sensitive information in my final comments'
+		},
 		validators: [
 			new RequiredValidator('Enter your final comments'),
 			new StringValidator({
@@ -2075,6 +2081,11 @@ exports.questions = {
 					maxLength: appealFormV2.textInputMaxLength,
 					maxLengthMessage: `Your final comments must be ${appealFormV2.textInputMaxLength} characters or less`
 				}
+			}),
+			new ConfirmationCheckboxValidator({
+				checkboxName: 'sensitiveInformationCheckbox',
+				errorMessage:
+					'You must confirm that you have not included any sensitive information in your final comments'
 			})
 		]
 	}),
@@ -2091,7 +2102,7 @@ exports.questions = {
 		]
 	}),
 	uploadAppellantFinalCommentDocuments: new MultiFileUploadQuestion({
-		title: 'Upload your new supporting documents',
+		title: 'New supporting documents',
 		question: 'Upload your new supporting documents',
 		fieldName: 'uploadAppellantFinalCommentDocuments',
 		url: 'upload-supporting-documents',
@@ -2108,6 +2119,32 @@ exports.questions = {
 		url: 'submit-final-comments',
 		validators: [new RequiredValidator('Select yes if you want to submit any final comments')]
 	}),
+	lpaFinalCommentDetails: new TextEntryQuestion({
+		title: 'Add your final comments',
+		question: 'Add your final comments',
+		url: 'final-comments',
+		html: 'resources/lpa-final-comments/comment-details.html',
+		fieldName: 'lpaFinalCommentDetails',
+		textEntryCheckbox: {
+			header: 'Your comments',
+			name: 'sensitiveInformationCheckbox',
+			text: 'I confirm that I have not included any sensitive information in my final comments'
+		},
+		validators: [
+			new RequiredValidator('Enter your final comments'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your final comments must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			}),
+			new ConfirmationCheckboxValidator({
+				checkboxName: 'sensitiveInformationCheckbox',
+				errorMessage:
+					'You must confirm that you have not included any sensitive information in your final comments'
+			})
+		]
+	}),
 	lpaFinalCommentDocuments: new BooleanQuestion({
 		title: 'Do you have additional documents to support your final comments?',
 		question: 'Do you have additional documents to support your final comments?',
@@ -2119,5 +2156,16 @@ exports.questions = {
 				'Select yes if you have additional documents to support your final comments'
 			)
 		]
+	}),
+	uploadLPAFinalCommentDocuments: new MultiFileUploadQuestion({
+		title: 'New supporting documents',
+		question: 'Upload your new supporting documents',
+		fieldName: 'uploadLPAFinalCommentDocuments',
+		url: 'upload-supporting-documents',
+		validators: [
+			new RequiredFileUploadValidator('Select your new supporting documents'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadLPAFinalCommentDocuments
 	})
 };

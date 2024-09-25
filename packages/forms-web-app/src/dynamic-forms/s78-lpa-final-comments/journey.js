@@ -2,7 +2,7 @@ const { questions } = require('../questions');
 const { Section } = require('../section');
 const config = require('../../config');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
-// const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
+const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
 
 /**
  * @typedef {import('../journey-response').JourneyResponse} JourneyResponse
@@ -14,10 +14,16 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
  * @returns {Section[]}
  */
 const sections = [
-	
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
-	.addQuestion(questions.lpaFinalComment)
-	.addQuestion(questions.lpaFinalCommentDocuments)
+		.addQuestion(questions.lpaFinalComment)
+		.addQuestion(questions.lpaFinalCommentDetails)
+		.withCondition((response) => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
+		.addQuestion(questions.lpaFinalCommentDocuments)
+		.withCondition((response) => questionHasAnswer(response, questions.lpaFinalComment, 'yes'))
+		.addQuestion(questions.uploadLPAFinalCommentDocuments)
+		.withCondition((response) =>
+			questionHasAnswer(response, questions.lpaFinalCommentDocuments, 'yes')
+		)
 ];
 
 const baseS78LPAFinalCommentsUrl = '/manage-appeals/final-comments';
@@ -31,7 +37,7 @@ const makeBaseUrl = (response) =>
 
 const params = {
 	journeyId: JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS,
-	journeyTemplate: 'final-comments-template.njk',
+	journeyTemplate: 'statement-template.njk',
 	listingPageViewPath: 'dynamic-components/task-list/final-comments',
 	journeyTitle: 'Manage your appeals',
 	sections,

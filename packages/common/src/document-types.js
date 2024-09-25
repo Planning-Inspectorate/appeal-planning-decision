@@ -622,6 +622,17 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
+	uploadLPAFinalCommentDocuments: {
+		name: 'uploadLPAFinalCommentDocuments',
+		dataModelName: '', // To be added once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
 	caseDecisionLetter: {
 		name: 'caseDecisionLetter',
 		dataModelName: APPEAL_DOCUMENT_TYPE.CASE_DECISION_LETTER,

@@ -93,7 +93,7 @@ router.get(
 
 // question
 router.get(
-	'/final-comments:referenceId/:question',
+	'/final-comments/:referenceId/:question',
 	setDefaultSection(),
 	getJourneyResponse(),
 	getJourney(journeys),
