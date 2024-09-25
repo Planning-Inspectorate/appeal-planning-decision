@@ -1,4 +1,4 @@
-const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { LPA_USER_ROLE, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 // General
 /**
@@ -68,11 +68,22 @@ const formatStatementHeading = (userType) => {
 	return 'Local planning authority';
 };
 
+// Planning obligation
+/**
+ * @param {string} userType
+ * @returns {string}
+ */
+const formatPlanningObligationTitlePrefix = (userType) => {
+	if (userType !== APPEAL_USER_ROLES.APPELLANT) return 'Appellant';
+	return 'Your';
+};
+
 module.exports = {
 	formatTitleSuffix,
 	formatQuestionnaireHeading,
 	formatFinalCommentsHeadingPrefix,
 	isAppellantComments,
 	getFinalComments,
-	formatStatementHeading
+	formatStatementHeading,
+	formatPlanningObligationTitlePrefix
 };

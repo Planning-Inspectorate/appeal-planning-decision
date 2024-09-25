@@ -83,7 +83,8 @@ const DocumentsArgsPublishedOnly = {
 		id: true,
 		publishedDocumentURI: true,
 		filename: true,
-		documentType: true
+		documentType: true,
+		datePublished: true
 	}
 };
 

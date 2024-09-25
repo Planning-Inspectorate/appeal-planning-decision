@@ -69,3 +69,11 @@ const formatDocumentLink = (document) => {
 		document.filename
 	)}</a>`;
 };
+
+/**
+ * @param {import('appeals-service-api').Api.Document[]} documents
+ * @returns {import('appeals-service-api').Api.Document[]}
+ */
+exports.sortDocumentsByDate = (documents) => {
+	return documents.sort((a, b) => new Date(a.datePublished) - new Date(b.datePublished));
+};
