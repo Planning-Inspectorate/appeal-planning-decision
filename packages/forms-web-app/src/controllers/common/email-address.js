@@ -10,6 +10,7 @@ const {
 	setSessionEnterCodeAction,
 	getSessionAppealId
 } = require('../../lib/session-helper');
+const { logoutUser } = require('../../services/user.service');
 
 const getEmailAddress = (views, appealInSession) => {
 	return (req, res) => {
@@ -78,6 +79,7 @@ const postEmailAddress = (views, appealInSession) => {
 		res.redirect(`/${views.ENTER_CODE}`);
 
 		function setSession() {
+			logoutUser(req);
 			setSessionEnterCode(req.session, {}, true);
 			setSessionEnterCodeAction(req.session, enterCodeConfig.actions.confirmEmail);
 		}

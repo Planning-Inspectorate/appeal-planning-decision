@@ -2,6 +2,7 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { enterCodeConfig } = require('@pins/common');
 const { VIEW } = require('../../lib/views');
+const { logoutUser } = require('../../services/user.service');
 
 const getEmailAddress = (req, res) => {
 	const { email } = req.session.appeal;
@@ -39,6 +40,7 @@ const postEmailAddress = async (req, res) => {
 		});
 	}
 
+	logoutUser(req);
 	req.session.enterCode = req.session.enterCode || {};
 	req.session.enterCode.action = enterCodeConfig.actions.confirmEmail;
 
