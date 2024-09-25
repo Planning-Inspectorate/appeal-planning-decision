@@ -17,7 +17,7 @@ const { journeys } = require('../../journeys');
 const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
 const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
 const {
-	skipIfNoAdditionalDocuments
+	lpaFinalCommentSkipConditions
 } = require('../../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
@@ -67,7 +67,7 @@ router.get(
 	'/final-comments/:referenceId',
 	getJourneyResponse(),
 	getJourney(journeys),
-	redirectToUnansweredQuestion([skipIfNoAdditionalDocuments]),
+	redirectToUnansweredQuestion([lpaFinalCommentSkipConditions]),
 	checkNotSubmitted(dashboardUrl),
 	lpaFinalCommentTaskList
 );
