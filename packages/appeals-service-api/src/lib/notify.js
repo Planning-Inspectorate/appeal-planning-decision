@@ -349,10 +349,12 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 /**
  * @param { AppellantFinalCommentSubmission } appellantFinalCommentSubmission
  * @param {string} emailAddress
+ * @param {string} appellantName
  */
 const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 	appellantFinalCommentSubmission,
-	emailAddress
+	emailAddress,
+	appellantName
 ) => {
 	try {
 		const {
@@ -379,12 +381,12 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 
 		let variables = {
 			appeal_reference_number: caseReference,
-			// 'appellant name'
+			'appellant name': appellantName,
 			'appeal site address': formattedAddress,
 			'deadline date': format(finalCommentsDueDate, 'dd MMMM yyyy')
 		};
 
-		logger.debug({ variables }, 'Sending email to Interested Party');
+		logger.debug({ variables }, 'Sending final comment email to appellant');
 
 		await NotifyBuilder.reset()
 			.setTemplateId(

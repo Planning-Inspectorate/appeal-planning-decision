@@ -27,6 +27,26 @@ class ServiceUserRepository {
 	}
 
 	/**
+	 * Get service user by id
+	 *
+	 * @param {string} serviceUserId
+	 * @param {string} caseReference
+	 * @returns {Promise<ServiceUser|null>}
+	 */
+	getServiceUserByIdAndCaseReference(serviceUserId, caseReference) {
+		return this.dbClient.serviceUser.findFirst({
+			where: {
+				id: serviceUserId,
+				caseReference
+			},
+			select: {
+				firstName: true,
+				lastName: true
+			}
+		});
+	}
+
+	/**
 	 * Get service user(s) by case reference and type
 	 *
 	 * @param {string} caseReference

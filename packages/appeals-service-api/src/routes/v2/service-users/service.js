@@ -9,3 +9,12 @@ const serviceUserRepository = new ServiceUserRepository();
 exports.put = (data) => {
 	return serviceUserRepository.put(data);
 };
+
+/**
+ * @param {string} serviceUserId
+ * @param {string} caseReference
+ * @returns {import('pins-data-model/src/schemas').ServiceUser}
+ */
+exports.getServiceUserByIdAndCaseReference = (serviceUserId, caseReference) => {
+	return serviceUserRepository.getServiceUserByIdAndCaseReference(serviceUserId, caseReference);
+};

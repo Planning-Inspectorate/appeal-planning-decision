@@ -38,6 +38,7 @@ const {
 	getLPAFinalCommentByAppealId,
 	markLPAFinalCommentAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/service');
+const { getServiceUserByIdAndCaseReference } = require('../../routes/v2/service-users/service');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -269,7 +270,19 @@ class BackOfficeV2Service {
 	async submitAppellantFinalCommentSubmission(caseReference, userId) {
 		const appellantFinalCommentSubmission = await getAppellantFinalCommentByAppealId(caseReference);
 
-		const { email } = await getUserById(userId);
+		const { email, serviceUserId } = await getUserById(userId);
+
+		let appellantName;
+
+		if (serviceUserId) {
+			const { firstName, lastName } = await getServiceUserByIdAndCaseReference(
+				serviceUserId,
+				caseReference
+			);
+			appellantName = firstName + ' ' + lastName;
+		} else {
+			appellantName = 'Appellant';
+		}
 
 		logger.info(
 			`forwarding appellant final comment submission for ${caseReference} to service bus`
@@ -281,7 +294,8 @@ class BackOfficeV2Service {
 		try {
 			await sendAppellantFinalCommentSubmissionEmailToAppellantV2(
 				appellantFinalCommentSubmission,
-				email
+				email,
+				appellantName
 			);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendAppellantFinalCommentSubmissionEmailToAppellantV2');
