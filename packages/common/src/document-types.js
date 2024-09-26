@@ -240,6 +240,7 @@ const documentTypes = {
 	},
 	planningObligations: {
 		name: 'planningObligations',
+		dataModelName: APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION,
 		multiple: true,
 		displayName: 'Planning obligation',
 		involvement: '',
@@ -323,6 +324,7 @@ const documentTypes = {
 	},
 	consultationResponsesUpload: {
 		name: 'consultationResponsesUpload',
+		dataModelName: APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -366,6 +368,7 @@ const documentTypes = {
 	},
 	emergingPlanUpload: {
 		name: 'emergingPlanUpload',
+		dataModelName: APPEAL_DOCUMENT_TYPE.EMERGING_PLAN,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -376,6 +379,7 @@ const documentTypes = {
 	},
 	uploadDevelopmentPlanPolicies: {
 		name: 'uploadDevelopmentPlanPolicies',
+		dataModelName: APPEAL_DOCUMENT_TYPE.developmentPlanPolicies,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -386,6 +390,7 @@ const documentTypes = {
 	},
 	uploadOtherRelevantPolicies: {
 		name: 'uploadOtherRelevantPolicies',
+		dataModelName: APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_POLICIES,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -396,6 +401,7 @@ const documentTypes = {
 	},
 	communityInfrastructureLevyUpload: {
 		name: 'communityInfrastructureLevyUpload',
+		dataModelName: APPEAL_DOCUMENT_TYPE.COMMUNITY_INFRASTRUCTURE_LEVY,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -417,6 +423,7 @@ const documentTypes = {
 	},
 	treePreservationPlanUpload: {
 		name: 'treePreservationPlanUpload',
+		dataModelName: APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -427,6 +434,7 @@ const documentTypes = {
 	},
 	uploadDefinitiveMap: {
 		name: 'uploadDefinitiveMap',
+		dataModelName: APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -437,6 +445,7 @@ const documentTypes = {
 	},
 	supplementaryPlanningUpload: {
 		name: 'supplementaryPlanningUpload',
+		dataModelName: APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -447,6 +456,7 @@ const documentTypes = {
 	},
 	uploadEnvironmentalStatement: {
 		name: 'uploadEnvironmentalStatement',
+		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_ENVIRONMENTAL_STATEMENT,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -457,6 +467,7 @@ const documentTypes = {
 	},
 	screeningOpinionUpload: {
 		name: 'screeningOpinionUpload',
+		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_SCREENING_OPINION,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -467,6 +478,7 @@ const documentTypes = {
 	},
 	uploadScreeningDirection: {
 		name: 'uploadScreeningDirection',
+		dataModelName: APPEAL_DOCUMENT_TYPE.EIA_SCREENING_DIRECTION,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -542,6 +554,7 @@ const documentTypes = {
 	},
 	uploadDesignAccessStatement: {
 		name: 'uploadDesignAccessStatement',
+		dataModelName: APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -552,6 +565,7 @@ const documentTypes = {
 	},
 	uploadPlansDrawings: {
 		name: 'uploadPlansDrawings',
+		dataModelName: APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -562,6 +576,7 @@ const documentTypes = {
 	},
 	uploadNewPlansDrawings: {
 		name: 'uploadNewPlansDrawings',
+		dataModelName: APPEAL_DOCUMENT_TYPE.NEW_PLANS_DRAWINGS,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -572,6 +587,7 @@ const documentTypes = {
 	},
 	uploadOtherNewDocuments: {
 		name: 'uploadOtherNewDocuments',
+		dataModelName: APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -582,6 +598,7 @@ const documentTypes = {
 	},
 	uploadStatementCommonGround: {
 		name: 'uploadStatementCommonGround',
+		dataModelName: APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND,
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -592,6 +609,7 @@ const documentTypes = {
 	},
 	uploadOwnershipCertificate: {
 		name: 'uploadOwnershipCertificate',
+		dataModelName: APPEAL_DOCUMENT_TYPE.OWNERSHIP_CERTIFICATE,
 		multiple: true,
 		displayName: '',
 		involvement: '',

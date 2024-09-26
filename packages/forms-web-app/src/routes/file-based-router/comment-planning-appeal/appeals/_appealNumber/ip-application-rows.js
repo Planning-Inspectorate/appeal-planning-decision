@@ -34,14 +34,14 @@ const applicationRows = (caseData) => {
 		},
 		{
 			keyText: 'Plans, drawings and supporting documents',
-			valueText: formatDocumentDetails(documents, 'plansDrawings'),
-			condition: () => documentExists(documents, 'plansDrawings'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			isEscaped: true
 		},
 		{
 			keyText: 'Design and access statement',
-			valueText: formatDocumentDetails(documents, 'designAccessStatement'),
-			condition: () => documentExists(documents, 'designAccessStatement'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT),
 			isEscaped: true
 		}
 	];

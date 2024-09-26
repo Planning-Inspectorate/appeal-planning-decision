@@ -17,8 +17,8 @@ const appealSubmissionRows = (caseData) => {
 	return [
 		{
 			keyText: 'Draft statement of common ground',
-			valueText: formatDocumentDetails(documents, 'statementCommonGround'),
-			condition: () => documentExists(documents, 'statementCommonGround'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
 			isEscaped: true
 		},
 		{
@@ -29,20 +29,20 @@ const appealSubmissionRows = (caseData) => {
 		},
 		{
 			keyText: 'Plans or drawings',
-			valueText: formatDocumentDetails(documents, 'plansDrawings'),
-			condition: () => documentExists(documents, 'plansDrawings'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			isEscaped: true
 		},
 		{
 			keyText: 'Planning obligation',
-			valueText: formatDocumentDetails(documents, 'planningObligation'),
-			condition: () => documentExists(documents, 'planningObligation'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
 			isEscaped: true
 		},
 		{
 			keyText: 'Supporting documents',
-			valueText: formatDocumentDetails(documents, 'otherNewDocuments'),
-			condition: () => documentExists(documents, 'otherNewDocuments'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
 			isEscaped: true
 		}
 	];

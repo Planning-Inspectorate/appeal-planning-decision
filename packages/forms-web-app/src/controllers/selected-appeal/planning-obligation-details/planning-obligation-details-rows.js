@@ -13,7 +13,7 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 exports.planningObligationRows = (caseData) => {
 	const documents = caseData.Documents || [];
-	const sortedDcocuments = sortDocumentsByDate(documents);
+	const sortedDocuments = sortDocumentsByDate(documents);
 
 	const rows = [
 		{
@@ -23,7 +23,7 @@ exports.planningObligationRows = (caseData) => {
 		},
 		{
 			keyText: 'Planning obligation',
-			valueText: formatDocumentDetails(sortedDcocuments, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
+			valueText: formatDocumentDetails(sortedDocuments, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
 			isEscaped: true
 		}
