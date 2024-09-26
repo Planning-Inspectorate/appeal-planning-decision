@@ -21,8 +21,8 @@ exports.planningOfficerReportRows = (caseData) => {
 		},
 		{
 			keyText: 'Uploaded policies from statutory development plan',
-			valueText: formatDocumentDetails(documents, 'developmentPlanPolicies'),
-			condition: () => documentExists(documents, 'developmentPlanPolicies'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.developmentPlanPolicies),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.developmentPlanPolicies),
 			isEscaped: true
 		},
 		{
@@ -32,14 +32,14 @@ exports.planningOfficerReportRows = (caseData) => {
 		},
 		{
 			keyText: 'Uploaded emerging plan and supporting information',
-			valueText: formatDocumentDetails(documents, 'emergingPlan'),
-			condition: () => documentExists(documents, 'emergingPlan'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN),
 			isEscaped: true
 		},
 		{
 			keyText: 'Uploaded other relevant policies',
-			valueText: formatDocumentDetails(documents, 'otherRelevantPolicies'),
-			condition: () => documentExists(documents, 'otherRelevantPolicies'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_POLICIES),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.OTHER_RELEVANT_POLICIES),
 			isEscaped: true
 		},
 		{
@@ -49,8 +49,8 @@ exports.planningOfficerReportRows = (caseData) => {
 		},
 		{
 			keyText: 'Uploaded supplementary planning documents',
-			valueText: formatDocumentDetails(documents, 'supplementaryPlanningDocs'),
-			condition: () => documentExists(documents, 'supplementaryPlanningDocs'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING),
 			isEscaped: true
 		},
 		{
@@ -60,8 +60,12 @@ exports.planningOfficerReportRows = (caseData) => {
 		},
 		{
 			keyText: 'Uploaded community infrastructure levy',
-			valueText: formatDocumentDetails(documents, 'infrastructureLevy'),
-			condition: () => documentExists(documents, 'infrastructureLevy'),
+			valueText: formatDocumentDetails(
+				documents,
+				APPEAL_DOCUMENT_TYPE.COMMUNITY_INFRASTRUCTURE_LEVY
+			),
+			condition: () =>
+				documentExists(documents, APPEAL_DOCUMENT_TYPE.COMMUNITY_INFRASTRUCTURE_LEVY),
 			isEscaped: true
 		},
 		{

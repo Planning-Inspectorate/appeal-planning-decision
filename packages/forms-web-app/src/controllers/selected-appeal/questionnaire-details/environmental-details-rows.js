@@ -6,6 +6,7 @@ const {
 	formatDocumentDetails,
 	documentExists
 } = require('@pins/common');
+const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
@@ -36,8 +37,8 @@ exports.environmentalRows = (caseData) => {
 		},
 		{
 			keyText: 'Uploaded screening direction',
-			valueText: formatDocumentDetails(documents, 'screeningDirection'),
-			condition: () => documentExists(documents, 'screeningDirection'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.EIA_SCREENING_DIRECTION),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.EIA_SCREENING_DIRECTION),
 			isEscaped: true
 		},
 		{
@@ -47,8 +48,8 @@ exports.environmentalRows = (caseData) => {
 		},
 		{
 			keyText: 'Uploaded screening opinion',
-			valueText: formatDocumentDetails(documents, 'screeningOpinion'),
-			condition: () => documentExists(documents, 'screeningOpinion'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.EIA_SCREENING_OPINION),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.EIA_SCREENING_OPINION),
 			isEscaped: true
 		},
 		{
@@ -63,8 +64,8 @@ exports.environmentalRows = (caseData) => {
 		},
 		{
 			keyText: 'Uploaded environmental statement',
-			valueText: formatDocumentDetails(documents, 'environmentalStatement'),
-			condition: () => documentExists(documents, 'environmentalStatement'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.EIA_ENVIRONMENTAL_STATEMENT),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.EIA_ENVIRONMENTAL_STATEMENT),
 			isEscaped: true
 		}
 	];

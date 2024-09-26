@@ -20,8 +20,8 @@ exports.consultationRows = (caseData) => {
 		},
 		{
 			keyText: 'Uploaded consultation responses and standing advice',
-			valueText: formatDocumentDetails(documents, 'consultationResponses'),
-			condition: () => documentExists(documents, 'consultationResponses'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES),
 			isEscaped: true
 		},
 		{

@@ -1,4 +1,9 @@
-const { formatYesOrNo, formatDesignations, formatDocumentDetails } = require('@pins/common');
+const {
+	formatYesOrNo,
+	formatDesignations,
+	formatDocumentDetails,
+	documentExists
+} = require('@pins/common');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
@@ -55,7 +60,7 @@ exports.constraintsRows = (caseData, user) => {
 		{
 			keyText: 'Uploaded conservation area map and guidance',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP),
-			condition: () => caseData.uploadConservation,
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP),
 			isEscaped: true
 		},
 		{
@@ -85,8 +90,8 @@ exports.constraintsRows = (caseData, user) => {
 		},
 		{
 			keyText: 'Uploaded Tree Preservation Order extent',
-			valueText: formatDocumentDetails(documents, 'treePreservationPlan'),
-			condition: () => caseData.uploadTreePreservationOrder,
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			isEscaped: true
 		},
 		{
@@ -101,8 +106,8 @@ exports.constraintsRows = (caseData, user) => {
 		},
 		{
 			keyText: 'Uploaded definitive map and statement extract',
-			valueText: formatDocumentDetails(documents, 'definitiveMap'),
-			condition: () => caseData.uploadDefinitiveMapStatement,
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
 			isEscaped: true
 		}
 	];

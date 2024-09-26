@@ -31,19 +31,19 @@ exports.documentsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Plans, drawings and supporting documents',
-			valueText: formatDocumentDetails(documents, 'plansDrawings'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			condition: () => true,
 			isEscaped: true
 		},
 		{
 			keyText: 'Separate ownership certificate in application',
-			valueText: formatDocumentDetails(documents, 'ownershipCertificate'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OWNERSHIP_CERTIFICATE),
 			condition: () => true,
 			isEscaped: true
 		},
 		{
 			keyText: 'Design and access statement in application',
-			valueText: formatDocumentDetails(documents, 'designAccessStatement'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DESIGN_ACCESS_STATEMENT),
 			condition: () => true,
 			isEscaped: true
 		},
@@ -61,7 +61,7 @@ exports.documentsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'New plans or drawings',
-			valueText: formatDocumentDetails(documents, 'newPlansDrawings'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.NEW_PLANS_DRAWINGS),
 			condition: () => true,
 			isEscaped: true
 		},
@@ -72,19 +72,19 @@ exports.documentsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Planning obligation',
-			valueText: formatDocumentDetails(documents, 'planningObligation'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION),
 			condition: () => true,
 			isEscaped: true
 		},
 		{
 			keyText: 'New supporting documents',
-			valueText: formatDocumentDetails(documents, 'otherNewDocuments'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_NEW_DOCUMENTS),
 			condition: () => true,
 			isEscaped: true
 		},
 		{
 			keyText: 'Draft statement of common ground',
-			valueText: formatDocumentDetails(documents, 'statementCommonGround'),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.STATEMENT_COMMON_GROUND),
 			condition: () => true,
 			isEscaped: true
 		},
