@@ -29,7 +29,7 @@ const appellants = {
 	appellantOne: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a11',
 		email: 'appellant1@planninginspectorate.gov.uk',
-		serviceUserId: '123451'
+		serviceUserId: '123475'
 	},
 	appellantTwo: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a12',
@@ -807,6 +807,14 @@ const serviceUsers = [
 		caseReference: caseReferences.caseReferenceNine,
 		firstName: 'Agent',
 		lastName: 'Nine'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc47',
+		id: '123475',
+		serviceUserType: 'Appellant',
+		caseReference: '6666666',
+		firstName: 'Appellant',
+		lastName: 'One'
 	}
 ];
 

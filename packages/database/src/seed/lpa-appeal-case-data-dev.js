@@ -30,7 +30,8 @@ const lpaAppealIds = {
 	appeal22: '7c8312e0-c724-4969-b7d4-441c60c6843b',
 	appeal23: '7c8312e0-c724-4969-b7d4-441c60c6844b',
 	appeal24: '7c8312e0-c724-4969-b7d4-441c60c6845b',
-	appeal25: '7c8312e0-c724-4969-b7d4-441c60c6846b'
+	appeal25: '7c8312e0-c724-4969-b7d4-441c60c6846b',
+	appeal75: '7b8312e0-c724-4969-b7d4-441c60c6741b'
 };
 
 /**
@@ -61,7 +62,8 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appeal22 },
 	{ id: lpaAppealIds.appeal23 },
 	{ id: lpaAppealIds.appeal24 },
-	{ id: lpaAppealIds.appeal25 }
+	{ id: lpaAppealIds.appeal25 },
+	{ id: lpaAppealIds.appeal75 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -766,6 +768,32 @@ const lpaAppealCaseData = [
 		},
 		...commonAppealCaseDataProperties,
 		caseReference: '0066666',
+		siteAddressLine1: 'Questionnaire and statement submitted',
+		siteAddressLine2: null,
+		siteAddressTown: 'Comments due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.FINAL_COMMENTS }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appeal75 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '6666666',
 		siteAddressLine1: 'Questionnaire and statement submitted',
 		siteAddressLine2: null,
 		siteAddressTown: 'Comments due',

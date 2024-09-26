@@ -36,8 +36,10 @@ class ServiceUserRepository {
 	getServiceUserByIdAndCaseReference(serviceUserId, caseReference) {
 		return this.dbClient.serviceUser.findFirst({
 			where: {
-				id: serviceUserId,
-				caseReference
+				AND: {
+					id: serviceUserId,
+					caseReference
+				}
 			},
 			select: {
 				firstName: true,
