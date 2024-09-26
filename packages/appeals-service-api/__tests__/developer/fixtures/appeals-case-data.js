@@ -28,6 +28,7 @@ function createTestAppealCase(
 		siteAddressTown: 'Testville',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: postCode,
+		siteAddressPostcodeSanitized: postCode.replace(' ', '').toUpperCase(),
 		appellantCostsAppliedFor: false,
 		LPACode: lpaCode,
 		casePublishedDate: publishedDate,

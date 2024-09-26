@@ -33,6 +33,9 @@ model Oidc {
   updatedAt  DateTime  @updatedAt
 
   @@unique([id, type])
+  @@index([userCode])
+  @@index([uid])
+  @@index([grantId])
 }
 
 /// AppealUser represents a user of our service(s)
@@ -95,6 +98,9 @@ model SecurityToken {
   attempts         Int      @default(0)
   /// the action the code was generated for, e.g. confirmEmail
   action           String?
+
+  // indexes
+  @@index([appealUserId])
 }
 
 /// Appeal is the base appeal model, used to link references to other entities, which includes, for example:
@@ -121,6 +127,9 @@ model Appeal {
 
   /// appellant v2 submission
   AppellantSubmission AppellantSubmission?
+
+  // indexes
+  @@index([legacyAppealSubmissionId])
 }
 
 /// AppealToUser represents the relationships between AppealUser and Appeal
@@ -139,6 +148,7 @@ model AppealToUser {
   Role AppealToUserRole @relation(fields: [role], references: [name])
 
   @@id([appealId, userId])
+  @@index([role])
 }
 
 /// AppealToUserRole represents the role a user has in relation to an Appeal
@@ -399,6 +409,12 @@ model AppealCase {
   AppealCaseLpaNotificationMethod AppealCaseLpaNotificationMethod[]
   InterestedPartyComments         InterestedPartyComment[]
   InterestedPartySubmissions      InterestedPartySubmission[]
+
+  // indexes
+  @@index([LPACode])
+  @@index([casePublishedDate])
+  @@index([caseDecisionOutcomeDate])
+  @@index([siteAddressPostcodeSanitized])
 }
 
 /// AppealCase relations
@@ -413,6 +429,10 @@ model AppealCaseRelationship {
 
   caseReference  String
   caseReference2 String
+
+  // indexes
+  @@index([caseReference])
+  @@index([caseReference2])
 }
 
 /// Lookup table for types of appeals processes, and appeal types such as D (Householder) and W (S78).
@@ -483,6 +503,10 @@ model AppealCaseListedBuilding {
 
   listedBuildingReference String
   ListedBuilding          ListedBuilding @relation(fields: [listedBuildingReference], references: [reference])
+
+  // indexes
+  @@index([caseReference])
+  @@index([listedBuildingReference])
 }
 
 /// possible notification methods.
@@ -500,6 +524,10 @@ model AppealCaseLpaNotificationMethod {
 
   lPANotificationMethodsKey String?
   LPANotificationMethod     LPANotificationMethods? @relation(fields: [lPANotificationMethodsKey], references: [key])
+
+  // indexes
+  @@index([caseReference])
+  @@index([lPANotificationMethodsKey])
 }
 
 model Event {
@@ -520,6 +548,9 @@ model Event {
   // link the event to the appeal case
   caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
 }
 
 model NeighbouringAddress {
@@ -537,6 +568,9 @@ model NeighbouringAddress {
   // relations
   caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
 }
 
 /// Document represents a document from the Back Office, and follows the PINS Data Model
@@ -579,6 +613,10 @@ model Document {
   // relations
   caseReference String
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
+  @@index([publishedDocumentURI])
 }
 
 // This table stores IP comments once they have been validated / processed by back office
@@ -589,6 +627,9 @@ model InterestedPartyComment {
   comment       String
   createdAt     DateTime   @default(now())
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
 }
 
 // This table stores unedited IP submissions at the point of submission to BO
@@ -606,6 +647,9 @@ model InterestedPartySubmission {
   comments      String
   createdAt     DateTime   @default(now())
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([caseReference])
 }
 
 /// ServiceUser represents any user of PINS Services, and follows the PINS Data Model
@@ -644,6 +688,10 @@ model ServiceUser {
   serviceUserType String
   /// case reference this user + user-type relates to
   caseReference   String
+
+  // indexes
+  @@index([caseReference])
+  @@index([caseReference, serviceUserType])
 }
 
 /// AppellantSubmission represents an appeal submitted by an appellant
@@ -748,6 +796,9 @@ model AppellantSubmission {
   siteAddress              Boolean?
   SubmissionAddress        SubmissionAddress[]
   SubmissionListedBuilding SubmissionListedBuilding[]
+
+  // indexes
+  @@index([submitted, updatedAt])
 }
 
 /// LPAQuestionnaireSubmission represents the questionnaire responses from an LPAUser
@@ -843,6 +894,9 @@ model LPAQuestionnaireSubmission {
   SubmissionAddress        SubmissionAddress[]
   SubmissionLinkedCase     SubmissionLinkedCase[]
   SubmissionListedBuilding SubmissionListedBuilding[]
+
+  // indexes
+  @@index([appealCaseReference])
 }
 
 model LPAStatementSubmission {
@@ -865,6 +919,9 @@ model LPAStatementSubmission {
   // Uploaded documents and details linked to this appeal
   uploadLpaStatementDocuments Boolean?
   SubmissionDocumentUpload    SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([appealCaseReference])
 }
 
 model LPAFinalCommentSubmission {
@@ -888,6 +945,9 @@ model LPAFinalCommentSubmission {
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([caseReference])
 }
 
 model AppellantFinalCommentSubmission {
@@ -911,6 +971,9 @@ model AppellantFinalCommentSubmission {
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
+
+  // indexes
+  @@index([caseReference])
 }
 
 model SubmissionDocumentUpload {
@@ -937,6 +1000,13 @@ model SubmissionDocumentUpload {
   location         String
   type             String
   storageId        String @default("")
+
+  // indexes
+  @@index([questionnaireId])
+  @@index([appellantSubmissionId])
+  @@index([lpaStatementId])
+  @@index([appellantFinalCommentId])
+  @@index([lpaFinalCommentId])
 }
 
 model SubmissionAddress {
@@ -956,6 +1026,10 @@ model SubmissionAddress {
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
   fieldName String
+
+  //indexes
+  @@index([questionnaireId])
+  @@index([appellantSubmissionId])
 }
 
 model SubmissionLinkedCase {
@@ -971,6 +1045,10 @@ model SubmissionLinkedCase {
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
   fieldName String
+
+  //indexes
+  @@index([lPAQuestionnaireSubmissionId])
+  @@index([appellantSubmissionId])
 }
 
 model SubmissionListedBuilding {
@@ -988,6 +1066,10 @@ model SubmissionListedBuilding {
 
   // the fieldName of the questionnaire question / subquestion - required for display filtering
   fieldName String
+
+  // indexes
+  @@index([lPAQuestionnaireSubmissionId])
+  @@index([appellantSubmissionId])
 }
 
 model Rule6Party {
@@ -1027,4 +1109,8 @@ model Rule6Party {
 
   //Optional link to AppealCase
   AppealCase AppealCase? @relation(fields: [caseReference], references: [caseReference])
+
+  // indexes
+  @@index([appealUserId])
+  @@index([caseReference])
 }
