@@ -9,7 +9,7 @@ const {
 } = require('../utils');
 const deadlineDate = require('@pins/business-rules/src/rules/appeal/deadline-date');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
-
+const { APPEAL_CASE_PROCEDURE, APPEAL_CASE_TYPE } = require('pins-data-model');
 /**
  * @typedef {import ('pins-data-model').Schemas.AppellantSubmissionCommand} AppellantSubmissionCommand
  * @typedef {import('@prisma/client').Prisma.AppellantSubmissionGetPayload<{
@@ -57,8 +57,8 @@ exports.formatter = async (appellantSubmission) => {
 	return {
 		casedata: {
 			submissionId: appellantSubmission.appealId,
-			caseType: 'D',
-			caseProcedure: 'written',
+			caseType: APPEAL_CASE_TYPE.D,
+			caseProcedure: APPEAL_CASE_PROCEDURE.WRITTEN,
 			lpaCode: lpa.getLpaCode(),
 			caseSubmittedDate: new Date().toISOString(),
 			enforcementNotice: false, // this will eventually come from before you start
