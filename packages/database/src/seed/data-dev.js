@@ -28,7 +28,8 @@ const getFutureDate = (daysToAdd, hour = 12) => {
 const appellants = {
 	appellantOne: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a11',
-		email: 'appellant1@planninginspectorate.gov.uk'
+		email: 'appellant1@planninginspectorate.gov.uk',
+		serviceUserId: '123451'
 	},
 	appellantTwo: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91a12',
