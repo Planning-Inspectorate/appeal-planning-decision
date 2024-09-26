@@ -197,8 +197,8 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 					question: 'question',
 					validators: [],
 					fieldName: 'field1',
-					subQuestionType: 'case',
 					subQuestionProps: {
+						type: 'case',
 						title: 'sub-title',
 						question: 'sub-question',
 						viewFolder: 'sub-view',

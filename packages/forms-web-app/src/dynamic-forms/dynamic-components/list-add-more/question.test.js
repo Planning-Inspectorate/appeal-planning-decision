@@ -21,8 +21,8 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			fieldName: FIELDNAME,
 			url: URL,
 			validators: VALIDATORS,
-			subQuestionType: 'case',
 			subQuestionProps: {
+				type: 'case',
 				title: TITLE,
 				question: QUESTION_STRING,
 				fieldName: 'sub' + FIELDNAME,
@@ -52,7 +52,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 						description: DESCRIPTION,
 						fieldName: FIELDNAME
 					})
-			).toThrow('subQuestions[subQuestionType] is not a constructor');
+			).toThrow("Cannot read properties of undefined (reading 'type')");
 
 			expect(
 				() =>
@@ -63,7 +63,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 						fieldName: FIELDNAME,
 						subQuestionProps: {}
 					})
-			).toThrow('subQuestions[subQuestionType] is not a constructor');
+			).toThrow('subQuestions[subQuestionProps.type] is not a constructor');
 		});
 	});
 
