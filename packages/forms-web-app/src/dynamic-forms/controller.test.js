@@ -402,8 +402,8 @@ describe('dynamic-form/controller', () => {
 			title: TITLE,
 			fieldName: FIELDNAME,
 			question: QUESTION_STRING,
-			subQuestionType: 'case',
 			subQuestionProps: {
+				type: 'case',
 				title: TITLE,
 				fieldName: FIELDNAME,
 				question: QUESTION_STRING,
