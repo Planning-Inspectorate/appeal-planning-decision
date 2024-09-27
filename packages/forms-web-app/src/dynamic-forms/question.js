@@ -3,6 +3,8 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
 const { numericFields } = require('./dynamic-components/utils/numeric-fields');
 const escape = require('escape-html');
 const { nl2br } = require('@pins/common/src/utils');
+const RequiredValidator = require('./validator/required-validator');
+const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -377,6 +379,18 @@ class Question {
 	}
 
 	NOT_STARTED = 'Not started';
+
+	isRequired = this.validators?.some(
+		(item) => item instanceof RequiredValidator || item instanceof RequiredFileUploadValidator
+	);
+
+	/**
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {boolean}
+	 */
+	isAnswered(journeyResponse) {
+		return !!journeyResponse.answers[this.fieldName];
+	}
 }
 
 module.exports = Question;
