@@ -28,7 +28,7 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
  */
 class MultiFileUploadQuestion extends Question {
 	/**
-	 * @type {Object} document type
+	 * @type {import('@pins/common/src/document-types').DocType} document type
 	 */
 	documentType;
 
@@ -363,6 +363,20 @@ class MultiFileUploadQuestion extends Question {
 
 	checkForSavingErrors(req, section, journey) {
 		return super.checkForValidationErrors(req, section, journey);
+	}
+
+	/**
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {boolean}
+	 */
+	isAnswered(journeyResponse) {
+		const answer = journeyResponse.answers[this.fieldName];
+		return (
+			answer === 'yes' &&
+			journeyResponse.answers.SubmissionDocumentUpload.some(
+				(upload) => upload.type === this.documentType.name
+			)
+		);
 	}
 }
 

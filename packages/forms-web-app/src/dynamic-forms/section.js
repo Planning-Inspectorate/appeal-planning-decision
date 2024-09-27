@@ -1,9 +1,3 @@
-const AddressAddMoreQuestion = require('./dynamic-components/address-add-more/question');
-const CaseAddMoreQuestion = require('./dynamic-components/case-add-more/question');
-const ListedBuildingAddMoreQuestion = require('./dynamic-components/listed-building-add-more/question');
-const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
-const RequiredValidator = require('./validator/required-validator');
-
 /**
  * @typedef {import('./question')} Question
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
@@ -25,7 +19,7 @@ class Section {
 	segment;
 
 	/**
-	 * @type {Array.<Question>} - questions within the section
+	 * @type {Array<Question>} - questions within the section
 	 */
 	questions = [];
 
@@ -81,58 +75,21 @@ class Section {
 		let requiredQuestionCount = 0;
 		let requiredAnswerCount = 0;
 		let answerCount = 0;
-		let missingRequiredItems = false;
 
 		for (let question of this.questions) {
-			//todo: rather than use instanceof can isRequired be a property on BaseValidator?
-			const isRequired = question.validators?.some(
-				(item) => item instanceof RequiredValidator || item instanceof RequiredFileUploadValidator
-			);
-			const answer = journeyResponse?.answers[question.fieldName];
-
-			// skip if question is hidden from journey
 			if (!question.shouldDisplay(journeyResponse)) {
 				continue;
 			}
 
-			// increment count of required questions
-			if (isRequired) {
+			if (question.isRequired) {
 				requiredQuestionCount++;
 			}
 
-			if (question.documentType && answer === 'yes') {
-				missingRequiredItems = !journeyResponse.answers.SubmissionDocumentUpload.some(
-					(upload) => upload.type === question.documentType.name
-				);
+			if (question.isAnswered(journeyResponse)) {
+				answerCount++;
 			}
 
-			if (question.subQuestion instanceof AddressAddMoreQuestion) {
-				missingRequiredItems = !journeyResponse.answers.SubmissionAddress.some(
-					(address) => address.fieldName === question.subQuestion.fieldName
-				);
-			}
-
-			if (question.subQuestion instanceof CaseAddMoreQuestion) {
-				missingRequiredItems = !journeyResponse.answers.SubmissionLinkedCase.some(
-					(caseref) => caseref.fieldName === question.subQuestion.fieldName
-				);
-			}
-
-			if (question.subQuestion instanceof ListedBuildingAddMoreQuestion) {
-				missingRequiredItems = !journeyResponse.answers.SubmissionListedBuilding.some(
-					(listed) => listed.fieldName === question.subQuestion.fieldName
-				);
-			}
-
-			// move to next question if answer not provided for this question or for file / address upload questions the length of uploaded files is less than 1
-			if (answer === undefined || answer === null || missingRequiredItems) {
-				continue;
-			}
-
-			answerCount++;
-
-			// increment count of required answers in this section
-			if (isRequired) {
+			if (question.isAnswered(journeyResponse) && question.isRequired) {
 				requiredAnswerCount++;
 			}
 		}
@@ -154,7 +111,7 @@ class Section {
 	/**
 	 * checks answers on response and return true if the status of the section is complete
 	 * @param {JourneyResponse} journeyResponse
-	 * @returns {SectionStatus}
+	 * @returns {boolean}
 	 */
 	isComplete(journeyResponse) {
 		return this.getStatus(journeyResponse) === SECTION_STATUS.COMPLETE;

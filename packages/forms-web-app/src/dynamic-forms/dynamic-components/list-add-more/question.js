@@ -321,6 +321,32 @@ class ListAddMoreQuestion extends Question {
 	async removeAction(req, journeyResponse, answerId) {
 		return this.subQuestion.removeList(req, journeyResponse, answerId);
 	}
+
+	/**
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {boolean}
+	 */
+	isAnswered(journeyResponse) {
+		if (this.subQuestion instanceof AddressAddMoreQuestion) {
+			return journeyResponse.answers.SubmissionAddress.some(
+				(address) => address.fieldName === this.subQuestion.fieldName
+			);
+		}
+
+		if (this.subQuestion instanceof CaseAddMoreQuestion) {
+			return journeyResponse.answers.SubmissionLinkedCase.some(
+				(caseref) => caseref.fieldName === this.subQuestion.fieldName
+			);
+		}
+
+		if (this.subQuestion instanceof ListedBuildingAddMoreQuestion) {
+			return journeyResponse.answers.SubmissionListedBuilding.some(
+				(listed) => listed.fieldName === this.subQuestion.fieldName
+			);
+		}
+
+		return false;
+	}
 }
 
 module.exports = ListAddMoreQuestion;
