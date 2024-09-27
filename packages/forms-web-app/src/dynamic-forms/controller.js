@@ -9,6 +9,21 @@ const {
 	formatBeforeYouStartSection,
 	formattedSubmissionDate
 } = require('./dynamic-components/utils/submission-information-utils');
+const { APPEAL_ID } = require('@pins/business-rules/src/constants');
+const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { getDepartmentFromId } = require('../services/department.service');
+const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
+
+const appealTypeToDetails = {
+	[APPEAL_ID.HOUSEHOLDER]: {
+		appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
+		taskListUrlStub: 'householder'
+	},
+	[APPEAL_ID.PLANNING_SECTION_78]: {
+		appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78,
+		taskListUrlStub: 'full-planning'
+	}
+};
 
 /**
  * @typedef {import('@pins/common/src/dynamic-forms/journey-types').JourneyType} JourneyType
@@ -288,6 +303,54 @@ exports.submitLpaStatement = async (req, res) => {
 
 	return res.redirect(
 		`/manage-appeals/appeal-statement/${referenceId}/submitted-appeal-statement/`
+	);
+};
+
+// Before You Start documents list
+/**
+ * @type {import('express').Handler}
+ */
+exports.appellantBYSListOfDocuments = async (req, res) => {
+	const appeal = req.session.appeal;
+
+	const usingV2Form = true;
+
+	if (appeal.appealType == APPEAL_ID.HOUSEHOLDER) {
+		res.render('appeal-householder-decision/list-of-documents', { usingV2Form });
+	} else if (appeal.appealType == APPEAL_ID.PLANNING_SECTION_78) {
+		res.render('full-appeal/submit-appeal/list-of-documents', { usingV2Form });
+	} else {
+		res.render('./error/not-found.njk');
+	}
+};
+
+// Generate appellant submission
+/**
+ * @type {import('express').Handler}
+ */
+exports.appellantStartAppeal = async (req, res) => {
+	const appeal = req.session.appeal;
+	const appealType = appeal.appealType;
+
+	const lpa = await getDepartmentFromId(appeal.lpaCode);
+	const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
+
+	const appealTypeDetails = appealTypeToDetails[appealType];
+
+	const appealSubmission = await req.appealsApiClient.createAppellantSubmission({
+		appealId: appeal.appealSqlId,
+		LPACode: lpaCode,
+		appealTypeCode: appealTypeDetails.appealTypeCode,
+		applicationDecisionDate: appeal.decisionDate,
+		applicationReference: appeal.planningApplicationNumber,
+		applicationDecision: appeal.eligibility.applicationDecision
+	});
+
+	await deleteAppeal(appeal.id);
+	req.session.appeal = null;
+
+	return res.redirect(
+		`/appeals/${appealTypeDetails.taskListUrlStub}/appeal-form/your-appeal?id=${appealSubmission.id}`
 	);
 };
 

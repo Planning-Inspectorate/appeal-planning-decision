@@ -7,7 +7,9 @@ const {
 	appellantSubmissionDeclaration,
 	appellantSubmissionInformation,
 	appellantSubmitted,
-	submitAppellantSubmission
+	submitAppellantSubmission,
+	appellantBYSListOfDocuments,
+	appellantStartAppeal
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -67,6 +69,10 @@ const appellantSubmissionTaskList = async (req, res) => {
 		formattedDeadline
 	});
 };
+
+router.get('/appeal-form/before-you-start', appellantBYSListOfDocuments);
+
+router.post('/appeal-form/before-you-start', appellantStartAppeal);
 
 router.get(
 	'/appeal-form/your-appeal',

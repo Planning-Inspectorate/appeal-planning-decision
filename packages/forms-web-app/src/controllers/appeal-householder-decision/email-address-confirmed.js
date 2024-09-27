@@ -6,6 +6,9 @@ const { isFeatureActive } = require('../../featureFlag');
 const getEmailConfirmed = async (req, res) => {
 	const appeal = req.session.appeal;
 
+	console.log('eeekkkeeekkk');
+	console.log(appeal);
+
 	const lpa = await getDepartmentFromId(appeal.lpaCode);
 	const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
 
