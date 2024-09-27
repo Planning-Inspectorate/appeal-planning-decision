@@ -28,39 +28,67 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">      
       <form action="" method="post" novalidate>
-        <input type="hidden" name="_csrf" value="{{_csrf}}">
+        <input type="hidden" name="_csrf" value="{{_csrf}}">        
         
-        {% call govukFieldset({
+        {% if question.legend %}
+          <h1 class="govuk-heading-l">{{question.question}}</h1>
+          <p class="govuk-body">{{question.description}}</p>
+
+          {% if question.html %}
+              {% include question.html ignore missing %}
+          {% endif %}
+
+          {{ govukRadios({
+              classes: "govuk-radios",
+              idPrefix: question.fieldName,
+              name: question.fieldName,
+              errorMessage: errors[question.fieldName] and {
+                text: errors[question.fieldName].msg
+              },
+              fieldset: {
+              legend: {
+                  text: question.legend,                  
+                  classes: "govuk-fieldset__legend--m"
+                }
+              },
+              items: question.options
+          }) }}
+
+        {% else %}
+
+          {% call govukFieldset({
             legend: {
                 text: question.question,
                 classes: "govuk-fieldset__legend--l",
                 isPageHeading: true
             }
-        }) %}
+          }) %}
 
-        <p class="govuk-body">{{question.description}}</p>
-        {% if question.html %}
-          {% include question.html ignore missing %}
+          <p class="govuk-body">{{question.description}}</p>
+
+          {% if question.html %}
+            {% include question.html ignore missing %}
+          {% endif %}
+
+          {{ govukRadios({
+            classes: "govuk-radios",
+            idPrefix: question.fieldName,
+            name: question.fieldName,
+            errorMessage: errors[question.fieldName] and {
+              text: errors[question.fieldName].msg
+            },
+            items: question.options
+          }) }}
+
+          {% endcall %}
+
         {% endif %}
-
-        {{ govukRadios({
-          classes: "govuk-radios",
-          idPrefix: question.fieldName,
-          name: question.fieldName,
-          errorMessage: errors[question.fieldName] and {
-            text: errors[question.fieldName].msg
-          },
-          items: question.options
-        }) }}
-
-        {% endcall %}
 
         {{ govukButton({
           text: "Continue",
           type: "submit",
           attributes: { "data-cy":"button-save-and-continue"}
         }) }}
-        
       </form>
     </div>
   </div>
