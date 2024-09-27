@@ -9,7 +9,6 @@ const error = require('./error');
 const sharedBFS = require('./before-you-start/index');
 const fullAppealBFS = require('./full-appeal/before-you-start');
 const hasAppealBFS = require('./householder-planning/before-you-start');
-const confirmEmailAddress = require('./confirm-email-address');
 const householder = require('./appeal-householder-decision');
 const fullAppeal = require('./full-appeal');
 const appeal = require('./appeal/');
@@ -54,9 +53,6 @@ router.use('/error', error);
 router.use('/before-you-start', sharedBFS);
 router.use('/before-you-start', checkAppealExists, checkDecisionDateDeadline, fullAppealBFS);
 router.use('/before-you-start', checkAppealExists, checkDecisionDateDeadline, hasAppealBFS);
-
-/// confirm-email-address ///
-router.use('/confirm-email-address', confirmEmailAddress);
 
 /// appeal-householder-decision ///
 router.use('/appeal-householder-decision', householder);
