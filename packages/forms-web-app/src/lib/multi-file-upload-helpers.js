@@ -114,8 +114,18 @@ const removeFilesV2 = async (
 	return failedRemovals;
 };
 
+/**
+ * @param {unknown} object
+ * @returns {object is { uploadedFiles: import('src/dynamic-forms/dynamic-components/multi-file-upload/question').UploadedFiles }} // this'll become an FO only type
+ */
+const isObjectWithUploadedFiles = (object) => {
+	// todo check keys
+	return !!object && Object.hasOwn(object, 'uploadedFiles');
+};
+
 module.exports = {
 	getValidFiles,
 	removeFiles,
-	removeFilesV2
+	removeFilesV2,
+	isObjectWithUploadedFiles
 };

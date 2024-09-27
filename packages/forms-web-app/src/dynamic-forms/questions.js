@@ -49,6 +49,7 @@ const {
 	}
 } = require('../config');
 const { createQuestions } = require('./create-questions');
+const { getDataToSave } = require('../journeys/question-overrides/multi-file-upload');
 
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
 /** @typedef {import('./question')} Question */
@@ -2238,4 +2239,6 @@ const questionClasses = {
 	'list-add-more': ListAddMoreQuestion
 };
 
-exports.questions = createQuestions(exports.questionProps, questionClasses);
+exports.questions = createQuestions(exports.questionProps, questionClasses, {
+	'multi-file-upload': { getDataToSave }
+});
