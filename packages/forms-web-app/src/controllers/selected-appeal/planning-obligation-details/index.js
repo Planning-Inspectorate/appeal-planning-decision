@@ -10,7 +10,7 @@ const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 
 /**
- * Shared controller for /appeals/:caseRef/interested-party-comments, manage-appeals/:caseRef/interested-party-comments
+ * Shared controller for /appeals/:caseRef/planning-obligation, manage-appeals/:caseRef/appellant-planning-obligation
  * @param {string} layoutTemplate - njk template to extend
  * @returns {import('express').RequestHandler}
  */

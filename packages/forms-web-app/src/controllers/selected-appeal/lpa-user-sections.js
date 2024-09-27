@@ -29,12 +29,12 @@ exports.sections = [
 			{
 				url: '/statement',
 				text: 'View your statement',
-				condition: (appealCase) => appealCase.lpaStatementPublished
+				condition: (appealCase) => !!appealCase.lpaStatementPublished
 			},
 			{
 				url: '/rule-6-statements',
 				text: 'View other party statements',
-				condition: (appealCase) => appealCase.rule6StatementPublished
+				condition: (appealCase) => !!appealCase.rule6StatementPublished
 			}
 		]
 	},
@@ -44,7 +44,17 @@ exports.sections = [
 			{
 				url: '/interested-party-comments',
 				text: 'View interested party comments',
-				condition: (appealCase) => appealCase.interestedPartyCommentsPublished
+				condition: (appealCase) => !!appealCase.interestedPartyCommentsPublished
+			}
+		]
+	},
+	{
+		heading: 'Planning obligation',
+		links: [
+			{
+				url: '/appellant-planning-obligation',
+				text: 'View the appellant’s planning obligation',
+				condition: (appealCase) => !!appealCase.planningObligation
 			}
 		]
 	},
@@ -54,12 +64,12 @@ exports.sections = [
 			{
 				url: '/final-comments',
 				text: 'View your final comments',
-				condition: (appealCase) => appealCase.lpaFinalCommentsPublished
+				condition: (appealCase) => !!appealCase.lpaFinalCommentsPublished
 			},
 			{
 				url: '/appellant-final-comments',
 				text: 'View appellant final comments',
-				condition: (appealCase) => appealCase.appellantFinalCommentsSubmitted
+				condition: (appealCase) => !!appealCase.appellantFinalCommentsSubmitted
 			}
 		]
 	},
@@ -69,17 +79,17 @@ exports.sections = [
 			{
 				url: '/lpa-proof-of-evidences',
 				text: 'View your proof of evidence and witnesses',
-				condition: (appealCase) => appealCase.lpaProofEvidencePublished
+				condition: (appealCase) => !!appealCase.lpaProofEvidencePublished
 			},
 			{
 				url: '/proof-of-evidences',
 				text: "View the appellant's proof of evidence and witnesses",
-				condition: (appealCase) => appealCase.appellantProofEvidencePublished
+				condition: (appealCase) => !!appealCase.appellantProofEvidencePublished
 			},
 			{
 				url: '/rule-6-proof-of-evidences',
 				text: 'View proof of evidence and witnesses from other parties',
-				condition: (appealCase) => appealCase.rule6ProofsEvidencePublished
+				condition: (appealCase) => !!appealCase.rule6ProofsEvidencePublished
 			}
 		]
 	}
