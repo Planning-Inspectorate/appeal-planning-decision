@@ -24,6 +24,8 @@ const { format } = require('date-fns');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { getJourney } = require('../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../journeys');
+const checkDecisionDateDeadline = require('../../middleware/check-decision-date-deadline');
+const checkAppealExists = require('../../middleware/check-appeal-exists');
 
 const {
 	VIEW: {
@@ -70,9 +72,19 @@ const appellantSubmissionTaskList = async (req, res) => {
 	});
 };
 
-router.get('/appeal-form/before-you-start', appellantBYSListOfDocuments);
+router.get(
+	'/appeal-form/before-you-start',
+	checkAppealExists,
+	checkDecisionDateDeadline,
+	appellantBYSListOfDocuments
+);
 
-router.post('/appeal-form/before-you-start', appellantStartAppeal);
+router.post(
+	'/appeal-form/before-you-start',
+	checkAppealExists,
+	checkDecisionDateDeadline,
+	appellantStartAppeal
+);
 
 router.get(
 	'/appeal-form/your-appeal',
