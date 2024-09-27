@@ -49,6 +49,10 @@ const {
 		}
 	}
 } = require('../config');
+const { createQuestions } = require('./create-questions');
+
+/** @typedef {import('./question-props').QuestionProps} QuestionProps */
+/** @typedef {import('./question')} Question */
 
 const inputMaxCharacters = Math.min(Number(configInputMaxCharacters), 1000);
 
@@ -66,8 +70,6 @@ const getDate = (tense, days = 60) =>
 		}[tense](new Date(), { days }),
 		'd M yyyy'
 	);
-
-/** @typedef {import('./question-props').QuestionProps} QuestionProps */
 
 // Define all questions
 /** @type {Record<string, QuestionProps>} */
@@ -2278,25 +2280,32 @@ exports.questionProps = {
 	}
 };
 
+// This looks a bit grim because so few of our
+// Questions overlap with Question correctly.
+// Maybe something to fix at some point
+/** @type {Record<string, typeof import('./question')>} */
 const questionClasses = {
+	// @ts-ignore
 	checkbox: CheckboxQuestion,
+	// @ts-ignore
 	'multi-file-upload': MultiFileUploadQuestion,
+	// @ts-ignore
 	boolean: BooleanQuestion,
+	// @ts-ignore
 	radio: RadioQuestion,
+	// @ts-ignore
 	date: DateQuestion,
 	'text-entry': TextEntryQuestion,
 	'single-line-input': SingleLineInputQuestion,
+	// @ts-ignore
 	'multi-field-input': MultiFieldInputQuestion,
 	number: NumberEntryQuestion,
+	// @ts-ignore
 	'site-address': SiteAddressQuestion,
+	// @ts-ignore
 	'unit-option': UnitOptionEntryQuestion,
+	// @ts-ignore
 	'list-add-more': ListAddMoreQuestion
 };
 
-exports.questions = Object.fromEntries(
-	Object.entries(exports.questionProps).map(([key, props]) => [
-		key,
-		// @ts-ignore
-		new questionClasses[props.type](props)
-	])
-);
+exports.questions = createQuestions(exports.questionProps, questionClasses);

@@ -43,7 +43,7 @@ class Journey {
 
 	/**
 	 * creates an instance of a journey
-	 * @param {object} options - base url of journey
+	 * @param {object} options
 	 * @param {string} options.journeyId - a unique, human-readable id for this journey
 	 * @param {(response: JourneyResponse) => string} options.makeBaseUrl - base url of journey
 	 * @param {string} [options.taskListUrl] - task list url - added to base url, can be left undefined
