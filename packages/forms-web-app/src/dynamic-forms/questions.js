@@ -31,6 +31,7 @@ const UnitOptionEntryValidator = require('./validator/unit-option-entry-validato
 const DateValidator = require('./validator/date-validator');
 const MultiFieldInputValidator = require('./validator/multi-field-input-validator');
 const NumericValidator = require('./validator/numeric-validator');
+const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
 
 const { add, sub, format: formatDate } = require('date-fns');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
@@ -48,8 +49,6 @@ const {
 		}
 	}
 } = require('../config');
-
-const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox-validator');
 
 const inputMaxCharacters = Math.min(Number(configInputMaxCharacters), 1000);
 
