@@ -1,4 +1,8 @@
-const { getValidFiles, removeFilesV2 } = require('../../../lib/multi-file-upload-helpers');
+const {
+	isObjectWithUploadedFiles,
+	getValidFiles,
+	removeFilesV2
+} = require('../../../lib/multi-file-upload-helpers');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
 const {
@@ -15,7 +19,7 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
  */
 
 /**
- * @typedef {Array} UploadedFiles
+ * @typedef {Array<{ id: string; type: string; originalFileName: string; storageId: string }>} UploadedFiles
  */
 
 /**
@@ -40,32 +44,30 @@ class MultiFileUploadQuestion extends Question {
 	 * @param {string} [params.url]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
-	 * @param {Object} [params.documentType]
+	 * @param {import('@pins/common/src/document-types').DocType} [params.documentType]
 	 * @param {string} [params.html]
-	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 * @param {Array<import('../../question').BaseValidator>} [params.validators]
+	 *
+	 * @param {Array<Function>} [methodOverrides]
 	 */
-	constructor({
-		title,
-		question,
-		fieldName,
-		url,
-		pageTitle,
-		description,
-		documentType,
-		validators,
-		html
-	}) {
-		super({
-			title,
-			question,
-			viewFolder: 'multi-file-upload',
-			fieldName,
-			url,
-			pageTitle,
-			description,
-			validators,
-			html
-		});
+	constructor(
+		{ title, question, fieldName, url, pageTitle, description, documentType, validators, html },
+		methodOverrides
+	) {
+		super(
+			{
+				title,
+				question,
+				viewFolder: 'multi-file-upload',
+				fieldName,
+				url,
+				pageTitle,
+				description,
+				validators,
+				html
+			},
+			methodOverrides
+		);
 
 		if (documentType) {
 			this.documentType = documentType;
@@ -78,17 +80,14 @@ class MultiFileUploadQuestion extends Question {
 	 * gets the view model for this question
 	 * @param {Section} section - the current section
 	 * @param {Journey} journey - the journey we are in
-	 * @param {Object|undefined} [customViewData] additional data to send to view
-	 * @returns {UploadQuestionViewModel}
+	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
+	 * @returns {QuestionViewModel & { uploadedFiles?: unknown }}
 	 */
 	prepQuestionForRendering(section, journey, customViewData) {
+		/** @type {QuestionViewModel & { uploadedFiles?: unknown }} */
 		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 
-		const uploadedFiles = journey.response.answers.SubmissionDocumentUpload || [];
-
-		const relevantUploadedFiles = uploadedFiles.filter(
-			(upload) => upload.type === this.documentType.name
-		);
+		const relevantUploadedFiles = this.getRelevantUploadedFiles(journey.response);
 
 		if (relevantUploadedFiles.length > 0) {
 			viewModel.uploadedFiles = relevantUploadedFiles;
@@ -107,16 +106,12 @@ class MultiFileUploadQuestion extends Question {
 	 * @returns {Promise<void>}
 	 */
 	async saveAction(req, res, journey, section, journeyResponse) {
-		// check for validation errors
-		const errorViewModel = this.checkForValidationErrors(req, section, journey);
-		if (errorViewModel) {
-			return this.renderAction(res, errorViewModel);
-		}
-
 		// save
 		const { uploadedFiles } = await this.getDataToSave(req, journeyResponse);
 		await Promise.all(
 			uploadedFiles.map((file) => {
+				if (!file) return;
+
 				const data = {
 					...file,
 					type: this.documentType.name
@@ -147,6 +142,8 @@ class MultiFileUploadQuestion extends Question {
 		return this.handleNextQuestion(res, journey, section.segment, this.fieldName);
 	}
 
+	// Belongs to save
+	// @ts-ignore
 	uploadDocuments(apiClient, referenceId, journeyId, data) {
 		if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
 			return apiClient.postLPASubmissionDocumentUpload(referenceId, data);
@@ -160,8 +157,10 @@ class MultiFileUploadQuestion extends Question {
 			return apiClient.postLPAFinalCommentDocumentUpload(referenceId, data);
 		}
 	}
-
+	// Belongs to save
+	// @ts-ignore
 	removeDocuments(apiClient, journeyId) {
+		// @ts-ignore
 		return (submissionId, documentId) => {
 			if ([JOURNEY_TYPES.HAS_QUESTIONNAIRE, JOURNEY_TYPES.S78_QUESTIONNAIRE].includes(journeyId)) {
 				return apiClient.deleteLPASubmissionDocumentUpload(submissionId, documentId);
@@ -179,31 +178,22 @@ class MultiFileUploadQuestion extends Question {
 		};
 	}
 
-	checkForValidationErrors() {
-		// handled after saving any valid files
-		return;
-	}
-
 	/**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @param {Object} answer
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
-	 * @returns {Array.<Object>}
+	 * @param {string} answer
+	 * @returns {{ key: string; value: string | Object; action: { href: string; text: string; visuallyHiddenText: string; }; }[]}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
-		const uploadedFiles = journey.response.answers.SubmissionDocumentUpload || [];
-
-		const relevantUploadedFiles = uploadedFiles.filter(
-			(upload) => upload.type === this.documentType.name
-		);
+		const relevantUploadedFiles = this.getRelevantUploadedFiles(journey.response);
 
 		let formattedAnswer;
 		if (relevantUploadedFiles.length > 0 && answer) {
 			formattedAnswer = '';
-			for (const item in relevantUploadedFiles) {
-				const documentId = relevantUploadedFiles[item].id;
-				const documentLinkText = relevantUploadedFiles[item].originalFileName;
+			for (const item of relevantUploadedFiles) {
+				const documentId = item.id;
+				const documentLinkText = item.originalFileName;
 				const documentUrl = `/document/${documentId}`;
 
 				formattedAnswer += `<a href="${documentUrl}" class="govuk-link">${documentLinkText}</a> </br>`;
@@ -226,10 +216,10 @@ class MultiFileUploadQuestion extends Question {
 
 	/**
 	 * Returns the action link for the question
-	 * @param {Object} answer
 	 * @param {Journey} journey
-	 * @param {String} sectionSegment
-	 * @returns {String}
+	 * @param {string} sectionSegment
+	 * @param {string} answer
+	 * @returns {{ href: string; text: string; visuallyHiddenText: string; }}
 	 */
 	getAction(sectionSegment, journey, answer) {
 		const action = {
@@ -240,102 +230,9 @@ class MultiFileUploadQuestion extends Question {
 		return action;
 	}
 
-	/**
-	 * returns the data to send to the DB
-	 * side effect: modifies journeyResponse with the new answers
-	 * @param {import('express').Request} req
-	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
-	 * @returns {Promise.<Object>}
-	 */
-	async getDataToSave(req, journeyResponse) {
-		const { body } = req;
-		const { errors = {}, errorSummary = [] } = body;
-		const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
-
-		// Ensure we are always working with an array. Single files would otherwise be an object.
-		if (!req.files) {
-			req.files = {
-				[this.fieldName]: []
-			};
-		}
-
-		if (!Array.isArray(req.files[this.fieldName])) {
-			req.files[this.fieldName] = [req.files[this.fieldName]];
-		}
-
-		// remove files from response
-		if ('removedFiles' in body) {
-			const removedFiles = JSON.parse(body.removedFiles);
-			const currentUploadedFiles = journeyResponse.answers.SubmissionDocumentUpload || [];
-
-			const relevantUploadedFiles = currentUploadedFiles.filter(
-				(upload) => upload.type === this.documentType.name
-			);
-
-			const failedRemovedFiles = await removeFilesV2(
-				relevantUploadedFiles,
-				removedFiles,
-				journeyResponse.referenceId,
-				`${journeyResponse.journeyId}:${encodedReferenceId}`,
-				this.removeDocuments(req.appealsApiClient, journeyResponse.journeyId)
-			);
-
-			// adds validation errors to be checked after
-			for (const { storageId, originalFileName } of failedRemovedFiles) {
-				const errorMsg = `Failed to remove file: ${originalFileName}`;
-				errors[storageId] = {
-					value: { name: originalFileName },
-					msg: errorMsg
-				};
-				errorSummary.push({
-					text: errorMsg
-				});
-			}
-		}
-
-		// save valid files to blob storage
-		let validFiles = [];
-		if (this.fieldName in req.files) {
-			validFiles = getValidFiles(errors, req.files[this.fieldName]);
-		}
-		const uploadedFiles = await this.#saveFilesToBlobStorage(validFiles, journeyResponse);
-
-		const journeyFiles = {
-			answers: {
-				[this.fieldName]: {
-					uploadedFiles: []
-				}
-			}
-		};
-
-		journeyFiles.answers[this.fieldName].uploadedFiles = [];
-
-		if (journeyResponse?.answers[this.fieldName]?.uploadedFiles) {
-			journeyFiles.answers[this.fieldName].uploadedFiles.push(
-				...journeyResponse.answers[this.fieldName].uploadedFiles
-			);
-		}
-
-		if (uploadedFiles) {
-			journeyFiles.answers[this.fieldName].uploadedFiles.push(...uploadedFiles);
-		}
-
-		journeyResponse.answers[this.fieldName] = journeyFiles.answers[this.fieldName];
-
-		if (Object.keys(errors).length > 0) {
-			req.body.errors = errors;
-			req.body.errorSummary = errorSummary.map((error) => ({
-				...error,
-				href: `#${this.fieldName}`
-			}));
-		}
-
-		return {
-			uploadedFiles: journeyFiles.answers[this.fieldName].uploadedFiles
-		};
-	}
-
-	async #saveFilesToBlobStorage(files, journeyResponse) {
+	// probably belongs to save, definitely shouldn't live here
+	// @ts-ignore
+	async saveFilesToBlobStorage(files, journeyResponse) {
 		const resolutions = await conjoinedPromises(files, (file) =>
 			createDocument(
 				{
@@ -355,16 +252,31 @@ class MultiFileUploadQuestion extends Question {
 		return result;
 	}
 
+	/**
+	 * @param {JourneyResponse} journeyResponse
+	 * @returns {string}
+	 */
 	#generateDocumentSubmissionId(journeyResponse) {
 		return `${journeyResponse.journeyId}:${encodeURIComponent(
 			this.#sanitiseReferenceId(journeyResponse.referenceId)
 		)}`;
 	}
 
+	/**
+	 * @param {string} referenceId
+	 * @returns {string}
+	 */
 	#sanitiseReferenceId(referenceId) {
 		return referenceId.replaceAll('/', '_');
 	}
 
+	/**
+	 * Save the answer to the question
+	 * @param {import('express').Request} req
+	 * @param {Section} section
+	 * @param {Journey} journey
+	 * @returns {QuestionViewModel | undefined}
+	 */
 	checkForSavingErrors(req, section, journey) {
 		return super.checkForValidationErrors(req, section, journey);
 	}
@@ -375,12 +287,25 @@ class MultiFileUploadQuestion extends Question {
 	 */
 	isAnswered(journeyResponse) {
 		const answer = journeyResponse.answers[this.fieldName];
-		return (
-			answer === 'yes' &&
-			journeyResponse.answers.SubmissionDocumentUpload.some(
-				(upload) => upload.type === this.documentType.name
-			)
-		);
+		const relevantUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
+		return answer === 'yes' && !!relevantUploadedFiles.length;
+	}
+
+	/**
+	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
+	 * @returns {{ id: string; type: string; originalFileName: string; storageId: string }[]}
+	 */
+	getRelevantUploadedFiles(journeyResponse) {
+		const uploadedFiles = journeyResponse.answers.SubmissionDocumentUpload || [];
+
+		if (
+			!Array.isArray(uploadedFiles) ||
+			!uploadedFiles.every((upload) => Object.hasOwn(upload, 'type'))
+		) {
+			throw new Error('Uploaded files on answers array was an unexpected shape');
+		}
+
+		return uploadedFiles.filter((upload) => upload.type === this.documentType.name);
 	}
 }
 

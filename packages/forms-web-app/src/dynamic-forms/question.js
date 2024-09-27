@@ -87,21 +87,26 @@ class Question {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.interfaceType]
 	 * @param {(response: JourneyResponse) => boolean} [params.shouldDisplay]
+	 *
+	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor({
-		title,
-		question,
-		viewFolder,
-		fieldName,
-		url,
-		pageTitle,
-		description,
-		validators,
-		html,
-		hint,
-		interfaceType,
-		shouldDisplay
-	}) {
+	constructor(
+		{
+			title,
+			question,
+			viewFolder,
+			fieldName,
+			url,
+			pageTitle,
+			description,
+			validators,
+			html,
+			hint,
+			interfaceType,
+			shouldDisplay
+		},
+		methodOverrides
+	) {
 		if (!title || title === '') throw new Error('title parameter is mandatory');
 		if (!question || question === '') throw new Error('question parameter is mandatory');
 		if (!viewFolder || viewFolder === '') throw new Error('viewFolder parameter is mandatory');
@@ -124,6 +129,11 @@ class Question {
 		if (Array.isArray(validators)) {
 			this.validators = validators;
 		}
+
+		Object.entries(methodOverrides || {}).forEach(([methodName, methodOverride]) => {
+			// @ts-ignore
+			this[methodName] = methodOverride.bind(this);
+		});
 
 		//todo: taskList default to true, or pass in as param if question shouldn't be displayed in task (summary) list
 		//or possibly add taskList condition to the Section class as part of withCondition method(or similar) if possible?
