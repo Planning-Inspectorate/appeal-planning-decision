@@ -13,6 +13,7 @@ class RadioQuestion extends OptionsQuestion {
 	 * @param {string} [params.description]
 	 * @param {string} [params.label]
 	 * @param {string} [params.html]
+	 * @param {string} [params.legend] - optional legend, used instead of h1
 	 * @param {Array.<import('../../options-question').Option>} params.options
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
 	 */
@@ -27,6 +28,7 @@ class RadioQuestion extends OptionsQuestion {
 		description,
 		label,
 		html,
+		legend,
 		options,
 		validators
 	}) {
@@ -45,6 +47,7 @@ class RadioQuestion extends OptionsQuestion {
 
 		this.html = html;
 		this.label = label;
+		this.legend = legend;
 	}
 
 	/**
@@ -53,6 +56,7 @@ class RadioQuestion extends OptionsQuestion {
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
 		viewModel.question.label = this.label;
+		viewModel.question.legend = this.legend;
 		return viewModel;
 	}
 

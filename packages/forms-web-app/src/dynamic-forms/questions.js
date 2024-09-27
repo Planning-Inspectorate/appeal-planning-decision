@@ -1294,6 +1294,7 @@ exports.questions = {
 		title: 'Are there any health and safety issues on the appeal site?',
 		question: 'Health and safety issues',
 		html: 'resources/health-and-safety/content.html',
+		legend: 'Are there any health and safety issues on the appeal site?',
 		fieldName: 'appellantSiteSafety',
 		url: 'health-safety-issues',
 		validators: [
