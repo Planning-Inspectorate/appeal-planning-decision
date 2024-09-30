@@ -115,6 +115,7 @@ type BooleanQuestionProps = CommonQuestionProps & {
 type RadioQuestionProps = CommonQuestionProps & {
 	type: 'radio';
 	options: Option[];
+	legend?: string;
 };
 
 type DateQuestionProps = CommonQuestionProps & {
