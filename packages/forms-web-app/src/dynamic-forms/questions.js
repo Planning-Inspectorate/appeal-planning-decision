@@ -52,6 +52,7 @@ const { createQuestions } = require('./create-questions');
 
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
+const SiteAddressOverrides = require('../journeys/question-overrides/site-address');
 
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
 /** @typedef {import('./question')} Question */
@@ -2233,5 +2234,6 @@ const questionClasses = {
 };
 
 exports.questions = createQuestions(exports.questionProps, questionClasses, {
-	'multi-file-upload': multiFileUploadOverrides
+	'multi-file-upload': multiFileUploadOverrides,
+	'site-address': SiteAddressOverrides
 });
