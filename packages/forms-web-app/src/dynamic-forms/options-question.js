@@ -11,34 +11,12 @@ const defaultOptionJoinString = ',';
  * @typedef {import('./journey').Journey} Journey
  * @typedef {import('./journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('./section').Section} Section
+ * @typedef {import('./question-props').Option} Option
+ * @typedef {import('./question-props').OptionWithoutDivider} OptionWithoutDivider
  */
 
 /**
- * @typedef {{
- *   text: string;
- *   value: string;
- * 	 hint?: object;
- *   checked?: boolean | undefined;
- *   attributes?: Record<string, string>;
- *   behaviour?: 'exclusive';
- *   conditional?: {
- *     question: string;
- *     type: string;
- *     fieldName: string;
- * 		 inputClasses?: string;
- * 		 html?: string;
- *     value?: unknown;
- * 		 label?: string;
- * 		 hint?: string
- *   };
- * 	 conditionalText?: {
- * 	   html: string;
- *   }
- *}} Option
- */
-
-/**
- * @typedef {QuestionViewModel & { question: { options: Option[] } }} OptionsViewModel
+ * @typedef {QuestionViewModel & { question: QuestionViewModel['question'] & { options?: Option[] } }} OptionsViewModel
  */
 
 class OptionsQuestion extends Question {
@@ -55,28 +33,13 @@ class OptionsQuestion extends Question {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.pageTitle]
 	 * @param {string} [params.description]
-	 * @param {Array<Option>} params.options
+	 * @param {Array<Option>} [params.options]
 	 * @param {Array<import('./question').BaseValidator>} [params.validators]
+	 *
+	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor({
-		title,
-		question,
-		viewFolder,
-		fieldName,
-		url,
-		hint,
-		pageTitle,
-		description,
-		options,
-		validators
-	}) {
-		// add default valid options validator to all options questions
-		let optionsValidators = [new ValidOptionValidator()];
-		if (validators && Array.isArray(validators)) {
-			optionsValidators = validators.concat(optionsValidators);
-		}
-
-		super({
+	constructor(
+		{
 			title,
 			question,
 			viewFolder,
@@ -85,10 +48,33 @@ class OptionsQuestion extends Question {
 			hint,
 			pageTitle,
 			description,
-			validators: optionsValidators
-		});
+			options,
+			validators
+		},
+		methodOverrides
+	) {
+		// add default valid options validator to all options questions
+		let optionsValidators = [new ValidOptionValidator()];
+		if (validators && Array.isArray(validators)) {
+			optionsValidators = validators.concat(optionsValidators);
+		}
+
+		super(
+			{
+				title,
+				question,
+				viewFolder,
+				fieldName,
+				url,
+				hint,
+				pageTitle,
+				description,
+				validators: optionsValidators
+			},
+			methodOverrides
+		);
 		this.hint = hint;
-		this.options = options;
+		this.options = options || [];
 		this.optionJoinString = defaultOptionJoinString;
 	}
 
@@ -98,19 +84,22 @@ class OptionsQuestion extends Question {
 	 * @param {Journey} journey - the journey we are in
 	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
 	 * @param {Record<string, unknown>} [payload]
-	 * @returns {QuestionViewModel}
+	 * @returns {OptionsViewModel}
 	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		const answer = payload
 			? payload[this.fieldName]
 			: journey.response.answers[this.fieldName] || '';
 
+		/** @type {OptionsViewModel} */
 		const viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
-
 		viewModel.question.options = [];
 
 		for (const option of this.options) {
 			let optionData = { ...option };
+			// Skip if the option is a divider
+			if (optionIsDivider(optionData)) continue;
+
 			if (optionData.value !== undefined) {
 				optionData.checked = (',' + answer + ',').includes(',' + optionData.value + ',');
 				if (!optionData.attributes) {
@@ -120,6 +109,8 @@ class OptionsQuestion extends Question {
 
 			// handle conditional (dependant) fields & set their answers
 			if (optionData.conditional !== undefined) {
+				if (conditionalIsJustHTML(optionData.conditional)) continue;
+
 				let conditionalField = { ...optionData.conditional };
 
 				conditionalField.fieldName = getConditionalFieldName(
@@ -168,8 +159,10 @@ class OptionsQuestion extends Question {
 			: [req.body[this.fieldName]];
 		const fieldValues = fields.map((x) => x.trim());
 
-		const selectedOptions = this.options.filter(({ value }) => {
-			return fieldValues.includes(value);
+		/** @type {OptionWithoutDivider[]} */
+		// @ts-ignore
+		const selectedOptions = this.options.filter((option) => {
+			return !optionIsDivider(option) && fieldValues.includes(option.value);
 		});
 
 		if (!selectedOptions.length)
@@ -181,7 +174,8 @@ class OptionsQuestion extends Question {
 		journeyResponse.answers[this.fieldName] = fieldValues;
 
 		this.options.forEach((option) => {
-			if (!option.conditional) return;
+			if (optionIsDivider(option)) return;
+			if (!option.conditional || conditionalIsJustHTML(option.conditional)) return;
 			const key = getConditionalFieldName(this.fieldName, option.conditional.fieldName);
 			const optionIsSelectedOption = selectedOptions.some(
 				(selectedOption) =>
@@ -197,4 +191,11 @@ class OptionsQuestion extends Question {
 	}
 }
 
-module.exports = OptionsQuestion;
+/** @type {(maybeDivider: Option) => maybeDivider is { divider: string }} */
+const optionIsDivider = (maybeDivider) => Object.hasOwn(maybeDivider, 'divider');
+
+/** @type {(conditional: unknown) => conditional is { html: string }} */
+const conditionalIsJustHTML = (conditional) =>
+	!!conditional && Object.hasOwn(conditional, 'html') && Object.keys(conditional).length === 1;
+
+module.exports = { OptionsQuestion, optionIsDivider, conditionalIsJustHTML };
