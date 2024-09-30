@@ -9,8 +9,7 @@ const { nl2br } = require('@pins/common/src/utils');
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../section').Section} Section
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
- * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress
-
+ * @typedef {import('appeals-service-api').Api.SubmissionAddress} SubmissionAddress TODO just write this type in here
  */
 
 class SiteAddressQuestion extends Question {
@@ -82,7 +81,13 @@ class SiteAddressQuestion extends Question {
 	 * adds a uuid and an address object for save data using req body fields
 	 * @param {import('express').Request} req
 	 * @param {JourneyResponse} journeyResponse
-	 * @returns {Promise<{address:Address, siteAddressSet: boolean, fieldName: string, addressId: string|undefined }>}
+	 * @returns {Promise<{
+	 *   answers: Record<string, unknown>;
+	 *   address:Address;
+	 *   siteAddressSet: boolean;
+	 *   fieldName: string;
+	 *   addressId?: string;
+	 * }>}
 	 */
 	async getDataToSave(req, journeyResponse) {
 		const existingAddressId = this.#getExistingAddress(journeyResponse)?.id;
@@ -96,6 +101,7 @@ class SiteAddressQuestion extends Question {
 		});
 
 		return {
+			answers: {},
 			address: address,
 			siteAddressSet: true,
 			fieldName: this.fieldName,
@@ -104,68 +110,8 @@ class SiteAddressQuestion extends Question {
 	}
 
 	/**
-	 * Save the answer to the question
-	 * @param {import('express').Request} req
-	 * @param {import('express').Response} res
-	 * @param {Journey} journey
-	 * @param {Section} section
-	 * @param {JourneyResponse} journeyResponse
-	 * @returns {Promise<void>}
-	 */
-	async saveAction(req, res, journey, section, journeyResponse) {
-		// check for validation errors
-		const errorViewModel = this.checkForValidationErrors(req, section, journey);
-		if (errorViewModel) {
-			errorViewModel.question = {
-				...errorViewModel.question,
-				value: {
-					addressLine1: req.body[this.fieldName + '_addressLine1'],
-					addressLine2: req.body[this.fieldName + '_addressLine2'],
-					townCity: req.body[this.fieldName + '_townCity'],
-					county: req.body[this.fieldName + '_county'],
-					postcode: req.body[this.fieldName + '_postcode']
-				}
-			};
-
-			return this.renderAction(res, errorViewModel);
-		}
-
-		// save
-		const { address, siteAddressSet, fieldName, addressId } = await this.getDataToSave(
-			req,
-			journeyResponse
-		);
-
-		await req.appealsApiClient.postSubmissionAddress(
-			journeyResponse.journeyId,
-			journeyResponse.referenceId,
-			{
-				...address,
-				fieldName,
-				id: addressId
-			}
-		);
-
-		if (siteAddressSet) {
-			await req.appealsApiClient.updateAppellantSubmission(journeyResponse.referenceId, {
-				siteAddress: siteAddressSet
-			});
-			journeyResponse.answers.siteAddress = siteAddressSet;
-		}
-
-		// check for saving errors
-		const saveViewModel = this.checkForSavingErrors(req, section, journey);
-		if (saveViewModel) {
-			return this.renderAction(res, saveViewModel);
-		}
-
-		// move to the next question
-		return this.handleNextQuestion(res, journey, section.segment, this.fieldName);
-	}
-
-	/**
-	 * @param {Object.<Any>} answer
-	 * @returns The formatted address to be presented in the UI
+	 * @param {SubmissionAddress} answer
+	 * @returns {string}
 	 */
 	format(answer) {
 		const addressComponents = [
@@ -181,9 +127,7 @@ class SiteAddressQuestion extends Question {
 
 	/**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @param {Journey} journey
-	 * @param {String} sectionSegment
-	 * @returns {Array.<Object>}
+	 * @type {Question['formatAnswerForSummary']}
 	 */
 	formatAnswerForSummary(sectionSegment, journey) {
 		const address = this.#getExistingAddress(journey.response);
