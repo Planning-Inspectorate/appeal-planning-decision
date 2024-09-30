@@ -51,6 +51,7 @@ const {
 } = require('./full-appeal/map-planning-application');
 const { businessRulesDeadline } = require('./calculate-deadline');
 const { APPEAL_CASE_STATUS } = require('pins-data-model');
+// const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
@@ -59,6 +60,8 @@ const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
 
 const appellantFinalCommentBaseUrl = '/appeals/final-comments';
 const appellantProofsBaseUrl = '/appeals/proofs-of-evidence-submission';
+
+// const INVALID_APPEAL_TIME_LIMIT = 28;
 
 // MAP DATABASE RETURN OBJECTS TO DASHBOARD DISPLAY DATA
 
@@ -326,6 +329,23 @@ const isAppellantFinalCommentDue = (appealCaseData) => {
 const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
 	return !!appealCaseData.proofsOfEvidenceDueDate && !appealCaseData.appellantsProofsSubmitted;
 };
+
+// /**
+//  * @param {AppealCaseDetailed} appealCaseData return object from database call
+//  * @returns {boolean}
+//  */
+// const isInvalid = (appealCaseData) => {
+// 	return appealCaseData.caseStatus === APPEAL_CASE_STATUS.INVALID;
+// }
+
+// /**
+//  * @param {AppealCaseDetailed} appealCaseData return object from database call
+//  * @returns {boolean}
+//  */
+// const displayInvalidAppeal = (appealCaseData) => {
+// 	const daysSinceInvalidated = calculateDaysSinceInvalidated(appealCaseData.caseValidationDate);
+// 	return daysSinceInvalidated > INVALID_APPEAL_TIME_LIMIT;
+// }
 
 /**
  * @param {AppealCaseDetailed | AppealSubmission} appealCaseData return object from database call
