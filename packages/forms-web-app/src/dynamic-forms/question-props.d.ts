@@ -86,14 +86,18 @@ interface UnitOption {
 	checked?: boolean | undefined;
 	attributes?: Record<string, string>;
 	behaviour?: 'exclusive';
-	conditional: {
-		fieldName: string;
-		suffix: string;
-		value?: unknown;
-		label?: string;
-		hint?: string;
-		conversionFactor?: number;
-	};
+	conditional:
+		| {
+				fieldName: string;
+				suffix: string;
+				value?: unknown;
+				label?: string;
+				hint?: string;
+				conversionFactor?: number;
+		  }
+		| {
+				html: string;
+		  };
 }
 
 type CheckboxQuestionProps = CommonQuestionProps & {
