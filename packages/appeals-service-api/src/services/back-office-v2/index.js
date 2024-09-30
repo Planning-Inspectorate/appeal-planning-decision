@@ -275,11 +275,16 @@ class BackOfficeV2Service {
 		let appellantName;
 
 		if (serviceUserId) {
-			const { firstName, lastName } = await getServiceUserByIdAndCaseReference(
+			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
 				serviceUserId,
 				caseReference
 			);
-			appellantName = firstName + ' ' + lastName;
+
+			if (serviceUserDetails.firstName && serviceUserDetails.lastName) {
+				appellantName = serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
+			} else {
+				appellantName = 'Appellant';
+			}
 		} else {
 			appellantName = 'Appellant';
 		}
