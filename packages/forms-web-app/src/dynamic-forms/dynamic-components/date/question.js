@@ -18,7 +18,7 @@ class DateQuestion extends Question {
 	 * @param {string} params.title
 	 * @param {string} params.question
 	 * @param {string} params.fieldName
-	 * @param {string} params.hint
+	 * @param {string} [params.hint]
 	 * @param {string} [params.url]
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
 	 */
@@ -39,10 +39,11 @@ class DateQuestion extends Question {
 	 * side effect: modifies journeyResponse with the new answers
 	 * @param {import('express').Request} req
 	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
-	 * @returns {Promise.<Object>}
+	 * @returns {Promise<{ answers: Record<string, unknown> }>}
 	 */
 	async getDataToSave(req, journeyResponse) {
 		// set answer on response
+		/** @type {{ answers: Record<string, unknown> }} */
 		let responseToSave = { answers: {} };
 
 		const dayInput = req.body[`${this.fieldName}_day`];
@@ -62,13 +63,15 @@ class DateQuestion extends Question {
 	 * gets the view model for this question
 	 * @param {Section} section - the current section
 	 * @param {Journey} journey - the journey we are in
-	 * @param {Object|undefined} [customViewData] additional data to send to view
-	 * @returns {QuestionViewModel}
+	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [payload]
+	 * @returns {QuestionViewModel & { answer: Record<string, unknown> }}
 	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
-		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 
-		let answer = '';
+		/** @type {Record<string, unknown>} */
+		let answer = {};
 		let day;
 		let month;
 		let year;
@@ -80,7 +83,7 @@ class DateQuestion extends Question {
 		} else {
 			const answerDateString = journey.response.answers[this.fieldName];
 
-			if (answerDateString) {
+			if (answerDateString && typeof answerDateString === 'string') {
 				const answerDate = new Date(answerDateString);
 				day = `${answerDate.getDate()}`.slice(-2);
 				month = `${answerDate.getMonth() + 1}`.slice(-2);
@@ -94,18 +97,12 @@ class DateQuestion extends Question {
 			[`${this.fieldName}_year`]: year
 		};
 
-		viewModel.question.value = answer;
-		viewModel.answer = answer;
-
-		return viewModel;
+		return { ...viewModel, answer, question: { ...viewModel.question, value: answer } };
 	}
 
 	/**
-	 * returns the formatted answer value to be used to build task list elements
-	 * @param {Object} answer
-	 * @param {Journey} journey
-	 * @param {String} sectionSegment
-	 * @returns {Array.<Object>}
+	 * returns the formatted answers values to be used to build task list elements
+	 * @type {Question['formatAnswerForSummary']}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
 		let formattedAnswer;
