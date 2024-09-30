@@ -49,7 +49,9 @@ const {
 	}
 } = require('../config');
 const { createQuestions } = require('./create-questions');
-const { getDataToSave } = require('../journeys/question-overrides/multi-file-upload');
+
+// method overrides
+const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
 
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
 /** @typedef {import('./question')} Question */
@@ -2216,29 +2218,20 @@ exports.questionProps = {
 // Maybe something to fix at some point
 /** @type {Record<string, typeof import('./question')>} */
 const questionClasses = {
-	// @ts-ignore
 	checkbox: CheckboxQuestion,
-	// @ts-ignore
 	'multi-file-upload': MultiFileUploadQuestion,
-	// @ts-ignore
 	boolean: BooleanQuestion,
-	// @ts-ignore
 	radio: RadioQuestion,
-	// @ts-ignore
 	date: DateQuestion,
 	'text-entry': TextEntryQuestion,
 	'single-line-input': SingleLineInputQuestion,
-	// @ts-ignore
 	'multi-field-input': MultiFieldInputQuestion,
 	number: NumberEntryQuestion,
-	// @ts-ignore
 	'site-address': SiteAddressQuestion,
-	// @ts-ignore
 	'unit-option': UnitOptionEntryQuestion,
-	// @ts-ignore
 	'list-add-more': ListAddMoreQuestion
 };
 
 exports.questions = createQuestions(exports.questionProps, questionClasses, {
-	'multi-file-upload': { getDataToSave }
+	'multi-file-upload': multiFileUploadOverrides
 });

@@ -2,6 +2,10 @@ const { removeDocument } = require('../lib/documents-api-wrapper');
 const logger = require('./logger');
 
 /**
+ * @typedef {import('../dynamic-forms/journey-response').JourneyResponse} JourneyResponse
+ */
+
+/**
  * @typedef {{ name: string, tempFilePath: string }} File
  * @param {{ value: File }[]} errors
  * @param {File[]} files
@@ -123,9 +127,28 @@ const isObjectWithUploadedFiles = (object) => {
 	return !!object && Object.hasOwn(object, 'uploadedFiles');
 };
 
+/**
+ * @param {string} referenceId
+ * @returns {string}
+ */
+function sanitiseReferenceId(referenceId) {
+	return referenceId.replaceAll('/', '_');
+}
+
+/**
+ * @param {JourneyResponse} journeyResponse
+ * @returns {string}
+ */
+function generateDocumentSubmissionId(journeyResponse) {
+	return `${journeyResponse.journeyId}:${encodeURIComponent(
+		sanitiseReferenceId(journeyResponse.referenceId)
+	)}`;
+}
+
 module.exports = {
 	getValidFiles,
 	removeFiles,
 	removeFilesV2,
-	isObjectWithUploadedFiles
+	isObjectWithUploadedFiles,
+	generateDocumentSubmissionId
 };

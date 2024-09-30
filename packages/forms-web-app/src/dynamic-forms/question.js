@@ -329,7 +329,7 @@ class Question {
 
 	/**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @param {Object} answer
+	 * @param {string} answer
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
 	 * @returns {Array<{
