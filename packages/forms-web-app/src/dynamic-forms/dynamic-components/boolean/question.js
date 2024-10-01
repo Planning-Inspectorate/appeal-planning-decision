@@ -14,20 +14,25 @@ class BooleanQuestion extends RadioQuestion {
 	 * @param {string} [params.interfaceType]
 	 * @param {Array.<import('../../options-question').Option>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
+	 *
+	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor({
-		title,
-		question,
-		fieldName,
-		url,
-		hint,
-		pageTitle,
-		description,
-		html,
-		validators,
-		interfaceType = 'radio',
-		options
-	}) {
+	constructor(
+		{
+			title,
+			question,
+			fieldName,
+			url,
+			hint,
+			pageTitle,
+			description,
+			html,
+			validators,
+			interfaceType = 'radio',
+			options
+		},
+		methodOverrides
+	) {
 		let defaultOptions = options || [
 			{
 				text: 'Yes',
@@ -45,19 +50,22 @@ class BooleanQuestion extends RadioQuestion {
 			defaultOptions = options || [{ text: 'Confirm', value: 'yes' }];
 		}
 
-		super({
-			title,
-			question,
-			viewFolder: 'boolean',
-			fieldName,
-			url,
-			hint,
-			pageTitle,
-			description,
-			options: defaultOptions,
-			validators,
-			html
-		});
+		super(
+			{
+				title,
+				question,
+				viewFolder: 'boolean',
+				fieldName,
+				url,
+				hint,
+				pageTitle,
+				description,
+				options: defaultOptions,
+				validators,
+				html
+			},
+			methodOverrides
+		);
 
 		this.interfaceType = interfaceType;
 	}
@@ -66,11 +74,11 @@ class BooleanQuestion extends RadioQuestion {
 	 * returns the data to send to the DB
 	 * side effect: modifies journeyResponse with the new answers
 	 * @param {import('express').Request} req
-	 * @param {JourneyResponse} journeyResponse - current journey response, modified with the new answers
-	 * @returns {Promise.<Object>}
+	 * @param {import('../../journey-response').JourneyResponse} journeyResponse - current journey response, modified with the new answers
+	 * @returns {Promise<{ answers: Record<string, unknown> }>}
 	 */
 	async getDataToSave(req, journeyResponse) {
-		// set answer on response
+		/** @type {{ answers: Record<string, unknown> }} */
 		let responseToSave = { answers: {} };
 		const fieldValue = req.body[this.fieldName];
 

@@ -37,15 +37,15 @@ interface CommonQuestionProps {
 	shouldDisplay?: (response: JourneyResponse) => boolean;
 }
 
-type Option =
-	| {
-			text: string;
-			value: string;
-			hint?: object;
-			checked?: boolean | undefined;
-			attributes?: Record<string, string>;
-			behaviour?: 'exclusive';
-			conditional?: {
+export type OptionWithoutDivider = {
+	text: string;
+	value: string;
+	hint?: object;
+	checked?: boolean | undefined;
+	attributes?: Record<string, string>;
+	behaviour?: 'exclusive';
+	conditional?:
+		| {
 				question: string;
 				type: string;
 				fieldName: string;
@@ -54,12 +54,16 @@ type Option =
 				value?: unknown;
 				label?: string;
 				hint?: string;
-			};
-			conditionalText?: {
+		  }
+		| {
 				html: string;
-			};
-	  }
-	| { divider?: string };
+		  };
+	conditionalText?: {
+		html: string;
+	};
+};
+
+export type Option = OptionWithoutDivider | { divider: string };
 
 interface InputField {
 	fieldName: string;
@@ -82,14 +86,18 @@ interface UnitOption {
 	checked?: boolean | undefined;
 	attributes?: Record<string, string>;
 	behaviour?: 'exclusive';
-	conditional: {
-		fieldName: string;
-		suffix: string;
-		value?: unknown;
-		label?: string;
-		hint?: string;
-		conversionFactor?: number;
-	};
+	conditional:
+		| {
+				fieldName: string;
+				suffix: string;
+				value?: unknown;
+				label?: string;
+				hint?: string;
+				conversionFactor?: number;
+		  }
+		| {
+				html: string;
+		  };
 }
 
 type CheckboxQuestionProps = CommonQuestionProps & {

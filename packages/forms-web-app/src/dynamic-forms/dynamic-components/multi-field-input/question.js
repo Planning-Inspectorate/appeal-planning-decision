@@ -36,7 +36,7 @@ class MultiFieldInputQuestion extends Question {
 	 * @param {string|undefined} [params.label] if defined this show as a label for the input and the question will just be a standard h1
 	 * @param {Array.<BaseValidator>} [params.validators]
 	 * @param {Record<string, string>} [params.inputAttributes] html attributes to add to the input
-	 * @param {InputField[]} params.inputFields input fields
+	 * @param {InputField[]} [params.inputFields] input fields
 	 * @param {'contactDetails' | 'standard' | null} [params.formatType] optional type field used for formatting for task list
 	 */
 	constructor({
@@ -71,8 +71,22 @@ class MultiFieldInputQuestion extends Question {
 		}
 	}
 
+	/**
+	 * gets the view model for this question
+	 * @param {Section} section - the current section
+	 * @param {Journey} journey - the journey we are in
+	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [payload]
+	 * @returns {QuestionViewModel & {
+	 *   question: QuestionViewModel['question'] & {
+	 *     inputFields: Array<InputField & { value: string | unknown }>;
+	 * 		 label?: string;
+	 *     attributes?: Record<string, string>;
+	 *   }
+	 * }}
+	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
-		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
+		const viewModel = super.prepQuestionForRendering(section, journey, customViewData);
 
 		const inputFields = this.inputFields.map((inputField) => {
 			return payload
@@ -80,10 +94,15 @@ class MultiFieldInputQuestion extends Question {
 				: { ...inputField, value: journey.response.answers[inputField.fieldName] };
 		});
 
-		viewModel.question.inputFields = inputFields;
-		viewModel.question.label = this.label;
-		viewModel.question.attributes = this.inputAttributes;
-		return viewModel;
+		return {
+			...viewModel,
+			question: {
+				...viewModel.question,
+				inputFields,
+				label: this.label,
+				attributes: this.inputAttributes
+			}
+		};
 	}
 
 	/**
@@ -109,17 +128,7 @@ class MultiFieldInputQuestion extends Question {
 
 	/**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @param {Journey} journey
-	 * @param {String} sectionSegment
-	 * @returns {Array<{
-	 *   key: string;
-	 *   value: string | Object;
-	 *   action: {
-	 *     href: string;
-	 *     text: string;
-	 *     visuallyHiddenText: string;
-	 *   };
-	 * }>}
+	 * @type {Question['formatAnswerForSummary']}
 	 */
 	formatAnswerForSummary(sectionSegment, journey) {
 		const summaryDetails = this.inputFields.reduce((acc, field) => {
