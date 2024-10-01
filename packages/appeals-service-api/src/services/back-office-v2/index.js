@@ -280,7 +280,7 @@ class BackOfficeV2Service {
 				caseReference
 			);
 
-			if (serviceUserDetails.firstName && serviceUserDetails.lastName) {
+			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
 				appellantName = serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
 			} else {
 				appellantName = 'Appellant';
