@@ -5,8 +5,10 @@ const { mockReq, mockRes } = require('../../../mocks');
 const {
 	mapToAppellantDashboardDisplayData
 } = require('../../../../../src/lib/dashboard-functions');
+const { filterAppealsWithinGivenDate } = require('../../../../../src/lib/filter-decided-appeals');
 
 jest.mock('../../../../../src/lib/dashboard-functions');
+jest.mock('../../../../../src/lib/filter-decided-appeals');
 
 describe('controllers/appeals/your-appeals/decided-appeals', () => {
 	let appeal;
@@ -42,6 +44,7 @@ describe('controllers/appeals/your-appeals/decided-appeals', () => {
 
 	it('Test get method calls the correct template and view context', async () => {
 		mapToAppellantDashboardDisplayData.mockReturnValue(decidedData);
+		filterAppealsWithinGivenDate.mockReturnValue(true);
 		const decidedAppeals = [decidedData];
 		await get(req, res);
 
