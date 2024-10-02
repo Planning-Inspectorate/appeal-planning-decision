@@ -444,7 +444,7 @@ class AppealCaseRepository {
 	async listByPostCode({ postcode, decidedOnly }) {
 		/** @type {AppealCaseWhereInput[]}	*/
 		const AND = [
-			{ siteAddressPostcode: { startsWith: postcode } },
+			{ siteAddressPostcodeSanitized: { startsWith: postcode.replace(' ', '').toUpperCase() } },
 			{ casePublishedDate: { not: null } }
 		];
 		addDecidedClauseToQuery(AND, decidedOnly);
