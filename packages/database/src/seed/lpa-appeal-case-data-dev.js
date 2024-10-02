@@ -927,7 +927,7 @@ const lpaAppealCaseData = [
 		caseReference: '1212124',
 		siteAddressLine1: 'Decided',
 		siteAddressLine2: '5 year withdraw test',
-		siteAddressTown: 'invalid',
+		siteAddressTown: 'dismissed',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
@@ -942,7 +942,7 @@ const lpaAppealCaseData = [
 		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		CaseDecisionOutcome: {
-			connect: { key: APPEAL_CASE_DECISION_OUTCOME.INVALID }
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.DISMISSED }
 		},
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(60)),
 		caseDecisionPublishedDate: pickRandom(datesNMonthsAgo(60)),
