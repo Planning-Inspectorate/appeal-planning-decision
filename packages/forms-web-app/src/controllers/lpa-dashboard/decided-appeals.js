@@ -1,6 +1,8 @@
 const { getUserFromSession } = require('../../services/user.service');
 const { mapToLPADashboardDisplayData } = require('../../lib/dashboard-functions');
 const { sortByCaseDecisionDate } = require('@pins/common/src/lib/appeal-sorting');
+const { filterAppealsWithinGivenDate } = require('../../lib/filter-decided-appeals');
+const { filterTime } = require('../../config');
 
 const {
 	VIEW: {
@@ -15,7 +17,15 @@ const getDecidedAppeals = async (req, res) => {
 
 	appealsCaseData.sort(sortByCaseDecisionDate);
 
-	const decidedAppeals = appealsCaseData.map(mapToLPADashboardDisplayData);
+	const decidedAppeals = appealsCaseData
+		.map(mapToLPADashboardDisplayData)
+		.filter((appeal) =>
+			filterAppealsWithinGivenDate(
+				appeal,
+				'caseDecisionOutcomeDate',
+				filterTime.FIVE_YEARS_IN_MILISECONDS
+			)
+		);
 
 	return res.render(DECIDED_APPEALS, {
 		lpaName: user.lpaName,

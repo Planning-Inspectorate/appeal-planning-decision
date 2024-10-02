@@ -72,6 +72,9 @@ module.exports = {
 		clamAVHost: process.env.CLAMAV_HOST,
 		clamAVPort: numberWithDefault(process.env.CLAMAV_PORT, 3310)
 	},
+	filterTime: {
+		FIVE_YEARS_IN_MILISECONDS: 5 * 365 * 24 * 60 * 60 * 1000
+	},
 	isProduction: process.env.NODE_ENV === 'production',
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
