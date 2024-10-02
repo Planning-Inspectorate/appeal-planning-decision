@@ -6,10 +6,13 @@ Monorepo for all PINS Appeal planning decision services.
 
 ## TL;DR
 
-- `npm ci`
-- `make serve`
-- once the server is running, to populate the Local Planning Authorities database, run: `npm run populate-db`
+- create an `.env` file in `./packages/database` (you can copy the `.env.example`) 
+- `npm ci` from root directory
+- `make serve` (use `make slim` instead if you are a mac user and encounter trouble with the `pdf-service-api` package when running `make serve`)
+- once the server is running, run `npm run populate-db` to populate the Local Planning Authorities database
 - Go to [localhost:9003/before-you-start](http://localhost:9003/before-you-start)
+
+Note: if you cannot progress beyond the 'before you start' page without encountering an error page (and you see _Database &#96;pins_front_office_development&#96; does not exist on the database server at &#96;mssql:1433&#96;._ in the API logs), run `npm run db:migrate:dev` per [Database Server Setup](#database-server-setup) and refresh the page.
 
 ## Pre-requisites
 
