@@ -20,14 +20,6 @@ exports.put = async ({ userId, data }) => {
 };
 
 /**
- * @param {{ userId: string, data: AppellantSubmissionCreateInput }} params
- * @return {Promise<AppellantSubmission>}
- */
-exports.post = async ({ userId, data }) => {
-	return await repo.post({ userId, data });
-};
-
-/**
  * Clean up old non-submitted appellant submissions
  * @returns {Promise<string>}
  */

@@ -3,6 +3,8 @@
  * @typedef { 'LPAUser' } LpaUserRole
  */
 
+const { SERVICE_USER_TYPE } = require('pins-data-model');
+
 module.exports = {
 	STATUS_CONSTANTS: {
 		ADDED: 'added',
@@ -18,8 +20,8 @@ module.exports = {
 	 * @type {Record<string, AppealToUserRoles>}
 	 */
 	APPEAL_USER_ROLES: {
-		APPELLANT: 'Appellant',
-		AGENT: 'Agent',
+		APPELLANT: SERVICE_USER_TYPE.APPELLANT,
+		AGENT: SERVICE_USER_TYPE.AGENT,
 		INTERESTED_PARTY: 'InterestedParty',
 		RULE_6_PARTY: 'Rule6Party'
 	},
