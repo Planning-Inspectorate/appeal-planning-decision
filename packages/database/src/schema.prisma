@@ -399,6 +399,7 @@ model AppealCase {
   AppealCaseLpaNotificationMethod AppealCaseLpaNotificationMethod[]
   InterestedPartyComments         InterestedPartyComment[]
   InterestedPartySubmissions      InterestedPartySubmission[]
+  AppealStatements                AppealStatement[]
 }
 
 /// AppealCase relations
@@ -577,8 +578,32 @@ model Document {
   horizonFolderId String?
 
   // relations
+  caseReference      String
+  AppealCase         AppealCase          @relation(fields: [caseReference], references: [caseReference])
+  StatementDocuments StatementDocument[]
+}
+
+// Stores appeal statements from either an LPA or rule 6 party group
+model AppealStatement {
+  id            String   @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
   caseReference String
-  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+  serviceUserId String?
+  lpaCode       String?
+  statement     String?
+  submittedDate DateTime
+
+  StatementDocuments StatementDocument[]
+  AppealCase         AppealCase          @relation(fields: [caseReference], references: [caseReference])
+}
+
+//Join table to link a parties statement with the correct documents
+model StatementDocument {
+  id          String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  statementId String @db.UniqueIdentifier
+  documentId  String @db.UniqueIdentifier
+
+  AppealStatement AppealStatement @relation(fields: [statementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Document        Document        @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 // This table stores IP comments once they have been validated / processed by back office
