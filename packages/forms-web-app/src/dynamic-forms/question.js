@@ -390,9 +390,14 @@ class Question {
 
 	NOT_STARTED = 'Not started';
 
-	isRequired = this.validators?.some(
-		(item) => item instanceof RequiredValidator || item instanceof RequiredFileUploadValidator
-	);
+	/**
+	 * @returns {boolean}
+	 */
+	isRequired() {
+		return this.validators?.some(
+			(item) => item instanceof RequiredValidator || item instanceof RequiredFileUploadValidator
+		);
+	}
 
 	/**
 	 * @param {JourneyResponse} journeyResponse

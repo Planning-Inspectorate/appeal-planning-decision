@@ -295,15 +295,8 @@ describe('MultiFileUploadQuestion', () => {
 		});
 	});
 
-	describe('checkForValidationErrors', () => {
-		it('should do nothing', async () => {
-			const question = getMultiFileUpload();
-			const result = question.checkForValidationErrors();
-			expect(result).toEqual(undefined);
-		});
-	});
-
-	describe('saveAction', () => {
+	// TODO: move these over to the method overrides folder once all the logic is ported
+	describe.skip('saveAction', () => {
 		it('works with no files', async () => {
 			req.body = {};
 

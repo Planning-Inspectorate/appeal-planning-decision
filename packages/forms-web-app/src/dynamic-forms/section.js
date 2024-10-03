@@ -81,7 +81,7 @@ class Section {
 				continue;
 			}
 
-			if (question.isRequired) {
+			if (question.isRequired()) {
 				requiredQuestionCount++;
 			}
 
@@ -89,7 +89,7 @@ class Section {
 				answerCount++;
 			}
 
-			if (question.isAnswered(journeyResponse) && question.isRequired) {
+			if (question.isAnswered(journeyResponse) && question.isRequired()) {
 				requiredAnswerCount++;
 			}
 		}
@@ -101,7 +101,7 @@ class Section {
 
 		// all required questions complete
 		// if no required sections this will never be hit
-		if (requiredQuestionCount != 0 && requiredAnswerCount >= requiredQuestionCount) {
+		if (requiredQuestionCount !== 0 && requiredAnswerCount >= requiredQuestionCount) {
 			result = SECTION_STATUS.COMPLETE;
 		}
 

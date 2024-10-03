@@ -1,8 +1,3 @@
-const {
-	isObjectWithUploadedFiles,
-	getValidFiles,
-	removeFilesV2
-} = require('../../../lib/multi-file-upload-helpers');
 const { createDocument } = require('../../../lib/documents-api-wrapper');
 const { mapMultiFileDocumentToSavedDocument } = require('../../../mappers/document-mapper');
 const {
@@ -48,7 +43,7 @@ class MultiFileUploadQuestion extends Question {
 	 * @param {string} [params.html]
 	 * @param {Array<import('../../question').BaseValidator>} [params.validators]
 	 *
-	 * @param {Array<Function>} [methodOverrides]
+	 * @param {Record<string, Function>} [methodOverrides]
 	 */
 	constructor(
 		{ title, question, fieldName, url, pageTitle, description, documentType, validators, html },

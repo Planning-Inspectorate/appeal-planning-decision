@@ -1,10 +1,10 @@
 const { Section, SECTION_STATUS } = require('./section');
-const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
-const RequiredValidator = require('./validator/required-validator');
 
 const mockQuestion = {
 	fieldName: 'visitFrequently',
-	shouldDisplay: () => true
+	isRequired: () => true,
+	shouldDisplay: () => true,
+	isAnswered: () => false
 };
 
 describe('./src/dynamic-forms/section.js', () => {
@@ -55,7 +55,8 @@ describe('./src/dynamic-forms/section.js', () => {
 			};
 
 			const section = new Section();
-			section.addQuestion(mockQuestion);
+			section.addQuestion({ ...mockQuestion, isAnswered: () => true });
+			section.addQuestion({ ...mockQuestion, isAnswered: () => false });
 			const result = section.getStatus(mockJourneyResponse);
 			expect(result).toBe(SECTION_STATUS.IN_PROGRESS);
 			const isComplete = section.isComplete(mockJourneyResponse);
@@ -72,20 +73,23 @@ describe('./src/dynamic-forms/section.js', () => {
 
 			const requiredQuestion = {
 				fieldName: 'visitFrequently',
-				validators: [new RequiredValidator()],
-				shouldDisplay: () => true
+				isRequired: () => true,
+				shouldDisplay: () => true,
+				isAnswered: () => true
 			};
 
 			const anotherRequiredQuestion = {
 				fieldName: 'anotherFieldName',
-				validators: [new RequiredFileUploadValidator()],
-				shouldDisplay: () => true
+				isRequired: () => true,
+				shouldDisplay: () => true,
+				isAnswered: () => true
 			};
 
 			const notARequiredQuestion = {
 				fieldName: 'someQuestion',
-				validators: [],
-				shouldDisplay: () => true
+				isRequired: () => false,
+				shouldDisplay: () => true,
+				isAnswered: () => false
 			};
 
 			const section = new Section();
@@ -114,23 +118,26 @@ describe('./src/dynamic-forms/section.js', () => {
 
 		const requiredQuestion = {
 			fieldName: 'visitFrequently',
-			validators: [new RequiredValidator()],
-			shouldDisplay: () => true
+			isRequired: () => true,
+			shouldDisplay: () => true,
+			isAnswered: () => true
 		};
 
 		const anotherRequiredQuestion = {
 			fieldName: 'anotherFieldName',
-			validators: [new RequiredFileUploadValidator()],
 			documentType: {
 				name: 'testDocType'
 			},
-			shouldDisplay: () => true
+			isRequired: () => true,
+			shouldDisplay: () => true,
+			isAnswered: () => true
 		};
 
 		const notARequiredQuestion = {
 			fieldName: 'someQuestion',
-			validators: [],
-			shouldDisplay: () => true
+			isRequired: () => false,
+			shouldDisplay: () => true,
+			isAnswered: () => false
 		};
 
 		const section = new Section();
@@ -158,23 +165,26 @@ describe('./src/dynamic-forms/section.js', () => {
 
 		const requiredQuestion = {
 			fieldName: 'visitFrequently',
-			validators: [new RequiredValidator()],
-			shouldDisplay: () => true
+			isRequired: () => true,
+			shouldDisplay: () => true,
+			isAnswered: () => true
 		};
 
 		const anotherRequiredQuestion = {
 			fieldName: 'anotherFieldName',
-			validators: [new RequiredFileUploadValidator()],
+			isRequired: () => true,
 			documentType: {
 				name: 'testDocType'
 			},
-			shouldDisplay: () => true
+			shouldDisplay: () => true,
+			isAnswered: () => false
 		};
 
 		const notARequiredQuestion = {
 			fieldName: 'someQuestion',
-			validators: [],
-			shouldDisplay: () => true
+			isRequired: () => false,
+			shouldDisplay: () => true,
+			isAnswered: () => true
 		};
 
 		const section = new Section();
