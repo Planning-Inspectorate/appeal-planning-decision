@@ -72,6 +72,8 @@
                               <a href="/appeals/your-appeals/continue/{{item.appealId}}" class="govuk-link">
                                 Continue
                               </a>
+														{% else if item.displayInvalid %}
+															<strong class='govuk-tag govuk-tag--grey'>Invalid</strong>
                             {% else %}
                               <a href="{{item.nextDocumentDue.baseUrl}}" class="govuk-link">
                                 {{item.nextDocumentDue.documentDue}}
