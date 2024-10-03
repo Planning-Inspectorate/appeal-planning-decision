@@ -11,6 +11,17 @@
 	{{ title }}
 {% endblock %}
 
+{# change back link from back to return to your appeals #}
+{% block backButton %}
+    {{ govukBackLink({
+        text: "Return to your appeals",
+        href: "/manage-appeals/your-appeals",
+        attributes: {
+        'data-cy': 'back'
+        }
+    }) }}
+{% endblock %}
+
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-full">
