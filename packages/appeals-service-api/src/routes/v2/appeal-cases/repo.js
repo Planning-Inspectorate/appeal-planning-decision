@@ -2,6 +2,7 @@ const { createPrismaClient } = require('#db-client');
 const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { subYears } = require('date-fns');
+const { APPEAL_CASE_DECISION_OUTCOME } = require('pins-data-model');
 
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
@@ -515,7 +516,12 @@ function addDecidedClauseToQuery(whereArray, decidedOnly) {
 		whereArray.push({ caseDecisionOutcomeDate: { not: null } });
 	} else {
 		// or no decision date == not decided
-		whereArray.push({ caseDecisionOutcomeDate: null });
+		whereArray.push({
+			OR: [
+				{ caseDecisionOutcomeDate: null },
+				{ caseDecisionOutcome: APPEAL_CASE_DECISION_OUTCOME.INVALID }
+			]
+		});
 	}
 }
 

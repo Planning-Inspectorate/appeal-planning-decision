@@ -23,7 +23,7 @@ exports.get = async (req, res) => {
 			.filter(isNotWithdrawn)
 			.map(mapToAppellantDashboardDisplayData)
 			.filter(Boolean)
-			.filter((appeal) => !appeal.appealDecision);
+			.filter((appeal) => !appeal.appealDecision || appeal.displayInvalid);
 
 		logger.debug({ undecidedAppeals }, 'undecided appeals');
 
