@@ -37,10 +37,10 @@ const logger = require('#lib/logger');
 /**
  * @typedef DueDocumentType
  * @type {object}
- * @property {string} [deadline] the date by which the document is due
- * @property {number} [dueInDays] the number of days remaining until the deadline expires
- * @property {string} documentDue the type of document which is due next
- * @property {string} [baseUrl] the base url for the document type
+ * @property {string | Date | null} [deadline] the date by which the document is due
+ * @property {number | null} [dueInDays] the number of days remaining until the deadline expires
+ * @property {string | null} documentDue the type of document which is due next
+ * @property {string | null} [baseUrl] the base url for the document type
  */
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
@@ -249,6 +249,13 @@ const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
 			deadline,
 			dueInDays: calculateDueInDays(deadline),
 			documentDue: 'Continue'
+		};
+	} else if (displayInvalidAppeal(caseOrSubmission)) {
+		return {
+			deadline: null,
+			/// ensures invalid appeals appear at the top of the of the display
+			dueInDays: -100000,
+			documentDue: 'Invalid'
 		};
 	} else if (isAppellantFinalCommentDue(caseOrSubmission)) {
 		return {
