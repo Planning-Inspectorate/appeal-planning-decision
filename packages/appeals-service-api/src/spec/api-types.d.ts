@@ -471,6 +471,31 @@ export interface AppealCase {
 	AppellantFinalCommentSubmission?: AppellantFinalCommentSubmission;
 }
 
+/** A document linked to an appeal statement */
+export interface StatementDocument {
+	/** @format uuid */
+	id: string;
+	/** @format uuid */
+	statementId: string;
+	/** @format uuid */
+	documentId: string;
+	/** A document associated with an appeal */
+	Document?: Document;
+}
+
+/** A statement made by an LPA or Rule 6 party on an appeal case */
+export interface AppealStatement {
+	/** @format uuid */
+	id?: string;
+	caseReference: string;
+	serviceUserId?: string | null;
+	lpaCode?: string | null;
+	statement?: string | null;
+	/** @format date-time */
+	submittedDate: string;
+	StatementDocuments?: StatementDocument[];
+}
+
 /** An appeal submission created in the Front Office */
 export interface AppealSubmission {
 	_id?: string;

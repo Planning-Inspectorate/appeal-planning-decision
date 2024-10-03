@@ -1,0 +1,32 @@
+components:
+  schemas:
+    AppealStatement:
+      description: A statement made by an LPA or Rule 6 party on an appeal case
+      type: object
+      required:
+        - caseReference
+        - submittedDate
+      properties:
+        id:
+          type: string
+          format: uuid
+        caseReference:
+          type: string
+        serviceUserId:
+          type: string
+          nullable: true
+        lpaCode:
+          type: string
+          nullable: true
+        statement:
+          type: string
+          nullable: true
+        submittedDate:
+          type: string
+          format: date-time
+
+        # relations
+        StatementDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/StatementDocument'
