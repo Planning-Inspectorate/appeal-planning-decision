@@ -27,6 +27,7 @@ const logger = require('#lib/logger');
  * @property {DueDocumentType} nextDocumentDue object with details of the next document due
  * @property {boolean} [isNewAppeal] whether this is a new appeal
  * @property {boolean} [isDraft] whether the appeal submission is in draft state
+ * @property {boolean} [displayInvalid] whether an invalidated appeal should be invalidated
  * @property {string | undefined | null} appealDecision the PINS decision in respect of the appeal
  * @property {string | null} [appealDecisionColor] tag color to use for the decision
  * @property {string | undefined | null} caseDecisionOutcomeDate
@@ -51,7 +52,7 @@ const {
 } = require('./full-appeal/map-planning-application');
 const { businessRulesDeadline } = require('./calculate-deadline');
 const { APPEAL_CASE_STATUS } = require('pins-data-model');
-// const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
+const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
 
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
@@ -61,7 +62,7 @@ const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
 const appellantFinalCommentBaseUrl = '/appeals/final-comments';
 const appellantProofsBaseUrl = '/appeals/proofs-of-evidence-submission';
 
-// const INVALID_APPEAL_TIME_LIMIT = 28;
+const INVALID_APPEAL_TIME_LIMIT = 28;
 
 // MAP DATABASE RETURN OBJECTS TO DASHBOARD DISPLAY DATA
 
@@ -97,6 +98,7 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 			appealType: getAppealType(appealData),
 			nextDocumentDue: determineDocumentToDisplayAppellantDashboard(appealData),
 			isDraft: isAppealSubmission(appealData) || isV2Submission(appealData),
+			displayInvalid: displayInvalidAppeal(appealData),
 			appealDecision: isAppealSubmission(appealData)
 				? null
 				: mapDecisionLabel(appealData.caseDecisionOutcome),
@@ -149,7 +151,7 @@ const overdueDocumentNotToBeDisplayed = (dueDocument) => {
  * @returns {boolean}
  */
 const isToDoAppellantDashboard = (dashboardData) => {
-	return displayDocumentOnToDo(dashboardData.nextDocumentDue);
+	return dashboardData.displayInvalid || displayDocumentOnToDo(dashboardData.nextDocumentDue);
 };
 
 /**
@@ -279,7 +281,11 @@ const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
  * @returns {boolean}
  */
 const isQuestionnaireDue = (appealCaseData) => {
-	return !!appealCaseData.lpaQuestionnaireDueDate && !appealCaseData.lpaQuestionnaireSubmittedDate;
+	return (
+		!!appealCaseData.lpaQuestionnaireDueDate &&
+		!appealCaseData.lpaQuestionnaireSubmittedDate &&
+		appealCaseData.caseStatus === APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE
+	);
 };
 
 /**
@@ -287,7 +293,11 @@ const isQuestionnaireDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const isStatementDue = (appealCaseData) => {
-	return !!appealCaseData.statementDueDate && !appealCaseData.LPAStatementSubmitted;
+	return (
+		!!appealCaseData.statementDueDate &&
+		!appealCaseData.LPAStatementSubmitted &&
+		appealCaseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS
+	);
 };
 
 /**
@@ -330,22 +340,19 @@ const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
 	return !!appealCaseData.proofsOfEvidenceDueDate && !appealCaseData.appellantsProofsSubmitted;
 };
 
-// /**
-//  * @param {AppealCaseDetailed} appealCaseData return object from database call
-//  * @returns {boolean}
-//  */
-// const isInvalid = (appealCaseData) => {
-// 	return appealCaseData.caseStatus === APPEAL_CASE_STATUS.INVALID;
-// }
+/**
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
+ * @returns {boolean}
+ */
+const displayInvalidAppeal = (appealCaseData) => {
+	if (appealCaseData.caseStatus === APPEAL_CASE_STATUS.INVALID) {
+		return (
+			calculateDaysSinceInvalidated(appealCaseData.caseValidationDate) > INVALID_APPEAL_TIME_LIMIT
+		);
+	}
 
-// /**
-//  * @param {AppealCaseDetailed} appealCaseData return object from database call
-//  * @returns {boolean}
-//  */
-// const displayInvalidAppeal = (appealCaseData) => {
-// 	const daysSinceInvalidated = calculateDaysSinceInvalidated(appealCaseData.caseValidationDate);
-// 	return daysSinceInvalidated > INVALID_APPEAL_TIME_LIMIT;
-// }
+	return false;
+};
 
 /**
  * @param {AppealCaseDetailed | AppealSubmission} appealCaseData return object from database call
