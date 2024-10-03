@@ -544,6 +544,7 @@ const documentTypes = {
 	},
 	uploadPlanningObligation: {
 		name: 'uploadPlanningObligation',
+		dataModelName: APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION,
 		multiple: true,
 		displayName: '',
 		involvement: '',
