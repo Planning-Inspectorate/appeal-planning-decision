@@ -1,5 +1,4 @@
-const { endOfDay } = require('date-fns');
-const { utcToZonedTime, zonedTimeToUtc, formatInTimeZone } = require('date-fns-tz');
+const { formatInTimeZone } = require('date-fns-tz');
 
 const { APPEAL_ID, APPLICATION_DECISION } = require('../../constants');
 const BusinessRulesError = require('../../lib/business-rules-error');
@@ -92,28 +91,4 @@ describe('calculateAppealDeadline', () => {
 			expect(formatInTimeZone(result, targetTimezone, 'HH:mm:ss')).toEqual('23:59:59');
 		}
 	);
-
-	it('date-fns should get end of day in BST timezone', () => {
-		const date = new Date('2020-08-01T00:00:00Z');
-		expect(date.toISOString()).toEqual('2020-08-01T00:00:00.000Z');
-		const zoned = utcToZonedTime(date, targetTimezone);
-		const endZoned = endOfDay(zoned);
-		const endUTC = zonedTimeToUtc(endZoned, targetTimezone);
-		expect(endUTC.toISOString()).toEqual('2020-08-01T22:59:59.999Z');
-		expect(formatInTimeZone(endUTC, targetTimezone, 'yyyy-MM-dd HH:mm:ss zzz')).toEqual(
-			'2020-08-01 23:59:59 GMT+1'
-		);
-	});
-
-	it('date-fns should get end of day in GMT timezone', () => {
-		const date = new Date('2020-01-01T00:00:00Z');
-		expect(date.toISOString()).toEqual('2020-01-01T00:00:00.000Z');
-		const zoned = utcToZonedTime(date, targetTimezone);
-		const endZoned = endOfDay(zoned);
-		const endUTC = zonedTimeToUtc(endZoned, targetTimezone);
-		expect(endUTC.toISOString()).toEqual('2020-01-01T23:59:59.999Z');
-		expect(formatInTimeZone(endUTC, targetTimezone, 'yyyy-MM-dd HH:mm:ss zzz')).toEqual(
-			'2020-01-01 23:59:59 GMT'
-		);
-	});
 });
