@@ -2,11 +2,12 @@ const {
 	formatAddress,
 	determineDocumentToDisplayLPADashboard,
 	isNewAppeal
-} = require('../../../src/lib/dashboard-functions');
+} = require('./dashboard-functions');
 
-const { calculateDueInDays } = require('../../../src/lib/calculate-due-in-days');
+const { calculateDueInDays } = require('./calculate-due-in-days');
+const { APPEAL_CASE_STATUS } = require('pins-data-model');
 
-jest.mock('../../../src/lib/calculate-due-in-days');
+jest.mock('./calculate-due-in-days');
 
 const FULL_TEST_ADDRESS = {
 	siteAddressLine1: 'Test Address Line 1',
@@ -62,7 +63,8 @@ describe('lib/dashboard-functions', () => {
 				lpaQuestionnaireSubmittedDate: null,
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
 				LPAStatementSubmitted: null,
-				caseReference: testCaseRef
+				caseReference: testCaseRef,
+				caseStatus: APPEAL_CASE_STATUS.LPA_QUESTIONNAIRE
 			};
 
 			const expectedQuestionnaireDetails = {
@@ -85,7 +87,8 @@ describe('lib/dashboard-functions', () => {
 				questionnaireReceived: '2023-07-07T13:54:31.6003126+00:00',
 				statementDueDate: '2023-07-17T13:53:31.6003126+00:00',
 				LPAStatementSubmitted: null,
-				caseReference: testCaseRef
+				caseReference: testCaseRef,
+				caseStatus: APPEAL_CASE_STATUS.STATEMENTS
 			};
 
 			const expectedStatementDetails = {
@@ -110,7 +113,7 @@ describe('lib/dashboard-functions', () => {
 				LPAStatementSubmitted: '2023-07-17T13:53:31.6003126+00:00',
 				finalCommentsDueDate: '2023-07-27T13:53:31.6003126+00:00',
 				LPACommentsSubmitted: null,
-				caseStatus: 'final_comments',
+				caseStatus: APPEAL_CASE_STATUS.FINAL_COMMENTS,
 				caseReference: testCaseRef
 			};
 
@@ -136,7 +139,7 @@ describe('lib/dashboard-functions', () => {
 				LPAStatementSubmitted: '2023-07-17T13:53:31.6003126+00:00',
 				proofsOfEvidenceDueDate: '2023-07-27T13:53:31.6003126+00:00',
 				LPAProofsSubmitted: null,
-				caseStatus: 'evidence',
+				caseStatus: APPEAL_CASE_STATUS.EVIDENCE,
 				caseReference: testCaseRef
 			};
 
