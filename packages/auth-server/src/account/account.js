@@ -1,6 +1,4 @@
 import { UnknownUserId } from 'oidc-provider/lib/helpers/errors.js';
-import { isFeatureActive } from '../configuration/featureFlag.js';
-import features from '@pins/common/src/feature-flags.js';
 import { sendConfirmRegistrationEmailToAppellant } from '../lib/notify.js';
 import { isEmailLike } from '../validators/email.js';
 
@@ -25,8 +23,7 @@ class Account {
 	async enrolUser() {
 		if (
 			!this.user.isEnrolled && // don't resend
-			!this.user.isLpaUser && // don't send appellant email to lpa users
-			(await isFeatureActive(features.FLAG.ENROL_USERS))
+			!this.user.isLpaUser // don't send appellant email to lpa users
 		) {
 			this.user.isEnrolled = true;
 			await repo.updateUser(this.user);

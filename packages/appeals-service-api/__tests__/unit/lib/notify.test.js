@@ -1,5 +1,4 @@
-const { sendSecurityCodeEmail, sendLPADashboardInviteEmail } = require('../../../src/lib/notify');
-const enterCodeConfig = require('../../../../common/src/enter-code-config');
+const { sendLPADashboardInviteEmail } = require('../../../src/lib/notify');
 const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const config = require('../../../src/configuration/config');
 const { templates } = config.services.notify;
@@ -31,25 +30,6 @@ jest.mock('../../../src/services/lpa.service');
 jest.mock('../../../src/lib/logger');
 
 describe('appeals-service-api/src/lib/notify.js', () => {
-	describe('sendSecurityCodeEmail', () => {
-		it('should default to templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant when no action specified', () => {
-			const recipientEmail = 'iamnoone@example.com';
-			const code = '12345';
-			sendSecurityCodeEmail(recipientEmail, code);
-			expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(
-				templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant
-			);
-		});
-		it('should map to templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant when no action specified', () => {
-			const recipientEmail = 'iamnoone@example.com';
-			const code = '12345';
-			sendSecurityCodeEmail(recipientEmail, code, enterCodeConfig.actions.lpaDashboard);
-			expect(NotifyBuilder.setTemplateId).toHaveBeenCalledWith(
-				templates.LPA_DASHBOARD.enterCodeIntoServiceEmailToLPA
-			);
-		});
-	});
-
 	describe('sendLPADashBoardInviteEmail', () => {
 		it('should call notify builder with correct values', async () => {
 			const mockUser = {

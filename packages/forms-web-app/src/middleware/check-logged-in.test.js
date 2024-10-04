@@ -34,14 +34,6 @@ describe('checkLoggedIn middleware', () => {
 		isFeatureActive.mockResolvedValue(true);
 	});
 
-	it('should call next if feature is not active', async () => {
-		isFeatureActive.mockResolvedValue(false);
-
-		await checkLoggedIn(req, res, next);
-
-		expect(next).toHaveBeenCalled();
-	});
-
 	it('should call next if user is authenticated', async () => {
 		const mockUser = {
 			expiry: new Date(Date.now() + 1000)

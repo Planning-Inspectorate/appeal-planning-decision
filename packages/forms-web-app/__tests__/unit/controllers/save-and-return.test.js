@@ -1,5 +1,5 @@
 const { mockReq, mockRes } = require('../mocks');
-const { postSaveAndReturn, continueAppeal } = require('../../../src/controllers/save');
+const { postSaveAndReturn } = require('../../../src/controllers/save');
 const { saveAppeal } = require('../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../src/lib/submit-appeal/views');
 
@@ -27,13 +27,6 @@ describe('controllers/save-and-return', () => {
 			await postSaveAndReturn(req, res);
 			expect(saveAppeal).toHaveBeenCalledWith(appeal);
 			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.SUBMIT_APPEAL.APPLICATION_SAVED}`);
-		});
-	});
-
-	describe('continueAppeal', () => {
-		it('should continue with appeal', async () => {
-			await continueAppeal(req, res);
-			expect(res.redirect).toHaveBeenCalledWith(`/${VIEW.SUBMIT_APPEAL.ENTER_CODE}`);
 		});
 	});
 });
