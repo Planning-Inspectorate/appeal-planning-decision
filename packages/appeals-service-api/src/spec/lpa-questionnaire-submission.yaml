@@ -171,3 +171,19 @@ components:
           type: string
         requiresEnvironmentalStatement:
           type: boolean
+        SubmissionAddress:
+          type: array
+          items:
+            type: object
+        SubmissionListedBuilding:
+          type: array
+          items:
+            type: object
+        SubmissionLinkedCase:
+          type: array
+          items:
+            type: object
+        SubmissionDocumentUpload:
+          type: array
+          items:
+            type: object

@@ -1,6 +1,6 @@
 const { body } = require('express-validator');
 const BaseValidator = require('./base-validator.js');
-const { optionIsDivider } = require('../options-question.js');
+const { optionIsDivider } = require('../dynamic-components/utils/question-utils.js');
 
 /**
  * @typedef {import('../options-question.js')} OptionsQuestion
@@ -40,13 +40,12 @@ class ValidOptionValidator extends BaseValidator {
 			.custom((value) => {
 				if (!value) return true;
 				value = Array.isArray(value) ? value : [value];
-				return value.every((/** @type {string} */ element) =>
-					question.options
-						.map((option) => {
-							return !optionIsDivider(option) && option.value;
-						})
-						.includes(element)
-				);
+				return value.every((/** @type {string} */ element) => {
+					const mappedOptions = question.options.map((option) => {
+						return optionIsDivider(option) ? null : option.value;
+					});
+					return mappedOptions.includes(element);
+				});
 			})
 			.withMessage(this.errorMessage);
 	}

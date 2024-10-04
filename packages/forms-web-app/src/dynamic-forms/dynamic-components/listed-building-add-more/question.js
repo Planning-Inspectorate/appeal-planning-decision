@@ -6,6 +6,7 @@ const { randomUUID } = require('crypto');
 
 /**
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {Awaited<ReturnType<import('../list-add-more/question')['getDataToSave']>>} GetDataToSaveReturnType
  */
 
 class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
@@ -32,7 +33,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	/**
 	 * adds a uuid to save the listed building
 	 * @param {import('express').Request} req
-	 * @returns
+	 * @returns {Promise<{ answers: Record<string, unknown> } & {addMoreId: string; value: ListedBuilding }>}
 	 */
 	async getDataToSave(req) {
 		// todo: improve this error message
@@ -49,7 +50,7 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 				listedBuildingData.listedBuildingGrade
 			);
 
-			return { addMoreId: randomUUID(), value: listedBuilding };
+			return { answers: {}, addMoreId: randomUUID(), value: listedBuilding };
 		} catch (err) {
 			throw new Error(`Could not find listed building: ${listedBuildingReference}`);
 		}
@@ -57,8 +58,8 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 
 	/**
 	 *
-	 * @param {Object.<Any>} answer
-	 * @returns The formatted string to be presented in the UI
+	 * @param {ListedBuilding} answer
+	 * @returns {string}
 	 */
 	format(answer) {
 		const identifier = answer.reference;
@@ -79,10 +80,11 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 	 * @param {import('express').Request} req
 	 * @param {string} parentFieldName
 	 * @param {JourneyResponse} journeyResponse
-	 * @param {Object} responseToSave
+	 * @param {GetDataToSaveReturnType} responseToSave
 	 */
 	async saveList(req, parentFieldName, journeyResponse, responseToSave) {
 		const listedBuildings = responseToSave.answers[parentFieldName];
+		if (!Array.isArray(listedBuildings)) throw new Error('Answer was an unexpected shape');
 		await Promise.all(
 			listedBuildings.map((listedBuilding) => {
 				const listedBuildingData = listedBuilding.value;
@@ -109,8 +111,8 @@ class ListedBuildingAddMoreQuestion extends AddMoreQuestion {
 			journeyResponse.referenceId,
 			answerId
 		);
-		journeyResponse.answers = updated;
-		return updated.SubmissionListedBuilding?.length > 0 ? journeyResponse : true;
+		journeyResponse.answers = { ...updated };
+		return (updated.SubmissionListedBuilding?.length || 0) > 0 ? journeyResponse : true;
 	}
 }
 
