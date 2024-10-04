@@ -59,7 +59,7 @@ const handler = async (request, context) => {
 	const result = await importListedBuildingsFromFile(context, fileStream, skip);
 
 	// return success response message
-	var message = `Skipped ${skip} batches | Processed ${result.processedCount} in ${
+	const message = `Skipped ${skip} batches | Processed ${result.processedCount} in ${
 		result.batchCount - skip
 	} batches`;
 

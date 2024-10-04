@@ -68,10 +68,9 @@ exports.postPlanningDepartment = async (req, res) => {
 			errors,
 			errorSummary: [{ text: e.toString(), href: 'local-planning-department' }]
 		});
+
 		return;
 	}
 
 	res.redirect(`/before-you-start/type-of-planning-application`);
-	// eslint-disable-next-line no-useless-return
-	return;
 };

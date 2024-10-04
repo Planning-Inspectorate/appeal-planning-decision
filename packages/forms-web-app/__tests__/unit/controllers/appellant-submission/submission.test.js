@@ -141,7 +141,7 @@ describe('controllers/appellant-submission/submission', () => {
 					'appellant-confirmation': 'anything here - not valid'
 				}
 			};
-			postSubmission(mockRequest, res);
+			await postSubmission(mockRequest, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${SUBMISSION}`);
 		});
@@ -158,7 +158,7 @@ describe('controllers/appellant-submission/submission', () => {
 					}
 				}
 			};
-			postSubmission(mockRequest, res);
+			await postSubmission(mockRequest, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_DATE_PASSED}`);
 		});

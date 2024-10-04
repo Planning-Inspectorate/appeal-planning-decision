@@ -3,7 +3,7 @@ const { format, utcToZonedTime } = require('date-fns-tz');
 const logger = require('../lib/logger');
 
 // default format (govuk)
-var dateFilterDefaultFormat = 'd MMMM yyyy';
+const dateFilterDefaultFormat = 'd MMMM yyyy';
 const targetTimeZone = 'Europe/London';
 
 /**

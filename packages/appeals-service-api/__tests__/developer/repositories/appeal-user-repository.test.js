@@ -37,7 +37,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-	dbClient.$disconnect();
+	await dbClient.$disconnect();
 });
 
 it('should create user with given details', async () => {

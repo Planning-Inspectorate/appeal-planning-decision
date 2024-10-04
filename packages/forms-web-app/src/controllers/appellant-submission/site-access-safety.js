@@ -64,6 +64,5 @@ exports.postSiteAccessSafety = async (req, res) => {
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
 		});
-		return;
 	}
 };
