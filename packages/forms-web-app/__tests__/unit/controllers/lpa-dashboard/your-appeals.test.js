@@ -46,6 +46,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 	beforeEach(() => {
 		req.appealsApiClient = {
 			getAppealsCaseDataV2: jest.fn(),
+			getAppealsCasesByLpaAndStatus: jest.fn(),
 			getDecidedAppealsCountV2: jest.fn()
 		};
 
@@ -56,6 +57,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 		it('should render the view with a link to add-remove', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
 			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
+			req.appealsApiClient.getAppealsCasesByLpaAndStatus.mockResolvedValue([]);
 			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
 			isToDoLPADashboard.mockReturnValue(true);
@@ -81,6 +83,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 		it('should show questionnaire ', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
 			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
+			req.appealsApiClient.getAppealsCasesByLpaAndStatus.mockResolvedValue([]);
 			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
 			isToDoLPADashboard.mockReturnValue(true);
@@ -106,6 +109,7 @@ describe('controllers/lpa-dashboard/your-appeals', () => {
 		it('should call API to fetch appeals case data', async () => {
 			getUserFromSession.mockReturnValue(mockUser);
 			req.appealsApiClient.getAppealsCaseDataV2.mockResolvedValue([mockAppealData]);
+			req.appealsApiClient.getAppealsCasesByLpaAndStatus.mockResolvedValue([]);
 			req.appealsApiClient.getDecidedAppealsCountV2.mockResolvedValue(mockDecidedCount);
 			mapToLPADashboardDisplayData.mockReturnValue(mockAppealData);
 			isToDoLPADashboard.mockReturnValue(true);
