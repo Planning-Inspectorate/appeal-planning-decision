@@ -1,8 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
-const { subYears } = require('date-fns');
-const { APPEAL_CASE_DECISION_OUTCOME } = require('pins-data-model');
+const { subYears } = require('date-fns');;
 
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
@@ -397,12 +396,16 @@ class AppealCaseRepository {
 	 * @param {Object} options
 	 * @param {string} options.lpaCode
 	 * @param {boolean} options.decidedOnly - if true, only decided cases; else ONLY cases not decided
+	 * @param {string} options.caseStatus
 	 * @returns {Promise<AppealCase[]>}
 	 */
-	async listByLpaCode({ lpaCode, decidedOnly }) {
+	async listByLpaCode({ lpaCode, decidedOnly, caseStatus }) {
 		/** @type {AppealCaseWhereInput[]}	*/
 		const AND = [{ LPACode: lpaCode }];
 		addDecidedClauseToQuery(AND, decidedOnly);
+		if (caseStatus) {
+			addCaseStatusToQuery(AND, caseStatus);
+		}
 		/** @type {AppealCaseFindManyArgs}	*/
 		const query = {
 			where: {
@@ -516,13 +519,18 @@ function addDecidedClauseToQuery(whereArray, decidedOnly) {
 		whereArray.push({ caseDecisionOutcomeDate: { not: null } });
 	} else {
 		// or no decision date == not decided
-		whereArray.push({
-			OR: [
-				{ caseDecisionOutcomeDate: null },
-				{ caseDecisionOutcome: APPEAL_CASE_DECISION_OUTCOME.INVALID }
-			]
-		});
+		whereArray.push({ caseDecisionOutcomeDate: null });
 	}
+}
+
+/**
+ * Add a where clause to either filter by only decided or only not decided cases
+ *
+ * @param {AppealCaseWhereInput[]} whereArray
+ * @param {string} caseStatus
+ */
+function addCaseStatusToQuery(whereArray, caseStatus) {
+	whereArray.push({ caseStatus });
 }
 
 module.exports = { AppealCaseRepository, DocumentsArgsPublishedOnly };
