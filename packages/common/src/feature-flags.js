@@ -1,7 +1,6 @@
 const FLAG = {
 	APPEALS_BO_SUBMISSION: 'appeals-bo-submission',
 	ENROL_USERS: 'enrol-users',
-	FINAL_COMMENTS: 'final-comments',
 	HAS_APPEAL_FORM_V2: 'has-appeal-form-v2',
 	HAS_QUESTIONNAIRE: 'has-questionnaire',
 	HORIZON_DOCUMENT_LABELLING: 'horizon-document-labelling',
