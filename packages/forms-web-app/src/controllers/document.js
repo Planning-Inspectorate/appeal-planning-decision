@@ -54,7 +54,6 @@ const getDocument = async (req, res) => {
 	} catch (err) {
 		logger.error({ err }, 'Failed to get document');
 		res.sendStatus(500);
-		return;
 	}
 };
 
@@ -98,7 +97,6 @@ const getAppellantSubmissionPDFV2 = async (req, res) => {
 	} catch (err) {
 		logger.error({ err }, 'Failed to get document');
 		res.sendStatus(500);
-		return;
 	}
 };
 

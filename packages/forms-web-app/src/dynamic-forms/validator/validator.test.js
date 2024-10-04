@@ -37,7 +37,7 @@ describe('./src/dynamic-forms/validator/validator.js', () => {
 			error = e;
 		}
 
-		expect(error.message).toEqual('unknown question type');
+		expect(error?.message).toEqual('unknown question type');
 	});
 
 	it('should validate a single validator', async () => {

@@ -20,7 +20,7 @@ describe('controllers/lpa-dashboard/service-invite', () => {
 
 	describe('getServiceInvite', () => {
 		it('should render the unauthorized view without an lpaCode', async () => {
-			getServiceInvite(req, res);
+			await getServiceInvite(req, res);
 			expect(res.render).toHaveBeenCalledWith(VIEW.ERROR_PAGES.UNAUTHORIZED);
 			expect(getLPA).not.toHaveBeenCalled();
 

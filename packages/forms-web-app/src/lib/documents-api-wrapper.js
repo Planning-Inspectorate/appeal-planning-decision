@@ -56,7 +56,7 @@ const handler = async (
 		throw new Error(apiResponse.statusText);
 	}
 
-	const ok = allowedResponseCodes.includes(await apiResponse.status);
+	const ok = allowedResponseCodes.includes(apiResponse.status);
 
 	if (!ok) {
 		throw new Error(apiResponse.statusText);

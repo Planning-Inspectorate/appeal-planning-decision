@@ -36,7 +36,7 @@ exports.generatePDF = async (htmlContent) => {
 		throw new Error(apiResponse.statusText);
 	}
 
-	const ok = (await apiResponse.status) === 200;
+	const ok = apiResponse.status === 200;
 
 	if (!ok) {
 		throw new Error(apiResponse.statusText);
