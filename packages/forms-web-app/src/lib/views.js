@@ -93,19 +93,6 @@ const VIEW = {
 		STAGES_APPEAL: 'guidance-pages/stages-appeal'
 	},
 
-	FINAL_COMMENT: {
-		INPUT_CODE: 'full-appeal/submit-final-comment/input-code',
-		CODE_EXPIRED: 'full-appeal/submit-final-comment/code-expired',
-		NEED_NEW_CODE: 'full-appeal/submit-final-comment/need-new-code',
-		FINAL_COMMENT: 'full-appeal/submit-final-comment/final-comment',
-		COMMENTS_QUESTION: 'full-appeal/submit-final-comment/comments-question',
-		FINAL_COMMENT_SUBMITTED: 'full-appeal/submit-final-comment/final-comment-submitted',
-		APPEAL_CLOSED_FOR_COMMENT: 'full-appeal/submit-final-comment/appeal-closed-for-comment',
-		DOCUMENTS_CHECK: 'full-appeal/submit-final-comment/documents-check',
-		UPLOAD_DOCUMENTS: 'full-appeal/submit-final-comment/upload-documents',
-		CHECK_YOUR_ANSWERS: 'full-appeal/submit-final-comment/check-your-answers'
-	},
-
 	FULL_APPEAL: {
 		EMAIL_ADDRESS: 'full-appeal/submit-appeal/email-address',
 		EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-address-confirmed',
