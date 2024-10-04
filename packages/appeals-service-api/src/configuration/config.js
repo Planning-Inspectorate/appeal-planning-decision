@@ -44,30 +44,12 @@ let config = {
 	},
 	logger: {
 		level: process.env.LOGGER_LEVEL || 'info',
-		redact: [
-			'config.db',
-			'config.services.notify.apiKey',
-			'config.secureCodes.finalComments.decipher.securityKey',
-			'config.storage.connectionString'
-		],
+		redact: ['config.db', 'config.services.notify.apiKey', 'config.storage.connectionString'],
 		prettyPrint: process.env.LOGGER_PRETTY_PRINT === 'true'
 	},
 	migration: {
 		defaultBatchSize: parseInt(process.env.MIGRATION_BATCHSIZE, 10) || 100,
 		defaultDelayBetweenBatchesMS: parseInt(process.env.MIGRATION_BATCHDELAY, 10) || 500
-	},
-	secureCodes: {
-		finalComments: {
-			length: process.env.FINAL_COMMENTS_PIN_LENGTH,
-			expirationTimeInMinutes: process.env.FINAL_COMMENTS_PIN_EXPIRATION_TIME_IN_MINUTES,
-			decipher: {
-				algorithm: process.env.FINAL_COMMENTS_SECURE_CODE_DECIPHER_ALGORITHM,
-				initVector: process.env.FINAL_COMMENTS_SECURE_CODE_DECIPHER_INIT_VECTOR,
-				securityKey: process.env.FINAL_COMMENTS_SECURE_CODE_DECIPHER_SECURITY_KEY,
-				inputEncoding: process.env.FINAL_COMMENTS_SECURE_CODE_DECIPHER_INPUT_ENCODING,
-				outputEncoding: process.env.FINAL_COMMENTS_SECURE_CODE_DECIPHER_OUTPUT_ENCODING
-			}
-		}
 	},
 	server: {
 		port: Number(process.env.SERVER_PORT || 3000),
@@ -129,9 +111,7 @@ let config = {
 				},
 				SAVE_AND_RETURN: {
 					continueWithAppealEmailToAppellant:
-						process.env.SRV_NOTIFY_SAVE_AND_RETURN_CONTINUE_WITH_APPEAL_TEMPLATE_ID,
-					enterCodeIntoServiceEmailToAppellant:
-						process.env.SRV_NOTIFY_SAVE_AND_RETURN_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID
+						process.env.SRV_NOTIFY_SAVE_AND_RETURN_CONTINUE_WITH_APPEAL_TEMPLATE_ID
 				},
 				ERROR_MONITORING: {
 					failureToUploadToHorizon: process.env.SRV_NOTIFY_FAILURE_TO_UPLOAD_TO_HORIZON_TEMPLATE_ID
@@ -168,9 +148,6 @@ let config = {
 		},
 		lpaQuestionnaire: {
 			baseUrl: process.env.APP_LPA_QUESTIONNAIRE_BASE_URL
-		},
-		finalComments: {
-			testID: 'test123'
 		}
 	},
 	tasks: {
