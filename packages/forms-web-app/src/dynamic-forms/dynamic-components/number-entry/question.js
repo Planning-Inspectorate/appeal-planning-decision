@@ -3,6 +3,9 @@ const { getPersistedNumberAnswer } = require('../utils/persisted-number-answer')
 
 /**
  * @typedef {import('../../journey').Journey} Journey
+ * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
+
+ * @typedef {QuestionViewModel & { answer?: string | number, question: QuestionViewModel['question'] & { label?: string, suffix?: string } }} NumberViewModel
  */
 
 class NumberEntryQuestion extends Question {
@@ -36,6 +39,11 @@ class NumberEntryQuestion extends Question {
 
 	/**
 	 * adds label and suffix property to view model
+	 * @param {import('../../section').Section} section - the current section
+	 * @param {import('../../journey').Journey} journey - the journey we are in
+	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [payload]
+	 * @returns {NumberViewModel}
 	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
@@ -43,18 +51,16 @@ class NumberEntryQuestion extends Question {
 		const answer = journey.response.answers[this.fieldName];
 		const persistedAnswer = getPersistedNumberAnswer(answer);
 
-		viewModel.question.value = persistedAnswer;
-		viewModel.answer = persistedAnswer;
-
-		viewModel.question.label = this.label;
-		viewModel.question.suffix = this.suffix;
-
-		return viewModel;
+		return {
+			...viewModel,
+			answer: persistedAnswer,
+			question: { ...viewModel.question, label: this.label, suffix: this.suffix }
+		};
 	}
 
 	/**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @param {Object} answer
+	 * @param {string | null} answer
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
 	 * @returns {Array<{

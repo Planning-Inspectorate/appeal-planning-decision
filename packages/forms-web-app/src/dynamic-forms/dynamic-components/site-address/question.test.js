@@ -2,7 +2,7 @@ const SiteAddressQuestion = require('./question');
 const Address = require('@pins/common/src/lib/address');
 
 describe('SiteAddressQuestion', () => {
-	let question, req, mockApi, journeyResponse;
+	let question, req, mockApi;
 
 	const TITLE = 'What is the site address?';
 	const QUESTION = 'Enter the site address details:';
@@ -43,12 +43,6 @@ describe('SiteAddressQuestion', () => {
 			},
 			appealsApiClient: mockApi
 		};
-
-		journeyResponse = {
-			journeyId: 'journey123',
-			referenceId: '1234',
-			answers: {}
-		};
 	});
 
 	describe('getDataToSave', () => {
@@ -68,32 +62,10 @@ describe('SiteAddressQuestion', () => {
 					postcode: expectedAddress.postcode
 				}),
 				fieldName: FIELDNAME,
-				siteAddressSet: true
+				siteAddressSet: true,
+				addressId: undefined,
+				answers: {}
 			});
-		});
-	});
-
-	describe('saveAction', () => {
-		it('should successfully save the address and call the next question', async () => {
-			question.checkForValidationErrors = jest.fn().mockReturnValue(null);
-			question.handleNextQuestion = jest.fn();
-
-			await question.saveAction(req, {}, {}, {}, journeyResponse);
-
-			expect(mockApi.postSubmissionAddress).toHaveBeenCalledWith(
-				journeyResponse.journeyId,
-				journeyResponse.referenceId,
-				{
-					addressLine1: '123 Main St',
-					addressLine2: 'Floor 2',
-					townCity: 'Testville',
-					postcode: 'TE1 2ST',
-					county: 'Testshire',
-					fieldName: FIELDNAME
-				}
-			);
-			expect(mockApi.updateAppellantSubmission).toHaveBeenCalled();
-			expect(question.handleNextQuestion).toHaveBeenCalled();
 		});
 	});
 

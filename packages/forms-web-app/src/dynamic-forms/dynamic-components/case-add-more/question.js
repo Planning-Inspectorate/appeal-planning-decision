@@ -5,6 +5,7 @@ const logger = require('../../../lib/logger');
 
 /**
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {Awaited<ReturnType<import('../list-add-more/question')['getDataToSave']>>} GetDataToSaveReturnType
  */
 
 class CaseAddMoreQuestion extends AddMoreQuestion {
@@ -33,15 +34,16 @@ class CaseAddMoreQuestion extends AddMoreQuestion {
 	/**
 	 * adds a uuid to the data to save
 	 * @param {import('express').Request} req
-	 * @returns
+	 * @param {JourneyResponse} _
+	 * @returns {Promise<{ answers: Record<string, unknown> } & { addMoreId: string; value: string }>}
 	 */
-	async getDataToSave(req) {
-		return { addMoreId: randomUUID(), value: req.body[this.fieldName]?.trim() };
+	async getDataToSave(req, _) {
+		return { answers: {}, addMoreId: randomUUID(), value: req.body[this.fieldName]?.trim() };
 	}
 
 	/**
-	 * @param {Object.<Any>} answer
-	 * @returns The formatted caseRef to be presented in the UI
+	 * @param {{ caseReference: string }} answer
+	 * @returns {string}
 	 */
 	format(answer) {
 		return answer?.caseReference;
@@ -59,10 +61,12 @@ class CaseAddMoreQuestion extends AddMoreQuestion {
 	 * @param {import('express').Request} req
 	 * @param {string} parentFieldName
 	 * @param {JourneyResponse} journeyResponse
-	 * @param {Object} responseToSave
+	 * @param {GetDataToSaveReturnType} responseToSave
 	 */
 	async saveList(req, parentFieldName, journeyResponse, responseToSave) {
 		const linkedCases = responseToSave.answers[parentFieldName];
+		if (!Array.isArray(linkedCases)) throw new Error('Answer was an unexpected shape');
+
 		try {
 			await Promise.all(
 				linkedCases.map((linkedCase) => {
@@ -96,9 +100,9 @@ class CaseAddMoreQuestion extends AddMoreQuestion {
 			answerId
 		);
 
-		journeyResponse.answers = updated;
+		journeyResponse.answers = { ...updated };
 
-		return updated.SubmissionLinkedCase?.length > 0 ? journeyResponse : true;
+		return (updated.SubmissionLinkedCase?.length || 0) > 0 ? journeyResponse : true;
 	}
 }
 

@@ -16,8 +16,9 @@ const Question = require('../../question');
  */
 
 /**
- * @class
+ * @typedef {QuestionViewModel & { question: QuestionViewModel['question'] & { label?: string, textEntryCheckbox?: TextEntryCheckbox } }} TextEntryViewModel
  */
+
 class TextEntryQuestion extends Question {
 	/**
 	 * @param {Object} params
@@ -57,14 +58,30 @@ class TextEntryQuestion extends Question {
 		this.label = label;
 	}
 
+	/**
+	 * gets the view model for this question
+	 * @param {Section} section - the current section
+	 * @param {Journey} journey - the journey we are in
+	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [payload]
+	 * @returns {TextEntryViewModel}
+	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
-		viewModel.question.label = this.label;
-		viewModel.question.textEntryCheckbox = this.textEntryCheckbox;
-		viewModel.question.value = payload
+		const questionLabel = this.label;
+		const questionValue = payload
 			? payload[viewModel.question.fieldName]
 			: viewModel.question.value;
-		return viewModel;
+		const questionTextEntryCheckbox = this.textEntryCheckbox;
+		return {
+			...viewModel,
+			question: {
+				...viewModel.question,
+				label: questionLabel,
+				value: questionValue,
+				textEntryCheckbox: questionTextEntryCheckbox
+			}
+		};
 	}
 }
 

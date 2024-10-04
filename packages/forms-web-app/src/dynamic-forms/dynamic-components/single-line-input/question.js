@@ -9,6 +9,10 @@ const Question = require('../../question');
  */
 
 /**
+ * @typedef {QuestionViewModel & { question: QuestionViewModel['question'] & { label?: string, attributes?: Record<string, string> } }} SingleLineViewModel
+ */
+
+/**
  * @class
  */
 class SingleLineInputQuestion extends Question {
@@ -38,14 +42,30 @@ class SingleLineInputQuestion extends Question {
 		this.inputAttributes = params.inputAttributes || {};
 	}
 
+	/**
+	 * gets the view model for this question
+	 * @param {Section} section - the current section
+	 * @param {Journey} journey - the journey we are in
+	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
+	 * @param {Record<string, unknown>} [payload]
+	 * @returns {SingleLineViewModel}
+	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		let viewModel = super.prepQuestionForRendering(section, journey, customViewData);
-		viewModel.question.label = this.label;
-		viewModel.question.value = payload
+		const questionLabel = this.label;
+		const questionValue = payload
 			? payload[viewModel.question.fieldName]
 			: viewModel.question.value;
-		viewModel.question.attributes = this.inputAttributes;
-		return viewModel;
+		const questionAttributes = this.inputAttributes;
+		return {
+			...viewModel,
+			question: {
+				...viewModel.question,
+				label: questionLabel,
+				value: questionValue,
+				attributes: questionAttributes
+			}
+		};
 	}
 }
 

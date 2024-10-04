@@ -42,3 +42,10 @@ exports.getListedBuildingForQuestion = (journeyResponse, fieldName) => {
 
 	return listedBuildings.filter((listedBuilding) => listedBuilding.fieldName == fieldName);
 };
+
+/** @type {(maybeDivider: import('../../question-props').Option) => maybeDivider is { divider: string }} */
+exports.optionIsDivider = (maybeDivider) => Object.hasOwn(maybeDivider, 'divider');
+
+/** @type {(conditional: unknown) => conditional is { html: string }} */
+exports.conditionalIsJustHTML = (conditional) =>
+	!!conditional && Object.hasOwn(conditional, 'html') && Object.keys(conditional).length === 1;

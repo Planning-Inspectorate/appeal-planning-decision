@@ -23,17 +23,25 @@ class SiteAddressQuestion extends Question {
 	 * @param {string} [params.hint]
 	 * @param {string} [params.html]
 	 * @param {Array.<import('../../validator/base-validator')>} [params.validators]
+	 *
+	 * @param {Record<string, Function>} [methodOverrides]
 	 */
-	constructor({ title, question, fieldName, viewFolder, validators, url, hint, html }) {
-		super({
-			title: title,
-			viewFolder: viewFolder,
-			fieldName: fieldName,
-			question: question,
-			validators: validators,
-			hint: hint,
-			html: html
-		});
+	constructor(
+		{ title, question, fieldName, viewFolder, validators, url, hint, html },
+		methodOverrides
+	) {
+		super(
+			{
+				title: title,
+				viewFolder: viewFolder,
+				fieldName: fieldName,
+				question: question,
+				validators: validators,
+				hint: hint,
+				html: html
+			},
+			methodOverrides
+		);
 
 		this.url = url;
 	}

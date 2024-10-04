@@ -130,6 +130,11 @@ type DateQuestionProps = CommonQuestionProps & {
 type TextEntryQuestionProps = CommonQuestionProps & {
 	type: 'text-entry';
 	label?: string;
+	textEntryCheckbox?: {
+		header: string;
+		name: string;
+		text: string;
+	};
 };
 
 type SingleLineInputQuestionProps = CommonQuestionProps & {

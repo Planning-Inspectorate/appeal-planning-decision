@@ -1,4 +1,4 @@
-const OptionsQuestion = require('./options-question');
+const { OptionsQuestion } = require('./options-question');
 const ValidOptionValidator = require('./validator/valid-option-validator');
 const nunjucks = require('nunjucks');
 

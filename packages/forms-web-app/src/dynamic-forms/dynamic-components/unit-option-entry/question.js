@@ -1,6 +1,6 @@
 const nunjucks = require('nunjucks');
 const Question = require('../../question');
-const { conditionalIsJustHTML } = require('../../options-question');
+const { conditionalIsJustHTML } = require('../utils/question-utils');
 
 const defaultOptionJoinString = ',';
 
@@ -151,6 +151,7 @@ class UnitOptionEntryQuestion extends Question {
 		 */
 		let responseToSave = { answers: {} };
 
+		/** @type {string[]} */
 		const fields = Array.isArray(req.body[this.fieldName])
 			? req.body[this.fieldName]
 			: [req.body[this.fieldName]];

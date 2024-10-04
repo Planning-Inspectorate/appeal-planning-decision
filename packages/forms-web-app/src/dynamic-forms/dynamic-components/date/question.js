@@ -83,7 +83,10 @@ class DateQuestion extends Question {
 		} else {
 			const answerDateString = journey.response.answers[this.fieldName];
 
-			if (answerDateString && typeof answerDateString === 'string') {
+			if (
+				answerDateString &&
+				(typeof answerDateString === 'string' || answerDateString instanceof Date)
+			) {
 				const answerDate = new Date(answerDateString);
 				day = `${answerDate.getDate()}`.slice(-2);
 				month = `${answerDate.getMonth() + 1}`.slice(-2);
