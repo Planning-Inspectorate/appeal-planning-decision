@@ -78,7 +78,8 @@ async function listByLpaCode(req, res) {
 	const {
 		'lpa-code': lpaCode,
 		'decided-only': decidedOnly,
-		'with-appellant': withAppellant
+		'with-appellant': withAppellant,
+		'case-status': caseStatus
 	} = req.query;
 
 	if (!lpaCode || typeof lpaCode !== 'string') {
@@ -90,13 +91,15 @@ async function listByLpaCode(req, res) {
 	if (!isValidBooleanString(withAppellant)) {
 		throw ApiError.withMessage(400, 'with-appellant must be true or false');
 	}
+
 	const isDecidedOnly = decidedOnly === 'true';
 	const isWithAppellant = withAppellant === 'true';
 	try {
 		const appealCases = await listByLpaCodeWithAppellant({
 			lpaCode,
 			decidedOnly: isDecidedOnly,
-			withAppellant: isWithAppellant
+			withAppellant: isWithAppellant,
+			caseStatus
 		});
 		res.status(200).send(appealCases);
 	} catch (err) {

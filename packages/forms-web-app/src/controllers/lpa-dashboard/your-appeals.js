@@ -14,15 +14,23 @@ const {
 	}
 } = require('../../lib/views');
 const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
+const { APPEAL_CASE_STATUS } = require('pins-data-model');
 
 const getYourAppeals = async (req, res) => {
 	const user = getUserFromSession(req);
 
-	const appealsCaseData = await req.appealsApiClient.getAppealsCaseDataV2(user.lpaCode);
+	const { lpaCode } = user;
 
-	const decidedAppealsCount = await req.appealsApiClient.getDecidedAppealsCountV2(user.lpaCode);
+	const appealsCaseData = await req.appealsApiClient.getAppealsCaseDataV2(lpaCode);
 
-	const { toDoAppeals, waitingForReviewAppeals } = appealsCaseData
+	const invalidAppeals = await req.appealsApiClient.getAppealsCasesByLpaAndStatus({
+		lpaCode,
+		caseStatus: APPEAL_CASE_STATUS.INVALID
+	});
+
+	const decidedAppealsCount = await req.appealsApiClient.getDecidedAppealsCountV2(lpaCode);
+
+	const { toDoAppeals, waitingForReviewAppeals } = [...appealsCaseData, ...invalidAppeals]
 		.filter(isNotWithdrawn)
 		.map(mapToLPADashboardDisplayData)
 		.reduce(

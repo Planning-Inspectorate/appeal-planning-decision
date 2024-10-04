@@ -319,6 +319,19 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {{ lpaCode: string, caseStatus: string }} params
+	 * @returns {Promise<AppealCase[]>}
+	 */
+	async getAppealsCasesByLpaAndStatus({ lpaCode, caseStatus }) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('lpa-code', lpaCode);
+		urlParams.append('case-status', caseStatus);
+		const endpoint = `${v2}/appeal-cases?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {string} caseReference
 	 * @returns {Promise<(LPAQuestionnaireSubmission)>}
 	 */
