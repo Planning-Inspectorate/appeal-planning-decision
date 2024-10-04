@@ -1,7 +1,7 @@
 const Question = require('../../question');
 const DateQuestion = require('./question');
 
-describe('DataQuestion', () => {
+describe('DateQuestion', () => {
 	const TITLE = 'title';
 	const QUESTION = 'question';
 	const FIELDNAME = 'fieldName';

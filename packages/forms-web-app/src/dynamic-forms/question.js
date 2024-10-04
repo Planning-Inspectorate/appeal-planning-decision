@@ -15,7 +15,7 @@ const RequiredFileUploadValidator = require('./validator/required-file-upload-va
 
 /**
  * @typedef {Object} PreppedQuestion
- * @property {Object} value
+ * @property {unknown} value
  * @property {string} question
  * @property {string} fieldName
  * @property {string} pageTitle
@@ -349,7 +349,7 @@ class Question {
 
 	/**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @param {string} answer
+	 * @param {string | null} answer
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
 	 * @returns {Array<{
@@ -379,7 +379,7 @@ class Question {
 
 	/**
 	 * Returns the action link for the question
-	 * @param {Object} answer
+	 * @param {string | null} answer
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
 	 * @returns {{ href: string; text: string; visuallyHiddenText: string; }}
