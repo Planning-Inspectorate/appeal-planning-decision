@@ -567,34 +567,6 @@ const sendSaveAndReturnContinueWithAppealEmail = async (appeal) => {
 	}
 };
 
-const sendSecurityCodeEmail = async (recipientEmail, code, identifier) => {
-	try {
-		const variables = {
-			'unique code': code
-		};
-
-		logger.debug(
-			{ recipientEmail, variables, identifier },
-			'Sending secure code email to appellant'
-		);
-		await NotifyBuilder.reset()
-			.setTemplateId(templates.SAVE_AND_RETURN.enterCodeIntoServiceEmailToAppellant)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(identifier)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
-	} catch (err) {
-		logger.error(
-			{ err, appealId: identifier }, // TODO: change `appealId` to something more generic
-			'Unable to send secure code email to appellant'
-		);
-	}
-};
-
 const sendFailureToUploadToHorizonEmail = async (appealId) => {
 	try {
 		let variables = {
@@ -708,7 +680,6 @@ module.exports = {
 
 	sendFinalCommentSubmissionConfirmationEmail,
 	sendSaveAndReturnContinueWithAppealEmail,
-	sendSecurityCodeEmail,
 	sendFailureToUploadToHorizonEmail,
 	sendLPADashboardInviteEmail,
 	sendCommentSubmissionConfirmationEmailToIp
