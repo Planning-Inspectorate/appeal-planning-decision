@@ -76,6 +76,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	appealType: appealCaseData.appealTypeCode,
 	nextDocumentDue: determineDocumentToDisplayLPADashboard(appealCaseData),
 	isNewAppeal: isNewAppeal(appealCaseData),
+	displayInvalid: displayInvalidAppeal(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
 	caseDecisionOutcomeDate: formatDate(appealCaseData.caseDecisionOutcomeDate)
@@ -125,7 +126,11 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
  * @returns {boolean}
  */
 const isToDoLPADashboard = (dashboardData) => {
-	return dashboardData.isNewAppeal || displayDocumentOnToDo(dashboardData.nextDocumentDue);
+	return (
+		dashboardData.isNewAppeal ||
+		dashboardData.displayInvalid ||
+		displayDocumentOnToDo(dashboardData.nextDocumentDue)
+	);
 };
 
 /**
@@ -189,7 +194,14 @@ const isNewAppeal = (appealCaseData) => {
  * @returns {DueDocumentType} object containing details of next due document
  */
 const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
-	if (isQuestionnaireDue(appealCaseData)) {
+	if (displayInvalidAppeal(appealCaseData)) {
+		return {
+			deadline: null,
+			/// ensures invalid appeals appear at the top of the of the display
+			dueInDays: -100000,
+			documentDue: 'Invalid'
+		};
+	} else if (isQuestionnaireDue(appealCaseData)) {
 		return {
 			deadline: appealCaseData.lpaQuestionnaireDueDate,
 			dueInDays: calculateDueInDays(appealCaseData.lpaQuestionnaireDueDate),
