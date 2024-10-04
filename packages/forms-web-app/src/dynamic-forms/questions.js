@@ -2214,9 +2214,6 @@ exports.questionProps = {
 	}
 };
 
-// This looks a bit grim because so few of our
-// Questions overlap with Question correctly.
-// Maybe something to fix at some point
 /** @type {Record<string, typeof import('./question')>} */
 const questionClasses = {
 	checkbox: CheckboxQuestion,

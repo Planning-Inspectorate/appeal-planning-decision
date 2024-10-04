@@ -1009,6 +1009,10 @@ export interface LPAQuestionnaireSubmission {
 	uploadScreeningDirection?: boolean;
 	developmentDescription?: string;
 	requiresEnvironmentalStatement?: boolean;
+	SubmissionAddress?: object[];
+	SubmissionListedBuilding?: object[];
+	SubmissionLinkedCase?: object[];
+	SubmissionDocumentUpload?: object[];
 }
 
 /** A statement submitted by an LPA */

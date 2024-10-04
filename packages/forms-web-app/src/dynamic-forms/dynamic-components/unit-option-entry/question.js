@@ -1,6 +1,6 @@
 const nunjucks = require('nunjucks');
 const Question = require('../../question');
-const { conditionalIsJustHTML } = require('../../options-question');
+const { conditionalIsJustHTML } = require('../utils/question-utils');
 
 const defaultOptionJoinString = ',';
 

@@ -1,8 +1,11 @@
 const nunjucks = require('nunjucks');
 const Question = require('./question');
-
 const ValidOptionValidator = require('./validator/valid-option-validator');
-const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
+const {
+	getConditionalFieldName,
+	optionIsDivider,
+	conditionalIsJustHTML
+} = require('./dynamic-components/utils/question-utils');
 
 const defaultOptionJoinString = ',';
 
@@ -190,11 +193,4 @@ class OptionsQuestion extends Question {
 	}
 }
 
-/** @type {(maybeDivider: Option) => maybeDivider is { divider: string }} */
-const optionIsDivider = (maybeDivider) => Object.hasOwn(maybeDivider, 'divider');
-
-/** @type {(conditional: unknown) => conditional is { html: string }} */
-const conditionalIsJustHTML = (conditional) =>
-	!!conditional && Object.hasOwn(conditional, 'html') && Object.keys(conditional).length === 1;
-
-module.exports = { OptionsQuestion, optionIsDivider, conditionalIsJustHTML };
+module.exports = { OptionsQuestion };

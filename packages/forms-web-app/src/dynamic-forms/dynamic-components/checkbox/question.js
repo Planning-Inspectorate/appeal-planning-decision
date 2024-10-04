@@ -1,8 +1,4 @@
-const {
-	OptionsQuestion,
-	optionIsDivider,
-	conditionalIsJustHTML
-} = require('../../options-question');
+const { OptionsQuestion } = require('../../options-question');
 const questionUtils = require('../utils/question-utils');
 
 const defaultOptionJoinString = ',';
@@ -56,7 +52,7 @@ class CheckboxQuestion extends OptionsQuestion {
 
 	/**
 	 * returns the formatted answers values to be used to build task list elements
-	 * @param {string | ConditionalAnswerObject } answer will be a single value string, a comma-separated string representing multiple values (one of which may be a conditional) or a single ConditionalAnswerObject
+	 * @param {string | ConditionalAnswerObject | null } answer will be a single value string, a comma-separated string representing multiple values (one of which may be a conditional) or a single ConditionalAnswerObject
 	 * @param {Journey} journey
 	 * @param {String} sectionSegment
 	 * @returns {Array<{
@@ -79,10 +75,10 @@ class CheckboxQuestion extends OptionsQuestion {
 			/** @type {import('src/dynamic-forms/question-props').OptionWithoutDivider | undefined} */
 			// @ts-ignore
 			const selectedOption = this.options.find(
-				(option) => !optionIsDivider(option) && option.value === answer.value
+				(option) => !questionUtils.optionIsDivider(option) && option.value === answer.value
 			);
 
-			if (!selectedOption || conditionalIsJustHTML(selectedOption.conditional)) {
+			if (!selectedOption || questionUtils.conditionalIsJustHTML(selectedOption.conditional)) {
 				throw new Error('No valid options matched answer option');
 			}
 
@@ -99,12 +95,14 @@ class CheckboxQuestion extends OptionsQuestion {
 		const answerArray = answer.split(this.optionJoinString);
 
 		const formattedAnswer = this.options
-			.filter((option) => !optionIsDivider(option) && answerArray.includes(option.value))
+			.filter(
+				(option) => !questionUtils.optionIsDivider(option) && answerArray.includes(option.value)
+			)
 			.map(
 				// @ts-ignore
 				(/** @type {import('src/dynamic-forms/question-props').OptionWithoutDivider} */ option) => {
 					if (option.conditional) {
-						if (conditionalIsJustHTML(option.conditional)) return '';
+						if (questionUtils.conditionalIsJustHTML(option.conditional)) return '';
 						const conditionalAnswer =
 							journey.response.answers[
 								questionUtils.getConditionalFieldName(this.fieldName, option.conditional.fieldName)
