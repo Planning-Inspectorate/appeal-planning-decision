@@ -1,7 +1,8 @@
 const {
 	createLPAUserSession,
 	getUserFromSession,
-	setLPAUserStatus
+	setLPAUserStatus,
+	logoutUser
 } = require('../../../src/services/user.service');
 const { getLPA } = require('#lib/appeals-api-wrapper');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
@@ -68,6 +69,33 @@ describe('services/user.service', () => {
 		it('should not set the user status to unknownstatus', async () => {
 			await setLPAUserStatus(req, 1, 'unknownstatus');
 			expect(req.appealsApiClient.setLPAUserStatus).toHaveBeenCalledTimes(0);
+		});
+	});
+
+	describe('logoutUser', () => {
+		it('should remove user from session ', async () => {
+			const mockReq = {
+				session: {
+					user: {},
+					lastAccessedTime: new Date()
+				}
+			};
+
+			logoutUser(mockReq);
+
+			expect(mockReq.session.user).toEqual(null);
+			expect(mockReq.session.lastAccessedTime).toEqual(null);
+		});
+
+		it('should not error if user not in session ', async () => {
+			const mockReq = {
+				session: {}
+			};
+
+			logoutUser(mockReq);
+
+			expect(mockReq.session.user).toEqual(null);
+			expect(mockReq.session.lastAccessedTime).toEqual(null);
 		});
 	});
 });
