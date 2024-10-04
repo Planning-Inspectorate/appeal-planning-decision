@@ -85,6 +85,7 @@ const getLPAUser = async (req, userId) => {
  */
 const logoutUser = (req) => {
 	req.session.user = null;
+	req.session.lastAccessedTime = null;
 };
 
 /**
