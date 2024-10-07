@@ -18,6 +18,8 @@ services:
 
   pdf-service-api:
     profiles: ['all', 'appeals']
+    # platform required to build chromium on Apple Silicon Macs
+    platform: 'linux/amd64' 
     build:
       context: .
       dockerfile: ./packages/pdf-service-api/Dockerfile
