@@ -22,8 +22,14 @@ async function getAppealStatementsForCase(req, res) {
 
 		if (type === 'lpa') {
 			statements = await getLPAStatement(caseReference);
+			if (!statements || statements?.length === 0) {
+				throw ApiError.withMessage(404, 'No LPA statement found for this case reference');
+			}
 		} else if (type === 'rule6') {
 			statements = await getRule6Statements(caseReference);
+			if (!statements || statements?.length === 0) {
+				throw ApiError.withMessage(404, 'No Rule 6 party statements found for this case reference');
+			}
 		} else {
 			throw ApiError.withMessage(400, 'invalid statement type');
 		}

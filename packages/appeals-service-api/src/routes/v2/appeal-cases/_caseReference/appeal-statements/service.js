@@ -7,7 +7,7 @@ const repo = new AppealStatementRepository();
 
 /**
  * @param {string} caseReference
- * @returns {Promise<AppealStatement|null>}
+ * @returns {Promise<Array<AppealStatement>|null>}
  */
 async function getLPAStatement(caseReference) {
 	const statement = await repo.getLPAStatement(caseReference);

@@ -15,11 +15,11 @@ class AppealStatementRepository {
 	 * Get lpa statement for a given case reference
 	 *
 	 * @param {string} caseReference
-	 * @returns {Promise<AppealStatement|null>}
+	 * @returns {Promise<Array<AppealStatement>|null>}
 	 */
 	async getLPAStatement(caseReference) {
 		try {
-			return await this.dbClient.appealStatement.findFirst({
+			return await this.dbClient.appealStatement.findMany({
 				where: {
 					caseReference,
 					lpaCode: { not: null }
