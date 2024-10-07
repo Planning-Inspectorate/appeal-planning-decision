@@ -1,9 +1,10 @@
 const { formatHeadlineData } = require('@pins/common');
-
+const { formatStatement } = require('./format-statement-details');
 const { VIEW } = require('../../../lib/views');
 const {
 	formatTitleSuffix,
-	formatStatementHeading
+	formatStatementHeading,
+	getStatementType
 } = require('../../../lib/selected-appeal-page-setup');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
@@ -43,17 +44,22 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			userId: user.id
 		});
 
+		const statementType = getStatementType(userRouteUrl, user);
+		const statement = await req.appealsApiClient.getAppealStatement(appealNumber, statementType);
+		const formattedStatement = formatStatement(statement);
+
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 
 		const viewContext = {
 			layoutTemplate,
 			titleSuffix: formatTitleSuffix(userType),
-			statementHeading: formatStatementHeading(userType),
+			statementHeading: formatStatementHeading(userRouteUrl),
 
 			appeal: {
 				appealNumber,
-				headlineData
+				headlineData,
+				formattedStatement
 			}
 		};
 

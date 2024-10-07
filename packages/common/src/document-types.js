@@ -621,7 +621,7 @@ const documentTypes = {
 	},
 	uploadLpaStatementDocuments: {
 		name: 'uploadLpaStatementDocuments',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'appealStatement', // To be updated once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
