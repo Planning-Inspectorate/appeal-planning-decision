@@ -28,6 +28,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
+ * @typedef {import('appeals-service-api').Api.AppealStatement} AppealStatement
  */
 
 // Data model types
@@ -417,6 +418,19 @@ class AppealsApiClient {
 	async deleteLPAStatementDocumentUpload(caseReference, documentId) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission/document-upload/${documentId}`;
 		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} type
+	 * @returns {Promise<AppealStatement>}
+	 */
+	async getAppealStatement(caseReference, type) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('type', type);
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appeal-statements?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
 

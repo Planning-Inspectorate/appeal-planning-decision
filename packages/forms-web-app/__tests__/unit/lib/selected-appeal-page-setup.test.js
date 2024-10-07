@@ -6,6 +6,7 @@ const {
 	isAppellantComments,
 	getFinalComments,
 	formatStatementHeading,
+	getStatementType,
 	formatPlanningObligationTitlePrefix
 } = require('../../../src/lib/selected-appeal-page-setup');
 describe('Content setup functions for selected appeal page', () => {
@@ -66,11 +67,48 @@ describe('Content setup functions for selected appeal page', () => {
 		});
 	});
 	describe('formatStatementHeading', () => {
-		it('should return "Your" for LPA user type', () => {
-			expect(formatStatementHeading(LPA_USER_ROLE)).toBe('Your');
+		it('should return "Your statement" if the URL contains "statement"', () => {
+			const url = '/manage-appeals/1234/statement';
+			const result = formatStatementHeading(url);
+			expect(result).toBe('Your statement');
 		});
-		it('should return "Local planning authority" for non-LPA user type', () => {
-			expect(formatStatementHeading(APPEAL_USER_ROLES.APPELLANT)).toBe('Local planning authority');
+		it('should return "Local planning authority statement" if the URL contains "lpa-statement"', () => {
+			const url = '/appeals/1234/lpa-statement';
+			const result = formatStatementHeading(url);
+			expect(result).toBe('Local planning authority statement');
+		});
+		it('should return "Statements from other parties" if the URL does not contain "statement" or "lpa-statement"', () => {
+			const url = '/appeals/1234/other-party-statements';
+			const result = formatStatementHeading(url);
+			expect(result).toBe('Statements from other parties');
+		});
+	});
+	describe('getStatementType', () => {
+		const userLpa = { lpaCode: 'Q9999', serviceUserId: null };
+		const userRule6 = { lpaCode: null, serviceUserId: 'some-user-id' };
+		it('should return "lpa" if the URL contains "lpa-statement"', () => {
+			const url = '/appeals/1234/lpa-statement';
+			const result = getStatementType(url, userLpa);
+			expect(result).toBe('lpa');
+		});
+		it('should return "rule6" if the URL contains "other-party-statements"', () => {
+			const url = '/appeals/1234/other-party-statements';
+			const result = getStatementType(url, userRule6);
+			expect(result).toBe('rule6');
+		});
+		it('should return "lpa" if the user is LPA and the URL contains "statement"', () => {
+			const url = '/manage-appeals/1234/statement';
+			const result = getStatementType(url, userLpa);
+			expect(result).toBe('lpa');
+		});
+		it('should return "rule6" if the user is Rule 6 and the URL contains "statement"', () => {
+			const url = '/rule-6-appeals/1234/statement';
+			const result = getStatementType(url, userRule6);
+			expect(result).toBe('rule6');
+		});
+		it('should throw an error if unable to determine statement type', () => {
+			const url = '/appeals/1234/unknown';
+			expect(() => getStatementType(url, {})).toThrow('Unable to determine statement type');
 		});
 	});
 	describe('formatPlanningObligationTitlePrefix', () => {

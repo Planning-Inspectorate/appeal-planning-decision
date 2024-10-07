@@ -1109,6 +1109,7 @@ const lpaAppealCaseData = [
 		appellantCostsAppliedFor: true,
 		applicationReference: '12/2323232/PLA',
 		rule6StatementPublished: true,
+		lpaStatementPublished: true,
 		casePublishedDate: new Date(),
 		caseReference: '1000014',
 		siteAddressLine1: 'split decision',

@@ -1,5 +1,9 @@
 const { LPA_USER_ROLE, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
+/**
+ * @typedef {import('appeals-service-api').Api.AppealUser} AppealUser
+ */
+
 // General
 /**
  * @param {string} userType
@@ -60,12 +64,36 @@ const getFinalComments = (caseData, isAppellantComments) => {
 
 //Statements
 /**
- * @param {string} userType
+ * @param {string} url
  * @returns {string}
  */
-const formatStatementHeading = (userType) => {
-	if (userType === LPA_USER_ROLE) return 'Your';
-	return 'Local planning authority';
+const formatStatementHeading = (url) => {
+	if (url.includes('other-party-statements')) {
+		return 'Statements from other parties';
+	} else if (url.includes('lpa-statement')) {
+		return 'Local planning authority statement';
+	} else {
+		return 'Your statement';
+	}
+};
+
+/**
+ * @param {string} url
+ * @param {AppealUser} user
+ * @returns {string}
+ */
+const getStatementType = (url, user) => {
+	if (url.includes('lpa-statement')) {
+		return 'lpa';
+	} else if (url.includes('other-party-statements')) {
+		return 'rule6';
+	} else if (user.lpaCode && url.includes('statement')) {
+		return 'lpa';
+	} else if (user.serviceUserId && url.includes('statement')) {
+		return 'rule6';
+	} else {
+		throw new Error('Unable to determine statement type');
+	}
 };
 
 // Planning obligation
@@ -85,5 +113,6 @@ module.exports = {
 	isAppellantComments,
 	getFinalComments,
 	formatStatementHeading,
+	getStatementType,
 	formatPlanningObligationTitlePrefix
 };

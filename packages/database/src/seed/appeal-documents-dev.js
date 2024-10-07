@@ -617,6 +617,23 @@ const appealDocuments = [
 		origin: 'pins',
 		stage: 'decision',
 		AppealCase: {}
+	},
+	{
+		id: '35880c82-7252-40a0-8dbd-30b740f22bce',
+		filename: 'lpa-statement.doc',
+		originalFilename: 'lpa-statement.doc',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(),
+		published: true,
+		redacted: false,
+		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
+		documentType: 'appealStatement', // currently not in data model
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
 	}
 ];
 
