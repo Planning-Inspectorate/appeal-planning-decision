@@ -348,7 +348,11 @@ const isProofsOfEvidenceDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const isAppellantFinalCommentDue = (appealCaseData) => {
-	return !!appealCaseData.finalCommentsDueDate && !appealCaseData.appellantCommentsSubmitted;
+	return (
+		!!appealCaseData.finalCommentsDueDate &&
+		!appealCaseData.appellantCommentsSubmitted &&
+		appealCaseData.caseStatus === APPEAL_CASE_STATUS.FINAL_COMMENTS
+	);
 };
 
 /**
@@ -356,7 +360,11 @@ const isAppellantFinalCommentDue = (appealCaseData) => {
  * @returns {boolean}
  */
 const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
-	return !!appealCaseData.proofsOfEvidenceDueDate && !appealCaseData.appellantsProofsSubmitted;
+	return (
+		!!appealCaseData.proofsOfEvidenceDueDate &&
+		!appealCaseData.appellantsProofsSubmitted &&
+		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
+	);
 };
 
 /**
@@ -365,8 +373,13 @@ const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
  */
 const displayInvalidAppeal = (appealCaseData) => {
 	if (appealCaseData.caseStatus === APPEAL_CASE_STATUS.INVALID) {
+		console.log('ahhhhhhhh');
+		console.log(appealCaseData.caseValidationDate);
+		console.log('oooooooooooo');
+		console.log(calculateDaysSinceInvalidated(appealCaseData.caseValidationDate));
+
 		return (
-			calculateDaysSinceInvalidated(appealCaseData.caseValidationDate) > INVALID_APPEAL_TIME_LIMIT
+			calculateDaysSinceInvalidated(appealCaseData.caseValidationDate) < INVALID_APPEAL_TIME_LIMIT
 		);
 	}
 

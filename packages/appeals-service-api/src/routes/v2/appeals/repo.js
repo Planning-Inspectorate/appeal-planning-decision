@@ -41,6 +41,7 @@ class UserAppealsRepository {
 											appealTypeCode: true,
 											caseDecisionOutcomeDate: true,
 											caseDecisionOutcome: true,
+											caseValidationDate: true,
 											caseReference: true,
 											appellantCommentsSubmitted: true,
 											appellantsProofsSubmitted: true,
