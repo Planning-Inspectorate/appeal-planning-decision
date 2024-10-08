@@ -35,6 +35,7 @@
                   <td class="govuk-table__cell">{{item.appealType}}</td>
                   <td class="govuk-table__cell">
                     {% if item.isNewAppeal %}
+										{% elif item.displayInvalid %}
                     {% else %}
                       {{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
                     {% endif %}
