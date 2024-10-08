@@ -1,5 +1,5 @@
 const { filterAppealsWithinGivenDate } = require('../../../src/lib/filter-decided-appeals');
-const { subYears } = require('date-fns');
+const { subYears, addDays } = require('date-fns');
 
 describe('filterAppealsByGivenDate', () => {
 	const FIVE_YEARS_IN_MILLISECONDS = 5 * 365 * 24 * 60 * 60 * 1000;
@@ -10,6 +10,7 @@ describe('filterAppealsByGivenDate', () => {
 	const fourYearsAgo = subYears(new Date(), 4);
 	const sixYearsAgo = subYears(new Date(), 6);
 	const sevenYearsAgo = subYears(new Date(), 7);
+	const fiveYearsTwoDaysBeforeCutoff = addDays(subYears(new Date(), 5), 2);
 
 	it('should include appeals within the specified time frame (5 years)', () => {
 		const recentAppeal = {
@@ -93,5 +94,18 @@ describe('filterAppealsByGivenDate', () => {
 				FIVE_YEARS_IN_MILLISECONDS
 			)
 		).toBe(false);
+	});
+	it('should include appeals that are 2 days less than 5 years old', () => {
+		const appealWithDifferentDate = {
+			caseWithdrawnDate: fiveYearsTwoDaysBeforeCutoff
+		};
+
+		expect(
+			filterAppealsWithinGivenDate(
+				appealWithDifferentDate,
+				'caseWithdrawnDate',
+				FIVE_YEARS_IN_MILLISECONDS
+			)
+		).toBe(true);
 	});
 });
