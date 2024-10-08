@@ -627,7 +627,7 @@ const appealDocuments = [
 		documentURI: '',
 		dateCreated: new Date(),
 		published: true,
-		redacted: false,
+		redacted: true,
 		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
 		documentType: 'appealStatement', // currently not in data model
 		sourceSystem: 'appeals',
