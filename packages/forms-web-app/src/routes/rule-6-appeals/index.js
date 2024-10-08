@@ -6,10 +6,10 @@ const appealDetailsController = require('../../controllers/selected-appeal/appea
 const questionnaireDetailsController = require('../../controllers/selected-appeal/questionnaire-details');
 
 // login
-router.use(require('./enter-code'));
-router.use(require('./request-new-code'));
-router.use(require('./need-new-code'));
 router.use(require('./email-address'));
+router.use(require('./enter-code'));
+router.use(require('./need-new-code'));
+router.use(require('./request-new-code'));
 
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());
