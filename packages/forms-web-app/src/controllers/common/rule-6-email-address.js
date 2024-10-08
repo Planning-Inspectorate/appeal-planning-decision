@@ -20,7 +20,7 @@ const postR6EmailAddress = (views) => {
 			}
 		];
 		if (!email) {
-			res.render(views.YOUR_EMAIL_ADDRESS, {
+			res.render(views.EMAIL_ADDRESS, {
 				errors,
 				errorSummary: emailErrorSummary
 			});
@@ -29,7 +29,7 @@ const postR6EmailAddress = (views) => {
 
 		if (Object.keys(errors).length > 0) {
 			console.log('errors', errors);
-			res.render(views.YOUR_EMAIL_ADDRESS, {
+			res.render(views.EMAIL_ADDRESS, {
 				email,
 				errors,
 				errorSummary
@@ -48,12 +48,10 @@ const postR6EmailAddress = (views) => {
 
 			res.redirect(`/${views.ENTER_CODE}/${id}`);
 		} catch (e) {
-			res.render(views.YOUR_EMAIL_ADDRESS, {
+			res.render(views.EMAIL_ADDRESS, {
 				email,
 				errors: {
 					'email-address': {
-						// TODO concoct an error message that communicates that the
-						// email provided doesn't belong to an admin
 						msg: 'Enter an email address in the correct format, like name@example.com'
 					}
 				},
