@@ -248,6 +248,11 @@ const VIEW = {
 		ENTER_APPEAL_REFERENCE: 'comment-planning-appeal/enter-appeal-reference'
 	},
 
+	RULE_6_APPEALS: {
+		EMAIL_ADDRESS: 'rule-6/email-address',
+		ENTER_CODE: 'rule-6/enter-code'
+	},
+
 	MESSAGES: {
 		COOKIES_UPDATED_SUCCESSFULLY: 'messages/cookies-updated-successfully'
 	},
