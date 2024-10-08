@@ -373,11 +373,6 @@ const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
  */
 const displayInvalidAppeal = (appealCaseData) => {
 	if (appealCaseData.caseStatus === APPEAL_CASE_STATUS.INVALID) {
-		console.log('ahhhhhhhh');
-		console.log(appealCaseData.caseValidationDate);
-		console.log('oooooooooooo');
-		console.log(calculateDaysSinceInvalidated(appealCaseData.caseValidationDate));
-
 		return (
 			calculateDaysSinceInvalidated(appealCaseData.caseValidationDate) < INVALID_APPEAL_TIME_LIMIT
 		);
