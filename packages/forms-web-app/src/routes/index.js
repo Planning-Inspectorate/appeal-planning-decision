@@ -40,7 +40,7 @@ if (config.featureFlag.dashboardsEnabled) {
 
 /// Rule 6 ///
 if (config.featureFlag.rule6Enabled) {
-	router.use('/rule-6-appeals', rule6Appeals);
+	router.use('/rule-6', rule6Appeals);
 }
 
 /// General Pages ///
