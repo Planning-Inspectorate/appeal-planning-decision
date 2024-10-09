@@ -250,7 +250,11 @@ const VIEW = {
 
 	RULE_6_APPEALS: {
 		EMAIL_ADDRESS: 'rule-6/email-address',
-		ENTER_CODE: 'rule-6/enter-code'
+		ENTER_CODE: 'rule-6/enter-code',
+		CODE_EXPIRED: 'rule-6/code-expired',
+		NEED_NEW_CODE: 'rule-6/need-new-code',
+		REQUEST_NEW_CODE: 'rule-6/request-new-code',
+		DASHBOARD: 'rule-6/your-appeals'
 	},
 
 	MESSAGES: {
