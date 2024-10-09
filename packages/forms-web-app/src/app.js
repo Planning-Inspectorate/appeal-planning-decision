@@ -122,15 +122,22 @@ app.use(cookieParser());
 app.use(removeUnwantedCookiesMiddelware);
 app.use(setLocalslDisplayCookieBannerValue);
 
-app.use('/robots.txt', express.static(path.join(__dirname, 'robots.txt')));
-app.use('/public', express.static(path.join(__dirname, 'public')));
+const staticOptions = {
+	maxAge: config.cacheControl.maxAge
+};
+
+app.use('/robots.txt', express.static(path.join(__dirname, 'robots.txt'), staticOptions));
+app.use('/public', express.static(path.join(__dirname, 'public'), staticOptions));
 app.use(
 	'/assets',
 	// resolve accessible-autocomplete dist folder
-	express.static(path.join(require.resolve('accessible-autocomplete'), '..')),
-	express.static(path.join(govukFrontEndRoot, 'govuk', 'assets'))
+	express.static(path.join(require.resolve('accessible-autocomplete'), '..'), staticOptions),
+	express.static(path.join(govukFrontEndRoot, 'govuk', 'assets'), staticOptions)
 );
-app.use('/assets/govuk/all.js', express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js')));
+app.use(
+	'/assets/govuk/all.js',
+	express.static(path.join(govukFrontEndRoot, 'govuk', 'all.js'), staticOptions)
+);
 
 app.use(fileUpload({ ...config.fileUpload /*useTempFiles: true*/ }));
 app.use(session(sessionConfig()));

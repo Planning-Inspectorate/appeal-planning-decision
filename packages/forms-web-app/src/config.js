@@ -26,6 +26,9 @@ module.exports = {
 		timeout: numberWithDefault(process.env.APPEALS_SERVICE_API_TIMEOUT, 10000),
 		url: process.env.APPEALS_SERVICE_API_URL
 	},
+	cacheControl: {
+		maxAge: process.env.CACHE_CONTROL_MAX_AGE || '1d'
+	},
 	db: {
 		session: {
 			uri: process.env.SESSION_MONGODB_URL,
