@@ -8,8 +8,8 @@ const questionnaireDetailsController = require('../../controllers/selected-appea
 // login
 router.use(require('./email-address'));
 router.use(require('./enter-code'));
-router.use(require('./need-new-code'));
-router.use(require('./request-new-code'));
+// router.use(require('./need-new-code'));
+// router.use(require('./request-new-code'));
 
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());
