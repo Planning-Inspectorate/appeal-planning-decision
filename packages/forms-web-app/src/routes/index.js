@@ -17,7 +17,7 @@ const save = require('./save');
 const submit = require('./submit-appeal');
 const submission = require('./appellant-submission');
 const lpaDashboard = require('./lpa-dashboard');
-const rule6Appeals = require('./rule-6-appeals');
+const rule6Appeals = require('./rule-6');
 const debug = require('./debug');
 const {
 	getDocument,

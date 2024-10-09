@@ -5,10 +5,7 @@ const router = express.Router();
 const { rules: emailAddressValidationRules } = require('../../validators/common/email-address');
 const { validationErrorHandler } = require('../../validators/validation-error-handler');
 
-const {
-	getR6EmailAddress,
-	postR6EmailAddress
-} = require('../../controllers/common/rule-6-email-address');
+const { getR6EmailAddress, postR6EmailAddress } = require('../../controllers/rule-6/email-address');
 
 const {
 	VIEW: {
