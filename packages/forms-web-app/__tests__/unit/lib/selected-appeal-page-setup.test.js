@@ -86,24 +86,35 @@ describe('Content setup functions for selected appeal page', () => {
 	describe('getStatementType', () => {
 		const userLpa = { lpaCode: 'Q9999', serviceUserId: null };
 		const userRule6 = { lpaCode: null, serviceUserId: 'some-user-id' };
+		const userAppellant = { lpaCode: null, serviceUserId: 'appellant-user-id' };
 		it('should return "lpa" if the URL contains "lpa-statement"', () => {
 			const url = '/appeals/1234/lpa-statement';
-			const result = getStatementType(url, userLpa);
+			const result = getStatementType(url, userLpa, LPA_USER_ROLE);
 			expect(result).toBe('lpa');
 		});
 		it('should return "rule6" if the URL contains "other-party-statements"', () => {
 			const url = '/appeals/1234/other-party-statements';
-			const result = getStatementType(url, userRule6);
+			const result = getStatementType(url, userRule6, APPEAL_USER_ROLES.RULE_6_PARTY);
 			expect(result).toBe('rule6');
 		});
 		it('should return "lpa" if the user is LPA and the URL contains "statement"', () => {
 			const url = '/manage-appeals/1234/statement';
-			const result = getStatementType(url, userLpa);
+			const result = getStatementType(url, userLpa, LPA_USER_ROLE);
 			expect(result).toBe('lpa');
 		});
 		it('should return "rule6" if the user is Rule 6 and the URL contains "statement"', () => {
 			const url = '/rule-6-appeals/1234/statement';
-			const result = getStatementType(url, userRule6);
+			const result = getStatementType(url, userRule6, APPEAL_USER_ROLES.RULE_6_PARTY);
+			expect(result).toBe('rule6');
+		});
+		it('should return "lpa" if the user is appellant and the URL contains "lpa-statement"', () => {
+			const url = '/appeals/1234/lpa-statement';
+			const result = getStatementType(url, userAppellant, APPEAL_USER_ROLES.APPELLANT);
+			expect(result).toBe('lpa');
+		});
+		it('should return "rule6" if the user is appellant and the URL contains "other-party-statements"', () => {
+			const url = '/appeals/1234/other-party-statements';
+			const result = getStatementType(url, userAppellant, APPEAL_USER_ROLES.APPELLANT);
 			expect(result).toBe('rule6');
 		});
 		it('should throw an error if unable to determine statement type', () => {

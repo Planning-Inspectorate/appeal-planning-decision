@@ -1,4 +1,4 @@
-const { LPA_USER_ROLE, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { LPA_USER_ROLE, APPEAL_USER_ROLES, STATEMENT_TYPE } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealUser} AppealUser
@@ -80,17 +80,22 @@ const formatStatementHeading = (url) => {
 /**
  * @param {string} url
  * @param {AppealUser} user
+ * @param {string} userType
  * @returns {string}
  */
-const getStatementType = (url, user) => {
-	if (url.includes('lpa-statement')) {
-		return 'lpa';
-	} else if (url.includes('other-party-statements')) {
-		return 'rule6';
+const getStatementType = (url, user, userType) => {
+	if (url.includes('other-party-statements')) {
+		return STATEMENT_TYPE.RULE_6;
+	} else if (url.includes('lpa-statement')) {
+		return STATEMENT_TYPE.LPA;
 	} else if (user.lpaCode && url.includes('statement')) {
-		return 'lpa';
-	} else if (user.serviceUserId && url.includes('statement')) {
-		return 'rule6';
+		return STATEMENT_TYPE.LPA;
+	} else if (
+		user.serviceUserId &&
+		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
+		url.includes('statement')
+	) {
+		return STATEMENT_TYPE.RULE_6;
 	} else {
 		throw new Error('Unable to determine statement type');
 	}
