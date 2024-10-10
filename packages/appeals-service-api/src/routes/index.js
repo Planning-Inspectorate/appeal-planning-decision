@@ -11,9 +11,7 @@ const appealsRouter = require('./appeals');
 const backOfficeRouter = require('./back-office');
 const forManualInterventionRouter = require('./for-manual-intervention');
 const saveRouter = require('./save');
-const tokenRouter = require('./token');
 const localPlanningAuthoritiesRouter = require('./local-planning-authorities');
-const finalCommentsRouter = require('./final-comments');
 const { routes: v2Routes } = require('./v2');
 const config = require('../configuration/config');
 
@@ -29,8 +27,6 @@ router.use('/api/v1/back-office', backOfficeRouter);
 router.use('/api/v1/for-manual-intervention', forManualInterventionRouter);
 router.use('/api/v1/local-planning-authorities', localPlanningAuthoritiesRouter);
 router.use('/api/v1/save', saveRouter);
-router.use('/api/v1/token', tokenRouter);
-router.use('/api/v1/final-comments', finalCommentsRouter);
 
 // v2 routes loaded from the file structure
 for (const [url, handler] of Object.entries(v2Routes)) {
