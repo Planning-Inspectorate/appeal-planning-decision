@@ -57,7 +57,6 @@ const sections = [
 		.addQuestion(questions.emergingPlan)
 		.addQuestion(questions.emergingPlanUpload)
 		.withCondition((response) => questionHasAnswer(response, questions.emergingPlan, 'yes'))
-		.addQuestion(questions.uploadOtherRelevantPolicies)
 		.addQuestion(questions.supplementaryPlanning)
 		.addQuestion(questions.supplementaryPlanningUpload)
 		.withCondition((response) =>
