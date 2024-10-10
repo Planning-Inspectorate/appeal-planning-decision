@@ -52,7 +52,17 @@ const sections = [
 		),
 	new Section("Planning officer's report and supplementary documents", 'planning-officer-report')
 		.addQuestion(questions.planningOfficersReportUpload)
-		.addQuestion(questions.uploadPlansDrawingsHAS),
+		.addQuestion(questions.uploadPlansDrawingsHAS)
+		.addQuestion(questions.uploadDevelopmentPlanPolicies)
+		.addQuestion(questions.emergingPlan)
+		.addQuestion(questions.emergingPlanUpload)
+		.withCondition((response) => questionHasAnswer(response, questions.emergingPlan, 'yes'))
+		.addQuestion(questions.uploadOtherRelevantPolicies)
+		.addQuestion(questions.supplementaryPlanning)
+		.addQuestion(questions.supplementaryPlanningUpload)
+		.withCondition((response) =>
+			questionHasAnswer(response, questions.supplementaryPlanning, 'yes')
+		),
 	new Section('Site access', 'site-access')
 		.addQuestion(questions.accessForInspection)
 		.addQuestion(questions.neighbouringSite)
