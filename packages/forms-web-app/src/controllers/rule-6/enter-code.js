@@ -1,16 +1,16 @@
 const { getExistingAppeal, sendToken } = require('#lib/appeals-api-wrapper');
 const {
-	getLPAUser,
-	createLPAUserSession,
-	getLPAUserStatus,
-	setLPAUserStatus,
+	// getLPAUser,
+	// createLPAUserSession,
+	// getLPAUserStatus,
+	// setLPAUserStatus,
 	logoutUser
 } = require('../../services/user.service');
 const { createAppealUserSession } = require('../../services/user.service');
 const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('#lib/logger');
-const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
+// const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
 const { isFeatureActive } = require('../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
@@ -50,11 +50,18 @@ const createOTPGrant = async (email, action) => {
 };
 
 /**
- * @param {{EMAIL_ADDRESS: string, ENTER_CODE: string, REQUEST_NEW_CODE: string}} views
+ * @param {{
+ *  ENTER_CODE: string,
+ *  EMAIL_ADDRESS: string,
+ *  CODE_EXPIRED: string,
+ *  NEED_NEW_CODE: string,
+ *  REQUEST_NEW_CODE: string,
+ *  DASHBOARD: string
+ * }} views
  * @param {enterCodeOptions} enterCodeOptions
  * @returns {import('express').Handler}
  */
-const getEnterCode = (views, { isGeneralLogin = true }) => {
+const getEnterCodeR6 = (views, { isGeneralLogin = true }) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {} }
@@ -157,18 +164,17 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 /**
  * @param {{
- *  NEED_NEW_CODE: string,
- *  CODE_EXPIRED: string,
  *  ENTER_CODE: string,
- *  YOUR_APPEALS: string
- *  APPEAL_ALREADY_SUBMITTED : string
- *  TASK_LIST: string
- *  EMAIL_CONFIRMED: string
+ *  EMAIL_ADDRESS: string,
+ *  CODE_EXPIRED: string,
+ *  NEED_NEW_CODE: string,
+ *  REQUEST_NEW_CODE: string,
+ *  DASHBOARD: string
  * }} views
  * @param {enterCodeOptions} enterCodeOptions
  * @returns {import('express').Handler}
  */
-const postEnterCode = (views, { isGeneralLogin = true }) => {
+const postEnterCodeR6 = (views, { isGeneralLogin = true }) => {
 	return async (req, res) => {
 		const {
 			body: { errors = {}, errorSummary = [] },
@@ -316,189 +322,187 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 	};
 };
 
-/**
- * The Context for the View to be rendered, with any error information
- * @typedef {Object} ViewContext
- * @property {TokenValidResult} token
- * @property {Array<Object>} errors
- * @property {Object} errorSummary
- */
+// /**
+//  * The Context for the View to be rendered, with any error information
+//  * @typedef {Object} ViewContext
+//  * @property {TokenValidResult} token
+//  * @property {Array<Object>} errors
+//  * @property {Object} errorSummary
+//  */
 
-/**
- * Renders the Error Page for the LPA User who was unsuccessful at logging in
- * @param {string} view The view file to be rendered by Nunjucks
- * @param {ViewContext} context
- */
-const renderErrorPageLPA = (res, view, context) => {
-	return res.render(view, context);
-};
+// /**
+//  * Renders the Error Page for the LPA User who was unsuccessful at logging in
+//  * @param {string} view The view file to be rendered by Nunjucks
+//  * @param {ViewContext} context
+//  */
+// const renderErrorPageLPA = (res, view, context) => {
+// 	return res.render(view, context);
+// };
 
-const redirectToEnterLPAEmail = (res, views) => {
-	res.redirect(`/${views.YOUR_EMAIL_ADDRESS}`);
-};
+// const redirectToEnterLPAEmail = (res, views) => {
+// 	res.redirect(`/${views.YOUR_EMAIL_ADDRESS}`);
+// };
 
-const redirectToLPADashboard = (res, views) => {
-	res.redirect(`/${views.DASHBOARD}`);
-};
+// const redirectToLPADashboard = (res, views) => {
+// 	res.redirect(`/${views.DASHBOARD}`);
+// };
 
-/**
- * Verifies the token and redirects on failure
- * @param {import('express').Response} res
- * @param {TokenValidResult} token
- * @param {Object} views
- * @returns
- */
-const lpaTokenVerification = (res, token, views, id) => {
-	if (token.tooManyAttempts) {
-		res.redirect(`/${views.NEED_NEW_CODE}/${id}`);
-		return false;
-	} else if (token.expired) {
-		res.redirect(`/${views.CODE_EXPIRED}/${id}`);
-		return false;
-	} else if (!token.valid) {
-		const errorMessage = 'Enter the code';
+// /**
+//  * Verifies the token and redirects on failure
+//  * @param {import('express').Response} res
+//  * @param {TokenValidResult} token
+//  * @param {Object} views
+//  * @returns
+//  */
+// const lpaTokenVerification = (res, token, views, id) => {
+// 	if (token.tooManyAttempts) {
+// 		res.redirect(`/${views.NEED_NEW_CODE}/${id}`);
+// 		return false;
+// 	} else if (token.expired) {
+// 		res.redirect(`/${views.CODE_EXPIRED}/${id}`);
+// 		return false;
+// 	} else if (!token.valid) {
+// 		const errorMessage = 'Enter the code';
 
-		renderErrorPageLPA(res, views.ENTER_CODE, {
-			lpaUserId: id,
-			token,
-			errors: { 'email-code': { msg: errorMessage } },
-			errorSummary: [{ text: errorMessage, href: '#email-code' }]
-		});
-		return false;
-	} else if (token.valid) {
-		return true;
-	}
-	return false;
-};
+// 		renderErrorPageLPA(res, views.ENTER_CODE, {
+// 			lpaUserId: id,
+// 			token,
+// 			errors: { 'email-code': { msg: errorMessage } },
+// 			errorSummary: [{ text: errorMessage, href: '#email-code' }]
+// 		});
+// 		return false;
+// 	} else if (token.valid) {
+// 		return true;
+// 	}
+// 	return false;
+// };
 
-/**
- * Sends a new token to the lpa user referenced by the id in the url params
- * @async
- * @param {import('express').Request} req
- * @returns {Promise<void>}
- */
-const sendTokenToLpaUser = async (req) => {
-	const user = await getLPAUser(req, req.params.id);
+// /**
+//  * Sends a new token to the lpa user referenced by the id in the url params
+//  * @async
+//  * @param {import('express').Request} req
+//  * @returns {Promise<void>}
+//  */
+// const sendTokenToLpaUser = async (req) => {
+// 	const user = await getLPAUser(req, req.params.id);
 
-	if (user?.email) {
-		await createOTPGrant(user.email, enterCodeConfig.actions.lpaDashboard);
-	}
-};
+// 	if (user?.email) {
+// 		await createOTPGrant(user.email, enterCodeConfig.actions.lpaDashboard);
+// 	}
+// };
 
-const getEnterCodeLPA = (views) => {
-	return async (req, res) => {
-		const {
-			body: { errors = {} },
-			params: { id }
-		} = req;
+// const getEnterCodeLPA = (views) => {
+// 	return async (req, res) => {
+// 		const {
+// 			body: { errors = {} },
+// 			params: { id }
+// 		} = req;
 
-		if (!id) {
-			redirectToEnterLPAEmail(res, views);
-			return;
-		}
+// 		if (!id) {
+// 			redirectToEnterLPAEmail(res, views);
+// 			return;
+// 		}
 
-		// even if we error, display the enter code page so as to not give anyway any user detail
-		try {
-			await sendTokenToLpaUser(req);
-		} catch (err) {
-			logger.error(err);
-		}
+// 		// even if we error, display the enter code page so as to not give anyway any user detail
+// 		try {
+// 			await sendTokenToLpaUser(req);
+// 		} catch (err) {
+// 			logger.error(err);
+// 		}
 
-		// show new code success message only once
-		const newCode = req.session?.enterCode?.newCode;
+// 		// show new code success message only once
+// 		const newCode = req.session?.enterCode?.newCode;
 
-		if (newCode) {
-			delete req.session?.enterCode?.newCode;
-		}
+// 		if (newCode) {
+// 			delete req.session?.enterCode?.newCode;
+// 		}
 
-		if (Object.keys(errors).length > 0) {
-			res.render(views.ENTER_CODE, {
-				errors: errors,
-				errorSummary: [{ text: errors.id.msg, href: '' }],
-				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`
-			});
-		} else {
-			res.render(views.ENTER_CODE, {
-				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`,
-				lpaUserId: id,
-				showNewCode: newCode
-			});
-		}
-		return;
-	};
-};
+// 		if (Object.keys(errors).length > 0) {
+// 			res.render(views.ENTER_CODE, {
+// 				errors: errors,
+// 				errorSummary: [{ text: errors.id.msg, href: '' }],
+// 				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`
+// 			});
+// 		} else {
+// 			res.render(views.ENTER_CODE, {
+// 				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`,
+// 				lpaUserId: id,
+// 				showNewCode: newCode
+// 			});
+// 		}
+// 		return;
+// 	};
+// };
 
-const postEnterCodeLPA = (views) => {
-	return async (req, res) => {
-		const {
-			body: { errors = {}, errorSummary = [] },
-			params: { id }
-		} = req;
+// const postEnterCodeLPA = (views) => {
+// 	return async (req, res) => {
+// 		const {
+// 			body: { errors = {}, errorSummary = [] },
+// 			params: { id }
+// 		} = req;
 
-		const emailCode = req.body['email-code']?.trim();
+// 		const emailCode = req.body['email-code']?.trim();
 
-		// if there are errors show error page
-		if (Object.keys(errors).length > 0) {
-			return renderErrorPageLPA(res, views.ENTER_CODE, {
-				lpaUserId: id,
-				emailCode,
-				errors,
-				errorSummary
-			});
-		}
+// 		// if there are errors show error page
+// 		if (Object.keys(errors).length > 0) {
+// 			return renderErrorPageLPA(res, views.ENTER_CODE, {
+// 				lpaUserId: id,
+// 				emailCode,
+// 				errors,
+// 				errorSummary
+// 			});
+// 		}
 
-		let user;
+// 		let user;
 
-		try {
-			user = await getLPAUser(req, id);
-		} catch (e) {
-			logger.error(`Failed to lookup user for id ${id}`);
-			logger.error(e);
-			const failedToken = {
-				valid: false
-			};
+// 		try {
+// 			user = await getLPAUser(req, id);
+// 		} catch (e) {
+// 			logger.error(`Failed to lookup user for id ${id}`);
+// 			logger.error(e);
+// 			const failedToken = {
+// 				valid: false
+// 			};
 
-			return lpaTokenVerification(res, failedToken, views, id);
-		}
+// 			return lpaTokenVerification(res, failedToken, views, id);
+// 		}
 
-		// check token
-		const enrolUsers = true; // lpa relies on sql user, potentially split this flag into sql-user and appellant-dashboard
-		const tokenResult = await isTokenValid(
-			emailCode,
-			id,
-			user.email,
-			req.session,
-			user.lpaCode,
-			enrolUsers
-		);
+// 		// check token
+// 		const enrolUsers = true; // lpa relies on sql user, potentially split this flag into sql-user and appellant-dashboard
+// 		const tokenResult = await isTokenValid(
+// 			emailCode,
+// 			id,
+// 			user.email,
+// 			req.session,
+// 			user.lpaCode,
+// 			enrolUsers
+// 		);
 
-		if (!lpaTokenVerification(res, tokenResult, views, id)) return;
+// 		if (!lpaTokenVerification(res, tokenResult, views, id)) return;
 
-		try {
-			const currentUserStatus = await getLPAUserStatus(req, id);
-			if (currentUserStatus === STATUS_CONSTANTS.ADDED) {
-				await setLPAUserStatus(req, id, STATUS_CONSTANTS.CONFIRMED);
-			}
-			await createLPAUserSession(
-				req,
-				user,
-				tokenResult.access_token,
-				tokenResult.id_token,
-				tokenResult.access_token_expiry
-			);
-		} catch (err) {
-			logger.error(err, `Failed to create user session for user id ${id}`);
-			throw err;
-		}
+// 		try {
+// 			const currentUserStatus = await getLPAUserStatus(req, id);
+// 			if (currentUserStatus === STATUS_CONSTANTS.ADDED) {
+// 				await setLPAUserStatus(req, id, STATUS_CONSTANTS.CONFIRMED);
+// 			}
+// 			await createLPAUserSession(
+// 				req,
+// 				user,
+// 				tokenResult.access_token,
+// 				tokenResult.id_token,
+// 				tokenResult.access_token_expiry
+// 			);
+// 		} catch (err) {
+// 			logger.error(err, `Failed to create user session for user id ${id}`);
+// 			throw err;
+// 		}
 
-		redirectToLPADashboard(res, views);
-		return;
-	};
-};
+// 		redirectToLPADashboard(res, views);
+// 		return;
+// 	};
+// };
 
 module.exports = {
-	getEnterCode,
-	postEnterCode,
-	getEnterCodeLPA,
-	postEnterCodeLPA
+	getEnterCodeR6,
+	postEnterCodeR6
 };
