@@ -5,9 +5,12 @@ const {
 } = require('./dashboard-functions');
 
 const { calculateDueInDays } = require('./calculate-due-in-days');
+const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invalidated');
+
 const { APPEAL_CASE_STATUS } = require('pins-data-model');
 
 jest.mock('./calculate-due-in-days');
+jest.mock('./calculate-days-since-invalidated');
 
 const FULL_TEST_ADDRESS = {
 	siteAddressLine1: 'Test Address Line 1',
@@ -50,6 +53,35 @@ describe('lib/dashboard-functions', () => {
 	describe('determineDocumentToDisplayLPADashboard', () => {
 		it('returns default values if no documents are due', () => {
 			expect(determineDocumentToDisplayLPADashboard({})).toEqual({
+				deadline: null,
+				dueInDays: 100000,
+				documentDue: null,
+				baseUrl: null
+			});
+		});
+
+		it('returns invalid appeal details if the appeal has been invalidated within 28 days', () => {
+			const invalidAppealDetails = {
+				caseStatus: APPEAL_CASE_STATUS.INVALID
+			};
+
+			calculateDaysSinceInvalidated.mockReturnValue(1);
+
+			expect(determineDocumentToDisplayLPADashboard(invalidAppealDetails)).toEqual({
+				deadline: null,
+				dueInDays: -100000,
+				documentDue: 'Invalid'
+			});
+		});
+
+		it('returns default values if the appeal has been invalidated for more than 28 days', () => {
+			const invalidAppealDetails = {
+				caseStatus: APPEAL_CASE_STATUS.INVALID
+			};
+
+			calculateDaysSinceInvalidated.mockReturnValue(100);
+
+			expect(determineDocumentToDisplayLPADashboard(invalidAppealDetails)).toEqual({
 				deadline: null,
 				dueInDays: 100000,
 				documentDue: null,
