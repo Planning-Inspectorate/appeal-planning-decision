@@ -44,7 +44,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			userId: user.id
 		});
 
-		const statementType = getStatementType(userRouteUrl, user);
+		const statementType = getStatementType(userRouteUrl, user, userType);
 		const statement = await req.appealsApiClient.getAppealStatement(appealNumber, statementType);
 		const formattedStatement = formatStatement(statement);
 

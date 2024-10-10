@@ -36,6 +36,10 @@ module.exports = {
 		ACCESS: 'accessRequired',
 		VIRTUAL: 'virtual'
 	},
+	STATEMENT_TYPE: {
+		LPA: 'lpa',
+		RULE_6: 'rule6'
+	},
 	/**
 	 * not strictly appeal-user role, there is no link between LPA user and an appeal, it's via the lpa-code on the user and appeal
 	 * @type {LpaUserRole}
