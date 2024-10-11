@@ -6,6 +6,9 @@ const {
 const validationErrorHandler = (req, res, next) => {
 	const errors = validationResult(req);
 
+	console.log('nononon');
+	console.log(errors);
+
 	if (errors.isEmpty()) {
 		return next();
 	}

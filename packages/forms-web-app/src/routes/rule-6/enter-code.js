@@ -20,6 +20,8 @@ const views = {
 };
 
 router.get('/enter-code/:id', validationErrorHandler, getEnterCodeR6(views));
+router.get('/enter-code', validationErrorHandler, getEnterCodeR6(views));
 router.post('/enter-code/:id', ruleEnterCode(), validationErrorHandler, postEnterCodeR6(views));
+router.post('/enter-code', ruleEnterCode(), validationErrorHandler, postEnterCodeR6(views));
 
 module.exports = router;
