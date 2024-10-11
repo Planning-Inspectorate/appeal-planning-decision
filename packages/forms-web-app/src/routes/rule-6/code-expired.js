@@ -7,13 +7,13 @@ const {
 
 const {
 	VIEW: {
-		RULE_6: { REQUEST_NEW_CODE, ENTER_CODE }
+		RULE_6: { CODE_EXPIRED, ENTER_CODE }
 	}
 } = require('#lib/views');
 
 const router = express.Router();
 
-router.get('/request-new-code', getRequestNewCode(REQUEST_NEW_CODE));
-router.post('/request-new-code', postRequestNewCode(ENTER_CODE));
+router.get('/code-expired', getRequestNewCode(CODE_EXPIRED));
+router.post('/code-expired', postRequestNewCode(ENTER_CODE));
 
 module.exports = router;

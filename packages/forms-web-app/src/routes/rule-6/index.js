@@ -8,8 +8,9 @@ const questionnaireDetailsController = require('../../controllers/selected-appea
 // login
 router.use(require('./email-address'));
 router.use(require('./enter-code'));
-// router.use(require('./need-new-code'));
-// router.use(require('./request-new-code'));
+router.use(require('./need-new-code'));
+router.use(require('./request-new-code'));
+router.use(require('./code-expired'));
 
 router.use(require('./your-appeals'));
 
