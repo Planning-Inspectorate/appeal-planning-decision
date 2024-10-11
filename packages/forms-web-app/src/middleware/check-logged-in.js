@@ -64,6 +64,10 @@ const checkLoggedIn = async (req, res, next) => {
 			req.session.loginRedirect = req.originalUrl;
 		}
 
+		if (req.originalUrl.startsWith('/rule-6/')) {
+			return res.redirect('email-address');
+		}
+
 		req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;
 		return res.redirect('/appeal/email-address');
 	});
