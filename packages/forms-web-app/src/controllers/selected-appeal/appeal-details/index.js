@@ -7,7 +7,10 @@ const { getUserFromSession } = require('../../../services/user.service');
 const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
 const { getDepartmentFromCode } = require('../../../services/department.service');
-const logger = require('#lib/logger');
+const { generatePDF } = require('../../../lib/pdf-api-wrapper');
+const { default: fetch } = require('node-fetch');
+const config = require('../../../config');
+const logger = require('../../../lib/logger');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -27,6 +30,18 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		if (userType === null) {
 			throw new Error('Unknown role');
+		}
+
+		const isPagePdfDownload = req.query.pdf === 'true' && userType === LPA_USER_ROLE;
+		let cssOverride;
+		if (isPagePdfDownload) {
+			const response = await fetch(`${config.server.host}/public/stylesheets/main.css`);
+			cssOverride = await response.text();
+		}
+
+		let pdfDownloadUrl;
+		if (userType === LPA_USER_ROLE && !isPagePdfDownload) {
+			pdfDownloadUrl = userRouteUrl + '?pdf=true';
 		}
 
 		const userEmail = getUserFromSession(req).email;
@@ -67,10 +82,20 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				headlineData,
 				appealDetails,
 				appealDocuments
-			}
+			},
+			cssOverride,
+			pdfDownloadUrl
 		};
 
-		res.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext);
+		req.app.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (_, html) => {
+			if (isPagePdfDownload) {
+				res.set('Content-disposition', `attachment; filename="Appeal ${appealNumber}.pdf"`);
+				res.set('Content-type', 'application/pdf');
+				return res.send(await generatePDF(html));
+			}
+
+			return res.send(html);
+		});
 	};
 };
 
