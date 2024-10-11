@@ -199,7 +199,7 @@ const determineDocumentToDisplayLPADashboard = (appealCaseData) => {
 			deadline: null,
 			/// ensures invalid appeals appear at the top of the of the display
 			dueInDays: -100000,
-			documentDue: 'Invalid'
+			documentDue: null
 		};
 	} else if (isQuestionnaireDue(appealCaseData)) {
 		return {

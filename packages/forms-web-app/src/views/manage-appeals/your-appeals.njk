@@ -41,10 +41,10 @@
                     {% endif %}
                   </td>
                   <td class="govuk-table__cell govuk-table__cell--numeric">
-                    {% if item.isNewAppeal %}
-                      <strong class='govuk-tag govuk-tag--green'>NEW</strong>
-										{% elif item.displayInvalid %}
+										{% if item.displayInvalid %}
 											<strong class='govuk-tag govuk-tag--grey'>INVALID</strong>
+										{% elif item.isNewAppeal %}
+                      <strong class='govuk-tag govuk-tag--green'>NEW</strong>
 										{% elif item.nextDocumentDue.dueInDays < 0 %}
                       <strong class='govuk-tag govuk-tag--red'>OVERDUE</strong>
                     {% else %}

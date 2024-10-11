@@ -319,11 +319,14 @@ class AppealsApiClient {
 	}
 
 	/**
-	 * @param {{ lpaCode: string, caseStatus: string }} params
+	 * @param {{ lpaCode: string, caseStatus: string, decidedOnly: boolean | null | undefined }} params
 	 * @returns {Promise<AppealCase[]>}
 	 */
-	async getAppealsCasesByLpaAndStatus({ lpaCode, caseStatus }) {
+	async getAppealsCasesByLpaAndStatus({ lpaCode, caseStatus, decidedOnly }) {
 		const urlParams = new URLSearchParams();
+		if (decidedOnly === true) {
+			urlParams.append('decided-only', 'true');
+		}
 		urlParams.append('lpa-code', lpaCode);
 		urlParams.append('case-status', caseStatus);
 		const endpoint = `${v2}/appeal-cases?${urlParams.toString()}`;

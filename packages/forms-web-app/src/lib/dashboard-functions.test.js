@@ -70,7 +70,7 @@ describe('lib/dashboard-functions', () => {
 			expect(determineDocumentToDisplayLPADashboard(invalidAppealDetails)).toEqual({
 				deadline: null,
 				dueInDays: -100000,
-				documentDue: 'Invalid'
+				documentDue: null
 			});
 		});
 
