@@ -13,6 +13,10 @@ router.use(require('./enter-code'));
 
 // router.get('/', res.redirect('/email-address'))
 
+// router.use(requireR6User);
+
+router.use();
+
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());
 router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get());
