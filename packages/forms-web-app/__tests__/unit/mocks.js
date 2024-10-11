@@ -29,7 +29,9 @@ const mockRes = () => ({
 	locals: jest.fn(),
 	redirect: jest.fn(),
 	render: jest.fn(),
+	send: jest.fn(),
 	sendStatus: jest.fn(),
+	set: jest.fn(),
 	status: jest.fn()
 });
 

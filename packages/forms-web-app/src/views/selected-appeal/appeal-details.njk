@@ -3,9 +3,19 @@
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
 {% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
 {% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "pins/components/appeal-sections-block.njk" import appealSectionsBlock %}
 
 {% set title="Appeal details " + appeal.appealNumber + " - " + titleSuffix + " - GOV.UK" %}
+
+	{% block head %}
+		{% if cssOverride %}
+			<style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>{{ cssOverride | safe }}</style>
+			<style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>.govuk-template { background-color: #FFFFFF; }</style>
+		{% else %}
+			{{ super () }}
+		{% endif %}
+	{% endblock %}
 
 {% block pageTitle %}
 	{{ title }}
@@ -14,15 +24,21 @@
 {% block content %}
 	<div class="govuk-grid-row">
 		<div class="govuk-grid-column-full">
-      {% if errorSummary %}
-        {{ govukErrorSummary({
-          titleText: "There is a problem",
-          errorList: errorSummary
-        }) }}
+			{% if errorSummary %}
+				{{ govukErrorSummary({
+				titleText: "There is a problem",
+				errorList: errorSummary
+				}) }}
 			{% endif %}
 
-      <span class="govuk-caption-xl">Appeal {{appeal.appealNumber}}</span>
+			<span class="govuk-caption-xl">Appeal {{appeal.appealNumber}}</span>
 			<h1 class="govuk-heading-xl">Appeal details</h1>
+
+			{% if pdfDownloadUrl %}
+				{{ govukInsetText({
+					html: "<a href='" + pdfDownloadUrl + "'download'>Download appeal details.</a>"
+				}) }}
+			{% endif %}
 
 			{{ govukSummaryList({
 				classes: "appeal-headlines govuk-summary-list--no-border",

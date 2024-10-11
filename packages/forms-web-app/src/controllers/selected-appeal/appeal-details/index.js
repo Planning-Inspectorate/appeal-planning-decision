@@ -1,6 +1,9 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatHeadlineData, formatRows } = require('@pins/common');
 
+const fs = require('fs');
+const path = require('path');
+
 const { VIEW } = require('../../../lib/views');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
@@ -8,6 +11,7 @@ const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const logger = require('#lib/logger');
+const { generatePDF } = require('../../../lib/pdf-api-wrapper');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -27,6 +31,20 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		if (userType === null) {
 			throw new Error('Unknown role');
+		}
+
+		const isPagePdfDownload = req.query.pdf === 'true' && userType === LPA_USER_ROLE;
+		let cssOverride;
+		if (isPagePdfDownload) {
+			cssOverride = fs.readFileSync(
+				path.resolve(__dirname, '../../../public/stylesheets/main.css'),
+				'utf8'
+			);
+		}
+
+		let pdfDownloadUrl;
+		if (userType === LPA_USER_ROLE && !isPagePdfDownload) {
+			pdfDownloadUrl = userRouteUrl + '?pdf=true';
 		}
 
 		const userEmail = getUserFromSession(req).email;
@@ -67,10 +85,20 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				headlineData,
 				appealDetails,
 				appealDocuments
-			}
+			},
+			cssOverride,
+			pdfDownloadUrl
 		};
 
-		res.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext);
+		req.app.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (_, html) => {
+			if (isPagePdfDownload) {
+				res.set('Content-disposition', `attachment; filename="Appeal ${appealNumber}.pdf"`);
+				res.set('Content-type', 'application/pdf');
+				return res.send(await generatePDF(html));
+			}
+
+			return res.send(html);
+		});
 	};
 };
 
