@@ -1,4 +1,10 @@
-// const { logoutUser } = require('../../services/user.service');
+const {
+	setSessionEmail,
+	setSessionEnterCode,
+	setSessionEnterCodeAction
+} = require('../../lib/session-helper');
+const { enterCodeConfig } = require('@pins/common');
+const { logoutUser } = require('../../services/user.service');
 
 const getR6EmailAddress = (views) => {
 	return (req, res) => {
@@ -12,13 +18,17 @@ const getR6EmailAddress = (views) => {
 const postR6EmailAddress = (views) => {
 	return async (req, res) => {
 		const { body } = req;
-		const { errors = {}, errorSummary = [], 'email-address': email } = body;
+		const { errors = {}, errorSummary = [] } = body;
 		const emailErrorSummary = [
 			{
 				text: 'Enter an email address in the correct format, like name@example.com',
 				href: '#email-address'
 			}
 		];
+
+		const email = body['email-address']?.trim();
+		setSessionEmail(req.session, email, false);
+
 		if (!email) {
 			res.render(views.EMAIL_ADDRESS, {
 				errors,
@@ -37,15 +47,13 @@ const postR6EmailAddress = (views) => {
 			return;
 		}
 
-		// logoutUser(req);
-
 		try {
 			const user = await req.appealsApiClient.getUserByEmailV2(email);
 			if (!user) {
 				throw new Error('user not found');
 			}
 			const id = user.id;
-
+			setSession();
 			res.redirect(`/${views.ENTER_CODE}/${id}`);
 		} catch (e) {
 			res.render(views.EMAIL_ADDRESS, {
@@ -58,6 +66,12 @@ const postR6EmailAddress = (views) => {
 				errorSummary: emailErrorSummary
 			});
 			return;
+		}
+
+		function setSession() {
+			logoutUser(req);
+			setSessionEnterCode(req.session, {}, true);
+			setSessionEnterCodeAction(req.session, enterCodeConfig.actions.confirmEmail);
 		}
 	};
 };

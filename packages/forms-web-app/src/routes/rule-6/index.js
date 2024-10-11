@@ -11,11 +11,11 @@ router.use(require('./enter-code'));
 // router.use(require('./need-new-code'));
 // router.use(require('./request-new-code'));
 
-// router.get('/', res.redirect('/email-address'))
+router.use(require('./your-appeals'));
+
+router.get('/', (req, res) => res.redirect('rule-6/your-appeals'));
 
 // router.use(requireR6User);
-
-router.use();
 
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());

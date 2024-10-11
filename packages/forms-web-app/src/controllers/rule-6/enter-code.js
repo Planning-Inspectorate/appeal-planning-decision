@@ -51,14 +51,14 @@ const createOTPGrant = async (email, action) => {
  */
 const getEnterCodeR6 = (views) => {
 	return async (req, res) => {
-		// const {
-		// 	body: { errors = {} }
-		// } = req;
+		const {
+			body: { errors = {} }
+		} = req;
 
-		// if (Object.keys(errors).length > 0) {
-		// 	logger.error(errors, 'failed to send token to returning user');
-		// 	return renderError();
-		// }
+		if (Object.keys(errors).length > 0) {
+			logger.error(errors, 'failed to send token to returning user');
+			return renderEnterCodePage();
+		}
 
 		/** @type {string|undefined} */
 		const enterCodeId = req.params.enterCodeId;
@@ -66,7 +66,7 @@ const getEnterCodeR6 = (views) => {
 			req.session.enterCodeId = enterCodeId;
 		}
 
-		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
+		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.confirmEmail;
 
 		// show new code success message only once
 		const newCode = req.session?.enterCode?.newCode;
@@ -76,7 +76,6 @@ const getEnterCodeR6 = (views) => {
 
 		logger.info({ action }, `getEnterCode`);
 
-		// if (isGeneralLogin) {
 		const email = getSessionEmail(req.session, false);
 
 		try {
@@ -124,7 +123,7 @@ const postEnterCodeR6 = (views) => {
 			return renderError(errorSummary, errors);
 		}
 
-		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.saveAndReturn;
+		const action = req.session?.enterCode?.action ?? enterCodeConfig.actions.confirmEmail;
 
 		const sessionEmail = getSessionEmail(req.session, false);
 
@@ -167,31 +166,29 @@ const postEnterCodeR6 = (views) => {
 
 		deleteTempSessionValues();
 		return res.redirect(`/${views.DASHBOARD}`);
-	};
 
-	function deleteTempSessionValues() {
-		// delete req.session.enterCodeId;
-		// delete req.session?.enterCode?.action;
-	}
-
-	/**
-	 * @param {Array<Object>|string} errorSummary - if just a string will add single error to form and summary
-	 * @param {Object} [errors]
-	 */
-	function renderError(errorSummary, errors = {}) {
-		if (typeof errorSummary === 'string') {
-			errors = { 'email-code': { msg: errorSummary } };
-			errorSummary = [{ text: errorSummary, href: '#email-code' }];
-
-			console.log(errors);
+		function deleteTempSessionValues() {
+			delete req.session.enterCodeId;
+			delete req.session?.enterCode?.action;
 		}
 
-		// res.render(views.ENTER_CODE, {
-		// 	token,
-		// 	errors,
-		// 	errorSummary
-		// });
-	}
+		/**
+		 * @param {Array<Object>|string} errorSummary - if just a string will add single error to form and summary
+		 * @param {Object} [errors]
+		 */
+		function renderError(errorSummary, errors = {}) {
+			if (typeof errorSummary === 'string') {
+				errors = { 'email-code': { msg: errorSummary } };
+				errorSummary = [{ text: errorSummary, href: '#email-code' }];
+			}
+
+			res.render(views.ENTER_CODE, {
+				token,
+				errors,
+				errorSummary
+			});
+		}
+	};
 };
 
 module.exports = {

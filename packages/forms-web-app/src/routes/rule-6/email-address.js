@@ -9,7 +9,7 @@ const { getR6EmailAddress, postR6EmailAddress } = require('../../controllers/rul
 
 const {
 	VIEW: {
-		RULE_6_APPEALS: { EMAIL_ADDRESS, ENTER_CODE }
+		RULE_6: { EMAIL_ADDRESS, ENTER_CODE }
 	}
 } = require('../../lib/views');
 

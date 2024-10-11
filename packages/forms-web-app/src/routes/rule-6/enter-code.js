@@ -4,14 +4,7 @@ const { validationErrorHandler } = require('../../validators/validation-error-ha
 const { getEnterCodeR6, postEnterCodeR6 } = require('../../controllers/rule-6/enter-code');
 const {
 	VIEW: {
-		RULE_6_APPEALS: {
-			ENTER_CODE,
-			CODE_EXPIRED,
-			NEED_NEW_CODE,
-			REQUEST_NEW_CODE,
-			DASHBOARD,
-			EMAIL_ADDRESS
-		}
+		RULE_6: { ENTER_CODE, CODE_EXPIRED, NEED_NEW_CODE, REQUEST_NEW_CODE, DASHBOARD, EMAIL_ADDRESS }
 	}
 } = require('../../lib/views');
 

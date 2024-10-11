@@ -248,7 +248,7 @@ const VIEW = {
 		ENTER_APPEAL_REFERENCE: 'comment-planning-appeal/enter-appeal-reference'
 	},
 
-	RULE_6_APPEALS: {
+	RULE_6: {
 		EMAIL_ADDRESS: 'rule-6/email-address',
 		ENTER_CODE: 'rule-6/enter-code',
 		CODE_EXPIRED: 'rule-6/code-expired',
