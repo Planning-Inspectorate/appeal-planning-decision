@@ -34,7 +34,9 @@ const lpaAppealIds = {
 	appeal26: 'e1ddcd1f-9e5a-4524-bc66-9fde4d68e8c8',
 	appeal27: 'ec17a1da-e35d-4d35-acf8-0820fbc0a5e2',
 	appeal28: '0ade191c-7171-417f-aa66-61b5c23b1ac3',
-	appeal75: '7b8312e0-c724-4969-b7d4-441c60c6741b'
+	appeal75: '7b8312e0-c724-4969-b7d4-441c60c6741b',
+	appealTP1: '7c8412e0-c734-4969-b7d4-441c60c6840b',
+	appealTP2: '7c8412e0-c734-4969-b7d4-441c60c6841b'
 };
 
 /**
@@ -69,7 +71,9 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appeal26 },
 	{ id: lpaAppealIds.appeal27 },
 	{ id: lpaAppealIds.appeal28 },
-	{ id: lpaAppealIds.appeal75 }
+	{ id: lpaAppealIds.appeal75 },
+	{ id: lpaAppealIds.appealTP1 },
+	{ id: lpaAppealIds.appealTP2 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -501,6 +505,54 @@ const lpaAppealCaseData = [
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
 		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP1 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '8087801',
+		siteAddressLine1: 'Invalid',
+		siteAddressLine2: null,
+		siteAddressTown: 'within 28 days',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.INVALID }
+		},
+		caseDecisionPublishedDate: new Date(),
+		caseDecisionOutcomeDate: new Date(),
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.INVALID }
+		},
+		caseValidationDate: new Date(),
+		caseSubmittedDate: new Date()
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP2 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '8087802',
+		siteAddressLine1: 'Invalid',
+		siteAddressLine2: null,
+		siteAddressTown: 'more than 28 days',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.INVALID }
+		},
+		caseDecisionPublishedDate: pickRandom(datesNMonthsAgo(2)),
+		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(2)),
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.INVALID }
+		},
+		caseValidationDate: pickRandom(datesNMonthsAgo(2)),
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
 	{
