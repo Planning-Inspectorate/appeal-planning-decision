@@ -10,8 +10,8 @@ const { documentsRows } = require('./appeal-documents-rows');
 const { formatRows, formatHeadlineData } = require('@pins/common');
 const { VIEW } = require('../../../lib/views');
 const { generatePDF } = require('../../../lib/pdf-api-wrapper');
-const fs = require('fs');
-const path = require('path');
+const { default: fetch } = require('node-fetch');
+const config = require('../../../config');
 
 jest.mock('../../../lib/determine-user');
 jest.mock('../../../services/user.service');
@@ -20,11 +20,9 @@ jest.mock('./appeal-details-rows');
 jest.mock('./appeal-documents-rows');
 jest.mock('@pins/common');
 jest.mock('../../../lib/pdf-api-wrapper');
+jest.mock('node-fetch');
 
-const css = fs.readFileSync(
-	path.resolve(__dirname, '../../../public/stylesheets/main.css'),
-	'utf8'
-);
+const css = 'css data';
 const date = new Date();
 const caseData = { LPACode: 'Q9999', caseValidDate: date };
 
@@ -62,6 +60,11 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 	beforeEach(() => {
 		res = mockRes();
 		req = mockReq();
+		fetch.mockResolvedValue({
+			text: jest.fn(() => {
+				return css;
+			})
+		});
 		getUserFromSession.mockReturnValue({ email: 'test@example.com' });
 		getDepartmentFromCode.mockReturnValue({ name: 'Test LPA' });
 		documentsRows.mockReturnValue('returned document rows');
@@ -104,12 +107,12 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			expect(documentsRows).toHaveBeenCalledWith(caseData, LPA_USER_ROLE);
 			expect(formatRows).toHaveBeenCalledWith('returned details rows', caseData);
 			expect(formatHeadlineData).toHaveBeenCalledWith(caseData, 'Test LPA', LPA_USER_ROLE);
+
 			expect(req.app.render).toHaveBeenCalledWith(
 				VIEW.SELECTED_APPEAL.APPEAL_DETAILS,
 				expectedViewContext,
 				expect.any(Function)
 			);
-
 			expect(res.send).toHaveBeenCalledWith('<h1>Test Html</h1>');
 		});
 
@@ -129,6 +132,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			await indexGetController(req, res);
 
 			expect(determineUser).toHaveBeenCalledWith('a/fake/url');
+			expect(fetch).toHaveBeenCalledWith(`${config.server.host}/public/stylesheets/main.css`);
 			expect(getUserFromSession).toHaveBeenCalledWith(req);
 			expect(req.appealsApiClient.getUserByEmailV2).toHaveBeenCalledWith('test@example.com');
 			expect(req.appealsApiClient.getUsersAppealCase).toHaveBeenCalledWith({
@@ -141,6 +145,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			expect(documentsRows).toHaveBeenCalledWith(caseData, LPA_USER_ROLE);
 			expect(formatRows).toHaveBeenCalledWith('returned details rows', caseData);
 			expect(formatHeadlineData).toHaveBeenCalledWith(caseData, 'Test LPA', LPA_USER_ROLE);
+
 			expect(req.app.render).toHaveBeenCalledWith(
 				VIEW.SELECTED_APPEAL.APPEAL_DETAILS,
 				pdfExpectedViewContext,
