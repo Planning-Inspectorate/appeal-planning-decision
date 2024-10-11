@@ -1,17 +1,16 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatHeadlineData, formatRows } = require('@pins/common');
 
-const fs = require('fs');
-const path = require('path');
-
 const { VIEW } = require('../../../lib/views');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
 const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
 const { getDepartmentFromCode } = require('../../../services/department.service');
-const logger = require('#lib/logger');
 const { generatePDF } = require('../../../lib/pdf-api-wrapper');
+const { default: fetch } = require('node-fetch');
+const config = require('../../../config');
+const logger = require('../../../lib/logger');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -36,10 +35,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const isPagePdfDownload = req.query.pdf === 'true' && userType === LPA_USER_ROLE;
 		let cssOverride;
 		if (isPagePdfDownload) {
-			cssOverride = fs.readFileSync(
-				path.resolve(__dirname, '../../../public/stylesheets/main.css'),
-				'utf8'
-			);
+			const response = await fetch(`${config.server.host}/public/stylesheets/main.css`);
+			cssOverride = await response.text();
 		}
 
 		let pdfDownloadUrl;
