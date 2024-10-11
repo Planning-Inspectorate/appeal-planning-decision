@@ -25,7 +25,8 @@ const getYourAppeals = async (req, res) => {
 
 	const invalidAppeals = await req.appealsApiClient.getAppealsCasesByLpaAndStatus({
 		lpaCode,
-		caseStatus: APPEAL_CASE_STATUS.INVALID
+		caseStatus: APPEAL_CASE_STATUS.INVALID,
+		decidedOnly: true
 	});
 
 	const decidedAppealsCount = await req.appealsApiClient.getDecidedAppealsCountV2(lpaCode);

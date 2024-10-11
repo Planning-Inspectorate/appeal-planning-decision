@@ -530,7 +530,7 @@ function addDecidedClauseToQuery(whereArray, decidedOnly) {
  * @param {string} caseStatus
  */
 function addCaseStatusToQuery(whereArray, caseStatus) {
-	whereArray.push({ caseStatus });
+	whereArray.push({ caseStatus: caseStatus });
 }
 
 module.exports = { AppealCaseRepository, DocumentsArgsPublishedOnly };
