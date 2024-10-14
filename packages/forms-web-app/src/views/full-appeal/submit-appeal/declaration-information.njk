@@ -32,7 +32,7 @@
 
 {% switch(appeal.eligibility.applicationDecision) %}
   {% case 'granted' %}
-    {% set planningDecision = 'Granted' %}
+    {% set planningDecision = 'Granted with conditions' %}
   {% case 'refused' %}
     {% set planningDecision = 'Refused' %}
   {% default %}
