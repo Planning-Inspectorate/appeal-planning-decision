@@ -15,6 +15,6 @@ router.use(
 	})
 );
 
-router.get('/',  asyncHandler(getAppealFinalCommentsForCase));
+router.get('/', openApiValidatorMiddleware(), asyncHandler(getAppealFinalCommentsForCase));
 
 module.exports = { router };

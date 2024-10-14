@@ -65,7 +65,7 @@ afterAll(async () => {
 	await sqlClient.$disconnect();
 });
 /**
- * @returns {Promise}
+ * @returns {Promise<string>}
  */
 const createAppeal = async (caseRef) => {
 	const appeal = await sqlClient.appeal.create({
@@ -135,21 +135,8 @@ describe('/appeal-cases/{caseReference}/appeal-final-comments', () => {
 			}
 		});
 
-		const finalComment = await sqlClient.appealFinalComment.findFirst({
-			where: {
-				caseReference: testCaseRef,
-				serviceUserId: serviceUser.internalId,
-				ServiceUser: {
-					serviceUserType: 'Appellant'
-				}
-			},
-			include: {
-				ServiceUser: true
-			}
-		});
-		console.log(finalComment);
 		const response = await appealsApi.get(
-			`/api/v2/appeal-cases/${testCaseRef}/appeals-final-comments?type=Appellant`
+			`/api/v2/appeal-cases/${testCaseRef}/appeal-final-comments?type=Appellant`
 		);
 
 		expect(response.status).toEqual(200);
@@ -164,11 +151,11 @@ describe('/appeal-cases/{caseReference}/appeal-final-comments', () => {
 		await createAppeal(testCaseRef);
 		const invalidCaseRef = '1000000';
 		const response = await appealsApi.get(
-			`/api/v2/appeal-cases/${invalidCaseRef}/appeal-final-comments?type=lpa`
+			`/api/v2/appeal-cases/${invalidCaseRef}/appeal-final-comments?type=LPAUser`
 		);
 		expect(response.status).toEqual(404);
 		expect(response.body).toMatchObject({
-			errors: ['No LPA final comments found for this case reference']
+			errors: ['No LPAUser final comments found for this case reference']
 		});
 	});
 	it('should return 404 if no appellant final comments are found for the given case reference', async () => {
@@ -176,11 +163,11 @@ describe('/appeal-cases/{caseReference}/appeal-final-comments', () => {
 		await createAppeal(testCaseRef);
 		const invalidCaseRef = '1000000';
 		const response = await appealsApi.get(
-			`/api/v2/appeal-cases/${invalidCaseRef}/appeal-final-comments?type=appellant`
+			`/api/v2/appeal-cases/${invalidCaseRef}/appeal-final-comments?type=Appellant`
 		);
 		expect(response.status).toEqual(404);
 		expect(response.body).toMatchObject({
-			errors: ['No appellant final comments found for this case reference']
+			errors: ['No Appellant final comments found for this case reference']
 		});
 	});
 });
