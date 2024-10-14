@@ -70,7 +70,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 
 			expect(res.render).toBeCalledWith(canUseServiceHouseholder, {
 				appealLPD: 'Bradford',
-				applicationDecision: 'Granted',
+				applicationDecision: 'Granted with conditions',
 				applicationType: 'Householder Planning',
 				claimingCosts: 'No',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
@@ -172,7 +172,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 
 			expect(res.render).toBeCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',
-				applicationDecision: 'Granted',
+				applicationDecision: 'Granted with conditions',
 				applicationType: 'Full Appeal',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
 				decisionDate: '04 May 2022',
@@ -188,7 +188,7 @@ describe('controllers/before-you-start/can-use-service', () => {
 
 			expect(res.render).toBeCalledWith(canUseServiceFullAppealUrl, {
 				appealLPD: 'Bradford',
-				applicationDecision: 'Granted',
+				applicationDecision: 'Granted with conditions',
 				applicationType: 'Full Appeal',
 				deadlineDate: { date: 4, day: 'Friday', month: 'November', year: 2022 },
 				decisionDate: '04 May 2022',
