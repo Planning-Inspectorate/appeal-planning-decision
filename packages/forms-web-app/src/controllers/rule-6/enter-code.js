@@ -4,39 +4,12 @@ const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../lib/logger');
 
 const { getSessionEmail } = require('#lib/session-helper');
-const getAuthClient = require('@pins/common/src/client/auth-client');
+const { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../config');
-const { AUTH } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('#lib/is-token-valid').TokenValidResult} TokenValidResult
  */
-
-/**
- * @typedef {Object} enterCodeOptions
- * @property {boolean} isGeneralLogin - defines if this enter code journey is for a general appeal log in, unrelated to an appeal
- */
-
-/**
- * Creates a one time password grant via the auth server
- * @param {string} email
- * @param {string} action
- * @returns {Promise<void>}
- */
-const createOTPGrant = async (email, action) => {
-	const client = await getAuthClient(
-		config.oauth.baseUrl,
-		config.oauth.clientID,
-		config.oauth.clientSecret
-	);
-
-	await client.grant({
-		grant_type: AUTH.GRANT_TYPE.OTP,
-		email: email,
-		action: action,
-		resource: AUTH.RESOURCE
-	});
-};
 
 /**
  * @param {{
@@ -79,7 +52,12 @@ const getEnterCodeR6 = (views) => {
 		const email = getSessionEmail(req.session, false);
 
 		try {
-			await createOTPGrant(email, action);
+			const authClient = await getAuthClient(
+				config.oauth.baseUrl,
+				config.oauth.clientID,
+				config.oauth.clientSecret
+			);
+			await createOTPGrant(authClient, email, action);
 		} catch (e) {
 			logger.error(e, 'failed to send token to general login user');
 		}

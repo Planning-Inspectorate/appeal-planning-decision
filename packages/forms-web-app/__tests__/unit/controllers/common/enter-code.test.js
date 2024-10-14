@@ -22,8 +22,7 @@ const { enterCodeConfig } = require('@pins/common');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 const { isFeatureActive } = require('../../../../src/featureFlag');
 const { ApiClientError } = require('@pins/common/src/client/api-client-error');
-let getAuthClient = require('@pins/common/src/client/auth-client');
-const { AUTH } = require('@pins/common/src/constants');
+let { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
 
 jest.mock('#lib/appeals-api-wrapper');
 jest.mock('#lib/is-token-valid');
@@ -105,12 +104,11 @@ describe('controllers/common/enter-code', () => {
 			await returnedFunction(req, res);
 
 			if (v2) {
-				expect(mockedGrant).toHaveBeenCalledWith({
-					action: enterCodeConfig.actions.confirmEmail,
-					email: TEST_EMAIL,
-					grant_type: AUTH.GRANT_TYPE.OTP,
-					resource: AUTH.RESOURCE
-				});
+				expect(createOTPGrant).toHaveBeenCalledWith(
+					{ grant: mockedGrant },
+					TEST_EMAIL,
+					enterCodeConfig.actions.confirmEmail
+				);
 			} else {
 				expect(sendToken).toHaveBeenCalledWith(TEST_ID, enterCodeConfig.actions.confirmEmail);
 			}
@@ -143,12 +141,11 @@ describe('controllers/common/enter-code', () => {
 			await returnedFunction(req, res);
 
 			if (v2) {
-				expect(mockedGrant).toHaveBeenCalledWith({
-					action: enterCodeConfig.actions.saveAndReturn,
-					email: fullAppeal.email,
-					grant_type: AUTH.GRANT_TYPE.OTP,
-					resource: AUTH.RESOURCE
-				});
+				expect(createOTPGrant).toHaveBeenCalledWith(
+					{ grant: mockedGrant },
+					fullAppeal.email,
+					enterCodeConfig.actions.saveAndReturn
+				);
 			} else {
 				expect(sendToken).toHaveBeenCalledWith(TEST_ID, enterCodeConfig.actions.saveAndReturn);
 			}
@@ -199,12 +196,11 @@ describe('controllers/common/enter-code', () => {
 
 				await returnedFunction(req, res);
 
-				expect(mockedGrant).toHaveBeenCalledWith({
-					action: enterCodeConfig.actions.saveAndReturn,
-					email: TEST_EMAIL,
-					grant_type: AUTH.GRANT_TYPE.OTP,
-					resource: AUTH.RESOURCE
-				});
+				expect(createOTPGrant).toHaveBeenCalledWith(
+					{ grant: mockedGrant },
+					TEST_EMAIL,
+					enterCodeConfig.actions.saveAndReturn
+				);
 
 				expect(res.render).toHaveBeenCalledWith(`${householderAppealViews.ENTER_CODE}`, {
 					confirmEmailLink: `/${householderAppealViews.EMAIL_ADDRESS}`,
@@ -697,12 +693,13 @@ describe('controllers/common/enter-code', () => {
 			await returnedFunction(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(expectedURL, expectedContext);
-			expect(mockedGrant).toHaveBeenCalledWith({
-				action: enterCodeConfig.actions.lpaDashboard,
-				email: fakeUserResponse.email,
-				grant_type: AUTH.GRANT_TYPE.OTP,
-				resource: AUTH.RESOURCE
-			});
+			expect(createOTPGrant).toHaveBeenCalledWith(
+				{
+					grant: mockedGrant
+				},
+				fakeUserResponse.email,
+				enterCodeConfig.actions.lpaDashboard
+			);
 		});
 		it('should not send token to user if user lookup fails, but still render page', async () => {
 			const userId = '649418158b915f0018524cb7';
