@@ -84,7 +84,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 	cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.fullAppealSubmit}/email-address-confirmed`);
 	cy.advanceToNextPage();
 
-	cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.fullAppealSubmit}/list-of-documents`);
+	cy.validateURL(`${prepareAppealSelector?._fullAppealURLs?.appealsFullPlanningAppealForm}/before-you-start`);
 	cy.advanceToNextPage();
 	
 	cy.location('search').then((search) => {
