@@ -1175,6 +1175,8 @@ const lpaAppealCaseData = [
 		caseValidDate: new Date(),
 		caseCreatedDate: new Date(),
 		lpaQuestionnairePublishedDate: new Date(),
+		lpaFinalCommentsPublished: true,
+		appellantFinalCommentsSubmitted: true,
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
