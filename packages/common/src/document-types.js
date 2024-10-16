@@ -632,7 +632,7 @@ const documentTypes = {
 	},
 	uploadAppellantFinalCommentDocuments: {
 		name: 'uploadAppellantFinalCommentDocuments',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'appealFinalComment', // To be updated once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
