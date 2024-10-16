@@ -53,16 +53,6 @@ exports.sections = [
 		]
 	},
 	{
-		heading: 'Planning obligation',
-		links: [
-			{
-				url: '/planning-obligation',
-				text: 'View planning obligation',
-				condition: (appealCase) => !!appealCase.planningObligation
-			}
-		]
-	},
-	{
 		heading: 'Final comments',
 		links: [
 			{
@@ -76,6 +66,16 @@ exports.sections = [
 				url: '/lpa-final-comments',
 				text: 'View local planning authority final comments',
 				condition: (appealCase) => !!appealCase.lpaFinalCommentsPublished // changed from lpaFinalCommentPublished
+			}
+		]
+	},
+	{
+		heading: 'Planning obligation',
+		links: [
+			{
+				url: '/planning-obligation',
+				text: 'View planning obligation',
+				condition: (appealCase) => !!appealCase.planningObligation
 			}
 		]
 	},
