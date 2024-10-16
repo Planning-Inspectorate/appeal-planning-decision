@@ -1,11 +1,10 @@
 const { formatHeadlineData } = require('@pins/common');
-
+const { formatFinalComment } = require('./format-final-comment-details');
 const { VIEW } = require('../../../lib/views');
 const {
 	formatTitleSuffix,
 	formatFinalCommentsHeadingPrefix,
-	isAppellantComments,
-	getFinalComments
+	getFinalCommentUserGroup
 } = require('../../../lib/selected-appeal-page-setup');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
@@ -46,10 +45,15 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			userId: user.id
 		});
 
+		const finalCommentType = getFinalCommentUserGroup(userRouteUrl, user, userType);
+		const comments = await req.appealsApiClient.getAppealFinalComments(
+			appealNumber,
+			finalCommentType
+		);
+		const formattedComments = formatFinalComment(comments);
+
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
-		const isAppellantCommentsResult = isAppellantComments(userRouteUrl, userType);
-		const finalComments = getFinalComments(caseData, isAppellantCommentsResult);
 
 		const viewContext = {
 			layoutTemplate,
@@ -59,7 +63,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			appeal: {
 				appealNumber,
 				headlineData,
-				finalComments
+				formattedComments
 			}
 		};
 

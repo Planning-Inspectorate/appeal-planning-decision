@@ -29,6 +29,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppealStatement} AppealStatement
+ * @typedef {import('appeals-service-api').Api.AppealFinalComment} AppealFinalComment
  */
 
 // Data model types
@@ -453,12 +454,25 @@ class AppealsApiClient {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} type
-	 * @returns {Promise<AppealStatement>}
+	 * @returns {Promise<AppealStatement[]>}
 	 */
 	async getAppealStatement(caseReference, type) {
 		const urlParams = new URLSearchParams();
 		urlParams.append('type', type);
 		const endpoint = `${v2}/appeal-cases/${caseReference}/appeal-statements?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} type
+	 * @returns {Promise<AppealFinalComment[]>}
+	 */
+	async getAppealFinalComments(caseReference, type) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('type', type);
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appeal-final-comments?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}

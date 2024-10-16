@@ -42,24 +42,33 @@ const formatFinalCommentsHeadingPrefix = (url) => {
 
 /**
  * @param {string} url
+ * @param {AppealUser} user
  * @param {string} userType
- * @returns {boolean}
+ * @returns {string}
  */
-const isAppellantComments = (url, userType) => {
-	return (
-		url.includes('/appellant-final-comments') ||
-		(url.includes('/final-comments') && userType !== LPA_USER_ROLE)
-	);
-};
-
-/**
- * @param {import('appeals-service-api').Api.AppealCaseWithRule6Parties} caseData
- * @param {boolean} isAppellantComments
- */
-const getFinalComments = (caseData, isAppellantComments) => {
-	return isAppellantComments
-		? caseData.appellantFinalCommentDetails
-		: caseData.lpaFinalCommentDetails;
+const getFinalCommentUserGroup = (url, user, userType) => {
+	if (url.includes('other-party-final-comments')) {
+		// cant see the copy deck for this
+		return APPEAL_USER_ROLES.RULE_6_PARTY;
+	} else if (url.includes('lpa-final-comments')) {
+		return LPA_USER_ROLE;
+	} else if (user.lpaCode && url.includes('final-comments')) {
+		return LPA_USER_ROLE;
+	} else if (
+		user.serviceUserId &&
+		userType === APPEAL_USER_ROLES.APPELLANT &&
+		url.includes('final-comments')
+	) {
+		return APPEAL_USER_ROLES.APPELLANT;
+	} else if (
+		user.serviceUserId &&
+		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
+		url.includes('final-comments') // cant see the copy deck for this
+	) {
+		return APPEAL_USER_ROLES.RULE_6_PARTY;
+	} else {
+		throw new Error('Unable to determine final comment type');
+	}
 };
 
 //Statements
@@ -115,8 +124,7 @@ module.exports = {
 	formatTitleSuffix,
 	formatQuestionnaireHeading,
 	formatFinalCommentsHeadingPrefix,
-	isAppellantComments,
-	getFinalComments,
+	getFinalCommentUserGroup,
 	formatStatementHeading,
 	getStatementType,
 	formatPlanningObligationTitlePrefix
