@@ -1,5 +1,5 @@
 const { AppealsApiClient } = require('@pins/common/src/client/appeals-api-client');
-const getAuthClient = require('@pins/common/src/client/auth-client');
+const { getAuthClient } = require('@pins/common/src/client/auth-client');
 const { AUTH } = require('@pins/common/src/constants');
 
 const config = require('./config');

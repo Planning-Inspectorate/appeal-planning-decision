@@ -5,7 +5,7 @@ const logger = require('#lib/logger');
 
 const { isTestLPA } = require('@pins/common/src/utils');
 const { AUTH } = require('@pins/common/src/constants');
-const getAuthClient = require('@pins/common/src/client/auth-client');
+const { getAuthClient } = require('@pins/common/src/client/auth-client');
 
 /**
  * @typedef {Object} TokenValidResult
