@@ -6,7 +6,6 @@ const ApiError = require('#errors/apiError');
  */
 async function getAppealFinalCommentsForCase(req, res) {
 	const { caseReference } = req.params;
-	console.log(caseReference);
 	const { type } = req.query;
 	if (!caseReference) {
 		throw ApiError.withMessage(400, 'case reference required');
