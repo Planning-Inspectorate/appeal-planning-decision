@@ -1,4 +1,5 @@
 const createApiClients = require('#middleware/create-api-clients');
+const { getAuthClient } = require('@pins/common/src/client/auth-client');
 
 // Mocking dependencies
 jest.mock('@pins/common/src/client/appeals-api-client', () => ({
@@ -9,19 +10,17 @@ jest.mock('@pins/common/src/client/documents-api-client', () => ({
 	DocumentsApiClient: jest.fn().mockImplementation(() => ({}))
 }));
 
-jest.mock('@pins/common/src/client/auth-client', () => {
-	const { TokenSet } = require('openid-client');
-	const getClient = jest.fn();
+jest.mock('@pins/common/src/client/auth-client', () => ({
+	getAuthClient: jest.fn()
+}));
 
-	// Mocked implementation of the client
-	const mockClient = {
-		grant: jest.fn().mockImplementation(async () => {
-			return new TokenSet({ access_token: 'clientCredentialsToken', expires_in: 3600 });
-		})
-	};
+const { TokenSet } = require('openid-client');
+const mockedGrant = jest.fn().mockImplementation(async () => {
+	return new TokenSet({ access_token: 'clientCredentialsToken', expires_in: 3600 });
+});
 
-	getClient.mockResolvedValue(mockClient); // Resolve getClient with the mocked client
-	return getClient; // Return the mocked getClient function
+getAuthClient.mockResolvedValue({
+	grant: mockedGrant
 });
 
 jest.mock('../services/user.service', () => ({
