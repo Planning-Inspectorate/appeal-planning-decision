@@ -1,5 +1,6 @@
 const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const { DocumentsArgsPublishedOnly } = require('../../repo');
 
 /**
  * @typedef {import('@prisma/client').AppealFinalComment} AppealFinalComment
@@ -27,7 +28,7 @@ class AppealFinalCommentRepository {
 				include: {
 					FinalCommentDocuments: {
 						include: {
-							Document: true
+							Document: DocumentsArgsPublishedOnly
 						}
 					}
 				}
@@ -63,10 +64,9 @@ class AppealFinalCommentRepository {
 				include: {
 					FinalCommentDocuments: {
 						include: {
-							Document: true
+							Document: DocumentsArgsPublishedOnly
 						}
-					},
-					ServiceUser: true
+					}
 				}
 			});
 			console.log('in repo', comments);
