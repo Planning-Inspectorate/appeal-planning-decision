@@ -634,6 +634,40 @@ const appealDocuments = [
 		origin: 'pins',
 		stage: 'decision',
 		AppealCase: {}
+	},
+	{
+		id: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7',
+		filename: 'lpa-final-comments.txt',
+		originalFilename: 'lpa-final-comments.txt',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(),
+		published: true,
+		redacted: true,
+		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
+		documentType: 'appealFinalComment', // currently not in data model
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
+	},
+	{
+		id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd',
+		filename: 'appellant-final-comments.txt',
+		originalFilename: 'appellant-final-comments.txt',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(),
+		published: true,
+		redacted: true,
+		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
+		documentType: 'appealFinalComment', // currently not in data model
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
 	}
 ];
 

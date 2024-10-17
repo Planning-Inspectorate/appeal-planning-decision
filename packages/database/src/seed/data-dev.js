@@ -167,6 +167,13 @@ const appealStatementIds = {
 	appealStatementTwo: 'd24447a2-ad41-42b7-be86-7a222ae57448'
 };
 
+const appealFinalCommentIds = {
+	appealFinalCommentOne: '16258e95-cd25-47ec-8953-8674c74dbc79',
+	appealFinalCommentTwo: 'e2860281-647f-46ee-8099-d53d32b43daf',
+	appealFinalCommentThree: 'c04acd1d-be07-4150-ba49-ecda79343ca5',
+	appealFinalCommentFour: 'c9304307-a57d-4411-9334-1ce831179a53'
+};
+
 const rule6Documents = {
 	proofEvidenceSubmitted: false,
 	proofEvidenceReceived: false,
@@ -401,6 +408,8 @@ const appealCases = [
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnairePublishedDate: pickRandom(datesNMonthsAgo(1)),
 		lpaQuestionnaireSubmittedDate: new Date(),
+		lpaFinalCommentsPublished: true,
+		appellantFinalCommentsSubmitted: true,
 		caseValidDate: new Date(),
 		lpaStatementPublished: true,
 		rule6StatementPublished: true,
@@ -730,6 +739,14 @@ const serviceUsers = [
 		id: '123451',
 		serviceUserType: 'Appellant',
 		caseReference: caseReferences.caseReferenceOne,
+		firstName: 'Appellant',
+		lastName: 'One'
+	},
+	{
+		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a89',
+		id: '123451',
+		serviceUserType: 'Appellant',
+		caseReference: '1000014',
 		firstName: 'Appellant',
 		lastName: 'One'
 	},
@@ -1132,9 +1149,9 @@ const appealStatements = [
 ];
 
 /**
- * @type {import('@prisma/client').Prisma.StatementDocumentCreateInput[]}
+ * @type {import('@prisma/client').Prisma.CommentStatementDocumentCreateInput[]}
  */
-const statementDocuments = [
+const commentStatementDocuments = [
 	{
 		id: 'af82c699-c5ed-41dd-9b7f-172e41471846',
 		AppealStatement: {
@@ -1145,6 +1162,98 @@ const statementDocuments = [
 		Document: {
 			connect: {
 				id: '35880c82-7252-40a0-8dbd-30b740f22bce'
+			}
+		}
+	},
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61555',
+		FinalComment: {
+			connect: {
+				id: appealFinalCommentIds.appealFinalCommentOne
+			}
+		},
+		Document: {
+			connect: {
+				id: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7'
+			}
+		}
+	},
+	{
+		id: 'bdea7f30-d25f-49b2-8b0b-f5b9d38c16a7',
+		FinalComment: {
+			connect: {
+				id: appealFinalCommentIds.appealFinalCommentThree
+			}
+		},
+		Document: {
+			connect: {
+				id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd'
+			}
+		}
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.FinalCommentCreateInput[]}
+ */
+const appealFinalComments = [
+	{
+		id: appealFinalCommentIds.appealFinalCommentOne,
+		lpaCode: 'Q9999',
+		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
+		comments:
+			'This is the LPA final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
+		wantsFinalComment: true,
+		AppealCase: {
+			connect: {
+				caseReference: '1000014'
+			}
+		}
+	},
+	{
+		id: appealFinalCommentIds.appealFinalCommentTwo,
+		lpaCode: 'Q9999',
+		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
+		comments:
+			'This is the LPA final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
+		wantsFinalComment: true,
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceOne
+			}
+		}
+	},
+	{
+		id: appealFinalCommentIds.appealFinalCommentThree,
+		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
+		comments:
+			'This is the appellant final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus',
+		wantsFinalComment: true,
+		AppealCase: {
+			connect: {
+				caseReference: '1000014'
+			}
+		},
+		ServiceUser: {
+			connect: {
+				internalId: '19d01551-e0cb-414f-95d9-fd71422c9a89'
+			}
+		}
+	},
+	{
+		id: appealFinalCommentIds.appealFinalCommentFour,
+		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
+		comments:
+			'This is the appellant final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. ',
+		wantsFinalComment: true,
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceOne
+			}
+		},
+		ServiceUser: {
+			connect: {
+				internalId: '19d01551-e0cb-414f-95d9-fd71422c9a89'
 			}
 		}
 	}
@@ -1393,11 +1502,19 @@ async function seedDev(dbClient) {
 		});
 	}
 
-	for (const statementDocument of statementDocuments) {
-		await dbClient.statementDocument.upsert({
-			create: statementDocument,
-			update: statementDocument,
-			where: { id: statementDocument.id }
+	for (const appealFinalComment of appealFinalComments) {
+		await dbClient.finalComment.upsert({
+			create: appealFinalComment,
+			update: appealFinalComment,
+			where: { id: appealFinalComment.id }
+		});
+	}
+
+	for (const commentStatementDocument of commentStatementDocuments) {
+		await dbClient.commentStatementDocument.upsert({
+			create: commentStatementDocument,
+			update: commentStatementDocument,
+			where: { id: commentStatementDocument.id }
 		});
 	}
 

@@ -49,16 +49,6 @@ exports.sections = [
 		]
 	},
 	{
-		heading: 'Planning obligation',
-		links: [
-			{
-				url: '/appellant-planning-obligation',
-				text: 'View the appellant’s planning obligation',
-				condition: (appealCase) => !!appealCase.planningObligation
-			}
-		]
-	},
-	{
 		heading: 'Final comments',
 		links: [
 			{
@@ -70,6 +60,16 @@ exports.sections = [
 				url: '/appellant-final-comments',
 				text: 'View appellant final comments',
 				condition: (appealCase) => !!appealCase.appellantFinalCommentsSubmitted
+			}
+		]
+	},
+	{
+		heading: 'Planning obligation',
+		links: [
+			{
+				url: '/appellant-planning-obligation',
+				text: 'View the appellant’s planning obligation',
+				condition: (appealCase) => !!appealCase.planningObligation
 			}
 		]
 	},

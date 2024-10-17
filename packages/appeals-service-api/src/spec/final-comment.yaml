@@ -1,7 +1,7 @@
 components:
   schemas:
-    AppealStatement:
-      description: A statement made by an LPA or Rule 6 party on an appeal case
+    FinalComment:
+      description: A final comment made by an LPA, appellant or Rule 6 party on an appeal case
       type: object
       required:
         - caseReference
@@ -18,7 +18,9 @@ components:
         lpaCode:
           type: string
           nullable: true
-        statement:
+        wantsFinalComment:
+          type: boolean
+        comments:
           type: string
           nullable: true
         submittedDate:
@@ -30,3 +32,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/CommentStatementDocument'
+        
+        ServiceUser:
+          $ref: '#/components/schemas/ServiceUser'

@@ -1,11 +1,30 @@
 const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
-const { IndirectDocumentsArgsPublishedOnly } = require('../appeal-final-comments/repo');
+
+/** @type {import('@prisma/client').Prisma.FinalComment$CommentStatementDocumentsArgs} */
+const IndirectDocumentsArgsPublishedOnly = {
+	where: {
+		Document: {
+			publishedDocumentURI: { not: null }
+		}
+	},
+	include: {
+		Document: {
+			select: {
+				id: true,
+				publishedDocumentURI: true,
+				filename: true,
+				documentType: true,
+				datePublished: true
+			}
+		}
+	}
+};
 
 /**
- * @typedef {import('@prisma/client').AppealStatement} AppealStatement
+ * @typedef {import('@prisma/client').FinalComment} FinalComment
  */
-class AppealStatementRepository {
+class AppealFinalCommentRepository {
 	dbClient;
 
 	constructor() {
@@ -16,11 +35,11 @@ class AppealStatementRepository {
 	 * Get lpa statement for a given case reference
 	 *
 	 * @param {string} caseReference
-	 * @returns {Promise<Array<AppealStatement>|null>}
+	 * @returns {Promise<Array<FinalComment>|null>}
 	 */
-	async getLPAStatement(caseReference) {
+	async getLPAFinalComments(caseReference) {
 		try {
-			return await this.dbClient.appealStatement.findMany({
+			return await this.dbClient.finalComment.findMany({
 				where: {
 					caseReference,
 					lpaCode: { not: null }
@@ -44,19 +63,24 @@ class AppealStatementRepository {
 	 * Get rule 6 party statements for a given case reference
 	 *
 	 * @param {string} caseReference
-	 * @returns {Promise<Array<AppealStatement>|null>}
+	 * @param {string} userType
+	 * @returns {Promise<Array<FinalComment>|null>}
 	 */
-	async getRule6Statements(caseReference) {
+	async getServiceUserFinalComments(caseReference, userType) {
 		try {
-			return await this.dbClient.appealStatement.findMany({
+			const comments = await this.dbClient.finalComment.findMany({
 				where: {
 					caseReference,
-					serviceUserId: { not: null }
+					serviceUserId: { not: null },
+					ServiceUser: {
+						serviceUserType: userType
+					}
 				},
 				include: {
 					CommentStatementDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
+			return comments;
 		} catch (e) {
 			if (e instanceof PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
@@ -69,4 +93,4 @@ class AppealStatementRepository {
 	}
 }
 
-module.exports = { AppealStatementRepository };
+module.exports = { AppealFinalCommentRepository, IndirectDocumentsArgsPublishedOnly };
