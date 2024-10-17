@@ -4,7 +4,7 @@ const { VIEW } = require('../../../lib/views');
 const { formatTitleSuffix } = require('../../../lib/selected-appeal-page-setup');
 const { determineUser } = require('../../../lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
-const { formatComments } = require('./sort-comment-details');
+const { formatComments } = require('../../../utils/format-comment-or-statement');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 
 /**
