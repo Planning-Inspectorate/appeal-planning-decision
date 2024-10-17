@@ -22,9 +22,6 @@ const AppealContactValueObject = require('../value-objects/appeal/contact.value'
 const AppealContactsValueObject = require('../value-objects/appeal/contacts.value');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
-const { isFeatureActive } = require('../../src/configuration/featureFlag');
-const { FLAG } = require('@pins/common/src/feature-flags');
-
 const appealsCosmosRepository = new AppealsCosmosRepository();
 const appealsSQLRepository = new AppealsSQLRepository();
 const appealUserRepository = new AppealUserRepository();
@@ -148,13 +145,11 @@ async function updateAppeal(id, appealUpdate) {
 	const updatedAppeal = updatedAppealEntity.value.appeal;
 
 	if (Object.hasOwn(appealUpdate, 'state') || Object.hasOwn(appealUpdate, 'decisionDate')) {
-		if (await isFeatureActive(FLAG.SQL_USERS)) {
-			await appealsSQLRepository.updateAppealByLegacyAppealSubmissionId({
-				legacyAppealSubmissionId: id,
-				legacyAppealSubmissionDecisionDate: appealUpdate.decisionDate,
-				legacyAppealSubmissionState: appealUpdate.state
-			});
-		}
+		await appealsSQLRepository.updateAppealByLegacyAppealSubmissionId({
+			legacyAppealSubmissionId: id,
+			legacyAppealSubmissionDecisionDate: appealUpdate.decisionDate,
+			legacyAppealSubmissionState: appealUpdate.state
+		});
 	}
 
 	logger.debug(updatedAppeal, `Appeal updated to`);
@@ -204,10 +199,6 @@ async function linkToUser(appeal, appealUpdate) {
 	}
 
 	if (!role) {
-		return;
-	}
-
-	if (!(await isFeatureActive(FLAG.SQL_USERS))) {
 		return;
 	}
 

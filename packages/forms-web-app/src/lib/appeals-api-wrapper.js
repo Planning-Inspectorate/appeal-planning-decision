@@ -134,16 +134,6 @@ exports.saveAppeal = async (appeal) => {
 	return handler(`/api/v1/save`, 'POST', { body: JSON.stringify(appeal) });
 };
 
-exports.getFinalCommentData = async (caseReference) => {
-	return handler(`/api/v1/final-comments/appeal/${caseReference}`, 'GET');
-};
-
-exports.submitFinalComment = async (finalComment) => {
-	return handler(`/api/v1/final-comments/`, 'POST', {
-		body: JSON.stringify(finalComment)
-	});
-};
-
 exports.errorMessages = {
 	user: {
 		only1Admin: 'Only 1 admin is allowed at a time'
