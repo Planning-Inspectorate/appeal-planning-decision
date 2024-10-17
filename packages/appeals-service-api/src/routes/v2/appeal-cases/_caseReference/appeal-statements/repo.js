@@ -1,5 +1,6 @@
 const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
+const { IndirectDocumentsArgsPublishedOnly } = require('../appeal-final-comments/repo');
 
 /**
  * @typedef {import('@prisma/client').AppealStatement} AppealStatement
@@ -25,11 +26,7 @@ class AppealStatementRepository {
 					lpaCode: { not: null }
 				},
 				include: {
-					StatementDocuments: {
-						include: {
-							Document: true
-						}
-					}
+					StatementDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
 		} catch (e) {
@@ -57,11 +54,7 @@ class AppealStatementRepository {
 					serviceUserId: { not: null }
 				},
 				include: {
-					StatementDocuments: {
-						include: {
-							Document: true
-						}
-					}
+					StatementDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
 		} catch (e) {
