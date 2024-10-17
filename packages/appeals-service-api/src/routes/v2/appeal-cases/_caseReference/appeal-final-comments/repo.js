@@ -1,6 +1,25 @@
 const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
-const { DocumentsArgsPublishedOnly } = require('../../repo');
+
+/** @type {import('@prisma/client').Prisma.AppealFinalComment$FinalCommentDocumentsArgs} */
+const IndirectDocumentsArgsPublishedOnly = {
+	where: {
+		Document: {
+			publishedDocumentURI: { not: null }
+		}
+	},
+	include: {
+		Document: {
+			select: {
+				id: true,
+				publishedDocumentURI: true,
+				filename: true,
+				documentType: true,
+				datePublished: true
+			}
+		}
+	}
+};
 
 /**
  * @typedef {import('@prisma/client').AppealFinalComment} AppealFinalComment
@@ -26,11 +45,7 @@ class AppealFinalCommentRepository {
 					lpaCode: { not: null }
 				},
 				include: {
-					FinalCommentDocuments: {
-						include: {
-							Document: DocumentsArgsPublishedOnly
-						}
-					}
+					FinalCommentDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
 		} catch (e) {
@@ -62,11 +77,7 @@ class AppealFinalCommentRepository {
 					}
 				},
 				include: {
-					FinalCommentDocuments: {
-						include: {
-							Document: DocumentsArgsPublishedOnly
-						}
-					}
+					FinalCommentDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
 			console.log('in repo', comments);
@@ -83,4 +94,4 @@ class AppealFinalCommentRepository {
 	}
 }
 
-module.exports = { AppealFinalCommentRepository };
+module.exports = { AppealFinalCommentRepository, IndirectDocumentsArgsPublishedOnly };
