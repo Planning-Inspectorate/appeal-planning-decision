@@ -91,7 +91,7 @@ describe('/appeal-cases/{caseReference}/appeal-final-comments', () => {
 	it('should retrieve LPA final comments for the given case reference', async () => {
 		const testCaseRef = '5678567';
 		await createAppeal(testCaseRef);
-		await sqlClient.appealFinalComment.create({
+		await sqlClient.finalComment.create({
 			data: {
 				caseReference: testCaseRef,
 				lpaCode: validLpa,
@@ -125,7 +125,7 @@ describe('/appeal-cases/{caseReference}/appeal-final-comments', () => {
 
 		await createAppeal(testCaseRef);
 
-		await sqlClient.appealFinalComment.create({
+		await sqlClient.finalComment.create({
 			data: {
 				caseReference: testCaseRef,
 				wantsFinalComment: true,

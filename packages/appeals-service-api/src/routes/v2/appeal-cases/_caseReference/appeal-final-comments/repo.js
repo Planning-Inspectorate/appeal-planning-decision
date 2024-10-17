@@ -1,7 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
-/** @type {import('@prisma/client').Prisma.AppealFinalComment$FinalCommentDocumentsArgs} */
+/** @type {import('@prisma/client').Prisma.FinalComment$CommentStatementDocumentsArgs} */
 const IndirectDocumentsArgsPublishedOnly = {
 	where: {
 		Document: {
@@ -22,7 +22,7 @@ const IndirectDocumentsArgsPublishedOnly = {
 };
 
 /**
- * @typedef {import('@prisma/client').AppealFinalComment} AppealFinalComment
+ * @typedef {import('@prisma/client').FinalComment} FinalComment
  */
 class AppealFinalCommentRepository {
 	dbClient;
@@ -35,17 +35,17 @@ class AppealFinalCommentRepository {
 	 * Get lpa statement for a given case reference
 	 *
 	 * @param {string} caseReference
-	 * @returns {Promise<Array<AppealFinalComment>|null>}
+	 * @returns {Promise<Array<FinalComment>|null>}
 	 */
 	async getLPAFinalComments(caseReference) {
 		try {
-			return await this.dbClient.appealFinalComment.findMany({
+			return await this.dbClient.finalComment.findMany({
 				where: {
 					caseReference,
 					lpaCode: { not: null }
 				},
 				include: {
-					FinalCommentDocuments: IndirectDocumentsArgsPublishedOnly
+					CommentStatementDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
 		} catch (e) {
@@ -64,11 +64,11 @@ class AppealFinalCommentRepository {
 	 *
 	 * @param {string} caseReference
 	 * @param {string} userType
-	 * @returns {Promise<Array<AppealFinalComment>|null>}
+	 * @returns {Promise<Array<FinalComment>|null>}
 	 */
 	async getServiceUserFinalComments(caseReference, userType) {
 		try {
-			const comments = await this.dbClient.appealFinalComment.findMany({
+			const comments = await this.dbClient.finalComment.findMany({
 				where: {
 					caseReference,
 					serviceUserId: { not: null },
@@ -77,10 +77,9 @@ class AppealFinalCommentRepository {
 					}
 				},
 				include: {
-					FinalCommentDocuments: IndirectDocumentsArgsPublishedOnly
+					CommentStatementDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
-			console.log('in repo', comments);
 			return comments;
 		} catch (e) {
 			if (e instanceof PrismaClientKnownRequestError) {

@@ -1149,9 +1149,9 @@ const appealStatements = [
 ];
 
 /**
- * @type {import('@prisma/client').Prisma.StatementDocumentCreateInput[]}
+ * @type {import('@prisma/client').Prisma.CommentStatementDocumentCreateInput[]}
  */
-const statementDocuments = [
+const commentStatementDocuments = [
 	{
 		id: 'af82c699-c5ed-41dd-9b7f-172e41471846',
 		AppealStatement: {
@@ -1164,11 +1164,37 @@ const statementDocuments = [
 				id: '35880c82-7252-40a0-8dbd-30b740f22bce'
 			}
 		}
+	},
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61555',
+		FinalComment: {
+			connect: {
+				id: appealFinalCommentIds.appealFinalCommentOne
+			}
+		},
+		Document: {
+			connect: {
+				id: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7'
+			}
+		}
+	},
+	{
+		id: 'bdea7f30-d25f-49b2-8b0b-f5b9d38c16a7',
+		FinalComment: {
+			connect: {
+				id: appealFinalCommentIds.appealFinalCommentThree
+			}
+		},
+		Document: {
+			connect: {
+				id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd'
+			}
+		}
 	}
 ];
 
 /**
- * @type {import('@prisma/client').Prisma.AppealFinalCommentCreateInput[]}
+ * @type {import('@prisma/client').Prisma.FinalCommentCreateInput[]}
  */
 const appealFinalComments = [
 	{
@@ -1176,7 +1202,7 @@ const appealFinalComments = [
 		lpaCode: 'Q9999',
 		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
 		comments:
-			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
+			'This is the LPA final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
 		wantsFinalComment: true,
 		AppealCase: {
 			connect: {
@@ -1189,7 +1215,7 @@ const appealFinalComments = [
 		lpaCode: 'Q9999',
 		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
 		comments:
-			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
+			'This is the LPA final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
 		wantsFinalComment: true,
 		AppealCase: {
 			connect: {
@@ -1201,7 +1227,7 @@ const appealFinalComments = [
 		id: appealFinalCommentIds.appealFinalCommentThree,
 		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
 		comments:
-			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
+			'This is the appellant final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus',
 		wantsFinalComment: true,
 		AppealCase: {
 			connect: {
@@ -1218,7 +1244,7 @@ const appealFinalComments = [
 		id: appealFinalCommentIds.appealFinalCommentFour,
 		submittedDate: pickRandom(datesNMonthsAgo(0.5)),
 		comments:
-			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus.',
+			'This is the appellant final comment. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. ',
 		wantsFinalComment: true,
 		AppealCase: {
 			connect: {
@@ -1228,38 +1254,6 @@ const appealFinalComments = [
 		ServiceUser: {
 			connect: {
 				internalId: '19d01551-e0cb-414f-95d9-fd71422c9a89'
-			}
-		}
-	}
-];
-
-/**
- * @type {import('@prisma/client').Prisma.FinalCommentDocumentCreateInput[]}
- */
-const finalCommentDocuments = [
-	{
-		id: '319612c2-9cad-48b3-bfde-faeffba61555',
-		AppealFinalComment: {
-			connect: {
-				id: appealFinalCommentIds.appealFinalCommentOne
-			}
-		},
-		Document: {
-			connect: {
-				id: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7'
-			}
-		}
-	},
-	{
-		id: 'bdea7f30-d25f-49b2-8b0b-f5b9d38c16a7',
-		AppealFinalComment: {
-			connect: {
-				id: appealFinalCommentIds.appealFinalCommentThree
-			}
-		},
-		Document: {
-			connect: {
-				id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd'
 			}
 		}
 	}
@@ -1508,27 +1502,19 @@ async function seedDev(dbClient) {
 		});
 	}
 
-	for (const statementDocument of statementDocuments) {
-		await dbClient.statementDocument.upsert({
-			create: statementDocument,
-			update: statementDocument,
-			where: { id: statementDocument.id }
-		});
-	}
-
 	for (const appealFinalComment of appealFinalComments) {
-		await dbClient.appealFinalComment.upsert({
+		await dbClient.finalComment.upsert({
 			create: appealFinalComment,
 			update: appealFinalComment,
 			where: { id: appealFinalComment.id }
 		});
 	}
 
-	for (const finalCommentDocument of finalCommentDocuments) {
-		await dbClient.finalCommentDocument.upsert({
-			create: finalCommentDocument,
-			update: finalCommentDocument,
-			where: { id: finalCommentDocument.id }
+	for (const commentStatementDocument of commentStatementDocuments) {
+		await dbClient.commentStatementDocument.upsert({
+			create: commentStatementDocument,
+			update: commentStatementDocument,
+			where: { id: commentStatementDocument.id }
 		});
 	}
 
