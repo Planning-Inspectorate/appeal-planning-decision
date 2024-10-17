@@ -87,6 +87,9 @@ class AppealUserRepository {
 		return await this.dbClient.appealUser.findUnique({
 			where: {
 				email
+			},
+			include: {
+				Rule6Parties: true
 			}
 		});
 	}

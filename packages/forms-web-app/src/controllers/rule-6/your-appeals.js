@@ -16,8 +16,7 @@ const {
 // const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
 // const { APPEAL_CASE_STATUS } = require('pins-data-model');
 
-const getR6YourAppeals = async (req, res) => {
-	console.log('yayayayaya');
+const getYourAppealsR6 = async (req, res) => {
 	// const user = getUserFromSession(req);
 
 	// const { lpaCode } = user;
@@ -68,5 +67,5 @@ const getR6YourAppeals = async (req, res) => {
 };
 
 module.exports = {
-	getR6YourAppeals
+	getYourAppealsR6
 };

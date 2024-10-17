@@ -1,4 +1,4 @@
-const { createAppealUserSession } = require('../../services/user.service');
+const { createRule6UserSession, isRule6UserByEmail } = require('../../services/user.service');
 const { isTokenValid } = require('../../lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
 const logger = require('../../lib/logger');
@@ -50,6 +50,12 @@ const getEnterCodeR6 = (views) => {
 		logger.info({ action }, `getEnterCode`);
 
 		const email = getSessionEmail(req.session, false);
+
+		const isRule6User = await isRule6UserByEmail(req, email);
+
+		if (!isRule6User) {
+			return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
+		}
 
 		try {
 			const authClient = await getAuthClient(
@@ -105,6 +111,12 @@ const postEnterCodeR6 = (views) => {
 
 		const sessionEmail = getSessionEmail(req.session, false);
 
+		const isRule6User = await isRule6UserByEmail(req, sessionEmail);
+
+		if (!isRule6User) {
+			return res.redirect(`/${views.EMAIL_ADDRESS}`);
+		}
+
 		const tokenValid = await isTokenValid(
 			token,
 			enterCodeId,
@@ -127,7 +139,7 @@ const postEnterCodeR6 = (views) => {
 		}
 
 		// is valid so set user in session
-		createAppealUserSession(
+		await createRule6UserSession(
 			req,
 			tokenValid.access_token,
 			tokenValid.id_token,

@@ -7,7 +7,7 @@
  {% from "govuk/components/table/macro.njk" import govukTable %}
 
  {% set title="
- Your appeals - Appeal a planning decision - GOV.UK" %}
+ Your appeals - Manage your appeals - GOV.UK" %}
 
  {% block pageTitle %}
    {{ title }}
@@ -27,10 +27,6 @@
 
         <h1 class="govuk-heading-l">Your appeals</h1>
 
-        <p class="govuk-body">
-            <a href="/appeal/start-new" class="govuk-link">Start a new appeal</a>
-        </p>
-
         {% set toDoHtml %}
           <div>
               <table class="govuk-table govuk-!-margin-top-3">
@@ -42,7 +38,7 @@
                   <thead class="govuk-table__head">
                     <tr class="govuk-table__row">
                       <th scope="col" class="govuk-table__header">Appeal number</th>
-                      <th scope="col" class="govuk-table__header">Site address</th>
+                      <th scope="col" class="govuk-table__header">Address</th>
                       <th scope="col" class="govuk-table__header">Appeal type</th>
                       <th scope="col" class="govuk-table__header">Deadline</th>
                       <th scope="col" class="govuk-table__header">To do</th>
@@ -99,7 +95,7 @@
                 <thead class="govuk-table__head">
                   <tr class="govuk-table__row">
                     <th scope="col" class="govuk-table__header">Appeal number</th>
-                    <th scope="col" class="govuk-table__header">Site address</th>
+                    <th scope="col" class="govuk-table__header">Address</th>
                     <th scope="col" class="govuk-table__header">Appeal type</th>
                     <th scope="col" class="govuk-table__header">Status</th>
                   </tr>
@@ -151,7 +147,7 @@
         }) }}
 
         <p class="govuk-body">
-            <a href="/appeals/your-appeals/decided-appeals" class="govuk-link">Decided appeals</a>
+            <a href="/rule-6/your-appeals/decided-appeals" class="govuk-link">Decided appeals</a>
         </p>
      </div>
    </div>
