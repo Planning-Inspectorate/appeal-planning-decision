@@ -1,5 +1,5 @@
 const { formatHeadlineData } = require('@pins/common');
-const { formatFinalComment } = require('./format-final-comment-details');
+const { formatFinalComment } = require('../../../utils/format-comment-or-statement');
 const { VIEW } = require('../../../lib/views');
 const {
 	formatTitleSuffix,
