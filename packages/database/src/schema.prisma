@@ -400,7 +400,7 @@ model AppealCase {
   InterestedPartyComments         InterestedPartyComment[]
   InterestedPartySubmissions      InterestedPartySubmission[]
   AppealStatements                AppealStatement[]
-  AppealFinalComments             AppealFinalComment[]
+  FinalComments                   FinalComment[]
 }
 
 /// AppealCase relations
@@ -579,10 +579,9 @@ model Document {
   horizonFolderId String?
 
   // relations
-  caseReference         String
-  AppealCase            AppealCase             @relation(fields: [caseReference], references: [caseReference])
-  StatementDocuments    StatementDocument[]
-  FinalCommentDocuments FinalCommentDocument[]
+  caseReference             String
+  AppealCase                AppealCase                 @relation(fields: [caseReference], references: [caseReference])
+  CommentStatementDocuments CommentStatementDocument[]
 }
 
 // Stores appeal statements from either an LPA or rule 6 party group
@@ -594,22 +593,24 @@ model AppealStatement {
   statement     String?
   submittedDate DateTime
 
-  StatementDocuments StatementDocument[]
-  AppealCase         AppealCase          @relation(fields: [caseReference], references: [caseReference])
+  CommentStatementDocuments CommentStatementDocument[]
+  AppealCase                AppealCase                 @relation(fields: [caseReference], references: [caseReference])
 }
 
 //Join table to link a parties statement with the correct documents
-model StatementDocument {
-  id          String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  statementId String @db.UniqueIdentifier
-  documentId  String @db.UniqueIdentifier
+model CommentStatementDocument {
+  id          String  @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  statementId String? @db.UniqueIdentifier
+  commentId   String? @db.UniqueIdentifier
+  documentId  String  @db.UniqueIdentifier
 
-  AppealStatement AppealStatement @relation(fields: [statementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Document        Document        @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  AppealStatement AppealStatement? @relation(fields: [statementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  FinalComment    FinalComment?    @relation(fields: [commentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Document        Document         @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 // Stores appeal final comments from either an LPA, appellant or rule 6 group
-model AppealFinalComment {
+model FinalComment {
   id                String   @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
   caseReference     String
   serviceUserId     String?  @db.UniqueIdentifier
@@ -618,19 +619,9 @@ model AppealFinalComment {
   comments          String?
   submittedDate     DateTime
 
-  FinalCommentDocuments FinalCommentDocument[]
-  ServiceUser           ServiceUser?           @relation(fields: [serviceUserId], references: [internalId])
-  AppealCase            AppealCase             @relation(fields: [caseReference], references: [caseReference])
-}
-
-// Join table to link a parties final comment with the correct documents
-model FinalCommentDocument {
-  id         String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  commentId  String @db.UniqueIdentifier
-  documentId String @db.UniqueIdentifier
-
-  AppealFinalComment AppealFinalComment @relation(fields: [commentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Document           Document           @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  CommentStatementDocuments CommentStatementDocument[]
+  ServiceUser               ServiceUser?               @relation(fields: [serviceUserId], references: [internalId])
+  AppealCase                AppealCase                 @relation(fields: [caseReference], references: [caseReference])
 }
 
 // This table stores IP comments once they have been validated / processed by back office
@@ -697,7 +688,7 @@ model ServiceUser {
   /// case reference this user + user-type relates to
   caseReference   String
 
-  AppealFinalComments AppealFinalComment[]
+  FinalComments FinalComment[]
 }
 
 /// AppellantSubmission represents an appeal submitted by an appellant

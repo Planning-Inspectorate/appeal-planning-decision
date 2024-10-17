@@ -471,46 +471,6 @@ export interface AppealCase {
 	AppellantFinalCommentSubmission?: AppellantFinalCommentSubmission;
 }
 
-/** A document linked to an appeal final comment */
-export interface FinalCommentDocument {
-	/** @format uuid */
-	id: string;
-	/** @format uuid */
-	statementId?: string;
-	/** @format uuid */
-	documentId: string;
-	/** A document associated with an appeal */
-	Document?: Document;
-}
-
-/** A final comment made by an LPA, appellant or Rule 6 party on an appeal case */
-export interface AppealFinalComment {
-	/** @format uuid */
-	id?: string;
-	caseReference: string;
-	serviceUserId?: string | null;
-	lpaCode?: string | null;
-	wantsFinalComment?: boolean;
-	comments?: string | null;
-	/** @format date-time */
-	submittedDate: string;
-	FinalCommentDocuments?: StatementDocument[];
-	/** A Service User */
-	ServiceUser?: ServiceUser;
-}
-
-/** A document linked to an appeal statement */
-export interface StatementDocument {
-	/** @format uuid */
-	id: string;
-	/** @format uuid */
-	statementId: string;
-	/** @format uuid */
-	documentId: string;
-	/** A document associated with an appeal */
-	Document?: Document;
-}
-
 /** A statement made by an LPA or Rule 6 party on an appeal case */
 export interface AppealStatement {
 	/** @format uuid */
@@ -521,7 +481,7 @@ export interface AppealStatement {
 	statement?: string | null;
 	/** @format date-time */
 	submittedDate: string;
-	StatementDocuments?: StatementDocument[];
+	CommentStatementDocuments?: CommentStatementDocument[];
 }
 
 /** An appeal submission created in the Front Office */
@@ -716,6 +676,20 @@ export interface AppellantSubmission {
 	siteAddress?: boolean;
 	SubmissionAddress?: object[];
 	SubmissionListedBuilding?: object[];
+}
+
+/** A document linked to an appeal statement */
+export interface CommentStatementDocument {
+	/** @format uuid */
+	id: string;
+	/** @format uuid */
+	statementId?: string | null;
+	/** @format uuid */
+	commentId?: string | null;
+	/** @format uuid */
+	documentId: string;
+	/** A document associated with an appeal */
+	Document?: Document;
 }
 
 /** A document associated with an appeal */
@@ -920,6 +894,22 @@ export interface Event {
 	 * @format date-time
 	 */
 	endDate: string;
+}
+
+/** A final comment made by an LPA, appellant or Rule 6 party on an appeal case */
+export interface FinalComment {
+	/** @format uuid */
+	id?: string;
+	caseReference: string;
+	serviceUserId?: string | null;
+	lpaCode?: string | null;
+	wantsFinalComment?: boolean;
+	comments?: string | null;
+	/** @format date-time */
+	submittedDate: string;
+	CommentStatementDocuments?: CommentStatementDocument[];
+	/** A Service User */
+	ServiceUser?: ServiceUser;
 }
 
 /** A comment made by an interested party on an appeal case */

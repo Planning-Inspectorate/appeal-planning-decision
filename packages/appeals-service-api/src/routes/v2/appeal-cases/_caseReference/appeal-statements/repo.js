@@ -26,7 +26,7 @@ class AppealStatementRepository {
 					lpaCode: { not: null }
 				},
 				include: {
-					StatementDocuments: IndirectDocumentsArgsPublishedOnly
+					CommentStatementDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
 		} catch (e) {
@@ -54,7 +54,7 @@ class AppealStatementRepository {
 					serviceUserId: { not: null }
 				},
 				include: {
-					StatementDocuments: IndirectDocumentsArgsPublishedOnly
+					CommentStatementDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
 		} catch (e) {

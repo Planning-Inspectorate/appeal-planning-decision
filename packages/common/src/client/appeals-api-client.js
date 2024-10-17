@@ -29,7 +29,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppealStatement} AppealStatement
- * @typedef {import('appeals-service-api').Api.AppealFinalComment} AppealFinalComment
+ * @typedef {import('appeals-service-api').Api.FinalComment} FinalComment
  */
 
 // Data model types
@@ -467,7 +467,7 @@ class AppealsApiClient {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} type
-	 * @returns {Promise<AppealFinalComment[]>}
+	 * @returns {Promise<FinalComment[]>}
 	 */
 	async getAppealFinalComments(caseReference, type) {
 		const urlParams = new URLSearchParams();

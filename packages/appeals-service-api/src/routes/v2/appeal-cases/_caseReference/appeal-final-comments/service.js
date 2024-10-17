@@ -3,14 +3,14 @@ const repo = new AppealFinalCommentRepository();
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 
 /**
- * @typedef {import('@prisma/client').AppealFinalComment} AppealFinalComment
+ * @typedef {import('@prisma/client').FinalComment} FinalComment
  */
 
 /**
  *
  * @param {string} caseReference
  * @param {string} type
- * @returns {Promise<Array<AppealFinalComment>|null>}
+ * @returns {Promise<Array<FinalComment>|null>}
  */
 async function getFinalComments(caseReference, type) {
 	let comments;
