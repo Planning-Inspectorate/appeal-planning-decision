@@ -1,5 +1,5 @@
 paths:
-  /api/v2/appeal-cases/{caseReference}/appeals-final-comments:
+  /api/v2/appeal-cases/{caseReference}/appeal-final-comments:
     get:
       tags:
         - appeal-final-comments
@@ -24,7 +24,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AppealFinalComment'
+                $ref: '#/components/schemas/FinalComment'
         404:
           description: Not found
           content:

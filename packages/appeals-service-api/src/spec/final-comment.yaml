@@ -1,6 +1,6 @@
 components:
   schemas:
-    AppealFinalComment:
+    FinalComment:
       description: A final comment made by an LPA, appellant or Rule 6 party on an appeal case
       type: object
       required:
@@ -28,10 +28,10 @@ components:
           format: date-time
 
         # relations
-        FinalCommentDocuments:
+        CommentStatementDocuments:
           type: array
           items:
-            $ref: '#/components/schemas/StatementDocument'
+            $ref: '#/components/schemas/CommentStatementDocument'
         
         ServiceUser:
           $ref: '#/components/schemas/ServiceUser'
