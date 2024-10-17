@@ -575,8 +575,11 @@ export interface AppealUser {
 	lpaCode?: string;
 	/** if an LPA user, whether this user is an admin for that LPA */
 	isLpaAdmin?: boolean;
-	/** if an LPA user, the status of this user, e.g. have they logged in and confirmed their email? */
+	/** if an LPA user, the status of this user, e.g. have they logged in and confirmed their email */
 	lpaStatus?: 'added' | 'confirmed' | 'removed';
+	Appeals?: object[];
+	Rule6Parties?: object[];
+	SecurityToken?: object;
 }
 
 /** A final comment submitted by an appellant */
