@@ -9,7 +9,8 @@ const TEST_USER = {
 	isLpaUser: true,
 	isLpaAdmin: true,
 	lpaCode: 'Q9999',
-	lpaStatus: 'confirmed'
+	lpaStatus: 'confirmed',
+	Rule6Parties: []
 };
 
 let repo;
