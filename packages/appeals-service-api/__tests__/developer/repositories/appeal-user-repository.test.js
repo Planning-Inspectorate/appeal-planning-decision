@@ -9,8 +9,7 @@ const TEST_USER = {
 	isLpaUser: true,
 	isLpaAdmin: true,
 	lpaCode: 'Q9999',
-	lpaStatus: 'confirmed',
-	Rule6Parties: []
+	lpaStatus: 'confirmed'
 };
 
 let repo;
@@ -64,6 +63,7 @@ it('should get user with email', async () => {
 	delete user.id;
 	expect(user).toEqual({
 		...TEST_USER,
-		serviceUserId: null
+		serviceUserId: null,
+		Rule6Parties: null
 	});
 });
