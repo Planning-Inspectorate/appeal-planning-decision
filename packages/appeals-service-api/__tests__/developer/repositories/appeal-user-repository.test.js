@@ -64,6 +64,6 @@ it('should get user with email', async () => {
 	expect(user).toEqual({
 		...TEST_USER,
 		serviceUserId: null,
-		Rule6Parties: null
+		Rule6Parties: []
 	});
 });
