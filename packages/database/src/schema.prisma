@@ -579,9 +579,10 @@ model Document {
   horizonFolderId String?
 
   // relations
-  caseReference             String
-  AppealCase                AppealCase                 @relation(fields: [caseReference], references: [caseReference])
-  CommentStatementDocuments CommentStatementDocument[]
+  caseReference         String
+  AppealCase            AppealCase             @relation(fields: [caseReference], references: [caseReference])
+  StatementDocuments    StatementDocument[]
+  FinalCommentDocuments FinalCommentDocument[]
 }
 
 // Stores appeal statements from either an LPA or rule 6 party group
@@ -593,20 +594,17 @@ model AppealStatement {
   statement     String?
   submittedDate DateTime
 
-  CommentStatementDocuments CommentStatementDocument[]
-  AppealCase                AppealCase                 @relation(fields: [caseReference], references: [caseReference])
+  StatementDocuments StatementDocument[]
+  AppealCase         AppealCase          @relation(fields: [caseReference], references: [caseReference])
 }
 
 //Join table to link a parties statement with the correct documents
-model CommentStatementDocument {
-  id          String  @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  statementId String? @db.UniqueIdentifier
-  commentId   String? @db.UniqueIdentifier
-  documentId  String  @db.UniqueIdentifier
-
-  AppealStatement AppealStatement? @relation(fields: [statementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  FinalComment    FinalComment?    @relation(fields: [commentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  Document        Document         @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+model StatementDocument {
+  id              String          @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  statementId     String          @db.UniqueIdentifier
+  documentId      String          @db.UniqueIdentifier
+  AppealStatement AppealStatement @relation(fields: [statementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Document        Document        @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 // Stores appeal final comments from either an LPA, appellant or rule 6 group
@@ -619,9 +617,17 @@ model FinalComment {
   comments          String?
   submittedDate     DateTime
 
-  CommentStatementDocuments CommentStatementDocument[]
-  ServiceUser               ServiceUser?               @relation(fields: [serviceUserId], references: [internalId])
-  AppealCase                AppealCase                 @relation(fields: [caseReference], references: [caseReference])
+  FinalCommentDocuments FinalCommentDocument[]
+  ServiceUser           ServiceUser?           @relation(fields: [serviceUserId], references: [internalId])
+  AppealCase            AppealCase             @relation(fields: [caseReference], references: [caseReference])
+}
+
+model FinalCommentDocument {
+  id           String       @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  commentId    String       @db.UniqueIdentifier
+  documentId   String       @db.UniqueIdentifier
+  FinalComment FinalComment @relation(fields: [commentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Document     Document     @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 // This table stores IP comments once they have been validated / processed by back office

@@ -16,7 +16,7 @@ describe('formatCommentOrStatement', () => {
 			const finalComments = [
 				{
 					comments: 'This is a final comment.',
-					CommentStatementDocuments: [
+					FinalCommentDocuments: [
 						{ Document: { id: 'doc1', filename: 'doc1.txt' } },
 						{ Document: { id: 'doc2', filename: 'doc2.txt' } }
 					]
@@ -47,7 +47,7 @@ describe('formatCommentOrStatement', () => {
 			const finalComments = [
 				{
 					comments: 'A'.repeat(160),
-					CommentStatementDocuments: []
+					FinalCommentDocuments: []
 				}
 			];
 			const result = formatFinalComment(finalComments);
@@ -69,7 +69,7 @@ describe('formatCommentOrStatement', () => {
 			const statements = [
 				{
 					statement: 'This is a statement.',
-					CommentStatementDocuments: [{ Document: { id: 'doc1', filename: 'doc1.txt' } }]
+					StatementDocuments: [{ Document: { id: 'doc1', filename: 'doc1.txt' } }]
 				}
 			];
 			formatDocumentDetails.mockReturnValue('formatted-documents');
@@ -94,7 +94,7 @@ describe('formatCommentOrStatement', () => {
 			const statements = [
 				{
 					statement: 'A'.repeat(200),
-					CommentStatementDocuments: []
+					StatementDocuments: []
 				}
 			];
 			const result = formatStatement(statements);
