@@ -469,6 +469,8 @@ export interface AppealCase {
 	LPAFinalCommentSubmission?: LPAFinalCommentSubmission;
 	/** A final comment submitted by an appellant */
 	AppellantFinalCommentSubmission?: AppellantFinalCommentSubmission;
+	/** Proof of evidence submitted by an appellant */
+	AppellantProofOfEvidenceSubmission?: AppellantProofOfEvidenceSubmission;
 }
 
 /** A statement made by an LPA or Rule 6 party on an appeal case */
@@ -594,6 +596,34 @@ export interface AppellantFinalCommentSubmission {
 	appellantFinalCommentDetails?: string;
 	appellantFinalCommentDocuments?: boolean;
 	uploadAppellantFinalCommentDocuments?: boolean;
+	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
+}
+
+/** Proof of evidence submitted by an appellant */
+export interface AppellantProofOfEvidenceSubmission {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	AppealCase: {
+		LPACode: string;
+		appealTypeCode?: string;
+		/** @format date-time */
+		finalCommentsDueDate?: string;
+		siteAddressLine1?: string;
+		siteAddressLine2?: string;
+		siteAddressTown?: string;
+		siteAddressCounty?: string;
+		siteAddressPostcode?: string;
+	};
+	/** @format date-time */
+	createdAt?: string;
+	/** @format date-time */
+	updatedAt?: string;
+	/** whether the proof of evidence has been submitted to BO */
+	submitted?: boolean;
+	uploadAppellantProofOfEvidenceDocuments?: boolean;
+	appellantWitnesses?: boolean;
+	uploadAppellantWitnessesEvidence?: boolean;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
@@ -1305,6 +1335,11 @@ export interface SubmissionDocumentUpload {
 	 * @format uuid
 	 */
 	lpaFinalCommentId?: string;
+	/**
+	 * appellant proof of evidence id this document is associated with, can be null
+	 * @format uuid
+	 */
+	appellantProofOfEvidenceId?: string;
 	name?: string;
 	fileName?: string;
 	originalFileName?: string;

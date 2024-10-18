@@ -588,3 +588,6 @@ components:
 
         AppellantFinalCommentSubmission:
           $ref: '#/components/schemas/AppellantFinalCommentSubmission'
+        
+        AppellantProofOfEvidenceSubmission:
+          $ref: '#/components/schemas/AppellantProofOfEvidenceSubmission'

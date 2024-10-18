@@ -389,7 +389,8 @@ model AppealCase {
   LPAStatementSubmission     LPAStatementSubmission?
   LPAFinalCommentSubmission  LPAFinalCommentSubmission?
 
-  AppellantFinalCommentSubmission AppellantFinalCommentSubmission?
+  AppellantFinalCommentSubmission    AppellantFinalCommentSubmission?
+  AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission?
 
   Rule6Parties                    Rule6Party[]
   AffectedListedBuildings         AppealCaseListedBuilding[]
@@ -918,6 +919,28 @@ model LPAStatementSubmission {
   SubmissionDocumentUpload    SubmissionDocumentUpload[]
 }
 
+model AppellantProofOfEvidenceSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  caseReference String     @unique
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+
+  uploadAppellantProofOfEvidenceDocuments Boolean?
+  appellantWitnesses                      Boolean?
+  uploadAppellantWitnessesEvidence        Boolean?
+
+  // Uploaded documents and details linked to this appeal
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
 model LPAFinalCommentSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
@@ -981,6 +1004,9 @@ model SubmissionDocumentUpload {
 
   lpaFinalCommentId         String?                    @db.UniqueIdentifier
   LPAFinalCommentSubmission LPAFinalCommentSubmission? @relation(fields: [lpaFinalCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  appellantProofOfEvidenceId         String?                             @db.UniqueIdentifier
+  AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission? @relation(fields: [appellantProofOfEvidenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   name             String
   fileName         String
