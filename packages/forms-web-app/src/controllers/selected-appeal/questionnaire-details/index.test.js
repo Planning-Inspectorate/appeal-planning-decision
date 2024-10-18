@@ -3,13 +3,13 @@ const indexController = require('./index');
 const { mockRes } = require('../../../../__tests__/unit/mocks');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 
-const { VIEW } = require('../../../lib/views');
-const { determineUser } = require('../../../lib/determine-user');
+const { VIEW } = require('#lib/views');
+const { determineUser } = require('#lib/determine-user');
 const { formatHeadlineData, formatQuestionnaireRows } = require('@pins/common');
 const {
 	formatQuestionnaireHeading,
 	formatTitleSuffix
-} = require('../../../lib/selected-appeal-page-setup');
+} = require('#lib/selected-appeal-page-setup');
 const { constraintsRows } = require('./constraints-details-rows');
 const { appealProcessRows } = require('./appeal-process-details-rows');
 const { consultationRows } = require('./consultation-details-rows');
@@ -19,12 +19,12 @@ const { planningOfficerReportRows } = require('./planning-officer-details-rows')
 const { siteAccessRows } = require('./site-access-details-rows');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
-const { addCSStoHtml } = require('../../../lib/add-css-to-html');
-const { generatePDF } = require('../../../lib/pdf-api-wrapper');
+const { addCSStoHtml } = require('#lib/add-css-to-html');
+const { generatePDF } = require('#lib/pdf-api-wrapper');
 
 jest.mock('@pins/common');
-jest.mock('../../../lib/determine-user');
-jest.mock('../../../lib/selected-appeal-page-setup');
+jest.mock('#lib/determine-user');
+jest.mock('#lib/selected-appeal-page-setup');
 jest.mock('./constraints-details-rows');
 jest.mock('./appeal-process-details-rows');
 jest.mock('./consultation-details-rows');
@@ -34,8 +34,8 @@ jest.mock('./planning-officer-details-rows');
 jest.mock('./site-access-details-rows');
 jest.mock('../../../services/user.service');
 jest.mock('../../../services/department.service');
-jest.mock('../../../lib/add-css-to-html');
-jest.mock('../../../lib/pdf-api-wrapper');
+jest.mock('#lib/add-css-to-html');
+jest.mock('#lib/pdf-api-wrapper');
 
 const date = new Date();
 const caseData = { LPACode: 'Q9999', caseValidDate: date };

@@ -1,12 +1,12 @@
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatHeadlineData, formatQuestionnaireRows } = require('@pins/common');
 
-const { VIEW } = require('../../../lib/views');
-const { determineUser } = require('../../../lib/determine-user');
+const { VIEW } = require('#lib/views');
+const { determineUser } = require('#lib/determine-user');
 const {
 	formatQuestionnaireHeading,
 	formatTitleSuffix
-} = require('../../../lib/selected-appeal-page-setup');
+} = require('#lib/selected-appeal-page-setup');
 const { constraintsRows } = require('./constraints-details-rows');
 const { appealProcessRows } = require('./appeal-process-details-rows');
 const { consultationRows } = require('./consultation-details-rows');
@@ -16,8 +16,8 @@ const { planningOfficerReportRows } = require('./planning-officer-details-rows')
 const { siteAccessRows } = require('./site-access-details-rows');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
-const { addCSStoHtml } = require('../../../lib/add-css-to-html');
-const { generatePDF } = require('../../../lib/pdf-api-wrapper');
+const { addCSStoHtml } = require('#lib/add-css-to-html');
+const { generatePDF } = require('#lib/pdf-api-wrapper');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details

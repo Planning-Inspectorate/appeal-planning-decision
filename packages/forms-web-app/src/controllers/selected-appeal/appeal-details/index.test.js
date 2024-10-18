@@ -1,25 +1,25 @@
 const indexController = require('./index');
 
 const { mockRes } = require('../../../../__tests__/unit/mocks');
-const { determineUser } = require('../../../lib/determine-user');
+const { determineUser } = require('#lib/determine-user');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
 const { formatRows, formatHeadlineData } = require('@pins/common');
-const { VIEW } = require('../../../lib/views');
-const { generatePDF } = require('../../../lib/pdf-api-wrapper');
-const { addCSStoHtml } = require('../../../lib/add-css-to-html');
+const { VIEW } = require('#lib/views');
+const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { addCSStoHtml } = require('#lib/add-css-to-html');
 
-jest.mock('../../../lib/determine-user');
+jest.mock('#lib/determine-user');
 jest.mock('../../../services/user.service');
 jest.mock('../../../services/department.service');
 jest.mock('./appeal-details-rows');
 jest.mock('./appeal-documents-rows');
 jest.mock('@pins/common');
-jest.mock('../../../lib/pdf-api-wrapper');
-jest.mock('../../../lib/add-css-to-html');
+jest.mock('#lib/pdf-api-wrapper');
+jest.mock('#lib/add-css-to-html');
 
 const date = new Date();
 const caseData = { LPACode: 'Q9999', caseValidDate: date };

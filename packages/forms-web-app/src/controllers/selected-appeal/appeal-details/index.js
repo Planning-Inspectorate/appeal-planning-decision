@@ -1,16 +1,16 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatHeadlineData, formatRows } = require('@pins/common');
 
-const { VIEW } = require('../../../lib/views');
-const { determineUser } = require('../../../lib/determine-user');
+const { VIEW } = require('#lib/views');
+const { determineUser } = require('#lib/determine-user');
 const { getUserFromSession } = require('../../../services/user.service');
 const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
 const { getDepartmentFromCode } = require('../../../services/department.service');
-const { generatePDF } = require('../../../lib/pdf-api-wrapper');
-const { addCSStoHtml } = require('../../../lib/add-css-to-html');
+const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { addCSStoHtml } = require('#lib/add-css-to-html');
 
-const logger = require('../../../lib/logger');
+const logger = require('#lib/logger');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
