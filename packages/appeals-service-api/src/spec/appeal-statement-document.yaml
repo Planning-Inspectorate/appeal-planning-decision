@@ -1,0 +1,24 @@
+components:
+  schemas:
+    StatementDocument:
+      description: A statement document linked to an appeal statement
+      type: object
+      required:
+        - id
+        - statementId
+        - documentId
+      properties:
+        id:
+          type: string
+          format: uuid
+        statementId:
+          type: string
+          format: uuid
+          nullable: true
+        documentId:
+          type: string
+          format: uuid
+
+        # relations
+        Document:
+            $ref: '#/components/schemas/Document'

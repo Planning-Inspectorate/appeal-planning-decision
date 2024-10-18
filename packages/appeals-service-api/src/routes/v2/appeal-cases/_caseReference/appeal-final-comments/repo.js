@@ -1,7 +1,7 @@
 const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
-/** @type {import('@prisma/client').Prisma.FinalComment$CommentStatementDocumentsArgs} */
+/** @type {import('@prisma/client').Prisma.FinalComment$FinalCommentDocumentsArgs} */
 const IndirectDocumentsArgsPublishedOnly = {
 	where: {
 		Document: {
@@ -45,7 +45,7 @@ class AppealFinalCommentRepository {
 					lpaCode: { not: null }
 				},
 				include: {
-					CommentStatementDocuments: IndirectDocumentsArgsPublishedOnly
+					FinalCommentDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
 		} catch (e) {
@@ -77,7 +77,7 @@ class AppealFinalCommentRepository {
 					}
 				},
 				include: {
-					CommentStatementDocuments: IndirectDocumentsArgsPublishedOnly
+					FinalCommentDocuments: IndirectDocumentsArgsPublishedOnly
 				}
 			});
 			return comments;

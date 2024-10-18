@@ -12,12 +12,19 @@ const { formatDocumentDetails } = require('@pins/common');
  * @param {Object} options
  * @param {string} options.titlePrefix
  * @param {boolean} [options.includeDocuments]
+ * @param {string} [options.docsJoinTable]
  * @param {string} [options.documentType]
  * @param {boolean} [options.sortByDate]
  */
 const formatCommentOrStatement = (
 	items,
-	{ titlePrefix, includeDocuments = false, documentType = '', sortByDate = false }
+	{
+		titlePrefix,
+		includeDocuments = false,
+		docsJoinTable = '',
+		documentType = '',
+		sortByDate = false
+	}
 ) => {
 	if (sortByDate) {
 		items = items.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
@@ -29,8 +36,8 @@ const formatCommentOrStatement = (
 		const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
 
 		let documentDetails = undefined;
-		if (includeDocuments && item.CommentStatementDocuments) {
-			const documents = item.CommentStatementDocuments.map((doc) => doc.Document);
+		if (includeDocuments && item[`${docsJoinTable}Documents`]) {
+			const documents = item[`${docsJoinTable}Documents`].map((doc) => doc.Document);
 			documentDetails = formatDocumentDetails(documents, documentType);
 		}
 
@@ -50,6 +57,7 @@ exports.formatFinalComment = (comments) => {
 	return formatCommentOrStatement(comments, {
 		titlePrefix: 'Final Comments',
 		includeDocuments: true,
+		docsJoinTable: 'FinalComment',
 		documentType: 'appealFinalComment'
 	});
 };
@@ -58,6 +66,7 @@ exports.formatStatement = (statements) => {
 	return formatCommentOrStatement(statements, {
 		titlePrefix: 'Statement',
 		includeDocuments: true,
+		docsJoinTable: 'Statement',
 		documentType: 'appealStatement'
 	});
 };
