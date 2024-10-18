@@ -8,6 +8,7 @@ const { mockReq, mockRes } = require('../../mocks');
 const { getSessionEmail } = require('#lib/session-helper');
 const { isTokenValid } = require('#lib/is-token-valid');
 const { enterCodeConfig } = require('@pins/common');
+const { isRule6UserByEmail } = require('../../../../src/services/user.service');
 
 let { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
 
@@ -23,15 +24,17 @@ jest.mock('@pins/common/src/utils', () => {
 });
 jest.mock('../../../../src/services/user.service', () => {
 	return {
-		createAppealUserSession: (req, access_token, id_token, expiry, email) => {
+		createRule6UserSession: (req, access_token, id_token, expiry, email) => {
 			req.session.user = {
-				access_token: access_token,
-				id_token: id_token,
-				expiry: expiry,
-				email
+				access_token,
+				id_token,
+				expiry,
+				email,
+				isRule6User: true
 			};
 		},
-		logoutUser: jest.fn()
+		logoutUser: jest.fn(),
+		isRule6UserByEmail: jest.fn()
 	};
 });
 jest.mock('../../../../src/featureFlag');
@@ -83,6 +86,7 @@ describe('controllers/rule-6/enter-code', () => {
 				params: { enterCodeId: TEST_ID },
 				session: { enterCode: { action: enterCodeConfig.actions.confirmEmail, newCode } }
 			};
+			isRule6UserByEmail.mockResolvedValue(true);
 			const returnedFunction = getEnterCodeR6(rule6Views);
 			mockGrant();
 
@@ -106,10 +110,11 @@ describe('controllers/rule-6/enter-code', () => {
 		}
 
 		describe('getEnterCodeR6', () => {
-			it('should handle general log in', async () => {
+			it('should handle general log in for rule 6 user', async () => {
 				getSessionEmail.mockReturnValue(TEST_EMAIL);
 				const returnedFunction = getEnterCodeR6(rule6Views);
 				mockGrant();
+				isRule6UserByEmail.mockResolvedValue(true);
 
 				await returnedFunction(req, res);
 
@@ -118,6 +123,23 @@ describe('controllers/rule-6/enter-code', () => {
 					TEST_EMAIL,
 					enterCodeConfig.actions.confirmEmail
 				);
+
+				expect(res.render).toHaveBeenCalledWith(`${rule6Views.ENTER_CODE}`, {
+					confirmEmailLink: `/${rule6Views.EMAIL_ADDRESS}`,
+					requestNewCodeLink: `/${rule6Views.REQUEST_NEW_CODE}`,
+					showNewCode: undefined
+				});
+			});
+
+			it('should not generate a token if not a rule 6 user', async () => {
+				getSessionEmail.mockReturnValue(TEST_EMAIL);
+				const returnedFunction = getEnterCodeR6(rule6Views);
+				mockGrant();
+				isRule6UserByEmail.mockResolvedValue(false);
+
+				await returnedFunction(req, res);
+
+				expect(createOTPGrant).not.toHaveBeenCalled();
 
 				expect(res.render).toHaveBeenCalledWith(`${rule6Views.ENTER_CODE}`, {
 					confirmEmailLink: `/${rule6Views.EMAIL_ADDRESS}`,
@@ -171,6 +193,7 @@ describe('controllers/rule-6/enter-code', () => {
 			isTokenValid.mockReturnValue({
 				tooManyAttempts: true
 			});
+			isRule6UserByEmail.mockResolvedValue(true);
 
 			const returnedFunction = postEnterCodeR6(rule6Views);
 			await returnedFunction(req, res);
@@ -182,6 +205,7 @@ describe('controllers/rule-6/enter-code', () => {
 			isTokenValid.mockReturnValue({
 				expired: true
 			});
+			isRule6UserByEmail.mockResolvedValue(true);
 
 			const returnedFunction = postEnterCodeR6(rule6Views);
 			await returnedFunction(req, res);
@@ -193,6 +217,7 @@ describe('controllers/rule-6/enter-code', () => {
 			isTokenValid.mockReturnValue({
 				valid: false
 			});
+			isRule6UserByEmail.mockResolvedValue(true);
 
 			const returnedFunction = postEnterCodeR6(rule6Views);
 			await returnedFunction(req, res);
@@ -212,7 +237,9 @@ describe('controllers/rule-6/enter-code', () => {
 			expect(req.session.user).toEqual({
 				access_token: 'access',
 				id_token: 'id',
-				expiry: 'expiry'
+				expiry: 'expiry',
+				isRule6User: true,
+				email: TEST_EMAIL
 			});
 		};
 
@@ -223,12 +250,23 @@ describe('controllers/rule-6/enter-code', () => {
 				id_token: 'id',
 				access_token_expiry: 'expiry'
 			});
+			getSessionEmail.mockReturnValue(TEST_EMAIL);
+			isRule6UserByEmail.mockResolvedValue(true);
 
 			const returnedFunction = postEnterCodeR6(rule6Views);
 			await returnedFunction(req, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${rule6Views.DASHBOARD}`);
 			expectUserInSession();
+		});
+
+		it('should redirect to enter email page if not a rule 6 user', async () => {
+			isRule6UserByEmail.mockResolvedValue(false);
+
+			const returnedFunction = postEnterCodeR6(rule6Views);
+			await returnedFunction(req, res);
+
+			expect(res.redirect).toHaveBeenCalledWith(`/${rule6Views.EMAIL_ADDRESS}`);
 		});
 	});
 });

@@ -207,6 +207,7 @@ describe('users v2', () => {
 			await appealsApi.post('/api/v2/users').send({
 				email: testEmail
 			});
+
 			const response = await appealsApi.patch(`/api/v2/users/${testEmail}`).send({
 				isEnrolled: true
 			});
