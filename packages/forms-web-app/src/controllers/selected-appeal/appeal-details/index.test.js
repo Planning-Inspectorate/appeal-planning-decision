@@ -70,7 +70,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 		req.appealsApiClient.getUsersAppealCase.mockReturnValue(caseData);
 		req.app.render.mockImplementation(async (view, locals, callback) => {
 			/* eslint-disable-next-line no-undef */
-			await callback((err = null), (html = testHtml));
+			callback((err = null), (html = testHtml));
 		});
 	});
 	afterEach(() => {
