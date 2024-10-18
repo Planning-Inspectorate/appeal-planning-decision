@@ -8,15 +8,6 @@
 
 {% set title="Appeal details " + appeal.appealNumber + " - " + titleSuffix + " - GOV.UK" %}
 
-	{% block head %}
-		{% if cssOverride %}
-			<style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>{{ cssOverride | safe }}</style>
-			<style {% if cspNonce %}nonce={{ cspNonce }}{% endif %}>.govuk-template { background-color: #FFFFFF; }</style>
-		{% else %}
-			{{ super () }}
-		{% endif %}
-	{% endblock %}
-
 {% block pageTitle %}
 	{{ title }}
 {% endblock %}
