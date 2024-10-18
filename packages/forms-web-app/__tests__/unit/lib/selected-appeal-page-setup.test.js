@@ -3,8 +3,7 @@ const {
 	formatTitleSuffix,
 	formatQuestionnaireHeading,
 	formatFinalCommentsHeadingPrefix,
-	isAppellantComments,
-	getFinalComments,
+	getFinalCommentUserGroup,
 	formatStatementHeading,
 	getStatementType,
 	formatPlanningObligationTitlePrefix
@@ -41,29 +40,49 @@ describe('Content setup functions for selected appeal page', () => {
 			expect(formatFinalCommentsHeadingPrefix('/final-comments')).toBe('Your');
 		});
 	});
-	describe('isAppellantComments', () => {
-		it('should return true for appellant final comments URL', () => {
-			expect(isAppellantComments('/appellant-final-comments', APPEAL_USER_ROLES.APPELLANT)).toBe(
-				true
+	describe('getFinalCommentUserGroup', () => {
+		it('should return Rule_6_Party when the url includes other-party-final-comments', () => {
+			const url = '/appeals/1234/other-party-final-comments';
+			const user = {};
+			const userType = APPEAL_USER_ROLES.RULE_6_PARTY;
+			const result = getFinalCommentUserGroup(url, user, userType);
+			expect(result).toBe(APPEAL_USER_ROLES.RULE_6_PARTY);
+		});
+		it('should return LPAUser when the url includes lpa-final-comments', () => {
+			const url = '/appeals/1234/lpa-final-comments';
+			const user = {};
+			const userType = '';
+			const result = getFinalCommentUserGroup(url, user, userType);
+			expect(result).toBe(LPA_USER_ROLE);
+		});
+		it('should return LPAUser when the user has an lpaCode and the url includes final-comments', () => {
+			const url = '/appeals/1234/final-comments';
+			const user = { lpaCode: 'LPA123' };
+			const userType = '';
+			const result = getFinalCommentUserGroup(url, user, userType);
+			expect(result).toBe(LPA_USER_ROLE);
+		});
+		it('should return Appellant when the user is an appellant and the url includes final-comments', () => {
+			const url = '/appeals/1234/final-comments';
+			const user = { serviceUserId: 'user123' };
+			const userType = APPEAL_USER_ROLES.APPELLANT;
+			const result = getFinalCommentUserGroup(url, user, userType);
+			expect(result).toBe(APPEAL_USER_ROLES.APPELLANT);
+		});
+		it('should return Rule_6_Party when the user is a Rule 6 party and the url includes final-comments', () => {
+			const url = '/appeals/1234/final-comments';
+			const user = { serviceUserId: 'user123' };
+			const userType = APPEAL_USER_ROLES.RULE_6_PARTY;
+			const result = getFinalCommentUserGroup(url, user, userType);
+			expect(result).toBe(APPEAL_USER_ROLES.RULE_6_PARTY);
+		});
+		it('should throw an error when unable to determine final comment type', () => {
+			const url = '/appeals/1234/some-other-route';
+			const user = { serviceUserId: 'user123' };
+			const userType = '';
+			expect(() => getFinalCommentUserGroup(url, user, userType)).toThrow(
+				'Unable to determine final comment type'
 			);
-		});
-		it('should return true for non-LPA user and /final-comments URL', () => {
-			expect(isAppellantComments('/final-comments', APPEAL_USER_ROLES.RULE_6_PARTY)).toBe(true);
-		});
-		it('should return false for LPA user and /final-comments URL', () => {
-			expect(isAppellantComments('/final-comments', LPA_USER_ROLE)).toBe(false);
-		});
-	});
-	describe('getFinalComments', () => {
-		const mockCaseData = {
-			appellantFinalCommentDetails: 'Appellant final comments',
-			lpaFinalCommentDetails: 'LPA final comments'
-		};
-		it('should return appellant final comments when isAppellantComments is true', () => {
-			expect(getFinalComments(mockCaseData, true)).toBe('Appellant final comments');
-		});
-		it('should return LPA final comments when isAppellantComments is false', () => {
-			expect(getFinalComments(mockCaseData, false)).toBe('LPA final comments');
 		});
 	});
 	describe('formatStatementHeading', () => {

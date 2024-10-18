@@ -1,17 +1,17 @@
 components:
   schemas:
-    StatementDocument:
-      description: A statement document linked to an appeal statement
+    FinalCommentDocument:
+      description: A final comment document linked to an appeal statement
       type: object
       required:
         - id
-        - statementId
+        - commentId
         - documentId
       properties:
         id:
           type: string
           format: uuid
-        statementId:
+        commentId:
           type: string
           format: uuid
           nullable: true
