@@ -28,10 +28,10 @@ components:
           format: date-time
 
         # relations
-        CommentStatementDocuments:
+        FinalCommentDocuments:
           type: array
           items:
-            $ref: '#/components/schemas/CommentStatementDocument'
+            $ref: '#/components/schemas/FinalCommentDocument'
         
         ServiceUser:
           $ref: '#/components/schemas/ServiceUser'

@@ -1149,9 +1149,9 @@ const appealStatements = [
 ];
 
 /**
- * @type {import('@prisma/client').Prisma.CommentStatementDocumentCreateInput[]}
+ * @type {import('@prisma/client').Prisma.StatementDocumentCreateInput[]}
  */
-const commentStatementDocuments = [
+const statementDocuments = [
 	{
 		id: 'af82c699-c5ed-41dd-9b7f-172e41471846',
 		AppealStatement: {
@@ -1162,32 +1162,6 @@ const commentStatementDocuments = [
 		Document: {
 			connect: {
 				id: '35880c82-7252-40a0-8dbd-30b740f22bce'
-			}
-		}
-	},
-	{
-		id: '319612c2-9cad-48b3-bfde-faeffba61555',
-		FinalComment: {
-			connect: {
-				id: appealFinalCommentIds.appealFinalCommentOne
-			}
-		},
-		Document: {
-			connect: {
-				id: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7'
-			}
-		}
-	},
-	{
-		id: 'bdea7f30-d25f-49b2-8b0b-f5b9d38c16a7',
-		FinalComment: {
-			connect: {
-				id: appealFinalCommentIds.appealFinalCommentThree
-			}
-		},
-		Document: {
-			connect: {
-				id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd'
 			}
 		}
 	}
@@ -1254,6 +1228,38 @@ const appealFinalComments = [
 		ServiceUser: {
 			connect: {
 				internalId: '19d01551-e0cb-414f-95d9-fd71422c9a89'
+			}
+		}
+	}
+];
+
+/**
+ * @type {import('@prisma/client').Prisma.FinalCommentDocumentCreateInput[]}
+ */
+const finalCommentDocuments = [
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61555',
+		FinalComment: {
+			connect: {
+				id: appealFinalCommentIds.appealFinalCommentOne
+			}
+		},
+		Document: {
+			connect: {
+				id: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7'
+			}
+		}
+	},
+	{
+		id: 'bdea7f30-d25f-49b2-8b0b-f5b9d38c16a7',
+		FinalComment: {
+			connect: {
+				id: appealFinalCommentIds.appealFinalCommentThree
+			}
+		},
+		Document: {
+			connect: {
+				id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd'
 			}
 		}
 	}
@@ -1502,6 +1508,14 @@ async function seedDev(dbClient) {
 		});
 	}
 
+	for (const statementDocument of statementDocuments) {
+		await dbClient.statementDocument.upsert({
+			create: statementDocument,
+			update: statementDocument,
+			where: { id: statementDocument.id }
+		});
+	}
+
 	for (const appealFinalComment of appealFinalComments) {
 		await dbClient.finalComment.upsert({
 			create: appealFinalComment,
@@ -1510,11 +1524,11 @@ async function seedDev(dbClient) {
 		});
 	}
 
-	for (const commentStatementDocument of commentStatementDocuments) {
-		await dbClient.commentStatementDocument.upsert({
-			create: commentStatementDocument,
-			update: commentStatementDocument,
-			where: { id: commentStatementDocument.id }
+	for (const finalCommentDocument of finalCommentDocuments) {
+		await dbClient.finalCommentDocument.upsert({
+			create: finalCommentDocument,
+			update: finalCommentDocument,
+			where: { id: finalCommentDocument.id }
 		});
 	}
 
