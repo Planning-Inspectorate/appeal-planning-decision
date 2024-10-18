@@ -49,13 +49,17 @@ async function userGet(req, res) {
  * @type {import('express').RequestHandler}
  */
 async function userUpdate(req, res) {
-	const user = await resolveUser(req.params.userLookup);
+	const { id, email } = await resolveUser(req.params.userLookup);
+	let updateData = {};
+
+	updateData.id = id;
+	updateData.email = email;
 
 	const { isEnrolled, lpaStatus } = req.body;
-	if (isEnrolled) user.isEnrolled = isEnrolled; // should not be possible to update this to false
-	if (lpaStatus) user.lpaStatus = lpaStatus;
+	if (isEnrolled) updateData.isEnrolled = isEnrolled; // should not be possible to update this to false
+	if (lpaStatus) updateData.lpaStatus = lpaStatus;
 
-	const body = await updateUser(user);
+	const body = await updateUser(updateData);
 
 	res.status(200).send(body);
 }

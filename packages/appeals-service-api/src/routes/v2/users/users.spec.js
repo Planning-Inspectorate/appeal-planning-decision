@@ -204,17 +204,13 @@ describe('users v2', () => {
 
 		it('should update with email', async () => {
 			const testEmail = 'user-get-email1@example.com';
-			const user = await appealsApi.post('/api/v2/users').send({
+			await appealsApi.post('/api/v2/users').send({
 				email: testEmail
 			});
-			console.log('ohohoh');
-			console.log(user);
+
 			const response = await appealsApi.patch(`/api/v2/users/${testEmail}`).send({
 				isEnrolled: true
 			});
-
-			console.log('iiii');
-			console.log(response);
 
 			expect(response.status).toEqual(200);
 			expect(response.body.isEnrolled).toEqual(true);
