@@ -8,8 +8,8 @@ const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { generatePDF } = require('../../../lib/pdf-api-wrapper');
-const { default: fetch } = require('node-fetch');
-const config = require('../../../config');
+const { addCSStoHtml } = require('../../../lib/add-css-to-html');
+
 const logger = require('../../../lib/logger');
 
 /**
@@ -33,11 +33,6 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		}
 
 		const isPagePdfDownload = req.query.pdf === 'true' && userType === LPA_USER_ROLE;
-		let cssOverride;
-		if (isPagePdfDownload) {
-			const response = await fetch(`${config.server.host}/public/stylesheets/main.css`);
-			cssOverride = await response.text();
-		}
 
 		let pdfDownloadUrl;
 		if (userType === LPA_USER_ROLE && !isPagePdfDownload) {
@@ -83,18 +78,18 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				appealDetails,
 				appealDocuments
 			},
-			cssOverride,
 			pdfDownloadUrl
 		};
 
-		req.app.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (_, html) => {
-			if (isPagePdfDownload) {
-				res.set('Content-disposition', `attachment; filename="Appeal ${appealNumber}.pdf"`);
-				res.set('Content-type', 'application/pdf');
-				return res.send(await generatePDF(html));
-			}
+		await req.app.render(VIEW.SELECTED_APPEAL.APPEAL_DETAILS, viewContext, async (_, html) => {
+			if (!isPagePdfDownload) return res.send(html);
 
-			return res.send(html);
+			const pdfHtml = await addCSStoHtml(html);
+			const pdf = await generatePDF(pdfHtml);
+
+			res.set('Content-disposition', `attachment; filename="Appeal ${appealNumber}.pdf"`);
+			res.set('Content-type', 'application/pdf');
+			return res.send(pdf);
 		});
 	};
 };
