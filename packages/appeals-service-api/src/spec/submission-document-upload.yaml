@@ -30,6 +30,10 @@ components:
           type: string
           format: uuid
           description: lpa final comment id this document is associated with, can be null
+        appellantProofOfEvidenceId:
+          type: string
+          format: uuid
+          description: appellant proof of evidence id this document is associated with, can be null
         name:
           type: string
         fileName:
