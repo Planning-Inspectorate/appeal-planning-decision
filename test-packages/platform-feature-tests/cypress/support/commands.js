@@ -1,5 +1,3 @@
-// @ts-nocheck
-/// <reference types="cypress"/>
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -100,26 +98,4 @@ Cypress.Commands.add('uploadFileFromFixtureDirectories', (filename) => {
 		$input.removeAttr('hidden');
 	})
 	cy.get('input[type="file"]').selectFile(`cypress/fixtures/${filename}`, { force: true });
-});
-Cypress.Commands.add('uploadFileFromFixtureDirectory', (filename) => {
-	// BEWARE! If you use `cy.fixtures()` instead, its caching will cause
-	// issues on tests that use the same fixtures as ones run before!!
-	cy.get('input[type="file"]').then($input => {
-		$input.removeAttr('hidden');
-	})
-	cy.get('input[type="file"]').selectFile(`cypress/fixtures/${filename}`, { force: true });
-});
-
-
-Cypress.Commands.add('checkIfUnchecked', (labelText) => {
-	cy.contains('label', labelText).invoke('attr', 'for').then((id) => {
-		cy.get(`#${id}`).then($checkbox => {
-			if (!$checkbox.is(':checked')) {
-				cy.wrap($checkbox).click();
-			}
-			else {
-				cy.log(`Checkbox"${labelText}"is already checkDebugAllowed. Skipping.`);
-			}
-		});
-	});
 });
