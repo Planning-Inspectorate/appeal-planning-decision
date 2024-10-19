@@ -91,7 +91,7 @@ Cypress.Commands.add('uploadFileFromFixturesDirectory', (filename) => {
 	cy.get('#file-upload').selectFile(`cypress/fixtures/${filename}`);
 });
 
-Cypress.Commands.add('uploadFileFromFixtureDirectory', (filename) => {
+Cypress.Commands.add('uploadFileFromFixtureDirectories', (filename) => {
 	// BEWARE! If you use `cy.fixtures()` instead, its caching will cause
 	// issues on tests that use the same fixtures as ones run before!!
 	cy.get('input[type="file"]').then($input => {
