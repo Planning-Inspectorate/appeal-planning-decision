@@ -188,32 +188,32 @@ describe('Full Appeal Validations', () => {
             }
             agriculturalHoldingPage.addAgriculturalHoldingData(context?.applicationForm?.isAgriculturalHolding, context);
 
-            inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess, prepareAppealData);
-            //Health and safety issues
-            healthSafetyIssuesPage.addHealthSafetyIssuesData(context, prepareAppealData);
-            //What is the application reference number?
-            cy.get(prepareAppealSelector?._selectors?.applicationReference).invoke('val').then((inputValue) => {
-                expect(inputValue).to.equal(applicationNumber);
-            });
-            cy.advanceToNextPage();
-            //What date did you submit your application?
-
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth());
-            cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
-            cy.advanceToNextPage();
-            //Enter the description of development that you submitted in your application
-            cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type(prepareAppealData?.develpmentDescriptionOriginal);
-            cy.advanceToNextPage();
-            //Did the local planning authority change the description of development?
-            //cy.get('#updateDevelopmentDescription').click();
-            if (context?.applicationForm?.iaUpdateDevelopmentDescription) {
-                cy.getByData(basePage?._selectors.answerYes).click();
-                cy.advanceToNextPage();
-            } else {
-                cy.getByData(basePage?._selectors.answerNo).click();
-                cy.advanceToNextPage();
-            }
+		inspectorNeedAccessPage.addInspectorNeedAccessData(context?.applicationForm?.isInspectorNeedAccess, prepareAppealData);
+		//Health and safety issues
+		healthSafetyIssuesPage.addHealthSafetyIssuesData(context, prepareAppealData);
+		//What is the application reference number?
+		cy.get(prepareAppealSelector?._selectors?.applicationReference).invoke('val').then((inputValue) => {
+			expect(inputValue).to.equal(applicationNumber);
+		});
+		cy.advanceToNextPage();
+		//What date did you submit your application?
+        
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth());
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
+		cy.advanceToNextPage();
+		//Enter the description of development that you submitted in your application
+		cy.get(prepareAppealSelector?._selectors?.developmentDescriptionOriginal).type(prepareAppealData?.develpmentDescriptionOriginal);
+		cy.advanceToNextPage();
+		//Did the local planning authority change the description of development?
+		//cy.get('#updateDevelopmentDescription').click();
+		if (context?.applicationForm?.iaUpdateDevelopmentDescription) {			
+			cy.getByData(basePage?._selectors.answerYes).click();
+			cy.advanceToNextPage();
+		} else {
+			cy.getByData(basePage?._selectors.answerNo).click();
+			cy.advanceToNextPage();
+		}
 
             //How would you prefer us to decide your appeal?		
             decideAppealsPage.addDecideAppealsData(context?.applicationForm?.appellantProcedurePreference);
