@@ -198,7 +198,7 @@ describe('Full Appeal Validations', () => {
 		//What date did you submit your application?
         
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateDay).type(date.today());
-		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth);
+		cy.get(prepareAppealSelector?._selectors?.onApplicationDateMonth).type(date.currentMonth());
 		cy.get(prepareAppealSelector?._selectors?.onApplicationDateYear).type(date.currentYear());
 		cy.advanceToNextPage();
 		//Enter the description of development that you submitted in your application
