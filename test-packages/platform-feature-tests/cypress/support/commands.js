@@ -99,3 +99,15 @@ Cypress.Commands.add('uploadFileFromFixtureDirectories', (filename) => {
 	})
 	cy.get('input[type="file"]').selectFile(`cypress/fixtures/${filename}`, { force: true });
 });
+
+Cypress.Commands.add('checkIfUnchecked',(labelText) => {
+	cy.contains('label',labelText).invoke('attr','for').then((id) => {
+		cy.get(`#${id}`).then($checkbox =>{
+			if(!$checkbox.is(':checked')){
+				cy.wrap($checkbox).click();}
+				else{
+					cy.log(`Checkbox"${labelText}"is already checkDebugAllowed. Skipping.`);
+				}
+			});
+		});
+	});
