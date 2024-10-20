@@ -18,12 +18,21 @@ export const houseHolderQuestionnaireTestCases = [
             isGreenBelt: true,
         },
         notifyParties:{
-            
+
         },
-        consultResponseAndRepresent:{},
+        consultResponseAndRepresent:{
+            otherPartyRepresentations: true,
+        },
         poReportAndSupportDocs:{},
-        siteAccess:{},
-        appealProcess:{},
+        siteAccess:{
+            lpaSiteAccess: true,
+            neighbourSiteAccess: true,
+            lpaSiteSafetyRisks: true,
+        },
+        appealProcess:{
+            nearbyAppeals: true,
+            newConditions: true,
+        },
         submit:{}
     }
 ];
