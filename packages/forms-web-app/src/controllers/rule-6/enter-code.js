@@ -97,8 +97,7 @@ const getEnterCodeR6 = (views) => {
 const postEnterCodeR6 = (views) => {
 	return async (req, res) => {
 		const {
-			body: { errors = {}, errorSummary = [] },
-			params: { enterCodeId }
+			body: { errors = {}, errorSummary = [] }
 		} = req;
 		const token = req.body['email-code']?.trim();
 
@@ -117,14 +116,7 @@ const postEnterCodeR6 = (views) => {
 			return res.redirect(`/${views.EMAIL_ADDRESS}`);
 		}
 
-		const tokenValid = await isTokenValid(
-			token,
-			enterCodeId,
-			sessionEmail,
-			action,
-			req.session?.appeal?.lpaCode,
-			true
-		);
+		const tokenValid = await isTokenValid(token, sessionEmail, action);
 
 		if (tokenValid.tooManyAttempts) {
 			return res.redirect(`/${views.NEED_NEW_CODE}`);
