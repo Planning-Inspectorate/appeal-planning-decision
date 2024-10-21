@@ -53,19 +53,17 @@ const getEnterCodeR6 = (views) => {
 
 		const isRule6User = await isRule6UserByEmail(req, email);
 
-		if (!isRule6User) {
-			return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
-		}
-
-		try {
-			const authClient = await getAuthClient(
-				config.oauth.baseUrl,
-				config.oauth.clientID,
-				config.oauth.clientSecret
-			);
-			await createOTPGrant(authClient, email, action);
-		} catch (e) {
-			logger.error(e, 'failed to send token to general login user');
+		if (isRule6User) {
+			try {
+				const authClient = await getAuthClient(
+					config.oauth.baseUrl,
+					config.oauth.clientID,
+					config.oauth.clientSecret
+				);
+				await createOTPGrant(authClient, email, action);
+			} catch (e) {
+				logger.error(e, 'failed to send token to general login user');
+			}
 		}
 
 		return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
@@ -110,12 +108,6 @@ const postEnterCodeR6 = (views) => {
 
 		const sessionEmail = getSessionEmail(req.session, false);
 
-		const isRule6User = await isRule6UserByEmail(req, sessionEmail);
-
-		if (!isRule6User) {
-			return res.redirect(`/${views.EMAIL_ADDRESS}`);
-		}
-
 		const tokenValid = await isTokenValid(token, sessionEmail, action);
 
 		if (tokenValid.tooManyAttempts) {
@@ -126,7 +118,9 @@ const postEnterCodeR6 = (views) => {
 			return res.redirect(`/${views.CODE_EXPIRED}`);
 		}
 
-		if (!tokenValid.valid) {
+		const isRule6User = await isRule6UserByEmail(req, sessionEmail);
+
+		if (!isRule6User || !tokenValid.valid) {
 			return renderError('Enter the correct code');
 		}
 
