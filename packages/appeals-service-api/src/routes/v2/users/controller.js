@@ -3,6 +3,7 @@ const {
 	searchUsers,
 	getUserByEmail,
 	getUserById,
+	getUserWithRule6Parties,
 	updateUser,
 	removeLPAUser,
 	linkUserToAppeal
@@ -41,7 +42,15 @@ async function userSearch(req, res) {
  * @type {import('express').RequestHandler}
  */
 async function userGet(req, res) {
-	const body = await resolveUser(req.params.userLookup);
+	const withRule6Parties = req.params.rule6Parties;
+	let body;
+
+	if (withRule6Parties) {
+		body = await getUserWithRule6Parties(req.params.userLookup);
+	} else {
+		body = await resolveUser(req.params.userLookup);
+	}
+
 	res.status(200).send(body);
 }
 

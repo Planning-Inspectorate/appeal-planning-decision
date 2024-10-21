@@ -63,6 +63,17 @@ it('should get user with email', async () => {
 	delete user.id;
 	expect(user).toEqual({
 		...TEST_USER,
+		serviceUserId: null
+	});
+});
+
+it('should get user with email and rule 6 parties if required', async () => {
+	await repo.createUser(TEST_USER);
+	const user = await repo.getWithRule6Parties(TEST_EMAIL);
+
+	delete user.id;
+	expect(user).toEqual({
+		...TEST_USER,
 		serviceUserId: null,
 		Rule6Parties: []
 	});
