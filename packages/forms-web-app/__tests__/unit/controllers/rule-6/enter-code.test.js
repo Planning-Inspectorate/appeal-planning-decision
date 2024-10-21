@@ -243,6 +243,22 @@ describe('controllers/rule-6/enter-code', () => {
 			});
 		};
 
+		it('should show an error if not a rule 6 user', async () => {
+			isRule6UserByEmail.mockResolvedValue(false);
+
+			const errors = { 'email-code': { msg: 'Enter the correct code' } };
+			const errorSummary = [{ text: 'Enter the correct code', href: '#email-code' }];
+
+			const returnedFunction = postEnterCodeR6(rule6Views);
+			await returnedFunction(req, res);
+
+			expect(res.render).toHaveBeenCalledWith(`${rule6Views.ENTER_CODE}`, {
+				token: req.body['email-code'],
+				errors: errors,
+				errorSummary: errorSummary
+			});
+		});
+
 		it('should redirect to rule 6 dashboard for successful log on', async () => {
 			isTokenValid.mockResolvedValue({
 				valid: true,
@@ -258,15 +274,6 @@ describe('controllers/rule-6/enter-code', () => {
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${rule6Views.DASHBOARD}`);
 			expectUserInSession();
-		});
-
-		it('should redirect to enter email page if not a rule 6 user', async () => {
-			isRule6UserByEmail.mockResolvedValue(false);
-
-			const returnedFunction = postEnterCodeR6(rule6Views);
-			await returnedFunction(req, res);
-
-			expect(res.redirect).toHaveBeenCalledWith(`/${rule6Views.EMAIL_ADDRESS}`);
 		});
 	});
 });
