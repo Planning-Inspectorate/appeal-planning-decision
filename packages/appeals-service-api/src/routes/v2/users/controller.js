@@ -42,7 +42,7 @@ async function userSearch(req, res) {
  * @type {import('express').RequestHandler}
  */
 async function userGet(req, res) {
-	const withRule6Parties = req.params.rule6Parties;
+	const withRule6Parties = req.query.withRule6Parties;
 	let body;
 
 	if (withRule6Parties) {
