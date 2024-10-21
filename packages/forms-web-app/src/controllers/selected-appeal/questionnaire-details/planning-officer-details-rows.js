@@ -14,15 +14,15 @@ exports.planningOfficerReportRows = (caseData) => {
 	const documents = caseData.Documents || [];
 	return [
 		{
-			keyText: 'Uploaded planning officer’s report',
+			keyText: "Uploaded planning officer's report",
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT),
 			isEscaped: true
 		},
 		{
 			keyText: 'Uploaded policies from statutory development plan',
-			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.developmentPlanPolicies),
-			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.developmentPlanPolicies),
+			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DEVELOPMENT_PLAN_POLICIES),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.DEVELOPMENT_PLAN_POLICIES),
 			isEscaped: true
 		},
 		{
