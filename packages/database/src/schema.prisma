@@ -308,12 +308,12 @@ model AppealCase {
   LPAProofsSubmitted        DateTime?
 
   scheduledMonument               Boolean @default(false)
-  appellantProofEvidencePublished Boolean @default(false)
-  appellantFinalCommentsSubmitted Boolean @default(false)
-  lpaStatementPublished           Boolean @default(false)
-  lpaProofEvidenceSubmitted       Boolean @default(false)
-  lpaProofEvidencePublished       Boolean @default(false)
-  lpaFinalCommentsPublished       Boolean @default(false)
+  appellantProofEvidencePublished Boolean @default(false) // todo: use date instead?
+  appellantFinalCommentsSubmitted Boolean @default(false) // todo: use date instead?
+  lpaStatementPublished           Boolean @default(false) // todo: use date instead?
+  lpaProofEvidenceSubmitted       Boolean @default(false) // todo: use date instead?
+  lpaProofEvidencePublished       Boolean @default(false) // todo: use date instead?
+  lpaFinalCommentsPublished       Boolean @default(false) // todo: use date instead?
 
   appellantProcedurePreference         String?
   appellantProcedurePreferenceDetails  String?
