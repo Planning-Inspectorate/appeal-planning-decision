@@ -110,6 +110,19 @@ class AppealsApiClient {
 	}
 
 	/**
+	 * @param {string} email
+	 * @returns {Promise<AppealUser>}
+	 */
+	async getUserWithRule6Parties(email) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('withRule6Parties', 'true');
+
+		const endpoint = `${v2}/users/${encodeURIComponent(email?.trim())}?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
 	 * @param {AppealUser} user
 	 * @returns {Promise<AppealUser>}
 	 */

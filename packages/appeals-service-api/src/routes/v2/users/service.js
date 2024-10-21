@@ -75,6 +75,23 @@ async function getUserById(id) {
 }
 
 /**
+ * @param {string} email
+ * @returns {Promise<AppealUser>}
+ */
+async function getUserWithRule6Parties(email) {
+	if (!email) throw ApiError.badRequest();
+
+	try {
+		const user = await appealUserRepository.getWithRule6Parties(email);
+		if (user) return user;
+	} catch (error) {
+		logger.error({ error }, `Error: failed to find user by email`);
+	}
+
+	throw ApiError.userNotFound();
+}
+
+/**
  * @param {AppealUser} user
  * @returns {Promise<AppealUser>}
  */
@@ -127,6 +144,7 @@ module.exports = {
 	searchUsers,
 	getUserByEmail,
 	getUserById,
+	getUserWithRule6Parties,
 	updateUser,
 	removeLPAUser,
 	linkUserToAppeal

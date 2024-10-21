@@ -87,9 +87,6 @@ class AppealUserRepository {
 		return await this.dbClient.appealUser.findUnique({
 			where: {
 				email
-			},
-			include: {
-				Rule6Parties: true
 			}
 		});
 	}
@@ -104,6 +101,23 @@ class AppealUserRepository {
 		return await this.dbClient.appealUser.findUnique({
 			where: {
 				id
+			}
+		});
+	}
+
+	/**
+	 * Get a user with Rule 6 Parties relation by email
+	 *
+	 * @param {string} email
+	 * @returns {Promise<AppealUser|null>}
+	 */
+	async getWithRule6Parties(email) {
+		return await this.dbClient.appealUser.findUnique({
+			where: {
+				email
+			},
+			include: {
+				Rule6Parties: true
 			}
 		});
 	}
