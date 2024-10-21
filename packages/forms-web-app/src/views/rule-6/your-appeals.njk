@@ -34,7 +34,7 @@
                   <h2 class="govuk-heading-l">Your appeals</h2>
                   <p class="govuk-body">There are currently no appeals in progress.</p>
                 {% else %}
-                  <caption class="govuk-table__caption govuk-table__caption--l">Your appeals</caption>
+                  <caption class="govuk-table__caption govuk-table__caption--l">To do</caption>
                   <thead class="govuk-table__head">
                     <tr class="govuk-table__row">
                       <th scope="col" class="govuk-table__header">Appeal number</th>
@@ -130,8 +130,8 @@
         {{ govukTabs({
         items: [
           {
-              label: "Your appeals",
-              id: "your-appeals",
+              label: "To do",
+              id: "to-do",
               panel: {
                   html: toDoHtml
               }
@@ -147,7 +147,14 @@
         }) }}
 
         <p class="govuk-body">
-            <a href="/rule-6/your-appeals/decided-appeals" class="govuk-link">Decided appeals</a>
+          <a href="/rule-6/your-appeals/decided-appeals" class="govuk-link">
+						{{decidedAppealsCount}} decided
+							{% if decidedAppealsCount == 1 %}
+            		appeal
+          		{% else %}
+            		appeals
+          		{% endif %}
+					</a>
         </p>
      </div>
    </div>
