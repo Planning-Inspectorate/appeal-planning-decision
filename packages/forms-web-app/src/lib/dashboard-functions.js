@@ -60,7 +60,7 @@ const finalCommentBaseUrl = '/manage-appeals/final-comments';
 const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
 
 const appellantFinalCommentBaseUrl = '/appeals/final-comments';
-const appellantProofsBaseUrl = '/appeals/proofs-of-evidence-submission';
+const appellantProofsBaseUrl = '/appeals/proof-evidence';
 
 const INVALID_APPEAL_TIME_LIMIT = 28;
 
