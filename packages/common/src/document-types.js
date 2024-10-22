@@ -662,6 +662,17 @@ const documentTypes = {
 		publiclyAccessible: true,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadAppellantProofOfEvidenceDocuments: {
+		name: 'uploadAppellantProofOfEvidenceDocuments',
+		dataModelName: '', // To be added once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: appellantOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 
