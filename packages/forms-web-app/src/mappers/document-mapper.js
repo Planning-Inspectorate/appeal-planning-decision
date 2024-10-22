@@ -1,4 +1,10 @@
-// TODO: note in each file where this is called in context of full planning that a big refactor could be done...
+/**
+ *
+ * @param {{ id: string; size: string; location: string; }} document
+ * @param {string} documentName
+ * @param {string} originalName
+ * @returns
+ */
 const mapDocumentToSavedDocument = (document, documentName, originalName = documentName) => {
 	return {
 		id: document.id,
@@ -10,6 +16,13 @@ const mapDocumentToSavedDocument = (document, documentName, originalName = docum
 	};
 };
 
+/**
+ *
+ * @param {{ id: string; size: string; location: string; }} document
+ * @param {string} documentName
+ * @param {string} originalName
+ * @returns
+ */
 const mapMultiFileDocumentToSavedDocument = (
 	document,
 	documentName,
