@@ -40,7 +40,7 @@ describe('formatCommentOrStatement', () => {
 					{ id: 'doc1', filename: 'doc1.txt' },
 					{ id: 'doc2', filename: 'doc2.txt' }
 				],
-				'appealFinalComment'
+				'finalComment'
 			);
 		});
 		it('truncates final comments longer than 150 characters', () => {
