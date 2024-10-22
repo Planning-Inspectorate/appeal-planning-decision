@@ -92,7 +92,7 @@ afterAll(async () => {
 });
 
 async function _createDocument(documentType) {
-	return await api
+	return api
 		.post('/api/v1/12345')
 		.set('local-planning-authority-code', 'DEV_TEST') // TODO: remove when AS-5031 feature flag is totally rolled out
 		.field('documentType', documentType) // Needed to ensure that the Horizon doc and doc group type fields are populated in Blob metadata

@@ -91,7 +91,6 @@ async function deleteDocument(req, res) {
 		await repo.deleteSubmissionDocument(docRef);
 
 		res.status(200).send();
-		return;
 	} catch (error) {
 		logger.error({ error }, 'failed to remove document');
 		res.sendStatus(500);

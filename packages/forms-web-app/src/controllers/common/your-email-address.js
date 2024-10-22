@@ -59,7 +59,6 @@ const postYourEmailAddress = (views) => {
 				},
 				errorSummary: emailErrorSummary
 			});
-			return;
 		}
 	};
 };

@@ -246,7 +246,6 @@ class AppealsApiClient {
 	async deleteAppealDocument(id) {
 		const endpoint = `${v2}/documents/${id}`;
 		await this.#makeDeleteRequest(endpoint);
-		return;
 	}
 
 	/**
