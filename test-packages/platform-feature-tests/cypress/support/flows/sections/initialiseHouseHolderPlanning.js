@@ -67,7 +67,7 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/email-address-confirmed`);
 	cy.advanceToNextPage();
 
-	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealHouseholderDecison}/list-of-documents`);
+	cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderAppealForm}/before-you-start`);
 	cy.advanceToNextPage();	
 	cy.location('search').then((search) => {
 		const params = new URLSearchParams(search);
