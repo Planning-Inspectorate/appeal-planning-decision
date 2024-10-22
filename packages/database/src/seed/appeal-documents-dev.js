@@ -646,7 +646,7 @@ const appealDocuments = [
 		published: true,
 		redacted: true,
 		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
-		documentType: 'appealFinalComment', // currently not in data model
+		documentType: 'finalComment', // currently not in data model
 		sourceSystem: 'appeals',
 		origin: 'pins',
 		stage: 'decision',
@@ -663,7 +663,7 @@ const appealDocuments = [
 		published: true,
 		redacted: true,
 		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
-		documentType: 'appealFinalComment', // currently not in data model
+		documentType: 'finalComment', // currently not in data model
 		sourceSystem: 'appeals',
 		origin: 'pins',
 		stage: 'decision',

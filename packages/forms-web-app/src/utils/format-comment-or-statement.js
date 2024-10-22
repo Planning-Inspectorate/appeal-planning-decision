@@ -58,7 +58,7 @@ exports.formatFinalComment = (comments) => {
 		titlePrefix: 'Final Comments',
 		includeDocuments: true,
 		docsJoinTable: 'FinalComment',
-		documentType: 'appealFinalComment'
+		documentType: 'finalComment' // To be updated once data model confirmed
 	});
 };
 
@@ -67,7 +67,7 @@ exports.formatStatement = (statements) => {
 		titlePrefix: 'Statement',
 		includeDocuments: true,
 		docsJoinTable: 'Statement',
-		documentType: 'appealStatement'
+		documentType: 'appealStatement' // To be updated once data model confirmed
 	});
 };
 
