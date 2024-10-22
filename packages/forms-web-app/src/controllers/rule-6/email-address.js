@@ -21,7 +21,7 @@ const postR6EmailAddress = (views) => {
 		const { errors = {}, errorSummary = [] } = body;
 		const emailErrorSummary = [
 			{
-				text: 'Enter an email address in the correct format, like name@example.com',
+				text: 'Enter your email address',
 				href: '#email-address'
 			}
 		];
@@ -60,7 +60,7 @@ const postR6EmailAddress = (views) => {
 				email,
 				errors: {
 					'email-address': {
-						msg: 'Enter an email address in the correct format, like name@example.com'
+						msg: 'Enter your email address'
 					}
 				},
 				errorSummary: emailErrorSummary

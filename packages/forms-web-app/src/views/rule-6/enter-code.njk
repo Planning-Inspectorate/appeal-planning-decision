@@ -61,9 +61,40 @@
         }) }}
       </form>
 
-      <p class="govuk-body">
-        <a href="{{requestNewCodeLink}}" class="govuk-link">Send a new code</a>
+			<h2 class="govuk-heading-m">
+        If you’re having problems
+      </h2>
+
+      {% if confirmEmailLink %}
+        <p class="govuk-body">
+          <a href="{{confirmEmailLink}}" class="govuk-link">Change your email address</a> if you entered it incorrectly.
+        </p>
+      {% endif %}
+
+			<p class="govuk-body">
+        Check if the email has gone to your spam or junk folder. If it’s not there, we can <a href="{{requestNewCodeLink}}" class="govuk-link">send a new code</a>.
       </p>
+
+            <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            If you’re still having problems
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p class="govuk-body">
+            You can contact our customer support team.
+          </p>
+
+          {# todo: use env variables for contact details #}
+          <p class="govuk-body">
+            Email: <a data-cy="Enquiries" href="mailto:enquiries@planninginspectorate.gov.uk">enquiries@planninginspectorate.gov.uk</a><br>
+            Telephone: 0303 444 5000<br>
+            Monday to Friday, 9am to midday (except public holidays)<br>
+            <a href="https://www.gov.uk/call-charges">Find out about call charges</a>.
+          </p>
+        </div>
+      </details>
 
     </div>
   </div>

@@ -1,4 +1,4 @@
-{% extends "layouts/lpa-dashboard/main-no-back-link.njk" %}
+{% extends "layouts/full-appeal-banner/main-no-back-link.njk" %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/input/macro.njk" import govukInput %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
@@ -6,46 +6,16 @@
 {% set title="Request a new code - Appeal a planning decision - GOV.UK" %}
 
 {% block pageTitle %}
-  {% if errors %}
-    {% set title = "Error: " + title %}
-  {% endif %}
   {{ title }}
 {% endblock %}
 
 {% block content %}
-  {% if errors %}
-    {{ govukErrorSummary({
-      titleText: "There is a problem",
-      errorList: errorSummary
-    }) }}
-  {% endif %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <h1 class="govuk-heading-l">Request a new code</h1>
       <p class="govuk-body">Emails sometimes take a few minutes to arrive. If you do not receive the code, you can request a new one.</p>
       <form action="" method="post" novalidate>
 <input type="hidden" name="_csrf" value="{{_csrf}}">
-         {% call govukFieldset({
-          legend: {
-            text: "Enter your email address",
-            classes: "govuk-fieldset__legend--l",
-            isPageHeading: true
-          }
-        }) %}
-
-        {{ govukInput({
-            classes: "govuk-input govuk-input--width-20",
-            id: "emailAddress",
-            name: "emailAddress",
-            spellcheck: false,
-            value: email-address,
-            errorMessage: errors['email-address'] and {
-              text: errors['email-address'].msg
-            }
-          })
-        }}
-
-        {% endcall %}
         {{ govukButton({
           text: "Request a new code",
           type: "submit",
