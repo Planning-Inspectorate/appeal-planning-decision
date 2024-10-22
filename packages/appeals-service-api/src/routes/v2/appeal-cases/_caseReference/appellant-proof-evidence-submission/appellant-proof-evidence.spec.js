@@ -97,7 +97,7 @@ const createAppeal = async (caseRef) => {
 };
 describe('/appeal-cases/_caseReference/appellant-proof-evidence-submission', () => {
 	it('should create a new appellant proof of evidence submission', async () => {
-		const testCaseRef = '1234123';
+		const testCaseRef = '1234127';
 		await createAppeal(testCaseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
@@ -115,7 +115,7 @@ describe('/appeal-cases/_caseReference/appellant-proof-evidence-submission', () 
 		expect(createResponse.body).toMatchObject(appellantProofOfEvidenceData);
 	});
 	it('should retrieve an existing appellant proof of evidence submission', async () => {
-		const testCaseRef = '1234124';
+		const testCaseRef = '1234128';
 		await createAppeal(testCaseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
@@ -139,7 +139,7 @@ describe('/appeal-cases/_caseReference/appellant-proof-evidence-submission', () 
 		});
 	});
 	it('should patch/update an existing appellant proof of evidence submission', async () => {
-		const testCaseRef = '1234125';
+		const testCaseRef = '1234129';
 		await createAppeal(testCaseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
