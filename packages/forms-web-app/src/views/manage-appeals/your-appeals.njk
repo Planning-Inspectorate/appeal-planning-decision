@@ -42,7 +42,6 @@
                   </td>
                   <td class="govuk-table__cell govuk-table__cell--numeric">
 										{% if item.displayInvalid %}
-											<strong class='govuk-tag govuk-tag--grey'>INVALID</strong>
 										{% elif item.isNewAppeal %}
                       <strong class='govuk-tag govuk-tag--green'>NEW</strong>
 										{% elif item.nextDocumentDue.dueInDays < 0 %}
@@ -57,10 +56,14 @@
                     {% endif %}
                   </td>
                   <td class="govuk-table__cell govuk-table__cell--numeric">
-                        <a href="{{item.nextDocumentDue.baseUrl}}" class="govuk-link">
+										{% if item.displayInvalid %}
+											<strong class='govuk-tag govuk-tag--grey'>INVALID</strong>
+                    {% else %}
+                      <a href="{{item.nextDocumentDue.baseUrl}}" class="govuk-link">
                           {{item.nextDocumentDue.documentDue}}
                           <span class="govuk-visually-hidden"> for {{item.appealNumber}}</span>
                         </a>
+                    {% endif %}
                   </td>
                 </tr>
               {% endfor %}
