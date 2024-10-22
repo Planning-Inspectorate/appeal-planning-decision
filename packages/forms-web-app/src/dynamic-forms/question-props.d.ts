@@ -69,6 +69,7 @@ interface InputField {
 	fieldName: string;
 	label: string;
 	formatJoinString?: string; // optional property, used by formatAnswerForSummary (eg task list display), effective default to line break
+	attributes?: Record<string, string>;
 }
 
 /*
