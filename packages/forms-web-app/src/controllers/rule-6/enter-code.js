@@ -121,7 +121,7 @@ const postEnterCodeR6 = (views) => {
 		const isRule6User = await isRule6UserByEmail(req, sessionEmail);
 
 		if (!isRule6User || !tokenValid.valid) {
-			return renderError('Enter the correct code');
+			return renderError('Enter the code we sent to your email address');
 		}
 
 		// is valid so set user in session

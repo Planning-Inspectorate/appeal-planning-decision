@@ -60,7 +60,7 @@ describe('controllers/rule-6/email-address', () => {
 		it('should error with missing email address', async () => {
 			const customErrorSummary = [
 				{
-					text: 'Enter an email address in the correct format, like name@example.com',
+					text: 'Enter your email address',
 					href: '#email-address'
 				}
 			];

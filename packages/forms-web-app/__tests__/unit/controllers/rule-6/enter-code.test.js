@@ -222,7 +222,7 @@ describe('controllers/rule-6/enter-code', () => {
 			const returnedFunction = postEnterCodeR6(rule6Views);
 			await returnedFunction(req, res);
 
-			const errorMessage = 'Enter the correct code';
+			const errorMessage = 'Enter the code we sent to your email address';
 
 			expect(res.render).toHaveBeenCalledWith(`${rule6Views.ENTER_CODE}`, {
 				token: req.body['email-code'],
@@ -246,8 +246,10 @@ describe('controllers/rule-6/enter-code', () => {
 		it('should show an error if not a rule 6 user', async () => {
 			isRule6UserByEmail.mockResolvedValue(false);
 
-			const errors = { 'email-code': { msg: 'Enter the correct code' } };
-			const errorSummary = [{ text: 'Enter the correct code', href: '#email-code' }];
+			const errors = { 'email-code': { msg: 'Enter the code we sent to your email address' } };
+			const errorSummary = [
+				{ text: 'Enter the code we sent to your email address', href: '#email-code' }
+			];
 
 			const returnedFunction = postEnterCodeR6(rule6Views);
 			await returnedFunction(req, res);
