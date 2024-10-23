@@ -55,6 +55,13 @@ describe('Content setup functions for selected appeal page', () => {
 			const result = getFinalCommentUserGroup(url, user, userType);
 			expect(result).toBe(LPA_USER_ROLE);
 		});
+		it('should return Appellant when the url includes appellant-final-comments', () => {
+			const url = '/appeals/1234/appellant-final-comments';
+			const user = { lpaCode: 'LPA123' };
+			const userType = '';
+			const result = getFinalCommentUserGroup(url, user, userType);
+			expect(result).toBe(APPEAL_USER_ROLES.APPELLANT);
+		});
 		it('should return LPAUser when the user has an lpaCode and the url includes final-comments', () => {
 			const url = '/appeals/1234/final-comments';
 			const user = { lpaCode: 'LPA123' };
