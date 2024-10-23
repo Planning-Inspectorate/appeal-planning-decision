@@ -1,6 +1,5 @@
 const { constraintsRows } = require('./constraints-details-rows');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
-const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 describe('constraintsRows', () => {
 	it('should create rows with correct data if relevant case data fields exist and field values true/files uploaded/otherwise populated', () => {
@@ -50,7 +49,7 @@ describe('constraintsRows', () => {
 				}
 			]
 		};
-		const rows = constraintsRows(caseData, APPEAL_USER_ROLES.AGENT);
+		const rows = constraintsRows(caseData);
 		expect(rows.length).toEqual(15);
 		expect(rows[0].condition()).toEqual(true);
 		expect(rows[0].keyText).toEqual('Is this the correct type of appeal');
@@ -137,7 +136,7 @@ describe('constraintsRows', () => {
 			publicRightOfWay: false,
 			Documents: []
 		};
-		const rows = constraintsRows(caseData, APPEAL_USER_ROLES.AGENT);
+		const rows = constraintsRows(caseData);
 		expect(rows.length).toEqual(15);
 		expect(rows[0].condition()).toEqual(true);
 		expect(rows[0].keyText).toEqual('Is this the correct type of appeal');
@@ -207,7 +206,7 @@ describe('constraintsRows', () => {
 		const caseData = {
 			Documents: []
 		};
-		const rows = constraintsRows(caseData, APPEAL_USER_ROLES.AGENT);
+		const rows = constraintsRows(caseData);
 		expect(rows.length).toEqual(15);
 		expect(rows[0].condition()).toEqual(false);
 		expect(rows[1].condition()).toEqual(false);
@@ -248,7 +247,7 @@ describe('constraintsRows', () => {
 				}
 			]
 		};
-		const rows = constraintsRows(caseData, APPEAL_USER_ROLES.AGENT);
+		const rows = constraintsRows(caseData);
 		expect(rows.length).toEqual(15);
 
 		expect(rows[4].condition()).toEqual(true);
