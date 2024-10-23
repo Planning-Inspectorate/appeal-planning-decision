@@ -1,6 +1,6 @@
 const {
-	mapToAppellantDashboardDisplayData,
-	isToDoAppellantDashboard
+	mapToRule6DashboardDisplayData,
+	isToDoRule6Dashboard
 } = require('../../lib/dashboard-functions');
 const logger = require('../../lib/logger');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
@@ -26,15 +26,15 @@ const getYourAppealsR6 = async (req, res) => {
 
 		const undecidedAppeals = appeals
 			.filter(isNotWithdrawn)
-			.map(mapToAppellantDashboardDisplayData)
+			.map(mapToRule6DashboardDisplayData)
 			.filter(Boolean)
-			.filter((appeal) => !appeal.appealDecision || appeal.displayInvalid);
+			.filter((appeal) => !appeal.appealDecision);
 
 		logger.debug({ undecidedAppeals }, 'undecided appeals');
 
 		const { toDoAppeals, waitingForReviewAppeals } = undecidedAppeals.reduce(
 			(acc, appeal) => {
-				if (isToDoAppellantDashboard(appeal)) {
+				if (isToDoRule6Dashboard(appeal)) {
 					acc.toDoAppeals.push(appeal);
 				} else if (appeal.appealNumber) {
 					// don't add draft appeals to waiting for review
