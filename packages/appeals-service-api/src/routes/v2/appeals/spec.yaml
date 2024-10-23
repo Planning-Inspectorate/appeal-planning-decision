@@ -1,8 +1,10 @@
 paths:
-  /api/v2/appeals/:
+  /api/v2/appeals:
     get:
       tags:
         - appeals
+      parameters:
+        - $ref: '#/components/parameters/role'
       description: Get appeals for a user
       responses:
         200:
@@ -21,3 +23,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+
+components:
+  parameters:
+    role:
+      name: role
+      in: query
+      schema:
+        type: string
+        example: 'Rule6Party'
