@@ -25,7 +25,6 @@ module.exports = () => async (req, res, next) => {
 		);
 	} catch (err) {
 		if (err instanceof ApiClientError && err.code === 404) {
-			console.log('###', 'inside middleware');
 			logger.debug('proof of evidence not found, creating and returning default response');
 			await req.appealsApiClient.postAppellantProofOfEvidenceSubmission(referenceId);
 		} else {
