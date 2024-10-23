@@ -2,9 +2,7 @@ const { getAppealStatus } = require('#utils/appeal-status');
 const { formatCommentDeadlineText } = require('../../../../../utils/format-deadline-text');
 const { formatCommentDecidedData } = require('../../../../../utils/format-comment-decided-data');
 const { formatCommentHeadlineText } = require('../../../../../utils/format-headline-text');
-const { formatHeadlineData, formatRows } = require('@pins/common');
-const { appealSubmissionRows } = require('./ip-appeal-submission-rows');
-const { applicationRows } = require('./ip-application-rows');
+const { formatHeadlineData } = require('@pins/common');
 const { getDepartmentFromCode } = require('../../../../../services/department.service');
 const {
 	createInterestedPartySession
@@ -27,14 +25,6 @@ const selectedAppeal = async (req, res) => {
 
 	const deadlineText = formatCommentDeadlineText(appeal, status);
 
-	const submissionRows = appealSubmissionRows(appeal);
-	// For MVP we are only displaying headlines for decided appeals
-	const appealSubmission = status === 'decided' ? [] : formatRows(submissionRows, appeal);
-
-	const originalApplicationRows = applicationRows(appeal);
-	// For MVP we are only displaying headlines for decided appeals
-	const application = status === 'decided' ? [] : formatRows(originalApplicationRows, appeal);
-
 	const decidedData = formatCommentDecidedData(appeal);
 
 	res.render(`comment-planning-appeal/appeals/_appealNumber/index`, {
@@ -43,8 +33,6 @@ const selectedAppeal = async (req, res) => {
 			status,
 			headlineText,
 			deadlineText,
-			appealSubmission,
-			application,
 			decidedData
 		},
 		headlineData
