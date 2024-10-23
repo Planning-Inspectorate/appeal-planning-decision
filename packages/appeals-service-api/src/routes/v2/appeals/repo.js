@@ -66,7 +66,11 @@ class UserAppealsRepository {
 											siteAddressLine1: true,
 											siteAddressLine2: true,
 											siteAddressTown: true,
-											siteAddressPostcode: true
+											siteAddressPostcode: true,
+											rule6StatementDueDate: true,
+											rule6StatementSubmitted: true,
+											rule6ProofEvidenceDueDate: true,
+											rule6ProofEvidenceSubmitted: true
 										}
 									},
 									AppellantSubmission: {
