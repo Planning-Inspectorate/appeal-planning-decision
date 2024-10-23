@@ -52,6 +52,8 @@ const getFinalCommentUserGroup = (url, user, userType) => {
 		return APPEAL_USER_ROLES.RULE_6_PARTY;
 	} else if (url.includes('lpa-final-comments')) {
 		return LPA_USER_ROLE;
+	} else if (url.includes('appellant-final-comments')) {
+		return APPEAL_USER_ROLES.APPELLANT;
 	} else if (user.lpaCode && url.includes('final-comments')) {
 		return LPA_USER_ROLE;
 	} else if (
