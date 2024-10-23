@@ -7,17 +7,11 @@ const {
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
- * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
- * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
- */
-
-/**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed} caseData
- * @param {AppealToUserRoles|LpaUserRole|null} _user
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
 
-exports.constraintsRows = (caseData, _user) => {
+exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
 	const affectedListedBuildings = caseData.AffectedListedBuildings;
