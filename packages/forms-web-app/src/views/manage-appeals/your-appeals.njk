@@ -34,6 +34,7 @@
                   <td class="govuk-table__cell">{{item.address}}</td>
                   <td class="govuk-table__cell">{{item.appealType}}</td>
                   <td class="govuk-table__cell">
+										{# if appeal is new or invalid this column left blank #}
                     {% if item.isNewAppeal %}
 										{% elif item.displayInvalid %}
                     {% else %}
@@ -41,6 +42,7 @@
                     {% endif %}
                   </td>
                   <td class="govuk-table__cell govuk-table__cell--numeric">
+										{# if appeal is invalid this column left blank #}
 										{% if item.displayInvalid %}
 										{% elif item.isNewAppeal %}
                       <strong class='govuk-tag govuk-tag--green'>NEW</strong>
