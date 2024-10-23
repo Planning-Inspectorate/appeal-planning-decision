@@ -179,9 +179,7 @@ describe('Appeals', () => {
 		const householderAppeal = AppealFixtures.newHouseholderAppeal();
 		householderAppeal.aboutYouSection.yourDetails.isOriginalApplicant = true;
 
-		const { appealResponse: savedAppealResponse, userResponse: user } = await _createAppeal(
-			householderAppeal
-		);
+		const { appealResponse: savedAppealResponse } = await _createAppeal(householderAppeal);
 
 		if (!savedAppealResponse.ok) {
 			throw new Error('failed to create appeal');
@@ -190,6 +188,7 @@ describe('Appeals', () => {
 		let savedAppeal = savedAppealResponse.body;
 
 		const dataToSend = {
+			id: savedAppeal.id,
 			aboutYouSection: {
 				yourDetails: {
 					isOriginalApplicant: false
@@ -204,12 +203,16 @@ describe('Appeals', () => {
 
 		expect(patchedAppealResponse.body.aboutYouSection.yourDetails.isOriginalApplicant).toBe(false);
 
-		const userLink = await sqlClient.appealToUser.findFirst({
+		const appeal = await sqlClient.appeal.findFirst({
 			where: {
-				userId: user.id
+				legacyAppealSubmissionId: savedAppeal.id
+			},
+			include: {
+				Users: true
 			}
 		});
-		expect(userLink?.role).toBe(APPEAL_USER_ROLES.AGENT);
+		expect(appeal.Users.length).toBe(1);
+		expect(appeal.Users[0].role).toBe(APPEAL_USER_ROLES.AGENT);
 
 		// And: no external systems should be interacted with
 		expectedNotifyInteractions = [];
@@ -220,9 +223,7 @@ describe('Appeals', () => {
 		const fullAppeal = AppealFixtures.newFullAppeal();
 		fullAppeal.contactDetailsSection.isOriginalApplicant = true;
 
-		const { appealResponse: savedAppealResponse, userResponse: user } = await _createAppeal(
-			fullAppeal
-		);
+		const { appealResponse: savedAppealResponse } = await _createAppeal(fullAppeal);
 
 		if (!savedAppealResponse.ok) {
 			throw new Error('failed to create appeal');
@@ -231,6 +232,7 @@ describe('Appeals', () => {
 		let savedAppeal = savedAppealResponse.body;
 
 		const dataToSend = {
+			id: savedAppeal.id,
 			aboutYouSection: {
 				yourDetails: {
 					isOriginalApplicant: false
@@ -245,12 +247,16 @@ describe('Appeals', () => {
 
 		expect(patchedAppealResponse.body.aboutYouSection.yourDetails.isOriginalApplicant).toBe(false);
 
-		const userLink = await sqlClient.appealToUser.findFirst({
+		const appeal = await sqlClient.appeal.findFirst({
 			where: {
-				userId: user.id
+				legacyAppealSubmissionId: savedAppeal.id
+			},
+			include: {
+				Users: true
 			}
 		});
-		expect(userLink?.role).toBe(APPEAL_USER_ROLES.AGENT);
+		expect(appeal.Users.length).toBe(1);
+		expect(appeal.Users[0].role).toBe(APPEAL_USER_ROLES.AGENT);
 
 		// And: no external systems should be interacted with
 		expectedNotifyInteractions = [];
