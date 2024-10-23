@@ -458,6 +458,12 @@ export interface AppealCase {
 	planningObligation?: boolean;
 	rule6StatementPublished?: boolean;
 	rule6ProofsEvidencePublished?: boolean;
+	/** @format date-time */
+	rule6StatementDueDate?: string;
+	rule6StatementSubmitted?: boolean;
+	/** @format date-time */
+	rule6ProofEvidenceDueDate?: string;
+	rule6ProofEvidenceSubmitted?: boolean;
 	interestedPartyCommentsPublished?: boolean;
 	Rule6Parties?: object[];
 	AffectedListedBuildings?: object[];
