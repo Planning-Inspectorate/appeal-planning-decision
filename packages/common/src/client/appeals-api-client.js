@@ -45,6 +45,10 @@ const trailingSlashRegex = /\/$/;
  */
 
 /**
+ * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
+ */
+
+/**
  * @class Api Client for v2 urls in appeals-service-api
  */
 class AppealsApiClient {
@@ -271,10 +275,14 @@ class AppealsApiClient {
 	}
 
 	/**
+	 *
+	 * @param {AppealToUserRoles} role
 	 * @returns {Promise<(AppealCase|AppealSubmission)[]>}
 	 */
-	async getUserAppeals() {
-		const endpoint = `${v2}/appeals/`;
+	async getUserAppeals(role) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('role', role);
+		const endpoint = `${v2}/appeals?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}

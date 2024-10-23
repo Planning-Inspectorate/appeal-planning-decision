@@ -6,11 +6,12 @@ const { VIEW } = require('../../lib/views');
 const logger = require('../../lib/logger');
 const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
 const { isNotWithdrawn } = require('@pins/common');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 exports.get = async (req, res) => {
 	let viewContext = {};
 	try {
-		const appeals = await req.appealsApiClient.getUserAppeals();
+		const appeals = await req.appealsApiClient.getUserAppeals(APPEAL_USER_ROLES.APPELLANT);
 
 		if (appeals?.length === 0) {
 			res.redirect(`/${VIEW.APPEALS.NO_APPEALS}`);

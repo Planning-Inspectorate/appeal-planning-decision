@@ -1,69 +1,64 @@
-// const { getUserFromSession } = require('../../services/user.service');
-// const { isFeatureActive } = require('../../featureFlag');
-// const { FLAG } = require('@pins/common/src/feature-flags');
-// const {
-// 	mapToLPADashboardDisplayData,
-// 	isToDoLPADashboard
-// } = require('../../lib/dashboard-functions');
-// const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
-
-// const { isNotWithdrawn } = require('@pins/common');
+const {
+	mapToAppellantDashboardDisplayData,
+	isToDoAppellantDashboard
+} = require('../../lib/dashboard-functions');
+const logger = require('../../lib/logger');
+const { arrayHasItems } = require('@pins/common/src/lib/array-has-items');
+const { isNotWithdrawn } = require('@pins/common');
 const {
 	VIEW: {
 		RULE_6: { DASHBOARD }
 	}
 } = require('../../lib/views');
-// const { baseHASUrl } = require('../../dynamic-forms/has-questionnaire/journey');
-// const { APPEAL_CASE_STATUS } = require('pins-data-model');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const getYourAppealsR6 = async (req, res) => {
-	// const user = getUserFromSession(req);
+	let viewContext = {};
+	try {
+		const appeals = await req.appealsApiClient.getUserAppeals(APPEAL_USER_ROLES.RULE_6_PARTY);
 
-	// const { lpaCode } = user;
+		// if (appeals?.length === 0) {
+		// 	res.redirect(`/${VIEW.APPEALS.NO_APPEALS}`);
+		// 	return;
+		// }
 
-	// const appealsCaseData = await req.appealsApiClient.getAppealsCaseDataV2(lpaCode);
+		logger.debug({ appeals }, 'appeals');
 
-	// const invalidAppeals = await req.appealsApiClient.getAppealsCasesByLpaAndStatus({
-	// 	lpaCode,
-	// 	caseStatus: APPEAL_CASE_STATUS.INVALID,
-	// 	decidedOnly: true
-	// });
+		const undecidedAppeals = appeals
+			.filter(isNotWithdrawn)
+			.map(mapToAppellantDashboardDisplayData)
+			.filter(Boolean)
+			.filter((appeal) => !appeal.appealDecision || appeal.displayInvalid);
 
-	// const decidedAppealsCount = await req.appealsApiClient.getDecidedAppealsCountV2(lpaCode);
+		logger.debug({ undecidedAppeals }, 'undecided appeals');
 
-	// const { toDoAppeals, waitingForReviewAppeals } = [...appealsCaseData, ...invalidAppeals]
-	// 	.filter(isNotWithdrawn)
-	// 	.map(mapToLPADashboardDisplayData)
-	// 	.reduce(
-	// 		(acc, cur) => {
-	// 			if (isToDoLPADashboard(cur)) {
-	// 				acc.toDoAppeals.push(cur);
-	// 			} else {
-	// 				acc.waitingForReviewAppeals.push(cur);
-	// 			}
-	// 			return acc;
-	// 		},
-	// 		{ toDoAppeals: [], waitingForReviewAppeals: [] }
-	// 	);
+		const { toDoAppeals, waitingForReviewAppeals } = undecidedAppeals.reduce(
+			(acc, appeal) => {
+				if (isToDoAppellantDashboard(appeal)) {
+					acc.toDoAppeals.push(appeal);
+				} else if (appeal.appealNumber) {
+					// don't add draft appeals to waiting for review
+					acc.waitingForReviewAppeals.push(appeal);
+				}
+				return acc;
+			},
+			{ toDoAppeals: [], waitingForReviewAppeals: [] }
+		);
 
-	// toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
+		logger.debug({ toDoAppeals }, 'toDoAppeals');
+		logger.debug({ waitingForReviewAppeals }, 'waitingForReviewAppeals');
 
-	// waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
+		toDoAppeals.sort((a, b) => a.nextDocumentDue.dueInDays - b.nextDocumentDue.dueInDays);
+		waitingForReviewAppeals.sort((a, b) => a.appealNumber - b.appealNumber);
+		const noToDoAppeals = !arrayHasItems(toDoAppeals);
 
-	// const noToDoAppeals = !arrayHasItems(toDoAppeals);
+		viewContext = { toDoAppeals, waitingForReviewAppeals, noToDoAppeals };
 
-	return res.render(DASHBOARD, {
-		// lpaName: user.lpaName,
-		// addOrRemoveLink: `/${ADD_REMOVE_USERS}`,
-		// toDoAppeals: toDoAppeals,
-		// waitingForReviewAppeals: waitingForReviewAppeals,
-		// appealDetailsLink: `/${APPEAL_DETAILS}`,
-		// appealQuestionnaireLink: baseHASUrl,
-		// showQuestionnaire: await isFeatureActive(FLAG.HAS_QUESTIONNAIRE, user.lpaCode),
-		// decidedAppealsLink: `/${DECIDED_APPEALS}`,
-		// decidedAppealsCount: decidedAppealsCount.count,
-		noToDoAppeals: true
-	});
+		res.render(DASHBOARD, viewContext);
+	} catch (error) {
+		logger.error(`Failed to get user appeals: ${error}`);
+		res.render(DASHBOARD, viewContext);
+	}
 };
 
 module.exports = {
