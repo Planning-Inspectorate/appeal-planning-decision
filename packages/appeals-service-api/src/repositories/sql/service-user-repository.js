@@ -1,29 +1,38 @@
 const { createPrismaClient } = require('#db-client');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { SERVICE_USER_TYPE } = require('pins-data-model');
+const { AppealUserRepository } = require('#repositories/sql/appeal-user-repository');
 
 /**
  * @typedef {import("@prisma/client").ServiceUser} ServiceUser
  * @typedef {import("@prisma/client").AppealToUser} AppealToUser
  */
 
-/** @type {(modelRole: string) => 'Appellant' | 'Agent' | null} */
+/** @type {(modelRole: string) => import('@pins/common/src/constants').APPEAL_USER_ROLES | null} */
 const mapDataModelRoleToInternalRole = (modelRole) => {
 	switch (modelRole) {
 		case SERVICE_USER_TYPE.APPELLANT:
 			return APPEAL_USER_ROLES.APPELLANT;
 		case SERVICE_USER_TYPE.AGENT:
 			return APPEAL_USER_ROLES.AGENT;
+		case 'Rule6Party': // todo: update when data model changed
+			return APPEAL_USER_ROLES.RULE_6_PARTY;
 		default:
 			return null;
 	}
 };
 
 class ServiceUserRepository {
+	/**
+	 * @type {import('@prisma/client').PrismaClient | import('@prisma/client').Prisma.TransactionClient}
+	 */
 	dbClient;
 
-	constructor() {
-		this.dbClient = createPrismaClient();
+	/**
+	 * @param {import('@prisma/client').PrismaClient | import('@prisma/client').Prisma.TransactionClient} [client]
+	 */
+	constructor(client) {
+		this.dbClient = client ?? createPrismaClient();
 	}
 
 	/**
@@ -79,16 +88,29 @@ class ServiceUserRepository {
 	 * @returns {Promise<ServiceUser>}
 	 */
 	async put(data) {
-		return this.dbClient.$transaction(async (tx) => {
-			/** @type {import('@prisma/client').AppealUser | null} */
-			let appealUser = null;
-			if (data.emailAddress) {
-				appealUser = await tx.appealUser.findFirst({
-					where: {
-						email: data.emailAddress
-					}
-				});
+		const [appealUserResult, appealCase, serviceUser] = await Promise.all([
+			data.emailAddress
+				? this.dbClient.appealUser.findFirst({
+						where: { email: data.emailAddress }
+				  })
+				: Promise.resolve(null),
 
+			this.dbClient.appealCase.findFirst({
+				where: { caseReference: data.caseReference },
+				select: { Appeal: { select: { id: true } } }
+			}),
+
+			this.dbClient.serviceUser.findFirst({
+				where: { id: data.id }
+			})
+		]);
+
+		let appealUser = appealUserResult;
+
+		return this.dbClient.$transaction(async (tx) => {
+			const appealUserRepository = new AppealUserRepository(tx);
+
+			if (data.emailAddress) {
 				if (!appealUser) {
 					appealUser = await tx.appealUser.create({
 						data: {
@@ -106,62 +128,23 @@ class ServiceUserRepository {
 						}
 					});
 				}
-			}
 
-			const role = mapDataModelRoleToInternalRole(data.serviceUserType);
-			if (role && appealUser) {
-				const appealCase = await tx.appealCase.findFirst({
-					where: {
-						caseReference: data.caseReference
-					},
-					select: {
-						Appeal: {
-							select: {
-								id: true
-							}
-						}
-					}
-				});
-
-				if (appealCase) {
-					await tx.appealToUser.upsert({
-						where: {
-							appealId_userId: {
-								appealId: appealCase.Appeal.id,
-								userId: appealUser.id
-							}
-						},
-						create: {
-							appealId: appealCase.Appeal.id,
-							userId: appealUser.id,
-							role
-						},
-						update: {
-							appealId: appealCase.Appeal.id,
-							userId: appealUser.id,
-							role
-						}
-					});
+				const role = mapDataModelRoleToInternalRole(data.serviceUserType);
+				if (!!role && !!appealCase) {
+					await appealUserRepository.linkUserToAppeal(appealUser.id, appealCase.Appeal.id, role);
 				}
 			}
 
-			const { internalId } =
-				(await tx.serviceUser.findFirst({
+			if (serviceUser) {
+				return await tx.serviceUser.update({
 					where: {
-						id: data.id
-					}
-				})) || {};
-
-			if (internalId) {
-				return await this.dbClient.serviceUser.update({
-					where: {
-						internalId
+						internalId: serviceUser.internalId
 					},
 					data
 				});
 			}
 
-			return await this.dbClient.serviceUser.create({
+			return await tx.serviceUser.create({
 				data
 			});
 		});
