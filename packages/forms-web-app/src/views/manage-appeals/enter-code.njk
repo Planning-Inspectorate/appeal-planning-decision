@@ -26,9 +26,10 @@
   {% if showNewCode %}
     {{ govukNotificationBanner({
       text: 'We’ve sent a code to your email address.',
-      type: 'success'
+      type: 'success',
+			classes: 'govuk-grid-row govuk-grid-column-two-thirds govuk-notification-banner__heading'
     }) }}
-  {% endif %}  
+  {% endif %}
 
   <div class="govuk-grid-row">
 
@@ -63,7 +64,7 @@
           attributes: { "data-cy":"button-save-and-continue"}
         }) }}
       </form>
-      
+
     </div>
   </div>
 {% endblock %}
