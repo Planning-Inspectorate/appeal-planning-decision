@@ -38,7 +38,6 @@ const router = express.Router();
  * @type {import('express').Handler}
  */
 const proofOfEvidenceTaskList = async (req, res) => {
-	console.log('###', 'inside route');
 	const referenceId = res.locals.journeyResponse.referenceId;
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
