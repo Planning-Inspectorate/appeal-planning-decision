@@ -264,4 +264,68 @@ describe('constraintsRows', () => {
 		expect(rows[11].condition()).toEqual(false);
 		expect(rows[11].keyText).toEqual('Uploaded Tree Preservation Order extent');
 	});
+
+	it('should create rows with correct data for HAS appeal', () => {
+		const caseData = {
+			isCorrectAppealType: true,
+			AffectedListedBuildings: [
+				{
+					listedBuildingReference: 'Building 1'
+				},
+				{
+					listedBuildingReference: 'Building 2'
+				}
+			],
+			conservationArea: true,
+			isGreenBelt: true,
+			Documents: [
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
+					id: '12345',
+					filename: 'conservationmap1.pdf'
+				}
+			]
+		};
+		const rows = constraintsRows(caseData);
+
+		expect(rows.length).toEqual(15);
+		expect(rows[0].condition()).toEqual(true);
+		expect(rows[0].keyText).toEqual('Is this the correct type of appeal');
+		expect(rows[0].valueText).toEqual('Yes');
+
+		expect(rows[1].condition()).toEqual(true);
+		expect(rows[1].keyText).toEqual('Affects a listed building');
+		expect(rows[1].valueText).toEqual('Yes');
+
+		expect(rows[2].condition()).toEqual(true);
+		expect(rows[2].keyText).toEqual('Listed building details');
+		expect(rows[2].valueText).toEqual('Building 1\nBuilding 2');
+
+		expect(rows[3].condition()).toEqual(false);
+
+		expect(rows[4].condition()).toEqual(true);
+		expect(rows[4].keyText).toEqual('Conservation area');
+		expect(rows[4].valueText).toEqual('Yes');
+
+		expect(rows[5].condition()).toEqual(true);
+		expect(rows[5].keyText).toEqual('Uploaded conservation area map and guidance');
+		expect(rows[5].valueText).toEqual(
+			'<a href="/published-document/12345" class="govuk-link">conservationmap1.pdf</a>'
+		);
+		expect(rows[5].isEscaped).toEqual(true);
+
+		expect(rows[6].condition()).toEqual(false);
+
+		expect(rows[7].condition()).toEqual(true);
+		expect(rows[7].keyText).toEqual('Green belt');
+		expect(rows[7].valueText).toEqual('Yes');
+
+		expect(rows[8].condition()).toEqual(false);
+		expect(rows[9].condition()).toEqual(false);
+		expect(rows[10].condition()).toEqual(false);
+		expect(rows[11].condition()).toEqual(false);
+		expect(rows[12].condition()).toEqual(false);
+		expect(rows[13].condition()).toEqual(false);
+		expect(rows[14].condition()).toEqual(false);
+	});
 });
