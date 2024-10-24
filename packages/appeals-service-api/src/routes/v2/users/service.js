@@ -127,7 +127,7 @@ async function linkUserToAppeal(id, appealId, role) {
  * @returns {Promise<boolean>}
  */
 async function isRule6User(userLookup) {
-	const count = await appealUserRepository.countRule6RolesForUser(userLookup);
+	const count = await appealUserRepository.countUsersWhereEmailAndRule6Party(userLookup);
 
 	return count > 0;
 }
