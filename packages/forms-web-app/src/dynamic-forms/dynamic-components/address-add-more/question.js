@@ -5,6 +5,7 @@ const { randomUUID } = require('crypto');
 
 /**
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
+ * @typedef {Awaited<ReturnType<import('../list-add-more/question')['getDataToSave']>>} GetDataToSaveReturnType
  */
 
 class AddressAddMoreQuestion extends AddMoreQuestion {
@@ -29,7 +30,7 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 	/**
 	 * adds a uuid and an address object for save data using req body fields
 	 * @param {import('express').Request} req
-	 * @returns
+	 * @returns {Promise<{ answers: Record<string, unknown> } & { addMoreId: string; value: Address }>}
 	 */
 	async getDataToSave(req) {
 		const address = new Address({
@@ -40,12 +41,12 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 			postcode: req.body[this.fieldName + '_postcode']
 		});
 
-		return { addMoreId: randomUUID(), value: address };
+		return { answers: {}, addMoreId: randomUUID(), value: address };
 	}
 
 	/**
-	 * @param {Object.<Any>} answer
-	 * @returns The formatted address to be presented in the UI
+	 * @param {Address} answer
+	 * @returns {string}
 	 */
 	format(answer) {
 		const addressComponents = [
@@ -71,10 +72,11 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 	 * @param {import('express').Request} req
 	 * @param {string} parentFieldName
 	 * @param {JourneyResponse} journeyResponse
-	 * @param {Object} responseToSave
+	 * @param {GetDataToSaveReturnType} responseToSave
 	 */
 	async saveList(req, parentFieldName, journeyResponse, responseToSave) {
 		const addresses = responseToSave.answers[parentFieldName];
+		if (!Array.isArray(addresses)) throw new Error('Answer was an unexpected shape');
 		await Promise.all(
 			addresses.map((address) => {
 				const addressData = address.value;
@@ -101,8 +103,8 @@ class AddressAddMoreQuestion extends AddMoreQuestion {
 			journeyResponse.referenceId,
 			answerId
 		);
-		journeyResponse.answers = updatedLPA;
-		return updatedLPA.SubmissionAddress?.length > 0 ? journeyResponse : true;
+		journeyResponse.answers = { ...updatedLPA };
+		return (updatedLPA.SubmissionAddress?.length || 0) > 0 ? journeyResponse : true;
 	}
 }
 

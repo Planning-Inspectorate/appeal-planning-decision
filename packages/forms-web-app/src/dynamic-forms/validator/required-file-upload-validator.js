@@ -3,10 +3,6 @@ const { checkSchema } = require('express-validator');
 const requiredFileUploadSchema = require('./schemas/required-file-upload-schema.js');
 
 /**
- * @typedef {import('../question.js')} Question
- */
-
-/**
  * enforces that at least one file is present for a question, whether it is being/already uploaded
  * @class
  */
@@ -27,7 +23,9 @@ class RequiredFileUploadValidator extends BaseValidator {
 
 	/**
 	 * validates against path based on questionObj's fieldname
-	 * @param {Question} questionObj
+	 * @param {import('../question.js')} questionObj
+	 * @param {import('../journey-response.js').JourneyResponse} journeyResponse
+	 * @returns {import('express-validator').ValidationChain}
 	 */
 	validate(questionObj, journeyResponse) {
 		const path = questionObj.fieldName;

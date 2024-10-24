@@ -37,15 +37,15 @@ interface CommonQuestionProps {
 	shouldDisplay?: (response: JourneyResponse) => boolean;
 }
 
-type Option =
-	| {
-			text: string;
-			value: string;
-			hint?: object;
-			checked?: boolean | undefined;
-			attributes?: Record<string, string>;
-			behaviour?: 'exclusive';
-			conditional?: {
+export type OptionWithoutDivider = {
+	text: string;
+	value: string;
+	hint?: object;
+	checked?: boolean | undefined;
+	attributes?: Record<string, string>;
+	behaviour?: 'exclusive';
+	conditional?:
+		| {
 				question: string;
 				type: string;
 				fieldName: string;
@@ -54,17 +54,22 @@ type Option =
 				value?: unknown;
 				label?: string;
 				hint?: string;
-			};
-			conditionalText?: {
+		  }
+		| {
 				html: string;
-			};
-	  }
-	| { divider?: string };
+		  };
+	conditionalText?: {
+		html: string;
+	};
+};
+
+export type Option = OptionWithoutDivider | { divider: string };
 
 interface InputField {
 	fieldName: string;
 	label: string;
 	formatJoinString?: string; // optional property, used by formatAnswerForSummary (eg task list display), effective default to line break
+	attributes?: Record<string, string>;
 }
 
 /*
@@ -82,14 +87,18 @@ interface UnitOption {
 	checked?: boolean | undefined;
 	attributes?: Record<string, string>;
 	behaviour?: 'exclusive';
-	conditional: {
-		fieldName: string;
-		suffix: string;
-		value?: unknown;
-		label?: string;
-		hint?: string;
-		conversionFactor?: number;
-	};
+	conditional:
+		| {
+				fieldName: string;
+				suffix: string;
+				value?: unknown;
+				label?: string;
+				hint?: string;
+				conversionFactor?: number;
+		  }
+		| {
+				html: string;
+		  };
 }
 
 type CheckboxQuestionProps = CommonQuestionProps & {
@@ -111,6 +120,7 @@ type BooleanQuestionProps = CommonQuestionProps & {
 type RadioQuestionProps = CommonQuestionProps & {
 	type: 'radio';
 	options: Option[];
+	legend?: string;
 };
 
 type DateQuestionProps = CommonQuestionProps & {
@@ -120,6 +130,11 @@ type DateQuestionProps = CommonQuestionProps & {
 type TextEntryQuestionProps = CommonQuestionProps & {
 	type: 'text-entry';
 	label?: string;
+	textEntryCheckbox?: {
+		header: string;
+		name: string;
+		text: string;
+	};
 };
 
 type SingleLineInputQuestionProps = CommonQuestionProps & {
