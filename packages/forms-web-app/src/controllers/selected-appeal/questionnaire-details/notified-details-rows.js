@@ -21,7 +21,7 @@ exports.notifiedRows = (caseData) => {
 		},
 		{
 			keyText: 'Type of Notification',
-			valueText: formatNotificationMethod(caseData),
+			valueText: formatNotificationMethod(caseData) || '',
 			condition: () => hasNotificationMethods(caseData)
 		},
 		{
