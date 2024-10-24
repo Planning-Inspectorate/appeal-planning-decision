@@ -75,23 +75,6 @@ async function getUserById(id) {
 }
 
 /**
- * @param {string} email
- * @returns {Promise<AppealUser>}
- */
-async function getUserWithRule6Parties(email) {
-	if (!email) throw ApiError.badRequest();
-
-	try {
-		const user = await appealUserRepository.getWithRule6Parties(email);
-		if (user) return user;
-	} catch (error) {
-		logger.error({ error }, `Error: failed to find user by email`);
-	}
-
-	throw ApiError.userNotFound();
-}
-
-/**
  * @param {AppealUser} user
  * @returns {Promise<AppealUser>}
  */
@@ -139,13 +122,23 @@ async function linkUserToAppeal(id, appealId, role) {
 	return appealUserRepository.linkUserToAppeal(id, appealId, role);
 }
 
+/**
+ * @param {string} userLookup currently route only used when looking up by email
+ * @returns {Promise<boolean>}
+ */
+async function isRule6User(userLookup) {
+	const count = await appealUserRepository.countRule6RolesForUser(userLookup);
+
+	return count > 0;
+}
+
 module.exports = {
 	createUser,
 	searchUsers,
 	getUserByEmail,
 	getUserById,
-	getUserWithRule6Parties,
 	updateUser,
 	removeLPAUser,
-	linkUserToAppeal
+	linkUserToAppeal,
+	isRule6User
 };
