@@ -142,8 +142,8 @@ const appealDocuments = [
 	},
 	{
 		id: '82e28258-0748-4189-96cb-2cf8772ac36a',
-		filename: 'test-lpa-decision.txt',
-		originalFilename: 'test-lpa-decision.txt',
+		filename: 'test-lpa-decision.pdf',
+		originalFilename: 'test-lpa-decision.pdf',
 		size: 16,
 		mime: 'text/plain',
 		documentURI: '',
@@ -637,8 +637,8 @@ const appealDocuments = [
 	},
 	{
 		id: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7',
-		filename: 'lpa-final-comments.txt',
-		originalFilename: 'lpa-final-comments.txt',
+		filename: 'lpa-final-comments.docx',
+		originalFilename: 'lpa-final-comments.docx',
 		size: 16,
 		mime: 'text/plain',
 		documentURI: '',
@@ -654,8 +654,8 @@ const appealDocuments = [
 	},
 	{
 		id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd',
-		filename: 'appellant-final-comments.txt',
-		originalFilename: 'appellant-final-comments.txt',
+		filename: 'appellant-final-comments.docx',
+		originalFilename: 'appellant-final-comments.docx',
 		size: 16,
 		mime: 'text/plain',
 		documentURI: '',
