@@ -41,7 +41,9 @@ const lpaAppealIds = {
 	appeal30: '0a4edc6e-7b33-4a0e-8698-f6b0ce028d68',
 	appeal31: '281ac0d2-f51e-4605-a717-b7cc9098161e',
 	appeal32: '8f50d012-396e-4878-921b-51cf5abedfe1',
-	appeal75: '7b8312e0-c724-4969-b7d4-441c60c6741b'
+	appealPoE2: 'd8c3d64f-3469-4c73-b249-2ead56dff949',
+	appealPoE3: 'e1e187f6-e47e-4ce8-9913-9935cdaaf327',
+	appealPoE4: '78641953-6466-4b5d-bac4-06143a145669'
 };
 
 /**
@@ -83,7 +85,9 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appeal30 },
 	{ id: lpaAppealIds.appeal31 },
 	{ id: lpaAppealIds.appeal32 },
-	{ id: lpaAppealIds.appeal75 }
+	{ id: lpaAppealIds.appealPoE2 },
+	{ id: lpaAppealIds.appealPoE3 },
+	{ id: lpaAppealIds.appealPoE4 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -1534,6 +1538,84 @@ const lpaAppealCaseData = [
 		CaseType: { connect: { processCode: 'S78' } },
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealPoE2 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000112',
+		siteAddressLine1: 'Questionnaire and statement submitted',
+		siteAddressLine2: null,
+		siteAddressTown: 'proofs due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealPoE3 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000113',
+		siteAddressLine1: 'Questionnaire and statement submitted',
+		siteAddressLine2: null,
+		siteAddressTown: 'proofs due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealPoE4 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000114',
+		siteAddressLine1: 'Questionnaire and statement submitted',
+		siteAddressLine2: null,
+		siteAddressTown: 'proofs due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
 		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
