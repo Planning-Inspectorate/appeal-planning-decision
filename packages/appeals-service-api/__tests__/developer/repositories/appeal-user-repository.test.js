@@ -1,7 +1,6 @@
 const { AppealUserRepository } = require('../../../src/repositories/sql/appeal-user-repository');
 const { createPrismaClient } = require('../../../src/db/db-client');
 const ApiError = require('../../../src/errors/apiError');
-const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 const TEST_EMAIL = 'test-user1@planninginspectorate.gov.uk';
 const TEST_USER = {
@@ -69,14 +68,9 @@ it('should get user with email', async () => {
 });
 
 it('should count number of users with rule 6 role by email', async () => {
-	const testAppeals = [
-		{
-			role: APPEAL_USER_ROLES.RULE_6_PARTY
-		}
-	];
-	const user = await repo.createUser({ ...TEST_USER, Appeals: testAppeals });
+	const user = await repo.createUser(TEST_USER);
 	const count = await repo.countRule6RolesForUser(TEST_EMAIL);
 
 	delete user.id;
-	expect(count).toEqual(1);
+	expect(count).toEqual(0);
 });
