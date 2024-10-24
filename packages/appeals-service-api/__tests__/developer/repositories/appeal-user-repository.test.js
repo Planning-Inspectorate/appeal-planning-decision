@@ -68,9 +68,8 @@ it('should get user with email', async () => {
 });
 
 it('should count number of users with rule 6 role by email', async () => {
-	const user = await repo.createUser(TEST_USER);
-	const count = await repo.countRule6RolesForUser(TEST_EMAIL);
+	await repo.createUser(TEST_USER);
+	const count = await repo.countUsersWhereEmailAndRule6Party(TEST_EMAIL);
 
-	delete user.id;
 	expect(count).toEqual(0);
 });

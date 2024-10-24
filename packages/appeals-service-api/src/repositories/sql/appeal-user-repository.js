@@ -106,12 +106,13 @@ class AppealUserRepository {
 	}
 
 	/**
-	 * Count AppealToUsers where user has Rule6Party role
+	 * Count Users where given email user also has Rule6Party role
+	 * Used to confirm whether given user is a Rule 6 User
 	 *
 	 * @param {string} email
 	 * @returns {Promise<number>}
 	 */
-	async countRule6RolesForUser(email) {
+	async countUsersWhereEmailAndRule6Party(email) {
 		return await this.dbClient.appealUser.count({
 			where: {
 				AND: [
