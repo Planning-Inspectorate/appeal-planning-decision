@@ -2,6 +2,7 @@ const { InvocationContext } = require('@azure/functions');
 const handler = require('../../src/functions/appeal-document');
 const createApiClient = require('../../src/common/api-client');
 const config = require('../../src/common/config');
+const { APPEAL_REDACTED_STATUS } = require('pins-data-model');
 
 jest.mock('../../src/common/api-client');
 
@@ -97,9 +98,9 @@ describe('appeal-document', () => {
 			datePublished: null
 		};
 
-		await expect(async () => handler(invalidMessage, ctx)).rejects.toThrowError(
-			'Invalid message schema'
-		);
+		await handler(invalidMessage, ctx);
+
+		expect(ctx.log).toHaveBeenCalledWith('Invalid message status, skipping');
 		expect(mockClient.putAppealDocument).not.toHaveBeenCalled();
 	});
 
@@ -120,22 +121,24 @@ describe('appeal-document', () => {
 		}
 	);
 
-	const invalidRedactedStatuses = ['not_redacted', 'unknown'];
+	const redactedStatuses = [
+		APPEAL_REDACTED_STATUS.NOT_REDACTED,
+		APPEAL_REDACTED_STATUS.NO_REDACTION_REQUIRED,
+		APPEAL_REDACTED_STATUS.REDACTED,
+		null
+	];
 
-	it.each(invalidRedactedStatuses)(
-		'should ignore message if redacted status is not valid: [%s]',
-		async (status) => {
-			const invalidMessage = {
-				...testData,
-				virusCheckStatus: status
-			};
+	it.each(redactedStatuses)('should accept all redaction statuses: [%s]', async (status) => {
+		const message = {
+			...testData,
+			redactedStatus: status
+		};
 
-			await handler(invalidMessage, ctx);
+		const result = await handler(message, ctx);
 
-			expect(ctx.log).toHaveBeenCalledWith('Invalid message status, skipping');
-			expect(mockClient.putAppealDocument).not.toHaveBeenCalled();
-		}
-	);
+		expect(mockClient.putAppealDocument).toHaveBeenCalledWith(message);
+		expect(result).toEqual({});
+	});
 
 	it('Should delete documents if the invocation context says so', async () => {
 		const result = await handler(testData, {

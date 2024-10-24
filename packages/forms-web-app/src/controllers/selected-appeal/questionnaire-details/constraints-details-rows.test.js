@@ -14,7 +14,8 @@ describe('constraintsRows', () => {
 				{
 					id: 1,
 					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
-					filename: 'test.txt'
+					filename: 'test.txt',
+					redacted: true
 				}
 			]
 		});

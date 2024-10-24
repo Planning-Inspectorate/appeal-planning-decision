@@ -14,7 +14,8 @@ describe('consultationRows', () => {
 				{
 					id: 1,
 					documentType: APPEAL_DOCUMENT_TYPE.CONSULTATION_RESPONSES,
-					filename: 'test.txt'
+					filename: 'test.txt',
+					redacted: true
 				}
 			]
 		});

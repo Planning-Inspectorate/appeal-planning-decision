@@ -8,13 +8,9 @@
  */
 
 const { app } = require('@azure/functions');
-const { APPEAL_VIRUS_CHECK_STATUS, APPEAL_REDACTED_STATUS } = require('pins-data-model');
+const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
 
 const VALID_SCAN_STATUSES = [APPEAL_VIRUS_CHECK_STATUS.SCANNED];
-const VALID_REDACTED_STATUSES = [
-	APPEAL_REDACTED_STATUS.REDACTED,
-	APPEAL_REDACTED_STATUS.NO_REDACTION_REQUIRED
-];
 const createApiClient = require('../common/api-client');
 
 /**
@@ -61,30 +57,16 @@ async function processDocumentMetadata(context, documentMessage) {
  * @throws {Error} message schema is invalid
  */
 function checkMessageIsValid(documentMessage, context) {
-	let isValid = false;
+	context.log('documentMessage.virusCheckStatus ', documentMessage);
 
-	context.log('documentMessage.virusCheckStatus ', documentMessage.virusCheckStatus);
-	context.log('documentMessage.datePublished ', documentMessage.datePublished);
-	context.log('documentMessage.redactedStatus ', documentMessage.redactedStatus);
-	context.log('documentMessage.documentId ', documentMessage.documentId);
-
-	if (
-		!documentMessage.virusCheckStatus ||
-		!documentMessage.datePublished ||
-		!documentMessage.redactedStatus ||
-		!documentMessage.documentId
-	) {
+	if (!documentMessage.virusCheckStatus || !documentMessage.documentId) {
 		throw new Error('Invalid message schema');
 	}
 
-	if (
-		VALID_SCAN_STATUSES.includes(documentMessage.virusCheckStatus) &&
-		VALID_REDACTED_STATUSES.includes(documentMessage.redactedStatus)
-	) {
-		isValid = true;
-	}
-
-	return isValid;
+	return (
+		!!documentMessage.datePublished &&
+		VALID_SCAN_STATUSES.includes(documentMessage.virusCheckStatus)
+	);
 }
 
 /**

@@ -15,7 +15,8 @@ const IndirectDocumentsArgsPublishedOnly = {
 				publishedDocumentURI: true,
 				filename: true,
 				documentType: true,
-				datePublished: true
+				datePublished: true,
+				redacted: true
 			}
 		}
 	}
