@@ -126,6 +126,8 @@ model Appeal {
 /// AppealToUser represents the relationships between AppealUser and Appeal
 /// This is a many-to-many relationship.
 model AppealToUser {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
   /// relation to an Appeal
   appealId   String     @db.UniqueIdentifier
   Appeal     Appeal     @relation(fields: [appealId], references: [id])
@@ -137,8 +139,6 @@ model AppealToUser {
   /// must be an AppealToUserRole name value
   role String
   Role AppealToUserRole @relation(fields: [role], references: [name])
-
-  @@id([appealId, userId])
 }
 
 /// AppealToUserRole represents the role a user has in relation to an Appeal
