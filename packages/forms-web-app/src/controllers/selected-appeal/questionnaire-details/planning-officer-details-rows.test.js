@@ -13,12 +13,14 @@ describe('planningOfficerReportRows', () => {
 				{
 					id: 1,
 					documentType: APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT,
-					filename: 'test.txt'
+					filename: 'test.txt',
+					redacted: true
 				},
 				{
 					id: 2,
 					documentType: APPEAL_DOCUMENT_TYPE.DEVELOPMENT_PLAN_POLICIES,
-					filename: 'test2.txt'
+					filename: 'test2.txt',
+					redacted: true
 				}
 			]
 		});

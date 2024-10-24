@@ -668,6 +668,40 @@ const appealDocuments = [
 		origin: 'pins',
 		stage: 'decision',
 		AppealCase: {}
+	},
+	{
+		id: '15113775-801a-46fe-ada7-7432e6e1c571',
+		filename: 'example-false-redaction.txt',
+		originalFilename: 'example.txt',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(),
+		published: true,
+		redacted: false,
+		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
+		documentType: APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM,
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
+	},
+	{
+		id: '3332324c-386e-43c9-803f-f94b58a4a562',
+		filename: 'example-null-redaction.txt',
+		originalFilename: 'example.txt',
+		size: 16,
+		mime: 'text/plain',
+		documentURI: '',
+		dateCreated: new Date(),
+		published: true,
+		redacted: null,
+		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
+		documentType: APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM,
+		sourceSystem: 'appeals',
+		origin: 'pins',
+		stage: 'decision',
+		AppealCase: {}
 	}
 ];
 
