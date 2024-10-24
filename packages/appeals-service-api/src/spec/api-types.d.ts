@@ -458,6 +458,12 @@ export interface AppealCase {
 	planningObligation?: boolean;
 	rule6StatementPublished?: boolean;
 	rule6ProofsEvidencePublished?: boolean;
+	/** @format date-time */
+	rule6StatementDueDate?: string;
+	rule6StatementSubmitted?: boolean;
+	/** @format date-time */
+	rule6ProofEvidenceDueDate?: string;
+	rule6ProofEvidenceSubmitted?: boolean;
 	interestedPartyCommentsPublished?: boolean;
 	Rule6Parties?: object[];
 	AffectedListedBuildings?: object[];
@@ -473,6 +479,18 @@ export interface AppealCase {
 	AppellantProofOfEvidenceSubmission?: AppellantProofOfEvidenceSubmission;
 }
 
+/** A statement document linked to an appeal statement */
+export interface StatementDocument {
+	/** @format uuid */
+	id: string;
+	/** @format uuid */
+	statementId: string | null;
+	/** @format uuid */
+	documentId: string;
+	/** A document associated with an appeal */
+	Document?: Document;
+}
+
 /** A statement made by an LPA or Rule 6 party on an appeal case */
 export interface AppealStatement {
 	/** @format uuid */
@@ -483,7 +501,7 @@ export interface AppealStatement {
 	statement?: string | null;
 	/** @format date-time */
 	submittedDate: string;
-	CommentStatementDocuments?: CommentStatementDocument[];
+	StatementDocuments?: StatementDocument[];
 }
 
 /** An appeal submission created in the Front Office */
@@ -540,7 +558,7 @@ export interface AppealToUser {
 	 */
 	appealId: string;
 	/** Role user has on the appeal */
-	role: 'Appellant' | 'Agent' | 'InterestedParty';
+	role: 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party';
 }
 
 /** An appeal user */
@@ -926,6 +944,18 @@ export interface Event {
 	endDate: string;
 }
 
+/** A final comment document linked to an appeal statement */
+export interface FinalCommentDocument {
+	/** @format uuid */
+	id: string;
+	/** @format uuid */
+	commentId: string | null;
+	/** @format uuid */
+	documentId: string;
+	/** A document associated with an appeal */
+	Document?: Document;
+}
+
 /** A final comment made by an LPA, appellant or Rule 6 party on an appeal case */
 export interface FinalComment {
 	/** @format uuid */
@@ -937,7 +967,7 @@ export interface FinalComment {
 	comments?: string | null;
 	/** @format date-time */
 	submittedDate: string;
-	CommentStatementDocuments?: CommentStatementDocument[];
+	FinalCommentDocuments?: FinalCommentDocument[];
 	/** A Service User */
 	ServiceUser?: ServiceUser;
 }

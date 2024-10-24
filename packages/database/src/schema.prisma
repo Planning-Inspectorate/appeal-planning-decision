@@ -373,8 +373,12 @@ model AppealCase {
   // rule 6 fields
   //***************************************************************************
 
-  rule6StatementPublished      Boolean @default(false) /// todo: use date instead
-  rule6ProofsEvidencePublished Boolean @default(false) /// todo: use date instead
+  rule6StatementPublished      Boolean   @default(false) /// todo: use date instead
+  rule6ProofsEvidencePublished Boolean   @default(false) /// todo: use date instead
+  rule6StatementDueDate        DateTime?
+  rule6StatementSubmitted      Boolean   @default(false)
+  rule6ProofEvidenceDueDate    DateTime?
+  rule6ProofEvidenceSubmitted  Boolean   @default(false)
 
   //***************************************************************************
   // interested party fields

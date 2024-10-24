@@ -134,6 +134,10 @@ class ApiError {
 		return new ApiError(400, { errors: [`Can't match this user to the lpa`] });
 	}
 
+	static invalidRole() {
+		return new ApiError(400, { errors: [`Invalid Role`] });
+	}
+
 	// Token
 	static invalidToken() {
 		return new ApiError(400, { errors: [`Invalid Token`] });

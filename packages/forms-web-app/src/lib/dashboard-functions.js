@@ -62,6 +62,9 @@ const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
 const appellantFinalCommentBaseUrl = '/appeals/final-comments';
 const appellantProofsBaseUrl = '/appeals/proof-evidence';
 
+const rule6StatementBaseUrl = 'rule-6/statement';
+const rule6ProofsBaseUrl = 'rule-6/proofs-of-evidence';
+
 const INVALID_APPEAL_TIME_LIMIT = 28;
 
 // MAP DATABASE RETURN OBJECTS TO DASHBOARD DISPLAY DATA
@@ -119,6 +122,20 @@ const mapToAppellantDashboardDisplayData = (appealData) => {
 	return null;
 };
 
+/**
+ * @param {AppealCaseDetailed} appealCaseData
+ * @returns {DashboardDisplayData}
+ */
+const mapToRule6DashboardDisplayData = (appealCaseData) => ({
+	appealNumber: appealCaseData.caseReference,
+	address: formatAddress(appealCaseData),
+	appealType: appealCaseData.appealTypeCode,
+	nextDocumentDue: determineDocumentToDisplayRule6Dashboard(appealCaseData),
+	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
+	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
+	caseDecisionOutcomeDate: formatDate(appealCaseData.caseDecisionOutcomeDate)
+});
+
 // LPADashboard - ToDo or WaitingToReview FUNCTIONS
 
 /**
@@ -157,6 +174,14 @@ const overdueDocumentNotToBeDisplayed = (dueDocument) => {
  */
 const isToDoAppellantDashboard = (dashboardData) => {
 	return dashboardData.displayInvalid || displayDocumentOnToDo(dashboardData.nextDocumentDue);
+};
+
+/**
+ * @param {DashboardDisplayData} dashboardData
+ * @returns {boolean}
+ */
+const isToDoRule6Dashboard = (dashboardData) => {
+	return displayDocumentOnToDo(dashboardData.nextDocumentDue);
 };
 
 /**
@@ -293,6 +318,35 @@ const determineDocumentToDisplayAppellantDashboard = (caseOrSubmission) => {
 	};
 };
 
+/**
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
+ * @returns {DueDocumentType} object containing details of next due document
+ */
+const determineDocumentToDisplayRule6Dashboard = (appealCaseData) => {
+	if (isRule6StatementDue(appealCaseData)) {
+		return {
+			deadline: appealCaseData.rule6StatementDueDate,
+			dueInDays: calculateDueInDays(appealCaseData.rule6StatementDueDate),
+			documentDue: 'Statement',
+			baseUrl: `${rule6StatementBaseUrl}/${appealCaseData.caseReference}`
+		};
+	} else if (isRule6ProofOfEvidenceDue(appealCaseData)) {
+		return {
+			deadline: appealCaseData.rule6ProofEvidenceDueDate,
+			dueInDays: calculateDueInDays(appealCaseData.rule6ProofEvidenceDueDate),
+			documentDue: 'Proof of Evidence',
+			baseUrl: `${rule6ProofsBaseUrl}/${appealCaseData.caseReference}`
+		};
+	}
+
+	return {
+		deadline: null,
+		dueInDays: 100000,
+		documentDue: null,
+		baseUrl: null
+	};
+};
+
 // Helper functions, not exported, potential for refactoring as repetitive
 
 /**
@@ -371,6 +425,30 @@ const isAppellantProofsOfEvidenceDue = (appealCaseData) => {
  * @param {AppealCaseDetailed} appealCaseData return object from database call
  * @returns {boolean}
  */
+const isRule6StatementDue = (appealCaseData) => {
+	return (
+		!!appealCaseData.rule6StatementDueDate &&
+		!appealCaseData.rule6StatementSubmitted &&
+		appealCaseData.caseStatus === APPEAL_CASE_STATUS.STATEMENTS
+	);
+};
+
+/**
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
+ * @returns {boolean}
+ */
+const isRule6ProofOfEvidenceDue = (appealCaseData) => {
+	return (
+		!!appealCaseData.rule6ProofEvidenceDueDate &&
+		!appealCaseData.rule6ProofEvidenceSubmitted &&
+		appealCaseData.caseStatus === APPEAL_CASE_STATUS.EVIDENCE
+	);
+};
+
+/**
+ * @param {AppealCaseDetailed} appealCaseData return object from database call
+ * @returns {boolean}
+ */
 const displayInvalidAppeal = (appealCaseData) => {
 	if (appealCaseData.caseStatus === APPEAL_CASE_STATUS.INVALID) {
 		return (
@@ -404,5 +482,7 @@ module.exports = {
 	mapToLPADashboardDisplayData,
 	isToDoLPADashboard,
 	isToDoAppellantDashboard,
-	mapToAppellantDashboardDisplayData
+	mapToAppellantDashboardDisplayData,
+	mapToRule6DashboardDisplayData,
+	isToDoRule6Dashboard
 };

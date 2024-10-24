@@ -4,11 +4,12 @@ const logger = require('../../../lib/logger');
 const { sortByDateFieldDesc } = require('@pins/common/src/lib/appeal-sorting');
 const { filterAppealsWithinGivenDate } = require('#lib/filter-decided-appeals');
 const { filterTime } = require('../../../config');
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 exports.get = async (req, res) => {
 	let viewContext = {};
 	try {
-		const appeals = await req.appealsApiClient.getUserAppeals();
+		const appeals = await req.appealsApiClient.getUserAppeals(APPEAL_USER_ROLES.APPELLANT);
 		if (appeals?.length > 0) {
 			const decidedAppeals = appeals
 				.map(mapToAppellantDashboardDisplayData)
