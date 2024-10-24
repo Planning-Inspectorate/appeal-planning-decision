@@ -564,8 +564,8 @@ model Document {
 
   // states
   virusCheckStatus String? // nullble?
-  published        Boolean @default(false)
-  redacted         Boolean @default(false)
+  published        Boolean  @default(false)
+  redacted         Boolean?
   version          Int?
   fileMD5          String?
   owner            String?

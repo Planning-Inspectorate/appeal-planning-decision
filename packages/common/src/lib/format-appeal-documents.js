@@ -65,9 +65,13 @@ exports.formatNotificationMethod = (caseData) => {
  * @returns {string}
  */
 const formatDocumentLink = (document) => {
-	return `<a href="/published-document/${document.id}" class="govuk-link">${escape(
-		document.filename
-	)}</a>`;
+	if (document.redacted) {
+		return `<a href="/published-document/${document.id}" class="govuk-link">${escape(
+			document.filename
+		)}</a>`;
+	}
+
+	return escape(document.filename) + ' - awaiting review';
 };
 
 /**

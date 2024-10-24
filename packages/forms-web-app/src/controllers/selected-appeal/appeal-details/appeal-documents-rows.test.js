@@ -15,7 +15,8 @@ describe('appeal-documents-rows', () => {
 					{
 						id: 1,
 						documentType: APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM,
-						filename: 'test.txt'
+						filename: 'test.txt',
+						redacted: true
 					}
 				]
 			},
