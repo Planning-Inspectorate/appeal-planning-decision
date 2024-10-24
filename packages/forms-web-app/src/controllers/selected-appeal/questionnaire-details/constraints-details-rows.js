@@ -4,6 +4,7 @@ const {
 	formatDocumentDetails,
 	documentExists
 } = require('@pins/common');
+const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
@@ -13,6 +14,7 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
+	const isNotHAS = caseData.appealTypeCode !== APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS;
 
 	const affectedListedBuildings = caseData.AffectedListedBuildings;
 	const showAffectedListed = !!(affectedListedBuildings && affectedListedBuildings.length);
@@ -49,8 +51,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Affects a scheduled monument',
 			valueText: formatYesOrNo(caseData, 'scheduledMonument'),
-			condition: () =>
-				caseData.scheduledMonument !== undefined && caseData.scheduledMonument !== null
+			condition: () => isNotHAS && conditionYesOrNo(caseData.scheduledMonument)
 		},
 		{
 			keyText: 'Conservation area',
@@ -68,7 +69,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Protected species',
 			valueText: formatYesOrNo(caseData, 'protectedSpecies'),
-			condition: () => conditionYesOrNo(caseData.protectedSpecies)
+			condition: () => isNotHAS && conditionYesOrNo(caseData.protectedSpecies)
 		},
 		{
 			keyText: 'Green belt',
@@ -78,22 +79,23 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Area of outstanding natural beauty',
 			valueText: formatYesOrNo(caseData, 'areaOutstandingBeauty'),
-			condition: () => conditionYesOrNo(caseData.areaOutstandingBeauty)
+			condition: () => isNotHAS && conditionYesOrNo(caseData.areaOutstandingBeauty)
 		},
 		{
 			keyText: 'Designated sites',
 			valueText: formatDesignations(caseData),
-			condition: () => !!formatDesignations(caseData)
+			condition: () => isNotHAS && !!formatDesignations(caseData)
 		},
 		{
 			keyText: 'Tree Preservation Order',
 			valueText: formatYesOrNo(caseData, 'treePreservationOrder'),
-			condition: () => conditionYesOrNo(caseData.treePreservationOrder)
+			condition: () => isNotHAS && conditionYesOrNo(caseData.treePreservationOrder)
 		},
 		{
 			keyText: 'Uploaded Tree Preservation Order extent',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			condition: () =>
+				isNotHAS &&
 				!!caseData.treePreservationOrder &&
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			isEscaped: true
@@ -101,17 +103,18 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Gypsy or Traveller',
 			valueText: formatYesOrNo(caseData, 'gypsyTraveller'),
-			condition: () => conditionYesOrNo(caseData.gypsyTraveller)
+			condition: () => isNotHAS && conditionYesOrNo(caseData.gypsyTraveller)
 		},
 		{
 			keyText: 'Public right of way',
 			valueText: formatYesOrNo(caseData, 'publicRightOfWay'),
-			condition: () => conditionYesOrNo(caseData.publicRightOfWay)
+			condition: () => isNotHAS && conditionYesOrNo(caseData.publicRightOfWay)
 		},
 		{
 			keyText: 'Uploaded definitive map and statement extract',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
-			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
+			condition: () =>
+				isNotHAS && documentExists(documents, APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
 			isEscaped: true
 		}
 	];

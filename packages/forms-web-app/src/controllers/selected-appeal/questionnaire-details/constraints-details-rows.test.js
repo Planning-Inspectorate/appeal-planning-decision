@@ -1,3 +1,4 @@
+const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { constraintsRows } = require('./constraints-details-rows');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
@@ -267,6 +268,7 @@ describe('constraintsRows', () => {
 
 	it('should create rows with correct data for HAS appeal', () => {
 		const caseData = {
+			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
 			isCorrectAppealType: true,
 			AffectedListedBuildings: [
 				{
@@ -277,6 +279,7 @@ describe('constraintsRows', () => {
 				}
 			],
 			conservationArea: true,
+			scheduledMonument: false,
 			isGreenBelt: true,
 			Documents: [
 				{
