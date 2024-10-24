@@ -1,5 +1,13 @@
 const express = require('express');
-const { userPost, userSearch, userGet, userUpdate, userDelete, userLink } = require('./controller');
+const {
+	userPost,
+	userSearch,
+	userGet,
+	userUpdate,
+	userDelete,
+	userLink,
+	userIsRule6User
+} = require('./controller');
 const router = express.Router();
 const asyncHandler = require('@pins/common/src/middleware/async-handler');
 const { openApiValidatorMiddleware } = require('../../../validators/validate-open-api');
@@ -9,6 +17,7 @@ router.get('/', openApiValidatorMiddleware(), asyncHandler(userSearch));
 router.get('/:userLookup', openApiValidatorMiddleware(), asyncHandler(userGet));
 router.patch('/:userLookup', openApiValidatorMiddleware(), asyncHandler(userUpdate));
 router.delete('/:userLookup', openApiValidatorMiddleware(), asyncHandler(userDelete));
+router.get('/:userLookup/isRule6User', openApiValidatorMiddleware(), asyncHandler(userIsRule6User));
 
 // todo: move this
 router.post('/:userLookup/appeal/:appealId', openApiValidatorMiddleware(), asyncHandler(userLink));

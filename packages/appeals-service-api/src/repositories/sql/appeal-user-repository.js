@@ -106,18 +106,24 @@ class AppealUserRepository {
 	}
 
 	/**
-	 * Get a user with Rule 6 Parties relation by email
+	 * Count AppealToUsers where user has Rule6Party role
 	 *
 	 * @param {string} email
-	 * @returns {Promise<AppealUser|null>}
+	 * @returns {Promise<number>}
 	 */
-	async getWithRule6Parties(email) {
-		return await this.dbClient.appealUser.findUnique({
+	async countRule6RolesForUser(email) {
+		return await this.dbClient.appealUser.count({
 			where: {
-				email
-			},
-			include: {
-				Rule6Parties: true
+				AND: [
+					{ email: email },
+					{
+						Appeals: {
+							some: {
+								role: APPEAL_USER_ROLES.RULE_6_PARTY
+							}
+						}
+					}
+				]
 			}
 		});
 	}

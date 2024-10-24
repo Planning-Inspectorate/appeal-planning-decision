@@ -3,10 +3,10 @@ const {
 	searchUsers,
 	getUserByEmail,
 	getUserById,
-	getUserWithRule6Parties,
 	updateUser,
 	removeLPAUser,
-	linkUserToAppeal
+	linkUserToAppeal,
+	isRule6User
 } = require('./service');
 const ApiError = require('#errors/apiError');
 
@@ -42,14 +42,7 @@ async function userSearch(req, res) {
  * @type {import('express').RequestHandler}
  */
 async function userGet(req, res) {
-	const withRule6Parties = req.query.withRule6Parties;
-	let body;
-
-	if (withRule6Parties) {
-		body = await getUserWithRule6Parties(req.params.userLookup);
-	} else {
-		body = await resolveUser(req.params.userLookup);
-	}
+	const body = await resolveUser(req.params.userLookup);
 
 	res.status(200).send(body);
 }
@@ -100,6 +93,17 @@ async function userLink(req, res) {
 }
 
 /**
+ * @type {import('express').RequestHandler}
+ */
+async function userIsRule6User(req, res) {
+	const { userLookup } = req.params;
+
+	const result = await isRule6User(userLookup);
+
+	res.status(200).send(result);
+}
+
+/**
  * @param {string} userLookup
  * @returns {Promise<import('@prisma/client').AppealUser>}
  */
@@ -119,5 +123,6 @@ module.exports = {
 	userGet,
 	userUpdate,
 	userDelete,
-	userLink
+	userLink,
+	userIsRule6User
 };

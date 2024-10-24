@@ -332,6 +332,17 @@ describe('users v2', () => {
 			expect(response.body.role).toEqual(APPEAL_USER_ROLES.AGENT);
 		});
 	});
+
+	describe('isRule6User', () => {
+		it('should return false if user has no rule 6 roles', async () => {
+			const testEmail = crypto.randomUUID() + '@example.com';
+			await _createSqlUser(testEmail);
+			const response = await appealsApi.get(`/api/v2/users/${testEmail}/isRule6User`);
+
+			expect(response.status).toEqual(200);
+			expect(response.body).toEqual(false);
+		});
+	});
 });
 
 /**
