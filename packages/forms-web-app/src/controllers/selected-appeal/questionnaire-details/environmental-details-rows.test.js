@@ -13,7 +13,8 @@ describe('environmentalRows', () => {
 				{
 					id: 1,
 					documentType: APPEAL_DOCUMENT_TYPE.EIA_SCREENING_DIRECTION,
-					filename: 'test.txt'
+					filename: 'test.txt',
+					redacted: true
 				}
 			]
 		});

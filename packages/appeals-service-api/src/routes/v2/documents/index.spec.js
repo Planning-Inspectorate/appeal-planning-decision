@@ -9,6 +9,7 @@ const {
 } = require('../../../../__tests__/developer/fixtures/appeals-case-data');
 
 const { isFeatureActive } = require('../../../configuration/featureFlag');
+const { APPEAL_REDACTED_STATUS } = require('pins-data-model');
 
 /** @type {import('@prisma/client').PrismaClient} */
 let sqlClient;
@@ -79,7 +80,10 @@ describe('documents v2', () => {
 
 		it('should create a document', async () => {
 			await sqlClient.appealCase.create({
-				data: { Appeal: { create: {} }, ...createTestAppealCase('ref_001', 'HAS', 'lpa_001') }
+				data: {
+					Appeal: { create: {} },
+					...createTestAppealCase('createDocument_ref_001', 'HAS', 'lpa_001')
+				}
 			});
 
 			/** @type {import('pins-data-model/src/schemas').AppealDocument} */
@@ -129,6 +133,63 @@ describe('documents v2', () => {
 			expect(document?.published).toBe(true);
 			expect(document?.redacted).toBe(true);
 			expect(document?.AppealCase.caseReference).toBe('ref_001');
+		});
+
+		it('should accept unredacted docs', async () => {
+			await sqlClient.appealCase.create({
+				data: {
+					Appeal: { create: {} },
+					...createTestAppealCase('unredacted_ref_001', 'HAS', 'lpa_001')
+				}
+			});
+
+			/** @type {import('pins-data-model/src/schemas').AppealDocument} */
+			const doc = {
+				documentId: '8964ae94-a34f-477f-8248-ef22ae878e38',
+				caseId: 1,
+				caseReference: 'ref_001',
+				version: 1,
+				filename: 'test.jpg',
+				originalFilename: 'test.jpg',
+				size: 1024,
+				mime: 'image/jpeg',
+				documentURI: 'https://example.com/doc_001',
+				publishedDocumentURI: 'https://example.com/published/doc_001',
+				virusCheckStatus: 'scanned',
+				fileMD5: '6f1ed002ab5595859014ebf0951522d9',
+				dateCreated: new Date().toISOString(),
+				dateReceived: new Date().toISOString(),
+				datePublished: new Date().toISOString(),
+				lastModified: new Date().toISOString(),
+				caseType: 'C',
+				redactedStatus: null,
+				documentType: 'appellantCaseCorrespondence',
+				sourceSystem: 'back-office-appeals',
+				origin: 'citizen',
+				owner: 'Jason',
+				author: 'Tom',
+				description: 'A picture of a cow',
+				caseStage: 'appeal-decision',
+				horizonFolderId: 'hor_001'
+			};
+			await appealsApi.put('/api/v2/documents').send(doc);
+			const document = await sqlClient.document.findFirst({
+				where: {
+					id: doc.id
+				}
+			});
+			expect(document?.redacted).toBe(null);
+
+			const id2 = 'b57f7755-7f51-4db2-8a4f-397b57b3f208';
+			await appealsApi
+				.put('/api/v2/documents')
+				.send({ ...doc, id: id2, redacted: APPEAL_REDACTED_STATUS.NOT_REDACTED });
+			const document2 = await sqlClient.document.findFirst({
+				where: {
+					id: id2
+				}
+			});
+			expect(document2?.redacted).toBe(false);
 		});
 	});
 

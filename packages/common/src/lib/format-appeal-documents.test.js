@@ -2,7 +2,8 @@ const {
 	documentExists,
 	hasNotificationMethods,
 	formatNotificationMethod,
-	sortDocumentsByDate
+	sortDocumentsByDate,
+	formatDocumentDetails
 } = require('./format-appeal-documents');
 const { LPA_NOTIFICATION_METHODS } = require('../database/data-static');
 
@@ -66,6 +67,22 @@ describe('format-case-type:', () => {
 			).toEqual('A site notice\nLetter/email to interested parties');
 		});
 	});
+
+	describe('formatDocumentLink', () => {
+		it('returns "No" for no documents', () => {
+			expect(formatDocumentDetails([], '')).toEqual('No');
+			expect(formatDocumentDetails([{ documentType: 'a' }], 'b')).toEqual('No');
+		});
+
+		it('returns escaped links for document, or awaiting review for unredacted docs', () => {
+			const doc1 = { documentType: 'a', id: '1', filename: 'test>1', redacted: true };
+			const doc2 = { documentType: 'a', id: '2', filename: 'test>2', redacted: false };
+			expect(formatDocumentDetails([doc1, doc2], 'a')).toEqual(
+				'<a href="/published-document/1" class="govuk-link">test&gt;1</a>\ntest&gt;2 - awaiting review'
+			);
+		});
+	});
+
 	describe('sortDocumentsByDate', () => {
 		it('should sort documents by datePublished in ascending order', () => {
 			const documents = [
