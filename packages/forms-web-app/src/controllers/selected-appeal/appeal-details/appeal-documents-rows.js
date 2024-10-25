@@ -1,5 +1,5 @@
 const { formatDocumentDetails, formatNewDescription } = require('@pins/common');
-const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { APPEALS_CASE_DATA, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
@@ -32,7 +32,7 @@ exports.documentsRows = (caseData, userType) => {
 		{
 			keyText: 'Plans, drawings and supporting documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
-			condition: () => true,
+			condition: () => caseData.appealTypeCode === APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78,
 			isEscaped: true
 		},
 		{
