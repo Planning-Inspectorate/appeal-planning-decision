@@ -208,6 +208,7 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAhead(1)),
 		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		rule6StatementDueDate: pickRandom(datesNMonthsAhead(1)),
 		developmentDescription: 'test description',
 		isGreenBelt: true,
 		ownsSomeLand: true,
@@ -277,6 +278,7 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		appellantStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		CaseType: { connect: { processCode: 'HAS' } },
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.ISSUE_DETERMINATION }
 		},
@@ -620,6 +622,7 @@ const lpaAppealCaseData = [
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		rule6ProofEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
