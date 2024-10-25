@@ -139,8 +139,7 @@ const setLPAUserStatus = async (req, userId, status) => {
  */
 
 const isRule6UserByEmail = async (req, email) => {
-	const isRule6User = await req.appealsApiClient.isRule6User(email);
-	return isRule6User;
+	return await req.appealsApiClient.isRule6User(email);
 };
 
 module.exports = {
