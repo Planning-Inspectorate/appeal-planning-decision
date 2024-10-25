@@ -1,5 +1,4 @@
 const config = require('./configuration/config');
-const http = require('http');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { pinoHttp } = require('pino-http');
@@ -8,6 +7,11 @@ const logger = require('./lib/logger');
 const routes = require('./routes');
 require('express-async-errors');
 const app = express();
+
+const https = require('https');
+const http = require('http');
+https.globalAgent = new https.Agent({ keepAlive: false });
+http.globalAgent = new http.Agent({ keepAlive: false });
 
 app
 	.use(bodyParser.json())

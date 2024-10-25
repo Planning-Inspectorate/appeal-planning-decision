@@ -35,6 +35,11 @@ const { spoolRoutes } = require('@pins/common');
 
 const app = express();
 
+const https = require('https');
+const http = require('http');
+https.globalAgent = new https.Agent({ keepAlive: false });
+http.globalAgent = new http.Agent({ keepAlive: false });
+
 app.use(
 	pinoHttp({
 		logger,
