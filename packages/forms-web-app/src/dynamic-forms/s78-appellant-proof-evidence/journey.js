@@ -14,9 +14,9 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
  * @returns {Section[]}
  */
 const sections = [
-	new Section('', config.dynamicForms.DEFAULT_SECTION).addQuestion(
-		questions.uploadAppellantProofOfEvidenceDocuments
-	)
+	new Section('', config.dynamicForms.DEFAULT_SECTION)
+		.addQuestion(questions.uploadAppellantProofOfEvidenceDocuments)
+		.addQuestion(questions.appellantAddWitnesses)
 ];
 
 const baseAppellantProofEvidenceUrl = '/appeals/proof-evidence';
