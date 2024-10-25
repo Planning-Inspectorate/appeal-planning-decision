@@ -13,6 +13,7 @@ router.use(require('./request-new-code'));
 router.use(require('./code-expired'));
 
 router.use(require('./your-appeals'));
+router.use(require('./decided-appeals'));
 
 router.get('/', (req, res) => res.redirect('rule-6/your-appeals'));
 

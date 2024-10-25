@@ -1,0 +1,78 @@
+{% extends "layouts/no-banner-link/main.njk" %}
+
+ {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+ {% from "govuk/components/button/macro.njk" import govukButton %}
+ {% from "govuk/components/radios/macro.njk" import govukRadios %}
+ {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+ {% from "govuk/components/table/macro.njk" import govukTable %}
+ {%- from "govuk/components/tag/macro.njk" import govukTag -%}
+
+ {% set title="
+ Decided appeals - Appeal a planning decision - GOV.UK" %}
+
+{% block backButton %}
+  {{ govukBackLink({
+    text: "Back to your appeals",
+    href: "/rule-6/your-appeals",
+    attributes: {
+      'data-cy': 'back'
+    }
+  }) }}
+{% endblock %}
+
+ {% block pageTitle %}
+   {{ title }}
+ {% endblock %}
+
+ {% block content %}
+   <div class="govuk-grid-row">
+     <div class="govuk-grid-column-full">
+
+       {% if errorSummary %}
+         {{ govukErrorSummary({
+           titleText: "There is a problem",
+           errorList: errorSummary
+         }) }}
+       {% endif %}
+
+
+        <h1 class="govuk-heading-l">Decided appeals</h1>
+        <table class="govuk-table govuk-!-margin-top-3">
+          <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+              <th scope="col" class="govuk-table__header">Appeal number</th>
+              <th scope="col" class="govuk-table__header govuk-!-width-one-half">Site address</th>
+              <th scope="col" class="govuk-table__header">Decision date</th>
+              <th scope="col" class="govuk-table__header govuk-!-width-one-third">Appeal type</th>
+              <th scope="col" class="govuk-table__header govuk-!-width-one-third">Decision</th>
+            </tr>
+          </thead>
+          <tbody class="govuk-table__body">
+              {% for item in decidedAppeals %}
+                <tr class="govuk-table__row">
+                  <td class="govuk-table__cell">
+                    <a href="/appeals/{{item.appealNumber}}" class="govuk-link">
+                      {{ item.appealNumber }}
+                    </a>
+                  </td>
+                  <td class="govuk-table__cell">
+                    {{ item.address }}
+                  </td>
+                  <td class="govuk-table__cell">
+                      {{item.caseDecisionOutcomeDate | date('D MMM YYYY') }}
+                  </td>
+                  <td class="govuk-table__cell">{{item.appealType}}</td>
+                  <td class="govuk-table__cell">
+                    {{ govukTag({
+                      text: item.appealDecision,
+                      classes: "govuk-tag--" + item.appealDecisionColor
+                    }) }}
+                  </td>
+                </tr>
+              {% endfor %}
+
+          </tbody>
+        </table>
+     </div>
+   </div>
+ {% endblock %}

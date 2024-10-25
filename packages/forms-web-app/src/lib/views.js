@@ -241,7 +241,8 @@ const VIEW = {
 		CODE_EXPIRED: 'rule-6/code-expired',
 		NEED_NEW_CODE: 'rule-6/need-new-code',
 		REQUEST_NEW_CODE: 'rule-6/request-new-code',
-		DASHBOARD: 'rule-6/your-appeals'
+		DASHBOARD: 'rule-6/your-appeals',
+		DECIDED_APPEALS: 'rule-6/decided-appeals'
 	},
 
 	MESSAGES: {
