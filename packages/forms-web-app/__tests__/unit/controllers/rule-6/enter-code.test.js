@@ -184,7 +184,9 @@ describe('controllers/rule-6/enter-code', () => {
 			expect(res.render).toHaveBeenCalledWith(`${rule6Views.ENTER_CODE}`, {
 				token: req.body['email-code'],
 				errors: errors,
-				errorSummary: errorSummary
+				errorSummary: errorSummary,
+				requestNewCodeLink: `/${rule6Views.REQUEST_NEW_CODE}`,
+				confirmEmailLink: `/${rule6Views.EMAIL_ADDRESS}`
 			});
 			expect(isTokenValid).not.toHaveBeenCalled();
 		});
@@ -229,7 +231,9 @@ describe('controllers/rule-6/enter-code', () => {
 				errors: {
 					'email-code': { msg: errorMessage }
 				},
-				errorSummary: [{ text: errorMessage, href: '#email-code' }]
+				errorSummary: [{ text: errorMessage, href: '#email-code' }],
+				requestNewCodeLink: `/${rule6Views.REQUEST_NEW_CODE}`,
+				confirmEmailLink: `/${rule6Views.EMAIL_ADDRESS}`
 			});
 		});
 
@@ -257,7 +261,9 @@ describe('controllers/rule-6/enter-code', () => {
 			expect(res.render).toHaveBeenCalledWith(`${rule6Views.ENTER_CODE}`, {
 				token: req.body['email-code'],
 				errors: errors,
-				errorSummary: errorSummary
+				errorSummary: errorSummary,
+				requestNewCodeLink: `/${rule6Views.REQUEST_NEW_CODE}`,
+				confirmEmailLink: `/${rule6Views.EMAIL_ADDRESS}`
 			});
 		});
 
