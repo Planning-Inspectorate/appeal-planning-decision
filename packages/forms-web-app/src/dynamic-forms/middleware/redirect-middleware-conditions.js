@@ -45,8 +45,21 @@ const lpaFinalCommentSkipConditions = (question, journeyResponse) => {
 	return false;
 };
 
+/**
+ * @param {import('../section').Question} question
+ * @param {import('../journey-response').JourneyResponse} journeyResponse
+ * @returns {boolean}
+ */
+const appellantProofEvidenceSkipConditions = (question, journeyResponse) => {
+	if (question.fieldName === 'uploadAppellantWitnessesEvidence') {
+		return journeyResponse.answers['appellantWitnesses'] !== 'yes';
+	}
+	return false;
+};
+
 module.exports = {
 	skipIfNoAdditionalDocuments,
 	appellantFinalCommentSkipConditions,
-	lpaFinalCommentSkipConditions
+	lpaFinalCommentSkipConditions,
+	appellantProofEvidenceSkipConditions
 };

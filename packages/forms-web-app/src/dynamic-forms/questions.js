@@ -2299,6 +2299,19 @@ exports.questionProps = {
 		fieldName: 'appellantWitnesses',
 		url: 'add-witnesses',
 		validators: [new RequiredValidator('Select yes if you need to add any witnesses')]
+	},
+	uploadAppellantWitnessesEvidence: {
+		type: 'multi-file-upload',
+		title: 'Upload your witnesses and their evidence',
+		question: 'Upload your witnesses and their evidence',
+		fieldName: 'uploadAppellantWitnessesEvidence',
+		html: 'resources/upload-proof-evidence/witnesses-evidence.html',
+		url: 'upload-witnesses-evidence',
+		validators: [
+			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadAppellantWitnessesEvidence
 	}
 };
 

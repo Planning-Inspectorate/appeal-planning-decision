@@ -16,9 +16,9 @@ const { getJourney } = require('../../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../../journeys');
 const setDefaultSection = require('../../../dynamic-forms/middleware/set-default-section');
 const redirectToUnansweredQuestion = require('../../../dynamic-forms/middleware/redirect-to-unanswered-question');
-// const {
-// 	appellantFinalCommentSkipConditions
-// } = require('../../../dynamic-forms/middleware/redirect-middleware-conditions');
+const {
+	appellantProofEvidenceSkipConditions
+} = require('../../../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../../dynamic-forms/middleware/check-not-submitted');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
@@ -58,7 +58,7 @@ router.get(
 	'/:referenceId',
 	getJourneyResponse(),
 	getJourney(journeys),
-	redirectToUnansweredQuestion([]), // empty arr until put dependent question in journey
+	redirectToUnansweredQuestion([appellantProofEvidenceSkipConditions]),
 	checkNotSubmitted(dashboardUrl),
 	proofOfEvidenceTaskList
 );
