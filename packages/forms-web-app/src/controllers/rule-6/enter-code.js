@@ -30,7 +30,7 @@ const getEnterCodeR6 = (views) => {
 
 		if (Object.keys(errors).length > 0) {
 			logger.error(errors, 'failed to send token to returning user');
-			return renderEnterCodePage();
+			return renderEnterCodePage(`/${views.EMAIL_ADDRESS}`);
 		}
 
 		/** @type {string|undefined} */
@@ -161,7 +161,9 @@ const postEnterCodeR6 = (views) => {
 			res.render(views.ENTER_CODE, {
 				token,
 				errors,
-				errorSummary
+				errorSummary,
+				requestNewCodeLink: `/${views.REQUEST_NEW_CODE}`,
+				confirmEmailLink: `/${views.EMAIL_ADDRESS}`
 			});
 		}
 	};
