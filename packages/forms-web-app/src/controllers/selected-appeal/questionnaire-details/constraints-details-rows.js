@@ -6,6 +6,7 @@ const {
 } = require('@pins/common');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed} caseData
@@ -14,7 +15,6 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
-	const isNotHAS = caseData.appealTypeCode !== APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS;
 
 	const affectedListedBuildings = caseData.AffectedListedBuildings;
 	const showAffectedListed = !!(affectedListedBuildings && affectedListedBuildings.length);
@@ -35,12 +35,12 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Is this the correct type of appeal',
 			valueText: formatYesOrNo(caseData, 'isCorrectAppealType'),
-			condition: () => conditionYesOrNo(caseData.isCorrectAppealType)
+			condition: () => isNotUndefinedOrNull(caseData.isCorrectAppealType)
 		},
 		{
 			keyText: 'Affects a listed building',
 			valueText: affectedListedBuildingText,
-			condition: () => conditionYesOrNo(caseData.AffectedListedBuildings)
+			condition: () => isNotUndefinedOrNull(caseData.AffectedListedBuildings)
 		},
 		{
 			// todo: bring in listed building details after move of listed building data to sql
@@ -51,12 +51,14 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Affects a scheduled monument',
 			valueText: formatYesOrNo(caseData, 'scheduledMonument'),
-			condition: () => isNotHAS && conditionYesOrNo(caseData.scheduledMonument)
+			condition: () =>
+				caseData.appealTypeCode !== APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS &&
+				isNotUndefinedOrNull(caseData.scheduledMonument)
 		},
 		{
 			keyText: 'Conservation area',
 			valueText: formatYesOrNo(caseData, 'conservationArea'),
-			condition: () => conditionYesOrNo(caseData.conservationArea)
+			condition: () => isNotUndefinedOrNull(caseData.conservationArea)
 		},
 		{
 			keyText: 'Uploaded conservation area map and guidance',
@@ -69,33 +71,32 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Protected species',
 			valueText: formatYesOrNo(caseData, 'protectedSpecies'),
-			condition: () => isNotHAS && conditionYesOrNo(caseData.protectedSpecies)
+			condition: () => isNotUndefinedOrNull(caseData.protectedSpecies)
 		},
 		{
 			keyText: 'Green belt',
 			valueText: formatYesOrNo(caseData, 'isGreenBelt'),
-			condition: () => conditionYesOrNo(caseData.isGreenBelt)
+			condition: () => isNotUndefinedOrNull(caseData.isGreenBelt)
 		},
 		{
 			keyText: 'Area of outstanding natural beauty',
 			valueText: formatYesOrNo(caseData, 'areaOutstandingBeauty'),
-			condition: () => isNotHAS && conditionYesOrNo(caseData.areaOutstandingBeauty)
+			condition: () => isNotUndefinedOrNull(caseData.areaOutstandingBeauty)
 		},
 		{
 			keyText: 'Designated sites',
 			valueText: formatDesignations(caseData),
-			condition: () => isNotHAS && !!formatDesignations(caseData)
+			condition: () => !!formatDesignations(caseData)
 		},
 		{
 			keyText: 'Tree Preservation Order',
 			valueText: formatYesOrNo(caseData, 'treePreservationOrder'),
-			condition: () => isNotHAS && conditionYesOrNo(caseData.treePreservationOrder)
+			condition: () => isNotUndefinedOrNull(caseData.treePreservationOrder)
 		},
 		{
 			keyText: 'Uploaded Tree Preservation Order extent',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			condition: () =>
-				isNotHAS &&
 				!!caseData.treePreservationOrder &&
 				documentExists(documents, APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN),
 			isEscaped: true
@@ -103,29 +104,20 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Gypsy or Traveller',
 			valueText: formatYesOrNo(caseData, 'gypsyTraveller'),
-			condition: () => isNotHAS && conditionYesOrNo(caseData.gypsyTraveller)
+			condition: () => isNotUndefinedOrNull(caseData.gypsyTraveller)
 		},
 		{
 			keyText: 'Public right of way',
 			valueText: formatYesOrNo(caseData, 'publicRightOfWay'),
-			condition: () => isNotHAS && conditionYesOrNo(caseData.publicRightOfWay)
+			condition: () => isNotUndefinedOrNull(caseData.publicRightOfWay)
 		},
 		{
 			keyText: 'Uploaded definitive map and statement extract',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
-			condition: () =>
-				isNotHAS && documentExists(documents, APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
+			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.DEFINITIVE_MAP_STATEMENT),
 			isEscaped: true
 		}
 	];
 
 	return rows;
-};
-
-/**
- * @param {any} input
- * @returns {boolean}
- */
-const conditionYesOrNo = (input) => {
-	return !(input === undefined || input === null);
 };
