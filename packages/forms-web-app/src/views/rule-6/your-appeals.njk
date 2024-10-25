@@ -23,14 +23,12 @@
          }) }}
        {% endif %}
 
-
         <h1 class="govuk-heading-l">Your appeals</h1>
 
         {% set toDoHtml %}
           <div>
               <table class="govuk-table govuk-!-margin-top-3">
                 {% if noToDoAppeals %}
-                  <h2 class="govuk-heading-l">Your appeals</h2>
                   <p class="govuk-body">There are currently no appeals in progress.</p>
                 {% else %}
                   <caption class="govuk-table__caption govuk-table__caption--l">To do</caption>
@@ -45,38 +43,28 @@
                   </thead>
                   <tbody class="govuk-table__body">
                       {% for item in toDoAppeals %}
-                        <tr class="govuk-table__row">
+												<tr class="govuk-table__row">
+													{# Appeal number #}
                           <td class="govuk-table__cell">
-                            {% if item.isDraft %}
-                              <strong class='govuk-tag govuk-tag--yellow'>DRAFT</strong>
-                            {%else %}
                               <a href="/appeals/{{item.appealNumber}}" class="govuk-link">
                                 {{item.appealNumber}}
                               </a>
-                            {% endif %}
                           </td>
+													{# Address #}
                           <td class="govuk-table__cell">
                             {{ item.address }}
                           </td>
+													{# Appeal type #}
                           <td class="govuk-table__cell">{{item.appealType}}</td>
+                        	{# Deadline #}
                           <td class="govuk-table__cell">
-														{% if item.displayInvalid %}
-														{% else %}
-                              {{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
-														{% endif %}
+                            {{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
                           </td>
+													{# To do #}
                           <td class="govuk-table__cell">
-                            {% if item.isDraft %}
-                              <a href="/appeals/your-appeals/continue/{{item.appealId}}" class="govuk-link">
-                                Continue
-                              </a>
-														{% elif item.displayInvalid %}
-															<strong class='govuk-tag govuk-tag--grey'>INVALID</strong>
-                            {% else %}
-                              <a href="{{item.nextDocumentDue.baseUrl}}" class="govuk-link">
-                                {{item.nextDocumentDue.documentDue}}
-                              </a>
-                            {% endif %}
+                            <a href="{{item.nextDocumentDue.baseUrl}}" class="govuk-link">
+                              {{item.nextDocumentDue.documentDue}}
+                            </a>
                           </td>
                         </tr>
                       {% endfor %}
@@ -102,19 +90,19 @@
                 <tbody class="govuk-table__body">
                     {% for item in waitingForReviewAppeals %}
                       <tr class="govuk-table__row">
+												{# Appeal number #}
                         <td class="govuk-table__cell">
-                          {% if item.isDraft %}
-                            <strong class='govuk-tag govuk-tag--yellow'>DRAFT</strong>
-                          {%else %}
-                            <a href="/appeals/{{item.appealNumber}}" class="govuk-link">
-                              {{item.appealNumber}}
-                            </a>
-                          {% endif %}
+                          <a href="/appeals/{{item.appealNumber}}" class="govuk-link">
+                            {{item.appealNumber}}
+                          </a>
                         </td>
+												{# Address #}
                         <td class="govuk-table__cell">
                           {{ item.address }}
                         </td>
+												{# Appeal type #}
                         <td class="govuk-table__cell">{{item.appealType}}</td>
+												{# Status #}
                         <td class="govuk-table__cell">
                           <strong class='govuk-tag govuk-tag--blue'>WITH CASE OFFICER</strong>
                         </td>
@@ -146,14 +134,7 @@
         }) }}
 
         <p class="govuk-body">
-          <a href="/rule-6/your-appeals/decided-appeals" class="govuk-link">
-						{{decidedAppealsCount}} decided
-							{% if decidedAppealsCount == 1 %}
-            		appeal
-          		{% else %}
-            		appeals
-          		{% endif %}
-					</a>
+          <a href="/rule-6/decided-appeals" class="govuk-link">Decided appeals</a>
         </p>
      </div>
    </div>
