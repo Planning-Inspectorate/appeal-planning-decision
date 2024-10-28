@@ -550,6 +550,40 @@ exports.appellantFinalCommentSubmitted = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
+exports.submitAppellantProofEvidence = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		res.render('./error/not-found.njk');
+		return;
+	}
+
+	await req.appealsApiClient.submitAppellantProofEvidenceSubmission(caseReference);
+
+	return res.redirect(`/appeals/proof-evidence/${caseReference}/submitted-proof-evidence`);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.appellantProofEvidenceSubmitted = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.render('./error/not-found.njk');
+	}
+
+	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
+		caseReference
+	});
+};
+
+/**
+ * @type {import('express').Handler}
+ */
 exports.submitLpaFinalComment = async (req, res) => {
 	const { journey } = res.locals;
 	const caseReference = journey.response.answers.caseReference;
