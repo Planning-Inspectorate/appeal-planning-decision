@@ -421,15 +421,15 @@ const appealCases = [
 		isCorrectAppealType: true,
 		scheduledMonument: false,
 		conservationArea: false,
-		protectedSpecies: false,
-		isGreenBelt: false,
-		areaOutstandingBeauty: false,
-		designatedSites: 'None',
-		treePreservationOrder: false,
-		gypsyTraveller: true,
-		publicRightOfWay: false,
+		protectedSpecies: null,
+		isGreenBelt: true,
+		areaOutstandingBeauty: null,
+		designatedSites: null,
+		treePreservationOrder: null,
+		gypsyTraveller: null,
+		publicRightOfWay: null,
 		// environmental
-		environmentalImpactSchedule: 'no',
+		environmentalImpactSchedule: null,
 		sensitiveArea: false,
 		columnTwoThreshold: false,
 		screeningOpinion: false,
@@ -440,23 +440,25 @@ const appealCases = [
 		consultationResponses: false,
 		otherPartyRepresentations: false,
 		// planning officer reports
-		emergingPlan: false,
-		supplementaryPlanningDocs: false,
-		infrastructureLevy: true,
-		infrastructureLevyAdopted: false,
-		infrastructureLevyExpectedDate: new Date(Date.now()),
+		emergingPlan: true,
+		supplementaryPlanningDocs: true,
+		infrastructureLevy: null,
+		infrastructureLevyAdopted: null,
+		infrastructureLevyExpectedDate: null,
 		// site access
-		lpaSiteAccess: false,
-		neighbouringSiteAccess: false,
-		addNeighbouringSiteAccess: true,
-		lpaSiteSafetyRisks: false,
+		lpaSiteAccess: true,
+		lpaSiteAccessDetails: 'site access details',
+		neighbouringSiteAccess: null,
+		addNeighbouringSiteAccess: null,
+		neighbouringSiteAccessDetails: null,
+		lpaSiteSafetyRisks: true,
+		lpaSiteSafetyRiskDetails: 'generic dangers',
 		// appeal process
-		lpaProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
-		lpaPreferInquiryDetails: 'Example preference',
-		lpaPreferInquiryDuration: '6',
+		lpaProcedurePreference: null,
+		lpaProcedurePreferenceDetails: null,
+		lpaProcedurePreferenceDuration: null,
 		changedDevelopmentDescription: true,
-		newConditionDetails: 'Example new conditions',
-		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } }
+		newConditionDetails: 'Example new conditions'
 	},
 	{
 		Appeal: {
@@ -960,6 +962,54 @@ const caseListedBuilding = [
  * @type {import('@prisma/client').Prisma.AppealCaseLpaNotificationMethodCreateInput[]}
  */
 const caseNotificationMethods = [
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceOne
+			}
+		},
+		LPANotificationMethod: {
+			connect: {
+				key: 'notice'
+			}
+		}
+	},
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceOne
+			}
+		},
+		LPANotificationMethod: {
+			connect: {
+				key: 'notice'
+			}
+		}
+	},
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceOne
+			}
+		},
+		LPANotificationMethod: {
+			connect: {
+				key: 'letter'
+			}
+		}
+	},
+	{
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceOne
+			}
+		},
+		LPANotificationMethod: {
+			connect: {
+				key: 'advert'
+			}
+		}
+	},
 	{
 		AppealCase: {
 			connect: {

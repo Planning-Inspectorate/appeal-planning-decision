@@ -86,9 +86,7 @@ describe('siteAccessRows', () => {
 	});
 
 	it('should not display if no fields/files exist', () => {
-		const caseData = {};
-
-		const rows = siteAccessRows(caseData);
+		const rows = siteAccessRows({});
 
 		expect(rows.length).toEqual(5);
 		expect(rows[0].condition()).toEqual(false);

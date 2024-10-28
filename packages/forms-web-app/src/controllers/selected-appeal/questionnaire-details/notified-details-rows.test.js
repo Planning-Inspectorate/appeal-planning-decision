@@ -73,12 +73,10 @@ describe('notifiedDetailsRows', () => {
 	});
 
 	it('should not display if no fields/files exist', () => {
-		const caseData = {
+		const rows = notifiedRows({
 			AppealCaseLpaNotificationMethod: [],
 			Documents: []
-		};
-
-		const rows = notifiedRows(caseData);
+		});
 
 		expect(rows.length).toEqual(5);
 		expect(rows[0].condition()).toEqual(false);

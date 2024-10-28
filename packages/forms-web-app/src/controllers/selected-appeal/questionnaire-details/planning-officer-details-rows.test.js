@@ -167,11 +167,7 @@ describe('planningOfficerReportRows', () => {
 	});
 
 	it('should not display if no fields/files exist', () => {
-		const caseData = {
-			Documents: []
-		};
-
-		const rows = planningOfficerReportRows(caseData);
+		const rows = planningOfficerReportRows({ Documents: [] });
 
 		expect(rows.length).toEqual(13);
 		expect(rows[0].condition()).toEqual(false);
