@@ -8,8 +8,8 @@ const NotifyBuilder = require('@pins/common/src/lib/notify/notify-builder');
 const config = require('../configuration/config');
 const logger = require('./logger');
 const LpaService = require('../services/lpa.service');
-const { parseISO } = require('date-fns');
-const { format } = require('date-fns');
+const { format, parseISO } = require('date-fns');
+const { formatInTimeZone } = require('date-fns-tz');
 const constants = require('@pins/business-rules/src/constants');
 const { formatSubmissionAddress } = require('@pins/common/src/lib/format-address');
 const lpaService = new LpaService();
@@ -24,6 +24,7 @@ const { templates } = config.services.notify;
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
+ * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  */
 
 /** @type {Record<AppealTypeCode, string>} */
@@ -406,6 +407,66 @@ const sendAppellantFinalCommentSubmissionEmailToAppellantV2 = async (
 	}
 };
 
+/**
+ * @param { AppellantProofOfEvidenceSubmission } appellantProofEvidenceSubmission
+ * @param {string} emailAddress
+ * @param {string} appellantName
+ */
+const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
+	appellantProofEvidenceSubmission,
+	emailAddress,
+	appellantName
+) => {
+	try {
+		const {
+			appealTypeCode,
+			siteAddressLine1,
+			siteAddressLine2,
+			siteAddressTown,
+			siteAddressCounty,
+			siteAddressPostcode,
+			proofsOfEvidenceDueDate
+		} = appellantProofEvidenceSubmission.AppealCase;
+
+		const caseReference = appellantProofEvidenceSubmission.caseReference;
+
+		const formattedAddress = formatSubmissionAddress({
+			addressLine1: siteAddressLine1,
+			addressLine2: siteAddressLine2,
+			townCity: siteAddressTown,
+			county: siteAddressCounty,
+			postcode: siteAddressPostcode
+		});
+
+		const reference = appellantProofEvidenceSubmission.id;
+
+		let variables = {
+			appeal_reference_number: caseReference,
+			'appellant name': appellantName,
+			'appeal site address': formattedAddress,
+			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
+		};
+
+		logger.debug({ variables }, 'Sending proof of evidence email to appellant');
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates[appealTypeCodeToAppealId[appealTypeCode]]
+					.appellantProofEvidenceSubmissionConfirmationEmailToAppellantV2
+			)
+			.setDestinationEmailAddress(emailAddress)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err }, 'Unable to send proof of evidence submission email to appellant');
+	}
+};
+
 const sendFinalCommentSubmissionConfirmationEmail = async (finalComment) => {
 	try {
 		const lpa = await lpaService.getLpaById(finalComment.lpaCode);
@@ -674,6 +735,7 @@ module.exports = {
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
+	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
 
 	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionConfirmationEmailToAppellantV2,

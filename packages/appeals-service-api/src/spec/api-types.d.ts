@@ -626,7 +626,7 @@ export interface AppellantProofOfEvidenceSubmission {
 		LPACode: string;
 		appealTypeCode?: string;
 		/** @format date-time */
-		finalCommentsDueDate?: string;
+		proofsOfEvidenceDueDate?: string;
 		siteAddressLine1?: string;
 		siteAddressLine2?: string;
 		siteAddressTown?: string;

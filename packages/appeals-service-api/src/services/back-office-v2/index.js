@@ -25,6 +25,7 @@ const {
 	sendCommentSubmissionConfirmationEmailToIp,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
+	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
@@ -34,6 +35,10 @@ const {
 	getAppellantFinalCommentByAppealId,
 	markAppellantFinalCommentAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/appellant-final-comment-submission/service');
+const {
+	getAppellantProofOfEvidenceByAppealId,
+	markAppellantProofOfEvidenceAsSubmitted
+} = require('../../routes/v2/appeal-cases/_caseReference/appellant-proof-evidence-submission/service');
 const {
 	getLPAFinalCommentByAppealId,
 	markLPAFinalCommentAsSubmitted
@@ -305,6 +310,54 @@ class BackOfficeV2Service {
 		} catch (err) {
 			logger.error({ err }, 'failed to sendAppellantFinalCommentSubmissionEmailToAppellantV2');
 			throw new Error('failed to send appellant final comment submission email');
+		}
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} userId
+	 * @returns {Promise<void>}
+	 */
+	async submitAppellantProofEvidenceSubmission(caseReference, userId) {
+		const appellantProofEvidenceSubmission = await getAppellantProofOfEvidenceByAppealId(
+			caseReference
+		);
+
+		const { email, serviceUserId } = await getUserById(userId);
+
+		let appellantName;
+
+		if (serviceUserId) {
+			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
+				serviceUserId,
+				caseReference
+			);
+
+			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
+				appellantName = serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
+			} else {
+				appellantName = 'Appellant';
+			}
+		} else {
+			appellantName = 'Appellant';
+		}
+
+		logger.info(
+			`forwarding appellant proof of evidence submission for ${caseReference} to service bus`
+		);
+
+		// Date to be set in back office mapper once data model confirmed
+		await markAppellantProofOfEvidenceAsSubmitted(caseReference, new Date().toISOString());
+
+		try {
+			await sendAppellantProofEvidenceSubmissionEmailToAppellantV2(
+				appellantProofEvidenceSubmission,
+				email,
+				appellantName
+			);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendAppellantProofEvidenceSubmissionEmailToAppellantV2');
+			throw new Error('failed to send appellant proof of evidence submission email');
 		}
 	}
 }

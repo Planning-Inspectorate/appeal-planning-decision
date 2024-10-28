@@ -22,7 +22,7 @@ components:
               type: string
             appealTypeCode:
               type: string
-            finalCommentsDueDate:
+            proofsOfEvidenceDueDate:
               type: string
               format: date-time
             siteAddressLine1:
