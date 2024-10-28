@@ -63,8 +63,8 @@ const appellants = {
 
 const rule6Parties = {
 	r6One: {
-		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b19',
-		email: 'muhammad.gul@planninginspectorate.gov.uk'
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b11',
+		email: 'r6-1@planninginspectorate.gov.uk'
 	},
 	r6Two: {
 		id: '29670d0f-c4b4-4047-8ee0-d62b93e91b12',
@@ -185,7 +185,7 @@ const rule6Documents = {
 
 const rule6PartyGroups = [
 	{
-		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c19',
+		id: '29670d0f-c4b4-4047-8ee0-d62b93e91c11',
 		caseReference: caseReferences.caseReferenceOne,
 		firstName: 'Group',
 		lastName: '1',
