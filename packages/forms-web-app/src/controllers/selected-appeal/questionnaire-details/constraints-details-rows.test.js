@@ -204,10 +204,7 @@ describe('constraintsRows', () => {
 	});
 
 	it('should create rows with false conditions if fields do not exist', () => {
-		const caseData = {
-			Documents: []
-		};
-		const rows = constraintsRows(caseData);
+		const rows = constraintsRows({ Documents: [] });
 		expect(rows.length).toEqual(15);
 		expect(rows[0].condition()).toEqual(false);
 		expect(rows[1].condition()).toEqual(false);

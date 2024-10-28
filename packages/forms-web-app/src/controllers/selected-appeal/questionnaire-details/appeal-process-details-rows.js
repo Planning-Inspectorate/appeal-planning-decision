@@ -5,6 +5,7 @@ const {
 	formatRelatedAppeals
 } = require('@pins/common');
 const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
+const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
@@ -18,12 +19,12 @@ exports.appealProcessRows = (caseData) => {
 		{
 			keyText: 'Appeal procedure',
 			valueText: formatProcedurePreference(caseData),
-			condition: () => caseData.lpaProcedurePreference
+			condition: () => !!caseData.lpaProcedurePreference
 		},
 		{
 			keyText: 'Appeals near the site',
 			valueText: boolToYesNo(showNearby),
-			condition: () => true
+			condition: () => isNotUndefinedOrNull(caseData.relations)
 		},
 		{
 			keyText: 'Appeal references',
@@ -33,7 +34,7 @@ exports.appealProcessRows = (caseData) => {
 		{
 			keyText: 'Extra conditions',
 			valueText: formatConditions(caseData),
-			condition: () => caseData.changedDevelopmentDescription
+			condition: () => isNotUndefinedOrNull(caseData.changedDevelopmentDescription)
 		}
 	];
 };
