@@ -198,7 +198,8 @@ describe('planningOfficerReportRows', () => {
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS,
 					id: '12346',
-					filename: 'plans-drawings.pdf'
+					filename: 'plans-drawings.pdf',
+					redacted: true
 				}
 			]
 		};

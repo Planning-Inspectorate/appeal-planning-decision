@@ -231,17 +231,20 @@ describe('constraintsRows', () => {
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
 					id: '12345',
-					filename: 'conservationmap1.pdf'
+					filename: 'conservationmap1.pdf',
+					redacted: true
 				},
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
 					id: '12346',
-					filename: 'conservationmap2.pdf'
+					filename: 'conservationmap2.pdf',
+					redacted: true
 				},
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN,
 					id: '12347',
-					filename: 'tree.pdf'
+					filename: 'tree.pdf',
+					redacted: true
 				}
 			]
 		};
@@ -282,7 +285,8 @@ describe('constraintsRows', () => {
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
 					id: '12345',
-					filename: 'conservationmap1.pdf'
+					filename: 'conservationmap1.pdf',
+					redacted: true
 				}
 			]
 		};
