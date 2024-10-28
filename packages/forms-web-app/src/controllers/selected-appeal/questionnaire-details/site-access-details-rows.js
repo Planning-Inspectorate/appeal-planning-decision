@@ -1,13 +1,16 @@
 const { formatYesOrNo, formatSiteSafetyRisks } = require('@pins/common');
-const { formatNeibouringAddressWithBreaks } = require('@pins/common/src/lib/format-address');
+const { formatNeighbouringAddressWithBreaks } = require('@pins/common/src/lib/format-address');
+const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
  * @returns {import("@pins/common/src/view-model-maps/rows/def").Rows}
  */
 exports.siteAccessRows = (caseData) => {
-	const neighbourAdresses = caseData.NeighbouringAddresses || [];
-	const hasNeighbours = neighbourAdresses.length;
+	const neighbourAddressesArray = caseData.NeighbouringAddresses || [];
+
+	const hasNeighbourAddresses = caseData.NeighbouringAddresses !== undefined;
+	const hasNeighboursText = neighbourAddressesArray.length ? 'Yes' : 'No';
 
 	/**
 	 * @type {import("@pins/common/src/view-model-maps/rows/def").Rows}
@@ -16,7 +19,7 @@ exports.siteAccessRows = (caseData) => {
 		{
 			keyText: 'Access for inspection',
 			valueText: formatYesOrNo(caseData, 'lpaSiteAccess'),
-			condition: () => !!caseData.lpaSiteAccess
+			condition: () => isNotUndefinedOrNull(caseData.lpaSiteAccess)
 		},
 		{
 			keyText: 'Reason for Inspector access',
@@ -25,19 +28,19 @@ exports.siteAccessRows = (caseData) => {
 		},
 		{
 			keyText: 'Inspector visit to neighbour',
-			valueText: 'Yes',
-			condition: () => hasNeighbours
+			valueText: hasNeighboursText,
+			condition: () => hasNeighbourAddresses
 		},
 		{
 			keyText: 'Reason for Inspector visit',
-			valueText: caseData.neighbouringSiteAccessDetails,
+			valueText: caseData.neighbouringSiteAccessDetails || '',
 			condition: () => !!caseData.neighbouringSiteAccessDetails
 		}
 	];
 
-	if (hasNeighbours) {
-		neighbourAdresses.forEach((address, index) => {
-			const formattedAddress = formatNeibouringAddressWithBreaks(address);
+	if (hasNeighbourAddresses && neighbourAddressesArray.length) {
+		neighbourAddressesArray.forEach((address, index) => {
+			const formattedAddress = formatNeighbouringAddressWithBreaks(address);
 			rows.push({
 				keyText: `Neighbouring site ${index + 1}`,
 				valueText: formattedAddress,
@@ -46,12 +49,11 @@ exports.siteAccessRows = (caseData) => {
 		});
 	}
 
-	if (caseData.lpaSiteSafetyRisks) {
-		rows.push({
-			keyText: 'Potential safety risks',
-			valueText: formatSiteSafetyRisks(caseData),
-			condition: () => !!caseData.lpaSiteSafetyRiskDetails
-		});
-	}
+	rows.push({
+		keyText: 'Potential safety risks',
+		valueText: formatSiteSafetyRisks(caseData),
+		condition: () => isNotUndefinedOrNull(caseData.lpaSiteSafetyRisks)
+	});
+
 	return rows;
 };

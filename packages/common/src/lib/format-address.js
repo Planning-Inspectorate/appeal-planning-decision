@@ -93,7 +93,7 @@ const formatAppealSubmissionAddress = (appealSubmission) => {
  * @param {NeighbouringAddress} neighbourAddress
  * @returns {string}
  */
-const formatNeibouringAddressWithBreaks = (neighbourAddress) => {
+const formatNeighbouringAddressWithBreaks = (neighbourAddress) => {
 	const addressComponents = [
 		neighbourAddress.addressLine1,
 		neighbourAddress.addressLine2,
@@ -142,7 +142,7 @@ function isV2Submission(caseOrSubmission) {
 module.exports = {
 	formatAddress,
 	formatAddressWithBreaks,
-	formatNeibouringAddressWithBreaks,
+	formatNeighbouringAddressWithBreaks,
 	formatSubmissionAddress,
 	isAppealSubmission,
 	isV2Submission
