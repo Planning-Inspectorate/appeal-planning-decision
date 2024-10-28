@@ -14,22 +14,26 @@ describe('notifiedDetailsRows', () => {
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED,
 					id: '12345',
-					filename: 'whonotified1.pdf'
+					filename: 'whonotified1.pdf',
+					redacted: true
 				},
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_SITE_NOTICE,
 					id: '12346',
-					filename: 'sitenotice1.pdf'
+					filename: 'sitenotice1.pdf',
+					redacted: true
 				},
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_LETTER_TO_NEIGHBOURS,
 					id: '12347',
-					filename: 'neighbours.pdf'
+					filename: 'neighbours.pdf',
+					redacted: true
 				},
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_PRESS_ADVERT,
 					id: '12348',
-					filename: 'press.pdf'
+					filename: 'press.pdf',
+					redacted: true
 				}
 			]
 		};
