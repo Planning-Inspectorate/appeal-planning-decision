@@ -2,7 +2,7 @@
 
 <!-- Add the number from the Jira board -->
 
-https://pins-ds.atlassian.net/browse/AAPD-
+https://pins-ds.atlassian.net/browse/A2-
 
 ## Description of change
 
