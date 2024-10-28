@@ -36,7 +36,7 @@ class AppellantProofOfEvidenceSubmissionRepository {
 						select: {
 							LPACode: true,
 							appealTypeCode: true,
-							finalCommentsDueDate: true,
+							proofsOfEvidenceDueDate: true,
 							siteAddressLine1: true,
 							siteAddressLine2: true,
 							siteAddressTown: true,
