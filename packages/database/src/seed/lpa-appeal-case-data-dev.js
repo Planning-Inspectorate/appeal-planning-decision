@@ -36,7 +36,10 @@ const lpaAppealIds = {
 	appeal28: '0ade191c-7171-417f-aa66-61b5c23b1ac3',
 	appeal75: '7b8312e0-c724-4969-b7d4-441c60c6741b',
 	appealTP1: '7c8412e0-c734-4969-b7d4-441c60c6840b',
-	appealTP2: '7c8412e0-c734-4969-b7d4-441c60c6841b'
+	appealTP2: '7c8412e0-c734-4969-b7d4-441c60c6841b',
+	appealTP3: '7c8412e0-c734-4969-b7d4-441c60c6842b',
+	appealTP4: '7c8412e0-c734-4969-b7d4-441c60c6843b',
+	appealTP5: '7c8412e0-c734-4969-b7d4-441c60c6844b'
 };
 
 /**
@@ -73,7 +76,10 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appeal28 },
 	{ id: lpaAppealIds.appeal75 },
 	{ id: lpaAppealIds.appealTP1 },
-	{ id: lpaAppealIds.appealTP2 }
+	{ id: lpaAppealIds.appealTP2 },
+	{ id: lpaAppealIds.appealTP3 },
+	{ id: lpaAppealIds.appealTP4 },
+	{ id: lpaAppealIds.appealTP5 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -1095,6 +1101,285 @@ const lpaAppealCaseData = [
 		},
 		caseDecisionOutcomeDate: pickRandom(datesNMonthsAgo(59)),
 		caseDecisionPublishedDate: pickRandom(datesNMonthsAgo(59)),
+		planningObligation: true,
+		// questionnaire details
+		// constraints
+		isCorrectAppealType: true,
+		scheduledMonument: false,
+		conservationArea: true,
+		protectedSpecies: false,
+		isGreenBelt: false,
+		areaOutstandingBeauty: false,
+		designatedSites: 'other',
+		otherDesignationDetails: 'test other',
+		treePreservationOrder: true,
+		gypsyTraveller: true,
+		publicRightOfWay: true,
+		// environmental
+		environmentalImpactSchedule: 'schedule-2',
+		developmentDescription: 'change-extensions',
+		sensitiveArea: true,
+		sensitiveAreaDetails: 'Example text',
+		columnTwoThreshold: false,
+		screeningOpinion: false,
+		requiresEnvironmentalStatement: false,
+		// notified
+		AppealCaseLpaNotificationMethod: {
+			createMany: {
+				data: [{ lPANotificationMethodsKey: 'notice' }, { lPANotificationMethodsKey: 'letter' }]
+			}
+		},
+		// consultations
+		statutoryConsultees: false,
+		consultationResponses: false,
+		otherPartyRepresentations: true,
+		// planning officer reports
+		emergingPlan: true,
+		supplementaryPlanningDocs: true,
+		infrastructureLevy: true,
+		infrastructureLevyAdopted: true,
+		infrastructureLevyAdoptedDate: new Date(Date.now()),
+		// site access
+		lpaSiteAccess: true,
+		lpaSiteAccessDetails: 'Site materials',
+		neighbouringSiteAccess: true,
+		neighbouringSiteAccessDetails: 'Example text',
+		addNeighbouringSiteAccess: true,
+		lpaSiteSafetyRisks: true,
+		lpaSiteSafetyRiskDetails: 'Example text',
+		// appeal process
+		lpaProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
+		lpaPreferInquiryDetails: 'Example preference',
+		lpaPreferInquiryDuration: '6',
+		changedDevelopmentDescription: true,
+		newConditionDetails: 'Example new conditions',
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP3 }
+		},
+		LPACode: 'Q9999',
+		applicationDecision: 'refused',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		appellantCostsAppliedFor: true,
+		applicationReference: '12/2323232/PLA',
+		rule6StatementPublished: true,
+		casePublishedDate: new Date(),
+		caseReference: '1212175',
+		siteAddressLine1: 'Decided',
+		siteAddressLine2: '5 year withdraw test',
+		siteAddressTown: 'allowed',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseValidDate: new Date(),
+		caseCreatedDate: new Date(),
+		lpaQuestionnairePublishedDate: new Date(),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
+		},
+		caseDecisionOutcomeDate: new Date(2019, 10, 28),
+		caseDecisionPublishedDate: new Date(2019, 10, 28),
+		planningObligation: true,
+		// questionnaire details
+		// constraints
+		isCorrectAppealType: true,
+		scheduledMonument: false,
+		conservationArea: true,
+		protectedSpecies: false,
+		isGreenBelt: false,
+		areaOutstandingBeauty: false,
+		designatedSites: 'other',
+		otherDesignationDetails: 'test other',
+		treePreservationOrder: true,
+		gypsyTraveller: true,
+		publicRightOfWay: true,
+		// environmental
+		environmentalImpactSchedule: 'schedule-2',
+		developmentDescription: 'change-extensions',
+		sensitiveArea: true,
+		sensitiveAreaDetails: 'Example text',
+		columnTwoThreshold: false,
+		screeningOpinion: false,
+		requiresEnvironmentalStatement: false,
+		// notified
+		AppealCaseLpaNotificationMethod: {
+			createMany: {
+				data: [{ lPANotificationMethodsKey: 'notice' }, { lPANotificationMethodsKey: 'letter' }]
+			}
+		},
+		// consultations
+		statutoryConsultees: false,
+		consultationResponses: false,
+		otherPartyRepresentations: true,
+		// planning officer reports
+		emergingPlan: true,
+		supplementaryPlanningDocs: true,
+		infrastructureLevy: true,
+		infrastructureLevyAdopted: true,
+		infrastructureLevyAdoptedDate: new Date(Date.now()),
+		// site access
+		lpaSiteAccess: true,
+		lpaSiteAccessDetails: 'Site materials',
+		neighbouringSiteAccess: true,
+		neighbouringSiteAccessDetails: 'Example text',
+		addNeighbouringSiteAccess: true,
+		lpaSiteSafetyRisks: true,
+		lpaSiteSafetyRiskDetails: 'Example text',
+		// appeal process
+		lpaProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
+		lpaPreferInquiryDetails: 'Example preference',
+		lpaPreferInquiryDuration: '6',
+		changedDevelopmentDescription: true,
+		newConditionDetails: 'Example new conditions',
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP4 }
+		},
+		LPACode: 'Q9999',
+		applicationDecision: 'refused',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		appellantCostsAppliedFor: true,
+		applicationReference: '12/2323232/PLA',
+		rule6StatementPublished: true,
+		casePublishedDate: new Date(),
+		caseReference: '1212185',
+		siteAddressLine1: 'Decided',
+		siteAddressLine2: '5 year withdraw test',
+		siteAddressTown: 'allowed',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseValidDate: new Date(),
+		caseCreatedDate: new Date(),
+		lpaQuestionnairePublishedDate: new Date(),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
+		},
+		caseDecisionOutcomeDate: new Date(2019, 10, 27),
+		caseDecisionPublishedDate: new Date(2019, 10, 27),
+		planningObligation: true,
+		// questionnaire details
+		// constraints
+		isCorrectAppealType: true,
+		scheduledMonument: false,
+		conservationArea: true,
+		protectedSpecies: false,
+		isGreenBelt: false,
+		areaOutstandingBeauty: false,
+		designatedSites: 'other',
+		otherDesignationDetails: 'test other',
+		treePreservationOrder: true,
+		gypsyTraveller: true,
+		publicRightOfWay: true,
+		// environmental
+		environmentalImpactSchedule: 'schedule-2',
+		developmentDescription: 'change-extensions',
+		sensitiveArea: true,
+		sensitiveAreaDetails: 'Example text',
+		columnTwoThreshold: false,
+		screeningOpinion: false,
+		requiresEnvironmentalStatement: false,
+		// notified
+		AppealCaseLpaNotificationMethod: {
+			createMany: {
+				data: [{ lPANotificationMethodsKey: 'notice' }, { lPANotificationMethodsKey: 'letter' }]
+			}
+		},
+		// consultations
+		statutoryConsultees: false,
+		consultationResponses: false,
+		otherPartyRepresentations: true,
+		// planning officer reports
+		emergingPlan: true,
+		supplementaryPlanningDocs: true,
+		infrastructureLevy: true,
+		infrastructureLevyAdopted: true,
+		infrastructureLevyAdoptedDate: new Date(Date.now()),
+		// site access
+		lpaSiteAccess: true,
+		lpaSiteAccessDetails: 'Site materials',
+		neighbouringSiteAccess: true,
+		neighbouringSiteAccessDetails: 'Example text',
+		addNeighbouringSiteAccess: true,
+		lpaSiteSafetyRisks: true,
+		lpaSiteSafetyRiskDetails: 'Example text',
+		// appeal process
+		lpaProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
+		lpaPreferInquiryDetails: 'Example preference',
+		lpaPreferInquiryDuration: '6',
+		changedDevelopmentDescription: true,
+		newConditionDetails: 'Example new conditions',
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.COMPLETE }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP5 }
+		},
+		LPACode: 'Q9999',
+		applicationDecision: 'refused',
+		applicationDecisionDate: pickRandom(datesNMonthsAgo(1)),
+		appellantCostsAppliedFor: true,
+		applicationReference: '12/2323232/PLA',
+		rule6StatementPublished: true,
+		casePublishedDate: new Date(),
+		caseReference: '1212195',
+		siteAddressLine1: 'Decided',
+		siteAddressLine2: '5 year withdraw test',
+		siteAddressTown: 'allowed',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		caseValidDate: new Date(),
+		caseCreatedDate: new Date(),
+		lpaQuestionnairePublishedDate: new Date(),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		appellantsProofsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		CaseDecisionOutcome: {
+			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
+		},
+		caseDecisionOutcomeDate: new Date(2019, 10, 29),
+		caseDecisionPublishedDate: new Date(2019, 10, 29),
 		planningObligation: true,
 		// questionnaire details
 		// constraints
