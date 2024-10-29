@@ -1,7 +1,6 @@
 const { createPrismaClient } = require('#db-client');
 const { APPEAL_EVENT_TYPE } = require('pins-data-model');
 const { EVENT_TYPES, EVENT_SUB_TYPES } = require('@pins/common/src/constants');
-EVENT_TYPES.SITE_VISIT;
 
 /**
  * @typedef {import('pins-data-model/src/schemas').AppealEvent} DataModelEvent
