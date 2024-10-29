@@ -23,7 +23,14 @@ export class BasePage {
 		govukHeadingOne: ".govuk-heading-l",
 		govukBody: ".govuk-body",
 		govukLink: ".govuk-link",
-		govukSummaryListKey: ".govuk-summary-list__key"
+		govukSummaryListKey: ".govuk-summary-list__key",
+		trgovukTableRow:"tr.govuk-table__row",
+		trgovukTableCell:"td.govuk-table__cell",
+		dlgovukSummaryListAppealDetails:"dl.govuk-summary-list.appeal-details",
+		govukSummaryListRow:'.govuk-summary-list__row',
+		agovukLink:"a.govuk-link",		
+		govukSummaryListValue:".govuk-summary-list__value",
+		
 	}
 
 	basePageElements = {
