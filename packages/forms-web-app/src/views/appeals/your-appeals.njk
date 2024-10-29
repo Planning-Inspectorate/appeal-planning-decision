@@ -65,6 +65,7 @@
                           </td>
                           <td class="govuk-table__cell">{{item.appealType}}</td>
                           <td class="govuk-table__cell">
+														{# if appeal is invalid this column left blank #}
 														{% if item.displayInvalid %}
 														{% else %}
                               {{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}

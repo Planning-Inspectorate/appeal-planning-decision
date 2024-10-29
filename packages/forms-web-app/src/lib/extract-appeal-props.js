@@ -25,6 +25,10 @@ const extractAppealProps = async (appeal) => {
 	let { applicationDecision } = appeal.eligibility;
 	if (applicationDecision === 'nodecisionreceived') {
 		applicationDecision = 'No Decision Received';
+	} else if (applicationDecision === 'granted') {
+		applicationDecision = 'Granted with conditions';
+	} else if (applicationDecision === 'refused') {
+		applicationDecision = 'Refused';
 	} else {
 		applicationDecision = capitalise(applicationDecision);
 	}

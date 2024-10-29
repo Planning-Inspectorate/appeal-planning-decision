@@ -32,6 +32,12 @@ module.exports =
 
 		const currentPage = req.baseUrl + req.path;
 
+		// prevent document links being added to nav history
+		if (currentPage.includes('published-document')) {
+			next();
+			return;
+		}
+
 		// going forwards
 		if (currentPage === req.session.navigationHistory[0]) {
 			if (req.session.navigationHistory.length > 1) {

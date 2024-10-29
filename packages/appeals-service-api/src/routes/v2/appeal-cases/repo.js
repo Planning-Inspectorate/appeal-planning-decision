@@ -2,6 +2,8 @@ const { createPrismaClient } = require('#db-client');
 const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { subYears } = require('date-fns');
+const logger = require('#lib/logger');
+const ApiError = require('#errors/apiError');
 
 /**
  * @typedef {import("@prisma/client").Appeal} Appeal
@@ -85,7 +87,8 @@ const DocumentsArgsPublishedOnly = {
 		publishedDocumentURI: true,
 		filename: true,
 		documentType: true,
-		datePublished: true
+		datePublished: true,
+		redacted: true
 	}
 };
 
@@ -504,6 +507,37 @@ class AppealCaseRepository {
 		});
 
 		return result?.Appeal?.Users[0]?.AppealUser?.email;
+	}
+
+	/**
+	 * @param {{ caseReference: string, userId: string }} params
+	 */
+	async appellantCanModifyCase({ caseReference, userId }) {
+		try {
+			await this.dbClient.appealCase.findUniqueOrThrow({
+				where: {
+					caseReference
+				},
+				select: {
+					Appeal: {
+						select: {
+							id: true,
+							Users: {
+								where: {
+									userId,
+									role: { in: [APPEAL_USER_ROLES.APPELLANT, APPEAL_USER_ROLES.AGENT] }
+								}
+							}
+						}
+					}
+				}
+			});
+
+			return true;
+		} catch (err) {
+			logger.error({ err }, 'invalid user access');
+			throw ApiError.forbidden();
+		}
 	}
 }
 

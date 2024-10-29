@@ -1,30 +1,31 @@
 const indexController = require('./index');
 
 const { mockRes } = require('../../../../__tests__/unit/mocks');
-const { determineUser } = require('../../../lib/determine-user');
+const { determineUser } = require('#lib/determine-user');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { detailsRows } = require('./appeal-details-rows');
 const { documentsRows } = require('./appeal-documents-rows');
 const { formatRows, formatHeadlineData } = require('@pins/common');
-const { VIEW } = require('../../../lib/views');
-const { generatePDF } = require('../../../lib/pdf-api-wrapper');
-const { default: fetch } = require('node-fetch');
-const config = require('../../../config');
+const { VIEW } = require('#lib/views');
+const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { addCSStoHtml } = require('#lib/add-css-to-html');
 
-jest.mock('../../../lib/determine-user');
+jest.mock('#lib/determine-user');
 jest.mock('../../../services/user.service');
 jest.mock('../../../services/department.service');
 jest.mock('./appeal-details-rows');
 jest.mock('./appeal-documents-rows');
 jest.mock('@pins/common');
-jest.mock('../../../lib/pdf-api-wrapper');
-jest.mock('node-fetch');
+jest.mock('#lib/pdf-api-wrapper');
+jest.mock('#lib/add-css-to-html');
 
-const css = 'css data';
 const date = new Date();
 const caseData = { LPACode: 'Q9999', caseValidDate: date };
+const testHtml = '<head></head><h1>Test Html</h1>';
+const testCSS = 'css data';
+const testHtmlWithCSS = '<head><style>' + testCSS + '</style></head><h1>Test Html</h1>';
 
 const mockReq = () => {
 	return {
@@ -52,7 +53,6 @@ const expectedViewContext = {
 		appealDetails: 'some formatted row data',
 		appealDocuments: 'some formatted row data'
 	},
-	cssOverride: undefined,
 	pdfDownloadUrl: 'a/fake/url?pdf=true'
 };
 
@@ -60,11 +60,6 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 	beforeEach(() => {
 		res = mockRes();
 		req = mockReq();
-		fetch.mockResolvedValue({
-			text: jest.fn(() => {
-				return css;
-			})
-		});
 		getUserFromSession.mockReturnValue({ email: 'test@example.com' });
 		getDepartmentFromCode.mockReturnValue({ name: 'Test LPA' });
 		documentsRows.mockReturnValue('returned document rows');
@@ -75,7 +70,7 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 		req.appealsApiClient.getUsersAppealCase.mockReturnValue(caseData);
 		req.app.render.mockImplementation(async (view, locals, callback) => {
 			/* eslint-disable-next-line no-undef */
-			callback((err = null), (html = '<h1>Test Html</h1>'));
+			callback((err = null), (html = testHtml));
 		});
 	});
 	afterEach(() => {
@@ -88,9 +83,6 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 		});
 
 		it('renders page if URL does not have PDF query', async () => {
-			req.appealsApiClient.getUserByEmailV2.mockReturnValue({ id: '123' });
-			req.appealsApiClient.getUsersAppealCase.mockReturnValue(caseData);
-
 			const indexGetController = indexController.get();
 			await indexGetController(req, res);
 
@@ -108,31 +100,33 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			expect(formatRows).toHaveBeenCalledWith('returned details rows', caseData);
 			expect(formatHeadlineData).toHaveBeenCalledWith(caseData, 'Test LPA', LPA_USER_ROLE);
 
+			expect(generatePDF).not.toHaveBeenCalled();
+			expect(addCSStoHtml).not.toHaveBeenCalled();
+
 			expect(req.app.render).toHaveBeenCalledWith(
 				VIEW.SELECTED_APPEAL.APPEAL_DETAILS,
 				expectedViewContext,
 				expect.any(Function)
 			);
-			expect(res.send).toHaveBeenCalledWith('<h1>Test Html</h1>');
+			expect(res.send).toHaveBeenCalledWith(testHtml);
 		});
 
-		it('Generates and downloads PDF and does not render HTML if URL has ?pdf=true query', async () => {
+		it('generates and downloads PDF and does not render HTML if URL has ?pdf=true query', async () => {
 			req.query.pdf = 'true';
-
-			const testBuffer = Buffer.from('<h1>Test Html</h1>');
-			generatePDF.mockReturnValue(testBuffer);
 
 			const pdfExpectedViewContext = {
 				...expectedViewContext,
-				cssOverride: css,
 				pdfDownloadUrl: undefined
 			};
+
+			addCSStoHtml.mockReturnValue(testHtmlWithCSS);
+			const testBuffer = Buffer.from(testHtmlWithCSS);
+			generatePDF.mockReturnValue(testBuffer);
 
 			const indexGetController = indexController.get();
 			await indexGetController(req, res);
 
 			expect(determineUser).toHaveBeenCalledWith('a/fake/url');
-			expect(fetch).toHaveBeenCalledWith(`${config.server.host}/public/stylesheets/main.css`);
 			expect(getUserFromSession).toHaveBeenCalledWith(req);
 			expect(req.appealsApiClient.getUserByEmailV2).toHaveBeenCalledWith('test@example.com');
 			expect(req.appealsApiClient.getUsersAppealCase).toHaveBeenCalledWith({
@@ -151,6 +145,8 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 				pdfExpectedViewContext,
 				expect.any(Function)
 			);
+			expect(addCSStoHtml).toHaveBeenCalledWith(testHtml);
+			expect(generatePDF).toHaveBeenCalledWith(testHtmlWithCSS);
 
 			expect(res.set).toHaveBeenNthCalledWith(
 				1,
@@ -159,7 +155,6 @@ describe('controllers/selected-appeal/appeal-details/index', () => {
 			);
 			expect(res.set).toHaveBeenNthCalledWith(2, 'Content-type', 'application/pdf');
 			expect(res.send).toHaveBeenCalledWith(testBuffer);
-			expect(generatePDF).toHaveBeenCalledWith('<h1>Test Html</h1>');
 		});
 	});
 });

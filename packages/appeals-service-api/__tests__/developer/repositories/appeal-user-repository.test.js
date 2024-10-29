@@ -37,7 +37,7 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
-	dbClient.$disconnect();
+	await dbClient.$disconnect();
 });
 
 it('should create user with given details', async () => {
@@ -65,4 +65,11 @@ it('should get user with email', async () => {
 		...TEST_USER,
 		serviceUserId: null
 	});
+});
+
+it('should count number of users with rule 6 role by email', async () => {
+	await repo.createUser(TEST_USER);
+	const count = await repo.countUsersWhereEmailAndRule6Party(TEST_EMAIL);
+
+	expect(count).toEqual(0);
 });

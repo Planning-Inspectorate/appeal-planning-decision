@@ -494,7 +494,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: true,
+		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -505,7 +505,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: true,
+		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -527,7 +527,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: true,
+		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -549,7 +549,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: true,
+		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -560,7 +560,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: true,
+		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -571,7 +571,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: true,
+		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -593,7 +593,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: true,
+		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -604,7 +604,7 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: appellantOwner,
-		publiclyAccessible: true,
+		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
@@ -632,7 +632,7 @@ const documentTypes = {
 	},
 	uploadAppellantFinalCommentDocuments: {
 		name: 'uploadAppellantFinalCommentDocuments',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'finalComment', // To be updated once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -643,7 +643,7 @@ const documentTypes = {
 	},
 	uploadLPAFinalCommentDocuments: {
 		name: 'uploadLPAFinalCommentDocuments',
-		dataModelName: '', // To be added once data model confirmed
+		dataModelName: 'finalComment', // To be updated once data model confirmed
 		multiple: true,
 		displayName: '',
 		involvement: '',
@@ -660,6 +660,17 @@ const documentTypes = {
 		involvement: '',
 		owner: pinsOwner,
 		publiclyAccessible: true,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadAppellantProofOfEvidenceDocuments: {
+		name: 'uploadAppellantProofOfEvidenceDocuments',
+		dataModelName: '', // To be added once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: appellantOwner,
+		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	}

@@ -5,7 +5,8 @@ const {
 	getUserById,
 	updateUser,
 	removeLPAUser,
-	linkUserToAppeal
+	linkUserToAppeal,
+	isRule6User
 } = require('./service');
 const ApiError = require('#errors/apiError');
 
@@ -42,6 +43,7 @@ async function userSearch(req, res) {
  */
 async function userGet(req, res) {
 	const body = await resolveUser(req.params.userLookup);
+
 	res.status(200).send(body);
 }
 
@@ -49,13 +51,17 @@ async function userGet(req, res) {
  * @type {import('express').RequestHandler}
  */
 async function userUpdate(req, res) {
-	const user = await resolveUser(req.params.userLookup);
+	const { id, email } = await resolveUser(req.params.userLookup);
+	let updateData = {};
+
+	updateData.id = id;
+	updateData.email = email;
 
 	const { isEnrolled, lpaStatus } = req.body;
-	if (isEnrolled) user.isEnrolled = isEnrolled; // should not be possible to update this to false
-	if (lpaStatus) user.lpaStatus = lpaStatus;
+	if (isEnrolled) updateData.isEnrolled = isEnrolled; // should not be possible to update this to false
+	if (lpaStatus) updateData.lpaStatus = lpaStatus;
 
-	const body = await updateUser(user);
+	const body = await updateUser(updateData);
 
 	res.status(200).send(body);
 }
@@ -87,6 +93,17 @@ async function userLink(req, res) {
 }
 
 /**
+ * @type {import('express').RequestHandler}
+ */
+async function userIsRule6User(req, res) {
+	const { userLookup } = req.params;
+
+	const result = await isRule6User(userLookup);
+
+	res.status(200).send(result);
+}
+
+/**
  * @param {string} userLookup
  * @returns {Promise<import('@prisma/client').AppealUser>}
  */
@@ -106,5 +123,6 @@ module.exports = {
 	userGet,
 	userUpdate,
 	userDelete,
-	userLink
+	userLink,
+	userIsRule6User
 };

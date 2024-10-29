@@ -1,6 +1,7 @@
 const {
 	formatAddress,
 	determineDocumentToDisplayLPADashboard,
+	determineDocumentToDisplayRule6Dashboard,
 	isNewAppeal
 } = require('./dashboard-functions');
 
@@ -30,6 +31,8 @@ const questionnaireBaseUrl = `/manage-appeals/questionnaire/${testCaseRef}`;
 const statementBaseUrl = `/manage-appeals/appeal-statement/${testCaseRef}/appeal-statement`;
 const finalCommentBaseUrl = `/manage-appeals/final-comments/${testCaseRef}`;
 const proofsBaseUrl = `/manage-appeals/proofs-of-evidence/${testCaseRef}`;
+const rule6StatementBaseUrl = '/rule-6/statement/';
+const rule6ProofsBaseUrl = '/rule-6/proofs-of-evidence/';
 
 describe('lib/dashboard-functions', () => {
 	beforeEach(() => {
@@ -185,6 +188,61 @@ describe('lib/dashboard-functions', () => {
 			calculateDueInDays.mockReturnValue(23);
 
 			expect(determineDocumentToDisplayLPADashboard(appealStatementDueDetails)).toEqual(
+				expectedProofsDetails
+			);
+		});
+	});
+
+	describe('determineDocumentToDisplayRul6Dashboard', () => {
+		it('returns default values if no documents are due', () => {
+			expect(determineDocumentToDisplayRule6Dashboard({})).toEqual({
+				deadline: null,
+				dueInDays: 100000,
+				documentDue: null,
+				baseUrl: null
+			});
+		});
+
+		it('returns the rule 6 statement details if the statement is next in proximity', () => {
+			const appealStatementDueDetails = {
+				rule6StatementDueDate: '2023-07-07T13:53:31.6003126+00:00',
+				rule6StatementSubmitted: null,
+				caseReference: testCaseRef,
+				caseStatus: APPEAL_CASE_STATUS.STATEMENTS
+			};
+
+			const expectedStatementDetails = {
+				deadline: '2023-07-07T13:53:31.6003126+00:00',
+				dueInDays: 13,
+				documentDue: 'Statement',
+				baseUrl: `${rule6StatementBaseUrl}${testCaseRef}`
+			};
+
+			calculateDueInDays.mockReturnValue(13);
+
+			expect(determineDocumentToDisplayRule6Dashboard(appealStatementDueDetails)).toEqual(
+				expectedStatementDetails
+			);
+		});
+
+		it('returns the rule 6 proofs of evidence details if the proofs are next in proximity', () => {
+			const appealStatementDueDetails = {
+				rule6ProofEvidenceDueDate: '2023-07-27T13:53:31.6003126+00:00',
+				rule6ProofEvidenceSubmitted: null,
+				caseStatus: APPEAL_CASE_STATUS.EVIDENCE,
+				caseReference: testCaseRef
+			};
+
+			const expectedProofsDetails = {
+				deadline: '2023-07-27T13:53:31.6003126+00:00',
+				dueInDays: 23,
+				documentDue: 'Proof of Evidence',
+				baseUrl: `${rule6ProofsBaseUrl}${testCaseRef}`
+			};
+
+			calculateDueInDays.mockReturnValue(23);
+
+			expect(determineDocumentToDisplayRule6Dashboard(appealStatementDueDetails)).toEqual(
 				expectedProofsDetails
 			);
 		});

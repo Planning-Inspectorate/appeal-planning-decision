@@ -33,4 +33,11 @@ components:
         lpaStatus:
           type: string
           enum: ['added', 'confirmed', 'removed']
-          description: if an LPA user, the status of this user, e.g. have they logged in and confirmed their email?
+          description: if an LPA user, the status of this user, e.g. have they logged in and confirmed their email
+
+        # relations
+        Rule6Parties:
+          type: array
+          items:
+            type: object
+

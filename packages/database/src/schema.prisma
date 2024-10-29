@@ -308,12 +308,12 @@ model AppealCase {
   LPAProofsSubmitted        DateTime?
 
   scheduledMonument               Boolean @default(false)
-  appellantProofEvidencePublished Boolean @default(false)
-  appellantFinalCommentsSubmitted Boolean @default(false)
-  lpaStatementPublished           Boolean @default(false)
-  lpaProofEvidenceSubmitted       Boolean @default(false)
-  lpaProofEvidencePublished       Boolean @default(false)
-  lpaFinalCommentsPublished       Boolean @default(false)
+  appellantProofEvidencePublished Boolean @default(false) // todo: use date instead?
+  appellantFinalCommentsSubmitted Boolean @default(false) // todo: use date instead?
+  lpaStatementPublished           Boolean @default(false) // todo: use date instead?
+  lpaProofEvidenceSubmitted       Boolean @default(false) // todo: use date instead?
+  lpaProofEvidencePublished       Boolean @default(false) // todo: use date instead?
+  lpaFinalCommentsPublished       Boolean @default(false) // todo: use date instead?
 
   appellantProcedurePreference         String?
   appellantProcedurePreferenceDetails  String?
@@ -373,8 +373,12 @@ model AppealCase {
   // rule 6 fields
   //***************************************************************************
 
-  rule6StatementPublished      Boolean @default(false) /// todo: use date instead
-  rule6ProofsEvidencePublished Boolean @default(false) /// todo: use date instead
+  rule6StatementPublished      Boolean   @default(false) /// todo: use date instead
+  rule6ProofsEvidencePublished Boolean   @default(false) /// todo: use date instead
+  rule6StatementDueDate        DateTime?
+  rule6StatementSubmitted      Boolean   @default(false)
+  rule6ProofEvidenceDueDate    DateTime?
+  rule6ProofEvidenceSubmitted  Boolean   @default(false)
 
   //***************************************************************************
   // interested party fields
@@ -389,7 +393,8 @@ model AppealCase {
   LPAStatementSubmission     LPAStatementSubmission?
   LPAFinalCommentSubmission  LPAFinalCommentSubmission?
 
-  AppellantFinalCommentSubmission AppellantFinalCommentSubmission?
+  AppellantFinalCommentSubmission    AppellantFinalCommentSubmission?
+  AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission?
 
   Rule6Parties                    Rule6Party[]
   AffectedListedBuildings         AppealCaseListedBuilding[]
@@ -400,6 +405,7 @@ model AppealCase {
   InterestedPartyComments         InterestedPartyComment[]
   InterestedPartySubmissions      InterestedPartySubmission[]
   AppealStatements                AppealStatement[]
+  FinalComments                   FinalComment[]
 }
 
 /// AppealCase relations
@@ -562,8 +568,8 @@ model Document {
 
   // states
   virusCheckStatus String? // nullble?
-  published        Boolean @default(false)
-  redacted         Boolean @default(false)
+  published        Boolean  @default(false)
+  redacted         Boolean?
   version          Int?
   fileMD5          String?
   owner            String?
@@ -578,9 +584,10 @@ model Document {
   horizonFolderId String?
 
   // relations
-  caseReference      String
-  AppealCase         AppealCase          @relation(fields: [caseReference], references: [caseReference])
-  StatementDocuments StatementDocument[]
+  caseReference         String
+  AppealCase            AppealCase             @relation(fields: [caseReference], references: [caseReference])
+  StatementDocuments    StatementDocument[]
+  FinalCommentDocuments FinalCommentDocument[]
 }
 
 // Stores appeal statements from either an LPA or rule 6 party group
@@ -598,12 +605,34 @@ model AppealStatement {
 
 //Join table to link a parties statement with the correct documents
 model StatementDocument {
-  id          String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
-  statementId String @db.UniqueIdentifier
-  documentId  String @db.UniqueIdentifier
-
+  id              String          @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  statementId     String          @db.UniqueIdentifier
+  documentId      String          @db.UniqueIdentifier
   AppealStatement AppealStatement @relation(fields: [statementId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   Document        Document        @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+// Stores appeal final comments from either an LPA, appellant or rule 6 group
+model FinalComment {
+  id                String   @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  caseReference     String
+  serviceUserId     String?  @db.UniqueIdentifier
+  lpaCode           String?
+  wantsFinalComment Boolean
+  comments          String?
+  submittedDate     DateTime
+
+  FinalCommentDocuments FinalCommentDocument[]
+  ServiceUser           ServiceUser?           @relation(fields: [serviceUserId], references: [internalId])
+  AppealCase            AppealCase             @relation(fields: [caseReference], references: [caseReference])
+}
+
+model FinalCommentDocument {
+  id           String       @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+  commentId    String       @db.UniqueIdentifier
+  documentId   String       @db.UniqueIdentifier
+  FinalComment FinalComment @relation(fields: [commentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  Document     Document     @relation(fields: [documentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 // This table stores IP comments once they have been validated / processed by back office
@@ -669,6 +698,8 @@ model ServiceUser {
   serviceUserType String
   /// case reference this user + user-type relates to
   caseReference   String
+
+  FinalComments FinalComment[]
 }
 
 /// AppellantSubmission represents an appeal submitted by an appellant
@@ -892,6 +923,28 @@ model LPAStatementSubmission {
   SubmissionDocumentUpload    SubmissionDocumentUpload[]
 }
 
+model AppellantProofOfEvidenceSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  caseReference String     @unique
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+
+  uploadAppellantProofOfEvidenceDocuments Boolean?
+  appellantWitnesses                      Boolean?
+  uploadAppellantWitnessesEvidence        Boolean?
+
+  // Uploaded documents and details linked to this appeal
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
 model LPAFinalCommentSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
@@ -955,6 +1008,9 @@ model SubmissionDocumentUpload {
 
   lpaFinalCommentId         String?                    @db.UniqueIdentifier
   LPAFinalCommentSubmission LPAFinalCommentSubmission? @relation(fields: [lpaFinalCommentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  appellantProofOfEvidenceId         String?                             @db.UniqueIdentifier
+  AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission? @relation(fields: [appellantProofOfEvidenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   name             String
   fileName         String

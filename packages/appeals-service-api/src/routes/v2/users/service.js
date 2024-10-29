@@ -122,6 +122,16 @@ async function linkUserToAppeal(id, appealId, role) {
 	return appealUserRepository.linkUserToAppeal(id, appealId, role);
 }
 
+/**
+ * @param {string} userLookup currently route only used when looking up by email
+ * @returns {Promise<boolean>}
+ */
+async function isRule6User(userLookup) {
+	const count = await appealUserRepository.countUsersWhereEmailAndRule6Party(userLookup);
+
+	return count > 0;
+}
+
 module.exports = {
 	createUser,
 	searchUsers,
@@ -129,5 +139,6 @@ module.exports = {
 	getUserById,
 	updateUser,
 	removeLPAUser,
-	linkUserToAppeal
+	linkUserToAppeal,
+	isRule6User
 };

@@ -1,0 +1,25 @@
+{% extends "../layouts/householder-banner/main-no-back-link.njk" %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% set title="Code Expired - Appeal a householder planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h1 class="govuk-heading-l">Code expired</h1>
+      <p class="govuk-body">The code you’re trying to enter has expired. </p>
+      <form action="" method="post" novalidate>
+<input type="hidden" name="_csrf" value="{{_csrf}}">
+        {{ govukButton({
+          text: "Send a new code",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+    </div>
+  </div>
+{% endblock %}

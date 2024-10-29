@@ -106,6 +106,30 @@ class AppealUserRepository {
 	}
 
 	/**
+	 * Count Users where given email user also has Rule6Party role
+	 * Used to confirm whether given user is a Rule 6 User
+	 *
+	 * @param {string} email
+	 * @returns {Promise<number>}
+	 */
+	async countUsersWhereEmailAndRule6Party(email) {
+		return await this.dbClient.appealUser.count({
+			where: {
+				AND: [
+					{ email: email },
+					{
+						Appeals: {
+							some: {
+								role: APPEAL_USER_ROLES.RULE_6_PARTY
+							}
+						}
+					}
+				]
+			}
+		});
+	}
+
+	/**
 	 * Sets user's role on an appeal
 	 * @param {string} userId
 	 * @param {string} appealId

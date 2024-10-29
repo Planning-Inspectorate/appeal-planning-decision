@@ -107,7 +107,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
-
+  /api/v2/users/{userLookup}/isRule6User:
+    get:
+      tags:
+        - users
+      description: Confirm if a user has any appeals when has rule 6 party role
+      parameters:
+        - in: path
+          name: userLookup
+          required: true
+          schema:
+            type: string
+            format: email
+          example: me@example.com
+          description: user email
+      responses:
+        200:
+          description: Created role
+          content:
+            application/json:
+              schema:
+                type: boolean
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        500:
+          description: Something went wrong
   /api/v2/users/{email}/appeal/{appealId}:
     put:
       tags:

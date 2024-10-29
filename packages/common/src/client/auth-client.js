@@ -30,4 +30,20 @@ const getAuthClient = async (baseUrl, client_id, client_secret) => {
 	return authClient;
 };
 
-module.exports = getAuthClient;
+/**
+ * @param {import('openid-client').Client} authClient
+ * @param {string} email
+ * @param {string} action
+ * @returns {Promise<void>}
+ */
+
+const createOTPGrant = async (authClient, email, action) => {
+	await authClient.grant({
+		grant_type: AUTH.GRANT_TYPE.OTP,
+		email: email,
+		action: action,
+		resource: AUTH.RESOURCE
+	});
+};
+
+module.exports = { getAuthClient, createOTPGrant };

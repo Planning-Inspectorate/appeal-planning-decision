@@ -1,0 +1,102 @@
+{% extends "layouts/full-appeal-banner/main-no-back-link.njk" %}
+
+{% from "govuk/components/button/macro.njk" import govukButton %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
+
+{% set title="Enter the code we sent to your email address - Appeal a planning decision - GOV.UK" %}
+
+{% block pageTitle %}
+  {% if errors %}
+    {% set title = "Error: " + title %}
+  {% endif %}
+  {{ title }}
+{% endblock %}
+
+{% block content %}
+
+  {% if errors %}
+    {{ govukErrorSummary({
+      titleText: "There is a problem",
+      errorList: errorSummary
+    }) }}
+  {% endif %}
+
+  {% if showNewCode %}
+    {{ govukNotificationBanner({
+      text: 'We’ve sent a code to your email address.',
+      type: 'success',
+			classes: 'govuk-grid-row govuk-grid-column-two-thirds govuk-notification-banner__heading'
+    }) }}
+  {% endif %}
+
+  <div class="govuk-grid-row">
+
+    <div class="govuk-grid-column-two-thirds">
+      <form action="" method="POST" novalidate>
+			<input type="hidden" name="_csrf" value="{{_csrf}}">
+
+        {{ govukInput({
+            label: {
+              text: "Enter the code we sent to your email address",
+              classes: "govuk-label--l",
+              isPageHeading: true
+					  },
+            classes: "govuk-input govuk-input--width-5",
+            id: "email-code",
+            name: "email-code",
+            spellcheck: false,
+            value: email-code,
+            errorMessage: errors['email-code'] and {
+              text: errors['email-code'].msg
+            }
+
+          }) }}
+
+        {{ govukButton({
+          text: "Continue",
+          type: "submit",
+          attributes: { "data-cy":"button-save-and-continue"}
+        }) }}
+      </form>
+
+			<h2 class="govuk-heading-m">
+        If you’re having problems
+      </h2>
+
+      {% if confirmEmailLink %}
+        <p class="govuk-body">
+          <a href="{{confirmEmailLink}}" class="govuk-link">Change your email address</a> if you entered it incorrectly.
+        </p>
+      {% endif %}
+
+			<p class="govuk-body">
+        Check if the email has gone to your spam or junk folder. If it’s not there, we can <a href="{{requestNewCodeLink}}" class="govuk-link">send a new code</a>.
+      </p>
+
+            <details class="govuk-details" data-module="govuk-details">
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text">
+            If you’re still having problems
+          </span>
+        </summary>
+        <div class="govuk-details__text">
+          <p class="govuk-body">
+            You can contact our customer support team.
+          </p>
+
+          {# todo: use env variables for contact details #}
+          <p class="govuk-body">
+            <a data-cy="Enquiries" href="https://contact-us.planninginspectorate.gov.uk/hc/en-gb/requests/new">Submit a request - PINS</a><br>
+            Telephone: 0303 444 5000<br>
+            Monday to Friday, 9am to midday (except public holidays)<br>
+            <a href="https://www.gov.uk/call-charges">Find out about call charges</a>.
+          </p>
+        </div>
+      </details>
+
+    </div>
+  </div>
+{% endblock %}

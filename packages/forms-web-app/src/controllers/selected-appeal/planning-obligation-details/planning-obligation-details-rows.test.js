@@ -12,7 +12,8 @@ describe('planningObligationRows', () => {
 				{
 					id: 1,
 					documentType: APPEAL_DOCUMENT_TYPE.PLANNING_OBLIGATION,
-					filename: 'test.txt'
+					filename: 'test.txt',
+					redacted: true
 				}
 			]
 		});

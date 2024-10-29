@@ -1,0 +1,141 @@
+{% extends "layouts/no-banner-link/main-no-back-link.njk" %}
+
+ {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+ {% from "govuk/components/button/macro.njk" import govukButton %}
+ {% from "govuk/components/radios/macro.njk" import govukRadios %}
+ {% from "govuk/components/tabs/macro.njk" import govukTabs %}
+ {% from "govuk/components/table/macro.njk" import govukTable %}
+
+ {% set title="Your appeals - Appeal a planning decision - GOV.UK" %}
+
+ {% block pageTitle %}
+   {{ title }}
+ {% endblock %}
+
+ {% block content %}
+   <div class="govuk-grid-row">
+     <div class="govuk-grid-column-full">
+
+       {% if errorSummary %}
+         {{ govukErrorSummary({
+           titleText: "There is a problem",
+           errorList: errorSummary
+         }) }}
+       {% endif %}
+
+        <h1 class="govuk-heading-l">Your appeals</h1>
+
+        {% set toDoHtml %}
+          <div>
+              <table class="govuk-table govuk-!-margin-top-3">
+                {% if noToDoAppeals %}
+                  <p class="govuk-body">There are currently no appeals in progress.</p>
+                {% else %}
+                  <caption class="govuk-table__caption govuk-table__caption--l">To do</caption>
+                  <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                      <th scope="col" class="govuk-table__header">Appeal number</th>
+                      <th scope="col" class="govuk-table__header">Address</th>
+                      <th scope="col" class="govuk-table__header">Appeal type</th>
+                      <th scope="col" class="govuk-table__header">Deadline</th>
+                      <th scope="col" class="govuk-table__header">To do</th>
+                    </tr>
+                  </thead>
+                  <tbody class="govuk-table__body">
+                      {% for item in toDoAppeals %}
+												<tr class="govuk-table__row">
+													{# Appeal number #}
+                          <td class="govuk-table__cell">
+                              <a href="/appeals/{{item.appealNumber}}" class="govuk-link">
+                                {{item.appealNumber}}
+                              </a>
+                          </td>
+													{# Address #}
+                          <td class="govuk-table__cell">
+                            {{ item.address }}
+                          </td>
+													{# Appeal type #}
+                          <td class="govuk-table__cell">{{item.appealType}}</td>
+                        	{# Deadline #}
+                          <td class="govuk-table__cell">
+                            {{item.nextDocumentDue.deadline | date('D MMMM YYYY') }}
+                          </td>
+													{# To do #}
+                          <td class="govuk-table__cell">
+                            <a href="{{item.nextDocumentDue.baseUrl}}" class="govuk-link">
+                              {{item.nextDocumentDue.documentDue}}
+                            </a>
+                          </td>
+                        </tr>
+                      {% endfor %}
+
+                  </tbody>
+                {% endif %}
+              </table>
+          </div>
+        {% endset %}
+
+        {% set waitingForReviewHtml %}
+          <div>
+              <table class="govuk-table govuk-!-margin-top-3">
+                <caption class="govuk-table__caption govuk-table__caption--l">Waiting for review</caption>
+                <thead class="govuk-table__head">
+                  <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Appeal number</th>
+                    <th scope="col" class="govuk-table__header">Address</th>
+                    <th scope="col" class="govuk-table__header">Appeal type</th>
+                    <th scope="col" class="govuk-table__header">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                    {% for item in waitingForReviewAppeals %}
+                      <tr class="govuk-table__row">
+												{# Appeal number #}
+                        <td class="govuk-table__cell">
+                          <a href="/appeals/{{item.appealNumber}}" class="govuk-link">
+                            {{item.appealNumber}}
+                          </a>
+                        </td>
+												{# Address #}
+                        <td class="govuk-table__cell">
+                          {{ item.address }}
+                        </td>
+												{# Appeal type #}
+                        <td class="govuk-table__cell">{{item.appealType}}</td>
+												{# Status #}
+                        <td class="govuk-table__cell">
+                          <strong class='govuk-tag govuk-tag--blue'>WITH CASE OFFICER</strong>
+                        </td>
+                      </tr>
+                    {% endfor %}
+
+                </tbody>
+              </table>
+          </div>
+        {% endset %}
+
+        {{ govukTabs({
+        items: [
+          {
+              label: "To do",
+              id: "to-do",
+              panel: {
+                  html: toDoHtml
+              }
+          },
+          {
+            label: "Waiting for review",
+            id: "waiting-for-review",
+            panel: {
+              html: waitingForReviewHtml
+            }
+          }
+        ]
+        }) }}
+
+        <p class="govuk-body">
+          <a href="/rule-6/decided-appeals" class="govuk-link">Decided appeals</a>
+        </p>
+     </div>
+   </div>
+ {% endblock %}

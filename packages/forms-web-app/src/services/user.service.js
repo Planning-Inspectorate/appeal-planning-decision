@@ -58,6 +58,27 @@ const createLPAUserSession = async (req, user, access_token, id_token, expiry) =
 };
 
 /**
+ * Creates the user object within the session object of the request for the successfully logged in LPAUser
+ * @async
+ * @param {import('express').Request} req
+ * @param {string} access_token
+ * @param {string} id_token
+ * @param {Date} expiry
+ * @param {string} email
+ * @returns {Promise<void>}
+ */
+const createRule6UserSession = async (req, access_token, id_token, expiry, email) => {
+	const isRule6User = await isRule6UserByEmail(req, email);
+	req.session.user = {
+		email,
+		isRule6User,
+		access_token,
+		id_token,
+		expiry
+	};
+};
+
+/**
  * retrieves the user from session
  * @param {import('express').Request} req
  * @returns {AppealUserSession| LPAUser} appellant user
@@ -111,12 +132,24 @@ const setLPAUserStatus = async (req, userId, status) => {
 	await req.appealsApiClient.setLPAUserStatus(userId, status);
 };
 
+/**
+ * @param {import('express').Request} req
+ * @param {string} email
+ * @returns {Promise<boolean>}
+ */
+
+const isRule6UserByEmail = async (req, email) => {
+	return req.appealsApiClient.isRule6User(email);
+};
+
 module.exports = {
 	createAppealUserSession,
 	getUserFromSession,
 	createLPAUserSession,
+	createRule6UserSession,
 	getLPAUserStatus,
 	setLPAUserStatus,
 	getLPAUser,
-	logoutUser
+	logoutUser,
+	isRule6UserByEmail
 };

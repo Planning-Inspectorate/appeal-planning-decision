@@ -29,6 +29,8 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppealStatement} AppealStatement
+ * @typedef {import('appeals-service-api').Api.FinalComment} FinalComment
+ * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  */
 
 // Data model types
@@ -40,6 +42,10 @@ const trailingSlashRegex = /\/$/;
 
 /**
  * @typedef {{access_token: string|undefined|null, id_token: string|undefined|null, client_creds: string|undefined|null}} AuthTokens
+ */
+
+/**
+ * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  */
 
 /**
@@ -105,6 +111,16 @@ class AppealsApiClient {
 	 */
 	async getUsers(lpaCode) {
 		const endpoint = `${v2}/users/?lpaCode=${lpaCode}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} email
+	 * @returns {Promise<boolean>}
+	 */
+	async isRule6User(email) {
+		const endpoint = `${v2}/users/${encodeURIComponent(email?.trim())}/isRule6User`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
@@ -259,10 +275,14 @@ class AppealsApiClient {
 	}
 
 	/**
+	 *
+	 * @param {AppealToUserRoles} role
 	 * @returns {Promise<(AppealCase|AppealSubmission)[]>}
 	 */
-	async getUserAppeals() {
-		const endpoint = `${v2}/appeals/`;
+	async getUserAppeals(role) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('role', role);
+		const endpoint = `${v2}/appeals?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
@@ -440,12 +460,25 @@ class AppealsApiClient {
 	/**
 	 * @param {string} caseReference
 	 * @param {string} type
-	 * @returns {Promise<AppealStatement>}
+	 * @returns {Promise<AppealStatement[]>}
 	 */
 	async getAppealStatement(caseReference, type) {
 		const urlParams = new URLSearchParams();
 		urlParams.append('type', type);
 		const endpoint = `${v2}/appeal-cases/${caseReference}/appeal-statements?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} type
+	 * @returns {Promise<FinalComment[]>}
+	 */
+	async getAppealFinalComments(caseReference, type) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('type', type);
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appeal-final-comments?${urlParams.toString()}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
@@ -510,6 +543,59 @@ class AppealsApiClient {
 	async submitAppellantFinalCommentSubmission(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-final-comment-submission/submit`;
 		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(AppellantProofOfEvidenceSubmission)>}
+	 */
+	async getAppellantProofOfEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-proof-evidence-submission`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(AppellantProofOfEvidenceSubmission)>}
+	 */
+	async postAppellantProofOfEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-proof-evidence-submission`;
+		const response = await this.#makePostRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(AppellantProofOfEvidenceSubmission)>}
+	 */
+	async patchAppellantProofOfEvidenceSubmission(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-proof-evidence-submission`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(AppellantProofOfEvidenceSubmission)>}
+	 */
+	async postAppellantProofOfEvidenceDocumentUpload(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-proof-evidence-submission/document-upload`;
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} documentId
+	 * @returns {Promise<(AppellantProofOfEvidenceSubmission)>}
+	 */
+	async deleteAppellantProofOfEvidenceDocumentUpload(caseReference, documentId) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-proof-evidence-submission/document-upload/${documentId}`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
 	}
 
 	/**

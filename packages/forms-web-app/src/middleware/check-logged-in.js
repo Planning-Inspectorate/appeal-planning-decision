@@ -1,6 +1,4 @@
 const { getUserFromSession } = require('../services/user.service');
-const { isFeatureActive } = require('../featureFlag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 const {
 	constants: { NEW_OR_SAVED_APPEAL_OPTION }
 } = require('@pins/business-rules');
@@ -21,10 +19,6 @@ const isIdle = require('../lib/check-session-idle');
  * @type {import('express').RequestHandler}
  */
 const checkLoggedIn = async (req, res, next) => {
-	if (!(await isFeatureActive(FLAG.SQL_USERS))) {
-		return next();
-	}
-
 	const user = getUserFromSession(req);
 
 	if (
@@ -62,6 +56,10 @@ const checkLoggedIn = async (req, res, next) => {
 
 		if (v2docRedirect) {
 			req.session.loginRedirect = req.originalUrl;
+		}
+
+		if (req.originalUrl.startsWith('/rule-6/')) {
+			return res.redirect('email-address');
 		}
 
 		req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;

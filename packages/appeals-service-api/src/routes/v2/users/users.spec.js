@@ -207,6 +207,7 @@ describe('users v2', () => {
 			await appealsApi.post('/api/v2/users').send({
 				email: testEmail
 			});
+
 			const response = await appealsApi.patch(`/api/v2/users/${testEmail}`).send({
 				isEnrolled: true
 			});
@@ -329,6 +330,31 @@ describe('users v2', () => {
 
 			expect(response.status).toEqual(200);
 			expect(response.body.role).toEqual(APPEAL_USER_ROLES.AGENT);
+		});
+	});
+
+	describe('isRule6User', () => {
+		it('should return false if user has no rule 6 roles', async () => {
+			const testEmail = crypto.randomUUID() + '@example.com';
+			await _createSqlUser(testEmail);
+			const response = await appealsApi.get(`/api/v2/users/${testEmail}/isRule6User`);
+
+			expect(response.status).toEqual(200);
+			expect(response.body).toEqual(false);
+		});
+
+		it('should return true if user has any rule 6 roles', async () => {
+			const testEmail = crypto.randomUUID() + '@example.com';
+			await _createSqlUser(testEmail);
+			const appeal = await _createSqlAppeal();
+			await appealsApi.post(`/api/v2/users/${testEmail}/appeal/${appeal.id}`).send({
+				role: APPEAL_USER_ROLES.RULE_6_PARTY
+			});
+
+			const response = await appealsApi.get(`/api/v2/users/${testEmail}/isRule6User`);
+
+			expect(response.status).toEqual(200);
+			expect(response.body).toEqual(true);
 		});
 	});
 });

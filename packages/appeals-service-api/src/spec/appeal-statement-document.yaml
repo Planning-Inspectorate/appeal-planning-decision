@@ -1,7 +1,7 @@
 components:
   schemas:
     StatementDocument:
-      description: A document linked to an appeal statement
+      description: A statement document linked to an appeal statement
       type: object
       required:
         - id
@@ -14,6 +14,7 @@ components:
         statementId:
           type: string
           format: uuid
+          nullable: true
         documentId:
           type: string
           format: uuid

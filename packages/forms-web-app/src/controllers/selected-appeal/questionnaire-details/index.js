@@ -1,12 +1,12 @@
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { formatHeadlineData, formatQuestionnaireRows } = require('@pins/common');
 
-const { VIEW } = require('../../../lib/views');
-const { determineUser } = require('../../../lib/determine-user');
+const { VIEW } = require('#lib/views');
+const { determineUser } = require('#lib/determine-user');
 const {
 	formatQuestionnaireHeading,
 	formatTitleSuffix
-} = require('../../../lib/selected-appeal-page-setup');
+} = require('#lib/selected-appeal-page-setup');
 const { constraintsRows } = require('./constraints-details-rows');
 const { appealProcessRows } = require('./appeal-process-details-rows');
 const { consultationRows } = require('./consultation-details-rows');
@@ -16,6 +16,8 @@ const { planningOfficerReportRows } = require('./planning-officer-details-rows')
 const { siteAccessRows } = require('./site-access-details-rows');
 const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
+const { addCSStoHtml } = require('#lib/add-css-to-html');
+const { generatePDF } = require('#lib/pdf-api-wrapper');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -34,6 +36,13 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 
 		if (userType === null) {
 			throw new Error('Unknown role');
+		}
+
+		const isPagePdfDownload = req.query.pdf === 'true' && userType === LPA_USER_ROLE;
+
+		let pdfDownloadUrl;
+		if (userType === LPA_USER_ROLE && !isPagePdfDownload) {
+			pdfDownloadUrl = userRouteUrl + '?pdf=true';
 		}
 
 		const lpaUser = getUserFromSession(req);
@@ -59,7 +68,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		// headline data
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
 		// constraints details
-		const constraintsDetailsRows = constraintsRows(caseData, userType);
+		const constraintsDetailsRows = constraintsRows(caseData);
 		const constraintsDetails = formatQuestionnaireRows(constraintsDetailsRows, caseData);
 		// environmental rows
 		const environmentalDetailsRows = environmentalRows(caseData);
@@ -94,9 +103,26 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				planningOfficerDetails,
 				siteAccessDetails,
 				appealProcessDetails
-			}
+			},
+			pdfDownloadUrl
 		};
 
-		res.render(VIEW.SELECTED_APPEAL.APPEAL_QUESTIONNAIRE, viewContext);
+		await req.app.render(
+			VIEW.SELECTED_APPEAL.APPEAL_QUESTIONNAIRE,
+			viewContext,
+			async (_, html) => {
+				if (!isPagePdfDownload) return res.send(html);
+
+				const pdfHtml = await addCSStoHtml(html);
+				const pdf = await generatePDF(pdfHtml);
+
+				res.set(
+					'Content-disposition',
+					`attachment; filename="Appeal Questionnaire ${appealNumber}.pdf"`
+				);
+				res.set('Content-type', 'application/pdf');
+				return res.send(pdf);
+			}
+		);
 	};
 };

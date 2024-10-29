@@ -306,6 +306,11 @@ class Question {
 				journeyResponse.referenceId,
 				responseToSave.answers
 			);
+		} else if ([JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE].includes(journeyType)) {
+			await apiClient.patchAppellantProofOfEvidenceSubmission(
+				journeyResponse.referenceId,
+				responseToSave.answers
+			);
 		}
 	}
 

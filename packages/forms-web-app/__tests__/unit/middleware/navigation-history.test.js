@@ -210,6 +210,25 @@ describe('middleware/navigation-history', () => {
 				expect(next).toHaveBeenCalled();
 				expect(req.session.navigationHistory).toEqual(['/x/y/z', '/a', '/b']);
 			}
+		},
+		{
+			description: 'should not add published-document links to the navigation history',
+			given: () => ({
+				config: undefined,
+				req: {
+					...mockReq(),
+					session: {
+						...mockReq().session,
+						navigationHistory: ['/previous-page']
+					},
+					baseUrl: '',
+					path: '/published-document/some-document-id'
+				}
+			}),
+			expected: (req, res, next) => {
+				expect(next).toHaveBeenCalled();
+				expect(req.session.navigationHistory).toEqual(['/previous-page']);
+			}
 		}
 	].forEach(({ description, given, expected }) => {
 		it(description, () => {

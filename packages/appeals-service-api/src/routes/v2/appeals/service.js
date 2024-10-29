@@ -10,16 +10,18 @@ const cosmosAppeals = new AppealsRepository();
  * @typedef {import("@prisma/client").AppealCase} AppealCase
  * // TODO: define type for submission (ideally generated from spec)
  * @typedef {AppealCase | any} AppealCaseOrSubmission
+ * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
  */
 
 /**
  * Get all appeals for a user - both cases and draft submissions
  *
  * @param {string} userId
+ * @param {AppealToUserRoles} role
  * @return {Promise<AppealCaseOrSubmission[]|null>}
  */
-async function getAppealsForUser(userId) {
-	const user = await repo.listAppealsForUser(userId);
+async function getAppealsForUser(userId, role) {
+	const user = await repo.listAppealsForUser(userId, role);
 	if (!user) {
 		return null;
 	}

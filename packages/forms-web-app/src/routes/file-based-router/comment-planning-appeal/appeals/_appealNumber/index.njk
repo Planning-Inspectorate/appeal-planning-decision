@@ -15,7 +15,7 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-      {% if errorSummary %}
+	  {% if errorSummary %}
         {{ govukErrorSummary({
           titleText: "There is a problem",
           errorList: errorSummary
@@ -24,66 +24,49 @@
 
       <h1 class="govuk-heading-l">{{appeal.headlineText}}</h1>
 
-			{% if appeal.status === 'decided' %}
-				<h2 class="govuk-heading-2">Appeal decision</h2>
-				{{ govukTag({
-					text: appeal.decidedData.caseDecisionOutcome,
-					classes: "govuk-tag--" + appeal.decidedData.formattedDecisionColour + " govuk-!-margin-bottom-3"
-				}) }}
-				<p class="govuk-body">Decision date: {{appeal.decidedData.formattedCaseDecisionDate}}</p>
-				{% for document in appeal.decidedData.decisionDocuments %}
-				  <p class="govuk-body"><a href="/published-document/{{document.id}}" class="govuk-link">{{document.filename}}</a></p>
-				{% endfor %}
-				<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
-			{% endif %}
+	  {% if appeal.status === 'decided' %}
+		<h2 class="govuk-heading-2">Appeal decision</h2>
+		{{ govukTag({
+			text: appeal.decidedData.caseDecisionOutcome,
+			classes: "govuk-tag--" + appeal.decidedData.formattedDecisionColour + " govuk-!-margin-bottom-3"
+		}) }}
+		<p class="govuk-body">Decision date: {{appeal.decidedData.formattedCaseDecisionDate}}</p>
+		{% for document in appeal.decidedData.decisionDocuments %}
+			<p class="govuk-body"><a href="/published-document/{{document.id}}" class="govuk-link">{{document.filename}}</a></p>
+		{% endfor %}
+		<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
+	  {% endif %}
 
       {{ govukSummaryList({
         classes: "appeal-headlines govuk-summary-list--no-border",
         rows: headlineData
       }) }}
 
-				{# NOTE - FOR MVP DECIDED APPEALS ONLY SHOW HEADLINES #}
-			{% if appeal.status != 'decided' %}
-
-			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
-		</div>
+	  {# NOTE - FOR MVP DECIDED APPEALS ONLY SHOW HEADLINES #}
+	  {% if appeal.status != 'decided' %}
+		<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
+	  {% endif %}
 	</div>
-
-	<div class="govuk-grid-row">
-		<div class="govuk-grid-column-full">
-			<p>
-				{{ appeal.deadlineText }}
-			</p>
-			{% if appeal.status == 'open' %}
-				{{ govukButton({
-					text: "Comment on this appeal",
-					href: "../your-name",
-					classes: "govuk-button--secondary govuk-!-margin-bottom-1"
-				}) }}
-			{% else %}
-				<p> You cannot add a comment. </p>
-			{% endif %}
-
-      <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
-    </div>
-
-		<div class="govuk-grid-column-full">
-			<h2 class="govuk-heading-l">Appeal submission</h2>
-
-			{{ govukSummaryList({
-				classes: "govuk-summary-list long-answers",
-				rows: appeal.appealSubmission
-			}) }}
-
-			<h2 class="govuk-heading-l">Application</h2>
-
-			{{ govukSummaryList({
-				classes: "govuk-summary-list long-answers",
-				rows: appeal.application
-			}) }}
-
-	{% endif %}
-		</div>
   </div>
+
+  {% if appeal.status != 'decided' %}
+	<div class="govuk-grid-row">
+	  <div class="govuk-grid-column-full">
+		<p>
+		  {{ appeal.deadlineText }}
+		</p>
+		{% if appeal.status == 'open' %}
+		  {{ govukButton({
+			text: "Comment on this appeal",
+			href: "../your-name",
+			classes: "govuk-button--secondary govuk-!-margin-bottom-1"
+		  }) }}
+		{% else %}
+		  <p> You cannot add a comment. </p>
+		{% endif %}
+		<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
+	  </div>
+    </div>
+  {% endif %}
 
 {% endblock %}

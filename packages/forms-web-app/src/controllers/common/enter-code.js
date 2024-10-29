@@ -1,4 +1,4 @@
-const { getExistingAppeal, sendToken } = require('#lib/appeals-api-wrapper');
+const { getExistingAppeal } = require('#lib/appeals-api-wrapper');
 const {
 	getLPAUser,
 	createLPAUserSession,
@@ -12,12 +12,9 @@ const { enterCodeConfig } = require('@pins/common');
 const logger = require('#lib/logger');
 const { STATUS_CONSTANTS } = require('@pins/common/src/constants');
 
-const { isFeatureActive } = require('../../featureFlag');
-const { FLAG } = require('@pins/common/src/feature-flags');
 const { getSessionEmail, setSessionEmail, getSessionAppealSqlId } = require('#lib/session-helper');
-const getAuthClient = require('@pins/common/src/client/auth-client');
+const { getAuthClient, createOTPGrant } = require('@pins/common/src/client/auth-client');
 const config = require('../../config');
-const { AUTH } = require('@pins/common/src/constants');
 
 /**
  * @typedef {import('#lib/is-token-valid').TokenValidResult} TokenValidResult
@@ -27,27 +24,6 @@ const { AUTH } = require('@pins/common/src/constants');
  * @typedef {Object} enterCodeOptions
  * @property {boolean} isGeneralLogin - defines if this enter code journey is for a general appeal log in, unrelated to an appeal
  */
-
-/**
- * Creates a one time password grant via the auth server
- * @param {string} email
- * @param {string} action
- * @returns {Promise<void>}
- */
-const createOTPGrant = async (email, action) => {
-	const client = await getAuthClient(
-		config.oauth.baseUrl,
-		config.oauth.clientID,
-		config.oauth.clientSecret
-	);
-
-	await client.grant({
-		grant_type: AUTH.GRANT_TYPE.OTP,
-		email: email,
-		action: action,
-		resource: AUTH.RESOURCE
-	});
-};
 
 /**
  * @param {{EMAIL_ADDRESS: string, ENTER_CODE: string, REQUEST_NEW_CODE: string}} views
@@ -76,10 +52,8 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			delete req.session?.enterCode?.newCode;
 		}
 
-		const isSqlUsersActive = await isFeatureActive(FLAG.SQL_USERS);
-
 		logger.info(
-			{ isGeneralLogin, isAppealConfirmation, isReturningFromEmail, isSqlUsersActive, action },
+			{ isGeneralLogin, isAppealConfirmation, isReturningFromEmail, action },
 			`getEnterCode`
 		);
 
@@ -87,7 +61,12 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 			const email = getSessionEmail(req.session, false);
 
 			try {
-				await createOTPGrant(email, action);
+				const authClient = await getAuthClient(
+					config.oauth.baseUrl,
+					config.oauth.clientID,
+					config.oauth.clientSecret
+				);
+				await createOTPGrant(authClient, email, action);
 			} catch (e) {
 				logger.error(e, 'failed to send token to general login user');
 			}
@@ -97,12 +76,13 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 		if (isAppealConfirmation) {
 			try {
-				if (isSqlUsersActive) {
-					const email = getSessionEmail(req.session, true);
-					await createOTPGrant(email, action);
-				} else {
-					await sendToken(enterCodeId, action);
-				}
+				const email = getSessionEmail(req.session, true);
+				const authClient = await getAuthClient(
+					config.oauth.baseUrl,
+					config.oauth.clientID,
+					config.oauth.clientSecret
+				);
+				await createOTPGrant(authClient, email, action);
 			} catch (e) {
 				logger.error(e, 'failed to send token for appeal email confirmation');
 			}
@@ -128,11 +108,12 @@ const getEnterCode = (views, { isGeneralLogin = true }) => {
 
 			// attempt to send code email to user, render page on failure
 			try {
-				if (isSqlUsersActive) {
-					await createOTPGrant(savedAppeal.email, action);
-				} else {
-					await sendToken(enterCodeId, action);
-				}
+				const authClient = await getAuthClient(
+					config.oauth.baseUrl,
+					config.oauth.clientID,
+					config.oauth.clientSecret
+				);
+				await createOTPGrant(authClient, savedAppeal.email, action);
 			} catch (e) {
 				logger.error(e, 'failed to send token to returning user');
 			}
@@ -187,18 +168,9 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 
 		const isV2DocRequest = req.session?.loginRedirect?.startsWith('/appeal-document/');
 
-		const sqlUsersFlag = await isFeatureActive(FLAG.SQL_USERS);
-
 		const sessionEmail = getSessionEmail(req.session, isAppealConfirmation);
 
-		const tokenValid = await isTokenValid(
-			token,
-			enterCodeId,
-			sessionEmail,
-			action,
-			req.session?.appeal?.lpaCode,
-			sqlUsersFlag
-		);
+		const tokenValid = await isTokenValid(token, sessionEmail, action);
 
 		if (tokenValid.tooManyAttempts) {
 			return res.redirect(`/${views.NEED_NEW_CODE}`);
@@ -212,16 +184,14 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 			return renderError('Enter the correct code');
 		}
 
-		if (sqlUsersFlag) {
-			// is valid so set user in session
-			createAppealUserSession(
-				req,
-				tokenValid.access_token,
-				tokenValid.id_token,
-				tokenValid.access_token_expiry,
-				sessionEmail
-			);
-		}
+		// is valid so set user in session
+		createAppealUserSession(
+			req,
+			tokenValid.access_token,
+			tokenValid.id_token,
+			tokenValid.access_token_expiry,
+			sessionEmail
+		);
 
 		logger.info(
 			{
@@ -229,7 +199,6 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 				isGeneralLogin,
 				isAppealConfirmation,
 				isReturningFromEmail,
-				sqlUsersFlag,
 				action
 			},
 			`postEnterCode`
@@ -240,21 +209,15 @@ const postEnterCode = (views, { isGeneralLogin = true }) => {
 		}
 
 		if (isGeneralLogin) {
-			if (!(await isFeatureActive(FLAG.ENROL_USERS))) {
-				throw new Error('unhandled journey for POST: enter-code');
-			}
-
 			deleteTempSessionValues();
 			return res.redirect(`/${views.YOUR_APPEALS}`);
 		}
 
 		if (isAppealConfirmation) {
-			if (sqlUsersFlag) {
-				await req.appealsApiClient.linkUserToV2Appeal(
-					sessionEmail,
-					getSessionAppealSqlId(req.session)
-				);
-			}
+			await req.appealsApiClient.linkUserToV2Appeal(
+				sessionEmail,
+				getSessionAppealSqlId(req.session)
+			);
 
 			deleteTempSessionValues();
 
@@ -381,7 +344,12 @@ const sendTokenToLpaUser = async (req) => {
 	const user = await getLPAUser(req, req.params.id);
 
 	if (user?.email) {
-		await createOTPGrant(user.email, enterCodeConfig.actions.lpaDashboard);
+		const authClient = await getAuthClient(
+			config.oauth.baseUrl,
+			config.oauth.clientID,
+			config.oauth.clientSecret
+		);
+		await createOTPGrant(authClient, user.email, enterCodeConfig.actions.lpaDashboard);
 	}
 };
 
@@ -462,15 +430,7 @@ const postEnterCodeLPA = (views) => {
 		}
 
 		// check token
-		const enrolUsers = true; // lpa relies on sql user, potentially split this flag into sql-user and appellant-dashboard
-		const tokenResult = await isTokenValid(
-			emailCode,
-			id,
-			user.email,
-			req.session,
-			user.lpaCode,
-			enrolUsers
-		);
+		const tokenResult = await isTokenValid(emailCode, user.email);
 
 		if (!lpaTokenVerification(res, tokenResult, views, id)) return;
 
