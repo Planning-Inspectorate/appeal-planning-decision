@@ -633,9 +633,8 @@ const lpaAppealCaseData = [
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
-		caseWithdrawnDate: pickRandom(datesNMonthsAgo(1)),
 		CaseStatus: {
-			connect: { key: APPEAL_CASE_STATUS.WITHDRAWN }
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
 		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
