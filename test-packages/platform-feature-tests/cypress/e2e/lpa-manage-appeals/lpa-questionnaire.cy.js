@@ -1,27 +1,31 @@
-//import { BasePage } from "../page-objects/base-page";
+import { BasePage } from "../../page-objects/base-page";
 
-describe('LPA Manage Appeals Questionnaire', () => {    
- //   const basePage = new BasePage();    
+const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
-    beforeEach(() => {
-        // cy.fixture('prepareAppealData').then(data => {
-        //     prepareAppealData = data;
-        // })
-        cy.visit(`${Cypress.config('appeals_beta_base_url')}/manage-appeals/your-email-address`);
-        cy.getByData('email-address').type('admin1@planninginspectorate.gov.uk');
-        cy.advanceToNextPage();
-        cy.get('#email-code').type('12345');
-        cy.advanceToNextPage();
-
-
+describe('LPA Manage Appeals Questionnaire', () => {
+  const basePage = new BasePage();
+  const yourAppealsSelector = new YourAppealsSelector();
+  let lpaQuestionnaireData;
+  beforeEach(() => {
+    cy.fixture('lpaQuestionnaireData').then(data => {
+      lpaQuestionnaireData = data;
     })
-   
-    it(`LPA Manage Appeals Questionnaire`, () => {
-       cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/manage-appeals/your-appeals`);      
-    });  
-    
-    it(`Add and Remove user link validation`, () => {       
-      //  cy.get('.govuk-link').contains('Add and remove users');
-        cy.containsMessage('.govuk-link','Add and remove users');
-     }); 
+    cy.visit(`${Cypress.config('appeals_beta_base_url')}/manage-appeals/your-email-address`);
+    cy.url().then((url) => {
+      if (url.includes('/manage-appeals/your-email-address')) {
+        cy.getByData(yourAppealsSelector?._selectors?.emailAddress).clear().type(lpaQuestionnaireData?.emailAddress);
+        cy.advanceToNextPage();
+        cy.get(yourAppealsSelector?._selectors?.emailCode).type(lpaQuestionnaireData?.emailCode);
+        cy.advanceToNextPage();
+      }
+    });
+  })
+
+  it(`LPA Manage Appeals Questionnaire`, () => {
+    cy.validateURL(`${Cypress.config('appeals_beta_base_url')}/manage-appeals/your-appeals`);
+  });
+
+  it(`Add and Remove user link validation`, () => {
+    cy.containsMessage(basePage?._selectors.govukLink, lpaQuestionnaireData?.addAndRemoveUsers);
+  });
 });

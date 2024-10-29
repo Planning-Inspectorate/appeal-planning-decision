@@ -1,0 +1,41 @@
+{
+    "emailAddress":"admin1@planninginspectorate.gov.uk",
+    "emailCode":"12345",    
+    "hasAppealType":"HAS",
+    "todoInvalid":"INVALID",
+    "todoQuestionnaire": "questionnaire",
+    "appealType": "Appeal type",
+    "appealTypeHouseholder":"Householder",
+    "questionnaireChange":"Change",
+    "questionnaireAnswer":"Answer",
+    "submitQuestionnaire":"submit-questionnaire",
+    "questionnaireSubmitted":"Questionnaire submitted",
+    "addAndRemoveUsers":"Add and remove users",
+    "constraintsAndDesignations":{
+        "correctTypeOfAppeal":"Is this the correct type of appeal?",
+        "addAnotherBuilding":"Add another building or site?",
+        "listedBuildingNumber":"1010103"
+    },
+    "notifyParties":{
+        "siteNotice":"A site notice",
+        "lettersEmailsToParties":"Letters or emails to interested parties",
+        "advertInLocalPress":"An advert in the local press"
+    },
+    "siteAccess":{
+        "siteAccessInformation":"site access information",
+        "neighbourSiteAccess":"neighbour access",
+        "anotherNeighbourVisit":"Do you want to add another neighbour to be visited?",
+        "addresssLineOne":"address-line-one",
+        "addressLineTwo":"address-line-two",
+        "addressTown":"address-town",
+        "addressCounty":"address-county",
+        "addressPostCode":"ab1 2cd",
+        "siteSafetyRiskDerails":"lpaSiteSafetyRisks lpaSiteSafetyRiskDetails"
+    },
+    "appealProcess":{
+        "addAnotherAppeal":"Add another appeal?",
+        "nearByAppealReference":"1234567",
+        "conditionsAndDetails":"newConditions newConditionDetails"
+    }
+
+}

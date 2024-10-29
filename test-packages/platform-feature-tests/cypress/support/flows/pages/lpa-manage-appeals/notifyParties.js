@@ -1,26 +1,21 @@
-// @ts-nocheck
-/// <reference types="cypress"/>
+import { BasePage } from "../../../../page-objects/base-page";
 export class NotifyParties {
 
     _selectors = {
-
+       
     }
-    selectAndNotifyParties(context, lpaManageAppealsData) {        
-        //Who did you notify about this application
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadNotifyParties);
+    selectAndNotifyParties(context,lpaQuestionnaireData) {
+        const basePage = new BasePage();
+        cy.checkIfUnchecked(lpaQuestionnaireData?.notifyParties?.siteNotice);
+        cy.checkIfUnchecked(lpaQuestionnaireData?.notifyParties?.lettersEmailsToParties);
+        cy.checkIfUnchecked(lpaQuestionnaireData?.notifyParties?.advertInLocalPress);
         cy.advanceToNextPage();
-        cy.checkIfUnchecked(lpaManageAppealsData?.notifyParties?.siteNotice);
-        cy.checkIfUnchecked(lpaManageAppealsData?.notifyParties?.lettersEmailsToParties);
-        cy.checkIfUnchecked(lpaManageAppealsData?.notifyParties?.advertInLocalPress);
+        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
         cy.advanceToNextPage();
-        //Upload the site notice
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadSiteNotice);
+        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
         cy.advanceToNextPage();
-        //Upload letters or emails sent to interested parties with their addresses
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadLettersEmailsToParties);
-        cy.advanceToNextPage();
-        //Upload the press advertisement
-        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPressAdvertisement);
-        cy.advanceToNextPage();
-    };
+        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.advanceToNextPage();           
+    };   
+
 }

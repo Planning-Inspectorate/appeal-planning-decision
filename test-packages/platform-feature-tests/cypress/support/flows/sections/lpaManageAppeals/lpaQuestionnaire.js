@@ -1,21 +1,34 @@
 import { BasePage } from "../../../../page-objects/base-page";
+import { AppealProcess } from "../../pages/lpa-manage-appeals/appealProcess";
+import { ConstraintsAndDesignations } from "../../pages/lpa-manage-appeals/constraintsAndDesignations";
+import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/consultResponseAndRepresent";
+import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
+import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
+import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
 
-export const lpaQuestionnaire = (context) => {
+export const lpaQuestionnaire = (context,lpaQuestionnaireData) => {
+//module.exports = (context,lpaQuestionnaireData) => {
 	const basePage = new BasePage();
+	const constraintsAndDesignations = new ConstraintsAndDesignations();
+	const consultResponseAndRepresent = new ConsultResponseAndRepresent();
+	const appealProcess = new AppealProcess();
+	const siteAccess = new SiteAccess();
+	const notifyParties = new NotifyParties();
+	const poReportAndSupportDocs = new PoReportAndSupportDocs();
 	let appealId;
 	let counter = 0;
-	cy.get('tr.govuk-table__row').each(($row)=> {
+	cy.get(basePage?._selectors.trgovukTableRow).each(($row)=> {
 		const rowtext=$row.text();
 		//cy.log('countercheck',counter);
-		if(rowtext.includes('HAS') && !rowtext.includes('INVALID')) {
+		if(rowtext.includes(lpaQuestionnaireData?.hasAppealType) && !rowtext.includes(lpaQuestionnaireData?.todoInvalid)) {
 			if(counter === 1){		
 			cy.log(rowtext);
 		
 			cy.wrap($row).within(() => {
-			cy.get('td.govuk-table__cell').contains('HAS').should('be.visible');
+			cy.get(basePage?._selectors.trgovukTableCell).contains(lpaQuestionnaireData?.hasAppealType).should('be.visible');
 			//Log all below links for debug
 			cy.get('a').each(($link) => {
-				if($link.attr('href')?.includes('questionnaire')){
+				if($link.attr('href')?.includes(lpaQuestionnaireData?.todoQuestionnaire)){
 					appealId=$link.attr('href')?.split('/').pop();
 					cy.log(appealId);
 					//cy.log(`Link found:${$link.text()},href:${$link.attr('href')}`);
@@ -30,187 +43,40 @@ export const lpaQuestionnaire = (context) => {
 	}).then(() =>{
 	
 	cy.url().should('include',`/manage-appeals/questionnaire/${appealId}`);
-	cy.get('dl.govuk-summary-list.appeal-details').within(()=>{
-		cy.get('.govuk-summary-list__row').each(($row)=>{
-			const $key = $row.find('.govuk-summary-list__key');
-			if($key.text().trim() === 'Appeal type') {
-				cy.wrap($row).find('.govuk-summary-list__value').should('contain.text','Householder');
+	cy.get(basePage?._selectors.dlgovukSummaryListAppealDetails).within(()=>{
+		cy.get(basePage?._selectors.govukSummaryListRow).each(($row)=>{
+			const $key = $row.find(basePage?._selectors.govukSummaryListKey);
+			if($key.text().trim() === lpaQuestionnaireData?.appealType) {
+				cy.wrap($row).find(basePage?._selectors.govukSummaryListValue).should('contain.text', lpaQuestionnaireData?.appealTypeHouseholder);
 			return false;
 			} 
 		});
 
 	});
-	cy.contains('Is this the correct type of appeal?').closest('.govuk-summary-list__row').find('a.govuk-link').then($link=>{
-		if($link.text().includes('Answer')){
-			cy.wrap($link).contains('Answer').click();
+	cy.contains(lpaQuestionnaireData?.constraintsAndDesignations?.correctTypeOfAppeal).closest(basePage?._selectors.govukSummaryListRow).find(basePage?._selectors.agovukLink).then($link=>{
+		if($link.text().includes(lpaQuestionnaireData?.questionnaireAnswer)){
+			cy.wrap($link).contains(lpaQuestionnaireData?.questionnaireAnswer).click();
 		} else {
-			cy.wrap($link).contains('Change').click();
+			cy.wrap($link).contains(lpaQuestionnaireData?.questionnaireChange).click();
 		}
 	});
-	if(context?.constraintsAndDesignations?.isCorrectTypeOfAppeal){
-		cy.getByData(basePage?._selectors.answerYes).click();
-		cy.advanceToNextPage();
-	} else {		
-		cy.getByData(basePage?._selectors.answerNo).click();
-		cy.advanceToNextPage();
-	}
-	// Once we tested we wil move to separate section
-	if(context?.constraintsAndDesignations?.affectListedBuildings){
-		cy.getByData(basePage?._selectors.answerYes).click();
-		cy.advanceToNextPage();
-		cy.get('#affectedListedBuildingNumber').type('')
-		cy.advanceToNextPage();
-	} else {		
-		cy.getByData(basePage?._selectors.answerNo).click();
-		cy.advanceToNextPage();
-	}
-	// conservative area section 
-	if(context?.constraintsAndDesignations?.conservationArea){
-		cy.getByData(basePage?._selectors.answerYes).click();
-		cy.advanceToNextPage();		
-		cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
-		cy.advanceToNextPage();	
-
-	} else {		
-		cy.getByData(basePage?._selectors.answerNo).click();
-		cy.advanceToNextPage();
-	}
-
-	// Green belt  area section 
-	if(context?.constraintsAndDesignations?.isGreenBelt){
-		cy.getByData(basePage?._selectors.answerYes).click();
-		cy.advanceToNextPage();		
-		cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
-		cy.advanceToNextPage();	
-
-	} else {		
-		cy.getByData(basePage?._selectors.answerNo).click();
-		cy.advanceToNextPage();
-		cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
-		cy.advanceToNextPage();	
-	}
-
-	//
-	cy.checkIfUnchecked('A site notice');
-	cy.checkIfUnchecked('Letters or emails to interested parties');
-	cy.checkIfUnchecked('An advert in the local press');
-	// cy.getByData('answer-site-notice').click();
-	// cy.getByData('answer-letters-or-emails').click();
-	// cy.getByData('answer-advert').click();
-	cy.advanceToNextPage();
-	cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
-	cy.advanceToNextPage();
-	cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
-	cy.advanceToNextPage();
-	cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
-	cy.advanceToNextPage();
-
-
-	// Consultation responses and representations 
-	if(context?.consultResponseAndRepresent?.otherPartyRepresentations){
-		cy.getByData(basePage?._selectors.answerYes).click();
-		cy.advanceToNextPage();		
-		cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
-		cy.advanceToNextPage();	
-
-	} else {		
-		cy.getByData(basePage?._selectors.answerNo).click();
-		cy.advanceToNextPage();
-		cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
-		cy.advanceToNextPage();	
-	}
-
-	//Planning officer's report and supplementary documents	
-	cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
-	cy.advanceToNextPage();
-	cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
-	cy.advanceToNextPage();
-
+	constraintsAndDesignations.selectCorrectTypeOfAppeal(context);	
+	constraintsAndDesignations.selectAffectListedBuildings(context,lpaQuestionnaireData);
+	constraintsAndDesignations.selectConservationArea(context);	
+	constraintsAndDesignations.selectIsGreenBelt(context);	
+	notifyParties.selectAndNotifyParties(context,lpaQuestionnaireData);
+	consultResponseAndRepresent.selectOtherPartyRepresentations(context);
+	//Planning officer's report and supplementary documents
+	poReportAndSupportDocs.selectPOReportAndSupportDocs(context);
 	//Site access
-	if(context?.siteAccess?.lpaSiteAccess){
-		cy.getByData(basePage?._selectors.answerYes).click();
-		cy.get('#lpaSiteAccess_lpaSiteAccessDetails').type('site access information')
-		cy.advanceToNextPage();			
-
-	} else {		
-		cy.getByData(basePage?._selectors.answerNo).click();
-		cy.advanceToNextPage();		
-	}
-
-	if(context?.siteAccess?.neighbourSiteAccess){
-		cy.getByData(basePage?._selectors.answerYes).click();
-		cy.get('#neighbourSiteAccess_neighbourSiteAccessDetails').type('neighbour access')
-		cy.advanceToNextPage();
-		cy.get('body').then($body => {
-			if($body.find('.govuk-fieldset__heading:contains("Do you want to add another neighbour to be visited?")').length > 0){
-				cy.getByData(basePage?._selectors.answerNo).click();
-			 	cy.advanceToNextPage();	
-			} else {
-				cy.get('#address-line-1').type('address-line-one');
-				cy.get('#address-line-2').type('address-line-two');
-				cy.get('#address-town').type('address-town');				
-				cy.get('#address-county').type('address-county');
-				cy.get('#address-postcode').type('ab1 2cd');
-				cy.advanceToNextPage();
-				cy.getByData(basePage?._selectors.answerNo).click();
-			 	cy.advanceToNextPage();	
-			}
-		})
-		// if(cy.get('.govuk-fieldset__heading').contains('Do you want to add another neighbour to be visited?')){
-		// 	cy.getByData(basePage?._selectors.answerNo).click();
-		// 	cy.advanceToNextPage();	
-		// } else {
-		// 	cy.get('#address-line-1').type('address-line-one');
-		// 	cy.get('#address-line-2').type('address-line-two');
-		// 	cy.get('#address-county').type('address-county');
-		// 	cy.get('#address-postcode').type('address-postcode');
-		// 	cy.advanceToNextPage();
-		// }
-	} else {		
-		cy.getByData(basePage?._selectors.answerNo).click();
-		cy.advanceToNextPage();		
-	}
-
-	if(context?.siteAccess?.lpaSiteSafetyRisks){
-		cy.getByData(basePage?._selectors.answerYes).click();
-		cy.get('#lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails').type('lpaSiteSafetyRisks lpaSiteSafetyRiskDetails')
-		cy.advanceToNextPage();			
-
-	} else {		
-		cy.getByData(basePage?._selectors.answerNo).click();
-		cy.advanceToNextPage();		
-	}
+	siteAccess.selectLpaSiteAccess(context,lpaQuestionnaireData);	
+	siteAccess.selectNeighbourSiteAccess(context,lpaQuestionnaireData);
+	siteAccess.selectLpaSiteSafetyRisks(context,lpaQuestionnaireData);	
 // Appeals Access
-	if(context?.appealProcess?.nearbyAppeals){
-		cy.getByData(basePage?._selectors.answerYes).click();
-		cy.advanceToNextPage();
-		cy.get('body').then($body => {
-			if($body.find('.govuk-fieldset__heading:contains("Add another appeal?")').length > 0){
-				cy.getByData(basePage?._selectors.answerNo).click();
-			 	cy.advanceToNextPage();	
-			} else {		
-			cy.get('#nearbyAppealReference').type('1234567');
-			cy.advanceToNextPage();
-			cy.getByData(basePage?._selectors.answerNo).click();
-			cy.advanceToNextPage();
-			}
-		});
-	} else {		
-		cy.getByData(basePage?._selectors.answerNo).click();
-		cy.advanceToNextPage();		
-	}
-
-	if(context?.appealProcess?.newConditions){
-		cy.getByData(basePage?._selectors.answerYes).click();
-		cy.get('#newConditions_newConditionDetails').type('newConditions newConditionDetails')
-		cy.advanceToNextPage();			
-
-	} else {		
-		cy.getByData(basePage?._selectors.answerNo).click();
-		cy.advanceToNextPage();		
-	}
+	appealProcess.selectNearbyAppeals(context,lpaQuestionnaireData);	
+	appealProcess.selectNewConditionss(context,lpaQuestionnaireData);	
 });
 // commented for test during codding
-// 	cy.getByData('submit-questionnaire').click();
-// 	cy.get('.govuk-panel__title').contains('Questionnaire submitted');
+// 	cy.getByData(lpaQuestionnaireData?.submitQuestionnaire).click();
+// 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaQuestionnaireData?.questionnaireSubmitted);
  };
