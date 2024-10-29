@@ -618,7 +618,7 @@ const lpaAppealCaseData = [
 		caseReference: '0000099',
 		siteAddressLine1: 'Questionnaire and statement submitted',
 		siteAddressLine2: null,
-		siteAddressTown: 'proofs due',
+		siteAddressTown: 'proofs are due',
 		siteAddressCounty: 'Countyshire',
 		siteAddressPostcode: 'BS1 6PN',
 		developmentDescription: 'test description',
