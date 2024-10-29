@@ -1192,8 +1192,8 @@ const lpaAppealCaseData = [
 		CaseDecisionOutcome: {
 			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
 		},
-		caseDecisionOutcomeDate: new Date(2019, 10, 28),
-		caseDecisionPublishedDate: new Date(2019, 10, 28),
+		caseDecisionOutcomeDate: new Date(2019, 9, 30),
+		caseDecisionPublishedDate: new Date(2019, 9, 30),
 		planningObligation: true,
 		// questionnaire details
 		// constraints
@@ -1285,8 +1285,8 @@ const lpaAppealCaseData = [
 		CaseDecisionOutcome: {
 			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
 		},
-		caseDecisionOutcomeDate: new Date(2019, 10, 27),
-		caseDecisionPublishedDate: new Date(2019, 10, 27),
+		caseDecisionOutcomeDate: new Date(2019, 9, 29),
+		caseDecisionPublishedDate: new Date(2019, 9, 29),
 		planningObligation: true,
 		// questionnaire details
 		// constraints
@@ -1378,8 +1378,8 @@ const lpaAppealCaseData = [
 		CaseDecisionOutcome: {
 			connect: { key: APPEAL_CASE_DECISION_OUTCOME.ALLOWED }
 		},
-		caseDecisionOutcomeDate: new Date(2019, 10, 29),
-		caseDecisionPublishedDate: new Date(2019, 10, 29),
+		caseDecisionOutcomeDate: new Date(2019, 9, 31),
+		caseDecisionPublishedDate: new Date(2019, 9, 31),
 		planningObligation: true,
 		// questionnaire details
 		// constraints
