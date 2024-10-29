@@ -695,7 +695,7 @@ const appealDocuments = [
 		documentURI: '',
 		dateCreated: new Date(),
 		published: true,
-		redacted: null,
+		redacted: false,
 		virusCheckStatus: APPEAL_VIRUS_CHECK_STATUS.SCANNED,
 		documentType: APPEAL_DOCUMENT_TYPE.ORIGINAL_APPLICATION_FORM,
 		sourceSystem: 'appeals',
