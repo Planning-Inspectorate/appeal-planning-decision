@@ -9,6 +9,7 @@ const {
 		}
 	}
 } = require('../../../lib/views');
+const config = require('../../../config');
 
 const shutterPage = '/before-you-start/you-cannot-appeal';
 const enforcementNoticeHouseholder = `/before-you-start/enforcement-notice-householder`;
@@ -20,6 +21,7 @@ exports.getDateDecisionDueHouseholder = async (req, res) => {
 	const decisionDate = isValid(appealDecisionDate) ? appealDecisionDate : null;
 
 	res.render(currentPage, {
+		bannerHtmlOverride: config.betaBannerText,
 		decisionDate: decisionDate && {
 			day: `0${decisionDate?.getDate()}`.slice(-2),
 			month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
@@ -35,6 +37,7 @@ exports.postDateDecisionDueHouseholder = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(currentPage, {
+			bannerHtmlOverride: config.betaBannerText,
 			decisionDate: {
 				day: body['date-decision-due-householder-day'],
 				month: body['date-decision-due-householder-month'],
@@ -85,6 +88,7 @@ exports.postDateDecisionDueHouseholder = async (req, res) => {
 		logger.error(e);
 
 		return res.render(currentPage, {
+			bannerHtmlOverride: config.betaBannerText,
 			decisionDate: {
 				day: body['date-decision-due-householder-day'],
 				month: body['date-decision-due-householder-month'],

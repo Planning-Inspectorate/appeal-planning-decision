@@ -15,6 +15,8 @@ function numberWithDefault(value, fallback) {
 const oneGigabyte = 1024 * 1024 * 1024;
 const ninetyMinsInMs = 90 * 60 * 1000;
 const httpPort = numberWithDefault(process.env.PORT, 3000);
+const feedbackUrl =
+	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UOUlNRkhaQjNXTDQyNEhSRExNOFVGSkNJTS4u&route=shorturl';
 
 module.exports = {
 	application: {
@@ -183,5 +185,8 @@ module.exports = {
 		baseUrl: process.env.AUTH_BASE_URL,
 		clientID: process.env.CLIENT_ID,
 		clientSecret: process.env.CLIENT_SECRET
-	}
+	},
+	feedbackUrl: feedbackUrl,
+	betaBannerText: 'This is a beta service',
+	betaBannerFeedbackLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`
 };

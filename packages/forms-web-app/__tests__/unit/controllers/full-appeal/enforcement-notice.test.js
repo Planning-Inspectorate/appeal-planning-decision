@@ -9,6 +9,7 @@ const {
 		FULL_APPEAL: { ENFORCEMENT_NOTICE }
 	}
 } = require('../../../../src/lib/views');
+const config = require('../../../../src/config');
 
 const navigationPages = {
 	nextPage: '/before-you-start/can-use-service',
@@ -44,6 +45,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 			getEnforcementNotice(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal
 			});
 		});
@@ -67,6 +69,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: {
 					...req.session.appeal,
 					eligibility: {
@@ -97,6 +100,7 @@ describe('controllers/full-appeal/enforcement-notice', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

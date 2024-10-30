@@ -3,14 +3,17 @@ const { rules, validation } = require('@pins/business-rules');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
 const { VIEW } = require('../../lib/views');
+const config = require('../../config');
 
 exports.getDecisionDate = (req, res) => {
+	console.log('here');
 	const { appeal } = req.session;
 
 	const appealDecisionDate = parseISO(appeal.decisionDate);
 	const decisionDate = isValid(appealDecisionDate) ? appealDecisionDate : null;
 
 	res.render(VIEW.ELIGIBILITY.DECISION_DATE, {
+		bannerHtmlOverride: config.betaBannerText,
 		decisionDate: decisionDate && {
 			day: `0${decisionDate.getDate()}`.slice(-2),
 			month: `0${decisionDate.getMonth() + 1}`.slice(-2),
@@ -27,6 +30,7 @@ exports.postDecisionDate = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(VIEW.ELIGIBILITY.DECISION_DATE, {
+			bannerHtmlOverride: config.betaBannerText,
 			decisionDate: {
 				day: body['decision-date-day'],
 				month: body['decision-date-month'],
@@ -47,6 +51,7 @@ exports.postDecisionDate = async (req, res) => {
 		logger.error(e);
 
 		res.render(VIEW.ELIGIBILITY.DECISION_DATE, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
@@ -69,6 +74,7 @@ exports.getDecisionDatePassed = (req, res) => {
 	const { appeal } = req.session;
 
 	res.render(VIEW.ELIGIBILITY.DECISION_DATE_PASSED, {
+		bannerHtmlOverride: config.betaBannerText,
 		deadlineDate: appeal.decisionDate && rules.appeal.deadlineDate(parseISO(appeal.decisionDate))
 	});
 };

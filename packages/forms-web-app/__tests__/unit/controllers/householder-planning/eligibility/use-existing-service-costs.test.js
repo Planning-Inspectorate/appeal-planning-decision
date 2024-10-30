@@ -1,4 +1,4 @@
-const useExistingServiceCostsController = require('../../../../src/controllers/householder-planning/eligibility/use-existing-service-costs');
+const useExistingServiceCostsController = require('../../../../../src/controllers/householder-planning/eligibility/use-existing-service-costs');
 
 const {
 	VIEW: {
@@ -6,9 +6,10 @@ const {
 			ELIGIBILITY: { USE_EXISTING_SERVICE_COSTS }
 		}
 	}
-} = require('../../../../src/lib/views');
+} = require('../../../../../src/lib/views');
 
-const { mockReq, mockRes } = require('../../mocks');
+const { mockReq, mockRes } = require('../../../mocks');
+const config = require('../../../../../src/config');
 
 describe('getUseExistingServiceCosts', () => {
 	const req = mockReq();
@@ -18,6 +19,7 @@ describe('getUseExistingServiceCosts', () => {
 		await useExistingServiceCostsController.getUseExistingServiceCosts(req, res);
 
 		expect(res.render).toBeCalledWith(USE_EXISTING_SERVICE_COSTS, {
+			bannerHtmlOverride: config.betaBannerText,
 			acpLink: 'https://acp.planninginspectorate.gov.uk/'
 		});
 	});

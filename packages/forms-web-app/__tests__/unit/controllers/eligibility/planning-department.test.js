@@ -12,6 +12,7 @@ const logger = require('../../../../src/lib/logger');
 
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const config = require('../../../../src/config');
 
 jest.mock('../../../../src/services/department.service');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -64,6 +65,7 @@ describe('controllers/eligibility/planning-department', () => {
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
 			expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: '',
 				departments: departmentList,
 				eligibleDepartments,
@@ -81,6 +83,7 @@ describe('controllers/eligibility/planning-department', () => {
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
 			expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: '',
 				departments: departmentList,
 				eligibleDepartments,
@@ -98,6 +101,7 @@ describe('controllers/eligibility/planning-department', () => {
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
 			expect(res.render).toBeCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'lpdName',
 				departments: departmentList,
 				eligibleDepartments,
@@ -108,7 +112,9 @@ describe('controllers/eligibility/planning-department', () => {
 		it('Test the getPlanningDepartmentOut method calls the correct template', () => {
 			getPlanningDepartmentOut(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT);
+			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT, {
+				bannerHtmlOverride: config.betaBannerText
+			});
 		});
 
 		it('Test the postPlanningDepartment method call with handled department', async () => {
@@ -161,6 +167,7 @@ describe('controllers/eligibility/planning-department', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: '',
 				departments: departmentList,
 				errors: { 'local-planning-department': { msg: 'Invalid Value' } },
@@ -184,6 +191,7 @@ describe('controllers/eligibility/planning-department', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal,
 				departments: [
 					departmentList[0],

@@ -13,12 +13,12 @@ const navigationPages = {
 	nextPage: '/before-you-start/can-use-service',
 	shutterPage: '/before-you-start/use-existing-service-enforcement-notice'
 };
-
-// /full-appeal/submit-appeal/task-list
+const config = require('../../config');
 
 exports.getEnforcementNotice = (req, res) => {
 	const { appeal } = req.session;
 	res.render(currentPage, {
+		bannerHtmlOverride: config.betaBannerText,
 		appeal
 	});
 };
@@ -35,6 +35,7 @@ exports.postEnforcementNotice = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(currentPage, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal: {
 				...appeal,
 				eligibility: {
@@ -60,6 +61,7 @@ exports.postEnforcementNotice = async (req, res) => {
 		logger.error(e);
 
 		res.render(currentPage, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]

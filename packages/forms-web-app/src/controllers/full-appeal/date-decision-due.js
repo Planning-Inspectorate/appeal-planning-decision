@@ -7,6 +7,7 @@ const {
 		FULL_APPEAL: { DATE_DECISION_DUE: currentPage }
 	}
 } = require('../../lib/views');
+const config = require('../../config');
 
 const navigationPage = {
 	nextPage: '/before-you-start/enforcement-notice',
@@ -20,6 +21,7 @@ exports.getDateDecisionDue = (req, res) => {
 	const decisionDate = isValid(appealDecisionDate) ? appealDecisionDate : null;
 
 	res.render(currentPage, {
+		bannerHtmlOverride: config.betaBannerText,
 		decisionDate: decisionDate && {
 			day: `0${decisionDate?.getDate()}`.slice(-2),
 			month: `0${decisionDate?.getMonth() + 1}`.slice(-2),
@@ -54,6 +56,7 @@ exports.postDateDecisionDue = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(currentPage, {
+			bannerHtmlOverride: config.betaBannerText,
 			decisionDate: {
 				day: body['decision-date-day'],
 				month: body['decision-date-month'],
@@ -75,6 +78,7 @@ exports.postDateDecisionDue = async (req, res) => {
 		logger.error(e);
 
 		res.render(currentPage, {
+			bannerHtmlOverride: config.betaBannerText,
 			decisionDate: {
 				day: body['decision-date-day'],
 				month: body['decision-date-month'],

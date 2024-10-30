@@ -11,7 +11,8 @@ jest.mock('../../../../../src/config', () => ({
 		limitedRouting: {
 			serviceUrl: 'example-url'
 		}
-	}
+	},
+	betaBannerText: 'some text'
 }));
 const householderAppeal = require('@pins/business-rules/test/data/householder-appeal');
 const dateDecisionDueHouseholderController = require('../../../../../src/controllers/householder-planning/eligibility/date-decision-due-householder');
@@ -45,6 +46,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
 		it('should call the correct template with no decision date given', () => {
 			dateDecisionDueHouseholderController.getDateDecisionDueHouseholder(req, res);
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE_HOUSEHOLDER, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: null
 			});
 		});
@@ -55,6 +57,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
 			dateDecisionDueHouseholderController.getDateDecisionDueHouseholder(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE_HOUSEHOLDER, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: '04',
 					month: '03',
@@ -119,6 +122,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
 			await dateDecisionDueHouseholderController.postDateDecisionDueHouseholder(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE_HOUSEHOLDER, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: undefined,
 					month: undefined,
@@ -151,6 +155,7 @@ describe('controllers/householder-planning/date-decision-due-householder', () =>
 			expect(res.redirect).not.toHaveBeenCalled();
 
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE_HOUSEHOLDER, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: undefined,
 					month: undefined,

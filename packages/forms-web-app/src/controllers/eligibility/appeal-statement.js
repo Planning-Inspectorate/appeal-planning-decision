@@ -1,7 +1,8 @@
 const { VIEW } = require('../../lib/views');
+const config = require('../../config');
 
 exports.getAppealStatement = (req, res) => {
-	res.render(VIEW.ELIGIBILITY.APPEAL_STATEMENT);
+	res.render(VIEW.ELIGIBILITY.APPEAL_STATEMENT, { bannerHtmlOverride: config.betaBannerText });
 };
 
 exports.postAppealStatement = (req, res) => {

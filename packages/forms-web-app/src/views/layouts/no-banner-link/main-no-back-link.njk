@@ -25,6 +25,10 @@
 
 {% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
 
+{% set bannerHtml %}
+  {{ bannerHtmlOverride if bannerHtmlOverride else betaBannerFeedback | safe}}
+{% endset %}
+
 {% block main %}
   <div class="govuk-width-container govuk-body {{ containerClasses }}">
     {% block phaseBanner %}
@@ -32,7 +36,7 @@
         tag: {
           text: "beta"
         },
-        html: 'This is a beta service'
+        html: bannerHtml
       }) }}
     {% endblock %}
 

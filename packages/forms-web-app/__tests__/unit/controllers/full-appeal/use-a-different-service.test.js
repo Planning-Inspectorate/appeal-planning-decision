@@ -8,6 +8,7 @@ const {
 	}
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const config = require('../../../../src/config');
 
 describe('controllers/full-appeal/use-a-different-service', () => {
 	const req = mockReq();
@@ -17,6 +18,7 @@ describe('controllers/full-appeal/use-a-different-service', () => {
 		await getUseADifferentService(req, res);
 
 		expect(res.render).toBeCalledWith(USE_A_DIFFERENT_SERVICE, {
+			bannerHtmlOverride: config.betaBannerText,
 			acpLink: 'https://acp.planninginspectorate.gov.uk/'
 		});
 	});

@@ -7,6 +7,7 @@ const { createOrUpdateAppeal } = require('../../../../../src/lib/appeals-api-wra
 const { getDepartmentFromId } = require('../../../../../src/services/department.service');
 const { isFeatureActive } = require('../../../../../src/featureFlag');
 const logger = require('../../../../../src/lib/logger');
+const config = require('../../../../../src/config');
 
 const {
 	VIEW: {
@@ -54,6 +55,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 			await getClaimingCostsHouseholder(req, res);
 
 			expect(res.render).toBeCalledWith(CLAIMING_COSTS, {
+				bannerHtmlOverride: config.betaBannerText,
 				isClaimingCosts: appeal.eligibility.isClaimingCosts
 			});
 		});
@@ -107,6 +109,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
 			expect(res.render).toBeCalledWith(`${CLAIMING_COSTS}`, {
+				bannerHtmlOverride: config.betaBannerText,
 				isClaimingCosts: appeal.eligibility.isClaimingCosts,
 				errors: {
 					'claiming-costs-householder': {
@@ -133,6 +136,7 @@ describe('controllers/householder-planning/claiming-costs-householder', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(`${CLAIMING_COSTS}`, {
+				bannerHtmlOverride: config.betaBannerText,
 				isClaimingCosts: appeal.eligibility.isClaimingCosts,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: 'pageId' }]
