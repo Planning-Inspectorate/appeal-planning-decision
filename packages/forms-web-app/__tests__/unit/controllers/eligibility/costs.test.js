@@ -8,6 +8,7 @@ const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrappe
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
+const config = require('../../../../src/config');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
@@ -29,6 +30,7 @@ describe('controllers/appellant-submission/claim-costs', () => {
 			getCosts(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.COSTS, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal
 			});
 		});
@@ -37,7 +39,9 @@ describe('controllers/appellant-submission/claim-costs', () => {
 	describe('getCostsOut', () => {
 		it('should call the correct template', () => {
 			getCostsOut(req, res);
-			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.COSTS_OUT);
+			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.COSTS_OUT, {
+				bannerHtmlOverride: config.betaBannerText
+			});
 		});
 	});
 
@@ -55,6 +59,7 @@ describe('controllers/appellant-submission/claim-costs', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.COSTS, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: {
 					...req.session.appeal,
 					eligibility: {
@@ -83,6 +88,7 @@ describe('controllers/appellant-submission/claim-costs', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.COSTS, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

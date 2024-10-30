@@ -13,7 +13,8 @@ jest.mock('../../../../src/config', () => ({
 		limitedRouting: {
 			serviceUrl: 'example-url'
 		}
-	}
+	},
+	betaBannerText: 'some text'
 }));
 
 const decisionDateController = require('../../../../src/controllers/eligibility/decision-date');
@@ -38,6 +39,7 @@ describe('controllers/eligibility/decision-date', () => {
 			decisionDateController.getDecisionDate(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: null
 			});
 		});
@@ -51,6 +53,7 @@ describe('controllers/eligibility/decision-date', () => {
 			decisionDateController.getDecisionDate(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: '01',
 					month: '01',
@@ -95,6 +98,7 @@ describe('controllers/eligibility/decision-date', () => {
 			await decisionDateController.postDecisionDate(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: undefined,
 					month: undefined,
@@ -114,6 +118,7 @@ describe('controllers/eligibility/decision-date', () => {
 			await decisionDateController.postDecisionDate(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: '01',
 					month: '01',
@@ -181,6 +186,7 @@ describe('controllers/eligibility/decision-date', () => {
 
 		expect(res.redirect).not.toHaveBeenCalled();
 		expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+			bannerHtmlOverride: 'some text',
 			decisionDate: {
 				day: '1',
 				month: '1',
@@ -207,6 +213,7 @@ describe('controllers/eligibility/decision-date', () => {
 		expect(res.redirect).not.toHaveBeenCalled();
 
 		expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE, {
+			bannerHtmlOverride: 'some text',
 			appeal: req.session.appeal,
 			errors: {},
 			errorSummary: [{ text: error.toString(), href: '#' }]
@@ -220,6 +227,7 @@ describe('controllers/eligibility/decision-date', () => {
 			decisionDateController.getDecisionDatePassed(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE_PASSED, {
+				bannerHtmlOverride: 'some text',
 				deadlineDate: null
 			});
 		});
@@ -235,6 +243,7 @@ describe('controllers/eligibility/decision-date', () => {
 			decisionDateController.getDecisionDatePassed(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.DECISION_DATE_PASSED, {
+				bannerHtmlOverride: 'some text',
 				deadlineDate: date
 			});
 		});

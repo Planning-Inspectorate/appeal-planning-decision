@@ -5,6 +5,7 @@ const {
 } = require('../../lib/views');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const logger = require('../../lib/logger');
+const config = require('../../config');
 
 const sectionName = 'eligibility';
 
@@ -14,6 +15,7 @@ const getAnyOfFollowing = (req, res) => {
 		typeOfPlanningApplication
 	} = req.session.appeal;
 	res.render(ANY_OF_FOLLOWING, {
+		bannerHtmlOverride: config.betaBannerText,
 		applicationCategories,
 		typeOfPlanningApplication
 	});
@@ -31,6 +33,7 @@ const postAnyOfFollowing = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(ANY_OF_FOLLOWING, {
+			bannerHtmlOverride: config.betaBannerText,
 			applicationCategories,
 			typeOfPlanningApplication,
 			errors,
@@ -47,6 +50,7 @@ const postAnyOfFollowing = async (req, res) => {
 		logger.error(err);
 
 		return res.render(ANY_OF_FOLLOWING, {
+			bannerHtmlOverride: config.betaBannerText,
 			applicationCategories,
 			typeOfPlanningApplication,
 			errors,

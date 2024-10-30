@@ -7,6 +7,7 @@ const {
 } = require('../../lib/planning-departments-to-nunjucks-list-items');
 const { getRefreshedDepartmentData } = require('../../services/department.service');
 const { VIEW } = require('../../lib/views');
+const config = require('../../config');
 
 exports.getPlanningDepartment = async (req, res) => {
 	const { departments, eligibleDepartments, ineligibleDepartments } =
@@ -21,6 +22,7 @@ exports.getPlanningDepartment = async (req, res) => {
 	}
 
 	res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
+		bannerHtmlOverride: config.betaBannerText,
 		appealLPD,
 		departments: departmentsToNunjucksItems(departments, appealLPD),
 		eligibleDepartments,
@@ -39,6 +41,7 @@ exports.postPlanningDepartment = async (req, res) => {
 
 		if (errorMessage !== 'Ineligible Department') {
 			res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: '',
 				departments: departmentsToNunjucksItems(departments),
 				errors,
@@ -59,6 +62,7 @@ exports.postPlanningDepartment = async (req, res) => {
 		logger.error(e);
 
 		res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			departments: departmentsToNunjucksItems(departments, lpaName),
 			errors,
@@ -73,5 +77,7 @@ exports.postPlanningDepartment = async (req, res) => {
 };
 
 exports.getPlanningDepartmentOut = (req, res) => {
-	res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT);
+	res.render(VIEW.ELIGIBILITY.PLANNING_DEPARTMENT_OUT, {
+		bannerHtmlOverride: config.betaBannerText
+	});
 };

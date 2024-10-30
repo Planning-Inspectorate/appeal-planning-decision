@@ -7,17 +7,21 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
 	validHouseholderPlanningPermissionStatusOptions
 } = require('../../validators/eligibility/granted-or-refused-permission');
+const config = require('../../config');
 
 exports.getNoDecision = async (req, res) => {
-	res.render(VIEW.ELIGIBILITY.NO_DECISION);
+	res.render(VIEW.ELIGIBILITY.NO_DECISION, { bannerHtmlOverride: config.betaBannerText });
 };
 
 exports.getGrantedOrRefusedPermissionOut = async (req, res) => {
-	res.render(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT);
+	res.render(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION_OUT, {
+		bannerHtmlOverride: config.betaBannerText
+	});
 };
 
 exports.getGrantedOrRefusedPermission = async (req, res) => {
 	res.render(VIEW.ELIGIBILITY.GRANTED_REFUSED_PERMISSION, {
+		bannerHtmlOverride: config.betaBannerText,
 		appeal: req.session.appeal
 	});
 };
@@ -49,6 +53,7 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(forwardPage('default'), {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal: {
 				...appeal,
 				eligibility: {
@@ -74,6 +79,7 @@ exports.postGrantedOrRefusedPermission = async (req, res) => {
 		logger.error(e);
 
 		res.render(forwardPage('default'), {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]

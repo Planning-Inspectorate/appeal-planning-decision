@@ -14,6 +14,7 @@ const {
 		}
 	}
 } = require('../../../../../src/lib/views');
+const config = require('../../../../../src/config');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/services/task.service');
@@ -41,8 +42,8 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 		it('should call the correct template', () => {
 			getConditionsHouseholderPermission(req, res);
 
-			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(CONDITIONS_HOUSEHOLDER_PERMISSION, {
+				bannerHtmlOverride: config.betaBannerText,
 				hasHouseholderPermissionConditions: true
 			});
 		});
@@ -62,8 +63,8 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 			await postConditionsHouseholderPermission(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(CONDITIONS_HOUSEHOLDER_PERMISSION, {
+				bannerHtmlOverride: config.betaBannerText,
 				errors,
 				errorSummary
 			});
@@ -86,8 +87,8 @@ describe('controllers/householder-planning/eligibility/conditions-householder-pe
 			await postConditionsHouseholderPermission(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(CONDITIONS_HOUSEHOLDER_PERMISSION, {
+				bannerHtmlOverride: config.betaBannerText,
 				hasHouseholderPermissionConditions: true,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

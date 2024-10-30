@@ -4,13 +4,17 @@ const { VIEW } = require('../../lib/views');
 const {
 	validEnforcementNoticeOptions
 } = require('../../validators/eligibility/enforcement-notice');
+const config = require('../../config');
 
 exports.getServiceNotAvailableWhenReceivedEnforcementNotice = (req, res) => {
-	res.render(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE_OUT);
+	res.render(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE_OUT, {
+		bannerHtmlOverride: config.betaBannerText
+	});
 };
 
 exports.getEnforcementNotice = (req, res) => {
 	res.render(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE, {
+		bannerHtmlOverride: config.betaBannerText,
 		appeal: req.session.appeal
 	});
 };
@@ -28,6 +32,7 @@ exports.postEnforcementNotice = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal: {
 				...appeal,
 				eligibility: {
@@ -53,6 +58,7 @@ exports.postEnforcementNotice = async (req, res) => {
 		logger.error(e);
 
 		res.render(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]

@@ -11,6 +11,7 @@ const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
 const {
 	validApplicationDecisionOptions
 } = require('../../validators/full-appeal/granted-or-refused');
+const config = require('../../config');
 
 exports.forwardPage = (status) => {
 	const statuses = {
@@ -26,7 +27,8 @@ exports.forwardPage = (status) => {
 
 exports.getGrantedOrRefused = async (req, res) => {
 	res.render(currentPage, {
-		appeal: req.session.appeal,
+		bannerHtmlOverride: config.betaBannerText,
+		appeal: req.session.appeal
 	});
 };
 
@@ -47,6 +49,7 @@ exports.postGrantedOrRefused = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(currentPage, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
 			errorSummary
@@ -60,6 +63,7 @@ exports.postGrantedOrRefused = async (req, res) => {
 		logger.error(e);
 
 		res.render(currentPage, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]

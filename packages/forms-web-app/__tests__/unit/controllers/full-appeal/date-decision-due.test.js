@@ -12,7 +12,8 @@ jest.mock('../../../../src/config', () => ({
 		limitedRouting: {
 			serviceUrl: 'example-url'
 		}
-	}
+	},
+	betaBannerText: 'some text'
 }));
 
 const dateDecisionDueController = require('../../../../src/controllers/full-appeal/date-decision-due');
@@ -55,6 +56,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 			dateDecisionDueController.getDateDecisionDue(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: null
 			});
 		});
@@ -69,6 +71,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 			dateDecisionDueController.getDateDecisionDue(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: '01',
 					month: '01',
@@ -115,6 +118,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 			await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: undefined,
 					month: undefined,
@@ -134,6 +138,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 			await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: '01',
 					month: '01',
@@ -185,6 +190,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 			await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: '45',
 					month: '15',
@@ -238,6 +244,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 			await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: '45',
 					month: '01',
@@ -295,6 +302,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 			};
 			await dateDecisionDueController.postDateDecisionDue(mockRequest, res);
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: 1,
 					month: '',
@@ -395,6 +403,7 @@ describe('controllers/full-appeal/date-decision-due', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(DATE_DECISION_DUE, {
+				bannerHtmlOverride: 'some text',
 				decisionDate: {
 					day: undefined,
 					month: undefined,

@@ -7,6 +7,7 @@ const {
 } = require('../../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
+const config = require('../../../../../src/config');
 
 describe('getUseExistingServiceEnforcementNotice', () => {
 	const req = mockReq();
@@ -16,6 +17,7 @@ describe('getUseExistingServiceEnforcementNotice', () => {
 		await useExistingServiceEnforcementNotice.getUseExistingServiceEnforcementNotice(req, res);
 
 		expect(res.render).toBeCalledWith(USE_EXISTING_SERVICE_ENFORCEMENT_NOTICE, {
+			bannerHtmlOverride: config.betaBannerText,
 			acpLink: 'https://acp.planninginspectorate.gov.uk/'
 		});
 	});

@@ -7,6 +7,7 @@ const {
 		}
 	}
 } = require('../../../lib/views');
+const config = require('../../../config');
 
 const sectionName = 'eligibility';
 
@@ -27,6 +28,7 @@ const getListedBuildingHouseholder = async (req, res) => {
 	}
 
 	res.render(LISTED_BUILDING_HOUSEHOLDER, {
+		bannerHtmlOverride: config.betaBannerText,
 		isListedBuilding
 	});
 };
@@ -49,6 +51,7 @@ const postListedBuildingHouseholder = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(LISTED_BUILDING_HOUSEHOLDER, {
+			bannerHtmlOverride: config.betaBannerText,
 			isListedBuilding,
 			typeOfPlanningApplication,
 			errors,
@@ -63,6 +66,7 @@ const postListedBuildingHouseholder = async (req, res) => {
 		logger.error(err);
 
 		return res.render(LISTED_BUILDING_HOUSEHOLDER, {
+			bannerHtmlOverride: config.betaBannerText,
 			isListedBuilding,
 			typeOfPlanningApplication,
 			errors,

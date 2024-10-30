@@ -14,6 +14,7 @@ const {
 	}
 } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const config = require('../../../../src/config');
 
 jest.mock('../../../../src/services/department.service');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -66,6 +67,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
 			expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: '',
 				departments: departmentList,
 				eligibleDepartments,
@@ -83,6 +85,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
 			expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: '',
 				departments: departmentList,
 				eligibleDepartments,
@@ -100,6 +103,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
 
 			expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: 'lpdName',
 				departments: departmentList,
 				eligibleDepartments,
@@ -152,6 +156,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appealLPD: '',
 				departments: departmentList,
 				errors: { 'local-planning-department': { msg: 'Invalid Value' } },
@@ -175,6 +180,7 @@ describe('controllers/full-appeal/local-planning-department', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_DEPARTMENT, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal,
 				departments: [
 					departmentList[0],
