@@ -8,11 +8,12 @@ Monorepo for all PINS Appeal planning decision services.
 
 - create an `.env` file in `./packages/database` (you can copy the `.env.example`) 
 - `npm ci` from root directory
-- `make serve` (use `make slim` instead if you are a mac user and encounter trouble with the `pdf-service-api` package when running `make serve`)
+- `make serve`
 - once the server is running, run `npm run populate-db` to populate the Local Planning Authorities database
-- Go to [localhost:9003/before-you-start](http://localhost:9003/before-you-start)
+- Appellant journey: go to [localhost:9003/appeal/new-saved-appeal](http://localhost:9003/appeal/new-saved-appeal) - if returning to a saved appeal, you can use appellant1@planninginspectorate.gov.uk (code: `12345`) to access seed data.
+- LPA dashboard: Go to [localhost:9003/manage-appeals/your-email-address](http://localhost:9003/manage-appeals/your-email-address). Sign in with email address admin1@planninginspectorate.gov.uk and code `12345`.
 
-Note: if you cannot progress beyond the 'before you start' page without encountering an error page (and you see _Database &#96;pins_front_office_development&#96; does not exist on the database server at &#96;mssql:1433&#96;._ in the API logs), run `npm run db:migrate:dev` per [Database Server Setup](#database-server-setup) and refresh the page.
+Note: when starting a new appeal as an appellant, if you cannot progress beyond the 'before you start' page without encountering an error page (and you see _Database &#96;pins_front_office_development&#96; does not exist on the database server at &#96;mssql:1433&#96;._ in the API logs), run `npm run db:migrate:dev` per [Database Server Setup](#database-server-setup) and refresh the page.
 
 ## Pre-requisites
 
