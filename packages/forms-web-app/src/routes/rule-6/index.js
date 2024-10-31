@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const requireRule6User = require('../../middleware//rule-6/require-user');
 
 const selectedAppealController = require('../../controllers/selected-appeal');
 const appealDetailsController = require('../../controllers/selected-appeal/appeal-details');
@@ -17,7 +18,9 @@ router.use(require('./decided-appeals'));
 
 router.get('/', (req, res) => res.redirect('rule-6/your-appeals'));
 
-// router.use(requireR6User);
+router.use(requireRule6User);
+
+router.use(require('./selected-appeal'));
 
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());
