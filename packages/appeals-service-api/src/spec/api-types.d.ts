@@ -1038,6 +1038,34 @@ export interface LPAFinalCommentSubmission {
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
+/** Proof of evidence submitted by an lpa */
+export interface LpaProofOfEvidenceSubmission {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	AppealCase: {
+		LPACode: string;
+		appealTypeCode?: string;
+		/** @format date-time */
+		proofsOfEvidenceDueDate?: string;
+		siteAddressLine1?: string;
+		siteAddressLine2?: string;
+		siteAddressTown?: string;
+		siteAddressCounty?: string;
+		siteAddressPostcode?: string;
+	};
+	/** @format date-time */
+	createdAt?: string;
+	/** @format date-time */
+	updatedAt?: string;
+	/** whether the proof of evidence has been submitted to BO */
+	submitted?: boolean;
+	uploadLpaProofOfEvidenceDocuments?: boolean;
+	lpaWitnesses?: boolean;
+	uploadLpaWitnessesEvidence?: boolean;
+	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
+}
+
 /** A questionnaire submitted by an LPA */
 export interface LPAQuestionnaireSubmission {
 	/** @format uuid */

@@ -389,9 +389,10 @@ model AppealCase {
   //***************************************************************************
   // Relations
   //***************************************************************************
-  LPAQuestionnaireSubmission LPAQuestionnaireSubmission?
-  LPAStatementSubmission     LPAStatementSubmission?
-  LPAFinalCommentSubmission  LPAFinalCommentSubmission?
+  LPAQuestionnaireSubmission   LPAQuestionnaireSubmission?
+  LPAStatementSubmission       LPAStatementSubmission?
+  LPAFinalCommentSubmission    LPAFinalCommentSubmission?
+  LPAProofOfEvidenceSubmission LPAProofOfEvidenceSubmission?
 
   AppellantFinalCommentSubmission    AppellantFinalCommentSubmission?
   AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission?
@@ -945,6 +946,28 @@ model AppellantProofOfEvidenceSubmission {
   SubmissionDocumentUpload SubmissionDocumentUpload[]
 }
 
+model LPAProofOfEvidenceSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  caseReference String     @unique
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+
+  uploadLpaProofOfEvidenceDocuments Boolean?
+  lpaWitnesses                      Boolean?
+  uploadLpaWitnessesEvidence        Boolean?
+
+  // Uploaded documents and details linked to this appeal
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
 model LPAFinalCommentSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
@@ -1011,6 +1034,9 @@ model SubmissionDocumentUpload {
 
   appellantProofOfEvidenceId         String?                             @db.UniqueIdentifier
   AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission? @relation(fields: [appellantProofOfEvidenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  lpaProofOfEvidenceId         String?                       @db.UniqueIdentifier
+  LPAProofOfEvidenceSubmission LPAProofOfEvidenceSubmission? @relation(fields: [lpaProofOfEvidenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
   name             String
   fileName         String
