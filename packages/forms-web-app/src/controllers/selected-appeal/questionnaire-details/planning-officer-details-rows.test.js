@@ -66,21 +66,21 @@ describe('planningOfficerReportRows', () => {
 
 		expect(rows[0].condition()).toEqual(true);
 		expect(rows[0].isEscaped).toEqual(true);
-		expect(rows[0].keyText).toEqual("Upload planning officer's report");
+		expect(rows[0].keyText).toEqual("Planning officer's report");
 		expect(rows[0].valueText).toEqual(
 			'<a href="/published-document/12345" class="govuk-link">po-report.pdf</a>'
 		);
 
 		expect(rows[1].condition()).toEqual(true);
 		expect(rows[1].isEscaped).toEqual(true);
-		expect(rows[1].keyText).toEqual('Upload plans, drawings and list of plans');
+		expect(rows[1].keyText).toEqual('Plans, drawings and list of plans');
 		expect(rows[1].valueText).toEqual(
 			'<a href="/published-document/12346" class="govuk-link">plans-drawings.pdf</a>'
 		);
 
 		expect(rows[2].condition()).toEqual(true);
 		expect(rows[2].isEscaped).toEqual(true);
-		expect(rows[2].keyText).toEqual('Upload policies from statutory development plan');
+		expect(rows[2].keyText).toEqual('Policies from statutory development plan');
 		expect(rows[2].valueText).toEqual(
 			'<a href="/published-document/12347" class="govuk-link">dev-plan-policies.pdf</a>'
 		);
@@ -208,7 +208,7 @@ describe('planningOfficerReportRows', () => {
 
 		expect(rows[1].condition()).toEqual(false);
 		expect(rows[1].isEscaped).toEqual(true);
-		expect(rows[1].keyText).toEqual('Upload plans, drawings and list of plans');
+		expect(rows[1].keyText).toEqual('Plans, drawings and list of plans');
 		expect(rows[1].valueText).toEqual(
 			'<a href="/published-document/12346" class="govuk-link">plans-drawings.pdf</a>'
 		);

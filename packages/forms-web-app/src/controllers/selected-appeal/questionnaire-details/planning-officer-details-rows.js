@@ -17,13 +17,13 @@ exports.planningOfficerReportRows = (caseData) => {
 	const documents = caseData.Documents || [];
 	return [
 		{
-			keyText: "Upload planning officer's report",
+			keyText: "Planning officer's report",
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.PLANNING_OFFICER_REPORT),
 			isEscaped: true
 		},
 		{
-			keyText: 'Upload plans, drawings and list of plans',
+			keyText: 'Plans, drawings and list of plans',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.PLANS_DRAWINGS),
 			condition: () =>
 				caseData.appealTypeCode === APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS &&
@@ -31,7 +31,7 @@ exports.planningOfficerReportRows = (caseData) => {
 			isEscaped: true
 		},
 		{
-			keyText: 'Upload policies from statutory development plan',
+			keyText: 'Policies from statutory development plan',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.DEVELOPMENT_PLAN_POLICIES),
 			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.DEVELOPMENT_PLAN_POLICIES),
 			isEscaped: true
