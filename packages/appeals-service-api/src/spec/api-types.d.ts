@@ -1039,7 +1039,7 @@ export interface LPAFinalCommentSubmission {
 }
 
 /** Proof of evidence submitted by an lpa */
-export interface LpaProofOfEvidenceSubmission {
+export interface LPAProofOfEvidenceSubmission {
 	/** @format uuid */
 	id: string;
 	caseReference: string;

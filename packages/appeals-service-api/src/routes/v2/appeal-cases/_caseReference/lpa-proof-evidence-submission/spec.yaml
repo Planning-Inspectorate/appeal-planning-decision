@@ -1,0 +1,86 @@
+paths:
+  /api/v2/appeal-cases/{caseReference}/lpa-proof-evidence-submission:
+    get:
+      tags:
+        - lpa submissions
+      description: Get proof of evidence submitted by an lpa
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          description: appeal case reference
+      responses:
+        200:
+          description: Returns the proof of evidence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPAProofOfEvidenceSubmission'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+    post:
+      tags:
+        - lpa submissions
+      description: Create a proof of evidence to be submitted by an lpa
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          description: appeal case reference
+      responses:
+        200:
+          description: Returns the lpa proof of evidence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPAProofOfEvidenceSubmission'
+        400:
+          description: Unable to create
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+    patch:
+      tags:
+        - lpa submissions
+      description: Update an lpa proof of evidence submission
+      parameters:
+        - in: path
+          name: caseReference
+          required: true
+          schema:
+            type: string
+          description: appeal case reference
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LPAProofOfEvidenceSubmission'
+      responses:
+        200:
+          description: Returns the lpa proof of evidence
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LPAProofOfEvidenceSubmission'
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
+        404:
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorBody'
