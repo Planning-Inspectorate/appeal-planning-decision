@@ -1,6 +1,6 @@
 components:
   schemas:
-    LpaProofOfEvidenceSubmission:
+    LPAProofOfEvidenceSubmission:
       description: Proof of evidence submitted by an lpa
       type: object
       required:
