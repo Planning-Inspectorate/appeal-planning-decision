@@ -311,6 +311,11 @@ class Question {
 				journeyResponse.referenceId,
 				responseToSave.answers
 			);
+		} else if ([JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE].includes(journeyType)) {
+			await apiClient.patchLpaProofOfEvidenceSubmission(
+				journeyResponse.referenceId,
+				responseToSave.answers
+			);
 		}
 	}
 

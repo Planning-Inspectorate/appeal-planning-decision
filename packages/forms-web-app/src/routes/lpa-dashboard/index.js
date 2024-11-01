@@ -24,6 +24,7 @@ router.use(require('./questionnaire'));
 router.use(require('./decided-appeals'));
 router.use(require('./statement'));
 router.use(require('./final-comments'));
+router.use(require('./proof-evidence'));
 
 // manage users
 router.use(require('./add-remove-users'));

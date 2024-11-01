@@ -31,6 +31,8 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppealStatement} AppealStatement
  * @typedef {import('appeals-service-api').Api.FinalComment} FinalComment
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
+ * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
+ *
  */
 
 // Data model types
@@ -667,6 +669,59 @@ class AppealsApiClient {
 	async submitLPAFinalCommentSubmission(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-final-comment-submission/submit`;
 		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
+	 */
+	async getLpaProofOfEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
+	 */
+	async postLpaProofOfEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission`;
+		const response = await this.#makePostRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
+	 */
+	async patchLpaProofOfEvidenceSubmission(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
+	 */
+	async postLpaProofOfEvidenceDocumentUpload(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission/document-upload`;
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} documentId
+	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
+	 */
+	async deleteLpaProofOfEvidenceDocumentUpload(caseReference, documentId) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission/document-upload/${documentId}`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
 	}
 
 	/**
