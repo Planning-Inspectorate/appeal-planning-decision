@@ -72,6 +72,10 @@ const formatHeadlineData = (caseData, lpaName, userType = APPEAL_USER_ROLES.INTE
 		});
 	}
 
+	if (userType === APPEAL_USER_ROLES.RULE_6_PARTY) {
+		headlines.splice(3, 2);
+	}
+
 	return headlines;
 };
 
@@ -81,7 +85,9 @@ const formatHeadlineData = (caseData, lpaName, userType = APPEAL_USER_ROLES.INTE
  * @param {AppealToUserRoles|LpaUserRole|null} userType
  */
 const shouldFormatHeadlines = (_caseData, userType) =>
-	userType === APPEAL_USER_ROLES.APPELLANT || userType === LPA_USER_ROLE;
+	userType === APPEAL_USER_ROLES.APPELLANT ||
+	userType === LPA_USER_ROLE ||
+	APPEAL_USER_ROLES.RULE_6_PARTY;
 
 /**
  * @param {AppealCaseDetailed} caseData

@@ -16,9 +16,6 @@ router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get())
 // router.get('/:appealNumber/appellant-final-comments', finalCommentsController.get());
 // router.get('/:appealNumber/interested-party-comments', interestedPartyCommentsController.get());
 // router.get('/:appealNumber/statement', statementDetailsController.get());
-router.get(
-	'/:appealNumber/appellant-planning-obligation',
-	planningObligationDetailsController.get()
-);
+router.get('/:appealNumber/planning-obligation', planningObligationDetailsController.get());
 
 module.exports = router;
