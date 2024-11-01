@@ -539,6 +539,37 @@ class AppealCaseRepository {
 			throw ApiError.forbidden();
 		}
 	}
+
+	/**
+	 * @param {{ caseReference: string, userId: string }} params
+	 */
+	async rule6PartyCanModifyCase({ caseReference, userId }) {
+		try {
+			await this.dbClient.appealCase.findUniqueOrThrow({
+				where: {
+					caseReference
+				},
+				select: {
+					Appeal: {
+						select: {
+							id: true,
+							Users: {
+								where: {
+									userId,
+									role: APPEAL_USER_ROLES.RULE_6_PARTY
+								}
+							}
+						}
+					}
+				}
+			});
+
+			return true;
+		} catch (err) {
+			logger.error({ err }, 'invalid user access');
+			throw ApiError.forbidden();
+		}
+	}
 }
 
 /**
