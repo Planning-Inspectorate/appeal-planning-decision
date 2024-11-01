@@ -57,7 +57,7 @@ const { calculateDaysSinceInvalidated } = require('./calculate-days-since-invali
 const questionnaireBaseUrl = '/manage-appeals/questionnaire';
 const statementBaseUrl = '/manage-appeals/appeal-statement';
 const finalCommentBaseUrl = '/manage-appeals/final-comments';
-const proofsBaseUrl = '/manage-appeals/proofs-of-evidence';
+const proofsBaseUrl = '/manage-appeals/proof-evidence';
 
 const appellantFinalCommentBaseUrl = '/appeals/final-comments';
 const appellantProofsBaseUrl = '/appeals/proof-evidence';

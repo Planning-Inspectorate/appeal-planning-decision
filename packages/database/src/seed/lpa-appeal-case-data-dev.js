@@ -621,6 +621,7 @@ const lpaAppealCaseData = [
 		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
 		statementDueDate: pickRandom(datesNMonthsAgo(1)),
 		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
 		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
 		rule6ProofEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),

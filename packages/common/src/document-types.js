@@ -684,6 +684,28 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadLpaProofOfEvidenceDocuments: {
+		name: 'uploadLpaProofOfEvidenceDocuments',
+		dataModelName: '', // To be added once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadLpaWitnessesEvidence: {
+		name: 'uploadLpaWitnessesEvidence',
+		dataModelName: '', // To be added once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 
