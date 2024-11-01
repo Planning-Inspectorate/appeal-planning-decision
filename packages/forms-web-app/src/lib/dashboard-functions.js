@@ -8,7 +8,7 @@ const {
 	isAppealSubmission,
 	isV2Submission
 } = require('@pins/common/src/lib/format-address');
-const { formatDate } = require('#utils/format-date');
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 const logger = require('#lib/logger');
 
@@ -82,7 +82,7 @@ const mapToLPADashboardDisplayData = (appealCaseData) => ({
 	displayInvalid: displayInvalidAppeal(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
-	caseDecisionOutcomeDate: formatDate(appealCaseData.caseDecisionOutcomeDate)
+	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate)
 });
 
 /**
@@ -133,7 +133,7 @@ const mapToRule6DashboardDisplayData = (appealCaseData) => ({
 	nextDocumentDue: determineDocumentToDisplayRule6Dashboard(appealCaseData),
 	appealDecision: mapDecisionLabel(appealCaseData.caseDecisionOutcome),
 	appealDecisionColor: mapDecisionColour(appealCaseData.caseDecisionOutcome),
-	caseDecisionOutcomeDate: formatDate(appealCaseData.caseDecisionOutcomeDate)
+	caseDecisionOutcomeDate: formatDateForDisplay(appealCaseData.caseDecisionOutcomeDate)
 });
 
 // LPADashboard - ToDo or WaitingToReview FUNCTIONS

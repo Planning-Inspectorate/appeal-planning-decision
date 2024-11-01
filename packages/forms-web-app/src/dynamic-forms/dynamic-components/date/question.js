@@ -1,6 +1,9 @@
 const Question = require('../../question');
-const { dateInputsToDate } = require('../utils/date-inputs-to-date');
-const formatDate = require('../../../lib/format-date-check-your-answers');
+const {
+	parseDateInput,
+	formatDateForDisplay,
+	convertUTCToUK
+} = require('@pins/common/src/lib/format-date');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -49,7 +52,7 @@ class DateQuestion extends Question {
 		const monthInput = req.body[`${this.fieldName}_month`];
 		const yearInput = req.body[`${this.fieldName}_year`];
 
-		const dateToSave = dateInputsToDate(dayInput, monthInput, yearInput);
+		const dateToSave = parseDateInput({ day: dayInput, month: monthInput, year: yearInput });
 
 		responseToSave.answers[this.fieldName] = dateToSave;
 
@@ -81,7 +84,7 @@ class DateQuestion extends Question {
 			const answerDateString = journey.response.answers[this.fieldName];
 
 			if (answerDateString) {
-				const answerDate = new Date(answerDateString);
+				const answerDate = convertUTCToUK(answerDateString);
 				day = `${answerDate.getDate()}`.slice(-2);
 				month = `${answerDate.getMonth() + 1}`.slice(-2);
 				year = `${answerDate.getFullYear()}`;
@@ -111,8 +114,7 @@ class DateQuestion extends Question {
 		let formattedAnswer;
 
 		if (answer) {
-			const date = formatDate(new Date(answer));
-			formattedAnswer = `${date.date} ${date.month} ${date.year}`;
+			formattedAnswer = formatDateForDisplay(answer, { format: 'd MMMM yyyy' });
 		} else {
 			formattedAnswer = this.NOT_STARTED;
 		}

@@ -3,7 +3,7 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 
 const date = new Date('2020-12-17T03:24:00');
-const formattedDate = '17-Dec-2020';
+const formattedDate = '17 Dec 2020';
 
 describe('planningOfficerReportRows', () => {
 	it('should create row with correct data if relevant case fields exist and files uploaded/field values otherwise populated', () => {
