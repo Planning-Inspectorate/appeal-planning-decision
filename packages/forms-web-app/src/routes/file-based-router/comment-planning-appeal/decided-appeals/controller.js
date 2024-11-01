@@ -1,9 +1,9 @@
 const { formatAddress } = require('@pins/common/src/lib/format-address');
-const { formatDate } = require('#utils/format-date');
 const { sortByCaseDecisionDate } = require('#utils/appeal-sorting');
 const { mapDecisionColour } = require('@pins/business-rules/src/utils/decision-outcome');
 const { APPEAL_CASE_DECISION_OUTCOME } = require('pins-data-model');
 const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 /** @type {import('express').RequestHandler} */
 const decidedAppeals = async (req, res) => {
@@ -20,7 +20,7 @@ const decidedAppeals = async (req, res) => {
 
 	decidedAppeals.forEach((appeal) => {
 		appeal.formattedAddress = formatAddress(appeal);
-		appeal.formattedCaseDecisionDate = formatDate(appeal.caseDecisionOutcomeDate);
+		appeal.formattedCaseDecisionDate = formatDateForDisplay(appeal.caseDecisionOutcomeDate);
 		appeal.formattedDecisionColour = mapDecisionColour(appeal.caseDecisionOutcome);
 		appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
 		appeal.caseDecisionOutcome =

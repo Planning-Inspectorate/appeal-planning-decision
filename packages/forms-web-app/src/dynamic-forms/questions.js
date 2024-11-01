@@ -63,7 +63,7 @@ const inputMaxCharacters = Math.min(Number(configInputMaxCharacters), 1000);
  * @return {string} returns date string in d M yyyy format
  */
 
-const getDate = (tense, days = 60) =>
+const getExampleDate = (tense, days = 60) =>
 	formatDate(
 		{
 			past: sub,
@@ -690,7 +690,7 @@ exports.questionProps = {
 		question: 'When was the community infrastructure levy formally adopted?',
 		// fieldName: 'community-infrastructure-levy-adopted-date',
 		fieldName: 'infrastructureLevyAdoptedDate',
-		hint: `For example, ${getDate('past')}`,
+		hint: `For example, ${getExampleDate('past')}`,
 		validators: [
 			new DateValidator('the date the infrastructure levy was formally adopted', {
 				ensurePast: true
@@ -703,7 +703,7 @@ exports.questionProps = {
 		question: 'When do you expect to formally adopt the community infrastructure levy?',
 		// fieldName: 'community-infrastructure-levy-adopt-date',
 		fieldName: 'infrastructureLevyExpectedDate',
-		hint: `For example, ${getDate('future')}`,
+		hint: `For example, ${getExampleDate('future')}`,
 		validators: [
 			new DateValidator('the date you expect to formally adopt the community infrastructure levy', {
 				ensureFuture: true
@@ -1453,7 +1453,7 @@ exports.questionProps = {
 		question: 'What date did you submit your application?',
 		fieldName: 'onApplicationDate',
 		url: 'application-date',
-		hint: `For example, ${getDate('past')}`,
+		hint: `For example, ${getExampleDate('past')}`,
 		validators: [
 			new DateValidator('the date you submitted your application', {
 				ensurePast: true

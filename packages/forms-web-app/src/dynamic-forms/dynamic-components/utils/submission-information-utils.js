@@ -1,10 +1,10 @@
-const { format: formatDate } = require('date-fns');
 const { getLPA, getLPAById } = require('../../../lib/appeals-api-wrapper');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const typeCodeToSubmissionInformationString = {
 	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: 'Householder',
 	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: 'Full planning'
 };
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 /**
  *
@@ -24,7 +24,7 @@ exports.formatBeforeYouStartSection = async (appellantSubmission) => {
 
 	const appealType = typeCodeToSubmissionInformationString[appealTypeCode];
 
-	const decisionDate = formatDate(new Date(applicationDecisionDate), 'd MMMM yyyy');
+	const decisionDate = formatDateForDisplay(applicationDecisionDate, { format: 'd MMMM yyyy' });
 
 	return {
 		heading: 'Before you start',
@@ -60,8 +60,4 @@ exports.formatBeforeYouStartSection = async (appellantSubmission) => {
 			]
 		}
 	};
-};
-
-exports.formattedSubmissionDate = () => {
-	return formatDate(new Date(), 'd MMMM yyyy');
 };

@@ -1,4 +1,3 @@
-const { format } = require('date-fns');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
 /**
@@ -158,19 +157,6 @@ exports.formatDevelopmentDescription = (caseData) => {
 // 	}
 // 	return notifcationTypes.join('\n');
 // };
-
-/**
- * @param {String | undefined} dateStr
- */
-exports.formatDate = (dateStr) => {
-	if (!dateStr) {
-		return '';
-	}
-
-	const date = new Date(dateStr);
-
-	return format(date, 'dd-MMM-yyyy');
-};
 
 /**
  * @param {AppealCaseDetailed} caseData

@@ -1,11 +1,7 @@
-const {
-	formatDocumentDetails,
-	documentExists,
-	formatYesOrNo,
-	formatDate
-} = require('@pins/common');
+const { formatDocumentDetails, documentExists, formatYesOrNo } = require('@pins/common');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 
@@ -86,12 +82,12 @@ exports.planningOfficerReportRows = (caseData) => {
 		},
 		{
 			keyText: 'Date community infrastructure levy adopted',
-			valueText: formatDate(caseData.infrastructureLevyAdoptedDate),
+			valueText: formatDateForDisplay(caseData.infrastructureLevyAdoptedDate),
 			condition: () => !!caseData.infrastructureLevyAdoptedDate
 		},
 		{
 			keyText: 'Date community infrastructure levy expected to be adopted',
-			valueText: formatDate(caseData.infrastructureLevyExpectedDate),
+			valueText: formatDateForDisplay(caseData.infrastructureLevyExpectedDate),
 			condition: () => !!caseData.infrastructureLevyExpectedDate
 		}
 	];

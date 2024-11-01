@@ -1,6 +1,6 @@
-const { formatDate } = require('./format-date');
 const { mapDecisionColour } = require('@pins/business-rules/src/utils/decision-outcome');
 const { APPEAL_CASE_DECISION_OUTCOME, APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 /**
  * @typedef {import("./appeals-view").AppealViewModel} AppealViewModel
@@ -11,7 +11,7 @@ exports.formatCommentDecidedData = (appeal) => {
 	if (!appeal.caseDecisionOutcomeDate) return {};
 
 	return {
-		formattedCaseDecisionDate: formatDate(appeal.caseDecisionOutcomeDate),
+		formattedCaseDecisionDate: formatDateForDisplay(appeal.caseDecisionOutcomeDate),
 		formattedDecisionColour: mapDecisionColour(appeal.caseDecisionOutcome),
 		caseDecisionOutcome:
 			appeal.caseDecisionOutcome in APPEAL_CASE_DECISION_OUTCOME

@@ -1,0 +1,64 @@
+const { formatInTimeZone, zonedTimeToUtc, utcToZonedTime } = require('date-fns-tz');
+const { isValid } = require('date-fns');
+
+const ukTime = 'Europe/London';
+
+/**
+ * Display the date in Europe/London
+ * @param {Date|string} [date]
+ * @param {Object} [options]
+ * @param {string} [options.format] date formatting string
+ * @returns {string} formatted date string or empty string if invalid value passed in
+ */
+const formatDateForDisplay = (date, { format = 'd MMM yyyy' } = { format: 'd MMM yyyy' }) => {
+	if (!date || !isValid(new Date(date))) return '';
+
+	return formatInTimeZone(date, ukTime, format);
+};
+
+/**
+ * @typedef {Object} DateTimeParams
+ * @property {number} year
+ * @property {number} month
+ * @property {number} day
+ * @property {number} [hour]
+ * @property {number} [minute]
+ * @property {boolean} [convertToUTC]
+ */
+
+/**
+ * Parse the date and time parameters provided by a user
+ * @param {DateTimeParams} params
+ * @returns {Date}
+ */
+const parseDateInput = ({ year, month, day, hour = 0, minute = 0 }) => {
+	const dateStr = `${year}-${pad(month)}-${pad(day)}`;
+	const timeStr = `${pad(hour)}:${pad(minute)}`;
+	return zonedTimeToUtc(`${dateStr} ${timeStr}`, ukTime);
+};
+
+/**
+ * Convert a UTC time to UK time
+ * @param {string} date
+ * @returns {Date}
+ */
+const convertUTCToUK = (date) => {
+	return utcToZonedTime(date, ukTime);
+};
+
+/**
+ * Pad a number with leading zeros
+ *
+ * @param {number} num
+ * @params {number} [length]
+ * @returns {string}
+ */
+const pad = (num, length = 2) => {
+	return num.toString().padStart(length, '0');
+};
+
+module.exports = {
+	formatDateForDisplay,
+	parseDateInput,
+	convertUTCToUK
+};

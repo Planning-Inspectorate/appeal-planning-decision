@@ -6,13 +6,13 @@ const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
 const {
-	formatBeforeYouStartSection,
-	formattedSubmissionDate
+	formatBeforeYouStartSection
 } = require('./dynamic-components/utils/submission-information-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 const appealTypeToDetails = {
 	[APPEAL_ID.HOUSEHOLDER]: {
@@ -337,6 +337,7 @@ exports.appellantStartAppeal = async (req, res) => {
 
 	const appealTypeDetails = appealTypeToDetails[appealType];
 
+	// todo: convert before sending
 	const appealSubmission = await req.appealsApiClient.createAppellantSubmission({
 		appealId: appeal.appealSqlId,
 		LPACode: lpaCode,
@@ -455,7 +456,7 @@ exports.appellantSubmissionInformation = async (req, res) => {
 
 	const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
 
-	const submissionDate = formattedSubmissionDate();
+	const submissionDate = formatDateForDisplay(new Date(), { format: 'd MMMM yyyy' });
 
 	const { caseReference } = await req.appealsApiClient.getAppellantSubmissionCaseReference(
 		journey.response.answers.id
