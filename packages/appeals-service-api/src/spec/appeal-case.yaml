@@ -598,6 +598,9 @@ components:
 
         AppellantFinalCommentSubmission:
           $ref: '#/components/schemas/AppellantFinalCommentSubmission'
-        
+
         AppellantProofOfEvidenceSubmission:
           $ref: '#/components/schemas/AppellantProofOfEvidenceSubmission'
+
+        Rule6ProofOfEvidenceSubmission:
+          $ref: '#/components/schemas/Rule6ProofOfEvidenceSubmission'

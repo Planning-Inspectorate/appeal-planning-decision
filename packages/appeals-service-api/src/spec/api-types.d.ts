@@ -477,6 +477,8 @@ export interface AppealCase {
 	AppellantFinalCommentSubmission?: AppellantFinalCommentSubmission;
 	/** Proof of evidence submitted by an appellant */
 	AppellantProofOfEvidenceSubmission?: AppellantProofOfEvidenceSubmission;
+	/** Proof of evidence submitted by a rule 6 party */
+	Rule6ProofOfEvidenceSubmission?: Rule6ProofOfEvidenceSubmission;
 }
 
 /** A statement document linked to an appeal statement */
@@ -1253,6 +1255,34 @@ export interface Rule6Party {
 	statementValidationOutcomeDate?: string;
 	/** details about the validation of the rule 6 party statement */
 	statementValidationDetails?: string;
+}
+
+/** Proof of evidence submitted by a rule 6 party */
+export interface Rule6ProofOfEvidenceSubmission {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	AppealCase: {
+		LPACode: string;
+		appealTypeCode?: string;
+		/** @format date-time */
+		rule6ProofEvidenceDueDate?: string;
+		siteAddressLine1?: string;
+		siteAddressLine2?: string;
+		siteAddressTown?: string;
+		siteAddressCounty?: string;
+		siteAddressPostcode?: string;
+	};
+	/** @format date-time */
+	createdAt?: string;
+	/** @format date-time */
+	updatedAt?: string;
+	/** whether the proof of evidence has been submitted to BO */
+	submitted?: boolean;
+	uploadRule6ProofOfEvidenceDocuments?: boolean;
+	rule6Witnesses?: boolean;
+	uploadRule6WitnessesEvidence?: boolean;
+	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
 /** A Service User */

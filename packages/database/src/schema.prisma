@@ -406,6 +406,7 @@ model AppealCase {
   InterestedPartySubmissions      InterestedPartySubmission[]
   AppealStatements                AppealStatement[]
   FinalComments                   FinalComment[]
+  Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
 }
 
 /// AppealCase relations
@@ -913,12 +914,12 @@ model LPAStatementSubmission {
   updatedAt DateTime? @updatedAt
 
   // state
-  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+  submitted Boolean @default(false) /// whether the lpa statement has been submitted to BO
 
   lpaStatement        String?
   additionalDocuments Boolean?
 
-  // Uploaded documents and details linked to this appeal
+  // Uploaded documents and details linked to this statement
   uploadLpaStatementDocuments Boolean?
   SubmissionDocumentUpload    SubmissionDocumentUpload[]
 }
@@ -935,13 +936,35 @@ model AppellantProofOfEvidenceSubmission {
   updatedAt DateTime? @updatedAt
 
   // state
-  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+  submitted Boolean @default(false) /// whether the proof of evidence has been submitted to BO
 
   uploadAppellantProofOfEvidenceDocuments Boolean?
   appellantWitnesses                      Boolean?
   uploadAppellantWitnessesEvidence        Boolean?
 
-  // Uploaded documents and details linked to this appeal
+  // Uploaded documents and details linked to this proof of evidence
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
+model Rule6ProofOfEvidenceSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  caseReference String     @unique
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the proof of evidence has been submitted to BO
+
+  uploadRule6ProofOfEvidenceDocuments Boolean?
+  rule6Witnesses                      Boolean?
+  uploadRule6WitnessesEvidence        Boolean?
+
+  // Uploaded documents and details linked to this proof of evidence
   SubmissionDocumentUpload SubmissionDocumentUpload[]
 }
 
@@ -957,14 +980,14 @@ model LPAFinalCommentSubmission {
   updatedAt DateTime? @updatedAt
 
   // state
-  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+  submitted Boolean @default(false) /// whether the final comment has been submitted to BO
 
   lpaFinalComment                Boolean?
   lpaFinalCommentDetails         String?
   lpaFinalCommentDocuments       Boolean?
   uploadLPAFinalCommentDocuments Boolean?
 
-  // Uploaded documents and details linked to this appeal
+  // Uploaded documents and details linked to this final comment
   SubmissionDocumentUpload SubmissionDocumentUpload[]
 }
 
@@ -980,14 +1003,14 @@ model AppellantFinalCommentSubmission {
   updatedAt DateTime? @updatedAt
 
   // state
-  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+  submitted Boolean @default(false) /// whether the final comment has been submitted to BO
 
   appellantFinalComment                Boolean?
   appellantFinalCommentDetails         String?
   appellantFinalCommentDocuments       Boolean?
   uploadAppellantFinalCommentDocuments Boolean?
 
-  // Uploaded documents and details linked to this appeal
+  // Uploaded documents and details linked to this final comment
   SubmissionDocumentUpload SubmissionDocumentUpload[]
 }
 
@@ -1012,12 +1035,14 @@ model SubmissionDocumentUpload {
   appellantProofOfEvidenceId         String?                             @db.UniqueIdentifier
   AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission? @relation(fields: [appellantProofOfEvidenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  name             String
-  fileName         String
-  originalFileName String
-  location         String
-  type             String
-  storageId        String @default("")
+  name                             String
+  fileName                         String
+  originalFileName                 String
+  location                         String
+  type                             String
+  storageId                        String                          @default("")
+  Rule6ProofOfEvidenceSubmission   Rule6ProofOfEvidenceSubmission? @relation(fields: [rule6ProofOfEvidenceSubmissionId], references: [id])
+  rule6ProofOfEvidenceSubmissionId String?                         @db.UniqueIdentifier
 }
 
 model SubmissionAddress {
