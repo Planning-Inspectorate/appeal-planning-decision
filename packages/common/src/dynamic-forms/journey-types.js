@@ -14,5 +14,6 @@ exports.JOURNEY_TYPES = {
 	S78_APPELLANT_FINAL_COMMENTS: 's78-appellant-final-comments',
 	S78_LPA_FINAL_COMMENTS: 's78-lpa-final-comments',
 	S78_APPELLANT_PROOF_EVIDENCE: 's78-appellant-proof-evidence',
-	S78_LPA_PROOF_EVIDENCE: 's78-lpa-proof-evidence'
+	S78_LPA_PROOF_EVIDENCE: 's78-lpa-proof-evidence',
+	S78_RULE_6_PROOF_EVIDENCE: 's78-rule-6-proof-evidence'
 };
