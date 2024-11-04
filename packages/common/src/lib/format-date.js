@@ -1,7 +1,7 @@
 const { formatInTimeZone, zonedTimeToUtc, utcToZonedTime } = require('date-fns-tz');
 const { isValid } = require('date-fns');
 
-const ukTime = 'Europe/London';
+const ukTimeZone = 'Europe/London';
 
 /**
  * Display the date in Europe/London
@@ -13,7 +13,7 @@ const ukTime = 'Europe/London';
 const formatDateForDisplay = (date, { format = 'd MMM yyyy' } = { format: 'd MMM yyyy' }) => {
 	if (!date || !isValid(new Date(date))) return '';
 
-	return formatInTimeZone(date, ukTime, format);
+	return formatInTimeZone(date, ukTimeZone, format);
 };
 
 /**
@@ -34,7 +34,7 @@ const formatDateForDisplay = (date, { format = 'd MMM yyyy' } = { format: 'd MMM
 const parseDateInput = ({ year, month, day, hour = 0, minute = 0 }) => {
 	const dateStr = `${year}-${pad(month)}-${pad(day)}`;
 	const timeStr = `${pad(hour)}:${pad(minute)}`;
-	return zonedTimeToUtc(`${dateStr} ${timeStr}`, ukTime);
+	return zonedTimeToUtc(`${dateStr} ${timeStr}`, ukTimeZone);
 };
 
 /**
@@ -43,7 +43,7 @@ const parseDateInput = ({ year, month, day, hour = 0, minute = 0 }) => {
  * @returns {Date}
  */
 const convertUTCToUK = (date) => {
-	return utcToZonedTime(date, ukTime);
+	return utcToZonedTime(date, ukTimeZone);
 };
 
 /**
