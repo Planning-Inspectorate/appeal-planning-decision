@@ -599,11 +599,15 @@ exports.questionProps = {
 	emergingPlan: {
 		type: 'boolean',
 		title: 'Emerging plans',
-		question: "Do you have an emerging plan that's relevant to this appeal?",
+		question: 'Do you have an emerging plan that is relevant to this appeal?',
 		// fieldName: 'emerging-plan',
 		fieldName: 'emergingPlan',
 		url: 'emerging-plan',
-		validators: [new RequiredValidator()],
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have an emerging plan that is relevant to this appeal'
+			)
+		],
 		html: 'resources/emerging-plan/content.html'
 	},
 	emergingPlanUpload: {

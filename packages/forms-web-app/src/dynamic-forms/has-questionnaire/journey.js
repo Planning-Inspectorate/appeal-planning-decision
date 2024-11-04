@@ -50,7 +50,7 @@ const sections = [
 			(response) =>
 				response.answers && response.answers[questions.representationsFromOthers.fieldName] == 'yes'
 		),
-	new Section("Planning officer's report and supplementary documents", 'planning-officer-report')
+	new Section("Planning officer's report and supporting documents", 'planning-officer-report')
 		.addQuestion(questions.planningOfficersReportUpload)
 		.addQuestion(questions.uploadPlansDrawingsHAS)
 		.addQuestion(questions.uploadDevelopmentPlanPolicies)
