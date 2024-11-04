@@ -2,7 +2,8 @@ const {
 	formatYesOrNo,
 	formatDesignations,
 	formatDocumentDetails,
-	documentExists
+	documentExists,
+	boolToYesNo
 } = require('@pins/common');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
@@ -16,9 +17,14 @@ const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 exports.constraintsRows = (caseData) => {
 	const documents = caseData.Documents || [];
 
+	const isHASAppeal = caseData.appealTypeCode === APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS;
+
 	const affectedListedBuildings = caseData.AffectedListedBuildings;
 	const showAffectedListed = !!(affectedListedBuildings && affectedListedBuildings.length);
-	const affectedListedBuildingText = showAffectedListed ? 'Yes' : 'No';
+	const affectedListedBuildingText = boolToYesNo(showAffectedListed);
+
+	const hasConservationMap = documentExists(documents, APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP);
+	const conservationAreaText = boolToYesNo(hasConservationMap);
 
 	const rows = [
 		// todo: s78 needs a type on relation
@@ -51,21 +57,17 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Affects a scheduled monument',
 			valueText: formatYesOrNo(caseData, 'scheduledMonument'),
-			condition: () =>
-				caseData.appealTypeCode !== APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS &&
-				isNotUndefinedOrNull(caseData.scheduledMonument)
+			condition: () => !isHASAppeal && isNotUndefinedOrNull(caseData.scheduledMonument)
 		},
 		{
 			keyText: 'Conservation area',
-			valueText: formatYesOrNo(caseData, 'conservationArea'),
-			condition: () => isNotUndefinedOrNull(caseData.conservationArea)
+			valueText: conservationAreaText,
+			condition: () => isHASAppeal
 		},
 		{
 			keyText: 'Uploaded conservation area map and guidance',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP),
-			condition: () =>
-				!!caseData.conservationArea &&
-				documentExists(documents, APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP),
+			condition: () => hasConservationMap,
 			isEscaped: true
 		},
 		{
