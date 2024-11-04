@@ -9,8 +9,6 @@ describe('planningOfficerReportRows', () => {
 	it('should create row with correct data if relevant case fields exist and files uploaded/field values otherwise populated', () => {
 		const caseData = {
 			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
-			emergingPlan: true,
-			supplementaryPlanningDocs: true,
 			infrastructureLevy: true,
 			infrastructureLevyAdopted: true,
 			infrastructureLevyAdoptedDate: date,
@@ -140,8 +138,6 @@ describe('planningOfficerReportRows', () => {
 	it('should handle false values correctly', () => {
 		const caseData = {
 			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
-			emergingPlan: false,
-			supplementaryPlanningDocs: false,
 			infrastructureLevy: false,
 			infrastructureLevyAdopted: false,
 			Documents: []
@@ -188,8 +184,6 @@ describe('planningOfficerReportRows', () => {
 	it('should set plans, drawings and list of plans condition as false if not HAS appeal type', () => {
 		const caseData = {
 			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78,
-			emergingPlan: true,
-			supplementaryPlanningDocs: true,
 			infrastructureLevy: true,
 			infrastructureLevyAdopted: true,
 			infrastructureLevyAdoptedDate: date,
