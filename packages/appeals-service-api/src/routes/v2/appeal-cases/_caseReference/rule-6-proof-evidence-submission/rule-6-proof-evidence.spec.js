@@ -98,7 +98,7 @@ const createAppeal = async (caseRef) => {
 
 describe('/appeal-cases/_caseReference/rule-6-proof-evidence-submission', () => {
 	it('should create a new rule 6 proof of evidence submission', async () => {
-		const testCaseRef = '1234127';
+		const testCaseRef = '2234127';
 		await createAppeal(testCaseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
@@ -116,7 +116,7 @@ describe('/appeal-cases/_caseReference/rule-6-proof-evidence-submission', () => 
 		expect(createResponse.body).toMatchObject({ ...rule6ProofOfEvidenceData, userId: validUser });
 	});
 	it('should retrieve an existing rule 6 proof of evidence submission', async () => {
-		const testCaseRef = '1234128';
+		const testCaseRef = '2234128';
 		await createAppeal(testCaseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
@@ -141,7 +141,7 @@ describe('/appeal-cases/_caseReference/rule-6-proof-evidence-submission', () => 
 		});
 	});
 	it('should patch/update an existing rule 6 proof of evidence submission', async () => {
-		const testCaseRef = '1234129';
+		const testCaseRef = '2234129';
 		await createAppeal(testCaseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
