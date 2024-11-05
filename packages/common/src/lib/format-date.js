@@ -1,4 +1,4 @@
-const { formatInTimeZone, zonedTimeToUtc, utcToZonedTime } = require('date-fns-tz');
+const { formatInTimeZone, zonedTimeToUtc } = require('date-fns-tz');
 const { isValid } = require('date-fns');
 
 const ukTimeZone = 'Europe/London';
@@ -38,15 +38,6 @@ const parseDateInput = ({ year, month, day, hour = 0, minute = 0 }) => {
 };
 
 /**
- * Convert a UTC time to UK time
- * @param {string} date
- * @returns {Date}
- */
-const convertUTCToUK = (date) => {
-	return utcToZonedTime(date, ukTimeZone);
-};
-
-/**
  * Pad a number with leading zeros
  *
  * @param {number} num
@@ -59,6 +50,5 @@ const pad = (num, length = 2) => {
 
 module.exports = {
 	formatDateForDisplay,
-	parseDateInput,
-	convertUTCToUK
+	parseDateInput
 };
