@@ -22,14 +22,16 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	/**
 	 * Get rule6 party proof of evidence for given appeal
 	 *
+	 * @param {string} userId
 	 * @param {string} caseReference
 	 * @returns {Promise<Rule6ProofOfEvidenceSubmission|null>}
 	 */
-	async getRule6ProofOfEvidenceByAppealRef(caseReference) {
+	async getRule6ProofOfEvidenceByAppealRef(userId, caseReference) {
 		try {
 			return await this.dbClient.rule6ProofOfEvidenceSubmission.findUnique({
 				where: {
-					caseReference
+					caseReference,
+					userId
 				},
 				include: {
 					AppealCase: {
