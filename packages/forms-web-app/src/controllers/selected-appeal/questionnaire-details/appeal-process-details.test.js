@@ -8,7 +8,6 @@ describe('appealProcessRows', () => {
 			lpaProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
 			lpaProcedurePreferenceDetails: 'inquiry preference',
 			lpaProcedurePreferenceDuration: 6,
-			changedDevelopmentDescription: true,
 			newConditionDetails: 'new condition details',
 			relations: [
 				{
@@ -39,11 +38,9 @@ describe('appealProcessRows', () => {
 		expect(rows[3].valueText).toEqual('Yes\nnew condition details');
 		expect(rows[3].condition()).toEqual(true);
 	});
-
-	it('should handle false values correctly', () => {
+	it('should handle null values correctly', () => {
 		const caseData = {
-			changedDevelopmentDescription: false,
-			newConditionDetails: false,
+			newConditionDetails: null,
 			relations: []
 		};
 
@@ -64,12 +61,13 @@ describe('appealProcessRows', () => {
 		expect(rows[3].condition()).toEqual(true);
 	});
 
-	it('should not display if no fields/files exists', () => {
+	it('should handle correctly if no fields/files exists', () => {
 		const rows = appealProcessRows({});
 
 		expect(rows.length).toEqual(4);
 		expect(rows[0].condition()).toEqual(false);
-		expect(rows[1].condition()).toEqual(false);
+		expect(rows[1].condition()).toEqual(true);
+		expect(rows[1].valueText).toEqual('No');
 		expect(rows[2].condition()).toEqual(false);
 		expect(rows[3].condition()).toEqual(false);
 	});
