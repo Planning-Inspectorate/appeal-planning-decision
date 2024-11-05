@@ -588,6 +588,7 @@ export interface AppealUser {
 	/** if an LPA user, the status of this user, e.g. have they logged in and confirmed their email */
 	lpaStatus?: 'added' | 'confirmed' | 'removed';
 	Rule6Parties?: object[];
+	Rule6ProofOfEvidenceSubmission?: object[];
 }
 
 /** A final comment submitted by an appellant */
@@ -1273,6 +1274,7 @@ export interface Rule6ProofOfEvidenceSubmission {
 		siteAddressCounty?: string;
 		siteAddressPostcode?: string;
 	};
+	userId?: string;
 	/** @format date-time */
 	createdAt?: string;
 	/** @format date-time */

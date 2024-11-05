@@ -72,7 +72,8 @@ model AppealUser {
   Rule6Parties Rule6Party[]
 
   /// a security token this user can use to access our service(s)
-  SecurityToken SecurityToken?
+  SecurityToken                  SecurityToken?
+  Rule6ProofOfEvidenceSubmission Rule6ProofOfEvidenceSubmission[]
 }
 
 /// SecurityToken is used as a mechanism for users to login
@@ -952,6 +953,10 @@ model Rule6ProofOfEvidenceSubmission {
   // link the submission to the appeal
   caseReference String     @unique
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  /// relation to a User
+  userId     String     @db.UniqueIdentifier
+  AppealUser AppealUser @relation(fields: [userId], references: [id])
 
   // dates
   createdAt DateTime  @default(now())
