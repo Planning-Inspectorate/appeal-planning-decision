@@ -25,12 +25,16 @@ async function getRule6ProofOfEvidenceByAppealId(appealCaseId) {
 /**
  * Create Rule 6 Party Proof of Evidence Submission for an appealCase
  *
+ * @param {string | undefined} userId
  * @param {string} appealCaseId
  * @param {import('./repo').ProofOfEvidenceData} proofEvidenceData
  * @returns {Promise<Omit<Rule6ProofOfEvidenceSubmission, 'SubmissionDocumentUpload'> | null>}
  */
-async function createRule6ProofOfEvidence(appealCaseId, proofEvidenceData) {
-	const proofs = await repo.createRule6ProofOfEvidence(appealCaseId, proofEvidenceData);
+async function createRule6ProofOfEvidence(userId, appealCaseId, proofEvidenceData) {
+	if (!userId) {
+		return null;
+	}
+	const proofs = await repo.createRule6ProofOfEvidence(userId, appealCaseId, proofEvidenceData);
 
 	if (!proofs) {
 		return null;
@@ -42,12 +46,21 @@ async function createRule6ProofOfEvidence(appealCaseId, proofEvidenceData) {
 /**
  * Put Rule 6 Party Proof of Evidence Submission for an appealCase
  *
+ * @param {string | undefined} userId
  * @param {string} appealCaseId
  * @param {import('./repo').ProofOfEvidenceData} proofEvidenceData
  * @returns {Promise<Omit<Rule6ProofOfEvidenceSubmission, 'SubmissionDocumentUpload'> | null>}
  */
-async function patchRule6ProofOfEvidenceByAppealId(appealCaseId, proofEvidenceData) {
-	const proofs = await repo.patchRule6ProofOfEvidenceByAppealId(appealCaseId, proofEvidenceData);
+async function patchRule6ProofOfEvidenceByAppealId(userId, appealCaseId, proofEvidenceData) {
+	if (!userId) {
+		return null;
+	}
+
+	const proofs = await repo.patchRule6ProofOfEvidenceByAppealId(
+		userId,
+		appealCaseId,
+		proofEvidenceData
+	);
 
 	if (!proofs) {
 		return null;
@@ -59,11 +72,12 @@ async function patchRule6ProofOfEvidenceByAppealId(appealCaseId, proofEvidenceDa
 /**
  * mark Rule 6 Party Proof of Evidence Submission as submitted to back office
  *
+ * @param {string} userId
  * @param {string} caseReference
  * @return {Promise<{id: string}>}
  */
-function markRule6ProofOfEvidenceAsSubmitted(caseReference) {
-	return repo.markRule6ProofOfEvidenceAsSubmitted(caseReference);
+function markRule6ProofOfEvidenceAsSubmitted(userId, caseReference) {
+	return repo.markRule6ProofOfEvidenceAsSubmitted(userId, caseReference);
 }
 
 module.exports = {
