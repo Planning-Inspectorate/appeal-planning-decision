@@ -40,4 +40,8 @@ components:
           type: array
           items:
             type: object
+        Rule6ProofOfEvidenceSubmission:
+          type: array
+          items:
+            type: object
 
