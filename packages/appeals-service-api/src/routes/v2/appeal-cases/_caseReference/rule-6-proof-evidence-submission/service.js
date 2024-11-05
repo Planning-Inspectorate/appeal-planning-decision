@@ -9,11 +9,16 @@ const repo = new Rule6ProofOfEvidenceSubmissionRepository();
 /**
  * Get Rule 6 Party Proof of Evidence Submission for an appealCase
  *
+ * @param {string | undefined} userId
  * @param {string} appealCaseId
  * @return {Promise<Rule6ProofOfEvidenceSubmission|null>}
  */
-async function getRule6ProofOfEvidenceByAppealId(appealCaseId) {
-	const proofs = await repo.getRule6ProofOfEvidenceByAppealRef(appealCaseId);
+async function getRule6ProofOfEvidenceByAppealId(userId, appealCaseId) {
+	if (!userId) {
+		return null;
+	}
+
+	const proofs = await repo.getRule6ProofOfEvidenceByAppealRef(userId, appealCaseId);
 
 	if (!proofs) {
 		return null;

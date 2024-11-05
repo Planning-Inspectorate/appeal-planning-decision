@@ -11,8 +11,10 @@ const { PrismaClientValidationError } = require('@prisma/client/runtime/library'
  * @type {import('express').RequestHandler}
  */
 async function getRule6ProofOfEvidenceSubmission(req, res) {
+	const userId = req.auth?.payload.sub;
+
 	try {
-		const content = await getRule6ProofOfEvidenceByAppealId(req.params.caseReference);
+		const content = await getRule6ProofOfEvidenceByAppealId(userId, req.params.caseReference);
 		if (!content) {
 			throw ApiError.withMessage(404, 'Proof of evidence not found');
 		}
