@@ -165,7 +165,7 @@ exports.formatDevelopmentDescription = (caseData) => {
  */
 exports.formatSiteSafetyRisks = (caseData, hasSiteSafetyDetails) => {
 	if (hasSiteSafetyDetails) {
-		return 'Yes\n' + caseData.siteSafetyDetails?.join('\n');
+		return 'Yes\n' + caseData.siteSafetyDetails?.filter((value) => value.length > 0).join('\n');
 	} else {
 		return 'No';
 	}
@@ -176,7 +176,7 @@ exports.formatSiteSafetyRisks = (caseData, hasSiteSafetyDetails) => {
  * @returns {string}
  */
 exports.formatSiteAccessDetails = (accessDetails) => {
-	return accessDetails.join('\n');
+	return accessDetails.filter((value) => value.length > 0).join('\n');
 };
 
 /**
