@@ -62,7 +62,7 @@ describe('notifiedDetailsRows', () => {
 		expect(rows[2].isEscaped).toEqual(true);
 
 		expect(rows[3].condition()).toEqual(true);
-		expect(rows[3].keyText).toEqual('Letters sent to neighbours');
+		expect(rows[3].keyText).toEqual('Letter sent to neighbours');
 		expect(rows[3].valueText).toEqual(
 			'<a href="/published-document/12347" class="govuk-link">neighbours.pdf</a>'
 		);

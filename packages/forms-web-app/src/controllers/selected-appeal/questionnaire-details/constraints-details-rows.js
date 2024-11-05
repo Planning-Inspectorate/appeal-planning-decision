@@ -62,7 +62,7 @@ exports.constraintsRows = (caseData) => {
 		{
 			keyText: 'Conservation area',
 			valueText: conservationAreaText,
-			condition: () => isHASAppeal
+			condition: () => true
 		},
 		{
 			keyText: 'Uploaded conservation area map and guidance',
