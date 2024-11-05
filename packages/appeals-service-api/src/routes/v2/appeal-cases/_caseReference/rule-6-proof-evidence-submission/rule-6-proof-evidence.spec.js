@@ -85,7 +85,7 @@ const createAppeal = async (caseRef) => {
 			Users: {
 				create: {
 					userId: validUser,
-					role: APPEAL_USER_ROLES.APPELLANT
+					role: APPEAL_USER_ROLES.RULE_6_PARTY
 				}
 			},
 			AppealCase: {
@@ -95,50 +95,52 @@ const createAppeal = async (caseRef) => {
 	});
 	return appeal.AppealCase?.caseReference;
 };
-describe('/appeal-cases/_caseReference/appellant-proof-evidence-submission', () => {
-	it('should create a new appellant proof of evidence submission', async () => {
+
+describe('/appeal-cases/_caseReference/rule-6-proof-evidence-submission', () => {
+	it('should create a new rule 6 proof of evidence submission', async () => {
 		const testCaseRef = '1234127';
 		await createAppeal(testCaseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 		setCurrentSub(validUser);
-		const appellantProofOfEvidenceData = {
-			uploadAppellantProofOfEvidenceDocuments: true,
-			appellantWitnesses: false,
-			uploadAppellantWitnessesEvidence: false
+		const rule6ProofOfEvidenceData = {
+			uploadRule6ProofOfEvidenceDocuments: true,
+			rule6Witnesses: false,
+			uploadRule6WitnessesEvidence: false
 		};
 		const createResponse = await appealsApi
-			.post(`/api/v2/appeal-cases/${testCaseRef}/appellant-proof-evidence-submission`)
-			.send(appellantProofOfEvidenceData);
+			.post(`/api/v2/appeal-cases/${testCaseRef}/rule-6-proof-evidence-submission`)
+			.send(rule6ProofOfEvidenceData);
 		expect(createResponse.status).toEqual(200);
-		expect(createResponse.body).toMatchObject(appellantProofOfEvidenceData);
+		expect(createResponse.body).toMatchObject({ ...rule6ProofOfEvidenceData, userId: validUser });
 	});
-	it('should retrieve an existing appellant proof of evidence submission', async () => {
+	it('should retrieve an existing rule 6 proof of evidence submission', async () => {
 		const testCaseRef = '1234128';
 		await createAppeal(testCaseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 		setCurrentLpa(validLpa);
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 		setCurrentSub(validUser);
-		const appellantProofOfEvidenceData = {
-			uploadAppellantProofOfEvidenceDocuments: true,
-			appellantWitnesses: false,
-			uploadAppellantWitnessesEvidence: false
+		const rule6ProofOfEvidenceData = {
+			uploadRule6ProofOfEvidenceDocuments: true,
+			rule6Witnesses: false,
+			uploadRule6WitnessesEvidence: false
 		};
 		await appealsApi
-			.post(`/api/v2/appeal-cases/${testCaseRef}/appellant-proof-evidence-submission`)
-			.send(appellantProofOfEvidenceData);
+			.post(`/api/v2/appeal-cases/${testCaseRef}/rule-6-proof-evidence-submission`)
+			.send(rule6ProofOfEvidenceData);
 		const response = await appealsApi.get(
-			`/api/v2/appeal-cases/${testCaseRef}/appellant-proof-evidence-submission`
+			`/api/v2/appeal-cases/${testCaseRef}/rule-6-proof-evidence-submission`
 		);
 		expect(response.status).toEqual(200);
 		expect(response.body).toMatchObject({
-			...appellantProofOfEvidenceData,
-			caseReference: testCaseRef
+			...rule6ProofOfEvidenceData,
+			caseReference: testCaseRef,
+			userId: validUser
 		});
 	});
-	it('should patch/update an existing appellant proof of evidence submission', async () => {
+	it('should patch/update an existing rule 6 proof of evidence submission', async () => {
 		const testCaseRef = '1234129';
 		await createAppeal(testCaseRef);
 		const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
@@ -146,25 +148,26 @@ describe('/appeal-cases/_caseReference/appellant-proof-evidence-submission', () 
 		const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 		setCurrentSub(validUser);
 		const originalProof = {
-			uploadAppellantProofOfEvidenceDocuments: false,
-			appellantWitnesses: true,
-			uploadAppellantWitnessesEvidence: false
+			uploadRule6ProofOfEvidenceDocuments: false,
+			rule6Witnesses: true,
+			uploadRule6WitnessesEvidence: false
 		};
 		await appealsApi
-			.post(`/api/v2/appeal-cases/${testCaseRef}/appellant-proof-evidence-submission`)
+			.post(`/api/v2/appeal-cases/${testCaseRef}/rule-6-proof-evidence-submission`)
 			.send(originalProof);
 		const updatedProof = {
-			uploadAppellantProofOfEvidenceDocuments: true,
-			appellantWitnesses: true,
-			uploadAppellantWitnessesEvidence: true
+			uploadRule6ProofOfEvidenceDocuments: true,
+			rule6Witnesses: true,
+			uploadRule6WitnessesEvidence: true
 		};
 		const updatedResponse = await appealsApi
-			.patch(`/api/v2/appeal-cases/${testCaseRef}/appellant-proof-evidence-submission`)
+			.patch(`/api/v2/appeal-cases/${testCaseRef}/rule-6-proof-evidence-submission`)
 			.send(updatedProof);
 		expect(updatedResponse.status).toEqual(200);
 		expect(updatedResponse.body).toMatchObject({
 			...updatedProof,
-			caseReference: testCaseRef
+			caseReference: testCaseRef,
+			userId: validUser
 		});
 	});
 });
