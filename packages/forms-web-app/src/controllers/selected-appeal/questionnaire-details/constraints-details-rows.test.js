@@ -55,7 +55,7 @@ describe('constraintsRows', () => {
 		expect(rows[3].keyText).toEqual('Affects a scheduled monument');
 		expect(rows[3].valueText).toEqual('Yes');
 
-		expect(rows[4].condition()).toEqual(false);
+		expect(rows[4].condition()).toEqual(true);
 		expect(rows[4].keyText).toEqual('Conservation area');
 		expect(rows[4].valueText).toEqual('No');
 
@@ -139,7 +139,7 @@ describe('constraintsRows', () => {
 		expect(rows[3].keyText).toEqual('Affects a scheduled monument');
 		expect(rows[3].valueText).toEqual('No');
 
-		expect(rows[4].condition()).toEqual(false);
+		expect(rows[4].condition()).toEqual(true);
 		expect(rows[4].keyText).toEqual('Conservation area');
 		expect(rows[4].valueText).toEqual('No');
 
@@ -187,14 +187,14 @@ describe('constraintsRows', () => {
 		expect(rows[14].isEscaped).toEqual(true);
 	});
 
-	it('should create rows with false conditions if fields do not exist', () => {
+	it('should create rows with correct conditions if fields do not exist', () => {
 		const rows = constraintsRows({ Documents: [] });
 		expect(rows.length).toEqual(15);
 		expect(rows[0].condition()).toEqual(false);
 		expect(rows[1].condition()).toEqual(false);
 		expect(rows[2].condition()).toEqual(false);
 		expect(rows[3].condition()).toEqual(false);
-		expect(rows[4].condition()).toEqual(false);
+		expect(rows[4].condition()).toEqual(true);
 		expect(rows[5].condition()).toEqual(false);
 		expect(rows[6].condition()).toEqual(false);
 		expect(rows[7].condition()).toEqual(false);

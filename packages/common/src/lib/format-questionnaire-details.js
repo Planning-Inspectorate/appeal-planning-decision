@@ -200,4 +200,4 @@ exports.formatProcedurePreference = (caseData) => {
  * @param {AppealCaseDetailed} caseData
  */
 exports.formatConditions = (caseData) =>
-	(caseData.changedDevelopmentDescription && `Yes\n${caseData.newConditionDetails ?? ''}`) || 'No';
+	(caseData.newConditionDetails && `Yes\n${caseData.newConditionDetails ?? ''}`) || 'No';

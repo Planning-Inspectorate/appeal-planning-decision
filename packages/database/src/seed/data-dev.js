@@ -420,7 +420,7 @@ const appealCases = [
 		// constraints
 		isCorrectAppealType: true,
 		scheduledMonument: false,
-		conservationArea: false,
+		conservationArea: null,
 		protectedSpecies: null,
 		isGreenBelt: true,
 		areaOutstandingBeauty: null,
@@ -440,24 +440,26 @@ const appealCases = [
 		consultationResponses: false,
 		otherPartyRepresentations: false,
 		// planning officer reports
-		emergingPlan: true,
-		supplementaryPlanningDocs: true,
+		emergingPlan: null,
+		supplementaryPlanningDocs: null,
 		infrastructureLevy: null,
 		infrastructureLevyAdopted: null,
 		infrastructureLevyExpectedDate: null,
 		// site access
-		lpaSiteAccess: true,
-		lpaSiteAccessDetails: 'site access details',
+		lpaSiteAccess: null,
+		lpaSiteAccessDetails: null,
 		neighbouringSiteAccess: null,
 		addNeighbouringSiteAccess: null,
 		neighbouringSiteAccessDetails: null,
-		lpaSiteSafetyRisks: true,
-		lpaSiteSafetyRiskDetails: 'generic dangers',
+		siteAccessDetails: '["access details from appellant", "access details from LPA"]',
+		siteSafetyDetails: '["safety details from appellant", "safety details from LPA"]',
+		lpaSiteSafetyRisks: null,
+		lpaSiteSafetyRiskDetails: null,
 		// appeal process
 		lpaProcedurePreference: null,
 		lpaProcedurePreferenceDetails: null,
 		lpaProcedurePreferenceDuration: null,
-		changedDevelopmentDescription: true,
+		changedDevelopmentDescription: null,
 		newConditionDetails: 'Example new conditions'
 	},
 	{
