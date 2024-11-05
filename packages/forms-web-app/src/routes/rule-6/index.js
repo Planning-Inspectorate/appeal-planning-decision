@@ -21,6 +21,7 @@ router.get('/', (req, res) => res.redirect('rule-6/your-appeals'));
 router.use(requireRule6User);
 
 router.use(require('./selected-appeal'));
+router.use(require('./proof-evidence'));
 
 // router.get('/:appealNumber', selectedAppealController.get());
 // router.get('/:appealNumber/appeal-details', appealDetailsController.get());

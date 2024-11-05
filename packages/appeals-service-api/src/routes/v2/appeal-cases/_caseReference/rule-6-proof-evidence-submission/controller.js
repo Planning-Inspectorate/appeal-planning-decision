@@ -32,8 +32,10 @@ async function getRule6ProofOfEvidenceSubmission(req, res) {
  * @type {import('express').RequestHandler}
  */
 async function createRule6ProofOfEvidenceSubmission(req, res) {
+	const userId = req.auth?.payload.sub;
+
 	try {
-		const content = await createRule6ProofOfEvidence(req.params.caseReference, req.body);
+		const content = await createRule6ProofOfEvidence(userId, req.params.caseReference, req.body);
 		if (!content) {
 			throw ApiError.withMessage(400, 'Unable to create proof of evidence');
 		}
@@ -53,8 +55,14 @@ async function createRule6ProofOfEvidenceSubmission(req, res) {
  * @type {import('express').RequestHandler}
  */
 async function patchRule6ProofOfEvidenceSubmission(req, res) {
+	const userId = req.auth?.payload.sub;
+
 	try {
-		const content = await patchRule6ProofOfEvidenceByAppealId(req.params.caseReference, req.body);
+		const content = await patchRule6ProofOfEvidenceByAppealId(
+			userId,
+			req.params.caseReference,
+			req.body
+		);
 		if (!content) {
 			throw ApiError.withMessage(404, 'Proof of evidence not found');
 		}
