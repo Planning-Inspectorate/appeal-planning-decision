@@ -1,4 +1,4 @@
-const { formatDateForDisplay, parseDateInput, convertUTCToUK } = require('./format-date');
+const { formatDateForDisplay, parseDateInput } = require('./format-date');
 
 describe('format-date', () => {
 	describe('formatUTCDateToUK', () => {
@@ -41,17 +41,6 @@ describe('format-date', () => {
 
 		it.each(tests)('parses date $date in Europe/London', ({ input, expected }) => {
 			expect(parseDateInput(input)).toEqual(expected);
-		});
-	});
-
-	describe('convertUTCToUK', () => {
-		const tests = [
-			{ date: '2024-02-20T15:00:00.000Z', expected: 15 },
-			{ date: '2024-09-30T20:00:00.000Z', expected: 21 }
-		];
-
-		it.each(tests)('converts $date to Europe/London', ({ date, expected }) => {
-			expect(convertUTCToUK(date).getHours()).toEqual(expected);
 		});
 	});
 });

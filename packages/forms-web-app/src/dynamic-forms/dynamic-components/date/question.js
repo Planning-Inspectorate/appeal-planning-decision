@@ -1,9 +1,5 @@
 const Question = require('../../question');
-const {
-	parseDateInput,
-	formatDateForDisplay,
-	convertUTCToUK
-} = require('@pins/common/src/lib/format-date');
+const { parseDateInput, formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 /**
  * @typedef {import('../../question').QuestionViewModel} QuestionViewModel
@@ -84,10 +80,10 @@ class DateQuestion extends Question {
 			const answerDateString = journey.response.answers[this.fieldName];
 
 			if (answerDateString) {
-				const answerDate = convertUTCToUK(answerDateString);
-				day = `${answerDate.getDate()}`.slice(-2);
-				month = `${answerDate.getMonth() + 1}`.slice(-2);
-				year = `${answerDate.getFullYear()}`;
+				const answerDate = new Date(answerDateString);
+				day = formatDateForDisplay(answerDate, { format: 'd' });
+				month = formatDateForDisplay(answerDate, { format: 'M' });
+				year = formatDateForDisplay(answerDate, { format: 'yyyy' });
 			}
 		}
 
