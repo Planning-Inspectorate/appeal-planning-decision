@@ -160,13 +160,23 @@ exports.formatDevelopmentDescription = (caseData) => {
 
 /**
  * @param {AppealCaseDetailed} caseData
+ * @param {boolean} hasSiteSafetyDetails
+ * @returns {string}
  */
-exports.formatSiteSafetyRisks = (caseData) => {
-	if (caseData.lpaSiteSafetyRisks) {
-		return `Yes\n${caseData.lpaSiteSafetyRiskDetails ?? ''}`;
+exports.formatSiteSafetyRisks = (caseData, hasSiteSafetyDetails) => {
+	if (hasSiteSafetyDetails) {
+		return 'Yes\n' + caseData.siteSafetyDetails?.join('\n');
 	} else {
 		return 'No';
 	}
+};
+
+/**
+ * @param {Array.<string>} accessDetails
+ * @returns {string}
+ */
+exports.formatSiteAccessDetails = (accessDetails) => {
+	return accessDetails.join('\n');
 };
 
 /**
