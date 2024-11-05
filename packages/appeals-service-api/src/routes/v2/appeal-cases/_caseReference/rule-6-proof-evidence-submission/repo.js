@@ -61,13 +61,15 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	/**
 	 * Create rule 6 proof of evidence for given appeal
 	 *
+	 * @param {string} userId
 	 * @param {string} caseReference
 	 * @param {ProofOfEvidenceData} data
 	 * @returns {Promise<Omit<Rule6ProofOfEvidenceSubmission, 'SubmissionDocumentUpload'>>}
 	 */
-	async createRule6ProofOfEvidence(caseReference, data) {
+	async createRule6ProofOfEvidence(userId, caseReference, data) {
 		return await this.dbClient.rule6ProofOfEvidenceSubmission.create({
 			data: {
+				userId,
 				caseReference,
 				...data
 			},
@@ -84,14 +86,16 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 
 	/**
 	 *
+	 * @param {string} userId
 	 * @param {string} caseReference
 	 * @param {ProofOfEvidenceData} data
 	 * @returns {Promise<Omit<Rule6ProofOfEvidenceSubmission, 'SubmissionDocumentUpload'>>}
 	 */
-	async patchRule6ProofOfEvidenceByAppealId(caseReference, data) {
+	async patchRule6ProofOfEvidenceByAppealId(userId, caseReference, data) {
 		return await this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
-				caseReference
+				caseReference,
+				userId
 			},
 			data,
 			include: {
@@ -106,13 +110,15 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	}
 
 	/**
+	 * @param {string} userId
 	 * @param {string} caseReference
 	 * @returns {Promise<{id: string}>}
 	 */
-	markRule6ProofOfEvidenceAsSubmitted(caseReference) {
+	markRule6ProofOfEvidenceAsSubmitted(userId, caseReference) {
 		return this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
-				caseReference
+				caseReference,
+				userId
 			},
 			data: {
 				submitted: true,
