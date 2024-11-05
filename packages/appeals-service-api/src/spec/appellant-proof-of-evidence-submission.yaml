@@ -20,6 +20,8 @@ components:
           properties:
             LPACode:
               type: string
+            applicationReference:
+              type: string
             appealTypeCode:
               type: string
             proofsOfEvidenceDueDate:

@@ -420,6 +420,7 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 	try {
 		const {
 			appealTypeCode,
+			applicationReference,
 			siteAddressLine1,
 			siteAddressLine2,
 			siteAddressTown,
@@ -443,7 +444,8 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 		let variables = {
 			appeal_reference_number: caseReference,
 			'appellant name': appellantName,
-			'appeal site address': formattedAddress,
+			site_address: formattedAddress,
+			lpa_reference: applicationReference,
 			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
 		};
 
