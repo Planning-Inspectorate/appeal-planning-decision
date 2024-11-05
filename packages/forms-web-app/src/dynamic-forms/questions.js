@@ -2285,7 +2285,7 @@ exports.questionProps = {
 	},
 	uploadAppellantProofOfEvidenceDocuments: {
 		type: 'multi-file-upload',
-		title: 'Upload your proof of evidence and summary',
+		title: 'Your proof of evidence and summary',
 		question: 'Upload your proof of evidence and summary',
 		fieldName: 'uploadAppellantProofOfEvidenceDocuments',
 		html: 'resources/upload-proof-evidence/content.html',
@@ -2298,7 +2298,7 @@ exports.questionProps = {
 	},
 	appellantAddWitnesses: {
 		type: 'boolean',
-		title: 'Do you need to add any witnesses?',
+		title: 'Added witnesses',
 		question: 'Do you need to add any witnesses?',
 		fieldName: 'appellantWitnesses',
 		url: 'add-witnesses',
@@ -2306,7 +2306,7 @@ exports.questionProps = {
 	},
 	uploadAppellantWitnessesEvidence: {
 		type: 'multi-file-upload',
-		title: 'Upload your witnesses and their evidence',
+		title: 'Witness proof of evidence and summary',
 		question: 'Upload your witnesses and their evidence',
 		fieldName: 'uploadAppellantWitnessesEvidence',
 		html: 'resources/upload-proof-evidence/witnesses-evidence.html',
