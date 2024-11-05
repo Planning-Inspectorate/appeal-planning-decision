@@ -3,11 +3,9 @@ const { siteAccessRows } = require('./site-access-details-rows');
 describe('siteAccessRows', () => {
 	it('should create rows with correct data if relevant case data fields exist & field values populated', () => {
 		const caseData = {
-			lpaSiteAccess: true,
-			lpaSiteAccessDetails: 'some site access details',
+			siteAccessDetails: ['some site access details'],
+			siteSafetyDetails: ['some site safety details', 'additional site safety details'],
 			neighbouringSiteAccessDetails: 'some neighbouring site access details',
-			lpaSiteSafetyRisks: true,
-			lpaSiteSafetyRiskDetails: 'risk description',
 			NeighbouringAddresses: [
 				{
 					addressLine1: 'address 1 l1',
@@ -54,13 +52,15 @@ describe('siteAccessRows', () => {
 
 		expect(rows[6].condition()).toEqual(true);
 		expect(rows[6].keyText).toEqual('Potential safety risks');
-		expect(rows[6].valueText).toEqual('Yes\nrisk description');
+		expect(rows[6].valueText).toEqual(
+			'Yes\nsome site safety details\nadditional site safety details'
+		);
 	});
 
 	it('should handle false values correctly', () => {
 		const caseData = {
-			lpaSiteAccess: false,
-			lpaSiteSafetyRisks: false,
+			siteAccessDetails: [],
+			siteSafetyDetails: [],
 			NeighbouringAddresses: []
 		};
 
