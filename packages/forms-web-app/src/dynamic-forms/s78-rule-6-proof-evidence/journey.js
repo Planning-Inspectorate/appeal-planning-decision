@@ -1,7 +1,7 @@
 const { questions } = require('../questions');
 const { Section } = require('../section');
 const config = require('../../config');
-// const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
+const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 /**
@@ -17,10 +17,8 @@ const sections = [
 	new Section('', config.dynamicForms.DEFAULT_SECTION)
 		.addQuestion(questions.uploadRule6ProofOfEvidenceDocuments)
 		.addQuestion(questions.rule6AddWitnesses)
-	// .addQuestion(questions.uploadAppellantWitnessesEvidence)
-	// .withCondition((response) =>
-	// 	questionHasAnswer(response, questions.appellantAddWitnesses, 'yes')
-	// )
+		.addQuestion(questions.uploadRule6WitnessesEvidence)
+		.withCondition((response) => questionHasAnswer(response, questions.rule6AddWitnesses, 'yes'))
 ];
 
 const baseRule6ProofEvidenceUrl = '/rule-6/proof-evidence';
