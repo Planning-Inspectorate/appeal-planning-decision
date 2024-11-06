@@ -379,7 +379,7 @@ const documentTypes = {
 	},
 	uploadDevelopmentPlanPolicies: {
 		name: 'uploadDevelopmentPlanPolicies',
-		dataModelName: APPEAL_DOCUMENT_TYPE.developmentPlanPolicies,
+		dataModelName: APPEAL_DOCUMENT_TYPE.DEVELOPMENT_PLAN_POLICIES,
 		multiple: true,
 		displayName: '',
 		involvement: '',
