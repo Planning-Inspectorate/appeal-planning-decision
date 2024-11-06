@@ -1,6 +1,6 @@
 const express = require('express');
 const {
-	// list
+	list,
 	question,
 	save
 	// remove,
@@ -15,13 +15,13 @@ const getJourneyResponse = require('../../dynamic-forms/middleware/get-journey-r
 const { getJourney } = require('../../dynamic-forms/middleware/get-journey');
 const { journeys } = require('../../journeys');
 const setDefaultSection = require('../../dynamic-forms/middleware/set-default-section');
-// const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
-// const {
-// 	rule6ProofEvidenceSkipConditions
-// } = require('../../dynamic-forms/middleware/redirect-middleware-conditions');
+const redirectToUnansweredQuestion = require('../../dynamic-forms/middleware/redirect-to-unanswered-question');
+const {
+	rule6ProofEvidenceSkipConditions
+} = require('../../dynamic-forms/middleware/redirect-middleware-conditions');
 const dynamicReqFilesToReqBodyFiles = require('../../dynamic-forms/middleware/dynamic-req-files-to-req-body-files');
 const checkNotSubmitted = require('../../dynamic-forms/middleware/check-not-submitted');
-// const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
+const { caseTypeNameWithDefault } = require('@pins/common/src/lib/format-case-type');
 
 // const { SERVICE_USER_TYPE } = require('pins-data-model');
 
@@ -34,34 +34,34 @@ const dashboardUrl = `/${DASHBOARD}`;
 
 const router = express.Router();
 
-// /**
-//  * @type {import('express').Handler}
-//  */
-// const proofOfEvidenceTaskList = async (req, res) => {
-// 	const referenceId = res.locals.journeyResponse.referenceId;
-// 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
+/**
+ * @type {import('express').Handler}
+ */
+const proofOfEvidenceTaskList = async (req, res) => {
+	const referenceId = res.locals.journeyResponse.referenceId;
+	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
-// 	appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
-// 	// const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
-// 	// if (appellant) {
-// 	// 	appeal.appellantFirstName = appellant.firstName;
-// 	// 	appeal.appellantLastName = appellant.lastName;
-// 	// }
+	appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
+	// const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
+	// if (appellant) {
+	// 	appeal.appellantFirstName = appellant.firstName;
+	// 	appeal.appellantLastName = appellant.lastName;
+	// }
 
-// 	const pageCaption = `Appeal ${appeal.caseReference}`;
+	const pageCaption = `Appeal ${appeal.caseReference}`;
 
-// 	return list(req, res, pageCaption, { appeal });
-// };
+	return list(req, res, pageCaption, { appeal });
+};
 
-// // list
-// router.get(
-// 	'/:referenceId',
-// 	getJourneyResponse(),
-// 	getJourney(journeys),
-// 	redirectToUnansweredQuestion([rule6ProofEvidenceSkipConditions]),
-// 	checkNotSubmitted(dashboardUrl),
-// 	proofOfEvidenceTaskList
-// );
+// list
+router.get(
+	'/proof-evidence/:referenceId',
+	getJourneyResponse(),
+	getJourney(journeys),
+	redirectToUnansweredQuestion([rule6ProofEvidenceSkipConditions]),
+	checkNotSubmitted(dashboardUrl),
+	proofOfEvidenceTaskList
+);
 
 // // submit
 // router.post(
@@ -83,7 +83,7 @@ const router = express.Router();
 
 // question
 router.get(
-	'/:referenceId/:question',
+	'/proof-evidence/:referenceId/:question',
 	setDefaultSection(),
 	getJourneyResponse(),
 	getJourney(journeys),
@@ -93,7 +93,7 @@ router.get(
 
 // save
 router.post(
-	'/:referenceId/:question',
+	'/proof-evidence/:referenceId/:question',
 	setDefaultSection(),
 	getJourneyResponse(),
 	getJourney(journeys),

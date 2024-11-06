@@ -2350,6 +2350,19 @@ exports.questionProps = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadLpaWitnessesEvidence
+	},
+	uploadRule6ProofOfEvidenceDocuments: {
+		type: 'multi-file-upload',
+		title: 'Upload your proof of evidence and summary',
+		question: 'Upload your proof of evidence and summary',
+		fieldName: 'uploadRule6ProofOfEvidenceDocuments',
+		html: 'resources/upload-proof-evidence/content.html',
+		url: 'upload-proof-evidence',
+		validators: [
+			new RequiredFileUploadValidator('Select your proof of evidence and summary'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadRule6ProofOfEvidenceDocuments
 	}
 };
 
