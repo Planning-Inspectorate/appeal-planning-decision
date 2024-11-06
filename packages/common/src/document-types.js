@@ -9,6 +9,7 @@
 const lpaOwner = 'LPAUser';
 const appellantOwner = 'Appellant';
 const pinsOwner = 'PINs';
+const rule6Owner = 'Rule6Party';
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
@@ -18,7 +19,7 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
  * @property {boolean} multiple if this is a multi-file or single-file upload
  * @property {string} [displayName] a user friendly name for the doc type, has been defined on all docs
  * @property {'LPA'|'Appellant'|''} involvement currently unsure what this is used for?
- * @property {'LPAUser'|'Appellant'|'PINs'} owner who owns/uploads this document type
+ * @property {'LPAUser'|'Appellant'|'PINs'|'Rule6Party'} owner who owns/uploads this document type
  * @property {boolean} publiclyAccessible if, when published, this document can be accessed without a user needing to log in
  * @property {string} horizonDocumentType name used in horizon
  * @property {string} horizonDocumentGroupType group type used in horizon
@@ -696,6 +697,17 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
+	uploadRule6ProofOfEvidenceDocuments: {
+		name: 'uploadRule6ProofOfEvidenceDocuments',
+		dataModelName: '', // To be added once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: rule6Owner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
 	uploadLpaWitnessesEvidence: {
 		name: 'uploadLpaWitnessesEvidence',
 		dataModelName: '', // To be added once data model confirmed
@@ -703,6 +715,17 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	uploadRule6WitnessesEvidence: {
+		name: 'uploadRule6WitnessesEvidence',
+		dataModelName: '', // To be added once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: rule6Owner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
