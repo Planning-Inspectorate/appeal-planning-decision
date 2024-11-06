@@ -2363,6 +2363,14 @@ exports.questionProps = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadRule6ProofOfEvidenceDocuments
+	},
+	rule6AddWitnesses: {
+		type: 'boolean',
+		title: 'Do you need to add any witnesses?',
+		question: 'Do you need to add any witnesses?',
+		fieldName: 'rule6Witnesses',
+		url: 'add-witnesses',
+		validators: [new RequiredValidator('Select yes if you need to add any witnesses')]
 	}
 };
 
