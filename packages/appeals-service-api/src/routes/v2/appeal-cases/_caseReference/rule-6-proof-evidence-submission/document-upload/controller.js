@@ -7,8 +7,9 @@ const ApiError = require('#errors/apiError');
  */
 async function createSubmissionDocumentUpload(req, res) {
 	try {
+		const userId = req.auth?.payload.sub;
 		const caseReference = req.params.caseReference;
-		const content = await createSubmissionDocument(caseReference, req.body);
+		const content = await createSubmissionDocument(userId, caseReference, req.body);
 		if (!content) {
 			throw ApiError.unableToCreateDocumentUpload();
 		}
@@ -29,8 +30,9 @@ async function createSubmissionDocumentUpload(req, res) {
  */
 async function deleteSubmissionDocumentUpload(req, res) {
 	try {
+		const userId = req.auth?.payload.sub;
 		const { caseReference, documentId } = req.params;
-		const content = await deleteSubmissionDocument(caseReference, documentId);
+		const content = await deleteSubmissionDocument(userId, caseReference, documentId);
 		if (!content) {
 			throw ApiError.unableToDeleteDocumentUpload();
 		}
