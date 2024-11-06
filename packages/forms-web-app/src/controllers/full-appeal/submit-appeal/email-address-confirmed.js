@@ -14,7 +14,7 @@ const getEmailConfirmed = async (req, res) => {
 	const lpa = await getDepartmentFromId(appeal.lpaCode);
 	const lpaCode = lpa.lpaCode ?? (await getLPAById(lpa.id)).lpaCode; // fallback to lookup in case cached lpa doesn't have code
 
-	const usingV2Form = await isFeatureActive(FLAG.HAS_APPEAL_FORM_V2, lpaCode);
+	const usingV2Form = await isFeatureActive(FLAG.S78_APPEAL_FORM_V2, lpaCode);
 
 	const listOfDocumentsUrl = usingV2Form
 		? '/appeals/full-planning/appeal-form/before-you-start'
