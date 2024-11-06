@@ -24,15 +24,17 @@ class SubmissionDocumentUploadRepository {
 	/**
 	 * Create submission document for given Rule 6 Party Proof Of Evidence Submission
 	 *
+	 * @param {string} userId
 	 * @param {string} caseReference
 	 * @param {DocumentUploadData} uploadData
 	 * @returns {Promise<Rule6ProofOfEvidenceSubmission>}
 	 */
-	async createSubmissionDocument(caseReference, uploadData) {
+	async createSubmissionDocument(userId, caseReference, uploadData) {
 		const { name, fileName, originalFileName, location, type, id: storageId } = uploadData;
 
 		return await this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
+				userId,
 				caseReference: caseReference
 			},
 			data: {
@@ -61,13 +63,15 @@ class SubmissionDocumentUploadRepository {
 	/**
 	 * Delete submission document
 	 *
+	 * @param {string} userId
 	 * @param {string} caseReference
 	 * @param {string} documentId
 	 * @returns {Promise<Rule6ProofOfEvidenceSubmission>}
 	 */
-	async deleteSubmissionDocument(caseReference, documentId) {
+	async deleteSubmissionDocument(userId, caseReference, documentId) {
 		return await this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
+				userId,
 				caseReference: caseReference
 			},
 			data: {

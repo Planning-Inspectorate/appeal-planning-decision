@@ -152,6 +152,8 @@ class MultiFileUploadQuestion extends Question {
 			return apiClient.postLPAFinalCommentDocumentUpload(referenceId, data);
 		} else if ([JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE].includes(journeyId)) {
 			return apiClient.postAppellantProofOfEvidenceDocumentUpload(referenceId, data);
+		} else if ([JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE].includes(journeyId)) {
+			return apiClient.postRule6ProofOfEvidenceDocumentUpload(referenceId, data);
 		}
 	}
 	// Belongs to save
@@ -173,6 +175,8 @@ class MultiFileUploadQuestion extends Question {
 				return apiClient.deleteLPAFinalCommentDocumentUpload(submissionId, documentId);
 			} else if ([JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE].includes(journeyId)) {
 				return apiClient.deleteAppellantProofOfEvidenceDocumentUpload(submissionId, documentId);
+			} else if ([JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE].includes(journeyId)) {
+				return apiClient.deleteRule6ProofOfEvidenceDocumentUpload(submissionId, documentId);
 			}
 		};
 	}
