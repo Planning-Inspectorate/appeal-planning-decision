@@ -2353,7 +2353,7 @@ exports.questionProps = {
 	},
 	uploadRule6ProofOfEvidenceDocuments: {
 		type: 'multi-file-upload',
-		title: 'Upload your proof of evidence and summary',
+		title: 'Your proof of evidence and summary',
 		question: 'Upload your proof of evidence and summary',
 		fieldName: 'uploadRule6ProofOfEvidenceDocuments',
 		html: 'resources/upload-proof-evidence/content.html',
@@ -2366,11 +2366,24 @@ exports.questionProps = {
 	},
 	rule6AddWitnesses: {
 		type: 'boolean',
-		title: 'Do you need to add any witnesses?',
+		title: 'Added witnesses',
 		question: 'Do you need to add any witnesses?',
 		fieldName: 'rule6Witnesses',
 		url: 'add-witnesses',
 		validators: [new RequiredValidator('Select yes if you need to add any witnesses')]
+	},
+	uploadRule6WitnessesEvidence: {
+		type: 'multi-file-upload',
+		title: 'Witness proof of evidence and summary',
+		question: 'Upload your witnesses and their evidence',
+		fieldName: 'uploadRule6WitnessesEvidence',
+		html: 'resources/upload-proof-evidence/witnesses-evidence.html',
+		url: 'upload-witnesses-evidence',
+		validators: [
+			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadRule6WitnessesEvidence
 	}
 };
 
