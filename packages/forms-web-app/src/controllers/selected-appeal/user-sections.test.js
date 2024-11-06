@@ -5,7 +5,8 @@ describe('LPA and Appellant Sections', () => {
 	beforeEach(() => {
 		appealCase = {
 			caseValidDate: '2023-09-01',
-			lpaQuestionnairePublishedDate: '2023-09-02',
+			lpaQuestionnaireSubmittedDate: null,
+			lpaQuestionnairePublishedDate: null,
 			lpaStatementPublished: true,
 			rule6StatementPublished: true,
 			interestedPartyCommentsPublished: true,
@@ -49,13 +50,14 @@ describe('LPA and Appellant Sections', () => {
 			});
 		});
 		describe('Questionnaire', () => {
-			it('should show "View questionnaire" when lpaQuestionnairePublishedDate is present', () => {
+			it('should show "View questionnaire" when lpaQuestionnaireSubmittedDate is present', () => {
+				appealCase.lpaQuestionnaireSubmittedDate = '2023-09-02';
 				const section = findSectionByHeading(lpaSections, 'Questionnaire');
 				const link = findLinkByUrl(section, '/questionnaire');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View questionnaire');
 			});
-			it('should not show "View questionnaire" when lpaQuestionnairePublishedDate is absent', () => {
+			it('should not show "View questionnaire" when lpaQuestionnaireSubmittedDate is absent', () => {
 				appealCase.lpaQuestionnairePublishedDate = null;
 				const section = findSectionByHeading(lpaSections, 'Questionnaire');
 				const link = findLinkByUrl(section, '/questionnaire');
@@ -192,13 +194,13 @@ describe('LPA and Appellant Sections', () => {
 		});
 		describe('Questionnaire', () => {
 			it('should show "View questionnaire" when lpaQuestionnairePublishedDate is present', () => {
+				appealCase.lpaQuestionnairePublishedDate = '2023-09-02';
 				const section = findSectionByHeading(appellantSections, 'Questionnaire');
 				const link = findLinkByUrl(section, '/questionnaire');
 				expect(link?.condition(appealCase)).toBe(true);
 				expect(link?.text).toBe('View questionnaire');
 			});
 			it('should not show "View questionnaire" when lpaQuestionnairePublishedDate is absent', () => {
-				appealCase.lpaQuestionnairePublishedDate = null;
 				const section = findSectionByHeading(appellantSections, 'Questionnaire');
 				const link = findLinkByUrl(section, '/questionnaire');
 				expect(link.condition(appealCase)).toBe(false);
