@@ -438,7 +438,7 @@ const appealCases = [
 		// consultations
 		statutoryConsultees: false,
 		consultationResponses: false,
-		otherPartyRepresentations: false,
+		otherPartyRepresentations: null,
 		// planning officer reports
 		emergingPlan: null,
 		supplementaryPlanningDocs: null,
