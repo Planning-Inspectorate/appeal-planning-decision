@@ -67,10 +67,10 @@ class DocumentsRepository {
 	 * @param {Object} params
 	 * @param {string} params.appealId
 	 * @param {string} params.userId
-	 * @returns {Promise<import("@prisma/client").AppealToUser|null>}
+	 * @returns {Promise<import("@prisma/client").AppealToUser[]>}
 	 */
-	async getAppealUser({ appealId, userId }) {
-		return await this.dbClient.appealToUser.findFirst({
+	async getAppealUserRoles({ appealId, userId }) {
+		return await this.dbClient.appealToUser.findMany({
 			where: {
 				appealId,
 				userId

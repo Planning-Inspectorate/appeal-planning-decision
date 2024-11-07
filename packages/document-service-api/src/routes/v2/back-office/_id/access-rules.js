@@ -13,7 +13,7 @@ exports.CLIENT_CREDS_ROLE = 'client-credentials';
 
 /**
  * @type {PermissionsCheck}
- */ // todo: set publiclyAccessible on doc types when we know which data model docs appear on public urls
+ */
 const publicDocAccess = (docMetaData, docType) =>
 	docMetaData.published && docMetaData.redacted && docType.publiclyAccessible;
 
@@ -28,7 +28,9 @@ const docTypeUserMapping = {
 		docType?.owner === APPEAL_USER_ROLES.APPELLANT,
 	[APPEAL_USER_ROLES.AGENT]: (docMetaData, docType) =>
 		docTypeUserMapping[APPEAL_USER_ROLES.APPELLANT](docMetaData, docType), // same as appellant
-	[APPEAL_USER_ROLES.RULE_6_PARTY]: publicDocAccess, // will this be different from interested party?
+	[APPEAL_USER_ROLES.RULE_6_PARTY]: (docMetaData, docType) =>
+		(docMetaData.published && docMetaData.redacted) ||
+		docType.owner === APPEAL_USER_ROLES.RULE_6_PARTY,
 	[exports.CLIENT_CREDS_ROLE]: publicDocAccess // e.g. interested party
 };
 
