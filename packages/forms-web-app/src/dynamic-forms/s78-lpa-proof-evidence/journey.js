@@ -1,7 +1,7 @@
 const { questions } = require('../questions');
 const { Section } = require('../section');
 const config = require('../../config');
-// const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
+const { questionHasAnswer } = require('../dynamic-components/utils/question-has-answer');
 const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 /**
@@ -14,9 +14,11 @@ const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types'
  * @returns {Section[]}
  */
 const sections = [
-	new Section('', config.dynamicForms.DEFAULT_SECTION).addQuestion(
-		questions.uploadLpaProofOfEvidenceDocuments
-	)
+	new Section('', config.dynamicForms.DEFAULT_SECTION)
+		.addQuestion(questions.uploadLpaProofOfEvidenceDocuments)
+		.addQuestion(questions.lpaAddWitnesses)
+		.addQuestion(questions.uploadLpaWitnessesEvidence)
+		.withCondition((response) => questionHasAnswer(response, questions.lpaAddWitnesses, 'yes'))
 ];
 
 const baseLpaProofEvidenceUrl = '/manage-appeals/proof-evidence';

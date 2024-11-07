@@ -2329,6 +2329,27 @@ exports.questionProps = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadLpaProofOfEvidenceDocuments
+	},
+	lpaAddWitnesses: {
+		type: 'boolean',
+		title: 'Added witnesses',
+		question: 'Do you need to add any witnesses?',
+		fieldName: 'lpaWitnesses',
+		url: 'add-witnesses',
+		validators: [new RequiredValidator('Select yes if you need to add any witnesses')]
+	},
+	uploadLpaWitnessesEvidence: {
+		type: 'multi-file-upload',
+		title: 'Witness proof of evidence and summary',
+		question: 'Upload your witnesses and their evidence',
+		fieldName: 'uploadLpaWitnessesEvidence',
+		html: 'resources/upload-proof-evidence/witnesses-evidence.html',
+		url: 'upload-witnesses-evidence',
+		validators: [
+			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadLpaWitnessesEvidence
 	}
 };
 
