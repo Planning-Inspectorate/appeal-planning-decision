@@ -106,6 +106,10 @@ env.addGlobal('googleTagManagerId', config.server.googleTagManagerId);
 env.addGlobal('featureFlag', config.featureFlag);
 env.addGlobal('feedbackUrl', config.feedbackUrl);
 env.addGlobal('betaBannerFeedback', config.betaBannerText + config.betaBannerFeedbackLink);
+env.addGlobal('contactEmail', config.contact.email);
+env.addGlobal('contactPhone', config.contact.phone);
+env.addGlobal('contactForm', config.contact.form);
+env.addGlobal('contactHours', config.contact.hours);
 
 if (config.server.useSecureSessionCookie) {
 	app.set('trust proxy', 1); // trust first proxy

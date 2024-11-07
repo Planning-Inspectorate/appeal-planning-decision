@@ -7,13 +7,13 @@
       columns: 2,
       items: [
         {
-          href: "tel:03034445000",
-          text: "Customer Support: England 0303 444 5000",
+          href: "tel:" + contactPhone | replace(" ", ""),
+          text: "Customer Support: England " + contactPhone,
           attributes: { "data-cy":"customer-support-telephone-number" }
         },
         {
-          href: "mailto:caseofficers@planninginspectorate.gov.uk",
-          text: "caseofficers@planninginspectorate.gov.uk",
+          href: "mailto:" + contactEmail,
+          text: contactEmail,
           attributes: { "data-cy":"customer-support-email-address" }
         }
       ]

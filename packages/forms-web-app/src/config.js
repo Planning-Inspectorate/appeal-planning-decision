@@ -31,6 +31,14 @@ module.exports = {
 	cacheControl: {
 		maxAge: process.env.CACHE_CONTROL_MAX_AGE || '1d'
 	},
+	contact: {
+		email: process.env.CONTACT_EMAIL || 'caseofficers@planninginspectorate.gov.uk',
+		phone: process.env.CONTACT_PHONE || '0303 444 5000',
+		form:
+			process.env.CONTACT_FORM ||
+			'https://contact-us.planninginspectorate.gov.uk/hc/en-gb/requests/new',
+		hours: process.env.CONTACT_HOURS || 'Monday to Friday, 9am to midday (except public holidays)'
+	},
 	db: {
 		session: {
 			uri: process.env.SESSION_MONGODB_URL,
