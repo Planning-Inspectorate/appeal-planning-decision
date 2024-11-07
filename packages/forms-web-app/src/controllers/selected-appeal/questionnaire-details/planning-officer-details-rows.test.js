@@ -162,17 +162,17 @@ describe('planningOfficerReportRows', () => {
 		expect(rows[10].valueText).toEqual('No');
 	});
 
-	it('should not display if no fields/files exist', () => {
+	it('should return correct conditions if no fields/files exist', () => {
 		const rows = planningOfficerReportRows({ Documents: [] });
 
 		expect(rows.length).toEqual(13);
 		expect(rows[0].condition()).toEqual(false);
 		expect(rows[1].condition()).toEqual(false);
 		expect(rows[2].condition()).toEqual(false);
-		expect(rows[3].condition()).toEqual(false);
+		expect(rows[3].condition()).toEqual(true);
 		expect(rows[4].condition()).toEqual(false);
 		expect(rows[5].condition()).toEqual(false);
-		expect(rows[6].condition()).toEqual(false);
+		expect(rows[6].condition()).toEqual(true);
 		expect(rows[7].condition()).toEqual(false);
 		expect(rows[8].condition()).toEqual(false);
 		expect(rows[9].condition()).toEqual(false);

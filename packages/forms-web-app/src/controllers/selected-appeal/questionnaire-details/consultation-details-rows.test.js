@@ -27,4 +27,49 @@ describe('consultationRows', () => {
 			'<a href="/published-document/1" class="govuk-link">test.txt</a>'
 		);
 	});
+
+	describe('Other Party Representations', () => {
+		it('returns correct values when document exists', () => {
+			const caseData = {
+				Documents: [
+					{
+						id: 1,
+						documentType: APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS,
+						filename: 'testing',
+						redacted: true
+					}
+				]
+			};
+
+			const rows = consultationRows(caseData);
+
+			expect(rows[3].keyText).toEqual('Representations from other parties');
+			expect(rows[3].valueText).toEqual('Yes');
+			expect(rows[3].condition()).toEqual(true);
+			expect(rows[3].isEscaped).toEqual(true);
+
+			expect(rows[4].keyText).toEqual('Uploaded representations from other parties');
+			expect(rows[4].valueText).toEqual(
+				'<a href="/published-document/1" class="govuk-link">testing</a>'
+			);
+			expect(rows[4].condition()).toEqual(true);
+			expect(rows[4].isEscaped).toEqual(true);
+		});
+
+		it('returns correct values when document does not exist', () => {
+			const caseData = {
+				Documents: []
+			};
+
+			const rows = consultationRows(caseData);
+
+			expect(rows[3].keyText).toEqual('Representations from other parties');
+			expect(rows[3].valueText).toEqual('No');
+			expect(rows[3].condition()).toEqual(true);
+
+			expect(rows[4].keyText).toEqual('Uploaded representations from other parties');
+			expect(rows[4].valueText).toEqual('No');
+			expect(rows[4].condition()).toEqual(false);
+		});
+	});
 });
