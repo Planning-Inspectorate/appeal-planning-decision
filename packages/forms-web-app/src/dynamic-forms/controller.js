@@ -578,7 +578,8 @@ exports.appellantProofEvidenceSubmitted = async (req, res) => {
 	}
 
 	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
-		caseReference
+		caseReference,
+		dashboardUrl: '/appeals/your-appeals'
 	});
 };
 
@@ -596,7 +597,25 @@ exports.submitRule6ProofEvidence = async (req, res) => {
 
 	await req.appealsApiClient.submitRule6ProofOfEvidenceSubmission(caseReference);
 
-	return res.redirect(`/appeals/proof-evidence/${caseReference}/submitted-proof-evidence`);
+	return res.redirect(`/rule-6/proof-evidence/${caseReference}/submitted-proof-evidence`);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.rule6ProofEvidenceSubmitted = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.render('./error/not-found.njk');
+	}
+
+	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
+		caseReference,
+		dashboardUrl: '/rule-6/your-appeals'
+	});
 };
 
 /**

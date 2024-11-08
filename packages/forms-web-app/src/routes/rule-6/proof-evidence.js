@@ -4,8 +4,8 @@ const {
 	question,
 	save,
 	// remove,
-	submitAppellantProofEvidence
-	// appellantProofEvidenceSubmitted
+	submitRule6ProofEvidence,
+	rule6ProofEvidenceSubmitted
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -60,21 +60,21 @@ router.get(
 
 // submit
 router.post(
-	'/:referenceId',
+	'/proof-evidence/:referenceId',
 	getJourneyResponse(),
 	getJourney(journeys),
 	checkNotSubmitted(dashboardUrl),
 	validationErrorHandler,
-	submitAppellantProofEvidence
+	submitRule6ProofEvidence
 );
 
-// router.get(
-// 	'/:referenceId/submitted-proof-evidence',
-// 	setDefaultSection(),
-// 	getJourneyResponse(),
-// 	getJourney(journeys),
-// 	appellantProofEvidenceSubmitted
-// );
+router.get(
+	'/proof-evidence/:referenceId/submitted-proof-evidence',
+	setDefaultSection(),
+	getJourneyResponse(),
+	getJourney(journeys),
+	rule6ProofEvidenceSubmitted
+);
 
 // question
 router.get(
