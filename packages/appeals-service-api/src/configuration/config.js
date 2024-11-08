@@ -108,7 +108,10 @@ let config = {
 							.SRV_NOTIFY_APPELLANT_FINAL_COMMENT_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
 					appellantProofEvidenceSubmissionConfirmationEmailToAppellantV2:
 						process.env
-							.SRV_NOTIFY_APPELLANT_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID
+							.SRV_NOTIFY_APPELLANT_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
+					rule6ProofEvidenceSubmissionConfirmationEmailToRule6PartyV2:
+						process.env
+							.SRV_NOTIFY_RULE_6_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_RULE_6_PARTY_TEMPLATE_ID
 				},
 				V2_COMMON: {
 					appealSubmissionReceivedEmailToAppellant:

@@ -2,9 +2,9 @@ const express = require('express');
 const {
 	list,
 	question,
-	save
+	save,
 	// remove,
-	// submitAppellantProofEvidence,
+	submitAppellantProofEvidence
 	// appellantProofEvidenceSubmitted
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
@@ -42,11 +42,6 @@ const proofOfEvidenceTaskList = async (req, res) => {
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(referenceId);
 
 	appeal.appealTypeName = caseTypeNameWithDefault(appeal.appealTypeCode);
-	// const appellant = appeal.users.find((x) => x.serviceUserType === SERVICE_USER_TYPE.APPELLANT);
-	// if (appellant) {
-	// 	appeal.appellantFirstName = appellant.firstName;
-	// 	appeal.appellantLastName = appellant.lastName;
-	// }
 
 	const pageCaption = `Appeal ${appeal.caseReference}`;
 
@@ -63,15 +58,15 @@ router.get(
 	proofOfEvidenceTaskList
 );
 
-// // submit
-// router.post(
-// 	'/:referenceId',
-// 	getJourneyResponse(),
-// 	getJourney(journeys),
-// 	checkNotSubmitted(dashboardUrl),
-// 	validationErrorHandler,
-// 	submitAppellantProofEvidence
-// );
+// submit
+router.post(
+	'/:referenceId',
+	getJourneyResponse(),
+	getJourney(journeys),
+	checkNotSubmitted(dashboardUrl),
+	validationErrorHandler,
+	submitAppellantProofEvidence
+);
 
 // router.get(
 // 	'/:referenceId/submitted-proof-evidence',

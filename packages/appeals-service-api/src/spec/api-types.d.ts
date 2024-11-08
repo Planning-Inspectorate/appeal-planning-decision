@@ -464,6 +464,8 @@ export interface AppealCase {
 	/** @format date-time */
 	rule6ProofEvidenceDueDate?: string;
 	rule6ProofEvidenceSubmitted?: boolean;
+	/** @format date-time */
+	rule6ProofEvidenceSubmittedDate?: string;
 	interestedPartyCommentsPublished?: boolean;
 	Rule6Parties?: object[];
 	AffectedListedBuildings?: object[];

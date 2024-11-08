@@ -26,8 +26,9 @@ const {
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
 	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
-	sendLPAFinalCommentSubmissionEmailToLPAV2,
-	sendLPAProofEvidenceSubmissionEmailToLPAV2
+	sendLPAProofEvidenceSubmissionEmailToLPAV2,
+	sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2,
+	sendLPAFinalCommentSubmissionEmailToLPAV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
@@ -40,6 +41,10 @@ const {
 	getAppellantProofOfEvidenceByAppealId,
 	markAppellantProofOfEvidenceAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/appellant-proof-evidence-submission/service');
+const {
+	getRule6ProofOfEvidenceByAppealId,
+	markRule6ProofOfEvidenceAsSubmitted
+} = require('../../routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/service');
 const {
 	getLPAFinalCommentByAppealId,
 	markLPAFinalCommentAsSubmitted
@@ -383,6 +388,55 @@ class BackOfficeV2Service {
 		} catch (err) {
 			logger.error({ err }, 'failed to sendAppellantProofEvidenceSubmissionEmailToAppellantV2');
 			throw new Error('failed to send appellant proof of evidence submission email');
+		}
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} userId
+	 * @returns {Promise<void>}
+	 */
+	async submitRule6ProofOfEvidenceSubmission(caseReference, userId) {
+		const rule6ProofOfEvidenceSubmission = await getRule6ProofOfEvidenceByAppealId(
+			userId,
+			caseReference
+		);
+
+		const { email, serviceUserId } = await getUserById(userId);
+
+		let appellantName;
+
+		if (serviceUserId) {
+			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
+				serviceUserId,
+				caseReference
+			);
+
+			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
+				appellantName = serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
+			} else {
+				appellantName = 'Rule 6 Party';
+			}
+		} else {
+			appellantName = 'Rule 6 Party';
+		}
+
+		logger.info(
+			`forwarding rule 6 party proof of evidence submission for ${caseReference} to service bus`
+		);
+
+		// Date to be set in back office mapper once data model confirmed
+		await markRule6ProofOfEvidenceAsSubmitted(userId, caseReference, new Date().toISOString());
+
+		try {
+			await sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2(
+				rule6ProofOfEvidenceSubmission,
+				email,
+				appellantName
+			);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendRule6ProofOfEvidenceSubmissionEmailToRule6PartyV2');
+			throw new Error('failed to send rule 6 proof of evidence submission email');
 		}
 	}
 }

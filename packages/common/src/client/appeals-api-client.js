@@ -664,6 +664,15 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitRule6ProofOfEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-proof-evidence-submission/submit`;
+		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} caseReference
 	 * @returns {Promise<(LPAFinalCommentSubmission)>}
 	 */
 	async getLPAFinalCommentSubmission(caseReference) {

@@ -26,7 +26,7 @@ const { templates } = config.services.notify;
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
- *
+ * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  */
 
 /** @type {Record<AppealTypeCode, string>} */
@@ -541,6 +541,68 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 	}
 };
 
+/**
+ * @param { Rule6ProofOfEvidenceSubmission } appellantProofEvidenceSubmission
+ * @param {string} emailAddress
+ * @param {string} appellantName
+ */
+const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
+	appellantProofEvidenceSubmission,
+	emailAddress,
+	appellantName
+) => {
+	try {
+		const {
+			appealTypeCode,
+			applicationReference,
+			siteAddressLine1,
+			siteAddressLine2,
+			siteAddressTown,
+			siteAddressCounty,
+			siteAddressPostcode,
+			proofsOfEvidenceDueDate
+		} = appellantProofEvidenceSubmission.AppealCase;
+
+		const caseReference = appellantProofEvidenceSubmission.caseReference;
+
+		const formattedAddress = formatSubmissionAddress({
+			addressLine1: siteAddressLine1,
+			addressLine2: siteAddressLine2,
+			townCity: siteAddressTown,
+			county: siteAddressCounty,
+			postcode: siteAddressPostcode
+		});
+
+		const reference = appellantProofEvidenceSubmission.id;
+
+		let variables = {
+			appeal_reference_number: caseReference,
+			'appellant name': appellantName,
+			site_address: formattedAddress,
+			lpa_reference: applicationReference,
+			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
+		};
+
+		logger.debug({ variables }, 'Sending proof of evidence email to appellant');
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates[appealTypeCodeToAppealId[appealTypeCode]]
+					.rule6ProofEvidenceSubmissionConfirmationEmailToRule6PartyV2
+			)
+			.setDestinationEmailAddress(emailAddress)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err }, 'Unable to send proof of evidence submission email to appellant');
+	}
+};
+
 const sendFinalCommentSubmissionConfirmationEmail = async (finalComment) => {
 	try {
 		const lpa = await lpaService.getLpaById(finalComment.lpaCode);
@@ -811,6 +873,7 @@ module.exports = {
 	sendLPAProofEvidenceSubmissionEmailToLPAV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
 	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
+	sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2,
 
 	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionConfirmationEmailToAppellantV2,

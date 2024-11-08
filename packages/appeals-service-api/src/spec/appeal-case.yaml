@@ -557,6 +557,9 @@ components:
           format: date-time
         rule6ProofEvidenceSubmitted:
           type: boolean
+        rule6ProofEvidenceSubmittedDate:
+          type: string
+          format: date-time
 
         # interested party
         interestedPartyCommentsPublished:
