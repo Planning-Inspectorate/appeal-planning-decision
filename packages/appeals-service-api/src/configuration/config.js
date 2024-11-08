@@ -101,6 +101,8 @@ let config = {
 						process.env.SRV_NOTIFY_LPA_STATEMENT_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
 					lpaFinalCommentsSubmissionConfirmationEmailToLpaV2:
 						process.env.SRV_NOTIFY_LPA_FINAL_COMMENT_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
+					lpaProofEvidenceSubmissionConfirmationEmailToLpaV2:
+						process.env.SRV_NOTIFY_LPA_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
 					appellantFinalCommentsSubmissionConfirmationEmailToAppellantV2:
 						process.env
 							.SRV_NOTIFY_APPELLANT_FINAL_COMMENT_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID,

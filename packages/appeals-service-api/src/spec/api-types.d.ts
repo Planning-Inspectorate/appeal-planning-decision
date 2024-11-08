@@ -1056,6 +1056,7 @@ export interface LPAProofOfEvidenceSubmission {
 		siteAddressTown?: string;
 		siteAddressCounty?: string;
 		siteAddressPostcode?: string;
+		applicationReference?: string;
 	};
 	/** @format date-time */
 	createdAt?: string;

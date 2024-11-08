@@ -25,6 +25,8 @@ const { templates } = config.services.notify;
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
+ * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
+ *
  */
 
 /** @type {Record<AppealTypeCode, string>} */
@@ -344,6 +346,76 @@ const sendLPAFinalCommentSubmissionEmailToLPAV2 = async (lpaFinalCommentSubmissi
 			);
 	} catch (err) {
 		logger.error({ err, lpaCode: lpaCode }, 'Unable to send final comment submission email to LPA');
+	}
+};
+
+/**
+ * @param { LPAProofOfEvidenceSubmission } lpaProofEvidenceSubmission
+ */
+const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmission) => {
+	const {
+		LPACode: lpaCode,
+		applicationReference,
+		proofsOfEvidenceDueDate,
+		appealTypeCode,
+		siteAddressLine1,
+		siteAddressLine2,
+		siteAddressTown,
+		siteAddressCounty,
+		siteAddressPostcode
+	} = lpaProofEvidenceSubmission.AppealCase;
+
+	const caseReference = lpaProofEvidenceSubmission.caseReference;
+
+	const formattedAddress = formatSubmissionAddress({
+		addressLine1: siteAddressLine1,
+		addressLine2: siteAddressLine2,
+		townCity: siteAddressTown,
+		county: siteAddressCounty,
+		postcode: siteAddressPostcode
+	});
+
+	try {
+		let lpa;
+		try {
+			lpa = await lpaService.getLpaByCode(lpaCode);
+		} catch (err) {
+			lpa = await lpaService.getLpaById(lpaCode);
+		}
+		const lpaEmail = lpa.getEmail();
+
+		const lpaName = lpa.getName();
+
+		const reference = lpaProofEvidenceSubmission.id;
+
+		let variables = {
+			LPA: lpaName,
+			appeal_reference_number: caseReference,
+			site_address: formattedAddress,
+			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy'),
+			lpa_reference: applicationReference
+		};
+
+		logger.debug({ lpaEmail, variables, reference }, 'Sending proof of evidence email to LPA');
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates[appealTypeCodeToAppealId[appealTypeCode]]
+					.lpaProofEvidenceSubmissionConfirmationEmailToLpaV2
+			)
+			.setDestinationEmailAddress(lpaEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, lpaCode: lpaCode },
+			'Unable to send proof of evidence submission email to LPA'
+		);
 	}
 };
 
@@ -736,6 +808,7 @@ module.exports = {
 	sendSubmissionReceivedEmailToLpaV2,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
+	sendLPAProofEvidenceSubmissionEmailToLPAV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
 	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
 

@@ -26,7 +26,8 @@ const {
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
 	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
-	sendLPAFinalCommentSubmissionEmailToLPAV2
+	sendLPAFinalCommentSubmissionEmailToLPAV2,
+	sendLPAProofEvidenceSubmissionEmailToLPAV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
@@ -43,6 +44,10 @@ const {
 	getLPAFinalCommentByAppealId,
 	markLPAFinalCommentAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/service');
+const {
+	getLpaProofOfEvidenceByAppealId,
+	markLpaProofOfEvidenceAsSubmitted
+} = require('../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
 const { getServiceUserByIdAndCaseReference } = require('../../routes/v2/service-users/service');
 
 /**
@@ -264,6 +269,26 @@ class BackOfficeV2Service {
 		} catch (err) {
 			logger.error({ err }, 'failed to sendLPAFinalCommentSubmissionEmailToLPAV2');
 			throw new Error('failed to send lpa final comment submission email');
+		}
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitLpaProofEvidenceSubmission(caseReference) {
+		const lpaProofEvidenceSubmission = await getLpaProofOfEvidenceByAppealId(caseReference);
+
+		logger.info(`forwarding lpa proof evidence submission for ${caseReference} to service bus`);
+
+		// Date to be set in back office mapper once data model confirmed
+		await markLpaProofOfEvidenceAsSubmitted(caseReference, new Date().toISOString());
+
+		try {
+			await sendLPAProofEvidenceSubmissionEmailToLPAV2(lpaProofEvidenceSubmission);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendLpaProofEvidenceSubmissionEmailToLPAV2');
+			throw new Error('failed to send lpa proof evidence submission email');
 		}
 	}
 
