@@ -1304,6 +1304,7 @@ export interface Rule6ProofOfEvidenceSubmission {
 		siteAddressTown?: string;
 		siteAddressCounty?: string;
 		siteAddressPostcode?: string;
+		applicationReference?: string;
 	};
 	userId?: string;
 	/** @format date-time */
