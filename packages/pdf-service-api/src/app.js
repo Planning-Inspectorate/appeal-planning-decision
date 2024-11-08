@@ -11,6 +11,7 @@ const {
 
 const app = express();
 
+// https://github.com/nodejs/node/issues/47130 http clients don't handle keepAlive correctly so sticking with false (the default before node 19)
 const https = require('https');
 const http = require('http');
 https.globalAgent = new https.Agent({ keepAlive: false });

@@ -26,8 +26,8 @@ Note: when starting a new appeal as an appellant, if you cannot progress beyond 
 Install NodeJS using [nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
 ```
-nvm install 20.17.0
-nvm use 20.17.0
+nvm install 20
+nvm use 20
 nvm alias default 20
 ```
 
