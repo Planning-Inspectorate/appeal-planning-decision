@@ -114,9 +114,10 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	/**
 	 * @param {string} userId
 	 * @param {string} caseReference
+	 * @param {string} submissionDate
 	 * @returns {Promise<{id: string}>}
 	 */
-	markRule6ProofOfEvidenceAsSubmitted(userId, caseReference) {
+	markRule6ProofOfEvidenceAsSubmitted(userId, caseReference, submissionDate) {
 		return this.dbClient.rule6ProofOfEvidenceSubmission.update({
 			where: {
 				caseReference,
@@ -130,7 +131,8 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 							caseReference
 						},
 						data: {
-							rule6ProofEvidenceSubmitted: true
+							rule6ProofEvidenceSubmitted: true,
+							rule6ProofEvidenceSubmittedDate: submissionDate
 						}
 					}
 				}

@@ -79,10 +79,11 @@ async function patchRule6ProofOfEvidenceByAppealId(userId, appealCaseId, proofEv
  *
  * @param {string} userId
  * @param {string} caseReference
+ * @param {string} submissionDate
  * @return {Promise<{id: string}>}
  */
-function markRule6ProofOfEvidenceAsSubmitted(userId, caseReference) {
-	return repo.markRule6ProofOfEvidenceAsSubmitted(userId, caseReference);
+function markRule6ProofOfEvidenceAsSubmitted(userId, caseReference, submissionDate) {
+	return repo.markRule6ProofOfEvidenceAsSubmitted(userId, caseReference, submissionDate);
 }
 
 module.exports = {

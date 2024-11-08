@@ -585,6 +585,23 @@ exports.appellantProofEvidenceSubmitted = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
+exports.submitRule6ProofEvidence = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		res.render('./error/not-found.njk');
+		return;
+	}
+
+	await req.appealsApiClient.submitRule6ProofOfEvidenceSubmission(caseReference);
+
+	return res.redirect(`/appeals/proof-evidence/${caseReference}/submitted-proof-evidence`);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
 exports.submitLpaFinalComment = async (req, res) => {
 	const { journey } = res.locals;
 	const caseReference = journey.response.answers.caseReference;
