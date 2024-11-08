@@ -2,10 +2,10 @@ const express = require('express');
 const {
 	list,
 	question,
-	save
+	save,
 	// remove,
-	// submitAppellantProofEvidence,
-	// appellantProofEvidenceSubmitted
+	submitLpaProofEvidence,
+	lpaProofEvidenceSubmitted
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -63,23 +63,23 @@ router.get(
 	proofOfEvidenceTaskList
 );
 
-// // submit
-// router.post(
-// 	'/proof-evidence/:referenceId',
-// 	getJourneyResponse(),
-// 	getJourney(journeys),
-// 	checkNotSubmitted(dashboardUrl),
-// 	validationErrorHandler,
-// 	submitAppellantProofEvidence
-// );
+// submit
+router.post(
+	'/proof-evidence/:referenceId',
+	getJourneyResponse(),
+	getJourney(journeys),
+	checkNotSubmitted(dashboardUrl),
+	validationErrorHandler,
+	submitLpaProofEvidence
+);
 
-// router.get(
-// 	'/proof-evidence/:referenceId/submitted-proof-evidence',
-// 	setDefaultSection(),
-// 	getJourneyResponse(),
-// 	getJourney(journeys),
-// 	appellantProofEvidenceSubmitted
-// );
+router.get(
+	'/proof-evidence/:referenceId/submitted-proof-evidence',
+	setDefaultSection(),
+	getJourneyResponse(),
+	getJourney(journeys),
+	lpaProofEvidenceSubmitted
+);
 
 // question
 router.get(
