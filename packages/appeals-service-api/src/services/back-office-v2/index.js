@@ -402,24 +402,7 @@ class BackOfficeV2Service {
 			caseReference
 		);
 
-		const { email, serviceUserId } = await getUserById(userId);
-
-		let appellantName;
-
-		if (serviceUserId) {
-			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
-				serviceUserId,
-				caseReference
-			);
-
-			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
-				appellantName = serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
-			} else {
-				appellantName = 'Rule 6 Party';
-			}
-		} else {
-			appellantName = 'Rule 6 Party';
-		}
+		const { email } = await getUserById(userId);
 
 		logger.info(
 			`forwarding rule 6 party proof of evidence submission for ${caseReference} to service bus`
@@ -431,8 +414,7 @@ class BackOfficeV2Service {
 		try {
 			await sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2(
 				rule6ProofOfEvidenceSubmission,
-				email,
-				appellantName
+				email
 			);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendRule6ProofOfEvidenceSubmissionEmailToRule6PartyV2');
