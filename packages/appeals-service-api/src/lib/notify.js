@@ -542,14 +542,12 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 };
 
 /**
- * @param { Rule6ProofOfEvidenceSubmission } appellantProofEvidenceSubmission
+ * @param { Rule6ProofOfEvidenceSubmission } rule6ProofEvidenceSubmission
  * @param {string} emailAddress
- * @param {string} appellantName
  */
 const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
-	appellantProofEvidenceSubmission,
-	emailAddress,
-	appellantName
+	rule6ProofEvidenceSubmission,
+	emailAddress
 ) => {
 	try {
 		const {
@@ -561,9 +559,9 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 			siteAddressCounty,
 			siteAddressPostcode,
 			proofsOfEvidenceDueDate
-		} = appellantProofEvidenceSubmission.AppealCase;
+		} = rule6ProofEvidenceSubmission.AppealCase;
 
-		const caseReference = appellantProofEvidenceSubmission.caseReference;
+		const caseReference = rule6ProofEvidenceSubmission.caseReference;
 
 		const formattedAddress = formatSubmissionAddress({
 			addressLine1: siteAddressLine1,
@@ -573,17 +571,16 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 			postcode: siteAddressPostcode
 		});
 
-		const reference = appellantProofEvidenceSubmission.id;
+		const reference = rule6ProofEvidenceSubmission.id;
 
 		let variables = {
 			appeal_reference_number: caseReference,
-			'appellant name': appellantName,
 			site_address: formattedAddress,
 			lpa_reference: applicationReference,
 			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
 		};
 
-		logger.debug({ variables }, 'Sending proof of evidence email to appellant');
+		logger.debug({ variables }, 'Sending proof of evidence email to rule 6 party');
 
 		await NotifyBuilder.reset()
 			.setTemplateId(
@@ -599,7 +596,7 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 				config.services.notify.apiKey
 			);
 	} catch (err) {
-		logger.error({ err }, 'Unable to send proof of evidence submission email to appellant');
+		logger.error({ err }, 'Unable to send proof of evidence submission email to rule 6 party');
 	}
 };
 

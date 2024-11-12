@@ -44,7 +44,8 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 							siteAddressTown: true,
 							siteAddressCounty: true,
 							siteAddressPostcode: true,
-							applicationReference: true
+							applicationReference: true,
+							proofsOfEvidenceDueDate: true
 						}
 					},
 					SubmissionDocumentUpload: true
