@@ -35,7 +35,7 @@ const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox
 
 const { add, sub, format: formatDate } = require('date-fns');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
-const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
+const { getConditionalFieldName, DIVIDER } = require('./dynamic-components/utils/question-utils');
 const { documentTypes } = require('@pins/common');
 const {
 	validation: {
@@ -53,7 +53,7 @@ const { createQuestions } = require('./create-questions');
 
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
-const SiteAddressOverrides = require('../journeys/question-overrides/site-address');
+const siteAddressOverrides = require('../journeys/question-overrides/site-address');
 
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
 /** @typedef {import('./question')} Question */
@@ -931,7 +931,7 @@ exports.questionProps = {
 				}
 			},
 			{
-				divider: 'or'
+				[DIVIDER]: 'or'
 			},
 			{
 				text: 'No, it is not in, near or likely to affect any designated sites',
@@ -980,7 +980,7 @@ exports.questionProps = {
 				value: 'schedule-2'
 			},
 			{
-				divider: 'or'
+				[DIVIDER]: 'or'
 			},
 			{
 				text: 'No',
@@ -2408,5 +2408,5 @@ const questionClasses = {
 
 exports.questions = createQuestions(exports.questionProps, questionClasses, {
 	'multi-file-upload': multiFileUploadOverrides,
-	'site-address': SiteAddressOverrides
+	'site-address': siteAddressOverrides
 });
