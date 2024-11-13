@@ -1,4 +1,5 @@
 const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('../constants');
+const { formatApplicant } = require('../lib/format-applicant');
 const { formatAddress } = require('../lib/format-address');
 const { PROCEDURE_TYPES } = require('../database/data-static');
 const { caseTypeNameWithDefault } = require('../lib/format-case-type');
@@ -7,20 +8,7 @@ const { caseTypeNameWithDefault } = require('../lib/format-case-type');
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
  * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
  * @typedef {import("../client/appeals-api-client").AppealCaseDetailed} AppealCaseDetailed
- * @typedef {import("../client/appeals-api-client").ServiceUserAPI} ServiceUser
  */
-
-/**
- * @param {ServiceUser[]} [users]
- * @returns {string}
- */
-const formatApplicant = (users) => {
-	const appellant = users?.find((x) => x.serviceUserType === APPEAL_USER_ROLES.APPELLANT);
-
-	if (!appellant) return '';
-
-	return `${appellant.firstName} ${appellant.lastName}`;
-};
 
 /**
  * @param {AppealCaseDetailed} caseData
@@ -101,4 +89,4 @@ const displayHeadlinesByUser = (caseData, lpaName, userType) => {
 	return null;
 };
 
-module.exports = { formatHeadlineData, displayHeadlinesByUser };
+module.exports = { formatHeadlineData, displayHeadlinesByUser, formatApplicant };

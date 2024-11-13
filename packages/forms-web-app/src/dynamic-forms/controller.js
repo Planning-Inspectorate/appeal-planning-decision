@@ -6,16 +6,18 @@ const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
 const {
-	formatBeforeYouStartSection
+	formatBeforeYouStartSection,
+	formatQuestionnaireAppealInformationSection
 } = require('./dynamic-components/utils/submission-information-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { APPEALS_CASE_DATA, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 const { APPEAL_CASE_STAGE } = require('pins-data-model');
 const { PassThrough } = require('node:stream');
 const buildZipFilename = require('#lib/build-zip-filename');
+const { getUserFromSession } = require('../services/user.service');
 
 const appealTypeToDetails = {
 	[APPEAL_ID.HOUSEHOLDER]: {
@@ -110,6 +112,52 @@ function buildInformationSectionRowViewModel(key, value) {
 			html: value
 		}
 	};
+}
+
+/**
+ * build summary list of journey sections, questions and answers
+ * @param {Journey} journey
+ * @param {JourneyResponse} journeyResponse
+ */
+function buildSummaryListData(journey, journeyResponse) {
+	const summaryListData = {
+		sections: []
+	};
+
+	for (const section of journey.sections) {
+		const sectionView = buildSectionViewModel(section.name);
+
+		// add questions
+		for (const question of section.questions) {
+			// don't show question on tasklist if set to false
+			if (question.taskList === false) {
+				continue;
+			}
+			// don't show question on tasklist if it's hidden from journey
+			if (!question.shouldDisplay(journeyResponse)) {
+				continue;
+			}
+
+			const answers = journey.response?.answers;
+			let answer = answers[question.fieldName];
+			const conditionalAnswer = questionUtils.getConditionalAnswer(answers, question, answer);
+			if (conditionalAnswer) {
+				answer = {
+					value: answer,
+					conditional: conditionalAnswer
+				};
+			}
+			const rows = question.formatAnswerForSummary(section.segment, journey, answer);
+			rows.forEach((row) => {
+				let viewModelRow = buildInformationSectionRowViewModel(row.key, row.value);
+				sectionView.list.rows.push(viewModelRow);
+			});
+		}
+
+		summaryListData.sections.push(sectionView);
+	}
+
+	return summaryListData;
 }
 
 /**
@@ -281,6 +329,14 @@ exports.submit = async (req, res) => {
 
 	await req.appealsApiClient.submitLPAQuestionnaire(referenceId);
 
+	//todo: storePDF
+	//generatehtml - get html from submission information page (below)
+	//store pdf
+	//update id - along lines of await req.appealsApiClient.updateAppellantSubmission(appellantSubmissionId, {
+	// 	submissionPdfId: storedPdf.id
+	// });
+	// documentId = storedPdf.id;
+
 	return res.redirect(
 		'/manage-appeals/' +
 			journeyUrl(journeyResponse.journeyId) +
@@ -307,6 +363,46 @@ exports.submitLpaStatement = async (req, res) => {
 	return res.redirect(
 		`/manage-appeals/appeal-statement/${referenceId}/submitted-appeal-statement/`
 	);
+};
+
+// LPA submission information (for PDF generation)
+/**
+ * @type {import('express').Handler}
+ */
+exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
+	const { journey, journeyResponse } = res.locals;
+
+	if (!journey.isComplete() || !journey.response.answers.submitted) {
+		// return error message and redirect
+		return res.status(400).render('./error/not-found.njk');
+	}
+	const user = getUserFromSession(req);
+	const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
+	const appealData = await req.appealsApiClient.getUsersAppealCase({
+		caseReference: encodedReferenceId,
+		userId: user.id,
+		role: LPA_USER_ROLE
+	});
+
+	const summaryListData = buildSummaryListData(journey, journeyResponse);
+	const submissionDate = formatDateForDisplay(new Date(), { format: 'd MMMM yyyy' });
+	const appealInformationSection = formatQuestionnaireAppealInformationSection(appealData);
+	summaryListData.sections.unshift(appealInformationSection);
+
+	const informationPageType = 'Questionnaire';
+	const pageHeading = 'Appeal questionnaire';
+	const pageCaption = 'Appeal ' + journeyResponse.referenceId;
+
+	return res.render(journey.informationPageViewPath, {
+		informationPageType,
+		pageHeading,
+		pageCaption,
+		summaryListData,
+		submissionDate,
+		layoutTemplate: journey.journeyTemplate,
+		journeyTitle: journey.journeyTitle,
+		displayCookieBanner: false
+	});
 };
 
 // Before You Start documents list
@@ -416,46 +512,11 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		return res.status(400).render('./error/not-found.njk');
 	}
 
-	const summaryListData = {
-		sections: []
-	};
+	const summaryListData = buildSummaryListData(journey, journeyResponse);
 
 	const beforeYouStartSection = await formatBeforeYouStartSection(journey.response.answers);
 
-	summaryListData.sections.push(beforeYouStartSection);
-
-	for (const section of journey.sections) {
-		const sectionView = buildSectionViewModel(section.name);
-
-		// add questions
-		for (const question of section.questions) {
-			// don't show question on tasklist if set to false
-			if (question.taskList === false) {
-				continue;
-			}
-			// don't show question on tasklist if it's hidden from journey
-			if (!question.shouldDisplay(journeyResponse)) {
-				continue;
-			}
-
-			const answers = journey.response?.answers;
-			let answer = answers[question.fieldName];
-			const conditionalAnswer = questionUtils.getConditionalAnswer(answers, question, answer);
-			if (conditionalAnswer) {
-				answer = {
-					value: answer,
-					conditional: conditionalAnswer
-				};
-			}
-			const rows = question.formatAnswerForSummary(section.segment, journey, answer);
-			rows.forEach((row) => {
-				let viewModelRow = buildInformationSectionRowViewModel(row.key, row.value);
-				sectionView.list.rows.push(viewModelRow);
-			});
-		}
-
-		summaryListData.sections.push(sectionView);
-	}
+	summaryListData.sections.unshift(beforeYouStartSection);
 
 	const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
 
@@ -465,9 +526,13 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		journey.response.answers.id
 	);
 
+	const informationPageType = 'Appeal';
+	const pageHeading = informationPageType + ' ' + caseReference;
+
 	return res.render(journey.informationPageViewPath, {
+		informationPageType,
+		pageHeading,
 		summaryListData,
-		caseReference,
 		submissionDate,
 		layoutTemplate: journey.journeyTemplate,
 		journeyTitle: journey.journeyTitle,

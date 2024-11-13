@@ -36,6 +36,11 @@ describe('HAS Journey', () => {
 		expect(journey.listingPageViewPath).toBe('dynamic-components/task-list/questionnaire');
 	});
 
+	it('should set informationPageViewPath', () => {
+		const journey = new Journey({ ...params, response: mockResponse });
+		expect(journey.informationPageViewPath).toBe('dynamic-components/submission-information/index');
+	});
+
 	it('should set journeyTitle', () => {
 		const journey = new Journey({ ...params, response: mockResponse });
 		expect(journey.journeyTitle).toBe('Manage your appeals');
