@@ -56,5 +56,5 @@ export const houseHolderAppealGrantedTestCases = [
             check: false, // TODO: set these to true after feature flag introduced
             uploadAdditionalDocuments: false
         }
-    },
+    }
 ];
