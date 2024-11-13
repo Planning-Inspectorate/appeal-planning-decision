@@ -160,6 +160,9 @@ function uploadDocuments(apiClient, referenceId, journeyId, data) {
 		case JOURNEY_TYPES.S78_LPA_STATEMENT: {
 			return apiClient.postLPAStatementDocumentUpload(referenceId, data);
 		}
+		case JOURNEY_TYPES.S78_RULE_6_STATEMENT: {
+			return apiClient.postRule6StatementDocumentUpload(referenceId, data);
+		}
 		case JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS: {
 			return apiClient.postAppellantFinalCommentDocumentUpload(referenceId, data);
 		}
@@ -199,6 +202,9 @@ function removeDocuments(apiClient, journeyId) {
 			}
 			case JOURNEY_TYPES.S78_LPA_STATEMENT: {
 				return apiClient.deleteLPAStatementDocumentUpload(submissionId, documentId);
+			}
+			case JOURNEY_TYPES.S78_RULE_6_STATEMENT: {
+				return apiClient.deleteRule6StatementDocumentUpload(submissionId, documentId);
 			}
 			case JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS: {
 				return apiClient.deleteAppellantFinalCommentDocumentUpload(submissionId, documentId);
