@@ -6,6 +6,9 @@ BEGIN TRAN;
 ALTER TABLE [dbo].[SubmissionDocumentUpload] DROP CONSTRAINT [SubmissionDocumentUpload_rule6ProofOfEvidenceSubmissionId_fkey];
 
 -- AlterTable
+ALTER TABLE [dbo].[AppealCase] ADD [rule6StatementSubmittedDate] DATETIME2;
+
+-- AlterTable
 ALTER TABLE [dbo].[SubmissionDocumentUpload] ADD [rule6StatementSubmissionId] UNIQUEIDENTIFIER;
 
 -- CreateTable

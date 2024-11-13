@@ -379,6 +379,7 @@ model AppealCase {
   rule6ProofsEvidencePublished    Boolean   @default(false) /// todo: use date instead
   rule6StatementDueDate           DateTime?
   rule6StatementSubmitted         Boolean   @default(false)
+  rule6StatementSubmittedDate     DateTime?
   rule6ProofEvidenceDueDate       DateTime?
   rule6ProofEvidenceSubmitted     Boolean   @default(false)
   rule6ProofEvidenceSubmittedDate DateTime?
