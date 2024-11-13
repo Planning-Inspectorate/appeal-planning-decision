@@ -178,5 +178,5 @@ export class ConstraintsAndDesignations {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
-    };
+    };    
 }
