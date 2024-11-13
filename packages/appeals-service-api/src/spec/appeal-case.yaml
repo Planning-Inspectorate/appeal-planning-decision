@@ -557,6 +557,9 @@ components:
           format: date-time
         rule6ProofEvidenceSubmitted:
           type: boolean
+        rule6ProofEvidenceSubmittedDate:
+          type: string
+          format: date-time
 
         # interested party
         interestedPartyCommentsPublished:
@@ -598,6 +601,9 @@ components:
 
         AppellantFinalCommentSubmission:
           $ref: '#/components/schemas/AppellantFinalCommentSubmission'
-        
+
         AppellantProofOfEvidenceSubmission:
           $ref: '#/components/schemas/AppellantProofOfEvidenceSubmission'
+
+        Rule6ProofOfEvidenceSubmission:
+          $ref: '#/components/schemas/Rule6ProofOfEvidenceSubmission'

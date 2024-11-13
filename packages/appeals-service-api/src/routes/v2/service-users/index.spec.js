@@ -20,7 +20,7 @@ let appealsApi;
 jest.mock('../../../configuration/featureFlag');
 jest.mock('../../../../src/services/object-store');
 
-// jest.setTimeout(140000);
+jest.setTimeout(10000);
 
 beforeAll(async () => {
 	///////////////////////////////
@@ -74,7 +74,8 @@ describe('service users v2', () => {
 
 			const serviceUser = await sqlClient.serviceUser.findFirst({
 				where: {
-					id: 'usr_001'
+					id: 'usr_001',
+					caseReference: 'ref_001'
 				}
 			});
 
@@ -198,26 +199,30 @@ describe('service users v2', () => {
 		});
 
 		it('should update an existing appealToUser relation', async () => {
+			const userId = 'usr_006';
+			const email = `${userId}@example.com`;
+			const caseRef = 'ref_006';
+
 			await sqlClient.serviceUser.create({
 				data: {
-					id: 'usr_006',
+					id: userId,
 					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
-					caseReference: '000001',
-					emailAddress: 'usr_006@example.com'
+					caseReference: caseRef,
+					emailAddress: email
 				}
 			});
 
 			const appealCase = await sqlClient.appealCase.create({
 				data: {
 					Appeal: { create: {} },
-					...createTestAppealCase('ref_006', 'HAS', 'lpa_001')
+					...createTestAppealCase(caseRef, 'HAS', 'lpa_001')
 				}
 			});
 
 			const appealUser = await sqlClient.appealUser.create({
 				data: {
-					email: 'usr_006@example.com',
-					serviceUserId: 'usr_006'
+					email: email,
+					serviceUserId: userId
 				}
 			});
 
@@ -230,10 +235,10 @@ describe('service users v2', () => {
 			});
 
 			const response = await appealsApi.put('/api/v2/service-users').send({
-				id: 'usr_006',
+				id: userId,
 				serviceUserType: SERVICE_USER_TYPE.APPELLANT,
-				caseReference: 'ref_006',
-				emailAddress: 'usr_006@example.com'
+				caseReference: caseRef,
+				emailAddress: email
 			});
 
 			expect(response.status).toEqual(200);
@@ -247,6 +252,62 @@ describe('service users v2', () => {
 
 			expect(relations.length).toBe(1);
 			expect(relations[0].role).toBe(APPEAL_USER_ROLES.APPELLANT);
+		});
+
+		it('should add a rule6 with same user to appealToUser', async () => {
+			const userId = 'usr_007';
+			const email = `${userId}@example.com`;
+			const caseRef = 'ref_007';
+
+			await sqlClient.serviceUser.create({
+				data: {
+					id: userId,
+					serviceUserType: SERVICE_USER_TYPE.AGENT,
+					caseReference: caseRef,
+					emailAddress: email
+				}
+			});
+
+			const appealCase = await sqlClient.appealCase.create({
+				data: {
+					Appeal: { create: {} },
+					...createTestAppealCase(caseRef, 'HAS', 'lpa_001')
+				}
+			});
+
+			const appealUser = await sqlClient.appealUser.create({
+				data: {
+					email: email,
+					serviceUserId: userId
+				}
+			});
+
+			await sqlClient.appealToUser.create({
+				data: {
+					appealId: appealCase.appealId,
+					userId: appealUser.id,
+					role: APPEAL_USER_ROLES.AGENT
+				}
+			});
+
+			const response = await appealsApi.put('/api/v2/service-users').send({
+				id: userId,
+				serviceUserType: APPEAL_USER_ROLES.RULE_6_PARTY,
+				caseReference: caseRef,
+				emailAddress: email
+			});
+
+			expect(response.status).toEqual(200);
+
+			const relations = await sqlClient.appealToUser.findMany({
+				where: {
+					appealId: appealCase.appealId
+				}
+			});
+
+			expect(relations.length).toBe(2);
+			expect(relations.some((x) => x.role === APPEAL_USER_ROLES.AGENT)).toBe(true);
+			expect(relations.some((x) => x.role === APPEAL_USER_ROLES.RULE_6_PARTY)).toBe(true);
 		});
 	});
 });

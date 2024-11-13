@@ -45,8 +45,47 @@ const lpaFinalCommentSkipConditions = (question, journeyResponse) => {
 	return false;
 };
 
+/**
+ * @param {import('../section').Question} question
+ * @param {import('../journey-response').JourneyResponse} journeyResponse
+ * @returns {boolean}
+ */
+const appellantProofEvidenceSkipConditions = (question, journeyResponse) => {
+	if (question.fieldName === 'uploadAppellantWitnessesEvidence') {
+		return journeyResponse.answers['appellantWitnesses'] !== 'yes';
+	}
+	return false;
+};
+
+/**
+ * @param {import('../section').Question} question
+ * @param {import('../journey-response').JourneyResponse} journeyResponse
+ * @returns {boolean}
+ */
+const rule6ProofEvidenceSkipConditions = (question, journeyResponse) => {
+	if (question.fieldName === 'uploadRule6WitnessesEvidence') {
+		return journeyResponse.answers['rule6Witnesses'] !== 'yes';
+	}
+	return false;
+};
+
+/**
+ * @param {import('../section').Question} question
+ * @param {import('../journey-response').JourneyResponse} journeyResponse
+ * @returns {boolean}
+ */
+const lpaProofEvidenceSkipConditions = (question, journeyResponse) => {
+	if (question.fieldName === 'uploadLpaWitnessesEvidence') {
+		return journeyResponse.answers['lpaWitnesses'] !== 'yes';
+	}
+	return false;
+};
+
 module.exports = {
 	skipIfNoAdditionalDocuments,
 	appellantFinalCommentSkipConditions,
-	lpaFinalCommentSkipConditions
+	lpaFinalCommentSkipConditions,
+	appellantProofEvidenceSkipConditions,
+	rule6ProofEvidenceSkipConditions,
+	lpaProofEvidenceSkipConditions
 };

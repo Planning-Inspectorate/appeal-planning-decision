@@ -29,11 +29,14 @@
         tag: {
           text: "beta"
         },
-        html: 'This is a beta service'
-      }) }}
+				html: 'This is a new service – your <a class="govuk-link"
+          data-cy="Feedback"
+          href="https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UNzVFTElMSEJIWlhXWkZFM1E1WDg3RTFPUy4u&route=shorturl">feedback</a> will help us to improve it.'
+			}) }}
     {% endblock %}
 
     <main id="main-content" role="main"{% if mainLang %} lang="{{ mainLang }}"{% endif %} class="govuk-main-wrapper {{ mainClasses }}">
+      {% block before_content %} {% endblock before_content %}
       {% block content %}{% endblock %}
     </main>
   </div>

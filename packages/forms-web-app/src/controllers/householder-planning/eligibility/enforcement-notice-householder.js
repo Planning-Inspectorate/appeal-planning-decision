@@ -13,6 +13,7 @@ const {
 const { getDepartmentFromId } = require('../../../services/department.service');
 const { isFeatureActive } = require('../../../featureFlag');
 const { FLAG } = require('@pins/common/src/feature-flags');
+const config = require('../../../config');
 
 const navigationPages = {
 	nextPage: '/before-you-start/claiming-costs-householder',
@@ -24,6 +25,7 @@ exports.getEnforcementNoticeHouseholder = (req, res) => {
 	const { appeal } = req.session;
 
 	res.render(currentPage, {
+		bannerHtmlOverride: config.betaBannerText,
 		enforcementNotice: appeal.eligibility.enforcementNotice
 	});
 };
@@ -40,6 +42,7 @@ exports.postEnforcementNoticeHouseholder = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(currentPage, {
+			bannerHtmlOverride: config.betaBannerText,
 			enforcementNotice: appeal.eligibility.enforcementNotice,
 			errors,
 			errorSummary
@@ -54,6 +57,7 @@ exports.postEnforcementNoticeHouseholder = async (req, res) => {
 		logger.error(e);
 
 		res.render(currentPage, {
+			bannerHtmlOverride: config.betaBannerText,
 			enforcementNotice: appeal.eligibility.enforcementNotice,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]

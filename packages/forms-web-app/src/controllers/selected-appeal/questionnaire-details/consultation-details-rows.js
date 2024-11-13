@@ -1,4 +1,9 @@
-const { formatYesOrNo, formatDocumentDetails, documentExists } = require('@pins/common');
+const {
+	formatYesOrNo,
+	formatDocumentDetails,
+	documentExists,
+	boolToYesNo
+} = require('@pins/common');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 
 /**
@@ -7,6 +12,12 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
  */
 exports.consultationRows = (caseData) => {
 	const documents = caseData.Documents || [];
+	const hasOtherPartyRepresentations = documentExists(
+		documents,
+		APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS
+	);
+	const otherPartyRepresentationsText = boolToYesNo(hasOtherPartyRepresentations);
+
 	return [
 		{
 			keyText: 'Statutory consultees',
@@ -26,14 +37,14 @@ exports.consultationRows = (caseData) => {
 		},
 		{
 			keyText: 'Representations from other parties',
-			valueText: formatYesOrNo(caseData, 'otherPartyRepresentations'),
-			condition: () => caseData.otherPartyRepresentations,
+			valueText: otherPartyRepresentationsText,
+			condition: () => true,
 			isEscaped: true
 		},
 		{
 			keyText: 'Uploaded representations from other parties',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS),
-			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.OTHER_PARTY_REPRESENTATIONS),
+			condition: () => hasOtherPartyRepresentations,
 			isEscaped: true
 		}
 	];

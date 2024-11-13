@@ -15,7 +15,6 @@ describe('constraintsRows', () => {
 			],
 			scheduledMonument: true,
 			isCorrectAppealType: true,
-			conservationArea: true,
 			protectedSpecies: true,
 			isGreenBelt: true,
 			areaOutstandingBeauty: true,
@@ -24,18 +23,6 @@ describe('constraintsRows', () => {
 			gypsyTraveller: true,
 			publicRightOfWay: true,
 			Documents: [
-				{
-					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
-					id: '12345',
-					filename: 'conservationmap1.pdf',
-					redacted: true
-				},
-				{
-					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
-					id: '12346',
-					filename: 'conservationmap2.pdf',
-					redacted: true
-				},
 				{
 					documentType: APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN,
 					id: '12347',
@@ -70,13 +57,11 @@ describe('constraintsRows', () => {
 
 		expect(rows[4].condition()).toEqual(true);
 		expect(rows[4].keyText).toEqual('Conservation area');
-		expect(rows[4].valueText).toEqual('Yes');
+		expect(rows[4].valueText).toEqual('No');
 
-		expect(rows[5].condition()).toEqual(true);
+		expect(rows[5].condition()).toEqual(false);
 		expect(rows[5].keyText).toEqual('Uploaded conservation area map and guidance');
-		expect(rows[5].valueText).toEqual(
-			'<a href="/published-document/12345" class="govuk-link">conservationmap1.pdf</a>\n<a href="/published-document/12346" class="govuk-link">conservationmap2.pdf</a>'
-		);
+		expect(rows[5].valueText).toEqual('No');
 		expect(rows[5].isEscaped).toEqual(true);
 
 		expect(rows[6].condition()).toEqual(true);
@@ -127,7 +112,6 @@ describe('constraintsRows', () => {
 			AffectedListedBuildings: [],
 			scheduledMonument: false,
 			isCorrectAppealType: false,
-			conservationArea: false,
 			protectedSpecies: false,
 			isGreenBelt: false,
 			areaOutstandingBeauty: false,
@@ -203,14 +187,14 @@ describe('constraintsRows', () => {
 		expect(rows[14].isEscaped).toEqual(true);
 	});
 
-	it('should create rows with false conditions if fields do not exist', () => {
+	it('should create rows with correct conditions if fields do not exist', () => {
 		const rows = constraintsRows({ Documents: [] });
 		expect(rows.length).toEqual(15);
 		expect(rows[0].condition()).toEqual(false);
 		expect(rows[1].condition()).toEqual(false);
 		expect(rows[2].condition()).toEqual(false);
 		expect(rows[3].condition()).toEqual(false);
-		expect(rows[4].condition()).toEqual(false);
+		expect(rows[4].condition()).toEqual(true);
 		expect(rows[5].condition()).toEqual(false);
 		expect(rows[6].condition()).toEqual(false);
 		expect(rows[7].condition()).toEqual(false);
@@ -221,49 +205,6 @@ describe('constraintsRows', () => {
 		expect(rows[12].condition()).toEqual(false);
 		expect(rows[13].condition()).toEqual(false);
 		expect(rows[14].condition()).toEqual(false);
-	});
-
-	it('should set conditions as false for uploaded conservation and tree documents if preceding questions not truthy', () => {
-		const caseData = {
-			conservationArea: false,
-			treePreservationOrder: false,
-			Documents: [
-				{
-					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
-					id: '12345',
-					filename: 'conservationmap1.pdf',
-					redacted: true
-				},
-				{
-					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
-					id: '12346',
-					filename: 'conservationmap2.pdf',
-					redacted: true
-				},
-				{
-					documentType: APPEAL_DOCUMENT_TYPE.TREE_PRESERVATION_PLAN,
-					id: '12347',
-					filename: 'tree.pdf',
-					redacted: true
-				}
-			]
-		};
-		const rows = constraintsRows(caseData);
-		expect(rows.length).toEqual(15);
-
-		expect(rows[4].condition()).toEqual(true);
-		expect(rows[4].keyText).toEqual('Conservation area');
-		expect(rows[4].valueText).toEqual('No');
-
-		expect(rows[5].condition()).toEqual(false);
-		expect(rows[5].keyText).toEqual('Uploaded conservation area map and guidance');
-
-		expect(rows[10].condition()).toEqual(true);
-		expect(rows[10].keyText).toEqual('Tree Preservation Order');
-		expect(rows[10].valueText).toEqual('No');
-
-		expect(rows[11].condition()).toEqual(false);
-		expect(rows[11].keyText).toEqual('Uploaded Tree Preservation Order extent');
 	});
 
 	it('should create rows with correct data for HAS appeal', () => {
@@ -278,7 +219,6 @@ describe('constraintsRows', () => {
 					listedBuildingReference: 'Building 2'
 				}
 			],
-			conservationArea: true,
 			scheduledMonument: false,
 			isGreenBelt: true,
 			Documents: [
@@ -286,6 +226,12 @@ describe('constraintsRows', () => {
 					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
 					id: '12345',
 					filename: 'conservationmap1.pdf',
+					redacted: true
+				},
+				{
+					documentType: APPEAL_DOCUMENT_TYPE.CONSERVATION_MAP,
+					id: '12346',
+					filename: 'conservationmap2.pdf',
 					redacted: true
 				}
 			]
@@ -314,7 +260,7 @@ describe('constraintsRows', () => {
 		expect(rows[5].condition()).toEqual(true);
 		expect(rows[5].keyText).toEqual('Uploaded conservation area map and guidance');
 		expect(rows[5].valueText).toEqual(
-			'<a href="/published-document/12345" class="govuk-link">conservationmap1.pdf</a>'
+			'<a href="/published-document/12345" class="govuk-link">conservationmap1.pdf</a>\n<a href="/published-document/12346" class="govuk-link">conservationmap2.pdf</a>'
 		);
 		expect(rows[5].isEscaped).toEqual(true);
 

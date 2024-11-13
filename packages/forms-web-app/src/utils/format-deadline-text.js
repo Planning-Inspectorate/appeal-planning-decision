@@ -1,4 +1,4 @@
-const { format: formatDate } = require('date-fns');
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 /**
  * @typedef {import("./appeals-view").AppealViewModel} AppealViewModel
@@ -9,7 +9,9 @@ const { format: formatDate } = require('date-fns');
 exports.formatCommentDeadlineText = (appeal, status) => {
 	if (!appeal.interestedPartyRepsDueDate) return '';
 
-	const formattedDeadline = formatDate(new Date(appeal.interestedPartyRepsDueDate), 'd MMMM yyyy');
+	const formattedDeadline = formatDateForDisplay(appeal.interestedPartyRepsDueDate, {
+		format: 'd MMMM yyyy'
+	});
 
 	switch (status) {
 		case 'open':

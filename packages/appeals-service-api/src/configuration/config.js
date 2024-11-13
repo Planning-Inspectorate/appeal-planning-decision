@@ -101,8 +101,17 @@ let config = {
 						process.env.SRV_NOTIFY_LPA_STATEMENT_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
 					lpaFinalCommentsSubmissionConfirmationEmailToLpaV2:
 						process.env.SRV_NOTIFY_LPA_FINAL_COMMENT_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
+					lpaProofEvidenceSubmissionConfirmationEmailToLpaV2:
+						process.env.SRV_NOTIFY_LPA_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_LPA_TEMPLATE_ID,
 					appellantFinalCommentsSubmissionConfirmationEmailToAppellantV2:
-						process.env.SRV_NOTIFY_APPELLANT_FINAL_COMMENT_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID
+						process.env
+							.SRV_NOTIFY_APPELLANT_FINAL_COMMENT_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
+					appellantProofEvidenceSubmissionConfirmationEmailToAppellantV2:
+						process.env
+							.SRV_NOTIFY_APPELLANT_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
+					rule6ProofEvidenceSubmissionConfirmationEmailToRule6PartyV2:
+						process.env
+							.SRV_NOTIFY_RULE_6_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_RULE_6_PARTY_TEMPLATE_ID
 				},
 				V2_COMMON: {
 					appealSubmissionReceivedEmailToAppellant:

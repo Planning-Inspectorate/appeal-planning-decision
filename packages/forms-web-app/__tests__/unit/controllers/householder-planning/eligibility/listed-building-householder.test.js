@@ -15,6 +15,7 @@ const {
 } = require('../../../../../src/lib/views');
 
 const { mockReq, mockRes } = require('../../../mocks');
+const config = require('../../../../../src/config');
 
 jest.mock('../../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../../src/lib/logger');
@@ -35,6 +36,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 			await getListedBuildingHouseholder(req, res);
 
 			expect(res.render).toBeCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
+				bannerHtmlOverride: config.betaBannerText,
 				isListedBuilding: appeal.eligibility.isListedBuilding
 			});
 		});
@@ -44,6 +46,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 			await getListedBuildingHouseholder(req, res);
 
 			expect(res.render).toBeCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
+				bannerHtmlOverride: config.betaBannerText,
 				isListedBuilding: false
 			});
 		});
@@ -97,6 +100,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
 			expect(res.render).toBeCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
+				bannerHtmlOverride: config.betaBannerText,
 				isListedBuilding: null,
 				typeOfPlanningApplication: 'householder-planning',
 				errors: {
@@ -124,6 +128,7 @@ describe('controllers/householder-planning/eligibility/listed-building-household
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(LISTED_BUILDING_HOUSEHOLDER, {
+				bannerHtmlOverride: config.betaBannerText,
 				isListedBuilding: appeal.eligibility.isListedBuilding,
 				typeOfPlanningApplication: 'householder-planning',
 				errors: {},

@@ -6,13 +6,13 @@ const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
 const {
-	formatBeforeYouStartSection,
-	formattedSubmissionDate
+	formatBeforeYouStartSection
 } = require('./dynamic-components/utils/submission-information-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 const appealTypeToDetails = {
 	[APPEAL_ID.HOUSEHOLDER]: {
@@ -337,6 +337,7 @@ exports.appellantStartAppeal = async (req, res) => {
 
 	const appealTypeDetails = appealTypeToDetails[appealType];
 
+	// todo: convert before sending
 	const appealSubmission = await req.appealsApiClient.createAppellantSubmission({
 		appealId: appeal.appealSqlId,
 		LPACode: lpaCode,
@@ -455,7 +456,7 @@ exports.appellantSubmissionInformation = async (req, res) => {
 
 	const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
 
-	const submissionDate = formattedSubmissionDate();
+	const submissionDate = formatDateForDisplay(new Date(), { format: 'd MMMM yyyy' });
 
 	const { caseReference } = await req.appealsApiClient.getAppellantSubmissionCaseReference(
 		journey.response.answers.id
@@ -550,6 +551,76 @@ exports.appellantFinalCommentSubmitted = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
+exports.submitAppellantProofEvidence = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		res.render('./error/not-found.njk');
+		return;
+	}
+
+	await req.appealsApiClient.submitAppellantProofEvidenceSubmission(caseReference);
+
+	return res.redirect(`/appeals/proof-evidence/${caseReference}/submitted-proof-evidence`);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.appellantProofEvidenceSubmitted = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.render('./error/not-found.njk');
+	}
+
+	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
+		caseReference,
+		dashboardUrl: '/appeals/your-appeals'
+	});
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.submitRule6ProofEvidence = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		res.render('./error/not-found.njk');
+		return;
+	}
+
+	await req.appealsApiClient.submitRule6ProofOfEvidenceSubmission(caseReference);
+
+	return res.redirect(`/rule-6/proof-evidence/${caseReference}/submitted-proof-evidence`);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.rule6ProofEvidenceSubmitted = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.render('./error/not-found.njk');
+	}
+
+	return res.render('./dynamic-components/submission-screen/appellant-proof-evidence', {
+		caseReference,
+		dashboardUrl: '/rule-6/your-appeals'
+	});
+};
+
+/**
+ * @type {import('express').Handler}
+ */
 exports.submitLpaFinalComment = async (req, res) => {
 	const { journey } = res.locals;
 	const caseReference = journey.response.answers.caseReference;
@@ -577,6 +648,40 @@ exports.lpaFinalCommentSubmitted = async (req, res) => {
 	}
 
 	return res.render('./dynamic-components/submission-screen/lpa-final-comment', {
+		caseReference
+	});
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.submitLpaProofEvidence = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		res.render('./error/not-found.njk');
+		return;
+	}
+
+	await req.appealsApiClient.submitLpaProofEvidenceSubmission(caseReference);
+
+	return res.redirect(`/manage-appeals/proof-evidence/${caseReference}/submitted-proof-evidence`);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.lpaProofEvidenceSubmitted = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.render('./error/not-found.njk');
+	}
+
+	return res.render('./dynamic-components/submission-screen/lpa-proof-evidence', {
 		caseReference
 	});
 };

@@ -31,6 +31,8 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppealStatement} AppealStatement
  * @typedef {import('appeals-service-api').Api.FinalComment} FinalComment
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
+ * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
+ * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  */
 
 // Data model types
@@ -600,6 +602,77 @@ class AppealsApiClient {
 
 	/**
 	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitAppellantProofEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/appellant-proof-evidence-submission/submit`;
+		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(Rule6ProofOfEvidenceSubmission)>}
+	 */
+	async getRule6ProofOfEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-proof-evidence-submission`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(Rule6ProofOfEvidenceSubmission)>}
+	 */
+	async postRule6ProofOfEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-proof-evidence-submission`;
+		const response = await this.#makePostRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(Rule6ProofOfEvidenceSubmission)>}
+	 */
+	async patchRule6ProofOfEvidenceSubmission(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-proof-evidence-submission`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(Rule6ProofOfEvidenceSubmission)>}
+	 */
+	async postRule6ProofOfEvidenceDocumentUpload(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-proof-evidence-submission/document-upload`;
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} documentId
+	 * @returns {Promise<(Rule6ProofOfEvidenceSubmission)>}
+	 */
+	async deleteRule6ProofOfEvidenceDocumentUpload(caseReference, documentId) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-proof-evidence-submission/document-upload/${documentId}`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitRule6ProofOfEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-proof-evidence-submission/submit`;
+		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} caseReference
 	 * @returns {Promise<(LPAFinalCommentSubmission)>}
 	 */
 	async getLPAFinalCommentSubmission(caseReference) {
@@ -657,6 +730,68 @@ class AppealsApiClient {
 	 */
 	async submitLPAFinalCommentSubmission(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-final-comment-submission/submit`;
+		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
+	 */
+	async getLpaProofOfEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
+	 */
+	async postLpaProofOfEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission`;
+		const response = await this.#makePostRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
+	 */
+	async patchLpaProofOfEvidenceSubmission(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
+	 */
+	async postLpaProofOfEvidenceDocumentUpload(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission/document-upload`;
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} documentId
+	 * @returns {Promise<(LPAProofOfEvidenceSubmission)>}
+	 */
+	async deleteLpaProofOfEvidenceDocumentUpload(caseReference, documentId) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission/document-upload/${documentId}`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<void>}
+	 */
+	async submitLpaProofEvidenceSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-proof-evidence-submission/submit`;
 		await this.#makePostRequest(endpoint);
 	}
 

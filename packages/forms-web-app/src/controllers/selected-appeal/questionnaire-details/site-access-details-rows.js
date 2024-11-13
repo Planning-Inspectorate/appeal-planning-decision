@@ -1,6 +1,5 @@
-const { formatYesOrNo, formatSiteSafetyRisks } = require('@pins/common');
+const { formatSiteAccessDetails, formatSiteSafetyRisks, boolToYesNo } = require('@pins/common');
 const { formatNeighbouringAddressWithBreaks } = require('@pins/common/src/lib/format-address');
-const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 
 /**
  * @param {import('appeals-service-api').Api.AppealCaseDetailed } caseData
@@ -9,7 +8,17 @@ const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 exports.siteAccessRows = (caseData) => {
 	const neighbourAddressesArray = caseData.NeighbouringAddresses || [];
 
-	const hasNeighbourAddresses = caseData.NeighbouringAddresses !== undefined;
+	//todo: siteAccessDetails and siteSafetyRisks logic will need updating when data model updated
+	// to specify which details provided by LPAQ and which provided by appellant
+	const showAccessForInspection = caseData.siteAccessDetails !== undefined;
+	const accessForInspectionBool = !!caseData.siteAccessDetails?.filter((value) => value !== null)
+		.length;
+
+	const showSiteSafetyDetails = caseData.siteSafetyDetails !== undefined;
+	const hasSiteSafetyDetails = !!caseData.siteSafetyDetails?.filter((value) => value !== null)
+		.length;
+
+	const hasNeighbourAddressesField = caseData.NeighbouringAddresses !== undefined;
 	const hasNeighboursText = neighbourAddressesArray.length ? 'Yes' : 'No';
 
 	/**
@@ -18,18 +27,20 @@ exports.siteAccessRows = (caseData) => {
 	const rows = [
 		{
 			keyText: 'Access for inspection',
-			valueText: formatYesOrNo(caseData, 'lpaSiteAccess'),
-			condition: () => isNotUndefinedOrNull(caseData.lpaSiteAccess)
+			valueText: boolToYesNo(accessForInspectionBool),
+			condition: () => showAccessForInspection
 		},
 		{
 			keyText: 'Reason for Inspector access',
-			valueText: `${caseData.lpaSiteAccessDetails}`,
-			condition: () => !!caseData.lpaSiteAccessDetails
+			valueText: caseData.siteAccessDetails
+				? formatSiteAccessDetails(caseData.siteAccessDetails)
+				: '',
+			condition: () => accessForInspectionBool
 		},
 		{
 			keyText: 'Inspector visit to neighbour',
 			valueText: hasNeighboursText,
-			condition: () => hasNeighbourAddresses
+			condition: () => hasNeighbourAddressesField
 		},
 		{
 			keyText: 'Reason for Inspector visit',
@@ -38,7 +49,7 @@ exports.siteAccessRows = (caseData) => {
 		}
 	];
 
-	if (hasNeighbourAddresses && neighbourAddressesArray.length) {
+	if (hasNeighbourAddressesField && neighbourAddressesArray.length) {
 		neighbourAddressesArray.forEach((address, index) => {
 			const formattedAddress = formatNeighbouringAddressWithBreaks(address);
 			rows.push({
@@ -51,8 +62,8 @@ exports.siteAccessRows = (caseData) => {
 
 	rows.push({
 		keyText: 'Potential safety risks',
-		valueText: formatSiteSafetyRisks(caseData),
-		condition: () => isNotUndefinedOrNull(caseData.lpaSiteSafetyRisks)
+		valueText: formatSiteSafetyRisks(caseData, hasSiteSafetyDetails),
+		condition: () => showSiteSafetyDetails
 	});
 
 	return rows;

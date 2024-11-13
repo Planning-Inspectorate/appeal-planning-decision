@@ -9,13 +9,20 @@ const { APPEAL_USER_ROLES, STATUS_CONSTANTS } = require('@pins/common/src/consta
  * @typedef { import("@prisma/client").AppealUser } AppealUser
  * @typedef { import("@prisma/client").AppealToUser } AppealToUser
  * @typedef { import("@prisma/client").Prisma.AppealUserCreateInput } AppealUserCreateInput
+ * @typedef { import('@prisma/client').PrismaClient } PrismaClient
  */
 
 class AppealUserRepository {
+	/**
+	 * @type {import('@prisma/client').PrismaClient | import('@prisma/client').Prisma.TransactionClient}
+	 */
 	dbClient;
 
-	constructor() {
-		this.dbClient = createPrismaClient();
+	/**
+	 * @param {import('@prisma/client').Prisma.TransactionClient} [client]
+	 */
+	constructor(client) {
+		this.dbClient = client ?? createPrismaClient();
 	}
 
 	/**
@@ -143,14 +150,45 @@ class AppealUserRepository {
 				userId: userId
 			};
 
-			// default to appellant as when creating new appeal we do not know the role yet
-			const roleWithDefault = role !== undefined ? role : APPEAL_USER_ROLES.APPELLANT;
+			const appealToUserRoles = await this.dbClient.appealToUser.findMany({
+				where: link
+			});
 
-			return await this.dbClient.appealToUser.upsert({
-				create: { ...link, role: roleWithDefault },
-				update: { role: role }, // don't default role when updating
+			// default to appellant as when creating new appeal we do not know the role yet
+			if (appealToUserRoles.length === 0) {
+				const roleWithDefault = role !== undefined ? role : APPEAL_USER_ROLES.APPELLANT;
+				return this.dbClient.appealToUser.create({
+					data: { ...link, role: roleWithDefault }
+				});
+			}
+
+			// add as rule 6 if not already
+			if (role === APPEAL_USER_ROLES.RULE_6_PARTY) {
+				const rule6Role = appealToUserRoles.filter(
+					(x) => x.role === APPEAL_USER_ROLES.RULE_6_PARTY
+				);
+				if (rule6Role.length === 0) {
+					return this.dbClient.appealToUser.create({
+						data: { ...link, role }
+					});
+				}
+
+				return rule6Role[0];
+			}
+
+			// switch existing role between agent/appellant
+			const existingRole = appealToUserRoles.filter(
+				(x) => x.role === APPEAL_USER_ROLES.APPELLANT || x.role === APPEAL_USER_ROLES.AGENT
+			)[0];
+
+			if (existingRole.role === role) return existingRole;
+
+			return this.dbClient.appealToUser.update({
 				where: {
-					appealId_userId: link
+					id: existingRole.id
+				},
+				data: {
+					role
 				}
 			});
 		} catch (e) {

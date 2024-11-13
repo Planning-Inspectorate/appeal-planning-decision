@@ -72,7 +72,8 @@ model AppealUser {
   Rule6Parties Rule6Party[]
 
   /// a security token this user can use to access our service(s)
-  SecurityToken SecurityToken?
+  SecurityToken                  SecurityToken?
+  Rule6ProofOfEvidenceSubmission Rule6ProofOfEvidenceSubmission[]
 }
 
 /// SecurityToken is used as a mechanism for users to login
@@ -126,6 +127,8 @@ model Appeal {
 /// AppealToUser represents the relationships between AppealUser and Appeal
 /// This is a many-to-many relationship.
 model AppealToUser {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
   /// relation to an Appeal
   appealId   String     @db.UniqueIdentifier
   Appeal     Appeal     @relation(fields: [appealId], references: [id])
@@ -137,8 +140,6 @@ model AppealToUser {
   /// must be an AppealToUserRole name value
   role String
   Role AppealToUserRole @relation(fields: [role], references: [name])
-
-  @@id([appealId, userId])
 }
 
 /// AppealToUserRole represents the role a user has in relation to an Appeal
@@ -373,12 +374,13 @@ model AppealCase {
   // rule 6 fields
   //***************************************************************************
 
-  rule6StatementPublished      Boolean   @default(false) /// todo: use date instead
-  rule6ProofsEvidencePublished Boolean   @default(false) /// todo: use date instead
-  rule6StatementDueDate        DateTime?
-  rule6StatementSubmitted      Boolean   @default(false)
-  rule6ProofEvidenceDueDate    DateTime?
-  rule6ProofEvidenceSubmitted  Boolean   @default(false)
+  rule6StatementPublished         Boolean   @default(false) /// todo: use date instead
+  rule6ProofsEvidencePublished    Boolean   @default(false) /// todo: use date instead
+  rule6StatementDueDate           DateTime?
+  rule6StatementSubmitted         Boolean   @default(false)
+  rule6ProofEvidenceDueDate       DateTime?
+  rule6ProofEvidenceSubmitted     Boolean   @default(false)
+  rule6ProofEvidenceSubmittedDate DateTime?
 
   //***************************************************************************
   // interested party fields
@@ -389,9 +391,10 @@ model AppealCase {
   //***************************************************************************
   // Relations
   //***************************************************************************
-  LPAQuestionnaireSubmission LPAQuestionnaireSubmission?
-  LPAStatementSubmission     LPAStatementSubmission?
-  LPAFinalCommentSubmission  LPAFinalCommentSubmission?
+  LPAQuestionnaireSubmission   LPAQuestionnaireSubmission?
+  LPAStatementSubmission       LPAStatementSubmission?
+  LPAFinalCommentSubmission    LPAFinalCommentSubmission?
+  LPAProofOfEvidenceSubmission LPAProofOfEvidenceSubmission?
 
   AppellantFinalCommentSubmission    AppellantFinalCommentSubmission?
   AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission?
@@ -406,6 +409,7 @@ model AppealCase {
   InterestedPartySubmissions      InterestedPartySubmission[]
   AppealStatements                AppealStatement[]
   FinalComments                   FinalComment[]
+  Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
 }
 
 /// AppealCase relations
@@ -913,12 +917,12 @@ model LPAStatementSubmission {
   updatedAt DateTime? @updatedAt
 
   // state
-  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+  submitted Boolean @default(false) /// whether the lpa statement has been submitted to BO
 
   lpaStatement        String?
   additionalDocuments Boolean?
 
-  // Uploaded documents and details linked to this appeal
+  // Uploaded documents and details linked to this statement
   uploadLpaStatementDocuments Boolean?
   SubmissionDocumentUpload    SubmissionDocumentUpload[]
 }
@@ -935,11 +939,59 @@ model AppellantProofOfEvidenceSubmission {
   updatedAt DateTime? @updatedAt
 
   // state
-  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+  submitted Boolean @default(false) /// whether the proof of evidence has been submitted to BO
 
   uploadAppellantProofOfEvidenceDocuments Boolean?
   appellantWitnesses                      Boolean?
   uploadAppellantWitnessesEvidence        Boolean?
+
+  // Uploaded documents and details linked to this proof of evidence
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
+model Rule6ProofOfEvidenceSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  caseReference String     @unique
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  /// relation to a User
+  userId     String     @db.UniqueIdentifier
+  AppealUser AppealUser @relation(fields: [userId], references: [id])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the proof of evidence has been submitted to BO
+
+  uploadRule6ProofOfEvidenceDocuments Boolean?
+  rule6Witnesses                      Boolean?
+  uploadRule6WitnessesEvidence        Boolean?
+
+  // Uploaded documents and details linked to this proof of evidence
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
+model LPAProofOfEvidenceSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  caseReference String     @unique
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+
+  uploadLpaProofOfEvidenceDocuments Boolean?
+  lpaWitnesses                      Boolean?
+  uploadLpaWitnessesEvidence        Boolean?
 
   // Uploaded documents and details linked to this appeal
   SubmissionDocumentUpload SubmissionDocumentUpload[]
@@ -957,14 +1009,14 @@ model LPAFinalCommentSubmission {
   updatedAt DateTime? @updatedAt
 
   // state
-  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+  submitted Boolean @default(false) /// whether the final comment has been submitted to BO
 
   lpaFinalComment                Boolean?
   lpaFinalCommentDetails         String?
   lpaFinalCommentDocuments       Boolean?
   uploadLPAFinalCommentDocuments Boolean?
 
-  // Uploaded documents and details linked to this appeal
+  // Uploaded documents and details linked to this final comment
   SubmissionDocumentUpload SubmissionDocumentUpload[]
 }
 
@@ -980,14 +1032,14 @@ model AppellantFinalCommentSubmission {
   updatedAt DateTime? @updatedAt
 
   // state
-  submitted Boolean @default(false) /// whether the appeal has been submitted to BO
+  submitted Boolean @default(false) /// whether the final comment has been submitted to BO
 
   appellantFinalComment                Boolean?
   appellantFinalCommentDetails         String?
   appellantFinalCommentDocuments       Boolean?
   uploadAppellantFinalCommentDocuments Boolean?
 
-  // Uploaded documents and details linked to this appeal
+  // Uploaded documents and details linked to this final comment
   SubmissionDocumentUpload SubmissionDocumentUpload[]
 }
 
@@ -1011,6 +1063,12 @@ model SubmissionDocumentUpload {
 
   appellantProofOfEvidenceId         String?                             @db.UniqueIdentifier
   AppellantProofOfEvidenceSubmission AppellantProofOfEvidenceSubmission? @relation(fields: [appellantProofOfEvidenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  lpaProofOfEvidenceId         String?                       @db.UniqueIdentifier
+  LPAProofOfEvidenceSubmission LPAProofOfEvidenceSubmission? @relation(fields: [lpaProofOfEvidenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  Rule6ProofOfEvidenceSubmission   Rule6ProofOfEvidenceSubmission? @relation(fields: [rule6ProofOfEvidenceSubmissionId], references: [id])
+  rule6ProofOfEvidenceSubmissionId String?                         @db.UniqueIdentifier
 
   name             String
   fileName         String

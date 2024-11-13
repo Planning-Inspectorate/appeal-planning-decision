@@ -240,6 +240,71 @@ describe('DataQuestion', () => {
 				})
 			);
 		});
+
+		const tests = [
+			{
+				date: '2024-02-20T15:00:00.000Z',
+				expected: {
+					[`${[FIELDNAME]}_day`]: '20',
+					[`${[FIELDNAME]}_month`]: '2',
+					[`${[FIELDNAME]}_year`]: '2024'
+				}
+			},
+			{
+				date: '2024-09-30T20:00:00.000Z',
+				expected: {
+					[`${[FIELDNAME]}_day`]: '30',
+					[`${[FIELDNAME]}_month`]: '9',
+					[`${[FIELDNAME]}_year`]: '2024'
+				}
+			},
+			{
+				date: '2024-09-30T23:59:00.000Z',
+				expected: {
+					[`${[FIELDNAME]}_day`]: '1',
+					[`${[FIELDNAME]}_month`]: '10',
+					[`${[FIELDNAME]}_year`]: '2024'
+				}
+			},
+			{
+				date: '2024-10-01T00:00:00.000Z',
+				expected: {
+					[`${[FIELDNAME]}_day`]: '1',
+					[`${[FIELDNAME]}_month`]: '10',
+					[`${[FIELDNAME]}_year`]: '2024'
+				}
+			}
+		];
+
+		it.each(tests)('should expect UTC date from server: $date', ({ date, expected }) => {
+			const dateQuestion = new DateQuestion({
+				title: TITLE,
+				question: QUESTION,
+				fieldName: FIELDNAME,
+				hint: HINT,
+				validators: VALIDATORS
+			});
+
+			const section = {
+				name: 'section-name'
+			};
+
+			const journey = {
+				response: {
+					answers: {
+						[FIELDNAME]: date
+					}
+				},
+				getNextQuestionUrl: () => {
+					return 'back';
+				}
+			};
+
+			const preppedQuestionViewModel = dateQuestion.prepQuestionForRendering(section, journey);
+
+			expect(preppedQuestionViewModel.question.value).toEqual(expected);
+			expect(preppedQuestionViewModel.answer).toEqual(expected);
+		});
 	});
 
 	describe('formatAnswerForSummary', () => {

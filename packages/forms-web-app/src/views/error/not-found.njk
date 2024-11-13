@@ -21,11 +21,11 @@
 
       <h2 class="govuk-heading-s">Telephone</h2>
       <ul class="govuk-list">
-        <li>Telephone: 0303 444 5000</li>
-        <li>Monday to Friday, 9am to midday (except public holidays)</li>
+        <li>Telephone: {{contactPhone}}</li>
+        <li>{{contactHours}}</li>
       </ul>
       <h2 class="govuk-heading-s">Email</h2>
-      <p><a data-cy="Enquiries" href="mailto:enquiries@planninginspectorate.gov.uk">enquiries@planninginspectorate.gov.uk</a></p>
+      <p><a data-cy="Enquiries" href="mailto:{{contactEmail}}">{{contactEmail}}</a></p>
     </div>
   </div>
 {% endblock %}

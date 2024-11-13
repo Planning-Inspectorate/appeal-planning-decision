@@ -8,6 +8,7 @@ const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrappe
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
+const config = require('../../../../src/config');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -27,7 +28,10 @@ describe('controllers/eligibility/householder-planning-permission', () => {
 		it('calls the correct template', () => {
 			getServiceOnlyForHouseholderPlanningPermission(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION_OUT);
+			expect(res.render).toHaveBeenCalledWith(
+				VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION_OUT,
+				{ bannerHtmlOverride: config.betaBannerText }
+			);
 		});
 	});
 
@@ -36,6 +40,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
 			getHouseholderPlanningPermission(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal
 			});
 		});
@@ -57,6 +62,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: {
 					...req.session.appeal,
 					eligibility: {
@@ -85,6 +91,7 @@ describe('controllers/eligibility/householder-planning-permission', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

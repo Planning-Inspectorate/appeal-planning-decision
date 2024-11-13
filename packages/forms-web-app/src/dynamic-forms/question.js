@@ -311,6 +311,16 @@ class Question {
 				journeyResponse.referenceId,
 				responseToSave.answers
 			);
+		} else if ([JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE].includes(journeyType)) {
+			await apiClient.patchLpaProofOfEvidenceSubmission(
+				journeyResponse.referenceId,
+				responseToSave.answers
+			);
+		} else if ([JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE].includes(journeyType)) {
+			await apiClient.patchRule6ProofOfEvidenceSubmission(
+				journeyResponse.referenceId,
+				responseToSave.answers
+			);
 		}
 	}
 

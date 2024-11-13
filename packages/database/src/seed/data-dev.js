@@ -420,7 +420,7 @@ const appealCases = [
 		// constraints
 		isCorrectAppealType: true,
 		scheduledMonument: false,
-		conservationArea: false,
+		conservationArea: null,
 		protectedSpecies: null,
 		isGreenBelt: true,
 		areaOutstandingBeauty: null,
@@ -438,26 +438,28 @@ const appealCases = [
 		// consultations
 		statutoryConsultees: false,
 		consultationResponses: false,
-		otherPartyRepresentations: false,
+		otherPartyRepresentations: null,
 		// planning officer reports
-		emergingPlan: true,
-		supplementaryPlanningDocs: true,
+		emergingPlan: null,
+		supplementaryPlanningDocs: null,
 		infrastructureLevy: null,
 		infrastructureLevyAdopted: null,
 		infrastructureLevyExpectedDate: null,
 		// site access
-		lpaSiteAccess: true,
-		lpaSiteAccessDetails: 'site access details',
+		lpaSiteAccess: null,
+		lpaSiteAccessDetails: null,
 		neighbouringSiteAccess: null,
 		addNeighbouringSiteAccess: null,
 		neighbouringSiteAccessDetails: null,
-		lpaSiteSafetyRisks: true,
-		lpaSiteSafetyRiskDetails: 'generic dangers',
+		siteAccessDetails: '["access details from appellant", "access details from LPA"]',
+		siteSafetyDetails: '["safety details from appellant", "safety details from LPA"]',
+		lpaSiteSafetyRisks: null,
+		lpaSiteSafetyRiskDetails: null,
 		// appeal process
 		lpaProcedurePreference: null,
 		lpaProcedurePreferenceDetails: null,
 		lpaProcedurePreferenceDuration: null,
-		changedDevelopmentDescription: true,
+		changedDevelopmentDescription: null,
 		newConditionDetails: 'Example new conditions'
 	},
 	{
@@ -1490,16 +1492,40 @@ async function seedDev(dbClient) {
 				connect: { id: userId }
 			}
 		};
-		await dbClient.appealToUser.upsert({
-			create: appealToUser,
-			update: appealToUser,
+
+		const existingUserLinks = await dbClient.appealToUser.findMany({
 			where: {
-				appealId_userId: {
-					appealId: appealId,
-					userId: userId
-				}
+				appealId: appealId,
+				userId: userId
 			}
 		});
+
+		if (role === APPEAL_USER_ROLES.RULE_6_PARTY) {
+			if (!existingUserLinks.some((x) => x.role === APPEAL_USER_ROLES.RULE_6_PARTY)) {
+				await dbClient.appealToUser.create({
+					data: appealToUser
+				});
+			} else {
+				// do nothing
+			}
+		} else {
+			const existingRoles = existingUserLinks.filter(
+				(x) => x.role === APPEAL_USER_ROLES.APPELLANT || x.role === APPEAL_USER_ROLES.AGENT
+			);
+
+			if (existingRoles.length !== 0) {
+				await dbClient.appealToUser.update({
+					where: {
+						id: existingRoles[0].id
+					},
+					data: { ...appealToUser }
+				});
+			} else {
+				await dbClient.appealToUser.create({
+					data: appealToUser
+				});
+			}
+		}
 	}
 
 	for (const serviceUser of serviceUsers) {

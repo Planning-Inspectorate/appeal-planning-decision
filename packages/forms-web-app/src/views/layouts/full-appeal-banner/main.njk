@@ -26,6 +26,10 @@
 
 {% set mainClasses = mainClasses | default("govuk-main-wrapper--auto-spacing") %}
 
+{% set bannerHtml %}
+  {{ bannerHtmlOverride if bannerHtmlOverride else betaBannerFeedback | safe}}
+{% endset %}
+
 {% block main %}
   <div class="govuk-width-container govuk-body {{ containerClasses }}">
     {% block phaseBanner %}
@@ -33,7 +37,7 @@
         tag: {
           text: "beta"
         },
-        html: 'This is a beta service – your <a class="govuk-link" data-cy="Feedback" href="https://forms.office.com.mcas.ms/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjdUN-o-7ZchJstlDoYRZ9U1UQzM3N1g0TE9VQjhSNzZYTUxHU0haWVNNSSQlQCN0PWcu">feedback</a> will help us to improve it.'
+        html: bannerHtml
       }) }}
     {% endblock %}
 

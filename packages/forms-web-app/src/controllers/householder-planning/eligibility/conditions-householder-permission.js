@@ -10,6 +10,7 @@ const {
 		}
 	}
 } = require('../../../lib/views');
+const config = require('../../../config');
 
 const sectionName = 'eligibility';
 
@@ -20,6 +21,7 @@ const getConditionsHouseholderPermission = (req, res) => {
 		}
 	} = req.session;
 	res.render(CONDITIONS_HOUSEHOLDER_PERMISSION, {
+		bannerHtmlOverride: config.betaBannerText,
 		hasHouseholderPermissionConditions
 	});
 };
@@ -33,6 +35,7 @@ const postConditionsHouseholderPermission = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(CONDITIONS_HOUSEHOLDER_PERMISSION, {
+			bannerHtmlOverride: config.betaBannerText,
 			errors,
 			errorSummary
 		});
@@ -64,6 +67,7 @@ const postConditionsHouseholderPermission = async (req, res) => {
 		logger.error(err);
 
 		return res.render(CONDITIONS_HOUSEHOLDER_PERMISSION, {
+			bannerHtmlOverride: config.betaBannerText,
 			hasHouseholderPermissionConditions,
 			errors,
 			errorSummary: [{ text: err.toString(), href: '#' }]

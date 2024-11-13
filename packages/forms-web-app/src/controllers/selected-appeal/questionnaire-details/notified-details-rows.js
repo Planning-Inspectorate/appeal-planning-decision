@@ -31,7 +31,7 @@ exports.notifiedRows = (caseData) => {
 			isEscaped: true
 		},
 		{
-			keyText: 'Letters sent to neighbours',
+			keyText: 'Letter sent to neighbours',
 			valueText: formatDocumentDetails(
 				documents,
 				APPEAL_DOCUMENT_TYPE.WHO_NOTIFIED_LETTER_TO_NEIGHBOURS

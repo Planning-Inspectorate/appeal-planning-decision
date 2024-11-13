@@ -1,0 +1,58 @@
+components:
+  schemas:
+    LPAProofOfEvidenceSubmission:
+      description: Proof of evidence submitted by an lpa
+      type: object
+      required:
+        - id
+        - AppealCase
+        - caseReference
+      properties:
+        id:
+          type: string
+          format: uuid
+        caseReference:
+          type: string
+        AppealCase: # partial AppealCase data
+          type: object
+          required:
+            - LPACode
+          properties:
+            LPACode:
+              type: string
+            appealTypeCode:
+              type: string
+            proofsOfEvidenceDueDate:
+              type: string
+              format: date-time
+            siteAddressLine1:
+              type: string
+            siteAddressLine2:
+              type: string
+            siteAddressTown:
+              type: string
+            siteAddressCounty:
+              type: string
+            siteAddressPostcode:
+              type: string
+            applicationReference:
+              type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        submitted:
+          type: boolean
+          description: whether the proof of evidence has been submitted to BO
+        uploadLpaProofOfEvidenceDocuments:
+          type: boolean
+        lpaWitnesses:
+          type: boolean
+        uploadLpaWitnessesEvidence:
+          type: boolean
+        SubmissionDocumentUpload:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionDocumentUpload'

@@ -15,6 +15,8 @@ function numberWithDefault(value, fallback) {
 const oneGigabyte = 1024 * 1024 * 1024;
 const ninetyMinsInMs = 90 * 60 * 1000;
 const httpPort = numberWithDefault(process.env.PORT, 3000);
+const feedbackUrl =
+	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UOUlNRkhaQjNXTDQyNEhSRExNOFVGSkNJTS4u&route=shorturl';
 
 module.exports = {
 	application: {
@@ -28,6 +30,14 @@ module.exports = {
 	},
 	cacheControl: {
 		maxAge: process.env.CACHE_CONTROL_MAX_AGE || '1d'
+	},
+	contact: {
+		email: process.env.CONTACT_EMAIL || 'caseofficers@planninginspectorate.gov.uk',
+		phone: process.env.CONTACT_PHONE || '0303 444 5000',
+		form:
+			process.env.CONTACT_FORM ||
+			'https://contact-us.planninginspectorate.gov.uk/hc/en-gb/requests/new',
+		hours: process.env.CONTACT_HOURS || 'Monday to Friday, 9am to midday (except public holidays)'
 	},
 	db: {
 		session: {
@@ -183,5 +193,8 @@ module.exports = {
 		baseUrl: process.env.AUTH_BASE_URL,
 		clientID: process.env.CLIENT_ID,
 		clientSecret: process.env.CLIENT_SECRET
-	}
+	},
+	feedbackUrl: feedbackUrl,
+	betaBannerText: 'This is a beta service',
+	betaBannerFeedbackLink: ` – your <a class="govuk-link" data-cy="Feedback" href="${feedbackUrl}">feedback</a> will help us to improve it.`
 };

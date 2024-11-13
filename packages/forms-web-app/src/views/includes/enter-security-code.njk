@@ -66,11 +66,10 @@
 					You can contact our customer support team.
 				</p>
 
-				{# todo: use env variables for contact details #}
 				<p class="govuk-body">
-          <a data-cy="Enquiries" href="https://contact-us.planninginspectorate.gov.uk/hc/en-gb/requests/new">Submit a request - PINS</a><br>
-					Telephone: 0303 444 5000<br>
-					Monday to Friday, 9am to midday (except public holidays)<br>
+         		 	<a data-cy="Enquiries" href="{{contactForm}}">Submit a request - PINS</a><br>
+					Telephone: {{contactPhone}}<br>
+					{{contactHours}}<br>
 					<a href="https://www.gov.uk/call-charges">Find out about call charges</a>.
 				</p>
 			</div>

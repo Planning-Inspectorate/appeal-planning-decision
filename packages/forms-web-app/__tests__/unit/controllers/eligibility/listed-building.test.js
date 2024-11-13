@@ -7,6 +7,7 @@ const {
 const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrapper');
 const { VIEW } = require('../../../../src/lib/views');
 const { mockReq, mockRes } = require('../../mocks');
+const config = require('../../../../src/config');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 
@@ -30,7 +31,9 @@ describe('controllers/eligibility/listed-building', () => {
 		it('calls the correct template', () => {
 			getServiceNotAvailableForListedBuildings(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_OUT);
+			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_OUT, {
+				bannerHtmlOverride: config.betaBannerText
+			});
 		});
 	});
 
@@ -39,6 +42,7 @@ describe('controllers/eligibility/listed-building', () => {
 			getListedBuilding(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal
 			});
 		});
@@ -60,6 +64,7 @@ describe('controllers/eligibility/listed-building', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: {
 					...req.session.appeal,
 					eligibility: {
@@ -86,6 +91,7 @@ describe('controllers/eligibility/listed-building', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

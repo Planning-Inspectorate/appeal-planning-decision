@@ -18,6 +18,7 @@ const {
 		}
 	}
 } = require('../../lib/views');
+const config = require('../../config');
 
 const canUseServiceHouseholderPlanning = async (req, res) => {
 	const { appeal } = req.session;
@@ -48,6 +49,7 @@ const canUseServiceHouseholderPlanning = async (req, res) => {
 			: null;
 
 	res.render(canUseServiceHouseholder, {
+		bannerHtmlOverride: config.betaBannerText,
 		deadlineDate,
 		appealLPD,
 		applicationType,
@@ -80,6 +82,7 @@ const canUseServiceFullAppeal = async (req, res) => {
 	);
 
 	res.render(canUseServiceFullAppealUrl, {
+		bannerHtmlOverride: config.betaBannerText,
 		deadlineDate,
 		appealLPD,
 		applicationType,
@@ -124,6 +127,7 @@ const canUseServicePriorApproval = async (req, res) => {
 				: null;
 
 		res.render(canUseServicePriorApprovalHouseholder, {
+			bannerHtmlOverride: config.betaBannerText,
 			deadlineDate,
 			appealLPD,
 			applicationType,
@@ -144,6 +148,7 @@ const canUseServicePriorApproval = async (req, res) => {
 		);
 
 		res.render(canUseServicePriorApprovalFull, {
+			bannerHtmlOverride: config.betaBannerText,
 			deadlineDate,
 			appealLPD,
 			applicationType,
@@ -190,6 +195,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 				: null;
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsHouseholder, {
+			bannerHtmlOverride: config.betaBannerText,
 			deadlineDate,
 			appealLPD,
 			applicationType,
@@ -210,6 +216,7 @@ const canUseServiceRemovalOrVariationOfConditions = async (req, res) => {
 		);
 
 		res.render(canUseServiceRemovalOrVariationOfConditionsFullAppeal, {
+			bannerHtmlOverride: config.betaBannerText,
 			deadlineDate,
 			appealLPD,
 			applicationType,

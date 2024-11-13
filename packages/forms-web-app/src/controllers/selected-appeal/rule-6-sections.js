@@ -62,6 +62,16 @@ exports.sections = [
 		]
 	},
 	{
+		heading: 'Planning obligation',
+		links: [
+			{
+				url: '/planning-obligation',
+				text: 'View the appellant’s planning obligation',
+				condition: (appealCase) => !!appealCase.planningObligation
+			}
+		]
+	},
+	{
 		heading: 'Proof of evidence and witnesses',
 		links: [
 			{

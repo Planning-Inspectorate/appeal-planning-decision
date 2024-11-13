@@ -63,7 +63,7 @@ const inputMaxCharacters = Math.min(Number(configInputMaxCharacters), 1000);
  * @return {string} returns date string in d M yyyy format
  */
 
-const getDate = (tense, days = 60) =>
+const getExampleDate = (tense, days = 60) =>
 	formatDate(
 		{
 			past: sub,
@@ -599,11 +599,15 @@ exports.questionProps = {
 	emergingPlan: {
 		type: 'boolean',
 		title: 'Emerging plans',
-		question: "Do you have an emerging plan that's relevant to this appeal?",
+		question: 'Do you have an emerging plan that is relevant to this appeal?',
 		// fieldName: 'emerging-plan',
 		fieldName: 'emergingPlan',
 		url: 'emerging-plan',
-		validators: [new RequiredValidator()],
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have an emerging plan that is relevant to this appeal'
+			)
+		],
 		html: 'resources/emerging-plan/content.html'
 	},
 	emergingPlanUpload: {
@@ -686,7 +690,7 @@ exports.questionProps = {
 		question: 'When was the community infrastructure levy formally adopted?',
 		// fieldName: 'community-infrastructure-levy-adopted-date',
 		fieldName: 'infrastructureLevyAdoptedDate',
-		hint: `For example, ${getDate('past')}`,
+		hint: `For example, ${getExampleDate('past')}`,
 		validators: [
 			new DateValidator('the date the infrastructure levy was formally adopted', {
 				ensurePast: true
@@ -699,7 +703,7 @@ exports.questionProps = {
 		question: 'When do you expect to formally adopt the community infrastructure levy?',
 		// fieldName: 'community-infrastructure-levy-adopt-date',
 		fieldName: 'infrastructureLevyExpectedDate',
-		hint: `For example, ${getDate('future')}`,
+		hint: `For example, ${getExampleDate('future')}`,
 		validators: [
 			new DateValidator('the date you expect to formally adopt the community infrastructure levy', {
 				ensureFuture: true
@@ -1449,7 +1453,7 @@ exports.questionProps = {
 		question: 'What date did you submit your application?',
 		fieldName: 'onApplicationDate',
 		url: 'application-date',
-		hint: `For example, ${getDate('past')}`,
+		hint: `For example, ${getExampleDate('past')}`,
 		validators: [
 			new DateValidator('the date you submitted your application', {
 				ensurePast: true
@@ -2281,7 +2285,7 @@ exports.questionProps = {
 	},
 	uploadAppellantProofOfEvidenceDocuments: {
 		type: 'multi-file-upload',
-		title: 'Upload your proof of evidence and summary',
+		title: 'Your proof of evidence and summary',
 		question: 'Upload your proof of evidence and summary',
 		fieldName: 'uploadAppellantProofOfEvidenceDocuments',
 		html: 'resources/upload-proof-evidence/content.html',
@@ -2291,6 +2295,95 @@ exports.questionProps = {
 			new MultifileUploadValidator()
 		],
 		documentType: documentTypes.uploadAppellantProofOfEvidenceDocuments
+	},
+	appellantAddWitnesses: {
+		type: 'boolean',
+		title: 'Added witnesses',
+		question: 'Do you need to add any witnesses?',
+		fieldName: 'appellantWitnesses',
+		url: 'add-witnesses',
+		validators: [new RequiredValidator('Select yes if you need to add any witnesses')]
+	},
+	uploadAppellantWitnessesEvidence: {
+		type: 'multi-file-upload',
+		title: 'Witness proof of evidence and summary',
+		question: 'Upload your witnesses and their evidence',
+		fieldName: 'uploadAppellantWitnessesEvidence',
+		html: 'resources/upload-proof-evidence/witnesses-evidence.html',
+		url: 'upload-witnesses-evidence',
+		validators: [
+			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadAppellantWitnessesEvidence
+	},
+	uploadLpaProofOfEvidenceDocuments: {
+		type: 'multi-file-upload',
+		title: 'Upload your proof of evidence and summary',
+		question: 'Upload your proof of evidence and summary',
+		fieldName: 'uploadLpaProofOfEvidenceDocuments',
+		html: 'resources/upload-proof-evidence/content.html',
+		url: 'upload-proof-evidence',
+		validators: [
+			new RequiredFileUploadValidator('Select your proof of evidence and summary'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadLpaProofOfEvidenceDocuments
+	},
+	lpaAddWitnesses: {
+		type: 'boolean',
+		title: 'Added witnesses',
+		question: 'Do you need to add any witnesses?',
+		fieldName: 'lpaWitnesses',
+		url: 'add-witnesses',
+		validators: [new RequiredValidator('Select yes if you need to add any witnesses')]
+	},
+	uploadLpaWitnessesEvidence: {
+		type: 'multi-file-upload',
+		title: 'Witness proof of evidence and summary',
+		question: 'Upload your witnesses and their evidence',
+		fieldName: 'uploadLpaWitnessesEvidence',
+		html: 'resources/upload-proof-evidence/witnesses-evidence.html',
+		url: 'upload-witnesses-evidence',
+		validators: [
+			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadLpaWitnessesEvidence
+	},
+	uploadRule6ProofOfEvidenceDocuments: {
+		type: 'multi-file-upload',
+		title: 'Your proof of evidence and summary',
+		question: 'Upload your proof of evidence and summary',
+		fieldName: 'uploadRule6ProofOfEvidenceDocuments',
+		html: 'resources/upload-proof-evidence/content.html',
+		url: 'upload-proof-evidence',
+		validators: [
+			new RequiredFileUploadValidator('Select your proof of evidence and summary'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadRule6ProofOfEvidenceDocuments
+	},
+	rule6AddWitnesses: {
+		type: 'boolean',
+		title: 'Added witnesses',
+		question: 'Do you need to add any witnesses?',
+		fieldName: 'rule6Witnesses',
+		url: 'add-witnesses',
+		validators: [new RequiredValidator('Select yes if you need to add any witnesses')]
+	},
+	uploadRule6WitnessesEvidence: {
+		type: 'multi-file-upload',
+		title: 'Witness proof of evidence and summary',
+		question: 'Upload your witnesses and their evidence',
+		fieldName: 'uploadRule6WitnessesEvidence',
+		html: 'resources/upload-proof-evidence/witnesses-evidence.html',
+		url: 'upload-witnesses-evidence',
+		validators: [
+			new RequiredFileUploadValidator('Select your witnesses and their evidence'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadRule6WitnessesEvidence
 	}
 };
 

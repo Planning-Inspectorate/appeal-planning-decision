@@ -35,6 +35,12 @@ const { spoolRoutes } = require('@pins/common');
 
 const app = express();
 
+// https://github.com/nodejs/node/issues/47130 http clients don't handle keepAlive correctly so sticking with false (the default before node 19)
+const https = require('https');
+const http = require('http');
+https.globalAgent = new https.Agent({ keepAlive: false });
+http.globalAgent = new http.Agent({ keepAlive: false });
+
 app.use(
 	pinoHttp({
 		logger,
@@ -104,6 +110,12 @@ env.addGlobal('fileSizeLimits', config.fileUpload.pins);
 env.addGlobal('googleAnalyticsId', config.server.googleAnalyticsId);
 env.addGlobal('googleTagManagerId', config.server.googleTagManagerId);
 env.addGlobal('featureFlag', config.featureFlag);
+env.addGlobal('feedbackUrl', config.feedbackUrl);
+env.addGlobal('betaBannerFeedback', config.betaBannerText + config.betaBannerFeedbackLink);
+env.addGlobal('contactEmail', config.contact.email);
+env.addGlobal('contactPhone', config.contact.phone);
+env.addGlobal('contactForm', config.contact.form);
+env.addGlobal('contactHours', config.contact.hours);
 
 if (config.server.useSecureSessionCookie) {
 	app.set('trust proxy', 1); // trust first proxy

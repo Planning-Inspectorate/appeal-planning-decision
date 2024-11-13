@@ -15,6 +15,7 @@ const {
 } = require('../../../../../src/lib/views');
 const logger = require('../../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../../mocks');
+const config = require('../../../../../src/config');
 
 const navigationPages = {
 	nextPage: '/before-you-start/claiming-costs-householder',
@@ -51,6 +52,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 			getEnforcementNoticeHouseholder(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE_HOUSEHOLDER, {
+				bannerHtmlOverride: config.betaBannerText,
 				enforcementNotice: appeal.eligibility.enforcementNotice,
 				previousPage: navigationPages.previousPage
 			});
@@ -78,6 +80,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE_HOUSEHOLDER, {
+				bannerHtmlOverride: config.betaBannerText,
 				enforcementNotice: appeal.eligibility.enforcementNotice,
 				errorSummary: [{ text: 'There were errors here', href: '#' }],
 				errors: { a: 'b' }
@@ -106,6 +109,7 @@ describe('controllers/householder-planning/eligibility/enforcement-notice-househ
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(ENFORCEMENT_NOTICE_HOUSEHOLDER, {
+				bannerHtmlOverride: config.betaBannerText,
 				enforcementNotice: appeal.eligibility.enforcementNotice,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

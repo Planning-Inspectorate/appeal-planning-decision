@@ -8,6 +8,7 @@ const {
 		FULL_APPEAL: { PRIOR_APPROVAL_EXISTING_HOME }
 	}
 } = require('../../lib/views');
+const config = require('../../config');
 
 const sectionName = 'eligibility';
 
@@ -18,6 +19,7 @@ const getPriorApprovalExistingHome = (req, res) => {
 		}
 	} = req.session;
 	res.render(PRIOR_APPROVAL_EXISTING_HOME, {
+		bannerHtmlOverride: config.betaBannerText,
 		hasPriorApprovalForExistingHome
 	});
 };
@@ -31,6 +33,7 @@ const postPriorApprovalExistingHome = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		return res.render(PRIOR_APPROVAL_EXISTING_HOME, {
+			bannerHtmlOverride: config.betaBannerText,
 			errors,
 			errorSummary
 		});
@@ -62,6 +65,7 @@ const postPriorApprovalExistingHome = async (req, res) => {
 		logger.error(err);
 
 		return res.render(PRIOR_APPROVAL_EXISTING_HOME, {
+			bannerHtmlOverride: config.betaBannerText,
 			hasPriorApprovalForExistingHome,
 			errors,
 			errorSummary: [{ text: err.toString(), href: '#' }]

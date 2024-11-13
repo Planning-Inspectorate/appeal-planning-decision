@@ -2,10 +2,11 @@ const {
 	formatDocumentDetails,
 	documentExists,
 	formatYesOrNo,
-	formatDate
+	boolToYesNo
 } = require('@pins/common');
 const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
 
@@ -15,6 +16,15 @@ const { isNotUndefinedOrNull } = require('#lib/is-not-undefined-or-null');
  */
 exports.planningOfficerReportRows = (caseData) => {
 	const documents = caseData.Documents || [];
+
+	const hasEmergingPlan = documentExists(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN);
+	const emergingPlanText = boolToYesNo(hasEmergingPlan);
+
+	const hasSupplementaryPlanning = documentExists(
+		documents,
+		APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING
+	);
+	const supplementaryPlanningText = boolToYesNo(hasSupplementaryPlanning);
 	return [
 		{
 			keyText: "Planning officer's report",
@@ -38,13 +48,13 @@ exports.planningOfficerReportRows = (caseData) => {
 		},
 		{
 			keyText: 'Emerging plan',
-			valueText: formatYesOrNo(caseData, 'emergingPlan'),
-			condition: () => isNotUndefinedOrNull(caseData.emergingPlan)
+			valueText: emergingPlanText,
+			condition: () => true
 		},
 		{
 			keyText: 'Uploaded emerging plan and supporting information',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN),
-			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.EMERGING_PLAN),
+			condition: () => hasEmergingPlan,
 			isEscaped: true
 		},
 		{
@@ -55,13 +65,13 @@ exports.planningOfficerReportRows = (caseData) => {
 		},
 		{
 			keyText: 'Supplementary planning documents',
-			valueText: formatYesOrNo(caseData, 'supplementaryPlanningDocs'),
-			condition: () => isNotUndefinedOrNull(caseData.supplementaryPlanningDocs)
+			valueText: supplementaryPlanningText,
+			condition: () => true
 		},
 		{
 			keyText: 'Uploaded supplementary planning documents',
 			valueText: formatDocumentDetails(documents, APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING),
-			condition: () => documentExists(documents, APPEAL_DOCUMENT_TYPE.SUPPLEMENTARY_PLANNING),
+			condition: () => hasSupplementaryPlanning,
 			isEscaped: true
 		},
 		{
@@ -86,12 +96,12 @@ exports.planningOfficerReportRows = (caseData) => {
 		},
 		{
 			keyText: 'Date community infrastructure levy adopted',
-			valueText: formatDate(caseData.infrastructureLevyAdoptedDate),
+			valueText: formatDateForDisplay(caseData.infrastructureLevyAdoptedDate),
 			condition: () => !!caseData.infrastructureLevyAdoptedDate
 		},
 		{
 			keyText: 'Date community infrastructure levy expected to be adopted',
-			valueText: formatDate(caseData.infrastructureLevyExpectedDate),
+			valueText: formatDateForDisplay(caseData.infrastructureLevyExpectedDate),
 			condition: () => !!caseData.infrastructureLevyExpectedDate
 		}
 	];

@@ -1,13 +1,17 @@
 const { VIEW } = require('../../lib/views');
 const { validIsListedBuildingOptions } = require('../../validators/eligibility/listed-building');
 const { createOrUpdateAppeal } = require('../../lib/appeals-api-wrapper');
+const config = require('../../config');
 
 exports.getServiceNotAvailableForListedBuildings = (req, res) => {
-	res.render(VIEW.ELIGIBILITY.LISTED_OUT);
+	res.render(VIEW.ELIGIBILITY.LISTED_OUT, { bannerHtmlOverride: config.betaBannerText });
 };
 
 exports.getListedBuilding = (req, res) => {
-	res.render(VIEW.ELIGIBILITY.LISTED_BUILDING, { appeal: req.session.appeal });
+	res.render(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+		bannerHtmlOverride: config.betaBannerText,
+		appeal: req.session.appeal
+	});
 };
 
 exports.postListedBuilding = async (req, res) => {
@@ -23,6 +27,7 @@ exports.postListedBuilding = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal: {
 				...appeal,
 				eligibility: {
@@ -48,6 +53,7 @@ exports.postListedBuilding = async (req, res) => {
 		req.log.error(e);
 
 		res.render(VIEW.ELIGIBILITY.LISTED_BUILDING, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]

@@ -17,11 +17,13 @@ const {
 	}
 } = require('../../lib/views');
 const { mapPlanningApplication } = require('../../lib/full-appeal/map-planning-application');
+const config = require('../../config');
 
 const getTypeOfPlanningApplication = (req, res) => {
 	const { appeal } = req.session;
 
 	res.render(TYPE_OF_PLANNING_APPLICATION, {
+		bannerHtmlOverride: config.betaBannerText,
 		typeOfPlanningApplication: appeal.typeOfPlanningApplication
 	});
 };
@@ -35,6 +37,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 
 	if (errors['type-of-planning-application']) {
 		return res.render(TYPE_OF_PLANNING_APPLICATION, {
+			bannerHtmlOverride: config.betaBannerText,
 			typeOfPlanningApplication,
 			errors,
 			errorSummary
@@ -48,6 +51,7 @@ const postTypeOfPlanningApplication = async (req, res) => {
 	} catch (err) {
 		logger.error(err);
 		return res.render(TYPE_OF_PLANNING_APPLICATION, {
+			bannerHtmlOverride: config.betaBannerText,
 			typeOfPlanningApplication,
 			errors,
 			errorSummary: [{ text: err.toString(), href: '#' }]

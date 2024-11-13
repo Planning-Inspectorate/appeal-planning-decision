@@ -1,4 +1,3 @@
-const { format } = require('date-fns');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
 
 /**
@@ -160,27 +159,24 @@ exports.formatDevelopmentDescription = (caseData) => {
 // };
 
 /**
- * @param {String | undefined} dateStr
- */
-exports.formatDate = (dateStr) => {
-	if (!dateStr) {
-		return '';
-	}
-
-	const date = new Date(dateStr);
-
-	return format(date, 'dd-MMM-yyyy');
-};
-
-/**
  * @param {AppealCaseDetailed} caseData
+ * @param {boolean} hasSiteSafetyDetails
+ * @returns {string}
  */
-exports.formatSiteSafetyRisks = (caseData) => {
-	if (caseData.lpaSiteSafetyRisks) {
-		return `Yes\n${caseData.lpaSiteSafetyRiskDetails ?? ''}`;
+exports.formatSiteSafetyRisks = (caseData, hasSiteSafetyDetails) => {
+	if (hasSiteSafetyDetails) {
+		return 'Yes\n' + caseData.siteSafetyDetails?.filter((value) => value.length > 0).join('\n');
 	} else {
 		return 'No';
 	}
+};
+
+/**
+ * @param {Array.<string>} accessDetails
+ * @returns {string}
+ */
+exports.formatSiteAccessDetails = (accessDetails) => {
+	return accessDetails.filter((value) => value.length > 0).join('\n');
 };
 
 /**
@@ -204,4 +200,4 @@ exports.formatProcedurePreference = (caseData) => {
  * @param {AppealCaseDetailed} caseData
  */
 exports.formatConditions = (caseData) =>
-	(caseData.changedDevelopmentDescription && `Yes\n${caseData.newConditionDetails ?? ''}`) || 'No';
+	(caseData.newConditionDetails && `Yes\n${caseData.newConditionDetails ?? ''}`) || 'No';

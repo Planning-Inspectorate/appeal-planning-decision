@@ -11,6 +11,7 @@ const {
 		FULL_APPEAL: { ANY_OF_FOLLOWING }
 	}
 } = require('../../../../src/lib/views');
+const config = require('../../../../src/config');
 
 jest.mock('../../../../src/lib/logger');
 jest.mock('../../../../src/lib/appeals-api-wrapper');
@@ -34,6 +35,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 		getAnyOfFollowing(req, res);
 
 		expect(res.render).toHaveBeenCalledWith(ANY_OF_FOLLOWING, {
+			bannerHtmlOverride: config.betaBannerText,
 			applicationCategories: ['none_of_these'],
 			typeOfPlanningApplication: 'full-appeal'
 		});
@@ -56,6 +58,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 			await postAnyOfFollowing(mockRequest, res);
 
 			expect(res.render).toHaveBeenCalledWith(ANY_OF_FOLLOWING, {
+				bannerHtmlOverride: config.betaBannerText,
 				applicationCategories: undefined,
 				typeOfPlanningApplication: 'full-appeal',
 				errorSummary: [{ text: 'Select if your appeal is about any of the following' }],
@@ -138,6 +141,7 @@ describe('controllers/full-appeal/any-of-following', () => {
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(ANY_OF_FOLLOWING, {
+				bannerHtmlOverride: config.betaBannerText,
 				applicationCategories: 'none_of_these',
 				typeOfPlanningApplication: 'full-appeal',
 				errors: {},

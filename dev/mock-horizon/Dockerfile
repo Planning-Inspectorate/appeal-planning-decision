@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 # copy app
 WORKDIR /opt/dev/mock-horizon

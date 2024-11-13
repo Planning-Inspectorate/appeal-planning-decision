@@ -6,11 +6,11 @@ const {
 	formatRelatedAppeals,
 	formatYesOrNo,
 	boolToYesNo,
-	formatAccessDetails,
-	formatDate
+	formatAccessDetails
 } = require('@pins/common');
 const { CASE_RELATION_TYPES } = require('@pins/common/src/database/data-static');
 const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
@@ -141,7 +141,7 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'What date did you submit your planning application?',
-			valueText: formatDate(caseData.applicationDate),
+			valueText: formatDateForDisplay(caseData.applicationDate),
 			condition: (caseData) => caseData.applicationDate !== null
 		},
 		{

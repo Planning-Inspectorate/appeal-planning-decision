@@ -3,14 +3,12 @@ const { APPEAL_DOCUMENT_TYPE } = require('pins-data-model');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 
 const date = new Date('2020-12-17T03:24:00');
-const formattedDate = '17-Dec-2020';
+const formattedDate = '17 Dec 2020';
 
 describe('planningOfficerReportRows', () => {
 	it('should create row with correct data if relevant case fields exist and files uploaded/field values otherwise populated', () => {
 		const caseData = {
 			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
-			emergingPlan: true,
-			supplementaryPlanningDocs: true,
 			infrastructureLevy: true,
 			infrastructureLevyAdopted: true,
 			infrastructureLevyAdoptedDate: date,
@@ -140,8 +138,6 @@ describe('planningOfficerReportRows', () => {
 	it('should handle false values correctly', () => {
 		const caseData = {
 			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS,
-			emergingPlan: false,
-			supplementaryPlanningDocs: false,
 			infrastructureLevy: false,
 			infrastructureLevyAdopted: false,
 			Documents: []
@@ -166,17 +162,17 @@ describe('planningOfficerReportRows', () => {
 		expect(rows[10].valueText).toEqual('No');
 	});
 
-	it('should not display if no fields/files exist', () => {
+	it('should return correct conditions if no fields/files exist', () => {
 		const rows = planningOfficerReportRows({ Documents: [] });
 
 		expect(rows.length).toEqual(13);
 		expect(rows[0].condition()).toEqual(false);
 		expect(rows[1].condition()).toEqual(false);
 		expect(rows[2].condition()).toEqual(false);
-		expect(rows[3].condition()).toEqual(false);
+		expect(rows[3].condition()).toEqual(true);
 		expect(rows[4].condition()).toEqual(false);
 		expect(rows[5].condition()).toEqual(false);
-		expect(rows[6].condition()).toEqual(false);
+		expect(rows[6].condition()).toEqual(true);
 		expect(rows[7].condition()).toEqual(false);
 		expect(rows[8].condition()).toEqual(false);
 		expect(rows[9].condition()).toEqual(false);
@@ -188,8 +184,6 @@ describe('planningOfficerReportRows', () => {
 	it('should set plans, drawings and list of plans condition as false if not HAS appeal type', () => {
 		const caseData = {
 			appealTypeCode: APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78,
-			emergingPlan: true,
-			supplementaryPlanningDocs: true,
 			infrastructureLevy: true,
 			infrastructureLevyAdopted: true,
 			infrastructureLevyAdoptedDate: date,

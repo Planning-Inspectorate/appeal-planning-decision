@@ -30,9 +30,9 @@ const testCaseRef = '1010101';
 const questionnaireBaseUrl = `/manage-appeals/questionnaire/${testCaseRef}`;
 const statementBaseUrl = `/manage-appeals/appeal-statement/${testCaseRef}/appeal-statement`;
 const finalCommentBaseUrl = `/manage-appeals/final-comments/${testCaseRef}`;
-const proofsBaseUrl = `/manage-appeals/proofs-of-evidence/${testCaseRef}`;
+const proofsBaseUrl = `/manage-appeals/proof-evidence/${testCaseRef}`;
 const rule6StatementBaseUrl = '/rule-6/statement/';
-const rule6ProofsBaseUrl = '/rule-6/proofs-of-evidence/';
+const rule6ProofsBaseUrl = '/rule-6/proof-evidence/';
 
 describe('lib/dashboard-functions', () => {
 	beforeEach(() => {

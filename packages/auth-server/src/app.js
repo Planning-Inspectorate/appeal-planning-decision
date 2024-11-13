@@ -14,6 +14,11 @@ import * as otp from './grants/otp-grant-handler.js';
 import * as ropc from './grants/ropc-grant-handler.js';
 import apiErrorHandler from './errors/api-error-handler.js';
 
+import https from 'https';
+import http from 'http';
+https.globalAgent = new https.Agent({ keepAlive: false });
+http.globalAgent = new http.Agent({ keepAlive: false });
+
 const app = express();
 
 const oidc = new OIDC(`${oidcConfig.host}:${config.server.port}`, oidcConfig.configuration);

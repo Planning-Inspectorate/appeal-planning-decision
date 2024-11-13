@@ -464,6 +464,8 @@ export interface AppealCase {
 	/** @format date-time */
 	rule6ProofEvidenceDueDate?: string;
 	rule6ProofEvidenceSubmitted?: boolean;
+	/** @format date-time */
+	rule6ProofEvidenceSubmittedDate?: string;
 	interestedPartyCommentsPublished?: boolean;
 	Rule6Parties?: object[];
 	AffectedListedBuildings?: object[];
@@ -477,6 +479,8 @@ export interface AppealCase {
 	AppellantFinalCommentSubmission?: AppellantFinalCommentSubmission;
 	/** Proof of evidence submitted by an appellant */
 	AppellantProofOfEvidenceSubmission?: AppellantProofOfEvidenceSubmission;
+	/** Proof of evidence submitted by a rule 6 party */
+	Rule6ProofOfEvidenceSubmission?: Rule6ProofOfEvidenceSubmission;
 }
 
 /** A statement document linked to an appeal statement */
@@ -586,6 +590,7 @@ export interface AppealUser {
 	/** if an LPA user, the status of this user, e.g. have they logged in and confirmed their email */
 	lpaStatus?: 'added' | 'confirmed' | 'removed';
 	Rule6Parties?: object[];
+	Rule6ProofOfEvidenceSubmission?: object[];
 }
 
 /** A final comment submitted by an appellant */
@@ -624,9 +629,10 @@ export interface AppellantProofOfEvidenceSubmission {
 	caseReference: string;
 	AppealCase: {
 		LPACode: string;
+		applicationReference?: string;
 		appealTypeCode?: string;
 		/** @format date-time */
-		finalCommentsDueDate?: string;
+		proofsOfEvidenceDueDate?: string;
 		siteAddressLine1?: string;
 		siteAddressLine2?: string;
 		siteAddressTown?: string;
@@ -1037,6 +1043,35 @@ export interface LPAFinalCommentSubmission {
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
+/** Proof of evidence submitted by an lpa */
+export interface LPAProofOfEvidenceSubmission {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	AppealCase: {
+		LPACode: string;
+		appealTypeCode?: string;
+		/** @format date-time */
+		proofsOfEvidenceDueDate?: string;
+		siteAddressLine1?: string;
+		siteAddressLine2?: string;
+		siteAddressTown?: string;
+		siteAddressCounty?: string;
+		siteAddressPostcode?: string;
+		applicationReference?: string;
+	};
+	/** @format date-time */
+	createdAt?: string;
+	/** @format date-time */
+	updatedAt?: string;
+	/** whether the proof of evidence has been submitted to BO */
+	submitted?: boolean;
+	uploadLpaProofOfEvidenceDocuments?: boolean;
+	lpaWitnesses?: boolean;
+	uploadLpaWitnessesEvidence?: boolean;
+	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
+}
+
 /** A questionnaire submitted by an LPA */
 export interface LPAQuestionnaireSubmission {
 	/** @format uuid */
@@ -1252,6 +1287,36 @@ export interface Rule6Party {
 	statementValidationOutcomeDate?: string;
 	/** details about the validation of the rule 6 party statement */
 	statementValidationDetails?: string;
+}
+
+/** Proof of evidence submitted by a rule 6 party */
+export interface Rule6ProofOfEvidenceSubmission {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	AppealCase: {
+		LPACode: string;
+		appealTypeCode?: string;
+		/** @format date-time */
+		rule6ProofEvidenceDueDate?: string;
+		siteAddressLine1?: string;
+		siteAddressLine2?: string;
+		siteAddressTown?: string;
+		siteAddressCounty?: string;
+		siteAddressPostcode?: string;
+		applicationReference?: string;
+	};
+	userId?: string;
+	/** @format date-time */
+	createdAt?: string;
+	/** @format date-time */
+	updatedAt?: string;
+	/** whether the proof of evidence has been submitted to BO */
+	submitted?: boolean;
+	uploadRule6ProofOfEvidenceDocuments?: boolean;
+	rule6Witnesses?: boolean;
+	uploadRule6WitnessesEvidence?: boolean;
+	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
 /** A Service User */

@@ -15,6 +15,7 @@ const { mockReq, mockRes } = require('../../mocks');
 const {
 	mapPlanningApplication
 } = require('../../../../src/lib/full-appeal/map-planning-application');
+const config = require('../../../../src/config');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -35,6 +36,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			await getTypeOfPlanningApplication(req, res);
 
 			expect(res.render).toBeCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: 'full-appeal'
 			});
 		});
@@ -186,6 +188,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(createOrUpdateAppeal).not.toHaveBeenCalled();
 
 			expect(res.render).toBeCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: undefined,
 				errors: {
 					'type-of-planning-application': {
@@ -213,6 +216,7 @@ describe('controllers/full-appeal/type-of-planning-application', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(TYPE_OF_PLANNING_APPLICATION, {
+				bannerHtmlOverride: config.betaBannerText,
 				typeOfPlanningApplication: 'outline-planning',
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

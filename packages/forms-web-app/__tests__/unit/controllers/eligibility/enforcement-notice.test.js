@@ -8,6 +8,7 @@ const { createOrUpdateAppeal } = require('../../../../src/lib/appeals-api-wrappe
 const { VIEW } = require('../../../../src/lib/views');
 const logger = require('../../../../src/lib/logger');
 const { mockReq, mockRes } = require('../../mocks');
+const config = require('../../../../src/config');
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/lib/logger');
@@ -27,7 +28,9 @@ describe('controllers/eligibility/enforcement-notice', () => {
 		it('calls the correct template', () => {
 			getServiceNotAvailableWhenReceivedEnforcementNotice(req, res);
 
-			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE_OUT);
+			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE_OUT, {
+				bannerHtmlOverride: config.betaBannerText
+			});
 		});
 	});
 
@@ -36,6 +39,7 @@ describe('controllers/eligibility/enforcement-notice', () => {
 			getEnforcementNotice(req, res);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal
 			});
 		});
@@ -57,6 +61,7 @@ describe('controllers/eligibility/enforcement-notice', () => {
 
 			expect(res.redirect).not.toHaveBeenCalled();
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: {
 					...req.session.appeal,
 					eligibility: {
@@ -85,6 +90,7 @@ describe('controllers/eligibility/enforcement-notice', () => {
 			expect(logger.error).toHaveBeenCalledWith(error);
 
 			expect(res.render).toHaveBeenCalledWith(VIEW.ELIGIBILITY.ENFORCEMENT_NOTICE, {
+				bannerHtmlOverride: config.betaBannerText,
 				appeal: req.session.appeal,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

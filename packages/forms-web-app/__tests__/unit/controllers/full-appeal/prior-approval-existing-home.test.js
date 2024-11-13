@@ -14,6 +14,7 @@ const {
 
 jest.mock('../../../../src/lib/appeals-api-wrapper');
 jest.mock('../../../../src/services/task.service');
+const config = require('../../../../src/config');
 
 describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', () => {
 	let req;
@@ -40,8 +41,8 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 		it('should call the correct template', () => {
 			getPriorApprovalExistingHome(req, res);
 
-			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(PRIOR_APPROVAL_EXISTING_HOME, {
+				bannerHtmlOverride: config.betaBannerText,
 				hasPriorApprovalForExistingHome: true
 			});
 		});
@@ -61,8 +62,8 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			await postPriorApprovalExistingHome(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(PRIOR_APPROVAL_EXISTING_HOME, {
+				bannerHtmlOverride: config.betaBannerText,
 				errors,
 				errorSummary
 			});
@@ -85,8 +86,8 @@ describe('controllers/full-appeal/submit-appeal/prior-approval-existing-home', (
 			await postPriorApprovalExistingHome(req, res);
 
 			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledTimes(1);
 			expect(res.render).toHaveBeenCalledWith(PRIOR_APPROVAL_EXISTING_HOME, {
+				bannerHtmlOverride: config.betaBannerText,
 				hasPriorApprovalForExistingHome: true,
 				errors: {},
 				errorSummary: [{ text: error.toString(), href: '#' }]

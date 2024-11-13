@@ -4,13 +4,17 @@ const { VIEW } = require('../../lib/views');
 const {
 	validHouseholderPlanningPermissionOptions
 } = require('../../validators/eligibility/householder-planning-permission');
+const config = require('../../config');
 
 exports.getServiceOnlyForHouseholderPlanningPermission = (req, res) => {
-	res.render(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION_OUT);
+	res.render(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION_OUT, {
+		bannerHtmlOverride: config.betaBannerText
+	});
 };
 
 exports.getHouseholderPlanningPermission = (req, res) => {
 	res.render(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION, {
+		bannerHtmlOverride: config.betaBannerText,
 		appeal: req.session.appeal
 	});
 };
@@ -31,6 +35,7 @@ exports.postHouseholderPlanningPermission = async (req, res) => {
 
 	if (Object.keys(errors).length > 0) {
 		res.render(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal: {
 				...appeal,
 				eligibility: {
@@ -56,6 +61,7 @@ exports.postHouseholderPlanningPermission = async (req, res) => {
 		logger.error(e);
 
 		res.render(VIEW.ELIGIBILITY.HOUSEHOLDER_PLANNING_PERMISSION, {
+			bannerHtmlOverride: config.betaBannerText,
 			appeal,
 			errors,
 			errorSummary: [{ text: e.toString(), href: '#' }]
