@@ -5,7 +5,7 @@
 
 
 {% block pageTitle %}
-  Appeal Submitted - Appeal a planning decision - GOV.UK
+  {{informationPageType}} Submitted - Appeal a planning decision - GOV.UK
 {% endblock %}
 
 {% block content %}
@@ -16,7 +16,7 @@
 	<div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h1 class="govuk-heading-l">
-            Appeal {{caseReference}}
+            {{pageHeading}}
 				</h1>
 				<p class="govuk-body">Submitted on {{submissionDate}}.</p>
 
