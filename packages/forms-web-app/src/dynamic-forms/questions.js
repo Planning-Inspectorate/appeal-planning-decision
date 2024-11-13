@@ -2166,6 +2166,47 @@ exports.questionProps = {
 		],
 		documentType: documentTypes.uploadLpaStatementDocuments
 	},
+	rule6Statement: {
+		type: 'text-entry',
+		title: 'Appeal statement',
+		question: 'Appeal statement',
+		label: 'Enter your statement',
+		url: 'appeal-statement',
+		fieldName: 'rule6Statement',
+		validators: [
+			new RequiredValidator('Enter your statement'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your statement must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
+	},
+	rule6AdditionalDocuments: {
+		type: 'boolean',
+		title: 'Add supporting documents',
+		question: 'Do you have additional documents to support your appeal statement?',
+		fieldName: 'rule6AdditionalDocuments',
+		url: 'additional-documents',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have additional documents to support your appeal statement'
+			)
+		]
+	},
+	uploadRule6StatementDocuments: {
+		type: 'multi-file-upload',
+		title: 'Supporting documents',
+		question: 'Upload your new supporting documents',
+		fieldName: 'uploadRule6StatementDocuments',
+		url: 'upload-supporting-documents',
+		validators: [
+			new RequiredFileUploadValidator('Select your new supporting documents'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadRule6StatementDocuments
+	},
 	appellantFinalComment: {
 		type: 'boolean',
 		title: 'Do you want to submit any final comments?',

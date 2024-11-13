@@ -74,6 +74,18 @@ const rule6ProofEvidenceSkipConditions = (question, journeyResponse) => {
  * @param {import('../journey-response').JourneyResponse} journeyResponse
  * @returns {boolean}
  */
+const rule6StatementSkipConditions = (question, journeyResponse) => {
+	if (question.fieldName === 'uploadRule6StatementDocuments') {
+		return journeyResponse.answers['rule6AdditionalDocuments'] !== 'yes';
+	}
+	return false;
+};
+
+/**
+ * @param {import('../section').Question} question
+ * @param {import('../journey-response').JourneyResponse} journeyResponse
+ * @returns {boolean}
+ */
 const lpaProofEvidenceSkipConditions = (question, journeyResponse) => {
 	if (question.fieldName === 'uploadLpaWitnessesEvidence') {
 		return journeyResponse.answers['lpaWitnesses'] !== 'yes';
@@ -87,5 +99,6 @@ module.exports = {
 	lpaFinalCommentSkipConditions,
 	appellantProofEvidenceSkipConditions,
 	rule6ProofEvidenceSkipConditions,
+	rule6StatementSkipConditions,
 	lpaProofEvidenceSkipConditions
 };

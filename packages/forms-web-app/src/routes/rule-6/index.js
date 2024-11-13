@@ -22,6 +22,7 @@ router.use(requireRule6User);
 
 router.use(require('./selected-appeal'));
 router.use(require('./proof-evidence'));
+router.use(require('./appeal-statement'));
 
 // router.get('/:appealNumber', selectedAppealController.get());
 // router.get('/:appealNumber/appeal-details', appealDetailsController.get());
