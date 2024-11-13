@@ -7,9 +7,9 @@ const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/librar
 
 /**
  * @typedef {Object} ProofOfEvidenceData
- * @property {boolean} [rule6ProofOfEvidenceDocuments]
+ * @property {boolean} [uploadRule6ProofOfEvidenceDocuments]
  * @property {boolean} [rule6Witnesses]
- * @property {boolean} [rule6WitnessesEvidence]
+ * @property {boolean} [uploadRule6WitnessesEvidence]
  */
 
 class Rule6ProofOfEvidenceSubmissionRepository {

@@ -36,7 +36,6 @@ class LPAStatementSubmissionRepository {
 							LPACode: true,
 							appealTypeCode: true,
 							caseReference: true,
-							finalCommentsDueDate: true,
 							siteAddressLine1: true,
 							siteAddressLine2: true,
 							siteAddressTown: true,

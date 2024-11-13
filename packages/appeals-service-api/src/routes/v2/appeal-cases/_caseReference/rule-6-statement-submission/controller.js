@@ -1,7 +1,7 @@
 const {
-	getRule6ProofOfEvidenceByAppealId,
-	createRule6ProofOfEvidence,
-	patchRule6ProofOfEvidenceByAppealId
+	getRule6StatementByAppealId,
+	createRule6Statement,
+	patchRule6StatementByAppealId
 } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
@@ -10,18 +10,18 @@ const { PrismaClientValidationError } = require('@prisma/client/runtime/library'
 /**
  * @type {import('express').RequestHandler}
  */
-async function getRule6ProofOfEvidenceSubmission(req, res) {
+async function getRule6StatementSubmission(req, res) {
 	const userId = req.auth?.payload.sub;
 
 	try {
-		const content = await getRule6ProofOfEvidenceByAppealId(userId, req.params.caseReference);
+		const content = await getRule6StatementByAppealId(userId, req.params.caseReference);
 		if (!content) {
-			throw ApiError.withMessage(404, 'Proof of evidence not found');
+			throw ApiError.withMessage(404, 'Rule 6 Statement not found');
 		}
 		res.status(200).send(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
-			logger.error(`Failed to get proof of evidence: ${error.code} // ${error.message.errors}`);
+			logger.error(`Failed to get rule 6 statement: ${error.code} // ${error.message.errors}`);
 			res.status(error.code || 500).send(error.message.errors);
 		} else {
 			logger.error(error);
@@ -33,18 +33,18 @@ async function getRule6ProofOfEvidenceSubmission(req, res) {
 /**
  * @type {import('express').RequestHandler}
  */
-async function createRule6ProofOfEvidenceSubmission(req, res) {
+async function createRule6StatementSubmission(req, res) {
 	const userId = req.auth?.payload.sub;
 
 	try {
-		const content = await createRule6ProofOfEvidence(userId, req.params.caseReference, req.body);
+		const content = await createRule6Statement(userId, req.params.caseReference, req.body);
 		if (!content) {
-			throw ApiError.withMessage(400, 'Unable to create proof of evidence');
+			throw ApiError.withMessage(400, 'Unable to create rule 6 statement');
 		}
 		res.status(200).send(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
-			logger.error(`Failed to create proof of evidence: ${error.code} // ${error.message.errors}`);
+			logger.error(`Failed to create rule 6 statement: ${error.code} // ${error.message.errors}`);
 			res.status(error.code || 500).send(error.message.errors);
 		} else {
 			logger.error(error);
@@ -56,22 +56,18 @@ async function createRule6ProofOfEvidenceSubmission(req, res) {
 /**
  * @type {import('express').RequestHandler}
  */
-async function patchRule6ProofOfEvidenceSubmission(req, res) {
+async function patchRule6StatementSubmission(req, res) {
 	const userId = req.auth?.payload.sub;
 
 	try {
-		const content = await patchRule6ProofOfEvidenceByAppealId(
-			userId,
-			req.params.caseReference,
-			req.body
-		);
+		const content = await patchRule6StatementByAppealId(userId, req.params.caseReference, req.body);
 		if (!content) {
-			throw ApiError.withMessage(404, 'Proof of evidence not found');
+			throw ApiError.withMessage(404, 'Rule 6 Statement not found');
 		}
 		res.status(200).send(content);
 	} catch (error) {
 		if (error instanceof ApiError) {
-			logger.error(`Failed to update proof of evidence: ${error.code} // ${error.message.errors}`);
+			logger.error(`Failed to update rule 6 statement: ${error.code} // ${error.message.errors}`);
 			res.status(error.code || 500).send(error.message.errors);
 		} else if (error instanceof PrismaClientValidationError) {
 			logger.error(`invalid request: ${error.message}`);
@@ -84,7 +80,7 @@ async function patchRule6ProofOfEvidenceSubmission(req, res) {
 }
 
 module.exports = {
-	getRule6ProofOfEvidenceSubmission,
-	createRule6ProofOfEvidenceSubmission,
-	patchRule6ProofOfEvidenceSubmission
+	getRule6StatementSubmission,
+	createRule6StatementSubmission,
+	patchRule6StatementSubmission
 };

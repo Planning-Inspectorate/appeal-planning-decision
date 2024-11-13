@@ -24,9 +24,6 @@ components:
               type: string
             caseReference:
               type: string
-            finalCommentsDueDate:
-              type: string
-              format: date-time
             siteAddressLine1:
               type: string
             siteAddressLine2:

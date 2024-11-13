@@ -1,9 +1,9 @@
 paths:
-  /api/v2/appeal-cases/{caseReference}/rule-6-proof-evidence-submission:
+  /api/v2/appeal-cases/{caseReference}/rule-6-statement-submission:
     get:
       tags:
         - rule 6 party submissions
-      description: Get proof of evidence submitted by a rule 6 party
+      description: Get statement submitted by a rule 6 party
       parameters:
         - in: path
           name: caseReference
@@ -13,11 +13,11 @@ paths:
           description: appeal case reference
       responses:
         200:
-          description: Returns the proof of evidence
+          description: Returns the statement
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Rule6ProofOfEvidenceSubmission'
+                $ref: '#/components/schemas/Rule6StatementSubmission'
         404:
           description: Not found
           content:
@@ -27,7 +27,7 @@ paths:
     post:
       tags:
         - rule 6 party submissions
-      description: Create a proof of evidence to be submitted by a rule 6 party
+      description: Create a statement to be submitted by a rule 6 party
       parameters:
         - in: path
           name: caseReference
@@ -37,11 +37,11 @@ paths:
           description: appeal case reference
       responses:
         200:
-          description: Returns the appellant proof of evidence
+          description: Returns the rule 6 party statement
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Rule6ProofOfEvidenceSubmission'
+                $ref: '#/components/schemas/Rule6StatementSubmission'
         400:
           description: Unable to create
           content:
@@ -51,7 +51,7 @@ paths:
     patch:
       tags:
         - rule 6 party submissions
-      description: Update a rule 6 party proof of evidence submission
+      description: Update a rule 6 party statement submission
       parameters:
         - in: path
           name: caseReference
@@ -64,14 +64,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Rule6ProofOfEvidenceSubmission'
+              $ref: '#/components/schemas/Rule6StatementSubmission'
       responses:
         200:
-          description: Returns the rule 6 party proof of evidence
+          description: Returns the rule 6 party statement
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Rule6ProofOfEvidenceSubmission'
+                $ref: '#/components/schemas/Rule6StatementSubmission'
         400:
           description: Bad request
           content:
