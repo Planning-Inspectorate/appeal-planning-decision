@@ -44,4 +44,8 @@ components:
           type: array
           items:
             type: object
+        Rule6StatementSubmission:
+          type: array
+          items:
+            type: object
 
