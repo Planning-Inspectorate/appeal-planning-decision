@@ -1,6 +1,9 @@
-const { formatBeforeYouStartSection } = require('./submission-information-utils');
+const {
+	formatBeforeYouStartSection,
+	formatQuestionnaireAppealInformationSection
+} = require('./submission-information-utils');
 const { getLPA, getLPAById } = require('../../../lib/appeals-api-wrapper');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { APPEALS_CASE_DATA, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 
 jest.mock('../../../lib/appeals-api-wrapper');
 
@@ -75,5 +78,66 @@ describe('formatBeforeYouStartSection', () => {
 				]
 			}
 		});
+	});
+});
+
+describe('formatQuestionnaireAppealInformationSection', () => {
+	it('formats section correctly', () => {
+		const appeal = {
+			appealTypeCode: 'HAS',
+			applicationReference: '123/abc/678',
+			users: [
+				{ firstName: 'Fname', lastName: 'Lname', serviceUserType: APPEAL_USER_ROLES.APPELLANT }
+			],
+			siteAddressLine1: 'Line 1',
+			siteAddressLine2: 'Line 2',
+			siteAddressTown: 'Town',
+			siteAddressPostcode: 'AB1 2CD'
+		};
+
+		const expectedResult = {
+			list: {
+				rows: [
+					{
+						key: {
+							text: 'Appeal type',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: {
+							html: 'Householder'
+						}
+					},
+					{
+						key: {
+							text: 'Appeal site',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: {
+							html: 'Line 1, Line 2, Town, AB1 2CD'
+						}
+					},
+					{
+						key: {
+							text: 'Applicant',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: {
+							html: 'Fname Lname'
+						}
+					},
+					{
+						key: {
+							text: 'Application number',
+							classes: 'govuk-!-width-one-half'
+						},
+						value: {
+							html: '123/abc/678'
+						}
+					}
+				]
+			}
+		};
+
+		expect(formatQuestionnaireAppealInformationSection(appeal)).toEqual(expectedResult);
 	});
 });

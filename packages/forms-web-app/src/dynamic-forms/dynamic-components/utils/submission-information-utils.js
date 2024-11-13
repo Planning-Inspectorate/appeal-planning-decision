@@ -1,5 +1,7 @@
 const { getLPA, getLPAById } = require('../../../lib/appeals-api-wrapper');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { formatAddress } = require('@pins/common/src/lib/format-address');
+const { formatApplicant } = require('@pins/common/src/lib/format-applicant');
 const typeCodeToSubmissionInformationString = {
 	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.HAS]: 'Householder',
 	[APPEALS_CASE_DATA.APPEAL_TYPE_CODE.S78]: 'Full planning'
@@ -55,6 +57,62 @@ exports.formatBeforeYouStartSection = async (appellantSubmission) => {
 					},
 					value: {
 						html: decisionDate
+					}
+				}
+			]
+		}
+	};
+};
+
+/**
+ *
+ * @param {import('appeals-service-api').Api.AppealCaseDetailed} appeal
+ * @returns
+ */
+
+exports.formatQuestionnaireAppealInformationSection = (appeal) => {
+	const { appealTypeCode } = appeal;
+	const appealType = typeCodeToSubmissionInformationString[appealTypeCode];
+	const address = formatAddress(appeal);
+	const applicantName = formatApplicant(appeal.users);
+
+	return {
+		list: {
+			rows: [
+				{
+					key: {
+						text: 'Appeal type',
+						classes: 'govuk-!-width-one-half'
+					},
+					value: {
+						html: appealType
+					}
+				},
+				{
+					key: {
+						text: 'Appeal site',
+						classes: 'govuk-!-width-one-half'
+					},
+					value: {
+						html: address
+					}
+				},
+				{
+					key: {
+						text: 'Applicant',
+						classes: 'govuk-!-width-one-half'
+					},
+					value: {
+						html: applicantName
+					}
+				},
+				{
+					key: {
+						text: 'Application number',
+						classes: 'govuk-!-width-one-half'
+					},
+					value: {
+						html: appeal.applicationReference
 					}
 				}
 			]
