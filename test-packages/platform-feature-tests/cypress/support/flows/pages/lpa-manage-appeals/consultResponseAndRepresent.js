@@ -8,7 +8,7 @@ export class ConsultResponseAndRepresent {
     selectOtherPartyRepresentations(context) {
         const basePage = new BasePage();
 
-        if(context?.consultResponseAndRepresent?.otherPartyRepresentations){
+        if(context?.consultResponseAndRepresent?.isOtherPartyRepresentations){
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();		
             cy.uploadFileFromFixtureDirectories('decision-letter.pdf');

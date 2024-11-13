@@ -6,297 +6,390 @@ export const houseHolderQuestionnaireTestCases = [
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: true,
-            listedBuildingEntry: '1010103',
-            affectedListedBuildings: true,
-            conservationArea: true,
+            isAffectListedBuildings: true,
+           // listedBuildingEntry: '1010103',
+            isAffectedListedBuildings: true,
+            isConservationArea: true,
             isGreenBelt: true,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: true,
+            isOtherPartyRepresentations: true,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: true,
+            isSupplementaryPlanningDocs: true,
+        },
         siteAccess:{
-            lpaSiteAccess: true,
-            neighbourSiteAccess: true,
-            lpaSiteSafetyRisks: true,
+            isLpaSiteAccess: true,
+            isNeighbourSiteAccess: true,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            nearbyAppeals: true,
-            newConditions: true,
+            isNearbyAppeals: true,
+            isNewConditions: true,
         },
         submit:{}
     },
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: false,
+            isAffectListedBuildings: false,
             //listedBuildingEntry: '1010103',
-            affectedListedBuildings: true,
-            conservationArea: true,
+            isAffectedListedBuildings: true,
+            isConservationArea: true,
             isGreenBelt: true,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: true,
+            isOtherPartyRepresentations: true,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: true,
+            isSupplementaryPlanningDocs: true,
+        },
         siteAccess:{
-            lpaSiteAccess: true,
-            neighbourSiteAccess: true,
-            lpaSiteSafetyRisks: true,
+            isLpaSiteAccess: true,
+            isNeighbourSiteAccess: true,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            nearbyAppeals: true,
-            newConditions: true,
+            isNearbyAppeals: true,
+            isNewConditions: true,
         },
         submit:{}
     },
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: false,
+            isAffectListedBuildings: false,
             //listedBuildingEntry: '1010103',
-            affectedListedBuildings: false,
-            conservationArea: true,
+            isAffectedListedBuildings: false,
+            isConservationArea: true,
             isGreenBelt: true,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: true,
+            isOtherPartyRepresentations: true,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: true,
+            isSupplementaryPlanningDocs: true,
+        },
         siteAccess:{
-            lpaSiteAccess: true,
-            neighbourSiteAccess: true,
-            lpaSiteSafetyRisks: true,
+            isLpaSiteAccess: true,
+            isNeighbourSiteAccess: true,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            nearbyAppeals: true,
-            newConditions: true,
+            isNearbyAppeals: true,
+            isNewConditions: true,
         },
         submit:{}
     },
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: false,
+            isAffectListedBuildings: false,
             //listedBuildingEntry: '1010103',
-            affectedListedBuildings: false,
-            conservationArea: false,
+            isAffectedListedBuildings: false,
+            isConservationArea: false,
             isGreenBelt: true,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: true,
+            isOtherPartyRepresentations: true,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: true,
+            isSupplementaryPlanningDocs: true,
+        },
         siteAccess:{
-            lpaSiteAccess: true,
-            neighbourSiteAccess: true,
-            lpaSiteSafetyRisks: true,
+            isLpaSiteAccess: true,
+            isNeighbourSiteAccess: true,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            nearbyAppeals: true,
-            newConditions: true,
+            isNearbyAppeals: true,
+            isNewConditions: true,
         },
         submit:{}
     },
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: false,
+            isAffectListedBuildings: false,
             //listedBuildingEntry: '1010103',
-            affectedListedBuildings: false,
-            conservationArea: false,
+            isAffectedListedBuildings: false,
+            isConservationArea: false,
             isGreenBelt: false,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: true,
+            isOtherPartyRepresentations: true,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: true,
+            isSupplementaryPlanningDocs: true,
+        },
         siteAccess:{
-            lpaSiteAccess: true,
-            neighbourSiteAccess: true,
-            lpaSiteSafetyRisks: true,
+            isLpaSiteAccess: true,
+            isNeighbourSiteAccess: true,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            nearbyAppeals: true,
-            newConditions: true,
+            isNearbyAppeals: true,
+            isNewConditions: true,
         },
         submit:{}
     },
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: false,
+            isAffectListedBuildings: false,
             //listedBuildingEntry: '1010103',
-            affectedListedBuildings: false,
-            conservationArea: false,
+            isAffectedListedBuildings: false,
+            isConservationArea: false,
             isGreenBelt: false,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: false,
+            isOtherPartyRepresentations: false,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: true,
+            isSupplementaryPlanningDocs: true,
+        },
         siteAccess:{
-            lpaSiteAccess: true,
-            neighbourSiteAccess: true,
-            lpaSiteSafetyRisks: true,
+            isLpaSiteAccess: true,
+            isNeighbourSiteAccess: true,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            nearbyAppeals: true,
-            newConditions: true,
+            isNearbyAppeals: true,
+            isNewConditions: true,
         },
         submit:{}
     },
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: false,
+            isAffectListedBuildings: false,
             //listedBuildingEntry: '1010103',
-            affectedListedBuildings: false,
-            conservationArea: false,
+            isAffectedListedBuildings: false,
+            isConservationArea: false,
             isGreenBelt: false,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: false,
+            isOtherPartyRepresentations: false,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: true,
+            isSupplementaryPlanningDocs: true,
+        },
         siteAccess:{
-            lpaSiteAccess: false,
-            neighbourSiteAccess: true,
-            lpaSiteSafetyRisks: true,
+            isLpaSiteAccess: true,
+            isNeighbourSiteAccess: true,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            nearbyAppeals: true,
-            newConditions: true,
+            isNearbyAppeals: true,
+            isNewConditions: true,
         },
         submit:{}
     },
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: false,
+            isAffectListedBuildings: false,
             //listedBuildingEntry: '1010103',
-            affectedListedBuildings: false,
-            conservationArea: false,
+            isAffectedListedBuildings: false,
+            isConservationArea: false,
             isGreenBelt: false,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: false,
+            isOtherPartyRepresentations: false,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: false,
+            isSupplementaryPlanningDocs: true,
+        },
         siteAccess:{
-            lpaSiteAccess: false,
-            neighbourSiteAccess: false,
-            lpaSiteSafetyRisks: true,
+            isLpaSiteAccess: true,
+            isNeighbourSiteAccess: true,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            nearbyAppeals: true,
-            newConditions: true,
+            isNearbyAppeals: true,
+            isNewConditions: true,
         },
         submit:{}
     },
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: false,
+            isAffectListedBuildings: false,
             //listedBuildingEntry: '1010103',
-            affectedListedBuildings: false,
-            conservationArea: false,
+            isAffectedListedBuildings: false,
+            isConservationArea: false,
             isGreenBelt: false,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: false,
+            isOtherPartyRepresentations: false,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: false,
+            isSupplementaryPlanningDocs: false,
+        },
         siteAccess:{
-            lpaSiteAccess: false,
-            neighbourSiteAccess: false,
-            lpaSiteSafetyRisks: false,
+            isLpaSiteAccess: false,
+            isNeighbourSiteAccess: true,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            nearbyAppeals: true,
-            newConditions: true,
+            isNearbyAppeals: true,
+            isNewConditions: true,
         },
         submit:{}
     },
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: false,
+            isAffectListedBuildings: false,
             //listedBuildingEntry: '1010103',
-            affectedListedBuildings: false,
-            conservationArea: false,
+            isAffectedListedBuildings: false,
+            isConservationArea: false,
             isGreenBelt: false,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: false,
+            isOtherPartyRepresentations: false,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: false,
+            isSupplementaryPlanningDocs: false,
+        },
         siteAccess:{
-            lpaSiteAccess: false,
-            neighbourSiteAccess: false,
-            lpaSiteSafetyRisks: false,
+            isLpaSiteAccess: false,
+            isNeighbourSiteAccess: false,
+            isLpaSiteSafetyRisks: true,
         },
         appealProcess:{
-            nearbyAppeals: false,
-            newConditions: true,
+            isNearbyAppeals: true,
+            isNewConditions: true,
         },
         submit:{}
     },
     {  
         constraintsAndDesignations:{
             isCorrectTypeOfAppeal: true,
-            affectListedBuildings: false,
+            isAffectListedBuildings: false,
             //listedBuildingEntry: '1010103',
-            affectedListedBuildings: false,
-            conservationArea: false,
+            isAffectedListedBuildings: false,
+            isConservationArea: false,
             isGreenBelt: false,
         },
         notifyParties:{
 
         },
         consultResponseAndRepresent:{
-            otherPartyRepresentations: false,
+            isOtherPartyRepresentations: false,
         },
-        poReportAndSupportDocs:{},
+        poReportAndSupportDocs:{
+            isEmergingPlan: false,
+            isSupplementaryPlanningDocs: false,
+        },
         siteAccess:{
-            lpaSiteAccess: false,
-            neighbourSiteAccess: false,
-            lpaSiteSafetyRisks: false,
+            isLpaSiteAccess: false,
+            isNeighbourSiteAccess: false,
+            isLpaSiteSafetyRisks: false,
         },
         appealProcess:{
-            nearbyAppeals: false,
-            newConditions: false,
+            isNearbyAppeals: true,
+            isNewConditions: true,
+        },
+        submit:{}
+    },
+    {  
+        constraintsAndDesignations:{
+            isCorrectTypeOfAppeal: true,
+            isAffectListedBuildings: false,
+            //listedBuildingEntry: '1010103',
+            isAffectedListedBuildings: false,
+            isConservationArea: false,
+            isGreenBelt: false,
+        },
+        notifyParties:{
+
+        },
+        consultResponseAndRepresent:{
+            isOtherPartyRepresentations: false,
+        },
+        poReportAndSupportDocs:{
+            isEmergingPlan: false,
+            isSupplementaryPlanningDocs: false,
+        },
+        siteAccess:{
+            isLpaSiteAccess: false,
+            isNeighbourSiteAccess: false,
+            isLpaSiteSafetyRisks: false,
+        },
+        appealProcess:{
+            isNearbyAppeals: false,
+            isNewConditions: true,
+        },
+        submit:{}
+    },
+    {  
+        constraintsAndDesignations:{
+            isCorrectTypeOfAppeal: true,
+            isAffectListedBuildings: false,
+            //listedBuildingEntry: '1010103',
+            isAffectedListedBuildings: false,
+            isConservationArea: false,
+            isGreenBelt: false,
+        },
+        notifyParties:{
+
+        },
+        consultResponseAndRepresent:{
+            isOtherPartyRepresentations: false,
+        },
+        poReportAndSupportDocs:{
+            isEmergingPlan: false,
+            isSupplementaryPlanningDocs: false,
+        },
+        siteAccess:{
+            isLpaSiteAccess: false,
+            isNeighbourSiteAccess: false,
+            isLpaSiteSafetyRisks: false,
+        },
+        appealProcess:{
+            isNearbyAppeals: false,
+            isNewConditions: false,
         },
         submit:{}
     }

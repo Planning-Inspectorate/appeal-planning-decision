@@ -1,5 +1,5 @@
 import { BasePage } from "../../../../page-objects/base-page";
-export class SiteAccess {
+export class EnvImpactAssess {
     _selectors = {
        lpaSiteAccessLpaSiteAccessDetails: '#lpaSiteAccess_lpaSiteAccessDetails',
        neighbourSiteAccessNeighbourSiteAccessDetails: '#neighbourSiteAccess_neighbourSiteAccessDetails',
@@ -11,7 +11,7 @@ export class SiteAccess {
        lpaSiteSafetyRisksLpaSiteSafetyRiskDetails:'#lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails'
     }
 
-    selectLpaSiteAccess(context,lpaQuestionnaireData) {
+    selectScheduleType(context,lpaQuestionnaireData) {
         const basePage = new BasePage();
         if(context?.siteAccess?.isLpaSiteAccess){
             cy.getByData(basePage?._selectors.answerYes).click();
@@ -23,7 +23,7 @@ export class SiteAccess {
         }
     };
 
-    selectNeighbourSiteAccess(context,lpaQuestionnaireData){
+    selectIssuedScreeningOption(context,lpaQuestionnaireData){
         const basePage = new BasePage();
         if(context?.siteAccess?.isNeighbourSiteAccess){
             cy.getByData(basePage?._selectors.answerYes).click();
@@ -49,7 +49,7 @@ export class SiteAccess {
             cy.advanceToNextPage();		
         }
     };
-    selectLpaSiteSafetyRisks(context,lpaQuestionnaireData){
+    selectEnvironmentalImpactAsses(context,lpaQuestionnaireData){
         const basePage = new BasePage();
         if(context?.siteAccess?.isLpaSiteSafetyRisks){
             cy.getByData(basePage?._selectors.answerYes).click();

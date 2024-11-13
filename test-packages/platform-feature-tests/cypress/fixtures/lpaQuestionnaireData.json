@@ -2,10 +2,12 @@
     "emailAddress":"admin1@planninginspectorate.gov.uk",
     "emailCode":"12345",    
     "hasAppealType":"HAS",
+    "s78AppealType":"S78",
     "todoInvalid":"INVALID",
     "todoQuestionnaire": "questionnaire",
     "appealType": "Appeal type",
     "appealTypeHouseholder":"Householder",
+    "appealTypeFullPlanning":"Full Planning",
     "questionnaireChange":"Change",
     "questionnaireAnswer":"Answer",
     "submitQuestionnaire":"submit-questionnaire",
@@ -13,8 +15,19 @@
     "addAndRemoveUsers":"Add and remove users",
     "constraintsAndDesignations":{
         "correctTypeOfAppeal":"Is this the correct type of appeal?",
+        "addChangedListedBuilding":"Add another building or site?",
+        "changedListedBuildingNumber":"1010101",
+        "chagesListedBuilding":"Does the proposed development change a listed building?",
         "addAnotherBuilding":"Add another building or site?",
-        "listedBuildingNumber":"1010103"
+        "listedBuildingNumber":"1010103",
+        "affectsScheduledMonument":"Would the development affect a scheduled monument?",
+        "conservationArea":"Is the site in, or next to a conservation area?",
+        "protectedSpecies":"Would the development affect a protected species?",
+        "areaOutstandingBeauty":"Is the appeal site in an area of outstanding natural beauty?",
+        "designatedSitesOtherDesignations":"Other designations",
+        "treePreservationOrder":"Does a Tree Preservation Order (TPO) apply to any part of the appeal site?",
+        "gypsyTraveller":"Does the development relate to anyone claiming to be a Gypsy or Traveller?",
+        "publicRightOfWay":"Would a public right of way need to be removed or diverted?"
     },
     "notifyParties":{
         "siteNotice":"A site notice",

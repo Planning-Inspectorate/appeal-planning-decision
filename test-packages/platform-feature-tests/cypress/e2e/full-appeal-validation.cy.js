@@ -118,7 +118,7 @@ describe('Full Appeal Validations', () => {
         cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type('@12345');
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter the correct code');        
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter the code we sent to your email address');        
     });
 
     it(`Validate change URL for application name in task link page `, () => {
