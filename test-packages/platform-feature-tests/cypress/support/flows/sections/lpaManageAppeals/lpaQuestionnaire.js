@@ -63,11 +63,14 @@ export const lpaQuestionnaire = (context,lpaQuestionnaireData) => {
 	constraintsAndDesignations.selectCorrectTypeOfAppeal(context);	
 	constraintsAndDesignations.selectAffectListedBuildings(context,lpaQuestionnaireData);
 	constraintsAndDesignations.selectConservationArea(context);	
-	constraintsAndDesignations.selectIsGreenBelt(context);	
+	constraintsAndDesignations.selectGreenBelt(context);	
 	notifyParties.selectAndNotifyParties(context,lpaQuestionnaireData);
 	consultResponseAndRepresent.selectOtherPartyRepresentations(context);
 	//Planning officer's report and supplementary documents
 	poReportAndSupportDocs.selectPOReportAndSupportDocs(context);
+	poReportAndSupportDocs.selectEmergingPlans(context);
+	poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
+
 	//Site access
 	siteAccess.selectLpaSiteAccess(context,lpaQuestionnaireData);	
 	siteAccess.selectNeighbourSiteAccess(context,lpaQuestionnaireData);
