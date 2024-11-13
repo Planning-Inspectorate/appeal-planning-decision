@@ -2363,7 +2363,7 @@ exports.questionProps = {
 	},
 	uploadLpaProofOfEvidenceDocuments: {
 		type: 'multi-file-upload',
-		title: 'Upload your proof of evidence and summary',
+		title: 'Your proof of evidence and summary',
 		question: 'Upload your proof of evidence and summary',
 		fieldName: 'uploadLpaProofOfEvidenceDocuments',
 		html: 'resources/upload-proof-evidence/content.html',
