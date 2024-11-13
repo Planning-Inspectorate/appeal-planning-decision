@@ -74,6 +74,7 @@ model AppealUser {
   /// a security token this user can use to access our service(s)
   SecurityToken                  SecurityToken?
   Rule6ProofOfEvidenceSubmission Rule6ProofOfEvidenceSubmission[]
+  Rule6StatementSubmission       Rule6StatementSubmission[]
 }
 
 /// SecurityToken is used as a mechanism for users to login
@@ -410,6 +411,7 @@ model AppealCase {
   AppealStatements                AppealStatement[]
   FinalComments                   FinalComment[]
   Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
+  Rule6StatementSubmission        Rule6StatementSubmission?
 }
 
 /// AppealCase relations
@@ -927,6 +929,32 @@ model LPAStatementSubmission {
   SubmissionDocumentUpload    SubmissionDocumentUpload[]
 }
 
+model Rule6StatementSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  caseReference String     @unique
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  /// relation to a User - required as can have more than one rule6 party per apeal
+  userId     String     @db.UniqueIdentifier
+  AppealUser AppealUser @relation(fields: [userId], references: [id])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the lpa statement has been submitted to BO
+
+  rule6Statement                String?
+  rule6AdditionalDocuments      Boolean?
+  uploadRule6StatementDocuments Boolean?
+
+  // Uploaded documents and details linked to this statement
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
+}
+
 model AppellantProofOfEvidenceSubmission {
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
@@ -1067,8 +1095,11 @@ model SubmissionDocumentUpload {
   lpaProofOfEvidenceId         String?                       @db.UniqueIdentifier
   LPAProofOfEvidenceSubmission LPAProofOfEvidenceSubmission? @relation(fields: [lpaProofOfEvidenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  Rule6ProofOfEvidenceSubmission   Rule6ProofOfEvidenceSubmission? @relation(fields: [rule6ProofOfEvidenceSubmissionId], references: [id])
+  Rule6ProofOfEvidenceSubmission   Rule6ProofOfEvidenceSubmission? @relation(fields: [rule6ProofOfEvidenceSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   rule6ProofOfEvidenceSubmissionId String?                         @db.UniqueIdentifier
+
+  Rule6StatementSubmission   Rule6StatementSubmission? @relation(fields: [rule6StatementSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rule6StatementSubmissionId String?                   @db.UniqueIdentifier
 
   name             String
   fileName         String

@@ -607,3 +607,6 @@ components:
 
         Rule6ProofOfEvidenceSubmission:
           $ref: '#/components/schemas/Rule6ProofOfEvidenceSubmission'
+
+        Rule6StatementSubmission:
+          $ref: '#/components/schemas/Rule6StatementSubmission'

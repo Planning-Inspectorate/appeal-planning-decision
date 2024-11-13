@@ -481,6 +481,8 @@ export interface AppealCase {
 	AppellantProofOfEvidenceSubmission?: AppellantProofOfEvidenceSubmission;
 	/** Proof of evidence submitted by a rule 6 party */
 	Rule6ProofOfEvidenceSubmission?: Rule6ProofOfEvidenceSubmission;
+	/** A statement submitted by a Rule 6 Party */
+	Rule6StatementSubmission?: Rule6StatementSubmission;
 }
 
 /** A statement document linked to an appeal statement */
@@ -591,6 +593,7 @@ export interface AppealUser {
 	lpaStatus?: 'added' | 'confirmed' | 'removed';
 	Rule6Parties?: object[];
 	Rule6ProofOfEvidenceSubmission?: object[];
+	Rule6StatementSubmission?: object[];
 }
 
 /** A final comment submitted by an appellant */
@@ -1322,6 +1325,36 @@ export interface Rule6ProofOfEvidenceSubmission {
 	uploadRule6ProofOfEvidenceDocuments?: boolean;
 	rule6Witnesses?: boolean;
 	uploadRule6WitnessesEvidence?: boolean;
+	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
+}
+
+/** A statement submitted by a Rule 6 Party */
+export interface Rule6StatementSubmission {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	AppealCase: {
+		LPACode: string;
+		appealTypeCode?: string;
+		caseReference?: string;
+		/** @format date-time */
+		finalCommentsDueDate?: string;
+		siteAddressLine1?: string;
+		siteAddressLine2?: string;
+		siteAddressTown?: string;
+		siteAddressCounty?: string;
+		siteAddressPostcode?: string;
+	};
+	userId?: string;
+	/** @format date-time */
+	createdAt?: string;
+	/** @format date-time */
+	updatedAt?: string;
+	/** whether the statement has been submitted to BO */
+	submitted?: boolean;
+	rule6Statement?: string;
+	rule6AdditionalDocuments?: boolean;
+	uploadRule6StatementDocuments?: boolean;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 
