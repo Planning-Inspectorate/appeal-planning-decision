@@ -132,7 +132,7 @@ exports.questionProps = {
 				new RequiredValidator('Enter a list entry number'),
 				new StringEntryValidator(listedBuildingNumberValidation)
 			],
-			viewFolder: 'identifier'
+			viewFolder: 'add-more'
 		}
 	},
 	affectedListedBuildings: {
@@ -159,7 +159,7 @@ exports.questionProps = {
 				new RequiredValidator('Enter a list entry number'),
 				new StringEntryValidator(listedBuildingNumberValidation)
 			],
-			viewFolder: 'identifier'
+			viewFolder: 'add-more'
 		}
 	},
 	conservationArea: {
@@ -557,7 +557,7 @@ exports.questionProps = {
 				new RequiredValidator('Enter an appeal reference number'),
 				new StringEntryValidator(appealReferenceNumberValidation)
 			],
-			viewFolder: 'identifier'
+			viewFolder: 'add-more'
 		}
 	},
 	addNewConditions: {
@@ -1595,7 +1595,7 @@ exports.questionProps = {
 				new RequiredValidator('Enter the appeal reference number'),
 				new StringEntryValidator(appealReferenceNumberValidation)
 			],
-			viewFolder: 'identifier'
+			viewFolder: 'add-more'
 		}
 	},
 	applicationName: {
