@@ -6,7 +6,7 @@ import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
 
-export const lpaQuestionnaire = (context,lpaQuestionnaireData) => {
+export const fullAppealQuestionnaire = (context,lpaQuestionnaireData) => {
 //module.exports = (context,lpaQuestionnaireData) => {
 	const basePage = new BasePage();
 	const constraintsAndDesignations = new ConstraintsAndDesignations();
@@ -20,12 +20,12 @@ export const lpaQuestionnaire = (context,lpaQuestionnaireData) => {
 	cy.get(basePage?._selectors.trgovukTableRow).each(($row)=> {
 		const rowtext=$row.text();
 		//cy.log('countercheck',counter);
-		if(rowtext.includes(lpaQuestionnaireData?.hasAppealType) && !rowtext.includes(lpaQuestionnaireData?.todoInvalid)) {
-			if(counter === 1){		
+		if(rowtext.includes(lpaQuestionnaireData?.s78AppealType) && !rowtext.includes(lpaQuestionnaireData?.todoInvalid)) {
+			if(counter === 0){		
 			cy.log(rowtext);
 		
 			cy.wrap($row).within(() => {
-			cy.get(basePage?._selectors.trgovukTableCell).contains(lpaQuestionnaireData?.hasAppealType).should('be.visible');
+			cy.get(basePage?._selectors.trgovukTableCell).contains(lpaQuestionnaireData?.s78AppealType).should('be.visible');
 			//Log all below links for debug
 			cy.get('a').each(($link) => {
 				if($link.attr('href')?.includes(lpaQuestionnaireData?.todoQuestionnaire)){
@@ -47,7 +47,7 @@ export const lpaQuestionnaire = (context,lpaQuestionnaireData) => {
 		cy.get(basePage?._selectors.govukSummaryListRow).each(($row)=>{
 			const $key = $row.find(basePage?._selectors.govukSummaryListKey);
 			if($key.text().trim() === lpaQuestionnaireData?.appealType) {
-				cy.wrap($row).find(basePage?._selectors.govukSummaryListValue).should('contain.text', lpaQuestionnaireData?.appealTypeHouseholder);
+				cy.wrap($row).find(basePage?._selectors.govukSummaryListValue).should('contain.text', lpaQuestionnaireData?.appealTypeFullPlanning);
 			return false;
 			} 
 		});
@@ -60,17 +60,21 @@ export const lpaQuestionnaire = (context,lpaQuestionnaireData) => {
 			cy.wrap($link).contains(lpaQuestionnaireData?.questionnaireChange).click();
 		}
 	});
-	constraintsAndDesignations.selectCorrectTypeOfAppeal(context);	
+	constraintsAndDesignations.selectCorrectTypeOfAppeal(context);
+	constraintsAndDesignations.selectChangesListedBuilding(context,lpaQuestionnaireData);
 	constraintsAndDesignations.selectAffectListedBuildings(context,lpaQuestionnaireData);
+	constraintsAndDesignations.selectScheduledMonument(context);	
 	constraintsAndDesignations.selectConservationArea(context);	
-	constraintsAndDesignations.selectGreenBelt(context);	
+    constraintsAndDesignations.selectProtectedSpecies(context);
+	constraintsAndDesignations.selectGreenBelt(context);
+	constraintsAndDesignations.selectAreaOfOutstandingNaturalBeauty(context,lpaQuestionnaireData);
+	constraintsAndDesignations.selectTreePreservationOrder(context);
+	constraintsAndDesignations.selectGypsyTraveller(context);
+	constraintsAndDesignations.selectPublicRightOfWay(context);
 	notifyParties.selectAndNotifyParties(context,lpaQuestionnaireData);
 	consultResponseAndRepresent.selectOtherPartyRepresentations(context);
 	//Planning officer's report and supplementary documents
 	poReportAndSupportDocs.selectPOReportAndSupportDocs(context);
-	poReportAndSupportDocs.selectEmergingPlans(context);
-	poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
-
 	//Site access
 	siteAccess.selectLpaSiteAccess(context,lpaQuestionnaireData);	
 	siteAccess.selectNeighbourSiteAccess(context,lpaQuestionnaireData);
