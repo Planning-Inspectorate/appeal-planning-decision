@@ -2,6 +2,7 @@ const indexController = require('./index');
 
 const { mockRes } = require('../../../../__tests__/unit/mocks');
 const { LPA_USER_ROLE } = require('@pins/common/src/constants');
+const { APPEAL_CASE_STAGE } = require('pins-data-model');
 
 const { VIEW } = require('#lib/views');
 const { determineUser } = require('#lib/determine-user');
@@ -74,7 +75,8 @@ const expectedViewContext = {
 		siteAccessDetails: 'some formatted row data',
 		appealProcessDetails: 'some formatted row data'
 	},
-	pdfDownloadUrl: 'a/fake/url?pdf=true'
+	pdfDownloadUrl: 'a/fake/url?pdf=true',
+	zipDownloadUrl: `a/fake/url/download/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`
 };
 
 describe('controllers/selected-appeal/questionnaire-details/index', () => {
@@ -140,7 +142,8 @@ describe('controllers/selected-appeal/questionnaire-details/index', () => {
 
 			const pdfExpectedViewContext = {
 				...expectedViewContext,
-				pdfDownloadUrl: undefined
+				pdfDownloadUrl: undefined,
+				zipDownloadUrl: undefined
 			};
 
 			addCSStoHtml.mockReturnValue(testHtmlWithCSS);

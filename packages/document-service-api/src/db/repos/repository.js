@@ -64,6 +64,17 @@ class DocumentsRepository {
 	}
 
 	/**
+	 *
+	 * @param params
+	 * @returns {Promise<import("@prisma/client").Document[]>}
+	 */
+	async getDocuments(params) {
+		return await this.dbClient.document.findMany({
+			where: params
+		});
+	}
+
+	/**
 	 * @param {Object} params
 	 * @param {string} params.appealId
 	 * @param {string} params.userId
