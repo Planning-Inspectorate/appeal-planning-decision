@@ -2,17 +2,17 @@ const { createPrismaClient } = require('#db-client');
 const { PrismaClientKnownRequestError } = require('@prisma/client/runtime/library');
 
 /**
- * @typedef {import('@prisma/client').Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
+ * @typedef {import('@prisma/client').Rule6StatementSubmission} Rule6StatementSubmission
  */
 
 /**
- * @typedef {Object} ProofOfEvidenceData
- * @property {boolean} [rule6ProofOfEvidenceDocuments]
- * @property {boolean} [rule6Witnesses]
- * @property {boolean} [rule6WitnessesEvidence]
+ * @typedef {Object} Rule6StatementData
+ * @property {string} [rule6Statement]
+ * @property {boolean} [rule6AdditionalDocuments]
+ * @property {boolean} [uploadRule6StatementDocuments]
  */
 
-class Rule6ProofOfEvidenceSubmissionRepository {
+class Rule6StatementSubmissionRepository {
 	dbClient;
 
 	constructor() {
@@ -20,15 +20,15 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	}
 
 	/**
-	 * Get rule6 party proof of evidence for given appeal
+	 * Get rule6 party statement for given appeal
 	 *
 	 * @param {string} userId
 	 * @param {string} caseReference
-	 * @returns {Promise<Rule6ProofOfEvidenceSubmission|null>}
+	 * @returns {Promise<Rule6StatementSubmission|null>}
 	 */
-	async getRule6ProofOfEvidenceByAppealRef(userId, caseReference) {
+	async getRule6StatementByAppealRef(userId, caseReference) {
 		try {
-			return await this.dbClient.rule6ProofOfEvidenceSubmission.findUnique({
+			return await this.dbClient.rule6StatementSubmission.findUnique({
 				where: {
 					caseReference,
 					userId
@@ -43,8 +43,7 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 							siteAddressTown: true,
 							siteAddressCounty: true,
 							siteAddressPostcode: true,
-							applicationReference: true,
-							finalCommentsDueDate: true
+							applicationReference: true
 						}
 					},
 					SubmissionDocumentUpload: true
@@ -62,15 +61,15 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	}
 
 	/**
-	 * Create rule 6 proof of evidence for given appeal
+	 * Create rule 6 statement for given appeal
 	 *
 	 * @param {string} userId
 	 * @param {string} caseReference
-	 * @param {ProofOfEvidenceData} data
-	 * @returns {Promise<Omit<Rule6ProofOfEvidenceSubmission, 'SubmissionDocumentUpload'>>}
+	 * @param {Rule6StatementData} data
+	 * @returns {Promise<Omit<Rule6StatementSubmission, 'SubmissionDocumentUpload'>>}
 	 */
-	async createRule6ProofOfEvidence(userId, caseReference, data) {
-		return await this.dbClient.rule6ProofOfEvidenceSubmission.create({
+	async createRule6Statement(userId, caseReference, data) {
+		return await this.dbClient.rule6StatementSubmission.create({
 			data: {
 				userId,
 				caseReference,
@@ -91,11 +90,11 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	 *
 	 * @param {string} userId
 	 * @param {string} caseReference
-	 * @param {ProofOfEvidenceData} data
-	 * @returns {Promise<Omit<Rule6ProofOfEvidenceSubmission, 'SubmissionDocumentUpload'>>}
+	 * @param {Rule6StatementData} data
+	 * @returns {Promise<Omit<Rule6StatementSubmission, 'SubmissionDocumentUpload'>>}
 	 */
-	async patchRule6ProofOfEvidenceByAppealId(userId, caseReference, data) {
-		return await this.dbClient.rule6ProofOfEvidenceSubmission.update({
+	async patchRule6StatementByAppealId(userId, caseReference, data) {
+		return await this.dbClient.rule6StatementSubmission.update({
 			where: {
 				caseReference,
 				userId
@@ -118,8 +117,8 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	 * @param {string} submissionDate
 	 * @returns {Promise<{id: string}>}
 	 */
-	markRule6ProofOfEvidenceAsSubmitted(userId, caseReference, submissionDate) {
-		return this.dbClient.rule6ProofOfEvidenceSubmission.update({
+	markRule6StatementAsSubmitted(userId, caseReference, submissionDate) {
+		return this.dbClient.rule6StatementSubmission.update({
 			where: {
 				caseReference,
 				userId
@@ -132,8 +131,8 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 							caseReference
 						},
 						data: {
-							rule6ProofEvidenceSubmitted: true,
-							rule6ProofEvidenceSubmittedDate: submissionDate
+							rule6StatementSubmitted: true,
+							rule6StatementSubmittedDate: submissionDate
 						}
 					}
 				}
@@ -145,4 +144,4 @@ class Rule6ProofOfEvidenceSubmissionRepository {
 	}
 }
 
-module.exports = { Rule6ProofOfEvidenceSubmissionRepository };
+module.exports = { Rule6StatementSubmissionRepository };

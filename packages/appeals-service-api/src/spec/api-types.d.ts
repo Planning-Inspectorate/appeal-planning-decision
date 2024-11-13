@@ -1337,8 +1337,6 @@ export interface Rule6StatementSubmission {
 		LPACode: string;
 		appealTypeCode?: string;
 		caseReference?: string;
-		/** @format date-time */
-		finalCommentsDueDate?: string;
 		siteAddressLine1?: string;
 		siteAddressLine2?: string;
 		siteAddressTown?: string;

@@ -1,8 +1,8 @@
 const express = require('express');
 const {
-	getRule6ProofOfEvidenceSubmission,
-	patchRule6ProofOfEvidenceSubmission,
-	createRule6ProofOfEvidenceSubmission
+	getRule6StatementSubmission,
+	patchRule6StatementSubmission,
+	createRule6StatementSubmission
 } = require('./controller');
 const { AUTH } = require('@pins/common/src/constants');
 const config = require('../../../../../configuration/config');
@@ -28,9 +28,9 @@ router.use(
 	})
 );
 
-// Rule 6 Proof Of Evidence routes
-router.get('/', asyncHandler(getRule6ProofOfEvidenceSubmission));
-router.post('/', rule6PartyCanModifyCase, asyncHandler(createRule6ProofOfEvidenceSubmission));
-router.patch('/', rule6PartyCanModifyCase, asyncHandler(patchRule6ProofOfEvidenceSubmission));
+// Rule 6 Statement routes
+router.get('/', asyncHandler(getRule6StatementSubmission));
+router.post('/', rule6PartyCanModifyCase, asyncHandler(createRule6StatementSubmission));
+router.patch('/', rule6PartyCanModifyCase, asyncHandler(patchRule6StatementSubmission));
 
 module.exports = { router };
