@@ -33,6 +33,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
+ * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
  */
 
 // Data model types
@@ -669,6 +670,59 @@ class AppealsApiClient {
 	async submitRule6ProofOfEvidenceSubmission(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-proof-evidence-submission/submit`;
 		await this.#makePostRequest(endpoint);
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(Rule6StatementSubmission)>}
+	 */
+	async getRule6StatementSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-statement-submission`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<(Rule6StatementSubmission)>}
+	 */
+	async postRule6StatementSubmission(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-statement-submission`;
+		const response = await this.#makePostRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(Rule6StatementSubmission)>}
+	 */
+	async patchRule6StatementSubmission(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-statement-submission`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {object} data
+	 * @returns {Promise<(Rule6StatementSubmission)>}
+	 */
+	async postRule6StatementDocumentUpload(caseReference, data) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-statement-submission/document-upload`;
+		const response = await this.#makePostRequest(endpoint, data);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} documentId
+	 * @returns {Promise<(Rule6StatementSubmission)>}
+	 */
+	async deleteRule6StatementDocumentUpload(caseReference, documentId) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/rule-6-statement-submission/document-upload/${documentId}`;
+		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
 	}
 
 	/**
