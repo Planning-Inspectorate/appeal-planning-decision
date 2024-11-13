@@ -18,6 +18,7 @@ const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 const { addCSStoHtml } = require('#lib/add-css-to-html');
 const { generatePDF } = require('#lib/pdf-api-wrapper');
+const { APPEAL_CASE_STAGE } = require('pins-data-model');
 
 /**
  * Shared controller for /appeals/:caseRef/appeal-details, manage-appeals/:caseRef/appeal-details rule-6-appeals/:caseRef/appeal-details
@@ -28,7 +29,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 	return async (req, res) => {
 		const appealNumber = req.params.appealNumber;
 		const trailingSlashRegex = /\/$/;
-		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '');
+		const userRouteUrl = req.originalUrl.replace(trailingSlashRegex, '').split('?')[0];
 
 		// determine user based on route to selected appeal
 		//i.e '/appeals/' = appellant | agent
@@ -41,8 +42,10 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		const isPagePdfDownload = req.query.pdf === 'true' && userType === LPA_USER_ROLE;
 
 		let pdfDownloadUrl;
+		let zipDownloadUrl;
 		if (userType === LPA_USER_ROLE && !isPagePdfDownload) {
 			pdfDownloadUrl = userRouteUrl + '?pdf=true';
+			zipDownloadUrl = userRouteUrl + `/download/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`;
 		}
 
 		const lpaUser = getUserFromSession(req);
@@ -104,7 +107,8 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				siteAccessDetails,
 				appealProcessDetails
 			},
-			pdfDownloadUrl
+			pdfDownloadUrl,
+			zipDownloadUrl
 		};
 
 		await req.app.render(

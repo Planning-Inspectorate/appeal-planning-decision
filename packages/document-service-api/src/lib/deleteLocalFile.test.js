@@ -4,10 +4,12 @@ const deleteLocalFile = require('./deleteLocalFile');
 jest.mock('../configuration/config', () => ({
 	fileUpload: {
 		path: '/path/to/file/'
-	},
-	logger: {
-		level: 'info'
 	}
+}));
+
+jest.mock('../lib/logger', () => ({
+	info: jest.fn(),
+	error: jest.fn()
 }));
 
 jest.mock('fs', () => ({

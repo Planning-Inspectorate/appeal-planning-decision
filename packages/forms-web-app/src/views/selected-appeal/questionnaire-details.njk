@@ -20,21 +20,28 @@
           			titleText: "There is a problem",
           			errorList: errorSummary
         		}) }}
-			{% endif %}
+					{% endif %}
 
-      		<span class="govuk-caption-xl">Appeal {{appeal.appealNumber}}</span>
+			<span class="govuk-caption-xl">Appeal {{appeal.appealNumber}}</span>
+
 			<h1 class="govuk-heading-xl">{{mainHeading}}</h1>
-
-            {% if pdfDownloadUrl %}
-				{{ govukInsetText({
-					html: "<a href='" + pdfDownloadUrl + "'download'>Download questionnaire.</a>"
-				}) }}
-			{% endif %}
 
 			{{ govukSummaryList({
 				classes: "appeal-headlines govuk-summary-list--no-border",
 				rows: appeal.headlineData
 			}) }}
+
+			{% if pdfDownloadUrl %}
+				<p class="govuk-body">
+					<a href="{{ pdfDownloadUrl }}">Download your questionnaire (PDF)</a>
+				</p>
+			{% endif %}
+
+			{% if zipDownloadUrl %}
+				<p class="govuk-body">
+					<a href="{{ zipDownloadUrl }}">Download your documents (ZIP)</a>
+				</p>
+			{% endif %}
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 
