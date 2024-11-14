@@ -45,7 +45,9 @@ const lpaAppealIds = {
 	appealTP8: '7c8412e0-c734-4969-b7d4-441c60c6847b',
 	appealTP9: '7c8412e0-c734-4969-b7d4-441c60c6848b',
 	appealTP10: '7c8412e0-c734-4969-b7d4-441c60c6857b',
-	appealTP11: '7c8412e0-c734-4969-b7d4-441c60c6858b'
+	appealTP11: '7c8412e0-c734-4969-b7d4-441c60c6858b',
+	appealTP12: '7c8412e0-c734-4969-b7d4-441c60c6856b',
+	appealTP13: '7c8412e0-c734-4969-b7d4-441c60c6855b'
 };
 
 /**
@@ -91,7 +93,9 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appealTP8 },
 	{ id: lpaAppealIds.appealTP9 },
 	{ id: lpaAppealIds.appealTP10 },
-	{ id: lpaAppealIds.appealTP11 }
+	{ id: lpaAppealIds.appealTP11 },
+	{ id: lpaAppealIds.appealTP12 },
+	{ id: lpaAppealIds.appealTP13 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -1598,6 +1602,62 @@ const lpaAppealCaseData = [
 		},
 		...commonAppealCaseDataProperties,
 		caseReference: '0000094',
+		siteAddressLine1: 'Proof of evidence test case',
+		siteAddressLine2: null,
+		siteAddressTown: 'proofs are due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		rule6ProofEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP12 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000092',
+		siteAddressLine1: 'Proof of evidence test case',
+		siteAddressLine2: null,
+		siteAddressTown: 'proofs are due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		developmentDescription: 'test description',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAgo(1)),
+		LPAStatementSubmitted: pickRandom(datesNMonthsAgo(1)),
+		LPACommentsSubmitted: pickRandom(datesNMonthsAgo(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		rule6ProofEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP13 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000091',
 		siteAddressLine1: 'Proof of evidence test case',
 		siteAddressLine2: null,
 		siteAddressTown: 'proofs are due',
