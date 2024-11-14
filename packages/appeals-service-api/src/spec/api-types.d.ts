@@ -1342,6 +1342,7 @@ export interface Rule6StatementSubmission {
 		siteAddressTown?: string;
 		siteAddressCounty?: string;
 		siteAddressPostcode?: string;
+		applicationReference?: string;
 	};
 	userId?: string;
 	/** @format date-time */

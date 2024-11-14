@@ -28,6 +28,7 @@ const {
 	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
 	sendLPAProofEvidenceSubmissionEmailToLPAV2,
 	sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2,
+	sendRule6StatementSubmissionEmailToRule6PartyV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
@@ -45,6 +46,10 @@ const {
 	getRule6ProofOfEvidenceByAppealId,
 	markRule6ProofOfEvidenceAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/service');
+const {
+	getRule6StatementByAppealId,
+	markRule6StatementAsSubmitted
+} = require('../../routes/v2/appeal-cases/_caseReference/rule-6-statement-submission/service');
 const {
 	getLPAFinalCommentByAppealId,
 	markLPAFinalCommentAsSubmitted
@@ -419,6 +424,29 @@ class BackOfficeV2Service {
 		} catch (err) {
 			logger.error({ err }, 'failed to sendRule6ProofOfEvidenceSubmissionEmailToRule6PartyV2');
 			throw new Error('failed to send rule 6 proof of evidence submission email');
+		}
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} userId
+	 * @returns {Promise<void>}
+	 */
+	async submitRule6StatementSubmission(caseReference, userId) {
+		const rule6StatementSubmission = await getRule6StatementByAppealId(userId, caseReference);
+
+		const { email } = await getUserById(userId);
+
+		logger.info(`forwarding rule 6 party statement submission for ${caseReference} to service bus`);
+
+		// Date to be set in back office mapper once data model confirmed
+		await markRule6StatementAsSubmitted(userId, caseReference, new Date().toISOString());
+
+		try {
+			await sendRule6StatementSubmissionEmailToRule6PartyV2(rule6StatementSubmission, email);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendRule6StatementSubmissionEmailToRule6PartyV2');
+			throw new Error('failed to send rule 6 statement submission email');
 		}
 	}
 }

@@ -27,6 +27,7 @@ const { templates } = config.services.notify;
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
+ * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
  */
 
 /** @type {Record<AppealTypeCode, string>} */
@@ -600,6 +601,63 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 	}
 };
 
+/**
+ * @param { Rule6StatementSubmission } rule6StatementSubmission
+ * @param {string} emailAddress
+ */
+const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
+	rule6StatementSubmission,
+	emailAddress
+) => {
+	try {
+		const {
+			appealTypeCode,
+			applicationReference,
+			siteAddressLine1,
+			siteAddressLine2,
+			siteAddressTown,
+			siteAddressCounty,
+			siteAddressPostcode
+		} = rule6StatementSubmission.AppealCase;
+
+		const caseReference = rule6StatementSubmission.caseReference;
+
+		const formattedAddress = formatSubmissionAddress({
+			addressLine1: siteAddressLine1,
+			addressLine2: siteAddressLine2,
+			townCity: siteAddressTown,
+			county: siteAddressCounty,
+			postcode: siteAddressPostcode
+		});
+
+		const reference = rule6StatementSubmission.id;
+
+		let variables = {
+			appeal_reference_number: caseReference,
+			site_address: formattedAddress,
+			lpa_reference: applicationReference
+		};
+
+		logger.debug({ variables }, 'Sending statement submission email to rule 6 party');
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates[appealTypeCodeToAppealId[appealTypeCode]]
+					.rule6StatementSubmissionConfirmationEmailToRule6PartyV2
+			)
+			.setDestinationEmailAddress(emailAddress)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err }, 'Unable to send statement submission email to rule 6 party');
+	}
+};
+
 const sendFinalCommentSubmissionConfirmationEmail = async (finalComment) => {
 	try {
 		const lpa = await lpaService.getLpaById(finalComment.lpaCode);
@@ -871,6 +929,7 @@ module.exports = {
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
 	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
 	sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2,
+	sendRule6StatementSubmissionEmailToRule6PartyV2,
 
 	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionConfirmationEmailToAppellantV2,
