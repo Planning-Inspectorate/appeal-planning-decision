@@ -2,10 +2,10 @@ const express = require('express');
 const {
 	list,
 	question,
-	save
+	save,
 	// remove,
-	// submitRule6Statement,
-	// rule6StatementSubmitted
+	submitRule6Statement,
+	rule6StatementSubmitted
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -57,22 +57,22 @@ router.get(
 );
 
 // submit
-// router.post(
-// 	'/appeal-statement/:referenceId',
-// 	getJourneyResponse(),
-// 	getJourney(journeys),
-// 	checkNotSubmitted(dashboardUrl),
-// 	validationErrorHandler,
-// 	submitRule6Statement
-// );
+router.post(
+	'/appeal-statement/:referenceId',
+	getJourneyResponse(),
+	getJourney(journeys),
+	checkNotSubmitted(dashboardUrl),
+	validationErrorHandler,
+	submitRule6Statement
+);
 
-// router.get(
-// 	'/appeal-statement/:referenceId/submitted-appeal-statement',
-// 	setDefaultSection(),
-// 	getJourneyResponse(),
-// 	getJourney(journeys),
-// 	rule6StatementSubmitted
-// );
+router.get(
+	'/appeal-statement/:referenceId/submitted-appeal-statement',
+	setDefaultSection(),
+	getJourneyResponse(),
+	getJourney(journeys),
+	rule6StatementSubmitted
+);
 
 // question
 router.get(
