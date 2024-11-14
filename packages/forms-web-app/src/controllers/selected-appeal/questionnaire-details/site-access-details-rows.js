@@ -8,15 +8,7 @@ const { formatNeighbouringAddressWithBreaks } = require('@pins/common/src/lib/fo
 exports.siteAccessRows = (caseData) => {
 	const neighbourAddressesArray = caseData.NeighbouringAddresses || [];
 
-	//todo: siteAccessDetails and siteSafetyRisks logic will need updating when data model updated
-	// to specify which details provided by LPAQ and which provided by appellant
-	const showAccessForInspection = caseData.siteAccessDetails !== undefined;
-	const accessForInspectionBool = !!caseData.siteAccessDetails?.filter((value) => value !== null)
-		.length;
-
-	const showSiteSafetyDetails = caseData.siteSafetyDetails !== undefined;
-	const hasSiteSafetyDetails = !!caseData.siteSafetyDetails?.filter((value) => value !== null)
-		.length;
+	const accessForInspectionBool = !!caseData.siteAccessDetails?.[1];
 
 	const hasNeighbourAddressesField = caseData.NeighbouringAddresses !== undefined;
 	const hasNeighboursText = neighbourAddressesArray.length ? 'Yes' : 'No';
@@ -28,13 +20,11 @@ exports.siteAccessRows = (caseData) => {
 		{
 			keyText: 'Access for inspection',
 			valueText: boolToYesNo(accessForInspectionBool),
-			condition: () => showAccessForInspection
+			condition: () => true
 		},
 		{
 			keyText: 'Reason for Inspector access',
-			valueText: caseData.siteAccessDetails
-				? formatSiteAccessDetails(caseData.siteAccessDetails)
-				: '',
+			valueText: formatSiteAccessDetails(caseData),
 			condition: () => accessForInspectionBool
 		},
 		{
@@ -62,8 +52,8 @@ exports.siteAccessRows = (caseData) => {
 
 	rows.push({
 		keyText: 'Potential safety risks',
-		valueText: formatSiteSafetyRisks(caseData, hasSiteSafetyDetails),
-		condition: () => showSiteSafetyDetails
+		valueText: formatSiteSafetyRisks(caseData),
+		condition: () => true
 	});
 
 	return rows;
