@@ -621,6 +621,40 @@ exports.rule6ProofEvidenceSubmitted = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
+exports.submitRule6Statement = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		res.render('./error/not-found.njk');
+		return;
+	}
+
+	await req.appealsApiClient.submitRule6StatementSubmission(caseReference);
+
+	return res.redirect(`/rule-6/appeal-statement/${caseReference}/submitted-appeal-statement`);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.rule6StatementSubmitted = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.render('./error/not-found.njk');
+	}
+
+	return res.render('./dynamic-components/submission-screen/rule-6-statement', {
+		caseReference
+	});
+};
+
+/**
+ * @type {import('express').Handler}
+ */
 exports.submitLpaFinalComment = async (req, res) => {
 	const { journey } = res.locals;
 	const caseReference = journey.response.answers.caseReference;
