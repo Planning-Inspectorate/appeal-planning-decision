@@ -160,23 +160,23 @@ exports.formatDevelopmentDescription = (caseData) => {
 
 /**
  * @param {AppealCaseDetailed} caseData
- * @param {boolean} hasSiteSafetyDetails
- * @returns {string}
+ * @returns {string} safety details provided by LPA User
  */
-exports.formatSiteSafetyRisks = (caseData, hasSiteSafetyDetails) => {
-	if (hasSiteSafetyDetails) {
-		return 'Yes\n' + caseData.siteSafetyDetails?.filter((value) => value.length > 0).join('\n');
-	} else {
-		return 'No';
-	}
+exports.formatSiteSafetyRisks = (caseData) => {
+	if (!caseData.siteSafetyDetails || !caseData.siteSafetyDetails[1]) return 'No';
+
+	const details = caseData.siteSafetyDetails[1];
+
+	return `Yes\n${details}`;
 };
 
 /**
- * @param {Array.<string>} accessDetails
- * @returns {string}
+ * @param {AppealCaseDetailed} caseData
+ * @returns {string} access details provided by LPA User
  */
-exports.formatSiteAccessDetails = (accessDetails) => {
-	return accessDetails.filter((value) => value.length > 0).join('\n');
+exports.formatSiteAccessDetails = (caseData) => {
+	if (!caseData.siteAccessDetails || !caseData.siteAccessDetails[1]) return '';
+	return caseData.siteAccessDetails[1];
 };
 
 /**

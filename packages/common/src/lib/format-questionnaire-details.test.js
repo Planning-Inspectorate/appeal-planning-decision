@@ -5,30 +5,44 @@ const {
 
 describe('format-questionnaire-details', () => {
 	describe('formatSiteAccessDetails', () => {
-		it('returns array converted to string with newlines', () => {
-			const result = formatSiteAccessDetails(['one', 'two', 'three']);
-			expect(result).toEqual('one\ntwo\nthree');
+		it('returns siteAccessDetails index 1 string if it exists', () => {
+			const resultIndex0Empty = formatSiteAccessDetails({
+				siteAccessDetails: ['', 'lpa access details']
+			});
+			const resultAllIndexesPopulated = formatSiteAccessDetails({
+				siteAccessDetails: ['appellant access details', 'lpa access details']
+			});
+			expect(resultIndex0Empty).toEqual('lpa access details');
+			expect(resultAllIndexesPopulated).toEqual('lpa access details');
 		});
-		it('excludes null values', () => {
-			const result = formatSiteAccessDetails(['', 'two', '']);
-			expect(result).toEqual('two');
+		it('returns empty string if siteAccessDetails index 1 is empty', () => {
+			const resultIndex1Empty = formatSiteAccessDetails({
+				siteAccessDetails: ['appellant access details', '']
+			});
+			const resultAllIndexesEmpty = formatSiteAccessDetails({ siteAccessDetails: ['', ''] });
+			expect(resultIndex1Empty).toEqual('');
+			expect(resultAllIndexesEmpty).toEqual('');
 		});
 	});
 
 	describe('formatSiteSafetyRisks', () => {
-		it('returns array converted to string with Yes and newlines if details present and provided', () => {
-			const result = formatSiteSafetyRisks({ siteSafetyDetails: ['one', 'two', 'three'] }, true);
-			expect(result).toEqual('Yes\none\ntwo\nthree');
+		it('returns string of "Yes" plus siteSafetyDetails index 1 string', () => {
+			const resultIndex0Empty = formatSiteSafetyRisks({
+				siteSafetyDetails: ['', 'lpa safety details']
+			});
+			const resultAllIndexesPopulated = formatSiteSafetyRisks({
+				siteSafetyDetails: ['appellant safety details', 'lpa safety details']
+			});
+			expect(resultIndex0Empty).toEqual('Yes\nlpa safety details');
+			expect(resultAllIndexesPopulated).toEqual('Yes\nlpa safety details');
 		});
-		it('excludes null values', () => {
-			const resultSomeNulls = formatSiteSafetyRisks({ siteSafetyDetails: ['', 'two', ''] }, true);
-			const resultAllNulls = formatSiteSafetyRisks({ siteSafetyDetails: ['', '', ''] }, true);
-			expect(resultSomeNulls).toEqual('Yes\ntwo');
-			expect(resultAllNulls).toEqual('Yes\n');
-		});
-		it('returns no if false param provided', () => {
-			const result = formatSiteSafetyRisks({ siteSafetyDetails: ['one', 'two', 'three'] }, false);
-			expect(result).toEqual('No');
+		it('returns no if siteSafetyDetails index 1 is empty', () => {
+			const resultIndex1Empty = formatSiteSafetyRisks({
+				siteSafetyDetails: ['appellant safety details', '']
+			});
+			const resultAllIndexesEmpty = formatSiteSafetyRisks({ siteSafetyDetails: ['', ''] });
+			expect(resultIndex1Empty).toEqual('No');
+			expect(resultAllIndexesEmpty).toEqual('No');
 		});
 	});
 });

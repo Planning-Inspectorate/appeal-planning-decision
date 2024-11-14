@@ -52,24 +52,26 @@ exports.formatUserDetails = formatUserDetails;
 
 /**
  * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @returns {string} site access details provided by Appellant
  */
 exports.formatAccessDetails = (caseData) => {
-	if (!caseData.siteAccessDetails) {
+	if (!caseData.siteAccessDetails || !caseData.siteAccessDetails[0]) {
 		return 'No';
 	}
 
-	const details = caseData.siteAccessDetails.join('\n');
+	const details = caseData.siteAccessDetails[0];
 
 	return `Yes \n ${details}`;
 };
 
 /**
  * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
+ * @returns {string} safety details provided by Appellant
  */
 exports.formatHealthAndSafety = (caseData) => {
-	if (!caseData.siteSafetyDetails) return 'No';
+	if (!caseData.siteSafetyDetails || !caseData.siteSafetyDetails[0]) return 'No';
 
-	const details = caseData.siteSafetyDetails.map((x) => x).join('\n');
+	const details = caseData.siteSafetyDetails[0];
 
 	return `Yes \n ${details}`;
 };
