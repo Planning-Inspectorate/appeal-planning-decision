@@ -12,9 +12,9 @@ const {
 const selectedAppeal = async (req, res) => {
 	const appealNumber = req.params.appealNumber;
 
-	createInterestedPartySession(req, appealNumber);
-
 	const appeal = await req.appealsApiClient.getAppealCaseByCaseRef(appealNumber);
+
+	createInterestedPartySession(req, appealNumber, appeal.siteAddressPostcode);
 
 	const lpa = await getDepartmentFromCode(appeal.LPACode);
 	const headlineData = formatHeadlineData(appeal, lpa.name);
