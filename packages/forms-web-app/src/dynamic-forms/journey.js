@@ -185,58 +185,95 @@ class Journey {
 		return this.#getQuestion(section, questionSegment);
 	}
 
+	#flattenQuestions() {
+		/** @typedef {{ section: Section, question: Question, sectionIndex: number, questionIndex: number }} FlattenedQuestion */
+		/** @type {FlattenedQuestion[]} */
+		const initialAccI = [];
+		/** @type {FlattenedQuestion[]} */
+		const initialAccJ = [];
+		return this.sections.reduce(
+			(acci, section, sectionIndex) => [
+				...acci,
+				...section.questions.reduce(
+					(accj, question, questionIndex) => [
+						...accj,
+						{ section, question, sectionIndex, questionIndex }
+					],
+					initialAccJ
+				)
+			],
+			initialAccI
+		);
+	}
+
 	/**
 	 * Get url for the next question in this section
 	 * @param {string} sectionSegment - section segment
 	 * @param {string} questionSegment - question segment
-	 * @param {boolean} reverse - if passed in this will get the previous question
 	 * @returns {string} url for the next question
 	 */
-	getNextQuestionUrl(sectionSegment, questionSegment, reverse) {
-		const unmatchedUrl = this.taskListUrl;
-		const numberOfSections = this.sections.length;
-		const sectionsStart = reverse ? numberOfSections - 1 : 0;
+	getNextQuestionUrl(sectionSegment, questionSegment) {
+		const flattenedQuestions = this.#flattenQuestions();
 
-		let currentSectionIndex;
-		let foundSection = false;
-		let takeNextQuestion = false;
+		const currentQuestionIndex = flattenedQuestions.findIndex(
+			({ section: { segment }, question: { fieldName } }) =>
+				segment === sectionSegment && fieldName === questionSegment
+		);
 
-		for (let i = sectionsStart; reverse ? i >= 0 : i < numberOfSections; reverse ? i-- : i++) {
-			const currentSection = this.sections[i];
-			const numberOfQuestions = currentSection.questions.length;
+		if (currentQuestionIndex === -1) return this.taskListUrl;
 
-			if (currentSection.segment === sectionSegment) {
-				foundSection = true;
-				currentSectionIndex = i;
+		const currentQuestion = flattenedQuestions[currentQuestionIndex];
+
+		for (let ii = currentQuestionIndex + 1; ii < flattenedQuestions.length; ii++) {
+			const flattenedQuestion = flattenedQuestions[ii];
+			if (this.returnToListing && flattenedQuestion.sectionIndex !== currentQuestion.sectionIndex) {
+				// Return user to task list if the next question is outside this segment
+				return this.taskListUrl;
 			}
 
-			if (foundSection) {
-				if (this.returnToListing && i !== currentSectionIndex) {
-					return unmatchedUrl;
-				}
-
-				const questionsStart = reverse ? numberOfQuestions - 1 : 0;
-				for (
-					let j = questionsStart;
-					reverse ? j >= 0 : j < numberOfQuestions;
-					reverse ? j-- : j++
-				) {
-					const question = currentSection.questions[j];
-					if (takeNextQuestion && question.shouldDisplay(this.response)) {
-						return this.#buildQuestionUrl(
-							currentSection.segment,
-							question.url ? question.url : question.fieldName
-						);
-					}
-
-					if (question.fieldName === questionSegment) {
-						takeNextQuestion = true;
-					}
-				}
+			if (flattenedQuestion.question.shouldDisplay(this.response)) {
+				return this.#buildQuestionUrl(
+					flattenedQuestion.section.segment,
+					flattenedQuestion.question.url || flattenedQuestion.question.fieldName
+				);
 			}
 		}
 
-		return unmatchedUrl;
+		return this.taskListUrl;
+	}
+
+	/**
+	 * Get url for the next question in this section
+	 * @param {string} sectionSegment - section segment
+	 * @param {string} questionSegment - question segment
+	 * @returns {string} url for the next question
+	 */
+	getPerviousQuestionUrl(sectionSegment, questionSegment) {
+		const flattenedQuestions = this.#flattenQuestions();
+
+		const currentQuestionIndex = flattenedQuestions.findIndex(
+			({ section: { segment }, question: { fieldName } }) =>
+				segment === sectionSegment && fieldName === questionSegment
+		);
+
+		const currentQuestion = flattenedQuestions[currentQuestionIndex];
+
+		for (let ii = currentQuestionIndex - 1; ii >= 0; ii--) {
+			const flattenedQuestion = flattenedQuestions[ii];
+			if (this.returnToListing && flattenedQuestion.sectionIndex !== currentQuestion.sectionIndex) {
+				// Return user to task list if the next question is outside this segment
+				return this.taskListUrl;
+			}
+
+			if (flattenedQuestion.question.shouldDisplay(this.response)) {
+				return this.#buildQuestionUrl(
+					flattenedQuestion.section.segment,
+					flattenedQuestion.question.url || flattenedQuestion.question.fieldName
+				);
+			}
+		}
+
+		return this.taskListUrl;
 	}
 
 	/**

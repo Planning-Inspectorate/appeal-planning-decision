@@ -312,7 +312,7 @@ class ListAddMoreQuestion extends Question {
 					}
 				});
 			} else if (addMoreAnswer === 'no') {
-				return res.redirect(journey.getNextQuestionUrl(section.segment, this.fieldName, false));
+				return res.redirect(journey.getNextQuestionUrl(section.segment, this.fieldName));
 			}
 		}
 

@@ -29,6 +29,11 @@ class Section {
 	#conditionAdded = false;
 
 	/**
+	 * @type {boolean} - if a loop back has just been added ensure a question is added before the next loop back
+	 */
+	#loopBackAdded = false;
+
+	/**
 	 * creates an instance of a section
 	 * @param {string} name
 	 * @param {string} segment
@@ -46,6 +51,7 @@ class Section {
 	addQuestion(question) {
 		this.questions.push(question);
 		this.#conditionAdded = false; // reset condition flag
+		this.#loopBackAdded = false;
 		return this;
 	}
 
@@ -62,6 +68,21 @@ class Section {
 		this.#conditionAdded = true; // set condition flag
 		const lastQuestionAdded = this.questions.length - 1;
 		this.questions[lastQuestionAdded].shouldDisplay = shouldIncludeQuestion;
+		return this;
+	}
+
+	/**
+	 * Fluent API method for attaching loop backs to the previously added question
+	 * @param {((response: JourneyResponse) => boolean)} shouldLoopBack
+	 * @returns {Section}
+	 */
+	withLoopBack(shouldLoopBack) {
+		if (this.#loopBackAdded) {
+			// don't allow two conditions in a row
+			throw new Error('loopbacks must follow a question');
+		}
+		const lastQuestionAdded = this.questions.length - 1;
+		this.questions[lastQuestionAdded].shouldLoopBack = shouldLoopBack;
 		return this;
 	}
 

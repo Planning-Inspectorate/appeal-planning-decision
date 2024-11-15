@@ -67,6 +67,8 @@ class Question {
 	interfaceType;
 	/** @type {(response: JourneyResponse) => boolean} */
 	shouldDisplay = () => true;
+	/** @type {(response: JourneyResponse) => boolean} */
+	shouldLoopBack = () => false;
 
 	details = {
 		title: '',
@@ -149,7 +151,7 @@ class Question {
 	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		const answer = journey.response.answers[this.fieldName] || '';
-		const backLink = journey.getNextQuestionUrl(section.segment, this.fieldName, true);
+		const backLink = journey.getPerviousQuestionUrl(section.segment, this.fieldName);
 
 		const viewModel = {
 			question: {
@@ -349,7 +351,7 @@ class Question {
 	 * @returns {void}
 	 */
 	handleNextQuestion(res, journey, sectionSegment, questionSegment) {
-		return res.redirect(journey.getNextQuestionUrl(sectionSegment, questionSegment, false));
+		return res.redirect(journey.getNextQuestionUrl(sectionSegment, questionSegment));
 	}
 
 	/**
