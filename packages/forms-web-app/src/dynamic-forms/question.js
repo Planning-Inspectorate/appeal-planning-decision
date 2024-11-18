@@ -435,7 +435,7 @@ class Question {
 	 * @returns {boolean}
 	 */
 	isFirstQuestion(journey, section) {
-		const currentQuestion = journey.getCurrentQuestionUrl(section.name, this.fieldName);
+		const currentQuestion = journey.getCurrentQuestionUrl(section.segment, this.fieldName);
 		const firstQuestionUrl = journey.sections[0].questions[0].url;
 		return currentQuestion.includes(firstQuestionUrl);
 	}
