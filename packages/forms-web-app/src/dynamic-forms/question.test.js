@@ -1,4 +1,6 @@
 const Question = require('./question');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
+const SessionHelper = require('../middleware/session-helper');
 
 const { mockRes } = require('../../__tests__/unit/mocks');
 const res = mockRes();
@@ -7,6 +9,10 @@ const apiClient = {
 	patchLPAQuestionnaire: jest.fn(),
 	updateAppellantSubmission: jest.fn()
 };
+
+jest.mock('../middleware/session-helper', () => ({
+	getNavigationHistory: jest.fn()
+}));
 
 describe('./src/dynamic-forms/question.js', () => {
 	const TITLE = 'Question1';
@@ -104,7 +110,7 @@ describe('./src/dynamic-forms/question.js', () => {
 	});
 
 	describe('prepQuestionForRendering', () => {
-		it('should prepQuestionForRendering', () => {
+		it('should prepQuestionForRendering for a long journey', () => {
 			const question = getTestQuestion();
 
 			const section = {
@@ -116,6 +122,7 @@ describe('./src/dynamic-forms/question.js', () => {
 				taskListUrl: 'task',
 				journeyTemplate: 'template',
 				journeyTitle: 'title',
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				response: {
 					answers: {
 						[question.fieldName]: { a: 1 }
@@ -150,6 +157,55 @@ describe('./src/dynamic-forms/question.js', () => {
 					hello: 'hi'
 				})
 			);
+		});
+		it('should prepQuestionForRendering for a short journey', () => {
+			const question = getTestQuestion();
+			const section = {
+				name: 'section-name',
+				questions: [question]
+			};
+			const journey = {
+				baseUrl: '',
+				taskListUrl: 'task',
+				journeyTemplate: 'template',
+				journeyTitle: 'title',
+				journeyId: JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE,
+				sections: [section],
+				response: {
+					answers: {
+						[question.fieldName]: { a: 1 }
+					}
+				},
+				getNextQuestionUrl: () => 'back',
+				getCurrentQuestionUrl: jest.fn(
+					(sectionName, fieldName) => `/mock-url/${sectionName}/${fieldName}`
+				)
+			};
+			const customViewData = { hello: 'hi' };
+			const result = question.prepQuestionForRendering(section, journey, customViewData);
+			expect(result).toEqual(
+				expect.objectContaining({
+					question: {
+						value: journey.response.answers[question.fieldName],
+						question: question.question,
+						fieldName: question.fieldName,
+						pageTitle: question.pageTitle,
+						description: question.description,
+						html: question.html
+					},
+					answer: journey.response.answers[question.fieldName],
+					layoutTemplate: journey.journeyTemplate,
+					pageCaption: section.name,
+					navigation: ['', 'back'],
+					backLink: 'back',
+					showBackToListLink: question.showBackToListLink,
+					listLink: journey.taskListUrl,
+					journeyTitle: journey.journeyTitle,
+					hello: 'hi'
+				})
+			);
+
+			expect(journey.getCurrentQuestionUrl).toHaveBeenCalledWith(section.name, question.fieldName);
 		});
 	});
 
@@ -394,6 +450,199 @@ describe('./src/dynamic-forms/question.js', () => {
 			const question = getTestQuestion();
 			const result = question.formatAnswerForSummary('segment', journey, null);
 			expect(result[0].value).toEqual(question.NOT_STARTED);
+		});
+	});
+
+	describe('isFirstQuestion', () => {
+		it('should return true if the current question is the first question', () => {
+			const question = getTestQuestion();
+
+			const journey = {
+				getCurrentQuestionUrl: jest.fn().mockReturnValue('/section/testField'),
+				sections: [
+					{
+						questions: [{ url: '/section/testField' }]
+					}
+				]
+			};
+			const section = { name: 'section' };
+			expect(question.isFirstQuestion(journey, section)).toBe(true);
+		});
+		it('should return false if the current question is not the first question', () => {
+			const question = getTestQuestion();
+
+			const journey = {
+				getCurrentQuestionUrl: jest.fn().mockReturnValue('/section/otherField'),
+				sections: [
+					{
+						questions: [{ url: '/section/testField' }]
+					}
+				]
+			};
+			const section = { name: 'section' };
+			expect(question.isFirstQuestion(journey, section)).toBe(false);
+		});
+	});
+
+	describe('isShortJourney', () => {
+		it('should return true for a short journey', () => {
+			const question = getTestQuestion();
+
+			const journey = { journeyId: JOURNEY_TYPES.S78_LPA_STATEMENT };
+			const journey2 = { journeyId: JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS };
+			const journey3 = { journeyId: JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS };
+			const journey4 = { journeyId: JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE };
+			const journey5 = { journeyId: JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE };
+			const journey6 = { journeyId: JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE };
+
+			expect(question.isShortJourney(journey)).toBe(true);
+			expect(question.isShortJourney(journey2)).toBe(true);
+			expect(question.isShortJourney(journey3)).toBe(true);
+			expect(question.isShortJourney(journey4)).toBe(true);
+			expect(question.isShortJourney(journey5)).toBe(true);
+			expect(question.isShortJourney(journey6)).toBe(true);
+		});
+		it('should return false for a long journey', () => {
+			const question = getTestQuestion();
+
+			const journey = { journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE };
+			const journey2 = { journeyId: JOURNEY_TYPES.S78_QUESTIONNAIRE };
+			const journey3 = { journeyId: JOURNEY_TYPES.HAS_APPEAL_FORM };
+			const journey4 = { journeyId: JOURNEY_TYPES.S78_APPEAL_FORM };
+
+			expect(question.isShortJourney(journey)).toBe(false);
+			expect(question.isShortJourney(journey2)).toBe(false);
+			expect(question.isShortJourney(journey3)).toBe(false);
+			expect(question.isShortJourney(journey4)).toBe(false);
+		});
+	});
+
+	describe('getDashboardUrl', () => {
+		it('should return the correct URL for an appellant journey', () => {
+			const question = getTestQuestion();
+
+			expect(question.getDashboardUrl(JOURNEY_TYPES.S78_APPELLANT_FINAL_COMMENTS)).toBe(
+				'/appeals/your-appeals'
+			);
+		});
+		it('should return the correct URL for an LPA journey', () => {
+			const question = getTestQuestion();
+
+			expect(question.getDashboardUrl(JOURNEY_TYPES.S78_LPA_FINAL_COMMENTS)).toBe(
+				'/manage-appeals/your-appeals'
+			);
+		});
+		it('should return the correct URL for a Rule 6 journey', () => {
+			const question = getTestQuestion();
+
+			expect(question.getDashboardUrl(JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE)).toBe(
+				'/rule-6/your-appeals'
+			);
+		});
+		it('should return "/" for an unknown journey ID', () => {
+			const question = getTestQuestion();
+
+			expect(question.getDashboardUrl('unknown-journey-id')).toBe('/');
+		});
+	});
+
+	describe('getBackLink', () => {
+		it('should return the dashboard URL if it is a short journey and the user came from the dashboard', () => {
+			const question = getTestQuestion();
+
+			SessionHelper.getNavigationHistory.mockReturnValue([
+				'/appeals/proof-evidence/1234/upload-proof-evidence',
+				'/appeals/proof-evidence/1234',
+				'/appeals/your-appeals'
+			]);
+			const journey = {
+				journeyId: JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE,
+				baseUrl: '/appeals/proof-evidence',
+				response: {
+					referenceId: '1234',
+					answers: {}
+				}
+			};
+			const section = { segment: 'test-segment', name: 'section-name' };
+			jest.spyOn(question, 'isShortJourney').mockReturnValue(true);
+			jest.spyOn(question, 'isFirstQuestion').mockReturnValue(true);
+			const backLink = question.getBackLink(journey, section);
+			expect(backLink).toBe('/appeals/your-appeals');
+		});
+		it('should return the check answers page if it is a short journey and the user came from there', () => {
+			const question1 = getTestQuestion({ fieldName: 'uploadLpaProofOfEvidenceDocuments' });
+
+			SessionHelper.getNavigationHistory.mockReturnValue([
+				'/appeals/proof-evidence/1234/upload-proof-evidence',
+				'/appeals/proof-evidence/1234',
+				'/appeals/proof-evidence/1234/add-witnesses',
+				'/appeals/proof-evidence/1234/upload-proof-evidence',
+				'/appeals/proof-evidence/1234',
+				'/appeals/your-appeals'
+			]);
+			const journey = {
+				journeyId: JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE,
+				baseUrl: '/proof-evidence/1234',
+				response: {
+					referenceId: '1234',
+					answers: {
+						uploadLpaProofOfEvidenceDocuments: 'yes',
+						lpaWitnesses: 'no'
+					}
+				},
+				getNextQuestionUrl: jest.fn().mockReturnValue('/appeals/proof-evidence/1234/add-witnesses')
+			};
+			const section = { segment: 'test-segment', name: 'section-name' };
+			jest.spyOn(question1, 'isShortJourney').mockReturnValue(true);
+			jest.spyOn(question1, 'isFirstQuestion').mockReturnValue(true);
+			const backLink = question1.getBackLink(journey, section);
+
+			expect(backLink).toBe('/appeals/proof-evidence/1234');
+		});
+		it('should return the previous question URL if it is not the first question', () => {
+			const question1 = getTestQuestion({ fieldName: 'uploadLpaProofOfEvidenceDocuments' });
+
+			SessionHelper.getNavigationHistory.mockReturnValue([
+				'/appeals/proof-evidence/1234/add-witnesses',
+				'/appeals/proof-evidence/1234/upload-proof-evidence',
+				'/appeals/proof-evidence/1234',
+				'/appeals/your-appeals'
+			]);
+			const journey = {
+				journeyId: JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE,
+				baseUrl: '/proof-evidence/1234',
+				response: {
+					referenceId: '1234',
+					answers: {
+						uploadLpaProofOfEvidenceDocuments: 'yes',
+						lpaWitnesses: 'no'
+					}
+				}
+			};
+			const section = { segment: 'test-segment', name: 'section-name' };
+			jest.spyOn(question1, 'isShortJourney').mockReturnValue(true);
+			jest.spyOn(question1, 'isFirstQuestion').mockReturnValue(true);
+			const backLink = question1.getBackLink(journey, section);
+
+			expect(backLink).toBe('/appeals/proof-evidence/1234/upload-proof-evidence');
+		});
+		it('should return the task list for a long journey', () => {
+			const question = getTestQuestion();
+
+			const journey = {
+				journeyId: JOURNEY_TYPES.S78_APPEAL_FORM,
+				baseUrl: '/appeals/full-planning',
+				response: {
+					referenceId: '1234',
+					answers: {}
+				},
+				getNextQuestionUrl: jest.fn().mockReturnValue('/appeals/full-planning/1234/task-list')
+			};
+			const section = { segment: 'test-segment', name: 'section-name' };
+			jest.spyOn(question, 'isShortJourney').mockReturnValue(false);
+			jest.spyOn(question, 'isFirstQuestion').mockReturnValue(true);
+			const backLink = question.getBackLink(journey, section);
+			expect(backLink).toBe('/appeals/full-planning/1234/task-list');
 		});
 	});
 });

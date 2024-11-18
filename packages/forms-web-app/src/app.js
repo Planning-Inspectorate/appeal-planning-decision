@@ -27,6 +27,7 @@ const navigationHistoryMiddleware = require('./middleware/navigation-history');
 const navigationHistoryToNunjucksMiddleware = require('./middleware/navigation-history-to-nunjucks');
 const { mapToErrorSummary } = require('#utils/filters/map-to-error-summary');
 require('express-async-errors');
+const SessionHelper = require('./middleware/session-helper');
 
 const config = require('./config');
 const logger = require('./lib/logger');
@@ -154,6 +155,10 @@ app.use(
 app.use(fileUpload({ ...config.fileUpload /*useTempFiles: true*/ }));
 app.use(session(sessionConfig()));
 app.use(navigationHistoryMiddleware()); // Above lusca so csrf token isn't in session yet
+app.use((req, res, next) => {
+	SessionHelper.setSession(req.session);
+	next();
+});
 app.use(lusca.csrf()); // Depends on fileupload and session
 configureCSP(app);
 app.use(flashMessageCleanupMiddleware);

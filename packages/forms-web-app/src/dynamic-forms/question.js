@@ -5,6 +5,7 @@ const escape = require('escape-html');
 const { nl2br } = require('@pins/common/src/utils');
 const RequiredValidator = require('./validator/required-validator');
 const RequiredFileUploadValidator = require('./validator/required-file-upload-validator');
+const SessionHelper = require('../middleware/session-helper');
 
 /**
  * @typedef {import('./validator/base-validator')} BaseValidator
@@ -149,7 +150,7 @@ class Question {
 	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		const answer = journey.response.answers[this.fieldName] || '';
-		const backLink = journey.getNextQuestionUrl(section.segment, this.fieldName, true);
+		const backLink = this.getBackLink(journey, section);
 
 		const viewModel = {
 			question: {
@@ -425,6 +426,83 @@ class Question {
 	 */
 	isAnswered(journeyResponse) {
 		return !!journeyResponse.answers[this.fieldName];
+	}
+
+	/**
+	 *
+	 * @param {Journey} journey
+	 * @param {Section} section
+	 * @returns {boolean}
+	 */
+	isFirstQuestion(journey, section) {
+		const currentQuestion = journey.getCurrentQuestionUrl(section.name, this.fieldName);
+		const firstQuestionUrl = journey.sections[0].questions[0].url;
+		return currentQuestion.includes(firstQuestionUrl);
+	}
+
+	/**
+	 * @param {Journey} journey
+	 * @returns {boolean}
+	 */
+	isShortJourney(journey) {
+		const longForms = [
+			JOURNEY_TYPES.HAS_QUESTIONNAIRE,
+			JOURNEY_TYPES.S78_QUESTIONNAIRE,
+			JOURNEY_TYPES.HAS_APPEAL_FORM,
+			JOURNEY_TYPES.S78_APPEAL_FORM
+		];
+
+		return !longForms.includes(journey.journeyId);
+	}
+
+	/**
+	 * Get the dashboard URL based on the journey ID.
+	 * @param {string} journeyId
+	 * @returns {string}
+	 */
+	getDashboardUrl(journeyId) {
+		if (journeyId.includes('appellant')) {
+			return '/appeals/your-appeals';
+		} else if (journeyId.includes('lpa')) {
+			return '/manage-appeals/your-appeals';
+		} else if (journeyId.includes('rule-6')) {
+			return '/rule-6/your-appeals';
+		}
+		return '/';
+	}
+
+	/**
+	 * @param {Journey} journey
+	 * @param {Section} section
+	 * @returns {string}
+	 */
+	getBackLink(journey, section) {
+		const answer = journey.response.answers[this.fieldName] || '';
+
+		if (this.isShortJourney(journey) && this.isFirstQuestion(journey, section)) {
+			const navigationHistory = SessionHelper.getNavigationHistory();
+			let previousPage;
+
+			if (
+				navigationHistory[1] === journey.baseUrl &&
+				navigationHistory[2].includes('your-appeals')
+			) {
+				previousPage = navigationHistory[2];
+			} else if (navigationHistory[1].endsWith(journey.response.referenceId) && !answer) {
+				previousPage = this.getDashboardUrl(journey.journeyId);
+			} else {
+				previousPage = navigationHistory[1];
+			}
+
+			if (previousPage && previousPage.includes('/your-appeals')) {
+				return this.getDashboardUrl(journey.journeyId);
+			} else {
+				return previousPage;
+			}
+		} else {
+			// For long journeys/ other questions, get the previous question URL
+			return journey.getNextQuestionUrl(section.segment, this.fieldName, true);
+		}
 	}
 }
 
