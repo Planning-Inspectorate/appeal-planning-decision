@@ -202,10 +202,8 @@ class UnitOptionEntryQuestion extends Question {
 			1;
 		const unconvertedAnswer = journey.response.answers[this.conditionalFieldName];
 
-		if (typeof unconvertedAnswer !== 'number')
-			throw new Error('Conditional answer had an unexpected type');
-
-		const answerQuantity = unconvertedAnswer / conversionFactor;
+		const answerQuantity = Number(unconvertedAnswer) / conversionFactor;
+		if (isNaN(answerQuantity)) throw new Error('Conditional answer had an unexpected type');
 
 		const formattedAnswer = `${answerQuantity} ${answer}`;
 		return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);
