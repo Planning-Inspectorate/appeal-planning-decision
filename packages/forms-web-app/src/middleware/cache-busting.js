@@ -1,8 +1,8 @@
-const { isProduction } = require('../config');
-const version = require('../../package.json').version;
+// The version is based on the timestamp of when the application starts for now
+const version = Date.now();
 
 const cacheBusting = (req, res, next) => {
-	res.locals.cacheBustVersion = `${version}${isProduction ? '' : '.' + Date.now()}`;
+	res.locals.cacheBustVersion = version;
 	return next();
 };
 
