@@ -161,7 +161,7 @@ describe('./src/dynamic-forms/question.js', () => {
 		it('should prepQuestionForRendering for a short journey', () => {
 			const question = getTestQuestion();
 			const section = {
-				name: 'section-name',
+				segment: 'section-name',
 				questions: [question]
 			};
 			const journey = {
@@ -205,7 +205,10 @@ describe('./src/dynamic-forms/question.js', () => {
 				})
 			);
 
-			expect(journey.getCurrentQuestionUrl).toHaveBeenCalledWith(section.name, question.fieldName);
+			expect(journey.getCurrentQuestionUrl).toHaveBeenCalledWith(
+				section.segment,
+				question.fieldName
+			);
 		});
 	});
 

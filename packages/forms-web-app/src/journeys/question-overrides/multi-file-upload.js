@@ -160,6 +160,9 @@ function uploadDocuments(apiClient, referenceId, journeyId, data) {
 		case JOURNEY_TYPES.S78_LPA_STATEMENT: {
 			return apiClient.postLPAStatementDocumentUpload(referenceId, data);
 		}
+		case JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE: {
+			return apiClient.postLpaProofOfEvidenceDocumentUpload(referenceId, data);
+		}
 		case JOURNEY_TYPES.S78_RULE_6_STATEMENT: {
 			return apiClient.postRule6StatementDocumentUpload(referenceId, data);
 		}
@@ -215,6 +218,9 @@ function removeDocuments(apiClient, journeyId) {
 			case JOURNEY_TYPES.S78_APPELLANT_PROOF_EVIDENCE: {
 				return apiClient.deleteAppellantProofOfEvidenceDocumentUpload(submissionId, documentId);
 			}
+			case JOURNEY_TYPES.S78_LPA_PROOF_EVIDENCE: {
+				return apiClient.deleteLpaProofOfEvidenceDocumentUpload(submissionId, documentId);
+			}
 			case JOURNEY_TYPES.S78_RULE_6_PROOF_EVIDENCE: {
 				return apiClient.deleteRule6ProofOfEvidenceDocumentUpload(submissionId, documentId);
 			}
@@ -235,6 +241,8 @@ function removeDocuments(apiClient, journeyId) {
  * @returns {Promise<void>}
  */
 async function saveAction(req, res, journey, section, journeyResponse) {
+	const previouslyUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
+
 	const { uploadedFiles } = await getDataToSave.call(this, req, journeyResponse);
 	await Promise.all(
 		uploadedFiles.map((file) => {
@@ -253,11 +261,22 @@ async function saveAction(req, res, journey, section, journeyResponse) {
 			);
 		})
 	);
-	const responseToSave = {
-		answers: {
-			[this.fieldName]: true
-		}
-	};
+	const allUploadedFiles = [...previouslyUploadedFiles, ...uploadedFiles].filter(Boolean);
+	const isQuestionAnswered = allUploadedFiles.length > 0;
+	let responseToSave;
+	if (req.body.removedFiles && uploadedFiles.length === 0) {
+		responseToSave = {
+			answers: {
+				[this.fieldName]: null
+			}
+		};
+	} else {
+		responseToSave = {
+			answers: {
+				[this.fieldName]: isQuestionAnswered ? true : null
+			}
+		};
+	}
 	await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
 
 	// check for saving errors
