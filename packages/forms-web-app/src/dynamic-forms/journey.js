@@ -224,6 +224,10 @@ class Journey {
 
 		const currentQuestion = flattenedQuestions[currentQuestionIndex];
 
+		if (currentQuestion.question.shouldLoopBack(this.response)) {
+			return this.getPerviousQuestionUrl(sectionSegment, questionSegment);
+		}
+
 		for (let ii = currentQuestionIndex + 1; ii < flattenedQuestions.length; ii++) {
 			const flattenedQuestion = flattenedQuestions[ii];
 			if (this.returnToListing && flattenedQuestion.sectionIndex !== currentQuestion.sectionIndex) {
@@ -255,6 +259,8 @@ class Journey {
 			({ section: { segment }, question: { fieldName } }) =>
 				segment === sectionSegment && fieldName === questionSegment
 		);
+
+		if (currentQuestionIndex === -1) return this.taskListUrl;
 
 		const currentQuestion = flattenedQuestions[currentQuestionIndex];
 
