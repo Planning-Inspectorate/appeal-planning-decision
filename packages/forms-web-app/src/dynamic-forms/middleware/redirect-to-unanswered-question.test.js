@@ -30,6 +30,13 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 		res.locals.journeyResponse = journeyResponse;
 		const journey = new Journey({ response: journeyResponse, ...params });
 		res.locals.journey = journey;
+		req.originalUrl = '/manage-appeals/appeal-statement/0000003';
+		req.session = {
+			navigationHistory: [
+				'/manage-appeals/your-appeals',
+				'/manage-appeals/appeal-statement/0000003'
+			]
+		};
 
 		// Passing in array of no conditions, redirects to first unanswered question
 		redirectToUnansweredQuestion([])(req, res, next);
@@ -70,6 +77,13 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 		res.locals.journeyResponse = journeyResponse;
 		const journey = new Journey({ response: journeyResponse, ...params });
 		res.locals.journey = journey;
+		req.originalUrl = '/manage-appeals/appeal-statement/0000003';
+		req.session = {
+			navigationHistory: [
+				'/manage-appeals/your-appeals',
+				'/manage-appeals/appeal-statement/0000003'
+			]
+		};
 
 		redirectToUnansweredQuestion([skipIfNoAdditionalDocuments])(req, res, next);
 
@@ -92,6 +106,13 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 		res.locals.journeyResponse = journeyResponse;
 		const journey = new Journey({ response: journeyResponse, ...params });
 		res.locals.journey = journey;
+		req.originalUrl = '/manage-appeals/appeal-statement/0000003';
+		req.session = {
+			navigationHistory: [
+				'/manage-appeals/your-appeals',
+				'/manage-appeals/appeal-statement/0000003'
+			]
+		};
 
 		redirectToUnansweredQuestion([skipIfNoAdditionalDocuments])(req, res, next);
 
@@ -113,9 +134,14 @@ describe('redirectToUnansweredQuestion Middleware', () => {
 		res.locals.journeyResponse = journeyResponse;
 		const journey = new Journey({ response: journeyResponse, ...params });
 		res.locals.journey = journey;
-
-		redirectToUnansweredQuestion([skipIfNoAdditionalDocuments])(req, res, next);
-
+		req.originalUrl = '/manage-appeals/appeal-statement/0000003';
+		req.session = {
+			navigationHistory: [
+				'/manage-appeals/your-appeals',
+				'/manage-appeals/appeal-statement/0000003'
+			]
+		};
+		redirectToUnansweredQuestion([])(req, res, next);
 		expect(next).toHaveBeenCalled();
 		expect(res.redirect).not.toHaveBeenCalled();
 	});

@@ -25,6 +25,7 @@ jest.mock('../../../lib/documents-api-wrapper', () => ({
 // jest.mock('../../../mappers/document-mapper');
 
 const { mockReqWithApiClient: mockReq, mockRes } = require('../../../../__tests__/unit/mocks');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 const TITLE = 'A multifile question';
 const QUESTION = 'Do you like files?';
@@ -202,6 +203,7 @@ describe('MultiFileUploadQuestion', () => {
 			};
 
 			const journey = {
+				journeyId: JOURNEY_TYPES.S78_APPEAL_FORM,
 				response: {
 					answers: {
 						SubmissionDocumentUpload: [uploadedDocument]
