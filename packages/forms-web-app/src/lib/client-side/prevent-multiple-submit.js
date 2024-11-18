@@ -1,7 +1,11 @@
 function initialisePreventMultipleSubmit(document) {
 	let hasBeenSubmitted = false;
 
-	document.addEventListener('submit', function (evt) {
+	window.addEventListener('pageshow', () => {
+		return (hasBeenSubmitted = false);
+	});
+
+	document.addEventListener('submit', (evt) => {
 		if (hasBeenSubmitted) {
 			evt.preventDefault();
 		} else {
