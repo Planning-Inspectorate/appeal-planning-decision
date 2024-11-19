@@ -10,7 +10,7 @@
 	"main": "src/index.js",
 	"scripts": {
 		"lint": "eslint ./",
-		"test": "jest",
+		"test": "jest --coverage",
 		"test:cov": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand"
 	},
