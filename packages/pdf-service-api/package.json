@@ -10,7 +10,7 @@
 		"lint": "eslint ./",
 		"start": "node ./",
 		"start:dev": "nodemon -e .js,.json,.yml,.yaml ./ | pino-pretty -tlc",
-		"test": "jest",
+		"test": "jest --coverage",
 		"test:cov": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand"
 	},

@@ -12,7 +12,7 @@
 		"doc": "jsdoc -c jsdoc.conf.json",
 		"lint": "eslint ./",
 		"lint:fix": "eslint ./ --fix",
-		"test": "jest",
+		"test": "jest --coverage",
 		"test:cov": "jest --coverage --verbose",
 		"test:watch": "jest --watchAll --runInBand"
 	},
