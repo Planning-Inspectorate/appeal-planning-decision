@@ -1,6 +1,7 @@
 const ListAddMoreQuestion = require('./question');
 const CaseAddMoreQuestion = require('../case-add-more/question');
 const { mockRes } = require('../../../../__tests__/unit/mocks');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 const res = mockRes();
 
@@ -99,6 +100,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 		it('should add addMoreAnswers data to model', () => {
 			const question = getTestQuestion();
 			const journey = {
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				response: {
 					answers: {
 						[question.fieldName]: [
@@ -201,6 +203,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const expectedBackLink = 'back';
 			const req = { body: { 'add-more-question': 1, [question.fieldName]: 'yes' } };
 			const journey = {
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				response: { answers: {} },
 				getNextQuestionUrl: jest.fn(() => expectedBackLink),
 				getCurrentQuestionUrl: jest.fn(() => expectedBackLink)
