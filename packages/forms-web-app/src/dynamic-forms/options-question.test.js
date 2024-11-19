@@ -1,3 +1,4 @@
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 const { OptionsQuestion } = require('./options-question');
 const ValidOptionValidator = require('./validator/valid-option-validator');
 const nunjucks = require('nunjucks');
@@ -53,6 +54,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			const question = getTestQuestion(expectedData);
 
 			const journey = {
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				response: {
 					answers: {}
 				},
@@ -78,6 +80,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			const question = getTestQuestion(expectedData);
 
 			const journey = {
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				response: {
 					answers: {
 						[question.fieldName]: ['yes', 'maybe']
@@ -135,6 +138,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			expectedData.options[1].attributes = { 'data-cy': 'answer-' + options[1].value };
 
 			const journey = {
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				response: {
 					answers: {}
 				},
@@ -195,6 +199,7 @@ describe('./src/dynamic-forms/question.js', () => {
 			expectedData.options[1].attributes = { 'data-cy': 'answer-' + options[1].value };
 
 			const journey = {
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				response: {
 					answers: {
 						[question.fieldName]: 'yes',
