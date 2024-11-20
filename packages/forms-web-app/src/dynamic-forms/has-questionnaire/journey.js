@@ -26,11 +26,11 @@ const sections = [
 		.withCondition(
 			(response) =>
 				response.answers && response.answers[questions.conservationArea.fieldName] == 'yes'
-		)
-		.addQuestion(questions.greenBelt),
+		),
+	// .addQuestion(questions.greenBelt)
 	new Section('Notifying relevant parties of the application', 'notified')
 		.addQuestion(questions.whoWasNotified)
-		.addQuestion(questions.howYouNotifiedPeople)
+		// .addQuestion(questions.howYouNotifiedPeople)
 		.addQuestion(questions.uploadSiteNotice)
 		.withCondition((response) =>
 			questionHasAnswer(response, questions.howYouNotifiedPeople, 'site-notice')
@@ -72,13 +72,28 @@ const sections = [
 		)
 		.addQuestion(questions.potentialSafetyRisks),
 	new Section('Appeal process', 'appeal-process')
-		.addQuestion(questions.appealsNearSite)
+		// .addQuestion(questions.appealsNearSite)
 		.addQuestion(questions.nearbyAppeals)
 		.withCondition(
 			(response) =>
 				response.answers && response.answers[questions.appealsNearSite.fieldName] == 'yes'
 		)
-		.addQuestion(questions.addNewConditions)
+		.addQuestion(questions.addNewConditions),
+
+	new Section('Test', 'test')
+		.addQuestion(questions.greenBelt)
+		.addQuestion(questions.howYouNotifiedPeople)
+		.withCondition(
+			(response) => response.answers && response.answers[questions.greenBelt.fieldName] === 'yes'
+		)
+		.addQuestion(questions.appealsNearSite)
+		.withCondition(
+			(response) => response.answers && response.answers[questions.greenBelt.fieldName] === 'yes'
+		)
+		.withLoopBack(
+			(response) =>
+				response.answers && response.answers[questions.appealsNearSite.fieldName] === 'yes'
+		)
 ];
 
 const baseHASUrl = '/manage-appeals/questionnaire';

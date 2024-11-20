@@ -237,7 +237,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section, name);
 
 				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
@@ -253,7 +253,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section, name);
 
 				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
@@ -270,7 +270,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name);
 
 				expect(nextQuestionUrl).toBe(
 					`${constructorArgs.makeBaseUrl()}/${section.segment}/${nextQuestionName}`
@@ -296,7 +296,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name);
 
 				expect(nextQuestionUrl).toBe(
 					`${constructorArgs.makeBaseUrl()}/${section.segment}/${nextQuestionName}`
@@ -322,7 +322,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
+				const nextQuestionUrl = journey.getPerviousQuestionUrl(section.segment, name);
 
 				expect(nextQuestionUrl).toBe(
 					`${constructorArgs.makeBaseUrl()}/${section.segment}/${prevQuestionName}`
@@ -342,7 +342,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = false;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name);
 
 				expect(nextQuestionUrl).toBe(
 					`${constructorArgs.makeBaseUrl()}/${nextSection.segment}/${nextQuestionName}`
@@ -360,7 +360,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name);
 
 				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
@@ -378,7 +378,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = false;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
+				const nextQuestionUrl = journey.getPerviousQuestionUrl(section.segment, name);
 
 				expect(nextQuestionUrl).toBe(
 					`${constructorArgs.makeBaseUrl()}/${prevSection.segment}/${prevQuestionName}`
@@ -396,7 +396,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = returnToListing;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
+				const nextQuestionUrl = journey.getPerviousQuestionUrl(section.segment, name);
 
 				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
@@ -412,7 +412,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = true;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
+				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name);
 				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
 		);
@@ -427,7 +427,7 @@ describe('Journey class', () => {
 				journey.sections = mockSections;
 				journey.returnToListing = true;
 
-				const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, true);
+				const nextQuestionUrl = journey.getPerviousQuestionUrl(section.segment, name);
 
 				expect(nextQuestionUrl).toBe(journey.taskListUrl);
 			}
@@ -442,7 +442,7 @@ describe('Journey class', () => {
 			const journey = new Journey(constructorArgs);
 			journey.sections = mockSections;
 
-			const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name, false);
+			const nextQuestionUrl = journey.getNextQuestionUrl(section.segment, name);
 
 			expect(nextQuestionUrl).toBe(`base/${section.segment}/${nextQuestionName}?id=1`);
 		});
