@@ -9,8 +9,7 @@
 	"description": "Appeal a planning decision - these are utility scripts for the whole repo",
 	"workspaces": [
 		"dev/*",
-		"packages/*",
-		"test-packages/*"
+		"packages/*"
 	],
 	"scripts": {
 		"docker:all": "docker compose --profile all -f docker-compose.yml -f docker-compose.full.yml up",
