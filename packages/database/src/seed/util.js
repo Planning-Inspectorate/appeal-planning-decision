@@ -54,5 +54,16 @@ module.exports = {
 		min = Math.ceil(min);
 		max = Math.floor(max);
 		return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+	},
+
+	/**
+	 * @param {number} daysToAdd
+	 * @param {number} hour
+	 * @returns {Date}
+	 */
+	getFutureDate(daysToAdd, hour = 12) {
+		let today = new Date();
+		today.setDate(today.getDate() + daysToAdd);
+		return new Date(today.getFullYear(), today.getMonth(), today.getDay(), hour);
 	}
 };

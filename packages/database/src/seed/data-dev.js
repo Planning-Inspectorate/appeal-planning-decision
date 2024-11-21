@@ -1,4 +1,4 @@
-const { pickRandom, datesNMonthsAgo, datesNMonthsAhead } = require('./util');
+const { pickRandom, datesNMonthsAgo, datesNMonthsAhead, getFutureDate } = require('./util');
 const { lpaAppealCaseData, lpaAppeals } = require('./lpa-appeal-case-data-dev');
 const { appealDocuments } = require('./appeal-documents-dev');
 const {
@@ -13,17 +13,6 @@ const config = require('../configuration/config.js');
 
 // some data here so we can reference in multiple places
 // IDs have no specific meaning, just valid UUIDs and used for upsert/relations
-
-/**
- * @param {number} daysToAdd
- * @param {number} hour
- * @returns {Date}
- */
-const getFutureDate = (daysToAdd, hour = 12) => {
-	let today = new Date();
-	today.setDate(today.getDate() + daysToAdd);
-	return new Date(today.getFullYear(), today.getMonth(), today.getDay(), hour);
-};
 
 const appellants = {
 	appellantOne: {
