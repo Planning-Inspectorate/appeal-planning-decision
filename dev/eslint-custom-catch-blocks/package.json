@@ -13,6 +13,6 @@
 	"author": "",
 	"license": "ISC",
 	"peerDependencies": {
-		"eslint": "^8.50.0"
+		"eslint": "*"
 	}
 }

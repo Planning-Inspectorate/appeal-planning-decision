@@ -18,7 +18,7 @@ COPY packages/database /opt/packages/database
 
 # install from root
 WORKDIR /opt
-RUN npm ci
+RUN npm ci --workspaces --if-present
 
 # build web
 WORKDIR /opt/packages/forms-web-app

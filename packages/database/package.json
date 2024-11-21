@@ -22,14 +22,11 @@
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"license": "ISC",
 	"dependencies": {
+		"@prisma/client": "*",
 		"@pins/business-rules": "file:../business-rules",
-		"@pins/common": "file:../common"
+		"@pins/common": "file:../common",
+		"pins-data-model": "*",
+		"prisma": "*"
 	},
-	"devDependencies": {
-		"@prisma/client": "^5.11.0",
-		"eslint": "^8.17.0",
-		"eslint-config-prettier": "^8.5.0",
-		"eslint-plugin-jest": "^24.4.0",
-		"prisma": "^5.11.0"
-	}
+	"devDependencies": {}
 }

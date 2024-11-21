@@ -10,7 +10,7 @@ COPY package-lock.json /opt/
 
 # install from root
 WORKDIR /opt
-RUN npm ci --omit=dev
+RUN npm ci --workspaces --if-present --omit=dev
 
 WORKDIR /opt/dev/mock-horizon
 
