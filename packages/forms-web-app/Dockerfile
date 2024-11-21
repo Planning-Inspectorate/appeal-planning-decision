@@ -11,7 +11,6 @@ COPY packages/forms-web-app/src ./src
 # copy workspace deps
 COPY package.json /opt/
 COPY package-lock.json /opt/
-COPY patches /opt/patches
 COPY packages/common /opt/packages/common
 COPY packages/business-rules /opt/packages/business-rules
 COPY packages/database /opt/packages/database
