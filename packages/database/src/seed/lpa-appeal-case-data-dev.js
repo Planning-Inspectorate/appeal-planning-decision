@@ -53,7 +53,10 @@ const lpaAppealIds = {
 	appealTP16: '7c8412e0-c734-4969-b7d4-441c60c6852b',
 	appealTP17: '7c1412e0-c734-4969-b7d4-441c60c6861b',
 	appealTP18: '7c1412e0-c734-4969-b7d4-441c60c6862b',
-	appealTP19: '7c1412e0-c734-4969-b7d4-441c60c6863b'
+	appealTP19: '7c1412e0-c734-4969-b7d4-441c60c6863b',
+	appealTP20: '7c1412e0-c734-4969-b7d4-441c60c6864b',
+	appealTP21: '7c1412e0-c734-4969-b7d4-441c60c6865b',
+	appealTP22: '7c1412e0-c734-4969-b7d4-441c60c6866b'
 };
 
 /**
@@ -107,7 +110,10 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appealTP16 },
 	{ id: lpaAppealIds.appealTP17 },
 	{ id: lpaAppealIds.appealTP18 },
-	{ id: lpaAppealIds.appealTP19 }
+	{ id: lpaAppealIds.appealTP19 },
+	{ id: lpaAppealIds.appealTP20 },
+	{ id: lpaAppealIds.appealTP21 },
+	{ id: lpaAppealIds.appealTP22 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -1923,6 +1929,129 @@ const lpaAppealCaseData = [
 		CaseType: { connect: { processCode: 'S78' } },
 		CaseStatus: {
 			connect: { key: APPEAL_CASE_STATUS.STATEMENTS }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP20 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000354',
+		siteAddressLine1: 'rule 6 poe',
+		siteAddressLine2: null,
+		siteAddressTown: 'Statement due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		rule6StatementDueDate: pickRandom(datesNMonthsAhead(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		rule6ProofEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		developmentDescription: 'test description',
+		isGreenBelt: true,
+		ownsSomeLand: true,
+		knowsOtherOwners: 'yes',
+		advertisedAppeal: true,
+		ownersInformed: true,
+		agriculturalHolding: true,
+		tenantAgriculturalHolding: true,
+		otherTenantsAgriculturalHolding: true,
+		informedTenantsAgriculturalHolding: true,
+		siteAccessDetails: JSON.stringify(['Blocked access']),
+		siteSafetyDetails: JSON.stringify(['No issues']),
+		appellantProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
+		appellantProcedurePreferenceDetails: 'Would like longer consideration',
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP21 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000355',
+		siteAddressLine1: 'rule 6 poe',
+		siteAddressLine2: null,
+		siteAddressTown: 'Statement due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		rule6StatementDueDate: pickRandom(datesNMonthsAhead(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		rule6ProofEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		developmentDescription: 'test description',
+		isGreenBelt: true,
+		ownsSomeLand: true,
+		knowsOtherOwners: 'yes',
+		advertisedAppeal: true,
+		ownersInformed: true,
+		agriculturalHolding: true,
+		tenantAgriculturalHolding: true,
+		otherTenantsAgriculturalHolding: true,
+		informedTenantsAgriculturalHolding: true,
+		siteAccessDetails: JSON.stringify(['Blocked access']),
+		siteSafetyDetails: JSON.stringify(['No issues']),
+		appellantProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
+		appellantProcedurePreferenceDetails: 'Would like longer consideration',
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
+		},
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP22 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000356',
+		siteAddressLine1: 'rule 6 poe',
+		siteAddressLine2: null,
+		siteAddressTown: 'Statement due',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireSubmittedDate: pickRandom(datesNMonthsAgo(1)),
+		lpaQuestionnaireCreatedDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		finalCommentsDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		rule6StatementDueDate: pickRandom(datesNMonthsAhead(1)),
+		proofsOfEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		rule6ProofEvidenceDueDate: pickRandom(datesNMonthsAhead(1)),
+		developmentDescription: 'test description',
+		isGreenBelt: true,
+		ownsSomeLand: true,
+		knowsOtherOwners: 'yes',
+		advertisedAppeal: true,
+		ownersInformed: true,
+		agriculturalHolding: true,
+		tenantAgriculturalHolding: true,
+		otherTenantsAgriculturalHolding: true,
+		informedTenantsAgriculturalHolding: true,
+		siteAccessDetails: JSON.stringify(['Blocked access']),
+		siteSafetyDetails: JSON.stringify(['No issues']),
+		appellantProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
+		appellantProcedurePreferenceDetails: 'Would like longer consideration',
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		CaseStatus: {
+			connect: { key: APPEAL_CASE_STATUS.EVIDENCE }
 		},
 		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
 	},
