@@ -23,7 +23,7 @@ COPY package-lock.json /opt/
 
 # install from root
 WORKDIR /opt
-RUN npm ci --omit=dev
+RUN npm ci --workspaces --if-present --omit=dev
 RUN chmod -R o+rwx /opt/packages/pdf-service-api/node_modules/puppeteer/.local-chromium
 
 # Stage 2/2: App Run

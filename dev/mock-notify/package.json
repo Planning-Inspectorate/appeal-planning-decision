@@ -10,7 +10,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"json-server": "^0.16.2",
-		"notifications-node-client": "^5.0.0"
+		"json-server": "*",
+		"notifications-node-client": "*"
 	}
 }

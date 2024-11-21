@@ -19,7 +19,7 @@ COPY packages/database /opt/packages/database
 
 # install from root
 WORKDIR /opt
-RUN npm ci --omit=dev
+RUN npm ci --workspaces --if-present --omit=dev
 # generate prisma client
 WORKDIR /opt/packages/appeals-service-api
 RUN npm run db:generate
