@@ -415,6 +415,8 @@ const postEnterCodeLPA = (views) => {
 			});
 		}
 
+		const isV2DocRequest = req.session?.loginRedirect?.startsWith('/lpa-questionnaire-document/');
+
 		let user;
 
 		try {
@@ -449,6 +451,12 @@ const postEnterCodeLPA = (views) => {
 		} catch (err) {
 			logger.error(err, `Failed to create user session for user id ${id}`);
 			throw err;
+		}
+
+		if (isV2DocRequest) {
+			const redirect = req.session.loginRedirect;
+			delete req.session.loginRedirect;
+			return res.redirect(redirect);
 		}
 
 		redirectToLPADashboard(res, views);

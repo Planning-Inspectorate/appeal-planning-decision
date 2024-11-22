@@ -18,6 +18,8 @@ const { APPEAL_CASE_STAGE } = require('pins-data-model');
 const { PassThrough } = require('node:stream');
 const buildZipFilename = require('#lib/build-zip-filename');
 const { getUserFromSession } = require('../services/user.service');
+const { CONSTS } = require('../consts');
+const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 
 const appealTypeToDetails = {
 	[APPEAL_ID.HOUSEHOLDER]: {
@@ -329,13 +331,12 @@ exports.submit = async (req, res) => {
 
 	await req.appealsApiClient.submitLPAQuestionnaire(referenceId);
 
-	//todo: storePDF
-	//generatehtml - get html from submission information page (below)
-	//store pdf
-	//update id - along lines of await req.appealsApiClient.updateAppellantSubmission(appellantSubmissionId, {
-	// 	submissionPdfId: storedPdf.id
-	// });
-	// documentId = storedPdf.id;
+	const storedPdf = await storePdfQuestionnaireSubmission({
+		submissionJourney: journey,
+		sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
+	});
+
+	await req.appealsApiClient.patchLPAQuestionnaire(referenceId, { submissionPdfId: storedPdf.id });
 
 	return res.redirect(
 		'/manage-appeals/' +

@@ -145,6 +145,29 @@ class LPAQuestionnaireSubmissionRepository {
 			}
 		});
 	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<LPAQuestionnaireSubmission|null>}
+	 */
+	async getLPAQuestionnaireDownloadDetails(caseReference) {
+		try {
+			const result = await this.dbClient.lPAQuestionnaireSubmission.findUnique({
+				where: {
+					appealCaseReference: caseReference
+				},
+				select: {
+					id: true,
+					submissionPdfId: true
+				}
+			});
+
+			return result;
+		} catch (err) {
+			logger.error(err);
+			throw ApiError.questionnaireDownloadDetailsNotFound;
+		}
+	}
 }
 
 module.exports = { LPAQuestionnaireSubmissionRepository };

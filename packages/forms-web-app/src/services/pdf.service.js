@@ -15,10 +15,12 @@ const logger = require('../lib/logger');
 const { textToPdf } = require('../lib/textToPdf');
 const { CONSTS } = require('../consts');
 const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { addCSStoHtml } = require('#lib/add-css-to-html');
 
 const defaultFileName = 'appeal-form';
 
 const defaultSubmissionFileName = 'appellant-submission';
+const defaultLPASubmissionFileName = 'lpa-questionnaire-submission';
 
 const appealTypeUrlMapping = {
 	[APPEAL_ID.HOUSEHOLDER]: VIEW.APPELLANT_SUBMISSION.SUBMISSION_INFORMATION,
@@ -171,12 +173,11 @@ const storePdfAppellantSubmission = async ({
 
 	log.info('Attempting to store PDF document');
 
+	/* URL back to this service front-end */
+	const url = buildAppellantSubmissionUrl(appellantSubmissionId, appealTypeCode);
+
 	try {
-		const htmlContent = await getHtmlAppellantSubmission(
-			appellantSubmissionId,
-			appealTypeCode,
-			sid
-		);
+		const htmlContent = await getHtmlSubmission(appellantSubmissionId, url, sid);
 
 		log.debug('Generating PDF of appeal');
 
@@ -206,24 +207,20 @@ const storePdfAppellantSubmission = async ({
 };
 
 /**
- * @param {string} appellantSubmissionId - appellant Submission Id
- * @param {string} appealTypeCode - appeal type code
+ * @param {string} submissionId - submission Id
+ * @param {string} url - url to fetch
  * @param {string} sid - session cookie
  */
-
-const getHtmlAppellantSubmission = async (appellantSubmissionId, appealTypeCode, sid) => {
+const getHtmlSubmission = async (submissionId, url, sid) => {
 	const log = logger.child({
-		appellantSubmissionId,
+		submissionId,
 		uuid: uuid.v4()
 	});
-
-	/* URL back to this service front-end */
-	const url = buildAppellantSubmissionUrl(appellantSubmissionId, appealTypeCode);
 
 	let response;
 
 	try {
-		log.info({ url }, 'Generating HTML appeal');
+		log.info({ url }, 'Generating HTML for submission');
 
 		const opts = {
 			headers: {
@@ -238,10 +235,10 @@ const getHtmlAppellantSubmission = async (appellantSubmissionId, appealTypeCode,
 				status: response.status,
 				statusText: response.statusText
 			},
-			'HTML generated'
+			'HTML generated for submission'
 		);
 	} catch (err) {
-		log.error({ err }, 'Failed to generate HTML appeal');
+		log.error({ err }, 'Failed to generate HTML for submission');
 
 		throw err;
 	}
@@ -270,9 +267,55 @@ const buildAppellantSubmissionUrl = (appellantSubmissionId, appealTypeCode) => {
 	return `${config.server.host}/appeals/${urlPart}/submit/information?id=${appellantSubmissionId}`;
 };
 
+/**
+ * @param {Object} params
+ * @param {*} params.submissionJourney - LPA questionnaire submission journey
+ * @param {string} [params.fileName] - optional filename
+ * @param {string} params.sid - session cookie
+ */
+const storePdfQuestionnaireSubmission = async ({ submissionJourney, fileName, sid }) => {
+	const appealReferenceId = submissionJourney.response.referenceId;
+	const lpaQuestionnaireId = submissionJourney.response.answers.id;
+	//todo: url hardcoded for householder questionnaire information page - will require adaptation for S78 etc
+	const url = `${config.server.host}/manage-appeals/householder/${appealReferenceId}/questionnaire-submitted/information`;
+
+	const log = logger.child({
+		lpaQuestionnaireId: lpaQuestionnaireId,
+		uuid: uuid.v4()
+	});
+
+	log.info('Attempting to store PDF document');
+
+	try {
+		const htmlContent = await getHtmlSubmission(submissionJourney, url, sid);
+		const htmlContentWithCSS = await addCSStoHtml(htmlContent);
+
+		log.debug('Generating PDF of questionnaire');
+		const pdfBuffer = await generatePDF(htmlContentWithCSS);
+		log.debug('Creating document from PDF buffer');
+		const document = await createDocument(
+			{
+				id: lpaQuestionnaireId,
+				referenceNumber: appealReferenceId
+			},
+			pdfBuffer,
+			`${fileName || defaultLPASubmissionFileName}.pdf`,
+			documentTypes.lpaQuestionnaireSubmission.name
+		);
+		log.debug('PDF document successfully created');
+
+		return document;
+	} catch (err) {
+		const msg = 'Error during the lpa questionnaire submission pdf generation';
+		log.error({ err }, msg);
+		throw new Error(msg);
+	}
+};
+
 module.exports = {
 	storePdfAppeal,
 	storePdfAppellantSubmission,
 	getHtmlAppeal,
-	storeTextAsDocument
+	storeTextAsDocument,
+	storePdfQuestionnaireSubmission
 };

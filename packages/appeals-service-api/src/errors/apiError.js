@@ -184,6 +184,12 @@ class ApiError {
 		});
 	}
 
+	static questionnaireDownloadDetailsNotFound() {
+		return new ApiError(404, {
+			errors: ['Unable to locate questionnaire download details']
+		});
+	}
+
 	static unableToCreateQuestionnaire() {
 		return new ApiError(400, {
 			errors: ['Unable to create questionnaire']

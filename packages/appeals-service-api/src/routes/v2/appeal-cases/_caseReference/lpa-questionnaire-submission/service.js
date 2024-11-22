@@ -1,3 +1,4 @@
+const ApiError = require('#errors/apiError');
 const { LPAQuestionnaireSubmissionRepository } = require('./repo');
 
 const repo = new LPAQuestionnaireSubmissionRepository();
@@ -66,9 +67,23 @@ function markQuestionnaireAsSubmitted(caseReference, lpaQuestionnaireSubmittedDa
 	return repo.markLPAQuestionnaireAsSubmitted(caseReference, lpaQuestionnaireSubmittedDate);
 }
 
+/**
+ * get details for LPAQ submission PDF
+ *
+ * @param {string} caseReference
+ */
+async function getLPAQuestionnaireDownloadDetails(caseReference) {
+	try {
+		return await repo.getLPAQuestionnaireDownloadDetails(caseReference);
+	} catch (err) {
+		throw ApiError.forbidden();
+	}
+}
+
 module.exports = {
 	getLPAQuestionnaireByAppealId,
 	createLPAQuestionnaire,
 	patchLPAQuestionnaireByAppealId,
-	markQuestionnaireAsSubmitted
+	markQuestionnaireAsSubmitted,
+	getLPAQuestionnaireDownloadDetails
 };

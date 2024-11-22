@@ -828,6 +828,7 @@ model LPAQuestionnaireSubmission {
   // state
   submitted Boolean @default(false) /// whether the appeal has been submitted to BO
 
+  submissionPdfId                                 String?
   correctAppealType                               Boolean?
   affectsListedBuilding                           Boolean?
   affectedListedBuildingNumber                    String?
