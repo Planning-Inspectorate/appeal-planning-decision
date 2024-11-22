@@ -26,7 +26,6 @@
 		"@azure/service-bus": "*",
 		"@azure/storage-blob": "*",
 		"@pins/common": "file:../common",
-		"got": "*",
 		"stream-json": "*"
 	}
 }
