@@ -57,7 +57,6 @@
 		"pino": "*",
 		"pino-http": "*",
 		"pins-data-model": "*",
-		"sass": "*",
 		"uuid": "*"
 	},
 	"devDependencies": {
@@ -71,6 +70,7 @@
 		"nodemon": "*",
 		"npm-run-all": "*",
 		"pino-pretty": "*",
+		"sass": "*",
 		"sinon": "*",
 		"webpack": "*",
 		"webpack-cli": "*",
