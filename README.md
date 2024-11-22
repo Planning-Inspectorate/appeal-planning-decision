@@ -193,48 +193,14 @@ In the event of divergence from the README, the external document will take
 precedence.
 
 All commit messages must be written in the [Conventional Commit Format](#commit-message-format).
-This uses [Semantic Release](https://semantic-release.gitbook.io/semantic-release/)
-to generate the release numbers for the artifacts.
-
-## Commit Message Format
-
-This repo uses [Semantic Release](https://semantic-release.gitbook.io) to
-generate release version numbers, so it is imperative that all commits are
-done using the [correct format](https://www.conventionalcommits.org/en/v1.0.0/#specification).
-
-Commits to the `develop` branch will create release candidates. These are a release
-of software that may or may not be made public. Under normal circumstance, releases
-should be made directly to the `main` branch.
 
 ## Commit Message Rules
 
-Commit messages dictate how the software is released. You must ensure that you are
-using the correct commit type. Commit messages starting `feat` or `fix` will trigger
-a new release - other types such as `chore`, `docs` or `test` won't create a new
-release. These should be used appropriately - for instance, if you are refactoring the
+You must ensure that you are using the correct commit type. 
+These should be used appropriately - for instance, if you are refactoring the
 repo structure without changing any of the application, this would be appropriate to
 use `chore`. If you are fixing a bug then `fix` should be used. A new feature should
 use the type `feat`.
-
-You can mix-and-match inside a PR - the CI/CD pipelines will take the highest ranked
-commit type and make a release based on that. For instance, a PR with many `chore`
-and one `feat` will produce a new release bumping the minor semantic version number.
-Without the `feat`, it would create no new release.
-
-## Checking The Correct Release Has Been Deployed
-
-1. Check your PR has passed. If there are any failures, check these to see if the
-   reasons for failure give a clue as to what went wrong (and then fix). There is a job
-   called `Next version` which will tell you the version number that this should create
-   if successful.
-2. Check a [new release was made](https://github.com/Planning-Inspectorate/appeal-planning-decision/releases).
-   Dependent upon whether it was made from the `develop` or `main` branch, you will be
-   looking for either a pre-release version or a release. If no release has been made,
-   ensure that your commit message was formatted correctly and begins with `feat` or `fix`.
-3. Check the [/releases](https://github.com/Planning-Inspectorate/appeal-planning-decision/tree/main/releases)
-   folder against the cluster you are expecting to see it deployed on. If the `app.yml` file does
-   not contain the tag you are expecting then the deployment may have failed. It takes up to
-   5 minutes for a new release to be detected.
 
 ## Ensure Linear Commits
 
