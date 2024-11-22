@@ -34,6 +34,25 @@ class DocumentsRepository {
 	}
 
 	/**
+	 * @param {string} caseRef
+	 * @returns {Promise<import("@prisma/client").SubmissionDocumentUpload>[]} documents
+	 */
+	async getSubmissionDocumentsByCaseRef(caseRef) {
+		return this.dbClient.submissionDocumentUpload.findMany({
+			where: {
+				LPAQuestionnaireSubmission: {
+					appealCaseReference: caseRef
+				}
+			},
+			select: {
+				location: true,
+				type: true,
+				originalFileName: true
+			}
+		});
+	}
+
+	/**
 	 * @param {string} id SubmissionDocumentUpload id
 	 * @return {Promise<import("@prisma/client").SubmissionDocumentUpload>}
 	 */

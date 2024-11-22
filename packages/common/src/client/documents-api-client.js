@@ -50,10 +50,11 @@ class DocumentsApiClient {
 	/**
 	 * @param {string} caseRef
 	 * @param {string} caseStage
+	 * @param {string} documentsLocation
 	 * @returns {Promise<Buffer>}
 	 */
-	async getBackOfficeDocumentsByAppealNumberAndCaseStage(caseRef, caseStage) {
-		const endpoint = `${v2}/back-office/${caseRef}/case-stage/${caseStage}`;
+	async getBulkDocumentsDownload(caseRef, caseStage, documentsLocation) {
+		const endpoint = `${v2}/${documentsLocation}/${caseRef}/case-stage/${caseStage}`;
 		const response = await this.#makeGetRequest(endpoint);
 		return response.buffer();
 	}

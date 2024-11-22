@@ -13,6 +13,9 @@ const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
+const { APPEAL_CASE_STAGE } = require('pins-data-model');
+const { PassThrough } = require('node:stream');
+const buildZipFilename = require('#lib/build-zip-filename');
 
 const appealTypeToDetails = {
 	[APPEAL_ID.HOUSEHOLDER]: {
@@ -483,7 +486,11 @@ exports.lpaSubmitted = async (req, res) => {
 		return res.status(400).render('./error/not-found.njk');
 	}
 
-	return res.render('./dynamic-components/submission-screen/lpa');
+	const zipDownloadUrl =
+		req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/')) +
+		`/download/submission/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`;
+
+	return res.render('./dynamic-components/submission-screen/lpa', { zipDownloadUrl });
 };
 
 /**
@@ -718,4 +725,35 @@ exports.lpaProofEvidenceSubmitted = async (req, res) => {
 	return res.render('./dynamic-components/submission-screen/lpa-proof-evidence', {
 		caseReference
 	});
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.bulkDownloadSubmissionDocuments = async (req, res) => {
+	const { referenceId, appealCaseStage, documentsLocation } = req.params;
+
+	if (!appealCaseStage) {
+		return res.status(404);
+	}
+
+	res.setHeader('content-type', 'application/zip');
+	res.setHeader(
+		'content-disposition',
+		`attachment; filename=${buildZipFilename(referenceId, appealCaseStage)}`
+	);
+
+	const bufferStream = new PassThrough();
+
+	bufferStream.end(
+		await req.docsApiClient.getBulkDocumentsDownload(
+			referenceId,
+			appealCaseStage,
+			documentsLocation
+		)
+	);
+
+	bufferStream.pipe(res);
+
+	return res.status(200);
 };

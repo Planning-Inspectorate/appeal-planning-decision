@@ -45,7 +45,9 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		let zipDownloadUrl;
 		if (userType === LPA_USER_ROLE && !isPagePdfDownload) {
 			pdfDownloadUrl = userRouteUrl + '?pdf=true';
-			zipDownloadUrl = userRouteUrl + `/download/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`;
+			zipDownloadUrl =
+				req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/')) +
+				`/download/back-office/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`;
 		}
 
 		const lpaUser = getUserFromSession(req);
