@@ -1084,6 +1084,7 @@ export interface LPAQuestionnaireSubmission {
 	};
 	/** whether the questionnaire has been submitted to BO */
 	submitted?: boolean;
+	submissionPdfId?: string;
 	appealCaseReference: string;
 	correctAppealType?: boolean;
 	affectsListedBuilding?: boolean;

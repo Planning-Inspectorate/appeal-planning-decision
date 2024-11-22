@@ -43,6 +43,10 @@ const checkLoggedIn = async (req, res, next) => {
 		v2docRedirect = req.originalUrl;
 	}
 
+	if (req.originalUrl.startsWith('/lpa-questionnaire-document/') && req.params?.caseReference) {
+		v2docRedirect = req.originalUrl;
+	}
+
 	// reset session
 	req.session.regenerate((err) => {
 		if (err) {
@@ -60,6 +64,10 @@ const checkLoggedIn = async (req, res, next) => {
 
 		if (req.originalUrl.startsWith('/rule-6/')) {
 			return res.redirect('email-address');
+		}
+
+		if (req.originalUrl.startsWith('/lpa-questionnaire-document/')) {
+			return res.redirect('/manage-appeals/your-email-address');
 		}
 
 		req.session.newOrSavedAppeal = NEW_OR_SAVED_APPEAL_OPTION.RETURN;

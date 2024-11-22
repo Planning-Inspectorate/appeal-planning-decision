@@ -23,7 +23,8 @@ const {
 	getDocument,
 	getAppellantSubmissionPDFV2,
 	getSubmissionDocumentV2Url,
-	getPublishedDocumentV2Url
+	getPublishedDocumentV2Url,
+	getLPAQSubmissionPDFV2
 } = require('../controllers/document');
 const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadline');
 const checkAppealExists = require('#middleware/check-appeal-exists');
@@ -70,8 +71,9 @@ if (config.featureFlag.dashboardsEnabled) {
 	router.use('/appeals', checkLoggedIn, appeals);
 }
 
-//v2 submission pdf
 router.use('/appeal-document/:appellantSubmissionId', checkLoggedIn, getAppellantSubmissionPDFV2);
+//v2 lpaq submission pdf
+router.use('/lpa-questionnaire-document/:caseReference', checkLoggedIn, getLPAQSubmissionPDFV2);
 // v2 published BO documents, doesn't check logged in as some docs are public, checked in docs api
 router.use('/published-document/:documentId', getPublishedDocumentV2Url);
 // v1 appeals / questionnaires documents
