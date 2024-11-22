@@ -25,8 +25,9 @@
 		"@prisma/client": "*",
 		"@pins/business-rules": "file:../business-rules",
 		"@pins/common": "file:../common",
-		"pins-data-model": "*",
-		"prisma": "*"
+		"pins-data-model": "*"
 	},
-	"devDependencies": {}
+	"devDependencies": {
+		"prisma": "*"
+	}
 }
