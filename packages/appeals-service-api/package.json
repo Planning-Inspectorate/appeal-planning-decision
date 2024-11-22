@@ -47,7 +47,6 @@
 		"express-oauth2-jwt-bearer": "*",
 		"express-openapi-validator": "*",
 		"express-validator": "7.0.1",
-		"got": "*",
 		"joi": "*",
 		"jsonpath": "*",
 		"mongodb": "*",
