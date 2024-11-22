@@ -20,7 +20,7 @@ router.get(
 	questionnaireDetailsController.get('layouts/lpa-dashboard/main.njk')
 );
 router.get(
-	`/:appealNumber/questionnaire/download/documents/:appealCaseStage`,
+	`/:appealNumber/download/:documentsLocation/documents/:appealCaseStage`,
 	downloadDocumentsController.get()
 );
 router.get(

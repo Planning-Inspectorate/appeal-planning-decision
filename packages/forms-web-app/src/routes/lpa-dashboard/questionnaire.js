@@ -5,7 +5,8 @@ const {
 	save,
 	remove,
 	submit,
-	lpaSubmitted
+	lpaSubmitted,
+	bulkDownloadSubmissionDocuments
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -115,6 +116,11 @@ router.get(
 	getJourney(journeys),
 	validationErrorHandler,
 	lpaSubmitted
+);
+
+router.get(
+	'/:applicationType/:referenceId/download/:documentsLocation/documents/:appealCaseStage',
+	bulkDownloadSubmissionDocuments
 );
 
 // remove answer - only available for some question types

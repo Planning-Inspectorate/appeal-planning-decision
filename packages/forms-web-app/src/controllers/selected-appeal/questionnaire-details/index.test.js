@@ -76,7 +76,7 @@ const expectedViewContext = {
 		appealProcessDetails: 'some formatted row data'
 	},
 	pdfDownloadUrl: 'a/fake/url?pdf=true',
-	zipDownloadUrl: `a/fake/url/download/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`
+	zipDownloadUrl: `a/fake/download/back-office/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`
 };
 
 describe('controllers/selected-appeal/questionnaire-details/index', () => {
