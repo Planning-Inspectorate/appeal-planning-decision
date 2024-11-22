@@ -740,6 +740,17 @@ const documentTypes = {
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	lpaQuestionnaireSubmission: {
+		name: 'lpaQuestionnaireSubmission',
+		dataModelName: '', // To be added once data model confirmed
+		multiple: false,
+		displayName: '',
+		involvement: 'LPA',
+		owner: lpaOwner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
 	}
 };
 

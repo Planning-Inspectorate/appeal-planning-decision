@@ -1,7 +1,8 @@
 const {
 	getLPAQuestionnaireByAppealId,
 	createLPAQuestionnaire,
-	patchLPAQuestionnaireByAppealId
+	patchLPAQuestionnaireByAppealId,
+	getLPAQuestionnaireDownloadDetails
 } = require('./service');
 const logger = require('#lib/logger');
 const ApiError = require('#errors/apiError');
@@ -73,8 +74,31 @@ async function patchLPAQuestionnaireSubmission(req, res) {
 	}
 }
 
+// Endpoint for retrieving details required for lpaq submission pdf
+/**
+ * @type {import('express').RequestHandler}
+ */
+async function getLPAQuestionnaireDownloadDetailsByCaseReference(req, res) {
+	const caseReference = req.params.caseReference;
+
+	if (!caseReference) {
+		throw ApiError.badRequest({ errors: ['Case reference is required'] });
+	}
+
+	const userId = req.auth.payload.sub;
+
+	if (!userId) {
+		throw ApiError.invalidToken();
+	}
+
+	const result = await getLPAQuestionnaireDownloadDetails(caseReference);
+
+	res.send(result);
+}
+
 module.exports = {
 	getLPAQuestionnaireSubmission,
 	createLPAQuestionnaireSubmission,
-	patchLPAQuestionnaireSubmission
+	patchLPAQuestionnaireSubmission,
+	getLPAQuestionnaireDownloadDetailsByCaseReference
 };

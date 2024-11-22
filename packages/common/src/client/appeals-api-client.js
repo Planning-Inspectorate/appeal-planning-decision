@@ -1105,6 +1105,13 @@ class AppealsApiClient {
 		const endpoint = `${v2}/appellant-submissions/${id}/download-details`;
 		return (await this.#makeGetRequest(endpoint)).json();
 	}
+	/**
+	 * @param {string} caseReference
+	 */
+	async checkOwnershipAndPdfDownloadDetailsLPAQ(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/download-details`;
+		return (await this.#makeGetRequest(endpoint)).json();
+	}
 
 	/**
 	 * @param {string} id
