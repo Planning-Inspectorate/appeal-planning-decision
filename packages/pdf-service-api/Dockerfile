@@ -1,31 +1,34 @@
-# Stage 1/3: Build
-FROM ghcr.io/puppeteer/puppeteer:23.9.0 AS base
+# Stage 1/3: base image and deps
+FROM node:20 AS base
 
-# Stage 2/3: Build app
+WORKDIR /puppeteer
+
+RUN apt-get update && \
+    apt-get install -y fonts-liberation gconf-service libappindicator1 \
+    libasound2 libatk1.0-0 libcairo2 libcups2 libfontconfig1 libgbm-dev \
+    libgdk-pixbuf2.0-0 libgtk-3-0 libicu-dev libjpeg-dev libnspr4 \
+    libnss3 libpango-1.0-0 libpangocairo-1.0-0 libpng-dev libx11-6 \
+    libx11-xcb1 libxcb1 libxcomposite1 libxcursor1 libxdamage1 libxext6 \
+    libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 xdg-utils
+
+# Stage 2/3: node deps
 FROM base AS build
 
-USER root
-
 WORKDIR /opt/packages/pdf-service-api
 
-# copy app
+# copy deps
 COPY packages/pdf-service-api/package*.json ./
-COPY packages/pdf-service-api/src ./src
+COPY package*.json /opt/
 
-# copy workspace deps
-COPY package.json package-lock.json /opt/
-
-# install from root
+# install
 WORKDIR /opt
 RUN npm ci --workspaces --if-present --omit=dev
+RUN chmod -R o+rwx ./node_modules/puppeteer/.local-chromium
 
-# Stage 3/3: App Run
+# Stage 3/3
 FROM build AS app
-
-# use puppeteer user
-USER pptruser
-
 WORKDIR /opt/packages/pdf-service-api
+COPY packages/pdf-service-api/src ./src
 
 EXPOSE 3000
 
