@@ -29,7 +29,8 @@ const {
 	sendLPAProofEvidenceSubmissionEmailToLPAV2,
 	sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2,
 	sendRule6StatementSubmissionEmailToRule6PartyV2,
-	sendLPAFinalCommentSubmissionEmailToLPAV2
+	sendLPAFinalCommentSubmissionEmailToLPAV2,
+	sendLPAHASQuestionnaireSubmittedEmailV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
@@ -59,6 +60,8 @@ const {
 	markLpaProofOfEvidenceAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
 const { getServiceUserByIdAndCaseReference } = require('../../routes/v2/service-users/service');
+const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
+const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -198,6 +201,28 @@ class BackOfficeV2Service {
 			caseReference,
 			mappedData?.casedata?.lpaQuestionnaireSubmittedDate
 		);
+
+		logger.info(`sending lpa questionnaire submitted email for ${caseReference}`);
+
+		try {
+			const appealCase = await getCaseAndAppellant({ caseReference });
+
+			let user = appealCase?.users?.find(
+				(user) => user.serviceUserType === SERVICE_USER_TYPE.AGENT
+			);
+			if (!user) {
+				user = appealCase?.users?.find(
+					(user) => user.serviceUserType === SERVICE_USER_TYPE.APPELLANT
+				);
+			}
+
+			const appellantOrAgentEmailAddress = user?.emailAddress;
+
+			await sendLPAHASQuestionnaireSubmittedEmailV2(appealCase, appellantOrAgentEmailAddress);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendLPAQuestionnaireSubmittedEmailV2');
+			throw new Error('failed to send LPA questionnaire submission email');
+		}
 
 		return result;
 	}
