@@ -201,7 +201,7 @@ extends:
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 20
-              script: npm ci --omit=dev
+              script: npm ci --omit=dev --workspace=integration-functions --workspace=@pins/common
               workingDirectory: $(Build.Repository.LocalPath)
           - script: |
               source ~/.bashrc
