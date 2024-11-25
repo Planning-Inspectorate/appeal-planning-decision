@@ -11,7 +11,7 @@ const LpaService = require('../services/lpa.service');
 const { format, parseISO } = require('date-fns');
 const { formatInTimeZone } = require('date-fns-tz');
 const constants = require('@pins/business-rules/src/constants');
-const { formatSubmissionAddress } = require('@pins/common/src/lib/format-address');
+const { formatSubmissionAddress, formatAddress } = require('@pins/common/src/lib/format-address');
 const lpaService = new LpaService();
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { templates } = config.services.notify;
@@ -19,6 +19,7 @@ const { templates } = config.services.notify;
 /**
  * @typedef {"HAS" | "S78"} AppealTypeCode
  * @typedef {import('@prisma/client').AppealCase } AppealCase
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
@@ -416,6 +417,64 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 		logger.error(
 			{ err, lpaCode: lpaCode },
 			'Unable to send proof of evidence submission email to LPA'
+		);
+	}
+};
+
+/**
+ * @param { AppealCaseDetailed } appealCase
+ * @param { string } appellantOrAgentEmailAddress
+ */
+const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
+	appealCase,
+	appellantOrAgentEmailAddress
+) => {
+	const { LPACode: lpaCode, caseReference, applicationReference, caseStartedDate } = appealCase;
+
+	let lpa;
+	try {
+		lpa = await lpaService.getLpaByCode(lpaCode);
+	} catch (_) {
+		lpa = await lpaService.getLpaById(lpaCode);
+	}
+
+	const lpaEmailAddress = lpa.getEmail();
+	const lpaName = lpa.getName();
+
+	const formattedAddress = formatAddress(appealCase);
+	const formattedDate = format(caseStartedDate, 'dd MMMM yyyy');
+
+	const url = `${config.apps.appeals.baseUrl}/lpa-questionnaire-document/${caseReference}`;
+
+	const variables = {
+		appeal_reference_number: caseReference,
+		'Name of local planning department': lpaName,
+		lpa_reference: applicationReference,
+		site_address: formattedAddress,
+		appeal_start_date: formattedDate,
+		'link to copy of questionnaire': url,
+		'appellant email address': appellantOrAgentEmailAddress
+	};
+
+	const reference = appealCase.id;
+
+	logger.debug({ variables }, 'Sending HAS questionnaire submitted email to LPA');
+
+	try {
+		await NotifyBuilder.reset()
+			.setTemplateId(templates.LPA_DASHBOARD.lpaHASQuestionnaireSubmissionConfirmationEmail)
+			.setDestinationEmailAddress(lpaEmailAddress)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, lpaCode: lpaCode },
+			'Unable to send HAS questionnaire submission email to LPA'
 		);
 	}
 };
@@ -926,6 +985,7 @@ module.exports = {
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
 	sendLPAProofEvidenceSubmissionEmailToLPAV2,
+	sendLPAHASQuestionnaireSubmittedEmailV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
 	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
 	sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2,

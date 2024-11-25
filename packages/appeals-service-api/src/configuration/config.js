@@ -134,7 +134,9 @@ let config = {
 				LPA_DASHBOARD: {
 					enterCodeIntoServiceEmailToLPA:
 						process.env.SRV_NOTIFY_LPA_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID,
-					lpaDashboardInviteEmail: process.env.SRV_NOTIFY_LPA_DASHBOARD_INVITE_TEMPLATE_ID
+					lpaDashboardInviteEmail: process.env.SRV_NOTIFY_LPA_DASHBOARD_INVITE_TEMPLATE_ID,
+					lpaHASQuestionnaireSubmissionConfirmationEmail:
+						process.env.SRV_NOTIFY_LPA_QUESTIONNAIRE_SUBMISSION_EMAIL
 				},
 				INTERESTED_PARTIES: {
 					ipCommentSubmissionConfirmationEmail:
@@ -142,7 +144,7 @@ let config = {
 				}
 			},
 			emailReplyToId: {
-				startEmailToLpa: process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA
+				startEmailToLpa: process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA // remove
 			},
 			emails: {
 				adminMonitoringEmail: process.env.SRV_ADMIN_MONITORING_EMAIL
