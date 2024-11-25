@@ -89,4 +89,4 @@ const displayHeadlinesByUser = (caseData, lpaName, userType) => {
 	return null;
 };
 
-module.exports = { formatHeadlineData, displayHeadlinesByUser, formatApplicant };
+module.exports = { formatHeadlineData, displayHeadlinesByUser };
