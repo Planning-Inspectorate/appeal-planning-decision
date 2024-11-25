@@ -143,9 +143,6 @@ let config = {
 						process.env.SRV_NOTIFY_IP_COMMENT_SUBMISSION_CONFIRMATION_EMAIL_TO_IP_TEMPLATE_ID
 				}
 			},
-			emailReplyToId: {
-				startEmailToLpa: process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA // remove
-			},
 			emails: {
 				adminMonitoringEmail: process.env.SRV_ADMIN_MONITORING_EMAIL
 			}
