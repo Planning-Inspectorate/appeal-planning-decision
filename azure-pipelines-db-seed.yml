@@ -39,7 +39,7 @@ jobs:
             - template: steps/node_script.yml@templates
               parameters:
                 nodeVersion: 20
-                script: npm ci
+                script: npm ci --workspace=@pins/database
             - template: steps/azure_auth.yml@templates
             - template: steps/azure_get_secrets.yml@templates
               parameters:

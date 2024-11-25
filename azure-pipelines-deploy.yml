@@ -92,6 +92,11 @@ extends:
                       variable: SQL_CONNECTION_STRING_ADMIN
                     - name: appeals-sql-server-connection-string-app
                       variable: SQL_CONNECTION_STRING
+              - template: ../steps/node_script.yml
+                parameters:
+                  nodeVersion: 20
+                  script: npm ci --workspace=@pins/database
+                  workingDirectory: $(Build.Repository.LocalPath)
               - ${{ if eq(parameters.schemaMigration, true) }}:
                   - template: ../steps/node_script.yml
                     parameters:
