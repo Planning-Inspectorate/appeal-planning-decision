@@ -136,7 +136,7 @@ let config = {
 						process.env.SRV_NOTIFY_LPA_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID,
 					lpaDashboardInviteEmail: process.env.SRV_NOTIFY_LPA_DASHBOARD_INVITE_TEMPLATE_ID,
 					lpaHASQuestionnaireSubmissionConfirmationEmail:
-						process.env.SRV_NOTIFY_LPA_HAS_QUESTIONNAIRE_SUBMISSION_EMAIL
+						process.env.SRV_NOTIFY_LPA_HAS_QUESTIONNAIRE_SUBMISSION_EMAIL_TEMPLATE_ID
 				},
 				INTERESTED_PARTIES: {
 					ipCommentSubmissionConfirmationEmail:
