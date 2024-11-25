@@ -17,7 +17,7 @@ Note: when starting a new appeal as an appellant, if you cannot progress beyond 
 
 ## Pre-requisites
 
-- [NodeJS v18](https://nodejs.org/en/download/)
+- [NodeJS v20](https://nodejs.org/en/download/)
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
