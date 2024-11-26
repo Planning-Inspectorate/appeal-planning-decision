@@ -23,13 +23,14 @@ jest.mock('archiver', () =>
 	})
 );
 
+const documentURI = 'https://some-url.com/document.pdf';
+
 jest.mock('../../../../../../db/repos/repository', () => ({
 	DocumentsRepository: jest.fn().mockImplementation(() => ({
 		getDocuments: jest.fn().mockImplementation(async ({ documentType }) => [
 			{
-				documentURI: `https://some-url.com/document-one.pdf`,
+				documentURI,
 				documentType,
-				originalFilename: `${documentType}-document.pdf`,
 				filename: 'document.pdf'
 			}
 		])
@@ -84,7 +85,7 @@ describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
 		testDocumentTypes.map((documentType, index) => {
 			expect(mockAppend).toHaveBeenNthCalledWith(
 				index + 1,
-				{ stream: `${documentType}-document.pdf` },
+				{ stream: documentURI },
 				{ name: `${documentType}/document.pdf` }
 			);
 		});

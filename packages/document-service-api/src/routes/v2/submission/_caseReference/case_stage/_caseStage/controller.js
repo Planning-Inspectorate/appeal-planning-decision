@@ -7,6 +7,7 @@ const { DocumentsRepository } = require('../../../../../../db/repos/repository')
 const repo = new DocumentsRepository();
 const { storage } = require('#config/config');
 const { APPEAL_CASE_STAGE } = require('pins-data-model');
+const getAzureBlobPathFromUri = require('@pins/common/src/lib/getAzureBlobPathFromUri');
 
 /**
  * @param {string} caseStage
@@ -28,7 +29,7 @@ async function getBlobCollection(caseStage, caseReference) {
 		return {
 			fullName: `${kebabCase(type)}/${originalFileName}`,
 			blobStorageContainer: storage.container,
-			blobStoragePath: originalFileName,
+			blobStoragePath: getAzureBlobPathFromUri(location, storage.host, storage.container),
 			documentURI: location
 		};
 	});
