@@ -33,16 +33,21 @@ const buildAppealUrl = (appeal) => {
 	return `${config.server.host}/${urlPart}/${appeal.id}`;
 };
 
-const getHtmlAppeal = async (appeal, sid) => {
-	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
-
-	/* URL back to this service front-end */
-	const url = buildAppealUrl(appeal);
+/**
+ * @param {string} id -  id for appeal, submission etc
+ * @param {string} url - url to fetch HTML from
+ * @param {string} sid - session cookie
+ */
+const getHtml = async (id, url, sid) => {
+	const log = logger.child({
+		id,
+		uuid: uuid.v4()
+	});
 
 	let response;
 
 	try {
-		log.info({ url }, 'Generating HTML appeal');
+		log.info({ url }, 'Generating HTML');
 
 		const opts = {
 			headers: {
@@ -60,7 +65,7 @@ const getHtmlAppeal = async (appeal, sid) => {
 			'HTML generated'
 		);
 	} catch (err) {
-		log.error({ err }, 'Failed to generate HTML appeal');
+		log.error({ url, err }, 'Failed to generate HTML');
 
 		throw err;
 	}
@@ -73,7 +78,7 @@ const getHtmlAppeal = async (appeal, sid) => {
 		throw new Error(response.statusText);
 	}
 
-	log.info('Successfully generated HTML appeal');
+	log.info({ url }, 'Successfully generated HTML');
 
 	return response.text();
 };
@@ -90,7 +95,8 @@ const storePdfAppeal = async ({ appeal, fileName, sid }) => {
 	log.info('Attempting to store PDF document');
 
 	try {
-		const htmlContent = await getHtmlAppeal(appeal, sid);
+		const url = buildAppealUrl(appeal);
+		const htmlContent = await getHtml(appeal.id, url, sid);
 
 		log.debug('Generating PDF of appeal');
 
@@ -177,7 +183,7 @@ const storePdfAppellantSubmission = async ({
 	const url = buildAppellantSubmissionUrl(appellantSubmissionId, appealTypeCode);
 
 	try {
-		const htmlContent = await getHtmlSubmission(appellantSubmissionId, url, sid);
+		const htmlContent = await getHtml(appellantSubmissionId, url, sid);
 
 		log.debug('Generating PDF of appeal');
 
@@ -204,56 +210,6 @@ const storePdfAppellantSubmission = async ({
 
 		throw new Error(msg);
 	}
-};
-
-/**
- * @param {string} submissionId - submission Id
- * @param {string} url - url to fetch
- * @param {string} sid - session cookie
- */
-const getHtmlSubmission = async (submissionId, url, sid) => {
-	const log = logger.child({
-		submissionId,
-		uuid: uuid.v4()
-	});
-
-	let response;
-
-	try {
-		log.info({ url }, 'Generating HTML for submission');
-
-		const opts = {
-			headers: {
-				cookie: `${CONSTS.SESSION_COOKIE_NAME}=${sid}`
-			}
-		};
-
-		response = await fetch(url, opts);
-
-		log.debug(
-			{
-				status: response.status,
-				statusText: response.statusText
-			},
-			'HTML generated for submission'
-		);
-	} catch (err) {
-		log.error({ err }, 'Failed to generate HTML for submission');
-
-		throw err;
-	}
-
-	const ok = response.status === 200;
-
-	if (!ok) {
-		log.error({ status: response.status }, 'HTTP status code not 200');
-
-		throw new Error(response.statusText);
-	}
-
-	log.info('Successfully generated HTML appeal');
-
-	return response.text();
 };
 
 /**
@@ -287,7 +243,7 @@ const storePdfQuestionnaireSubmission = async ({ submissionJourney, fileName, si
 	log.info('Attempting to store PDF document');
 
 	try {
-		const htmlContent = await getHtmlSubmission(submissionJourney, url, sid);
+		const htmlContent = await getHtml(submissionJourney, url, sid);
 		const htmlContentWithCSS = await addCSStoHtml(htmlContent);
 
 		log.debug('Generating PDF of questionnaire');
@@ -315,7 +271,7 @@ const storePdfQuestionnaireSubmission = async ({ submissionJourney, fileName, si
 module.exports = {
 	storePdfAppeal,
 	storePdfAppellantSubmission,
-	getHtmlAppeal,
+	getHtml,
 	storeTextAsDocument,
 	storePdfQuestionnaireSubmission
 };
