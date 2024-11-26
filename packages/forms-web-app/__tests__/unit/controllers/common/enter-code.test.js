@@ -709,5 +709,61 @@ describe('controllers/common/enter-code', () => {
 
 			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-appeals');
 		});
+
+		it('redirects using session property if a document request', async () => {
+			const views = {};
+			const userId = '649418158b915f0018524cb7';
+			const code = '12345';
+			isTokenValid.mockResolvedValue({
+				valid: true
+			});
+			const mockUser = {
+				email: 'a',
+				enabled: true
+			};
+			getLPAUser.mockResolvedValue(mockUser);
+
+			const returnedFunction = postEnterCodeLPA(views);
+
+			req.session.loginRedirect = '/lpa-questionnaire-document/1010101';
+			req.params.id = userId;
+			req.body = {
+				'email-code': code
+			};
+			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
+			await returnedFunction(req, res);
+			expect(getLPAUserStatus).toHaveBeenCalledWith(req, userId);
+			expect(setLPAUserStatus).toHaveBeenCalledWith(req, userId, STATUS_CONSTANTS.CONFIRMED);
+			expect(res.redirect).toHaveBeenCalledWith('/lpa-questionnaire-document/1010101');
+			expect(req.session.loginRedirect).toEqual(undefined);
+		});
+
+		it('does not redirect using session property if not a document request', async () => {
+			const { DASHBOARD } = lpaViews;
+			const views = { DASHBOARD };
+			const userId = '649418158b915f0018524cb7';
+			const code = '12345';
+			isTokenValid.mockResolvedValue({
+				valid: true
+			});
+			const mockUser = {
+				email: 'a',
+				enabled: true
+			};
+			getLPAUser.mockResolvedValue(mockUser);
+
+			const returnedFunction = postEnterCodeLPA(views);
+
+			req.session.loginRedirect = '/not-a-document-url/1010101';
+			req.params.id = userId;
+			req.body = {
+				'email-code': code
+			};
+			getLPAUserStatus.mockResolvedValue(STATUS_CONSTANTS.ADDED);
+			await returnedFunction(req, res);
+			expect(getLPAUserStatus).toHaveBeenCalledWith(req, userId);
+			expect(setLPAUserStatus).toHaveBeenCalledWith(req, userId, STATUS_CONSTANTS.CONFIRMED);
+			expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-appeals');
+		});
 	});
 });

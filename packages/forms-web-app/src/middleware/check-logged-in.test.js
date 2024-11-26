@@ -99,4 +99,23 @@ describe('checkLoggedIn middleware', () => {
 		expect(res.redirect).toHaveBeenCalledWith('/appeal-householder-decision/enter-code/a');
 		expect(req.session.loginRedirect).toBe(req.originalUrl);
 	});
+
+	it('handles lpa questionnaire document redirect', async () => {
+		const mockUser = null;
+
+		getUserFromSession.mockReturnValue(mockUser);
+		getExistingAppeal.mockResolvedValue({
+			id: 'a',
+			appealType: 1001
+		});
+		req.originalUrl = '/lpa-questionnaire-document/1010101';
+		req.params = {
+			caseReference: '1010101'
+		};
+
+		await checkLoggedIn(req, res, next);
+
+		expect(res.redirect).toHaveBeenCalledWith('/manage-appeals/your-email-address');
+		expect(req.session.loginRedirect).toBe(req.originalUrl);
+	});
 });
