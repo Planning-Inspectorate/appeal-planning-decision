@@ -22,10 +22,10 @@ jest.mock('archiver', () =>
 
 jest.mock('../../../../../../db/repos/repository', () => ({
 	DocumentsRepository: jest.fn().mockImplementation(() => ({
-		getSubmissionDocumentsByCaseRef: jest.fn().mockImplementation(async (caseReference) =>
+		getSubmissionDocumentsByCaseRef: jest.fn().mockImplementation(async () =>
 			testDocuments.map((document) => ({
-				location: `${testDocumentType}:${caseReference}/${document}`,
-				originalFileName: `${caseReference}-${document}`,
+				location: `${testCaseReference}-${document}`,
+				originalFileName: `${testCaseReference}-${document}`,
 				type: testDocumentType
 			}))
 		)
@@ -42,7 +42,7 @@ jest.mock('#lib/front-office-storage-client', () => ({
 	})
 }));
 
-describe('/v2/back-office/{caseReference}/case_stage/{caseStage}', () => {
+describe('/v2/submission/{caseReference}/case_stage/{caseStage}', () => {
 	let res = mockRes();
 
 	let req;

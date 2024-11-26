@@ -7,6 +7,8 @@ const { FOLDERS } = require('@pins/common/src/constants');
 const { DocumentsRepository } = require('../../../../../../db/repos/repository');
 const repo = new DocumentsRepository();
 const { boStorage } = require('#config/config');
+const logger = require('#lib/logger');
+const getAzureBlobPathFromUri = require('@pins/common/src/lib/getAzureBlobPathFromUri');
 
 /**
  * @param {string} caseStage
@@ -26,11 +28,11 @@ async function getBlobCollection(caseStage, caseReference) {
 	)
 		.flat()
 		.map((document) => {
-			const { filename, documentURI, documentType, originalFilename } = document;
+			const { filename, documentURI, documentType } = document;
 			return {
 				fullName: `${kebabCase(documentType)}/${filename}`,
 				blobStorageContainer: boStorage.container,
-				blobStoragePath: originalFilename,
+				blobStoragePath: getAzureBlobPathFromUri(documentURI, boStorage.host, boStorage.container),
 				documentURI
 			};
 		});
@@ -110,6 +112,7 @@ async function getDocumentsByCaseReferenceAndCaseStage(req, res) {
 				archive.append(blobStream, { name: blobCollection[index].fullName });
 			} else {
 				missingFiles.push(blobCollection[index].fullName);
+				logger.info(blobCollection[index], 'blob not found when creating zip');
 			}
 		});
 	}
