@@ -30,6 +30,9 @@ FROM build AS app
 WORKDIR /opt/packages/pdf-service-api
 COPY packages/pdf-service-api/src ./src
 
+ARG GIT_SHA
+ENV GIT_SHA=$GIT_SHA
+
 EXPOSE 3000
 
 USER node

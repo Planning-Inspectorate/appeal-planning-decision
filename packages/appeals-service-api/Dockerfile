@@ -29,6 +29,9 @@ FROM build AS app
 
 WORKDIR /opt/packages/appeals-service-api
 
+ARG GIT_SHA
+ENV GIT_SHA=$GIT_SHA
+
 EXPOSE 3000
 
 USER node

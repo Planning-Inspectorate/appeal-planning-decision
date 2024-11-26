@@ -59,6 +59,13 @@ app
 		})
 	)
 	.get('/', noContentHandler)
+	.get('/health', (req, res) => {
+		res.status(200).send({
+			status: 'OK',
+			uptime: process.uptime(),
+			commit: config.gitSha
+		});
+	})
 	.get('/favicon.ico', noContentHandler)
 	.use(consts.AUTH.OIDC_ENDPOINT, oidc.callback()) // /oidc/.well-known/openid-configuration
 	.use(apiErrorHandler);
