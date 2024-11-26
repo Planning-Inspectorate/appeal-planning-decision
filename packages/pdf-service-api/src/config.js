@@ -1,4 +1,5 @@
 const config = {
+	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',
 	auth: {
 		authServerUrl: process.env.AUTH_BASE_URL
 	},

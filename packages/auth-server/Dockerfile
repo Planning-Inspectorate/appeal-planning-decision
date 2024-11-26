@@ -25,6 +25,9 @@ FROM build AS app
 
 WORKDIR /opt/packages/auth-server
 
+ARG GIT_SHA
+ENV GIT_SHA=$GIT_SHA
+
 EXPOSE 3000
 
 USER node

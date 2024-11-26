@@ -26,6 +26,9 @@ FROM build AS app
 
 WORKDIR /opt/packages/document-service-api
 
+ARG GIT_SHA
+ENV GIT_SHA=$GIT_SHA
+
 EXPOSE 4000
 
 USER node

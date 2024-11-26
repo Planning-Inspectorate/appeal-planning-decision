@@ -14,6 +14,7 @@ const {
 //       in tests, so declaring as `const`, makes this very tricky.
 // TODO: find some way to enable profile-specific configs to remove the `let` here.
 let config = {
+	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',
 	auth: {
 		authServerUrl: process.env.AUTH_BASE_URL
 	},
