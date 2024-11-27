@@ -434,8 +434,13 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	let lpa;
 	try {
 		lpa = await lpaService.getLpaByCode(lpaCode);
-	} catch (_) {
+	} catch (err) {
+		logger.warn({ err, lpaCode }, 'Failed to retrieve LPA by code, falling back to ID');
 		lpa = await lpaService.getLpaById(lpaCode);
+	}
+
+	if (!lpa) {
+		throw new Error(`LPA not found for code: ${lpaCode}`);
 	}
 
 	const lpaEmailAddress = lpa.getEmail();

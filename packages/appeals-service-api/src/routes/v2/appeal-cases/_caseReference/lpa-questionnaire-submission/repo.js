@@ -164,7 +164,7 @@ class LPAQuestionnaireSubmissionRepository {
 
 			return result;
 		} catch (err) {
-			logger.error(err);
+			logger.error({ err }, 'case reference not found');
 			throw ApiError.questionnaireDownloadDetailsNotFound;
 		}
 	}
