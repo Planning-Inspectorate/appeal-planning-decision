@@ -141,7 +141,7 @@ services:
     image: node:20-alpine
     environment:
       AUTH_BASE_URL: http://auth-server:3000
-      BO_STORAGE_CONTAINER_HOST: http://localhost:4004/devstoreaccount1
+      BO_STORAGE_CONTAINER_HOST: http://localhost:4004/devstoreaccount1/
       BO_STORAGE_CONTAINER_NAME: bo-appeals-documents
       BO_BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://bo-blob-storage:10000/devstoreaccount1;
       BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;
