@@ -1,5 +1,8 @@
+const trailingSlashRegex = /\/$/;
+
 const getAzureBlobPathFromUri = (documentURI, blobHost, blobContainer) => {
-	return documentURI.replace(`${blobHost}/${blobContainer}/`, '').replace(`${blobHost}/`, ''); // remove host if no container on url
+	blobHost = blobHost.replace(trailingSlashRegex, '');
+	return documentURI.replace(`${blobHost}/${blobContainer}/`, '').replace(`${blobHost}/`, ''); // remove host and container, or just host if container not present in url (legacy bug fix)
 };
 
 module.exports = getAzureBlobPathFromUri;
