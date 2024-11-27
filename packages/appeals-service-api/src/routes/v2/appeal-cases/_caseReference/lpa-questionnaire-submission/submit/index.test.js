@@ -4,6 +4,7 @@ const app = require('../../../../../../app');
 const { sendEvents } = require('../../../../../../../src/infrastructure/event-client');
 const { markQuestionnaireAsSubmitted } = require('../service');
 const { LPA_NOTIFICATION_METHODS } = require('@pins/common/src/database/data-static');
+const { sendLPAHASQuestionnaireSubmittedEmailV2 } = require('#lib/notify');
 
 const server = http.createServer(app);
 const appealsApi = supertest(server);
@@ -11,6 +12,16 @@ const appealsApi = supertest(server);
 /**
  * @typedef {import('../../../../../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
  */
+
+jest.mock('../../../service', () => ({
+	getCaseAndAppellant: () => {
+		return {};
+	}
+}));
+
+jest.mock('#lib/notify', () => ({
+	sendLPAHASQuestionnaireSubmittedEmailV2: jest.fn()
+}));
 
 jest.mock('../service', () => ({
 	/**
@@ -303,6 +314,7 @@ describe('/api/v2/appeal-cases/:caseReference/submit', () => {
 		);
 
 		expect(markQuestionnaireAsSubmitted).toHaveBeenCalled();
+		expect(sendLPAHASQuestionnaireSubmittedEmailV2).toHaveBeenCalled();
 	});
 
 	it('404s if the questionnaire can not be found', () => {
