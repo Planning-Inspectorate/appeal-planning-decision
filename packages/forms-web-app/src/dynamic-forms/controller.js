@@ -379,11 +379,18 @@ exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
 	}
 	const user = getUserFromSession(req);
 	const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
-	const appealData = await req.appealsApiClient.getUsersAppealCase({
-		caseReference: encodedReferenceId,
-		userId: user.id,
-		role: LPA_USER_ROLE
-	});
+
+	let appealData;
+	try {
+		appealData = await req.appealsApiClient.getUsersAppealCase({
+			caseReference: encodedReferenceId,
+			userId: user.id,
+			role: LPA_USER_ROLE
+		});
+	} catch (err) {
+		logger.error({ err }, `unable to find appeal ${journeyResponse.referenceId}`);
+		return res.status(400).render('./error/not-found.njk');
+	}
 
 	const summaryListData = buildSummaryListData(journey, journeyResponse);
 	const submissionDate = formatDateForDisplay(new Date(), { format: 'd MMMM yyyy' });
