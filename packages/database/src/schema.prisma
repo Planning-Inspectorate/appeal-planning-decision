@@ -530,6 +530,11 @@ model Event {
   startDate               DateTime? /// date time the event starts
   endDate                 DateTime? /// date time the event ends
   notificationOfSiteVisit DateTime? /// Date notification of site visit provided to Appellant
+  addressLine1            String? /// event site first line of address
+  addressLine2            String? /// event site second line of address
+  addressTown             String? /// event site town or city
+  addressCounty           String? /// event site county
+  addressPostcode         String? /// event site postcode
 
   // link the event to the appeal case
   caseReference String

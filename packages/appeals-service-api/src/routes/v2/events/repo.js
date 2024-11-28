@@ -66,7 +66,12 @@ const mapDataModelToFODBEvent = (dataModelEvent) => ({
 	notificationOfSiteVisit: dataModelEvent.notificationOfSiteVisit
 		? new Date(dataModelEvent.notificationOfSiteVisit)
 		: null,
-	caseReference: dataModelEvent.caseReference
+	caseReference: dataModelEvent.caseReference,
+	addressLine1: dataModelEvent.addressLine1,
+	addressLine2: dataModelEvent.addressLine2,
+	addressTown: dataModelEvent.addressTown,
+	addressCounty: dataModelEvent.addressCounty,
+	addressPostcode: dataModelEvent.addressPostcode
 });
 
 module.exports = class Repo {
