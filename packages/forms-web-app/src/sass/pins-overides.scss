@@ -63,3 +63,7 @@ $pins-teal: #28a197;
 .pins-border-top-big {
 	border-top: 5px solid $pins-teal;
 }
+
+.govuk-footer__copyright-logo {
+	background-image: url("/assets/images/govuk-crest.svg");
+}
