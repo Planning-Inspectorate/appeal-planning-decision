@@ -6,10 +6,11 @@ const {
 } = require('@pins/common/src/constants');
 const { format: formatDate } = require('date-fns');
 const { utcToZonedTime } = require('date-fns-tz');
+const { formatEventAddress } = require('../lib/format-address');
 const targetTimezone = 'Europe/London';
 
 /**
- * @typedef {import('@prisma/client').Event} PrismaEvent
+ * @typedef {import('appeals-service-api').Api.Event} Event
  */
 
 /**
@@ -22,12 +23,10 @@ const formatSiteVisits = (events, role) => {
 
 	return siteVisits
 		.map((siteVisit) => {
-			const ukStart = utcToZonedTime(siteVisit.startDate, targetTimezone);
-			const ukEnd = utcToZonedTime(siteVisit.endDate, targetTimezone);
-			const formattedStartTime = formatDate(ukStart, 'h:mmaaa')?.replace(':00', '');
-			const formattedStartDate = formatDate(ukStart, 'd LLLL yyyy');
-			const formattedEndTime = formatDate(ukEnd, 'h:mmaaa')?.replace(':00', '');
-			const formattedEndDate = formatDate(ukEnd, 'd LLLL yyyy');
+			const { formattedTime: formattedStartTime, formattedDate: formattedStartDate } =
+				getFormattedTimeAndDate(siteVisit.startDate);
+			const { formattedTime: formattedEndTime, formattedDate: formattedEndDate } =
+				getFormattedTimeAndDate(siteVisit.endDate);
 
 			if (role === APPEAL_USER_ROLES.APPELLANT || role === LPA_USER_ROLE) {
 				switch (siteVisit.subtype) {
@@ -56,29 +55,16 @@ const formatSiteVisits = (events, role) => {
 };
 
 /**
- * @param {Array<PrismaEvent>} events
+ * @param {Array<Event>} events
  * @param {string} role
  * @returns {Array<string|null>}
  */
 const formatInquiries = (events, role) => {
 	let inquiries = events.filter((item) => item.type === EVENT_TYPES.INQUIRY);
 	return inquiries.map((inquiry) => {
-		let formattedStartTime;
-		let formattedStartDate;
-		if (inquiry.startDate) {
-			const ukStart = utcToZonedTime(inquiry.startDate, targetTimezone);
-			formattedStartTime = formatDate(ukStart, 'h:mmaaa')?.replace(':00', '');
-			formattedStartDate = formatDate(ukStart, 'd LLLL yyyy');
-		}
-		const address = [
-			inquiry.addressLine1,
-			inquiry.addressLine2,
-			inquiry.addressTown,
-			inquiry.addressCounty,
-			inquiry.addressPostcode
-		]
-			.filter(Boolean)
-			.join(', ');
+		const { formattedTime: formattedStartTime, formattedDate: formattedStartDate } =
+			getFormattedTimeAndDate(inquiry.startDate);
+		const address = formatEventAddress(inquiry);
 
 		if (role === LPA_USER_ROLE) {
 			return `The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. You must attend the inquiry ${
@@ -88,5 +74,23 @@ const formatInquiries = (events, role) => {
 		return null;
 	});
 };
+
+/**
+ * @typedef {Object} formattedTimeAndDate
+ * @property {string} formattedTime
+ * @property {string} formattedDate
+ */
+
+/**
+ * @param {string} date
+ * @returns {formattedTimeAndDate}
+ */
+function getFormattedTimeAndDate(date) {
+	const ukDate = utcToZonedTime(date, targetTimezone);
+	return {
+		formattedTime: formatDate(ukDate, 'h:mmaaa')?.replace(':00', ''),
+		formattedDate: formatDate(ukDate, 'd LLLL yyyy')
+	};
+}
 
 module.exports = { formatSiteVisits, formatInquiries };
