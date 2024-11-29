@@ -951,6 +951,16 @@ export interface Event {
 	 * @format date-time
 	 */
 	endDate: string;
+	/** first line of event address */
+	addressLine1?: string;
+	/** second line of event address */
+	addressLine2?: string;
+	/** town or city */
+	addressTown?: string;
+	/** second line of event address */
+	addressCounty?: string;
+	/** second line of event address */
+	addressPostcode?: string;
 }
 
 /** A final comment document linked to an appeal statement */
@@ -1084,6 +1094,7 @@ export interface LPAQuestionnaireSubmission {
 	};
 	/** whether the questionnaire has been submitted to BO */
 	submitted?: boolean;
+	/** blob storage id of submission pdf used to generate download link */
 	submissionPdfId?: string;
 	appealCaseReference: string;
 	correctAppealType?: boolean;
