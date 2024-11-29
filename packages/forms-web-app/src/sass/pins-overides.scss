@@ -65,5 +65,19 @@ $pins-teal: #28a197;
 }
 
 .govuk-footer__copyright-logo {
-	background-image: url("/assets/images/govuk-crest.svg");
+	background-image: url("/public/images/govuk-crest.svg");
+}
+
+.govuk-header__logotype-crown {
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+}
+
+.pins-header__logotype-crown {
+	display: inherit;
+	background-image: url("/public/images/govuk-crest-white.svg");
+	background-size: 100% 100%;
+	width: inherit;
+	height: inherit;
 }
