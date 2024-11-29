@@ -2,6 +2,7 @@ const { APPEAL_USER_ROLES, LPA_USER_ROLE } = require('@pins/common/src/constants
 const {
 	formatSections,
 	formatSiteVisits,
+	formatInquiries,
 	isSection,
 	displayHeadlinesByUser
 } = require('@pins/common');
@@ -91,6 +92,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				appealNumber,
 				headlineData,
 				siteVisits: formatSiteVisits(events, userType),
+				inquiries: formatInquiries(events, userType),
 				sections: formatSections({ caseData, sections, userEmail }),
 				baseUrl: userRouteUrl,
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),

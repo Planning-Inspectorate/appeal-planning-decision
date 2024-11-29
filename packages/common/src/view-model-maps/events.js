@@ -9,7 +9,7 @@ const { utcToZonedTime } = require('date-fns-tz');
 const targetTimezone = 'Europe/London';
 
 /**
- * @typedef {import('appeals-service-api').Api.Event} Event
+ * @typedef {import('@prisma/client').Event} PrismaEvent
  */
 
 /**
@@ -55,4 +55,38 @@ const formatSiteVisits = (events, role) => {
 		.filter(Boolean);
 };
 
-module.exports = { formatSiteVisits };
+/**
+ * @param {Array<PrismaEvent>} events
+ * @param {string} role
+ * @returns {Array<string|null>}
+ */
+const formatInquiries = (events, role) => {
+	let inquiries = events.filter((item) => item.type === EVENT_TYPES.INQUIRY);
+	return inquiries.map((inquiry) => {
+		let formattedStartTime;
+		let formattedStartDate;
+		if (inquiry.startDate) {
+			const ukStart = utcToZonedTime(inquiry.startDate, targetTimezone);
+			formattedStartTime = formatDate(ukStart, 'h:mmaaa')?.replace(':00', '');
+			formattedStartDate = formatDate(ukStart, 'd LLLL yyyy');
+		}
+		const address = [
+			inquiry.addressLine1,
+			inquiry.addressLine2,
+			inquiry.addressTown,
+			inquiry.addressCounty,
+			inquiry.addressPostcode
+		]
+			.filter(Boolean)
+			.join(', ');
+
+		if (role === LPA_USER_ROLE) {
+			return `The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. You must attend the inquiry ${
+				address ? `at ${address}` : '- address to be confirmed'
+			}`;
+		}
+		return null;
+	});
+};
+
+module.exports = { formatSiteVisits, formatInquiries };

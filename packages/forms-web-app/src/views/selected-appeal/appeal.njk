@@ -131,6 +131,14 @@
 				</div>
 			{% endfor %}
 
+			{% for inquiry in appeal.inquiries %}
+				<div class="govuk-inset-text">
+					<p class="govuk-body">
+						{{inquiry}}
+					</p>
+				</div>
+			{% endfor %}
+
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
 		</div>
 
