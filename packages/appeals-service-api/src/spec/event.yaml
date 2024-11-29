@@ -25,3 +25,19 @@ components:
           type: string
           format: date-time
           description: the date the event ends
+        addressLine1:
+          type: string
+          description: first line of event address
+        addressLine2:
+          type: string
+          description: second line of event address
+        addressTown:
+          type: string
+          description: town or city 
+        addressCounty:
+          type: string
+          description: second line of event address
+        addressPostcode:
+          type: string
+          description: second line of event address
+
