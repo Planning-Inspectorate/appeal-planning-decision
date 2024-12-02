@@ -732,7 +732,7 @@ export interface AppellantSubmission {
 	uploadPlanningObligation?: boolean;
 	SubmissionDocumentUpload?: object[];
 	siteAddress?: boolean;
-	SubmissionAddress?: object[];
+	SubmissionAddress?: SubmissionAddress[];
 	SubmissionListedBuilding?: object[];
 }
 

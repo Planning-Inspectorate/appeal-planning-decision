@@ -70,6 +70,18 @@ let config = {
 			serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
 			apiKey: process.env.SRV_NOTIFY_API_KEY,
 			templates: {
+				APPEAL_SUBMISSION: {
+					V1_HORIZON: {
+						appellantAppealSubmissionInitialConfirmation:
+							process.env
+								.SRV_NOTIFY_APPEAL_SUBMISSION_V1_INITIAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID
+					},
+					V2_BACK_OFFICE: {
+						appellantAppealSubmissionInitialConfirmation:
+							process.env
+								.SRV_NOTIFY_APPEAL_SUBMISSION_V2_INITIAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID
+					}
+				},
 				[APPEAL_ID.HOUSEHOLDER]: {
 					appealSubmissionConfirmationEmailToAppellant:
 						process.env
