@@ -173,7 +173,7 @@ components:
         SubmissionAddress:
           type: array
           items:
-            type: object
+            $ref: '#/components/schemas/SubmissionAddress'
         SubmissionListedBuilding:
           type: array
           items:

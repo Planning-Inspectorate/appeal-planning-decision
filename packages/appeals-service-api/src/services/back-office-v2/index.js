@@ -20,7 +20,7 @@ const {
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
-	// sendSubmissionReceivedEmailToAppellantV2,
+	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionReceivedEmailToLpaV2,
 	sendCommentSubmissionConfirmationEmailToIp,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
@@ -146,7 +146,14 @@ class BackOfficeV2Service {
 			await sendSubmissionReceivedEmailToLpaV2(appellantSubmission, email);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToLpaV2');
-			throw new Error('failed to send submission email');
+			throw new Error('failed to send submission email to LPA');
+		}
+
+		try {
+			await sendSubmissionReceivedEmailToAppellantV2(appellantSubmission, email);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToAppellantV2');
+			throw new Error('failed to send submission email to appellant');
 		}
 
 		return result;

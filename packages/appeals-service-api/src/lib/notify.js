@@ -61,7 +61,9 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 		);
 
 		await NotifyBuilder.reset()
-			.setTemplateId(templates[appeal.appealType].appealSubmissionConfirmationEmailToAppellant)
+			.setTemplateId(
+				templates.APPEAL_SUBMISSION.V1_HORIZON.appellantAppealSubmissionInitialConfirmation
+			)
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(reference)
@@ -86,8 +88,13 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 	try {
 		const recipientEmail = email;
 
+		const address = appellantSubmission.SubmissionAddress[0];
+
+		const formattedAddress = formatSubmissionAddress(address);
+
 		const variables = {
-			name: `${appellantSubmission.contactFirstName} + ${appellantSubmission.contactLastName}`
+			site_Address: formattedAddress,
+			lpa_reference: appellantSubmission.applicationReference
 		};
 
 		const reference = appellantSubmission.id;
@@ -98,7 +105,9 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 		);
 
 		await NotifyBuilder.reset()
-			.setTemplateId(templates.V2_COMMON.appealSubmissionReceivedEmailToAppellant)
+			.setTemplateId(
+				templates.APPEAL_SUBMISSION.V2_BACK_OFFICE.appellantAppealSubmissionInitialConfirmation
+			)
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(reference)
