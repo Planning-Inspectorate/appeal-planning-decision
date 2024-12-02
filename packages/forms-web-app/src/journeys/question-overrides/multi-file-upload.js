@@ -241,6 +241,12 @@ function removeDocuments(apiClient, journeyId) {
  * @returns {Promise<void>}
  */
 async function saveAction(req, res, journey, section, journeyResponse) {
+	// check for saving validation errors
+	const saveViewModel = this.checkForSavingErrors(req, section, journey);
+	if (saveViewModel) {
+		return this.renderAction(res, saveViewModel);
+	}
+
 	const previouslyUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
 
 	const { uploadedFiles } = await getDataToSave.call(this, req, journeyResponse);
@@ -278,12 +284,6 @@ async function saveAction(req, res, journey, section, journeyResponse) {
 		};
 	}
 	await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
-
-	// check for saving errors
-	const saveViewModel = this.checkForSavingErrors(req, section, journey);
-	if (saveViewModel) {
-		return this.renderAction(res, saveViewModel);
-	}
 
 	// move to the next question
 	return this.handleNextQuestion(res, journey, section.segment, this.fieldName);
