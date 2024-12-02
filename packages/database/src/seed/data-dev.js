@@ -1122,6 +1122,23 @@ const events = [
 				caseReference: caseReferences.caseReferenceNine
 			}
 		}
+	},
+	{
+		internalId: '1e3a7697-2dab-45be-bb36-45532e173ca0',
+		published: true,
+		type: 'inquiry',
+		subtype: null,
+		addressLine1: '101 Testing Road',
+		addressCounty: 'Countyshire',
+		addressPostcode: 'AB1 2CD',
+		addressTown: 'Test Town',
+		startDate: getFutureDate(40, 11),
+		endDate: getFutureDate(43, 11),
+		AppealCase: {
+			connect: {
+				caseReference: '1010101'
+			}
+		}
 	}
 ];
 
