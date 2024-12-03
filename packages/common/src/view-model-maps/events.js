@@ -57,22 +57,28 @@ const formatSiteVisits = (events, role) => {
 /**
  * @param {Array<Event>} events
  * @param {string} role
- * @returns {Array<string|null>}
+ * @returns {Array<string|undefined>}
  */
 const formatInquiries = (events, role) => {
 	let inquiries = events.filter((item) => item.type === EVENT_TYPES.INQUIRY);
-	return inquiries.map((inquiry) => {
-		const { formattedTime: formattedStartTime, formattedDate: formattedStartDate } =
-			getFormattedTimeAndDate(inquiry.startDate);
-		const address = formatEventAddress(inquiry);
+	return inquiries
+		.map((inquiry) => {
+			const { formattedTime: formattedStartTime, formattedDate: formattedStartDate } =
+				getFormattedTimeAndDate(inquiry.startDate);
+			const address = formatEventAddress(inquiry);
 
-		if (role === LPA_USER_ROLE) {
-			return `The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. You must attend the inquiry ${
-				address ? `at ${address}` : '- address to be confirmed'
-			}`;
-		}
-		return null;
-	});
+			if (
+				role === LPA_USER_ROLE ||
+				role === APPEAL_USER_ROLES.APPELLANT ||
+				role === APPEAL_USER_ROLES.AGENT
+			) {
+				return `The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. You must attend the inquiry ${
+					address ? `at ${address}` : '- address to be confirmed'
+				}`;
+			}
+			return;
+		})
+		.filter(Boolean);
 };
 
 /**

@@ -29,23 +29,41 @@ describe('view-model-maps/events', () => {
 	};
 
 	describe('formatInquiries', () => {
-		it('returns null if not an LPA user', () => {
-			const events = [inquiryEvent];
-			const role = APPEAL_USER_ROLES.APPELLANT;
+		it('returns empty array if not a valid user', () => {
+			const events = [siteVisitEvent, inquiryEvent];
+			const role = 'not a valid user';
 
-			expect(formatInquiries(events, role)).toBeNull;
+			expect(formatInquiries(events, role)).toHaveLength(0);
 		});
 
 		it('returns null if no inquiries in events', () => {
 			const events = [siteVisitEvent];
 			const role = LPA_USER_ROLE;
 
-			expect(formatInquiries(events, role)).toBeNull;
+			expect(formatInquiries(events, role)).toHaveLength(0);
 		});
 
-		it('returns correct string array if valid inquiry & user', () => {
+		it('returns correct string array if valid inquiry & LPA user', () => {
 			const events = [siteVisitEvent, inquiryEvent];
 			const role = LPA_USER_ROLE;
+
+			expect(formatInquiries(events, role)).toEqual([
+				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD'
+			]);
+		});
+
+		it('returns correct string array if valid inquiry & appellant user', () => {
+			const events = [siteVisitEvent, inquiryEvent];
+			const role = APPEAL_USER_ROLES.APPELLANT;
+
+			expect(formatInquiries(events, role)).toEqual([
+				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD'
+			]);
+		});
+
+		it('returns correct string array if valid inquiry & agent user', () => {
+			const events = [siteVisitEvent, inquiryEvent];
+			const role = APPEAL_USER_ROLES.AGENT;
 
 			expect(formatInquiries(events, role)).toEqual([
 				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD'
