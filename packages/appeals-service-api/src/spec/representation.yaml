@@ -1,0 +1,57 @@
+components:
+  schemas:
+    Representation:
+      type: object
+      description: Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO
+      required:
+        - id
+        - representationId
+        - caseReference
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier for representation
+        representationId:
+          type: string
+          description: BO identifier for the representation
+        caseId:
+          type: string
+          description: internal BO case identifier
+        caseReference:
+          type: string
+          description: external case identifier
+        status:
+          type: string
+          description: Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
+        originalRepresentation:
+          type: boolean
+          description: The original representation
+        redacted:
+          type: boolean
+          description: Indicates if the representation is redacted
+        redactedRepresentation:
+          type: string
+          description: The redacted version of the representation
+        redactedBy:
+          type: string
+          description: Unique identifier for the case team member that performed the redaction
+        invalidDetails:
+          type: string
+          description: a json array of reasons why the representation has been marked as invalid
+        source:
+          type: string
+          description: source of the representation (citizen or LPA), ["lpa", "citizen"]
+        serviceUserId:
+          type: string
+          description: service User Id of the person or organisation making the representation
+        representationType:
+          type: string
+          description: the type of representation ["statement", "comment", "final_comment", "proofs_evidence", null]
+        dateReceived:
+          type: string
+          format: date-time
+          description: the date and time the representation was received by the BO
+        representationDocuments:
+          type: string
+          description: a json array of document ids received

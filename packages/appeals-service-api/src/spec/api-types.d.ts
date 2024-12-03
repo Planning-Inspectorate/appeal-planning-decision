@@ -1220,6 +1220,46 @@ export interface NeighbouringAddress {
 	postcode: string;
 }
 
+/** Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO */
+export interface Representation {
+	/**
+	 * identifier for representation
+	 * @format uuid
+	 */
+	id: string;
+	/** BO identifier for the representation */
+	representationId: string;
+	/** internal BO case identifier */
+	caseId?: string;
+	/** external case identifier */
+	caseReference: string;
+	/** Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ] */
+	status?: string;
+	/** The original representation */
+	originalRepresentation?: boolean;
+	/** Indicates if the representation is redacted */
+	redacted?: boolean;
+	/** The redacted version of the representation */
+	redactedRepresentation?: string;
+	/** Unique identifier for the case team member that performed the redaction */
+	redactedBy?: string;
+	/** a json array of reasons why the representation has been marked as invalid */
+	invalidDetails?: string;
+	/** source of the representation (citizen or LPA), ["lpa", "citizen"] */
+	source?: string;
+	/** service User Id of the person or organisation making the representation */
+	serviceUserId?: string;
+	/** the type of representation ["statement", "comment", "final_comment", "proofs_evidence", null] */
+	representationType?: string;
+	/**
+	 * the date and time the representation was received by the BO
+	 * @format date-time
+	 */
+	dateReceived?: string;
+	/** a json array of document ids received */
+	representationDocuments?: string;
+}
+
 /** Information about a rule 6 party involved in an appeal */
 export interface Rule6Party {
 	/**
