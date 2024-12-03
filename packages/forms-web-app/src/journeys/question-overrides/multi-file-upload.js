@@ -250,6 +250,7 @@ async function saveAction(req, res, journey, section, journeyResponse) {
 	const previouslyUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
 
 	const { uploadedFiles } = await getDataToSave.call(this, req, journeyResponse);
+
 	await Promise.all(
 		uploadedFiles.map((file) => {
 			if (!file) return;
@@ -269,8 +270,10 @@ async function saveAction(req, res, journey, section, journeyResponse) {
 	);
 	const allUploadedFiles = [...previouslyUploadedFiles, ...uploadedFiles].filter(Boolean);
 	const isQuestionAnswered = allUploadedFiles.length > 0;
+	const removedAllPreviousFiles = req.body.removedFiles?.length === previouslyUploadedFiles.length;
+
 	let responseToSave;
-	if (req.body.removedFiles && uploadedFiles.length === 0) {
+	if (removedAllPreviousFiles && uploadedFiles.length === 0) {
 		responseToSave = {
 			answers: {
 				[this.fieldName]: null
@@ -283,6 +286,7 @@ async function saveAction(req, res, journey, section, journeyResponse) {
 			}
 		};
 	}
+
 	await this.saveResponseToDB(req.appealsApiClient, journey.response, responseToSave);
 
 	// move to the next question
