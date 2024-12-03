@@ -30,6 +30,9 @@ WORKDIR /opt/packages/forms-web-app
 
 RUN npm prune --omit=dev && npm rebuild --ignore-scripts
 
+ARG GIT_SHA
+ENV GIT_SHA=$GIT_SHA
+
 EXPOSE 3000
 
 USER node

@@ -7,6 +7,7 @@ export const dayInSeconds = 86_400;
 const oidcTokenExpiry = numberWithDefault(process.env.OIDC_TOKEN_EXPIRY_SECONDS, dayInSeconds);
 
 const { value, error } = schema.validate({
+	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',
 	apps: {
 		appeals: {
 			baseUrl: process.env.APP_APPEALS_BASE_URL

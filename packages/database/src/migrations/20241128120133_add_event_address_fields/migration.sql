@@ -1,0 +1,23 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[Event] ADD [addressCounty] NVARCHAR(1000),
+[addressLine1] NVARCHAR(1000),
+[addressLine2] NVARCHAR(1000),
+[addressPostcode] NVARCHAR(1000),
+[addressTown] NVARCHAR(1000);
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH

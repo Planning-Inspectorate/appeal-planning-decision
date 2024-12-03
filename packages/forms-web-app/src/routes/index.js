@@ -51,6 +51,13 @@ router.use('/', home);
 router.use('/cookies', cookies);
 router.use('/accessibility-statement', accessibility);
 router.use('/error', error);
+router.get('/health', (req, res) => {
+	res.status(200).send({
+		status: 'OK',
+		uptime: process.uptime(),
+		commit: config.gitSha
+	});
+});
 
 /// before-you-start ///
 router.use('/before-you-start', sharedBFS);
