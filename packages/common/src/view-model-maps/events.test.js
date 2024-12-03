@@ -48,7 +48,7 @@ describe('view-model-maps/events', () => {
 			const role = LPA_USER_ROLE;
 
 			expect(formatInquiries(events, role)).toEqual([
-				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD'
+				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
 			]);
 		});
 
@@ -57,7 +57,7 @@ describe('view-model-maps/events', () => {
 			const role = APPEAL_USER_ROLES.APPELLANT;
 
 			expect(formatInquiries(events, role)).toEqual([
-				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD'
+				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
 			]);
 		});
 
@@ -66,7 +66,7 @@ describe('view-model-maps/events', () => {
 			const role = APPEAL_USER_ROLES.AGENT;
 
 			expect(formatInquiries(events, role)).toEqual([
-				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD'
+				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
 			]);
 		});
 
@@ -85,7 +85,7 @@ describe('view-model-maps/events', () => {
 			const role = LPA_USER_ROLE;
 
 			expect(formatInquiries(events, role)).toEqual([
-				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry - address to be confirmed'
+				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry - address to be confirmed.'
 			]);
 		});
 	});

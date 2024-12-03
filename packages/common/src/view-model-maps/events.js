@@ -73,7 +73,7 @@ const formatInquiries = (events, role) => {
 				role === APPEAL_USER_ROLES.AGENT
 			) {
 				return `The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. You must attend the inquiry ${
-					address ? `at ${address}` : '- address to be confirmed'
+					address ? `at ${address}.` : '- address to be confirmed.'
 				}`;
 			}
 			return;
