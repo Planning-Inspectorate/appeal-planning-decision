@@ -610,3 +610,8 @@ components:
 
         Rule6StatementSubmission:
           $ref: '#/components/schemas/Rule6StatementSubmission'
+
+        Representations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Representation'

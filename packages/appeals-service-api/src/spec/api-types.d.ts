@@ -483,6 +483,7 @@ export interface AppealCase {
 	Rule6ProofOfEvidenceSubmission?: Rule6ProofOfEvidenceSubmission;
 	/** A statement submitted by a Rule 6 Party */
 	Rule6StatementSubmission?: Rule6StatementSubmission;
+	Representations?: Representation[];
 }
 
 /** A statement document linked to an appeal statement */
@@ -1233,6 +1234,7 @@ export interface Representation {
 	caseId?: string;
 	/** external case identifier */
 	caseReference: string;
+	AppealCase?: object;
 	/** Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ] */
 	status?: string;
 	/** The original representation */

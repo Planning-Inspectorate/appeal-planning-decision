@@ -413,6 +413,7 @@ model AppealCase {
   FinalComments                   FinalComment[]
   Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
   Rule6StatementSubmission        Rule6StatementSubmission?
+  Representations                 Representation[]
 }
 
 /// AppealCase relations
@@ -1214,16 +1215,17 @@ model Representation {
 
   representationId        String /// The unique identifier for the representation
   caseId                  Int? /// Internal case identifier
-  caseReference           String    @unique /// External case identifier
+  caseReference           String     @unique /// External case identifier
+  AppealCase              AppealCase @relation(fields: [caseReference], references: [caseReference])
   status                  String? /// Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
-  originalRepresentation  String? /// The original representation
+  originalRepresentation  String?    @db.NVarChar(MAX) /// The original representation
   redacted                Boolean? /// Indicates if the representation is redacted
-  redactedRepresentation  String? /// The redacted version of the representation
+  redactedRepresentation  String?    @db.NVarChar(MAX) /// The redacted version of the representation
   redactedBy              String? /// Unique identifier for the case team member that performed the redaction
-  invalidDetails          String?   @db.NVarChar(MAX) /// A json array of reasons why the representation has been marked as invalid
+  invalidDetails          String?    @db.NVarChar(MAX) /// A json array of reasons why the representation has been marked as invalid
   source                  String? /// Source of the representation (citizen or LPA), ["lpa", "citizen"]
   serviceUserId           String? /// Service User Id of the person or organisation making the representation
   representationType      String? /// The type of representation, ["statement", "comment", "final_comment", "proofs_evidence", null]
   dateReceived            DateTime?
-  representationDocuments String?   @db.NVarChar(MAX) /// A json array of document ids
+  representationDocuments String?    @db.NVarChar(MAX) /// A json array of document ids
 }

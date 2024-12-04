@@ -21,6 +21,8 @@ components:
         caseReference:
           type: string
           description: external case identifier
+        AppealCase:
+          type: object
         status:
           type: string
           description: Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
