@@ -9,9 +9,9 @@ CREATE TABLE [dbo].[Representation] (
     [caseId] INT,
     [caseReference] NVARCHAR(1000) NOT NULL,
     [status] NVARCHAR(1000),
-    [originalRepresentation] NVARCHAR(1000),
+    [originalRepresentation] NVARCHAR(max),
     [redacted] BIT,
-    [redactedRepresentation] NVARCHAR(1000),
+    [redactedRepresentation] NVARCHAR(max),
     [redactedBy] NVARCHAR(1000),
     [invalidDetails] NVARCHAR(max),
     [source] NVARCHAR(1000),
@@ -22,6 +22,9 @@ CREATE TABLE [dbo].[Representation] (
     CONSTRAINT [Representation_pkey] PRIMARY KEY CLUSTERED ([id]),
     CONSTRAINT [Representation_caseReference_key] UNIQUE NONCLUSTERED ([caseReference])
 );
+
+-- AddForeignKey
+ALTER TABLE [dbo].[Representation] ADD CONSTRAINT [Representation_caseReference_fkey] FOREIGN KEY ([caseReference]) REFERENCES [dbo].[AppealCase]([caseReference]) ON DELETE NO ACTION ON UPDATE CASCADE;
 
 COMMIT TRAN;
 
