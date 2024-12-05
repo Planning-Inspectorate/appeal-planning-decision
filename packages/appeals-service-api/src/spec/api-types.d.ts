@@ -471,7 +471,7 @@ export interface AppealCase {
 	AffectedListedBuildings?: object[];
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
-	Events?: object[];
+	Events?: Event[];
 	AppealCaseLpaNotificationMethod?: object[];
 	/** A final comment submitted by an LPA */
 	LPAFinalCommentSubmission?: LPAFinalCommentSubmission;
