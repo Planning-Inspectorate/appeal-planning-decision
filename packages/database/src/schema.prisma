@@ -1213,9 +1213,9 @@ model Representation {
   /// this ID is for front office only
   id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
 
-  representationId        String /// The unique identifier for the representation
+  representationId        String     @unique /// The unique identifier for the representation
   caseId                  Int? /// Internal case identifier
-  caseReference           String     @unique /// External case identifier
+  caseReference           String /// External case identifier
   AppealCase              AppealCase @relation(fields: [caseReference], references: [caseReference])
   status                  String? /// Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
   originalRepresentation  String? /// The original representation
