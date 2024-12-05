@@ -70,7 +70,8 @@ const formatInquiries = (events, role) => {
 			if (
 				role === LPA_USER_ROLE ||
 				role === APPEAL_USER_ROLES.APPELLANT ||
-				role === APPEAL_USER_ROLES.AGENT
+				role === APPEAL_USER_ROLES.AGENT ||
+				role === APPEAL_USER_ROLES.RULE_6_PARTY
 			) {
 				return `The inquiry will start at ${formattedStartTime} on ${formattedStartDate}. You must attend the inquiry ${
 					address ? `at ${address}.` : '- address to be confirmed.'
