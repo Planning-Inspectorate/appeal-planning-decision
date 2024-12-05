@@ -2,6 +2,7 @@ const { getAppealStatus } = require('#utils/appeal-status');
 const { formatCommentDeadlineText } = require('../../../../../utils/format-deadline-text');
 const { formatCommentDecidedData } = require('../../../../../utils/format-comment-decided-data');
 const { formatCommentHeadlineText } = require('../../../../../utils/format-headline-text');
+const { formatCommentInquiryText } = require('../../../../../utils/format-comment-inquiry-text');
 const { formatHeadlineData } = require('@pins/common');
 const { getDepartmentFromCode } = require('../../../../../services/department.service');
 const {
@@ -27,13 +28,16 @@ const selectedAppeal = async (req, res) => {
 
 	const decidedData = formatCommentDecidedData(appeal);
 
+	const inquiries = appeal.Events ? formatCommentInquiryText(appeal.Events) : [];
+
 	res.render(`comment-planning-appeal/appeals/_appealNumber/index`, {
 		appeal: {
 			...appeal,
 			status,
 			headlineText,
 			deadlineText,
-			decidedData
+			decidedData,
+			inquiries
 		},
 		headlineData
 	});

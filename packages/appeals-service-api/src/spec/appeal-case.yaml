@@ -589,7 +589,7 @@ components:
         Events:
           type: array
           items:
-            type: object
+            $ref: '#/components/schemas/Event'
 
         AppealCaseLpaNotificationMethod:
           type: array

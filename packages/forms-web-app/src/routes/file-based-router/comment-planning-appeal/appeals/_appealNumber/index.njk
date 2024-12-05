@@ -6,7 +6,7 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "pins/components/appeal-sections-block.njk" import appealSectionsBlock %}
 
-{% set title=appeal.headlineText + " for comment - Comment on a planning appeal - GOV.UK" %}
+{% set title=appeal.headlineText + " - Comment on a planning appeal - GOV.UK" %}
 
 {% block pageTitle %}
   {{ title }}
@@ -64,6 +64,15 @@
 		{% else %}
 		  <p> You cannot add a comment. </p>
 		{% endif %}
+
+		{% for inquiry in appeal.inquiries %}
+				<div class="govuk-inset-text">
+					<p class="govuk-body">
+						{{inquiry}}
+					</p>
+				</div>
+			{% endfor %}
+
 		<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
 	  </div>
     </div>
