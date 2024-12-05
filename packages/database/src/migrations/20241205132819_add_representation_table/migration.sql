@@ -20,7 +20,7 @@ CREATE TABLE [dbo].[Representation] (
     [dateReceived] DATETIME2,
     [representationDocuments] NVARCHAR(max),
     CONSTRAINT [Representation_pkey] PRIMARY KEY CLUSTERED ([id]),
-    CONSTRAINT [Representation_caseReference_key] UNIQUE NONCLUSTERED ([caseReference])
+    CONSTRAINT [Representation_representationId_key] UNIQUE NONCLUSTERED ([representationId])
 );
 
 -- AddForeignKey
