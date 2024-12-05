@@ -31,7 +31,7 @@ describe('view-model-maps/events', () => {
 	describe('formatInquiries', () => {
 		it('returns empty array if not a valid user', () => {
 			const events = [siteVisitEvent, inquiryEvent];
-			const role = 'not a valid user';
+			const role = APPEAL_USER_ROLES.INTERESTED_PARTY;
 
 			expect(formatInquiries(events, role)).toHaveLength(0);
 		});
@@ -46,6 +46,15 @@ describe('view-model-maps/events', () => {
 		it('returns correct string array if valid inquiry & LPA user', () => {
 			const events = [siteVisitEvent, inquiryEvent];
 			const role = LPA_USER_ROLE;
+
+			expect(formatInquiries(events, role)).toEqual([
+				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
+			]);
+		});
+
+		it('returns correct string array if valid inquiry & rule 6 party user', () => {
+			const events = [siteVisitEvent, inquiryEvent];
+			const role = APPEAL_USER_ROLES.RULE_6_PARTY;
 
 			expect(formatInquiries(events, role)).toEqual([
 				'The inquiry will start at 9am on 29 December 2024. You must attend the inquiry at 101 The Street, Flat 2, Town, County, AB1 2CD.'
