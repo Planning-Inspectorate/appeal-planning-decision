@@ -104,9 +104,15 @@ const getStatementType = (url, user, userType) => {
 	} else if (
 		user.serviceUserId &&
 		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
-		url.includes('statement')
+		url.includes('your-statement')
 	) {
 		return STATEMENT_TYPE.RULE_6;
+	} else if (
+		user.serviceUserId &&
+		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
+		url.includes('statement')
+	) {
+		return STATEMENT_TYPE.LPA;
 	} else {
 		throw new Error('Unable to determine statement type');
 	}
