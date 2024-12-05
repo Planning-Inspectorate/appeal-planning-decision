@@ -101,11 +101,7 @@ async function putCase(caseReference, data) {
 			if (!email) {
 				throw Error(`no user email associated with: ${caseReference}`);
 			}
-			await sendSubmissionConfirmationEmailToAppellantV2(
-				result.appealCase,
-				result.appellantSubmission,
-				email
-			);
+			await sendSubmissionConfirmationEmailToAppellantV2(result.appealCase, email);
 		}
 
 		return result.appealCase;
