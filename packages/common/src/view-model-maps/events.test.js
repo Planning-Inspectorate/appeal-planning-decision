@@ -31,7 +31,7 @@ describe('view-model-maps/events', () => {
 	describe('formatInquiries', () => {
 		it('returns empty array if not a valid user', () => {
 			const events = [siteVisitEvent, inquiryEvent];
-			const role = APPEAL_USER_ROLES.INTERESTED_PARTY;
+			const role = 'not a valid user';
 
 			expect(formatInquiries(events, role)).toHaveLength(0);
 		});
