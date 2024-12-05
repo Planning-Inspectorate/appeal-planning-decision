@@ -43,6 +43,7 @@ const appealTypeCodeToAppealText = {
 	S78: 'full planning'
 };
 
+//v1 appellant submission initial
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
 		const recipientEmail = appeal.email;
@@ -80,7 +81,54 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	}
 };
 
+// v1 appellant submission follow up
+const sendSubmissionReceivedEmailToAppellant = async (appeal) => {
+	try {
+		const lpa = await lpaService.getLpaById(appeal.lpaCode);
+		const appealRef = appeal.horizonIdFull ?? 'ID not provided';
+
+		const recipientEmail = appeal.email;
+		let variables = {
+			name:
+				appeal.appealType == '1001'
+					? appeal.aboutYouSection.yourDetails.name
+					: appeal.contactDetailsSection.contact.name,
+			'appeal reference number': appealRef,
+			'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
+			'lpa reference': appeal.planningApplicationNumber,
+			'local planning department': lpa.getName(),
+			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+		};
+
+		const reference = appeal.id;
+
+		logger.debug(
+			{ recipientEmail, variables, reference },
+			'Sending submission received email to appellant'
+		);
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates.APPEAL_SUBMISSION.V1_HORIZON.appellantAppealSubmissionFollowUpConfirmation
+			)
+			.setDestinationEmailAddress(recipientEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, appealId: appeal.id },
+			'Unable to send submission received email to appellant'
+		);
+	}
+};
+
 /**
+ *  v2 appellant submission initial
  * @param { AppellantSubmission } appellantSubmission
  * @param { string } email
  */
@@ -125,15 +173,11 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 };
 
 /**
+ * v2 appellant submission follow up
  * @param { AppealCase } appealCase
- * @param { AppellantSubmission } appellantSubmission
  * @param { string } email
  */
-const sendSubmissionConfirmationEmailToAppellantV2 = async (
-	appealCase,
-	appellantSubmission,
-	email
-) => {
+const sendSubmissionConfirmationEmailToAppellantV2 = async (appealCase, email) => {
 	try {
 		const recipientEmail = email;
 		const formattedAddress = formatSubmissionAddress({
@@ -144,18 +188,10 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 			postcode: appealCase.siteAddressPostcode
 		});
 
-		let lpa;
-		try {
-			lpa = await lpaService.getLpaByCode(appealCase.LPACode);
-		} catch (err) {
-			lpa = await lpaService.getLpaById(appealCase.LPACode);
-		}
-
 		const variables = {
 			appeal_reference_number: appealCase.caseReference,
-			'appeal site address': formattedAddress,
-			'local planning department': lpa.getName(),
-			'link to pdf': `${config.apps.appeals.baseUrl}/appeal-document/${appellantSubmission.id}`
+			site_address: formattedAddress,
+			lpa_reference: appealCase.applicationReference
 		};
 
 		const reference = appealCase.id;
@@ -167,8 +203,7 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 
 		await NotifyBuilder.reset()
 			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]]
-					.appealSubmissionConfirmationEmailToAppellantV2
+				templates.APPEAL_SUBMISSION.V2_BACK_OFFICE.appellantAppealSubmissionFollowUpConfirmation
 			)
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
@@ -815,48 +850,6 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		logger.error(
 			{ err, lpaCode: appeal.lpaCode },
 			'Unable to send submission received email to LPA'
-		);
-	}
-};
-
-const sendSubmissionReceivedEmailToAppellant = async (appeal) => {
-	try {
-		const lpa = await lpaService.getLpaById(appeal.lpaCode);
-		const appealRef = appeal.horizonIdFull ?? 'ID not provided';
-
-		const recipientEmail = appeal.email;
-		let variables = {
-			name:
-				appeal.appealType == '1001'
-					? appeal.aboutYouSection.yourDetails.name
-					: appeal.contactDetailsSection.contact.name,
-			'appeal reference number': appealRef,
-			'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-			'local planning department': lpa.getName(),
-			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
-		};
-
-		const reference = appeal.id;
-
-		logger.debug(
-			{ recipientEmail, variables, reference },
-			'Sending submission received email to appellant'
-		);
-
-		await NotifyBuilder.reset()
-			.setTemplateId(templates[appeal.appealType].appealSubmissionReceivedEmailToAppellant)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
-	} catch (err) {
-		logger.error(
-			{ err, appealId: appeal.id },
-			'Unable to send submission received email to appellant'
 		);
 	}
 };
