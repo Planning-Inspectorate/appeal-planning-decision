@@ -1139,6 +1139,19 @@ const events = [
 				caseReference: '1010101'
 			}
 		}
+	},
+	{
+		internalId: '1f3a7697-2dab-45be-bb36-45532e173ca0',
+		published: true,
+		type: 'hearing',
+		subtype: null,
+		startDate: getFutureDate(25, 11),
+		endDate: getFutureDate(26, 13),
+		AppealCase: {
+			connect: {
+				caseReference: '1010101'
+			}
+		}
 	}
 ];
 
