@@ -60,10 +60,6 @@ const formatHeadlineData = (caseData, lpaName, userType = APPEAL_USER_ROLES.INTE
 		});
 	}
 
-	if (userType === APPEAL_USER_ROLES.RULE_6_PARTY) {
-		headlines.splice(3, 2);
-	}
-
 	return headlines;
 };
 
