@@ -88,10 +88,8 @@ beforeAll(async () => {
 		'hasserviceapikey-u89q754j-s87j-1n35-s351-789245as890k-1545v789-8s79-0124-qwe7-j2vfds34w5nm';
 	appConfiguration.services.notify.baseUrl = mockedExternalApis.getNotifyUrl();
 	appConfiguration.services.notify.serviceId = 'g09j298f-q59t-9a34-f123-782342hj910l';
-	appConfiguration.services.notify.templates[
-		'1001'
-	].appealSubmissionConfirmationEmailToAppellant = 1;
-	appConfiguration.services.notify.templates['1001'].appealSubmissionReceivedEmailToAppellant = 7;
+	appConfiguration.services.notify.templates.APPEAL_SUBMISSION.V1_HORIZON.appellantAppealSubmissionInitialConfirmation = 1;
+	appConfiguration.services.notify.templates.APPEAL_SUBMISSION.V1_HORIZON.appellantAppealSubmissionFollowUpConfirmation = 7;
 	appConfiguration.services.notify.templates['1001'].appealNotificationEmailToLpa = 2;
 	appConfiguration.services.notify.templates[
 		'1005'
