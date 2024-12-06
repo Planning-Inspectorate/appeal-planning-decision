@@ -66,12 +66,20 @@
 		{% endif %}
 
 		{% for inquiry in appeal.inquiries %}
-				<div class="govuk-inset-text">
-					<p class="govuk-body">
-						{{inquiry}}
-					</p>
-				</div>
-			{% endfor %}
+			<div class="govuk-inset-text">
+				<p class="govuk-body">
+					{{inquiry}}
+				</p>
+			</div>
+		{% endfor %}
+
+		{% for hearing in appeal.hearings %}
+			<div class="govuk-inset-text">
+				<p class="govuk-body">
+					{{hearing}}
+				</p>
+			</div>
+		{% endfor %}
 
 		<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--l">
 	  </div>
