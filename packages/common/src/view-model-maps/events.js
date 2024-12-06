@@ -28,7 +28,11 @@ const formatSiteVisits = (events, role) => {
 			const { formattedTime: formattedEndTime, formattedDate: formattedEndDate } =
 				getFormattedTimeAndDate(siteVisit.endDate);
 
-			if (role === APPEAL_USER_ROLES.APPELLANT || role === LPA_USER_ROLE) {
+			if (
+				role === APPEAL_USER_ROLES.APPELLANT ||
+				role === APPEAL_USER_ROLES.AGENT ||
+				role === LPA_USER_ROLE
+			) {
 				switch (siteVisit.subtype) {
 					case EVENT_SUB_TYPES.ACCESS: {
 						const when =
