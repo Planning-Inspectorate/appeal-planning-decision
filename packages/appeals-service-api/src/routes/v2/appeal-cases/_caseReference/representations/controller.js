@@ -13,30 +13,17 @@
 // 		throw ApiError.withMessage(400, 'case reference required');
 // 	}
 
-// 	if (!type) {
-// 		throw ApiError.withMessage(400, 'statement type (lpa or rule6) required');
-// 	}
+// 	let representations;
 
 // 	try {
-// 		let statements;
-
-// 		if (type === 'lpa') {
-// 			statements = await getLPAStatement(caseReference);
-// 			if (!statements || statements?.length === 0) {
-// 				throw ApiError.withMessage(404, 'No LPA statement found for this case reference');
-// 			}
-// 		} else if (type === 'rule6') {
-// 			statements = await getRule6Statements(caseReference);
-// 			if (!statements || statements?.length === 0) {
-// 				throw ApiError.withMessage(404, 'No Rule 6 party statements found for this case reference');
-// 			}
+// 		if (type) {
+// 			representations = await getRepresentationsByTypeForCase(caseReference, type)
 // 		} else {
-// 			throw ApiError.withMessage(400, 'invalid statement type');
+// 			representations = await getAllRepresentationsForCase(caseReference)
 // 		}
-
-// 		res.status(200).send(statements);
+// 		res.status(200).send(representations)
 // 	} catch (error) {
-// 		logger.error(`Failed to get appeal statements: ${error}`);
+// 		logger.error(`Failed to get representations for ${caseReference}: ${error}`);
 // 		throw error;
 // 	}
 // }
