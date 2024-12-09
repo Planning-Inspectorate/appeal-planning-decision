@@ -217,7 +217,7 @@ extends:
                   repository: appeal-planning-decision/forms-web-app
               - script: |
                     echo "Verifying Web Version (using git hash $(resources.pipeline.build.sourceCommit))..."
-                    bash ./scripts/verify_commit_hash.sh "API" "https://pins-app-appeals-service-appeals-wfe-$(ENVIRONMENT)-$(REGION_SHORT)-001.azurewebsites.net/health" "$(resources.pipeline.build.sourceCommit)" 5
+                    bash ./scripts/verify_commit_hash.sh "API" "$(WEB_URL)/health" "$(resources.pipeline.build.sourceCommit)" 5
                 displayName: Web Verify Version
                 failOnStderr: true
                 continueOnError: false
