@@ -22,14 +22,11 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.Event} Event
  * @typedef {import('appeals-service-api').Api.ServiceUser} ServiceUserAPI
  * @typedef {import('pins-data-model/src/schemas').AppealHASCase} AppealHASCase
- * @typedef {import('appeals-service-api').Api.InterestedPartyComment} InterestedPartyComment
  * @typedef {import('appeals-service-api').Api.InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.ListedBuilding} ListedBuilding
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
  * @typedef {import('appeals-service-api').Api.AppellantFinalCommentSubmission} AppellantFinalCommentSubmission
  * @typedef {import('appeals-service-api').Api.LPAFinalCommentSubmission} LPAFinalCommentSubmission
- * @typedef {import('appeals-service-api').Api.AppealStatement} AppealStatement
- * @typedef {import('appeals-service-api').Api.FinalComment} FinalComment
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
@@ -1056,27 +1053,6 @@ class AppealsApiClient {
 	async submitLPAQuestionnaire(caseReference) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-questionnaire-submission/submit`;
 		await this.#makePostRequest(endpoint);
-	}
-
-	/**
-	 * @param {string} caseReference
-	 * @returns {Promise<InterestedPartyComment[]>}
-	 */
-	async getInterestedPartyComments(caseReference) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/interested-party-comments`;
-		const response = await this.#makeGetRequest(endpoint);
-		return response.json();
-	}
-
-	/**
-	 * @param {string} caseReference
-	 * @param {import("@prisma/client").Prisma.InterestedPartyCommentCreateInput} commentData
-	 * @returns {Promise<InterestedPartyComment>}
-	 */
-	async createInterestedPartyComment(caseReference, commentData) {
-		const endpoint = `${v2}/appeal-cases/${caseReference}/interested-party-comments`;
-		const response = await this.#makePostRequest(endpoint, commentData);
-		return response.json();
 	}
 
 	/**

@@ -407,12 +407,9 @@ model AppealCase {
   NeighbouringAddresses           NeighbouringAddress[]
   Events                          Event[]
   AppealCaseLpaNotificationMethod AppealCaseLpaNotificationMethod[]
-  InterestedPartyComments         InterestedPartyComment[]
   InterestedPartySubmissions      InterestedPartySubmission[]
-  AppealStatements                AppealStatement[]
-  FinalComments                   FinalComment[]
-  Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
-  Rule6StatementSubmission        Rule6StatementSubmission?
+  Rule6ProofOfEvidenceSubmissions Rule6ProofOfEvidenceSubmission[]
+  Rule6StatementSubmissions       Rule6StatementSubmission[]
   Representations                 Representation[]
 }
 
@@ -712,8 +709,6 @@ model ServiceUser {
   serviceUserType String
   /// case reference this user + user-type relates to
   caseReference   String
-
-  FinalComments FinalComment[]
 }
 
 /// AppellantSubmission represents an appeal submitted by an appellant
