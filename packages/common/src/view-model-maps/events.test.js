@@ -1,5 +1,5 @@
-const { LPA_USER_ROLE, APPEAL_USER_ROLES } = require('../constants');
-const { formatInquiries } = require('./events');
+const { LPA_USER_ROLE, APPEAL_USER_ROLES, EVENT_SUB_TYPES } = require('../constants');
+const { formatInquiries, formatSiteVisits } = require('./events');
 
 describe('view-model-maps/events', () => {
 	const siteVisitEvent = {
@@ -28,15 +28,100 @@ describe('view-model-maps/events', () => {
 		addressPostcode: 'AB1 2CD'
 	};
 
+	describe('formatSiteVisits', () => {
+		it('returns empty array if not a valid user', () => {
+			const events = [siteVisitEvent];
+			const role = 'not a valid user';
+
+			expect(formatSiteVisits(events, role)).toHaveLength(0);
+		});
+
+		it('returns empty array if valid user and no site visit in events array', () => {
+			const events = [inquiryEvent, inquiryEvent];
+			const role = APPEAL_USER_ROLES.APPELLANT;
+
+			expect(formatSiteVisits(events, role)).toHaveLength(0);
+		});
+
+		it('returns empty array if valid user but no subtype specified', () => {
+			const events = [siteVisitEvent];
+			const role = APPEAL_USER_ROLES.APPELLANT;
+
+			expect(formatSiteVisits(events, role)).toHaveLength(0);
+		});
+
+		it('returns correct array if valid user and unaccompanied subtype', () => {
+			const events = [
+				{
+					...siteVisitEvent,
+					startDate: null,
+					endDate: null,
+					subtype: EVENT_SUB_TYPES.UNACCOMPANIED
+				}
+			];
+			const role = APPEAL_USER_ROLES.AGENT;
+
+			expect(formatSiteVisits(events, role)).toEqual([
+				'Our inspector will visit the site. You do not need to attend.'
+			]);
+		});
+
+		it('returns only siteVisit data not inquiry when user is valid', () => {
+			const events = [
+				{
+					...siteVisitEvent,
+					startDate: null,
+					endDate: null,
+					subtype: EVENT_SUB_TYPES.UNACCOMPANIED
+				},
+				inquiryEvent
+			];
+			const role = APPEAL_USER_ROLES.AGENT;
+
+			expect(formatSiteVisits(events, role)).toEqual([
+				'Our inspector will visit the site. You do not need to attend.'
+			]);
+		});
+
+		it('returns correct array if valid user and access subtype (same date)', () => {
+			const events = [
+				{ ...siteVisitEvent, endDate: new Date(2024, 11, 29, 11), subtype: EVENT_SUB_TYPES.ACCESS }
+			];
+			const role = LPA_USER_ROLE;
+
+			expect(formatSiteVisits(events, role)).toEqual([
+				'Our inspector will visit the site between 9am and 11am on 29 December 2024. Someone must be at the site to give our inspector access.'
+			]);
+		});
+
+		it('returns correct array if valid user and access subtype (different dates)', () => {
+			const events = [{ ...siteVisitEvent, subtype: EVENT_SUB_TYPES.ACCESS }];
+			const role = APPEAL_USER_ROLES.APPELLANT;
+
+			expect(formatSiteVisits(events, role)).toEqual([
+				'Our inspector will visit the site between 9am on 29 December 2024 and 9am on 30 December 2024. Someone must be at the site to give our inspector access.'
+			]);
+		});
+
+		it('returns correct array if valid user and accompanied subtype', () => {
+			const events = [{ ...siteVisitEvent, subtype: EVENT_SUB_TYPES.ACCOMPANIED }];
+			const role = APPEAL_USER_ROLES.APPELLANT;
+
+			expect(formatSiteVisits(events, role)).toEqual([
+				'Our inspector will visit the site at 9am on 29 December 2024. You and the other main party must attend the site visit.'
+			]);
+		});
+	});
+
 	describe('formatInquiries', () => {
 		it('returns empty array if not a valid user', () => {
-			const events = [siteVisitEvent, inquiryEvent];
+			const events = [siteVisitEvent];
 			const role = 'not a valid user';
 
 			expect(formatInquiries(events, role)).toHaveLength(0);
 		});
 
-		it('returns null if no inquiries in events', () => {
+		it('returns empty array if valid user and no inquiries in events', () => {
 			const events = [siteVisitEvent];
 			const role = LPA_USER_ROLE;
 

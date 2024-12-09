@@ -23,16 +23,20 @@ const formatSiteVisits = (events, role) => {
 
 	return siteVisits
 		.map((siteVisit) => {
-			const { formattedTime: formattedStartTime, formattedDate: formattedStartDate } =
-				getFormattedTimeAndDate(siteVisit.startDate);
-			const { formattedTime: formattedEndTime, formattedDate: formattedEndDate } =
-				getFormattedTimeAndDate(siteVisit.endDate);
-
 			if (
 				role === APPEAL_USER_ROLES.APPELLANT ||
 				role === APPEAL_USER_ROLES.AGENT ||
 				role === LPA_USER_ROLE
 			) {
+				if (siteVisit.subtype === EVENT_SUB_TYPES.UNACCOMPANIED) {
+					return 'Our inspector will visit the site. You do not need to attend.';
+				}
+
+				const { formattedTime: formattedStartTime, formattedDate: formattedStartDate } =
+					getFormattedTimeAndDate(siteVisit.startDate);
+				const { formattedTime: formattedEndTime, formattedDate: formattedEndDate } =
+					getFormattedTimeAndDate(siteVisit.endDate);
+
 				switch (siteVisit.subtype) {
 					case EVENT_SUB_TYPES.ACCESS: {
 						const when =
@@ -44,15 +48,11 @@ const formatSiteVisits = (events, role) => {
 					case EVENT_SUB_TYPES.ACCOMPANIED: {
 						return `Our inspector will visit the site at ${formattedStartTime} on ${formattedStartDate}. You and the other main party must attend the site visit.`;
 					}
-					case EVENT_SUB_TYPES.UNACCOMPANIED: {
-						return 'Our inspector will visit the site. You do not need to attend.';
-					}
 					default: {
 						return null;
 					}
 				}
 			}
-
 			return null;
 		})
 		.filter(Boolean);
