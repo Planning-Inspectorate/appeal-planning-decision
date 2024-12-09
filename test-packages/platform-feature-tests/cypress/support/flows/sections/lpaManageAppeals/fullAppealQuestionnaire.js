@@ -1,6 +1,7 @@
 import { BasePage } from "../../../../page-objects/base-page";
 import { AppealProcess } from "../../pages/lpa-manage-appeals/appealProcess";
 import { ConstraintsAndDesignations } from "../../pages/lpa-manage-appeals/constraintsAndDesignations";
+import { EnvImpactAssess } from "../../pages/lpa-manage-appeals/envImpactAssess";
 import { ConsultResponseAndRepresent } from "../../pages/lpa-manage-appeals/consultResponseAndRepresent";
 import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
@@ -10,6 +11,7 @@ export const fullAppealQuestionnaire = (context,lpaQuestionnaireData) => {
 //module.exports = (context,lpaQuestionnaireData) => {
 	const basePage = new BasePage();
 	const constraintsAndDesignations = new ConstraintsAndDesignations();
+	const envImpactAssess = new EnvImpactAssess();
 	const consultResponseAndRepresent = new ConsultResponseAndRepresent();
 	const appealProcess = new AppealProcess();
 	const siteAccess = new SiteAccess();
@@ -63,7 +65,7 @@ export const fullAppealQuestionnaire = (context,lpaQuestionnaireData) => {
 	constraintsAndDesignations.selectCorrectTypeOfAppeal(context);
 	constraintsAndDesignations.selectChangesListedBuilding(context,lpaQuestionnaireData);
 	constraintsAndDesignations.selectAffectListedBuildings(context,lpaQuestionnaireData);
-	constraintsAndDesignations.selectScheduledMonument(context);	
+	constraintsAndDesignations.selectAffectScheduledMonument(context);	
 	constraintsAndDesignations.selectConservationArea(context);	
     constraintsAndDesignations.selectProtectedSpecies(context);
 	constraintsAndDesignations.selectGreenBelt(context);
@@ -71,19 +73,27 @@ export const fullAppealQuestionnaire = (context,lpaQuestionnaireData) => {
 	constraintsAndDesignations.selectTreePreservationOrder(context);
 	constraintsAndDesignations.selectGypsyTraveller(context);
 	constraintsAndDesignations.selectPublicRightOfWay(context);
+	envImpactAssess.selectScheduleType(context,lpaQuestionnaireData);
 	notifyParties.selectAndNotifyParties(context,lpaQuestionnaireData);
-	consultResponseAndRepresent.selectOtherPartyRepresentations(context);
+	consultResponseAndRepresent.selectStatutoryConsultees(context,lpaQuestionnaireData);
+	consultResponseAndRepresent.selectConsultationResponses(context);
+	consultResponseAndRepresent.selectOtherPartyRepresentations(context);	
 	//Planning officer's report and supplementary documents
-	poReportAndSupportDocs.selectPOReportAndSupportDocs(context);
+	poReportAndSupportDocs.selectPOReportAndSupportDocsS78(context);
+	poReportAndSupportDocs.selectEmergingPlansS78(context);
+	poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
+	poReportAndSupportDocs.selectCommunityInfraLevy(context);
 	//Site access
-	siteAccess.selectLpaSiteAccess(context,lpaQuestionnaireData);	
+	siteAccess.selectLpaSiteAccess(context,lpaQuestionnaireData);
 	siteAccess.selectNeighbourSiteAccess(context,lpaQuestionnaireData);
 	siteAccess.selectLpaSiteSafetyRisks(context,lpaQuestionnaireData);	
-// Appeals Access
-	appealProcess.selectNearbyAppeals(context,lpaQuestionnaireData);	
-	appealProcess.selectNewConditionss(context,lpaQuestionnaireData);	
+   // Appeals Access
+	appealProcess.selectProcedureType(context,lpaQuestionnaireData);
+	appealProcess.selectOngoingAppealsNextToSite(context,lpaQuestionnaireData);	
+	//appealProcess.selectNearbyAppeals(context,lpaQuestionnaireData);	
+	appealProcess.selectNewConditions(context,lpaQuestionnaireData);	
 });
-// commented for test during codding
+// commented for test during coding
 // 	cy.getByData(lpaQuestionnaireData?.submitQuestionnaire).click();
 // 	cy.get(basePage?._selectors.govukPanelTitle).contains(lpaQuestionnaireData?.questionnaireSubmitted);
  };

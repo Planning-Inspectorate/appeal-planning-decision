@@ -10,7 +10,7 @@ export class ConstraintsAndDesignations {
        designatedSites5SPA:'#designatedSites-5',
        designatedSites6other:'#designatedSites-6',
        conditionalDesignatedSites6other:'#designatedSites_otherDesignations',
-       designatedSites8no:'#designatedSites-8'
+       designatedSites7no:'#designatedSites-7'
     }
     selectCorrectTypeOfAppeal(context) {
         const basePage = new BasePage();
@@ -64,9 +64,9 @@ export class ConstraintsAndDesignations {
             cy.advanceToNextPage();
         }
     };
-    selectScheduledMonument(context) {
+    selectAffectScheduledMonument(context) {
         const basePage = new BasePage();
-        if(context?.constraintsAndDesignations?.isAffectScheduleMonument){
+        if(context?.constraintsAndDesignations?.isScheduleMonument){
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
         } else {		
@@ -134,7 +134,12 @@ export class ConstraintsAndDesignations {
             });
             basePage.addTextField(this._selectors?.conditionalDesignatedSites6other,lpaQuestionnaireData?.constraintsAndDesignations?.designatedSitesOtherDesignations);
         } else {
-            basePage.clickCheckBox(this._selectors?.designatedSites8no);
+            cy.get(this._selectors?.designatedSites7no).then(($checkbox)=>{
+                if(!$checkbox.is(':checked')){
+                    basePage.clickCheckBox(this._selectors?.designatedSites7no);
+                }
+            });           
+           // basePage.clickCheckBox(this._selectors?.designatedSites7no);         
         } 
         cy.advanceToNextPage();
     };

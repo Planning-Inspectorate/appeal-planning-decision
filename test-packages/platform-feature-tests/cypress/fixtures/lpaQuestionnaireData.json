@@ -29,10 +29,19 @@
         "gypsyTraveller":"Does the development relate to anyone claiming to be a Gypsy or Traveller?",
         "publicRightOfWay":"Would a public right of way need to be removed or diverted?"
     },
+    "environmentlImpact":{
+        "scheduleOneOrTwoOrNo":"Is the development a schedule 1 or schedule 2 development?",
+        "sensitiveAreaSensitiveAreaDetails":"sensitive Area Sensitive Area Details"
+    },
     "notifyParties":{
         "siteNotice":"A site notice",
         "lettersEmailsToParties":"Letters or emails to interested parties",
         "advertInLocalPress":"An advert in the local press"
+    },
+    "consultResponseAndRepresent":{
+        "statutoryConsulteesConsultedBodiesDetails": "Consulted Bodies"
+    },
+    "poReportAndSupportDocs":{
     },
     "siteAccess":{
         "siteAccessInformation":"site access information",
@@ -48,7 +57,9 @@
     "appealProcess":{
         "addAnotherAppeal":"Add another appeal?",
         "nearByAppealReference":"1234567",
-        "conditionsAndDetails":"newConditions newConditionDetails"
+        "conditionsAndDetails":"newConditions newConditionDetails",
+        "lpaPreferHearingDetails":"Lpa Pefer Hearing Details !£$%^&*(123456789 ",
+        "lpaProcedurePreferenceLpaPreferInquiryDuration":"99",
+        "lpaPreferInquiryDetails":"Lpa Pefer Inquiry Details !£$%^&*(123456789 "
     }
-
 }
