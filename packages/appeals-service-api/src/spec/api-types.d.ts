@@ -479,36 +479,9 @@ export interface AppealCase {
 	AppellantFinalCommentSubmission?: AppellantFinalCommentSubmission;
 	/** Proof of evidence submitted by an appellant */
 	AppellantProofOfEvidenceSubmission?: AppellantProofOfEvidenceSubmission;
-	/** Proof of evidence submitted by a rule 6 party */
-	Rule6ProofOfEvidenceSubmission?: Rule6ProofOfEvidenceSubmission;
-	/** A statement submitted by a Rule 6 Party */
-	Rule6StatementSubmission?: Rule6StatementSubmission;
+	Rule6ProofOfEvidenceSubmissions?: Rule6ProofOfEvidenceSubmission[];
+	Rule6StatementSubmissions?: Rule6StatementSubmission[];
 	Representations?: Representation[];
-}
-
-/** A statement document linked to an appeal statement */
-export interface StatementDocument {
-	/** @format uuid */
-	id: string;
-	/** @format uuid */
-	statementId: string | null;
-	/** @format uuid */
-	documentId: string;
-	/** A document associated with an appeal */
-	Document?: Document;
-}
-
-/** A statement made by an LPA or Rule 6 party on an appeal case */
-export interface AppealStatement {
-	/** @format uuid */
-	id?: string;
-	caseReference: string;
-	serviceUserId?: string | null;
-	lpaCode?: string | null;
-	statement?: string | null;
-	/** @format date-time */
-	submittedDate: string;
-	StatementDocuments?: StatementDocument[];
 }
 
 /** An appeal submission created in the Front Office */
@@ -929,6 +902,7 @@ export interface Document {
 	origin: string;
 	stage: string;
 	caseReference: string;
+	RepresentationDocument?: RepresentationDocument[];
 }
 
 export interface ErrorBody {
@@ -962,45 +936,6 @@ export interface Event {
 	addressCounty?: string;
 	/** second line of event address */
 	addressPostcode?: string;
-}
-
-/** A final comment document linked to an appeal statement */
-export interface FinalCommentDocument {
-	/** @format uuid */
-	id: string;
-	/** @format uuid */
-	commentId: string | null;
-	/** @format uuid */
-	documentId: string;
-	/** A document associated with an appeal */
-	Document?: Document;
-}
-
-/** A final comment made by an LPA, appellant or Rule 6 party on an appeal case */
-export interface FinalComment {
-	/** @format uuid */
-	id?: string;
-	caseReference: string;
-	serviceUserId?: string | null;
-	lpaCode?: string | null;
-	wantsFinalComment?: boolean;
-	comments?: string | null;
-	/** @format date-time */
-	submittedDate: string;
-	FinalCommentDocuments?: FinalCommentDocument[];
-	/** A Service User */
-	ServiceUser?: ServiceUser;
-}
-
-/** A comment made by an interested party on an appeal case */
-export interface InterestedPartyComment {
-	/** @format uuid */
-	id: string;
-	caseReference: string;
-	serviceUserId?: string;
-	comment: string;
-	/** @format date-time */
-	createdAt?: string;
 }
 
 /** A comment submitted by an interested party on an appeal case but not yet validated by BO */
@@ -1221,6 +1156,23 @@ export interface NeighbouringAddress {
 	postcode: string;
 }
 
+/** An mapping of a representation to a document */
+export interface RepresentationDocument {
+	/**
+	 * identifier for the mapping
+	 * @format uuid
+	 */
+	id: string;
+	/** id of mapped representation */
+	representationId: string;
+	/** Unique identifier of appeal (SQL) */
+	documentId: string;
+	/** Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO */
+	Representation?: Representation;
+	/** A document associated with an appeal */
+	Document?: Document;
+}
+
 /** Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO */
 export interface Representation {
 	/**
@@ -1258,8 +1210,7 @@ export interface Representation {
 	 * @format date-time
 	 */
 	dateReceived?: string;
-	/** a json array of document ids received */
-	representationDocuments?: string;
+	RepresentationDocuments?: RepresentationDocument[];
 }
 
 /** Information about a rule 6 party involved in an appeal */
