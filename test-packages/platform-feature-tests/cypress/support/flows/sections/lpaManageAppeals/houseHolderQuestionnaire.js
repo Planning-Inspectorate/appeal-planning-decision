@@ -21,7 +21,7 @@ export const lpaQuestionnaire = (context,lpaQuestionnaireData) => {
 		const rowtext=$row.text();
 		//cy.log('countercheck',counter);
 		if(rowtext.includes(lpaQuestionnaireData?.hasAppealType) && !rowtext.includes(lpaQuestionnaireData?.todoInvalid)) {
-			if(counter === 1){		
+			if(counter === 0){		
 			cy.log(rowtext);
 		
 			cy.wrap($row).within(() => {
@@ -67,17 +67,17 @@ export const lpaQuestionnaire = (context,lpaQuestionnaireData) => {
 	notifyParties.selectAndNotifyParties(context,lpaQuestionnaireData);
 	consultResponseAndRepresent.selectOtherPartyRepresentations(context);
 	//Planning officer's report and supplementary documents
-	poReportAndSupportDocs.selectPOReportAndSupportDocs(context);
-	poReportAndSupportDocs.selectEmergingPlans(context);
+	poReportAndSupportDocs.selectPOReportAndSupportDocsHas(context);
+	poReportAndSupportDocs.selectEmergingPlansHas(context);
 	poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
 
 	//Site access
 	siteAccess.selectLpaSiteAccess(context,lpaQuestionnaireData);	
 	siteAccess.selectNeighbourSiteAccess(context,lpaQuestionnaireData);
 	siteAccess.selectLpaSiteSafetyRisks(context,lpaQuestionnaireData);	
-// Appeals Access
+   // Appeals Access
 	appealProcess.selectNearbyAppeals(context,lpaQuestionnaireData);	
-	appealProcess.selectNewConditionss(context,lpaQuestionnaireData);	
+	appealProcess.selectNewConditions(context,lpaQuestionnaireData);	
 });
 // commented for test during codding
 // 	cy.getByData(lpaQuestionnaireData?.submitQuestionnaire).click();

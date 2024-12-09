@@ -10,6 +10,7 @@ module.exports = defineConfig({
     overwrite: false,
     html: true,
     json: false,
+    reportFilename: "[name]",
     timestamp: "mmddyyyy_HHMMss",
     reportPageTitle: 'Cypress Inline Reporter',
     embeddedScreenshots: true, 
