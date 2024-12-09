@@ -34,6 +34,7 @@ const trailingSlashRegex = /\/$/;
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
+ * @typedef {import('appeals-service-api').Api.Representation} Representation
  */
 
 // Data model types
