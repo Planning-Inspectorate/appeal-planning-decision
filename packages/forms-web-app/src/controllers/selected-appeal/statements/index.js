@@ -11,7 +11,7 @@ const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
 
 /**
- * Shared controller for /appeals/:caseRef/lpa-statement, /manage-appeals/:caseRef/statement
+ * Shared controller for /appeals/:caseRef/lpa-statement, /manage-appeals/:caseRef/statement, /rule-6/:caseRef/statement
  * @param {string} layoutTemplate - njk template to extend
  * @returns {import('express').RequestHandler}
  */
@@ -45,7 +45,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 		});
 
 		const statementType = getStatementType(userRouteUrl, user, userType);
-		const statement = await req.appealsApiClient.getAppealStatement(appealNumber, statementType);
+		const statement = await req.appealsApiClient.getRepresentations(appealNumber, statementType);
 		const formattedStatement = formatStatement(statement);
 
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
