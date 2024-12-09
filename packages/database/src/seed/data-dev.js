@@ -1136,7 +1136,7 @@ const events = [
 		endDate: getFutureDate(43, 11),
 		AppealCase: {
 			connect: {
-				caseReference: '1010101'
+				caseReference: '0000002'
 			}
 		}
 	},
@@ -1149,7 +1149,7 @@ const events = [
 		endDate: getFutureDate(26, 13),
 		AppealCase: {
 			connect: {
-				caseReference: '1010101'
+				caseReference: '0000001'
 			}
 		}
 	}
