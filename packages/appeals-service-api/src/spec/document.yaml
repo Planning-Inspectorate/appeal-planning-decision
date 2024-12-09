@@ -53,3 +53,7 @@ components:
           type: string
         caseReference:
           type: string
+        RepresentationDocument:
+          type: array
+          items:
+            $ref: '#/components/schemas/RepresentationDocument'
