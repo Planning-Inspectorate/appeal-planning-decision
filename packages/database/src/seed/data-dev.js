@@ -1076,8 +1076,8 @@ const events = [
 		published: true,
 		type: 'siteVisit',
 		subtype: 'unaccompanied',
-		startDate: getFutureDate(30, 15),
-		endDate: getFutureDate(30, 15),
+		startDate: null,
+		endDate: null,
 		AppealCase: {
 			connect: {
 				caseReference: '1010102'
