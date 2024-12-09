@@ -33,7 +33,7 @@ export class ConsultResponseAndRepresent {
             cy.advanceToNextPage();
         }
     }
-
+    
     selectOtherPartyRepresentations(context) {
         const basePage = new BasePage();
         if (context?.consultResponseAndRepresent?.isOtherPartyRepresentations) {
