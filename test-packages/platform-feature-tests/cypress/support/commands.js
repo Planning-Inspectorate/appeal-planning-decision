@@ -91,6 +91,14 @@ Cypress.Commands.add('uploadFileFromFixturesDirectory', (filename) => {
 	cy.get('#file-upload').selectFile(`cypress/fixtures/${filename}`);
 });
 
+Cypress.Commands.add('uploadFileFromFixtureDirectories', (filename) => {
+	// BEWARE! If you use `cy.fixtures()` instead, its caching will cause
+	// issues on tests that use the same fixtures as ones run before!!
+	cy.get('input[type="file"]').then($input => {
+		$input.removeAttr('hidden');
+	})
+	cy.get('input[type="file"]').selectFile(`cypress/fixtures/${filename}`, { force: true });
+});
 Cypress.Commands.add('uploadFileFromFixtureDirectory', (filename) => {
 	// BEWARE! If you use `cy.fixtures()` instead, its caching will cause
 	// issues on tests that use the same fixtures as ones run before!!
@@ -99,3 +107,16 @@ Cypress.Commands.add('uploadFileFromFixtureDirectory', (filename) => {
 	})
 	cy.get('input[type="file"]').selectFile(`cypress/fixtures/${filename}`, { force: true });
 });
+
+
+Cypress.Commands.add('checkIfUnchecked',(labelText) => {
+	cy.contains('label',labelText).invoke('attr','for').then((id) => {
+		cy.get(`#${id}`).then($checkbox =>{
+			if(!$checkbox.is(':checked')){
+				cy.wrap($checkbox).click();}
+				else{
+					cy.log(`Checkbox"${labelText}"is already checkDebugAllowed. Skipping.`);
+				}
+			});
+		});
+	});

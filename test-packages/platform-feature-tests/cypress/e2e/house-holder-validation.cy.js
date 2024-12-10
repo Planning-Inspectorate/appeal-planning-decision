@@ -55,7 +55,8 @@ describe('House Holder Date Validations', () => {
     it(`Validate future date error message  in decision date page future month`, () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.nextMonth());
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
+        const currentYear = date.currentMonth() > date.nextMonth() ? date.nextYear() : date.currentYear();
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentYear);
         cy.advanceToNextPage();
 
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Decision date must be today or in the past');
@@ -208,7 +209,7 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type('@12345');
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter the correct code');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter the code we sent to your email address');
     });
 
     it(`Validate change URL for application name in task link page `, () => {
