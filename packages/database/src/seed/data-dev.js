@@ -162,6 +162,11 @@ const appealSubmissionDraft = {
 	idTwo: 'ac3643e6-e680-4230-9c3c-66d90c3ecdfe'
 };
 
+const representationIds = {
+	representationOne: '4f7bb373-faee-47ab-9ddd-cd430c56b23e',
+	representationTwo: 'd24447a2-ad41-42b7-be86-7a222ae57439'
+};
+
 const appealStatementIds = {
 	appealStatementOne: '4f7bb373-faee-47ab-9ddd-cd430c56b33e',
 	appealStatementTwo: 'd24447a2-ad41-42b7-be86-7a222ae57448'
@@ -1235,6 +1240,42 @@ const appealStatements = [
 ];
 
 /**
+ * @type {import('@prisma/client').Prisma.RepresentationCreateInput[]}
+ */
+const representations = [
+	{
+		id: representationIds.representationOne,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471345',
+		AppealCase: {
+			connect: {
+				caseReference: '1000014'
+			}
+		},
+		status: 'published',
+		originalRepresentation:
+			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
+		source: 'lpa',
+		representationType: 'statement',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	{
+		id: representationIds.representationTwo,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471346',
+		AppealCase: {
+			connect: {
+				caseReference: caseReferences.caseReferenceOne
+			}
+		},
+		status: 'published',
+		originalRepresentation:
+			'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
+		source: 'lpa',
+		representationType: 'statement',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	}
+];
+
+/**
  * @type {import('@prisma/client').Prisma.StatementDocumentCreateInput[]}
  */
 const statementDocuments = [
@@ -1607,6 +1648,14 @@ async function seedDev(dbClient) {
 			create: event,
 			update: event,
 			where: { internalId: event.internalId }
+		});
+	}
+
+	for (const representation of representations) {
+		await dbClient.representation.upsert({
+			create: representation,
+			update: representation,
+			where: { id: representation.id }
 		});
 	}
 
