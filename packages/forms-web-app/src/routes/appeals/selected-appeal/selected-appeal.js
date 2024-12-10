@@ -16,7 +16,7 @@ router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get())
 router.get('/:appealNumber/final-comments', finalCommentsController.get());
 router.get('/:appealNumber/lpa-final-comments', finalCommentsController.get());
 router.get('/:appealNumber/interested-party-comments', interestedPartyDetailsController.get());
-router.get('/:appealNumber/lpa-statement', statementDetailsController.get());
+router.get('/:appealNumber/statement', statementDetailsController.get());
 router.get('/:appealNumber/planning-obligation', planningObligationDetailsController.get());
 
 module.exports = router;

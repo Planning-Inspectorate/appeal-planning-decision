@@ -1,14 +1,14 @@
 const { formatHeadlineData } = require('@pins/common');
-const { formatStatement } = require('../../../utils/format-comment-or-statement');
+// const { formatStatement } = require('../../../utils/format-comment-or-statement');
 const { VIEW } = require('../../../lib/views');
 const {
 	formatTitleSuffix,
-	formatStatementHeading,
-	getStatementType
+	formatStatementHeading
 } = require('../../../lib/selected-appeal-page-setup');
 const { determineUser } = require('../../../lib/determine-user');
-const { getUserFromSession } = require('../../../services/user.service');
+// const { getUserFromSession } = require('../../../services/user.service');
 const { getDepartmentFromCode } = require('../../../services/department.service');
+const { REPRESENTATIONS } = require('@pins/common/src/constants');
 
 /**
  * Shared controller for /appeals/:caseRef/lpa-statement, /manage-appeals/:caseRef/statement, /rule-6/:caseRef/statement
@@ -30,26 +30,31 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			throw new Error('Unknown role');
 		}
 
-		const userEmail = getUserFromSession(req).email;
+		// const userEmail = getUserFromSession(req).email;
 
-		if (!userEmail) {
-			throw new Error('no session email');
-		}
+		// if (!userEmail) {
+		// 	throw new Error('no session email');
+		// }
 
-		const user = await req.appealsApiClient.getUserByEmailV2(userEmail);
+		// const user = await req.appealsApiClient.getUserByEmailV2(userEmail);
 
-		const caseData = await req.appealsApiClient.getUsersAppealCase({
-			caseReference: appealNumber,
-			role: userType,
-			userId: user.id
-		});
+		// const caseData = await req.appealsApiClient.getUsersAppealCase({
+		// 	caseReference: appealNumber,
+		// 	role: userType,
+		// 	userId: user.id
+		// });
 
-		const statementType = getStatementType(userRouteUrl, user, userType);
-		const statement = await req.appealsApiClient.getRepresentations(appealNumber, statementType);
-		const formattedStatement = formatStatement(statement);
+		// const statementType = getStatementType(userRouteUrl, user, userType);
+		const statement = await req.appealsApiClient.getAppealCaseWithRepresentationsByType(
+			appealNumber,
+			REPRESENTATIONS.STATEMENT
+		);
+		// const formattedStatement = formatStatement(statement);
+		console.log('waaaaaaaaaa');
+		console.log(statement);
 
-		const lpa = await getDepartmentFromCode(caseData.LPACode);
-		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
+		const lpa = await getDepartmentFromCode(statement.LPACode);
+		const headlineData = formatHeadlineData(statement, lpa.name, userType);
 
 		const viewContext = {
 			layoutTemplate,
@@ -59,7 +64,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 			appeal: {
 				appealNumber,
 				headlineData,
-				formattedStatement
+				formattedStatement: statement
 			}
 		};
 

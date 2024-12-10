@@ -38,8 +38,7 @@ class RepresentationsRepository {
 						include: {
 							RepresentationDocuments: true
 						}
-					},
-					RepresentationDocuments: true
+					}
 				}
 			});
 		} catch (e) {
@@ -84,8 +83,7 @@ class RepresentationsRepository {
 						include: {
 							RepresentationDocuments: true
 						}
-					},
-					RepresentationDocuments: true
+					}
 				}
 			});
 		} catch (e) {
