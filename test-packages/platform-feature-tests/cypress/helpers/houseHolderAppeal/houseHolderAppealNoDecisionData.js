@@ -16,7 +16,7 @@ const documents = {
 export const houseHolderAppealNoDecisionTestCases = [
     {
         statusOfOriginalApplication: 'no decision',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
@@ -33,7 +33,7 @@ export const houseHolderAppealNoDecisionTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },

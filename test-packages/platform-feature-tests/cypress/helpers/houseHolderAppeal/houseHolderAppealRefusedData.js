@@ -18,7 +18,7 @@ const documents = {
 export const houseHolderAppealRefusedTestCases = [
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'hearing',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
@@ -61,7 +61,7 @@ export const houseHolderAppealRefusedTestCases = [
     // refused scenarios 
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'hearing',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
@@ -94,7 +94,7 @@ export const houseHolderAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'hearing',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
@@ -127,7 +127,7 @@ export const houseHolderAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'hearing',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
@@ -161,7 +161,7 @@ export const houseHolderAppealRefusedTestCases = [
 
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'hearing',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
@@ -194,7 +194,7 @@ export const houseHolderAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'hearing',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
@@ -227,7 +227,7 @@ export const houseHolderAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'hearing',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
@@ -260,7 +260,7 @@ export const houseHolderAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'hearing',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
@@ -293,7 +293,7 @@ export const houseHolderAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'hearing',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {
@@ -326,7 +326,7 @@ export const houseHolderAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'hearing',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-householder-planning',
         applicationForm: {

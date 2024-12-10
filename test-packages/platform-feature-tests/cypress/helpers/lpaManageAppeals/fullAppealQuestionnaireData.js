@@ -1,7 +1,10 @@
 const documents = {
-    uploadAppealStmt: 'appeal-statement-valid.pdf'
-  
+    uploadAppealStmt: 'appeal-statement-valid.pdf',
+    uploadConservationMapGuidance: 'conservation-map-guidance.pdf',
+    uploadPlanExtentOrder: 'plan-extent-order.pdf',
+    uploadDefinitiveMapStmt: 'definitive-map-stmt.pdf'
 };
+
 export const fullAppealQuestionnaireTestCases = [
     {  
         constraintsAndDesignations:{
@@ -65,6 +68,7 @@ export const fullAppealQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,                    
         },
+        documents,
         submit:{}
     },
     {  
@@ -129,6 +133,7 @@ export const fullAppealQuestionnaireTestCases = [
             isNearbyAppeals: false,
             isNewConditions: false,                    
         },
+        documents,
         submit:{}
     },
     {  
@@ -194,6 +199,7 @@ export const fullAppealQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,                    
         },
+        documents,
         submit:{}
     }    
     // {  
