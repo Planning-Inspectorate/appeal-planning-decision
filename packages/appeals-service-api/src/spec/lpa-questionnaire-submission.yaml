@@ -21,6 +21,9 @@ components:
         submitted:
           type: boolean
           description: whether the questionnaire has been submitted to BO
+        submissionPdfId:
+          type: string
+          description: blob storage id of submission pdf used to generate download link
         appealCaseReference:
           type: string
         correctAppealType:
@@ -171,3 +174,19 @@ components:
           type: string
         requiresEnvironmentalStatement:
           type: boolean
+        SubmissionAddress:
+          type: array
+          items:
+            type: object
+        SubmissionListedBuilding:
+          type: array
+          items:
+            type: object
+        SubmissionLinkedCase:
+          type: array
+          items:
+            type: object
+        SubmissionDocumentUpload:
+          type: array
+          items:
+            type: object

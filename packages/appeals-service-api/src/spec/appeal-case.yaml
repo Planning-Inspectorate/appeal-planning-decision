@@ -589,7 +589,7 @@ components:
         Events:
           type: array
           items:
-            type: object
+            $ref: '#/components/schemas/Event'
 
         AppealCaseLpaNotificationMethod:
           type: array
@@ -607,3 +607,11 @@ components:
 
         Rule6ProofOfEvidenceSubmission:
           $ref: '#/components/schemas/Rule6ProofOfEvidenceSubmission'
+
+        Rule6StatementSubmission:
+          $ref: '#/components/schemas/Rule6StatementSubmission'
+
+        Representations:
+          type: array
+          items:
+            $ref: '#/components/schemas/Representation'

@@ -1,5 +1,6 @@
 const { body } = require('express-validator');
 const BaseValidator = require('./base-validator.js');
+const { optionIsDivider } = require('../dynamic-components/utils/question-utils.js');
 
 /**
  * @typedef {import('../options-question.js')} OptionsQuestion
@@ -27,15 +28,24 @@ class ValidOptionValidator extends BaseValidator {
 	/**
 	 * validates the response body, checking the value sent for the questionObj's fieldname is within the predefined list of options
 	 * @param {OptionsQuestion} questionObj
+	 * @returns {import('express-validator').ValidationChain}
 	 */
-	validate(questionObj) {
-		return body(questionObj.fieldName)
+	/**
+	 * @param {import('../options-question.js').OptionsQuestion} question
+	 * @param {import('../journey-response').JourneyResponse} _journeyResponse
+	 * @returns {import('express-validator').ValidationChain | import('express-validator').ValidationChain[]}
+	 */
+	validate(question, _journeyResponse) {
+		return body(question.fieldName)
 			.custom((value) => {
 				if (!value) return true;
 				value = Array.isArray(value) ? value : [value];
-				return value.every((element) =>
-					questionObj.options.map((option) => option.value).includes(element)
-				);
+				return value.every((/** @type {string} */ element) => {
+					const mappedOptions = question.options.map((option) => {
+						return optionIsDivider(option) ? null : option.value;
+					});
+					return mappedOptions.includes(element);
+				});
 			})
 			.withMessage(this.errorMessage);
 	}

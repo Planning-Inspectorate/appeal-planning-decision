@@ -8,6 +8,7 @@ const finalCommentsController = require('../../controllers/selected-appeal/final
 const interestedPartyCommentsController = require('../../controllers/selected-appeal/ip-comment-details');
 const statementDetailsController = require('../../controllers/selected-appeal/statements');
 const planningObligationDetailsController = require('../../controllers/selected-appeal/planning-obligation-details');
+const downloadDocumentsController = require('../../controllers/selected-appeal/downloads/documents');
 
 router.get('/:appealNumber', selectedAppealController.get('layouts/lpa-dashboard/main.njk'));
 router.get(
@@ -17,6 +18,10 @@ router.get(
 router.get(
 	'/:appealNumber/questionnaire',
 	questionnaireDetailsController.get('layouts/lpa-dashboard/main.njk')
+);
+router.get(
+	`/:appealNumber/download/:documentsLocation/documents/:appealCaseStage`,
+	downloadDocumentsController.get()
 );
 router.get(
 	'/:appealNumber/final-comments',

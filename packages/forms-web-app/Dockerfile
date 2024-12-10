@@ -11,14 +11,13 @@ COPY packages/forms-web-app/src ./src
 # copy workspace deps
 COPY package.json /opt/
 COPY package-lock.json /opt/
-COPY patches /opt/patches
 COPY packages/common /opt/packages/common
 COPY packages/business-rules /opt/packages/business-rules
 COPY packages/database /opt/packages/database
 
 # install from root
 WORKDIR /opt
-RUN npm ci
+RUN npm ci --workspaces --if-present
 
 # build web
 WORKDIR /opt/packages/forms-web-app
@@ -30,6 +29,9 @@ FROM build AS app
 WORKDIR /opt/packages/forms-web-app
 
 RUN npm prune --omit=dev && npm rebuild --ignore-scripts
+
+ARG GIT_SHA
+ENV GIT_SHA=$GIT_SHA
 
 EXPOSE 3000
 

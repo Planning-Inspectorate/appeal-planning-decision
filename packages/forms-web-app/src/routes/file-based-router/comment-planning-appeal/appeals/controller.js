@@ -9,7 +9,7 @@ const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 /** @type {import('express').RequestHandler} */
 const appeals = async (req, res) => {
-	const postcode = req.query.search;
+	const postcode = req.query.search || req.session.interestedParty?.searchPostcode;
 	/** @type {import('#utils/appeals-view').AppealViewModel[]} */
 	const postcodeSearchResults = await req.appealsApiClient.getPostcodeSearchResults({
 		postcode,

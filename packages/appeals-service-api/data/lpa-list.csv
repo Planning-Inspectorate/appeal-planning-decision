@@ -204,13 +204,13 @@
 202;E60000209;Q5300;Enfield;planning.appeals@enfield.gov.uk;enfield.gov.uk;TRUE\n
 203;E60000210;E5330;Greenwich;planning-enforcement@royalgreenwich.gov.uk;royalgreenwich.gov.uk;TRUE\n
 204;E60000211;M5450;Harrow;planningappeals@harrow.gov.uk;harrow.gov.uk;TRUE\n
-205;E60000212;B5480;Havering;planning.appeals@havering.gov.uk;havering.gov.uk;TRUE\n
+205;E60000212;B5480;Havering;planning_appeals@havering.gov.uk;havering.gov.uk;TRUE\n
 206;E60000213;R5510;Hillingdon;PlanningAppeals@Hillingdon.gov.uk;hillingdon.gov.uk;TRUE\n
 207;E60000214;F5540;Hounslow;planningappeals@hounslow.gov.uk;hounslow.gov.uk;TRUE\n
 208;E60000215;Z5630;Kingston upon Thames;planning.appeals@kingston.gov.uk;kingston.gov.uk;TRUE\n
 209;E60000216;T5720;Merton;planning.appeals@merton.gov.uk;merton.gov.uk;TRUE\n
 210;E60000217;W5780;Redbridge;planning.appeals@redbridge.gov.uk;redbridge.gov.uk;TRUE\n
-211;E60000218;L5810;Richmond upon Thames;planningappeals@richmond.gov.uk;richmond.gov.uk;TRUE\n
+211;E60000218;L5810;Richmond upon Thames;Richmondplanningappeals@richmondandwandsworth.gov.uk;richmondandwandsworth.gov.uk;TRUE\n
 212;E60000219;P5870;Sutton;developmentcontrol@sutton.gov.uk;sutton.gov.uk;TRUE\n
 213;E60000220;U5930;Waltham Forest;planningappeals@walthamforest.gov.uk;walthamforest.gov.uk;TRUE\n
 214;E60000221;R0335;Bracknell Forest;development.control@bracknell-forest.gov.uk;bracknell-forest.gov.uk;TRUE\n
@@ -324,7 +324,7 @@
 ;J0405;J0405;Buckinghamshire Council North and Central Area (formerly Aylesbury);devcontrol.av@buckinghamshire.gov.uk;buckinghamshire.gov.uk;TRUE\n
 ;X0415;X0415;Buckinghamshire Council South and East Area (formerly Chiltern/South Bucks);planning.appeals.csb@buckinghamshire.gov.uk;buckinghamshire.gov.uk;TRUE\n
 ;K0425;K0425;Buckinghamshire Council West Area (formerly Wycombe);planning.wyc@buckinghamshire.gov.uk;wycombe.gov.uk;TRUE\n
-321;E60000332;M2840;North Northamptonshire;planning.cbc@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
+321;E60000332;M2840;North Northamptonshire;planningappeals@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
 ;U2805;U2805;North Northamptonshire Council - Corby Area;planningservices.cbc@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
 ;H2835;H2835;North Northamptonshire County Wellingborough;planningappeals.bcw@northnorthants.gov.uk;northnorthants.gov.uk;TRUE\n
 322;E60000333;W2845;West Northamptonshire;planningappeals@westnorthants.gov.uk;westnorthants.gov.uk;TRUE\n

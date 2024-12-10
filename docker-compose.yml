@@ -97,7 +97,7 @@ services:
       SRV_NOTIFY_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_APPELLANT_TEMPLATE_ID: '13dbf9e9-7549-4973-9c70-9fb9d67e38e7'
       SRV_NOTIFY_START_EMAIL_TO_LPA_TEMPLATE_ID: 'c4701212-4b6a-4b55-801a-c86c7dbea54b'
       SRV_NOTIFY_LPA_DASHBOARD_INVITE_TEMPLATE_ID: '6726907e-d0f0-4e70-840e-196b38579de1'
-      SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA: '937b4147-8420-42da-859d-d4a65bdf99bc'
+      SRV_NOTIFY_LPA_HAS_QUESTIONNAIRE_SUBMISSION_EMAIL_TEMPLATE_ID: '937b4147-8420-42da-859d-d4a65bdf99bc'
       SRV_OS_PLACES_URL: http://mock-os-places:3000
       SRV_NOTIFY_FULL_APPEAL_RECEIVED_NOTIFICATION_EMAIL_TO_LPA_TEMPLATE_ID: 'e3cba5d9-8b97-4922-97f1-48ef303b9195'
       SRV_NOTIFY_FULL_APPEAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID: '799a27da-b640-4852-a070-e83ff54401f0'
@@ -141,7 +141,7 @@ services:
     image: node:20-alpine
     environment:
       AUTH_BASE_URL: http://auth-server:3000
-      BO_STORAGE_CONTAINER_HOST: http://localhost:4004/devstoreaccount1
+      BO_STORAGE_CONTAINER_HOST: http://localhost:4004/devstoreaccount1/
       BO_STORAGE_CONTAINER_NAME: bo-appeals-documents
       BO_BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://bo-blob-storage:10000/devstoreaccount1;
       BLOB_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://blob-storage:10000/devstoreaccount1;QueueEndpoint=http://blob-storage:10001/devstoreaccount1;

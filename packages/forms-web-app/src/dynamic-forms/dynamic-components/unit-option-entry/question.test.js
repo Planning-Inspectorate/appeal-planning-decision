@@ -27,19 +27,19 @@ const OPTIONS = [
 	}
 ];
 
+const unitOptionEntryQuestion = new UnitOptionEntryQuestion({
+	title: TITLE,
+	question: QUESTION,
+	description: DESCRIPTION,
+	fieldName: FIELDNAME,
+	conditionalFieldName: CONDITIONAL_FIELDNAME,
+	html: HTML,
+	label: LABEL,
+	options: OPTIONS
+});
+
 describe('./src/dynamic-forms/dynamic-components/unit-option-entry/question.js', () => {
 	it('should create', () => {
-		const unitOptionEntryQuestion = new UnitOptionEntryQuestion({
-			title: TITLE,
-			question: QUESTION,
-			description: DESCRIPTION,
-			fieldName: FIELDNAME,
-			conditionalFieldName: CONDITIONAL_FIELDNAME,
-			html: HTML,
-			label: LABEL,
-			options: OPTIONS
-		});
-
 		expect(unitOptionEntryQuestion.title).toEqual(TITLE);
 		expect(unitOptionEntryQuestion.question).toEqual(QUESTION);
 		expect(unitOptionEntryQuestion.description).toEqual(DESCRIPTION);
@@ -49,5 +49,47 @@ describe('./src/dynamic-forms/dynamic-components/unit-option-entry/question.js',
 		expect(unitOptionEntryQuestion.html).toEqual(HTML);
 		expect(unitOptionEntryQuestion.label).toEqual(LABEL);
 		expect(unitOptionEntryQuestion.options).toEqual(OPTIONS);
+	});
+
+	it('should handle decimal string formatting conversion', () => {
+		const journey = {
+			response: {
+				answers: {
+					[CONDITIONAL_FIELDNAME]: '1.123456789'
+				}
+			},
+			getCurrentQuestionUrl: jest.fn()
+		};
+
+		const result = unitOptionEntryQuestion.formatAnswerForSummary('test', journey, 'ha');
+		expect(result[0].value).toEqual('1.123456789 ha');
+	});
+
+	it('should handle int string formatting conversion', () => {
+		const journey = {
+			response: {
+				answers: {
+					[CONDITIONAL_FIELDNAME]: '1'
+				}
+			},
+			getCurrentQuestionUrl: jest.fn()
+		};
+		const result = unitOptionEntryQuestion.formatAnswerForSummary('test', journey, 'ha');
+		expect(result[0].value).toEqual('1 ha');
+	});
+
+	it('should error for NaN formatting conversion', () => {
+		const journey = {
+			response: {
+				answers: {
+					[CONDITIONAL_FIELDNAME]: 'hello'
+				}
+			},
+			getCurrentQuestionUrl: jest.fn()
+		};
+
+		expect(() => {
+			unitOptionEntryQuestion.formatAnswerForSummary('test', journey, 'ha');
+		}).toThrow(new Error('Conditional answer had an unexpected type'));
 	});
 });

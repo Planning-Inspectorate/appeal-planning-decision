@@ -8,8 +8,8 @@ module.exports = class NotifyInteraction {
 			.setNumberOfKeysExpectedInJson(5)
 			.addJsonValueExpectation(
 				JsonPathExpression.create('$.template_id'),
-				appConfiguration.services.notify.templates[appeal.appealType]
-					.appealSubmissionConfirmationEmailToAppellant
+				appConfiguration.services.notify.templates.APPEAL_SUBMISSION.V1_HORIZON
+					.appellantAppealSubmissionInitialConfirmation
 			)
 			.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), appeal.email)
 			.addJsonValueExpectation(JsonPathExpression.create('$.reference'), appeal.id)
@@ -18,11 +18,11 @@ module.exports = class NotifyInteraction {
 
 	static getAppealReceivedEmailForAppellantInteraction(appeal, appellantName, lpaName) {
 		return new Interaction('Send appeal successfully received email to appellant')
-			.setNumberOfKeysExpectedInJson(9)
+			.setNumberOfKeysExpectedInJson(10)
 			.addJsonValueExpectation(
 				JsonPathExpression.create('$.template_id'),
-				appConfiguration.services.notify.templates[appeal.appealType]
-					.appealSubmissionReceivedEmailToAppellant
+				appConfiguration.services.notify.templates.APPEAL_SUBMISSION.V1_HORIZON
+					.appellantAppealSubmissionFollowUpConfirmation
 			)
 			.addJsonValueExpectation(JsonPathExpression.create('$.email_address'), appeal.email)
 			.addJsonValueExpectation(JsonPathExpression.create('$.reference'), appeal.id)
@@ -50,6 +50,10 @@ module.exports = class NotifyInteraction {
 			.addJsonValueExpectation(
 				JsonPathExpression.create("$.personalisation['link to pdf']"),
 				`${process.env.APP_APPEALS_BASE_URL}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+			)
+			.addJsonValueExpectation(
+				JsonPathExpression.create("$.personalisation['lpa reference']"),
+				appeal.planningApplicationNumber
 			);
 	}
 

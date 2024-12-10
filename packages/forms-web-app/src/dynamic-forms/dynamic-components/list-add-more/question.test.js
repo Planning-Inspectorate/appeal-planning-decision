@@ -1,6 +1,7 @@
 const ListAddMoreQuestion = require('./question');
 const CaseAddMoreQuestion = require('../case-add-more/question');
 const { mockRes } = require('../../../../__tests__/unit/mocks');
+const { JOURNEY_TYPES } = require('@pins/common/src/dynamic-forms/journey-types');
 
 const res = mockRes();
 
@@ -52,7 +53,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 						description: DESCRIPTION,
 						fieldName: FIELDNAME
 					})
-			).toThrow("Cannot read properties of undefined (reading 'type')");
+			).toThrow('subQuestionProps are required');
 
 			expect(
 				() =>
@@ -99,6 +100,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 		it('should add addMoreAnswers data to model', () => {
 			const question = getTestQuestion();
 			const journey = {
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				response: {
 					answers: {
 						[question.fieldName]: [
@@ -201,8 +203,9 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const expectedBackLink = 'back';
 			const req = { body: { 'add-more-question': 1, [question.fieldName]: 'yes' } };
 			const journey = {
+				journeyId: JOURNEY_TYPES.HAS_QUESTIONNAIRE,
 				response: { answers: {} },
-				getNextQuestionUrl: jest.fn(),
+				getNextQuestionUrl: jest.fn(() => expectedBackLink),
 				getCurrentQuestionUrl: jest.fn(() => expectedBackLink)
 			};
 			const section = {};
@@ -267,7 +270,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const testResponseToSave = {
 				answers: {}
 			};
-			testResponseToSave.answers[FIELDNAME] = 'test';
+			testResponseToSave.answers[FIELDNAME] = [123, 456, 789];
 			const question = getTestQuestion();
 			question.subQuestion.checkForValidationErrors = jest.fn();
 			question.getDataToSave = jest.fn(() => testResponseToSave);
@@ -298,7 +301,7 @@ describe('./src/dynamic-forms/dynamic-components/question.js', () => {
 			const testResponseToSave = {
 				answers: {}
 			};
-			testResponseToSave.answers[FIELDNAME] = 'test';
+			testResponseToSave.answers[FIELDNAME] = [123, 456, 789];
 			const question = getTestQuestion();
 			question.subQuestion.checkForValidationErrors = jest.fn();
 			question.getDataToSave = jest.fn(() => testResponseToSave);

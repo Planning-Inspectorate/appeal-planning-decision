@@ -15,7 +15,7 @@ COPY packages/database /opt/packages/database
 
 # install from root
 WORKDIR /opt
-RUN npm ci --omit=dev
+RUN npm ci --workspaces --if-present --omit=dev
 # generate prisma client
 WORKDIR /opt/packages/auth-server
 RUN npm run db:generate
@@ -24,6 +24,9 @@ RUN npm run db:generate
 FROM build AS app
 
 WORKDIR /opt/packages/auth-server
+
+ARG GIT_SHA
+ENV GIT_SHA=$GIT_SHA
 
 EXPOSE 3000
 

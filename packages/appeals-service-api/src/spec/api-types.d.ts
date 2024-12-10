@@ -471,7 +471,7 @@ export interface AppealCase {
 	AffectedListedBuildings?: object[];
 	Documents?: object[];
 	NeighbouringAddresses?: object[];
-	Events?: object[];
+	Events?: Event[];
 	AppealCaseLpaNotificationMethod?: object[];
 	/** A final comment submitted by an LPA */
 	LPAFinalCommentSubmission?: LPAFinalCommentSubmission;
@@ -481,6 +481,9 @@ export interface AppealCase {
 	AppellantProofOfEvidenceSubmission?: AppellantProofOfEvidenceSubmission;
 	/** Proof of evidence submitted by a rule 6 party */
 	Rule6ProofOfEvidenceSubmission?: Rule6ProofOfEvidenceSubmission;
+	/** A statement submitted by a Rule 6 Party */
+	Rule6StatementSubmission?: Rule6StatementSubmission;
+	Representations?: Representation[];
 }
 
 /** A statement document linked to an appeal statement */
@@ -591,6 +594,7 @@ export interface AppealUser {
 	lpaStatus?: 'added' | 'confirmed' | 'removed';
 	Rule6Parties?: object[];
 	Rule6ProofOfEvidenceSubmission?: object[];
+	Rule6StatementSubmission?: object[];
 }
 
 /** A final comment submitted by an appellant */
@@ -728,7 +732,7 @@ export interface AppellantSubmission {
 	uploadPlanningObligation?: boolean;
 	SubmissionDocumentUpload?: object[];
 	siteAddress?: boolean;
-	SubmissionAddress?: object[];
+	SubmissionAddress?: SubmissionAddress[];
 	SubmissionListedBuilding?: object[];
 }
 
@@ -948,6 +952,16 @@ export interface Event {
 	 * @format date-time
 	 */
 	endDate: string;
+	/** first line of event address */
+	addressLine1?: string;
+	/** second line of event address */
+	addressLine2?: string;
+	/** town or city */
+	addressTown?: string;
+	/** second line of event address */
+	addressCounty?: string;
+	/** second line of event address */
+	addressPostcode?: string;
 }
 
 /** A final comment document linked to an appeal statement */
@@ -1081,6 +1095,8 @@ export interface LPAQuestionnaireSubmission {
 	};
 	/** whether the questionnaire has been submitted to BO */
 	submitted?: boolean;
+	/** blob storage id of submission pdf used to generate download link */
+	submissionPdfId?: string;
 	appealCaseReference: string;
 	correctAppealType?: boolean;
 	affectsListedBuilding?: boolean;
@@ -1157,6 +1173,10 @@ export interface LPAQuestionnaireSubmission {
 	uploadScreeningDirection?: boolean;
 	developmentDescription?: string;
 	requiresEnvironmentalStatement?: boolean;
+	SubmissionAddress?: object[];
+	SubmissionListedBuilding?: object[];
+	SubmissionLinkedCase?: object[];
+	SubmissionDocumentUpload?: object[];
 }
 
 /** A statement submitted by an LPA */
@@ -1199,6 +1219,47 @@ export interface NeighbouringAddress {
 	townCity: string;
 	/** the postcode of the adress */
 	postcode: string;
+}
+
+/** Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO */
+export interface Representation {
+	/**
+	 * identifier for representation
+	 * @format uuid
+	 */
+	id: string;
+	/** BO identifier for the representation */
+	representationId: string;
+	/** internal BO case identifier */
+	caseId?: string;
+	/** external case identifier */
+	caseReference: string;
+	AppealCase?: object;
+	/** Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ] */
+	status?: string;
+	/** The original representation */
+	originalRepresentation?: boolean;
+	/** Indicates if the representation is redacted */
+	redacted?: boolean;
+	/** The redacted version of the representation */
+	redactedRepresentation?: string;
+	/** Unique identifier for the case team member that performed the redaction */
+	redactedBy?: string;
+	/** a json array of reasons why the representation has been marked as invalid */
+	invalidDetails?: string;
+	/** source of the representation (citizen or LPA), ["lpa", "citizen"] */
+	source?: string;
+	/** service User Id of the person or organisation making the representation */
+	serviceUserId?: string;
+	/** the type of representation ["statement", "comment", "final_comment", "proofs_evidence", null] */
+	representationType?: string;
+	/**
+	 * the date and time the representation was received by the BO
+	 * @format date-time
+	 */
+	dateReceived?: string;
+	/** a json array of document ids received */
+	representationDocuments?: string;
 }
 
 /** Information about a rule 6 party involved in an appeal */
@@ -1305,6 +1366,8 @@ export interface Rule6ProofOfEvidenceSubmission {
 		siteAddressCounty?: string;
 		siteAddressPostcode?: string;
 		applicationReference?: string;
+		/** @format date-time */
+		proofsOfEvidenceDueDate?: string;
 	};
 	userId?: string;
 	/** @format date-time */
@@ -1316,6 +1379,35 @@ export interface Rule6ProofOfEvidenceSubmission {
 	uploadRule6ProofOfEvidenceDocuments?: boolean;
 	rule6Witnesses?: boolean;
 	uploadRule6WitnessesEvidence?: boolean;
+	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
+}
+
+/** A statement submitted by a Rule 6 Party */
+export interface Rule6StatementSubmission {
+	/** @format uuid */
+	id: string;
+	caseReference: string;
+	AppealCase: {
+		LPACode: string;
+		appealTypeCode?: string;
+		caseReference?: string;
+		siteAddressLine1?: string;
+		siteAddressLine2?: string;
+		siteAddressTown?: string;
+		siteAddressCounty?: string;
+		siteAddressPostcode?: string;
+		applicationReference?: string;
+	};
+	userId?: string;
+	/** @format date-time */
+	createdAt?: string;
+	/** @format date-time */
+	updatedAt?: string;
+	/** whether the statement has been submitted to BO */
+	submitted?: boolean;
+	rule6Statement?: string;
+	rule6AdditionalDocuments?: boolean;
+	uploadRule6StatementDocuments?: boolean;
 	SubmissionDocumentUpload?: SubmissionDocumentUpload[];
 }
 

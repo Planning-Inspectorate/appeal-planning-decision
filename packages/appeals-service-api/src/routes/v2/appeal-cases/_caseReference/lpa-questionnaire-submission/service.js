@@ -1,4 +1,6 @@
+const ApiError = require('#errors/apiError');
 const { LPAQuestionnaireSubmissionRepository } = require('./repo');
+const logger = require('#lib/logger');
 
 const repo = new LPAQuestionnaireSubmissionRepository();
 
@@ -66,9 +68,24 @@ function markQuestionnaireAsSubmitted(caseReference, lpaQuestionnaireSubmittedDa
 	return repo.markLPAQuestionnaireAsSubmitted(caseReference, lpaQuestionnaireSubmittedDate);
 }
 
+/**
+ * get details for LPAQ submission PDF
+ *
+ * @param {string} caseReference
+ */
+async function getLPAQuestionnaireDownloadDetails(caseReference) {
+	try {
+		return await repo.getLPAQuestionnaireDownloadDetails(caseReference);
+	} catch (err) {
+		logger.error({ err }, 'unable to get LPAQ download details');
+		throw ApiError.forbidden();
+	}
+}
+
 module.exports = {
 	getLPAQuestionnaireByAppealId,
 	createLPAQuestionnaire,
 	patchLPAQuestionnaireByAppealId,
-	markQuestionnaireAsSubmitted
+	markQuestionnaireAsSubmitted,
+	getLPAQuestionnaireDownloadDetails
 };

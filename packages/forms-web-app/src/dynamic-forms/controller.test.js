@@ -2,6 +2,7 @@ const { list, question, save, remove, submit } = require('./controller');
 const { getUserFromSession } = require('../services/user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
+const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 
 const { mockReq, mockRes } = require('../../__tests__/unit/mocks');
 
@@ -15,6 +16,7 @@ const mockAnswer = 'Not started';
 
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
+const { CONSTS } = require('../consts');
 
 const sections = [
 	{
@@ -185,6 +187,7 @@ const mockSection = {
 	segment: 'test'
 };
 
+jest.mock('../services/pdf.service');
 jest.mock('../services/user.service');
 jest.mock('./journey-factory');
 
@@ -216,7 +219,8 @@ describe('dynamic-form/controller', () => {
 		req = {
 			appealsApiClient: {
 				getUsersAppealCase: jest.fn(),
-				submitLPAQuestionnaire: jest.fn()
+				submitLPAQuestionnaire: jest.fn(),
+				patchLPAQuestionnaire: jest.fn()
 			},
 			...mockReq(null)
 		};
@@ -503,17 +507,28 @@ describe('dynamic-form/controller', () => {
 	});
 	describe('submit', () => {
 		it('should submit if all sections are complete', async () => {
+			storePdfQuestionnaireSubmission.mockReturnValue({ submissionId: '1234', id: '5678' });
 			mockJourney.sections[2].isComplete.mockReturnValue(true);
+
+			req.cookies = { [CONSTS.SESSION_COOKIE_NAME]: 'abc123' };
 
 			req.params = {
 				referenceId: mockRef
 			};
 
 			res.locals.journeyResponse = {
+				referenceId: '987654',
 				answers: {}
 			};
 
 			await submit(req, res);
+			expect(storePdfQuestionnaireSubmission).toHaveBeenCalledWith({
+				submissionJourney: res.locals.journey,
+				sid: 'abc123'
+			});
+			expect(req.appealsApiClient.patchLPAQuestionnaire).toHaveBeenCalledWith('987654', {
+				submissionPdfId: '5678'
+			});
 			expect(res.redirect).toHaveBeenCalledWith(
 				expect.stringMatching(/^\/manage-appeals\/.+\/questionnaire-submitted\/$/)
 			);

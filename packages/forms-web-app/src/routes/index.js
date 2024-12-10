@@ -23,14 +23,17 @@ const {
 	getDocument,
 	getAppellantSubmissionPDFV2,
 	getSubmissionDocumentV2Url,
-	getPublishedDocumentV2Url
+	getPublishedDocumentV2Url,
+	getLPAQSubmissionPDFV2
 } = require('../controllers/document');
 const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadline');
 const checkAppealExists = require('#middleware/check-appeal-exists');
 const checkDebugAllowed = require('#middleware/check-debug-allowed');
 const checkLoggedIn = require('#middleware/check-logged-in');
+const cacheBusting = require('#middleware/cache-busting');
 const createApiClients = require('#middleware/create-api-clients');
 
+router.use(cacheBusting);
 router.use(createApiClients);
 
 /// LPA ///
@@ -48,6 +51,13 @@ router.use('/', home);
 router.use('/cookies', cookies);
 router.use('/accessibility-statement', accessibility);
 router.use('/error', error);
+router.get('/health', (req, res) => {
+	res.status(200).send({
+		status: 'OK',
+		uptime: process.uptime(),
+		commit: config.gitSha
+	});
+});
 
 /// before-you-start ///
 router.use('/before-you-start', sharedBFS);
@@ -68,8 +78,9 @@ if (config.featureFlag.dashboardsEnabled) {
 	router.use('/appeals', checkLoggedIn, appeals);
 }
 
-//v2 submission pdf
 router.use('/appeal-document/:appellantSubmissionId', checkLoggedIn, getAppellantSubmissionPDFV2);
+//v2 lpaq submission pdf
+router.use('/lpa-questionnaire-document/:caseReference', checkLoggedIn, getLPAQSubmissionPDFV2);
 // v2 published BO documents, doesn't check logged in as some docs are public, checked in docs api
 router.use('/published-document/:documentId', getPublishedDocumentV2Url);
 // v1 appeals / questionnaires documents

@@ -5,7 +5,9 @@ const {
 	save,
 	remove,
 	submit,
-	lpaSubmitted
+	lpaSubmitted,
+	bulkDownloadSubmissionDocuments,
+	lpaQuestionnaireSubmissionInformation
 } = require('../../dynamic-forms/controller');
 const validate = require('../../dynamic-forms/validator/validator');
 const {
@@ -115,6 +117,19 @@ router.get(
 	getJourney(journeys),
 	validationErrorHandler,
 	lpaSubmitted
+);
+
+router.get(
+	'/:applicationType/:referenceId/download/:documentsLocation/documents/:appealCaseStage',
+	bulkDownloadSubmissionDocuments
+);
+
+// used for PDF generation of submission
+router.get(
+	'/householder/:referenceId/questionnaire-submitted/information',
+	getJourneyResponse(),
+	getJourney(journeys),
+	lpaQuestionnaireSubmissionInformation
 );
 
 // remove answer - only available for some question types

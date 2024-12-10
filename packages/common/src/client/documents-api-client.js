@@ -48,6 +48,18 @@ class DocumentsApiClient {
 	}
 
 	/**
+	 * @param {string} caseRef
+	 * @param {string} caseStage
+	 * @param {string} documentsLocation
+	 * @returns {Promise<Buffer>}
+	 */
+	async getBulkDocumentsDownload(caseRef, caseStage, documentsLocation) {
+		const endpoint = `${v2}/${documentsLocation}/${caseRef}/case-stage/${caseStage}`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.buffer();
+	}
+
+	/**
 	 * @param {string} submissionDocumentId id
 	 * @returns {Promise<SasUrl>}
 	 */

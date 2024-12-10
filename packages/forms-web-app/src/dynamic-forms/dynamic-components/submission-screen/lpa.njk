@@ -25,6 +25,12 @@
         We will review your evidence and will contact you if we need any further information.
       </p>
 
+			{% if zipDownloadUrl %}
+				<p class="govuk-body">
+					<a href="{{ zipDownloadUrl }}">Download your documents (ZIP)</a>
+				</p>
+			{% endif %}
+
       <p class="govuk-body">
         <a data-cy="Feedback-Page-Body" href="/manage-appeals/your-appeals" class="govuk-link">View your planning appeals</a>
       </p>

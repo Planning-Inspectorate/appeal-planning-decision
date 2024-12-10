@@ -11,10 +11,12 @@
 	"author": "",
 	"license": "MIT",
 	"dependencies": {
-		"date-fns": "^2.30.0",
-		"glob": "^7.1.6",
-		"luxon": "^1.24.0",
-		"mongodb": "^3.6.10",
-		"nodemon": "^2.0.15"
+		"date-fns": "*",
+		"glob": "*",
+		"luxon": "*",
+		"mongodb": "*"
+	},
+	"devDependencies": {
+		"nodemon": "*"
 	}
 }

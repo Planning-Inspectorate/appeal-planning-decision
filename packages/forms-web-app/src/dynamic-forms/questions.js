@@ -35,7 +35,7 @@ const ConfirmationCheckboxValidator = require('./validator/confirmation-checkbox
 
 const { add, sub, format: formatDate } = require('date-fns');
 const { APPEAL_CASE_PROCEDURE } = require('pins-data-model');
-const { getConditionalFieldName } = require('./dynamic-components/utils/question-utils');
+const { getConditionalFieldName, DIVIDER } = require('./dynamic-components/utils/question-utils');
 const { documentTypes } = require('@pins/common');
 const {
 	validation: {
@@ -50,7 +50,10 @@ const {
 	}
 } = require('../config');
 const { createQuestions } = require('./create-questions');
-const { getDataToSave } = require('../journeys/question-overrides/multi-file-upload');
+
+// method overrides
+const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
+const siteAddressOverrides = require('../journeys/question-overrides/site-address');
 
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
 /** @typedef {import('./question')} Question */
@@ -129,7 +132,7 @@ exports.questionProps = {
 				new RequiredValidator('Enter a list entry number'),
 				new StringEntryValidator(listedBuildingNumberValidation)
 			],
-			viewFolder: 'identifier'
+			viewFolder: 'add-more'
 		}
 	},
 	affectedListedBuildings: {
@@ -156,7 +159,7 @@ exports.questionProps = {
 				new RequiredValidator('Enter a list entry number'),
 				new StringEntryValidator(listedBuildingNumberValidation)
 			],
-			viewFolder: 'identifier'
+			viewFolder: 'add-more'
 		}
 	},
 	conservationArea: {
@@ -554,7 +557,7 @@ exports.questionProps = {
 				new RequiredValidator('Enter an appeal reference number'),
 				new StringEntryValidator(appealReferenceNumberValidation)
 			],
-			viewFolder: 'identifier'
+			viewFolder: 'add-more'
 		}
 	},
 	addNewConditions: {
@@ -928,7 +931,7 @@ exports.questionProps = {
 				}
 			},
 			{
-				divider: 'or'
+				[DIVIDER]: 'or'
 			},
 			{
 				text: 'No, it is not in, near or likely to affect any designated sites',
@@ -977,7 +980,7 @@ exports.questionProps = {
 				value: 'schedule-2'
 			},
 			{
-				divider: 'or'
+				[DIVIDER]: 'or'
 			},
 			{
 				text: 'No',
@@ -1592,7 +1595,7 @@ exports.questionProps = {
 				new RequiredValidator('Enter the appeal reference number'),
 				new StringEntryValidator(appealReferenceNumberValidation)
 			],
-			viewFolder: 'identifier'
+			viewFolder: 'add-more'
 		}
 	},
 	applicationName: {
@@ -2163,6 +2166,47 @@ exports.questionProps = {
 		],
 		documentType: documentTypes.uploadLpaStatementDocuments
 	},
+	rule6Statement: {
+		type: 'text-entry',
+		title: 'Appeal statement',
+		question: 'Appeal statement',
+		label: 'Enter your statement',
+		url: 'appeal-statement',
+		fieldName: 'rule6Statement',
+		validators: [
+			new RequiredValidator('Enter your statement'),
+			new StringValidator({
+				maxLength: {
+					maxLength: appealFormV2.textInputMaxLength,
+					maxLengthMessage: `Your statement must be ${appealFormV2.textInputMaxLength} characters or less`
+				}
+			})
+		]
+	},
+	rule6AdditionalDocuments: {
+		type: 'boolean',
+		title: 'Add supporting documents',
+		question: 'Do you have additional documents to support your appeal statement?',
+		fieldName: 'rule6AdditionalDocuments',
+		url: 'additional-documents',
+		validators: [
+			new RequiredValidator(
+				'Select yes if you have additional documents to support your appeal statement'
+			)
+		]
+	},
+	uploadRule6StatementDocuments: {
+		type: 'multi-file-upload',
+		title: 'Supporting documents',
+		question: 'Upload your new supporting documents',
+		fieldName: 'uploadRule6StatementDocuments',
+		url: 'upload-supporting-documents',
+		validators: [
+			new RequiredFileUploadValidator('Select your new supporting documents'),
+			new MultifileUploadValidator()
+		],
+		documentType: documentTypes.uploadRule6StatementDocuments
+	},
 	appellantFinalComment: {
 		type: 'boolean',
 		title: 'Do you want to submit any final comments?',
@@ -2319,7 +2363,7 @@ exports.questionProps = {
 	},
 	uploadLpaProofOfEvidenceDocuments: {
 		type: 'multi-file-upload',
-		title: 'Upload your proof of evidence and summary',
+		title: 'Your proof of evidence and summary',
 		question: 'Upload your proof of evidence and summary',
 		fieldName: 'uploadLpaProofOfEvidenceDocuments',
 		html: 'resources/upload-proof-evidence/content.html',
@@ -2387,34 +2431,23 @@ exports.questionProps = {
 	}
 };
 
-// This looks a bit grim because so few of our
-// Questions overlap with Question correctly.
-// Maybe something to fix at some point
 /** @type {Record<string, typeof import('./question')>} */
 const questionClasses = {
-	// @ts-ignore
 	checkbox: CheckboxQuestion,
-	// @ts-ignore
 	'multi-file-upload': MultiFileUploadQuestion,
-	// @ts-ignore
 	boolean: BooleanQuestion,
-	// @ts-ignore
 	radio: RadioQuestion,
-	// @ts-ignore
 	date: DateQuestion,
 	'text-entry': TextEntryQuestion,
 	'single-line-input': SingleLineInputQuestion,
-	// @ts-ignore
 	'multi-field-input': MultiFieldInputQuestion,
 	number: NumberEntryQuestion,
-	// @ts-ignore
 	'site-address': SiteAddressQuestion,
-	// @ts-ignore
 	'unit-option': UnitOptionEntryQuestion,
-	// @ts-ignore
 	'list-add-more': ListAddMoreQuestion
 };
 
 exports.questions = createQuestions(exports.questionProps, questionClasses, {
-	'multi-file-upload': { getDataToSave }
+	'multi-file-upload': multiFileUploadOverrides,
+	'site-address': siteAddressOverrides
 });

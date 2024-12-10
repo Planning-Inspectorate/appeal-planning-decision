@@ -74,6 +74,7 @@ model AppealUser {
   /// a security token this user can use to access our service(s)
   SecurityToken                  SecurityToken?
   Rule6ProofOfEvidenceSubmission Rule6ProofOfEvidenceSubmission[]
+  Rule6StatementSubmission       Rule6StatementSubmission[]
 }
 
 /// SecurityToken is used as a mechanism for users to login
@@ -378,6 +379,7 @@ model AppealCase {
   rule6ProofsEvidencePublished    Boolean   @default(false) /// todo: use date instead
   rule6StatementDueDate           DateTime?
   rule6StatementSubmitted         Boolean   @default(false)
+  rule6StatementSubmittedDate     DateTime?
   rule6ProofEvidenceDueDate       DateTime?
   rule6ProofEvidenceSubmitted     Boolean   @default(false)
   rule6ProofEvidenceSubmittedDate DateTime?
@@ -410,6 +412,8 @@ model AppealCase {
   AppealStatements                AppealStatement[]
   FinalComments                   FinalComment[]
   Rule6ProofOfEvidenceSubmission  Rule6ProofOfEvidenceSubmission?
+  Rule6StatementSubmission        Rule6StatementSubmission?
+  Representations                 Representation[]
 }
 
 /// AppealCase relations
@@ -527,6 +531,11 @@ model Event {
   startDate               DateTime? /// date time the event starts
   endDate                 DateTime? /// date time the event ends
   notificationOfSiteVisit DateTime? /// Date notification of site visit provided to Appellant
+  addressLine1            String? /// event site first line of address
+  addressLine2            String? /// event site second line of address
+  addressTown             String? /// event site town or city
+  addressCounty           String? /// event site county
+  addressPostcode         String? /// event site postcode
 
   // link the event to the appeal case
   caseReference String
@@ -825,6 +834,7 @@ model LPAQuestionnaireSubmission {
   // state
   submitted Boolean @default(false) /// whether the appeal has been submitted to BO
 
+  submissionPdfId                                 String?
   correctAppealType                               Boolean?
   affectsListedBuilding                           Boolean?
   affectedListedBuildingNumber                    String?
@@ -925,6 +935,32 @@ model LPAStatementSubmission {
   // Uploaded documents and details linked to this statement
   uploadLpaStatementDocuments Boolean?
   SubmissionDocumentUpload    SubmissionDocumentUpload[]
+}
+
+model Rule6StatementSubmission {
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  // link the submission to the appeal
+  caseReference String     @unique
+  AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
+
+  /// relation to a User - required as can have more than one rule6 party per apeal
+  userId     String     @db.UniqueIdentifier
+  AppealUser AppealUser @relation(fields: [userId], references: [id])
+
+  // dates
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  // state
+  submitted Boolean @default(false) /// whether the lpa statement has been submitted to BO
+
+  rule6Statement                String?
+  rule6AdditionalDocuments      Boolean?
+  uploadRule6StatementDocuments Boolean?
+
+  // Uploaded documents and details linked to this statement
+  SubmissionDocumentUpload SubmissionDocumentUpload[]
 }
 
 model AppellantProofOfEvidenceSubmission {
@@ -1067,8 +1103,11 @@ model SubmissionDocumentUpload {
   lpaProofOfEvidenceId         String?                       @db.UniqueIdentifier
   LPAProofOfEvidenceSubmission LPAProofOfEvidenceSubmission? @relation(fields: [lpaProofOfEvidenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  Rule6ProofOfEvidenceSubmission   Rule6ProofOfEvidenceSubmission? @relation(fields: [rule6ProofOfEvidenceSubmissionId], references: [id])
+  Rule6ProofOfEvidenceSubmission   Rule6ProofOfEvidenceSubmission? @relation(fields: [rule6ProofOfEvidenceSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   rule6ProofOfEvidenceSubmissionId String?                         @db.UniqueIdentifier
+
+  Rule6StatementSubmission   Rule6StatementSubmission? @relation(fields: [rule6StatementSubmissionId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  rule6StatementSubmissionId String?                   @db.UniqueIdentifier
 
   name             String
   fileName         String
@@ -1166,4 +1205,27 @@ model Rule6Party {
 
   //Optional link to AppealCase
   AppealCase AppealCase? @relation(fields: [caseReference], references: [caseReference])
+}
+
+/// Proofs of Evidence, Final Comments, Statements, Planning Obligations and Interested Party Comments
+/// Received from BO will share this model and table
+model Representation {
+  /// this ID is for front office only
+  id String @id @default(dbgenerated("newid()")) @db.UniqueIdentifier
+
+  representationId        String     @unique /// The unique identifier for the representation
+  caseId                  Int? /// Internal case identifier
+  caseReference           String /// External case identifier
+  AppealCase              AppealCase @relation(fields: [caseReference], references: [caseReference])
+  status                  String? /// Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
+  originalRepresentation  String? /// The original representation
+  redacted                Boolean? /// Indicates if the representation is redacted
+  redactedRepresentation  String? /// The redacted version of the representation
+  redactedBy              String? /// Unique identifier for the case team member that performed the redaction
+  invalidDetails          String? /// A json array of reasons why the representation has been marked as invalid
+  source                  String? /// Source of the representation (citizen or LPA), ["lpa", "citizen"]
+  serviceUserId           String? /// Service User Id of the person or organisation making the representation
+  representationType      String? /// The type of representation, ["statement", "comment", "final_comment", "proofs_evidence", null]
+  dateReceived            DateTime?
+  representationDocuments String?    @db.NVarChar(MAX) /// A json array of document ids
 }

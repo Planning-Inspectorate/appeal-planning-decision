@@ -6,13 +6,20 @@ const logger = require('../lib/logger');
 const ListAddMoreQuestion = require('./dynamic-components/list-add-more/question');
 const questionUtils = require('./dynamic-components/utils/question-utils');
 const {
-	formatBeforeYouStartSection
+	formatBeforeYouStartSection,
+	formatQuestionnaireAppealInformationSection
 } = require('./dynamic-components/utils/submission-information-utils');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
-const { APPEALS_CASE_DATA } = require('@pins/common/src/constants');
+const { APPEALS_CASE_DATA, LPA_USER_ROLE } = require('@pins/common/src/constants');
 const { getDepartmentFromId } = require('../services/department.service');
 const { getLPAById, deleteAppeal } = require('../lib/appeals-api-wrapper');
 const { formatDateForDisplay } = require('@pins/common/src/lib/format-date');
+const { APPEAL_CASE_STAGE } = require('pins-data-model');
+const { PassThrough } = require('node:stream');
+const buildZipFilename = require('#lib/build-zip-filename');
+const { getUserFromSession } = require('../services/user.service');
+const { CONSTS } = require('../consts');
+const { storePdfQuestionnaireSubmission } = require('../services/pdf.service');
 
 const appealTypeToDetails = {
 	[APPEAL_ID.HOUSEHOLDER]: {
@@ -107,6 +114,52 @@ function buildInformationSectionRowViewModel(key, value) {
 			html: value
 		}
 	};
+}
+
+/**
+ * build summary list of journey sections, questions and answers
+ * @param {Journey} journey
+ * @param {JourneyResponse} journeyResponse
+ */
+function buildSummaryListData(journey, journeyResponse) {
+	const summaryListData = {
+		sections: []
+	};
+
+	for (const section of journey.sections) {
+		const sectionView = buildSectionViewModel(section.name);
+
+		// add questions
+		for (const question of section.questions) {
+			// don't show question on tasklist if set to false
+			if (question.taskList === false) {
+				continue;
+			}
+			// don't show question on tasklist if it's hidden from journey
+			if (!question.shouldDisplay(journeyResponse)) {
+				continue;
+			}
+
+			const answers = journey.response?.answers;
+			let answer = answers[question.fieldName];
+			const conditionalAnswer = questionUtils.getConditionalAnswer(answers, question, answer);
+			if (conditionalAnswer) {
+				answer = {
+					value: answer,
+					conditional: conditionalAnswer
+				};
+			}
+			const rows = question.formatAnswerForSummary(section.segment, journey, answer);
+			rows.forEach((row) => {
+				let viewModelRow = buildInformationSectionRowViewModel(row.key, row.value);
+				sectionView.list.rows.push(viewModelRow);
+			});
+		}
+
+		summaryListData.sections.push(sectionView);
+	}
+
+	return summaryListData;
 }
 
 /**
@@ -278,6 +331,13 @@ exports.submit = async (req, res) => {
 
 	await req.appealsApiClient.submitLPAQuestionnaire(referenceId);
 
+	const storedPdf = await storePdfQuestionnaireSubmission({
+		submissionJourney: journey,
+		sid: req.cookies[CONSTS.SESSION_COOKIE_NAME]
+	});
+
+	await req.appealsApiClient.patchLPAQuestionnaire(referenceId, { submissionPdfId: storedPdf.id });
+
 	return res.redirect(
 		'/manage-appeals/' +
 			journeyUrl(journeyResponse.journeyId) +
@@ -304,6 +364,53 @@ exports.submitLpaStatement = async (req, res) => {
 	return res.redirect(
 		`/manage-appeals/appeal-statement/${referenceId}/submitted-appeal-statement/`
 	);
+};
+
+// LPA submission information (for PDF generation)
+/**
+ * @type {import('express').Handler}
+ */
+exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
+	const { journey, journeyResponse } = res.locals;
+
+	if (!journey.isComplete() || !journey.response.answers.submitted) {
+		// return error message and redirect
+		return res.status(400).render('./error/not-found.njk');
+	}
+	const user = getUserFromSession(req);
+	const encodedReferenceId = encodeURIComponent(journeyResponse.referenceId);
+
+	let appealData;
+	try {
+		appealData = await req.appealsApiClient.getUsersAppealCase({
+			caseReference: encodedReferenceId,
+			userId: user.id,
+			role: LPA_USER_ROLE
+		});
+	} catch (err) {
+		logger.error({ err }, `unable to find appeal ${journeyResponse.referenceId}`);
+		return res.status(400).render('./error/not-found.njk');
+	}
+
+	const summaryListData = buildSummaryListData(journey, journeyResponse);
+	const submissionDate = formatDateForDisplay(new Date(), { format: 'd MMMM yyyy' });
+	const appealInformationSection = formatQuestionnaireAppealInformationSection(appealData);
+	summaryListData.sections.unshift(appealInformationSection);
+
+	const informationPageType = 'Questionnaire';
+	const pageHeading = 'Appeal questionnaire';
+	const pageCaption = 'Appeal ' + journeyResponse.referenceId;
+
+	return res.render(journey.informationPageViewPath, {
+		informationPageType,
+		pageHeading,
+		pageCaption,
+		summaryListData,
+		submissionDate,
+		layoutTemplate: journey.journeyTemplate,
+		journeyTitle: journey.journeyTitle,
+		displayCookieBanner: false
+	});
 };
 
 // Before You Start documents list
@@ -413,46 +520,11 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		return res.status(400).render('./error/not-found.njk');
 	}
 
-	const summaryListData = {
-		sections: []
-	};
+	const summaryListData = buildSummaryListData(journey, journeyResponse);
 
 	const beforeYouStartSection = await formatBeforeYouStartSection(journey.response.answers);
 
-	summaryListData.sections.push(beforeYouStartSection);
-
-	for (const section of journey.sections) {
-		const sectionView = buildSectionViewModel(section.name);
-
-		// add questions
-		for (const question of section.questions) {
-			// don't show question on tasklist if set to false
-			if (question.taskList === false) {
-				continue;
-			}
-			// don't show question on tasklist if it's hidden from journey
-			if (!question.shouldDisplay(journeyResponse)) {
-				continue;
-			}
-
-			const answers = journey.response?.answers;
-			let answer = answers[question.fieldName];
-			const conditionalAnswer = questionUtils.getConditionalAnswer(answers, question, answer);
-			if (conditionalAnswer) {
-				answer = {
-					value: answer,
-					conditional: conditionalAnswer
-				};
-			}
-			const rows = question.formatAnswerForSummary(section.segment, journey, answer);
-			rows.forEach((row) => {
-				let viewModelRow = buildInformationSectionRowViewModel(row.key, row.value);
-				sectionView.list.rows.push(viewModelRow);
-			});
-		}
-
-		summaryListData.sections.push(sectionView);
-	}
+	summaryListData.sections.unshift(beforeYouStartSection);
 
 	const css = fs.readFileSync(path.resolve(__dirname, '../public/stylesheets/main.css'), 'utf8');
 
@@ -462,9 +534,13 @@ exports.appellantSubmissionInformation = async (req, res) => {
 		journey.response.answers.id
 	);
 
+	const informationPageType = 'Appeal';
+	const pageHeading = informationPageType + ' ' + caseReference;
+
 	return res.render(journey.informationPageViewPath, {
+		informationPageType,
+		pageHeading,
 		summaryListData,
-		caseReference,
 		submissionDate,
 		layoutTemplate: journey.journeyTemplate,
 		journeyTitle: journey.journeyTitle,
@@ -483,7 +559,11 @@ exports.lpaSubmitted = async (req, res) => {
 		return res.status(400).render('./error/not-found.njk');
 	}
 
-	return res.render('./dynamic-components/submission-screen/lpa');
+	const zipDownloadUrl =
+		req.originalUrl.substring(0, req.originalUrl.lastIndexOf('/')) +
+		`/download/submission/documents/${APPEAL_CASE_STAGE.LPA_QUESTIONNAIRE}`;
+
+	return res.render('./dynamic-components/submission-screen/lpa', { zipDownloadUrl });
 };
 
 /**
@@ -621,6 +701,40 @@ exports.rule6ProofEvidenceSubmitted = async (req, res) => {
 /**
  * @type {import('express').Handler}
  */
+exports.submitRule6Statement = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		res.render('./error/not-found.njk');
+		return;
+	}
+
+	await req.appealsApiClient.submitRule6StatementSubmission(caseReference);
+
+	return res.redirect(`/rule-6/appeal-statement/${caseReference}/submitted-appeal-statement`);
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.rule6StatementSubmitted = async (req, res) => {
+	const { journey } = res.locals;
+	const caseReference = journey.response.answers.caseReference;
+
+	if (!journey.isComplete()) {
+		// return error message and redirect
+		return res.render('./error/not-found.njk');
+	}
+
+	return res.render('./dynamic-components/submission-screen/rule-6-statement', {
+		caseReference
+	});
+};
+
+/**
+ * @type {import('express').Handler}
+ */
 exports.submitLpaFinalComment = async (req, res) => {
 	const { journey } = res.locals;
 	const caseReference = journey.response.answers.caseReference;
@@ -684,4 +798,35 @@ exports.lpaProofEvidenceSubmitted = async (req, res) => {
 	return res.render('./dynamic-components/submission-screen/lpa-proof-evidence', {
 		caseReference
 	});
+};
+
+/**
+ * @type {import('express').Handler}
+ */
+exports.bulkDownloadSubmissionDocuments = async (req, res) => {
+	const { referenceId, appealCaseStage, documentsLocation } = req.params;
+
+	if (!appealCaseStage) {
+		return res.status(404);
+	}
+
+	res.setHeader('content-type', 'application/zip');
+	res.setHeader(
+		'content-disposition',
+		`attachment; filename=${buildZipFilename(referenceId, appealCaseStage)}`
+	);
+
+	const bufferStream = new PassThrough();
+
+	bufferStream.end(
+		await req.docsApiClient.getBulkDocumentsDownload(
+			referenceId,
+			appealCaseStage,
+			documentsLocation
+		)
+	);
+
+	bufferStream.pipe(res);
+
+	return res.status(200);
 };

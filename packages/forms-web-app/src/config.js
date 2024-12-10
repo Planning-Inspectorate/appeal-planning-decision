@@ -19,6 +19,7 @@ const feedbackUrl =
 	'https://forms.office.com/pages/responsepage.aspx?id=mN94WIhvq0iTIpmM5VcIjYt1ax_BPvtOqhVjfvzyJN5UOUlNRkhaQjNXTDQyNEhSRExNOFVGSkNJTS4u&route=shorturl';
 
 module.exports = {
+	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',
 	application: {
 		defaultDisplayDateFormat: 'DD MMMM YYYY'
 	},
@@ -44,7 +45,7 @@ module.exports = {
 			uri: process.env.SESSION_MONGODB_URL,
 			databaseName: process.env.SESSION_MONGODB_DB_NAME,
 			collection: process.env.SESSION_MONGODB_COLLECTION || 'sessions',
-			expiresColumn: '_ts',
+			expiresKey: '_ts',
 			expires: 1000 * 60 * 60 * 24 * 14, // value in milliseconds
 			expiresAfterSeconds: 60 * 60 * 24 * 14, // value in seconds
 			connectionOptions: {

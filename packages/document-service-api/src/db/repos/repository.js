@@ -34,6 +34,25 @@ class DocumentsRepository {
 	}
 
 	/**
+	 * @param {string} caseRef
+	 * @returns {Promise<import("@prisma/client").SubmissionDocumentUpload>[]} documents
+	 */
+	async getSubmissionDocumentsByCaseRef(caseRef) {
+		return this.dbClient.submissionDocumentUpload.findMany({
+			where: {
+				LPAQuestionnaireSubmission: {
+					appealCaseReference: caseRef
+				}
+			},
+			select: {
+				location: true,
+				type: true,
+				originalFileName: true
+			}
+		});
+	}
+
+	/**
 	 * @param {string} id SubmissionDocumentUpload id
 	 * @return {Promise<import("@prisma/client").SubmissionDocumentUpload>}
 	 */
@@ -64,13 +83,24 @@ class DocumentsRepository {
 	}
 
 	/**
+	 *
+	 * @param params
+	 * @returns {Promise<import("@prisma/client").Document[]>}
+	 */
+	async getDocuments(params) {
+		return await this.dbClient.document.findMany({
+			where: params
+		});
+	}
+
+	/**
 	 * @param {Object} params
 	 * @param {string} params.appealId
 	 * @param {string} params.userId
-	 * @returns {Promise<import("@prisma/client").AppealToUser|null>}
+	 * @returns {Promise<import("@prisma/client").AppealToUser[]>}
 	 */
-	async getAppealUser({ appealId, userId }) {
-		return await this.dbClient.appealToUser.findFirst({
+	async getAppealUserRoles({ appealId, userId }) {
+		return await this.dbClient.appealToUser.findMany({
 			where: {
 				appealId,
 				userId

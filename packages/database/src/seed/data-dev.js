@@ -1076,8 +1076,8 @@ const events = [
 		published: true,
 		type: 'siteVisit',
 		subtype: 'unaccompanied',
-		startDate: getFutureDate(30, 15),
-		endDate: getFutureDate(30, 15),
+		startDate: null,
+		endDate: null,
 		AppealCase: {
 			connect: {
 				caseReference: '1010102'
@@ -1120,6 +1120,36 @@ const events = [
 		AppealCase: {
 			connect: {
 				caseReference: caseReferences.caseReferenceNine
+			}
+		}
+	},
+	{
+		internalId: '1e3a7697-2dab-45be-bb36-45532e173ca0',
+		published: true,
+		type: 'inquiry',
+		subtype: null,
+		addressLine1: '101 Testing Road',
+		addressCounty: 'Countyshire',
+		addressPostcode: 'AB1 2CD',
+		addressTown: 'Test Town',
+		startDate: getFutureDate(40, 11),
+		endDate: getFutureDate(43, 11),
+		AppealCase: {
+			connect: {
+				caseReference: '0000002'
+			}
+		}
+	},
+	{
+		internalId: '1f3a7697-2dab-45be-bb36-45532e173ca0',
+		published: true,
+		type: 'hearing',
+		subtype: null,
+		startDate: getFutureDate(25, 11),
+		endDate: getFutureDate(26, 13),
+		AppealCase: {
+			connect: {
+				caseReference: '0000001'
 			}
 		}
 	}

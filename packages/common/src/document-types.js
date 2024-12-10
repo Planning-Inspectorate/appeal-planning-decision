@@ -631,6 +631,17 @@ const documentTypes = {
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon
 	},
+	uploadRule6StatementDocuments: {
+		name: 'uploadRule6StatementDocuments',
+		dataModelName: 'rule6AppealStatement', // To be updated once data model confirmed
+		multiple: true,
+		displayName: '',
+		involvement: '',
+		owner: rule6Owner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
 	uploadAppellantFinalCommentDocuments: {
 		name: 'uploadAppellantFinalCommentDocuments',
 		dataModelName: 'finalComment', // To be updated once data model confirmed
@@ -726,6 +737,17 @@ const documentTypes = {
 		displayName: '',
 		involvement: '',
 		owner: rule6Owner,
+		publiclyAccessible: false,
+		horizonDocumentType: '', // Does not exist in horizon
+		horizonDocumentGroupType: '' // Does not exist in horizon
+	},
+	lpaQuestionnaireSubmission: {
+		name: 'lpaQuestionnaireSubmission',
+		dataModelName: '', // To be added once data model confirmed
+		multiple: false,
+		displayName: '',
+		involvement: 'LPA',
+		owner: lpaOwner,
 		publiclyAccessible: false,
 		horizonDocumentType: '', // Does not exist in horizon
 		horizonDocumentGroupType: '' // Does not exist in horizon

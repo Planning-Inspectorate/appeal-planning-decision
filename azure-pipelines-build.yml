@@ -41,7 +41,7 @@ resources:
       type: github
       endpoint: Planning-Inspectorate
       name: Planning-Inspectorate/common-pipeline-templates
-      ref: refs/tags/release/3.18.0
+      ref: refs/tags/release/3.18.2
 
 extends:
   template: stages/wrapper_ci.yml@templates
@@ -122,6 +122,8 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.SourcesDirectory)/packages/appeals-service-api/Dockerfile
               repository: appeal-planning-decision/appeals-service-api
+              buildArgs:
+                - GIT_SHA=$(Build.SourceVersion)
       - name: Build Auth Server
         condition: >-
           and(
@@ -150,6 +152,8 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.SourcesDirectory)/packages/auth-server/Dockerfile
               repository: appeal-planning-decision/auth-server
+              buildArgs:
+                - GIT_SHA=$(Build.SourceVersion)
       - name: Build Documents API
         condition: >-
           and(
@@ -177,6 +181,8 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.SourcesDirectory)/packages/document-service-api/Dockerfile
               repository: appeal-planning-decision/documents-api
+              buildArgs:
+                - GIT_SHA=$(Build.SourceVersion)
       - name: Build Integration Functions
         condition: >-
           and(
@@ -201,7 +207,7 @@ extends:
           - template: ../steps/node_script.yml
             parameters:
               nodeVersion: 20
-              script: npm ci --omit=dev
+              script: npm ci --omit=dev --workspace=integration-functions --workspace=@pins/common
               workingDirectory: $(Build.Repository.LocalPath)
           - script: |
               source ~/.bashrc
@@ -246,6 +252,8 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.Repository.LocalPath)/packages/pdf-service-api/Dockerfile
               repository: appeal-planning-decision/pdf-service-api
+              buildArgs:
+                - GIT_SHA=$(Build.SourceVersion)
       - name: Build Web
         condition: >-
           and(
@@ -274,3 +282,5 @@ extends:
               azurecrName: $(azurecrName)
               dockerfilePath: $(Build.Repository.LocalPath)/packages/forms-web-app/Dockerfile
               repository: appeal-planning-decision/forms-web-app
+              buildArgs:
+                - GIT_SHA=$(Build.SourceVersion)

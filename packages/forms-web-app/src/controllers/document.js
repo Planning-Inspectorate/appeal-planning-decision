@@ -103,6 +103,40 @@ const getAppellantSubmissionPDFV2 = async (req, res) => {
 };
 
 /**
+ * retrieves pdf of lpaq submission
+ * custom redirect if not logged in
+ * @type {import('express').Handler}
+ */
+const getLPAQSubmissionPDFV2 = async (req, res) => {
+	const { caseReference } = req.params;
+
+	try {
+		logger.info('Confirming LPA user can access LPAQ submission');
+
+		// make api call to retrieve download data
+		// will error if LPA user does not have access to LPAQ submission
+		const submissionDetails = await req.appealsApiClient.checkOwnershipAndPdfDownloadDetailsLPAQ(
+			caseReference
+		);
+
+		logger.info('Attempting to fetch document');
+
+		const { submissionPdfId } = submissionDetails;
+
+		if (!submissionPdfId) {
+			throw 'LPAQ submission document does not exist';
+		}
+
+		const { headers, body } = await fetchDocument(submissionDetails.id, submissionPdfId);
+		return await returnResult(headers, body, res);
+	} catch (err) {
+		logger.error({ err }, 'Failed to get document');
+		res.sendStatus(500);
+		return;
+	}
+};
+
+/**
  * links user to a submission document, internally checks access
  * @type {import('express').Handler}
  */
@@ -152,5 +186,6 @@ module.exports = {
 	getDocument,
 	getAppellantSubmissionPDFV2,
 	getSubmissionDocumentV2Url,
-	getPublishedDocumentV2Url
+	getPublishedDocumentV2Url,
+	getLPAQSubmissionPDFV2
 };

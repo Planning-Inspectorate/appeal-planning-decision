@@ -1,5 +1,6 @@
 const nunjucks = require('nunjucks');
 const Question = require('../../question');
+const { conditionalIsJustHTML } = require('../utils/question-utils');
 
 const defaultOptionJoinString = ',';
 
@@ -8,31 +9,7 @@ const defaultOptionJoinString = ',';
  * @typedef {import('../../journey').Journey} Journey
  * @typedef {import('../../journey-response').JourneyResponse} JourneyResponse
  * @typedef {import('../../section').Section} Section
- */
-
-/**
- * UnitOptions are the options displayed in the radio format - in this case the value
- * represents the unit.
- * Conditionals must be used to capture the relevant quantity.
- * Each conditional must have a fieldName which uses the conditionalFieldName from the
- * UnitOptionEntryQuestion object as a base, followed by an underscore and unit reference
- * eg 'siteAreaSquareMetres_hectares' - this is required for validation and saving to the DB
- * @typedef {{
- *   text: string;
- *   value: string;
- * 	 hint?: object;
- *   checked?: boolean | undefined;
- *   attributes?: Record<string, string>;
- *   behaviour?: 'exclusive';
- *   conditional: {
- *     fieldName: string;
- * 		 suffix: string;
- *     value?: unknown;
- * 		 label?: string;
- * 		 hint?: string;
- *     conversionFactor?: number;
- *   }
- *}} UnitOption
+ * @typedef {import('../../question-props').UnitOption} UnitOption
  */
 
 class UnitOptionEntryQuestion extends Question {
@@ -44,7 +21,7 @@ class UnitOptionEntryQuestion extends Question {
 	 * @param {string} params.title
 	 * @param {string} params.question
 	 * @param {string} params.fieldName // will be the unit type eg square metres, hectares
-	 * @param {string} params.conditionalFieldName // will be the quantity and is captured by the conditional in the options
+	 * @param {string} [params.conditionalFieldName] // will be the quantity and is captured by the conditional in the options
 	 * @param {string} [params.viewFolder]
 	 * @param {string} [params.url]
 	 * @param {string} [params.hint]
@@ -52,35 +29,45 @@ class UnitOptionEntryQuestion extends Question {
 	 * @param {string} [params.description]
 	 * @param {string} [params.label]
 	 * @param {string} [params.html]
-	 * @param {Array.<UnitOption>} params.options
+	 * @param {Array.<UnitOption>} [params.options]
 	 * @param {Array.<import('../../question').BaseValidator>} [params.validators]
-	 */
-	constructor({
-		title,
-		question,
-		fieldName,
-		conditionalFieldName,
-		viewFolder,
-		url,
-		hint,
-		pageTitle,
-		description,
-		label,
-		html,
-		options,
-		validators
-	}) {
-		super({
+	 *
+	 * @param {Record<string, Function>} [methodOverrides]
+	 */ constructor(
+		{
 			title,
 			question,
-			viewFolder: !viewFolder ? 'unit-option-entry' : viewFolder,
 			fieldName,
+			conditionalFieldName,
+			viewFolder,
 			url,
 			hint,
 			pageTitle,
 			description,
+			label,
+			html,
+			options,
 			validators
-		});
+		},
+		methodOverrides
+	) {
+		super(
+			{
+				title,
+				question,
+				viewFolder: !viewFolder ? 'unit-option-entry' : viewFolder,
+				fieldName,
+				url,
+				hint,
+				pageTitle,
+				description,
+				validators
+			},
+			methodOverrides
+		);
+
+		if (!options?.length) throw new Error('Options is mandatory');
+		if (!conditionalFieldName?.length) throw new Error('conditionalFieldName is mandatory');
 
 		this.conditionalFieldName = conditionalFieldName;
 		this.options = options;
@@ -95,7 +82,11 @@ class UnitOptionEntryQuestion extends Question {
 	 * @param {Journey} journey - the journey we are in
 	 * @param {Record<string, unknown>} [customViewData] additional data to send to view
 	 * @param {Record<string, unknown>} [payload]
-	 * @returns {QuestionViewModel}
+	 * @returns {QuestionViewModel & {
+	 *   question: QuestionViewModel['question'] & {
+	 *     options:UnitOption[]
+	 *   }
+	 * }}
 	 */
 	prepQuestionForRendering(section, journey, customViewData, payload) {
 		const answer = payload
@@ -104,7 +95,8 @@ class UnitOptionEntryQuestion extends Question {
 
 		const viewModel = super.prepQuestionForRendering(section, journey, customViewData, payload);
 
-		viewModel.question.options = [];
+		/** @type {Array<UnitOption>} */
+		const options = [];
 
 		for (const option of this.options) {
 			let optionData = { ...option };
@@ -119,11 +111,14 @@ class UnitOptionEntryQuestion extends Question {
 			if (optionData.conditional !== undefined) {
 				let conditionalField = { ...optionData.conditional };
 
+				if (conditionalIsJustHTML(conditionalField)) continue;
+
 				const conversionFactor = conditionalField.conversionFactor || 1;
+				const unconvertedAnswer = journey.response.answers[this.conditionalFieldName];
 
 				const existingValue =
-					answer === optionData.value
-						? journey.response.answers[this.conditionalFieldName] / conversionFactor
+					answer === optionData.value && typeof unconvertedAnswer === 'number'
+						? unconvertedAnswer / conversionFactor
 						: '';
 
 				conditionalField.value = payload ? payload[conditionalField.fieldName] : existingValue;
@@ -137,10 +132,10 @@ class UnitOptionEntryQuestion extends Question {
 				};
 			}
 
-			viewModel.question.options.push(optionData);
+			options.push(optionData);
 		}
 
-		return viewModel;
+		return { ...viewModel, question: { ...viewModel.question, options } };
 	}
 
 	/**
@@ -156,6 +151,7 @@ class UnitOptionEntryQuestion extends Question {
 		 */
 		let responseToSave = { answers: {} };
 
+		/** @type {string[]} */
 		const fields = Array.isArray(req.body[this.fieldName])
 			? req.body[this.fieldName]
 			: [req.body[this.fieldName]];
@@ -181,6 +177,7 @@ class UnitOptionEntryQuestion extends Question {
 			);
 
 			if (optionIsSelectedOption) {
+				if (conditionalIsJustHTML(option.conditional)) return;
 				const conversionFactor = option.conditional.conversionFactor || 1;
 				const value = req.body[option.conditional.fieldName] * conversionFactor;
 				responseToSave.answers[this.conditionalFieldName] = value;
@@ -193,19 +190,20 @@ class UnitOptionEntryQuestion extends Question {
 
 	/**
 	 * returns the formatted answers values to be used to build task list elements
-	 * Note that the 'answer' will be the unit, and it is necessary to retrieve the quantity
-	 * @param {Object} answer
-	 * @param {Journey} journey
-	 * @param {String} sectionSegment
-	 * @returns {Array.<Object>}
+	 * @type {Question['formatAnswerForSummary']}
 	 */
 	formatAnswerForSummary(sectionSegment, journey, answer) {
 		if (answer == null) return super.formatAnswerForSummary(sectionSegment, journey, answer);
 
 		const selectedOption = this.options.find((option) => option.value === answer);
-		const conversionFactor = selectedOption?.conditional.conversionFactor || 1;
+		const conversionFactor =
+			(!conditionalIsJustHTML(selectedOption?.conditional) &&
+				selectedOption?.conditional.conversionFactor) ||
+			1;
+		const unconvertedAnswer = journey.response.answers[this.conditionalFieldName];
 
-		const answerQuantity = journey.response?.answers[this.conditionalFieldName] / conversionFactor;
+		const answerQuantity = Number(unconvertedAnswer) / conversionFactor;
+		if (isNaN(answerQuantity)) throw new Error('Conditional answer had an unexpected type');
 
 		const formattedAnswer = `${answerQuantity} ${answer}`;
 		return super.formatAnswerForSummary(sectionSegment, journey, formattedAnswer, false);

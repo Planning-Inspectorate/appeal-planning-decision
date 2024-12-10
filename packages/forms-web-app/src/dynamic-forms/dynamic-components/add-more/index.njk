@@ -62,7 +62,7 @@
                     {% if question.html %}
                         {% include question.html ignore missing %}
                     {% endif %} 
-                    
+
                     {{ govukInput({
                         id: question.fieldName,
                         name: question.fieldName,
@@ -75,7 +75,7 @@
                     }) }}
 
                 {% endif %}
- 
+
                 {{ govukButton({
                     text: "Continue",
                     type: "submit",

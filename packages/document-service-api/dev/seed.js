@@ -1,3 +1,5 @@
+const dotenv = require('dotenv');
+dotenv.config(); // load from .env
 const config = require('../src/configuration/config');
 const blobClient = require('#lib/back-office-storage-client');
 const fs = require('fs');

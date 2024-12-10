@@ -6,7 +6,6 @@ const { VIEW } = require('../../lib/views');
 const config = require('../../config');
 
 exports.getDecisionDate = (req, res) => {
-	console.log('here');
 	const { appeal } = req.session;
 
 	const appealDecisionDate = parseISO(appeal.decisionDate);

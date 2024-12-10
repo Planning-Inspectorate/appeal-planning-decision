@@ -3,8 +3,8 @@ const { siteAccessRows } = require('./site-access-details-rows');
 describe('siteAccessRows', () => {
 	it('should create rows with correct data if relevant case data fields exist & field values populated', () => {
 		const caseData = {
-			siteAccessDetails: ['some site access details'],
-			siteSafetyDetails: ['some site safety details', 'additional site safety details'],
+			siteAccessDetails: ['appellant access details do not show', 'lpa access details for show'],
+			siteSafetyDetails: ['appellant safety details do not show', 'lpa safety details for show'],
 			neighbouringSiteAccessDetails: 'some neighbouring site access details',
 			NeighbouringAddresses: [
 				{
@@ -32,7 +32,7 @@ describe('siteAccessRows', () => {
 
 		expect(rows[1].condition()).toEqual(true);
 		expect(rows[1].keyText).toEqual('Reason for Inspector access');
-		expect(rows[1].valueText).toEqual('some site access details');
+		expect(rows[1].valueText).toEqual('lpa access details for show');
 
 		expect(rows[2].condition()).toEqual(true);
 		expect(rows[2].keyText).toEqual('Inspector visit to neighbour');
@@ -52,15 +52,32 @@ describe('siteAccessRows', () => {
 
 		expect(rows[6].condition()).toEqual(true);
 		expect(rows[6].keyText).toEqual('Potential safety risks');
-		expect(rows[6].valueText).toEqual(
-			'Yes\nsome site safety details\nadditional site safety details'
-		);
+		expect(rows[6].valueText).toEqual('Yes\nlpa safety details for show');
+	});
+
+	it('should handle site access and site safety rows correctly', () => {
+		const caseData = {
+			siteAccessDetails: ['', 'lpa access details'],
+			siteSafetyDetails: ['', 'lpa safety details']
+		};
+		const rows = siteAccessRows(caseData);
+		expect(rows[0].condition()).toEqual(true);
+		expect(rows[0].keyText).toEqual('Access for inspection');
+		expect(rows[0].valueText).toEqual('Yes');
+
+		expect(rows[1].condition()).toEqual(true);
+		expect(rows[1].keyText).toEqual('Reason for Inspector access');
+		expect(rows[1].valueText).toEqual('lpa access details');
+
+		expect(rows[4].condition()).toEqual(true);
+		expect(rows[4].keyText).toEqual('Potential safety risks');
+		expect(rows[4].valueText).toEqual('Yes\nlpa safety details');
 	});
 
 	it('should handle false values correctly', () => {
 		const caseData = {
-			siteAccessDetails: [],
-			siteSafetyDetails: [],
+			siteAccessDetails: ['', ''],
+			siteSafetyDetails: ['', ''],
 			NeighbouringAddresses: []
 		};
 
@@ -85,14 +102,14 @@ describe('siteAccessRows', () => {
 		expect(rows[4].valueText).toEqual('No');
 	});
 
-	it('should not display if no fields/files exist', () => {
+	it('should set condition correctly if fields do not exist', () => {
 		const rows = siteAccessRows({});
 
 		expect(rows.length).toEqual(5);
-		expect(rows[0].condition()).toEqual(false);
+		expect(rows[0].condition()).toEqual(true);
 		expect(rows[1].condition()).toEqual(false);
 		expect(rows[2].condition()).toEqual(false);
 		expect(rows[3].condition()).toEqual(false);
-		expect(rows[4].condition()).toEqual(false);
+		expect(rows[4].condition()).toEqual(true);
 	});
 });

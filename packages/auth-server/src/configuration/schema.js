@@ -2,6 +2,7 @@ import joi from 'joi';
 
 export default joi
 	.object({
+		gitSha: joi.string().optional(),
 		apps: joi.object({
 			appeals: joi.object({
 				baseUrl: joi.string().uri()

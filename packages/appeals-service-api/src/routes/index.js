@@ -22,6 +22,14 @@ router.get('/', (req, res) => {
 	res.sendStatus(204);
 });
 
+router.get('/health', (req, res) => {
+	res.status(200).send({
+		status: 'OK',
+		uptime: process.uptime(),
+		commit: config.gitSha
+	});
+});
+
 router.use('/api/v1/appeals', appealsRouter);
 router.use('/api/v1/back-office', backOfficeRouter);
 router.use('/api/v1/for-manual-intervention', forManualInterventionRouter);

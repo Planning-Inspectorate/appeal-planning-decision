@@ -21,8 +21,8 @@ class ListedBuilding {
 	/**
 	 * creates an instance of a listed building
 	 * @param {string} reference
-	 * @param {string} name
-	 * @param {string} listedBuildingGrade
+	 * @param {string | null} [name]
+	 * @param {string | null} [listedBuildingGrade]
 	 */
 	constructor(reference, name, listedBuildingGrade) {
 		if (reference) {

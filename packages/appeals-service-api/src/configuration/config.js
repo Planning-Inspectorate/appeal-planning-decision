@@ -14,6 +14,7 @@ const {
 //       in tests, so declaring as `const`, makes this very tricky.
 // TODO: find some way to enable profile-specific configs to remove the `let` here.
 let config = {
+	gitSha: process.env.GIT_SHA ?? 'NO GIT SHA FOUND',
 	auth: {
 		authServerUrl: process.env.AUTH_BASE_URL
 	},
@@ -69,6 +70,24 @@ let config = {
 			serviceId: process.env.SRV_NOTIFY_SERVICE_ID,
 			apiKey: process.env.SRV_NOTIFY_API_KEY,
 			templates: {
+				APPEAL_SUBMISSION: {
+					V1_HORIZON: {
+						appellantAppealSubmissionInitialConfirmation:
+							process.env
+								.SRV_NOTIFY_V1_APPEAL_SUBMISSION_INITIAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
+						appellantAppealSubmissionFollowUpConfirmation:
+							process.env
+								.SRV_NOTIFY_V1_APPEAL_SUBMISSION_FOLLOW_UP_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID
+					},
+					V2_BACK_OFFICE: {
+						appellantAppealSubmissionInitialConfirmation:
+							process.env
+								.SRV_NOTIFY_V2_APPEAL_SUBMISSION_INITIAL_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
+						appellantAppealSubmissionFollowUpConfirmation:
+							process.env
+								.SRV_NOTIFY_V2_APPEAL_SUBMISSION_FOLLOW_UP_CONFIRMATION_EMAIL_TO_APPELLANT_TEMPLATE_ID
+					}
+				},
 				[APPEAL_ID.HOUSEHOLDER]: {
 					appealSubmissionConfirmationEmailToAppellant:
 						process.env
@@ -111,7 +130,9 @@ let config = {
 							.SRV_NOTIFY_APPELLANT_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_APPELLANT_TEMPLATE_ID,
 					rule6ProofEvidenceSubmissionConfirmationEmailToRule6PartyV2:
 						process.env
-							.SRV_NOTIFY_RULE_6_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_RULE_6_PARTY_TEMPLATE_ID
+							.SRV_NOTIFY_RULE_6_PROOF_EVIDENCE_SUBMISSION_EMAIL_TO_RULE_6_PARTY_TEMPLATE_ID,
+					rule6StatementSubmissionConfirmationEmailToRule6PartyV2:
+						process.env.SRV_NOTIFY_RULE_6_STATEMENT_SUBMISSION_EMAIL_TO_RULE_6_PARTY_TEMPLATE_ID
 				},
 				V2_COMMON: {
 					appealSubmissionReceivedEmailToAppellant:
@@ -132,15 +153,14 @@ let config = {
 				LPA_DASHBOARD: {
 					enterCodeIntoServiceEmailToLPA:
 						process.env.SRV_NOTIFY_LPA_ENTER_CODE_INTO_SERVICE_TEMPLATE_ID,
-					lpaDashboardInviteEmail: process.env.SRV_NOTIFY_LPA_DASHBOARD_INVITE_TEMPLATE_ID
+					lpaDashboardInviteEmail: process.env.SRV_NOTIFY_LPA_DASHBOARD_INVITE_TEMPLATE_ID,
+					lpaHASQuestionnaireSubmissionConfirmationEmail:
+						process.env.SRV_NOTIFY_LPA_HAS_QUESTIONNAIRE_SUBMISSION_EMAIL_TEMPLATE_ID
 				},
 				INTERESTED_PARTIES: {
 					ipCommentSubmissionConfirmationEmail:
 						process.env.SRV_NOTIFY_IP_COMMENT_SUBMISSION_CONFIRMATION_EMAIL_TO_IP_TEMPLATE_ID
 				}
-			},
-			emailReplyToId: {
-				startEmailToLpa: process.env.SRV_NOTIFY_EMAIL_REPLYTO_ID_START_EMAIL_TO_LPA
 			},
 			emails: {
 				adminMonitoringEmail: process.env.SRV_ADMIN_MONITORING_EMAIL

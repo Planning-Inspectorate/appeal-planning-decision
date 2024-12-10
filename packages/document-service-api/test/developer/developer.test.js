@@ -1,5 +1,6 @@
 const config = require('../../src/configuration/config');
 const { documentTypes } = require('@pins/common'); // TODO: remove this when the document types from @pins/common are brought into this API.
+const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 const { APPEAL_VIRUS_CHECK_STATUS } = require('pins-data-model');
 const supertest = require('supertest');
 const app = require('../../src/app');
@@ -22,6 +23,7 @@ jest.mock('../../src/configuration/featureFlag', () => ({
 
 const validUser = '29670d0f-c4b4-4047-8ee0-d62b93e91a11';
 const invalidUser = '3ccd3b97-f434-40de-a76e-999412a5fa8e';
+
 jest.mock('express-oauth2-jwt-bearer', () => {
 	let currentSub = validUser;
 
@@ -290,6 +292,49 @@ describe('document-service-api', () => {
 
 					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
 					setCurrentSub(validUser);
+
+					const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
+					setCurrentLpa(undefined);
+
+					// When
+					const response = await api.get(`/api/v2/back-office/${appealDoc.id}`);
+					// Then
+					expect(response.statusCode).toBe(200);
+					const sasUrl = response.body.url;
+					expect(sasUrl).toContain(appealDoc.documentURI); // path to doc
+					expect(sasUrl).toContain('&sig='); // sas signature
+				});
+
+				it('should return sas url for published doc for rule 6 user', async () => {
+					// Given
+					const appealDoc = getDoc();
+
+					const rule6User = await sqlClient.document.findFirst({
+						where: {
+							id: appealDoc?.id
+						},
+						select: {
+							AppealCase: {
+								select: {
+									Appeal: {
+										select: {
+											Users: {
+												select: {
+													userId: true
+												},
+												where: {
+													role: APPEAL_USER_ROLES.RULE_6_PARTY
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					});
+
+					const { setCurrentSub } = require('express-oauth2-jwt-bearer');
+					setCurrentSub(rule6User?.AppealCase.Appeal.Users[0].userId);
 
 					const { setCurrentLpa } = require('@pins/common/src/middleware/validate-token');
 					setCurrentLpa(undefined);

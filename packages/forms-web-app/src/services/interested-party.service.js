@@ -1,6 +1,7 @@
 /**
  * @typedef {Object} InterestedParty
  * @property {string} caseReference
+ * @property {string} searchPostcode
  * @property {string} [firstName]
  * @property {string} [lastName]
  * @property {string} [emailAddress]
@@ -17,11 +18,13 @@
  * Adds InterestedParty to req.session
  * @param {import('express').Request} req
  * @param {string} caseReference
+ * @param {string} searchPostcode
  */
-const createInterestedPartySession = (req, caseReference) => {
+const createInterestedPartySession = (req, caseReference, searchPostcode) => {
 	/** @type {InterestedParty} */
 	req.session.interestedParty = {
-		caseReference
+		caseReference,
+		searchPostcode
 	};
 };
 

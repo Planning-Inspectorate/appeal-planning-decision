@@ -20,7 +20,7 @@ const {
 const ApiError = require('#errors/apiError');
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const {
-	// sendSubmissionReceivedEmailToAppellantV2,
+	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionReceivedEmailToLpaV2,
 	sendCommentSubmissionConfirmationEmailToIp,
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
@@ -28,7 +28,9 @@ const {
 	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
 	sendLPAProofEvidenceSubmissionEmailToLPAV2,
 	sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2,
-	sendLPAFinalCommentSubmissionEmailToLPAV2
+	sendRule6StatementSubmissionEmailToRule6PartyV2,
+	sendLPAFinalCommentSubmissionEmailToLPAV2,
+	sendLPAHASQuestionnaireSubmittedEmailV2
 } = require('#lib/notify');
 const { getUserById } = require('../../routes/v2/users/service');
 const { SchemaValidator } = require('./validate');
@@ -46,6 +48,10 @@ const {
 	markRule6ProofOfEvidenceAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/rule-6-proof-evidence-submission/service');
 const {
+	getRule6StatementByAppealId,
+	markRule6StatementAsSubmitted
+} = require('../../routes/v2/appeal-cases/_caseReference/rule-6-statement-submission/service');
+const {
 	getLPAFinalCommentByAppealId,
 	markLPAFinalCommentAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-final-comment-submission/service');
@@ -54,6 +60,8 @@ const {
 	markLpaProofOfEvidenceAsSubmitted
 } = require('../../routes/v2/appeal-cases/_caseReference/lpa-proof-evidence-submission/service');
 const { getServiceUserByIdAndCaseReference } = require('../../routes/v2/service-users/service');
+const { getCaseAndAppellant } = require('../../routes/v2/appeal-cases/service');
+const { SERVICE_USER_TYPE } = require('pins-data-model');
 
 /**
  * @typedef {import('../../routes/v2/appeal-cases/_caseReference/lpa-questionnaire-submission/questionnaire-submission').LPAQuestionnaireSubmission} LPAQuestionnaireSubmission
@@ -138,7 +146,14 @@ class BackOfficeV2Service {
 			await sendSubmissionReceivedEmailToLpaV2(appellantSubmission, email);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToLpaV2');
-			throw new Error('failed to send submission email');
+			throw new Error('failed to send submission email to LPA');
+		}
+
+		try {
+			await sendSubmissionReceivedEmailToAppellantV2(appellantSubmission, email);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendSubmissionReceivedEmailToAppellantV2');
+			throw new Error('failed to send submission email to appellant');
 		}
 
 		return result;
@@ -193,6 +208,28 @@ class BackOfficeV2Service {
 			caseReference,
 			mappedData?.casedata?.lpaQuestionnaireSubmittedDate
 		);
+
+		logger.info(`sending lpa questionnaire submitted email for ${caseReference}`);
+
+		try {
+			const appealCase = await getCaseAndAppellant({ caseReference });
+
+			let user = appealCase?.users?.find(
+				(user) => user.serviceUserType === SERVICE_USER_TYPE.AGENT
+			);
+			if (!user) {
+				user = appealCase?.users?.find(
+					(user) => user.serviceUserType === SERVICE_USER_TYPE.APPELLANT
+				);
+			}
+
+			const appellantOrAgentEmailAddress = user?.emailAddress;
+
+			await sendLPAHASQuestionnaireSubmittedEmailV2(appealCase, appellantOrAgentEmailAddress);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendLPAQuestionnaireSubmittedEmailV2');
+			throw new Error('failed to send LPA questionnaire submission email');
+		}
 
 		return result;
 	}
@@ -402,24 +439,7 @@ class BackOfficeV2Service {
 			caseReference
 		);
 
-		const { email, serviceUserId } = await getUserById(userId);
-
-		let appellantName;
-
-		if (serviceUserId) {
-			const serviceUserDetails = await getServiceUserByIdAndCaseReference(
-				serviceUserId,
-				caseReference
-			);
-
-			if (serviceUserDetails?.firstName && serviceUserDetails?.lastName) {
-				appellantName = serviceUserDetails.firstName + ' ' + serviceUserDetails.lastName;
-			} else {
-				appellantName = 'Rule 6 Party';
-			}
-		} else {
-			appellantName = 'Rule 6 Party';
-		}
+		const { email } = await getUserById(userId);
 
 		logger.info(
 			`forwarding rule 6 party proof of evidence submission for ${caseReference} to service bus`
@@ -431,12 +451,34 @@ class BackOfficeV2Service {
 		try {
 			await sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2(
 				rule6ProofOfEvidenceSubmission,
-				email,
-				appellantName
+				email
 			);
 		} catch (err) {
 			logger.error({ err }, 'failed to sendRule6ProofOfEvidenceSubmissionEmailToRule6PartyV2');
 			throw new Error('failed to send rule 6 proof of evidence submission email');
+		}
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {string} userId
+	 * @returns {Promise<void>}
+	 */
+	async submitRule6StatementSubmission(caseReference, userId) {
+		const rule6StatementSubmission = await getRule6StatementByAppealId(userId, caseReference);
+
+		const { email } = await getUserById(userId);
+
+		logger.info(`forwarding rule 6 party statement submission for ${caseReference} to service bus`);
+
+		// Date to be set in back office mapper once data model confirmed
+		await markRule6StatementAsSubmitted(userId, caseReference, new Date().toISOString());
+
+		try {
+			await sendRule6StatementSubmissionEmailToRule6PartyV2(rule6StatementSubmission, email);
+		} catch (err) {
+			logger.error({ err }, 'failed to sendRule6StatementSubmissionEmailToRule6PartyV2');
+			throw new Error('failed to send rule 6 statement submission email');
 		}
 	}
 }

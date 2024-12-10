@@ -1,0 +1,59 @@
+components:
+  schemas:
+    Rule6StatementSubmission:
+      description: A statement submitted by a Rule 6 Party
+      type: object
+      required:
+        - id
+        - AppealCase
+        - caseReference
+      properties:
+        id:
+          type: string
+          format: uuid
+        caseReference:
+          type: string
+        AppealCase: # partial AppealCase data
+          type: object
+          required:
+            - LPACode
+          properties:
+            LPACode:
+              type: string
+            appealTypeCode:
+              type: string
+            caseReference:
+              type: string
+            siteAddressLine1:
+              type: string
+            siteAddressLine2:
+              type: string
+            siteAddressTown:
+              type: string
+            siteAddressCounty:
+              type: string
+            siteAddressPostcode:
+              type: string
+            applicationReference:
+              type: string
+        userId:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        submitted:
+          type: boolean
+          description: whether the statement has been submitted to BO
+        rule6Statement:
+          type: string
+        rule6AdditionalDocuments:
+          type: boolean
+        uploadRule6StatementDocuments:
+          type: boolean
+        SubmissionDocumentUpload:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubmissionDocumentUpload'

@@ -11,7 +11,7 @@ const LpaService = require('../services/lpa.service');
 const { format, parseISO } = require('date-fns');
 const { formatInTimeZone } = require('date-fns-tz');
 const constants = require('@pins/business-rules/src/constants');
-const { formatSubmissionAddress } = require('@pins/common/src/lib/format-address');
+const { formatSubmissionAddress, formatAddress } = require('@pins/common/src/lib/format-address');
 const lpaService = new LpaService();
 const { APPEAL_ID } = require('@pins/business-rules/src/constants');
 const { templates } = config.services.notify;
@@ -19,6 +19,7 @@ const { templates } = config.services.notify;
 /**
  * @typedef {"HAS" | "S78"} AppealTypeCode
  * @typedef {import('@prisma/client').AppealCase } AppealCase
+ * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppellantSubmission} AppellantSubmission
  * @typedef {import('@prisma/client').InterestedPartySubmission} InterestedPartySubmission
  * @typedef {import('appeals-service-api').Api.LPAStatementSubmission} LPAStatementSubmission
@@ -27,6 +28,7 @@ const { templates } = config.services.notify;
  * @typedef {import('appeals-service-api').Api.AppellantProofOfEvidenceSubmission} AppellantProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.LPAProofOfEvidenceSubmission} LPAProofOfEvidenceSubmission
  * @typedef {import('appeals-service-api').Api.Rule6ProofOfEvidenceSubmission} Rule6ProofOfEvidenceSubmission
+ * @typedef {import('appeals-service-api').Api.Rule6StatementSubmission} Rule6StatementSubmission
  */
 
 /** @type {Record<AppealTypeCode, string>} */
@@ -41,6 +43,7 @@ const appealTypeCodeToAppealText = {
 	S78: 'full planning'
 };
 
+//v1 appellant submission initial
 const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	try {
 		const recipientEmail = appeal.email;
@@ -59,7 +62,9 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 		);
 
 		await NotifyBuilder.reset()
-			.setTemplateId(templates[appeal.appealType].appealSubmissionConfirmationEmailToAppellant)
+			.setTemplateId(
+				templates.APPEAL_SUBMISSION.V1_HORIZON.appellantAppealSubmissionInitialConfirmation
+			)
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(reference)
@@ -76,7 +81,54 @@ const sendSubmissionConfirmationEmailToAppellant = async (appeal) => {
 	}
 };
 
+// v1 appellant submission follow up
+const sendSubmissionReceivedEmailToAppellant = async (appeal) => {
+	try {
+		const lpa = await lpaService.getLpaById(appeal.lpaCode);
+		const appealRef = appeal.horizonIdFull ?? 'ID not provided';
+
+		const recipientEmail = appeal.email;
+		let variables = {
+			name:
+				appeal.appealType == '1001'
+					? appeal.aboutYouSection.yourDetails.name
+					: appeal.contactDetailsSection.contact.name,
+			'appeal reference number': appealRef,
+			'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
+			'lpa reference': appeal.planningApplicationNumber,
+			'local planning department': lpa.getName(),
+			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
+		};
+
+		const reference = appeal.id;
+
+		logger.debug(
+			{ recipientEmail, variables, reference },
+			'Sending submission received email to appellant'
+		);
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates.APPEAL_SUBMISSION.V1_HORIZON.appellantAppealSubmissionFollowUpConfirmation
+			)
+			.setDestinationEmailAddress(recipientEmail)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, appealId: appeal.id },
+			'Unable to send submission received email to appellant'
+		);
+	}
+};
+
 /**
+ *  v2 appellant submission initial
  * @param { AppellantSubmission } appellantSubmission
  * @param { string } email
  */
@@ -84,8 +136,13 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 	try {
 		const recipientEmail = email;
 
+		const address = appellantSubmission.SubmissionAddress[0];
+
+		const formattedAddress = formatSubmissionAddress(address);
+
 		const variables = {
-			name: `${appellantSubmission.contactFirstName} + ${appellantSubmission.contactLastName}`
+			site_Address: formattedAddress,
+			lpa_reference: appellantSubmission.applicationReference
 		};
 
 		const reference = appellantSubmission.id;
@@ -96,7 +153,9 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 		);
 
 		await NotifyBuilder.reset()
-			.setTemplateId(templates.V2_COMMON.appealSubmissionReceivedEmailToAppellant)
+			.setTemplateId(
+				templates.APPEAL_SUBMISSION.V2_BACK_OFFICE.appellantAppealSubmissionInitialConfirmation
+			)
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
 			.setReference(reference)
@@ -114,15 +173,11 @@ const sendSubmissionReceivedEmailToAppellantV2 = async (appellantSubmission, ema
 };
 
 /**
+ * v2 appellant submission follow up
  * @param { AppealCase } appealCase
- * @param { AppellantSubmission } appellantSubmission
  * @param { string } email
  */
-const sendSubmissionConfirmationEmailToAppellantV2 = async (
-	appealCase,
-	appellantSubmission,
-	email
-) => {
+const sendSubmissionConfirmationEmailToAppellantV2 = async (appealCase, email) => {
 	try {
 		const recipientEmail = email;
 		const formattedAddress = formatSubmissionAddress({
@@ -133,18 +188,10 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 			postcode: appealCase.siteAddressPostcode
 		});
 
-		let lpa;
-		try {
-			lpa = await lpaService.getLpaByCode(appealCase.LPACode);
-		} catch (err) {
-			lpa = await lpaService.getLpaById(appealCase.LPACode);
-		}
-
 		const variables = {
 			appeal_reference_number: appealCase.caseReference,
-			'appeal site address': formattedAddress,
-			'local planning department': lpa.getName(),
-			'link to pdf': `${config.apps.appeals.baseUrl}/appeal-document/${appellantSubmission.id}`
+			site_address: formattedAddress,
+			lpa_reference: appealCase.applicationReference
 		};
 
 		const reference = appealCase.id;
@@ -156,8 +203,7 @@ const sendSubmissionConfirmationEmailToAppellantV2 = async (
 
 		await NotifyBuilder.reset()
 			.setTemplateId(
-				templates[appealTypeCodeToAppealId[appellantSubmission.appealTypeCode]]
-					.appealSubmissionConfirmationEmailToAppellantV2
+				templates.APPEAL_SUBMISSION.V2_BACK_OFFICE.appellantAppealSubmissionFollowUpConfirmation
 			)
 			.setDestinationEmailAddress(recipientEmail)
 			.setTemplateVariablesFromObject(variables)
@@ -420,6 +466,69 @@ const sendLPAProofEvidenceSubmissionEmailToLPAV2 = async (lpaProofEvidenceSubmis
 };
 
 /**
+ * @param { AppealCaseDetailed } appealCase
+ * @param { string } appellantOrAgentEmailAddress
+ */
+const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
+	appealCase,
+	appellantOrAgentEmailAddress
+) => {
+	const { LPACode: lpaCode, caseReference, applicationReference, caseStartedDate } = appealCase;
+
+	let lpa;
+	try {
+		lpa = await lpaService.getLpaByCode(lpaCode);
+	} catch (err) {
+		logger.warn({ err, lpaCode }, 'Failed to retrieve LPA by code, falling back to ID');
+		lpa = await lpaService.getLpaById(lpaCode);
+	}
+
+	if (!lpa) {
+		throw new Error(`LPA not found for code: ${lpaCode}`);
+	}
+
+	const lpaEmailAddress = lpa.getEmail();
+	const lpaName = lpa.getName();
+
+	const formattedAddress = formatAddress(appealCase);
+	const formattedDate = format(caseStartedDate, 'dd MMMM yyyy');
+
+	const url = `${config.apps.appeals.baseUrl}/lpa-questionnaire-document/${caseReference}`;
+
+	const variables = {
+		appeal_reference_number: caseReference,
+		'Name of local planning department': lpaName,
+		lpa_reference: applicationReference,
+		site_address: formattedAddress,
+		appeal_start_date: formattedDate,
+		'link to copy of questionnaire': url,
+		'appellant email address': appellantOrAgentEmailAddress
+	};
+
+	const reference = appealCase.id;
+
+	logger.debug({ variables }, 'Sending HAS questionnaire submitted email to LPA');
+
+	try {
+		await NotifyBuilder.reset()
+			.setTemplateId(templates.LPA_DASHBOARD.lpaHASQuestionnaireSubmissionConfirmationEmail)
+			.setDestinationEmailAddress(lpaEmailAddress)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error(
+			{ err, lpaCode: lpaCode },
+			'Unable to send HAS questionnaire submission email to LPA'
+		);
+	}
+};
+
+/**
  * @param { AppellantFinalCommentSubmission } appellantFinalCommentSubmission
  * @param {string} emailAddress
  * @param {string} appellantName
@@ -542,14 +651,12 @@ const sendAppellantProofEvidenceSubmissionEmailToAppellantV2 = async (
 };
 
 /**
- * @param { Rule6ProofOfEvidenceSubmission } appellantProofEvidenceSubmission
+ * @param { Rule6ProofOfEvidenceSubmission } rule6ProofEvidenceSubmission
  * @param {string} emailAddress
- * @param {string} appellantName
  */
 const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
-	appellantProofEvidenceSubmission,
-	emailAddress,
-	appellantName
+	rule6ProofEvidenceSubmission,
+	emailAddress
 ) => {
 	try {
 		const {
@@ -561,9 +668,9 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 			siteAddressCounty,
 			siteAddressPostcode,
 			proofsOfEvidenceDueDate
-		} = appellantProofEvidenceSubmission.AppealCase;
+		} = rule6ProofEvidenceSubmission.AppealCase;
 
-		const caseReference = appellantProofEvidenceSubmission.caseReference;
+		const caseReference = rule6ProofEvidenceSubmission.caseReference;
 
 		const formattedAddress = formatSubmissionAddress({
 			addressLine1: siteAddressLine1,
@@ -573,17 +680,16 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 			postcode: siteAddressPostcode
 		});
 
-		const reference = appellantProofEvidenceSubmission.id;
+		const reference = rule6ProofEvidenceSubmission.id;
 
 		let variables = {
 			appeal_reference_number: caseReference,
-			'appellant name': appellantName,
 			site_address: formattedAddress,
 			lpa_reference: applicationReference,
 			'deadline date': formatInTimeZone(proofsOfEvidenceDueDate, 'Europe/London', 'dd MMMM yyyy')
 		};
 
-		logger.debug({ variables }, 'Sending proof of evidence email to appellant');
+		logger.debug({ variables }, 'Sending proof of evidence email to rule 6 party');
 
 		await NotifyBuilder.reset()
 			.setTemplateId(
@@ -599,7 +705,64 @@ const sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2 = async (
 				config.services.notify.apiKey
 			);
 	} catch (err) {
-		logger.error({ err }, 'Unable to send proof of evidence submission email to appellant');
+		logger.error({ err }, 'Unable to send proof of evidence submission email to rule 6 party');
+	}
+};
+
+/**
+ * @param { Rule6StatementSubmission } rule6StatementSubmission
+ * @param {string} emailAddress
+ */
+const sendRule6StatementSubmissionEmailToRule6PartyV2 = async (
+	rule6StatementSubmission,
+	emailAddress
+) => {
+	try {
+		const {
+			appealTypeCode,
+			applicationReference,
+			siteAddressLine1,
+			siteAddressLine2,
+			siteAddressTown,
+			siteAddressCounty,
+			siteAddressPostcode
+		} = rule6StatementSubmission.AppealCase;
+
+		const caseReference = rule6StatementSubmission.caseReference;
+
+		const formattedAddress = formatSubmissionAddress({
+			addressLine1: siteAddressLine1,
+			addressLine2: siteAddressLine2,
+			townCity: siteAddressTown,
+			county: siteAddressCounty,
+			postcode: siteAddressPostcode
+		});
+
+		const reference = rule6StatementSubmission.id;
+
+		let variables = {
+			appeal_reference_number: caseReference,
+			site_address: formattedAddress,
+			lpa_reference: applicationReference
+		};
+
+		logger.debug({ variables }, 'Sending statement submission email to rule 6 party');
+
+		await NotifyBuilder.reset()
+			.setTemplateId(
+				templates[appealTypeCodeToAppealId[appealTypeCode]]
+					.rule6StatementSubmissionConfirmationEmailToRule6PartyV2
+			)
+			.setDestinationEmailAddress(emailAddress)
+			.setTemplateVariablesFromObject(variables)
+			.setReference(reference)
+			.sendEmail(
+				config.services.notify.baseUrl,
+				config.services.notify.serviceId,
+				config.services.notify.apiKey
+			);
+	} catch (err) {
+		logger.error({ err }, 'Unable to send statement submission email to rule 6 party');
 	}
 };
 
@@ -687,48 +850,6 @@ const sendSubmissionReceivedEmailToLpa = async (appeal) => {
 		logger.error(
 			{ err, lpaCode: appeal.lpaCode },
 			'Unable to send submission received email to LPA'
-		);
-	}
-};
-
-const sendSubmissionReceivedEmailToAppellant = async (appeal) => {
-	try {
-		const lpa = await lpaService.getLpaById(appeal.lpaCode);
-		const appealRef = appeal.horizonIdFull ?? 'ID not provided';
-
-		const recipientEmail = appeal.email;
-		let variables = {
-			name:
-				appeal.appealType == '1001'
-					? appeal.aboutYouSection.yourDetails.name
-					: appeal.contactDetailsSection.contact.name,
-			'appeal reference number': appealRef,
-			'appeal site address': _formatAddress(appeal.appealSiteSection.siteAddress),
-			'local planning department': lpa.getName(),
-			'link to pdf': `${config.apps.appeals.baseUrl}/document/${appeal.id}/${appeal.appealSubmission.appealPDFStatement.uploadedFile.id}`
-		};
-
-		const reference = appeal.id;
-
-		logger.debug(
-			{ recipientEmail, variables, reference },
-			'Sending submission received email to appellant'
-		);
-
-		await NotifyBuilder.reset()
-			.setTemplateId(templates[appeal.appealType].appealSubmissionReceivedEmailToAppellant)
-			.setDestinationEmailAddress(recipientEmail)
-			.setTemplateVariablesFromObject(variables)
-			.setReference(reference)
-			.sendEmail(
-				config.services.notify.baseUrl,
-				config.services.notify.serviceId,
-				config.services.notify.apiKey
-			);
-	} catch (err) {
-		logger.error(
-			{ err, appealId: appeal.id },
-			'Unable to send submission received email to appellant'
 		);
 	}
 };
@@ -871,9 +992,11 @@ module.exports = {
 	sendLpaStatementSubmissionReceivedEmailToLpaV2,
 	sendLPAFinalCommentSubmissionEmailToLPAV2,
 	sendLPAProofEvidenceSubmissionEmailToLPAV2,
+	sendLPAHASQuestionnaireSubmittedEmailV2,
 	sendAppellantFinalCommentSubmissionEmailToAppellantV2,
 	sendAppellantProofEvidenceSubmissionEmailToAppellantV2,
 	sendRule6ProofEvidenceSubmissionEmailToRule6PartyV2,
+	sendRule6StatementSubmissionEmailToRule6PartyV2,
 
 	sendSubmissionReceivedEmailToAppellantV2,
 	sendSubmissionConfirmationEmailToAppellantV2,

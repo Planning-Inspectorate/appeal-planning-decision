@@ -7,6 +7,7 @@ const {
 } = require('@azure/storage-blob');
 const logger = require('../lib/logger');
 const BlobStorageError = require('./blob-storage-error');
+const getAzureBlobPathFromUri = require('../lib/getAzureBlobPathFromUri');
 
 const trailingSlashRegex = /\/$/;
 
@@ -62,8 +63,7 @@ class BlobStorageClient {
 		const NOW = new Date();
 		const startsOn = new Date(NOW.valueOf() - TEN_MINUTES);
 
-		blobName = blobName.replace(`${this.host}/${containerName}/`, ''); // remove host + container if provided
-		blobName = blobName.replace(`${this.host}/`, ''); // remove host if no container on url
+		blobName = getAzureBlobPathFromUri(blobName, this.host, containerName);
 
 		if (!expiresOn) {
 			expiresOn = new Date(NOW.valueOf() + TEN_MINUTES);
