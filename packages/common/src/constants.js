@@ -1,5 +1,6 @@
 /**
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
+ * @typedef { 'statement' | 'comment' | 'final_comment' | 'proofs_evidence' } RepresentationTypes
  * @typedef { 'LPAUser' } LpaUserRole
  */
 
@@ -36,6 +37,15 @@ module.exports = {
 		UNACCOMPANIED: 'unaccompanied',
 		ACCESS: 'accessRequired',
 		VIRTUAL: 'virtual'
+	},
+	/**
+	 * @type {Record<string, RepresentationTypes>}
+	 */
+	REPRESENTATIONS: {
+		STATEMENT: 'statement',
+		INTERESTED_PARTY_COMMENT: 'comment',
+		FINAL_COMMENT: 'final_comment',
+		PROOFS_OF_EVIDENCE: 'proofs_evidence'
 	},
 	STATEMENT_TYPE: {
 		LPA: 'lpa',

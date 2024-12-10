@@ -1,0 +1,24 @@
+components:
+  schemas:
+    RepresentationDocument:
+      description: An mapping of a representation to a document
+      type: object
+      required:
+        - id
+        - representationId
+        - documentId
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: identifier for the mapping
+        representationId:
+          type: string
+          description: id of mapped representation
+        documentId:
+          type: string
+          description: Unique identifier of appeal (SQL)
+        Representation:
+          $ref: '#/components/schemas/Representation'
+        Document:
+          $ref: '#/components/schemas/Document'

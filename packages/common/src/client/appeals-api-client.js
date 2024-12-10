@@ -52,6 +52,10 @@ const trailingSlashRegex = /\/$/;
  */
 
 /**
+ * @typedef { 'statement' | 'comment' | 'final_comment' | 'proofs_evidence' } RepresentationTypes
+ */
+
+/**
  * @class Api Client for v2 urls in appeals-service-api
  */
 class AppealsApiClient {
@@ -457,6 +461,29 @@ class AppealsApiClient {
 	async deleteLPAStatementDocumentUpload(caseReference, documentId) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission/document-upload/${documentId}`;
 		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<AppealCase>}
+	 */
+	async getAppealCaseWithRepresentations(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/representations`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {RepresentationTypes} type
+	 * @returns {Promise<AppealCase>}
+	 */
+	async getAppealCaseWithRepresentationsByType(caseReference, type) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('type', type);
+		const endpoint = `${v2}/appeal-cases/${caseReference}/representations?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
 
