@@ -54,6 +54,7 @@ components:
           type: string
           format: date-time
           description: the date and time the representation was received by the BO
-        representationDocuments:
-          type: string
-          description: a json array of document ids received
+        RepresentationDocuments:
+          type: array
+          items:
+            $ref: '#/components/schemas/RepresentationDocument'

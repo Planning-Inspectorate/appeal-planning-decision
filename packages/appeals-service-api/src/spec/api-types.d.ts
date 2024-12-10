@@ -929,6 +929,7 @@ export interface Document {
 	origin: string;
 	stage: string;
 	caseReference: string;
+	RepresentationDocument?: RepresentationDocument[];
 }
 
 export interface ErrorBody {
@@ -1221,6 +1222,23 @@ export interface NeighbouringAddress {
 	postcode: string;
 }
 
+/** An mapping of a representation to a document */
+export interface RepresentationDocument {
+	/**
+	 * identifier for the mapping
+	 * @format uuid
+	 */
+	id: string;
+	/** id of mapped representation */
+	representationId: string;
+	/** Unique identifier of appeal (SQL) */
+	documentId: string;
+	/** Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO */
+	Representation?: Representation;
+	/** A document associated with an appeal */
+	Document?: Document;
+}
+
 /** Proofs of Evidence, Final Comments, Statements, Planning Obligations or IP Comments received from BO */
 export interface Representation {
 	/**
@@ -1258,8 +1276,7 @@ export interface Representation {
 	 * @format date-time
 	 */
 	dateReceived?: string;
-	/** a json array of document ids received */
-	representationDocuments?: string;
+	RepresentationDocuments?: RepresentationDocument[];
 }
 
 /** Information about a rule 6 party involved in an appeal */
