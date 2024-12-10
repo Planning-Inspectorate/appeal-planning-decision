@@ -841,6 +841,22 @@ const serviceUsers = [
 		caseReference: '6666666',
 		firstName: 'Appellant',
 		lastName: 'One'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc46',
+		id: '123480',
+		serviceUserType: 'Agent',
+		caseReference: '0000001',
+		firstName: 'Agent',
+		lastName: 'Lastname1'
+	},
+	{
+		internalId: 'f53d3c7a-9fff-47d7-ab5b-a39f0e3cfc45',
+		id: '123481',
+		serviceUserType: 'Appellant',
+		caseReference: '0000002',
+		firstName: 'Appellant',
+		lastName: 'Lastname2'
 	}
 ];
 
