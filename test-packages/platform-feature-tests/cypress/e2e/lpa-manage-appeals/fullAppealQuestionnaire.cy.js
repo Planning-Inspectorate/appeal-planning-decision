@@ -4,25 +4,22 @@ const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/y
 
 describe('Full Planning Questionnaire Test Cases', () => {
         const yourAppealsSelector = new YourAppealsSelector();
-        let lpaQuestionnaireData;
+        let lpaManageAppealsData;
         beforeEach(() => {
-                cy.fixture('lpaQuestionnaireData').then(data => {
-                        lpaQuestionnaireData = data;
+                cy.fixture('lpaManageAppealsData').then(data => {
+                        lpaManageAppealsData = data;
                 })
                 cy.visit(`${Cypress.config('appeals_beta_base_url')}/manage-appeals/your-email-address`);
-                //const emailurl = `${Cypress.config('appeals_beta_base_url')}/manage-appeals/your-email-address`;
-                //const appealurl = `${Cypress.config('appeals_beta_base_url')}/manage-appeals/your-appeals`;
                 cy.url().then((url) => {
                         if (url.includes('/manage-appeals/your-email-address')) {
-                                cy.getByData(yourAppealsSelector?._selectors?.emailAddress).clear().type(lpaQuestionnaireData?.emailAddress);
+                                cy.getByData(yourAppealsSelector?._selectors?.emailAddress).clear().type(lpaManageAppealsData?.emailAddress);
                                 cy.wait(1000);
                                 cy.advanceToNextPage();
                                 cy.wait(1000);
-                                cy.get(yourAppealsSelector?._selectors?.emailCode).type(lpaQuestionnaireData?.emailCode);
+                                cy.get(yourAppealsSelector?._selectors?.emailCode).type(lpaManageAppealsData?.emailCode);
                                 cy.advanceToNextPage();
                         }
                 });
-
         });
         fullAppealQuestionnaireTestCases.forEach((context) => {
 
@@ -73,7 +70,7 @@ describe('Full Planning Questionnaire Test Cases', () => {
             - User selects new conditions${context.appealProcess?.isNewConditions}
             - User selects procedure type${context.appealProcess?.isProcedureType}
              `, () => {
-                        fullAppealQuestionnaire(context, lpaQuestionnaireData);
+                        fullAppealQuestionnaire(context, lpaManageAppealsData);
                 });
         });
 });

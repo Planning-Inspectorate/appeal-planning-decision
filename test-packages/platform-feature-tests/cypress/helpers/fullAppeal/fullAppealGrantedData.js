@@ -17,7 +17,7 @@ const documents = {
 export const fullAppealGrantedTestCases = [
     {
         statusOfOriginalApplication: 'granted',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -34,7 +34,7 @@ export const fullAppealGrantedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -103,7 +103,7 @@ export const fullAppealGrantedTestCases = [
     },
     {
         statusOfOriginalApplication: 'granted',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -120,7 +120,7 @@ export const fullAppealGrantedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'hearing',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -146,7 +146,7 @@ export const fullAppealGrantedTestCases = [
     },
     {
         statusOfOriginalApplication: 'granted',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -163,7 +163,7 @@ export const fullAppealGrantedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -232,7 +232,7 @@ export const fullAppealGrantedTestCases = [
     },
     {
         statusOfOriginalApplication: 'granted',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -249,7 +249,7 @@ export const fullAppealGrantedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'hearing',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -275,7 +275,7 @@ export const fullAppealGrantedTestCases = [
     },
     {
         statusOfOriginalApplication: 'granted',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -292,7 +292,7 @@ export const fullAppealGrantedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -361,7 +361,7 @@ export const fullAppealGrantedTestCases = [
     },
     {
         statusOfOriginalApplication: 'granted',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -378,7 +378,7 @@ export const fullAppealGrantedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'hearing',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -404,7 +404,7 @@ export const fullAppealGrantedTestCases = [
     },
     {
         statusOfOriginalApplication: 'granted',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -421,7 +421,7 @@ export const fullAppealGrantedTestCases = [
             isInspectorNeedAccess: false,
             isAppellantSiteSafety: false,
             iaUpdateDevelopmentDescription: false,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'written',
             anyOtherAppeals: false,
             //  isAppellantLinkedCaseAdd: true            
         },
