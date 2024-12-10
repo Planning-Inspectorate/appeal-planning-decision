@@ -1,63 +1,63 @@
 import { BasePage } from "../../../../page-objects/base-page";
 export class SiteAccess {
     _selectors = {
-       lpaSiteAccessLpaSiteAccessDetails: '#lpaSiteAccess_lpaSiteAccessDetails',
-       neighbourSiteAccessNeighbourSiteAccessDetails: '#neighbourSiteAccess_neighbourSiteAccessDetails',
-       addressLineOne:'#address-line-1',
-       addressLineTwo:'#address-line-2',
-       addressTown:'#address-town',
-       addressCounty:'#address-county',
-       addressPostcode:'#address-postcode',
-       lpaSiteSafetyRisksLpaSiteSafetyRiskDetails:'#lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails'
+        lpaSiteAccessLpaSiteAccessDetails: '#lpaSiteAccess_lpaSiteAccessDetails',
+        neighbourSiteAccessNeighbourSiteAccessDetails: '#neighbourSiteAccess_neighbourSiteAccessDetails',
+        addressLineOne: '#address-line-1',
+        addressLineTwo: '#address-line-2',
+        addressTown: '#address-town',
+        addressCounty: '#address-county',
+        addressPostcode: '#address-postcode',
+        lpaSiteSafetyRisksLpaSiteSafetyRiskDetails: '#lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails'
     }
 
-    selectLpaSiteAccess(context,lpaQuestionnaireData) {
+    selectLpaSiteAccess(context, lpaManageAppealsData) {
         const basePage = new BasePage();
-        if(context?.siteAccess?.isLpaSiteAccess){
+        if (context?.siteAccess?.isLpaSiteAccess) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            cy.get(this._selectors?.lpaSiteAccessLpaSiteAccessDetails).type(lpaQuestionnaireData?.siteAccess?.siteAccessInformation);
-            cy.advanceToNextPage();    
-        } else {		
+            cy.get(this._selectors?.lpaSiteAccessLpaSiteAccessDetails).type(lpaManageAppealsData?.siteAccess?.siteAccessInformation);
+            cy.advanceToNextPage();
+        } else {
             cy.getByData(basePage?._selectors.answerNo).click();
-            cy.advanceToNextPage();		
+            cy.advanceToNextPage();
         }
     };
 
-    selectNeighbourSiteAccess(context,lpaQuestionnaireData){
+    selectNeighbourSiteAccess(context, lpaManageAppealsData) {
         const basePage = new BasePage();
-        if(context?.siteAccess?.isNeighbourSiteAccess){
+        if (context?.siteAccess?.isNeighbourSiteAccess) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            cy.get(this._selectors?.neighbourSiteAccessNeighbourSiteAccessDetails).type(lpaQuestionnaireData?.siteAccess?.neighbourSiteAccess)
+            cy.get(this._selectors?.neighbourSiteAccessNeighbourSiteAccessDetails).type(lpaManageAppealsData?.siteAccess?.neighbourSiteAccess)
             cy.advanceToNextPage();
             cy.get('body').then($body => {
-                if($body.find(`.govuk-fieldset__heading:contains(${lpaQuestionnaireData?.siteAccess?.anotherNeighbourVisit})`).length > 0){
+                if ($body.find(`.govuk-fieldset__heading:contains(${lpaManageAppealsData?.siteAccess?.anotherNeighbourVisit})`).length > 0) {
                     cy.getByData(basePage?._selectors.answerNo).click();
-                     cy.advanceToNextPage();	
+                    cy.advanceToNextPage();
                 } else {
-                    cy.get(this._selectors?.addressLineOne).type(lpaQuestionnaireData?.siteAccess?.addresssLineOne);
-                    cy.get(this._selectors?.addressLineTwo).type(lpaQuestionnaireData?.siteAccess?.addresssLineTwo);
-                    cy.get(this._selectors?.addressTown).type(lpaQuestionnaireData?.siteAccess?.addresssTown);				
-                    cy.get(this._selectors?.addressCounty).type(lpaQuestionnaireData?.siteAccess?.addressCounty);
-                    cy.get(this._selectors?.addressPostcode).type(lpaQuestionnaireData?.siteAccess?.addressPostCode);
+                    cy.get(this._selectors?.addressLineOne).type(lpaManageAppealsData?.siteAccess?.addresssLineOne);
+                    cy.get(this._selectors?.addressLineTwo).type(lpaManageAppealsData?.siteAccess?.addresssLineTwo);
+                    cy.get(this._selectors?.addressTown).type(lpaManageAppealsData?.siteAccess?.addresssTown);
+                    cy.get(this._selectors?.addressCounty).type(lpaManageAppealsData?.siteAccess?.addressCounty);
+                    cy.get(this._selectors?.addressPostcode).type(lpaManageAppealsData?.siteAccess?.addressPostCode);
                     cy.advanceToNextPage();
                     cy.getByData(basePage?._selectors.answerNo).click();
-                     cy.advanceToNextPage();	
+                    cy.advanceToNextPage();
                 }
             })
-        } else {		
+        } else {
             cy.getByData(basePage?._selectors.answerNo).click();
-            cy.advanceToNextPage();		
+            cy.advanceToNextPage();
         }
     };
-    selectLpaSiteSafetyRisks(context,lpaQuestionnaireData){
+    selectLpaSiteSafetyRisks(context, lpaManageAppealsData) {
         const basePage = new BasePage();
-        if(context?.siteAccess?.isLpaSiteSafetyRisks){
+        if (context?.siteAccess?.isLpaSiteSafetyRisks) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            cy.get(this._selectors?.lpaSiteSafetyRisksLpaSiteSafetyRiskDetails).clear().type(lpaQuestionnaireData?.siteAccess?.siteSafetyRiskDerails);
-            cy.advanceToNextPage();    
-        } else {		
+            cy.get(this._selectors?.lpaSiteSafetyRisksLpaSiteSafetyRiskDetails).clear().type(lpaManageAppealsData?.siteAccess?.siteSafetyRiskDerails);
+            cy.advanceToNextPage();
+        } else {
             cy.getByData(basePage?._selectors.answerNo).click();
-            cy.advanceToNextPage();		
+            cy.advanceToNextPage();
         }
     };
 }

@@ -2,22 +2,25 @@ import { BasePage } from "../../../../page-objects/base-page";
 export class NotifyParties {
 
     _selectors = {
-       
-    }
-    selectAndNotifyParties(context,lpaQuestionnaireData) {
-        const basePage = new BasePage();
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');//Who did you notify about this application
-        cy.advanceToNextPage();
-        cy.checkIfUnchecked(lpaQuestionnaireData?.notifyParties?.siteNotice);
-        cy.checkIfUnchecked(lpaQuestionnaireData?.notifyParties?.lettersEmailsToParties);
-        cy.checkIfUnchecked(lpaQuestionnaireData?.notifyParties?.advertInLocalPress);
-        cy.advanceToNextPage();
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');//Upload the site notice
-        cy.advanceToNextPage();
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');//Upload letters or emails sent to interested parties with their addresses
-        cy.advanceToNextPage();
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');//Upload the press advertisement
-        cy.advanceToNextPage();           
-    };   
 
+    }
+    selectAndNotifyParties(context, lpaManageAppealsData) {
+        const basePage = new BasePage();
+        //Who did you notify about this application
+        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.advanceToNextPage();
+        cy.checkIfUnchecked(lpaManageAppealsData?.notifyParties?.siteNotice);
+        cy.checkIfUnchecked(lpaManageAppealsData?.notifyParties?.lettersEmailsToParties);
+        cy.checkIfUnchecked(lpaManageAppealsData?.notifyParties?.advertInLocalPress);
+        cy.advanceToNextPage();
+        //Upload the site notice
+        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.advanceToNextPage();
+        //Upload letters or emails sent to interested parties with their addresses
+        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.advanceToNextPage();
+        //Upload the press advertisement
+        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.advanceToNextPage();
+    };
 }
