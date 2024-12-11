@@ -75,7 +75,7 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 		consultResponseAndRepresent.selectConsultationResponses(context);
 		consultResponseAndRepresent.selectOtherPartyRepresentations(context);
 		//Planning officer's report and supplementary documents
-		poReportAndSupportDocs.selectPOReportAndSupportDocsS78(context);
+		poReportAndSupportDocs.selectPOReportAndSupportDocsS78();
 		poReportAndSupportDocs.selectEmergingPlansS78(context);
 		poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
 		poReportAndSupportDocs.selectCommunityInfraLevy(context);

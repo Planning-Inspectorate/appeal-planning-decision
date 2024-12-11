@@ -62,7 +62,7 @@ export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 		notifyParties.selectAndNotifyParties(context, lpaManageAppealsData);
 		consultResponseAndRepresent.selectOtherPartyRepresentations(context);
 		//Planning officer's report and supplementary documents
-		poReportAndSupportDocs.selectPOReportAndSupportDocsHas(context);
+		poReportAndSupportDocs.selectPOReportAndSupportDocsHas();
 		poReportAndSupportDocs.selectEmergingPlansHas(context);
 		poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
 
