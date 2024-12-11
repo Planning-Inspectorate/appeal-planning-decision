@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 const initialiseApplicationTypeAppeal = require('./sections/initialiseApplicationTypeAppeal');
 
 function submitAppealFlow(appealOptions) {

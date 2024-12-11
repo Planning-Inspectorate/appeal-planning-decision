@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 module.exports = (statusOfPlanningObligation) => {
 	cy.goToAppealSection('Upload documents for your appeal');
 

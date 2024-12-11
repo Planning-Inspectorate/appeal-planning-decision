@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from "../../../page-objects/base-page";
 import { DateService } from "../../../support/flows/sections/dateService";
 const applicationFormPage = require("../pages/prepare-appeal/applicationFormPage");
@@ -154,7 +156,7 @@ module.exports = (planning, grantedOrRefusedId, context, prepareAppealData) => {
 		otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
 
 		cy.uploadDocuments(prepareAppealSelector?._selectors?.houseHolderApplicaitonType, prepareAppealSelector?._selectors?.uploadApplicationForm, dynamicId);
-		uploadApplicationFormPage.addUploadApplicationFormData(context, dynamicId);
+		uploadApplicationFormPage.addUploadApplicationFormData(context);
 
 		//Upload your appeal statement		
 		cy.validateURL(`${prepareAppealSelector?._houseHolderURLs?.appealsHouseholderUploadDocuments}/upload-appeal-statement`);

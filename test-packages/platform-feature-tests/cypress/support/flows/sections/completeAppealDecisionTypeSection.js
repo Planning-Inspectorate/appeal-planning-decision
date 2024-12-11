@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 module.exports = (typeOfDecisionRequested) => {
 	cy.goToAppealSection('Tell us how you would prefer us to decide your appeal');
 

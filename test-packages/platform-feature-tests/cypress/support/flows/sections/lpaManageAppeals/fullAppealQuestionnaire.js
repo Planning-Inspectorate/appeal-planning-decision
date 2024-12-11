@@ -1,3 +1,7 @@
+/* eslint-disable cypress/unsafe-to-chain-command */
+// @ts-nocheck
+/// <reference types="cypress"/>
+
 import { BasePage } from "../../../../page-objects/base-page";
 import { AppealProcess } from "../../pages/lpa-manage-appeals/appealProcess";
 import { ConstraintsAndDesignations } from "../../pages/lpa-manage-appeals/constraintsAndDesignations";
@@ -72,7 +76,7 @@ export const fullAppealQuestionnaire = (context, lpaManageAppealsData) => {
 		consultResponseAndRepresent.selectConsultationResponses(context);
 		consultResponseAndRepresent.selectOtherPartyRepresentations(context);
 		//Planning officer's report and supplementary documents
-		poReportAndSupportDocs.selectPOReportAndSupportDocsS78(context);
+		poReportAndSupportDocs.selectPOReportAndSupportDocsS78();
 		poReportAndSupportDocs.selectEmergingPlansS78(context);
 		poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
 		poReportAndSupportDocs.selectCommunityInfraLevy(context);

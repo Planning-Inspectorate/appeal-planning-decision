@@ -1,11 +1,11 @@
-import { BasePage } from "../../../../page-objects/base-page";
+// @ts-nocheck
+/// <reference types="cypress"/>
 export class NotifyParties {
 
     _selectors = {
 
     }
-    selectAndNotifyParties(context, lpaManageAppealsData) {
-        const basePage = new BasePage();
+    selectAndNotifyParties(context, lpaManageAppealsData) {        
         //Who did you notify about this application
         cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
         cy.advanceToNextPage();
