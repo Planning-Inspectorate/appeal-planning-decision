@@ -1,7 +1,9 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 export class OtherTenantsPage {
 
-    addOtherTenantsData(anyOtherTenants, context) {
+    addOtherTenantsData(anyOtherTenants) {
         const basePage = new BasePage();
 
         if (anyOtherTenants) {

@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 module.exports = (statusOfOriginalApplication) => {
 	cy.goToAppealSection('Upload documents from your planning application');
 

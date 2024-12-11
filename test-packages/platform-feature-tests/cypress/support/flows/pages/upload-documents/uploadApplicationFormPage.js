@@ -1,5 +1,7 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 export class UploadApplicationFormPage {
-    addUploadApplicationFormData(context, dynamicId) {
+    addUploadApplicationFormData(context) {
         //Upload your application form
         cy.uploadFileFromFixtureDirectory(context?.documents?.uploadPlanningApplConfirmLetter);
         cy.advanceToNextPage();

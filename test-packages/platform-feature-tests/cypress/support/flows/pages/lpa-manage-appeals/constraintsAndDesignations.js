@@ -1,3 +1,6 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
+
 import { BasePage } from "../../../../page-objects/base-page";
 export class ConstraintsAndDesignations {
     _selectors = {
