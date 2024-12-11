@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 export class SiteAccess {
     _selectors = {
@@ -53,7 +55,8 @@ export class SiteAccess {
         const basePage = new BasePage();
         if (context?.siteAccess?.isLpaSiteSafetyRisks) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            cy.get(this._selectors?.lpaSiteSafetyRisksLpaSiteSafetyRiskDetails).clear().type(lpaManageAppealsData?.siteAccess?.siteSafetyRiskDerails);
+            cy.get(this._selectors?.lpaSiteSafetyRisksLpaSiteSafetyRiskDetails).clear();
+            cy.get(this._selectors?.lpaSiteSafetyRisksLpaSiteSafetyRiskDetails).type(lpaManageAppealsData?.siteAccess?.siteSafetyRiskDerails);
             cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();

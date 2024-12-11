@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { houseHolderQuestionnaireTestCases } from "../../helpers/lpaManageAppeals/houseHolderQuestionnaireData";
 const { lpaQuestionnaire } = require('../../support/flows/sections/lpaManageAppeals/houseHolderQuestionnaire');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
@@ -12,7 +14,8 @@ describe('House Holder Questionnaire Test Cases', () => {
                 cy.visit(`${Cypress.config('appeals_beta_base_url')}/manage-appeals/your-email-address`);
                 cy.url().then((url) => {
                         if (url.includes('/manage-appeals/your-email-address')) {
-                                cy.getByData(yourAppealsSelector?._selectors?.emailAddress).clear().type(lpaManageAppealsData?.emailAddress);                               
+                                cy.getByData(yourAppealsSelector?._selectors?.emailAddress).clear();
+                                cy.getByData(yourAppealsSelector?._selectors?.emailAddress).type(lpaManageAppealsData?.emailAddress);                               
                                 cy.advanceToNextPage();                               
                                 cy.get(yourAppealsSelector?._selectors?.emailCode).type(lpaManageAppealsData?.emailCode);
                                 cy.advanceToNextPage();

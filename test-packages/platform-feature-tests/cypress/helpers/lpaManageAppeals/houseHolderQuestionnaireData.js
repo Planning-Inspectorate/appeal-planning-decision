@@ -1,6 +1,11 @@
 const documents = {
-    uploadAppealStmt: 'appeal-statement-valid.pdf'
-  
+    uploadAppealStmt: 'appeal-statement-valid.pdf',
+    uploadConservationMapGuidance: 'conservation-map-guidance.pdf',
+    uploadPlanExtentOrder: 'plan-extent-order.pdf',
+    uploadDefinitiveMapStmt: 'definitive-map-stmt.pdf',
+    uploadScreeningOpinion: 'screening-openion.pdf',
+    uploadEnvironmentalStmt: 'environmental-statement.pdf',
+    uploadScreeningDirection: 'screening-direction.pdf'  
 };
 export const houseHolderQuestionnaireTestCases = [
     {  
@@ -31,6 +36,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  

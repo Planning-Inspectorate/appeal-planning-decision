@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 import { DateService } from "../../../../support/flows/sections/dateService";
 export class PoReportAndSupportDocs {
@@ -13,8 +15,7 @@ export class PoReportAndSupportDocs {
 
 
     }
-    selectPOReportAndSupportDocsHas(context) {
-        const basePage = new BasePage();
+    selectPOReportAndSupportDocsHas() {        
         cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
         cy.advanceToNextPage();
         cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
@@ -22,8 +23,7 @@ export class PoReportAndSupportDocs {
         cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
         cy.advanceToNextPage();
     };
-    selectPOReportAndSupportDocsS78(context) {
-        const basePage = new BasePage();
+    selectPOReportAndSupportDocsS78() {       
         //Upload the planning officer’s report or what your decision notice would have said
         cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
         cy.advanceToNextPage();
@@ -94,16 +94,22 @@ export class PoReportAndSupportDocs {
         if (context?.poReportAndSupportDocs?.isCommunityInfrastructureLevyAdopted) {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
-            cy.get(this._selectors?.infrastructureLevyAdoptedDateDay).clear().type(date.today());
-            cy.get(this._selectors?.infrastructureLevyAdoptedDateMonth).clear().type(date.currentMonth());
-            cy.get(this._selectors?.infrastructureLevyAdoptedDateYear).clear().type(date.currentYear());
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateDay).clear();
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateDay).type(date.today());
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateMonth).clear();
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateMonth).type(date.currentMonth());
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateYear).clear();
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateYear).type(date.currentYear());
             cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
-            cy.get(this._selectors?.infrastructureLevyAdoptedDateDay).clear().type(date.today());
-            cy.get(this._selectors?.infrastructureLevyAdoptedDateMonth).clear().type(date.currentMonth());
-            cy.get(this._selectors?.infrastructureLevyAdoptedDateYear).clear().type(date.nextYear());
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateDay).clear();
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateDay).type(date.today());
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateMonth).clear();
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateMonth).type(date.currentMonth());
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateYear).clear();
+            cy.get(this._selectors?.infrastructureLevyAdoptedDateYear).type(date.nextYear());
             cy.advanceToNextPage();
         }
     };

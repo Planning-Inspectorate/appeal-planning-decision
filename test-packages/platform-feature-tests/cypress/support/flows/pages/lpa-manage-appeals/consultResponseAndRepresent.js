@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 export class ConsultResponseAndRepresent {
 
@@ -10,9 +12,9 @@ export class ConsultResponseAndRepresent {
 
         if (context?.consultResponseAndRepresent?.isStatutoryConsultees) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            cy.get(this._selectors?.statutoryConsulteesConsultedBodiesDetails).clear().type(lpaManageAppealsData?.consultResponseAndRepresent?.statutoryConsulteesConsultedBodiesDetails);
-            cy.advanceToNextPage();
-            //this.selectConsultationResponses(context);  
+            cy.get(this._selectors?.statutoryConsulteesConsultedBodiesDetails).clear();
+            cy.get(this._selectors?.statutoryConsulteesConsultedBodiesDetails).type(lpaManageAppealsData?.consultResponseAndRepresent?.statutoryConsulteesConsultedBodiesDetails);
+            cy.advanceToNextPage();            
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();

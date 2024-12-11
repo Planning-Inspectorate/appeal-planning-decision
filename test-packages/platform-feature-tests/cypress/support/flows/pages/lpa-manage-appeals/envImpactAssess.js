@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 export class EnvImpactAssess {
     _selectors = {
@@ -22,20 +24,19 @@ export class EnvImpactAssess {
 
     selectScheduleType(context, lpaManageAppealsData) {
         if (context?.environmentalImpact?.isSchedule === 'one') {
-            this.selectScheduleOne(context, lpaManageAppealsData);
+            this.selectScheduleOne(context);
         } else if (context?.environmentalImpact?.isSchedule === 'two') {
             this.selectScheduleTwo(context, lpaManageAppealsData);
         } else if (context?.environmentalImpact?.isSchedule === 'no') {
-            this.selectScheduleNo(context, lpaManageAppealsData);
+            this.selectScheduleNo(context);
         }
     };
 
-    selectScheduleOne(context, lpaManageAppealsData) {
-        const basePage = new BasePage();
+    selectScheduleOne(context) {     
         cy.getByData(this?._selectors.yesScheduleOne).click();
         cy.advanceToNextPage();
         //Upload your screening opinion and any correspondence
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadScreeningOpinion);
         cy.advanceToNextPage();
         this.selectScreeningOpinionEnvStmt(context);
         this.selectEnvironmentalStatement(context);
@@ -47,27 +48,27 @@ export class EnvImpactAssess {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
             //Upload the environmental statement and supporting information
-            cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEnvironmentalStmt);
             cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
             //Upload the screening direction
-            cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadScreeningDirection);
             cy.advanceToNextPage();
         }
     }
     selectScheduleTwo(context, lpaManageAppealsData) {
         cy.getByData(this?._selectors.yesScheduleTwo).click();
         cy.advanceToNextPage();
-        this.selectDevelopmentDescription(context, lpaManageAppealsData);
+        this.selectDevelopmentDescription(context);
         this.selectAffectSensitiveArea(context, lpaManageAppealsData);
         this.selectThresholdOrCriteriaColumn2(context);
         this.selectIssuedScreeningOpinion(context);
         this.selectEnvironmentalStatement(context);
     };
 
-    selectScheduleNo(context, lpaManageAppealsData) {
+    selectScheduleNo(context) {
         cy.getByData(this?._selectors.noScheduleThree).click();
         cy.advanceToNextPage();
         this.selectIssuedScreeningOpinion(context);
@@ -75,7 +76,7 @@ export class EnvImpactAssess {
     };
 
 
-    selectDevelopmentDescription(context, lpaManageAppealsData) {
+    selectDevelopmentDescription(context) {
         if (context?.environmentalImpact?.isAgricultureAquaculture) {
             cy.getByData(this?._selectors.ansAgricultureAquaculture).click();
         } else if (context?.environmentalImpact?.isChangeExtensions) {
@@ -109,7 +110,8 @@ export class EnvImpactAssess {
         const basePage = new BasePage();
         if (context?.environmentalImpact?.isSensitiveArea) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            cy.get(this._selectors?.sensitiveAreaSensitiveAreaDetails).clear().type(lpaManageAppealsData?.environmentlImpact?.sensitiveAreaSensitiveAreaDetails);
+            cy.get(this._selectors?.sensitiveAreaSensitiveAreaDetails).clear();
+            cy.get(this._selectors?.sensitiveAreaSensitiveAreaDetails).type(lpaManageAppealsData?.environmentlImpact?.sensitiveAreaSensitiveAreaDetails);
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
         }
@@ -133,7 +135,7 @@ export class EnvImpactAssess {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
             //Upload your screening opinion and any correspondence
-            cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadScreeningOpinion);
             cy.advanceToNextPage();
             this.selectScreeningOpinionEnvStmt(context);
         } else {
@@ -156,7 +158,8 @@ export class EnvImpactAssess {
         const basePage = new BasePage();
         if (context?.siteAccess?.isLpaSiteSafetyRisks) {
             cy.getByData(basePage?._selectors.answerYes).click();
-            cy.get(this._selectors?.lpaSiteSafetyRisksLpaSiteSafetyRiskDetails).clear().type(lpaManageAppealsData?.siteAccess?.siteSafetyRiskDerails);
+            cy.get(this._selectors?.lpaSiteSafetyRisksLpaSiteSafetyRiskDetails).clear();
+            cy.get(this._selectors?.lpaSiteSafetyRisksLpaSiteSafetyRiskDetails).type(lpaManageAppealsData?.siteAccess?.siteSafetyRiskDerails);
             cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
