@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from "../../../page-objects/base-page";
 import { DateService } from "../../../support/flows/sections/dateService";
 const applicationFormPage = require("../pages/prepare-appeal/applicationFormPage");
@@ -161,7 +163,7 @@ module.exports = (planning, grantedOrRefusedId, applicationType, context, prepar
 		otherAppealsPage.addOtherAppealsData(context?.applicationForm?.anyOtherAppeals, context);
 		
 		cy.uploadDocuments(prepareAppealSelector?._selectors?.fullPlanningApplicaitonType, prepareAppealSelector?._selectors?.uploadApplicationForm, dynamicId);
-		uploadApplicationFormPage.addUploadApplicationFormData(context, dynamicId);
+		uploadApplicationFormPage.addUploadApplicationFormData(context);
 
 		submitPlanningObligationPage.addSubmitPlanningObligationData(context);
 

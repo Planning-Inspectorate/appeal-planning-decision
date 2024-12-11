@@ -1,3 +1,6 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
+
 import { BasePage } from "../page-objects/base-page";
 import { houseHolderAppealRefusedTestCases } from "../helpers/houseHolderAppeal/houseHolderAppealRefusedData";
 import { DateService } from "../support/flows/sections/dateService";
@@ -19,7 +22,6 @@ describe('House Holder Date Validations', () => {
     const basePage = new BasePage();
     const date = new DateService();
     let prepareAppealData;
-
 
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
@@ -298,16 +300,16 @@ describe('House Holder Validations', () => {
 
 describe('Returns to pre appels validations', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
-    const basePage = new BasePage();
-    const contactDetailsPage = new ContactDetailsPage();
-    const appealSiteAddressPage = new AppealSiteAddressPage();
-    const siteAreaPage = new SiteAreaPage();
-    const greenBeltPage = new GreenBeltPage();
-    const ownAllLandPage = new OwnAllLandPage();
-    const ownSomeLandPage = new OwnSomeLandPage();
-    const inspectorNeedAccessPage = new InspectorNeedAccessPage();
-    const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
-    const otherAppealsPage = new OtherAppealsPage();
+    // const basePage = new BasePage();
+    // const contactDetailsPage = new ContactDetailsPage();
+    // const appealSiteAddressPage = new AppealSiteAddressPage();
+    // const siteAreaPage = new SiteAreaPage();
+    // const greenBeltPage = new GreenBeltPage();
+    // const ownAllLandPage = new OwnAllLandPage();
+    // const ownSomeLandPage = new OwnSomeLandPage();
+    // const inspectorNeedAccessPage = new InspectorNeedAccessPage();
+    // const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+    // const otherAppealsPage = new OtherAppealsPage();
     const context = houseHolderAppealRefusedTestCases[0];
 
     let prepareAppealData;
@@ -413,17 +415,17 @@ describe('Returns to pre appels validations', () => {
 
 describe('House Holder Task Page Validations', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
-    const basePage = new BasePage();
-    const contactDetailsPage = new ContactDetailsPage();
-    const appealSiteAddressPage = new AppealSiteAddressPage();
-    const siteAreaPage = new SiteAreaPage();
-    const greenBeltPage = new GreenBeltPage();
-    const ownAllLandPage = new OwnAllLandPage();
-    const ownSomeLandPage = new OwnSomeLandPage();
-    const inspectorNeedAccessPage = new InspectorNeedAccessPage();
-    const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
-    const otherAppealsPage = new OtherAppealsPage();
-    const context = houseHolderAppealRefusedTestCases[0];
+    // const basePage = new BasePage();
+    // const contactDetailsPage = new ContactDetailsPage();
+    // const appealSiteAddressPage = new AppealSiteAddressPage();
+    // const siteAreaPage = new SiteAreaPage();
+    // const greenBeltPage = new GreenBeltPage();
+    // const ownAllLandPage = new OwnAllLandPage();
+    // const ownSomeLandPage = new OwnSomeLandPage();
+    // const inspectorNeedAccessPage = new InspectorNeedAccessPage();
+    // const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+    // const otherAppealsPage = new OtherAppealsPage();
+    // const context = houseHolderAppealRefusedTestCases[0];
 
     let prepareAppealData;
 

@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from '../base-page';
 import { TaskList } from './task-list';
 
@@ -148,7 +150,7 @@ export class AppealSiteAddress {
 		}
 	}
 
-	healthAndSafteyIssues() {
+	healthAndSafteyIssues(option) {
 		if (option === 'Yes') {
 			cy.url().should('include', 'health-safety-issues');
 			basePage.selectRadioBtn('yes');

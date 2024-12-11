@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 export class BasePage {
 	_selectors={
 		answerYes: "answer-yes",

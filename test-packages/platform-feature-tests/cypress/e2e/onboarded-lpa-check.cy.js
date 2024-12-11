@@ -1,10 +1,11 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
+
 import { BasePage } from '../page-objects/base-page';
-import { BeforeYouStart } from '../page-objects/before-you-start';
 import { EnterLpa } from '../page-objects/before-you-start/select-lpa';
 import { localPlanningAuthorities } from '../fixtures/lpas.json';
 
 const basePage = new BasePage();
-const beforeYouStart = new BeforeYouStart();
 const enterLpa = new EnterLpa();
 
 describe('Check access to appeals service for granted LPAs', () => {

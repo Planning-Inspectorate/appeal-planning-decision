@@ -1,3 +1,6 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
+
 import { fullAppealRefusedTestCases } from "../../helpers/fullAppeal/fullAppealRefusedData";
 const { submitAppealFlow } = require('../../support/flows/appeal');
 

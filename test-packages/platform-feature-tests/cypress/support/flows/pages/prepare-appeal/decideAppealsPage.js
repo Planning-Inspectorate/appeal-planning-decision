@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 export class DecideAppealsPage {
 
@@ -11,7 +13,7 @@ export class DecideAppealsPage {
         appellantpreferInquiryWitnesses: '#appellantPreferInquiryWitnesses'
     }
 
-    addDecideAppealsData(appellantProcedurePreference, context) {
+    addDecideAppealsData(appellantProcedurePreference) {
         const basePage = new BasePage();
 
         if (appellantProcedurePreference === 'written') {

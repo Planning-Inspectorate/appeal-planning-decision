@@ -1,3 +1,6 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
+
 import { BasePage } from './base-page';
 import { EnterLpa } from './before-you-start/select-lpa';
 import { TypeOfPlanning } from './before-you-start/type-of-planning';

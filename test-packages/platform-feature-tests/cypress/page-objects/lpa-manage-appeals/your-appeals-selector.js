@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 export class YourAppealsSelector {
 
     _selectors = {
