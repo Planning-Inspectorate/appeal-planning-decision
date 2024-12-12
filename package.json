@@ -24,6 +24,7 @@
 		"db:generate": "npm run generate --workspace @pins/database",
 		"db:seed": "npm run seed --workspace @pins/database",
 		"db:seed:prod": "npm run seed:prod --workspace @pins/database",
+		"documents:seed": "cd packages/document-service-api; npm run seed:dev",
 		"format": "prettier --write \"**/*.{js,ts,json,md}\"",
 		"lint": "run-s --continue-on-error --print-label lint:appeals-api lint:business-rules lint:common lint:documents-api lint:pdf-api lint:web lint:integration-functions",
 		"lint:appeals-api": "cd packages/appeals-service-api; eslint ./",
