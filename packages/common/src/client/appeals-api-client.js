@@ -11,6 +11,7 @@ const trailingSlashRegex = /\/$/;
 
 // Internal API types
 /**
+ * @typedef {import('appeals-service-api').Api.Appeal} Appeal
  * @typedef {import('appeals-service-api').Api.AppealCase} AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
@@ -77,6 +78,17 @@ class AppealsApiClient {
 		this.timeout = timeout;
 		/** @type {string} */
 		this.name = 'Appeals Service API';
+	}
+
+	/**
+	 * @param {string} appealId
+	 * @param {Partial<Appeal>} data
+	 * @returns {Promise<Appeal>}
+	 */
+	async patchAppealById(appealId, data) {
+		const endpoint = `${v2}/appeals/${appealId}`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
 	}
 
 	/**
