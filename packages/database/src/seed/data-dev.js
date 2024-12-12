@@ -760,7 +760,9 @@ const serviceUsers = [
 		serviceUserType: 'Appellant',
 		caseReference: caseReferences.caseReferenceTwo,
 		firstName: 'Appellant',
-		lastName: 'Two'
+		lastName: 'Two',
+		emailAddress: 'test2@example.com',
+		telephoneNumber: '21234567890'
 	},
 	{
 		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a83',
@@ -816,7 +818,9 @@ const serviceUsers = [
 		serviceUserType: 'Agent',
 		caseReference: caseReferences.caseReferenceOne,
 		firstName: 'Agent',
-		lastName: 'One'
+		lastName: 'One',
+		emailAddress: 'test@example.com',
+		telephoneNumber: '01234567890'
 	},
 	{
 		internalId: '1c543b78-0fd6-4e86-abc3-28bea670d3c9',

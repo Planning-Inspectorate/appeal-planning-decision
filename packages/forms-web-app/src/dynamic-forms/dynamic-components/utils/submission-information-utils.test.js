@@ -3,7 +3,11 @@ const {
 	formatQuestionnaireAppealInformationSection
 } = require('./submission-information-utils');
 const { getLPA, getLPAById } = require('../../../lib/appeals-api-wrapper');
-const { APPEALS_CASE_DATA, APPEAL_USER_ROLES } = require('@pins/common/src/constants');
+const {
+	APPEALS_CASE_DATA,
+	APPEAL_USER_ROLES,
+	LPA_USER_ROLE
+} = require('@pins/common/src/constants');
 
 jest.mock('../../../lib/appeals-api-wrapper');
 
@@ -118,7 +122,7 @@ describe('formatQuestionnaireAppealInformationSection', () => {
 					},
 					{
 						key: {
-							text: 'Applicant',
+							text: 'Appellant contact details',
 							classes: 'govuk-!-width-one-half'
 						},
 						value: {
@@ -138,6 +142,8 @@ describe('formatQuestionnaireAppealInformationSection', () => {
 			}
 		};
 
-		expect(formatQuestionnaireAppealInformationSection(appeal)).toEqual(expectedResult);
+		expect(formatQuestionnaireAppealInformationSection(appeal, LPA_USER_ROLE)).toEqual(
+			expectedResult
+		);
 	});
 });

@@ -24,20 +24,6 @@ exports.formatContactDetails = (caseData) => {
 };
 
 /**
- * @param {import("../client/appeals-api-client").AppealCaseDetailed} caseData
- * @returns {string}
- */
-exports.formatApplicantDetails = (caseData) => {
-	const contact = caseData.users?.find((x) => {
-		x.role === APPEAL_USER_ROLES.APPELLANT;
-	});
-
-	if (!contact) return '';
-
-	return formatUserDetails(contact);
-};
-
-/**
  * @param {import('appeals-service-api').Api.ServiceUser} [contact]
  * @returns {string}
  */
