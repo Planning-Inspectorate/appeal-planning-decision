@@ -116,7 +116,7 @@ class UserAppealsRepository {
 			});
 		} catch (e) {
 			if (e instanceof PrismaClientKnownRequestError) {
-				if (e.code === 'P2023') {
+				if (e.code === 'P2023' || e.code === 'P2025') {
 					// probably an invalid ID/GUID
 					return null;
 				}

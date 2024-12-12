@@ -10,10 +10,16 @@ exports.patch = async (req, res) => {
 	if (!appealId) {
 		throw ApiError.badRequest({ errors: ['Appeal id is required'] });
 	}
+	try {
+		const data = req.body;
+		const appeal = await patch({ appealId, data });
 
-	const data = req.body;
+		if (!appeal) {
+			res.status(404).send({ error: 'Appeal not found' });
+		}
 
-	const appeal = await patch({ appealId, data });
-
-	res.send(appeal);
+		res.send(appeal);
+	} catch (error) {
+		res.status(500).send({ error: 'Internal server error' });
+	}
 };
