@@ -394,7 +394,10 @@ exports.lpaQuestionnaireSubmissionInformation = async (req, res) => {
 
 	const summaryListData = buildSummaryListData(journey, journeyResponse);
 	const submissionDate = formatDateForDisplay(new Date(), { format: 'd MMMM yyyy' });
-	const appealInformationSection = formatQuestionnaireAppealInformationSection(appealData);
+	const appealInformationSection = formatQuestionnaireAppealInformationSection(
+		appealData,
+		LPA_USER_ROLE
+	);
 	summaryListData.sections.unshift(appealInformationSection);
 
 	const informationPageType = 'Questionnaire';

@@ -491,7 +491,7 @@ const sendLPAHASQuestionnaireSubmittedEmailV2 = async (
 	const lpaName = lpa.getName();
 
 	const formattedAddress = formatAddress(appealCase);
-	const formattedDate = format(caseStartedDate, 'dd MMMM yyyy');
+	const formattedDate = caseStartedDate ? format(caseStartedDate, 'dd MMMM yyyy') : '';
 
 	const url = `${config.apps.appeals.baseUrl}/lpa-questionnaire-document/${caseReference}`;
 

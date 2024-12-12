@@ -13,13 +13,13 @@ const { caseTypeNameWithDefault } = require('../lib/format-case-type');
 /**
  * @param {AppealCaseDetailed} caseData
  * @param {string} lpaName
- * @param {AppealToUserRoles|LpaUserRole|null} userType
+ * @param {AppealToUserRoles|LpaUserRole|null} role
  */
-const formatHeadlineData = (caseData, lpaName, userType = APPEAL_USER_ROLES.INTERESTED_PARTY) => {
+const formatHeadlineData = (caseData, lpaName, role = APPEAL_USER_ROLES.INTERESTED_PARTY) => {
 	const { caseReference, appealTypeCode, caseProcedure, users, applicationReference } = caseData;
 
 	const address = formatAddress(caseData);
-	const applicant = formatApplicant(users);
+	const applicant = formatApplicant(users, role);
 
 	const headlines = [
 		{
@@ -40,8 +40,8 @@ const formatHeadlineData = (caseData, lpaName, userType = APPEAL_USER_ROLES.INTE
 			value: { text: address }
 		},
 		{
-			key: { text: 'Applicant' },
-			value: { text: applicant }
+			key: applicant.key,
+			value: applicant.value
 		},
 		{
 			key: { text: 'Local planning authority' },
@@ -53,7 +53,7 @@ const formatHeadlineData = (caseData, lpaName, userType = APPEAL_USER_ROLES.INTE
 		}
 	];
 
-	if (userType === APPEAL_USER_ROLES.INTERESTED_PARTY) {
+	if (role === APPEAL_USER_ROLES.INTERESTED_PARTY) {
 		headlines.unshift({
 			key: { text: 'Appeal reference' },
 			value: { text: caseReference }

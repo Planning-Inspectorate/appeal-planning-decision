@@ -67,14 +67,15 @@ exports.formatBeforeYouStartSection = async (appellantSubmission) => {
 /**
  *
  * @param {import('appeals-service-api').Api.AppealCaseDetailed} appeal
+ * @param {import('@pins/common/src/constants').LpaUserRole|null}role
  * @returns
  */
 
-exports.formatQuestionnaireAppealInformationSection = (appeal) => {
+exports.formatQuestionnaireAppealInformationSection = (appeal, role) => {
 	const { appealTypeCode } = appeal;
 	const appealType = typeCodeToSubmissionInformationString[appealTypeCode];
 	const address = formatAddress(appeal);
-	const applicantName = formatApplicant(appeal.users);
+	const applicant = formatApplicant(appeal.users, role);
 
 	return {
 		list: {
@@ -99,12 +100,10 @@ exports.formatQuestionnaireAppealInformationSection = (appeal) => {
 				},
 				{
 					key: {
-						text: 'Applicant',
+						...applicant.key,
 						classes: 'govuk-!-width-one-half'
 					},
-					value: {
-						html: applicantName
-					}
+					value: applicant.value
 				},
 				{
 					key: {
