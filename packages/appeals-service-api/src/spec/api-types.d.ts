@@ -597,6 +597,19 @@ export interface AppealUser {
 	Rule6StatementSubmission?: object[];
 }
 
+/** A v2 appeal */
+export interface Appeal {
+	/**
+	 * appeal ID
+	 * @format uuid
+	 */
+	id: string;
+	legacyAppealSubmissionId?: string | null;
+	/** @format date-time */
+	legacyAppealSubmissionDecisionDate?: string | null;
+	legacyAppealSubmissionState?: string | null;
+}
+
 /** A final comment submitted by an appellant */
 export interface AppellantFinalCommentSubmission {
 	/** @format uuid */

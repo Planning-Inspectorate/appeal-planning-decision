@@ -1,0 +1,22 @@
+components:
+  schemas:
+    Appeal:
+      description: A v2 appeal
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: appeal ID
+        legacyAppealSubmissionId:
+          type: string
+          nullable: true
+        legacyAppealSubmissionDecisionDate:
+          type: string
+          format: date-time
+          nullable: true
+        legacyAppealSubmissionState:
+          type: string
+          nullable: true
