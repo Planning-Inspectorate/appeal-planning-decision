@@ -25,6 +25,7 @@ class RepresentationsRepository {
 					caseReference
 				},
 				select: {
+					caseReference: true,
 					LPACode: true,
 					applicationReference: true,
 					caseProcedure: true,
@@ -69,6 +70,7 @@ class RepresentationsRepository {
 				select: {
 					LPACode: true,
 					applicationReference: true,
+					caseReference: true,
 					caseProcedure: true,
 					appealTypeCode: true,
 					siteAddressLine1: true,
