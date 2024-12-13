@@ -23,7 +23,7 @@
 			{% endif %}
 
             <span class="govuk-caption-xl">Appeal {{appeal.appealNumber}}</span>
-			<h1 class="govuk-heading-xl">{{statementHeading}}</h1>
+			<h1 class="govuk-heading-xl">{{heading}}</h1>
 
 			{{ govukSummaryList({
 				classes: "appeal-headlines govuk-summary-list--no-border",
@@ -31,8 +31,8 @@
 			}) }}
 
 			<hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
-			{% for statement in appeal.formattedStatement %}
-                {{renderComment(statement.value, loop.index, "Statement text") }}
+			{% for representation in appeal.representations %}
+                {{renderComment(representation.value, loop.index, "Statement text") }}
             {% endfor %}
 		</div>
 	</div>

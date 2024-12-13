@@ -139,7 +139,38 @@ const formatProofsOfEvidenceHeading = (userType, submittingParty) => {
 	// }
 };
 
+/**
+ * @param {Representation[]} representations
+ */
+const formatRepresentations = (representations) => {
+	representations.sort((a, b) => new Date(a.dateReceived) - new Date(b.dateReceived));
+
+	const formattedRepresentations = representations.map((representation, index) => {
+		const fullText = representation.redacted
+			? representation.redactedRepresentation
+			: representation.originalRepresentation;
+		const truncated = fullText.length > 150;
+		const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
+
+		const documents = representation.RepresentationDocuments?.map(
+			(representationDocument) => representationDocument.documentId
+		);
+		return {
+			key: { text: `Test it now ${index + 1}` },
+			value: {
+				text: fullText,
+				truncatedText: truncatedText,
+				truncated: truncated,
+				documents
+			}
+		};
+	});
+
+	return formattedRepresentations;
+};
+
 module.exports = {
 	filterRepresentationsBySubmittingParty,
-	formatRepresentationHeading
+	formatRepresentationHeading,
+	formatRepresentations
 };
