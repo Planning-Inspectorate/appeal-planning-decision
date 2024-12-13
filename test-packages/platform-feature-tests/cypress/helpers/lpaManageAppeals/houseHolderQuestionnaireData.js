@@ -561,6 +561,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
