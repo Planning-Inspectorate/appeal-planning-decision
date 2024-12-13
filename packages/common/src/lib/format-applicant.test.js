@@ -107,5 +107,21 @@ describe('format-applicant', () => {
 				}
 			});
 		});
+		it('filters non-existant values when generating html value', () => {
+			const users = [
+				{
+					firstName: 'fname',
+					lastName: 'lname',
+					emailAddress: 'test@example.com',
+					serviceUserType: APPEAL_USER_ROLES.APPELLANT
+				}
+			];
+			expect(formatApplicant(users, LPA_USER_ROLE)).toEqual({
+				key: { text: 'Appellant contact details' },
+				value: {
+					html: 'fname lname<br>test@example.com'
+				}
+			});
+		});
 	});
 });

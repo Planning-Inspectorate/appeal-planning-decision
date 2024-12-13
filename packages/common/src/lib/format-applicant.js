@@ -52,10 +52,12 @@ const formatApplicant = (users, userType = APPEAL_USER_ROLES.INTERESTED_PARTY) =
  * @returns {string}
  */
 const formatContactDetails = (user) => {
-	const name = escape(`${user?.firstName} ${user?.lastName}`);
-	const email = escape(user?.emailAddress);
-	const telephone = escape(user?.telephoneNumber);
-	return [name, email, telephone].filter(Boolean).join('<br>');
+	const contactDetailLines = [
+		`${user?.firstName} ${user?.lastName}`,
+		user?.emailAddress,
+		user?.telephoneNumber
+	].filter(Boolean);
+	return contactDetailLines.map((item) => escape(item)).join('<br>');
 };
 
 module.exports = {
