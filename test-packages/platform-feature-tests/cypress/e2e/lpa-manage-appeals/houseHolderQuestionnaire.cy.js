@@ -1,7 +1,7 @@
 // @ts-nocheck
 /// <reference types="cypress"/>
 import { houseHolderQuestionnaireTestCases } from "../../helpers/lpaManageAppeals/houseHolderQuestionnaireData";
-const { lpaQuestionnaire } = require('../../support/flows/sections/lpaManageAppeals/houseHolderQuestionnaire');
+const { householderQuestionnaire } = require('../../support/flows/sections/lpaManageAppeals/houseHolderQuestionnaire');
 const { YourAppealsSelector } = require("../../page-objects/lpa-manage-appeals/your-appeals-selector");
 
 describe('House Holder Questionnaire Test Cases', () => {
@@ -43,7 +43,7 @@ describe('House Holder Questionnaire Test Cases', () => {
             - User selects nearby appeals${context.appealProcess?.isNearbyAppeals}
             - User selects new conditions${context.appealProcess?.isNewConditions}          
              `, () => {
-                        lpaQuestionnaire(context, lpaManageAppealsData);
+                householderQuestionnaire(context, lpaManageAppealsData);
                 });
         });
 });

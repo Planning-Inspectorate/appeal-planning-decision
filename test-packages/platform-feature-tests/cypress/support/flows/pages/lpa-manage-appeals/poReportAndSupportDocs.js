@@ -11,24 +11,21 @@ export class PoReportAndSupportDocs {
         infrastructureLevyExpectedDateDay: '#infrastructureLevyExpectedDate_day',
         infrastructureLevyExpectedDateMonth: '#infrastructureLevyExpectedDate_month',
         infrastructureLevyExpectedDateYear: '#infrastructureLevyExpectedDate_year'
-
-
-
     }
-    selectPOReportAndSupportDocsHas() {        
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+    selectPOReportAndSupportDocsHas(context) {        
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPlansDrawings);
         cy.advanceToNextPage();
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadDevelopmentPlanPolicies);
         cy.advanceToNextPage();
     };
-    selectPOReportAndSupportDocsS78() {       
+    selectPOReportAndSupportDocsS78(context) {       
         //Upload the planning officer’s report or what your decision notice would have said
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadPoReportDecisionNotice);
         cy.advanceToNextPage();
         //Upload relevant policies from your statutory development plan
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadDevelopmentPlanPolicies);
         cy.advanceToNextPage();
     };
     selectEmergingPlansHas(context) {
@@ -36,7 +33,7 @@ export class PoReportAndSupportDocs {
         if (context?.poReportAndSupportDocs?.isEmergingPlan) {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
-            cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEmergingPlan);
             cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
@@ -50,14 +47,14 @@ export class PoReportAndSupportDocs {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
             //Upload the emerging plan and supporting information
-            cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadEmergingPlan);
             cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
             cy.advanceToNextPage();
         }
         //Upload any other relevant policies
-        cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+        cy.uploadFileFromFixtureDirectories(context?.documents?.uploadOtherPolicies);
         cy.advanceToNextPage();
     };
     selectSupplementaryPlanningDocs(context) {
@@ -66,7 +63,7 @@ export class PoReportAndSupportDocs {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
             //Upload relevant policy extracts and supplementary planning documents
-            cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadSupplementaryPlanningDocs);
             cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
@@ -79,7 +76,7 @@ export class PoReportAndSupportDocs {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
             //Upload your community infrastructure levy
-            cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadCommunityInfrastructureLevy)
             cy.advanceToNextPage();
             this.selectCommunityInfraLevyAdopted(context);
         } else {
