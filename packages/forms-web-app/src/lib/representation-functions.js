@@ -3,10 +3,12 @@ const {
 	APPEAL_USER_ROLES,
 	REPRESENTATION_TYPES
 } = require('@pins/common/src/constants');
+const escape = require('escape-html');
 
 /**
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.Representation} Representation
+ * @typedef {import('appeals-service-api').Api.RepresentationDocument} RepresentationDocument
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
  * @typedef {import('@pins/common/src/constants').LpaUserRole} LpaUserRole
  * @typedef {import('@pins/common/src/constants').RepresentationTypes} RepresentationTypes
@@ -152,9 +154,7 @@ const formatRepresentations = (representations) => {
 		const truncated = fullText.length > 150;
 		const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
 
-		const documents = representation.RepresentationDocuments?.map(
-			(representationDocument) => representationDocument.documentId
-		);
+		const documents = formatRepresentationDocumentsLinks(representation.RepresentationDocuments);
 		return {
 			key: { text: `Test it now ${index + 1}` },
 			value: {
@@ -167,6 +167,30 @@ const formatRepresentations = (representations) => {
 	});
 
 	return formattedRepresentations;
+};
+
+/**
+ * @param {RepresentationDocument[]} representationDocuments
+ */
+const formatRepresentationDocumentsLinks = (representationDocuments) => {
+	const documents = representationDocuments.map(
+		(representationDocument) => representationDocument.Document
+	);
+	return documents.length > 0 ? documents.map(formatDocumentLink).join('\n') : 'No';
+};
+
+/**
+ * @param {import('appeals-service-api').Api.Document} document
+ * @returns {string}
+ */
+const formatDocumentLink = (document) => {
+	if (document.redacted) {
+		return `<a href="/published-document/${document.id}" class="govuk-link">${escape(
+			document.filename
+		)}</a>`;
+	}
+
+	return escape(document.filename) + ' - awaiting review';
 };
 
 module.exports = {
