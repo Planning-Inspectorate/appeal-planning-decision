@@ -90,5 +90,22 @@ describe('format-applicant', () => {
 				value: { html: 'Firstname2 Lastname2<br>test@example.com<br>123456' }
 			});
 		});
+		it('escapes user inputs when generating html value', () => {
+			const users = [
+				{
+					firstName: "'<em>ily'",
+					lastName: '<br>own',
+					emailAddress: '"test@example.com',
+					telephoneNumber: '&123456',
+					serviceUserType: APPEAL_USER_ROLES.APPELLANT
+				}
+			];
+			expect(formatApplicant(users, LPA_USER_ROLE)).toEqual({
+				key: { text: 'Appellant contact details' },
+				value: {
+					html: '&#39;&lt;em&gt;ily&#39; &lt;br&gt;own<br>&quot;test@example.com<br>&amp;123456'
+				}
+			});
+		});
 	});
 });
