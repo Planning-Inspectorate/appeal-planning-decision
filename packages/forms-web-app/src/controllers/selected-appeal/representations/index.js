@@ -5,7 +5,8 @@ const { getDepartmentFromCode } = require('../../../services/department.service'
 const { REPRESENTATION_TYPES } = require('@pins/common/src/constants');
 const {
 	filterRepresentationsBySubmittingParty,
-	formatRepresentationHeading
+	formatRepresentationHeading,
+	formatRepresentations
 } = require('../../../lib/representation-functions');
 
 /**
@@ -44,13 +45,23 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			representationType
 		);
 
+		console.log('wowow');
+		console.log(caseData);
+
 		const representationsForDisplay =
 			representationType == REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
 				? caseData.Representations
 				: filterRepresentationsBySubmittingParty(caseData, submittingParty);
 
+		console.log('eek');
+		console.log(representationsForDisplay);
+
 		const lpa = await getDepartmentFromCode(caseData.LPACode);
 		const headlineData = formatHeadlineData(caseData, lpa.name, userType);
+
+		const formattedRepresentations = formatRepresentations(representationsForDisplay);
+		console.log('nononono');
+		console.log(formattedRepresentations);
 
 		const viewContext = {
 			layoutTemplate,
@@ -60,7 +71,7 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 			appeal: {
 				appealNumber,
 				headlineData,
-				representations: representationsForDisplay
+				representations: formattedRepresentations
 			}
 		};
 

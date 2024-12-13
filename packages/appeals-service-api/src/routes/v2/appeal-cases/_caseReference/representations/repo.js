@@ -37,7 +37,11 @@ class RepresentationsRepository {
 					siteAddressPostcode: true,
 					Representations: {
 						include: {
-							RepresentationDocuments: true
+							RepresentationDocuments: {
+								include: {
+									Document: true
+								}
+							}
 						}
 					}
 				}
@@ -83,7 +87,11 @@ class RepresentationsRepository {
 							representationType: type
 						},
 						include: {
-							RepresentationDocuments: true
+							RepresentationDocuments: {
+								include: {
+									Document: true
+								}
+							}
 						}
 					}
 				}
