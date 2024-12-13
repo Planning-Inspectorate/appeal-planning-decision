@@ -1,3 +1,5 @@
+const escape = require('escape-html');
+
 /**
  * @typedef {import("appeals-service-api").Api.ServiceUser} ServiceUser
  * @typedef {import('@pins/common/src/constants').AppealToUserRoles} AppealToUserRoles
@@ -50,9 +52,10 @@ const formatApplicant = (users, userType = APPEAL_USER_ROLES.INTERESTED_PARTY) =
  * @returns {string}
  */
 const formatContactDetails = (user) => {
-	return [`${user?.firstName} ${user?.lastName}`, user?.emailAddress, user?.telephoneNumber]
-		.filter(Boolean)
-		.join('<br>');
+	const name = escape(`${user?.firstName} ${user?.lastName}`);
+	const email = escape(user?.emailAddress);
+	const telephone = escape(user?.telephoneNumber);
+	return [name, email, telephone].filter(Boolean).join('<br>');
 };
 
 module.exports = {
