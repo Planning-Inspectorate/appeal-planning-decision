@@ -10,7 +10,7 @@ import { NotifyParties } from "../../pages/lpa-manage-appeals/notifyParties";
 import { PoReportAndSupportDocs } from "../../pages/lpa-manage-appeals/poReportAndSupportDocs";
 import { SiteAccess } from "../../pages/lpa-manage-appeals/siteAccess";
 
-export const lpaQuestionnaire = (context, lpaManageAppealsData) => {
+export const householderQuestionnaire = (context, lpaManageAppealsData) => {
 	const basePage = new BasePage();
 	const constraintsAndDesignations = new ConstraintsAndDesignations();
 	const consultResponseAndRepresent = new ConsultResponseAndRepresent();
@@ -67,7 +67,7 @@ export const lpaQuestionnaire = (context, lpaManageAppealsData) => {
 		notifyParties.selectAndNotifyParties(context, lpaManageAppealsData);
 		consultResponseAndRepresent.selectOtherPartyRepresentations(context);
 		//Planning officer's report and supplementary documents
-		poReportAndSupportDocs.selectPOReportAndSupportDocsHas();
+		poReportAndSupportDocs.selectPOReportAndSupportDocsHas(context);
 		poReportAndSupportDocs.selectEmergingPlansHas(context);
 		poReportAndSupportDocs.selectSupplementaryPlanningDocs(context);
 
