@@ -5,6 +5,7 @@ const { APPEAL_USER_ROLES } = require('@pins/common/src/constants');
 /**
  * @typedef {import("@prisma/client").Prisma.AppealUserGetPayload<{include: {Appeals: {include: {Appeal: { include: {AppealCase: true }}}}}}>} UserWithAppeals
  * @typedef { 'Appellant' | 'Agent' | 'InterestedParty' | 'Rule6Party' } AppealToUserRoles
+ * @typedef {import("@prisma/client").Appeal} Appeal
  */
 
 class UserAppealsRepository {
@@ -91,6 +92,31 @@ class UserAppealsRepository {
 		} catch (e) {
 			if (e instanceof PrismaClientKnownRequestError) {
 				if (e.code === 'P2023') {
+					// probably an invalid ID/GUID
+					return null;
+				}
+			}
+			throw e;
+		}
+	}
+
+	/**
+	 * Update an appeal
+	 *
+	 * @param {{ appealId: string, data: Appeal }} params
+	 * @returns {Promise<Appeal|null>}
+	 */
+	async patch({ appealId, data }) {
+		try {
+			return await this.dbClient.appeal.update({
+				where: {
+					id: appealId
+				},
+				data: data
+			});
+		} catch (e) {
+			if (e instanceof PrismaClientKnownRequestError) {
+				if (e.code === 'P2023' || e.code === 'P2025') {
 					// probably an invalid ID/GUID
 					return null;
 				}

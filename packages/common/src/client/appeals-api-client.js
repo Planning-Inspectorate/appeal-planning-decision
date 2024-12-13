@@ -11,6 +11,7 @@ const trailingSlashRegex = /\/$/;
 
 // Internal API types
 /**
+ * @typedef {import('appeals-service-api').Api.Appeal} Appeal
  * @typedef {import('appeals-service-api').Api.AppealCase} AppealCase
  * @typedef {import('appeals-service-api').Api.AppealCaseDetailed} AppealCaseDetailed
  * @typedef {import('appeals-service-api').Api.AppealSubmission} AppealSubmission
@@ -52,6 +53,10 @@ const trailingSlashRegex = /\/$/;
  */
 
 /**
+ * @typedef { 'statement' | 'comment' | 'final_comment' | 'proofs_evidence' } RepresentationTypes
+ */
+
+/**
  * @class Api Client for v2 urls in appeals-service-api
  */
 class AppealsApiClient {
@@ -73,6 +78,17 @@ class AppealsApiClient {
 		this.timeout = timeout;
 		/** @type {string} */
 		this.name = 'Appeals Service API';
+	}
+
+	/**
+	 * @param {string} appealId
+	 * @param {Partial<Appeal>} data
+	 * @returns {Promise<Appeal>}
+	 */
+	async patchAppealById(appealId, data) {
+		const endpoint = `${v2}/appeals/${appealId}`;
+		const response = await this.#makePatchRequest(endpoint, data);
+		return response.json();
 	}
 
 	/**
@@ -457,6 +473,29 @@ class AppealsApiClient {
 	async deleteLPAStatementDocumentUpload(caseReference, documentId) {
 		const endpoint = `${v2}/appeal-cases/${caseReference}/lpa-statement-submission/document-upload/${documentId}`;
 		const response = await this.#makeDeleteRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @returns {Promise<AppealCase>}
+	 */
+	async getAppealCaseWithRepresentations(caseReference) {
+		const endpoint = `${v2}/appeal-cases/${caseReference}/representations`;
+		const response = await this.#makeGetRequest(endpoint);
+		return response.json();
+	}
+
+	/**
+	 * @param {string} caseReference
+	 * @param {RepresentationTypes} type
+	 * @returns {Promise<AppealCase>}
+	 */
+	async getAppealCaseWithRepresentationsByType(caseReference, type) {
+		const urlParams = new URLSearchParams();
+		urlParams.append('type', type);
+		const endpoint = `${v2}/appeal-cases/${caseReference}/representations?${urlParams.toString()}`;
+		const response = await this.#makeGetRequest(endpoint);
 		return response.json();
 	}
 

@@ -23,6 +23,29 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorBody'
+  /api/v2/appeals/{id}:
+    patch:
+      tags:
+        - appeals
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Appeal ID
+      description: Update an appeal
+      responses:
+        200:
+          description: Updated appeal
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Appeal'
+        400:
+          description: Bad request
+        404:
+          description: Appeal not found
 
 components:
   parameters:

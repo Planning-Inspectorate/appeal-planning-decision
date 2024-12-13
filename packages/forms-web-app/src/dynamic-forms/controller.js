@@ -457,6 +457,12 @@ exports.appellantStartAppeal = async (req, res) => {
 	await deleteAppeal(appeal.id);
 	req.session.appeal = null;
 
+	await req.appealsApiClient.patchAppealById(appeal.appealSqlId, {
+		legacyAppealSubmissionId: null,
+		legacyAppealSubmissionDecisionDate: null,
+		legacyAppealSubmissionState: null
+	});
+
 	return res.redirect(
 		`/appeals/${appealTypeDetails.taskListUrlStub}/appeal-form/your-appeal?id=${appealSubmission.id}`
 	);
