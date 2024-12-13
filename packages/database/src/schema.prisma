@@ -708,7 +708,7 @@ model ServiceUser {
   sourceSystem     String?
   sourceSuid       String?
 
-  /// one of "Applicant", "Appellant", "Agent", "RepresentationContact", "Subscriber"
+  /// one of "Applicant", "Appellant", "Agent", "RepresentationContact", "Subscriber", "Rule6Party", "InterestedParty"
   serviceUserType String
   /// case reference this user + user-type relates to
   caseReference   String

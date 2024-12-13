@@ -202,7 +202,8 @@ const VIEW = {
 		APPEAL_FINAL_COMMENTS: 'selected-appeal/final-comments-details',
 		APPEAL_IP_COMMENTS: 'selected-appeal/ip-comment-details',
 		APPEAL_STATEMENTS: 'selected-appeal/statements',
-		APPEAL_PLANNING_OBLIGATION: 'selected-appeal/planning-obligation'
+		APPEAL_PLANNING_OBLIGATION: 'selected-appeal/planning-obligation',
+		APPEAL_REPRESENTATIONS: 'selected-appeal/representations'
 	},
 
 	SUBMIT_APPEAL: {

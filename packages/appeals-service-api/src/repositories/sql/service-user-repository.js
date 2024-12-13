@@ -52,7 +52,8 @@ class ServiceUserRepository {
 			},
 			select: {
 				firstName: true,
-				lastName: true
+				lastName: true,
+				serviceUserType: true
 			}
 		});
 	}
@@ -78,7 +79,8 @@ class ServiceUserRepository {
 				emailAddress: true,
 				organisation: true,
 				telephoneNumber: true,
-				serviceUserType: true
+				serviceUserType: true,
+				id: true
 			}
 		});
 	}
