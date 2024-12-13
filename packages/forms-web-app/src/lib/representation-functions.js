@@ -156,7 +156,7 @@ const formatRepresentations = (representations) => {
 
 		const documents = formatRepresentationDocumentsLinks(representation.RepresentationDocuments);
 		return {
-			key: { text: `Test it now ${index + 1}` },
+			key: { text: `${representation.representationType} ${index + 1}` },
 			value: {
 				text: fullText,
 				truncatedText: truncatedText,
