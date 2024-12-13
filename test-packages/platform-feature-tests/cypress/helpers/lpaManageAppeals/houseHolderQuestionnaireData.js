@@ -5,7 +5,20 @@ const documents = {
     uploadDefinitiveMapStmt: 'definitive-map-stmt.pdf',
     uploadScreeningOpinion: 'screening-openion.pdf',
     uploadEnvironmentalStmt: 'environmental-statement.pdf',
-    uploadScreeningDirection: 'screening-direction.pdf'  
+    uploadScreeningDirection: 'screening-direction.pdf',
+    uploadNotifyParties: 'notify-parties.pdf',
+    uploadSiteNotice: 'site-notice.pdf',
+    uploadLettersEmailsToParties: 'letters-emails-to-parties.pdf',
+    uploadPressAdvertisement: 'press-advertisement.pdf',
+    uploadConsultationResponses: 'consultation-responses.pdf',
+    uploadRepresentations: 'representations.pdf',
+    uploadPoReportDecisionNotice: 'po-report-decision-notice.pdf',
+    uploadPlansDrawings: 'plans-drawings.pdf',
+    uploadDevelopmentPlanPolicies: 'development-plan-policies.pdf',
+    uploadEmergingPlan: 'emerging-plan.pdf',
+    uploadOtherPolicies: 'other-policies.pdf',
+    uploadSupplementaryPlanningDocs: 'supplementary-planning-docs.pdf',
+    uploadCommunityInfrastructureLevy: 'community-infrastructure-levy.pdf'  
 };
 export const houseHolderQuestionnaireTestCases = [
     {  
@@ -67,6 +80,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: false,
             isNewConditions: false,
         },
+        documents,
         submit:{}
     },
     {  
@@ -98,6 +112,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -129,6 +144,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -160,6 +176,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -191,6 +208,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -222,6 +240,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -253,6 +272,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -284,6 +304,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -315,6 +336,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -346,6 +368,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -377,6 +400,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -408,6 +432,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: true,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -439,6 +464,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: false,
             isNewConditions: true,
         },
+        documents,
         submit:{}
     },
     {  
@@ -470,6 +496,7 @@ export const houseHolderQuestionnaireTestCases = [
             isNearbyAppeals: false,
             isNewConditions: false,
         },
+        documents,
         submit:{}
     }
 ];
