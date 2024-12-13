@@ -26,7 +26,7 @@ export class ConsultResponseAndRepresent {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
             //Upload the consultation responses and standing advice	
-            cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadConsultationResponses);
             cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
@@ -40,7 +40,7 @@ export class ConsultResponseAndRepresent {
             cy.getByData(basePage?._selectors.answerYes).click();
             cy.advanceToNextPage();
             //Upload the representations		
-            cy.uploadFileFromFixtureDirectories('decision-letter.pdf');
+            cy.uploadFileFromFixtureDirectories(context?.documents?.uploadRepresentations);
             cy.advanceToNextPage();
         } else {
             cy.getByData(basePage?._selectors.answerNo).click();
