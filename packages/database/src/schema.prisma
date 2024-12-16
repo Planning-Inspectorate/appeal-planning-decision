@@ -956,7 +956,7 @@ model Rule6StatementSubmission {
   // state
   submitted Boolean @default(false) /// whether the lpa statement has been submitted to BO
 
-  rule6Statement                String?
+  rule6Statement                String?  @db.NVarChar(Max)
   rule6AdditionalDocuments      Boolean?
   uploadRule6StatementDocuments Boolean?
 

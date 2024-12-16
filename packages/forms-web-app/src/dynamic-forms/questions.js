@@ -2177,8 +2177,8 @@ exports.questionProps = {
 			new RequiredValidator('Enter your statement'),
 			new StringValidator({
 				maxLength: {
-					maxLength: appealFormV2.textInputMaxLength,
-					maxLengthMessage: `Your statement must be ${appealFormV2.textInputMaxLength} characters or less`
+					maxLength: appealFormV2.textAreaMaxLength,
+					maxLengthMessage: `Your statement must be ${appealFormV2.textAreaMaxLength} characters or less`
 				}
 			})
 		]
