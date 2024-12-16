@@ -53,6 +53,7 @@ components:
           type: boolean
         uploadRule6StatementDocuments:
           type: boolean
+          nullable: true
         SubmissionDocumentUpload:
           type: array
           items:

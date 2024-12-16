@@ -44,3 +44,4 @@ components:
           type: boolean
         uploadLpaStatementDocuments:
           type: boolean
+          nullable: true

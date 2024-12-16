@@ -52,6 +52,7 @@ components:
           type: boolean
         uploadAppellantFinalCommentDocuments:
           type: boolean
+          nullable: true
         SubmissionDocumentUpload:
           type: array
           items:
