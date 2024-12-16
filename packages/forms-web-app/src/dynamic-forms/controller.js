@@ -253,6 +253,11 @@ exports.save = async (req, res) => {
 	const { section, question } = req.params;
 	const { journey, journeyResponse } = res.locals;
 
+	console.log('journeyOIOIOI');
+	console.log(journey);
+	console.log('wakwakwak');
+	console.log(journeyResponse);
+
 	const sectionObj = journey.getSection(section);
 	const questionObj = journey.getQuestionBySectionAndName(section, question);
 
