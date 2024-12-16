@@ -1,4 +1,4 @@
-const { list, question, save, remove, submit } = require('./controller');
+const { list, question, save, remove, submit, lpaSubmitted } = require('./controller');
 const { getUserFromSession } = require('../services/user.service');
 const { Journey } = require('./journey');
 const { SECTION_STATUS } = require('./section');
@@ -505,6 +505,7 @@ describe('dynamic-form/controller', () => {
 			expect(sampleListAddMoreObj.renderAction).toHaveBeenCalledWith(res, expectedViewModel);
 		});
 	});
+
 	describe('submit', () => {
 		it('should submit if all sections are complete', async () => {
 			storePdfQuestionnaireSubmission.mockReturnValue({ submissionId: '1234', id: '5678' });
@@ -532,6 +533,50 @@ describe('dynamic-form/controller', () => {
 			expect(res.redirect).toHaveBeenCalledWith(
 				expect.stringMatching(/^\/manage-appeals\/.+\/questionnaire-submitted\/$/)
 			);
+		});
+	});
+
+	describe('lpaSubmitted', () => {
+		it('should 404 if journey is not complete', async () => {
+			const nestedMock = { render: jest.fn() };
+			res.status.mockReturnValue(nestedMock);
+			await lpaSubmitted(req, res);
+			expect(res.status).toHaveBeenCalledWith(400);
+			expect(nestedMock.render).toHaveBeenCalledWith('./error/not-found.njk');
+		});
+
+		it('should pass through correct pdf link', async () => {
+			res.locals.journey.isComplete = jest.fn();
+			res.locals.journey.isComplete.mockReturnValue(true);
+			req.originalUrl = 'https://test/manage-appeals/householder/100/questionnaire-submitted';
+			await lpaSubmitted(req, res);
+			expect(res.render).toHaveBeenCalledWith('./dynamic-components/submission-screen/lpa', {
+				zipDownloadUrl:
+					'https://test/manage-appeals/householder/100/download/submission/documents/lpa-questionnaire'
+			});
+
+			req.originalUrl = 'https://test/manage-appeals/householder/100/questionnaire-submitted/';
+			await lpaSubmitted(req, res);
+			expect(res.render).toHaveBeenCalledWith('./dynamic-components/submission-screen/lpa', {
+				zipDownloadUrl:
+					'https://test/manage-appeals/householder/100/download/submission/documents/lpa-questionnaire'
+			});
+
+			req.originalUrl =
+				'https://test/manage-appeals/householder/100/questionnaire-submitted?test=1';
+			await lpaSubmitted(req, res);
+			expect(res.render).toHaveBeenCalledWith('./dynamic-components/submission-screen/lpa', {
+				zipDownloadUrl:
+					'https://test/manage-appeals/householder/100/download/submission/documents/lpa-questionnaire'
+			});
+
+			req.originalUrl =
+				'https://test/manage-appeals/householder/100/questionnaire-submitted#in-page-link';
+			await lpaSubmitted(req, res);
+			expect(res.render).toHaveBeenCalledWith('./dynamic-components/submission-screen/lpa', {
+				zipDownloadUrl:
+					'https://test/manage-appeals/householder/100/download/submission/documents/lpa-questionnaire'
+			});
 		});
 	});
 });
