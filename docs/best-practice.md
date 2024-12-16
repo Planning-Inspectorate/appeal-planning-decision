@@ -26,7 +26,7 @@ Going forward we wish to keep our tests next to the code they are testing
 
 Write integration tests for all API endpoints
 
-They are not needed in forms-web-app or packages that are not run such as business-rules/common
+Integration tests are not needed in forms-web-app or packages that are not run such as business-rules/common
 
 Snapshot tests can be run for forms-web-app, if doing this ensure to use as little mocking as possible e.g. only mock calls to external services such as apis.
 
@@ -98,6 +98,8 @@ Ensure all api requests check for a token, and if necessary checks the user can 
 ## Feature Flags
 
 We have incorporated Azure feature flag functionality into the common package for use across the solution. Feature flags should be set up via terraform and can be configured (enabled/disabled/users set) via portal under the 'app configuration' section, where you can select your desired environment and find all available flags accordingly, flags can be used within the codebase by importing the `isFeatureActive` function from the FeatureFlag file in your current package, i.e;
+
+> Feature flags - terraform seems to have a bug with syntax when changing user targeting rules for feature flags, change them manually and update the terraform afterwards to avoid this
 
 ```
   const { isFeatureActive } = require('{{featureFlagFileLocation}}');
@@ -205,11 +207,11 @@ In Appeals FO we have multiple models or entities. Some comply with the PINS [da
 
 Submissions, such as appeal submissions, are authored in the Front Office by our users. We _submit_ them to the back office. This includes appeals, LPA questionnaires, and others. We own this data, and this data is only useful until it is submitted - once submitted we no longer show them to users, after that the back office version is the source of truth.
 
-> Note: currently appeal submissions are saved in Cosmos, and the collection is simply `appeals`. These will get migrated to SQL, and the model will likely be `AppealSubmission`
+> Note: currently V1 appeal submissions are saved in Cosmos in `appeals` and sent to the legacy Horizon service. V2 appeals are held in SQL `AppellantSubmission` and forwarded to Back Office. Both can be viewed in the appellant's dashboard but only V2 are progressed
 
 **Cases**
 
-Appeals start life in the front office as submissions, once received by the Back Office, it is an appeal case. We receive these from back office over service bus, and save them in the `AppealCase` table, along with associated data.
+Appeals start life in the front office as submissions, once received by the Back Office, they become appeal cases. We receive these from back office over service bus, and save them in the `AppealCase` table, along with associated data.
 
 ## API Spec
 
@@ -252,4 +254,4 @@ When updating the API spec, generate the corresponding types with:
 
 `packages/appeals-service-api> npm run gen-api-types`
 
-which will update `packages/appeals-service-api/src/spec/api-types.d.ts`
+which will update `packages/appeals-service-api/src/spec/api-types.d.ts`, as a result, do not update this file manually as changes will be lost following the next auto generation
