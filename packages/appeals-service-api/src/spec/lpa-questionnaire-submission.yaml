@@ -44,30 +44,39 @@ components:
           type: boolean
         uploadConservation:
           type: boolean
+          nullable: true
         greenBelt:
           type: boolean
         uploadWhoNotified:
           type: boolean
+          nullable: true
         uploadLettersEmails:
           type: boolean
+          nullable: true
         uploadPressAdvert:
           type: boolean
+          nullable: true
         consultationResponses:
           type: boolean
         uploadConsultationResponses:
           type: boolean
+          nullable: true
         notificationMethod:
           type: string
         uploadSiteNotice:
           type: boolean
+          nullable: true
         otherPartyRepresentations:
           type: boolean
         uploadRepresentations:
           type: boolean
+          nullable: true
         uploadPlanningOfficerReport:
           type: boolean
+          nullable: true
         uploadPlansDrawings:
           type: boolean
+          nullable: true
         lpaSiteAccess:
           type: boolean
         lpaSiteAccessDetails:
@@ -106,14 +115,18 @@ components:
           type: boolean
         uploadEmergingPlan:
           type: boolean
+          nullable: true
         uploadDevelopmentPlanPolicies:
           type: boolean
+          nullable: true
         uploadOtherPolicies:
           type: boolean
+          nullable: true
         infrastructureLevy:
           type: boolean
         uploadInfrastructureLevy:
           type: boolean
+          nullable: true
         infrastructureLevyAdopted:
           type: boolean
         infrastructureLevyAdoptedDate:
@@ -124,16 +137,20 @@ components:
           format: date-time
         uploadLettersInterestedParties:
           type: boolean
+          nullable: true
         treePreservationOrder:
           type: boolean
         uploadTreePreservationOrder:
           type: boolean
+          nullable: true
         uploadDefinitiveMapStatement:
           type: boolean
+          nullable: true
         supplementaryPlanningDocs:
           type: boolean
         uploadSupplementaryPlanningDocs:
           type: boolean
+          nullable: true
         affectsScheduledMonument:
           type: boolean
         gypsyTraveller:
@@ -160,6 +177,7 @@ components:
           type: string
         uploadEnvironmentalStatement:
           type: boolean
+          nullable: true
         columnTwoThreshold:
           type: boolean
         sensitiveArea:
@@ -168,8 +186,10 @@ components:
           type: string
         uploadScreeningOpinion:
           type: boolean
+          nullable: true
         uploadScreeningDirection:
           type: boolean
+          nullable: true
         developmentDescription:
           type: string
         requiresEnvironmentalStatement:

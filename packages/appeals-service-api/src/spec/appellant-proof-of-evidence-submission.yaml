@@ -48,10 +48,12 @@ components:
           description: whether the proof of evidence has been submitted to BO
         uploadAppellantProofOfEvidenceDocuments:
           type: boolean
+          nullable: true
         appellantWitnesses:
           type: boolean
         uploadAppellantWitnessesEvidence:
           type: boolean
+          nullable: true
         SubmissionDocumentUpload:
           type: array
           items:

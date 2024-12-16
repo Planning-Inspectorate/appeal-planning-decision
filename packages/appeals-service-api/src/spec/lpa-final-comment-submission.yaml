@@ -52,6 +52,7 @@ components:
           type: boolean
         uploadLPAFinalCommentDocuments:
           type: boolean
+          nullable: true
         SubmissionDocumentUpload:
           type: array
           items:
