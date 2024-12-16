@@ -41,7 +41,7 @@ const formatApplicant = (users, userType = APPEAL_USER_ROLES.INTERESTED_PARTY) =
 	if (appellant)
 		return {
 			key: { text: 'Applicant' },
-			value: { text: `${appellant.firstName} ${appellant.lastName}` }
+			value: { text: escape(`${appellant.firstName} ${appellant.lastName}`) }
 		};
 
 	return { key: { text: 'Applicant' }, value: { text: '' } };
