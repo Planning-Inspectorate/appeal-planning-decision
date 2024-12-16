@@ -32,6 +32,7 @@ async function getDataToSave(req, journeyResponse) {
 	// remove files from response
 	if (unparsedRemovedFiles) {
 		const removedFiles = JSON.parse(unparsedRemovedFiles);
+
 		const relevantUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
 
 		const failedRemovedFiles = await removeFilesV2(
@@ -41,6 +42,18 @@ async function getDataToSave(req, journeyResponse) {
 			`${journeyResponse.journeyId}:${encodedReferenceId}`,
 			removeDocuments(req.appealsApiClient, journeyResponse.journeyId)
 		);
+
+		const failedRemovedFileNames = failedRemovedFiles.map((x) => x.originalFileName);
+
+		const successfullyRemovedFileNames = removedFiles
+			.filter((removedFile) => !failedRemovedFileNames.includes(removedFile.name))
+			.map((x) => x.name);
+
+		const updatedSubmissionDocs = journeyResponse.answers.SubmissionDocumentUpload.filter(
+			(docUpload) => !successfullyRemovedFileNames.includes(docUpload.originalFileName)
+		);
+
+		journeyResponse.answers.SubmissionDocumentUpload = updatedSubmissionDocs;
 
 		// adds validation errors to be checked after
 		for (const { storageId, originalFileName } of failedRemovedFiles) {
@@ -245,6 +258,8 @@ async function saveAction(req, res, journey, section, journeyResponse) {
 
 	const { uploadedFiles } = await getDataToSave.call(this, req, journeyResponse);
 
+	const updatedUploadedFiles = this.getRelevantUploadedFiles(journeyResponse);
+
 	await Promise.all(
 		uploadedFiles.map((file) => {
 			if (!file) return;
@@ -262,7 +277,7 @@ async function saveAction(req, res, journey, section, journeyResponse) {
 			);
 		})
 	);
-	const allUploadedFiles = [...previouslyUploadedFiles, ...uploadedFiles].filter(Boolean);
+	const allUploadedFiles = [...updatedUploadedFiles, ...uploadedFiles].filter(Boolean);
 	const isQuestionAnswered = allUploadedFiles.length > 0;
 
 	const removedAllPreviousFiles = req.body.removedFiles?.length === previouslyUploadedFiles.length;
