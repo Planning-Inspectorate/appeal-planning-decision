@@ -671,7 +671,7 @@ model InterestedPartySubmission {
   county        String?
   postcode      String?
   emailAddress  String?
-  comments      String
+  comments      String     @db.NVarChar(Max)
   createdAt     DateTime   @default(now())
   AppealCase    AppealCase @relation(fields: [caseReference], references: [caseReference])
 }
