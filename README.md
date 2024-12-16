@@ -18,7 +18,7 @@ This repo is designed to provide a front end for various users involved in makin
 
 ## Appeals process
 
-- A member of public contacts the Planning Inspectorate to make an appeal a decision made by their Local Authority, they become an 'Appellant'
+- A member of public contacts the Planning Inspectorate to appeal against a decision made by their Local Planning Authority (also referred to as an LPA), they become an 'Appellant'
 - Someone may do this on behalf of an appellant and so become an 'Agent'
 - The Local Authority responds to this appeal
 - Members of the public can comment on the appeal as an 'Interested Party'
@@ -75,7 +75,7 @@ __Access once running__
 - The website runs locally on [http://localhost:9003/](http://localhost:9003/) (forms-web-app)
 - Use `12345` for any email confirmation codes locally
 - Any email address can be used to [Make an appeal](http://localhost:9003/) but `appellant1@planninginspectorate.gov.uk` has some seeded data
-- Use `admin1@planninginspectorate.gov.uk` on [/manage-appeals/your-email-address](http://localhost:9003/manage-appeals/your-email-address) to act as a Local planning authority (LPA)
+- Use `admin1@planninginspectorate.gov.uk` on [/manage-appeals/your-email-address](http://localhost:9003/manage-appeals/your-email-address) to act as a Local planning authority (LPA). `System Test Borough Council` is the LPA used locally and for testing
 - Use `r6-1@planninginspectorate.gov.uk` to act as a [/rule-6/email-address](http://localhost:9003/rule-6/email-address) on an appeal
 - You can search and comment on an existing appeal via [Comment on a planning appeal](http://localhost:9003/comment-planning-appeal/enter-postcode)
 

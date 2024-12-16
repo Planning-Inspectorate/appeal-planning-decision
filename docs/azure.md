@@ -40,7 +40,7 @@ Each resource should have public network turned off and instead provide a secure
 
 ## Alerts
 
-Alerts can be defined in terraform, they can target Alert Action Groups to email devs when an issue occurs. These emails unfortunately these need to be managed manually and cannot currently target Azure Entra groups
+Alerts can be defined in terraform, they can target Alert Action Groups to email devs when an issue occurs. These emails unfortunately need to be managed manually and cannot currently target Azure Entra groups. See Action Groups per environment: `pins-ag-odt-appeals-fo-tech-{environment-name}`
 
 ## Pipelines
 
