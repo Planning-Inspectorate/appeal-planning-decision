@@ -39,7 +39,7 @@ exports.sections = [
 				}
 			},
 			{
-				url: '/statement',
+				url: '/lpa-statement',
 				text: 'View local planning authority statement',
 				condition: (appealCase) => appealCase.lpaStatementPublished
 			},
