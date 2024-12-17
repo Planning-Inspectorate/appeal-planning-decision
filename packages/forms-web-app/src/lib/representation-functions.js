@@ -31,9 +31,7 @@ const filterRepresentationsBySubmittingParty = (caseData, submittingParty) => {
 
 	switch (submittingParty) {
 		case LPA_USER_ROLE:
-			return caseData.Representations.filter(
-				(representation) => representation.serviceUserId === null
-			);
+			return caseData.Representations.filter((representation) => !representation.serviceUserId);
 		case APPEAL_USER_ROLES.AGENT:
 		case APPEAL_USER_ROLES.APPELLANT:
 			return caseData.Representations.filter(
