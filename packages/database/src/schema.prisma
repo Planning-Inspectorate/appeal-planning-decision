@@ -1049,7 +1049,7 @@ model LPAFinalCommentSubmission {
   submitted Boolean @default(false) /// whether the final comment has been submitted to BO
 
   lpaFinalComment                Boolean?
-  lpaFinalCommentDetails         String?
+  lpaFinalCommentDetails         String?  @db.NVarChar(MAX)
   lpaFinalCommentDocuments       Boolean?
   uploadLPAFinalCommentDocuments Boolean?
 
