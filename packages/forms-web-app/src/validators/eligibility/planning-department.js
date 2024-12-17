@@ -1,3 +1,5 @@
+//todo: legacy validator - can probably be removed
+
 const { body } = require('express-validator');
 const { getDepartmentData } = require('../../services/department.service');
 

@@ -12,8 +12,7 @@ const {
 const { VIEW } = require('../../lib/views');
 
 exports.getPlanningDepartment = async (req, res) => {
-	const { departments, eligibleDepartments, ineligibleDepartments } =
-		await getRefreshedDepartmentData();
+	const { eligibleDepartments } = await getRefreshedDepartmentData();
 	const { appeal } = req.session;
 	let appealLPD = '';
 	if (appeal.lpaCode) {
@@ -26,9 +25,7 @@ exports.getPlanningDepartment = async (req, res) => {
 	res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
 		bannerHtmlOverride: config.betaBannerText,
 		appealLPD,
-		departments: departmentsToNunjucksItems(departments, appealLPD),
-		eligibleDepartments,
-		ineligibleDepartments
+		departments: departmentsToNunjucksItems(eligibleDepartments, appealLPD)
 	});
 };
 
@@ -36,24 +33,16 @@ exports.postPlanningDepartment = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
 	const { appeal } = req.session;
-	const { departments } = await getRefreshedDepartmentData();
+	const { eligibleDepartments } = await getRefreshedDepartmentData();
 
 	if (errors['local-planning-department']) {
-		const errorMessage = errors['local-planning-department'].msg;
-
-		if (errorMessage !== 'Ineligible Department') {
-			res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
-				bannerHtmlOverride: config.betaBannerText,
-				appealLPD: '',
-				departments: departmentsToNunjucksItems(departments),
-				errors,
-				errorSummary
-			});
-			return;
-		}
-
-		res.redirect(`/before-you-start/use-existing-service-local-planning-department`);
-		return;
+		return res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+			bannerHtmlOverride: config.betaBannerText,
+			appealLPD: '',
+			departments: departmentsToNunjucksItems(eligibleDepartments),
+			errors,
+			errorSummary
+		});
 	}
 
 	const lpaName = body['local-planning-department'];
@@ -65,17 +54,14 @@ exports.postPlanningDepartment = async (req, res) => {
 	} catch (e) {
 		logger.error(e);
 
-		res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
+		return res.render(VIEW.FULL_APPEAL.LOCAL_PLANNING_DEPARTMENT, {
 			bannerHtmlOverride: config.betaBannerText,
 			appeal,
-			departments: departmentsToNunjucksItems(departments, lpaName),
+			departments: departmentsToNunjucksItems(eligibleDepartments, lpaName),
 			errors,
 			errorSummary: [{ text: e.toString(), href: 'local-planning-department' }]
 		});
-		return;
 	}
 
-	res.redirect(`/before-you-start/type-of-planning-application`);
-	// eslint-disable-next-line no-useless-return
-	return;
+	return res.redirect(`/before-you-start/type-of-planning-application`);
 };

@@ -163,8 +163,6 @@ const VIEW = {
 		TYPE_OF_PLANNING_APPLICATION: 'full-appeal/type-of-planning-application',
 		USE_A_DIFFERENT_SERVICE: 'full-appeal/use-a-different-service',
 		USE_EXISTING_SERVICE_APPLICATION_TYPE: 'full-appeal/use-existing-service-application-type',
-		USE_EXISTING_SERVICE_LOCAL_PLANNING_DEPARTMENT:
-			'full-appeal/use-existing-service-local-planning-department',
 		VISIBLE_FROM_ROAD: 'full-appeal/submit-appeal/visible-from-road',
 		WHY_HEARING: 'full-appeal/submit-appeal/why-hearing',
 		WHY_INQUIRY: 'full-appeal/submit-appeal/why-inquiry',

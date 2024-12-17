@@ -31,9 +31,9 @@ describe('controllers/full-appeal/local-planning-department', () => {
 		res = mockRes();
 
 		departmentsData = {
-			departments: ['lpa1', 'lpa2'],
-			eligibleDepartments: ['lpa1'],
-			ineligibleDepartments: ['lpa2']
+			departments: ['lpa1', 'lpa2', 'lpa3', 'lpa4'],
+			eligibleDepartments: ['lpa1', 'lpa2'],
+			ineligibleDepartments: ['lpa3', 'lpa4']
 		};
 
 		departmentList = [
@@ -58,140 +58,116 @@ describe('controllers/full-appeal/local-planning-department', () => {
 	});
 
 	describe('Local Planning Department Controller Tests', () => {
-		it('Test the getPlanningDepartment method calls the correct template', async () => {
-			getRefreshedDepartmentData.mockResolvedValue(departmentsData);
+		describe('getPlanningDepartment', () => {
+			it('calls the correct template - appeal lpa code empty string', async () => {
+				getRefreshedDepartmentData.mockResolvedValue(departmentsData);
 
-			appeal.lpaCode = '';
-			await getPlanningDepartment(req, res);
+				appeal.lpaCode = '';
+				await getPlanningDepartment(req, res);
 
-			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
+				expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
+					bannerHtmlOverride: config.betaBannerText,
+					appealLPD: '',
+					departments: departmentList
+				});
+			});
 
-			expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
-				bannerHtmlOverride: config.betaBannerText,
-				appealLPD: '',
-				departments: departmentList,
-				eligibleDepartments,
-				ineligibleDepartments
+			it('calls the correct template - appeal lpa code unknown', async () => {
+				getRefreshedDepartmentData.mockResolvedValue(departmentsData);
+				getDepartmentFromId.mockResolvedValue(undefined);
+
+				appeal.lpaCode = 'unknown';
+				await getPlanningDepartment(req, res);
+
+				expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
+					bannerHtmlOverride: config.betaBannerText,
+					appealLPD: '',
+					departments: departmentList
+				});
+			});
+
+			it('calls the correct template - existing LPA code', async () => {
+				getRefreshedDepartmentData.mockResolvedValue(departmentsData);
+				getDepartmentFromId.mockResolvedValue({ name: 'lpdName' });
+
+				appeal.lpaCode = 'lpdCode';
+				await getPlanningDepartment(req, res);
+
+				expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
+					bannerHtmlOverride: config.betaBannerText,
+					appealLPD: 'lpdName',
+					departments: departmentList
+				});
 			});
 		});
+		describe('postPlanningDepartment', () => {
+			it('updates appeal when request body valid and redirects correctly', async () => {
+				getRefreshedDepartmentData.mockResolvedValue(departmentsData);
+				getDepartmentFromName.mockResolvedValue({ id: 'lpaCode1', name: 'lpa1' });
 
-		it('Test the getPlanningDepartment method calls the correct template', async () => {
-			getRefreshedDepartmentData.mockResolvedValue(departmentsData);
-			getDepartmentFromId.mockResolvedValue(undefined);
+				const mockRequest = {
+					...req,
+					body: { 'local-planning-department': 'lpa1' }
+				};
 
-			appeal.lpaCode = 'unknown';
-			await getPlanningDepartment(req, res);
+				await postPlanningDepartment(mockRequest, res);
 
-			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
-
-			expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
-				bannerHtmlOverride: config.betaBannerText,
-				appealLPD: '',
-				departments: departmentList,
-				eligibleDepartments,
-				ineligibleDepartments
+				expect(createOrUpdateAppeal).toHaveBeenCalledWith({
+					...appeal,
+					lpaCode: 'lpaCode1'
+				});
+				expect(res.redirect).toHaveBeenCalledWith('/before-you-start/type-of-planning-application');
 			});
-		});
 
-		it('Test the getPlanningDepartment method with existing LPD calls the correct template', async () => {
-			getRefreshedDepartmentData.mockResolvedValue(departmentsData);
-			getDepartmentFromId.mockResolvedValue({ name: 'lpdName' });
+			it('re-renders page with error when errors in request body', async () => {
+				getRefreshedDepartmentData.mockResolvedValue(departmentsData);
 
-			appeal.lpaCode = 'lpdCode';
-			await getPlanningDepartment(req, res);
+				const mockRequest = {
+					...req,
+					body: { errors: { 'local-planning-department': { msg: 'Invalid Value' } } }
+				};
 
-			const { eligibleDepartments, ineligibleDepartments } = departmentsData;
+				await postPlanningDepartment(mockRequest, res);
 
-			expect(res.render).toBeCalledWith(LOCAL_PLANNING_DEPARTMENT, {
-				bannerHtmlOverride: config.betaBannerText,
-				appealLPD: 'lpdName',
-				departments: departmentList,
-				eligibleDepartments,
-				ineligibleDepartments
+				expect(res.redirect).not.toHaveBeenCalled();
+				expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_DEPARTMENT, {
+					bannerHtmlOverride: config.betaBannerText,
+					appealLPD: '',
+					departments: departmentList,
+					errors: { 'local-planning-department': { msg: 'Invalid Value' } },
+					errorSummary: []
+				});
 			});
-		});
 
-		it('Test the postPlanningDepartment method call with handled department', async () => {
-			getRefreshedDepartmentData.mockResolvedValue(departmentsData);
-			getDepartmentFromName.mockResolvedValue({ id: 'lpaCode1', name: 'lpa1' });
+			it('logs an error if the api call fails, and remains on the same page', async () => {
+				const error = new Error('API is down');
+				createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
+				getRefreshedDepartmentData.mockResolvedValue(departmentsData);
+				getDepartmentFromName.mockResolvedValue({ id: 'lpaCode1', name: 'lpa1' });
 
-			const mockRequest = {
-				...req,
-				body: { 'local-planning-department': 'lpa1' }
-			};
+				const mockRequest = {
+					...req,
+					body: { 'local-planning-department': 'lpa1' }
+				};
+				await postPlanningDepartment(mockRequest, res);
+				expect(res.redirect).not.toHaveBeenCalled();
 
-			await postPlanningDepartment(mockRequest, res);
+				expect(logger.error).toHaveBeenCalledWith(error);
 
-			expect(createOrUpdateAppeal).toHaveBeenCalledWith({
-				...appeal,
-				lpaCode: 'lpaCode1'
-			});
-		});
-
-		it('Test the getPlanningDepartment method call with ineligible department', async () => {
-			getRefreshedDepartmentData.mockResolvedValue(departmentsData);
-			getDepartmentFromName.mockResolvedValue({ id: 'lpaCode1', name: 'lpa1' });
-
-			const mockRequest = {
-				...req,
-				body: { errors: { 'local-planning-department': { msg: 'Ineligible Department' } } }
-			};
-
-			await postPlanningDepartment(mockRequest, res);
-
-			expect(res.redirect).toHaveBeenCalledWith(
-				'/before-you-start/use-existing-service-local-planning-department'
-			);
-		});
-
-		it('Test the postPlanningDepartment method call on error', async () => {
-			getRefreshedDepartmentData.mockResolvedValue(departmentsData);
-
-			const mockRequest = {
-				...req,
-				body: { errors: { 'local-planning-department': { msg: 'Invalid Value' } } }
-			};
-
-			await postPlanningDepartment(mockRequest, res);
-
-			expect(res.redirect).not.toHaveBeenCalled();
-			expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_DEPARTMENT, {
-				bannerHtmlOverride: config.betaBannerText,
-				appealLPD: '',
-				departments: departmentList,
-				errors: { 'local-planning-department': { msg: 'Invalid Value' } },
-				errorSummary: []
-			});
-		});
-
-		it('should log an error if the api call fails, and remain on the same page', async () => {
-			const error = new Error('API is down');
-			createOrUpdateAppeal.mockImplementation(() => Promise.reject(error));
-			getRefreshedDepartmentData.mockResolvedValue(departmentsData);
-			getDepartmentFromName.mockResolvedValue({ id: 'lpaCode1', name: 'lpa1' });
-
-			const mockRequest = {
-				...req,
-				body: { 'local-planning-department': 'lpa1' }
-			};
-			await postPlanningDepartment(mockRequest, res);
-			expect(res.redirect).not.toHaveBeenCalled();
-
-			expect(logger.error).toHaveBeenCalledWith(error);
-
-			expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_DEPARTMENT, {
-				bannerHtmlOverride: config.betaBannerText,
-				appeal,
-				departments: [
-					departmentList[0],
-					{
-						...departmentList[1],
-						selected: true
-					},
-					departmentList[2]
-				],
-				errorSummary: [{ text: error.toString(), href: 'local-planning-department' }],
-				errors: {}
+				expect(res.render).toHaveBeenCalledWith(LOCAL_PLANNING_DEPARTMENT, {
+					bannerHtmlOverride: config.betaBannerText,
+					appeal,
+					departments: [
+						departmentList[0],
+						{
+							...departmentList[1],
+							selected: true
+						},
+						departmentList[2]
+					],
+					errorSummary: [{ text: error.toString(), href: 'local-planning-department' }],
+					errors: {}
+				});
 			});
 		});
 	});
