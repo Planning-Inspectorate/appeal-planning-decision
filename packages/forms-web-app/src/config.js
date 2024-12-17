@@ -142,6 +142,7 @@ module.exports = {
 			},
 			appealFormV2: {
 				textInputMaxLength: 1000,
+				textAreaMediumLength: 8000,
 				textAreaMaxLength: 32500
 			}
 		},
