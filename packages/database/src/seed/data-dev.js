@@ -752,7 +752,9 @@ const serviceUsers = [
 		serviceUserType: 'Appellant',
 		caseReference: '1000014',
 		firstName: 'Appellant',
-		lastName: 'One'
+		lastName: 'One',
+		emailAddress: 'test3@example.com',
+		telephoneNumber: '1234567890'
 	},
 	{
 		internalId: '19d01551-e0cb-414f-95d9-fd71422c9a82',
