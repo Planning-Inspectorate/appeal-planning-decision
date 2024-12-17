@@ -1219,9 +1219,9 @@ model Representation {
   caseReference           String /// External case identifier
   AppealCase              AppealCase               @relation(fields: [caseReference], references: [caseReference])
   status                  String? /// Status of the representation, [ "awaiting_review", "referred", "valid", "invalid", "published", "archived", "draft", "withdrawn", null ]
-  originalRepresentation  String? /// The original representation
+  originalRepresentation  String?                  @db.NVarChar(Max) /// The original representation
   redacted                Boolean? /// Indicates if the representation is redacted
-  redactedRepresentation  String? /// The redacted version of the representation
+  redactedRepresentation  String?                  @db.NVarChar(Max) /// The redacted version of the representation
   redactedBy              String? /// Unique identifier for the case team member that performed the redaction
   invalidDetails          String? /// A json array of reasons why the representation has been marked as invalid
   source                  String? /// Source of the representation (citizen or LPA), ["lpa", "citizen"]
