@@ -1,3 +1,5 @@
+// todo: legacy page - can probably be removeed
+
 const logger = require('../../lib/logger');
 const { getDepartmentFromName } = require('../../services/department.service');
 const { getDepartmentFromId } = require('../../services/department.service');
