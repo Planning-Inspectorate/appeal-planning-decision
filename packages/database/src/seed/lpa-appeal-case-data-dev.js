@@ -56,7 +56,8 @@ const lpaAppealIds = {
 	appealTP19: '7c1412e0-c734-4969-b7d4-441c60c6863b',
 	appealTP20: '7c1412e0-c734-4969-b7d4-441c60c6864b',
 	appealTP21: '7c1412e0-c734-4969-b7d4-441c60c6865b',
-	appealTP22: '7c1412e0-c734-4969-b7d4-441c60c6866b'
+	appealTP22: '7c1412e0-c734-4969-b7d4-441c60c6866b',
+	appealTP23: '7c1412e0-c734-4969-b7d4-441c60c6881b'
 };
 
 /**
@@ -113,7 +114,8 @@ const lpaAppeals = [
 	{ id: lpaAppealIds.appealTP19 },
 	{ id: lpaAppealIds.appealTP20 },
 	{ id: lpaAppealIds.appealTP21 },
-	{ id: lpaAppealIds.appealTP22 }
+	{ id: lpaAppealIds.appealTP22 },
+	{ id: lpaAppealIds.appealTP23 }
 ];
 
 const commonAppealCaseDataProperties = {
@@ -211,6 +213,32 @@ const lpaAppealCaseData = [
 		},
 		...commonAppealCaseDataProperties,
 		caseReference: '0000002',
+		siteAddressLine1: 'Questionnaire overdue',
+		siteAddressLine2: null,
+		siteAddressTown: '',
+		siteAddressCounty: 'Countyshire',
+		siteAddressPostcode: 'BS1 6PN',
+		lpaQuestionnaireDueDate: pickRandom(datesNMonthsAgo(1)),
+		statementDueDate: pickRandom(datesNMonthsAhead(1)),
+		interestedPartyRepsDueDate: pickRandom(datesNMonthsAhead(1)),
+		developmentDescription: 'test description',
+		isGreenBelt: false,
+		ownsSomeLand: true,
+		agriculturalHolding: true,
+		siteAccessDetails: JSON.stringify(['Blocked access']),
+		siteSafetyDetails: JSON.stringify(['No issues']),
+		appellantProcedurePreference: APPEAL_CASE_PROCEDURE.INQUIRY,
+		appellantProcedurePreferenceDetails: 'Would like longer consideration',
+		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
+		CaseType: { connect: { processCode: 'S78' } },
+		caseSubmittedDate: pickRandom(datesNMonthsAgo(3))
+	},
+	{
+		Appeal: {
+			connect: { id: lpaAppealIds.appealTP23 }
+		},
+		...commonAppealCaseDataProperties,
+		caseReference: '0000022',
 		siteAddressLine1: 'Questionnaire overdue',
 		siteAddressLine2: null,
 		siteAddressTown: '',
