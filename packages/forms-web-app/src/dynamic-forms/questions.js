@@ -2231,8 +2231,8 @@ exports.questionProps = {
 			new RequiredValidator('Enter your final comments'),
 			new StringValidator({
 				maxLength: {
-					maxLength: appealFormV2.textInputMaxLength,
-					maxLengthMessage: `Your final comments must be ${appealFormV2.textInputMaxLength} characters or less`
+					maxLength: appealFormV2.textAreaMaxLength,
+					maxLengthMessage: `Your final comments must be ${appealFormV2.textAreaMaxLength} characters or less`
 				}
 			}),
 			new ConfirmationCheckboxValidator({

@@ -1072,7 +1072,7 @@ model AppellantFinalCommentSubmission {
   submitted Boolean @default(false) /// whether the final comment has been submitted to BO
 
   appellantFinalComment                Boolean?
-  appellantFinalCommentDetails         String?
+  appellantFinalCommentDetails         String?  @db.NVarChar(MAX)
   appellantFinalCommentDocuments       Boolean?
   uploadAppellantFinalCommentDocuments Boolean?
 
