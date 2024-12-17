@@ -1,3 +1,6 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
+
 import { BasePage } from "../page-objects/base-page";
 import { houseHolderAppealRefusedTestCases } from "../helpers/houseHolderAppeal/houseHolderAppealRefusedData";
 import { DateService } from "../support/flows/sections/dateService";
@@ -19,7 +22,6 @@ describe('House Holder Date Validations', () => {
     const basePage = new BasePage();
     const date = new DateService();
     let prepareAppealData;
-
 
     beforeEach(() => {
         cy.fixture('prepareAppealData').then(data => {
@@ -55,7 +57,8 @@ describe('House Holder Date Validations', () => {
     it(`Validate future date error message  in decision date page future month`, () => {
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderDay).type(date.today());
         cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderMonth).type(date.nextMonth());
-        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(date.currentYear());
+        const currentYear = date.currentMonth() > date.nextMonth() ? date.nextYear() : date.currentYear();
+        cy.get(prepareAppealSelector?._houseHolderSelectors?.decisionDateHouseholderYear).type(currentYear);
         cy.advanceToNextPage();
 
         cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Decision date must be today or in the past');
@@ -208,7 +211,7 @@ describe('House Holder Validations', () => {
         cy.advanceToNextPage();
         cy.get(prepareAppealSelector?._selectors?.emailCode).type('@12345');
         cy.advanceToNextPage();
-        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter the correct code');
+        cy.shouldHaveErrorMessage(basePage?._selectors?.govukErrorSummaryBody, 'Enter the code we sent to your email address');
     });
 
     it(`Validate change URL for application name in task link page `, () => {
@@ -297,16 +300,16 @@ describe('House Holder Validations', () => {
 
 describe('Returns to pre appels validations', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
-    const basePage = new BasePage();
-    const contactDetailsPage = new ContactDetailsPage();
-    const appealSiteAddressPage = new AppealSiteAddressPage();
-    const siteAreaPage = new SiteAreaPage();
-    const greenBeltPage = new GreenBeltPage();
-    const ownAllLandPage = new OwnAllLandPage();
-    const ownSomeLandPage = new OwnSomeLandPage();
-    const inspectorNeedAccessPage = new InspectorNeedAccessPage();
-    const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
-    const otherAppealsPage = new OtherAppealsPage();
+    // const basePage = new BasePage();
+    // const contactDetailsPage = new ContactDetailsPage();
+    // const appealSiteAddressPage = new AppealSiteAddressPage();
+    // const siteAreaPage = new SiteAreaPage();
+    // const greenBeltPage = new GreenBeltPage();
+    // const ownAllLandPage = new OwnAllLandPage();
+    // const ownSomeLandPage = new OwnSomeLandPage();
+    // const inspectorNeedAccessPage = new InspectorNeedAccessPage();
+    // const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+    // const otherAppealsPage = new OtherAppealsPage();
     const context = houseHolderAppealRefusedTestCases[0];
 
     let prepareAppealData;
@@ -412,17 +415,17 @@ describe('Returns to pre appels validations', () => {
 
 describe('House Holder Task Page Validations', () => {
     const prepareAppealSelector = new PrepareAppealSelector();
-    const basePage = new BasePage();
-    const contactDetailsPage = new ContactDetailsPage();
-    const appealSiteAddressPage = new AppealSiteAddressPage();
-    const siteAreaPage = new SiteAreaPage();
-    const greenBeltPage = new GreenBeltPage();
-    const ownAllLandPage = new OwnAllLandPage();
-    const ownSomeLandPage = new OwnSomeLandPage();
-    const inspectorNeedAccessPage = new InspectorNeedAccessPage();
-    const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
-    const otherAppealsPage = new OtherAppealsPage();
-    const context = houseHolderAppealRefusedTestCases[0];
+    // const basePage = new BasePage();
+    // const contactDetailsPage = new ContactDetailsPage();
+    // const appealSiteAddressPage = new AppealSiteAddressPage();
+    // const siteAreaPage = new SiteAreaPage();
+    // const greenBeltPage = new GreenBeltPage();
+    // const ownAllLandPage = new OwnAllLandPage();
+    // const ownSomeLandPage = new OwnSomeLandPage();
+    // const inspectorNeedAccessPage = new InspectorNeedAccessPage();
+    // const healthSafetyIssuesPage = new HealthSafetyIssuesPage();
+    // const otherAppealsPage = new OtherAppealsPage();
+    // const context = houseHolderAppealRefusedTestCases[0];
 
     let prepareAppealData;
 

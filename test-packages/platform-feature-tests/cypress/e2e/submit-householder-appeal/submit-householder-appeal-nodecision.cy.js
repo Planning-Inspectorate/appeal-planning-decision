@@ -1,3 +1,6 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
+
 import { houseHolderAppealNoDecisionTestCases } from "../../helpers/houseHolderAppeal/houseHolderAppealNoDecisionData";
 const { submitAppealFlow } = require('../../support/flows/appeal');
 

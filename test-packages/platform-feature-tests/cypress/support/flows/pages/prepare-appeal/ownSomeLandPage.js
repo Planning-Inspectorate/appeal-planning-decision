@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from "../../../../page-objects/base-page";
 const { OwnsRestOfLandPage } = require("./ownsRestOfLandPage");
 const { OwnsLandInvolvedPage } = require("./ownsLandInvolvedPage")
