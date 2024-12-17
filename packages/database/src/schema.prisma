@@ -930,7 +930,7 @@ model LPAStatementSubmission {
   // state
   submitted Boolean @default(false) /// whether the lpa statement has been submitted to BO
 
-  lpaStatement        String?
+  lpaStatement        String?  @db.NVarChar(Max)
   additionalDocuments Boolean?
 
   // Uploaded documents and details linked to this statement
