@@ -39,13 +39,34 @@
 				}) }}
 			{% endif %}
 
-			{% if shouldDisplayStatementsDueBanner %}
+			{% if shouldDisplayStatementsDueBannerLPA %}
    				{% set html %}
 					<p class="govuk-notification-banner__heading">
-						You must submit this statement by {{appeal.lpaStatementDueDate}}.&nbsp
+						You must submit this statement by {{appeal.statementDueDate}}.&nbsp
 							<ul>
 								<li>
 									<a href="/manage-appeals/appeal-statement/{{appeal.appealNumber}}" class="govuk-link">
+										Submit statement
+										<span class="govuk-visually-hidden"> for {{appeal.appealNumber}}</span>
+									</a>.
+								</li>
+							</ul>
+					</p>
+				{% endset %}
+
+				{{ govukNotificationBanner({
+					html: html,
+					titleText: "Appeal statement due"
+				}) }}
+			{% endif %}
+
+			{% if shouldDisplayStatementsDueBannerRule6 %}
+   				{% set html %}
+					<p class="govuk-notification-banner__heading">
+						You must submit this statement by {{appeal.statementDueDate}}.&nbsp
+							<ul>
+								<li>
+									<a href="/rule-6/appeal-statement/{{appeal.appealNumber}}" class="govuk-link">
 										Submit statement
 										<span class="govuk-visually-hidden"> for {{appeal.appealNumber}}</span>
 									</a>.
