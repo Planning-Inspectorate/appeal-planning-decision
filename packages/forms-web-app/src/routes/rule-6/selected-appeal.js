@@ -18,18 +18,45 @@ const {
 
 const userType = APPEAL_USER_ROLES.RULE_6_PARTY;
 
+const lpaFinalCommentParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+	submittingParty: LPA_USER_ROLE
+};
+
+const appellantFinalCommentParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.FINAL_COMMENT,
+	submittingParty: APPEAL_USER_ROLES.APPELLANT
+};
+
 const lpaStatementParams = {
 	userType,
 	representationType: REPRESENTATION_TYPES.STATEMENT,
 	submittingParty: LPA_USER_ROLE
 };
 
+const interestedPartyParams = {
+	userType,
+	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+	submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+};
+
 router.get('/:appealNumber', selectedAppealController.get());
 router.get('/:appealNumber/appeal-details', appealDetailsController.get());
 router.get('/:appealNumber/questionnaire', questionnaireDetailsController.get());
-// router.get('/:appealNumber/final-comments', finalCommentsController.get());
-// router.get('/:appealNumber/appellant-final-comments', finalCommentsController.get());
-// router.get('/:appealNumber/interested-party-comments', interestedPartyCommentsController.get());
+router.get(
+	'/:appealNumber/lpa-final-comments',
+	representationsController.get(lpaFinalCommentParams)
+);
+router.get(
+	'/:appealNumber/appellant-final-comments',
+	representationsController.get(appellantFinalCommentParams)
+);
+router.get(
+	'/:appealNumber/interested-party-comments',
+	representationsController.get(interestedPartyParams)
+);
 router.get('/:appealNumber/lpa-statement', representationsController.get(lpaStatementParams));
 router.get('/:appealNumber/planning-obligation', planningObligationDetailsController.get());
 
