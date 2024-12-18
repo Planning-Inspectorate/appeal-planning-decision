@@ -36,7 +36,8 @@ describe('ServiceUserRepository', () => {
 				},
 				select: {
 					firstName: true,
-					lastName: true
+					lastName: true,
+					serviceUserType: true
 				}
 			});
 		});
@@ -62,7 +63,8 @@ describe('ServiceUserRepository', () => {
 				},
 				select: {
 					firstName: true,
-					lastName: true
+					lastName: true,
+					serviceUserType: true
 				}
 			});
 		});
@@ -79,7 +81,8 @@ describe('ServiceUserRepository', () => {
 					emailAddress: 'john@example.com',
 					organisation: 'Org1',
 					telephoneNumber: '1234567890',
-					serviceUserType: SERVICE_USER_TYPE.APPELLANT
+					serviceUserType: SERVICE_USER_TYPE.APPELLANT,
+					id: '123'
 				},
 				{
 					firstName: 'Jane',
@@ -87,7 +90,8 @@ describe('ServiceUserRepository', () => {
 					emailAddress: 'jane@example.com',
 					organisation: 'Org2',
 					telephoneNumber: '0987654321',
-					serviceUserType: SERVICE_USER_TYPE.AGENT
+					serviceUserType: SERVICE_USER_TYPE.AGENT,
+					id: '234'
 				}
 			];
 
@@ -109,7 +113,8 @@ describe('ServiceUserRepository', () => {
 					emailAddress: true,
 					organisation: true,
 					telephoneNumber: true,
-					serviceUserType: true
+					serviceUserType: true,
+					id: true
 				}
 			});
 		});
@@ -136,7 +141,8 @@ describe('ServiceUserRepository', () => {
 					emailAddress: true,
 					organisation: true,
 					telephoneNumber: true,
-					serviceUserType: true
+					serviceUserType: true,
+					id: true
 				}
 			});
 		});
