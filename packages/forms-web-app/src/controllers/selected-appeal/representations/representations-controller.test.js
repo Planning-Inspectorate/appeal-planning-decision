@@ -26,6 +26,11 @@ describe('controllers/selected-appeal/representations', () => {
 	let req;
 	let res;
 	const appealNumber = 'ABC123';
+	const testCaseData = {
+		LPACode: 'ABC',
+		appealNumber,
+		someOtherData: 'test'
+	};
 	beforeEach(() => {
 		req = mockReq();
 		res = mockRes();
@@ -35,11 +40,7 @@ describe('controllers/selected-appeal/representations', () => {
 		};
 
 		req.appealsApiClient.getAppealCaseWithRepresentationsByType.mockImplementation(() =>
-			Promise.resolve({
-				LPACode: 'ABC',
-				appealNumber,
-				someOtherData: 'test'
-			})
+			Promise.resolve(testCaseData)
 		);
 		getDepartmentFromCode.mockImplementation(() => Promise.resolve({ name: 'Test LPA' }));
 		formatHeadlineData.mockImplementation(() => ({ title: 'Appeal Headline Data' }));
@@ -65,9 +66,19 @@ describe('controllers/selected-appeal/representations', () => {
 
 		expect(req.appealsApiClient.getAppealCaseWithRepresentationsByType).toHaveBeenCalledWith(
 			'ABC123',
-			REPRESENTATION_TYPES.STATEMENT
+			testParams.representationType
 		);
-
+		expect(filterRepresentationsBySubmittingParty).toHaveBeenCalledWith(
+			testCaseData,
+			LPA_USER_ROLE
+		);
+		expect(formatRepresentations).toHaveBeenCalledWith([]);
+		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
+		expect(formatRepresentationHeading).toHaveBeenCalledWith(
+			testParams.representationType,
+			testParams.userType,
+			testParams.submittingParty
+		);
 		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS, {
 			layoutTemplate: testLayoutTemplate,
 			titleSuffix: 'test title suffix',
