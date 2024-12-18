@@ -22,7 +22,6 @@ const lpaRouter = require('../../../src/routes/lpa-dashboard');
 const debugRouter = require('../../../src/routes//debug');
 
 const eligibilityRouter = require('../../../src/routes/eligibility');
-const yourPlanningAppealRouter = require('../../../src/routes/your-planning-appeal');
 
 const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadline');
 const checkAppealExists = require('#middleware/check-appeal-exists');
@@ -98,7 +97,6 @@ describe('routes/index', () => {
 
 		expect(use).toHaveBeenCalledWith('/debug', checkDebugAllowed, debugRouter);
 
-		expect(use).toHaveBeenCalledWith('/your-planning-appeal', yourPlanningAppealRouter);
 		expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 	});
 });
