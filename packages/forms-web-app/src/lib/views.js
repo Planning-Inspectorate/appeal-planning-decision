@@ -203,11 +203,6 @@ const VIEW = {
 		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details'
 	},
 
-	YOUR_PLANNING_APPEAL: {
-		INDEX: 'your-planning-appeal/index',
-		YOUR_APPEAL_DETAILS: 'your-planning-appeal/your-appeal-details'
-	},
-
 	LPA_DASHBOARD: {
 		ENTER_CODE: 'manage-appeals/enter-code',
 		CODE_EXPIRED: 'manage-appeals/code-expired',
