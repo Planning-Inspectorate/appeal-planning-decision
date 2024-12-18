@@ -29,7 +29,8 @@ describe('controllers/selected-appeal/representations', () => {
 	const testCaseData = {
 		LPACode: 'ABC',
 		appealNumber,
-		someOtherData: 'test'
+		someOtherData: 'test',
+		Representations: []
 	};
 	beforeEach(() => {
 		req = mockReq();
@@ -72,6 +73,45 @@ describe('controllers/selected-appeal/representations', () => {
 			testCaseData,
 			LPA_USER_ROLE
 		);
+		expect(formatRepresentations).toHaveBeenCalledWith([]);
+		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
+		expect(formatRepresentationHeading).toHaveBeenCalledWith(
+			testParams.representationType,
+			testParams.userType,
+			testParams.submittingParty
+		);
+		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS, {
+			layoutTemplate: testLayoutTemplate,
+			titleSuffix: 'test title suffix',
+			heading: 'test representation heading',
+			appeal: {
+				appealNumber: 'ABC123',
+				headlineData: { title: 'Appeal Headline Data' },
+				representations: ['test reps']
+			}
+		});
+	});
+
+	it('renders the representation page with the correct data for interested party comments', async () => {
+		const controller = representationsController;
+
+		const testParams = {
+			userType: APPEAL_USER_ROLES.APPELLANT,
+			representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+			submittingParty: APPEAL_USER_ROLES.INTERESTED_PARTY
+		};
+
+		const testLayoutTemplate = 'layouts/test/test.njk';
+
+		const representationFunction = controller.get(testParams, testLayoutTemplate);
+
+		await representationFunction(req, res);
+
+		expect(req.appealsApiClient.getAppealCaseWithRepresentationsByType).toHaveBeenCalledWith(
+			'ABC123',
+			testParams.representationType
+		);
+		expect(filterRepresentationsBySubmittingParty).not.toHaveBeenCalled();
 		expect(formatRepresentations).toHaveBeenCalledWith([]);
 		expect(formatTitleSuffix).toHaveBeenCalledWith(testParams.userType);
 		expect(formatRepresentationHeading).toHaveBeenCalledWith(
