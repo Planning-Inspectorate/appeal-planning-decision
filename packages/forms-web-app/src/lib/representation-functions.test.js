@@ -153,6 +153,24 @@ describe('lib/representation-functions', () => {
 			expect(heading).toEqual('Statements from other parties');
 		});
 
+		it('returns the heading for an lpa user viewing an lpa final comment', () => {
+			const heading = formatRepresentationHeading(
+				REPRESENTATION_TYPES.FINAL_COMMENT,
+				LPA_USER_ROLE,
+				LPA_USER_ROLE
+			);
+			expect(heading).toEqual('Your final comments');
+		});
+
+		it('returns the heading for an lpa user viewing an appellant final comment', () => {
+			const heading = formatRepresentationHeading(
+				REPRESENTATION_TYPES.FINAL_COMMENT,
+				LPA_USER_ROLE,
+				APPEAL_USER_ROLES.APPELLANT
+			);
+			expect(heading).toEqual("Appellant's final comments");
+		});
+
 		it('returns the heading for an appellant viewing an lpa statement', () => {
 			const heading = formatRepresentationHeading(
 				REPRESENTATION_TYPES.STATEMENT,
