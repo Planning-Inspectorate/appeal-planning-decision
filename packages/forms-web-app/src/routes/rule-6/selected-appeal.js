@@ -8,8 +8,8 @@ const questionnaireDetailsController = require('../../controllers/selected-appea
 // const interestedPartyCommentsController = require('../../controllers/selected-appeal/ip-comment-details');
 // const statementDetailsController = require('../../controllers/selected-appeal/statements');
 const planningObligationDetailsController = require('../../controllers/selected-appeal/planning-obligation-details');
+const representationsController = require('../../controllers/selected-appeal/representations');
 
-const representationsController = require('../../../controllers/selected-appeal/representations');
 const {
 	LPA_USER_ROLE,
 	APPEAL_USER_ROLES,
