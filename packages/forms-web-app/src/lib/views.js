@@ -85,14 +85,6 @@ const VIEW = {
 		}
 	},
 
-	GUIDANCE_PAGES: {
-		BEFORE_APPEAL: 'guidance-pages/before-appeal',
-		WHEN_APPEAL: 'guidance-pages/when-appeal',
-		AFTER_APPEAL: 'guidance-pages/after-appeal',
-		START_APPEAL: 'guidance-pages/start-appeal',
-		STAGES_APPEAL: 'guidance-pages/stages-appeal'
-	},
-
 	FULL_APPEAL: {
 		EMAIL_ADDRESS: 'full-appeal/submit-appeal/email-address',
 		EMAIL_CONFIRMED: 'full-appeal/submit-appeal/email-address-confirmed',
@@ -208,11 +200,6 @@ const VIEW = {
 	SUBMIT_APPEAL: {
 		APPLICATION_SAVED: 'submit-appeal/application-saved',
 		ENTER_APPEAL_DETAILS: 'submit-appeal/enter-appeal-details'
-	},
-
-	YOUR_PLANNING_APPEAL: {
-		INDEX: 'your-planning-appeal/index',
-		YOUR_APPEAL_DETAILS: 'your-planning-appeal/your-appeal-details'
 	},
 
 	LPA_DASHBOARD: {
