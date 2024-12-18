@@ -79,7 +79,11 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				caseData,
 				userType
 			),
-			shouldDisplayStatementsDueBanner: shouldDisplayStatementsDueBanner(caseData, userType),
+			shouldDisplayStatementsDueBannerLPA: shouldDisplayStatementsDueBannerLPA(caseData, userType),
+			shouldDisplayStatementsDueBannerRule6: shouldDisplayStatementsDueBannerRule6(
+				caseData,
+				userType
+			),
 			shouldDisplayFinalCommentsDueBannerLPA: shouldDisplayFinalCommentsDueBannerLPA(
 				caseData,
 				userType
@@ -110,7 +114,7 @@ exports.get = (layoutTemplate = 'layouts/no-banner-link/main.njk') => {
 				decision: mapDecisionTag(caseData.caseDecisionOutcome),
 				decisionDocuments: filterDecisionDocuments(caseData.Documents),
 				lpaQuestionnaireDueDate: formatDateForNotification(caseData.lpaQuestionnaireDueDate),
-				lpaStatementDueDate: formatDateForNotification(caseData.statementDueDate),
+				statementDueDate: formatDateForNotification(caseData.statementDueDate),
 				finalCommentDueDate: formatDateForNotification(caseData.finalCommentsDueDate),
 				proofEvidenceDueDate: formatDateForNotification(caseData.proofsOfEvidenceDueDate)
 			}
@@ -170,10 +174,23 @@ const formatDateForNotification = (dateStr) => {
  * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
  * @returns {boolean}
  */
-const shouldDisplayStatementsDueBanner = (caseData, userType) => {
+const shouldDisplayStatementsDueBannerLPA = (caseData, userType) => {
 	return (
 		userType === LPA_USER_ROLE &&
 		!caseData.LPAStatementSubmitted &&
+		!deadlineHasPassed(caseData.statementDueDate)
+	);
+};
+
+/**
+ * @param {import('@pins/common/src/client/appeals-api-client').AppealCaseWithRule6Parties} caseData
+ * @param {import('@pins/common/src/constants').AppealToUserRoles | "LPAUser" | null} userType
+ * @returns {boolean}
+ */
+const shouldDisplayStatementsDueBannerRule6 = (caseData, userType) => {
+	return (
+		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
+		!caseData.rule6StatementSubmitted &&
 		!deadlineHasPassed(caseData.statementDueDate)
 	);
 };
