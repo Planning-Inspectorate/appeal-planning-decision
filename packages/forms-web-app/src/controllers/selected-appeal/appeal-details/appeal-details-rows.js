@@ -33,7 +33,7 @@ exports.detailsRows = (caseData, userType) => {
 	const contact = contactIsAppellant ? appellant : agent;
 
 	const linkedAppeals = formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked);
-	const showLinked = !!linkedAppeals;
+	const showLinked = linkedAppeals.length > 0;
 
 	return [
 		{
@@ -71,23 +71,23 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Is the site in a green belt',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.isGreenBelt
+			valueText: formatYesOrNo(caseData, 'isGreenBelt'),
+			condition: (caseData) => caseData.isGreenBelt != null
 		},
 		{
 			keyText: 'Site fully owned',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.ownsAllLand
+			valueText: formatYesOrNo(caseData, 'ownsAllLand'),
+			condition: (caseData) => caseData.ownsAllLand != null
 		},
 		{
 			keyText: 'Site partly owned',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.ownsSomeLand
+			valueText: formatYesOrNo(caseData, 'ownsSomeLand'),
+			condition: (caseData) => caseData.ownsSomeLand != null
 		},
 		{
 			keyText: 'Other owners known',
-			valueText: 'Yes',
-			condition: (caseData) => caseData.knowsOtherOwners
+			valueText: caseData.knowsOtherOwners ?? '',
+			condition: (caseData) => caseData.knowsOtherOwners != null
 		},
 		{
 			keyText: 'Other owners identified',
@@ -112,7 +112,7 @@ exports.detailsRows = (caseData, userType) => {
 		{
 			keyText: 'Agricultural holding',
 			valueText: formatYesOrNo(caseData, 'agriculturalHolding'),
-			condition: () => true
+			condition: (caseData) => caseData.agriculturalHolding != null
 		},
 		{
 			keyText: 'Tenant on agricultural holding',
@@ -146,8 +146,8 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Enter the description of development',
-			valueText: caseData.developmentDescription ? caseData.developmentDescription : '',
-			condition: (caseData) => caseData.developmentDescription
+			valueText: caseData.originalDevelopmentDescription ?? '',
+			condition: (caseData) => caseData.originalDevelopmentDescription
 		},
 		{
 			keyText: 'Did the local planning authority change the description of development?',
@@ -161,10 +161,8 @@ exports.detailsRows = (caseData, userType) => {
 		},
 		{
 			keyText: 'Are there other appeals linked to your development?',
-			valueText: showLinked
-				? `Yes \n ${formatRelatedAppeals(caseData, CASE_RELATION_TYPES.linked)}`
-				: 'No',
-			condition: () => showLinked,
+			valueText: showLinked ? `Yes \n ${linkedAppeals}` : 'No',
+			condition: () => true,
 			isEscaped: true
 		},
 		{
