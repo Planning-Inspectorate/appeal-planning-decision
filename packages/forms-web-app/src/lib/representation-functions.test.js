@@ -61,9 +61,35 @@ const appellantFinalComment = {
 	RepresentationDocuments: []
 };
 
+const interestedPartyComment1 = {
+	id: 'interestedPartyComment1',
+	representationId: 'testInterestedPartyComment1',
+	caseReference: 'testReference1',
+	source: 'citizen',
+	originalRepresentation: 'this is an interested party comment',
+	redacted: false,
+	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+	dateReceived: '2024-11-04 09:00:00.0000000',
+	RepresentationDocuments: []
+};
+
+const interestedPartyComment2 = {
+	id: 'interestedPartyComment2',
+	representationId: 'testInterestedPartyComment2',
+	caseReference: 'testReference1',
+	source: 'citizen',
+	originalRepresentation: 'this is an earlier interested party comment',
+	redacted: false,
+	representationType: REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+	dateReceived: '2024-11-03 09:00:00.0000000',
+	RepresentationDocuments: []
+};
+
 const testStatements = [lpaStatement, r6Statement];
 
 const testFinalComments = [lpaFinalComment, appellantFinalComment];
+
+const testInterestedPartyComments = [interestedPartyComment1, interestedPartyComment2];
 
 const testUsers = [{ id: 'testAppellantServiceUserId' }, { id: 'testAgentServiceUserId' }];
 
@@ -188,6 +214,28 @@ describe('lib/representation-functions', () => {
 			);
 			expect(heading).toEqual('Statements from other parties');
 		});
+
+		it('returns the heading for viewing interested party comments', () => {
+			const heading1 = formatRepresentationHeading(
+				REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+				APPEAL_USER_ROLES.APPELLANT,
+				APPEAL_USER_ROLES.INTERESTED_PARTY
+			);
+			const heading2 = formatRepresentationHeading(
+				REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+				APPEAL_USER_ROLES.RULE_6_PARTY,
+				APPEAL_USER_ROLES.INTERESTED_PARTY
+			);
+			const heading3 = formatRepresentationHeading(
+				REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT,
+				LPA_USER_ROLE,
+				APPEAL_USER_ROLES.INTERESTED_PARTY
+			);
+
+			expect(heading1).toEqual('Interested Party Comments');
+			expect(heading2).toEqual('Interested Party Comments');
+			expect(heading3).toEqual('Interested Party Comments');
+		});
 	});
 
 	describe('formatRepresentations', () => {
@@ -212,6 +260,36 @@ describe('lib/representation-functions', () => {
 					value: {
 						text: 'this is a bleep statement',
 						truncatedText: 'this is a bleep statement',
+						truncated: false,
+						documents: 'No'
+					}
+				}
+			];
+
+			expect(formattedRepresentations).toEqual(expectedResult);
+		});
+
+		it('formats an array of interested party comments', () => {
+			const formattedRepresentations = formatRepresentations(testInterestedPartyComments);
+			const expectedResult = [
+				{
+					key: {
+						text: `Interested party 1`
+					},
+					value: {
+						text: 'this is an earlier interested party comment',
+						truncatedText: 'this is an earlier interested party comment',
+						truncated: false,
+						documents: 'No'
+					}
+				},
+				{
+					key: {
+						text: `Interested party 2`
+					},
+					value: {
+						text: 'this is an interested party comment',
+						truncatedText: 'this is an interested party comment',
 						truncated: false,
 						documents: 'No'
 					}
