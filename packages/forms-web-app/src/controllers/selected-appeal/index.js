@@ -177,6 +177,7 @@ const formatDateForNotification = (dateStr) => {
 const shouldDisplayStatementsDueBannerLPA = (caseData, userType) => {
 	return (
 		userType === LPA_USER_ROLE &&
+		deadlineHasPassed(caseData.lpaQuestionnaireDueDate) &&
 		!caseData.LPAStatementSubmitted &&
 		!deadlineHasPassed(caseData.statementDueDate)
 	);
@@ -190,6 +191,7 @@ const shouldDisplayStatementsDueBannerLPA = (caseData, userType) => {
 const shouldDisplayStatementsDueBannerRule6 = (caseData, userType) => {
 	return (
 		userType === APPEAL_USER_ROLES.RULE_6_PARTY &&
+		!!caseData.lpaQuestionnairePublishedDate &&
 		!caseData.rule6StatementSubmitted &&
 		!deadlineHasPassed(caseData.statementDueDate)
 	);
