@@ -1244,6 +1244,7 @@ const lpaAppealCaseData = [
 		changedDevelopmentDescription: true,
 		newConditionDetails: 'Example new conditions',
 		interestedPartyRepsDueDate: pickRandom(datesNMonthsAgo(1)),
+		interestedPartyCommentsPublished: true,
 		ProcedureType: { connect: { key: APPEAL_CASE_PROCEDURE.INQUIRY } },
 		CaseType: { connect: { processCode: 'S78' } },
 		CaseStatus: {
