@@ -119,7 +119,7 @@ describe('controllers/selected-appeal/representations', () => {
 			testParams.userType,
 			testParams.submittingParty
 		);
-		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS, {
+		expect(res.render).toHaveBeenCalledWith(VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS, {
 			layoutTemplate: testLayoutTemplate,
 			titleSuffix: 'test title suffix',
 			heading: 'test representation heading',
