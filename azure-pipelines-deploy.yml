@@ -199,6 +199,7 @@ extends:
                   appResourceGroup: $(resourceGroup)
                   appStagingSlotName: staging
                   appTargetSlotName: production
+                  turnOffStagingSlot: true
               - template: ../steps/azure_web_app_verify_git_hash.yml
                 parameters:
                   appName: appeals-api
@@ -215,6 +216,7 @@ extends:
                   appResourceGroup: $(resourceGroup)
                   appStagingSlotName: staging
                   appTargetSlotName: production
+                  turnOffStagingSlot: true
               - template: ../steps/azure_web_app_verify_git_hash.yml
                 parameters:
                   appName: auth-server
@@ -231,6 +233,7 @@ extends:
                   appResourceGroup: $(resourceGroup)
                   appStagingSlotName: staging
                   appTargetSlotName: production
+                  turnOffStagingSlot: true
               - template: ../steps/azure_web_app_verify_git_hash.yml
                 parameters:
                   appName: documents-api
@@ -260,6 +263,7 @@ extends:
                   appResourceGroup: $(resourceGroup)
                   appStagingSlotName: staging
                   appTargetSlotName: production
+                  turnOffStagingSlot: true
               - template: ../steps/azure_web_app_verify_git_hash.yml
                 parameters:
                   appName: pdf-api
@@ -276,6 +280,7 @@ extends:
                   appResourceGroup: $(resourceGroup)
                   appStagingSlotName: staging
                   appTargetSlotName: production
+                  turnOffStagingSlot: true
               - template: ../steps/azure_web_app_verify_git_hash.yml
                 parameters:
                   appName: web
