@@ -6,7 +6,7 @@ const ruleComments = () =>
 		.withMessage('Enter your comments')
 		.bail()
 		.isLength({ min: 1, max: 8000 })
-		.withMessage('Comments must be 8000 characters or less');
+		.withMessage(`Comments must be 8,000 characters or less`);
 
 const ruleCommentsConfirmation = () =>
 	body('comments-confirmation')

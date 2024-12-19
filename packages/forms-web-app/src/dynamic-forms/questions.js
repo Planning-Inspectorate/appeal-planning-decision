@@ -54,6 +54,7 @@ const { createQuestions } = require('./create-questions');
 // method overrides
 const multiFileUploadOverrides = require('../journeys/question-overrides/multi-file-upload');
 const siteAddressOverrides = require('../journeys/question-overrides/site-address');
+const formatNumber = require('./dynamic-components/utils/format-number');
 
 /** @typedef {import('./question-props').QuestionProps} QuestionProps */
 /** @typedef {import('./question')} Question */
@@ -2137,7 +2138,9 @@ exports.questionProps = {
 			new StringValidator({
 				maxLength: {
 					maxLength: appealFormV2.textAreaMaxLength,
-					maxLengthMessage: `Your statement must be ${appealFormV2.textAreaMaxLength} characters or less`
+					maxLengthMessage: `Your statement must be ${formatNumber(
+						appealFormV2.textAreaMaxLength
+					)} characters or less`
 				}
 			})
 		]
@@ -2178,7 +2181,9 @@ exports.questionProps = {
 			new StringValidator({
 				maxLength: {
 					maxLength: appealFormV2.textAreaMaxLength,
-					maxLengthMessage: `Your statement must be ${appealFormV2.textAreaMaxLength} characters or less`
+					maxLengthMessage: `Your statement must be ${formatNumber(
+						appealFormV2.textAreaMaxLength
+					)} characters or less`
 				}
 			})
 		]
@@ -2231,8 +2236,10 @@ exports.questionProps = {
 			new RequiredValidator('Enter your final comments'),
 			new StringValidator({
 				maxLength: {
-					maxLength: appealFormV2.textAreaMaxLength,
-					maxLengthMessage: `Your final comments must be ${appealFormV2.textAreaMaxLength} characters or less`
+					maxLength: appealFormV2.textAreaMediumLength,
+					maxLengthMessage: `Your final comments must be ${formatNumber(
+						appealFormV2.textAreaMediumLength
+					)} characters or less`
 				}
 			}),
 			new ConfirmationCheckboxValidator({
@@ -2292,7 +2299,9 @@ exports.questionProps = {
 			new StringValidator({
 				maxLength: {
 					maxLength: appealFormV2.textAreaMediumLength,
-					maxLengthMessage: `Your final comments must be ${appealFormV2.textAreaMediumLength} characters or less`
+					maxLengthMessage: `Your final comments must be ${formatNumber(
+						appealFormV2.textAreaMediumLength
+					)} characters or less`
 				}
 			}),
 			new ConfirmationCheckboxValidator({
