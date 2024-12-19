@@ -55,9 +55,10 @@ exports.get = (representationParams, layoutTemplate = 'layouts/no-banner-link/ma
 
 		const formattedRepresentations = formatRepresentations(representationsForDisplay);
 
-		const representationView = REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
-			? VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS
-			: VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS;
+		const representationView =
+			representationType == REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
+				? VIEW.SELECTED_APPEAL.APPEAL_IP_COMMENTS
+				: VIEW.SELECTED_APPEAL.APPEAL_REPRESENTATIONS;
 
 		const viewContext = {
 			layoutTemplate,
