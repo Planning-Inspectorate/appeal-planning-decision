@@ -1,5 +1,4 @@
 const uuid = require('uuid');
-const { validation } = require('@pins/business-rules');
 const { storePdfAppeal } = require('../../services/pdf.service');
 const { VIEW } = require('../../lib/views');
 const { submitAppealForBackOfficeProcessing } = require('../../lib/appeals-api-wrapper');
@@ -13,10 +12,7 @@ exports.getSubmission = (req, res) => {
 exports.postSubmission = async (req, res) => {
 	const { body } = req;
 	const { errors = {}, errorSummary = [] } = body;
-	const {
-		appeal,
-		appeal: { decisionDate }
-	} = req.session;
+	const { appeal } = req.session;
 
 	const log = logger.child({ appealId: appeal.id, uuid: uuid.v4() });
 
@@ -32,15 +28,6 @@ exports.postSubmission = async (req, res) => {
 
 	if (body['appellant-confirmation'] !== 'i-agree') {
 		res.redirect(`/${VIEW.APPELLANT_SUBMISSION.SUBMISSION}`);
-		return;
-	}
-
-	const isWithinExpiryPeriod =
-		decisionDate &&
-		validation.appeal.decisionDate.isWithinDecisionDateExpiryPeriod(new Date(decisionDate));
-
-	if (!isWithinExpiryPeriod) {
-		res.redirect(`/${VIEW.ELIGIBILITY.DECISION_DATE_PASSED}`);
 		return;
 	}
 

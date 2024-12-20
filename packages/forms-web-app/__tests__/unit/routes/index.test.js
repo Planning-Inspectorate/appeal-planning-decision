@@ -21,8 +21,6 @@ const appellantSubmissionRouter = require('../../../src/routes/appellant-submiss
 const lpaRouter = require('../../../src/routes/lpa-dashboard');
 const debugRouter = require('../../../src/routes//debug');
 
-const eligibilityRouter = require('../../../src/routes/eligibility');
-
 const checkDecisionDateDeadline = require('#middleware/check-decision-date-deadline');
 const checkAppealExists = require('#middleware/check-appeal-exists');
 const checkLoggedIn = require('#middleware/check-logged-in');
@@ -96,7 +94,5 @@ describe('routes/index', () => {
 		}
 
 		expect(use).toHaveBeenCalledWith('/debug', checkDebugAllowed, debugRouter);
-
-		expect(use).toHaveBeenCalledWith('/eligibility', checkDecisionDateDeadline, eligibilityRouter);
 	});
 });

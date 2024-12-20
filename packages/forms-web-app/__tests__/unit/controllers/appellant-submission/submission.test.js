@@ -8,8 +8,7 @@ const { storePdfAppeal } = require('../../../../src/services/pdf.service');
 const { mockReq, mockRes } = require('../../mocks');
 const {
 	VIEW: {
-		APPELLANT_SUBMISSION: { SUBMISSION, CONFIRMATION },
-		ELIGIBILITY: { DECISION_DATE_PASSED }
+		APPELLANT_SUBMISSION: { SUBMISSION, CONFIRMATION }
 	}
 } = require('../../../../src/lib/views');
 jest.mock('../../../../src/services/pdf.service');
@@ -144,23 +143,6 @@ describe('controllers/appellant-submission/submission', () => {
 			postSubmission(mockRequest, res);
 
 			expect(res.redirect).toHaveBeenCalledWith(`/${SUBMISSION}`);
-		});
-
-		it('should redirect back to /eligibility/decision-date-passed if validation passes but deadline date has passed', async () => {
-			const mockRequest = {
-				...req,
-				body: {
-					'appellant-confirmation': 'i-agree'
-				},
-				session: {
-					appeal: {
-						decisionDate: '2010-08-06T12:00:00.000Z'
-					}
-				}
-			};
-			postSubmission(mockRequest, res);
-
-			expect(res.redirect).toHaveBeenCalledWith(`/${DECISION_DATE_PASSED}`);
 		});
 
 		it('should redirect if valid', async () => {
