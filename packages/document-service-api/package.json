@@ -21,10 +21,9 @@
 	},
 	"author": "Planning-Inspectorate <https://gov.uk/pins>",
 	"dependencies": {
-		"@azure/app-configuration": "*",
 		"@azure/storage-blob": "*",
-		"@pins/business-rules": "file:../business-rules",
 		"@pins/common": "file:../common",
+		"@pins/database": "file:../database",
 		"@prisma/client": "*",
 		"applicationinsights": "*",
 		"archiver": "*",
@@ -43,11 +42,10 @@
 		"uuid": "*"
 	},
 	"devDependencies": {
-		"dotenv-cli": "*",
+		"dotenv": "*",
 		"jest": "*",
 		"jest-each": "*",
 		"jest-junit": "*",
-		"jest-when": "*",
 		"nodemon": "*",
 		"pino-pretty": "*",
 		"supertest": "*",
