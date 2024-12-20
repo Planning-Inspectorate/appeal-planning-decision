@@ -5,11 +5,11 @@ export class SiteAccess {
     _selectors = {
         lpaSiteAccessLpaSiteAccessDetails: '#lpaSiteAccess_lpaSiteAccessDetails',
         neighbourSiteAccessNeighbourSiteAccessDetails: '#neighbourSiteAccess_neighbourSiteAccessDetails',
-        addressLineOne: '#address-line-1',
-        addressLineTwo: '#address-line-2',
-        addressTown: '#address-town',
-        addressCounty: '#address-county',
-        addressPostcode: '#address-postcode',
+        addressLine1Details: '#address-line-1',
+        addressLine2Details: '#address-line-2',
+        addressTownDetails: '#address-town',
+        addressCountyDetails: '#address-county',
+        addressPostCodeDetails: '#address-postcode',
         lpaSiteSafetyRisksLpaSiteSafetyRiskDetails: '#lpaSiteSafetyRisks_lpaSiteSafetyRiskDetails'
     }
 
@@ -36,11 +36,11 @@ export class SiteAccess {
                     cy.getByData(basePage?._selectors.answerNo).click();
                     cy.advanceToNextPage();
                 } else {
-                    cy.get(this._selectors?.addressLineOne).type(lpaManageAppealsData?.siteAccess?.addresssLineOne);
-                    cy.get(this._selectors?.addressLineTwo).type(lpaManageAppealsData?.siteAccess?.addresssLineTwo);
-                    cy.get(this._selectors?.addressTown).type(lpaManageAppealsData?.siteAccess?.addresssTown);
-                    cy.get(this._selectors?.addressCounty).type(lpaManageAppealsData?.siteAccess?.addressCounty);
-                    cy.get(this._selectors?.addressPostcode).type(lpaManageAppealsData?.siteAccess?.addressPostCode);
+                    cy.get(this._selectors?.addressLine1Details).type(lpaManageAppealsData?.siteAccess?.addresssLineOne);
+                    cy.get(this._selectors?.addressLine2Details).type(lpaManageAppealsData?.siteAccess?.addresssLineTwo);
+                    cy.get(this._selectors?.addressTownDetails).type(lpaManageAppealsData?.siteAccess?.addresssTown);
+                    cy.get(this._selectors?.addressCountyDetails).type(lpaManageAppealsData?.siteAccess?.addressCounty);
+                    cy.get(this._selectors?.addressPostCodeDetails).type(lpaManageAppealsData?.siteAccess?.addressPostCode);
                     cy.advanceToNextPage();
                     cy.getByData(basePage?._selectors.answerNo).click();
                     cy.advanceToNextPage();
