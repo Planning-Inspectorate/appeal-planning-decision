@@ -14,25 +14,6 @@ const VIEW = {
 		USE_EXISTING_SERVICE_LISTED_BUILDING: 'before-you-start/use-existing-service-listed-building'
 	},
 
-	ELIGIBILITY: {
-		LISTED_BUILDING: 'eligibility/listed-building',
-		LISTED_OUT: 'eligibility/listed-out',
-		NO_DECISION: 'eligibility/no-decision',
-		DECISION_DATE: 'eligibility/decision-date',
-		DECISION_DATE_PASSED: 'eligibility/decision-date-passed',
-		PLANNING_DEPARTMENT: 'eligibility/planning-department',
-		PLANNING_DEPARTMENT_OUT: 'eligibility/planning-department-out',
-		COSTS: 'eligibility/costs',
-		COSTS_OUT: 'eligibility/costs-out',
-		APPEAL_STATEMENT: 'eligibility/appeal-statement',
-		ENFORCEMENT_NOTICE: 'eligibility/enforcement-notice',
-		ENFORCEMENT_NOTICE_OUT: 'eligibility/enforcement-notice-out',
-		HOUSEHOLDER_PLANNING_PERMISSION: 'eligibility/householder-planning-permission',
-		HOUSEHOLDER_PLANNING_PERMISSION_OUT: 'eligibility/householder-planning-permission-out',
-		GRANTED_REFUSED_PERMISSION: 'eligibility/granted-or-refused-permission',
-		GRANTED_REFUSED_PERMISSION_OUT: 'eligibility/granted-or-refused-permission-out'
-	},
-
 	APPELLANT_SUBMISSION: {
 		TASK_LIST: 'appeal-householder-decision/task-list',
 		APPEAL_STATEMENT: 'appellant-submission/appeal-statement',
