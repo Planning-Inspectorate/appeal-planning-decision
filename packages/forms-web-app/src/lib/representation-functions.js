@@ -152,9 +152,14 @@ const formatRepresentations = (representations) => {
 		const truncated = fullText.length > 150;
 		const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
 
+		const keyText =
+			representation.representationType === REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
+				? 'Interested party'
+				: representation.representationType;
+
 		const documents = formatRepresentationDocumentsLinks(representation.RepresentationDocuments);
 		return {
-			key: { text: `${representation.representationType} ${index + 1}` },
+			key: { text: `${keyText} ${index + 1}` },
 			value: {
 				text: fullText,
 				truncatedText: truncatedText,
