@@ -41,7 +41,130 @@ const representationDocuments = [
 				id: '35880c82-7252-40a0-8dbd-30b740f22bce'
 			}
 		}
+	},
+	// rule 6 statement
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61540',
+		Representation: {
+			connect: {
+				id: representationIds.representationEleven
+			}
+		},
+		Document: {
+			connect: {
+				id: '0fc15038-7b19-4f36-92aa-bddc611f5bba'
+			}
+		}
+	},
+	// lpa final comments
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61541',
+		Representation: {
+			connect: {
+				id: representationIds.representationThree
+			}
+		},
+		Document: {
+			connect: {
+				id: '35cb4ad1-9ba3-43fb-b102-e845804ba2f7'
+			}
+		}
+	},
+	// appellant final comments
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61542',
+		Representation: {
+			connect: {
+				id: representationIds.representationTen
+			}
+		},
+		Document: {
+			connect: {
+				id: 'a1b60dc2-2253-48eb-aaea-4ec665f15fbd'
+			}
+		}
 	}
+	//lpa poe
+	// {
+	// 	id: '319612c2-9cad-48b3-bfde-faeffba61543',
+	// 	Representation: {
+	// 		connect: {
+	// 			id: representationIds.representationSix
+	// 		}
+	// 	},
+	// 	Document: {
+	// 		connect: {
+	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
+	// 		}
+	// 	}
+	// },
+	// {
+	// 	id: '319612c2-9cad-48b3-bfde-faeffba61544',
+	// 	Representation: {
+	// 		connect: {
+	// 			id: representationIds.representationSix
+	// 		}
+	// 	},
+	// 	Document: {
+	// 		connect: {
+	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
+	// 		}
+	// 	}
+	// },
+	// appellant poe
+	// {
+	// 	id: '319612c2-9cad-48b3-bfde-faeffba61545',
+	// 	Representation: {
+	// 		connect: {
+	// 			id: representationIds.representationSeven
+	// 		}
+	// 	},
+	// 	Document: {
+	// 		connect: {
+	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
+	// 		}
+	// 	}
+	// },
+	// r6 poes
+	// {
+	// 	id: '319612c2-9cad-48b3-bfde-faeffba61546',
+	// 	Representation: {
+	// 		connect: {
+	// 			id: representationIds.representationEight
+	// 		}
+	// 	},
+	// 	Document: {
+	// 		connect: {
+	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
+	// 		}
+	// 	}
+	// },
+	// {
+	// 	id: '319612c2-9cad-48b3-bfde-faeffba61547',
+	// 	Representation: {
+	// 		connect: {
+	// 			id: representationIds.representationEight
+	// 		}
+	// 	},
+	// 	Document: {
+	// 		connect: {
+	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
+	// 		}
+	// 	}
+	// },
+	// {
+	// 	id: '319612c2-9cad-48b3-bfde-faeffba61548',
+	// 	Representation: {
+	// 		connect: {
+	// 			id: representationIds.representationNine
+	// 		}
+	// 	},
+	// 	Document: {
+	// 		connect: {
+	// 			id: '35880c82-7252-40a0-8dbd-30b740f22bce'
+	// 		}
+	// 	}
+	// }
 ];
 
 /**
@@ -196,7 +319,7 @@ const representations = [
 	// appellant final comment
 	{
 		id: representationIds.representationTen,
-		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471346',
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471316',
 		AppealCase: {
 			connect: {
 				caseReference: '1000014'
@@ -213,7 +336,7 @@ const representations = [
 	// rule 6 statements
 	{
 		id: representationIds.representationEleven,
-		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471347',
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471317',
 		AppealCase: {
 			connect: {
 				caseReference: '1000014'
@@ -229,7 +352,7 @@ const representations = [
 	},
 	{
 		id: representationIds.representationTwelve,
-		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471348',
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471318',
 		AppealCase: {
 			connect: {
 				caseReference: '1000014'
