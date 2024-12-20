@@ -49,7 +49,6 @@
 		"govuk-frontend": "*",
 		"helmet": "*",
 		"jsonpath": "*",
-		"jspdf": "*",
 		"lusca": "*",
 		"node-fetch": "*",
 		"nunjucks": "*",
