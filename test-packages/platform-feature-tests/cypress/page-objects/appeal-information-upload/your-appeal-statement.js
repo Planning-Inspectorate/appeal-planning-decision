@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { BasePage } from "../base-page";
 import { TaskList } from "./task-list";
 

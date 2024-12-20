@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 export class DateOfDecisionDue {
 	elements = {
 		dayDate: () => cy.get('#decision-date-day'),

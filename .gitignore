@@ -182,6 +182,7 @@ junit.xml
 # Cypress
 packages/platform-feature-tests/cypress/screenshots/
 packages/platform-feature-tests/cypress/videos/
+packages/platform-feature-tests/cypress/reports/
 
 init/mssql
 !init/mssql/mssql.conf

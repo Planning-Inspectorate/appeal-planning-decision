@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 import { PrepareAppealSelector } from "../../../page-objects/prepare-appeal/prepare-appeal-selector";
 import { BasePage } from "../../../page-objects/base-page";
 const initialiseHouseHolderPlanning = require("./initialiseHouseHolderPlanning");

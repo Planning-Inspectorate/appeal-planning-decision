@@ -1,3 +1,5 @@
+// @ts-nocheck
+/// <reference types="cypress"/>
 module.exports = () => {
 	cy.goToAppealSection('Provide your contact details');
 

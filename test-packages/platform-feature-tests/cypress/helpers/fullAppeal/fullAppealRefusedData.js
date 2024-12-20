@@ -17,7 +17,7 @@ const documents = {
 export const fullAppealRefusedTestCases = [
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -34,7 +34,7 @@ export const fullAppealRefusedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -60,7 +60,7 @@ export const fullAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -77,7 +77,7 @@ export const fullAppealRefusedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'hearing',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -146,7 +146,7 @@ export const fullAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -163,7 +163,7 @@ export const fullAppealRefusedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -189,7 +189,7 @@ export const fullAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -206,7 +206,7 @@ export const fullAppealRefusedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'hearing',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -275,7 +275,7 @@ export const fullAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -292,7 +292,7 @@ export const fullAppealRefusedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'written',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -318,7 +318,7 @@ export const fullAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'hearing',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -335,7 +335,7 @@ export const fullAppealRefusedTestCases = [
             isInspectorNeedAccess: true,
             isAppellantSiteSafety: true,
             iaUpdateDevelopmentDescription: true,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'hearing',
             anyOtherAppeals: true,
             isAppellantLinkedCaseAdd: false
         },
@@ -404,7 +404,7 @@ export const fullAppealRefusedTestCases = [
     },
     {
         statusOfOriginalApplication: 'refused',
-        typeOfDecisionRequested: 'inquiry',
+        typeOfDecisionRequested: 'written',
         statusOfPlanningObligation: 'in draft',
         typeOfPlanningApplication: 'answer-full-appeal',
         applicationForm: {
@@ -421,7 +421,7 @@ export const fullAppealRefusedTestCases = [
             isInspectorNeedAccess: false,
             isAppellantSiteSafety: false,
             iaUpdateDevelopmentDescription: false,
-            appellantProcedurePreference: 'inquiry',
+            appellantProcedurePreference: 'written',
             anyOtherAppeals: false,
             //  isAppellantLinkedCaseAdd: true            
         },
