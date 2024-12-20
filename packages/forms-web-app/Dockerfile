@@ -13,7 +13,6 @@ COPY package.json /opt/
 COPY package-lock.json /opt/
 COPY packages/common /opt/packages/common
 COPY packages/business-rules /opt/packages/business-rules
-COPY packages/database /opt/packages/database
 
 # install from root
 WORKDIR /opt
