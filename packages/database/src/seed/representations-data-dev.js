@@ -5,7 +5,10 @@ const representationIds = {
 	representationTwo: 'd24447a2-ad41-42b7-be86-7a222ae57439',
 	representationThree: 'd24247a2-ad41-42b7-be86-7a222ae57437',
 	representationFour: 'd24247a2-ad41-42b7-be86-7a222ae57421',
-	representationFive: 'd24247a2-ad41-42b7-be86-7a222ae57422'
+	representationFive: 'd24247a2-ad41-42b7-be86-7a222ae57422',
+	representationSix: 'd24247a2-ad41-42b7-be86-7a222ae57423',
+	representationSeven: 'd24247a2-ad41-42b7-be86-7a222ae57424',
+	representationEight: 'd24247a2-ad41-42b7-be86-7a222ae57425'
 };
 
 const caseReferences = {
@@ -19,6 +22,23 @@ const caseReferences = {
 	caseReferenceEight: '1010108',
 	caseReferenceNine: '1010109'
 };
+
+const representationDocuments = [
+	//lpa statement
+	{
+		id: '319612c2-9cad-48b3-bfde-faeffba61556',
+		Representation: {
+			connect: {
+				id: representationIds.representationOne
+			}
+		},
+		Document: {
+			connect: {
+				id: '35880c82-7252-40a0-8dbd-30b740f22bce'
+			}
+		}
+	}
+];
 
 /**
  * @type {import('@prisma/client').Prisma.RepresentationCreateInput[]}
@@ -101,9 +121,59 @@ const representations = [
 		source: 'citizen',
 		representationType: 'comment',
 		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	// proofs of evidence
+	// lpa poe
+	{
+		id: representationIds.representationSix,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471322',
+		AppealCase: {
+			connect: {
+				caseReference: '1000014'
+			}
+		},
+		status: 'published',
+		originalRepresentation:
+			'lpa proof of evidence Lorem ipsum dolor sit amet. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
+		source: 'lpa',
+		representationType: 'proofs_evidence',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	// appellant 1 poe
+	{
+		id: representationIds.representationSeven,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471323',
+		AppealCase: {
+			connect: {
+				caseReference: '1000014'
+			}
+		},
+		status: 'published',
+		originalRepresentation:
+			'Appellant 1 proof of evidence. Lorem ipsum dolor sit amet. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
+		source: 'citizen',
+		representationType: 'proofs_evidence',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
+	},
+	// rule 6 poe
+	{
+		id: representationIds.representationEight,
+		representationId: 'af82c699-c5ed-41dd-9b7f-172e41471324',
+		AppealCase: {
+			connect: {
+				caseReference: '1000014'
+			}
+		},
+		status: 'published',
+		originalRepresentation:
+			'Rule 6 Party Proof of evidence Lorem ipsum dolor sit amet. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.',
+		source: 'citizen',
+		representationType: 'proofs_evidence',
+		dateReceived: pickRandom(datesNMonthsAgo(0.5))
 	}
 ];
 
 module.exports = {
-	representations
+	representations,
+	representationDocuments
 };
