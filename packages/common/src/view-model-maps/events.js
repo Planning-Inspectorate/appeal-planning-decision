@@ -1,9 +1,4 @@
-const {
-	APPEAL_USER_ROLES,
-	EVENT_TYPES,
-	EVENT_SUB_TYPES,
-	LPA_USER_ROLE
-} = require('@pins/common/src/constants');
+const { APPEAL_USER_ROLES, EVENT_TYPES, EVENT_SUB_TYPES, LPA_USER_ROLE } = require('../constants');
 const { format: formatDate } = require('date-fns');
 const { utcToZonedTime } = require('date-fns-tz');
 const { formatEventAddress } = require('../lib/format-address');
