@@ -244,24 +244,26 @@ describe('lib/representation-functions', () => {
 			const expectedResult = [
 				{
 					key: {
-						text: `statement 1`
+						text: `Statement 1`
 					},
+					rowLabel: 'Statement',
 					value: {
 						text: 'this is a statement',
 						truncatedText: 'this is a statement',
 						truncated: false,
-						documents: 'No'
+						documents: 'No documents'
 					}
 				},
 				{
 					key: {
-						text: `statement 2`
+						text: `Statement 2`
 					},
+					rowLabel: 'Statement',
 					value: {
 						text: 'this is a bleep statement',
 						truncatedText: 'this is a bleep statement',
 						truncated: false,
-						documents: 'No'
+						documents: 'No documents'
 					}
 				}
 			];
@@ -276,22 +278,24 @@ describe('lib/representation-functions', () => {
 					key: {
 						text: `Interested party 1`
 					},
+					rowLabel: 'Interested party',
 					value: {
 						text: 'this is an earlier interested party comment',
 						truncatedText: 'this is an earlier interested party comment',
 						truncated: false,
-						documents: 'No'
+						documents: 'No documents'
 					}
 				},
 				{
 					key: {
 						text: `Interested party 2`
 					},
+					rowLabel: 'Interested party',
 					value: {
 						text: 'this is an interested party comment',
 						truncatedText: 'this is an interested party comment',
 						truncated: false,
-						documents: 'No'
+						documents: 'No documents'
 					}
 				}
 			];

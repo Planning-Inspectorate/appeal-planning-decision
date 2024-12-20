@@ -152,14 +152,12 @@ const formatRepresentations = (representations) => {
 		const truncated = fullText.length > 150;
 		const truncatedText = truncated ? fullText.substring(0, 150) + '...' : fullText;
 
-		const keyText =
-			representation.representationType === REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT
-				? 'Interested party'
-				: representation.representationType;
+		const rowLabel = formatRowLabelAndKey(representation.representationType);
 
 		const documents = formatRepresentationDocumentsLinks(representation.RepresentationDocuments);
 		return {
-			key: { text: `${keyText} ${index + 1}` },
+			key: { text: `${rowLabel} ${index + 1}` },
+			rowLabel,
 			value: {
 				text: fullText,
 				truncatedText: truncatedText,
@@ -179,7 +177,7 @@ const formatRepresentationDocumentsLinks = (representationDocuments) => {
 	const documents = representationDocuments.map(
 		(representationDocument) => representationDocument.Document
 	);
-	return documents.length > 0 ? documents.map(formatDocumentLink).join('\n') : 'No';
+	return documents.length > 0 ? documents.map(formatDocumentLink).join('\n') : 'No documents';
 };
 
 /**
@@ -194,6 +192,23 @@ const formatDocumentLink = (document) => {
 	}
 
 	return escape(document.filename) + ' - awaiting review';
+};
+
+/**
+ * @param {RepresentationTypes} representationType
+ * @returns {string}
+ */
+const formatRowLabelAndKey = (representationType) => {
+	switch (representationType) {
+		case REPRESENTATION_TYPES.STATEMENT:
+			return 'Statement';
+		case REPRESENTATION_TYPES.INTERESTED_PARTY_COMMENT:
+			return 'Interested party';
+		case REPRESENTATION_TYPES.FINAL_COMMENT:
+			return 'Final comments';
+		default:
+			return 'Representation';
+	}
 };
 
 module.exports = {
