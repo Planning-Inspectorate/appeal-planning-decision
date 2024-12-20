@@ -13,7 +13,6 @@
 	"dependencies": {
 		"date-fns": "*",
 		"glob": "*",
-		"luxon": "*",
 		"mongodb": "*"
 	},
 	"devDependencies": {
