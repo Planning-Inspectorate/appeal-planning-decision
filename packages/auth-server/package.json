@@ -23,7 +23,6 @@
 		"integration-test": "npm run db:generate && cross-env NODE_OPTIONS=--experimental-vm-modules jest --config ./jest.developer-test.config.js"
 	},
 	"dependencies": {
-		"@azure/app-configuration": "*",
 		"@pins/common": "file:../common",
 		"@pins/database": "file:../database",
 		"@prisma/client": "*",
@@ -32,8 +31,7 @@
 		"joi": "*",
 		"oidc-provider": "*",
 		"pino": "*",
-		"pino-http": "*",
-		"pins-data-model": "*"
+		"pino-http": "*"
 	},
 	"devDependencies": {
 		"cross-env": "*",
